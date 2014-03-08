@@ -1,17 +1,21 @@
 - last_message = conversation.messages.last
 
-- recipient = conversation.recipients.compact.reject{|recipient| recipient == ((@admin || current_pro_admin) || current_user) }.first
+- recipients = conversation.recipients.compact.reject{|recipient| recipient == ((@admin || current_pro_admin) || current_user) }
 
 .grid.conversation
   .grid__item.one-twelfth.v-top.text--right>
-    = image_tag recipient.avatar_url(:thumb), class: 'message__avatar'
+    - if recipients.first
+      = image_tag recipients.first.avatar_url(:thumb), class: 'message__avatar'
   .grid__item.eleven-twelfths.soft-half--left>
     .white-box.grid--full.islet
       .grid__item.two-tenths>
         %p
-          = truncate((recipient.name || recipient.email), length: 18)
+          = truncate((recipients.first.name || recipients.first.email), length: 18)
           %br
-          = "#{l(last_message.created_at.to_date, format: :short)} à #{l(last_message.created_at, format: :short)}"
+          - if recipients.length > 1
+            %span.milli{title: recipients.map(&:name).join(', '), data: { behavior: 'tooltip' }}= "et #{pluralize(recipients.length - 1, 'autre')} personnes"
+            %br
+          %span.milli= "#{l(last_message.created_at.to_date, format: :short)} à #{l(last_message.created_at, format: :short)}"
       .grid__item.eight-tenths.hard>
         .float--right.btn.btn--blue.btn--small
           %i.fa.fa-share

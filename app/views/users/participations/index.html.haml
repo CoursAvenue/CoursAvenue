@@ -18,7 +18,7 @@
     - course = participation.course
     - place  = participation.planning.place
     - if participation.waiting_list?
-      %h4 Vous êtes sur liste d'attente, vous serez prévenu par e-mail en cas de désistement.
+      %h4.red Vous êtes sur liste d'attente, vous serez prévenu par e-mail en cas de désistement.
     .white-box.islet
       .flexbox
         .flexbox__item.two-twelfths.soft-half--right.v-top>
@@ -29,9 +29,9 @@
             Inviter mes amis
           %br
           .share-on-facebook.btn.btn--facebook.one-whole.push-half--bottom Facebook
-          .share-on-twitter.btn.btn--twitter.one-whole.btn--small Twitter
+          .share-on-twitter.btn.btn--twitter.one-whole.btn--small.push-half--bottom Twitter
 
-          = link_to 'Je ne pourrai pas venir, me désinscrire', user_participation_path(current_user, participation), method: :delete, data: {confirm: 'Êtes-vous sur de vous désinscrire ce créneau ?'}
+          = link_to 'Me désinscrire', user_participation_path(current_user, participation), method: :delete, data: {confirm: 'Êtes-vous sur de vous désinscrire ce créneau ?'}, class: 'btn btn--red btn--small btn--full'
         .flexbox__item.eight-twelfths.v-top>
           .flexbox
             .flexbox__item.five-twelfths.v-top>
@@ -42,12 +42,9 @@
                 - elsif course.event_type.present?
                   = "(#{course.event_type})"
               %p.flush
-                %i.fa.fa-euro
-                - if course.free?
-                  Gratuit
-                - else
-                  Participation libre (montant attendu : #{readable_amount(course.price)}€)
-              %p
+                - if course.common_price
+                  %span.line-through #{readable_amount(course.common_price)}€
+                %span.green GRATUIT
                 %strong= link_to participation.structure.name, structure_path(participation.structure), class: 'semi-muted-link', target: :_blank
               .gray
                 %i.fa.fa-tags
@@ -55,21 +52,16 @@
               %p
                 = "#{join_audiences participation.planning} / #{join_levels participation.planning.levels}"
             .flexbox__item.three-twelfths.text--center.v-top>
-              .delta.bold
+              .delta.f-weight-bold
                 = l(participation.planning.start_date, format: :semi_long).capitalize
                 %br
               .epsilon.push-half--bottom
                 = "De #{l(participation.planning.start_time, format: :short)} à #{l(participation.planning.end_time, format: :short)}"
               = add_to_calendar(participation)
           - if course.description.present?
-            %p
+            %p.flush
               %strong Description
             = simple_format course.description
-          - if course.info.present?
-            %p
-              %strong Infos pratique au cours
-              %br
-              = course.info
           - if course.info.present?
             %p
               %strong Infos pratiques sur le cours
@@ -85,21 +77,28 @@
         .flexbox__item.two-twelfths.v-top>
           = link_to "http://maps.google.com/?q=#{place.location.address}", target: :_blank, class: 'block' do
             %img.one-whole.block{src:"http://maps.googleapis.com/maps/api/staticmap?center=#{place.location.latitude},#{place.location.longitude}&zoom=14&size=200x130&sensor=false&markers=#{place.location.latitude},#{place.location.longitude}"}
-          %p
+          %p.text--center
+            %strong= place.location.name
+            %br
             %i= place.location.address
 
   - if params[:inscription_confirmed]
     = render 'registration_confirmed'
+    = render 'share_on_social_networks'
 
   - content_for :scripts do
     :javascript
       $(function() {
           $('.share-on-facebook').click(function() {
-              window.open('#{share_participation_url(@participations.last)}', 'Partager', "height=400,width=600");
+              window.open("#{share_participation_url(@participations.last, :facebook)}", 'Partager', "height=400,width=600");
               ga('send', 'event', 'Share on Facebook', 'share');
           });
           $('.share-on-twitter').click(function() {
-              window.open('#{share_participation_url(@participations.last, :twitter)}', 'Partager', "height=400,width=600");
+              window.open("#{share_participation_url(@participations.last, :twitter)}", 'Partager', "height=400,width=600");
               ga('send', 'event', 'Share on Twitter', 'share');
           });
       });
+
+- if params[:success] == '1'
+  :javascript
+    window.close();

@@ -1,4 +1,6 @@
 class SubjectsController < ApplicationController
+  include SubjectSeeker
+
   respond_to :json
 
   def show
@@ -90,6 +92,17 @@ class SubjectsController < ApplicationController
     end
     respond_to do |format|
       format.json { render json: @subjects.to_json }
+    end
+  end
+
+  def descendants
+    @descendants = get_descendants params
+    respond_to do |format|
+      if params[:callback]
+        format.js { render json: { descendants: @descendants.to_json }, callback: params[:callback] }
+      else
+        format.json { render json: @descendants.to_json }
+      end
     end
   end
 end

@@ -48,7 +48,9 @@ class StructureSearch
 
       with :active,  true
 
-      with :has_logo   ,  params[:has_logo]    if params[:has_logo].present?
+      with :has_logo,                params[:has_logo]                           if params[:has_logo].present?
+
+      with(:nb_comments).greater_than params[:nb_comments].to_i                     if params[:nb_comments].present?
 
       order_by :has_admin, :desc
       order_by :has_logo, :desc
@@ -77,28 +79,30 @@ class StructureSearch
     params[:bbox_ne] = params[:bbox_ne].split(',') if params[:bbox_ne].is_a? String
   end
 
-  def self.similar_profile structure, limit=3
+  def self.similar_profile structure, limit=4
     parent_subject = structure.subjects.at_depth(0).first
     @structures    = []
     if parent_subject
       @structures << StructureSearch.search({lat: structure.latitude,
                                             lng: structure.longitude,
                                             radius: 10,
+                                            nb_comments: 4,
                                             sort: 'rating_desc',
                                             has_logo: true,
-                                            per_page: 3,
+                                            per_page: limit,
                                             subject_id: parent_subject.slug
                                           }).results
       # If there is not enough with the same subjects
     end
     @structures = @structures.flatten
-    if @structures.length < 3
+    if @structures.length < limit
       @structures << StructureSearch.search({lat: structure.latitude,
                                             lng: structure.longitude,
                                             radius: 500,
+                                            nb_comments: 4,
                                             sort: 'rating_desc',
                                             has_logo: true,
-                                            per_page: (3 - @structures.length)
+                                            per_page: (limit - @structures.length)
                                           }).results
     end
     @structures = @structures.flatten

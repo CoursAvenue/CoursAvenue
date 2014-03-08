@@ -6,8 +6,17 @@ class Users::PassionsController < ApplicationController
   def index
     @practiced_passions = @user.passions.practiced
     @wanted_passions    = @user.passions.wanted
-    4.times { @practiced_passions << @user.passions.build(practiced: true) }
-    4.times { @wanted_passions    << @user.passions.build(practiced: true) }
+    @lived_places       = @user.lived_places
+    8.times { @practiced_passions << @user.passions.build(practiced: true) }
+    8.times { @wanted_passions    << @user.passions.build(practiced: false) }
+    8.times { @lived_places       << @user.lived_places.build}
+  end
+
+  def offers
+  end
+
+  def suggestions
+    @passions = current_user.passions
   end
 
   def destroy

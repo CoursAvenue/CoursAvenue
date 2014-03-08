@@ -20,6 +20,9 @@ class User < ActiveRecord::Base
   has_many :participations
   has_many :plannings, through: :participations
 
+  has_many :lived_places
+  has_many :cities, through: :lived_places
+
   has_and_belongs_to_many :subjects
 
   belongs_to :city
@@ -32,6 +35,7 @@ class User < ActiveRecord::Base
 
   # Not after create because user creation is made when teachers invite their students to post a comment
   after_save :associate_city_from_zip_code, if: -> { zip_code.present? and city.nil? }
+  after_save :update_email_status
 
   ######################################################################
   # Validations                                                        #
@@ -43,7 +47,7 @@ class User < ActiveRecord::Base
   # Scopes                                                             #
   ######################################################################
   scope :active,   -> { where{encrypted_password != ''} }
-  scope :inactive, -> { where{encrypted_password == ''} }
+  scope :inactive, -> { where{(encrypted_password == '') | encrypted_password == nil} }
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -55,7 +59,9 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid, :oauth_token, :oauth_expires_at,
                   :name, :first_name, :last_name, :gender, :fb_avatar, :location, :avatar,
                   :birthdate, :phone_number, :zip_code, :city_id, :passions_attributes, :description,
-                  :email_opt_in, :sms_opt_in, :email_promo_opt_in, :email_newsletter_opt_in, :email_passions_opt_in
+                  :email_opt_in, :sms_opt_in, :email_promo_opt_in, :email_newsletter_opt_in, :email_passions_opt_in,
+                  :email_status, :last_email_sent_at, :last_email_sent_status,
+                  :lived_places_attributes
 
   # To store hashes into hstore
   store_accessor :meta_data, :after_sign_up_url
@@ -64,9 +70,12 @@ class User < ActiveRecord::Base
                                  reject_if: lambda {|attributes| attributes['subject_id'].blank? },
                                  allow_destroy: true
 
+  accepts_nested_attributes_for :lived_places,
+                                 reject_if: :lived_place_invalid?,
+                                 allow_destroy: true
+
   has_attached_file :avatar,
                     styles: { wide: '800x800#', normal: '450x', thumb: '200x200#', small: '100x100#', mini: '40x40#' }#,
-
 
   # Creates a user from Facebook
   #
@@ -105,6 +114,35 @@ class User < ActiveRecord::Base
 
       user.save!
     end
+  end
+
+  ######################################################################
+  # Email reminder                                                     #
+  ######################################################################
+
+  # Sends reminder depending on the email status of the user
+  # This method is called every week through user_reminder rake task
+  # (Executed on Heroku by the scheduler)
+  #
+  # @return nil
+  def send_reminder
+    if self.email_status and self.email_passions_opt_in?
+      if self.update_email_status.present?
+        self.update_column :last_email_sent_at, Time.now
+        self.update_column :last_email_sent_status, self.email_status
+        UserMailer.delay.send(self.email_status.to_sym, self)
+      end
+    end
+  end
+
+  # Update the email status regarding info completion
+  def update_email_status
+    email_status = nil
+    if self.passions.empty?
+      email_status = 'passions_incomplete'
+    end
+    self.update_column :email_status, email_status
+    return email_status
   end
 
   def has_avatar?
@@ -203,7 +241,7 @@ class User < ActiveRecord::Base
   def around_courses_url
     if self.city
       if self.passions.any?
-        structures_path(lat: self.city.latitude, lng: self.city.longitude, subject_slugs: self.passions.map(&:subject).compact.map(&:slug))
+        structures_path(lat: self.city.latitude, lng: self.city.longitude, subject_slugs: self.passions.map(&:subjects).compact.flatten.map(&:slug))
       else
         structures_path(lat: self.city.latitude, lng: self.city.longitude)
       end
@@ -213,7 +251,7 @@ class User < ActiveRecord::Base
   end
 
   def around_courses_search
-    subject_array    = self.passions.map(&:subject).compact
+    subject_array    = self.passions.map(&:subjects).compact.flatten
     @course_search ||= CourseSearch.search({lat: self.city.latitude,
                                           lng: self.city.longitude,
                                           radius: 6,
@@ -247,6 +285,66 @@ class User < ActiveRecord::Base
     self.participations.not_canceled.map(&:planning).include? planning
   end
 
+  # Tells if the user is allowed to participate
+  # He won't be allowed if he has a current participation
+  #
+  # @return Boolean
+  def can_participate_to_jpo_2014?
+    self.participations.not_canceled.empty?
+  end
+
+  # Get the user profile associated to the given structure
+  #
+  # @return UserProfile
+  def user_profile_for(structure)
+    self.user_profiles.where(structure_id: structure.id).first
+  end
+
+  def facebook_registered?
+    self.oauth_token.present?
+  end
+
+  ######################################################################
+  # Fox exporting user to csv                                          #
+  ######################################################################
+  def subjects_for_csv
+    roots = []
+    if comments.any?
+      comments.map do |comment|
+        roots += comment.subjects.roots
+      end
+    end
+    if roots.empty?
+      structures.map do |structure|
+        roots += structure.subjects.roots
+      end
+    end
+    subjects_to_array_for_csv roots.uniq.map(&:name)
+  end
+
+  @@roots_subjects = ["Culture, Sciences & Nature", "Business & Informatique", "Cuisine & Vins", "Musique & Chant", "Photo & Vidéo", "Déco, Mode & Bricolage", "Langues & Soutien scolaire", "Yoga, Bien-être & Santé", "Sports & Arts martiaux", "Danse", "Dessin, Peinture & Arts", "Théâtre & Scène"]
+  def subjects_to_array_for_csv(user_subjects)
+    @@roots_subjects.map do |subject|
+      if user_subjects.include?(subject)
+        subject
+      else
+        nil
+      end
+    end
+  end
+
+  def zip_code_for_csv
+    structures.map(&:places).flatten.map(&:zip_code).join(', ')
+  end
+
+  def self.to_csv
+    CSV.generate col_sep: ';' do |csv|
+      all.each do |user|
+        csv << [user.email] + user.subjects_for_csv + [user.zip_code_for_csv]
+      end
+    end
+  end
+
   private
 
   def random_string
@@ -268,5 +366,13 @@ class User < ActiveRecord::Base
 
   def check_if_was_invited
     InvitedUser.where(type: 'InvitedUser::Student', email: self.email).map(&:inform_proposer)
+  end
+
+  # Tells wether a lived_place should be rejected
+  # @param  attributes nested in params
+  #
+  # @return Boolean
+  def lived_place_invalid?(attributes)
+    attributes['zip_code'].blank? or attributes['city_id'].blank?
   end
 end

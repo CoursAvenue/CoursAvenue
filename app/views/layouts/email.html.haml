@@ -22,12 +22,18 @@
                     %td.logo-cell{width: '300'}
                       %img.hide{border: '0', height: '20', src: '', width: '1'}/
                       %br.hide
-                      = link_to 'http://www.coursavenue.com', target: '_blank' do
-                        = image_tag 'logo.png', alt: 'CoursAvenue', height: '50', style: '-ms-interpolation-mode:bicubic;', width: '250'
-                      %p.logo-subtitle
-                        Les élèves recommandent leurs meilleurs cours
-                    - if @show_links
-                      %td.soft-half--bottom.text--right{width: '300'}
+                      - if content_for? :email_logo
+                        = link_to 'http://www.coursavenue.com', target: '_blank', class: 'block push-half--bottom' do
+                          = yield :email_logo
+                      - else
+                        = link_to 'http://www.coursavenue.com', target: '_blank' do
+                          = image_tag 'logo.png', alt: 'CoursAvenue', height: '50', style: '-ms-interpolation-mode:bicubic;', width: '250'
+                        %p.logo-subtitle
+                          Les élèves recommandent leurs meilleurs cours
+                    %td.soft-half--bottom.text--right{width: '300'}
+                      - if content_for? :header_links
+                        = yield :header_links
+                      - elsif @show_links
                         - if @structure
                           = link_to 'Connexion', dashboard_pro_structure_url(@structure, subdomain: 'pro')
                         \|
@@ -42,9 +48,9 @@
                         %table.table.promo-table{border: '0', cellpadding: '0', cellspacing: '0', width: '600'}
                           %tr
                             - if content_for? :logo
-                              %td.logo-cell{width: '75', valign: 'middle', align: 'center', style: 'padding-right: 0px;'}
+                              %td.logo-cell{width: '100', valign: 'middle', align: 'center', style: 'padding-right: 0px;'}
                                 = yield :logo
-                            %td.cell{width: (content_for?(:logo) ? '520' : '600'), valign: 'middle', style: 'padding-left: 15px'}
+                            %td.cell{width: (content_for?(:logo) ? '500' : '600'), valign: 'middle', style: 'padding: 15px'}
                               = yield :promo
                 %img.divider{border: '0', height: '15', src: '', width: '1'}/
                 %br
@@ -58,28 +64,31 @@
             %table.under-content.push--top.table{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600'}
               %tr
                 %td.cell.content-block.white-box{width: '600'}
-                  - if content_for? :under_content
-                    = yield :under_content
+                  = yield :under_content
 
           - if content_for? :under_content_2
             %table.under-content.push--top.table{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600'}
               %tr
                 %td.cell.content-block.white-box{width: '600'}
-                  - if content_for? :under_content_2
-                    = yield :under_content_2
+                  = yield :under_content_2
 
           - if content_for? :under_content_3
             %table.under-content.push--top.table{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600'}
               %tr
                 %td.cell.content-block.white-box{width: '600'}
-                  - if content_for? :under_content_3
-                    = yield :under_content_3
+                  = yield :under_content_3
 
           %table.table{align: 'center', border: '0', cellpadding: '5', cellspacing: '0', width: '600'}
             %tr
               %td.cell.footer{width: '600'}
                 - if content_for? :footer
                   = yield :footer
+                - elsif @structure and @structure.main_contact
+                  %p
+                    = link_to 'Gérer mes préférences de notifications e-mails.', notifications_pro_structure_admin_url(@structure, @structure.main_contact, subdomain: 'pro')
+                - elsif @user
+                  %p
+                    = link_to 'Gérer mes préférences de notifications e-mails.', notifications_user_url(@user, subdomain: 'www')
                 - else
                   %p
                     Vous recevez cet email car vous êtes inscrit sur CoursAvenue, le 1er moteur de recherche de cours en France.

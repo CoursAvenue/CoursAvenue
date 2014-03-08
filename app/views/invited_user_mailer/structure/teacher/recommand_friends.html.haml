@@ -1,11 +1,11 @@
 - if @referrer.logo?
   - content_for :logo do
     = link_to structure_url(@referrer, subdomain: 'www'), target: '_blank' do
-      = image_tag @referrer.logo.url(:thumb), style: '-ms-interpolation-mode:bicubic;', width: '75', height: '75'
+      = image_tag @referrer.logo.url(:thumb), style: '-ms-interpolation-mode:bicubic;', width: '100', height: '100'
 
 - content_for :promo do
   %h4
-    #{@referrer.name} vous invite à créer votre profil sur CoursAvenue.
+    #{@referrer.name} vous invite à créer votre profil sur CoursAvenue
 
 - if @email_text
   = @email_text.html_safe

@@ -1,0 +1,42 @@
+// --------------------- Family
+.ff-open-sans { font-family: "Open Sans"; }
+
+// --------------------- Weights
+.f-weight-100    { font-weight: 100; }
+.f-weight-300    { font-weight: 300; }
+.f-weight-400    { font-weight: 400; }
+.f-weight-600    { font-weight: 600; }
+.f-weight-bold   { font-weight: bold; }
+.f-weight-normal { font-weight: normal; }
+
+// --------------------- Styles
+.f-style-italic { font-style: italic; }
+
+// --------------------- Decorations
+.f-decoration-underlined  { text-decoration: underline; }
+
+// --------------------- Size
+.inherit-font-size { font-size  : inherit; }
+.f-size-14 { font-size: 14px; }
+.f-size-13 { font-size: 13px; }
+
+.smaller-print {
+    font-size: 0.8em;
+}
+
+.line-through { text-decoration: line-through; }
+.line-through--gray {
+    text-decoration: line-through;
+    color          : #777;
+    font-style     : italic;
+}
+
+.base-font-style {
+    font-size  : $base-font-size;
+    font-weight: 400;
+}
+
+// --------------------- Line height
+.line-height-normal { line-height: normal;}
+.line-height-1      { line-height: 1;}
+.line-height-2      { line-height: 2;}

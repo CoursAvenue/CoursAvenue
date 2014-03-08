@@ -3,6 +3,7 @@ class CommentNotification < ActiveRecord::Base
   belongs_to :user
 
   validates :structure, :user, presence: true
+  validates :user, uniqueness: { scope: 'structure_id' }
 
   # Status:
   #    completed
@@ -19,33 +20,33 @@ class CommentNotification < ActiveRecord::Base
     self.status == 'completed'
   end
 
-  def ask_for_feedbacks_stage_1
+  def ask_for_recommandations_stage_1
     if self.user.email_opt_in
       @structure  = self.structure
       @email      = self.user.email
       self.status = 'resend_stage_1'
       self.save
-      UserMailer.delay.ask_for_feedbacks_stage_1(self.structure, @email)
+      UserMailer.delay.ask_for_recommandations_stage_1(self.structure, @email)
     end
   end
 
-  def ask_for_feedbacks_stage_2
+  def ask_for_recommandations_stage_2
     if self.user.email_opt_in
       @structure  = self.structure
       @email      = self.user.email
       self.status = 'resend_stage_2'
       self.save
-      UserMailer.delay.ask_for_feedbacks_stage_2(self.structure, @email)
+      UserMailer.delay.ask_for_recommandations_stage_2(self.structure, @email)
     end
   end
 
-  def ask_for_feedbacks_stage_3
+  def ask_for_recommandations_stage_3
     if self.user.email_opt_in
       @structure  = self.structure
       @email      = self.user.email
       self.status = 'resend_stage_3'
       self.save
-      UserMailer.delay.ask_for_feedbacks_stage_3(self.structure, @email)
+      UserMailer.delay.ask_for_recommandations_stage_3(self.structure, @email)
     end
   end
 end

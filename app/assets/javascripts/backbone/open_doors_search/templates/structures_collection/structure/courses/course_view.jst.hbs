@@ -20,7 +20,7 @@
                 </div>
                 {{/if}}
                 <div>
-                    <a href="{{data_url}}" title="{{ name }}" class="bold zeta">{{ name }} ({{ event_type }})</a>
+                    <a href="{{data_url}}" title="{{ name }}" class="f-weight-bold zeta">{{ name }} ({{ event_type }})</a>
                 </div>
                 {{#if description}}
                     <div class="gray">
@@ -38,13 +38,13 @@
             <th>Date / horaire</th>
             <th>Public</th>
             <th>Niveau</th>
-            <th>Places restantes</th>
+            <th class="text--center">Places restantes</th>
             <th>Prix</th>
         </tr>
     <tbody>
         {{#unless plannings }}
         <tr>
-            <td colspan="5" class="italic text--left">
+            <td colspan="5" class="f-style-italic text--left">
                 Le planning de ce cours n'a pas été mis à jour.
             </td>
         </tr>

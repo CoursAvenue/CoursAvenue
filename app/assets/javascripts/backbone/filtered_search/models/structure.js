@@ -10,7 +10,7 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
             /* TODO not super happy about this */
             var query = this.structure.collection.getQuery();
 
-            return this.resource + models[0].get('structure').get('id') + '/cours.json' + query;
+            return Routes.structure_courses_path({format: 'json', id: models[0].get('structure').get('id')})
         }
     });
 
@@ -47,7 +47,7 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
                         // TODO this used to be
                         //   return App.resource + models[0].get('structure').get('id') + '/recommandations.json';
                         // but it started barfing. It could bite us later
-                        return models[0].get('structure').get('id') + '/recommandations.json';
+                        return Routes.structure_comments_path({format: 'json', id: models[0].get('structure').get('id')})
                     }
                 })
             },
@@ -74,8 +74,7 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
                 collectionType: Backbone.Collection.extend({
                     url: function (models) {
                         if (models === undefined) { return ''; }
-
-                        return models[0].get('structure').get('id') + '/medias.json';
+                        return Routes.structure_medias_path({format: 'json', id: models[0].get('structure').get('id')})
                     }
                 })
             }

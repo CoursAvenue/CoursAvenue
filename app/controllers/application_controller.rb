@@ -10,12 +10,9 @@ class ApplicationController < ActionController::Base
     session['user_return_to'] || request.referrer || root_path
   end
 
-  rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_url, alert: exception.message
-  end
-
   unless Rails.configuration.consider_all_requests_local
     rescue_from Exception,                            with: :render_error
+    rescue_from CanCan::AccessDenied,                 with: :not_allowed
     rescue_from ActiveRecord::RecordNotFound,         with: :render_not_found
     rescue_from ActionController::RoutingError,       with: :render_not_found
     rescue_from ActionController::UnknownController,  with: :render_not_found
@@ -32,6 +29,18 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # Redirect user to sign_in path if there is a CanCan AccessDenied exception
+  # @param  exception
+  def not_allowed(exception)
+    if request.subdomain == 'pro'
+      redirect_to new_pro_admin_session_url(subdomain: 'pro'), alert: I18n.t('devise.failure.unauthenticated')
+    else
+      redirect_to new_user_session_url(subdomain: 'www'), alert: I18n.t('devise.failure.unauthenticated')
+    end
+  end
+
+  # Redirect users if there is a not found resource
+  # @param  exception
   def render_not_found(exception)
     Bugsnag.notify(exception)
     logger.fatal '------------------------ LOGGER NOT FOUND --------------------------'
@@ -42,6 +51,8 @@ class ApplicationController < ActionController::Base
     # render template: 'errors/not_found', status: :not_found
   end
 
+  # Render the bubble error if there is an error
+  # @param  exception
   def render_error(exception)
     Bugsnag.notify(exception)
     logger.fatal '------------------------ LOGGER FATAL --------------------------'

@@ -60,9 +60,15 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             /* add listeners, but ignore the first bounds change */
             google.maps.event.addListener(this.map, 'click', _.bind(this.onItemviewCloseClick, this));
             google.maps.event.addListener(this.map, 'bounds_changed', _.debounce(this.announceBounds, 500));
-            this.lockOnce('map:bounds');
+            google.maps.event.addListener(this.map, 'dragend', function() { this.unlock('map:bounds', 'showInfoWindow'); }.bind(this));
+
+            /* we are locking the map bounds event once, so the next time it triggers the trigger will be ignored */
+            /* this prevents an infinite loop of map update at the beginning */
+            this.lock('map:bounds');
             this.toggleLiveUpdate();
-            this.on('marker:focus', this.markerFocus);
+            this.on('marker:focus'          , this.markerFocus);
+            this.on('marker:hovered'        , this.markerHovered);
+            this.on('marker:unhighlight:all', this.unhighlightEveryMarker);
             this.infoBox = new this.infoBoxView();
         },
 
@@ -71,6 +77,17 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
                 this.unlockCurrentMarker();
                 this.hideInfoWindow();
             }
+        },
+
+        markerHovered: function (marker_view) {
+            this.current_info_marker = marker_view.model.cid;
+            this.showInfoWindow({ model: marker_view.model.get('structure') });
+        },
+
+        unhighlightEveryMarker: function () {
+            _.each(this.markerViewChildren, function(marker_view) {
+                marker_view.unhighlight()
+            });
         },
 
         markerFocus: function (marker_view) {
@@ -90,7 +107,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             if (this.current_info_marker) {
                 var marker = this.markerViewChildren[this.current_info_marker];
                 marker.setSelectLock(false);
-                marker.toggleHighlight();
+                marker.unhighlight();
             }
         },
 
@@ -108,9 +125,9 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
         toggleLiveUpdate: function () {
             /* set or remove a listener */
             if (this.update_live) {
-                this.unlock('map:bounds');
+                this.unlock('map:bounds', 'toggleLiveUpdate');
             } else {
-                this.lock('map:bounds');
+                this.lock('map:bounds', 'toggleLiveUpdate');
             }
         },
 
@@ -244,7 +261,10 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             var content = view.model;
 
             this.infoBox.setContent(content);
-            this.lockOnce('map:bounds');
+
+            /* when the info window shows, it may cause the map to adjust. If this happens,
+             * we don't want the map bounds to fire so we ignore it once */
+            this.lock('map:bounds', 'showInfoWindow');
             this.infoBox.open(marker.map, marker.gOverlay);
         },
 

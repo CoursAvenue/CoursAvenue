@@ -26,6 +26,8 @@ class Participation < ActiveRecord::Base
   ######################################################################
   after_create :welcome_email
   after_create :user_subscribed_email_for_teacher
+  after_create :create_user_profile
+  after_create :sends_email_if_no_more_place
 
   before_save  :set_default_participation_for
 
@@ -54,9 +56,9 @@ class Participation < ActiveRecord::Base
   # @return nil
   def user_subscribed_email_for_teacher
     if waiting_list
-      ParticipationMailer.delay.user_subscribed_to_waiting_list(self)
+      ParticipationMailer.delay.user_subscribed_to_waiting_list(self) if self.structure.main_contact.try(:jpo_email_opt_in)
     else
-      ParticipationMailer.delay.user_subscribed(self)
+      ParticipationMailer.delay.user_subscribed(self) if self.structure.main_contact.try(:jpo_email_opt_in)
     end
     nil
   end
@@ -86,7 +88,7 @@ class Participation < ActiveRecord::Base
   #
   # @return nil
   def unsubscription_email_for_teacher
-    ParticipationMailer.delay.unsubscription_for_teacher(self)
+    ParticipationMailer.delay.unsubscription_for_teacher(self) if self.structure.main_contact.try(:jpo_email_opt_in)
     nil
   end
 
@@ -148,14 +150,6 @@ class Participation < ActiveRecord::Base
     end
   end
 
-  def alert_for_changes
-    ParticipationMailer.delay.alert_for_changes(self)
-  end
-
-  def alert_for_destroy
-    ParticipationMailer.delay.alert_for_destroy(self)
-  end
-
   private
 
   ######################################################################
@@ -215,12 +209,31 @@ class Participation < ActiveRecord::Base
     nil
   end
 
-  #
   # Update structure meta datas when participation change to update the number of "Places left"
   #
   # @return nil
   def update_structure_meta_datas
     planning.structure.update_meta_datas
     nil
+  end
+
+  # Creates a user profile after a participation is created
+  #
+  # @return nil
+  def create_user_profile
+    user_profile = UserProfile.update_info(structure, user)
+    structure.add_tags_on(user_profile, UserProfile::DEFAULT_TAGS[:jpo_2014])
+    nil
+  end
+
+  # If it was the last participation to be sold, tell the teacher about it
+  #
+  # @return nil
+  def sends_email_if_no_more_place
+    if self.structure.total_jpo_places_left == 0 and self.structure.jpo_email_status != 'no_more_place'
+      self.structure.jpo_email_status = 'no_more_place'
+      self.structure.save
+      ParticipationMailer.delay.no_more_place(self.structure)
+    end
   end
 end

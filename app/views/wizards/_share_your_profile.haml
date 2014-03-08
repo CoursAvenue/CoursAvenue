@@ -1,8 +1,0 @@
-#share_your_profile.relative.blue-box.islet{style: 'display: none;'}
-  %a.closer{href: 'javascript:void(0)', data: { behavior: 'closer', el: '#share_your_profile'}}
-    %i.fa.fa-times
-
-  %h4
-    %span.v-middle Partagez votre profil sur Facebook
-    %span.soft-half--left.v-middle
-      = link_to 'Partager', "https://www.facebook.com/sharer/sharer.php?u=#{new_structure_comment_url(@structure, facebook: '', subdomain: 'www')}", class: 'btn btn--small btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From dashboard page')"

@@ -1,3 +1,10 @@
+.input .chosen-container {
+    width: 100% - $label-width - 0.5 !important;
+}
+.input.chosen-input .chosen-container {
+    width: 100% !important;
+}
+
 .inline-form {
     display: inline;
 }
@@ -54,6 +61,9 @@
             &.one-whole { width: 99%; }
         }
         &.city-autocomplete-wrapper {
+            > .input.select {
+                width: auto;
+            }
             > .input, input {
                 width        : 10em;
                 margin-bottom: 0;
@@ -86,6 +96,7 @@
         }
 
         .radio {
+            margin-right: 1.5em;
             label, input {
                 display       : inline-block;
                 width         : auto;
@@ -97,7 +108,6 @@
             }
             input {
                 width       : auto;
-                margin-right: 5px;
             }
         }
         &.boolean input {

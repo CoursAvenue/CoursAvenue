@@ -164,14 +164,21 @@ class Comment < ActiveRecord::Base
     end
   end
 
+  # Creates an inactive user after a comment is created if the user wasn't connected
+  #
+  # @return nil
   def create_user
-    user_email = self.email
+    user_email = email
     if (user = User.where{email == user_email}.first).nil?
-      user = User.new first_name: self.author_name, email: self.email
+      user = User.new email: email
+      user.first_name = author_name.split(' ')[0..author_name.split(' ').length - 2].join(' ')
+      user.last_name  = author_name.split(' ').last        if self.author_name.split(' ').length > 1
     end
+
     self.user = user
-    self.save
     user.save(validate: false)
+    self.save
+    nil
   end
 
   def affect_structure_to_user
@@ -181,7 +188,9 @@ class Comment < ActiveRecord::Base
 
   def create_passions_for_associated_user
     self.subjects.each do |child_subject|
-      self.user.passions.create(parent_subject: child_subject.root, subject: child_subject, practiced: true)
+      passion = self.user.passions.build(practiced: true)
+      passion.subjects << child_subject.root
+      passion.subjects << child_subject
     end
     self.user.comments << self
     self.user.save(validate: false)
@@ -194,6 +203,9 @@ class Comment < ActiveRecord::Base
     end
   end
 
+  # Add errors if the user has already commented the commentable
+  #
+  # @return nil
   def doesnt_exist_yet
     _structure_id = self.commentable_id
     _email        = self.email
@@ -202,12 +214,19 @@ class Comment < ActiveRecord::Base
     end
   end
 
+  #
+  # Strip names in case they have a starting or ending space
+  #
+  # @return nil
   def strip_names
     self.author_name = self.author_name.strip if author_name.present?
     self.title       = self.title.strip       if title.present?
     self.course_name = self.course_name.strip if course_name.present?
   end
 
+  # Sends an email to the user and the admin regarding the status of the comment
+  #
+  # @return nil
   def send_email
     if self.accepted?
       AdminMailer.delay.congratulate_for_accepted_comment(self)
@@ -218,31 +237,32 @@ class Comment < ActiveRecord::Base
     end
   end
 
+  # Change the email to force it to be downcase
+  #
+  # @return
   def downcase_email
     self.email = self.email.downcase
+    nil
   end
 
+  # Remove quotes from title if they are at the begining
+  #
+  # @return nil
   def remove_quotes_from_title
     string_title = self.title
     string_title[0]                       = '' if string_title[0] == '"' or string_title[0] == "'"
     string_title[string_title.length - 1] = '' if string_title.last == '"' or string_title.last == "'"
     self.title = string_title.strip
+    nil
   end
 
   # Create or update the user profile attached to the structure
   #
   # @return nil
   def create_or_update_user_profile
-    _email = self.email
-    user_profile = self.structure.user_profiles.where(email: _email).first_or_initialize
-
-    # Update user_profile name if not set
-    user_profile.first_name = self.author_name.split(' ')[0..author_name.split(' ').length - 2].join(' ') if user_profile.first_name.blank? # All except the last
-    user_profile.last_name  = self.author_name.split(' ').last                                            if user_profile.last_name.blank? and self.author_name.split(' ').length > 1
-    user_profile.save
-
+    user_profile = UserProfile.update_info(structure, user)
     # Tag it as commented
-    self.structure.add_tags_on(user_profile, UserProfile::DEFAULT_TAGS[:comments])
+    structure.add_tags_on(user_profile, UserProfile::DEFAULT_TAGS[:comments])
     nil
   end
 end

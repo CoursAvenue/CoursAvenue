@@ -10,6 +10,10 @@
   padding  : 0.6em 2.5em;
 }
 
+.btn.btn--bigger{
+  font-size: 15px;
+}
+
 .btn.btn--small {
     padding: 0.5em;
 }
@@ -29,24 +33,16 @@
     white-space     : normal;
     line-height     : 1;
     font-weight     : bold;
-    background-color: $light-grey;
-    border          : 1px solid #DBD9D9;
-    text-shadow     : 0 1px 0 white;
     padding         : 0.8em;
-    color           : #555;
     font-size       : 12px;
     @include border-radius($brand-round);
-    @include background-image(linear-gradient(top, #fefefe,#f8f8f8));
-    @include box-shadow(0px 1px 2px rgba( 0, 0, 0, 0.2 ), inset 0px 0px 1px rgba(255, 255, 255, .5));
-    &:hover {
-      @include background-image(linear-gradient(top, darken(#fefefe, 3%), darken(#f8f8f8, 3%)));
+    border          : 1px solid #DEDEDE;
+    background-color: #fefefe;
+    color           : #555;
+    @include text-shadow(0 1px 0 white);
+    &:active, &:hover {
+        background-color: #f2f2f2;
     }
-}
-
-.btn:active, .btn--active, .btn.active, .btn--active:hover, .btn.active:hover {
-    background-color: #ebebeb;
-    @include background-image(linear-gradient(top, #dad9d9, #ebebeb));
-    @include box-shadow(inset 0 1px 5px rgba(0,0,0,0.22),0 1px 0 rgba(255,255,255,0.4));
 }
 
 .btn.disabled, .btn:disabled{
@@ -58,68 +54,93 @@
 }
 
 .btn--orange {
-    text-transform: uppercase;
-    color       : white;
-    text-shadow : -1px -1px 0 #a34c30;
-    border-color: darken($btn-primary-background, 3%);
+    text-transform  : uppercase;
+    color           : white;
+    border-color    : darken($orange, 5%);
     background-color: $orange;
-    @include background-image(linear-gradient(top, $btn-primary-background-highlight, $btn-primary-background));
-    &:hover {
-        @include background-image(linear-gradient(top, lighten($btn-primary-background-highlight, 6%), lighten($btn-primary-background, 6%)));
+    @include text-shadow(-1px -1px 0 #a34c30);
+    &:active, &:hover {
+        background-color: lighten($orange, 5%);
     }
     &:active, &.btn--active, &.btn--active:hover, &.active, &.active:hover {
-        background-color: $btn-primary-background-highlight;
-        border-color: darken($btn-primary-background, 10%);
         border-bottom: none;
-        @include background-image(linear-gradient(top, darken($btn-primary-background-highlight, 5%), lighten($btn-primary-background-highlight, 5%)));
+        background-color: lighten($orange, 15%);
     }
 }
 .btn--red {
     text-transform: uppercase;
-    font-weight: bold;
-    @include buttonBackground($btn-danger-background, $btn-danger-background-highlight);
-    &:hover {
-        @include buttonBackground(lighten($btn-danger-background, 6%), lighten($btn-danger-background-highlight, 6%));
+    background-color: $btn--red;
+    border          : none;
+    color           : white;
+    @include text-shadow(-1px -1px 1px darken($btn--red, 10%));
+    &:hover, &:active {
+        background-color: lighten($btn--red, 5%);
     }
 }
 // Danger and error appear as red
 // Success appears as green
 .btn--green {
     text-transform: uppercase;
-    @include buttonBackground($btn-success-background, $btn-success-background-highlight);
+    background-color: $btn--green;
+    border          : none;
+    color           : white;
+    @include text-shadow(-1px -1px 1px darken($btn--green, 23%));
     &:hover, &:active {
-        @include buttonBackground(lighten($btn-success-background, 6%), lighten($btn-success-background-highlight, 6%));
+        background-color: lighten($btn--green, 5%);
     }
     &.disabled, &[disabled] {
         cursor: default;
-        @include buttonBackground(lighten($btn-success-background, 15%), lighten($btn-success-background-highlight, 15%));
+        background-color: lighten($btn--green, 15%);
     }
 }
-// Success appears as green
 .btn--blue {
-    text-transform: uppercase;
-    color         : white;
-    @include buttonBackground($btn-blue-background, $btn-blue-background-highlight);
+    text-transform  : uppercase;
+    background-color: $btn--blue;
+    border          : none;
+    color           : white;
+    @include text-shadow(-1px -1px 1px darken($btn--blue, 10%));
     &:hover, &:active {
-        @include buttonBackground(lighten($btn-blue-background, 6%), lighten($btn-blue-background-highlight, 6%));
+        background-color: lighten($btn--blue, 5%);
     }
     &.disabled, &[disabled] {
         cursor: default;
-        @include buttonBackground(lighten($btn-blue-background, 15%), lighten($btn-blue-background-highlight, 15%));
+        background-color: lighten($btn--blue, 15%);
+    }
+}
+
+.btn--yellow {
+    text-transform  : uppercase;
+    color           : darken($yellow, 35%);
+    background-color: $yellow;
+    border          : none;
+    @include text-shadow(0 1px 0 darken($yellow, 5%));
+    // @include text-shadow(-1px -1px 1px #486762);
+    &:hover, &:active {
+        color           : darken($yellow, 35%);
+        background-color: lighten($yellow, 5%);
+        @include text-shadow(0 1px 0 darken($yellow, 5%));
+    }
+}
+
+.btn--purple {
+    text-transform  : uppercase;
+    color           : #FFF;
+    background-color: $purple;
+    border          : none;
+    @include text-shadow(0 1px 0 $purple);
+    &:hover, &:active {
+        color           : #FFF;
+        background-color: lighten($purple, 10%);
     }
 }
 
 .btn--social {
     text-transform  : uppercase;
-    text-shadow     : -1px -1px 0 darken($facebook-blue, 10%);
+    @include text-shadow(-1px -1px 0 darken($facebook-blue, 10%));
     color           : white;
     padding         : 1em;
     vertical-align  : middle;
     display         : inline-block;
-    @include background-image(none);
-    &:hover {
-        @include background-image(none);
-    }
     &:before {
         text-transform  : lowercase;
         display         : inline-block;
@@ -175,7 +196,7 @@
     font-weight     : bold;
     background-color: $light-grey;
     border          : 1px solid #DBD9D9;
-    text-shadow     : 0 1px 0 white;
+    @include text-shadow(0 1px 0 white);
     padding         : 0.8em;
     color           : #555;
     font-size       : 12px;
@@ -192,29 +213,13 @@
     }
 }
 
-.outlined-btn--red {
-    @extend .outlined-btn;
-
-    text-transform: uppercase;
-    font-weight: bold;
-    @include buttonBackground($btn-danger-background, $btn-danger-background-highlight);
-    &:hover {
-        @include buttonBackground(lighten($btn-danger-background, 6%), lighten($btn-danger-background-highlight, 6%));
-    }
-}
-
-//  .btn-group
-//    .btn
-//      %a text
 .btn-group {
     i {
         font-size: 1em;
     }
     .btn, .btn.active {
         padding: 0.8em;
-        @include background-image(linear-gradient(top, #fefefe,#f8f8f8));
         @include border-radius(0);
-        @include box-shadow(0px 1px 1px rgba( 0, 0, 0, 0.2 ), inset 0px 0px 1px rgba(255, 255, 255, .5));
     }
     .btn--blue {
         color: white;
@@ -226,7 +231,6 @@
     .btn.btn--active, .btn.active {
         border     : 1px solid $orange;
         @include box-shadow(0px 0px 5px rgba(233, 104, 61, 0.5));
-        // @include box-shadow(inset 0 1px 5px rgba(0,0,0,0.22),0 1px 0 rgba(255,255,255,0.4));
         & + .btn.active {
             border-left: none;
         }
@@ -236,11 +240,9 @@
     }
 
     .btn:first-child {
-        // border-right: none;
         @include border-left-radius($brand-round);
     }
     .btn:last-child {
-        // border-left: none;
         @include border-right-radius($brand-round);
     }
     input {

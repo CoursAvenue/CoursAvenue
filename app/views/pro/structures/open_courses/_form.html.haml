@@ -28,12 +28,12 @@
     Informations générales
   .form-white-box
     = f.input :name, placeholder: "Ex : Atelier d'initiation à la danse orientale, Dégustation de vins & fromages, etc.", label: "Intitulé de l'événement"
-    .input.flush<
+    .input.flush.chosen-input<
       = f.label :subjects
       - subjects = @structure.subjects.little_children.uniq
       - if subjects.empty?
         - subjects = @structure.subjects.roots.map(&:little_children).flatten
-      = f.association :subjects , as: :select, collection: subjects, input_html: {style: 'width: 300px;', data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true}, label: t('.subjects'), selected: @course.subject_ids, label_method: lambda{|subj| subj.name }, wrapper_html: {class: 'flush'}, label: false
+      = f.association :subjects , as: :select, collection: subjects, input_html: { data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true }, label: t('.subjects'), selected: @course.subject_ids, label_method: lambda{|subj| subj.name }, wrapper_html: {class: 'flush', style: 'width: 400px'}, label: false
       .inline-block
         = link_to add_subjects_pro_structure_path(@structure, return_to: request.path, anchor: 'informations'), class: 'fancybox.ajax', data: { behavior: 'modal', width: 650 } do
           %i.fa.fa-plus
@@ -74,35 +74,24 @@
         %i Au dessous du seuil minimal, les élèves inscrits seront notifiés que l'événement ne sera pas forcément assuré.
         %br
         %i Au dessus du seuil maximal, une liste d'attente sera ouverte
-    .input
-      .control-label.v-top Tarifs
-      %div.flush
-        .radio
-          %input#course_price_free{type: 'radio', name: 'course[price]', value: '0', checked: (@course.new_record? or @course.price.to_i == 0) }>
-          %label{for: 'course_price_free'} Gratuit
-        .radio.flush
-          %input#course_price_other{type: 'radio', name: 'course[price]', checked: (@course.price.present? and @course.price.to_i > 0) }>
-          %label{for: 'course_price_other'} Participation financière libre
-          #chosen-price.hidden
-            %p.push-half--ends.alert.alert--info{style: 'max-width: 600px;'}
-              %strong Note importante :
-              à l'image des Journées du Patrimoine des monuments historiques, le but de l'événement est de vous apporter la plus large audience. Pour cette raison, les ateliers gratuits apparaîtront en tête de liste sur CoursAvenue. Si vous souhaitez proposer une participation libre, nous vous conseillons de ne pas dépasser les 10€.
-            %br
-            Indiquez ici le montant moyen attendu :
-            = f.input :price, wrapper_html: { class: 'inline-block push-half--left' }, label: false, placeholder: '5'
-            €
+
+    .input.flush--bottom
+      = f.label :common_price, class: 'flush'
+      = f.input :common_price, wrapper_html: { class: 'flush' }, input_html: { class: 'one-whole', placeholder: '15' }, label: false
+      €
+    %p.field-form-info.blue Indiquez le prix habituellement appliqué en dehors des Portes Ouvertes.
 
     = f.input :info, placeholder: "Renseignez toutes les informations à communiquer aux potentiels inscrits : matériel requis, tenue exigée, etc. Les informations concernant le lieu sont à renseigner à l'étape suivante.", input_html: { data: { behavior: 'autoresize' }}
 
   .form-white-box
     .input
-      %label.v-top.control-label.bold En validant, je certifie :
+      %label.v-top.control-label.f-weight-bold En validant, je certifie :
       %div.v-top.push-half--bottom{style: 'max-width: 600px;'}
         \- avoir pris toutes les dispositions nécessaires pour pouvoir assurer cet événement (location de la salle confirmée, matériel à disposition...) ;
         %br
         \- avoir renseigné toutes les informations importantes à communiquer aux inscrits dans les champs "description" et "infos pratiques" (numéro d'interphone, tenue et matériel exigés, etc.).
   %p
-    = f.submit 'Enregistrer et renseigner mes lieux et créneaux', class: 'btn btn--green btn--full'
+    = f.submit 'Enregistrer et renseigner mes lieux et créneaux', class: 'btn btn--green btn--full', disable_with: "En cours d'enregistrement"
 
 = content_for :scripts do
   :javascript
@@ -116,13 +105,6 @@
         $('#course_price_free').click(function() {
             $('#course_price').val('');
         });
-        $('[name="course[price]"]').change(function() {
-            if ($('#course_price_other').is(':checked')) {
-                $('#chosen-price').slideDown();
-            } else {
-                $('#chosen-price').slideUp();
-            }
-        });
         $('[name="course[event_type]"]').change(function() {
             if ($('#event_other').is(':checked')) {
                 $('#other-event-type').slideDown();
@@ -131,7 +113,6 @@
             }
         });
         $('[name="course[event_type]"]').change();
-        $('[name="course[price]"]').change();
         $('#open-course-description').textareaResizer();
         $('.textarea-counter-wrapper').css('padding-left', '16em');
     });

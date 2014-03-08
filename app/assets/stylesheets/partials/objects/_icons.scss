@@ -53,35 +53,39 @@
 }
 
 .subject_icon__danse{
-    width            : 3.6em;
+    width            : 24px;
     background-image : image-url('icons/subjects/danse.png');
+    @include background-size(24px 30px);
 }
 .subject_icon__theatre-scene {
-    width            : 3.2em;
+    width            : 40px;
     background-image : image-url('icons/subjects/theatre-scene.png');
-
+    @include background-size(40px 30px);
 }
 .subject_icon__yoga-bien-etre-sante {
-    width            : 3em;
+    width            : 30px;
     background-image : image-url('icons/subjects/yoga-bien-etre-sante.png');
+    @include background-size(30px 30px);
 }
 .subject_icon__musique-chant {
-    width            : 1.8em;
+    width            : 30px;
     background-image : image-url('icons/subjects/musique-chant.png');
+    @include background-size(30px 30px);
 }
 .subject_icon__dessin-peinture-arts-plastiques {
-    width            : 2.7em;
+    width            : 34px;
     background-image : image-url('icons/subjects/dessin-peinture-arts-plastiques.png');
+    @include background-size(34px 30px);
 }
 .subject_icon__sports-arts-martiaux {
-    width            : 4.1em;
+    width            : 33px;
     background-image : image-url('icons/subjects/sports-arts-martiaux.png');
+    @include background-size(33px 30px);
 }
 .subject_icon__cuisine-vins {
-    width            : 5em;
+    width            : 32px;
     background-image : image-url('icons/subjects/cuisine-vins.png');
-    @include background-size(60px 25px);
-    background-size  : 60px 25px;
+    @include background-size(32px 30px);
 }
 
 .subject-active {

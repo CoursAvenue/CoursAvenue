@@ -1,7 +1,8 @@
 class PlanningSerializer < ActiveModel::Serializer
   include PlanningsHelper
+  include PricesHelper
 
-  attributes :date, :duration, :time_slot, :levels, :audiences, :place_id, :places_left, :price
+  attributes :date, :duration, :time_slot, :levels, :audiences, :place_id, :places_left, :more_than_ten_places, :common_price
 
   def date
     if object.course.is_lesson?
@@ -31,7 +32,11 @@ class PlanningSerializer < ActiveModel::Serializer
     object.places_left if @options[:jpo]
   end
 
-  def price
-    object.course.price
+  def more_than_ten_places
+    object.places_left > 10 if @options[:jpo]
+  end
+
+  def common_price
+    readable_amount(object.course.common_price) if object.course.common_price
   end
 end

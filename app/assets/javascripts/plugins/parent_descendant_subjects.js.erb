@@ -28,13 +28,11 @@
     }
 
     Plugin.prototype = {
-        <% url = CoursAvenue::Application.routes.url_helpers %>
-        descendants_subjects_url: '<%= url.descendants_pro_subjects_path %>',
 
         init: function() {
-            this.$descendant_subjects_select         = $(this.$element.data('descendant-select'));
-            this.$descendant_subjects_select_wrapper = $(this.$element.data('descendant-select-wrapper'));
-            this.$parent_subjects_select             = $(this.$element.data('parent-select'));
+            this.$descendant_subjects_select         = $(this.$element).find(this.$element.data('descendant-select'));
+            this.$descendant_subjects_select_wrapper = $(this.$element).find(this.$element.data('descendant-select-wrapper'));
+            this.$parent_subjects_select             = $(this.$element).find(this.$element.data('parent-select'));
             this.attachEvents();
             // Trigger change if there are already subjects
             // to show descendants
@@ -49,13 +47,13 @@
                 // that.$descendant_subjects_select.css('width', $('.chosen-container').first().css('width'));
                 var subject_ids  = $.map($(this).find('option:selected'), function(option){ return option.value }).join(',');
                 var selected_ids = that.$descendant_subjects_select.val() || [];
-                if ($('#subject-descendants-select').data('selected')) {
-                    $.each($('#subject-descendants-select').data('selected').toString().split(','), function(index, value){
+                if (that.$descendant_subjects_select.data('selected')) {
+                    $.each(that.$descendant_subjects_select.data('selected').toString().split(','), function(index, value){
                         selected_ids.push(value);
                     });
                 };
                 $.ajax({
-                    url: that.descendants_subjects_url,
+                    url: Routes.descendants_pro_subjects_path(),
                     dataType: 'jsonp',
                     data: {
                         ids: subject_ids

@@ -6,14 +6,13 @@ class PlanningSearch
     retrieve_location params
 
     # Encode name in UTF8 as it can be submitted by the user and can be bad
-    params[:name] = params[:name].encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '') if params[:name].present?
-
+    params[:name].force_encoding("UTF-8") if params[:name].present?
     @search = Sunspot.search(Planning) do
-      if options[:group]
+      if options[:group].present?
         group options[:group]
-        keywords params[:name] if params[:name].present?
-      elsif params[:name].present?
-        keywords params[:name], fields: [:name, :course_name, :course_subjects_name, :course_description]
+      end
+      if params[:name].present?
+        fulltext params[:name]
       end
 
       # --------------- Geolocation
@@ -24,6 +23,7 @@ class PlanningSearch
       end
 
       all_of do
+        # with :active_structure,  true
         with :active_course, true
 
         with(:start_hour).greater_than_or_equal_to        params[:start_hour].to_i                      if params[:start_hour].present?
@@ -36,7 +36,7 @@ class PlanningSearch
           with(:end_date).greater_than Date.today
         end
 
-        with :structure_id,                   params[:structure_id].to_i                              if params[:structure_id]
+        with :structure_id,        params[:structure_id].to_i                                         if params[:structure_id]
 
         with(:audience_ids).any_of params[:audience_ids]                                              if params[:audience_ids].present?
         with(:level_ids).any_of    params[:level_ids]                                                 if params[:level_ids].present?

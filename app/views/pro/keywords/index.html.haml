@@ -4,7 +4,7 @@
   = simple_form_for [:pro, @keyword] do |f|
     = f.input :name
     .form-actions
-      = f.submit 'Ajouter', class: 'btn btn--green'
+      = f.submit 'Ajouter', class: 'btn btn--green', disable_with: "En cours d'enregistrement", disable_with: "En cours d'ajout"
 
   %ul
     - @keywords.each do |keyword|

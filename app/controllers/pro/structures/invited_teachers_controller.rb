@@ -18,12 +18,21 @@ class ::Pro::Structures::InvitedTeachersController < Pro::ProController
     text = '<p>' + params[:text].gsub(/\r\n/, '</p><p>') + '</p>' if params[:text].present?
 
     emails.each do |_email|
-      invited_user = ::InvitedUser::Teacher.where(email: _email, referrer_id: @structure.id, referrer_type: 'Structure', email_text: text).first_or_create
+      invited_user = ::InvitedUser.where(type: 'InvitedUser::Teacher', email: _email, referrer_id: @structure.id, referrer_type: 'Structure', email_text: text).first_or_create
       InvitedUserMailer.delay.recommand_friends(invited_user)
     end
 
     respond_to do |format|
       format.html { redirect_to new_pro_structure_invited_teacher_path(@structure), notice: (params[:emails].present? ? 'Les autres professeurs ont bien été notifiés.' : nil) }
+    end
+  end
+
+  def destroy
+    @structure        = Structure.friendly.find params[:structure_id]
+    @invited_teacher  = @structure.invited_teachers.find params[:id]
+    @invited_teacher.destroy
+    respond_to do |format|
+      format.html { redirect_to pro_structure_invited_teachers_path(@structure) }
     end
   end
 end

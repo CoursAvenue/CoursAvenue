@@ -43,7 +43,6 @@
   overflow         : hidden;
   height           : 20px;
   line-height      : 20px;
-  margin-bottom    : 20px;
   background-color : $beige-darker;
   @include background-image(linear-gradient(top, lighten($beige-darker, 5%), $beige-darker));
   background-repeat: repeat-x;

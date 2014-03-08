@@ -1,18 +1,16 @@
+- unless current_user or current_pro_admin
+  = render 'users/registrations/jpo_popup'
+
 - if @structure.logo.present?
   = content_for :meta_image do
     = @structure.logo.url(:thumb)
 
 = content_for :title do
-  = "#{@structure.name} à #{@city.name}"
+  = "Portes Ouvertes de #{@structure.name} les 5-6 avril avec CoursAvenue"
 
 = content_for :meta_description do
-  - if @structure.description.present?
-    = "#{@structure.description_for_meta} à #{@city.name}"
-  - else
-    - if @structure.parent_subjects_string.present?
-      = "Retrouvez tous les cours de #{@structure.name} à #{@city.name}. #{subjects_name_from_string(@structure.parent_subjects_string)} et bien plus ! à #{@city.name}"
-    - else
-      = "Retrouvez tous les cours de #{@structure.name} à #{@city.name}"
+  Participez à l'un des 5 000 cours gratuits les 5-6 avril. Ateliers offerts par #{@structure.name} : #{@structure.courses.open_courses.map(&:name).join(', ')}
+
 
 .inline-block
   = link_to open_courses_path do
@@ -33,7 +31,16 @@
 
 .grid.push--top
   .grid__item.eight-twelfths>
-    = render partial: 'structures/structure_header', locals: {structure: @structure}
+    .grid--full.push-half--bottom.white-box
+      .grid__item.two-twelfths.relative>
+        = image_tag @structure.logo.url(:thumb), class: 'block'
+      .grid__item.ten-twelfths.soft-half--sides>
+        %h1.gamma.blue.flush--bottom= @structure.name
+        %p.push-half--bottom
+          %i.fa.fa-tags
+          - subject_course_names = @open_courses.map(&:subjects).flatten.uniq.map(&:name).join(', ')
+          %i{data: { placement: 'bottom', behavior: 'tooltip', title: subject_course_names }}= truncate(subject_course_names, length: 190)
+
 
     = render partial: 'structures/map_and_gallery', locals: {structure: @structure, places: @places, medias: @medias}
 
@@ -48,10 +55,11 @@
         %a{href: '#tab-comments', data: {toggle: 'tab'} }
           %i.fa.fa-comments
           Avis
-      %li
-        %a{href: '#tab-teachers', data: {toggle: 'tab'} }
-          %i.fa.fa-group
-          Professeurs
+      - if @structure.teachers.any?
+        %li
+          %a{href: '#tab-teachers', data: {toggle: 'tab'} }
+            %i.fa.fa-group
+            Professeurs
     .tab-content
       %article#tab-courses.tab-pane.active
         = render partial: 'structures/open_courses', locals: {structure: @structure}
@@ -66,11 +74,12 @@
           %ul#comments.comment-list
             - @comments.each_with_index do |comment, index|
               = render partial: 'comments/comment', locals: {comment: comment, show_title: true}
-      %article#tab-teachers.tab-pane
-        #teachers
-          - @teachers.each_with_index do |teacher, index|
-            %div
-              = render partial: 'teachers/teacher', locals: {teacher: teacher}
+      - if @structure.teachers.any?
+        %article#tab-teachers.tab-pane
+          #teachers
+            - @teachers.each_with_index do |teacher, index|
+              %div
+                = render partial: 'teachers/teacher', locals: {teacher: teacher}
 
 
   .grid__item.four-twelfths{itemscope: true, itemtype: 'http://schema.org/Place'}>
@@ -93,7 +102,7 @@
 
 
     - if @structure.facebook_url.present?
-      = link_to "Page facebook de l'établissement", @structure.facebook_url, target: '_blank', class: 'btn--facebook btn one-whole btn--small push--bottom'
+      = link_to "Page facebook de l'établissement", @structure.facebook_url, target: '_blank', class: 'btn--facebook btn one-whole push--bottom'
 
 
 #course_info.hidden= render 'structures/courses/info_popup'

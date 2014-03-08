@@ -1,6 +1,7 @@
 # encoding: utf-8
 class Users::RegistrationsController < Devise::RegistrationsController
   respond_to :html, :js, :json
+  layout :choose_layout
 
   def after_inactive_sign_up_path_for(user)
     session['after_inactive_sign_up_path'] || waiting_for_activation_users_path
@@ -22,7 +23,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       self.resource = @user
       resource.update_attributes params[:user]
     end
-    resource.after_sign_up_url = session['user_return_to']
+    resource.after_sign_up_url = session['user_return_to'] || params[:user_return_to]
     ## end of changes
     if resource.save
       resource.send_confirmation_instructions
@@ -43,11 +44,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def new
+    session['user_return_to'] = request.referrer
     @structure_search = StructureSearch.search({ lat: 48.8592,
                                                  lng: 2.3417,
                                                  radius: 7,
                                                  per_page: 150,
-                                                 bbox: false}).results
+                                                 bbox: true}).results
 
     @structure_locations = Gmaps4rails.build_markers(@structure_search) do |structure, marker|
       marker.lat structure.latitude
@@ -60,6 +62,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
       else
         format.html { render }
       end
+    end
+  end
+
+  private
+
+  def choose_layout
+    if action_name == 'edit'
+      'user_profile'
+    else
+      'users'
     end
   end
 end

@@ -8,12 +8,11 @@
   %thead
     %tr
       %th Email
-      %th S'est créé un compte
+      - if current_pro_admin.super_admin?
+        %th
   %tbody
     - @invited_users.each do |invited_user|
       %tr
         %td= invited_user.email
-        %td
-          - if invited_user.registered?
-            %i.fa.fa-check
-
+        - if current_pro_admin.super_admin?
+          %td= link_to 'Supprimer', pro_structure_invited_student_path(@structure, invited_user), method: :delete, class: 'red'

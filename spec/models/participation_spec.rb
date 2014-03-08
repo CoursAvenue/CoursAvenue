@@ -5,9 +5,11 @@ describe Participation do
 
   context :waiting_list do
     let (:planning) { FactoryGirl.create(:planning) }
+
     before do
       subject.user = FactoryGirl.create(:user)
     end
+
     it 'goes on waiting_list' do
       planning.update_attribute(:nb_participants_max, 0)
       subject.planning = planning
@@ -87,11 +89,11 @@ describe Participation do
 
   describe '#canceled?' do
     it 'returns true' do
-      expect(subject.canceled?).to be_false
+      subject.stub(:canceled_at) { Time.now }
+      expect(subject.canceled?).to be_true
     end
 
     it 'returns false' do
-      subject.canceled_at = Time.now
       expect(subject.canceled?).to be_false
     end
   end
@@ -130,6 +132,16 @@ describe Participation do
         last_participation  = planning.participations.create user: FactoryGirl.create(:user)
         first_participation.cancel!
         expect(last_participation.reload.waiting_list).to be_false
+      end
+    end
+
+    describe '#creates_user_profile' do
+      it 'creates a user profile after a participation is made' do
+        planning             = FactoryGirl.create(:planning)
+        user_profiles_length = planning.structure.user_profiles.length
+        participation        = planning.participations.create user: FactoryGirl.create(:user)
+        expect(planning.structure.user_profiles.reload.length).to eq user_profiles_length + 1
+        expect(planning.structure.user_profiles.last.tags.map(&:name)).to include UserProfile::DEFAULT_TAGS[:jpo_2014]
       end
     end
   end

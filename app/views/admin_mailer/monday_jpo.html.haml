@@ -1,0 +1,28 @@
+- content_for :email_logo do
+  = image_tag 'jpo_2014/logo_1_line_orange.png', alt: 'CoursAvenue', height: 89, width: 300, style: '-ms-interpolation-mode:bicubic;'
+
+- content_for :header_links do
+  = link_to 'Connexion', dashboard_pro_structure_url(@structure, subdomain: 'pro')
+  \|
+  = link_to 'Aide', pro_pages_questions_url(subdomain: 'pro')
+  \|
+  = link_to 'Portes Ouvertes', pro_structure_course_opens_url(@structure, subdomain: 'www')
+
+- content_for :promo do
+  %h4
+    Les inscriptions aux Portes Ouvertes sont ouvertes !
+
+%p
+  A chaque nouvelle inscription, un e-mail vous sera envoyé et vous pourrez suivre vos inscrits en temps réel sur votre profil. Vérifiez dès maintenant que vos ateliers sont bien renseignés, en particulier la description, les informations pratiques pour pouvoir se rendre à votre salle, ainsi que les créneaux horaires :
+
+%p.action
+  = link_to "Vérifier les informations de mes ateliers", pro_structure_course_opens_url(@structure, subdomain: 'pro'), class: 'btn btn--green'
+
+%p.blue.blue-tip
+  %i Trucs & astuces : depuis votre profil, offrez à vos élèves l'opportunité d'inviter leurs proches.
+
+- content_for :under_content do
+  = render 'participation_mailer/invite_students_to_jpos'
+
+- content_for :under_content_2 do
+  = render 'participation_mailer/jpo_advantages'

@@ -25,8 +25,8 @@
               = link_to disable_pro_structure_course_path(@structure, course), method: :patch, class: 'switch-button on', title: 'Enlever le cours de CoursAvenue' do
                 Visible
             - else
-              = link_to activate_pro_structure_course_path(@structure, course), method: :patch, class: 'switch-button off', title: 'Afficher le cours sur CoursAvenue'  do
-                Non&nbsp;visible
+              = link_to activate_pro_structure_course_path(@structure, course), method: :patch, class: 'switch-button off nowrap', title: 'Afficher le cours sur CoursAvenue'  do
+                Non visible
           %td= course.type_name
           %td
             - if course.latest_end_date and course.latest_end_date < Date.today
@@ -34,27 +34,28 @@
                 !
             = link_to course.name, edit_pro_structure_course_path(@structure, course)
           %td.text--right.nowrap
-            .btn-group
-              .btn>
-                = link_to edit_pro_structure_course_path(@structure, course) do
-                  %i.lbc-icon-info i
-                  Info
+            .btn-group>
+              = link_to edit_pro_structure_course_path(@structure, course), class: 'btn' do
+                %i.lbc-icon-info i
+                Info
+                %i.fa.fa-check.green
+              - # .hidden is here to remove whitespaces between links
+              .hidden>
+              = link_to pro_structure_course_prices_path(@structure, course), class: 'btn' do
+                € Tarifs
+                - if course.prices.empty?
+                  %i.fa.fa-times.red
+                - else
                   %i.fa.fa-check.green
-              .btn>
-                = link_to pro_structure_course_prices_path(@structure, course) do
-                  € Tarifs
-                  - if course.prices.empty?
-                    %i.fa.fa-times.red
-                  - else
-                    %i.fa.fa-check.green
-              .btn>
-                = link_to pro_structure_course_plannings_path(@structure, course) do
-                  %i.lbc-icon-calendar
-                  %span Plannings
-                  - if course.plannings.empty?
-                    %i.fa.fa-times.red
-                  - else
-                    %i.fa.fa-check.green
+              .hidden>
+              = link_to pro_structure_course_plannings_path(@structure, course), class: 'btn' do
+                %i.lbc-icon-calendar
+                %span Plannings
+                - if course.plannings.empty?
+                  %i.fa.fa-times.red
+                - else
+                  %i.fa.fa-check.green
+
           %td.text--center.hard
             .drop-down-el.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
               %a.btn--orange.btn.btn--small{href: '#'}

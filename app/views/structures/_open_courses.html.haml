@@ -1,4 +1,4 @@
-- structure.courses.open_courses.order('created_at ASC').each do |course|
+- @open_courses.order('created_at ASC').each do |course|
   - if course.plannings.any?
     .white-box.white-box--noshadow.islet
       %strong= course.name
@@ -14,7 +14,8 @@
       %p.gray.milli
         %i.fa.fa-tags
         = course.subjects.map(&:name).join(', ')
-      = simple_format course.description
+      .read-more{data: {behavior: 'read-more', height: 50}}
+        = simple_format course.description
       - if course.plannings.any?
         %table.table--data.table--striped
           %thead
@@ -24,7 +25,7 @@
               %th Niveau
               %th Lieu
               %th.text--center Places dispos
-              %th Prix
+              %th.text--center Prix
               %th
           %tbody
             - course.plannings.order('start_date ASC, start_time ASC').each do |planning|
@@ -38,24 +39,27 @@
                   = link_to "http://maps.google.com/?q=#{planning.place.location.address}", target: :_blank, class: 'pointer semi-muted-link', title: planning.place.location.address, data: { behavior: 'tooltip' } do
                     = planning.place.location.name
                 %td.text--center
-                  - if planning.places_left > 5
-                    > 5
+                  - if planning.places_left > 10
+                    > 10
                   - else
                     = planning.places_left
 
-                %td
-                  - if course.free?
-                    Gratuit
-                  - else
-                    Participation libre
-                    %br
-                    %span.nowrap (montant attendu : #{readable_amount(course.price)}€)
+                %td.nowrap
+                  - if course.common_price
+                    %span.line-through #{readable_amount(course.common_price)}€
+                  %span.green GRATUIT
                 %td.text--right
                   - if current_user
                     - if current_user.participate_to?(planning)
                       Déjà inscrit
                     - else
                       = link_to new_planning_participation_path(planning), class: 'btn btn--small btn--green text--center line-height-normal fancybox.ajax', data: { behavior: 'modal', title: 'Inscription au créneau', width: 600 } do
-                        = planning.places_left ? "M'inscrire " : "M'inscrire sur liste d'attente"
+                        = planning.places_left? ? "M'inscrire " : "M'inscrire sur liste d'attente"
+                  - elsif current_pro_admin
+                    = link_to "M'inscrire", '#you-are-a-teacher', data: {behavior: 'modal', width: 500}, class: 'btn btn--green btn--small btn--full'
                   - else
                     = link_to "M'inscrire", new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', width: 300}, class: 'fancybox.ajax btn btn--green btn--small btn--full'
+
+- if current_pro_admin
+  #you-are-a-teacher.hidden
+    %h5.flush.text--center En tant que partenaire proposant des cours, vous ne pouvez pas vous inscrire aux Portes Ouvertes. L'inscription n'est réservée qu'aux élèves utilisateurs.

@@ -1,5 +1,5 @@
 CoursAvenue::Application.configure do
-  # config.session_store :cookie_store, key: '_CoursAvenue_session', :domain => 'coursavenue.dev'
+  config.session_store :cookie_store, key: '_CoursAvenue_session', :domain => 'coursavenue.dev'
 
   # Settings specified here will take precedence over those in config/application.rb
 

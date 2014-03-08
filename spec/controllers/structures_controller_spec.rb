@@ -12,7 +12,6 @@ describe StructuresController do
       "rating",
       "street",
       "zip_code",
-      "logo_present",
       "logo_thumb_url",
       "data_url",
       "places"

@@ -10,7 +10,7 @@ describe Structure do
 
   context :contact do
     it 'returns admin contact' do
-      admin = FactoryGirl.build(:admin)
+      admin = FactoryGirl.create(:admin)
       admin.structure_id = structure.id
       structure.admins << admin
 
@@ -199,39 +199,59 @@ describe Structure do
   end
 
   describe '#profile_completed' do
-    it 'is incomplete_profile' do
+    it 'has no logo' do
       structure.stub(:profile_completed?) { false }
       structure.update_email_status
-      expect(structure.email_status).to eq 'incomplete_profile'
+      expect(structure.email_status).to eq 'no_logo_yet'
     end
 
-    it 'is no_recommendations' do
-      structure.stub(:profile_completed?) { true }
-      structure.comments_count = 0
-      structure.update_email_status
-      expect(structure.email_status).to eq 'no_recommendations'
-    end
+    context :logo_stubbed do
+      def stub_logo(structure)
+        structure.stub(:logo_file_name) { 'lala' }
+        structure.stub(:logo_content_type) { 'type/jpg' }
+        structure.stub(:logo_file_size) { 12412 }
+        structure.stub(:logo_updated_at) { Time.now }
+      end
 
-    it 'is less_than_five_recommendations' do
-      structure.stub(:profile_completed?) { true }
-      structure.comments_count = 3
-      structure.update_email_status
-      expect(structure.email_status).to eq 'less_than_five_recommendations'
-    end
+      it 'is incomplete_profile' do
+        stub_logo(structure)
+        structure.stub(:profile_completed?) { false }
+        structure.update_email_status
+        expect(structure.email_status).to eq 'incomplete_profile'
+      end
 
-    it 'is planning_outdated' do
-      structure.stub(:profile_completed?) { true }
-      structure.comments_count = 12
-      structure.update_email_status
-      expect(structure.email_status).to eq 'planning_outdated'
-    end
+      it 'is no_recommendations' do
+        stub_logo(structure)
+        structure.stub(:profile_completed?) { true }
+        structure.comments_count = 0
+        structure.update_email_status
+        expect(structure.email_status).to eq 'no_recommendations'
+      end
 
-    it 'is less_than_fifteen_recommendations' do
-      structure.stub(:profile_completed?) { true }
-      structure.comments_count = 12
-      structure.courses = [FactoryGirl.create(:course)]
-      structure.update_email_status
-      expect(structure.email_status).to eq 'less_than_fifteen_recommendations'
+      it 'is less_than_five_recommendations' do
+        stub_logo(structure)
+        structure.stub(:profile_completed?) { true }
+        structure.comments_count = 3
+        structure.update_email_status
+        expect(structure.email_status).to eq 'less_than_five_recommendations'
+      end
+
+      it 'is planning_outdated' do
+        stub_logo(structure)
+        structure.stub(:profile_completed?) { true }
+        structure.comments_count = 12
+        structure.update_email_status
+        expect(structure.email_status).to eq 'planning_outdated'
+      end
+
+      it 'is less_than_fifteen_recommendations' do
+        stub_logo(structure)
+        structure.stub(:profile_completed?) { true }
+        structure.comments_count = 12
+        structure.courses = [FactoryGirl.create(:course)]
+        structure.update_email_status
+        expect(structure.email_status).to eq 'less_than_fifteen_recommendations'
+      end
     end
   end
 end

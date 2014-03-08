@@ -10,6 +10,9 @@ class AdminSearch
 
       if params[:sort] == 'comments_count_desc'
         order_by :comments_count, :desc
+      elsif params[:sort] == 'not_confirmed'
+        order_by :not_confirmed, :asc
+        order_by :created_at, :desc
       else
         order_by :created_at, :desc
       end

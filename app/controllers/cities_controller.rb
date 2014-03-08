@@ -1,5 +1,14 @@
 class CitiesController < ApplicationController
 
+  def zip_code_search
+    term = params[:term]
+    @cities = City.where { zip_code =~ term }.limit(20)
+
+    respond_to do |format|
+      format.json { render json: @cities }
+    end
+  end
+
   def show
     @city = City.friendly.find(params[:id])
     @structure_search            = StructureSearch.search({lat: @city.latitude, lng: @city.longitude, radius: 7, per_page: 1, bbox: true})

@@ -1,5 +1,5 @@
 = content_for :header do
-  = render 'shared/header'
+  = render 'shared/headers/header'
 
 = content_for :content do
   - if current_user
@@ -8,7 +8,7 @@
         .flexbox__item.v-top{style: 'width: 11%;'}>
           - if current_user.has_avatar?
             = link_to edit_user_path(current_user) do
-              = image_tag current_user.avatar_url(:thumb), class: 'block'
+              = image_tag current_user.avatar_url(:thumb), class: 'block', width: 150
           - else
             .text--center
               = link_to edit_user_path(current_user), style: 'width: 130px; height: 130px; background-color: #555; padding-top: 40px; color: white; display: block;' do
@@ -22,7 +22,7 @@
               \—
               = link_to "Profil complété à #{current_user.profile_completion} %", dashboard_user_path(current_user), class: 'semi-muted-link'
           %div
-            = link_to 'Partager', "https://www.facebook.com/sharer/sharer.php?u=http://www.coursavenue.com", class: 'btn btn--small btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'User / Share on Facebook', 'click', 'From dashboard page')"
+            = link_to 'Partager', "https://www.facebook.com/sharer/sharer.php?u=http://www.coursavenue.com", class: 'btn btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'User / Share on Facebook', 'click', 'From dashboard page')"
           %div.push-half--top
             = link_to new_user_invited_user_path(current_user), class: 'btn btn--small', onclick: "ga('send', 'event', 'Share with friends', 'click')" do
               %i.fa.fa-bullhorn

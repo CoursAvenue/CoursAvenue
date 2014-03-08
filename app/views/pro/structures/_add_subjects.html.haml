@@ -6,12 +6,12 @@
     = f.association :subjects, as: :select, collection: Subject.roots.order('name ASC'), input_html: {style: 'width: 74%;', id: 'parent-subjects', data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true}, label: 'Disciplines générales pratiquées ', label_method: lambda{|subj| subj.name }, wrapper_html: {class: 'flush--bottom'}
 
     #descendants-subjects
-      .input{title: 'Sélectionnez plusieurs disciplines en maintenant la touche CTRL ou CMD enfoncée.', data: {behavior: 'tooltip'}}
-        %label.control-label Sous disciplines
-        %select#subject-descendants-select{name: 'structure[subject_descendants_ids][]', style: 'width: 74%;', multiple: true, data: {behavior: 'chosen', placeholder: 'Tapez ou sélectionnez une ou plusieurs disciplines', selected: @structure.subjects.children.map(&:id).join(',')}},
+      .input{title: 'Sélectionnez plusieurs disciplines en maintenant la touche CTRL ou CMD enfoncée.', data: {behavior: 'tooltip'}}>
+        %label.control-label> Sous disciplines
+        %select#subject-descendants-select{name: 'structure[subject_descendants_ids][]', style: 'width: 74%;', multiple: true, data: {behavior: 'chosen', placeholder: 'Tapez ou sélectionnez une ou plusieurs disciplines', selected: @structure.subjects.children.map(&:id).join(',')}}>
   - if @structure.errors[:children_subjects].present?
     %p.error= @structure.errors[:children_subjects].to_sentence
-  = f.submit 'Enregistrer', class: 'btn btn--green btn--full'
+  = f.submit 'Enregistrer', class: 'btn btn--green btn--full', disable_with: "En cours d'enregistrement", disable_with: "En cours d'enregistrement"
 
 :javascript
   jQuery.ready();

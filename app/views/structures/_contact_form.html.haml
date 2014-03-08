@@ -1,6 +1,6 @@
-- unless current_user
-  - session['user_return_to'] = structure_path(@structure, open_contact_form: true)
-  - session['after_inactive_sign_up_path'] = structure_path(@structure, waiting_for_activation: true)
+- session.delete :user_return_to
+- session.delete :after_inactive_sign_up_path
+
 .blue-box.islet.push-half--bottom#show-structure-contact-wrapper
   .delta.push-half--bottom.text--center{style: 'margin-top: 3px;'}
     - if action_name == 'jpo'
@@ -24,7 +24,7 @@
 - if current_user
   #structure-contact.blue-box.islet.hidden
     = simple_form_for [structure, Message.new] do |f|
-      %h4.weight-normal
+      %h4.f-weight-normal
         Les professeurs sont souvent en cours et peu disponibles...
         %br
         Envoyez votre message, c'est plus pratique !
@@ -36,11 +36,11 @@
       .visuallyhidden
         %input{name: 'content', type: 'text'}
       - if action_name == 'jpo'
-        - prefilled_body = "Bonjour,\n\nAvant de m'inscrire à vos Journées Portes Ouvertes, je souhaiterais avoir un peu plus d'informations au sujet de l'événement.\n\nMerci et à très bientôt"
+        - prefilled_body = "Bonjour,\n\nAvant de m'inscrire à vos Portes Ouvertes, je souhaiterais avoir un peu plus d'informations au sujet de l'événement.\n\nMerci et à très bientôt"
       - else
         - prefilled_body = "Bonjour,\n\nJe souhaiterais venir pour une première séance. Pouvez-vous m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt"
       = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole', style: 'height: 170px;', value: prefilled_body, data: { behavior: 'autoresize' }}
-      = f.submit 'Envoyer mon message', class: 'btn btn--green btn--full'
+      = f.submit 'Envoyer mon message', class: 'btn btn--green btn--full', disable_with: "En cours d'envoi"
 
     .grid--full
       .grid__item.v-middle{style: 'width: 45%;'}>
@@ -67,7 +67,6 @@
           %i.fa.fa-external-link
           = link_to @structure.website, @structure.website, target: '_blank', rel: 'nofollow', onclick: "ga('send', 'event', 'Contact structure', 'click', 'website')"
 
-
 = content_for :scripts do
   :javascript
     $(function() {
@@ -84,10 +83,3 @@
             $('#show-structure-contact-wrapper').slideUp();
         });
     });
-
-- if current_user and params[:open_contact_form]
-  = content_for :scripts do
-    :javascript
-      $(function() {
-          $('#show-structure-contact').click();
-      });

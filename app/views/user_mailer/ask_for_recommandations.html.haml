@@ -1,0 +1,28 @@
+- if @structure.logo?
+  - content_for :logo do
+    = link_to structure_url(@structure, subdomain: 'www'), target: '_blank' do
+      = image_tag @structure.logo.url(:thumb), style: '-ms-interpolation-mode:bicubic;', width: '100', height: '100'
+
+- content_for :promo do
+  %h4
+    #{@structure.name} vous demande de lui rédiger une recommandation sur CoursAvenue.com
+
+- if @email_text
+  = @email_text.html_safe
+
+%p.action
+  = link_to 'Déposez votre avis en 20 secondes', new_structure_comment_url(@structure, email: @email, subdomain: 'www'), class: 'btn btn--green'
+
+%p
+  À très bientôt !
+
+%p= @structure.name
+
+- if @structure.parisian?
+  = content_for :under_content do
+    = render 'user_mailer/discover_jpo'
+
+= content_for :footer do
+  %p
+    Vous recevez cet email car #{@structure.name} est inscrit sur CoursAvenue et vous demande de lui rédiger une recommandation sur ses cours.
+    -# = link_to 'Ne plus recevoir ces emails', unsubscribe_users_url(@user.access_token, subdomain: 'www')

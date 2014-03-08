@@ -1,12 +1,11 @@
 # encoding: utf-8
 class Pro::Structures::CoursesController < Pro::ProController
+  layout 'admin'
+
   before_action :authenticate_pro_admin!
   before_action :load_structure
 
-  layout 'admin'
-
   load_and_authorize_resource :structure, find_by: :slug
-  load_and_authorize_resource :course, find_by: :slug, instance_name: :course
 
   def new
     @course = @structure.courses.build
@@ -32,18 +31,34 @@ class Pro::Structures::CoursesController < Pro::ProController
     redirect_to pro_structure_courses_path(@structure), notice: 'Le cours à bien été dupliqué.'
   end
 
+  def activate_ok_nico
+    @course = Course.friendly.find params[:id]
+    respond_to do |format|
+      @course.update_column :ok_nico, true
+      format.js { render nothing: true }
+    end
+  end
+
+  def disable_ok_nico
+    @course = Course.friendly.find params[:id]
+    respond_to do |format|
+      @course.update_column :ok_nico, false
+      format.js { render nothing: true }
+    end
+  end
+
   def activate
     @course = Course.friendly.find params[:id]
     respond_to do |format|
       if @course.activate!
         if @course.is_open?
-          format.html { redirect_to pro_open_courses_path, notice: 'Le cours a bien été activé' }
+          format.html { redirect_to (request.referrer || pro_open_courses_path), notice: 'Le cours a bien été activé' }
           format.js { render nothing: true }
         else
-          format.html { redirect_to pro_structure_courses_path(@structure), notice: 'Le cours sera visible sur CoursAvenue dans quelques minutes' }
+          format.html { redirect_to (request.referrer || pro_structure_courses_path(@structure)), notice: 'Le cours sera visible sur CoursAvenue dans quelques minutes' }
         end
       else
-        format.html { redirect_to pro_structure_courses_path(@structure), alert: "Le cours n'a pu être mis en ligne.<br>Assurez vous que le tarif et le planning sont bien renseignés." }
+        format.html { redirect_to pro_structure_courses_path(@structure), alert: "Le cours n'a pu être mis en ligne.<br>Assurez vous que les tarif et les plannings sont bien renseignés." }
         format.js { render nothing: true }
       end
     end
@@ -51,8 +66,9 @@ class Pro::Structures::CoursesController < Pro::ProController
 
   def disable
     @course = Course.friendly.find params[:id]
+    @course.active = false
     respond_to do |format|
-      if @course.update_attribute :active, false
+      if @course.save
         if @course.is_open?
           format.js { render nothing: true }
           format.html { redirect_to pro_open_courses_path, notice: 'Le cours a bien été activé' }
@@ -62,7 +78,7 @@ class Pro::Structures::CoursesController < Pro::ProController
         end
       else
         format.js { render nothing: true }
-        format.html { redirect_to pro_structure_courses_path(@structure), alert: "Le cours n'a pu être mis hors ligne. Assurez vous que le tarif et le planning sont bien renseignés." }
+        format.html { redirect_to pro_structure_courses_path(@structure), alert: "Le cours n'a pu être mis hors ligne. Assurez vous que les tarif et les plannings sont bien renseignés." }
       end
     end
   end
@@ -84,6 +100,7 @@ class Pro::Structures::CoursesController < Pro::ProController
   end
 
   def update
+    @course = Course.friendly.find params[:id]
     had_price_before = @course.prices.any?
     respond_to do |format|
       if @course.update_attributes params[:course]
@@ -102,7 +119,7 @@ class Pro::Structures::CoursesController < Pro::ProController
         end
       else
         if params[:course][:prices_attributes].present?
-          format.html { render template: 'pro/structures/prices/index' }
+          format.html { render template: 'pro/structures/courses/prices/index' }
         else
           format.html { render action: :new}
         end
@@ -111,6 +128,7 @@ class Pro::Structures::CoursesController < Pro::ProController
   end
 
   def destroy
+    @course = Course.friendly.find params[:id]
     respond_to do |format|
       if @course.destroy
         format.html { redirect_to pro_structure_courses_path(@structure), notice: "Le cours a bien été supprimé" }

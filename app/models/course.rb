@@ -23,7 +23,6 @@ class Course < ActiveRecord::Base
 
   has_and_belongs_to_many :subjects, -> { uniq }
 
-  after_touch :reindex
   after_initialize :set_teaches_at_home
 
   # ------------------------------------------------------------------------------------ Scopes
@@ -38,9 +37,12 @@ class Course < ActiveRecord::Base
 
   # default_scope                  -> { where{type != 'Course::Open'} }
 
-  # ------------------------------------------------------------------------------------ Validations
+  ######################################################################
+  # Validations                                                        #
+  ######################################################################
   validates :type, :name  , presence: true
   validates :subjects     , presence: true
+  validates :name, length: { maximum: 255 }
 
   attr_accessible :name, :type, :description,
                   :active,
@@ -386,9 +388,9 @@ class Course < ActiveRecord::Base
   end
 
   def activate!
-    if is_open? or (prices.any? and plannings.any?)
+    if prices.any? and plannings.any?
       self.active = true
-      return self.save
+      return save
     else
       errors.add(:prices, "Le cours n'a pas de tarifs")       if prices.empty?
       errors.add(:plannings, "Le cours n'a pas de plannings") if plannings.empty?
@@ -434,19 +436,27 @@ class Course < ActiveRecord::Base
     end
   end
 
-  def reindex
-    self.index
-    self.plannings.map(&:index)
-  end
-
+  # Method for accepts_nested_attributes_for :prices
+  # Tells if the price is valid regarding attributes passed
+  # Check if the price is valid by checking its valid? method
+  # @param  attributes Automatically passed by Rails
+  #
+  # @return Boolean
   def reject_price attributes
     exists = attributes[:id].present?
-    empty  = (attributes[:amount].blank? and attributes[:promo_percentage].blank?)
-    attributes.merge!({:_destroy => 1}) if exists and empty
-    return (!exists and empty)
+    # empty = (attributes[:amount].blank? and attributes[:promo_percentage].blank?)
+    _price = Price.new(attributes.merge(course: self))
+    price_is_valid  = _price.valid?
+    # Destroy if price exists and is not valid
+    attributes.merge!({:_destroy => 1}) if exists and !price_is_valid
+    # Reject if price does't not exist yet and is not valid
+    return (!exists and !price_is_valid)
   end
 
 
+  # Attributes used to create the slug for Friendly ID
+  #
+  # @return Array
   def friendly_name
     [
       [-> { self.structure.name}, -> { self.type_name }, :name],

@@ -34,43 +34,52 @@
     Plugin.prototype = {
 
         init: function() {
-            // this.data_list      = $(this.$element.data('list')).hide();
+            // Check if the element has already been initialized before doing the stuff
+            if (this.$element.hasClass('tt-hint')) { return; }
+            var geocoder;
             this.input_lat      = $(this.$element.data('lat'));
             this.input_lng      = $(this.$element.data('lng'));
             this.input_city     = $(this.$element.data('city'));
-            this.geocoder       = new google.maps.Geocoder();
+            geocoder            = new google.maps.Geocoder();
             this.$element.on('typeahead:selected', function(event, data) {
                 this.input_lat.val(data.lat);
                 this.input_lng.val(data.lng);
                 this.input_city.val(data.city);
-                this.$element.typeahead('setQuery', data.address_name);
+                this.$element.typeahead('val', data.address_name);
             }.bind(this));
             template = Handlebars.compile(this.options.template_string);
+
             this.$element.typeahead({
-                cache: false,
-                template: template,
-                computed: function (q, done) {
-                    q = q + ' France';
-                    this.geocoder.geocode({ address: q }, function (results, status) {
-                        done($.map(results, function (result) {
-                            var city, arrAddress = result.address_components;
-                            // iterate through address_component array
-                            $.each(arrAddress, function (i, address_component) {
-                                if (address_component.types[0] == "locality") {// locality type
-                                    city = address_component.long_name;
-                                    return false; // break the loop
-                                }
-                            });
-                            return {
-                                city:         city,
-                                lat:          result.geometry.location.lat(),
-                                lng:          result.geometry.location.lng(),
-                                address_name: result.formatted_address
-                            };
-                        }));
-                    });
-                }.bind(this)
-            });
+                    autoselect: true,
+                    cache     : false,
+                    highlight : true
+                }, {
+                    templates: {
+                        suggestion: template
+                    },
+                    source: function (query, callback) {
+                        query = query + ' France';
+                        geocoder.geocode({ address: query }, function (results, status) {
+                            callback($.map(results, function (result) {
+                                var city, arrAddress = result.address_components;
+                                // iterate through address_component array
+                                $.each(arrAddress, function (i, address_component) {
+                                    if (address_component.types[0] == "locality") {// locality type
+                                        city = address_component.long_name;
+                                        return false; // break the loop
+                                    }
+                                });
+                                return {
+                                    city:         city,
+                                    lat:          result.geometry.location.lat(),
+                                    lng:          result.geometry.location.lng(),
+                                    address_name: result.formatted_address
+                                };
+                            }));
+                        });
+                    }
+                }
+            );
         }
     };
 

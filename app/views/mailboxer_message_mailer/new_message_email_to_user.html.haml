@@ -1,7 +1,7 @@
 - if @structure.logo?
   - content_for :logo do
     = link_to structure_url(@structure, subdomain: 'www'), target: '_blank' do
-      = image_tag @structure.logo.url(:thumb), style: '-ms-interpolation-mode:bicubic;', width: '75', height: '75'
+      = image_tag @structure.logo.url(:thumb), style: '-ms-interpolation-mode:bicubic;', width: '100', height: '100'
 
 - content_for :promo do
   %h4
@@ -25,5 +25,10 @@
 %p
   L'équipe de CoursAvenue
 
-- content_for :footer do
-  %p Vous recevez ce message car #{@structure.name} vous a envoyé un message privé sur CoursAvenue.com
+- if @structure.parisian?
+  = content_for :under_content do
+    = render 'user_mailer/discover_jpo'
+
+- if @structure
+  - content_for :footer do
+    %p Vous recevez ce message car #{@structure.name} vous a envoyé un message privé sur CoursAvenue.com

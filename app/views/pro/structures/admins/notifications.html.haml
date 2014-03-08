@@ -14,9 +14,10 @@
         %p
           %i.blue Nous vous promettons de ne pas vous envoyer de spam. Cette option peut être désactivée à tout moment.
       .grid__item.two-thirds>
-        .checkbox-at-left= f.input :newsletter_email_opt_in, wrapper_html: { class: 'flush--top' }
-        .checkbox-at-left= f.input :monday_email_opt_in
-        .checkbox-at-left= f.input :thursday_email_opt_in
+        .checkbox-at-left= f.input :newsletter_email_opt_in, as: :boolean, wrapper_html: { class: 'flush--top' }
+        .checkbox-at-left= f.input :monday_email_opt_in, as: :boolean
+        .checkbox-at-left= f.input :thursday_email_opt_in, as: :boolean
+        .checkbox-at-left= f.input :jpo_email_opt_in, as: :boolean
     %hr
     .grid
       .grid__item.one-third>
@@ -24,8 +25,8 @@
         %p
           %i.blue L'activation de ces rappels garantit la meilleure expérience possible aux professeurs comme aux élèves.
       .grid__item.two-thirds>
-        .checkbox-at-left= f.input :student_action_email_opt_in, wrapper_html: { class: 'flush--top' }
+        .checkbox-at-left= f.input :student_action_email_opt_in, as: :boolean, wrapper_html: { class: 'flush--top' }
 
-    = f.submit 'Enregistrer', class: 'btn btn--green btn--full'
+    = f.submit 'Enregistrer', class: 'btn btn--green btn--full', disable_with: "En cours d'enregistrement"
 
 /= f.input :email_opt_in, label: 'Recevoir les alertes'

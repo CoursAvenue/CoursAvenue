@@ -1,7 +1,8 @@
 class Users::SessionsController < Devise::SessionsController
+
   def after_sign_in_path_for(user)
     # Prevent from infininte loop
-    referrer = (request.referrer == new_user_registration_url ? nil : request.referrer)
+    referrer = ((request.referrer == new_user_registration_url || request.referrer == new_user_session_url) ? nil : request.referrer)
     session['user_return_to'] || referrer || root_path
   end
 
@@ -10,6 +11,7 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   def new
+    session['user_return_to'] = request.referrer
     @is_xhr = request.xhr?
     respond_to do |format|
       format.html { render layout: !request.xhr? }

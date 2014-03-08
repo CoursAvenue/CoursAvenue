@@ -37,6 +37,8 @@
 
 .grid.push--top
   .grid__item.eight-twelfths>
+    - if @structure.courses.open_courses.any?
+      = render 'has_open_courses_header'
     = render partial: 'structures/structure_header', locals: {structure: @structure}
 
     = render partial: 'structures/map_and_gallery', locals: {structure: @structure, places: @structure.places, medias: @medias}
@@ -52,10 +54,11 @@
         %a{href: '#tab-comments', data: {toggle: 'tab'} }
           %i.fa.fa-comments
           Avis
-      %li
-        %a{href: '#tab-teachers', data: {toggle: 'tab'} }
-          %i.fa.fa-group
-          Professeurs
+      - if @structure.teachers.any?
+        %li
+          %a{href: '#tab-teachers', data: {toggle: 'tab'} }
+            %i.fa.fa-group
+            Professeurs
     .tab-content
       %article#tab-courses.tab-pane.active
         - if @courses.any?
@@ -96,11 +99,12 @@
           %ul#comments.comment-list
             - @comments.each_with_index do |comment, index|
               = render partial: 'comments/comment', locals: {comment: comment, show_title: true}
-      %article#tab-teachers.tab-pane
-        #teachers
-          - @teachers.each_with_index do |teacher, index|
-            %div
-              = render partial: 'teachers/teacher', locals: {teacher: teacher}
+      - if @structure.teachers.any?
+        %article#tab-teachers.tab-pane
+          #teachers
+            - @teachers.each_with_index do |teacher, index|
+              %div
+                = render partial: 'teachers/teacher', locals: {teacher: teacher}
 
 
   .grid__item.four-twelfths{itemscope: true, itemtype: 'http://schema.org/Place'}>
@@ -117,13 +121,13 @@
       .white-box.islet
         %div.read-more{data: {behavior: 'read-more', height: 300}}= simple_format @structure.description
 
-    - if @structure.cover_image.present?
+    - if @structure.side_cover_image.present?
       .white-box.islet
-        .text--center= image_tag @structure.cover_image.thumbnail_url, alt: "Cours de #{join_parent_subjects_text @structure} à #{@city.name}"
+        .text--center= image_tag @structure.side_cover_image.thumbnail_url, alt: "Cours de #{join_parent_subjects_text @structure} à #{@city.name}"
 
 
     - if @structure.facebook_url.present?
-      = link_to "Page facebook de l'établissement", @structure.facebook_url, target: '_blank', class: 'btn--facebook btn one-whole btn--small push--bottom'
+      = link_to "Page facebook de l'établissement", @structure.facebook_url, target: '_blank', class: 'btn--facebook btn one-whole push--bottom'
 
 
 #course_info.hidden= render 'structures/courses/info_popup'

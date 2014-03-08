@@ -3,15 +3,15 @@ module SubjectHelper
   def vertical_page_url_for(subject, city=nil)
     if city
       if subject.depth == 0
-        return vertical_root_subject_city_url(subject, city, subdomain: 'www')
+        return vertical_root_subject_city_path(subject, city)
       else
-        return vertical_subject_city_url(subject.root, subject, city, subdomain: 'www')
+        return vertical_subject_city_path(subject.root, subject, city)
       end
     else
       if subject.depth == 0
-        return vertical_root_subject_url(subject, subdomain: 'www')
+        return vertical_root_subject_path(subject)
       else
-        return vertical_subject_url(subject.root, subject, subdomain: 'www')
+        return vertical_subject_path(subject.root, subject)
       end
     end
   end

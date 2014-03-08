@@ -11,7 +11,13 @@ namespace :scheduler do
     Location.where{latitude == nil}.select{ |l| l.places.empty? }.map(&:destroy)
     Location.where{latitude == nil}.each do |location|
       location.geocode
-      location.save
+      location.save(validate: false)
+      sleep 1
+    end
+
+    Structure.where{latitude == nil}.each do |structure|
+      structure.geocode
+      structure.save(validate: false)
       sleep 1
     end
   end

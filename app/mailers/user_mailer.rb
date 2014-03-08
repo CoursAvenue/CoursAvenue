@@ -6,12 +6,22 @@ class UserMailer < ActionMailer::Base
 
   default from: "\"L'équipe de CoursAvenue.com\" <contact@coursavenue.com>"
 
+
+  ######################################################################
+  # Email reminder                                                     #
+  ######################################################################
+  # Monday email to push the user to fill passions
+  def passions_incomplete(user)
+    @user    = user
+    mail to: @user.email, subject: 'Renseignez toutes vos passions sur votre profil'
+  end
+
   # Welcomes the user on the platforme
   def contact(name, email, content)
     @name    = name
     @email   = email
     @content = content
-    mail to: 'contact@coursavenue.com', subject: 'Message de contact'
+    mail to: 'contact@coursavenue.com', subject: 'Suite de votre message sur CoursAvenue'
   end
 
   def welcome(user)
@@ -58,10 +68,9 @@ class UserMailer < ActionMailer::Base
     mail to: @structure.contact_email, subject: @reservation.email_subject_for_structure
   end
 
-  # -----------------
-  # For inactive users
-  # -----------------
-
+  ######################################################################
+  # For inactive users                                                 #
+  ######################################################################
   def recommend_structure(structure_name, structure_email, recommendation)
     @structure_name  = structure_name
     @structure_email = structure_email
@@ -69,7 +78,10 @@ class UserMailer < ActionMailer::Base
     mail to: 'contact@coursavenue.com', subject: "Un élève vient de recommander un professeur"
   end
 
-  def ask_for_feedbacks(structure, email_text, email)
+  ######################################################################
+  # For comments                                                 #
+  ######################################################################
+  def ask_for_recommandations(structure, email_text, email)
     @structure  = structure
     @email      = email
     user_email  = email
@@ -78,7 +90,7 @@ class UserMailer < ActionMailer::Base
     mail to: email, subject: "#{structure.name} vous demande une recommandation"
   end
 
-  def ask_for_feedbacks_stage_1(structure, email)
+  def ask_for_recommandations_stage_1(structure, email)
     @structure = structure
     @email     = email
     user_email  = email
@@ -86,7 +98,7 @@ class UserMailer < ActionMailer::Base
     mail to: email, subject: "Votre opinion sur #{structure.name}"
   end
 
-  def ask_for_feedbacks_stage_2(structure, email)
+  def ask_for_recommandations_stage_2(structure, email)
     @structure = structure
     @email     = email
     user_email  = email
@@ -94,7 +106,7 @@ class UserMailer < ActionMailer::Base
     mail to: email, subject: "#{structure.name} vous demande une recommandation"
   end
 
-  def ask_for_feedbacks_stage_3(structure, email)
+  def ask_for_recommandations_stage_3(structure, email)
     @structure = structure
     @email     = email
     user_email  = email

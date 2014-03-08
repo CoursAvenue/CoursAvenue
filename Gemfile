@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 
 ruby '2.0.0'
 
-gem 'rails', '4.0.2'
+gem 'rails', '4.0.3'
 
 gem 'filepicker-rails'
 
@@ -36,6 +36,7 @@ gem 'rack-cors',           require: 'rack/cors'
 
 # Formats numbers and prices regarding the locale
 # TODO Fix this gem
+# The gem is not ready yet for Rails 4.
 # gem 'delocalize', '~>0.3.2'
 
 # Caching
@@ -89,11 +90,14 @@ gem 'inherited_resources'       , '~>1.3.1'
 gem 'mailboxer'                 , '~> 0.11.0'
 
 # For authorizations
-gem 'cancan'                    , '~>1.6.10'
+gem 'cancancan'                 , '~>1.7.0'
+# gem 'cancan'                    , '~>1.6.10'
 # For authentication
-gem 'devise'                    , '~>3.2.2'
+gem 'devise'                    , '~>3.2.3'
 # Facebook connect
 gem 'omniauth-facebook'         , '~>1.4.1'
+# A full-stack Facebook Graph API wrapper in Ruby.
+gem 'fb_graph'                  , '~>2.7.10'
 # Helps access to gmail contacts etc.
 gem 'omnicontacts'              , '~>0.3.4'
 gem 'certified'                 , '~>0.1.1'
@@ -136,7 +140,7 @@ gem 'sass-rails'                , '~>4.0.1'
 gem 'haml'                      , '~>4.0.3'
 gem 'uglifier'                  , '>= 1.0.3'
 gem 'coffee-rails'              , '~>4.0.0'
-# gem 'js-routes'                 , '~>0.9.3'
+gem 'js-routes'                 , '~>0.9.7'
 
 # Load FontAwesome
 gem 'font-awesome-rails'        , '~>4.0.3.1'
@@ -144,7 +148,7 @@ gem 'font-awesome-rails'        , '~>4.0.3.1'
 gem 'jquery-rails'              , '~>3.0.4'
 # Load Compass utilities
 gem 'compass'                   , '~>0.12.2'
-gem 'compass-rails'             , '~>2.0.alpha.0'
+gem 'compass-rails'             , '~>2.0.0.pre', git: 'git://github.com/Compass/compass-rails.git', branch: '2-0-stable'
 # Load Inuit CSS
 gem 'compass-inuit'             , '~>5.0.2'
 # Enable haml
@@ -155,7 +159,7 @@ gem 'jquery-turbolinks'
 # For uploading to amazon CDN
 gem 'aws-sdk'                   , '~>1.21.0'
 
-# Roo implements read access for all spreadsheet
+# Roo implements read access for all spreadsheet, xls and more
 gem 'roo'                   , '~>1.12.2'
 
 # Rack::UTF8Sanitizer is a Rack middleware which cleans up invalid UTF8 characters in request URI and headers.
@@ -194,7 +198,7 @@ group :development do
 end
 
 group :development, :test do
-  # gem 'debugger' # this is causing problems for Andre
+  gem 'debugger' # this is causing problems for Andre
   # Permits to travel in the past
   gem 'delorean'
   gem 'dotenv-rails'

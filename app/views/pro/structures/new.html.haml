@@ -54,46 +54,46 @@
 
           #descendants-subjects
             .input{title: 'Sélectionnez plusieurs disciplines en maintenant la touche CTRL ou CMD enfoncée.', data: {behavior: 'tooltip'}}
-              %label.control-label Sous disciplines
-              %select#subject-descendants-select{name: 'structure[subject_descendants_ids][]', style: 'width: 74%;', multiple: true, data: {behavior: 'chosen', placeholder: 'Tapez ou sélectionnez une ou plusieurs disciplines', selected: @structure.subjects.children.map(&:id).join(',')}},
+              %label.control-label> Sous disciplines
+              %select#subject-descendants-select{name: 'structure[subject_descendants_ids][]', style: 'width: 74%;', multiple: true, data: {behavior: 'chosen', placeholder: 'Tapez ou sélectionnez une ou plusieurs disciplines', selected: @structure.subjects.select{|subj| subj.depth == 2}.map(&:id).join(',')}}>
         - if @structure.errors[:children_subjects].present?
           %p.error= @structure.errors[:children_subjects].to_sentence
       .push--bottom.text--center
-        = f.submit 'Valider', class: 'btn--large btn btn--large btn--green'
-  - unless request.path == '/sms'
-    .grid__item.one-third
-      .bordered--left.soft--left
-        %h4
-          Plus de #{Admin.count.round(-2)} partenaires ont déjà été recommandés :
-        - @structures.each do |structure|
-          .white-box.push-half--bottom
-            .grid
-              .grid__item.one-quarter.v-middle>
-                = image_tag structure.logo.url(:thumb), class: 'block'
-              .grid__item.three-quarters.v-middle>
-                %b
-                  = link_to structure.name, structure_url(structure, subdomain: 'www'), target: '_blank', onclick: "ga('send', 'event', 'Go to other profile', 'click', 'From inscription page');"
-                %div
-                  .delta{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
-                    %span.rating{title: comment_rating_title(structure.rating)}
-                      = rating_stars structure.rating
-                    %meta{property: 'v:rating', itemprop: 'rating', content: structure.rating}
-                    %meta{itemprop: 'count', content: structure.comments_count}
-                    %meta{itemprop: 'itemreviewed', content: structure.name}
-                    %meta{itemprop: 'name', content: structure.name}
-                    %meta{itemprop: 'street-address', content: structure.street}
-                    %meta{itemprop: 'postal-code', content: structure.zip_code}
-                %div
-                  = link_to structure_url(structure, subdomain: 'www'), target: '_blank', onclic: "ga('send', 'event', 'Go to other profile', 'click', 'From inscription page');" do
-                    = structure.comments_count
-                    avis
-                    %i.lbc-brand-icon
-        .push--bottom.text--center= link_to "Et plein d'autres !", structures_url(subdomain: 'www'), target: '_blank'
+        = f.submit 'Valider', class: 'btn--large btn btn--large btn--green', disable_with: "En cours de validation", disable_with: "En cours de validation"
 
-        %hr
-        %h4 Les 3 derniers avis :
-        %ul.comment-list
-          = render partial: 'comments/comment', collection: Comment.order('created_at DESC').limit(3), locals: {with_link: true, small_avatar: true}
+  .grid__item.one-third>
+    .bordered--left.soft--left
+      %h4.push-half--top
+        Plus de #{Admin.count.round(-2)} partenaires ont déjà été recommandés :
+      - @structures.each do |structure|
+        .white-box.push-half--bottom
+          .grid
+            .grid__item.one-quarter.v-middle>
+              = image_tag structure.logo.url(:thumb), class: 'block'
+            .grid__item.three-quarters.v-middle>
+              %b
+                = link_to structure.name, structure_url(structure, subdomain: 'www'), target: '_blank', onclick: "ga('send', 'event', 'Go to other profile', 'click', 'From inscription page');"
+              %div
+                .delta{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
+                  %span.rating{title: comment_rating_title(structure.rating)}
+                    = rating_stars structure.rating
+                  %meta{property: 'v:rating', itemprop: 'rating', content: structure.rating}
+                  %meta{itemprop: 'count', content: structure.comments_count}
+                  %meta{itemprop: 'itemreviewed', content: structure.name}
+                  %meta{itemprop: 'name', content: structure.name}
+                  %meta{itemprop: 'street-address', content: structure.street}
+                  %meta{itemprop: 'postal-code', content: structure.zip_code}
+              %div
+                = link_to structure_url(structure, subdomain: 'www'), target: '_blank', onclic: "ga('send', 'event', 'Go to other profile', 'click', 'From inscription page');" do
+                  = structure.comments_count
+                  avis
+                  %i.lbc-brand-icon
+      .push--bottom.text--center= link_to "Et plein d'autres !", structures_url(subdomain: 'www'), target: '_blank'
+
+      %hr
+      %h4 Les 3 derniers avis :
+      %ul.comment-list
+        = render partial: 'comments/comment', collection: Comment.order('created_at DESC').limit(3), locals: {with_link: true, small_avatar: true}
 
 = content_for :scripts do
   :javascript
@@ -105,7 +105,4 @@
         $('#structure_street').blur(function() {
             $.cookie('street', $(this).val());
         });
-        $('.comment-list__el a').click(function() {
-          mixpanel.track('Has seen comments example');
-        })
     });
