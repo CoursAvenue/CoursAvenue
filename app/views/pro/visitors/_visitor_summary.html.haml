@@ -2,10 +2,10 @@
   = link_to visitor.fingerprint, visitor_path(visitor.fingerprint), class: "delta blue"
   .overview.push--left
     - best = visitor.best :address_name
-    %span.push--right
+    %div
       %i.fa.fa-home
-        #{ best[0] } (searched #{ best[1] } times)
+      #{ best[0] } (searched #{ best[1] } times)
     - if visitor.warnings?
-      %span.push--right
+      %div.red
         %i.fa.fa-warning
-          #{ visitor.warnings.join(",") }
+        #{ visitor.warnings.join(",") }
