@@ -669,6 +669,8 @@ ActiveRecord::Schema.define(version: 20140302152322) do
     t.string   "ip_address"
   end
 
+  add_index "unfinished_resources", ["visitor_id"], name: "index_unfinished_resources_on_visitor_id", using: :btree
+
   create_table "user_profile_imports", force: true do |t|
     t.binary   "data",         null: false
     t.string   "filename"
@@ -752,6 +754,8 @@ ActiveRecord::Schema.define(version: 20140302152322) do
     t.hstore   "address_name"
     t.hstore   "subject_id"
   end
+
+  add_index "visitors", ["fingerprint"], name: "index_visitors_on_fingerprint", using: :btree
 
   add_foreign_key "notifications", "conversations", name: "notifications_on_conversation_id"
 

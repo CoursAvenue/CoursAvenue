@@ -5,5 +5,7 @@ class CreateVisitors < ActiveRecord::Migration
 
       t.timestamps
     end
+
+    add_index :visitors, :fingerprint
   end
 end

@@ -182,7 +182,7 @@ CoursAvenue::Application.routes.draw do
           end
         end
       end
-
+      resources :visitors             , only: [:index, :show]
       resources :users                , only: [:index]
       resources :comment_notifications, only: [:index]
       resources :conversations        , only: [:index]
@@ -251,7 +251,6 @@ CoursAvenue::Application.routes.draw do
   resources :emails, only: [:create]
 
   resources :visitors, only: [:create, :update, :index]
-  get 'visitors/:fingerprint', to: 'visitors#show'
 
   get 'auth/:provider/callback', to: 'session#create'
   get 'auth/failure'           , to: redirect('/')

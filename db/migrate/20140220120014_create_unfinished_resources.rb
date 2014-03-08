@@ -7,5 +7,7 @@ class CreateUnfinishedResources < ActiveRecord::Migration
 
       t.timestamps
     end
+
+    add_index :unfinished_resources, :visitor_id
   end
 end

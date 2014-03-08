@@ -1,10 +1,20 @@
 class Visitor < ActiveRecord::Base
   validates :fingerprint, presence: true, uniqueness: true
 
+  # histogram attributes
   attr_accessible :address_name, :subject_id
+
+  # other attributes
+  attr_accessible
 
   has_many :comments, class_name: "UnfinishedResource::Comment"
 
+  # given a key corresponding to a histogram attribute
+  # best returns the highest scoring attribute
+  #
+  # ```ruby
+  #   visitor.best :address_name # => ["Paris", 112] # such Paris! Wow.
+  # ```
   def best(symbol)
     self[symbol].to_a.inject(["", 0]) { |memo, pair|
       k, v = pair
@@ -26,9 +36,13 @@ class Visitor < ActiveRecord::Base
     ids.uniq.length != ids.length
   end
 
+  # given a hash like { "Paris": 2 } and an object like { "Paris": 1, "Nice": 2 }
+  # sets the address_name attribute to,
+  #
+  #   { "Paris": 3, "Nice": 2 }
   def address_name=(hash)
     addresses = read_attribute(:address_name) || {}
-    
+
     addresses = addresses.merge hash do |key, old, new|
       new + old.to_i
     end
@@ -45,7 +59,7 @@ class Visitor < ActiveRecord::Base
 
     warning_strings << "Duplicate Comment" if self.comment_collision?
 
-    warning_strings.empty?? ["None"] : warning_strings
+    warning_strings.empty? ? ["None"] : warning_strings
   end
 
   def warnings?

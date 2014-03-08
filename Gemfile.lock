@@ -489,7 +489,7 @@ DEPENDENCIES
   faker (~> 1.2.0)
   fb_graph (~> 2.7.10)
   filepicker-rails
-  fingerprintjs-rails
+  fingerprintjs-rails (~> 0.5.3)
   font-awesome-rails (~> 4.0.3.1)
   friendly_id (~> 5.0.0)
   geocoder (~> 1.1.9)
