@@ -21,7 +21,7 @@ module ParticipationsHelper
     when :facebook
       URI.encode("http://www.facebook.com/sharer.php?s=100&p[title]=#{course.name} par #{course.structure.name}&p[url]=#{jpo_structure_url(course.structure, subdomain: 'www')}&p[summary]=#{summary}")
     when :twitter
-      URI.encode("https://twitter.com/intent/tweet?text=Je participe à un cours gratuit donné par #{course.structure.name}&via=CoursAvenue&hashtags=JPOCoursAvenue&url=#{jpo_structure_url(course.structure, subdomain: 'www')}")
+      URI.encode("https://twitter.com/intent/tweet?text=Je participe à un cours gratuit donné par #{course.structure.name}&via=CoursAvenue&hashtags=JPO14&url=#{jpo_structure_url(course.structure, subdomain: 'www')}")
     end
   end
 
