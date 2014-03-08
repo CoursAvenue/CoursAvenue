@@ -1,9 +1,14 @@
 module StructuresHelper
 
-  def cache_key_for_structures
-    count          = Structure.count
-    max_updated_at = Structure.maximum(:updated_at).try(:utc).try(:to_s, :number)
-    "structures/all-#{count}-#{max_updated_at}"
+  def share_jpo_page_url(structure, provider = :facebook)
+    course  = participation.course
+    summary = "Je viens de m'inscrire aux Journées Portes Ouvertes de CoursAvenue des 5-6 avril en Ile-de-France. Comme moi, participez gratuitement à l'atelier «#{@participations.last.course.name}»."
+    case provider
+    when :facebook
+      URI.encode("http://www.facebook.com/sharer.php?s=100&p[title]=#{course.name} par #{course.structure.name}&p[url]=#{jpo_structure_url(course.structure, subdomain: 'www')}&p[summary]=#{summary}")
+    when :twitter
+      URI.encode("https://twitter.com/intent/tweet?text=J'ouvre mes portes #{course.structure.name}&via=CoursAvenue&hashtags=JPO14&url=#{jpo_structure_url(course.structure, subdomain: 'www')}")
+    end
   end
 
   def join_child_subjects(structure, with_h3 = false)

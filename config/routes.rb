@@ -176,7 +176,11 @@ CoursAvenue::Application.routes.draw do
 
           end
         end
-        resources :course_opens, path: 'portes-ouvertes-cours-loisirs', controller: 'structures/open_courses'
+        resources :course_opens, path: 'portes-ouvertes-cours-loisirs', controller: 'structures/open_courses' do
+          collection do
+            get :communicate, path: 'communiquer'
+          end
+        end
       end
 
       resources :users                , only: [:index]
