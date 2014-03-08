@@ -14,7 +14,10 @@ StructureProfile.addInitializer(function(options) {
     layout = new StructureProfile.Views.StructureProfileLayout({collection: places});
 
     google_maps_view = new StructureProfile.Views.Map.GoogleMap.GoogleMapsView({
-        collection: places
+        collection: places,
+        infoBoxViewOptions: {
+            infoBoxClearance: new google.maps.Size(0, 0)
+        }
     });
 
     StructureProfile.mainRegion.show(layout);

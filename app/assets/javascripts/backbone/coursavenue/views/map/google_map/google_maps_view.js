@@ -69,7 +69,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             this.on('marker:focus'          , this.markerFocus);
             this.on('marker:hovered'        , this.markerHovered);
             this.on('marker:unhighlight:all', this.unhighlightEveryMarker);
-            this.infoBox = new this.infoBoxView();
+            this.infoBox = new this.infoBoxView(options.infoBoxViewOptions || {});
         },
 
         onItemviewCloseClick: function () {

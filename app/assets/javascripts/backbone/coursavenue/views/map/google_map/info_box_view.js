@@ -20,7 +20,6 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             };
 
             options = _.extend(defaultOptions, options);
-
             this.infoBox = new InfoBox(options);
             google.maps.event.addListener(this.infoBox, 'closeclick', _.bind(this.closeClick, this));
         },
