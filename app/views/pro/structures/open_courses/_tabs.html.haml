@@ -1,8 +1,8 @@
 %ul.tabs.push--bottom
-  -# %li{class: (current == 'communicate' ? 'active' : '')}
-  -#   = link_to communicate_pro_structure_course_opens_path(@structure) do
-  -#     %i.fa.fa-bullhorn
-  -#     Communiquer
+  %li{class: (current == 'communicate' ? 'active' : '')}
+    = link_to communicate_pro_structure_course_opens_path(@structure) do
+      %i.fa.fa-bullhorn
+      Communiquer
   %li{class: (current == 'courses' ? 'active' : '')}
     = link_to pro_structure_course_opens_path(@structure) do
       %i.fa.fa-list
@@ -21,15 +21,17 @@
     = link_to jpo_new_pro_structure_invited_students_path(@structure) do
       %i.fa.fa-envelope
       Invitations
-      -# & réseaux sociaux
   - if @structure.invited_students.for_jpo.any?
     %li{class: (current == 'invite-jpo-list' ? 'active' : '')}
       = link_to jpo_pro_structure_invited_students_path(@structure) do
         %i.fa.fa-list
         Invitations envoyées
         (#{@structure.invited_students.for_jpo.count})
-
   %li{class: current == 'widget' ? 'active' : ''}
     = link_to widget_jpo_pro_structure_path(@structure) do
       %i.fa.fa-cogs
-      Bannière sur mon site
+      Bannière
+  %li{class: (current == 'ca-communication' ? 'active' : '')}
+    = link_to ca_communication_pro_structure_course_opens_path(@structure) do
+      %i.fa.fa-comment
+      Communication CoursAvenue

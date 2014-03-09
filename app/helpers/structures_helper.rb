@@ -1,13 +1,12 @@
 module StructuresHelper
 
   def share_jpo_page_url(structure, provider = :facebook)
-    course  = participation.course
-    summary = "Je viens de m'inscrire aux Journées Portes Ouvertes de CoursAvenue des 5-6 avril en Ile-de-France. Comme moi, participez gratuitement à l'atelier «#{@participations.last.course.name}»."
+    summary = "Je participe aux Journées Portes Ouvertes de CoursAvenue des 5-6 avril en Ile-de-France. N'hésitez pas à vous inscrire gratuitement et à pofiter des ateliers gratuits que je propose."
     case provider
     when :facebook
-      URI.encode("http://www.facebook.com/sharer.php?s=100&p[title]=#{course.name} par #{course.structure.name}&p[url]=#{jpo_structure_url(course.structure, subdomain: 'www')}&p[summary]=#{summary}")
+      URI.encode("http://www.facebook.com/sharer.php?s=100&p[title]=Retrouvez les ateliers gratuits que je donne aux Journées Portes Ouvertes CoursAvenue&p[url]=#{jpo_structure_url(structure, subdomain: 'www')}&p[summary]=#{summary}")
     when :twitter
-      URI.encode("https://twitter.com/intent/tweet?text=J'ouvre mes portes #{course.structure.name}&via=CoursAvenue&hashtags=JPO14&url=#{jpo_structure_url(course.structure, subdomain: 'www')}")
+      URI.encode("https://twitter.com/intent/tweet?text=Je propose des ateliers gratuits pour les Journées Portes Ouvertes CoursAvenue #{structure.name}&via=CoursAvenue&hashtags=JPO14&url=#{jpo_structure_url(structure, subdomain: 'www')}")
     end
   end
 
