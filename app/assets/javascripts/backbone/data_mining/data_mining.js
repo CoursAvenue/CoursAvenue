@@ -145,11 +145,11 @@ CoursAvenue.module('DataMining', function(Module, App, Backbone, Marionette, $, 
             $(this).data("submitted", true);
         });
 
-        $(window).unload(function beforeUnloadCallback (e) {
-            $("form[data-recover=comment]").each(recoverUnsubmittedForm);
+        // $(window).unload(function beforeUnloadCallback (e) {
+        //     $("form[data-recover=comment]").each(recoverUnsubmittedForm);
 
-            visitor.save();
-        });
+        //     visitor.save();
+        // });
     });
 
 }, Fingerprint, undefined);
