@@ -83,7 +83,7 @@ OpenDoorsSearch.addInitializer(function(options) {
     infinite_scroll_button    = new FiltersModule.InfiniteScrollButtonView({});
     results_summary           = new FiltersModule.ResultsSummaryView({});
     subject_filter            = new FiltersModule.SubjectFilterView({});
-    keyword_filter            = new FiltersModule.Subjects.KeywordFilterView({ collection: subjects });
+    keyword_filter            = new FiltersModule.Subjects.SubjectsCollectionView({ collection: subjects });
     location_filter           = new FiltersModule.LocationFilterView({});
 
     /* advanced filters */

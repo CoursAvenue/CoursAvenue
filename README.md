@@ -104,3 +104,9 @@ RAILS_ENV=test rake sunspot:solr:start
 
 ## Brakeman
 `bundle exec brakeman -o brakeman-report.html`
+
+
+## Blog
+
+Restart mysql
+`sudo /etc/init.d/mysqld restart

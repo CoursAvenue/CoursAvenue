@@ -1,7 +1,7 @@
 FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Module, App, Backbone, Marionette, $, _) {
 
-    Module.KeywordFilterView = Backbone.Marionette.CompositeView.extend({
-        template: Module.templateDirname() + 'subjects_collection_view',
+    Module.SubjectsCollectionView = Backbone.Marionette.CompositeView.extend({
+        template: Module.templateDirname() + 'subjects_filter_view',
         itemView: Module.SubjectView,
         itemViewContainer: '.grid__item.one-whole.soft-half.b-white.tab-content',
 
@@ -12,14 +12,16 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
         setup: function setup (data) {
             this.ui.$search_input.attr('value', data.name);
             this.previous_searched_name = data.name;
+            this.blurIrrelevantSubjects({subject_id: data.subject_id});
         },
 
         ui: {
-            '$search_input': '#search-input',
-            '$grand_children': '[data-type=grand-children]',
-            '$buttons': '[data-type=button]',
-            '$icons': '[data-type=button] img',
-            '$menu': '[data-type=menu]'
+            '$search_input'        : '#search-input',
+            '$grand_children'      : '[data-type=grand-children]',
+            '$buttons'             : '[data-type=button]',
+            '$icons'               : '[data-type=button] img',
+            '$menu'                : '[data-type=menu]',
+            '$search_input_wrapper': '[data-type="search-input-wrapper"]'
         },
 
         events: {
@@ -28,6 +30,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             'keyup #search-input':              'announce',
             'focus @ui.$search_input':          'showMenu',
             'click [data-type=button]':         'activateButton',
+            'click':                            'clickInsinde',
         },
 
         onRender: function onRender () {
@@ -47,6 +50,16 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             });
         },
 
+        /*
+         * if the "click" is not on the input, we hide the menu
+         */
+        clickInsinde: function onClickOutside (e) {
+            if (this.ui.$menu.find(e.target).length > 0 || this.ui.$search_input_wrapper.find(e.target).length > 0) {
+                return;
+            }
+
+            this.ui.$menu.hide();
+        },
         /* if the "click outside" is on one of the subject buttons at the
          * top of the search page, then we ignore it. Otherwise, we dismiss
          * the modal menu.
@@ -57,7 +70,8 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             // Because that :
             // `$('[data-type=button]').find(e.target)`
             // Does not work. Probably because `$('[data-type=button]')` refers to too many elements
-            if ($(e.target).data("type") === "button" || $('[data-type=button]').find('.' + e.target.className.split(' ').join('.')).length > 0) {
+            var is_child_of = ( e.target.className.split(' ').join('.').length > 0 ? $('[data-type=button]').find('.' + e.target.className.split(' ').join('.')).length > 0 : true )
+            if ($(e.target).data("type") === "button" || is_child_of) {
                 return;
             }
 
@@ -80,7 +94,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
          * */
         blurIrrelevantSubjects: function blurIrrelevantSubjects (data) {
             // If subject_id is null, then we are removing a filter.
-            if (data.subject_id === null) {
+            if (data.subject_id === null || data.subject_id == '') {
                 this.ui.$icons.removeClass("fade-out").data("irrelevant", false);
                 this.ui.$buttons.attr("data-toggle", "tab");
                 return;
