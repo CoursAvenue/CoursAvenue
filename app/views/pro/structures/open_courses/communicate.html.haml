@@ -5,17 +5,17 @@
 
 %div.push-half--bottom
   %h3.inline-block.flush.v-middle CoursAvenue vous accompagne dans votre communication
-  = link_to ca_communication_pro_structure_course_opens_path(@structure), class: 'btn btn--blue btn--small v-middle' do
-    %i.fa.fa-eye.soft-half--right
-    Plan communication CoursAvenue
+  = link_to ca_communication_pro_structure_course_opens_path(@structure), class: 'btn btn--blue btn--small v-middle push-half--left' do
+    %i.fa.fa-comment
+    Actions CoursAvenue
 
-.white-box.islet
-  %ul
+.alert.alert--info
+  %ul.flush--bottom
     %li Les Portes Ouvertes représentent un moment privilégié dans l'année pour communiquer au plus large public et rencontrer de nouveaux élèves. Ces occasions sont rares, profitez-en pour faire parler de vous !
     %li L'équipe CoursAvenue vous accompagne dans la communication de l'événement et met tout en oeuvre pour que ce soit un succès et que vos ateliers affichent complets. Le succès de vos Portes Ouvertes dépend aussi de vous !
 
 
-%h3 Communiquez pour chacune des 3 phases précédant l'événement de manière différente :
+%h3 Communiquez pour chacune des 3 phases précédant l'événement :
 
 .grid
   .grid__item.two-quarters>
@@ -27,62 +27,67 @@
       %strong J
     %strong J- 7
 
-- jpo_date = Date.parse('2014/04/06')
-- remaining_days = (jpo_date - Date.today).to_i
 .progress.push-half--bottom
-  .bar.bar-success{style: "width: #{(30 - remaining_days) * 100 / 30}%;"}
-    = "J-#{remaining_days}"
+  .bar.bar-info{style: "width: 52%;"}
+    PHASE N°1 : NOUS SOMMES ICI
+  .bar.bar-warning.pointer{style: "width: 24%;", data: { toggle: 'popover', trigger: 'hover', html: 'true', placement: 'top', content: "<p class='milli flush'>Phase n°2 (entre 2 semaines et 7 jours) :<br /><i>Invitez votre entourage à parler de l'événement, les places sont limitées</i></p>"}}
+    PHASE N°2
+  .bar.bar-success.pointer{style: "width: 24%;", data: { toggle: 'popover', trigger: 'hover', html: 'true', placement: 'top', content: "<p class='milli flush'>Dernière phase (7 jours) :<br /><i>C'est le dernier moment pour s'inscrire, dites-le à votre réseau !</i></p>"}}
+    PHASE N°3
 
 .relative.soft--bottom
-  %i.fa.fa-arrow-down.absolute{style: "left: #{((30 - remaining_days) * 100 / 30) - 2}%; "}
+  %i.fa.fa-arrow-down.absolute{style: "left: 26%; "}
 
-.white-box.islet.text--center
+.white-box.islet
+  %h4.flush 4 actions efficaces pour communiquer et annoncer l'événement comme un RDV important
   %p
-    %i Entre 1 mois et 2 semaines avant vos Portes Ouvertes
-    %br
-    %strong Communiquez pour annoncer l'événement comme un RDV important
-
-  %p
-    Utilisez vos 4 actions efficaces :
+    %i Phase n°1 : entre 1 mois et 2 semaines avant vos Portes Ouvertes
 
   %p.push--bottom
-    %strong Action 1. Prévenez vos élèves de l'événement :
-    ce sont les meilleurs relais de votre communication car le bouche à oreille passe par eux. Envoyez-leur un message pour qu'ils commencent à en parler autour d'eux et pour qu'ils invitent leurs proches à découvrir leur passion gratuitement.
+    %strong Action 1 : prévenez vos élèves de l'événement
+    %br
+    Ce sont les meilleurs relais de votre communication car le bouche à oreille passe par eux. Envoyez-leur un message pour qu'ils commencent à en parler autour d'eux et pour qu'ils invitent leurs proches à découvrir leur passion gratuitement.
     %br
     = link_to 'Communiquer auprès de mes élèves', jpo_new_pro_structure_invited_students_path(@structure), class: 'btn btn--blue'
   %p.push--bottom
-    %strong Action 2. Répandez la bonne nouvelle à votre réseau Facebook :
-    partagez le lien direct de votre page d'inscription, votre réseau pourra ainsi le partager. Saviez-vous que les opérations gratuites sont les premiers articles partagés sur les réseaux sociaux ? C'est l'occasion de gagner de  nouveaux fans !
+    %strong Action 2 : répandez la bonne nouvelle à votre réseau Facebook
+    %br
+    Partagez le lien direct de votre page d'inscription, votre réseau pourra ainsi le partager. Saviez-vous que les opérations gratuites sont les premiers articles partagés sur les réseaux sociaux ? C'est l'occasion de gagner de  nouveaux fans !
     %br
     = link_to 'Partager sur Facebook', share_jpo_page_url(@structure), class: 'btn btn--blue', target: :_blank
 
   %p.push--bottom
-    %strong Action 3. Dites-le sur votre site Internet :
-    un site Internet ou un blog doit sans cesse proposer de la nouveauté. Les sites les mieux référencés sur Google sont ceux qui offrent du contenu unique différent régulièrement : profitez-en pour annoncer vos Portes Ouvertes !
+    %strong Action 3 : dites-le sur votre site Internet
+    %br
+    Un site Internet ou un blog doit sans cesse proposer de la nouveauté. Les sites les mieux référencés sur Google sont ceux qui offrent du contenu unique différent régulièrement : profitez-en pour annoncer vos Portes Ouvertes !
     %br
     = link_to 'Installer la bannière sur mon site', widget_jpo_pro_structure_path(@structure), class: 'btn btn--blue'
   %p.push--bottom
-    %strong Action 4. Annoncez l'événement à chaque fin de cours :
-    en fin de séance, dites à vos élèves que vous organisez des Portes Ouvertes et qu'ils peuvent inviter leurs proches. 2 semaines avant l'événement, nous vous enverrons des affiches à installer sur vos lieux de cours.
+    %strong Action 4 : annoncez l'événement à chaque fin de cours
+    %br
+    En fin de séance, dites à vos élèves que vous organisez des Portes Ouvertes et qu'ils peuvent inviter leurs proches. 2 semaines avant l'événement, nous vous enverrons des affiches à installer sur vos lieux de cours.
 
 
 %h3 Le rythme des inscriptions va s'intensifier progressivement :
 
 .white-box.islet
   %p
-    %i Entre 1 mois et 2 semaines avant vos Portes Ouvertes
+    %strong Phase n°1 : prise de connaissance de l'événement
     %br
-    %strong Prise de connaissance de l'événement :
-    les personnes notent qu'une belle opération aura lieu dans moins d'un mois. Vous devez communiquer pour annoncer les Portes Ouvertes comme un événement exceptionnel et festif.
+    %i.blue Entre 1 mois et 2 semaines avant vos Portes Ouvertes
+    %br
+    Les personnes notent qu'une belle opération aura lieu dans moins d'un mois. Vous devez communiquer pour annoncer les Portes Ouvertes comme un événement exceptionnel et festif.
   %hr
   %p
-    %i Entre 15 jours et 1 semaine avant vos Portes Ouvertes
+    %strong Phase n°2 :  Inscription des plus organisés
     %br
-    %strong Inscription des plus organisés :
-    donnez rendez-vous dans une semaine, les personnes les plus organisées s'incriront alors à votre atelier.
+    %i.blue entre 15 jours et 1 semaine avant vos Portes Ouvertes
+    %br
+    Donnez rendez-vous dans une semaine, les personnes les plus organisées s'incriront alors à votre atelier.
   %hr
   %p
-    %i 1 semaine avant vos Portes Ouvertes
+    %strong Phase n°3 : le week-end approche, intensification des inscriptions
     %br
-    %strong Le week-end approche, intensification des inscriptions :
-    c'est le moment de s'inscrire et de remplir l'agenda de son week-end ! Envoyez votre communication en rappelant que les places sont limitées (annoncez le chiffre), et que le jour J arrive (annoncez le "J-X"). Les incriptions risquent d'arriver en masse !
+    %i.blue 1 semaine avant vos Portes Ouvertes
+    %br
+    C'est le moment de s'inscrire et de remplir l'agenda de son week-end ! Envoyez votre communication en rappelant que les places sont limitées (annoncez le chiffre), et que le jour J arrive (annoncez le "J-X"). Les incriptions risquent d'arriver en masse !
