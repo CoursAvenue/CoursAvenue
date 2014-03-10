@@ -3,6 +3,7 @@ class InvitedUser < ActiveRecord::Base
   ######################################################################
   # Relations                                                          #
   ######################################################################
+  # Person that sends the invite
   belongs_to :referrer
 
   ######################################################################
@@ -29,6 +30,7 @@ class InvitedUser < ActiveRecord::Base
   end
 
   def send_invitation_stage_1
+    return unless self.referrer.email_opt_in
     self.email_status =  'resend_stage_1'
     self.save
     InvitedUserMailer.delay.send_invitation_stage_1(self)
@@ -44,10 +46,16 @@ class InvitedUser < ActiveRecord::Base
     self.referrer_type.constantize.find(self.referrer_id)
   end
 
+  # Tells if user is opt_in
+  #
+  # @return Boolean
+  def email_opt_in?
+    false
+  end
+
   def structure
     if structure_id
       Structure.find(structure_id)
     end
   end
-
 end
