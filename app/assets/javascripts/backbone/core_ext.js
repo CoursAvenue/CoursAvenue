@@ -185,6 +185,14 @@ _.extend(_, {
         "people": "person"
     },
 
+    getSingularMap: function getSingularMap () {
+        if (_._singular_map === undefined) {
+            _._singular_map = _.invert(this.plural_map);
+        }
+
+        return _.clone(_._singular_map);
+    },
+
     singularize: function (word) {
         var last        = word.length - 1;
         var ends_with_s = word.lastIndexOf("s") === last;
@@ -194,13 +202,22 @@ _.extend(_, {
             return word;
         }
 
-        if (ends_with_s) {
-            word = word.substring(0, last); // strip last character
-        } else {
-            word = _.plural_map[word];
+        return (ends_with_s)? word.substring(0, last) : _.plural_map[word];
+    },
+
+    pluralize: function (word) {
+        var last        = word.length - 1,
+            ends_with_s = word.lastIndexOf("s") === last,
+            is_plural   = ends_with_s || _.has(_.plural_map, word),
+            map;
+
+        if (is_plural) {
+            return word;
         }
 
-        return word;
+        map = _.getSingularMap();
+
+        return (map[word] === undefined)? word + 's' : map[word];
     },
 
     camelize: function (word) {
