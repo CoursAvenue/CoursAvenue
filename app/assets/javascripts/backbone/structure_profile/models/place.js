@@ -1,6 +1,6 @@
 
 /* just a basic backbone model */
-Daedalus.module('Models', function(Models, App, Backbone, Marionette, $, _) {
+StructureProfile.module('Models', function(Models, App, Backbone, Marionette, $, _) {
     Models.Place = Backbone.Model.extend({
         /* we need this in order to qualify as a Location */
         getLatLng: function() {
