@@ -9,21 +9,19 @@
   = link_to 'Portes Ouvertes', pro_structure_course_opens_url(@structure, subdomain: 'www')
 
 - content_for :promo do
-  %h4
-    CoursAvenue se mobilise à vos côtés pour que l'évenement soit un succès
+  %h4.push-half--bottom
+    CoursAvenue se mobilise à vos côtés pour que l'évenement soit un succès. Vous aussi, communiquez grâce aux 4 actions qui vous sont offertes :
+  %p.action.flush--top
+    = link_to "Voir les 4 actions de communication", communicate_pro_structure_course_opens_url(@structure, subdomain: 'pro'), class: 'btn btn--yellow'
+
+  %p.blue.blue-tip.flush--bottom
+    %i Trucs & astuces : suivez les 3 phases de communication que nous vous avons détaillées pour un maximum d'efficacité.
 
 %p
-  %strong Le mot du co-confateur Nicolas Lagarde :
+  %strong Le mot du co-fondateur Nicolas Lagarde :
   %br
   "Toute l'équipe de CoursAvenue se mobilise pour que vos Portes Ouvertes soient une réussite. Pour attirer un maximum de personnes, nous avons également mis les moyens financiers nécessaires : une excellente agence de relations presse a été sollicitée, 1 000 affiches et 20 000 flyers vont être déployés, et nous communiquons sur nos réseaux sociaux Facebook et Twitter. Multiplions nos efforts et communiquez vous aussi : c'est une belle occasion pour faire parler de vous !"
 
-%p.action
-  = link_to "Voir les actions menées par CoursAvenue", ca_communication_pro_structure_course_opens_url(@structure, subdomain: 'pro'), class: 'btn btn--yellow'
+%p.action.push-half--bottom
+  = link_to "Voir les actions menées par CoursAvenue", ca_communication_pro_structure_course_opens_url(@structure, subdomain: 'pro'), class: 'btn'
 
-%p
-  Vous aussi, communiquez grâce aux 4 actions qui vous sont offertes :
-%p.action
-  = link_to "Voir les 4 actions de communication", communicate_pro_structure_course_opens_url(@structure, subdomain: 'pro'), class: 'btn btn--yellow'
-
-%p.blue.blue-tip
-  %i Trucs & astuces : suivez les 3 phases de communication que nous vous avons détaillées pour un maximum d'efficacité.
