@@ -3,6 +3,7 @@
 StructureProfile.module('Views.Structure', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.StructureView = CoursAvenue.Views.EventLayout.extend({
+        className: 'tabs-container',
         template: Module.templateDirname() + 'structure_view',
 
         initialize: function () {
@@ -12,26 +13,27 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             $(document).on("click", '[data-toggle=tab]', this.showOrCreateTab);
         },
 
-        showOrCreateTab: function () {
-            var ViewClass, view, model;
+        showOrCreateTab: function (e) {
+            var $target   = $(e.target),
+                resources = $target.data("view"),
+                resource  = _.singularize(resources),
+                ViewClass, view, model;
 
+            // if the tab is already populated, don't populate it
+            if ($($target.attr("href")).children().length > 0) {
+                return;
+            }
 
-            ViewClass = Backbone.Marionette.CompositeView.extend({
-                template: Module.templateDirname() + "courses" + '/courses_collection_view',
+            ViewClass = Backbone.Marionette.CollectionView.extend({
+                template: Module.templateDirname() + resources + '/' + resources + '_collection_view',
+                className: 'white-box islet',
                 itemView: Marionette.ItemView.extend({
-                    template: Module.templateDirname() + "courses" + '/course_view'
-                }),
-                itemViewContainer: '[data-type=container]'
+                    template: Module.templateDirname() + resources + '/' + resource + '_view'
+                })
             });
 
-            // stuff for the composite part
-            model = {
-                name: "bob"
-            };
-
             view = new ViewClass({
-                collection: this.model.get("courses"),
-                model: new Backbone.Model(model)
+                collection: this.model.get(resources)
             });
 
             this.showWidget(view);
