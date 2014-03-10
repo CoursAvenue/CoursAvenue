@@ -14,7 +14,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         },
 
         showOrCreateTab: function (e) {
-            var $target   = $(e.target),
+            var $target   = $(e.currentTarget),
                 resources = $target.data("view"),
                 ViewClass, view, model;
 

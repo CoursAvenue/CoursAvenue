@@ -1,9 +1,18 @@
 
 StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbone, Marionette, $, _, undefined) {
 
-    Module.CourseView = Marionette.ItemView.extend({
+    Module.CourseView = Marionette.CompositeView.extend({
         template: Module.templateDirname() + 'course_view',
-        className: "two-thirds",
+        itemView: Module.Plannings.PlanningView,
+        itemViewContainer: 'tbody',
+        emptyView: Module.EmptyView,
+
+        itemViewOptions: function itemViewOptions (model, index) {
+
+            return {
+                collection: new Backbone.Collection(model.get("plannings"))
+            };
+        },
 
         events: {
             'mouseenter': 'announceEnter',

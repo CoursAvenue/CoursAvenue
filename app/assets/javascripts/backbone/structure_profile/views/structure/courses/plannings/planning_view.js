@@ -1,7 +1,9 @@
 
-Daedalus.module('Views.Plannings', function(Module, App, Backbone, Marionette, $, _, undefined) {
+StructureProfile.module('Views.Structure.Courses.Plannings', function(Module, App, Backbone, Marionette, $, _, undefined) {
 
-    Module.Planning = Marionette.ItemView.extend({
+    Module.PlanningView = Marionette.ItemView.extend({
+        tagName: 'tr',
+        template: Module.templateDirname() + 'planning_view',
 
         events: {
             'mouseenter': 'announceEnter',
