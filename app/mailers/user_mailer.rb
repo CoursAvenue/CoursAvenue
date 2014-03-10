@@ -71,15 +71,9 @@ class UserMailer < ActionMailer::Base
   ######################################################################
   # For inactive users                                                 #
   ######################################################################
-  def recommend_structure(structure_name, structure_email, recommendation)
-    @structure_name  = structure_name
-    @structure_email = structure_email
-    @recommendation  = recommendation
-    mail to: 'contact@coursavenue.com', subject: "Un élève vient de recommander un professeur"
-  end
 
   ######################################################################
-  # For comments                                                 #
+  # For comments                                                       #
   ######################################################################
   def ask_for_recommandations(structure, email_text, email)
     @structure  = structure
@@ -113,16 +107,4 @@ class UserMailer < ActionMailer::Base
     @user       = User.where{email == user_email}.first
     mail to: email, subject: "#{structure.name} vous demande une recommandation"
   end
-
-  # -----------------
-  # Recommandations
-  # -----------------
-
-  def recommand_friends(structure, email_text, email)
-    @structure  = structure
-    @email_text = email_text
-    @email      = email
-    mail to: email, subject: "#{structure.name} vous invite à créer votre profil sur CoursAvenue."
-  end
-
 end
