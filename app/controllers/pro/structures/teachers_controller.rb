@@ -11,6 +11,12 @@ class Pro::Structures::TeachersController < InheritedResources::Base
     @teacher   = Teacher.new
     @structure = Structure.find params[:structure_id]
     @teachers  = @structure.teachers.order('name ASC')
+
+    respond_to do |format|
+      render json: @teachers,
+             root: 'teachers',
+             each_serializer: TeacherSerializer
+    end
   end
 
   def create

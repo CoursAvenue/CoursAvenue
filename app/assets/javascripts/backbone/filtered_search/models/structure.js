@@ -84,7 +84,12 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
                 reverseRelation: {
                     key: 'structure'
                 },
-                collectionType: Module.TeachersCollection
+                collectionType: Backbone.Collection.extend({
+                    url: function (models) {
+                        if (models === undefined) { return ''; }
+                        return Routes.structure_teachers_path({ format: 'json', id: models[0].get('structure').get('id') })
+                    }
+                })
             },
 
             {
