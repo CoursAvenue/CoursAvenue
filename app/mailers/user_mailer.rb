@@ -68,18 +68,14 @@ class UserMailer < ActionMailer::Base
     mail to: @structure.contact_email, subject: @reservation.email_subject_for_structure
   end
 
-  # -----------------
-  # For inactive users
-  # -----------------
+  ######################################################################
+  # For inactive users                                                 #
+  ######################################################################
 
-  def recommend_structure(structure_name, structure_email, recommendation)
-    @structure_name  = structure_name
-    @structure_email = structure_email
-    @recommendation  = recommendation
-    mail to: 'contact@coursavenue.com', subject: "Un élève vient de recommander un professeur"
-  end
-
-  def ask_for_feedbacks(structure, email_text, email)
+  ######################################################################
+  # For comments                                                       #
+  ######################################################################
+  def ask_for_recommandations(structure, email_text, email)
     @structure  = structure
     @email      = email
     user_email  = email
@@ -88,7 +84,7 @@ class UserMailer < ActionMailer::Base
     mail to: email, subject: "#{structure.name} vous demande une recommandation"
   end
 
-  def ask_for_feedbacks_stage_1(structure, email)
+  def ask_for_recommandations_stage_1(structure, email)
     @structure = structure
     @email     = email
     user_email  = email
@@ -96,7 +92,7 @@ class UserMailer < ActionMailer::Base
     mail to: email, subject: "Votre opinion sur #{structure.name}"
   end
 
-  def ask_for_feedbacks_stage_2(structure, email)
+  def ask_for_recommandations_stage_2(structure, email)
     @structure = structure
     @email     = email
     user_email  = email
@@ -104,23 +100,11 @@ class UserMailer < ActionMailer::Base
     mail to: email, subject: "#{structure.name} vous demande une recommandation"
   end
 
-  def ask_for_feedbacks_stage_3(structure, email)
+  def ask_for_recommandations_stage_3(structure, email)
     @structure = structure
     @email     = email
     user_email  = email
     @user       = User.where{email == user_email}.first
     mail to: email, subject: "#{structure.name} vous demande une recommandation"
   end
-
-  # -----------------
-  # Recommandations
-  # -----------------
-
-  def recommand_friends(structure, email_text, email)
-    @structure  = structure
-    @email_text = email_text
-    @email      = email
-    mail to: email, subject: "#{structure.name} vous invite à créer votre profil sur CoursAvenue."
-  end
-
 end

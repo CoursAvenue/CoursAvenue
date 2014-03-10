@@ -55,12 +55,12 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
 
                 // Prevent from undefined
                 if (marker) {
-                    marker.toggleHighlight();
-
                     if (marker.isHighlighted()) {
-                        marker.excite();
-                    } else {
                         marker.calm();
+                        marker.unhighlight();
+                    } else {
+                        marker.excite();
+                        marker.highlight({show_info_box: false, unhighlight_all: false});
                     }
                 }
             });
@@ -80,6 +80,11 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
                     }
                 }
             });
+        },
+
+        markerHovered: function (marker_view) {
+            this.current_info_marker = marker_view.model.cid;
+            this.showInfoWindow({model: marker_view.model.get('structure') });
         }
     });
 });

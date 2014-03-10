@@ -53,12 +53,13 @@ HomeIndexStructures.module('Views.Map.GoogleMap', function(Module, App, Backbone
 
                 // Prevent from undefined
                 if (marker) {
-                    marker.toggleHighlight();
 
                     if (marker.isHighlighted()) {
-                        marker.excite();
-                    } else {
+                        marker.unhighlight();
                         marker.calm();
+                    } else {
+                        marker.excite();
+                        marker.highlight({show_info_box: false, unhighlight_all: false});
                     }
                 }
             });

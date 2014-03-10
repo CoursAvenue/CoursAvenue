@@ -1,4 +1,8 @@
 %ul.tabs.push--bottom
+  %li{class: (current == 'communicate' ? 'active' : '')}
+    = link_to communicate_pro_structure_course_opens_path(@structure) do
+      %i.fa.fa-bullhorn
+      Communiquer
   %li{class: (current == 'courses' ? 'active' : '')}
     = link_to pro_structure_course_opens_path(@structure) do
       %i.fa.fa-list
@@ -6,12 +10,6 @@
       - nb_jpo_plannings = @structure.courses.open_courses.map(&:plannings).flatten.length
       - if nb_jpo_plannings > 0
         (#{nb_jpo_plannings})
-
-  %li{class: current == 'widget' ? 'active' : ''}
-    = link_to widget_jpo_pro_structure_path(@structure) do
-      %i.fa.fa-cogs
-      Bannière sur votre site
-
   %li{class: (current == 'participations' ? 'active' : '')}
     = link_to pro_structure_participations_path(@structure) do
       %i.fa.fa-group
@@ -21,11 +19,19 @@
         (#{nb_jpo_participants})
   %li{class: (current == 'new' ? 'active' : '')}
     = link_to jpo_new_pro_structure_invited_students_path(@structure) do
-      %i.fa.fa-bullhorn
-      Mes invitations
+      %i.fa.fa-envelope
+      Invitations
   - if @structure.invited_students.for_jpo.any?
     %li{class: (current == 'invite-jpo-list' ? 'active' : '')}
       = link_to jpo_pro_structure_invited_students_path(@structure) do
         %i.fa.fa-list
         Invitations envoyées
         (#{@structure.invited_students.for_jpo.count})
+  %li{class: current == 'widget' ? 'active' : ''}
+    = link_to widget_jpo_pro_structure_path(@structure) do
+      %i.fa.fa-cogs
+      Bannière
+  %li{class: (current == 'ca-communication' ? 'active' : '')}
+    = link_to ca_communication_pro_structure_course_opens_path(@structure) do
+      %i.fa.fa-comment
+      Communication CoursAvenue

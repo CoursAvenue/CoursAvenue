@@ -1,0 +1,6 @@
+= side_menu_currently_at 'Visiteurs'
+
+%ul
+- @visitors.each do |visitor|
+  %li.white-box.islet
+    = render partial: "visitor_summary", locals: { visitor: visitor }

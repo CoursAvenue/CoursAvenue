@@ -16,7 +16,7 @@ module ActsAsUnsubscribable
   module ClassMethods
     # Verifier based on our application secret
     def verifier
-      ActiveSupport::MessageVerifier.new(CoursAvenue::Application.config.secret_token)
+      ActiveSupport::MessageVerifier.new(CoursAvenue::Application.config.secret_key)
     end
 
     # Get an instance from a token

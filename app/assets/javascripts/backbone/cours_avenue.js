@@ -3,6 +3,7 @@
 //
 //= require ./daedalus/daedalus.js
 //= require_tree ./daedalus
+//= require ./data_mining/manifest
 //
 //= require ./filtered_search/manifest
 //= require ./open_doors_search/manifest

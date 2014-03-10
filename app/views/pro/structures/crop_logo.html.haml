@@ -22,7 +22,7 @@
         .bordered.center-block{style: "width:150px; height:150px; overflow:hidden"}
           = image_tag @structure.logo.url(:large), id: "preview", style: 'max-width: none;'
     .push--top
-      = f.submit 'Enregistrer', class: 'btn btn--green btn--full'
+      = f.submit 'Enregistrer', class: 'btn btn--green btn--full', disable_with: "En cours d'enregistrement", disable_with: "En cours d'enregistrement"
 
 
 - @ratio = @structure.ratio_from_original_from_large

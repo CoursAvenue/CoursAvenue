@@ -46,7 +46,7 @@ class Pro::Structures::PlacesController < InheritedResources::Base
     @place     = @structure.places.build params[:place]
     respond_to do |format|
       if @place.save
-        format.html { redirect_to (params[:from] || pro_structure_places_path(@structure)), notice: 'Le lieu à bien été créé' }
+        format.html { redirect_to (params[:return_to] || pro_structure_places_path(@structure)), notice: 'Le lieu à bien été créé' }
       else
         format.html { render action: :new }
       end

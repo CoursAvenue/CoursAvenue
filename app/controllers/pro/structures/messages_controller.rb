@@ -27,7 +27,7 @@ class Pro::Structures::MessagesController < ApplicationController
   # Recipients receive only one person here
   def create
     @recipients   = @structure.user_profiles.find(params[:message][:recipients].reject(&:blank?)).map(&:user) if params[:message].has_key? :recipients
-    @receipt      = @admin.send_message(@recipients, params[:message][:body], params[:message][:subject]) if @recipients
+    @receipt      = @admin.send_message(@recipients, params[:message][:body], params[:message][:subject]) if @recipients.any?
     @conversation = @receipt.conversation if @receipt
     respond_to do |format|
       if @conversation and @conversation.persisted?
@@ -35,6 +35,7 @@ class Pro::Structures::MessagesController < ApplicationController
       else
         @message = @admin.messages.build params[:message]
         @message.valid? # Triggers errors to appear
+        @message.errors.add :recipients, :blank if @recipients.empty?
         format.html { render action: :new }
       end
     end

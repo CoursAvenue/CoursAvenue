@@ -315,7 +315,7 @@ class Structure < ActiveRecord::Base
   end
 
   def contact_email
-    if !read_attribute(:contact_email).blank?
+    if read_attribute(:contact_email).present?
       read_attribute(:contact_email)
     elsif admins.any?
       admins.first.email

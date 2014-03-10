@@ -7,11 +7,14 @@
     %tr
       %th Email
       %th S'est créé un compte
+      - if current_pro_admin.super_admin?
+        %th
   %tbody
-    - @structure.invited_users.each do |invited_user|
+    - @invited_teachers.each do |invited_teacher|
       %tr
-        %td= invited_user.email
+        %td= invited_teacher.email
         %td
-          - if invited_user.registered?
+          - if invited_teacher.registered?
             %i.fa.fa-check
-
+        - if current_pro_admin.super_admin?
+          %td= link_to 'Supprimer', pro_structure_invited_teacher_path(@structure, invited_teacher), method: :delete, class: 'red'

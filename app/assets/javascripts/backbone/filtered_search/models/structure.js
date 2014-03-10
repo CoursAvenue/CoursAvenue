@@ -23,7 +23,7 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
                 query = "?lat=" + lat + "&lng=" + lng;
             }
 
-            return this.resource + models[0].get('structure').get('id') + '/cours.json' + query;
+            return Routes.structure_courses_path({format: 'json', id: models[0].get('structure').get('id')})
         }
     });
 
@@ -58,10 +58,7 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
 
                         var model_ids = _.pluck(models, 'id').join(',');
 
-                        // TODO this used to be
-                        //   return App.resource + models[0].get('structure').get('id') + '/recommandations.json';
-                        // but it started barfing. It could bite us later
-                        return models[0].get('structure').get('id') + '/recommandations.json?unlimited_comments=true';
+                        return Routes.structure_comments_path({format: 'json', id: models[0].get('structure').get('id'), unlimited_comments: true });
                     }
                 })
             },
@@ -101,8 +98,7 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
                 collectionType: Backbone.Collection.extend({
                     url: function (models) {
                         if (models === undefined) { return ''; }
-
-                        return models[0].get('structure').get('id') + '/medias.json';
+                        return Routes.structure_medias_path({format: 'json', id: models[0].get('structure').get('id')})
                     }
                 })
             }

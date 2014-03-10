@@ -7,4 +7,4 @@
     = f.input :title
     = f.input :content, input_html: { data: {behavior: 'autoresize'} }
     .form-actions
-      = f.submit 'Enregistrer', class: 'btn btn--green'
+      = f.submit 'Enregistrer', class: 'btn btn--green', disable_with: "En cours d'enregistrement"

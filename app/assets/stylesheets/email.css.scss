@@ -17,7 +17,7 @@
 @import "partials/base/links";
 
 @import "partials/objects/boxes";
-@import "partials/objects/buttons";
+@import "partials/objects/buttons_email";
 
 @import "partials/generic/helpers";
 @import "partials/generic/font_helpers";
@@ -86,6 +86,9 @@
                 }
                 &.btn.btn--blue, &.btn.btn--green {
                     color: white;
+                }
+                &.btn.btn--yellow {
+                    color: darken($yellow, 35%);
                 }
                 text-decoration: none;
             }

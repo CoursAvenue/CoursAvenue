@@ -54,20 +54,17 @@
 }
 
 .btn--orange {
-    text-transform: uppercase;
-    color       : white;
-    @include text-shadow(-1px -1px 0 #a34c30);
-    border-color: darken($btn-primary-background, 3%);
+    text-transform  : uppercase;
+    color           : white;
+    border-color    : darken($orange, 5%);
     background-color: $orange;
-    @include background-image(linear-gradient(top, $btn-primary-background-highlight, $btn-primary-background));
-    &:hover {
-        @include background-image(linear-gradient(top, lighten($btn-primary-background-highlight, 6%), lighten($btn-primary-background, 6%)));
+    @include text-shadow(-1px -1px 0 #a34c30);
+    &:active, &:hover {
+        background-color: lighten($orange, 5%);
     }
     &:active, &.btn--active, &.btn--active:hover, &.active, &.active:hover {
-        background-color: $btn-primary-background-highlight;
-        border-color: darken($btn-primary-background, 10%);
         border-bottom: none;
-        @include background-image(linear-gradient(top, darken($btn-primary-background-highlight, 5%), lighten($btn-primary-background-highlight, 5%)));
+        background-color: lighten($orange, 15%);
     }
 }
 .btn--red {
@@ -122,19 +119,6 @@
         color           : darken($yellow, 35%);
         background-color: lighten($yellow, 5%);
         @include text-shadow(0 1px 0 darken($yellow, 5%));
-    }
-}
-.btn--light-blue {
-    text-transform  : uppercase;
-    color           : white;
-    background-color: $light-blue;
-    border          : none;
-    @include text-shadow(0 1px 0 darken($light-blue, 5%));
-    // @include text-shadow(-1px -1px 1px #486762);
-    &:hover, &:active {
-        color           : white;
-        background-color: lighten($light-blue, 5%);
-        @include text-shadow(0 1px 0 darken($light-blue, 5%));
     }
 }
 
@@ -247,7 +231,6 @@
     .btn.btn--active, .btn.active {
         border     : 1px solid $orange;
         @include box-shadow(0px 0px 5px rgba(233, 104, 61, 0.5));
-        // @include box-shadow(inset 0 1px 5px rgba(0,0,0,0.22),0 1px 0 rgba(255,255,255,0.4));
         & + .btn.active {
             border-left: none;
         }

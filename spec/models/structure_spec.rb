@@ -10,7 +10,7 @@ describe Structure do
 
   context :contact do
     it 'returns admin contact' do
-      admin = FactoryGirl.build(:admin)
+      admin = FactoryGirl.create(:admin)
       admin.structure_id = structure.id
       structure.admins << admin
 

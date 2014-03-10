@@ -4,7 +4,7 @@ class CourseSerializer < ActiveModel::Serializer
   include ActionView::Helpers::NumberHelper
 
   attributes :id, :name, :description, :type, :start_date, :end_date, :min_price_amount, :min_price_libelle, :data_url, :subjects,
-             :has_free_trial_lesson, :event_type, :best_price, :is_individual
+             :has_free_trial_lesson, :event_type, :best_price, :is_individual, :search_term
 
   has_many :plannings, serializer: PlanningSerializer
 
@@ -62,5 +62,9 @@ class CourseSerializer < ActiveModel::Serializer
     else
       object.event_type
     end
+  end
+
+  def search_term
+    options[:search_term] if options[:search_term].present?
   end
 end

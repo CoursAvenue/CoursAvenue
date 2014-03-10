@@ -90,7 +90,8 @@ gem 'inherited_resources'       , '~>1.3.1'
 gem 'mailboxer'                 , '~> 0.11.0'
 
 # For authorizations
-gem 'cancan'                    , '~>1.6.10'
+gem 'cancancan'                 , '~>1.7.0'
+# gem 'cancan'                    , '~>1.6.10'
 # For authentication
 gem 'devise'                    , '~>3.2.3'
 # Facebook connect
@@ -125,6 +126,8 @@ gem 'gibbon'                    , '~>1.0.4'
 
 # Transform external CSS stylesheets into inline CSS for emails
 gem 'roadie'                    , '~>2.4.2'
+
+gem 'fingerprintjs-rails'       , '~>0.5.3'
 
 # Includes Backbone
 gem 'railsy_backbone'           , '~>0.0.5'
@@ -161,7 +164,7 @@ gem 'jquery-turbolinks'
 # For uploading to amazon CDN
 gem 'aws-sdk'                   , '~>1.21.0'
 
-# Roo implements read access for all spreadsheet
+# Roo implements read access for all spreadsheet, xls and more
 gem 'roo'                   , '~>1.12.2'
 
 # Rack::UTF8Sanitizer is a Rack middleware which cleans up invalid UTF8 characters in request URI and headers.

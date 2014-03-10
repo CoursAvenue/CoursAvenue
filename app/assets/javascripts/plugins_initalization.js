@@ -1,14 +1,21 @@
 $(function() {
     var global = GLOBAL.namespace('GLOBAL');
     global.initialize_fancy = function($elements) {
-        $elements.fancybox({ padding: 0,
-                             helpers : {
-                                 media : {},
-                                 thumbs : {
-                                     width  : 75,
-                                     height : 50
-                                 }
-                             }});
+        $elements.each(function(index, element) {
+            $element = $(element);
+            var width  = $element.data('width') || 800;
+            var height = $element.data('height') || 600;
+            $element.fancybox({ padding  : 0,
+                                 width   : width,
+                                 height  : height,
+                                 helpers : {
+                                     media : {},
+                                     thumbs : {
+                                         width  : 75,
+                                         height : 50
+                                     }
+                                 }});
+        });
     };
     global.initialize_fancy($('[data-behavior="fancy"]'));
     global.modal_initializer = function modal_initializer () {

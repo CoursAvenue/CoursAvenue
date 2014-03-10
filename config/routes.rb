@@ -116,12 +116,12 @@ CoursAvenue::Application.routes.draw do
             patch :import
           end
         end
-        resources :invited_teachers, only: [:index, :new], controller: 'structures/invited_teachers' do
+        resources :invited_teachers, only: [:index, :new, :destroy], controller: 'structures/invited_teachers' do
           collection do
             post :bulk_create
           end
         end
-        resources :invited_students, only: [:index, :new], controller: 'structures/invited_students' do
+        resources :invited_students, only: [:index, :new, :destroy], controller: 'structures/invited_students' do
           collection do
             post :bulk_create
             post :bulk_create_jpo
@@ -176,9 +176,14 @@ CoursAvenue::Application.routes.draw do
 
           end
         end
-        resources :course_opens, path: 'portes-ouvertes-cours-loisirs', controller: 'structures/open_courses'
+        resources :course_opens, path: 'portes-ouvertes-cours-loisirs', controller: 'structures/open_courses' do
+          collection do
+            get :communicate, path: 'communiquer'
+            get :ca_communication, path: 'communication-coursavenue'
+          end
+        end
       end
-
+      resources :visitors             , only: [:index, :show]
       resources :users                , only: [:index]
       resources :comment_notifications, only: [:index]
       resources :conversations        , only: [:index]
@@ -245,6 +250,8 @@ CoursAvenue::Application.routes.draw do
     resources :participations, only: [:index, :destroy], controller: 'users/participations'
   end
   resources :emails, only: [:create]
+
+  resources :visitors, only: [:create, :update, :index]
 
   get 'auth/:provider/callback', to: 'session#create'
   get 'auth/failure'           , to: redirect('/')
