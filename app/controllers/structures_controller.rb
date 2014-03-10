@@ -50,7 +50,7 @@ class StructuresController < ApplicationController
     @comments       = @structure.comments.accepted.reject(&:new_record?)
     @comment        = @structure.comments.build
 
-    @model = (jasonify @structure, { unlimited_comments: true, query: query_string }).pop
+    @model = StructureShowSerializer.new(@structure, { unlimited_comments: true, query: query_string })
 
     @tabs = [{
         icon: 'calendar',

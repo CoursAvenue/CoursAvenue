@@ -6,6 +6,28 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         template: Module.templateDirname() + 'courses_collection_view',
         itemViewContainer: '[data-type=container]',
 
+        serializeData: function () {
+            var courses_not_shown = 0,
+                plannings_count   = this.collection.reduce(function (memo, model) {
+                    var plannings = model.get("plannings").length;
+                    memo += plannings;
+
+                    // we will not show courses with no plannings, eh?
+                    if (plannings === 0) {
+                        courses_not_shown++;
+                    }
+
+                    return memo;
+                }, 0);
+
+            return {
+                courses_count: this.collection.length,
+                plannings_count: plannings_count,
+                courses_not_shown: courses_not_shown,
+                data_url: this.data_url
+            };
+        },
+
         itemViewOptions: function itemViewOptions (model, index) {
 
             return {

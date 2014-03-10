@@ -6,15 +6,14 @@ StructureProfile.addRegions({
 });
 
 StructureProfile.addInitializer(function(options) {
-    var bootstrap = window.coursavenue.bootstrap,
-        layout    = new StructureProfile.Views.StructureProfileLayout(),
-        structure = new FilteredSearch.Models.Structure(bootstrap, bootstrap.options),
+    var bootstrap      = window.coursavenue.bootstrap.structure,
+        layout         = new StructureProfile.Views.StructureProfileLayout(),
+        structure      = new FilteredSearch.Models.Structure(bootstrap, bootstrap.options),
         structure_view = new StructureProfile.Views.Structure.StructureView({ model: structure }),
+        bounds         = window.coursavenue.bootstrap.center,
         google_maps_view;
 
     window.pfaff = structure;
-
-    var bounds       = window.coursavenue.bootstrap.center;
 
     google_maps_view = new StructureProfile.Views.Map.GoogleMapsView({
         collection: new Backbone.Collection(window.coursavenue.bootstrap.places, { model: StructureProfile.Models.Place }),
