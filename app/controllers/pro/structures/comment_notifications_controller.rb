@@ -25,9 +25,9 @@ class Pro::Structures::CommentNotificationsController < Pro::ProController
     @comment_notification = @structure.comment_notifications.find params[:id]
     respond_to do |format|
       if current_pro_admin.super_admin? && @comment_notification.destroy
-        format.html { redirect_to pro_structure_users_path(@structure), notice: 'Élève supprimé' }
+        format.html { redirect_to pro_structure_comment_notifications_path(@structure), notice: 'Élève supprimé' }
       else
-        format.html { redirect_to pro_structure_users_path(@structure), alert: 'Vous ne pouvez pas supprimer cet élève' }
+        format.html { redirect_to pro_structure_comment_notifications_path(@structure), alert: 'Vous ne pouvez pas supprimer cet élève' }
       end
     end
   end

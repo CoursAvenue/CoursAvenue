@@ -39,9 +39,12 @@
               .text--center.v-middle.orange-box.white.rounded>
                 = link_to pro_structure_course_opens_path(@structure), class: 'soft-half--top semi-muted-link block', onclick: "ga('send', 'event', 'JPO', 'click')" do
                   = image_tag 'jpo_2014/logo_1_line.png', height: 60, width: 199, class: 'block center-block'
-                  .delta
-                    Participez aux Portes Ouvertes CoursAvenue
-                  %p Week-end du 5 et 6 avril 2014
+                  - if @structure.courses.open_courses.any?
+                    .delta Profitez de l'événement pour faire parler de vous :
+                    %p Activez vos 3 actions de communication
+                  - else
+                    .delta Participez aux Portes Ouvertes CoursAvenue
+                    %p Week-end du 5 et 6 avril 2014
                 .jpo-frise
           .flexbox__item.v-top.two-twelfths.text--center>
             .thin.alpha.brand= @structure.comments_count || 0
@@ -52,7 +55,7 @@
             %span.rating{title: comment_rating_title(@structure.rating)}
               = rating_stars @structure.rating
             %div
-              = link_to 'Partager', "https://www.facebook.com/sharer/sharer.php?u=#{new_structure_comment_url(@structure, facebook: '', subdomain: 'www')}", class: 'btn btn--small btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From dashboard page')"
+              = link_to 'Partager', "https://www.facebook.com/sharer/sharer.php?u=#{new_structure_comment_url(@structure, facebook: '', subdomain: 'www')}", class: 'btn btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From dashboard page')"
     .flexbox
       - if content_for? :side_menu
         %nav.flexbox__item.v-top.side-menu.white-box

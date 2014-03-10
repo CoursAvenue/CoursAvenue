@@ -8,14 +8,10 @@
     %thead
       %tr
         %th Email
-        %th S'est créé un compte
     %tbody
       - @invited_users.each do |invited_user|
         %tr
           %td= invited_user.email
-          %td
-            - if invited_user.registered?
-              %i.fa.fa-check
 
 - else
   %h2.text--center Vous n'avez pas encore invité vos proches à l'événement

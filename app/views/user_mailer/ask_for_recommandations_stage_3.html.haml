@@ -21,7 +21,11 @@
 %p
   L'équipe de CoursAvenue
 
+- if @structure.parisian?
+  = content_for :under_content do
+    = render 'user_mailer/discover_jpo'
+
 = content_for :footer do
   %p
     Vous recevez cet email car #{@structure.name} est inscrit sur CoursAvenue et vous demande de lui rédiger une recommandation sur ses cours.
-    -# = link_to 'Ne plus recevoir ces emails', unsubscribe_users_url(@user.access_token, subdomain: 'www')
+    = link_to 'Ne plus recevoir ces emails', unsubscribe_users_url(@user.access_token, subdomain: 'www')

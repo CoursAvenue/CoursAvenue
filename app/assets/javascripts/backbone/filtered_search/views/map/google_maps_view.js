@@ -80,6 +80,11 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
                     }
                 }
             });
+        },
+
+        markerHovered: function (marker_view) {
+            this.current_info_marker = marker_view.model.cid;
+            this.showInfoWindow({model: marker_view.model.get('structure') });
         }
     });
 });

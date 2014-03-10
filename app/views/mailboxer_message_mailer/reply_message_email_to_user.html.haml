@@ -9,6 +9,9 @@
   - else
     = link_to "Répondre au message", user_conversation_url(@user, @message.conversation, subdomain: 'www'), class: 'btn btn--blue'
 
+- if @structure and @structure.parisian?
+  = content_for :under_content do
+    = render 'user_mailer/discover_jpo'
 
 - if @structure
   - content_for :footer do

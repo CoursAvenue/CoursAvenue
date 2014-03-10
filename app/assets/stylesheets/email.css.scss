@@ -87,6 +87,9 @@
                 &.btn.btn--blue, &.btn.btn--green {
                     color: white;
                 }
+                &.btn.btn--yellow {
+                    color: darken($yellow, 35%);
+                }
                 text-decoration: none;
             }
         }

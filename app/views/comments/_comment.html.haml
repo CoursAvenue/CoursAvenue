@@ -92,7 +92,7 @@
                 %i.fa.fa-cogs
                 %i.fa.fa-chevron-down.soft-half--left
               %ul.drop-down__el.text--left
-                - if can?(:destroy, comment)
+                - if comment.persisted? and can?(:destroy, comment)
                   - if comment.waiting_for_deletion?
                     %li.nowrap
                       = link_to recover_pro_comment_path(comment), method: :patch do
@@ -106,7 +106,7 @@
                     = link_to pro_comment_path(comment), method: :delete do
                       %i.fa.fa-trash-o
                       Supprimer
-          - unless comment.waiting_for_deletion?
+          - if comment.persisted? and !comment.waiting_for_deletion?
             .drop-down__wrapper.float--right{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
               %a.btn.btn--small.btn--orange{href: 'javascript:void(0)'}
                 Demande de suppression
@@ -118,6 +118,6 @@
                       = traducted_string
 
           - if comment.user
-            = link_to new_pro_structure_message_path(@structure, return_to: request.fullpath, message: { subject: "Merci beaucoup pour ta recommandation", recipients: [comment.user.user_profile_for(comment.structure).id] }), class: 'btn btn--small btn--blue float--right push-half--right fancybox.ajax', data: { behavior: 'modal', width: '780' }, title: "Réponse au message de #{comment.author_name}", onclick: "ga('send', 'event', 'Answer to student', 'click')" do
+            = link_to new_pro_structure_message_path(comment.structure, return_to: request.fullpath, message: { subject: "Merci beaucoup pour ta recommandation", recipients: [comment.user.user_profile_for(comment.structure).id] }), class: 'btn btn--small btn--blue float--right push-half--right fancybox.ajax', data: { behavior: 'modal', width: '780' }, title: "Réponse au message de #{comment.author_name}", onclick: "ga('send', 'event', 'Answer to student', 'click')" do
               %i.fa.fa-envelope.v-middle.soft-half--right
               %span.v-middle Répondre

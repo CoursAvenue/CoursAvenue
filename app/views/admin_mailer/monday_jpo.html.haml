@@ -9,20 +9,19 @@
   = link_to 'Portes Ouvertes', pro_structure_course_opens_url(@structure, subdomain: 'www')
 
 - content_for :promo do
-  %h4
-    Les inscriptions aux Portes Ouvertes sont ouvertes !
+  %h4.push-half--bottom
+    CoursAvenue se mobilise à vos côtés pour que l'évenement soit un succès. Vous aussi, communiquez grâce aux 4 actions qui vous sont offertes :
+  %p.action.flush--top
+    = link_to "Voir les 4 actions de communication", communicate_pro_structure_course_opens_url(@structure, subdomain: 'pro'), class: 'btn btn--yellow'
+
+  %p.blue.blue-tip.flush--bottom
+    %i Trucs & astuces : suivez les 3 phases de communication que nous vous avons détaillées pour un maximum d'efficacité.
 
 %p
-  A chaque nouvelle inscription, un e-mail vous sera envoyé et vous pourrez suivre vos inscrits en temps réel sur votre profil. Vérifiez dès maintenant que vos ateliers sont bien renseignés, en particulier la description, les informations pratiques pour pouvoir se rendre à votre salle, ainsi que les créneaux horaires :
+  %strong Le mot du co-fondateur Nicolas Lagarde :
+  %br
+  "Toute l'équipe de CoursAvenue se mobilise pour que vos Portes Ouvertes soient une réussite. Pour attirer un maximum de personnes, nous avons également mis les moyens financiers nécessaires : une excellente agence de relations presse a été sollicitée, 1 000 affiches et 20 000 flyers vont être déployés, et nous communiquons sur nos réseaux sociaux Facebook et Twitter. Multiplions nos efforts et communiquez vous aussi : c'est une belle occasion pour faire parler de vous !"
 
-%p.action
-  = link_to "Vérifier les informations de mes ateliers", pro_structure_course_opens_url(@structure, subdomain: 'pro'), class: 'btn btn--green'
+%p.action.push-half--bottom
+  = link_to "Voir les actions menées par CoursAvenue", ca_communication_pro_structure_course_opens_url(@structure, subdomain: 'pro'), class: 'btn'
 
-%p.blue.blue-tip
-  %i Trucs & astuces : depuis votre profil, offrez à vos élèves l'opportunité d'inviter leurs proches.
-
-- content_for :under_content do
-  = render 'participation_mailer/invite_students_to_jpos'
-
-- content_for :under_content_2 do
-  = render 'participation_mailer/jpo_advantages'

@@ -14,7 +14,9 @@
 
 .relative          { position   : relative; }
 .absolute          { position   : absolute; }
-.east              { right      : 0px }
+.east              { right      : 0 }
+.north             { top        : 0; }
+.south             { bottom     : 0; }
 .hidden            { display    : none; }
 .flip {
     @include vendor(transform, scaleX(-1));

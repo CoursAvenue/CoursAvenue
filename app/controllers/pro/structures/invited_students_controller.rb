@@ -55,4 +55,13 @@ class ::Pro::Structures::InvitedStudentsController < Pro::ProController
       format.html { redirect_to new_pro_structure_invited_student_path(@structure), notice: (params[:emails].present? ? 'Vos élèves ont bien été notifiés.' : nil) }
     end
   end
+
+  def destroy
+    @structure       = Structure.friendly.find params[:structure_id]
+    @invited_student = @structure.invited_students.find params[:id]
+    @invited_student.destroy
+    respond_to do |format|
+      format.html { redirect_to jpo_pro_structure_invited_students_path(@structure) }
+    end
+  end
 end

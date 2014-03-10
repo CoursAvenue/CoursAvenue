@@ -9,3 +9,7 @@
 %p Encore merci de nous avoir fait partager votre expérience, à très bientôt,
 
 %p L'équipe de CoursAvenue
+
+- if @structure.parisian?
+  = content_for :under_content do
+    = render 'user_mailer/discover_jpo'
