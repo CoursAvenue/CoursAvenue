@@ -16,7 +16,6 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         showOrCreateTab: function (e) {
             var $target   = $(e.target),
                 resources = $target.data("view"),
-                resource  = _.singularize(resources),
                 ViewClass, view, model;
 
             // if the tab is already populated, don't populate it
@@ -24,19 +23,33 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
                 return;
             }
 
-            ViewClass = Backbone.Marionette.CollectionView.extend({
-                template: Module.templateDirname() + resources + '/' + resources + '_collection_view',
-                className: 'white-box islet',
-                itemView: Marionette.ItemView.extend({
-                    template: Module.templateDirname() + resources + '/' + resource + '_view'
-                })
-            });
+            ViewClass = this.findOrCreateCollectionViewForResource(resources);
 
             view = new ViewClass({
                 collection: this.model.get(resources)
             });
 
             this.showWidget(view);
+        },
+
+        findOrCreateCollectionViewForResource: function findOrCreateCollectionViewForResource (resources) {
+            var resource = _.singularize(resources),
+                ViewClass;
+
+            if (Module[_.capitalize(resources)] && Module[_.capitalize(resources)][_.capitalize(resources) + 'CollectionView']) {
+                ViewClass = Module[_.capitalize(resources)][_.capitalize(resources) + 'CollectionView'];
+
+            } else {
+                ViewClass = Backbone.Marionette.CollectionView.extend({
+                    template: Module.templateDirname() + resources + '/' + resources + '_collection_view',
+                    className: 'white-box islet',
+                    itemView: Marionette.ItemView.extend({
+                        template: Module.templateDirname() + resources + '/' + resource + '_view'
+                    })
+                });
+            }
+
+            return ViewClass;
         }
     });
 });
