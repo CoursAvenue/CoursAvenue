@@ -2,7 +2,8 @@
 FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.GoogleMapsView = CoursAvenue.Views.Map.GoogleMap.GoogleMapsView.extend({
-        template:            Module.templateDirname() + 'google_maps_view',
+        template: Module.templateDirname() + 'google_maps_view',
+        infoBoxView:         Module.InfoBoxView,
 
         /* override addchild to add one marker for each place on the model */
         addChild: function(childModel, html) {
@@ -84,7 +85,10 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
 
         markerHovered: function (marker_view) {
             this.current_info_marker = marker_view.model.cid;
-            this.showInfoWindow({model: marker_view.model.get('structure') });
+            var structure = marker_view.model.get('structure')
+            structure.set('current_location', marker_view.model.get('location'))
+            this.showInfoWindow({ model: structure });
+            // this.showInfoWindow({model: marker_view.model.get('structure') });
         }
     });
 });
