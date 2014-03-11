@@ -14,7 +14,7 @@ class Structures::CoursesController < ApplicationController
     end
     @plannings.group_by(&:course_id).each do |course_id, plannings|
       course = Course.find(course_id)
-      @courses << CourseSerializer.new(course, { root: false, structure: @structure, search_term: params[:search_term], jpo: (params[:course_types] == ['open_course'])})
+      @courses << CourseSerializer.new(course, { root: false, structure: @structure, plannings: plannings, search_term: params[:search_term], jpo: (params[:course_types] == ['open_course'])})
     end
 
     respond_to do |format|

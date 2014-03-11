@@ -110,7 +110,7 @@ class SubjectsController < ApplicationController
     @subjects         = []
     @structure_search.facet(:subject_ids).rows.each do |facet|
       subject = Subject.find(facet.value)
-      if subject.depth == 2 and subject.root == root_subject
+      if subject.depth == 2 and subject.descendant_of? root_subject
         @subjects << subject
       end
     end

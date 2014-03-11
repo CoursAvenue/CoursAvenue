@@ -5,9 +5,9 @@ class Subject < ActiveRecord::Base
 
   acts_as_tree cache_depth: true
 
-  has_attached_file :image,
-                    :styles => { super_wide: "825x250#", wide: "600x375#", small: '250x200#', thumb: "200x200#" }
-
+  ######################################################################
+  # Relations                                                          #
+  ######################################################################
   has_and_belongs_to_many :courses
   has_and_belongs_to_many :structures
   has_and_belongs_to_many :users
@@ -17,17 +17,34 @@ class Subject < ActiveRecord::Base
   has_many :passions
   has_many :city_subject_infos
 
-  attr_accessible :name, :short_name, :info, :parent, :position, :title, :subtitle, :description, :image,
-                  :good_to_know, :needed_meterial, :tips, :ancestry
-
+  ######################################################################
+  # Validations                                                        #
+  ######################################################################
   validates :name, presence: true
   validates :name, uniqueness: {scope: 'ancestry'}
 
+  ######################################################################
+  # Scopes                                                            #
+  ######################################################################
   scope :children,               -> { where{ancestry != nil} }
   scope :little_children,        -> { where{ancestry_depth == 2} }
   scope :roots_with_position,    -> { where{(ancestry == nil) & (position != nil)} }
   scope :roots_without_position, -> { where{(ancestry == nil) & (position == nil)} }
   scope :stars,                  -> { where{position < 8}.order('position ASC') }
+
+  attr_accessible :name, :short_name, :info, :parent, :position, :title, :subtitle, :description, :image,
+                  :good_to_know, :needed_meterial, :tips, :ancestry
+  has_attached_file :image,
+                    :styles => { super_wide: "825x250#", wide: "600x375#", small: '250x200#', thumb: "200x200#" }
+
+  # Tells wether the given subject is a descendant of self by checking its ancestry string
+  # @param  subject [type] [description]
+  #
+  # @return Boolean
+  def descendant_of?(supposed_root)
+    return false if self.ancestry.blank? or supposed_root.nil?
+    return self.ancestor_ids.include? supposed_root.id
+  end
 
   def little_children
     self.descendants.at_depth(2)
