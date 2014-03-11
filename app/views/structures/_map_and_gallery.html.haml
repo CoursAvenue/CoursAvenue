@@ -1,7 +1,6 @@
 
 .white-box.push--bottom
   .grid--full#media-grid
-    - serialized_places = JSON.parse(StructureSerializer.new(@structure).to_json)["places"].to_json
     .grid__item#google-maps-view{class: medias.any? ? 'one-half' : 'one-whole' }>
 
     - if medias.any?

@@ -7,7 +7,7 @@ class StructureShowSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
 
   attributes :id, :name, :slug, :comments_count, :rating, :street, :zip_code,
-             :logo_thumb_url, :data_url, :query_url,
+             :logo_thumb_url, :data_url, :query_url, :query_params, :courses,
              :courses_count, :has_courses, :plannings_count, :has_plannings, :more_than_five_comments, :has_comments,
              :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range,
              :has_free_trial_course, :medias_count, :teaches_at_home, :teaches_at_home_radius, :videos_count, :images_count,
@@ -15,15 +15,15 @@ class StructureShowSerializer < ActiveModel::Serializer
              :has_promotion, :tag_names, :last_comment_title, :open_courses_open_places, :open_course_names, :open_course_nb
 
   has_many :places
-  has_many :teachers, serializer: ShortSerializer
   has_many :comments, serializer: ShortSerializer
-  has_many :courses,  serializer: ShortSerializer
   has_many :medias,   serializer: ShortSerializer
   has_many :preloaded_medias,  serializer: MediaSerializer
 
-  # Following functions has to return the same objects than the associated controllers
   def courses
-    object.courses.active
+    object.courses.active.where(id: @options[:planning_groups].keys).map do |course|
+
+      CourseSerializer.new(course, planning_groups: @options[:planning_groups])
+    end
   end
 
   def medias
@@ -139,7 +139,11 @@ class StructureShowSerializer < ActiveModel::Serializer
   # this is for the href attributes on the filtered search page,
   # so that they can point at a structure url with the params
   def query_url
-    data_url + "?" + @options[:query].to_s
+    data_url + "?" + @options[:query_string]
+  end
+
+  def query_params
+    @options[:query]
   end
 
   def tag_names

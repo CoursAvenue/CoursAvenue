@@ -62,7 +62,7 @@
           .white-box.islet
             - @model.courses.each_with_index do |course, index|
               %div.two-thirds>
-                - course = JSON.parse(CourseSerializer.new(course).to_json) # get the json ready for bootstrap
+                - course = JSON.parse(course.to_json) # get the json ready for bootstrap
                 - course["is_first"] = index == 0
                 - unless @planning_groups[course["id"]].nil?
                 - plannings = ActiveModel::ArraySerializer.new(@planning_groups[course["id"]],   each_serializer: PlanningSerializer)
