@@ -14,19 +14,12 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             };
         },
 
-        events: {
-            'mouseenter': 'announceEnter',
-            'mouseleave': 'announceLeave'
+        onItemviewMouseenter: function (view, data) {
+            this.trigger("mouseenter", data);
         },
 
-        announceEnter: function (e) {
-            $(e.target).addClass("active");
-            this.trigger("course:mouseenter", { place_id: this.model.get("place_id")})
-        },
-
-        announceLeave: function (e) {
-            $(e.target).removeClass("active");
-            this.trigger("course:mouseleave", { place_id: this.model.get("place_id")})
+        onItemviewMouseleave: function (view, data) {
+            this.trigger("mouseleave", data);
         }
 
     });

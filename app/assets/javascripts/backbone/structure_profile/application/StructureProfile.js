@@ -16,7 +16,7 @@ StructureProfile.addInitializer(function(options) {
     window.pfaff = structure;
 
     google_maps_view = new StructureProfile.Views.Map.GoogleMapsView({
-        collection: new Backbone.Collection(window.coursavenue.bootstrap.places, { model: StructureProfile.Models.Place }),
+        collection: new Backbone.Collection(window.coursavenue.bootstrap.structure.places, { model: StructureProfile.Models.Place }),
         mapOptions: {
             center: new google.maps.LatLng(bounds.lat, bounds.lng)
         },
@@ -26,7 +26,13 @@ StructureProfile.addInitializer(function(options) {
     });
 
     layout.render();
-    layout.showWidget(google_maps_view);
+    layout.showWidget(google_maps_view, {
+        events: {
+            "course:mouse:enter": "exciteMarkers",
+            "course:mouse:leave": "exciteMarkers"
+        }
+    });
+
     layout.master.show(structure_view);
 });
 
