@@ -33,9 +33,9 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
 
         onRender: function onRender () {
             var engine   = new Bloodhound({
-              datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.num); },
-              queryTokenizer: Bloodhound.tokenizers.whitespace,
-              remote: Routes.keywords_path({format: 'json'}) + '?name=%QUERY'
+                datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.num); },
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                remote: Routes.keywords_path({format: 'json'}) + '?name=%QUERY'
             });
             engine.initialize();
             this.ui.$search_input.typeahead({
