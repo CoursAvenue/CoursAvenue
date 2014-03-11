@@ -25,9 +25,8 @@ StructureProfile.addInitializer(function(options) {
         }
     });
 
-    StructureProfile.mainRegion.show(layout);
-    StructureProfile.mapContainer.show(google_maps_view);
-
+    layout.render();
+    layout.showWidget(google_maps_view);
     layout.master.show(structure_view);
 });
 

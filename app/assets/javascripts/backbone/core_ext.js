@@ -236,6 +236,19 @@ Marionette.NullApplication = Marionette.Application.extend({
     start: function () { /* NOP */ },
 });
 
+Marionette.renderNothing = function renderNothing (view, args) {
+    view.isClosed = false;
+    view.triggerMethod("before:render", view);
+    view.triggerMethod("item:before:render", view);
+
+    view.bindUIElements();
+
+    view.triggerMethod("render", view);
+    view.triggerMethod("item:rendered", view);
+
+    return view;
+}
+
 _.extend(Marionette.Application.prototype, {
 
     /* for use in query strings */
