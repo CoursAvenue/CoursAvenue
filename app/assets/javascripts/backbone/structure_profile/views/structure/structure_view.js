@@ -19,7 +19,18 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
 
             // eaves drop on bootstraps tab implementation
             $(document).on("click", '[data-toggle=tab]', this.showOrCreateTab);
+        },
 
+        onRender: function () {
+            var $currently_active_tab = $(".tabs li.active"),
+                anchor = $currently_active_tab.find("[data-toggle]");
+
+            if (anchor.length > 0) {
+                anchor = anchor[0];
+                this.showOrCreateTab({ currentTarget: anchor });
+            } else {
+                this.showOrCreateTab({ currentTarget: $("[data-view=courses]")[0] });
+            }
         },
 
         showOrCreateTab: function (e) {
@@ -42,7 +53,6 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
 
                 this.showWidget(view);
             }.bind(this));
-
         },
 
         findOrCreateCollectionViewForResource: function findOrCreateCollectionViewForResource (resources) {
