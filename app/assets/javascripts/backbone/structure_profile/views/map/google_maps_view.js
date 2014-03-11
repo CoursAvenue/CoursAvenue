@@ -2,11 +2,6 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
 
     Module.GoogleMapsView = CoursAvenue.Views.Map.GoogleMap.GoogleMapsView.extend({
 
-        events: {
-            "course:mouseenter": "exciteMarkers",
-            "course:mouseleave": "exciteMarkers"
-        },
-
         onShow: function onShow () {
             var $view = this.$el.parent(),
                 $grid_item = $view.parent(),
@@ -56,8 +51,8 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
         * Event handler for `itemview:course:hovered`, as such it expects
         * a view. The view's model should have a location, and if the location
         * matches this marker's location it will get excited. */
-        exciteMarkers: function exciteMarkers (view) {
-            var key = view.model.get("place_id");
+        exciteMarkers: function exciteMarkers (data) {
+            var key = data.place_id;
 
             if (key === null) {
                 return;
@@ -65,12 +60,13 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
 
             _.each(this.markerViewChildren, function (child) {
                 if (child.model.get("id") === key) {
-                    child.toggleHighlight();
 
                     if (child.isHighlighted()) {
-                        child.excite();
-                    } else {
+                        child.unhighlight();
                         child.calm();
+                    } else {
+                        child.highlight({ show_info_box: false });
+                        child.excite();
                     }
                 }
             });
