@@ -36,6 +36,10 @@ class Course::Open < Course
     'open_course'
   end
 
+  # Just the end_date, in the case of a workshop, we have to check on all the
+  # plannings
+  #
+  # @return Date
   def latest_end_date
     self.end_date
   end
@@ -55,6 +59,7 @@ class Course::Open < Course
     if self.structure.courses.open_courses.map(&:active?).all?
       AdminMailer.delay.your_jpo_courses_are_visible(structure)
     end
+    self.index
     return saved_value
   end
 end

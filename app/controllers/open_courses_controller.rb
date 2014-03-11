@@ -32,11 +32,13 @@ class OpenCoursesController < ApplicationController
       format.json { render json: @structures,
                            root: 'structures',
                            jpo: true,
+                           query: params,
+                           query_string: request.env['QUERY_STRING'],
                            place_ids: @place_ids,
                            each_serializer: StructureSerializer,
                            meta: { total: @total, location: @latlng }}
       format.html do
-        @models = jasonify @structures, jpo: true, place_ids: @place_ids
+        @models = jasonify @structures, jpo: true, place_ids: @place_ids, query: params, query_string: request.env['QUERY_STRING']
         cookies[:structure_search_path] = request.fullpath
       end
     end

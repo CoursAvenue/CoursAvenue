@@ -62,13 +62,13 @@ class StructuresController < ApplicationController
         render json: @structures,
                root: 'structures',
                place_ids: @places,
-               query: get_planning_filters,
-               query_string: query_string,
+               query: params,
+               query_string: request.env['QUERY_STRING'],
                each_serializer: StructureSerializer,
                meta: { total: @total, location: @latlng }
       end
       format.html do
-        @models = jasonify @structures, place_ids: @places, query: get_planning_filters, query_string: query_string
+        @models = jasonify @structures, place_ids: @places, query: params, query_string: request.env['QUERY_STRING']
         cookies[:structure_search_path] = request.fullpath
       end
     end
@@ -82,9 +82,5 @@ class StructuresController < ApplicationController
     else
       'users'
     end
-  end
-
-  def query_string
-    request.env['QUERY_STRING']
   end
 end
