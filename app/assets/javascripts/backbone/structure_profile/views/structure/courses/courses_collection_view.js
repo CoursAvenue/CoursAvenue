@@ -6,16 +6,17 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         template: Module.templateDirname() + 'courses_collection_view',
         itemViewContainer: '[data-type=container]',
 
+        /* serializeData
+        *
+        * we need the number of courses
+        * the sum of plannings of courses
+        * and the data_url which the structure gave us
+        * */
         serializeData: function () {
-            var courses_not_shown = 0,
+            var plannings_not_shown = 0,
                 plannings_count   = this.collection.reduce(function (memo, model) {
-                    var plannings = model.get("plannings").length;
-                    memo += plannings;
-
-                    // we will not show courses with no plannings, eh?
-                    if (plannings === 0) {
-                        courses_not_shown++;
-                    }
+                    memo                += model.get("plannings").length;
+                    plannings_not_shown += model.get("plannings_not_shown");
 
                     return memo;
                 }, 0);
@@ -23,7 +24,7 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             return {
                 courses_count: this.collection.length,
                 plannings_count: plannings_count,
-                courses_not_shown: courses_not_shown,
+                plannings_not_shown: plannings_not_shown,
                 data_url: this.data_url
             };
         },

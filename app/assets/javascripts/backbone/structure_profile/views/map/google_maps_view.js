@@ -2,6 +2,15 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
 
     Module.GoogleMapsView = CoursAvenue.Views.Map.GoogleMap.GoogleMapsView.extend({
 
+        initialize: function () {
+            _.bindAll(this, "exciteMarkers");
+
+            // we are binding to the document for now because the map
+            // is not sharing a layout with the structure
+            $(document).on("course:mouseenter", this.exciteMarkers);
+            $(document).on("course:mouseleave", this.exciteMarkers);
+        },
+
         events: {
             "course:mouseenter": "exciteMarkers",
             "course:mouseleave": "exciteMarkers"
