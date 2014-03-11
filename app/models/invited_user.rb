@@ -58,4 +58,12 @@ class InvitedUser < ActiveRecord::Base
       Structure.find(structure_id)
     end
   end
+
+  # Return nil
+  # Child class should implement this method
+  #
+  # @return nil
+  def user
+    nil
+  end
 end

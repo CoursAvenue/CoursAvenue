@@ -17,7 +17,7 @@
         Pour vous, cet événément est l'occasion unique de découvrir ou re-découvrir vos passions et un moment privilégié dans l'année pour partir à la rencontre des professeurs, associations ou écoles proposant tous types de cours de loisirs : initiation aux claquettes, baby karaté, aquagym séniors, écriture corporelle, yoga, cours de cocktails, improvisation théâtrale, ateliers parents-enfants, etc.
 
       .text--center.push--bottom
-        = link_to "Participer", open_courses_path, class: 'btn btn--yellow btn--large'
+        = link_to "Participer", open_courses_path, class: 'btn btn--yellow btn--large', onclick: "ga('send', 'event', 'Participer', 'click', 'En savoir plus page')"
         %br
         %p Prochaines dates : 5-6 avril 2014 en Île-de-France
 
@@ -116,7 +116,7 @@
               Pour les élèves qui suivent déjà des cours de loisirs, c'est aussi l'occasion d'inviter tous leurs proches à découvrir leurs passions.
 
             .text--center.push--top
-              = link_to "Participer", open_courses_path, class: 'btn btn--yellow btn--large'
+              = link_to "Participer", open_courses_path, class: 'btn btn--yellow btn--large', onclick: "ga('send', 'event', 'Participer', 'click', 'En savoir plus page')"
               %br
               %p.push-half--top Prochaines dates : 5-6 avril 2014 en Île-de-France
     .jpo-frise>
