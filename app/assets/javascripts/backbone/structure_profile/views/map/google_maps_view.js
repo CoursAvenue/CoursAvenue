@@ -8,7 +8,9 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
         },
 
         onShow: function onShow () {
-            var media_container_width = this.$el.parent().parent().width();
+            var $view = this.$el.parent(),
+                $grid_item = $view.parent(),
+                media_container_width = $grid_item.parent().width();
 
             this.$el.sticky({ 'z': 10, old_width: false });
 

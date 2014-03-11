@@ -38,9 +38,9 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
                 resources = $target.data("view"),
                 ViewClass, view, model;
 
+            // TODO we can't do it this way, since the tab will always be
+            // prepopulated the first time we fetch
             // if the tab is already populated, don't populate it
-          // removed this line because the server-side HTML will naturally still be there
-          // when we render this (because of the new layout stuff)
           //if ($($target.attr("href")).children().length > 0) {
           //    return;
           //}
