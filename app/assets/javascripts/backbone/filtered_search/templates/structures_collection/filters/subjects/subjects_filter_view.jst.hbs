@@ -11,8 +11,7 @@
     <div data-type="menu" class="hidden four-fifths bordered bordered--orange bg-orange absolute east z-index-3 rounded--double">
         <div class="keyword-subjects push-half--top push--left relative">
             {{#each subjects}}
-                <a href="#tab-{{slug}}" class="{{#if is_first}}active{{/if}} inline-block white push--right push-half--bottom" data-type="button" data-value="{{slug}}" data-toggle="tab">
-                    <img src="/assets/icons/subjects/{{ slug }}-white.png">
+                <a href="#tab-{{slug}}" class="{{#if is_first}}active{{/if}} inline-block white push--right push-half--bottom subject_icon subject_icon__{{slug}}" data-type="button" data-value="{{slug}}" data-toggle="tab">
                 </a>
             {{/each}}
         </div>

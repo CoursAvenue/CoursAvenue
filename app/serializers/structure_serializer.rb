@@ -132,8 +132,6 @@ class StructureSerializer < ActiveModel::Serializer
     end
   end
 
-<<<<<<< HEAD
-=======
   # this is for the href attributes on the filtered search page,
   # so that they can point at a structure url with the params
   def query_url
@@ -144,7 +142,6 @@ class StructureSerializer < ActiveModel::Serializer
     @options[:query]
   end
 
->>>>>>> 2231307... Added query_params to serializers for structure
   def tag_names
     if @options[:jpo]
       object.open_course_subjects

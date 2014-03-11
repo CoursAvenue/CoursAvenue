@@ -83,4 +83,8 @@ class StructuresController < ApplicationController
       'users'
     end
   end
+
+  def query_string
+    request.env['QUERY_STRING']
+  end
 end
