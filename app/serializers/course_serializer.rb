@@ -9,13 +9,7 @@ class CourseSerializer < ActiveModel::Serializer
   has_many :plannings, serializer: PlanningSerializer
 
   def plannings
-    @plannings = object.plannings.future.ordered_by_day
-
-    if @options[:planning_groups]
-      @plannings = @options[:planning_groups][object.id]
-    end
-
-    @plannings
+    options[:plannings] || object.plannings.future.ordered_by_day
   end
 
   def has_free_trial_lesson

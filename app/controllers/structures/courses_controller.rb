@@ -18,7 +18,8 @@ class Structures::CoursesController < ApplicationController
         root: false,
         structure: @structure,
         search_term: params[:search_term],
-        jpo: (params[:course_types] == ['open_course'])
+        jpo: (params[:course_types] == ['open_course']),
+        plannings: plannings
       })
     end
 

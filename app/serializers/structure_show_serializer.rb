@@ -22,7 +22,7 @@ class StructureShowSerializer < ActiveModel::Serializer
   def courses
     object.courses.active.where(id: @options[:planning_groups].keys).map do |course|
 
-      CourseSerializer.new(course, planning_groups: @options[:planning_groups])
+      CourseSerializer.new(course, plannings: @options[:planning_groups][course.id])
     end
   end
 

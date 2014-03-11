@@ -45,7 +45,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
 
             ViewClass = this.findOrCreateCollectionViewForResource(resources);
 
-            this.model.fetchRelated(resources, { data: this.params_for_resource[resources]}, true)[0].then(function (collection) {
+            this.model.fetchRelated(resources, { data: this.getParamsForResource(resources)}, true)[0].then(function (collection) {
                 view = new ViewClass({
                     collection: new Backbone.Collection(collection),
                     data_url: this.model.get("data_url")
@@ -53,6 +53,10 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
 
                 this.showWidget(view);
             }.bind(this));
+        },
+
+        getParamsForResource: function getParamsForResource (resource) {
+            return _.extend(this.params_for_resource[resource], this.model.get("query_params"));
         },
 
         findOrCreateCollectionViewForResource: function findOrCreateCollectionViewForResource (resources) {
