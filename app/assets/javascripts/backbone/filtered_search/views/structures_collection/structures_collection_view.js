@@ -93,6 +93,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                 total: data.grandTotal,
             });
 
+            this.trigger('structures:updated:query', { query: this.collection.getQuery().replace('?', '') }); // Removing the first '?' character
             /* announce the filters used in the current result set */
             this.trigger('structures:updated:filter', {
                 address_name:        (data.server_api.address_name         ? data.server_api.address_name          : ''),

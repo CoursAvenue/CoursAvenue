@@ -77,11 +77,13 @@ OpenDoorsSearch.addInitializer(function(options) {
 
     var FiltersModule = OpenDoorsSearch.Views.StructuresCollection.Filters;
 
+    var subjects = new FilteredSearch.Models.SubjectsCollection(coursavenue.bootstrap.subjects);
+
     /* basic filters */
     infinite_scroll_button    = new FiltersModule.InfiniteScrollButtonView({});
     results_summary           = new FiltersModule.ResultsSummaryView({});
     subject_filter            = new FiltersModule.SubjectFilterView({});
-    keyword_filter            = new FiltersModule.KeywordFilterView({});
+    keyword_filter            = new FiltersModule.Subjects.SubjectsCollectionView({ collection: subjects });
     location_filter           = new FiltersModule.LocationFilterView({});
 
     /* advanced filters */

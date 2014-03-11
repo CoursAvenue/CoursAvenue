@@ -34,7 +34,7 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
 
             // now write back the server_api so that the search bar is up to date
             // we are passing this.server_api for fun! ^o^ why not?
-            if (window.history.pushState) { window.history.pushState({}, "Search Results", this.getQuery()); }
+            if (window.history.pushState) { window.history.pushState({}, "Recherche", this.getQuery()); }
 
             this.paginator_ui.currentPage = this.server_api.page();
 
