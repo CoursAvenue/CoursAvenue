@@ -21,6 +21,9 @@
         = Course::Open.all.map{|course| course.nb_participants_max * course.plannings.count}.reduce(&:+)
         places
 
+.white-box.islet.text--center
+  #participations
+
 %table.white-box.table--data.table--striped.table--white.push-half--top
   %thead
     %tr
@@ -52,3 +55,16 @@
             Sur liste d'attente
           - if participation.canceled?
             Annulé
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('#dataTable').tablesorter();
+        new Highcharts.Chart({
+            chart: { renderTo: 'participations', type: 'spline' },
+            title: { text: null },
+            xAxis: { categories: #{@participations_graph.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
+            yAxis: { title: { text: ''}},
+            series: [{ data: #{@participations_graph.map{|date, count| count}} }]
+        });
+    });

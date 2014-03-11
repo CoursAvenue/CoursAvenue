@@ -311,6 +311,9 @@ CoursAvenue::Application.routes.draw do
   end
 
   resources :subjects, only: [] do
+    member do
+      get :depth_2
+    end
     collection do
       get :descendants
     end

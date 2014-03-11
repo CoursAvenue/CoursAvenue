@@ -138,11 +138,19 @@ class StructureSerializer < ActiveModel::Serializer
   # this is for the href attributes on the filtered search page,
   # so that they can point at a structure url with the params
   def query_url
-    data_url + "?" + @options[:query_string]
+    data_url + "?" + (@options[:query_string] || '')
   end
 
   def query_params
-    @options[:query]
+    if @options[:jpo]
+      (@options[:query] || {}).merge({
+        course_types: ['open_course'],
+        start_date:   '05/04/2014',
+        end_date:     '06/04/2014'
+      })
+    else
+      @options[:query]
+    end
   end
 
   def tag_names

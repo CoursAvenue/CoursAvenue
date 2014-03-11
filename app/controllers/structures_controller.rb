@@ -4,8 +4,6 @@ class StructuresController < ApplicationController
 
   respond_to :json
 
-  PLANNING_FILTERED_KEYS = %w(audience_ids level_ids min_age_for_kids max_price min_price price_type max_age_for_kids trial_course_amount course_types week_days discount_types start_date end_date start_hour end_hour)
-
   layout :choose_layout
 
   def show
@@ -116,8 +114,8 @@ class StructuresController < ApplicationController
         render json: @structures,
                root: 'structures',
                place_ids: @places,
-               query: get_planning_filters,
-               query_string: query_string,
+               query: params,
+               query_string: request.env['QUERY_STRING'],
                each_serializer: StructureSerializer,
                meta: { total: @total, location: @latlng }
       end
@@ -125,7 +123,7 @@ class StructuresController < ApplicationController
       # 'query' is the current query string, which allows us to direct users to
       # a filtered version of the structures show action
       format.html do
-        @models = jasonify @structures, place_ids: @places, query: get_planning_filters, query_string: query_string
+        @models = jasonify @structures, place_ids: @places, query: params, query_string: request.env['QUERY_STRING']
         cookies[:structure_search_path] = request.fullpath
       end
     end

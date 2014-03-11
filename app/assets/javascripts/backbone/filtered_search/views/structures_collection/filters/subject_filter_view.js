@@ -24,10 +24,10 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 var subject_slug = this.$('.' + ACTIVE_CLASS + '[data-type="button"]').data('value');
             }
             if (this.$('[data-value=' + subject_slug + ']').hasClass(ACTIVE_CLASS)) {
-                this.trigger("filter:subject", { 'subject_id': null });
+                this.trigger("filter:subject", { subject_id: null });
                 this.disabledButton(subject_slug);
             } else {
-                this.trigger("filter:subject", { 'subject_id': subject_slug });
+                this.trigger("filter:subject", { subject_id: subject_slug });
                 this.activateButton(subject_slug);
             }
         },
