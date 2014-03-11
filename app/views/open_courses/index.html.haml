@@ -14,14 +14,16 @@
   = render 'users/registrations/jpo_popup'
 
 :javascript
-  window.coursavenue = window.coursavenue || {};
+  window.coursavenue  = window.coursavenue || {};
+  var subjects        = #{ Subject.stars.to_json };
+
   window.coursavenue.bootstrap = {
     options: {
       total: #{ @total },
       latlng: #{ @latlng }
     },
     models: #{ @models.to_json },
-    subjects: #{ Subject.stars.to_json },
+    subjects: subjects,
     discount_types: #{ Price::Discount::TYPES.to_json }
   };
 

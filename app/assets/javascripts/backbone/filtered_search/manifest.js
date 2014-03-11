@@ -9,6 +9,7 @@
 //= require ./models/place
 //= require ./models/structure
 //= require ./models/structures_collection
+//= require ./models/subjects_collection
 
 //---------- Views
 //= require ./views/manifest
