@@ -5,12 +5,16 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
         resource: "/" + App.resource + "/",
 
         url: function (models) {
+            var params;
+
             if (models === undefined) { return ''; }
 
-            /* TODO not super happy about this */
-            var query = this.structure.collection.getQuery();
+            params = {
+                format: 'json',
+                id: models[0].get('structure').get('id')
+            };
 
-            return Routes.structure_courses_path({format: 'json', id: models[0].get('structure').get('id')})
+            return Routes.structure_courses_path(params, this.structure.get("query_params"))
         }
     });
 
