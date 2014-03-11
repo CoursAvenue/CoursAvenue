@@ -3,18 +3,11 @@
 
 .blue-box.islet.push-half--bottom#show-structure-contact-wrapper
   .delta.push-half--bottom.text--center{style: 'margin-top: 3px;'}
-    - if action_name == 'jpo'
-      Contactez pour avoir plus
-      %br
-      d'informations
-    - else
-      Contactez pour réserver ou
-      %br
-      pour avoir plus d'infos
+    Réservez ou demandez plus d'infos
   - if current_user
-    = link_to 'Contacter', 'javascript:void(0)', class: 'btn btn--green btn--large btn--full', id: 'show-structure-contact'
+    = link_to 'Contacter gratuitement', 'javascript:void(0)', class: 'hard--sides btn btn--green btn--large btn--full', id: 'show-structure-contact'
   - else
-    = link_to 'Contacter', new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', width: 300}, class: 'fancybox.ajax btn btn--green btn--large btn--full', onclick: "ga('send', 'event', 'Se créer un compte', 'click','Contact form button')"
+    = link_to 'Contacter gratuitement', new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', width: 300}, class: 'fancybox.ajax hard--sides btn btn--green btn--large btn--full', onclick: "ga('send', 'event', 'Se créer un compte', 'click','Contact form button')"
 
 = simple_form_for [ClickLog.new(structure_id: @structure.id)], remote: true, html: { class: 'hidden', id: 'show-structure-contact-form' } do |f|
   - if @course
