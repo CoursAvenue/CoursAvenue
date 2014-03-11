@@ -1,5 +1,5 @@
 class SubjectsController < ApplicationController
-  include SubjectSeeker
+  include SubjectSeeker, FilteredSearchProvider
 
   respond_to :json
 
@@ -99,8 +99,22 @@ class SubjectsController < ApplicationController
   #
   # @return
   def depth_2
-    @subject  = Subject.find params[:id]
-    @subjects = @subject.descendants.at_depth(2)
+    root_subject      = Subject.find params[:id]
+    # As we show subject names that would correspond to the name attributes, we get rid of it
+    params.delete :name
+    if params_has_planning_filters?
+      @structure_search = PlanningSearch.search(params, group: :structure_id_str)
+    else
+      @structure_search = StructureSearch.search(params)
+    end
+    @subjects         = []
+    @structure_search.facet(:subject_ids).rows.each do |facet|
+      subject = Subject.find(facet.value)
+      if subject.depth == 2 and subject.root == root_subject
+        @subjects << subject
+      end
+    end
+    @subjects = @subjects.sort_by(&:name)
     respond_to do |format|
       format.json { render json: @subjects.to_json }
     end

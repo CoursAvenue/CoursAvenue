@@ -127,7 +127,8 @@ FilteredSearch.addInitializer(function(options) {
 
     layout.showWidget(keyword_filter, {
         events: {
-            'filter:subject': 'blurIrrelevantSubjects'
+            'filter:subject': 'blurIrrelevantSubjects',
+            'structures:updated:query': 'updateQuery'
         }
     });
     layout.showWidget(location_filter);

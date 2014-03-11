@@ -17,7 +17,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
 
         ui: {
             '$search_input'        : '#search-input',
-            '$grand_children'      : '[data-type=grand-children]',
             '$buttons'             : '[data-type=button]',
             '$icons'               : '[data-type=button] img',
             '$menu'                : '[data-type=menu]',
@@ -48,6 +47,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
                 displayKey: 'name',
                 source: engine.ttAdapter()
             });
+            this.updateSubjectGrandChildren();
         },
 
         /*
@@ -118,6 +118,12 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             $relevant_button.trigger("click", { target: $relevant_button.find('img').get(0), currentTarget: $relevant_button.get(0) });
         },
 
+        updateQuery: function(data) {
+            this.query         = data.query;
+            this.query_changed = true;
+            this.updateSubjectGrandChildren();
+        },
+
         /* When a user clicks on one of the icons, if the icon is not currently
          * "irrelevant", then we will activate that icon and try to fetch grand_children
          * for the relevant subject.
@@ -127,16 +133,32 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
                 return;
             }
 
-            var $target = $(e.currentTarget),
-                slug    = $target.data("value"),
-                model   = this.collection.findWhere({ slug: slug });
-
-            if (model.get("grand_children") === undefined) {
-                model.fetch();
-            }
-
+            var $target = $(e.currentTarget);
             this.ui.$buttons.removeClass("active");
             $target.addClass("active");
+
+            this.updateSubjectGrandChildren();
+        },
+
+        selectedSubject: function selectedSubject () {
+            var slug = this.$('[data-type=button].active').data('value') || this.$('[data-type=button]').first().data('value');
+            return this.collection.findWhere({ slug: slug });
+        },
+
+        updateSubjectGrandChildren: function updateSubjectGrandChildren () {
+            var model   = this.selectedSubject();
+
+            // Force fetching if the query has changed
+            // or if there is no grand_children yet
+            if (this.query_changed || model.get("grand_children") === undefined) {
+                model.trigger('fetch:start');
+                model.fetch( { data: this.query,
+                               success: function(model, response, options){
+                                   model.trigger('fetch:done');
+                               }
+                            } );
+                this.query_changed = false;
+            }
         },
 
         showMenu: function showMenu () {
@@ -162,7 +184,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
         // the keyword bar now needs the subjects, in order to provide autocompletion
         serializeData: function serializeData () {
             // get just the top level subject names and slugs
-            var subjects         = this.collection.map(function (model) {
+            var subjects = this.collection.map(function (model) {
                 return { slug: model.get("slug"), name: model.get("name") }
             });
 

@@ -15,6 +15,8 @@ class PlanningSearch
         fulltext params[:name]
       end
 
+      facet :subject_ids
+
       # --------------- Geolocation
       if params[:bbox_sw] && params[:bbox_ne]
         with(:location).in_bounding_box(params[:bbox_sw], params[:bbox_ne])
