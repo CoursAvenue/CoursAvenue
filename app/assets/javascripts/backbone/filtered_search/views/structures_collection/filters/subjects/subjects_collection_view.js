@@ -18,7 +18,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
         ui: {
             '$search_input'        : '#search-input',
             '$buttons'             : '[data-type=button]',
-            '$icons'               : '[data-type=button] img',
             '$menu'                : '[data-type=menu]',
             '$search_input_wrapper': '[data-type="search-input-wrapper"]'
         },
@@ -95,7 +94,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
         blurIrrelevantSubjects: function blurIrrelevantSubjects (data) {
             // If subject_id is null, then we are removing a filter.
             if (data.subject_id === null || data.subject_id == '') {
-                this.ui.$icons.removeClass("fade-out").data("irrelevant", false);
+                this.ui.$buttons.removeClass("fade-out").data("irrelevant", false);
                 this.ui.$buttons.attr("data-toggle", "tab");
                 return;
             }
@@ -106,16 +105,16 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             // We add the class fade-out to blur the icons visibly, and data-irrelevant
             // to prevent the icon from becoming "active". We erase data-toggle in
             // order to stop bootstrap from tabbing to an irrelevant tab.
-            this.ui.$icons.addClass("fade-out").data("irrelevant", true);
+            this.ui.$buttons.addClass("fade-out").data("irrelevant", true);
             this.ui.$buttons.attr("data-toggle", false);
 
             // The relevant button gets to retain its properties.
-            $relevant_button.find('img').removeClass("fade-out").data("irrelevant", false);
+            $relevant_button.removeClass("fade-out").data("irrelevant", false);
             $relevant_button.attr("data-toggle", "tab");
 
             // Finally we trigger a click so that the relevant button becomes active
             // and becomes the current tab.
-            $relevant_button.trigger("click", { target: $relevant_button.find('img').get(0), currentTarget: $relevant_button.get(0) });
+            $relevant_button.trigger("click", { target: $relevant_button.get(0), currentTarget: $relevant_button.get(0) });
         },
 
         updateQuery: function(data) {
