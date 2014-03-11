@@ -14,7 +14,7 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
                 id: models[0].get('structure').get('id')
             };
 
-            return Routes.structure_courses_path(params, this.structure.get("query_params"))
+            return Routes.structure_courses_path(params, this.structure.get("query_params"));
         }
     });
 
