@@ -33,6 +33,10 @@ module FilteredSearchProvider
     (params.keys & PLANNING_FILTERED_KEYS).any?
   end
 
+  def get_planning_filters
+    params.select { |key, value| PLANNING_FILTERED_KEYS.include? key }
+  end
+
   # Search for plannings regarding the params
   #
   # @return array [ structures models, total of results]

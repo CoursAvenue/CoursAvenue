@@ -5,25 +5,16 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
         resource: "/" + App.resource + "/",
 
         url: function (models) {
-            var query = "";
+            var params;
 
             if (models === undefined) { return ''; }
 
-            /* TODO not super happy about this */
-            // TODO this has become a problem, since we are now using structure
-            // in a context where it has no "collection"
-            if (this.structure.collection && _.isFunction(this.structure.collection.getQuery)) {
-                query = this.structure.collection.getQuery();
-            } else {
+            params = {
+                format: 'json',
+                id: models[0].get('structure').get('id')
+            };
 
-                // TODO this is clearly just a temporary solution
-                var lat = coursavenue.bootstrap.places[0].location.latitude,
-                    lng = coursavenue.bootstrap.places[0].location.longitude;
-
-                query = "?lat=" + lat + "&lng=" + lng;
-            }
-
-            return Routes.structure_courses_path({format: 'json', id: models[0].get('structure').get('id')})
+            return Routes.structure_courses_path(params, this.structure.get("query_params"))
         }
     });
 

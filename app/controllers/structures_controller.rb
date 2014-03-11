@@ -50,8 +50,13 @@ class StructuresController < ApplicationController
     @comments       = @structure.comments.accepted.reject(&:new_record?)
     @comment        = @structure.comments.build
 
-    @model = StructureShowSerializer.new(@structure, { unlimited_comments: true, query: query_string })
-
+    @model = StructureShowSerializer.new(@structure, { 
+      unlimited_comments: true,
+      query: get_planning_filters,
+      query_string: query_string,
+      planning_groups: @planning_groups
+    })
+    
     @tabs = [{
         icon: 'calendar',
         slug: 'courses',
@@ -111,7 +116,8 @@ class StructuresController < ApplicationController
         render json: @structures,
                root: 'structures',
                place_ids: @places,
-               query: query_string,
+               query: get_planning_filters,
+               query_string: query_string,
                each_serializer: StructureSerializer,
                meta: { total: @total, location: @latlng }
       end
@@ -119,7 +125,7 @@ class StructuresController < ApplicationController
       # 'query' is the current query string, which allows us to direct users to
       # a filtered version of the structures show action
       format.html do
-        @models = jasonify @structures, place_ids: @places, query: query_string
+        @models = jasonify @structures, place_ids: @places, query: get_planning_filters, query_string: query_string
         cookies[:structure_search_path] = request.fullpath
       end
     end
