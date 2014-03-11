@@ -14,7 +14,7 @@
           %br
           %span.f-weight-300 en Île-de-France
       .text--center.relative.jpo-call-to-actions.inline-block
-        = link_to 'Participer', participation_link, class: 'btn btn--yellow btn--bigger soft-half--ends soft--sides'
+        = link_to 'Participer', participation_link, class: 'btn btn--yellow btn--bigger soft-half--ends soft--sides', onclick: "ga('send', 'event', 'Participer', 'click', 'JPO banner')"
         %br>
         = link_to 'En savoir plus', know_more_link, class: 'white f-decoration-underlined milli', target: :_blank
       = image_tag 'jpo_2014/map.png', width: 678, height: 420, class: 'jpo-map absolute visuallyhidden--palm', title: 'Plus de 5 000 cours gratuit en Île-de-France'

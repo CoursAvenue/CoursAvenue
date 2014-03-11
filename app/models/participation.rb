@@ -28,6 +28,7 @@ class Participation < ActiveRecord::Base
   after_create :user_subscribed_email_for_teacher
   after_create :create_user_profile
   after_create :sends_email_if_no_more_place
+  after_create :check_if_was_on_invite
 
   before_save  :set_default_participation_for
 
@@ -234,6 +235,16 @@ class Participation < ActiveRecord::Base
       self.structure.jpo_email_status = 'no_more_place'
       self.structure.save
       ParticipationMailer.delay.no_more_place(self.structure)
+    end
+  end
+
+  # Send an email to the person who has invited him if it was the case
+  #
+  # @return nil
+  def check_if_was_on_invite
+    _email = self.user.email
+    InvitedUser::Student.where(email: _email).each do |invited_user|
+      ParticipationMailer.delay.inform_invitation_success_for_jpo(invited_user.referrer, self.user, self)
     end
   end
 end

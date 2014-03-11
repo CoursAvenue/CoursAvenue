@@ -9,7 +9,6 @@
   %p.blue
     %i Grâce aux passions renseignées dans votre rubrique "Mes infos", nous vous proposons ici tous les cours susceptibles de vous intéresser. Bonne découverte !
 
-
   %h4 Disciplines que vous pratiquez déjà
   - if @passions.practiced.empty?
     .text--center
@@ -17,7 +16,7 @@
       %br
       = link_to 'Renseigner mes passions pratiquées', user_passions_path(current_user), class: 'btn btn--green btn--large'
   - @passions.practiced.each do |passion|
-    = passion
+    %br
 
   %hr
 
@@ -28,7 +27,7 @@
       %br
       = link_to 'Renseigner mes passions pratiquées', user_passions_path(current_user), class: 'btn btn--green btn--large'
   - @passions.wanted.each do |passion|
-    = passion
+    %br
 - else
   %p Pour accéder à cette rubrique, vous devez préalablement avoir renseigné toutes vos passions (rubrique "Mes infos", onglet "Mes passions").
   .text--center

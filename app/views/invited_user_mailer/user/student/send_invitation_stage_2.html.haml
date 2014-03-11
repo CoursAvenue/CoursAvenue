@@ -13,4 +13,8 @@
 %p= @referrer.name
 
 - content_for :footer do
-  %p Vous recevez cet email car #{@referrer.name} vous invite sur CoursAvenue.
+  %p
+    Vous recevez cet email car #{@referrer.name} vous invite sur CoursAvenue.
+    - if @invited_user.user
+      = link_to 'Ne plus recevoir ces emails', unsubscribe_users_url(@invited_user.user.access_token, subdomain: 'www')
+
