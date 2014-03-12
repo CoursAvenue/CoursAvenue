@@ -9,7 +9,16 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         summaryTemplate: Module.templateDirname() + 'summary',
 
         ui: {
-            '$summary': '[data-summary]'
+            '$summary': '[data-summary]',
+            '$button': '[data-type=button]'
+        },
+
+        events: {
+            'click @ui.$button': 'announceSummaryClicked'
+        },
+
+        collectionEvents: {
+            'change': 'onRender'
         },
 
         onItemviewMouseenter: function (view, data) {
@@ -20,13 +29,15 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             this.trigger("course:mouse:leave", data);
         },
 
-        collectionEvents: {
-            'change': 'onRender'
-        },
-
         onRender: function () {
             var html = Marionette.Renderer.render(this.summaryTemplate, this.serializeData());
             this.ui.$summary.html(html);
+        },
+
+        announceSummaryClicked: function announceSummaryClicked (e) {
+            e.preventDefault();
+
+            this.trigger("summary:clicked");
         },
 
         /* serializeData

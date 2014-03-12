@@ -12,7 +12,8 @@ StructureProfile.addInitializer(function(options) {
         structure_view = new StructureProfile.Views.Structure.StructureView({
             model: structure,
             events: {
-                'breadcrumbs:clear': 'refetchCourses'
+                'breadcrumbs:clear': 'refetchCourses',
+                'summary:clicked'  : 'refetchCourses'
             }
         }),
         bounds         = window.coursavenue.bootstrap.center,

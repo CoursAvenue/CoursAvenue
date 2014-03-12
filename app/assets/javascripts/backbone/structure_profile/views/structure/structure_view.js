@@ -40,11 +40,15 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         refetchCourses: function refetchCourses (data) {
             var params = this.model.get("query_params");
 
-            _.each(data, function (value, key) {
-                if (_.has(params, value)) {
-                    delete params[value];
-                }
-            });
+            if (data === undefined) {
+                params = {};
+            } else {
+                _.each(data, function (value, key) {
+                    if (_.has(params, value)) {
+                        delete params[value];
+                    }
+                });
+            }
 
             this.model.set("query_params", params);
             this.model.fetchRelated("courses", { data: this.getParamsForResource("courses")}, true)[0].then(function (models) {
