@@ -16,6 +16,7 @@ class StructureShowSerializer < ActiveModel::Serializer
 
   has_many :places
   has_many :comments, serializer: ShortSerializer
+  has_many :teachers, serializer: ShortSerializer
   has_many :medias,   serializer: ShortSerializer
   has_many :preloaded_medias,  serializer: MediaSerializer
 
