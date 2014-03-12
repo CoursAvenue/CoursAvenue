@@ -98,9 +98,6 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        $('#slideshow').cycle({
-            timeout: 5000,
-        });
         $('#structure_zip_code').trigger('keyup');
         $('#structure_street').blur(function() {
             $.cookie('street', $(this).val());

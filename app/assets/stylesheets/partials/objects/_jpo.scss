@@ -89,7 +89,7 @@
     @include border-radius($brand-round);
 }
     .jpo-popup-rotation {
-        @include transform(rotate(-5.2deg));
+        @include transform(rotate(-5.5deg));
     }
     .popup-jpo-sticker {
         background-image : asset-url('jpo_2014/sticker.png');
@@ -125,8 +125,9 @@
     }
     .jpo-popup-tick-marks {
         margin-left: 50px;
+        margin-top : -30px;
         line-height: 2;
     }
     .popup-jpo-logo {
-        margin-top: 40px;
+        margin-top: 20px;
     }

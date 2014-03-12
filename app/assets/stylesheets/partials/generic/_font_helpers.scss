@@ -15,7 +15,10 @@
 // --------------------- Decorations
 .f-decoration-underlined      { text-decoration: underline; }
 .f-decoration-not-underlined  { text-decoration: none !important; }
-
+.f-white-transparent {
+    color: #EEE;
+    color: rgba(255, 255, 255, 0.8);
+}
 // --------------------- Size
 .inherit-font-size { font-size  : inherit; }
 .f-size-14 { font-size: 14px; }

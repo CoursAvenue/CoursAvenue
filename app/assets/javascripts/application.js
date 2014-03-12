@@ -25,7 +25,6 @@
 //= require libs/chosen.jquery
 //= require libs/jquery.tablesorter
 //= require libs/jquery.cookie
-//= require libs/jquery.cycle.lite
 //= require libs/typeahead
 //= require libs/jquery.scrollTo
 //= require libs/jquery.Jcrop
