@@ -10,12 +10,8 @@ module FilteredSearchProvider
   # otherwise just nil
   def filter_by_subject?
     params.delete(:subject_id) if params[:subject_id].blank?
-    if params[:subject_id] == 'other'
-      params[:other] = true
-      params.delete(:subject_id)
-    end
 
-    if params[:subject_id].present?
+    if params[:subject_id].present? and params[:subject_id] != 'other'
       Subject.friendly.find params[:subject_id]
     else
       # Little hack to determine if the name is equal a subject
