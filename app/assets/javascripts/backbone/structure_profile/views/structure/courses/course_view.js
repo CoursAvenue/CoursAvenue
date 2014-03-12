@@ -14,6 +14,23 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             };
         },
 
+        modelEvents: {
+            'change': 'updatePlannings'
+        },
+
+        /* the Course model used here as the composite part is the actual
+        * course model in the structure's courses relation. However, the
+        * collection of plannings is _not_ part of the structure. This means
+        * that the plannings won't automagically update. So we update them
+        * ourselves.
+        *
+        * TODO: clearly plannings should be a relation on Course... it will
+        * just take a brief sojourn in serialization hell to get it done.
+        * */
+        updatePlannings: function (model) {
+            this.collection.set(model.changed.plannings);
+        },
+
         onItemviewMouseenter: function (view, data) {
             this.trigger("mouseenter", data);
         },
