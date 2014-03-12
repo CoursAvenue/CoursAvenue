@@ -95,7 +95,7 @@
                 - unless @planning_groups[course["id"]].nil?
                 - plannings = ActiveModel::ArraySerializer.new(@planning_groups[course["id"]],   each_serializer: PlanningSerializer)
                   = render template: '../assets/javascripts/backbone/structure_profile/templates/structure/courses/course_view', locals: course
-                  %div{ data: { view: "Composite", of: "Plannings", and: "Course", bootstrap: { model: course, collection: plannings.serializable_array }.to_json }}
+                  %div
                     %table.table--striped{ data: { tagName: true }}
                       %thead
                         %th Jour
