@@ -15,7 +15,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
                     width: "300px"
                 },
                 enableEventPropagation: true,
-                infoBoxClearance: new google.maps.Size(100, 100),
+                infoBoxClearance: new google.maps.Size(30, 100),
                 closeBoxUrl: ""
             };
 
