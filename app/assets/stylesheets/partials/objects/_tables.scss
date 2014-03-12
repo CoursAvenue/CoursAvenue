@@ -46,11 +46,19 @@
 /**
  * Data table
  */
-.table--data{
+.table--data {
     @include font-size(13px);
     td {
         padding    : 0.5em 0.8em;
         line-height: 1.5;
+    }
+}
+
+.table--data-small {
+    @include font-size(12px);
+    td {
+        padding    : 0.5em;
+        line-height: 1.3;
     }
 }
 

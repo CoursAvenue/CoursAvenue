@@ -2,47 +2,85 @@
 {{else}}
 <hr class="push-half--ends">
 {{/if}}
-<div class="float--right text--right">
-    {{#if best_price}}
-        à partir de {{ min_price_amount }}€
-    {{/if}}
-    {{#if has_free_trial_lesson}}
-        <strong>(essai gratuit)</strong>
-        <br>
-        {{#if is_individual}}
-            <i class="fa fa-user pointer" data-behavior="tooltip" data-title="Cours individuel" data-placement="left"></i>
-        {{else}}
-            <span class="" data-behavior="tooltip" data-title="Cours collectif" data-placement="left">
-                <i class="fa fa-user"></i>
-                <i class="fa fa-user" style="left: -6px; top 2px; position:relative"></i>
-            </span>
-        {{/if}}
-    {{/if}}
-
+<div class="grid">
+    <div class="grid__item three-fifths">
+        <h3 class="base-font-style flush--bottom">
+            {{#if name }}
+            <a href="{{ data_url }}">{{ name }}</a>
+            {{else}}
+            <a href="#">Pas de Nom</a>
+            {{/if}}
+        </h3>
+        <span class="gray">
+            {{#if subjects }}
+                <i class="fa fa-tags"></i>
+                {{ subjects }}
+            {{else}}
+                <i class="fa fa-tags"></i>
+                Pas de Sujets
+            {{/if}}
+        </span>
+        <table class="table--striped table--data table--data-small">
+            <thead>
+                <th>Jour</th>
+                <th>Horaire</th>
+                <th>Niveaux</th>
+                <th>Audience</th>
+            </thead>
+            <tbody data-type="plannings-container"></tbody>
+        </table>
+    </div>{{!--
+ --}}<div class="grid__item two-fifths">
+        <ul class="tabs milli">
+            <li class="active">
+                <a href="#tab-description-course-{{id}}">Description</a>
+            </li>
+            <li>
+                <a href="#tab-price-course-{{id}}">Tarifs</a>
+            </li>
+        </ul>
+        <article id="tab-description-course-{{id}}" class="tab-pane active milli">
+            <table class="float--right one-half table--data-small table--striped bordered">
+                <tbody>
+                    {{#if teaches_at_home}}
+                        <tr>
+                            <td class="f-size-12">Cours à domicile ({{teaches_at_home_radiuse}})</td>
+                        </tr>
+                    {{/if}}
+                    {{#if is_individual}}
+                        <tr>
+                            <td class="f-size-12">Cours individuel</td>
+                        </tr>
+                    {{else}}
+                        <tr>
+                            <td class="f-size-12">Cours collectif</td>
+                        </tr>
+                    {{/if}}
+                    {{#if is_lesson}}
+                        <tr>
+                            <td class="f-size-12">Cours régulier</td>
+                        </tr>
+                        <tr>
+                            <td class="f-size-12">{{frequency}} du {{start_date}} au {{end_date}}</td>
+                        </tr>
+                    {{/if}}
+                    {{#if cant_be_joined_during_year}}
+                        <tr>
+                            <td class="f-size-12">Pas d'inscription en cours d'année</td>
+                        </tr>
+                    {{/if}}
+                    {{#if no_class_during_holidays}}
+                        <tr>
+                            <td class="f-size-12">Pas de cours pendant les vacances scolaires</td>
+                        </tr>
+                    {{/if}}
+                </tbody>
+            </table>
+            <div class="read-more" data-behavior="read-more">
+                {{{ simple_format description }}}
+            </div>
+        </article>
+        <article id="tab-price-course-{{id}}" class="tab-pane">
+        </article>
+    </div>
 </div>
-<h3 class="base-font-style flush--bottom">
-    {{#if name }}
-    <a href="{{ data_url }}">{{ name }}</a>
-    {{else}}
-    <a href="#">Pas de Nom</a>
-    {{/if}}
-</h3>
-<span class="gray">
-    {{#if subjects }}
-    <i class="fa fa-tags"></i>
-    {{ subjects }}
-    {{else}}
-    <i class="fa fa-tags"></i>
-    Pas de Sujets
-    {{/if}}
-</span>
-
-<table class="table--striped">
-    <thead>
-        <th>Jour</th>
-        <th>Horaire</th>
-        <th>Niveaux</th>
-        <th>Audience</th>
-    </thead>
-    <tbody></tbody>
-</table>

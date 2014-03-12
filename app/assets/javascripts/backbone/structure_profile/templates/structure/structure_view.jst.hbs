@@ -12,10 +12,12 @@
                  <td><strong>Cours proposés</strong></td>
                  <td>{{given_course_types}}</td>
              </tr>
+           {{#if given_funding_type}}
              <tr>
                  <td><strong>Financements acceptés</strong></td>
                  <td>{{given_funding_type}}</td>
              </tr>
+            {{/if}}
          </tbody>
        </table>
         {{{ simple_format description }}}

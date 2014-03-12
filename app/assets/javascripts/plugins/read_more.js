@@ -42,8 +42,8 @@
             this.$element.addClass('read-more');
             if(this.$element.data('height')) {
                 this.options.text_height = this.$element.data('height');
-                this.$element.css('max-height', this.options.text_height + 'px');
             }
+            this.$element.css('max-height', this.options.text_height + 'px');
             if (this.original_height > this.options.text_height) {
                 this.is_hidden = true;
                 this.$element.addClass('read-more');
