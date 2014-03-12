@@ -69,7 +69,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             ViewClass = this.findOrCreateCollectionViewForResource(resources);
 
             view = new ViewClass({
-                collection: this.model.get("courses"),
+                collection: this.model.get(resources),
                 data_url: this.model.get("data_url")
             });
 
@@ -95,7 +95,12 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
                     className: 'white-box islet',
                     itemView: Marionette.ItemView.extend({
                         template: Module.templateDirname() + resources + '/' + resource + '_view'
-                    })
+                    }),
+                    // TODO this seems like it shouldn't be necessary...
+                    // I thought this would just happen automatically?
+                    collectionEvents: {
+                        'change': 'render'
+                    }
                 });
             }
 
