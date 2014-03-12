@@ -9,7 +9,7 @@ class CourseSerializer < ActiveModel::Serializer
   has_many :plannings, serializer: PlanningSerializer
 
   def plannings
-    options[:plannings] || object.plannings.future.ordered_by_day
+    @options[:plannings] || object.plannings.future.ordered_by_day
   end
 
   def plannings_not_shown

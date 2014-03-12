@@ -7,7 +7,7 @@ class StructuresController < ApplicationController
   layout :choose_layout
 
   def show
-    
+
     begin
       @structure = Structure.friendly.find params[:id]
       @structure_decorator = @structure.decorate
@@ -48,30 +48,12 @@ class StructuresController < ApplicationController
     @comments       = @structure.comments.accepted.reject(&:new_record?)
     @comment        = @structure.comments.build
 
-    @model = StructureShowSerializer.new(@structure, { 
+    @model = StructureShowSerializer.new(@structure, {
       unlimited_comments: true,
       query: get_planning_filters,
       query_string: query_string,
       planning_groups: @planning_groups
     })
-    
-    @tabs = [{
-        icon: 'calendar',
-        slug: 'courses',
-        name: 'Cours'
-      },
-      {
-        icon: '',
-        slug: 'comments',
-        name: 'Avis'
-      },
-      {
-        icon: 'group',
-        slug: 'teachers',
-        name: 'Professeurs'
-      }
-    ]
-
   end
 
   def jpo

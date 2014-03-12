@@ -31,6 +31,7 @@ class Subject < ActiveRecord::Base
   scope :roots_with_position,    -> { where{(ancestry == nil) & (position != nil)} }
   scope :roots_without_position, -> { where{(ancestry == nil) & (position == nil)} }
   scope :stars,                  -> { where{position < 8}.order('position ASC') }
+  scope :roots_not_stars,        -> { where{(position >= 8) & (ancestry == nil)}.order('position ASC') }
 
   attr_accessible :name, :short_name, :info, :parent, :position, :title, :subtitle, :description, :image,
                   :good_to_know, :needed_meterial, :tips, :ancestry
@@ -43,7 +44,12 @@ class Subject < ActiveRecord::Base
   # @return Boolean
   def descendant_of?(supposed_root)
     return false if self.ancestry.blank? or supposed_root.nil?
-    return self.ancestor_ids.include? supposed_root.id
+    _ancestor_ids = self.ancestor_ids
+    if supposed_root.is_a? Array
+      return supposed_root.find{|_supposed_root| _ancestor_ids.include?(_supposed_root.id) } || false
+    else
+      return _ancestor_ids.include? supposed_root.id
+    end
   end
 
   def little_children
