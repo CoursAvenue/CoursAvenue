@@ -6,12 +6,27 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         template: Module.templateDirname() + 'courses_collection_view',
         itemViewContainer: '[data-type=container]',
 
+        summaryTemplate: Module.templateDirname() + 'summary',
+
+        ui: {
+            '$summary': '[data-summary]'
+        },
+
         onItemviewMouseenter: function (view, data) {
             this.trigger("course:mouse:enter", data);
         },
 
         onItemviewMouseleave: function (view, data) {
             this.trigger("course:mouse:leave", data);
+        },
+
+        collectionEvents: {
+            'change': 'onRender'
+        },
+
+        onRender: function () {
+            var html = Marionette.Renderer.render(this.summaryTemplate, this.serializeData());
+            this.ui.$summary.html(html);
         },
 
         /* serializeData
