@@ -18,8 +18,8 @@
             %span.f-weight-300 GRATUITS
 
         .jpo-popup-tick-marks.jpo-popup-rotation.ff-open-sans.f-weight-400
-          %ul.rslides
-            - @open_courses.each do |text, slug_group|
+          %ul.jpo-rslides
+            - @open_courses_slugs.each do |text, slug_group|
               %li
                 %h4.push-half--bottom= text
                 - slug_group.each do |slug|
@@ -126,8 +126,8 @@
                 }
           });
           $('.fancybox-inner').css('overflow', 'visible');
-          $(".rslides").responsiveSlides({
-              timeout: 5000,
+          $(".jpo-rslides").responsiveSlides({
+              timeout: 500000,
               pager: true,           // Boolean: Show pager, true or false
               pauseControls: true,    // Boolean: Pause when hovering controls, true or false
           });
