@@ -5,8 +5,19 @@ FilteredSearch.module('Views.StructuresCollection.Filters.FilterBreadcrumbs', fu
     Module.FilterBreadcrumbsView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'filter_breadcrumbs_view',
 
-        initialize: function() {
+        fancy_breadcrumb_names: {},
+
+        initialize: function initialize (options) {
+            this.debounced_render = _.debounce(Marionette.ItemView.prototype.render, 500);
             this.breadcrumbs = {};
+
+            if (options && options.fancy_breadcrumb_names) {
+                this.fancy_breadcrumb_names = options.fancy_breadcrumb_names;
+            }
+        },
+
+        render: function render () {
+            this.debounced_render();
         },
 
         ui: {
@@ -20,66 +31,61 @@ FilteredSearch.module('Views.StructuresCollection.Filters.FilterBreadcrumbs', fu
         // @data: - hash
         //    target: name of the filter
         //    name
-        removeBreadCrumb: function(data) {
+        removeBreadCrumb: function removeBreadCrumb (data) {
             delete this.breadcrumbs[data.target];
             this.render();
         },
 
-        onRender: function() {
+        onRender: function onRender () {
             this.$('[data-behavior="tooltip"]').tooltip();
+        },
+
+        /* for each datum, call addBreadcrumb*/
+        addBreadCrumbs: function addBreadCrumbs (data) {
+            // we are given data like { 'audience': 1, 'week_days': 1 }
+            _.each(data, function (value, key) {
+                this.addBreadCrumb({ target: key });
+            }.bind(this));
         },
 
         // @data: - hash
         //    target
         //    name
-        addBreadCrumb: function(data) {
+        addBreadCrumb: function addBreadCrumb (data) {
             this.breadcrumbs[data.target] = {target: data.target};
-            switch(data.target) {
-                case 'level':
-                    this.breadcrumbs[data.target].name = 'Niveaux';
-                break;
-                case 'audience':
-                    this.breadcrumbs[data.target].name = 'Public';
-                break;
-                case 'course_type':
-                    this.breadcrumbs[data.target].name = 'Type de cours';
-                break;
-                case 'discount':
-                    this.breadcrumbs[data.target].name = 'Tarifs réduits';
-                break;
-                case 'date':
-                    this.breadcrumbs[data.target].name = 'Date';
-                break;
-                case 'price':
-                    this.breadcrumbs[data.target].name = 'Prix';
-                break;
-                case 'structure_types':
-                    this.breadcrumbs[data.target].name = 'Type de structure';
-                break;
-                case 'payment_method':
-                    this.breadcrumbs[data.target].name = 'Financements acceptés';
-                break;
-                case 'trial_course':
-                    this.breadcrumbs[data.target].name = "Cours d'essai";
-                break;
-            }
+
+            this.breadcrumbs[data.target].name = this.fancy_breadcrumb_names[data.target];
+
             if (data.title)           { this.breadcrumbs[data.target].title = data.title; }
             if (data.additional_info) { this.breadcrumbs[data.target].additional_info = data.additional_info; }
-            this.render();
+
+            this.render(); // we debounce this because it could be called many times in a row
         },
 
         // TODO debounce the removal of filters, so that if a person clear
         // many filters we will only emit one event.
         // TODO OR namespace the events for each filter
         // for now, will namespace, but I can see that being weird
-        clear: function (e) {
+        clear: function clear (e) {
             var data = $(e.currentTarget).data();
             this.trigger('breadcrumbs:clear:' + data.target);
             this.removeBreadCrumb(data);
             this.render();
         },
 
-        serializeData: function() {
+        // we only want to serialize each breadcrumb once, though they may appear multiple times
+        serializeData: function serializeData () {
+            // breadcrumbs is like { week_days: 'Date', age_max: 'Audience', age_min: 'Audience' }
+            // but we don't want "Audience" in there twice. This reduce uniq's the object by value
+            this.breadcrumbs = _.reduce(this.breadcrumbs, function (memo, v, k) {
+                if (memo[v.name]) {
+                    return memo;
+                }
+
+                memo[v.name] = v;
+                return memo;
+            }, {});
+
             return {
                 breadcrumbs: this.breadcrumbs
             }

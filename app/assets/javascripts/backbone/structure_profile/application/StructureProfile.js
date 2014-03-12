@@ -26,7 +26,25 @@ StructureProfile.addInitializer(function(options) {
     });
 
     filter_breadcrumbs        = new FilteredSearch.Views.StructuresCollection.Filters.FilterBreadcrumbs.FilterBreadcrumbsView({
-        template: StructureProfile.Views.Structure.templateDirname() + 'filter_breadcrumbs_view'
+        template: StructureProfile.Views.Structure.templateDirname() + 'filter_breadcrumbs_view',
+        fancy_breadcrumb_names: {
+            'week_days'           : 'Date',
+            'audience_ids'        : 'Public',
+            'level_ids'           : 'Niveaux',
+            'min_age_for_kids'    : 'Audience',
+            'max_price'           : 'Prix',
+            'min_price'           : 'Prix',
+            'price_type'          : 'Prix',
+            'max_age_for_kids'    : 'Audience',
+            'trial_course_amount' : 'Cours d\'essai',
+            'course_types'        : 'Type de Cours',
+            'week_days'           : 'Date',
+            'discount_types'      : 'Tarifs réduits',
+            'start_date'          : 'Date',
+            'end_date'            : 'Date',
+            'start_hour'          : 'Date',
+            'end_hour'            : 'Date',
+        }
     });
 
     layout.render();
@@ -39,7 +57,7 @@ StructureProfile.addInitializer(function(options) {
 
     layout.showWidget(filter_breadcrumbs, {
         events: {
-            'filter:breadcrumb:add':     'addBreadCrumb',
+            'filter:breadcrumbs:add'  :  'addBreadCrumbs',
             'filter:breadcrumb:remove':  'removeBreadCrumb'
         }
     });

@@ -21,12 +21,17 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             $(document).on("click", '[data-toggle=tab]', this.showOrCreateTab);
         },
 
+        onAfterShow: function () {
+            this.trigger("filter:breadcrumbs:add", this.model.get("query_params"));
+        },
+
         showOrCreateTab: function (e) {
             var $target   = $(e.currentTarget),
                 resources = $target.data("view"),
                 ViewClass, view, model;
 
-            if ($($target.attr("href")).children().length > 0) {
+            // if this tab has no associated resource, or if it is already populated, we bail
+            if (!resources || $($target.attr("href")).children().length > 0) {
                 return;
             }
 
