@@ -19,23 +19,21 @@
 
         .jpo-popup-tick-marks.jpo-popup-rotation.ff-open-sans.f-weight-400
           %ul.rslides
-            - Course::Open.limit(9).in_groups_of(3).each do |course_group|
+            - @open_courses.each do |text, slug_group|
               %li
-                - course_group.each do |course|
+                %h4.push-half--bottom= text
+                - slug_group.each do |slug|
+                  - course = Course::Open.where(slug: slug).first
+                  - next unless course
                   .line-height-normal.push-half--bottom
                     = image_tag course.structure.logo, class: 'inline-block v-middle', style: 'height: 55px; width: 55px; float: none;'
                     .inline-block.v-middle
-                      .bold
-                        = course.name
-                        GRATUIT
-                      .milli
-                        %i.fa.fa-clock-o
-                        %i
-                          = planning_date_for course.plannings.first
-                          = planning_time_for course.plannings.first, false
+                      %h4.flush{title: course.name}
+                        = truncate(course.name, length: 45)
+                      .milli.f-white-transparent
                         %i.fa.fa-map-marker
                         %i= course.plannings.first.place.location.city.name
-                      .milli
+                      .milli.f-white-transparent
                         %i.fa.fa-gift
                         Offert par
                         = link_to truncate(course.structure.name, length: 30), structure_path(course.structure), target: :_blank, class: 'muted-link'
@@ -82,7 +80,7 @@
           = f.input :name, label: false, placeholder: 'Prénom + Nom',      input_html: {class: 'one-whole', value: (@user ? "@user.name" : nil)}, wrapper_html: {class: 'push-half--bottom'}
           -# f.input :first_name, label: false, placeholder: 'Prénom',      input_html: {class: 'one-whole', value: (@user ? @user.first_name : nil)}, wrapper_html: {class: 'flush'}
           -# f.input :last_name,  label: false, placeholder: 'Nom',         input_html: {class: 'one-whole'}
-          -# f.input :zip_code,   label: false, placeholder: 'Code postal', input_html: {class: 'one-whole'}
+          = f.input :zip_code,   label: false, placeholder: 'Code postal', input_html: {class: 'one-whole'}
           = f.input :email,      label: false, placeholder: 'Email',       input_html: {class: 'one-whole', value: (@user ? @user.email : nil)}, wrapper_html: {class: 'flush--top'}
           = f.input :password, label: false, placeholder: 'Mot de passe', input_html: {class: 'one-whole'}
           = f.button :submit, "Inscription", class: 'one-whole btn--purple'
@@ -107,6 +105,7 @@
   :javascript
     $(function() {;
         $.fancybox($('#jpo-popup'), {
+                topRatio    : 0.3,
                 openSpeed   : 300,
                 maxWidth    : 830,
                 maxHeight   : 450,
@@ -128,13 +127,9 @@
           });
           $('.fancybox-inner').css('overflow', 'visible');
           $(".rslides").responsiveSlides({
+              timeout: 5000,
               pager: true,           // Boolean: Show pager, true or false
               pauseControls: true,    // Boolean: Pause when hovering controls, true or false
-              //prevText: "Previous",   // String: Text for the "previous" button
-              //nextText: "Next",       // String: Text for the "next" button
-              //maxwidth: "",           // Integer: Max-width of the slideshow, in pixels
-              navContainer: "",       // Selector: Where controls should be appended to, default is after the 'ul'
-              manualControls: "",     // Selector: Declare custom pager navigation
           });
     });
     $('#show_new_session_form').click(function(){
