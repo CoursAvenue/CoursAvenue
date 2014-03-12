@@ -15,6 +15,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # Method taken from devise lib
   def create
+    if params[:user] and params[:user][:name]
+      params[:user][:first_name] = params[:user][:name].split(' ')[0..params[:user][:name].split(' ').length - 2].join(' ')
+      params[:user][:last_name]  = params[:user][:name].split(' ').last if self.params[:user][:name].split(' ').length > 1
+      params[:user].delete :name
+    end
+
     ## Start of changes
     if (@user = User.inactive.where(email: params[:user][:email]).first).nil?
       @user = User.new params[:user]

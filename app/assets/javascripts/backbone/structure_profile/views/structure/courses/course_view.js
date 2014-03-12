@@ -4,7 +4,7 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
     Module.CourseView = Marionette.CompositeView.extend({
         template: Module.templateDirname() + 'course_view',
         itemView: Module.Plannings.PlanningView,
-        itemViewContainer: 'tbody',
+        itemViewContainer: '[data-type=plannings-container]',
         emptyView: Module.EmptyView,
 
         itemViewOptions: function itemViewOptions (model, index) {
@@ -38,7 +38,6 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         onItemviewMouseleave: function (view, data) {
             this.trigger("mouseleave", data);
         }
-
     });
 
 }, undefined);

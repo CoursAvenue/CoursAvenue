@@ -5,7 +5,10 @@
     %link{rel: 'canonical', href: structures_url}
 
 = content_for :title do
-  = "#{(params[:subject_id].present? ? "Établissements de #{@subject.name.downcase}" : 'Établissements')} #{(params[:name].present? ? "correspondant à : « #{params[:name]} »" : (params[:city].present? ? "à #{params[:city]}" : 'à Paris'))}"
+  - if @subject
+    = "#{(params[:subject_id].present? ? "Établissements de #{@subject.name.downcase}" : 'Établissements')} #{(params[:name].present? ? "correspondant à : « #{params[:name]} »" : (params[:city].present? ? "à #{params[:city]}" : 'à Paris'))}"
+  - else
+    = "Établissements #{(params[:name].present? ? "correspondant à : « #{params[:name]} »" : (params[:city].present? ? "à #{params[:city]}" : 'à Paris'))}"
 
 
 :javascript
@@ -33,7 +36,7 @@
   - if params[:name]
     %li= params[:name]
 %h1.text--center.delta.flush.lbl.lbl--blue.visuallyhidden
-  - if params[:subject_id].present?
+  - if @subject
     Établissements de #{@subject.name.downcase}
   - else
     Établissements

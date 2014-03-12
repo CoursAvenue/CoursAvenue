@@ -4,7 +4,8 @@ class CourseSerializer < ActiveModel::Serializer
   include ActionView::Helpers::NumberHelper
 
   attributes :id, :name, :description, :type, :start_date, :end_date, :min_price_amount, :min_price_libelle, :data_url, :subjects,
-             :has_free_trial_lesson, :event_type, :best_price, :is_individual, :search_term, :plannings_not_shown
+             :has_free_trial_lesson, :event_type, :best_price, :is_individual, :search_term, :plannings_not_shown, :is_lesson, :frequency,
+             :cant_be_joined_during_year, :no_class_during_holidays, :teaches_at_home, :teaches_at_home_radius
 
   has_many :plannings, serializer: PlanningSerializer
 
@@ -25,7 +26,11 @@ class CourseSerializer < ActiveModel::Serializer
   end
 
   def teaches_at_home
-    self.teaches_at_home?
+    object.teaches_at_home?
+  end
+
+  def teaches_at_home_radius
+    object.structure.teaches_at_home_radius
   end
 
   def best_price
@@ -44,12 +49,16 @@ class CourseSerializer < ActiveModel::Serializer
     object.type_name
   end
 
+  def is_lesson
+    object.is_lesson?
+  end
+
   def start_date
-    I18n.l(object.start_date, format: :short) if object.start_date
+    I18n.l(object.start_date, format: :semi_short) if object.start_date
   end
 
   def end_date
-    I18n.l(object.end_date, format: :short) if object.end_date
+    I18n.l(object.end_date, format: :semi_short) if object.end_date
   end
 
   def data_url
@@ -70,5 +79,9 @@ class CourseSerializer < ActiveModel::Serializer
 
   def search_term
     options[:search_term] if options[:search_term].present?
+  end
+
+  def frequency
+    I18n.t(object.frequency) if object.frequency.present?
   end
 end

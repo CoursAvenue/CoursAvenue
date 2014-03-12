@@ -1,3 +1,29 @@
-<article id="tab-courses"  class="tab-pane active" data-type="courses-collection"></article>
-<article id="tab-comments" class="tab-pane"        data-type="comments-collection"></article>
-<article id="tab-teachers" class="tab-pane"        data-type="teachers-collection"></article>
+<article id="tab-description" class="tab-pane active">
+    <div class="white-box islet">
+       <table class="one-half float--right table--data table--striped bordered">
+         <tbody>
+           {{#if structure_type}}
+             <tr>
+                 <td><strong>Type de structure</strong></td>
+                 <td>{{structure_type}}</td>
+             </tr>
+            {{/if}}
+             <tr>
+                 <td><strong>Cours proposés</strong></td>
+                 <td>{{given_course_types}}</td>
+             </tr>
+           {{#if given_funding_type}}
+             <tr>
+                 <td><strong>Financements acceptés</strong></td>
+                 <td>{{given_funding_type}}</td>
+             </tr>
+            {{/if}}
+         </tbody>
+       </table>
+        {{{ simple_format description }}}
+    </div>
+
+</article>
+<article id="tab-courses"     class="tab-pane" data-type="courses-collection"></article>
+<article id="tab-comments"    class="tab-pane" data-type="comments-collection"></article>
+<article id="tab-teachers"    class="tab-pane" data-type="teachers-collection"></article>

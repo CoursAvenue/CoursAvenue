@@ -40,6 +40,10 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             this.trigger("summary:clicked");
         },
 
+        onAfterShow: function() {
+            this.$('[data-behavior=read-more]').readMore();
+        },
+
         /* serializeData
         *
         * we need the number of courses
