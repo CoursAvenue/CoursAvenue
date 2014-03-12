@@ -99,7 +99,11 @@ class SubjectsController < ApplicationController
   #
   # @return
   def depth_2
-    root_subject      = Subject.find params[:id]
+    if params[:id] == 'other'
+      root_subjects = Subject.roots_not_stars.all
+    else
+      root_subjects = Subject.find params[:id]
+    end
     # As we show subject names that would correspond to the name attributes, we get rid of it
     params.delete :name
     if params_has_planning_filters?
@@ -110,7 +114,7 @@ class SubjectsController < ApplicationController
     @subjects         = []
     @structure_search.facet(:subject_ids).rows.each do |facet|
       subject = Subject.find(facet.value)
-      if subject.depth == 2 and subject.descendant_of? root_subject
+      if subject.depth == 2 and subject.descendant_of? root_subjects
         @subjects << subject
       end
     end

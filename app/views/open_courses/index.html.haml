@@ -16,6 +16,8 @@
 :javascript
   window.coursavenue  = window.coursavenue || {};
   var subjects        = #{ Subject.stars.to_json };
+  // Adding other subject to the collection because it's a fake object
+  subjects.push( { name: 'Autres', slug: 'other'} );
 
   window.coursavenue.bootstrap = {
     options: {

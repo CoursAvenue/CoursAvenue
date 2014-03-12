@@ -2,6 +2,7 @@
 FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.Subject = Backbone.Model.extend({
+
         url: function url () {
             return Routes.depth_2_subject_path({format: 'json', id: this.get("slug")})
         },
@@ -16,6 +17,5 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
 
     Module.SubjectsCollection = Backbone.Collection.extend({
         model: Module.Subject
-
     });
 });

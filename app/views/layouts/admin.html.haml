@@ -38,12 +38,12 @@
             .flexbox__item.v-top.five-twelfths>
               .text--center.v-middle.orange-box.white.rounded>
                 - if @structure.courses.open_courses.any?
-                  = link_to communicate_pro_structure_course_opens_path(@structure), class: 'soft-half--top semi-muted-link block', onclick: "ga('send', 'event', 'JPO', 'click')" do
+                  = link_to communicate_pro_structure_course_opens_path(@structure), class: 'soft-half--top semi-muted-link block white', onclick: "ga('send', 'event', 'JPO', 'click')" do
                     = image_tag 'jpo_2014/logo_1_line.png', height: 60, width: 199, class: 'block center-block'
                     .delta Profitez de l'événement pour faire parler de vous :
                     %p Activez vos 4 actions de communication
                 - else
-                  = link_to pro_structure_course_opens_path(@structure), class: 'soft-half--top semi-muted-link block', onclick: "ga('send', 'event', 'JPO', 'click')" do
+                  = link_to pro_structure_course_opens_path(@structure), class: 'soft-half--top semi-muted-link block white', onclick: "ga('send', 'event', 'JPO', 'click')" do
                     = image_tag 'jpo_2014/logo_1_line.png', height: 60, width: 199, class: 'block center-block'
                     .delta Participez aux Portes Ouvertes CoursAvenue
                     %p Week-end du 5 et 6 avril 2014
