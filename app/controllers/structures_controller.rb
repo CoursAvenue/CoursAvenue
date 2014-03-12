@@ -51,7 +51,7 @@ class StructuresController < ApplicationController
     @model = StructureShowSerializer.new(@structure, {
       unlimited_comments: true,
       query: get_planning_filters,
-      query_string: query_string,
+      query_string: request.env['QUERY_STRING'],
       planning_groups: @planning_groups
     })
   end

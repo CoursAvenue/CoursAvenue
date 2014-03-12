@@ -6,10 +6,6 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         template: Module.templateDirname() + 'courses_collection_view',
         itemViewContainer: '[data-type=container]',
 
-        initialize: function() {
-            this.collection.at(0).is_first = true;
-        },
-
         onItemviewMouseenter: function (view, data) {
             this.trigger("course:mouse:enter", data);
         },

@@ -21,7 +21,6 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         onItemviewMouseleave: function (view, data) {
             this.trigger("mouseleave", data);
         }
-
     });
 
 }, undefined);
