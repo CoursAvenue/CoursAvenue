@@ -14,7 +14,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             }
         },
 
-        initialize: function () {
+        initialize: function initialize () {
             _.bindAll(this, "showOrCreateTab");
 
             // eaves drop on bootstraps tab implementation
@@ -37,7 +37,22 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             }
         },
 
-        showOrCreateTab: function (e) {
+        refetchCourses: function refetchCourses (data) {
+            var params = this.model.get("query_params");
+
+            _.each(data, function (value, key) {
+                if (_.has(params, value)) {
+                    delete params[value];
+                }
+            });
+
+            this.model.set("query_params", params);
+            this.model.fetchRelated("courses", { data: this.getParamsForResource("courses")}, true)[0].then(function (models) {
+
+            }.bind(this));
+        },
+
+        showOrCreateTab: function showOrCreateTab (e) {
             var $target   = $(e.currentTarget),
                 resources = $target.data("view"),
                 ViewClass, view, model;
@@ -49,18 +64,18 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
 
             ViewClass = this.findOrCreateCollectionViewForResource(resources);
 
-            this.model.fetchRelated(resources, { data: this.getParamsForResource(resources)}, true)[0].then(function (collection) {
-                view = new ViewClass({
-                    collection: new Backbone.Collection(collection),
-                    data_url: this.model.get("data_url")
-                });
+            view = new ViewClass({
+                collection: this.model.get("courses"),
+                data_url: this.model.get("data_url")
+            });
 
-                this.showWidget(view);
-            }.bind(this));
+            this.showWidget(view);
+
+            this.model.fetchRelated(resources, { data: this.getParamsForResource(resources)}, true);
         },
 
         getParamsForResource: function getParamsForResource (resource) {
-            return _.extend(this.params_for_resource[resource], this.model.get("query_params"));
+            return _.extend({}, this.params_for_resource[resource], this.model.get("query_params"));
         },
 
         findOrCreateCollectionViewForResource: function findOrCreateCollectionViewForResource (resources) {

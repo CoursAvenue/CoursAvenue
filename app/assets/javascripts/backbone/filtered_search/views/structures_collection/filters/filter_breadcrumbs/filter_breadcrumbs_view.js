@@ -73,7 +73,11 @@ FilteredSearch.module('Views.StructuresCollection.Filters.FilterBreadcrumbs', fu
         // for now, will namespace, but I can see that being weird
         clear: function clear (e) {
             var data = $(e.currentTarget).data();
-            this.trigger('breadcrumbs:clear:' + data.target);
+
+            // announce that clearing has happened, and which filter was cleared
+            this.trigger('breadcrumbs:clear', data);
+            this.trigger('breadcrumbs:clear:' + data.target, data);
+
             this.removeBreadCrumb(data);
             this.render();
         },

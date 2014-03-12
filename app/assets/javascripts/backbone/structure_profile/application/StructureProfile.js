@@ -9,7 +9,12 @@ StructureProfile.addInitializer(function(options) {
     var bootstrap      = window.coursavenue.bootstrap.structure,
         layout         = new StructureProfile.Views.StructureProfileLayout(),
         structure      = new FilteredSearch.Models.Structure(bootstrap, bootstrap.options),
-        structure_view = new StructureProfile.Views.Structure.StructureView({ model: structure }),
+        structure_view = new StructureProfile.Views.Structure.StructureView({
+            model: structure,
+            events: {
+                'breadcrumbs:clear': 'refetchCourses'
+            }
+        }),
         bounds         = window.coursavenue.bootstrap.center,
         google_maps_view, filter_breadcrumbs;
 
@@ -61,7 +66,6 @@ StructureProfile.addInitializer(function(options) {
             'filter:breadcrumb:remove':  'removeBreadCrumb'
         }
     });
-
 
     layout.master.show(structure_view);
 });
