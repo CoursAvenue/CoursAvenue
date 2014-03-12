@@ -20,7 +20,7 @@ class OpenCoursesController < ApplicationController
                                               'journee-portes-ouvertes-comedien-de-doublage'],
       'Cours de Yoga & Bien-être GRATUITS' => ['julie-lecureuil-sophrologie-soi-journee-portes-ouvertes-cours-de-sophro-relaxation-bulle-detente-serenite',
                                               'association-les-quatre-piliers-journee-portes-ouvertes-aterlier-de-qi-gong-tai-chi-et-stretching-postural',
-                                              'portes-ouvertes-cours-loisirs/journee-portes-ouvertes-atelier-bien-etre-coaching-developpement-personnel'],
+                                              'journee-portes-ouvertes-atelier-bien-etre-coaching-developpement-personnel'],
       'Cours de Musique & Chant GRATUITS' => ['journee-portes-ouvertes-cours-de-chant-moderne-jazz-chansons-rock-etc',
                                               'belliard-productions-journee-portes-ouvertes-guitare-basse-batterie-et-chant',
                                               'journee-portes-ouvertes-initiation-a-la-musique-persane-et-decouverte-des-instruments-iraniens'],
