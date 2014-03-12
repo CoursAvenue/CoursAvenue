@@ -86,7 +86,21 @@ FilteredSearch.addInitializer(function(options) {
     location_filter           = new FiltersModule.LocationFilterView({});
 
     /* advanced filters */
-    filter_breadcrumbs        = new FiltersModule.FilterBreadcrumbs.FilterBreadcrumbsView({});
+    /* we pass in a dictionary defining what we want the titles of the breadcrumbs
+     * to be*/
+    filter_breadcrumbs        = new FiltersModule.FilterBreadcrumbs.FilterBreadcrumbsView({
+        fancy_breadcrumb_names: {
+            'level'           : 'Niveaux',
+            'audience'        : 'Public',
+            'course_type'     : 'Type de cours',
+            'discount'        : 'Tarifs réduits',
+            'date'            : 'Date',
+            'price'           : 'Prix',
+            'structure_types' : 'Type de structure',
+            'payment_method'  : 'Financements acceptés',
+            'trial_course'    : "Cours d'essai"
+        }
+    });
 
     level_filter              = new FiltersModule.LevelFilterView({});
     course_type_filter        = new FiltersModule.CourseTypeFilterView({});

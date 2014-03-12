@@ -21,6 +21,10 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             $(document).on("click", '[data-toggle=tab]', this.showOrCreateTab);
         },
 
+        onAfterShow: function () {
+            this.trigger("filter:breadcrumbs:add", this.model.get("query_params"));
+        },
+
         onRender: function () {
             var $currently_active_tab = $(".tabs li.active"),
                 anchor = $currently_active_tab.find("[data-toggle]");
