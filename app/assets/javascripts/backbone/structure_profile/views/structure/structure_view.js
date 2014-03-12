@@ -21,29 +21,14 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             $(document).on("click", '[data-toggle=tab]', this.showOrCreateTab);
         },
 
-        onRender: function () {
-            var $currently_active_tab = $(".tabs li.active"),
-                anchor = $currently_active_tab.find("[data-toggle]");
-
-            if (anchor.length > 0) {
-                anchor = anchor[0];
-                this.showOrCreateTab({ currentTarget: anchor });
-            } else {
-                this.showOrCreateTab({ currentTarget: $("[data-view=courses]")[0] });
-            }
-        },
-
         showOrCreateTab: function (e) {
             var $target   = $(e.currentTarget),
                 resources = $target.data("view"),
                 ViewClass, view, model;
 
-            // TODO we can't do it this way, since the tab will always be
-            // prepopulated the first time we fetch
-            // if the tab is already populated, don't populate it
-          //if ($($target.attr("href")).children().length > 0) {
-          //    return;
-          //}
+            if ($($target.attr("href")).children().length > 0) {
+                return;
+            }
 
             ViewClass = this.findOrCreateCollectionViewForResource(resources);
 

@@ -66,3 +66,16 @@ Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
             return options.inverse(this);
     }
 });
+
+Handlebars.registerHelper('simple_format', function (text) {
+    var carriage_returns = /\r\n?/g;
+    var paragraphs       = /\n\n+/g;
+    var newline          = /([^\n]\n)(?=[^\n])/g;
+
+    var text = text.replace(carriage_returns, "\n"); // \r\n and \r -> \n
+    text = text.replace(paragraphs, "</p>\n\n<p>"); // 2+ newline  -> paragraph
+    text = text.replace(newline, "$1<br/>"); // 1 newline   -> br
+    text = "<p>" + text + "</p>";
+
+    return new Handlebars.SafeString(text);
+});
