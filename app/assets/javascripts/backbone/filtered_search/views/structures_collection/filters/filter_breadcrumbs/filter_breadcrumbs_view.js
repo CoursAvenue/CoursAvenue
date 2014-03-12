@@ -75,6 +75,17 @@ FilteredSearch.module('Views.StructuresCollection.Filters.FilterBreadcrumbs', fu
 
         // we only want to serialize each breadcrumb once, though they may appear multiple times
         serializeData: function serializeData () {
+            // breadcrumbs is like { week_days: 'Date', age_max: 'Audience', age_min: 'Audience' }
+            // but we don't want "Audience" in there twice. This reduce uniq's the object by value
+            this.breadcrumbs = _.reduce(this.breadcrumbs, function (memo, v, k) {
+                if (memo[v.name]) {
+                    return memo;
+                }
+
+                memo[v.name] = v;
+                return memo;
+            }, {});
+
             return {
                 breadcrumbs: this.breadcrumbs
             }
