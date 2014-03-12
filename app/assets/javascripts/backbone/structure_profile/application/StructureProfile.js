@@ -11,7 +11,7 @@ StructureProfile.addInitializer(function(options) {
         structure      = new FilteredSearch.Models.Structure(bootstrap, bootstrap.options),
         structure_view = new StructureProfile.Views.Structure.StructureView({ model: structure }),
         bounds         = window.coursavenue.bootstrap.center,
-        google_maps_view;
+        google_maps_view, filter_breadcrumbs;
 
     window.pfaff = structure;
 
@@ -25,6 +25,10 @@ StructureProfile.addInitializer(function(options) {
         }
     });
 
+    filter_breadcrumbs        = new FilteredSearch.Views.StructuresCollection.Filters.FilterBreadcrumbs.FilterBreadcrumbsView({
+        template: StructureProfile.Views.Structure.templateDirname() + 'filter_breadcrumbs_view'
+    });
+
     layout.render();
     layout.showWidget(google_maps_view, {
         events: {
@@ -32,6 +36,14 @@ StructureProfile.addInitializer(function(options) {
             "course:mouse:leave": "exciteMarkers"
         }
     });
+
+    layout.showWidget(filter_breadcrumbs, {
+        events: {
+            'filter:breadcrumb:add':     'addBreadCrumb',
+            'filter:breadcrumb:remove':  'removeBreadCrumb'
+        }
+    });
+
 
     layout.master.show(structure_view);
 });
