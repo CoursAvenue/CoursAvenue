@@ -55,9 +55,10 @@
         = simple_form_for User.new, url: user_registration_path, html: { id: 'register-form' } do |f|
           %input{type: 'hidden', name: 'user_return_to', value: request.fullpath}
           = f.error_notification
-          = f.input :first_name, label: false, placeholder: 'Prénom',      input_html: {class: 'one-whole', value: (@user ? @user.first_name : nil)}, wrapper_html: {class: 'flush'}
-          = f.input :last_name,  label: false, placeholder: 'Nom',         input_html: {class: 'one-whole'}
-          = f.input :zip_code,   label: false, placeholder: 'Code postal', input_html: {class: 'one-whole'}
+          = f.input :name, label: false, placeholder: 'Prénom + Nom',      input_html: {class: 'one-whole', value: (@user ? "@user.name" : nil)}, wrapper_html: {class: 'push-half--bottom'}
+          -# f.input :first_name, label: false, placeholder: 'Prénom',      input_html: {class: 'one-whole', value: (@user ? @user.first_name : nil)}, wrapper_html: {class: 'flush'}
+          -# f.input :last_name,  label: false, placeholder: 'Nom',         input_html: {class: 'one-whole'}
+          -# f.input :zip_code,   label: false, placeholder: 'Code postal', input_html: {class: 'one-whole'}
           = f.input :email,      label: false, placeholder: 'Email',       input_html: {class: 'one-whole', value: (@user ? @user.email : nil)}, wrapper_html: {class: 'flush--top'}
           = f.input :password, label: false, placeholder: 'Mot de passe', input_html: {class: 'one-whole'}
           = f.button :submit, "Inscription", class: 'one-whole btn--purple'
