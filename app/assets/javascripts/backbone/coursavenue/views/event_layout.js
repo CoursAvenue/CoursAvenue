@@ -16,10 +16,10 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             * the events hash in UserProfilesCollectionView
             * which is used to set up the layout */
 
-            var layout_events;
+            this.layout_events = undefined;
 
             if (options) {
-                layout_events = options.events;
+                this.layout_events = options.events;
                 delete options.events; // we need Backbone to never see this...
             }
 
@@ -35,8 +35,8 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             });
 
             // finally, bind the layout_events if they exist
-            if (layout_events) {
-                Marionette.bindEntityEvents(this, this, layout_events);
+            if (this.layout_events) {
+                Marionette.bindEntityEvents(this, this, this.layout_events);
             }
 
             /* click outside events are not broadcast so they must be
@@ -142,6 +142,18 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         /* fires after the main region is first shown */
         onMasterShow: function(view) {
+
+            // Such edge case! Amaze!
+            // if the master region is showing a view that... extends EventLayout!
+            // then we have problems. EventLayout hides its events hash so that
+            // it can declare its DOM events and App events together. However,
+            // we need it to unhide them for us here. So if view.events is missing
+            // and there are layout_events, then we will treat them as the events
+            // to bind for the master view
+            if (view.events === undefined && view.layout_events !== undefined) {
+                view.events = view.layout_events;
+            }
+
             var self = this;
 
             /* the layout broadcasts all main region events */

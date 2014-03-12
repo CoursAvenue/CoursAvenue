@@ -32,7 +32,12 @@ FilteredSearch.module('Views.StructuresCollection.Filters.FilterBreadcrumbs', fu
         //    target: name of the filter
         //    name
         removeBreadCrumb: function removeBreadCrumb (data) {
-            delete this.breadcrumbs[data.target];
+            var fancy_name = this.fancy_breadcrumb_names[data.target];
+
+            if (fancy_name) {
+                delete this.breadcrumbs[fancy_name];
+            }
+
             this.render();
         },
 
