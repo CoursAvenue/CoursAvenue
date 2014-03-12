@@ -42,12 +42,10 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
                 resources = $target.data("view"),
                 ViewClass, view, model;
 
-            // TODO we can't do it this way, since the tab will always be
-            // prepopulated the first time we fetch
-            // if the tab is already populated, don't populate it
-          //if ($($target.attr("href")).children().length > 0) {
-          //    return;
-          //}
+            // if this tab has no associated resource, or if it is already populated, we bail
+            if (!resources || $($target.attr("href")).children().length > 0) {
+                return;
+            }
 
             ViewClass = this.findOrCreateCollectionViewForResource(resources);
 
