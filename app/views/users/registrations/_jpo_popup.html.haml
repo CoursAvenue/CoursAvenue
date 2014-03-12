@@ -37,7 +37,6 @@
                         %i.fa.fa-gift
                         Offert par
                         = link_to truncate(course.structure.name, length: 30), structure_path(course.structure), target: :_blank, class: 'muted-link'
-                        (valeur du cours : #{readable_amount(course.common_price)}€)
           %p.flush.f-weight-600{style: 'line-height: 1; font-size: 17px;'}
             \...et plein d'autres !
           -# %p.flush
