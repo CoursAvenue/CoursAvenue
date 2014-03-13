@@ -29,13 +29,13 @@
  --}}<div class="grid__item two-fifths">
         <ul class="tabs milli">
             <li class="active">
-                <a href="#tab-description-course-{{id}}">Description</a>
+                <a data-toggle="tab" href="#tab-description-course-{{id}}">Description</a>
             </li>
             <li>
-                <a href="#tab-price-course-{{id}}">Tarifs</a>
+                <a data-toggle="tab" href="#tab-price-course-{{id}}">Tarifs</a>
             </li>
         </ul>
-        <div class="tabs-container">
+        <div class="tab-content">
             <article id="tab-description-course-{{id}}" class="tab-pane active milli">
                 <table class="float--right one-half table--data-small table--striped bordered">
                     <tbody>
@@ -78,7 +78,86 @@
                 </div>
             </article>
             <article id="tab-price-course-{{id}}" class="tab-pane">
-            </article>
+                <table class="table--striped table--data table--data-small bordered">
+                    <thead>
+                        <tr>
+                            <th>Type de formule</th>
+                            <th>Prix</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each book_tickets}}
+                            <tr>
+                                <td>{{libelle}}</td>
+                                <td>
+                                    {{amount}}€
+                                    {{#if info}}
+                                        <i class="float--right push-half--left lbc-brand-icon" data-behavior="tooltip" title="{{info}}" ></i>
+                                    {{/if}}
+                                </td>
+                            </tr>
+                        {{/each}}
+                        {{#each subscriptions}}
+                            <tr>
+                                <td>{{libelle}}</td>
+                                <td>
+                                    {{amount}}€
+                                    {{#if info}}
+                                        <i class="float--right push-half--left lbc-brand-icon" data-behavior="tooltip" title="{{info}}" ></i>
+                                    {{/if}}
+                                </td>
+                            </tr>
+                        {{/each}}
+                        {{#if discounts}}
+                            <tr>
+                                <th colspan="2" class="text--left bordered--top">Tarifs réduits</th>
+                            </tr>
+                        {{/if}}
+                        {{#each discounts}}
+                            <tr>
+                                <td>{{libelle}}</td>
+                                <td>
+                                    -{{promo_percentage}}%
+                                    {{#if info}}
+                                        <i class="float--right push-half--left lbc-brand-icon" data-behavior="tooltip" title="{{info}}" ></i>
+                                    {{/if}}
+                                </td>
+                            </tr>
+                        {{/each}}
+                        <tr>
+                            <th colspan="2" class="text--left bordered--top">Autres infos</th>
+                        </tr>
+                        {{#each trials}}
+                            <tr>
+                                <td>{{libelle}}</td>
+                                <td>
+                                    {{amount}}€
+                                    {{#if info}}
+                                        <i class="float--right push-half--left lbc-brand-icon" data-behavior="tooltip" title="{{info}}" ></i>
+                                    {{/if}}
+                                </td>
+                            </tr>
+                        {{/each}}
+                        {{#each registrations}}
+                            <tr>
+                                <td>Adhésion</td>
+                                <td>
+                                    {{amount}}€
+                                    {{#if info}}
+                                        <i class="float--right push-half--left lbc-brand-icon" data-behavior="tooltip" title="{{info}}" ></i>
+                                    {{/if}}
+                                </td>
+                            </tr>
+                        {{/each}}
+                        {{#if price_details}}
+                            <tr>
+                                <td>Informations</td>
+                                <td>{{price_details}}</td>
+                            </tr>
+                        {{/if}}
+                    </tbody>
+                </table>
+           </article>
         </div>
     </div>
 </div>
