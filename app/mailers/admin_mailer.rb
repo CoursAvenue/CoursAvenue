@@ -26,7 +26,7 @@ class AdminMailer < ActionMailer::Base
 
   def stickers_has_been_sent(sticker_demand)
     @structure = sticker_demand.structure
-    mail to: @structure.main_contact.email, subject: "Vos d’autocollants viennent d'être expédiés"
+    mail to: @structure.main_contact.email, subject: "Vos autocollants viennent d'être expédiés"
   end
 
   ######################################################################
@@ -125,7 +125,7 @@ class AdminMailer < ActionMailer::Base
   def planning_outdated(structure)
     @structure  = structure
     @show_links = true
-    mail to: structure.main_contact.email, subject: 'Mettez à jour votre planning de cours sur CoursAvenue'
+    mail to: structure.main_contact.email, subject: 'Mettez à jour votre planning sur CoursAvenue'
   end
 
   def less_than_fifteen_recommendations(structure)

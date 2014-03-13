@@ -1,12 +1,14 @@
 - content_for :promo do
   %h4
-    Votre profil CoursAvenue n'affiche aucun cours : renseignez votre planning en quelques minutes seulement
+    Votre profil CoursAvenue n'affiche aucun cours : renseignez votre planning en quelques minutes
 
 %p
   Bonjour #{@structure.name},
 
 %p
-  Mettez à jour votre planning de cours et augmentez vos chances d'avoir des réservations grâce à CoursAvenue :
+  Dès qu'un utilisateur CoursAvenue utilise les filtres avancés pour rechercher un cours,
+  %strong votre profil n'apparaît plus sur notre moteur de recherche.
+  Pour ne rater aucune opportunité de mise en relation, renseignez votre planning de cours :
 
 %p.action
   = link_to "Mettre à jour mon planning", pro_structure_courses_url(@structure, subdomain: 'www'), class: 'btn btn--green'
