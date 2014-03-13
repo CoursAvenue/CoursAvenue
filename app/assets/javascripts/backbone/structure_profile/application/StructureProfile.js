@@ -17,11 +17,12 @@ StructureProfile.addInitializer(function(options) {
 
     google_maps_view = new StructureProfile.Views.Map.GoogleMapsView({
         collection: new Backbone.Collection(window.coursavenue.bootstrap.structure.places, { model: StructureProfile.Models.Place }),
+
         mapOptions: {
             center: new google.maps.LatLng(bounds.lat, bounds.lng)
         },
-        infoBoxOptions: {
-            infoBoxClearance: new google.maps.Size(100, 100)
+        infoBoxViewOptions: {
+            infoBoxClearance: new google.maps.Size(0, 0)
         }
     });
 

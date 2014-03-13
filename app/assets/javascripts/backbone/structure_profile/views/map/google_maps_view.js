@@ -1,6 +1,7 @@
 StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette, $, _, undefined) {
 
     Module.GoogleMapsView = CoursAvenue.Views.Map.GoogleMap.GoogleMapsView.extend({
+        infoBoxView:  Module.InfoBoxView,
 
         onShow: function onShow () {
             var $view = this.$el.parent(),
