@@ -615,6 +615,10 @@ class Structure < ActiveRecord::Base
     participations.not_canceled.count.to_f / total_jpo_places.to_f
   end
 
+  def email_opt_in
+    main_contact.email_opt_in
+  end
+
   private
 
   # Strip name if exists to prevent from name starting by a space
