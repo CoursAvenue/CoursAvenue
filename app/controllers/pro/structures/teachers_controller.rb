@@ -13,9 +13,10 @@ class Pro::Structures::TeachersController < InheritedResources::Base
     @teachers  = @structure.teachers.order('name ASC')
 
     respond_to do |format|
-      render json: @teachers,
-             root: 'teachers',
-             each_serializer: TeacherSerializer
+      format.html
+      # render json: @teachers,
+      #        root: 'teachers',
+      #        each_serializer: TeacherSerializer
     end
   end
 

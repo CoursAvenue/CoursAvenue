@@ -45,11 +45,11 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
                 },
                 collectionType: Backbone.Collection.extend({
                     url: function (models) {
-                        if (models === undefined) { return ''; }
+                        var structure_id = window.coursavenue.bootstrap.structure.id;
 
-                        var model_ids = _.pluck(models, 'id').join(',');
+                        if (!structure_id && models === undefined) { return ''; }
 
-                        return Routes.structure_comments_path({format: 'json', id: models[0].get('structure').get('id'), unlimited_comments: true });
+                        return Routes.structure_comments_path({format: 'json', id: structure_id || models[0].get('structure').get('id'), unlimited_comments: true });
                     }
                 })
             },
@@ -77,8 +77,9 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
                 },
                 collectionType: Backbone.Collection.extend({
                     url: function (models) {
-                        if (models === undefined) { return ''; }
-                        return Routes.structure_teachers_path({ format: 'json', id: models[0].get('structure').get('id') })
+                        var structure_id = window.coursavenue.bootstrap.structure.id;
+                        if (!structure_id && models === undefined) { return ''; }
+                        return Routes.structure_teachers_path({ format: 'json', id: structure_id || models[0].get('structure').get('id') })
                     }
                 })
             },

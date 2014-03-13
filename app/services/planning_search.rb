@@ -97,7 +97,7 @@ class PlanningSearch
         order_by :has_comment, :desc
       end
 
-      paginate page: (params[:page] || 1), per_page: (params[:per_page] || 15)
+      paginate page: (params[:page] || 1), per_page: (params[:per_page] || 50)
     end
 
     @search

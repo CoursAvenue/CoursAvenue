@@ -141,16 +141,11 @@
         }
     });
     (function () {
-      var places    = #{ActiveModel::ArraySerializer.new(@structure.places,   each_serializer: BigPlaceSerializer).to_json };
-      var teachers  = #{ActiveModel::ArraySerializer.new(@structure.teachers, each_serializer: TeacherSerializer).to_json };
-      var courses   = #{ActiveModel::ArraySerializer.new(@structure.courses,  each_serializer: CourseSerializer).to_json };
+      var places = #{ActiveModel::ArraySerializer.new(@structure.places,   each_serializer: BigPlaceSerializer).to_json };
 
       window.coursavenue = window.coursavenue || {};
       window.coursavenue.bootstrap = {
         structure: #{ @model.to_json },
-        courses: courses,
-        teachers: teachers,
-        comments: #{ @model.comments.to_json },
         places: places,
         center: #{ @center.to_json }
       };

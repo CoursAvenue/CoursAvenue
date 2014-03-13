@@ -4,5 +4,8 @@ class TeacherSerializer < ActiveModel::Serializer
   def description
     object.description.force_encoding(Encoding::ISO_8859_1) if object.description
   end
-end
 
+  def image
+    object.image.url(:normal)
+  end
+end

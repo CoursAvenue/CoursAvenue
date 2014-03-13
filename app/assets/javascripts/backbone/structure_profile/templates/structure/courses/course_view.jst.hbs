@@ -20,64 +20,145 @@
             <thead>
                 <th>Jour</th>
                 <th>Horaire</th>
-                <th>Niveaux</th>
-                <th>Audience</th>
+                <th>Niveau</th>
+                <th>Public</th>
             </thead>
             <tbody data-type="plannings-container"></tbody>
         </table>
     </div>{{!--
  --}}<div class="grid__item two-fifths">
-        <ul class="tabs milli">
+        <ul class="tabs">
             <li class="active">
-                <a href="#tab-description-course-{{id}}">Description</a>
+                <a data-toggle="tab" href="#tab-description-course-{{id}}">Description</a>
             </li>
             <li>
-                <a href="#tab-price-course-{{id}}">Tarifs</a>
+                <a data-toggle="tab" href="#tab-price-course-{{id}}">Tarifs</a>
             </li>
         </ul>
-        <article id="tab-description-course-{{id}}" class="tab-pane active milli">
-            <table class="float--right one-half table--data-small table--striped bordered">
-                <tbody>
-                    {{#if teaches_at_home}}
+        <div class="tab-content">
+            <article id="tab-description-course-{{id}}" class="tab-pane active milli">
+                <table class="float--right one-half table--data-small table--striped bordered">
+                    <tbody>
+                        {{#if teaches_at_home}}
+                            <tr>
+                                <td class="f-size-12">Cours à domicile ({{teaches_at_home_radiuse}})</td>
+                            </tr>
+                        {{/if}}
+                        {{#if is_individual}}
+                            <tr>
+                                <td class="f-size-12">Cours individuel</td>
+                            </tr>
+                        {{else}}
+                            <tr>
+                                <td class="f-size-12">Cours collectif</td>
+                            </tr>
+                        {{/if}}
+                        {{#if is_lesson}}
+                            <tr>
+                                <td class="f-size-12">Cours régulier</td>
+                            </tr>
+                            <tr>
+                                <td class="f-size-12">{{frequency}} du {{start_date}} au {{end_date}}</td>
+                            </tr>
+                        {{/if}}
+                        {{#if cant_be_joined_during_year}}
+                            <tr>
+                                <td class="f-size-12">Pas d'inscription en cours d'année</td>
+                            </tr>
+                        {{/if}}
+                        {{#if no_class_during_holidays}}
+                            <tr>
+                                <td class="f-size-12">Pas de cours pendant les vacances scolaires</td>
+                            </tr>
+                        {{/if}}
+                    </tbody>
+                </table>
+                <div class="read-more" data-behavior="read-more">
+                    {{{ simple_format description }}}
+                </div>
+            </article>
+            <article id="tab-price-course-{{id}}" class="tab-pane">
+                <table class="table--striped table--data table--data-small bordered">
+                    <thead>
                         <tr>
-                            <td class="f-size-12">Cours à domicile ({{teaches_at_home_radiuse}})</td>
+                            <th>Type de formule</th>
+                            <th>Prix</th>
                         </tr>
-                    {{/if}}
-                    {{#if is_individual}}
+                    </thead>
+                    <tbody>
+                        {{#each book_tickets}}
+                            <tr>
+                                <td>{{libelle}}</td>
+                                <td>
+                                    {{amount}}€
+                                    {{#if info}}
+                                        <i class="float--right push-half--left lbc-brand-icon" data-behavior="tooltip" title="{{info}}" ></i>
+                                    {{/if}}
+                                </td>
+                            </tr>
+                        {{/each}}
+                        {{#each subscriptions}}
+                            <tr>
+                                <td>{{libelle}}</td>
+                                <td>
+                                    {{amount}}€
+                                    {{#if info}}
+                                        <i class="float--right push-half--left lbc-brand-icon" data-behavior="tooltip" title="{{info}}" ></i>
+                                    {{/if}}
+                                </td>
+                            </tr>
+                        {{/each}}
+                        {{#if discounts}}
+                            <tr>
+                                <th colspan="2" class="text--left bordered--top">Tarifs réduits</th>
+                            </tr>
+                        {{/if}}
+                        {{#each discounts}}
+                            <tr>
+                                <td>{{libelle}}</td>
+                                <td>
+                                    -{{promo_percentage}}%
+                                    {{#if info}}
+                                        <i class="float--right push-half--left lbc-brand-icon" data-behavior="tooltip" title="{{info}}" ></i>
+                                    {{/if}}
+                                </td>
+                            </tr>
+                        {{/each}}
                         <tr>
-                            <td class="f-size-12">Cours individuel</td>
+                            <th colspan="2" class="text--left bordered--top">Autres infos</th>
                         </tr>
-                    {{else}}
-                        <tr>
-                            <td class="f-size-12">Cours collectif</td>
-                        </tr>
-                    {{/if}}
-                    {{#if is_lesson}}
-                        <tr>
-                            <td class="f-size-12">Cours régulier</td>
-                        </tr>
-                        <tr>
-                            <td class="f-size-12">{{frequency}} du {{start_date}} au {{end_date}}</td>
-                        </tr>
-                    {{/if}}
-                    {{#if cant_be_joined_during_year}}
-                        <tr>
-                            <td class="f-size-12">Pas d'inscription en cours d'année</td>
-                        </tr>
-                    {{/if}}
-                    {{#if no_class_during_holidays}}
-                        <tr>
-                            <td class="f-size-12">Pas de cours pendant les vacances scolaires</td>
-                        </tr>
-                    {{/if}}
-                </tbody>
-            </table>
-            <div class="read-more" data-behavior="read-more">
-                {{{ simple_format description }}}
-            </div>
-        </article>
-        <article id="tab-price-course-{{id}}" class="tab-pane">
-        </article>
+                        {{#each trials}}
+                            <tr>
+                                <td>{{libelle}}</td>
+                                <td>
+                                    {{amount}}€
+                                    {{#if info}}
+                                        <i class="float--right push-half--left lbc-brand-icon" data-behavior="tooltip" title="{{info}}" ></i>
+                                    {{/if}}
+                                </td>
+                            </tr>
+                        {{/each}}
+                        {{#each registrations}}
+                            <tr>
+                                <td>Adhésion</td>
+                                <td>
+                                    {{amount}}€
+                                    {{#if info}}
+                                        <i class="float--right push-half--left lbc-brand-icon" data-behavior="tooltip" title="{{info}}" ></i>
+                                    {{/if}}
+                                </td>
+                            </tr>
+                        {{/each}}
+                        {{#if price_details}}
+                            <tr>
+                                <td>Informations</td>
+                                <td>{{price_details}}</td>
+                            </tr>
+                        {{/if}}
+                    </tbody>
+                </table>
+           </article>
+        </div>
     </div>
 </div>
 

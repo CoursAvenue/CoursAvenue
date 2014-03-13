@@ -42,6 +42,7 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
 
         onAfterShow: function() {
             this.$('[data-behavior=read-more]').readMore();
+            this.$('[data-behavior=tooltip]').tooltip();
         },
 
         /* serializeData
