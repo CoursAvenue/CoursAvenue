@@ -155,6 +155,7 @@
 
 .btn--facebook {
     @extend .btn--social;
+    overflow        : hidden;
     border-color    : darken($facebook-blue, 3%);
     background-color: $facebook-blue;
     padding         : 0 0.4em;
