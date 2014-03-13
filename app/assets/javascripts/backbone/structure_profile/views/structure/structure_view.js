@@ -108,7 +108,6 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             } else {
                 ViewClass = Backbone.Marionette.CollectionView.extend({
                     template: Module.templateDirname() + resources + '/' + resources + '_collection_view',
-                    className: 'white-box islet',
                     itemView: Marionette.ItemView.extend({
                         template: Module.templateDirname() + resources + '/' + resource + '_view'
                     }),
