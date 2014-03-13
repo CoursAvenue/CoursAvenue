@@ -42,11 +42,10 @@ class StructuresController < ApplicationController
 
     @city           = @structure.city
     @places         = @structure.places
-    @courses        = @structure.courses.without_open_courses.active
-    @teachers       = @structure.teachers
     @medias         = @structure.medias.videos_first
-    @comments       = @structure.comments.accepted.reject(&:new_record?)
-    @comment        = @structure.comments.build
+    @teachers       = @structure.teachers
+    # @courses        = @structure.courses.without_open_courses.active
+    # @comments       = @structure.comments.accepted.reject(&:new_record?)
 
     @model = StructureShowSerializer.new(@structure, {
       unlimited_comments: true,

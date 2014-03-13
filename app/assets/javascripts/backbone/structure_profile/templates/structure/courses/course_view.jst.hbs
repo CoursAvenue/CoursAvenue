@@ -20,8 +20,8 @@
             <thead>
                 <th>Jour</th>
                 <th>Horaire</th>
-                <th>Niveaux</th>
-                <th>Audience</th>
+                <th>Niveau</th>
+                <th>Public</th>
             </thead>
             <tbody data-type="plannings-container"></tbody>
         </table>
@@ -35,49 +35,51 @@
                 <a href="#tab-price-course-{{id}}">Tarifs</a>
             </li>
         </ul>
-        <article id="tab-description-course-{{id}}" class="tab-pane active milli">
-            <table class="float--right one-half table--data-small table--striped bordered">
-                <tbody>
-                    {{#if teaches_at_home}}
-                        <tr>
-                            <td class="f-size-12">Cours à domicile ({{teaches_at_home_radiuse}})</td>
-                        </tr>
-                    {{/if}}
-                    {{#if is_individual}}
-                        <tr>
-                            <td class="f-size-12">Cours individuel</td>
-                        </tr>
-                    {{else}}
-                        <tr>
-                            <td class="f-size-12">Cours collectif</td>
-                        </tr>
-                    {{/if}}
-                    {{#if is_lesson}}
-                        <tr>
-                            <td class="f-size-12">Cours régulier</td>
-                        </tr>
-                        <tr>
-                            <td class="f-size-12">{{frequency}} du {{start_date}} au {{end_date}}</td>
-                        </tr>
-                    {{/if}}
-                    {{#if cant_be_joined_during_year}}
-                        <tr>
-                            <td class="f-size-12">Pas d'inscription en cours d'année</td>
-                        </tr>
-                    {{/if}}
-                    {{#if no_class_during_holidays}}
-                        <tr>
-                            <td class="f-size-12">Pas de cours pendant les vacances scolaires</td>
-                        </tr>
-                    {{/if}}
-                </tbody>
-            </table>
-            <div class="read-more" data-behavior="read-more">
-                {{{ simple_format description }}}
-            </div>
-        </article>
-        <article id="tab-price-course-{{id}}" class="tab-pane">
-        </article>
+        <div class="tabs-container">
+            <article id="tab-description-course-{{id}}" class="tab-pane active milli">
+                <table class="float--right one-half table--data-small table--striped bordered">
+                    <tbody>
+                        {{#if teaches_at_home}}
+                            <tr>
+                                <td class="f-size-12">Cours à domicile ({{teaches_at_home_radiuse}})</td>
+                            </tr>
+                        {{/if}}
+                        {{#if is_individual}}
+                            <tr>
+                                <td class="f-size-12">Cours individuel</td>
+                            </tr>
+                        {{else}}
+                            <tr>
+                                <td class="f-size-12">Cours collectif</td>
+                            </tr>
+                        {{/if}}
+                        {{#if is_lesson}}
+                            <tr>
+                                <td class="f-size-12">Cours régulier</td>
+                            </tr>
+                            <tr>
+                                <td class="f-size-12">{{frequency}} du {{start_date}} au {{end_date}}</td>
+                            </tr>
+                        {{/if}}
+                        {{#if cant_be_joined_during_year}}
+                            <tr>
+                                <td class="f-size-12">Pas d'inscription en cours d'année</td>
+                            </tr>
+                        {{/if}}
+                        {{#if no_class_during_holidays}}
+                            <tr>
+                                <td class="f-size-12">Pas de cours pendant les vacances scolaires</td>
+                            </tr>
+                        {{/if}}
+                    </tbody>
+                </table>
+                <div class="read-more" data-behavior="read-more">
+                    {{{ simple_format description }}}
+                </div>
+            </article>
+            <article id="tab-price-course-{{id}}" class="tab-pane">
+            </article>
+        </div>
     </div>
 </div>
 

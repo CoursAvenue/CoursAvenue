@@ -7,13 +7,6 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         itemViewContainer: '[data-type=plannings-container]',
         emptyView: Module.EmptyView,
 
-        itemViewOptions: function itemViewOptions (model, index) {
-
-            return {
-                collection: new Backbone.Collection(model.get("plannings"))
-            };
-        },
-
         onItemviewMouseenter: function (view, data) {
             this.trigger("mouseenter", data);
         },
