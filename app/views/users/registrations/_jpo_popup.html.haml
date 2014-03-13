@@ -17,11 +17,13 @@
             %span.f-weight-600 5 000 cours
             %span.f-weight-300 GRATUITS
 
-        .jpo-popup-tick-marks.jpo-popup-rotation.ff-open-sans.f-weight-400
+        .jpo-popup-tick-marks.jpo-popup-rotation.ff-open-sans.f-weight-400.push--bottom
           %ul.jpo-rslides
-            - @open_courses_slugs.each do |text, slug_group|
+            - @open_courses_slugs.each do |text_image, slug_group|
               %li
-                %h4.push-half--bottom= text
+                .push-half--bottom
+                  = image_tag "icons/subjects/#{text_image.last}-white.png", height: 30, class: 'v-middle'
+                  %h4.flush.v-middle.inline-block= text_image.first
                 - slug_group.each do |slug|
                   - course = Course::Open.where(slug: slug).first
                   - next unless course
@@ -56,7 +58,7 @@
           -#   Atelier d'écriture créative / Décoration de Cupcakes...
           -#   %span.f-weight-600{style: 'line-height: 1; font-size: 17px;'} et plein d’autres !
 
-        = image_tag 'jpo_2014/logo_1_line_large.png', class: 'popup-jpo-logo block push--left', height: 140, title: 'Portes Ouvertes des cours de loisirs par CoursAvenue'
+        -# = image_tag 'jpo_2014/logo_1_line_large.png', class: 'popup-jpo-logo block push--left', height: 140, title: 'Portes Ouvertes des cours de loisirs par CoursAvenue'
 
       .grid__item.one-third>
         %p.text--center.ff-open-sans.relative
@@ -126,7 +128,7 @@
           });
           $('.fancybox-inner').css('overflow', 'visible');
           $(".jpo-rslides").responsiveSlides({
-              timeout: 500000,
+              timeout: 5000,
               pager: true,           // Boolean: Show pager, true or false
               pauseControls: true,    // Boolean: Pause when hovering controls, true or false
           });
