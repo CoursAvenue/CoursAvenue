@@ -12,6 +12,9 @@ class Structures::CoursesController < ApplicationController
     else
       planning_serializer_options = {}
     end
+    @plannings = @plannings.sort do |planning_a, planning_b|
+      [planning_a.week_day, planning_a.start_date, planning_a.start_time] <=> [planning_b.week_day, planning_b.start_date, planning_b.start_time]
+    end
     @plannings.group_by(&:course_id).each do |course_id, plannings|
       course = Course.find(course_id)
       @courses << CourseSerializer.new(course, {
