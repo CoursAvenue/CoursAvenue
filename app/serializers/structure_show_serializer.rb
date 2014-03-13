@@ -16,9 +16,6 @@ class StructureShowSerializer < ActiveModel::Serializer
              :given_course_types, :given_funding_type
 
   has_many :places
-  has_many :comments, serializer: ShortSerializer
-  has_many :medias,   serializer: ShortSerializer
-  has_many :preloaded_medias,  serializer: MediaSerializer
 
   def courses
     object.courses.active.where(id: @options[:planning_groups].keys).map do |course|
