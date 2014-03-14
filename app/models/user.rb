@@ -112,7 +112,7 @@ class User < ActiveRecord::Base
       user.confirmed_at         = Time.now
       user.confirmation_sent_at = Time.now
 
-      user.save!
+      user.save
     end
   end
 
