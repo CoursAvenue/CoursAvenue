@@ -8,13 +8,17 @@
     -# Structure type
     - if structure.structure_type
       %p.flush
+        %i.fa.fa-building-o
         #{t(structure.structure_type)} proposant :
         = @structure_decorator.given_course_types
-    - if structure.courses.any?
+    - if structure.course_names.present?
       %p.flush
-        %i.fa.fa-tags
-        = structure.courses.map(&:name).uniq.join(', ')
+        #{structure.courses.count} cours (#{structure.plannings.count} séances) de
+        %span{ title: structure.min_price_libelle, data: { behavior: 'tooltip' } } #{readable_amount(structure.min_price_amount)}€
+        à
+        %span{ title: structure.max_price_libelle, data: { behavior: 'tooltip' } } #{readable_amount(structure.max_price_amount)}€
+    -#   %p.flush
+    -#     %span{ title: structure.course_names, data: { behavior: 'tooltip' } }= truncate(structure.course_names, length: 90)
     -# %p.push-half--bottom
     -#   %i.fa.fa-tags
-    -#   - subject_course_names = [join_child_subjects_text(structure), structure.course_names].compact.join(', ')
-    -#   %i{data: { placement: 'bottom', behavior: 'tooltip', title: subject_course_names }}= truncate(subject_course_names, length: 190)
+    -#   %i{data: { placement: 'bottom', behavior: 'tooltip', title: join_child_subjects_text(structure) }}= truncate(join_child_subjects_text(structure), length: 110)

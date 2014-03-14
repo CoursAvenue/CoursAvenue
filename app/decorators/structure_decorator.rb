@@ -15,7 +15,7 @@ class StructureDecorator < Draper::Decorator
     if object.gives_individual_courses
       types << 'cours individuels'
     end
-    types.join(', ').capitalize
+    types.join(', ')
   end
 
   def given_funding_type

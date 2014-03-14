@@ -18,6 +18,16 @@
                  <td>{{given_funding_type}}</td>
              </tr>
             {{/if}}
+            {{#if min_price_libelle}}
+             <tr>
+                 <td><strong>Tarifs</strong></td>
+                 <td>
+                    <span title="{{min_price_libelle}}" data-behavior='tooltip'>{{min_price_amount}}€</span>
+                    -
+                    <span title="{{max_price_libelle}}" data-behavior='tooltip'>{{max_price_amount}}€</span>
+                 </td>
+             </tr>
+            {{/if}}
          </tbody>
        </table>
         {{{ simple_format description }}}
@@ -27,4 +37,4 @@
 <article id="tab-comments" class="tab-pane" data-type="comments-collection"></article>
 <article id="tab-teachers" class="tab-pane" data-type="teachers-collection"></article>
 
-<img src="<%= asset_path 'gifs/loading-indicator.gif' %>"/ class="center-block" height="10" data-loader>
+<img src="<%= asset_path 'gifs/loading-indicator.gif' %>"/ class="center-block" height="10" data-loader style="display: none;">
