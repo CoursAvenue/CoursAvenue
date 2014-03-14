@@ -6,6 +6,10 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         className: 'tabs-container',
         template: Module.templateDirname() + 'structure_view',
 
+        ui: {
+            '$loader': '[data-loader]'
+        },
+
         params_for_resource: {
             courses: {},
             teachers: {},
@@ -85,13 +89,24 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             this.showWidget(view);
             this.model.get(resources).fetch();
             if (!this.model.get(resources) || this.model.get(resources).length == 0) {
+                this.showLoader(resources);
                 this.model.fetchRelated(resources, { data: this.getParamsForResource(resources)}, true)[0].then(function (collection) {
                     view = new ViewClass({
                         collection: new Backbone.Collection(collection),
                         data_url: this.model.get("data_url")
                     });
+                    this.hideLoader();
                 }.bind(this));
             }
+        },
+
+        showLoader: function(resources_name) {
+            $('#tab-' + resources_name).append(this.$loader);
+            this.$loader.show();
+        },
+
+        hideLoader: function() {
+            this.$loader.hide();
         },
 
         getParamsForResource: function getParamsForResource (resource) {
