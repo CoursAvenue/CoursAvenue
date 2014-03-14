@@ -55,6 +55,7 @@ StructureProfile.addInitializer(function(options) {
     });
 
     layout.render();
+
     layout.showWidget(google_maps_view, {
         events: {
             "course:mouse:enter": "exciteMarkers",

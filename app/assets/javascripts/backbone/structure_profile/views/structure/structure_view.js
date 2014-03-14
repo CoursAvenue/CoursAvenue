@@ -55,9 +55,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             }
 
             this.model.set("query_params", params);
-            this.model.fetchRelated("courses", { data: this.getParamsForResource("courses")}, true)[0].then(function (models) {
-
-            }.bind(this));
+            this.model.fetchRelated("courses", { data: this.getParamsForResource("courses")}, true);
         },
 
         showOrCreateTab: function showOrCreateTab (e) {
@@ -66,20 +64,9 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
                 ViewClass, view, model;
 
             // if this tab has no associated resource, or if it is already populated, we bail
-            if (!resources || $($target.attr("href")).children().length > 0) {
-                return;
-            }
+            if (!resources) { return; }
 
             ViewClass = this.findOrCreateCollectionViewForResource(resources);
-
-            // view = new ViewClass({
-            //     collection: this.model.get(resources),
-            //     data_url: this.model.get("data_url")
-            // });
-
-            // this.showWidget(view);
-
-            // this.model.fetchRelated(resources, { data: this.getParamsForResource(resources)}, true);
 
             // Only fetch when there is no data
             view = new ViewClass({
@@ -87,26 +74,23 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
                 data_url: this.model.get("data_url")
             });
             this.showWidget(view);
-            this.model.get(resources).fetch();
+
             if (!this.model.get(resources) || this.model.get(resources).length == 0) {
                 this.showLoader(resources);
-                this.model.fetchRelated(resources, { data: this.getParamsForResource(resources)}, true)[0].then(function (collection) {
-                    view = new ViewClass({
-                        collection: new Backbone.Collection(collection),
-                        data_url: this.model.get("data_url")
-                    });
+                // this.model.fetchRelated(resources, { data: this.getParamsForResource(resources)}, true)[0].then(function (collection) {
+                this.model.get(resources).fetch({ data: this.getParamsForResource(resources)}).then(function (collection) {
                     this.hideLoader();
                 }.bind(this));
             }
         },
 
         showLoader: function(resources_name) {
-            $('#tab-' + resources_name).append(this.$loader);
-            this.$loader.show();
+            $('#tab-' + resources_name).append(this.ui.$loader);
+            this.ui.$loader.show();
         },
 
         hideLoader: function() {
-            this.$loader.hide();
+            this.ui.$loader.hide();
         },
 
         getParamsForResource: function getParamsForResource (resource) {

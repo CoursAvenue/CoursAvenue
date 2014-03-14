@@ -31,8 +31,6 @@
       = link_to "Tous les établissement", structures_path
     %li= @structure.name
 
-.one-whole{ data: { type: 'filter-breadcrumbs' }}
-
 - if !current_user and params[:waiting_for_activation]
   .blue-box.islet.text--center.push--ends
     = render 'users/waiting_for_activation_text'
@@ -65,6 +63,7 @@
             %i.fa.fa-group
             Professeurs
 
+    .hidden{ data: { type: 'filter-breadcrumbs' }}
     #structure-profile{ data: { type: 'structure-profile-root' } }
       .tabs--container#structure-tabs
       -#   %article#tab-description.tab-pane.active

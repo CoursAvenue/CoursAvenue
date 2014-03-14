@@ -8,6 +8,10 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
 
         summaryTemplate: Module.templateDirname() + 'summary',
 
+        initialize: function initialize (options) {
+            this.data_url = options.data_url;
+        },
+
         ui: {
             '$summary': '[data-summary]',
             '$button': '[data-type=button]'
@@ -21,17 +25,29 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             'change': 'onRender'
         },
 
-        onItemviewMouseenter: function (view, data) {
+        onItemviewMouseenter: function onItemviewMouseenter (view, data) {
             this.trigger("course:mouse:enter", data);
         },
 
-        onItemviewMouseleave: function (view, data) {
+        onItemviewMouseleave: function onItemviewMouseleave (view, data) {
             this.trigger("course:mouse:leave", data);
         },
 
-        onRender: function () {
+        onRender: function onRender () {
+            this.moveAndShowBreadcrumbs()
             var html = Marionette.Renderer.render(this.summaryTemplate, this.serializeData());
-            this.ui.$summary.html(html);
+            if ( html.trim().length == 0 ) {
+                this.$('[data-summary-container]').hide();
+            } else {
+                this.ui.$summary.html(html);
+                this.ui.$summary.tooltip();
+            }
+        },
+
+        moveAndShowBreadcrumbs: function moveAndShowBreadcrumbs() {
+            var $breacrumb = $('[data-type=filter-breadcrumbs]');
+            $breacrumb.show();
+            $breacrumb.appendTo(this.$('[data-breadcrumb]'));
         },
 
         announceSummaryClicked: function announceSummaryClicked (e) {
@@ -40,7 +56,7 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             this.trigger("summary:clicked");
         },
 
-        onAfterShow: function() {
+        onAfterShow: function onAfterShow () {
             this.$('[data-behavior=read-more]').readMore();
             this.$('[data-behavior=tooltip]').tooltip();
         },
@@ -51,7 +67,7 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         * the sum of plannings of courses
         * and the data_url which the structure gave us
         * */
-        serializeData: function () {
+        serializeData: function serializeData () {
             var plannings_not_shown = 0,
                 plannings_count   = this.collection.reduce(function (memo, model) {
                     memo                += model.get("plannings").length;
@@ -75,7 +91,7 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             };
         },
 
-        appendHtml: function(collectionView, itemView, index){
+        appendHtml: function appendHtml (collectionView, itemView, index){
             if (itemView.collection.length < 1) {
                 return /* NOP */;
             }

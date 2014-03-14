@@ -79,3 +79,12 @@ Handlebars.registerHelper('simple_format', function (text) {
 
     return new Handlebars.SafeString(text);
 });
+
+Handlebars.registerHelper('unlessEmpty', function (object, options) {
+    // Execute the block if object is not empty
+    if (_.isEmpty(object)) {
+        return options.inverse(this);
+    } else {
+        return options.fn(this);
+    }
+});

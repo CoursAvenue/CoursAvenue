@@ -5,7 +5,7 @@
     </div>{{!--
  --}}<div class="grid__item four-fifths">
         <p><strong>{{ name }}</strong></p>
-        {{{ simple_format description }}}
+        {{#if description}} {{{ simple_format description }}} {{/if}}
     </div>
   </div>
 </div>
