@@ -11,6 +11,12 @@ class UserMailer < ActionMailer::Base
   # Email reminder                                                     #
   ######################################################################
   # Monday email to push the user to fill passions
+  def monday_jpo(user)
+    @user    = user
+    mail to: @user.email, subject: 'Invitation aux Portes Ouvertes des cours de loisirs les 5 et 6 avril à Paris'
+  end
+
+  # Monday email to push the user to fill passions
   def passions_incomplete(user)
     @user    = user
     mail to: @user.email, subject: 'Renseignez toutes vos passions sur votre profil'

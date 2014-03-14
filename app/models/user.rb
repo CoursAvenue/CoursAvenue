@@ -138,8 +138,10 @@ class User < ActiveRecord::Base
   # Update the email status regarding info completion
   def update_email_status
     email_status = nil
-    if self.passions.empty?
-      email_status = 'passions_incomplete'
+    if participations.empty?
+      email_status = 'monday_jpo'
+      # elsif self.passions.empty?
+      #   email_status = 'passions_incomplete'
     end
     self.update_column :email_status, email_status
     return email_status

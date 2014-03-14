@@ -1,0 +1,55 @@
+- content_for :email_logo do
+  = image_tag 'jpo_2014/logo_1_line_orange.png', alt: 'CoursAvenue', height: 89, width: 300, style: '-ms-interpolation-mode:bicubic;'
+
+- content_for :header_links do
+  = link_to 'Connexion', new_user_session_url(subdomain: 'www')
+  \|
+  = link_to 'JPO', open_courses_url(subdomain: 'www')
+  \|
+  = link_to 'Rechercher', structures_url(subdomain: 'www')
+
+- content_for :promo do
+  %h4
+    CoursAvenue fête le printemps et vous offre 5 000 cours de loisirs GRATUITS le week-end des 5-6 avril en Ile-de-France
+
+%p
+  Plus de 200 associations, écoles et professeurs ouvrent leurs portes : décoration de cupcakes, initiation au flamenco, ateliers créatifs parents-enfants… Inscrivez-vous vite, les places sont limitées :
+
+%p.action
+  = link_to "Choisir mon atelier gratuit", open_courses_url(subdomain: 'www'), class: 'btn btn--green'
+
+%p.blue.blue-tip
+  %i Trucs & astuces : les places étant limitées, réservez votre atelier le plus tôt possible, puis invitez vos amis.
+
+- content_for :under_content do
+  %table.table{align: 'center', border: '0', cellpadding: '15', cellspacing: '0', width: '600'}
+    %tr{valign: 'top'}
+      %td.cell.content-block{width: '600', colspan: '2', style: 'padding-bottom: 0'}
+        = image_tag 'emails_logo/eiffel_tower.png', class: 'float--right', width: 110, height: 100
+        %h4 Vous n'êtes pas sur Paris ?
+        %p
+          C'est notre 1ère édition des Portes Ouvertes et nous la laçons en Ile-de-France. En attendant de voir arriver l'événement dans votre région, faites passez le mot à tous vos proches parisiens !
+- content_for :under_content_2 do
+  %table.table{align: 'center', border: '0', cellpadding: '15', cellspacing: '0', width: '600'}
+    %tr{valign: 'top'}
+      %td.cell.content-block{width: '600', colspan: '2', style: 'padding-bottom: 0'}
+        %h4 Portes Ouvertes des cours de loisirs
+    %tr{valign: 'top'}
+      %td.v-middle.cell.content-block.hard--ends{width: '50'}
+        = image_tag 'emails_logo/eye.png', alt: 'CoursAvenue', height: '50', width: '50', style: '-ms-interpolation-mode:bicubic;'
+      %td.v-middle.cell.content-block{width: '550', style: 'padding-right: 0; padding-left: 0;'}
+        %p.flush--bottom
+          Plus de 5 000 cours de loisirs gratuits, 200 lieux, 100 disciplines pour tous dès 4 ans
+    %tr{valign: 'top'}
+      %td.v-middle.cell.content-block.hard--ends{width: '50'}
+        = image_tag 'emails_logo/enveloppe.png', alt: 'CoursAvenue', height: '50', width: '50', style: '-ms-interpolation-mode:bicubic;'
+      %td.v-middle.cell.content-block{width: '550', style: 'padding-right: 0; padding-left: 0;'}
+        %p.flush--bottom
+          Réservez votre place directement en ligne sur le moteur de recherche géolocalisé CoursAvenue.com
+    %tr{valign: 'top'}
+      %td.v-middle.cell.content-block.hard--ends{width: '50'}
+        = image_tag 'emails_logo/people.png', alt: 'CoursAvenue', height: '50', width: '50', style: '-ms-interpolation-mode:bicubic;'
+      %td.v-middle.cell.content-block{width: '550', style: 'padding-right: 0; padding-left: 0;'}
+        %p.flush--bottom
+          Une fois inscrit, invitez rapidement vos proches à participer à l'événement avec vous : les places sont limitées !
+
