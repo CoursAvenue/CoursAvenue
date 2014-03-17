@@ -37,7 +37,7 @@ module FilteredSearchProvider
   #
   # @return array [ structures models, total of results]
   def search_plannings
-    turn_hashes_into_arrays
+    sanatize_params
     search       = PlanningSearch.search(params, group: :structure_id_str)
     place_search = PlanningSearch.search(params, group: :place_id_str)
     structures   = []
@@ -55,7 +55,7 @@ module FilteredSearchProvider
   end
 
   def search_structures
-    turn_hashes_into_arrays
+    sanatize_params
     search           = StructureSearch.search(params)
     structures       = search.results
     total            = search.total
@@ -82,7 +82,8 @@ module FilteredSearchProvider
   # Refered bug: https://bugsnag.com/coursavenue/coursavenue/errors/53259530318af3512e095ed3#request
   #
   # @return params
-  def turn_hashes_into_arrays
+  def sanatize_params
+    params[:page] = 1 if params[:page] and params[:page].to_i < 1
     params.keys.each do |key|
       if ARRAY_KEYS.include?(key) and params[key].is_a? Hash
         params[key] = params[key].values
