@@ -6,6 +6,9 @@ module FilteredSearchProvider
                             'price_type', 'max_age_for_kids', 'trial_course_amount', 'course_types',
                             'week_days', 'discount_types', 'start_date', 'end_date', 'start_hour', 'end_hour']
 
+  # Keys that should be formatted as arrays
+  ARRAY_KEYS = ['bbox_ne', 'bbox_sw', 'audience_ids', 'level_ids', 'course_types', 'week_days', 'discount_types']
+
   # if the subject_id is set, we return a subject
   # otherwise just nil
   def filter_by_subject?
@@ -34,6 +37,7 @@ module FilteredSearchProvider
   #
   # @return array [ structures models, total of results]
   def search_plannings
+    turn_hashes_into_arrays
     search       = PlanningSearch.search(params, group: :structure_id_str)
     place_search = PlanningSearch.search(params, group: :place_id_str)
     structures   = []
@@ -51,6 +55,7 @@ module FilteredSearchProvider
   end
 
   def search_structures
+    turn_hashes_into_arrays
     search           = StructureSearch.search(params)
     structures       = search.results
     total            = search.total
@@ -69,5 +74,20 @@ module FilteredSearchProvider
     structures.map do |structure|
       StructureSerializer.new(structure, { root: false }.merge(options))
     end
+  end
+
+
+  # To prevent bugs: turn hashes like { '0' => 'lala' } into arrays
+  # Only done on certain params
+  # Refered bug: https://bugsnag.com/coursavenue/coursavenue/errors/53259530318af3512e095ed3#request
+  #
+  # @return params
+  def turn_hashes_into_arrays
+    params.keys.each do |key|
+      if ARRAY_KEYS.include?(key) and params[key].is_a? Hash
+        params[key] = params[key].values
+      end
+    end
+    params
   end
 end
