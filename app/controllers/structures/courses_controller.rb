@@ -2,6 +2,7 @@
 class Structures::CoursesController < ApplicationController
 
   def index
+    params.delete(:page) if params[:page]
     @structure       = Structure.find params[:structure_id]
     @planning_search = PlanningSearch.search(params)
     @plannings       = @planning_search.results
