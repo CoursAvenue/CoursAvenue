@@ -88,9 +88,7 @@
     %br
     Partagez le lien direct de votre page d'inscription, votre réseau pourra ainsi le partager. Saviez-vous que les opérations gratuites sont les premiers articles partagés sur les réseaux sociaux ? C'est l'occasion de gagner de  nouveaux fans !
     %br
-    = link_to share_jpo_page_url(@structure), class: 'btn btn--blue', target: :_blank do
-      %i.fa.fa-facebook
-      Partager sur Facebook
+    = link_to 'Partager sur Facebook', share_jpo_page_url(@structure), class: 'btn btn--blue', target: :_blank
 
   %p.push--bottom
     %strong Action 5 : dites-le sur votre site Internet
