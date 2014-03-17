@@ -29,13 +29,6 @@ class NutshellUpdater
     contacts = nutshell.search_by_email admin.email
     contacts['contacts'].each do |contact|
       begin
-        Bugsnag.before_notify_callbacks << lambda {|notif|
-          notif.add_tab(:structure_info, {
-            name: structure.name,
-            slug: structure.slug,
-            admin: admin.name
-          })
-        }
         contact = nutshell.get_contact contact['id']
         new_tags = contact['tags'] || []
         new_tags.delete('Non inscrit')
@@ -78,10 +71,7 @@ class NutshellUpdater
         }
         nutshell.edit_contact contact['id'], contact['rev'].to_i, new_contact
         puts "Updating #{admin.email} from #{structure.name}"
-        Bugsnag.before_notify_callbacks.clear
       rescue Exception => exception
-        Bugsnag.notify(exception)
-        Bugsnag.before_notify_callbacks.clear
       end
     end
 
