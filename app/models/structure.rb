@@ -114,6 +114,7 @@ class Structure < ActiveRecord::Base
   validates :zip_code           , :presence   => true, numericality: { only_integer: true }, on: :create
   validates :city               , :presence   => true, on: :create
   validate :subject_parent_and_children
+  validates :name, :website, :facebook_url, length: { maximum: 255 }
 
   ######################################################################
   # Callbacks                                                          #
