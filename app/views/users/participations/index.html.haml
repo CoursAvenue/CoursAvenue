@@ -24,10 +24,12 @@
         .flexbox__item.two-twelfths.soft-half--right.v-top>
           = link_to structure_path(participation.structure) , class: 'block one-whole', target: :_blank do
             = image_tag participation.structure.logo, class: 'block one-whole'
-          = link_to jpo_new_user_invited_users_path(current_user, structure_id: participation.structure.id), class: 'btn btn--blue nowrap push-half--ends' do
+          = link_to new_user_message_path(current_user, message: { subject: 'Informations concernant votre atelier Portes Ouvertes', recipients: participation.structure.id }), class: 'btn btn--blue nowrap push-half--ends fancybox.ajax', data: { behavior: 'modal', width: '780' }, title: "Informations concernant votre atelier Portes Ouvertes", onclick: "ga('send', 'event', 'Answer to student', 'click')" do
+            %i.fa.fa-envelope
+            Envoyer un message
+          = link_to jpo_new_user_invited_users_path(current_user, structure_id: participation.structure.id), class: 'btn btn--blue nowrap push-half--bottom one-whole' do
             %i.fa.fa-gift
             Inviter mes amis
-          %br
           .share-on-facebook.btn.btn--facebook.one-whole.push-half--bottom Facebook
           .share-on-twitter.btn.btn--twitter.one-whole.btn--small.push-half--bottom Twitter
 
