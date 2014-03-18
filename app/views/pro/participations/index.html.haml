@@ -35,7 +35,7 @@
       %th.two-twelfths Atelier
       %th.two-twelfths
   %tbody
-    - @participations.order('canceled_at DESC').each do |participation|
+    - @participations.each do |participation|
       %tr{class: (participation.canceled? ? 'red' : '')}
         %td
           = participation.user.name

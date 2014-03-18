@@ -4,7 +4,7 @@ class Pro::ParticipationsController < Pro::ProController
   layout 'admin'
 
   def index
-    @participations       = Participation.all
+    @participations       = Participation.order('canceled_at DESC, created_at DESC').all
     @participations_graph = {}
     dates = (Date.parse('2014/03/03')..Date.today).step
     dates.each do |date|
