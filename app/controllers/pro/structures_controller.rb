@@ -153,8 +153,14 @@ class Pro::StructuresController < Pro::ProController
   end
 
   def add_subjects
-    if request.xhr?
-      render partial: 'add_subjects', locals: { return_to: params[:return_to] }
+    respond_to do |format|
+      format.html do
+        if request.xhr?
+          render partial: 'add_subjects', locals: { return_to: params[:return_to] }
+        else
+          redirect_to params[:return_to] || new_pro_structure_course_path(@structure)
+        end
+      end
     end
   end
 
