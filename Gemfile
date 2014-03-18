@@ -49,7 +49,7 @@ gem 'active_hash'               , '~>1.2.0'
 gem 'rails-observers'           , '~>0.1.2'
 
 # Transform urls into images, videos etc. Used in medias.
-gem 'auto_html'                 , '~>1.6.1'
+gem 'auto_html'                 , '~>1.6.2'
 
 # Must be before jobs
 gem 'protected_attributes'      , '~>1.0.3'
@@ -103,10 +103,10 @@ gem 'omnicontacts'              , '~>0.3.4'
 gem 'certified'                 , '~>0.1.1'
 
 # Search engine
-gem 'sunspot'                   , '~>2.0.0'
+gem 'sunspot'                   , '~>2.1.0'
 # Add solr server for development
-gem 'sunspot_solr'              , '~>2.0.0', group: :development
-gem 'sunspot_rails'             , '~>2.0.0'
+gem 'sunspot_solr'              , '~>2.1.0', group: :development
+gem 'sunspot_rails'             , '~>2.1.0'
 gem 'sunspot-rails-tester'      , '~>1.0.0'
 
 gem 'truncate_html'             , '~>0.9.2'
@@ -125,7 +125,7 @@ gem 'sitemap_generator'         , '~>4.2.0'
 gem 'gibbon'                    , '~>1.0.4'
 
 # Transform external CSS stylesheets into inline CSS for emails
-gem 'roadie'                    , '~>2.4.2'
+gem 'roadie'                    , '~>2.4.3'
 
 gem 'fingerprintjs-rails'       , '~>0.5.3'
 
@@ -157,7 +157,7 @@ gem 'turbolinks'
 gem 'jquery-turbolinks'
 
 # For uploading to amazon CDN
-gem 'aws-sdk'                   , '~>1.21.0'
+gem 'aws-sdk'                   , '~>1.36.1'
 
 # Roo implements read access for all spreadsheet, xls and more
 gem 'roo'                   , '~>1.12.2'
