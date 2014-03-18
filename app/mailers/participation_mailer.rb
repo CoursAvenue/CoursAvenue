@@ -1,6 +1,6 @@
 # encoding: utf-8
 class ParticipationMailer < ActionMailer::Base
-  helper :plannings, :levels
+  helper :plannings, :levels, :participations
 
   layout 'email'
 

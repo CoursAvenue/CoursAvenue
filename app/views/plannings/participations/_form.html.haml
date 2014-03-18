@@ -4,7 +4,7 @@
     Une fois validée, vous ne pourrez plus vous inscrire à un autre atelier
     %br
     - if @planning.for_kid? and !@planning.for_adult? and !@planning.for_senior?
-      %i (1 seule inscription possible par personne, pour vous ou pour votre enfant).
+      %i (1 seule inscription possible par personne, pour vous ou pour vos enfants).
     - else
       %i (1 seule inscription possible par personne).
 - else
@@ -24,13 +24,19 @@
       %i Confirmez rapidement pour ne pas être en liste d'attente.
 
 
-= simple_form_for [@planning, @participation] do |f|
+= simple_form_for [@planning, @participation], remote: true do |f|
+  = f.error_notification
   - if @planning.for_kid?
     - if @planning.for_adult? or @planning.for_senior?
       %p.flush
         %strong Note importante :
-        cet atelier est proposé aux adultes et aux enfants. Exceptionnellement, vous pouvez venir avec votre enfant, merci de nous le préciser :
-      = f.input :participation_for, as: :select, collection: Participation::PARTICIPATION_FOR, label_method: lambda{|l| I18n.t(l)}, label: false, include_blank: false, input_html: { class: 'one-whole' }, wrapper_html: { class: 'push--bottom' }
+        cet atelier est proposé aux adultes et aux enfants.
+        %strong Exceptionnellement,
+        vous pouvez venir avec vos enfant, merci de nous le préciser :
+      .push-half--ends.alert--info.one-whole
+        = f.input :participation_for, as: :select, collection: Participation::PARTICIPATION_FOR, label_method: lambda{|l| I18n.t(l)}, include_blank: false, wrapper_html: { class: 'flush' }
+        = f.input :nb_adults, as: :select, collection: [0,1,2], wrapper_html: { class: 'flush hidden', id: 'participation-input-nb-adults' }
+        = f.input :nb_kids, as: :select, collection: [0,1,2,3,4], wrapper_html: { class: 'flush hidden', id: 'participation-input-nb-kids' }
     - else
       %p
         %strong Note importante :
@@ -52,3 +58,24 @@
     = f.submit 'Confirmer mon inscription', class: 'btn btn--green btn--full', disable_with: 'Confirmation en cours'
   - else
     = f.submit "Confirmer mon inscription sur liste d'attente", class: 'btn btn--green btn--full', disable_with: 'Confirmation en cours'
+
+:javascript
+    var $participation_input_nb_adults = $('#participation-input-nb-adults')
+    var $participation_input_nb_kids   = $('#participation-input-nb-kids')
+    $('#participation_participation_for').change(function() {
+          switch(this.value) {
+              case 'participations.for.one_adult':
+                 $participation_input_nb_adults.slideUp();
+                 $participation_input_nb_kids.slideUp();
+              break;
+              case 'participations.for.one_kid':
+                 $participation_input_nb_adults.slideUp();
+                 $participation_input_nb_kids.slideDown();
+              break;
+              case 'participations.for.one_kid_and_one_adult':
+                 $participation_input_nb_adults.slideDown();
+                 $participation_input_nb_kids.slideDown();
+              break;
+          }
+    });
+    $('#participation_participation_for').change();

@@ -38,9 +38,7 @@
     - @participations.each do |participation|
       %tr{class: (participation.canceled? ? 'red' : '')}
         %td
-          = participation.user.name
-          - if participation.with_kid?
-            (+ 1 enfant)
+          = participation_user_name(participation)
         %td
           = link_to participation.user.email, "mailto:#{participation.user.email}", target: :_blank
         %td= readable_phone_number participation.user.phone_number
@@ -65,6 +63,13 @@
             title: { text: null },
             xAxis: { categories: #{@participations_graph.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
             yAxis: { title: { text: ''}},
-            series: [{ data: #{@participations_graph.map{|date, count| count}} }]
+            series: [{
+                      data: #{@participations_graph.map{|date, count| count}},
+                      name: 'Inscriptions'
+                    },{
+                      data: #{@canceled_participations_graph.map{|date, count| count}},
+                      name: 'Annulation'
+                    },
+                    ]
         });
     });

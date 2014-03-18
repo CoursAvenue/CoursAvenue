@@ -40,12 +40,8 @@
       %tbody
         - planning.participations.order('canceled_at DESC').each do |participation|
           %tr{class: (participation.canceled? ? 'red' : '')}
-            %td
-              = participation.user.name
-              - if participation.with_kid?
-                (+ 1 enfant)
-            %td
-              = link_to participation.user.email, "mailto:#{participation.user.email}", target: :_blank
+            %td= participation_user_name(participation)
+            %td= link_to participation.user.email, "mailto:#{participation.user.email}", target: :_blank
             %td= readable_phone_number participation.user.phone_number
             %td= l(participation.created_at, format: :date).capitalize
             %td.text--center

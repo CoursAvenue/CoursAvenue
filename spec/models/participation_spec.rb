@@ -45,8 +45,7 @@ describe Participation do
 
       it 'does not pops off' do
         # Second person participate and then goes on waiting list
-        participation_2                   = FactoryGirl.build(:participation)
-        participation_2.participation_for = 'participations.for.one_kid_and_one_adult'
+        participation_2                   = FactoryGirl.build(:participation_for_kid_and_adult)
         participation_2.user              = FactoryGirl.create(:user)
         participation_2.planning          = planning
         participation_2.save
@@ -64,8 +63,13 @@ describe Participation do
       expect(subject.with_kid?).to be_true
     end
 
-    it 'returns false' do
+    it 'returns true' do
       subject.participation_for = 'participations.for.one_kid'
+      expect(subject.with_kid?).to be_true
+    end
+
+    it 'returns false' do
+      subject.participation_for = 'participations.for.one_aduld'
       expect(subject.with_kid?).to be_false
     end
   end
@@ -83,7 +87,9 @@ describe Participation do
 
     it 'returns 2' do
       subject.participation_for = 'participations.for.one_kid_and_one_adult'
-      expect(subject.size).to eq 2
+      subject.nb_kids           = 4
+      subject.nb_adults         = 2
+      expect(subject.size).to eq 6
     end
   end
 

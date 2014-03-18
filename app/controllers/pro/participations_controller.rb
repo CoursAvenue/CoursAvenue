@@ -5,13 +5,17 @@ class Pro::ParticipationsController < Pro::ProController
 
   def index
     @participations       = Participation.order('canceled_at DESC, created_at DESC').all
-    @participations_graph = {}
+    @participations_graph, @canceled_participations_graph = {}, {}
     dates = (Date.parse('2014/03/03')..Date.today).step
     dates.each do |date|
-      @participations_graph[date] = 0
+      @participations_graph[date]          = 0
+      @canceled_participations_graph[date] = 0
     end
-    Participation.where{created_at > Date.parse('2014/03/03')}.group_by{|p| p.created_at.to_date}.each do |date, participations|
+    Participation.not_canceled.where{created_at > Date.parse('2014/03/03')}.group_by{|p| p.created_at.to_date}.each do |date, participations|
       @participations_graph[date] = participations.length
+    end
+    Participation.canceled.where{created_at > Date.parse('2014/03/03')}.group_by{|p| p.created_at.to_date}.each do |date, participations|
+      @canceled_participations_graph[date] = participations.length
     end
   end
 end

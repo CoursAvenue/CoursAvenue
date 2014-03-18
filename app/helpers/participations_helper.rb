@@ -1,6 +1,21 @@
 # encoding: utf-8
 module ParticipationsHelper
 
+  #
+  # Returns the name of the user
+  # If it is for kid, show (+ XX enfants) or (2 adultes + 1 enfant)
+  # @param  participation
+  #
+  # @return string
+  def participation_user_name(participation)
+    return_string = participation.user.name
+    if participation.with_kid?
+      return_string << " #{participation.nb_adults} adultes" if participation.nb_adults > 1
+      return_string << " + #{pluralize participation.nb_kids, 'enfant'}"
+    end
+    return_string
+  end
+
   # See Facebook doc:
   # https://developers.facebook.com/docs/reference/dialogs/send/
   def share_participation_to_facebook_friend_url(participation, friend_id=nil)
@@ -33,7 +48,7 @@ module ParticipationsHelper
     # Date format
     #  <span class="_end">11-05-2012 11:38:46</span>
     link = <<-eos
-    <a href="#{user_participations_url(current_user)}" title="Ajouter à mon calendrier" class="addthisevent">
+    <a href="#{user_participations_url(current_user)}" title="Ajouter à mon calendrier" class="addthisevent" onclick="ga('send', 'event', 'JPO / Add to calendar', 'click')">
         Ajouter à mon calendrier
         <span class="_start">#{l(planning.start_date)} #{l(planning.start_time, format: :default_only_time)}</span>
         <span class="_end">#{l(planning.end_date)} #{l(planning.end_time, format: :default_only_time)}</span>
