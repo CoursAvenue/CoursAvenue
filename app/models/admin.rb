@@ -121,7 +121,6 @@ class ::Admin < ActiveRecord::Base
   def delay_subscribe_to_nutshell
     self.structure.send(:delay_subscribe_to_nutshell) if self.structure and Rails.env.production?
   end
-  handle_asynchronously :delay_subscribe_to_nutshell, :run_at => Proc.new { 20.minutes.from_now }
 
   def delay_subscribe_to_mailchimp
     self.structure.send(:delay_subscribe_to_mailchimp) if self.structure and Rails.env.production?

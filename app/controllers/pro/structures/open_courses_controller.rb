@@ -65,4 +65,16 @@ class Pro::Structures::OpenCoursesController < Pro::ProController
       end
     end
   end
+
+  def ca_communication
+    respond_to do |format|
+      format.html do
+        if request.xhr?
+          render partial: 'ca_communication'
+        else
+          redirect_to communicate_pro_structure_path(@structure), status: 301
+        end
+      end
+    end
+  end
 end

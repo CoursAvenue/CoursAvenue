@@ -61,8 +61,9 @@
     background-color: $orange;
 }
 
-.rounded          { @include border-radius($brand-round) }
-.rounded--double  { @include border-radius($brand-round * 2) }
+.rounded          { @include border-radius($brand-round); }
+.rounded--double  { @include border-radius($brand-round * 2); }
+.rounded--circle  { @include border-radius(100%); }
 .bordered--right  { border-right  : 1px solid $gray-smooth; }
 .bordered--left   { border-left   : 1px solid $gray-smooth; }
 .bordered--bottom { border-bottom : 1px solid $gray-smooth; }

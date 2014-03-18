@@ -84,7 +84,7 @@ gem 'friendly_id'               , '~>5.0.0'
 # Handy forms
 gem 'simple_form'               , '~>3.0.0'
 # Dry the controllers
-gem 'inherited_resources'       , '~>1.3.1'
+gem 'inherited_resources'       , '~>1.4.1'
 
 # For messaging
 gem 'mailboxer'                 , '~> 0.11.0'
@@ -162,7 +162,7 @@ gem 'turbolinks'
 gem 'jquery-turbolinks'
 
 # For uploading to amazon CDN
-gem 'aws-sdk'                   , '~>1.21.0'
+gem 'aws-sdk'                   , '~>1.36.1'
 
 # Roo implements read access for all spreadsheet, xls and more
 gem 'roo'                   , '~>1.12.2'
@@ -184,7 +184,10 @@ group :test do
   gem 'rspec-instafail'   , '~>0.2.4'
   gem 'faker'             , '~>1.2.0'
   gem 'simplecov'         , '~>0.7.1'
-  gem 'sunspot_test'
+  # gem 'sunspot_test'
+  gem 'database_cleaner'  , '~>1.2.0'
+  gem 'capybara'          , '~>2.2.1'
+  gem 'selenium-webdriver', '~>2.40.0'
 end
 
 group :development do

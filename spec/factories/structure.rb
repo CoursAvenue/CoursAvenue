@@ -3,10 +3,10 @@ FactoryGirl.define do
 
   factory :structure do
     city
-    name           Faker::Name.name + ' institute'
+    name           { Faker::Name.name + ' institute' }
 
     street         'Paris'
-    zip_code       75014
+    zip_code       '75014'
     latitude       48.8592
     longitude      2.3417
 

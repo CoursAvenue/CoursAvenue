@@ -6,10 +6,9 @@ FactoryGirl.define do
 
     structure
 
-    name     Faker::Name.name
-    sequence :email do |n|
-      "person#{rand.to_s.gsub('.', '')}@example.com"
-    end
+    name     { Faker::Name.name }
+    email    { Faker::Internet.email }
+
     phone_number            '0104050104'
     mobile_phone_number     '0604050104'
 

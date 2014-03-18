@@ -6,7 +6,7 @@ FactoryGirl.define do
     latitude          48.8592
     longitude         2.3417
 
-    name              Faker::Name.name + ' place'
+    name              { Faker::Name.name + ' place' }
     street            'Paris'
     zip_code          75014
   end

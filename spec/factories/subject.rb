@@ -2,10 +2,10 @@
 FactoryGirl.define do
 
   factory :subject do
-    name Faker::Name.name
+    name { Faker::Name.name }
 
     factory :subject_children do
-      name Faker::Name.name + ' child'
+      name { Faker::Name.name + ' child' }
 
       after :build do |subject|
         subject_grand_parent   = Subject.create(name: Faker::Name.name)
