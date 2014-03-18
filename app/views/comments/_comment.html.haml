@@ -11,7 +11,7 @@
           = image_tag comment.structure.logo.url(:thumb), height: (small_avatar ? 30 : 60)
         - else
           - if comment.user
-            = image_tag comment.user.avatar_url(:small), height: (small_avatar ? 30 : 60)
+            = image_tag comment.user.avatar_url(:small), height: (small_avatar ? 30 : 60), class: 'rounded--circle'
       .grid__item.ten-twelfths>
         - # User can share if:
         - #   - comment is accepted
