@@ -6,22 +6,21 @@
   \|
   = link_to 'Aide', pro_pages_questions_url(subdomain: 'pro')
   \|
-  = link_to 'Portes Ouvertes', pro_structure_course_opens_url(@structure, subdomain: 'www')
+  = link_to 'Portes Ouvertes', pro_structure_course_opens_url(@structure, subdomain: 'pro')
 
 - content_for :promo do
-  %h4.push-half--bottom
-    CoursAvenue se mobilise à vos côtés pour que l'évenement soit un succès. Vous aussi, communiquez grâce aux 4 actions qui vous sont offertes :
-  %p.action.flush--top
-    = link_to "Voir les 4 actions de communication", communicate_pro_structure_course_opens_url(@structure, subdomain: 'pro'), class: 'btn btn--yellow'
+  %h4.flush
+    Communiquez sur vos Portes Ouvertes comme un beau rendez-vous à ne pas manquer
 
-  %p.blue.blue-tip.flush--bottom
-    %i Trucs & astuces : suivez les 3 phases de communication que nous vous avons détaillées pour un maximum d'efficacité.
+= image_tag 'emails_logo/nicolas.png', style: '-ms-interpolation-mode:bicubic;', width: '80', height: '80', class: 'float--left push-half--right'
 
 %p
-  %strong Le mot du co-fondateur Nicolas Lagarde :
+  %strong Le mot de Nicolas*
   %br
-  "Toute l'équipe de CoursAvenue se mobilise pour que vos Portes Ouvertes soient une réussite. Pour attirer un maximum de personnes, nous avons également mis les moyens financiers nécessaires : une excellente agence de relations presse a été sollicitée, 1 000 affiches et 20 000 flyers vont être déployés, et nous communiquons sur nos réseaux sociaux Facebook et Twitter. Multiplions nos efforts et communiquez vous aussi : c'est une belle occasion pour faire parler de vous !"
+  Bonjour ! Nous sommes à 3 semaines de vos Portes Ouvertes. Pour certains Parisiens, il est encore tôt pour réserver, les inscriptions risquent de rester encore faibles cette semaine. Cependant, c’est le bon moment pour commencer à communiquer : annoncez ce beau rendez-vous dans votre newsletter, sur votre site Internet, sur vos panneaux d'affichage, et invitez vos élèves à en parler autour d’eux. De notre côté, nous intensifions nos efforts, nous venons de commencer à déposer 1 000 affiches dans tout Paris. Connectez-vous et accédez à vos outils de communication :
 
-%p.action.push-half--bottom
-  = link_to "Voir les actions menées par CoursAvenue", ca_communication_pro_structure_course_opens_url(@structure, subdomain: 'pro'), class: 'btn'
+%p.action
+  = link_to "Communiquer sur mes Portes Ouvertes", communicate_pro_structure_course_opens_url(@structure, subdomain: 'pro'), class: 'btn btn--yellow'
 
+%p.blue.blue-tip.flush--bottom
+  %i *Co-fondateur sympa.

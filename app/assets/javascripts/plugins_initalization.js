@@ -1,21 +1,21 @@
 $(function() {
     var global = GLOBAL.namespace('GLOBAL');
     global.initialize_fancy = function($elements) {
-        $elements.each(function(index, element) {
-            $element = $(element);
-            var width  = $element.data('width') || 800;
-            var height = $element.data('height') || 600;
-            $element.fancybox({ padding  : 0,
-                                 width   : width,
-                                 height  : height,
-                                 helpers : {
-                                     media : {},
-                                     thumbs : {
-                                         width  : 75,
-                                         height : 50
-                                     }
-                                 }});
-        });
+        // Warning !
+        // Do not iterate over each elements beccause it will break thumbs
+        var width  = $elements.first().data('width') || 800;
+        var height = $elements.first().data('height') || 600;
+        $elements.fancybox({ padding  : 0,
+                             width   : width,
+                             height  : height,
+                             helpers : {
+                                 media : {},
+                                 thumbs : {
+                                     width  : 75,
+                                     height : 50
+                                 }
+                             }
+                         });
     };
     global.initialize_fancy($('[data-behavior="fancy"]'));
     global.modal_initializer = function modal_initializer () {

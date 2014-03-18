@@ -1,11 +1,13 @@
 - content_for :promo do
-  %h4 Affichez toutes vos recommandations sur votre propre site et profitez du bouche à oreille
+  %h4 Affichez toutes vos recommandations sur votre propre site et développez votre bouche à oreille
 
 %p Bonjour #{@structure.name},
 
 %p
   Vous avez récemment dépassé les 5 recommandations sur votre profil CoursAvenue. Pour vous en féliciter, nous vous offrons la possibilité de les afficher publiquement sur votre propre site Internet ou blog : avez-vous déjà installé votre livre d'or ?
 
+%p.action
+  = link_to "L'installer tout de suite", widget_pro_structure_url(@structure, subdomain: 'pro'), class: 'btn btn--green'
 %p.action
   = link_to I18n.t('structures.widget_status.installed'), update_widget_status_pro_structure_url(@structure, status: 'installed', subdomain: 'pro'), class: 'btn'
 %p.action
@@ -14,8 +16,6 @@
   = link_to I18n.t('structures.widget_status.dont_want'), update_widget_status_pro_structure_url(@structure, status: 'dont_want', subdomain: 'pro'), class: 'btn'
 %p.action
   = link_to I18n.t('structures.widget_status.remind_me'), update_widget_status_pro_structure_url(@structure, status: 'remind_me', subdomain: 'pro'), class: 'btn'
-%p.action
-  = link_to "L'installer tout de suite", widget_pro_structure_url(@structure, subdomain: 'pro'), class: 'btn btn--green'
 
 %p Si vous avez des questions, n'hésitez pas à nous contacter. Merci et à très bientôt,
 

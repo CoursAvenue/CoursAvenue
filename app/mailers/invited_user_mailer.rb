@@ -34,6 +34,7 @@ class InvitedUserMailer < ActionMailer::Base
 
   def send_invitation_stage_1(invited_user)
     return unless invited_user.email_opt_in?
+    @invited_user  = invited_user
     @referrer      = invited_user.referrer
     @invited_email = invited_user.email
     mail to: @invited_email, subject: subject_for_recommand_friends(invited_user),
@@ -42,6 +43,7 @@ class InvitedUserMailer < ActionMailer::Base
 
   def send_invitation_stage_2(invited_user)
     return unless invited_user.email_opt_in?
+    @invited_user  = invited_user
     @referrer      = invited_user.referrer
     @invited_email = invited_user.email
     mail to: @invited_email, subject: subject_for_recommand_friends(invited_user),

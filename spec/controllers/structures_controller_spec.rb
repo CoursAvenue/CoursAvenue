@@ -51,13 +51,6 @@ describe StructuresController do
       assigns(:total).should eq(result['meta']['total'])
     end
 
-    it "sets params[:other] when subject_id is 'other'" do
-      get :index, format: :json, lat: 48.8592, lng: 2.3417, subject_id: 'other'
-
-      expect(controller.params[:other]).to be_true
-      expect(controller.params).not_to have_key(:subject_id)
-    end
-
     it "correctly finds the subject if subject_id is provided" do
       get :index, format: :json, lat: 48.8592, lng: 2.3417, subject_id: subject.slug
 

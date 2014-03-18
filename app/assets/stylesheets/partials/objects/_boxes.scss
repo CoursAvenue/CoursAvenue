@@ -1,3 +1,15 @@
+.white-box, .blue-box {
+    @include border-radius($brand-round);
+    @include box-shadow(1px 1px 3px #DDD, 2px 2px 9px #EEE, 4px 4px 24px #EEE);
+}
+.white-box {
+    background: white;
+    border    : 1px solid #DDD;
+    &.white-box--rounded {
+        @include border-radius(10em);
+    }
+}
+
 .orange-box {
     background-color: $orange_pale;
 }
@@ -5,8 +17,6 @@
     color     : white;
     border    : 1px solid darken($blue, 5%);
     background: $blue;
-    @include border-radius($brand-round);
-    @include box-shadow(1px 1px 3px #DDD, 2px 2px 9px #EEE, 4px 4px 24px #EEE);
     a {
         &.btn {
             text-decoration: none;
@@ -39,15 +49,6 @@
 .white-box--small {
     @extend .white-box;
     max-width: 400px;
-}
-.white-box {
-    background: white;
-    border    : 1px solid #DDD;
-    @include border-radius($brand-round);
-    @include box-shadow(1px 1px 3px #DDD, 2px 2px 9px #EEE, 4px 4px 24px #EEE);
-    &.white-box--rounded {
-        @include border-radius(10em);
-    }
 }
 .form-white-box {
     @extend .white-box;

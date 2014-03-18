@@ -11,11 +11,8 @@ FactoryGirl.define do
     end
 
     # Comment contact
-    author_name     Faker::Name.name
-    sequence :email do |n|
-      "person#{n}@example.com"
-    end
-
+    author_name     { Faker::Name.name }
+    email           { Faker::Internet.email }
 
     # Comment content
     course_name       Faker::Lorem.sentence(4)

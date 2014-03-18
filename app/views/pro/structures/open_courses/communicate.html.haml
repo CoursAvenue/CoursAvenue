@@ -5,7 +5,7 @@
 
 %div.push-half--bottom
   %h3.inline-block.flush.v-middle CoursAvenue vous accompagne dans votre communication
-  = link_to ca_communication_pro_structure_course_opens_path(@structure), class: 'btn btn--blue btn--small v-middle push-half--left' do
+  = link_to ca_communication_pro_structure_course_opens_path(@structure), class: 'btn btn--blue btn--small v-middle push-half--left fancybox.ajax', data: { behavior: 'modal' } do
     %i.fa.fa-comment
     Actions CoursAvenue
 
@@ -14,6 +14,12 @@
     %li Les Portes Ouvertes représentent un moment privilégié dans l'année pour communiquer au plus large public et rencontrer de nouveaux élèves. Ces occasions sont rares, profitez-en pour faire parler de vous !
     %li L'équipe CoursAvenue vous accompagne dans la communication de l'événement et met tout en oeuvre pour que ce soit un succès et que vos ateliers affichent complets. Le succès de vos Portes Ouvertes dépend aussi de vous !
 
+
+.alert.alert--success.one-whole
+  %h4.text--center.flush
+    Lien à communiquer pour l'inscription à vos ateliers Portes Ouvertes :
+    %br
+    #{link_to jpo_structure_url(@structure, subdomain: 'www'), jpo_structure_url(@structure, subdomain: 'www'), target: :_blank}
 
 %h3 Communiquez pour chacune des 3 phases précédant l'événement :
 
@@ -48,29 +54,52 @@
 .white-box.islet
   %h4.blue.flush
     %i Phase n°1 : entre 1 mois et 2 semaines avant vos Portes Ouvertes
-  %h4 4 actions efficaces pour communiquer et annoncer l'événement comme un RDV important
+  %h4 6 actions efficaces pour communiquer et annoncer l'événement comme un RDV important
 
   %p.push--bottom
-    %strong Action 1 : prévenez vos élèves de l'événement
+    %strong Action 1 : annoncez l'événement sur tous vos supports de communication
+    %br
+    Nous avons engagé des designers pour la réalisation d'un logo, flyer et d'une affiche. Utilisez-les pour votre propre communication sur l'événement : sur vos panneaux d'affichage, dans la salle de cours, communiquez sur l'événement autour du lieu.
+    %br
+    = link_to 'https://s3-eu-west-1.amazonaws.com/coursavenue-public/jpo/Visuels+CoursAvenue.zip', class: 'btn btn--blue', onclick: "ga('send', 'event', 'Download visuals for JPO', 'click')" do
+      %i.fa.fa-download
+      Télécharger les visuels pour communiquer autour de mes lieux
+
+  %p.push--bottom
+    %strong Action 2 : prévenez vos élèves de l'événement
     %br
     Ce sont les meilleurs relais de votre communication car le bouche à oreille passe par eux. Envoyez-leur un message pour qu'ils commencent à en parler autour d'eux et pour qu'ils invitent leurs proches à découvrir leur passion gratuitement.
     %br
-    = link_to 'Communiquer auprès de mes élèves', jpo_new_pro_structure_invited_students_path(@structure), class: 'btn btn--blue'
+    = link_to jpo_new_pro_structure_invited_students_path(@structure), class: 'btn btn--blue' do
+      %i.fa.fa-bullhorn
+      Communiquer auprès de mes élèves
+
   %p.push--bottom
-    %strong Action 2 : répandez la bonne nouvelle à votre réseau Facebook
+    %strong Action 3 : communiquez dans votre newsletter et sur votre site Internet
+    %br
+    Annoncez votre RDV dans vos communications avec votre réseau, sur un post de votre site web ou dans votre newsletter. Visualisez le texte que nous vous avons rédigé, copiez-le et envoyez-le au plus grand nombre.
+    %br
+    = link_to '#popup', class: 'btn btn--blue', data: { behavior: 'modal' } do
+      %i.fa.fa-eye
+      Visualiser le texte à copier puis à envoyer
+
+  %p.push--bottom
+    %strong Action 4 : répandez la bonne nouvelle à votre réseau Facebook
     %br
     Partagez le lien direct de votre page d'inscription, votre réseau pourra ainsi le partager. Saviez-vous que les opérations gratuites sont les premiers articles partagés sur les réseaux sociaux ? C'est l'occasion de gagner de  nouveaux fans !
     %br
     = link_to 'Partager sur Facebook', share_jpo_page_url(@structure), class: 'btn btn--blue', target: :_blank
 
   %p.push--bottom
-    %strong Action 3 : dites-le sur votre site Internet
+    %strong Action 5 : dites-le sur votre site Internet
     %br
     Un site Internet ou un blog doit sans cesse proposer de la nouveauté. Les sites les mieux référencés sur Google sont ceux qui offrent du contenu unique différent régulièrement : profitez-en pour annoncer vos Portes Ouvertes !
     %br
-    = link_to 'Installer la bannière sur mon site', widget_jpo_pro_structure_path(@structure), class: 'btn btn--blue'
+    = link_to widget_jpo_pro_structure_path(@structure), class: 'btn btn--blue' do
+      %i.fa.fa-cogs
+      Installer la bannière sur mon site
   %p.push--bottom
-    %strong Action 4 : annoncez l'événement à chaque fin de cours
+    %strong Action 6 : annoncez l'événement à chaque fin de cours
     %br
     En fin de séance, dites à vos élèves que vous organisez des Portes Ouvertes et qu'ils peuvent inviter leurs proches. 2 semaines avant l'événement, nous vous enverrons des affiches à installer sur vos lieux de cours.
 
@@ -88,7 +117,7 @@
     Les personnes notent qu'une belle opération aura lieu dans moins d'un mois. Vous devez communiquer pour annoncer les Portes Ouvertes comme un événement exceptionnel et festif.
   %hr
   %p
-    %strong Phase n°2 :  Inscription des plus organisés
+    %strong Phase n°2 : inscription des plus organisés
     %br
     %i.blue entre 15 jours et 1 semaine avant vos Portes Ouvertes
     %br
@@ -100,3 +129,14 @@
     %i.blue 1 semaine avant vos Portes Ouvertes
     %br
     C'est le moment de s'inscrire et de remplir l'agenda de son week-end ! Envoyez votre communication en rappelant que les places sont limitées (annoncez le chiffre), et que le jour J arrive (annoncez le "J-X"). Les incriptions risquent d'arriver en masse !
+
+
+#popup.hidden
+  %p
+    Les 5-6 avril, nous offrons des cours gratuits !
+
+  %p
+    Organisée en partenariat avec le site CoursAvenue.com, nous participons aux Portes Ouvertes des cours de loisirs le 1er week-end d'avril des 5 et 6 avril : les cours seront entièrement gratuits, c'est l'occasion pour vous d'inviter vos proches, un voisin, un ami, une cousine, un collègue… bref plus on est de fous... !
+
+  %p
+    Pour réserver votre place => inscriptions préalables sur le site CoursAvenue.com à cette adresse : #{link_to jpo_structure_url(@structure, subdomain: 'www'), jpo_structure_url(@structure, subdomain: 'www')}

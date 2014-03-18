@@ -112,5 +112,4 @@ class PlanningSearch
 
     [params[:lat], params[:lng]]
   end
-
 end

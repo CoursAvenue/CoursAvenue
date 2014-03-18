@@ -191,29 +191,6 @@
     }
 }
 
-.outlined-btn {
-    white-space     : normal;
-    line-height     : 1;
-    font-weight     : bold;
-    background-color: $light-grey;
-    border          : 1px solid #DBD9D9;
-    @include text-shadow(0 1px 0 white);
-    padding         : 0.8em;
-    color           : #555;
-    font-size       : 12px;
-    cursor          : pointer;
-    @include border-radius($brand-round);
-    @include background-image(linear-gradient(top, #fefefe,#f8f8f8));
-    @include box-shadow(0px 1px 2px rgba( 0, 0, 0, 0.2 ), inset 0px 0px 1px rgba(255, 255, 255, .5));
-    &:hover {
-      @include background-image(linear-gradient(top, darken(#fefefe, 3%), darken(#f8f8f8, 3%)));
-    }
-    &.active {
-        border: 1px solid $orange;
-        @include box-shadow(0px 0px 5px transparentize($orange, 0.5));
-    }
-}
-
 .btn-group {
     i {
         font-size: 1em;

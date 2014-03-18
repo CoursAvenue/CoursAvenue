@@ -5,7 +5,7 @@
   = link_to 'Ajouter un professeur', new_pro_structure_teacher_path(@structure), class: 'fancybox.ajax btn btn--green btn--large', data: {behavior: 'modal', width: 700}
 
 - if @teachers.any?
-  = render partial: 'teachers/teacher', collection: @teachers
+  = render partial: 'pro/teachers/teacher', collection: @teachers
 
 - else
   %p.white-box.islet

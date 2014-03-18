@@ -8,6 +8,13 @@
   Notre équipe vient d'envoyer vos autocollants par la Poste. Vous devriez les recevoir d’ici quelques jours.
 
 %p
+  %strong Vous êtes satisfait de CoursAvenue ?
+  Invitez d'autres professeurs, associations et écoles à créer leur profil :
+
+%p.action
+  = link_to 'Envoyer mon parrainage', new_pro_structure_invited_teacher_url(@structure, subdomain: 'pro'), class: 'btn btn--green'
+
+%p
   Pour toute question, n’hésitez pas à nous contacter. A très bientôt !
 %p
   L’équipe de CoursAvenue

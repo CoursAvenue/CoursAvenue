@@ -114,6 +114,7 @@ class Structure < ActiveRecord::Base
   validates :zip_code           , :presence   => true, numericality: { only_integer: true }, on: :create
   validates :city               , :presence   => true, on: :create
   validate :subject_parent_and_children
+  validates :name, :website, :facebook_url, length: { maximum: 255 }
 
   ######################################################################
   # Callbacks                                                          #
@@ -615,6 +616,10 @@ class Structure < ActiveRecord::Base
     participations.not_canceled.count.to_f / total_jpo_places.to_f
   end
 
+  def email_opt_in
+    main_contact.email_opt_in
+  end
+
   private
 
   # Strip name if exists to prevent from name starting by a space
@@ -672,9 +677,9 @@ class Structure < ActiveRecord::Base
   end
 
   def encode_uris
-    self.website      = URI.encode(self.website)      if self.website.present?
-    self.facebook_url = URI.encode(self.facebook_url) if self.facebook_url.present?
-    self.widget_url   = URI.encode(self.widget_url)   if self.widget_url.present?
+    self.website      = URI.encode(URI.decode(self.website))      if website.present? and website_changed?
+    self.facebook_url = URI.encode(URI.decode(self.facebook_url)) if facebook_url.present? and facebook_url_changed?
+    self.widget_url   = URI.encode(URI.decode(self.widget_url))   if widget_url.present? and widget_url_changed?
   end
 
   def should_generate_new_friendly_id?
