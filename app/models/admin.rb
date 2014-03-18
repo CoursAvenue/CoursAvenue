@@ -1,4 +1,5 @@
 class ::Admin < ActiveRecord::Base
+  extend HstoreHelper
   acts_as_paranoid
   acts_as_messageable
 
@@ -25,6 +26,8 @@ class ::Admin < ActiveRecord::Base
 
   store_accessor :email_opt_in_status, :student_action_email_opt_in, :newsletter_email_opt_in,
                                        :monday_email_opt_in, :thursday_email_opt_in, :jpo_email_opt_in
+
+  define_boolean_accessor_for :email_opt_in_status, :student_action_email_opt_in, :newsletter_email_opt_in, :monday_email_opt_in, :thursday_email_opt_in, :jpo_email_opt_in
 
   ######################################################################
   # Relations                                                          #
@@ -97,22 +100,6 @@ class ::Admin < ActiveRecord::Base
       structure.name
     else
       read_attribute(:name)
-    end
-  end
-
-  # Augment methods to have them return boolea
-  %w(student_action_email_opt_in newsletter_email_opt_in monday_email_opt_in thursday_email_opt_in jpo_email_opt_in).each do |key|
-    scope "has_#{key}", ->(value) { where("email_opt_in_status @> hstore(?, ?)", key, value) }
-
-    define_method("#{key}") do
-      if email_opt_in_status && email_opt_in_status.has_key?(key) then
-        ::ActiveRecord::ConnectionAdapters::Column.value_to_boolean(email_opt_in_status[key])
-      else
-        nil
-      end
-    end
-    define_method("#{key}?") do
-      send key.to_sym
     end
   end
 

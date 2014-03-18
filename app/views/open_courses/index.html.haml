@@ -13,6 +13,11 @@
 - unless current_user or current_pro_admin
   = render 'users/registrations/jpo_popup'
 
+- if current_user and !current_user.have_seen_first_jpo_popup
+  = render 'open_courses/first_time_popup'
+  - current_user.have_seen_first_jpo_popup = true
+  - current_user.save(validate: false)
+
 :javascript
   window.coursavenue  = window.coursavenue || {};
   var subjects        = #{ Subject.stars.to_json };
