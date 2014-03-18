@@ -103,10 +103,10 @@ gem 'omnicontacts'              , '~>0.3.4'
 gem 'certified'                 , '~>0.1.1'
 
 # Search engine
-gem 'sunspot'                   , '~>2.1.0'
+gem 'sunspot'                   , '~>2.0.0'
 # Add solr server for development
-gem 'sunspot_solr'              , '~>2.1.0', group: :development
-gem 'sunspot_rails'             , '~>2.1.0'
+gem 'sunspot_solr'              , '~>2.0.0', group: :development
+gem 'sunspot_rails'             , '~>2.0.0'
 gem 'sunspot-rails-tester'      , '~>1.0.0'
 
 gem 'truncate_html'             , '~>0.9.2'
