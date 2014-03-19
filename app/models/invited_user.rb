@@ -17,7 +17,7 @@ class InvitedUser < ActiveRecord::Base
   scope :for_jpo, -> { where(for: 'jpo') }
 
   ## Type: Student, Structure
-  attr_accessible :type, :email, :referrer_id, :referrer_type
+  attr_accessible :type, :email, :referrer_id, :referrer_type, :for
   # To store hashes into hstore
   store_accessor :meta_data, :structure_id
 
@@ -56,6 +56,8 @@ class InvitedUser < ActiveRecord::Base
   def structure
     if structure_id
       Structure.find(structure_id)
+    elsif referrer_type == 'Structure'
+      referrer
     end
   end
 

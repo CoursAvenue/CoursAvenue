@@ -8,10 +8,7 @@
 
 - content_for :promo do
   %h4
-    - if @structure
-      #{@referrer.name} vous offre un cours gratuit proposé par #{@structure.name} les 5-6 avril
-    - else
-      #{@referrer.name} vous offre un cours gratuit pendant les Journées Portes Ouvertes CoursAvenue
+    Avez-vous réservé votre cours que vous a offert #{@referrer.name} ? Réservez-le dès maintenant, ça se passe les 5-6 avril et les places sont limitées !
 
 - if @email_text
   = @email_text.html_safe
