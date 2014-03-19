@@ -11,7 +11,7 @@ module ParticipationsHelper
     return_string = participation.user.name
     if participation.with_kid?
       return_string << " ("
-      return_string << "#{participation.nb_adults} adultes + " if participation.nb_adults > 1
+      return_string << "#{pluralize participation.nb_adults, 'adulte'} + " if participation.nb_adults > 0
       return_string << "#{pluralize participation.nb_kids, 'enfant'}"
       return_string << ")"
     end
