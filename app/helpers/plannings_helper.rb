@@ -70,21 +70,17 @@ module PlanningsHelper
     planning.audiences.map do |audience|
       if audience.kid?
         if planning.min_age_for_kid and planning.max_age_for_kid
-          "#{t(audience.name)} (#{planning.min_age_for_kid} à #{planning.max_age_for_kid} ans)"
+          "#{I18n.t(audience.name)} (#{planning.min_age_for_kid} à #{planning.max_age_for_kid} ans)"
         else
-          t(audience.name)
+          I18n.t(audience.name)
         end
       else
-        t(audience.name)
+        I18n.t(audience.name)
       end
     end.join(', ')
   end
 
   def join_levels_text(planning)
     planning.levels.map(&:name).map{|name| I18n.t(name)}.join(', ')
-  end
-
-  def join_audiences_text(planning)
-    planning.audiences.map(&:name).map{|name| I18n.t(name)}.join(', ')
   end
 end

@@ -25,7 +25,7 @@ class PlanningSerializer < ActiveModel::Serializer
   end
 
   def audiences
-    join_audiences_text(object)
+    join_audiences(object)
   end
 
   def places_left
