@@ -23,7 +23,11 @@ class InvitedUser::Student < InvitedUser
 
   def registered?
     if self.for == 'jpo'
-      User.active.where(email: email).any?
+      if referrer_type == 'Structure'
+        false
+      else
+        User.active.where(email: email).any?
+      end
     else
       registered
     end

@@ -95,6 +95,6 @@ class UserMailer < ActionMailer::Base
     @email     = email
     user_email  = email
     @user       = User.where{email == user_email}.first
-    mail to: email, subject: "#{structure.name} vous demande une recommandation"
+    mail to: email, subject: "Dernier jour pour recommander #{structure.name}"
   end
 end
