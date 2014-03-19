@@ -13,7 +13,7 @@
           %i.fa.fa-envelope
           Envoyer un message groupé
 
-  - open_course.plannings.each do |planning|
+  - open_course.plannings.order('start_date ASC, start_time ASC').each do |planning|
     %h5.inline-block.v-middle.flush
       %i.fa.fa-calendar
       = planning_date_for(planning).capitalize
