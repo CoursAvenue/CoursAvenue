@@ -375,11 +375,18 @@ class Planning < ActiveRecord::Base
     participations.not_canceled.not_in_waiting_list.map(&:size).reduce(&:+) || 0
   end
 
-  # Number of participants of this planning. Including children
+  # Number of participants with people in waiting list of this planning. Including children
   #
   # @return Integer
   def nb_jpo_participants_with_waiting_list
     participations.not_canceled.map(&:size).reduce(&:+) || 0
+  end
+
+  # Number of participants who are waiting list of this planning. Including children
+  #
+  # @return Integer
+  def nb_jpo_participants_only_waiting_list
+    participations.not_canceled.waiting_list.map(&:size).reduce(&:+) || 0
   end
 
   private

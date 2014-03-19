@@ -23,10 +23,10 @@
       .bar.bar-success{style: "width: #{(planning.nb_jpo_participants * 100) / planning.nb_participants_max}%;"}
         #{planning.nb_jpo_participants} / #{planning.nb_participants_max}
     - if planning.waiting_list.any?
-      %strong Liste d'attente
-      .progress.inline-block.v-middle.push-half--left
+      %span Liste d'attente
+      .progress.inline-block.v-middle.push-half--left{style: 'width: 10em;'}
         .bar.bar-warning{style: "width: 50%;"}
-          #{planning.waiting_list.length}
+          #{planning.nb_jpo_participants_only_waiting_list}
 
     - if planning.participations.any?
       - user_profiles_id = planning.participations.map{ |part| part.user.user_profile_for(@structure).try(:id) }
