@@ -9,6 +9,7 @@
       %th À
       %th Type
       %th S'est créé un compte
+      %th S'est inscrits à un atelier
       %th Date
   %tbody
     - @invited_users.each do |invited_user|
@@ -30,5 +31,8 @@
         %td= invited_user.for
         %td
           - if invited_user.registered?
+            %i.fa.fa-check
+        %td
+          - if invited_user.user and Participation.where(user_id: invited_user.user.id).any?
             %i.fa.fa-check
         %td= l(invited_user.created_at, format: :date)
