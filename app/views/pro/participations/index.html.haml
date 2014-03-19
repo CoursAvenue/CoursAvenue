@@ -11,7 +11,7 @@
 
   .inline-block.one-quarter.push--bottom.v-middle.push--sides
     .white-box.soft-half.text--center
-      %h3.flush= "#{Participation.canceled.count} annulation"
+      %h3.flush= "#{Participation.canceled.count} annulations"
       %h6.flush dont #{Participation.canceled.where{created_at > Date.today}.count} aujourd'hui
       %div et #{Participation.canceled.where{created_at > Date.today - 7.days}.count} les 7 derniers jours
 
@@ -68,7 +68,7 @@
                       name: 'Inscriptions'
                     },{
                       data: #{@canceled_participations_graph.map{|date, count| count}},
-                      name: 'Annulation'
+                      name: 'Annulations'
                     },
                     ]
         });
