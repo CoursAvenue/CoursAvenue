@@ -8,7 +8,7 @@
     #{@structure.name} vous demande de lui rédiger une recommandation sur CoursAvenue.com
 
 - if @email_text
-  = @email_text.html_safe
+  = simple_format @email_text
 
 %p.action
   = link_to 'Déposez votre avis en 20 secondes', new_structure_comment_url(@structure, email: @email, subdomain: 'www', utm_source: 'email', utm_campaign: 'ask_for_recommandation', utm_medium: 'stage_0'), class: 'btn btn--green'

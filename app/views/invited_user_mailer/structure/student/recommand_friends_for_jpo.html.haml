@@ -8,7 +8,7 @@
     #{@structure.name} vous offre l'opportunité d'offrir un cours gratuit à vos proches
 
 - if @email_text
-  = @email_text.html_safe
+  = simple_format @email_text
 
 %p.action
   = link_to "J'offre un cours gratuit à mes proches", invite_entourage_to_jpo_page_users_url(user_email: @email, structure_id: @structure.id, subdomain: 'www'), class: 'btn btn--green', utm_source: 'email', utm_campaign: 'invite_friends_for_jpo', utm_medium: 'stage_0'

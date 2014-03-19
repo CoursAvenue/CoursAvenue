@@ -14,7 +14,7 @@
       #{@referrer.name} vous offre un cours gratuit pendant les Journées Portes Ouvertes CoursAvenue
 
 - if @email_text
-  = @email_text.html_safe
+  = simple_format @email_text
 
 %p.action
   - if @structure

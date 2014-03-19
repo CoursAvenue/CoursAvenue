@@ -11,7 +11,7 @@
     Avez-vous réservé votre cours que vous a offert #{@referrer.name} ? Réservez-le dès maintenant, ça se passe les 5-6 avril et les places sont limitées !
 
 - if @email_text
-  = @email_text.html_safe
+  = simple_format @email_text
 
 %p.action
   - if @structure
