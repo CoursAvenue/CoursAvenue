@@ -50,7 +50,7 @@
           %br
           = @structure.name
         .push-half--top
-          = f.submit 'Envoyer ma demande', class: 'btn btn--green btn--full', disable_with: "En cours d'envoi", disable_with: "En cours d'envoi"
+          = f.submit 'Envoyer ma demande', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }
           .text--center= link_to 'Envoyer un email depuis ma boîte perso', '#hidden-send', data: {behavior: 'modal'}, class: ''
 
 #hidden-send.hidden

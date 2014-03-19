@@ -9,5 +9,5 @@
   = f.input :name, label: 'Nom'
 
   .push--top
-    = f.submit 'Enregistrer',  class: 'btn btn--green btn--full', disable_with: "En cours d'enregistrement"
+    = f.submit 'Enregistrer',  class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
 

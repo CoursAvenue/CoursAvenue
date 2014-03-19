@@ -67,7 +67,7 @@
         %td
           = simple_form_for [:pro, course], url: pro_structure_course_path(course.structure, course), as: :course, remote: true do |f|
             = f.input :ca_follow_up, label: false, input_html: { style: 'width: 100px; height: 50px; font-size: 11px;' }, wrapper_html: { class: 'flush' }
-            = f.submit 'Valider', class: 'btn btn--small btn--green btn--full', disable_with: "En cours"
+            = f.submit 'Valider', class: 'btn btn--small btn--green btn--full', data: { disable_with: "En cours" }
         %td
           - if course.ok_nico
             = link_to disable_ok_nico_pro_structure_course_path(course.structure, course), remote: true, method: :patch do
@@ -119,7 +119,7 @@
         %td
           = simple_form_for [:pro, course.structure, course], url: pro_structure_course_path(course.structure, course), as: :course, remote: true do |f|
             = f.input :ca_follow_up, label: false, input_html: { style: 'width: 100px; height: 50px; font-size: 11px;' }, wrapper_html: { class: 'flush' }
-            = f.submit 'Valider', class: 'btn btn--small btn--green btn--full', disable_with: "En cours"
+            = f.submit 'Valider', class: 'btn btn--small btn--green btn--full', data: { disable_with: "En cours" }
         %td
           - if course.ok_nico
             = link_to disable_ok_nico_pro_structure_course_path(course.structure, course), remote: true, method: :patch do

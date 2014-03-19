@@ -56,7 +56,7 @@
     %span.v-middle ans
 
   .text--center
-    = f.submit 'Enregistrer', class: 'btn btn--green btn--full', disable_with: 'Enregistrement en cours...'
+    = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours...' }
 
 :javascript
   $('#planning_place_id').change();

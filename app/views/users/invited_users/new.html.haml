@@ -25,4 +25,4 @@
           %br
           = current_user.name
 
-    .text--right.push-half--top= submit_tag 'Envoyer les invitations', class: 'btn btn--green', disable_with: 'Envoi en cours'
+    .text--right.push-half--top= submit_tag 'Envoyer les invitations', class: 'btn btn--green', data: { disable_with: 'Envoi en cours' }

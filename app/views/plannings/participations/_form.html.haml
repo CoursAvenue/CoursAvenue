@@ -56,6 +56,6 @@
     Annuler mon inscription si je ne peux plus y participer
 
   - if @planning.places_left?
-    = f.submit 'Confirmer mon inscription', class: 'btn btn--green btn--full', disable_with: 'Confirmation en cours'
+    = f.submit 'Confirmer mon inscription', class: 'btn btn--green btn--full', data: { disable_with: 'Confirmation en cours' }
   - else
-    = f.submit "Confirmer mon inscription sur liste d'attente", class: 'btn btn--green btn--full', disable_with: 'Confirmation en cours'
+    = f.submit "Confirmer mon inscription sur liste d'attente", class: 'btn btn--green btn--full', data: { disable_with: 'Confirmation en cours' }

@@ -27,6 +27,6 @@
       .grid__item.two-thirds>
         .checkbox-at-left= f.input :student_action_email_opt_in, as: :boolean, wrapper_html: { class: 'flush--top' }
 
-    = f.submit 'Enregistrer', class: 'btn btn--green btn--full', disable_with: "En cours d'enregistrement"
+    = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
 
 /= f.input :email_opt_in, label: 'Recevoir les alertes'

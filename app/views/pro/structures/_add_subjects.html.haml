@@ -11,7 +11,7 @@
         %select#subject-descendants-select{name: 'structure[subject_descendants_ids][]', style: 'width: 74%;', multiple: true, data: {behavior: 'chosen', placeholder: 'Tapez ou sélectionnez une ou plusieurs disciplines', selected: @structure.subjects.children.map(&:id).join(',')}}>
   - if @structure.errors[:children_subjects].present?
     %p.error= @structure.errors[:children_subjects].to_sentence
-  = f.submit 'Enregistrer', class: 'btn btn--green btn--full', disable_with: "En cours d'enregistrement", disable_with: "En cours d'enregistrement"
+  = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
 
 :javascript
   jQuery.ready();

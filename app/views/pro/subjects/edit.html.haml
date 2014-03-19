@@ -14,7 +14,7 @@
     = f.input :good_to_know, input_html: { data: { behavior: 'autoresize'} }
     = f.input :needed_meterial, input_html: { data: { behavior: 'autoresize'} }
     = f.input :tips, input_html: { data: { behavior: 'autoresize'} }
-    = f.submit 'Enregistrer', class: 'btn btn--full btn--green', disable_with: "En cours d'enregistrement"
+    = f.submit 'Enregistrer', class: 'btn btn--full btn--green', data: { disable_with: "En cours d'enregistrement" }
 
 %div
   %h3.inline-block= "#{@city.name} / #{@subject.name}"
@@ -28,7 +28,7 @@
     = f.input :where_to_suit_up, input_html: { data: { behavior: 'autoresize'} }
     = f.input :average_price, input_html: { data: { behavior: 'autoresize'} }
     = f.input :tips, input_html: { data: { behavior: 'autoresize'} }
-    = f.submit 'Enregistrer', class: 'btn btn--green btn--full', disable_with: "En cours d'enregistrement"
+    = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
 
 
 %h4.push--bottom Textes relatifs aux villes

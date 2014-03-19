@@ -41,7 +41,7 @@
         = contact_form.input :phone, label: Contact.human_attribute_name(:phone), input_html: {value: contact_form.object.phone || @structure.contact_phone || @structure.main_contact.try(:phone_number)}
         = contact_form.input :mobile_phone, label: Contact.human_attribute_name(:mobile_phone), input_html: {value: contact_form.object.mobile_phone || @structure.contact_mobile_phone || @structure.main_contact.try(:mobile_phone_number)}
 
-    = f.submit 'Enregistrer', class: 'btn btn--green  btn--full', disable_with: "En cours d'enregistrement"
+    = f.submit 'Enregistrer', class: 'btn btn--green  btn--full', data: { disable_with: "En cours d'enregistrement" }
 
 = content_for :scripts do
   :javascript
