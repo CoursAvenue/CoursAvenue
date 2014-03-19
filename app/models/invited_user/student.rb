@@ -22,7 +22,7 @@ class InvitedUser::Student < InvitedUser
   end
 
   def registered?
-    if self.for == 'jpo'
+    if self.invitation_for == 'jpo'
       if referrer_type == 'Structure'
         false
       else
