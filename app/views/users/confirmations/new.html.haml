@@ -10,5 +10,5 @@
       = f.email_field :email, autofocus: true
 
     %div
-      = f.submit "Renvoyer le code de confirmation", class: 'btn btn--green', disable_with: "En cours d'envoi"
+      = f.submit "Renvoyer le code de confirmation", class: 'btn btn--green', data: { disable_with: "En cours d'envoi" }
 

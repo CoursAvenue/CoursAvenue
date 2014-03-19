@@ -91,7 +91,7 @@
         %br
         \- avoir renseigné toutes les informations importantes à communiquer aux inscrits dans les champs "description" et "infos pratiques" (numéro d'interphone, tenue et matériel exigés, etc.).
   %p
-    = f.submit 'Enregistrer et renseigner mes lieux et créneaux', class: 'btn btn--green btn--full', disable_with: "En cours d'enregistrement"
+    = f.submit 'Enregistrer et renseigner mes lieux et créneaux', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
 
 = content_for :scripts do
   :javascript

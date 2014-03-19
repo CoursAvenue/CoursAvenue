@@ -2,8 +2,8 @@ class Participation < ActiveRecord::Base
   acts_as_paranoid
 
   PARTICIPATION_FOR = ['participations.for.one_adult',
-                      'participations.for.one_kid',
-                      'participations.for.one_kid_and_one_adult' ]
+                      'participations.for.kids',
+                      'participations.for.kids_and_adults' ]
 
   ######################################################################
   # Relations                                                          #
@@ -18,8 +18,11 @@ class Participation < ActiveRecord::Base
   # Validation                                                         #
   ######################################################################
   validate  :first_participation_to_jpo, on: :create
+  validate  :size_positive, on: :create
   validates :user, presence: true
   validates :planning, presence: true
+  validates :nb_kids, numericality: { less_than: 5 }
+  validates :nb_adults, numericality: { less_than: 3 }
 
   ######################################################################
   # Callbacks                                                          #
@@ -30,6 +33,7 @@ class Participation < ActiveRecord::Base
   after_create :sends_email_if_no_more_place
   after_create :check_if_was_on_invite
 
+  before_validation  :check_size
   before_save  :set_default_participation_for
 
   after_save   :update_jpo_meta_datas
@@ -38,7 +42,7 @@ class Participation < ActiveRecord::Base
   before_save  :set_waiting_list, unless: :canceled?
   before_save  :update_structure_meta_datas
 
-  attr_accessible :user, :planning, :participation_for
+  attr_accessible :user, :planning, :participation_for, :nb_adults, :nb_kids
 
   ######################################################################
   # Scopes                                                             #
@@ -120,21 +124,22 @@ class Participation < ActiveRecord::Base
   #
   # @return Boolean
   def with_kid?
-    participation_for == 'participations.for.one_kid_and_one_adult'
+    participation_for == 'participations.for.kids_and_adults' or participation_for == 'participations.for.kids'
   end
 
   # Return the size of the participation. Does it count for 1 person or 2 ?
   #
   # @return Integer
   def size
-    (with_kid? ? 2 : 1)
+    # (with_kid? ? 2 : 1)
+    nb_adults + nb_kids
   end
 
   # Set waiting list to true regarding the number of participants and the
   #
   # @return nil
   def set_waiting_list
-    self.waiting_list = ( self.planning.places_left <= 0 )
+    self.waiting_list = (self.planning.places_left <= 0 or self.size > planning.places_left)
     nil
   end
 
@@ -156,11 +161,28 @@ class Participation < ActiveRecord::Base
   ######################################################################
   # Callbacks                                                          #
   ######################################################################
+
+  # Sets nb_adults to 0 if only for kids
+  #
+  # @return nil
+  def check_size
+    if participation_for == 'participations.for.kids'
+      nb_adults = 0
+    end
+    nil
+  end
+
   # Set default value for `participation_for` attribute
   #
   # return participation_for
   def set_default_participation_for
-    self.participation_for ||= 'participations.for.one_adult'
+    if nb_kids == 0
+      self.participation_for ||= 'participations.for.one_adult'
+    elsif nb_adults == 0
+      self.participation_for ||= 'participations.for.kids'
+    else
+      self.participation_for ||= 'participations.for.kids_and_adults'
+    end
   end
 
   # Update meta datas related to JPOs on the associated structure
@@ -184,6 +206,16 @@ class Participation < ActiveRecord::Base
   def first_participation_to_jpo
     unless user.participations.not_canceled.empty?
       self.errors[:base] << I18n.t('participations.errors.only_one_participation_for_jpo')
+    end
+    nil
+  end
+
+  # Check if nb_kids and adults are correctly filled
+  #
+  # @return nil
+  def size_positive
+    if size == 0
+      self.errors.add :nb_kids, I18n.t('participations.errors.size_is_nil')
     end
     nil
   end

@@ -46,4 +46,4 @@
       %i Nous vous enverrons le courrier contenant vos autocollants à cette adresse.
     = f.input :address, input_html: { value: @structure.address, class: 'one-whole' }, wrapper_html: { class: 'flush one-whole' }, label: false
     .push-half--top
-      = f.submit 'Demander mes autocollants', class: 'btn btn--green btn--full', disable_with: "En cours d'envoi"
+      = f.submit 'Demander mes autocollants', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }

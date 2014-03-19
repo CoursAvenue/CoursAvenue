@@ -21,6 +21,14 @@ class InvitedUser::Student < InvitedUser
     User.where(email: _email).first
   end
 
+  def registered?
+    if self.for == 'jpo'
+      User.active.where(email: email).any?
+    else
+      registered
+    end
+  end
+
   private
 
   def create_user_if_doesnt_exist

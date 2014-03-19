@@ -49,7 +49,7 @@ gem 'active_hash'               , '~>1.2.0'
 gem 'rails-observers'           , '~>0.1.2'
 
 # Transform urls into images, videos etc. Used in medias.
-gem 'auto_html'                 , '~>1.6.1'
+gem 'auto_html'                 , '~>1.6.2'
 
 # Must be before jobs
 gem 'protected_attributes'      , '~>1.0.3'
@@ -125,7 +125,7 @@ gem 'sitemap_generator'         , '~>4.2.0'
 gem 'gibbon'                    , '~>1.0.4'
 
 # Transform external CSS stylesheets into inline CSS for emails
-gem 'roadie'                    , '~>2.4.2'
+gem 'roadie'                    , '~>2.4.3'
 
 gem 'fingerprintjs-rails'       , '~>0.5.3'
 

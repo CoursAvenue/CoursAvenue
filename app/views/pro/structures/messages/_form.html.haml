@@ -2,8 +2,8 @@
   - if params[:return_to].present?
     %input{ type: 'hidden', value: params[:return_to], name: 'return_to' }
   = f.error_notification
-  = f.input :recipients, as: :select, collection: @structure.user_profiles.with_email.order('first_name ASC').uniq, input_html: { multiple: true, data: {behavior: 'chosen', placeholder: 'Sélectionnez un destinataires'}}, selected: (params[:message] ? params[:message][:recipients] : nil), label_method: lambda {|user_profile| user_profile.name_with_email }
+  = f.input :recipients, as: :select, collection: @structure.user_profiles.with_email.order('first_name ASC').uniq, input_html: { multiple: true, data: { behavior: 'chosen', placeholder: 'Sélectionnez un destinataires' } }, selected: (params[:message] ? params[:message][:recipients] : nil), label_method: lambda {|user_profile| user_profile.name_with_email }
   = f.input :subject
   = f.input :body, input_html: { style: 'height: 150px', data: {behavior: 'autoresize'} }
   .form-actions
-    = f.submit 'Envoyer', class: 'btn btn--green btn--full', disable_with: "Message en cours d'envoi"
+    = f.submit 'Envoyer', class: 'btn btn--green btn--full', data: { disable_with: "Message en cours d'envoi" }

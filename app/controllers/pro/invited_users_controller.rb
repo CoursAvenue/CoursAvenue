@@ -3,6 +3,6 @@ class ::Pro::InvitedUsersController < Pro::ProController
   before_action :authenticate_pro_super_admin!
 
   def index
-    @invited_users = InvitedUser.order('created_at DESC')
+    @invited_users = InvitedUser.order('created_at DESC').limit(400)
   end
 end

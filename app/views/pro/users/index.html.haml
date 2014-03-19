@@ -28,7 +28,7 @@
     - @users.each do |user|
       %tr
         %td.text--center
-          = image_tag user.avatar_url(:small), height: 40
+          = image_tag user.avatar_url(:small), height: 40, class: 'rounded--circle'
         %td
           = user.name
           = link_to "(#{user.email})", "mailto:#{user.email}"

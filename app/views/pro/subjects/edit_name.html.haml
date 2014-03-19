@@ -5,5 +5,5 @@
     = @subject.root.name
 = simple_form_for [:pro, @subject] do |f|
   = f.input :name
-  = f.submit 'Enregistrer', class: 'btn btn--full btn--green', disable_with: "En cours d'enregistrement"
+  = f.submit 'Enregistrer', class: 'btn btn--full btn--green', data: { disable_with: "En cours d'enregistrement" }
 

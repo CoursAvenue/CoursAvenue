@@ -13,7 +13,7 @@
           %i.fa.fa-envelope
           Envoyer un message groupé
 
-  - open_course.plannings.each do |planning|
+  - open_course.plannings.order('start_date ASC, start_time ASC').each do |planning|
     %h5.inline-block.v-middle.flush
       %i.fa.fa-calendar
       = planning_date_for(planning).capitalize
@@ -40,12 +40,8 @@
       %tbody
         - planning.participations.order('canceled_at DESC').each do |participation|
           %tr{class: (participation.canceled? ? 'red' : '')}
-            %td
-              = participation.user.name
-              - if participation.with_kid?
-                (+ 1 enfant)
-            %td
-              = link_to participation.user.email, "mailto:#{participation.user.email}", target: :_blank
+            %td= participation_user_name(participation)
+            %td= link_to participation.user.email, "mailto:#{participation.user.email}", target: :_blank
             %td= readable_phone_number participation.user.phone_number
             %td= l(participation.created_at, format: :date).capitalize
             %td.text--center

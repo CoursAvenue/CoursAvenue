@@ -1,12 +1,13 @@
 = simple_form_for [current_user, @message] do |f|
-  .form-white-box.flush
-    = f.error_notification
-    .input.flush
-      = f.label :recipients
-      = f.input :recipients, label: false, as: :select, collection: current_user.structures.uniq.sort_by(&:name), include_blank: false, wrapper_html: { class: 'flush' }
-      %i.pointer.fa.fa-question-circle{data: {toggle: 'popover', content: "Envoyez des messages personnels aux professeurs, associations ou écoles que vous avez décidé de \"suivre\" ou qui vous ont déjà sollicité(e) pour déposer votre avis.", trigger: 'hover', placement: 'right'}}
+  = f.error_notification
+  - if params[:return_to].present?
+    %input{ type: 'hidden', value: params[:return_to], name: 'return_to' }
+  .input.flush
+    = f.label :recipients
+    = f.input :recipients, label: false, as: :select, collection: current_user.structures.uniq.sort_by(&:name), include_blank: false, wrapper_html: { class: 'flush' }, selected: (params[:message] ? params[:message][:recipients] : nil)
+    %i.pointer.fa.fa-question-circle{ data: { toggle: 'popover', content: "Envoyez des messages personnels aux professeurs, associations ou écoles que vous avez décidé de \"suivre\" ou qui vous ont déjà sollicité(e) pour déposer votre avis.", trigger: 'hover', placement: 'right'}}
 
-    = f.input :subject
-    = f.input :body, input_html: { style: 'height: 150px', data: {behavior: 'autoresize'} }
-    .form-actions
-      = f.submit 'Envoyer', class: 'btn btn--green', disable_with: "Message en cours d'envoi"
+  = f.input :subject
+  = f.input :body, input_html: { style: 'height: 150px', data: {behavior: 'autoresize'} }
+  .form-actions
+    = f.submit 'Envoyer', class: 'btn btn--green one-whole', data: { disable_with: "Message en cours d'envoi" }

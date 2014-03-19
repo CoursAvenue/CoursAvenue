@@ -1,0 +1,29 @@
+#first-time-popup.hidden.jpo-popup.white.ff-open-sans.soft
+  %h1.flush.text--center Bienvenue !
+  %h3.text--center Voici quelques informations importantes avant de vous inscrire :
+
+  %ul
+    %li
+      Nos partenaires vous ouvrent leurs portes gratuitement : choisissez votre atelier dans l'idée de vouloir y revenir s'il vous a plu ;
+    %li
+      Vous ne pouvez vous inscrire qu'à 1 atelier pour 1 personne (faites le bon choix !) sauf pour les ateliers parents-enfants (jusqu'à 5 inscrits) ;
+    %li
+      Vous pouvez visualiser tous les ateliers proposés en Ile-de-France en déplaçant la carte géographique ;
+    %li
+      Vous pourrez inviter vos proches à s'inscrire à votre atelier après avoir validé votre réservation ;
+    %li
+      Vous pouvez vous inscrire en liste d'attente si le cours est complet.
+
+  %p
+    Très belles Portes Ouvertes !
+
+  %p.flush
+    L'équipe CoursAvenue
+
+= content_for :scripts do
+  :javascript
+    $(function() {;
+        $.fancybox($('#first-time-popup'), {
+                      padding     : 0
+        });
+    });

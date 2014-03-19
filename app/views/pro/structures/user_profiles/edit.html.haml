@@ -13,4 +13,4 @@
   = f.input :mobile_phone
   = f.input :address, as: :text
   = f.input :notes, as: :text
-  = f.submit "Enregistrer", title: "close", class: "btn btn--green btn--full", disable_with: "En cours d'enregistrement"
+  = f.submit "Enregistrer", title: "close", class: "btn btn--green btn--full", data: { disable_with: "En cours d'enregistrement" }

@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  extend HstoreHelper
+
   include ActsAsUnsubscribable
   include Rails.application.routes.url_helpers
 
@@ -6,6 +8,28 @@ class User < ActiveRecord::Base
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
+
+  # Include default devise modules. Others available are:
+  # :token_authenticatable, :confirmable,
+  # :lockable, :timeoutable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :confirmable
+
+  # Setup accessible (or protected) attributes for your model
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid, :oauth_token, :oauth_expires_at,
+                  :name, :first_name, :last_name, :gender, :fb_avatar, :location, :avatar,
+                  :birthdate, :phone_number, :zip_code, :city_id, :passions_attributes, :description,
+                  :email_opt_in, :sms_opt_in, :email_promo_opt_in, :email_newsletter_opt_in, :email_passions_opt_in,
+                  :email_status, :last_email_sent_at, :last_email_sent_status,
+                  :lived_places_attributes
+
+  # To store hashes into hstore
+  store_accessor :meta_data, :after_sign_up_url, :have_seen_first_jpo_popup
+
+  define_boolean_accessor_for :meta_data, :have_seen_first_jpo_popup
+
+  has_attached_file :avatar,
+                    styles: { wide: '800x800#', normal: '450x', thumb: '200x200#', small: '100x100#', mini: '40x40#' }#,
 
   ######################################################################
   # Relations                                                          #
@@ -26,6 +50,14 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :subjects
 
   belongs_to :city
+
+  accepts_nested_attributes_for :passions,
+                                 reject_if: lambda {|attributes| attributes['subject_id'].blank? },
+                                 allow_destroy: true
+
+  accepts_nested_attributes_for :lived_places,
+                                 reject_if: :lived_place_invalid?,
+                                 allow_destroy: true
 
   ######################################################################
   # Callbacks                                                          #
@@ -48,34 +80,6 @@ class User < ActiveRecord::Base
   ######################################################################
   scope :active,   -> { where{encrypted_password != ''} }
   scope :inactive, -> { where{(encrypted_password == '') | encrypted_password == nil} }
-
-  # Include default devise modules. Others available are:
-  # :token_authenticatable, :confirmable,
-  # :lockable, :timeoutable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :confirmable
-
-  # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid, :oauth_token, :oauth_expires_at,
-                  :name, :first_name, :last_name, :gender, :fb_avatar, :location, :avatar,
-                  :birthdate, :phone_number, :zip_code, :city_id, :passions_attributes, :description,
-                  :email_opt_in, :sms_opt_in, :email_promo_opt_in, :email_newsletter_opt_in, :email_passions_opt_in,
-                  :email_status, :last_email_sent_at, :last_email_sent_status,
-                  :lived_places_attributes
-
-  # To store hashes into hstore
-  store_accessor :meta_data, :after_sign_up_url
-
-  accepts_nested_attributes_for :passions,
-                                 reject_if: lambda {|attributes| attributes['subject_id'].blank? },
-                                 allow_destroy: true
-
-  accepts_nested_attributes_for :lived_places,
-                                 reject_if: :lived_place_invalid?,
-                                 allow_destroy: true
-
-  has_attached_file :avatar,
-                    styles: { wide: '800x800#', normal: '450x', thumb: '200x200#', small: '100x100#', mini: '40x40#' }#,
 
   # Creates a user from Facebook
   #

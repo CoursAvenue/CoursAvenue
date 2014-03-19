@@ -61,7 +61,7 @@
     %br
     Nous avons engagé des designers pour la réalisation d'un logo, flyer et d'une affiche. Utilisez-les pour votre propre communication sur l'événement : sur vos panneaux d'affichage, dans la salle de cours, communiquez sur l'événement autour du lieu.
     %br
-    = link_to 'https://s3-eu-west-1.amazonaws.com/coursavenue-public/jpo/Visuels+CoursAvenue.zip', class: 'btn btn--blue', onclick: "ga('send', 'event', 'Download visuals for JPO', 'click')" do
+    = link_to 'https://s3-eu-west-1.amazonaws.com/coursavenue-public/jpo/Visuels+CoursAvenue.zip', class: 'btn btn--blue', onclick: "ga('send', 'event', 'JPO / Download visuals', 'click', '#{@structure.name}')" do
       %i.fa.fa-download
       Télécharger les visuels pour communiquer autour de mes lieux
 
@@ -79,7 +79,7 @@
     %br
     Annoncez votre RDV dans vos communications avec votre réseau, sur un post de votre site web ou dans votre newsletter. Visualisez le texte que nous vous avons rédigé, copiez-le et envoyez-le au plus grand nombre.
     %br
-    = link_to '#popup', class: 'btn btn--blue', data: { behavior: 'modal' } do
+    = link_to '#popup', class: 'btn btn--blue', data: { behavior: 'modal' }, onclick: "ga('send', 'event', 'JPO / see newsletter text', 'click', '#{@structure.name}')" do
       %i.fa.fa-eye
       Visualiser le texte à copier puis à envoyer
 
@@ -88,7 +88,7 @@
     %br
     Partagez le lien direct de votre page d'inscription, votre réseau pourra ainsi le partager. Saviez-vous que les opérations gratuites sont les premiers articles partagés sur les réseaux sociaux ? C'est l'occasion de gagner de  nouveaux fans !
     %br
-    = link_to 'Partager sur Facebook', share_jpo_page_url(@structure), class: 'btn btn--blue', target: :_blank
+    = link_to 'Partager sur Facebook', share_jpo_page_url(@structure), class: 'btn btn--blue', target: :_blank, onclick: "ga('send', 'event', 'JPO / Share on facebook', 'click', '#{@structure.name}')"
 
   %p.push--bottom
     %strong Action 5 : dites-le sur votre site Internet

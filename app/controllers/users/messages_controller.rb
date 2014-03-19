@@ -8,6 +8,13 @@ class Users::MessagesController < ApplicationController
 
   def new
     @message = current_user.messages.build params[:message]
+    respond_to do |format|
+      if request.xhr?
+        format.html { render partial: 'form' }
+      else
+        format.html
+      end
+    end
   end
 
   def index

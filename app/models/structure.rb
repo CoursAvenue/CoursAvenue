@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Structure < ActiveRecord::Base
-  extend ActiveHashHelper
+  extend ActiveHashHelper, HstoreHelper
 
   include HasSubjects
   include ActsAsCommentable
@@ -61,6 +61,7 @@ class Structure < ActiveRecord::Base
                              :open_courses_open_places, :open_course_nb, :jpo_email_status
 
 
+  define_boolean_accessor_for :meta_data, :has_promotion, :gives_group_courses, :gives_individual_courses, :has_free_trial_course
 
   has_attached_file :logo,
                     styles: {
@@ -478,22 +479,6 @@ class Structure < ActiveRecord::Base
   def level_ids
     return [] unless meta_data and meta_data['level_ids']
     meta_data['level_ids'].split(',').map(&:to_i)
-  end
-
-  # Add methods to have hstore attributes return booleans
-  %w[has_promotion gives_group_courses gives_individual_courses has_free_trial_course].each do |key|
-    scope "has_#{key}", ->(value) { where("meta_data @> hstore(?, ?)", key, value) }
-
-    define_method("#{key}") do
-      if meta_data && meta_data.has_key?(key) then
-        ActiveRecord::ConnectionAdapters::Column.value_to_boolean(meta_data[key])
-      else
-        nil
-      end
-    end
-    define_method("#{key}?") do
-      send key.to_sym
-    end
   end
 
   ######################################################################

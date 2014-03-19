@@ -212,7 +212,7 @@ describe Planning do
     describe '#places_left' do
       it 'returns number of participations left open' do
         planning = FactoryGirl.create(:planning, nb_participants_max: 10)
-        1.times { planning.participations.create(waiting_list: true, user: user) }
+        Participation.create(waiting_list: true, user: user, planning: planning)
         expect(planning.places_left).to eq 9
       end
     end

@@ -75,12 +75,12 @@ describe User do
     end
   end
 
-  describe '#update_email_status' do
-    let(:user) { FactoryGirl.create(:user) }
+  # describe '#update_email_status' do
+  #   let(:user) { FactoryGirl.create(:user) }
 
-    it 'is passions_incomplete' do
-      user.update_email_status
-      expect(user.email_status).to eq 'passions_incomplete'
-    end
-  end
+  #   it 'is passions_incomplete' do
+  #     user.update_email_status
+  #     expect(user.email_status).to eq 'passions_incomplete'
+  #   end
+  # end
 end

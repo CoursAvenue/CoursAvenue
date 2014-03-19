@@ -1,6 +1,6 @@
 # encoding: utf-8
 class ParticipationMailer < ActionMailer::Base
-  helper :plannings, :levels
+  helper :plannings, :levels, :participations
 
   layout 'email'
 
@@ -24,10 +24,11 @@ class ParticipationMailer < ActionMailer::Base
   #
   # @return nil
   def user_subscribed(participation)
-    @user      = participation.user
-    @planning  = participation.planning
-    @course    = participation.course
-    @structure = participation.course.structure
+    @participation = participation
+    @user          = participation.user
+    @planning      = participation.planning
+    @course        = participation.course
+    @structure     = participation.course.structure
     mail to: @structure.main_contact.email, subject: "Un élève vient de s'inscrire à vos Portes Ouvertes"
   end
 
@@ -36,10 +37,11 @@ class ParticipationMailer < ActionMailer::Base
   #
   # @return nil
   def user_subscribed_to_waiting_list(participation)
-    @user      = participation.user
-    @planning  = participation.planning
-    @course    = participation.course
-    @structure = participation.course.structure
+    @participation = participation
+    @user          = participation.user
+    @planning      = participation.planning
+    @course        = participation.course
+    @structure     = participation.course.structure
     mail to: @structure.main_contact.email, subject: "Un élève vient de s'inscrire sur liste d'attente à vos Portes Ouvertes"
   end
 
@@ -48,10 +50,11 @@ class ParticipationMailer < ActionMailer::Base
   #
   # @return nil
   def unsubscription_for_teacher(participation)
-    @user      = participation.user
-    @planning  = participation.planning
-    @course    = participation.course
-    @structure = participation.course.structure
+    @participation = participation
+    @user          = participation.user
+    @planning      = participation.planning
+    @course        = participation.course
+    @structure     = participation.course.structure
     mail to: @structure.main_contact.email, subject: "Un élève vient d'annuler sa présence à vos Portes Ouvertes"
   end
 
@@ -77,10 +80,11 @@ class ParticipationMailer < ActionMailer::Base
   #
   # @return nil
   def welcome(participation)
-    @user      = participation.user
-    @planning  = participation.planning
-    @course    = participation.course
-    @structure = participation.course.structure
+    @participation = participation
+    @user          = participation.user
+    @planning      = participation.planning
+    @course        = participation.course
+    @structure     = participation.course.structure
     mail to: @user.email, subject: "Votre inscription aux Journées Portes Ouvertes est validée"
   end
 
@@ -89,10 +93,11 @@ class ParticipationMailer < ActionMailer::Base
   #
   # @return nil
   def welcome_to_waiting_list(participation)
-    @user     = participation.user
-    @planning = participation.planning
-    @course   = participation.course
-    @structure = participation.course.structure
+    @participation = participation
+    @user          = participation.user
+    @planning      = participation.planning
+    @course        = participation.course
+    @structure     = participation.course.structure
     mail to: @user.email, subject: "Votre inscription en liste d'attente aux Journées Portes Ouvertes est validée"
   end
 
@@ -101,10 +106,11 @@ class ParticipationMailer < ActionMailer::Base
   #
   # @return nil
   def a_place_opened(participation)
-    @user      = participation.user
-    @planning  = participation.planning
-    @course    = participation.course
-    @structure = participation.course.structure
+    @participation = participation
+    @user          = participation.user
+    @planning      = participation.planning
+    @course        = participation.course
+    @structure     = participation.course.structure
     mail to: @user.email, subject: "Votre inscription vient d'être prise en compte"
   end
 
@@ -113,10 +119,11 @@ class ParticipationMailer < ActionMailer::Base
   #
   # @return nil
   def unsubscription(participation)
-    @user     = participation.user
-    @planning = participation.planning
-    @course   = participation.course
-    @structure = participation.course.structure
+    @participation = participation
+    @user          = participation.user
+    @planning      = participation.planning
+    @course        = participation.course
+    @structure     = participation.course.structure
     mail to: @user.email, subject: "Votre désinscription a bien été prise en compte"
   end
 

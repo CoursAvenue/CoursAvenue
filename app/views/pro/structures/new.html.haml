@@ -59,7 +59,7 @@
         - if @structure.errors[:children_subjects].present?
           %p.error= @structure.errors[:children_subjects].to_sentence
       .push--bottom.text--center
-        = f.submit 'Valider', class: 'btn--large btn btn--large btn--green', disable_with: "En cours de validation", disable_with: "En cours de validation"
+        = f.submit 'Valider', class: 'btn--large btn btn--large btn--green', data: { disable_with: "En cours de validation" }
 
   .grid__item.one-third>
     .bordered--left.soft--left

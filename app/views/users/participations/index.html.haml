@@ -24,10 +24,12 @@
         .flexbox__item.two-twelfths.soft-half--right.v-top>
           = link_to structure_path(participation.structure) , class: 'block one-whole', target: :_blank do
             = image_tag participation.structure.logo, class: 'block one-whole'
-          = link_to jpo_new_user_invited_users_path(current_user, structure_id: participation.structure.id), class: 'btn btn--blue nowrap push-half--ends' do
+          = link_to new_user_message_path(current_user, message: { subject: 'Informations concernant votre atelier Portes Ouvertes', recipients: participation.structure.id }), class: 'btn btn--blue nowrap push-half--ends fancybox.ajax', data: { behavior: 'modal', width: '780' }, title: "Informations concernant votre atelier Portes Ouvertes", onclick: "ga('send', 'event', 'Answer to student', 'click')" do
+            %i.fa.fa-envelope
+            Envoyer un message
+          = link_to jpo_new_user_invited_users_path(current_user, structure_id: participation.structure.id), class: 'btn btn--blue nowrap push-half--bottom one-whole' do
             %i.fa.fa-gift
             Inviter mes amis
-          %br
           .share-on-facebook.btn.btn--facebook.one-whole.push-half--bottom Facebook
           .share-on-twitter.btn.btn--twitter.one-whole.btn--small.push-half--bottom Twitter
 
@@ -46,9 +48,6 @@
                   %span.line-through #{readable_amount(course.common_price)}€
                 %span.green GRATUIT
                 %strong= link_to participation.structure.name, structure_path(participation.structure), class: 'semi-muted-link', target: :_blank
-              .gray
-                %i.fa.fa-tags
-                = course.subjects.map(&:name).join(', ')
               %p
                 = "#{join_audiences participation.planning} / #{join_levels participation.planning.levels}"
             .flexbox__item.three-twelfths.text--center.v-top>
@@ -58,6 +57,14 @@
               .epsilon.push-half--bottom
                 = "De #{l(participation.planning.start_time, format: :short)} à #{l(participation.planning.end_time, format: :short)}"
               = add_to_calendar(participation)
+          %p
+            %strong Nombre d'inscrits :
+            - if participation.size == 1
+              #{participation.size}
+            - elsif participation.nb_kids > 0
+              #{participation.size} (#{pluralize participation.nb_adults, 'adulte'}, #{pluralize participation.nb_kids, 'enfant'})
+            - else
+              #{participation.size} (#{pluralize participation.nb_adults, 'adulte'})
           - if course.description.present?
             %p.flush
               %strong Description

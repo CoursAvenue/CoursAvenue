@@ -31,4 +31,4 @@
       = f.input :file, as: :file, label: 'Nouveau fichier à importer', wrapper_html: { class: 'flush' }
       %p.field-form-info.blue Laisser vide si vous ne voulez pas le changer
 
-    = f.submit 'Valider', class: 'btn btn--green btn--full', disable_with: "En cours de validation"
+    = f.submit 'Valider', class: 'btn btn--green btn--full', data: { disable_with: "En cours de validation" }
