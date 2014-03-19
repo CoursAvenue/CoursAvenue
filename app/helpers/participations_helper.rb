@@ -10,8 +10,10 @@ module ParticipationsHelper
   def participation_user_name(participation)
     return_string = participation.user.name
     if participation.with_kid?
-      return_string << " #{participation.nb_adults} adultes" if participation.nb_adults > 1
-      return_string << " + #{pluralize participation.nb_kids, 'enfant'}"
+      return_string << " ("
+      return_string << "#{participation.nb_adults} adultes + " if participation.nb_adults > 1
+      return_string << "#{pluralize participation.nb_kids, 'enfant'}"
+      return_string << ")"
     end
     return_string
   end

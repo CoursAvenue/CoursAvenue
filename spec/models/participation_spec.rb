@@ -59,12 +59,12 @@ describe Participation do
 
   describe '#with_kid?' do
     it 'returns true' do
-      subject.participation_for = 'participations.for.one_kid_and_one_adult'
+      subject.participation_for = 'participations.for.kids_and_adults'
       expect(subject.with_kid?).to be_true
     end
 
     it 'returns true' do
-      subject.participation_for = 'participations.for.one_kid'
+      subject.participation_for = 'participations.for.kids'
       expect(subject.with_kid?).to be_true
     end
 
@@ -76,7 +76,7 @@ describe Participation do
 
   describe '#size' do
     it 'returns 1' do
-      subject.participation_for = 'participations.for.one_kid'
+      subject.participation_for = 'participations.for.kids'
       expect(subject.size).to eq 1
     end
 
@@ -86,7 +86,7 @@ describe Participation do
     end
 
     it 'returns 2' do
-      subject.participation_for = 'participations.for.one_kid_and_one_adult'
+      subject.participation_for = 'participations.for.kids_and_adults'
       subject.nb_kids           = 4
       subject.nb_adults         = 2
       expect(subject.size).to eq 6
@@ -114,6 +114,27 @@ describe Participation do
 
   context :callbacks do
     let (:planning) { FactoryGirl.create(:planning) }
+
+    describe '#set_default_participation_for' do
+      it 'sets it to one_adult' do
+        subject.nb_kids   = 0
+        subject.nb_adults = 1
+        subject.send(:set_default_participation_for)
+        expect(subject.participation_for).to eq 'participations.for.one_adult'
+      end
+      it 'sets it to one_kid' do
+        subject.nb_kids   = 2
+        subject.nb_adults = 0
+        subject.send(:set_default_participation_for)
+        expect(subject.participation_for).to eq 'participations.for.kids'
+      end
+      it 'sets it to one_kid_and_one_adult' do
+        subject.nb_kids   = 2
+        subject.nb_adults = 3
+        subject.send(:set_default_participation_for)
+        expect(subject.participation_for).to eq 'participations.for.kids_and_adults'
+      end
+    end
 
     describe '#set_waiting_list' do
       it 'set it to true' do

@@ -48,9 +48,6 @@
                   %span.line-through #{readable_amount(course.common_price)}€
                 %span.green GRATUIT
                 %strong= link_to participation.structure.name, structure_path(participation.structure), class: 'semi-muted-link', target: :_blank
-              .gray
-                %i.fa.fa-tags
-                = course.subjects.map(&:name).join(', ')
               %p
                 = "#{join_audiences participation.planning} / #{join_levels participation.planning.levels}"
             .flexbox__item.three-twelfths.text--center.v-top>
@@ -60,6 +57,14 @@
               .epsilon.push-half--bottom
                 = "De #{l(participation.planning.start_time, format: :short)} à #{l(participation.planning.end_time, format: :short)}"
               = add_to_calendar(participation)
+          %p
+            %strong Nombre d'inscrits :
+            - if participation.size == 1
+              #{participation.size}
+            - elsif participation.nb_kids > 0
+              #{participation.size} (#{pluralize participation.nb_adults, 'adulte'}, #{pluralize participation.nb_kids, 'enfant'})
+            - else
+              #{participation.size} (#{pluralize participation.nb_adults, 'adulte'})
           - if course.description.present?
             %p.flush
               %strong Description

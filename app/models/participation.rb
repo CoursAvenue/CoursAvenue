@@ -2,8 +2,8 @@ class Participation < ActiveRecord::Base
   acts_as_paranoid
 
   PARTICIPATION_FOR = ['participations.for.one_adult',
-                      'participations.for.one_kid',
-                      'participations.for.one_kid_and_one_adult' ]
+                      'participations.for.kids',
+                      'participations.for.kids_and_adults' ]
 
   ######################################################################
   # Relations                                                          #
@@ -33,8 +33,8 @@ class Participation < ActiveRecord::Base
   after_create :sends_email_if_no_more_place
   after_create :check_if_was_on_invite
 
-  before_save  :set_default_participation_for
   before_validation  :check_size
+  before_save  :set_default_participation_for
 
   after_save   :update_jpo_meta_datas
   after_save   :index_planning
@@ -124,7 +124,7 @@ class Participation < ActiveRecord::Base
   #
   # @return Boolean
   def with_kid?
-    participation_for == 'participations.for.one_kid_and_one_adult' or participation_for == 'participations.for.one_kid'
+    participation_for == 'participations.for.kids_and_adults' or participation_for == 'participations.for.kids'
   end
 
   # Return the size of the participation. Does it count for 1 person or 2 ?
@@ -166,7 +166,7 @@ class Participation < ActiveRecord::Base
   #
   # @return nil
   def check_size
-    if participation_for == 'participations.for.one_kid'
+    if participation_for == 'participations.for.kids'
       nb_adults = 0
     end
     nil
@@ -176,7 +176,13 @@ class Participation < ActiveRecord::Base
   #
   # return participation_for
   def set_default_participation_for
-    self.participation_for ||= 'participations.for.one_adult'
+    if nb_kids == 0
+      self.participation_for ||= 'participations.for.one_adult'
+    elsif nb_adults == 0
+      self.participation_for ||= 'participations.for.kids'
+    else
+      self.participation_for ||= 'participations.for.kids_and_adults'
+    end
   end
 
   # Update meta datas related to JPOs on the associated structure
@@ -209,7 +215,7 @@ class Participation < ActiveRecord::Base
   # @return nil
   def size_positive
     if size == 0
-      self.errors[:base] << I18n.t('participations.errors.size_is_nil')
+      self.errors.add :nb_kids, I18n.t('participations.errors.size_is_nil')
     end
     nil
   end
