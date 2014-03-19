@@ -6,7 +6,8 @@
   = @email_text.html_safe
 
 %p.action
-  = link_to 'Créer mon profil', new_user_registration_url(email: @email, from_friend: true, subdomain: 'www'), class: 'btn btn--green'
+  = link_to 'Créer mon profil', new_user_registration_url(email: @email, from_friend: true, subdomain: 'www'), class: 'btn btn--green', utm_source: 'email', utm_campaign: 'invite_student', utm_medium: 'stage_0'
+
 %p
   À très bientôt !
 

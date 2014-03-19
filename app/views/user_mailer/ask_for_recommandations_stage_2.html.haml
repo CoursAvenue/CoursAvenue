@@ -14,7 +14,7 @@
   Pouvez-vous le faire dès maintenant en quelques minutes ?
 
 %p.action
-  = link_to 'Déposer ma recommandation', new_structure_comment_url(@structure, email: @email, stage: 2), class: 'btn btn--green'
+  = link_to 'Déposer ma recommandation', new_structure_comment_url(@structure, email: @email, utm_source: 'email', utm_campaign: 'recommandation', utm_medium: 'stage_2'), class: 'btn btn--green'
 
 %p
   Merci pour votre contribution et à très bientôt !

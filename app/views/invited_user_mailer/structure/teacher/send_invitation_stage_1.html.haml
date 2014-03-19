@@ -20,7 +20,7 @@
   Cliquez sur ce lien pour créer votre profil gratuit en quelques minutes :
 
 %p.action
-  = link_to 'Créer mon profil gratuitement', inscription_pro_structures_url(email: @invited_email, from_friend: true, subdomain: 'pro'), class: 'btn btn--green'
+  = link_to 'Créer mon profil gratuitement', inscription_pro_structures_url(email: @invited_email, from_friend: true, subdomain: 'pro'), class: 'btn btn--green', utm_source: 'email', utm_campaign: 'invite_teacher', utm_medium: 'stage_1'
 
 %p À très bientôt !
 
