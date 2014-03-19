@@ -22,7 +22,7 @@ class UserMailer < ActionMailer::Base
     mail to: @user.email, subject: 'Renseignez toutes vos passions sur votre profil'
   end
 
-  # Welcomes the user on the platforme
+  # Email sent to the team when a user send a contact message
   def contact(name, email, content)
     @name    = name
     @email   = email
@@ -30,18 +30,21 @@ class UserMailer < ActionMailer::Base
     mail to: 'contact@coursavenue.com', subject: 'Suite de votre message sur CoursAvenue'
   end
 
+  # Welcomes the user on the platforme
   def welcome(user)
     @user = user
     mail to: @user.email, subject: 'Bienvenue sur CoursAvenue.com'
   end
 
   # Inform the user that the comment has correctly been submitted
+  # When the user was invited before through a comment notification
   def congratulate_for_accepted_comment(comment)
     @comment   = comment
     @structure = @comment.structure
     mail to: @comment.email, subject: "Votre avis à propos de : #{@structure.name}"
   end
 
+  # Inform the user that the comment has correctly been submitted
   def congratulate_for_comment(comment)
     @comment   = comment
     @structure = @comment.structure
@@ -53,25 +56,6 @@ class UserMailer < ActionMailer::Base
     @comment   = comment
     @structure = @comment.structure
     mail to: @comment.email, subject: "Votre avis à été validé !"
-  end
-
-  # Gives user information on establishment
-  def alert_user_for_reservation(reservation)
-    @reservation = reservation
-    @structure   = @reservation.structure
-    @user        = reservation.user
-
-    mail to: @user.email,               subject: @reservation.email_subject_for_user
-    mail to: 'nim.izadi@gmail.com',     subject: @reservation.email_subject_for_user if Rails.env.development?
-  end
-
-  # Inform establishment that someone wants to reserve a course
-  def alert_structure_for_reservation(reservation)
-    @reservation = reservation
-    @user        = reservation.user
-    @structure   = @reservation.structure
-
-    mail to: @structure.contact_email, subject: @reservation.email_subject_for_structure
   end
 
   ######################################################################
