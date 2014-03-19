@@ -40,7 +40,7 @@ class Users::InvitedUsersController < ApplicationController
     end
 
     emails.each do |_email|
-      invited_user = InvitedUser::Student.where(for: 'jpo', email: _email, referrer_id: @user.id, referrer_type: 'User', email_text: text).first_or_create
+      invited_user = InvitedUser::Student.where(invitation_for: 'jpo', email: _email, referrer_id: @user.id, referrer_type: 'User', email_text: text).first_or_create
       if params[:structure] and params[:structure][:id].present?
         invited_user.structure_id = params[:structure][:id]
         invited_user.save
@@ -64,7 +64,7 @@ class Users::InvitedUsersController < ApplicationController
     text = '<p>' + params[:text].gsub(/\r\n/, '</p><p>') + '</p>' if params[:text].present?
 
     emails.each do |_email|
-      invited_user = InvitedUser::Student.where(for: nil, email: _email, referrer_id: current_user.id, referrer_type: 'User', email_text: text).first_or_create
+      invited_user = InvitedUser::Student.where(invitation_for: nil, email: _email, referrer_id: current_user.id, referrer_type: 'User', email_text: text).first_or_create
       InvitedUserMailer.delay.recommand_friends(invited_user)
     end
 

@@ -14,10 +14,10 @@ class InvitedUser < ActiveRecord::Base
   ######################################################################
   # Scopes                                                             #
   ######################################################################
-  scope :for_jpo, -> { where(for: 'jpo') }
+  scope :for_jpo, -> { where(invitation_for: 'jpo') }
 
   ## Type: Student, Structure
-  attr_accessible :type, :email, :referrer_id, :referrer_type, :for
+  attr_accessible :type, :email, :referrer_id, :referrer_type, :invitation_for
   # To store hashes into hstore
   store_accessor :meta_data, :structure_id
 

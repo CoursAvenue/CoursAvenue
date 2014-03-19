@@ -16,7 +16,7 @@ class InvitedUserMailer < ActionMailer::Base
     @email        = invited_user.email
     @referrer     = invited_user.referrer
     @structure    = invited_user.structure
-    template_view_file_name = (invited_user.for.nil? ? 'recommand_friends' : "recommand_friends_for_#{invited_user.for}")
+    template_view_file_name = (invited_user.invitation_for.nil? ? 'recommand_friends' : "recommand_friends_for_#{invited_user.invitation_for}")
     mail to: @email,
          subject: subject_for_recommand_friends(invited_user),
          template_name: "#{invited_user.referrer_type.downcase}/#{invited_user.type.split('::').last.downcase}/#{template_view_file_name}"
@@ -24,7 +24,7 @@ class InvitedUserMailer < ActionMailer::Base
 
   def inform_invitation_success(invited_user)
     # Don't send invitation success for jpo
-    return if invited_user.for == 'jpo'
+    return if invited_user.invitation_for == 'jpo'
     @referrer      = invited_user.referrer
     @invited_email = invited_user.email
     @show_links    = true
@@ -37,9 +37,10 @@ class InvitedUserMailer < ActionMailer::Base
     return unless invited_user.email_opt_in?
     @invited_user  = invited_user
     @referrer      = invited_user.referrer
+    @email_text    = invited_user.email_text
     @invited_email = invited_user.email
     @structure     = invited_user.structure
-    template_view_file_name = (invited_user.for.nil? ? 'send_invitation_stage_1' : "recommand_friends_for_#{invited_user.for}_stage_1")
+    template_view_file_name = (invited_user.invitation_for.nil? ? 'send_invitation_stage_1' : "recommand_friends_for_#{invited_user.invitation_for}_stage_1")
     mail to: @invited_email, subject: subject_for_recommand_friends_stage_1(invited_user),
          template_name: "#{invited_user.referrer_type.downcase}/#{invited_user.type.split('::').last.downcase}/#{template_view_file_name}"
   end
@@ -48,9 +49,10 @@ class InvitedUserMailer < ActionMailer::Base
     return unless invited_user.email_opt_in?
     @invited_user  = invited_user
     @referrer      = invited_user.referrer
+    @email_text    = invited_user.email_text
     @invited_email = invited_user.email
     @structure     = invited_user.structure
-    template_view_file_name = (invited_user.for.nil? ? 'send_invitation_stage_2' : "recommand_friends_for_#{invited_user.for}_stage_2")
+    template_view_file_name = (invited_user.invitation_for.nil? ? 'send_invitation_stage_2' : "recommand_friends_for_#{invited_user.invitation_for}_stage_2")
     mail to: @invited_email, subject: subject_for_recommand_friends_stage_2(invited_user),
          template_name: "#{invited_user.referrer_type.downcase}/#{invited_user.type.split('::').last.downcase}/#{template_view_file_name}"
   end
@@ -62,7 +64,7 @@ class InvitedUserMailer < ActionMailer::Base
   #
   # @return String
   def subject_for_recommand_friends(invited_user)
-    if invited_user.for == 'jpo'
+    if invited_user.invitation_for == 'jpo'
       if invited_user.type == 'InvitedUser::Student'
         case invited_user.referrer_type
         # Student inviting another student
@@ -83,7 +85,7 @@ class InvitedUserMailer < ActionMailer::Base
   #
   # @return String
   def subject_for_recommand_friends_stage_1(invited_user)
-    if invited_user.for == 'jpo'
+    if invited_user.invitation_for == 'jpo'
       if invited_user.type == 'InvitedUser::Student'
         case invited_user.referrer_type
         # Student inviting another student
@@ -100,7 +102,7 @@ class InvitedUserMailer < ActionMailer::Base
   end
 
   def subject_for_recommand_friends_stage_2(invited_user)
-    if invited_user.for == 'jpo'
+    if invited_user.invitation_for == 'jpo'
       if invited_user.type == 'InvitedUser::Student'
         case invited_user.referrer_type
         # Student inviting another student
