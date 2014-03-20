@@ -110,7 +110,7 @@ class ::Admin < ActiveRecord::Base
   end
 
   def delay_subscribe_to_nutshell_without_delay
-    self.delay_subscribe_to_nutshell
+    self.send(:delay_subscribe_to_nutshell)
   end
 
   def delay_subscribe_to_mailchimp
