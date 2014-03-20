@@ -1,8 +1,23 @@
 .center-block{class: @is_xhr ? '' : 'white-box island one-third palm-one-whole lap-one-half'}
-  #form
-    = render 'users/registrations/form'
-  #other_form.hidden
-    = render 'users/sessions/form'
+  = image_tag 'texts/student_teacher_registration.png', height: 55, class: 'block center-block'
+  .grid
+    .grid__item.one-half>
+      %h3.text--center.f-decoration-underlined Élèves
+    .grid__item.one-half>
+      %h3.text--center.flush.f-decoration-underlined Pro
+      %h5.flush.text--center
+        %i Profs, Associations, Écoles
+  .grid
+    .grid__item.one-half.bordered--right.soft-half--right>
+      #form.soft-half--top
+        = render 'users/registrations/form'
+      #other_form.hidden
+        = render 'users/sessions/form'
+
+    .grid__item.one-half>
+      .text--center.soft-half--top
+        = link_to 'Créer mon profil pro', inscription_pro_structures_url(subdomain: 'pro'), class: 'btn btn--green'
+
 
 :javascript
   $('#new_user').submit(function(){
