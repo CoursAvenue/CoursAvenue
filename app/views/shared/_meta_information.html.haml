@@ -1,33 +1,42 @@
 %meta{'http-equiv' => 'Content-Type', content: 'text/html; charset=utf-8'}/
 -# %meta{name: 'viewport',               content: 'width=device-width, initial-scale=1.0' }
 %meta{property: 'og:site_name',       content: 'CoursAvenue'}
-%meta{property: 'fb:admins',          content: '100000023494269'}
+-# %meta{property: 'fb:admins',          content: '100000023494269'}
 %meta{property: 'og:type',            content: 'website'}
-%meta{property: 'og:url',             content: "#{request.protocol + request.host_with_port + request.fullpath}"}
+%meta{property: 'og:url',             content: "#{request.protocol + request.host_with_port + request.path}"}
 
 - #----------------------- TITLE
 - if content_for? :title
   %title= yield :title
   %meta{property: "og:title", content: yield(:title)}
+  %meta{name: 'twitter:title', content: yield(:title)}
 - else
   - if @city
     %meta{property: "og:title", content: "Tous les cours à #{@city.name} | CoursAvenue.com"}
     %title= "Tous les cours à #{@city.name} | CoursAvenue.com"
+    %meta{name: 'twitter:title', content: "Tous les cours à #{@city.name} | CoursAvenue.com"}
   - else
     %meta{property: "og:title", content: "Tous les cours autour de vous | CoursAvenue.com"}
     %title Tous les cours autour de vous | CoursAvenue.com
+    %meta{name: 'twitter:title', content: "Tous les cours autour de vous | CoursAvenue.com"}
 
 - #----------------------- Description
 - if content_for? :meta_description
   %meta{name: 'description', content: "#{yield :meta_description}"}
   %meta{property: 'og:description', content: "#{yield :meta_description}"}
+  %meta{name: 'twitter:description', content: "#{yield :meta_description}"}
 - else
   %meta{property: "description", content: "Le 1er moteur de recherche de cours basé sur les recommandations des élèves."}
   %meta{property: 'og:description', content: "Le 1er moteur de recherche de cours basé sur les recommandations des élèves."}
+  %meta{property: 'twitter:description', content: "Le 1er moteur de recherche de cours basé sur les recommandations des élèves."}
 
 - #----------------------- Image
 
 - if content_for? :meta_image
   %meta{property: "og:image", content: yield(:meta_image)}
+  %meta{name: "twitter:image", content: yield(:meta_image)}
 - else
   %meta{property: "og:image", content: image_path('logo_fb.jpg')}
+  %meta{name: "twitter:image", content: image_path('logo_fb.jpg')}
+
+-# According to: http://stackoverflow.com/questions/11616697/how-to-use-og-meta-tag-for-facebook-share
