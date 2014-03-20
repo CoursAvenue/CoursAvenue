@@ -2,7 +2,11 @@
 
 = render partial: 'users/participations/tabs', locals:{ current: 'jpo'}
 
+
 %h2 Mes inscriptions pour les Journées Portes Ouvertes
+
+.text--center.push--bottom
+  = link_to "Participer à l'événement Facebok", "https://www.facebook.com/events/1475459639332489/", target: :_blank, class: 'btn btn--facebook'
 
 .alert--info.one-whole
   %ul.flush--bottom
