@@ -156,6 +156,22 @@ class Participation < ActiveRecord::Base
     end
   end
 
+  # If the user is in waiting list, pops it and adjust size of plannning
+  #
+  # @return Boolean wether if failed or succeeded
+  def pop_from_waiting_list
+    if waiting_list?
+      # We increase the max regarding the size of the participation
+      planning.nb_participants_max = planning.nb_participants_max + (size - planning.places_left)
+      planning.save
+      set_waiting_list!
+      ParticipationMailer.delay.a_place_opened(self)
+      true
+    else
+      false
+    end
+  end
+
   private
 
   ######################################################################

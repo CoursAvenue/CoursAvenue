@@ -40,20 +40,30 @@
           %th.two-twelfths Email
           %th.two-twelfths Téléphone
           %th.three-twelfths Date d'inscription
-          %th
+          %th.text--center Statut
           %th
       %tbody
         - planning.participations.order('canceled_at DESC').each do |participation|
-          %tr{class: (participation.canceled? ? 'red' : '')}
+          %tr{class: [(participation.canceled? ? 'red' : ''), (participation.waiting_list? ? 'orange' : '')]}
             %td= participation_user_name(participation)
             %td= link_to participation.user.email, "mailto:#{participation.user.email}", target: :_blank
             %td= readable_phone_number participation.user.phone_number
             %td= l(participation.created_at, format: :date).capitalize
             %td.text--center.nowrap
-              - if participation.waiting_list?
-                Sur liste d'attente
               - if participation.canceled?
+                %i.fa.fa-ban.red
                 Annulé
+                -# %i.fa.fa-ban.red.pointer{ title: "Annulé", data: { behavior: 'tooltip'} }
+              - elsif participation.waiting_list?
+                -# %i.fa.fa-clock-o.orange.pointer{ title: "Sur liste d'attente", data: { behavior: 'tooltip'} }
+                %i.fa.fa-clock-o.orange
+                Liste d'attente
+                %br
+                = link_to pop_from_waiting_list_pro_structure_participation_path(@structure, participation), class: 'btn btn--small btn--green', method: :patch do
+                  %i.fa.fa-check
+                  Accepter l'inscription
+              - else
+                %i.fa.fa-check.green.pointer{ title: "Inscription validé", data: { behavior: 'tooltip'} }
             %td.text--right.nowrap
               = link_to new_pro_structure_message_path(@structure, return_to: pro_structure_participations_path(@structure), message: { subject: "Message concernant le cours du #{planning_date_for(planning)} #{planning_time_for(planning, false)}", recipients: [participation.user.user_profile_for(@structure).id] } ), class: 'btn btn--small btn--blue nowrap fancybox.ajax', data: { behavior: 'modal', width: '780' }, title: "Message pour le cours du #{planning_date_for(planning)} #{planning_time_for(planning, false)}" do
                 %i.fa.fa-envelope
