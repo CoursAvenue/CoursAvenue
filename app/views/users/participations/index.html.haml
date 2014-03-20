@@ -2,11 +2,7 @@
 
 = render partial: 'users/participations/tabs', locals:{ current: 'jpo'}
 
-
 %h2 Mes inscriptions pour les Journées Portes Ouvertes
-
-.text--center.push--bottom
-  = link_to "Participer à l'événement Facebok", "https://www.facebook.com/events/1475459639332489/", target: :_blank, class: 'btn btn--facebook'
 
 .alert--info.one-whole
   %ul.flush--bottom
@@ -54,6 +50,14 @@
                 %strong= link_to participation.structure.name, structure_path(participation.structure), class: 'semi-muted-link', target: :_blank
               %p
                 = "#{join_audiences participation.planning} / #{join_levels participation.planning.levels}"
+              %p
+                %strong Nombre d'inscrits :
+                - if participation.size == 1
+                  #{participation.size}
+                - elsif participation.nb_kids > 0
+                  #{participation.size} (#{pluralize participation.nb_adults, 'adulte'}, #{pluralize participation.nb_kids, 'enfant'})
+                - else
+                  #{participation.size} (#{pluralize participation.nb_adults, 'adulte'})
             .flexbox__item.three-twelfths.text--center.v-top>
               .delta.f-weight-bold
                 = l(participation.planning.start_date, format: :semi_long).capitalize
@@ -61,14 +65,9 @@
               .epsilon.push-half--bottom
                 = "De #{l(participation.planning.start_time, format: :short)} à #{l(participation.planning.end_time, format: :short)}"
               = add_to_calendar(participation)
-          %p
-            %strong Nombre d'inscrits :
-            - if participation.size == 1
-              #{participation.size}
-            - elsif participation.nb_kids > 0
-              #{participation.size} (#{pluralize participation.nb_adults, 'adulte'}, #{pluralize participation.nb_kids, 'enfant'})
-            - else
-              #{participation.size} (#{pluralize participation.nb_adults, 'adulte'})
+
+              = link_to "Événement Facebook", "https://www.facebook.com/events/1475459639332489/", target: :_blank, class: 'btn btn--facebook push-half--top'
+
           - if course.description.present?
             %p.flush
               %strong Description
