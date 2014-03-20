@@ -10,13 +10,6 @@
 = content_for :meta_description do
   Participez à l'un des 5 000 cours gratuits les 5-6 avril, parmi plus de 100 disciplines !
 
-.hidden
-  = image_path 'jpo_2014/logo_1_line_orange_large.png'
-  %p
-    Portes Ouvertes des cours de loisirs par CoursAvenue.com
-  %p
-    Participez à l'un des 5 000 cours gratuits les 5-6 avril, parmi plus de 100 disciplines !
-
 - unless current_user or current_pro_admin
   = render 'users/registrations/jpo_popup'
 
