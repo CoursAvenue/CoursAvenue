@@ -51,7 +51,7 @@ describe InvitedUserMailer do
     # To students for JPO
     ######################################################################
     context :jpo do
-      let(:invited_user) { InvitedUser::Student.new(for: 'jpo', referrer_id: structure.id, referrer_type: 'Structure' , email: 'azdopj@azpodja.azd') }
+      let(:invited_user) { InvitedUser::Student.new(invitation_for: 'jpo', referrer_id: structure.id, referrer_type: 'Structure' , email: 'azdopj@azpodja.azd') }
       describe 'recommand_friends' do
         let(:mail) { InvitedUserMailer.recommand_friends(invited_user) }
 
@@ -139,7 +139,7 @@ describe InvitedUserMailer do
     # To students for JPO
     ######################################################################
     context :jpo do
-      let(:invited_user) { InvitedUser::Student.new(for: 'jpo', referrer_id: user.id, referrer_type: 'User' , email: 'azdopj@azpodja.azd') }
+      let(:invited_user) { InvitedUser::Student.new(invitation_for: 'jpo', referrer_id: user.id, referrer_type: 'User' , email: 'azdopj@azpodja.azd') }
       describe 'recommand_friends' do
         let(:mail) { InvitedUserMailer.recommand_friends(invited_user) }
 
