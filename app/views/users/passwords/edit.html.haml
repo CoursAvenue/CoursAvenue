@@ -1,4 +1,4 @@
-.page.soft
+.page
   %h2 Changez votre mot de passe
 
   = simple_form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put }) do |f|
@@ -16,4 +16,4 @@
       = f.button :submit, "Valider", class: 'btn btn--green'
 
     .form-actions
-      = render "pro/admins/shared/links"
+      = render "users/devise/shared/links"
