@@ -15,7 +15,7 @@
     %nav.text--right.flexbox__item.v-middle.nowrap>
       - if current_pro_admin
         = render partial: 'shared/headers/admin_nav'
-      - if current_user
+      - elsif current_user
         = render partial: 'shared/headers/user_nav'
       - else
         .inline-block

@@ -7,7 +7,7 @@
     %nav.text--right.grid__item.seven-twelfths.v-middle.nowrap>
       - if current_pro_admin
         = render partial: 'shared/headers/admin_nav'
-      - if current_user
+      - elsif current_user
         = render partial: 'shared/headers/user_nav'
       - else
         .inline-block.white
