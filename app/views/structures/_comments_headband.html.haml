@@ -5,7 +5,6 @@
         .muted-link.thin.alpha.brand
           #{structure.comments_count}
           avis
-          %i.lbc-brand-icon
         .text--center= link_to 'Donner mon avis', new_structure_comment_path(structure), target: '_blank'
         .visuallyhidden{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
           %meta{property: 'v:rating', itemprop: 'rating', content: 5}

@@ -17,12 +17,13 @@ StructureProfile.addInitializer(function(options) {
             }
         }),
         bounds         = window.coursavenue.bootstrap.center,
-        google_maps_view, filter_breadcrumbs;
+        google_maps_view, filter_breadcrumbs, places_collection, places_list_view;
 
     window.pfaff = structure;
 
-    google_maps_view = new StructureProfile.Views.Map.GoogleMapsView({
-        collection: new Backbone.Collection(window.coursavenue.bootstrap.structure.places, { model: StructureProfile.Models.Place }),
+    places_collection = new Backbone.Collection(window.coursavenue.bootstrap.structure.places, { model: StructureProfile.Models.Place });
+    google_maps_view  = new StructureProfile.Views.Map.GoogleMapsView({
+        collection: places_collection,
 
         mapOptions: {
             center: new google.maps.LatLng(bounds.lat, bounds.lng)
@@ -32,6 +33,7 @@ StructureProfile.addInitializer(function(options) {
         }
     });
 
+    places_list_view          = new StructureProfile.Views.Structure.Places.PlacesCollectionView({ collection: places_collection })
     filter_breadcrumbs        = new FilteredSearch.Views.StructuresCollection.Filters.FilterBreadcrumbs.FilterBreadcrumbsView({
         template: StructureProfile.Views.Structure.templateDirname() + 'filter_breadcrumbs_view',
         fancy_breadcrumb_names: {
@@ -59,7 +61,9 @@ StructureProfile.addInitializer(function(options) {
     layout.showWidget(google_maps_view, {
         events: {
             "course:mouse:enter": "exciteMarkers",
-            "course:mouse:leave": "exciteMarkers"
+            "course:mouse:leave": "exciteMarkers",
+            "place:mouse:enter": "exciteMarkers",
+            "place:mouse:leave": "exciteMarkers"
         }
     });
 
@@ -69,6 +73,8 @@ StructureProfile.addInitializer(function(options) {
             'filter:breadcrumb:remove':  'removeBreadCrumb'
         }
     });
+
+    layout.showWidget(places_list_view);
 
     layout.master.show(structure_view);
 });

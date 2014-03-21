@@ -19,27 +19,13 @@
                   %i.fa.fa-expand
   .grid--full
     .grid__item{class: medias.any? ? 'one-half' : 'one-whole'}>
-      .text--center
-        %a#show-all-places{href: 'javascript:void(0)'} Voir les adresses
+      %div{ data: { type: 'places-collection' }}
     - if medias.any?
       .grid__item.one-half>
         .text--center
           %a#show-gallery{href: 'javascript:void(0)'} Voir la galerie (#{medias.count})
 
-  %ul.block-list#place-list.hidden.flush
-    - places.each_with_index do |place, index|
-      %li.grid--full
-        .grid__item.width-auto.v-middle.soft-half--right>
-          .map-marker-image.center-block
-            %a
-        .grid__item.seven-eighths.v-middle>
-          = place.location.name
-          %br
-          %i= place.location.address
-        %div{itemscope: true, itemtype: 'http://schema.org/Place'}
-          .visuallyhidden{itemprop: 'geo', itemscope: true, itemtype: 'http://schema.org/GeoCoordinates'}
-            %meta{itemprop: 'latitude', content: place.location.latitude}
-            %meta{itemprop: 'longitude', content: place.location.longitude}
+
   - if medias.any?
     #gallery.hidden
       .media-gallery>
@@ -66,16 +52,6 @@
         $('.galery-rslides li').css('height', media_height);
         $('.galery-rslides').removeClass('hidden');
         // End slideshow
-        var places_are_hidden   = true;
-        $('#show-all-places').click(function() {
-            $('#place-list').slideToggle();
-            if (places_are_hidden) {
-                $(this).text('Cacher les adresses');
-            } else {
-                $(this).text('Voir les adresses');
-            }
-            places_are_hidden = !places_are_hidden;
-        });
         var gallery_is_hidden   = true;
         $('#show-gallery').click(function() {
             $(".media__item img").trigger('gallery:show');

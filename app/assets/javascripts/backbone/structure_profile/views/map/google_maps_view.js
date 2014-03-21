@@ -4,11 +4,12 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
         infoBoxView:  Module.InfoBoxView,
 
         onShow: function onShow () {
-            var $view = this.$el.parent(),
-                $grid_item = $view.parent(),
-                media_container_width = $grid_item.parent().width();
+            var $view        = this.$el.parent(),
+                $grid_item   = $view.parent(),
+                $grid_parent = $grid_item.parent();
+                media_container_width = $grid_parent.width();
 
-            this.$el.sticky({ 'z': 10, old_width: false });
+            $grid_parent.sticky({ 'z': 10, old_width: false });
 
             // The sticky-full class needs to know about the parent's width,
             // so that we can css transition to it. Transitions between a
@@ -20,15 +21,14 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
             // get or lose the other. This is relevant during scroll, so we check
             // enforce it here.
             $(window).on("scroll", function () {
-                if (this.$el.hasClass("sticky")) {
-                    this.$el.addClass("sticky--full");
+                if ($grid_parent.hasClass("sticky")) {
+                    $grid_parent.addClass("sticky--full grid--full");
 
-                } else if (!this.$el.hasClass("sticky") && this.$el.hasClass("sticky--full")) {
-                    this.$el.removeClass("sticky--full");
+                } else if (!$grid_parent.hasClass("sticky") && $grid_parent.hasClass("sticky--full")) {
+                    $grid_parent.removeClass("sticky--full");
                 }
-
-                this.recenterMap();
-            }.bind(this));
+            });
+            this.recenterMap();
         },
 
         /* ***
@@ -40,10 +40,27 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
          * So, in addition, we visually center the map.
          * */
         recenterMap: function recenterMap () {
-            var currCenter = this.map.getCenter();
-
-            google.maps.event.trigger(this.map, 'resize');
-            this.map.setCenter(currCenter);
+            // From: http://blog.shamess.info/2009/09/29/zoom-to-fit-all-markers-on-google-maps-api-v3/
+            //  Make an array of the LatLng's of the markers you want to show
+            var lat_lng_list = this.collection.map(function(place) {
+                return new google.maps.LatLng (place.get('location').latitude, place.get('location').longitude)
+            });
+            //  Create a new viewpoint bound
+            var bounds = new google.maps.LatLngBounds();
+            //  Go through each...
+            for (var i = 0, length = lat_lng_list.length; i < length; i++) {
+              //  And increase the bounds to take this point
+              bounds.extend (lat_lng_list[i]);
+            }
+            //  Fit these bounds to the map
+            this.map.fitBounds(bounds);
+            // Set zoom to 12 if there is only one marker
+            if (this.collection.length == 1) {
+                this.map.setZoom(12);
+            }
+            // var currCenter = this.map.getCenter();
+            // this.map.setCenter(currCenter);
+            // google.maps.event.trigger(this.map, 'resize');
         },
 
         /* ***
@@ -53,7 +70,7 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
         * a view. The view's model should have a location, and if the location
         * matches this marker's location it will get excited. */
         exciteMarkers: function exciteMarkers (data) {
-            var key = data.place_id;
+            var key = data.place_id || data.id;
 
             if (key === null) {
                 return;

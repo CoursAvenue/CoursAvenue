@@ -140,7 +140,7 @@
         }
     });
     (function () {
-      var places = #{ActiveModel::ArraySerializer.new(@structure.places,   each_serializer: BigPlaceSerializer).to_json };
+      var places = #{ActiveModel::ArraySerializer.new(@structure.places, each_serializer: BigPlaceSerializer).to_json };
 
       window.coursavenue = window.coursavenue || {};
       window.coursavenue.bootstrap = {
