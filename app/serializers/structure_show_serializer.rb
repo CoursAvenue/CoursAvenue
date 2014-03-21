@@ -36,7 +36,9 @@ class StructureShowSerializer < ActiveModel::Serializer
   end
 
   def places
-    if @options[:place_ids].present?
+    if @options[:places].present?
+      @options[:places]
+    elsif @options[:place_ids].present?
       place_ids = @options[:place_ids]
       object.places.where{ id.in place_ids }
     else

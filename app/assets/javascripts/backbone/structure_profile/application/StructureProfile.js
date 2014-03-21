@@ -21,7 +21,7 @@ StructureProfile.addInitializer(function(options) {
 
     window.pfaff = structure;
 
-    places_collection = new Backbone.Collection(window.coursavenue.bootstrap.structure.places, { model: StructureProfile.Models.Place });
+    places_collection = new Backbone.Collection(window.coursavenue.bootstrap.places, { model: StructureProfile.Models.Place });
     google_maps_view  = new StructureProfile.Views.Map.GoogleMapsView({
         collection: places_collection,
 
@@ -37,6 +37,7 @@ StructureProfile.addInitializer(function(options) {
     filter_breadcrumbs        = new FilteredSearch.Views.StructuresCollection.Filters.FilterBreadcrumbs.FilterBreadcrumbsView({
         template: StructureProfile.Views.Structure.templateDirname() + 'filter_breadcrumbs_view',
         fancy_breadcrumb_names: {
+            'address_name'        : 'Lieux',
             'week_days'           : 'Date',
             'audience_ids'        : 'Public',
             'level_ids'           : 'Niveaux',
@@ -80,7 +81,7 @@ StructureProfile.addInitializer(function(options) {
 });
 
 $(document).ready(function() {
-    /* we only want the filteredsearch on the search page */
+    /* we only want the current app on the search page */
     if (StructureProfile.detectRoot()) {
         StructureProfile.start({});
     }

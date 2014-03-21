@@ -7,23 +7,17 @@ class StructuresController < ApplicationController
   layout :choose_layout
 
   def show
+    @structure = Structure.friendly.find params[:id]
+    @structure_decorator = @structure.decorate
 
-    begin
-      @structure = Structure.friendly.find params[:id]
-      @structure_decorator = @structure.decorate
+    # use the structure's plannings unless we would filter the plannings
+    if params_has_filtered_search_filters?
+      # For plannings search
       params[:structure_id] = @structure.id
-
-      # use the structure's plannings unless we would filter the plannings
-      if params_has_planning_filters?
-        @planning_search = PlanningSearch.search(params)
-        @plannings       = @planning_search.results
-      else
-        @plannings = @structure.plannings
-      end
-    rescue ActiveRecord::RecordNotFound
-      place = Place.find params[:id]
-      redirect_to structure_path(place.structure), status: 301
-      return
+      @planning_search = PlanningSearch.search(params)
+      @plannings       = @planning_search.results
+    else
+      @plannings = @structure.plannings
     end
 
     # we need to group the plannings by course_id when we display them
@@ -41,17 +35,15 @@ class StructuresController < ApplicationController
     end
 
     @city           = @structure.city
-    @places         = @structure.places
+    @places         = @plannings.map(&:place).uniq
     @medias         = @structure.medias.videos_first
-    @teachers       = @structure.teachers
-    # @courses        = @structure.courses.without_open_courses.active
-    # @comments       = @structure.comments.accepted.reject(&:new_record?)
 
     @model = StructureShowSerializer.new(@structure, {
       unlimited_comments: true,
-      query: get_planning_filters,
-      query_string: request.env['QUERY_STRING'],
-      planning_groups: @planning_groups
+      query:              get_filters_params,
+      query_string:       request.env['QUERY_STRING'],
+      planning_groups:    @planning_groups,
+      places:             @places
     })
   end
 

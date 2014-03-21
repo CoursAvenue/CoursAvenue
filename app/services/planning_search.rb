@@ -7,6 +7,7 @@ class PlanningSearch
 
     # Encode name in UTF8 as it can be submitted by the user and can be bad
     params[:name].force_encoding("UTF-8") if params[:name].present?
+
     @search = Sunspot.search(Planning) do
       if options[:group].present?
         group options[:group]
@@ -100,7 +101,7 @@ class PlanningSearch
         order_by :has_comment, :desc
       end
 
-      paginate page: (params[:page].present? ? params[:page] : 1), per_page: (params[:per_page] || 50)
+      paginate page: (params[:page].present? ? params[:page] : 1), per_page: (params[:per_page] || 500)
     end
 
     @search

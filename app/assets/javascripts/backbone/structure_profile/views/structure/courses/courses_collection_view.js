@@ -36,6 +36,7 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         onRender: function onRender () {
             this.moveAndShowBreadcrumbs()
             var html = Marionette.Renderer.render(this.summaryTemplate, this.serializeData());
+            // If there is the html is empty (therefore there is no filters)
             if ( html.trim().length == 0 ) {
                 this.$('[data-summary-container]').hide();
             } else {
@@ -44,6 +45,10 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             }
         },
 
+        /*
+         * Filter-breadcrumbs are rendered and hidden in the page.
+         * We just move them in the course tab
+         */
         moveAndShowBreadcrumbs: function moveAndShowBreadcrumbs() {
             var $breacrumb = $('[data-type=filter-breadcrumbs]');
             $breacrumb.show();

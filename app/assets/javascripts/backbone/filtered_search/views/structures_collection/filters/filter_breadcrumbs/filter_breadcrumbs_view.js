@@ -16,10 +16,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters.FilterBreadcrumbs', fu
             }
         },
 
-        render: function render () {
-            this.debounced_render();
-        },
-
         ui: {
             '$breadcrumbs': '[data-type=clear]'
         },
@@ -39,6 +35,10 @@ FilteredSearch.module('Views.StructuresCollection.Filters.FilterBreadcrumbs', fu
             }
 
             this.render();
+        },
+
+        render: function render () {
+            this.debounced_render();
         },
 
         onRender: function onRender () {

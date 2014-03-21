@@ -6,6 +6,8 @@ module FilteredSearchProvider
                             'price_type', 'max_age_for_kids', 'trial_course_amount', 'course_types',
                             'week_days', 'discount_types', 'start_date', 'end_date', 'start_hour', 'end_hour']
 
+  FILTERED_SEARCH_KEYS = PLANNING_FILTERED_KEYS + ['lat', 'lng', 'bbox_ne', 'bbox_sw', 'address_name']
+
   # Keys that should be formatted as arrays
   ARRAY_KEYS = ['bbox_ne', 'bbox_sw', 'audience_ids', 'level_ids', 'course_types', 'week_days', 'discount_types']
 
@@ -33,8 +35,18 @@ module FilteredSearchProvider
     (params.keys & PLANNING_FILTERED_KEYS).any?
   end
 
-  def get_planning_filters
-    params.select { |key, value| PLANNING_FILTERED_KEYS.include? key }
+  # Tells if the search filters includes planning filters AND filters like lat, lng etc..
+  #
+  # @return boolean
+  def params_has_filtered_search_filters?
+    (params.keys & FILTERED_SEARCH_KEYS).any?
+  end
+
+  # Return all parameters that are used for search
+  #
+  # @return Hash
+  def get_filters_params
+    params.select { |key, value| FILTERED_SEARCH_KEYS.include? key }
   end
 
   # Search for plannings regarding the params
