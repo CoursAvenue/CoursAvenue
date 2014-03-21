@@ -13,8 +13,12 @@
           %span.f-weight-600 5 et 6 avril
           %br
           %span.f-weight-300 en Île-de-France
-      .text--center.relative.jpo-call-to-actions.inline-block
-        = link_to 'Trouver un cours gratuit', participation_link, class: 'btn btn--yellow btn--bigger soft-half--ends soft--sides', onclick: "ga('send', 'event', 'Participer', 'click', 'JPO banner')"
+      .text--center.relative.jpo-call-to-actions.inline-block{ style: (request.subdomain == 'pro' ? 'margin-left: 200px;' : '')}
+        = link_to participation_link, class: 'btn btn--yellow btn--bigger soft-half--ends soft--sides', onclick: "ga('send', 'event', 'Participer', 'click', 'JPO banner')" do
+          - if request.subdomain == 'pro'
+            Participer
+          - else
+            Trouver un cours gratuit
         %br>
         = link_to 'En savoir plus', know_more_link, class: 'white f-decoration-underlined milli', target: :_blank
       = image_tag 'jpo_2014/map.png', width: 678, height: 420, class: 'jpo-map absolute visuallyhidden--palm', title: 'Plus de 5 000 cours gratuit en Île-de-France'

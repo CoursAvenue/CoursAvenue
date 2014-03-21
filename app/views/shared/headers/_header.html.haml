@@ -20,13 +20,13 @@
       - else
         .inline-block
           #connection-registration-buttons
-            .inline-block.drop-down__wrapper.soft-half--sides
-              = link_to "Inscription", new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', width: 300}, class: 'fancybox.ajax', onclick: "ga('send', 'event', 'Se créer un compte', 'click','Inscrit')"
-            .inline-block.drop-down__wrapper.soft-half--sides
-              = link_to "Connexion", new_user_session_path, data: {behavior: 'modal', title: 'Connexion', width: 300}, class: 'fancybox.ajax', id: 'connection'
-            = render 'shared/help_dropdown'
-            .inline-block.soft-half--sides
+            .inline-block.drop-down__wrapper
+              = link_to "Inscription", new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', width: 600}, class: 'fancybox.ajax', onclick: "ga('send', 'event', 'Se créer un compte', 'click','Inscrit')"
+            .inline-block.drop-down__wrapper.soft--sides
+              = link_to "Connexion", new_user_session_path, data: {behavior: 'modal', title: 'Connexion', width: 600}, class: 'fancybox.ajax', id: 'connection'
+            .inline-block
               = link_to 'Publiez vos cours', root_url(subdomain: 'pro'), onclick: "ga('send', 'event', 'Publier vos cours', 'click','Inscrit')", class: 'btn btn--green'
+            = render 'shared/help_dropdown'
 
 
 = content_for :scripts do

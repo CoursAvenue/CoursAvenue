@@ -11,6 +11,17 @@ class Pro::Structures::ParticipationsController < Pro::ProController
     @open_courses = @structure.courses.open_courses
   end
 
+  def pop_from_waiting_list
+    participation = @structure.participations.find params[:id]
+    respond_to do |format|
+      if participation.pop_from_waiting_list
+        format.html { redirect_to pro_structure_participations_path(@structure), notice: "L'inscription est passé en accepté" }
+      else
+        format.html { redirect_to pro_structure_participations_path(@structure), error: "Une erreur s'est produite. Veuillez réessayer. " }
+      end
+    end
+  end
+
   private
 
   def load_structure

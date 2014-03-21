@@ -109,6 +109,10 @@ class ::Admin < ActiveRecord::Base
     self.structure.send(:delay_subscribe_to_nutshell) if self.structure and Rails.env.production?
   end
 
+  def delay_subscribe_to_nutshell_without_delay
+    self.send(:delay_subscribe_to_nutshell)
+  end
+
   def delay_subscribe_to_mailchimp
     self.structure.send(:delay_subscribe_to_mailchimp) if self.structure and Rails.env.production?
   end

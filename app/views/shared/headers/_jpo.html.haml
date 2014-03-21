@@ -10,7 +10,7 @@
       - elsif current_user
         = render partial: 'shared/headers/user_nav'
       - else
-        .inline-block
+        .inline-block.white
           #connection-registration-buttons
             .inline-block.drop-down__wrapper.soft-half--sides
               = link_to "Inscription", new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', width: 300}, class: 'fancybox.ajax', onclick: "ga('send', 'event', 'Se créer un compte', 'click','Inscrit')"

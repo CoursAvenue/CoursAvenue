@@ -44,6 +44,9 @@ class PlanningSearch
         with(:level_ids).any_of    params[:level_ids]                                                 if params[:level_ids].present?
         with(:week_days).any_of    params[:week_days].map(&:to_i)                                     if params[:week_days].present?
 
+        with(:max_age_for_kid).greater_than_or_equal_to   params[:min_age_for_kids].to_i              if params[:min_age_for_kids].present?
+        with(:min_age_for_kid).less_than_or_equal_to      params[:max_age_for_kids].to_i              if params[:max_age_for_kids].present?
+
         ######################################################################
         # Subjects                                                           #
         ######################################################################
@@ -97,7 +100,7 @@ class PlanningSearch
         order_by :has_comment, :desc
       end
 
-      paginate page: (params[:page] || 1), per_page: (params[:per_page] || 50)
+      paginate page: (params[:page].present? ? params[:page] : 1), per_page: (params[:per_page] || 50)
     end
 
     @search

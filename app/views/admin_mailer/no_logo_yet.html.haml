@@ -8,7 +8,7 @@
   = image_tag 'logos/missing.png', class: 'center-block', height: 100
 
 %p.action
-  = link_to "Ajouter mon logo", edit_pro_structure_url(@structure, subdomain: 'pro'), class: 'btn btn--green'
+  = link_to "Ajouter mon logo", edit_pro_structure_url(@structure, subdomain: 'pro'), class: 'btn btn--green', utm_source: 'email', utm_campaign: 'add_logo', utm_medium: 'monday'
 
 %p.blue.blue-tip
   %i Soignez votre première impression en choisissant un logo qui reflète votre activité et en cohérence avec tous vos supports de communication (site Internet, flyers, cartes de visite, etc.).

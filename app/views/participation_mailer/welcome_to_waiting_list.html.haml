@@ -18,16 +18,14 @@
     Votre inscription sur liste d'attente aux Journées Portes Ouvertes est validée
 
 %p
-  Dès qu'une place se libère, vous recevrez un email automatique vous indiquant que votre inscription est bien enregistrée. Retrouvez toutes les informations depuis votre profil :
-
+  Dès qu'une place se libère, vous recevrez un email automatique vous indiquant que votre inscription est bien enregistrée.   Retrouvez toutes les informations complémentaires depuis
+  = link_to 'votre profil.', user_participations_url(@user, inscription_confirmed: true)
+  En attendant profitez-en pour inviter vos proches, les places sont limitées !
 %p.action
-  = link_to "Visualiser mon atelier", user_participations_url(@user), class: 'btn btn--green'
+  = link_to "Inviter mes proches", jpo_new_user_invited_users_url(@user, subdomain: 'www'), class: 'btn btn--green'
 
 %p.blue.blue-tip
   %i Trucs & astuces : depuis votre profil, invitez vos amis, familles et collègues à participer aux Portes Ouvertes avec vous.
-
-- content_for :under_content do
-  = render 'invite_friends_to_jpos'
 
 - content_for :under_content_2 do
   = render 'user_mailer/footer_info'

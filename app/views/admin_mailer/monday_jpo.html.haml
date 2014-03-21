@@ -20,7 +20,7 @@
   Bonjour ! Nous sommes à 3 semaines de vos Portes Ouvertes. Pour certains Parisiens, il est encore tôt pour réserver, les inscriptions risquent de rester encore faibles cette semaine. Cependant, c’est le bon moment pour commencer à communiquer : annoncez ce beau rendez-vous dans votre newsletter, sur votre site Internet, sur vos panneaux d'affichage, et invitez vos élèves à en parler autour d’eux. De notre côté, nous intensifions nos efforts, nous venons de commencer à déposer 1 000 affiches dans tout Paris. Connectez-vous et accédez à vos outils de communication :
 
 %p.action
-  = link_to "Communiquer sur mes Portes Ouvertes", communicate_pro_structure_course_opens_url(@structure, subdomain: 'pro'), class: 'btn btn--yellow'
+  = link_to "Communiquer sur mes Portes Ouvertes", communicate_pro_structure_course_opens_url(@structure, subdomain: 'pro'), class: 'btn btn--yellow', utm_source: 'email', utm_campaign: 'communicate_jpo', utm_medium: 'monday'
 
 %p.blue.blue-tip.flush--bottom
   %i *Co-fondateur sympa.

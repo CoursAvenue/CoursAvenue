@@ -63,7 +63,6 @@ class User < ActiveRecord::Base
   # Callbacks                                                          #
   ######################################################################
   after_create :associate_all_comments
-  after_create :check_if_was_invited
 
   # Not after create because user creation is made when teachers invite their students to post a comment
   after_save :associate_city_from_zip_code, if: -> { zip_code.present? and city.nil? }
@@ -72,7 +71,7 @@ class User < ActiveRecord::Base
   ######################################################################
   # Validations                                                        #
   ######################################################################
-  validates :first_name, :last_name, :email, presence: true
+  validates :first_name, :email, presence: true
   validates :email, uniqueness: true
 
   ######################################################################
@@ -278,9 +277,14 @@ class User < ActiveRecord::Base
     around_courses_search.facet(:has_free_trial_lesson).rows.last.count
   end
 
+  # Method called when a user confirm his registration
+  #
+  # @return nil
   def confirm!
     super
+    check_if_was_invited
     send_welcome_email
+    nil
   end
 
   def send_welcome_email

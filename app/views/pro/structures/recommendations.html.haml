@@ -59,7 +59,7 @@
 
   .alert--info.flush--left>
     %p> Bonjour,
-    %p> Je viens de référencer mes cours sur CoursAvenue et je voudrais avoir votre avis sur mes cours. Si vous avez quelques minutes vous pouvez laisser votre recommandation en cliquant sur le lien suivant : #{link_to new_structure_comment_url(@structure, subdomain: 'www'), new_structure_comment_url(@structure, subdomain: 'www'), target: '_blank'}
+    %p> Je viens de référencer mes cours sur CoursAvenue et je voudrais avoir votre avis sur mes cours. Si vous avez quelques minutes vous pouvez laisser votre recommandation en cliquant sur le lien suivant : #{link_to new_structure_comment_url(@structure, subdomain: 'www'), new_structure_comment_url(@structure, subdomain: 'www', utm_source: 'teacher_email', utm_campaign: 'recommandation'), target: '_blank'}
     %p> Merci pour votre contribution et à très bientôt !
     %p.flush--bottom= @structure.name
 
@@ -71,8 +71,8 @@
     %span.v-middle Demandez à vos fans Facebook de vous recommander
 
   .text--center
-    = link_to 'Demandez des recommandations', "https://www.facebook.com/sharer/sharer.php?u=#{new_structure_comment_url(@structure, facebook: '', subdomain: 'www')}", class: 'btn btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From recommendation page')"
-  %p.alert--info.push-half--top.flush--left#facebook-text> Vous aimez #{@structure.independant? ? 'mes' : 'nos'} cours ? Dites-le sur notre profil CoursAvenue en cliquant sur le lien suivant : #{link_to new_structure_comment_url(@structure, facebook: '', subdomain: 'www'), new_structure_comment_url(@structure, facebook: '', subdomain: 'www'), target: '_blank'} Merci !
+    = link_to 'Demandez des recommandations', "https://www.facebook.com/sharer/sharer.php?u=#{new_structure_comment_url(@structure, subdomain: 'www', utm_source: 'facebook', utm_campaign: 'recommandation')}", class: 'btn btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From recommendation page')"
+  %p.alert--info.push-half--top.flush--left#facebook-text> Vous aimez #{@structure.independant? ? 'mes' : 'nos'} cours ? Dites-le sur notre profil CoursAvenue en cliquant sur le lien suivant : #{link_to new_structure_comment_url(@structure, subdomain: 'www', utm_source: 'facebook', utm_campaign: 'recommandation'), new_structure_comment_url(@structure, facebook: '', subdomain: 'www'), target: '_blank'} Merci !
 
 %hr
 
@@ -84,10 +84,10 @@
     Partagez les deux liens suivants :
   .alert--info#website-text
     Pour que les internautes visualisent tous vos avis :
-    = link_to structure_url(@structure, website: '', subdomain: 'www'), structure_url(@structure, website: '', subdomain: 'www'), target: '_blank'
+    = link_to structure_url(@structure, website: '', subdomain: 'www'), structure_url(@structure, subdomain: 'www', utm_source: 'teacher_website', utm_campaign: 'share_profile'), target: '_blank'
     %br
     Pour que vos élèves déposent de nouveaux avis :
-    = link_to new_structure_comment_url(@structure, website: '', subdomain: 'www'), new_structure_comment_url(@structure, website: '', subdomain: 'www'), target: '_blank'
+    = link_to new_structure_comment_url(@structure, website: '', subdomain: 'www'), new_structure_comment_url(@structure, subdomain: 'www', utm_source: 'teacher_website', utm_campaign: 'recommandation'), target: '_blank'
 
 #most-used-method.hidden
   %h5 Les 5 avantages de cette méthode la + utilisée.

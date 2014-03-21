@@ -13,7 +13,7 @@
   #{@structure.name} a créé son profil sur CoursAvenue et voudrait savoir ce que vous avez pensé de ses cours. Pouvez-vous prendre quelques secondes pour laisser un avis sur son profil ?
 
 %p.action
-  = link_to 'Déposer mon avis en 20 secondes', new_structure_comment_url(@structure, email: @email, stage: 1), class: 'btn btn--green'
+  = link_to 'Déposer mon avis en 20 secondes', new_structure_comment_url(@structure, email: @email, utm_source: 'email', utm_campaign: 'recommandation', utm_medium: 'stage_1'), class: 'btn btn--green'
 
 %p
   Merci et à très bientôt,

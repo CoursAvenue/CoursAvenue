@@ -8,19 +8,16 @@
 
 - content_for :promo do
   %h4
-    - if @structure
-      #{@referrer.name} vous offre un cours gratuit proposé par #{@structure.name} les 5-6 avril
-    - else
-      #{@referrer.name} vous offre un cours gratuit pendant les Journées Portes Ouvertes CoursAvenue
+    Avez-vous réservé le cours gratuit offert par #{@referrer.name} ? Réservez-le dès maintenant, ça se passe les 5-6 avril et les places sont limitées !
 
 - if @email_text
   = simple_format @email_text
 
 %p.action
   - if @structure
-    = link_to "Réserver mon cours gratuit", jpo_structure_url(@structure, subdomain: 'www'), class: 'btn btn--green', utm_source: 'email', utm_campaign: 'invite_friend_to_jpo', utm_medium: 'stage_0'
+    = link_to "Réserver mon cours gratuit", jpo_structure_url(@structure, subdomain: 'www'), class: 'btn btn--green', utm_source: 'email', utm_campaign: 'invite_friend_to_jpo', utm_medium: 'stage_2'
   - else
-    = link_to "Réserver mon cours gratuit", root_url(subdomain: 'www'), class: 'btn btn--green', utm_source: 'email', utm_campaign: 'invite_friend_to_jpo', utm_medium: 'stage_0'
+    = link_to "Réserver mon cours gratuit", root_url(subdomain: 'www'), class: 'btn btn--green', utm_source: 'email', utm_campaign: 'invite_friend_to_jpo', utm_medium: 'stage_2'
 %p
   À très bientôt !
 %p= @referrer.name

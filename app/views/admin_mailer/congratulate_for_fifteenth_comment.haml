@@ -10,7 +10,7 @@
 
 
 %p.action
-  = link_to "Recevoir mon autocollant", new_pro_structure_sticker_demand_url(@structure, subdomain: 'pro'), class: 'btn btn--green'
+  = link_to "Recevoir mon autocollant", new_pro_structure_sticker_demand_url(@structure, subdomain: 'pro'), class: 'btn btn--green', utm_source: 'email', utm_campaign: 'sticker', utm_medium: '15_comments'
 
 %p
   %strong Continuez de demander à vos élèves leur avis

@@ -77,7 +77,7 @@
             %th Public
             %th Niveau
             %th Lieux
-            %th
+            %th.text--center
               Inscriptions
               %br
               = link_to '(voir mes inscrits)', pro_structure_participations_path(@structure), class: 'nowrap'
@@ -103,7 +103,7 @@
                     %strong Liste d'attente
                   .progress.flush
                     .bar.bar-warning{style: "width: 50%;"}
-                      #{planning.waiting_list.length}
+                      #{planning.nb_jpo_participants_only_waiting_list}
               %td.text--right
                 .drop-down-el.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
                   %a.btn--orange.btn.btn--small.nowrap{href: '#'}

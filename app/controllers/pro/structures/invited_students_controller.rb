@@ -26,7 +26,7 @@ class ::Pro::Structures::InvitedStudentsController < Pro::ProController
     text = '<p>' + params[:text].gsub(/\r\n/, '</p><p>') + '</p>' if params[:text].present?
 
     emails.each do |_email|
-      invited_user = ::InvitedUser::Student.where(for: 'jpo', email: _email, referrer_id: @structure.id, referrer_type: 'Structure', email_text: text).first_or_create
+      invited_user = ::InvitedUser::Student.where(invitation_for: 'jpo', email: _email, referrer_id: @structure.id, referrer_type: 'Structure', email_text: text).first_or_create
       invited_user.structure_id = @structure.id
       invited_user.save
       InvitedUserMailer.delay.recommand_friends(invited_user)

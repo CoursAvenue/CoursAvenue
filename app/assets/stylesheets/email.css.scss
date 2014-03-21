@@ -30,6 +30,10 @@
     -webkit-text-size-adjust: none;
     font-family             : 'Helvetica Neue',Helvetica,Arial,sans-serif;
 }
+    .email-title {
+        font-size: 9px;
+        color: $beige;
+    }
     p.logo-subtitle {
         color            : darken($beige, 50%);
         font-size        : 12px;

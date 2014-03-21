@@ -5,13 +5,13 @@
 
 - content_for :promo do
   %h4
-    #{@structure.name} vous offre l'opportunité d'offrir un cours gratuit à vos proches
+    Avez-vous prévenu vos proches des cours gratuits de #{@structure.name} les 5-6 avril ? Envoyez votre invitation maintenant, le nombre de places est limité !
 
 - if @email_text
   = simple_format @email_text
 
 %p.action
-  = link_to "J'offre un cours gratuit à mes proches", invite_entourage_to_jpo_page_users_url(user_email: @email, structure_id: @structure.id, subdomain: 'www'), class: 'btn btn--green', utm_source: 'email', utm_campaign: 'invite_friends_for_jpo', utm_medium: 'stage_0'
+  = link_to "J'offre un cours gratuit à mes proches", invite_entourage_to_jpo_page_users_url(user_email: @email, structure_id: @structure.id, subdomain: 'www'), class: 'btn btn--green', utm_source: 'email', utm_campaign: 'invite_friends_for_jpo', utm_medium: 'stage_1'
 %p
   À très bientôt !
 %p= @structure.name

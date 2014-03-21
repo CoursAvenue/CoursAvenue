@@ -28,9 +28,12 @@
   %li Lieu : #{@planning.place.location.address}
 
 %p
-  Pour annuler votre inscription ou visualiser toutes les informations complémentaires, accédez à votre profil :
+  Retrouvez toutes les informations complémentaires depuis
+  = link_to 'votre profil.', user_participations_url(@user, inscription_confirmed: true)
+  En attendant profitez-en pour inviter vos proches, les places sont limitées !
 %p.action
-  = link_to "Visualiser mon atelier", user_participations_url(@user, inscription_confirmed: true), class: 'btn btn--green'
+  = link_to "Inviter mes proches", jpo_new_user_invited_users_url(@user, subdomain: 'www'), class: 'btn btn--green'
+
 
 %p.blue.blue-tip
   %i Trucs & astuces : depuis votre profil, invitez vos amis, familles et collègues à participer aux Portes Ouvertes avec vous.

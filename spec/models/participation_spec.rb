@@ -172,4 +172,24 @@ describe Participation do
       end
     end
   end
+
+  describe '#pop_from_waiting_list' do
+    before :each do
+      @planning             = FactoryGirl.create(:planning)
+      @planning.update_attribute(:nb_participants_max, 1)
+      first_participation   = @planning.participations.create user: FactoryGirl.create(:user)
+      @participation        = @planning.participations.create user: FactoryGirl.create(:user)
+    end
+
+    it 'increase size of nb_participants_max of the planning' do
+      initial_nb_participants_max = @planning.nb_participants_max
+      @participation.pop_from_waiting_list
+      expect(@planning.reload.nb_participants_max).to eq initial_nb_participants_max + 1
+    end
+
+    it 'pops the user from waiting_list' do
+      @participation.pop_from_waiting_list
+      expect(@participation.waiting_list).to be_false
+    end
+  end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140319093121) do
+ActiveRecord::Schema.define(version: 20140319160510) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -265,16 +265,16 @@ ActiveRecord::Schema.define(version: 20140319093121) do
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
   create_table "invited_users", force: true do |t|
-    t.string   "email",                         null: false
+    t.string   "email",                          null: false
     t.integer  "referrer_id"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
     t.string   "email_status"
-    t.boolean  "registered",    default: false
+    t.boolean  "registered",     default: false
     t.string   "type"
     t.text     "email_text"
     t.string   "referrer_type"
-    t.string   "for"
+    t.string   "invitation_for"
     t.hstore   "meta_data"
   end
 

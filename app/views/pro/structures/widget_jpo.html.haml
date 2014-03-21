@@ -5,14 +5,14 @@
 
 %h5.push--top.home-title Annoncez vos Portes Ouvertes sur votre propre site Internet
 .alert.alert--info
-  %ul.flush
+  %ul
     %li Communiquez sur vos Portes Ouvertes sur votre propre site Internet et invitez vos visiteurs : c'est l'occasion de faire vivre votre site grâce à de l'actualité et du contenu uniques. Pour cela, installez gratuitement votre bannière CoursAvenue pour annoncer l'événement sur votre page d'accueil, sur les pages dédiées aux plannings, etc.
     %li Pour installer cette bannière, cliquez sur l'un des boutons bleus ci-dessous, et laissez-vous guider : c'est simple et rapide !
 
 %h5.push--top.home-title Aperçu de la bannière à afficher sur votre site
 
 .center-block{style: 'width: 400px'}
-  #coursavenue-widget
+  #coursavenue-widget-jpo
 
 %h5.push--top.home-title Installez le code sur votre site
 = render 'pro/structures/widget_installation_guides'
@@ -33,9 +33,9 @@
                 });
             }
         }
-        var code = $('#coursavenue-link-to-remove-wrapper').html() + "<div id='coursavenue-widget'>&nbsp;</div><script>window.onload = function() {var coursavenue_widget_div = document.getElementById('coursavenue-widget');var request = new XMLHttpRequest();request.open('GET', '__URL__', false);request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');request.send(null);if(request.status == 200) {coursavenue_widget_div.innerHTML = request.responseText;}}</script";
+        var code = $('#coursavenue-link-to-remove-wrapper').html() + "<div id='coursavenue-widget-jpo'>&nbsp;</div><script>window.onload = function() {var coursavenue_widget_div = document.getElementById('coursavenue-widget-jpo');var request = new XMLHttpRequest();request.open('GET', '__URL__', false);request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');request.send(null);if(request.status == 200) {coursavenue_widget_div.innerHTML = request.responseText;}}</script";
         var load_widget,
-            coursavenue_widget_div = $('#coursavenue-widget'),
+            coursavenue_widget_div = $('#coursavenue-widget-jpo'),
             params = {last_comments: true, nb_comments: 3, show_new_comment: true};
         $('#show-comments').change(function() {
             params['last_comments'] = this.checked;
@@ -59,7 +59,7 @@
                 success: function(response) {
                   coursavenue_widget_div.html(response);
                   inlineCSS();
-                  $('.html-code').val($('#coursavenue-widget').parent().html().replace(/\s+/g, ' '));
+                  $('.html-code').val($('#coursavenue-widget-jpo').parent().html().replace(/\s+/g, ' '));
                 }
             });
         };

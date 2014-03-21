@@ -4,7 +4,7 @@
       %h4.soft-half--left.soft-half--top Les 5-6 avril : + de 5 000 cours de loisirs GRATUITS
   %tr{valign: 'top'}
     %td.v-middle.cell.content-block.hard--ends
-      = link_to 'http://www.coursavenue.com/#video', class: 'block' do
+      = link_to 'http://www.coursavenue.com/#video', class: 'block', utm_source: 'email', utm_campaign: 'jpo', utm_medium: 'bottom_email_video' do
         = image_tag 'jpo_2014/video_banner.jpg', alt: 'CoursAvenue', height: '215', width: '600', style: '-ms-interpolation-mode:bicubic;', class: 'block'
   %tr{valign: 'top'}
     %td.v-middle.cell.content-block.hard--ends
@@ -13,5 +13,5 @@
   %tr{valign: 'top'}
     %td.v-middle.cell.content-block
       %p.action
-        = link_to 'Participer à un cours gratuit les 5-6 avril', 'http://www.coursavenue.com', class: 'btn btn--blue'
+        = link_to 'Participer à un cours gratuit les 5-6 avril', root_url(subdomain: 'www', utm_source: 'email', utm_campaign: 'jpo', utm_medium: 'bottom_email'), class: 'btn btn--blue'
 

@@ -11,8 +11,7 @@
   Pour ne rater aucune opportunité de mise en relation, renseignez votre planning de cours :
 
 %p.action
-  = link_to "Mettre à jour mon planning", pro_structure_courses_url(@structure, subdomain: 'www'), class: 'btn btn--green'
-
+  = link_to "Mettre à jour mon planning", pro_structure_courses_url(@structure, subdomain: 'www'), class: 'btn btn--green', utm_source: 'email', utm_campaign: 'update_planning', utm_medium: 'monday'
 
 - content_for :under_content do
   = render 'admin_mailer/free_profile_advantages'

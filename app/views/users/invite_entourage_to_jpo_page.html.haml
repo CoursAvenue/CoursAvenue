@@ -12,7 +12,6 @@
       %h4.flush.islet
         #{@structure.name} vous offre l'opportunité unique d'inviter vos proches à participer à leurs Journées Portes Ouvertes du week-end du 5-6 avril 2014.
 
-
 .alert--info.one-whole
   %ul.flush--bottom
     - if current_user and @structure
@@ -34,7 +33,7 @@
           %span.italic.blue{data: {behavior: 'tooltip', title: "Nous considérons que vos coordonnées et adresses de courrier électronique constituent des données confidentielles, et nous nous engageons à ne pas les divulguer. Conformément à l'article 27 de la loi \"Informatique et Liberté\" du 6 janvier 1978, vous disposez d'un droit d'accès et de rectification des informations vous concernant."}}
             %i.fa.fa-question-circle
             Entrez les e-mails de vos proches (gardés confidentiels) dans cet encadré (amis, familles, collègues, etc.) pour les inviter aux Journées Portes Ouvertes.
-        %textarea.milli.one-whole{name: 'emails', rows: 8, placeholder: 'Ex. : patrick@gmail.com, thomas@wanadoo.fr', data: {behavior: 'autoresize'}}
+        %textarea#user-emails.milli.one-whole{name: 'emails', rows: 8, placeholder: 'Ex. : patrick@gmail.com, thomas@wanadoo.fr', data: {behavior: 'autoresize'}}
       .grid__item.one-half>
         %h4.flush Message :
         %p.flush.blue
@@ -42,11 +41,11 @@
         %br
         %textarea.milli.one-whole{name: 'text', rows: 8, data: {behavior: 'autoresize'}}
           - if @participation
-            Salut !&#x000A;&#x000A;Le week-end du 5-6 avril prochain, #{@structure.name} ouvre ses portes à travers des ateliers gratuits. Je me suis inscrit à l'atelier du #{planning_date_for(@participation.planning)} #{planning_time_for(@participation.planning, false)} et je te transmets cette invitation pour que tu puisses t'inscrire aussi.
+            Salut !&#x000A;&#x000A;Le week-end du 5 et 6 avril prochain, #{@structure.name} ouvre ses portes et propose des cours gratuits. Je me suis inscrit à l'atelier du #{planning_date_for(@participation.planning)} #{planning_time_for(@participation.planning, false)}, voici mon invitation pour réserver ta place. Fais vite, les places sont limitées :
           - elsif @structure
-            Salut !&#x000A;&#x000A;Le week-end du 5-6 avril prochain, #{@structure.name} ouvre ses portes à travers des ateliers gratuits. Je te transmets cette invitation, c'est une belle occasion de découvrir cette discipline qui est une véritable passion pour moi.&#x000A;&#x000A;Fais vite, les places sont gratuites et limitées :
+            Salut !&#x000A;&#x000A;Le week-end du 5 et 6 avril prochain, #{@structure.name} ouvre ses portes et propose des cours gratuits. Je te transmets cette invitation, profite de l'occasion pour découvrir cette discipline que j'adore.&#x000A;&#x000A;Fais vite, les places sont gratuites et limitées :
           - else
-            Salut !&#x000A;&#x000A;Le week-end du 5-6 avril prochain, CoursAvenue ouvre ses portes à travers des ateliers gratuits. Je te transmets cette invitation, c'est une belle occasion de découvrir cette discipline qui est une véritable passion pour moi.&#x000A;&#x000A;Fais vite, les places sont gratuites et limitées :
+            Salut !&#x000A;&#x000A;Le week-end du 5 et 6 avril prochain, CoursAvenue ouvre ses portes à travers des ateliers gratuits. Je te transmets cette invitation, profite de l'occasion pour découvrir cette discipline que j'adore.&#x000A;&#x000A;Fais vite, les places sont gratuites et limitées :
         %p.gray-light.flush
           - if @structure
             = link_to 'Lien que recevront mes proches', jpo_structure_url(@structure), target: :_blank
@@ -72,3 +71,15 @@
                 });
         = submit_tag 'Envoyer les invitations', class: 'btn btn--green btn--full', data: { disable_with: 'Envoi en cours' }
 
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('#invite-user-form').submit(function() {
+            if ($('#user-emails').val().length == 0) {
+                GLOBAL.flash("Vous n'avez rempli aucun email");
+                return false;
+            } else {
+                return true;
+            }
+        })
+    });
