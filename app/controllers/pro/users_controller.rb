@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Pro::UsersController < Pro::ProController
-  before_action :authenticate_pro_admin!
+  before_action :authenticate_pro_super_admin!
 
   layout 'admin'
 
@@ -22,5 +22,11 @@ class Pro::UsersController < Pro::ProController
       format.html
       format.csv { render text: User.order('created_at DESC').limit(params[:limit] || 300).offset(params[:offset] || 0).to_csv }
     end
+  end
+
+  def activate
+    @user = User.find params[:id]
+    @user.confirm!
+    redirect_to pro_users_path
   end
 end
