@@ -3,7 +3,7 @@ class PlanningSearch
 
   def self.search params, options= {}
     params[:sort] ||= 'rating_desc'
-    retrieve_location params
+    # retrieve_location params
 
     # Encode name in UTF8 as it can be submitted by the user and can be bad
     params[:name].force_encoding("UTF-8") if params[:name].present?
@@ -107,13 +107,13 @@ class PlanningSearch
     @search
   end
 
-  def self.retrieve_location params
-    if params[:lat].blank? or params[:lng].blank?
-      params[:address_name] = 'Paris'
-      params[:lat]          = 48.8592
-      params[:lng]          = 2.3417
-    end
+  # def self.retrieve_location params
+  #   if params[:lat].blank? or params[:lng].blank?
+  #     params[:address_name] = 'Paris'
+  #     params[:lat]          = 48.8592
+  #     params[:lng]          = 2.3417
+  #   end
 
-    [params[:lat], params[:lng]]
-  end
+  #   [params[:lat], params[:lng]]
+  # end
 end

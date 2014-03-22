@@ -4,7 +4,7 @@ class CourseSerializer < ActiveModel::Serializer
   include ActionView::Helpers::NumberHelper
 
   attributes :id, :name, :description, :type, :start_date, :end_date, :min_price_amount, :min_price_libelle, :data_url, :subjects,
-             :has_free_trial_lesson, :event_type, :best_price, :is_individual, :search_term, :plannings_not_shown, :is_lesson, :frequency,
+             :has_free_trial_lesson, :event_type, :best_price, :is_individual, :search_term, :is_lesson, :frequency,
              :cant_be_joined_during_year, :no_class_during_holidays, :teaches_at_home, :teaches_at_home_radius,
              :book_tickets, :discounts, :registrations, :subscriptions, :trials
 
@@ -12,10 +12,6 @@ class CourseSerializer < ActiveModel::Serializer
 
   def plannings
     @options[:plannings] || object.plannings.future.ordered_by_day
-  end
-
-  def plannings_not_shown
-    (options[:plannings].nil?) ? 0 : ( object.plannings.future.ordered_by_day - options[:plannings] ).count
   end
 
   def has_free_trial_lesson
@@ -79,7 +75,7 @@ class CourseSerializer < ActiveModel::Serializer
   end
 
   def search_term
-    options[:search_term] if options[:search_term].present?
+    @options[:search_term] if @options[:search_term].present?
   end
 
   def frequency

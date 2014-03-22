@@ -25,25 +25,16 @@ class StructuresController < ApplicationController
     @plannings.group_by(&:course_id).each do |course_id, plannings|
       @planning_groups[course_id] = plannings
     end
-
-    # the default location is Paris, if no params were given
-    @latlng         = retrieve_location
-    if params[:lat].present? && params[:lng].present?
-      @center         = { lat: params[:lat], lng: params[:lng] }
-    else
-      @center         = { lat: latlng[0], lng: latlng[1] }
-    end
-
-    @city           = @structure.city
-    @places         = @plannings.map(&:place).uniq
-    @medias         = @structure.medias.videos_first
+    @city      = @structure.city
+    @place_ids = @plannings.map(&:place_id).uniq
+    @medias    = @structure.medias.videos_first
 
     @model = StructureShowSerializer.new(@structure, {
       unlimited_comments: true,
       query:              get_filters_params,
       query_string:       request.env['QUERY_STRING'],
       planning_groups:    @planning_groups,
-      places:             @places
+      place_ids:          @place_ids
     })
   end
 

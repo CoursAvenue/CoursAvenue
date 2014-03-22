@@ -485,7 +485,7 @@ class Structure < ActiveRecord::Base
   # Meta data update                                                   #
   ######################################################################
   def update_meta_datas
-    self.plannings_count          = self.plannings.count
+    self.plannings_count          = self.plannings.future.count
     self.gives_group_courses      = self.courses.select{|course| !course.is_individual? }.any?
     self.gives_individual_courses = self.courses.select(&:is_individual?).any?
     self.has_promotion            = self.prices.select{|p| p.promo_amount.present?}.any?

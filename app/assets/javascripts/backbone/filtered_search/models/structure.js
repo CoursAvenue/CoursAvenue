@@ -5,9 +5,10 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
         resource: "/" + App.resource + "/",
 
         url: function (models) {
-            var params;
-
-            if (models === undefined) { return ''; }
+            var params,
+                structure_id = this.structure.get('id');
+            models = models || this.models;
+            if (!structure_id && models === undefined) { return ''; }
 
             params = {
                 format: 'json',
@@ -46,6 +47,7 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
                 collectionType: Backbone.Collection.extend({
                     url: function (models) {
                         var structure_id = this.structure.get('id');
+                        models = models || this.models;
 
                         if (!structure_id && models === undefined) { return ''; }
 
@@ -78,6 +80,7 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
                 collectionType: Backbone.Collection.extend({
                     url: function (models) {
                         var structure_id = this.structure.get('id');
+                        models = models || this.models;
                         if (!structure_id && models === undefined) { return ''; }
                         return Routes.structure_teachers_path({ format: 'json', id: structure_id || models[0].get('structure').get('id') })
                     }
@@ -94,6 +97,7 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
                 },
                 collectionType: Backbone.Collection.extend({
                     url: function (models) {
+                        models = models || this.models;
                         if (models === undefined) { return ''; }
                         return Routes.structure_medias_path({format: 'json', id: models[0].get('structure').get('id')})
                     }

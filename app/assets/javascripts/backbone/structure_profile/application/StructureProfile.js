@@ -16,18 +16,14 @@ StructureProfile.addInitializer(function(options) {
                 'summary:clicked'  : 'refetchCourses'
             }
         }),
-        bounds         = window.coursavenue.bootstrap.center,
         google_maps_view, filter_breadcrumbs, places_collection, places_list_view;
 
     window.pfaff = structure;
 
-    places_collection = new Backbone.Collection(window.coursavenue.bootstrap.places, { model: StructureProfile.Models.Place });
+    places_collection = new Backbone.Collection(window.coursavenue.bootstrap.structure.places, { model: StructureProfile.Models.Place });
     google_maps_view  = new StructureProfile.Views.Map.GoogleMapsView({
         collection: places_collection,
 
-        mapOptions: {
-            center: new google.maps.LatLng(bounds.lat, bounds.lng)
-        },
         infoBoxViewOptions: {
             infoBoxClearance: new google.maps.Size(0, 0)
         }
@@ -38,6 +34,10 @@ StructureProfile.addInitializer(function(options) {
         template: StructureProfile.Views.Structure.templateDirname() + 'filter_breadcrumbs_view',
         fancy_breadcrumb_names: {
             'address_name'        : 'Lieux',
+            'lat'                 : 'Lieux',
+            'lng'                 : 'Lieux',
+            'bbox_sw'             : 'Lieux',
+            'bbox_ne'             : 'Lieux',
             'week_days'           : 'Date',
             'audience_ids'        : 'Public',
             'level_ids'           : 'Niveaux',

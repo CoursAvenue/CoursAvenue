@@ -55,7 +55,9 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             }
 
             this.model.set("query_params", params);
-            this.model.fetchRelated("courses", { data: this.getParamsForResource("courses")}, true);
+            this.model.get('courses').fetch("courses", { data: this.getParamsForResource("courses")}).then(function (courses) {
+                this.model.get('courses').reset(courses);
+            }.bind(this));
         },
 
         showOrCreateTab: function showOrCreateTab (e) {

@@ -45,8 +45,9 @@
     }
 }
 
-.btn.disabled, .btn:disabled{
-    opacity: 0.55;
+.btn.disabled, .btn:disabled, .btn[disabled]{
+    background-color: #EEE;
+    color           : #666;
 }
 
 .btn--round {

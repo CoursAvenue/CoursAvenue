@@ -3,10 +3,11 @@ class Structures::CoursesController < ApplicationController
 
   def index
     params.delete(:page) if params[:page]
-    @structure       = Structure.find params[:structure_id]
-    @planning_search = PlanningSearch.search(params)
-    @plannings       = @planning_search.results
-    @courses         = []
+    @structure            = Structure.find params[:structure_id]
+    params[:structure_id] = @structure.id
+    @planning_search      = PlanningSearch.search(params)
+    @plannings            = @planning_search.results
+    @courses              = []
 
     if params[:course_types] == ['open_course']
       planning_serializer_options = { jpo: true }

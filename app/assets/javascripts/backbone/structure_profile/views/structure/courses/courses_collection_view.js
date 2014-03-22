@@ -14,15 +14,14 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
 
         ui: {
             '$summary': '[data-summary]',
-            '$button': '[data-type=button]'
         },
 
         events: {
-            'click @ui.$button': 'announceSummaryClicked'
+            'click [data-action=show-all-courses]': 'announceSummaryClicked'
         },
 
         collectionEvents: {
-            'change': 'onRender'
+            'reset': 'render'
         },
 
         onItemviewMouseenter: function onItemviewMouseenter (view, data) {
@@ -57,8 +56,11 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
 
         announceSummaryClicked: function announceSummaryClicked (e) {
             e.preventDefault();
-
-            this.trigger("summary:clicked");
+            // Don't announce if already been clicked and is disabled
+            if (!this.$('[data-action=show-all-courses]').attr('disabled')) {
+                this.trigger("summary:clicked");
+                this.$('[data-action=show-all-courses]').attr('disabled', true);
+            }
         },
 
         onAfterShow: function onAfterShow () {
@@ -73,18 +75,15 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         * and the data_url which the structure gave us
         * */
         serializeData: function serializeData () {
-            var plannings_not_shown = 0,
-                plannings_count   = this.collection.reduce(function (memo, model) {
+            var plannings_count   = this.collection.reduce(function (memo, model) {
                     memo                += model.get("plannings").length;
-                    plannings_not_shown += model.get("plannings_not_shown");
-
                     return memo;
                 }, 0);
 
             return {
                 courses_count: this.collection.length,
                 plannings_count: plannings_count,
-                plannings_not_shown: plannings_not_shown,
+                plannings_not_shown: (window.coursavenue.bootstrap.total_plannings_count || 0) - plannings_count,
                 data_url: this.data_url
             };
         },

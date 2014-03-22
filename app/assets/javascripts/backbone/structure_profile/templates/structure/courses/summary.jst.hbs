@@ -1,6 +1,6 @@
 {{#if plannings_not_shown}}
     {{#ifCond plannings_not_shown '!=' '0'}}
         {{ courses_count }} cours ({{ plannings_count }} seances) correspondent a votre recherche
-        <a href="{{ data_url }}" class="btn btn--small pointer white" data-type="button">Visualiser les {{ plannings_not_shown }} autres seances</a>
+        <a href="{{ data_url }}" class="btn btn--small pointer white" data-action="show-all-courses">Visualiser les {{ plannings_not_shown }} autres seances</a>
     {{/ifCond}}
 {{/if}}

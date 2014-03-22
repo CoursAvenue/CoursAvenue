@@ -7,8 +7,8 @@ class StructureShowSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
 
   attributes :id, :name, :slug, :comments_count, :rating, :street, :zip_code, :description,
-             :logo_thumb_url, :data_url, :query_url, :query_params, :courses,
-             :courses_count, :has_courses, :plannings_count, :has_plannings, :more_than_five_comments, :has_comments,
+             :logo_thumb_url, :data_url, :query_url, :query_params, :courses, :courses_count,
+             :has_courses, :plannings_count, :has_plannings, :more_than_five_comments, :has_comments,
              :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range,
              :has_free_trial_course, :medias_count, :teaches_at_home, :teaches_at_home_radius, :videos_count, :images_count,
              :audience, :funding_types, :gives_group_courses, :gives_individual_courses, :structure_type,
@@ -19,7 +19,6 @@ class StructureShowSerializer < ActiveModel::Serializer
 
   def courses
     object.courses.active.where(id: @options[:planning_groups].keys).map do |course|
-
       CourseSerializer.new(course, plannings: @options[:planning_groups][course.id])
     end
   end
@@ -36,9 +35,7 @@ class StructureShowSerializer < ActiveModel::Serializer
   end
 
   def places
-    if @options[:places].present?
-      @options[:places]
-    elsif @options[:place_ids].present?
+    if @options[:place_ids].present?
       place_ids = @options[:place_ids]
       object.places.where{ id.in place_ids }
     else

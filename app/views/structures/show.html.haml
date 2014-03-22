@@ -140,12 +140,10 @@
         }
     });
     (function () {
-      var places = #{ActiveModel::ArraySerializer.new(@places, each_serializer: PlaceSerializer).to_json };
 
       window.coursavenue = window.coursavenue || {};
       window.coursavenue.bootstrap = {
-        structure: #{ @model.to_json },
-        places: places,
-        center: #{ @center.to_json }
+        total_plannings_count: #{ @structure.plannings_count.to_i },
+        structure: #{ @model.to_json }
       };
     }());
