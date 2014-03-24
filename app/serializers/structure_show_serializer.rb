@@ -6,7 +6,7 @@ class StructureShowSerializer < ActiveModel::Serializer
   include StructuresHelper
   include ActionView::Helpers::TextHelper
 
-  attributes :id, :name, :slug, :comments_count, :rating, :street, :zip_code, :description,
+  attributes :id, :name, :slug, :comments, :comments_count, :rating, :street, :zip_code, :description,
              :logo_thumb_url, :data_url, :query_url, :query_params, :courses, :courses_count,
              :has_courses, :plannings_count, :has_plannings, :more_than_five_comments, :has_comments,
              :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range,
@@ -16,6 +16,8 @@ class StructureShowSerializer < ActiveModel::Serializer
              :given_course_types, :given_funding_type
 
   has_many :places
+  has_many :comments, serializer: ShortSerializer
+  has_many :teachers, serializer: ShortSerializer
 
   def courses
     object.courses.active.where(id: @options[:planning_groups].keys).map do |course|

@@ -2,7 +2,7 @@
 FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.StructuresCollection = CoursAvenue.Models.PaginatedCollection.extend({
-        model: Module.Structure,
+        model: CoursAvenue.Models.Structure,
 
         /* even if we are bootstrapping, we still want to know the total
          * number of pages and the grandTotal, for display purposes

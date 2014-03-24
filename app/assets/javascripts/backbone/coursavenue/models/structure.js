@@ -1,21 +1,26 @@
 /* just a basic backbone model */
-FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _) {
+CoursAvenue.module('Models', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.CoursesCollection = Backbone.Collection.extend({
         resource: "/" + App.resource + "/",
 
         url: function (models) {
-            var params,
-                structure_id = this.structure.get('id');
-            models = models || this.models;
-            if (!structure_id && models === undefined) { return ''; }
+            var structure_id  = this.structure.get('id'),
+                query_params  = this.structure.get("query_params"),
+                route_details = {
+                    format: 'json',
+                    id: structure_id
+                };
 
-            params = {
-                format: 'json',
-                id: models[0].get('structure').get('id')
-            };
+            /* backboneRelational expects url(models) to return a URL
+            *  different from just calling url() without a models params.
+            *  Normally, url would build a URL including something like
+            *  "&ids=1,2,3" but in our case the URL doesn't actually
+            *  differ. So we are just returning an empty string to trick
+            *  backbonerelational. */
+            if (!structure_id || models === undefined) { return ''; }
 
-            return Routes.structure_courses_path(params, this.structure.get("query_params"));
+            return Routes.structure_courses_path(route_details, query_params);
         }
     });
 
@@ -46,12 +51,18 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
                 },
                 collectionType: Backbone.Collection.extend({
                     url: function (models) {
-                        var structure_id = this.structure.get('id');
-                        models = models || this.models;
+                        var structure_id = this.structure.get('id'),
+                            query_params = { unlimited_comments: true };
 
-                        if (!structure_id && models === undefined) { return ''; }
+                        /* backboneRelational expects url(models) to return a URL
+                        *  different from just calling url() without a models params.
+                        *  Normally, url would build a URL including something like
+                        *  "&ids=1,2,3" but in our case the URL doesn't actually
+                        *  differ. So we are just returning an empty string to trick
+                        *  backbonerelational. */
+                        if (!structure_id || models === undefined) { return ''; }
 
-                        return Routes.structure_comments_path({format: 'json', id: structure_id || models[0].get('structure').get('id'), unlimited_comments: true });
+                        return Routes.structure_comments_path({ format: 'json', id: structure_id || models[0].get('structure').get('id') }, query_params);
                     }
                 })
             },
@@ -80,8 +91,9 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
                 collectionType: Backbone.Collection.extend({
                     url: function (models) {
                         var structure_id = this.structure.get('id');
-                        models = models || this.models;
-                        if (!structure_id && models === undefined) { return ''; }
+
+                        if (!structure_id || models === undefined) { return ''; }
+
                         return Routes.structure_teachers_path({ format: 'json', id: structure_id || models[0].get('structure').get('id') })
                     }
                 })
@@ -97,8 +109,15 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
                 },
                 collectionType: Backbone.Collection.extend({
                     url: function (models) {
-                        models = models || this.models;
+
+                        /* backboneRelational expects url(models) to return a URL
+                        *  different from just calling url() without a models params.
+                        *  Normally, url would build a URL including something like
+                        *  "&ids=1,2,3" but in our case the URL doesn't actually
+                        *  differ. So we are just returning an empty string to trick
+                        *  backbonerelational. */
                         if (models === undefined) { return ''; }
+
                         return Routes.structure_medias_path({format: 'json', id: models[0].get('structure').get('id')})
                     }
                 })
