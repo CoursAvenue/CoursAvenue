@@ -22,8 +22,7 @@ class StructureSearch
       if params[:bbox_sw] && params[:bbox_ne]
         with(:location).in_bounding_box(params[:bbox_sw], params[:bbox_ne])
       else
-        # with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 7, bbox: (params.has_key?(:bbox) ? params[:bbox] : true)) if params[:lat].present? and params[:lng].present?
-        with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 7, bbox: false) if params[:lat].present? and params[:lng].present?
+        with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 10, bbox: (params.has_key?(:bbox) ? params[:bbox] : true)) if params[:lat].present? and params[:lng].present?
       end
 
       # --------------- Subjects
