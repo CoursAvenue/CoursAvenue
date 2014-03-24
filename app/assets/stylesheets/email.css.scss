@@ -23,12 +23,16 @@
 @import "partials/generic/font_helpers";
 
 
-.body {
+.coursavenue-email-body {
     width                   : 100% !important;
     background              : $beige;
     -webkit-font-smoothing  : antialiased;
     -webkit-text-size-adjust: none;
     font-family             : 'Helvetica Neue',Helvetica,Arial,sans-serif;
+    td {
+        border: none;
+        height: auto;
+    }
 }
     .email-title {
         font-size: 9px;

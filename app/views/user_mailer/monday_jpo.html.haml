@@ -3,9 +3,9 @@
 
 - content_for :header_links do
   = link_to 'Connexion', new_user_session_url(subdomain: 'www')
-  \|
+  %span.gray-light &#124;
   = link_to 'JPO', open_courses_url(subdomain: 'www')
-  \|
+  %span.gray-light &#124;
   = link_to 'Rechercher', structures_url(subdomain: 'www')
 
 - content_for :promo do
@@ -22,9 +22,9 @@
   %i Trucs & astuces : les places étant limitées, réservez votre atelier le plus tôt possible, puis invitez vos amis.
 
 - content_for :under_content do
-  %table.table{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600'}
-    %tr{valign: 'top'}
-      %td.cell.content-block{width: '600', colspan: '2', style: 'padding-bottom: 0'}
+  %table{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600'}
+    %tr.v-top{valign: 'top'}
+      %td.content-block{width: '600', colspan: '2', style: 'padding-bottom: 0'}
         = image_tag 'emails_logo/bouche.jpg', class: 'float--left', width: 135, height: 135
         %h4.soft-half--top.soft-half--left Partagez ce bon plan
         %p.soft-half--sides.flush--bottom
@@ -33,24 +33,24 @@
           = link_to 'En parler à mes proches', jpo_new_user_invited_users_url(@user, subdomain: 'www', utm_campaign: 'share_jpo', utm_medium: 'monday'), class: 'btn btn--blue'
 
 - content_for :under_content_2 do
-  %table.table{align: 'center', border: '0', cellpadding: '15', cellspacing: '0', width: '600'}
-    %tr{valign: 'top'}
-      %td.cell.content-block{width: '600', colspan: '2', style: 'padding-bottom: 0'}
-        %h4 Portes Ouvertes des cours de loisirs
-    %tr{valign: 'top'}
-      %td.v-middle.cell.content-block.hard--ends{width: '50'}
+  %table{align: 'center', border: '0', cellpadding: '15', cellspacing: '0', width: '600'}
+    %tr.v-top{valign: 'top'}
+      %td.soft-half.content-block{width: '600', colspan: '2', style: 'padding-bottom: 0'}
+        %h4.flush Portes Ouvertes des cours de loisirs
+    %tr.v-top{valign: 'top'}
+      %td.soft-half.v-middle.cell.content-block.hard--ends{width: '50'}
         = image_tag 'emails_logo/eye.png', alt: 'CoursAvenue', height: '50', width: '50', style: '-ms-interpolation-mode:bicubic;'
       %td.v-middle.cell.content-block{width: '550', style: 'padding-right: 0; padding-left: 0;'}
         %p.flush--bottom.soft-half--right
           Plus de 5 000 cours de loisirs gratuits, 200 lieux, 100 disciplines pour tous dès 4 ans
-    %tr{valign: 'top'}
-      %td.v-middle.cell.content-block.hard--ends{width: '50'}
+    %tr.v-top{valign: 'top'}
+      %td.soft-half.v-middle.cell.content-block.hard--ends{width: '50'}
         = image_tag 'emails_logo/enveloppe.png', alt: 'CoursAvenue', height: '50', width: '50', style: '-ms-interpolation-mode:bicubic;'
       %td.v-middle.cell.content-block{width: '550', style: 'padding-right: 0; padding-left: 0;'}
         %p.flush--bottom.soft-half--right
           Réservez votre place directement en ligne sur le moteur de recherche géolocalisé CoursAvenue.com
-    %tr{valign: 'top'}
-      %td.v-middle.cell.content-block.hard--ends{width: '50'}
+    %tr.v-top{valign: 'top'}
+      %td.soft-half.v-middle.cell.content-block.hard--ends{width: '50'}
         = image_tag 'emails_logo/people.png', alt: 'CoursAvenue', height: '50', width: '50', style: '-ms-interpolation-mode:bicubic;'
       %td.v-middle.cell.content-block{width: '550', style: 'padding-right: 0; padding-left: 0;'}
         %p.flush--bottom.soft-half--right
