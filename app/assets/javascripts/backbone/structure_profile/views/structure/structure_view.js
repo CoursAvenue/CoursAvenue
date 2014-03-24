@@ -55,7 +55,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             }
 
             this.model.set("query_params", params);
-            this.model.get('courses').fetch("courses", { data: this.getParamsForResource("courses")}).then(function (courses) {
+            this.model.fetchRelated("courses", { data: this.getParamsForResource("courses")}, true)[0].then(function (courses) {
                 this.model.get('courses').reset(courses);
             }.bind(this));
         },
@@ -75,15 +75,14 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
                 collection: this.model.get(resources),
                 data_url: this.model.get("data_url")
             });
-            this.showWidget(view);
 
-            if (!this.model.get(resources) || this.model.get(resources).length == 0) {
-                this.showLoader(resources);
-                // this.model.fetchRelated(resources, { data: this.getParamsForResource(resources)}, true)[0].then(function (collection) {
-                this.model.get(resources).fetch({ data: this.getParamsForResource(resources)}).then(function (collection) {
-                    this.hideLoader();
-                }.bind(this));
-            }
+            // always fetch, since we don't know whether we have resources or just ids
+            this.showLoader(resources);
+            this.model.fetchRelated(resources, { data: this.getParamsForResource(resources)}, true)[0].then(function (collection) {
+                this.hideLoader();
+                this.showWidget(view);
+                $target.data("view", null); // remove the data-view property, indicating that no further fetching should be done
+            }.bind(this));
         },
 
         showLoader: function(resources_name) {

@@ -8,7 +8,7 @@ StructureProfile.addRegions({
 StructureProfile.addInitializer(function(options) {
     var bootstrap      = window.coursavenue.bootstrap.structure,
         layout         = new StructureProfile.Views.StructureProfileLayout(),
-        structure      = new FilteredSearch.Models.Structure(bootstrap, bootstrap.options),
+        structure      = new CoursAvenue.Models.Structure(bootstrap, bootstrap.options),
         structure_view = new StructureProfile.Views.Structure.StructureView({
             model: structure,
             events: {
