@@ -7,7 +7,16 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         template: Module.templateDirname() + 'structure_view',
 
         ui: {
-            '$loader': '[data-loader]'
+            '$loader': '[data-loader]',
+            '$summary_container': '[data-summary-container]'
+        },
+
+        events: {
+            "summary:clicked": 'removeSummary'
+        },
+
+        removeSummary: function () {
+            this.ui.$summary_container.slideUp();
         },
 
         params_for_resource: {
