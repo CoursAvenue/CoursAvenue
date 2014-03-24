@@ -87,11 +87,6 @@
       %meta{itemprop: 'latitude', content: @structure.latitude}
       %meta{itemprop: 'longitude', content: @structure.longitude}
 
-
-
-    - if @structure.main_contact
-      = render partial: 'structures/contact_form', locals: {structure: @structure}
-
     - if @structure.description
       .white-box.islet
         %div.read-more{data: {behavior: 'read-more', height: 300}}= simple_format @structure.description

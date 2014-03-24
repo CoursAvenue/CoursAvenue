@@ -20,6 +20,7 @@ class OpenCoursesController < ApplicationController
 
     # Directly search plannings because it is by default filtered by dates
     @structures, @place_ids, @total = search_plannings
+    @total = PlanningSearch.search(params).total
 
     @latlng = retrieve_location
 

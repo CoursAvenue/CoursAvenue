@@ -38,7 +38,10 @@
           = user.name
           = link_to "(#{user.email})", "mailto:#{user.email}"
         %td{data: {value: user.confirmed_at}}
-          = l(user.confirmed_at, format: :date).capitalize if user.confirmed_at
+          - if user.confirmed_at
+            = l(user.confirmed_at, format: :date).capitalize
+          - else
+            = link_to 'Activer le compte', activate_pro_user_path(user), method: :patch, class: 'btn btn--small btn--blue'
         %td.text--center{data: {value: (user.provider == 'facebook' ? 'f' : '')}}
           - if user.provider == 'facebook'
             %i.fa.fa-check

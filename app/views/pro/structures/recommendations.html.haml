@@ -2,12 +2,6 @@
 
 = render partial: 'pro/structures/comments_tabs', locals: {current: 'recommandation'}
 
-.alert.alert--success.one-whole
-  %h4.text--center.flush
-    Lien à communiquer à vos élèves pour déposer leurs recommandations :
-    %br
-    #{link_to new_structure_comment_url(@structure, subdomain: 'www'), new_structure_comment_url(@structure, subdomain: 'www'), target: :_blank}
-
 .alert--info.epsilon.soft-half
   %ul.flush--bottom
     %li
@@ -88,6 +82,12 @@
     %br
     Pour que vos élèves déposent de nouveaux avis :
     = link_to new_structure_comment_url(@structure, website: '', subdomain: 'www'), new_structure_comment_url(@structure, subdomain: 'www', utm_source: 'teacher_website', utm_campaign: 'recommandation'), target: '_blank'
+
+.alert.alert--success.one-whole
+  %h4.text--center.flush
+    Lien à communiquer à vos élèves pour déposer leurs recommandations :
+    %br
+    #{link_to new_structure_comment_url(@structure, subdomain: 'www'), new_structure_comment_url(@structure, subdomain: 'www'), target: :_blank}
 
 #most-used-method.hidden
   %h5 Les 5 avantages de cette méthode la + utilisée.

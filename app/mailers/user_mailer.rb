@@ -13,7 +13,7 @@ class UserMailer < ActionMailer::Base
   # Monday email to push the user to fill passions
   def monday_jpo(user)
     @user    = user
-    mail to: @user.email, subject: 'Invitation aux Portes Ouvertes des cours de loisirs les 5 et 6 avril à Paris'
+    mail to: @user.email, subject: "Vous êtes sur Paris les 5-6 avril ? Participez à l'un des 5 000 cours gratuits"
   end
 
   # Monday email to push the user to fill passions

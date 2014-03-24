@@ -1,4 +1,4 @@
-!!!
+!!! Strict
 %html{lang: 'fr'}
   %head
     %meta{content: 'text/html; charset=utf-8', 'httpequiv' => 'Content-Type'}/
@@ -10,25 +10,25 @@
     - else
       %title Email de CoursAvenue
 
-  %body.body{leftmargin: '0', marginheight: '0', marginwidth: '0', topmargin: '0'}
-    %table.body{border: '0', cellpadding: '0', cellspacing: '0', width: '100%'}
-      %tr.body
-        %td.body{width: '100%'}
-          %table.table{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600'}
+  %body.coursavenue-email-body{leftmargin: '0', marginheight: '0', marginwidth: '0', topmargin: '0'}
+    %table.coursavenue-email-body{border: '0', cellpadding: '0', cellspacing: '0', width: '100%'}
+      %tr.coursavenue-email-body
+        %td.coursavenue-email-body{width: '100%'}
+          %table{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600', style: 'width: 600px; margin: auto;'}
             %tr
-              %td.cell{width: '600'}
-                %table.table{border: '0', cellpadding: '0', cellspacing: '0', width: '600'}
+              %td{width: '600', style: 'width: 600px;'}
+                %table{border: '0', cellpadding: '0', cellspacing: '0', width: '600', style: 'width: 600px;'}
                   %tr{valign: 'bottom'}
-                    %td.email-title.text--center.logo-cell{width: '600'}
+                    %td.email-title.text--center.logo-cell{width: '600', style: 'width: 600px;'}
                       - if content_for? :promo
-                        = yield(:promo).gsub(/<[\/a-z]*>/, '')
+                        = yield(:promo).gsub(/<.*>/, '').strip
                       - elsif content_for? :email_title
-                        = yield(:email_title).gsub(/<[\/a-z]*>/, '')
+                        = yield(:email_title).gsub(/<.*>/, '').strip
                       - else
-                        = truncate(yield, length: 80).gsub(/<[\/a-z]*>/, '')
-                %table.table{border: '0', cellpadding: '0', cellspacing: '0', width: '600'}
+                        = truncate(yield, length: 80).gsub(/<.*>/, '').strip
+                %table{border: '0', cellpadding: '0', cellspacing: '0', width: '600', style: 'width: 600px;'}
                   %tr{valign: 'bottom'}
-                    %td.logo-cell{width: '300'}
+                    %td.logo-cell{width: '300', style: 'width: 300px;'}
                       %img.hide{border: '0', height: '20', src: '', width: '1'}/
                       %br.hide
                       - if content_for? :email_logo
@@ -39,57 +39,57 @@
                           = image_tag 'logo.png', height: '50', style: '-ms-interpolation-mode:bicubic;', width: '250'
                         %p.logo-subtitle
                           Les élèves recommandent leurs meilleurs cours
-                    %td.soft-half--bottom.text--right{width: '300'}
+                    %td.v-bottom.soft-half--bottom.text--right{width: '300', style: 'width: 300px;'}
                       - if content_for? :header_links
                         = yield :header_links
                       - elsif @show_links
                         - if @structure
                           = link_to 'Connexion', dashboard_pro_structure_url(@structure, subdomain: 'pro')
-                        \|
+                        %span.gray-light &#124;
                         = link_to 'Aide', pro_pages_questions_url(subdomain: 'pro')
-                        \|
+                        %span.gray-light &#124;
                         - if @structure
                           = link_to 'Profil public', structure_url(@structure, subdomain: 'www')
                 - if content_for? :promo
-                  %table.table.promo-table{border: '0', cellpadding: '0', cellspacing: '0', width: '600'}
+                  %table.promo-table{border: '0', cellpadding: '0', cellspacing: '0', width: '600', style: 'width: 600px;'}
                     %tr
-                      %td.cell.content-block.white-box.push--bottom{width: '600'}
-                        %table.table.promo-table{border: '0', cellpadding: '0', cellspacing: '0', width: '600'}
+                      %td.content-block.white-box.push--bottom{width: '600', style: 'width: 600px;'}
+                        %table.promo-table{border: '0', cellpadding: '0', cellspacing: '0', width: '600', style: 'width: 600px;'}
                           %tr
                             - if content_for? :logo
                               %td.logo-cell{width: '100', valign: 'middle', align: 'center', style: 'padding-right: 0px;'}
                                 = yield :logo
-                            %td.cell{width: (content_for?(:logo) ? '500' : '600'), valign: 'middle', style: 'padding: 15px'}
+                            %td{width: (content_for?(:logo) ? '500' : '600'), valign: 'middle', style: 'padding: 15px'}
                               = yield :promo
                 %img.divider{border: '0', height: '15', src: '', width: '1'}/
                 %br
 
-          %table.table{align: 'center', border: '0', cellpadding: '15', cellspacing: '0', width: '600'}
+          %table{align: 'center', border: '0', cellpadding: '15', cellspacing: '0', width: '600', style: 'width: 600px; margin: auto;'}
             %tr
-              %td.cell.content-block.white-box.push--bottom{width: '600'}
+              %td.soft-half.content-block.white-box.push--bottom{width: '600', style: 'width: 600px;'}
                 = yield
 
           - if content_for? :under_content
-            %table.under-content.push--top.table{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600'}
+            %table.under-content.push--top{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600', style: 'width: 600px; margin: auto;'}
               %tr
-                %td.cell.content-block.white-box{width: '600'}
+                %td.content-block.white-box{width: '600', style: 'width: 600px;'}
                   = yield :under_content
 
           - if content_for? :under_content_2
-            %table.under-content.push--top.table{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600'}
+            %table.under-content.push--top{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600', style: 'width: 600px; margin: auto;'}
               %tr
-                %td.cell.content-block.white-box{width: '600'}
+                %td.content-block.white-box{width: '600', style: 'width: 600px;'}
                   = yield :under_content_2
 
           - if content_for? :under_content_3
-            %table.under-content.push--top.table{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600'}
+            %table.under-content.push--top{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600', style: 'width: 600px; margin: auto;'}
               %tr
-                %td.cell.content-block.white-box{width: '600'}
+                %td.content-block.white-box{width: '600', style: 'width: 600px;'}
                   = yield :under_content_3
 
-          %table.table{align: 'center', border: '0', cellpadding: '5', cellspacing: '0', width: '600'}
+          %table{align: 'center', border: '0', cellpadding: '5', cellspacing: '0', width: '600', style: 'width: 600px; margin: auto;'}
             %tr
-              %td.cell.footer{width: '600'}
+              %td.soft-half--ends.footer{width: '600', style: 'width: 600px;'}
                 - if content_for? :footer
                   = yield :footer
                 - elsif @structure and @structure.main_contact

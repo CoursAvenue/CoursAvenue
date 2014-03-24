@@ -188,7 +188,11 @@ CoursAvenue::Application.routes.draw do
         end
       end
       resources :visitors             , only: [:index, :show]
-      resources :users                , only: [:index]
+      resources :users                , only: [:index] do
+        member do
+          patch :activate
+        end
+      end
       resources :comment_notifications, only: [:index]
       resources :conversations        , only: [:index]
 
