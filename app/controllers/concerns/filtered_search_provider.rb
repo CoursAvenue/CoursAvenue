@@ -35,7 +35,7 @@ module FilteredSearchProvider
 
   # Search for plannings regarding the params
   #
-  # @return array [ structures models, total of results]
+  # @return array [ structures models, places, total of results(meaning structures)]
   def search_plannings
     sanatize_params
     search       = PlanningSearch.search(params, group: :structure_id_str)
