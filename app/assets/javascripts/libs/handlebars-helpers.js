@@ -68,14 +68,16 @@ Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
 });
 
 Handlebars.registerHelper('simple_format', function (text) {
-    var carriage_returns = /\r\n?/g;
-    var paragraphs       = /\n\n+/g;
-    var newline          = /([^\n]\n)(?=[^\n])/g;
+    var carriage_returns = /\r\n?/g,
+        paragraphs       = /\n\n+/g,
+        newline          = /([^\n]\n)(?=[^\n])/g;
 
-    var text = text.replace(carriage_returns, "\n"); // \r\n and \r -> \n
-    text = text.replace(paragraphs, "</p>\n\n<p>"); // 2+ newline  -> paragraph
-    text = text.replace(newline, "$1<br/>"); // 1 newline   -> br
-    text = "<p>" + text + "</p>";
+    if (text) {
+        text = text.replace(carriage_returns, "\n"); // \r\n and \r -> \n
+        text = text.replace(paragraphs, "</p>\n\n<p>"); // 2+ newline  -> paragraph
+        text = text.replace(newline, "$1<br/>"); // 1 newline   -> br
+        text = "<p>" + text + "</p>";
+    }
 
     return new Handlebars.SafeString(text);
 });
