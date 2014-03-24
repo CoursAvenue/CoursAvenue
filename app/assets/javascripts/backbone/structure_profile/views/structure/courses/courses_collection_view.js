@@ -6,18 +6,9 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         template: Module.templateDirname() + 'courses_collection_view',
         itemViewContainer: '[data-type=container]',
 
-        summaryTemplate: Module.templateDirname() + 'summary',
 
         initialize: function initialize (options) {
             this.data_url = options.data_url;
-        },
-
-        ui: {
-            '$summary': '[data-summary]',
-        },
-
-        events: {
-            'click [data-action=show-all-courses]': 'announceSummaryClicked'
         },
 
         collectionEvents: {
@@ -32,18 +23,6 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             this.trigger("course:mouse:leave", data);
         },
 
-        onRender: function onRender () {
-            this.moveAndShowBreadcrumbs()
-            var html = Marionette.Renderer.render(this.summaryTemplate, this.serializeData());
-            // If there is the html is empty (therefore there is no filters)
-            if ( html.trim().length == 0 ) {
-                this.$('[data-summary-container]').hide();
-            } else {
-                this.ui.$summary.html(html);
-                this.ui.$summary.tooltip();
-            }
-        },
-
         /*
          * Filter-breadcrumbs are rendered and hidden in the page.
          * We just move them in the course tab
@@ -52,15 +31,6 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             var $breacrumb = $('[data-type=filter-breadcrumbs]');
             $breacrumb.show();
             $breacrumb.appendTo(this.$('[data-breadcrumb]'));
-        },
-
-        announceSummaryClicked: function announceSummaryClicked (e) {
-            e.preventDefault();
-            // Don't announce if already been clicked and is disabled
-            if (!this.$('[data-action=show-all-courses]').attr('disabled')) {
-                this.trigger("summary:clicked");
-                this.$('[data-action=show-all-courses]').attr('disabled', true);
-            }
         },
 
         onAfterShow: function onAfterShow () {
