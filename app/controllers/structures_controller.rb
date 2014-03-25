@@ -103,7 +103,7 @@ class StructuresController < ApplicationController
       ['Cours de Dessin, Peinture & Arts GRATUITS', 'dessin-peinture-arts-plastiques'] => ['atelier-terre-d-es-sens-journee-portes-ouvertes-cours-de-ceramique-et-de-sculpture',
                                               'vertumne-journee-portes-ouvertes-demonstration-de-composition-d-un-bouquet-de-printemps',
                                               'journee-portes-ouvertes-demonstrations-de-peintures-et-patines-decoratives-sur-bois'],
-      ['Cours de Sports & Arts martiaux GRATUITS', 'sports-arts-martiaux'] => ['paris-18e-kobukan-journee-portes-ouvertes-baby-karate',
+      ['Cours de Sports & Arts martiaux GRATUITS', 'sports-arts-martiaux'] => ['journee-portes-ouvertes-baby-karate',
                                               'glace-roller-inline-de-paris-g-r-i-p-journee-portes-ouvertes-initiation-au-patinage-artistique-et-au-roller-en-ligne',
                                               'retraite-sportive-de-paris-journee-portes-ouvertes-gymnastique-senior'],
       ['Cours de Cuisine & Vins GRATUITS', 'cuisine-vins'] => ['super-naturelle-journee-portes-ouvertes-demonstration-et-degustation-de-makis-et-sushis-bio',
