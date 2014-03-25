@@ -53,7 +53,7 @@
         <div class="relative full-height v-middle soft--top">
             <div class="alpha thin orange"> {{ open_course_plannings_nb }} </div>
             <span class="orange soft-half--bottom milli">{{ pluralize open_course_plannings_nb 'créneau' 'créneaux' }}</span>
-            {{#if last_comment_title}}
+            {{#if open_course_names}}
             <div class="milli">
                 {{ truncate open_course_names 70 }}
             </div>
