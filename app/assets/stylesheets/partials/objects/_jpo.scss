@@ -16,8 +16,8 @@
         height           : 361px;
         max-width        : 1400px;
         margin           : auto;
-        background-repeat: none;
-        overflow         : hidden;
+        background-repeat: no-repeat;
+        overflow         : visible;
         @include background-size('1400px 361px');
         @include media-query(palm) {
             background-image: none;
@@ -76,9 +76,14 @@
             }
         }
         .jpo-map {
-            z-index: 100;
-            right  : 100px;
-            top    : 5px;
+            @include background-image-retina('jpo_2014/map.png', 'jpo_2014/map@2x.png');
+            @include background-size(100%);
+            background-repeat: no-repeat;
+            width            : 704px;
+            height           : 436px;
+            z-index          : 100;
+            right            : 100px;
+            top              : 5px;
             -webkit-filter: drop-shadow(7px 11px 14px rgba(0,0,0,0.3));
             filter: url("data:image/svg+xml;utf8,<svg height='0' xmlns='http://www.w3.org/2000/svg'><filter id='drop-shadow'><feGaussianBlur in='SourceAlpha' stdDeviation='4'/><feOffset dx='7' dy='11' result='offsetblur'/><feFlood flood-color='rgba(0,0,0,0.3)'/><feComposite in2='offsetblur' operator='in'/><feMerge><feMergeNode/><feMergeNode in='SourceGraphic'/></feMerge></filter></svg>#drop-shadow");
             -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=7, OffY=11, Color='#777')";
@@ -98,7 +103,7 @@
                 width      : 150%;
                 margin-top : 25px;
                 margin-left: -25%;
-                height     : auto;
+                height     : 350px;
                 position   : static;
             }
         }
@@ -108,7 +113,7 @@
             top    : 190px;
             width  : 180px;
             height : 153px;
-            @include background-image-retina('jpo_2014/bubble_text.png', 'jpo_2014/bubble_text.png');
+            @include background-image-retina('jpo_2014/bubble_text.png', 'jpo_2014/bubble_text@2x.png');
             @include background-size(100%);
             @media only screen and (max-width: 1223px) and (min-width: 1023px) {
                 right  : 20px;
@@ -123,7 +128,7 @@
         }
 
 .jpo-frise {
-    background-image: asset-url('jpo_2014/frise.png');
+    @include background-image-retina('jpo_2014/frise.png', 'jpo_2014/frise@2x.png');
     background-repeat: repeat-x;
     @include background-size('105px 4px');
     height: 4px;
@@ -135,7 +140,7 @@
 /* -----------------------------*/
 .jpo-popup{
     background-image: asset-url('jpo_2014/popup_background.png');
-    background-repeat: none;
+    background-repeat: no-repeat;
     @include background-size('100% 100%');
     @include border-radius($brand-round);
 }
@@ -144,7 +149,7 @@
     }
     .popup-jpo-sticker {
         background-image : asset-url('jpo_2014/sticker.png');
-        background-repeat: none;
+        background-repeat: no-repeat;
         width            : 130px;
         height           : 130px;
         top              : 4px;
