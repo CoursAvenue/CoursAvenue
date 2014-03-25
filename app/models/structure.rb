@@ -606,6 +606,10 @@ class Structure < ActiveRecord::Base
     main_contact.email_opt_in
   end
 
+  def email
+    main_contact.email
+  end
+
   private
 
   # Strip name if exists to prevent from name starting by a space
