@@ -1,11 +1,17 @@
 $structure-item-height: 140px;
 .structure-item__logo {
     min-width: $structure-item-height;
+    @include media-query(palm) {
+        min-width: $structure-item-height / 2;
+    }
 }
 .structure-item {
     position      : relative;
     z-index       : 2;
     height        : $structure-item-height;
+    @include media-query(palm) {
+        height: $structure-item-height / 2;
+    }
 }
     .structure-item__logo {
         max-height: 200px;

@@ -106,11 +106,19 @@
             z-index: 200;
             right  : 200px;
             top    : 190px;
+            width  : 180px;
+            height : 153px;
+            @include background-image-retina('jpo_2014/bubble_text.png', 'jpo_2014/bubble_text.png');
+            @include background-size(100%);
             @media only screen and (max-width: 1223px) and (min-width: 1023px) {
                 right  : 20px;
             }
             @include media-query(lap) {
                 right  : 20px;
+            }
+            @include media-query(palm) {
+                right  : 20px;
+                top    : 550px;
             }
         }
 
