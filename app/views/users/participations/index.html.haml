@@ -15,7 +15,7 @@
     = link_to "M'inscrire aux journées portes ouvertes", open_courses_path, class: 'btn btn--blue'
 - else
   .text--center.push--bottom
-    = link_to "M'inscrire à d'autres atelers", open_courses_path, class: 'btn btn--blue btn--large'
+    = link_to "M'inscrire à d'autres ateliers", open_courses_path, class: 'btn btn--blue btn--large'
 
   - @participations.each do |participation|
     - course = participation.course
