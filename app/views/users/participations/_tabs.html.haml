@@ -3,6 +3,8 @@
     = link_to user_participations_path(current_user) do
       %i.fa.fa-list
       Mes ateliers
+      - if current_user.participations.any?
+        (#{current_user.participations.count})
   %li{class: current == 'invite-jpo' ? 'active' : ''}
     = link_to jpo_new_user_invited_users_path(current_user) do
       %i.fa.fa-gift

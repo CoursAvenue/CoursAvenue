@@ -5,9 +5,9 @@ class Users::ParticipationsController < ApplicationController
 
   # GET
   def index
-    @participations = current_user.participations.not_canceled
+    @participations = current_user.participations.not_canceled.order('created_at DESC')
     if @participations.any?
-      @participation = @participations.last
+      @participation = @participations.first
       @structure     = @participation.structure
     end
   end
