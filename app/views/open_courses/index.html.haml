@@ -10,7 +10,7 @@
 = content_for :meta_description do
   Participez à l'un des 5 000 cours gratuits les 5-6 avril, parmi plus de 100 disciplines !
 
-- unless current_user or current_pro_admin
+- unless current_user or current_pro_admin or params[:ga] == 'e2e49b3e04'
   = render 'users/registrations/jpo_popup'
 
 - if current_user and !current_user.have_seen_first_jpo_popup
@@ -38,20 +38,3 @@
   = image_tag 'jpo_2014/logo_1_line_orange.png', class: 'center-block'
   = image_tag 'gifs/loading-indicator-circle.gif', class: 'center-block', height: 20
 .filtered-search{ :data => { :type => "#{ @app_slug }-root" }, id: "#{ @app_slug }"}
-
-- if current_user
-  <!-- Facebook Conversion Code for Inscription compte Portes Ouvertes -->
-  <script type="text/javascript">
-  var fb_param = {};
-  fb_param.pixel_id = '6012848889627';
-  fb_param.value = '0.01';
-  fb_param.currency = 'EUR';
-  (function(){
-  var fpw = document.createElement('script');
-  fpw.async = true;
-  fpw.src = '//connect.facebook.net/en_US/fp.js';
-  var ref = document.getElementsByTagName('script')[0];
-  ref.parentNode.insertBefore(fpw, ref);
-  })();
-  </script>
-  <noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/offsite_event.php?id=6012848889627&amp;value=0.01&amp;currency=EUR" /></noscript>
