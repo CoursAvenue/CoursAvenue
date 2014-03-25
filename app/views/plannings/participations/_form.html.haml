@@ -1,19 +1,8 @@
 - if @planning.places_left?
   %h3.flush.text--center Confirmez-vous votre inscription ?
-  %p.gray.text--center.push-half--bottom
-    Une fois validée, vous ne pourrez plus vous inscrire à un autre atelier
-    %br
-    - if @planning.for_kid? and !@planning.for_adult? and !@planning.for_senior?
-      %i (1 seule inscription possible par personne, pour vous ou pour vos enfants).
-    - else
-      %i (1 seule inscription possible par personne).
 - else
   %h3.flush.text--center
     Confirmez-vous votre inscription sur liste d'attente ?
-  %p.gray.text--center.push-half--bottom
-    Une fois validée, vous ne pourrez plus vous inscrire à un autre atelier
-    %br
-    (1 seule inscription possible par personne, sur liste d'attente ou non).
 
 - if @planning.places_left <= 5 and @planning.places_left > 0
   .text--center
@@ -26,22 +15,10 @@
 
 = simple_form_for [@planning, @participation], remote: true do |f|
   = f.error_notification
-  - if @planning.for_kid?
-    - if @planning.for_adult? or @planning.for_senior?
-      %p.flush
-        %strong Note importante :
-        cet atelier est proposé aux adultes et aux enfants.
-        %strong Exceptionnellement,
-        vous pouvez venir à plusieurs avec vos enfants, merci de nous le préciser :
-      .push-half--ends.alert--info.one-whole
-        = f.input :nb_adults, as: :select, collection: [0,1,2], wrapper_html: { class: 'flush', id: 'participation-input-nb-adults' }, include_blank: false
-        = f.input :nb_kids, as: :select, collection: [0,1,2,3,4], wrapper_html: { class: 'flush', id: 'participation-input-nb-kids' }, include_blank: false
-    - else
-      %p
-        %strong Note importante :
-        cet atelier est réservé aux enfants de #{@planning.min_age_for_kid} à #{@planning.max_age_for_kid} ans. Si vous êtes parent et que vous validez cette inscription pour votre enfant, vous ne pourrez plus vous inscrire à un atelier :
-      .push-half--ends.alert--info.one-whole
-        = f.input :nb_kids, as: :select, collection: [0,1,2,3,4], wrapper_html: { class: 'flush', id: 'participation-input-nb-kids' }, include_blank: false
+  .push-half--ends.alert--info.one-whole
+    = f.input :nb_adults, as: :select, collection: [0,1,2,3,4,5], wrapper_html: { class: 'flush', id: 'participation-input-nb-adults' }, include_blank: false
+    - if @planning.for_kid?
+      = f.input :nb_kids, as: :select, collection: [0,1,2,3,4], wrapper_html: { class: 'flush', id: 'participation-input-nb-kids' }, include_blank: false
 
   %p.flush
     %strong En confirmant, je m'engage à :

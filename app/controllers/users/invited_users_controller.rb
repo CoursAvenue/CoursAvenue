@@ -14,9 +14,9 @@ class Users::InvitedUsersController < ApplicationController
 
   def jpo_new
     @user      = current_user
-    if @user.participations.not_canceled.any?
-      @structure     = @user.participations.last.structure
-      @participation = @user.participations.not_canceled.last
+    if params[:participation_id].present?
+      @participation = @user.participations.find(params[:participation_id])
+      @structure     = @participation.structure
     else
       @structure = Structure.find(params[:structure_id]) if params[:structure_id].present?
     end

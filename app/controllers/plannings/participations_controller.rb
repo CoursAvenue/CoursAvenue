@@ -8,11 +8,7 @@ class Plannings::ParticipationsController < ApplicationController
     @participation = @planning.participations.build
     respond_to do |format|
       if request.xhr?
-        if current_user.can_participate_to_jpo_2014?
-          format.html { render partial: 'form' }
-        else
-          format.html { render partial: 'cannot_participate' }
-        end
+        format.html { render partial: 'form' }
       end
       format.html { redirect_to jpo_structure_path(@planning.structure)}
     end

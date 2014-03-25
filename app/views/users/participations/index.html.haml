@@ -7,7 +7,7 @@
 .alert--info.one-whole
   %ul.flush--bottom
     %li
-      L'objectif des Journées Portes Ouvertes est de permettre au plus grand nombre de découvrir gratuitement leurs passions le temps d'un week-end. Pour cette raison, nous n'offrons qu'une seule place par profil élève. Si vous souhaitez participer avec vos proches, réservez votre atelier, puis envoyez-leurs votre invitation.
+      L'objectif des Journées Portes Ouvertes est de permettre au plus grand nombre de découvrir gratuitement leurs passions le temps d'un week-end. Si vous souhaitez participer avec vos proches, réservez votre atelier, puis envoyez-leurs votre invitation.
     %li Pour les ateliers pour enfants, une inscription comprend 2 places (1 adulte + 1 enfant).
 - if @participations.empty?
   .text--center
@@ -27,7 +27,7 @@
           = link_to new_user_message_path(current_user, message: { subject: 'Informations concernant votre atelier Portes Ouvertes', recipients: participation.structure.id }), class: 'btn btn--blue nowrap push-half--ends fancybox.ajax', data: { behavior: 'modal', width: '780' }, title: "Informations concernant votre atelier Portes Ouvertes", onclick: "ga('send', 'event', 'Answer to student', 'click')" do
             %i.fa.fa-envelope
             Envoyer un message
-          = link_to jpo_new_user_invited_users_path(current_user, structure_id: participation.structure.id), class: 'btn btn--blue nowrap push-half--bottom one-whole' do
+          = link_to jpo_new_user_invited_users_path(current_user, participation_id: participation.id), class: 'btn btn--blue nowrap push-half--bottom one-whole' do
             %i.fa.fa-gift
             Inviter mes amis
           .share-on-facebook.btn.btn--facebook.one-whole.push-half--bottom Facebook

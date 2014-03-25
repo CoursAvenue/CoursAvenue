@@ -300,7 +300,8 @@ class User < ActiveRecord::Base
   #
   # @return Boolean
   def can_participate_to_jpo_2014?
-    self.participations.not_canceled.empty?
+    return true
+    # self.participations.not_canceled.empty?
   end
 
   # Get the user profile associated to the given structure
