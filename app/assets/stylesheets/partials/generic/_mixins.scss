@@ -3,3 +3,20 @@
         @include media-query($media-type) { @content; }
     }
 }
+
+
+@mixin background-image-retina($image, $image_2x) {
+  background-image: image-url($image);
+  // If we have a retina image then add styles for it too
+    @media
+    only screen and (-webkit-min-device-pixel-ratio: 2),
+    only screen and (   -moz-min-device-pixel-ratio: 2),
+    only screen and (    -ms-min-device-pixel-ratio: 2),
+    only screen and (     -o-min-device-pixel-ratio: 2/1),
+    only screen and (        min-device-pixel-ratio: 2),
+    only screen and (                min-resolution: 192dpi),
+    only screen and (                min-resolution: 2dppx) {
+      // @include background-size(image-width($image) auto);
+      background-image: image-url($image_2x);
+    }
+}

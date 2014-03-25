@@ -27,11 +27,17 @@
     }
 
         .jpo-banner-logo {
+            @include background-image-retina('jpo_2014/logo_1_line.png', 'jpo_2014/logo_1_line@2x.png');
+            @include background-size(100%);
+            background-repeat : no-repeat;
+            width      : 331px;
+            height     : 100px;
             margin-left: 100px;
             @include media-query(palm) {
                 margin-left: 0;
                 width      : 100%;
-                height     : auto;
+                max-width  : 300px;
+                margin     : auto;
             }
         }
         .jpo-fanion {
