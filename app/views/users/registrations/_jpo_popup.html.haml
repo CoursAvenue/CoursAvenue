@@ -31,7 +31,7 @@
                     = image_tag course.structure.logo, class: 'inline-block v-middle', style: 'height: 55px; width: 55px; float: none;'
                     .inline-block.v-middle
                       %h4.flush{title: course.name}
-                        = truncate(course.name, length: 45)
+                        = truncate(course.name, length: 40)
                       .milli.f-white-transparent
                         %i.fa.fa-map-marker
                         %i= course.plannings.first.place.location.city.name

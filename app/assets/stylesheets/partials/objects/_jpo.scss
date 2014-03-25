@@ -6,18 +6,33 @@
     background-image: asset-url('jpo_2014/orange_home_page_background.png');
     background-repeat: repeat;
     @include background-size('1px 1px');
+    @include media-query(palm) {
+        background-image: none;
+        background-color: $orange_pale;
+    }
 }
     .jpo-banner {
-        background-image: asset-url('jpo_2014/home_page_background.png');
-        height          : 361px;
-        max-width       : 1400px;
-        margin          : auto;
+        background-image : asset-url('jpo_2014/home_page_background.png');
+        height           : 361px;
+        max-width        : 1400px;
+        margin           : auto;
         background-repeat: none;
+        overflow         : hidden;
         @include background-size('1400px 361px');
+        @include media-query(palm) {
+            background-image: none;
+            max-width       : none;
+            height          : auto;
+        }
     }
 
         .jpo-banner-logo {
             margin-left: 100px;
+            @include media-query(palm) {
+                margin-left: 0;
+                width      : 100%;
+                height     : auto;
+            }
         }
         .jpo-fanion {
             background-image: asset-url('jpo_2014/fanion.png');
@@ -26,6 +41,11 @@
             color           : white;
             margin-left     : 100px;
             @include background-size('466px 151px');
+            @include media-query(palm) {
+                position   : static;
+                margin-left: 0;
+                width      : 100%;
+            }
             .jpo-fanion__text {
                 top        : 30px;
                 left       : 90px;
@@ -33,11 +53,21 @@
                 color      : white;
                 font-size  : 24px;
                 @include transform(rotate(-5.5deg));
+                @include media-query(palm) {
+                    position   : static;
+                    margin-left: 0;
+                    padding-top: 31px;
+                }
             }
         }
         .jpo-call-to-actions {
             margin-top : -16px;
             margin-left: 135px;
+            @include media-query(palm) {
+                margin-top : 20px;
+                margin-left: 0 !important;
+                width      : 100%;
+            }
         }
         .jpo-map {
             z-index: 100;
@@ -57,6 +87,13 @@
                 height: 266px;
                 right : 0;
                 top   : 50px;
+            }
+            @include media-query(palm) {
+                width      : 150%;
+                margin-top : 25px;
+                margin-left: -25%;
+                height     : auto;
+                position   : static;
             }
         }
         .jpo-bubble {
