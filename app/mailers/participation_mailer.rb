@@ -127,10 +127,10 @@ class ParticipationMailer < ActionMailer::Base
     mail to: @user.email, subject: "Votre désinscription a bien été prise en compte"
   end
 
-  def inform_invitation_success_for_jpo(invited_user, invited_user, participation)
+  def inform_invitation_success_for_jpo(invited_user, user, participation)
     return if invited_user.referrer_type == 'Structure'
     @referer       = invited_user.referer
-    @invited_user  = invited_user
+    @invited_user  = user
     @participation = participation
     @planning      = participation.planning
     mail to: @referer.email, subject: "Félicitations ! L'un de vos proches s'est inscrit aux Portes Ouvertes"
