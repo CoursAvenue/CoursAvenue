@@ -1,7 +1,7 @@
 - if @planning.places_left?
-  %h3.flush.text--center Confirmez-vous votre inscription ?
+  %h3.text--center Confirmez-vous votre inscription ?
 - else
-  %h3.flush.text--center
+  %h3.text--center
     Confirmez-vous votre inscription sur liste d'attente ?
 
 - if @planning.places_left <= 5 and @planning.places_left > 0
@@ -12,7 +12,8 @@
       %br
       %i Confirmez rapidement pour ne pas être en liste d'attente.
 
-
+%p.flush
+  Choisissez le nombre de places que vous désirez réserver :
 = simple_form_for [@planning, @participation], remote: true do |f|
   = f.error_notification
   .push-half--ends.alert--info.one-whole

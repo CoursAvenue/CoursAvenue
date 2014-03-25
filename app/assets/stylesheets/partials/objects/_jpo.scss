@@ -23,6 +23,7 @@
             background-image: none;
             max-width       : none;
             height          : auto;
+            padding         : 0 !important;
         }
     }
 
@@ -62,7 +63,8 @@
                 @include media-query(palm) {
                     position   : static;
                     margin-left: 0;
-                    padding-top: 31px;
+                    padding-top: 34px;
+                    padding-left: 54px;
                 }
             }
         }
@@ -100,9 +102,9 @@
                 top   : 50px;
             }
             @include media-query(palm) {
-                width      : 150%;
+                width      : 100%;
                 margin-top : 25px;
-                margin-left: -25%;
+                margin-left: 0;
                 height     : 350px;
                 position   : static;
             }
@@ -122,8 +124,9 @@
                 right  : 20px;
             }
             @include media-query(palm) {
-                right  : 20px;
-                top    : 550px;
+                top         : 550px;
+                right       : 50%;
+                margin-right: -90px;
             }
         }
 
