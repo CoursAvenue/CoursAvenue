@@ -128,7 +128,7 @@ class ParticipationMailer < ActionMailer::Base
   end
 
   def inform_invitation_success_for_jpo(referer, invited_user, participation)
-    return if @referer.referrer_type == 'Structure'
+    return if referer.referrer_type == 'Structure'
     @referer       = referer
     @invited_user  = invited_user
     @participation = participation
