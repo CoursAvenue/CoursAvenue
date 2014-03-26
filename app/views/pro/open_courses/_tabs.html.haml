@@ -7,3 +7,7 @@
     = link_to pro_participations_path do
       %i.fa.fa-tags
       Suivi des inscriptions
+  %li{class: current == 'fulfillment' ? 'active' : ''}
+    = link_to fulfillment_pro_open_courses_path do
+      %i.fa.fa-ellipsis-h
+      Remplissage des inscriptions
