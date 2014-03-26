@@ -74,11 +74,19 @@ class ApplicationController < ActionController::Base
     return return_value
   end
 
+  # Check wether the devise is mobile or not
+  #
+  # @return [type] [description]
   def mobile_device?
     if session[:mobile_param]
       session[:mobile_param] == "1"
     else
-      request.user_agent =~ /Mobile|webOS/
+      if request.user_agent =~ /Mobile|webOS/
+        session[:mobile_param] = "1"
+        return true
+      else
+        return false
+      end
     end
   end
 

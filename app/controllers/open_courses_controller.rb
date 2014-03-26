@@ -10,6 +10,11 @@ class OpenCoursesController < ApplicationController
     @app_slug = "open-doors-search"
     @subject  = filter_by_subject?
     get_stuff_for_popup
+    # We remove bbox parameters if user is on mobile since we don't show the map
+    if mobile_device?
+      params.delete :bbox_ne
+      params.delete :bbox_sw
+    end
 
     params[:start_date]      ||= Date.parse('2014/04/05')
     params[:end_date]        ||= Date.parse('2014/04/06')
@@ -17,6 +22,7 @@ class OpenCoursesController < ApplicationController
     params[:page]            ||= 1 unless request.xhr?
     params[:order_by]        ||= :jpo_score
     params[:order_direction] ||= :asc
+    params[:address_name]    ||= 'Paris, France'
 
     # Directly search plannings because it is by default filtered by dates
     @structures, @place_ids, @total = search_plannings

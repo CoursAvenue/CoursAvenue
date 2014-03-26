@@ -4,6 +4,10 @@ class AdminMailer < ActionMailer::Base
 
   default from: "\"L'équipe de CoursAvenue.com\" <contact@coursavenue.com>"
 
+  def mailjet
+    mail to: 'nima@coursavenue.com', subject: 'lala'
+  end
+
   def inform_admin(subject, text)
     @text = text
     mail to: 'contact@coursavenue.com', subject: subject
