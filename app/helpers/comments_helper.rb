@@ -12,23 +12,6 @@ module CommentsHelper
       URI.encode("https://twitter.com/intent/tweet?text=\"#{comment.title}\" par #{comment.author_name}&via=CoursAvenue&url=#{structure_comment_url(comment)}")
     end
   end
-  def comment_rating_title(rating)
-    rating = rating.to_i
-    case rating
-    when 0
-      'Note : 0 étoile (Épouvantable)'
-    when 1
-      'Note : 1 étoile (Épouvantable)'
-    when 2
-      'Note : 2 étoiles (Mauvais)'
-    when 3
-      'Note : 3 étoiles (Moyen)'
-    when 4
-      'Note : 4 étoiles (Très bon)'
-    when 5
-      'Note : 5 étoiles (Excellent !)'
-    end
-  end
 
   # Path of the commentable
   def commentable_path(comment, options = {})
@@ -45,34 +28,6 @@ module CommentsHelper
       structure_url(comment.commentable, { subdomain: 'www' }.merge(options))
     elsif comment.commentable
       structure_course_url comment.commentable.structure, comment.commentable, { subdomain: 'www' }.merge(options)
-    end
-  end
-
-  def rating_stars(rating)
-    content_tag :span, class: 'nowrap' do
-      out = ''
-      5.times do |i|
-        if rating
-          out << content_tag(:i, '', class: 'icon-star yellow')
-        else
-          out << content_tag(:i, '', class: 'icon-star-empty')
-        end
-      end
-      out.html_safe
-    end
-  end
-
-  def rating_stars_image(rating, options = {})
-    content_tag :span, class: 'nowrap' do
-      out = ''
-      5.times do |i|
-        if rating
-          out << content_tag(:img, '', src: asset_path('icons/icon-star.png'), height: (options[:image_size] || 25), style: "height: #{options[:image_size] || 25}px;")
-        else
-          out << content_tag(:img, '', src: asset_path('icons/icon-star-empty.png'), height: (options[:image_size] || 25), style: "height: #{options[:image_size] || 25}px;")
-        end
-      end
-      out.html_safe
     end
   end
 end

@@ -1,8 +1,8 @@
 <div class="grid--full">
-    <div class="grid__item v-middle one-fifth">
+    <div class="grid__item v-middle one-fifth palm-one-whole palm-text--center">
         <strong class="gray">Type de structure</strong>
     </div><!--
- --><div class="grid__item v-middle four-fifths">
+ --><div class="grid__item v-middle four-fifths palm-one-whole">
       <select data-behavior="chosen" multiple style="width: 100%;">
         <% Structure::STRUCTURE_TYPES.each do |structure_type| %>
             <option value="<%= structure_type.split('.').last %>"><%= I18n.t(structure_type) %></option>

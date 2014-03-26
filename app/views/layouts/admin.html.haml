@@ -54,8 +54,6 @@
               avis
               %a{href: '#comments'}
                 %i.lbc-brand-icon
-            %span.rating{title: comment_rating_title(@structure.rating)}
-              = rating_stars @structure.rating
             %div
               = link_to 'Partager', "https://www.facebook.com/sharer/sharer.php?u=#{new_structure_comment_url(@structure, facebook: '', subdomain: 'www')}", class: 'btn btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From dashboard page')"
     .flexbox

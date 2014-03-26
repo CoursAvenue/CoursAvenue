@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
 
   layout 'users'
 
-  helper_method :should_be_responsive?
+  helper_method :should_be_responsive?, :mobile_device?
 
   before_filter :update_sanitized_params, if: :devise_controller?
 
@@ -72,6 +72,14 @@ class ApplicationController < ActionController::Base
   def should_be_responsive?
     return_value = controller_name == 'home' && action_name == 'index'# && request.subdomain == 'www'
     return return_value
+  end
+
+  def mobile_device?
+    if session[:mobile_param]
+      session[:mobile_param] == "1"
+    else
+      request.user_agent =~ /Mobile|webOS/
+    end
   end
 
   private

@@ -42,6 +42,12 @@ class StructuresController < ApplicationController
     @app_slug = "filtered-search"
     @subject = filter_by_subject?
 
+    # We remove bbox parameters if user is on mobile since we don't show the map
+    if mobile_device?
+      params.delete :bbox_ne
+      params.delete :bbox_sw
+    end
+
     params[:page] = 1 unless request.xhr?
 
     if params_has_planning_filters?
