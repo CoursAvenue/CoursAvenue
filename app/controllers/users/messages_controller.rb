@@ -22,11 +22,11 @@ class Users::MessagesController < ApplicationController
   end
 
   def create
-    @recipients   = Structure.find(params[:message][:recipients]).main_contact
-    @receipt      = current_user.send_message(@recipients, params[:message][:body], params[:message][:subject])
-    @conversation = @receipt.conversation
+    @recipients   = Structure.find(params[:message][:recipients]).main_contact if params[:message].has_key? :recipients
+    @receipt      = current_user.send_message(@recipients, params[:message][:body], params[:message][:subject]) if @recipients and @recipients.any?
+    @conversation = @receipt.conversation if @receipt
     respond_to do |format|
-      if @conversation.persisted?
+      if @conversation and @conversation.persisted?
         format.html { redirect_to user_conversation_path(current_user, @conversation) }
       else
         @message = current_user.messages.build
