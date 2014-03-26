@@ -11,4 +11,7 @@ class Pro::OpenCoursesController < Pro::ProController
   def fulfillment
     @structures = Course::Open.active.all.map(&:structure).uniq
   end
+
+  def fulfillment_per_courses
+  end
 end

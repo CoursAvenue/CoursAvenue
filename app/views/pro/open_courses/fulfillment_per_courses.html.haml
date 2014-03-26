@@ -1,24 +1,26 @@
 = side_menu_currently_at 'Journées Portes Ouvertes'
 
-= render partial: 'pro/open_courses/tabs', locals: { current: 'fulfillment' }
+= render partial: 'pro/open_courses/tabs', locals: { current: 'fulfillment_per_courses' }
 
 %h3.push-half--bottom Remplissage par structure
 %table.table--striped.dataTable.table--data.white-box.push--bottom#dataTable
   %thead
     %tr
+      %th Nom du cours
       %th Nom de l'établissement
       %th Disciplines mères
       %th Disciplines enfants
       %th # places
   %tbody
-    - @structures.each do |structure|
+    - Course::Open.active.each do |course|
       %tr
-        %td= link_to structure.name, pro_structure_course_opens_path(structure)
-        %td= join_parent_subjects_text structure
-        %td= join_child_subjects_text structure
+        %td= link_to course.name, pro_structure_course_open_path(course.structure, course)
+        %td= link_to course.structure.name, pro_structure_course_opens_path(course.structure)
+        %td= join_parent_subjects_text course
+        %td= join_child_subjects_text course
         - max    = 0
         - places = 0
-        - structure.plannings.each do |planning|
+        - course.plannings.each do |planning|
           - max    += planning.nb_participants_max
           - places += planning.nb_jpo_participants
         %td{ data: { value: places } }

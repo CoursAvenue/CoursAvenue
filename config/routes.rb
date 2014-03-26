@@ -71,6 +71,7 @@ CoursAvenue::Application.routes.draw do
       resources :open_courses, only: [:index], controller: 'open_courses' do
         collection do
           get :fulfillment
+          get :fulfillment_per_courses
         end
       end
       resources :participations, only: [:index], controller: 'participations'
