@@ -1,10 +1,4 @@
 $structure-item-height: 140px;
-.structure-item__logo {
-    min-width: $structure-item-height;
-    @include media-query(palm) {
-        min-width: $structure-item-height / 2;
-    }
-}
 .structure-item {
     position      : relative;
     z-index       : 2;
@@ -14,7 +8,12 @@ $structure-item-height: 140px;
     }
 }
     .structure-item__logo {
+        min-width: $structure-item-height;
         max-height: 200px;
+        @include media-query(palm) {
+            vertical-align: middle;
+            min-width     : $structure-item-height / 2;
+        }
     }
     .structure-item__play-button {
         position   : absolute;
