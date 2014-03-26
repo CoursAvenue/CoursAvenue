@@ -10,7 +10,8 @@
 = content_for :meta_description do
   Participez à l'un des 5 000 cours gratuits les 5-6 avril, parmi plus de 100 disciplines !
 
-- unless current_user or current_pro_admin or params[:ga] == 'e2e49b3e04'
+-# - unless current_user or current_pro_admin or params[:ga] == 'e2e49b3e04'
+- if params[:ga] == 'adc7f3a2c2'
   = render 'users/registrations/jpo_popup'
 
 - if current_user and !current_user.have_seen_first_jpo_popup
