@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 
 ruby '2.0.0'
 
-gem 'rails', '4.0.3'
+gem 'rails', '4.0.4'
 
 gem 'rack-attack', '~>3.0.0'
 
