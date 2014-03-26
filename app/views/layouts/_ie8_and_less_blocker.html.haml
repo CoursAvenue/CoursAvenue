@@ -1,9 +1,15 @@
 .text--center.ie-blocker<
   .text--center.soft--top<
-    = image_tag 'logo.png', height: 70
+    = image_tag 'logo@2x.png', height: 70
   %h1.push--top.soft--top< Bonjour cher visiteur,
   %p<
     Votre navigateur est obsolète et ne permet pas une navigation correcte sur CoursAvenue.
     %br<
     Veuillez mettre à jour votre navigateur ou installez une version récente d'un autre navigateur.
-  = link_to 'Mettre à jour votre navigateur', 'http://windows.microsoft.com/fr-fr/internet-explorer/download-ie', class: 'btn btn--blue btn--large'
+  %p
+    = link_to 'Mettre à jour Internet Explorer', 'http://windows.microsoft.com/fr-fr/internet-explorer/download-ie', class: 'btn btn--blue btn--large'
+  %p
+    Ou alors
+  %p
+    = link_to "Télécharger Google Chrome", 'https://www.google.com/intl/fr/chrome/browser/', class: 'btn btn--blue'
+    = link_to "Télécharger Firefox", 'http://www.mozilla.org/fr/firefox/new/', class: 'btn btn--blue push-half--right'
