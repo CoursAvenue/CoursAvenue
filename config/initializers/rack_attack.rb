@@ -19,3 +19,8 @@ Rack::Attack.blacklist('fail2ban pentesters') do |req|
     CGI.unescape(req.query_string) =~ %r{/etc/passwd}
   end
 end
+
+
+ActiveSupport::Notifications.subscribe('rack.attack') do |name, start, finish, request_id, req|
+  puts req.inspect
+end
