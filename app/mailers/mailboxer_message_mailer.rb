@@ -66,7 +66,7 @@ class MailboxerMessageMailer < ActionMailer::Base
     @user      = receiver
     subject    = message.subject.to_s
     subject    = strip_tags(subject) unless subject.html_safe?
-    @structure = message.sender.structure
+    @structure = message.sender.try(:structure)
 
     @token   = @user.generate_and_set_reset_password_token if !@user.active?
     mail to: @user.email,
