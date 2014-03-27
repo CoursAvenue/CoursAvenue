@@ -1,9 +1,20 @@
 %header.header.orange-box>
   .very-soft.grid--full
-    .grid__item.five-twelfths.palm-one-half.v-middle>
+    .grid__item.four-twelfths.palm-one-half.v-middle>
       = link_to '', open_courses_path, class: 'v-middle inline-block jpo-header-logo', title: 'Portes Ouvertes des cours de loisirs'
-      = link_to 'Accéder à CoursAvenue.com', root_path, class: 'push--left btn btn--small visuallyhidden--palm'
-    %nav.text--right.grid__item.seven-twelfths.v-middle.nowrap.visuallyhidden--palm>
+    .grid__item.four-twelfths.white.visuallyhidden--palm.v-middle.text--center
+      = link_to '#first-time-popup', data: { behavior: 'modal', width: 800, padding: 0 }, class: 'white block line-height-normal' do
+        Les 5 et 6 avril, + de 5 000 cours de loisirs GRATUITS
+        %br
+        %i.fa.fa-search
+        1. Explorez
+        %i.fa.fa-chevron-right.soft-half--sides
+        %i.fa.fa-hand-o-up
+        2. Réservez
+        %i.fa.fa-chevron-right.soft-half--sides
+        %i.fa.fa-group
+        3. Participez
+    %nav.text--right.grid__item.four-twelfths.v-middle.nowrap.visuallyhidden--palm>
       - if current_pro_admin
         = render partial: 'shared/headers/admin_nav'
       - elsif current_user
