@@ -33,7 +33,7 @@
 .yellow     { color: $yellow; }
 .red        { color: $red; }
 .green      { color: $green-success; }
-.blue       { color: darken($blue-green, 5%) !important; }
+.blue       { color: $blue-green !important; }
 .fb-blue    { color: $facebook-blue;}
 .orange     { color: $orange; }
 .brand      { color: $orange !important; }
