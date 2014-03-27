@@ -3,7 +3,7 @@
 - know_more_link     = pages_jpo_url(subdomain: (subdomain || 'www'))    if know_more_link.nil?
 .jpo-banner-warpper>
   .jpo-banner.soft.relative>
-    = link_to 'https://www.youtube.com/watch?v=mIGU39mHc78', id: 'video-strip', class: 'absolute video-strip north text--center visuallyhidden--palm soft-half', style: 'top: -100px;', data: { behavior: 'fancy', height: 560, width: 1000 } do
+    = link_to 'https://www.youtube.com/watch?v=mIGU39mHc78', id: 'video-strip', class: 'absolute video-strip north text--center visuallyhidden--palm soft-half', style: 'top;', data: { behavior: 'fancy', height: 560, width: 1000 } do
       %i.fa.fa-3x.fa-youtube-play.white
     .main-container.soft--top>
       .block.jpo-banner-logo
@@ -26,11 +26,3 @@
       .jpo-map.absolute
       = link_to '', 'https://www.youtube.com/watch?v=mIGU39mHc78', id: 'show-video',  class: 'jpo-bubble absolute', data: { behavior: 'fancy', height: 560, width: 1000 }
   .jpo-frise>
-
-= content_for :scripts do
-  :javascript
-    $(function() {
-        setTimeout(function() {
-            $('#video-strip').animate({ top: '0' }, 500, 'easeInBounce');
-        }, 2000);
-    });
