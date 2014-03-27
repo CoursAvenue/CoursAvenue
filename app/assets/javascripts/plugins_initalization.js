@@ -20,9 +20,11 @@ $(function() {
     global.initialize_fancy($('[data-behavior="fancy"]'));
     global.modal_initializer = function modal_initializer () {
         $("[data-behavior=modal]").each(function() {
-            var width  = $(this).data('width') || 'auto';
-            var height = $(this).data('height') || 'auto';
+            var width   = $(this).data('width') || 'auto';
+            var height  = $(this).data('height') || 'auto';
+            var padding = (typeof($(this).data('padding')) == 'undefined' ? '15' : $(this).data('padding'));
             $(this).fancybox({
+                    padding     : parseInt(padding),
                     openSpeed   : 300,
                     maxWidth    : 800,
                     maxHeight   : 600,
