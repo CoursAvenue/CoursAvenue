@@ -26,7 +26,6 @@
             padding         : 0 !important;
         }
     }
-
         .video-strip {
             z-index                   : 200;
             width                     : 200px;
@@ -34,7 +33,7 @@
             margin-left               : -100px;
             border-bottom-right-radius: 50px;
             border-bottom-left-radius : 50px;
-            background-color          : rgba(0, 0, 0, 0.2)
+            background-color          : rgba(0, 0, 0, 0.2);
         }
         .jpo-banner-logo {
             @include background-image-retina('jpo_2014/logo_1_line.png', 'jpo_2014/logo_1_line@2x.png');

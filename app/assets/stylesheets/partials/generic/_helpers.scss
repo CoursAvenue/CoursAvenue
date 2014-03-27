@@ -159,6 +159,8 @@
 .hl-orange:hover {
     color           : white;
     background-color: $orange;
+}
+
 .width-30-percent {
     width: 30%;
     @include media-query(palm) {
