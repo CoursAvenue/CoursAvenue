@@ -8,11 +8,11 @@ class Pro::UsersController < Pro::ProController
 
   def index
     if params[:with_comments]
-      @users = User.active.joins { comments }.where { comments.user_id == users.id }.order('created_at DESC').limit(100)
+      @users = User.active.joins { comments }.where { comments.user_id == users.id }.order('updated_at DESC, created_at DESC').limit(100)
     elsif params[:inactive]
-      @users = User.active.where{confirmed_at == nil}.order('created_at DESC')
+      @users = User.active.where{confirmed_at == nil}.order('updated_at DESC, created_at DESC')
     else
-      @users = User.active.order('created_at DESC').limit(100)
+      @users = User.active.order('updated_at DESC, created_at DESC').limit(100)
     end
     @users_per_hour = { 0 => 0, 1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0, 6 => 0, 7 => 0, 8 => 0, 9 => 0, 10 => 0, 11 => 0, 12 => 0, 13 => 0, 14 => 0, 15 => 0, 16 => 0, 17 => 0, 18 => 0, 19 => 0, 20 => 0, 21 => 0, 22 => 0, 23 => 0 }
     User.active.find_each do |user|
