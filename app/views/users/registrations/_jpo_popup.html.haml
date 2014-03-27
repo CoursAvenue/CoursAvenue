@@ -41,24 +41,6 @@
                         = link_to truncate(course.structure.name, length: 30), structure_path(course.structure), target: :_blank, class: 'muted-link'
           %p.flush.f-weight-600{style: 'line-height: 1; font-size: 17px;'}
             \...et plein d'autres !
-          -# %p.flush
-          -#   = image_tag 'jpo_2014/tick_mark.png', height: 16, width: 16
-          -#   Des ateliers pour tous : enfants, adultes, séniors
-          -# %p.flush
-          -#   = image_tag 'jpo_2014/tick_mark.png', height: 16, width: 16, title: 'Plus de 100 disciplines : yoga, zumba, cuisine bio, mime…'
-          -#   Plus de 100 disciplines : yoga, zumba, cuisine bio, mime…
-          -# %p.flush
-          -#   = image_tag 'jpo_2014/tick_mark.png', height: 16, width: 16, title: 'Tous vos loisirs à découvrir autour de vous :'
-          -#   Tous vos loisirs à découvrir autour de vous :
-          -# %p.flush.milli.f-weight-300.f-style-italic{style: 'padding-left: 23px; color: rgba(255, 255, 255, 0.8)'}
-          -#   Initiation sculpture et modelage  / Atelier comédie musicale / Eveil musical  / Rigologie
-          -#   %br
-          -#   Initiation cocktail Mojito & Cosmopolitan /  Tango argentin / Qi Gong, Tai Chi
-          -#   %br
-          -#   Atelier d'écriture créative / Décoration de Cupcakes...
-          -#   %span.f-weight-600{style: 'line-height: 1; font-size: 17px;'} et plein d’autres !
-
-        -# = image_tag 'jpo_2014/logo_1_line_large.png', class: 'popup-jpo-logo block push--left', height: 140, title: 'Portes Ouvertes des cours de loisirs par CoursAvenue'
 
       .grid__item.one-third>
         %p.text--center.ff-open-sans.relative
@@ -131,6 +113,18 @@
               timeout: 5000,
               pager: true,           // Boolean: Show pager, true or false
               pauseControls: true,    // Boolean: Pause when hovering controls, true or false
+          });
+          $('#user_email').keydown(function(event) {
+              if ( !this.value ) { return ; }
+              if ( this.value.match(/@.*\./) && !this.value.match(/@gmail/) ) {
+                  $(this).popover({
+                      placement: 'right',
+                      content: '<p style="width: 215px;" class="black flush"><i class="fa fa-warning"></i> Le mail d’activation peut être considéré comme un spam, vérifiez votre boîte <strong>«Courrier&nbsp;Indésirable»</strong> et indiquez ce message comme valide.</p>',
+                      trigger: 'manual',
+                      html: 'true',
+                      animation: true
+                  }).popover('show');
+              }
           });
     });
     $('#show_new_session_form').click(function(){

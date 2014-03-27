@@ -9,6 +9,8 @@ class Pro::UsersController < Pro::ProController
   def index
     if params[:with_comments]
       @users = User.active.joins { comments }.where { comments.user_id == users.id }.order('created_at DESC').limit(100)
+    elsif params[:inactive]
+      @users = User.active.where{confirmed_at == nil}.order('created_at DESC')
     else
       @users = User.active.order('created_at DESC').limit(100)
     end
