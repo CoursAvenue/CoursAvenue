@@ -50,8 +50,10 @@ FilteredSearch.module('Views.StructuresCollection.Structure', function(Module, A
 
         goToStructurePage: function(event) {
             // Checking the parent prevent from clicking on an icon that is nested within a link element.
-            if (event.target.nodeName !== 'A' && $(event.target).parent('a').length === 0) {
-                window.location = this.model.get('query_url');
+            if (event.target.nodeName !== 'A'
+                && $(event.target).parent('a').length === 0
+                && $(event.target).closest('[data-el="structure-view"]').length > 0) {
+                window.location = this.model.get('data_url');
             }
         },
         /* a structure was selected, so return the places JSON
