@@ -4,7 +4,7 @@ class UsersController < InheritedResources::Base
 
   actions :show, :update
 
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:waiting_for_activation]
   load_and_authorize_resource :user, find_by: :slug, except: [:unsubscribe, :waiting_for_activation, :invite_entourage_to_jpo_page, :invite_entourage_to_jpo]
 
   # params[:structure] : structure_slug
