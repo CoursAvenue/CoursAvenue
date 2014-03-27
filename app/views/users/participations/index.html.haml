@@ -26,7 +26,7 @@
       .flexbox
         .flexbox__item.two-twelfths.soft-half--right.v-top>
           = link_to structure_path(participation.structure) , class: 'block one-whole', target: :_blank do
-            = image_tag participation.structure.logo.url(:large), class: 'block one-whole'
+            = image_tag participation.structure.logo.url(:thumb), class: 'block one-whole'
           = link_to new_user_message_path(@user, message: { subject: 'Informations concernant votre atelier Portes Ouvertes', recipients: participation.structure.id }), class: 'btn btn--blue nowrap push-half--ends fancybox.ajax', data: { behavior: 'modal', width: '780' }, title: "Informations concernant votre atelier Portes Ouvertes", onclick: "ga('send', 'event', 'Answer to student', 'click')" do
             %i.fa.fa-envelope
             Envoyer un message
