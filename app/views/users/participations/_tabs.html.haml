@@ -1,15 +1,15 @@
 %ul.tabs.push--bottom
   %li{class: current == 'jpo' ? 'active' : ''}
-    = link_to user_participations_path(current_user) do
+    = link_to user_participations_path(@user) do
       %i.fa.fa-list
       Mes ateliers
-      - if current_user.participations.any?
-        (#{current_user.participations.count})
+      - if @user.participations.any?
+        (#{@user.participations.count})
   %li{class: current == 'invite-jpo' ? 'active' : ''}
-    = link_to jpo_new_user_invited_users_path(current_user) do
+    = link_to jpo_new_user_invited_users_path(@user) do
       %i.fa.fa-gift
       Mes invitations
   %li{class: current == 'invite-jpo-list' ? 'active' : ''}
-    = link_to jpo_user_invited_users_path(current_user) do
+    = link_to jpo_user_invited_users_path(@user) do
       %i.fa.fa-list
       Invitations envoyées

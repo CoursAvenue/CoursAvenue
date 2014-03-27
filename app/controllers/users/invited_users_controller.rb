@@ -5,20 +5,23 @@ class Users::InvitedUsersController < ApplicationController
   layout 'user_profile'
 
   def index
-    @invited_users = current_user.invited_users
+    @invited_users = @user.invited_users
   end
 
   def jpo
-    @invited_users = current_user.invited_users.for_jpo
+    @invited_users = @user.invited_users.for_jpo
   end
 
   def jpo_new
-    @user      = current_user
+    @user      = @user
     if params[:participation_id].present?
       @participation = @user.participations.find(params[:participation_id])
       @structure     = @participation.structure
-    else
-      @structure = Structure.find(params[:structure_id]) if params[:structure_id].present?
+    elsif params[:structure_id].present?
+      @structure = Structure.find(params[:structure_id])
+    elsif @user.participations.length == 1
+      @participation = @user.participations.first
+      @structure     = @participation.structure
     end
   end
 
@@ -31,12 +34,12 @@ class Users::InvitedUsersController < ApplicationController
     emails = params[:emails].scan(regexp).uniq
     text   = '<p>' + params[:text].gsub(/\r\n/, '</p><p>') + '</p>' if params[:text].present?
 
-    if current_user.nil?
+    if @user.nil?
       @user            = User.where(email: params[:user][:email]).first
       @user.first_name = params[:user][:name]
       @user.save(validate: false)
     else
-      @user = current_user
+      @user = @user
     end
 
     emails.each do |_email|
@@ -64,12 +67,12 @@ class Users::InvitedUsersController < ApplicationController
     text = '<p>' + params[:text].gsub(/\r\n/, '</p><p>') + '</p>' if params[:text].present?
 
     emails.each do |_email|
-      invited_user = InvitedUser::Student.where(invitation_for: nil, email: _email, referrer_id: current_user.id, referrer_type: 'User', email_text: text).first_or_create
+      invited_user = InvitedUser::Student.where(invitation_for: nil, email: _email, referrer_id: @user.id, referrer_type: 'User', email_text: text).first_or_create
       InvitedUserMailer.delay.recommand_friends(invited_user)
     end
 
     respond_to do |format|
-      format.html { redirect_to user_invited_users_path(current_user), notice: (params[:emails].present? ? 'Vos amis ont bien été notifiés.' : nil) }
+      format.html { redirect_to user_invited_users_path(@user), notice: (params[:emails].present? ? 'Vos amis ont bien été notifiés.' : nil) }
     end
   end
 end
