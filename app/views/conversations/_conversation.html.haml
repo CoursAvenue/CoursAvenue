@@ -13,7 +13,8 @@
           = truncate((recipients.first.name || recipients.first.email), length: 18)
           %br
           - if recipients.length > 1
-            %span.milli{title: recipients.map(&:name).join(', '), data: { behavior: 'tooltip' }}= "et #{pluralize(recipients.length - 1, 'autre')} #{pluralize(recipients.length - 1, 'personne')}"
+            %span.milli{title: recipients.map(&:name).join(', '), data: { behavior: 'tooltip' }}
+              = "et #{pluralize(recipients.length - 1, 'autre')} #{"personne".pluralize(recipients.length - 1)}"
             %br
           %span.milli= "#{l(last_message.created_at.to_date, format: :short)} à #{l(last_message.created_at, format: :short)}"
       .grid__item.eight-tenths.hard>
