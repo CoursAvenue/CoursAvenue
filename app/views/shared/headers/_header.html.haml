@@ -1,10 +1,9 @@
 - expanded = false unless expanded.present?
 %header.header
   .very-soft.flexbox{class: expanded ? '' : 'main-container'}
-    .flexbox__item.palm-one-half.v-middle>
-      = link_to root_path, class: 'v-middle logo', title: 'CoursAvenue' do
-        = image_tag 'logo.png', width: 200, alt: 'CoursAvenue | Tous les cours autour de vous'
-    .flexbox__item.palm-one-half.v-middle.text--center>
+    .flexbox__item.palm-one-whole.v-middle>
+      = link_to '', root_path, class: 'v-middle coursavenue-header-logo', title: 'CoursAvenue | Tous les cours autour de vous'
+    .flexbox__item.v-middle.text--center.visuallyhidden--palm>
       = link_to open_courses_url(subdomain: 'www'), class: 'v-middle inline-block', title: 'CoursAvenue' do
         = image_tag 'jpo_2014/logo_1_line_orange_small.png', width: 141, height: 40, alt: 'Portes Ouvertes des cours de loisirs', class: 'block'
       = link_to open_courses_url(subdomain: 'www'), class: 'v-middle ff-open-sans line-height-1 push-half--left inline-block visuallyhidden--lap visuallyhidden--palm' do
@@ -12,7 +11,7 @@
         %br
         %span.f-weight-300.milli 5-6 avril en Île-de-France
       = link_to 'Participer', open_courses_url(subdomain: 'www'), class: 'btn btn--yellow v-middle push-half--left soft--sides', onclick: "ga('send', 'event', 'Participer', 'click', 'header')"
-    %nav.text--right.flexbox__item.v-middle.nowrap>
+    %nav.text--right.flexbox__item.v-middle.nowrap.visuallyhidden--palm>
       - if current_pro_admin
         = render partial: 'shared/headers/admin_nav'
       - elsif current_user

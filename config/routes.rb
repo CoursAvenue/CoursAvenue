@@ -68,7 +68,12 @@ CoursAvenue::Application.routes.draw do
       resources :reservations, only: [:index]
       resources :invited_users, only: [:index]
       resources :sticker_demands, only: [:index]
-      resources :open_courses, only: [:index], controller: 'open_courses'
+      resources :open_courses, only: [:index], controller: 'open_courses' do
+        collection do
+          get :fulfillment
+          get :fulfillment_per_courses
+        end
+      end
       resources :participations, only: [:index], controller: 'participations'
       resources :structures, path: 'etablissements' do
         member do

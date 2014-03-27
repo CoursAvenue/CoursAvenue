@@ -1,7 +1,12 @@
 # Block requests from 1.2.3.4
-Rack::Attack.blacklist('block 46.105.44.24') do |request|
+Rack::Attack.blacklist('block 46.105.44.24') do |req|
   # Request are blocked if the return value is truthy
-  request.ip == '46.105.44.24'
+  '46.105.44.24' == req.ip
+end
+
+# Block spammer
+Rack::Attack.blacklist('block /blog/xmlrpc.php') do |req|
+  req.path == '/blog/xmlrpc.php'
 end
 
 # Block requests containing '/etc/password' in the params.
@@ -13,4 +18,9 @@ Rack::Attack.blacklist('fail2ban pentesters') do |req|
     # The count for the IP is incremented if the return value is truthy.
     CGI.unescape(req.query_string) =~ %r{/etc/passwd}
   end
+end
+
+
+ActiveSupport::Notifications.subscribe('rack.attack') do |name, start, finish, request_id, req|
+  puts req.inspect
 end

@@ -25,7 +25,6 @@
           - if subject.depth == 1
             = link_to 'Ajouter un enfant', new_pro_subject_path(parent_id: subject.id), data: {behavior: 'modal', width: '780'}, class: 'fancybox.ajax'
 
-
 = content_for :scripts do
   :javascript
     $(function() {

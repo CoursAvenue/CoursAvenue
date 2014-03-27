@@ -21,6 +21,7 @@ OpenDoorsSearch.addInitializer(function(options) {
     if ( !structures.server_api['course_types[]'] ) { structures.server_api['course_types[]'] = 'open_course' }
     if ( !structures.server_api['start_date'] )     { structures.server_api['start_date']     = '05/04/2014' }
     if ( !structures.server_api['end_date'] )       { structures.server_api['end_date']       = '06/04/2014' }
+    if ( !structures.server_api['address_name'] )   { structures.server_api['address_name']   = 'Paris' }
     structures_view = new OpenDoorsSearch.Views.StructuresCollection.StructuresCollectionView({
         collection: structures,
         events: {
@@ -138,6 +139,9 @@ OpenDoorsSearch.addInitializer(function(options) {
 
     layout.master.show(structures_view);
 
+    if (GLOBAL.is_mobile) {
+        $('[data-type="location-filter"]').appendTo($('#mobile-location-filter'));
+    }
 });
 
 $(document).ready(function() {

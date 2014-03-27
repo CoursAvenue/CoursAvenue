@@ -2,11 +2,12 @@ class Users::ConversationsController < ApplicationController
   # For an example of a conversation controller see:
   # https://github.com/ging/social_stream/blob/master/base/app/controllers/conversations_controller.rb
   before_action :authenticate_user!, except: [:show, :update]
+  load_and_authorize_resource :user, find_by: :slug
 
   layout 'user_profile'
 
   def show
-    @user         = current_user || User.find(params[:user_id])
+    @user         = User.find(params[:user_id])
     @conversation = @user.mailbox.conversations.find(params[:id])
     @message      = @conversation.messages.build
     respond_to do |format|
@@ -14,8 +15,8 @@ class Users::ConversationsController < ApplicationController
       if cannot_see_conversation
         format.html { redirect_to root_path(anchor: 'connection'), alert: 'Vous devez vous connecter pour visualiser le message' }
       # If the slug of the user is wrong (can happen when redirect for facebook connect)
-      elsif current_user && current_user.slug != params[:user_id]
-        format.html { redirect_to user_conversation_path(current_user, @conversation) }
+      elsif @user && @user.slug != params[:user_id]
+        format.html { redirect_to user_conversation_path(@user, @conversation) }
       else
         format.html
       end
@@ -23,11 +24,11 @@ class Users::ConversationsController < ApplicationController
   end
 
   def index
-    @conversations = current_user.mailbox.conversations
+    @conversations = @user.mailbox.conversations
   end
 
   def new
-    @conversation = current_user.mailbox.conversations.build
+    @conversation = @user.mailbox.conversations.build
     @message      = @conversation.messages.build
   end
 

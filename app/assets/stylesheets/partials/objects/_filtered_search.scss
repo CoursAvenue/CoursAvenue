@@ -68,6 +68,9 @@
     padding-bottom           : 2em;
     webkit-overflow-scrolling: touch;
     @include transition(all 250ms linear);
+    @include media-query(palm) {
+        position: static;
+    }
 }
 
     .filtered-search__list {

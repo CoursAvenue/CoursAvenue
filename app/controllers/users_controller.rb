@@ -4,12 +4,15 @@ class UsersController < InheritedResources::Base
 
   actions :show, :update
 
+  before_action :authenticate_user!, except: [:waiting_for_activation]
   load_and_authorize_resource :user, find_by: :slug, except: [:unsubscribe, :waiting_for_activation, :invite_entourage_to_jpo_page, :invite_entourage_to_jpo]
 
   # params[:structure] : structure_slug
   # method: GET
   def invite_entourage_to_jpo_page
-    if current_user
+    if params[:id]
+      @user = User.find params[:id]
+    elsif current_user
       @user = current_user
     elsif params[:user_email].present?
       @user = User.where(email: params[:user_email]).first_or_initialize
@@ -78,8 +81,8 @@ class UsersController < InheritedResources::Base
   def dashboard
     @user               = User.find(params[:id])
     @wizard             = get_next_wizard
-    @profile_completion = current_user.profile_completion
-    @conversations      = current_user.mailbox.conversations.limit(4)
+    @profile_completion = @user.profile_completion
+    @conversations      = @user.mailbox.conversations.limit(4)
     if @user.city
       @structure_search = StructureSearch.search({ lat: @user.city.latitude,
                                                    lng: @user.city.longitude,
@@ -101,24 +104,25 @@ class UsersController < InheritedResources::Base
   end
 
   def update_passions
+    @user = User.find params[:id]
     merge_passions_subject_descendants_ids
     params[:user][:passions_attributes].each do |index, passions_attribute|
       if passions_attribute[:id].present?
-        passion = current_user.passions.find(passions_attribute[:id])
+        passion = @user.passions.find(passions_attribute[:id])
         passion.update_attributes(passions_attribute)
       else
-        current_user.passions.create passions_attribute
+        @user.passions.create passions_attribute
       end
     end
-    current_user.save
+    @user.save
     respond_to do |format|
-      format.html { redirect_to user_passions_path(current_user), notice: 'Vos passions ont bien été mises à jour.' }
+      format.html { redirect_to user_passions_path(@user), notice: 'Vos passions ont bien été mises à jour.' }
     end
   end
 
   def update
     update! do |format|
-      format.html { redirect_to (params[:return_to] || edit_user_path(current_user)), notice: 'Votre profil a bien été mis à jour.' }
+      format.html { redirect_to (params[:return_to] || edit_user_path(@user)), notice: 'Votre profil a bien été mis à jour.' }
     end
   end
 

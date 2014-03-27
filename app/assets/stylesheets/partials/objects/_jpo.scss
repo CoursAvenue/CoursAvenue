@@ -6,18 +6,49 @@
     background-image: asset-url('jpo_2014/orange_home_page_background.png');
     background-repeat: repeat;
     @include background-size('1px 1px');
+    @include media-query(palm) {
+        background-image: none;
+        background-color: $orange_pale;
+    }
 }
     .jpo-banner {
-        background-image: asset-url('jpo_2014/home_page_background.png');
-        height          : 361px;
-        max-width       : 1400px;
-        margin          : auto;
-        background-repeat: none;
+        background-image : asset-url('jpo_2014/home_page_background.png');
+        height           : 361px;
+        max-width        : 1400px;
+        margin           : auto;
+        background-repeat: no-repeat;
+        overflow         : visible;
         @include background-size('1400px 361px');
+        @include media-query(palm) {
+            background-image: none;
+            max-width       : none;
+            height          : auto;
+            padding         : 0 !important;
+        }
     }
 
+        .video-strip {
+            z-index                   : 200;
+            width                     : 200px;
+            left                      : 50%;
+            margin-left               : -100px;
+            border-bottom-right-radius: 50px;
+            border-bottom-left-radius : 50px;
+            background-color          : rgba(0, 0, 0, 0.2)
+        }
         .jpo-banner-logo {
+            @include background-image-retina('jpo_2014/logo_1_line.png', 'jpo_2014/logo_1_line@2x.png');
+            @include background-size(100%);
+            background-repeat : no-repeat;
+            width      : 331px;
+            height     : 100px;
             margin-left: 100px;
+            @include media-query(palm) {
+                margin-left: 0;
+                width      : 100%;
+                max-width  : 300px;
+                margin     : auto;
+            }
         }
         .jpo-fanion {
             background-image: asset-url('jpo_2014/fanion.png');
@@ -26,6 +57,11 @@
             color           : white;
             margin-left     : 100px;
             @include background-size('466px 151px');
+            @include media-query(palm) {
+                position   : static;
+                margin-left: 0;
+                width      : 100%;
+            }
             .jpo-fanion__text {
                 top        : 30px;
                 left       : 90px;
@@ -33,16 +69,32 @@
                 color      : white;
                 font-size  : 24px;
                 @include transform(rotate(-5.5deg));
+                @include media-query(palm) {
+                    position   : static;
+                    margin-left: 0;
+                    padding-top: 34px;
+                    padding-left: 54px;
+                }
             }
         }
         .jpo-call-to-actions {
             margin-top : -16px;
             margin-left: 135px;
+            @include media-query(palm) {
+                margin-top : 20px;
+                margin-left: 0 !important;
+                width      : 100%;
+            }
         }
         .jpo-map {
-            z-index: 100;
-            right  : 100px;
-            top    : 5px;
+            @include background-image-retina('jpo_2014/map.png', 'jpo_2014/map@2x.png');
+            @include background-size(100%);
+            background-repeat: no-repeat;
+            width            : 704px;
+            height           : 436px;
+            z-index          : 100;
+            right            : 100px;
+            top              : 5px;
             -webkit-filter: drop-shadow(7px 11px 14px rgba(0,0,0,0.3));
             filter: url("data:image/svg+xml;utf8,<svg height='0' xmlns='http://www.w3.org/2000/svg'><filter id='drop-shadow'><feGaussianBlur in='SourceAlpha' stdDeviation='4'/><feOffset dx='7' dy='11' result='offsetblur'/><feFlood flood-color='rgba(0,0,0,0.3)'/><feComposite in2='offsetblur' operator='in'/><feMerge><feMergeNode/><feMergeNode in='SourceGraphic'/></feMerge></filter></svg>#drop-shadow");
             -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=7, OffY=11, Color='#777')";
@@ -58,21 +110,37 @@
                 right : 0;
                 top   : 50px;
             }
+            @include media-query(palm) {
+                width      : 100%;
+                margin-top : 25px;
+                margin-left: 0;
+                height     : 350px;
+                position   : static;
+            }
         }
         .jpo-bubble {
             z-index: 200;
             right  : 200px;
             top    : 190px;
+            width  : 180px;
+            height : 153px;
+            @include background-image-retina('jpo_2014/bubble_text.png', 'jpo_2014/bubble_text@2x.png');
+            @include background-size(100%);
             @media only screen and (max-width: 1223px) and (min-width: 1023px) {
                 right  : 20px;
             }
             @include media-query(lap) {
                 right  : 20px;
             }
+            @include media-query(palm) {
+                top         : 550px;
+                right       : 50%;
+                margin-right: -90px;
+            }
         }
 
 .jpo-frise {
-    background-image: asset-url('jpo_2014/frise.png');
+    @include background-image-retina('jpo_2014/frise.png', 'jpo_2014/frise@2x.png');
     background-repeat: repeat-x;
     @include background-size('105px 4px');
     height: 4px;
@@ -84,7 +152,7 @@
 /* -----------------------------*/
 .jpo-popup{
     background-image: asset-url('jpo_2014/popup_background.png');
-    background-repeat: none;
+    background-repeat: no-repeat;
     @include background-size('100% 100%');
     @include border-radius($brand-round);
 }
@@ -93,7 +161,7 @@
     }
     .popup-jpo-sticker {
         background-image : asset-url('jpo_2014/sticker.png');
-        background-repeat: none;
+        background-repeat: no-repeat;
         width            : 130px;
         height           : 130px;
         top              : 4px;

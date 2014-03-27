@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
 
   layout 'users'
 
+  helper_method :should_be_responsive?, :mobile_device?
+
   before_filter :update_sanitized_params, if: :devise_controller?
 
   def after_sign_in_path_for(user)
@@ -60,6 +62,32 @@ class ApplicationController < ActionController::Base
     exception.backtrace.each { |line| logger.fatal line }
     logger.fatal '------------------------ LOGGER FATAL --------------------------'
     render template: 'errors/internal_server_error', status: :not_found
+  end
+
+  #
+  # Tell wether the page should use:
+  # %meta{name: 'viewport', content: 'width=device-width, initial-scale=1.0' }
+  #
+  # @return Boolean
+  def should_be_responsive?
+    return_value = controller_name == 'home' && action_name == 'index'# && request.subdomain == 'www'
+    return return_value
+  end
+
+  # Check wether the devise is mobile or not
+  #
+  # @return [type] [description]
+  def mobile_device?
+    if session[:mobile_param]
+      session[:mobile_param] == "1"
+    else
+      if request.user_agent =~ /Mobile|webOS/
+        session[:mobile_param] = "1"
+        return true
+      else
+        return false
+      end
+    end
   end
 
   private

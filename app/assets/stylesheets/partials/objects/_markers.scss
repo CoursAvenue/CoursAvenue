@@ -11,17 +11,17 @@
     }
     .map-marker-image.disabled {
         a {
-            background-image: image-url('icons/map-marker.png');
+            @include background-image-retina('icons/map-marker.png', 'icons/map-marker@2x.png');
         }
     }
     .map-marker-image.disabled:hover, .map-marker-image.active {
         z-index: 10;
         a {
-            background-image: image-url('icons/map-marker-blue.png');
+            @include background-image-retina('icons/map-marker-blue.png', 'icons/map-marker-blue@2x.png');
         }
         &.map-marker-image--small {
             a {
-                background-image: image-url('icons/map-marker-blue-small.png');
+                @include background-image-retina('icons/map-marker-blue-small.png', 'icons/map-marker-blue-small@2x.png');
             }
         }
     }
@@ -63,7 +63,7 @@
         height      : 13px;
         line-height : 13px;
         top         : -3px;
-        background-image    : image-url('icons/map-marker-small.png');
+        @include background-image-retina('icons/map-marker-small.png', 'icons/map-marker-small@2x.png')
     }
     span {;
         width           : 13px;

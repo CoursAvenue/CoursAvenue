@@ -18,7 +18,7 @@
   Continuez à inviter votre entourage et offrez-leur la chance de découvrir un cours de loisir gratuitement :
 
 %p.action
-  = link_to "Inviter mes proches", jpo_new_user_invited_users_url(@user, structure_id: @participation.structure.id, subdomain: 'www'), class: 'btn btn--blue'
+  = link_to "Inviter mes proches", jpo_new_user_invited_users_url(@invited_user, structure_id: @participation.structure.id, subdomain: 'www'), class: 'btn btn--blue'
 
 - content_for :under_content_2 do
   = render 'user_mailer/footer_info'

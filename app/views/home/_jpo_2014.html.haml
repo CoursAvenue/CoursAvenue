@@ -3,8 +3,10 @@
 - know_more_link     = pages_jpo_url(subdomain: (subdomain || 'www'))    if know_more_link.nil?
 .jpo-banner-warpper>
   .jpo-banner.soft.relative>
+    = link_to 'https://www.youtube.com/watch?v=mIGU39mHc78', id: 'video-strip', class: 'absolute video-strip north text--center visuallyhidden--palm soft-half', style: 'top: -100px;', data: { behavior: 'fancy', height: 560, width: 1000 } do
+      %i.fa.fa-3x.fa-youtube-play.white
     .main-container.soft--top>
-      = image_tag 'jpo_2014/logo_1_line.png', height: 100, class: 'block jpo-banner-logo', title: 'Portes Ouvertes des cours de loisirs par CoursAvenue'
+      .block.jpo-banner-logo
       .jpo-fanion.relative>
         %p.flush.jpo-fanion__text.ff-open-sans.f-style-italic.text--center.absolute>
           %span.f-weight-300 Week-end
@@ -21,7 +23,14 @@
             Trouver un cours gratuit
         %br>
         = link_to 'En savoir plus', know_more_link, class: 'white f-decoration-underlined milli', target: :_blank
-      = image_tag 'jpo_2014/map.png', width: 678, height: 420, class: 'jpo-map absolute visuallyhidden--palm', title: 'Plus de 5 000 cours gratuit en Île-de-France'
-      = link_to 'https://www.youtube.com/watch?v=mIGU39mHc78', id: 'show-video',  class: 'jpo-bubble absolute visuallyhidden--palm', data: { behavior: 'fancy', height: 560, width: 1000 } do
-        = image_tag 'jpo_2014/bubble_text.png', width: 180, height: 153, title: 'Plus de 5 000 cours gratuit en Île-de-France'
+      .jpo-map.absolute
+      = link_to '', 'https://www.youtube.com/watch?v=mIGU39mHc78', id: 'show-video',  class: 'jpo-bubble absolute', data: { behavior: 'fancy', height: 560, width: 1000 }
   .jpo-frise>
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        setTimeout(function() {
+            $('#video-strip').animate({ top: '0' }, 800, 'easeInBounce');
+        }, 3000);
+    });

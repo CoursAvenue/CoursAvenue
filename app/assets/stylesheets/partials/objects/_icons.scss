@@ -1,4 +1,4 @@
-.lbc-icon-calendar, .lbc-icon-clock, .lbc-brand-icon, .lbc-subject-icon {
+.lbc-icon-calendar, .lbc-icon-clock, .lbc-brand-icon {
     display          : inline-block;
     width            : 14px;
     height           : 14px;
@@ -35,12 +35,6 @@
     width            : 16px;
     background-image : image-url('icons/bulle.png');
 }
-.lbc-subject-icon {
-    width            : 24px;
-    height           : 16px;
-    background-image : image-url('icons/subject.png');
-}
-
 
 .subject_icon {
     height              : 30px;
@@ -54,61 +48,61 @@
 
 .subject_icon__danse{
     width            : 24px;
-    background-image : image-url('icons/subjects/danse.png');
+    @include background-image-retina('icons/subjects/danse.png', 'icons/subjects/danse@2x.png');
     @include background-size(24px 30px);
 }
 .subject_icon__theatre-scene {
     width            : 40px;
-    background-image : image-url('icons/subjects/theatre-scene.png');
+    @include background-image-retina('icons/subjects/theatre-scene.png', 'icons/subjects/theatre-scene@2x.png');
     @include background-size(40px 30px);
 }
 .subject_icon__yoga-bien-etre-sante {
     width            : 30px;
-    background-image : image-url('icons/subjects/yoga-bien-etre-sante.png');
+    @include background-image-retina('icons/subjects/yoga-bien-etre-sante.png', 'icons/subjects/yoga-bien-etre-sante@2x.png');
     @include background-size(30px 30px);
 }
 .subject_icon__musique-chant {
     width            : 30px;
-    background-image : image-url('icons/subjects/musique-chant.png');
+    @include background-image-retina('icons/subjects/musique-chant.png', 'icons/subjects/musique-chant@2x.png');
     @include background-size(30px 30px);
 }
 .subject_icon__dessin-peinture-arts-plastiques {
     width            : 34px;
-    background-image : image-url('icons/subjects/dessin-peinture-arts-plastiques.png');
+    @include background-image-retina('icons/subjects/dessin-peinture-arts-plastiques.png', 'icons/subjects/dessin-peinture-arts-plastiques@2x.png');
     @include background-size(34px 30px);
 }
 .subject_icon__sports-arts-martiaux {
     width            : 33px;
-    background-image : image-url('icons/subjects/sports-arts-martiaux.png');
+    @include background-image-retina('icons/subjects/sports-arts-martiaux.png', 'icons/subjects/sports-arts-martiaux@2x.png');
     @include background-size(33px 30px);
 }
 .subject_icon__cuisine-vins {
     width            : 32px;
-    background-image : image-url('icons/subjects/cuisine-vins.png');
+    @include background-image-retina('icons/subjects/cuisine-vins.png', 'icons/subjects/cuisine-vins@2x.png');
     @include background-size(32px 30px);
 }
 
 .subject-active, .keyword-subjects {
     .subject_icon__danse{
-        background-image : image-url('icons/subjects/danse-white.png');
+        @include background-image-retina('icons/subjects/danse-white.png', 'icons/subjects/danse-white@2x.png');
     }
     .subject_icon__theatre-scene {
-        background-image : image-url('icons/subjects/theatre-scene-white.png');
+        @include background-image-retina('icons/subjects/theatre-scene-white.png', 'icons/subjects/theatre-scene-white@2x.png');
     }
     .subject_icon__yoga-bien-etre-sante {
-        background-image : image-url('icons/subjects/yoga-bien-etre-sante-white.png');
+        @include background-image-retina('icons/subjects/yoga-bien-etre-sante-white.png', 'icons/subjects/yoga-bien-etre-sante-white@2x.png');
     }
     .subject_icon__musique-chant {
-        background-image : image-url('icons/subjects/musique-chant-white.png');
+        @include background-image-retina('icons/subjects/musique-chant-white.png', 'icons/subjects/musique-chant-white@2x.png');
     }
     .subject_icon__dessin-peinture-arts-plastiques {
-        background-image : image-url('icons/subjects/dessin-peinture-arts-plastiques-white.png');
+        @include background-image-retina('icons/subjects/dessin-peinture-arts-plastiques-white.png', 'icons/subjects/dessin-peinture-arts-plastiques-white@2x.png');
     }
     .subject_icon__sports-arts-martiaux {
-        background-image : image-url('icons/subjects/sports-arts-martiaux-white.png');
+        @include background-image-retina('icons/subjects/sports-arts-martiaux-white.png', 'icons/subjects/sports-arts-martiaux-white@2x.png');
     }
     .subject_icon__cuisine-vins {
-        background-image : image-url('icons/subjects/cuisine-vins-white.png');
+        @include background-image-retina('icons/subjects/cuisine-vins-white.png', 'icons/subjects/cuisine-vins-white@2x.png');
     }
 }
 .subject_icon__other {
