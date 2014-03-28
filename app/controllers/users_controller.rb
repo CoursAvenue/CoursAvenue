@@ -4,8 +4,8 @@ class UsersController < InheritedResources::Base
 
   actions :show, :update
 
-  before_action :authenticate_user!, except: [:waiting_for_activation]
-  load_and_authorize_resource :user, find_by: :slug, except: [:unsubscribe, :waiting_for_activation, :invite_entourage_to_jpo_page, :invite_entourage_to_jpo]
+  before_action :authenticate_user!, except: [:unsubscribe, :waiting_for_activation, :invite_entourage_to_jpo_page, :invite_entourage_to_jpo, :welcome]
+  load_and_authorize_resource :user, find_by: :slug, except: [:unsubscribe, :waiting_for_activation, :invite_entourage_to_jpo_page, :invite_entourage_to_jpo, :welcome]
 
   # params[:structure] : structure_slug
   # method: GET
@@ -129,7 +129,7 @@ class UsersController < InheritedResources::Base
   private
 
   def get_layout
-    if action_name == 'waiting_for_activation' or action_name == 'invite_entourage_to_jpo_page'
+    if action_name == 'waiting_for_activation' or action_name == 'invite_entourage_to_jpo_page' or action_name == 'welcome'
       'empty'
     else
       'user_profile'

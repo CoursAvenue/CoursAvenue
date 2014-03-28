@@ -24,9 +24,9 @@ class User < ActiveRecord::Base
                   :lived_places_attributes
 
   # To store hashes into hstore
-  store_accessor :meta_data, :after_sign_up_url, :have_seen_first_jpo_popup
+  store_accessor :meta_data, :after_sign_up_url, :have_seen_first_jpo_popup, :have_seen_welcome_page
 
-  define_boolean_accessor_for :meta_data, :have_seen_first_jpo_popup
+  define_boolean_accessor_for :meta_data, :have_seen_first_jpo_popup, :have_seen_welcome_page
 
   has_attached_file :avatar,
                     styles: { wide: '800x800#', normal: '450x', thumb: '200x200#', small: '100x100#', mini: '40x40#' }#,
@@ -84,7 +84,7 @@ class User < ActiveRecord::Base
   #
   # @param  auth [type] [description]
   #
-  # @return [type] [description]
+  # @return User
   def self.from_omniauth(auth)
     # Check if the user already exists
     where{((provider == auth.provider) & (uid == auth.uid)) | (email == auth.info.email)}.first_or_initialize.tap do |user|

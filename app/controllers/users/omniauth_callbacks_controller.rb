@@ -1,4 +1,16 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
+
+  def after_omni_auth_sign_in_path_for(user)
+    session[:after_sign_up_url] = user.after_sign_up_url || session['user_return_to'] || dashboard_user_path(user)
+    if user.have_seen_welcome_page.nil?
+      user.have_seen_welcome_page = true
+      user.save
+      welcome_users_path
+    else
+      session[:after_sign_up_url]
+    end
+  end
+
   def passthru
     # render :file => "#{Rails.root}/public/404.html", :status => 404, :layout => false
     # Or alternatively,
@@ -24,7 +36,9 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       end
 
       # redirect_to root_path, :event => :authentication, :current_user => @user
-      sign_in_and_redirect @user, event: :authentication
+      # sign_in_and_redirect @user, event: :authentication
+      sign_in(Devise::Mapping.find_scope!(@user), @user, event: :authentication)
+      redirect_to after_omni_auth_sign_in_path_for(@user)
     else
       session['devise.facebook_data'] = request.env['omniauth.auth']
       redirect_to new_user_registration_url
