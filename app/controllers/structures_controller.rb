@@ -41,7 +41,7 @@ class StructuresController < ApplicationController
   def jpo
     get_stuff_for_popup
     @structure    = Structure.friendly.find params[:id]
-    @open_courses = @structure.courses.open_courses
+    @open_courses = @structure.courses.active.open_courses
     @city         = @structure.city
     @places       = @structure.courses.open_courses.map(&:places).flatten.uniq
     @teachers     = @structure.teachers

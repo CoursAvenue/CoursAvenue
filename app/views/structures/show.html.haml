@@ -37,7 +37,7 @@
 
 .grid.push--top
   .grid__item.eight-twelfths>
-    - if @structure.courses.open_courses.any?
+    - if @structure.courses.active.open_courses.any?
       = render 'has_open_courses_header'
     = render partial: 'structures/structure_header', locals: {structure: @structure}
 
