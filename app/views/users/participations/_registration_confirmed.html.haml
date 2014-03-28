@@ -10,7 +10,7 @@
   %h5
     %i.fa.fa-envelope-o
     Envoyez une invitation personnalisée
-  = form_tag(bulk_create_jpo_user_invited_users_path(current_user), method: :post, id: 'invite-user-form') do
+  = form_tag(bulk_create_jpo_user_invited_users_path(@user), method: :post, id: 'invite-user-form') do
     = hidden_field :structure, :id, value: @structure.id
     %h5.flush À :
     %p.flush.blue
