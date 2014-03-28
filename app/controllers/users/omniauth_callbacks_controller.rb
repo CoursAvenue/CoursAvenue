@@ -2,9 +2,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def after_omni_auth_sign_in_path_for(user)
     session[:after_sign_up_url] = user.after_sign_up_url || session['user_return_to'] || dashboard_user_path(user)
-    if user.have_seen_welcome_page.nil?
-      user.have_seen_welcome_page = true
-      user.save
+    if user.sign_in_count == 1
       welcome_users_path
     else
       session[:after_sign_up_url]

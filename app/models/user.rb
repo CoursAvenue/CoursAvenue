@@ -24,9 +24,9 @@ class User < ActiveRecord::Base
                   :lived_places_attributes
 
   # To store hashes into hstore
-  store_accessor :meta_data, :after_sign_up_url, :have_seen_first_jpo_popup, :have_seen_welcome_page
+  store_accessor :meta_data, :after_sign_up_url, :have_seen_first_jpo_popup
 
-  define_boolean_accessor_for :meta_data, :have_seen_first_jpo_popup, :have_seen_welcome_page
+  define_boolean_accessor_for :meta_data, :have_seen_first_jpo_popup
 
   has_attached_file :avatar,
                     styles: { wide: '800x800#', normal: '450x', thumb: '200x200#', small: '100x100#', mini: '40x40#' }#,

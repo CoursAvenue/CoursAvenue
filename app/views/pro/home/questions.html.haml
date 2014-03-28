@@ -314,7 +314,7 @@
             menu_links.click(function(){
                 select_menu(this);
             });
-            if (window.location.hash.length > 0) {
+            if (window.location.hash.length > 0 && window.location.hash != '#_=_') {
                 select_menu($('[href=' + window.location.hash + ']'));
             }
         });

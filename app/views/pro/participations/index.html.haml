@@ -6,8 +6,8 @@
   .inline-block.one-quarter.push--bottom.v-middle.push--sides
     .white-box.soft-half.text--center
       %h3.flush= "#{Participation.not_canceled.all.map(&:size).reduce(&:+)} inscriptions"
-      %h6.flush dont #{Participation.not_canceled.where{created_at > Date.today}.count} aujourd'hui
-      %div et #{Participation.not_canceled.where{created_at > Date.today - 7.days}.count} les 7 derniers jours
+      %h6.flush dont #{Participation.not_canceled.where{created_at > Date.today}.map(&:size).reduce(&:+)} aujourd'hui
+      %div et #{Participation.not_canceled.where{created_at > Date.today - 7.days}.map(&:size).reduce(&:+)} les 7 derniers jours
 
   .inline-block.one-quarter.push--bottom.v-middle.push--sides
     .white-box.soft-half.text--center
