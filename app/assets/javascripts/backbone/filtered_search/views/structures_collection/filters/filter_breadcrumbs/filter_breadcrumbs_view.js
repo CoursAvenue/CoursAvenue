@@ -49,8 +49,24 @@ FilteredSearch.module('Views.StructuresCollection.Filters.FilterBreadcrumbs', fu
         addBreadCrumbs: function addBreadCrumbs (data) {
             // we are given data like { 'audience': 1, 'week_days': 1 }
             _.each(data, function (value, key) {
-                this.addBreadCrumb({ target: key });
+                this.addBreadCrumb({ target: key, title: this.titleFor(key, value) });
             }.bind(this));
+        },
+
+        titleFor: function(key, value) {
+            switch(key) {
+                case 'bbox_ne':
+                case 'bbox_sw':
+                case 'lng':
+                case 'lat':
+                    return '';
+                    break;
+                case 'address_name':
+                    return value;
+                    break;
+                default:
+                    return value;
+            }
         },
 
         // @data: - hash
@@ -61,7 +77,13 @@ FilteredSearch.module('Views.StructuresCollection.Filters.FilterBreadcrumbs', fu
 
             this.breadcrumbs[data.target].name = this.fancy_breadcrumb_names[data.target];
 
-            if (data.title)           { this.breadcrumbs[data.target].title = data.title; }
+            if (data.title)           {
+                if (this.breadcrumbs[data.target].title) {
+                    this.breadcrumbs[data.target].title = this.breadcrumbs[data.target].title + ', ' + data.title;
+                } else {
+                    this.breadcrumbs[data.target].title = data.title;
+                }
+            }
             if (data.additional_info) { this.breadcrumbs[data.target].additional_info = data.additional_info; }
 
             this.render(); // we debounce this because it could be called many times in a row

@@ -12,24 +12,24 @@ StructureProfile.addInitializer(function(options) {
         structure_view = new StructureProfile.Views.Structure.StructureView({
             model: structure,
             events: {
-                'breadcrumbs:clear': 'refetchCourses',
-                'summary:clicked'  : 'refetchCourses'
+                'breadcrumbs:clear': 'refetchCoursesAndPlaces',
+                'filter:removed'  : 'refetchCoursesAndPlaces'
             }
         }),
         google_maps_view, filter_breadcrumbs, places_collection, places_list_view;
 
-    window.pfaff = structure;
-
-    places_collection = new Backbone.Collection(window.coursavenue.bootstrap.structure.places, { model: StructureProfile.Models.Place });
+    places_collection = structure.get('places');
+    // new Backbone.Collection(window.coursavenue.bootstrap.structure.places, { model: StructureProfile.Models.Place });
     google_maps_view  = new StructureProfile.Views.Map.GoogleMapsView({
         collection: places_collection,
-
         infoBoxViewOptions: {
             infoBoxClearance: new google.maps.Size(0, 0)
         }
     });
 
-    places_list_view          = new StructureProfile.Views.Structure.Places.PlacesCollectionView({ collection: places_collection })
+    places_list_view          = new StructureProfile.Views.Structure.Places.PlacesCollectionView({
+        collection: places_collection
+    })
 
     layout.render();
 

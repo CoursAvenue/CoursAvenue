@@ -37,7 +37,22 @@ CoursAvenue.module('Models', function(Module, App, Backbone, Marionette, $, _) {
                 includeInJSON: false, // when serializing Structure, we don't need this
                 reverseRelation: {
                     key: 'structure' // place has a structure
-                }
+                },
+                collectionType: Backbone.Collection.extend({
+                    url: function (models) {
+
+                        /* backboneRelational expects url(models) to return a URL
+                        *  different from just calling url() without a models params.
+                        *  Normally, url would build a URL including something like
+                        *  "&ids=1,2,3" but in our case the URL doesn't actually
+                        *  differ. So we are just returning an empty string to trick
+                        *  backbonerelational. */
+                        var url = Routes.structure_places_path({format: 'json', id: this.structure.get('id')})
+                        if (models === undefined) { return url + '?'; }
+
+                        return url;
+                    }
+                })
             },
 
             {

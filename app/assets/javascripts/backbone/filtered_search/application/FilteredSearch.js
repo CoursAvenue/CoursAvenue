@@ -40,7 +40,6 @@ FilteredSearch.addInitializer(function(options) {
     });
 
     structures.bootstrap();
-    window.pfaff = structures;
 
     /* set up the layouts */
     layout = new FilteredSearch.Views.SearchWidgetsLayout();
