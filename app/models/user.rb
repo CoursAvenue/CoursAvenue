@@ -78,7 +78,7 @@ class User < ActiveRecord::Base
   # Scopes                                                             #
   ######################################################################
   scope :active,   -> { where{encrypted_password != ''} }
-  scope :inactive, -> { where{(encrypted_password == '') | encrypted_password == nil} }
+  scope :inactive, -> { where{(encrypted_password == '') | (encrypted_password == nil)} }
 
   # Creates a user from Facebook
   #
