@@ -1,6 +1,7 @@
 CoursAvenue::Application.configure do
-  config.session_store :cookie_store, key: '_CoursAvenue__session', :domain => 'coursavenue.com'
+  # config.session_store :cookie_store, key: '_CoursAvenue__session', :domain => 'coursavenue.com'
   # config.session_store :cookie_store, key: '_CoursAvenue_session', :domain => 'coursavenue.com'
+  CoursAvenue::Application.config.session_store :active_record_store, key: '_CoursAvenue_session_ar', domain: 'coursavenue.com'
   # Settings specified here will take precedence over those in config/application.rb
 
   # Code is not reloaded between requests
