@@ -30,11 +30,12 @@
 %table.white-box.table--data.table--striped.table--white.push-half--top
   %thead
     %tr
-      %th.two-twelfths Nom de l'élève
+      %th.three-twelfths Nom de l'élève
       %th.two-twelfths Email
       %th.two-twelfths Téléphone
       %th.one-twelfths Ville
-      %th.two-twelfths Date d'inscription
+      %th Date d'inscription
+      %th ∂
       %th.two-twelfths Atelier
       %th.two-twelfths
   %tbody
@@ -47,6 +48,7 @@
         %td= readable_phone_number participation.user.phone_number
         %td= "#{participation.user.city.try(:name)} (#{participation.user.zip_code})"
         %td= l(participation.created_at, format: :date).capitalize
+        %td= (participation.created_at.to_date - participation.user.confirmed_at.to_date).to_i
         %td
           = link_to participation.planning.course.name, pro_structure_course_opens_path(participation.structure)
           par
