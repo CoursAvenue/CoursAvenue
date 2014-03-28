@@ -8,6 +8,15 @@ GIT
       sprockets (<= 2.11.0)
 
 GIT
+  remote: git://github.com/rails/activerecord-session_store.git
+  revision: 55dc59aff9a1101c52004c0604bb88418624ba96
+  specs:
+    activerecord-session_store (0.1.0)
+      actionpack (>= 4.0.0, < 5)
+      activerecord (>= 4.0.0, < 5)
+      railties (>= 4.0.0, < 5)
+
+GIT
   remote: git://github.com/variousauthors/handlebars_assets.git
   revision: 6257ec6f2ae67763ab20d6b84644dad8cfd5e9f3
   specs:
@@ -513,6 +522,7 @@ DEPENDENCIES
   actionpack-action_caching (~> 1.0.0)
   active_hash (~> 1.2.0)
   active_model_serializers (~> 0.8.1)
+  activerecord-session_store!
   acts-as-taggable-on (~> 3.0.1)
   ancestry (~> 2.0.0)
   asset_sync (~> 1.0.0)

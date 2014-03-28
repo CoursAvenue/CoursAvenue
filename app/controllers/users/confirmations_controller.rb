@@ -1,7 +1,8 @@
 class Users::ConfirmationsController < Devise::ConfirmationsController
 
   def after_confirmation_path_for(resource_name, user)
-    user.after_sign_up_url || dashboard_user_path(user)
+    session[:after_sign_up_url] = user.after_sign_up_url || dashboard_user_path(user)
+    welcome_users_path
   end
 
   # GET /resource/confirmation?confirmation_token=abcdef

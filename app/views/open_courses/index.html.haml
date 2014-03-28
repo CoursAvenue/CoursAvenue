@@ -17,41 +17,6 @@
 
 = render 'open_courses/first_time_popup'
 - if current_user and !current_user.have_seen_first_jpo_popup
-  <!-- Facebook Conversion Code for Inscription compte Portes Ouvertes -->
-  <script type="text/javascript">
-  var fb_param = {};
-  fb_param.pixel_id = '6012848889627';
-  fb_param.value = '0.01';
-  fb_param.currency = 'EUR';
-  (function(){
-  var fpw = document.createElement('script');
-  fpw.async = true;
-  fpw.src = '//connect.facebook.net/en_US/fp.js';
-  var ref = document.getElementsByTagName('script')[0];
-  ref.parentNode.insertBefore(fpw, ref);
-  })();
-  </script>
-  <noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/offsite_event.php?id=6012848889627&amp;value=0.01&amp;currency=EUR" /></noscript>
-  <!-- Google Code for Inscription Conversion Page -->
-  <script type="text/javascript">
-  /* <![CDATA[ */
-  var google_conversion_id = 974465594;
-  var google_conversion_language = "en";
-  var google_conversion_format = "3";
-  var google_conversion_color = "ffffff";
-  var google_conversion_label = "F9EvCI6EjgcQutTU0AM";
-  var google_remarketing_only = false;
-  /* ]]> */
-  </script>
-  <script type="text/javascript"
-  src="//www.googleadservices.com/pagead/conversion.js">
-  </script>
-  <noscript>
-  <div style="display:inline;">
-  <img height="1" width="1" style="border-style:none;" alt=""
-  src="//www.googleadservices.com/pagead/conversion/974465594/?label=F9EvCI6EjgcQutTU0AM&amp;guid=ON&amp;script=0"/>
-  </div>
-  </noscript>
   = content_for :scripts do
     :javascript
       $(function() {;

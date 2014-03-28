@@ -50,7 +50,7 @@
               %li= link_to 'Musique', subject_structures_url('musique', subdomain: 'www')
 
   - if @structure
-    .main-container.text--center
+    .main-container.text--center.visuallyhidden
       = link_to "Tous les cours à #{@structure.city.name}", city_url(@structure.city, subdomain: 'www'), class: 'semi-muted-link', target: :_blank
       - @structure.subjects.uniq.each_with_index do |subject, index|
         - if index > 0

@@ -231,6 +231,7 @@ CoursAvenue::Application.routes.draw do
       get :invite_entourage_to_jpo_page , path: 'inviter-mes-amis'
       get 'unsubscribe/:signature' => 'users#unsubscribe', as: 'unsubscribe'
       get 'activez-votre-compte'   => 'users#waiting_for_activation', as: 'waiting_for_activation'
+      get :welcome
     end
     member do
       get  :edit_private_infos, path: 'mon-compte'

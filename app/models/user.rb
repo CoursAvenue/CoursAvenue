@@ -84,7 +84,7 @@ class User < ActiveRecord::Base
   #
   # @param  auth [type] [description]
   #
-  # @return [type] [description]
+  # @return User
   def self.from_omniauth(auth)
     # Check if the user already exists
     where{((provider == auth.provider) & (uid == auth.uid)) | (email == auth.info.email)}.first_or_initialize.tap do |user|

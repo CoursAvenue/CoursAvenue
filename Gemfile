@@ -9,6 +9,8 @@ gem 'rack-attack', '~>3.0.0'
 
 gem 'filepicker-rails'
 
+gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
+
 # Webserver
 # gem 'unicorn'
 # gem 'puma'

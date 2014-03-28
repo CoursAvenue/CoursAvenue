@@ -34,12 +34,12 @@ class Users::InvitedUsersController < ApplicationController
     emails = params[:emails].scan(regexp).uniq
     text   = '<p>' + params[:text].gsub(/\r\n/, '</p><p>') + '</p>' if params[:text].present?
 
-    if @user.nil?
+    if params[:user_id]
+      @user = User.find params[:user_id]
+    elsif @user.nil?
       @user            = User.where(email: params[:user][:email]).first
       @user.first_name = params[:user][:name]
       @user.save(validate: false)
-    else
-      @user = @user
     end
 
     emails.each do |_email|
