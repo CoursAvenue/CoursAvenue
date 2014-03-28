@@ -9,6 +9,8 @@
       %th Nom de l'établissement
       %th Disciplines mères
       %th Disciplines enfants
+      %th
+      %th
       %th # places
   %tbody
     - @structures.each do |structure|
@@ -21,6 +23,8 @@
         - structure.plannings.each do |planning|
           - max    += planning.nb_participants_max
           - places += planning.nb_jpo_participants
+        %td{ data: { value: places } }= places
+        %td{ data: { value: max } }= max
         %td{ data: { value: places } }
           .progress.inline-block.v-middle.push-half--left{style: 'width: 10em;'}
             .bar.bar-success{style: "width: #{(places * 100) / max}%;"}
