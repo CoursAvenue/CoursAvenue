@@ -20,6 +20,12 @@ class Pro::UsersController < Pro::ProController
     end
 
     @users_graph = User.where{created_at > 2.months.ago}.active.count(order: "DATE(created_at) ASC", group: ["DATE(created_at)"])
+    dates = (1.month.ago.to_date..Date.today).step
+    @users_cumul = {}
+    dates.each do |date|
+      @users_cumul[date] = User.active.where { created_at < date }.count
+    end
+
     respond_to do |format|
       format.html
       format.csv { render text: User.order('created_at DESC').limit(params[:limit] || 300).offset(params[:offset] || 0).to_csv }
