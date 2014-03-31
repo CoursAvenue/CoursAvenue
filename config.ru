@@ -7,7 +7,7 @@ use Rack::Timeout
 use Rack::Deflater
 use Rack::Attack
 
-Rack::Timeout.timeout = 15
+Rack::Timeout.timeout = 30
 
 # For blog url
 # See: http://rywalker.com/setting-up-a-wordpress-blog-on-heroku-as-a-subdirectory-of-a-rails-app-also-hosted-on-heroku
