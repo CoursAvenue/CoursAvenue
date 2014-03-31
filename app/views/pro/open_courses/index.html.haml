@@ -25,7 +25,7 @@
         places
 
 %h3.push-half--bottom Ateliers non validés
-%table.table--striped.dataTable.table--data.white-box.push--bottom
+%table.table--striped.dataTable.table--data.white-box.push--bottom.dataTable
   %thead
     %tr
       %th
@@ -61,7 +61,7 @@
           - if course.common_price
             %span.line-through #{readable_amount(course.common_price)}€
           %span.green Gratuit
-        %td
+        %td{ data: { value: course.updated_at.to_i }}
           = l(course.updated_at, format: :date)
           %i.fa.fa-clock-o{title: "Créé le : #{l(course.created_at, format: :date)} / Modifié le : #{l(course.updated_at, format: :date)}", data: { behavior: 'tooltip' }}
         %td
@@ -70,7 +70,7 @@
             = f.submit 'Valider', class: 'btn btn--small btn--green btn--full', data: { disable_with: "En cours" }
 
 %h3.push-half--bottom Ateliers validés
-%table.table--striped.dataTable.table--data.white-box.flush--bottom
+%table.table--striped.dataTable.table--data.white-box.flush--bottom.dataTable
   %thead
     %tr
       %th
@@ -106,7 +106,7 @@
           - if course.common_price
             %span.line-through #{readable_amount(course.common_price)}€
           %span.green Gratuit
-        %td
+        %td{ data: { value: course.updated_at.to_i }}
           = l(course.updated_at, format: :date)
           %i.fa.fa-clock-o{title: "Créé le : #{l(course.created_at, format: :date)} / Modifié le : #{l(course.updated_at, format: :date)}", data: { behavior: 'tooltip' }}
         %td
@@ -139,4 +139,13 @@
         $('form').on('ajax:success', function() {
               GLOBAL.flash('Follow up enregistré')
         });
+        var myTextExtraction = function(node) {
+            // extract data from markup and return it
+            if (node.dataset.value) {
+                return parseInt(node.dataset.value);
+            } else {
+                return node.innerHTML;
+            }
+        }
+        $('.dataTable').tablesorter({ textExtraction: myTextExtraction });
     });
