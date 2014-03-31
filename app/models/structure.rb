@@ -136,7 +136,7 @@ class Structure < ActiveRecord::Base
   after_save    :geocode_if_needs_to
   after_save    :update_email_status
   after_save    :delay_subscribe_to_nutshell
-  after_save    :delay_subscribe_to_mailchimp
+  # after_save    :delay_subscribe_to_mailchimp
 
   ######################################################################
   # Solr                                                               #
