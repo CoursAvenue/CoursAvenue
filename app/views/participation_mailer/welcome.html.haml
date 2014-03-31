@@ -14,7 +14,18 @@
 
 - content_for :promo do
   %h4
-    Votre inscription aux Journées Portes Ouvertes est validée
+    - if @participation.nb_adults > 1
+      Votre inscription aux Journées Portes Ouvertes est validée : renseignez les e-mails de tous vos participants pour les tenir informés des détails pratiques
+    - else
+      Votre inscription aux Journées Portes Ouvertes est validée
+
+- if @participation.nb_adults > 1
+  %p Nous sommes très heureux de vous compter parmi nos participants aux Portes Ouvertes des cours de loisirs qui se dérouleront ce week-end des 5 et 6 avril.
+
+  %p Votre réservation concerne plusieurs adultes : pour pouvoir leur communiquer toutes les informations pratiques (adresse exacte, station de métro la plus proche, code d’entrée, etc.), pouvez-vous renseigner les e-mails de tous les participants ? Indiquez-les directement depuis votre profil en cliquant sur le bouton jaune dans l’onglet « Mes cours » :
+
+  %p.action
+    = link_to 'Renseigner les emails des autres participants', user_participations_url(@user, subdomain: 'www'), class: 'btn btn--yellow'
 
 %p
   Informations sur votre réservation :

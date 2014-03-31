@@ -14,6 +14,8 @@ class Participation < ActiveRecord::Base
   has_one :structure, through: :planning
   has_one :course   , through: :planning
 
+  has_and_belongs_to_many :invited_friends, class_name: 'User'
+
   ######################################################################
   # Validation                                                         #
   ######################################################################
@@ -169,6 +171,25 @@ class Participation < ActiveRecord::Base
     else
       false
     end
+  end
+
+  #
+  # [build_invited_friends description]
+  # @param  emails [type] [description]
+  #
+  # @return [type] [description]
+  def build_invited_friends emails
+    emails = emails.reject(&:blank?)
+    built_invited_friends = []
+    emails.each do |email|
+      invited_friend = User.where(email: email).first
+      if invited_friend.nil?
+        invited_friend = User.new(email: email)
+        invited_friend.save(validate: false)
+      end
+      built_invited_friends << invited_friend
+    end
+    self.invited_friends = built_invited_friends.uniq
   end
 
   private

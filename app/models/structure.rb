@@ -501,11 +501,11 @@ class Structure < ActiveRecord::Base
   end
 
   def update_jpo_meta_datas
-    self.open_course_plannings_nb = self.courses.open_courses.map(&:plannings).flatten.length
-    self.open_course_nb           = self.courses.open_courses.count
-    self.open_course_names        = self.courses.open_courses.map(&:name).uniq.join(', ')
-    self.open_course_subjects     = self.courses.open_courses.map(&:subjects).flatten.map(&:name).uniq.join(', ')
-    self.open_courses_open_places = self.courses.open_courses.map(&:plannings).flatten.map(&:places_left).reduce(&:+)
+    self.open_course_plannings_nb = self.courses.active.open_courses.map(&:plannings).flatten.length
+    self.open_course_nb           = self.courses.active.open_courses.count
+    self.open_course_names        = self.courses.active.open_courses.map(&:name).uniq.join(', ')
+    self.open_course_subjects     = self.courses.active.open_courses.map(&:subjects).flatten.map(&:name).uniq.join(', ')
+    self.open_courses_open_places = self.courses.active.open_courses.map(&:plannings).flatten.map(&:places_left).reduce(&:+)
     self.save(validate: false)
   end
 

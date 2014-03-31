@@ -17,7 +17,6 @@
 }
 .alert {
     padding         : 8px 14px;
-    margin-bottom   : 20px;
     display         : inline-block;
     @include border-radius($brand-round);
 }
