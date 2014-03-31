@@ -1,39 +1,47 @@
-- if @planning.places_left?
-  %h3.text--center Confirmez-vous votre inscription ?
-- else
-  %h3.text--center
-    Confirmez-vous votre inscription sur liste d'attente ?
-
-- if @planning.places_left <= 5 and @planning.places_left > 0
+- if !current_user.can_participate_to_jpo_2014?
+  %h3.text--center Vous avez déjà 4 inscriptions, vous ne pouvez plus vous inscrire à un atelier
   .text--center
-    .alert.alert--error
-      %strong Attention !
-      Il ne reste plus que #{pluralize @planning.places_left, 'place'} !
-      %br
-      %i Confirmez rapidement pour ne pas être en liste d'attente.
+    = link_to 'Voir mes inscriptions', user_participations_path(current_user), class: 'btn btn--green bn--large'
 
-%p.flush
-  Choisissez le nombre de places que vous désirez réserver :
-= simple_form_for [@planning, @participation], remote: true do |f|
-  = f.error_notification
-  .push-half--ends.alert--info.one-whole
-    = f.input :nb_adults, as: :select, collection: [0,1,2,3,4,5], wrapper_html: { class: 'flush', id: 'participation-input-nb-adults' }, include_blank: false
-    - if @planning.for_kid?
-      = f.input :nb_kids, as: :select, collection: [0,1,2,3,4], wrapper_html: { class: 'flush', id: 'participation-input-nb-kids' }, include_blank: false
+- else
+  - if @planning.places_left?
+    %h3.text--center Confirmez-vous votre inscription ?
+  - else
+    %h3.text--center
+      Confirmez-vous votre inscription sur liste d'attente ?
+
+  - if @planning.places_left <= 5 and @planning.places_left > 0
+    .text--center
+      .alert.alert--error
+        %strong Attention !
+        Il ne reste plus que #{pluralize @planning.places_left, 'place'} !
+        %br
+        %i Confirmez rapidement pour ne pas être en liste d'attente.
 
   %p.flush
-    %strong En confirmant, je m'engage à :
-  %p.soft--left
-    %i.fa.fa-check.green
-    Choisir un cours qui m'intéresse réellement pour potentiellement m'inscrire dans l'année
-    %br
-    %i.fa.fa-check.green
-    Noter la date dans mon agenda pour ne pas l'oublier le jour J
-    %br
-    %i.fa.fa-check.green
-    Annuler mon inscription si je ne peux plus y participer
+    Choisissez le nombre de places que vous désirez réserver :
+  = simple_form_for [@planning, @participation], remote: true do |f|
+    = f.error_notification
+    = f.error :base, error_method: :to_sentence
 
-  - if @planning.places_left?
-    = f.submit 'Confirmer mon inscription', class: 'btn btn--green btn--full', data: { disable_with: 'Confirmation en cours' }, onclick: "ga('send', 'event', 'Participe à un atelier', 'click')"
-  - else
-    = f.submit "Confirmer mon inscription sur liste d'attente", class: 'btn btn--green btn--full', data: { disable_with: 'Confirmation en cours' }, onclick: "ga('send', 'event', 'Participe à un atelier', 'click', 'waiting_list')"
+    .push-half--ends.alert--info.one-whole
+      = f.input :nb_adults, as: :select, collection: [0,1,2,3,4,5], wrapper_html: { class: 'flush', id: 'participation-input-nb-adults' }, include_blank: false
+      - if @planning.for_kid?
+        = f.input :nb_kids, as: :select, collection: [0,1,2,3,4], wrapper_html: { class: 'flush', id: 'participation-input-nb-kids' }, include_blank: false
+
+    %p.flush
+      %strong En confirmant, je m'engage à :
+    %p.soft--left
+      %i.fa.fa-check.green
+      Choisir un cours qui m'intéresse réellement pour potentiellement m'inscrire dans l'année
+      %br
+      %i.fa.fa-check.green
+      Noter la date dans mon agenda pour ne pas l'oublier le jour J
+      %br
+      %i.fa.fa-check.green
+      Annuler mon inscription si je ne peux plus y participer
+
+    - if @planning.places_left?
+      = f.submit 'Confirmer mon inscription', class: 'btn btn--green btn--full', data: { disable_with: 'Confirmation en cours' }, onclick: "ga('send', 'event', 'Participe à un atelier', 'click')"
+    - else
+      = f.submit "Confirmer mon inscription sur liste d'attente", class: 'btn btn--green btn--full', data: { disable_with: 'Confirmation en cours' }, onclick: "ga('send', 'event', 'Participe à un atelier', 'click', 'waiting_list')"

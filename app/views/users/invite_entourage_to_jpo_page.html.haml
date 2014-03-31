@@ -41,11 +41,11 @@
         %br
         %textarea.milli.one-whole{name: 'text', rows: 8, data: {behavior: 'autoresize'}}
           - if @participation
-            Salut !&#x000A;&#x000A;Le week-end du 5 et 6 avril prochain, #{@structure.name} ouvre ses portes et propose des cours gratuits. Je me suis inscrit à l'atelier du #{planning_date_for(@participation.planning)} #{planning_time_for(@participation.planning, false)}, voici mon invitation pour réserver ta place. Fais vite, les places sont limitées :
+            Salut !&#x000A;&#x000A;Ce week-end des 5 et 6 avril, #{@structure.name} ouvre ses portes et propose des cours gratuits. Je me suis inscrit à l'atelier du #{planning_date_for(@participation.planning)} #{planning_time_for(@participation.planning, false)}, voici mon invitation pour réserver ta place. Fais vite, les places sont limitées :
           - elsif @structure
-            Salut !&#x000A;&#x000A;Le week-end du 5 et 6 avril prochain, #{@structure.name} ouvre ses portes et propose des cours gratuits. Je te transmets cette invitation, profite de l'occasion pour découvrir cette discipline que j'adore.&#x000A;&#x000A;Fais vite, les places sont gratuites et limitées :
+            Salut !&#x000A;&#x000A;Ce week-end des 5 et 6 avril, #{@structure.name} ouvre ses portes et propose des cours gratuits. Je te transmets cette invitation, profite de l'occasion pour découvrir cette discipline que j'adore.&#x000A;&#x000A;Fais vite, les places sont gratuites et limitées :
           - else
-            Salut !&#x000A;&#x000A;Le week-end du 5 et 6 avril prochain, CoursAvenue ouvre ses portes à travers des ateliers gratuits. Je te transmets cette invitation, profite de l'occasion pour découvrir cette discipline que j'adore.&#x000A;&#x000A;Fais vite, les places sont gratuites et limitées :
+            Salut !&#x000A;&#x000A;Ce week-end des 5 et 6 avril, CoursAvenue ouvre ses portes à travers des ateliers gratuits. Je te transmets cette invitation, profite de l'occasion pour découvrir cette discipline que j'adore.&#x000A;&#x000A;Fais vite, les places sont gratuites et limitées :
         %p.gray-light.flush
           - if @structure
             = link_to 'Lien que recevront mes proches', jpo_structure_url(@structure), target: :_blank
