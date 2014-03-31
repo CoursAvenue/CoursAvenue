@@ -23,7 +23,7 @@ class Pro::UsersController < Pro::ProController
     dates = (1.month.ago.to_date..Date.today).step
     @users_cumul = {}
     dates.each do |date|
-      @users_cumul[date] = User.active.where { created_at <= date }.count
+      @users_cumul[date] = User.active.where { created_at < date + 1.day }.count
     end
 
     respond_to do |format|
