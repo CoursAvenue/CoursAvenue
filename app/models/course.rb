@@ -35,8 +35,6 @@ class Course < ActiveRecord::Base
   scope :without_open_courses,   -> { where{ type != 'Course::Open' } }
   scope :open_courses,           -> { where(type: 'Course::Open') }
 
-  # default_scope                  -> { where{type != 'Course::Open'} }
-
   ######################################################################
   # Validations                                                        #
   ######################################################################
