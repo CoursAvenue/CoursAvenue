@@ -13,6 +13,22 @@ class Users::ParticipationsController < ApplicationController
     end
   end
 
+  def add_invited_friends
+    @participation = @user.participations.find params[:id]
+    if request.xhr?
+      render partial: 'add_invited_friends', layout: false
+    end
+  end
+
+  def update
+    @participation = @user.participations.find params[:id]
+    @participation.build_invited_friends(params[:participation][:invited_friends][:email])
+    @participation.save
+    respond_to do |format|
+      format.html { redirect_to user_participations_path(@user), notice: 'Les infos ont bien été mise à jour' }
+    end
+  end
+
   def destroy
     @participation = @user.participations.find params[:id]
     respond_to do |format|

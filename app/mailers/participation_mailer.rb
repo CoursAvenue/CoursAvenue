@@ -135,4 +135,11 @@ class ParticipationMailer < ActionMailer::Base
     @planning      = participation.planning
     mail to: @referer.email, subject: "Félicitations ! L'un de vos proches s'est inscrit aux Portes Ouvertes"
   end
+
+  def fill_other_participants_email(participation)
+    @participation = participation
+    @user          = participation.user
+    mail to: @user.email, subject: "Renseignez les emails des participants à vos ateliers Portes Ouvertes"
+  end
+
 end

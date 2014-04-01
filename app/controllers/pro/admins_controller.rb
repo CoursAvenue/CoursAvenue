@@ -7,6 +7,10 @@ class ::Pro::AdminsController < InheritedResources::Base
 
   respond_to :js, :json
 
+  def show
+    redirect_to pro_root_path
+  end
+
   def unsubscribe
     if admin = Admin.read_access_token(params[:signature])
       admin.update_attribute :email_opt_in, false

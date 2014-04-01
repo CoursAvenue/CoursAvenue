@@ -21,5 +21,9 @@ class Pro::ParticipationsController < Pro::ProController
     Participation.canceled.where{created_at > Date.parse('2014/03/03')}.group_by{|p| p.created_at.to_date}.each do |date, participations|
       @canceled_participations_graph[date] = participations.map(&:size).reduce(&:+)
     end
+    @participations_cumul = {}
+    dates.each do |date|
+      @participations_cumul[date] = Participation.not_canceled.where { created_at < date + 1.day }.map(&:size).reduce(&:+)
+    end
   end
 end

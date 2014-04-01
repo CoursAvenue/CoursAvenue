@@ -4,25 +4,42 @@
 
 %h2 Mes inscriptions pour les Journées Portes Ouvertes
 
-.alert--info.one-whole
+.alert--info.one-whole.push--bottom
   %ul.flush--bottom
     %li
       L'objectif des Journées Portes Ouvertes est de permettre au plus grand nombre de découvrir gratuitement leurs passions le temps d'un week-end. Si vous souhaitez participer avec vos proches, réservez votre atelier, puis envoyez-leurs votre invitation.
     %li Pour les ateliers pour enfants, une inscription comprend 2 places (1 adulte + 1 enfant).
+
 - if @participations.empty?
   .text--center
     %h4 Aucune inscription aux Journées Portes Ouvertes
     = link_to "M'inscrire aux journées portes ouvertes", open_courses_path, class: 'btn btn--blue'
 - else
-  .text--center.push--bottom
-    = link_to "M'inscrire à d'autres ateliers", open_courses_path, class: 'btn btn--blue btn--large'
+  - if @participations.length >= 4
+    .text--center.push--bottom
+      %h4 Vous ne pouvez plus vous inscrire à un atelier, les inscriptions sont limitées à 4 par personne.
+  - else
+    .text--center.push--bottom
+      = link_to "M'inscrire à d'autres ateliers", open_courses_path, class: 'btn btn--blue btn--large'
 
   - @participations.each do |participation|
     - course = participation.course
     - place  = participation.planning.place
-    - if participation.waiting_list?
-      %h4.red Vous êtes sur liste d'attente, vous serez prévenu par e-mail en cas de désistement.
     .white-box.islet
+      - if participation.waiting_list?
+        %h4.text--center.red Vous êtes sur liste d'attente pour cet atelier, vous serez prévenu par e-mail en cas de désistement.
+        %hr
+      - if participation.nb_adults > 1
+        .alert.alert--warning.one-whole.push-half--bottom>
+          .flexbox
+            .flexbox__item.v-middle.delta>
+              Renseignez les e-mails de tous les participants, nous leur enverrons en fin de semaine un mail récapitulatif avec toutes les informations importantes pour se rendre à l’atelier :
+            .flexbox__item.v-middle.text--right>
+              = link_to add_invited_friends_user_participation_path(@user, participation), data: { behavior: 'modal', width: '700' }, class: 'fancybox.ajax btn btn--yellow text--center soft--sides' do
+                Renseigner
+                %br
+                les emails
+        %hr
       .flexbox
         .flexbox__item.two-twelfths.soft-half--right.v-top>
           = link_to structure_path(participation.structure) , class: 'block one-whole', target: :_blank do
@@ -61,6 +78,8 @@
                   #{participation.size} (#{pluralize participation.nb_adults, 'adulte'}, #{pluralize participation.nb_kids, 'enfant'})
                 - else
                   #{participation.size} (#{pluralize participation.nb_adults, 'adulte'})
+                - if participation.nb_adults > 1
+                  = participation.invited_friends.map(&:email).join(', ')
             .flexbox__item.three-twelfths.text--center.v-top>
               .delta.f-weight-bold
                 = l(participation.planning.start_date, format: :semi_long).capitalize

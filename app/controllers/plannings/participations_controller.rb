@@ -19,6 +19,7 @@ class Plannings::ParticipationsController < ApplicationController
     @participation.user = current_user
     respond_to do |format|
       if @participation.save
+        @participation.build_invited_friends(params[:participation][:invited_friends][:email]) if params[:participation][:invited_friends][:email]
         format.js
         format.html { redirect_to user_participations_path(current_user, inscription_confirmed: true), notice: 'Vous êtes bien inscrit à ce créneau' }
       else

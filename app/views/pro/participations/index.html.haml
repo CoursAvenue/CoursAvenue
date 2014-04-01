@@ -24,8 +24,8 @@
 .white-box.islet.text--center
   #participations
 
--# .white-box.islet.text--center
--#   #participations-hours
+.white-box.islet.text--center
+  #participations-cumul
 
 %table.white-box.table--data.table--striped.table--white.push-half--top
   %thead
@@ -76,6 +76,16 @@
                       name: 'Annulations'
                     },
                     ]
+        });
+        new Highcharts.Chart({
+            chart: { renderTo: 'participations-cumul', type: 'spline' },
+            title: { text: null },
+            xAxis: { categories: #{@participations_cumul.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
+            yAxis: { title: { text: ''}},
+            series: [{
+                      data: #{@participations_cumul.map{|date, count| count || 0}},
+                      name: 'Inscriptions'
+                    }]
         });
     });
 -# new Highcharts.Chart({
