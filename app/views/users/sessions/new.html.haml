@@ -20,10 +20,12 @@
         = f.input :password, label: false, placeholder: 'Mot de passe', input_html: { class: 'one-whole' }
 
         = f.button :submit, "Se connecter", class: 'btn--green btn--full'
-        .push-half--top
+        .push-half--top.milli
           = link_to "Je n'ai pas encore de compte", inscription_pro_structures_path
           %br
           = link_to "J'ai oublié mon mot de passe", new_pro_admin_password_path
+          %br
+          %br
 
 :javascript
   var registration_code = function() {

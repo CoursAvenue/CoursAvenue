@@ -8,7 +8,9 @@
   = f.hidden_field :remember_me, value: true
   = f.button :submit, "Se connecter", class: 'btn--green one-whole'
 
-.push-half--top
+.push-half--top.milli
   = link_to "Je n'ai pas encore de compte", '#', id: 'show_new_registration_form'
   %br
   = link_to "J'ai oublié mon mot de passe", new_user_password_path
+  %br
+  = link_to "Je n'ai pas reçu les instructions de confirmation", new_confirmation_path(:user)
