@@ -25,7 +25,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
         events: {
             'typeahead:selected #search-input': 'announce',
             // Use keyup instead of keypress to handle the case when the user empties the input
-            'keyup #search-input':              'announce',
+            'keyup #search-input':              'keyup',
             'focus @ui.$search_input':          'showMenu',
             'click [data-type=button]':         'activateButton',
             'click':                            'clickInsinde',
@@ -162,6 +162,13 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
 
         showMenu: function showMenu () {
             this.ui.$menu.show();
+        },
+
+        keyup: function keyup (event) {
+            if (event.keyCode === 13 || event.keyCode === 27) { // Enter || Escape
+                this.ui.$menu.hide();
+            }
+            this.announce(event);
         },
 
         announce: function announce (event, data) {
