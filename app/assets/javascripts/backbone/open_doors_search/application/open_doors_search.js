@@ -133,9 +133,9 @@ OpenDoorsSearch.addInitializer(function(options) {
 
     // TODO for now this is fine. Just add this
     // to any filter that implements clear
-    layout.showWidget(level_filter,          { events: { 'breadcrumbs:clear:level':           'clear'} });
-    layout.showWidget(audience_filter,       { events: { 'breadcrumbs:clear:audience':        'clear'} });
-    layout.showWidget(date_filter,           { events: { 'breadcrumbs:clear:date':            'clear'} });
+    layout.showWidget(level_filter,          { events: { 'breadcrumbs:clear:level':    'clear'} });
+    layout.showWidget(audience_filter,       { events: { 'breadcrumbs:clear:audience': 'clear'} });
+    layout.showWidget(date_filter,           { events: { 'breadcrumbs:clear:date':     'clear'} });
 
     layout.master.show(structures_view);
 
