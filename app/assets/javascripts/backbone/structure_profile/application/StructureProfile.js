@@ -12,8 +12,9 @@ StructureProfile.addInitializer(function(options) {
         structure_view = new StructureProfile.Views.Structure.StructureView({
             model: structure,
             events: {
-                'breadcrumbs:clear': 'refetchCoursesAndPlaces',
-                'filter:removed'  : 'refetchCoursesAndPlaces'
+                'breadcrumbs:clear': 'broadenSearch',
+                'filter:removed'   : 'broadenSearch',
+                'filter:popstate'  : 'narrowSearch'
             }
         }),
         google_maps_view, filter_breadcrumbs, places_collection, places_list_view;

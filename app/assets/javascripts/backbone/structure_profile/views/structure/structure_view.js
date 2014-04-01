@@ -84,7 +84,21 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             }
         },
 
-        refetchCoursesAndPlaces: function refetchCoursesAndPlaces (data) {
+        /* broadenSearch
+         * ----------------------
+         *
+         * without arguments, this function causes the model to fetch its
+         * courses and places with no params. If given an argument that has
+         * key/value pairs, params matching the values will be removed.
+         * So if an object like,
+         *
+         *   { behavior="tooltip", target="audience_ids", type="clear" }
+         *
+         * the params "tooltop", "audience_ids", and "clear" will be removed.
+         *
+         * TODO This is not very precise, though. What are all those extra k/v pairs?
+         *  */
+        broadenSearch: function broadenSearch (data) {
             var params = this.model.get("query_params");
 
             if (data === undefined) {
@@ -97,8 +111,32 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
                 });
             }
 
-
             this.model.set("query_params", params);
+            this.model.fetchRelated("courses", { data: this.getParamsForResource("courses")}, true)[0].then(function (courses) {
+                this.model.get('courses').reset(courses);
+            }.bind(this));
+            this.model.fetchRelated("places", { data: this.getParamsForResource("places")}, true)[0].then(function (places) {
+                this.model.get('places').reset(places);
+            }.bind(this));
+        },
+
+        /* narrowSearch
+         * ------------
+         *
+         * This function refetches the course and places relations with
+         * the full url query.
+         *  */
+        narrowSearch: function narrowSearch () {
+            console.log("in StructureView->narrowSearch");
+
+            // need to parse the search... blech
+            var params = CoursAvenue.Models.PaginatedCollection.prototype.makeOptionsFromSearch.call(this, window.location.search);
+
+            console.log(params);
+
+            // set the query_params on the model so that getparamsforresource will work
+            this.model.set("query_params", params);
+
             this.model.fetchRelated("courses", { data: this.getParamsForResource("courses")}, true)[0].then(function (courses) {
                 this.model.get('courses').reset(courses);
             }.bind(this));
