@@ -35,7 +35,8 @@ UserManagement.module('Views.UserProfilesCollection.Filters', function(Module, A
         /* when, for example, the page loads, we may need to build
          *  all the little taggies */
         buildTaggies: function (tags) {
-            _.each(tags, _.bind(function (tag) {
+
+            _.each(_.ensureArray(tags), _.bind(function (tag) {
                 var $tag = this.buildTaggy(tag);
                 this.ui.$container.append($tag);
             }, this));
