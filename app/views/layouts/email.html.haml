@@ -36,7 +36,7 @@
                           = yield :email_logo
                       - else
                         = link_to 'http://www.coursavenue.com', target: '_blank' do
-                          = image_tag 'logo.png', height: '50', style: '-ms-interpolation-mode:bicubic;', width: '250'
+                          = image_tag 'logo.png', height: '50', style: 'height: 50px; width: 250px;', width: '250'
                         %p.logo-subtitle
                           Les élèves recommandent leurs meilleurs cours
                     %td.v-bottom.soft-half--bottom.text--right{width: '300', style: 'width: 300px;'}
@@ -51,7 +51,7 @@
                         - if @structure
                           = link_to 'Profil public', structure_url(@structure, subdomain: 'www')
                 - if content_for? :promo
-                  %table.promo-table{border: '0', cellpadding: '0', cellspacing: '0', width: '600', style: 'width: 600px;'}
+                  %table.promo-table.push--bottom{border: '0', cellpadding: '0', cellspacing: '0', width: '600', style: 'width: 600px;'}
                     %tr
                       %td.content-block.white-box.push--bottom{width: '600', style: 'width: 600px;'}
                         %table.promo-table{border: '0', cellpadding: '0', cellspacing: '0', width: '600', style: 'width: 600px;'}
@@ -61,29 +61,27 @@
                                 = yield :logo
                             %td{width: (content_for?(:logo) ? '500' : '600'), valign: 'middle', style: 'padding: 15px'}
                               = yield :promo
-                %img.divider{border: '0', height: '15', src: '', width: '1'}/
-                %br
 
-          - if !content_for? :no_yield
-            %table{align: 'center', border: '0', cellpadding: '15', cellspacing: '0', width: '600', style: 'width: 600px; margin: auto;'}
+          - unless content_for? :no_yield
+            %table.push--bottom{align: 'center', border: '0', cellpadding: '15', cellspacing: '0', width: '600', style: 'width: 600px; margin: auto;'}
               %tr
                 %td.soft-half.content-block.white-box.push--bottom{width: '600', style: 'width: 600px;'}
                   = yield
 
           - if content_for? :under_content
-            %table.under-content.push--top{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600', style: 'width: 600px; margin: auto;'}
+            %table.under-content.push--bottom{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600', style: 'width: 600px; margin: auto;'}
               %tr
                 %td.content-block.white-box{width: '600', style: 'width: 600px;'}
                   = yield :under_content
 
           - if content_for? :under_content_2
-            %table.under-content.push--top{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600', style: 'width: 600px; margin: auto;'}
+            %table.under-content.push--bottom{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600', style: 'width: 600px; margin: auto;'}
               %tr
                 %td.content-block.white-box{width: '600', style: 'width: 600px;'}
                   = yield :under_content_2
 
           - if content_for? :under_content_3
-            %table.under-content.push--top{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600', style: 'width: 600px; margin: auto;'}
+            %table.under-content.push--bottom{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600', style: 'width: 600px; margin: auto;'}
               %tr
                 %td.content-block.white-box{width: '600', style: 'width: 600px;'}
                   = yield :under_content_3

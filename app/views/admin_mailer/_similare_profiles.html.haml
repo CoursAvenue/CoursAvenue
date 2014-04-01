@@ -7,7 +7,7 @@
       - structure_group.each do |structure|
         %td.soft-half.v-middle.content-block.push--bottom{width: '50'}
           = link_to structure_url(structure, subdomain: 'www'), class: 'push-half--bottom' do
-            = image_tag structure.logo.url(:thumb), width: 50, height: 50
+            = image_tag structure.logo.url(:thumb), width: 50, height: 50, style: 'width: 50px; height: 50px;'
         %td.soft-half.v-middle.content-block.push--bottom{width: '250', style: 'padding-right: 0; padding-left: 0;'}
           %p.flush--bottom
             %strong= "#{structure.name} (#{structure.city.name})"
