@@ -95,6 +95,10 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             }
         },
 
+        rollback: function rollback () {
+            throw new Error("Objects extending EditableFieldView must implement rollback");
+        },
+
         sanitize: function sanitize (data) {
             throw new Error("Objects extending EditableFieldView must implement validate");
         },

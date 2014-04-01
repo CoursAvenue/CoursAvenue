@@ -167,8 +167,8 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         onItemviewChangedEditing: function (itemview) {
             var previous_itemview = this.getCurrentlyEditing();
 
-            var is_new            = itemview.model.get("new");
-            var is_editing        = itemview.is_editing;
+            var is_new            = itemview.model.get("new"),
+                is_editing        = itemview.isEditing();
 
             // close any active view to make room for the new view
             if (is_editing && previous_itemview.$el !== undefined) {
@@ -197,6 +197,15 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
             if (action === "create") {
                 this.newUserProfile();
+            }
+        },
+
+        /* if the itemview was new, and its edits didn't get set on the server
+         * because of invalid data, we just set the edits on the model so that
+         * they don't disappear. */
+        onItemviewUpdateError: function onItemviewUpdateError (itemview, response) {
+            if (itemview.model.get("new") === true) {
+                itemview.model.set(itemview.edits);
             }
         },
 

@@ -207,7 +207,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
 
             // the updateSuccess callback needs to know the action
             var action = this.model.get("new")? "create" : "update";
-            update_success = _.partial(this.updateSuccess, action);
+            var update_success = _.partial(this.updateSuccess, action);
 
             this.model.save(update, {
                 error: this.flashError,
@@ -215,8 +215,6 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
 
             }).success(update_success)
               .error(this.updateError);
-
-            this.edits = {};
         },
 
         /* Callbacks: these are all bound to 'this' */
@@ -224,11 +222,13 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         updateSuccess: function (action, response) {
             response.action = action;
 
+            this.edits = {};
+
             this.trigger("update:success", response);
         },
 
-        updateError: function () {
-            this.trigger("update:error");
+        updateError: function updateError (response) {
+            this.trigger("update:error", response);
         },
 
         flashError: function (model, response) {
