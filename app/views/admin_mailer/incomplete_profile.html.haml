@@ -8,7 +8,7 @@
   Saviez-vous que vous pouvez mettre à jour votre profil en quelques clics seulement ? Mettez votre description et votre planning à jour et le tour est joué !
 
 %p.action
-  = link_to "Compléter mon profil", edit_pro_structure_url(@structure, subdomain: 'pro'), class: 'btn btn--green', utm_source: 'email', utm_campaign: 'complete_profile', utm_medium: 'monday'
+  = link_to "Compléter mon profil", edit_pro_structure_url(@structure, subdomain: 'pro', utm_source: 'email', utm_campaign: 'complete_profile', utm_medium: 'monday'), class: 'btn btn--green'
 
 %p.blue.blue-tip
   %i Trucs & astuces : en priorité, mettez à jour votre description et invitez vos élèves à vous recommander.

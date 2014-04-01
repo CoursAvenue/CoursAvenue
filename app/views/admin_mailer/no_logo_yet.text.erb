@@ -1,0 +1,9 @@
+Ajoutez un logo ou une photo à votre profil
+
+Voici l'image que véhicule actuellement votre profil CoursAvenue
+
+Ajouter mon logo : <%= edit_pro_structure_url(@structure, subdomain: 'pro', utm_source: 'email', utm_campaign: 'add_logo', utm_medium: 'monday') %>
+
+Soignez votre première impression en choisissant un logo qui reflète votre activité et en cohérence avec tous vos supports de communication (site Internet, flyers, cartes de visite, etc.).
+
+Gérer mes préférences e-mails : <%= notifications_pro_structure_admin_url(@structure, @structure.main_contact, subdomain: 'pro') %>
