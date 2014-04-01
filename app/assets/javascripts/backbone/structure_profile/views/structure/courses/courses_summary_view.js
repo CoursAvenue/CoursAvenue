@@ -22,6 +22,12 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             // Don't announce if already been clicked and is disabled
             if (!this.$('[data-action=show-all-courses]').attr('disabled')) {
                 this.trigger("summary:clicked");
+
+                // remove the URL query
+                if (window.history.pushState) {
+                    window.history.pushState({}, "", "");
+                }
+
                 this.$('[data-action=show-all-courses]').attr('disabled', true);
             }
         }
