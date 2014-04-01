@@ -1,4 +1,5 @@
 $(function() {
+    $('input, textarea').placeholder();
     var global = GLOBAL.namespace('GLOBAL');
     global.initialize_fancy = function($elements) {
         // Warning !
