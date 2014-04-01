@@ -1,7 +1,7 @@
 <div data-type="loader" class="filtered-search__loader" style="display: none;">
   <img src="<%= asset_path 'gifs/loading-indicator.gif' %>"/ class="center-block" height="10">
 </div>
-<section id="widgets-container" class="filtered-search__map-wrapper relative" data-type="google-maps">
+<section id="widgets-container" class="filtered-search__map-wrapper relative visuallyhidden--palm" data-type="google-maps">
     {{#each widget}}
         <div id="{{ id }}" data-type="widget"></div>
     {{/each}}
@@ -9,7 +9,11 @@
 
 <section class="filtered-search__list-wrapper one-whole">
     <div class="white-box soft-half hard--top">
-
+        <div class="visuallyhidden--lap-and-up">
+            <div class="text--center"><strong>Lieux</strong></div>
+            <div id="mobile-location-filter"></div>
+            <hr class="push-half--ends" />
+        </div>
         <div data-type="subject-filter"></div>
         <hr class="push-half--ends" />
         <div data-type="subjects-filter"></div>
@@ -39,10 +43,10 @@
             </div>
         </div>
         <hr class="push-half--ends" />
-        <div class="flexbox">
-            <div class="flexbox__item v-top" data-type="filter-breadcrumbs">
-            </div>
-            <div class="flexbox__item v-top" data-type="results-summary">
+        <div class="grid">
+            <div class="grid__item one-third palm-one-whole v-top" data-type="filter-breadcrumbs">
+            </div><!--
+         --><div class="grid__item two-thirds palm-one-whole v-top" data-type="results-summary">
             </div>
         </div>
     </div>

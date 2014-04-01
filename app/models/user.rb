@@ -78,13 +78,13 @@ class User < ActiveRecord::Base
   # Scopes                                                             #
   ######################################################################
   scope :active,   -> { where{encrypted_password != ''} }
-  scope :inactive, -> { where{(encrypted_password == '') | encrypted_password == nil} }
+  scope :inactive, -> { where{(encrypted_password == '') | (encrypted_password == nil)} }
 
   # Creates a user from Facebook
   #
   # @param  auth [type] [description]
   #
-  # @return [type] [description]
+  # @return User
   def self.from_omniauth(auth)
     # Check if the user already exists
     where{((provider == auth.provider) & (uid == auth.uid)) | (email == auth.info.email)}.first_or_initialize.tap do |user|
@@ -170,7 +170,11 @@ class User < ActiveRecord::Base
 
   # Type in: small square large normal
   def fb_avatar(type='square')
-    self.read_attribute(:fb_avatar).split("=")[0] << "=#{type}" unless self.read_attribute(:fb_avatar).nil?
+    if type == 'large'
+      self.read_attribute(:fb_avatar).split("?")[0] << "?width=200&height=200" unless self.read_attribute(:fb_avatar).nil?
+    else
+      self.read_attribute(:fb_avatar).split("=")[0] << "=#{type}" unless self.read_attribute(:fb_avatar).nil?
+    end
   end
 
   def reservation_for?(reservable)
@@ -300,7 +304,8 @@ class User < ActiveRecord::Base
   #
   # @return Boolean
   def can_participate_to_jpo_2014?
-    self.participations.not_canceled.empty?
+    return true
+    # self.participations.not_canceled.empty?
   end
 
   # Get the user profile associated to the given structure

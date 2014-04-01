@@ -12,7 +12,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         },
 
         events: {
-            "summary:clicked": 'removeSummary'
+            "filter:removed": 'removeSummary'
         },
 
         removeSummary: function () {
@@ -84,7 +84,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             }
         },
 
-        refetchCourses: function refetchCourses (data) {
+        refetchCoursesAndPlaces: function refetchCoursesAndPlaces (data) {
             var params = this.model.get("query_params");
 
             if (data === undefined) {
@@ -101,6 +101,9 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             this.model.set("query_params", params);
             this.model.fetchRelated("courses", { data: this.getParamsForResource("courses")}, true)[0].then(function (courses) {
                 this.model.get('courses').reset(courses);
+            }.bind(this));
+            this.model.fetchRelated("places", { data: this.getParamsForResource("places")}, true)[0].then(function (places) {
+                this.model.get('places').reset(places);
             }.bind(this));
         },
 

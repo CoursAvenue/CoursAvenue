@@ -4,13 +4,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   layout :choose_layout
 
   def after_inactive_sign_up_path_for(user)
-    session['after_inactive_sign_up_path'] || waiting_for_activation_users_path
-  end
-
-  def after_sign_in_path_for(user)
-    # Prevent from infininte loop
-    referrer = (request.referrer == new_user_registration_url ? nil : request.referrer)
-    session['user_return_to'] || referrer || root_path
+    session['after_inactive_sign_up_path'] || waiting_for_activation_users_path(email: user.email)
   end
 
   # Method taken from devise lib

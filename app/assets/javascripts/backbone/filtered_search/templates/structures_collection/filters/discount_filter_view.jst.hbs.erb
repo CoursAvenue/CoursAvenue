@@ -1,8 +1,8 @@
 <div class="grid--full">
-    <div class="grid__item v-middle one-fifth">
+    <div class="grid__item v-middle one-fifth palm-one-whole palm-text--center">
         <strong class="gray">Tarifs réduits</strong>
     </div><!--
- --><div class="grid__item v-middle four-fifths">
+ --><div class="grid__item v-middle four-fifths palm-one-whole">
       <select data-behavior="chosen" multiple style="width: 100%;">
         <% Price::Discount::TYPES.each do |discount_name| %>
           <option value="<%= discount_name.split('.').last %>"><%= I18n.t(discount_name) %></option>

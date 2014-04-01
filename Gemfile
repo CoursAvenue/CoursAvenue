@@ -3,9 +3,13 @@ source 'https://rubygems.org'
 
 ruby '2.0.0'
 
-gem 'rails', '4.0.3'
+gem 'rails', '4.0.4'
+
+gem 'rack-attack', '~>3.0.0'
 
 gem 'filepicker-rails'
+
+gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
 
 # Webserver
 # gem 'unicorn'

@@ -47,3 +47,9 @@
 .line-height-normal { line-height: normal;}
 .line-height-1      { line-height: 1;}
 .line-height-2      { line-height: 2;}
+
+.palm-text--center {
+    @include media-query(palm) {
+        text-align: center;
+    }
+}

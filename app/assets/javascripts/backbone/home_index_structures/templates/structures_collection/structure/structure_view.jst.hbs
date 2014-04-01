@@ -1,15 +1,9 @@
 <div class="flexbox white-box structure-item">
-    <div class="flexbox__item v-top structure-item__logo one-twelfth">
+    <div class="flexbox__item structure-item__logo one-twelfth">
         <div class="relative">
             <a href="{{ data_url }}" class="block">
                 <img src="{{ logo_thumb_url }}" class="block one-whole" alt="Cours de {{ parent_subjects_text }} à {{ name }}">
             </a>
-            {{#if has_free_trial_course}}
-                <div class="free-trial-badge"></div>
-            {{/if}}
-            {{#if has_promotion}}
-                <div class="promotion-badge"></div>
-            {{/if}}
         </div>
     </div><!--
  --><article class="flexbox__item seven-twelfths v-top structure-item__see-all-wrapper structure-item__button">
@@ -34,7 +28,7 @@
                 <i class="lbc-brand-icon"></i>
             </span>
             {{#if last_comment_title}}
-            <div class="quoted milli">
+            <div class="quoted milli visuallyhidden--palm">
                 {{{truncate last_comment_title 60}}}
             </div>
             {{/if}}

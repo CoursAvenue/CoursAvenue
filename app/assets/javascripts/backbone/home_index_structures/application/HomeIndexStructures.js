@@ -23,7 +23,6 @@ HomeIndexStructures.addInitializer(function(options) {
     });
 
     structures.fetch({reset: true}); // Use to listen to the reset event of the structure
-    window.pfaff = structures;
 
     /* set up the layouts */
     layout = new HomeIndexStructures.Views.StructuresLayout();

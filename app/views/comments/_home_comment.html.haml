@@ -8,7 +8,7 @@
           %b.quoted.v-middle{itemprop: 'author'}
             = "#{truncate(comment.title, length: 80)}".html_safe
           .milli.gray= truncate(comment.content, length: 150)
-          %div.muted.text--right.milli{title: comment_rating_title(comment.rating), itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
+          %div.muted.text--right.milli{title: 'Excellent !', itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
             Par
             = truncate(comment.author_name.titleize, length: 20).html_safe
             il y a

@@ -2,37 +2,37 @@
   = render 'shared/headers/header'
 
 = content_for :content do
-  - if current_user
+  - if @user
     .white-box.main-container.push--top
       .flexbox.one-whole
         .flexbox__item.v-top{style: 'width: 11%;'}>
-          - if current_user.has_avatar?
-            = link_to edit_user_path(current_user) do
-              = image_tag current_user.avatar_url(:thumb), class: 'block', width: 150
+          - if @user.has_avatar?
+            = link_to edit_user_path(@user) do
+              = image_tag @user.avatar_url(:thumb), class: 'block', width: 150
           - else
             .text--center
-              = link_to edit_user_path(current_user), style: 'width: 130px; height: 130px; background-color: #555; padding-top: 40px; color: white; display: block;' do
+              = link_to edit_user_path(@user), style: 'width: 130px; height: 130px; background-color: #555; padding-top: 40px; color: white; display: block;' do
                 Ajouter
                 %br
                 ma photo
         .flexbox__item.v-top.eight-twelfths.soft-half>
           %h4.push-half--bottom
-            %span.v-middle= current_user.full_name
+            %span.v-middle= @user.full_name
             %span.v-middle.milli
               \—
-              = link_to "Profil complété à #{current_user.profile_completion} %", dashboard_user_path(current_user), class: 'semi-muted-link'
+              = link_to "Profil complété à #{@user.profile_completion} %", dashboard_user_path(@user), class: 'semi-muted-link'
           %div
             = link_to 'Partager', "https://www.facebook.com/sharer/sharer.php?u=http://www.coursavenue.com", class: 'btn btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'User / Share on Facebook', 'click', 'From dashboard page')"
-          %div.push-half--top
-            = link_to new_user_invited_user_path(current_user), class: 'btn btn--small', onclick: "ga('send', 'event', 'Share with friends', 'click')" do
-              %i.fa.fa-bullhorn
-              Parrainer mes amis
+          -# %div.push-half--top
+          -#   = link_to new_user_invited_user_path(@user), class: 'btn btn--small', onclick: "ga('send', 'event', 'Share with friends', 'click')" do
+          -#     %i.fa.fa-bullhorn
+          -#     Parrainer mes amis
         .flexbox__item.v-middle.two-twelfths.soft-half.text--center>
-          - if current_user.city and current_user.passions.any?
-            = link_to current_user.around_courses_url, class: 'muted-link' do
-              .beta #{current_user.around_courses_count} cours
-              - if current_user.around_trial_courses_count > 0
-                dont #{current_user.around_trial_courses_count} essais gratuits
+          - if @user.city and @user.passions.reject(&:new_record?).any?
+            = link_to @user.around_courses_url, class: 'muted-link' do
+              .beta #{@user.around_courses_count} cours
+              - if @user.around_trial_courses_count > 0
+                dont #{@user.around_trial_courses_count} essais gratuits
               %strong devraient vous plaire
           - else
             %p.push-half--bottom
@@ -41,7 +41,7 @@
                 Mieux vous connaître,
                 %br
                 c'est mieux vous servir !
-          = link_to 'Gérer mes passions', user_passions_path(current_user), class: "btn btn--blue #{(current_user.passions.any? ? 'btn--small' : '')}"
+          = link_to 'Gérer mes passions', user_passions_path(@user), class: "btn btn--blue #{(@user.passions.any? ? 'btn--small' : '')}"
 
 
   .main-container.soft--ends{class: controller_path}

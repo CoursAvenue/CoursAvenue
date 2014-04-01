@@ -34,7 +34,6 @@ UserManagement.addInitializer(function(options) {
     });
 
     user_profiles.bootstrap();
-    window.pfaff = user_profiles;
 
     layout = new UserManagement.Views.UserProfilesLayout();
 

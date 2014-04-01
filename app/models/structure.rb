@@ -58,7 +58,7 @@ class Structure < ActiveRecord::Base
                              :plannings_count, :has_promotion, :has_free_trial_course, :course_names, :open_course_names, :open_course_subjects,
                              :last_comment_title, :min_price_libelle, :min_price_amount, :max_price_libelle, :max_price_amount,
                              :level_ids, :audience_ids, :busy,
-                             :open_courses_open_places, :open_course_nb, :jpo_email_status
+                             :open_courses_open_places, :open_course_nb, :jpo_email_status, :open_course_plannings_nb
 
 
   define_boolean_accessor_for :meta_data, :has_promotion, :gives_group_courses, :gives_individual_courses, :has_free_trial_course
@@ -501,6 +501,7 @@ class Structure < ActiveRecord::Base
   end
 
   def update_jpo_meta_datas
+    self.open_course_plannings_nb = self.courses.open_courses.map(&:plannings).flatten.length
     self.open_course_nb           = self.courses.open_courses.count
     self.open_course_names        = self.courses.open_courses.map(&:name).uniq.join(', ')
     self.open_course_subjects     = self.courses.open_courses.map(&:subjects).flatten.map(&:name).uniq.join(', ')
@@ -603,6 +604,10 @@ class Structure < ActiveRecord::Base
 
   def email_opt_in
     main_contact.email_opt_in
+  end
+
+  def email
+    main_contact.email
   end
 
   private

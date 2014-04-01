@@ -4,14 +4,15 @@ StructureProfile.module('Views.Structure.Places', function(Module, App, Backbone
     Module.PlacesCollectionView = Marionette.CompositeView.extend({
         itemView: Module.PlaceView,
         template: Module.templateDirname() + 'places_collection_view',
-        itemViewContainer: '[data-type=container]',
+        itemViewContainer: '[data-type=item-view-container]',
 
         ui: {
             '$list': '[data-type=container]'
         },
 
         events: {
-            'click [data-action=show-all-places]' : 'showAllPlace'
+            'click [data-action=show-places]'     : 'showPlaces',
+            'click [data-action=show-all-places]' : 'refetchPlaces'
         },
 
         onItemviewMouseenter: function onItemviewMouseenter (view, data) {
@@ -22,20 +23,20 @@ StructureProfile.module('Views.Structure.Places', function(Module, App, Backbone
             this.trigger("place:mouse:leave", data);
         },
 
-        showAllPlace: function() {
-            // debugger
+        showPlaces: function showPlaces() {
             this.ui.$list.slideToggle();
-            // var places_are_hidden   = true;
-            // $('#show-all-places').click(function() {
-            //     $('#place-list').slideToggle();
-            //     if (places_are_hidden) {
-            //         $(this).text('Cacher les adresses');
-            //     } else {
-            //         $(this).text('Voir les adresses');
-            //     }
-            //     places_are_hidden = !places_are_hidden;
-            // });
+        },
 
+        refetchPlaces: function refetchPlaces() {
+            this.collection.fetch();
+        },
+
+        serializeData: function serializeData() {
+            this.other_places_nb = this.collection.structure.get('places_count') - this.collection.length;
+            return {
+                has_more_places: this.other_places_nb > 0,
+                other_places_nb: this.other_places_nb
+            }
         }
 
     });

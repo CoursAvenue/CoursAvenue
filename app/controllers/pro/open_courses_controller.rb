@@ -8,4 +8,10 @@ class Pro::OpenCoursesController < Pro::ProController
     @courses_active = Course::Open.where{active == true}.all.sort_by{ |course| course.structure.name.downcase.strip }
   end
 
+  def fulfillment
+    @structures = Course::Open.active.all.map(&:structure).uniq
+  end
+
+  def fulfillment_per_courses
+  end
 end

@@ -3,24 +3,49 @@
 
 - content_for :header_links do
   = link_to 'Connexion', dashboard_pro_structure_url(@structure, subdomain: 'pro')
-  \|
+  %span.gray-light &#124;
   = link_to 'Aide', pro_pages_questions_url(subdomain: 'pro')
-  \|
+  %span.gray-light &#124;
   = link_to 'Portes Ouvertes', pro_structure_course_opens_url(@structure, subdomain: 'pro')
 
 - content_for :promo do
   %h4.flush
-    Communiquez sur vos Portes Ouvertes comme un beau rendez-vous à ne pas manquer
+    Profitez de vos Portes Ouvertes pour attirer de nombreux nouveaux élèves grâce à 6 actions concrètes que nous vous proposons
 
-= image_tag 'emails_logo/nicolas.png', style: '-ms-interpolation-mode:bicubic;', width: '80', height: '80', class: 'float--left push-half--right'
+= image_tag 'emails_logo/nico-round.png', style: '-ms-interpolation-mode:bicubic;', width: '75', height: '75', class: 'float--left', style: 'margin-right: 5px;'
+= image_tag 'emails_logo/nima-round.png', style: '-ms-interpolation-mode:bicubic;', width: '75', height: '75', class: 'push-half--right float--left'
+%p
+  %strong Le mot des fondateurs Nicolas & Nima :
+%p
+  %i Bonjour ! Nous sommes à 2 semaines de vos Portes Ouvertes. Nos campagnes de communication pour promouvoir cet évènement sont lancées : communiqués de presse, pose de 1&nbsp;000 affiches dans les commerces, distribution de 20&nbsp;000 flyers, campagnes de publicité sur Facebook, emailing, etc. Mais le succès de cette belle opération repose également sur vous ! Voici où nous nous situons et les actions simples à mettre en place dès maintenant :
+
+= image_tag 'emails_logo/jpo_progress_bar.png', style: '-ms-interpolation-mode:bicubic;', width: '570', height: '56', class: 'block push--bottom'
 
 %p
-  %strong Le mot de Nicolas*
-  %br
-  Bonjour ! Nous sommes à 3 semaines de vos Portes Ouvertes. Pour certains Parisiens, il est encore tôt pour réserver, les inscriptions risquent de rester encore faibles cette semaine. Cependant, c’est le bon moment pour commencer à communiquer : annoncez ce beau rendez-vous dans votre newsletter, sur votre site Internet, sur vos panneaux d'affichage, et invitez vos élèves à en parler autour d’eux. De notre côté, nous intensifions nos efforts, nous venons de commencer à déposer 1 000 affiches dans tout Paris. Connectez-vous et accédez à vos outils de communication :
+  %strong - Annoncez vos Portes Ouvertes dans votre newsletter :
+  si vous n'avez pas de newsletter, envoyez un simple message à vos élèves et proposez-leur d'inviter leurs amis, ce sont vos meilleurs ambassadeurs !
+
 
 %p.action
-  = link_to "Communiquer sur mes Portes Ouvertes", communicate_pro_structure_course_opens_url(@structure, subdomain: 'pro'), class: 'btn btn--yellow', utm_source: 'email', utm_campaign: 'communicate_jpo', utm_medium: 'monday'
+  = link_to "Newsletter et message à mes élèves", communicate_pro_structure_course_opens_url(@structure, subdomain: 'pro', utm_source: 'email', utm_campaign: 'communicate_jpo', utm_medium: 'newsletter'), class: 'btn btn--yellow'
 
-%p.blue.blue-tip.flush--bottom
-  %i *Co-fondateur sympa.
+%p
+  %strong - Affichez vos Portes Ouvertes sur votre site Internet :
+  nous avons même conçu un visuel à afficher facilement sur votre site.
+
+%p.action
+  = link_to "Bannière sur mon site Internet", widget_jpo_pro_structure_url(@structure, subdomain: 'pro', utm_source: 'email', utm_campaign: 'communicate_jpo', utm_medium: 'widget'), class: 'btn btn--yellow'
+
+%p
+  %strong - Affichez vos Portes Ouvertes sur vos lieux :
+  nous avons imprimé et personnalisé des affiches spécialement pour vous. Vous les recevrez aujourd'hui ou demain.
+
+%p
+  %strong - Accédez à toutes les actions
+  en vous connectant à votre profil :
+
+%p.action
+  = link_to "Visualiser toutes mes actions de communication", communicate_pro_structure_course_opens_url(@structure, subdomain: 'pro', utm_source: 'email', utm_campaign: 'communicate_jpo', utm_medium: 'monday'), class: 'btn btn--green'
+
+%p.blue.blue-tip
+  %i Important : pour éviter tout risque de surbooking de vos ateliers, toutes les inscriptions aux Portes Ouvertes doivent se faire directement sur le site CoursAvenue.com et ne peuvent pas passer par vous directement.

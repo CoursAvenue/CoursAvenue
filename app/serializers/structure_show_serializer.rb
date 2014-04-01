@@ -13,7 +13,7 @@ class StructureShowSerializer < ActiveModel::Serializer
              :has_free_trial_course, :medias_count, :teaches_at_home, :teaches_at_home_radius, :videos_count, :images_count,
              :audience, :funding_types, :gives_group_courses, :gives_individual_courses, :structure_type,
              :has_promotion, :tag_names, :last_comment_title, :open_courses_open_places, :open_course_names, :open_course_nb,
-             :given_course_types, :given_funding_type
+             :given_course_types, :given_funding_type, :places_count
 
   has_many :places
   has_many :comments, serializer: ShortSerializer
@@ -34,6 +34,10 @@ class StructureShowSerializer < ActiveModel::Serializer
     result = result.limit(5) unless options.key? :unlimited_comments
 
     return result
+  end
+
+  def places_count
+    object.places.count
   end
 
   def places

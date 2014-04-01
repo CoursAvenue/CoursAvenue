@@ -30,6 +30,7 @@
 .v-bottom   { vertical-align: bottom!important; }
 
 .white      { color: white; }
+.black      { color: black; }
 .yellow     { color: $yellow; }
 .red        { color: $red; }
 .green      { color: $green-success; }
@@ -107,7 +108,7 @@
     left       : 0;
     top        : 0;
     background : #EEE;
-    z-index    : 100;
+    z-index    : 100000;
 }
 
 .show-on-hover__wrapper {
@@ -158,4 +159,23 @@
 .hl-orange:hover {
     color           : white;
     background-color: $orange;
+}
+
+.width-30-percent {
+    width: 30%;
+    @include media-query(palm) {
+        width: 100%;
+    }
+}
+
+.width-27-percent {
+    width: 27%;
+    @include media-query(palm) {
+        width: 100%;
+    }
+}
+.palm-flush {
+    @include media-query(palm) {
+        margin: 0 !important;
+    }
 }

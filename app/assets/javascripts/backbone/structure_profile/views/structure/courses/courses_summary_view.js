@@ -14,10 +14,10 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         },
 
         events: {
-            'click [data-action=show-all-courses]': 'announceSummaryClicked'
+            'click [data-action=show-all-courses]': 'announceFilterRemoved'
         },
 
-        announceSummaryClicked: function announceSummaryClicked (e) {
+        announceFilterRemoved: function announceSummaryClicked (e) {
             e.preventDefault();
             // Don't announce if already been clicked and is disabled
             if (!this.$('[data-action=show-all-courses]').attr('disabled')) {
@@ -28,6 +28,7 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
                     window.history.pushState({}, "", "");
                 }
 
+                this.trigger("filter:removed");
                 this.$('[data-action=show-all-courses]').attr('disabled', true);
             }
         }

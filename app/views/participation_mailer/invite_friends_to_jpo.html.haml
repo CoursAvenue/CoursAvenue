@@ -3,9 +3,9 @@
 
 - content_for :header_links do
   = link_to 'Connexion', new_user_session_url(subdomain: 'www')
-  \|
+  %span.gray-light &#124;
   = link_to 'JPO', open_courses_url(subdomain: 'www')
-  \|
+  %span.gray-light &#124;
   = link_to 'Rechercher', structures_url(subdomain: 'www')
 
 - content_for :promo do

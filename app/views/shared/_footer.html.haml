@@ -1,13 +1,13 @@
 %footer.main-footer.relative
   .main-container
     .flexbox
-      .flexbox__item.three-twelfths
+      .flexbox__item.three-twelfths.palm-one-whole
         = image_tag 'logo.png', class: 'ten-twelfths', alt: 'CoursAvenue'
         %h5.orange À propos
         %p
           %b.blue CoursAvenue
           est le premier moteur de recherche de cours de loisirs collaboratif basé sur les recommandations des élèves.
-      .flexbox__item.nine-twelfths.lap-one-whole.column-links
+      .flexbox__item.nine-twelfths.lap-one-whole.column-links.palm-one-whole.palm-text--center
         .grid
           .grid__item.one-quarter.palm-one-whole>
             %h5.blue Utilisateurs pratiquants
@@ -50,7 +50,7 @@
               %li= link_to 'Musique', subject_structures_url('musique', subdomain: 'www')
 
   - if @structure
-    .main-container.text--center
+    .main-container.text--center.visuallyhidden
       = link_to "Tous les cours à #{@structure.city.name}", city_url(@structure.city, subdomain: 'www'), class: 'semi-muted-link', target: :_blank
       - @structure.subjects.uniq.each_with_index do |subject, index|
         - if index > 0

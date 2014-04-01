@@ -17,8 +17,3 @@
         %span{ title: structure.min_price_libelle, data: { behavior: 'tooltip' } } #{readable_amount(structure.min_price_amount)}€
         à
         %span{ title: structure.max_price_libelle, data: { behavior: 'tooltip' } } #{readable_amount(structure.max_price_amount)}€
-    -#   %p.flush
-    -#     %span{ title: structure.course_names, data: { behavior: 'tooltip' } }= truncate(structure.course_names, length: 90)
-    -# %p.push-half--bottom
-    -#   %i.fa.fa-tags
-    -#   %i{data: { placement: 'bottom', behavior: 'tooltip', title: join_child_subjects_text(structure) }}= truncate(join_child_subjects_text(structure), length: 110)

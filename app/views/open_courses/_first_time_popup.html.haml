@@ -1,33 +1,20 @@
 #first-time-popup.hidden.jpo-popup.white.ff-open-sans.soft
-  %h1.flush.text--center Bienvenue !
-  %h3.text--center Voici quelques informations importantes avant de vous inscrire :
-
-  %ul
-    %li
-      Nos partenaires vous ouvrent leurs portes gratuitement : choisissez votre atelier dans l'idée de vouloir y revenir s'il vous
-      %span.nowrap plu ;
-    %li
-      Vous ne pouvez vous inscrire qu'à 1 atelier pour 1 personne (faites le bon choix !) sauf pour les ateliers parents-enfants (jusqu'à 5
-      %span.nowrap inscrits) ;
-    %li
-      Vous pouvez visualiser tous les ateliers proposés en Ile-de-France en déplaçant la carte
-      %span.nowrap géographique ;
-    %li
-      Vous pourrez inviter vos proches à s'inscrire à votre atelier après avoir validé votre
-      %span.nowrap réservation ;
-    %li
-      Vous pouvez vous inscrire en liste d'attente si le cours est complet.
-
-  %p
-    Très belles Portes Ouvertes !
-
-  %p.flush
-    L'équipe CoursAvenue
-
-= content_for :scripts do
-  :javascript
-    $(function() {;
-        $.fancybox($('#first-time-popup'), {
-                      padding     : 0
-        });
-    });
+  %h3.flush.text--center Les Portes Ouvertes des cours de loisirs des 5 et 6 avril
+  %h5.text--center
+    %i Evénement inédit : plus de 200 associations, professeurs et écoles offrent + de 5 000 cours gratuits à tous les Parisiens le temps d'un week-end.
+  .grid.text--center
+    .grid__item.one-third>
+      %h3.push-half--bottom
+        %i.fa.fa-search
+        Explorez
+      %p Sélectionnez les disciplines de votre choix et trouvez tous les ateliers gratuits sur la carte.
+    .grid__item.one-third>
+      %h3.push-half--bottom
+        %i.fa.fa-hand-o-up
+        Réservez
+      %p Une fois votre atelier choisi, cliquez sur le profil pour réserver votre place.
+    .grid__item.one-third>
+      %h3.push-half--bottom
+        %i.fa.fa-group
+        Participez
+      %p Nous vous enverrons un récapitulatif de vos ateliers quelques jours avant votre séance. N'y allez pas seul, invitez vos proches à vous rejoindre !

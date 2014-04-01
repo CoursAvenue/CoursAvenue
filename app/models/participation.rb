@@ -17,12 +17,11 @@ class Participation < ActiveRecord::Base
   ######################################################################
   # Validation                                                         #
   ######################################################################
-  validate  :first_participation_to_jpo, on: :create
   validate  :size_positive, on: :create
   validates :user, presence: true
   validates :planning, presence: true
   validates :nb_kids, numericality: { less_than: 5 }
-  validates :nb_adults, numericality: { less_than: 3 }
+  validates :nb_adults, numericality: { less_than: 6 }
 
   ######################################################################
   # Callbacks                                                          #
@@ -131,7 +130,6 @@ class Participation < ActiveRecord::Base
   #
   # @return Integer
   def size
-    # (with_kid? ? 2 : 1)
     nb_adults + nb_kids
   end
 
@@ -216,21 +214,12 @@ class Participation < ActiveRecord::Base
     self.planning.index
   end
 
-  # Only one participation is allowed per user for JPO courses
-  #
-  # @return nil
-  def first_participation_to_jpo
-    unless user.participations.not_canceled.empty?
-      self.errors[:base] << I18n.t('participations.errors.only_one_participation_for_jpo')
-    end
-    nil
-  end
-
   # Check if nb_kids and adults are correctly filled
   #
   # @return nil
   def size_positive
     if size == 0
+      self.errors.add :nb_adults, I18n.t('participations.errors.size_is_nil')
       self.errors.add :nb_kids, I18n.t('participations.errors.size_is_nil')
     end
     nil
@@ -292,7 +281,7 @@ class Participation < ActiveRecord::Base
   def check_if_was_on_invite
     _email = self.user.email
     InvitedUser::Student.where(email: _email).each do |invited_user|
-      ParticipationMailer.delay.inform_invitation_success_for_jpo(invited_user.referrer, self.user, self)
+      ParticipationMailer.delay.inform_invitation_success_for_jpo(invited_user, self.user, self)
     end
   end
 end

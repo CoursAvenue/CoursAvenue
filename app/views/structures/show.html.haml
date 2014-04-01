@@ -37,7 +37,7 @@
 
 .grid.push--top
   .grid__item.eight-twelfths>
-    - if @structure.courses.open_courses.any?
+    - if @structure.courses.active.open_courses.any?
       = render 'has_open_courses_header'
     = render partial: 'structures/structure_header', locals: {structure: @structure}
 
@@ -134,7 +134,7 @@
             $('[href=#tab-comments]').click();
             $.scrollTo($(window.location.hash), {duration: 500});
         }
-        if (window.location.hash.length > 0) {
+        if (window.location.hash.length > 0 && window.location.hash != '#_=_') {
             $('[href=' + window.location.hash + ']').click();
         }
     });

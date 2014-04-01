@@ -19,6 +19,7 @@ module CoursAvenue
         resource '/etablissements/.*/widget.json', headers: :any, methods: :get
       end
     end
+
     # S3 = AWS::S3.new(
     #   :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
     #   :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']

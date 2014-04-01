@@ -7,13 +7,16 @@
 .alert--info.one-whole
   %ul.flush--bottom
     %li
-      L'objectif des Journées Portes Ouvertes est de permettre au plus grand nombre de découvrir gratuitement leurs passions le temps d'un week-end. Pour cette raison, nous n'offrons qu'une seule place par profil élève. Si vous souhaitez participer avec vos proches, réservez votre atelier, puis envoyez-leurs votre invitation.
+      L'objectif des Journées Portes Ouvertes est de permettre au plus grand nombre de découvrir gratuitement leurs passions le temps d'un week-end. Si vous souhaitez participer avec vos proches, réservez votre atelier, puis envoyez-leurs votre invitation.
     %li Pour les ateliers pour enfants, une inscription comprend 2 places (1 adulte + 1 enfant).
 - if @participations.empty?
   .text--center
     %h4 Aucune inscription aux Journées Portes Ouvertes
     = link_to "M'inscrire aux journées portes ouvertes", open_courses_path, class: 'btn btn--blue'
 - else
+  .text--center.push--bottom
+    = link_to "M'inscrire à d'autres ateliers", open_courses_path, class: 'btn btn--blue btn--large'
+
   - @participations.each do |participation|
     - course = participation.course
     - place  = participation.planning.place
@@ -23,17 +26,17 @@
       .flexbox
         .flexbox__item.two-twelfths.soft-half--right.v-top>
           = link_to structure_path(participation.structure) , class: 'block one-whole', target: :_blank do
-            = image_tag participation.structure.logo, class: 'block one-whole'
-          = link_to new_user_message_path(current_user, message: { subject: 'Informations concernant votre atelier Portes Ouvertes', recipients: participation.structure.id }), class: 'btn btn--blue nowrap push-half--ends fancybox.ajax', data: { behavior: 'modal', width: '780' }, title: "Informations concernant votre atelier Portes Ouvertes", onclick: "ga('send', 'event', 'Answer to student', 'click')" do
+            = image_tag participation.structure.logo.url(:thumb), class: 'block one-whole'
+          = link_to new_user_message_path(@user, message: { subject: 'Informations concernant votre atelier Portes Ouvertes', recipients: participation.structure.id }), class: 'btn btn--blue nowrap push-half--ends fancybox.ajax', data: { behavior: 'modal', width: '780' }, title: "Informations concernant votre atelier Portes Ouvertes", onclick: "ga('send', 'event', 'Answer to student', 'click')" do
             %i.fa.fa-envelope
             Envoyer un message
-          = link_to jpo_new_user_invited_users_path(current_user, structure_id: participation.structure.id), class: 'btn btn--blue nowrap push-half--bottom one-whole' do
+          = link_to jpo_new_user_invited_users_path(@user, participation_id: participation.id), class: 'btn btn--blue nowrap push-half--bottom one-whole' do
             %i.fa.fa-gift
             Inviter mes amis
           .share-on-facebook.btn.btn--facebook.one-whole.push-half--bottom Facebook
           .share-on-twitter.btn.btn--twitter.one-whole.btn--small.push-half--bottom Twitter
 
-          = link_to 'Me désinscrire', user_participation_path(current_user, participation), method: :delete, data: {confirm: 'Êtes-vous sur de vous désinscrire ce créneau ?'}, class: 'btn btn--red btn--small btn--full'
+          = link_to 'Me désinscrire', user_participation_path(@user, participation), method: :delete, data: {confirm: 'Êtes-vous sur de vous désinscrire ce créneau ?'}, class: 'btn btn--red btn--small btn--full'
         .flexbox__item.eight-twelfths.v-top>
           .flexbox
             .flexbox__item.five-twelfths.v-top>

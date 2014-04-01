@@ -40,7 +40,6 @@ FilteredSearch.addInitializer(function(options) {
     });
 
     structures.bootstrap();
-    window.pfaff = structures;
 
     /* set up the layouts */
     layout = new FilteredSearch.Views.SearchWidgetsLayout();
@@ -163,6 +162,9 @@ FilteredSearch.addInitializer(function(options) {
     layout.showWidget(trial_course_filter,   { events: { 'breadcrumbs:clear:trial_course':    'clear'} });
 
     layout.master.show(structures_view);
+    if (GLOBAL.is_mobile) {
+        $('[data-type="location-filter"]').appendTo($('#mobile-location-filter'));
+    }
 });
 
 $(document).ready(function() {

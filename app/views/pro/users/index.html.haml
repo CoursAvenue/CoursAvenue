@@ -14,7 +14,8 @@
   #user-hours
 
 .text--center.push--ends
-  = link_to 'Avec avis', pro_users_path(with_comments: true), class: 'btn btn--blue'
+  = link_to 'Avec avis', pro_users_path(with_comments: true), class: 'btn btn--blue btn--small push-half--right'
+  = link_to 'Inactif', pro_users_path(inactive: true), class: 'btn btn--blue btn--small'
 
 %table.table--striped.white-box#dataTable
   %thead
@@ -38,7 +39,12 @@
           = user.name
           = link_to "(#{user.email})", "mailto:#{user.email}"
         %td{data: {value: user.confirmed_at}}
-          = l(user.confirmed_at, format: :date).capitalize if user.confirmed_at
+          - if user.confirmed_at
+            = l(user.confirmed_at, format: :date).capitalize
+          - else
+            = link_to 'Activer le compte', activate_pro_user_path(user), method: :patch, class: 'btn btn--small btn--blue'
+            %br
+            = l(user.created_at, format: :date).capitalize
         %td.text--center{data: {value: (user.provider == 'facebook' ? 'f' : '')}}
           - if user.provider == 'facebook'
             %i.fa.fa-check

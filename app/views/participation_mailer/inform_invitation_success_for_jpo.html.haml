@@ -3,9 +3,9 @@
 
 - content_for :header_links do
   = link_to 'Connexion', new_user_session_url(subdomain: 'www')
-  \|
+  %span.gray-light &#124;
   = link_to 'JPO', open_courses_url(subdomain: 'www')
-  \|
+  %span.gray-light &#124;
   = link_to 'Rechercher', structures_url(subdomain: 'www')
 
 - content_for :promo do
@@ -18,7 +18,7 @@
   Continuez à inviter votre entourage et offrez-leur la chance de découvrir un cours de loisir gratuitement :
 
 %p.action
-  = link_to "Inviter mes proches", jpo_new_user_invited_users_url(@user, structure_id: @participation.structure.id, subdomain: 'www'), class: 'btn btn--blue'
+  = link_to "Inviter mes proches", jpo_new_user_invited_users_url(@invited_user, structure_id: @participation.structure.id, subdomain: 'www'), class: 'btn btn--blue'
 
 - content_for :under_content_2 do
   = render 'user_mailer/footer_info'

@@ -1,9 +1,6 @@
 //---------- Applications
 //= require_tree ./application
 
-//---------- Models
-//= require ./models/place
-
 //---------- Templates
 //= require_tree ./templates
 //

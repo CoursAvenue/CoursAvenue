@@ -68,7 +68,12 @@ CoursAvenue::Application.routes.draw do
       resources :reservations, only: [:index]
       resources :invited_users, only: [:index]
       resources :sticker_demands, only: [:index]
-      resources :open_courses, only: [:index], controller: 'open_courses'
+      resources :open_courses, only: [:index], controller: 'open_courses' do
+        collection do
+          get :fulfillment
+          get :fulfillment_per_courses
+        end
+      end
       resources :participations, only: [:index], controller: 'participations'
       resources :structures, path: 'etablissements' do
         member do
@@ -188,7 +193,11 @@ CoursAvenue::Application.routes.draw do
         end
       end
       resources :visitors             , only: [:index, :show]
-      resources :users                , only: [:index]
+      resources :users                , only: [:index] do
+        member do
+          patch :activate
+        end
+      end
       resources :comment_notifications, only: [:index]
       resources :conversations        , only: [:index]
 
@@ -222,6 +231,7 @@ CoursAvenue::Application.routes.draw do
       get :invite_entourage_to_jpo_page , path: 'inviter-mes-amis'
       get 'unsubscribe/:signature' => 'users#unsubscribe', as: 'unsubscribe'
       get 'activez-votre-compte'   => 'users#waiting_for_activation', as: 'waiting_for_activation'
+      get :welcome
     end
     member do
       get  :edit_private_infos, path: 'mon-compte'
@@ -281,6 +291,7 @@ CoursAvenue::Application.routes.draw do
       post :recommendation
     end
     resources :messages , only: [:create], controller: 'structures/messages'
+    resources :places , only: [:index], controller: 'structures/places'
     resources :courses , only: [:show, :index], path: 'cours', controller: 'structures/courses'
     resources :comments, only: [:new, :show, :index], path: 'recommandations', controller: 'structures/comments'
     resources :teachers, only: [:index], controller: 'structures/teachers'

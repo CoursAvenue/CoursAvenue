@@ -32,12 +32,11 @@
       %th Nom de l'établissement
       %th Nom du cours
       %th Type
-      %th Public
-      %th Discipline
       %th.text--center Places
       %th Prix
+      %th
+        %i.fa.fa-clock-o
       %th Follow up
-      %th Ok Nico
   %tbody
     - @courses_inactive.each do |course|
       %tr
@@ -52,8 +51,6 @@
         %td= link_to course.structure.name, pro_structure_course_opens_path(course.structure)
         %td= course.name
         %td= course.event_type
-        %td= course.plannings.map{ |planning| join_audiences(planning) }.uniq.join(', ')
-        %td= course.subjects.map(&:name).join(',')
         %td.text--center.nowrap
           = course.plannings.count
           \-
@@ -65,16 +62,11 @@
             %span.line-through #{readable_amount(course.common_price)}€
           %span.green Gratuit
         %td
+          %i.fa.fa-clock-o{title: "Créé le : #{l(course.created_at, format: :date)} / Modifié le : #{l(course.updated_at, format: :date)}", data: { behavior: 'tooltip' }}
+        %td
           = simple_form_for [:pro, course], url: pro_structure_course_path(course.structure, course), as: :course, remote: true do |f|
             = f.input :ca_follow_up, label: false, input_html: { style: 'width: 100px; height: 50px; font-size: 11px;' }, wrapper_html: { class: 'flush' }
             = f.submit 'Valider', class: 'btn btn--small btn--green btn--full', data: { disable_with: "En cours" }
-        %td
-          - if course.ok_nico
-            = link_to disable_ok_nico_pro_structure_course_path(course.structure, course), remote: true, method: :patch do
-              %i.fa.fa-check.green
-          - else
-            = link_to activate_ok_nico_pro_structure_course_path(course.structure, course), remote: true, method: :patch do
-              %i.fa.fa-times.red
 
 %h3.push-half--bottom Ateliers validés
 %table.table--striped.dataTable.table--data.white-box.flush--bottom
@@ -84,12 +76,11 @@
       %th Nom de l'établissement
       %th Nom du cours
       %th Type
-      %th Public
-      %th Discipline
       %th.text--center Places
       %th Prix
+      %th
+        %i.fa.fa-clock-o
       %th Follow up
-      %th Ok Nico
   %tbody
     - @courses_active.each do |course|
       %tr
@@ -104,8 +95,6 @@
         %td= link_to course.structure.name, pro_structure_course_opens_path(course.structure)
         %td= course.name
         %td= course.event_type
-        %td= course.plannings.map{ |planning| join_audiences(planning) }.uniq.join(', ')
-        %td= course.subjects.map(&:name).join(',')
         %td.text--center.nowrap
           = course.plannings.count
           \-
@@ -117,16 +106,12 @@
             %span.line-through #{readable_amount(course.common_price)}€
           %span.green Gratuit
         %td
+          %i.fa.fa-clock-o{title: "Créé le : #{l(course.created_at, format: :date)} / Modifié le : #{l(course.updated_at, format: :date)}", data: { behavior: 'tooltip' }}
+        %td
           = simple_form_for [:pro, course.structure, course], url: pro_structure_course_path(course.structure, course), as: :course, remote: true do |f|
             = f.input :ca_follow_up, label: false, input_html: { style: 'width: 100px; height: 50px; font-size: 11px;' }, wrapper_html: { class: 'flush' }
             = f.submit 'Valider', class: 'btn btn--small btn--green btn--full', data: { disable_with: "En cours" }
-        %td
-          - if course.ok_nico
-            = link_to disable_ok_nico_pro_structure_course_path(course.structure, course), remote: true, method: :patch do
-              %i.fa.fa-check.green
-          - else
-            = link_to activate_ok_nico_pro_structure_course_path(course.structure, course), remote: true, method: :patch do
-              %i.fa.fa-times.red
+
 
 = content_for :scripts do
   :javascript

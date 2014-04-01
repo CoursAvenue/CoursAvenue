@@ -5,9 +5,9 @@
 .text--center
   .inline-block.one-quarter.push--bottom.v-middle.push--sides
     .white-box.soft-half.text--center
-      %h3.flush= "#{Participation.not_canceled.count} inscriptions"
-      %h6.flush dont #{Participation.not_canceled.where{created_at > Date.today}.count} aujourd'hui
-      %div et #{Participation.not_canceled.where{created_at > Date.today - 7.days}.count} les 7 derniers jours
+      %h3.flush= "#{Participation.not_canceled.all.map(&:size).reduce(&:+)} inscriptions"
+      %h6.flush dont #{Participation.not_canceled.where{created_at > Date.today}.map(&:size).reduce(&:+)} aujourd'hui
+      %div et #{Participation.not_canceled.where{created_at > Date.today - 7.days}.map(&:size).reduce(&:+)} les 7 derniers jours
 
   .inline-block.one-quarter.push--bottom.v-middle.push--sides
     .white-box.soft-half.text--center
@@ -24,17 +24,18 @@
 .white-box.islet.text--center
   #participations
 
-.white-box.islet.text--center
-  #participations-hours
+-# .white-box.islet.text--center
+-#   #participations-hours
 
 %table.white-box.table--data.table--striped.table--white.push-half--top
   %thead
     %tr
-      %th.two-twelfths Nom de l'élève
+      %th.three-twelfths Nom de l'élève
       %th.two-twelfths Email
       %th.two-twelfths Téléphone
       %th.one-twelfths Ville
-      %th.two-twelfths Date d'inscription
+      %th Date d'inscription
+      %th ∂
       %th.two-twelfths Atelier
       %th.two-twelfths
   %tbody
@@ -47,6 +48,7 @@
         %td= readable_phone_number participation.user.phone_number
         %td= "#{participation.user.city.try(:name)} (#{participation.user.zip_code})"
         %td= l(participation.created_at, format: :date).capitalize
+        %td= (participation.created_at.to_date - participation.user.confirmed_at.to_date).to_i
         %td
           = link_to participation.planning.course.name, pro_structure_course_opens_path(participation.structure)
           par
@@ -75,15 +77,15 @@
                     },
                     ]
         });
-        new Highcharts.Chart({
-            chart: { renderTo: 'participations-hours', type: 'column' },
-            title: { text: null },
-            xAxis: { categories: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"] },
-            yAxis: { title: { text: ''}},
-            series: [
-              { data: #{@participations_per_hour.map{|key, value| value}},
-                name: 'Élèves inscrits'
-               }
-            ]
-        });
     });
+-# new Highcharts.Chart({
+-#     chart: { renderTo: 'participations-hours', type: 'column' },
+-#     title: { text: null },
+-#     xAxis: { categories: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"] },
+-#     yAxis: { title: { text: ''}},
+-#     series: [
+-#       { data: #{@participations_per_hour.map{|key, value| value}},
+-#         name: 'Élèves inscrits'
+-#        }
+-#     ]
+-# });
