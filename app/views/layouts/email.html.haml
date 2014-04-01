@@ -64,10 +64,11 @@
                 %img.divider{border: '0', height: '15', src: '', width: '1'}/
                 %br
 
-          %table{align: 'center', border: '0', cellpadding: '15', cellspacing: '0', width: '600', style: 'width: 600px; margin: auto;'}
-            %tr
-              %td.soft-half.content-block.white-box.push--bottom{width: '600', style: 'width: 600px;'}
-                = yield
+          - if !content_for? :no_yield
+            %table{align: 'center', border: '0', cellpadding: '15', cellspacing: '0', width: '600', style: 'width: 600px; margin: auto;'}
+              %tr
+                %td.soft-half.content-block.white-box.push--bottom{width: '600', style: 'width: 600px;'}
+                  = yield
 
           - if content_for? :under_content
             %table.under-content.push--top{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600', style: 'width: 600px; margin: auto;'}
@@ -86,6 +87,12 @@
               %tr
                 %td.content-block.white-box{width: '600', style: 'width: 600px;'}
                   = yield :under_content_3
+
+          - if content_for? :under_content_4
+            %table.under-content.push--top{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600', style: 'width: 600px; margin: auto;'}
+              %tr
+                %td.content-block.white-box{width: '600', style: 'width: 600px;'}
+                  = yield :under_content_4
 
           %table{align: 'center', border: '0', cellpadding: '5', cellspacing: '0', width: '600', style: 'width: 600px; margin: auto;'}
             %tr
