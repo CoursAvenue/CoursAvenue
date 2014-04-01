@@ -127,18 +127,16 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
          * the full url query.
          *  */
         narrowSearch: function narrowSearch () {
-            console.log("in StructureView->narrowSearch");
-
             // need to parse the search... blech
             var params = CoursAvenue.Models.PaginatedCollection.prototype.makeOptionsFromSearch.call(this, window.location.search);
-
-            console.log(params);
 
             // set the query_params on the model so that getparamsforresource will work
             this.model.set("query_params", params);
 
             this.model.fetchRelated("courses", { data: this.getParamsForResource("courses")}, true)[0].then(function (courses) {
                 this.model.get('courses').reset(courses);
+                this.ui.$summary_container.slideDown();
+                this.summary_view.enableRemoveFilterButton();
             }.bind(this));
             this.model.fetchRelated("places", { data: this.getParamsForResource("places")}, true)[0].then(function (places) {
                 this.model.get('places').reset(places);
