@@ -43,6 +43,8 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         announceEdits: function () {
             var edits = this.getEdits();
+            edits = this.sanitize(edits);
+
             this.trigger("field:edits", edits);
         },
 
@@ -91,6 +93,10 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 this.commit(data);
                 this.rollback();
             }
+        },
+
+        sanitize: function sanitize (data) {
+            throw new Error("Objects extending EditableFieldView must implement validate");
         },
 
         activate: function () {

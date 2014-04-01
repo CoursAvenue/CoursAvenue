@@ -51,7 +51,16 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableText', f
         rollback: function () {
             this.setEditing(false);
             this.$el.html(this.data);
-        }
+        },
+
+        // remove trailing whitespace
+        sanitize: function sanitize (edit) {
+            if (_.isFunction(edit.data.trim)) {
+                edit.data = edit.data.trim();
+            }
+
+            return edit;
+        },
 
     });
 });
