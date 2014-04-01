@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140328090302) do
+ActiveRecord::Schema.define(version: 20140331123653) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -380,6 +380,13 @@ ActiveRecord::Schema.define(version: 20140328090302) do
 
   add_index "participations", ["planning_id", "user_id"], name: "index_participations_on_planning_id_and_user_id", using: :btree
 
+  create_table "participations_users", id: false, force: true do |t|
+    t.integer "participation_id"
+    t.integer "user_id"
+  end
+
+  add_index "participations_users", ["participation_id", "user_id"], name: "index_participations_users_on_participation_id_and_user_id", using: :btree
+
   create_table "passions", force: true do |t|
     t.integer  "user_id"
     t.string   "passion_frequency_ids"
@@ -709,8 +716,8 @@ ActiveRecord::Schema.define(version: 20140328090302) do
   add_index "user_profiles", ["structure_id", "user_id"], name: "index_user_profiles_on_structure_id_and_user_id", using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "email",                   default: "",    null: false
-    t.string   "encrypted_password",      default: "",    null: false
+    t.string   "email",                   default: "",   null: false
+    t.string   "encrypted_password",      default: "",   null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -720,8 +727,8 @@ ActiveRecord::Schema.define(version: 20140328090302) do
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.string   "authentication_token"
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.string   "provider"
     t.string   "uid"
     t.string   "oauth_token"
@@ -754,7 +761,7 @@ ActiveRecord::Schema.define(version: 20140328090302) do
     t.string   "email_status"
     t.string   "last_email_sent_at"
     t.string   "last_email_sent_status"
-    t.boolean  "super_user",              default: false
+    t.boolean  "super_user"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

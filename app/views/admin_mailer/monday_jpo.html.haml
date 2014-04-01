@@ -1,6 +1,9 @@
 - content_for :email_logo do
   = image_tag 'jpo_2014/logo_1_line_orange.png', alt: 'CoursAvenue', height: 89, width: 300, style: '-ms-interpolation-mode:bicubic;'
 
+- content_for :logo do
+  = image_tag 'jpo_2014/logo_j_moins_5.png', style: '-ms-interpolation-mode:bicubic;', width: '100', height: '100'
+
 - content_for :header_links do
   = link_to 'Connexion', dashboard_pro_structure_url(@structure, subdomain: 'pro')
   %span.gray-light &#124;
@@ -10,35 +13,30 @@
 
 - content_for :promo do
   %h4.flush
-    Profitez de vos Portes Ouvertes pour attirer de nombreux nouveaux élèves grâce à 6 actions concrètes que nous vous proposons
+    Plus que 5 jours avant vos Portes Ouvertes : profitez de cette dernière semaine pour recruter encore plus d'élèves
 
 = image_tag 'emails_logo/nico-round.png', style: '-ms-interpolation-mode:bicubic;', width: '75', height: '75', class: 'float--left', style: 'margin-right: 5px;'
 = image_tag 'emails_logo/nima-round.png', style: '-ms-interpolation-mode:bicubic;', width: '75', height: '75', class: 'push-half--right float--left'
 %p
   %strong Le mot des fondateurs Nicolas & Nima :
 %p
-  %i Bonjour ! Nous sommes à 2 semaines de vos Portes Ouvertes. Nos campagnes de communication pour promouvoir cet évènement sont lancées : communiqués de presse, pose de 1&nbsp;000 affiches dans les commerces, distribution de 20&nbsp;000 flyers, campagnes de publicité sur Facebook, emailing, etc. Mais le succès de cette belle opération repose également sur vous ! Voici où nous nous situons et les actions simples à mettre en place dès maintenant :
+  %i Bonjour ! Nous sommes à 5 jours de vos Portes Ouvertes : c’est la dernière ligne droite pour communiquer sur ce bel événement et remplir au maximum vos ateliers. Nous continuons nos campagnes de distribution de flyers, et des articles de presse vont sans doute paraître. Pour vous, c’est l’occasion de rappeler à vos élèves qu’ils peuvent inviter leurs proches, et d’annoncer le nombre de places restantes sur votre site et dans votre newsletter. Voici où nous nous situons et vos actions simples :
 
-= image_tag 'emails_logo/jpo_progress_bar.png', style: '-ms-interpolation-mode:bicubic;', width: '570', height: '56', class: 'block push--bottom'
+= image_tag 'emails_logo/jpo_progress_bar_phase_3.png', style: '-ms-interpolation-mode:bicubic;', width: '570', height: '56', class: 'block push--bottom'
 
 %p
-  %strong - Annoncez vos Portes Ouvertes dans votre newsletter :
+  %strong - Annoncez vos Portes Ouvertes dans votre newsletter en précisant dans l’objet "J-5"&nbsp;:
   si vous n'avez pas de newsletter, envoyez un simple message à vos élèves et proposez-leur d'inviter leurs amis, ce sont vos meilleurs ambassadeurs !
-
 
 %p.action
   = link_to "Newsletter et message à mes élèves", communicate_pro_structure_course_opens_url(@structure, subdomain: 'pro', utm_source: 'email', utm_campaign: 'communicate_jpo', utm_medium: 'newsletter'), class: 'btn btn--yellow'
 
 %p
-  %strong - Affichez vos Portes Ouvertes sur votre site Internet :
-  nous avons même conçu un visuel à afficher facilement sur votre site.
+  %strong - Communiquez sur la page d’accueil de votre site Internet, voici un exemple de texte d’accroche efficace :
+  « Dernière semaine pour participer à nos ateliers gratuits ce week-end des 5 et 6 avril » (n’oubliez pas de mettre le lien d’inscription CoursAvenue direct à vos ateliers).
 
 %p.action
   = link_to "Bannière sur mon site Internet", widget_jpo_pro_structure_url(@structure, subdomain: 'pro', utm_source: 'email', utm_campaign: 'communicate_jpo', utm_medium: 'widget'), class: 'btn btn--yellow'
-
-%p
-  %strong - Affichez vos Portes Ouvertes sur vos lieux :
-  nous avons imprimé et personnalisé des affiches spécialement pour vous. Vous les recevrez aujourd'hui ou demain.
 
 %p
   %strong - Accédez à toutes les actions

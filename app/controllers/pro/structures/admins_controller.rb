@@ -4,6 +4,12 @@ class Pro::Structures::AdminsController < Pro::ProController
 
   before_action :retrieve_structure
 
+  def show
+    @structure = Structure.find params[:structure_id]
+    @admin     = @structure.admins.find(params[:id])
+    redirect_to notifications_pro_structure_admin_path(@structure, @admin)
+  end
+
   def notifications
     @admin = @structure.admins.find(params[:id])
   end

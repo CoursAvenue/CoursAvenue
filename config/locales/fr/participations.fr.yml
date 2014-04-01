@@ -14,4 +14,5 @@ fr:
       one_kid_and_one_adult: "mes enfants et moi"
     errors:
       only_one_participation_for_jpo: Vous n'avez le droit qu'à une inscription pour les Journées Portes Ouvertes
+      only_four_participations_for_jpo: Vous n'avez le droit qu'à 4 inscriptions pour les Journées Portes Ouvertes
       size_is_nil: Vous devez renseigner aux moins 1 adulte ou 1 enfant

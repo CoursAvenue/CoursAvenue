@@ -14,10 +14,13 @@ class Participation < ActiveRecord::Base
   has_one :structure, through: :planning
   has_one :course   , through: :planning
 
+  has_and_belongs_to_many :invited_friends, class_name: 'User'
+
   ######################################################################
   # Validation                                                         #
   ######################################################################
   validate  :size_positive, on: :create
+  validate  :less_than_four_participation_to_jpo, on: :create
   validates :user, presence: true
   validates :planning, presence: true
   validates :nb_kids, numericality: { less_than: 5 }
@@ -170,13 +173,41 @@ class Participation < ActiveRecord::Base
     end
   end
 
+  #
+  # [build_invited_friends description]
+  # @param  emails [type] [description]
+  #
+  # @return [type] [description]
+  def build_invited_friends emails
+    emails = emails.reject(&:blank?)
+    built_invited_friends = []
+    emails.each do |email|
+      invited_friend = User.where(email: email).first
+      if invited_friend.nil?
+        invited_friend = User.new(email: email)
+        invited_friend.save(validate: false)
+      end
+      built_invited_friends << invited_friend
+    end
+    self.invited_friends = built_invited_friends.uniq
+  end
+
   private
 
   ######################################################################
   # Callbacks                                                          #
   ######################################################################
 
-  # Sets nb_adults to 0 if only for kids
+  # Only 4 participations is allowed per user for JPO courses
+  #
+  # @return nil
+  def less_than_four_participation_to_jpo
+    if user.participations.not_canceled.length == 4
+      self.errors[:base] << I18n.t('participations.errors.only_four_participations_for_jpo')
+    end
+    nil
+  end  # Sets nb_adults to 0 if only for kids
+
   #
   # @return nil
   def check_size

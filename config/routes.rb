@@ -261,7 +261,11 @@ CoursAvenue::Application.routes.draw do
         get :suggestions
       end
     end
-    resources :participations, only: [:index, :destroy], controller: 'users/participations'
+    resources :participations, only: [:update, :index, :destroy], controller: 'users/participations' do
+      member do
+        get   :add_invited_friends
+      end
+    end
   end
   resources :emails, only: [:create]
 

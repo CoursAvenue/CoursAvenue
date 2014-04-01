@@ -14,6 +14,7 @@ class ApplicationController < ActionController::Base
 
   unless Rails.configuration.consider_all_requests_local
     rescue_from Exception,                            with: :render_error
+    rescue_from Timeout::Error,                       with: :render_timeout
     rescue_from CanCan::AccessDenied,                 with: :not_allowed
     rescue_from ActiveRecord::RecordNotFound,         with: :render_not_found
     rescue_from ActionController::RoutingError,       with: :render_not_found
@@ -43,24 +44,22 @@ class ApplicationController < ActionController::Base
 
   # Redirect users if there is a not found resource
   # @param  exception
+  def render_timeout(exception)
+    Bugsnag.notify(exception)
+    redirect_to request.referer || root_path, status: 301, notice: "La requête a mis trop de temps, veuillez réessayer."
+  end
+
+  # Redirect users if there is a not found resource
+  # @param  exception
   def render_not_found(exception)
     Bugsnag.notify(exception)
-    logger.fatal '------------------------ LOGGER NOT FOUND --------------------------'
-    logger.fatal exception.message
-    exception.backtrace.each { |line| logger.fatal line }
-    logger.fatal '------------------------ LOGGER NOT FOUND --------------------------'
     redirect_to root_path, status: 301, notice: "Cette page n'existe plus."
-    # render template: 'errors/not_found', status: :not_found
   end
 
   # Render the bubble error if there is an error
   # @param  exception
   def render_error(exception)
     Bugsnag.notify(exception)
-    logger.fatal '------------------------ LOGGER FATAL --------------------------'
-    logger.fatal exception.message
-    exception.backtrace.each { |line| logger.fatal line }
-    logger.fatal '------------------------ LOGGER FATAL --------------------------'
     render template: 'errors/internal_server_error', status: :not_found
   end
 

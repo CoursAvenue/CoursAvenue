@@ -66,13 +66,14 @@ class InvitedUserMailer < ActionMailer::Base
   def subject_for_recommand_friends(invited_user)
     if invited_user.invitation_for == 'jpo'
       if invited_user.type == 'InvitedUser::Student'
+        d_day = Date.parse('2014/04/05')
         case invited_user.referrer_type
         # Student inviting another student
         when 'User'
-          return "#{@referrer.name} vous invite à participer à un cours gratuit"
+          return "#{@referrer.name} vous offre un cours gratuit : J-#{(d_day - Date.today).to_i} avant l'événement"
         # Teacher to students
         when 'Structure'
-          return "#{@referrer.name} offre des cours gratuits : profitez-en pour inviter vos proches"
+          return "J-#{(d_day - Date.today).to_i} avant les cours gratuits de #{@referrer.name} : profitez-en pour inviter vos proches"
         end
       end
     else
@@ -87,13 +88,14 @@ class InvitedUserMailer < ActionMailer::Base
   def subject_for_recommand_friends_stage_1(invited_user)
     if invited_user.invitation_for == 'jpo'
       if invited_user.type == 'InvitedUser::Student'
+        d_day = Date.parse('2014/04/05')
         case invited_user.referrer_type
         # Student inviting another student
         when 'User'
-          return "Réservez votre cours gratuit offert par #{@referrer.name}"
+          return "Réservez votre cours gratuit offert par #{@referrer.name}: J-#{(d_day - Date.today).to_i} avant l'événement"
         # Teacher to students
         when 'Structure'
-          return "Offrez un cours gratuit à vos proches avec #{@referrer.name}"
+          return "J-#{(d_day - Date.today).to_i} pour inviter vos proches à un cours gratuit avec #{@referrer.name}"
         end
       end
     else
@@ -104,13 +106,14 @@ class InvitedUserMailer < ActionMailer::Base
   def subject_for_recommand_friends_stage_2(invited_user)
     if invited_user.invitation_for == 'jpo'
       if invited_user.type == 'InvitedUser::Student'
+        d_day = Date.parse('2014/04/05')
         case invited_user.referrer_type
         # Student inviting another student
         when 'User'
-          return "Derniers jours pour réserver votre cours gratuit des 5-6 avril"
+          return "J-#{(d_day - Date.today).to_i} pour réserver votre cours gratuit les 5-6 avril avec #{@referrer.name}"
         # Teacher to students
         when 'Structure'
-          return "Derniers jours pour offrir des cours gratuits à vos proches !"
+          return "J-#{(d_day - Date.today).to_i} pour offrir des cours gratuits à vos proches !"
         end
       end
     else

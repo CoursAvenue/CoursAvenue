@@ -2,7 +2,7 @@
 
 %h3.header-group
   %i.fa.fa-group
-  Évolution des inscriptions
+  Évolution des inscriptions élèves
 .white-box.islet.text--center
   .gamma
     #{User.active.count} élèves
@@ -10,8 +10,8 @@
 
 .white-box.islet.text--center
   .gamma
-    Par heure
-  #user-hours
+    Cumulé
+  #users-cumul
 
 .text--center.push--ends
   = link_to 'Avec avis', pro_users_path(with_comments: true), class: 'btn btn--blue btn--small push-half--right'
@@ -66,14 +66,21 @@
             series: [{ data: #{@users_graph.map{|date, count| (count > 10000 ? 100 : count)}} }]
         });
         new Highcharts.Chart({
-            chart: { renderTo: 'user-hours', type: 'column' },
+            chart: { renderTo: 'users-cumul', type: 'spline' },
             title: { text: null },
-            xAxis: { categories: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"] },
+            xAxis: { categories: #{@users_cumul.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
             yAxis: { title: { text: ''}},
-            series: [
-              { data: #{@users_per_hour.map{|key, value| value}},
-                name: 'Inscriptions'
-               }
-            ]
+            series: [{ data: #{@users_cumul.map{|date, count| (count > 10000 ? 100 : count)}} }]
         });
+        // new Highcharts.Chart({
+        //     chart: { renderTo: 'user-cumul', type: 'column' },
+        //     title: { text: null },
+        //     xAxis: { categories: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"] },
+        //     yAxis: { title: { text: ''}},
+        //     series: [
+        //       { data: #{@users_per_hour.map{|key, value| value}},
+        //         name: 'Inscriptions'
+        //        }
+        //     ]
+        // });
     });

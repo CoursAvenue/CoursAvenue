@@ -32,7 +32,7 @@ class Pro::Structures::TeachersController < InheritedResources::Base
       if request.xhr?
         format.html { render partial: 'pro/structures/teachers/form' }
       else
-        format.html { render template: 'pro/structures/teachers/index' }
+        format.html { redirect_to pro_structure_teachers_path(@structure) }
       end
     end
   end
@@ -54,6 +54,7 @@ class Pro::Structures::TeachersController < InheritedResources::Base
     end
     update! do |success, failure|
       success.html { redirect_to pro_structure_teachers_path(@structure) }
+      failure.html { redirect_to pro_structure_teachers_path(@structure) }
     end
   end
 

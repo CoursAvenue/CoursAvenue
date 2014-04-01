@@ -98,7 +98,7 @@ class AdminMailer < ActionMailer::Base
   def monday_jpo(structure)
     @structure  = structure
     @show_links = true
-    mail to: structure.main_contact.email, subject: "Portes Ouvertes : toutes vos actions pour attirer le maximum de nouveaux élèves"
+    mail to: structure.main_contact.email, subject: "J-5 avant vos Portes Ouvertes : annoncez la dernière ligne droite !"
   end
 
   def no_logo_yet(structure)
