@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(version: 20140331123653) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
+  enable_extension "pg_stat_statements"
 
   create_table "admins", force: true do |t|
     t.string   "email",                               default: "",    null: false
@@ -715,8 +716,8 @@ ActiveRecord::Schema.define(version: 20140331123653) do
   add_index "user_profiles", ["structure_id", "user_id"], name: "index_user_profiles_on_structure_id_and_user_id", using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "email",                   default: "",   null: false
-    t.string   "encrypted_password",      default: "",   null: false
+    t.string   "email",                   default: "",    null: false
+    t.string   "encrypted_password",      default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -726,8 +727,8 @@ ActiveRecord::Schema.define(version: 20140331123653) do
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.string   "authentication_token"
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
     t.string   "provider"
     t.string   "uid"
     t.string   "oauth_token"
@@ -760,7 +761,7 @@ ActiveRecord::Schema.define(version: 20140331123653) do
     t.string   "email_status"
     t.string   "last_email_sent_at"
     t.string   "last_email_sent_status"
-    t.boolean  "super_user"
+    t.boolean  "super_user",              default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
