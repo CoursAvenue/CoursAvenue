@@ -1,0 +1,10 @@
+Bonjour <%= @user.name %> et bienvenue sur CoursAvenue !
+
+Nous espérons que vous trouverez très vite des cours pour apprendre encore et toujours !
+Renseignez vos passions dans votre profil pour que nous vous proposions des cours adaptés à vos besoins.
+
+Renseigner mes passions : <%= user_passions_url(@user, utm_source: 'email', utm_campaign: 'passions', utm_medium: 'welcome_email') %>
+
+À très bientôt,
+
+L'équipe de CoursAvenue
