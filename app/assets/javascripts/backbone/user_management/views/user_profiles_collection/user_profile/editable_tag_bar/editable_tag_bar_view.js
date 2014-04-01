@@ -237,6 +237,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
 
         sanitize: function sanitize (data) {
             // NOP
+            return data;
         },
     });
 });
