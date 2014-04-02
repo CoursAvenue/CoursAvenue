@@ -1,0 +1,9 @@
+Demandez à vos élèves de vous recommander et multipliez par 7 votre nombre de visites
+
+Savez-vous que vous pouvez inviter vos élèves à vous recommander en quelques clics seulement ? Connectez-vous à votre profil, puis cliquez sur le bouton bleu "Obtenir des avis" et utilisez notre outil d'envoi simplifié pour un meilleur résultat :
+
+Obtenir des recommandations : <%= recommendations_pro_structure_url(@structure, subdomain: 'pro', utm_source: 'email', utm_campaign: 'get_more_recommendations', utm_medium: 'monday_0_reco') %>
+
+Trucs & astuces : au-delà de 5 recommandations, nous vous offrons votre Livre d'Or : <%= pro_pages_widget_url(subdomain: 'pro') %> à afficher sur votre propre site Internet.
+
+Gérer mes préférences e-mails : <%= notifications_pro_structure_admin_url(@structure, @structure.main_contact, subdomain: 'pro') %>

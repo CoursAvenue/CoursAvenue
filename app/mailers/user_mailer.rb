@@ -97,4 +97,9 @@ class UserMailer < ActionMailer::Base
     @user       = User.where{email == user_email}.first
     mail to: email, subject: "Dernier jour pour recommander #{structure.name}"
   end
+
+  def five_days_to_come_for_jpo(user)
+    @user = user
+    mail to: @user.email, subject: "Plus que 4 jours avant les Portes Ouvertes : n’attendez pas pour vous inscrire"
+  end
 end

@@ -11,6 +11,9 @@ OpenDoorsSearch.module('Views.StructuresCollection.Structure.Courses', function(
             this.collection = new Backbone.Collection(_.map(options.model.get("plannings"), function (data) {
                 return new Backbone.Model(data);
             }));
+            this.collection.each(function(planning) {
+                planning.set({registration_url: Routes.new_planning_participation_path(planning.id)});
+            });
         },
 
         itemViewOptions: function itemViewOptions (model, index) {

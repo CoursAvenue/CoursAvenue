@@ -17,6 +17,8 @@ class UserProfile < ActiveRecord::Base
   after_create :associate_to_user_or_create
 
   before_validation :affect_email_if_empty
+  before_save       :downcase_email
+
   validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i }, allow_blank: true
   validate :presence_of_mandatory_fields
 
@@ -130,4 +132,11 @@ class UserProfile < ActiveRecord::Base
     end
   end
 
+  # Change the email to force it to be downcase
+  #
+  # @return
+  def downcase_email
+    self.email = self.email.downcase if self.email
+    nil
+  end
 end

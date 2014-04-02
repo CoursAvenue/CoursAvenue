@@ -33,6 +33,7 @@ class Comment < ActiveRecord::Base
 
   before_save      :strip_names
   before_save      :downcase_email
+  before_save      :sanatize_content
 
   after_save       :update_comments_count
 
@@ -263,6 +264,14 @@ class Comment < ActiveRecord::Base
     user_profile = UserProfile.update_info(structure, user)
     # Tag it as commented
     structure.add_tags_on(user_profile, UserProfile::DEFAULT_TAGS[:comments])
+    nil
+  end
+
+  # Remove unwanted character from the content
+  #
+  # @return nil
+  def sanatize_content
+    self.content = self.content.scan(/[[:print:]]|[[:space:]]/).join if self.content.present?
     nil
   end
 end

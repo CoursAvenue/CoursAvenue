@@ -106,10 +106,6 @@ class Planning < ActiveRecord::Base
     end
 
     # ----------------------- For grouping
-    string :course_id_str do
-      course.structure_id.to_s
-    end
-
     string :structure_id_str do
       course.structure_id.to_s
     end
