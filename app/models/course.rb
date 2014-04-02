@@ -465,6 +465,6 @@ class Course < ActiveRecord::Base
   end
 
   def sanatize_description
-    self.description = self.description.scan(/[[:print:]]|[[:space:]]/).join
+    self.description = self.description.scan(/[[:print:]]|[[:space:]]/).join if self.description.present?
   end
 end
