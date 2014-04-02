@@ -19,5 +19,11 @@
     <span class="green">GRATUIT</span>
 </td>
 <td class="one-twelfths text--right">
-    <a href='{{structure_url}}' class='btn btn--green btn--small' data-target="participate">M'inscrire</a>
+    <a href='{{registration_url}}' data-behavior="modal"  data-title='Inscription au créneau' data-width="600" class='btn btn--green btn--small fancybox.ajax' data-target="participate">
+    {{#ifCond open_courses_open_places '==' '0'}}
+        M'inscrire en liste d'attente
+    {{else}}
+        M'inscrire
+    {{/ifCond}}
+    </a>
 </td>

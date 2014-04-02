@@ -23,7 +23,7 @@ class OpenCoursesController < ApplicationController
     params[:order_by]        ||= :jpo_score
     params[:order_direction] ||= :asc
     params[:address_name]    ||= 'Paris, France'
-
+    params[:radius]          ||= 20
     # Directly search plannings because it is by default filtered by dates
     @structures, @place_ids, @total = search_plannings
     @total = PlanningSearch.search(params).total

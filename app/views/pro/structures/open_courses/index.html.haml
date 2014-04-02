@@ -97,7 +97,7 @@
                     .bar.bar-success{style: "width: #{(planning.nb_jpo_participants * 100) / planning.nb_participants_max}%;"}
                       #{planning.nb_jpo_participants} / #{planning.nb_participants_max}
                 - else
-                  0 / #{course.nb_participants_max}
+                  0 / #{planning.nb_participants_max}
                 - if planning.waiting_list.any?
                   %div
                     %strong Liste d'attente

@@ -4,4 +4,8 @@ class Keyword < ActiveRecord::Base
   validates :name, uniqueness: true
 
   default_scope -> { order('name ASC') }
+
+  searchable do
+    text :name
+  end
 end

@@ -25,7 +25,11 @@
     = f.error :base, error_method: :to_sentence
 
     .push-half--ends.alert--info.one-whole
-      = f.input :nb_adults, as: :select, collection: [0,1,2,3,4,5], wrapper_html: { class: 'flush', id: 'participation-input-nb-adults' }, include_blank: false
+      - if @planning.for_kid?
+        - nb_adults_collection = [0,1,2,3,4,5]
+      - else
+        - nb_adults_collection = [1,2,3,4,5]
+      = f.input :nb_adults, as: :select, collection: nb_adults_collection, wrapper_html: { class: 'flush', id: 'participation-input-nb-adults' }, include_blank: false
       - if @planning.for_kid?
         = f.input :nb_kids, as: :select, collection: [0,1,2,3,4], wrapper_html: { class: 'flush', id: 'participation-input-nb-kids' }, include_blank: false
 

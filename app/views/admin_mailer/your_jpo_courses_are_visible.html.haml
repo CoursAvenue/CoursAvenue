@@ -1,5 +1,5 @@
 - content_for :email_logo do
-  = image_tag 'jpo_2014/logo_1_line_orange.png', alt: 'CoursAvenue', height: 89, width: 300, style: '-ms-interpolation-mode:bicubic;'
+  = image_tag 'jpo_2014/logo_1_line_orange.png', alt: 'CoursAvenue', height: 89, width: 300, style: 'width: 89px; height: 300px;'
 
 - if @structure
   - content_for :header_links do
@@ -17,7 +17,7 @@
   Notre équipe vient de valider vos ateliers Portes Ouvertes qui sont maintenant ouverts aux inscriptions. A chaque inscription, un e-mail vous sera envoyé et vous pourrez suivre vos inscrits en temps réel sur votre profil. Profitez de cette occasion pour offrir à vos élèves l'opportunité d'inviter leurs proches :
 
 %p.action
-  = link_to "Inviter mes élèves et mon réseau", jpo_new_pro_structure_invited_students_url(@structure, subdomain: 'pro'), class: 'btn btn--green', utm_source: 'email', utm_campaign: 'invite_jpo_students', utm_medium: 'jpo_course_visible'
+  = link_to "Inviter mes élèves et mon réseau", jpo_new_pro_structure_invited_students_url(@structure, subdomain: 'pro', utm_source: 'email', utm_campaign: 'invite_jpo_students', utm_medium: 'jpo_course_visible'), class: 'btn btn--green'
 
 %p.blue.blue-tip
   %i Trucs & astuces : depuis votre profil, offrez à vos élèves l'opportunité d'inviter leurs proches.

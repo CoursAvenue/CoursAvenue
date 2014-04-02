@@ -7,5 +7,6 @@
 %h4.flush--bottom.push--top Participez à notre événement Facebook
 = link_to "Voir l'événement", "https://www.facebook.com/events/1475459639332489/", target: :_blank, class: 'btn btn--facebook push-half--top'
 
-%h4.push--top Ou alors envoyez leur un message Facebook
-= render 'users/participations/send_message_to_facebook_friends'
+- if current_user.facebook_registered?
+  %h4.push--top Ou alors envoyez leur un message Facebook
+  = render 'users/participations/send_message_to_facebook_friends'
