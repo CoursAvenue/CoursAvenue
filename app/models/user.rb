@@ -65,8 +65,9 @@ class User < ActiveRecord::Base
   after_create :associate_all_comments
 
   # Not after create because user creation is made when teachers invite their students to post a comment
-  after_save :associate_city_from_zip_code, if: -> { zip_code.present? and city.nil? }
-  after_save :update_email_status
+  after_save  :associate_city_from_zip_code, if: -> { zip_code.present? and city.nil? }
+  after_save  :update_email_status
+  before_save :downcase_email
 
   ######################################################################
   # Validations                                                        #
@@ -388,5 +389,13 @@ class User < ActiveRecord::Base
   # @return Boolean
   def lived_place_invalid?(attributes)
     attributes['zip_code'].blank? or attributes['city_id'].blank?
+  end
+
+  # Change the email to force it to be downcase
+  #
+  # @return
+  def downcase_email
+    self.email = self.email.downcase if self.email
+    nil
   end
 end

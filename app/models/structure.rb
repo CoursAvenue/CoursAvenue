@@ -689,7 +689,11 @@ class Structure < ActiveRecord::Base
     end
   end
 
+  # Remove unwanted character from the content
+  #
+  # @return nil
   def sanatize_description
     self.description = self.description.scan(/[[:print:]]|[[:space:]]/).join if self.description.present?
+    nil
   end
 end
