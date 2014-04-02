@@ -561,6 +561,7 @@ class Structure < ActiveRecord::Base
     tag_list = user_profile.tags.map(&:name)
     tag_list = tag_list + tags
     self.tag(user_profile, with: tag_list.uniq.join(','), on: :tags)
+    user_profile.delay.index # If we index right away, it won't index the last tags added...
   end
 
   def create_tag tag_name
