@@ -27,7 +27,9 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
 
         /* incrementally build up a set of attributes */
         collectEdits: function (edits) {
-            this.edits[edits.attribute] = edits.data;
+            if (edits !== undefined) {
+                this.edits[edits.attribute] = edits.data;
+            }
         },
 
         /* options are passed to the initialize method of the

@@ -21,6 +21,10 @@ UserManagement.module('Views.UserProfilesCollection.Filters', function(Module, A
             this[ENTER]     = this.handleEnter;
         },
 
+        onFieldEdits: function () {
+            this.handleEnter();
+        },
+
         afterRender: function (callback) {
             callback();
 

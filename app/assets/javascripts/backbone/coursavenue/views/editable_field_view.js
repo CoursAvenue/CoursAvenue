@@ -46,6 +46,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             edits = this.sanitize(edits);
 
             this.trigger("field:edits", edits);
+            this.triggerMethod("field:edits");
         },
 
         /* we do "focus" twice here: before we start editing
