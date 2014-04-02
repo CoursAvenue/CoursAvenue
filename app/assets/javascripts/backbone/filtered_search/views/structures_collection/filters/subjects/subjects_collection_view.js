@@ -167,6 +167,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
         keyup: function keyup (event) {
             if (event.keyCode === 13 || event.keyCode === 27) { // Enter || Escape
                 this.ui.$menu.hide();
+                this.ui.$search_input.typeahead('close');
             }
             this.announce(event);
         },
