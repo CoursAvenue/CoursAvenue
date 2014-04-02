@@ -11,19 +11,32 @@
 = content_for :meta_description do
   Participez à l'un des 5 000 cours gratuits les 5-6 avril. Ateliers offerts par #{@structure.name} : #{@structure.courses.open_courses.map(&:name).join(', ')}
 
+.relative
+  .inline-block
+    = link_to open_courses_path do
+      %i.orange ←
+      Revenir à la recherche
 
-.inline-block
-  = link_to open_courses_path do
-    %i.orange ←
-    Revenir à la recherche
+  .inline-block.push-half--sides
+    |
+  .inline-block
+    %ol.nav.breadcrumb.flush{itemprop: 'breadcrumb'}
+      %li= link_to "Tous les établissement des Journées Portes Ouvertes", open_courses_path
+      %li= @structure.name
 
-.inline-block.push-half--sides
-  |
-.inline-block
-  %ol.nav.breadcrumb.flush{itemprop: 'breadcrumb'}
-    %li
-      = link_to "Tous les établissement des Journées Portes Ouvertes", open_courses_path
-    %li= @structure.name
+  - if current_user
+    #people-are-watching-you.alert.alert--error.absolute.east{style: 'display: none; top: -0.65em;'}
+      #{(4..10).to_a.sample} personnes regardent actuellement cette page
+
+
+- if current_user
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          setTimeout(function() {
+              $('#people-are-watching-you').fadeIn();
+          }, 3000);
+      });
 
 - if !current_user and params[:waiting_for_activation]
   .blue-box.islet.text--center.push--ends

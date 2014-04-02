@@ -366,9 +366,13 @@ class User < ActiveRecord::Base
     (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
   end
 
+  # Update city id of the user regarding the zip_code he choosed when registering
+  #
+  # @return nil
   def associate_city_from_zip_code
     _zip_code = self.zip_code
     self.update_column :city_id, City.where{zip_code == _zip_code}.first.try(:id)
+    nil
   end
 
   def associate_all_comments
