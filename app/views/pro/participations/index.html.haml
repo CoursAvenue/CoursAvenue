@@ -30,6 +30,9 @@
 .white-box.islet.text--center
   #participations-cumul
 
+.white-box.islet.text--center
+  #participations-hours
+
 %table.white-box.table--data.table--striped.table--white.push-half--top
   %thead
     %tr
@@ -90,15 +93,15 @@
                       name: 'Inscriptions'
                     }]
         });
+        new Highcharts.Chart({
+            chart: { renderTo: 'participations-hours', type: 'column' },
+            title: { text: null },
+            xAxis: { categories: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"] },
+            yAxis: { title: { text: ''}},
+            series: [
+              { data: #{@participations_per_hour.map{|key, value| value}},
+                name: 'Élèves inscrits'
+               }
+            ]
+        });
     });
--# new Highcharts.Chart({
--#     chart: { renderTo: 'participations-hours', type: 'column' },
--#     title: { text: null },
--#     xAxis: { categories: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"] },
--#     yAxis: { title: { text: ''}},
--#     series: [
--#       { data: #{@participations_per_hour.map{|key, value| value}},
--#         name: 'Élèves inscrits'
--#        }
--#     ]
--# });
