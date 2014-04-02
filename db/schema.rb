@@ -16,7 +16,6 @@ ActiveRecord::Schema.define(version: 20140331123653) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
-  enable_extension "pg_stat_statements"
 
   create_table "admins", force: true do |t|
     t.string   "email",                               default: "",    null: false
@@ -689,8 +688,6 @@ ActiveRecord::Schema.define(version: 20140331123653) do
     t.string   "ip_address"
   end
 
-  add_index "unfinished_resources", ["visitor_id"], name: "index_unfinished_resources_on_visitor_id", using: :btree
-
   create_table "user_profile_imports", force: true do |t|
     t.binary   "data",         null: false
     t.string   "filename"
@@ -775,8 +772,6 @@ ActiveRecord::Schema.define(version: 20140331123653) do
     t.hstore   "address_name"
     t.hstore   "subject_id"
   end
-
-  add_index "visitors", ["fingerprint"], name: "index_visitors_on_fingerprint", using: :btree
 
   add_foreign_key "notifications", "conversations", name: "notifications_on_conversation_id"
 
