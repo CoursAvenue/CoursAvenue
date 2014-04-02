@@ -14,7 +14,10 @@ $(function() {
                                  thumbs : {
                                      width  : 75,
                                      height : 50
-                                 }
+                                 },
+                                overlay: {
+                                  locked: false
+                                }
                              }
                          });
     };
@@ -43,6 +46,9 @@ $(function() {
                         title : {
                             type: 'outside',
                             position : 'top'
+                        },
+                        overlay: {
+                          locked: false
                         }
                     }
             });
