@@ -127,6 +127,7 @@ class Structure < ActiveRecord::Base
 
   after_touch   :update_email_status
 
+  before_save   :sanatize_description
   before_save   :fix_website_url
   before_save   :fix_facebook_url
   before_save   :fix_widget_url
@@ -686,5 +687,9 @@ class Structure < ActiveRecord::Base
       # Prevent from infinite trying to save
       self.save(validate: false) if latitude.present? and longitude.present?
     end
+  end
+
+  def sanatize_description
+    self.description = self.description.scan(/[[:print:]]|[[:space:]]/).join
   end
 end

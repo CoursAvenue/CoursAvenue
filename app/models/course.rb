@@ -24,6 +24,7 @@ class Course < ActiveRecord::Base
   has_and_belongs_to_many :subjects, -> { uniq }
 
   after_initialize :set_teaches_at_home
+  before_save      :sanatize_description
 
   # ------------------------------------------------------------------------------------ Scopes
   scope :active,                 -> { where(active: true) }
@@ -461,5 +462,9 @@ class Course < ActiveRecord::Base
       [-> { self.type_name }, :name],
       :name
     ]
+  end
+
+  def sanatize_description
+    self.description = self.description.scan(/[[:print:]]|[[:space:]]/).join
   end
 end
