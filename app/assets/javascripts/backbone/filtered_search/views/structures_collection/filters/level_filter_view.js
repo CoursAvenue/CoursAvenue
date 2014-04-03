@@ -5,10 +5,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
     Module.LevelFilterView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'level_filter_view',
 
-        initialize: function() {
-            this.announce = _.debounce(this.announce, 800);
-        },
-
         setup: function (data) {
             var self = this;
             _.each(data.level_ids, function(level_id) {
@@ -39,7 +35,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             var level_ids = _.map(this.$('[name="level_ids[]"]:checked'), function(input){ return input.value });
             this.trigger("filter:level", { 'level_ids[]': level_ids });
             this.announceBreadcrumb(level_ids);
-        },
+        }.debounce(800),
 
         announceBreadcrumb: function(level_ids) {
             var title;

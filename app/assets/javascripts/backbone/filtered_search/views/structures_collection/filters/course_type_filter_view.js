@@ -5,10 +5,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
     Module.CourseTypeFilterView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'course_type_filter_view',
 
-        initialize: function() {
-            this.announce = _.debounce(this.announce, 800);
-        },
-
         setup: function (data) {
             var self = this;
             _.each(data.course_types, function(course_type) {
@@ -25,7 +21,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             var course_types = _.map(this.$('[name="course_types[]"]:checked'), function(input){ return input.value });
             this.trigger("filter:level", { 'course_types[]': course_types });
             this.announceBreadcrumb(course_types);
-        },
+        }.debounce(800),
 
         announceBreadcrumb: function(course_types) {
             var title;

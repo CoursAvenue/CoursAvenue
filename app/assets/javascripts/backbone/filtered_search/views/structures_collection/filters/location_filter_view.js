@@ -3,10 +3,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
     Module.LocationFilterView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'location_filter_view',
 
-        initialize: function () {
-            this.announce = _.debounce(this.announce, 500);
-        },
-
         setup: function (data) {
             this.ui.$address_picker.attr('value', data.address_name);
         },
@@ -21,7 +17,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         announce: function (e, data) {
             this.trigger("filter:location", data);
-        },
+        }.debounce(500),
 
         ui: {
             $address_picker: '#address-picker'

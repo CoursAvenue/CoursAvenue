@@ -5,10 +5,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
     Module.PaymentMethodFilterView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'payment_method_filter_view',
 
-        initialize: function() {
-            this.announce = _.debounce(this.announce, 800);
-        },
-
         setup: function (data) {
             this.ui.$select.val(data.funding_type_ids);
             this.announceBreadcrumb();
@@ -26,7 +22,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             var payment_methods = this.ui.$select.val();
             this.trigger("filter:payment_method", { 'funding_type_ids[]': payment_methods });
             this.announceBreadcrumb(payment_methods);
-        },
+        }.debounce(1000),
 
         announceBreadcrumb: function (payment_methods) {
             var title;
