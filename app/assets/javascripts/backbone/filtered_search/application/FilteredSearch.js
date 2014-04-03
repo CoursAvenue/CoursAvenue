@@ -35,7 +35,8 @@ FilteredSearch.addInitializer(function(options) {
             'filter:location':         'filterQuery',
             'filter:trial_course':     'filterQuery',
             'map:marker:focus':        'findItemView',
-            'structures:updated':      'renderSlideshows'
+            'structures:updated':      'renderSlideshows',
+            'infinite:scroll':         'nextPage'
         }
     });
 
