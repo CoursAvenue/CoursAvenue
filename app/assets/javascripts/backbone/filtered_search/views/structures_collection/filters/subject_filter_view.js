@@ -5,6 +5,11 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
     Module.SubjectFilterView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'subject_filter_view',
 
+        initialize: function () {
+            this.current_subject_slug = null;
+            this.announceSubject = _.debounce(this.announceSubject.bind(this), 500);
+        },
+
         setup: function (data) {
             this.activateButton(data.subject_id);
         },
@@ -23,13 +28,20 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             } else {
                 var subject_slug = this.$('.' + ACTIVE_CLASS + '[data-type="button"]').data('value');
             }
+
             if (this.$('[data-value=' + subject_slug + ']').hasClass(ACTIVE_CLASS)) {
-                this.trigger("filter:subject", { subject_id: null });
+                this.current_subject_slug = null;
                 this.disabledButton(subject_slug);
+                this.announceSubject();
             } else {
-                this.trigger("filter:subject", { subject_id: subject_slug });
+                this.current_subject_slug = subject_slug;
                 this.activateButton(subject_slug);
+                this.announceSubject();
             }
+        },
+
+        announceSubject: function () {
+            this.trigger("filter:subject", { subject_id: this.current_subject_slug });
         },
 
         disabledButton: function(subject_slug) {
