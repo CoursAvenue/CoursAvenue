@@ -2,13 +2,15 @@
 
 = render partial: 'pro/structures/comments_tabs', locals: {current: 'comment_notification'}
 
+.text--center.push-half--bottom= paginate @comment_notifications, window: 1, outer_window: 3
+
 %table.table--striped.table--data.white-box#comment-notification-table
   %thead
     %tr
       %th Email
       %th.text--center A laissé une recommandation
   %tbody
-    - @structure.comment_notifications.limit(500).each do |comment_notification|
+    - @comment_notifications.each do |comment_notification|
       %tr
         %td= comment_notification.user.email
         %td.text--center{data: {value: comment_notification.complete? ? '0' : '1'}}
@@ -18,6 +20,7 @@
           %td
             = link_to 'Supprimer', pro_structure_comment_notification_path(@structure, comment_notification), method: :delete, class: 'red'
 
+.text--center.push-half--ends= paginate @comment_notifications, window: 1, outer_window: 3
 
 = content_for :scripts do
   :javascript

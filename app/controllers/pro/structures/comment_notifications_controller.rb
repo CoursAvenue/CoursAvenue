@@ -18,6 +18,7 @@ class Pro::Structures::CommentNotificationsController < Pro::ProController
   end
 
   def index
+    @comment_notifications     = Kaminari.paginate_array(@structure.comment_notifications).page(params[:page] || 1).per(100)
   end
 
   def destroy
