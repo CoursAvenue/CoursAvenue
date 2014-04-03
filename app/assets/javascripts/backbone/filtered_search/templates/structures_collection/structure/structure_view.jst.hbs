@@ -29,7 +29,7 @@
             <div>
                 {{#if has_plannings}}
                 <div>
-                    {{ plannings_count }} {{ pluralize plannings_count 'séance' 'séances' }}
+                    {{ plannings_count }} {{ pluralize plannings_count 'créneau' 'créneaux' }}
                     {{#if has_price_range }}
                         de
                         <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
