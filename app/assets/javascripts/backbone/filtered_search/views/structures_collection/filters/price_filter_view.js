@@ -8,14 +8,10 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         SUBSCRIPTION_PRICE_TYPES: ['all_subscriptions', 'annual_subscription', 'semestrial_subscription', 'trimestrial_subscription', 'monthly_subscription'],
         COURSE_PRICE_TYPES:       ['any_per_course', 'per_course', 'book_ticket'],
 
-        initialize: function() {
-            this.announce = _.debounce(this.announce, 800);
-        },
-
         setup: function (data) {
             var $min_value = this.ui.$min_value,
-                $max_value = this.ui.$max_value;
-
+                $max_value = this.ui.$max_value,
+                range, step, min, max;
 
             if (this.SUBSCRIPTION_PRICE_TYPES.indexOf(data.price_type) !== -1) {
                 this.ui.$price_type_radio_subscription.prop('checked', true);
@@ -130,7 +126,8 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 });
             }
             this.announceBreadcrumb();
-        },
+        }.debounce(GLOBAL.DEBOUNCE_DELAY),
+
         announceBreadcrumb: function() {
             var title;
             if (this.$('[name=price_type]:checked').length === 0) {

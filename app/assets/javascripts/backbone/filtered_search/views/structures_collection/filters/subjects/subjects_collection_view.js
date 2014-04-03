@@ -5,10 +5,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
         itemView: Module.SubjectView,
         itemViewContainer: '.grid__item.one-whole.soft-half.b-white.tab-content',
 
-        initialize: function initialize () {
-            this.announce = _.debounce(this.announce, 500);
-        },
-
         setup: function setup (data) {
             this.ui.$search_input.attr('value', data.name);
             this.previous_searched_name = data.name;
@@ -179,7 +175,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
                 this.previous_searched_name = name;
                 this.trigger("filter:search_term", { 'name': name });
             }
-        },
+        }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
         // Clears all the given filters
         clear: function clear () {

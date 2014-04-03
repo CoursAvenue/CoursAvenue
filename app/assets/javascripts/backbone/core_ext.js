@@ -223,7 +223,11 @@ if (!Function.prototype.debounce) {
           throw new TypeError("Function.prototype.debounce - what is trying to be bound is not callable");
         }
 
-        return _.debounce(this, arguments[0]);
+        var args      = Array.prototype.slice.call(arguments, 0), // put the arguments into an arra
+            wait      = args.shift(), // the first is the wait
+            immediate = (args.shift() === undefined)? false : true; // the second is the "immediate" flag
+
+        return _.debounce(this, wait, immediate);
     }
 }
 

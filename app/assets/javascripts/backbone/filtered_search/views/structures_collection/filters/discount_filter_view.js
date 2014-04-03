@@ -5,10 +5,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
     Module.DiscountFilterView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'discount_filter_view',
 
-        initialize: function() {
-            this.announce = _.debounce(this.announce, 800);
-        },
-
         setup: function (data) {
             this.ui.$select.val(data.discount_types);
             this.announceBreadcrumbs();
@@ -26,7 +22,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             var discount_types = this.ui.$select.val();
             this.trigger("filter:discount", { 'discount_types[]': discount_types });
             this.announceBreadcrumbs(discount_types);
-        },
+        }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
         announceBreadcrumbs: function(discount_types) {
             var title;

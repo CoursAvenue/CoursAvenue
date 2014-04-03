@@ -41,7 +41,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         announceSubject: function () {
             this.trigger("filter:subject", { subject_id: this.current_subject_slug });
-        }.debounce(500),
+        }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
         disabledButton: function(subject_slug) {
             this.$('[data-value=' + subject_slug + ']').removeClass(ACTIVE_CLASS);

@@ -107,13 +107,16 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             // normally we won't want to change to the current page
             // so we require a force option to be true
             if (page == this.collection.currentPage && !(options && options.force)) { return false };
-            var self = this;
 
-            self.trigger('paginator:updating', this);
-            this.collection.goTo(page, {
-                success: function () {
-                    self.announcePaginatorUpdated();
-                }
+            // if there is already a changePage method being resolved, abort it!
+            if (this.gotoXHR && this.gotoXHR.readyState != 4) {
+                this.gotoXHR.abort();
+            }
+
+            this.trigger('paginator:updating', this);
+
+            this.gotoXHR = this.collection.goTo(page, {
+                success: this.announcePaginatorUpdated.bind(this)
             });
 
             return false;

@@ -7,11 +7,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         initialize: function() {
             this.data = {start_date: '', end_date: ''};
-            this.announceDay       = _.debounce(this.announceDay, 700);
-            this.announceTime      = _.debounce(this.announceTime, 700);
-            this.announceHourRange = _.debounce(this.announceHourRange, 700);
-            this.announceDateRange = _.debounce(this.announceDateRange, 700);
-            this.announce          = _.debounce(this.announce, 700);
         },
 
         setup: function (data) {
@@ -69,16 +64,8 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             this.announceDay();
             this.announceTime();
             this.announceHourRange();
-        },
+        }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
-        announceDay: function () {
-            this.trigger("filter:date", {
-                'week_days[]'  : this.ui.$week_days_select.val(),
-                start_date: null,
-                end_date  : null
-            });
-            this.announceBreadcrumbs();
-        },
         announceBreadcrumbs: function() {
             // Remove breadcrumb if all values are not set
             if ((this.ui.$week_days_select.val() === null) &&
@@ -115,6 +102,15 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             return title;
         },
 
+        announceDay: function () {
+            this.trigger("filter:date", {
+                'week_days[]'  : this.ui.$week_days_select.val(),
+                start_date: null,
+                end_date  : null
+            });
+            this.announceBreadcrumbs();
+        }.debounce(GLOBAL.DEBOUNCE_DELAY),
+
         announceTime: function (e, data) {
             var range, data;
             switch(this.ui.$time.find('select').val()) {
@@ -135,7 +131,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             }
             this.trigger("filter:date", data);
             this.announceBreadcrumbs();
-        },
+        }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
         announceHourRange: function (e) {
             if (this.ui.$time.find('select').val() !== "choose-slot") {
@@ -147,7 +143,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 end_hour:   this.$el.find('#end-hour').val(),
             });
             this.announceBreadcrumbs();
-        },
+        }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
         /* TODO this announces many many times on each date change event */
         announceDateRange: function () {
@@ -159,7 +155,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 end_hour:       null
             });
             this.announceBreadcrumbs();
-        },
+        }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
         showHourRange: function () {
             if (this.ui.$time.find('select').val() !== "choose-slot") {
