@@ -10,8 +10,8 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         setup: function (data) {
             var $min_value = this.ui.$min_value,
-                $max_value = this.ui.$max_value;
-
+                $max_value = this.ui.$max_value,
+                range, step, min, max;
 
             if (this.SUBSCRIPTION_PRICE_TYPES.indexOf(data.price_type) !== -1) {
                 this.ui.$price_type_radio_subscription.prop('checked', true);
@@ -126,7 +126,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 });
             }
             this.announceBreadcrumb();
-        }.debounce(800),
+        }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
         announceBreadcrumb: function() {
             var title;

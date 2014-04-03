@@ -21,7 +21,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             var course_types = _.map(this.$('[name="course_types[]"]:checked'), function(input){ return input.value });
             this.trigger("filter:level", { 'course_types[]': course_types });
             this.announceBreadcrumb(course_types);
-        }.debounce(800),
+        }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
         announceBreadcrumb: function(course_types) {
             var title;

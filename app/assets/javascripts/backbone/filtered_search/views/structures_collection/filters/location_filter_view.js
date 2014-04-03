@@ -17,7 +17,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         announce: function (e, data) {
             this.trigger("filter:location", data);
-        }.debounce(500),
+        }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
         ui: {
             $address_picker: '#address-picker'

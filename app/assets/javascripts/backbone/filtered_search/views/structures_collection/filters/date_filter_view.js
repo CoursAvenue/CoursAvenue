@@ -64,7 +64,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             this.announceDay();
             this.announceTime();
             this.announceHourRange();
-        }.debounce(700),
+        }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
         announceBreadcrumbs: function() {
             // Remove breadcrumb if all values are not set
@@ -109,7 +109,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 end_date  : null
             });
             this.announceBreadcrumbs();
-        }.debounce(700),
+        }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
         announceTime: function (e, data) {
             var range, data;
@@ -131,7 +131,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             }
             this.trigger("filter:date", data);
             this.announceBreadcrumbs();
-        }.debounce(700),
+        }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
         announceHourRange: function (e) {
             if (this.ui.$time.find('select').val() !== "choose-slot") {
@@ -143,7 +143,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 end_hour:   this.$el.find('#end-hour').val(),
             });
             this.announceBreadcrumbs();
-        }.debounce(700),
+        }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
         /* TODO this announces many many times on each date change event */
         announceDateRange: function () {
@@ -155,7 +155,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 end_hour:       null
             });
             this.announceBreadcrumbs();
-        }.debounce(700),
+        }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
         showHourRange: function () {
             if (this.ui.$time.find('select').val() !== "choose-slot") {

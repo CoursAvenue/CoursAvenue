@@ -22,7 +22,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             var discount_types = this.ui.$select.val();
             this.trigger("filter:discount", { 'discount_types[]': discount_types });
             this.announceBreadcrumbs(discount_types);
-        }.debounce(800),
+        }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
         announceBreadcrumbs: function(discount_types) {
             var title;

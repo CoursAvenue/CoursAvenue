@@ -35,7 +35,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             var level_ids = _.map(this.$('[name="level_ids[]"]:checked'), function(input){ return input.value });
             this.trigger("filter:level", { 'level_ids[]': level_ids });
             this.announceBreadcrumb(level_ids);
-        }.debounce(800),
+        }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
         announceBreadcrumb: function(level_ids) {
             var title;

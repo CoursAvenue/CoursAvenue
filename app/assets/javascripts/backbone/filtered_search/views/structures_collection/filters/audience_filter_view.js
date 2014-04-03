@@ -90,7 +90,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
             this.trigger("filter:audience", value_to_trigger);
             this.announceBreadcrumb(audience_ids);
-        }.debounce(800),
+        }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
         announceBreadcrumb: function(audience_ids) {
             var title;

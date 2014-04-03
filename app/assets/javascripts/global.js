@@ -72,6 +72,7 @@ if (!Function.prototype.bind) {
   };
 }
 
+GLOBAL.DEBOUNCE_DELAY = 400;
 
 GLOBAL.normalizeAccents = function(string) {
   string = string.replace(/[éèêë]/g, 'e');

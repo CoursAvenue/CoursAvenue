@@ -175,7 +175,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
                 this.previous_searched_name = name;
                 this.trigger("filter:search_term", { 'name': name });
             }
-        }.debounce(500),
+        }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
         // Clears all the given filters
         clear: function clear () {
