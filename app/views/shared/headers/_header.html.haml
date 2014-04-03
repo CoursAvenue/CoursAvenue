@@ -1,5 +1,7 @@
 - expanded = false unless expanded.present?
-%header.header
+.print--visible
+  = image_tag 'logo.png', width: 250, height: 50
+%header.header.print--hidden
   .very-soft.flexbox{class: expanded ? '' : 'main-container'}
     .flexbox__item.palm-one-whole.v-middle>
       = link_to '', root_path, class: 'v-middle coursavenue-header-logo', title: 'CoursAvenue | Tous les cours autour de vous'
