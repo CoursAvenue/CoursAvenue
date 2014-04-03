@@ -357,7 +357,7 @@
 
       // wrap the original google maps onAdd function so that it
       // pulls the markers offscreen and then drops them back on
-      // MAGIC number 40 here is based on the css styles used to
+      // MAGIC number -40 here is based on the css styles used to
       // line the marker up with the infobox
       this.gOverlay.onAdd = _.wrap(_onAdd, function (func) {
 
@@ -365,7 +365,7 @@
           // this.a comes from the minified googly code since we are
           // in the context of a minified googly object
           $(this.a).find(".map-marker-image").css({ top: "-500px" });
-          $(this.a).find(".map-marker-image").animate({ top: "40px" }, 700, "easeOutBounce");
+          $(this.a).find(".map-marker-image").animate({ top: "-40px" }, 700, "easeOutBounce");
 
       }.bind(this.gOverlay));
     }
