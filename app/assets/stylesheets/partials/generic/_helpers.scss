@@ -175,3 +175,9 @@
     }
 
 }
+
+@media only print {
+    .print--hidden {
+        display: none !important;
+    }
+}

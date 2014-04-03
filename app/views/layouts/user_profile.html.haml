@@ -3,7 +3,7 @@
 
 = content_for :content do
   - if @user
-    .white-box.main-container.push--top
+    .white-box.main-container.push--top.print--hidden
       .flexbox.one-whole
         .flexbox__item.v-top{style: 'width: 11%;'}>
           - if @user.has_avatar?
@@ -46,7 +46,7 @@
 
   .main-container.soft--ends{class: controller_path}
     .flexbox
-      %nav.flexbox__item.v-top.side-menu.white-box.one-fifth.v-top>
+      %nav.flexbox__item.v-top.side-menu.white-box.one-fifth.v-top.print--hidden>
         = yield :user_side_menu
       .flexbox__item.four-fifths.v-top.soft-half--left>
         = content_for?(:users_content) ? yield(:users_content) : yield

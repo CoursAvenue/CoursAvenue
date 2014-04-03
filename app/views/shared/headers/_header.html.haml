@@ -11,7 +11,7 @@
         %br
         %span.f-weight-300.milli 5-6 avril en Île-de-France
       = link_to 'Participer', open_courses_url(subdomain: 'www'), class: 'btn btn--yellow v-middle push-half--left soft--sides', onclick: "ga('send', 'event', 'Participer', 'click', 'header')"
-    %nav.text--right.flexbox__item.v-middle.nowrap.visuallyhidden--palm>
+    %nav.text--right.flexbox__item.v-middle.nowrap.visuallyhidden--palm.print--hidden>
       - if current_pro_admin
         = render partial: 'shared/headers/admin_nav'
       - elsif current_user
