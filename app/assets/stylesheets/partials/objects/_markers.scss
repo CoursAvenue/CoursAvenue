@@ -5,8 +5,8 @@
         top      : -40px;
         left     : -10px;
         &.map-marker-image--small {
-            top : -10px;
-            left: -8px;
+            top : -5px !important;
+            left: 0px;
         }
     }
     .map-marker-image.disabled {
