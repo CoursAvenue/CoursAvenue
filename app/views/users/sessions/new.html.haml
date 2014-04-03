@@ -1,4 +1,15 @@
 .center-block{class: @is_xhr ? '' : 'white-box island one-half palm-one-whole lap-one-whole'}
+  - if flash[:alert] ==  t('devise.confirmations.failure.unconfirmed')
+    .text--center.push-half--bottom
+      .alert.alert--error= t('devise.confirmations.failure.unconfirmed')
+
+    Comment valider mon inscription ?
+    %ul
+      %li= link_to "Renvoyer les instructions de confirmation par email", new_confirmation_path(:user)
+      %li= link_to "Chercher le mail d'activation dans mes spams", '#how-to', data: { behavior: 'modal' }
+      %li= link_to "Nous contacter", "mailto:contact@coursavenue.com?subject=Je%20n'ai%20pas%20reçu%20mon%20mail%20d'activation&body=Bonjour,%20je%20n'ai%20pas%20reçu%20mon%20mail%20d'activation,%20pouvez-vous%20me%20le%20renvoyer.%20Cordialement."
+
+    %hr
   = image_tag 'texts/student_teacher_connexion.png', height: 55, class: 'block center-block'
   .grid
     .grid__item.one-half>
@@ -51,3 +62,13 @@
       $(function() {
         registration_code()
       });
+
+
+.hidden#how-to.text--center
+  .delta.push-half--bottom
+    %strong 1. Allez dans la boite Courrier indésirable.
+  = image_tag "users/tutos/hotmail_spam_1.png"
+  %hr
+  .delta.push-half--bottom
+    %strong 2. Cliquez sur le mail de CoursAvenue puis cliquez sur "Ce message est sûr" sinon vous ne recevrez pas nos futurs messages.
+  = image_tag "users/tutos/hotmail_spam_2.png"
