@@ -33,7 +33,7 @@
     .white-box.islet
       - if participation.waiting_list?
         %h4.text--center.red Vous êtes sur liste d'attente pour cet atelier, vous serez prévenu par e-mail en cas de désistement.
-        %hr
+        %hr.print--hidden
       - if participation.nb_adults > 1
         .alert.alert--warning.one-whole.push-half--bottom.print--hidden>
           .flexbox
@@ -44,7 +44,7 @@
                 Renseigner
                 %br
                 les emails
-        %hr
+        %hr.print--hidden
       .flexbox
         .flexbox__item.two-twelfths.soft-half--right.v-top>
           = link_to structure_path(participation.structure) , class: 'block one-whole', target: :_blank do
