@@ -91,10 +91,14 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
         },
 
         markerFocus: function (marker_view) {
-            var marker = this.markerViewChildren[this.current_info_marker];
-            if (marker_view === marker) {
-                return false;
-            }
+            /* it seems to me this test was to ensure that re-clicking on
+            * the current_info_marker wouldn't retrigger map:marker:focus.
+            * however, not the current_info_marker is set in markerHovered,
+            * so we can avoid this check. */
+            //  var marker = this.markerViewChildren[this.current_info_marker];
+            //  if (marker_view === marker) {
+            //      return false;
+            //  }
 
             this.unlockCurrentMarker();
 
@@ -245,7 +249,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
         },
 
         hideInfoWindow: function () {
-            this.current_info_marker = undefined;
+            this.current_info_marker = null;
             this.infoBox.close();
         },
 
