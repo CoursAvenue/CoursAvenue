@@ -25,7 +25,7 @@
   .text--center.push--bottom.print--hidden
     = link_to 'javascript:window.print()', class: 'btn btn--yellow' do
       %i.fa.fa-print
-      Imprimer les informations des ateliers
+      Imprimer mon récapitulatif
 
   - @participations.each do |participation|
     - course = participation.course
@@ -73,6 +73,12 @@
                   %span.line-through #{readable_amount(course.common_price)}€
                 %span.green GRATUIT
                 %strong= link_to participation.structure.name, structure_path(participation.structure), class: 'semi-muted-link', target: :_blank
+                = "— #{course.structure.contact_email}"
+                - if course.structure.contact_mobile_phone
+                  = ", #{course.structure.contact_mobile_phone}"
+                - if course.structure.contact_phone
+                  = ", #{course.structure.contact_phone}"
+
               %p
                 = "#{join_audiences participation.planning} / #{join_levels participation.planning.levels}"
               %p
@@ -93,7 +99,7 @@
                 = "De #{l(participation.planning.start_time, format: :short)} à #{l(participation.planning.end_time, format: :short)}"
               = add_to_calendar(participation)
 
-              = link_to "Événement Facebook", "https://www.facebook.com/events/1475459639332489/", target: :_blank, class: 'btn btn--facebook push-half--top'
+              = link_to "Événement Facebook", "https://www.facebook.com/events/1475459639332489/", target: :_blank, class: 'btn btn--facebook push-half--top print--hidden'
 
           - if course.description.present?
             %p.flush

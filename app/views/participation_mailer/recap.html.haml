@@ -79,10 +79,18 @@
             %strong Organisateur :
             = "#{course.structure.name},"
             = course.structure.contact_email
-            - if course.structure.contact_mobile_phone
-              = course.structure.contact_mobile_phone
-            - if course.structure.contact_phone
-              = course.structure.contact_phone
+            - if course.structure.contact_mobile_phone.present?
+              = ", #{course.structure.contact_mobile_phone}"
+            - if course.structure.contact_phone.present?
+              = ", #{course.structure.contact_phone}"
+            %p
+              %strong Nombre d'inscrits :
+              - if participation.size == 1
+                #{participation.size}
+              - elsif participation.nb_kids > 0
+                #{participation.size} (#{pluralize participation.nb_adults, 'adulte'}, #{pluralize participation.nb_kids, 'enfant'})
+              - else
+                #{participation.size} (#{pluralize participation.nb_adults, 'adulte'})
           - if course.info.present?
             %p
               %strong Infos pratiques sur le cours
