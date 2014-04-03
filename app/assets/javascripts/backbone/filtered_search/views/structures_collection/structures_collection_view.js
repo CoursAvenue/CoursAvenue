@@ -119,13 +119,6 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
             });
 
             this.trigger('structures:updated:maps');
-
-            this.trigger('structures:updated:infinite_scroll', {
-                structures_count: this.collection.length,
-                per_page        : this.collection.perPage,
-                current_page    : this.collection.currentPage,
-                total_pages     : this.collection.totalPages
-            });
         },
 
         renderSlideshows: function() {
