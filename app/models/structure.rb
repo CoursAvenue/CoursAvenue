@@ -321,6 +321,22 @@ class Structure < ActiveRecord::Base
     end
   end
 
+  def contact_mobile_phone
+    if read_attribute(:contact_mobile_phone).present?
+      read_attribute(:contact_mobile_phone)
+    elsif admins.any?
+      admins.first.mobile_phone_number
+    end
+  end
+
+  def contact_phone
+    if read_attribute(:contact_phone).present?
+      read_attribute(:contact_phone)
+    elsif admins.any?
+      admins.first.phone_number
+    end
+  end
+
   def has_admin?
     self.main_contact and self.main_contact.persisted?
   end

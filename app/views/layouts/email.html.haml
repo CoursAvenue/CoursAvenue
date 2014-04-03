@@ -69,6 +69,8 @@
                 %td.soft-half.content-block.white-box{width: '600', style: 'width: 600px;'}
                   = yield
 
+          - if content_for? :under_content_no_box
+            = yield :under_content_no_box
           - if content_for? :under_content
             %br
             %table.under-content{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600', style: 'width: 600px; margin: auto;'}

@@ -24,9 +24,9 @@ class User < ActiveRecord::Base
                   :lived_places_attributes
 
   # To store hashes into hstore
-  store_accessor :meta_data, :after_sign_up_url, :have_seen_first_jpo_popup
+  store_accessor :meta_data, :after_sign_up_url, :have_seen_first_jpo_popup, :had_jpo_recap, :had_jpo_recap_waiting_list
 
-  define_boolean_accessor_for :meta_data, :have_seen_first_jpo_popup
+  define_boolean_accessor_for :meta_data, :have_seen_first_jpo_popup, :had_jpo_recap, :had_jpo_recap_waiting_list
 
   has_attached_file :avatar,
                     styles: { wide: '800x800#', normal: '450x', thumb: '200x200#', small: '100x100#', mini: '40x40#' }#,
@@ -48,6 +48,7 @@ class User < ActiveRecord::Base
   has_many :cities, through: :lived_places
 
   has_and_belongs_to_many :subjects
+  has_and_belongs_to_many :invited_participations, class_name: 'Participation'
 
   belongs_to :city
 
@@ -358,6 +359,16 @@ class User < ActiveRecord::Base
         csv << [user.email] + user.subjects_for_csv + [user.zip_code_for_csv]
       end
     end
+  end
+
+  def send_jpo_recap
+    ParticipationMailer.delay.recap(self)               unless self.had_jpo_recap
+    ParticipationMailer.delay.recap_waiting_list(self)  unless self.had_jpo_recap_waiting_list
+    invited_friends = self.participations.map(&:invited_friends).flatten.uniq
+    invited_friends.map{ |invited_friend| ParticipationMailer.delay.recap_from_friend(invited_friend, self)} unless self.had_jpo_recap
+    self.had_jpo_recap              = true
+    self.had_jpo_recap_waiting_list = true
+    self.save
   end
 
   private
