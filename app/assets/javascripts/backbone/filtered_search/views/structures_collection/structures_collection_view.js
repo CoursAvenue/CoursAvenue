@@ -77,8 +77,9 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
             /* announce the pagination statistics for the current page */
             this.trigger('structures:updated:pagination', {
                 current_page:        data.currentPage,
+                radius:              data.radius,
                 last_page:           data.totalPages,
-                buttons:             this.buildPaginationButtons(data),
+                query_strings:       this.buildPageQueriesForRange(data.totalPages),
                 previous_page_query: this.collection.previousQuery(),
                 next_page_query:     this.collection.nextQuery(),
                 relevancy_query:     this.collection.relevancyQuery(),
