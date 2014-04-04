@@ -73,11 +73,7 @@
                   %span.line-through #{readable_amount(course.common_price)}€
                 %span.green GRATUIT
                 %strong= link_to participation.structure.name, structure_path(participation.structure), class: 'semi-muted-link', target: :_blank
-                = "— #{course.structure.contact_email}"
-                - if course.structure.contact_mobile_phone
-                  = ", #{course.structure.contact_mobile_phone}"
-                - if course.structure.contact_phone
-                  = ", #{course.structure.contact_phone}"
+                = "(#{[course.structure.contact_email, course.structure.contact_mobile_phone, course.structure.contact_phone].reject(&:blank?).join(', ')})"
 
               %p
                 = "#{join_audiences participation.planning} / #{join_levels participation.planning.levels}"
@@ -97,7 +93,7 @@
                 %br
               .epsilon.push-half--bottom
                 = "De #{l(participation.planning.start_time, format: :short)} à #{l(participation.planning.end_time, format: :short)}"
-              = add_to_calendar(participation)
+              .print--hidden= add_to_calendar(participation)
 
               = link_to "Événement Facebook", "https://www.facebook.com/events/1475459639332489/", target: :_blank, class: 'btn btn--facebook push-half--top print--hidden'
 
