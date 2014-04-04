@@ -43,7 +43,10 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         announceEdits: function () {
             var edits = this.getEdits();
+            edits = this.sanitize(edits);
+
             this.trigger("field:edits", edits);
+            this.triggerMethod("field:edits");
         },
 
         /* we do "focus" twice here: before we start editing
@@ -91,6 +94,14 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 this.commit(data);
                 this.rollback();
             }
+        },
+
+        rollback: function rollback () {
+            throw new Error("Objects extending EditableFieldView must implement rollback");
+        },
+
+        sanitize: function sanitize (data) {
+            throw new Error("Objects extending EditableFieldView must implement validate");
         },
 
         activate: function () {

@@ -233,6 +233,11 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
 
             e.preventDefault();
             this.createTaggy();
-        }
+        },
+
+        sanitize: function sanitize (data) {
+            // NOP
+            return data;
+        },
     });
 });

@@ -1,4 +1,5 @@
 $(function() {
+    $('input, textarea').placeholder();
     var global = GLOBAL.namespace('GLOBAL');
     global.initialize_fancy = function($elements) {
         // Warning !
@@ -13,7 +14,10 @@ $(function() {
                                  thumbs : {
                                      width  : 75,
                                      height : 50
-                                 }
+                                 },
+                                overlay: {
+                                  locked: false
+                                }
                              }
                          });
     };
@@ -42,6 +46,9 @@ $(function() {
                         title : {
                             type: 'outside',
                             position : 'top'
+                        },
+                        overlay: {
+                          locked: false
                         }
                     }
             });

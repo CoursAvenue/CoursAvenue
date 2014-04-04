@@ -3,19 +3,22 @@
 = render partial: 'pro/open_courses/tabs', locals: { current: 'participations' }
 
 .text--center
-  .inline-block.one-quarter.push--bottom.v-middle.push--sides
+  .inline-block.one-quarter.push--bottom.v-middle.soft--sides>
     .white-box.soft-half.text--center
-      %h3.flush= "#{Participation.not_canceled.all.map(&:size).reduce(&:+)} inscriptions"
-      %h6.flush dont #{Participation.not_canceled.where{created_at > Date.today}.map(&:size).reduce(&:+)} aujourd'hui
-      %div et #{Participation.not_canceled.where{created_at > Date.today - 7.days}.map(&:size).reduce(&:+)} les 7 derniers jours
+      %h3.flush= "#{Participation.not_canceled.not_in_waiting_list.all.map(&:size).reduce(&:+)} inscriptions"
+      %h6.flush dont #{Participation.not_canceled.not_in_waiting_list.where{created_at > Date.today}.map(&:size).reduce(&:+)} aujourd'hui
 
-  .inline-block.one-quarter.push--bottom.v-middle.push--sides
+  .inline-block.one-quarter.push--bottom.v-middle.soft--sides>
+    .white-box.soft-half.text--center
+      %h3.flush= "#{Participation.not_canceled.waiting_list.all.map(&:size).reduce(&:+)} listes d'attente"
+      %h6.flush dont #{Participation.not_canceled.waiting_list.where{created_at > Date.today}.map(&:size).reduce(&:+)} aujourd'hui
+
+  .inline-block.one-quarter.push--bottom.v-middle.soft--sides>
     .white-box.soft-half.text--center
       %h3.flush= "#{Participation.canceled.count} annulations"
       %h6.flush dont #{Participation.canceled.where{created_at > Date.today}.count} aujourd'hui
-      %div et #{Participation.canceled.where{created_at > Date.today - 7.days}.count} les 7 derniers jours
 
-  .inline-block.one-quarter.push--bottom.v-middle.push--sides
+  .inline-block.one-quarter.push--bottom.v-middle.soft--sides>
     .white-box.soft-half.text--center
       %h3.flush
         = Course::Open.all.map{|course| course.nb_participants_max * course.plannings.count}.reduce(&:+)
@@ -26,6 +29,9 @@
 
 .white-box.islet.text--center
   #participations-cumul
+
+.white-box.islet.text--center
+  #participations-hours
 
 %table.white-box.table--data.table--striped.table--white.push-half--top
   %thead
@@ -87,15 +93,15 @@
                       name: 'Inscriptions'
                     }]
         });
+        new Highcharts.Chart({
+            chart: { renderTo: 'participations-hours', type: 'column' },
+            title: { text: null },
+            xAxis: { categories: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"] },
+            yAxis: { title: { text: ''}},
+            series: [
+              { data: #{@participations_per_hour.map{|key, value| value}},
+                name: 'Élèves inscrits'
+               }
+            ]
+        });
     });
--# new Highcharts.Chart({
--#     chart: { renderTo: 'participations-hours', type: 'column' },
--#     title: { text: null },
--#     xAxis: { categories: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"] },
--#     yAxis: { title: { text: ''}},
--#     series: [
--#       { data: #{@participations_per_hour.map{|key, value| value}},
--#         name: 'Élèves inscrits'
--#        }
--#     ]
--# });

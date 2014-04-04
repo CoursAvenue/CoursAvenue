@@ -1,0 +1,9 @@
+Votre profil CoursAvenue n'affiche aucun cours : renseignez votre planning en quelques minutes
+
+Bonjour <%= @structure.name %>,
+
+Dès qu'un utilisateur CoursAvenue utilise les filtres avancés pour rechercher un cours, votre profil n'apparaît plus sur notre moteur de recherche. Pour ne rater aucune opportunité de mise en relation, renseignez votre planning de cours :
+
+Mettre à jour mon planning : <%= pro_structure_courses_url(@structure, subdomain: 'www', utm_source: 'email', utm_campaign: 'update_planning', utm_medium: 'monday') %>
+
+Gérer mes préférences e-mails : <%= notifications_pro_structure_admin_url(@structure, @structure.main_contact, subdomain: 'pro') %>

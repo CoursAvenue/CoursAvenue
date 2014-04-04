@@ -4,7 +4,7 @@
       %i.fa.fa-list
       Mes ateliers
       - if @user.participations.any?
-        (#{@user.participations.count})
+        (#{@user.participations.not_canceled.count})
   %li{class: current == 'invite-jpo' ? 'active' : ''}
     = link_to jpo_new_user_invited_users_path(@user) do
       %i.fa.fa-gift

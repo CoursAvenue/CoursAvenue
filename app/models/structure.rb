@@ -127,6 +127,7 @@ class Structure < ActiveRecord::Base
 
   after_touch   :update_email_status
 
+  before_save   :sanatize_description
   before_save   :fix_website_url
   before_save   :fix_facebook_url
   before_save   :fix_widget_url
@@ -136,7 +137,7 @@ class Structure < ActiveRecord::Base
   after_save    :geocode_if_needs_to
   after_save    :update_email_status
   after_save    :delay_subscribe_to_nutshell
-  after_save    :delay_subscribe_to_mailchimp
+  # after_save    :delay_subscribe_to_mailchimp
 
   ######################################################################
   # Solr                                                               #
@@ -225,11 +226,7 @@ class Structure < ActiveRecord::Base
   # @return nil
   def send_reminder
     return unless self.main_contact.present?
-    if courses.open_courses.any?
-      AdminMailer.delay.monday_jpo(self)
-      self.update_column :last_email_sent_at, Time.now
-      self.update_column :last_email_sent_status, 'monday_jpo'
-    elsif self.main_contact.monday_email_opt_in?
+    if self.main_contact.monday_email_opt_in?
       if self.update_email_status.present?
         self.update_column :last_email_sent_at, Time.now
         self.update_column :last_email_sent_status, self.email_status
@@ -561,6 +558,7 @@ class Structure < ActiveRecord::Base
     tag_list = user_profile.tags.map(&:name)
     tag_list = tag_list + tags
     self.tag(user_profile, with: tag_list.uniq.join(','), on: :tags)
+    user_profile.delay.index # If we index right away, it won't index the last tags added...
   end
 
   def create_tag tag_name
@@ -694,5 +692,13 @@ class Structure < ActiveRecord::Base
       # Prevent from infinite trying to save
       self.save(validate: false) if latitude.present? and longitude.present?
     end
+  end
+
+  # Remove unwanted character from the content
+  #
+  # @return nil
+  def sanatize_description
+    self.description = self.description.scan(/[[:print:]]|[[:space:]]/).join if self.description.present?
+    nil
   end
 end

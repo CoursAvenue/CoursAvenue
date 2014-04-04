@@ -30,4 +30,28 @@ describe UserProfile do
       expect(user_profile.full_name).to include 'Last Name'
     end
   end
+
+  context :bulk_actions do
+    class UserProfile
+      def some_work(number, symbol, range)
+      end
+    end
+
+    let(:structure) { FactoryGirl.create(:structure) }
+    let(:ids) { structure.user_profiles.to_a.map(&:id) }
+
+    it "calls the given method, with the correct args" do
+      pending "I don't know how to implement message expectations on class methods..."
+      ["bob@email.com", "paul@email.com", "jill@email.com"].each do |email|
+        structure.user_profiles.create(email: email);
+      end
+      # with block
+      expect_any_instance_of(UserProfile).to receive(:some_work) do |*args|
+        expect(args).to eq(["1", :cat, (1..2)])
+      end
+
+      UserProfile.perform_bulk_job(ids, :some_work, "1", :cat, (1..2))
+    end
+  end
+
 end

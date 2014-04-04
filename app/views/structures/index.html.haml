@@ -1,5 +1,12 @@
 - @is_responsive = true
 
+- unless cookies[:understood_jpo_2014].present?
+  #not-on-jpo-box.absolute.orange-box.white.text--center.soft-half.rounded{style: "top: -200px; width: 40em; left: 50%; margin-left: -20em; z-index: 10"}
+    Vous êtes sur le moteur de recherche CoursAvenue classique, pour réserver votre atelier gratuit les 5 et 6 avril, c'est par ici =>
+    = link_to 'Réserver mon atelier', open_courses_url(subdomain: 'www'), class: 'btn btn--yellow v-middle soft--sides', onclick: "ga('send', 'event', 'Participer', 'click', 'header')"
+    %br
+    %a#understood.white.f-decoration-underlined{href: 'javascript:void(0)'} J'ai compris
+
 = content_for :head do
   - if @subject
     %link{rel: 'canonical', href: subject_structures_url(@subject)}
@@ -20,14 +27,28 @@
   subjects.push( { name: 'Autres', slug: 'other'} );
 
   window.coursavenue.bootstrap = {
-    options: {
-      total: #{ @total },
-      latlng: #{ @latlng }
-    },
-    models: #{ @models.to_json },
-    subjects: subjects,
-    discount_types: #{ Price::Discount::TYPES.to_json }
+      options: {
+          total: #{ @total },
+          latlng: #{ @latlng }
+      },
+      models: #{ @models.to_json },
+      subjects: subjects,
+      discount_types: #{ Price::Discount::TYPES.to_json }
   };
+
+- content_for :scripts do
+  :javascript
+      $(function() {
+          setTimeout(function() {
+              $('#not-on-jpo-box').animate({top: '0'});
+          }, 1500);
+          if ($('#understood').length > 0) {
+              $('#understood').click(function() {
+                  $('#not-on-jpo-box').animate({top: '-200px'});
+                  $.cookie('understood_jpo_2014', true);
+              });
+          }
+      })
 
 %ol.visuallyhidden.nav.breadcrumb.epsilon.push-half--top.push-half--bottom{itemprop: 'breadcrumb'}
   %li= link_to 'Tous les établissements', structures_path(name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
