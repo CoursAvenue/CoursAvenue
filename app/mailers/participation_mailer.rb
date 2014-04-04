@@ -143,8 +143,9 @@ class ParticipationMailer < ActionMailer::Base
   end
 
   def recap(user)
-    @participations = user.participations.not_canceled.not_in_waiting_list
-    @participations = @participations.sort_by{|p| [p.planning.start_date, p.planning.start_time]}
+    @participations = user.participations.not_canceled
+    @participations = @participations.all.sort_by{ |p| [p.planning.start_date, p.planning.start_time] }
+    @participations = @participations.sort_by{ |p| p.waiting_list? ? 1 : 0 }
     @user           = user
     @invited_friends = 0
     @participations.each do |participation|
@@ -165,14 +166,6 @@ class ParticipationMailer < ActionMailer::Base
     @invited_user    = invited_user
     @invited_by      = invited_by
     mail to: @invited_user.email, subject: "Récapitulatif de vos inscriptions aux ateliers des Portes Ouvertes CoursAvenue"
-  end
-
-  def recap_waiting_list(user)
-    @participations = user.participations.not_canceled.waiting_list
-    return if @participations.empty?
-    @participations = @participations.sort_by{|p| [p.planning.start_date, p.planning.start_time]}
-    @user           = user
-    mail to: @user.email, subject: "Récapitulatif de vos inscriptions en liste d'attente aux ateliers des Portes Ouvertes CoursAvenue"
   end
 
 end

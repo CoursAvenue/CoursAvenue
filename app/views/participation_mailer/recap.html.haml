@@ -26,6 +26,11 @@
   cours :
 
 %ul
+  - if @participations.map(&:waiting_list).select(&:present?).length > 0
+    - if @participations.map(&:waiting_list).select(&:present?).length == 1
+      %li Sur vos #{pluralize @participations.length, 'inscription'}, 1 seule est en liste d'attente ;
+    - else
+      %li Sur vos #{pluralize @participations.length, 'inscription'}, #{@participations.map(&:waiting_list).select(&:present?).length} sont en liste d'attente ;
   %li
     Vérifiez bien le récapitulatif de
     - if @participations.length == 1
@@ -81,6 +86,9 @@
           - course = participation.course
           - place  = participation.planning.place
           %p
+            - if participation.waiting_list?
+              %strong.red Votre inscription n'est pas confirmée car vous êtes en liste d'attente. S'il y a un désistement, un email vous sera envoyé.
+              %br
             %strong.italic
               = l(participation.planning.start_date, format: :semi_long).capitalize
               = "de #{l(participation.planning.start_time, format: :short)} à #{l(participation.planning.end_time, format: :short)}"

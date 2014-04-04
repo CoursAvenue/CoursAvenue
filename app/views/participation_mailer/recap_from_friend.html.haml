@@ -3,14 +3,56 @@
 
 - content_for :promo do
   %h4
-    Ci-dessous un récapitulatif de vos inscriptions aux Portes Ouvertes CoursAvenue
+    Vous participez aux Portes Ouvertes CoursAvenue avec #{@invited_by.name}, voici votre récapitulatif
 
-%p.flush
-  TODO
-  -# - if @participations.length == 1
-  -#   %strong Ci-dessous, un récapitulatif de votre inscription :
-  -# - else
-  -#   %strong Ci-dessous, un récapitulatif de vos inscriptions :
+%p
+  Bonjour,
+%p
+  #{@invited_by.name} nous a indiqué que vous l'accompagnerez et que vous participerez à
+  - if @participations.length == 1
+    un cours de loisir gratuit
+  - else
+    des cours de loisirs gratuits
+  ce week-end, et nous en sommes ravis ! Pour que tout se passe sans problème, assurez-vous d'avoir toutes les informations concernant
+  - if @participations.length == 1
+    votre
+  - else
+    vos
+  cours :
+
+%ul
+  %li
+    Vérifiez bien le récapitulatif de
+    - if @participations.length == 1
+      votre inscription ci-dessous ;
+    - else
+      vos inscriptions ci-dessous ;
+  %li
+    Imprimez cet email et emportez-le avec vous le jour J, de manière à avoir l'adresse de l'organisateur et son numéro de téléphone ;
+  %li
+    Si vous souhaitez annuler ou modifier
+    - if @participations.length == 1
+      votre inscription,
+    - else
+      vos inscriptions,
+    prévenez et demandez à #{@invited_by.name} (#{@invited_by.email}) de le faire directement depuis son compte CoursAvenue.
+
+%p
+  Si vous souhaitez vous inscrire à d'autres ateliers, les inscriptions sont toujours ouvertes :
+
+%p.action
+  = link_to "M'inscrire à plus d'ateliers", open_courses_url(subdomain: 'www'), class: 'btn btn--green'
+
+%p
+  Profitez-bien de
+  - if @participations.length == 1
+    votre atelier
+  - else
+    vos ateliers
+  et très belle découverte !
+%p
+  L'équipe CoursAvenue
+
 - content_for :under_content_no_box do
   - @participations.each_with_index do |participation, index|
     %br
@@ -20,18 +62,22 @@
           - course = participation.course
           - place  = participation.planning.place
           %p
-            %strong= course.name
-            %i — par #{course.structure.name}
-            %br
             %strong.italic
               = l(participation.planning.start_date, format: :semi_long).capitalize
               = "de #{l(participation.planning.start_time, format: :short)} à #{l(participation.planning.end_time, format: :short)}"
             %br
-            %strong= place.location.name
-            %i= place.location.address
-            \—
-            = link_to "voir l'adresse sur Google Maps", "http://maps.google.com/?q=#{place.location.address}", target: :_blank
-
+            = link_to place.location.address, "http://maps.google.com/?q=#{place.location.address}", target: :_blank
+            = "(#{place.location.name})"
+            %br
+            %strong= course.name
+            %br
+            %strong Organisateur :
+            = "#{course.structure.name},"
+            = course.structure.contact_email
+            - if course.structure.contact_mobile_phone.present?
+              = ", #{course.structure.contact_mobile_phone}"
+            - if course.structure.contact_phone.present?
+              = ", #{course.structure.contact_phone}"
           - if course.info.present?
             %p
               %strong Infos pratiques sur le cours

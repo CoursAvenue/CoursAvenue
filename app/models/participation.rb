@@ -74,11 +74,13 @@ class Participation < ActiveRecord::Base
   #
   # @return nil
   def welcome_email
-    if waiting_list
-      ParticipationMailer.delay.welcome_to_waiting_list(self)
-    else
-      ParticipationMailer.delay.welcome(self)
-    end
+    self.user.send_jpo_recap(self)
+    # ParticipationMailer.delay.recap(self)
+    # if waiting_list
+    #   ParticipationMailer.delay.welcome_to_waiting_list(self)
+    # else
+    #   ParticipationMailer.delay.welcome(self)
+    # end
     nil
   end
 

@@ -26,6 +26,7 @@
     %strong Ci-dessous, un récapitulatif de votre inscription en liste d'attente :
   - else
     %strong Ci-dessous, un récapitulatif de vos inscriptions en liste d'attente :
+
 - content_for :under_content_no_box do
   - @participations.each_with_index do |participation, index|
     %br
@@ -35,18 +36,22 @@
           - course = participation.course
           - place  = participation.planning.place
           %p
-            %strong= course.name
-            %i — par #{course.structure.name}
-            %br
             %strong.italic
               = l(participation.planning.start_date, format: :semi_long).capitalize
               = "de #{l(participation.planning.start_time, format: :short)} à #{l(participation.planning.end_time, format: :short)}"
             %br
-            %strong= place.location.name
-            %i= place.location.address
-            \—
-            = link_to "voir l'adresse sur Google Maps", "http://maps.google.com/?q=#{place.location.address}", target: :_blank
-
+            = link_to place.location.address, "http://maps.google.com/?q=#{place.location.address}", target: :_blank
+            = "(#{place.location.name})"
+            %br
+            %strong= course.name
+            %br
+            %strong Organisateur :
+            = "#{course.structure.name},"
+            = course.structure.contact_email
+            - if course.structure.contact_mobile_phone.present?
+              = ", #{course.structure.contact_mobile_phone}"
+            - if course.structure.contact_phone.present?
+              = ", #{course.structure.contact_phone}"
           - if course.info.present?
             %p
               %strong Infos pratiques sur le cours
