@@ -1,6 +1,17 @@
 
 FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _) {
 
+    // Wrap an optional error callback with a fallback error event.
+    // this exists because backbone uses a global wrapError function in
+    // its fetch implementation, which we've copied
+    var wrapError = function(model, options) {
+        var error = options.error;
+        options.error = function(resp) {
+            if (error) error(model, resp, options);
+            model.trigger('error', model, resp, options);
+        };
+    };
+
     Module.StructuresCollection = CoursAvenue.Models.PaginatedCollection.extend({
         model: Module.Structure,
 
@@ -18,9 +29,9 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
             /* we need to reset the collection on 'sync', rather than in the
              * paginated_collection_view. This is because we don't want a momentary
              * flash of the zero result set.
-            *  However, the 'sync' event occurs too often, so we have to be sure
-            *  that we are responding to both a sync and a filter, rather than
-            *  just a sync */
+             * However, the 'sync' event occurs too often, so we have to be sure
+             * that we are responding to both a sync and a filter, rather than
+             * just a sync */
             /* for now we will "detect" filters by the page being 1 */
             this.on('sync', function(model, response, xhr){
                 if (model.currentPage === 1) {
@@ -56,6 +67,59 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
             this.url.basename             = window.location.protocol + '//' + window.location.host
             // window.location.protocol returns "http:"
             // window.location.host returns "www.coursavenue.dev/"
+        },
+
+        sync: function (models, options) {
+            var sync = Backbone.Paginator.requestPager.prototype.sync.apply(this, arguments);
+
+            return sync;
+        },
+
+        // @override
+        // this fetch method resolves a long-standing plan to prefetch the
+        // next page. It is not perfect: it breaks if we rush to the bottom
+        // of the infinite scroll, and it does not preserve the "virual page number",
+        // being the page number that the user is looking at. Besides that it
+        // seems fine, though!
+        fetch: function(options) {
+            // If there are already some prefetched success callbacks
+            // from previous calls to fetch, run one of them.
+            if (this.prefetched && _.isFunction(this.prefetched[0])) {
+                var func = this.prefetched.shift();
+                func();
+            }
+
+            // this is backbone code which I have copy/pasted
+            options = options ? _.clone(options) : {};
+            if (options.parse === void 0) options.parse = true;
+            var success = options.success;
+            var collection = this;
+
+            options.success = function(resp) {
+                // If the prefetch is undefined, then we want to immediately
+                // execute the current success callback,
+                if (this.prefetched === undefined) {
+                    var method = options.reset ? 'reset' : 'set';
+                    collection[method](resp, options);
+                    if (success) success(collection, resp, options);
+                    collection.trigger('sync', collection, resp, options);
+
+                    this.prefetched = []; // and initialize the prefetch.
+                } else {
+                    // Otherwise, we store the success callback so that the model
+                    // won't update until we want it to.
+                    this.prefetched.push(function () {
+                        var method = options.reset ? 'reset' : 'set';
+                        collection[method](resp, options);
+                        if (success) success(collection, resp, options);
+                        collection.trigger('sync', collection, resp, options);
+                    });
+                }
+
+            }.bind(this);
+
+            wrapError(this, options); // This function is scoped to Backbone in the backboneJS source.
+            return this.sync('read', this, options);
         },
 
         url: {

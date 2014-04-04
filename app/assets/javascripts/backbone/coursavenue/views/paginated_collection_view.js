@@ -81,10 +81,20 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             return this.changePage(this.collection.firstPage);
         },
 
+        /* if nextPage is called, and the model does not have a pending
+        * fetch, then recall this method once with the next page number */
         nextPage: function (e) {
+
             var page = Math.min(this.collection.currentPage + 1, this.collection.totalPages);
 
-            return this.changePage(page);
+            // prefetch an additional page the first time we call next
+            var xhr  = this.changePage(page).then(function () {
+                if (this.collection.prefetched.length === 0) {
+                    this.collection.goTo(Math.min(page + 1, this.collection.totalPages));
+                }
+            }.bind(this))
+
+            return xhr;
         },
 
         prevPage: function (e) {
@@ -110,13 +120,13 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             var self = this;
 
             self.trigger('paginator:updating', this);
-            this.collection.goTo(page, {
+            var xhr = this.collection.goTo(page, {
                 success: function () {
                     self.announcePaginatorUpdated();
                 }
             });
 
-            return false;
+            return xhr;
         },
 
         scrollToView: function(view) {
