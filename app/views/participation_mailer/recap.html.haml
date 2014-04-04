@@ -32,6 +32,12 @@
       votre inscription ci-dessous ;
     - else
       vos inscriptions ci-dessous ;
+  - if @invited_friends > 0
+    %li
+      - if @invited_friends == 1
+        Transférez cet email à l'autre adulte pour lequel vous avez réservé l'atelier ;
+      - else
+        Transférez cet email aux #{@invited_friends} autres adultes pour lesquels vous avez réservé l'atelier ;
   %li
     = link_to "Imprimez et emportez votre récapitulatif", user_participations_url(@user, subdomain: 'www')
     avec vous le jour J, y compris l'adresse de l'organisateur et son numéro de téléphone ;
@@ -46,6 +52,14 @@
 
 %p.action
   = link_to "Accéder à mon profil et imprimer mon récapitulatif", user_participations_url(@user, subdomain: 'www'), class: 'btn btn--yellow'
+
+%p
+  - if @participations.length > 4
+    Bonne nouvelle : vous pouvez maintenant réserver jusqu'à 6 ateliers, profitez-en !
+  De nouveaux ateliers gratuits ont été ajoutés, les inscriptions sont toujours ouvertes :
+
+%p.action
+  = link_to "M'inscrire à plus d'ateliers",open_courses_url(subdomain: 'www'), class: 'btn'
 
 %p
   Profitez-bien de

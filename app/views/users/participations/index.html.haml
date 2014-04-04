@@ -15,9 +15,9 @@
     %h4 Aucune inscription aux Journées Portes Ouvertes
     = link_to "M'inscrire aux journées portes ouvertes", open_courses_path, class: 'btn btn--blue'
 - else
-  - if @participations.length >= 4
+  - if @participations.length >= 6
     .text--center.push-half--bottom.print--hidden
-      %h4 Vous ne pouvez plus vous inscrire à un atelier, les inscriptions sont limitées à 4 par personne.
+      %h4 Vous ne pouvez plus vous inscrire à un atelier, les inscriptions sont limitées à 6 par personne.
   - else
     .text--center.push-half--bottom.print--hidden
       = link_to "M'inscrire à d'autres ateliers", open_courses_path, class: 'btn btn--blue btn--large'

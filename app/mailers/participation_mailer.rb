@@ -146,10 +146,14 @@ class ParticipationMailer < ActionMailer::Base
     @participations = user.participations.not_canceled.not_in_waiting_list
     @participations = @participations.sort_by{|p| [p.planning.start_date, p.planning.start_time]}
     @user           = user
+    @invited_friends = 0
+    @participations.each do |participation|
+      @invited_friends += participation.nb_adults - 1 if participation.nb_adults > 1
+    end
     if @participations.length == 1
-      subject = "Rappel de votre réservation - #{I18n.l(@participations.first.planning.start_date, format: :semi_long)} à #{l(participation.planning.start_time, format: :short)}"
+      subject = "Rappel de votre inscription - #{I18n.l(@participations.first.planning.start_date, format: :semi_long)} à #{I18n.l(@participations.first.planning.start_time, format: :short)}"
     else
-      subject = "Rappel de vos réservation - #{@participations.length} ateliers pour ce week-end"
+      subject = "Rappel de vos inscriptions - #{@participations.length} ateliers pour ce week-end"
     end
     mail to: @user.email, subject: subject
   end
@@ -158,8 +162,8 @@ class ParticipationMailer < ActionMailer::Base
     @participations = invited_user.invited_participations.not_canceled.not_in_waiting_list
     @participations = @participations.sort_by{|p| [p.planning.start_date, p.planning.start_time]}
     return if @participations.empty?
-    @invited_user   = invited_user
-    @invited_by     = invited_by
+    @invited_user    = invited_user
+    @invited_by      = invited_by
     mail to: @invited_user.email, subject: "Récapitulatif de vos inscriptions aux ateliers des Portes Ouvertes CoursAvenue"
   end
 
