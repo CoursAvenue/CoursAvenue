@@ -159,6 +159,12 @@ class ParticipationMailer < ActionMailer::Base
     mail to: @user.email, subject: subject
   end
 
+  def recap_for_teacher(structure)
+    @structure    = structure
+    @open_courses = structure.courses.open_courses
+    mail to: structure.contact_email, subject: 'Récapitulatif de vos inscriptions pour les Portes Ouvertes de ce week-end'
+  end
+
   def recap_from_friend(invited_user, invited_by)
     @participations = invited_user.invited_participations.not_canceled.not_in_waiting_list
     @participations = @participations.sort_by{|p| [p.planning.start_date, p.planning.start_time]}
