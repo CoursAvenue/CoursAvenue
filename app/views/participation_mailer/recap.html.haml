@@ -59,12 +59,10 @@
   = link_to "Accéder à mon profil et imprimer mon récapitulatif", user_participations_url(@user, subdomain: 'www'), class: 'btn btn--yellow'
 
 %p
-  - if @participations.length > 4
-    Bonne nouvelle : vous pouvez maintenant réserver jusqu'à 6 ateliers, profitez-en !
-  De nouveaux ateliers gratuits ont été ajoutés, les inscriptions sont toujours ouvertes :
-
+  Profitez-en pour inviter vos proches à suivre le même atelier que vous :
 %p.action
-  = link_to "M'inscrire à plus d'ateliers",open_courses_url(subdomain: 'www'), class: 'btn'
+  = link_to "Inviter mes proches", jpo_new_user_invited_users_url(@user, subdomain: 'www'), class: 'btn btn--green'
+
 
 %p
   Profitez-bien de

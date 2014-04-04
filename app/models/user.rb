@@ -364,7 +364,7 @@ class User < ActiveRecord::Base
   def send_jpo_recap(participation = nil)
     ParticipationMailer.delay.recap(self)
     if participation
-      invited_friends = participation.map(&:invited_friends).uniq
+      invited_friends = participation.invited_friends.uniq
     else
       invited_friends = self.participations.map(&:invited_friends).flatten.uniq
     end
