@@ -7,6 +7,7 @@ class Users::ParticipationsController < ApplicationController
   # GET
   def index
     @participations = @user.participations.not_canceled.order('created_at DESC')
+    @participations = @participations.sort_by{|p| [p.planning.start_date, p.planning.start_time]}
     if @participations.any?
       @participation = @participations.first
       @structure     = @participation.structure
