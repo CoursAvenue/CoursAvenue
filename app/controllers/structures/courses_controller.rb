@@ -17,6 +17,14 @@ class Structures::CoursesController < ApplicationController
       course    = Course.find(course_id)
       next unless course.active
       plannings = plannings.sort_by{|p| [p.start_date, p.start_time]}
+      if params[:course_types] == ['open_course']
+        saturday = Date.parse('2014/04/05')
+        sunday   = Date.parse('2014/04/06')
+        plannings = plannings.reject{|p| p.start_date == Date.today and p.start_time.hour <= Time.now.hour}
+        if Date.today == sunday
+          plannings = plannings.reject{|p| p.start_date == saturday}
+        end
+      end
       @courses << CourseSerializer.new(course, { root: false, structure: @structure, plannings: plannings, search_term: params[:search_term], jpo: (params[:course_types] == ['open_course'])})
     end
 
