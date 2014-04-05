@@ -71,7 +71,7 @@ class ParticipationMailer < ActionMailer::Base
     @planning  = participation.planning
     @course    = participation.course
     @structure = participation.course.structure
-    mail to: @user.email, subject: "Invitez vos proches à s'inscrire à votre atelier Portes Ouvertes"
+    # mail to: @user.email, subject: "Invitez vos proches à s'inscrire à votre atelier Portes Ouvertes"
   end
 
 
