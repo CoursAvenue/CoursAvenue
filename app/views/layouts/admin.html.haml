@@ -34,7 +34,7 @@
               = link_to new_pro_structure_invited_teacher_path(@structure), class: 'btn btn--small', onclick: "ga('send', 'event', 'Pro / Share with teachers', 'click', 'From dashboard page')" do
                 %i.fa.fa-bullhorn
                 &nbsp;Parrainer
-          - if @structure.parisian?
+          - if @structure.parisian? and Date.today < Date.parse('2014/04/07')
             .flexbox__item.v-top.five-twelfths>
               .text--center.v-middle.orange-box.white.rounded>
                 - if @structure.courses.open_courses.any?

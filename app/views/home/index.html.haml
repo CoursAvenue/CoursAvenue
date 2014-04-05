@@ -2,8 +2,9 @@
   CoursAvenue | Les élèves vous guident vers les meilleurs cours
 
 = content_for :above_container do
-  = render 'jpo_2014'
-  %div{style: 'height: 5px;'}
+  - if Date.today < Date.parse('2014/04/07')
+    = render 'jpo_2014'
+    %div{style: 'height: 5px;'}
   = render 'home_screen'
   = render 'boxes'
   = render 'guide'
