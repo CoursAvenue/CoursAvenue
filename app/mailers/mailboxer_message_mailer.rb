@@ -4,7 +4,7 @@ class MailboxerMessageMailer < ActionMailer::Base
 
   include ActionView::Helpers::SanitizeHelper
 
-  default from: "\"L'équipe de CoursAvenue.com\" <contact@coursavenue.com>"
+  default from: "\"L'équipe CoursAvenue\" <contact@coursavenue.com>"
 
   # Sends and email for indicating a new message or a reply to a receiver.
   # It calls new_message_email if notifing a new message and reply_message_email

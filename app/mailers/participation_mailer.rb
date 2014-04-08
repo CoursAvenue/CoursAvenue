@@ -4,7 +4,7 @@ class ParticipationMailer < ActionMailer::Base
 
   layout 'email'
 
-  default from: "\"L'équipe de CoursAvenue.com\" <contact@coursavenue.com>"
+  default from: "\"L'équipe CoursAvenue\" <contact@coursavenue.com>"
 
   ######################################################################
   # For teachers                                                       #

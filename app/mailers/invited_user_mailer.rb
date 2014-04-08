@@ -7,7 +7,7 @@ class InvitedUserMailer < ActionMailer::Base
   #   /invited_user_mailer/referrer_type/invited_user_type/recommand_friends_#{for}.html.haml
   layout 'email'
 
-  default from: "\"L'équipe de CoursAvenue.com\" <contact@coursavenue.com>"
+  default from: "\"L'équipe CoursAvenue\" <contact@coursavenue.com>"
 
   def recommand_friends(invited_user)
     return unless invited_user.email_opt_in?

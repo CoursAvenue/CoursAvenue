@@ -2,7 +2,7 @@
 class AdminMailer < ActionMailer::Base
   layout 'email'
 
-  default from: "\"L'équipe de CoursAvenue.com\" <contact@coursavenue.com>"
+  default from: "\"L'équipe CoursAvenue\" <contact@coursavenue.com>"
 
   def mailjet
     mail to: 'nima@coursavenue.com', subject: 'lala'

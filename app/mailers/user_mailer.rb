@@ -4,7 +4,7 @@ class UserMailer < ActionMailer::Base
 
   helper :prices, :comments
 
-  default from: "\"L'équipe de CoursAvenue.com\" <contact@coursavenue.com>"
+  default from: "\"L'équipe CoursAvenue\" <contact@coursavenue.com>"
 
 
   ######################################################################
