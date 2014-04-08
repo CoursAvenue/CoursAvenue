@@ -45,7 +45,7 @@ class ::Admin < ActiveRecord::Base
   after_create :check_if_was_invited
   after_create :set_email_opt_ins
   after_save :delay_subscribe_to_nutshell
-  after_save :delay_subscribe_to_mailchimp
+  # after_save :delay_subscribe_to_mailchimp
   before_save :downcase_email
 
   ######################################################################
