@@ -7,10 +7,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
     Module.AudienceFilterView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'audience_filter_view',
 
-        initialize: function() {
-            this.announce = _.debounce(this.announce, 800);
-        },
-
         setup: function (data) {
             var self = this;
             _.each(data.audience_ids, function(audience_id) {
@@ -94,7 +90,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
             this.trigger("filter:audience", value_to_trigger);
             this.announceBreadcrumb(audience_ids);
-        },
+        }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
         announceBreadcrumb: function(audience_ids) {
             var title;

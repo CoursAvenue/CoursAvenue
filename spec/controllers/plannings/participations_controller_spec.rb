@@ -12,7 +12,7 @@ describe Plannings::ParticipationsController do
   describe :create do
 
     it 'saves the participation' do
-      post :create, planning_id: planning.id
+      post :create, planning_id: planning.id, participation: { invited_friends: {} }
       response.should be_redirect
       assigns(:participation).should be_persisted
       assigns(:planning).participations.count.should eq 1

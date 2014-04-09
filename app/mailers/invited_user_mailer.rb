@@ -7,7 +7,7 @@ class InvitedUserMailer < ActionMailer::Base
   #   /invited_user_mailer/referrer_type/invited_user_type/recommand_friends_#{for}.html.haml
   layout 'email'
 
-  default from: "\"L'équipe de CoursAvenue.com\" <contact@coursavenue.com>"
+  default from: "\"L'équipe CoursAvenue\" <contact@coursavenue.com>"
 
   def recommand_friends(invited_user)
     return unless invited_user.email_opt_in?
@@ -35,6 +35,7 @@ class InvitedUserMailer < ActionMailer::Base
 
   def send_invitation_stage_1(invited_user)
     return unless invited_user.email_opt_in?
+    return if invited_user.invitation_for == 'jpo'
     @invited_user  = invited_user
     @referrer      = invited_user.referrer
     @email_text    = invited_user.email_text
@@ -46,6 +47,7 @@ class InvitedUserMailer < ActionMailer::Base
   end
 
   def send_invitation_stage_2(invited_user)
+    return if invited_user.invitation_for == 'jpo'
     return unless invited_user.email_opt_in?
     @invited_user  = invited_user
     @referrer      = invited_user.referrer

@@ -4,7 +4,7 @@ class ParticipationMailer < ActionMailer::Base
 
   layout 'email'
 
-  default from: "\"L'équipe de CoursAvenue.com\" <contact@coursavenue.com>"
+  default from: "\"L'équipe CoursAvenue\" <contact@coursavenue.com>"
 
   ######################################################################
   # For teachers                                                       #
@@ -71,7 +71,7 @@ class ParticipationMailer < ActionMailer::Base
     @planning  = participation.planning
     @course    = participation.course
     @structure = participation.course.structure
-    mail to: @user.email, subject: "Invitez vos proches à s'inscrire à votre atelier Portes Ouvertes"
+    # mail to: @user.email, subject: "Invitez vos proches à s'inscrire à votre atelier Portes Ouvertes"
   end
 
 
@@ -140,6 +140,38 @@ class ParticipationMailer < ActionMailer::Base
     @participation = participation
     @user          = participation.user
     mail to: @user.email, subject: "Renseignez les emails des participants à vos ateliers Portes Ouvertes"
+  end
+
+  def recap(user)
+    @participations = user.participations.not_canceled
+    @participations = @participations.all.sort_by{ |p| [p.planning.start_date, p.planning.start_time] }
+    @participations = @participations.sort_by{ |p| p.waiting_list? ? 1 : 0 }
+    @user           = user
+    @invited_friends = 0
+    @participations.each do |participation|
+      @invited_friends += participation.nb_adults - 1 if participation.nb_adults > 1
+    end
+    if @participations.length == 1
+      subject = "Rappel de votre inscription - #{I18n.l(@participations.first.planning.start_date, format: :semi_long)} à #{I18n.l(@participations.first.planning.start_time, format: :short)}"
+    else
+      subject = "Rappel de vos inscriptions - #{@participations.length} ateliers pour ce week-end"
+    end
+    mail to: @user.email, subject: subject
+  end
+
+  def recap_for_teacher(structure)
+    @structure    = structure
+    @open_courses = structure.courses.open_courses
+    mail to: structure.contact_email, subject: 'Récapitulatif de vos inscriptions pour les Portes Ouvertes de ce week-end'
+  end
+
+  def recap_from_friend(invited_user, invited_by)
+    @participations = invited_user.invited_participations.not_canceled.not_in_waiting_list
+    @participations = @participations.sort_by{|p| [p.planning.start_date, p.planning.start_time]}
+    return if @participations.empty?
+    @invited_user    = invited_user
+    @invited_by      = invited_by
+    mail to: @invited_user.email, subject: "Récapitulatif de vos inscriptions aux ateliers des Portes Ouvertes CoursAvenue"
   end
 
 end

@@ -74,11 +74,13 @@ class Participation < ActiveRecord::Base
   #
   # @return nil
   def welcome_email
-    if waiting_list
-      ParticipationMailer.delay.welcome_to_waiting_list(self)
-    else
-      ParticipationMailer.delay.welcome(self)
-    end
+    self.user.send_jpo_recap(self)
+    # ParticipationMailer.delay.recap(self)
+    # if waiting_list
+    #   ParticipationMailer.delay.welcome_to_waiting_list(self)
+    # else
+    #   ParticipationMailer.delay.welcome(self)
+    # end
     nil
   end
 
@@ -198,12 +200,12 @@ class Participation < ActiveRecord::Base
   # Callbacks                                                          #
   ######################################################################
 
-  # Only 4 participations is allowed per user for JPO courses
+  # Only 6 participations is allowed per user for JPO courses
   #
   # @return nil
   def less_than_four_participation_to_jpo
-    if user.participations.not_canceled.length == 4
-      self.errors[:base] << I18n.t('participations.errors.only_four_participations_for_jpo')
+    if user.participations.not_canceled.length == 6
+      self.errors[:base] << I18n.t('participations.errors.only_six_participations_for_jpo')
     end
     nil
   end  # Sets nb_adults to 0 if only for kids

@@ -41,6 +41,7 @@
 //= require libs/moment
 //= require libs/responsiveslides
 //= require libs/add_this_event
+//= require libs/jquery.placeholder
 
 //= require libs/fancybox/jquery.fancybox
 //= require underscore

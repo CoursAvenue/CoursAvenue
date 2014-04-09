@@ -1,20 +1,5 @@
 class UsersReminder
 
-  def self.send_recommendation(structure, text, _email)
-    if (user = User.where(email: _email).first).nil?
-      user             = User.new(email: _email)
-      structure        = Structure.find(structure.id)
-      user.structures << structure
-      user.subjects   << structure.subjects
-      user.save(validate: false)
-    end
-    notification           = user.comment_notifications.build
-    notification.structure = structure
-    if notification.save
-      UserMailer.delay.ask_for_recommandations(structure, text, _email)
-    end
-  end
-
   # Resend recommendation email after 4 days
   def self.resend_recommendation_stage_1
     comment_notifications = CommentNotification.where{(updated_at >= Date.today - 4.days) & (updated_at < Date.today - 3.days) & (status == nil)}

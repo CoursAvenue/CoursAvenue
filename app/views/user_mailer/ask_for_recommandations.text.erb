@@ -1,0 +1,15 @@
+<%= @structure.name %> vous demande de lui rédiger une recommandation sur CoursAvenue.com
+
+<% if @email_text %>
+  <%= @email_text %>
+<% end %>
+
+Déposer mon avis en 20 secondes : <%= new_structure_comment_url(@structure, email: @email, subdomain: 'www', utm_source: 'email', utm_campaign: 'ask_for_recommandation', utm_medium: 'stage_0') %>
+
+À très bientôt !
+
+<%= @structure.name %>
+
+Vous recevez cet email car <%= @structure.name %> est inscrit sur CoursAvenue et vous demande de lui rédiger une recommandation sur ses cours.
+Ne plus recevoir ces emails : <%= unsubscribe_users_url(@user.access_token, subdomain: 'www') %>
+

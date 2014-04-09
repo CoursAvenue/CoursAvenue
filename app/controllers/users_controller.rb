@@ -45,7 +45,7 @@ class UsersController < InheritedResources::Base
     if @user.update(params[:user])
       # Sign in the user by passing validation in case his password changed
       sign_in @user, bypass: true
-      redirect_to edit_private_info_user_path(@user), notice: 'Votre mot de passe a bien été mis à jour'
+      redirect_to edit_private_infos_user_path(@user), notice: 'Votre mot de passe a bien été mis à jour'
     else
       render action: :edit_private_infos
     end

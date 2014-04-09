@@ -4,7 +4,7 @@ class UserMailer < ActionMailer::Base
 
   helper :prices, :comments
 
-  default from: "\"L'équipe de CoursAvenue.com\" <contact@coursavenue.com>"
+  default from: "\"L'équipe CoursAvenue\" <contact@coursavenue.com>"
 
 
   ######################################################################
@@ -65,36 +65,103 @@ class UserMailer < ActionMailer::Base
   ######################################################################
   # For comments                                                       #
   ######################################################################
-  def ask_for_recommandations(structure, email_text, email)
-    @structure  = structure
-    @email      = email
-    user_email  = email
-    @user       = User.where{email == user_email}.first
-    @email_text = email_text
-    mail to: email, subject: "#{structure.name} vous demande une recommandation"
+  def ask_for_recommandations(comment_notification)
+    return if comment_notification.complete?
+    @structure  = comment_notification.structure
+    @email      = comment_notification.user.email
+    @user       = comment_notification.user
+    @email_text = comment_notification.text
+    mail to: @email, subject: get_comment_notification_subject(comment_notification), template_name: get_comment_notification_template(comment_notification)
   end
 
-  def ask_for_recommandations_stage_1(structure, email)
-    @structure = structure
-    @email     = email
-    user_email  = email
-    @user       = User.where{email == user_email}.first
-    mail to: email, subject: "Votre opinion sur #{structure.name}"
+  def ask_for_recommandations_stage_1(comment_notification)
+    return if comment_notification.complete?
+    @structure = comment_notification.structure
+    @email     = comment_notification.user.email
+    @user      = comment_notification.user
+    mail to: @email, subject: get_comment_notification_subject(comment_notification), template_name: get_comment_notification_template(comment_notification)
   end
 
-  def ask_for_recommandations_stage_2(structure, email)
-    @structure = structure
-    @email     = email
-    user_email  = email
-    @user       = User.where{email == user_email}.first
-    mail to: email, subject: "#{structure.name} vous demande une recommandation"
+  def ask_for_recommandations_stage_2(comment_notification)
+    return if comment_notification.complete?
+    @structure = comment_notification.structure
+    @email     = comment_notification.user.email
+    @user      = comment_notification.user
+    mail to: @email, subject: get_comment_notification_subject(comment_notification), template_name: get_comment_notification_template(comment_notification)
   end
 
-  def ask_for_recommandations_stage_3(structure, email)
-    @structure = structure
-    @email     = email
-    user_email  = email
-    @user       = User.where{email == user_email}.first
-    mail to: email, subject: "Dernier jour pour recommander #{structure.name}"
+  def ask_for_recommandations_stage_3(comment_notification)
+    return if comment_notification.complete?
+    @structure = comment_notification.structure
+    @email     = comment_notification.user.email
+    @user      = comment_notification.user
+    mail to: @email, subject: get_comment_notification_subject(comment_notification), template_name: get_comment_notification_template(comment_notification)
   end
+
+  def five_days_to_come_for_jpo(user)
+    @user = user
+    mail to: @user.email, subject: "Plus que 4 jours avant les Portes Ouvertes : n’attendez pas pour vous inscrire"
+  end
+
+  private
+
+  def get_comment_notification_template(comment_notification)
+    case comment_notification.status
+    when nil
+      if comment_notification.notification_for.nil?
+        template = 'ask_for_recommandations'
+      else
+        template = "ask_for_recommandations_for_#{comment_notification.notification_for}"
+      end
+    when 'resend_stage_1'
+      if comment_notification.notification_for.nil?
+        template = 'ask_for_recommandations_stage_1'
+      else
+        template = "ask_for_recommandations_stage_1_for_#{comment_notification.notification_for}"
+      end
+    when 'resend_stage_2'
+      if comment_notification.notification_for.nil?
+        template = 'ask_for_recommandations_stage_2'
+      else
+        template = "ask_for_recommandations_stage_2_for_#{comment_notification.notification_for}"
+      end
+    when 'resend_stage_3'
+      if comment_notification.notification_for.nil?
+        template = 'ask_for_recommandations_stage_3'
+      else
+        template = "ask_for_recommandations_stage_3_for_#{comment_notification.notification_for}"
+      end
+    end
+    template
+  end
+
+  def get_comment_notification_subject(comment_notification)
+    case comment_notification.status
+    when nil
+      if comment_notification.notification_for.nil?
+        "#{comment_notification.structure.name} vous demande une recommandation"
+      else
+        "Merci de laisser un avis à propos de vos ateliers Portes Ouvertes"
+      end
+    when 'resend_stage_1'
+      if comment_notification.notification_for.nil?
+        "Votre opinion sur #{comment_notification.structure.name}"
+      else
+        "Qu'avez-vous pensé de vos ateliers Portes Ouvertes ?"
+      end
+    when 'resend_stage_2'
+      if comment_notification.notification_for.nil?
+        "#{comment_notification.structure.name} vous demande une recommandation"
+      else
+        "Partagez votre expérience sur les Portes Ouvertes des 5-6 avril 2014"
+      end
+    when 'resend_stage_3'
+      if comment_notification.notification_for.nil?
+        "Dernier jour pour recommander #{comment_notification.structure.name}"
+      else
+        "Partagez votre expérience sur les Portes Ouvertes des 5-6 avril 2014"
+      end
+    end
+  end
+
 end

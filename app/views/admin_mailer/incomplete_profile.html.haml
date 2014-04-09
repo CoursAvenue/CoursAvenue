@@ -1,5 +1,5 @@
 - content_for :logo do
-  = image_tag 'emails_logo/clock.png', style: '-ms-interpolation-mode:bicubic;', width: '100', height: '100'
+  = image_tag 'emails_logo/clock.png', style: 'width: 100px; height: 100px;', width: '100', height: '100'
 
 - content_for :promo do
   %h4 Remplissez votre profil en 3min : c'est un jeu d'enfant !
@@ -8,7 +8,7 @@
   Saviez-vous que vous pouvez mettre à jour votre profil en quelques clics seulement ? Mettez votre description et votre planning à jour et le tour est joué !
 
 %p.action
-  = link_to "Compléter mon profil", edit_pro_structure_url(@structure, subdomain: 'pro'), class: 'btn btn--green', utm_source: 'email', utm_campaign: 'complete_profile', utm_medium: 'monday'
+  = link_to "Compléter mon profil", edit_pro_structure_url(@structure, subdomain: 'pro', utm_source: 'email', utm_campaign: 'complete_profile', utm_medium: 'monday'), class: 'btn btn--green'
 
 %p.blue.blue-tip
   %i Trucs & astuces : en priorité, mettez à jour votre description et invitez vos élèves à vous recommander.
@@ -20,7 +20,7 @@
         %table{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '300'}
           %tr{valign: 'top'}
             %td.soft-half--top.text--center{width: '300'}
-              = image_tag 'emails_logo/x7.png', alt: 'CoursAvenue', height: '80', width: '80', style: '-ms-interpolation-mode:bicubic;'
+              = image_tag 'emails_logo/x7.png', alt: 'CoursAvenue', height: '80', width: '80', style: 'width: 80px; height: 80px;'
           %tr{valign: 'top'}
             %td.content-block.push--bottom{width: '300', style: 'padding-right: 0; padding-left: 0;'}
               %p.text--center.soft-half--top
@@ -32,7 +32,7 @@
         %table{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '300'}
           %tr{valign: 'top'}
             %td.soft-half--top.text--center{width: '300'}
-              = image_tag 'emails_logo/eye.png', alt: 'CoursAvenue', height: '80', width: '80', style: '-ms-interpolation-mode:bicubic;'
+              = image_tag 'emails_logo/eye.png', alt: 'CoursAvenue', height: '80', width: '80', style: 'width: 80px; height: 80px;'
           %tr{valign: 'top'}
             %td.content-block.push--bottom{width: '300', style: 'padding-right: 0; padding-left: 0;'}
               %p.text--center.soft-half--top

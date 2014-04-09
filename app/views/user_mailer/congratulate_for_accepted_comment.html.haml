@@ -5,7 +5,3 @@
 
 %p.action
   = link_to "Voir mon avis", structure_url(@structure), class: 'btn btn--green'
-
-- if @structure.parisian?
-  = content_for :under_content do
-    = render 'user_mailer/discover_jpo'

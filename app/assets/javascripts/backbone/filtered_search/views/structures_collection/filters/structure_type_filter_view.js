@@ -5,10 +5,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
     Module.StructureTypeFilterView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'structure_type_filter_view',
 
-        initialize: function() {
-            this.announce = _.debounce(this.announce, 800);
-        },
-
         setup: function (data) {
             this.ui.$select.val(data.structure_types);
             this.announceBreadcrumb();
@@ -26,7 +22,8 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             var structure_types = this.ui.$select.val();
             this.trigger("filter:structure_type", { 'structure_types[]': structure_types });
             this.announceBreadcrumb(structure_types);
-        },
+        }.debounce(GLOBAL.DEBOUNCE_DELAY),
+
         announceBreadcrumb: function(structure_types) {
             structure_types = structure_types || this.ui.$select.val();
             if (structure_types === null) {

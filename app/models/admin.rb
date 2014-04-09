@@ -45,7 +45,8 @@ class ::Admin < ActiveRecord::Base
   after_create :check_if_was_invited
   after_create :set_email_opt_ins
   after_save :delay_subscribe_to_nutshell
-  after_save :delay_subscribe_to_mailchimp
+  # after_save :delay_subscribe_to_mailchimp
+  before_save :downcase_email
 
   ######################################################################
   # Scopes                                                             #
@@ -131,5 +132,13 @@ class ::Admin < ActiveRecord::Base
     self.thursday_email_opt_in       = true
     self.jpo_email_opt_in            = true
     self.save(validate: false)
+  end
+
+  # Change the email to force it to be downcase
+  #
+  # @return
+  def downcase_email
+    self.email = self.email.downcase if self.email
+    nil
   end
 end

@@ -16,6 +16,11 @@ class InvitedUser < ActiveRecord::Base
   ######################################################################
   scope :for_jpo, -> { where(invitation_for: 'jpo') }
 
+  ######################################################################
+  # Callbacks                                                          #
+  ######################################################################
+  before_save :downcase_email
+
   ## Type: Student, Structure
   attr_accessible :type, :email, :referrer_id, :referrer_type, :invitation_for
   # To store hashes into hstore
@@ -66,6 +71,16 @@ class InvitedUser < ActiveRecord::Base
   #
   # @return nil
   def user
+    nil
+  end
+
+  private
+
+  # Change the email to force it to be downcase
+  #
+  # @return
+  def downcase_email
+    self.email = self.email.downcase
     nil
   end
 end

@@ -17,7 +17,7 @@
                   Ajouter
                   %br
                   mon logo
-          .flexbox__item.v-top{class: (@structure.parisian? ? 'four-twelfths' : 'nine-twelfths')}>
+          .flexbox__item.v-top.nine-twelfths>
             %h4.push-half--bottom
               %span.v-middle= @structure.name
               %span.v-middle.soft-half--left
@@ -34,14 +34,14 @@
               = link_to new_pro_structure_invited_teacher_path(@structure), class: 'btn btn--small', onclick: "ga('send', 'event', 'Pro / Share with teachers', 'click', 'From dashboard page')" do
                 %i.fa.fa-bullhorn
                 &nbsp;Parrainer
-          - if @structure.parisian?
+          - if @structure.parisian? and Date.today < Date.parse('2014/04/07')
             .flexbox__item.v-top.five-twelfths>
               .text--center.v-middle.orange-box.white.rounded>
                 - if @structure.courses.open_courses.any?
                   = link_to communicate_pro_structure_course_opens_path(@structure), class: 'soft-half--top semi-muted-link block white', onclick: "ga('send', 'event', 'JPO', 'click')" do
                     = image_tag 'jpo_2014/logo_1_line.png', height: 60, width: 199, class: 'block center-block'
                     .delta Profitez de l'événement pour faire parler de vous :
-                    %p Activez vos 5 actions de communication
+                    %p Activez vos 6 actions de communication
                 - else
                   = link_to pro_structure_course_opens_path(@structure), class: 'soft-half--top semi-muted-link block white', onclick: "ga('send', 'event', 'JPO', 'click')" do
                     = image_tag 'jpo_2014/logo_1_line.png', height: 60, width: 199, class: 'block center-block'

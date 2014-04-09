@@ -1,0 +1,14 @@
+C'est votre dernier jour pour recommander <%= @structure.name %>
+
+Bonjour !
+
+<%= @structure.name %> a créé son profil sur CoursAvenue et voudrait savoir ce que vous avez pensé de ses cours. Pouvez-vous prendre quelques secondes pour laisser un avis sur son profil ?
+
+Déposer ma recommandation : <%= new_structure_comment_url(@structure, email: @email, utm_source: 'email', utm_campaign: 'recommandation', utm_medium: 'stage_1') %>
+
+Merci et à très bientôt,
+L'équipe de CoursAvenue
+
+Vous recevez cet email car <%= @structure.name %> est inscrit sur CoursAvenue et vous demande de lui rédiger une recommandation sur ses cours.
+Ne plus recevoir ces emails : <%= unsubscribe_users_url(@user.access_token, subdomain: 'www') %>
+

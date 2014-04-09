@@ -8,7 +8,24 @@
   = f.hidden_field :remember_me, value: true
   = f.button :submit, "Se connecter", class: 'btn--green one-whole'
 
-.push-half--top
+.push-half--top.milli
   = link_to "Je n'ai pas encore de compte", '#', id: 'show_new_registration_form'
   %br
   = link_to "J'ai oublié mon mot de passe", new_user_password_path
+  %br
+  = link_to "Je n'ai pas reçu les instructions de confirmation", new_confirmation_path(:user)
+
+= content_for :scripts do
+  :javascript
+      $('#user_email').keydown(function(event) {
+          if ( !this.value ) { return ; }
+          if ( this.value.match(/@.*\./) && !this.value.match(/@gmail/) ) {
+              $(this).popover({
+                  placement: 'right',
+                  content: '<p style="width: 215px;" class="black flush"><i class="fa fa-warning"></i> Le mail d’activation peut être considéré comme un spam, vérifiez votre boîte <strong>«Courrier&nbsp;Indésirable»</strong> et indiquez ce message comme valide.</p>',
+                  trigger: 'manual',
+                  html: 'true',
+                  animation: true
+              }).popover('show');
+          }
+      });

@@ -179,3 +179,14 @@
         margin: 0 !important;
     }
 }
+
+.print--visible {
+    @media only screen {
+        display: none;
+    }
+}
+@media only print {
+    .print--hidden {
+        display: none !important;
+    }
+}

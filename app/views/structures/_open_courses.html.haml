@@ -1,5 +1,11 @@
 - @open_courses.order('created_at ASC').each do |course|
-  - if course.plannings.any?
+  - plannings = course.plannings.order('start_date ASC, start_time ASC')
+  - saturday  = Date.parse('2014/04/05')
+  - sunday    = Date.parse('2014/04/06')
+  - plannings = plannings.reject{|p| p.start_date == Date.today and p.start_time.hour <= Time.now.hour}
+  - if Date.today == sunday
+    - plannings = plannings.reject{|p| p.start_date == saturday}
+  - if plannings.any?
     .white-box.white-box--noshadow.islet
       %strong= course.name
       - if course.other_event_type?
@@ -16,49 +22,48 @@
         = course.subjects.map(&:name).join(', ')
       .read-more{data: {behavior: 'read-more', height: 50}}
         = simple_format course.description
-      - if course.plannings.any?
-        %table.table--data.table--striped
-          %thead
+      %table.table--data.table--striped
+        %thead
+          %tr
+            %th Date / Horaire
+            %th Public
+            %th Niveau
+            %th Lieu
+            %th.text--center Places dispos
+            %th.text--center Prix
+            %th
+        %tbody
+          - plannings.each do |planning|
             %tr
-              %th Date / Horaire
-              %th Public
-              %th Niveau
-              %th Lieu
-              %th.text--center Places dispos
-              %th.text--center Prix
-              %th
-          %tbody
-            - course.plannings.order('start_date ASC, start_time ASC').each do |planning|
-              %tr
-                %td
-                  = planning_date_for(planning)
-                  = planning_time_for(planning)
-                %td= join_audiences planning
-                %td= join_levels planning.levels
-                %td
-                  = link_to "http://maps.google.com/?q=#{planning.place.location.address}", target: :_blank, class: 'pointer semi-muted-link', title: planning.place.location.address, data: { behavior: 'tooltip' } do
-                    = planning.place.location.name
-                %td.text--center
-                  - if planning.places_left > 10
-                    > 10
-                  - else
-                    = planning.places_left
+              %td
+                = planning_date_for(planning)
+                = planning_time_for(planning)
+              %td= join_audiences planning
+              %td= join_levels planning.levels
+              %td
+                = link_to "http://maps.google.com/?q=#{planning.place.location.address}", target: :_blank, class: 'pointer semi-muted-link', title: planning.place.location.address, data: { behavior: 'tooltip' } do
+                  = planning.place.location.name
+              %td.text--center
+                - if planning.places_left > 10
+                  > 10
+                - else
+                  = planning.places_left
 
-                %td.nowrap
-                  - if course.common_price
-                    %span.line-through #{readable_amount(course.common_price)}€
-                  %span.green GRATUIT
-                %td.text--right
-                  - if current_user
-                    - if current_user.participate_to?(planning)
-                      Déjà inscrit
-                    - else
-                      = link_to new_planning_participation_path(planning), class: 'btn btn--small btn--green text--center line-height-normal fancybox.ajax', data: { behavior: 'modal', title: 'Inscription au créneau', width: 600 } do
-                        = planning.places_left? ? "M'inscrire " : "M'inscrire sur liste d'attente"
-                  - elsif current_pro_admin
-                    = link_to "M'inscrire", '#you-are-a-teacher', data: {behavior: 'modal', width: 500}, class: 'btn btn--green btn--small btn--full'
+              %td.nowrap
+                - if course.common_price
+                  %span.line-through #{readable_amount(course.common_price)}€
+                %span.green GRATUIT
+              %td.text--right
+                - if current_user
+                  - if current_user.participate_to?(planning)
+                    Déjà inscrit
                   - else
-                    = link_to "M'inscrire", new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', width: 300}, class: 'fancybox.ajax btn btn--green btn--small btn--full'
+                    = link_to new_planning_participation_path(planning), class: 'btn btn--small btn--green text--center line-height-normal fancybox.ajax', data: { behavior: 'modal', title: 'Inscription au créneau', width: 600 } do
+                      = planning.places_left? ? "M'inscrire " : "M'inscrire sur liste d'attente"
+                - elsif current_pro_admin
+                  = link_to "M'inscrire", '#you-are-a-teacher', data: {behavior: 'modal', width: 500}, class: 'btn btn--green btn--small btn--full'
+                - else
+                  = link_to "M'inscrire", new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', width: 300}, class: 'fancybox.ajax btn btn--green btn--small btn--full'
 
 - if current_pro_admin
   #you-are-a-teacher.hidden

@@ -1,0 +1,11 @@
+Connexion : <%= dashboard_pro_structure_url(@structure, subdomain: 'pro') %>
+Aide : <%= pro_pages_questions_url(subdomain: 'pro') %>
+Portes Ouvertes : <%= pro_structure_course_opens_url(@structure, subdomain: 'pro') %>
+
+Félicitations ! Vos ateliers pour les Portes Ouvertes sont maintenant ouverts aux inscriptions
+
+Notre équipe vient de valider vos ateliers Portes Ouvertes qui sont maintenant ouverts aux inscriptions. A chaque inscription, un e-mail vous sera envoyé et vous pourrez suivre vos inscrits en temps réel sur votre profil. Profitez de cette occasion pour offrir à vos élèves l'opportunité d'inviter leurs proches :
+
+Inviter mes élèves et mon réseau : <%= jpo_new_pro_structure_invited_students_url(@structure, subdomain: 'pro', utm_source: 'email', utm_campaign: 'invite_jpo_students', utm_medium: 'jpo_course_visible') %>
+
+Trucs & astuces : depuis votre profil, offrez à vos élèves l'opportunité d'inviter leurs proches.

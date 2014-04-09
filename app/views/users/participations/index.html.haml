@@ -4,7 +4,7 @@
 
 %h2 Mes inscriptions pour les Journées Portes Ouvertes
 
-.alert--info.one-whole.push--bottom
+.alert--info.one-whole.push--bottom.print--hidden
   %ul.flush--bottom
     %li
       L'objectif des Journées Portes Ouvertes est de permettre au plus grand nombre de découvrir gratuitement leurs passions le temps d'un week-end. Si vous souhaitez participer avec vos proches, réservez votre atelier, puis envoyez-leurs votre invitation.
@@ -15,12 +15,17 @@
     %h4 Aucune inscription aux Journées Portes Ouvertes
     = link_to "M'inscrire aux journées portes ouvertes", open_courses_path, class: 'btn btn--blue'
 - else
-  - if @participations.length >= 4
-    .text--center.push--bottom
-      %h4 Vous ne pouvez plus vous inscrire à un atelier, les inscriptions sont limitées à 4 par personne.
+  - if @participations.length >= 6
+    .text--center.push-half--bottom.print--hidden
+      %h4 Vous ne pouvez plus vous inscrire à un atelier, les inscriptions sont limitées à 6 par personne.
   - else
-    .text--center.push--bottom
+    .text--center.push-half--bottom.print--hidden
       = link_to "M'inscrire à d'autres ateliers", open_courses_path, class: 'btn btn--blue btn--large'
+
+  .text--center.push--bottom.print--hidden
+    = link_to 'javascript:window.print()', class: 'btn btn--yellow' do
+      %i.fa.fa-print
+      Imprimer mon récapitulatif
 
   - @participations.each do |participation|
     - course = participation.course
@@ -28,9 +33,9 @@
     .white-box.islet
       - if participation.waiting_list?
         %h4.text--center.red Vous êtes sur liste d'attente pour cet atelier, vous serez prévenu par e-mail en cas de désistement.
-        %hr
+        %hr.print--hidden
       - if participation.nb_adults > 1
-        .alert.alert--warning.one-whole.push-half--bottom>
+        .alert.alert--warning.one-whole.push-half--bottom.print--hidden>
           .flexbox
             .flexbox__item.v-middle.delta>
               Renseignez les e-mails de tous les participants, nous leur enverrons en fin de semaine un mail récapitulatif avec toutes les informations importantes pour se rendre à l’atelier :
@@ -39,19 +44,19 @@
                 Renseigner
                 %br
                 les emails
-        %hr
+        %hr.print--hidden
       .flexbox
         .flexbox__item.two-twelfths.soft-half--right.v-top>
           = link_to structure_path(participation.structure) , class: 'block one-whole', target: :_blank do
             = image_tag participation.structure.logo.url(:thumb), class: 'block one-whole'
-          = link_to new_user_message_path(@user, message: { subject: 'Informations concernant votre atelier Portes Ouvertes', recipients: participation.structure.id }), class: 'btn btn--blue nowrap push-half--ends fancybox.ajax', data: { behavior: 'modal', width: '780' }, title: "Informations concernant votre atelier Portes Ouvertes", onclick: "ga('send', 'event', 'Answer to student', 'click')" do
+          = link_to new_user_message_path(@user, message: { subject: 'Informations concernant votre atelier Portes Ouvertes', recipients: participation.structure.id }), class: 'btn btn--blue nowrap push-half--ends fancybox.ajax print--hidden', data: { behavior: 'modal', width: '780' }, title: "Informations concernant votre atelier Portes Ouvertes", onclick: "ga('send', 'event', 'Answer to student', 'click')" do
             %i.fa.fa-envelope
             Envoyer un message
-          = link_to jpo_new_user_invited_users_path(@user, participation_id: participation.id), class: 'btn btn--blue nowrap push-half--bottom one-whole' do
+          = link_to jpo_new_user_invited_users_path(@user, participation_id: participation.id), class: 'btn btn--blue nowrap push-half--bottom one-whole print--hidden' do
             %i.fa.fa-gift
             Inviter mes amis
-          .share-on-facebook.btn.btn--facebook.one-whole.push-half--bottom Facebook
-          .share-on-twitter.btn.btn--twitter.one-whole.btn--small.push-half--bottom Twitter
+          .share-on-facebook.btn.btn--facebook.one-whole.push-half--bottom.print--hidden Facebook
+          .share-on-twitter.btn.btn--twitter.one-whole.btn--small.push-half--bottom.print--hidden Twitter
 
           = link_to 'Me désinscrire', user_participation_path(@user, participation), method: :delete, data: {confirm: 'Êtes-vous sur de vous désinscrire ce créneau ?'}, class: 'btn btn--red btn--small btn--full'
         .flexbox__item.eight-twelfths.v-top>
@@ -68,6 +73,8 @@
                   %span.line-through #{readable_amount(course.common_price)}€
                 %span.green GRATUIT
                 %strong= link_to participation.structure.name, structure_path(participation.structure), class: 'semi-muted-link', target: :_blank
+                = "(#{[course.structure.contact_email, course.structure.contact_mobile_phone, course.structure.contact_phone].reject(&:blank?).join(', ')})"
+
               %p
                 = "#{join_audiences participation.planning} / #{join_levels participation.planning.levels}"
               %p
@@ -86,9 +93,9 @@
                 %br
               .epsilon.push-half--bottom
                 = "De #{l(participation.planning.start_time, format: :short)} à #{l(participation.planning.end_time, format: :short)}"
-              = add_to_calendar(participation)
+              .print--hidden= add_to_calendar(participation)
 
-              = link_to "Événement Facebook", "https://www.facebook.com/events/1475459639332489/", target: :_blank, class: 'btn btn--facebook push-half--top'
+              = link_to "Événement Facebook", "https://www.facebook.com/events/1475459639332489/", target: :_blank, class: 'btn btn--facebook push-half--top print--hidden'
 
           - if course.description.present?
             %p.flush

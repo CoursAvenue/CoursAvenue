@@ -14,7 +14,8 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         chevron: Handlebars.compile("<span class='soft-half--left fa fa-chevron-{{ order }}' data-type='order'></span>"),
 
         initialize: function () {
-            this.setEditing = _.debounce(this.setEditing);
+            this.setEditing            = _.debounce(this.setEditing).bind(this);
+            this.announceFilterSummary = _.debounce(this.announceFilterSummary, 500).bind(this);
 
             this.poller = Backbone.Poller.get(this.collection, { delay: 5000 });
             this.poller.on('success', _.bind(function (collection) {
@@ -26,6 +27,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             this.on("click:outside", this.onClickOutside);
 
             this.currently_editing = []; // a FIFO list of rows
+            this.current_order     = null; // see announcefiltersummary
         },
 
         ui: {
@@ -118,21 +120,38 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
          * user clicky clicks the chevron many times, it still swaps up and down,
          * but fires only the last sort request */
         sort: function (e) {
+            var sort, order;
             e.preventDefault();
 
-            var sort = e.currentTarget.getAttribute('data-sort');
-            var order = "desc";
+            if (this.current_order === null) {
+                this.current_order = this.collection.server_api.order;
+            }
+
+            sort  = e.currentTarget.getAttribute('data-sort');
+            order = "desc";
 
             // if we are already sorting by this column, change the order
             if (sort === this.collection.server_api.sort) {
-                order = this.collection.server_api.order;
+                order = this.current_order;
                 order = (order === "desc")? "asc" : "desc";
             }
 
+            this.current_order = order;
             this.toggleChevron(order, e.currentTarget);
-            this.trigger('filter:summary', { sort: sort, order: order });
+            this.announceFilterSummary(sort, order);
 
             return false;
+        },
+
+        announceFilterSummary: function announceFilterSummary (sort, order) {
+            // this.current_order is given a value the first time a user clicks
+            // a column, and then toggles while the user is still clicking. When
+            // the user hasn't clicked for a while, this method is called and that
+            // value is nullified. This is because we are debouncing the actual
+            // change in the server_api order, but not the chevron direction
+
+            this.current_order = null;
+            this.trigger('filter:summary', { sort: sort, order: order });
         },
 
         toggleChevron: function (order, target) {
@@ -167,8 +186,8 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         onItemviewChangedEditing: function (itemview) {
             var previous_itemview = this.getCurrentlyEditing();
 
-            var is_new            = itemview.model.get("new");
-            var is_editing        = itemview.is_editing;
+            var is_new            = itemview.model.get("new"),
+                is_editing        = itemview.isEditing();
 
             // close any active view to make room for the new view
             if (is_editing && previous_itemview.$el !== undefined) {
@@ -197,6 +216,15 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
             if (action === "create") {
                 this.newUserProfile();
+            }
+        },
+
+        /* if the itemview was new, and its edits didn't get set on the server
+         * because of invalid data, we just set the edits on the model so that
+         * they don't disappear. */
+        onItemviewUpdateError: function onItemviewUpdateError (itemview, response) {
+            if (itemview.model.get("new") === true) {
+                itemview.model.set(itemview.edits);
             }
         },
 

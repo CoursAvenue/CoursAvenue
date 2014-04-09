@@ -63,7 +63,7 @@ class PlanningSearch
         ######################################################################
         # Other filters                                                      #
         ######################################################################
-        with(:course_type).any_of                          params[:course_types]                      if params[:course_types].present?
+        with(:course_type).any_of                          [params[:course_types]].flatten            if params[:course_types].present?
 
         if params[:trial_course_amount].present?
           with :has_trial_course,                          true

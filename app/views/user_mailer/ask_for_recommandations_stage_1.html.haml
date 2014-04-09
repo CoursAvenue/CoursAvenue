@@ -1,7 +1,7 @@
 - if @structure.logo?
   - content_for :logo do
     = link_to structure_url(@structure, subdomain: 'www'), target: '_blank' do
-      = image_tag @structure.logo.url(:thumb), style: '-ms-interpolation-mode:bicubic;', width: '100', height: '100'
+      = image_tag @structure.logo.url(:thumb), style: 'width: 100px; height: 100px;', width: '100', height: '100'
 
 - content_for :promo do
   %h4
@@ -20,10 +20,6 @@
 
 %p
   L'équipe de CoursAvenue
-
-- if @structure.parisian?
-  = content_for :under_content do
-    = render 'user_mailer/discover_jpo'
 
 = content_for :footer do
   %p

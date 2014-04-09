@@ -5,10 +5,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
         itemView: Module.SubjectView,
         itemViewContainer: '.grid__item.one-whole.soft-half.b-white.tab-content',
 
-        initialize: function initialize () {
-            this.announce = _.debounce(this.announce, 500);
-        },
-
         setup: function setup (data) {
             this.ui.$search_input.attr('value', data.name);
             this.previous_searched_name = data.name;
@@ -25,7 +21,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
         events: {
             'typeahead:selected #search-input': 'announce',
             // Use keyup instead of keypress to handle the case when the user empties the input
-            'keyup #search-input':              'announce',
+            'keyup #search-input':              'keyup',
             'focus @ui.$search_input':          'showMenu',
             'click [data-type=button]':         'activateButton',
             'click':                            'clickInsinde',
@@ -164,6 +160,14 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             this.ui.$menu.show();
         },
 
+        keyup: function keyup (event) {
+            if (event.keyCode === 13 || event.keyCode === 27) { // Enter || Escape
+                this.ui.$menu.hide();
+                this.ui.$search_input.typeahead('close');
+            }
+            this.announce(event);
+        },
+
         announce: function announce (event, data) {
             var name = (data ? data.name : event.currentTarget.value);
             // Prevent from launching the search if the name is same than previous one
@@ -171,7 +175,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
                 this.previous_searched_name = name;
                 this.trigger("filter:search_term", { 'name': name });
             }
-        },
+        }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
         // Clears all the given filters
         clear: function clear () {

@@ -48,6 +48,7 @@ class User < ActiveRecord::Base
   has_many :cities, through: :lived_places
 
   has_and_belongs_to_many :subjects
+  has_and_belongs_to_many :invited_participations, class_name: 'Participation'
 
   belongs_to :city
 
@@ -65,8 +66,9 @@ class User < ActiveRecord::Base
   after_create :associate_all_comments
 
   # Not after create because user creation is made when teachers invite their students to post a comment
-  after_save :associate_city_from_zip_code, if: -> { zip_code.present? and city.nil? }
-  after_save :update_email_status
+  after_save  :associate_city_from_zip_code, if: -> { zip_code.present? and city.nil? }
+  after_save  :update_email_status
+  before_save :downcase_email
 
   ######################################################################
   # Validations                                                        #
@@ -304,7 +306,7 @@ class User < ActiveRecord::Base
   #
   # @return Boolean
   def can_participate_to_jpo_2014?
-    self.participations.not_canceled.length < 4
+    self.participations.not_canceled.length < 6
   end
 
   # Get the user profile associated to the given structure
@@ -359,15 +361,29 @@ class User < ActiveRecord::Base
     end
   end
 
+  def send_jpo_recap(participation = nil)
+    ParticipationMailer.delay.recap(self)
+    if participation
+      invited_friends = participation.invited_friends.uniq
+    else
+      invited_friends = self.participations.map(&:invited_friends).flatten.uniq
+    end
+    invited_friends.map{ |invited_friend| ParticipationMailer.delay.recap_from_friend(invited_friend, self)}
+  end
+
   private
 
   def random_string
     (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
   end
 
+  # Update city id of the user regarding the zip_code he choosed when registering
+  #
+  # @return nil
   def associate_city_from_zip_code
     _zip_code = self.zip_code
     self.update_column :city_id, City.where{zip_code == _zip_code}.first.try(:id)
+    nil
   end
 
   def associate_all_comments
@@ -388,5 +404,13 @@ class User < ActiveRecord::Base
   # @return Boolean
   def lived_place_invalid?(attributes)
     attributes['zip_code'].blank? or attributes['city_id'].blank?
+  end
+
+  # Change the email to force it to be downcase
+  #
+  # @return
+  def downcase_email
+    self.email = self.email.downcase if self.email
+    nil
   end
 end

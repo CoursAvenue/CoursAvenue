@@ -9,8 +9,15 @@ class Pro::Structures::CommentNotificationsController < Pro::ProController
     regexp = Regexp.new(/\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b/)
     emails = params[:emails].scan(regexp).uniq
     text = '<p>' + params[:text].gsub(/\r\n/, '</p><p>') + '</p>'
-    emails.each do |email|
-      UsersReminder.delay.send_recommendation(@structure, text, email)
+    emails.each do |_email|
+      if (user = User.where(email: _email).first).nil?
+        user             = User.new(email: _email)
+        user.structures << @structure
+        user.subjects   << @structure.subjects
+        user.save(validate: false)
+      end
+      notification           = user.comment_notifications.build structure: @structure, text: text
+      notification.save
     end
     respond_to do |format|
       format.html { redirect_to params[:redirect_to] || recommendations_pro_structure_path(@structure), notice: (params[:emails].present? ? 'Vos élèves ont bien été notifiés.' : nil) }
@@ -18,6 +25,7 @@ class Pro::Structures::CommentNotificationsController < Pro::ProController
   end
 
   def index
+    @comment_notifications     = Kaminari.paginate_array(@structure.comment_notifications).page(params[:page] || 1).per(100)
   end
 
   def destroy

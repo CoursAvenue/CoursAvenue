@@ -1,0 +1,13 @@
+Accédez à des cours d'essai gratuits et aux promotions exclusives en lien avec vos passions !
+
+Bonjour <%= @user.name %> !
+
+Renseignez vos passions sur votre profil CoursAvenue et recevez des invitations à des cours d'essai gratuits ou des promotions exclusives chez nos partenaires situés tout près de vous.
+
+Pour cela, connectez-vous et renseignez vos disciplines :
+
+Renseigner mes passions : <%= user_passions_url(@user, subdomain: 'www', utm_source: 'email', utm_campaign: 'passions', utm_medium: 'monday_email')%>
+
+Trucs & astuces : si votre profil n'est pas complet, renseignez en priorité vos informations personnelles, votre photo, et toutes vos passions.
+
+Gérer mes préférences de notifications e-mails : <%= notifications_user_url(@user, subdomain: 'www') %>
