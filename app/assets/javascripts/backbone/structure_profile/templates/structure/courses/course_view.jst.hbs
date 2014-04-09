@@ -124,14 +124,20 @@
                                 </td>
                             </tr>
                         {{/each}}
-                        <tr>
-                            <th colspan="2" class="text--left bordered--top">Autres infos</th>
-                        </tr>
+                        {{#xif " (this.trials && this.trials.length > 0) || (this.registrations && this.registrations.length > 0) || typeof(this.price_details) != 'undefined' "}}
+                            <tr>
+                                <th colspan="2" class="text--left bordered--top">Autres infos</th>
+                            </tr>
+                        {{/xif}}
                         {{#each trials}}
                             <tr>
                                 <td>{{libelle}}</td>
                                 <td>
-                                    {{amount}}€
+                                    {{#ifCond amount '==' '0'}}
+                                        Gratuit
+                                    {{else}}
+                                        {{amount}}€
+                                    {{/ifCond}}
                                     {{#if info}}
                                         <i class="float--right push-half--left lbc-brand-icon" data-behavior="tooltip" title="{{info}}" ></i>
                                     {{/if}}
@@ -142,7 +148,11 @@
                             <tr>
                                 <td>Adhésion</td>
                                 <td>
-                                    {{amount}}€
+                                    {{#ifCond amount '==' '0'}}
+                                        Gratuit
+                                    {{else}}
+                                        {{amount}}€
+                                    {{/ifCond}}
                                     {{#if info}}
                                         <i class="float--right push-half--left lbc-brand-icon" data-behavior="tooltip" title="{{info}}" ></i>
                                     {{/if}}
@@ -151,8 +161,7 @@
                         {{/each}}
                         {{#if price_details}}
                             <tr>
-                                <td>Informations</td>
-                                <td>{{price_details}}</td>
+                                <td class="text--left" colspan="2">{{price_details}}</td>
                             </tr>
                         {{/if}}
                     </tbody>
