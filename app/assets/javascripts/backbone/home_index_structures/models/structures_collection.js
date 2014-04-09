@@ -7,7 +7,7 @@
 *   */
 HomeIndexStructures.module('Models', function(Module, App, Backbone, Marionette, $, _) {
     Module.StructuresCollection = Backbone.Collection.extend({
-        model: FilteredSearch.Models.Structure,
+        model: CoursAvenue.Models.Structure,
         server_api: {
             lat: 48.8567,
             lng: 2.3508

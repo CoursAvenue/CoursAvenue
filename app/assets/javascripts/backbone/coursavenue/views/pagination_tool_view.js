@@ -6,6 +6,8 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         /* data to describe the pagination tool */
         reset: function (data) {
+            data.buttons = this.buildPaginationButtons(data);
+
             this.current_pagination_data = data;
             this.render();
         },
@@ -42,6 +44,46 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
             return false;
         },
+
+        /* we want to show buttons for the first and last pages, and the
+         * pages in a radius around the current page. So we will skip pages
+         * that don't meet that criteria */
+        canSkipPage: function (page, data) {
+            var last_page = data.last_page,
+                out_of_bounds = (data.current_page - data.radius > page || page > data.current_page + data.radius),
+                bookend = (page == 1 || page == last_page);
+
+            return (!bookend && out_of_bounds);
+        },
+
+        /* the query_strings are built in the paginated collection view */
+        buildPaginationButtons: function (data) {
+            var skipped = false,
+                buttons = [];
+
+            _.times(data.last_page, function(index) {
+                var current_page = index + 1;
+
+                if (this.canSkipPage(current_page, data)) { // 1, ..., 5, 6, 7, ..., 9
+                    skipped = true;
+                } else {
+                    if (skipped) { // push on an ellipsis if we've skipped any pages
+                        buttons.push({ label: '...', disabled: true });
+                    }
+
+                    buttons.push({ // push the current page
+                        label: current_page,
+                        active: (current_page == data.current_page),
+                        query: data.query_strings[current_page]
+                    });
+
+                    skipped = false;
+                }
+            }.bind(this));
+
+            return buttons;
+        },
+
     });
 
 });

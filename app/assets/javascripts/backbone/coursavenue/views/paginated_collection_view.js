@@ -12,59 +12,22 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             throw "announcePaginatorUpdated is a virtual method. Override it in your inheriting class";
         },
 
-        /* we want to show buttons for the first and last pages, and the
-         * pages in a radius around the current page. So we will skip pages
-         * that don't meet that criteria */
-        canSkipPage: function (page, data) {
-            var last_page = data.totalPages,
-                out_of_bounds = (data.currentPage - data.radius > page || page > data.currentPage + data.radius),
-                bookend = (page == 1 || page == last_page);
+        /* given a natural range [1, x], returns a 1 indexed array of search queries for the collection
+         * at the pages in the given range. */
+        /* TODO this builds a huge array of strings all the time, and needs to get cached */
+        buildPageQueriesForRange: function buildPageQueriesForRange (pages) {
+            var results = [];
 
-            return (!bookend && out_of_bounds);
-        },
+            _.times(pages, function (index) {
+                // results array is 1 indexed
+                results[index + 1] = this.collection.pageQuery(index + 1);
 
-        /* TODO this method and canskippage should really be methods on the
-        *  pagination tool. However, the tool needs the collection's Query
-        *  method to construct query strings for anchors. This is a problem!
-        *  we could:
-        *  - build all the query strings and put them in an array
-        *  - send enough information to be able to build the query strings over there
-        *  - send a reference to the pageQuery method */
-        buildPaginationButtons: function (data) {
-            var self = this,
-                skipped = false,
-                buttons = [];
+            }.bind(this));
 
-            _.times(data.totalPages, function(index) {
-                var current_page = index + 1;
-
-                if (self.canSkipPage(current_page, data)) { // 1, ..., 5, 6, 7, ..., 9
-                    skipped = true;
-                } else {
-                    if (skipped) { // push on an ellipsis if we've skipped any pages
-                        buttons.push({ label: '...', disabled: true });
-                    }
-
-                    buttons.push({ // push the current page
-                        label: current_page,
-                        active: (current_page == data.currentPage),
-                        query: self.collection.pageQuery(current_page)
-                    });
-
-                    skipped = false;
-                }
-            });
-
-            return buttons;
+            return results;
         },
 
         filterQuery: function(filters) {
-            /* TODO check for redundancy: if the incoming filters don't
-            *  change anything, we shouldn't do the update */
-            // if (this.collection.setQuery(filter) === this.collection.getQuery()) {
-            //     return false;
-            // }
-
             /* since we are changing the query, we need to reset
             *  the collection, or else some elements will be in the wrong order */
             /* however, if we reset it here the results will appear to "vanish" and re-appear */

@@ -116,9 +116,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         /* find the current sorting pivot and remove a class from it
          *  add that class to the new one. Ensure that the disclosure triangle
          *  has the correct orientation. Then trigger filter:summary */
-        /* TODO the actual filtering should be debounced so that if the
-         * user clicky clicks the chevron many times, it still swaps up and down,
-         * but fires only the last sort request */
         sort: function (e) {
             var sort, order;
             e.preventDefault();
@@ -256,7 +253,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
          * pass in some info from the paginator_ui or something
          * if do we would do it here */
         /* remember that itemViews are constructed and destroyed more often
-        * than the corresponding models */
+         * than the corresponding models */
         itemViewOptions: function(model, index) {
             var id = model.get("id");
             var tags_url = this.collection.url.basename + '/tags.json';
@@ -299,7 +296,8 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             this.trigger('user_profiles:updated:pagination', {
                 current_page:        data.currentPage,
                 last_page:           data.totalPages,
-                buttons:             this.buildPaginationButtons(data),
+                radius:              data.radius,
+                query_strings:       this.buildPageQueriesForRange(data.totalPages),
                 previous_page_query: this.collection.previousQuery(),
                 next_page_query:     this.collection.nextQuery(),
                 sort:                this.collection.server_api.sort

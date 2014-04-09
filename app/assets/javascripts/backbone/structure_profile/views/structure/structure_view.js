@@ -7,8 +7,9 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         template: Module.templateDirname() + 'structure_view',
 
         ui: {
-            '$loader': '[data-loader]',
-            '$summary_container': '[data-summary-container]'
+            '$loader'           : '[data-loader]',
+            '$summary_container': '[data-summary-container]',
+            '$empty_courses'    : '[data-empty-courses]'
         },
 
         events: {
@@ -28,7 +29,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         },
 
         initialize: function initialize () {
-            _.bindAll(this, "showOrCreateTab");
+            _.bindAll(this, "showOrCreateTab", "hideLoader");
 
             this.filter_breadcrumbs = new FilteredSearch.Views.StructuresCollection.Filters.FilterBreadcrumbs.FilterBreadcrumbsView({
                 template: StructureProfile.Views.Structure.templateDirname() + 'filter_breadcrumbs_view',
@@ -59,6 +60,11 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
 
             // eaves drop on bootstraps tab implementation
             $(document).on("click", '[data-toggle=tab]', this.showOrCreateTab);
+
+            this.empty_relation_handlers = {
+                "courses": this.showEmptyCourses,
+                "places" : this.showEmptyMap,
+            };
         },
 
         onAfterShow: function onAfterShow () {
@@ -84,7 +90,21 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             }
         },
 
-        refetchCoursesAndPlaces: function refetchCoursesAndPlaces (data) {
+        /* broadenSearch
+         * ----------------------
+         *
+         * without arguments, this function causes the model to fetch its
+         * courses and places with no params. If given an argument that has
+         * key/value pairs, params matching the values will be removed.
+         * So if an object like,
+         *
+         *   { behavior="tooltip", target="audience_ids", type="clear" }
+         *
+         * the params "tooltop", "audience_ids", and "clear" will be removed.
+         *
+         * TODO This is not very precise, though. What are all those extra k/v pairs?
+         *  */
+        broadenSearch: function broadenSearch (data) {
             var params = this.model.get("query_params");
 
             if (data === undefined) {
@@ -97,20 +117,60 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
                 });
             }
 
-
             this.model.set("query_params", params);
-            this.model.fetchRelated("courses", { data: this.getParamsForResource("courses")}, true)[0].then(function (courses) {
-                this.model.get('courses').reset(courses);
+
+            this.updateModelWithRelation("courses");
+            this.updateModelWithRelation("places");
+        },
+
+        /* narrowSearch
+         * ------------
+         *
+         * This function refetches the course and places relations with
+         * the full url query.
+         *  */
+        narrowSearch: function narrowSearch () {
+            // need to parse the search... blech
+            var params = CoursAvenue.Models.PaginatedCollection.prototype.makeOptionsFromSearch.call(this, window.location.search);
+
+            // set the query_params on the model so that getparamsforresource will work
+            this.model.set("query_params", params);
+
+            this.updateModelWithRelation("courses").then(function () {
+                this.ui.$summary_container.slideDown();
+                this.summary_view.enableRemoveFilterButton();
             }.bind(this));
-            this.model.fetchRelated("places", { data: this.getParamsForResource("places")}, true)[0].then(function (places) {
-                this.model.get('places').reset(places);
-            }.bind(this));
+
+            this.updateModelWithRelation("places");
+        },
+
+        updateModelWithRelation: function updateModelWithRelation (relation) {
+            var fetch = this.model.fetchRelated(relation, { data: this.getParamsForResource(relation)}, true)[0];
+
+            if (fetch !== undefined) {
+                fetch.then(function (resources) {
+                    this.model.get(relation).reset(resources);
+                }.bind(this));
+            } else {
+                // if the fetch is undefined, we don't have any of that resource
+                handler = this.empty_relation_handlers[relation];
+
+                if (_.isFunction(handler)) {
+                    handler.call(this);
+                }
+            }
+
+            return fetch || new $.Deferred().reject();
+        },
+
+        showEmptyCourses: function showEmptyCourses () {
+            this.ui.$empty_courses.show();
         },
 
         showOrCreateTab: function showOrCreateTab (e) {
             var $target   = $(e.currentTarget),
                 resources = $target.data("view"),
-                ViewClass, view, model;
+                ViewClass, view, model, fetch;
 
             // if this tab has no associated resource, or if it is already populated, we bail
             if (!resources) { return; }
@@ -125,16 +185,19 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
 
             // always fetch, since we don't know whether we have resources or just ids
             this.showLoader(resources);
-            this.model.fetchRelated(resources, { data: this.getParamsForResource(resources)}, true)[0].then(function (collection) {
-                if (resources === "courses") {
-                    this.summary_view = new StructureProfile.Views.Structure.Courses.CoursesSummaryView(view.serializeData());
-                    this.showWidget(this.summary_view);
-                }
 
-                this.hideLoader();
-                this.showWidget(view);
-                $target.data("view", null); // remove the data-view property, indicating that no further fetching should be done
-            }.bind(this));
+            this.updateModelWithRelation(resources)
+                .then(function (collection) {
+                    if (resources === "courses") {
+                        this.summary_view = new StructureProfile.Views.Structure.Courses.CoursesSummaryView(view.serializeData());
+                        this.showWidget(this.summary_view);
+                    }
+
+                    this.showWidget(view);
+                    $target.data("view", null); // remove the data-view property, indicating that no further fetching should be done
+
+                }.bind(this))
+                .always(this.hideLoader);
         },
 
         showLoader: function(resources_name) {
