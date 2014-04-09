@@ -15,9 +15,9 @@ class StructureSerializer < ActiveModel::Serializer
              :has_promotion, :tag_names, :last_comment_title, :open_courses_open_places, :open_course_names, :open_course_plannings_nb
 
   has_many :places
-  has_many :comments, serializer: ShortSerializer
-  has_many :courses,  serializer: ShortSerializer
-  has_many :medias,   serializer: ShortSerializer
+  has_many :comments,          serializer: ShortSerializer
+  has_many :courses,           serializer: ShortSerializer
+  has_many :medias,            serializer: ShortSerializer
   has_many :preloaded_medias,  serializer: MediaSerializer
 
   # Following functions has to return the same objects than the associated controllers
