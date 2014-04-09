@@ -6,6 +6,12 @@ StructureProfile.module('Views.Structure.Places', function(Module, App, Backbone
         template: Module.templateDirname() + 'places_collection_view',
         itemViewContainer: '[data-type=item-view-container]',
 
+        initialize: function initialize () {
+            this.collection.on('reset', function () {
+                this.trigger('places:collection:updated')
+            }.bind(this));
+        },
+
         ui: {
             '$list': '[data-type=container]'
         },
@@ -23,11 +29,11 @@ StructureProfile.module('Views.Structure.Places', function(Module, App, Backbone
             this.trigger("place:mouse:leave", data);
         },
 
-        showPlaces: function showPlaces() {
+        showPlaces: function showPlaces () {
             this.ui.$list.slideToggle();
         },
 
-        refetchPlaces: function refetchPlaces() {
+        refetchPlaces: function refetchPlaces () {
             this.collection.fetch();
         },
 

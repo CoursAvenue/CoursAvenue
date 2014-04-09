@@ -39,7 +39,8 @@ StructureProfile.addInitializer(function(options) {
             "course:mouse:enter": "exciteMarkers",
             "course:mouse:leave": "exciteMarkers",
             "place:mouse:enter": "exciteMarkers",
-            "place:mouse:leave": "exciteMarkers"
+            "place:mouse:leave": "exciteMarkers",
+            "places:collection:updated": "recenterMap"
         }
     });
 
