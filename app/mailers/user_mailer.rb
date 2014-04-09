@@ -141,7 +141,7 @@ class UserMailer < ActionMailer::Base
       if comment_notification.notification_for.nil?
         "#{comment_notification.structure.name} vous demande une recommandation"
       else
-        "Merci de laisser un avis à propos de vos ateliers Portes Ouvertes'"
+        "Merci de laisser un avis à propos de vos ateliers Portes Ouvertes"
       end
     when 'resend_stage_1'
       if comment_notification.notification_for.nil?
