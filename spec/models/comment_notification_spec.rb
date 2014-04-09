@@ -4,6 +4,28 @@ require 'spec_helper'
 describe CommentNotification do
   context :comment_notification do
 
+    context 'validations' do
+      it 'has an error on structure if notification_for is empty' do
+        comment_notification = CommentNotification.new
+        expect(comment_notification.valid?).to be_false
+        expect(comment_notification.errors[:structure].length).to eq 1
+      end
+      it 'has no error on structure if notification_for is filled' do
+        comment_notification = CommentNotification.new notification_for: 'lala'
+        expect(comment_notification.valid?).to be_false
+        expect(comment_notification.errors.messages[:structure]).to be_nil
+      end
+    end
+
+    context 'after creation' do
+      it 'sends an email after create' do
+        comment_notification = FactoryGirl.build :comment_notification
+        delayed_job_count = Delayed::Job.count
+        comment_notification.save
+        expect(comment_notification.status).to eq nil
+        expect(Delayed::Job.count).to eq (delayed_job_count + 1)
+      end
+    end
     # -------------------------------
     # Has already received 1 email
     # -------------------------------

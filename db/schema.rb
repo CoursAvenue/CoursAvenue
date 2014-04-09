@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140331123653) do
+ActiveRecord::Schema.define(version: 20140408140226) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -115,6 +115,8 @@ ActiveRecord::Schema.define(version: 20140331123653) do
     t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "notification_for"
+    t.text     "text"
   end
 
   add_index "comment_notifications", ["status"], name: "index_comment_notifications_on_status", using: :btree
@@ -688,6 +690,8 @@ ActiveRecord::Schema.define(version: 20140331123653) do
     t.string   "ip_address"
   end
 
+  add_index "unfinished_resources", ["visitor_id"], name: "index_unfinished_resources_on_visitor_id", using: :btree
+
   create_table "user_profile_imports", force: true do |t|
     t.binary   "data",         null: false
     t.string   "filename"
@@ -772,6 +776,8 @@ ActiveRecord::Schema.define(version: 20140331123653) do
     t.hstore   "address_name"
     t.hstore   "subject_id"
   end
+
+  add_index "visitors", ["fingerprint"], name: "index_visitors_on_fingerprint", using: :btree
 
   add_foreign_key "notifications", "conversations", name: "notifications_on_conversation_id"
 
