@@ -58,8 +58,9 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             'change [data-type=date-range] input':    'announceDateRange'
         },
 
-        /* TODO this creates three requests: would be better to gather the
-        * json data and then make one request at the end. */
+        // this creates several requests, but only the most current one will
+        // actually be processed, since the structures_collection_view cancels
+        // out of date requests.
         announce: function () {
             this.announceDay();
             this.announceTime();
@@ -145,7 +146,9 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             this.announceBreadcrumbs();
         }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
-        /* TODO this announces many many times on each date change event */
+        /* this method is called any time the datepicker closes. So that's too
+         * often, but there really isn't much we can do about it.
+         * see card #314 [https://trello.com/c/KlTOIsZp] */
         announceDateRange: function () {
             this.trigger("filter:date", {
                 start_date:     (this.ui.$start_date.val().length > 0 ? this.ui.$start_date.val() : null),
@@ -230,6 +233,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 end_date:   this.data.end_date
             };
         },
+
         // Clears all the given filters
         clear: function () {
             this.ui.$week_days_select.val('').trigger('chosen:updated');

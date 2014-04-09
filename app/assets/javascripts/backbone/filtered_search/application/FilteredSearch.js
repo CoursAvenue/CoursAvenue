@@ -1,5 +1,6 @@
- /*  TODO this needs to be set on the server side */
-FilteredSearch = new Backbone.Marionette.Application({ slug: 'filtered-search', resource: 'etablissements' });
+/* TODO the resource name should be included from the server side, much like the
+ * url methods now use JSRoutes */
+ FilteredSearch = new Backbone.Marionette.Application({ slug: 'filtered-search', resource: 'etablissements' });
 
 FilteredSearch.addRegions({
     mainRegion: '#' + FilteredSearch.slug
@@ -11,8 +12,6 @@ FilteredSearch.addInitializer(function(options) {
     bootstrap = window.coursavenue.bootstrap;
 
     // Create an instance of your class and populate with the models of your entire collection
-    /* TODO so much repetition down there, should be able to specify a comma separated list of events
-    *  to be handled by a single callback */
     structures      = new FilteredSearch.Models.StructuresCollection(bootstrap.models, bootstrap.options);
     structures_view = new FilteredSearch.Views.StructuresCollection.StructuresCollectionView({
         collection: structures,
@@ -56,15 +55,18 @@ FilteredSearch.addInitializer(function(options) {
 
     // TODO the app loader lives outside of the layout, so
     // it felt weird to have this code inside the layout
+    // see card #564 [https://trello.com/c/3uDqy0zu]
     layout.on("show", function() {
         $("[data-type=app-loader]").fadeOut('slow');
     });
 
     var bounds       = structures.getLatLngBounds();
     /* TODO does the google map need a reference to the collection?
-    *  I don't think so, and I don't remember why this is here */
+    *  I don't think so, and I don't remember why this is here
+    *  TODO I've commented out the reference, and the map still
+    *  works... so I think we can feel safe resolving these TODOs */
     google_maps_view = new FilteredSearch.Views.Map.GoogleMapsView({
-        collection: structures,
+        // collection: structures,
         mapOptions: {
             center: new google.maps.LatLng(bounds.lat, bounds.lng)
         },
@@ -149,8 +151,6 @@ FilteredSearch.addInitializer(function(options) {
     layout.showWidget(infinite_scroll_button, { events: { 'structures:updated:infinite_scroll': 'showOrHide' } });
     layout.showWidget(results_summary);
 
-    // TODO for now this is fine. Just add this
-    // to any filter that implements clear
     layout.showWidget(level_filter,          { events: { 'breadcrumbs:clear:level':           'clear'} });
     layout.showWidget(course_type_filter,    { events: { 'breadcrumbs:clear:course_type':     'clear'} });
     layout.showWidget(audience_filter,       { events: { 'breadcrumbs:clear:audience':        'clear'} });

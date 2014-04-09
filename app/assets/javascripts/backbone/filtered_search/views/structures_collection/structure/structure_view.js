@@ -58,7 +58,8 @@ FilteredSearch.module('Views.StructuresCollection.Structure', function(Module, A
         },
         /* a structure was selected, so return the places JSON
         * TODO would it be nicer is this just returned the whole model's
-        * json, including the places relation? */
+        * json, including the places relation?
+        * TODO: this todo is referenced in trello: https://trello.com/c/z8OddcYs */
         highlightStructure: function (e) {
             this.trigger('highlighted', this.placesToJSON());
         },

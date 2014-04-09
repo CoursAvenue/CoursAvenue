@@ -243,7 +243,8 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
         /* TODO for now we are using 'cid' as the key, but
          * later I would like to use (lat,long) as the key
          * since cid is not actually an attribute and so
-         * should not be included in the event from structureView */
+         * should not be included in the event from structureView
+         * TODO: this todo is referenced in trello: https://trello.com/c/z8OddcYs */
         toKey: function (model) {
             return model.cid;
         },
