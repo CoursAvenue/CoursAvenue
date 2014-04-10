@@ -66,7 +66,7 @@ FilteredSearch.addInitializer(function(options) {
     *  TODO I've commented out the reference, and the map still
     *  works... so I think we can feel safe resolving these TODOs */
     google_maps_view = new FilteredSearch.Views.Map.GoogleMapsView({
-        // collection: structures,
+        collection: structures,
         mapOptions: {
             center: new google.maps.LatLng(bounds.lat, bounds.lng)
         },
