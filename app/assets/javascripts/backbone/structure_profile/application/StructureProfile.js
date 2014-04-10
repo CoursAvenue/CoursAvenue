@@ -14,7 +14,8 @@ StructureProfile.addInitializer(function(options) {
             events: {
                 'breadcrumbs:clear': 'broadenSearch',
                 'filter:removed'   : 'broadenSearch',
-                'filter:popstate'  : 'narrowSearch'
+                'filter:popstate'  : 'narrowSearch',
+                'courses:collection:reset': 'renderCourseSummary'
             }
         }),
         google_maps_view, filter_breadcrumbs, places_collection, places_list_view;

@@ -13,7 +13,10 @@
         = @structure_decorator.given_course_types
     - if structure.course_names.present?
       %p.flush
-        #{structure.courses.count} cours (#{structure.plannings.count} séances) de
+        #{structure.courses.count} cours
+        - if structure.plannings.count > 0
+          (#{structure.plannings.count} séances)
+        de
         %span{ title: structure.min_price_libelle, data: { behavior: 'tooltip' } } #{readable_amount(structure.min_price_amount)}€
         à
         %span{ title: structure.max_price_libelle, data: { behavior: 'tooltip' } } #{readable_amount(structure.max_price_amount)}€

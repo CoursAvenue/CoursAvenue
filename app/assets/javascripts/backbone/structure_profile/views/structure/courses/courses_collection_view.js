@@ -12,7 +12,15 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         },
 
         collectionEvents: {
-            'reset': 'render'
+            'reset': 'collectionReset'
+        },
+
+        collectionReset: function collectionReset () {
+            var courses_count   = this.collection.length;
+            var plannings_count = _.reduce(this.collection.map(function(model) { return model.get('plannings').length }), function(memo, num){ return memo + num; }, 0);
+            this.trigger('courses:collection:reset', { courses_count: courses_count, plannings_count: plannings_count, plannings_not_shown: 0});
+
+            this.render();
         },
 
         onItemviewMouseenter: function onItemviewMouseenter (view, data) {

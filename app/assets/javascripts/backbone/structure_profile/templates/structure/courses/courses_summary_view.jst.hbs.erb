@@ -3,4 +3,8 @@
         {{ courses_count }} cours ({{ plannings_count }} seances) correspondent a votre recherche
         <a href="{{ data_url }}" class="btn btn--small pointer white" data-action="show-all-courses">Visualiser les {{ plannings_not_shown }} autres seances</a>
     {{/ifCond}}
+{{else}}
+    {{ courses_count }} cours ({{ plannings_count }} seances) correspondent a votre recherche
 {{/if}}
+<img src="<%= asset_path 'gifs/loading-indicator.gif' %>" class="center-block push-half--top" height="10" data-loader style="display: none;">
+

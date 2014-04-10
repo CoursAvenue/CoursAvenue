@@ -17,7 +17,8 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         },
 
         removeSummary: function () {
-            this.ui.$summary_container.slideUp();
+            // this.ui.$summary_container.slideUp();
+            this.$('[data-type="filter-breadcrumbs"]').slideUp();
         },
 
         params_for_resource: {
@@ -190,7 +191,11 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
                 .then(function (collection) {
                     if (resources === "courses") {
                         this.summary_view = new StructureProfile.Views.Structure.Courses.CoursesSummaryView(view.serializeData());
-                        this.showWidget(this.summary_view);
+                        this.showWidget(this.summary_view, {
+                            events: {
+                                'courses:collection:reset': 'rerender'
+                            }
+                        });
                     }
 
                     this.showWidget(view);
@@ -198,6 +203,10 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
 
                 }.bind(this))
                 .always(this.hideLoader);
+        },
+
+        renderCourseSummary: function renderCourseSummary (data) {
+            this.summary_view.rerender(data);
         },
 
         showLoader: function(resources_name) {

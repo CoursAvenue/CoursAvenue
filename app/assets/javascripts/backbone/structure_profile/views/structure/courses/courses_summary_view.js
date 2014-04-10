@@ -4,7 +4,7 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
     Module.CoursesSummaryView = Marionette.CompositeView.extend({
         template: Module.templateDirname() + 'courses_summary_view',
 
-        initialize: function () {
+        initialize: function initialize () {
             $(window).on("popstate", function (state) {
                 // if popstate fires and the new state has a query string,
                 // we should refresh the collections
@@ -15,13 +15,18 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
 
         },
 
-        serializeData: function () {
-
+        serializeData: function serializeData () {
             return this.options;
+        },
+
+        rerender: function rerender (options) {
+            _.extend(this.options, options);
+            this.render();
         },
 
         ui: {
             '$summary': '[data-summary]',
+            '$loader': '[data-loader]',
         },
 
         events: {
@@ -41,6 +46,7 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
                 }
 
                 this.trigger("filter:removed");
+                this.ui.$loader.show();
                 this.disableRemoveFilterButton();
             }
         },
