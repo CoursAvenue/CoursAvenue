@@ -63,79 +63,14 @@
 
     #structure-profile{ data: { type: 'structure-profile-root' } }
       .tabs--container#structure-tabs
-      -#   %article#tab-description.tab-pane.active
-      -#     .white-box.islet
-      -#       %table.one-half.float--right.table--data.table--striped.bordered
-      -#         %tbody
-      -#           - if @structure.structure_type.present?
-      -#             %tr
-      -#               %td
-      -#                 %strong Type de structure
-      -#               %td= t(@structure.structure_type)
-      -#           %tr
-      -#             %td
-      -#               %strong Cours proposés
-      -#             %td= @structure_decorator.given_course_types
-      -#           - if @structure.funding_types.any?
-      -#             %tr
-      -#               %td
-      -#                 %strong Financements acceptés
-      -#               %td= @structure_decorator.given_funding_type
-      -#       %div= simple_format @structure.description
-
-      -#   %article#tab-courses.tab-pane
-      -#     .bg-blue.one-whole.push-half--top.very-soft.white.soft--sides
-      -#     .white-box.islet
-      -#       - @model.courses.each_with_index do |course, index|
-      -#         %div.two-thirds>
-      -#           - course = JSON.parse(course.to_json) # get the json ready for bootstrap
-      -#           - course["is_first"] = index == 0
-      -#           - unless @planning_groups[course["id"]].nil?
-      -#           - plannings = ActiveModel::ArraySerializer.new(@planning_groups[course["id"]],   each_serializer: PlanningSerializer)
-      -#             = render template: '../assets/javascripts/backbone/structure_profile/templates/structure/courses/course_view', locals: course
-      -#             %div
-      -#               %table.table--striped{ data: { tagName: true }}
-      -#                 %thead
-      -#                   %th Jour
-      -#                   %th Horaire
-      -#                   %th Niveau
-      -#                   %th Audience
-      -#                 %tbody{ data: { itemviewContainer: true }}
-      -#                   - plannings.serializable_array.each do |planning|
-      -#                     %tr{ data: { itemviewTagName: true }}
-      -#                       = render template: '../assets/javascripts/backbone/structure_profile/templates/structure/courses/plannings/planning_view', locals: planning
-
-      -#   %article#tab-teachers.tab-pane
-      -#     - @teachers.each do |teacher|
-      -#       - teacher = JSON.parse(teacher.to_json)
-      -#       .white-box.islet{ data: { 'tagName' => true }}
-      -#         = render template: '../assets/javascripts/backbone/structure_profile/templates/structure/teachers/teacher_view', locals: teacher, formats: :jst
-
-      -#   %article#tab-comments.tab-pane
-      -#     -# this will be used as the tagName and className of the CollectionView and ItemView
-      -#     %ul.comment-list{ data: { 'tagName' => true }}
-      -#       %li.comment-list__el.hard--left.soft-half.white-box{ data: { "itemviewTagName" => true }}
 
   .grid__item.four-twelfths>
     - if @structure.main_contact
       = render partial: 'structures/contact_form', locals: {structure: @structure}
 
-    - if @structure.side_cover_image.present?
-      .white-box.islet
-        .text--center= image_tag @structure.side_cover_image.thumbnail_url, alt: "Cours de #{join_parent_subjects_text @structure} à #{@city.name}"
-
 
 = content_for :scripts do
   :javascript
-    $(function() {
-        if (window.location.hash.indexOf('recommandation-') != -1) {
-            $('[href=#tab-comments]').click();
-            $.scrollTo($(window.location.hash), {duration: 500});
-        }
-        if (window.location.hash.length > 0 && window.location.hash != '#_=_') {
-            $('[href=' + window.location.hash + ']').click();
-        }
-    });
     (function () {
 
       window.coursavenue = window.coursavenue || {};

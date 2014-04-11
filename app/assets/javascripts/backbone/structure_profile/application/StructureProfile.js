@@ -48,6 +48,19 @@ StructureProfile.addInitializer(function(options) {
     layout.showWidget(places_list_view);
 
     layout.master.show(structure_view);
+
+    if (window.location.hash.indexOf('recommandation-') != -1) {
+        $('[href=#tab-comments]').click();
+        _.delay(function() {
+            $.scrollTo($(window.location.hash), {duration: 500, offset: { top: $('#media-grid').height() }});
+        }, 500);
+    }
+    if (window.location.hash.length > 0 && window.location.hash != '#_=_') {
+        $('[href=' + window.location.hash + ']').click();
+        _.delay(function() {
+            $.scrollTo($(window.location.hash), {duration: 500, offset: { top: $('#media-grid').height() }});
+        }, 500);
+    }
 });
 
 $(document).ready(function() {
