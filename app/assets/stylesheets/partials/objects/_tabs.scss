@@ -41,7 +41,26 @@
         background: white;
     }
 }
-
+.tabs--blue {
+    li {
+        a {
+            position: relative;
+            &:hover {
+                border-bottom: none;
+            }
+        }
+        &.active a {
+            background: $blue;
+            color     : white;
+            top       : 2px;
+            border    : none;
+            &:hover {
+                border    : none;
+                background: lighten($blue, 5%);
+            }
+        }
+    }
+}
 .tabs.tabs--large li {
     a {
         padding: 1em 3em;

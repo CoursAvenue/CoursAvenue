@@ -1,71 +1,63 @@
 - session.delete :user_return_to
 - session.delete :after_inactive_sign_up_path
 
-.blue-box.islet.push-half--bottom#show-structure-contact-wrapper
-  .delta.push-half--bottom.text--center{style: 'margin-top: 3px;'}
-    Réservez ou demandez plus d'infos
-  - if current_user
-    = link_to 'Contacter gratuitement', 'javascript:void(0)', class: 'hard--sides btn btn--green btn--large btn--full', id: 'show-structure-contact'
-  - else
-    = link_to 'Contacter gratuitement', new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', width: 600}, class: 'fancybox.ajax hard--sides btn btn--green btn--large btn--full', onclick: "ga('send', 'event', 'Se créer un compte', 'click','Contact form button')"
+%ul.tabs.tabs--blue
+  %li.active
+    %a{ href: "#tab-message", data: { toggle: "tab" } }
+      %i.fa.fa-envelope-o
+      Message
+  %li
+    %a#phone-contact-tab{ href: "#tab-telephone", data: { toggle: "tab" } }
+      %i.fa.fa-phone
+      Téléphone & contact
 
-= simple_form_for [ClickLog.new(structure_id: @structure.id)], remote: true, html: { class: 'hidden', id: 'show-structure-contact-form' } do |f|
-  - if @course
-    = f.input :info, as: :hidden, input_html: { value: "Cours : #{@course.name}" }
-  = f.input :structure_id, as: :hidden
-
-- if current_user
-  #structure-contact.blue-box.islet.hidden
-    = simple_form_for [structure, Message.new] do |f|
-      %h4.f-weight-normal
-        Les professeurs sont souvent en cours et peu disponibles...
-        %br
-        Envoyez votre message, c'est plus pratique !
-      %label
-        Votre message -
-        %i Modifiez ce texte avec des informations sur vous et le cours souhaité.
-      -# Here to stop bots.
-      -# If this is filled, the message won't be sent
-      .visuallyhidden
-        %input{name: 'content', type: 'text'}
-      - if action_name == 'jpo'
-        - prefilled_body = "Bonjour,\n\nAvant de m'inscrire à vos Portes Ouvertes, je souhaiterais avoir un peu plus d'informations au sujet de l'événement.\n\nMerci et à très bientôt"
-      - else
+.tab-content.blue-box.islet
+  %article#tab-message.tab-pane.active.hard
+    #structure-contact
+      = simple_form_for [structure, Message.new] do |f|
+        %h4.f-weight-normal
+          Le professeur risque d'être en cours, contactez-le par message
+        -# Here to stop bots.
+        -# If this is filled, the message won't be sent
+        .visuallyhidden
+          %input{name: 'content', type: 'text'}
         - prefilled_body = "Bonjour,\n\nJe souhaiterais venir pour une première séance. Pouvez-vous m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt"
-      = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole', style: 'height: 170px;', value: prefilled_body, data: { behavior: 'autoresize' }}
-      = f.submit 'Envoyer mon message', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }
+        = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole', style: 'height: 170px;', value: prefilled_body, data: { behavior: 'autoresize' }}
+        .grid--full.push-half--bottom
+          .grid__item.one-half.soft-half--right>
+            %input.one-whole{name: 'user[name]', type: 'text', placeholder: 'Nom'}
+          .grid__item.one-half>
+            %input.one-whole{name: 'user[email]', type: 'text', placeholder: 'Email'}
+        = f.submit 'Envoyer mon message', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }
 
-    .grid--full
-      .grid__item.v-middle{style: 'width: 45%;'}>
-        %hr.hr--white.push--top
-      .grid__item.v-middle.text--center{style: 'width: 10%;'}>
-        OU
-      .grid__item.v-middle{style: 'width: 45%;'}>
-        %hr.hr--white.push--top
-    .text--center
-      .btn.btn--full#phone-contact-button Contacter par téléphone
-    %div#phone-contact.hidden
-      - if @structure.contact_phone.present? or @structure.contact_mobile_phone.present?
-        %i.fa.fa-phone
+  %article#tab-telephone.tab-pane.hard
+    %h4 Téléphone
+    %div#phone-contact
       - if @structure.contact_phone.present?
-        = link_to "tel:#{@structure.contact_phone.gsub(/\s+/, '')}" do
-          = @structure.contact_phone.gsub(' ', '&nbsp;').html_safe
-      - if @structure.contact_phone.present? and @structure.contact_mobile_phone.present?
-        %span /
+        Fixe :
+        = @structure.contact_phone
+      %br
       - if @structure.contact_mobile_phone.present?
-        = link_to "tel:#{@structure.contact_mobile_phone.gsub(/\s+/, '')}" do
-          = @structure.contact_mobile_phone.gsub(' ', '&nbsp;').html_safe
-      - if @structure.website.present?
-        %div
-          %i.fa.fa-external-link
-          = link_to @structure.website, @structure.website, target: '_blank', rel: 'nofollow', onclick: "ga('send', 'event', 'Contact structure', 'click', 'website')"
+        Portable :
+        = @structure.contact_mobile_phone
+    %hr.hr--blue.push-half--ends
+    - if @structure.website.present?
+      %h4 Site web
+      %div
+        %i.fa.fa-external-link
+        = link_to @structure.website, @structure.website, target: '_blank', rel: 'nofollow', onclick: "ga('send', 'event', 'Contact structure', 'click', 'website')"
+    %hr.hr--blue.push-half--ends
+    - if @structure.facebook_url.present?
+      %h4 Facebook
+      %div
+        = link_to "Voir la page", @structure.facebook_url, target: '_blank', class: 'btn--facebook btn one-whole push--bottom'
 
 = content_for :scripts do
   :javascript
     $(function() {
         $('#phone-contact-button').click(function() {
-            $(this).hide();
-            $('#phone-contact').show();
+            // TODO
+            // Log it
         });
         $('#show-structure-contact').click(function() {
             if (!$.cookie("contact_structure_#{@structure.id}")) {

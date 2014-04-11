@@ -1,5 +1,11 @@
 module StructuresHelper
 
+  def response_time_in_words(structure)
+    return unless structure.response_time
+    date = Time.now - structure.response_time.to_i.hours
+    distance_of_time_in_words_to_now date
+  end
+
   def share_jpo_page_url(structure, provider = :facebook)
     summary = "Je participe aux Journées Portes Ouvertes de CoursAvenue des 5-6 avril en Ile-de-France. N'hésitez pas à vous inscrire gratuitement et à pofiter des ateliers gratuits que je propose."
     case provider

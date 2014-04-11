@@ -58,7 +58,8 @@ class Structure < ActiveRecord::Base
                              :plannings_count, :has_promotion, :has_free_trial_course, :course_names, :open_course_names, :open_course_subjects,
                              :last_comment_title, :min_price_libelle, :min_price_amount, :max_price_libelle, :max_price_amount,
                              :level_ids, :audience_ids, :busy,
-                             :open_courses_open_places, :open_course_nb, :jpo_email_status, :open_course_plannings_nb
+                             :open_courses_open_places, :open_course_nb, :jpo_email_status, :open_course_plannings_nb,
+                             :response_rate, :response_time
 
 
   define_boolean_accessor_for :meta_data, :has_promotion, :gives_group_courses, :gives_individual_courses, :has_free_trial_course
@@ -509,7 +510,8 @@ class Structure < ActiveRecord::Base
     self.level_ids                = self.plannings.collect(&:level_ids).flatten.sort.uniq.join(',')
     self.audience_ids             = self.plannings.collect(&:audience_ids).flatten.sort.uniq.join(',')
     self.set_min_and_max_price
-    update_jpo_meta_datas
+    compute_response_rate
+    # update_jpo_meta_datas
     self.save(validate: false)
   end
 
@@ -622,6 +624,59 @@ class Structure < ActiveRecord::Base
 
   def email
     main_contact.email
+  end
+
+  # Compute the reponse rate of the main_contact
+  #
+  # @return Integer that is the percentage. Ex: 67
+  def compute_response_rate
+    return if main_contact.nil?
+    conversations = main_contact.mailbox.conversations.where(subject: "Demande d'informations")
+    number_of_messages = conversations.length
+    if number_of_messages == 0
+      self.response_rate = nil
+      self.save
+      return nil
+    else
+      # Select conversations that have :
+      # More than 1 message and the number of sender is more than 1. It will mean that there has been a response.
+      number_of_messages_with_answers = 0
+      conversations.select do |conversation|
+        number_of_messages_with_answers += 1 if conversation.messages.map(&:sender).uniq.length > 1
+      end
+      self.response_rate = ((number_of_messages_with_answers.to_f / number_of_messages.to_f) * 100).round
+      self.save
+      return self.response_rate
+    end
+  end
+
+  # Compute the time between each response in hours
+  #
+  # @return Integer that is the average number of hours between each responses. Ex: 14
+  def compute_response_time
+    return if main_contact.nil?
+    conversations = main_contact.mailbox.conversations.where(subject: "Demande d'informations")
+    number_of_messages = conversations.length
+    if number_of_messages == 0
+      self.response_time = nil
+      self.save
+      return nil
+    else
+      # Select conversations that have :
+      # More than 1 message and the number of sender is more than 1. It will mean that there has been a response.
+      delta_hours = []
+      conversations.select do |conversation|
+        if conversation.messages.count > 1
+          creation_dates = conversation.messages.order('created_at ASC').limit(2).map(&:created_at)
+          # (Time 1 - Time 2) => number of seconds between the two times
+          # / 60 => To minutes | / 60 to hours
+          delta_hours << ((creation_dates[1] - creation_dates[0]).abs.round / 60) / 60
+        end
+      end
+      self.response_time = (delta_hours.reduce(&:+).to_f / delta_hours.length.to_f).round
+      self.save
+      return self.response_time
+    end
   end
 
   private
