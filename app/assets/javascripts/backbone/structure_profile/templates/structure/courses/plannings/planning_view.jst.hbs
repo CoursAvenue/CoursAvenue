@@ -1,9 +1,12 @@
 <td class="two-twelfths">{{ date }}</td>
-<td class="three-twelfths">{{ time_slot }} ({{ duration }})</td>
+<td class="three-twelfths">{{ time_slot }}</td>
 <td class="three-twelfths">{{ levels }}</td>
 <td class="three-twelfths {{#if info}}nowrap{{/if}}">
     {{ audiences }}
+</td>
+<td class="nowrap text--right">
     {{#if info}}
-        <i class="push-half--left lbc-brand-icon" data-behavior="tooltip" title="{{info}}" ></i>
+        <i class="lbc-brand-icon" data-behavior="tooltip" title="{{info}}" ></i>
     {{/if}}
+    <i class="fa fa-map-marker pointer" data-behavior="tooltip" title="{{address}}" ></i>
 </td>

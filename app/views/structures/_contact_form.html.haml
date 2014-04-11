@@ -40,17 +40,17 @@
       - if @structure.contact_mobile_phone.present?
         Portable :
         = @structure.contact_mobile_phone
-    %hr.hr--blue.push-half--ends
+    %hr.hr--blue.push--ends
     - if @structure.website.present?
       %h4 Site web
       %div
         %i.fa.fa-external-link
         = link_to @structure.website, @structure.website, target: '_blank', rel: 'nofollow', onclick: "ga('send', 'event', 'Contact structure', 'click', 'website')"
-    %hr.hr--blue.push-half--ends
+    %hr.hr--blue.push--ends
     - if @structure.facebook_url.present?
       %h4 Facebook
       %div
-        = link_to "Voir la page", @structure.facebook_url, target: '_blank', class: 'btn--facebook btn one-whole push--bottom'
+        = link_to "Page Facebook", @structure.facebook_url, target: '_blank', class: 'btn--facebook btn one-whole push--bottom'
 
 = content_for :scripts do
   :javascript

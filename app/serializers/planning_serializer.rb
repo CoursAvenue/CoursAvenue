@@ -3,7 +3,11 @@ class PlanningSerializer < ActiveModel::Serializer
   include PricesHelper
 
   attributes :id, :date, :duration, :time_slot, :levels, :audiences, :place_id, :places_left, :more_than_ten_places,
-             :common_price, :course_id, :info
+             :common_price, :course_id, :info, :address
+
+  def address
+    object.place.location.address
+  end
 
   def date
     if object.course.is_lesson?

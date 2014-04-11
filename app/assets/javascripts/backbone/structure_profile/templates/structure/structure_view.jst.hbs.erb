@@ -4,28 +4,30 @@
          <tbody>
            {{#if structure_type}}
              <tr>
-                 <td><strong>Type de structure</strong></td>
-                 <td>{{structure_type}}</td>
+                 <td class="nowrap f-weight-100">Type de structure</td>
+                 <td><strong>{{structure_type}}</strong></td>
              </tr>
             {{/if}}
              <tr>
-                 <td><strong>Cours proposés</strong></td>
-                 <td>{{given_course_types}}</td>
+                 <td class="nowrap f-weight-100">Cours proposés</td>
+                 <td><strong>{{given_course_types}}</strong></td>
              </tr>
            {{#if given_funding_type}}
              <tr>
-                 <td><strong>Financements acceptés</strong></td>
-                 <td>{{given_funding_type}}</td>
+                 <td class="nowrap f-weight-100">Financements acceptés</td>
+                 <td><strong>{{given_funding_type}}</strong></td>
              </tr>
             {{/if}}
             {{#if min_price_libelle}}
              <tr>
-                 <td><strong>Tarifs</strong></td>
+                 <td class="nowrap f-weight-100">Tarifs</td>
                  <td>
+                    <strong>
                     De
                     <span title="{{min_price_libelle}}" data-behavior='tooltip'>{{min_price_amount}}€</span>
                     à
                     <span title="{{max_price_libelle}}" data-behavior='tooltip'>{{max_price_amount}}€</span>
+                    </strong>
                  </td>
              </tr>
             {{/if}}

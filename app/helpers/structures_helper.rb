@@ -3,7 +3,7 @@ module StructuresHelper
   def response_time_in_words(structure)
     return unless structure.response_time
     date = Time.now - structure.response_time.to_i.hours
-    distance_of_time_in_words_to_now date
+    distance_of_time_in_words_to_now(date).capitalize
   end
 
   def share_jpo_page_url(structure, provider = :facebook)

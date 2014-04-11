@@ -67,22 +67,22 @@
     .white-box.islet.epsilon
       - if @structure.response_rate
         .grid.soft-half--bottom
-          .grid__item.v-middle.one-half.gray>
+          .grid__item.v-middle.one-half.gray.f-weight-300>
             Taux de réponse
           .grid__item.v-middle.one-half>
-            %strong= "#{@structure.response_rate}%"
-      .grid.soft-half--bottom
-        .grid__item.v-middle.one-half.gray>
-          Temps de réponse
-        .grid__item.v-middle.one-half>
-          %strong= response_time_in_words @structure
-          -# Quelques heures
+            = "#{@structure.response_rate}%"
+      - if @structure.response_time
+        .grid.soft-half--bottom
+          .grid__item.v-middle.one-half.gray.f-weight-300>
+            Temps de réponse
+          .grid__item.v-middle.one-half>
+            = response_time_in_words @structure
       - if @structure.main_contact
         .grid
-          .grid__item.v-middle.one-half.gray>
+          .grid__item.v-middle.one-half.gray.f-weight-300>
             Dernière activité
           .grid__item.v-middle.one-half>
-            %strong= l(@structure.main_contact.last_sign_in_at, format: :date)
+            = l(@structure.main_contact.last_sign_in_at, format: :date).capitalize
 
 = content_for :scripts do
   :javascript
