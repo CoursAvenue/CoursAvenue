@@ -509,7 +509,7 @@ class Structure < ActiveRecord::Base
     self.level_ids                = self.plannings.collect(&:level_ids).flatten.sort.uniq.join(',')
     self.audience_ids             = self.plannings.collect(&:audience_ids).flatten.sort.uniq.join(',')
     self.set_min_and_max_price
-    update_jpo_meta_datas
+    # update_jpo_meta_datas
     self.save(validate: false)
   end
 
