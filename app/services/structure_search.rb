@@ -18,6 +18,7 @@ class StructureSearch
       facet :subject_ids
       fulltext params[:name]                             if params[:name].present?
 
+      with(:email_status).any_of params[:email_status]   if params[:email_status]
       # --------------- Geolocation
       if params[:bbox_sw] && params[:bbox_ne]
         with(:location).in_bounding_box(params[:bbox_sw], params[:bbox_ne])
@@ -33,6 +34,10 @@ class StructureSearch
           with(:subject_slugs).any_of [params[:subject_id]]
         end
       end
+      # For admin dashboard purpose
+      with(:subject_ids).any_of params[:subject_ids] if params[:subject_ids]
+
+      with(:zip_codes).any_of params[:zip_codes] if params[:zip_codes]
 
       ######################################################################
       # Other filters                                                      #
