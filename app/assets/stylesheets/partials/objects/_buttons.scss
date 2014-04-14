@@ -90,8 +90,9 @@
         background-color: lighten($btn--green, 5%);
     }
     &.disabled, &[disabled] {
-        cursor: default;
+        cursor          : default;
         background-color: lighten($btn--green, 15%);
+        color           : #EEE;
     }
 }
 .btn--blue {

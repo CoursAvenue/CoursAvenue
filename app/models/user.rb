@@ -121,6 +121,13 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.create_or_find_from_email(_email, first_name='')
+    user = User.where(email: _email).first_or_initialize
+    user.first_name ||= first_name
+    user.save(validate: false) unless user.persisted?
+    user
+  end
+
   ######################################################################
   # Email reminder                                                     #
   ######################################################################
