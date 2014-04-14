@@ -159,7 +159,13 @@ class Structure < ActiveRecord::Base
       subject_array.uniq.map(&:name)
     end
 
-    string :email_status
+    string :email_status do
+      if email_status.nil?
+        email_status
+      else
+        'more_than_fifteen_recommendations'
+      end
+    end
 
     latlon :location, multiple: true do
       locations.map do |location|

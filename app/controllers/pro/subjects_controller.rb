@@ -19,13 +19,13 @@ class Pro::SubjectsController < Pro::ProController
   def completion
     subject   = Subject.find params[:id]
     zippy     = params[:zip_code]
-    zip_codes = City.where{zip_code =~ "#{zippy}%"}.map(&:zip_code).reject{|zip| zip.include?('CEDEX')}
+    zip_codes = City.where{zip_code =~ "#{zippy}%"}.map(&:zip_code).reject{|zip| zip.include?('CEDEX')}.uniq
     respond_to do |format|
       format.json do
         render json: {
           0 => StructureSearch.search(email_status: ['no_logo_yet', 'incomplete_profile', 'no_recommendations'], zip_codes: zip_codes, subject_ids: [subject.id]).total,
           1 => StructureSearch.search(email_status: ['less_than_five_recommendations'], zip_codes: zip_codes, subject_ids: [subject.id]).total,
-          2 => StructureSearch.search(email_status: ['less_than_fifteen_recommendations', 'planning_outdated'], zip_codes: zip_codes, subject_ids: [subject.id]).total
+          2 => StructureSearch.search(email_status: ['less_than_fifteen_recommendations', 'planning_outdated', 'more_than_fifteen_recommendations'], zip_codes: zip_codes, subject_ids: [subject.id]).total
         }
       end
     end
