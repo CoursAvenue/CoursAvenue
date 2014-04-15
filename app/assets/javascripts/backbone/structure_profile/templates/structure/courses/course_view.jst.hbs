@@ -1,11 +1,5 @@
 <div class="islet white-box">
-    <h3 class="base-font-style flush--bottom">
-        {{#if name }}
-        <a href="{{ data_url }}">{{ name }}</a>
-        {{else}}
-        <a href="#">Pas de Nom</a>
-        {{/if}}
-    </h3>
+    <h3 class="base-font-style flush--bottom">{{ name }}</h3>
     <span class="gray">
         {{#if subjects }}
             <i class="fa fa-tags"></i>
@@ -14,124 +8,18 @@
     </span>
     <ul class="tabs flush">
         <li class="active">
-            <a data-toggle="tab" href="#tab-plannings-course-{{id}}">Planning & Tarifs</a>
+            <a data-toggle="tab" href="#tab-plannings-course-{{id}}">Planning</a>
         </li>
         <li>
             <a data-toggle="tab" href="#tab-description-course-{{id}}">Description</a>
         </li>
-        {{!-- <li>
+        <li>
             <a data-toggle="tab" href="#tab-price-course-{{id}}">Tarifs</a>
-        </li> --}}
+        </li>
     </ul>
     <div class="tab-content">
         <article id="tab-plannings-course-{{id}}" class="tab-pane active hard--top">
-            <div class="float--right one-third">
-                <table class="push-half--top table--striped table--data table--data-small bordered">
-                    <thead>
-                        <tr>
-                            <th class="very-soft">Type de formule</th>
-                            <th class="very-soft">Prix</th>
-                            <th class="very-soft">Info</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {{#each book_tickets}}
-                            <tr>
-                                <td>{{libelle}}</td>
-                                <td>
-                                    {{amount}}€
-                                </td>
-                                <td>
-                                    {{info}}
-                                    {{!-- {{#if info}}
-                                        <i class="float--right push-half--left lbc-brand-icon" data-behavior="tooltip" title="{{info}}" ></i>
-                                    {{/if}} --}}
-                                </td>
-                            </tr>
-                        {{/each}}
-                        {{#each subscriptions}}
-                            <tr>
-                                <td>{{libelle}}</td>
-                                <td>
-                                    {{amount}}€
-                                </td>
-                                <td>
-                                    {{info}}
-        {{!--                             {{#if info}}
-                                        <i class="float--right push-half--left lbc-brand-icon" data-behavior="tooltip" title="{{info}}" ></i>
-                                    {{/if}}
-         --}}                        </td>
-                            </tr>
-                        {{/each}}
-                        {{#if discounts}}
-                            <tr>
-                                <th colspan="2" class="text--left bordered--top">Tarifs réduits</th>
-                            </tr>
-                        {{/if}}
-                        {{#each discounts}}
-                            <tr>
-                                <td>{{libelle}}</td>
-                                <td>
-                                    -{{promo_percentage}}%
-                                </td>
-                                <td>
-                                    {{info}}
-        {{!--                             {{#if info}}
-                                        <i class="float--right push-half--left lbc-brand-icon" data-behavior="tooltip" title="{{info}}" ></i>
-                                    {{/if}}
-         --}}                        </td>
-                            </tr>
-                        {{/each}}
-                        {{#xif " (this.trials && this.trials.length > 0) || (this.registrations && this.registrations.length > 0) || typeof(this.price_details) != 'undefined' "}}
-                            <tr>
-                                <th colspan="3" class="very-soft text--left bordered--top">Autres infos</th>
-                            </tr>
-                        {{/xif}}
-                        {{#each trials}}
-                            <tr>
-                                <td>{{libelle}}</td>
-                                <td>
-                                    {{#ifCond amount '==' '0'}}
-                                        Gratuit
-                                    {{else}}
-                                        {{amount}}€
-                                    {{/ifCond}}
-                                </td>
-                                <td>
-                                    {{info}}
-        {{!--                             {{#if info}}
-                                        <i class="float--right push-half--left lbc-brand-icon" data-behavior="tooltip" title="{{info}}" ></i>
-                                    {{/if}}
-         --}}                        </td>
-                            </tr>
-                        {{/each}}
-                        {{#each registrations}}
-                            <tr>
-                                <td>Adhésion</td>
-                                <td>
-                                    {{#ifCond amount '==' '0'}}
-                                        Gratuit
-                                    {{else}}
-                                        {{amount}}€
-                                    {{/ifCond}}
-                                </td>
-                                <td>
-                                    {{info}}
-        {{!--                             {{#if info}}
-                                        <i class="float--right push-half--left lbc-brand-icon" data-behavior="tooltip" title="{{info}}" ></i>
-                                    {{/if}}
-         --}}                        </td>
-                            </tr>
-                        {{/each}}
-                        {{#if price_details}}
-                            <tr>
-                                <td class="text--left" colspan="3">{{price_details}}</td>
-                            </tr>
-                        {{/if}}
-                    </tbody>
-                </table>
-            </div>{{!--
-         --}}<div class="two-thirds soft-half--right">
+            <div class="soft-half--right">
                 <table class="table--striped table--data">
                     <thead>
                         <th>Jour</th>
@@ -187,8 +75,111 @@
                 {{{ simple_format description }}}
             {{!-- </div> --}}
         </article>
-{{!--         <article id="tab-price-course-{{id}}" class="tab-pane">
-
-       </article> --}}
+        <article id="tab-price-course-{{id}}" class="tab-pane">
+            <table class="push-half--top table--striped table--data table--data-small bordered">
+                <thead>
+                    <tr>
+                        <th class="very-soft">Type de formule</th>
+                        <th class="very-soft">Prix</th>
+                        <th class="very-soft">Info</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each book_tickets}}
+                        <tr>
+                            <td>{{libelle}}</td>
+                            <td>
+                                {{amount}}€
+                            </td>
+                            <td>
+                                {{info}}
+                                {{!-- {{#if info}}
+                                    <i class="float--right push-half--left lbc-brand-icon" data-behavior="tooltip" title="{{info}}" ></i>
+                                {{/if}} --}}
+                            </td>
+                        </tr>
+                    {{/each}}
+                    {{#each subscriptions}}
+                        <tr>
+                            <td>{{libelle}}</td>
+                            <td>
+                                {{amount}}€
+                            </td>
+                            <td>
+                                {{info}}
+    {{!--                             {{#if info}}
+                                    <i class="float--right push-half--left lbc-brand-icon" data-behavior="tooltip" title="{{info}}" ></i>
+                                {{/if}}
+     --}}                        </td>
+                        </tr>
+                    {{/each}}
+                    {{#if discounts}}
+                        <tr>
+                            <th colspan="2" class="text--left bordered--top">Tarifs réduits</th>
+                        </tr>
+                    {{/if}}
+                    {{#each discounts}}
+                        <tr>
+                            <td>{{libelle}}</td>
+                            <td>
+                                -{{promo_percentage}}%
+                            </td>
+                            <td>
+                                {{info}}
+    {{!--                             {{#if info}}
+                                    <i class="float--right push-half--left lbc-brand-icon" data-behavior="tooltip" title="{{info}}" ></i>
+                                {{/if}}
+     --}}                        </td>
+                        </tr>
+                    {{/each}}
+                    {{#xif " (this.trials && this.trials.length > 0) || (this.registrations && this.registrations.length > 0) || typeof(this.price_details) != 'undefined' "}}
+                        <tr>
+                            <th colspan="3" class="very-soft text--left bordered--top">Autres infos</th>
+                        </tr>
+                    {{/xif}}
+                    {{#each trials}}
+                        <tr>
+                            <td>{{libelle}}</td>
+                            <td>
+                                {{#ifCond amount '==' '0'}}
+                                    Gratuit
+                                {{else}}
+                                    {{amount}}€
+                                {{/ifCond}}
+                            </td>
+                            <td>
+                                {{info}}
+    {{!--                             {{#if info}}
+                                    <i class="float--right push-half--left lbc-brand-icon" data-behavior="tooltip" title="{{info}}" ></i>
+                                {{/if}}
+     --}}                        </td>
+                        </tr>
+                    {{/each}}
+                    {{#each registrations}}
+                        <tr>
+                            <td>Adhésion</td>
+                            <td>
+                                {{#ifCond amount '==' '0'}}
+                                    Gratuit
+                                {{else}}
+                                    {{amount}}€
+                                {{/ifCond}}
+                            </td>
+                            <td>
+                                {{info}}
+    {{!--                             {{#if info}}
+                                    <i class="float--right push-half--left lbc-brand-icon" data-behavior="tooltip" title="{{info}}" ></i>
+                                {{/if}}
+     --}}                        </td>
+                        </tr>
+                    {{/each}}
+                    {{#if price_details}}
+                        <tr>
+                            <td class="text--left" colspan="3">{{price_details}}</td>
+                        </tr>
+                    {{/if}}
+                </tbody>
+            </table>
+       </article>
     </div>
 </div>
