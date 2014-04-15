@@ -160,16 +160,26 @@ class Structure < ActiveRecord::Base
       subject_array.uniq.map(&:name)
     end
 
+    string :email_status do
+      if email_status.nil?
+        email_status
+      else
+        'more_than_fifteen_recommendations'
+      end
+    end
+
     latlon :location, multiple: true do
       locations.map do |location|
         Sunspot::Util::Coordinates.new(location.latitude, location.longitude)
       end
     end
 
+    # Here we store event the subject at depth 2 for pro admin dashboard purpose.
     integer :subject_ids, multiple: true do
       subject_ids = []
       self.subjects.uniq.each do |subject|
         subject_ids << subject.id
+        subject_ids << subject.parent.id if subject.parent
         subject_ids << subject.root.id if subject.root
       end
       subject_ids.compact.uniq
@@ -208,6 +218,10 @@ class Structure < ActiveRecord::Base
     end
     boolean :has_admin do
       self.has_admin?
+    end
+
+    string :zip_codes, multiple: true do
+      (self.places.map(&:location).map(&:zip_code) << self.zip_code).uniq
     end
 
     double :jpo_score

@@ -21,6 +21,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
         events: {
             'typeahead:selected #search-input': 'announce',
             // Use keyup instead of keypress to handle the case when the user empties the input
+            'keydown #search-input':            'keydown',
             'keyup #search-input':              'keyup',
             'focus @ui.$search_input':          'showMenu',
             'click [data-type=button]':         'activateButton',
@@ -160,10 +161,21 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             this.ui.$menu.show();
         },
 
+        // This is to prevent the input to be cleared when pressing escape.
+        // After investigation, don't know where the input is being cleared...
+        // I agree, this is ugly.
+        keydown: function keydown (event) {
+            this.previous_searched_name = this.ui.$search_input.typeahead('val');
+            if (event.keyCode === 13 || event.keyCode === 27) { // Enter || Escape
+                setTimeout(function() { this.ui.$search_input.typeahead('val', this.previous_searched_name) }.bind(this) );
+            }
+        },
+
         keyup: function keyup (event) {
             if (event.keyCode === 13 || event.keyCode === 27) { // Enter || Escape
                 this.ui.$menu.hide();
                 this.ui.$search_input.typeahead('close');
+                this.ui.$search_input.typeahead('val', this.previous_searched_name);
             }
             this.announce(event);
         },
