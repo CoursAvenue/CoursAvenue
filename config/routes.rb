@@ -58,6 +58,7 @@ CoursAvenue::Application.routes.draw do
       resources :subjects do
         member do
           get :edit_name
+          get :completion
         end
         collection do
           get :all
