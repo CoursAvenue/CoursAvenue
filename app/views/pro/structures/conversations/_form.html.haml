@@ -2,10 +2,10 @@
   .grid__item.one-twelfth.v-top.text--right>
     = image_tag @admin.avatar, class: 'message__avatar'
   .grid__item.eleven-twelfths.soft-half--left>
-    = simple_form_for [:pro, @structure, @conversation] do |f|
+    = simple_form_for [:pro, @structure, @conversation], url: pro_structure_conversation_path(@structure, @conversation), as: :conversation do |f|
       .form-white-box.flush
         = f.error_notification
-        = f.fields_for @message do |message_form|
+        = f.fields_for :message, @message do |message_form|
           .grid--full
             .grid__item.two-twelfths>
               = message_form.label :body

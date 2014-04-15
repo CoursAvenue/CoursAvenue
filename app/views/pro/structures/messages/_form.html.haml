@@ -1,4 +1,4 @@
-= simple_form_for [:pro, @structure, @message] do |f|
+= simple_form_for [:pro, @structure, @message], url: pro_structure_messages_path(@structure, @message), as: :message do |f|
   - if params[:return_to].present?
     %input{ type: 'hidden', value: params[:return_to], name: 'return_to' }
   = f.error_notification
