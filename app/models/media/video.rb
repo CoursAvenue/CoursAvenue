@@ -20,9 +20,12 @@ class Media::Video < Media
     }
   }
 
+  ######################################################################
+  # Callbacks                                                          #
+  ######################################################################
+  before_save :fix_url
   after_save :update_provider
   after_save :update_thumbnail
-  before_save :fix_url
 
   auto_html_for :url do
     youtube(width: 400, height: 250)
@@ -63,7 +66,9 @@ class Media::Video < Media
   end
 
   def fix_url
+    # Prevent from having feature=player_embedded in the url (especially from youtube).
+    # It's for Fancybox to correctly open the videos in the popup and not in a new page.
+    self.url = self.url.gsub('feature=player_embedded', '').gsub('?&', '?').gsub('&&', '&')
     self.url = URLHelper.fix_url(self.url) if self.url
   end
-
 end
