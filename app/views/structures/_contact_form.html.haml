@@ -31,9 +31,39 @@
               %input.one-whole{name: 'user[email]', type: 'text', placeholder: 'Email', value: params[:email]}
         = f.submit 'Envoyer mon message', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }
 
-  %article#tab-telephone.tab-pane.hard
-    %h4 Téléphone
-    %div#phone-contact
+- if current_user
+  #structure-contact.blue-box.islet.hidden
+    = simple_form_for [structure, Mailboxer::Message.new] do |f|
+      %h4.f-weight-normal
+        Les professeurs sont souvent en cours et peu disponibles...
+        %br
+        Envoyez votre message, c'est plus pratique !
+      %label
+        Votre message -
+        %i Modifiez ce texte avec des informations sur vous et le cours souhaité.
+      -# Here to stop bots.
+      -# If this is filled, the message won't be sent
+      .visuallyhidden
+        %input{name: 'content', type: 'text'}
+      - if action_name == 'jpo'
+        - prefilled_body = "Bonjour,\n\nAvant de m'inscrire à vos Portes Ouvertes, je souhaiterais avoir un peu plus d'informations au sujet de l'événement.\n\nMerci et à très bientôt"
+      - else
+        - prefilled_body = "Bonjour,\n\nJe souhaiterais venir pour une première séance. Pouvez-vous m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt"
+      = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole', style: 'height: 170px;', value: prefilled_body, data: { behavior: 'autoresize' }}
+      = f.submit 'Envoyer mon message', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }
+
+    .grid--full
+      .grid__item.v-middle{style: 'width: 45%;'}>
+        %hr.hr--white.push--top
+      .grid__item.v-middle.text--center{style: 'width: 10%;'}>
+        OU
+      .grid__item.v-middle{style: 'width: 45%;'}>
+        %hr.hr--white.push--top
+    .text--center
+      .btn.btn--full#phone-contact-button Contacter par téléphone
+    %div#phone-contact.hidden
+      - if @structure.contact_phone.present? or @structure.contact_mobile_phone.present?
+        %i.fa.fa-phone
       - if @structure.contact_phone.present?
         Fixe :
         = @structure.contact_phone
