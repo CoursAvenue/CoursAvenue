@@ -15,7 +15,7 @@ class Pro::HomeController < Pro::ProController
   end
 
   def widget
-    @structures = Structure.where { widget_status == 'installed' }.limit(100)
+    @structures = Structure.where { (widget_status == 'installed') & (widget_url != '') & (widget_url != nil) }.limit(100)
   end
 
   def price
