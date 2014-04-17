@@ -31,7 +31,7 @@ namespace :import do
     file_name = args.filename || 'Export/paris_15avril2014.xlsx'
     excel = Roo::Excelx.new(file_name)
     puts "Importing: #{file_name}"
-    10000.times do |index|
+    10001.times do |index|
       # index in xlsx starts at 1
       index += 1
       excel.row(index)
