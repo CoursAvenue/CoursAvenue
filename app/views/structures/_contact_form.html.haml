@@ -23,7 +23,7 @@
 
 - if current_user
   #structure-contact.blue-box.islet.hidden
-    = simple_form_for [structure, Message.new] do |f|
+    = simple_form_for [structure, Mailboxer::Message.new] do |f|
       %h4.f-weight-normal
         Les professeurs sont souvent en cours et peu disponibles...
         %br
