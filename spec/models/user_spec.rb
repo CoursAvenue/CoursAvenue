@@ -34,6 +34,7 @@ describe User do
 
     let(:new_user) { FactoryGirl.create(:user) }
     let(:old_user) { FactoryGirl.create(:user) }
+    let(:other_user) { FactoryGirl.create(:user) }
 
     it 'deletes the old user' do
       new_user.merge(old_user)
@@ -55,12 +56,13 @@ describe User do
     end
 
     it 'merges the messages' do
-      message         = FactoryGirl.build(:message, sender: old_user)
-      old_user.messages << message
+      receipt      = other_user.send_message(old_user, 'lala', 'lili')
+      conversation = receipt.conversation
       new_user.merge(old_user)
-      new_user.messages.should include message
+      new_user.mailbox.conversations.should include conversation
     end
   end
+
   describe '#participate_to?' do
     let(:user) { FactoryGirl.create(:user) }
     let(:planning) { FactoryGirl.create(:planning) }

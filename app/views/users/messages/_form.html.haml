@@ -1,4 +1,4 @@
-= simple_form_for [current_user, @message] do |f|
+= simple_form_for [@user, @message], url: user_messages_path(@user), as: :message do |f|
   = f.error_notification
   - if params[:return_to].present?
     %input{ type: 'hidden', value: params[:return_to], name: 'return_to' }

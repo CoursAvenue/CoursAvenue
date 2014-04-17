@@ -8,69 +8,33 @@ require 'csv'
 namespace :import do
   def structure_hash_from_row(row)
     {
-      update:                                        (row[8] == 'CoursAvenue' ? true : false),
-      structure_name:                                row[12],
-      place_name:                                    row[13] || row[12],
-
-      street:                                        row[14],
-      zip_code:                                      row[15] || 75000,
-      description:                                   row[17],
-
-      website:                                       row[18],
-      phone_number:                                  row[19],
-      mobile_phone_number:                           row[20],
-      email_address:                                 row[21],
-
-      subjects:                                      [row[24],row[25],row[26],row[27], row[28]],
+        name:       row[0]
+        website:    row[1]
+        street:     row[2]
+        zip_code:   row[3]
+        city:       row[4]
+        street_2:   row[5]
+        zip_code_2: row[6]
+        city_2:     row[7]
+        street_3:   row[8]
+        zip_code_3: row[9]
+        city_3:     row[10]
+        subjects:   [row[11], row[12], row[13], row[14], row[15], row[16], row[17], row[18], row[19], row[20]].compact
+        emails:     [row[21], row[22], row[23], row[24], row[25]].compact
+        telephones: [row[26], row[27], row[28]].compact
     }
   end
 
   # Use rake "import:structures[Path to CSV]"
   desc 'Import structures'
   task :structures, [:filename] => :environment do |t, args|
-    file_name = args.filename || 'Export/structures.csv'
-
+    file_name = args.filename || 'Export/paris_15avril2014.xlsx'
+    excel = Roo::Excelx.new(file_name)
     puts "Importing: #{file_name}"
-    csv_text = File.read(file_name)
-    csv      = CSV.parse(csv_text)
-    all_level_id      = Level.all_levels.id
-    adult_audience_id = Audience.adult.id
-    csv.each_with_index do |row, i|
-      next if i == 0
-
-      structure_info = structure_hash_from_row(row)
-      next if structure_info[:structure_name].nil?
-      structure = Structure.where{name == structure_info[:structure_name]}.first
-      city      = City.where{zip_code == structure_info[:zip_code]}.first
-      if structure.nil?
-        structure      = Structure.new(name: structure_info[:structure_name].strip, street: structure_info[:street], zip_code: structure_info[:zip_code], active: true)
-        structure.city = city
-        structure.save
-      end
-      place = structure.places.where(name: structure_info[:place_name].strip).first
-
-      if place.nil?
-        place          = structure.places.build(name: structure_info[:place_name].strip, street: structure_info[:street], zip_code: structure_info[:zip_code])
-        place.city     = city
-      end
-
-      structure.contact_email         = structure_info[:email_address]
-      structure.phone_number          = structure_info[:phone_number]
-      structure.mobile_phone_number   = structure_info[:mobile_phone_number]
-      place.contact_phone             = structure_info[:phone_number]
-      place.contact_mobile_phone      = structure_info[:mobile_phone_number]
-
-      structure.save
-      place.save
-      if place.courses.count == 0
-        subjects = structure_info[:subjects].compact.each do |subject_name|
-          subject_name = subject_name.split(' - ').last
-          subject = Subject.where(name: subject_name.strip).first
-          unless subject.parent.nil?
-            place.courses.create(name: subject_name, subject_ids: [subject.id], type: 'Course::Lesson', level_ids: [all_level_id], audience_ids: [adult_audience_id])
-          end
-        end
-      end
+    10000.times do |index|
+      # index in xlsx starts at 1
+      index += 1
+      excel.row(index)
     end
   end
 end

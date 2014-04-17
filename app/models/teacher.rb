@@ -24,5 +24,4 @@ class Teacher < ActiveRecord::Base
   ######################################################################
   default_scope -> { order('name ASC') }
 
-  private
 end
