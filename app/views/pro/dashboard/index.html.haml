@@ -17,9 +17,9 @@
       %div et #{Comment.where{created_at > Date.today - 7.days}.count} les 7 derniers jours
   .grid__item.one-quarter>
     .white-box.soft-half.text--center
-      %h3.flush= "#{Conversation.where{subject == "Demande d'informations"}.count} messages"
-      %h6.flush dont #{Conversation.where{(subject == "Demande d'informations") & (created_at > Date.today)}.count} aujourd'hui
-      %div et #{Conversation.where{(subject == "Demande d'informations") & (created_at > Date.today - 7.days)}.count} les 7 derniers jours
+      %h3.flush= "#{Mailboxer::Conversation.where{subject == "Demande d'informations"}.count} messages"
+      %h6.flush dont #{Mailboxer::Conversation.where{(subject == "Demande d'informations") & (created_at > Date.today)}.count} aujourd'hui
+      %div et #{Mailboxer::Conversation.where{(subject == "Demande d'informations") & (created_at > Date.today - 7.days)}.count} les 7 derniers jours
   .grid__item.one-quarter>
     .white-box.soft-half.text--center
       %h3.flush= "#{CommentNotification.count} élèves"
@@ -86,7 +86,7 @@
   Demande d'infos
 .white-box.islet.text--center
   .gamma
-    = Conversation.where{subject == "Demande d'informations"}.count
+    = Mailboxer::Conversation.where{subject == "Demande d'informations"}.count
     Messages
   #messages
 

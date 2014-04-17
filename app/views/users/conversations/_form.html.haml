@@ -1,11 +1,11 @@
 .grid
   .grid__item.one-twelfth.v-top.text--right>
-    = image_tag (@user || current_user).avatar_url(:thumb), class: 'message__avatar'
+    = image_tag @user.avatar_url(:thumb), class: 'message__avatar'
   .grid__item.eleven-twelfths.soft-half--left>
-    = simple_form_for [(@user || current_user), @conversation] do |f|
+    = simple_form_for [@user, @conversation], url: user_conversation_path(@user, @conversation), as: :conversation do |f|
       .form-white-box.flush--top
         = f.error_notification
-        = f.fields_for @message do |message_form|
+        = f.fields_for :message, @message do |message_form|
           .grid--full
             .grid__item.two-twelfths>
               = message_form.label :body

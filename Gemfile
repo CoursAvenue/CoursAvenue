@@ -92,7 +92,7 @@ gem 'simple_form'               , '~>3.0.0'
 gem 'inherited_resources'       , '~>1.4.1'
 
 # For messaging
-gem 'mailboxer'                 , '~> 0.11.0'
+gem 'mailboxer'                 , '~> 0.12.0.rc1', git: 'git://github.com/mailboxer/mailboxer.git'
 
 # For authorizations
 gem 'cancancan'                 , '~>1.7.0'
@@ -170,7 +170,7 @@ gem 'jquery-turbolinks'
 gem 'aws-sdk'                   , '~>1.36.1'
 
 # Roo implements read access for all spreadsheet, xls and more
-gem 'roo'                   , '~>1.12.2'
+gem 'roo'                   , '~>1.13.2'
 
 # Rack::UTF8Sanitizer is a Rack middleware which cleans up invalid UTF8 characters in request URI and headers.
 # https://github.com/whitequark/rack-utf8_sanitizer

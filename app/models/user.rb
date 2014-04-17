@@ -220,8 +220,8 @@ class User < ActiveRecord::Base
     self.comment_notifications = user.comment_notifications
     # Mailbox
     user_id = user.id
-    Notification.where{(sender_id == user_id) & (sender_type == 'User')}.update_all(sender_id: self.id)
-    Receipt.where{(receiver_id == user_id) & (receiver_type == 'User')}.update_all(receiver_id: self.id)
+    Mailboxer::Notification.where{(sender_id == user_id) & (sender_type == 'User')}.update_all(sender_id: self.id)
+    Mailboxer::Receipt.where{(receiver_id == user_id) & (receiver_type == 'User')}.update_all(receiver_id: self.id)
     self.save
     user.reload.destroy
   end
