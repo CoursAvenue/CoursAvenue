@@ -131,7 +131,9 @@ html {
   font-family : $brand-face;
   font-weight : 400;
   background  : $site-background-color;
+  color       : #393C3D;
   overflow    : auto;
+  -webkit-font-smoothing: antialiased;
 }
 
 ::selection {

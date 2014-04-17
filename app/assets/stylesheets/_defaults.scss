@@ -30,8 +30,8 @@ $batch:             false!default;
 /**
  * Base stuff
  */
-$base-font-size:    14px!default;
-$base-line-height:  22px!default;
+$base-font-size:    13px!default;
+$base-line-height:  18px!default;
 
 /**
  * Base font-family.
@@ -162,7 +162,8 @@ $close-quote:   null;
  * Brand stuff
  */
 $brand-color:       #e9683d!default;
-$brand-face: 'Lato', Helvetica, Arial,sans-serif !default;
+// $brand-face: 'Lato', Helvetica, Arial,sans-serif !default;
+$brand-face: 'Helvetica Neue', Helvetica, Arial, sans-serif !default;
 
 
 /**

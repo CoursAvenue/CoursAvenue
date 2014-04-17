@@ -5,7 +5,7 @@ StructureProfile.module('Views', function(Module, App, Backbone, Marionette, $, 
         master_region_name: 'structure',
 
         regions: {
-            master: "#structure-tabs",
+            master: "#structure-region",
         },
 
         // @override

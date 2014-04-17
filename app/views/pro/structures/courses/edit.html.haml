@@ -1,9 +1,15 @@
 = side_menu_currently_at 'Mes cours'
 
-%ol.breadcrumb.bordered--bottom.soft-half--bottom.nav.delta{itemprop: 'breadcrumb'}
-  %li= link_to 'Tous mes cours', pro_structure_courses_path(@structure)
-  %li= @course.name
+.breadcrumb.bordered--bottom.soft-half--bottom.push--bottom.delta
+  = link_to pro_structure_courses_path(@structure) do
+    %i.fa.fa-long-arrow-left
+    Tous mes cours
 
-= render partial: 'pro/structures/courses/tabs', locals: { current: 'course' }
-
-= render partial: 'form'
+.panel
+  = render partial: 'pro/structures/courses/tabs', locals: { current: 'course' }
+  .panel__body.soft
+    .breadcrumb.bordered--bottom.soft-half--bottom.push--bottom.delta
+      = link_to pro_structure_courses_path(@structure) do
+        %i.fa.fa-long-arrow-left
+        Tous mes cours
+    = render 'form'

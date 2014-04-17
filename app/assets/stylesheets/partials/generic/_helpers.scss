@@ -54,7 +54,10 @@
     background: white;
 }
 
+.rounded--none    { @include border-radius(0!important); }
 .rounded          { @include border-radius($brand-round); }
+.rounded--top     { @include border-top-radius($brand-round); }
+.rounded--bottom  { @include border-bottom-radius($brand-round); }
 .rounded--double  { @include border-radius($brand-round * 2); }
 .rounded--circle  { @include border-radius(100%); }
 .bordered--right  { border-right  : 1px solid $gray-smooth; }

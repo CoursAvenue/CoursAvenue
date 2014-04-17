@@ -8,98 +8,98 @@
 
   %h5.form-header-group.flush--bottom
     %i.lbc-icon-info i
-    Informations générales du cours
-  .form-white-box
-    = f.input :name, label: t('.name'), placeholder: 'Ex : Danse orientale, Dégustation de vins & fromages, etc.'
-    .input>
-      = f.label :subjects
-      - subjects = @structure.subjects.little_children.uniq
-      - if subjects.empty?
-        - subjects = @structure.subjects.roots.map(&:little_children).flatten
-      = f.association :subjects , as: :select, collection: subjects, input_html: {style: 'width: 650px;', data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true}, label: t('.subjects'), selected: @course.subject_ids, label_method: lambda{|subj| subj.name }, wrapper_html: {class: 'flush'}, label: false
+    Informations générales
+  = f.input :name, label: t('.name'), placeholder: 'Ex : Danse orientale, Dégustation de vins & fromages, etc.'
+  .input.chosen-input>
+    = f.label :subjects
+    - subjects = @structure.subjects.little_children.uniq
+    - if subjects.empty?
+      - subjects = @structure.subjects.roots.map(&:little_children).flatten
+    .input-container>
+      = f.association :subjects , as: :select, collection: subjects, input_html: { data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' }, multiple: true }, label: t('.subjects'), selected: @course.subject_ids, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush' }, label: false
 
-    .field-form-info
-      = link_to add_subjects_pro_structure_path(@structure, return_to: request.path, anchor: 'informations'), class: 'fancybox.ajax', data: { behavior: 'modal', width: 650 } do
-        %i.fa.fa-plus
-        Ajouter des disciplines à mon profil
-      %p.blue.flush Si vous désirez choisir d'autres disciplines, ajoutez-les à votre profil en cliquant sur le lien ci-dessus.
+  .field-form-info
+    = link_to add_subjects_pro_structure_path(@structure, return_to: request.path, anchor: 'informations'), class: 'fancybox.ajax', data: { behavior: 'modal', width: 650 } do
+      %i.fa.fa-plus
+      Ajouter des disciplines à mon profil
+    %p.blue.flush Si vous désirez choisir d'autres disciplines, ajoutez-les à votre profil en cliquant sur le lien ci-dessus.
 
-    .input.grid--full
-      = f.label :is_individual, class: 'control-label v-top' do
-        %abbr *
-        = t('.individual_course')
-      %div
-        .radio
-          %input#course_is_individual{type: 'radio', name: 'course[is_individual]', value: 'true', checked: @course.is_individual?}
-          %label{for: 'course_is_individual'}> Individuel / Particulier
-        .radio
-          %input#course_is_collectif{type: 'radio', name: 'course[is_individual]', value: 'false', checked: !@course.is_individual?}
-          %label{for: 'course_is_collectif'}> Collectif -&nbsp;
-          %label Nombre moyen de participants &nbsp;
-          = f.input :nb_participants_max, label: false, input_html: {type: :number, placeholder: 12, style: 'max-width: 5em;', class: 'soft-half--left'}, wrapper_html: {class: 'flush--ends inline'}
+  .input.grid--full
+    = f.label :is_individual, class: 'control-label v-top' do
+      %abbr *
+      = t('.individual_course')
+    %div
+      .radio
+        %input#course_is_individual{type: 'radio', name: 'course[is_individual]', value: 'true', checked: @course.is_individual?}
+        %label{for: 'course_is_individual'}> Individuel / Particulier
+      .radio
+        %input#course_is_collectif{type: 'radio', name: 'course[is_individual]', value: 'false', checked: !@course.is_individual?}
+        %label{for: 'course_is_collectif'}> Collectif -&nbsp;
+        %label Nombre moyen de participants &nbsp;
+        = f.input :nb_participants_max, label: false, input_html: {type: :number, placeholder: 12, style: 'max-width: 5em;', class: 'soft-half--left'}, wrapper_html: {class: 'flush--ends inline'}
 
-    .input
-      .control-label.v-top *Type de cours
-      %div
-        .radio
-          %input#type_course_lesson{type: 'radio', name: 'course[type]', value: 'Course::Lesson', checked: @course.type == 'Course::Lesson'}>
-          %label{for: 'type_course_lesson'} Cours régulier
-        .radio
-          %input#type_course_workshop{type: 'radio', name: 'course[type]', value: 'Course::Workshop', checked: @course.type == 'Course::Workshop'}>
-          %label{for: 'type_course_workshop'} Cours-atelier (ponctuel)
-        .radio
-          %input#type_course_training{type: 'radio', name: 'course[type]', value: 'Course::Training', checked: @course.type == 'Course::Training'}>
-          %label{for: 'type_course_training'} Stage
-      - if @course.errors.messages[:type]
-        %p.alert.alert-error= @course.errors.messages[:type].first
+  .input
+    .control-label.v-top *Type de cours
+    %div
+      .radio
+        %input#type_course_lesson{type: 'radio', name: 'course[type]', value: 'Course::Lesson', checked: @course.type == 'Course::Lesson'}>
+        %label{for: 'type_course_lesson'} Cours régulier
+      .radio
+        %input#type_course_workshop{type: 'radio', name: 'course[type]', value: 'Course::Workshop', checked: @course.type == 'Course::Workshop'}>
+        %label{for: 'type_course_workshop'} Cours-atelier (ponctuel)
+      .radio
+        %input#type_course_training{type: 'radio', name: 'course[type]', value: 'Course::Training', checked: @course.type == 'Course::Training'}>
+        %label{for: 'type_course_training'} Stage
+    - if @course.errors.messages[:type]
+      %p.alert.alert-error= @course.errors.messages[:type].first
 
-    = f.input :teaches_at_home, as: :select, include_blank: false
+  = f.input :teaches_at_home, as: :select, include_blank: false
 
   #recurrency{style: @course.is_lesson? ? '' : 'display: none;'}
+    %hr.push--ends
     %h5.form-header-group.flush--bottom.flush--top
       %i.fa.fa-time
       Récurrence
-    .form-white-box
-      .input.depend-on-reccurent-course{data: {behavior: 'date-range', 'start-date' => '#course_start_date', 'end-date' => '#course_end_date'}}>
-        %label.control-label{for: 'course_start_date'} Date du premier et dernier cours
-        = f.input :start_date, as: :string, label: false, wrapper_html: {class: 'flush--ends'}, input_html: {style: 'margin-right: 5px', class: 'datepicker-input', value: (@course.start_date.present? ? l(@course.start_date) : l(Date.today)), data: {behavior: 'datepicker'}}
-        \-&nbsp;
-        - next_june = Date.parse('01 June')
-        - if next_june.past?
-          - next_june = Date.parse("01 June #{Date.today.year + 1}")
-        = f.input :end_date, as: :string, label: false, wrapper_html: {class: 'flush--ends'}, input_html: {class: 'datepicker-input', value: (@course.end_date.present? ? l(@course.end_date) : l(next_june)), 'data-behavior' => 'datepicker'}
-      = f.input :frequency, as: :select, collection: Course::COURSE_FREQUENCIES, label_method: lambda {|course_frequency| t(course_frequency)}, default: Course::COURSE_FREQUENCIES.first, label: t('.frequency'), wrapper_html: {class: 'depend-on-reccurent-course'}
-      .input.flush
-        .control-label
-          %b Autres infos
-      .input.flush
-        .control-label &nbsp;
-        = f.input :cant_be_joined_during_year, label: false, wrapper_html: {class: 'flush'}
-        %label{for: 'course_cant_be_joined_during_year'}= Course.human_attribute_name :cant_be_joined_during_year
-      .input.flush
-        .control-label &nbsp;
-        = f.input :no_class_during_holidays, label: false, wrapper_html: {class: 'flush'}
-        %label{for: 'course_no_class_during_holidays'}= Course.human_attribute_name :no_class_during_holidays
+    .input.depend-on-reccurent-course{data: {behavior: 'date-range', 'start-date' => '#course_start_date', 'end-date' => '#course_end_date'}}>
+      %label.control-label{for: 'course_start_date'} Date du premier et dernier cours
+      = f.input :start_date, as: :string, label: false, wrapper_html: {class: 'flush--ends'}, input_html: {style: 'margin-right: 5px', class: 'datepicker-input', value: (@course.start_date.present? ? l(@course.start_date) : l(Date.today)), data: {behavior: 'datepicker'}}
+      \-&nbsp;
+      - next_june = Date.parse('01 June')
+      - if next_june.past?
+        - next_june = Date.parse("01 June #{Date.today.year + 1}")
+      = f.input :end_date, as: :string, label: false, wrapper_html: {class: 'flush--ends'}, input_html: {class: 'datepicker-input', value: (@course.end_date.present? ? l(@course.end_date) : l(next_june)), 'data-behavior' => 'datepicker'}
+    = f.input :frequency, as: :select, collection: Course::COURSE_FREQUENCIES, label_method: lambda {|course_frequency| t(course_frequency)}, default: Course::COURSE_FREQUENCIES.first, label: t('.frequency'), wrapper_html: {class: 'depend-on-reccurent-course'}
+    .input.flush
+      .control-label
+        %b Autres infos
+    .input.flush
+      .control-label &nbsp;
+      = f.input :cant_be_joined_during_year, label: false, wrapper_html: {class: 'flush'}
+      %label{for: 'course_cant_be_joined_during_year'}= Course.human_attribute_name :cant_be_joined_during_year
+    .input.flush
+      .control-label &nbsp;
+      = f.input :no_class_during_holidays, label: false, wrapper_html: {class: 'flush'}
+      %label{for: 'course_no_class_during_holidays'}= Course.human_attribute_name :no_class_during_holidays
 
+  %hr.push--ends
   %h5.form-header-group.flush--bottom.push--top.soft--top Description
   %div.relative
     = image_tag 'texts/course-description.png', height: 85, style: 'position: absolute; left: 230px; bottom: -20px;'
-  .form-white-box
-    .grid--full.input
-      .textarea-with-info
-        .grid
-          .three-fifths.grid__item>
-            = f.input :description, as: :text, placeholder: 'Expliquez en quoi consiste le cours / stage, de manière à ce que l’élève comprenne bien ce qu’il y apprendra, pour éviter toute confusion. Plus de détails vous donnez, mieux c’est !', label: false, input_html: {class: 'one-whole textarea-description--tall', data: { behavior: 'text-counter', 'average-words-nb' => 20, 'good-words-nb' => 70, 'bad-text' => 'Votre description doit comporter au moins 20 mots. Nos Partenaires qui ont le plus de succès ont plus de 100 mots', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}}, wrapper_html: {class: 'flush--top one-whole'}
-          .two-fifths.grid__item>
-            %p.alert--info.flush--top
-              Quel est ce cours ?
-              %br
-              Qu’y trouve-t-on ?
-            %p.alert--info
-              Comment se déroule t-il ?
-              %br
-              En plusieurs thèmes ?
-            %p.alert--info Quelles sont les méthodes pratiquées ?
+  .grid--full.input
+    .textarea-with-info
+      .grid
+        .three-fifths.grid__item>
+          = f.input :description, as: :text, placeholder: 'Expliquez en quoi consiste le cours / stage, de manière à ce que l’élève comprenne bien ce qu’il y apprendra, pour éviter toute confusion. Plus de détails vous donnez, mieux c’est !', label: false, input_html: {class: 'one-whole textarea-description--tall', data: { behavior: 'text-counter', 'average-words-nb' => 20, 'good-words-nb' => 70, 'bad-text' => 'Votre description doit comporter au moins 20 mots. Nos Partenaires qui ont le plus de succès ont plus de 100 mots', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}}, wrapper_html: {class: 'flush--top one-whole'}
+        .two-fifths.grid__item>
+          %p.alert--info.flush--top
+            Quel est ce cours ?
+            %br
+            Qu’y trouve-t-on ?
+          %p.alert--info
+            Comment se déroule t-il ?
+            %br
+            En plusieurs thèmes ?
+          %p.alert--info Quelles sont les méthodes pratiquées ?
 
   = f.submit 'Enregistrer', class: 'btn btn--green btn--full push--bottom', data: { disable_with: 'Enregistrement en cours...' }
 

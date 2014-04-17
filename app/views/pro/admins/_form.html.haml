@@ -4,21 +4,22 @@
     %h5.form-header-group
       %i.fa.fa-user
       Informations personnelles
-    .form-white-box.flush--bottom
-      %p.field-form-info.blue.flush--bottom Ces coordonnées peuvent être utilisées par le service client pour vous contacter en cas de problème.
-      = f.input :civility, as: :radio_buttons, collection: Admin::CIVILITY.map{|civility| [ t(civility), civility]}
-      = f.input :name
-      = f.input :phone_number, wrapper_html: {class: 'flush--top'}, placeholder: 'Ex. : 01 02 11 33 12'
-      = f.input :mobile_phone_number, wrapper_html: {class: 'flush--bottom'}, placeholder: 'Ex. : 06 07 11 33 12'
-      = f.input :email, disabled: true, wrapper_html: {class: 'flush--bottom'}
-      %p.field-form-info.blue.flush--bottom Cet email vous permet de vous connecter à votre profil et de recevoir toutes les notifications CoursAvenue (nouvelle recommandation d'élève déposée, demande de renseignements sur vos cours, etc.).
 
+    %p.field-form-info.blue.flush--bottom Ces coordonnées peuvent être utilisées par le service client pour vous contacter en cas de problème.
+    = f.input :civility, as: :radio_buttons, collection: Admin::CIVILITY.map{|civility| [ t(civility), civility]}
+    = f.input :name
+    = f.input :phone_number, wrapper_html: {class: 'flush--top'}, placeholder: 'Ex. : 01 02 11 33 12'
+    = f.input :mobile_phone_number, wrapper_html: {class: 'flush--bottom'}, placeholder: 'Ex. : 06 07 11 33 12'
+    = f.input :email, disabled: true, wrapper_html: {class: 'flush--bottom'}
+    %p.field-form-info.blue.flush--bottom Cet email vous permet de vous connecter à votre profil et de recevoir toutes les notifications CoursAvenue (nouvelle recommandation d'élève déposée, demande de renseignements sur vos cours, etc.).
+
+    %hr.push--ends
     %h5.form-header-group
       %i.fa.fa-lock
       Changement de mot de passe
-    .form-white-box.flush--bottom
-      = f.input :password, wrapper_html: {class: 'flush--bottom'}, label: 'Nouveau mot de passe'
-      = f.input :password_confirmation
+
+    = f.input :password, wrapper_html: {class: 'flush--bottom'}, label: 'Nouveau mot de passe'
+    = f.input :password_confirmation
 
   .push--top
     = f.submit 'Enregistrer',  class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }

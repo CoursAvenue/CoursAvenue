@@ -1,43 +1,42 @@
 = side_menu_currently_at "Mes avis"
+.panel
+  = render partial: 'pro/structures/comments_tabs', locals: {current: 'comments'}
+  .panel__body.soft
+    .text--center.soft--bottom
+      = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue btn--large'
 
-= render partial: 'pro/structures/comments_tabs', locals: {current: 'comments'}
+    - if @waiting_for_deletion_comments.any?
+      %h3.push-half--bottom Avis en attente de suppression par l'équipe CoursAvenue
+      %ul.comment-list
+        = render partial: '/comments/comment', collection: @waiting_for_deletion_comments
+      %hr.push--ends
 
-.text--center.soft--bottom
-  = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue btn--large'
+    - if @pending_comments.any?
+      %h3.flush Avis en attente de validation
+      %p.blue.push-half--bottom
+        %i Validez les avis si ce sont bien vos élèves. Une fois validé, l'avis sera visible sur votre profil public.
+      - @pending_comments.each do |comment|
+        .white-box.islet
+          .grid
+            .grid__item.three-quarters.v-middle>
+              %p.flush
+                %b= comment.author_name
+                = "(#{comment.email})"
+            .grid__item.one-quarter.v-middle.text--right>
+              = link_to accept_pro_structure_comment_path(@structure, comment), class: 'btn btn--green', method: :patch do
+                %i.fa.fa-check
+                Valider
+              = link_to decline_pro_structure_comment_path(@structure, comment), class: 'btn btn--red', method: :patch do
+                %i.fa.fa-times
+                Rejeter
+      %hr
 
-- if @waiting_for_deletion_comments.any?
-  %h3.push-half--bottom Avis en attente de suppression par l'équipe CoursAvenue
-  %ul.comment-list
-    = render partial: '/comments/comment', collection: @waiting_for_deletion_comments
-  %hr
-
-- if @pending_comments.any?
-  %h3.flush Avis en attente de validation
-  %p.blue.push-half--bottom
-    %i Validez les avis si ce sont bien vos élèves. Une fois validé, l'avis sera visible sur votre profil public.
-  - @pending_comments.each do |comment|
-    .white-box.islet
-      .grid
-        .grid__item.three-quarters.v-middle>
-          %p.flush
-            %b= comment.author_name
-            = "(#{comment.email})"
-        .grid__item.one-quarter.v-middle.text--right>
-          = link_to accept_pro_structure_comment_path(@structure, comment), class: 'btn btn--green', method: :patch do
-            %i.fa.fa-check
-            Valider
-          = link_to decline_pro_structure_comment_path(@structure, comment), class: 'btn btn--red', method: :patch do
-            %i.fa.fa-times
-            Rejeter
-  %hr
-
-- if @comments.empty?
-  %p.white-box.islet Encore aucun avis.
-- else
-  .grid
-    .grid__item.one-third.v-bottom>
+    - if @comments.empty?
+      %p.white-box.islet Encore aucun avis.
+    - else
       %h3.push-half--bottom Avis validés
-    .grid__item.two-thirds.v-bottom.text--right.soft--right>
-      = image_tag 'texts/share-on-socials.png', height: 70, class: 'push--right'
-  %ul.comment-list
-    = render partial: '/comments/comment', collection: @comments
+      .text--center.push-half--ends= paginate @comments, window: 1, outer_window: 3
+      %ul.comment-list
+        = render partial: '/comments/comment', collection: @comments
+      .text--center.push-half--ends= paginate @comments, window: 1, outer_window: 3
+

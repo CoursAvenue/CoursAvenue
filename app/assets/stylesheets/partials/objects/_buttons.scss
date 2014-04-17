@@ -85,7 +85,7 @@
     background-color: $btn--green;
     border          : none;
     color           : white;
-    @include text-shadow(-1px -1px 1px darken($btn--green, 23%));
+    @include text-shadow(-1px -1px 1px darken($btn--green, 10%));
     &:hover, &:active {
         background-color: lighten($btn--green, 5%);
     }

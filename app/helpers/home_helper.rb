@@ -12,7 +12,7 @@ module HomeHelper
 
       html = "<ul class='blog-feed flush--bottom'>"
       rss.items[0..2].each do |rss_item|
-        html << "<li class='white-box islet' itemscope itemtype='http://schema.org/Article'>"
+        html << "<li class='white-box island' itemscope itemtype='http://schema.org/Article'>"
         html << content_tag(:h4, link_to(rss_item.title, rss_item.link, target: '_blank'), class: 'blog-feed__title flush--bottom', itemprop: 'name')
         html << content_tag(:span, l(rss_item.pubDate, format: :date).capitalize, class: 'blog-feed__date', itemprop: 'dateCreated')
         # Getting rid of the uselss p

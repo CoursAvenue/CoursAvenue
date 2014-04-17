@@ -8,7 +8,7 @@ class Pro::Structures::CommentsController < InheritedResources::Base# Pro::ProCo
     unless can? :read, @structure
       redirect_to pro_root_path, alert: "Vous n'êtes pas autorisé à voir cette page."
     end
-    @comments                      = @structure.comments.accepted
+    @comments                      = @structure.comments.accepted.page(params[:page] || 1).per(15)
     @pending_comments              = @structure.comments.pending
     @waiting_for_deletion_comments = @structure.comments.waiting_for_deletion
   end

@@ -7,7 +7,7 @@ class Structures::CommentsController < ApplicationController
   def index
     @structure    = Structure.friendly.find(params[:structure_id])
     @comments     = @structure.comments.accepted
-    @comments     = @comments.limit(5) unless params[:unlimited_comments]
+    @comments     = @comments.limit(15) unless params[:unlimited_comments]
 
     respond_to do |format|
       format.html { redirect_to new_structure_comment_path(@structure) }

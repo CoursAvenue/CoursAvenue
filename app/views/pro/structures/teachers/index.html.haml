@@ -1,13 +1,16 @@
 = side_menu_currently_at 'Mes infos'
-= render partial: 'pro/structures/tabs', locals: { current: 'professeurs'}
 
-.text--center.push--bottom
-  = link_to 'Ajouter un professeur', new_pro_structure_teacher_path(@structure), class: 'fancybox.ajax btn btn--green btn--large', data: {behavior: 'modal', width: 700}
+.panel
+  = render partial: 'pro/structures/tabs', locals: { current: 'professeurs'}
+  .panel__body.soft
+    .text--center.push--bottom
+      = link_to 'Ajouter un professeur', new_pro_structure_teacher_path(@structure), class: 'fancybox.ajax btn btn--green btn--large', data: {behavior: 'modal', width: 700}
 
-- if @teachers.any?
-  = render partial: 'pro/teachers/teacher', collection: @teachers
+    - if @teachers.any?
+      = render partial: 'pro/teachers/teacher', collection: @teachers
 
-- else
-  %p.white-box.islet
-    Aucun professeur n'est renseigné
+    - else
+      %p
+        Aucun professeur n'est renseigné
+
 

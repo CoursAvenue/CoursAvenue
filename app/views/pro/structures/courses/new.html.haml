@@ -1,3 +1,10 @@
 = side_menu_currently_at 'Mes cours'
 
-= render partial: 'form'
+.breadcrumb.bordered--bottom.soft-half--bottom.push--bottom.delta
+  = link_to pro_structure_courses_path(@structure) do
+    %i.fa.fa-long-arrow-left
+    Tous mes cours
+
+.panel
+  .panel__body.soft
+    = render 'form'

@@ -3,12 +3,12 @@
 
   - if params[:return_to].present?
     %input{type: 'hidden', value: params[:return_to], name: 'return_to'}
-  .form-inputs
+  .form-inputs.soft
     %h5.form-header-group
       %i.fa.fa-picture-o
       Logo
     - if @structure.valid?
-      .form-white-box
+      %div
         %div{data: {behavior: 'image-input' }}
           #logo-progress.progress.hidden{data: {progress: true }}
             .bar
@@ -16,23 +16,30 @@
             - if @structure.logo?
               .push-half--bottom.text--center.center-block.bordered{style: "height: 200px; width: 200px; display: inline-block; line-height: 196px;"}<
                 = image_tag @structure.logo.url(:thumb), class: 'v-middle inline-block', style: 'max-height: 100%;'
-              %br
-              = link_to crop_logo_pro_structure_path(@structure), class: 'btn btn--small btn--blue push-half--right' do
-                %i.fa.fa-expand.soft-half--right
-                Recadrer mon logo
-              %a.btn.btn--small.btn--red#delete-logo{href: 'javascript:void(0)'}
-                %i.fa.fa-trash-o.soft-half--right
-                Supprimer
               .visuallyhidden= structure_form.input :delete_logo, as: :boolean, label: false
             - else
               .text--center.center-block.bordered{style: "height: 200px; width: 200px; display: inline-block; line-height: 196px; display: none;"}
                 %img#logo-placeholder.v-middle.inline-block{style: 'max-height: 100%;'}
 
           .input
-            .control-label Logo de votre structure
-            = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', data: {trigger: true} do
-              %i.fa.fa-picture-o
-              Choisir mon logo
+            .control-label> Logo de votre structure
+            - if @structure.logo?
+              .input-container>
+                = link_to crop_logo_pro_structure_path(@structure), class: 'btn btn--small btn--blue push-half--right push-half--bottom' do
+                  %i.fa.fa-expand.soft-half--right
+                  Recadrer mon logo
+                %br
+                = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small push-half--bottom', data: { trigger: true } do
+                  %i.fa.fa-picture-o
+                  Changer mon logo
+                %br
+                %a.btn.btn--small.btn--red#delete-logo{href: 'javascript:void(0)'}
+                  %i.fa.fa-trash-o.soft-half--right
+                  Supprimer
+            - else
+              = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', data: {trigger: true} do
+                %i.fa.fa-picture-o
+                Choisir mon logo
             .visuallyhidden= structure_form.input :logo, label: false, input_html: {id: 'logo-input'}
 
           %p.field-form-info.blue.flush
@@ -42,10 +49,11 @@
     - else
       %p.alert--error Vous devez régler les problèmes pour mettre un logo.
 
+    %hr.push--ends
     %h5.form-header-group#informations
       %i.fa.fa-tags
       Étiquettes de disciplines
-    .form-white-box.push--bottom
+    %div
       %div{data: {behavior: 'parent-descendant-subjects', 'parent-select' => '#parent-subjects', 'descendant-select' => '#subject-descendants-select', 'descendant-select-wrapper' => '#descendants-subjects'}}
         = structure_form.association :subjects, as: :select, collection: Subject.roots.order('name ASC'), input_html: {style: 'width: 74%;', id: 'parent-subjects', data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true}, label: 'Disciplines générales pratiquées ', label_method: lambda{|subj| subj.name }, wrapper_html: {class: 'flush--bottom'}
 
@@ -57,10 +65,11 @@
         %p.error= @structure.errors[:children_subjects].to_sentence
       %p.flush.field-form-info.blue Ces étiquettes de disciplines nous permettent de mieux vous catégoriser dans notre moteur de recherche. Néanmoins, une fois votre planning renseigné dans la rubrique "Mes cours", les intitulés de vos cours seront pris en compte en priorité, car ils seront plus précis.
 
+    %hr.push--ends
     %h5.form-header-group#informations
       %i.lbc-icon-info i
       Informations
-    .form-white-box.push--bottom
+    %div
       = structure_form.input :name, label: t('.structure_name'), wrapper_html: {class: 'flush--bottom'}
       %p.field-form-info.blue= t('.structure_name_info')
       = structure_form.input :website, placeholder: 'Ex : http://www.je-danse-a-paris.com'
@@ -75,17 +84,19 @@
       #teaches-at-home-radius{class: @structure.teaches_at_home ? '' : 'hidden'}
         = structure_form.input :teaches_at_home_radius, input_html: { style: 'width: 5em;' }, wrapper_html: {class: 'flush'}
 
+    %hr.push--ends
     %h5.form-header-group Coordonnées de réservation
-    .form-white-box.push--bottom
+    %div
       %p.field-form-info.blue.flush Si vous avez plusieurs lieux : renseignez vos coordonnées principales, vous pourrez ensuite choisir des coordonnées de réservation spécifiques à chaque lieu dans l'onglet « Lieux »
       = structure_form.input :contact_phone, placeholder: 'Ex. : 01 04 12 49 12'
       = structure_form.input :contact_mobile_phone, placeholder: 'Ex. : 06 34 41 99 31'
       = structure_form.input :contact_email, input_html: {value: (@structure.contact_email || @structure.main_contact.try(:email))}
 
+    %hr.push--ends
     %h5.form-header-group.push--top Description
     %div.relative
       = image_tag 'texts/structure-description.png', height: 85, style: 'position: absolute; left: 230px; bottom: -25px; z-index: 10'
-    .form-white-box.push--top
+    %div.push--top
       .grid--full.input
         .textarea-with-info.grid__item.width-auto
           .grid--full
@@ -109,8 +120,9 @@
                 %br
                 A-t-elle formé des célébrités ?
     - if @structure.comments_count >= 5
+      %hr.push--ends
       %h5.form-header-group Autre
-      .form-white-box.push--bottom
+      %div
         = structure_form.input :widget_status, as: :select, collection: Structure::WIDGET_STATUS, label_method: lambda{|status| t("structures.widget_status.#{status}")}
         = structure_form.input :widget_url, as: :string, placeholder: 'Ex. : http://www.mon-site.com/livre-d-or'
 

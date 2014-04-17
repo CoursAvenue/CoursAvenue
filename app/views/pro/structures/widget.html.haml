@@ -1,44 +1,44 @@
 = side_menu_currently_at 'Communiquer'
 = render '/pro/structures/widget_inline_css'
 
-= render partial: 'pro/structures/communication_tabs', locals: {current: 'widget'}
-.islet.white-box
-  %h2.blue.push-half--bottom Vos recommandations visibles sur votre site internet
-  %p.alert--info
-    Affichez votre livre d'or interactif sur votre propre site Internet ou blog en quelques minutes seulement. C'est très simple : suivez les 2 étapes ci-dessous pour installer ce qu'on appelle un "widget".
-    Voici quelques exemple de partenaires qui l'ont installé en 2min !
-    = link_to "exemples de livres d'Or.", pro_pages_widget_path, target: '_blank'
+.panel
+  = render partial: 'pro/structures/communication_tabs', locals: {current: 'widget'}
+  .panel__body.soft
+    %h3.push-half--bottom Vos recommandations visibles sur votre site internet
+    %p.alert--info
+      Affichez votre livre d'or interactif sur votre propre site Internet ou blog en quelques minutes seulement. C'est très simple : suivez les 2 étapes ci-dessous pour installer ce qu'on appelle un "widget".
+      Voici quelques exemple de partenaires qui l'ont installé en 2min !
+      = link_to "exemples de livres d'Or.", pro_pages_widget_path, target: '_blank'
 
-%h5.home-title Étape 1 : Configurez votre livre d'or
+    %h5.home-title Étape 1 : Configurez votre livre d'or
 
-.grid.push--bottom
-  .grid__item.one-half>
-    .soft--right
-      %h4
-        %i.fa.fa-cogs
-        Configuration
-      .white-box.islet
-        .push--bottom
-          %label.v-middle.inline-block{for: 'show-comments'} Afficher les derniers avis
-          %input#show-comments{type: 'checkbox', checked: true}
-        %div
-          %label.inline{for: 'nb-comments'} Nombre d'avis à afficher
-          %input.inline#nb-comments{style: 'width: 3em', type: 'number', checked: true, range: 1, min: 1, step: 1, value: 3}
+    .grid.push--bottom
+      .grid__item.one-half>
+        .soft--right
+          %h4
+            %i.fa.fa-cogs
+            Configuration
+          .islet
+            .push--bottom
+              %label.v-middle.inline-block{for: 'show-comments'} Afficher les derniers avis
+              %input#show-comments{type: 'checkbox', checked: true}
+            %div
+              %label.inline{for: 'nb-comments'} Nombre d'avis à afficher
+              %input.inline#nb-comments{style: 'width: 3em', type: 'number', checked: true, range: 1, min: 1, step: 1, value: 3}
 
-  .grid__item.one-half.bordered--left>
-    %h4
-      Aperçu
-    %div{style: 'width: 400px'}
-      #coursavenue-widget
+      .grid__item.one-half.bordered--left>
+        %h4 Aperçu
+        %div{style: 'width: 400px'}
+          #coursavenue-widget
 
 
-%h5.push--top.home-title Étape 2 : Installez le livre d'or sur votre site
+    %h5.push--top.home-title Étape 2 : Installez le livre d'or sur votre site
 
-= render 'pro/structures/widget_installation_guides'
+    = render 'pro/structures/widget_installation_guides'
 
-%div{style: 'margin-bottom: 300px;'}
-#coursavenue-link-to-remove-wrapper.hidden>
-  = link_to "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", structure_url(@structure, subdomain: 'www'), title: "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", style: 'border: 0 !important; clip: rect(0 0 0 0) !important; height: 1px !important; margin: -1px !important; overflow: hidden !important; padding: 0 !important; position: absolute !important; width: 1px !important;'
+    %div{style: 'margin-bottom: 300px;'}
+    #coursavenue-link-to-remove-wrapper.hidden>
+      = link_to "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", structure_url(@structure, subdomain: 'www'), title: "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", style: 'border: 0 !important; clip: rect(0 0 0 0) !important; height: 1px !important; margin: -1px !important; overflow: hidden !important; padding: 0 !important; position: absolute !important; width: 1px !important;'
 
 - content_for :scripts do
   :javascript
@@ -89,16 +89,3 @@
         };
         load_widget();
     });
-
-  -# #coursavenue-widget &nbsp;
-  -# :javascript
-  -#   window.onload = function() {
-  -#     var coursavenue_widget_div = document.getElementById('coursavenue-widget');
-  -#     var request = new XMLHttpRequest();
-  -#     request.open('GET', "#{widget_ext_pro_structure_url(@structure, last_comments: true, nb_comments: 3, format: :json, subdomain: 'pro')}", false);
-  -#     request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-  -#     request.send(null);
-  -#     if(request.status == 200) {
-  -#       coursavenue_widget_div.innerHTML = request.responseText;
-  -#     }
-  -#   }

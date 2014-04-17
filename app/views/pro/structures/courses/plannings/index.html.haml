@@ -1,24 +1,27 @@
 = side_menu_currently_at 'Mes cours'
-%ol.breadcrumb.bordered--bottom.soft-half--bottom.nav.delta{itemprop: 'breadcrumb'}
-  %li= link_to 'Tous mes cours', pro_structure_courses_path(@structure)
-  %li= @course.name
 
-= render partial: 'pro/structures/courses/tabs', locals: { current: 'plannings' }
+.panel
+  = render partial: 'pro/structures/courses/tabs', locals: { current: 'plannings' }
+  .panel__body.soft
+    .breadcrumb.bordered--bottom.soft-half--bottom.push--bottom.delta
+      = link_to pro_structure_courses_path(@structure) do
+        %i.fa.fa-long-arrow-left
+        Tous mes cours
 
-.text--center.push-half--bottom
-  = link_to 'Ajouter un créneau', new_pro_structure_course_planning_path(@structure, @course), title: 'Ajouter un créneau', data: {behavior: 'modal', width: 780}, class: 'fancybox.ajax btn btn--green btn--large'
-  %br
-  = link_to 'Mon planning est à jour, revenir à tous mes cours', pro_structure_courses_path(@structure)
-- if @planning and @planning.errors.any?
-  %p.alert.alert-error
-    - @planning.errors.full_messages.each_with_index do |message, index|
-      - if index != 0
-        %br
-      = message
+    .text--center.push-half--bottom
+      = link_to 'Ajouter un créneau', new_pro_structure_course_planning_path(@structure, @course), title: 'Ajouter un créneau', data: {behavior: 'modal', width: 780}, class: 'fancybox.ajax btn btn--green btn--large'
+      %br
+      = link_to 'Mon planning est à jour, revenir à tous mes cours', pro_structure_courses_path(@structure)
+    - if @planning and @planning.errors.any?
+      %p.alert.alert-error
+        - @planning.errors.full_messages.each_with_index do |message, index|
+          - if index != 0
+            %br
+          = message
 
-- if @plannings.any? and !@course.is_lesson? and @past_plannings.any?
-  %h5 Séances à venir
-= render "#{@course.underscore_name}_list"
+    - if @plannings.any? and !@course.is_lesson? and @past_plannings.any?
+      %h5 Séances à venir
+    = render "#{@course.underscore_name}_list"
 
 
 = content_for :scripts do

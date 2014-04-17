@@ -1,4 +1,6 @@
 = side_menu_currently_at 'Mes photos & vidéos'
-= render partial: 'pro/structures/medias/tabs', locals: { current: 'video'}
 
-= render 'form'
+.panel
+  = render partial: 'pro/structures/medias/tabs', locals: { current: 'video'}
+  .panel__body.soft
+    = render 'form'

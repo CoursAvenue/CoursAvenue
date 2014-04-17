@@ -1,6 +1,50 @@
+// -------------------- PANELS ------------------------- //
+.panel {
+    background-color: white;
+    border          : 1px solid $pane-border-color;
+}
+    .panel__header {
+        background-color: #EFEFEF;
+        padding-top     : 0.5em;
+        &.tabs {
+            border-bottom: none;
+            li:first-child {
+                margin-left: 1em;
+            }
+            li {
+                margin-bottom: -1px;
+                border          : 1px solid $pane-border-color;
+                background-color: #EFEFEF;
+                a {
+                    color           : #393C3D;
+                    font-weight     : bold;
+                    border          : none;
+                    padding         : 0.6em 1.3em;
+                }
+                &.active {
+                    border-bottom-color: white;
+                    background-color   : white;
+                    &:hover {
+                        background-color: white;
+                        a {
+                            cursor          : default;
+                        }
+                    }
+                }
+                &:hover {
+                    background-color: #F2F2F2;
+                }
+            }
+        }
+    }
+    // .panel__body {
+    .panel__header + .panel__body {
+        border-top: 1px solid $pane-border-color;
+    }
+// -------------------- PANELS ------------------------- //
 .white-box, .blue-box {
     @include border-radius($brand-round);
-    @include box-shadow(1px 1px 3px #DDD, 2px 2px 9px #EEE, 4px 4px 24px #EEE);
+    // @include box-shadow(1px 1px 3px #DDD, 2px 2px 9px #EEE, 4px 4px 24px #EEE);
 }
 .white-box {
     background: white;
@@ -72,5 +116,11 @@
 }
 
 .gray-box {
-    background-color: $gray-lighter;
+    background: #EFEFEF;
+    border    : 1px solid $pane-border-color;
 }
+    .gray-box__footer {
+        background: #EFEFEF;
+        border    : 1px solid $pane-border-color;
+        border-top: none;
+    }

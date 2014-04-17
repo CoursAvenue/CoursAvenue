@@ -46,7 +46,7 @@
     }
     .input {
         margin: 10px 0;
-        input, textarea, .text {
+        input, textarea, .text, .input-container {
             width    : 100% - $label-width;
             &.one-whole {
                 width: 100%;
@@ -84,9 +84,9 @@
             line-height: 1;
             @include box-shadow(none);
         }
-        > select, > input, > select, > textarea, > div, > label {
+        > select, > input, > select, > textarea, > div, > label, .input-container {
             display       : inline-block;
-            vertical-align: middle;
+            vertical-align: top;
         }
         > label.text {
             vertical-align: top;
@@ -131,7 +131,6 @@
         border-bottom: solid 1px $gray-smooth;
         // text-align   : right;
         width        : $left-form-margin;
-        margin-top   : 1em;
     }
     .label--header{
         font-weight: bold;

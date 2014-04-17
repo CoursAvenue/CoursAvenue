@@ -1,31 +1,31 @@
 = side_menu_currently_at 'Communiquer'
 
-= render partial: 'pro/structures/communication_tabs', locals: {current: 'signature'}
 
-.islet.white-box
-  %h2.blue.push-half--bottom
-    Développez le bouche à oreille grâce à la signature de vos emails
+.panel
+  = render partial: 'pro/structures/communication_tabs', locals: {current: 'signature'}
+  .panel__body.soft
+    %h3.push-half--bottom
+      Développez le bouche à oreille grâce à la signature de vos emails
 
 
+    %h5 Modèle 1 : c'est ce qu'utilise un de nos professeurs de Qi Qong
+    %p.alert--info
+      \--
+      %br
+      Votre avis m'intéresse, d'avance merci ! Je me permets de demander à celles et ceux qui ont déjà suivi un de mes cours de prendre juste 1 minute pour me laisser un avis : #{link_to structure_url(@structure, subdomain: 'www'), structure_url(@structure, subdomain: 'www')}
+      %br
+      Cela me permettra d'avoir un retour mais aussi et surtout, pour que d'autres personnes puissent se faire une idée et éventuellement participer et partager des moments profitables à tous.
 
-  %h5 Modèle 1 : c'est ce qu'utilise un de nos professeurs de Qi Qong
-  %p.alert--info
-    \--
-    %br
-    Votre avis m'intéresse, d'avance merci ! Je me permets de demander à celles et ceux qui ont déjà suivi un de mes cours de prendre juste 1 minute pour me laisser un avis : #{link_to structure_url(@structure, subdomain: 'www'), structure_url(@structure, subdomain: 'www')}
-    %br
-    Cela me permettra d'avoir un retour mais aussi et surtout, pour que d'autres personnes puissent se faire une idée et éventuellement participer et partager des moments profitables à tous.
+    %hr
 
-  %hr
-
-  %h5 Modèle 2 : plus générique
-  %p.alert--info.one-whole
-    \--
-    %br
-    Déjà #{@structure.comments_count} élèves nous ont recommandé sur CoursAvenue.com ! Votre avis nous intéresse :
-    %br
-    %b Déposer mon avis :
-    #{link_to new_structure_comment_url(@structure, subdomain: 'www'), new_structure_comment_url(@structure, subdomain: 'www')}
-    %br
-    %b Voir tous les avis :
-    #{link_to structure_url(@structure, subdomain: 'www'), structure_url(@structure, subdomain: 'www')}
+    %h5 Modèle 2 : plus générique
+    %p.alert--info.one-whole
+      \--
+      %br
+      Déjà #{@structure.comments_count} élèves nous ont recommandé sur CoursAvenue.com ! Votre avis nous intéresse :
+      %br
+      %b Déposer mon avis :
+      #{link_to new_structure_comment_url(@structure, subdomain: 'www'), new_structure_comment_url(@structure, subdomain: 'www')}
+      %br
+      %b Voir tous les avis :
+      #{link_to structure_url(@structure, subdomain: 'www'), structure_url(@structure, subdomain: 'www')}

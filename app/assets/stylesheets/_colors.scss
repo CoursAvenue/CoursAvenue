@@ -1,6 +1,8 @@
 //$brand-face: "Raleway" !default;
 //$brand-face: 'Open Sans', Helvetica, Arial,sans-serif !default;
-$brand-face: 'Lato', Helvetica, Arial,sans-serif !default;
+// $brand-face: 'Lato', Helvetica, Arial,sans-serif !default;
+$brand-face: 'Helvetica Neue', Helvetica, Arial, sans-serif !default;
+
 
 // Grays
 // -------------------------
@@ -79,3 +81,7 @@ $hover-list-element:     lighten($brand-color, 30%);
 $btn--green:               #45C445 !default;
 $btn--blue:                #049cdb !default; //#0499D6!default;
 $btn--red:                 #e2493c !default;
+
+// Boxes & Panes
+// -------------------------
+$pane-border-color:       #DBDBDB !default;

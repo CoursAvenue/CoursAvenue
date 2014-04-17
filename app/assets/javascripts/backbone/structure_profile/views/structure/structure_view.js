@@ -13,7 +13,8 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         },
 
         events: {
-            "filter:removed": 'removeSummary'
+            "filter:removed": 'removeSummary',
+            "click [data-toggle=tab] ": 'showOrCreateTab'
         },
 
         removeSummary: function () {
@@ -25,7 +26,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             courses: {},
             teachers: {},
             comments: {
-                unlimited_comments: true
+                unlimited_comments: false
             }
         },
 
@@ -58,9 +59,6 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
                     'end_hour'            : 'Date',
                 }
             });
-
-            // eaves drop on bootstraps tab implementation
-            $(document).on("click", '[data-toggle=tab]', this.showOrCreateTab);
 
             this.empty_relation_handlers = {
                 "courses": this.showEmptyCourses,

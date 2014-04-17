@@ -1,47 +1,43 @@
 = side_menu_currently_at 'Mes infos'
-= render partial: 'pro/structures/tabs', locals:{ current: 'lieux'}
+.panel
+  = render partial: 'pro/structures/tabs', locals:{ current: 'lieux'}
+  .panel__body
+    - if @places.any?
+      #map.google-map.push--top
+    .text--center.push
+      = link_to 'Ajouter un nouveau lieu', new_pro_structure_place_path(@structure), class: 'btn btn--green btn--large'
 
-%h3.header-group
-  %i.fa.fa-map-marker
-  Mes lieux d'enseignement
-
-- if @places.any?
-  #map.google-map
-
-.text--center.push
-  = link_to 'Ajouter un nouveau lieu', new_pro_structure_place_path(@structure), class: 'btn btn--green btn--large'
-
-- if @places.any?
-  %table.table--striped.white-box
-    %thead
-      %tr
-        %th.hard--right{style: 'width: 2em;'}
-          %i.fa.fa-external-link
-        %th Nom du lieu
-        %th Adresse
-    %tbody
-      - @places.each do |place|
-        %tr
-          %td.hard--right
-            = link_to place_url(place, subdomain: 'www'), title: 'Voir la fiche établissement sur CoursAvenue', target: '_blank' do
+    - if @places.any?
+      %table.table--striped
+        %thead
+          %tr
+            %th.hard--right{style: 'width: 2em;'}
               %i.fa.fa-external-link
-          %td
-            - if current_pro_admin
-              = link_to place.location.name, edit_pro_structure_place_path(@structure, place)
-            - else
-              = link_to place.location.name, place_url(place, subdomain: 'www')
-          %td= place.location.address
-          %td.text--right.nowrap
-            = link_to edit_pro_structure_place_path(@structure, place), title: 'Modifier ce lieu', class: 'btn btn--orange btn--small' do
-              %i.fa.fa-pencil
-              %span.soft-half--left Modifier ce lieu
-            &nbsp;
-            - if place.plannings.any?
-              - delete_alert = 'Des crénaux sont associés à ce lieu et seront SUPPRIMÉS si supprimez ce lieu. Êtes-vous sur de vouloir faire cette action ? Cette action sera IRREVERSIBLE.'
-            - else
-              - delete_alert = 'Êtes-vous sur de supprimer ce lieu ? Cette action sera IRREVERSIBLE.'
-            = link_to pro_structure_place_path(@structure, place), method: :delete, data: {confirm: delete_alert}, title: 'Supprimer ce lieu', class: 'btn btn--red btn--small' do
-              %i.fa.fa-trash-o
+            %th Nom du lieu
+            %th Adresse
+        %tbody
+          - @places.each do |place|
+            %tr
+              %td.hard--right
+                = link_to place_url(place, subdomain: 'www'), title: 'Voir la fiche établissement sur CoursAvenue', target: '_blank' do
+                  %i.fa.fa-external-link
+              %td
+                - if current_pro_admin
+                  = link_to place.location.name, edit_pro_structure_place_path(@structure, place)
+                - else
+                  = link_to place.location.name, place_url(place, subdomain: 'www')
+              %td= place.location.address
+              %td.text--right.nowrap
+                = link_to edit_pro_structure_place_path(@structure, place), title: 'Modifier ce lieu', class: 'btn btn--orange btn--small' do
+                  %i.fa.fa-pencil
+                  %span.soft-half--left Modifier ce lieu
+                &nbsp;
+                - if place.plannings.any?
+                  - delete_alert = 'Des crénaux sont associés à ce lieu et seront SUPPRIMÉS si supprimez ce lieu. Êtes-vous sur de vouloir faire cette action ? Cette action sera IRREVERSIBLE.'
+                - else
+                  - delete_alert = 'Êtes-vous sur de supprimer ce lieu ? Cette action sera IRREVERSIBLE.'
+                = link_to pro_structure_place_path(@structure, place), method: :delete, data: {confirm: delete_alert}, title: 'Supprimer ce lieu', class: 'btn btn--red btn--small' do
+                  %i.fa.fa-trash-o
 
 = content_for :scripts do
   :javascript

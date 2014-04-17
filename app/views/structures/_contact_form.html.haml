@@ -9,69 +9,42 @@
   %li
     %a#phone-contact-tab{ href: "#tab-telephone", data: { toggle: "tab" } }
       %i.fa.fa-phone
-      Téléphone & contact
+      Téléphone
+  %li
+    %a#website-tab{ href: "#tab-website", data: { toggle: "tab" } }
+      %i.fa.fa-external-link
+      Site & Facebook
 
 .tab-content.blue-box.islet
   %article#tab-message.tab-pane.active.hard
     #structure-contact
-      = simple_form_for [structure, Message.new] do |f|
+      = simple_form_for [structure, Mailboxer::Message.new], url: structure_messages_path(structure), as: :message  do |f|
         %h4.f-weight-normal
-          Le professeur risque d'être en cours, contactez-le par message
+          Contactez pour réserver ou obtenir plus d'infos :
         -# Here to stop bots.
         -# If this is filled, the message won't be sent
+        - unless current_user
+          .grid--full.push-half--bottom
+            .grid__item.one-half.soft-half--right>
+              %input.one-whole{name: 'user[first_name]', type: 'text', placeholder: 'Prénom + Nom', value: params[:first_name]}
+            .grid__item.one-half>
+              %input.one-whole{name: 'user[email]', type: 'text', placeholder: 'Email', value: params[:email]}
         .visuallyhidden
           %input{name: 'content', type: 'text'}
         - prefilled_body = params[:message_body] || "Bonjour,\n\nJe souhaiterais venir pour une première séance. Pouvez-vous m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt"
         = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole', style: 'height: 170px;', value: prefilled_body, data: { behavior: 'autoresize' }}
-        - unless current_user
-          .grid--full.push-half--bottom
-            .grid__item.one-half.soft-half--right>
-              %input.one-whole{name: 'user[first_name]', type: 'text', placeholder: 'Nom', value: params[:first_name]}
-            .grid__item.one-half>
-              %input.one-whole{name: 'user[email]', type: 'text', placeholder: 'Email', value: params[:email]}
         = f.submit 'Envoyer mon message', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }
 
-- if current_user
-  #structure-contact.blue-box.islet.hidden
-    = simple_form_for [structure, Mailboxer::Message.new], structure_messages_path(structure), as: :message do |f|
-      %h4.f-weight-normal
-        Les professeurs sont souvent en cours et peu disponibles...
-        %br
-        Envoyez votre message, c'est plus pratique !
-      %label
-        Votre message -
-        %i Modifiez ce texte avec des informations sur vous et le cours souhaité.
-      -# Here to stop bots.
-      -# If this is filled, the message won't be sent
-      .visuallyhidden
-        %input{name: 'content', type: 'text'}
-      - if action_name == 'jpo'
-        - prefilled_body = "Bonjour,\n\nAvant de m'inscrire à vos Portes Ouvertes, je souhaiterais avoir un peu plus d'informations au sujet de l'événement.\n\nMerci et à très bientôt"
-      - else
-        - prefilled_body = "Bonjour,\n\nJe souhaiterais venir pour une première séance. Pouvez-vous m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt"
-      = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole', style: 'height: 170px;', value: prefilled_body, data: { behavior: 'autoresize' }}
-      = f.submit 'Envoyer mon message', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }
-
-    .grid--full
-      .grid__item.v-middle{style: 'width: 45%;'}>
-        %hr.hr--white.push--top
-      .grid__item.v-middle.text--center{style: 'width: 10%;'}>
-        OU
-      .grid__item.v-middle{style: 'width: 45%;'}>
-        %hr.hr--white.push--top
-    .text--center
-      .btn.btn--full#phone-contact-button Contacter par téléphone
-    %div#phone-contact.hidden
-      - if @structure.contact_phone.present? or @structure.contact_mobile_phone.present?
-        %i.fa.fa-phone
+  %article#tab-telephone.tab-pane.hard
+    %div#phone-contact
       - if @structure.contact_phone.present?
         Fixe :
         = @structure.contact_phone
-      %br
+        %br
       - if @structure.contact_mobile_phone.present?
         Portable :
         = @structure.contact_mobile_phone
-    %hr.hr--blue.push--ends
+  %article#tab-website.tab-pane
     - if @structure.website.present?
       %h4 Site web
       %div

@@ -1,44 +1,83 @@
 = side_menu_currently_at 'Mes photos & vidéos'
 
-= render partial: 'tabs', locals: { current: 'index'}
+.panel
+  = render partial: 'tabs', locals: { current: 'index'}
+  .panel__body.soft
+    .text--center.push--bottom
+      = link_to new_pro_structure_video_path(@structure), class: 'btn btn--blue push--right btn--large' do
+        %i.fa.fa-youtube-play.soft-half--right
+        Ajouter une vidéo
+      = link_to new_pro_structure_image_path(@structure), class: 'btn btn--blue btn--large' do
+        %i.fa.fa-picture-o.soft-half--right
+        Ajouter une photo
 
-.text--center.push--bottom
-  = link_to new_pro_structure_video_path(@structure), class: 'btn btn--blue push--right btn--large' do
-    %i.fa.fa-youtube-play.soft-half--right
-    Ajouter une vidéo
-  = link_to new_pro_structure_image_path(@structure), class: 'btn btn--blue btn--large' do
-    %i.fa.fa-picture-o.soft-half--right
-    Ajouter une photo
+    - if @medias.any?
+      %table.table--striped.table--data
+        %thead
+          %tr
+            %th
+            %th Type
+            %th Légende
+            %th
+            %th
+        %tbody
+          - @medias.each do |media|
+            %tr
+              %td
+                %a.inline-block{style: 'width: 100px;', href: media.url, data: { behavior: 'fancy' } }
+                  - if media.video?
+                    = image_tag media.thumbnail_url, width: 100
+                  - else
+                    = media.url_html
+              %td= (media.video? ? 'Vidéo' : 'Image')
+              %td= media.caption
 
-- if @medias.any?
-  .media-gallery.white-box
-    - @medias.each do |media|
-      .one-third.media__item.very-soft.show-on-hover-wrapper>
-        %a.break-all.soft-half.hard--bottom.block{href: media.url, title: media.caption, data: {behavior: 'fancy'}}
-          %i.fa.fa-expand
-          - if media.video?
-            = media.url_html
-          - else
-            = media.thumbnail_url_html
-          - if media.caption.present?
-            %p.flush--bottom
-              %i= media.caption
-        - if current_pro_admin.super_admin? and media.star
-          %i.fa.fa-star.yellow
-        .show-on-hover
-          - if current_pro_admin.super_admin?
-            = link_to edit_pro_structure_media_path(@structure, media), class: 'push-half--left btn btn--small btn--blue fancybox.ajax', data: { behavior: 'modal', width: 600 } do
-              %i.fa.fa-star
+              %td
+                - if media.image? and !media.cover?
+                  = link_to 'Définir comme photo de profil', make_it_cover_pro_structure_image_path(@structure, media), method: :put, class: 'push-half--left btn btn--small btn--blue'
+                - elsif media.image? and media.cover?
+                  Photo de profil
+                - if media.video? and !media.cover?
+                  = link_to 'Définir comme vidéo de profil', make_it_cover_pro_structure_video_path(@structure, media), method: :put, class: 'push-half--left btn btn--small btn--blue'
+                - elsif media.video? and media.cover?
+                  Vidéo de profil
+              %td
+                = link_to pro_structure_media_path(@structure, media), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce média ?' }, class: 'push-half--left btn btn--small btn--red' do
+                  %i.fa.fa-trash-o
+                  Supprimer
+                - if current_pro_admin.super_admin?
+                  = link_to edit_pro_structure_media_path(@structure, media), class: 'push-half--left btn btn--small btn--blue fancybox.ajax', data: { behavior: 'modal', width: 600 } do
+                    %i.fa.fa-star
+                    Mettre en avant
+    -# - if @medias.any?
+    -#   .media-gallery
+    -#     - @medias.each do |media|
+    -#       .one-third.media__item.very-soft.show-on-hover-wrapper>
+    -#         %a.break-all.soft-half.hard--bottom.block{href: media.url, title: media.caption, data: {behavior: 'fancy'}}
+    -#           %i.fa.fa-expand
+    -#           - if media.video?
+    -#             = media.url_html
+    -#           - else
+    -#             = media.thumbnail_url_html
+    -#           - if media.caption.present?
+    -#             %p.flush--bottom
+    -#               %i= media.caption
+    -#         - if current_pro_admin.super_admin? and media.star
+    -#           %i.fa.fa-star.yellow
+    -#         .show-on-hover
+    -#           - if current_pro_admin.super_admin?
+    -#             = link_to edit_pro_structure_media_path(@structure, media), class: 'push-half--left btn btn--small btn--blue fancybox.ajax', data: { behavior: 'modal', width: 600 } do
+    -#               %i.fa.fa-star
 
-          - if media.image? and !media.cover?
-            = link_to 'Définir comme photo de profil', make_it_cover_pro_structure_image_path(@structure, media), method: :put, class: 'push-half--left btn btn--small btn--blue'
-          - elsif media.image? and media.cover?
-            Photo de profil
-          - if media.video? and !media.cover?
-            = link_to 'Définir comme vidéo de profil', make_it_cover_pro_structure_video_path(@structure, media), method: :put, class: 'push-half--left btn btn--small btn--blue'
-          - elsif media.video? and media.cover?
-            Vidéo de profil
-          = link_to 'Supprimer', pro_structure_media_path(@structure, media), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce média ?' }, class: 'push-half--left btn btn--small btn--red'
+    -#           - if media.image? and !media.cover?
+    -#             = link_to 'Définir comme photo de profil', make_it_cover_pro_structure_image_path(@structure, media), method: :put, class: 'push-half--left btn btn--small btn--blue'
+    -#           - elsif media.image? and media.cover?
+    -#             Photo de profil
+    -#           - if media.video? and !media.cover?
+    -#             = link_to 'Définir comme vidéo de profil', make_it_cover_pro_structure_video_path(@structure, media), method: :put, class: 'push-half--left btn btn--small btn--blue'
+    -#           - elsif media.video? and media.cover?
+    -#             Vidéo de profil
+    -#           = link_to 'Supprimer', pro_structure_media_path(@structure, media), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce média ?' }, class: 'push-half--left btn btn--small btn--red'
 
 = content_for :scripts do
   :javascript

@@ -2,14 +2,6 @@
     list-style : none;
     margin-left: 0;
 }
-    .comment-list__el {
-        border-bottom: 1px solid #CCC;
-        margin-bottom: 1em;
-        padding-bottom: 1em;
-    }
-    .comment-list__el:last-child {
-        border-bottom: none;
-    }
 
 .comment__header {
     background-color: white;

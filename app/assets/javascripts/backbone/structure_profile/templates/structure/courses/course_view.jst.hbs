@@ -1,11 +1,11 @@
-<div class="islet white-box">
-    <h3 class="base-font-style flush--bottom">{{ name }}</h3>
-    <span class="gray">
+<div class="islet">
+    <h3 class="epsilon flush--bottom">{{ name }}</h3>
+    <div class="gray push-half--bottom line-height-2">
         {{#if subjects }}
             <i class="fa fa-tags"></i>
             {{ subjects }}
         {{/if}}
-    </span>
+    </div>
     <ul class="tabs flush">
         <li class="active">
             <a data-toggle="tab" href="#tab-plannings-course-{{id}}">Planning</a>
@@ -93,9 +93,6 @@
                             </td>
                             <td>
                                 {{info}}
-                                {{!-- {{#if info}}
-                                    <i class="float--right push-half--left lbc-brand-icon" data-behavior="tooltip" title="{{info}}" ></i>
-                                {{/if}} --}}
                             </td>
                         </tr>
                     {{/each}}
@@ -107,10 +104,7 @@
                             </td>
                             <td>
                                 {{info}}
-    {{!--                             {{#if info}}
-                                    <i class="float--right push-half--left lbc-brand-icon" data-behavior="tooltip" title="{{info}}" ></i>
-                                {{/if}}
-     --}}                        </td>
+                            </td>
                         </tr>
                     {{/each}}
                     {{#if discounts}}
@@ -126,10 +120,7 @@
                             </td>
                             <td>
                                 {{info}}
-    {{!--                             {{#if info}}
-                                    <i class="float--right push-half--left lbc-brand-icon" data-behavior="tooltip" title="{{info}}" ></i>
-                                {{/if}}
-     --}}                        </td>
+                            </td>
                         </tr>
                     {{/each}}
                     {{#xif " (this.trials && this.trials.length > 0) || (this.registrations && this.registrations.length > 0) || typeof(this.price_details) != 'undefined' "}}
@@ -149,10 +140,7 @@
                             </td>
                             <td>
                                 {{info}}
-    {{!--                             {{#if info}}
-                                    <i class="float--right push-half--left lbc-brand-icon" data-behavior="tooltip" title="{{info}}" ></i>
-                                {{/if}}
-     --}}                        </td>
+                        </td>
                         </tr>
                     {{/each}}
                     {{#each registrations}}
@@ -167,10 +155,7 @@
                             </td>
                             <td>
                                 {{info}}
-    {{!--                             {{#if info}}
-                                    <i class="float--right push-half--left lbc-brand-icon" data-behavior="tooltip" title="{{info}}" ></i>
-                                {{/if}}
-     --}}                        </td>
+                        </td>
                         </tr>
                     {{/each}}
                     {{#if price_details}}
@@ -183,3 +168,4 @@
        </article>
     </div>
 </div>
+<hr>

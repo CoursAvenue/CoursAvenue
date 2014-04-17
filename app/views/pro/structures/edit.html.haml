@@ -3,5 +3,6 @@
     = render 'modal_info_popup'
 
 = side_menu_currently_at 'Mes infos'
-= render partial: 'pro/structures/tabs', locals:{ current: 'établissement'}
-= render 'form'
+.panel
+  = render partial: 'pro/structures/tabs', locals:{ current: 'établissement'}
+  .panel__body= render 'form'

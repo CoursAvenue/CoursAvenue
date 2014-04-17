@@ -3,31 +3,35 @@
     border-bottom: 1px solid $gray-smooth;
     margin       : 0em;
     li {
+        margin-right: 0.2em;
+        border       : 1px solid $beige-dark; // To prevent size to change on hover
+        border-bottom: none;
         a {
             padding     : 0.4em 1em;
-            margin-right: 0.2em;
             color        : $brand-color;
-            border       : 1px solid $beige-dark; // To prevent size to change on hover
-            border-bottom: none;
             @include border-top-radius(3px);
-            &:hover {
-                background-color   : $beige;
+        }
+        &:hover {
+            background-color   : $beige;
+            border             : 1px solid darken($gray-lighter, 5%);
+            border-bottom-color: $beige;
+            a {
                 cursor             : pointer;
-                border             : 1px solid darken($gray-lighter, 5%);
                 text-decoration    : none;
-                border-bottom-color: $beige;
             }
         }
-        &.active a {
-            color               : black;
-            border              : 1px solid $gray-smooth;
-            position            : relative;
-            top                 : 1px;
-            border-bottom-color : $site-background-color;
+        &.active {
+            a {
+                color               : black;
+                border              : 1px solid $gray-smooth;
+                position            : relative;
+                top                 : 1px;
+                border-bottom-color : $pane-border-color;
+            }
             &:hover {
-                background-color: $site-background-color;
+                background-color: $pane-border-color;
                 cursor       : default;
-                &[href] {
+                [href] {
                     cursor: pointer;
                 }
             }

@@ -44,45 +44,28 @@
     = render partial: 'structures/comments_headband', locals: {structure: @structure}
 
     #structure-profile{ data: { type: 'structure-profile-root' } }
-      .tabs__bar
-        %ul.tabs
-          %li.active
-            %a{ href: "#tab-description", data: { toggle: "tab" } }
-              Description
-          %li
-            %a{ href: "#tab-courses", data: { toggle: "tab", view: 'courses'} }
-              %i.fa.fa-calendar
-              Cours
-          %li
-            %a{ href: "#tab-comments", data: { toggle: "tab", view: 'comments'} }
-              %i.fa.fa-comments
-              Avis
-          %li
-            %a{ href: "#tab-teachers", data: { toggle: "tab", view: 'teachers'} }
-              %i.fa.fa-group
-              Professeurs
-      .tabs--container#structure-tabs
+      #structure-region
   .grid__item.four-twelfths>
     = render partial: 'structures/contact_form', locals: {structure: @structure}
     .white-box.islet.epsilon
       - if @structure.response_rate
         .grid.soft-half--bottom
-          .grid__item.v-middle.one-half.gray.f-weight-300>
+          .grid__item.v-middle.one-half.gray>
             Taux de réponse
           .grid__item.v-middle.one-half>
-            = "#{@structure.response_rate}%"
+            %strong= "#{@structure.response_rate}%"
       - if @structure.response_time
         .grid.soft-half--bottom
-          .grid__item.v-middle.one-half.gray.f-weight-300>
+          .grid__item.v-middle.one-half.gray>
             Temps de réponse
           .grid__item.v-middle.one-half>
-            = response_time_in_words @structure
+            %strong= response_time_in_words @structure
       - if @structure.main_contact
         .grid
-          .grid__item.v-middle.one-half.gray.f-weight-300>
+          .grid__item.v-middle.one-half.gray>
             Dernière activité
           .grid__item.v-middle.one-half>
-            = l(@structure.main_contact.last_sign_in_at, format: :date).capitalize
+            %strong= l(@structure.main_contact.last_sign_in_at, format: :date).capitalize
 
 = content_for :scripts do
   :javascript
