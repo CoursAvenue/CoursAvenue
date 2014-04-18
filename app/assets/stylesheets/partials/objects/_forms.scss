@@ -13,12 +13,12 @@
         float: left;
     }
     input {
-        margin-top: 0.5em;
+        margin-top: 11px;
     }
     label.boolean {
         margin-left: 1em;
         text-align : left;
-        width      : 93%;
+        width      : 90%;
     }
 }
 //.simple_form {
@@ -65,7 +65,7 @@
                 width: auto;
             }
             > .input, input {
-                width        : 10em;
+                width        : 100px;
                 margin-bottom: 0;
             }
         }
@@ -105,9 +105,6 @@
             input {
                 width       : auto;
             }
-        }
-        &.boolean input {
-            width: auto
         }
     }
     .inline-inputs {

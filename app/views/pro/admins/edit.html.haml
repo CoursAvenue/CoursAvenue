@@ -1,16 +1,18 @@
 = side_menu_currently_at 'Mes infos'
 .panel
   = render partial: 'pro/structures/tabs', locals:{ current: 'compte'}
-  .panel__body.soft
+  .panel__body
     - if current_pro_admin.super_admin? and !@admin.confirmed?
-      .blue-box.soft.text--center
-        %h4.push-half--bottom Cet admin n'est pas actif
-        = link_to 'Activer', confirm_pro_admin_path(@admin), class: 'btn btn--large', method: :patch
+      .soft
+        .blue-box.soft.text--center
+          %h4.push-half--bottom Cet admin n'est pas actif
+          = link_to 'Activer', confirm_pro_admin_path(@admin), class: 'btn btn--large', method: :patch
 
     = render partial: 'form'
 
     - if current_pro_admin.super_admin?
-      %p.push-half--top
-        = link_to "Supprimer #{resource.name}", pro_admin_path(resource), method: 'delete'
-      %p
-        = link_to "Supprimer #{resource.name} ET sa structure", pro_admin_path(resource, delete_structure: true), method: 'delete'
+      .soft
+        %p.push-half--top
+          = link_to "Supprimer #{resource.name}", pro_admin_path(resource), method: 'delete'
+        %p
+          = link_to "Supprimer #{resource.name} ET sa structure", pro_admin_path(resource, delete_structure: true), method: 'delete'

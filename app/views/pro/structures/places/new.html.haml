@@ -2,10 +2,11 @@
 
 .panel
   = render partial: 'pro/structures/tabs', locals:{ current: 'lieux'}
-  .panel__body.soft
-    .breadcrumb.bordered--bottom.soft-half--bottom.push--bottom.delta
+  .panel__body
+    .breadcrumb.bordered--bottom.soft-half.delta
       = link_to pro_structure_places_path(@structure) do
         %i.fa.fa-long-arrow-left
         Tous mes lieux
-    %h3.header-group Nouveau lieu pour mes cours
+    .soft
+      %h3.header-group Nouveau lieu pour mes cours
     = render 'form'

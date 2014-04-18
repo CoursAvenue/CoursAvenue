@@ -1,26 +1,25 @@
 = simple_form_for [:pro, @admin], html: { autocomplete: 'off' } do |f|
   = f.error_notification
-  .form-inputs
-    %h5.form-header-group
+  .soft.hard--bottom{ data: { behavior: 'wizard-helper', content: "<p><strong>Informations personnelles</strong><br>Ces coordonnées peuvent être utilisées par le service client pour vous contacter en cas de problème.</p><p><strong>Email</strong>Il vous permet de vous connecter à votre profil et de recevoir toutes les notifications CoursAvenue (nouvelle recommandation d'élève déposée, demande de renseignements sur vos cours, etc.).</p>" } }
+    %h5
       %i.fa.fa-user
       Informations personnelles
 
-    %p.field-form-info.blue.flush--bottom Ces coordonnées peuvent être utilisées par le service client pour vous contacter en cas de problème.
-    = f.input :civility, as: :radio_buttons, collection: Admin::CIVILITY.map{|civility| [ t(civility), civility]}
-    = f.input :name
-    = f.input :phone_number, wrapper_html: {class: 'flush--top'}, placeholder: 'Ex. : 01 02 11 33 12'
-    = f.input :mobile_phone_number, wrapper_html: {class: 'flush--bottom'}, placeholder: 'Ex. : 06 07 11 33 12'
-    = f.input :email, disabled: true, wrapper_html: {class: 'flush--bottom'}
-    %p.field-form-info.blue.flush--bottom Cet email vous permet de vous connecter à votre profil et de recevoir toutes les notifications CoursAvenue (nouvelle recommandation d'élève déposée, demande de renseignements sur vos cours, etc.).
+    = f.input :civility, as: :radio_buttons, collection: Admin::CIVILITY.map{|civility| [ t(civility), civility]}, wrapper_html: { class: 'flush--bottom' }, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+    = f.input :name, wrapper_html: { class: 'flush--bottom' }, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+    = f.input :phone_number, wrapper_html: { class: 'flush--bottom' }, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }, placeholder: 'Ex. : 01 02 11 33 12'
+    = f.input :mobile_phone_number, wrapper_html: { class: 'flush--bottom' }, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }, placeholder: 'Ex. : 06 07 11 33 12'
+    = f.input :email, disabled: true, wrapper_html: { class: 'flush--bottom' }, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
 
-    %hr.push--ends
-    %h5.form-header-group
+  %hr.push--ends
+  .soft--sides
+    %h5
       %i.fa.fa-lock
       Changement de mot de passe
 
-    = f.input :password, wrapper_html: {class: 'flush--bottom'}, label: 'Nouveau mot de passe'
-    = f.input :password_confirmation
+    = f.input :password, wrapper_html: {class: 'flush--bottom'}, label: 'Nouveau mot de passe', input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+    = f.input :password_confirmation, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
 
-  .push--top
-    = f.submit 'Enregistrer',  class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
+    .push--top
+      = f.submit 'Enregistrer',  class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
 
