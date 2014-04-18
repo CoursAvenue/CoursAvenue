@@ -10,23 +10,22 @@
     - if @structure.valid?
       %div
         %div{data: {behavior: 'image-input' }}
-          #logo-progress.progress.hidden{data: {progress: true }}
-            .bar
-          .text--center
-            - if @structure.logo?
-              .push-half--bottom.text--center.center-block.bordered{style: "height: 200px; width: 200px; display: inline-block; line-height: 196px;"}<
-                = image_tag @structure.logo.url(:thumb), class: 'v-middle inline-block', style: 'max-height: 100%;'
-              .visuallyhidden= structure_form.input :delete_logo, as: :boolean, label: false
-            - else
-              .text--center.center-block.bordered{style: "height: 200px; width: 200px; display: inline-block; line-height: 196px; display: none;"}
-                %img#logo-placeholder.v-middle.inline-block{style: 'max-height: 100%;'}
-
           .input
             %label.control-label.label--large> Logo de votre structure
-            .input--large
+            .input--large.input-container
+              #logo-progress.progress.hidden.push-half--bottom{data: {progress: true }}
+                .bar
               - if @structure.logo?
-                .input-container>
-                  = link_to crop_logo_pro_structure_path(@structure), class: 'btn btn--small btn--blue push-half--right push-half--bottom' do
+                .push-half--bottom.bordered{style: "height: 200px; width: 200px; display: inline-block; line-height: 196px;"}<
+                  = image_tag @structure.logo.url(:thumb), class: 'v-middle inline-block', style: 'max-height: 100%;'
+                .visuallyhidden= structure_form.input :delete_logo, as: :boolean, label: false
+              - else
+                .push-half--bottom.bordered{style: "height: 200px; width: 200px; display: inline-block; line-height: 196px; display: none;"}
+                  %img#logo-placeholder.v-middle.inline-block{style: 'max-height: 100%;'}
+
+              - if @structure.logo?
+                .inline-block.v-top>
+                  = link_to crop_logo_pro_structure_path(@structure), class: 'fancybox.ajax btn btn--small btn--blue push-half--right push-half--bottom', data: { behavior: 'modal', width: 800 } do
                     %i.fa.fa-expand.soft--sides-half--right
                     Recadrer mon logo
                   %br

@@ -205,8 +205,13 @@ class Pro::StructuresController < Pro::ProController
 
   def crop_logo
     @structure = Structure.find(params[:id])
+
     if !@structure.logo.present?
       redirect_to edit_pro_structure_path(@structure), alert: "Vous n'avez pas de logo"
+    end
+    @is_xhr = request.xhr?
+    if request.xhr?
+      render layout: false
     end
   end
 
