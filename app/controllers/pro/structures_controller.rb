@@ -149,7 +149,7 @@ class Pro::StructuresController < Pro::ProController
   # GET member
   def show
     @structure = Structure.friendly.find params[:id]
-    @courses   = @structure.courses.order('name ASC')
+    render action: :edit
   end
 
   def add_subjects

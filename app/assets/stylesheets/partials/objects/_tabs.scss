@@ -1,3 +1,43 @@
+.tabs, .tabs--stacked {
+    li.active {
+        background-color   : white;
+        &:hover {
+            background-color: white;
+            a {
+                cursor: default;
+            }
+        }
+    }
+    li:hover {
+        a {
+            cursor             : pointer;
+            text-decoration    : none;
+        }
+    }
+}
+
+.tabs--stacked {
+    text-align      : right;
+    list-style      : none;
+    margin-left     : 0;
+    border-right    : 1px solid $pane-border-color;
+    background-color: $pane-background-color;
+    li {
+        border-bottom: 1px solid $pane-border-color;
+        margin-right : -1px;
+        &.active {
+            border-right-color: 1px;
+        }
+        a {
+            display: block;;
+            padding: 10px;
+            color  : #393C3D;
+        }
+        &:hover {
+            background-color: #F2F2F2;
+        }
+    }
+}
 .tabs {
     @extend .nav;
     border-bottom: 1px solid $gray-smooth;
@@ -15,15 +55,11 @@
             background-color   : $beige;
             border             : 1px solid darken($gray-lighter, 5%);
             border-bottom-color: $beige;
-            a {
-                cursor             : pointer;
-                text-decoration    : none;
-            }
         }
         &.active {
             a {
-                color               : black;
-                border              : 1px solid $gray-smooth;
+                // color               : black;
+                // border              : 1px solid $gray-smooth;
                 position            : relative;
                 top                 : 1px;
                 border-bottom-color : $pane-border-color;
@@ -34,6 +70,30 @@
                 [href] {
                     cursor: pointer;
                 }
+            }
+        }
+    }
+    &.panel__header {
+        border-bottom: none;
+        li:first-child {
+            margin-left: 1em;
+        }
+        li {
+            margin-bottom: -1px;
+            border          : 1px solid $pane-border-color;
+            background-color: $pane-background-color;
+            a {
+                color           : #393C3D;
+                font-weight     : bold;
+                border          : none;
+                padding         : 0.6em 1.3em;
+            }
+            &:hover {
+                background-color: #F2F2F2;
+            }
+            &.active {
+                border-bottom-color: white;
+                background-color   : white;
             }
         }
     }

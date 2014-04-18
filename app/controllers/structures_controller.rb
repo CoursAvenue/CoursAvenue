@@ -30,7 +30,7 @@ class StructuresController < ApplicationController
     @medias    = @structure.medias.videos_first
 
     @model = StructureShowSerializer.new(@structure, {
-      unlimited_comments: true,
+      unlimited_comments: false,
       query:              get_filters_params,
       query_string:       request.env['QUERY_STRING'],
       planning_groups:    @planning_groups,
