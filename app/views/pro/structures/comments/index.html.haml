@@ -16,23 +16,22 @@
       %p.blue.push-half--bottom
         %i Validez les avis si ce sont bien vos élèves. Une fois validé, l'avis sera visible sur votre profil public.
       - @pending_comments.each do |comment|
-        .white-box.islet
-          .grid
-            .grid__item.three-quarters.v-middle>
-              %p.flush
-                %b= comment.author_name
-                = "(#{comment.email})"
-            .grid__item.one-quarter.v-middle.text--right>
-              = link_to accept_pro_structure_comment_path(@structure, comment), class: 'btn btn--green', method: :patch do
-                %i.fa.fa-check
-                Valider
-              = link_to decline_pro_structure_comment_path(@structure, comment), class: 'btn btn--red', method: :patch do
-                %i.fa.fa-times
-                Rejeter
+        .grid
+          .grid__item.three-quarters.v-middle>
+            %p.flush
+              %b= comment.author_name
+              = "(#{comment.email})"
+          .grid__item.one-quarter.v-middle.text--right>
+            = link_to accept_pro_structure_comment_path(@structure, comment), class: 'btn btn--green', method: :patch do
+              %i.fa.fa-check
+              Valider
+            = link_to decline_pro_structure_comment_path(@structure, comment), class: 'btn btn--red', method: :patch do
+              %i.fa.fa-times
+              Rejeter
       %hr
 
     - if @comments.empty?
-      %p.white-box.islet Encore aucun avis.
+      %p.flush Encore aucun avis.
     - else
       %h3.push-half--bottom Avis validés
       .text--center.push-half--ends= paginate @comments, window: 1, outer_window: 3

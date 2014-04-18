@@ -101,6 +101,7 @@
 // require plugins/show_more_on_demand
 // require plugins/jquery-sticky.js
 // require plugins/parent_descendant_subjects
+// require plugins/wizard_helper
 
 //= require gmaps/google
 

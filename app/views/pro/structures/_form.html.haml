@@ -3,8 +3,8 @@
 
   - if params[:return_to].present?
     %input{type: 'hidden', value: params[:return_to], name: 'return_to'}
-  .form-inputs.soft
-    %h5.form-header-group
+  .soft--sides{ data: { behavior: 'wizard-helper', content: '<p><strong>Un beau logo</strong><br>Ce logo apparaîtra dans les résultats de recherche</p><p>Formats autorisés : <strong>JPEG / JPG / GIF / PNG / BMP</strong><br> Taille maximum : <strong>5mo</strong></p>' } }
+    %h5
       %i.fa.fa-picture-o
       Logo
     - if @structure.valid?
@@ -22,111 +22,89 @@
                 %img#logo-placeholder.v-middle.inline-block{style: 'max-height: 100%;'}
 
           .input
-            .control-label> Logo de votre structure
-            - if @structure.logo?
-              .input-container>
-                = link_to crop_logo_pro_structure_path(@structure), class: 'btn btn--small btn--blue push-half--right push-half--bottom' do
-                  %i.fa.fa-expand.soft-half--right
-                  Recadrer mon logo
-                %br
-                = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small push-half--bottom', data: { trigger: true } do
+            %label.control-label.label--large> Logo de votre structure
+            .input--large
+              - if @structure.logo?
+                .input-container>
+                  = link_to crop_logo_pro_structure_path(@structure), class: 'btn btn--small btn--blue push-half--right push-half--bottom' do
+                    %i.fa.fa-expand.soft--sides-half--right
+                    Recadrer mon logo
+                  %br
+                  = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small push-half--bottom', data: { trigger: true } do
+                    %i.fa.fa-picture-o
+                    Changer mon logo
+                  %br
+                  %a.btn.btn--small.btn--red#delete-logo{href: 'javascript:void(0)'}
+                    %i.fa.fa-trash-o.soft--sides-half--right
+                    Supprimer
+              - else
+                = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', data: {trigger: true} do
                   %i.fa.fa-picture-o
-                  Changer mon logo
-                %br
-                %a.btn.btn--small.btn--red#delete-logo{href: 'javascript:void(0)'}
-                  %i.fa.fa-trash-o.soft-half--right
-                  Supprimer
-            - else
-              = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', data: {trigger: true} do
-                %i.fa.fa-picture-o
-                Choisir mon logo
-            .visuallyhidden= structure_form.input :logo, label: false, input_html: {id: 'logo-input'}
-
-          %p.field-form-info.blue.flush
-            Ce logo apparaîtra dans les résultats de recherche.
-            %br
-            = t('structures.accepted_image_formats')
+                  Choisir mon logo
+              .visuallyhidden= structure_form.input :logo, label: false, input_html: {id: 'logo-input'}
     - else
       %p.alert--error Vous devez régler les problèmes pour mettre un logo.
 
-    %hr.push--ends
-    %h5.form-header-group#informations
+  %hr.push--ends
+  .soft--sides{ data: { behavior: 'wizard-helper', content: '<p><strong>Étiquettes de disciplines</strong><br>Ces étiquettes de disciplines nous permettent de mieux vous catégoriser dans notre moteur de recherche. Néanmoins, une fois votre planning renseigné dans la rubrique "Mes cours", les intitulés de vos cours seront pris en compte en priorité, car ils seront plus précis.</p>' } }
+    %h5#informations
       %i.fa.fa-tags
       Étiquettes de disciplines
     %div
       %div{data: {behavior: 'parent-descendant-subjects', 'parent-select' => '#parent-subjects', 'descendant-select' => '#subject-descendants-select', 'descendant-select-wrapper' => '#descendants-subjects'}}
-        = structure_form.association :subjects, as: :select, collection: Subject.roots.order('name ASC'), input_html: {style: 'width: 74%;', id: 'parent-subjects', data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true}, label: 'Disciplines générales pratiquées ', label_method: lambda{|subj| subj.name }, wrapper_html: {class: 'flush--bottom'}
+        = structure_form.association :subjects, as: :select, collection: Subject.roots.order('name ASC'), input_html: {style: 'width: 74%;', id: 'parent-subjects', data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true}, label: 'Disciplines générales pratiquées ', label_method: lambda{|subj| subj.name }, wrapper_html: {class: 'flush--bottom'}, label_html: { class: 'label--large' }
 
         #descendants-subjects
           .input{title: 'Sélectionnez plusieurs disciplines en maintenant la touche CTRL ou CMD enfoncée.', data: {behavior: 'tooltip'}}>
-            %label.control-label> Sous disciplines
+            %label.control-label.label--large> Sous disciplines
             %select#subject-descendants-select{name: 'structure[subject_descendants_ids][]', style: 'width: 74%;', multiple: true, data: {behavior: 'chosen', placeholder: 'Tapez ou sélectionnez une ou plusieurs disciplines', selected: @structure.subjects.children.map(&:id).join(',')}}>
       - if @structure.errors[:children_subjects].present?
         %p.error= @structure.errors[:children_subjects].to_sentence
-      %p.flush.field-form-info.blue Ces étiquettes de disciplines nous permettent de mieux vous catégoriser dans notre moteur de recherche. Néanmoins, une fois votre planning renseigné dans la rubrique "Mes cours", les intitulés de vos cours seront pris en compte en priorité, car ils seront plus précis.
 
-    %hr.push--ends
-    %h5.form-header-group#informations
+  %hr.push--ends
+  .soft--sides{ data: { behavior: 'wizard-helper', content: "<p><strong>Nom de votre structure</strong><br>#{t('.structure_name_info')}</p>" } }
+    %h5#informations
       %i.lbc-icon-info i
       Informations
     %div
-      = structure_form.input :name, label: t('.structure_name'), wrapper_html: {class: 'flush--bottom'}
-      %p.field-form-info.blue= t('.structure_name_info')
-      = structure_form.input :website, placeholder: 'Ex : http://www.je-danse-a-paris.com'
-      = structure_form.input :facebook_url, as: :string, wrapper_html: {class: 'flush--bottom'}, placeholder: 'Ex. : https://www.facebook.com/CoursAvenue'
+      = structure_form.input :name, label: t('.structure_name'), wrapper_html: {class: 'flush--bottom'}, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+      = structure_form.input :website, placeholder: 'Ex : http://www.je-danse-a-paris.com', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+      = structure_form.input :facebook_url, as: :string, wrapper_html: {class: 'flush--bottom'}, placeholder: 'Ex. : https://www.facebook.com/CoursAvenue', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
 
 
-      = structure_form.input :structure_type, collection: Structure::STRUCTURE_TYPES.map{|structure_type| [ t(structure_type), structure_type]}, input_html: {style: 'max-width: 29em;'}
+      = structure_form.input :structure_type, collection: Structure::STRUCTURE_TYPES.map{|structure_type| [ t(structure_type), structure_type]}, input_html: { style: 'max-width: 29em;' }, label_html: { class: 'label--large' }
 
-      = structure_form.input :funding_type_ids, as: :select, collection: FundingType.all.map{|funding_type| [ t(funding_type.name), funding_type.id]}, input_html: {style: 'width: 74%;', multiple: true, data: {behavior: 'chosen', placeholder: 'Sélectionnez un ou plusieurs choix'}}, selected: @structure.funding_types.map(&:id)
+      = structure_form.input :funding_type_ids, as: :select, collection: FundingType.all.map{|funding_type| [ t(funding_type.name), funding_type.id]}, input_html: { style: 'width: 74%;', multiple: true, data: {behavior: 'chosen', placeholder: 'Sélectionnez un ou plusieurs choix'}}, selected: @structure.funding_types.map(&:id), label_html: { class: 'label--large' }
 
-      = structure_form.input :teaches_at_home, as: :select, include_blank: false
+      = structure_form.input :teaches_at_home, as: :select, include_blank: false, label_html: { class: 'label--large' }
       #teaches-at-home-radius{class: @structure.teaches_at_home ? '' : 'hidden'}
-        = structure_form.input :teaches_at_home_radius, input_html: { style: 'width: 5em;' }, wrapper_html: {class: 'flush'}
+        = structure_form.input :teaches_at_home_radius, input_html: { class: 'input--large', style: 'width: 5em;' }, wrapper_html: {class: 'flush'}
 
-    %hr.push--ends
-    %h5.form-header-group Coordonnées de réservation
+  %hr.push--ends
+  .soft--sides{ data: { behavior: 'wizard-helper', content: "<p><strong>Coordonnées de réservation</strong><br>Si vous avez plusieurs lieux : renseignez vos coordonnées principales, vous pourrez ensuite choisir des coordonnées de réservation spécifiques à chaque lieu dans l'onglet « Lieux »</p>" } }
+    %h5 Coordonnées de réservation
     %div
-      %p.field-form-info.blue.flush Si vous avez plusieurs lieux : renseignez vos coordonnées principales, vous pourrez ensuite choisir des coordonnées de réservation spécifiques à chaque lieu dans l'onglet « Lieux »
-      = structure_form.input :contact_phone, placeholder: 'Ex. : 01 04 12 49 12'
-      = structure_form.input :contact_mobile_phone, placeholder: 'Ex. : 06 34 41 99 31'
-      = structure_form.input :contact_email, input_html: {value: (@structure.contact_email || @structure.main_contact.try(:email))}
+      = structure_form.input :contact_phone, placeholder: 'Ex. : 01 04 12 49 12', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+      = structure_form.input :contact_mobile_phone, placeholder: 'Ex. : 06 34 41 99 31', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+      = structure_form.input :contact_email, input_html: { class: 'input--large', value: (@structure.contact_email || @structure.main_contact.try(:email))}, label_html: { class: 'label--large' }
 
+  %hr.push--ends
+
+  .soft--sides{ data: { behavior: 'wizard-helper', content: "<p><strong>Une bonne description</strong><br>Les infos sur les prix et les plannings sont à renseigner dans la section « Mes cours »</p><p>Qu'est-ce qui vous différencie ?<br>Pourquoi nos Internautes devraient-il réserver chez vous ? Soyez sincère et original !</p><p>Quelle est votre équipe, combien êtes-vous ?<br>Qui se cache derrière tout ça ?<br>Quel est le profil de vos professeurs ?</p><p>Depuis quand votre structure existe-t-elle ?<br>Quelle est sa notoriété ?<br>A-t-elle formé des célébrités ?</p>" } }
+    %h5.push--top Description
+    .input
+      = structure_form.label :description, class: 'label--large'
+      .input-container>
+        = structure_form.input :description, label: false, wrapper_html: { class: 'flush one-whole' }, input_html: { id: 'description-textarea', class: 'one-whole textarea-description--tall', placeholder: 'Mettez en avant votre différence !', data: { behavior: 'text-counter', 'average-words-nb' => 30, 'good-words-nb' => 100, 'bad-text' => 'Votre description doit comporter au moins 30 mots. Nos Partenaires qui ont le plus de succès ont plus de 100 mots.', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}}
+  - if @structure.comments_count >= 5
     %hr.push--ends
-    %h5.form-header-group.push--top Description
-    %div.relative
-      = image_tag 'texts/structure-description.png', height: 85, style: 'position: absolute; left: 230px; bottom: -25px; z-index: 10'
-    %div.push--top
-      .grid--full.input
-        .textarea-with-info.grid__item.width-auto
-          .grid--full
-            .three-fifths.grid__item.soft-half--right>
-              = structure_form.input :description, label: false, wrapper_html: {class: 'flush one-whole'}, input_html: {id: 'description-textarea', class: 'one-whole textarea-description--tall', placeholder: 'Mettez en avant votre différence !', data: { behavior: 'text-counter', 'average-words-nb' => 30, 'good-words-nb' => 100, 'bad-text' => 'Votre description doit comporter au moins 30 mots. Nos Partenaires qui ont le plus de succès ont plus de 100 mots.', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}}
-            .two-fifths.grid__item
-              %p.alert--info.flush--top
-                Qu'est-ce qui vous différencie ?
-                %br
-                Pourquoi nos Internautes devraient-il réserver chez vous ? Soyez sincère et original !
-              %p.alert--info
-                Quelle est votre équipe, combien êtes-vous ?
-                %br
-                Qui se cache derrière tout ça ?
-                %br
-                Quel est le profil de vos professeurs ?
-              %p.alert--info
-                Depuis quand votre structure existe-t-elle ?
-                %br
-                Quelle est sa notoriété ?
-                %br
-                A-t-elle formé des célébrités ?
-    - if @structure.comments_count >= 5
-      %hr.push--ends
-      %h5.form-header-group Autre
+    .soft--sides
+      %h5 Autre
       %div
         = structure_form.input :widget_status, as: :select, collection: Structure::WIDGET_STATUS, label_method: lambda{|status| t("structures.widget_status.#{status}")}
         = structure_form.input :widget_url, as: :string, placeholder: 'Ex. : http://www.mon-site.com/livre-d-or'
 
-  = structure_form.button :submit, "Enregistrer", class: 'btn btn--green btn--full push--bottom', disable_with: "En cours d'enregistrement"
+  .soft--sides= structure_form.button :submit, "Enregistrer", class: 'btn btn--green btn--full push--bottom', disable_with: "En cours d'enregistrement"
 
 = content_for :scripts do
   :javascript
@@ -182,3 +160,4 @@
             });
         }
     });
+

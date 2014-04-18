@@ -2,7 +2,7 @@
   = render 'shared/headers/pro'
 
 = content_for :content do
-  .main-container.push-half--top
+  .push-half--top
     - if @structure
       .white-box.islet
         .flexbox
@@ -56,12 +56,13 @@
                 %i.lbc-brand-icon
             %div
               = link_to 'Partager', "https://www.facebook.com/sharer/sharer.php?u=#{new_structure_comment_url(@structure, facebook: '', subdomain: 'www')}", class: 'btn btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From dashboard page')"
-    .flexbox
+    .grid
       - if content_for? :side_menu
-        %nav.flexbox__item.v-top.side-menu.white-box
+        %nav.grid__item.v-top.side-menu.white-box
           = yield :side_menu
-      .flexbox__item.v-top.soft-half--left
+      .grid__item.v-top.soft-half--left.small-container
         = yield :breadcrumb
         = content_for?(:admins_content) ? yield(:admins_content) : yield
+      .grid__item.relative.wizard-container
 
 = render :template => 'layouts/application'

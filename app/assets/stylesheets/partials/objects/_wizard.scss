@@ -1,0 +1,14 @@
+.wizard-container {
+    width: 1px;
+}
+    .wizard-helper {
+        display  : none;
+        position : absolute;
+        min-width: 200px;
+        width    : 275px;
+        left     : 0;
+        font-size: 15px;
+    }
+        .wizard__icon {
+            font-size: 30px
+        }
