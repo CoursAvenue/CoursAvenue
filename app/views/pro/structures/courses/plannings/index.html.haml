@@ -2,12 +2,13 @@
 
 .panel
   = render partial: 'pro/structures/courses/tabs', locals: { current: 'plannings' }
-  .panel__body.soft
-    .breadcrumb.bordered--bottom.soft-half--bottom.push--bottom.delta
+  .panel__body.soft--ends
+    .breadcrumb.bordered--bottom.soft-half--bottom.soft--sides.delta
       = link_to pro_structure_courses_path(@structure) do
         %i.fa.fa-long-arrow-left
         Tous mes cours
 
+  .soft--sides
     .text--center.push-half--bottom
       = link_to 'Ajouter un créneau', new_pro_structure_course_planning_path(@structure, @course), title: 'Ajouter un créneau', data: {behavior: 'modal', width: 780}, class: 'fancybox.ajax btn btn--green btn--large'
       %br

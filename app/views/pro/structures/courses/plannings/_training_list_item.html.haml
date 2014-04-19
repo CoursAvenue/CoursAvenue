@@ -1,5 +1,5 @@
-%tr{data: {id: planning.id}}
-  %td{data: {value: planning.start_date}}
+%tr{ data: { id: planning.id } }
+  %td.nowrap{data: {value: planning.start_date}}
     = training_dates planning
   %td.text--center{data: {value: planning.start_time}}
     = readable_time_slot planning.start_time, planning.end_time
