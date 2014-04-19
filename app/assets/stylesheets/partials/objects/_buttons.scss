@@ -6,8 +6,9 @@
 }
 
 .btn.btn--large {
-  font-size: 20px;
-  padding  : 0.6em 2.5em;
+  font-size  : 20px;
+  padding    : 0.6em 2.5em;
+  line-height: 1;
 }
 
 .btn.btn--bigger{
@@ -31,7 +32,8 @@
 }
 .btn {
     white-space     : normal;
-    line-height     : 1;
+    // line-height     : 1;
+    line-height     : 1.4;
     font-weight     : bold;
     padding         : 0.8em;
     font-size       : 12px;

@@ -1,8 +1,8 @@
-- show_structure_logo = false     if show_structure_logo.nil?
-- with_link           = false     if with_link.nil?
-- show_title          = true      if show_title.nil?
-- small_avatar        = false     if small_avatar.nil?
-- class_name          = ''        if class_name.nil?
+- show_structure_logo = false if show_structure_logo.nil?
+- with_link           = false if with_link.nil?
+- show_title          = true  if show_title.nil?
+- small_avatar        = false if small_avatar.nil?
+- class_name          = ''    if class_name.nil?
 
 %li.push--bottom.hard--left{class: class_name, id: "recommandation-#{comment.id}"}
   %article{itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review'}
@@ -16,8 +16,7 @@
         .text--center
           %strong= comment.author_name
           - if current_pro_admin and current_pro_admin.super_admin?
-            %br
-            (#{comment.email})
+            .break-word (#{comment.email})
 
       .grid__item.ten-twelfths>
         - # User can share if:
