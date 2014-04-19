@@ -1,14 +1,9 @@
 = side_menu_currently_at 'Mes cours'
 
-.breadcrumb.bordered--bottom.soft-half--bottom.push--bottom.delta
-  = link_to pro_structure_courses_path(@structure) do
-    %i.fa.fa-long-arrow-left
-    Tous mes cours
-
 .panel
   = render partial: 'pro/structures/courses/tabs', locals: { current: 'course' }
-  .panel__body.soft
-    .breadcrumb.bordered--bottom.soft-half--bottom.push--bottom.delta
+  .panel__body.soft--ends
+    .breadcrumb.bordered--bottom.soft-half--bottom.soft--sides.delta
       = link_to pro_structure_courses_path(@structure) do
         %i.fa.fa-long-arrow-left
         Tous mes cours
