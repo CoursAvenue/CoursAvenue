@@ -22,12 +22,16 @@
     margin-left     : 0;
     border-right    : 1px solid $pane-border-color;
     background-color: $pane-background-color;
+    li:last-child {
+        margin-bottom: 1em;
+    }
+    li:first-child {
+        margin-top: 1em;
+        border-top: 1px solid $pane-border-color;
+    }
     li {
         border-bottom: 1px solid $pane-border-color;
         margin-right : -1px;
-        &.active {
-            border-right-color: 1px;
-        }
         a {
             display: block;;
             padding: 10px;
@@ -74,6 +78,9 @@
         }
     }
     &.panel__header {
+        &.tabs--thin li a {
+            padding: 0.5em;
+        }
         border-bottom: none;
         li:first-child {
             margin-left: 1em;
@@ -94,6 +101,17 @@
             &.active {
                 border-bottom-color: white;
                 background-color   : white;
+                a { position: static; }
+            }
+        }
+        &.tabs--blue {
+            li {
+                border-bottom: 1px solid $blue;
+                &.active {
+                    background: $blue;
+                    a { color: white; }
+                    &:hover a { background: lighten($blue, 5%); }
+                }
             }
         }
     }
@@ -103,26 +121,6 @@
     border-bottom: none;
     .active a {
         background: white;
-    }
-}
-.tabs--blue {
-    li {
-        a {
-            position: relative;
-            &:hover {
-                border-bottom: none;
-            }
-        }
-        &.active a {
-            background: $blue;
-            color     : white;
-            top       : 2px;
-            border    : none;
-            &:hover {
-                border    : none;
-                background: lighten($blue, 5%);
-            }
-        }
     }
 }
 .tabs.tabs--large li {

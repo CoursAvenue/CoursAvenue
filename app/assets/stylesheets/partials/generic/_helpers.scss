@@ -65,7 +65,8 @@
 .bordered--bottom { border-bottom : 1px solid $gray-smooth; }
 .bordered--top    { border-top    : 1px solid $gray-smooth; }
 .bordered         { border        : 1px solid $gray-smooth; }
-.border-none--sides { border-left: none !important; border-right: none !important; }
+.border-none--sides  { border-left: none !important; border-right: none !important; }
+.border-none--bottom { border-bottom: none !important; }
 .bordered--thick  { border-width  : 4px; }
 .bordered--orange { border-color  : $orange; }
 .center-block     { margin-left: auto; margin-right: auto; display: block; }

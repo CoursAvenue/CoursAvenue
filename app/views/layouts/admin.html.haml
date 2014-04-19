@@ -2,67 +2,23 @@
   = render 'shared/headers/pro'
 
 = content_for :content do
-  .push-half--top
-    - if @structure
-      .white-box.islet
-        .flexbox
-          .flexbox__item.v-top.one-twelfths>
-            - if @structure.logo?
-              .soft-half--right
-                = link_to edit_pro_structure_path(@structure) do
-                  = image_tag @structure.logo.url(:thumb), width: 100
-            - else
-              .text--center.soft-half--right
-                = link_to edit_pro_structure_path(@structure), style: 'width: 110px; height: 110px; background-color: #555; padding-top: 30px; color: white; display: block;' do
-                  Ajouter
-                  %br
-                  mon logo
-          .flexbox__item.v-top.nine-twelfths>
-            %h4.push-half--bottom
-              %span.v-middle= @structure.name
-              %span.v-middle.soft-half--left
-                = link_to structure_url(@structure, subdomain: 'www'), class: 'btn btn--small v-middle', target: '_blank' do
-                  %i.fa.fa-external-link.v-middle
-                  %span.v-middle Voir mon profil public
-            %div.push-half--top.relative
-              %div{style: 'position: absolute; top: -5px; left: 145px;'}= image_tag 'texts/tete-de-liste.png', height: 50
-              - if @structure.comments_count == 0
-                = link_to "Obtenir des avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue'
-              - elsif @structure.comments_count > 0
-                = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue'
-            %div.push-half--top
-              = link_to new_pro_structure_invited_teacher_path(@structure), class: 'btn btn--small', onclick: "ga('send', 'event', 'Pro / Share with teachers', 'click', 'From dashboard page')" do
-                %i.fa.fa-bullhorn
-                &nbsp;Parrainer
-          - if @structure.parisian? and Date.today < Date.parse('2014/04/07')
-            .flexbox__item.v-top.five-twelfths>
-              .text--center.v-middle.orange-box.white.rounded>
-                - if @structure.courses.open_courses.any?
-                  = link_to communicate_pro_structure_course_opens_path(@structure), class: 'soft-half--top semi-muted-link block white', onclick: "ga('send', 'event', 'JPO', 'click')" do
-                    = image_tag 'jpo_2014/logo_1_line.png', height: 60, width: 199, class: 'block center-block'
-                    .delta Profitez de l'événement pour faire parler de vous :
-                    %p Activez vos 6 actions de communication
-                - else
-                  = link_to pro_structure_course_opens_path(@structure), class: 'soft-half--top semi-muted-link block white', onclick: "ga('send', 'event', 'JPO', 'click')" do
-                    = image_tag 'jpo_2014/logo_1_line.png', height: 60, width: 199, class: 'block center-block'
-                    .delta Participez aux Portes Ouvertes CoursAvenue
-                    %p Week-end du 5 et 6 avril 2014
-                .jpo-frise
-          .flexbox__item.v-top.two-twelfths.text--center>
-            .thin.alpha.brand= @structure.comments_count || 0
-            %div
-              avis
-              %a{href: '#comments'}
-                %i.lbc-brand-icon
-            %div
-              = link_to 'Partager', "https://www.facebook.com/sharer/sharer.php?u=#{new_structure_comment_url(@structure, facebook: '', subdomain: 'www')}", class: 'btn btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From dashboard page')"
-    .grid
-      - if content_for? :side_menu
-        %nav.grid__item.v-top.side-menu.white-box
-          = yield :side_menu
-      .grid__item.v-top.soft-half--left.small-container
-        = yield :breadcrumb
-        = content_for?(:admins_content) ? yield(:admins_content) : yield
-      .grid__item.relative.wizard-container
+  - if @structure
+    .darkgray-box
+      .v-middle.inline-block.soft-half--left
+        - if @structure.logo?
+          = link_to edit_pro_structure_path(@structure), class: 'block push-half--right' do
+            = image_tag @structure.logo.url(:thumb), width: 40, class: 'block'
+        - else
+          = link_to 'Ajouter mon logo', edit_pro_structure_path(@structure), style: 'width: 110px; height: 110px; background-color: #555; padding-top: 30px; color: white; display: block;'
+      %h5.inline-block.v-middle.flush.white= @structure.name
+
+  .grid
+    - if content_for? :side_menu
+      %nav.grid__item.v-top.side-menu.white-box
+        = yield :side_menu
+    .grid__item.v-top.soft-half--left.small-container
+      = yield :breadcrumb
+      = content_for?(:admins_content) ? yield(:admins_content) : yield
+    .grid__item.relative.wizard-container
 
 = render :template => 'layouts/application'
