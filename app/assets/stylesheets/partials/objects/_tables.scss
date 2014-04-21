@@ -20,16 +20,21 @@
  * Striped tables
  */
 .table--striped{
+    thead {
+        tr {
+            border-bottom: 1px solid #ccc;
+            th {
+                padding: 4px 9px;
+            }
+        }
+    }
     tbody {
-        tr:nth-of-type(odd) {
-            background-color: transparent;
-        }
-        tr:nth-of-type(odd) td {
-            background-color: $alternative-background;
-        }
-        tr.selectable:nth-of-type(odd){
-            @extend .selectable;
-        }
+        tr:nth-of-type(odd)            { background-color: transparent; }
+        tr:nth-of-type(odd) td         { background-color: $alternative-background; }
+        tr.selectable:nth-of-type(odd) { @extend .selectable; }
+
+        // tr:nth-of-type(odd)            { background-color: transparent; }
+        // tr:nth-of-type(odd) td         { background-color: transparent; }
 
         tr.active td {
             background-color: $hover-list-element;

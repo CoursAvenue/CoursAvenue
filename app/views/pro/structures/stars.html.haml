@@ -1,37 +1,38 @@
 = side_menu_currently_at 'Profs stars'
 
-%h2 Profs stars
+.white-box.soft
+  %h3 Profs stars
 
-%table.table--striped.table--data.white-box#dataTable
-  %thead
-    %tr
-      %th.four-tenths
-        %span Établissements
-      %th.four-tenths
-        %span Disciplines
-      %th
-        %span Avis
-      %th
-        %span Livre d'or
-  %tbody
-    - @structures.each do |structure|
+  %table.table--striped.table--data#dataTable
+    %thead
       %tr
-        %td
-          = link_to dashboard_pro_structure_path(structure) do
-            - if structure.logo?
-              = image_tag structure.logo.url(:thumb), height: 15
-            = structure.name
-        %td
-          = join_parent_subjects_text structure
-        %td
-          = structure.comments_count
-          %i.lbc-brand-icon
+        %th.four-tenths
+          %span Établissements
+        %th.four-tenths
+          %span Disciplines
+        %th
+          %span Avis
+        %th
+          %span Livre d'or
+    %tbody
+      - @structures.each do |structure|
+        %tr
+          %td
+            = link_to dashboard_pro_structure_path(structure) do
+              - if structure.logo?
+                = image_tag structure.logo.url(:thumb), height: 15
+              = structure.name
+          %td
+            = join_parent_subjects_text structure
+          %td
+            = structure.comments_count
+            %i.lbc-brand-icon
 
-        %td
-          - if structure.widget_url.present?
-            = link_to structure.widget_url, target: '_blank' do
-              %i.fa.fa-check
-          = structure.widget_status
+          %td
+            - if structure.widget_url.present?
+              = link_to structure.widget_url, target: '_blank' do
+                %i.fa.fa-check
+            = structure.widget_status
 
 = content_for :scripts do
   :javascript

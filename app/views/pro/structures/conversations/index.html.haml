@@ -1,29 +1,30 @@
 = side_menu_currently_at 'Mes messages'
 
-%h3 Mes conversations
-- unless cookies[:understood__conversation_message]
-  %p.alert--info#conversation-info
-    %i.fa.fa-warning
-    Envoyez des messages personnels aux élèves qui vous ont déjà recommandé, ou aux élèves dont vous avez renseigné l'email dans notre outil de demande de recommandation automatique.
-    %a#understood__conversation_message{href: 'javascript:void(0)'} J'ai compris
-.text--center.push--bottom
-  - if @structure.users.any?
-    = link_to 'Nouveau message', new_pro_structure_message_path(@structure), class: 'btn btn--green btn--large'
-  - else
-    = link_to 'Nouveau message', '#no_users', class: 'btn btn--green btn--large', data: { behavior: 'modal' }
+.soft
+  %h3 Mes conversations
+  - unless cookies[:understood__conversation_message]
+    %p.alert--info#conversation-info
+      %i.fa.fa-warning
+      Envoyez des messages personnels aux élèves qui vous ont déjà recommandé, ou aux élèves dont vous avez renseigné l'email dans notre outil de demande de recommandation automatique.
+      %a#understood__conversation_message{href: 'javascript:void(0)'} J'ai compris
+  .text--center.push--bottom
+    - if @structure.users.any?
+      = link_to 'Nouveau message', new_pro_structure_message_path(@structure), class: 'btn btn--green btn--large'
+    - else
+      = link_to 'Nouveau message', '#no_users', class: 'btn btn--green btn--large', data: { behavior: 'modal' }
 
 
-- @conversations.each do |conversation|
-  = link_to pro_structure_conversation_path(@structure, conversation), class: 'muted-link' do
-    = render partial: 'conversations/conversation', locals: {conversation: conversation}
+  - @conversations.each do |conversation|
+    = link_to pro_structure_conversation_path(@structure, conversation), class: 'muted-link' do
+      = render partial: 'conversations/conversation', locals: {conversation: conversation}
 
-- if @structure.users.empty?
-  #no_users.hidden
-    %p Cet outil de conversation vous permettra d'envoyer des messages privés à vos élèves : nos partenaires qui partagent des informations régulièrement avec leurs élèves sont ceux qui ont un plus fort taux de fidélité et le meilleur bouche à oreille.
+  - if @structure.users.empty?
+    #no_users.hidden
+      %p Cet outil de conversation vous permettra d'envoyer des messages privés à vos élèves : nos partenaires qui partagent des informations régulièrement avec leurs élèves sont ceux qui ont un plus fort taux de fidélité et le meilleur bouche à oreille.
 
-    %p Pour pouvoir envoyer votre premier message, vous devez d'abord avoir reçu des recommandations ou avoir utilisé notre outil de demande automatique dans lequel vous avez renseigné les emails de vos élèves.
-    .text--center
-      = link_to "Obtenir des avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue'
+      %p Pour pouvoir envoyer votre premier message, vous devez d'abord avoir reçu des recommandations ou avoir utilisé notre outil de demande automatique dans lequel vous avez renseigné les emails de vos élèves.
+      .text--center
+        = link_to "Obtenir des avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue'
 
 = content_for :scripts do
   :javascript

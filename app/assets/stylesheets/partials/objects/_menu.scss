@@ -99,7 +99,12 @@
                 & { text-decoration: none; }
                 color       : #555;
                 display     : block;
-                padding     : 1em;
+                font-size   : 15px;
+                // padding     : 1em;
+                padding     : 1.2em 0 1em 1.3em;
+                .fa {
+                    padding-right: 1em;
+                }
             }
         }
     }

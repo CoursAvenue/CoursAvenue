@@ -1,24 +1,29 @@
 = side_menu_currently_at 'Derniers avis'
+.white-box.soft--top
+  - if @waiting_for_deletion_comments.any?
+    .soft--sides
+      %h3
+        %i.fa.fa-comments-alt
+        Avis en attente de suppression
 
-- if @waiting_for_deletion_comments.any?
+      %ul.comment-list
+        = render partial: '/comments/comment', collection: @waiting_for_deletion_comments, locals: {with_link: true}
+
+  - if @waiting_for_validation_comments.any?
+    %hr.push--ends
+    .soft--sides
+      %h3
+        %i.fa.fa-comments-alt
+        Avis en attente de validation
+
+      %ul.comment-list
+        = render partial: '/comments/comment', collection: @waiting_for_validation_comments, locals: {with_link: true}
+
+%hr.push--ends
+.soft--sides
   %h3
     %i.fa.fa-comments-alt
-    Avis en attente de suppression
+    Derniers avis
 
   %ul.comment-list
-    = render partial: '/comments/comment', collection: @waiting_for_deletion_comments, locals: {with_link: true}
-
-- if @waiting_for_validation_comments.any?
-  %h3
-    %i.fa.fa-comments-alt
-    Avis en attente de validation
-
-  %ul.comment-list
-    = render partial: '/comments/comment', collection: @waiting_for_validation_comments, locals: {with_link: true}
-
-%h3
-  %i.fa.fa-comments-alt
-  Derniers avis
-
-%ul.comment-list
-  = render partial: '/comments/comment', collection: @comments, locals: {with_link: true}
+    = render partial: '/comments/comment', collection: @comments, locals: {with_link: true}

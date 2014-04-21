@@ -1,23 +1,24 @@
 = side_menu_currently_at 'Users'
 
-%h3.header-group
-  %i.fa.fa-group
-  Évolution des inscriptions élèves
-.white-box.islet.text--center
-  .gamma
-    #{User.active.count} élèves
-  #users
+.white-box.soft
+  %h3.header-group
+    %i.fa.fa-group
+    Évolution des inscriptions élèves
+  .islet.text--center
+    .gamma
+      #{User.active.count} élèves
+    #users
 
-.white-box.islet.text--center
-  .gamma
-    Cumulé
-  #users-cumul
+  .islet.text--center
+    .gamma
+      Cumulé
+    #users-cumul
 
-.text--center.push--ends
-  = link_to 'Avec avis', pro_users_path(with_comments: true), class: 'btn btn--blue btn--small push-half--right'
-  = link_to 'Inactif', pro_users_path(inactive: true), class: 'btn btn--blue btn--small'
+  .text--center.push--ends
+    = link_to 'Avec avis', pro_users_path(with_comments: true), class: 'btn btn--blue btn--small push-half--right'
+    = link_to 'Inactif', pro_users_path(inactive: true), class: 'btn btn--blue btn--small'
 
-%table.table--striped.white-box#dataTable
+%table.table--striped#dataTable
   %thead
     %tr
       %th

@@ -1,137 +1,156 @@
 = side_menu_currently_at 'Dashboard'
+.white-box.soft--top
+  .soft--sides
+    %h3
+      %i.fa.fa-dashboard
+      Tableau de bord
 
-%h1.header-group
-  %i.fa.fa-dashboard
-  Tableau de bord
+    .grid
+      .grid__item.one-quarter.bordered--right>
+        .soft-half.text--center
+          %h3.flush= "#{Admin.normal.count} profs"
+          %h6.flush dont #{Admin.where{created_at > Date.today}.count} aujourd'hui
+          %div et #{Admin.where{created_at > Date.today - 7.days}.count} les 7 derniers jours
+      .grid__item.one-quarter.bordered--right>
+        .soft-half.text--center
+          %h3.flush= "#{Comment.count} avis"
+          %h6.flush dont #{Comment.where{created_at > Date.today}.count} aujourd'hui
+          %div et #{Comment.where{created_at > Date.today - 7.days}.count} les 7 derniers jours
+      .grid__item.one-quarter.bordered--right>
+        .soft-half.text--center
+          %h3.flush= "#{Mailboxer::Conversation.where{subject == "Demande d'informations"}.count} mess"
+          %h6.flush dont #{Mailboxer::Conversation.where{(subject == "Demande d'informations") & (created_at > Date.today)}.count} aujourd'hui
+          %div et #{Mailboxer::Conversation.where{(subject == "Demande d'informations") & (created_at > Date.today - 7.days)}.count} les 7 derniers jours
+      .grid__item.one-quarter>
+        .soft-half.text--center
+          %h3.flush= "#{CommentNotification.count} élèves"
+          %h6.flush dont #{CommentNotification.where{(created_at > Date.today)}.count} aujourd'hui
+          %div et #{CommentNotification.where{(created_at > Date.today - 7.days)}.count} les 7 derniers jours
 
-.grid
-  .grid__item.one-quarter>
-    .white-box.soft-half.text--center
-      %h3.flush= "#{Admin.normal.count} professeurs"
-      %h6.flush dont #{Admin.where{created_at > Date.today}.count} aujourd'hui
-      %div et #{Admin.where{created_at > Date.today - 7.days}.count} les 7 derniers jours
-  .grid__item.one-quarter>
-    .white-box.soft-half.text--center
-      %h3.flush= "#{Comment.count} avis"
-      %h6.flush dont #{Comment.where{created_at > Date.today}.count} aujourd'hui
-      %div et #{Comment.where{created_at > Date.today - 7.days}.count} les 7 derniers jours
-  .grid__item.one-quarter>
-    .white-box.soft-half.text--center
-      %h3.flush= "#{Mailboxer::Conversation.where{subject == "Demande d'informations"}.count} messages"
-      %h6.flush dont #{Mailboxer::Conversation.where{(subject == "Demande d'informations") & (created_at > Date.today)}.count} aujourd'hui
-      %div et #{Mailboxer::Conversation.where{(subject == "Demande d'informations") & (created_at > Date.today - 7.days)}.count} les 7 derniers jours
-  .grid__item.one-quarter>
-    .white-box.soft-half.text--center
-      %h3.flush= "#{CommentNotification.count} élèves"
-      %h6.flush dont #{CommentNotification.where{(created_at > Date.today)}.count} aujourd'hui
-      %div et #{CommentNotification.where{(created_at > Date.today - 7.days)}.count} les 7 derniers jours
+  %hr.push--ends
+  .soft--sides
+    %h3
+      %i.fa.fa-map-marker
+      Professeurs enregistrés / Avis laissés (non cumulé)
+    .text--center
+      .gamma
+        = Admin.normal.count
+        profs
+        \/
+        = Comment.count
+        avis
+      #admins
 
-%h3.header-group
-  %i.fa.fa-map-marker
-  Professeurs enregistrés / Avis laissés (non cumulé)
-.white-box.islet.text--center
-  .gamma
-    = Admin.normal.count
-    profs
-    \/
-    = Comment.count
-    avis
-  #admins
+    .text--center
+      .gamma
+        = Admin.normal.count
+        profs
+      #admins2
 
-.white-box.islet.text--center
-  .gamma
-    = Admin.normal.count
-    profs
-  #admins2
+  %hr.push--ends
+  .soft--sides
+    %h3
+      %i.fa.fa-map-marker
+      Professeurs enregistrés / Avis laissés - progression / semaine (non cumulé)
+    .text--center
+      #comments-admins-progression-weekly
 
-%h3.header-group
-  %i.fa.fa-map-marker
-  Professeurs enregistrés / Avis laissés - progression / semaine (non cumulé)
-.white-box.islet.text--center
-  #comments-admins-progression-weekly
+  %hr.push--ends
+  .soft--sides
+    %h3
+      %i.fa.fa-map-marker
+      Professeurs enregistrés / Avis laissés - progression (cumulé)
+    .text--center
+      .gamma
+        = Admin.normal.count
+        profs
+        \/
+        = Comment.count
+        avis
+      #admins-progression
 
-%h3.header-group
-  %i.fa.fa-map-marker
-  Professeurs enregistrés / Avis laissés - progression (cumulé)
-.white-box.islet.text--center
-  .gamma
-    = Admin.normal.count
-    profs
-    \/
-    = Comment.count
-    avis
-  #admins-progression
+  %hr.push--ends
+  .soft--sides
+    %h3
+      %i.fa.fa-group
+      Élèves notifiés pour avis
+    .text--center
+      .gamma
+        = User.count
+        élèves
+      #students
 
+  - if params[:with_subjects]
+    %h3
+      %i.fa.fa-map-marker
+      Nombre d'établissements par disciplines (dont le prof est enregistré)
+    .text--center
+      #subjects
+  - else
+    %p.text--center= link_to 'Voir la répartition par discipline',  pro_dashboard_path(with_subjects: true), class: 'btn btn--blue'
 
-%h3.header-group
-  %i.fa.fa-group
-  Élèves notifiés pour avis
-.white-box.islet.text--center
-  .gamma
-    = User.count
-    élèves
-  #students
+  %hr.push--ends
+  .soft--sides
+    %h3
+      %i.fa.fa-youtube-play
+      Demande d'infos
+    .text--center
+      .gamma
+        = Mailboxer::Conversation.where{subject == "Demande d'informations"}.count
+        Messages
+      #messages
 
-- if params[:with_subjects]
-  %h3.header-group
-    %i.fa.fa-map-marker
-    Nombre d'établissements par disciplines (dont le prof est enregistré)
-  .white-box.islet.text--center
-    #subjects
-- else
-  %p.text--center= link_to 'Voir la répartition par discipline',  pro_dashboard_path(with_subjects: true), class: 'btn btn--blue'
+  %hr.push--ends
+  .soft--sides
+    %h3
+      %i.fa.fa-youtube-play
+      Photos & Vidéos
+    .text--center
+      .gamma
+        = Media::Video.count
+        Vidéos /
+        = Media::Image.count
+        Photos
+      #medias
 
-%h3.header-group
-  %i.fa.fa-youtube-play
-  Demande d'infos
-.white-box.islet.text--center
-  .gamma
-    = Mailboxer::Conversation.where{subject == "Demande d'informations"}.count
-    Messages
-  #messages
+  %hr.push--ends
+  .soft--sides
+    %h3
+      %i.fa.fa-list
+      Cours en ligne
+    .text--center
+      .gamma
+        = Course.active.count
+        cours en ligne
+      #courses
 
-%h3.header-group
-  %i.fa.fa-youtube-play
-  Photos & Vidéos
-.white-box.islet.text--center
-  .gamma
-    = Media::Video.count
-    Vidéos /
-    = Media::Image.count
-    Photos
-  #medias
+  %hr.push--ends
+  .soft--sides
+    %h3
+      %i.fa.fa-map-marker
+      Lieux d'enseignement
+    .text--center
+      .gamma
+        = Place.count
+        Lieux
 
-%h3.header-group
-  %i.fa.fa-list
-  Cours en ligne
-.white-box.islet.text--center
-  .gamma
-    = Course.active.count
-    cours en ligne
-  #courses
+  %hr.push--ends
+  .soft--sides
+    %h3
+      %i.fa.fa-map-time
+      Heures de création de profil
+    .text--center
+      #admins-hours
 
-%h3.header-group
-  %i.fa.fa-map-marker
-  Lieux d'enseignement
-.white-box.islet.text--center
-  .gamma
-    = Place.count
-    Lieux
-
-%h3.header-group
-  %i.fa.fa-map-time
-  Heures de création de profil
-.white-box.islet.text--center
-  #admins-hours
-
-%h3.header-group
-  %i.fa.fa-map-time
-  Heures de dépot d'avis
-.white-box.islet.text--center
-  #comments-hours
-
-.text--center= link_to 'Mots clés', pro_keywords_path, class: 'btn btn--blue'
-.text--center= link_to 'Mots clés tapé par les utilisateurs', pro_search_term_logs_path, class: 'btn btn--blue'
+  %hr.push--ends
+  .soft--sides
+    %h3
+      %i.fa.fa-map-time
+      Heures de dépot d'avis
+    .text--center
+      #comments-hours
+    .text--center= link_to 'Mots clés', pro_keywords_path, class: 'btn btn--blue'
+    .text--center= link_to 'Mots clés tapé par les utilisateurs', pro_search_term_logs_path, class: 'btn btn--blue'
 
 = content_for :scripts do
   :javascript
