@@ -14,7 +14,7 @@
         = link_to edit_pro_structure_path(@structure), class: 'block semi-muted-link' do
           = @structure.name
       .inline-block.v-middle
-        = link_to '', structure_url(@structure, subdomain: 'www'), data: { toggle: 'popover', content: "Profil public", placement: 'right', trigger: 'hover' }, class: 'white muted-link bold fa fa-external-link block', style: 'padding-top: 4px;'
+        = link_to '', structure_url(@structure, subdomain: 'www'), data: { toggle: 'popover', content: "Profil public", placement: 'right', trigger: 'hover' }, class: 'white muted-link bold fa fa-external-link block', style: 'padding-top: 4px;', target: '_blank'
 
   .flexbox
     - if content_for? :side_menu
