@@ -9,8 +9,12 @@
           = link_to edit_pro_structure_path(@structure), class: 'block push-half--right' do
             = image_tag @structure.logo.url(:thumb), width: 40, class: 'block'
         - else
-          = link_to 'Ajouter mon logo', edit_pro_structure_path(@structure), style: 'width: 110px; height: 110px; background-color: #555; padding-top: 30px; color: white; display: block;'
-      %h5.inline-block.v-middle.flush.white= @structure.name
+          = link_to '', edit_pro_structure_path(@structure), class: 'fa-2x fa fa-picture-o soft-half muted-link white', data: { toggle: 'popover', content: "Ajouter un logo", placement: 'right', trigger: 'hover' }
+      %h5.inline-block.v-middle.flush--bottom.push-half--right.white
+        = link_to edit_pro_structure_path(@structure), class: 'block semi-muted-link' do
+          = @structure.name
+      .inline-block.v-middle
+        = link_to '', structure_url(@structure, subdomain: 'www'), data: { toggle: 'popover', content: "Profil public", placement: 'right', trigger: 'hover' }, class: 'white muted-link bold fa fa-external-link block', style: 'padding-top: 4px;'
 
   .flexbox
     - if content_for? :side_menu
