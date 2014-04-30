@@ -1,7 +1,6 @@
 = side_menu_currently_at 'presentation'
 
 .panel
-  = render partial: 'pro/structures/tabs', locals:{ current: 'lieux'}
   .panel__body
     .breadcrumb.bordered--bottom.soft-half.delta
       = link_to pro_structure_places_path(@structure) do

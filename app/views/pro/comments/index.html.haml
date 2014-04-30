@@ -1,5 +1,5 @@
 = side_menu_currently_at 'Derniers avis'
-.white-box.soft--top
+.white-box.soft--top{ data: { behavior: 'wizard-helper', content: "<p><strong>2 manières de répondre aux avis :</strong></p></p><p><strong>Envoyez un message privé</strong> A chaque nouveau commentaire, répondez à l'élève en lui envoyant un message privé : remerciez-le pour sa recommandation ou envoyez-lui un simple mot de gentillesse en prévision du prochain cours.</p><p><strong>Ajoutez un commentaire public</strong>Répondez au maximum d'avis par un commentaire public qui s'affichera à la suite de l'avis sur votre profil public. Cela apporte de la crédibilité à vos témoignages et vous offre l'opportunité d'apporter des informations complémentaires.</p><p>Si l'avis ne respecte pas les critères de publication, signalez-le nous.</p>" } }
   - if @waiting_for_deletion_comments.any?
     .soft--sides
       %h3
@@ -27,3 +27,6 @@
 
   %ul.comment-list
     = render partial: '/comments/comment', collection: @comments, locals: {with_link: true}
+
+
+

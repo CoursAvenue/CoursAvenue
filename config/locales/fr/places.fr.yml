@@ -8,7 +8,7 @@ fr:
     attributes:
       place:
         name: Nom
-        street: Adresse
+        street: Numéro et nom de la rue
         zip_code: Code postal
         city: Ville
         info: Publiques
@@ -23,5 +23,5 @@ fr:
     places:
       form:
         name: Nom du lieu
-        street: Adresse (N° + rue)
+        street: Numéro et nom de la rue
         zip_code: Code postal

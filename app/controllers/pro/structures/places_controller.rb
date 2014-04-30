@@ -1,9 +1,10 @@
 # encoding: utf-8
 class Pro::Structures::PlacesController < InheritedResources::Base
-  before_action :authenticate_pro_admin!
   layout 'admin'
+
+  before_action :authenticate_pro_admin!
   belongs_to :structure
-  load_and_authorize_resource :structure, except: [:index], find_by: :slug
+  load_and_authorize_resource :structure, find_by: :slug
 
   def edit
     @structure = Structure.friendly.find params[:structure_id]
@@ -19,7 +20,7 @@ class Pro::Structures::PlacesController < InheritedResources::Base
     @structure      = Structure.friendly.find params[:structure_id]
     @place          = @structure.places.build
     @place.location = Location.new
-    @gmap_center  = Gmaps4rails.build_markers(@structure) do |structure, marker|
+    @gmap_center    = Gmaps4rails.build_markers(@structure) do |structure, marker|
       marker.lat structure.latitude
       marker.lng structure.longitude
     end
@@ -28,6 +29,13 @@ class Pro::Structures::PlacesController < InheritedResources::Base
       @place.contacts << @structure.places.map { |p| p.contacts }.flatten.first.dup
     else
       @place.contacts.build
+    end
+    respond_to do |format|
+      if request.xhr?
+        format.html { render partial: 'form', layout: false }
+      else
+        format.html
+      end
     end
   end
 
@@ -47,8 +55,10 @@ class Pro::Structures::PlacesController < InheritedResources::Base
     respond_to do |format|
       if @place.save
         format.html { redirect_to (params[:return_to] || pro_structure_places_path(@structure)), notice: 'Le lieu à bien été créé' }
+        format.js
       else
         format.html { render action: :new }
+        format.js
       end
     end
   end

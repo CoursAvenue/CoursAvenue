@@ -96,14 +96,6 @@
     = structure_form.input :funding_type_ids, as: :select, collection: FundingType.all.map{|funding_type| [ t(funding_type.name), funding_type.id]}, input_html: { class: 'input--large', style: 'width: 74%;', multiple: true, data: { behavior: 'chosen', placeholder: 'Sélectionnez un ou plusieurs choix'}}, selected: @structure.funding_types.map(&:id), label_html: { class: 'label--large' }, wrapper_html: { class: ' flush--bottom' }
 
   %hr.push--ends
-  .soft--sides{ data: { behavior: 'wizard-helper', content: "<p><strong>Coordonnées de réservation</strong><br>Si vous avez plusieurs lieux : renseignez vos coordonnées principales, vous pourrez ensuite choisir des coordonnées de réservation spécifiques à chaque lieu dans l'onglet « Lieux »</p>" } }
-    %h5 Coordonnées de réservation
-    %div
-      = structure_form.input :contact_phone, placeholder: 'Ex. : 01 04 12 49 12', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
-      = structure_form.input :contact_mobile_phone, placeholder: 'Ex. : 06 34 41 99 31', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
-      = structure_form.input :contact_email, input_html: { class: 'input--large', value: (@structure.contact_email || @structure.main_contact.try(:email))}, label_html: { class: 'label--large' }
-
-  %hr.push--ends
   .soft--sides{ data: { behavior: 'wizard-helper', content: "<p><strong>Une bonne description</strong><br>Elle doit être complète et captivante ! Soyez sincère, original, et décrivez objectivement vos principales caractéristiques.</p><p>Questions auxquelles vous pouvez répondre :<br>Qu'est-ce qui vous différencie ?<br>D'où vient votre passion pour votre discipline ? Quels en sont les bénéfices ?<br>Pourquoi devrait-on suivre des cours avec vous ?<br>Quelle est votre équipe, combien êtes-vous ?<br>Quel est le parcours des professeurs ?<br>Depuis quand votre structure existe-t-elle, quelle est sa notoriété ?</p><p><strong>Exemple :</strong> « Je m'appelle Nicolas Bourseul et je suis conseiller naturopathe, enseignant de Qi Gong et de Tao Yin. Mais j'enseigne surtout comment prendre soin de soi-même. Mon parcours : (liste des événements importants classés par date). C'est tout cela que je souhaite partager avec ceux qui veulent prendre leur santé et leur vie en main. »</p><p><strong>Important :</strong> vos coordonnées de contact (téléphone, e-mail, site Internet...) ou votre planning de cours ne doivent pas être renseignés ici.</p>" } }
     %h5.push--top Description
     .input

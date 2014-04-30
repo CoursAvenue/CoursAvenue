@@ -106,9 +106,9 @@ fr:
         messages: Mes messages
         dashboard: Tableau de bord
         courses: Mes cours
-        jpo: Journées Portes Ouvertes
+        jpo: Portes Ouvertes
         medias: "Mes photos & vidéos"
-        crm: Mes élèves
+        crm: Répertoire
         communicate: Communiquer
         share: Parrainer
         last_comments: Derniers avis
@@ -124,3 +124,4 @@ fr:
         visitors: Visiteurs
         invitations: Invitations
         places: Lieux
+        contact: Contact

@@ -34,13 +34,16 @@
     Plugin.prototype = {
         template: Handlebars.compile(wizard_template),
         init: function() {
-            this.$content = $(this.template({ content: this.$element.data('content') }));
-            $('.wizard-container').append(this.$content);
+            this.$wizard_container = $(this.$element.data('container')) || $('.wizard-container');
+            this.$content          = $(this.template({ content: this.$element.data('content') }));
+            this.$wizard_container.append(this.$content);
             // Make the wizard appear on the right on mouseenter
             this.$element.mouseenter(function() {
                 $('.wizard-helper').hide();
+                var offset_top = this.$element.offset().top - this.$wizard_container.offset().top;
+                if (offset_top < 0) { offset_top = 0; }
                 this.$content.css({
-                    top:  this.$element.offset().top - $('.wizard-container').offset().top
+                    top:  offset_top
                 })
                 this.$content.show();
             }.bind(this));
@@ -62,5 +65,8 @@
 })( jQuery, window, document );
 
 $(function() {
-    $('[data-behavior=wizard-helper]').wizardHelper();
+    var wizard_helper_initializer = function() {
+        $('[data-behavior=wizard-helper]').wizardHelper();
+    };
+    GLOBAL.initialize_callbacks.push(wizard_helper_initializer);
 });

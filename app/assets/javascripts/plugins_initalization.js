@@ -30,7 +30,7 @@ $(function() {
             $(this).fancybox({
                     padding     : parseInt(padding),
                     openSpeed   : 300,
-                    maxWidth    : 800,
+                    maxWidth    : 900,
                     maxHeight   : 600,
                     fitToView   : false,
                     width       : width,

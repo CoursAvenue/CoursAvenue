@@ -1,107 +1,41 @@
-= simple_form_for [:pro, @structure, @place] do |f|
-  = f.error_notification
+.grid
+  .grid__item.six-tenths>
+    = simple_form_for [:pro, @structure, @place], remote: true do |f|
 
-  - if params[:return_to].present?
-    %input{type: 'hidden', value: params[:return_to], name: 'from'}
+      - if params[:return_to].present?
+        %input{type: 'hidden', value: params[:return_to], name: 'from'}
 
-  .soft--sides
-    %h5
-      %i.fa.fa-map-marker
-      Adresse
-    .grid
-      .grid__item.two-thirds#location-form-wrapper>
+      .soft--sides{ data: { container: '#place-wizard-container', behavior: 'wizard-helper', content: "<p><strong>Adresse de vos cours</strong><br>L'adresse est un élément déterminant de votre profil : si elle est incomplète, votre profil risque de ne pas être visible.</p><p><strong>Cas particulier des cours à domicile </strong> : s'il s'agit du lieu principal de vos cours à domicile, indiquez « Adresse principale » comme nom de lieu, puis indiquez un code postal et une ville sans numéro et nom de rue.</p>" } }
+        %h5
+          %i.fa.fa-map-marker
+          Adresse
+        = f.error_notification
         = f.simple_fields_for :location do |location_form|
-          = location_form.input :name, label: Location.human_attribute_name(:name), placeholder: 'Ex. : Gymnase Bercy', disabled: @place.belongs_to_other_locations?, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
-          = location_form.input :street, placeholder: 'Ex. : 83 avenue du général Leclerc', label: Location.human_attribute_name(:street), input_html: { class: 'input--large', title: "Ne renseignez ni le code postal ni la ville, uniquement le numéro et la rue.", data: { behavior: 'tooltip' } }, disabled: @place.belongs_to_other_locations?, label_html: { class: 'label--large' }
-          .input.flush--top.city-autocomplete-wrapper
-            = location_form.label :zip_code, label: Location.human_attribute_name(:zip_code), disabled: @place.belongs_to_other_locations?, class: 'label--large'
-            = location_form.input :zip_code, placeholder: 'Ex. : 75008', input_html: { class: 'input--large', data: { behavior: 'city-autocomplete', el: '#place_location_attributes_city_id' } }, label: false, wrapper_html: { class: 'flush--top' }, disabled: @place.belongs_to_other_locations?
+          = location_form.input :name, label: Location.human_attribute_name(:name), placeholder: "Ex. : « Gymnase Bercy », « Ecole d'Art Modigliani », « Adresse principale » ...", disabled: @place.belongs_to_other_locations?, label_html: { class: 'label--large text--left' }, input_html: { class: 'input--large one-whole', data: { behavior: 'tooltip' }, title: "Indiquez le nom du lieu. S'il s'agit d'une adresse privée, mettre « Résidence privée »." }
+          = location_form.input :street, placeholder: 'Ex. : 83 avenue du général Leclerc', label: Location.human_attribute_name(:street), input_html: { class: 'input--large one-whole', title: "Ne renseignez ni le code postal ni la ville, uniquement le numéro et la rue.", data: { behavior: 'tooltip' } }, disabled: @place.belongs_to_other_locations?, label_html: { class: 'label--large text--left' }
+
+          = location_form.label :zip_code, label: 'Code postal et ville', disabled: @place.belongs_to_other_locations?, class: 'label--large text--left block'
+          .input.flush--top
+            = location_form.input :zip_code, placeholder: 'Ex. : 75008', input_html: { class: 'input--large one-whole', data: { behavior: 'city-autocomplete', el: '#place_location_attributes_city_id' } }, label: false, wrapper_html: { class: 'flush--top' }, disabled: @place.belongs_to_other_locations?
             = location_form.input :city_id, collection: [@place.location.city || @structure.city], label: false, selected: @place.location.city, wrapper_html: { class: 'flush--top' }, disabled: @place.belongs_to_other_locations?, input_html: { class: 'input--large' }
             = location_form.input :latitude, as: :hidden, disabled: @place.belongs_to_other_locations?
             = location_form.input :longitude, as: :hidden, disabled: @place.belongs_to_other_locations?
-      .grid__item.one-third>
-        #map.google-map.google-map--small
 
-  %hr.push--ends
-  .soft--sides{ data: { behavior: 'wizard-helper', content: "<p><strong>Publiques</strong><br>Indiquez ici les informations relatives au lieu : station de métro / RER, l'arrêt de bus le plus proche, la description du lieu...</p><p><strong>Privées</strong><br>Indiquez toutes les informations confidentielles uniquement communiquées aux élèves inscrits : digicode de la porte d'entrée, étage de l'immeuble, etc.</p>" } }
-    %h5
-      %i.lbc-icon-info
-      Infos pratiques
+      %hr.push--ends
+      .soft--sides{ data: { container: '#place-wizard-container', behavior: 'wizard-helper', content: "<p><strong>Publiques</strong><br>Indiquez ici les informations relatives au lieu&nbsp;: station de métro / RER, l'arrêt de bus le plus proche, la description du lieu...</p><p><strong>Privées</strong><br>Indiquez toutes les informations pratiques confidentielles : digicode de la porte d'entrée, étage de l'immeuble, etc. Elles ne seront pas visibles sur votre profil public et ne seront communiquées qu'aux élèves qui s'inscriront à vos stages ou cours.</p>" } }
+        %h5
+          %i.lbc-icon-info
+          Infos pratiques
 
-    = f.input :info, placeholder: "Station métro / RER / bus, etc.", input_html: { class: 'input--large', data: { behavior: 'autoresize' } }, label_html: { class: 'label--large' }
-    .input<
-      %label.label--large.text.optional.control-label{for: "course_private_info"}
-        %i.fa.fa-lock
-        Privées
-      = f.input :private_info, label: false, placeholder: "Code d'entrée, étage, etc.", input_html: { data: { behavior: 'autoresize' }}, wrapper_html: { class: 'flush' }, input_html: { class: 'one-whole input--large' }
+        = f.input :info, placeholder: "Station métro / RER / bus, etc.", input_html: { class: 'input--large', data: { behavior: 'autoresize' } }, label_html: { class: 'label--large' }
+        .input<
+          %label.label--large.text.optional.control-label{for: "course_private_info"}
+            %i.fa.fa-lock
+            Privées
+          = f.input :private_info, label: false, placeholder: "Code d'entrée, étage, etc.", input_html: { data: { behavior: 'autoresize' }}, wrapper_html: { class: 'flush' }, input_html: { class: 'one-whole input--large' }
 
-  %hr.push--ends
-  .soft--sides
-    %h5 Contact pour la réservation
-    = f.simple_fields_for :contacts do |contact_form|
-      = contact_form.input :name, label: Contact.human_attribute_name(:name), input_html: { class: 'input--large', value: contact_form.object.name || @structure.main_contact.try(:name) }, label_html: { class: 'label--large' }
-      = contact_form.input :email, label: Contact.human_attribute_name(:email), input_html: { class: 'input--large', value: contact_form.object.email || @structure.contact_email || @structure.main_contact.try(:email) }, label_html: { class: 'label--large' }
-      = contact_form.input :phone, label: Contact.human_attribute_name(:phone), input_html: { class: 'input--large', value: contact_form.object.phone || @structure.contact_phone || @structure.main_contact.try(:phone_number) }, label_html: { class: 'label--large' }
-      = contact_form.input :mobile_phone, label: Contact.human_attribute_name(:mobile_phone), input_html: { class: 'input--large', value: contact_form.object.mobile_phone || @structure.contact_mobile_phone || @structure.main_contact.try(:mobile_phone_number) }, label_html: { class: 'label--large' }
+      .text--right
+        %a.btn{ onclick: '$.fancybox.close();' } Annuler
+        = f.submit 'Suivant', class: 'btn btn--green', data: { disable_with: "En cours d'enregistrement" }
 
-  = f.submit 'Enregistrer', class: 'btn btn--green  btn--full', data: { disable_with: "En cours d'enregistrement" }
-
-= content_for :scripts do
-  :javascript
-    $(function() {
-        // ------------ Update map and input regarding address
-        var $street_input, $zip_code_input, geocoder, updateMap, google_map_handler,
-            marker_array = [];
-        geocoder           = new google.maps.Geocoder()
-        google_map_handler = Gmaps.build('Google', { markers: { maxRandomDistance: null } });
-        google_map_handler.buildMap({ provider: { maxZoom: 15 }, internal: {id: 'map'}}, function(){
-            var latlng = #{@gmap_location.to_json};
-            var center = #{@gmap_center.to_json};
-            if (latlng) {
-                var marker_location = new google.maps.LatLng(latlng[0].lat, latlng[0].lng);
-                var marker   = new google.maps.Marker({
-                    position: marker_location,
-                    visible: true,
-                    animation: google.maps.Animation.DROP,
-                    map: google_map_handler.getMap()
-                  });
-                marker_array.push(marker);
-                google_map_handler.getMap().setCenter(latlng[0]);
-                google_map_handler.getMap().setZoom(15);
-            } else if(center) {
-                google_map_handler.getMap().setCenter(center[0]);
-                google_map_handler.getMap().setZoom(11);
-            }
-            google_map_handler.fitMapToBounds();
-        });
-        //--
-        $street_input   = $('#place_location_attributes_street');
-        $zip_code_input = $('#place_location_attributes_zip_code');
-        $lat_input      = $('#place_location_attributes_latitude');
-        $lng_input      = $('#place_location_attributes_longitude');
-        updateMap = function() {
-            _.map(marker_array, function(marker) { marker.setMap(null) });
-            var address = $street_input.val() + ', ' + $('#place_location_attributes_city_id option:selected').text();
-            geocoder.geocode( { 'address': address}, function(results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
-                    latlng = {lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng()};
-                    var marker_location = new google.maps.LatLng(latlng.lat, latlng.lng);
-                    var marker   = new google.maps.Marker({
-                        position: marker_location,
-                        visible: true,
-                        animation: google.maps.Animation.DROP,
-                        map: google_map_handler.getMap()
-                      });
-                    marker_array.push(marker);
-                    google_map_handler.getMap().setCenter(latlng);
-                    google_map_handler.getMap().setZoom(15);
-                    $lat_input.val(latlng.lat);
-                    $lng_input.val(latlng.lng);
-                } else {
-                    console.log('Geocode was not successful for the following reason: ' + status);
-                }
-            });
-        };
-        $('#place_location_attributes_street, #place_location_attributes_zip_code').change(updateMap);
-        $('form').submit(updateMap);
-    });
+  .grid__item.four-tenths#place-wizard-container.relative.bordered--left>

@@ -1,0 +1,25 @@
+= side_menu_currently_at 'contact'
+
+.soft--ends
+  = simple_form_for [:pro, @structure], html: { autocomplete: 'off', id: 'structure-form' } do |form|
+    = form.error_notification
+
+    .soft--sides{ data: { behavior: 'wizard-helper', content: "<p><strong>Vous joindre facilement</strong>Renseignez uniquement vos coordonnées de contact que vous utilisez au quotidien : privilégiez votre adresse mail principale et votre numéro de téléphone portable.</p><p><strong>E-mail</strong> : les messages des internautes vous seront envoyés à cet adresse e-mail. Il est important d'avoir un e-mail confirmé pour que les élèves CoursAvenue puissent vous contacter de manière totalement sécurisée. Important : votre adresse e-mail vous sert également d'identifiant pour votre compte CoursAvenue.</p><p><strong>Téléphones</strong> : indiquez votre portable, éventuellement votre fixe si vous l'utilisez au quotidien. Renseignez autant de numéros que nécessaires.</p>" } }
+      %h5 Coordonnées de réservation
+      .input
+        %label.control-label.label--large> Email
+        %input.input--large{ disabled: true, value: @structure.main_contact.email}>
+        %p.field-form-info.blue Cet e-mail vous sert également d'identifiant pour accéder à votre compte CoursAvenue.
+      = form.input :contact_phone, placeholder: 'Ex. : 01 04 12 49 12', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+      = form.input :contact_mobile_phone, placeholder: 'Ex. : 06 34 41 99 31', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+
+    %hr.push--ends
+    .soft--sides
+      %h5 Lien vers vos pages
+      %div
+        = form.input :website, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+        = form.input :facebook_url, as: :string ,placeholder: 'https://www.facebook.com/CoursAvenue', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+
+    .soft--sides= form.button :submit, "Enregistrer", class: 'btn btn--green btn--full push--bottom', disable_with: "En cours d'enregistrement"
+
+

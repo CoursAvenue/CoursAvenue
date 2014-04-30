@@ -16,9 +16,9 @@ fr:
   comments:
     deletion_reasons:
       duplicate: Avis en doublon
-      misspellings: Fautes d'orthographes
       inapropriate_content: Contenu inapproprié / offensant
       other: Autres
+      # misspellings: Fautes d'orthographes
     recover_email_texts:
       duplicate: |
         <p>Vous avez récemment demandé la modification d'un avis pour cause de <strong>« Avis en doublon »</strong> : cet avis vient d'être modifié et mis à jour sur votre profil CoursAvenue.</p>

@@ -1,0 +1,20 @@
+.soft
+  %h5 Vérifier l'adresse
+  .gray L'emplacement sur la carte est-il juste ?
+
+  #verification-map
+
+  %a Modifier l'emplacement du logement
+
+:javascript
+    $(function() {
+        var verification_handler = Gmaps.build('Google', { markers: { maxRandomDistance: null } });
+        verification_handler.buildMap( { provider: {}, internal: { id: 'verification-map' } }, function() {
+            markers = verification_handler.addMarkers(#{@place.location.to_gmap_json});
+            verification_handler.bounds.extendWith(markers);
+            verification_handler.fitMapToBounds();
+        });
+        google.maps.event.addListener verification_handler.getMap(), 'tilesloaded', function() {
+            verification_handler.getMap().setZoom(12);
+        });
+    })
