@@ -37,16 +37,16 @@
 
 .grid.push--top
   .grid__item.eight-twelfths>
-    = render partial: 'structures/structure_header', locals: {structure: @structure}
+    = render partial: 'structures/structure_header', locals: { structure: @structure }
 
-    = render partial: 'structures/map_and_gallery', locals: {structure: @structure, places: @structure.places, medias: @medias}
+    = render partial: 'structures/map_and_gallery', locals: { structure: @structure, places: @structure.places, medias: @medias }
 
-    = render partial: 'structures/comments_headband', locals: {structure: @structure}
+    = render partial: 'structures/comments_headband', locals: { structure: @structure }
 
     #structure-profile{ data: { type: 'structure-profile-root' } }
       #structure-region
   .grid__item.four-twelfths>
-    = render partial: 'structures/contact_form', locals: {structure: @structure}
+    = render partial: 'structures/contact_form', locals: { structure: @structure }
     .white-box.islet.epsilon
       - if @structure.response_rate
         .grid.soft-half--bottom

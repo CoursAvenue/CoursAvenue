@@ -18,7 +18,8 @@ fr:
         contact_email: Email
         email_address: Adresse email
         funding_type_ids: Type de financements acceptés
-        gives_professional_courses: Mes cours sont pour des professionnels
+        gives_professional_courses: Formation professionnelle
+        gives_non_professional_courses: Pour amateur
         billing_contact_first_name: Prénom
         billing_contact_last_name: Nom
         billing_contact_phone_number: Numéro de téléphone
@@ -35,6 +36,8 @@ fr:
         teaches_at_home_radius: Rayon (en km)
         widget_url: Lien vers votre livre d'or
         widget_status: Avez-vous installé votre widget
+        gives_group_courses: Collectifs
+        gives_individual_courses: Particuliers
 
   funding_type:
     holiday_vouchers: Tickets CAF ("loisirs" et "temps libre")

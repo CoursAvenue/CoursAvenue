@@ -3,7 +3,7 @@
 
   - if params[:return_to].present?
     %input{type: 'hidden', value: params[:return_to], name: 'return_to'}
-  .soft--sides{ data: { behavior: 'wizard-helper', content: '<p><strong>Un beau logo</strong><br>Ce logo apparaîtra dans les résultats de recherche</p><p>Formats autorisés : <strong>JPEG / JPG / GIF / PNG / BMP</strong><br> Taille maximum : <strong>5mo</strong></p>' } }
+  .soft--sides{ data: { behavior: 'wizard-helper', content: "<p><strong>Un bon logo</strong><br>Le logo est la première image que les internautes visualisent dans les résultats de recherche. Un bon logo est un logo qui vous ressemble et qui est simple à comprendre (privilégiez le format carré). Si vous n'en n'avez pas, mettez une image de vous ou de votre établissement.</p><p><strong>Remarque</strong> : votre logo ne doit contenir aucune information de contact (aucun lien Internet, téléphone ou e-mail).</p><p>Formats autorisés : <strong>JPEG / JPG / GIF / PNG / BMP</strong><br> Taille maximum : <strong>5mo</strong></p>" } }
     %h5
       %i.fa.fa-picture-o
       Logo
@@ -27,11 +27,11 @@
                 .inline-block.v-top>
                   = link_to crop_logo_pro_structure_path(@structure), class: 'fancybox.ajax btn btn--small btn--blue push-half--right push-half--bottom', data: { behavior: 'modal', width: 800 } do
                     %i.fa.fa-expand.soft--sides-half--right
-                    Recadrer mon logo
+                    Recadrer
                   %br
                   = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small push-half--bottom', data: { trigger: true } do
                     %i.fa.fa-picture-o
-                    Changer mon logo
+                    Modifier
                   %br
                   %a.btn.btn--small.btn--red#delete-logo{href: 'javascript:void(0)'}
                     %i.fa.fa-trash-o.soft--sides-half--right
@@ -45,7 +45,14 @@
       %p.alert--error Vous devez régler les problèmes pour mettre un logo.
 
   %hr.push--ends
-  .soft--sides{ data: { behavior: 'wizard-helper', content: '<p><strong>Étiquettes de disciplines</strong><br>Ces étiquettes de disciplines nous permettent de mieux vous catégoriser dans notre moteur de recherche. Néanmoins, une fois votre planning renseigné dans la rubrique "Mes cours", les intitulés de vos cours seront pris en compte en priorité, car ils seront plus précis.</p>' } }
+  .soft--sides{ data: { behavior: 'wizard-helper', content: "<p><strong>Un bon titre</strong><br>Le nom de votre structure est le titre de votre profil public. Les titres les plus courts sont les plus efficaces. Si vous êtes un professeur indépendant, renseignez votre Prénom + Nom.</p><p><strong>Remarque </strong> : ne renseignez pas le type de cours que vous proposez, c'est à indiquer dans la partie « Disciplines ». Par exemple, ne pas mettre « Cours de dessin Association Artik », mais simplement « Association Artik ».</p>" } }
+    %h5#informations
+      %i.fa.fa-tags
+      Structure
+    = structure_form.input :name, label: t('.structure_name'), wrapper_html: {class: 'flush--bottom'}, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+    = structure_form.input :structure_type, collection: Structure::STRUCTURE_TYPES.map{|structure_type| [ t(structure_type), structure_type]}, input_html: { class: 'input--large', style: 'max-width: 29em;' }, label_html: { class: 'label--large' }, wrapper_html: { class: 'flush--bottom' }
+  %hr.push--ends
+  .soft--sides{ data: { behavior: 'wizard-helper', content: '<p><strong>Étiquettes de disciplines</strong><br>Ces étiquettes de disciplines nous permettent de mieux vous catégoriser dans notre moteur de recherche. Néanmoins, une fois vos cours renseignés dans la rubrique « Planning », les intitulés de vos cours seront pris en compte en priorité, car ils seront plus précis.</p>' } }
     %h5#informations
       %i.fa.fa-tags
       Étiquettes de disciplines
@@ -61,23 +68,27 @@
         %p.error= @structure.errors[:children_subjects].to_sentence
 
   %hr.push--ends
-  .soft--sides{ data: { behavior: 'wizard-helper', content: "<p><strong>Nom de votre structure</strong><br>#{t('.structure_name_info')}</p>" } }
-    %h5#informations
-      %i.lbc-icon-info i
-      Informations
-    %div
-      = structure_form.input :name, label: t('.structure_name'), wrapper_html: {class: 'flush--bottom'}, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
-      = structure_form.input :website, placeholder: 'Ex : http://www.je-danse-a-paris.com', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
-      = structure_form.input :facebook_url, as: :string, wrapper_html: {class: 'flush--bottom'}, placeholder: 'Ex. : https://www.facebook.com/CoursAvenue', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+  .soft--sides{ data: { behavior: 'wizard-helper', content: "<p><strong>Vos types de cours</strong></p><p><strong>Cours collectifs :</strong>vous proposez des cours en groupe, le plus souvent à des créneaux bien précis et dans des salles que vous louez ou qui vous appartiennent.</p><p><strong>Cours particuliers : </strong>vous proposez des cours à la demande pour une personne, un couple, ou un nombre restreint de participants.</p><p><strong>Cours à domicile : </strong>vous vous déplacez chez les participants pour donner vos cours. Renseignez votre ville principale et votre rayon de déplacement.</p><p><strong>Cours à distance :</strong> vous proposez des cours en ligne via Internet grâce à un système de vidéo-conférence en temps réel incluant l'utilisation d'une webcam (comme Skype).</p>" } }
+    %h5 Cours proposés
+    .input
+      %label.text--left.hard--top.label--large.control-label> Type de cours
+      .input-container>
+        = structure_form.input :gives_group_courses, as: :boolean, wrapper_class: { class: 'checkbox-at-left' }, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+        = structure_form.input :gives_individual_courses, as: :boolean, wrapper_class: { class: 'checkbox-at-left ' }, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+    .input.push--top
+      %label.text--left.hard--top.label--large.control-label> Public
+      .input-container>
+        = structure_form.input :gives_non_professional_courses, as: :boolean, wrapper_class: { class: 'checkbox-at-left' }, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+        = structure_form.input :gives_professional_courses, as: :boolean, wrapper_class: { class: 'checkbox-at-left ' }, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
 
+    -# = structure_form.input :teaches_at_home, as: :boolean, include_blank: false, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+    #teaches-at-home-radius{class: @structure.teaches_at_home ? '' : 'hidden'}
+      = structure_form.input :teaches_at_home_radius, input_html: { class: 'input--large', style: 'width: 5em;' }, wrapper_html: {class: 'flush'}, label_html: { class: 'label--large' }
 
-      = structure_form.input :structure_type, collection: Structure::STRUCTURE_TYPES.map{|structure_type| [ t(structure_type), structure_type]}, input_html: { class: 'input--large', style: 'max-width: 29em;' }, label_html: { class: 'label--large' }, wrapper_html: { class: 'flush--bottom' }
-
-      = structure_form.input :funding_type_ids, as: :select, collection: FundingType.all.map{|funding_type| [ t(funding_type.name), funding_type.id]}, input_html: { class: 'input--large', style: 'width: 74%;', multiple: true, data: { behavior: 'chosen', placeholder: 'Sélectionnez un ou plusieurs choix'}}, selected: @structure.funding_types.map(&:id), label_html: { class: 'label--large' }, wrapper_html: { class: ' flush--bottom' }
-
-      = structure_form.input :teaches_at_home, as: :select, include_blank: false, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
-      #teaches-at-home-radius{class: @structure.teaches_at_home ? '' : 'hidden'}
-        = structure_form.input :teaches_at_home_radius, input_html: { class: 'input--large', style: 'width: 5em;' }, wrapper_html: {class: 'flush'}, label_html: { class: 'label--large' }
+  %hr.push--ends
+  .soft--sides
+    %h5 Financements acceptés
+    = structure_form.input :funding_type_ids, as: :select, collection: FundingType.all.map{|funding_type| [ t(funding_type.name), funding_type.id]}, input_html: { class: 'input--large', style: 'width: 74%;', multiple: true, data: { behavior: 'chosen', placeholder: 'Sélectionnez un ou plusieurs choix'}}, selected: @structure.funding_types.map(&:id), label_html: { class: 'label--large' }, wrapper_html: { class: ' flush--bottom' }
 
   %hr.push--ends
   .soft--sides{ data: { behavior: 'wizard-helper', content: "<p><strong>Coordonnées de réservation</strong><br>Si vous avez plusieurs lieux : renseignez vos coordonnées principales, vous pourrez ensuite choisir des coordonnées de réservation spécifiques à chaque lieu dans l'onglet « Lieux »</p>" } }
@@ -88,8 +99,7 @@
       = structure_form.input :contact_email, input_html: { class: 'input--large', value: (@structure.contact_email || @structure.main_contact.try(:email))}, label_html: { class: 'label--large' }
 
   %hr.push--ends
-
-  .soft--sides{ data: { behavior: 'wizard-helper', content: "<p><strong>Une bonne description</strong><br>Les infos sur les prix et les plannings sont à renseigner dans la section « Mes cours »</p><p>Qu'est-ce qui vous différencie ?<br>Pourquoi nos Internautes devraient-il réserver chez vous ? Soyez sincère et original !</p><p>Quelle est votre équipe, combien êtes-vous ?<br>Qui se cache derrière tout ça ?<br>Quel est le profil de vos professeurs ?</p><p>Depuis quand votre structure existe-t-elle ?<br>Quelle est sa notoriété ?<br>A-t-elle formé des célébrités ?</p>" } }
+  .soft--sides{ data: { behavior: 'wizard-helper', content: "<p><strong>Une bonne description</strong><br>Elle doit être complète et captivante ! Soyez sincère, original, et décrivez objectivement vos principales caractéristiques.</p><p>Questions auxquelles vous pouvez répondre :<br>Qu'est-ce qui vous différencie ?<br>D'où vient votre passion pour votre discipline ? Quels en sont les bénéfices ?<br>Pourquoi devrait-on suivre des cours avec vous ?<br>Quelle est votre équipe, combien êtes-vous ?<br>Quel est le parcours des professeurs ?<br>Depuis quand votre structure existe-t-elle, quelle est sa notoriété ?</p><p><strong>Exemple :</strong> « Je m'appelle Nicolas Bourseul et je suis conseiller naturopathe, enseignant de Qi Gong et de Tao Yin. Mais j'enseigne surtout comment prendre soin de soi-même. Mon parcours : (liste des événements importants classés par date). C'est tout cela que je souhaite partager avec ceux qui veulent prendre leur santé et leur vie en main. »</p><p><strong>Important :</strong> vos coordonnées de contact (téléphone, e-mail, site Internet...) ou votre planning de cours ne doivent pas être renseignés ici.</p>" } }
     %h5.push--top Description
     .input
       = structure_form.label :description, class: 'label--large'

@@ -11,12 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140415134337) do
+ActiveRecord::Schema.define(version: 20140429225815) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
-  enable_extension "pg_stat_statements"
 
   create_table "admins", force: true do |t|
     t.string   "email",                               default: "",    null: false
@@ -553,21 +552,20 @@ ActiveRecord::Schema.define(version: 20140415134337) do
     t.string   "name"
     t.text     "info"
     t.text     "registration_info"
-    t.boolean  "gives_professional_courses"
     t.string   "website"
     t.string   "contact_phone"
     t.string   "contact_mobile_phone"
     t.string   "contact_email"
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
     t.string   "slug"
     t.string   "street"
     t.string   "zip_code"
     t.text     "description"
     t.integer  "city_id"
-    t.boolean  "active",                     default: false
+    t.boolean  "active",                   default: false
     t.integer  "pricing_plan_id"
-    t.boolean  "has_validated_conditions",   default: false
+    t.boolean  "has_validated_conditions", default: false
     t.integer  "validated_by"
     t.string   "cancel_condition"
     t.string   "modification_condition"
@@ -578,7 +576,7 @@ ActiveRecord::Schema.define(version: 20140415134337) do
     t.text     "subjects_string"
     t.text     "parent_subjects_string"
     t.decimal  "rating"
-    t.integer  "comments_count",             default: 0
+    t.integer  "comments_count",           default: 0
     t.text     "facebook_url"
     t.boolean  "no_facebook"
     t.boolean  "no_website"
@@ -586,9 +584,9 @@ ActiveRecord::Schema.define(version: 20140415134337) do
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
     t.datetime "logo_updated_at"
-    t.integer  "crop_x",                     default: 0
-    t.integer  "crop_y",                     default: 0
-    t.integer  "crop_width",                 default: 500
+    t.integer  "crop_x",                   default: 0
+    t.integer  "crop_y",                   default: 0
+    t.integer  "crop_width",               default: 500
     t.boolean  "has_only_one_place"
     t.string   "email_status"
     t.datetime "last_email_sent_at"
@@ -596,7 +594,7 @@ ActiveRecord::Schema.define(version: 20140415134337) do
     t.string   "funding_type_ids"
     t.string   "widget_status"
     t.string   "sticker_status"
-    t.boolean  "teaches_at_home",            default: false
+    t.boolean  "teaches_at_home",          default: false
     t.text     "widget_url"
     t.integer  "teaches_at_home_radius"
     t.hstore   "meta_data"

@@ -110,18 +110,8 @@
     $(function() {
         var places_are_hidden = true;
         $('#show-comments').click(function(){
-          $.scrollTo($('[href="#tab-comments"]'), {duration: 200});
+          $.scrollTo($('[href="#tab-comments"]'), { duration: 200, offset: { top: -$('#media-grid').height() }});
           $('[href="#tab-comments"]').click();
-        });
-        $('#show-all-places').click(function() {
-            if (places_are_hidden) {
-                $(this).text('Cacher les adresses');
-                $('#place-list .hidden').removeClass('hidden');
-            } else {
-                $('#place-list li').addClass('hidden');
-                $(this).text('Voir les adresses');
-            }
-            places_are_hidden = !places_are_hidden;
         });
         $('[href=#tab-medias]').click(function(){
             setTimeout(function(){

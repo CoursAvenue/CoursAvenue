@@ -3,18 +3,22 @@
 
 = content_for :content do
   - if @structure
-    .darkgray-box
-      .v-middle.inline-block.soft-half--left
+    .darkgray-box.flexbox
+      .flexbox__item.v-middle.soft-half--left{ style: 'width: %40px ;' }
         - if @structure.logo?
           = link_to edit_pro_structure_path(@structure), class: 'block push-half--right' do
             = image_tag @structure.logo.url(:thumb), width: 40, class: 'block'
         - else
           = link_to '', edit_pro_structure_path(@structure), class: 'fa-2x fa fa-picture-o soft-half muted-link white', data: { toggle: 'popover', content: "Ajouter un logo", placement: 'right', trigger: 'hover' }
-      %h5.inline-block.v-middle.flush--bottom.push-half--right.white
-        = link_to edit_pro_structure_path(@structure), class: 'block semi-muted-link' do
-          = @structure.name
-      .inline-block.v-middle
-        = link_to '', structure_url(@structure, subdomain: 'www'), data: { toggle: 'popover', content: "Profil public", placement: 'right', trigger: 'hover' }, class: 'white muted-link bold fa fa-external-link block', style: 'padding-top: 4px;', target: '_blank'
+      .flexbox__item.v-middle
+        %h5.flush--bottom.white
+          = link_to edit_pro_structure_path(@structure), class: 'block semi-muted-link' do
+            = @structure.name
+      .flexbox__item.v-middle.text--right.soft-half--right
+        = link_to structure_url(@structure, subdomain: 'www'), class: 'white' do
+          .fa.fa-eye
+          Voir mon profil public
+        /, data: { toggle: 'popover', content: "Affichez votre profil tel qu'il apparaît sur le moteur de recherche CoursAvenue.", placement: 'right', trigger: 'hover' }, class: 'white muted-link bold fa fa-external-link block', style: 'padding-top: 4px;', target: '_blank'
 
   .flexbox
     - if content_for? :side_menu

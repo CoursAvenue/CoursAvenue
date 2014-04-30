@@ -28,7 +28,7 @@
         $('#show-comments').click(function(){
             $('[href="#tab-comments"]').click();
             _.delay(function() {
-                $.scrollTo($('[href="#tab-comments"]'), {duration: 200, offset: { top: $('#media-grid').height() }});
+                $.scrollTo($('[href="#tab-comments"]'), { duration: 200, offset: { top: -$('#media-grid').height() } } );
             }, 500);
         });
     });

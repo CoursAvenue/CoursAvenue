@@ -5,9 +5,12 @@
         display  : none;
         position : absolute;
         min-width: 200px;
-        width    : 275px;
         left     : 0;
         font-size: 15px;
+        width    : 275px;
+        @media screen and (min-width: 1400px) { width: 325px; }
+        @media screen and (min-width: 1600px) { width: 350px; }
+
     }
         .wizard__icon {
             font-size: 30px

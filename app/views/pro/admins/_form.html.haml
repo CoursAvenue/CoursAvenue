@@ -18,7 +18,7 @@
       Changement de mot de passe
 
     = f.input :password, wrapper_html: {class: 'flush--bottom'}, label: 'Nouveau mot de passe', input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
-    = f.input :password_confirmation, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+    = f.input :password_confirmation, input_html: { class: 'input--large v-middle' }, label_html: { class: 'label--large v-middle' }
 
     .push--top
       = f.submit 'Enregistrer',  class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }

@@ -8,16 +8,8 @@ class Pro::Structures::TeachersController < InheritedResources::Base
   load_and_authorize_resource :structure, except: [:index], find_by: :slug
 
   def index
-    @teacher   = Teacher.new
     @structure = Structure.find params[:structure_id]
     @teachers  = @structure.teachers.order('name ASC')
-
-    respond_to do |format|
-      format.html
-      # render json: @teachers,
-      #        root: 'teachers',
-      #        each_serializer: TeacherSerializer
-    end
   end
 
   def create

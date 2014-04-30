@@ -35,7 +35,7 @@ class Structure < ActiveRecord::Base
   attr_reader :delete_logo
   attr_accessible :structure_type, :street, :zip_code, :city_id,
                   :place_ids, :name, :info, :registration_info,
-                  :gives_professional_courses, :website, :facebook_url, :contact_phone,
+                  :website, :facebook_url, :contact_phone,
                   :contact_mobile_phone, :contact_email, :description,
                   :subject_ids,
                   :active,
@@ -51,7 +51,9 @@ class Structure < ActiveRecord::Base
                   :email_status, :last_email_sent_at, :last_email_sent_status,
                   :widget_status, :widget_url, :sticker_status,
                   :teaches_at_home, :teaches_at_home_radius, # in KM
-                  :subjects_string, :parent_subjects_string # "Name of the subject,slug-of-the-subject;Name,slug"
+                  :subjects_string, :parent_subjects_string, # "Name of the subject,slug-of-the-subject;Name,slug"
+                  :gives_group_courses, :gives_individual_courses,
+                  :gives_non_professional_courses, :gives_professional_courses
 
   # To store hashes into hstore
   store_accessor :meta_data, :gives_group_courses, :gives_individual_courses,
@@ -59,10 +61,11 @@ class Structure < ActiveRecord::Base
                              :last_comment_title, :min_price_libelle, :min_price_amount, :max_price_libelle, :max_price_amount,
                              :level_ids, :audience_ids, :busy,
                              :open_courses_open_places, :open_course_nb, :jpo_email_status, :open_course_plannings_nb,
-                             :response_rate, :response_time
+                             :response_rate, :response_time, :gives_non_professional_courses, :gives_professional_courses
 
 
-  define_boolean_accessor_for :meta_data, :has_promotion, :gives_group_courses, :gives_individual_courses, :has_free_trial_course
+  define_boolean_accessor_for :meta_data, :has_promotion, :gives_group_courses, :gives_individual_courses,
+                              :has_free_trial_course, :gives_non_professional_courses, :gives_professional_courses
 
   has_attached_file :logo,
                     styles: {
@@ -725,7 +728,8 @@ class Structure < ActiveRecord::Base
   end
 
   def set_active_to_true
-    self.active = true
+    self.active              = true
+    self.gives_group_courses = true
   end
 
   def delay_subscribe_to_mailchimp
