@@ -1,36 +1,40 @@
 - content_for :side_menu do
   %ul
     - if current_pro_admin and current_pro_admin.super_admin?
-      = pro_side_menu_link 'Dashboard'            , pro_dashboard_path, current: current_tab, icon: 'fa fa-bar-chart'
-      = pro_side_menu_link 'Derniers avis'        , pro_comments_path , current: current_tab, icon: 'fa fa-comments'
-      = pro_side_menu_link 'Invitation élèves'    , pro_comment_notifications_path , current: current_tab, icon: 'fa fa-group'
-      = pro_side_menu_link 'Users'                , pro_users_path    , current: current_tab, icon: 'fa fa-group'
-      = pro_side_menu_link 'Profs'                , pro_admins_path   , current: current_tab, icon: 'fa fa-group'
-      = pro_side_menu_link 'Profs stars'          , stars_pro_structures_path, current: current_tab, icon: 'fa fa-star'
-      = pro_side_menu_link 'JPO'                  , pro_open_courses_path, current: current_tab, icon: 'fa fa-list'
-      = pro_side_menu_link 'Invitations'          , pro_invited_users_path   , current: current_tab, icon: 'fa fa-group'
-      = pro_side_menu_link 'Pages verticales'     , pro_subjects_path   , current: current_tab, icon: 'fa fa-arrow-up'
-      = pro_side_menu_link 'Disciplines'          , all_pro_subjects_path   , current: current_tab, icon: 'fa fa-arrow-down'
-      = pro_side_menu_link 'Nombre de click'      , pro_click_logs_path   , current: current_tab, icon: 'fa fa-hand-o-up'
-      = pro_side_menu_link 'Derniers messages'    , pro_conversations_path   , current: current_tab, icon: 'fa fa-envelope'
-      = pro_side_menu_link 'Demande de stickers'  , pro_sticker_demands_path, current: current_tab, icon: 'fa fa-envelope'
-      = pro_side_menu_link 'Visiteurs'            , pro_visitors_path, current: current_tab, icon: 'fa fa-group'
+      = pro_side_menu_link 'dashboard'            , pro_dashboard_path             , current: current_tab, icon: 'fa fa-dashboard'
+      = pro_side_menu_link 'last_comments'        , pro_comments_path              , current: current_tab, icon: 'fa fa-comments'
+      = pro_side_menu_link 'students_invitations' , pro_comment_notifications_path , current: current_tab, icon: 'fa fa-group'
+      = pro_side_menu_link 'users'                , pro_users_path                 , current: current_tab, icon: 'fa fa-group'
+      = pro_side_menu_link 'teachers'             , pro_admins_path                , current: current_tab, icon: 'fa fa-group'
+      = pro_side_menu_link 'teachers_stars'       , stars_pro_structures_path      , current: current_tab, icon: 'fa fa-star'
+      = pro_side_menu_link 'jpo'                  , pro_open_courses_path          , current: current_tab, icon: 'fa fa-list'
+      = pro_side_menu_link 'invitations'          , pro_invited_users_path         , current: current_tab, icon: 'fa fa-group'
+      = pro_side_menu_link 'vertical_pages'       , pro_subjects_path              , current: current_tab, icon: 'fa fa-arrow-up'
+      = pro_side_menu_link 'subjects'             , all_pro_subjects_path          , current: current_tab, icon: 'fa fa-arrow-down'
+      = pro_side_menu_link 'clicks'               , pro_click_logs_path            , current: current_tab, icon: 'fa fa-hand-o-up'
+      = pro_side_menu_link 'last_messages'        , pro_conversations_path         , current: current_tab, icon: 'fa fa-envelope'
+      = pro_side_menu_link 'stickers'             , pro_sticker_demands_path       , current: current_tab, icon: 'fa fa-envelope'
+      = pro_side_menu_link 'visitors'             , pro_visitors_path              , current: current_tab, icon: 'fa fa-group'
       %li &nbsp;
 
     - if @structure
-      = pro_side_menu_link 'Tableau de bord', dashboard_pro_structure_path(@structure)  , current: current_tab, icon: 'fa fa-dashboard'
-      = pro_side_menu_link 'Mes infos'      , (@structure.new_record? ? inscription_pro_structures_path : edit_pro_structure_path(@structure)) , current: current_tab,   icon: 'fa fa-user'
-      = pro_side_menu_link 'Mes avis'                 , pro_structure_comments_path(@structure)   , current: current_tab, icon: 'fa fa-comments'
-      = pro_side_menu_link 'Mes cours'      , pro_structure_courses_path(@structure)    , current: current_tab,   icon: 'fa fa-list'
+      %li.subtitle ACTIVITÉ
+      = pro_side_menu_link 'dashboard'    , dashboard_pro_structure_path(@structure)  , current: current_tab, icon: 'fa fa-dashboard'
+      %li.subtitle DESCRIPTION
+      = pro_side_menu_link 'presentation' , edit_pro_structure_path(@structure)       , current: current_tab,   icon: 'fa fa-user'
+      = pro_side_menu_link 'places'       , pro_structure_places_path(@structure)     , current: current_tab,   icon: 'fa fa-map-marker'
+      = pro_side_menu_link 'comments'     , pro_structure_comments_path(@structure)   , current: current_tab, icon: 'fa fa-comments'
+      = pro_side_menu_link 'courses'      , pro_structure_courses_path(@structure)    , current: current_tab,   icon: 'fa fa-list'
       - if @structure.parisian?
-        = pro_side_menu_link 'Journées Portes Ouvertes', pro_structure_course_opens_path(@structure)    , current: current_tab,   icon: 'fa fa-calendar'
-      = pro_side_menu_link 'Mes photos & vidéos', pro_structure_medias_path(@structure) , current: current_tab,   icon: 'fa fa-youtube-play'
+        = pro_side_menu_link 'jpo'        , pro_structure_course_opens_path(@structure)    , current: current_tab,   icon: 'fa fa-calendar'
+      = pro_side_menu_link 'medias'       , pro_structure_medias_path(@structure) , current: current_tab,   icon: 'fa fa-youtube-play'
       - if current_pro_admin and current_pro_admin.super_admin?
-        = pro_side_menu_link 'Mes élèves', pro_structure_user_profiles_path(@structure) , current: current_tab,   icon: 'fa fa-group'
-      = pro_side_menu_link 'Mes messages', pro_structure_conversations_path(@structure) , current: current_tab,   icon: 'fa fa-envelope'
-      = pro_side_menu_link 'Parrainer', new_pro_structure_invited_teacher_path(@structure)     , current: current_tab, icon: 'fa fa-gift', id: 'recommandation-side-menu'
+        = pro_side_menu_link 'crm'        , pro_structure_user_profiles_path(@structure) , current: current_tab,   icon: 'fa fa-group'
+      = pro_side_menu_link 'messages'     , pro_structure_conversations_path(@structure) , current: current_tab,   icon: 'fa fa-envelope'
+      = pro_side_menu_link 'share'        , new_pro_structure_invited_teacher_path(@structure)     , current: current_tab, icon: 'fa fa-gift', id: 'recommandation-side-menu'
       - if @structure.comments_count >= 5
-        = pro_side_menu_link 'Communiquer', widget_pro_structure_path(@structure)     , current: current_tab, icon: 'fa fa-bullhorn'
+        = pro_side_menu_link 'communicate' , widget_pro_structure_path(@structure)     , current: current_tab, icon: 'fa fa-bullhorn'
+      %li.subtitle PARAMÈTRES
 
 = content_for :scripts do
   :javascript

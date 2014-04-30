@@ -100,3 +100,27 @@ fr:
         structure_name_info: "Si vous êtes un professeur indépendant, renseignez votre Prénom + Nom"
         structure_address_info: "Si vous êtes un professeur indépendant, renseignez votre adresse ; si ce n’est pas celle de vos cours, vous pourrez le spécifier dans votre espace et rajouter d’autres lieux"
         structure_address: Adresse principale (N° + Rue)
+      side_menu:
+        presentation: Présentation
+        comments: Mes avis
+        messages: Mes messages
+        dashboard: Tableau de bord
+        courses: Mes cours
+        jpo: Journées Portes Ouvertes
+        medias: "Mes photos & vidéos"
+        crm: Mes élèves
+        communicate: Communiquer
+        share: Parrainer
+        last_comments: Derniers avis
+        students_invitations: Invitation élèves
+        users: Users
+        teachers: Profs
+        teachers_stars: Profs stars
+        vertical_pages: Pages verticales
+        subjects: Disciplines
+        clicks: Nombre de click
+        last_messages: Derniers messages
+        stickers: Demande de stickers
+        visitors: Visiteurs
+        invitations: Invitations
+        places: Lieux

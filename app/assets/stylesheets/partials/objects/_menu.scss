@@ -68,6 +68,13 @@
         margin    : 0;
         width     : 100%;
         li {
+            &.subtitle {
+                color      : #D0D0D0;
+                font-size  : 12px;
+                margin-top : 1em;
+                padding    : 0.7em 0 0.7em 1.3em;
+                font-weight: bold;
+            }
             &.sidemenu--extra, &.sidemenu--extra.active {
                 background-color: $green-success;
                 &.active {
@@ -84,9 +91,9 @@
             &.active {
                 font-weight : bold;
             }
-            &:hover {
-                background-color: lighten($blue, 50%);
-            }
+            // &:hover {
+            //     background-color: lighten($blue, 50%);
+            // }
             &.active, &.active:hover {
                 background-color   : $blue;
                 box-shadow         : inset 0px 0px 10px darken($blue, 4%);
@@ -97,11 +104,10 @@
             border-bottom: 1px solid #DDD;
             a {
                 & { text-decoration: none; }
-                color       : #555;
+                color       : #6F6F6F;
                 display     : block;
                 font-size   : 15px;
-                // padding     : 1em;
-                padding     : 1.2em 0 1em 1.3em;
+                padding     : 0.7em 0 0.7em 1.3em;
                 .fa {
                     padding-right: 1em;
                 }

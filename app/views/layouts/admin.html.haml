@@ -4,7 +4,7 @@
 = content_for :content do
   - if @structure
     .darkgray-box.flexbox
-      .flexbox__item.v-middle.soft-half--left{ style: 'width: %40px ;' }
+      .flexbox__item.v-middle.soft-half--left{ style: 'width: 40px ;' }
         - if @structure.logo?
           = link_to edit_pro_structure_path(@structure), class: 'block push-half--right' do
             = image_tag @structure.logo.url(:thumb), width: 40, class: 'block'
@@ -18,7 +18,6 @@
         = link_to structure_url(@structure, subdomain: 'www'), class: 'white' do
           .fa.fa-eye
           Voir mon profil public
-        /, data: { toggle: 'popover', content: "Affichez votre profil tel qu'il apparaît sur le moteur de recherche CoursAvenue.", placement: 'right', trigger: 'hover' }, class: 'white muted-link bold fa fa-external-link block', style: 'padding-top: 4px;', target: '_blank'
 
   .flexbox
     - if content_for? :side_menu

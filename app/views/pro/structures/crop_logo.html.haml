@@ -1,6 +1,6 @@
 %div{class: @is_xhr ? '' : 'panel'}
   - unless @is_xhr
-    = side_menu_currently_at 'Mes infos'
+    = side_menu_currently_at 'presentation'
     = render partial: 'pro/structures/tabs', locals: { current: 'établissement'}
 
   %div{class: @is_xhr ? '' : 'panel__body soft'}

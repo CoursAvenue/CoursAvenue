@@ -1,6 +1,6 @@
-= side_menu_currently_at 'Mes infos'
+= side_menu_currently_at 'places'
+
 .panel
-  = render partial: 'pro/structures/tabs', locals:{ current: 'lieux'}
   .panel__body
     - if @places.any?
       #map.google-map.push--top
@@ -15,6 +15,7 @@
               %i.fa.fa-external-link
             %th Nom du lieu
             %th Adresse
+            %th
         %tbody
           - @places.each do |place|
             %tr
