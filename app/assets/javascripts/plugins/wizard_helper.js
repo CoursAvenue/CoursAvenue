@@ -34,7 +34,7 @@
     Plugin.prototype = {
         template: Handlebars.compile(wizard_template),
         init: function() {
-            this.$wizard_container = $(this.$element.data('container')) || $('.wizard-container');
+            this.$wizard_container = ( this.$element.data('container') ? $(this.$element.data('container')) : $('.wizard-container') );
             this.$content          = $(this.template({ content: this.$element.data('content') }));
             this.$wizard_container.append(this.$content);
             // Make the wizard appear on the right on mouseenter

@@ -1,7 +1,7 @@
 = side_menu_currently_at 'comments'
 .panel
   = render partial: 'pro/structures/comments_tabs', locals: {current: 'comments'}
-  .panel__body.soft
+  .panel__body.soft{ data: { behavior: 'wizard-helper', content: "<p><strong>2 manières de répondre aux avis</strong> :</p><p><strong>Envoyez un message privé</strong><br>A chaque nouveau commentaire, répondez à l'élève en lui envoyant un message privé : remerciez-le pour sa recommandation ou envoyez-lui un simple mot de gentillesse en prévision du prochain cours.</p><p><strong>Ajoutez un commentaire public</strong><br>Répondez au maximum d'avis par un commentaire public qui s'affichera à la suite de l'avis sur votre profil public. Cela apporte de la crédibilité à vos témoignages et vous offre l'opportunité d'apporter des informations complémentaires.</p><p>Si l'avis ne respecte pas les critères de publication, signalez-le nous.</p>" } }
     .text--center.soft--bottom
       = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue btn--large'
 
@@ -38,4 +38,3 @@
       %ul.comment-list
         = render partial: '/comments/comment', collection: @comments
       .text--center.push-half--ends= paginate @comments, window: 1, outer_window: 3
-

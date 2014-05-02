@@ -148,18 +148,13 @@ CoursAvenue::Application.routes.draw do
             patch :ask_for_deletion
           end
         end
-        resources :medias, only: [:edit, :update, :index, :destroy], controller: 'structures/medias'
-
-        resources :videos, only: [:create, :new], controller: 'structures/medias/videos' do
+        resources :medias, only: [:edit, :update, :index, :destroy], controller: 'structures/medias' do
           member do
             put :make_it_cover
           end
         end
-        resources :images, only: [:create, :new], controller: 'structures/medias/images' do
-          member do
-            put :make_it_cover
-          end
-        end
+        resources :videos, only: [:create, :new], controller: 'structures/medias/videos'
+        resources :images, only: [:create, :new], controller: 'structures/medias/images'
 
         resources :teachers     , controller: 'structures/teachers'
         resources :places       , controller: 'structures/places'

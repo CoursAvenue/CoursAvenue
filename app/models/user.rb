@@ -320,7 +320,11 @@ class User < ActiveRecord::Base
   #
   # @return UserProfile
   def user_profile_for(structure)
-    self.user_profiles.where(structure_id: structure.id).first
+    user_profile = self.user_profiles.where(structure_id: structure.id).first
+    if user_profile.nil?
+      user_profile = structure.user_profiles.create(email: self.email)
+    end
+    user_profile
   end
 
   def facebook_registered?

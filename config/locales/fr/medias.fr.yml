@@ -7,5 +7,6 @@ fr:
         other: Médias
     attributes:
       media:
-        url: 'Lien video / image'
+        url: Lien video
         caption: Légende
+        vertical_page_caption: Légende page verticale

@@ -26,6 +26,9 @@ class Pro::Structures::Medias::VideosController < Pro::ProController
   def new
     @structure = Structure.friendly.find params[:structure_id]
     @video     = Media::Video.new mediable: @structure
+    if request.xhr?
+      render partial: 'form'
+    end
   end
 
   def edit
