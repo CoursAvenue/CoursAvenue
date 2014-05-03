@@ -1,14 +1,9 @@
-.grid
-  .grid__item.one-twelfth.v-top.text--right>
-    = image_tag @user.avatar_url(:thumb), class: 'message__avatar'
-  .grid__item.eleven-twelfths.soft-half--left>
+.grid--full.push-half--bottom.message
+  .grid__item.two-twelfths.v-top.v-top>
+    = image_tag @user.avatar_url(:thumb), class: 'message__avatar block center-block bordered'
+  .grid__item.ten-twelfths.message__body.soft-half>
     = simple_form_for [@user, @conversation], url: user_conversation_path(@user, @conversation), as: :conversation do |f|
-      .form-white-box.flush--top
-        = f.error_notification
-        = f.fields_for :message, @message do |message_form|
-          .grid--full
-            .grid__item.two-twelfths>
-              = message_form.label :body
-            .grid__item.ten-twelfths>
-              = message_form.input :body, input_html: { style: 'height: 100px', value: cookies["conversation_#{params[:id]}_message"], class: 'one-whole', data: {behavior: 'autoresize'} }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
-              = f.submit 'Répondre', class: 'btn btn--green btn--full', data: { disable_with: "Message en cours d'envoi" }
+      = f.error_notification
+      = f.fields_for :message, @message do |message_form|
+        = message_form.input :body, input_html: { placeholder: 'Ajouter un message personnel ici', style: 'height: 100px', value: cookies["conversation_#{params[:id]}_message"], class: 'one-whole', data: {behavior: 'autoresize'} }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
+      = f.submit 'Répondre', class: 'btn btn--green', data: { disable_with: "Message en cours d'envoi" }

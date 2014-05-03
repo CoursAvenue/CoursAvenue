@@ -4,17 +4,32 @@
     }
 }
     .message__avatar {
-        padding-top: 2px;
-        height     : 50px;
-        width      : 50px;
+        height: 50px;
+        width : 50px;
     }
 
-.conversation {
-    .white-box {
-        background-color: #FFF;
-        @include transition(background-color 150ms linear);
+.message__body {
+    border  : 1px solid $gray-smooth;
+    position: relative;
+    @include border-radius($brand-round);
+    &:before, &:after {
+        left: -10px;
+        top : 10px;
+        position           : absolute;
+        content            : '';
+        display            : inline-block;
+        border-top         : 0;
     }
-    .white-box:hover {
-        background-color: #F9F9F9;
+    &:before {
+        border-top         : 10px solid transparent;
+        border-right       : 10px solid #BBB;
+        border-bottom      : 10px solid transparent;
+    }
+    &:after {
+        border-top   : 9px solid transparent;
+        border-right : 9px solid #fff;
+        border-bottom: 9px solid transparent;
+        top          : 11px;
+        left         : -9px;
     }
 }

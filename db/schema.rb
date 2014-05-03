@@ -318,9 +318,10 @@ ActiveRecord::Schema.define(version: 20140429225815) do
   end
 
   create_table "mailboxer_conversations", force: true do |t|
-    t.string   "subject",    default: ""
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.string   "subject",            default: ""
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.integer  "mailboxer_label_id"
   end
 
   create_table "mailboxer_notifications", force: true do |t|

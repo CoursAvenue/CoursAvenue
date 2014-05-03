@@ -1,18 +1,25 @@
 = side_menu_currently_at 'messages'
+.panel
+  .panel__body.soft
+    - recipients = @conversation.recipients.reject{|recipient| recipient == @admin }
+    %ol.nav.breadcrumb{itemprop: 'breadcrumb'}
+      %li.delta= link_to 'Boîte de réception', pro_structure_conversations_path(@structure)
+      %li.delta= link_to conversation_label_name(@conversation), pro_structure_conversations_path(@structure, conversation_label_id: @conversation.mailboxer_label_id)
+      %li.delta Conversation avec #{truncate(recipients.map{|recipient| recipient.name || recipient.email}.join(', '), length: 50) }
 
-- recipients = @conversation.recipients.reject{|recipient| recipient == @admin }
-%ol.nav.breadcrumb{itemprop: 'breadcrumb'}
-  %li.delta= link_to 'Mes conversations', pro_structure_conversations_path(@structure)
-  %li.delta Conversation avec #{truncate(recipients.map{|recipient| recipient.name || recipient.email}.join(', '), length: 50) }
+    .grid
+      .grid__item.two-twelfths.v-middle.text--right>
+        %p.flush Objet
+      .grid__item.ten-twelfths.soft-half--left.v-middle>
+        %h5.flush= @conversation.subject
+    .grid
+      .grid__item.two-twelfths.v-middle.text--right>
+        %p À
+      .grid__item.ten-twelfths.soft-half--left.v-middle>
+        %p= recipients.map(&:name).join(', ')
 
-.grid
-  .grid__item.one-twelfth.v-top.text--right>
-    %p.flush Objet
-    %p À
-  .grid__item.eleven-twelfths.soft-half--left>
-    %h5.flush= @conversation.subject
-    %p= recipients.map(&:name).join(', ')
+    = render 'pro/structures/conversations/form'
 
-= render partial: 'messages/message', collection: @conversation.messages.reject(&:new_record?).sort_by(&:created_at)
+    = render partial: 'messages/message', collection: @conversation.messages.order('created_at DESC').reject(&:new_record?)
 
-= render 'pro/structures/conversations/form'
+

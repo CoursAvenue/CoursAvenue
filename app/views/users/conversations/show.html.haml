@@ -1,48 +1,51 @@
-= user_menu_currently_at 'messages'
+= user_menu_currently_at 'Mes messages'
 
-- recipients = @conversation.recipients.reject{|recipient| recipient == @user }
-%ol.nav.breadcrumb{itemprop: 'breadcrumb'}
-  - if current_user
-    %li.delta= link_to 'Mes conversations', user_conversations_path(current_user)
+.white-box.soft
+  - recipients = @conversation.recipients.reject{|recipient| recipient == @user }
+  %ol.nav.breadcrumb{itemprop: 'breadcrumb'}
+    - if current_user
+      %li.delta= link_to 'Mes conversations', user_conversations_path(current_user)
+    - else
+      %li.delta= link_to "Mes conversations", 'javascript:void(0);', data: {behavior: 'connection'}
+    %li.delta Conversation avec #{truncate(recipients.map{|recipient| recipient.name || recipient.email}.join(', '), length: 50) }
+
+  .grid
+    .grid__item.two-twelfths.v-middle.text--right>
+      %p.flush Objet
+    .grid__item.ten-twelfths.soft-half--left.v-middle>
+      %h5.flush= @conversation.subject
+  .grid
+    .grid__item.two-twelfths.v-middle.text--right>
+      %p À
+    .grid__item.ten-twelfths.soft-half--left.v-middle>
+      %p= recipients.map(&:name).join(', ')
+
+  - if current_user and @user.active?
+    = render 'users/conversations/form'
   - else
-    %li.delta= link_to "Mes conversations", 'javascript:void(0);', data: {behavior: 'connection'}
-  %li.delta Conversation avec #{truncate(recipients.map{|recipient| recipient.name || recipient.email}.join(', '), length: 50) }
+    .text--center
+      = link_to 'Répondre', '#registration', title: 'Enregistrez-vous pour répondre', class: 'btn btn--green btn--large btn--full', data: {behavior: 'modal'}, id: 'registration-link'
 
-.grid
-  .grid__item.one-twelfth.v-top.text--right>
-    %p.flush Objet
-    %p À
-  .grid__item.eleven-twelfths.soft-half--left>
-    %h5.flush= @conversation.subject
-    %p= recipients.map(&:name).join(', ')
+    - session['user_return_to'] = user_conversations_path(@user)
 
-= render partial: 'messages/message', collection: @conversation.messages.reject(&:new_record?).sort_by(&:created_at)
+    #registration.hidden
+      = render 'users/registrations/form'
+    - content_for :scripts do
+      :javascript
+        $(function(){
+            $('[data-behavior="connection"]').click(function() {
+                $.fancybox($('#registration'));
+            });
+        });
 
-
-- if current_user and @user.active?
-  = render 'users/conversations/form'
-- else
-  .text--center
-    = link_to 'Répondre', '#registration', title: 'Enregistrez-vous pour répondre', class: 'btn btn--green btn--large btn--full', data: {behavior: 'modal'}, id: 'registration-link'
-
-  - session['user_return_to'] = user_conversations_path(@user)
-
-  #registration.hidden
-    = render 'users/registrations/form'
   - content_for :scripts do
     :javascript
       $(function(){
-          $('[data-behavior="connection"]').click(function() {
-              $.fancybox($('#registration'));
-          });
+          if ($.cookie("conversation_#{params[:id]}_message_first_time")) {
+              $.removeCookie("conversation_#{params[:id]}_message", {path: '/'});
+          } else {
+              $.cookie("conversation_#{params[:id]}_message_first_time", true);
+          }
       });
 
-- content_for :scripts do
-  :javascript
-    $(function(){
-        if ($.cookie("conversation_#{params[:id]}_message_first_time")) {
-            $.removeCookie("conversation_#{params[:id]}_message", {path: '/'});
-        } else {
-            $.cookie("conversation_#{params[:id]}_message_first_time", true);
-        }
-    });
+  = render partial: 'messages/message', collection: @conversation.messages.reject(&:new_record?).sort_by(&:created_at)

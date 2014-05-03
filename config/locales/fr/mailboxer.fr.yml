@@ -5,3 +5,7 @@ fr:
       subject_reply: "Vous avez reçu une réponse de %{sender}"
     notification_mailer:
       subject: "Vous avez une notification : %{subject}"
+    label:
+      information: Demande d'information
+      comment: Avis déposé
+      conversation: Conversation

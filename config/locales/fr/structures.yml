@@ -102,8 +102,8 @@ fr:
         structure_address: Adresse principale (N° + Rue)
       side_menu:
         presentation: Présentation
-        comments: Mes avis
-        messages: Mes messages
+        comments: Avis
+        messages: Messages
         dashboard: Tableau de bord
         courses: Mes cours
         jpo: Portes Ouvertes
@@ -125,3 +125,4 @@ fr:
         invitations: Invitations
         places: Lieux
         contact: Contact
+        statistics: Statistiques
