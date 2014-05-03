@@ -18,6 +18,17 @@
 .north             { top        : 0; }
 .south             { bottom     : 0; }
 .hidden            { display    : none; }
+
+.absolute--center {
+    top        : 50%;
+    left       : 50%;
+    width      : 10em;
+    height     : 10em;
+    line-height: 10em;
+    margin-left: -5em;
+    margin-top : -5em;
+}
+
 .flip {
     @include vendor(transform, scaleX(-1));
     filter: FlipH; /* IE 6/7/8 */
