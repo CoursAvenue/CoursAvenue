@@ -27,7 +27,7 @@
     }
     &:after {
         border-top   : 9px solid transparent;
-        border-right : 9px solid #fff;
+        border-right : 9px solid $pane-background-color;
         border-bottom: 9px solid transparent;
         top          : 11px;
         left         : -9px;

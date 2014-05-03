@@ -161,6 +161,8 @@ CoursAvenue::Application.routes.draw do
 
         resources :messages     , controller: 'structures/messages'
         resources :conversations, controller: 'structures/conversations'
+        resources :statistics   , controller: 'structures/statistics', only: [:index]
+
         resources :courses, path: 'cours', controller: 'structures/courses' do
           member do
             post 'duplicate'

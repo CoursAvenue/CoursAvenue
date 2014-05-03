@@ -13,9 +13,9 @@
         .grid__item.one-half.v-middle>
           %select#conversation_label{ name: 'conversation_label_id' }
             %option{ value: '' } Tous les messages
-            %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::INFORMATION.id), value: Mailboxer::Label::INFORMATION.id } Demande d'information
-            %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::COMMENT.id), value: Mailboxer::Label::COMMENT.id } Avis déposé
-            %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::CONVERSATION.id), value: Mailboxer::Label::CONVERSATION.id } Conversation
+            %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::INFORMATION.id), value: Mailboxer::Label::INFORMATION.id } Demande d'information (#{@admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).count})
+            %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::COMMENT.id), value: Mailboxer::Label::COMMENT.id } Avis déposé (#{@admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::COMMENT.id).count})
+            %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::CONVERSATION.id), value: Mailboxer::Label::CONVERSATION.id } Conversation (#{@admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::CONVERSATION.id).count})
         .grid__item.one-half.v-middle>
           .text--right= paginate @conversations, window: 1, outer_window: 3
       - @conversations.each do |conversation|

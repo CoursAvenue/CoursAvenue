@@ -1,12 +1,12 @@
 = side_menu_currently_at 'messages'
+- recipients = @conversation.recipients.reject{|recipient| recipient == @admin }
 .panel
-  .panel__body.soft
-    - recipients = @conversation.recipients.reject{|recipient| recipient == @admin }
-    %ol.nav.breadcrumb{itemprop: 'breadcrumb'}
+  .panel__header.soft
+    %ol.nav.flush.breadcrumb{itemprop: 'breadcrumb'}
       %li.delta= link_to 'Boîte de réception', pro_structure_conversations_path(@structure)
       %li.delta= link_to conversation_label_name(@conversation), pro_structure_conversations_path(@structure, conversation_label_id: @conversation.mailboxer_label_id)
       %li.delta Conversation avec #{truncate(recipients.map{|recipient| recipient.name || recipient.email}.join(', '), length: 50) }
-
+  .panel__body.soft
     .grid
       .grid__item.two-twelfths.v-middle.text--right>
         %p.flush Objet

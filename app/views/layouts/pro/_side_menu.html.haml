@@ -20,6 +20,7 @@
     - if @structure
       %li.subtitle ACTIVITÉ
       = pro_side_menu_link 'dashboard'    , dashboard_pro_structure_path(@structure)    , current: current_tab, icon: 'fa fa-dashboard'
+      = pro_side_menu_link 'statistics'   , pro_structure_statistics_path(@structure)   , current: current_tab, icon: 'fa fa-bar-chart-o'
       %li.subtitle DESCRIPTION
       = pro_side_menu_link 'presentation' , edit_pro_structure_path(@structure)         , current: current_tab,   icon: 'fa fa-user'
       = pro_side_menu_link 'places'       , pro_structure_places_path(@structure)       , current: current_tab,   icon: 'fa fa-map-marker'

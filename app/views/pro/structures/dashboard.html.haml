@@ -1,4 +1,4 @@
-= side_menu_currently_at 'Tableau de bord'
+= side_menu_currently_at 'dashboard'
 .white-box.soft--top
   - if @wizard
     #wizard.blue-box.islet.hidden.relative
@@ -231,7 +231,7 @@
                 %p.flush--bottom
                   %i= media.caption
             - if media.image? and !media.cover?
-              = link_to 'Définir comme photo de profil', make_it_cover_pro_structure_image_path(@structure, media), method: :put, class: 'push-half--left show-on-hover btn btn--small btn--blue'
+              = link_to 'Mettre en avant', make_it_cover_pro_structure_media_path(@structure, media), method: :put, class: 'push-half--left show-on-hover btn btn--small btn--blue'
             = link_to 'Supprimer', pro_structure_media_path(@structure, media), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce média ?' }, class: 'push-half--left show-on-hover btn btn--small btn--red'
 
       %p.text--center= link_to 'Ajouter une photo ou une vidéo', pro_structure_medias_path(@structure), class: 'btn btn--blue'
