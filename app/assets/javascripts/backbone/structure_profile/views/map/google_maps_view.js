@@ -4,17 +4,17 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
         infoBoxView:  Module.InfoBoxView,
 
         onShow: function onShow () {
-            var $view        = this.$el.parent(),
-                $grid_item   = $view.parent(),
-                $grid_parent = $grid_item.parent();
-                media_container_width = $grid_parent.width();
-
+            var $view                       = this.$el.parent(),
+                $grid_item                  = $view.parent(),
+                $grid_parent                = $grid_item.parent();
+                media_container_width       = $('#media-grid').width(),
+                media_container_offset_left = $('#media-grid').offset().left;
             $grid_parent.sticky({ 'z': 10, old_width: false });
 
             // The sticky-full class needs to know about the parent's width,
             // so that we can css transition to it. Transitions between a
             // static value and a percentage don't work.
-            $('<style>.sticky--full { transition: width 0.5s ease; width: ' + media_container_width + 'px; }</style>').appendTo('head');
+            $('<style>.sticky--full { left: ' + media_container_offset_left + 'px !important; width: ' + media_container_width + 'px !important; }</style>').appendTo('head');
 
             // The map should always have sticky and sticky--full at the same
             // time. Whenever it gets or loses one of those classes, it should

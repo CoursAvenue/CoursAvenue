@@ -15,7 +15,7 @@
           = link_to edit_pro_structure_path(@structure), class: 'block semi-muted-link' do
             = @structure.name
       .flexbox__item.v-middle.text--right.soft-half--right
-        = link_to structure_url(@structure, subdomain: 'www'), class: 'white' do
+        = link_to structure_url(@structure, subdomain: 'www'), class: 'white', target: :_blank do
           .fa.fa-eye
           Voir mon profil public
 

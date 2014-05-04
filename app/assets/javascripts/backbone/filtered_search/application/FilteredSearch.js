@@ -1,6 +1,6 @@
 /* TODO the resource name should be included from the server side, much like the
  * url methods now use JSRoutes */
- FilteredSearch = new Backbone.Marionette.Application({ slug: 'filtered-search', resource: 'etablissements' });
+FilteredSearch = new Backbone.Marionette.Application({ slug: 'filtered-search', resource: 'etablissements' });
 
 FilteredSearch.addRegions({
     mainRegion: '#' + FilteredSearch.slug

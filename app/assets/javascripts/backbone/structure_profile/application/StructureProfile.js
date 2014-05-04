@@ -26,12 +26,40 @@ StructureProfile.addInitializer(function(options) {
         collection: places_collection,
         infoBoxViewOptions: {
             infoBoxClearance: new google.maps.Size(0, 0)
-        }
+        },
+        mapClass: 'google-map--medium-small'
     });
 
     places_list_view          = new StructureProfile.Views.Structure.Places.PlacesCollectionView({
         collection: places_collection
     })
+
+    filter_breadcrumbs = new FilteredSearch.Views.StructuresCollection.Filters.FilterBreadcrumbs.FilterBreadcrumbsView({
+        template: StructureProfile.Views.Structure.templateDirname() + 'filter_breadcrumbs_view',
+        fancy_breadcrumb_names: {
+            'address_name'        : 'Lieux',
+            'lat'                 : 'Lieux',
+            'lng'                 : 'Lieux',
+            'bbox_sw'             : 'Lieux',
+            'bbox_ne'             : 'Lieux',
+            'week_days'           : 'Date',
+            'audience_ids'        : 'Public',
+            'level_ids'           : 'Niveaux',
+            'min_age_for_kids'    : 'Audience',
+            'max_price'           : 'Prix',
+            'min_price'           : 'Prix',
+            'price_type'          : 'Prix',
+            'max_age_for_kids'    : 'Audience',
+            'trial_course_amount' : 'Cours d\'essai',
+            'course_types'        : 'Type de Cours',
+            'week_days'           : 'Date',
+            'discount_types'      : 'Tarifs réduits',
+            'start_date'          : 'Date',
+            'end_date'            : 'Date',
+            'start_hour'          : 'Date',
+            'end_hour'            : 'Date',
+        }
+    });
 
     layout.render();
 
@@ -42,6 +70,13 @@ StructureProfile.addInitializer(function(options) {
             "place:mouse:enter": "exciteMarkers",
             "place:mouse:leave": "exciteMarkers",
             "places:collection:updated": "recenterMap"
+        }
+    });
+
+    layout.showWidget(filter_breadcrumbs, {
+        events: {
+            'filter:breadcrumbs:add'  :  'addBreadCrumbs',
+            'filter:breadcrumb:remove':  'removeBreadCrumb'
         }
     });
 

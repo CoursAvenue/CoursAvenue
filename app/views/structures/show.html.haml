@@ -25,7 +25,7 @@
       = t('.see_arrounding_structures')
 .inline-block.push-half--sides
   |
-.inline-block
+.inline-block.push-half--bottom
   %ol.nav.breadcrumb.flush{itemprop: 'breadcrumb'}
     %li
       = link_to "Tous les établissement", structures_path
@@ -35,13 +35,11 @@
   .blue-box.islet.text--center.push--ends
     = render 'users/waiting_for_activation_text'
 
+= render partial: 'structures/structure_header', locals: { structure: @structure }
+
 .grid.push--top
   .grid__item.eight-twelfths>
-    = render partial: 'structures/structure_header', locals: { structure: @structure }
-
     = render partial: 'structures/map_and_gallery', locals: { structure: @structure, places: @structure.places, medias: @medias }
-
-    = render partial: 'structures/comments_headband', locals: { structure: @structure }
 
     #structure-profile{ data: { type: 'structure-profile-root' } }
       #structure-region

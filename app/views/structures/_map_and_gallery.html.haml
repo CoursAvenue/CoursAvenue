@@ -1,34 +1,32 @@
 .gray-box.push--bottom
-  .grid--full#media-grid
-    .grid__item{class: medias.any? ? 'one-half' : 'one-whole', data: { type: "google-maps" }}>
-
-    - if medias.any?
-      .grid__item.one-half.rslides-wrapper.rslides--big>
-        %ul.galery-rslides.hidden>
-          - medias[0..20].each_with_index do |media, index|
-            %li
-              %a.rslides_nav.rslides_nav--icon{rel: 'slideshow', href: media.url, class: (media.video? ? 'visible' : ''), data: {behavior: "fancy"}}
-                - if media.video?
-                  %i.fa.fa-youtube-play
-                - else
-                  %i.fa.fa-eye
-              .one-whole.media__item.media__item--slides>
-                %a.block.break-all{href: media.url, title: media.caption, data: {behavior: "fancy"}}
-                  = media.thumbnail_url_html
-                  %i.fa.fa-expand
-  .grid--full
-    .grid__item{class: medias.any? ? 'one-half' : 'one-whole'}>
-      %div{ data: { type: 'places-collection' }}
-    - if medias.any?
-      .grid__item.one-half>
-        .text--center
-          %a.very-soft.block.f-weight-bold#show-gallery{href: 'javascript:void(0)'} Voir la galerie (#{medias.count})
+  .rslides-wrapper.rslides--big#media-grid{ style: 'height: 420px;'}>
+    %ul.galery-rslides.hidden>
+      %li
+        %div{ data: { type: "google-maps" }}>
+      - medias[0..20].each_with_index do |media, index|
+        %li
+          %a.rslides_nav.rslides_nav--icon{rel: 'slideshow', href: media.url, class: (media.video? ? 'visible' : ''), data: {behavior: "fancy"}}
+            - if media.video?
+              %i.fa.fa-youtube-play
+            - else
+              %i.fa.fa-eye
+          .one-whole.media__item.media__item--slides>
+            %a.block.break-all{href: media.url, title: media.caption, data: {behavior: "fancy"}}
+              = media.thumbnail_url_html
+              %i.fa.fa-expand
+  -# .grid--full
+  -#   .grid__item{class: medias.any? ? 'one-half' : 'one-whole'}>
+  -#     %div{ data: { type: 'places-collection' }}
+  -#   - if medias.any?
+  -#     .grid__item.one-half>
+  -#       .text--center
+  -#         %a.very-soft.block.f-weight-bold#show-gallery{href: 'javascript:void(0)'} Voir la galerie (#{medias.count})
 
 
-  - if medias.any?
-    #gallery.hidden
-      .media-gallery>
-        = render partial: 'medias/media', collection: medias[1..medias.length], locals: { lazy: true }
+  -# - if medias.any?
+  -#   #gallery.hidden
+  -#     .media-gallery>
+  -#       = render partial: 'medias/media', collection: medias[1..medias.length], locals: { lazy: true }
 
 = content_for :scripts do
   :javascript

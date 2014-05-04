@@ -24,41 +24,12 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
 
         params_for_resource: {
             courses: {},
-            teachers: {},
-            comments: {
-                unlimited_comments: false
-            }
+            teachers: {}
         },
 
         initialize: function initialize () {
             _.bindAll(this, "showOrCreateTab", "hideLoader");
-
-            this.filter_breadcrumbs = new FilteredSearch.Views.StructuresCollection.Filters.FilterBreadcrumbs.FilterBreadcrumbsView({
-                template: StructureProfile.Views.Structure.templateDirname() + 'filter_breadcrumbs_view',
-                fancy_breadcrumb_names: {
-                    'address_name'        : 'Lieux',
-                    'lat'                 : 'Lieux',
-                    'lng'                 : 'Lieux',
-                    'bbox_sw'             : 'Lieux',
-                    'bbox_ne'             : 'Lieux',
-                    'week_days'           : 'Date',
-                    'audience_ids'        : 'Public',
-                    'level_ids'           : 'Niveaux',
-                    'min_age_for_kids'    : 'Audience',
-                    'max_price'           : 'Prix',
-                    'min_price'           : 'Prix',
-                    'price_type'          : 'Prix',
-                    'max_age_for_kids'    : 'Audience',
-                    'trial_course_amount' : 'Cours d\'essai',
-                    'course_types'        : 'Type de Cours',
-                    'week_days'           : 'Date',
-                    'discount_types'      : 'Tarifs réduits',
-                    'start_date'          : 'Date',
-                    'end_date'            : 'Date',
-                    'start_hour'          : 'Date',
-                    'end_hour'            : 'Date',
-                }
-            });
+            this.showOrCreateTab({ currentTarget: $("[data-view=comments]")[0] });
 
             this.empty_relation_handlers = {
                 "courses": this.showEmptyCourses,
@@ -67,13 +38,6 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         },
 
         onAfterShow: function onAfterShow () {
-            this.showWidget(this.filter_breadcrumbs, {
-                events: {
-                    'filter:breadcrumbs:add'  :  'addBreadCrumbs',
-                    'filter:breadcrumb:remove':  'removeBreadCrumb'
-                }
-            });
-
             this.trigger("filter:breadcrumbs:add", this.model.get("query_params"));
         },
 
