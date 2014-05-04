@@ -3,42 +3,46 @@
 
 .panel
   = render partial: 'pro/structures/communication_tabs', locals: {current: 'widget'}
-  .panel__body.soft
-    %h3.push-half--bottom Vos recommandations visibles sur votre site internet
-    %p.alert--info
-      Affichez votre livre d'or interactif sur votre propre site Internet ou blog en quelques minutes seulement. C'est très simple : suivez les 2 étapes ci-dessous pour installer ce qu'on appelle un "widget".
-      Voici quelques exemple de partenaires qui l'ont installé en 2min !
-      = link_to "exemples de livres d'Or.", pro_pages_widget_path, target: '_blank'
+  .panel__body.soft--ends
+    .soft--sides
+      %h3.push-half--bottom Vos recommandations visibles sur votre site internet
+      %p.alert--info
+        Affichez votre livre d'or interactif sur votre propre site Internet ou blog en quelques minutes seulement. C'est très simple : suivez les 2 étapes ci-dessous pour installer ce qu'on appelle un "widget".
+        Voici quelques exemple de partenaires qui l'ont installé en 2min !
+        = link_to "exemples de livres d'Or.", pro_pages_widget_path, target: '_blank'
 
-    %h5.home-title Étape 1 : Configurez votre livre d'or
+      %h4 Étape 1 : Configurez votre livre d'or
 
-    .grid.push--bottom
-      .grid__item.one-half>
-        .soft--right
+      .grid.push--bottom
+        .grid__item.four-tenths>
+          .soft--right
+            %h4
+              %i.fa.fa-cogs
+              Configuration
+            .islet
+              .push--bottom
+                %label.v-middle.label--large.v-middle.inline-block{for: 'show-comments'} Afficher les derniers avis
+                %input.v-middle.input--large#show-comments{ type: 'checkbox', checked: true }
+              %div
+                %label.v-middle.label--large.inline{for: 'nb-comments'} Nombre d'avis à afficher
+                %input.v-middle.input--large.inline#nb-comments{style: 'width: 4em', type: 'number', checked: true, range: 1, min: 1, step: 1, value: 3}
+
+        .grid__item.six-tenths.bordered--left>
           %h4
-            %i.fa.fa-cogs
-            Configuration
-          .islet
-            .push--bottom
-              %label.v-middle.inline-block{for: 'show-comments'} Afficher les derniers avis
-              %input#show-comments{type: 'checkbox', checked: true}
-            %div
-              %label.inline{for: 'nb-comments'} Nombre d'avis à afficher
-              %input.inline#nb-comments{style: 'width: 3em', type: 'number', checked: true, range: 1, min: 1, step: 1, value: 3}
+            %i.fa.fa-eye-o
+            Aperçu
+          .center-block{style: 'width: 400px'}
+            #coursavenue-widget
 
-      .grid__item.one-half.bordered--left>
-        %h4 Aperçu
-        %div{style: 'width: 400px'}
-          #coursavenue-widget
+    %hr.push-half--ends
+    .soft--sides
+      %h4.push--top Étape 2 : Installez le livre d'or sur votre site
 
+      = render 'pro/structures/widget_installation_guides'
 
-    %h5.push--top.home-title Étape 2 : Installez le livre d'or sur votre site
-
-    = render 'pro/structures/widget_installation_guides'
-
-    %div{style: 'margin-bottom: 300px;'}
-    #coursavenue-link-to-remove-wrapper.hidden>
-      = link_to "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", structure_url(@structure, subdomain: 'www'), title: "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", style: 'border: 0 !important; clip: rect(0 0 0 0) !important; height: 1px !important; margin: -1px !important; overflow: hidden !important; padding: 0 !important; position: absolute !important; width: 1px !important;'
+      %div{style: 'margin-bottom: 300px;'}
+      #coursavenue-link-to-remove-wrapper.hidden>
+        = link_to "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", structure_url(@structure, subdomain: 'www'), title: "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", style: 'border: 0 !important; clip: rect(0 0 0 0) !important; height: 1px !important; margin: -1px !important; overflow: hidden !important; padding: 0 !important; position: absolute !important; width: 1px !important;'
 
 - content_for :scripts do
   :javascript

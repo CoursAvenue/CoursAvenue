@@ -1,25 +1,26 @@
 = side_menu_currently_at 'Journées Portes Ouvertes'
 = render 'pro/structures/widget_jpo_inline_css'
 
-= render partial: 'pro/structures/open_courses/tabs', locals: { current: 'widget' }
+.panel
+  = render partial: 'pro/structures/open_courses/tabs', locals: { current: 'widget' }
+  .panel__body.soft
+    %h5.push--top.home-title Annoncez vos Portes Ouvertes sur votre propre site Internet
+    .alert.alert--info
+      %ul.flush--bottom
+        %li Communiquez sur vos Portes Ouvertes sur votre propre site Internet et invitez vos visiteurs : c'est l'occasion de faire vivre votre site grâce à de l'actualité et du contenu uniques. Pour cela, installez gratuitement votre bannière CoursAvenue pour annoncer l'événement sur votre page d'accueil, sur les pages dédiées aux plannings, etc.
+        %li Pour installer cette bannière, cliquez sur l'un des boutons bleus ci-dessous, et laissez-vous guider : c'est simple et rapide !
 
-%h5.push--top.home-title Annoncez vos Portes Ouvertes sur votre propre site Internet
-.alert.alert--info
-  %ul.flush--bottom
-    %li Communiquez sur vos Portes Ouvertes sur votre propre site Internet et invitez vos visiteurs : c'est l'occasion de faire vivre votre site grâce à de l'actualité et du contenu uniques. Pour cela, installez gratuitement votre bannière CoursAvenue pour annoncer l'événement sur votre page d'accueil, sur les pages dédiées aux plannings, etc.
-    %li Pour installer cette bannière, cliquez sur l'un des boutons bleus ci-dessous, et laissez-vous guider : c'est simple et rapide !
+    %h5.push--top.home-title Aperçu de la bannière à afficher sur votre site
 
-%h5.push--top.home-title Aperçu de la bannière à afficher sur votre site
+    .center-block{style: 'width: 400px'}
+      #coursavenue-widget-jpo
 
-.center-block{style: 'width: 400px'}
-  #coursavenue-widget-jpo
+    %h5.push--top.home-title Installez le code sur votre site
+    = render 'pro/structures/widget_installation_guides'
 
-%h5.push--top.home-title Installez le code sur votre site
-= render 'pro/structures/widget_installation_guides'
-
-%div{style: 'margin-bottom: 300px;'}
-#coursavenue-link-to-remove-wrapper.hidden>
-  = link_to "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", structure_url(@structure, subdomain: 'www'), title: "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", style: 'border: 0 !important; clip: rect(0 0 0 0) !important; height: 1px !important; margin: -1px !important; overflow: hidden !important; padding: 0 !important; position: absolute !important; width: 1px !important;'
+    %div{style: 'margin-bottom: 300px;'}
+    #coursavenue-link-to-remove-wrapper.hidden>
+      = link_to "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", structure_url(@structure, subdomain: 'www'), title: "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", style: 'border: 0 !important; clip: rect(0 0 0 0) !important; height: 1px !important; margin: -1px !important; overflow: hidden !important; padding: 0 !important; position: absolute !important; width: 1px !important;'
 
 - content_for :scripts do
   :javascript
