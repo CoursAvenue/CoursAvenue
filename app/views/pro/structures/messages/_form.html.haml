@@ -2,8 +2,11 @@
   - if params[:return_to].present?
     %input{ type: 'hidden', value: params[:return_to], name: 'return_to' }
   = f.error_notification
-  = f.input :recipients, as: :select, collection: @structure.user_profiles.with_email.order('first_name ASC').uniq, input_html: { multiple: true, data: { behavior: 'chosen', placeholder: 'Sélectionnez un destinataires' } }, selected: (params[:message] ? params[:message][:recipients] : nil), label_method: lambda {|user_profile| user_profile.name_with_email }
-  = f.input :subject
-  = f.input :body, input_html: { style: 'height: 150px', data: {behavior: 'autoresize'} }
-  .form-actions
-    = f.submit 'Envoyer', class: 'btn btn--green btn--full', data: { disable_with: "Message en cours d'envoi" }
+  .grid--full.push-half--bottom.message
+    .grid__item.two-twelfths.v-top.v-top>
+      = image_tag @admin.avatar, class: 'message__avatar block center-block bordered'
+    .grid__item.ten-twelfths.message__body.soft-half.gray-box>
+      = f.input :recipients, as: :select, collection: @structure.user_profiles.with_email.order('first_name ASC').uniq, input_html: { class: 'input--large one-whole hard', multiple: true, data: { behavior: 'chosen', placeholder: 'Sélectionnez un destinataires' } }, selected: (params[:message] ? params[:message][:recipients] : nil), label_method: lambda {|user_profile| user_profile.name_with_email }, label: false, wrapper_html: { class: 'flush' }
+      = f.input :subject, placeholder: 'Ajouter un objet', input_html: { class: 'input--large one-whole' }, label_html: { class: 'label--large' }, label: false
+      = f.input :body, input_html: { class: 'one-whole input--large', style: 'height: 150px', placeholder: 'Ajouter un message personnel ici', data: { behavior: 'autoresize' } }, label: false
+      = f.submit 'Envoyer', class: 'btn btn--green', data: { disable_with: "Message en cours d'envoi" }

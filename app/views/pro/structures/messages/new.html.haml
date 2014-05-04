@@ -1,6 +1,9 @@
 = side_menu_currently_at 'messages'
 
-%h3 Nouveau message
-
-.form-white-box
-  = render 'form'
+.panel
+  .panel__header.soft
+    %ol.nav.flush.breadcrumb{itemprop: 'breadcrumb'}
+      %li.delta= link_to 'Boîte de réception', pro_structure_conversations_path(@structure)
+      %li.delta Nouveau message
+  .panel__body.soft
+    = render 'form'

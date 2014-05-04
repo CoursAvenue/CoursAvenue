@@ -1,16 +1,16 @@
 fr:
   activerecord:
     models:
-      mailboxer_message: Message
+      message: Message
     attributes:
-      mailboxer_message:
+      message:
         subject: Sujet
         body: Message
-        recipients: À
+        recipients: Destinataire(s)
 
   simple_form:
     labels:
-      mailboxer_message:
+      message:
         subject: Sujet
         body: Message
         recipients: À
