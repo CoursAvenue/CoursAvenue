@@ -17,11 +17,15 @@
       .soft--sides
         %p.one-third.text--center.flush
           %strong Votre première photo / vidéo figure dans les résultats de recherche !
+        - first = true
         - @medias.in_groups_of(3, false).each do |media_group|
           .grid--full.push-half--bottom
             - media_group.each do |media|
               .soft-half.grid__item.one-third>
-                .media__item.gray-box.one-whole
+                .media__item.gray-box.one-whole.relative
+                  - if first
+                    = image_tag 'icons/first-photo-ribbon.png', class: 'north west absolute on-top', height: 50, width: 50, style: 'width: 50px; height: 50px;'
+                    - first = false
                   %a.bg-cover.break-all.soft-half.hard--bottom.block.show-on-hover-wrapper.relative{href: media.url, title: media.caption, style: "height: 200px; background-image: url(#{media.thumbnail_url})", data: { behavior: 'fancy' } }
                     .show-on-hover.absolute.absolute--center.text--center
                       - if media.video?
@@ -30,10 +34,10 @@
                         %i.fa.fa-eye.fa-4x.white
                   .soft-half
                     = simple_form_for [:pro, @structure, media], url: pro_structure_media_path(@structure, media), remote: true, as: :media do |f|
-                      = f.input :caption, as: :text, label: false, input_html: { class: 'one-whole media_caption' }, wrapper_html: { class: 'flush--top push-half--bottom' }
+                      = f.input :caption, as: :text, label: false, input_html: { class: 'one-whole media_caption input--large' }, wrapper_html: { class: 'flush--top push-half--bottom' }
                     - if !media.cover?
-                      = link_to 'Mettre en avant', make_it_cover_pro_structure_media_path(@structure, media), method: :put, class: 'btn btn--small btn--blue'
-                    = link_to pro_structure_media_path(@structure, media), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce média ?' }, class: 'btn btn--small btn--red' do
+                      = link_to 'Afficher en premier', make_it_cover_pro_structure_media_path(@structure, media), method: :put, class: 'btn btn--small btn--blue'
+                    = link_to pro_structure_media_path(@structure, media), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce média ?' }, title: 'Supprimer', class: 'btn btn--small btn--red' do
                       %i.fa.fa-trash-o
                     - if current_pro_admin.super_admin? and media.star
                       %i.fa.fa-star.yellow

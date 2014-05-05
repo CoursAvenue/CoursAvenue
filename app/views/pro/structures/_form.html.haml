@@ -74,11 +74,11 @@
       %label.text--left.hard--top.label--large.control-label> Type de cours
       .input-container>
         = structure_form.input :gives_group_courses, as: :boolean, wrapper_class: { class: 'checkbox-at-left' }, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
-        = structure_form.input :gives_individual_courses, as: :boolean, wrapper_class: { class: 'checkbox-at-left ' }, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+        = structure_form.input :gives_individual_courses, as: :boolean, wrapper_class: { class: 'checkbox-at-left ' }, input_html: { class: 'input--large' }, label_html: { class: 'label--large hard--bottom' }
 
         #teaches-at-home{ class: @structure.gives_individual_courses ? '' : 'hidden'}
           = structure_form.input :teaches_at_home, as: :boolean, include_blank: false, input_html: { class: 'input--large' }, label: false, wrapper_html: { class: 'inline-block v-middle flush' }
-          %label.label--large.inline-block.v-middle{ for: 'structure_teaches_at_home' } Je me déplace à domicile dans un rayon de
+          %label.push-half--left.label--large.inline-block.v-middle{ for: 'structure_teaches_at_home' } Je me déplace à domicile dans un rayon de
           = structure_form.input :teaches_at_home_radius, input_html: { class: 'input--large', style: 'width: 5em;' }, wrapper_html: {class: 'inline-block v-middle flush'}, label: false
           %label.label--large.inline-block.v-middle{ for: 'structure_teaches_at_home_radius' } km
 

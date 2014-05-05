@@ -12,8 +12,8 @@ class Pro::Structures::ConversationsController < ApplicationController
   end
 
   def index
-    if params[:conversation_label].present?
-      @conversations = @admin.mailbox.conversations.where(mailboxer_label_id: params[:conversation_label])
+    if params[:conversation_label_id].present?
+      @conversations = @admin.mailbox.conversations.where(mailboxer_label_id: params[:conversation_label_id])
     else
       @conversations = @admin.mailbox.conversations
     end
