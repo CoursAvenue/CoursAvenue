@@ -6,7 +6,7 @@ module FilteredSearchProvider
                             'price_type', 'max_age_for_kids', 'trial_course_amount', 'course_types',
                             'week_days', 'discount_types', 'start_date', 'end_date', 'start_hour', 'end_hour']
 
-  FILTERED_SEARCH_KEYS = PLANNING_FILTERED_KEYS + ['lat', 'lng', 'bbox_ne', 'bbox_sw', 'address_name']
+  FILTERED_SEARCH_KEYS = PLANNING_FILTERED_KEYS + ['lat', 'lng', 'bbox_ne', 'bbox_sw', 'address_name', 'subject_id']
 
   # Keys that should be formatted as arrays
   ARRAY_KEYS = ['bbox_ne', 'bbox_sw', 'audience_ids', 'level_ids', 'course_types', 'week_days', 'discount_types']

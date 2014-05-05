@@ -1,6 +1,20 @@
-
 /* just a basic marionette view */
 FilteredSearch.module('Views.StructuresCollection.Filters.FilterBreadcrumbs', function(Module, App, Backbone, Marionette, $, _) {
+
+    var LEVEL_IDS_NAME = {};
+    <% Level.all.each do |level| %>
+        LEVEL_IDS_NAME[<%= level.id %>] = '<%= I18n.t(level.name) %>';
+    <% end %>
+
+    var AUDIENCE_IDS_NAME = {};
+    <% Audience.all.each do |audience| %>
+        AUDIENCE_IDS_NAME[<%= audience.id %>] = '<%= I18n.t(audience.name) %>';
+    <% end %>
+
+    var SUBJECT_SLUG = {};
+    <% Subject.stars.each do |subject| %>
+        SUBJECT_SLUG['<%= subject.slug %>'] = '<%= subject.name %>';
+    <% end %>
 
     Module.FilterBreadcrumbsView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'filter_breadcrumbs_view',
@@ -51,22 +65,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters.FilterBreadcrumbs', fu
             _.each(data, function (value, key) {
                 this.addBreadCrumb({ target: key, title: this.titleFor(key, value) });
             }.bind(this));
-        },
-
-        titleFor: function(key, value) {
-            switch(key) {
-                case 'bbox_ne':
-                case 'bbox_sw':
-                case 'lng':
-                case 'lat':
-                    return '';
-                    break;
-                case 'address_name':
-                    return value;
-                    break;
-                default:
-                    return value;
-            }
         },
 
         // @data: - hash
@@ -120,6 +118,75 @@ FilteredSearch.module('Views.StructuresCollection.Filters.FilterBreadcrumbs', fu
             return {
                 breadcrumbs: this.breadcrumbs
             }
-        }
+        },
+
+        /*
+         * @params key   key of the params (eg. level_ids)
+         * @params value value of the associated key (eg. ['0', '1'])
+         * Return title for the couple (key, value)
+         */
+        titleFor: function(key, value) {
+            switch(key) {
+                case 'bbox_ne':
+                case 'bbox_sw':
+                case 'lng':
+                case 'lat':
+                    return '';
+                    break;
+                case 'address_name':
+                    return value;
+                    break;
+                case 'level_ids':
+                    return this.titleForLevels(value);
+                    break;
+                case 'audience_ids':
+                    return this.titleForAudiences(value);
+                    break;
+                case 'subject_id':
+                    return this.titleForSubjectSlug(value);
+                    break;
+                case 'trial_course_amount':
+                    return ''
+                    break;
+                default:
+                    return value;
+            }
+        },
+
+        /*
+         * @params values Array of ids (['0', '1']) or array or names ['débutant', '...']
+         * Return title for level value
+         */
+        titleForLevels: function titleForLevels (values) {
+            return _.map(values, function(value) {
+                if (parseInt(value) != NaN) {
+                    return LEVEL_IDS_NAME[value];
+                } else {
+                    return value;
+                }
+            });
+        },
+
+        /*
+         * @params values Array of ids (['0', '1']) or array or names ['débutant', '...']
+         * Return title for audiences value
+         */
+        titleForAudiences: function titleForAudiences (values) {
+            return _.map(values, function(value) {
+                if (parseInt(value) != NaN) {
+                    return AUDIENCE_IDS_NAME[value];
+                } else {
+                    return value;
+                }
+            });
+        },
+
+        /*
+         * @params values subject slug, eg. 'danse'
+         * Return title for subject slug
+         */
+        titleForSubjectSlug: function titleForSubjectSlug (value) {
+            return SUBJECT_SLUG[value];
+        },
     });
 });
