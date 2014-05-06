@@ -53,6 +53,12 @@ input, textarea {
     &.boolean {
         margin-top: 1px;
     }
+    .search-choice {
+        padding: 6px 20px 6px 5px !important;
+        .search-choice-close {
+            top: 8px !important;
+        }
+    }
 }
 .input--small {
     padding: 2px 5px;

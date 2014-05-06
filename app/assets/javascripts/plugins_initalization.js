@@ -31,7 +31,7 @@ $(function() {
                     padding     : parseInt(padding),
                     openSpeed   : 300,
                     maxWidth    : 900,
-                    maxHeight   : 600,
+                    maxHeight   : 900,
                     fitToView   : false,
                     width       : width,
                     height      : height,
@@ -41,6 +41,9 @@ $(function() {
                         complete: function(){
                             $.each(global.initialize_callbacks, function(i, func) { func(); });
                         }
+                    },
+                    tpl: {
+                        closeBtn : '<a title="Fermer" class="fancybox-item fancybox-close fa fa-times" href="javascript:;"></a>',
                     },
                     helpers : {
                         title : {
@@ -55,6 +58,7 @@ $(function() {
         });
     }
     global.modal_initializer();
+    global.initialize_callbacks.push(global.modal_initializer);
     var datepicker_initializer = function() {
         $('[data-behavior=datepicker]').each(function() {
             $(this).datepicker({

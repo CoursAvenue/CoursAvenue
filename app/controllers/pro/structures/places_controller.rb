@@ -14,6 +14,13 @@ class Pro::Structures::PlacesController < InheritedResources::Base
       marker.lat location.latitude
       marker.lng location.longitude
     end
+    respond_to do |format|
+      if request.xhr?
+        format.html { render partial: 'form', layout: false }
+      else
+        format.html
+      end
+    end
   end
 
   def new
@@ -64,8 +71,16 @@ class Pro::Structures::PlacesController < InheritedResources::Base
   end
 
   def update
-    update! do |success, failure|
-      success.html { redirect_to pro_structure_places_path(@structure), notice: 'Le lieu à bien été mis à jour' }
+    @structure = Structure.friendly.find params[:structure_id]
+    @place     = @structure.places.find params[:id]
+    respond_to do |format|
+      if @place.update_attributes params[:place]
+        format.html { redirect_to (params[:return_to] || pro_structure_places_path(@structure)), notice: 'Le lieu à bien été créé' }
+        format.js
+      else
+        format.html { render action: :new }
+        format.js
+      end
     end
   end
 

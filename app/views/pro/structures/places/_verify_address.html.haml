@@ -1,20 +1,32 @@
-.soft
-  %h5 Vérifier l'adresse
-  .gray L'emplacement sur la carte est-il juste ?
+.panel
+  .panel__header.soft
+    %h4.flush Vérifier l'adresse
+    .gray L'emplacement sur la carte est-il juste ?
+  .panel__body
+    .soft
+      #verification-map.google-map.push-half--bottom
+      %p.flush
+        %strong= @place.location.street
+        %br
+        %strong= @place.zip_code
+        %strong= @place.location.city.name
+    %hr.flush.soft--sides
+    .soft.text--right
+      = link_to "Modifier l'adresse", edit_pro_structure_place_path(@structure, @place), title: 'Modifier ce lieu', class: 'btn fancybox.ajax', data: { behavior: 'modal', width: '900' }
+      -# %a.btn Modifier l'adresse
+      %a.btn.btn--green{ onclick: 'window.location.reload();'} Parfait !
 
-  #verification-map
-
-  %a Modifier l'emplacement du logement
+- @json_locations = Gmaps4rails.build_markers([@place.location]) do |location, marker|
+  - marker.lat location.latitude
+  - marker.lng location.longitude
 
 :javascript
-    $(function() {
-        var verification_handler = Gmaps.build('Google', { markers: { maxRandomDistance: null } });
-        verification_handler.buildMap( { provider: {}, internal: { id: 'verification-map' } }, function() {
-            markers = verification_handler.addMarkers(#{@place.location.to_gmap_json});
+    setTimeout(function() {
+        verification_handler = Gmaps.build('Google', { markers: { maxRandomDistance: null } });
+        verification_handler.buildMap({ provider: {}, internal: {id: 'verification-map'}}, function(){
+            markers = verification_handler.addMarkers(#{@json_locations.to_json});
             verification_handler.bounds.extendWith(markers);
             verification_handler.fitMapToBounds();
+            verification_handler.getMap().setZoom(15);
         });
-        google.maps.event.addListener verification_handler.getMap(), 'tilesloaded', function() {
-            verification_handler.getMap().setZoom(12);
-        });
-    })
+    }, 500);

@@ -25,3 +25,17 @@ fr:
         name: Nom du lieu
         street: Numéro et nom de la rue
         zip_code: Code postal
+      wizard_helper:
+        address: >
+          <p><strong>Adresse de vos cours</strong><br>
+          L'adresse est un élément déterminant de votre profil : si elle est incomplète, votre profil risque de ne pas être visible.</p>
+          <p><strong>Cas particulier des cours à domicile </strong> :
+          s'il s'agit du lieu principal de vos cours à domicile, indiquez « Adresse principale » comme nom de lieu,
+          puis indiquez un code postal et une ville sans numéro et nom de rue.</p>
+        infos: >
+          <p><strong>Publiques</strong><br>
+          Indiquez ici les informations relatives au lieu&nbsp;:
+          station de métro / RER, l'arrêt de bus le plus proche, la description du lieu...</p>
+          <p><strong>Privées</strong><br>
+          Indiquez toutes les informations pratiques confidentielles : digicode de la porte d'entrée, étage de l'immeuble, etc.
+          Elles ne seront pas visibles sur votre profil public et ne seront communiquées qu'aux élèves qui s'inscriront à vos stages ou cours.</p>

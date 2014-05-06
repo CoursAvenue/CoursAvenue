@@ -46,8 +46,8 @@
   filter: alpha(opacity=0);
 }
 .tooltip.in {
-  opacity: 0.8;
-  filter: alpha(opacity=80);
+  opacity: 1;
+  filter: alpha(opacity=100);
 }
 .tooltip.top {
   margin-top: -3px;
@@ -71,7 +71,7 @@
   color: #ffffff;
   text-align: center;
   text-decoration: none;
-  background-color: #000000;
+  background-color: #555;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;

@@ -1,41 +1,46 @@
-.grid
-  .grid__item.six-tenths>
-    = simple_form_for [:pro, @structure, @place], remote: true do |f|
+.panel
+  .panel__header.soft
+    %h4.flush Entrez l'adresse
+    %p.flush.epsilon Où proposez-vous des cours
+  .panel__body.soft--ends
+    .grid
+      .grid__item.six-tenths>
+        = simple_form_for [:pro, @structure, @place], remote: true do |f|
 
-      - if params[:return_to].present?
-        %input{type: 'hidden', value: params[:return_to], name: 'from'}
+          - if params[:return_to].present?
+            %input{type: 'hidden', value: params[:return_to], name: 'from'}
 
-      .soft--sides{ data: { container: '#place-wizard-container', behavior: 'wizard-helper', content: "<p><strong>Adresse de vos cours</strong><br>L'adresse est un élément déterminant de votre profil : si elle est incomplète, votre profil risque de ne pas être visible.</p><p><strong>Cas particulier des cours à domicile </strong> : s'il s'agit du lieu principal de vos cours à domicile, indiquez « Adresse principale » comme nom de lieu, puis indiquez un code postal et une ville sans numéro et nom de rue.</p>" } }
-        %h5
-          %i.fa.fa-map-marker
-          Adresse
-        = f.error_notification
-        = f.simple_fields_for :location do |location_form|
-          = location_form.input :name, label: Location.human_attribute_name(:name), placeholder: "Ex. : « Gymnase Bercy », « Ecole d'Art Modigliani », « Adresse principale » ...", disabled: @place.belongs_to_other_locations?, label_html: { class: 'label--large text--left' }, input_html: { class: 'input--large one-whole', data: { behavior: 'tooltip' }, title: "Indiquez le nom du lieu. S'il s'agit d'une adresse privée, mettre « Résidence privée »." }
-          = location_form.input :street, placeholder: 'Ex. : 83 avenue du général Leclerc', label: Location.human_attribute_name(:street), input_html: { class: 'input--large one-whole', title: "Ne renseignez ni le code postal ni la ville, uniquement le numéro et la rue.", data: { behavior: 'tooltip' } }, disabled: @place.belongs_to_other_locations?, label_html: { class: 'label--large text--left' }
+          .soft--sides{ data: { container: '#place-wizard-container', behavior: 'wizard-helper', content: t('pro.places.wizard_helper.address') } }
+            %h5
+              %i.fa.fa-map-marker
+              Adresse
+            = f.error_notification
+            = f.simple_fields_for :location do |location_form|
+              = location_form.input :name, label: Location.human_attribute_name(:name), placeholder: "Ex. : « Gymnase Bercy », « Ecole d'Art Modigliani », « Adresse principale » ...", disabled: @place.belongs_to_other_locations?, label_html: { class: 'label--large text--left' }, input_html: { class: 'input--large one-whole', data: { behavior: 'tooltip' }, title: "Indiquez le nom du lieu. S'il s'agit d'une adresse privée, mettre « Résidence privée »." }
+              = location_form.input :street, placeholder: 'Ex. : 83 avenue du général Leclerc', label: Location.human_attribute_name(:street), input_html: { class: 'input--large one-whole', title: "Ne renseignez ni le code postal ni la ville, uniquement le numéro et la rue.", data: { behavior: 'tooltip' } }, disabled: @place.belongs_to_other_locations?, label_html: { class: 'label--large text--left' }
 
-          = location_form.label :zip_code, label: 'Code postal et ville', disabled: @place.belongs_to_other_locations?, class: 'label--large text--left block'
-          .input.flush--top
-            = location_form.input :zip_code, placeholder: 'Ex. : 75008', input_html: { class: 'input--large one-whole', data: { behavior: 'city-autocomplete', el: '#place_location_attributes_city_id' } }, label: false, wrapper_html: { class: 'flush--top' }, disabled: @place.belongs_to_other_locations?
-            = location_form.input :city_id, collection: [@place.location.city || @structure.city], label: false, selected: @place.location.city, wrapper_html: { class: 'flush--top' }, disabled: @place.belongs_to_other_locations?, input_html: { class: 'input--large' }
-            = location_form.input :latitude, as: :hidden, disabled: @place.belongs_to_other_locations?
-            = location_form.input :longitude, as: :hidden, disabled: @place.belongs_to_other_locations?
+              = location_form.label :zip_code, label: 'Code postal et ville', disabled: @place.belongs_to_other_locations?, class: 'label--large text--left block'
+              .input.flush--top
+                = location_form.input :zip_code, placeholder: 'Ex. : 75008', input_html: { class: 'input--large one-whole', data: { behavior: 'city-autocomplete', el: '#place_location_attributes_city_id' } }, label: false, wrapper_html: { class: 'flush--top' }, disabled: @place.belongs_to_other_locations?
+                = location_form.input :city_id, collection: [@place.location.city || @structure.city], label: false, selected: @place.location.city, wrapper_html: { class: 'flush--top' }, disabled: @place.belongs_to_other_locations?, input_html: { class: 'input--large' }
+                = location_form.input :latitude, as: :hidden, disabled: @place.belongs_to_other_locations?
+                = location_form.input :longitude, as: :hidden, disabled: @place.belongs_to_other_locations?
 
-      %hr.push--ends
-      .soft--sides{ data: { container: '#place-wizard-container', behavior: 'wizard-helper', content: "<p><strong>Publiques</strong><br>Indiquez ici les informations relatives au lieu&nbsp;: station de métro / RER, l'arrêt de bus le plus proche, la description du lieu...</p><p><strong>Privées</strong><br>Indiquez toutes les informations pratiques confidentielles : digicode de la porte d'entrée, étage de l'immeuble, etc. Elles ne seront pas visibles sur votre profil public et ne seront communiquées qu'aux élèves qui s'inscriront à vos stages ou cours.</p>" } }
-        %h5
-          %i.lbc-icon-info
-          Infos pratiques
+          %hr.push--ends
+          .soft--sides{ data: { container: '#place-wizard-container', behavior: 'wizard-helper', content: t('pro.places.wizard_helper.infos') } }
+            %h5
+              %i.lbc-icon-info
+              Infos pratiques
 
-        = f.input :info, placeholder: "Station métro / RER / bus, etc.", input_html: { class: 'input--large', data: { behavior: 'autoresize' } }, label_html: { class: 'label--large' }
-        .input<
-          %label.label--large.text.optional.control-label{for: "course_private_info"}
-            %i.fa.fa-lock
-            Privées
-          = f.input :private_info, label: false, placeholder: "Code d'entrée, étage, etc.", input_html: { data: { behavior: 'autoresize' }}, wrapper_html: { class: 'flush' }, input_html: { class: 'one-whole input--large' }
+            = f.input :info, placeholder: "Station métro / RER / bus, etc.", input_html: { class: 'input--large', data: { behavior: 'autoresize' } }, label_html: { class: 'label--large' }
+            .input<
+              %label.label--large.text.optional.control-label{for: "course_private_info"}
+                %i.fa.fa-lock
+                Privées
+              = f.input :private_info, label: false, placeholder: "Code d'entrée, étage, etc.", input_html: { data: { behavior: 'autoresize' }}, wrapper_html: { class: 'flush' }, input_html: { class: 'one-whole input--large' }
 
-      .text--right
-        %a.btn{ onclick: '$.fancybox.close();' } Annuler
-        = f.submit 'Suivant', class: 'btn btn--green', data: { disable_with: "En cours d'enregistrement" }
+          .text--right
+            %a.btn{ onclick: '$.fancybox.close();' } Annuler
+            = f.submit 'Suivant', class: 'btn btn--green', data: { disable_with: "En cours d'enregistrement" }
 
-  .grid__item.four-tenths#place-wizard-container.relative.bordered--left>
+      .grid__item.four-tenths#place-wizard-container.relative.bordered--left>

@@ -5,23 +5,18 @@
     - if @places.any?
       #map.google-map.push--top
     .text--center.push
-      = link_to 'Ajouter un nouveau lieu', new_pro_structure_place_path(@structure), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '900' }
+      = link_to 'Ajouter un nouveau lieu', new_pro_structure_place_path(@structure), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '900', padding: 0 }
 
     - if @places.any?
       %table.table--striped
         %thead
           %tr
-            %th.hard--right{style: 'width: 2em;'}
-              %i.fa.fa-external-link
             %th Nom du lieu
             %th Adresse
             %th
         %tbody
           - @places.each do |place|
             %tr
-              %td.hard--right
-                = link_to place_url(place, subdomain: 'www'), title: 'Voir la fiche établissement sur CoursAvenue', target: '_blank' do
-                  %i.fa.fa-external-link
               %td
                 - if current_pro_admin
                   = link_to place.location.name, edit_pro_structure_place_path(@structure, place)
@@ -29,7 +24,7 @@
                   = link_to place.location.name, place_url(place, subdomain: 'www')
               %td= place.location.address
               %td.text--right.nowrap
-                = link_to edit_pro_structure_place_path(@structure, place), title: 'Modifier ce lieu', class: 'btn btn--orange btn--small' do
+                = link_to edit_pro_structure_place_path(@structure, place), title: 'Modifier ce lieu', class: 'btn btn--orange btn--small fancybox.ajax', data: { behavior: 'modal', width: '900', padding: 0 } do
                   %i.fa.fa-pencil
                   %span.soft-half--left Modifier ce lieu
                 &nbsp;
@@ -44,12 +39,12 @@
   :javascript
     $(function() {
         google_map_handler = Gmaps.build('Google', { markers: { maxRandomDistance: null } });
-        google_map_handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+        google_map_handler.buildMap({ provider: { scrollwheel: false }, internal: { id: 'map' }}, function(){
             var markers = google_map_handler.addMarkers(#{@locations.to_json});
             google_map_handler.bounds.extendWith(markers);
             google_map_handler.fitMapToBounds();
             if (google_map_handler.getMap().getZoom() > 15) {
-              google_map_handler.getMap().setZoom(15);
+                google_map_handler.getMap().setZoom(15);
             }
         });
     });

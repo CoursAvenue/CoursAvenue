@@ -41,14 +41,18 @@
     background-color: #fefefe;
     color           : #555;
     @include text-shadow(0 1px 0 white);
+    &:active {
+        cursor: default;
+    }
     &:active, &:hover {
         background-color: #f2f2f2;
     }
 }
 
 .btn.disabled, .btn:disabled, .btn[disabled]{
-    background-color: #DDD;
+    background-color: #F3F3F3;
     color           : #666;
+    cursor          : default;
 }
 
 .btn--round {
@@ -91,7 +95,6 @@
         background-color: lighten($btn--green, 5%);
     }
     &.disabled, &[disabled] {
-        cursor          : default;
         background-color: lighten($btn--green, 15%);
         color           : #EEE;
     }
@@ -106,7 +109,6 @@
         background-color: lighten($btn--blue, 5%);
     }
     &.disabled, &[disabled] {
-        cursor: default;
         background-color: lighten($btn--blue, 15%);
     }
 }
