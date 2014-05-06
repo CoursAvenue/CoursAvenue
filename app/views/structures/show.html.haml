@@ -66,7 +66,20 @@
           .grid__item.v-middle.one-half>
             %strong= l(@structure.main_contact.last_sign_in_at, format: :date).capitalize
 
-    -# .gray-box.soft-half
+    .panel.push--bottom
+      .panel__header.soft-half.text--center
+        %h5.flush Suivez l'actualité et recevez des offres exclusives
+      .panel__body.soft
+        - if current_user and current_user.follows?(@structure)
+          = link_to 'Vous suivez déjà ce profil', '#', class: "btn btn--full disabled"
+        - elsif current_user
+          = link_to 'Suivre ce profil', follow_structure_path(@structure), method: :post, class: "btn btn--full"
+        - else
+          = link_to "Suivre ce profil", new_user_registration_path, data: { behavior: 'modal', title: 'Connexion', width: 600, padding: 0 }, class: 'fancybox.ajax btn btn--full', onclick: "ga('send', 'event', 'Se créer un compte', 'click','Inscrit')"
+        - if @structure.followers.count > 9
+          %p.flush.text--center.push-half--top
+            %strong Suivi par #{@structure.followers.count} élèves
+
     - @similar_profiles = Structure.limit(3)
     .panel
       .panel__header.soft-half--ends.soft--left

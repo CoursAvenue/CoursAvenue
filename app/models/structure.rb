@@ -100,6 +100,9 @@ class Structure < ActiveRecord::Base
   has_many :comment_notifications     , dependent: :destroy
   has_many :sticker_demands           , dependent: :destroy
   has_many :statistics                , dependent: :destroy
+  has_many :followings
+  has_many :followers, through: :followings, source: :user
+
   define_has_many_for :funding_type
 
   has_and_belongs_to_many :subjects

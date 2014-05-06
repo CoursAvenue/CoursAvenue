@@ -1,42 +1,44 @@
-.center-block{class: @is_xhr ? '' : 'white-box island one-half palm-one-whole lap-one-whole'}
-  - if flash[:alert] ==  t('devise.confirmations.failure.unconfirmed')
-    .text--center.push-half--bottom
-      .alert.alert--error= t('devise.confirmations.failure.unconfirmed')
+.panel.center-block{class: @is_xhr ? '' : 'one-half palm-one-whole lap-one-whole'}
+  .panel__header
+    = image_tag 'texts/student_teacher_connexion.png', height: 55, class: 'block center-block'
+  .panel__body.soft
+    - if flash[:alert] ==  t('devise.confirmations.failure.unconfirmed')
+      .text--center.push-half--bottom
+        .alert.alert--error= t('devise.confirmations.failure.unconfirmed')
 
-    Comment valider mon inscription ?
-    %ul
-      %li= link_to "Renvoyer les instructions de confirmation par email", new_confirmation_path(:user)
-      %li= link_to "Chercher le mail d'activation dans mes spams", '#how-to', data: { behavior: 'modal' }
-      %li= link_to "Nous contacter", "mailto:contact@coursavenue.com?subject=Je%20n'ai%20pas%20reçu%20mon%20mail%20d'activation&body=Bonjour,%20je%20n'ai%20pas%20reçu%20mon%20mail%20d'activation,%20pouvez-vous%20me%20le%20renvoyer.%20Cordialement."
+      Comment valider mon inscription ?
+      %ul
+        %li= link_to "Renvoyer les instructions de confirmation par email", new_confirmation_path(:user)
+        %li= link_to "Chercher le mail d'activation dans mes spams", '#how-to', data: { behavior: 'modal' }
+        %li= link_to "Nous contacter", "mailto:contact@coursavenue.com?subject=Je%20n'ai%20pas%20reçu%20mon%20mail%20d'activation&body=Bonjour,%20je%20n'ai%20pas%20reçu%20mon%20mail%20d'activation,%20pouvez-vous%20me%20le%20renvoyer.%20Cordialement."
 
-    %hr
-  = image_tag 'texts/student_teacher_connexion.png', height: 55, class: 'block center-block'
-  .grid
-    .grid__item.one-half>
-      %h3.text--center.f-decoration-underlined Élèves
-    .grid__item.one-half>
-      %h3.text--center.flush.f-decoration-underlined Pro
-      %h5.flush.text--center
-        %i Profs, Associations, Écoles
-  .grid
-    .grid__item.v-bottom.one-half.bordered--right.soft-half--right>
-      #form
-        = render 'form'
+      %hr
+    .grid
+      .grid__item.one-half>
+        %h3.text--center.f-decoration-underlined Élèves
+      .grid__item.one-half>
+        %h3.text--center.flush.f-decoration-underlined Pro
+        %h5.flush.text--center
+          %i Profs, Associations, Écoles
+    .grid
+      .grid__item.v-bottom.one-half.bordered--right.soft-half--right>
+        #form
+          = render 'form'
 
-      #other_form.hidden
-        = render 'users/registrations/form'
-    .grid__item.v-bottom.one-half>
-      = simple_form_for(Admin.new, as: :pro_admin, url: pro_admin_session_url(subdomain: 'pro')) do |f|
-        = f.input :email, label: false, placeholder: 'Email', input_html: { class: 'one-whole' }
-        = f.input :password, label: false, placeholder: 'Mot de passe', input_html: { class: 'one-whole' }
+        #other_form.hidden
+          = render 'users/registrations/form'
+      .grid__item.v-bottom.one-half>
+        = simple_form_for(Admin.new, as: :pro_admin, url: pro_admin_session_url(subdomain: 'pro')) do |f|
+          = f.input :email, label: false, placeholder: 'Email', input_html: { class: 'one-whole' }
+          = f.input :password, label: false, placeholder: 'Mot de passe', input_html: { class: 'one-whole' }
 
-        = f.button :submit, "Se connecter", class: 'btn--green btn--full'
-        .push-half--top.milli
-          = link_to "Je n'ai pas encore de compte", inscription_pro_structures_path
-          %br
-          = link_to "J'ai oublié mon mot de passe", new_pro_admin_password_path
-          %br
-          %br
+          = f.button :submit, "Se connecter", class: 'btn--green btn--full'
+          .push-half--top.milli
+            = link_to "Je n'ai pas encore de compte", inscription_pro_structures_path
+            %br
+            = link_to "J'ai oublié mon mot de passe", new_pro_admin_password_path
+            %br
+            %br
 
 :javascript
   var registration_code = function() {

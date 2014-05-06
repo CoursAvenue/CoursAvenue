@@ -100,6 +100,14 @@ class StructuresController < ApplicationController
     end
   end
 
+  def follow
+    @structure = Structure.friendly.find params[:id]
+    following = Followings.create( structure: @structure, user: current_user)
+    respond_to do |format|
+      format.html { redirect_to structure_path(@structure), notice: "Vous suivez désormais #{@structure.name}"}
+    end
+  end
+
   private
 
   def choose_layout

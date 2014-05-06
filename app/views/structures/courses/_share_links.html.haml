@@ -2,15 +2,7 @@
   %p.flush--bottom.grid__item.v-middle.width-auto.milli.nowrap>
     Recommander ce cours :
   .grid__item.v-middle.width-auto{style: 'line-height: 1;'}>
-    <a href="https://twitter.com/share" class="twitter-share-button" data-via="CoursAvenue" data-lang="fr">Tweeter</a>
+    %a{ href: "https://twitter.com/share", class: "twitter-share-button", data: { via: "CoursAvenue", lang: "fr"}} Tweeter
     <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
   .grid__item.v-middle.width-auto.text--left{style: 'line-height: 1;'}>
-    #fb-root{style: 'display:none;'}
     %div{class:'fb-like', 'data-send' => 'false', 'data-width' => '500', 'data-show-faces' => 'false', 'data-action' => 'recommend', 'data-layout' => 'button_count'}
-    <script>(function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1&appId=589759807705512";
-    fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>

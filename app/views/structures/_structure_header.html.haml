@@ -1,3 +1,12 @@
+%div
+  %a.v-middle{ href: "https://twitter.com/share", class: "twitter-share-button", data: { text: "J'adore \"#{@structure.name}\" @CoursAvenue #{structure_url(@structure)}", lang: "fr", count: 'none'}} Tweet
+
+  .g-plus{ data: { action: "share", annotation: 'none', heigh: 20 } }
+
+  .v-middle.fb-like{ data: { href: structure_url(@structure), layout: 'button', action: 'recommend', 'show-faces' => 'false', share: "false" } }
+  .v-middle.fb-like{ data: { href: @structure.facebook_url, layout: 'button_count', action: 'like', 'show-faces' => 'false', share: "false" } }
+
+
 %div{ data: { type: "filter-breadcrumbs" } }
 
 .grid--full

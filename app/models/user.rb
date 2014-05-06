@@ -46,6 +46,7 @@ class User < ActiveRecord::Base
 
   has_many :lived_places
   has_many :cities, through: :lived_places
+  has_many :followings
 
   has_and_belongs_to_many :subjects
   has_and_belongs_to_many :invited_participations, class_name: 'Participation'
@@ -380,6 +381,10 @@ class User < ActiveRecord::Base
       invited_friends = self.participations.map(&:invited_friends).flatten.uniq
     end
     invited_friends.map{ |invited_friend| ParticipationMailer.delay.recap_from_friend(invited_friend, self)}
+  end
+
+  def follows?(structure)
+    self.followings.map(&:structure_id).include? structure.id
   end
 
   private

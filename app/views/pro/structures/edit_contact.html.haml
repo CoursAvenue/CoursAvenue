@@ -2,6 +2,7 @@
 
 .soft--ends.white-box
   = simple_form_for [:pro, @structure], html: { autocomplete: 'off', id: 'structure-form' } do |form|
+    %input{ type: 'hidden', name: 'return_to', value: edit_pro_structure_path(@structure)}
     = form.error_notification
 
     .soft--sides{ data: { behavior: 'wizard-helper', content: "<p><strong>Vous joindre facilement</strong>Renseignez uniquement vos coordonnées de contact que vous utilisez au quotidien : privilégiez votre adresse mail principale et votre numéro de téléphone portable.</p><p><strong>E-mail</strong> : les messages des internautes vous seront envoyés à cet adresse e-mail. Il est important d'avoir un e-mail confirmé pour que les élèves CoursAvenue puissent vous contacter de manière totalement sécurisée. Important : votre adresse e-mail vous sert également d'identifiant pour votre compte CoursAvenue.</p><p><strong>Téléphones</strong> : indiquez votre portable, éventuellement votre fixe si vous l'utilisez au quotidien. Renseignez autant de numéros que nécessaires.</p>" } }
