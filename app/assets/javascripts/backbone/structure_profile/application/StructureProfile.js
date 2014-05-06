@@ -1,8 +1,7 @@
 StructureProfile = new Backbone.Marionette.Application({ slug: 'structure-profile' });
 
 StructureProfile.addRegions({
-    mainRegion: '#' + StructureProfile.slug,
-    mapContainer: '#google-maps-view'
+    mainRegion: '#' + StructureProfile.slug
 });
 
 StructureProfile.addInitializer(function(options) {
@@ -18,16 +17,22 @@ StructureProfile.addInitializer(function(options) {
                 'courses:collection:reset': 'renderCourseSummary'
             }
         }),
-        google_maps_view, filter_breadcrumbs, places_collection, places_list_view;
+        google_maps_view, sticky_google_maps_view, filter_breadcrumbs, places_collection, places_list_view;
 
     places_collection = structure.get('places');
     // new Backbone.Collection(window.coursavenue.bootstrap.structure.places, { model: StructureProfile.Models.Place });
     google_maps_view  = new StructureProfile.Views.Map.GoogleMapsView({
-        collection: places_collection,
-        infoBoxViewOptions: {
-            infoBoxClearance: new google.maps.Size(0, 0)
-        },
-        mapClass: 'google-map--medium-small'
+        collection:         places_collection,
+        infoBoxViewOptions: { infoBoxClearance: new google.maps.Size(0, 0) },
+        mapOptions:         { scrollwheel: false },
+        mapClass:           'google-map--medium'
+    });
+
+    sticky_google_maps_view  = new StructureProfile.Views.Map.GoogleMapsView({
+        collection:         places_collection,
+        sticky:             true,
+        mapOptions:         { scrollwheel: false },
+        infoBoxViewOptions: { infoBoxClearance: new google.maps.Size(0, 0) }
     });
 
     places_list_view          = new StructureProfile.Views.Structure.Places.PlacesCollectionView({
@@ -63,6 +68,17 @@ StructureProfile.addInitializer(function(options) {
     });
 
     layout.render();
+
+    layout.showWidget(sticky_google_maps_view, {
+        selector: '[data-type=sticky-map]',
+        events: {
+            "course:mouse:enter": "exciteMarkers",
+            "course:mouse:leave": "exciteMarkers",
+            "place:mouse:enter": "exciteMarkers",
+            "place:mouse:leave": "exciteMarkers",
+            "places:collection:updated": "recenterMap"
+        }
+    });
 
     layout.showWidget(google_maps_view, {
         events: {
@@ -104,5 +120,4 @@ $(document).ready(function() {
     if (StructureProfile.detectRoot()) {
         StructureProfile.start({});
     }
-
 });

@@ -1,4 +1,4 @@
-<div class="panel push-half--bottom">
+<div class="panel push--bottom">
       <ul class="tabs panel__header">
           <li class="active">
               <a href="#tab-description" data-toggle="tab"> Description</a>
@@ -9,6 +9,9 @@
           <li>
               <a href="#tab-teachers" data-toggle="tab" data-view="teachers"><i class="fa fa-group"></i> Professeurs</a>
           </li>
+<!--           <li>
+              <a href="#tab-subjects" data-toggle="tab" data-view="subjects"><i class="fa fa-group"></i> Disciplines</a>
+          </li> -->
       </ul>
     <div class="panel__body">
         <article id="tab-description" class="tab-pane active">
@@ -57,13 +60,14 @@
                 <div data-type="courses-summary"></div>
             </div>
 
-            <div data-empty-courses class="hidden islet white-box">
+            <div data-empty-courses class="hidden soft-half">
                 <p>Pas de cours pour cette structure.</p>
             </div>
 
             <div data-type="courses-collection"></div>
         </article>
         <article id="tab-teachers" class="tab-pane" data-type="teachers-collection"></article>
+        <!-- <article id="tab-subjects" class="tab-pane" data-type="subjects-collection"></article> -->
         <img src="<%= asset_path 'gifs/loading-indicator.gif' %>"/ class="center-block push--ends" height="10" data-loader style="display: none;">
     </div>
 </div>

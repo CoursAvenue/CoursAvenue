@@ -1,7 +1,7 @@
 %div{ data: { type: "filter-breadcrumbs" } }
 
-.grid
-  .grid__item.eleven-twelfths.v-top>
+.grid--full
+  .grid__item.ten-twelfths.v-top>
     .grid--full
       .grid__item.structure__logo.v-top.soft-half--top.relative>
         = image_tag structure.logo.url(:thumb), class: 'block'
@@ -9,34 +9,24 @@
         %h1.push-half--bottom= structure.name
         -# Structure type
         - if structure.structure_type
-          %p.flush.inline-block.v-middle
-            %i.fa.fa-building-o
+          %p.flush.inline-block.v-middle.epsilon
             %strong #{t(structure.structure_type)}
             proposant :
             = @structure_decorator.given_course_types
           - if structure.has_free_trial_course
-            .v-middle.push-half--left.inline-block.lbl.lbl--green Offres découvertes
-        -# - if structure.course_names.present?
-        -#   %p.flush
-        -#     #{structure.courses.count} cours
-        -#     - if structure.plannings.count > 0
-        -#       (#{structure.plannings.count} séances)
-        -#     de
-        -#     %span{ title: structure.min_price_libelle, data: { behavior: 'tooltip' } } #{readable_amount(structure.min_price_amount)}€
-        -#     à
-        -#     %span{ title: structure.max_price_libelle, data: { behavior: 'tooltip' } } #{readable_amount(structure.max_price_amount)}€
-  .grid__item.one-twelfth.text--right.v-bottom>
-    %a.text--center{ href: '#avis' }
-      .muted-link.beta
-        #{structure.comments_count}
-      %div avis
-      -# .text--center= link_to 'Donner mon avis', new_structure_comment_path(structure), target: '_blank'
-      .visuallyhidden{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
-        %meta{property: 'v:rating', itemprop: 'rating', content: 5}
-        %meta{itemprop: 'count', content: structure.comments_count}
-        %meta{itemprop: 'itemreviewed', content: structure.name}
-        %meta{itemprop: 'name', content: structure.name}
-        %meta{itemprop: 'street-address', content: structure.street}
-        %meta{itemprop: 'postal-code', content: structure.zip_code}
-        - if @city
-          %meta{itemprop: 'locality', content: @city.name}
+            .epsilon.v-middle.push-half--left.inline-block.lbl.lbl--green Offres découvertes
+  .grid__item.two-twelfths.v-bottom>
+    .inline-bock.text--right
+      %a.inline-block.f-decoration-not-underlined.text--center{ href: '#avis' }
+        %span.beta= structure.comments_count
+        %br
+        recommandations
+        .visuallyhidden{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
+          %meta{property: 'v:rating', itemprop: 'rating', content: 5}
+          %meta{itemprop: 'count', content: structure.comments_count}
+          %meta{itemprop: 'itemreviewed', content: structure.name}
+          %meta{itemprop: 'name', content: structure.name}
+          %meta{itemprop: 'street-address', content: structure.street}
+          %meta{itemprop: 'postal-code', content: structure.zip_code}
+          - if @city
+            %meta{itemprop: 'locality', content: @city.name}

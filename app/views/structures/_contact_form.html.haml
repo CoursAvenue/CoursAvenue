@@ -1,8 +1,8 @@
 - session.delete :user_return_to
 - session.delete :after_inactive_sign_up_path
 
-.panel.push--bottom.border-none--bottom
-  %ul.panel__header.tabs.tabs--blue.tabs--thin
+.panel.push--bottom
+  %ul.panel__header.tabs.tabs--thin
     %li.active
       %a{ href: "#tab-message", data: { toggle: "tab" } }
         Message
@@ -15,8 +15,8 @@
     %li
       %a#addresses-tab{ href: "#tab-addresses", data: { toggle: "tab" } }
         = "Adresse".pluralize(@structure.places.count)
-  .panel__body.blue-box
-    .tab-content.soft-half
+  .panel__body
+    .tab-content.soft
       %article#tab-message.tab-pane.active.hard
         #structure-contact
           = simple_form_for [structure, Mailboxer::Message.new], url: structure_messages_path(structure), as: :message  do |f|
@@ -24,16 +24,16 @@
               Contactez pour réserver ou obtenir plus d'infos :
             -# Here to stop bots.
             -# If this is filled, the message won't be sent
+            .visuallyhidden
+              %input{ name: 'content', type: 'text' }
             - unless current_user
               .grid--full.push-half--bottom
                 .grid__item.one-half.soft-half--right>
-                  %input.one-whole{name: 'user[first_name]', type: 'text', placeholder: 'Prénom + Nom', value: params[:first_name]}
+                  %input.input--large.one-whole{name: 'user[first_name]', type: 'text', placeholder: 'Prénom + Nom', value: params[:first_name]}
                 .grid__item.one-half>
-                  %input.one-whole{name: 'user[email]', type: 'text', placeholder: 'Email', value: params[:email]}
-            .visuallyhidden
-              %input{name: 'content', type: 'text'}
+                  %input.input--large.one-whole{name: 'user[email]', type: 'text', placeholder: 'Email', value: params[:email]}
             - prefilled_body = params[:message_body] || "Bonjour,\n\nJe souhaiterais venir pour une première séance. Pouvez-vous m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt"
-            = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole', style: 'height: 170px;', value: prefilled_body, data: { behavior: 'autoresize' }}
+            = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole input--large', style: 'height: 170px;', value: prefilled_body, data: { behavior: 'autoresize' } }
             = f.submit 'Envoyer mon message', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }
 
       %article#tab-telephone.tab-pane.hard

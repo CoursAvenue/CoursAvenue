@@ -190,9 +190,10 @@ ul.rslides_tabs:not(.rslides__custom-pager) {
                 @include border-radius(2px);
             }
             opacity: 0.5;
+            border: 1px solid rgba(0, 0, 0, 0);
             &.rslides_here {
                 @include box-shadow(0 0 10px 2px rgba(9, 225, 182, 0.15));
-                border: 1px solid rgba(9, 225, 182, 0.15);
+                border-color: rgba(9, 225, 182, 0.15);
             }
             &.rslides_here, &:hover {
                 opacity: 1;

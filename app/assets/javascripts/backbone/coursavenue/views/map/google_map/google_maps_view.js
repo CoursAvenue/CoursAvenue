@@ -6,7 +6,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
 
     Module.GoogleMapsView = Marionette.CompositeView.extend({
         template:                Module.templateDirname() + 'google_maps_view',
-        id:                      'map-container',
+        className:               'map-container',
 
         /* while the map is a composite view, it uses
          * marker views instead of item views */
@@ -43,7 +43,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             }
 
             this.mapView = new Module.BlankView({
-                id: 'map',
+                // id: 'map',
                 attributes: {
                     'class': 'map_container google-map' + options.mapClass
                 }
@@ -186,7 +186,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
         // but the collection will not re-render.
         render: function(){
             this.isRendered = true;
-            this.isClosed = false;
+            this.isClosed   = false;
             this.resetItemViewContainer();
 
             this.triggerBeforeRender();
@@ -234,7 +234,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
 
         closeChild: function(child) {
             // Param can be child's model, or child view itself
-            var childView = (child instanceof Backbone.Model)? this.markerViewChildren[child.cid]: child;
+            var childView = (child instanceof Backbone.Model ? this.markerViewChildren[child.cid] : child);
 
             childView.close();
             delete this.markerViewChildren[childView.model.cid];

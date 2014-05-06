@@ -29,7 +29,6 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
 
         initialize: function initialize () {
             _.bindAll(this, "showOrCreateTab", "hideLoader");
-            this.showOrCreateTab({ currentTarget: $("[data-view=comments]")[0] });
 
             this.empty_relation_handlers = {
                 "courses": this.showEmptyCourses,
@@ -39,6 +38,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
 
         onAfterShow: function onAfterShow () {
             this.trigger("filter:breadcrumbs:add", this.model.get("query_params"));
+            this.showOrCreateTab({ currentTarget: $("[data-view=comments]")[0] });
         },
 
         onRender: function onRender () {

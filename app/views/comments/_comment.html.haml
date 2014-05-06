@@ -9,10 +9,10 @@
     .grid--full
       .grid__item.two-twelfths.text--center>
         - if show_structure_logo
-          = image_tag comment.structure.logo.url(:thumb), height: (small_avatar ? 30 : 60)
+          = image_tag comment.structure.logo.url(:thumb), height: (small_avatar ? 30 : 60), width: (small_avatar ? 30 : 60)
         - else
           - if comment.user
-            = image_tag comment.user.avatar_url(:small), height: (small_avatar ? 30 : 60), class: 'rounded--circle'
+            = image_tag comment.user.avatar_url(:small), height: (small_avatar ? 30 : 60), width: (small_avatar ? 30 : 60), class: 'bordered rounded--circle'
         .text--center
           %strong= comment.author_name
           - if current_pro_admin and current_pro_admin.super_admin?

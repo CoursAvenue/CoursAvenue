@@ -1,70 +1,8 @@
-.grid
-  .grid__item.two-thirds.palm-one-whole>
-    %h2.flush
-      Développez votre bouche à oreille sur Internet
-    %p
-      %b 100% gratuit, simple et rapide.
-    %hr
-    .grid--full.text--center.push--top
-      .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
-        %a.muted-link.blue-box.islet.word-break-normal
-          %h5
-            %i.fa.fa-user.fa.fa-2x
-            %br
-            Créez votre profil
-      .grid__item.one-twelfth.text--center.v-middle>
-        .islet
-          %i.fa.fa-chevron-right.fa.fa-2x
-      .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
-        %a.muted-link.white-box.islet.word-break-normal
-          %h5
-            %i.fa.fa-check.fa.fa-2x
-            %br
-            Validez votre inscription
-      .grid__item.one-twelfth.text--center.v-middle>
-        .islet
-          %i.fa.fa-chevron-right.fa.fa-2x
-      .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
-        %a.muted-link.white-box.islet.word-break-normal
-          %h5
-            %i.fa.fa-cogs.fa.fa-2x
-            %br
-            Gérez votre profil
-
-    .text--center
-      = link_to "Pas le temps de créer votre profil ? Contactez notre équipe qui s'en chargera.", pages_contact_url(message: "Bonjour,\nPourriez-vous créer mon profil à ma place ? Voici le lien vers mon site Internet où vous trouverez toutes mes informations : www.", subdomain: 'www'), onclick: "ga('send', 'event', 'Create a profile for me', 'click', 'From inscription page');"
-
-    = simple_form_for [:pro, @structure], url: pro_structures_path, method: :post do |f|
-      .form-white-box.islet.flush--left
-        = f.input :name, wrapper_html: { class: 'flush--bottom' }, label: 'Nom de votre établissement / association', input_html: {placeholder: 'Exemple : Association KDanse, Paris Dance School, Laurent Garu'}
-        %p.field-form-info.blue Si vous êtes un professeur indépendant, entrez votre Prénom + Nom.
-
-        = f.input :contact_email, as: :hidden
-        = f.simple_fields_for :location do |location_form|
-          = location_form.input :name, label: "Nom du lieu", input_html: { value: @place_name,  placeholder: "Exemple : Bastille, Studio Bleu, Centre de Danse du Marais", data: {behavior: 'tooltip'}, title: "Si pas de nom : métro ou arrêt de bus le plus proche, nom de quartier / rue, nom d'un parc à proximité" }, wrapper_html: {class: 'flush--bottom'}
-          %p.field-form-info.blue Si vos cours se situent dans plusieurs lieux, vous pourrez les renseigner depuis votre profil.
-        = f.input :street, input_html: { value: cookies[:street] }, input_html: {placeholder: 'N° + rue'}
-        .input.city-autocomplete-wrapper<
-          = f.label :zip_code
-          = f.input :zip_code, input_html: { style: ' width: 10em;', data: {behavior: 'city-autocomplete', el: '#structure_city_id'} }, label: false, wrapper_html: { style: 'width: 10em;' }
-          = f.association :city, collection: [@structure.city], label: false, wrapper_html: { style: 'width: 10em;' }
-
-        %div{data: {behavior: 'parent-descendant-subjects', 'parent-select' => '#parent-subjects', 'descendant-select' => '#subject-descendants-select', 'descendant-select-wrapper' => '#descendants-subjects'}}
-          = f.association :subjects, as: :select, collection: Subject.roots.order('name ASC'), input_html: {style: 'width: 74%;', id: 'parent-subjects', data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true}, label: 'Disciplines générales pratiquées ', label_method: lambda{|subj| subj.name }, wrapper_html: {class: 'flush--bottom'}
-
-          #descendants-subjects
-            .input{title: 'Sélectionnez plusieurs disciplines en maintenant la touche CTRL ou CMD enfoncée.', data: {behavior: 'tooltip'}}
-              %label.control-label> Sous disciplines
-              %select#subject-descendants-select{name: 'structure[subject_descendants_ids][]', style: 'width: 74%;', multiple: true, data: {behavior: 'chosen', placeholder: 'Tapez ou sélectionnez une ou plusieurs disciplines', selected: @structure.subjects.select{|subj| subj.depth == 2}.map(&:id).join(',')}}>
-        - if @structure.errors[:children_subjects].present?
-          %p.error= @structure.errors[:children_subjects].to_sentence
-      .push--bottom.text--center
-        = f.submit 'Valider', class: 'btn--large btn btn--large btn--green', data: { disable_with: "En cours de validation" }
-
-  .grid__item.one-third>
-    .bordered--left.soft--left
+= content_for :above_container do
+  .flexbox
+    %nav.flexbox__item.v-top.side-menu.gray-box.border-none--right.soft-half--sides
       %h4.push-half--top
-        Plus de #{Admin.count.round(-2)} partenaires ont déjà été recommandés :
+        Plus de #{Admin.count.round(-2)} partenaires
       - @structures.each do |structure|
         .white-box.push-half--bottom
           .grid
@@ -87,17 +25,205 @@
                   avis
                   %i.lbc-brand-icon
       .push--bottom.text--center= link_to "Et plein d'autres !", structures_url(subdomain: 'www'), target: '_blank'
-
       %hr
-      %h4 Les 3 derniers avis :
+      %h4 Plus de #{Comment.count.round(-2)} avis
       %ul.comment-list
-        = render partial: 'comments/comment', collection: Comment.order('created_at DESC').limit(3), locals: {with_link: true, small_avatar: true}
+        - Comment.order('created_at DESC').limit(3).each do |comment|
+          %li.push--bottom.gray-box.soft-half.rounded--top
+            = link_to commentable_url(comment), target: '_blank', class: 'muted-link hard' do
+              - if comment.title.present?
+                %h6.quoted.inline-block.push-half--bottom{itemprop: 'headline', content: comment.title}= "#{comment.title}"
+                - if comment.course_name
+                  %span.v-middle= "— #{comment.course_name.capitalize}"
+              .read-more{itemprop: 'reviewBody', data: {behavior: 'read-more'}}
+                = simple_format comment.content
+              %p.text--right.flush
+                %i.semi-muted{itemprop: 'datePublished', content: l(comment.created_at, format: :iso_date)}
+                  Il y a #{distance_of_time_in_words_to_now comment.created_at} par #{comment.author_name}
 
-= content_for :scripts do
-  :javascript
-    $(function() {
-        $('#structure_zip_code').trigger('keyup');
-        $('#structure_street').blur(function() {
-            $.cookie('street', $(this).val());
-        });
-    });
+    .flexbox__item.v-top.small-container
+      .panel
+        .panel__body.soft--ends
+          .soft--sides
+            %h2.flush
+              Développez votre bouche à oreille sur Internet
+            %p.epsilon
+              %strong 100% gratuit, simple et rapide.
+
+            .grid--full.text--center.push--top
+              .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
+                %a.muted-link.blue-box.islet.word-break-normal
+                  %h5
+                    %i.fa.fa-user.fa.fa-2x
+                    %br
+                    Créez votre profil
+              .grid__item.one-twelfth.text--center.v-middle>
+                .islet
+                  %i.fa.fa-chevron-right.fa.fa-2x
+              .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
+                %a.muted-link.bordered.islet.word-break-normal
+                  %h5
+                    %i.fa.fa-check.fa.fa-2x
+                    %br
+                    Validez votre inscription
+              .grid__item.one-twelfth.text--center.v-middle>
+                .islet
+                  %i.fa.fa-chevron-right.fa.fa-2x
+              .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
+                %a.muted-link.bordered.islet.word-break-normal
+                  %h5
+                    %i.fa.fa-cogs.fa.fa-2x
+                    %br
+                    Gérez votre profil
+
+            .text--center
+              = link_to "Pas le temps de créer votre profil ? Contactez notre équipe qui s'en chargera.", pages_contact_url(message: "Bonjour,\nPourriez-vous créer mon profil à ma place ? Voici le lien vers mon site Internet où vous trouverez toutes mes informations : www.", subdomain: 'www'), onclick: "ga('send', 'event', 'Create a profile for me', 'click', 'From inscription page');"
+
+          %hr.push-half--ends
+          = simple_form_for [:pro, @structure], url: pro_structures_path, method: :post do |f|
+            .soft--sides{ data: { behavior: 'wizard-helper', content: "<p><strong>Un bon titre</strong><br>Le nom de votre structure est le titre de votre profil public. Les titres les plus courts sont les plus efficaces. Si vous êtes un professeur indépendant, renseignez votre Prénom + Nom.</p><p><strong>Remarque </strong> : ne renseignez pas le type de cours que vous proposez, c'est à indiquer dans la partie « Disciplines ». Par exemple, ne pas mettre « Cours de dessin Association Artik », mais simplement « Association Artik ».</p>" } }
+              %h5#informations Structure
+              = f.input :name, wrapper_html: { class: 'flush--bottom' }, label: 'Nom de votre structure', input_html: { placeholder: 'Exemple : Association KDanse, Paris Dance School, Laurent Garu', class: 'input--large' }, label_html: { class: 'label--large' }
+
+            = f.input :contact_email, as: :hidden
+
+            %hr.push-half--ends
+            .soft--sides{ data: { behavior: 'wizard-helper', content: '<p><strong>Adresse</strong><br>Si vos cours se situent dans plusieurs lieux, vous pourrez les renseigner depuis votre profil.</p>' } }
+              %h5#informations Adresse
+              = f.simple_fields_for :location do |location_form|
+                = location_form.input :name, label: "Nom du lieu", input_html: { value: @place_name,  placeholder: "Exemple : Bastille, Studio Bleu, Centre de Danse du Marais", class: 'input--large', data: { behavior: 'tooltip' }, title: "Si pas de nom : métro ou arrêt de bus le plus proche, nom de quartier / rue, nom d'un parc à proximité" }, wrapper_html: { class: 'flush--bottom' }, label_html: { class: 'label--large' }
+              = f.input :street, input_html: { value: cookies[:street] }, input_html: { placeholder: 'N° + rue', class: 'input--large' }, label_html: { class: 'label--large' }
+              .input.city-autocomplete-wrapper<
+                = f.label :zip_code, class: 'label--large'
+                = f.input :zip_code, input_html: { class: 'input--large', style: ' width: 6em;', data: { behavior: 'city-autocomplete', el: '#structure_city_id' } }, label: false, wrapper_html: { style: 'width: 8em;', class: 'flush--top' }
+                = f.association :city, collection: [@structure.city], label: false, wrapper_html: { style: 'width: 10em;' }, input_html: { class: 'input--large' }, wrapper_html: { class: 'flush--top' }
+
+            %hr.push-half--ends
+            .soft--sides{ data: { behavior: 'wizard-helper', content: '<p><strong>Étiquettes de disciplines</strong><br>Ces étiquettes de disciplines nous permettent de mieux vous catégoriser dans notre moteur de recherche. Néanmoins, une fois vos cours renseignés dans la rubrique « Planning », les intitulés de vos cours seront pris en compte en priorité, car ils seront plus précis.</p>' } }
+              %h5#informations Étiquettes de disciplines
+              %div{data: {behavior: 'parent-descendant-subjects', 'parent-select' => '#parent-subjects', 'descendant-select' => '#subject-descendants-select', 'descendant-select-wrapper' => '#descendants-subjects'}}
+                = f.association :subjects, as: :select, collection: Subject.roots.order('name ASC'), input_html: { style: 'width: 74%;', id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' }, multiple: true, class: 'input--large' }, label: 'Disciplines générales pratiquées ', label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush--bottom'}, label_html: { class: 'label--large' }
+
+                #descendants-subjects
+                  .input{title: 'Sélectionnez plusieurs disciplines en maintenant la touche CTRL ou CMD enfoncée.', data: {behavior: 'tooltip'}}
+                    %label.label--large.control-label> Sous disciplines
+                    %select.input--large.hard--top#subject-descendants-select{name: 'structure[subject_descendants_ids][]', style: 'width: 74%;', multiple: true, data: {behavior: 'chosen', placeholder: 'Tapez ou sélectionnez une ou plusieurs disciplines', selected: @structure.subjects.select{|subj| subj.depth == 2}.map(&:id).join(',')}}>
+                - if @structure.errors[:children_subjects].present?
+                  %p.error= @structure.errors[:children_subjects].to_sentence
+            .push--bottom.text--center
+              = f.submit 'Valider', class: 'btn--large btn btn--large btn--green', data: { disable_with: "En cours de validation" }
+    .grid__item.relative.wizard-container
+
+
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          $('#structure_zip_code').trigger('keyup');
+          $('#structure_street').blur(function() {
+              $.cookie('street', $(this).val());
+          });
+      });
+
+-# .grid.soft-half--top
+-#   .grid__item.two-thirds.palm-one-whole>
+-#     %h2.flush
+-#       Développez votre bouche à oreille sur Internet
+-#     %p
+-#       %b 100% gratuit, simple et rapide.
+-#     %hr
+-#     .grid--full.text--center.push--top
+-#       .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
+-#         %a.muted-link.blue-box.islet.word-break-normal
+-#           %h5
+-#             %i.fa.fa-user.fa.fa-2x
+-#             %br
+-#             Créez votre profil
+-#       .grid__item.one-twelfth.text--center.v-middle>
+-#         .islet
+-#           %i.fa.fa-chevron-right.fa.fa-2x
+-#       .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
+-#         %a.muted-link.white-box.islet.word-break-normal
+-#           %h5
+-#             %i.fa.fa-check.fa.fa-2x
+-#             %br
+-#             Validez votre inscription
+-#       .grid__item.one-twelfth.text--center.v-middle>
+-#         .islet
+-#           %i.fa.fa-chevron-right.fa.fa-2x
+-#       .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
+-#         %a.muted-link.white-box.islet.word-break-normal
+-#           %h5
+-#             %i.fa.fa-cogs.fa.fa-2x
+-#             %br
+-#             Gérez votre profil
+
+-#     .text--center
+-#       = link_to "Pas le temps de créer votre profil ? Contactez notre équipe qui s'en chargera.", pages_contact_url(message: "Bonjour,\nPourriez-vous créer mon profil à ma place ? Voici le lien vers mon site Internet où vous trouverez toutes mes informations : www.", subdomain: 'www'), onclick: "ga('send', 'event', 'Create a profile for me', 'click', 'From inscription page');"
+
+-#     = simple_form_for [:pro, @structure], url: pro_structures_path, method: :post do |f|
+-#       .form-white-box.islet.flush--left
+-#         = f.input :name, wrapper_html: { class: 'flush--bottom' }, label: 'Nom de votre établissement / association', input_html: { placeholder: 'Exemple : Association KDanse, Paris Dance School, Laurent Garu', class: 'input--large' }, label_html: { class: 'label--large hard--top' }
+-#         %p.field-form-info.blue Si vous êtes un professeur indépendant, entrez votre Prénom + Nom.
+
+-#         = f.input :contact_email, as: :hidden
+-#         = f.simple_fields_for :location do |location_form|
+-#           = location_form.input :name, label: "Nom du lieu", input_html: { value: @place_name,  placeholder: "Exemple : Bastille, Studio Bleu, Centre de Danse du Marais", data: {behavior: 'tooltip'}, title: "Si pas de nom : métro ou arrêt de bus le plus proche, nom de quartier / rue, nom d'un parc à proximité" }, wrapper_html: {class: 'flush--bottom'}
+-#           %p.field-form-info.blue Si vos cours se situent dans plusieurs lieux, vous pourrez les renseigner depuis votre profil.
+-#         = f.input :street, input_html: { value: cookies[:street] }, input_html: {placeholder: 'N° + rue'}
+-#         .input.city-autocomplete-wrapper<
+-#           = f.label :zip_code
+-#           = f.input :zip_code, input_html: { style: ' width: 10em;', data: {behavior: 'city-autocomplete', el: '#structure_city_id'} }, label: false, wrapper_html: { style: 'width: 10em;' }
+-#           = f.association :city, collection: [@structure.city], label: false, wrapper_html: { style: 'width: 10em;' }
+
+-#         %div{data: {behavior: 'parent-descendant-subjects', 'parent-select' => '#parent-subjects', 'descendant-select' => '#subject-descendants-select', 'descendant-select-wrapper' => '#descendants-subjects'}}
+-#           = f.association :subjects, as: :select, collection: Subject.roots.order('name ASC'), input_html: {style: 'width: 74%;', id: 'parent-subjects', data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true}, label: 'Disciplines générales pratiquées ', label_method: lambda{|subj| subj.name }, wrapper_html: {class: 'flush--bottom'}
+
+-#           #descendants-subjects
+-#             .input{title: 'Sélectionnez plusieurs disciplines en maintenant la touche CTRL ou CMD enfoncée.', data: {behavior: 'tooltip'}}
+-#               %label.control-label> Sous disciplines
+-#               %select#subject-descendants-select{name: 'structure[subject_descendants_ids][]', style: 'width: 74%;', multiple: true, data: {behavior: 'chosen', placeholder: 'Tapez ou sélectionnez une ou plusieurs disciplines', selected: @structure.subjects.select{|subj| subj.depth == 2}.map(&:id).join(',')}}>
+-#         - if @structure.errors[:children_subjects].present?
+-#           %p.error= @structure.errors[:children_subjects].to_sentence
+-#       .push--bottom.text--center
+-#         = f.submit 'Valider', class: 'btn--large btn btn--large btn--green', data: { disable_with: "En cours de validation" }
+
+-#   .grid__item.one-third>
+-#     .bordered--left.soft--left
+-#       %h4.push-half--top
+-#         Plus de #{Admin.count.round(-2)} partenaires ont déjà été recommandés :
+-#       - @structures.each do |structure|
+-#         .white-box.push-half--bottom
+-#           .grid
+-#             .grid__item.one-quarter.v-middle>
+-#               = image_tag structure.logo.url(:thumb), class: 'block'
+-#             .grid__item.three-quarters.v-middle>
+-#               %b
+-#                 = link_to structure.name, structure_url(structure, subdomain: 'www'), target: '_blank', onclick: "ga('send', 'event', 'Go to other profile', 'click', 'From inscription page');"
+-#               %div
+-#                 .delta{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
+-#                   %meta{property: 'v:rating', itemprop: 'rating', content: structure.rating}
+-#                   %meta{itemprop: 'count', content: structure.comments_count}
+-#                   %meta{itemprop: 'itemreviewed', content: structure.name}
+-#                   %meta{itemprop: 'name', content: structure.name}
+-#                   %meta{itemprop: 'street-address', content: structure.street}
+-#                   %meta{itemprop: 'postal-code', content: structure.zip_code}
+-#               %div
+-#                 = link_to structure_url(structure, subdomain: 'www'), target: '_blank', onclic: "ga('send', 'event', 'Go to other profile', 'click', 'From inscription page');" do
+-#                   = structure.comments_count
+-#                   avis
+-#                   %i.lbc-brand-icon
+-#       .push--bottom.text--center= link_to "Et plein d'autres !", structures_url(subdomain: 'www'), target: '_blank'
+
+-#       %hr
+-#       %h4 Les 3 derniers avis :
+-#       %ul.comment-list
+-#         = render partial: 'comments/comment', collection: Comment.order('created_at DESC').limit(3), locals: {with_link: true, small_avatar: true}
+
+-# = content_for :scripts do
+-#   :javascript
+-#     $(function() {
+-#         $('#structure_zip_code').trigger('keyup');
+-#         $('#structure_street').blur(function() {
+-#             $.cookie('street', $(this).val());
+-#         });
+-#     });

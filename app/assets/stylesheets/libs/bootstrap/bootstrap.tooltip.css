@@ -42,6 +42,7 @@
   font-size: 12px;
   line-height: 1.4;
   opacity: 0;
+  font-weight: bold;
   filter: alpha(opacity=0);
 }
 .tooltip.in {

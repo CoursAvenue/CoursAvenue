@@ -3,32 +3,57 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
     Module.GoogleMapsView = CoursAvenue.Views.Map.GoogleMap.GoogleMapsView.extend({
         infoBoxView:  Module.InfoBoxView,
 
+        initialize: function(options) {
+            this.sticky = this.options.sticky;
+            if (this.sticky) { this.$el.addClass('soft--top'); }
+        },
+
         onShow: function onShow () {
-            var $view                       = this.$el.parent(),
-                $grid_item                  = $view.parent(),
-                $grid_parent                = $grid_item.parent();
-                media_container_width       = $('#media-grid').width(),
-                media_container_offset_left = $('#media-grid').offset().left;
-            $grid_parent.sticky({ 'z': 10, old_width: false });
+            if (this.sticky) {
+                var $view = this.$el.parent()
+                $view.sticky({ 'z': 10, old_width: false });
 
-            // The sticky-full class needs to know about the parent's width,
-            // so that we can css transition to it. Transitions between a
-            // static value and a percentage don't work.
-            $('<style>.sticky--full { left: ' + media_container_offset_left + 'px !important; width: ' + media_container_width + 'px !important; }</style>').appendTo('head');
+                // The sticky-full class needs to know about the parent's width,
+                // so that we can css transition to it. Transitions between a
+                // static value and a percentage don't work.
+                $('<style>.sticky--full { left: ' + $view.offset().left + 'px !important; width: ' + $view.width() + 'px !important; }</style>').appendTo('head');
 
-            // The map should always have sticky and sticky--full at the same
-            // time. Whenever it gets or loses one of those classes, it should
-            // get or lose the other. This is relevant during scroll, so we check
-            // enforce it here.
-            $(window).on("scroll", function () {
-                if ($grid_parent.hasClass("sticky")) {
-                    $grid_parent.addClass("sticky--full grid--full");
-
-                } else if (!$grid_parent.hasClass("sticky") && $grid_parent.hasClass("sticky--full")) {
-                    $grid_parent.removeClass("sticky--full");
-                }
-            });
+                // The map should always have sticky and sticky--full at the same
+                // time. Whenever it gets or loses one of those classes, it should
+                // get or lose the other. This is relevant during scroll, so we check
+                // enforce it here.
+                $(window).on("scroll", function () {
+                    if ($view.hasClass("sticky")) {
+                        $view.addClass("sticky--full");
+                    } else if (!$view.hasClass("sticky") && $view.hasClass("sticky--full")) {
+                        $view.removeClass("sticky--full");
+                    }
+                });
+            }
             this.recenterMap();
+        },
+
+        // We have some weird behavior having two maps on the same page...
+        addChild: function(childModel, html) {
+            var markerView = new this.markerView({
+                model:   childModel,
+                map:     this.map,
+                content: html
+            });
+            this.markerViewChildren[childModel.cid + (this.sticky ? 'sticky' : '')] = markerView;
+            this.addChildViewEventForwarding(markerView); // buwa ha ha ha!
+            markerView.render();
+        },
+
+        // We have some weird behavior having two maps on the same page...
+        closeChildren: function() {
+            for(var cid in this.markerViewChildren) {
+                if (this.sticky && cid.indexOf('sticky') !== -1) {
+                    this.closeChild(this.markerViewChildren[cid]);
+                } else if (!this.sticky && cid.indexOf('sticky') === -1) {
+                    this.closeChild(this.markerViewChildren[cid]);
+                }
+            }
         },
 
         /* ***
@@ -92,5 +117,3 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
     });
 
 }, undefined);
-
-

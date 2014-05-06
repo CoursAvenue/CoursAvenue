@@ -14,22 +14,23 @@
     - else
       = "Retrouvez tous les cours de #{@structure.name} à #{@city.name}"
 
-.inline-block
-  - if cookies[:structure_search_path]
-    = link_to cookies[:structure_search_path] do
-      %i.orange ←
-      = t('.back_to_results')
-  - else
-    = link_to structures_path do
-      %i.orange ←
-      = t('.see_arrounding_structures')
-.inline-block.push-half--sides
-  |
-.inline-block.push-half--bottom
-  %ol.nav.breadcrumb.flush{itemprop: 'breadcrumb'}
-    %li
-      = link_to "Tous les établissement", structures_path
-    %li= @structure.name
+.visuallyhidden
+  .inline-block
+    - if cookies[:structure_search_path]
+      = link_to cookies[:structure_search_path] do
+        %i.orange ←
+        = t('.back_to_results')
+    - else
+      = link_to structures_path do
+        %i.orange ←
+        = t('.see_arrounding_structures')
+  .inline-block.push-half--sides
+    |
+  .inline-block.push-half--bottom
+    %ol.nav.breadcrumb.flush{itemprop: 'breadcrumb'}
+      %li
+        = link_to "Tous les établissement", structures_path
+      %li= @structure.name
 
 - if !current_user and params[:waiting_for_activation]
   .blue-box.islet.text--center.push--ends
@@ -64,6 +65,28 @@
             Dernière activité
           .grid__item.v-middle.one-half>
             %strong= l(@structure.main_contact.last_sign_in_at, format: :date).capitalize
+
+    -# .gray-box.soft-half
+    - @similar_profiles = Structure.limit(3)
+    .panel
+      .panel__header.soft-half--ends.soft--left
+        %h5.flush Profils similaires
+      .panel__body.soft-half--ends
+        - @similar_profiles.each_with_index do |structure, index|
+          - unless index == 0
+            %hr.push-half--ends
+          = link_to structure_path(structure), class: 'soft-half block muted-link' do
+            .grid--full
+              .grid__item.one-quarter>
+                = image_tag structure.logo.url
+              .grid__item.three-quarters>
+                %div
+                  %strong= structure.name
+                %div
+                  .lbl.lbl--small.lbl--green Cours d'essai gratuit
+                %div à 1,5 km
+
+    %div{ data: { type: "sticky-map" }}>
 
 = content_for :scripts do
   :javascript

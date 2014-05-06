@@ -28,7 +28,7 @@
     top       : -17px;
 }
 .quoted {
-    line-height: 14px;
+    line-height  : 14px;
 }
 .quoted.quoted--large {
     line-height: 20px;
@@ -40,12 +40,14 @@
     top        : 0.2em;
 }
 .quoted:after {
-    content   : "\201D";
-    right     : -0.1em;
+    content     : "\201D";
+    right       : 0;
+    padding-left: 0.1em;
 }
 .quoted:before {
-    content   : "\201C";
-    left      : -0.1em;
+    content      : "\201C";
+    left         : 0;
+    padding-right: 0.1em;
 }
 .comment__content {
     background-color: $beige-dark;
