@@ -19,3 +19,11 @@
       background-image: image-url($image_2x);
     }
 }
+@mixin user-select($args){
+    -webkit-touch-callout: $args;
+      -webkit-user-select: $args;
+      -khtml-user-select: $args;
+        -moz-user-select: $args;
+         -ms-user-select: $args;
+             user-select: $args;
+}

@@ -22,7 +22,7 @@
         - # User can share if:
         - #   - comment is accepted
         - #   - user is owner
-        .gray-box.soft-half.rounded--top
+        .gray-box.soft-half.rounded--top.message__appendix
           - if comment.accepted? and (current_pro_admin or current_user) and comment.owner?(current_pro_admin || current_user)
             .drop-down__wrapper.float--right{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
               = link_to share_comment_url(comment, :facebook), target: '_blank', class: 'btn btn--blue btn--small', onclick: "ga('send', 'event', 'Share comment on Facebook', 'click')" do

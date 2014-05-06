@@ -1,7 +1,7 @@
 .grid--full.push-half--bottom.message
   .grid__item.two-twelfths.v-top.v-top>
     = image_tag @user.avatar_url(:thumb), class: 'message__avatar block center-block bordered'
-  .grid__item.ten-twelfths.message__body.soft-half.gray-box>
+  .grid__item.ten-twelfths.message__body.message__appendix.soft-half.gray-box>
     = simple_form_for [@user, @conversation], url: user_conversation_path(@user, @conversation), as: :conversation do |f|
       = f.error_notification
       = f.fields_for :message, @message do |message_form|

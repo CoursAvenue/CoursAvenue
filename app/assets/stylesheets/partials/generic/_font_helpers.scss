@@ -14,7 +14,7 @@
 
 // --------------------- Decorations
 .f-decoration-underlined      { text-decoration: underline; }
-.f-decoration-not-underlined  { text-decoration: none !important; }
+.f-decoration-not-underlined  { text-decoration: none !important; &:hover { text-decoration: none !important; } }
 .f-white-transparent {
     color: #EEE;
     color: rgba(255, 255, 255, 0.8);
