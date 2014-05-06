@@ -1,9 +1,9 @@
 .gray-box.push--bottom
-  .rslides-wrapper.rslides--big#media-grid{ style: 'height: 420px;'}>
+  .rslides-wrapper.rslides--big#media-grid{ style: 'height: 30em;'}>
     %ul.galery-rslides.hidden>
       %li
         %div{ data: { type: "google-maps" }}>
-      - medias[0..20].each_with_index do |media, index|
+      - medias.each_with_index do |media, index|
         %li
           %a.rslides_nav.rslides_nav--icon{rel: 'slideshow', href: media.url, class: (media.video? ? 'visible' : ''), data: {behavior: "fancy"}}
             - if media.video?
@@ -14,19 +14,20 @@
             %a.block.break-all{href: media.url, title: media.caption, data: {behavior: "fancy"}}
               = media.thumbnail_url_html
               %i.fa.fa-expand
-  -# .grid--full
-  -#   .grid__item{class: medias.any? ? 'one-half' : 'one-whole'}>
-  -#     %div{ data: { type: 'places-collection' }}
-  -#   - if medias.any?
-  -#     .grid__item.one-half>
-  -#       .text--center
-  -#         %a.very-soft.block.f-weight-bold#show-gallery{href: 'javascript:void(0)'} Voir la galerie (#{medias.count})
-
-
-  -# - if medias.any?
-  -#   #gallery.hidden
-  -#     .media-gallery>
-  -#       = render partial: 'medias/media', collection: medias[1..medias.length], locals: { lazy: true }
+  .thumbnails-container.relative
+    %a.thumbnails-container__nav.prev.pointer{ data: { 'slide-prev' => true } }
+      %i.fa.fa-chevron-left
+    .thumbnails-viewport.relative
+      %ul.nav.rslides__custom-pager.push-half--bottom.slideshow-thumbnails.thumbnails-slide-panel#galery-controls-thumb
+        %li.rslides-thumbnail
+          %a.pointer
+            = image_tag 'icons/google-maps-thumb.jpg', height: 70, width: 70
+        - medias.each do |media|
+          %li.rslides-thumbnail
+            %a.pointer
+              %img{ src: media.thumbnail_url, height: 70, width: 70}
+    %a.thumbnails-container__nav.next.pointer{ data: { 'slide-next' => true } }
+      %i.fa.fa-chevron-right
 
 = content_for :scripts do
   :javascript
@@ -38,41 +39,48 @@
             $this.closest('.media__item').hide();
             $this.closest('li').css('background-image', 'url(' + $this.attr('src') + ')')
         });
+        $galery_controls_thumb = $('#galery-controls-thumb');
+        $('.thumbnails-container [data-slide-prev]').click(function() { $('.rslides_nav.prev').click(); });
+        $('.thumbnails-container [data-slide-next]').click(function() { $('.rslides_nav.next').click(); });
         $(".galery-rslides").responsiveSlides({
             auto: false,
             nav: true,
             prevText: '<i class="fa fa-chevron-left"></i>',
-            nextText: '<i class="fa fa-chevron-right"></i>'
+            nextText: '<i class="fa fa-chevron-right"></i>',
+            manualControls: '#galery-controls-thumb',
+            before: function(currentlySelectedIndex) {
+                var $galery_controls_thumb_parent = $galery_controls_thumb.parent(),
+                    parent_width                  = $galery_controls_thumb_parent.width(),
+                    thumb_width                   = $('#galery-controls-thumb .rslides_here').width(),
+                    li_nb                         = $('#galery-controls-thumb li').length,
+                    last_li_right_offset          = - ($('#galery-controls-thumb li').last()[0].offsetLeft + thumb_width),
+                    new_left_position, absolute_left_offset, absolute_right_offset, left_parent_offset, right_parent_offset, relative_right_offset;
+                    // parent_offset_left            = $galery_controls_thumb_parent.offset().left;
+                currentlySelectedIndex = (currentlySelectedIndex === -1 ? (li_nb - 1) : currentlySelectedIndex)
+                // I take the offset from the parent from the right of the thumbnail, that's why I add the width
+                // Using offsetLeft to have the offset relative to the parent
+                absolute_left_offset  = $($('#galery-controls-thumb li')[currentlySelectedIndex % li_nb]).offset().left;
+                absolute_right_offset = absolute_left_offset + thumb_width;
+                left_parent_offset    = $galery_controls_thumb_parent.offset().left;
+                right_parent_offset   = left_parent_offset + parent_width;
+                relative_right_offset = $('#galery-controls-thumb li')[currentlySelectedIndex % li_nb].offsetLeft + thumb_width;
+                // Too much in the right
+                if (absolute_right_offset > right_parent_offset) {
+                    new_left_position =  - (relative_right_offset - parent_width);
+                    // Don't add half a thumb width if it's the last element, because we don't want to show white space
+                    if (currentlySelectedIndex < (li_nb - 1)) { new_left_position = new_left_position - (thumb_width / 2)}
+                    // new_left_position = (new_left_position < last_li_right_offset ? last_li_right_offset : new_left_position);
+                    $galery_controls_thumb.css('left', new_left_position);
+                } else if (absolute_left_offset < left_parent_offset) {
+                    new_left_position =  - relative_right_offset + 1.5 * thumb_width
+                    new_left_position = (new_left_position > 0 ? 0 : new_left_position);
+                    $galery_controls_thumb.css('left', new_left_position);
+                }
+            }
         });
         // Set the height of the slides
         var media_height = $('#media-grid').height();
         $('.galery-rslides li').css('height', media_height);
         $('.galery-rslides').removeClass('hidden');
         // End slideshow
-        var gallery_is_hidden   = true;
-        $('#show-gallery').click(function() {
-            $(".media__item img").trigger('gallery:show');
-            if (gallery_is_hidden) {
-                $(this).text('Cacher la galerie');
-            } else {
-                $(this).text('Voir la galerie');
-            }
-            gallery_is_hidden = !gallery_is_hidden;
-            $('#gallery').slideToggle();
-        });
-        $('[href=#tab-medias]').click(function(){
-            if ($('.media-gallery').length > 0) {
-                $('#show-gallery').click();
-            }
-        });
-        $("#gallery .media__item img").lazyload({
-            effect : "fadeIn",
-            event: 'gallery:show',
-            skip_invisible: true,
-            load: function(elements_left, settings) {
-                if (elements_left == 0) {
-                   $('#gallery .media-gallery').masonry({ itemSelector: '.media__item' });
-                }
-            }
-        });
     });
