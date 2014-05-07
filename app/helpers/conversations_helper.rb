@@ -1,9 +1,9 @@
 # encoding: utf-8
 module ConversationsHelper
+
   def conversation_label(conversation)
     label = Mailboxer::Label.find(conversation.mailboxer_label_id)
-    content_tag :span, class: "one-whole lbl lbl--#{label.color}" do
-      I18n.t(label.name)
+    content_tag :span, class: "lbl--chip lbl lbl--#{label.color}" do
     end
   end
 

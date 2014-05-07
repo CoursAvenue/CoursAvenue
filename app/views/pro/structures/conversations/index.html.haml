@@ -8,16 +8,25 @@
         - else
           = link_to 'Nouveau message', '#no_users', class: 'btn btn--green btn--large', data: { behavior: 'modal' }
 
-
+      - conversation_information_count  = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).count
+      - conversation_comment_count      = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::COMMENT.id).count
+      - conversation_conversation_count = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::CONVERSATION.id).count
       .grid.push--bottom
         .grid__item.one-half.v-middle>
           %select#conversation_label{ name: 'conversation_label_id' }
             %option{ value: '' } Tous les messages
-            %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::INFORMATION.id), value: Mailboxer::Label::INFORMATION.id } Demande d'information (#{@admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).count})
-            %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::COMMENT.id), value: Mailboxer::Label::COMMENT.id } Avis déposé (#{@admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::COMMENT.id).count})
-            %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::CONVERSATION.id), value: Mailboxer::Label::CONVERSATION.id } Conversation (#{@admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::CONVERSATION.id).count})
+            %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::INFORMATION.id), value: Mailboxer::Label::INFORMATION.id } Demande d'information (#{conversation_information_count})
+            %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::COMMENT.id), value: Mailboxer::Label::COMMENT.id } Avis déposé (#{conversation_comment_count})
+            %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::CONVERSATION.id), value: Mailboxer::Label::CONVERSATION.id } Conversation (#{conversation_conversation_count})
         .grid__item.one-half.v-middle>
           .text--right= paginate @conversations, window: 1, outer_window: 3
+      .push--bottom
+        .lbl.lbl--green.rounded--thick= conversation_information_count
+        %strong Demande d'information
+        .push-half--left.lbl.lbl--yellow.rounded--thick= conversation_comment_count
+        %strong Avis déposé
+        .push-half--left.lbl.lbl--gray.rounded--thick= conversation_conversation_count
+        %strong Conversation
       - @conversations.each do |conversation|
         = link_to pro_structure_conversation_path(@structure, conversation), class: 'muted-link block' do
           = render partial: 'conversations/conversation', locals: { conversation: conversation }
