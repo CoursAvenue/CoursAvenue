@@ -22,11 +22,11 @@
     .thumbnails-viewport.relative
       %ul.nav.rslides__custom-pager.push-half--bottom.slideshow-thumbnails.thumbnails-slide-panel#galery-controls-thumb
         %li.rslides-thumbnail
-          %a.pointer
+          %a.pointer.media-photo.media-slideshow
             = image_tag 'icons/google-maps-thumb.jpg', height: 70, width: 70
         - medias.each do |media|
           %li.rslides-thumbnail
-            %a.pointer
+            %a.pointer.media-photo
               %img{ src: media.thumbnail_url, height: 70, width: 70}
     %a.thumbnails-container__nav.next.pointer{ data: { 'slide-next' => true } }
       %i.fa.fa-chevron-right

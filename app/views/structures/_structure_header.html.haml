@@ -14,8 +14,11 @@
     -# Structure type
     - if @structure.structure_type
       %p.flush.inline-block.v-middle.epsilon
-        %strong #{t(@structure.structure_type)}
-        proposant :
+        - if @structure.structure_type.present?
+          %strong #{t(@structure.structure_type)}
+        - else
+          Structure
+        proposant des
         = @structure_decorator.given_course_types
       - if @structure.has_free_trial_course
         .epsilon.v-middle.push-half--left.inline-block.lbl.lbl--green Offres découvertes
@@ -23,7 +26,7 @@
   .grid__item.two-twelfths.v-bottom>
     .inline-bock.text--right
       %a.inline-block.f-decoration-not-underlined.text--center{ href: '#avis' }
-        %span.beta= structure.comments_count
+        %strong.beta= structure.comments_count
         %br
         recommandations
         .visuallyhidden{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}

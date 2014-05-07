@@ -16,8 +16,10 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
                 // The sticky-full class needs to know about the parent's width,
                 // so that we can css transition to it. Transitions between a
                 // static value and a percentage don't work.
-                $('<style>.sticky--full { left: ' + $view.offset().left + 'px !important; width: ' + $view.width() + 'px !important; }</style>').appendTo('head');
-
+                $('<style>.sticky--full { left: ' + $view.offset().left + 30 + 'px !important; width: ' + $view.width() + 'px !important; }</style>').appendTo('head');
+                $(window).resize(function () {
+                    $('<style>.sticky--full { left: ' + $view.closest('.grid__item').offset().left + 30 + 'px !important; }</style>').appendTo('head');
+                });
                 // The map should always have sticky and sticky--full at the same
                 // time. Whenever it gets or loses one of those classes, it should
                 // get or lose the other. This is relevant during scroll, so we check
@@ -29,6 +31,11 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
                         $view.removeClass("sticky--full");
                     }
                 });
+            } else {
+                if ($(window).height() < 700) {
+                    this.$el.closest('.rslides-wrapper').css('height', '30em');
+                    this.$('.google-map--medium').removeClass('google-map--medium').addClass('google-map--medium-small');
+                }
             }
             this.recenterMap();
         },
@@ -65,27 +72,27 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
          * So, in addition, we visually center the map.
          * */
         recenterMap: function recenterMap () {
-            // From: http://blog.shamess.info/2009/09/29/zoom-to-fit-all-markers-on-google-maps-api-v3/
-            //  Make an array of the LatLng's of the markers you want to show
-            var lat_lng_list = this.collection.map(function(place) {
-                return new google.maps.LatLng (place.get('location').latitude, place.get('location').longitude)
-            });
-            //  Create a new viewpoint bound
-            var bounds = new google.maps.LatLngBounds();
-            //  Go through each...
-            for (var i = 0, length = lat_lng_list.length; i < length; i++) {
-              //  And increase the bounds to take this point
-              bounds.extend (lat_lng_list[i]);
-            }
-            //  Fit these bounds to the map
-            this.map.fitBounds(bounds);
             // Set zoom to 12 if there is only one marker
             if (this.collection.length == 1) {
-                this.map.setZoom(12);
+                var center = new google.maps.LatLng (this.collection.first().get('location').latitude, this.collection.first().get('location').longitude)
+                this.map.setCenter(center);
+                this.map.setZoom(14);
+            } else {
+                // From: http://blog.shamess.info/2009/09/29/zoom-to-fit-all-markers-on-google-maps-api-v3/
+                //  Make an array of the LatLng's of the markers you want to show
+                var lat_lng_list = this.collection.map(function(place) {
+                    return new google.maps.LatLng (place.get('location').latitude, place.get('location').longitude)
+                });
+                //  Create a new viewpoint bound
+                var bounds = new google.maps.LatLngBounds();
+                //  Go through each...
+                for (var i = 0, length = lat_lng_list.length; i < length; i++) {
+                  //  And increase the bounds to take this point
+                  bounds.extend (lat_lng_list[i]);
+                }
+                //  Fit these bounds to the map
+                this.map.fitBounds(bounds);
             }
-            // var currCenter = this.map.getCenter();
-            // this.map.setCenter(currCenter);
-            // google.maps.event.trigger(this.map, 'resize');
         },
 
         /* ***

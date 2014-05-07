@@ -27,7 +27,7 @@ class StructuresController < ApplicationController
     end
     @city      = @structure.city
     @place_ids = @plannings.map(&:place_id).uniq
-    @medias    = @structure.medias.videos_first
+    @medias    = (@structure.premium? ? @structure.medias.videos_first : @structure.medias.videos_first.limit(1))
 
     @model = StructureShowSerializer.new(@structure, {
       unlimited_comments: false,

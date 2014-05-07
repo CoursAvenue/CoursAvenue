@@ -6,12 +6,12 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
         tagName: 'div',
         template: Module.templateDirname() + 'empty_structures_collection_view',
 
-        initialize: function(options) {
+        initialize: function initialize (options) {
             this.search_term  = options.search_term;
             this.subject_name = options.subject_name;
         },
 
-        serializeData: function() {
+        serializeData: function serializeData () {
             return {
                 search_term: this.search_term,
                 subject_name: this.subject_name
@@ -29,23 +29,23 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
         emptyView: EmptyStrcutureList,
 
         /* forward events with only the necessary data */
-        onItemviewHighlighted: function (view, data) {
+        onItemviewHighlighted: function onItemviewHighlighted (view, data) {
             this.trigger('structures:itemview:highlighted', data);
         },
 
-        onItemviewUnhighlighted: function (view, data) {
+        onItemviewUnhighlighted: function onItemviewUnhighlighted (view, data) {
             this.trigger('structures:itemview:unhighlighted', data);
         },
 
         /* WHOA so this event is actually getting the course:focus event
         *  via the broadcast method, not by having the itemview actually
         *  trigger anything. Weird. */
-        onItemviewCourseFocus: function (view, data) {
+        onItemviewCourseFocus: function onItemviewCourseFocus (view, data) {
             this.trigger('structures:itemview:peacock', data);
         },
 
 
-        findItemView: function (data) {
+        findItemView: function findItemView (data) {
             /* find the first place that has any locations that match the given lat/lng */
             var position = data.model.getLatLng();
 
@@ -68,7 +68,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
         },
 
         /* override inherited method */
-        announcePaginatorUpdated: function () {
+        announcePaginatorUpdated: function announcePaginatorUpdated () {
             var data         = this.collection;
             var first_result = (data.currentPage - 1) * data.perPage + 1;
 
@@ -119,7 +119,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
             this.trigger('structures:updated:maps');
         },
 
-        renderSlideshows: function() {
+        renderSlideshows: function renderSlideshows () {
             var self = this;
             setTimeout(function(){
                 // Start slideshow
@@ -147,7 +147,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
             });
         },
 
-        itemViewOptions: function() {
+        itemViewOptions: function itemViewOptions () {
             var subject_name = $('[data-value="' + decodeURIComponent(this.collection.server_api.subject_id) + '"]').text().trim();
             var search_term = this.collection.server_api.name || "";
 

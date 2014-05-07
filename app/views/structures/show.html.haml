@@ -39,33 +39,37 @@
   = render partial: 'structures/structure_header', locals: { structure: @structure }
 
   .grid.push--top
-    .grid__item.eight-twelfths.soft--right>
+    .grid__item.eight-twelfths.soft-half--right>
       = render partial: 'structures/map_and_gallery', locals: { structure: @structure, places: @structure.places, medias: @medias }
 
       #structure-profile{ data: { type: 'structure-profile-root' } }
         #structure-region
     .grid__item.four-twelfths>
+
       = render partial: 'structures/contact_form', locals: { structure: @structure }
-      .white-box.islet.epsilon
-        = image_tag @structure.logo.url(:thumb), class: 'block one-whole soft push--bottom'
-        - if @structure.response_rate
-          .grid.soft-half--bottom
-            .grid__item.v-middle.one-half.gray>
-              Taux de réponse
-            .grid__item.v-middle.one-half>
-              %strong= "#{@structure.response_rate}%"
-        - if @structure.response_time
-          .grid.soft-half--bottom
-            .grid__item.v-middle.one-half.gray>
-              Temps de réponse
-            .grid__item.v-middle.one-half>
-              %strong= response_time_in_words @structure
-        - if @structure.main_contact
-          .grid
-            .grid__item.v-middle.one-half.gray>
-              Dernière activité
-            .grid__item.v-middle.one-half>
-              %strong= l(@structure.main_contact.last_sign_in_at, format: :date).capitalize
+
+      .panel.push--bottom
+        .panel__header.soft
+          .media-photo= image_tag @structure.logo.url(:large), class: 'block one-whole'
+        .panel__body.soft.epsilon
+          - if @structure.response_rate
+            .grid--full.soft-half--bottom
+              .grid__item.v-middle.one-half.gray>
+                Taux de réponse
+              .grid__item.v-middle.one-half>
+                %strong= "#{@structure.response_rate}%"
+          - if @structure.response_time
+            .grid--full.soft-half--bottom
+              .grid__item.v-middle.one-half.gray>
+                Temps de réponse
+              .grid__item.v-middle.one-half>
+                %strong= response_time_in_words @structure
+          - if @structure.main_contact
+            .grid--full
+              .grid__item.v-middle.one-half.gray>
+                Dernière activité
+              .grid__item.v-middle.one-half>
+                %strong= l(@structure.main_contact.last_sign_in_at, format: :date).capitalize
 
       .panel.push--bottom
         .panel__header.soft-half.text--center

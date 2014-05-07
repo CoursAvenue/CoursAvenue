@@ -27,7 +27,7 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def medias
-    object.medias.videos_first.limit(20)
+    (object.premium? ? object.medias.videos_first.limit(20) : object.medias.videos_first.limit(1))
   end
 
   def comments
