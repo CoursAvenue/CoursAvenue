@@ -15,14 +15,21 @@
 
     - if @medias.any?
       .soft--sides
-        %p.one-third.text--center.flush
-          %strong Votre première photo / vidéo figure dans les résultats de recherche !
+        .grid
+          .grid__item.one-third.v-middle>
+            %p.text--center.flush
+              %strong Votre première photo / vidéo figure dans les résultats de recherche !
+          .grid__item.two-thirds.v-middle.text--right>
+            - if @structure.premium?
+              %strong.green Vous êtes actuellement premium
+            - else
+              = link_to 'Passer en premium', '#', class: 'btn btn--yellow'
         - first = true
         - @medias.in_groups_of(3, false).each do |media_group|
           .grid--full.push-half--bottom
             - media_group.each do |media|
               .soft-half.grid__item.one-third>
-                .media__item.gray-box.one-whole.relative
+                .media__item.gray-box.one-whole.relative{ class: (!first and !@structure.premium? ? 'semi-muted' : '') }
                   - if first
                     = image_tag 'icons/first-photo-ribbon.png', class: 'north west absolute on-top', height: 50, width: 50, style: 'width: 50px; height: 50px;'
                     - first = false
