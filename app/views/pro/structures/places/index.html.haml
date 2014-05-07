@@ -1,7 +1,7 @@
 = side_menu_currently_at 'places'
 
 .panel
-  .panel__body
+  .panel__body{ data: { behavior: 'wizard-helper', content: t('pro.places.wizard_helper.index') } }
     - if @places.any?
       #map.google-map.push--top
     .text--center.push

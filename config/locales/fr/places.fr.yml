@@ -39,3 +39,7 @@ fr:
           <p><strong>Privées</strong><br>
           Indiquez toutes les informations pratiques confidentielles : digicode de la porte d'entrée, étage de l'immeuble, etc.
           Elles ne seront pas visibles sur votre profil public et ne seront communiquées qu'aux élèves qui s'inscriront à vos stages ou cours.</p>
+        index: >
+          <p><strong>Toutes les adresses de vos cours</strong></p>
+          <p>Pour les internautes, le lieu constitue le premier critère de sélection d'un cours : pour cette raison, le moteur de recherche CoursAvenue est basé sur la géolocalisation.</p>
+          <p>Il est important de lister correctement tous les lieux où vous proposez vos cours : espaces publics, salles que vous louez, adresses privées, lieu principal pour vos cours à domicile...</p>

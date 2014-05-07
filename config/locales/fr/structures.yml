@@ -57,15 +57,6 @@ fr:
     other: Autre
     board: Autre
     independant: Professeur indépendant
-    cancel_conditions:
-      flexible: "Flexibles : remboursement intégral jusqu’à la veille du cours"
-      moderate: "Modérées : remboursement intégral jusqu’à 3 jours avant la date du cours"
-      strict: "Strictes : 50% remboursé jusqu’à 1 semaine avant la date du cours"
-      very_strict: "Très strictes : pas d’annulation ni de remboursement possible"
-    modification_conditions:
-      flexible: "Flexibles : possibilité de changer de séance (pour un même cours au même tarif) jusqu’à la veille du cours"
-      moderate: "Modérées : possibilité de changer de séance (pour un même cours au même tarif) jusqu’à 1 semaine avant la date du cours"
-      strict: "Strictes : pas de modification possible"
     show:
       see_arrounding_structures: Voir les établissements à proximité
       back_to_results: Retour aux résultats
@@ -167,3 +158,10 @@ fr:
           C'est tout cela que je souhaite partager avec ceux qui veulent prendre leur santé et leur vie en main. »</p>
           <p><strong>Important</strong> : vos coordonnées de contact (téléphone, e-mail, site Internet...) ou
           votre planning de cours ne doivent pas être renseignés ici.</p>
+        logo: >
+          <p><strong>Un bon logo</strong><br>
+          Le logo est la première image que les internautes visualisent dans les résultats de recherche.
+          Un bon logo est un logo qui vous ressemble et qui est simple à comprendre (privilégiez le format carré).
+          Si vous n'en n'avez pas, mettez une image de vous ou de votre établissement.</p>
+          <p><strong>Remarque</strong> : votre logo ne doit contenir aucune information de contact (aucun lien Internet, téléphone ou e-mail).</p>
+          <p><strong>Formats autorisés</strong> : JPEG / JPG / GIF / PNG / BMP<br><strong>Taille maximum</strong> : 5mo</p>

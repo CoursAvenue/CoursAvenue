@@ -3,7 +3,7 @@
 
   - if params[:return_to].present?
     %input{type: 'hidden', value: params[:return_to], name: 'return_to'}
-  .soft--sides{ data: { behavior: 'wizard-helper', content: "<p><strong>Un bon logo</strong><br>Le logo est la première image que les internautes visualisent dans les résultats de recherche. Un bon logo est un logo qui vous ressemble et qui est simple à comprendre (privilégiez le format carré). Si vous n'en n'avez pas, mettez une image de vous ou de votre établissement.</p><p><strong>Remarque</strong> : votre logo ne doit contenir aucune information de contact (aucun lien Internet, téléphone ou e-mail).</p><p><strong>Formats autorisés</strong> : JPEG / JPG / GIF / PNG / BMP<br><strong>Taille maximum</strong> : 5mo</p>" } }
+  .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.logo')} }
     %h5
       %i.fa.fa-picture-o
       Logo
