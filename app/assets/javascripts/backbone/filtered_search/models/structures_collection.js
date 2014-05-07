@@ -67,7 +67,7 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
             this.grandTotal = response.meta.total;
             this.totalPages = Math.ceil(response.meta.total / this.paginator_ui.perPage);
 
-            return _.union(response.structures, this.toJSON());
+            return response.structures;
         },
 
 
