@@ -35,71 +35,72 @@
 - if !current_user and params[:waiting_for_activation]
   .blue-box.islet.text--center.push--ends
     = render 'users/waiting_for_activation_text'
+.soft--sides
+  = render partial: 'structures/structure_header', locals: { structure: @structure }
 
-= render partial: 'structures/structure_header', locals: { structure: @structure }
+  .grid.push--top
+    .grid__item.eight-twelfths.soft--right>
+      = render partial: 'structures/map_and_gallery', locals: { structure: @structure, places: @structure.places, medias: @medias }
 
-.grid.push--top
-  .grid__item.eight-twelfths>
-    = render partial: 'structures/map_and_gallery', locals: { structure: @structure, places: @structure.places, medias: @medias }
+      #structure-profile{ data: { type: 'structure-profile-root' } }
+        #structure-region
+    .grid__item.four-twelfths>
+      = render partial: 'structures/contact_form', locals: { structure: @structure }
+      .white-box.islet.epsilon
+        = image_tag @structure.logo.url(:thumb), class: 'block one-whole soft push--bottom'
+        - if @structure.response_rate
+          .grid.soft-half--bottom
+            .grid__item.v-middle.one-half.gray>
+              Taux de réponse
+            .grid__item.v-middle.one-half>
+              %strong= "#{@structure.response_rate}%"
+        - if @structure.response_time
+          .grid.soft-half--bottom
+            .grid__item.v-middle.one-half.gray>
+              Temps de réponse
+            .grid__item.v-middle.one-half>
+              %strong= response_time_in_words @structure
+        - if @structure.main_contact
+          .grid
+            .grid__item.v-middle.one-half.gray>
+              Dernière activité
+            .grid__item.v-middle.one-half>
+              %strong= l(@structure.main_contact.last_sign_in_at, format: :date).capitalize
 
-    #structure-profile{ data: { type: 'structure-profile-root' } }
-      #structure-region
-  .grid__item.four-twelfths>
-    = render partial: 'structures/contact_form', locals: { structure: @structure }
-    .white-box.islet.epsilon
-      - if @structure.response_rate
-        .grid.soft-half--bottom
-          .grid__item.v-middle.one-half.gray>
-            Taux de réponse
-          .grid__item.v-middle.one-half>
-            %strong= "#{@structure.response_rate}%"
-      - if @structure.response_time
-        .grid.soft-half--bottom
-          .grid__item.v-middle.one-half.gray>
-            Temps de réponse
-          .grid__item.v-middle.one-half>
-            %strong= response_time_in_words @structure
-      - if @structure.main_contact
-        .grid
-          .grid__item.v-middle.one-half.gray>
-            Dernière activité
-          .grid__item.v-middle.one-half>
-            %strong= l(@structure.main_contact.last_sign_in_at, format: :date).capitalize
+      .panel.push--bottom
+        .panel__header.soft-half.text--center
+          %h5.flush Suivez l'actualité et recevez des offres exclusives
+        .panel__body.soft
+          - if current_user and current_user.follows?(@structure)
+            = link_to 'Vous suivez déjà ce profil', '#', class: "btn btn--full disabled"
+          - elsif current_user
+            = link_to 'Suivre ce profil', follow_structure_path(@structure), method: :post, class: "btn btn--full"
+          - else
+            = link_to "Suivre ce profil", new_user_registration_path, data: { behavior: 'modal', title: 'Connexion', width: 600, padding: 0 }, class: 'fancybox.ajax btn btn--full', onclick: "ga('send', 'event', 'Se créer un compte', 'click','Inscrit')"
+          - if @structure.followers.count > 9
+            %p.flush.text--center.push-half--top
+              %strong Suivi par #{@structure.followers.count} élèves
 
-    .panel.push--bottom
-      .panel__header.soft-half.text--center
-        %h5.flush Suivez l'actualité et recevez des offres exclusives
-      .panel__body.soft
-        - if current_user and current_user.follows?(@structure)
-          = link_to 'Vous suivez déjà ce profil', '#', class: "btn btn--full disabled"
-        - elsif current_user
-          = link_to 'Suivre ce profil', follow_structure_path(@structure), method: :post, class: "btn btn--full"
-        - else
-          = link_to "Suivre ce profil", new_user_registration_path, data: { behavior: 'modal', title: 'Connexion', width: 600, padding: 0 }, class: 'fancybox.ajax btn btn--full', onclick: "ga('send', 'event', 'Se créer un compte', 'click','Inscrit')"
-        - if @structure.followers.count > 9
-          %p.flush.text--center.push-half--top
-            %strong Suivi par #{@structure.followers.count} élèves
+      - @similar_profiles = Structure.limit(3)
+      .panel
+        .panel__header.soft-half--ends.soft--left
+          %h5.flush Profils similaires
+        .panel__body.soft-half--ends
+          - @similar_profiles.each_with_index do |structure, index|
+            - unless index == 0
+              %hr.push-half--ends
+            = link_to structure_path(structure), class: 'soft-half block muted-link' do
+              .grid--full
+                .grid__item.one-quarter>
+                  = image_tag structure.logo.url
+                .grid__item.three-quarters.soft-half--left>
+                  %div
+                    %strong= structure.name
+                  %div
+                    .lbl.lbl--small.lbl--green Cours d'essai gratuit
+                  %div à 1,5 km
 
-    - @similar_profiles = Structure.limit(3)
-    .panel
-      .panel__header.soft-half--ends.soft--left
-        %h5.flush Profils similaires
-      .panel__body.soft-half--ends
-        - @similar_profiles.each_with_index do |structure, index|
-          - unless index == 0
-            %hr.push-half--ends
-          = link_to structure_path(structure), class: 'soft-half block muted-link' do
-            .grid--full
-              .grid__item.one-quarter>
-                = image_tag structure.logo.url
-              .grid__item.three-quarters>
-                %div
-                  %strong= structure.name
-                %div
-                  .lbl.lbl--small.lbl--green Cours d'essai gratuit
-                %div à 1,5 km
-
-    %div{ data: { type: "sticky-map" }}>
+      %div{ data: { type: "sticky-map" }}>
 
 = content_for :scripts do
   :javascript

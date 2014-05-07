@@ -12,9 +12,10 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
             var self = this;
             // define the server API based on the load-time URI
             this.server_api = this.makeOptionsFromSearch(window.location.search);
-            this.currentPage = 1; // we always start from page 1
+            this.currentPage = this.server_api.page || 1; // we always start from page 1
             this.server_api.page = function () { return self.currentPage; };
 
+            // TODO: Check this
             /* we need to reset the collection on 'sync', rather than in the
              * paginated_collection_view. This is because we don't want a momentary
              * flash of the zero result set.
@@ -27,10 +28,6 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
                     this.reset(response.structures);
                 }
             });
-
-            if (this.server_api.sort === undefined) {
-                this.server_api.sort = 'rating_desc';
-            }
 
             // now write back the server_api so that the search bar is up to date
             // we are passing this.server_api for fun! ^o^ why not?
@@ -73,22 +70,6 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
             return _.union(response.structures, this.toJSON());
         },
 
-        /* the Query methods are for populating anchors, they predict
-        *  what the location.search bar would look like if performed
-        *  a particular action */
-        relevancyQuery: function () {
-            return this.url.resource + this.getQuery({
-                'sort': 'relevancy',
-                'page': 1
-            });
-        },
-
-        popularityQuery: function () {
-            return this.url.resource + this.getQuery({
-                'sort': 'rating_desc',
-                'page': 1
-            });
-        },
 
         /* return an object with lat, lng, and a bounding box parsed from server_api */
         /* the outside world must never know that we store the bounds as CSV... */

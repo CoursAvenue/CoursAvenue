@@ -1,8 +1,6 @@
 {{#unlessEmpty breadcrumbs}}
-    <div class="push-half--bottom">
-        <span class="v-middle label--large">
-            Vos filtres :
-        </span>
+    <div>
+        <span class="v-middle label--large">:</span>
         {{#each breadcrumbs}}
           <span class="lbl f-color-black v-middle pointer" data-type="clear" data-target="{{target}}" {{#if title}} data-behavior="tooltip" title="{{ title }}"{{/if}}>
             <i class="fa fa-times soft-half--right"></i>{{name}}

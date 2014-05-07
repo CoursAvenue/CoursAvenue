@@ -81,10 +81,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                 last_page:           data.totalPages,
                 query_strings:       this.buildPageQueriesForRange(data.totalPages),
                 previous_page_query: this.collection.previousQuery(),
-                next_page_query:     this.collection.nextQuery(),
-                relevancy_query:     this.collection.relevancyQuery(),
-                popularity_query:    this.collection.popularityQuery(),
-                sort:                this.collection.server_api.sort
+                next_page_query:     this.collection.nextQuery()
             });
 
             /* announce the summary of the result set */
@@ -120,13 +117,6 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
             });
 
             this.trigger('structures:updated:maps');
-
-            this.trigger('structures:updated:infinite_scroll', {
-                structures_count: this.collection.length,
-                per_page        : this.collection.perPage,
-                current_page    : this.collection.currentPage,
-                total_pages     : this.collection.totalPages
-            });
         },
 
         renderSlideshows: function() {

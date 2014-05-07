@@ -1,4 +1,4 @@
-%div
+.push-half--bottom
   %a.v-middle{ href: "https://twitter.com/share", class: "twitter-share-button", data: { text: "J'adore \"#{@structure.name}\" @CoursAvenue #{structure_url(@structure)}", lang: "fr", count: 'none'}} Tweet
 
   .g-plus{ data: { action: "share", annotation: 'none', heigh: 20 } }
@@ -7,23 +7,19 @@
   .v-middle.fb-like{ data: { href: @structure.facebook_url, layout: 'button_count', action: 'like', 'show-faces' => 'false', share: "false" } }
 
 
-%div{ data: { type: "filter-breadcrumbs" } }
 
 .grid--full
   .grid__item.ten-twelfths.v-top>
-    .grid--full
-      .grid__item.structure__logo.v-top.soft-half--top.relative>
-        = image_tag structure.logo.url(:thumb), class: 'block'
-      .grid__item.eleven-twelfths.soft-half--sides.v-middle>
-        %h1.push-half--bottom= structure.name
-        -# Structure type
-        - if structure.structure_type
-          %p.flush.inline-block.v-middle.epsilon
-            %strong #{t(structure.structure_type)}
-            proposant :
-            = @structure_decorator.given_course_types
-          - if structure.has_free_trial_course
-            .epsilon.v-middle.push-half--left.inline-block.lbl.lbl--green Offres découvertes
+    %h1.push-half--bottom= @structure.name
+    -# Structure type
+    - if @structure.structure_type
+      %p.flush.inline-block.v-middle.epsilon
+        %strong #{t(@structure.structure_type)}
+        proposant :
+        = @structure_decorator.given_course_types
+      - if @structure.has_free_trial_course
+        .epsilon.v-middle.push-half--left.inline-block.lbl.lbl--green Offres découvertes
+      .inline-block{ data: { type: "filter-breadcrumbs" } }
   .grid__item.two-twelfths.v-bottom>
     .inline-bock.text--right
       %a.inline-block.f-decoration-not-underlined.text--center{ href: '#avis' }

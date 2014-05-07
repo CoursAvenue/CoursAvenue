@@ -79,7 +79,6 @@ OpenDoorsSearch.addInitializer(function(options) {
     var subjects = new FilteredSearch.Models.SubjectsCollection(coursavenue.bootstrap.subjects);
 
     /* basic filters */
-    infinite_scroll_button    = new FiltersModule.InfiniteScrollButtonView({});
     results_summary           = new FiltersModule.ResultsSummaryView({});
     subject_filter            = new FiltersModule.SubjectFilterView({});
     keyword_filter            = new FiltersModule.Subjects.SubjectsCollectionView({ collection: subjects });
@@ -127,7 +126,6 @@ OpenDoorsSearch.addInitializer(function(options) {
     });
     layout.showWidget(location_filter);
     layout.showWidget(subject_filter);
-    layout.showWidget(infinite_scroll_button, { events: { 'structures:updated:infinite_scroll': 'showOrHide'} });
     layout.showWidget(results_summary);
 
     // TODO for now this is fine. Just add this
