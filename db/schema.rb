@@ -11,27 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140506162234) do
+ActiveRecord::Schema.define(version: 20140507152036) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
 
   create_table "admins", force: true do |t|
-    t.string   "email",                               default: "",    null: false
-    t.string   "encrypted_password",                  default: ""
+    t.string   "email",                             default: "",    null: false
+    t.string   "encrypted_password",                default: ""
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                       default: 0
+    t.integer  "sign_in_count",                     default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                                          null: false
-    t.datetime "updated_at",                                          null: false
-    t.boolean  "super_admin",                         default: false, null: false
-    t.string   "invitation_token",         limit: 60
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
+    t.boolean  "super_admin",                       default: false, null: false
+    t.string   "invitation_token",       limit: 60
     t.datetime "invitation_sent_at"
     t.datetime "invitation_accepted_at"
     t.integer  "invitation_limit"
@@ -41,14 +41,13 @@ ActiveRecord::Schema.define(version: 20140506162234) do
     t.string   "civility"
     t.string   "phone_number"
     t.string   "mobile_phone_number"
-    t.string   "management_software_used"
     t.string   "name"
     t.string   "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
     t.time     "deleted_at"
-    t.boolean  "email_opt_in",                        default: true
+    t.boolean  "email_opt_in",                      default: true
     t.hstore   "email_opt_in_status"
   end
 
@@ -584,8 +583,6 @@ ActiveRecord::Schema.define(version: 20140506162234) do
     t.integer  "pricing_plan_id"
     t.boolean  "has_validated_conditions", default: false
     t.integer  "validated_by"
-    t.string   "cancel_condition"
-    t.string   "modification_condition"
     t.time     "deleted_at"
     t.float    "latitude"
     t.float    "longitude"

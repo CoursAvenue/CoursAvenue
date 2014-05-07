@@ -20,7 +20,6 @@ class ::Admin < ActiveRecord::Base
                   :password, :password_confirmation, :remember_me,
                   :civility, :name,
                   :phone_number, :mobile_phone_number,
-                  :management_software_used,
                   :structure_id,
                   :email_opt_in
 

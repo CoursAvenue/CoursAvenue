@@ -17,15 +17,6 @@ class Structure < ActiveRecord::Base
                              'structures.association',
                              'structures.other']
 
-  CANCEL_CONDITIONS       = ['structures.cancel_conditions.flexible',
-                             'structures.cancel_conditions.moderate',
-                             'structures.cancel_conditions.strict',
-                             'structures.cancel_conditions.very_strict']
-
-  MODIFICATION_CONDITIONS = ['structures.modification_conditions.flexible',
-                             'structures.modification_conditions.moderate',
-                             'structures.modification_conditions.strict']
-
   WIDGET_STATUS           = ['installed', 'remind_me', 'dont_want', 'need_help']
 
   friendly_id :slug_candidates, use: [:slugged, :finders]
@@ -41,8 +32,6 @@ class Structure < ActiveRecord::Base
                   :active,
                   :has_validated_conditions,
                   :validated_by,
-                  :modification_condition,
-                  :cancel_condition,
                   :logo,
                   :funding_type_ids,
                   :crop_x, :crop_y, :crop_width,
@@ -698,6 +687,10 @@ class Structure < ActiveRecord::Base
       self.save
       return self.response_time
     end
+  end
+
+  def premium?
+    true
   end
 
   private
