@@ -12,7 +12,7 @@
         %strong= @place.location.city.name
     %hr.flush.soft--sides
     .soft.text--right
-      = link_to "Modifier l'adresse", edit_pro_structure_place_path(@structure, @place), title: 'Modifier ce lieu', class: 'btn fancybox.ajax', data: { behavior: 'modal', width: '900' }
+      = link_to "Modifier l'adresse", edit_pro_structure_place_path(@structure, @place), title: 'Modifier ce lieu', class: 'btn fancybox.ajax', data: { behavior: 'modal', width: '900', padding: '0' }
       -# %a.btn Modifier l'adresse
       %a.btn.btn--green{ onclick: 'window.location.reload();'} Parfait !
 
