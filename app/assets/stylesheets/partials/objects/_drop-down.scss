@@ -14,7 +14,7 @@
         z-index         : 10;
         text-align      : center;
         border          : 1px solid #D0D0D0;
-        @include box-shadow(0 0 6px #CCC);
+        @include box-shadow(0px 2px 10px rgba(0, 0, 0, 0.1));
         a {
             display      : block;
             padding      : 0.5em 1em;
@@ -28,7 +28,8 @@
             &:hover {
                 text-decoration : none;
                 background-color: $blue;
-                color: white;
+                border-color    : $blue;
+                color           : white;
             }
         }
     }
