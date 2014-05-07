@@ -1,9 +1,9 @@
 <div class="grid--full">
     <div class="grid__item v-middle one-fifth palm-one-whole palm-text--center">
-        <strong class="gray">Financements acceptés</strong>
+        <strong class="gray-light">FINANCEMENTS ACCEPTÉS</strong>
     </div><!--
  --><div class="grid__item v-middle four-fifths palm-one-whole">
-      <select data-behavior="chosen" multiple style="width: 100%;">
+      <select data-behavior="chosen" multiple style="width: 100%;" class="input--large">
         <% FundingType.all.each do |funding_type| %>
             <option value="<%= funding_type.id %>"><%= I18n.t(funding_type.name) %></option>
         <% end %>

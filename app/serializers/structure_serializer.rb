@@ -11,8 +11,9 @@ class StructureSerializer < ActiveModel::Serializer
              :courses_count, :has_courses, :plannings_count, :has_plannings, :more_than_five_comments, :has_comments,
              :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range,
              :has_free_trial_course, :medias_count, :teaches_at_home, :teaches_at_home_radius, :videos_count, :images_count,
-             :audience, :funding_types, :gives_group_courses, :gives_individual_courses, :structure_type,
-             :has_promotion, :tag_names, :last_comment_title, :open_courses_open_places, :open_course_names, :open_course_plannings_nb
+             :audience, :gives_group_courses, :gives_individual_courses, :structure_type,
+             :has_promotion, :tag_names, :last_comment_title, :open_courses_open_places, :open_course_names, :open_course_plannings_nb,
+             :given_course_types
 
   has_many :places
   has_many :comments,          serializer: ShortSerializer
@@ -55,7 +56,7 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def structure_type
-    I18n.t(object.structure_type) if object.structure_type.present?
+    I18n.t(object.structure_type) if object.structure_type.present? and object.structure_type != 'object.structure_type'
   end
 
   def funding_types
@@ -170,5 +171,23 @@ class StructureSerializer < ActiveModel::Serializer
         tags.flatten.uniq.join(', ')
       end
     end
+  end
+
+  def given_course_types
+    types = []
+    if object.teaches_at_home
+      if object.teaches_at_home_radius.present?
+        types << "cours à domicile (#{object.teaches_at_home_radius} km)"
+      else
+        types << "cours à domicile"
+      end
+    end
+    if object.gives_group_courses
+      types << 'cours collectifs'
+    end
+    if object.gives_individual_courses
+      types << 'cours individuels'
+    end
+    types.join(', ')
   end
 end

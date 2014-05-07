@@ -30,8 +30,8 @@ class Subject < ActiveRecord::Base
   scope :little_children,        -> { where{ancestry_depth == 2} }
   scope :roots_with_position,    -> { where{(ancestry == nil) & (position != nil)} }
   scope :roots_without_position, -> { where{(ancestry == nil) & (position == nil)} }
-  scope :stars,                  -> { where{position < 8}.order('position ASC') }
-  scope :roots_not_stars,        -> { where{(position >= 8) & (ancestry == nil)}.order('position ASC') }
+  scope :stars,                  -> { where{position < 10}.order('position ASC') }
+  scope :roots_not_stars,        -> { where{(position >= 10) & (ancestry == nil)}.order('position ASC') }
 
   attr_accessible :name, :short_name, :info, :parent, :position, :title, :subtitle, :description, :image,
                   :good_to_know, :needed_meterial, :tips, :ancestry
