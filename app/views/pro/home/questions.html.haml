@@ -1,7 +1,6 @@
 = pro_menu_currently_at ''
 .soft
   %h2.text--center Questions les plus fréquentes
-
   .grid
     .grid__item.one-quarter>
       %nav.white-box.side-menu
@@ -299,7 +298,9 @@
 
         %p
           Si vous avez une question qui ne figure pas dans cette liste, envoyez-nous un mail à contact@coursavenue.com, nous nous ferons un plaisir de vous aider !
-
+  %h4.push--top.text--center Vous ne trouvez pas la réponse à votre question ?
+  .text--center
+    = link_to 'Contactez-nous', pages_contact_path, class: 'btn btn--large'
   = content_for :scripts do
     :javascript
         $(function() {
