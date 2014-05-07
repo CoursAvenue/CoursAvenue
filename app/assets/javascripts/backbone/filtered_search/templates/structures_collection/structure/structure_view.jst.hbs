@@ -8,12 +8,12 @@
     </div><!--
  --><article class="flexbox__item six-tenths palm-eight-tenths v-top structure-item__see-all-wrapper structure-item__button line-height-1-7">
         <div class="relative full-height soft-half hard--right">
-            <div class="epsilon flush v-top line-height-1-7">
+            <h4 class="flush v-top">
                 <a href="{{ query_url }}">{{ name }}</a>
                 {{#if premium}}
                     <div class="inline-block lbl lbl--green">Offres découvertes</div>
                 {{/if}}
-            </div>
+            </h4>
             <div>
                 {{#if structure_type}}
                     {{ structure_type }}
@@ -41,13 +41,15 @@
                         {{/if}}
                     {{/if}}
                 </div>
-                <div>
-                    <strong>
-                        <i class="fa fa-comments"></i> {{ comments_count }}
-                        {{#if last_comment_title}}<i class="quoted milli">{{{truncate last_comment_title 60}}}</i>{{/if}}
-                    </strong>
-                </div>
                 {{/if}}
+                {{#ifCond comments_count '>' 0 }}
+                    <div>
+                        <strong>
+                            <i class="fa fa-comments"></i> {{ comments_count }}
+                            {{#if last_comment_title}}<i class="quoted milli">{{{truncate last_comment_title 60}}}</i>{{/if}}
+                        </strong>
+                    </div>
+                {{/ifCond}}
 
             </div>
             <a href="javascritp:void(0);" class="structure-item__see-all btn btn--blue btn--full btn--small" data-behavior="accordion-control" data-model="course" data-attributes="data_url" data-wrapper=".structure-item__see-all-wrapper">
@@ -89,35 +91,3 @@
         {{/if}}
     </div>
 </div>
-
-
-{{!-- <div class="flexbox__item visuallyhidden--palm relative soft-half--sides structure-item__see-all-wrapper {{#if has_comments}}structure-item__button{{/if}} two-eighths v-middle text--center" {{#if has_comments}}data-behavior="accordion-control" data-model="comment" data-attributes="data_url more_than_five_comments"{{/if}}>
-    {{#if has_comments }}
-    <div class="relative full-height soft--top">
-        <div class="alpha thin orange"> {{ comments_count }} </div>
-        <span class="orange soft-half--bottom milli">avis
-            <i class="lbc-brand-icon"></i>
-        </span>
-        {{#if last_comment_title}}
-        <div class="quoted milli">
-            {{{truncate last_comment_title 60}}}
-        </div>
-        {{/if}}
-        <a href="javascritp:void(0)" class="structure-item__see-all btn btn--blue btn--full btn--small"><span>Voir tous les avis</span></a>
-        <div itemtype="http://data-vocabulary.org/review-aggregate" itemscope="" itemprop="aggregateRating">
-            <span title="Note : 5 étoiles (Excellent !)" class="rating"></span>
-            <meta property="v:rating" itemprop="rating" content="{{ rating }}">
-            <meta itemprop="count" content="{{ comments_count }}">
-            <meta itemprop="name" content="{{ name }}">
-            <meta itemprop="street-address" content="{{ street }}">
-            <meta itemprop="postal-code" content="{{ zip_code }}">
-        </div>
-    </div>
-    {{else}}
-        <div class="alpha thin gray-light">0</div>
-        <span class="gray-light milli">
-            avis <i class="fa fa-comment"></i>
-        </span>
-    {{/if}}
-</div>
- --}}

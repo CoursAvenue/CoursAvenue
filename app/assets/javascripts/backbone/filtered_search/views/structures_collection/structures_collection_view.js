@@ -91,7 +91,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
             this.trigger('structures:updated:summary', {
                 first: first_result,
                 last: Math.min(first_result + data.perPage - 1, data.grandTotal),
-                total: data.grandTotal,
+                total: data.grandTotal
             });
 
             this.trigger('structures:updated:query', { query: this.collection.getQuery().replace('?', '') }); // Removing the first '?' character

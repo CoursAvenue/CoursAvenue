@@ -7,7 +7,7 @@ FilteredSearch.addRegions({
 });
 
 FilteredSearch.addInitializer(function(options) {
-    var bootstrap, structures, structures_view, layout, maps_view, $loader, clearEvent;
+    var bootstrap, structures, structures_view, layout, maps_view, $loader, clearEvent, pagination_bottom;
 
     bootstrap = window.coursavenue.bootstrap;
 
@@ -80,7 +80,6 @@ FilteredSearch.addInitializer(function(options) {
     var subjects = new FilteredSearch.Models.SubjectsCollection(coursavenue.bootstrap.subjects);
 
     /* basic filters */
-    infinite_scroll_button    = new FiltersModule.InfiniteScrollButtonView({});
     results_summary           = new FiltersModule.ResultsSummaryView({});
     subject_filter            = new FiltersModule.SubjectFilterView({});
     keyword_filter            = new FiltersModule.Subjects.SubjectsCollectionView({ collection: subjects });
@@ -112,6 +111,8 @@ FilteredSearch.addInitializer(function(options) {
     date_filter               = new FiltersModule.DateFilterView({});
     price_filter              = new FiltersModule.PriceFilterView({});
     trial_course_filter       = new FiltersModule.TrialCourseFilterView({});
+
+    pagination_bottom       = new CoursAvenue.Views.PaginationToolView({});
 
     FilteredSearch.mainRegion.show(layout);
 
@@ -148,7 +149,6 @@ FilteredSearch.addInitializer(function(options) {
     });
     layout.showWidget(location_filter);
     layout.showWidget(subject_filter);
-    layout.showWidget(infinite_scroll_button, { events: { 'structures:updated:infinite_scroll': 'showOrHide' } });
     layout.showWidget(results_summary);
 
     layout.showWidget(level_filter,          { events: { 'breadcrumbs:clear:level':           'clear'} });
@@ -160,6 +160,14 @@ FilteredSearch.addInitializer(function(options) {
     layout.showWidget(date_filter,           { events: { 'breadcrumbs:clear:date':            'clear'} });
     layout.showWidget(price_filter,          { events: { 'breadcrumbs:clear:price':           'clear'} });
     layout.showWidget(trial_course_filter,   { events: { 'breadcrumbs:clear:trial_course':    'clear'} });
+
+    layout.showWidget(pagination_bottom, {
+        events: {
+            'structures:updated:pagination': 'reset'
+        },
+        selector: '[data-type=pagination-bottom]'
+    });
+
 
     layout.master.show(structures_view);
     if (GLOBAL.is_mobile) {
