@@ -164,7 +164,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
                     $target.data("view", null); // remove the data-view property, indicating that no further fetching should be done
 
                 }.bind(this))
-                .always(this.hideLoader);
+                .always(function() { this.hideLoader(resources) }.bind(this));
         },
 
         renderCourseSummary: function renderCourseSummary (data) {
@@ -173,11 +173,11 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
 
         showLoader: function(resources_name) {
             $('#tab-' + resources_name).append(this.ui.$loader);
-            this.ui.$loader.show();
+            this.$('[data-' + resources_name + '-loader]').show();
         },
 
-        hideLoader: function() {
-            this.ui.$loader.hide();
+        hideLoader: function(resources_name) {
+            this.$('[data-' + resources_name + '-loader]').hide();
         },
 
         getParamsForResource: function getParamsForResource (resource) {

@@ -56,7 +56,8 @@
         </article>
 
         <article id="tab-courses"  class="tab-pane" data-type="courses-collection">
-            <div data-summary-container class="blue-box soft-half rounded--none">
+            <img src="<%= asset_path 'gifs/loading-indicator.gif' %>"/ class="center-block push--ends" height="10" data-courses-loader style="display: none;">
+            <div data-summary-container class="soft-half hard--top rounded--none">
                 <div data-type="courses-summary"></div>
             </div>
 
@@ -66,9 +67,10 @@
 
             <div data-type="courses-collection"></div>
         </article>
-        <article id="tab-teachers" class="tab-pane" data-type="teachers-collection"></article>
+        <article id="tab-teachers" class="tab-pane" data-type="teachers-collection">
+          <img src="<%= asset_path 'gifs/loading-indicator.gif' %>"/ class="center-block push--ends" height="10" data-teachers-loader style="display: none;">
+        </article>
         <!-- <article id="tab-subjects" class="tab-pane" data-type="subjects-collection"></article> -->
-        <img src="<%= asset_path 'gifs/loading-indicator.gif' %>"/ class="center-block push--ends" height="10" data-loader style="display: none;">
     </div>
 </div>
 
@@ -79,6 +81,8 @@
           </li>
       </ul>
     <div class="panel__body">
-        <article id="avis" class="tab-pane active soft--top" data-type="comments-collection"></article>
+        <article id="avis" class="tab-pane active soft--top" data-type="comments-collection">
+          <img src="<%= asset_path 'gifs/loading-indicator.gif' %>"/ class="center-block push--ends" height="10" data-comments-loader>
+        </article>
     </div>
 </div>
