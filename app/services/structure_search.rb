@@ -18,6 +18,8 @@ class StructureSearch
       facet :subject_ids
       fulltext params[:name]                             if params[:name].present?
 
+      without :id, params[:without_id]                   if params[:without_id]
+
       with(:email_status).any_of params[:email_status]   if params[:email_status]
       # --------------- Geolocation
       if params[:bbox_sw] && params[:bbox_ne]
@@ -84,6 +86,7 @@ class StructureSearch
     if parent_subject
       @structures << StructureSearch.search({lat: structure.latitude,
                                             lng: structure.longitude,
+                                            without_id: structure.id,
                                             radius: 10,
                                             nb_comments: 4,
                                             sort: 'rating_desc',
@@ -97,6 +100,7 @@ class StructureSearch
     if @structures.length < limit
       @structures << StructureSearch.search({lat: structure.latitude,
                                             lng: structure.longitude,
+                                            without_id: structure.id,
                                             radius: 500,
                                             nb_comments: 4,
                                             sort: 'rating_desc',

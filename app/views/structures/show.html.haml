@@ -85,24 +85,26 @@
             %p.flush.text--center.push-half--top
               %strong Suivi par #{@structure.followers.count} élèves
 
-      - @similar_profiles = Structure.limit(3)
       .panel
         .panel__header.soft-half--ends.soft--left
           %h5.flush Profils similaires
         .panel__body.soft-half--ends
-          - @similar_profiles.each_with_index do |structure, index|
+          - @structure.similar_profiles.each_with_index do |structure, index|
             - unless index == 0
               %hr.push-half--ends
-            = link_to structure_path(structure), class: 'soft-half block muted-link' do
+            = link_to structure_path(structure), class: 'soft-half--sides block muted-link' do
               .grid--full
-                .grid__item.one-quarter>
-                  = image_tag structure.logo.url
-                .grid__item.three-quarters.soft-half--left>
+                .grid__item.v-middle.one-fifth>
+                  .media-photo= image_tag structure.logo.url
+                .grid__item.v-middle.four-fifths.soft-half--left>
                   %div
                     %strong= structure.name
                   %div
                     .lbl.lbl--small.lbl--green Cours d'essai gratuit
-                  %div à 1,5 km
+                  %div
+                    à
+                    = Geocoder::Calculations.distance_between([@structure.latitude, @structure.longitude], [structure.latitude, structure.longitude], unit: :km).round(1)
+                    km
 
       %div{ data: { type: "sticky-map" }}>
 

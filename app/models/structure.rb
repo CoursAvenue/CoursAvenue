@@ -170,6 +170,8 @@ class Structure < ActiveRecord::Base
       end
     end
 
+    integer :id
+
     # Here we store event the subject at depth 2 for pro admin dashboard purpose.
     integer :subject_ids, multiple: true do
       subject_ids = []
@@ -691,6 +693,10 @@ class Structure < ActiveRecord::Base
 
   def premium?
     true
+  end
+
+  def similar_profiles
+    StructureSearch.similar_profile(self, 3)
   end
 
   private
