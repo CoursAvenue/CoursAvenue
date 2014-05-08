@@ -2,6 +2,10 @@
     @include background-size(cover);
     background-position: center;
 }
+.bg-contain {
+    @include background-size(contain);
+    background-position: center;
+}
 .icon-question-sign {
     cursor: pointer;
 }

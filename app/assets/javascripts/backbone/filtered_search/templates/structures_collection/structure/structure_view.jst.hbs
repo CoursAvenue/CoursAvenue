@@ -28,13 +28,11 @@
                 <div>
                     {{ plannings_count }} {{ pluralize plannings_count 'créneau horaire' 'créneaux horaires' }}
                     {{#if has_price_range }}
-                        /
                         de
                         <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
                         à
                         <span class="pointer" data-behavior="tooltip" title="{{ max_price_libelle }}">{{ max_price_amount }}€</span>
                     {{else}}
-                        /
                         {{#if min_price_amount}}
                             à partir de
                             <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
@@ -69,7 +67,7 @@
             </a>
             <ul class="rslides hidden">
                 {{#each preloaded_medias}}
-                    <li>
+                    <li class="bg-cover">
                         <a rel="slideshow-{{mediable_id}}" href="{{{this.url}}}" class="rslides_nav rslides_nav--icon {{#if this.is_video}}visible{{/if}}" data-behavior="fancy">
                             <i class="fa {{#if this.is_video}}fa-youtube-play{{else}}fa-eye{{/if}}"></i>
                         </a>

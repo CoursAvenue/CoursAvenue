@@ -4,7 +4,7 @@
       %li
         %div{ data: { type: "google-maps" }}>
       - medias.each_with_index do |media, index|
-        %li.relative
+        %li.relative.bg-contain
           %a.rslides_nav.rslides_nav--icon{rel: 'slideshow', href: media.url, class: (media.video? ? 'visible' : ''), data: {behavior: "fancy"}}
             - if media.video?
               %i.fa.fa-youtube-play
@@ -15,7 +15,7 @@
               = media.thumbnail_url_html
               %i.fa.fa-expand
           - if media.caption.present?
-            %p.one-whole.absolute.south.soft-half.flush.white.bg-black-faded= media.caption
+            %p.one-whole.absolute.south.soft-half.flush.white.media-caption.f-weight-bold= media.caption
   .thumbnails-container.relative
     %a.thumbnails-container__nav.prev.pointer{ data: { 'slide-prev' => true } }
       %i.fa.fa-chevron-left

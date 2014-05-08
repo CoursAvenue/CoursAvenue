@@ -10,6 +10,13 @@
     content      : "";
     position     : absolute;
 }
+.media-caption {
+    padding         : 25px 13px 13px;
+    background-color: rgba(0, 0, 0, 0);
+    text-shadow     : 0 1px 1px rgba(0, 0, 0, 0.8);
+    @include background-image(linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8)));
+    @include border-radius(2px);
+}
 .media-photo:before {
     top          : 0;
     right        : 0;
