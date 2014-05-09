@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 
 ruby '2.0.0'
 
-gem 'rails', '4.0.4'
+gem 'rails', '4.1.1'
 
 gem 'rack-attack', '~>3.0.0'
 gem 'rack-timeout', '~> 0.0.4'
@@ -87,7 +87,7 @@ gem 'active_model_serializers'  , '~>0.8.1'
 # Generate slugs for records
 gem 'friendly_id'               , '~>5.0.0'
 # Handy forms
-gem 'simple_form'               , '~>3.0.0'
+gem 'simple_form'               , '~>3.0.2'
 # Dry the controllers
 gem 'inherited_resources'       , '~>1.4.1'
 
@@ -127,7 +127,7 @@ gem 'paranoia'                  , '~>2.0'
 # Helps having a clean ruby sitemap
 gem 'sitemap_generator'         , '~>4.2.0'
 # Mailchimp API
-gem 'gibbon'                    , '~>1.0.4'
+# gem 'gibbon'                    , '~>1.0.4'
 
 # Transform external CSS stylesheets into inline CSS for emails
 gem 'roadie'                    , '~>2.4.3'
