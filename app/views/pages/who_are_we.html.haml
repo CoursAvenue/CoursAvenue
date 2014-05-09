@@ -1,27 +1,67 @@
-%h1.blue Qui sommes-nous ?
+.soft
+  %h1.blue L'équipe
 
-.text--center
-  = image_tag "pages/team_bw.jpg", alt: 'Équipe de CoursAvenue'
+  .team-wrapper
+    .inline-block.team.team__nicolas{ data: { el: '#nicolas-description' } }
+    .inline-block.team.team__nima{ data: { el: '#nima-description' } }
+    .inline-block.team.team__natan{ data: { el: '#natan-description' } }
+    .inline-block.team.team__adelaide{ data: { el: '#adelaide-description' } }
+    .inline-block.team.team__hugo{ data: { el: '#hugo-description' } }
+    -# .inline-block.team.team__offre
 
-.grid
-  .grid__item.one-half.palm-one-whole.lap-one-whole>
-    %h4.text--center.flush--bottom Nicolas
-    %p.bordered--right.islet
-      Originaire du Sud-Ouest, j’ai grandi autour de Toulouse dans le <a href="http://www.mairie-islejourdain.com/fr/default.asp" target="_blank">Gers</a>. Après mes quatre années en école de commerce à l’<a href="http://www.em-lyon.com/fr" target="_blank">EM Lyon</a>, je me suis perdu en <a href="http://www.ge.com/careers/culture/university-students/financial-management-program/europe" target="_blank">finance</a>, pour ensuite rejoindre le <a href="http://www.adventionbp.com/" target="_blank">conseil en stratégie</a>. Mon envie d’entreprendre a ensuite tout emporté, jusqu’à me pousser à lancer CoursAvenue en 2012. J’aime le goût du risque, l’audace de l’entrepreneuriat, me défouler au tennis et par dessus tout apprendre tout en me régalant : je suis actuellement des cours de <a href="http://www.cours-municipal-d-adultes-cma.cma-paris.org/formations/artisanat-et-metiers-dart/cuisine/c-a-p-cuisine/" target="_blank">C.A.P. cuisine</a>.
-  .grid__item.one-half.palm-one-whole.lap-one-whole
-    %h4.text--center.flush--bottom Nima
-    %p.islet
-      De nationalités française & iranienne, j'ai grandi à Nice et suis passionné par le Web. Une fois mon diplôme d'ingénieur en informatique de <a href="http://www.polytechnice.fr/" target="_blank">Polytech' Nice Sophia</a> en poche, j'ai rapidement voulu aller plus loin pour me lancer dans l’entrepreneuriat.
-      Je suis aujourd'hui co-organisateur des <a href="http://meetup.rubyparis.org/" target="_blank">meetups Ruby parisiens</a> et développeur freelance.
-      J'aime rencontrer des gens, apprendre, mais j'adore également <a href="https://speakerdeck.com/nima" target="_blank">parler en public</a> !
-      Je suis aussi guitariste et <a href="http://500px.com/nima_izadi" target="_blank">photographe amateur</a> passionné de voyages.
+  .relative{ style: 'height: 100px;' }
+    %p.delta.text--center.push--top#nicolas-description.hidden.north.absolute
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse, est ullam impedit velit natus vitae quibusdam dolores non cum similique magnam voluptatum debitis necessitatibus possimus modi ipsam facere vero rem.
+    %p.delta.text--center.push--top#nima-description.hidden.north.absolute
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione, neque laboriosam soluta aspernatur in asperiores suscipit. Minus, dolore, recusandae ullam laborum magnam error corrupti dicta architecto saepe ut excepturi voluptates?
+    %p.delta.text--center.push--top#natan-description.hidden.north.absolute
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt, explicabo, dignissimos, omnis itaque voluptate iusto culpa laborum quisquam nam eum id impedit rem deserunt quod pariatur. Eos, fugit sit et.
+    %p.delta.text--center.push--top#adelaide-description.hidden.north.absolute
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, quam, dignissimos, officia suscipit accusamus possimus sapiente reiciendis nesciunt rerum magni cumque dolorum dicta quibusdam facere dolores. Vitae, eveniet doloribus at!
+    %p.delta.text--center.push--top#hugo-description.hidden.north.absolute
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque, recusandae, dolor, doloribus vel dolore itaque nostrum adipisci iure minus harum hic omnis exercitationem minima culpa nesciunt ipsum provident laudantium cum.
 
-%p <b class="brand"><a href="http://fr.linkedin.com/pub/nicolas-lagarde/4/222/907", target="_blank">Nicolas</a></b> vient du monde du commerce, <b class="brand"><a href="http://fr.linkedin.com/in/nimaizadi", target="_blank">Nima</a></b> celui du web. Un jour, l’un a voulu prendre un cours de cuisine entre amis, l’autre suivre un cours de prise en main pour comprendre son reflex numérique. Nous avons tous les deux passé trop de temps sur Internet à comparer les offres et les promotions éventuelles, nous assurer des disponibilités, et connaître l’avis du bouche-à-oreille. Au point d’abandonner nos recherches.
+= content_for :scripts do
+  :javascript
+      $(function() {
+          $('.team-wrapper').hover(function() {
+          }, function() {
+              $('.team').animate({ opacity: 1 }, 200, 'linear');
+          });
+          $('.team').hover(function() {
+              $(this).addClass('selected');
+              $($(this).data('el')).fadeIn();
+              $('.team:not(.selected)').animate({ opacity: 0.5 }, 200, 'linear');
+              $(this).animate({ opacity: 1 }, 200, 'linear');
+          }, function() {
+              $(this).removeClass('selected');
+              $($(this).data('el')).fadeOut();
+          });
+      });
 
-%p Notre cas n’était pas isolé : un ami voulait offrir à sa copine des cours d’improvisation pour débutants, ma sœur voulait inscrire son petit de 18 mois à des ateliers d’éveil, un collègue recherchait des cours du soir en finance pour changer de métier… <b>Aucun des trois n’a trouvé le cours qu’il recherchait.</b>
 
-%p En 2012, ces frustrations nous ont poussés à quitter nos emplois respectifs pour se consacrer entièrement à notre projet, que nous voulons commun : <b>nous souhaitons aider tout le monde</b>, de l’internaute qui recherche un cours au professeur ou à l’école souhaitant remplir son planning.
+  -# .text--center
+  -#   = image_tag "pages/team_bw.jpg", alt: 'Équipe de CoursAvenue'
 
-%p Notre passion pour l’éducation nous motive à mettre tous nos efforts pour offrir le plus large choix de sessions, que ce soient des cours pour amateurs ou des formations diplômantes et qualifiantes, pour apprendre un nouveau métier par exemple.
+  -# .grid
+  -#   .grid__item.one-half.palm-one-whole.lap-one-whole>
+  -#     %h4.text--center.flush--bottom Nicolas
+  -#     %p.bordered--right.islet
+  -#       Originaire du Sud-Ouest, j’ai grandi autour de Toulouse dans le <a href="http://www.mairie-islejourdain.com/fr/default.asp" target="_blank">Gers</a>. Après mes quatre années en école de commerce à l’<a href="http://www.em-lyon.com/fr" target="_blank">EM Lyon</a>, je me suis perdu en <a href="http://www.ge.com/careers/culture/university-students/financial-management-program/europe" target="_blank">finance</a>, pour ensuite rejoindre le <a href="http://www.adventionbp.com/" target="_blank">conseil en stratégie</a>. Mon envie d’entreprendre a ensuite tout emporté, jusqu’à me pousser à lancer CoursAvenue en 2012. J’aime le goût du risque, l’audace de l’entrepreneuriat, me défouler au tennis et par dessus tout apprendre tout en me régalant : je suis actuellement des cours de <a href="http://www.cours-municipal-d-adultes-cma.cma-paris.org/formations/artisanat-et-metiers-dart/cuisine/c-a-p-cuisine/" target="_blank">C.A.P. cuisine</a>.
+  -#   .grid__item.one-half.palm-one-whole.lap-one-whole
+  -#     %h4.text--center.flush--bottom Nima
+  -#     %p.islet
+  -#       De nationalités française & iranienne, j'ai grandi à Nice et suis passionné par le Web. Une fois mon diplôme d'ingénieur en informatique de <a href="http://www.polytechnice.fr/" target="_blank">Polytech' Nice Sophia</a> en poche, j'ai rapidement voulu aller plus loin pour me lancer dans l’entrepreneuriat.
+  -#       Je suis aujourd'hui co-organisateur des <a href="http://meetup.rubyparis.org/" target="_blank">meetups Ruby parisiens</a> et développeur freelance.
+  -#       J'aime rencontrer des gens, apprendre, mais j'adore également <a href="https://speakerdeck.com/nima" target="_blank">parler en public</a> !
+  -#       Je suis aussi guitariste et <a href="http://500px.com/nima_izadi" target="_blank">photographe amateur</a> passionné de voyages.
 
-%p Notre vision est claire : faciliter l’accès à l’apprentissage pour tous. C’est pourquoi la <b>curiosité</b> est une belle qualité sur CoursAvenue.
+  -# %p <b class="brand"><a href="http://fr.linkedin.com/pub/nicolas-lagarde/4/222/907", target="_blank">Nicolas</a></b> vient du monde du commerce, <b class="brand"><a href="http://fr.linkedin.com/in/nimaizadi", target="_blank">Nima</a></b> celui du web. Un jour, l’un a voulu prendre un cours de cuisine entre amis, l’autre suivre un cours de prise en main pour comprendre son reflex numérique. Nous avons tous les deux passé trop de temps sur Internet à comparer les offres et les promotions éventuelles, nous assurer des disponibilités, et connaître l’avis du bouche-à-oreille. Au point d’abandonner nos recherches.
+
+  -# %p Notre cas n’était pas isolé : un ami voulait offrir à sa copine des cours d’improvisation pour débutants, ma sœur voulait inscrire son petit de 18 mois à des ateliers d’éveil, un collègue recherchait des cours du soir en finance pour changer de métier… <b>Aucun des trois n’a trouvé le cours qu’il recherchait.</b>
+
+  -# %p En 2012, ces frustrations nous ont poussés à quitter nos emplois respectifs pour se consacrer entièrement à notre projet, que nous voulons commun : <b>nous souhaitons aider tout le monde</b>, de l’internaute qui recherche un cours au professeur ou à l’école souhaitant remplir son planning.
+
+  -# %p Notre passion pour l’éducation nous motive à mettre tous nos efforts pour offrir le plus large choix de sessions, que ce soient des cours pour amateurs ou des formations diplômantes et qualifiantes, pour apprendre un nouveau métier par exemple.
+
+  -# %p Notre vision est claire : faciliter l’accès à l’apprentissage pour tous. C’est pourquoi la <b>curiosité</b> est une belle qualité sur CoursAvenue.
