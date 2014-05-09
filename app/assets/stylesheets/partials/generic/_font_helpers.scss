@@ -58,3 +58,6 @@
 .text--muted { color: $gray-muted; }
 
 .break-word { word-wrap: break-word; }
+
+.no-text-shadow    { @include text-shadow(none); }
+.no-text-transform { text-transform: none; }

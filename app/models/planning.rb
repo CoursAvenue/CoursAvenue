@@ -149,6 +149,7 @@ class Planning < ActiveRecord::Base
       subject_slugs = []
       self.course.subjects.uniq.each do |subject|
         subject_slugs << subject.slug
+        subject_slugs << subject.parent.slug if subject.parent
         subject_slugs << subject.root.slug if subject.root
       end
       subject_slugs.uniq

@@ -123,9 +123,13 @@
         @include background-image-retina('icons/subjects/photo-video-white.png', 'icons/subjects/photo-video-white@2x.png');
     }
 }
-.subject_icon__other {
+
+.btn.subject_icon__other {
     height     : 68px;
-    line-height: 48px!important;
+    line-height: 48px;
+    > div {
+        line-height: 1.2;
+    }
 }
 
 .keyword-subjects {

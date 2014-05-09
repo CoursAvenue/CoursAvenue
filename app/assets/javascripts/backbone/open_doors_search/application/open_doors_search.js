@@ -118,12 +118,7 @@ OpenDoorsSearch.addInitializer(function(options) {
         }
     });
 
-    layout.showWidget(keyword_filter, {
-        events: {
-            'filter:subject': 'blurIrrelevantSubjects',
-            'structures:updated:query': 'updateQuery'
-        }
-    });
+    layout.showWidget(keyword_filter);
     layout.showWidget(location_filter);
     layout.showWidget(subject_filter);
     layout.showWidget(results_summary);

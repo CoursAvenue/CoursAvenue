@@ -46,7 +46,7 @@
 .v-bottom   { vertical-align: bottom!important; }
 
 .white      { color: white; }
-.black      { color: black; }
+.black      { color: $text-black; }
 .yellow     { color: $yellow; }
 .red        { color: $red; }
 .green      { color: $green-success; }
@@ -128,7 +128,8 @@
 .thin              { font-weight: 300; }
 .very-soft         { padding: 5px; }
 
-.pointer    { cursor: pointer;}
+.pointer    { cursor: pointer !important; }
+
 .ie-blocker {
     position   : fixed;
     height     : 100%;

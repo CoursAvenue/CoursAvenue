@@ -1,26 +1,95 @@
-<div class="grid--full relative">
-    <div class="grid__item v-middle one-fifth palm-one-whole palm-text--center ">
-        <strong class="gray-light">MOT CLÉ</strong>
-        <i class="gray-light push-half--left pointer fa fa-question-circle" data-toggle="popover" data-trigger="hover" data-placement="right" data-content="Indiquez le mot clé correspondant à votre recherche : il peut s'agir d'une discipline précise, mais également du nom d'un profil"></i>
+<div class="grid--full">
+    <div class="grid__item v-top one-fifth palm-one-whole palm-text--center soft-half--top">
+        <strong class="gray-light">DISCIPLINE</strong>
+        <i class="gray-light push-half--left pointer fa fa-question-circle" data-toggle="popover" data-html="true" data-trigger="hover" data-placement="bottom" data-content="<div style='width: 170px'>Sélectionnez votre discipline générale. Vous pourrez ensuite préciser votre choix dans le champ «Mot clé» ci-dessous.</div>"></i>
     </div><!--
-  --><div class="grid__item v-middle four-fifths palm-one-whole" data-type="search-input-wrapper">
-        <div class="search-input-wrapper relative" style="display:block;">
-            <input id="search-input" size="50" placeholder="Renseignez une discipline précise ou le nom d'une structure" type="search" name="name" autocomplete="off" class="one-whole"></input>
+  --><div class="grid__item v-top four-fifths palm-one-whole relative">
+        <div class="grid--full">
+            <div class="grid__item one-fifth very-soft hard--bottom">
+                <div data-type="button-wrapper" data-value="danse">
+                  <div class="text--center btn one-whole hard--sides" data-type="button" data-value="danse">
+                    <div class="subject_icon subject_icon__danse"></div>
+                    Danse
+                  </div>
+                </div>
+            </div><!--
+         --><div class="grid__item one-fifth very-soft hard--bottom">
+                <div data-type="button-wrapper" data-value="theatre-scene">
+                  <div class="text--center btn one-whole hard--sides" data-type="button" data-value="theatre-scene">
+                    <div class="subject_icon subject_icon__theatre-scene"></div>
+                    Théâtre & Scène
+                  </div>
+                </div>
+            </div><!--
+         --><div class="grid__item one-fifth very-soft hard--bottom">
+                <div data-type="button-wrapper" data-value="yoga-bien-etre-sante">
+                  <div class="text--center btn one-whole hard--sides" data-type="button" data-value="yoga-bien-etre-sante">
+                    <div class="subject_icon subject_icon__yoga-bien-etre-sante"></div>
+                    Yoga, Bien-être & Santé
+                  </div>
+                </div>
+            </div><!--
+         --><div class="grid__item one-fifth very-soft hard--bottom">
+                <div data-type="button-wrapper" data-value="musique-chant">
+                  <div class="text--center btn one-whole hard--sides" data-type="button" data-value="musique-chant">
+                    <div class="subject_icon subject_icon__musique-chant"></div>
+                    Musique & Chant
+                  </div>
+                </div>
+            </div><!--
+         --><div class="grid__item one-fifth very-soft hard--bottom">
+                <div data-type="button-wrapper" data-value="deco-mode-bricolage">
+                  <div class="text--center btn one-whole hard--sides" data-type="button" data-value="deco-mode-bricolage">
+                    <div class="subject_icon subject_icon__deco-mode-bricolage"></div>
+                    Déco, Mode & Bricolage
+                  </div>
+                </div>
+            </div>
         </div>
-    </div>
-    <div data-type="menu" class="hidden four-fifths bordered bordered--orange bg-orange absolute east z-index-3 rounded--double">
-        <div class="keyword-subjects push-half--top push--left relative">
-            {{#each subjects}}
-                {{#ifCond slug '==' 'other'}}
-                    <a href="#tab-{{slug}}" class="v-middle inline-block white push--right push-half--bottom" data-type="button" data-value="{{slug}}" data-toggle="tab" title="{{name}}">{{name}}</a>
-                {{else}}
-                    <a href="#tab-{{slug}}" class="{{#if is_first}}active{{/if}} inline-block white push--right push-half--bottom subject_icon subject_icon__{{slug}} v-middle" data-type="button" data-value="{{slug}}" data-toggle="tab" title="{{name}}">
-                    </a>
-                {{/ifCond}}
-            {{/each}}
+        <div class="grid--full">
+            <div class="grid__item one-fifth very-soft hard--bottom">
+                <div data-type="button-wrapper" data-value="dessin-peinture-arts-plastiques">
+                  <div class="text--center btn one-whole hard--sides" data-type="button" data-value="dessin-peinture-arts-plastiques">
+                    <div class="subject_icon subject_icon__dessin-peinture-arts-plastiques"></div>
+                    Dessin, Peinture & Arts
+                  </div>
+                </div>
+            </div><!--
+         --><div class="grid__item one-fifth very-soft hard--bottom">
+                <div data-type="button-wrapper" data-value="sports-arts-martiaux">
+                  <div class="text--center btn one-whole hard--sides" data-type="button" data-value="sports-arts-martiaux">
+                    <div class="subject_icon subject_icon__sports-arts-martiaux"></div>
+                    Sports & Arts martiaux
+                  </div>
+                </div>
+            </div><!--
+         --><div class="grid__item one-fifth very-soft hard--bottom">
+                <div data-type="button-wrapper" data-value="cuisine-vins">
+                  <div class="text--center btn one-whole hard--sides" data-type="button" data-value="cuisine-vins">
+                    <div class="subject_icon subject_icon__cuisine-vins"></div>
+                    Cuisine & Vins
+                  </div>
+                </div>
+            </div><!--
+         --><div class="grid__item one-fifth very-soft hard--bottom">
+                <div data-type="button-wrapper" data-value="photo-video">
+                  <div class="text--center btn one-whole hard--sides" data-type="button" data-value="photo-video">
+                    <div class="subject_icon subject_icon__photo-video"></div>
+                    Photo & Vidéo
+                  </div>
+                </div>
+            </div><!--
+         --><div class="grid__item one-fifth very-soft hard--bottom">
+                <div data-type="button-wrapper" data-value="other">
+                  <div class="text--center btn one-whole subject_icon__other" data-type="button" data-value="other">
+                    Autres
+                  </div>
+              </div>
+            </div>
         </div>
-
-        <div class="grid__item one-whole soft-half b-white tab-content rounded--double visuallyhidden--palm"></div>
+        <ol data-type="subjects-breadcrumb" class="hidden nav breadcrumb epsilon push-half--top flush--bottom milli" itemprop='breadcrumb'></ol>
+        <div data-type="menu" class="hidden white-box one-whole absolute east z-index-3 no-text-shadow no-text-transform" style="margin-top: -1px;">
+            <div data-type="subject-children-view"></div>
+        </div>
     </div>
 </div>
-

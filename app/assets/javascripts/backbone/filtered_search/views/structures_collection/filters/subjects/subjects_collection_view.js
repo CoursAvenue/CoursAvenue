@@ -1,218 +1,172 @@
 FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Module, App, Backbone, Marionette, $, _) {
 
-    Module.SubjectsCollectionView = Backbone.Marionette.CompositeView.extend({
+    var ACTIVE_CLASS = 'btn--blue subject-active';
+
+    Module.SubjectsCollectionView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'subjects_filter_view',
-        itemView: Module.SubjectView,
-        itemViewContainer: '.grid__item.one-whole.soft-half.b-white.tab-content',
+
+        itemView: Module.SubjectChildrenView,
+        itemViewContainer: '[data-type="subject-children-view"]',
+        breadcrumb_template: Handlebars.compile('<li><a data-depth="{{depth}}" data-root-subject-slug="{{root_subject_slug}}" data-type="breadcrumb" class="pointer" data-value="{{slug}}">{{name}}</a></li>'),
+
+        initialize: function initialize () {
+            this.menu_item = new this.itemView({ model: this.collection.first() });
+            this.menu_item.on('filter:subject', function(data) {
+                this.announceSubject(data);
+                this.activateButton(data.root_subject_id);
+            }.bind(this));
+            _.bindAll(this, 'showSubjectBreadcrumb');
+        },
 
         setup: function setup (data) {
-            this.ui.$search_input.attr('value', data.name);
-            this.previous_searched_name = data.name;
-            this.blurIrrelevantSubjects({subject_id: data.subject_id});
+            this.activateButton(data.root_subject_id);
+            this.current_subject_slug           = data.subject_id
+            this.menu_item.current_subject_slug = data.subject_id;
+            var root_subject = this.collection.where({slug: data.root_subject_id})[0];
+            if (root_subject) {
+                this.updateSubjectGrandChildren(root_subject, this.showSubjectBreadcrumb, data)
+            }
+
         },
 
         ui: {
-            '$search_input'        : '#search-input',
-            '$buttons'             : '[data-type=button]',
-            '$menu'                : '[data-type=menu]',
-            '$search_input_wrapper': '[data-type="search-input-wrapper"]'
+            '$buttons'            : '[data-type=button]',
+            '$buttons_wrapper'    : '[data-type=button-wrapper]',
+            '$menu'               : '[data-type=menu]',
+            '$subjects_breadcrumb': '[data-type=subjects-breadcrumb]'
         },
 
         events: {
-            'typeahead:selected #search-input': 'announce',
-            // Use keyup instead of keypress to handle the case when the user empties the input
-            'keydown #search-input':            'keydown',
-            'keyup #search-input':              'keyup',
-            'focus @ui.$search_input':          'showMenu',
-            'click [data-type=button]':         'activateButton',
-            'click':                            'clickInsinde',
+            'mouseenter @ui.$buttons_wrapper': 'showMenu',
+            'mouseleave @ui.$buttons_wrapper': 'hideMenu',
+            'click [data-type=button]'       : 'announce',
+            'click [data-type=breadcrumb]'   : 'announceBreadcrumb'
         },
 
         onRender: function onRender () {
-            var engine   = new Bloodhound({
-                datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.num); },
-                queryTokenizer: Bloodhound.tokenizers.whitespace,
-                remote: Routes.keywords_path({format: 'json'}) + '?name=%QUERY'
-            });
-            engine.initialize();
-            this.ui.$search_input.typeahead({
-                highlight : true
-            }, {
-                name: 'keywords',
-                limit: 10,
-                displayKey: 'name',
-                source: engine.ttAdapter()
-            });
-            this.updateSubjectGrandChildren();
+            this.$(this.itemViewContainer).append(this.menu_item.el);
         },
 
-        /*
-         * if the "click" is not on the input, we hide the menu
-         */
-        clickInsinde: function onClickOutside (e) {
-            if (this.ui.$menu.find(e.target).length > 0 || this.ui.$search_input_wrapper.find(e.target).length > 0) {
-                return;
+        announceBreadcrumb: function announceBreadcrumb (event) {
+            var clicked_subject_slug, root_subject, root_subject_slug, depth, clicked_model;
+            clicked_subject_slug                = event.currentTarget.dataset.value;
+            root_subject_slug                   = event.currentTarget.dataset.rootSubjectSlug;
+            depth                               = event.currentTarget.dataset.depth;
+            if (this.current_subject_slug == clicked_subject_slug) { return; }
+            root_subject = this.collection.where({slug: (root_subject_slug || clicked_subject_slug)})[0];
+            // If it's a clicked slug is root, announce it
+            if (depth == '0') {
+                this.announceSubject({ name: root_subject.get('name'), subject_id: root_subject.get('slug')})
+            // Else if it's a parent - depth 1
+            } else {
+                clicked_model = _.select(root_subject.get('children'), function(children) { return children.slug == clicked_subject_slug })[0];
+                this.announceSubject({ name: clicked_model.name,
+                                       subject_id: clicked_model.slug,
+                                       root_subject_id: root_subject.get('slug'),
+                                       parent_subject_id: clicked_model.slug })
             }
 
-            this.ui.$menu.hide();
-        },
-        /* if the "click outside" is on one of the subject buttons at the
-         * top of the search page, then we ignore it. Otherwise, we dismiss
-         * the modal menu.
-         */
-        onClickOutside: function onClickOutside (e) {
-            // So the question is, why that?
-            // `$('[data-type=button]').find('.' + e.target.className.split(' ').join('.'))`
-            // Because that :
-            // `$('[data-type=button]').find(e.target)`
-            // Does not work. Probably because `$('[data-type=button]')` refers to too many elements
-            var is_child_of = ( e.target.className.split(' ').join('.').length > 0 ? $('[data-type=button]').find('.' + e.target.className.split(' ').join('.')).length > 0 : true )
-            if ($(e.target).data("type") === "button" || is_child_of) {
-                return;
-            }
-
-            this.ui.$menu.hide();
-        },
-
-        onItemviewAnnouncedSubject: function onItemviewAnnouncedSubject (view, data) {
-            this.ui.$menu.hide();
-
-            this.ui.$search_input.typeahead("val", data.name);
-            this.announce({}, data);
-        },
-
-        /* This method is triggered when a filter restricts the available data
-         * by subject. In this case we want to visibly deactivate the now irrelevant
-         * subject icons, remove their tabbing powers, and stop them from fetching
-         * new grand_children.
-         *
-         * @param data -- should have .subject_id, which is possibly === null
-         * */
-        blurIrrelevantSubjects: function blurIrrelevantSubjects (data) {
-            // If subject_id is null, then we are removing a filter.
-            if (data.subject_id === null || data.subject_id == '') {
-                this.ui.$buttons.removeClass("fade-out").data("irrelevant", false);
-                this.ui.$buttons.attr("data-toggle", "tab");
-                return;
-            }
-
-            // The button that will not be deactivated is the relevant_button.
-            var $relevant_button = this.$("[data-value=" + data.subject_id + "]");
-
-            // We add the class fade-out to blur the icons visibly, and data-irrelevant
-            // to prevent the icon from becoming "active". We erase data-toggle in
-            // order to stop bootstrap from tabbing to an irrelevant tab.
-            this.ui.$buttons.addClass("fade-out").data("irrelevant", true);
-            this.ui.$buttons.attr("data-toggle", false);
-
-            // The relevant button gets to retain its properties.
-            $relevant_button.removeClass("fade-out").data("irrelevant", false);
-            $relevant_button.attr("data-toggle", "tab");
-
-            // Finally we trigger a click so that the relevant button becomes active
-            // and becomes the current tab.
-            $relevant_button.trigger("click", { target: $relevant_button.get(0), currentTarget: $relevant_button.get(0) });
-        },
-
-        updateQuery: function(data) {
-            this.query         = data.query;
-            this.query_changed = true;
-            this.updateSubjectGrandChildren();
         },
 
         /* When a user clicks on one of the icons, if the icon is not currently
          * "irrelevant", then we will activate that icon and try to fetch grand_children
          * for the relevant subject.
          */
-        activateButton: function activateButton (e) {
-            if ($(e.target).data("irrelevant")) {
-                return;
+        announce: function announce (event) {
+            this.hideMenu();
+            if (event) {
+                var subject_slug = event.currentTarget.dataset.value;
+            } else {
+                var subject_slug = this.$('.' + ACTIVE_CLASS + '[data-type="button"]').data('value');
             }
 
-            var $target = $(e.currentTarget);
-            this.ui.$buttons.removeClass("active");
-            $target.addClass("active");
-
-            this.updateSubjectGrandChildren();
+            if (this.$('[data-value=' + subject_slug + ']').hasClass(ACTIVE_CLASS)) {
+                this.current_subject_slug = null;
+                this.disabledButton(subject_slug);
+                this.announceSubject();
+            } else {
+                this.current_subject_slug = subject_slug;
+                this.activateButton(subject_slug);
+                this.announceSubject();
+            }
         },
 
-        selectedSubject: function selectedSubject () {
-            var slug = this.$('[data-type=button].active').data('value') || this.$('[data-type=button]').first().data('value');
-            return this.collection.findWhere({ slug: slug });
+        announceSubject: function announceSubject (data) {
+            data = data || { name: '', subject_id: this.current_subject_slug, root_subject_id: this.current_subject_slug};
+            this.menu_item.current_subject_slug       = data.subject_id;
+            this.menu_item.selected_parent_subject_id = data.parent_subject_id;
+            this.menu_item.model                = null;
+            this.trigger("filter:subject", data);
+            this.showSubjectBreadcrumb(data);
+        }.debounce(GLOBAL.DEBOUNCE_DELAY),
+
+        /*
+         * @args data: {
+         *          subject_id: 'danses-du-monde',
+         *          root_subject_id: 'danse',
+         *          parent_subject_id: 'danses-orientales'
+         *       }
+         */
+        showSubjectBreadcrumb: function showSubjectBreadcrumb (data) {
+            var parent_subject, child_subject;
+            this.ui.$subjects_breadcrumb.empty();
+            this.ui.$subjects_breadcrumb.show();
+            if (data.subject_id == null) { this.ui.$subjects_breadcrumb.hide(); return; }
+            current_model = this.collection.where({slug: data.root_subject_id || data.subject_id})[0];
+
+            this.ui.$subjects_breadcrumb.append($(this.breadcrumb_template(_.extend(current_model.toJSON(), {depth: '0'}))));
+
+            // Return if selected subject is root
+            if (data.root_subject_id == data.subject_id) { return; }
+            parent_subject = _.select(current_model.get('children'), function(children) { return children.slug == data.parent_subject_id })[0];
+            this.ui.$subjects_breadcrumb.append($(this.breadcrumb_template(_.extend(parent_subject, { depth: '1', root_subject_slug: current_model.get('slug') }))));
+
+            if (data.parent_subject_id == data.subject_id) { return; }
+            child_subject = _.select(parent_subject.children, function(children) { return children.slug == data.subject_id })[0];
+            this.ui.$subjects_breadcrumb.append($(this.breadcrumb_template(child_subject)));
         },
 
-        updateSubjectGrandChildren: function updateSubjectGrandChildren () {
-            var model   = this.selectedSubject();
-
-            // Force fetching if the query has changed
-            // or if there is no grand_children yet
-            if (this.query_changed || model.get("grand_children") === undefined) {
-                model.trigger('fetch:start');
-                model.fetch( { data: this.query,
-                               success: function(model, response, options){
-                                   model.trigger('fetch:done');
-                               }
+        updateSubjectGrandChildren: function updateSubjectGrandChildren (model, callback, callback_data) {
+            if (!model.get('children')) {
+                model.fetch( { success: function(model, response, options){
+                                   this.menu_item.trigger('fetch:done');
+                                   if (callback) { callback(callback_data); }
+                               }.bind(this)
                             } );
-                this.query_changed = false;
+
             }
         },
 
-        showMenu: function showMenu () {
+        hideMenu: function hideMenu (event) {
+            this.ui.$menu.hide();
+        },
+
+        showMenu: function showMenu (event) {
+            var $currentTarget = $(event.currentTarget);
+            current_model = this.collection.where({slug: $currentTarget.data('value')})[0];
+            this.updateSubjectGrandChildren(current_model);
+            // Show menu only if changing subject
+            if (this.menu_item.model != current_model) {
+                this.menu_item.model = current_model;
+                this.menu_item.render();
+            }
+            $currentTarget.append(this.ui.$menu);
             this.ui.$menu.show();
         },
-
-        // This is to prevent the input to be cleared when pressing escape.
-        // After investigation, don't know where the input is being cleared...
-        // I agree, this is ugly.
-        keydown: function keydown (event) {
-            this.previous_searched_name = this.ui.$search_input.typeahead('val');
-            if (event.keyCode === 13 || event.keyCode === 27) { // Enter || Escape
-                setTimeout(function() { this.ui.$search_input.typeahead('val', this.previous_searched_name) }.bind(this) );
-            }
-        },
-
-        keyup: function keyup (event) {
-            if (event.keyCode === 13 || event.keyCode === 27) { // Enter || Escape
-                this.ui.$menu.hide();
-                this.ui.$search_input.typeahead('close');
-                this.ui.$search_input.typeahead('val', this.previous_searched_name);
-            }
-            this.announce(event);
-        },
-
-        announce: function announce (event, data) {
-            var name = (data ? data.name : event.currentTarget.value);
-            // Prevent from launching the search if the name is same than previous one
-            if (name != this.previous_searched_name) {
-                this.previous_searched_name = name;
-                this.trigger("filter:search_term", { 'name': name });
-            }
-        }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
         // Clears all the given filters
         clear: function clear () {
             this.previous_searched_name = null;
-            this.ui.$search_input.val('');
             this.announce();
         },
 
-        // the keyword bar now needs the subjects, in order to provide autocompletion
-        serializeData: function serializeData () {
-            // get just the top level subject names and slugs
-            var subjects = this.collection.map(function (model) {
-                return { slug: model.get("slug"), name: model.get("name") }
-            });
-
-            subjects[0].is_first = true;
-
-            return { subjects: subjects };
+        disabledButton: function disabledButton (subject_slug) {
+            this.$('[data-value=' + subject_slug + ']').removeClass(ACTIVE_CLASS);
         },
 
-        itemViewOptions: function itemViewOptions (model, index) {
-            return {
-                "is_first": index === 0
-            }
-        },
-
+        activateButton: function activateButton (subject_slug) {
+            this.$('[data-type="button"]').removeClass(ACTIVE_CLASS);
+            this.$('[data-type="button"][data-value=' + subject_slug + ']').addClass(ACTIVE_CLASS);
+        }
     });
 });

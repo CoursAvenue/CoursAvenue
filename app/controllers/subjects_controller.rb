@@ -95,32 +95,18 @@ class SubjectsController < ApplicationController
     end
   end
 
-  # Returns all descendants at depth 2
-  #
-  # @return
+  # Returns all direct children and children at depth 2
+  # GET on member
   def depth_2
     if params[:id] == 'other'
-      root_subjects = Subject.roots_not_stars.all
+      @subjects   = Subject.roots_not_stars
+      return_json = ActiveModel::ArraySerializer.new(@subjects, each_serializer: SubjectSerializer)
     else
-      root_subjects = Subject.find params[:id]
+      @subject = Subject.friendly.find params[:id]
+      return_json = SubjectSerializer.new(@subject)
     end
-    # As we show subject names that would correspond to the name attributes, we get rid of it
-    params.delete :name
-    if params_has_planning_filters?
-      @structure_search = PlanningSearch.search(params, group: :structure_id_str)
-    else
-      @structure_search = StructureSearch.search(params)
-    end
-    @subjects         = []
-    @structure_search.facet(:subject_ids).rows.each do |facet|
-      subject = Subject.find(facet.value)
-      if subject.depth == 2 and subject.descendant_of? root_subjects
-        @subjects << subject
-      end
-    end
-    @subjects = @subjects.sort_by(&:name)
     respond_to do |format|
-      format.json { render json: @subjects.to_json }
+      format.json { render json: return_json }
     end
   end
 

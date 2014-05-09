@@ -82,8 +82,8 @@ FilteredSearch.addInitializer(function(options) {
     /* basic filters */
     results_summary           = new FiltersModule.ResultsSummaryView({});
     subject_filter            = new FiltersModule.SubjectFilterView({});
-    keyword_filter            = new FiltersModule.Subjects.SubjectsCollectionView({ collection: subjects });
-    location_filter           = new FiltersModule.LocationFilterView({});
+    subjects_collection_filter = new FiltersModule.Subjects.SubjectsCollectionView({ collection: subjects });
+    location_filter            = new FiltersModule.LocationFilterView({});
 
     /* advanced filters */
     /* we pass in a dictionary defining what we want the titles of the breadcrumbs
@@ -141,12 +141,7 @@ FilteredSearch.addInitializer(function(options) {
         }
     });
 
-    layout.showWidget(keyword_filter, {
-        events: {
-            'filter:subject': 'blurIrrelevantSubjects',
-            'structures:updated:query': 'updateQuery'
-        }
-    });
+    layout.showWidget(subjects_collection_filter);
     layout.showWidget(location_filter);
     layout.showWidget(subject_filter);
     layout.showWidget(results_summary);

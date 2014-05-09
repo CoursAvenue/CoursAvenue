@@ -97,6 +97,8 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                 address_name         : (data.server_api.address_name         ? data.server_api.address_name                         : ''),
                 name                 : (data.server_api.name                 ? data.server_api.name                                 : ''),
                 subject_id           : (data.server_api.subject_id           ? data.server_api.subject_id                           : ''),
+                root_subject_id      : (data.server_api.root_subject_id      ? data.server_api.root_subject_id                      : ''),
+                parent_subject_id    : (data.server_api.parent_subject_id    ? data.server_api.parent_subject_id                    : ''),
                 level_ids            : (data.server_api['level_ids[]']       ? _.ensureArray(data.server_api['level_ids[]'])        : ''),
                 audience_ids         : (data.server_api['audience_ids[]']    ? _.ensureArray(data.server_api['audience_ids[]'])     : ''),
                 course_types         : (data.server_api['course_types[]']    ? _.ensureArray(data.server_api['course_types[]'])     : ''),
