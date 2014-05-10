@@ -5,53 +5,54 @@
   - yoga    = Subject.find('yoga-bien-etre-sante')
   - paris   = City.find('paris')
   %h2.home-title Guide des disciplines
-  %ul.tabs.tabs--white
-    %li.active
-      %a{href: '#tab-paris', data: {toggle: 'tab'} }
-        Paris
-    %li
-      %a{href: '#tab-non-open-city', data: {toggle: 'tab'} }
-        Lyon
-    %li
-      %a{href: '#tab-non-open-city', data: {toggle: 'tab'} }
-        Marseille
-    %li
-      %a{href: '#tab-non-open-city', data: {toggle: 'tab'} }
-        Toulouse
-    %li
-      %a{href: '#tab-non-open-city', data: {toggle: 'tab'} }
-        Lille
-  .white-box>
-    .tab-content
-      %article#tab-paris.tab-pane.hard.active
-        .grid--full.soft-half--ends
-          .grid__item.one-half.palm-one-whole.soft-half--sides>
-            .relative.bg-cover{style: "background-image: url('#{dance.image.url(:small)}'); height: 200px;"}>
-              %a.block.show-on-hover__wrapper{href: vertical_page_url_for(dance, paris), title: "Cours de danse à Paris"}>
-                .home-screen-gallery__title.text--center
-                  Danse
-                  .milli.show-on-hover__child Voir le guide
-          .grid__item.one-half.palm-one-whole.relative.soft-half--right>
-            .relative.bg-cover{style: "background-image: url('#{theatre.image.url(:small)}'); height: 200px;"}
-              %a.block.show-on-hover__wrapper{href: vertical_page_url_for(theatre, paris), title: "Cours de théâtre et scène à Paris"}>
-                .home-screen-gallery__title.text--center
-                  Théâtre & Scène
-                  .milli.show-on-hover__child Voir le guide
-        .grid--full
-          .grid__item.one-half.palm-one-whole.relative.soft-half--sides>
-            .relative.bg-cover{style: "background-image: url('#{music.image.url(:small)}'); height: 200px;"}
-              %a.block.show-on-hover__wrapper{href: vertical_page_url_for(music, paris), title: "Cours de danse à Paris"}>
-                .home-screen-gallery__title.text--center
-                  Musique & Chant
-                  .milli.show-on-hover__child Voir le guide
-          .grid__item.one-half.palm-one-whole.relative.soft-half--right>
-            .relative.bg-cover{style: "background-image: url('#{yoga.image.url(:small)}'); height: 200px;"}
-              %a.block.show-on-hover__wrapper{href: vertical_page_url_for(yoga, paris), title: "Cours de danse à Paris"}>
-                .home-screen-gallery__title.text--center
-                  Yoga, Bien-être & Santé
-                  .milli.show-on-hover__child Voir le guide
+  .panel
+    %ul.tabs.panel__header
+      %li.active
+        %a{href: '#tab-paris', data: {toggle: 'tab'} }
+          Paris
+      %li
+        %a{href: '#tab-non-open-city', data: {toggle: 'tab'} }
+          Lyon
+      %li
+        %a{href: '#tab-non-open-city', data: {toggle: 'tab'} }
+          Marseille
+      %li
+        %a{href: '#tab-non-open-city', data: {toggle: 'tab'} }
+          Toulouse
+      %li
+        %a{href: '#tab-non-open-city', data: {toggle: 'tab'} }
+          Lille
+    .panel__body>
+      .tab-content
+        %article#tab-paris.tab-pane.hard.active
+          .grid--full.soft-half--ends
+            .grid__item.one-half.palm-one-whole.soft-half--sides>
+              .relative.bg-cover{style: "background-image: url('#{dance.image.url(:small)}'); height: 200px;"}>
+                %a.block.show-on-hover__wrapper{href: vertical_page_url_for(dance, paris), title: "Cours de danse à Paris"}>
+                  .home-screen-gallery__title.text--center
+                    Danse
+                    .milli.show-on-hover__child Voir le guide
+            .grid__item.one-half.palm-one-whole.relative.soft-half--right>
+              .relative.bg-cover{style: "background-image: url('#{theatre.image.url(:small)}'); height: 200px;"}
+                %a.block.show-on-hover__wrapper{href: vertical_page_url_for(theatre, paris), title: "Cours de théâtre et scène à Paris"}>
+                  .home-screen-gallery__title.text--center
+                    Théâtre & Scène
+                    .milli.show-on-hover__child Voir le guide
+          .grid--full
+            .grid__item.one-half.palm-one-whole.relative.soft-half--sides>
+              .relative.bg-cover{style: "background-image: url('#{music.image.url(:small)}'); height: 200px;"}
+                %a.block.show-on-hover__wrapper{href: vertical_page_url_for(music, paris), title: "Cours de danse à Paris"}>
+                  .home-screen-gallery__title.text--center
+                    Musique & Chant
+                    .milli.show-on-hover__child Voir le guide
+            .grid__item.one-half.palm-one-whole.relative.soft-half--right>
+              .relative.bg-cover{style: "background-image: url('#{yoga.image.url(:small)}'); height: 200px;"}
+                %a.block.show-on-hover__wrapper{href: vertical_page_url_for(yoga, paris), title: "Cours de danse à Paris"}>
+                  .home-screen-gallery__title.text--center
+                    Yoga, Bien-être & Santé
+                    .milli.show-on-hover__child Voir le guide
 
-        .soft-half
-          = link_to 'Guide des cours à Paris', city_path('paris'), class: 'btn btn--full'
-      %article#tab-non-open-city.tab-pane.islet
-        Nous arrivons bientôt !
+          .soft-half
+            = link_to 'Guide des cours à Paris', city_path('paris'), class: 'btn btn--full'
+        %article#tab-non-open-city.tab-pane.soft
+          Nous arrivons bientôt !
