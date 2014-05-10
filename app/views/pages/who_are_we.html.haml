@@ -1,41 +1,74 @@
-.soft
-  %h1.blue L'équipe
+= content_for :above_container do
+  .soft.main-container.center-block
+    %h1.blue L'équipe
 
-  .team-wrapper
-    .inline-block.team.team__nicolas{ data: { el: '#nicolas-description' } }
-    .inline-block.team.team__nima{ data: { el: '#nima-description' } }
-    .inline-block.team.team__natan{ data: { el: '#natan-description' } }
-    .inline-block.team.team__adelaide{ data: { el: '#adelaide-description' } }
-    .inline-block.team.team__hugo{ data: { el: '#hugo-description' } }
-    -# .inline-block.team.team__offre
+    .team-wrapper.text--center
+      .inline-block.team.team__nicolas{ data: { el: '#nicolas-description' } }
+      .inline-block.team.team__nima{ data: { el: '#nima-description' } }
+      .inline-block.team.team__natan{ data: { el: '#natan-description' } }
+      .inline-block.team.team__adelaide{ data: { el: '#adelaide-description' } }
+      .inline-block.team.team__hugo{ data: { el: '#hugo-description' } }
+      .inline-block.team.team__offre{ data: { el: '#offre-description' } }
 
-  .relative{ style: 'height: 100px;' }
-    %p.delta.text--center.push--top#nicolas-description.hidden.north.absolute
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse, est ullam impedit velit natus vitae quibusdam dolores non cum similique magnam voluptatum debitis necessitatibus possimus modi ipsam facere vero rem.
-    %p.delta.text--center.push--top#nima-description.hidden.north.absolute
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione, neque laboriosam soluta aspernatur in asperiores suscipit. Minus, dolore, recusandae ullam laborum magnam error corrupti dicta architecto saepe ut excepturi voluptates?
-    %p.delta.text--center.push--top#natan-description.hidden.north.absolute
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt, explicabo, dignissimos, omnis itaque voluptate iusto culpa laborum quisquam nam eum id impedit rem deserunt quod pariatur. Eos, fugit sit et.
-    %p.delta.text--center.push--top#adelaide-description.hidden.north.absolute
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, quam, dignissimos, officia suscipit accusamus possimus sapiente reiciendis nesciunt rerum magni cumque dolorum dicta quibusdam facere dolores. Vitae, eveniet doloribus at!
-    %p.delta.text--center.push--top#hugo-description.hidden.north.absolute
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque, recusandae, dolor, doloribus vel dolore itaque nostrum adipisci iure minus harum hic omnis exercitationem minima culpa nesciunt ipsum provident laudantium cum.
+
+
+    .relative{ style: 'height: 300px;' }
+      %div.delta.text--left.push--top.hidden.north.absolute#nicolas-description
+        %p
+          %strong Nicolas
+          %i.gray-light — Co-fondateur
+          %br
+          Cuisine
+        %p La Cuisine et moi, c’est une histoire d’amour qui dure depuis quelques temps. Avant de créer CoursAvenue, j’ai passé un CAP cuisine.
+      %div.delta.text--left.push--top.hidden.north.absolute#nima-description
+        %p
+          %strong Nima
+          %i.gray-light — Co-fondateur
+          %br
+          Guitare
+      %div.delta.text--left.push--top.hidden.north.absolute#natan-description
+        %p
+          %strong Natan
+          %i.gray-light — Chargée de compte
+          %br
+          Yoga
+        %p
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione, dolor, fugiat a ipsum totam obcaecati nulla eius tenetur provident suscipit quidem corporis maiores rerum accusantium delectus at vel. Dolore, laboriosam.
+      %div.delta.text--left.push--top.hidden.north.absolute#adelaide-description
+        %p
+          %strong Adelaïde
+          %i.gray-light — Chargée de compte
+          %br
+          Danse
+
+        %p Bonjour, moi c’est Adelaïde. J’ai toujours été passionnée de danse. J’ai commencé la danse classique quand j’étais petite avant de tester le hip-hop à partir de 14 ans.
+        %p Chez CoursAvenue je suis chargée de compte. Mais qu’est-ce que ça veut dire chargée de compte ? Concrètement, ma mission est de gérer les professeurs et écoles de danse présentes sur le site. Si vous trouvez ici le cours de danse qui vous convient, c’est un peu grâce à moi !
+
+      %div.delta.text--left.push--top.hidden.north.absolute#hugo-description
+        %p
+          %strong Hugo
+          — Community Manager
+          %br
+          Boxe
+
+        %p J’ai commencé le karaté dès l’âge de 5 ans, puis le judo à partir de 10. Un entrainement intensif m’a permis de devenir ceinture noire rapidement. Ca ne rigolait pas à l’époque… ! Aujourd’hui je préfère me défouler en faisant de la boxe thaï. Un jour, j’espère devenir comme Xavier Bastard, triple champion du monde.
+        %p Chez CoursAvenue je m’occupe du blog et des réseaux sociaux. J’essaie d’écrire des articles intéressants et utiles pour nos lecteurs : vous. Si vous avez une question, n’hésitez pas à nous envoyer un tweet ou à laisser un message sur notre page Facebook. C’est moi qui vous répondrai.
+
+      %div.delta.text--left.push--top.hidden.north.absolute#hugo-offre
+        %p
+          %strong Vous ?
+          %br
+          Nous recrutons !
+
+        %p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni ullam deserunt enim a error assumenda aliquid earum sunt nostrum expedita! Corporis, quam, ea omnis quos velit id ullam ab officiis.
 
 = content_for :scripts do
   :javascript
       $(function() {
-          $('.team-wrapper').hover(function() {
-          }, function() {
-              $('.team').animate({ opacity: 1 }, 200, 'linear');
-          });
           $('.team').hover(function() {
-              $(this).addClass('selected');
-              $($(this).data('el')).fadeIn();
-              $('.team:not(.selected)').animate({ opacity: 0.5 }, 200, 'linear');
-              $(this).animate({ opacity: 1 }, 200, 'linear');
+              $($(this).data('el')).fadeIn('fast');
           }, function() {
-              $(this).removeClass('selected');
-              $($(this).data('el')).fadeOut();
+              $($(this).data('el')).fadeOut('fast');
           });
       });
 
