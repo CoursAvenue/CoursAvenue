@@ -19,7 +19,7 @@ class Pro::SubjectsController < Pro::ProController
   def completion
     subject   = Subject.find params[:id]
     zippy     = (params[:zip_code].present? ? params[:zip_code] : '75000')
-    zip_codes = City.where{zip_code =~ "#{zippy}%"}.map(&:zip_code).reject{|zip| zip.include?('CEDEX')}.uniq
+    zip_codes = City.where( City.arel_table[:zip_code].matches("#{zippy}%") ).map(&:zip_code).reject{|zip| zip.include?('CEDEX')}.uniq
     respond_to do |format|
       format.json do
         render json: {

@@ -40,7 +40,7 @@ class StructureSerializer < ActiveModel::Serializer
   def places
     if @options[:place_ids].present?
       place_ids = @options[:place_ids]
-      object.places.where{ id.in place_ids }
+      object.places.where( Place.arel_talbe[:id].eq_any(place_ids) )
     else
       object.places
     end

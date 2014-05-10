@@ -13,7 +13,7 @@ class CommentsController < ApplicationController
     else
       user_email = params[:comment][:email].downcase
       # If the user does not exists
-      unless (@user = User.where { email == user_email }.first)
+      unless (@user = User.where(email: user_email).first)
         @user = User.new email: user_email, first_name: params[:comment][:author_name]
       end
       @user.update_attribute(:first_name, params[:comment][:author_name]) if params[:comment][:author_name].present?

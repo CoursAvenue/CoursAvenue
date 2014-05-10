@@ -22,7 +22,8 @@ class UserProfile < ActiveRecord::Base
   validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i }, allow_blank: true
   validate :presence_of_mandatory_fields
 
-  scope :with_email, -> { where{(email != nil) | (email != '')} }
+  scope :with_email, -> { where( UserProfile.arel_table[:email].not_eq(nil).or(
+                                 UserProfile.arel_table[:email].not_eq('')) )}
 
   ######################################################################
   # Search attributes                                                  #

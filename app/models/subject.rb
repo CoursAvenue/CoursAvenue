@@ -21,17 +21,17 @@ class Subject < ActiveRecord::Base
   # Validations                                                        #
   ######################################################################
   validates :name, presence: true
-  validates :name, uniqueness: {scope: 'ancestry'}
+  validates :name, uniqueness: { scope: 'ancestry' }
 
   ######################################################################
   # Scopes                                                            #
   ######################################################################
-  scope :children,               -> { where{ancestry != nil} }
-  scope :little_children,        -> { where{ancestry_depth == 2} }
-  scope :roots_with_position,    -> { where{(ancestry == nil) & (position != nil)} }
-  scope :roots_without_position, -> { where{(ancestry == nil) & (position == nil)} }
-  scope :stars,                  -> { where{position < 10}.order('position ASC') }
-  scope :roots_not_stars,        -> { where{(position >= 10) & (ancestry == nil)}.order('position ASC') }
+  scope :children,               -> { where(Subject.arel_table[:ancestry].not_eq(nil)) }
+  scope :little_children,        -> { where(Subject.arel_table[:ancestry_depth].eq(2)) }
+  scope :roots_with_position,    -> { where(Subject.arel_table[:ancestry].eq(nil).and(Subject.arel_table[:position].not_eq(nil))) }
+  scope :roots_without_position, -> { where(Subject.arel_table[:ancestry].eq(nil).and(Subject.arel_table[:position].not_eq(nil))) }
+  scope :stars,                  -> { where(Subject.arel_table[:position].lt(10)).order('position ASC') }
+  scope :roots_not_stars,        -> { where(Subject.arel_table[:position].gt(10).and(Subject.arel_table[:ancestry].eq(nil))).order('position ASC') }
 
   attr_accessible :name, :short_name, :info, :parent, :position, :title, :subtitle, :description, :image,
                   :good_to_know, :needed_meterial, :tips, :ancestry

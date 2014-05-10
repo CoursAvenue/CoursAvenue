@@ -13,10 +13,10 @@ class Media < ActiveRecord::Base
   validates :url, presence: true
   validates :caption, length: { maximum: 255 }
 
-  scope :images,       -> { where(type: "Media::Image") }
-  scope :videos,       -> { where(type: "Media::Video") }
+  scope :images,       -> { where( type: "Media::Image" ) }
+  scope :videos,       -> { where( type: "Media::Video" ) }
   scope :videos_first, -> { order('type DESC, cover DESC NULLS LAST') }
-  scope :cover,        -> { where{cover == true} }
+  scope :cover,        -> { where( cover: true) }
   scope :cover_first,  -> { order('cover DESC NULLS LAST') }
 
   # ------------------------------------------------------------------------------------ Search attributes

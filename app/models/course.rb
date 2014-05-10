@@ -27,14 +27,15 @@ class Course < ActiveRecord::Base
   before_save      :sanatize_description
 
   # ------------------------------------------------------------------------------------ Scopes
-  scope :active,                 -> { where(active: true) }
-  scope :disabled,               -> { where(active: false) }
-  scope :lessons,                -> { where(type: "Course::Lesson") }
-  scope :workshops,              -> { where(type: "Course::Workshop") }
-  scope :trainings,              -> { where(type: "Course::Training") }
-  scope :workshops_and_training, -> { where{ (type == "Course::Workshop") | (type == "Course::Training") } }
-  scope :without_open_courses,   -> { where{ type != 'Course::Open' } }
-  scope :open_courses,           -> { where(type: 'Course::Open') }
+  scope :active,                 -> { where( active: true ) }
+  scope :disabled,               -> { where( active: false ) }
+  scope :lessons,                -> { where( type: "Course::Lesson" ) }
+  scope :workshops,              -> { where( type: "Course::Workshop" ) }
+  scope :trainings,              -> { where( type: "Course::Training" ) }
+  scope :workshops_and_training, -> { where( Course.arel_table[:type].eq('Course::Workshop').or(
+                                             Course.arel_table[:type].eq('Course::Training')) ) }
+  scope :without_open_courses,   -> { where.not( type: 'Course::Open' ) }
+  scope :open_courses,           -> { where( type: 'Course::Open' ) }
 
   ######################################################################
   # Validations                                                        #
@@ -269,15 +270,16 @@ class Course < ActiveRecord::Base
   end
 
   def has_package_price
-    return prices.where{libelle.eq_any ['prices.subscription.annual', 'prices.subscription.semester', 'prices.subscription.trimester', 'prices.subscription.month']}.any?
+    return prices.where( Price.arel_table[:libelle].eq_any(['prices.subscription.annual', 'prices.subscription.semester', 'prices.subscription.trimester', 'prices.subscription.month']) ).any?
   end
 
   def has_trial_lesson
-    return self.prices.where{(type == 'Price::Trial')}.any?
+    return self.prices.where( type: 'Price::Trial' ).any?
   end
 
   def has_free_trial_lesson?
-    return self.prices.where{(type == 'Price::Trial') & ((amount == nil) | (amount == 0))}.any?
+    return self.prices.where( Price.arel_table[:type].eq('Price::Trial').and(
+                              (Price.arel_table[:amount].eq(nil).or(Price.arel_table[:amount].eq(0)))) ).any?
   end
 
   def has_unit_course_price
@@ -289,29 +291,15 @@ class Course < ActiveRecord::Base
   end
 
   def max_price
-    prices.where{amount >= 0}.order('amount DESC').first.try(:amount)
-  end
-
-  # TODO: To be improved
-  def similar_courses(limit = 5)
-    parent_subject_ids = self.subjects.collect{|subject| subject.id}.uniq
-    similar_courses   = Course.joins{subjects}.where{(active == true) & (subjects.id.eq_any parent_subject_ids)}.sample(limit) # With same parent subject
-    if similar_courses.length < 5
-      max_id          = Course.maximum('id')
-      min_id          = Course.minimum('id')
-      id_range        = max_id - min_id + 1
-      random_id       = min_id + rand(id_range).to_i
-      similar_courses = Course.limit(limit).offset(random_id)
-    end
-    similar_courses
+    prices.where( Price.arel_table[:amount].gteq(0) ).order('amount DESC').first.try(:amount)
   end
 
   def promotion_planning
-    self.plannings.where{promotion != nil}.order('promotion ASC').first
+    self.plannings.where.not( promotion: nil ).order('promotion ASC').first
   end
 
   def is_for_kid
-    self.plannings.where{min_age_for_kid != nil}.length > 0
+    self.plannings.where.not( min_age_for_kid: nil ).length > 0
   end
 
   def has_multiple_teacher?
@@ -357,19 +345,21 @@ class Course < ActiveRecord::Base
   end
 
   def best_price
-    self.prices.where{(type != 'Price::Registration') & (amount > 0)}.order('COALESCE(promo_amount, amount) ASC').first
+    self.prices.where( Price.arel_table[:type].not_eq('Price::Registration').and(
+                       Price.arel_table[:amount].gt(0)) ).order('COALESCE(promo_amount, amount) ASC').first
   end
 
   def most_expansive_price
-    self.prices.where{(type != 'Price::Registration') & (amount > 0)}.order('amount DESC').first
+    self.prices.where( Price.arel_table[:type].not_eq('Price::Registration').and(
+                       Price.arel_table[:amount].gt(0)) ).order('amount DESC').first
   end
 
   def approximate_price_per_course
-    one_class_price = prices.where{nb_courses == 1}
+    one_class_price = prices.where( nb_courses: 1 )
     if one_class_price.any?
       return one_class_price.first.amount
     else
-      price = prices.where{amount != nil}.order('nb_courses DESC').first
+      price = prices.where.not( amount: nil ).order('nb_courses DESC').first
       if price and price.amount and price.nb_courses
         return price.amount / price.nb_courses
       else

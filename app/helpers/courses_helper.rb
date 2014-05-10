@@ -25,7 +25,8 @@ module CoursesHelper
     else
       order_by = 'start_date ASC, start_time ASC'
     end
-    plannings = course.plannings.order(order_by).where{(start_date <= _end_date) & (end_date >= _start_date)}
+    plannings = course.plannings.order(order_by).where( Planning.arel_table[:start_time].lteq(_end_date).and(
+                                                        Planning.arel_table[:end_date].gteq(_start_date)) )
 
     if params[:week_days].present?
       plannings = plannings.reject{|p| !params[:week_days].include?(p.week_day.to_s) }

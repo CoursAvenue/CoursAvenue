@@ -73,7 +73,8 @@ gem 'progress_bar'              , '~>1.0.0'
 gem 'paperclip'                 , '~>3.5.1'
 
 # For handy SQL queries
-gem 'squeel'                    , '~>1.1.1'
+# gem 'squeel'                    , '~>1.1.1'
+
 # For having models acting like trees
 gem 'ancestry'                  , '~>2.0.0'
 

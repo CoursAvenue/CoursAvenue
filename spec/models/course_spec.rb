@@ -139,7 +139,6 @@ describe Course do
   # has_trial_lesson
   # has_unit_course_price
   # time_slots
-  # similar_courses(limit = 5)
   # promotion_planning
   # is_for_kid
   # has_multiple_teacher?

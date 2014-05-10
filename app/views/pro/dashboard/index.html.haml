@@ -9,23 +9,26 @@
       .grid__item.one-quarter.bordered--right>
         .soft-half.text--center
           %h3.flush= "#{Admin.normal.count} profs"
-          %h6.flush dont #{Admin.where{created_at > Date.today}.count} aujourd'hui
-          %div et #{Admin.where{created_at > Date.today - 7.days}.count} les 7 derniers jours
+          %h6.flush dont #{Admin.where( Admin.arel_table[:created_at].gt(Date.today) ).count} aujourd'hui
+          %div et #{Admin.where( Admin.arel_table[:created_at].gt(Date.today - 7.days) ).count} les 7 derniers jours
       .grid__item.one-quarter.bordered--right>
         .soft-half.text--center
           %h3.flush= "#{Comment.count} avis"
-          %h6.flush dont #{Comment.where{created_at > Date.today}.count} aujourd'hui
-          %div et #{Comment.where{created_at > Date.today - 7.days}.count} les 7 derniers jours
+          %h6.flush dont #{Comment.where( Comment.arel_table[:created_at].gt(Date.today) ).count} aujourd'hui
+          %div et #{Comment.where( Comment.arel_table[:created_at].gt(Date.today - 7.days) ).count} les 7 derniers jours
       .grid__item.one-quarter.bordered--right>
         .soft-half.text--center
-          %h3.flush= "#{Mailboxer::Conversation.where{subject == "Demande d'informations"}.count} mess"
-          %h6.flush dont #{Mailboxer::Conversation.where{(subject == "Demande d'informations") & (created_at > Date.today)}.count} aujourd'hui
-          %div et #{Mailboxer::Conversation.where{(subject == "Demande d'informations") & (created_at > Date.today - 7.days)}.count} les 7 derniers jours
+          %h3.flush= "#{Mailboxer::Conversation.where( subject: "Demande d'informations" ).count} mess"
+          %h6.flush
+            dont
+            = Mailboxer::Conversation.where( Mailboxer::Conversation.arel_table[:subject].eq("Demande d'informations").and(Mailboxer::Conversation.arel_table[:created_at].gt(Date.today)) ).count}
+            aujourd'hui
+          %div et #{Mailboxer::Conversation.where( Mailboxer::Conversation.arel_table[:subject].eq("Demande d'informations").and(Mailboxer::Conversation.arel_table[:created_at].gt(Date.today - 7.days)) ).count} les 7 derniers jours
       .grid__item.one-quarter>
         .soft-half.text--center
           %h3.flush= "#{CommentNotification.count} élèves"
-          %h6.flush dont #{CommentNotification.where{(created_at > Date.today)}.count} aujourd'hui
-          %div et #{CommentNotification.where{(created_at > Date.today - 7.days)}.count} les 7 derniers jours
+          %h6.flush dont #{CommentNotification.where( CommentNotification.arel_table[:created_at].gt(Date.today) ).count} aujourd'hui
+          %div et #{CommentNotification.where( CommentNotification.arel_table[:created_at].gt(Date.today - 7.days) ).count} les 7 derniers jours
 
   %hr.push--ends
   .soft--sides
@@ -96,7 +99,7 @@
       Demande d'infos
     .text--center
       .gamma
-        = Mailboxer::Conversation.where{subject == "Demande d'informations"}.count
+        = Mailboxer::Conversation.where( subject: "Demande d'informations" ).count
         Messages
       #messages
 

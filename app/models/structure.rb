@@ -400,7 +400,7 @@ class Structure < ActiveRecord::Base
     place_name = 'Adresse principale' if place_name.blank?
     location_street     = self.street.gsub(',', '%').gsub(' ', '%').gsub('é', '%').gsub('è', '%').gsub('ê', '%').strip
     location_zip_code   = self.zip_code
-    if (loc = Location.where{(name =~ place_name) & (street =~ location_street) & (zip_code == location_zip_code)}.first)
+    if (loc = Location.where(Location.arel_table[:name].matches(place_name).and(Location.arel_table[:street].matches(location_street)).and(Location.arel_table[:zip_code].eq(location_zip_code))).first)
       location = loc
     else
       location = Location.create(name: place_name, street: self.street, city: self.city, zip_code: self.zip_code)
@@ -516,7 +516,7 @@ class Structure < ActiveRecord::Base
     self.gives_group_courses      = self.courses.select{|course| !course.is_individual? }.any?
     self.gives_individual_courses = self.courses.select(&:is_individual?).any?
     self.has_promotion            = self.prices.select{|p| p.promo_amount.present?}.any?
-    self.has_free_trial_course    = self.prices.trials.where{(amount == nil) | (amount == 0)}.any?
+    self.has_free_trial_course    = self.prices.trials.where(Price.arel_table[:amount].eq(nil).or(Price.arel_table[:amount].eq(0))).any?
     self.course_names             = self.courses.map(&:name).uniq.join(', ')
     self.last_comment_title       = self.comments.accepted.first.title if self.comments.accepted.any?
     # Store level and audiences ids as coma separated string values: "1,3,5"
@@ -538,8 +538,8 @@ class Structure < ActiveRecord::Base
   end
 
   def set_min_and_max_price
-    best_price           = prices.where{(type != 'Price::Registration') & (amount > 0)}.order('amount ASC').first
-    most_expensive_price = prices.where{(type != 'Price::Registration') & (amount > 0)}.order('amount DESC').first
+    best_price           = prices.where(Price.arel_table[:type].not_eq('Price::Registration').and(Price.arel_table[:amount].gt(0))).order('amount ASC').first
+    most_expensive_price = prices.where(Price.arel_table[:type].not_eq('Price::Registration').and(Price.arel_table[:amount].gt(0))).order('amount DESC').first
 
     if best_price
       self.min_price_libelle = best_price.localized_libelle

@@ -80,8 +80,8 @@ class User < ActiveRecord::Base
   ######################################################################
   # Scopes                                                             #
   ######################################################################
-  scope :active,   -> { where{encrypted_password != ''} }
-  scope :inactive, -> { where{(encrypted_password == '') | (encrypted_password == nil)} }
+  scope :active,   -> { where.not(encrypted_password: '') }
+  scope :inactive, -> { where( User.arel_table[:encrypted_password].eq('').or(User.arel_table[:encrypted_password] == nil)) }
 
   # Creates a user from Facebook
   #
@@ -90,7 +90,9 @@ class User < ActiveRecord::Base
   # @return User
   def self.from_omniauth(auth)
     # Check if the user already exists
-    where{((provider == auth.provider) & (uid == auth.uid)) | (email == auth.info.email)}.first_or_initialize.tap do |user|
+    # TODO: Check
+    # ((provider == auth.provider) & (uid == auth.uid)) | (email == auth.info.email)}.first_or_initialize.tap do |user|
+    where((User.arel_table[:provider].eq(auth.provider).and(User.arel_table[:uid].eq(auth.uid))).or(User.arel_table[:email].eq(auth.info.email))).first_or_initialize.tap do |user|
       user.provider           = auth.provider
       user.uid                = auth.uid
       user.oauth_token        = auth.credentials.token
@@ -103,7 +105,7 @@ class User < ActiveRecord::Base
       user.password           = Devise.friendly_token[0,20]
 
       if auth.info.location
-        city = City.where{ name =~ auth.info.location.split(',').first }.first
+        city = City.where(City.arel_table[:name].matches(auth.info.location.split(',').first)).first
         if city
           user.city     = city
           user.zip_code = city.zip_code
@@ -221,8 +223,9 @@ class User < ActiveRecord::Base
     self.comment_notifications = user.comment_notifications
     # Mailbox
     user_id = user.id
-    Mailboxer::Notification.where{(sender_id == user_id) & (sender_type == 'User')}.update_all(sender_id: self.id)
-    Mailboxer::Receipt.where{(receiver_id == user_id) & (receiver_type == 'User')}.update_all(receiver_id: self.id)
+
+    Mailboxer::Notification.where(Mailboxer::Notification.arel_table[:sender_id].eq(user_id).and(Mailboxer::Notification.arel_table[:sender_type].eq('User'))).update_all(sender_id: self.id)
+    Mailboxer::Receipt.where(Mailboxer::Receipt.arel_table[:receiver_id].eq(user_id).and(Mailboxer::Receipt.arel_table[:receiver_type].eq('User'))).update_all(receiver_id: self.id)
     self.save
     user.reload.destroy
   end
@@ -398,14 +401,14 @@ class User < ActiveRecord::Base
   # @return nil
   def associate_city_from_zip_code
     _zip_code = self.zip_code
-    self.update_column :city_id, City.where{zip_code == _zip_code}.first.try(:id)
+    self.update_column :city_id, City.where(zip_code: _zip_code).first.try(:id)
     nil
   end
 
   def associate_all_comments
     _email   = self.email
     _user_id = self.id
-    Comment.where{email =~ _email}.each do |comment|
+    Comment.where(Comment.arel_table[:email].matches(_email)).each do |comment|
       comment.update_column(:user_id, _user_id)
     end
   end

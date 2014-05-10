@@ -89,8 +89,8 @@ class Planning < ActiveRecord::Base
   ######################################################################
   # Scopes                                                             #
   ######################################################################
-  scope :future,         -> { where("plannings.end_date > '#{Date.today}'") }
-  scope :past,           -> { where("plannings.end_date <= '#{Date.today}'") }
+  scope :future,         -> { where( Planning.arel_table[:end_date].gt(Date.today) ) }
+  scope :past,           -> { where( Planning.arel_table[:end_date].lteq(Date.today) ) }
   scope :ordered_by_day, -> { order('week_day=0, week_day ASC') }
 
   ######################################################################

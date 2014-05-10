@@ -4,8 +4,8 @@ class Pro::OpenCoursesController < Pro::ProController
   layout 'admin'
 
   def index
-    @courses_inactive = Course::Open.where{active == false}.all.sort_by{ |course| course.structure.name.downcase.strip }
-    @courses_active = Course::Open.where{active == true}.all.sort_by{ |course| course.structure.name.downcase.strip }
+    @courses_inactive = Course::Open.where( active: false ).all.sort_by{ |course| course.structure.name.downcase.strip }
+    @courses_active = Course::Open.where( active: true ).all.sort_by{ |course| course.structure.name.downcase.strip }
   end
 
   def fulfillment

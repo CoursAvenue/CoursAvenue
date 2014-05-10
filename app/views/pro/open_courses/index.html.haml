@@ -15,8 +15,8 @@
   .inline-block.one-quarter.push--bottom.v-middle.push--sides
     .white-box.soft-half.text--center
       %h3.flush= "#{Course::Open.count} atelier JPOs"
-      %h6.flush dont #{Course::Open.where{created_at > Date.today}.count} aujourd'hui
-      %div et #{Course::Open.where{created_at > Date.today - 7.days}.count} les 7 derniers jours
+      %h6.flush dont #{Course::Open.where( Course::Open.arel_table[:created_at].gt(Date.today) ).count} aujourd'hui
+      %div et #{Course::Open.where( Course::Open.arel_table[:created_at].gt(Date.today- 7.days) ).count} les 7 derniers jours
 
   .inline-block.one-quarter.push--bottom.v-middle.push--sides
     .white-box.soft-half.text--center

@@ -33,11 +33,11 @@ class Price < ActiveRecord::Base
   }
 
   # BookTickets
-  scope :book_tickets      , -> { where{type == 'Price::BookTicket'} }
+  scope :book_tickets      , -> { where( type: 'Price::BookTicket' ) }
   # Retrieve individual courses
-  scope :individual        , -> { where{ number == 1} }
+  scope :individual        , -> { where( number: 1 ) }
   # Retrieve actual book tickets
-  scope :multiple_only     , -> { where{ number > 1} }
+  scope :multiple_only     , -> { where( Price.arel_table[:number].gt(1) ) }
 
   # BookTickets
   scope :subscriptions     , -> { where(type: 'Price::Subscription') }

@@ -7,12 +7,14 @@ class CitySubjectInfo < ActiveRecord::Base
 
 
   def self.load(_city_id, _subject_id)
-    city_subject_info = CitySubjectInfo.where{(city_id == _city_id) & (subject_id == _subject_id)}.first
+    city_subject_info = CitySubjectInfo.where( CitySubjectInfo.arel_table[:city_id].eq(_city_id).and(
+                                               CitySubjectInfo.arel_table[:subject_id].eq(_subject_id)) ).first
     if city_subject_info.nil?
       subject = Subject.find(_subject_id)
       if subject.parent
         _subject_id = subject.parent.id
-        city_subject_info = CitySubjectInfo.where{(city_id == _city_id) & (subject_id == _subject_id)}.first
+        city_subject_info = CitySubjectInfo.where( CitySubjectInfo.arel_table[:city_id].eq(_city_id).and(
+                                                   CitySubjectInfo.arel_table[:subject_id].eq(_subject_id)) ).first
       end
     end
     city_subject_info

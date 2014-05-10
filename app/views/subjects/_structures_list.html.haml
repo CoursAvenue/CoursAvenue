@@ -18,7 +18,7 @@
       #structures-map.google-map.google-map--large
     .grid__item.two-fifths>
       - @structures[0..5].each do |structure|
-        - comment = structure.comments.where{(title != nil) & (title != '')}.first
+        - comment = structure.comments.where( Comment.arel_table[:title].not_eq(nil).and(Comment.arel_table[:title].not_eq('')) ).first
         - if comment
           = render partial: 'structures/structure_with_comment', locals: {structure: structure, comment: comment}
       = link_to 'Voir les autres profils', subject_structures_path(@subject, address_name: @city.try(:name), latitude: @city.try(:latitude), longitude: @city.try(:longitude)), class: 'btn btn--full btn--large', target: '_blank'

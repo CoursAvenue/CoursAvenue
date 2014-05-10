@@ -21,8 +21,8 @@ module FilteredSearchProvider
     else
       # Little hack to determine if the name is equal a subject
       _name = params[:name]
-      if _name.present? and Subject.where{name =~ _name}.any?
-        Subject.where{name =~ _name}.first
+      if _name.present? and Subject.where( Subject.arel_table[:name].matches(_name) ).any?
+        Subject.where( Subject.arel_table[:name].matches(_name) ).first
       end
     end
   end

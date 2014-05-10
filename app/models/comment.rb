@@ -144,9 +144,10 @@ class Comment < ActiveRecord::Base
     if self.structure and self.email
       _structure_id = self.structure.id
       _email        = self.email
-      user          = User.where{email == _email}.first
+      user          = User.where( email: _email ).first
       _user_id      = user.id if user
-      if _user_id and CommentNotification.where{(structure_id == _structure_id) & (user_id == _user_id)}.count > 0
+      if _user_id and CommentNotification.where( CommentNotification.arel_table[:structure_id].eq(_structure_id).and(
+                                                 CommentNotification.arel_table[:user_id].eq(_user_id))).count > 0
         self.status = 'accepted'
       end
     end
@@ -170,7 +171,7 @@ class Comment < ActiveRecord::Base
   # @return nil
   def create_user
     user_email = email
-    if (user = User.where{email == user_email}.first).nil?
+    if (user = User.where( email: user_email ).first).nil?
       user = User.new email: email
       user.first_name = author_name.split(' ')[0..author_name.split(' ').length - 2].join(' ')
       user.last_name  = author_name.split(' ').last        if self.author_name.split(' ').length > 1
@@ -210,7 +211,9 @@ class Comment < ActiveRecord::Base
   def doesnt_exist_yet
     _structure_id = self.commentable_id
     _email        = self.email
-    if Comment.where{(commentable_id == _structure_id) & (email == _email) & (created_at > 2.months.ago)}.any?
+    if Comment.where( Comment.arel_table[:commentable_id].eq(_structure_id).and(
+                      Comment.arel_table[:email].eq(_email).and(
+                      Comment.arel_table[:created_at].gt(2.months.ago))) ).any?
       self.errors.add :email, I18n.t('comments.errors.already_posted')
     end
   end

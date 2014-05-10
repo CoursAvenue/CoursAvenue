@@ -50,10 +50,10 @@ class Participation < ActiveRecord::Base
   # Scopes                                                             #
   ######################################################################
   default_scope               -> { order('created_at ASC') }
-  scope :waiting_list       , -> { where { waiting_list == true } }
-  scope :not_in_waiting_list, -> { where { waiting_list == false } }
-  scope :canceled           , -> { where { canceled_at != nil } }
-  scope :not_canceled       , -> { where { canceled_at == nil } }
+  scope :waiting_list       , -> { where( waiting_list: true ) }
+  scope :not_in_waiting_list, -> { where( waiting_list: false ) }
+  scope :canceled           , -> { where.not(canceled_at: nil ) }
+  scope :not_canceled       , -> { where( canceled_at: nil ) }
 
   ######################################################################
   # Email alerts                                                       #

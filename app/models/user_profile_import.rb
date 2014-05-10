@@ -60,7 +60,8 @@ class UserProfileImport < ActiveRecord::Base
       if row['email'].present?
         row['email'] = strip_noise(row['email'])
         _structure_id = self.structure_id
-        user_profile = UserProfile.where{(structure_id == _structure_id) && (email == row['email'])}.first || UserProfile.new
+        user_profile = UserProfile.where( UserProfile.arel_table[:structure_id].eq(_structure_id).and(
+                                          UserProfile.arel_table[:email].eq(row['email'])) ).first || UserProfile.new
       else
         user_profile = UserProfile.new
       end

@@ -15,10 +15,10 @@ class Pro::ParticipationsController < Pro::ProController
     Participation.find_each do |participation|
       @participations_per_hour[participation.created_at.hour] += 1
     end
-    Participation.not_canceled.not_in_waiting_list.where{created_at > Date.parse('2014/03/03')}.group_by{|p| p.created_at.to_date}.each do |date, participations|
+    Participation.not_canceled.not_in_waiting_list.where( Participation.arel_table[:created_at].gt(Date.parse('2014/03/03')) ).group_by{|p| p.created_at.to_date}.each do |date, participations|
       @participations_graph[date] = participations.map(&:size).reduce(&:+)
     end
-    Participation.canceled.where{created_at > Date.parse('2014/03/03')}.group_by{|p| p.created_at.to_date}.each do |date, participations|
+    Participation.canceled.where( Participation.arel_table[:created_at].gt(Date.parse('2014/03/03')) ).group_by{|p| p.created_at.to_date}.each do |date, participations|
       @canceled_participations_graph[date] = participations.map(&:size).reduce(&:+)
     end
     @participations_cumul = {}

@@ -10,7 +10,7 @@ class Pro::UsersController < Pro::ProController
     if params[:with_comments]
       @users = User.active.joins { comments }.where { comments.user_id == users.id }.order('updated_at DESC, created_at DESC').limit(100)
     elsif params[:inactive]
-      @users = User.active.where{confirmed_at == nil}.order('updated_at DESC, created_at DESC')
+      @users = User.active.where( confirmed_at: nil ).order('updated_at DESC, created_at DESC')
     else
       @users = User.active.order('updated_at DESC, created_at DESC').limit(100)
     end
@@ -19,7 +19,7 @@ class Pro::UsersController < Pro::ProController
       @users_per_hour[user.created_at.hour] += 1
     end
 
-    @users_graph = User.where{created_at > 2.months.ago}.active.count(order: "DATE(created_at) ASC", group: ["DATE(created_at)"])
+    @users_graph = User.where(User.arel_table[:created_at].gt(2.months.ago) ).active.count(order: "DATE(created_at) ASC", group: ["DATE(created_at)"])
     dates = (1.month.ago.to_date..Date.today).step
     @users_cumul = {}
     dates.each do |date|

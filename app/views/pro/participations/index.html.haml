@@ -6,17 +6,17 @@
   .inline-block.one-quarter.push--bottom.v-middle.soft--sides>
     .white-box.soft-half.text--center
       %h3.flush= "#{Participation.not_canceled.not_in_waiting_list.all.map(&:size).reduce(&:+)} inscriptions"
-      %h6.flush dont #{Participation.not_canceled.not_in_waiting_list.where{created_at > Date.today}.map(&:size).reduce(&:+)} aujourd'hui
+      %h6.flush dont #{Participation.not_canceled.not_in_waiting_list.where( Participation.arel_table[:created_at].gt(Date.today) ).map(&:size).reduce(&:+)} aujourd'hui
 
   .inline-block.one-quarter.push--bottom.v-middle.soft--sides>
     .white-box.soft-half.text--center
       %h3.flush= "#{Participation.not_canceled.waiting_list.all.map(&:size).reduce(&:+)} listes d'attente"
-      %h6.flush dont #{Participation.not_canceled.waiting_list.where{created_at > Date.today}.map(&:size).reduce(&:+)} aujourd'hui
+      %h6.flush dont #{Participation.not_canceled.waiting_list.where( Participation.arel_table[:created_at].gt(Date.today) ).map(&:size).reduce(&:+)} aujourd'hui
 
   .inline-block.one-quarter.push--bottom.v-middle.soft--sides>
     .white-box.soft-half.text--center
       %h3.flush= "#{Participation.canceled.count} annulations"
-      %h6.flush dont #{Participation.canceled.where{created_at > Date.today}.count} aujourd'hui
+      %h6.flush dont #{Participation.canceled.where( Participation.arel_table[:created_at].gt(Date.today) ).count} aujourd'hui
 
   .inline-block.one-quarter.push--bottom.v-middle.soft--sides>
     .white-box.soft-half.text--center

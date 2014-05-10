@@ -8,8 +8,8 @@ class AdminAbility
       elsif !admin.confirmed?
         can :read, admin.structure
         can :read, admin.structure.places
-        can :read, admin.structure.courses.where{active == true}
-        can :manage, admin.structure.courses.where{active == false}
+        can :read, admin.structure.courses.where( active: true )
+        can :manage, admin.structure.courses.where( active: false )
         can :manage, admin
       else
         can :manage, admin.structure
