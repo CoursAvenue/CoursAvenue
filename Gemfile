@@ -178,10 +178,10 @@ gem 'roo'                   , '~>1.13.2'
 gem 'rack-utf8_sanitizer',   '~> 1.1.0'
 
 group :production, :staging do
-  gem 'execjs'
-  gem 'rails_12factor'
+  gem 'execjs'            , '~>2.0.2'
+  gem 'rails_12factor'    , '~> 0.0.2'
   # Sync assets to S3 and CloudFront
-  gem 'asset_sync'                , '~>1.0.0'
+  gem 'asset_sync'        , '~>1.0.0'
 end
 
 group :test do
