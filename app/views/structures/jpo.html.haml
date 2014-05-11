@@ -55,9 +55,7 @@
           %i{data: { placement: 'bottom', behavior: 'tooltip', title: subject_course_names }}= truncate(subject_course_names, length: 190)
 
 
-    = render partial: 'structures/map_and_gallery', locals: {structure: @structure, places: @places, medias: @medias}
-
-    = render partial: 'structures/comments_headband', locals: {structure: @structure}
+    = render partial: 'structures/map_and_gallery', locals: { structure: @structure, places: @places, medias: @medias }
 
     %ul.tabs
       %li.active

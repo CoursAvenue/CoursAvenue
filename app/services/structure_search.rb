@@ -99,13 +99,13 @@ class StructureSearch
     @structures = @structures.flatten
     if @structures.length < limit
       @structures << StructureSearch.search({lat: structure.latitude,
-                                            lng: structure.longitude,
-                                            without_id: structure.id,
-                                            radius: 500,
-                                            nb_comments: 4,
-                                            sort: 'rating_desc',
-                                            has_logo: true,
-                                            per_page: (limit - @structures.length)
+                                             lng: structure.longitude,
+                                             without_id: structure.id,
+                                             radius: 500,
+                                             nb_comments: 4,
+                                             sort: 'rating_desc',
+                                             has_logo: true,
+                                             per_page: (limit - @structures.length)
                                           }).results
     end
     @structures = @structures.flatten
