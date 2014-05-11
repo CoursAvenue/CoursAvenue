@@ -1,11 +1,10 @@
-.bg-cover {
-    @include background-size(cover);
+.bg-contain, .bg-cover {
     background-position: center;
+    background-repeat: no-repeat;
 }
-.bg-contain {
-    @include background-size(contain);
-    background-position: center;
-}
+.bg-cover   { @include background-size(cover); }
+.bg-contain { @include background-size(contain); }
+
 .icon-question-sign {
     cursor: pointer;
 }
