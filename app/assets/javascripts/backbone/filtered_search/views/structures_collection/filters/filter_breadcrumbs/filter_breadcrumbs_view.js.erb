@@ -21,9 +21,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters.FilterBreadcrumbs', fu
         SUBJECT_SLUG['cuisine-vins']                    = 'Cuisine & Vins';
         SUBJECT_SLUG['photo-video']                     = 'Photo & Vidéo';
         SUBJECT_SLUG['deco-mode-bricolage']             = 'Déco, Mode & Bricolage';
-    // <% Subject.stars.each do |subject| %>
-    //     SUBJECT_SLUG['<%= subject.slug %>'] = '<%= subject.name %>';
-    // <% end %>
 
     Module.FilterBreadcrumbsView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'filter_breadcrumbs_view',
