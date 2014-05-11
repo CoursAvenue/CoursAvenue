@@ -8,7 +8,8 @@ class ReservationsController < ApplicationController
   def create
     _reservable_type = params[:reservation][:reservable_type]
     _reservable_id   = params[:reservation][:reservable_id]
-    if current_user and current_user.reservations.where { (reservable_type == _reservable_type) & (reservable_id == _reservable_id) }.empty?
+    if current_user and current_user.reservations.where( Reservation.arel_table[:reservable_type].eq(_reservable_type).and(
+                                                         Reservation.arel_table[:reservable_id].eq(_reservable_id)) ).empty?
       @reservable       = find_reservable
       @reservation      = @reservable.reservations.build params[:reservation]
       @reservation.user = current_user

@@ -96,7 +96,7 @@ class UsersController < InheritedResources::Base
         marker.lng structure.longitude
       end
     else
-      @structure_locations = Gmaps4rails.build_markers(City.where { zip_code == '75000' }.first) do |city, marker|
+      @structure_locations = Gmaps4rails.build_markers(City.where( zip_code: '75000' ).first) do |city, marker|
         marker.lat city.latitude
         marker.lng city.longitude
       end

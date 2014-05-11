@@ -5,7 +5,7 @@ class Pro::CitiesController < Pro::ProController
 
   def zip_code_search
     term = params[:term]
-    @cities = City.where { zip_code =~ term }.limit(20)
+    @cities = City.where( City.arel_table[:zip_code].matches(term) ).limit(20)
 
     respond_to do |format|
       format.json { render json: @cities }
