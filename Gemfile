@@ -1,7 +1,7 @@
 # encoding: utf-8
 source 'https://rubygems.org'
 
-ruby '2.0.0'
+ruby '2.1.2'
 
 gem 'rails', '4.1.1'
 
@@ -175,7 +175,7 @@ gem 'roo'                   , '~>1.13.2'
 
 # Rack::UTF8Sanitizer is a Rack middleware which cleans up invalid UTF8 characters in request URI and headers.
 # https://github.com/whitequark/rack-utf8_sanitizer
-gem 'rack-utf8_sanitizer'
+gem 'rack-utf8_sanitizer',   '~> 1.1.0'
 
 group :production, :staging do
   gem 'execjs'
@@ -212,7 +212,7 @@ group :development do
 end
 
 group :development, :test do
-  gem 'debugger' # this is causing problems for Andre
+  # gem 'debugger', '~>1.6.6' # this is causing problems for Andre
   # Permits to travel in the past
   gem 'delorean'
   gem 'dotenv-rails'

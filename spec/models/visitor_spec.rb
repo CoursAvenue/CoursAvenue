@@ -33,9 +33,9 @@ describe Visitor do
 
   def address_name
     {
-      "Paris" => 2,
-      "Nice" => 2,
-      "Iles" => 3
+      "Paris" => '2',
+      "Nice" => '2',
+      "Iles" => '3'
     }
   end
 end
