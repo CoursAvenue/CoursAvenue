@@ -72,7 +72,7 @@
                 %strong= l(@structure.main_contact.last_sign_in_at, format: :date).capitalize
 
       .panel.push--bottom
-        .panel__header.soft-half.text--center
+        .panel__header.soft-half
           %h5.flush Suivez l'actualité et recevez des offres exclusives
         .panel__body.soft
           - if current_user and current_user.follows?(@structure)
