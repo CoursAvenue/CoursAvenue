@@ -3,6 +3,7 @@ class Pro::Structures::AdminsController < Pro::ProController
   layout 'admin'
 
   before_action :retrieve_structure
+  before_action :authenticate_pro_admin!
 
   def show
     @structure = Structure.find params[:structure_id]
