@@ -22,7 +22,9 @@ class ::Admin < ActiveRecord::Base
                   :phone_number, :mobile_phone_number,
                   :management_software_used,
                   :structure_id,
-                  :email_opt_in
+                  :email_opt_in,
+                  :student_action_email_opt_in, :newsletter_email_opt_in,
+                  :monday_email_opt_in, :thursday_email_opt_in, :jpo_email_opt_in
 
   store_accessor :email_opt_in_status, :student_action_email_opt_in, :newsletter_email_opt_in,
                                        :monday_email_opt_in, :thursday_email_opt_in, :jpo_email_opt_in
