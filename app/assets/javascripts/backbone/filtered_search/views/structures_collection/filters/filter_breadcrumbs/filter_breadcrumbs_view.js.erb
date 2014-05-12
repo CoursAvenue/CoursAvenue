@@ -2,8 +2,14 @@
 FilteredSearch.module('Views.StructuresCollection.Filters.FilterBreadcrumbs', function(Module, App, Backbone, Marionette, $, _) {
 
     var LEVEL_IDS_NAME = {};
+    <% Level.all.each do |level| %>
+        LEVEL_IDS_NAME[<%= level.id %>] = '<%= I18n.t(level.name) %>';
+    <% end %>
 
     var AUDIENCE_IDS_NAME = {};
+    <% Audience.all.each do |audience| %>
+        AUDIENCE_IDS_NAME[<%= audience.id %>] = '<%= I18n.t(audience.name) %>';
+    <% end %>
 
     var SUBJECT_SLUG = {};
         SUBJECT_SLUG['danse']                           = 'Danse';

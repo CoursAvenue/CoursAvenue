@@ -11,8 +11,8 @@ class Teacher < ActiveRecord::Base
   attr_reader :delete_image
   attr_accessible :name, :description, :image, :structure_id
   has_attached_file :image,
-                    styles: { normal: '150x' },
-                    default_url: '/assets/icons/avatar.png'
+                     styles: { normal: '150x' },
+                     default_url: '/assets/icons/avatar.png'
 
   ######################################################################
   # Validations                                                        #
