@@ -2,6 +2,9 @@
 class Pro::Structures::AdminsController < Pro::ProController
   layout 'admin'
 
+  before_action :authenticate_pro_admin!
+  load_and_authorize_resource :structure, find_by: :slug
+
   before_action :retrieve_structure
 
   def show
@@ -43,6 +46,7 @@ class Pro::Structures::AdminsController < Pro::ProController
   end
 
   private
+
   def retrieve_structure
     @structure = ::Structure.friendly.find(params[:structure_id])
   end
