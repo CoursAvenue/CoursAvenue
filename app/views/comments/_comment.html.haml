@@ -91,13 +91,18 @@
                 Motif de suppression :
                 %strong= t(comment.deletion_reason)
             - if comment.user
-              = link_to new_pro_structure_message_path(comment.structure, return_to: request.fullpath, message: { subject: "Merci beaucoup pour ta recommandation", recipients: [comment.user.user_profile_for(comment.structure).id] }), class: 'btn btn--small btn--blue push-half--right fancybox.ajax', data: { behavior: 'modal', width: '780' }, title: "Réponse au message de #{comment.author_name}", onclick: "ga('send', 'event', 'Answer to student', 'click')" do
+              = link_to new_pro_structure_message_path(comment.structure, return_to: request.fullpath, message: { subject: "Merci beaucoup pour ta recommandation", recipients: [comment.user.user_profile_for(comment.structure).id] }), class: 'btn btn--small btn--blue fancybox.ajax', data: { behavior: 'modal', width: '780' }, title: "Réponse au message de #{comment.author_name}", onclick: "ga('send', 'event', 'Answer to student', 'click')" do
                 %i.fa.fa-envelope.v-middle.soft-half--right
-                %span.v-middle Répondre
+                %span.v-middle Envoyer un message privé
+
+            -# = link_to new_pro_structure_message_path(comment.structure, return_to: request.fullpath, message: { subject: "Merci beaucoup pour ta recommandation", recipients: [comment.user.user_profile_for(comment.structure).id] }), class: 'btn btn--small btn--blue fancybox.ajax', data: { behavior: 'modal', width: '780' }, title: "Réponse au message de #{comment.author_name}", onclick: "ga('send', 'event', 'Answer to student', 'click')" do
+            -#   %i.fa.fa-envelope.v-middle.soft-half--right
+            -#   %span.v-middle Ajouter un commentaire public
             - if comment.persisted? and !comment.waiting_for_deletion?
-              .push-half--right.inline-block.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
-                %a.btn.btn--small.btn--orange{href: 'javascript:void(0)'}
-                  Demande de suppression
+              .inline-block.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
+                %a.btn.btn--small{href: 'javascript:void(0)'}
+                  %i.fa.fa-flag.v-middle.soft-half--right
+                  Signaler cet avis
                   %i.fa.fa-chevron-down.soft-half--left
                 %ul.drop-down__el.text--left
                   - t('comments.deletion_reasons').each do |i18n_key, traducted_string|
