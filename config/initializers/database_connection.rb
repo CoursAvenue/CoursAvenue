@@ -1,4 +1,5 @@
 # Doesn't work on heroku since upgrade to Rails 4.1
+# Code taken from heroku's article [Concurrency and Database Connections in Ruby with ActiveRecord](https://devcenter.heroku.com/articles/concurrency-and-database-connections#connection-pool)
 
 # Rails.application.config.after_initialize do
 #   ActiveRecord::Base.connection_pool.disconnect!
