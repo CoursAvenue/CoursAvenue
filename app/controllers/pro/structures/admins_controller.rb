@@ -6,6 +6,7 @@ class Pro::Structures::AdminsController < Pro::ProController
   load_and_authorize_resource :structure, find_by: :slug
 
   before_action :retrieve_structure
+  before_action :authenticate_pro_admin!
 
   def show
     @structure = Structure.find params[:structure_id]
