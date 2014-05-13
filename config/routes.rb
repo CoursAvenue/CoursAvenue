@@ -163,6 +163,11 @@ CoursAvenue::Application.routes.draw do
         resources :conversations, controller: 'structures/conversations'
         resources :statistics   , controller: 'structures/statistics', only: [:index]
 
+        resources :price_groups, path: 'tarifs', controller: 'structures/price_groups' do
+          member do
+            get :ask_for_deletion
+          end
+        end
         resources :courses, path: 'cours', controller: 'structures/courses' do
           member do
             post 'duplicate'

@@ -34,4 +34,10 @@ module PricesHelper
       ('%.2f' % amount).gsub('.', ',').gsub(',00', '')
     end
   end
+
+  # @duration: Duration in minute
+  # Return a readable duration like 1h30
+  def readable_duration duration
+    "#{(duration / 60.0).floor}h#{duration % 60}"
+  end
 end

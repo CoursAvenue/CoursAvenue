@@ -2,14 +2,15 @@
     $Input
 \*------------------------------------*/
 
-[type="text"], [type="password"], [type="search"], [type="email"], [type="url"], [type="tel"], textarea, input[type="radio"], input[type="checkbox"] {
+[type="text"], [type="password"], [type="search"], [type="email"], [type="url"], [type="tel"], textarea, input[type="radio"], input[type="checkbox"], select {
     @include transition(border-color 0.3s, box-shadow 0.3s);
 }
 input[type="search"] {
     @include box-sizing(border-box);
 }
 input[disabled], [type="text"][disabled], [type="password"][disabled], [type="search"][disabled], [type="email"][disabled], [type="url"][disabled], [type="tel"][disabled], textarea[disabled] {
-    color: #888;
+    color     : #888;
+    background: #EEE;
 }
 input[type=search] {
     -webkit-appearance: none;
@@ -72,11 +73,16 @@ input, textarea {
         padding-top: 0;
     }
 }
-textarea:focus, input:focus {
+textarea:focus, input:focus, select:focus {
     border-color: opacify($blue-green, 0.8);
     outline     : none;
-    // @include box-shadow(0 0 4px opacify($blue-green, 0.8),0 0 0 #000);
     @include box-shadow(inset 0 1px 1px 0 rgba(0, 0, 0, 0.08),0 0 2px 2px #CEEAF6);
+}
+
+.input--premium {
+    border-color: opacify($yellow, 0.8);
+    outline     : none;
+    @include box-shadow(inset 0 1px 1px 0 rgba(0, 0, 0, 0.08),0 0 2px 2px #F6F3CE);
 }
 
 .input-with-icon {

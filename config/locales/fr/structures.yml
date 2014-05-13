@@ -96,7 +96,8 @@ fr:
         comments: Avis
         messages: Messages
         dashboard: Tableau de bord
-        courses: Mes cours
+        courses: 'Cours & Stages'
+        price_groups: Tarifs
         jpo: Portes Ouvertes
         medias: "Photos & vidéos"
         crm: Répertoire

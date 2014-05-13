@@ -83,7 +83,6 @@ class Structure < ActiveRecord::Base
   has_many :courses                   , dependent: :destroy
   has_many :plannings                 , through: :courses
   has_many :cities                    , through: :places
-  has_many :prices                    , through: :courses
   has_many :participations            , through: :plannings
   has_many :reservations,         as: :reservable
   has_many :comment_notifications     , dependent: :destroy
@@ -91,6 +90,9 @@ class Structure < ActiveRecord::Base
   has_many :statistics                , dependent: :destroy
   has_many :followings
   has_many :followers, through: :followings, source: :user
+
+  has_many :price_groups              , dependent: :destroy
+  has_many :prices                    , through: :price_group
 
   define_has_many_for :funding_type
 
@@ -515,14 +517,16 @@ class Structure < ActiveRecord::Base
     self.plannings_count          = self.plannings.future.count
     self.gives_group_courses      = self.courses.select{|course| !course.is_individual? }.any?
     self.gives_individual_courses = self.courses.select(&:is_individual?).any?
-    self.has_promotion            = self.prices.select{|p| p.promo_amount.present?}.any?
-    self.has_free_trial_course    = self.prices.trials.where(Price.arel_table[:amount].eq(nil).or(Price.arel_table[:amount].eq(0))).any?
+    # TODO
+    # self.has_promotion            = self.prices.select{|p| p.promo_amount.present?}.any?
+    # self.has_free_trial_course    = self.prices.trials.where(Price.arel_table[:amount].eq(nil).or(Price.arel_table[:amount].eq(0))).any?
     self.course_names             = self.courses.map(&:name).uniq.join(', ')
     self.last_comment_title       = self.comments.accepted.first.title if self.comments.accepted.any?
     # Store level and audiences ids as coma separated string values: "1,3,5"
     self.level_ids                = self.plannings.collect(&:level_ids).flatten.sort.uniq.join(',')
     self.audience_ids             = self.plannings.collect(&:audience_ids).flatten.sort.uniq.join(',')
-    self.set_min_and_max_price
+    # TODO
+    # self.set_min_and_max_price
     compute_response_rate
     # update_jpo_meta_datas
     self.save(validate: false)

@@ -1,0 +1,76 @@
+.panel
+  .panel__header.soft
+    .delta.flush.inline-block.v-middle
+      Grille tarifaire :
+      %strong= @price_group.name
+  .panel__body.soft--ends
+    .soft--sides>
+      %table
+        %thead
+          %tr
+            %th.four-twelfths
+            %th.two-twelfths.text--center Prix normal
+            %th.two-twelfths.text--center Offre découverte
+            %th.four-twelfths Info
+        %tbody
+          - @price_group.book_tickets.each do |price|
+            %tr
+              %td= "#{price.number} cours de #{readable_duration(price.duration)}"
+              %td.text--center= "#{readable_amount(price.amount)}€"
+              %td.text--center.premium-box= "#{readable_amount(price.promo_amount)}€"
+              %td= price.info
+
+          - @price_group.subscriptions.each do |price|
+            %tr
+              %td= t(price.libelle)
+              %td.text--center= "#{readable_amount(price.amount)}€"
+              %td.text--center.premium-box= "#{readable_amount(price.promo_amount)}€"
+              %td= price.info
+
+          - @trial = @price_group.trial
+          - if @trial
+            %tr.premium-box
+              %td Cours d'essai
+              %td.text--center
+                - if @trial.free?
+                  Gratuit
+                - else
+                  = @trial.amount
+              %td
+
+          - @price_group.premium_offers.each do |price|
+            %tr.premium-box
+              %td= t(price.libelle)
+              %td.text--center= "#{readable_amount(price.amount)}€"
+              %td.text--center= "#{readable_amount(price.promo_amount)}€"
+              %td= price.info
+
+
+          - @price_group.discounts.each do |price|
+            %tr.premium-box
+              %td= t(price.libelle)
+              %td.text--center= "#{readable_amount(price.amount)}€"
+              %td.text--center= "#{readable_amount(price.promo_amount)}€"
+              %td= price.info
+
+          - @price_group.registrations.each do |price|
+            %tr
+              %td Adhésion annuelle
+              %td.text--center
+                - if price.free?
+                  Gratuite
+                - else
+                  = "#{readable_amount(price.amount)}€"
+              %td
+              %td= price.info
+          - if @price_group.details.present?
+            %tr
+              %td.v-top Autres infos
+              %td.text--left{ colspan: 3 }
+                = simple_format @price_group.details
+
+      .grid
+        .grid__item.one-fifth>
+          %a.btn.btn--full{ onclick: '$.fancybox.close()' } Retour
+        .grid__item.four-fifths>
+          = link_to 'Modifier', edit_pro_structure_price_group_path(@structure, @price_group), class: 'btn btn--full btn--orange fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0' }

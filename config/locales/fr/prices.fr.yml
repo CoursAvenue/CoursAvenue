@@ -11,6 +11,8 @@ fr:
     contact_structure: Contacter l'établissement
     individual_course: 1 cours
     registration_fees: Frais d'adhésion
+    errors:
+      promo_amount_less_than_promo: doit être inférieur au prix de base
     filter:
       per_course: Séances individuelles
       book_ticket: Carnet
@@ -40,3 +42,7 @@ fr:
       training: Prix du stage
       trial_lesson: Cours d'essai
       other: Autres
+    premium_offer:
+      discount: Réduction
+      discover: Tarif découverte
+      other: Autre offre

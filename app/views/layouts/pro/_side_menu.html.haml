@@ -26,8 +26,9 @@
       = pro_side_menu_link 'places'       , pro_structure_places_path(@structure)       , current: current_tab,   icon: 'fa fa-map-marker'
       = pro_side_menu_link 'contact'      , edit_contact_pro_structure_path(@structure) , current: current_tab,   icon: 'fa fa-phone'
       = pro_side_menu_link 'medias'       , pro_structure_medias_path(@structure)       , current: current_tab,   icon: 'fa fa-youtube-play'
-      %li.subtitle PLANNINGS & OFFRES
+      %li.subtitle PLANNINGS & TARIFS
       = pro_side_menu_link 'courses'      , pro_structure_courses_path(@structure)      , current: current_tab,   icon: 'fa fa-list'
+      = pro_side_menu_link 'price_groups' , pro_structure_price_groups_path(@structure) , current: current_tab,   icon: 'fa fa-eur'
       - if @structure.parisian?
         = pro_side_menu_link 'jpo'        , pro_structure_course_opens_path(@structure) , current: current_tab,   icon: 'fa fa-calendar'
       %li.subtitle INTERACTIONS

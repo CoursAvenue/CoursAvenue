@@ -18,7 +18,8 @@ class Course < ActiveRecord::Base
   has_many :plannings           , dependent: :destroy
   has_many :teachers            , -> { uniq }, through: :plannings
   has_many :places              , -> { uniq }, through: :plannings
-  has_many :prices              , dependent: :destroy
+  belongs_to :price_group       , dependent: :destroy
+  has_many :prices              , through: :price_group
   has_many :reservation_loggers , dependent: :destroy
 
   has_and_belongs_to_many :subjects, -> { uniq }
@@ -65,12 +66,7 @@ class Course < ActiveRecord::Base
                   :nb_participants,
                   :no_class_during_holidays,
                   :start_date, :end_date,
-                  :subject_ids, :level_ids, :audience_ids, :place_id, :active,
-                  :book_tickets_attributes, :prices_attributes, :registration_fees_attributes
-
-  accepts_nested_attributes_for :prices,
-                                 reject_if: :reject_price,
-                                 allow_destroy: true
+                  :subject_ids, :level_ids, :audience_ids, :place_id, :active
 
   # ------------------------------------------------------------------------------------ Search attributes
   searchable do
@@ -219,26 +215,6 @@ class Course < ActiveRecord::Base
     self.prices        = new_prices
     self.price_details = course.price_details
     self.save
-  end
-
-  def book_tickets
-    self.prices.select{|p| p.type == 'Price::BookTicket'}.sort_by(&:number)
-  end
-
-  def subscriptions
-    self.prices.select{|p| p.type == 'Price::Subscription'}.sort{|p1, p2| Price::Subscription::TYPES_ORDER[p1.libelle] <=> Price::Subscription::TYPES_ORDER[p2.libelle] }
-  end
-
-  def registrations
-    self.prices.select{|p| p.type == 'Price::Registration'}
-  end
-
-  def discounts
-    self.prices.select{|p| p.type == 'Price::Discount'}
-  end
-
-  def trial
-    self.prices.select{|p| p.type == 'Price::Trial'}.first
   end
 
   # Helper methods for place and locations
@@ -424,24 +400,6 @@ class Course < ActiveRecord::Base
       self.teaches_at_home = self.structure.teaches_at_home if self.structure
     end
   end
-
-  # Method for accepts_nested_attributes_for :prices
-  # Tells if the price is valid regarding attributes passed
-  # Check if the price is valid by checking its valid? method
-  # @param  attributes Automatically passed by Rails
-  #
-  # @return Boolean
-  def reject_price attributes
-    exists = attributes[:id].present?
-    # empty = (attributes[:amount].blank? and attributes[:promo_percentage].blank?)
-    _price = Price.new(attributes.merge(course: self))
-    price_is_valid  = _price.valid?
-    # Destroy if price exists and is not valid
-    attributes.merge!({:_destroy => 1}) if exists and !price_is_valid
-    # Reject if price does't not exist yet and is not valid
-    return (!exists and !price_is_valid)
-  end
-
 
   # Attributes used to create the slug for Friendly ID
   #

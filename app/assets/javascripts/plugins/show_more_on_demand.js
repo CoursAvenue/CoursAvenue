@@ -1,11 +1,11 @@
 /*
     Usage:
-    %div{data: {behavior: 'show-more-on-demand'}}
-        %div{data: {el: true, hidden: !item.persisted?}}
+    %div{data: { behavior: 'show-more-on-demand' } }
+        %div{ data: { el: true, hidden: !item.persisted? } }
             some content
-        %div{data: {el: true, hidden: !item.persisted?}}
+        %div{ data: { el: true, hidden: !item.persisted? } }
             some other content
-        %div{data: {trigger: true}} Add item
+        %div{ data: { trigger: true } } Add item
 
 *   Only one data-el that is hidden will be shown
 */

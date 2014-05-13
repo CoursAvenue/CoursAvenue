@@ -104,3 +104,8 @@
         border    : 1px solid $pane-border-color;
         border-top: none;
     }
+
+
+.premium-box {
+    background-color: transparentize($yellow, 0.5);
+}

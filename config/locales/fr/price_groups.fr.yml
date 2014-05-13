@@ -1,0 +1,28 @@
+fr:
+  activerecord:
+    models:
+      price_group: Grille tarifaire
+    attributes:
+      price_group:
+        name: Nom
+        price_details: Montant
+        price_details: Informations complémentaires
+
+  price_group:
+    wizard:
+      info: >
+        <p><strong>Des offres découvertes attrayantes</strong></p>
+        <p>La plupart de nos partenaires proposent des offres découvertes pour inciter de nouveaux élèves à venir découvrir leurs cours. C'est en effet le meilleur moyen d'optimiser votre taux de remplissage : proposez des cours d'essai gratuits ou des tarifs spéciaux pour recruter, tout au long de l'année, de nouveaux élèves prêts à être fidélisés.</p>
+        <p>Vos cours sont de qualité, et l'objectif n'est pas de les dévaloriser en les bradant. Au contraire, choisissez de communiquer sur les offres de votre choix et invitez les élèves à venir découvrir votre lieu, l'ambiance, le partage de votre savoir. C'est la meilleure méthode pour fidéliser les élèves sur le long terme et avoir un bon bouche à oreille.</p>
+        <p><strong>Réduction</strong> : indiquez votre réduction en pourcentage ou en euros (remise). Donnez le plus de détails sur l'offre pour éviter tout malentendu. Exemple : réduction de 25% pour le 2ème accompagnant inscrit au même cours (offre duo).</p>
+        <p><strong>Tarif découverte</strong> : indiquez le tarif spécial et détaillez ce qu'il inclut. Exemple : offre spéciale 29,90€ pour 5 cours de danse au choix parmi rock, salsa, orientale ou tango pour 1 personne.</p><p><strong>Autres offres</strong> : indiquez le tarif spécial et détaillez ce qu'il inclut. Exemple : 30€ offerts pour l'achat d'une carte de 10 cours, soit 150€ au lieu de 180€ (-17% d'économie).</p>
+      non_affected_courses: >
+        <p><strong>Affectez vos cours à vos grilles tarifaires<strong></p>
+        <p>Affectez une grille tarifaire à ces cours collectifs pour qu'ils deviennent visibles sur CoursAvenue. C'est un jeu d'enfant :
+        cliquez sur l'étiquette du cours et maintenez votre bouton enfoncé pour la glisser dans la grille tarifaire correspondante.</p>
+      premium_offers: >
+        <p><strong>Les offres découvertes attirent plus d'élèves</strong></p>
+        <p>Les profils qui proposent des offres découvertes (cours d'essai gratuit, tarif spécial pour un stage, etc.) ont 7 fois plus de
+        prises de contact. Et en moyenne, 2 élèves sur 10 venus par une offre découverte reviennent et souscrivent à un abonnement.</p>
+        <p>Pour rendre vos offres découvertes visibles à tous les utilisateurs CoursAvenue, souscrivez au profil Premium à partir de 29 € par mois.
+        Votre profil apparaîtra alors en tête de liste et vous recrutez facilement de nouveaux élèves à fidéliser.

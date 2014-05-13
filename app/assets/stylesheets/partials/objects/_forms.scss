@@ -37,6 +37,7 @@
     .error {
         padding    : 5px 10px !important;
         margin     : 0;
+        min-width  : 150px;
         margin-left: $label-width;
         @extend .alert--error;
     }

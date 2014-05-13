@@ -1,16 +1,18 @@
 class Price < ActiveRecord::Base
   acts_as_paranoid
-  belongs_to :course
 
+  ######################################################################
+  # Relations                                                          #
+  ######################################################################
+  belongs_to :price_group
+  has_one :structure, through: :price_group
+
+  ######################################################################
+  # Callbacs                                                           #
+  ######################################################################
   before_validation :update_nb_courses
 
-  validates :course, presence: true
-
-  attr_accessible :libelle, :amount, :promo_amount, :nb_courses, :info, :course, :number, :type, :duration, :promo_percentage
-
-  before_save :remove_zeros
-
-  has_one :structure, through: :course
+  attr_accessible :libelle, :amount, :promo_amount, :nb_courses, :info, :course, :number, :type, :duration, :promo_percentage, :price_group
 
   # All types
 
@@ -120,13 +122,15 @@ class Price < ActiveRecord::Base
     }
   end
 
-  private
-
-  def remove_zeros
-    if promo_amount == 0
-      promo_amount = nil
-    end
+  # Tell wether the price has to be rejected or not when saving
+  # By default, reject the price if the amount is nil, ie. the user removes the amout
+  # to delete it
+  # Can be overriden by a child model, eg. Discounts
+  def has_to_be_rejected?
+    self.amount.blank?
   end
+
+  private
 
   def update_nb_courses
     case libelle

@@ -1,0 +1,15 @@
+.panel
+  .panel__header.soft
+    .delta.line-height-normal
+      Suppression de la grille tarifaire :
+      %br
+      %strong= @price_group.name
+  .panel__body
+    .soft
+      %p
+        Attention, en supprimant cette grille tarifaire, tous les cours associés n'auront plus de tarif et ne seront donc plus visibles. Pour qu'ils apparaissent de nouveau sur CoursAvenue, affectez-leurs une nouvelle grille tarifaire.
+      .grid
+        .grid__item.one-third>
+          %a.btn.btn--full{ onclick: '$.fancybox.close()' } Annuler
+        .grid__item.two-thirds>
+          = link_to 'Supprimer', pro_structure_price_group_path(@structure, @price_group), method: :delete, class: 'btn btn--full btn--red'

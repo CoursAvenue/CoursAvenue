@@ -4,8 +4,8 @@ $(function() {
     global.initialize_fancy = function($elements) {
         // Warning !
         // Do not iterate over each elements beccause it will break thumbs
-        var width  = $elements.first().data('width') || 800;
-        var height = $elements.first().data('height') || 600;
+        var width      = $elements.first().data('width') || 800;
+        var height     = $elements.first().data('height') || 600;
         $elements.fancybox({ padding  : 0,
                              width   : width,
                              height  : height,
@@ -18,20 +18,22 @@ $(function() {
                                 overlay: {
                                   locked: false
                                 }
-                             }
+                            }
                          });
     };
     global.initialize_fancy($('[data-behavior="fancy"]'));
     global.modal_initializer = function modal_initializer () {
         $("[data-behavior=modal]").each(function() {
-            var width   = $(this).data('width') || 'auto';
-            var height  = $(this).data('height') || 'auto';
-            var padding = (typeof($(this).data('padding')) == 'undefined' ? '15' : $(this).data('padding'));
+            var $this       = $(this);
+            var width       = $this.data('width') || 'auto';
+            var height      = $this.data('height') || 'auto';
+            var padding     = (typeof($this.data('padding')) == 'undefined' ? '15' : $this.data('padding'));
+            var close_click =  (typeof($this.data('close-click')) == 'undefined' ? true : $this.data('close-click'));
             $(this).fancybox({
                     padding     : parseInt(padding),
                     openSpeed   : 300,
-                    maxWidth    : 900,
-                    maxHeight   : 900,
+                    maxWidth    : 1200,
+                    maxHeight   : 1200,
                     fitToView   : false,
                     width       : width,
                     height      : height,
@@ -51,7 +53,8 @@ $(function() {
                             position : 'top'
                         },
                         overlay: {
-                          locked: false
+                            locked: false,
+                            closeClick: close_click
                         }
                     }
             });

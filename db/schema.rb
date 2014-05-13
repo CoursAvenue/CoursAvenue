@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140510152827) do
+ActiveRecord::Schema.define(version: 20140512134554) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -202,6 +202,7 @@ ActiveRecord::Schema.define(version: 20140510152827) do
     t.text     "ca_follow_up"
     t.float    "common_price"
     t.boolean  "ok_nico",                    default: false
+    t.integer  "price_group_id"
   end
 
   add_index "courses", ["active"], name: "index_courses_on_active", using: :btree
@@ -491,12 +492,23 @@ ActiveRecord::Schema.define(version: 20140510152827) do
 
   add_index "plannings_users", ["planning_id", "user_id"], name: "index_plannings_users_on_planning_id_and_user_id", using: :btree
 
+  create_table "price_groups", force: true do |t|
+    t.string   "name"
+    t.string   "course_type"
+    t.text     "details"
+    t.boolean  "premium_visible"
+    t.integer  "structure_id"
+    t.time     "deleted_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "prices", force: true do |t|
     t.string   "libelle"
     t.decimal  "amount"
     t.integer  "course_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
     t.integer  "nb_courses"
     t.decimal  "promo_amount"
     t.time     "deleted_at"
@@ -505,6 +517,8 @@ ActiveRecord::Schema.define(version: 20140510152827) do
     t.integer  "number"
     t.decimal  "promo_percentage"
     t.integer  "duration"
+    t.integer  "price_group_id"
+    t.string   "promo_amount_type"
   end
 
   add_index "prices", ["type"], name: "index_prices_on_type", using: :btree
