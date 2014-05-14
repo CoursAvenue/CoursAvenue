@@ -3,6 +3,7 @@ class CreatePriceGroupForExistingCourses < ActiveRecord::Migration
     bar = ProgressBar.new Course.count
     Course.find_each do |course|
       bar.increment!
+      next if course.is_open?
       price_group        = PriceGroup.new structure: course.structure, name: course.name, course_type: course.type
       course_prices      = Price.where(course_id: course.id)
       price_group.prices = course_prices

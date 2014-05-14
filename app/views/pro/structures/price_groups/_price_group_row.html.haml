@@ -1,0 +1,24 @@
+%tr{ id: "price-group-#{price_group.id}" }
+  %td.epsilon
+    = link_to price_group.name, pro_structure_price_group_path(@structure, price_group), class: 'fancybox.ajax', data: { behavior: 'modal', width: '600', padding: '0' }
+  %td
+    - price_group.courses.each do |course|
+      .lbl
+        = course.name
+        %i.fa.fa-timess
+  %td.text--center.nowrap
+    - if price_group.has_premium_prices?
+      .price_group_status.lbl.lbl--chip.lbl--red.lbl--small.v-middle
+      %select.v-middle
+        %option{ value: 'visible',     selected: price_group.premium_visible? } Visible
+        %option{ value: 'not-visible', selected: !price_group.premium_visible? } Non visible
+    - else
+      Pas d'offre
+  %td.nowrap
+    = link_to edit_pro_structure_price_group_path(@structure, price_group), class: 'orange fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0', close_click: 'false' } do
+      %i.fa.fa-pencil
+      Modifier
+    \/
+    = link_to ask_for_deletion_pro_structure_price_group_path(@structure, price_group), class: 'red fancybox.ajax', data: { behavior: 'modal', width: '400', padding: '0' } do
+      %i.fa.fa-trash-o
+      Supprimer

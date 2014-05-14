@@ -72,14 +72,14 @@ class Pro::Structures::PriceGroupsController < Pro::ProController
     @price_group.destroy
     respond_to do |format|
       format.html { redirect_to pro_structure_price_groups_path(@structure), notice: 'La grille tarifaire a bien été supprimée' }
+      format.js
     end
   end
 
   private
 
   def retrieve_prices
-    @individual_courses = @price_group.book_tickets.reject { |b| b.number != 1 }
-    @book_tickets       = @price_group.book_tickets.reject { |b| b.number == 1 }
+    @book_tickets       = @price_group.book_tickets
     @discounts          = @price_group.discounts
     @subscriptions      = @price_group.subscriptions
     @registrations      = @price_group.registrations

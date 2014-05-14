@@ -1,5 +1,5 @@
 <% if @planning.persisted? %>
-    $('#course-planning-list-<%= @course.id %>').append('<%= escape_javascript(render partial: "pro/structures/courses/plannings/#{@course.underscore_name}_row", locals: { planning: @planning, course: @course }) %>');
+    $('#course-planning-list-<%= @course.id %> tbody').append('<%= escape_javascript(render partial: "pro/structures/courses/plannings/#{@course.underscore_name}_row", locals: { planning: @planning, course: @course }) %>');
     <%- # When saving a course, user can choose wether or not to add a planning after saving. %>
     <% if params[:add_planning] and params[:add_planning] == 'true' %>
         <% @planning = @course.plannings.build %>
