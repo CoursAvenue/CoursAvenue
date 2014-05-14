@@ -102,7 +102,7 @@ class Pro::Structures::CoursesController < Pro::ProController
   end
 
   def update
-    @course = Course.friendly.find params[:id]
+    @course = @structure.courses.friendly.find params[:id]
     respond_to do |format|
       if @course.update_attributes params[:course]
         format.html { redirect_to pro_structure_courses_path(@structure), notice: 'Le cours à bien été mis à jour' }
@@ -120,8 +120,10 @@ class Pro::Structures::CoursesController < Pro::ProController
     respond_to do |format|
       if @course.destroy
         format.html { redirect_to pro_structure_courses_path(@structure), notice: "Le cours a bien été supprimé" }
+        format.js
       else
         format.html { redirect_to pro_structure_courses_path(@structure), alert: "Une erreur s'est produite" }
+        format.js
       end
     end
   end

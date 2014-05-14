@@ -1,0 +1,23 @@
+- course    ||= planning.course
+- structure ||= course.structure
+%tr{ id: "planning-#{planning.id}" }
+  %td.nowrap
+    = training_dates planning
+  %td
+    = readable_time_slot planning.start_time, planning.end_time
+  %td= join_levels_text planning
+  %td= join_audiences planning
+  %td= planning.place.location.name
+
+  %td
+    - if planning.info.present?
+      .lbc-brand-icon{ data: { behavior: 'tooltip', 'original-title' => planning.info } }
+  %td.text--right
+    = link_to edit_pro_structure_course_planning_path(course.structure, course, planning), title: 'Modifier le créneau', data: { behavior: 'modal', width: '800', padding: '0' }, class: 'fancybox.ajax nowrap' do
+      %i.fa.fa-pencil
+      Modifier
+    \/
+    = link_to pro_structure_course_planning_path(course.structure, course, planning), method: 'delete', confirm: 'Êtes-vous bien sûr de supprimer ce planning ?', title: 'Supprimer le créneau', class: 'nowrap', remote: true do
+      %i.fa.fa-trash-o
+      Supprimer
+

@@ -8,7 +8,7 @@ class Course < ActiveRecord::Base
 
   # ------------------------------------------------------------------------------------ Model attributes and settings
   extend FriendlyId
-  friendly_id :friendly_name, use: [:slugged, :finders]
+  friendly_id :friendly_name, use: [:slugged, :finders, :history]
 
   belongs_to :structure, touch: true
 

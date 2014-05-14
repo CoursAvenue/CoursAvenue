@@ -1,12 +1,16 @@
 <% if @course.errors.any? %>
-    $.fancybox("<%= escape_javascript(render partial: 'pro/structures/courses/form') %>", { width: 700, maxWidth: 700, padding: 0 });
+    $.fancybox("<%= escape_javascript(render partial: 'pro/structures/courses/form') %>", { width: 700, minWidth: 700, padding: 0 });
 <%- # params[:live_form] is here to indicate if the form is updating info in live. If so, then we don't want to reload the page %>
 <% elsif !params.has_key?(:live_form) %>
     <%- # When saving a course, user can choose wether or not to add a planning after saving. %>
+    $("#course-<%= @course.id %>").replaceWith('<%= escape_javascript(render partial: 'pro/structures/courses/live_form', locals: { course: @course, structure: @structure }) %>')
+    GLOBAL.flash("Cours enregistré", 'success');
     <% if params[:add_planning] and params[:add_planning] == 'true' %>
-        $.fancybox('<%= escape_javascript(render partial: "pro/structures/courses/plannings/#{@course.underscore_name}_form") %>', { width: 800, maxWidth: 800, padding: 0 });
+        $.fancybox('<%= escape_javascript(render partial: "pro/structures/courses/plannings/form") %>', { width: 800, minWidth: 800, padding: 0 });
     <% else %>
-        window.location.href = "<%= pro_structure_courses_url(@structure) %>";
+        $.fancybox.close();
+        setTimeout(function() { $('#course-<%= @course.id %>').yellowFade(); }, 400);
     <% end %>
 <% end %>
 GLOBAL.reinitializePlugins();
+

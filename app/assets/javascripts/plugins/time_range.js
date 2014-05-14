@@ -61,15 +61,19 @@
         },
 
         updateDuration: function() {
+            if (!this.duration) { return; }
             var duration = 0
             duration += (parseInt(this.end_time_hour_select.val()) - parseInt(this.start_time_hour_select.val())) * 60;
             duration += parseInt(this.end_time_min_select.val()) - parseInt(this.start_time_min_select.val());
             this.duration.val(duration);
         },
+
         attachEvents: function() {
             this.start_time_hour_select.change(function(event) {
                 var start_hour_time = parseInt($(event.target).val());
-                this.end_time_hour_select.val(start_hour_time + 1)
+                if (start_hour_time >= parseInt(this.end_time_hour_select.val(), 10)) {
+                    this.end_time_hour_select.val(start_hour_time + 1)
+                }
                 this.updateDuration.call(this);
             }.bind(this));
             this.end_time_hour_select.change(this.updateDuration.bind(this));
