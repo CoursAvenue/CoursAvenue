@@ -1,5 +1,5 @@
 # encoding: utf-8
-class Pro::BookTicketsController < InheritedResources::Base# Pro::ProController
+class Pro::BookTicketsController < InheritedResources::Base
   before_action :authenticate_pro_admin!
 
   layout 'admin'
@@ -36,11 +36,13 @@ class Pro::BookTicketsController < InheritedResources::Base# Pro::ProController
   end
 
   private
+
   def load_prices
     @prices = @course.prices
   end
+
   def load_structure
-    @course    = Course.friendly.find(params[:course_lesson_id] || params[:course_workshop_id] || params[:course_training_id] || params[:course_id])
+    @course    = Course.friendly.find(params[:course_lesson_id] || params[:course_training_id] || params[:course_id])
     @structure = @course.structure
   end
 end

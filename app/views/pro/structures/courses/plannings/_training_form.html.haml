@@ -7,7 +7,7 @@
 = simple_form_for [:pro, @course, @planning], url: planning_url, html: { id: 'planning-form' } do |f|
   = f.error_notification
 
-  = render partial: 'place_input', locals: { f: f }
+  = render partial: 'pro/structures/courses/plannings/place_input', locals: { f: f }
 
   .input{data: {behavior: 'date-range', 'start-date '=> '#start-date', 'end-date '=> '#end-date' }}
     %label.required.control-label Dates

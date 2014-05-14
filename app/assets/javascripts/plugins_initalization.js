@@ -101,5 +101,8 @@ $(function() {
     global.initialize_callbacks.push(popover_initializer);
 
     // Initialize all callbacks
-    $.each(global.initialize_callbacks, function(i, func) { func(); });
+    GLOBAL.reinitializePlugins = function() {
+        $.each(global.initialize_callbacks, function(i, func) { func(); });
+    };
+    GLOBAL.reinitializePlugins();
 });

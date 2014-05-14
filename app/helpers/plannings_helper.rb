@@ -36,6 +36,8 @@ module PlanningsHelper
     end
   end
 
+  # @duration: Duration in minute
+  # Return a readable duration like 1h30
   def readable_duration time_in_minutes
     return nil if time_in_minutes.nil?
     _minutes = (time_in_minutes % 60)

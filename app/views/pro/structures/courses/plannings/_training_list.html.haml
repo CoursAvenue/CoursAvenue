@@ -1,48 +1,34 @@
-- if @plannings.any?
-  - @plannings.group_by(&:place).each do |place, plannings|
-    - unless place.nil?
-      %h5
-        %i.fa.fa-map-marker
-        = place.location.name
-    %table.table--striped.table--data#dataTable
-      %thead
-        %tr
-          %th.two-tenths Dates
-          %th.text--center Créneau horaire
-          %th.text--center Durée
-          %th.text--center Professeur
-          %th.text--center Niveau
-          %th.text--center Public
-          %th.text--center Lieu
-          %th.text--center
-            %i.lbc-icon-info i
-          %th
-      %tbody
-        - plannings.each do |planning|
-          = render partial: 'pro/structures/courses/plannings/training_list_item', locals: { planning: planning }
+%table.table--striped.table--data#dataTable
+  %thead
+    %tr
+      %th.two-tenths Dates
+      %th Créneau horaire
+      %th Niveau
+      %th Public
+      %th Lieu
+      %th
+        %i.lbc-icon-info i
+      %th
+  %tbody
+    - course.plannings.each do |planning|
+      %tr
+        %td.nowrap
+          = training_dates planning
+        %td
+          = readable_time_slot planning.start_time, planning.end_time
+        %td= join_levels_text planning
+        %td= join_audiences planning
+        %td= planning.place.location.name
 
-- if @past_plannings.any?
-  = link_to 'Afficher le planning passé', 'javascript:void(0)', id: 'show-past-planning'
-  .hidden#past-planning
-    %h5 Planning passé
-    %table.table--striped.table--data#dataTable
-      %thead
-        %tr
-          %th Dates
-          %th.text--center Créneau horaire
-          %th.text--center Durée
-          %th.text--center Professeur
-          %th.text--center Niveau
-          %th.text--center Public
-          %th.text--center
-            %i.lbc-icon-info i
-          %th
-      %tbody
-        - @past_plannings.each do |planning|
-          = render partial: 'pro/structures/courses/plannings/training_list_item', locals: { planning: planning }
+        %td
+          - if planning.info.present?
+            .lbc-brand-icon{ data: { behavior: 'tooltip', 'original-title' => planning.info } }
+        %td.text--right
+          = link_to edit_pro_structure_course_planning_path(course.structure, course, planning), title: 'Modifier le créneau', data: { behavior: 'modal', width: '800', padding: '0' }, class: 'fancybox.ajax nowrap' do
+            %i.fa.fa-pencil
+            Modifier
+          \/
+          = link_to pro_structure_course_planning_path(course.structure, course, planning), method: 'delete', confirm: 'Êtes-vous bien sûr de supprimer ce planning ?', title: 'Supprimer le créneau', class: 'nowrap' do
+            %i.fa.fa-trash-o
+            Supprimer
 
-= content_for :scripts do
-  :javascript
-    $(function() {
-        $('#dataTable').tablesorter();
-    });

@@ -8,27 +8,15 @@ class Pro::Structures::CoursesController < Pro::ProController
   load_and_authorize_resource :structure, find_by: :slug
 
   def new
-    @course = @structure.courses.build
+    @course = @structure.courses.build(type: params[:type])
+    if request.xhr?
+      render partial: 'form', layout: false
+    end
   end
 
   def index
     @structure = Structure.friendly.find params[:structure_id]
     @courses   = @structure.courses.without_open_courses.order('name ASC')
-  end
-
-  def copy_prices_from
-    @course                   = Course.friendly.find params[:id]
-    @course_to_duplicate_from = Course.friendly.find params[:course_id]
-    @course.copy_prices_from!(@course_to_duplicate_from)
-    redirect_to pro_structure_course_prices_path(@structure, @course), notice: 'Les tarifs ont été mis à jour.'
-  end
-
-  def duplicate
-    @course = Course.friendly.find params[:id]
-    duplicate_course = @course.duplicate!
-    session[:duplicate]            = true
-    session[:duplicated_course_id] = duplicate_course.id
-    redirect_to pro_structure_courses_path(@structure), notice: 'Le cours à bien été dupliqué.'
   end
 
   def activate_ok_nico
@@ -87,6 +75,16 @@ class Pro::Structures::CoursesController < Pro::ProController
 
   def edit
     @course = Course.friendly.find params[:id]
+    if request.xhr?
+      render partial: 'form', layout: false
+    end
+  end
+
+  def ask_for_deletion
+    @course = Course.friendly.find params[:id]
+    if request.xhr?
+      render layout: false
+    end
   end
 
   def create
@@ -95,36 +93,24 @@ class Pro::Structures::CoursesController < Pro::ProController
     respond_to do |format|
       if @course.save
         format.html { redirect_to pro_structure_course_prices_path(@structure, @course), notice: 'Vous pouvez maintenant définir les tarifs pour ce cours' }
+        format.js
       else
         format.html { render action: :new}
+        format.js
       end
     end
   end
 
   def update
     @course = Course.friendly.find params[:id]
-    had_price_before = @course.prices.any?
     respond_to do |format|
       if @course.update_attributes params[:course]
-        # We update the prices through the course
-        if params[:course][:prices_attributes].present?
-          # Redirect to planning page if the course didn't have price before
-          # Unless, we bring him to the course list page
-          if had_price_before
-            format.html { redirect_to pro_structure_course_prices_path(@structure, @course), notice: 'Les tarifs ont bien été mis à jour' }
-          else
-            format.html { redirect_to pro_structure_course_plannings_path(@structure, @course), notice: 'Les tarifs ont bien été mis ajouté au cours, renseignez maintenant votre planning' }
-          end
-        else
-          format.html { redirect_to pro_structure_courses_path(@structure), notice: 'Le cours à bien été mis à jour' }
-          format.json { render json: { done: true } }
-        end
+        format.html { redirect_to pro_structure_courses_path(@structure), notice: 'Le cours à bien été mis à jour' }
+        format.json { render json: { done: true } }
+        format.js
       else
-        if params[:course][:prices_attributes].present?
-          format.html { render template: 'pro/structures/courses/prices/index' }
-        else
-          format.html { render action: :new}
-        end
+        format.html { render action: :new}
+        format.js
       end
     end
   end

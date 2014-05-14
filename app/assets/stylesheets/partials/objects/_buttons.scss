@@ -60,6 +60,21 @@
     border-radius: 100px; // that aught'a make _any_ button round!
 }
 
+.btn--gray {
+    text-transform  : uppercase;
+    color           : #555;
+    border-color    : #D5D5D5;
+    background-color: #f2f2f2;
+    // @include text-shadow(-1px -1px 0 #a34c30);
+    &:active, &:hover {
+        background-color: lighten(#f2f2f2, 5%);
+    }
+    &:active, &.btn--active, &.btn--active:hover, &.active, &.active:hover {
+        border-bottom: none;
+        background-color: lighten(#f2f2f2, 15%);
+    }
+}
+
 .btn--orange {
     text-transform  : uppercase;
     color           : white;

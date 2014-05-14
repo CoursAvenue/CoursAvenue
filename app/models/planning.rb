@@ -267,32 +267,11 @@ class Planning < ActiveRecord::Base
     end
   end
 
-  # TODO Should be in a helper, or a decorator
-  def to_s
-    case self.course.type
-    when 'Course::Lesson'
-      "#{week_day_for self} à #{I18n.l(self.start_time, format: :short)}"
-    when 'Course::Workshop'
-      "#{I18n.l(self.start_date, format: :semi_long).capitalize} à #{I18n.l(self.start_time, format: :short)}"
-    when 'Course::Training'
-      "#{I18n.l(self.start_date, format: :semi_long).capitalize} à #{I18n.l(self.start_time, format: :short)}"
-    end
-  end
-
-
   # Return the length of the planning regarding start and end date
   #
   # @return Integer
   def length
     return (end_date - start_date).to_i + 1
-  end
-
-  #
-  # Duplicate the planning
-  #
-  # @return Planning
-  def duplicate
-    duplicate_planning = self.dup
   end
 
   # Return if KID audience is included in audiences
@@ -503,7 +482,7 @@ class Planning < ActiveRecord::Base
   # @return nil
   def presence_of_start_date
     return if course.nil?
-    if course.is_workshop? or course.is_training? or course.is_open?
+    if course.is_training? or course.is_open?
       unless start_date.present?
         errors.add(:start_date, :blank)
       end

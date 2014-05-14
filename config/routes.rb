@@ -170,15 +170,9 @@ CoursAvenue::Application.routes.draw do
         end
         resources :courses, path: 'cours', controller: 'structures/courses' do
           member do
-            post 'duplicate'
-            post 'copy_prices_from'
+            get  :ask_for_deletion
           end
-          resources :plannings, controller: 'structures/courses/plannings' do
-            member do
-              post 'duplicate'
-            end
-          end
-          resources :prices, only: [:index], controller: 'structures/courses/prices'
+          resources :plannings, controller: 'structures/courses/plannings'
           resources :book_tickets, only: [:edit, :index, :destroy]
           member do
             patch :update_price

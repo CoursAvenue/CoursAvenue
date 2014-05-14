@@ -2,7 +2,6 @@
 require 'spec_helper'
 
 describe Course do
-  let(:workshop)          { FactoryGirl.build(:workshop) }
   let(:training)          { FactoryGirl.build(:training) }
   let(:lesson)            { FactoryGirl.build(:lesson) }
 
@@ -17,12 +16,6 @@ describe Course do
 
   subject {@course}
   it { should be_valid }
-
-  describe '#copy_prices_from' do
-    it 'duplicate all the prices from a given course' do
-      # TODO
-    end
-  end
 
   describe '#best_price' do
     context 'without promotion' do
@@ -153,19 +146,6 @@ describe Course do
   # set_structure_if_empty
   # replace_slash_n_r_by_brs
 
-  context 'workshop' do
-    subject { workshop }
-    it 'is a workshop' do
-      workshop.is_workshop?.should be_true
-    end
-    it 'is not a lesson' do
-      workshop.is_lesson?.should be_false
-    end
-    it 'is not a training' do
-      workshop.is_training?.should be_false
-    end
-  end
-
   context 'lesson' do
     subject { lesson }
     it 'is a lesson' do
@@ -173,9 +153,6 @@ describe Course do
     end
     it 'is not a training' do
       lesson.is_training?.should be_false
-    end
-    it 'is not a workshop' do
-      lesson.is_workshop?.should be_false
     end
   end
 
@@ -186,9 +163,6 @@ describe Course do
     end
     it 'is not a lesson' do
       training.is_lesson?.should be_false
-    end
-    it 'is not a workshop' do
-      training.is_workshop?.should be_false
     end
   end
 
@@ -221,45 +195,6 @@ describe Course do
     end
   end
 
-
-  context :duplicate do
-    before(:all) do
-      @course           = FactoryGirl.build(:course)
-      @course.prices    << FactoryGirl.build(:subscription)
-      @course.plannings << FactoryGirl.build(:planning)
-      @course_duplicate = @course.duplicate!
-    end
-    it 'keeps structure id' do
-      @course_duplicate.structure_id.should eq @course_duplicate.structure_id
-    end
-    it 'keeps place' do
-      @course_duplicate.place_id.should eq @course_duplicate.place_id
-    end
-    it 'keeps name with a prefix' do
-      @course_duplicate.name.should include @course.name
-    end
-    it 'has same levels' do
-      @course_duplicate.levels.should eq @course.levels
-    end
-    it 'has same audiences' do
-      @course_duplicate.audiences.should eq @course.audiences
-    end
-    it 'has same subjects' do
-      @course_duplicate.subjects.should eq @course.subjects
-    end
-    it 'has same prices' do
-      @course_duplicate.prices.length.should eq @course.prices.length
-    end
-    it 'has same plannings' do
-      @course_duplicate.plannings.length.should eq @course.plannings.length
-    end
-    it 'is inactive' do
-      @course_duplicate.active?.should be_false
-    end
-    it 'is saved' do
-      @course_duplicate.new_record?.should be_false
-    end
-  end
 
   describe "#reject_price" do
     it "should accept nested attributes for prices" do

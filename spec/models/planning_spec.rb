@@ -11,14 +11,6 @@ describe Planning do
   end
 
   context :validations do
-    context :workshop do
-      it 'needs a start_date' do
-        course          = Course::Workshop.new
-        subject.course = course
-        expect(subject.valid?).to be_false
-        expect(subject.errors.messages).to include :start_date
-      end
-    end
     context :training do
       it 'needs a start_date' do
         course          = Course::Training.new
@@ -98,45 +90,6 @@ describe Planning do
         subject.levels = [Level::BEGINNER]
         subject.levels.should include Level::BEGINNER
       end
-    end
-  end
-
-  context :duplication do
-    it 'keeps audiences' do
-      subject.audiences = [Audience::KID]
-      duplicate          = subject.duplicate
-      duplicate.audiences.should eq [Audience::KID]
-    end
-    it 'keeps levels' do
-      subject.levels = [Level::BEGINNER]
-      duplicate       = subject.duplicate
-      duplicate.levels.should eq [Level::BEGINNER]
-    end
-    it 'keeps start_date' do
-      subject.start_date = Date.tomorrow
-      duplicate           = subject.duplicate
-      duplicate.start_date.should eq Date.tomorrow
-    end
-    it 'keeps end_date' do
-      subject.end_date   = Date.tomorrow
-      duplicate           = subject.duplicate
-      duplicate.end_date.should eq Date.tomorrow
-    end
-    it 'keeps start_time' do
-      time                = Time.parse('13:37')
-      subject.start_time = time
-      duplicate           = subject.duplicate
-      duplicate.start_time.should eq time
-    end
-    it 'keeps end_time' do
-      time                = Time.parse('13:37')
-      subject.end_time   = time
-      duplicate           = subject.duplicate
-      duplicate.end_time.should eq time
-    end
-    it 'keeps course reference' do
-      duplicate           = subject.duplicate
-      duplicate.course.should eq subject.course
     end
   end
 

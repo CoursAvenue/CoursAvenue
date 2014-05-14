@@ -19,9 +19,6 @@ FactoryGirl.define do
     factory :lesson, class: 'Course::Lesson' do
       type 'Course::Lesson'
     end
-    factory :workshop, class: 'Course::Workshop' do
-      type 'Course::Workshop'
-    end
     factory :training, class: 'Course::Training' do
       type 'Course::Training'
     end

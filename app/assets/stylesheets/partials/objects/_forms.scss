@@ -43,14 +43,16 @@
     }
     .check_boxes {
         .checkbox {
-            display     : inline;
+            vertical-align: middle;
             margin-right: 1em;
             label {
                 padding-left: 0.3em; // In order that the user can still clicks
+                vertical-align: middle;
             }
             input, label {
-                display: inline;
+                display: inline-block;
                 width  : auto;
+                vertical-align: middle;
             }
         }
     }

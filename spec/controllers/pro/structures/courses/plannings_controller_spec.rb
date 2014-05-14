@@ -34,14 +34,6 @@ describe Pro::Structures::Courses::PlanningsController do
       end
     end
 
-    context :workshop do
-      let(:workshop) { FactoryGirl.create(:workshop, structure: @admin.structure) }
-      it 'works' do
-        get :new, course_id: workshop.id, structure_id: @admin.structure.slug
-        expect(response).to be_success
-      end
-    end
-
     context :training do
       let(:training) { FactoryGirl.create(:training, structure: @admin.structure) }
       it 'works' do
@@ -67,15 +59,6 @@ describe Pro::Structures::Courses::PlanningsController do
       it 'redirects to open courses path' do
         post :create, course_id: open_course.id, planning: {  }, structure_id: @admin.structure.slug
         expect(response).to redirect_to(pro_structure_course_opens_path(@admin.structure))
-      end
-    end
-
-    context :workshop do
-      let(:workshop)             { FactoryGirl.create(:workshop, structure: @admin.structure) }
-      it 'redirects to open courses path' do
-        place_id = @admin.structure.places.first.id
-        post :create, course_id: workshop.id, planning: FactoryGirl.attributes_for(:planning).merge(place_id: place_id), structure_id: @admin.structure.slug
-        expect(response).to redirect_to(pro_structure_course_plannings_path(@admin.structure, workshop))
       end
     end
 

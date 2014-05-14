@@ -1,3 +1,4 @@
+- @planning ||= @course.plannings.build
 - if @planning.persisted?
   - planning_url = pro_structure_course_planning_path(@structure, @course, @planning)
 - else
@@ -7,52 +8,49 @@
 = simple_form_for [:pro, @course, @planning], url: planning_url, html: { id: 'planning-form' } do |f|
   = f.error_notification
 
-  = render partial: 'place_input', locals: { f: f }
+  .panel
+    .panel__header.soft
+      %h4.flush Planning du cours : #{@course.name}
+      %p.flush
+        %i.fa.fa-tags
+        %i= @course.subjects.map(&:name).join(', ')
+        %br
+        #{t(@course.frequency)} du #{l(@course.start_date)} au #{l(@course.end_date)}
+      = link_to 'Modifier les informations générales', edit_pro_structure_course_path(@structure, @course), class: 'fancybox.ajax nowrap', data: { behavior: 'modal', width: '700', padding: '0' }
+    .panel__body.soft
+      = render partial: 'pro/structures/courses/plannings/place_input', locals: { f: f }
 
-  .input
-    %label.required.control-label Jour
-    - days = t('date.day_names').collect{|day| [day.capitalize, t('date.day_names').index(day)] }.rotate
-    = f.input :week_day, as: :select, collection: days, label: false, include_blank: false
-  .input.flush--bottom{data: {behavior: 'time-range', 'start-time-wrapper' => '#start-time-wrapper', 'end-time-wrapper' => '#end-time-wrapper', duration: '#planning_duration'}}
-    = f.label :start_time, class: 'control-label' do
-      %i.fa.fa-time
-      Horaire
-    = f.input :start_time, as: :time, minute_step: 15, default: {year: 2000, month: 1, day: 1, hour: 8, min: 00}, wrapper_html: {id: 'start-time-wrapper'}, label: false
-    %span &nbsp;-&nbsp;
-    = f.input :end_time, as: :time, minute_step: 15, min_hour: 7, label: false, default: {year: 2000, month: 1, day: 1, hour: 9, min: 00}, wrapper_html: {id: 'end-time-wrapper'}
-    %span.v-middle durée du cours :
-    = f.input :duration, as: :select, collection: minutes, label: false
+      .input
+        %label.label--large.required.control-label Jour
+        - days = t('date.day_names').collect{|day| [day.capitalize, t('date.day_names').index(day)] }.rotate
+        = f.input :week_day, as: :select, collection: days, label: false, include_blank: false, input_html: { class: 'input--large' }, wrapper_html: { class: 'flush' }
+      .input.flush--bottom{ data: { behavior: 'time-range', 'start-time-wrapper' => '#start-time-wrapper', 'end-time-wrapper' => '#end-time-wrapper', duration: '#planning_duration' } }
+        = f.label :start_time, class: 'control-label label--large' do
+          %i.fa.fa-time
+          Horaire
+        = f.input :start_time, as: :time, minute_step: 15, default: { year: 2000, month: 1, day: 1, hour: 8, min: 00 }, wrapper_html: { id: 'start-time-wrapper', class: 'flush' }, label: false, input_html: { class: 'input--large' }
+        %span.soft-half--ends -
+        = f.input :end_time, as: :time, minute_step: 15, min_hour: 7, label: false, default: {year: 2000, month: 1, day: 1, hour: 9, min: 00}, wrapper_html: { id: 'end-time-wrapper', class: 'flush'}, input_html: { class: 'input--large' }
 
-  .input.add-teacher-wrapper
-    = f.label :teacher, class: 'control-label' do
-      %i.fa.fa-user
-      Professeur
-    = f.association :teacher, as: :select, collection: @teachers, label: false, include_blank: true
-    = link_to 'javascript:void(0)', class: 'add-teacher' do
-      &nbsp
-      %i.fa.fa-user
-      Ajouter un professeur
-  .input.hidden.new-teacher-wrapper
-    = f.label :teacher, class: 'control-label' do
-      %i.fa.fa-user
-      Professeur
-    = f.input :teacher, label: 'Nom du professeur', input_html: {value: '', placeholder: 'Ex. : Patrick'}, label: false
+      = f.input :level_ids, as: :check_boxes, collection: Level.all, label_method: lambda {|level| t(level.name)}, label: t('planning.levels'), wrapper_html: { data: { behavior: 'checkbox-list' } }, label_html: { class: 'label--large v-middle' }, input_html: { class: 'input--large' }
 
-  = f.input :level_ids, as: :check_boxes, collection: Level.all, label_method: lambda {|level| t(level.name)}, label: t('planning.levels'), wrapper_html: {data: {behavior: 'checkbox-list'}}
+      = f.input :audience_ids, as: :check_boxes, collection: Audience.all, label_method: lambda {|audience| t(audience.name)}, label: t('planning.audiences'), input_html: { class: 'input--large' }, label_html: { class: 'label--large v-middle' }
 
-  = f.input :audience_ids, as: :check_boxes, collection: Audience.all, label_method: lambda {|audience| t(audience.name)}, label: t('planning.audiences')
+      .input#children-ages{class: f.object.audiences.include?(Audience::KID) ? '' : 'hidden'}
+        %label.label--large.control-label.v-middle Âge pour les enfants (optionnel)
+        %span.v-middle.label--large de
+        = f.input :min_age_for_kid, label: false, input_html: { class: 'input--large', style: 'width: 5em;', value: f.object.min_age_for_kid || 0}, wrapper_html: {class: 'flush v-middle'}
+        %span.v-middl.label--large  à
+        = f.input :max_age_for_kid, label: false, input_html: { class: 'input--large', style: 'width: 5em;', value: f.object.max_age_for_kid || 18}, wrapper_html: {class: 'flush v-middle'}
+        %span.v-middle ans
 
-  .input#children-ages{class: f.object.audiences.include?(Audience::KID) ? '' : 'hidden'}
-    %label.control-label.v-middle Âge pour les enfants (optionnel)
-    %span.v-middle de
-    = f.input :min_age_for_kid, label: false, input_html: {style: 'width: 5em;', value: f.object.min_age_for_kid || 0}, wrapper_html: {class: 'flush v-middle'}
-    %span.v-middle à
-    = f.input :max_age_for_kid, label: false, input_html: {style: 'width: 5em;', value: f.object.max_age_for_kid || 18}, wrapper_html: {class: 'flush v-middle'}
-    %span.v-middle ans
+      = f.input :info, as: :string, placeholder: 'Exemple : Nous préparerons un gâteau au chocolat', label: 'Information (optionnel)', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
 
-  = f.input :info, as: :string, placeholder: 'Exemple : Nous préparerons un gâteau au chocolat', label: 'Information (optionnel)'
-  .text--center.input
-    = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours...' }
+      .grid.push--top
+        .grid__item.one-quarter>
+          %a.btn.btn--gray.btn--full{ onclick: '$.fancybox.close()' } Annuler
+        .grid__item.three-quarters>
+          = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours...' }
 
 :javascript
   if ($('[name="planning[audience_ids][]"]').length > 0) {

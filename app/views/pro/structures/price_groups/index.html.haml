@@ -18,16 +18,14 @@
 
 
     %hr.push--ends
-    .soft--sides
+    .soft--sides{ data: { behavior: 'wizard-helper', content: t('price_group.wizard.premium_offers') } }
       %h5 Cours collectifs
 
       .push--bottom
         .flush.inline-block.v-middle Cours collectifs à affecter à vos grilles tarifaires :
-        %strong.v-middle= @structure.courses.lessons.map(&:name).join(', ')
-      - if @structure.price_groups.for_lessons.empty?
-        = link_to 'Ajouter une grille tarifaire', new_pro_structure_price_group_path(@structure, course_type: 'Course::Lesson'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0' }
-      - else
-        %table{ data: { behavior: 'wizard-helper', content: t('price_group.wizard.premium_offers') } }
+        %strong.v-middle= @structure.courses.lessons.select{ |course| course.price_group.nil? }.map(&:name).join(', ')
+      - if @structure.price_groups.for_lessons.any?
+        %table.table--data.table--striped
           %thead
             %tr
               %th
@@ -43,8 +41,10 @@
               %tr
                 %td.epsilon
                   = link_to price_group.name, pro_structure_price_group_path(@structure, price_group), class: 'fancybox.ajax', data: { behavior: 'modal', width: '600', padding: '0' }
-                %td= price_group.courses.map(&:name).join(', ')
-                %td.text--center
+                %td
+                  - price_group.courses.each do |course|
+                    .lbl= course.name
+                %td.text--center.nowrap
                   - if price_group.has_premium_prices?
                     .price_group_status.lbl.lbl--chip.lbl--red.lbl--small.v-middle
                     %select.v-middle
@@ -52,9 +52,15 @@
                       %option{ value: 'not-visible', selected: !price_group.premium_visible? } Non visible
                   - else
                     Pas d'offre
-                %td
-                  = link_to 'Modifier', edit_pro_structure_price_group_path(@structure, price_group), class: 'btn btn--small btn--orange fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0' }
-                  = link_to 'Supprimer', ask_for_deletion_pro_structure_price_group_path(@structure, price_group), class: 'btn btn--small btn--red fancybox.ajax', data: { behavior: 'modal', width: '400', padding: '0' }
+                %td.nowrap
+                  = link_to edit_pro_structure_price_group_path(@structure, price_group), class: 'orange fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0' } do
+                    %i.fa.fa-pencil
+                    Modifier
+                  \/
+                  = link_to ask_for_deletion_pro_structure_price_group_path(@structure, price_group), class: 'red fancybox.ajax', data: { behavior: 'modal', width: '400', padding: '0' } do
+                    %i.fa.fa-trash-o
+                    Supprimer
+      = link_to 'Ajouter une grille tarifaire', new_pro_structure_price_group_path(@structure, course_type: 'Course::Lesson'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0' }
 
     -# %hr.push--ends
     -# .soft--sides
@@ -63,13 +69,45 @@
     %hr.push--ends
     .soft--sides
       %h5 Stages / Ateliers
-      - if @structure.price_groups.for_trainings.empty?
-        = link_to 'Ajouter une grille tarifaire', new_pro_structure_price_group_path(@structure, course_type: 'Course::Lesson'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0' }
-      - else
-        .grid
-          .grid__item.one-third>
-          .grid__item.two-thirds>
-            Cours affectés à la grille tarifaire :
-        - @structure.price_groups.for_trainings.each do |price_group|
-          = price_group
+      .push--bottom
+        .flush.inline-block.v-middle Cours collectifs à affecter à vos grilles tarifaires :
+        %strong.v-middle= @structure.courses.trainings.select{ |course| course.price_group.nil? }.map(&:name).join(', ')
 
+      - if @structure.price_groups.for_trainings.any?
+        %table.table--data.table--striped
+          %thead
+            %tr
+              %th
+              %th Cours affectés à la grille tarifaire
+              %th.text--center
+                .yellow.epsilon
+                  %i.fa.fa-star
+                  Premium
+                Offres découvertes
+              %th
+          %tbody
+            - @structure.price_groups.for_trainings.each do |price_group|
+              %tr
+                %td.epsilon
+                  = link_to price_group.name, pro_structure_price_group_path(@structure, price_group), class: 'fancybox.ajax', data: { behavior: 'modal', width: '600', padding: '0' }
+                %td
+                  - price_group.courses.each do |course|
+                    .lbl= course.name
+                %td.text--center.nowrap
+                  - if price_group.has_premium_prices?
+                    .price_group_status.lbl.lbl--chip.lbl--red.lbl--small.v-middle
+                    %select.v-middle
+                      %option{ value: 'visible',     selected: price_group.premium_visible? } Visible
+                      %option{ value: 'not-visible', selected: !price_group.premium_visible? } Non visible
+                  - else
+                    Pas d'offre
+                %td.nowrap.text--right
+                  = link_to edit_pro_structure_price_group_path(@structure, price_group), class: 'orange fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0' } do
+                    %i.fa.fa-pencil
+                    Modifier
+                  \/
+                  = link_to ask_for_deletion_pro_structure_price_group_path(@structure, price_group), class: 'red fancybox.ajax', data: { behavior: 'modal', width: '400', padding: '0' } do
+                    %i.fa.fa-trash-o
+                    Supprimer
+
+      = link_to 'Ajouter une grille tarifaire', new_pro_structure_price_group_path(@structure, course_type: 'Course::Lesson'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0' }

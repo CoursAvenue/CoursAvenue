@@ -2,39 +2,39 @@
   .hidden.gray.flush{data: {place_id: place.id, info: place.info, private_info: place.private_info, address: place.location.address } }
 
 .input.flush--bottom
-  = f.label :place, class: 'v-top'
+  = f.label :place, class: 'v-top label--large'
   %div
     .inline-block
-      = f.input :place_id , as: :select, collection: @structure.places, label_method: lambda {|place| place.location.name}, include_blank: false, label: false, wrapper_html: { class: 'flush' }
+      = f.input :place_id , as: :select, collection: @structure.places, label_method: lambda {|place| place.location.name}, include_blank: false, label: false, wrapper_html: { class: 'flush' }, input_html: { class: 'input--large' }
     .inline-block
       = link_to new_pro_structure_place_path(@structure, return_to: request.fullpath) do
         &nbsp;
         %i.fa.fa-map-marker
         Ajouter un lieu
-    %p.flush.blue
-      %i.fa.fa-map-marker
-      %i#place-address
+    -# %p.flush.blue
+    -#   %i.fa.fa-map-marker
+    -#   %i#place-address
 
-.input
-  %label.control-label.v-top> Infos pratiques sur le lieu
-  %div.three-quarters>
-    .grid
-      .grid__item.one-half>
-        %i.fa.fa-eye
-        %strong Publiques
-        %br
-        %textarea#place-info.milli.one-whole.textarea--small{rows: 2, name: 'place[info]', placeholder: "Ex. :  station de métro/RER, l'arrêt de bus le plus proche..."}
-      .grid__item.one-half>
-        %i.fa.fa-lock
-        %strong{title: 'Informations confidentielles uniquement communiquées aux élèves inscrits', data: {behavior: 'tooltip'}} Privées
-        %br
-        %textarea#place-private-info.milli.one-whole.textarea--small{rows: 2, name: 'place[private_info]', placeholder: "Ex. : digicode de la porte d'entrée, étage de l'immeuble, etc."}
+-# .input
+-#   %label.control-label.v-top> Infos pratiques sur le lieu
+-#   %div.three-quarters>
+-#     .grid
+-#       .grid__item.one-half>
+-#         %i.fa.fa-eye
+-#         %strong Publiques
+-#         %br
+-#         %textarea#place-info.milli.one-whole.textarea--small{rows: 2, name: 'place[info]', placeholder: "Ex. :  station de métro/RER, l'arrêt de bus le plus proche..."}
+-#       .grid__item.one-half>
+-#         %i.fa.fa-lock
+-#         %strong{title: 'Informations confidentielles uniquement communiquées aux élèves inscrits', data: {behavior: 'tooltip'}} Privées
+-#         %br
+-#         %textarea#place-private-info.milli.one-whole.textarea--small{rows: 2, name: 'place[private_info]', placeholder: "Ex. : digicode de la porte d'entrée, étage de l'immeuble, etc."}
 
-:javascript
-  $('#planning-form [name="planning[place_id]"]').change(function fillPlaceInfo () {
-      var place_data = $('[data-place-id=' + $(this).val() + ']');
-      $('#place-info').val(place_data.data('info'));
-      $('#place-private-info').val(place_data.data('private-info'));
-      $('#place-address').text(place_data.data('address'));
-  });
-  $('#planning-form [name="planning[place_id]"]').change();
+-# :javascript
+-#   $('#planning-form [name="planning[place_id]"]').change(function fillPlaceInfo () {
+-#       var place_data = $('[data-place-id=' + $(this).val() + ']');
+-#       $('#place-info').val(place_data.data('info'));
+-#       $('#place-private-info').val(place_data.data('private-info'));
+-#       $('#place-address').text(place_data.data('address'));
+-#   });
+-#   $('#planning-form [name="planning[place_id]"]').change();

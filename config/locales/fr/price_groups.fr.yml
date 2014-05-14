@@ -17,7 +17,7 @@ fr:
         <p><strong>Réduction</strong> : indiquez votre réduction en pourcentage ou en euros (remise). Donnez le plus de détails sur l'offre pour éviter tout malentendu. Exemple : réduction de 25% pour le 2ème accompagnant inscrit au même cours (offre duo).</p>
         <p><strong>Tarif découverte</strong> : indiquez le tarif spécial et détaillez ce qu'il inclut. Exemple : offre spéciale 29,90€ pour 5 cours de danse au choix parmi rock, salsa, orientale ou tango pour 1 personne.</p><p><strong>Autres offres</strong> : indiquez le tarif spécial et détaillez ce qu'il inclut. Exemple : 30€ offerts pour l'achat d'une carte de 10 cours, soit 150€ au lieu de 180€ (-17% d'économie).</p>
       non_affected_courses: >
-        <p><strong>Affectez vos cours à vos grilles tarifaires<strong></p>
+        <p><strong>Affectez vos cours à vos grilles tarifaires</strong></p>
         <p>Affectez une grille tarifaire à ces cours collectifs pour qu'ils deviennent visibles sur CoursAvenue. C'est un jeu d'enfant :
         cliquez sur l'étiquette du cours et maintenez votre bouton enfoncé pour la glisser dans la grille tarifaire correspondante.</p>
       premium_offers: >

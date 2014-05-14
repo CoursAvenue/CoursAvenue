@@ -31,6 +31,11 @@ GLOBAL.namespace = function (ns_string) {
     return parent;
 };
 
+/*
+ * @params text Text that will appear in the flash
+ * @params class_name class added to the flash, by default it will be alert
+                      the flash will be an error
+ */
 GLOBAL.flash = function(text, class_name) {
     class_name = class_name || 'alert';
     var flash = $('<div class="flash ' + class_name + '">').text(text);

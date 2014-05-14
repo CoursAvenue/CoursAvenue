@@ -40,7 +40,7 @@
               = f.input :private_info, label: false, placeholder: "Code d'entrée, étage, etc.", input_html: { data: { behavior: 'autoresize' }}, wrapper_html: { class: 'flush' }, input_html: { class: 'one-whole input--large' }
 
           .text--right
-            %a.btn{ onclick: '$.fancybox.close();' } Annuler
+            %a.btn.btn--gray{ onclick: '$.fancybox.close();' } Annuler
             = f.submit 'Suivant', class: 'btn btn--green', data: { disable_with: "En cours d'enregistrement" }
 
       .grid__item.four-tenths#place-wizard-container.relative.bordered--left>

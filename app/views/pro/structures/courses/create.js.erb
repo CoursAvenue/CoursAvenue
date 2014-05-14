@@ -1,0 +1,10 @@
+<% if @course.persisted? %>
+    <% if params[:add_planning] and params[:add_planning] == 'true' %>
+        $.fancybox('<%= escape_javascript(render partial: "pro/structures/courses/plannings/#{@course.underscore_name}_form") %>', { width: 800, maxWidth: 800, padding: 0 });
+    <% else %>
+        window.location.href = "<%= pro_structure_courses_url(@structure) %>";
+    <% end %>
+<% else %>
+    $.fancybox("<%= escape_javascript(render partial: 'pro/structures/courses/form') %>", { width: 700, maxWidth: 700, padding: 0 });
+<% end %>
+GLOBAL.reinitializePlugins();

@@ -20,8 +20,6 @@
               = render partial: 'lesson_schedule', locals: {grouped_plannings: grouped_plannings}
             - if @course.is_training?
               = render partial: 'training_schedule', locals: {grouped_plannings: grouped_plannings}
-            - if @course.is_workshop?
-              = render partial: 'workshop_schedule', locals: {grouped_plannings: grouped_plannings}
         - else
           %p Pas de planning pour ce cours.
 

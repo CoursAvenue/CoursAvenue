@@ -3,7 +3,7 @@ module ReservationHelper
   def reservable_path reservation
     reservable = reservation.reservable
     case reservation.reservable_type
-    when 'Course', 'Course::Training', 'Course::Workshop', 'Course::Lesson'
+    when 'Course', 'Course::Training', 'Course::Lesson'
       structure_course_path reservable.structure, reservable
     when 'Planning'
       structure_course_path reservable.course.structure, reservable.course

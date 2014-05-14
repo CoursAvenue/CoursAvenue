@@ -31,10 +31,7 @@ class Course < ActiveRecord::Base
   scope :active,                 -> { where( active: true ) }
   scope :disabled,               -> { where( active: false ) }
   scope :lessons,                -> { where( type: "Course::Lesson" ) }
-  scope :workshops,              -> { where( type: "Course::Workshop" ) }
   scope :trainings,              -> { where( type: "Course::Training" ) }
-  scope :workshops_and_training, -> { where( Course.arel_table[:type].eq('Course::Workshop').or(
-                                             Course.arel_table[:type].eq('Course::Training')) ) }
   scope :without_open_courses,   -> { where.not( type: 'Course::Open' ) }
   scope :open_courses,           -> { where( type: 'Course::Open' ) }
 
@@ -66,7 +63,8 @@ class Course < ActiveRecord::Base
                   :nb_participants,
                   :no_class_during_holidays,
                   :start_date, :end_date,
-                  :subject_ids, :level_ids, :audience_ids, :place_id, :active
+                  :subject_ids, :level_ids, :audience_ids, :place_id, :active,
+                  :price_group_id
 
   # ------------------------------------------------------------------------------------ Search attributes
   searchable do
@@ -119,8 +117,6 @@ class Course < ActiveRecord::Base
         'lesson'
       when 'Course::Training'
         'training'
-      when 'Course::Workshop'
-        'workshop'
       end
     end
 
@@ -205,18 +201,6 @@ class Course < ActiveRecord::Base
 
   handle_asynchronously :solr_index
 
-  # Helper methods for prices
-
-  def copy_prices_from!(course)
-    new_prices = []
-    course.prices.each do |price|
-      new_prices << price.dup
-    end
-    self.prices        = new_prices
-    self.price_details = course.price_details
-    self.save
-  end
-
   # Helper methods for place and locations
   def locations
     self.places.map(&:location).compact
@@ -295,10 +279,6 @@ class Course < ActiveRecord::Base
     ('%.2f' % new_price).gsub('.', ',').gsub(',00', '')
   end
 
-  def is_workshop?
-    false
-  end
-
   def is_lesson?
     false
   end
@@ -365,20 +345,6 @@ class Course < ActiveRecord::Base
 
   def contact_email
     self.structure.contact_email
-  end
-
-  def duplicate!
-    duplicate_course               = self.dup
-    duplicate_course.name          += ' - copie'
-    duplicate_course.subjects      = self.subjects
-    duplicate_course.active        = false
-    duplicate_course.slug          = nil
-    duplicate_course.save
-    duplicate_course.plannings     << self.plannings.map(&:dup)
-    duplicate_course.prices        << self.prices.map(&:dup)
-    duplicate_course.book_tickets  << self.book_tickets.map(&:dup)
-    duplicate_course.save
-    return duplicate_course
   end
 
   def should_generate_new_friendly_id?
