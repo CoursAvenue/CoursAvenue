@@ -1,11 +1,12 @@
 = side_menu_currently_at 'crm'
 
-= render partial: 'tabs', locals: { current: 'list' }
+.panel
+  = render partial: 'tabs', locals: { current: 'list' }
+  .panel__body.soft--ends
+    .text--center.island{ :data => { :type => "user-management-loader" }}
+      = image_tag 'gifs/loading-indicator-circle.gif', class: 'center-block', height: 20
 
-.text--center.island{ :data => { :type => "user-management-loader" }}
-  = image_tag 'gifs/loading-indicator-circle.gif', class: 'center-block', height: 20
-
-#user-management{ :data => { :type => "user-management-root" }}
+    #user-management{ :data => { :type => "user-management-root" }}
 
 :javascript
   window.coursavenue = window.coursavenue || {};
