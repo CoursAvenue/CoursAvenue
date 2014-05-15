@@ -1,17 +1,18 @@
 = side_menu_currently_at 'medias'
 
 .panel
-  .panel__body.soft--ends
-    .grid.soft--sides.text--center.push--bottom{ data: { behavior: 'wizard-helper', content: "<p><strong>Mettez en premier votre plus belle vidéo</strong></p><p></p>Les internautes parcourent les photos et les vidéos pour se faire une première idée des cours que vous proposez. Pensez à publier en premier votre meilleure vidéo (de loin le meilleur support de communication) ou votre meilleure photo et ajoutez des légendes descriptives.<p></p><strong>Remarque</strong> : vos photos et vidéos ne doivent contenir aucune information de contact (aucun lien Internet, téléphone ou e-mail), sinon elles seront supprimées.</p>" } }
+  .panel__header.soft
+    .grid.text--center{ data: { behavior: 'wizard-helper', content: "<p><strong>Mettez en premier votre plus belle vidéo</strong></p><p></p>Les internautes parcourent les photos et les vidéos pour se faire une première idée des cours que vous proposez. Pensez à publier en premier votre meilleure vidéo (de loin le meilleur support de communication) ou votre meilleure photo et ajoutez des légendes descriptives.<p></p><strong>Remarque</strong> : vos photos et vidéos ne doivent contenir aucune information de contact (aucun lien Internet, téléphone ou e-mail), sinon elles seront supprimées.</p>" } }
       .grid__item.one-half>
-        = link_to 'Ajouter une vidéo', new_pro_structure_video_path(@structure), class: 'btn btn--blue push--right btn--large btn--full fancybox.ajax', data: { behavior: 'modal' }
+        = link_to 'Ajouter une vidéo', new_pro_structure_video_path(@structure), class: 'btn btn--green push--right btn--large btn--full fancybox.ajax', data: { behavior: 'modal' }
 
       .grid__item.one-half>
         = simple_form_for [:pro, @structure, @image], url: pro_structure_images_path(@structure), html: { id: 'image-form' } do |f|
           = f.error_notification
           .text--center
-            = f.filepicker_field :url, multiple: true, button_text: 'Ajouter une photo', button_class: 'btn btn--blue btn--full btn--large fa', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false, drag_text: 'Ou glissez vos photos ici', drag_class: 'filepicker__dropzone push-half--top', store_location: 'S3', store_path: @image.s3_media_path, store_access: 'public'
+            = f.filepicker_field :url, multiple: true, button_text: 'Ajouter une photo', button_class: 'btn btn--green btn--full btn--large fa', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false, drag_text: 'Ou glissez vos photos ici', drag_class: 'filepicker__dropzone push-half--top', store_location: 'S3', store_path: @image.s3_media_path, store_access: 'public'
             = f.input :thumbnail_url, as: :hidden
+  .panel__body.soft--ends
 
     - if @medias.any?
       .soft--sides

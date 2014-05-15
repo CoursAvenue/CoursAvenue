@@ -6,7 +6,7 @@
   - if Date.today == sunday
     - plannings = plannings.reject{|p| p.start_date == saturday}
   - if plannings.any?
-    .white-box.white-box--noshadow.islet
+    .white-box.islet
       %strong= course.name
       - if course.other_event_type?
         = "(#{course.event_type_description})"

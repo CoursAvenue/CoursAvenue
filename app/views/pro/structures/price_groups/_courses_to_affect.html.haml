@@ -1,4 +1,4 @@
-.white-box.soft-half
+.white-box.soft-half.dropzone{ data: { behavior: 'clear-dropzone' } }
   - courses.each do |course|
     %span.lbl.lbl--gray-light.draggable{ data: { behavior: 'draggable', id: course.id, for: course.underscore_name } }= course.name
   &nbsp;

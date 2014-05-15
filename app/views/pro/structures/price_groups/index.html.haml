@@ -1,32 +1,32 @@
 = side_menu_currently_at 'price_groups'
 
 .panel
-  .panel__body.soft--ends
-    .soft--sides{ data: { behavior: 'wizard-helper', content: t('price_group.wizard.non_affected_courses') } }
+  .panel__header
+    .soft{ data: { behavior: 'wizard-helper', content: t('price_group.wizard.non_affected_courses') } }
       %h4 Ajouter une grille tarifaire pour les :
-
       .grid
         .grid__item.one-half>
-          = link_to new_pro_structure_price_group_path(@structure, course_type: 'Course::Lesson'), class: 'btn btn--green btn--full fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0', close_click: 'false' } do
+          = link_to new_pro_structure_price_group_path(@structure, course_type: 'Course::Lesson'), class: 'btn btn--green btn--full btn--large fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0', close_click: 'false' } do
             Cours collectifs
         .grid__item.one-half>
-          = link_to new_pro_structure_price_group_path(@structure, course_type: 'Course::Training'), class: 'btn btn--green btn--full fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0', close_click: 'false' } do
+          = link_to new_pro_structure_price_group_path(@structure, course_type: 'Course::Training'), class: 'btn btn--green btn--full btn--large fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0', close_click: 'false' } do
             Stages / Ateliers
         -# .grid__item.one-third>
         -#   = link_to new_pro_structure_price_group_path(@structure, course_type: 'Course::Lesson'), class: 'btn btn--green btn--full fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0' } do
         -#     Cours particuliers
+  .panel__body.soft--ends
 
+    %div{ data: { behavior: 'wizard-helper', content: t('price_group.wizard.premium_offers') } }
+      .soft--sides
+        %h4 Cours collectifs
 
-    %hr.push--ends
-    .soft--sides{ data: { behavior: 'wizard-helper', content: t('price_group.wizard.premium_offers') } }
-      %h5 Cours collectifs
-
-      .grid.push--bottom
-        .grid__item.one-third>
-          %p.flush Cours collectifs à affecter à vos grilles tarifaires :
-        .grid__item.two-thirds.v-middle>
-          - courses = @structure.courses.lessons.select{ |course| course.price_group.nil? }
-          #lessons-to-affect= render partial: 'pro/structures/price_groups/courses_to_affect', locals: { courses: courses }
+        .grid.push--bottom
+          .grid__item.one-third.v-middle>
+            %p.flush
+              %strong Cours collectifs à affecter à vos grilles tarifaires :
+          .grid__item.two-thirds.v-middle>
+            - courses = @structure.courses.lessons.select{ |course| course.price_group.nil? }
+            #lessons-to-affect= render partial: 'pro/structures/price_groups/courses_to_affect', locals: { courses: courses }
       %table.table--data.table--striped#lesson-table
         %thead
           %tr
@@ -42,17 +42,18 @@
           - @structure.price_groups.for_lessons.each do |price_group|
             = render partial: 'pro/structures/price_groups/price_group_row', locals: { price_group: price_group }
 
-      = link_to 'Ajouter une grille tarifaire', new_pro_structure_price_group_path(@structure, course_type: 'Course::Lesson'), class: 'btn btn--blue btn--small fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0' }
+      .soft--sides
+        = link_to 'Ajouter une grille tarifaire', new_pro_structure_price_group_path(@structure, course_type: 'Course::Lesson'), class: 'btn btn--blue btn--small fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0' }
 
-    %hr.push--ends
-    .soft--sides
-      %h5 Stages / Ateliers
-      .grid.push--bottom
-        .grid__item.one-third>
-          %p.flush Stages & ateliers à affecter à vos grilles tarifaires :
-        .grid__item.two-thirds.v-middle>
-          - courses = @structure.courses.trainings.select{ |course| course.price_group.nil? }
-          #trainings-to-affect= render partial: 'pro/structures/price_groups/courses_to_affect', locals: { courses: courses }
+      %hr.push--ends
+      .soft--sides
+        %h4 Stages / Ateliers
+        .grid.push--bottom
+          .grid__item.one-third>
+            %p.flush Stages & ateliers à affecter à vos grilles tarifaires :
+          .grid__item.two-thirds.v-middle>
+            - courses = @structure.courses.trainings.select{ |course| course.price_group.nil? }
+            #trainings-to-affect= render partial: 'pro/structures/price_groups/courses_to_affect', locals: { courses: courses }
 
       %table.table--data.table--striped#training-table
         %thead
@@ -69,7 +70,8 @@
           - @structure.price_groups.for_trainings.each do |price_group|
             = render partial: 'pro/structures/price_groups/price_group_row', locals: { price_group: price_group }
 
-      = link_to 'Ajouter une grille tarifaire', new_pro_structure_price_group_path(@structure, course_type: 'Course::Lesson'), class: 'btn btn--blue btn--small fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0' }
+        .soft--sides
+          = link_to 'Ajouter une grille tarifaire', new_pro_structure_price_group_path(@structure, course_type: 'Course::Training'), class: 'btn btn--blue btn--small fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0' }
 
 = image_tag 'gifs/loading-indicator-circle.gif', class: 'hidden push-half--left v-middle', height: 12, id: 'loader'
 = content_for :scripts do
@@ -109,6 +111,29 @@
                       url: Routes.add_course_pro_structure_price_group_path('#{@structure.id}', price_group_id, { format: 'js' }),
                       data: {
                           course_id: course_id
+                      },
+                      success: function() {
+                          $draggable.remove();
+                      }
+                  });
+              }
+        });
+        // ---------------- Dropzone that remove course_from_price
+        $('[data-behavior=clear-dropzone]').droppable({
+              hoverClass: 'dragenter',
+              drop: function( event, ui ) {
+                  var $draggable     = ui.draggable;
+                  $draggable.data('dropped', true);
+                  var course_id      = $draggable.data('id');
+                  var price_group_id = $draggable.data('price-group-id');
+                  $.ajax({
+                      type: 'PUT',
+                      url: Routes.remove_course_pro_structure_price_group_path('1564', price_group_id, { format: 'js' }),
+                      data: {
+                          course_id: course_id
+                      },
+                      success: function() {
+                          $draggable.remove();
                       }
                   });
               }

@@ -3,13 +3,12 @@
     <%- # When saving a course, user can choose wether or not to add a planning after saving. %>
     <% if params[:add_planning] and params[:add_planning] == 'true' %>
         <% @planning = @course.plannings.build %>
-        $.fancybox('<%= escape_javascript(render partial: "pro/structures/courses/plannings/form") %>', { width: 800, minWidth: 800, padding: 0 });
+        $.fancybox('<%= escape_javascript(render partial: "pro/structures/courses/plannings/form") %>', { width: 800, minWidth: 800, maxWidth: 800, padding: 0 });
     <% else %>
         $.fancybox.close();
         setTimeout(function() { $('#planning-<%= @planning.id %>').yellowFade(); }, 400);
     <% end %>
     GLOBAL.flash("Créneau enregistré", 'success');
 <% else %>
-    $.fancybox("<%= escape_javascript(render partial: 'pro/structures/courses/form') %>", { width: 700, minWidth: 700, padding: 0 });
+    $.fancybox("<%= escape_javascript(render partial: 'pro/structures/courses/form') %>", { width: 700, minWidth: 700, maxWidth: 700, padding: 0 });
 <% end %>
-GLOBAL.reinitializePlugins();

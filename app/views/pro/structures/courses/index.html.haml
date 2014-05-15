@@ -1,26 +1,28 @@
 = side_menu_currently_at 'courses'
 
 .panel
+  .panel__header.soft
+    .grid
+      .grid__item.two-tenths.v-middle>
+        %h4.flush Ajouter un :
+      .grid__item.four-tenths.v-middle>
+        = link_to 'Cours collectif', new_pro_structure_course_path(@structure, type: 'Course::Lesson'), class: 'btn btn--green btn--full btn--large fancybox.ajax', data: { behavior: 'modal', width: '700', padding: '0', close_click: 'false' }
+      .grid__item.four-tenths.v-middle>
+        = link_to 'Stage / Atelier', new_pro_structure_course_path(@structure, type: 'Course::Training'), class: 'btn btn--green btn--full btn--large fancybox.ajax', data: { behavior: 'modal', width: '700', padding: '0', close_click: 'false' }
   .panel__body.soft--ends
     .soft--sides
-      .grid
-        .grid__item.two-tenths.v-middle>
-          %h4.flush Ajouter un :
-        .grid__item.four-tenths.v-middle>
-          = link_to 'Cours collectif', new_pro_structure_course_path(@structure, type: 'Course::Lesson'), class: 'btn btn--green btn--full fancybox.ajax', data: { behavior: 'modal', width: '700', padding: '0', close_click: 'false' }
-        .grid__item.four-tenths.v-middle>
-          = link_to 'Stage / Atelier', new_pro_structure_course_path(@structure, type: 'Course::Training'), class: 'btn btn--green btn--full fancybox.ajax', data: { behavior: 'modal', width: '700', padding: '0', close_click: 'false' }
-
-    %hr.push--ends
-    .soft--sides
       %h4 Cours collectifs
-      #lesson-list
+      - if @courses.lessons.empty?
+        %p Vous n'avez pas de cours.
+      #lesson-list.block-list
         - @courses.lessons.each_with_index do |course, index|
-          = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure, index: index }
+          = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure }
 
     %hr.push--ends
     .soft--sides
       %h4 Stages & Ateliers
-      #training-list
+      - if @courses.trainings.empty?
+        %p Vous n'avez pas de stages.
+      %ul#training-list.block-list
         - @courses.trainings.each_with_index do |course, index|
-          = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure, index: index }
+          = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure }

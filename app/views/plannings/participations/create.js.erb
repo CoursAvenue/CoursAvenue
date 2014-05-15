@@ -2,5 +2,5 @@
     $.fancybox.close();
     window.location.href = "<%= user_participations_url(current_user, inscription_confirmed: true) %>";
 <% else %>
-    $.fancybox("<%= escape_javascript(render partial: 'plannings/participations/form') %>", { width: 600, minWidth: 600 });
+    $.fancybox("<%= escape_javascript(render partial: 'plannings/participations/form') %>", { width: 600, minWidth: 600, maxWidth: 600 });
 <% end %>

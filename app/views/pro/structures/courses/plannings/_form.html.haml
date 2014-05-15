@@ -7,7 +7,6 @@
 - minutes = (2..32).collect{ |i| time = i*15; ["#{(time/60).floor}h#{(time%60 == 0 ? '00' : time%60)}",time] }
 
 = simple_form_for [:pro, @course, @planning], url: planning_url, html: { id: 'planning-form' }, remote: true do |f|
-  = f.error_notification
   .panel
     .panel__header.soft
       %h4.flush Planning de : #{@course.name}
@@ -19,6 +18,7 @@
           #{t(@course.frequency)} du #{l(@course.start_date)} au #{l(@course.end_date)}
       = link_to 'Modifier les informations générales', edit_pro_structure_course_path(@structure, @course), class: 'fancybox.ajax nowrap', data: { behavior: 'modal', width: '700', padding: '0' }
     .panel__body.soft
+      = f.error_notification
       = render partial: 'pro/structures/courses/plannings/place_input', locals: { f: f }
 
       = render partial: "pro/structures/courses/plannings/#{@course.underscore_name}_form", locals: { f: f }

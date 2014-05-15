@@ -1,2 +1,8 @@
-$('#planning-<%= @planning.id %>').remove();
-GLOBAL.flash("Créneau supprimé", 'success');
+<% if @course.plannings.length == 0 %>
+    $("#course-<%= @course.id %>").replaceWith('<%= escape_javascript(render partial: "pro/structures/courses/live_form", locals: { course: @course, structure: @structure }) %>')
+    $('#course-<%= @course.id %>').yellowFade();
+<% else %>
+    $('#planning-<%= @planning.id %>').remove();
+    GLOBAL.flash("Créneau supprimé", 'success');
+<% end %>
+

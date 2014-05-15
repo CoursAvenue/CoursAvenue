@@ -27,7 +27,9 @@ class Course < ActiveRecord::Base
   after_initialize :set_teaches_at_home
   before_save      :sanatize_description
 
-  # ------------------------------------------------------------------------------------ Scopes
+  ######################################################################
+  # Scopes                                                             #
+  ######################################################################
   scope :active,                 -> { where( active: true ) }
   scope :disabled,               -> { where( active: false ) }
   scope :lessons,                -> { where( type: "Course::Lesson" ) }
@@ -41,6 +43,7 @@ class Course < ActiveRecord::Base
   validates :type, :name  , presence: true
   validates :subjects     , presence: true
   validates :name, length: { maximum: 255 }
+  validate :price_group_type
 
   attr_accessible :name, :type, :description,
                   :active,
@@ -383,6 +386,13 @@ class Course < ActiveRecord::Base
   # @return nil
   def sanatize_description
     self.description = self.description.scan(/[[:print:]]|[[:space:]]/).join if self.description.present?
+    nil
+  end
+
+  def price_group_type
+    if price_group
+      self.errors.add :price_group_id, "La grille tarifaire n'est pas du bon type" if price_group.course_type != self.type
+    end
     nil
   end
 end

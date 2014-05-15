@@ -1,13 +1,12 @@
 <% if @course.persisted? %>
-    $("#<%= @course.underscore_name %>-list").prepend('<%= escape_javascript(render partial: 'pro/structures/courses/live_form', locals: { course: @course, structure: @structure }) %>')
+    $("#<%= @course.underscore_name %>-list").prepend('<%= escape_javascript(render partial: "pro/structures/courses/live_form", locals: { course: @course, structure: @structure }) %>')
     GLOBAL.flash("Cours enregistré", 'success');
     <% if params[:add_planning] and params[:add_planning] == 'true' %>
-        $.fancybox('<%= escape_javascript(render partial: "pro/structures/courses/plannings/form") %>', { width: 800, minWidth: 800, padding: 0 });
+        $.fancybox('<%= escape_javascript(render partial: "pro/structures/courses/plannings/form") %>', { width: 800, minWidth: 800, maxWidth: 800, padding: 0 });
     <% else %>
         $.fancybox.close();
         setTimeout(function() { $('#course-<%= @course.id %>').yellowFade(); }, 400);
     <% end %>
 <% else %>
-    $.fancybox("<%= escape_javascript(render partial: 'pro/structures/courses/form') %>", { width: 700, minWidth: 700, padding: 0 });
+    $.fancybox("<%= escape_javascript(render partial: 'pro/structures/courses/form') %>", { width: 700, minWidth: 700, maxWidth: 700, padding: 0 });
 <% end %>
-GLOBAL.reinitializePlugins();

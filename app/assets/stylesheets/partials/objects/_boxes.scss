@@ -17,7 +17,6 @@
 // -------------------- PANELS ------------------------- //
 .white-box, .blue-box {
     @include border-radius($brand-round);
-    // @include box-shadow(1px 1px 3px #DDD, 2px 2px 9px #EEE, 4px 4px 24px #EEE);
 }
 .white-box {
     background: white;
@@ -60,9 +59,6 @@
 .white-box--rounded {
     @include border-radius(5em);
 }
-.white-box--noshadow, .blue-box--noshadow {
-    @include box-shadow(none!important);
-}
 .white-box--small {
     @extend .white-box;
     max-width: 400px;
@@ -97,7 +93,6 @@
     border-bottom   : 1px solid #1D1D1D;
     background-color: #575A5D;
     @include background-image(linear-gradient(#575A5D, #4C4F50));
-    // @include box-shadow(0 2px 3px 0 rgba(0, 0, 0, 0.2),inset 0 1px 1px 0 rgba(255, 255, 255, 0.2));
 }
     .gray-box__footer {
         background: $pane-background-color;

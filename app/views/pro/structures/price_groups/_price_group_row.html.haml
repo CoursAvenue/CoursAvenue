@@ -4,7 +4,7 @@
   %td
     .white-box.very-soft{ data: { behavior: 'courses-container' } }
       - price_group.courses.each do |course|
-        .lbl.lbl--gray-light{ style: 'margin: 1px;' }
+        .lbl.lbl--gray-light.draggable{ style: 'margin: 1px;', data: { behavior: 'draggable', id: course.id, for: course.underscore_name, price_group_id: price_group.id } }
           = course.name
           %i.fa.fa-times.pointer{ data: { behavior: 'delete-price-group', id: course.id, price_group_id: price_group.id } }
       &nbsp;
