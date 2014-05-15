@@ -1,0 +1,4 @@
+.white-box.soft-half
+  - courses.each do |course|
+    %span.lbl.lbl--gray-light.draggable{ data: { behavior: 'draggable', id: course.id, for: course.underscore_name } }= course.name
+  &nbsp;

@@ -1,11 +1,13 @@
-%tr{ id: "price-group-#{price_group.id}" }
+%tr.dropzone{ id: "price-group-#{price_group.id}", data: { behavior: "#{price_group.course_type_underscore_name}-dropzone", id: price_group.id } }
   %td.epsilon
     = link_to price_group.name, pro_structure_price_group_path(@structure, price_group), class: 'fancybox.ajax', data: { behavior: 'modal', width: '600', padding: '0' }
   %td
-    - price_group.courses.each do |course|
-      .lbl
-        = course.name
-        %i.fa.fa-timess
+    .white-box.very-soft{ data: { behavior: 'courses-container' } }
+      - price_group.courses.each do |course|
+        .lbl.lbl--gray-light{ style: 'margin: 1px;' }
+          = course.name
+          %i.fa.fa-times.pointer{ data: { behavior: 'delete-price-group', id: course.id, price_group_id: price_group.id } }
+      &nbsp;
   %td.text--center.nowrap
     - if price_group.has_premium_prices?
       .price_group_status.lbl.lbl--chip.lbl--red.lbl--small.v-middle

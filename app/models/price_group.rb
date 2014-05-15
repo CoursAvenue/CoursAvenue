@@ -41,6 +41,10 @@ class PriceGroup < ActiveRecord::Base
     course_type == 'Course::Training'
   end
 
+  def course_type_underscore_name
+    course_type.constantize.underscore_name
+  end
+
   # Following methods use select instead of where to force retrieving prices even
   # if they are not persisted
   def book_tickets

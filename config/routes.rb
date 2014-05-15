@@ -166,6 +166,8 @@ CoursAvenue::Application.routes.draw do
         resources :price_groups, path: 'tarifs', controller: 'structures/price_groups' do
           member do
             get :ask_for_deletion
+            put :add_course
+            put :remove_course
           end
         end
         resources :courses, path: 'cours', controller: 'structures/courses' do

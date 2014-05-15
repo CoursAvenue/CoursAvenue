@@ -12,8 +12,12 @@ class Course::Lesson < Course
     'Cours'
   end
 
-  def underscore_name
+  def self.underscore_name
     'lesson'
+  end
+
+  def underscore_name
+    self.class.underscore_name
   end
 
   def latest_end_date

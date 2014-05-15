@@ -106,10 +106,11 @@ class Pro::Structures::CoursesController < Pro::ProController
     respond_to do |format|
       if @course.update_attributes params[:course]
         format.html { redirect_to pro_structure_courses_path(@structure), notice: 'Le cours à bien été mis à jour' }
-        format.json { render json: { done: true } }
+        format.json { render json: {}, status: 200 }
         format.js
       else
         format.html { render action: :new}
+        format.json { render json: {}, status: 500 }
         format.js
       end
     end

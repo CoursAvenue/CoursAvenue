@@ -15,6 +15,7 @@
 // ---------------------------------- Core include
 //= require jquery_ujs
 //= require libs/jquery-ui-1.10.3.custom
+//= require libs/jquery_ui_custom_draggable_droppable.js
 //= require js-routes
 
 // require jquery.turbolinks

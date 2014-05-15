@@ -18,9 +18,10 @@
 .relative          { position   : relative; }
 .on-top            { z-index: 10; }
 .absolute          { position   : absolute; }
-.east              { right      : 0 }
-.north             { top        : 0; }
-.south             { bottom     : 0; }
+.west              { left       : 0 !important; }
+.east              { right      : 0 !important; }
+.north             { top        : 0 !important; }
+.south             { bottom     : 0 !important; }
 .hidden            { display    : none; }
 
 .absolute--center {

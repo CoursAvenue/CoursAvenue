@@ -20,8 +20,12 @@ class Course::Training < Course
     'Stage'
   end
 
-  def underscore_name
+  def self.underscore_name
     'training'
+  end
+
+  def underscore_name
+    self.class.underscore_name
   end
 
   def latest_end_date

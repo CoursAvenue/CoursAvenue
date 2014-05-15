@@ -3,7 +3,7 @@ class Pro::Structures::PriceGroupsController < Pro::ProController
   layout 'admin'
 
   before_action :authenticate_pro_admin!
-  load_and_authorize_resource :structure, find_by: :slug
+  load_and_authorize_resource :structure
 
   def index
   end
@@ -66,6 +66,28 @@ class Pro::Structures::PriceGroupsController < Pro::ProController
     end
   end
 
+  def remove_course
+    @course      = @structure.courses.find params[:course_id]
+    @price_group = @structure.price_groups.find params[:id]
+    @course.price_group = nil
+    @course.save
+    retrieve_non_affected_courses
+    respond_to do |format|
+      format.js { render 'reload_price_group' }
+    end
+  end
+
+  def add_course
+    @course = @structure.courses.find params[:course_id]
+    @price_group = @structure.price_groups.find params[:id]
+    @price_group.courses << @course
+    @price_group.save
+    retrieve_non_affected_courses
+    respond_to do |format|
+      format.js { render 'reload_price_group' }
+    end
+  end
+
 
   def destroy
     @price_group = @structure.price_groups.find params[:id]
@@ -92,4 +114,13 @@ class Pro::Structures::PriceGroupsController < Pro::ProController
     6.times  { @discounts          << @price_group.prices.build(type: 'Price::Discount',) }
     6.times  { @registrations      << @price_group.prices.build(type: 'Price::Registration',) }
   end
+
+  def retrieve_non_affected_courses
+    if @price_group.for_lesson?
+      @courses = @structure.courses.lessons.select{ |course| course.price_group.nil? }
+    else
+      @courses = @structure.courses.trainings.select{ |course| course.price_group.nil? }
+    end
+  end
+
 end
