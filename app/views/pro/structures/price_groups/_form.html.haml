@@ -35,9 +35,9 @@
           .grid__item.two-twelfths.v-top>
             %h5.flush--bottom.push-half--top.label--large
               - if @price_group.for_lesson?
-                Au stage / À l'atelier
-              - else
                 Au cours / Au carnet
+              - else
+                Au stage / À l'atelier
           .grid__item.ten-twelfths.v-top>
             .book-tickets{ data: { behavior: 'show-more-on-demand' } }<>
               - @book_tickets.each_with_index do |item, i|

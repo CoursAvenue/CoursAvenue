@@ -17,6 +17,17 @@
           %br
           #{t(@course.frequency)} du #{l(@course.start_date)} au #{l(@course.end_date)}
       = link_to 'Modifier les informations générales', edit_pro_structure_course_path(@structure, @course), class: 'fancybox.ajax nowrap', data: { behavior: 'modal', width: '700', padding: '0' }
+      - if @course.plannings.reject(&:new_record?).any?
+        %hr.push-half--ends
+        %div
+          - @course.plannings.reject(&:new_record?).each do |planning|
+            .lbl.lbl--gray-light
+              - if @course.is_lesson?
+                = t('date.day_names')[planning.week_day].capitalize
+              - else
+                = training_dates planning
+              = ": #{I18n.l(planning.start_time, format: :short)} - #{I18n.l(planning.end_time, format: :short)}"
+
     .panel__body.soft
       = f.error_notification
       = render partial: 'pro/structures/courses/plannings/place_input', locals: { f: f }
