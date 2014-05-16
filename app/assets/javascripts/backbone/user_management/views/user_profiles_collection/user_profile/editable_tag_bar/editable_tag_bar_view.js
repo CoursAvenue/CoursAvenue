@@ -80,7 +80,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
                 source: engine.ttAdapter()
             });
 
-            // this.$('.twitter-typeahead').hide();
+            this.$('.twitter-typeahead').hide();
 
             /* rebind the ui */
             this.bindUIElements();
