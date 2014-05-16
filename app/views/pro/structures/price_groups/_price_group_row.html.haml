@@ -10,7 +10,7 @@
       &nbsp;
   %td.text--center.nowrap
     - if price_group.has_premium_prices?
-      .price_group_status.lbl.lbl--chip.lbl--red.lbl--small.v-middle
+      .lbl.lbl--chip.lbl--small.v-middle{ class: (price_group.premium_visible? ? 'lbl--green' : 'lbl--red')}
       %select.v-middle
         %option{ value: 'visible',     selected: price_group.premium_visible? } Visible
         %option{ value: 'not-visible', selected: !price_group.premium_visible? } Non visible

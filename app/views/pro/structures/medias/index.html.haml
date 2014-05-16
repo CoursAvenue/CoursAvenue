@@ -22,7 +22,7 @@
               %strong Votre première photo / vidéo figure dans les résultats de recherche !
           .grid__item.two-thirds.v-middle.text--right>
             %strong.push-half--right Statut de mes photos & vidéos :
-            .lbl.lbl--chip.lbl--red.lbl--small.v-middle
+            .lbl.lbl--chip.lbl--small.v-middle{ class: (@structure.premium? ? 'lbl--green' : 'lbl--red')}
             %select.v-middle.input--large
               %option{ value: 'visible',     selected: @structure.premium? } Visible
               %option{ value: 'not-visible', selected: !@structure.premium? } Non visible
