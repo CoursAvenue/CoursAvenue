@@ -77,34 +77,6 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
 
         },
 
-        /* TODO this seems to be working as intended
-         * What worries me, though, is that if I remove the
-         * event that triggers this method... the box still shows */
-        /* ACTUALLY! It is broke now */
-        showFancybox: function () {
-            var data = this.data;
-            this.$("[data-behavior=modal]").fancybox({
-                openSpeed   : 300,
-                maxWidth    : 800,
-                maxHeight   : 500,
-                fitToView   : false,
-                autoSize    : true,
-                autoResize  : true,
-                keys: {
-                    close: [ESC]
-                },
-                ajax        : {
-                    /* don't use .simple_form to select the form, use some data */
-                    complete: _.bind(function() {
-                        $('.simple_form').on("ajax:before", _.bind(function () {
-                            $.fancybox.close();
-                        }, this));
-                        $('.simple_form').on("ajax:success", _.bind(this.syncModel, this));
-                    }, this)
-                }
-            });
-        },
-
         ui: {
             '$editable': "[data-behavior=editable]",
             '$editing' : "[data-behavior=editable]:has('input')",
@@ -112,12 +84,17 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         },
 
         events: {
-            'change @ui.$checkbox'       : 'addToSelected',
-            'click [data-behavior=modal]': 'showFancybox'
+            'change @ui.$checkbox'       : 'addToSelected'
         },
 
         modelEvents: {
+            'render': 'rerender',
             'change': 'syncFieldsToModel'
+        },
+
+        rerender: function rerender () {
+            this.render();
+            setTimeout(function() { this.$el.yellowFade(); }.bind(this), 400);
         },
 
         /* when the model changes, we update the fields to represent

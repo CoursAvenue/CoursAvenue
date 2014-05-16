@@ -2,12 +2,12 @@
   %li{class: current == 'list' ? 'active' : ''}
     = link_to pro_structure_user_profiles_path(@structure) do
       %i.fa.fa-list
-      Tous mes contacts
+      Contacts
   %li{class: current == 'tags' ? 'active' : ''}
     = link_to pro_structure_tags_path(@structure) do
       %i.fa.fa-tag
-      Tags
+      Étiquettes
   %li{class: current == 'import' ? 'active' : ''}
     = link_to new_pro_structure_user_profile_import_path(@structure) do
       %i.fa.fa-download
-      Importer (Excel)
+      Importer

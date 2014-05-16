@@ -40,8 +40,6 @@ UserManagement.addInitializer(function(options) {
 
     UserManagement.mainRegion.show(layout);
 
-    layout.on('controls:show:filters', layout.showFilters); // very nice!
-
     var Controls = UserManagement.Views.UserProfilesCollection.Controls;
 
     pagination_top       = new CoursAvenue.Views.PaginationToolView({});
@@ -69,8 +67,7 @@ UserManagement.addInitializer(function(options) {
     layout.showWidget(bulk_action_controls, {
         events: {
             'user_profiles:changed:editing'   : 'toggleEditManager',
-            'user_profiles:update:selected'   : 'updateSelected',
-            'user_profiles:updated:filters'   : 'showFilters'
+            'user_profiles:update:selected'   : 'updateSelected'
         }
     });
 

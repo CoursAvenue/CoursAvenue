@@ -39,13 +39,17 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             'typeahead:selected [type=text]': 'createTaggy',
             'keydown'                       : 'handleKeyDown',
             'change'                        : 'announceEdits',
-            'blur @ui.$input'               : 'toggleBlueGlow',
-            'focus @ui.$input'              : 'toggleBlueGlow'
+            'blur @ui.$input'               : 'blurred',
+            'focus @ui.$input'              : 'focused'
         },
 
-        /* TODO stop toggling! Just make two methods because it is broken */
-        toggleBlueGlow: function () {
-            this.$el.toggleClass("blue-glow");
+        focused: function focused () {
+            this.$el.addClass("blue-glow");
+            this.ui.$input.typeahead('open');
+        },
+
+        blurred: function blurred () {
+            this.$el.removeClass("blue-glow");
         },
 
         /* get all the little tags */
@@ -63,18 +67,20 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
         onRender: function () {
             this.$rollback = this.ui.$container.children().clone();
             var engine   = new Bloodhound({
-              datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.num); },
-              queryTokenizer: Bloodhound.tokenizers.whitespace,
-              remote: this.url
+                datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.num); },
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                remote: this.url,
             });
             engine.initialize();
-            this.ui.$input.typeahead({}, {
-                limit: 15,
+            this.ui.$input.typeahead({
+                minLength: 0, // TODO Don't work for now, waiting for new versions of typeahead
+            }, {
                 displayKey: 'name',
+                limit: 15,
                 source: engine.ttAdapter()
             });
 
-            this.$('.twitter-typeahead').hide();
+            // this.$('.twitter-typeahead').hide();
 
             /* rebind the ui */
             this.bindUIElements();

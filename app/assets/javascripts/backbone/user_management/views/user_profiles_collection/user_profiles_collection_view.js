@@ -28,6 +28,13 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
             this.currently_editing = []; // a FIFO list of rows
             this.current_order     = null; // see announcefiltersummary
+
+            $(document).on('user_profile:updated', function(event, data) {
+                var user_profile = this.collection.where({ id: data.id })[0];
+                user_profile.set(data, { silent: true });
+                user_profile.trigger('render');
+            }.bind(this));
+
         },
 
         ui: {

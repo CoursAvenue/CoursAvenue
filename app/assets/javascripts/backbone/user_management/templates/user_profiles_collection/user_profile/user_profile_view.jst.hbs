@@ -14,13 +14,14 @@
   <div data-behavior="editable-tag-bar" data-type="editable-tag-bar" data-name="tag_name"></div>
 </td>
 <td>
-  <span data-title="{{mobile_phone}} {{#ifCond mobile_phone '&&' phone}}/{{/ifCond}} {{phone}}" data-behavior="tooltip" class="pointer">{{!--
-  --}}<i class="fa fa-phone"></i>{{!--
-  --}}</span>
+  <span data-title="{{mobile_phone}} {{#ifCond mobile_phone '&&' phone}}/{{/ifCond}} {{phone}}" data-behavior="tooltip" class="pointer">
+    <i class="fa fa-phone"></i>
+  </span>
 </td>
-
 <td>
-    <a title="Voir les détails" class="btn btn--small nowrap fancybox.ajax" href="mes-eleves/{{id}}/edit" data-behavior="modal">
-      <i class="fa fa-plus"></i> d'infos
-    </a>
+  {{#if id}}
+      <a title="Voir les détails" class="btn btn--small nowrap fancybox.ajax" href="mes-eleves/{{id}}/edit" data-behavior="modal" data-width="600" data-padding="0">
+        <i class="fa fa-plus"></i> d'infos
+      </a>
+  {{/if}}
 </td>

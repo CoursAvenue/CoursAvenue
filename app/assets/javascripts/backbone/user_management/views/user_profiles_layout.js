@@ -17,13 +17,6 @@ UserManagement.module('Views', function(Module, App, Backbone, Marionette, $, _)
 
         onRender: function () {
             this.$("[data-behavior=sticky-controls]").sticky();
-        },
-
-        showFilters: function() {
-            var visible  = this.$("[data-type=filters-wrapper]").is(':visible');
-            var text     = (visible ?  "Afficher les filtres avancés" : "Cacher les filtres avancés");
-            this.$('[data-behavior="filters"]').text(text);
-            this.$("[data-type=filters-wrapper]").slideToggle();
         }
 
     });

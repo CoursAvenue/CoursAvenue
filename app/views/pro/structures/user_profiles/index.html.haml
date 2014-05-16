@@ -3,9 +3,16 @@
 .panel
   = render partial: 'tabs', locals: { current: 'list' }
   .panel__body.soft--ends
+    .soft--sides{ data: { behavior: 'wizard-helper', content: t('user_profile.wizard.infos')} }
+      .text--right.push-half--bottom
+        %strong.push-half--right Coordonnées des élèves CoursAvenue :
+        .lbl.lbl--chip.lbl--small.v-middle{ class: (@structure.premium? ? 'lbl--green' : 'lbl--red')}
+        %select.v-middle.input--large
+          %option{ value: 'visible',     selected: @structure.premium? } Visible
+          %option{ value: 'not-visible', selected: !@structure.premium? } Non visible
+
     .text--center.island{ :data => { :type => "user-management-loader" }}
       = image_tag 'gifs/loading-indicator-circle.gif', class: 'center-block', height: 20
-
     #user-management{ :data => { :type => "user-management-root" }}
 
 :javascript

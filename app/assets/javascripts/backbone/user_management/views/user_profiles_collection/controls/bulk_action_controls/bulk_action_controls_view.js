@@ -30,12 +30,7 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
             /* TODO do try to make this a proper tag bar by installing tag bar */
             'click [data-behavior=manage-tags]'    : 'manageTags',
             'submit [data-behavior=add-tags-form]' : 'addTags',
-            'click [data-behavior=destroy]'        : 'destroySelected',
-            'click [data-behavior=filters]'        : 'showFilters'
-        },
-
-        showFilters: function () {
-            this.trigger("controls:show:filters");
+            'click [data-behavior=destroy]'        : 'destroySelected'
         },
 
         /* cases:
@@ -53,6 +48,7 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
                 // selection is empty, hide the controls
                 this.hideDetails("select-all");
                 this.hideDetails("bulk-actions");
+                this.hideDetails("manage-tags");
             } else {
                 this.setSelectButton({ select: false }); // show the deselect button
 
@@ -149,15 +145,15 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
         },
 
         showDetails: function (target) {
-            this.$('[data-target=' + target + ']').show();
+            this.$('[data-target=' + target + ']').slideDown();
         },
 
         hideDetails: function (target) {
-            this.$('[data-target=' + target + ']').hide();
+            this.$('[data-target=' + target + ']').slideUp();
         },
 
         manageTags: function () {
-            this.$('[data-target=manage-tags]').toggle();
+            this.$('[data-target=manage-tags]').slideToggle();
         },
 
         addTags: function (event) {

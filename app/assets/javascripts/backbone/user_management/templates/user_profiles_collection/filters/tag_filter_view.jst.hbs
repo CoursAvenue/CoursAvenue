@@ -1,18 +1,20 @@
-<div class="grid__item v-middle one-fifth text--right soft-half--right">
-    <strong class="gray">Tag</strong>
-</div><!--
---><div class="grid__item v-middle four-fifths palm-one-whole">
-    <div class="editable-tag-bar pointer active">
-        <div class="taggies-container v-middle" data-type="taggies-container">
-        {{#each tags}}
-            {{!-- we need zero space around the tag text --}}
-            <span class="taggy--tag" data-value="{{ this }}">{{!--
-            --}}{{ this }}{{!--
-            --}}<i class="fa fa-times pointer" data-behavior="destroy"></i>
-            </span>
-        {{/each}}
+<div class="grid">
+    <div class="grid__item v-middle four-tenths text--right soft-half--right">
+        <label class="label--large">Filtrer par étiquette :</label>
+    </div><!--
+    --><div class="grid__item v-middle six-tenths palm-one-whole">
+        <div class="editable-tag-bar pointer active">
+            <div class="taggies-container v-middle" data-type="taggies-container">
+            {{#each tags}}
+                {{!-- we need zero space around the tag text --}}
+                <span class="taggy--tag" data-value="{{ this }}">{{!--
+                --}}{{ this }}{{!--
+                --}}<i class="fa fa-times pointer" data-behavior="destroy"></i>
+                </span>
+            {{/each}}
+            </div>
+            <input class="taggy--input input--small" type="text" style="display:none;"></input>
         </div>
-        <input class="taggy--input input--small" type="text" style="display:none;"></input>
     </div>
-</div>
 
+</div>

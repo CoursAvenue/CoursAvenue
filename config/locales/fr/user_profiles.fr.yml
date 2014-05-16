@@ -15,3 +15,10 @@ fr:
   user_profile:
     errors:
       no_info_on_name_or_email: Vous devez au moins renseigner l'email ou un nom
+    wizard:
+      infos: >
+        <p><strong>Ne perdez plus aucun contact</strong><p>
+        <p>Votre répertoire vous permet de centraliser et trier facilement tous vos contacts. Ajoutez vos contacts via Excel, ou entrez-les un par un, puis affectez-leurs une étiquette. D'un simple coup d'oeil, vous pourrez alors trier tous vos contacts et leur envoyer des messages groupés et ciblés en toute simplicité.</p>
+        <p><strong>Affichage des coordonnées des élèves CoursAvenue</strong> : l'accès aux coordonnées de contact des élèves de la communauté CoursAvenue (élèves qui vous ont envoyé un message ou qui vous ont ajouté dans leurs favoris) est disponible en souscrivant à l'offre Premium. Ainsi, vous pourrez rajouter tous ces contacts dans vos newsletters pour remplir plus facilement vos cours et stages.</p>
+        <p><strong>Etiquettes de tri</strong> : ajoutez une étiquette par information. Par exemple, si vous donnez des cours de théâtre amateurs pour débutants et avancés, ajoutez les étiquettes "Théâtre amateurs", "Débutants", et "Avancés" et affectez à chaque contact deux étiquettes. Vous pourrez ainsi mieux cibler vos contacts.</p>
+
