@@ -7,12 +7,3 @@
     = link_to pro_structure_teachers_path(@structure) do
       %i.fa.fa-group
       Professeurs
-  - if @structure.has_admin?
-    %li{class: current == 'compte' ? 'active' : ''}
-      = link_to edit_pro_admin_path((current_pro_admin and !current_pro_admin.super_admin?) ? current_pro_admin : (@structure.admins.first || current_pro_admin)) do
-        %i.fa.fa-cogs
-        Mon compte
-    %li{class: current == 'notifications' ? 'active' : ''}
-      = link_to notifications_pro_structure_admin_path(@structure, (current_pro_admin and !current_pro_admin.super_admin?) ? current_pro_admin : (@structure.admins.first || current_pro_admin)) do
-        %i.fa.fa-bullhorn
-        Notifications

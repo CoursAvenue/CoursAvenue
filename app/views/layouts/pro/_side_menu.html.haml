@@ -40,6 +40,7 @@
         = pro_side_menu_link 'communicate' , widget_pro_structure_path(@structure)     , current: current_tab, icon: 'fa fa-bullhorn'
       = pro_side_menu_link 'share'        , new_pro_structure_invited_teacher_path(@structure)     , current: current_tab, icon: 'fa fa-gift', id: 'recommandation-side-menu'
       %li.subtitle PARAMÈTRES
+      = pro_side_menu_link 'account'        , edit_pro_structure_admin_path(@structure, @structure.main_contact)     , current: current_tab, icon: 'fa fa-cogs'
 
 = content_for :scripts do
   :javascript

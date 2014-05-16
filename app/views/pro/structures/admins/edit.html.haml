@@ -1,6 +1,5 @@
-= side_menu_currently_at 'presentation'
+= side_menu_currently_at 'account'
 .panel
-  = render partial: 'pro/structures/tabs', locals:{ current: 'compte'}
   .panel__body
     - if current_pro_admin.super_admin? and !@admin.confirmed?
       .soft
@@ -13,6 +12,6 @@
     - if current_pro_admin.super_admin?
       .soft
         %p.push-half--top
-          = link_to "Supprimer #{resource.name}", pro_admin_path(resource), method: 'delete'
+          = link_to "Supprimer #{@admin.name}", pro_admin_path(@admin), method: 'delete'
         %p
-          = link_to "Supprimer #{resource.name} ET sa structure", pro_admin_path(resource, delete_structure: true), method: 'delete'
+          = link_to "Supprimer #{@admin.name} ET sa structure", pro_admin_path(@admin, delete_structure: true), method: 'delete'

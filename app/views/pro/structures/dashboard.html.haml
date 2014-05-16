@@ -142,7 +142,7 @@
           %p
             %span.beta{class: (@comments.length > 6 ? 'green' : 'red')}= @comments.length
             %br
-            = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--green btn--small', onclick: "ga('send', 'event', 'Dashboard', 'click', 'Demander des recommandations')"
+            = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue btn--small', onclick: "ga('send', 'event', 'Dashboard', 'click', 'Demander des recommandations')"
 
       .grid__item.one-third>
         .islet.text--center
@@ -298,7 +298,7 @@
             }
         }, 1000);
         google_map_handler = Gmaps.build('Google', { markers: { maxRandomDistance: null } });
-        google_map_handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+        google_map_handler.buildMap({ provider: { scrollwheel: false }, internal: {id: 'map'}}, function(){
             markers = google_map_handler.addMarkers(#{@json_locations.to_json});
             google_map_handler.bounds.extendWith(markers);
             google_map_handler.fitMapToBounds();

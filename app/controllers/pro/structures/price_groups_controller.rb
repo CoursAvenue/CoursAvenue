@@ -70,28 +70,34 @@ class Pro::Structures::PriceGroupsController < Pro::ProController
     @course      = @structure.courses.find params[:course_id]
     @price_group = @structure.price_groups.find params[:id]
     @course.price_group = nil
-    @course.save
-    retrieve_non_affected_courses
     respond_to do |format|
-      format.js { render 'reload_price_group' }
+      if @course.save
+        retrieve_non_affected_courses
+        format.js { render 'reload_price_group' }
+      else
+        format.js { render nothing: true, status: 500 }
+      end
     end
   end
 
   def add_course
     @course = @structure.courses.find params[:course_id]
     @price_group = @structure.price_groups.find params[:id]
-    @price_group.courses << @course
-    @price_group.save
-    retrieve_non_affected_courses
+    @course.price_group = @price_group
     respond_to do |format|
-      format.js { render 'reload_price_group' }
+      if @course.save
+        retrieve_non_affected_courses
+        format.js { render 'reload_price_group' }
+      else
+        format.js { render nothing: true, status: 500 }
+      end
     end
   end
-
 
   def destroy
     @price_group = @structure.price_groups.find params[:id]
     @price_group.destroy
+    retrieve_non_affected_courses
     respond_to do |format|
       format.html { redirect_to pro_structure_price_groups_path(@structure), notice: 'La grille tarifaire a bien été supprimée' }
       format.js

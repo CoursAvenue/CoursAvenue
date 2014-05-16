@@ -1,40 +1,40 @@
 = side_menu_currently_at 'comments'
 .panel
   = render partial: 'pro/structures/comments_tabs', locals: {current: 'comments'}
-  .panel__body.soft{ data: { behavior: 'wizard-helper', content: "<p><strong>2 manières de répondre aux avis</strong> :</p><p><strong>Envoyez un message privé</strong><br>A chaque nouveau commentaire, répondez à l'élève en lui envoyant un message privé : remerciez-le pour sa recommandation ou envoyez-lui un simple mot de gentillesse en prévision du prochain cours.</p><p><strong>Ajoutez un commentaire public</strong><br>Répondez au maximum d'avis par un commentaire public qui s'affichera à la suite de l'avis sur votre profil public. Cela apporte de la crédibilité à vos témoignages et vous offre l'opportunité d'apporter des informations complémentaires.</p><p>Si l'avis ne respecte pas les critères de publication, signalez-le nous.</p>" } }
-    .text--center.soft--bottom
-      = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue btn--large'
+  .panel__body.soft--ends{ data: { behavior: 'wizard-helper', content: "<p><strong>2 manières de répondre aux avis</strong> :</p><p><strong>Envoyez un message privé</strong><br>A chaque nouveau commentaire, répondez à l'élève en lui envoyant un message privé : remerciez-le pour sa recommandation ou envoyez-lui un simple mot de gentillesse en prévision du prochain cours.</p><p><strong>Ajoutez un commentaire public</strong><br>Répondez au maximum d'avis par un commentaire public qui s'affichera à la suite de l'avis sur votre profil public. Cela apporte de la crédibilité à vos témoignages et vous offre l'opportunité d'apporter des informations complémentaires.</p><p>Si l'avis ne respecte pas les critères de publication, signalez-le nous.</p>" } }
+    .soft.hard--top.text--center.bordered--bottom
+      = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--green btn--large'
+    .soft
+      - if @waiting_for_deletion_comments.any?
+        %h4.push-half--bottom Avis en attente de suppression par l'équipe CoursAvenue
+        %ul.comment-list
+          = render partial: '/comments/comment', collection: @waiting_for_deletion_comments
+        %hr.push--ends
 
-    - if @waiting_for_deletion_comments.any?
-      %h4.push-half--bottom Avis en attente de suppression par l'équipe CoursAvenue
-      %ul.comment-list
-        = render partial: '/comments/comment', collection: @waiting_for_deletion_comments
-      %hr.push--ends
+      - if @pending_comments.any?
+        %h4.flush Avis en attente de validation
+        %p.blue.push-half--bottom
+          %i Validez les avis si ce sont bien vos élèves. Une fois validé, l'avis sera visible sur votre profil public.
+        - @pending_comments.each do |comment|
+          .grid
+            .grid__item.three-quarters.v-middle>
+              %p.flush
+                %b= comment.author_name
+                = "(#{comment.email})"
+            .grid__item.one-quarter.v-middle.text--right>
+              = link_to accept_pro_structure_comment_path(@structure, comment), class: 'btn btn--green', method: :patch do
+                %i.fa.fa-check
+                Valider
+              = link_to decline_pro_structure_comment_path(@structure, comment), class: 'btn btn--red', method: :patch do
+                %i.fa.fa-times
+                Rejeter
+        %hr
 
-    - if @pending_comments.any?
-      %h4.flush Avis en attente de validation
-      %p.blue.push-half--bottom
-        %i Validez les avis si ce sont bien vos élèves. Une fois validé, l'avis sera visible sur votre profil public.
-      - @pending_comments.each do |comment|
-        .grid
-          .grid__item.three-quarters.v-middle>
-            %p.flush
-              %b= comment.author_name
-              = "(#{comment.email})"
-          .grid__item.one-quarter.v-middle.text--right>
-            = link_to accept_pro_structure_comment_path(@structure, comment), class: 'btn btn--green', method: :patch do
-              %i.fa.fa-check
-              Valider
-            = link_to decline_pro_structure_comment_path(@structure, comment), class: 'btn btn--red', method: :patch do
-              %i.fa.fa-times
-              Rejeter
-      %hr
-
-    - if @comments.empty?
-      %p.flush Encore aucun avis.
-    - else
-      %h4.push-half--bottom Avis validés
-      .text--center.push-half--ends= paginate @comments, window: 1, outer_window: 3
-      %ul.comment-list
-        = render partial: '/comments/comment', collection: @comments
-      .text--center.push-half--ends= paginate @comments, window: 1, outer_window: 3
+      - if @comments.empty?
+        %p.flush Encore aucun avis.
+      - else
+        %h4.push-half--bottom Avis validés
+        .text--center.push-half--ends= paginate @comments, window: 1, outer_window: 3
+        %ul.comment-list
+          = render partial: '/comments/comment', collection: @comments
+        .text--center.push-half--ends= paginate @comments, window: 1, outer_window: 3

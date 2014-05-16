@@ -1,3 +1,13 @@
 $('#price-group-<%= @price_group.id %>').remove();
 GLOBAL.flash("Grille tarifaire supprimée", 'success');
 $.fancybox.close();
+
+<% if @price_group.for_lesson? %>
+    var $course_to_affect_container = $('#lessons-to-affect')
+<% else %>
+    var $course_to_affect_container = $('#trainings-to-affect')
+<% end %>
+$course_to_affect_container.html('<%= escape_javascript(render partial: "pro/structures/price_groups/courses_to_affect", locals: { courses: @courses }) %>')
+
+setTimeout(function() { $course_to_affect_container.yellowFade(); }, 400);
+initPriceGroupDragAndDrop();

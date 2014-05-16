@@ -118,6 +118,7 @@ fr:
         places: Lieux
         contact: Contact
         statistics: Statistiques
+        account: Compte
       wizard_helper:
         name: >
           <p><strong>Un bon titre de profil</strong>

@@ -14,6 +14,11 @@ class Pro::Structures::AdminsController < Pro::ProController
     redirect_to notifications_pro_structure_admin_path(@structure, @admin)
   end
 
+  def edit
+    @structure = Structure.find params[:structure_id]
+    @admin     = @structure.admins.find(params[:id])
+  end
+
   def notifications
     @admin = @structure.admins.find(params[:id])
   end
@@ -39,9 +44,9 @@ class Pro::Structures::AdminsController < Pro::ProController
     end
     respond_to do |format|
       if @admin.update_attributes params[:admin]
-        format.html { redirect_to (params[:return_to] || structure_path(@structure)), notice: 'Les changements ont bien été pris en compte' }
+        format.html { redirect_to (params[:return_to] || edit_structure_admin_path(@structure, @admin)), notice: 'Les changements ont bien été pris en compte' }
       else
-        format.html { render 'pro/structures/edit' }
+        format.html { render 'pro/structures/admins/edit' }
       end
     end
   end

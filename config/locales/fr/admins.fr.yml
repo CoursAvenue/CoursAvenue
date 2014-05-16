@@ -41,6 +41,11 @@ fr:
       sessions:
         new:
           log_in: Connectez-vous à votre espace admin
+      wizard:
+        email: >
+          <p><strong>Renseignez le bon e-mail</strong></p>
+          <p>Toutes les communications CoursAvenue seront envoyées à cet e-mail (demande d'information,
+          d'un avis, etc.) qui vous sert également d'identifiant pour votre compte CoursAvenue.</p>
   devise:
     failure:
       pro_admin:
