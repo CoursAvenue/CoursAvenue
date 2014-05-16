@@ -1,9 +1,28 @@
 = side_menu_currently_at 'comments'
 .panel
   = render partial: 'pro/structures/comments_tabs', locals: {current: 'comments'}
-  .panel__body.soft--ends{ data: { behavior: 'wizard-helper', content: "<p><strong>2 manières de répondre aux avis</strong> :</p><p><strong>Envoyez un message privé</strong><br>A chaque nouveau commentaire, répondez à l'élève en lui envoyant un message privé : remerciez-le pour sa recommandation ou envoyez-lui un simple mot de gentillesse en prévision du prochain cours.</p><p><strong>Ajoutez un commentaire public</strong><br>Répondez au maximum d'avis par un commentaire public qui s'affichera à la suite de l'avis sur votre profil public. Cela apporte de la crédibilité à vos témoignages et vous offre l'opportunité d'apporter des informations complémentaires.</p><p>Si l'avis ne respecte pas les critères de publication, signalez-le nous.</p>" } }
-    .soft.hard--top.text--center.bordered--bottom
+  .panel__body.soft--bottom{ data: { behavior: 'wizard-helper', content: t('comments.wizard.infos') } }
+    .soft.text--center
       = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--green btn--large'
+    %hr.flush
+    .soft.premium-box
+      = simple_form_for [:pro, @structure], html: { data: { behavior: 'live-form' } }, remote: true do |f|
+        .grid
+          .grid__item.seven-tenths>
+            .grid--full
+              .grid__item.four-tenths.v-middle>
+                %label.label--large.f-weight-bold
+                  %i.fa.fa-star.yellow.epsilon
+                  = Structure.human_attribute_name :highlighted_comment_id
+              .grid__item.six-tenths.v-middle>
+                = f.input :highlighted_comment_id, as: :select, collection: @structure.comments.accepted.order('created_at DESC').reject{ |comment| comment.title.blank? }, label_method: lambda{ |comment| "\"#{comment.title}\"" }, include_blank: false, input_html: { class: 'input--large one-whole' }, label: false, wrapper_html: { class: 'flush' }
+          .grid__item.three-tenths.text--right>
+            %strong.label--large.push-half--right.v-middle Statut :
+            .lbl.lbl--chip.lbl--small.v-middle{ class: (@structure.premium? ? 'lbl--green' : 'lbl--red')}
+            %select.v-middle.input--large
+              %option{ value: 'visible',     selected: @structure.premium? } Visible
+              %option{ value: 'not-visible', selected: !@structure.premium? } Non visible
+    %hr.push--bottom
     .soft
       - if @waiting_for_deletion_comments.any?
         %h4.push-half--bottom Avis en attente de suppression par l'équipe CoursAvenue

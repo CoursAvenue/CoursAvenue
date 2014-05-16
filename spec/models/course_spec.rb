@@ -10,7 +10,10 @@ describe Course do
     @price_1       = @course.prices.build FactoryGirl.attributes_for(:price, amount: 15)
     @price_2       = @course.prices.build FactoryGirl.attributes_for(:subscription, amount: 200)
     @planning_1    = FactoryGirl.create(:planning)
-    @course.prices = [@price_1, @price_2]
+    @price_group   = FactoryGirl.build(:price_group)
+    @price_group.prices = [@price_1, @price_2]
+    @price_group.save
+    @course.price_group = @price_group
     @course.save
   end
 

@@ -28,7 +28,7 @@
         this.init();
     }
 
-    var template = '<p data-type="live-form-flash" class="hidden green nowrap absolute"><strong>{{text}}</strong></p>';
+    var template = '<p data-type="live-form-flash" class="text-shadow-white hidden green nowrap absolute"><strong>{{text}}</strong></p>';
     Plugin.prototype = {
 
         template: Handlebars.compile(template),

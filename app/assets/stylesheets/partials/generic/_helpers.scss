@@ -222,3 +222,5 @@
 }
 
 .transition-all-linear { @include transition(all 250ms linear); }
+
+.text-shadow-white { @include text-shadow(0px 0px 6px #FFF, 0px 0px 6px #FFF, 0px 0px 6px #FFF, 0px 0px 6px #FFF) }

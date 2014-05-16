@@ -5,7 +5,8 @@ class Price < ActiveRecord::Base
   # Relations                                                          #
   ######################################################################
   belongs_to :price_group
-  has_one :structure, through: :price_group
+  has_one  :structure, through: :price_group
+  has_many :courses, through: :price_group
 
   ######################################################################
   # Callbacs                                                           #

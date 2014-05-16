@@ -42,12 +42,13 @@ class Structure < ActiveRecord::Base
                   :teaches_at_home, :teaches_at_home_radius, # in KM
                   :subjects_string, :parent_subjects_string, # "Name of the subject,slug-of-the-subject;Name,slug"
                   :gives_group_courses, :gives_individual_courses,
-                  :gives_non_professional_courses, :gives_professional_courses
+                  :gives_non_professional_courses, :gives_professional_courses,
+                  :highlighted_comment_id
 
   # To store hashes into hstore
   store_accessor :meta_data, :gives_group_courses, :gives_individual_courses,
                              :plannings_count, :has_promotion, :has_free_trial_course, :course_names, :open_course_names, :open_course_subjects,
-                             :last_comment_title, :min_price_libelle, :min_price_amount, :max_price_libelle, :max_price_amount,
+                             :highlighted_comment_title, :min_price_libelle, :min_price_amount, :max_price_libelle, :max_price_amount,
                              :level_ids, :audience_ids, :busy,
                              :open_courses_open_places, :open_course_nb, :jpo_email_status, :open_course_plannings_nb,
                              :response_rate, :response_time, :gives_non_professional_courses, :gives_professional_courses
@@ -520,8 +521,8 @@ class Structure < ActiveRecord::Base
     # TODO
     # self.has_promotion            = self.prices.select{|p| p.promo_amount.present?}.any?
     # self.has_free_trial_course    = self.prices.trials.where(Price.arel_table[:amount].eq(nil).or(Price.arel_table[:amount].eq(0))).any?
-    self.course_names             = self.courses.map(&:name).uniq.join(', ')
-    self.last_comment_title       = self.comments.accepted.first.title if self.comments.accepted.any?
+    self.course_names              = self.courses.map(&:name).uniq.join(', ')
+    self.highlighted_comment_title = self.comments.accepted.first.title if self.comments.accepted.any?
     # Store level and audiences ids as coma separated string values: "1,3,5"
     self.level_ids                = self.plannings.collect(&:level_ids).flatten.sort.uniq.join(',')
     self.audience_ids             = self.plannings.collect(&:audience_ids).flatten.sort.uniq.join(',')
@@ -703,6 +704,10 @@ class Structure < ActiveRecord::Base
 
   def similar_profiles
     StructureSearch.similar_profile(self, 3)
+  end
+
+  def highlighted_comment
+    self.comments.find(id: highlighted_comment_id)
   end
 
   private

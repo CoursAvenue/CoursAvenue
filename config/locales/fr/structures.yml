@@ -38,6 +38,7 @@ fr:
         widget_status: Avez-vous installé votre widget
         gives_group_courses: Collectifs
         gives_individual_courses: Particuliers
+        highlighted_comment_id: 'Accroche de votre profil :'
 
   funding_type:
     holiday_vouchers: Tickets CAF ("loisirs" et "temps libre")

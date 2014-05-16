@@ -12,7 +12,7 @@ class StructureSerializer < ActiveModel::Serializer
              :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range,
              :has_free_trial_course, :medias_count, :teaches_at_home, :teaches_at_home_radius, :videos_count, :images_count,
              :audience, :gives_group_courses, :gives_individual_courses, :structure_type,
-             :has_promotion, :tag_names, :last_comment_title, :open_courses_open_places, :open_course_names, :open_course_plannings_nb,
+             :has_promotion, :tag_names, :highlighted_comment_title, :open_courses_open_places, :open_course_names, :open_course_plannings_nb,
              :given_course_types
 
   has_many :places
@@ -51,8 +51,8 @@ class StructureSerializer < ActiveModel::Serializer
     object.medias.videos_first.limit(6)
   end
 
-  def last_comment_title
-    truncate(object.comments.accepted.first.title, length: 60) if object.comments_count > 0
+  def highlighted_comment_title
+    truncate(object.comments.accepted.first.title, length: 60) if object.comments_count > 0 and object.premium?
   end
 
   def structure_type
