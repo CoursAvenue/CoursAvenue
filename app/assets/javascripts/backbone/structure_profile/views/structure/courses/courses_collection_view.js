@@ -43,7 +43,6 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
 
         onAfterShow: function onAfterShow () {
             this.$('[data-behavior=read-more]').readMore();
-            this.$('[data-behavior=tooltip]').tooltip();
             this.$('.panel').last().removeClass('push-half--bottom').addClass('border-none--bottom');
         },
 

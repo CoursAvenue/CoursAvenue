@@ -7,10 +7,6 @@ FilteredSearch.module('Views.StructuresCollection.Structure.Courses', function(M
         itemView: Module.CourseView,
         itemViewContainer: '[data-type=container]',
 
-        onRender: function() {
-            this.$('[data-behavior=tooltip]').tooltip();
-        },
-
         onItemviewToggleSelected: function (view, data) {
             var places = view.model.get('structure').get('places'),
                 keys = places.findWhere({ id: data.place_id });

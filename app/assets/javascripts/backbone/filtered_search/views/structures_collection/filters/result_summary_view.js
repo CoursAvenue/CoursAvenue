@@ -23,10 +23,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             this.render();
         },
 
-        onRender: function onRender () {
-            this.$('[data-behavior=tooltip]').tooltip();
-        },
-
         serializeData: function serializeData (data) {
             return _.extend(this.current_summary_data, {
                 sort_by_popularity: this.sort_by_popularity,

@@ -88,11 +88,9 @@ $(function() {
         });
     };
     global.initialize_callbacks.push(chosen_initializer);
-    var tooltip_initializer = function() {
-        $('[data-behavior=tooltip]').tooltip();
-    };
-    global.initialize_callbacks.push(tooltip_initializer);
-
+    $('body').tooltip({
+        selector: '[data-behavior=tooltip]'
+    });
     var popover_initializer = function() {
         $('[data-toggle=popover]').popover();
     };

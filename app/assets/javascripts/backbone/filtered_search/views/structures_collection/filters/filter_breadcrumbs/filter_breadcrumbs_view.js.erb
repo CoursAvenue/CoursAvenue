@@ -61,10 +61,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters.FilterBreadcrumbs', fu
             this.debounced_render();
         },
 
-        onRender: function onRender () {
-            this.$('[data-behavior="tooltip"]').tooltip();
-        },
-
         /* for each datum, call addBreadcrumb*/
         addBreadCrumbs: function addBreadCrumbs (data) {
             // we are given data like { 'audience': 1, 'week_days': 1 }

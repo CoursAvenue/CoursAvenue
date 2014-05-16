@@ -23,7 +23,6 @@ FilteredSearch.module('Views.StructuresCollection.Structure', function(Module, A
         },
 
         onRender: function() {
-            this.$('[data-behavior=tooltip]').tooltip();
             this.highlight();
         },
 
