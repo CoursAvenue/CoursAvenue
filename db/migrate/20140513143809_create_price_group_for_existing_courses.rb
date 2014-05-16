@@ -10,8 +10,8 @@ class CreatePriceGroupForExistingCourses < ActiveRecord::Migration
       saved              = price_group.save
       puts "#{course.structure.slug}/#{course.slug}" unless saved
       course.price_group = price_group
-      course.save(validate: false)
-      GC.start
+      course.delay.save(validate: false)
+      # GC.start
     end
   end
 end
