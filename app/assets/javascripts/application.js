@@ -45,20 +45,18 @@
 //= require libs/jquery.placeholder
 
 //= require libs/fancybox/jquery.fancybox
-//= require underscore
 
 //= require fingerprint
 
 // ---------------------------------- Backbone
-//= require backbone
+//= require libs/underscore
+//= require libs/backbone
 //= require backbone.marionette
 //= require libs/backbone.googlemaps
 //= require backbone-relational
 //= require libs/backbone.paginator.js
 //= require libs/backbone.poller.js
 //= require backbone/cours_avenue
-//= require railsy_backbone.sync
-//= require railsy_backbone.datalink
 
 //= require_tree ./libs/fancybox/helpers/
 

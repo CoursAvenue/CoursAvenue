@@ -135,8 +135,6 @@ gem 'roadie'                    , '~>2.4.3'
 
 gem 'fingerprintjs-rails'       , '~>0.5.3'
 
-# Includes Backbone
-gem 'railsy_backbone'           , '~>0.0.5'
 # Includes Backbone Marionette
 gem 'marionette-rails'          , '~>1.4.1'
 # Includes bacbone.relational
