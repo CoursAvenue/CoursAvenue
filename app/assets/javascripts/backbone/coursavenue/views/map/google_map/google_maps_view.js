@@ -20,7 +20,13 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
 
         // Test styles with google wizard: http://gmaps-samples-v3.googlecode.com/svn/trunk/styledmaps/wizard/index.html
         styles: [
-              {
+            {
+                "featureType": "road",
+                "elementType": "geometry.fill",
+                "stylers": [
+                  { "lightness": 100 }
+                ]
+             }, {
                 "featureType": "road.highway",
                 "elementType": "geometry.fill",
                 "stylers": [
@@ -34,14 +40,19 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
                   { "color": "#D5D5D5" },
                   { "weight": 1 }
                 ]
-              },
-              {
+              },{
+                "featureType": "administrative",
                 "elementType": "labels.text.stroke",
                 "stylers": [
                   { "weight": 6 }
                 ]
-              },
-              {
+              },{
+                "featureType": "administrative",
+                "elementType": "labels.text.fill",
+                "stylers": [
+                  { "color": "#555555" }
+                ]
+              },{
                 "featureType": "water",
                 "elementType": "geometry.fill",
                 "stylers": [
@@ -49,8 +60,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
                   { "lightness": -17 },
                   { "hue": "#0091ff" }
                 ]
-              },
-               {
+              },{
                 "featureType": "landscape.man_made",
                 "elementType": "geometry.fill",
                 "stylers": [
