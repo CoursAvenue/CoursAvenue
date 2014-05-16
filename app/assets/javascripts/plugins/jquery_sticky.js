@@ -17,7 +17,7 @@
 
     // attach the stickyness to the given jquery object
     $.fn.sticky = function (options) {
-
+        options = options || {};
         return this.each(function () {
             // we add a default z-index of 2
             var $element    = $(this).css({ "z-index": (options)? options.z || 1 : 1 });
