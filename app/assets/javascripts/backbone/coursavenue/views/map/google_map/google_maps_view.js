@@ -18,6 +18,46 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
 
         infoBoxView:         Module.InfoBoxView,
 
+        // Test styles with google wizard: http://gmaps-samples-v3.googlecode.com/svn/trunk/styledmaps/wizard/index.html
+        styles: [
+              {
+                "featureType": "road.highway",
+                "elementType": "geometry.fill",
+                "stylers": [
+                  { "color": "#ffffff" },
+                  { "weight": 2.5 }
+                ]
+              },{
+                "featureType": "road.highway",
+                "elementType": "geometry.stroke",
+                "stylers": [
+                  { "color": "#D5D5D5" },
+                  { "weight": 1 }
+                ]
+              },
+              {
+                "elementType": "labels.text.stroke",
+                "stylers": [
+                  { "weight": 6 }
+                ]
+              },
+              {
+                "featureType": "water",
+                "elementType": "geometry.fill",
+                "stylers": [
+                  { "saturation": 13 },
+                  { "lightness": -17 },
+                  { "hue": "#0091ff" }
+                ]
+              },
+               {
+                "featureType": "landscape.man_made",
+                "elementType": "geometry.fill",
+                "stylers": [
+                  { "color": "#e9E5D7" }
+                ]
+              }
+        ],
         constructor: function (options) {
             options = options || {};
             Marionette.CompositeView.prototype.constructor.apply(this, arguments);
@@ -29,7 +69,8 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             this.mapOptions = {
                 center: new google.maps.LatLng(0, 0),
                 zoom: 12,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                styles: this.styles
             };
 
             /* override with custom options */
