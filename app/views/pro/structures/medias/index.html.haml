@@ -63,16 +63,4 @@
             $(this).val(image_string.join(','));
             $('#image-form').submit();
         });
-        // // --------- Submit form
-        // var submit_form = function() {
-        //     $this = $(this);
-        //     if ($this.val() != $this.data('previous-value')) {
-        //         $this.closest('form').submit().on('ajax:success', function() {
-        //           GLOBAL.flash('Légende enregistrée', 'success')
-        //         });
-        //         $this.data('previous-value', $this.val());
-        //     }
-        // };
-        // submit_form = _.debounce(submit_form, 1000);
-        // $('.media_caption').keyup(submit_form);
     });
