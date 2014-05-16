@@ -697,7 +697,8 @@ class Structure < ActiveRecord::Base
   end
 
   def premium?
-    true
+    # true
+    false
   end
 
   def similar_profiles
