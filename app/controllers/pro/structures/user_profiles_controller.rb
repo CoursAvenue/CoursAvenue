@@ -75,8 +75,10 @@ class Pro::Structures::UserProfilesController < Pro::ProController
     respond_to do |format|
       if @user_profile.update_attributes(params[:user_profile])
         format.json { render :json => @user_profile, status: 200 }
+        format.js
       else
         format.json { render :json => { :errors => @user_profile.errors.full_messages }.to_json, :status => 500 }
+        format.js
       end
     end
   end

@@ -220,3 +220,5 @@
         display: none !important;
     }
 }
+
+.transition-all-linear { @include transition(all 250ms linear); }

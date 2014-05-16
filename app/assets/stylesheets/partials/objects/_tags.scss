@@ -9,6 +9,7 @@
         @include vendor(border-box, box-sizing);
         @include border-radius(3px);
         @include box-shadow(inset 0 1px 1px rgba(0,0,0,0.075),0 0 0 #000);
+        @include transition(border-color 0.3s, box-shadow 0.3s);
 
         // TODO this
         .twitter-typeahead {
@@ -16,8 +17,8 @@
         }
 
         &.blue-glow {
-            border-color: opacify($blue-green, 0.8);
             outline     : 0;
+            border-color: opacify($blue-green, 0.8);
             @include box-shadow(0 0 4px opacify($blue-green, 0.8),0 0 0 #000);
         }
     }
