@@ -1,20 +1,3 @@
-// -------------------- PANELS ------------------------- //
-.panel {
-    background-color: white;
-    border          : 1px solid $pane-border-color;
-}
-    .panel__header {
-        background-color: $pane-background-color;
-        padding-top     : 0.5em;
-    }
-    // .panel__body {
-    .panel__header + .panel__body {
-        border-top: 1px solid $pane-border-color;
-    }
-    .panel__header.tabs--blue + .panel__body {
-        border-top-color: $blue;
-    }
-// -------------------- PANELS ------------------------- //
 .white-box, .blue-box {
     @include border-radius($brand-round);
 }
