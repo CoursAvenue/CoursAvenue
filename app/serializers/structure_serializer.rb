@@ -52,7 +52,7 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def highlighted_comment_title
-    truncate(object.comments.accepted.first.title, length: 60) if object.comments_count > 0 and object.premium?
+    truncate(object.highlighted_comment_title, length: 60) if object.comments_count > 0 and object.premium?
   end
 
   def structure_type

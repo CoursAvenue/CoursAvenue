@@ -522,7 +522,7 @@ class Structure < ActiveRecord::Base
     # self.has_promotion            = self.prices.select{|p| p.promo_amount.present?}.any?
     # self.has_free_trial_course    = self.prices.trials.where(Price.arel_table[:amount].eq(nil).or(Price.arel_table[:amount].eq(0))).any?
     self.course_names              = self.courses.map(&:name).uniq.join(', ')
-    self.highlighted_comment_title = self.comments.accepted.first.title if self.comments.accepted.any?
+    self.highlighted_comment_title = (self.highlighted_comment ? self.highlighted_comment.title : comments.accepted.order('created_at DESC').first.try(:title))
     # Store level and audiences ids as coma separated string values: "1,3,5"
     self.level_ids                = self.plannings.collect(&:level_ids).flatten.sort.uniq.join(',')
     self.audience_ids             = self.plannings.collect(&:audience_ids).flatten.sort.uniq.join(',')
@@ -698,8 +698,8 @@ class Structure < ActiveRecord::Base
   end
 
   def premium?
-    # true
-    false
+    true
+    # false
   end
 
   def similar_profiles
@@ -707,7 +707,7 @@ class Structure < ActiveRecord::Base
   end
 
   def highlighted_comment
-    self.comments.find(id: highlighted_comment_id)
+    self.comments.find(highlighted_comment_id) if highlighted_comment_id
   end
 
   private
