@@ -37,27 +37,42 @@
             this.$form = this.$element;
             this.$form.append('<input type="hidden" name="live_form" value="true">');
             this.$wizard_container = ( this.$element.data('flash-container') ? $(this.$element.data('flash-container')) : $('.wizard-container') );
-            this.$form.find('input, select, textarea').change(this.submitForm.bind(this));
+            this.$form.find('textarea').keyup(this.submitForm.bind(this));
+            this.$form.find('input, select').change(this.submitForm.bind(this));
         },
 
-        submitForm: function() {
-            var $flash = $(this.template({ text: 'Enregistrement en cours...' }));
-            var offset_top = this.$element.offset().top - this.$wizard_container.offset().top;
-            if (offset_top < 0) { offset_top = 0; }
-            $flash.css({ top:  offset_top });
-            $('.wizard-container').append($flash);
+        /*
+         * Create a flash in the wizard container telling 'Saving...'
+         */
+        flashSaving: function() {
+            this.$flash = $(this.template({ text: 'Enregistrement en cours...' }));
+            this.offset_top = this.$element.offset().top - this.$wizard_container.offset().top;
+            if (this.offset_top < 0) { this.offset_top = 0; }
+            this.$flash.css({ top:  this.offset_top });
+            $('.wizard-container').append(this.$flash);
             // First hide all flash if they exists
             $('[data-type="live-form-flash"]').hide();
-            $flash.fadeIn();
+            this.$flash.fadeIn();
+        },
+        /*
+         * Removes the first flash that said 'Saving...' and replace it by 'Saved'
+         */
+        flashSaved: function() {
+            this.$flash.fadeOut();
+            var $finished_flash = $(this.template({ text: 'Enregistré' }));
+            $finished_flash.css({ top:  this.offset_top });
+            $('.wizard-container').append($finished_flash);
+            $finished_flash.fadeIn();
+            setTimeout(function() {
+                $finished_flash.fadeOut();
+            }, 2500);
+        },
+        submitForm: function(event) {
+            if (this.previous_value == event.currentTarget.value) { return; }
+            this.flashSaving();
             this.$form.submit().on('ajax:success', function() {
-                $flash.fadeOut();
-                var $finished_flash = $(this.template({ text: 'Enregistré' }));
-                $finished_flash.css({ top:  offset_top });
-                $('.wizard-container').append($finished_flash);
-                $finished_flash.fadeIn();
-                setTimeout(function() {
-                    $finished_flash.fadeOut();
-                }, 2000);
+                this.flashSaved();
+                this.previous_value = event.currentTarget.value;
             }.bind(this));
         }.debounce(500)
     };

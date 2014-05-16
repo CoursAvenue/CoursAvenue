@@ -4,9 +4,7 @@
   - if params[:return_to].present?
     %input{type: 'hidden', value: params[:return_to], name: 'return_to'}
   .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.logo')} }
-    %h5
-      %i.fa.fa-picture-o
-      Logo
+    %h5 Logo
     - if @structure.valid?
       %div
         %div{data: {behavior: 'image-input' }}
@@ -46,16 +44,12 @@
 
   %hr.push--ends
   .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.name') } }
-    %h5#informations
-      %i.fa.fa-tags
-      Structure
+    %h5#informations Structure
     = structure_form.input :name, label: t('.structure_name'), wrapper_html: {class: 'flush--bottom'}, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
     = structure_form.input :structure_type, collection: Structure::STRUCTURE_TYPES.map{|structure_type| [ t(structure_type), structure_type]}, input_html: { class: 'input--large', style: 'max-width: 29em;' }, label_html: { class: 'label--large' }, wrapper_html: { class: 'flush--bottom' }
   %hr.push--ends
   .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.subjects') } }
-    %h5#informations
-      %i.fa.fa-tags
-      Étiquettes de disciplines
+    %h5#informations Étiquettes de disciplines
     %div
       %div{ data: { behavior: 'parent-descendant-subjects', 'parent-select' => '#parent-subjects', 'descendant-select' => '#subject-descendants-select', 'descendant-select-wrapper' => '#descendants-subjects' } }
         = structure_form.association :subjects, as: :select, collection: Subject.roots.order('name ASC'), input_html: { class: 'input--large', style: 'width: 74%;', id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' }, multiple: true }, label: 'Disciplines générales pratiquées ', label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush--bottom' }, label_html: { class: 'label--large' }

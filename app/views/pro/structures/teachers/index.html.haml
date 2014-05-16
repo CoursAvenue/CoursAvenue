@@ -7,12 +7,11 @@
       .text--center.push--bottom
         = link_to 'Ajouter un professeur', new_pro_structure_teacher_path(@structure), class: 'fancybox.ajax btn btn--green btn--large', data: {behavior: 'modal', width: 700}
 
-    - @teachers.each_with_index do |teacher, index|
-      %hr.push--ends
-      .soft--sides
+    %hr.push--ends
+    .soft--sides
+      - @teachers.each_with_index do |teacher, index|
         = render partial: 'pro/teachers/teacher', locals: { teacher: teacher }
-
-    - if @teachers.empty?
-      %p Aucun professeur n'est renseigné
+      - if @teachers.empty?
+        %p Aucun professeur n'est renseigné.
 
 

@@ -1,16 +1,17 @@
 = side_menu_currently_at 'price_groups'
 
 .panel
-  .panel__header.soft{ data: { behavior: 'wizard-helper', content: t('price_group.wizard.non_affected_courses') } }
-    %h4 Ajouter une grille tarifaire pour les :
-    .grid
-      .grid__item.one-half>
-        = link_to 'Cours collectifs', new_pro_structure_price_group_path(@structure, course_type: 'Course::Lesson'), class: 'btn btn--green btn--full btn--large fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0', close_click: 'false' }
-      .grid__item.one-half>
-        = link_to 'Stages / Ateliers', new_pro_structure_price_group_path(@structure, course_type: 'Course::Training'), class: 'btn btn--green btn--full btn--large fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0', close_click: 'false' }
-      -# .grid__item.one-third>
-      -#   = link_to new_pro_structure_price_group_path(@structure, course_type: 'Course::Lesson'), class: 'btn btn--green btn--full fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0' } do
-      -#     Cours particuliers
+  .panel__header.soft--ends
+    .soft--sides{ data: { behavior: 'wizard-helper', content: t('price_group.wizard.non_affected_courses') } }
+      %h4 Ajouter une grille tarifaire pour les :
+      .grid
+        .grid__item.one-half>
+          = link_to 'Cours collectifs', new_pro_structure_price_group_path(@structure, course_type: 'Course::Lesson'), class: 'btn btn--green btn--full btn--large fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0', close_click: 'false' }
+        .grid__item.one-half>
+          = link_to 'Stages / Ateliers', new_pro_structure_price_group_path(@structure, course_type: 'Course::Training'), class: 'btn btn--green btn--full btn--large fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0', close_click: 'false' }
+        -# .grid__item.one-third>
+        -#   = link_to new_pro_structure_price_group_path(@structure, course_type: 'Course::Lesson'), class: 'btn btn--green btn--full fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0' } do
+        -#     Cours particuliers
   .panel__body.soft--ends
     %div{ data: { behavior: 'wizard-helper', content: t('price_group.wizard.premium_offers') } }
       .soft--sides

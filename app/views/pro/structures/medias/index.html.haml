@@ -2,7 +2,7 @@
 
 .panel
   .panel__header.soft
-    .grid.text--center{ data: { behavior: 'wizard-helper', content: "<p><strong>Mettez en premier votre plus belle vidéo</strong></p><p></p>Les internautes parcourent les photos et les vidéos pour se faire une première idée des cours que vous proposez. Pensez à publier en premier votre meilleure vidéo (de loin le meilleur support de communication) ou votre meilleure photo et ajoutez des légendes descriptives.<p></p><strong>Remarque</strong> : vos photos et vidéos ne doivent contenir aucune information de contact (aucun lien Internet, téléphone ou e-mail), sinon elles seront supprimées.</p>" } }
+    .grid.text--center{ data: { behavior: 'wizard-helper', content: t('pro.medias.wizard.infos')} }
       .grid__item.one-half>
         = link_to 'Ajouter une vidéo', new_pro_structure_video_path(@structure), class: 'btn btn--green push--right btn--large btn--full fancybox.ajax', data: { behavior: 'modal' }
 
@@ -21,37 +21,34 @@
             %p.text--center.flush
               %strong Votre première photo / vidéo figure dans les résultats de recherche !
           .grid__item.two-thirds.v-middle.text--right>
-            - if @structure.premium?
-              %strong.green Vous êtes actuellement premium
-            - else
-              = link_to 'Passer en premium', '#', class: 'btn btn--yellow'
-        - first = true
-        - @medias.in_groups_of(3, false).each do |media_group|
-          .grid--full.push-half--bottom
-            - media_group.each do |media|
-              .soft-half.grid__item.one-third>
-                .media__item.gray-box.one-whole.relative{ class: (!first and !@structure.premium? ? 'semi-muted' : '') }
-                  - if first
-                    = image_tag 'icons/first-photo-ribbon.png', class: 'north west absolute on-top', height: 50, width: 50, style: 'width: 50px; height: 50px;'
-                    - first = false
-                  %a.bg-cover.break-all.soft-half.hard--bottom.block.show-on-hover-wrapper.relative{href: media.url, title: media.caption, style: "height: 200px; background-image: url(#{media.thumbnail_url})", data: { behavior: 'fancy' } }
-                    .show-on-hover.absolute.absolute--center.text--center
-                      - if media.video?
-                        %i.fa.fa-youtube-play.fa-4x.white
-                      - else
-                        %i.fa.fa-eye.fa-4x.white
-                  .soft-half
-                    = simple_form_for [:pro, @structure, media], url: pro_structure_media_path(@structure, media), remote: true, as: :media do |f|
-                      = f.input :caption, as: :text, label: false, input_html: { class: 'one-whole media_caption input--large' }, wrapper_html: { class: 'flush--top push-half--bottom' }
-                    - if !media.cover?
-                      = link_to 'Afficher en premier', make_it_cover_pro_structure_media_path(@structure, media), method: :put, class: 'btn btn--small btn--blue'
-                    = link_to pro_structure_media_path(@structure, media), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce média ?' }, title: 'Supprimer', class: 'btn btn--small btn--red' do
-                      %i.fa.fa-trash-o
-                    - if current_pro_admin.super_admin? and media.star
-                      %i.fa.fa-star.yellow
-                    - if current_pro_admin.super_admin?
-                      = link_to edit_pro_structure_media_path(@structure, media), class: 'btn btn--small btn--blue fancybox.ajax', data: { behavior: 'modal', width: 600 } do
-                        %i.fa.fa-star
+            %strong.push-half--right Statut de mes photos & vidéos :
+            .lbl.lbl--chip.lbl--red.lbl--small.v-middle
+            %select.v-middle.input--large
+              %option{ value: 'visible',     selected: @structure.premium? } Visible
+              %option{ value: 'not-visible', selected: !@structure.premium? } Non visible
+        - @medias.each_with_index do |media, index|
+          .soft-half.inline-block.one-third>
+            .media__item.gray-box.one-whole.relative
+              - if index > 0
+                = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 50, width: 50, style: 'width: 50px; height: 50px;'
+              %a.bg-cover.break-all.soft-half.hard--bottom.block.show-on-hover-wrapper.relative{href: media.url, title: media.caption, style: "height: 200px; background-image: url(#{media.thumbnail_url})", data: { behavior: 'fancy' } }
+                .show-on-hover.absolute.absolute--center.text--center
+                  - if media.video?
+                    %i.fa.fa-youtube-play.fa-4x.white
+                  - else
+                    %i.fa.fa-eye.fa-4x.white
+              .soft-half
+                = simple_form_for [:pro, @structure, media], url: pro_structure_media_path(@structure, media), remote: true, as: :media, html: { data: { behavior: 'live-form' } } do |f|
+                  = f.input :caption, as: :text, label: false, input_html: { class: 'one-whole media_caption input--large' }, wrapper_html: { class: 'flush--top push-half--bottom' }
+                - if !media.cover?
+                  = link_to 'Afficher en premier', make_it_cover_pro_structure_media_path(@structure, media), method: :put, class: 'btn btn--small btn--blue'
+                = link_to pro_structure_media_path(@structure, media), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce média ?' }, title: 'Supprimer', class: 'btn btn--small btn--red' do
+                  %i.fa.fa-trash-o
+                - if current_pro_admin.super_admin? and media.star
+                  %i.fa.fa-star.yellow
+                - if current_pro_admin.super_admin?
+                  = link_to edit_pro_structure_media_path(@structure, media), class: 'btn btn--small btn--blue fancybox.ajax', data: { behavior: 'modal', width: 600 } do
+                    %i.fa.fa-star
 
 = content_for :scripts do
   :javascript
@@ -66,16 +63,16 @@
             $(this).val(image_string.join(','));
             $('#image-form').submit();
         });
-        // --------- Submit form
-        var submit_form = function() {
-            $this = $(this);
-            if ($this.val() != $this.data('previous-value')) {
-                $this.closest('form').submit().on('ajax:success', function() {
-                  GLOBAL.flash('Légende enregistrée', 'success')
-                });
-                $this.data('previous-value', $this.val());
-            }
-        };
-        submit_form = _.debounce(submit_form, 1000);
-        $('.media_caption').keyup(submit_form);
+        // // --------- Submit form
+        // var submit_form = function() {
+        //     $this = $(this);
+        //     if ($this.val() != $this.data('previous-value')) {
+        //         $this.closest('form').submit().on('ajax:success', function() {
+        //           GLOBAL.flash('Légende enregistrée', 'success')
+        //         });
+        //         $this.data('previous-value', $this.val());
+        //     }
+        // };
+        // submit_form = _.debounce(submit_form, 1000);
+        // $('.media_caption').keyup(submit_form);
     });
