@@ -118,7 +118,8 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
 
             // Return if selected subject is root
             if (data.root_subject_id == data.subject_id) { return; }
-            parent_subject = _.select(current_model.get('children'), function(children) { return children.slug == data.parent_subject_id })[0];
+            // parent_subject = _.select(current_model.get('children'), function(children) { return children.slug == data.parent_subject_id })[0] || {};
+            parent_subject = _.select(current_model.get('children'), function(children) { return (children.slug == data.subject_id) || (children.slug == data.parent_subject_id) })[0];
             this.ui.$subjects_breadcrumb.append($(this.breadcrumb_template(_.extend(parent_subject, { depth: '1', root_subject_slug: current_model.get('slug') }))));
 
             if (data.parent_subject_id == data.subject_id) { return; }
