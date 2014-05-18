@@ -13,7 +13,8 @@ class Price < ActiveRecord::Base
   ######################################################################
   before_validation :update_nb_courses
 
-  attr_accessible :libelle, :amount, :promo_amount, :nb_courses, :info, :course, :number, :type, :duration, :promo_percentage, :price_group
+  attr_accessible :libelle, :amount, :promo_amount, :nb_courses, :info, :course,
+                  :number, :type, :duration, :promo_percentage, :price_group, :price_group_id
 
   # All types
 
