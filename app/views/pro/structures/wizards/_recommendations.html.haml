@@ -22,19 +22,22 @@
         = @structure.name
   .push-half--top.text--right
     = f.submit 'Envoyer ma demande', class: 'btn btn--green', id: 'submit-form', data: { disable_with: "En cours d'evoi" }
-%hr.hr--blue.push--top
+%hr.push--top
 .text--center.push-half--bottom
-  = link_to 'Envoyer un email depuis ma boite perso', '#hidden-send', id: 'send-from-personal', data: {behavior: 'modal'}
+  = link_to 'Envoyer un email depuis ma boite perso', '#hidden-send', id: 'send-from-personal', data: { behavior: 'modal', width: 500, padding: 0 }
 
 #hidden-send.hidden
-  %p
-    Vous souhaitez envoyer votre demande de recommandation depuis votre propre boîte mail ? Pas de souci, nous vous avons préparé un texte que vous pouvez copier, puis coller dans votre email :
+  .panel
+    .panel__header.soft
+      %h4.push-half--bottom
+        Vous souhaitez envoyer votre demande de recommandation depuis votre propre boîte mail ?
+      %p.epsilon.flush Pas de souci, nous vous avons préparé un texte que vous pouvez copier, puis coller dans votre email :
+    .panel__body.soft
+      %p Bonjour,
+      %p Je viens de référencer mes cours sur CoursAvenue et je voudrais avoir votre avis sur mes cours. Si vous avez quelques minutes vous pouvez laisser votre recommandation en cliquant sur le lien suivant : #{link_to new_structure_comment_url(@structure, subdomain: 'www'), new_structure_comment_url(@structure, subdomain: 'www'), target: '_blank'}
+      %p Merci pour votre contribution et à très bientôt !
+      %p.flush--bottom= @structure.name
 
-  .alert--info.flush--left>
-    %p> Bonjour,
-    %p> Je viens de référencer mes cours sur CoursAvenue et je voudrais avoir votre avis sur mes cours. Si vous avez quelques minutes vous pouvez laisser votre recommandation en cliquant sur le lien suivant : #{link_to new_structure_comment_url(@structure, subdomain: 'www'), new_structure_comment_url(@structure, subdomain: 'www'), target: '_blank'}
-    %p> Merci pour votre contribution et à très bientôt !
-    %p.flush--bottom= @structure.name
 
 :javascript
   var submit_form = function() {

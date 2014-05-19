@@ -4,7 +4,7 @@
     %p.flush.epsilon Où proposez-vous des cours ?
   .panel__body.soft--ends
     .grid
-      .grid__item.six-tenths>
+      .grid__item.five-tenths>
         = simple_form_for [:pro, @structure, @place], remote: true do |f|
 
           - if params[:return_to].present?
@@ -16,10 +16,10 @@
               Adresse
             = f.error_notification
             = f.simple_fields_for :location do |location_form|
-              = location_form.input :name, label: Location.human_attribute_name(:name), placeholder: "Ex. : « Gymnase Bercy », « Ecole d'Art Modigliani », « Adresse principale » ...", disabled: @place.belongs_to_other_locations?, label_html: { class: 'label--large text--left' }, input_html: { class: 'input--large one-whole', data: { behavior: 'tooltip' }, title: "Indiquez le nom du lieu. S'il s'agit d'une adresse privée, mettre « Résidence privée »." }
-              = location_form.input :street, placeholder: 'Ex. : 83 avenue du général Leclerc', label: Location.human_attribute_name(:street), input_html: { class: 'input--large one-whole', title: "Ne renseignez ni le code postal ni la ville, uniquement le numéro et la rue.", data: { behavior: 'tooltip' } }, disabled: @place.belongs_to_other_locations?, label_html: { class: 'label--large text--left' }
+              = location_form.input :name, label: Location.human_attribute_name(:name), placeholder: "Ex. : « Gymnase Bercy », « Ecole d'Art Modigliani », « Adresse principale » ...", disabled: @place.belongs_to_other_locations?, label_html: { class: 'label--large text--left nowrap' }, input_html: { class: 'input--large one-whole', data: { behavior: 'tooltip' }, title: "Indiquez le nom du lieu. S'il s'agit d'une adresse privée, mettre « Résidence privée »." }
+              = location_form.input :street, placeholder: 'Ex. : 83 avenue du général Leclerc', label: Location.human_attribute_name(:street), input_html: { class: 'input--large one-whole', title: "Ne renseignez ni le code postal ni la ville, uniquement le numéro et la rue.", data: { behavior: 'tooltip' } }, disabled: @place.belongs_to_other_locations?, label_html: { class: 'label--large text--left nowrap' }
 
-              = location_form.label :zip_code, label: 'Code postal et ville', disabled: @place.belongs_to_other_locations?, class: 'label--large text--left block'
+              = location_form.label :zip_code, label: 'Code postal et ville', disabled: @place.belongs_to_other_locations?, class: 'label--large text--left nowrap block'
               .input.flush--top
                 = location_form.input :zip_code, placeholder: 'Ex. : 75008', input_html: { class: 'input--large one-whole', data: { behavior: 'city-autocomplete', el: '#place_location_attributes_city_id' } }, label: false, wrapper_html: { class: 'flush--top' }, disabled: @place.belongs_to_other_locations?
                 = location_form.input :city_id, collection: [@place.location.city || @structure.city], label: false, selected: @place.location.city, wrapper_html: { class: 'flush--top' }, disabled: @place.belongs_to_other_locations?, input_html: { class: 'input--large' }
@@ -43,4 +43,4 @@
             %a.btn.btn--gray{ onclick: '$.fancybox.close();' } Annuler
             = f.submit 'Suivant', class: 'btn btn--green', data: { disable_with: "En cours d'enregistrement" }
 
-      .grid__item.four-tenths#place-wizard-container.relative.bordered--left>
+      .grid__item.five-tenths#place-wizard-container.relative.bordered--left>

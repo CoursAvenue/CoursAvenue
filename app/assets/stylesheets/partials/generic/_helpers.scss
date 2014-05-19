@@ -88,6 +88,7 @@
 .bordered--bottom    { border-bottom : 1px solid $gray-smooth; }
 .bordered--top       { border-top    : 1px solid $gray-smooth; }
 .bordered            { border        : 1px solid $gray-smooth; }
+.border-none         { border: none !important; }
 .border-none--sides  { border-left: none !important; border-right: none !important; }
 .border-none--bottom { border-bottom: none !important; }
 .border-none--right  { border-right: none !important; }

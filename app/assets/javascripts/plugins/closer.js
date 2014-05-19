@@ -30,14 +30,8 @@
     Plugin.prototype = {
 
         init: function() {
-            this.element_to_closer = $(this.$element.data('el'));
-            this.attachEvents();
-        },
-
-        attachEvents: function() {
-            this.$element.click(function() {
-                this.element_to_closer.slideUp();
-            }.bind(this));
+            this.element_to_close = $(this.$element.data('el'));
+            this.element_to_close.slideUp();
         }
     };
 
@@ -55,5 +49,7 @@
 })( jQuery, window, document );
 
 $(function() {
-    $('[data-behavior=closer]').closer();
+    $('body').on('click', '[data-behavior=closer]', function(event) {
+        $(this).closer();
+    });
 });

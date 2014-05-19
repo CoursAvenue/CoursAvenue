@@ -2,12 +2,11 @@
 
 .panel
   .panel__header.soft.text--center
-    = link_to 'Ajouter un nouveau lieu', new_pro_structure_place_path(@structure), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '900', padding: 0 }
+    = link_to 'Ajouter un nouveau lieu', new_pro_structure_place_path(@structure), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '750', padding: 0 }
   .panel__body{ data: { behavior: 'wizard-helper', content: t('pro.places.wizard_helper.index') } }
     - if @places.any?
       #map.google-map.push--top
 
-    - if @places.any?
       %table.table--striped
         %thead
           %tr
@@ -24,7 +23,7 @@
                   = link_to place.location.name, place_url(place, subdomain: 'www')
               %td= place.location.address
               %td.text--right.nowrap
-                = link_to edit_pro_structure_place_path(@structure, place), title: 'Modifier ce lieu', class: 'btn btn--orange btn--small fancybox.ajax', data: { behavior: 'modal', width: '900', padding: 0 } do
+                = link_to edit_pro_structure_place_path(@structure, place), title: 'Modifier ce lieu', class: 'btn btn--orange btn--small fancybox.ajax', data: { behavior: 'modal', width: '750', padding: 0 } do
                   %i.fa.fa-pencil
                   %span.soft-half--left Modifier ce lieu
                 &nbsp;
