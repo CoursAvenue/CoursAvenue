@@ -9,9 +9,6 @@
           = link_to 'Cours collectifs', new_pro_structure_price_group_path(@structure, course_type: 'Course::Lesson'), class: 'btn btn--green btn--full btn--large fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0', close_click: 'false' }
         .grid__item.one-half>
           = link_to 'Stages / Ateliers', new_pro_structure_price_group_path(@structure, course_type: 'Course::Training'), class: 'btn btn--green btn--full btn--large fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0', close_click: 'false' }
-        -# .grid__item.one-third>
-        -#   = link_to new_pro_structure_price_group_path(@structure, course_type: 'Course::Lesson'), class: 'btn btn--green btn--full fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0' } do
-        -#     Cours particuliers
   .panel__body.soft--ends
     %div{ data: { behavior: 'wizard-helper', content: t('price_group.wizard.premium_offers') } }
       .soft--sides
@@ -143,7 +140,7 @@
                   $draggable.data('dropped', true);
                   $.ajax({
                       type: 'PUT',
-                      url: Routes.remove_course_pro_structure_price_group_path('1564', price_group_id, { format: 'js' }),
+                      url: Routes.remove_course_pro_structure_price_group_path('#{@structure.id}', price_group_id, { format: 'js' }),
                       data: {
                           course_id: course_id
                       },
