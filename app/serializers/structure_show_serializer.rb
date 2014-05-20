@@ -19,8 +19,10 @@ class StructureShowSerializer < ActiveModel::Serializer
   has_many :teachers, serializer: ShortSerializer
 
   def courses
-    object.courses.active.where(id: @options[:planning_groups].keys).map do |course|
-      CourseSerializer.new(course, plannings: @options[:planning_groups][course.id])
+    if @options[:planning_groups]
+      object.courses.active.where(id: @options[:planning_groups].keys).map do |course|
+        CourseSerializer.new(course, plannings: @options[:planning_groups][course.id])
+      end
     end
   end
 
