@@ -170,8 +170,8 @@ class Structure < ActiveRecord::Base
     end
 
     latlon :location, multiple: true do
-      locations.map do |location|
-        Sunspot::Util::Coordinates.new(location.latitude, location.longitude)
+      places.map do |place|
+        Sunspot::Util::Coordinates.new(place.latitude, place.longitude)
       end
     end
 
