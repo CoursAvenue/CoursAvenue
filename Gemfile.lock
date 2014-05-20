@@ -113,6 +113,9 @@ GEM
       multi_json (~> 1.0)
     builder (3.2.2)
     bust_rails_etags (0.0.5)
+    byebug (3.1.2)
+      columnize (~> 0.8)
+      debugger-linecache (~> 1.2)
     callsite (0.0.11)
     cancancan (1.7.1)
     capybara (2.2.1)
@@ -143,6 +146,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.7.0)
+    columnize (0.8.9)
     compass (0.12.6)
       chunky_png (~> 1.2)
       fssm (>= 0.2.7)
@@ -156,6 +160,7 @@ GEM
     dalli (2.6.4)
     database_cleaner (1.2.0)
     debug_inspector (0.0.2)
+    debugger-linecache (1.2.0)
     delayed_job (4.0.1)
       activesupport (>= 3.0, < 4.2)
     delayed_job_active_record (4.0.1)
@@ -524,6 +529,7 @@ DEPENDENCIES
   brakeman (~> 2.3.1)
   bugsnag
   bust_rails_etags
+  byebug
   cancancan (~> 1.7.0)
   capybara (~> 2.2.1)
   certified (~> 0.1.1)

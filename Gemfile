@@ -208,7 +208,7 @@ group :development do
 end
 
 group :development, :test do
-  # gem 'debugger', '~>1.6.6' # this is causing problems for Andre
+  gem 'byebug'
   # Permits to travel in the past
   gem 'delorean'
   gem 'dotenv-rails'
