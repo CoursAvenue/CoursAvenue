@@ -13,8 +13,12 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         },
 
         events: {
-            "filter:removed": 'removeSummary',
-            "click [data-toggle=tab] ": 'showOrCreateTab'
+            'breadcrumbs:clear'       : 'broadenSearch',
+            'filter:removed'          : 'broadenSearch',
+            'filter:popstate'         : 'narrowSearch',
+            'courses:collection:reset': 'renderCourseSummary',
+            'filter:removed'          : 'removeSummary',
+            'click [data-toggle=tab] ': 'showOrCreateTab'
         },
 
         removeSummary: function () {
@@ -108,7 +112,8 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         },
 
         updateModelWithRelation: function updateModelWithRelation (relation) {
-            var fetch = this.model.fetchRelated(relation, { data: this.getParamsForResource(relation)}, true)[0];
+            // var fetch = this.model.fetchRelated(relation, { data: this.getParamsForResource(relation)}, true)[0];
+            var fetch = this.model.get(relation).fetch({ data: this.getParamsForResource(relation)});
 
             if (fetch !== undefined) {
                 fetch.then(function (resources) {

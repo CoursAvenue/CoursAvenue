@@ -9,13 +9,7 @@ StructureProfile.addInitializer(function(options) {
         layout         = new StructureProfile.Views.StructureProfileLayout(),
         structure      = new CoursAvenue.Models.Structure(bootstrap, bootstrap.options),
         structure_view = new StructureProfile.Views.Structure.StructureView({
-            model: structure,
-            events: {
-                'breadcrumbs:clear': 'broadenSearch',
-                'filter:removed'   : 'broadenSearch',
-                'filter:popstate'  : 'narrowSearch',
-                'courses:collection:reset': 'renderCourseSummary'
-            }
+            model: structure
         }),
         google_maps_view, sticky_google_maps_view, filter_breadcrumbs, places_collection, places_list_view;
 
