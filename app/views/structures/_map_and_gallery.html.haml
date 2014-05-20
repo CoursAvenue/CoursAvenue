@@ -51,6 +51,9 @@
             nextText: '<i class="fa fa-chevron-right"></i>',
             manualControls: '#galery-controls-thumb',
             before: function(currentlySelectedIndex) {
+                //------
+                // Code that move the selected thumb
+                //------
                 var $galery_controls_thumb_parent = $galery_controls_thumb.parent(),
                     parent_width                  = $galery_controls_thumb_parent.width(),
                     thumb_width                   = $('#galery-controls-thumb .rslides_here').width(),
