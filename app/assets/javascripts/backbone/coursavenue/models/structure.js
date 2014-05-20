@@ -18,7 +18,7 @@ CoursAvenue.module('Models', function(Module, App, Backbone, Marionette, $, _) {
             *  "&ids=1,2,3" but in our case the URL doesn't actually
             *  differ. So we are just returning an empty string to trick
             *  backbonerelational. */
-            if (!structure_id || models === undefined) { return ''; }
+            if (!structure_id && models === undefined) { return ''; }
 
             return Routes.structure_courses_path(route_details, query_params);
         }
@@ -75,7 +75,7 @@ CoursAvenue.module('Models', function(Module, App, Backbone, Marionette, $, _) {
                         *  "&ids=1,2,3" but in our case the URL doesn't actually
                         *  differ. So we are just returning an empty string to trick
                         *  backbonerelational. */
-                        if (!structure_id || models === undefined) { return ''; }
+                        if (!structure_id && models === undefined) { return ''; }
 
                         return Routes.structure_comments_path({ format: 'json', id: structure_id || models[0].get('structure').get('id') }, query_params);
                     }
@@ -107,7 +107,7 @@ CoursAvenue.module('Models', function(Module, App, Backbone, Marionette, $, _) {
                     url: function (models) {
                         var structure_id = this.structure.get('id');
 
-                        if (!structure_id || models === undefined) { return ''; }
+                        if (!structure_id && models === undefined) { return ''; }
 
                         return Routes.structure_teachers_path({ format: 'json', id: structure_id || models[0].get('structure').get('id') })
                     }
