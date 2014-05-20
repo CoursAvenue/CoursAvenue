@@ -81,7 +81,7 @@ class PriceGroup < ActiveRecord::Base
   private
 
   def default_name
-    self.name ||= "Grille tarifaire #{self.structure.price_groups.count + 1}" if self.new_record?
+    self.name ||= "Grille tarifaire #{self.structure.price_groups.count + 1}" if self.new_record? and self.structure
   end
 
   # Method for accepts_nested_attributes_for :prices

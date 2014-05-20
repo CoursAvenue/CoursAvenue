@@ -8,7 +8,7 @@ class Course < ActiveRecord::Base
 
   # ------------------------------------------------------------------------------------ Model attributes and settings
   extend FriendlyId
-  friendly_id :friendly_name, use: [:slugged, :finders, :history]
+  friendly_id :friendly_name, use: [:slugged, :finders]
 
   belongs_to :structure, touch: true
 
@@ -246,7 +246,7 @@ class Course < ActiveRecord::Base
   end
 
   def has_unit_course_price
-    return (book_tickets.any? or prices.where(libelle: 'prices.individual_course').any?)
+    return (price_group.book_tickets.any? or prices.where(libelle: 'prices.individual_course').any?)
   end
 
   def min_price
@@ -336,12 +336,12 @@ class Course < ActiveRecord::Base
   end
 
   def activate!
-    if prices.any? and plannings.any?
+    if price_group and plannings.any?
       self.active = true
       return save
     else
-      errors.add(:prices, "Le cours n'a pas de tarifs")       if prices.empty?
-      errors.add(:plannings, "Le cours n'a pas de plannings") if plannings.empty?
+      errors.add(:price_group, "Le cours n'a pas de tarifs")    unless price_group
+      errors.add(:plannings,   "Le cours n'a pas de plannings") if plannings.empty?
       return false
     end
   end
@@ -351,7 +351,7 @@ class Course < ActiveRecord::Base
   end
 
   def should_generate_new_friendly_id?
-    new_record? || !self.active
+    new_record? || false
   end
 
   def migration_set_teaches_at_home
