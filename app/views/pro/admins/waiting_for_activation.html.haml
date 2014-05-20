@@ -1,13 +1,15 @@
-= pro_menu_currently_at 'nowhere'
-.text--center.soft
-  %h2
-    Merci pour votre inscription
+= content_for :above_container do
+  .push--top.white-box.center-block{ style: 'max-width: 900px;' }
+    .panel__body.soft
+      .text--center.soft
+        %h2
+          Merci pour votre inscription
 
-  %h4.flush--bottom
-    Activez votre compte depuis le mail que nous venons de vous envoyer.
-  %p
-    Une fois votre compte activé vous pourrez gérer votre profil.
-    %br
-    %i
-      Si l'email ne vous parvient pas dans les 10 minutes et n'apparaît pas dans vos courriers indésirables,
-      = link_to 'contactez-nous.', pages_contact_path, target: '_blank'
+        %h4.flush--bottom
+          Activez votre compte depuis le mail que nous venons de vous envoyer.
+        %p
+          Une fois votre compte activé vous pourrez gérer votre profil.
+          %br
+          %i
+            Si l'email ne vous parvient pas dans les 10 minutes et n'apparaît pas dans vos courriers indésirables,
+            = link_to 'contactez-nous.', pages_contact_path, target: '_blank'

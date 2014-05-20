@@ -26,7 +26,6 @@ class Place < ActiveRecord::Base
                                 reject_if: lambda {|attributes| attributes.values.compact.reject(&:blank?).empty?},
                                 allow_destroy: true
 
-
   attr_accessible :name, :location, :structure, :contacts,
                   :info, :private_info,
                   :contacts_attributes,

@@ -1,5 +1,10 @@
 .modal-info-popup#modal-info-dashboard {
-  top: 5px;
+  top: 214px;
+  left: 1em;
+}
+.modal-info-popup#modal-info-check-info-at-right {
+  top : 50px;
+  left: 250px;
 }
 .modal-info-popup#modal-info-mes-infos {
   top: 55px;
@@ -20,8 +25,8 @@
   top: 310px;
 }
 .modal-info-popup#modal-info-lets-start {
-  left: 410px;
-  top : 120px;
+  left: 385px;
+  top : 105px;
 }
 .modal-info-popup{
   position  : absolute;
@@ -31,13 +36,14 @@
   @include box-shadow(0 0 25px #777);
   @include border-radius(3px);
 }
-  .modal-info-popup__left-arrow {
-    position    : absolute;
-    left        : -1em;
-    top         : 0;
-    font-size   : 2em;
-    color       : #FFF;
+  .modal-info-popup__right-arrow, .modal-info-popup__left-arrow {
     @include text-shadow(2px 2px 9px #555, 2px 2px 38px #666);
+  }
+  .modal-info-popup__left-arrow {
+    left        : -25px;
+  }
+  .modal-info-popup__right-arrow {
+    right       : -25px;
   }
   .modal-info-popup__title{
     margin-bottom: 0;

@@ -1,44 +1,43 @@
-.text--center.push--top
-  %h1.push-half--bottom Félicitations, votre profil vient d'être créé !
+= content_for :above_container do
+  .push--top.white-box.center-block{ style: 'max-width: 900px;' }
+    .panel__body.soft--ends
+      .soft--sides
+        %h1.text--center.push-half--bottom Félicitations, votre profil vient d'être créé !
+        .grid--full.text--center.push--top
+          .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
+            = link_to structure_url(@structure, subdomain: 'www'), class: 'muted-link blue-box islet word-break-normal', target: '_blank' do
+              %h5
+                %i.fa.fa-user.fa.fa-2x
+                %br
+                %i.fa.fa-check
+                Profil créé
+          .grid__item.one-twelfth.text--center.v-middle>
+            .islet
+              %i.fa.fa-chevron-right.fa.fa-2x
+          .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
+            %a.muted-link.blue-box.islet.word-break-normal
+              %h5
+                %i.fa.fa-check.fa.fa-2x
+                %br
+                Validez votre inscription
+          .grid__item.one-twelfth.text--center.v-middle>
+            .islet
+              %i.fa.fa-chevron-right.fa.fa-2x
+          .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
+            %a.muted-link.white-box.islet.word-break-normal
+              %h5
+                %i.fa.fa-cogs.fa.fa-2x
+                %br
+                Gérez votre profil
+      %hr.push--ends
+      .soft--sides
+        %h4.text--center Dernière étape : créez vos identifiants pour gérer votre profil
+        = simple_form_for [:pro, @admin], url: pro_admin_registration_path, html: { autocomplete: 'off', class: 'half-form'} do |f|
+          = f.error_notification
+          = f.input :email, required: true, autofocus: true, label: t('.email'), wrapper_html: { class: 'flush--bottom' }, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+          %p.blue.field-form-info= t('.email_info')
+          = f.input :password, required: true, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+          = f.hidden_field :structure_id, as: :hidden, value: @structure.try(:id)
 
-.grid--full.text--center.push--top
-  .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
-    = link_to structure_url(@structure, subdomain: 'www'), class: 'muted-link blue-box islet word-break-normal', target: '_blank' do
-      %h5
-        %i.fa.fa-user.fa.fa-2x
-        %br
-        %i.fa.fa-check
-        Profil créé
-  .grid__item.one-twelfth.text--center.v-middle>
-    .islet
-      %i.fa.fa-chevron-right.fa.fa-2x
-  .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
-    %a.muted-link.blue-box.islet.word-break-normal
-      %h5
-        %i.fa.fa-check.fa.fa-2x
-        %br
-        Validez votre inscription
-  .grid__item.one-twelfth.text--center.v-middle>
-    .islet
-      %i.fa.fa-chevron-right.fa.fa-2x
-  .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
-    %a.muted-link.white-box.islet.word-break-normal
-      %h5
-        %i.fa.fa-cogs.fa.fa-2x
-        %br
-        Gérez votre profil
-
-%hr
-
-%h4.text--center Dernière étape : créez vos identifiants pour gérer votre profil
-= simple_form_for [:pro, @admin], :url => pro_admin_registration_path, html: { autocomplete: 'off', class: 'half-form'} do |f|
-  = f.error_notification
-  .form-inputs
-    .form-white-box--centered
-      = f.input :email, :required => true, :autofocus => true, label: t('.email'), wrapper_html: {class: 'flush--bottom'}
-      %p.blue.field-form-info= t('.email_info')
-      = f.input :password, :required => true
-      = f.hidden_field :structure_id, as: :hidden, value: @structure.try(:id)
-
-  .text--center
-    = f.button :submit, 'Valider',  class: 'btn--green btn--large'
+          .text--center
+            = f.button :submit, 'Valider',  class: 'btn--green btn--large', disable_with: 'Enregistrement en cours...'

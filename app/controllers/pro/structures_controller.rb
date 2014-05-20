@@ -177,6 +177,7 @@ class Pro::StructuresController < Pro::ProController
     session[:zip_code] = params[:zip_code]
     session[:email]    = params[:email]
     @structure  = Structure.new name: params[:name], zip_code: params[:zip_code], contact_email: params[:email]
+    @structure.places.build
     @structures = Structure.where.not(comments_count: nil).order('comments_count DESC').limit(3)
   end
 
@@ -225,21 +226,18 @@ class Pro::StructuresController < Pro::ProController
     # Prevents from duplicates
     s_name      = params[:structure][:name]
     s_zip_code  = params[:structure][:zip_code]
-    @structure  = Structure.where { (name == s_name) & (zip_code == s_zip_code) }.first
-    # Used for showing side structure list on new action
-    @structures = Structure.where { (comments_count != nil) }.order('comments_count DESC').limit(3)
-    @place_name = params[:structure][:location].delete :name
-    params[:structure].delete :location
-    if @structure.nil?
-      @structure = Structure.new params[:structure]
-    end
+
+    @structure  = Structure.where( Structure.arel_table[:name].eq(s_name).and(
+                                   Structure.arel_table[:zip_code].eq(s_zip_code)) ).first_or_initialize params[:structure]
+
     respond_to do |format|
-      if @structure.persisted?
+      if @structure.persisted? # If structure already existed
         format.html { redirect_to new_pro_admin_structure_registration_path(@structure, subdomain: 'pro'), notice: 'Félicitations, votre profil est maintenant créé !<br>Dernière étape : créez vos identifiants.' }
       elsif @structure.new_record? && @structure.save
-        @structure.create_place(@place_name) unless @structure.places.any?
         format.html { redirect_to new_pro_admin_structure_registration_path(@structure, subdomain: 'pro'), notice: 'Félicitations, votre profil est maintenant créé !<br>Dernière étape : créez vos identifiants.' }
       else
+        # Used for showing side structure list on new action
+        @structures = Structure.where.not(comments_count: nil).order('comments_count DESC').limit(3)
         format.html { render 'pro/structures/new' }
       end
     end

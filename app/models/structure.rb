@@ -23,52 +23,6 @@ class Structure < ActiveRecord::Base
 
   geocoded_by :geocoder_address
 
-  attr_reader :delete_logo
-  attr_accessible :structure_type, :street, :zip_code, :city_id,
-                  :place_ids, :name, :info, :registration_info,
-                  :website, :facebook_url, :contact_phone,
-                  :contact_mobile_phone, :contact_email, :description,
-                  :subject_ids,
-                  :active,
-                  :has_validated_conditions,
-                  :validated_by,
-                  :logo,
-                  :funding_type_ids,
-                  :crop_x, :crop_y, :crop_width,
-                  :rating, :comments_count,
-                  :no_facebook, :no_website, :has_only_one_place,
-                  :email_status, :last_email_sent_at, :last_email_sent_status,
-                  :widget_status, :widget_url, :sticker_status,
-                  :teaches_at_home, :teaches_at_home_radius, # in KM
-                  :subjects_string, :parent_subjects_string, # "Name of the subject,slug-of-the-subject;Name,slug"
-                  :gives_group_courses, :gives_individual_courses,
-                  :gives_non_professional_courses, :gives_professional_courses,
-                  :highlighted_comment_id
-
-  # To store hashes into hstore
-  store_accessor :meta_data, :gives_group_courses, :gives_individual_courses,
-                             :plannings_count, :has_promotion, :has_free_trial_course, :course_names, :open_course_names, :open_course_subjects,
-                             :highlighted_comment_title, :min_price_libelle, :min_price_amount, :max_price_libelle, :max_price_amount,
-                             :level_ids, :audience_ids, :busy,
-                             :open_courses_open_places, :open_course_nb, :jpo_email_status, :open_course_plannings_nb,
-                             :response_rate, :response_time, :gives_non_professional_courses, :gives_professional_courses
-
-
-  define_boolean_accessor_for :meta_data, :has_promotion, :gives_group_courses, :gives_individual_courses,
-                              :has_free_trial_course, :gives_non_professional_courses, :gives_professional_courses
-
-  has_attached_file :logo,
-                    styles: {
-                      original: {
-                        geometry: '600x600#',
-                        processors: [:cropper_square]
-                      },
-                      large: '450x450',
-                      thumb: {
-                        geometry: '200x200#',
-                        processors: [:cropper]
-                        }
-                      }
   ######################################################################
   # Relations                                                          #
   ######################################################################
@@ -107,13 +61,60 @@ class Structure < ActiveRecord::Base
 
   has_many :admins
 
+  attr_reader :delete_logo
+  attr_accessible :structure_type, :street, :zip_code, :city_id,
+                  :place_ids, :name, :info, :registration_info,
+                  :website, :facebook_url, :contact_phone,
+                  :contact_mobile_phone, :contact_email, :description,
+                  :subject_ids,
+                  :active,
+                  :has_validated_conditions,
+                  :validated_by,
+                  :logo,
+                  :funding_type_ids,
+                  :crop_x, :crop_y, :crop_width,
+                  :rating, :comments_count,
+                  :no_facebook, :no_website, :has_only_one_place,
+                  :email_status, :last_email_sent_at, :last_email_sent_status,
+                  :widget_status, :widget_url, :sticker_status,
+                  :teaches_at_home, :teaches_at_home_radius, # in KM
+                  :subjects_string, :parent_subjects_string, # "Name of the subject,slug-of-the-subject;Name,slug"
+                  :gives_group_courses, :gives_individual_courses,
+                  :gives_non_professional_courses, :gives_professional_courses,
+                  :highlighted_comment_id, :places_attributes
+
+  accepts_nested_attributes_for :places,
+                                allow_destroy: false
+
+
+  # To store hashes into hstore
+  store_accessor :meta_data, :gives_group_courses, :gives_individual_courses,
+                             :plannings_count, :has_promotion, :has_free_trial_course, :course_names, :open_course_names, :open_course_subjects,
+                             :highlighted_comment_title, :min_price_libelle, :min_price_amount, :max_price_libelle, :max_price_amount,
+                             :level_ids, :audience_ids, :busy,
+                             :open_courses_open_places, :open_course_nb, :jpo_email_status, :open_course_plannings_nb,
+                             :response_rate, :response_time, :gives_non_professional_courses, :gives_professional_courses
+
+
+  define_boolean_accessor_for :meta_data, :has_promotion, :gives_group_courses, :gives_individual_courses,
+                              :has_free_trial_course, :gives_non_professional_courses, :gives_professional_courses
+
+  has_attached_file :logo,
+                    styles: {
+                      original: {
+                        geometry: '600x600#',
+                        processors: [:cropper_square]
+                      },
+                      large: '450x450',
+                      thumb: {
+                        geometry: '200x200#',
+                        processors: [:cropper]
+                        }
+                      }
   ######################################################################
   # Validations                                                        #
   ######################################################################
   validates :name               , :presence   => true
-  validates :street             , :presence   => true, on: :create
-  validates :zip_code           , :presence   => true, numericality: { only_integer: true }, on: :create
-  validates :city               , :presence   => true, on: :create
   validate :subject_parent_and_children
   validates :name, :website, :facebook_url, length: { maximum: 255 }
 
@@ -122,6 +123,7 @@ class Structure < ActiveRecord::Base
   ######################################################################
   before_create :set_active_to_true
 
+  after_create  :set_default_location_attributes
   after_create  :set_free_pricing_plan
   after_create  :geocode
 
@@ -402,18 +404,6 @@ class Structure < ActiveRecord::Base
       course.active = false
       course.save
     end
-  end
-
-  def create_place(place_name='Adresse principale')
-    place_name = 'Adresse principale' if place_name.blank?
-    location_street     = self.street.gsub(',', '%').gsub(' ', '%').gsub('é', '%').gsub('è', '%').gsub('ê', '%').strip
-    location_zip_code   = self.zip_code
-    if (loc = Location.where(Location.arel_table[:name].matches(place_name).and(Location.arel_table[:street].matches(location_street)).and(Location.arel_table[:zip_code].eq(location_zip_code))).first)
-      location = loc
-    else
-      location = Location.create(name: place_name, street: self.street, city: self.city, zip_code: self.zip_code)
-    end
-    Place.create(structure: self, location: location)
   end
 
   def logo_geometry(style = :original)
@@ -807,6 +797,17 @@ class Structure < ActiveRecord::Base
   # @return nil
   def sanatize_description
     self.description = self.description.scan(/[[:print:]]|[[:space:]]/).join if self.description.present?
+    nil
+  end
+
+  #
+  # Set street / ZipCode and City regarding the first place being created
+  #
+  # @return nil
+  def set_default_location_attributes
+    self.update_column :street,   places.first.street
+    self.update_column :zip_code, places.first.zip_code
+    self.update_column :city_id,  places.first.city.id
     nil
   end
 end

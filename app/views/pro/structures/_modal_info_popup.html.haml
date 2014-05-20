@@ -1,74 +1,83 @@
 .modal-info-popup#modal-info-dashboard.hidden
-  .modal-info-popup__left-arrow
-    %i.fa.fa-chevron-left
+  .modal-info-popup__left-arrow.absolute.north.white.soft-half--top
+    %i.fa.fa-chevron-left.fa-2x
   .modal-info-popup__content
     %p
       Accédez à ces différentes rubriques et mettez à jour votre description, vos cours, vos photos, etc.
     .text--right
-      %a.btn.btn--blue{data: {behavior: 'show-next', next: '#modal-info-lets-start'}} Suivant
+      %a.btn.btn--blue{ data: { behavior: 'show-next', next: '#modal-info-check-info-at-right' } } Suivant
+
+.modal-info-popup#modal-info-check-info-at-right.hidden
+  .modal-info-popup__content
+    %p
+      Faites apparaître de l'aide sur la partie droite en survolant avec votre souris les différents champs du formulaire.
+    .text--right
+      %a.btn.btn--blue{ data: { behavior: 'show-next', next: '#modal-info-lets-start' } } Suivant
+  .modal-info-popup__right-arrow.absolute.north.white.soft-half--top
+    %i.fa.fa-chevron-right.fa-2x
 
 .modal-info-popup#modal-info-mes-infos.hidden
-  .modal-info-popup__left-arrow
-    %i.fa.fa-chevron-left
+  .modal-info-popup__left-arrow.absolute.north.white.soft-half--top
+    %i.fa.fa-chevron-left.fa-2x
   .modal-info-popup__content
     %p
       Renseignez vos informations générales, disciplines, lieux d'enseignement et professeurs.
     .text--right
-      %a.btn.btn--blue{data: {behavior: 'show-next', next: '#modal-info-mes-avis'}} Suivant
+      %a.btn.btn--blue{ data: { behavior: 'show-next', next: '#modal-info-mes-avis' } } Suivant
 
 .modal-info-popup#modal-info-mes-avis.hidden
-  .modal-info-popup__left-arrow
-    %i.fa.fa-chevron-left
+  .modal-info-popup__left-arrow.absolute.north.white.soft-half--top
+    %i.fa.fa-chevron-left.fa-2x
   .modal-info-popup__content
     %p
       Demandez à vos élèves de vous recommander et modérez vos dernières recommandations.
     .text--right
-      %a.btn.btn--blue{data: {behavior: 'show-next', next: '#modal-info-mes-cours'}} Suivant
+      %a.btn.btn--blue{ data: { behavior: 'show-next', next: '#modal-info-mes-cours' } } Suivant
 
 .modal-info-popup#modal-info-mes-cours.hidden
-  .modal-info-popup__left-arrow
-    %i.fa.fa-chevron-left
+  .modal-info-popup__left-arrow.absolute.north.white.soft-half--top
+    %i.fa.fa-chevron-left.fa-2x
   .modal-info-popup__content
     %p
       Renseignez votre planning de cours (description, tarifs et planning) pour les rendre visible de tous.
     .text--right
-      %a.btn.btn--blue{data: {behavior: 'show-next', next: '#modal-info-mes-photos'}} Suivant
+      %a.btn.btn--blue{ data: { behavior: 'show-next', next: '#modal-info-mes-photos' } } Suivant
 
 .modal-info-popup#modal-info-mes-photos.hidden
-  .modal-info-popup__left-arrow
-    %i.fa.fa-chevron-left
+  .modal-info-popup__left-arrow.absolute.north.white.soft-half--top
+    %i.fa.fa-chevron-left.fa-2x
   .modal-info-popup__content
     %p
       Rendez votre profil attractif en ajoutant des photos et des vidéos.
     .text--right
-      %a.btn.btn--blue{data: {behavior: 'show-next', next: '#modal-info-conversation'}} Suivant
+      %a.btn.btn--blue{ data: { behavior: 'show-next', next: '#modal-info-conversation' } } Suivant
 
 .modal-info-popup#modal-info-conversation.hidden
-  .modal-info-popup__left-arrow
-    %i.fa.fa-chevron-left
+  .modal-info-popup__left-arrow.absolute.north.white.soft-half--top
+    %i.fa.fa-chevron-left.fa-2x
   .modal-info-popup__content
     %p
       Communiquez efficacement avec vos élèves et gérez vos demandes d'inscription.
     .text--right
-      %a.btn.btn--blue{data: {behavior: 'show-next', next: '#modal-info-parainage'}} Suivant
+      %a.btn.btn--blue{ data: { behavior: 'show-next', next: '#modal-info-parainage' } } Suivant
 
 .modal-info-popup#modal-info-parainage.hidden
-  .modal-info-popup__left-arrow
-    %i.fa.fa-chevron-left
+  .modal-info-popup__left-arrow.absolute.north.white.soft-half--top
+    %i.fa.fa-chevron-left.fa-2x
   .modal-info-popup__content
     %p
       Vous aimez CoursAvenue ? Invitez d'autres professeurs, associations et écoles à vous rejoindre !
     .text--right
-      %a.btn.btn--blue{data: {behavior: 'show-next', next: '#modal-info-lets-start'}} Suivant
+      %a.btn.btn--blue{ data: { behavior: 'show-next', next: '#modal-info-lets-start' } } Suivant
 
 .modal-info-popup#modal-info-lets-start.hidden
-  .modal-info-popup__left-arrow
-    %i.fa.fa-chevron-left
+  .modal-info-popup__left-arrow.absolute.north.white.soft-half--top
+    %i.fa.fa-chevron-left.fa-2x
   .modal-info-popup__content
     %p
       Commencez par votre logo, puis renseignez ci-dessous toutes vos informations générales
     .text--right
-      %a.btn.btn--blue{data: {behavior: 'got-it'}} OK
+      %a.btn.btn--blue{ data: { behavior: 'got-it' } } OK
 
 
 = content_for :scripts do
