@@ -17,14 +17,8 @@ class StructureSerializer < ActiveModel::Serializer
 
   has_many :places
   has_many :comments,          serializer: ShortSerializer
-  has_many :courses,           serializer: ShortSerializer
   has_many :medias,            serializer: ShortSerializer
   has_many :preloaded_medias,  serializer: MediaSerializer
-
-  # Following functions has to return the same objects than the associated controllers
-  def courses
-    object.courses.active
-  end
 
   def medias
     (object.premium? ? object.medias.videos_first.limit(20) : object.medias.videos_first.limit(1))

@@ -14,16 +14,6 @@ class CommentSerializer < ActiveModel::Serializer
     object.content
   end
 
-  # while link_to and such aren't working, we will just use this
-  def comment_url
-    # TODO there is a problem with UrlHelper in Rails 4 that breaks this
-    "etablissements/#{object.structure.slug}#recommandation-#{object.id}"
-  end
-
-  def comments_url
-    "etablissements/#{object.structure.slug}"
-  end
-
   def distance_of_time
     distance_of_time_in_words_to_now self.created_at
   end

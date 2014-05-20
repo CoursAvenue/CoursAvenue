@@ -42,7 +42,8 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             if (this.regions[collection_name] === undefined) {
                 self.showLoader(collection_name);
                 /* wait for asynchronous fetch of models before adding region */
-                this.model.fetchRelated(relation_name, { data: { search_term: this.search_term }}, true)[0].then(function () {
+                // this.model.fetchRelated(relation_name, { data: { search_term: this.search_term }}, true)[0].then(function () {
+                this.model.get(relation_name).fetch({ data: { search_term: this.search_term }}).then(function () {
                     self.createRegionFor(relation_name, attributes);
                     self.accordionToggle(collection_name, model_name);
                     self.hideLoader();

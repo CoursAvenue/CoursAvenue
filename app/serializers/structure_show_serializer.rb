@@ -31,10 +31,9 @@ class StructureShowSerializer < ActiveModel::Serializer
   end
 
   def comments
-    result = object.comments.accepted
-    result = result.limit(5) unless options.key? :unlimited_comments
-
-    return result
+    _comments = object.comments.accepted
+    _comments = _comments.limit(5) unless options.has_key?(:unlimited_comments)
+    _comments
   end
 
   def places_count

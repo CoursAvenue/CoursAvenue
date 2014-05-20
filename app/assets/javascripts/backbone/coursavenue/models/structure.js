@@ -124,16 +124,11 @@ CoursAvenue.module('Models', function(Module, App, Backbone, Marionette, $, _) {
                 },
                 collectionType: Backbone.Collection.extend({
                     url: function (models) {
+                        var structure_id = this.structure.get('id');
 
-                        /* backboneRelational expects url(models) to return a URL
-                        *  different from just calling url() without a models params.
-                        *  Normally, url would build a URL including something like
-                        *  "&ids=1,2,3" but in our case the URL doesn't actually
-                        *  differ. So we are just returning an empty string to trick
-                        *  backbonerelational. */
-                        if (models === undefined) { return ''; }
+                        if (!structure_id && models === undefined) { return ''; }
 
-                        return Routes.structure_medias_path({format: 'json', id: models[0].get('structure').get('id')})
+                        return Routes.structure_medias_path({format: 'json', id: structure_id || models[0].get('structure').get('id')})
                     }
                 })
             }
