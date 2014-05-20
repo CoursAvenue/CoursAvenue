@@ -201,7 +201,6 @@ GEM
     ffi (1.9.3)
     filepicker-rails (1.1.0)
       rails (>= 3.2)
-    fingerprintjs-rails (0.5.3)
     fog (1.22.0)
       fog-brightbox
       fog-core (~> 1.21, >= 1.21.1)
@@ -315,7 +314,7 @@ GEM
       rack
     options (2.3.2)
     orm_adapter (0.5.0)
-    paperclip (3.5.4)
+    paperclip (4.1.1)
       activemodel (>= 3.0.0)
       activesupport (>= 3.0.0)
       cocaine (~> 0.5.3)
@@ -546,7 +545,6 @@ DEPENDENCIES
   faker (~> 1.2.0)
   fb_graph (~> 2.7.10)
   filepicker-rails
-  fingerprintjs-rails (~> 0.5.3)
   font-awesome-rails (~> 4.0.3.1)
   friendly_id (~> 5.0.0)
   geocoder (~> 1.1.9)
@@ -568,7 +566,7 @@ DEPENDENCIES
   nutshell-crm
   omniauth-facebook (~> 1.4.1)
   omnicontacts (~> 0.3.4)
-  paperclip (~> 3.5.1)
+  paperclip (~> 4.1.1)
   paranoia (~> 2.0)
   passenger
   pg

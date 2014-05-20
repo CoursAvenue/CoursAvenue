@@ -70,7 +70,7 @@ gem 'hirefire-resource'
 gem 'progress_bar'              , '~>1.0.0'
 
 # For image handling
-gem 'paperclip'                 , '~>3.5.1'
+gem 'paperclip'                 , '~>4.1.1'
 
 # For handy SQL queries
 # gem 'squeel'                    , '~>1.1.1'
@@ -132,8 +132,6 @@ gem 'sitemap_generator'         , '~>4.2.0'
 
 # Transform external CSS stylesheets into inline CSS for emails
 gem 'roadie'                    , '~>2.4.3'
-
-gem 'fingerprintjs-rails'       , '~>0.5.3'
 
 # Includes Backbone Marionette
 gem 'marionette-rails'          , '~>1.4.1'

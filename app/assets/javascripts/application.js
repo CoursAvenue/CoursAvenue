@@ -46,7 +46,7 @@
 
 //= require libs/fancybox/jquery.fancybox
 
-//= require fingerprint
+//= require libs/fingerprint
 
 // ---------------------------------- Backbone
 //= require libs/underscore
