@@ -84,6 +84,7 @@ CoursAvenue::Application.routes.draw do
           get   :crop_logo
           get   :wizard
           get   :signature
+          get   :logo
           get   :dashboard, path: 'tableau-de-bord'
           get   :recommendations, path: 'recommandations'
           post  :recommend_friends
