@@ -5,7 +5,7 @@ describe Visitor do
     let(:visitor) { FactoryGirl.create(:visitor) }
 
     it "returns the histogram datum with the highest score" do
-      expect(visitor.best :address_name ).to eq(["Nice", 2])
+      expect(visitor.best :address_name ).to eq(["Nice", '2'])
     end
   end
 

@@ -6,12 +6,13 @@ describe Course do
   let(:lesson)            { FactoryGirl.build(:lesson) }
 
   before(:all) do
-    @course        = FactoryGirl.create(:course)
-    @price_1       = @course.prices.build FactoryGirl.attributes_for(:price, amount: 15)
-    @price_2       = @course.prices.build FactoryGirl.attributes_for(:subscription, amount: 200)
-    @planning_1    = FactoryGirl.create(:planning)
-    @price_group   = FactoryGirl.build(:price_group)
-    @price_group.prices = [@price_1, @price_2]
+    @course                = FactoryGirl.create(:course)
+    @price_1               = FactoryGirl.create(:price, amount: 15)
+    @price_2               = FactoryGirl.create(:subscription, amount: 200)
+    @planning_1            = FactoryGirl.create(:planning)
+    @price_group           = FactoryGirl.build(:price_group)
+    @price_group.prices    = [@price_1, @price_2]
+    @price_group.structure = @course.structure
     @price_group.save
     @course.price_group = @price_group
     @course.save
@@ -76,28 +77,28 @@ describe Course do
 
   describe '#activate!' do
     before(:each) do
-      @course  = FactoryGirl.build(:course, active: false)
-      @price_3 = FactoryGirl.build(:price)
+      @course      = FactoryGirl.build(:course, active: false)
+      @price_group = FactoryGirl.build(:price_group)
     end
     context 'without plannings' do
       context 'without prices' do
         it 'fails' do
           expect(@course.activate!).to be_false
           expect(@course.active).to be_false
-          expect(@course.errors[:prices].length).to eq 1
+          expect(@course.errors[:price_group].length).to eq 1
           expect(@course.errors[:plannings].length).to eq 1
         end
       end
       context 'with prices' do
         before(:each) do
-          @course.prices << @price_3
+          @course.price_group = @price_group
           @course.save
         end
         it 'activates' do
           @course.activate!.should be_false
           @course.active.should be_false
           @course.errors[:plannings].length.should eq 1
-          @course.should have(0).errors_on(:prices)
+          @course.should have(0).errors_on(:price_group)
         end
       end
     end
@@ -110,7 +111,7 @@ describe Course do
         it 'fails' do
           @course.activate!.should be_false
           @course.active.should be_false
-          @course.errors[:prices].length.should eq 1
+          @course.errors[:price_group].length.should eq 1
           @course.should have(0).errors_on(:plannings)
         end
       end
@@ -118,14 +119,14 @@ describe Course do
     context 'with prices and plannings' do
       before(:each) do
         @course.plannings << @planning_1
-        @price_3.course = @course
-        @price_3.save
+        @course.price_group = @price_group
+        @course.save
       end
       it 'activates' do
         @course.activate!.should be_true
         @course.active.should be_true
         @course.should have(0).errors_on(:plannings)
-        @course.should have(0).errors_on(:prices)
+        @course.should have(0).errors_on(:price_group)
       end
     end
   end
@@ -173,39 +174,12 @@ describe Course do
     it 'should have slug' do
       @course.slug.should_not be_nil
     end
-    context :inactive do
-      before do
-        @course.active = false
-      end
-      it 'should change slug with name' do
-        initial_slug = @course.slug
-        @course.name += ' new slug'
-        @course.save
-        @course.slug.should_not eq initial_slug
-      end
-    end
 
-    context :active do
-      before do
-        @course.active = true
-      end
-      it 'should keep same slug' do
-        initial_slug = @course.slug
-        @course.name += ' new slug'
-        @course.save
-        @course.slug.should eq initial_slug
-      end
-    end
-  end
-
-
-  describe "#reject_price" do
-    it "should accept nested attributes for prices" do
-      expect(@course.send(:reject_price, { type: "Price::BookTicket", number: 1, amount: 200 })).to be_false
-    end
-
-    it "should reject a price if it is empty" do
-      expect(@course.send(:reject_price, { type: "Price::BookTicket", number: 1 })).to be_true
+    it 'should keep same slug' do
+      initial_slug = @course.slug
+      @course.name += ' new slug'
+      @course.save
+      @course.slug.should eq initial_slug
     end
   end
 
