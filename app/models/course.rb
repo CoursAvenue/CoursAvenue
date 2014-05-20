@@ -124,8 +124,8 @@ class Course < ActiveRecord::Base
     end
 
     latlon :location, multiple: true do
-      self.locations.map do |location|
-        Sunspot::Util::Coordinates.new(location.latitude, location.longitude)
+      self.places.map do |place|
+        Sunspot::Util::Coordinates.new(place.latitude, place.longitude)
       end
     end
 
@@ -203,17 +203,6 @@ class Course < ActiveRecord::Base
   end
 
   handle_asynchronously :solr_index
-
-  # Helper methods for place and locations
-  def locations
-    self.places.map(&:location).compact
-  end
-
-  def locations_around(latitude, longitude, radius=5)
-    self.locations.reject do |location|
-      Geocoder::Calculations.distance_between([latitude, longitude], [location.latitude, location.longitude], unit: :km) > radius
-    end
-  end
 
   def audiences
     self.plannings.map(&:audience_ids).flatten.uniq.map{ |audience_id| Audience.find(audience_id) }

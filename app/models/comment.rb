@@ -57,8 +57,8 @@ class Comment < ActiveRecord::Base
   # ------------------------------------------------------------------------------------ Search attributes
   searchable do
     latlon :location, multiple: true do
-      self.structure.locations.collect do |location|
-        Sunspot::Util::Coordinates.new(location.latitude, location.longitude)
+      self.structure.places.collect do |place|
+        Sunspot::Util::Coordinates.new(place.latitude, place.longitude)
       end
     end
 

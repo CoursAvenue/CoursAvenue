@@ -296,13 +296,7 @@ class Structure < ActiveRecord::Base
     self.places.map(&:location)
   end
 
-  def locations_around(latitude, longitude, radius=5)
-    locations.reject do |location|
-      Geocoder::Calculations.distance_between([latitude, longitude], [location.latitude, location.longitude], unit: :km) >= radius
-    end
-  end
-
-  def places_around(latitude, longitude, radius=5)
+  def places_around(latitude, longitude, radius=2)
     places.reject do |place|
       Geocoder::Calculations.distance_between([latitude, longitude], [place.location.latitude, place.location.longitude], unit: :km) >= radius
     end

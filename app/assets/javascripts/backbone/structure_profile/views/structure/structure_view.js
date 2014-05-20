@@ -14,7 +14,6 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
 
         events: {
             'breadcrumbs:clear'       : 'broadenSearch',
-            'filter:removed'          : 'broadenSearch',
             'filter:popstate'         : 'narrowSearch',
             'courses:collection:reset': 'renderCourseSummary',
             'filter:removed'          : 'removeSummary',
@@ -22,8 +21,8 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         },
 
         removeSummary: function () {
-            // this.ui.$summary_container.slideUp();
             this.$('[data-type="filter-breadcrumbs"]').slideUp();
+            this.broadenSearch();
         },
 
         params_for_resource: {
