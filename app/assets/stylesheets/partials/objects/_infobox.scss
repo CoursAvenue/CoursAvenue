@@ -3,15 +3,23 @@
         @include box-shadow(none!important);
     }
     .infoBox {
-        background   : white;
-        position     : relative;
+        position        : relative;
+        font-size       : 13px;
+        line-height     : 18px;
+        font-weight     : 200;
+        font-family     : $brand-face;
+        background-color: #EEE;
+        border          : 1px solid #DDD;
+        padding         : 5px;
+        color           : #393C3D;
+        @include border-radius($brand-round);
         > img {
           display: none;
         }
     }
 
     .infoBox:before {
-        border-color: #FFFFFF rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
+        border-color: #EEE rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
         border-style: solid;
         border-width: 12px 10px;
         bottom      : -24px;
@@ -35,7 +43,7 @@
         width      : 22px;
         height     : 22px;
         line-height: 20px;
-        background : white;
+        background : #EEE;
         border     : 1px solid #EEE;
         text-align : center;
         color      : #666;
