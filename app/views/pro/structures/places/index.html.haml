@@ -5,7 +5,7 @@
     = link_to 'Ajouter un nouveau lieu', new_pro_structure_place_path(@structure), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '750', padding: 0 }
   .panel__body{ data: { behavior: 'wizard-helper', content: t('pro.places.wizard_helper.index') } }
     - if @places.any?
-      #map.google-map.push--top
+      #map.google-map.push--ends
 
       %table.table--striped
         %thead
@@ -18,10 +18,10 @@
             %tr
               %td
                 - if current_pro_admin
-                  = link_to place.location.name, edit_pro_structure_place_path(@structure, place)
+                  = link_to place.name, edit_pro_structure_place_path(@structure, place)
                 - else
-                  = link_to place.location.name, place_url(place, subdomain: 'www')
-              %td= place.location.address
+                  = link_to place.name, place_url(place, subdomain: 'www')
+              %td= place.address
               %td.text--right.nowrap
                 = link_to edit_pro_structure_place_path(@structure, place), title: 'Modifier ce lieu', class: 'btn btn--orange btn--small fancybox.ajax', data: { behavior: 'modal', width: '750', padding: 0 } do
                   %i.fa.fa-pencil
@@ -39,7 +39,7 @@
     $(function() {
         google_map_handler = Gmaps.build('Google', { markers: { maxRandomDistance: null } });
         google_map_handler.buildMap({ provider: { scrollwheel: false }, internal: { id: 'map' }}, function(){
-            var markers = google_map_handler.addMarkers(#{@locations.to_json});
+            var markers = google_map_handler.addMarkers(#{@place_coordinates.to_json});
             google_map_handler.bounds.extendWith(markers);
             google_map_handler.fitMapToBounds();
             if (google_map_handler.getMap().getZoom() > 15) {

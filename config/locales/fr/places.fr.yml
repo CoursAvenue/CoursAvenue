@@ -8,7 +8,7 @@ fr:
     attributes:
       place:
         name: Nom
-        street: Numéro et nom de la rue
+        street: Adresse
         zip_code: Code postal
         city: Ville
         info: Publiques

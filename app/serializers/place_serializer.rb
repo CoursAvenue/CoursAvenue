@@ -1,4 +1,7 @@
 class PlaceSerializer < ActiveModel::Serializer
-  attributes :id
-  has_one :location
+  attributes :id, :longitude, :latitude, :name, :street, :zip_code, :address
+
+  def address
+    object.address
+  end
 end

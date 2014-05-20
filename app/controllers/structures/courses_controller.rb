@@ -37,7 +37,6 @@ class Structures::CoursesController < ApplicationController
     @comment   = @course.comments.build
     @comments  = @structure.comments.accepted.reject(&:new_record?)
     @medias    = @structure.medias
-    @locations = @course.locations
     @places    = @course.places
     if @course.is_lesson?
       @plannings = @course.plannings.order('week_day ASC, start_time ASC')
@@ -48,11 +47,7 @@ class Structures::CoursesController < ApplicationController
     @subjects                    = @course.subjects
     @price_range                 = @course.price_range
     @prices                      = @course.book_tickets + @course.subscriptions
-    @location_index_hash         = {}
-    location_index               = 0
-    @locations.each_with_index do |location, index|
-      @location_index_hash[location] = index + 1
-    end
+
     respond_to do |format|
       if @course.is_open?
         format.html { redirect_to jpo_structure_path(@structure), status: 301 }

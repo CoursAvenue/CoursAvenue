@@ -1,4 +1,5 @@
 # encoding: utf-8
+# TODO Remove this class
 class Location < ActiveRecord::Base
   acts_as_paranoid
 

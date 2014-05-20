@@ -15,16 +15,15 @@
               %i.fa.fa-map-marker
               Adresse
             = f.error_notification
-            = f.simple_fields_for :location do |location_form|
-              = location_form.input :name, label: Location.human_attribute_name(:name), placeholder: "Ex. : « Gymnase Bercy », « Ecole d'Art Modigliani », « Adresse principale » ...", disabled: @place.belongs_to_other_locations?, label_html: { class: 'label--large text--left nowrap' }, input_html: { class: 'input--large one-whole', data: { behavior: 'tooltip' }, title: "Indiquez le nom du lieu. S'il s'agit d'une adresse privée, mettre « Résidence privée »." }
-              = location_form.input :street, placeholder: 'Ex. : 83 avenue du général Leclerc', label: Location.human_attribute_name(:street), input_html: { class: 'input--large one-whole', title: "Ne renseignez ni le code postal ni la ville, uniquement le numéro et la rue.", data: { behavior: 'tooltip' } }, disabled: @place.belongs_to_other_locations?, label_html: { class: 'label--large text--left nowrap' }
+            = f.input :name, placeholder: "Ex. : « Gymnase Bercy », « Ecole d'Art Modigliani », « Adresse principale » ...", label_html: { class: 'label--large text--left nowrap' }, input_html: { class: 'input--large one-whole', data: { behavior: 'tooltip' }, title: "Indiquez le nom du lieu. S'il s'agit d'une adresse privée, mettre « Résidence privée »." }
+            = f.input :street, placeholder: 'Ex. : 83 avenue du général Leclerc', input_html: { class: 'input--large one-whole', title: "Ne renseignez ni le code postal ni la ville, uniquement le numéro et la rue.", data: { behavior: 'tooltip' } }, label_html: { class: 'label--large text--left nowrap' }
 
-              = location_form.label :zip_code, label: 'Code postal et ville', disabled: @place.belongs_to_other_locations?, class: 'label--large text--left nowrap block'
-              .input.flush--top
-                = location_form.input :zip_code, placeholder: 'Ex. : 75008', input_html: { class: 'input--large one-whole', data: { behavior: 'city-autocomplete', el: '#place_location_attributes_city_id' } }, label: false, wrapper_html: { class: 'flush--top' }, disabled: @place.belongs_to_other_locations?
-                = location_form.input :city_id, collection: [@place.location.city || @structure.city], label: false, selected: @place.location.city, wrapper_html: { class: 'flush--top' }, disabled: @place.belongs_to_other_locations?, input_html: { class: 'input--large' }
-                = location_form.input :latitude, as: :hidden, disabled: @place.belongs_to_other_locations?
-                = location_form.input :longitude, as: :hidden, disabled: @place.belongs_to_other_locations?
+            = f.label :zip_code, label: 'Code postal et ville', class: 'label--large text--left nowrap block'
+            .input.flush--top
+              = f.input :zip_code, placeholder: 'Ex. : 75008', input_html: { class: 'input--large one-whole', data: { behavior: 'city-autocomplete', el: '#place_city_id' } }, label: false, wrapper_html: { class: 'flush--top' }
+              = f.input :city_id, collection: [@place.city || @structure.city], label: false, selected: @place.city, wrapper_html: { class: 'flush--top' }, input_html: { class: 'input--large' }
+              = f.input :latitude, as: :hidden
+              = f.input :longitude, as: :hidden
 
           %hr.push--ends
           .soft--sides{ data: { container: '#place-wizard-container', behavior: 'wizard-helper', content: t('pro.places.wizard_helper.infos') } }

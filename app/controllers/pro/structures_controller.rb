@@ -105,16 +105,16 @@ class Pro::StructuresController < Pro::ProController
     @comments       = @structure.comments.accepted
     @courses        = @structure.courses
     @medias         = @structure.medias.cover_first
-    @locations      = @structure.locations
+    @places         = @structure.places
     @profile_percentage = 100
     @profile_percentage -= 20 if !@structure.profile_completed?
     @profile_percentage -= 20 if @structure.medias.empty?
     @profile_percentage -= 20 if @comments.empty?
     @profile_percentage -= 20 if @structure.courses.active.count == 0
 
-    @json_locations = Gmaps4rails.build_markers(@locations) do |location, marker|
-      marker.lat location.latitude
-      marker.lng location.longitude
+    @json_locations = Gmaps4rails.build_markers(@places) do |place, marker|
+      marker.lat place.latitude
+      marker.lng place.longitude
     end
   end
 

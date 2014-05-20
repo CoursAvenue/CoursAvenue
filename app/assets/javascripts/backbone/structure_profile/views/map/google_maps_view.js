@@ -74,14 +74,14 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
         recenterMap: function recenterMap () {
             // Set zoom to 12 if there is only one marker
             if (this.collection.length == 1) {
-                var center = new google.maps.LatLng (this.collection.first().get('location').latitude, this.collection.first().get('location').longitude)
+                var center = new google.maps.LatLng (this.collection.first().get('latitude'), this.collection.first().get('longitude'))
                 this.map.setCenter(center);
                 this.map.setZoom(14);
             } else {
                 // From: http://blog.shamess.info/2009/09/29/zoom-to-fit-all-markers-on-google-maps-api-v3/
                 //  Make an array of the LatLng's of the markers you want to show
                 var lat_lng_list = this.collection.map(function(place) {
-                    return new google.maps.LatLng (place.get('location').latitude, place.get('location').longitude)
+                    return new google.maps.LatLng (place.get('latitude'), place.get('longitude'))
                 });
                 //  Create a new viewpoint bound
                 var bounds = new google.maps.LatLngBounds();

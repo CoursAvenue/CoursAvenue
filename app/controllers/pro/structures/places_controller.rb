@@ -10,10 +10,6 @@ class Pro::Structures::PlacesController < InheritedResources::Base
     @structure = Structure.friendly.find params[:structure_id]
     @place     = @structure.places.find params[:id]
     @place.contacts.build if @place.contacts.empty?
-    @gmap_location  = Gmaps4rails.build_markers(@place.location) do |location, marker|
-      marker.lat location.latitude
-      marker.lng location.longitude
-    end
     respond_to do |format|
       if request.xhr?
         format.html { render partial: 'form', layout: false }
@@ -26,7 +22,6 @@ class Pro::Structures::PlacesController < InheritedResources::Base
   def new
     @structure      = Structure.friendly.find params[:structure_id]
     @place          = @structure.places.build
-    @place.location = Location.new
     @gmap_center    = Gmaps4rails.build_markers(@structure) do |structure, marker|
       marker.lat structure.latitude
       marker.lng structure.longitude
@@ -48,9 +43,9 @@ class Pro::Structures::PlacesController < InheritedResources::Base
 
   def index
     index! do |format|
-      @locations = Gmaps4rails.build_markers(@structure.locations) do |location, marker|
-        marker.lat location.latitude
-        marker.lng location.longitude
+      @place_coordinates = Gmaps4rails.build_markers(@structure.places) do |place, marker|
+        marker.lat place.latitude
+        marker.lng place.longitude
       end
       format.html
     end
