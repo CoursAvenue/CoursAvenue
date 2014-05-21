@@ -6,6 +6,8 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         /* data to describe the pagination tool */
         reset: function (data) {
+            data.current_page = parseInt(data.current_page, 10);
+
             data.buttons = this.buildPaginationButtons(data);
 
             this.current_pagination_data = data;
@@ -49,9 +51,9 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
          * pages in a radius around the current page. So we will skip pages
          * that don't meet that criteria */
         canSkipPage: function (page, data) {
-            var last_page = data.last_page,
+            var last_page     = data.last_page,
                 out_of_bounds = (data.current_page - data.radius > page || page > data.current_page + data.radius),
-                bookend = (page == 1 || page == last_page);
+                bookend       = (page == 1 || page == last_page);
 
             return (!bookend && out_of_bounds);
         },
