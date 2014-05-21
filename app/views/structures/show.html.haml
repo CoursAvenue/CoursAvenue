@@ -107,8 +107,7 @@
                       .lbl.lbl--small.lbl--green Promotions
                   %div
                     à
-                    = Geocoder::Calculations.distance_between([@structure.latitude, @structure.longitude], [structure.latitude, structure.longitude], unit: :km).round(1)
-                    km
+                    = readable_distance(Geocoder::Calculations.distance_between([@structure.latitude, @structure.longitude], [structure.latitude, structure.longitude], unit: :km).round(1))
 
       %div{ data: { type: "sticky-map" }}>
 

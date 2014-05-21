@@ -6,7 +6,10 @@
         <a href="{{ data_url }}" data-action="show-all-courses">Visualiser les {{ plannings_not_shown }} autres seances</a>
     {{/ifCond}}
 {{else}}
-    {{ courses_count }} cours ({{ plannings_count }} seances) correspondent a votre recherche
+    {{ pluralize plannings_count 'seance corresponde' 'seances correspondent' }} a votre recherche
+    {{#ifCond plannings_count '==' '0'}}
+        <a href="{{ data_url }}" data-action="show-all-courses">Voir toutes les autres seances</a>
+    {{/ifCond}}
 {{/if}}
 </strong>
 <img src="<%= asset_path 'gifs/loading-indicator.gif' %>" class="center-block push-half--top" height="10" data-loader style="display: none;">

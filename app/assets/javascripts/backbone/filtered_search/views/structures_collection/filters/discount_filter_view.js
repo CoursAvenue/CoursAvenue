@@ -1,4 +1,3 @@
-
 /* just a basic marionette view */
 FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App, Backbone, Marionette, $, _) {
 

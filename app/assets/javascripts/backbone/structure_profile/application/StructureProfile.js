@@ -36,6 +36,7 @@ StructureProfile.addInitializer(function(options) {
     filter_breadcrumbs = new FilteredSearch.Views.StructuresCollection.Filters.FilterBreadcrumbs.FilterBreadcrumbsView({
         template: StructureProfile.Views.Structure.templateDirname() + 'filter_breadcrumbs_view',
         fancy_breadcrumb_names: {
+            'search_term'         : 'Mot clé',
             'subject_id'          : 'Discipline',
             'address_name'        : 'Lieux',
             'lat'                 : 'Lieux',

@@ -80,8 +80,9 @@ FilteredSearch.addInitializer(function(options) {
     var subjects = new FilteredSearch.Models.SubjectsCollection(coursavenue.bootstrap.subjects);
 
     /* basic filters */
-    results_summary           = new FiltersModule.ResultsSummaryView({});
-    subject_filter            = new FiltersModule.SubjectFilterView({});
+    results_summary            = new FiltersModule.ResultsSummaryView({});
+    keyword_filter             = new FiltersModule.KeywordFilterView({});
+    subject_filter             = new FiltersModule.SubjectFilterView({});
     subjects_collection_filter = new FiltersModule.Subjects.SubjectsCollectionView({ collection: subjects });
     location_filter            = new FiltersModule.LocationFilterView({});
 
@@ -90,6 +91,7 @@ FilteredSearch.addInitializer(function(options) {
      * to be*/
     filter_breadcrumbs        = new FiltersModule.FilterBreadcrumbs.FilterBreadcrumbsView({
         fancy_breadcrumb_names: {
+            'search_term'     : 'Mot clé',
             'level'           : 'Niveaux',
             'audience'        : 'Public',
             'course_type'     : 'Type de cours',
@@ -146,6 +148,7 @@ FilteredSearch.addInitializer(function(options) {
     layout.showWidget(subject_filter);
     layout.showWidget(results_summary);
 
+    layout.showWidget(keyword_filter,        { events: { 'breadcrumbs:clear:search_term':     'clear'} });
     layout.showWidget(level_filter,          { events: { 'breadcrumbs:clear:level':           'clear'} });
     layout.showWidget(course_type_filter,    { events: { 'breadcrumbs:clear:course_type':     'clear'} });
     layout.showWidget(audience_filter,       { events: { 'breadcrumbs:clear:audience':        'clear'} });

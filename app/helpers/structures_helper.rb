@@ -57,4 +57,16 @@ module StructuresHelper
       "#{_phone_number[0..1]} #{_phone_number[2..3]} #{_phone_number[4..5]} #{_phone_number[6..7]} #{_phone_number[8..9]}"
     end
   end
+
+
+  # @param distance decimal, eg. 1.4, 0.4, etc.
+  #
+  # @return 100m, 2.4km, etc.
+  def readable_distance(distance)
+    if distance < 1
+      "#{(distance * 1000).round} m"
+    else
+      "#{distance} km"
+    end
+  end
 end
