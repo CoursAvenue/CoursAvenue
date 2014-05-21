@@ -6,7 +6,8 @@ class CourseSerializer < ActiveModel::Serializer
   attributes :id, :name, :description, :type, :start_date, :end_date, :min_price_amount, :min_price_libelle, :data_url, :subjects,
              :has_free_trial_lesson, :event_type, :best_price, :is_individual, :search_term, :is_lesson, :frequency,
              :cant_be_joined_during_year, :no_class_during_holidays, :teaches_at_home, :teaches_at_home_radius,
-             :book_tickets, :discounts, :registrations, :subscriptions, :trials, :price_details
+             :premium_offers, :book_tickets, :discounts, :registrations, :subscriptions, :trials, :price_details,
+             :has_premium_prices, :premium
 
   has_many :plannings, serializer: PlanningSerializer
 
@@ -82,8 +83,20 @@ class CourseSerializer < ActiveModel::Serializer
     I18n.t(object.frequency) if object.frequency.present?
   end
 
+  def has_premium_prices
+    object.has_premium_prices?
+  end
+
+  def premium
+    object.structure.premium?
+  end
+
   def registrations
     object.prices.registrations.map{ |price| PriceSerializer.new(price) }
+  end
+
+  def premium_offers
+    object.prices.premium_offers.map{ |price| PriceSerializer.new(price) }
   end
 
   def subscriptions

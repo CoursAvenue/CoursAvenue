@@ -16,14 +16,20 @@
             <li>
                 <a data-toggle="tab" href="#tab-description-course-{{id}}">Description</a>
             </li>
-            <li>
-                <a data-toggle="tab" href="#tab-price-course-{{id}}">Tarifs</a>
+            <li class="relative">
+                <a data-toggle="tab" href="#tab-price-course-{{id}}">
+                    Tarifs
+                    {{#if has_premium_prices}}
+                        <img src="<%= asset_path 'icons/premium-ribbon.png' %>" class='north west absolute on-top' height='40', width='40' style='width: 40px; height: 40px;' />
+                        <div><strong class="green">Offres découvertes</strong></div>
+                    {{/if}}
+                </a>
             </li>
         </ul>
         <div class="flexbox__item v-top four-fifths soft-half--sides">
             <div class="tab-content">
                 <article id="tab-plannings-course-{{id}}" class="tab-pane active hard--top">
-                    <table class="table--striped table--data">
+                    <table class="table--striped table--data-small">
                         <thead>
                             <tr>
                                 <th>Jour</th>
@@ -81,76 +87,82 @@
                     <table class="table--striped table--data">
                         <thead>
                             <tr>
-                                <th class="very-soft">Type de formule</th>
-                                <th class="very-soft">Prix</th>
-                                <th class="very-soft">Info</th>
+                                <th class="three-twelfths">Type de formule</th>
+                                <th class="one-twelfth  text--center">Prix</th>
+                                {{#if has_premium_prices}}
+                                    <th class="one-twelfth  text--center">Offre découverte</th>
+                                {{/if}}
+                                <th class="{{#if has_premium_prices}}six-twelfths{{else}}eight-twelfths{{/if}}">Info</th>
                             </tr>
                         </thead>
                         <tbody>
                             {{#each book_tickets}}
                                 <tr>
                                     <td>{{libelle}}</td>
-                                    <td>
-                                        {{amount}}€
-                                    </td>
-                                    <td>
-                                        {{info}}
-                                    </td>
+                                    <td class="text--right {{#if promo_amount}}line-through{{/if}}">{{amount}}€</td>
+                                    {{#if ../premium}}
+                                        <td class="green">
+                                            {{#if promo_amount}}{{promo_amount}}€{{/if}}
+                                        </td>
+                                    {{/if}}
+                                    <td>{{info}}</td>
                                 </tr>
                             {{/each}}
                             {{#each subscriptions}}
                                 <tr>
                                     <td>{{libelle}}</td>
-                                    <td>
-                                        {{amount}}€
-                                    </td>
-                                    <td>
-                                        {{info}}
-                                    </td>
+                                    <td class="text--right {{#if promo_amount}}line-through{{/if}}">{{amount}}€</td>
+                                    {{#if ../premium}}
+                                        <td class="green">
+                                            {{#if promo_amount}}{{promo_amount}}€{{/if}}
+                                        </td>
+                                    {{/if}}
+                                    <td>{{info}}</td>
                                 </tr>
                             {{/each}}
-                            {{#if discounts}}
+                            {{#if premium}}
                                 <tr>
-                                    <th colspan="2" class="text--left bordered--top">Tarifs réduits</th>
+                                    <th colspan="4" class=" soft-half--ends text--left bordered--top epsilon green">Offres découvertes</th>
                                 </tr>
+                                {{#each trials}}
+                                    <tr>
+                                        <td>{{libelle}}</td>
+                                        <td class="text--right">
+                                            {{#ifCond amount '==' '0'}}
+                                                Gratuit
+                                            {{else}}
+                                                {{amount}}€
+                                            {{/ifCond}}
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            {{info}}
+                                    </td>
+                                    </tr>
+                                {{/each}}
+                                {{#each premium_offers}}
+                                    <tr>
+                                        <td>{{libelle}}</td>
+                                        <td class="text--right">{{promo_amount}}{{promo_amount_type}}</td>
+                                        <td></td>
+                                        <td>{{info}}</td>
+                                    </tr>
+                                {{/each}}
+                                {{#each discounts}}
+                                    <tr>
+                                        <td>{{libelle}}</td>
+                                        <td class="text--right">{{promo_amount}}{{promo_amount_type}}</td>
+                                        <td></td>
+                                        <td>{{info}}</td>
+                                    </tr>
+                                {{/each}}
                             {{/if}}
-                            {{#each discounts}}
-                                <tr>
-                                    <td>{{libelle}}</td>
-                                    <td>
-                                        -{{promo_percentage}}%
-                                    </td>
-                                    <td>
-                                        {{info}}
-                                    </td>
-                                </tr>
-                            {{/each}}
-                            {{#xif " (this.trials && this.trials.length > 0) || (this.registrations && this.registrations.length > 0) || typeof(this.price_details) != 'undefined' "}}
-                                <tr>
-                                    <th colspan="3" class="very-soft text--left bordered--top">Autres infos</th>
-                                </tr>
-                            {{/xif}}
-                            {{#each trials}}
-                                <tr>
-                                    <td>{{libelle}}</td>
-                                    <td>
-                                        {{#ifCond amount '==' '0'}}
-                                            Gratuit
-                                        {{else}}
-                                            {{amount}}€
-                                        {{/ifCond}}
-                                    </td>
-                                    <td>
-                                        {{info}}
-                                </td>
-                                </tr>
-                            {{/each}}
                             {{#each registrations}}
                                 <tr>
                                     <td>Adhésion</td>
-                                    <td>
+                                    <td class="text--right">
                                         {{#ifCond amount '==' '0'}}
-                                            Gratuit
+                                            Gratuite
                                         {{else}}
                                             {{amount}}€
                                         {{/ifCond}}
@@ -161,6 +173,9 @@
                                 </tr>
                             {{/each}}
                             {{#if price_details}}
+                                <tr>
+                                    <th colspan="3" class=" text--left bordered--top">Autres infos</th>
+                                </tr>
                                 <tr>
                                     <td class="text--left" colspan="3">{{price_details}}</td>
                                 </tr>

@@ -204,6 +204,14 @@ class Structure < ActiveRecord::Base
 
     integer :funding_type_ids, multiple: true
 
+    boolean :premium
+
+    boolean :has_premium_prices do
+      # [false, true].any?  # => true
+      # [false, false].any? # => false
+      price_groups.map(&:has_premium_prices?).any?
+    end
+
     boolean :active do
       self.active
     end

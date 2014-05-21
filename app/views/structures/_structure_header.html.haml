@@ -20,7 +20,7 @@
           Structure
         proposant des
         = @structure_decorator.given_course_types
-      - if @structure.has_free_trial_course
+      - if @structure.premium?
         .epsilon.v-middle.push-half--left.inline-block.lbl.lbl--green Offres découvertes
       .inline-block{ data: { type: "filter-breadcrumbs" } }
   .grid__item.two-twelfths.v-bottom>

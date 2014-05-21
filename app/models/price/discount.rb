@@ -6,6 +6,7 @@ class Price::Discount < Price
   #   prices.discount.low_income: Revenu faible
   #   prices.discount.large_family: Famille nombreuse
   #   prices.discount.couple: Couple
+
   attr_accessible :promo_amount, :info, :promo_amount_type # '%' or '€'
 
   validates :promo_amount, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true

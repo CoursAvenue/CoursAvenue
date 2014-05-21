@@ -351,6 +351,10 @@ class Course < ActiveRecord::Base
     false
   end
 
+  def has_premium_prices?
+    price_group.has_premium_prices?
+  end
+
   private
 
   def set_teaches_at_home

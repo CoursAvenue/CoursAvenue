@@ -49,14 +49,14 @@ class Price < ActiveRecord::Base
   scope :trimestrial       , -> { where(libelle: 'prices.subscription.semester') }
   scope :semestrial        , -> { where(libelle: 'prices.subscription.trimester') }
   scope :monthly           , -> { where(libelle: 'prices.subscription.month') }
-
   # Registration
   scope :registrations     , -> { where(type: 'Price::Registration') }
   # Discounts
   scope :discounts         , -> { where(type: 'Price::Discount') }
-
   # Trials
   scope :trials            , -> { where(type: 'Price::Trial') }
+  # Premium offers
+  scope :premium_offers    , -> { where(type: 'Price::PremiumOffer') }
 
   def free?
     false
