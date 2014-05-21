@@ -9,9 +9,9 @@ module NavigationHelper
       title = "<i class='#{options[:icon]}'></i>&nbsp;#{title}".html_safe
     end
     if current_user
-      content_tag(:li, link_to(title, url, class: 'user-menu__item'), options)
+      content_tag(:li, link_to(title, url, class: 'side-menu-link'), options)
     else
-      content_tag(:li, link_to(title, 'javascript:void(0);', data: {behavior: 'connection'}, class: 'fancybox.ajax user-menu__item'), options)
+      content_tag(:li, link_to(title, 'javascript:void(0);', data: {behavior: 'connection'}, class: 'fancybox.ajax side-menu-link'), options)
     end
   end
 
