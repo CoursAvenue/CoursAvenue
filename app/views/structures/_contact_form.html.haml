@@ -7,7 +7,7 @@
       %a{ href: "#tab-message", data: { toggle: "tab" } }
         Envoyer un message
     %li
-      %a#phone-contact-tab{ href: "#tab-contacts", data: { toggle: "tab" } }
+      %a#coordinates-contact-tab{ href: "#tab-contacts", data: { toggle: "tab" } }
         Coordonnées
   .panel__body
     .tab-content.soft
@@ -28,7 +28,10 @@
                   %input.input--large.one-whole{ name: 'user[email]', type: 'text', placeholder: 'Email', value: params[:email] }
             - prefilled_body = params[:message_body] || "Bonjour,\n\nJe souhaiterais venir pour une première séance. Pouvez-vous m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt"
             = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole input--large', style: 'height: 170px;', value: prefilled_body, data: { behavior: 'autoresize' } }
-            = f.submit 'Envoyer mon message', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }
+            - if current_user
+              = f.submit 'Envoyer mon message', class: 'btn btn--green btn--full', disable_with: "En cours d'envoi"
+            - else
+              = link_to 'Envoyer mon message', new_user_registration_path, data: { behavior: 'modal', title: 'Connexion', width: 600, padding: 0 }, class: 'fancybox.ajax btn btn--green btn--full'
 
       %article#tab-contacts.tab-pane.hard
         %h4.f-weight-normal Contactez le partenaire par téléphone :
@@ -53,14 +56,20 @@
         %h4.f-weight-normal.push-half--bottom= "Adresse".pluralize(@structure.places.count)
         - @structure.places.each_with_index do |place, index|
           %p.epsilon{ class: (index < @structure.places.count - 1 ? 'push-half--bottom' : 'flush')}
-            = place.location.address
+            = place.address
 
 = content_for :scripts do
   :javascript
     $(function() {
-        $('#phone-contact-tab').click(function() {
-            // TODO
-            // Log it
+        $('#coordinates-contact-tab').click(function() {
+            $.ajax({
+                type: "POST",
+                dataType: 'js',
+                url: Routes.structure_statistics_path(#{@structure.id}),
+                data: {
+                    action_type: 'contact'
+                }
+            });
         });
         $('#show-structure-contact').click(function() {
             if (!$.cookie("contact_structure_#{@structure.id}")) {

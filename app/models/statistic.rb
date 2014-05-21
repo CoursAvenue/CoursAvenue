@@ -19,19 +19,32 @@ class Statistic < ActiveRecord::Base
   scope :actions,     -> { where( action_type: 'action') }
   scope :contacts,    -> { where( action_type: 'contact') }
 
-  def self.print(structure_id, user, fingerprint)
+  def self.print(structure_id, user, fingerprint, infos=nil)
     Statistic.create(action_type: 'impression', structure_id: structure_id, user_fingerprint: fingerprint)
   end
 
-  def self.view(structure_id, user, fingerprint)
+  def self.view(structure_id, user, fingerprint, infos=nil)
     Statistic.create(action_type: 'view', structure_id: structure_id, user_fingerprint: fingerprint)
   end
 
-  def self.contact(structure_id, user, fingerprint)
+  def self.contact(structure_id, user, fingerprint, infos=nil)
     Statistic.create(action_type: 'contact', structure_id: structure_id, user_fingerprint: fingerprint)
   end
 
-  def self.action(structure_id, user, fingerprint, infos)
+  def self.action(structure_id, user, fingerprint, infos=nil)
     Statistic.create(action_type: 'action', structure_id: structure_id, user_fingerprint: fingerprint, infos: infos )
+  end
+
+  def self.create_action(action_name, structure_id, user, fingerprint, infos=nil)
+    case action_name
+    when 'print'
+      Statistic.print(structure_id, user, fingerprint, infos)
+    when 'action'
+      Statistic.action(structure_id, user, fingerprint, infos)
+    when 'contact'
+      Statistic.contact(structure_id, user, fingerprint, infos)
+    when 'view'
+      Statistic.view(structure_id, user, fingerprint, infos)
+    end
   end
 end

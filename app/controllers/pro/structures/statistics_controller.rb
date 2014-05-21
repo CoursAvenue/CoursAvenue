@@ -1,7 +1,7 @@
 # encoding: utf-8
-class Pro::Structures::StatisticsController < InheritedResources::Base
+class Pro::Structures::StatisticsController < Pro::ProController
   before_action :authenticate_pro_admin!
-  load_and_authorize_resource :structure
+  load_and_authorize_resource :structure, find_by: :slug
 
   layout 'admin'
 
