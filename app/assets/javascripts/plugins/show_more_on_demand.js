@@ -40,7 +40,10 @@
             this.$items        = $(this.$element.find('[data-el]'));
             this.$hidden_items = $(this.$element.find('[data-el][data-hidden]'));
             this.$hidden_items.hide();
-            this.showMoreItem(); // Show first empty item
+            // Show first empty item if none is shown
+            if (this.$items.first().is(':hidden')) {
+                this.showMoreItem();
+            }
             this.attachEvents();
         },
 
