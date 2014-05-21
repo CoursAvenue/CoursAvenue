@@ -9,28 +9,26 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
         },
 
         onShow: function onShow () {
+            // If the current instance is the stycky map that appears on the right of the StructureProfile
             if (this.sticky) {
-                var $view = this.$el.parent()
+                var setStickyStyle,
+                    $view                   = this.$el.parent(),
+                    $grid_item              = $view.closest('.grid__item'),
+                    initial_map_width       = $view.width();
                 $view.sticky({ 'z': 10, old_width: false });
 
-                // The sticky-full class needs to know about the parent's width,
-                // so that we can css transition to it. Transitions between a
-                // static value and a percentage don't work.
-                $('<style>.sticky--full { left: ' + $view.offset().left + 30 + 'px !important; width: ' + $view.width() + 'px !important; }</style>').appendTo('head');
-                $(window).resize(function () {
-                    $('<style>.sticky--full { left: ' + $view.closest('.grid__item').offset().left + 30 + 'px !important; }</style>').appendTo('head');
-                });
-                // The map should always have sticky and sticky--full at the same
-                // time. Whenever it gets or loses one of those classes, it should
-                // get or lose the other. This is relevant during scroll, so we check
-                // enforce it here.
-                $(window).on("scroll", function () {
+                setStickyStyle = function setStickyStyle () {
                     if ($view.hasClass("sticky")) {
-                        $view.addClass("sticky--full");
+                        $view.css({
+                            left: $grid_item.offset().left + parseInt($view.closest('.grid__item').css('padding-left'), 10) + 'px',
+                            width: initial_map_width
+                        });
                     } else if (!$view.hasClass("sticky") && $view.hasClass("sticky--full")) {
-                        $view.removeClass("sticky--full");
+                        $view.removeAttr('style');
                     }
-                });
+                };
+                $(window).on("scroll", setStickyStyle);
+                $(window).resize(setStickyStyle);
             } else {
                 if ($(window).height() < 700) {
                     this.$el.closest('.rslides-wrapper').css('height', '30em');
