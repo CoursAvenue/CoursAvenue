@@ -1,14 +1,13 @@
 <div data-type="closer" class="infobox__close">
     <i class="fa fa-times"></i>
 </div>
-<div class="grid--full">
-    <div class="relative grid__item v-middle two-eighths">
-    <a href="{{ data_url }}" class="block">
+
+<div>
+    <a href="{{ data_url }}" class="block one-whole">
         <img src="{{ logo_thumb_url }}" class="block one-whole">
     </a>
-    </div>{{!--
- --}}<div class="grid__item v-middle very-soft soft-half--sides six-eighths">
-        <a href="{{ data_url }}" class="infobox__title">{{ name }}</a>
-        <div>{{current_location.name}} - {{current_location.street}}</div>
-    </div>
+</div>
+<div class="very-soft soft-half--sides">
+    <a href="{{ data_url }}" class="infobox__title">{{ name }}</a>
+    <div>{{current_location.name}} - {{current_location.street}}</div>
 </div>

@@ -10,9 +10,9 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
 
             var defaultOptions = {
                 alignBottom: true,
-                pixelOffset: new google.maps.Size(-144, -53),
+                pixelOffset: new google.maps.Size(-120, -53),
                 boxStyle: {
-                    width: "300px"
+                    width: "250px"
                 },
                 enableEventPropagation: true,
                 infoBoxClearance: new google.maps.Size(30, 100),
