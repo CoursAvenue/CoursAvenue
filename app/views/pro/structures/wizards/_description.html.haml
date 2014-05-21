@@ -1,30 +1,9 @@
 = simple_form_for [:pro, @structure], html: { autocomplete: 'off', class: 'wizard-form' }, remote: true do |f|
-  %h4
-    Il nous manque une description sur vous et vos cours : rédigez-la maintenant
-  %label
-    %i Les infos sur les tarifs et les plannings sont à renseigner dans la section «Mes cours»
-  .textarea-with-info.width-auto
-    .grid
-      .three-fifths.grid__item.soft-half--right>
-        = f.input :description, label: false, wrapper_html: {class: 'flush--top'}, input_html: {style: 'max-width: none', id: 'description-textarea', class: 'one-whole textarea-description--tall', placeholder: 'Mettez en avant votre différence ! Pour vous aider, répondez aux questions qui sont à droite.', data: { behavior: 'text-counter', 'average-words-nb' => 30, 'good-words-nb' => 100, 'bad-text' => 'Votre description doit comporter au moins 30 mots. Nos Partenaires qui ont le plus de succès ont plus de 100 mots.', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}}
-      .two-fifths.grid__item
-        %p.alert--info.flush--top.one-whole
-          Qu'est-ce qui vous différencie ?
-        %p.alert--info.flush--top.one-whole
-          Pourquoi nos Internautes devraient-il réserver chez vous ? Soyez sincère et original !
-        %p.alert--info.one-whole
-          Quelle est votre équipe, combien êtes-vous ?
-        %p.alert--info.flush--top.one-whole
-          Qui se cache derrière tout ça ?
-        %p.alert--info.flush--top.one-whole
-          Quel est le profil de vos professeurs ?
-        %p.alert--info.one-whole
-          Depuis quand votre structure existe-t-elle ?
-        %p.alert--info.flush--top.one-whole
-          Quelle est sa notoriété ?
-        %p.alert--info.flush--top.one-whole
-          A-t-elle formé des célébrités ?
+  .push--bottom{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.description') } }
+    %h4
+      Il nous manque une description sur vous et vos cours : rédigez-la maintenant
 
+    = f.input :description, label: false, wrapper_html: { class: 'flush one-whole' }, input_html: { id: 'description-textarea', class: 'input--large one-whole', placeholder: 'Quels types de cours proposez-vous et en quoi consistent-ils ? Présentez-vous sans renseigner vos coordonnées de contact ni votre planning de cours.', data: { behavior: 'text-counter', 'average-words-nb' => 30, 'good-words-nb' => 100, 'bad-text' => 'Votre description doit comporter au moins 30 mots. Nos Partenaires qui ont le plus de succès ont plus de 100 mots.', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}}
 
 = content_for :scripts do
   :javascript
