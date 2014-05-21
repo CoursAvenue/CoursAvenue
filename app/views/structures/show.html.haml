@@ -99,8 +99,12 @@
                 .grid__item.v-middle.four-fifths.soft-half--left>
                   %div
                     %strong= structure.name
-                  %div
-                    .lbl.lbl--small.lbl--green Cours d'essai gratuit
+                  - if structure.has_free_trial_course?
+                    %div
+                      .lbl.lbl--small.lbl--green Cours d'essai gratuit
+                  - elsif structure.has_promotion?
+                    %div
+                      .lbl.lbl--small.lbl--green Promotions
                   %div
                     à
                     = Geocoder::Calculations.distance_between([@structure.latitude, @structure.longitude], [structure.latitude, structure.longitude], unit: :km).round(1)
