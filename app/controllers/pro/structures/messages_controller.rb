@@ -27,7 +27,7 @@ class Pro::Structures::MessagesController < ApplicationController
   # Recipients receive only one person here
   def create
     @recipients   = @structure.user_profiles.find(params[:message][:recipients].reject(&:blank?)).map(&:user) if params[:message].has_key? :recipients
-    @receipt      = @admin.send_message(@recipients, params[:message][:body], params[:message][:subject])     if @recipients and @recipients.any?
+    @receipt      = @admin.send_message_with_label@recipients, params[:message][:body], params[:message][:subject], 'conversation')     if @recipients and @recipients.any?
     @conversation = @receipt.conversation if @receipt
     respond_to do |format|
       if @conversation and @conversation.persisted?

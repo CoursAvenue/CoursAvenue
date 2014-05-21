@@ -9,12 +9,15 @@ class Structures::MessagesController < ApplicationController
       user = current_user || User.create_or_find_from_email(params[:user][:email], params[:user][:first_name])
       @structure.create_user_profile_for_message(user)
       @recipients   = @structure.main_contact
-      @receipt      = user.send_message(@recipients, params[:message][:body], "Demande d'informations")
+      @receipt      = user.send_message_with_label(@recipients, params[:message][:body], "Demande d'informations", 'information')
       @conversation = @receipt.conversation
     end
+    Statistic.contact(@structure.id, current_user, cookies[:fingerprint])
     respond_to do |format|
       if @conversation and @conversation.persisted?
         format.html { redirect_to user_conversation_path(user, @conversation) }
+      elsif current_user
+        format.html { redirect_to structure_path(@structure, message_body: params[:message][:body]), alert: "Vous n'avez pas remplis toutes les informations" }
       else
         format.html { redirect_to structure_path(@structure, message_body: params[:message][:body], first_name: params[:user][:first_name], email: params[:user][:email]), alert: "Vous n'avez pas remplis toutes les informations" }
       end
@@ -26,7 +29,7 @@ class Structures::MessagesController < ApplicationController
   # Check if the form is valid
   # params[:content] has to be blank. It is used to prevent from bot form submission
   def form_is_valid?
-    if current_user
+    if current_user and params[:message][:body].present?
       return true
     else
       return (params[:content].blank? && params[:message][:body].present? && params[:user][:first_name].present? && params[:user][:email].present?)

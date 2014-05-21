@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   include Rails.application.routes.url_helpers
 
   acts_as_messageable
+  include Concerns::MessagableWithLabel
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]

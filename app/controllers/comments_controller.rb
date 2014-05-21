@@ -41,7 +41,7 @@ class CommentsController < ApplicationController
 
   def send_private_message
     @recipient    = @comment.structure.main_contact
-    @receipt      = @comment.user.send_message(@recipient, params[:private_message], (params[:subject].present? ? params[:subject] : 'Message personnel suite à ma recommandation'))
+    @receipt      = @comment.user.send_message_with_label(@recipient, params[:private_message], (params[:subject].present? ? params[:subject] : 'Message personnel suite à ma recommandation'), 'comment')
     @conversation = @receipt.conversation
   end
 
