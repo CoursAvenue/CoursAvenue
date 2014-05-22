@@ -1,4 +1,4 @@
-.push-half--bottom
+.main-container.soft--sides.push-half--bottom
   %a.v-middle{ href: "https://twitter.com/share", class: "twitter-share-button", data: { text: "J'adore \"#{@structure.name}\" @CoursAvenue #{structure_url(@structure)}", lang: "fr", count: 'none'}} Tweet
 
   .g-plus{ data: { action: "share", annotation: 'none', heigh: 20 } }
@@ -6,35 +6,50 @@
   .v-middle.fb-like{ data: { href: structure_url(@structure), layout: 'button', action: 'recommend', 'show-faces' => 'false', share: "false" } }
   .v-middle.fb-like{ data: { href: @structure.facebook_url, layout: 'button_count', action: 'like', 'show-faces' => 'false', share: "false" } }
 
-
-
-.grid--full
-  .grid__item.ten-twelfths.v-top>
-    %h1.push-half--bottom= @structure.name
-    -# Structure type
-    - if @structure.structure_type
-      %p.flush.inline-block.v-middle.epsilon
-        - if @structure.structure_type.present?
-          %strong #{t(@structure.structure_type)}
-        - else
-          Structure
-        proposant des
-        = @structure_decorator.given_course_types
-      - if @structure.premium?
-        .epsilon.v-middle.push-half--left.inline-block.lbl.lbl--green Offres découvertes
-      .inline-block{ data: { type: "filter-breadcrumbs" } }
-  .grid__item.two-twelfths.v-bottom>
-    .inline-bock.text--right
-      %a.inline-block.f-decoration-not-underlined.text--center{ href: '#avis' }
-        %strong.beta= structure.comments_count
-        %br
-        recommandations
-        .visuallyhidden{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
-          %meta{property: 'v:rating', itemprop: 'rating', content: 5}
-          %meta{itemprop: 'count', content: structure.comments_count}
-          %meta{itemprop: 'itemreviewed', content: structure.name}
-          %meta{itemprop: 'name', content: structure.name}
-          %meta{itemprop: 'street-address', content: structure.street}
-          %meta{itemprop: 'postal-code', content: structure.zip_code}
-          - if @city
-            %meta{itemprop: 'locality', content: @city.name}
+#structure-header.one-whole.west.push-half--bottom
+  .main-container.soft--sides.soft-half--ends.relative
+    .nowrap.absolute.east.top-contacts-buttons-wrapper.visible-on-stick.soft--right
+      %a.contact-button.btn.btn--green{ href: '#contact-panel', data: { behavior: 'modal', padding: 0, width: 450 } }
+        %i.fa.fa-envelope
+        Message
+      %a.contact-button.btn{ href: '#contact-panel', data: { behavior: 'modal', padding: 0, width: 450 } }
+        %i.fa.fa-phone
+        Coordonnées
+    .grid--full
+      .grid__item.ten-twelfths.v-top>
+        %h1.flush
+          %span.v-middle= @structure.name
+          - if @structure.premium?
+            .milli.v-middle.push-half--left.inline-block.lbl.lbl--yellow.visible-on-stick-ilb
+              %i.fa.fa-tag
+              Offres découvertes
+        .hidden-on-stick.push-half--top
+          -# Structure type
+          - if @structure.structure_type
+            %p.flush.inline-block.v-middle.epsilon
+              - if @structure.structure_type.present?
+                %strong #{t(@structure.structure_type)}
+              - else
+                Structure
+              proposant des
+              = @structure_decorator.given_course_types
+          - if @structure.premium?
+            .epsilon.v-middle.push-half--left.inline-block.lbl.lbl--yellow
+              %i.fa.fa-tag
+              Offres découvertes
+          .inline-block{ data: { type: "filter-breadcrumbs" } }
+      .grid__item.two-twelfths.v-bottom>
+        .inline-bock.text--right
+          %a.inline-block.f-decoration-not-underlined.text--center.hidden-on-stick{ href: '#avis' }
+            %strong.beta= structure.comments_count
+            %br
+            recommandations
+            .visuallyhidden{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
+              %meta{property: 'v:rating', itemprop: 'rating', content: 5}
+              %meta{itemprop: 'count', content: structure.comments_count}
+              %meta{itemprop: 'itemreviewed', content: structure.name}
+              %meta{itemprop: 'name', content: structure.name}
+              %meta{itemprop: 'street-address', content: structure.street}
+              %meta{itemprop: 'postal-code', content: structure.zip_code}
+              - if @city
+                %meta{itemprop: 'locality', content: @city.name}

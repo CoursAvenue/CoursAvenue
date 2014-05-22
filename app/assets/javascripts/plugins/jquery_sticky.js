@@ -21,6 +21,7 @@
         return this.each(function () {
             // we add a default z-index of 2
             var $element    = $(this).css({ "z-index": (options)? options.z || 1 : 1 });
+            var offset_top  = options.offset_top || 0;
             var sticky_home = -1; // TODO this is still a magic number
             var old_classes = $(this).attr("class");
 
@@ -29,7 +30,7 @@
                 var element_top = $element.offset().top;
                 var fixed = $element.hasClass("sticky");
 
-                if (!fixed && scroll_top >= element_top) {
+                if (!fixed && scroll_top >= (element_top - offset_top)) {
                     var $placeholder = $element.husk()
                         .css({ visibility: "hidden" })
                         .attr("data-placeholder", "")
@@ -47,11 +48,12 @@
                     $element.removeClass(old_classes);
                     $placeholder.addClass(old_classes);
                     $element.addClass("sticky");
+                    $element.addClass(old_classes);
 
                     if (options && options.old_width) {
                         $element.css({ width: old_width, margin: 0 });
                     }
-                } else if ( fixed && scroll_top < sticky_home) {
+                } else if ( fixed && scroll_top < (sticky_home - offset_top)) {
                     // we have now scrolled back up, and are replacing the element
 
                     $element.parent().find("[data-placeholder]").remove();

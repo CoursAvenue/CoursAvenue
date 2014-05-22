@@ -1,3 +1,26 @@
+#structure-header {
+    &, h1, #coordinate-buttons, #comments-count {
+        @include transition(all 250ms linear);
+    }
+    &.sticky {
+        border-bottom: 1px solid #CCC;
+        background-color: $site-background-color;
+        h1 { font-size: 19px; }
+        .hidden-on-stick {
+            display: none;
+        }
+        .visible-on-stick     { display: block !important; }
+        .visible-on-stick-ilb { display: inline-block !important; }
+    }
+}
+        .top-contacts-buttons-wrapper {
+            top       : 50%;
+            margin-top: -1.4em;
+        }
+        .visible-on-stick-ilb, .visible-on-stick {
+            display: none !important;
+        }
+
 // ------------------ AS ON SHOW PAGE
 .structure__logo {
     width: 70px;

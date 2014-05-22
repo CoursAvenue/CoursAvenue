@@ -35,10 +35,10 @@
 - if !current_user and params[:waiting_for_activation]
   .blue-box.islet.text--center.push--ends
     = render 'users/waiting_for_activation_text'
-.soft--sides
-  = render partial: 'structures/structure_header', locals: { structure: @structure }
 
-  .grid.push--top
+= render partial: 'structures/structure_header', locals: { structure: @structure }
+.soft--sides
+  .grid
     .grid__item.eight-twelfths.soft-half--right>
       = render partial: 'structures/map_and_gallery', locals: { structure: @structure, places: @structure.places, medias: @medias }
 
@@ -78,9 +78,13 @@
           - if current_user and current_user.follows?(@structure)
             = link_to 'Vous suivez déjà ce profil', '#', class: "btn btn--full disabled"
           - elsif current_user
-            = link_to 'Suivre ce profil', follow_structure_path(@structure), method: :post, class: "btn btn--full"
+            = link_to follow_structure_path(@structure), method: :post, class: "btn btn--full btn--gray" do
+              %i.fa.fa-heart
+              Favoris
           - else
-            = link_to "Suivre ce profil", new_user_registration_path, data: { behavior: 'modal', title: 'Connexion', width: 600, padding: 0 }, class: 'fancybox.ajax btn btn--full', onclick: "ga('send', 'event', 'Se créer un compte', 'click','Inscrit')"
+            = link_to new_user_registration_path, data: { behavior: 'modal', title: 'Connexion', width: 600, padding: 0 }, class: 'fancybox.ajax btn btn--full btn--gray', onclick: "ga('send', 'event', 'Se créer un compte', 'click','Inscrit')" do
+              %i.fa.fa-heart
+              Favoris
           - if @structure.followers.count > 9
             %p.flush.text--center.push-half--top
               %strong Suivi par #{@structure.followers.count} élèves
@@ -101,10 +105,14 @@
                     %strong= structure.name
                   - if structure.has_free_trial_course?
                     %div
-                      .lbl.lbl--small.lbl--green Cours d'essai gratuit
+                      .lbl.lbl--small.lbl--yellow
+                        %i.fa.fa-tag
+                        Cours d'essai gratuit
                   - elsif structure.has_promotion?
                     %div
-                      .lbl.lbl--small.lbl--green Promotions
+                      .lbl.lbl--small.lbl--yellow
+                        %i.fa.fa-tag
+                        Promotions
                   %div
                     à
                     = readable_distance(Geocoder::Calculations.distance_between([@structure.latitude, @structure.longitude], [structure.latitude, structure.longitude], unit: :km).round(1))

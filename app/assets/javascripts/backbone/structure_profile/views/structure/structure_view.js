@@ -37,6 +37,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
                 "courses": this.showEmptyCourses,
                 "places" : this.showEmptyMap,
             };
+            $('#structure-header').sticky({'z': 25 });
         },
 
         onAfterShow: function onAfterShow () {

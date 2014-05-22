@@ -15,11 +15,12 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
                     $view                   = this.$el.parent(),
                     $grid_item              = $view.closest('.grid__item'),
                     initial_map_width       = $view.width();
-                $view.sticky({ 'z': 10, old_width: false });
+                $view.sticky({ 'z': 10, old_width: false,  offset_top: 50 });
 
                 setStickyStyle = function setStickyStyle () {
                     if ($view.hasClass("sticky")) {
                         $view.css({
+                            top : '50px',
                             left: $grid_item.offset().left + parseInt($view.closest('.grid__item').css('padding-left'), 10) + 'px',
                             width: initial_map_width
                         });

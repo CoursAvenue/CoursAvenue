@@ -8,12 +8,9 @@
 .icon-question-sign {
     cursor: pointer;
 }
-.super-muted {
-    @include opacity(0.3);
-}
-.semi-muted {
-    @include opacity(0.75);
-}
+.super-muted { @include opacity(0.3); }
+.semi-muted  { @include opacity(0.75); }
+.invisible   { @include opacity(0); }
 
 .relative          { position   : relative; }
 .on-top            { z-index: 10; }
