@@ -206,11 +206,7 @@ class Structure < ActiveRecord::Base
 
     boolean :premium
 
-    boolean :has_premium_prices do
-      # [false, true].any?  # => true
-      # [false, false].any? # => false
-      price_groups.map(&:has_premium_prices?).any?
-    end
+    boolean :has_premium_prices
 
     boolean :active do
       self.active
@@ -704,6 +700,12 @@ class Structure < ActiveRecord::Base
 
   def highlighted_comment
     self.comments.find(highlighted_comment_id) if highlighted_comment_id
+  end
+
+  def has_premium_prices
+    # [false, true].any?  # => true
+    # [false, false].any? # => false
+    price_groups.map(&:has_premium_prices?).any?
   end
 
   private
