@@ -7,7 +7,7 @@ class Statistic < ActiveRecord::Base
   ######################################################################
   belongs_to :structure
 
-  ACTION_TYPES = %w(impression view contact action)
+  ACTION_TYPES = %w(impression view action)
 
   attr_accessible :action_type, :structure_id, :user_fingerprint, :infos
 
@@ -17,7 +17,6 @@ class Statistic < ActiveRecord::Base
   scope :impressions, -> { where( action_type: 'impression') }
   scope :views,       -> { where( action_type: 'view') }
   scope :actions,     -> { where( action_type: 'action') }
-  scope :contacts,    -> { where( action_type: 'contact') }
 
   def self.print(structure_id, user, fingerprint, infos=nil)
     Statistic.create(action_type: 'impression', structure_id: structure_id, user_fingerprint: fingerprint)
@@ -25,10 +24,6 @@ class Statistic < ActiveRecord::Base
 
   def self.view(structure_id, user, fingerprint, infos=nil)
     Statistic.create(action_type: 'view', structure_id: structure_id, user_fingerprint: fingerprint)
-  end
-
-  def self.contact(structure_id, user, fingerprint, infos=nil)
-    Statistic.create(action_type: 'contact', structure_id: structure_id, user_fingerprint: fingerprint)
   end
 
   def self.action(structure_id, user, fingerprint, infos=nil)
@@ -41,8 +36,6 @@ class Statistic < ActiveRecord::Base
       Statistic.print(structure_id, user, fingerprint, infos)
     when 'action'
       Statistic.action(structure_id, user, fingerprint, infos)
-    when 'contact'
-      Statistic.contact(structure_id, user, fingerprint, infos)
     when 'view'
       Statistic.view(structure_id, user, fingerprint, infos)
     end

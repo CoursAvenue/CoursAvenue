@@ -4,7 +4,7 @@
     .soft--sides{ data: { behavior: 'wizard-helper', content: t('statistics.wizard.infos') } }
       %h4 Statistiques de votre annonce pour les 15 derniers jours
       .grid.push--bottom
-        .grid__item.one-quarter.text--center>
+        .grid__item.one-third.text--center>
           .inline-block.pointer{ data: { behavior: 'toggle-serie' } }
             .lbl.lbl--chip.lbl--red.v-middle.lbl--small
             %h5.flush.v-middle.inline-block
@@ -12,7 +12,7 @@
                 = "#{pluralize(@impressions_total_count, 'Affichage')}"
               - else
                 XX Affichages
-        .grid__item.one-quarter.text--center>
+        .grid__item.one-third.text--center>
           .inline-block.pointer{ data: { behavior: 'toggle-serie' } }
             .lbl.lbl--chip.lbl--blue.v-middle.lbl--small
             %h5.flush.v-middle.inline-block
@@ -20,15 +20,7 @@
                 = "#{pluralize(@views_total_count, 'Vue')}"
               - else
                 XX Vues
-        .grid__item.one-quarter.text--center>
-          .inline-block.pointer{ data: { behavior: 'toggle-serie' } }
-            .lbl.lbl--chip.lbl--yellow.v-middle.lbl--small
-            %h5.flush.v-middle.inline-block
-              - if @structure.premium?
-                = "#{pluralize(@contacts_total_count, 'Prise')} de contact"
-              - else
-                XX Prises de contact
-        .grid__item.one-quarter.text--center>
+        .grid__item.one-third.text--center>
           .inline-block.pointer{ data: { behavior: 'toggle-serie' } }
             .lbl.lbl--chip.lbl--green.v-middle.lbl--small
             %h5.flush.v-middle.inline-block
@@ -71,13 +63,10 @@
             },
             series: [
               { data: #{@impressions.sort.map{|date, count| count}},
-                name: 'Impressions'
+                name: 'Affichages'
                },
               { data: #{@views.sort.map{|date, count| count}},
                 name: 'Vues'
-              },
-              { data: #{@contacts.sort.map{|date, count| count}},
-                name: 'Prises de contact'
               },
               { data: #{@actions.sort.map{|date, count| count}},
                 name: 'Actions'

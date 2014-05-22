@@ -12,7 +12,7 @@ class Structures::MessagesController < ApplicationController
       @receipt      = user.send_message_with_label(@recipients, params[:message][:body], "Demande d'informations", 'information')
       @conversation = @receipt.conversation
     end
-    Statistic.contact(@structure.id, current_user, cookies[:fingerprint])
+    Statistic.action(@structure.id, current_user, cookies[:fingerprint], 'contact')
     respond_to do |format|
       if @conversation and @conversation.persisted?
         format.html { redirect_to user_conversation_path(user, @conversation) }
