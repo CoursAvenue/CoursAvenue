@@ -6,12 +6,11 @@ class Structures::CommentsController < ApplicationController
 
   def index
     @structure    = Structure.friendly.find(params[:structure_id])
-    @comments     = @structure.comments.accepted
-    @comments     = @comments.limit(15) unless params[:unlimited_comments]
+    @comments     = @structure.comments.accepted.page(params[:page] || 1).per(5)
 
     respond_to do |format|
       format.html { redirect_to new_structure_comment_path(@structure) }
-      format.json { render json: @comments.to_a, each_serializer: CommentSerializer }
+      format.json { render json: @comments.to_a, root: 'comments', each_serializer: CommentSerializer, meta: { total: @structure.comments.accepted.count } }
     end
   end
 

@@ -5,17 +5,20 @@ StructureProfile.addRegions({
 });
 
 StructureProfile.addInitializer(function(options) {
-    var bootstrap      = window.coursavenue.bootstrap.structure,
+    var bootstrap      = window.coursavenue.bootstrap,
         layout         = new StructureProfile.Views.StructureProfileLayout(),
-        structure      = new CoursAvenue.Models.Structure(bootstrap, bootstrap.options),
+        structure      = new CoursAvenue.Models.Structure(bootstrap.structure, bootstrap.structure.options),
         structure_view = new StructureProfile.Views.Structure.StructureView({
             model: structure
         }),
         google_maps_view, sticky_google_maps_view, filter_breadcrumbs, places_collection, places_list_view, comments_collection_view;
 
-    places_collection = structure.get('places');
-    comments_collection = structure.get('comments');
-    // new Backbone.Collection(window.coursavenue.bootstrap.structure.places, { model: StructureProfile.Models.Place });
+    places_collection   = structure.get('places');
+    comments_collection = new StructureProfile.Models.CommentsCollection(bootstrap.comments, {
+        structure_id: structure.get('id'),
+        total: bootstrap.total_comments
+    });
+
     google_maps_view  = new StructureProfile.Views.Map.GoogleMapsView({
         collection:         places_collection,
         infoBoxViewOptions: { infoBoxClearance: new google.maps.Size(0, 0) },
@@ -31,7 +34,9 @@ StructureProfile.addInitializer(function(options) {
     });
 
     places_list_view         = new StructureProfile.Views.Structure.Places.PlacesCollectionView({ collection: places_collection });
-    comments_collection_view = new StructureProfile.Views.Structure.Comments.CommentsCollectionView({ collection: comments_collection });
+    comments_collection_view = new StructureProfile.Views.Structure.Comments.CommentsCollectionView({
+        collection: comments_collection
+    });
 
     filter_breadcrumbs = new FilteredSearch.Views.StructuresCollection.Filters.FilterBreadcrumbs.FilterBreadcrumbsView({
         template: StructureProfile.Views.Structure.templateDirname() + 'filter_breadcrumbs_view',
@@ -97,12 +102,6 @@ StructureProfile.addInitializer(function(options) {
 
     layout.master.show(structure_view);
 
-    if (window.location.hash.indexOf('recommandation-') != -1) {
-        $('[href=#tab-comments]').click();
-        _.delay(function() {
-            $.scrollTo($(window.location.hash), { duration: 500, offset: { top: -$('#media-grid').height() } });
-        }, 500);
-    }
     if (window.location.hash.length > 0 && window.location.hash != '#_=_') {
         $('[href=' + window.location.hash + ']').click();
         _.delay(function() {

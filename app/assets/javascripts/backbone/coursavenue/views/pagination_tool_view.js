@@ -1,4 +1,3 @@
-
 CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.PaginationToolView = Backbone.Marionette.ItemView.extend({
@@ -76,7 +75,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                     buttons.push({ // push the current page
                         label: current_page,
                         active: (current_page == data.current_page),
-                        query: data.query_strings[current_page]
+                        query: (data.query_strings ? data.query_strings[current_page] : '')
                     });
 
                     skipped = false;

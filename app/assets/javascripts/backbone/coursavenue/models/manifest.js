@@ -1,2 +1,4 @@
 //---------- Models
-//= require_tree .
+//= require ./place
+//= require ./paginated_collection
+//= require ./structure

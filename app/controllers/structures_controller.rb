@@ -20,6 +20,7 @@ class StructuresController < ApplicationController
     @city      = @structure.city
     @medias    = (@structure.premium? ? @structure.medias.videos_first : @structure.medias.videos_first.limit(1))
 
+    @comments = @structure.comments.accepted.page(1).per(5)
     @model = StructureShowSerializer.new(@structure, {
       unlimited_comments: false,
       query:              get_filters_params,

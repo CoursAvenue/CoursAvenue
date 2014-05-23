@@ -114,7 +114,7 @@ FilteredSearch.addInitializer(function(options) {
     price_filter              = new FiltersModule.PriceFilterView({});
     trial_course_filter       = new FiltersModule.TrialCourseFilterView({});
 
-    pagination_bottom       = new CoursAvenue.Views.PaginationToolView({});
+    pagination_bottom         = new CoursAvenue.Views.PaginationToolView({});
 
     FilteredSearch.mainRegion.show(layout);
 

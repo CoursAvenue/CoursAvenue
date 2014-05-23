@@ -6,7 +6,6 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
 
         initialize: function () {
             this.server_api = {};
-
         },
 
         paginator_ui: {
@@ -70,7 +69,7 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
         * call getQuery on its `this.structure.collection` reference. */
         getQuery: function(options) {
             var self = this;
-            var params = _.extend(_.clone(this.server_api), options);
+            var params = _.extend(_.clone(this.server_api || {}), options);
 
             // some of the server_api params might be functions, in which case execute them
             return _.reduce(_.pairs(params), function (memo, pair) {

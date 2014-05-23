@@ -6,16 +6,15 @@ class StructureShowSerializer < ActiveModel::Serializer
   include StructuresHelper
   include ActionView::Helpers::TextHelper
 
-  attributes :id, :name, :slug, :comments, :comments_count, :rating, :street, :zip_code, :description,
+  attributes :id, :name, :slug, :rating, :street, :zip_code, :description,
              :logo_thumb_url, :data_url, :query_url, :query_params, :courses, :courses_count,
-             :has_courses, :plannings_count, :has_plannings, :more_than_five_comments, :has_comments,
+             :has_courses, :plannings_count, :has_plannings,
              :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range,
              :has_free_trial_course, :medias_count, :teaches_at_home, :teaches_at_home_radius, :videos_count, :images_count,
              :audience, :funding_types, :gives_group_courses, :gives_individual_courses, :structure_type,
              :has_promotion, :tag_names, :given_course_types, :given_funding_type, :places_count
 
   has_many :places
-  has_many :comments, serializer: ShortSerializer
   has_many :teachers, serializer: ShortSerializer
 
   def courses
@@ -28,12 +27,6 @@ class StructureShowSerializer < ActiveModel::Serializer
 
   def medias
     object.medias.videos_first.limit(20)
-  end
-
-  def comments
-    _comments = object.comments.accepted
-    _comments = _comments.limit(5) unless options.has_key?(:unlimited_comments)
-    _comments
   end
 
   def places_count
@@ -92,14 +85,6 @@ class StructureShowSerializer < ActiveModel::Serializer
 
   def has_price_range
     object.min_price_amount.present? and object.max_price_amount.present?
-  end
-
-  def more_than_five_comments
-    object.comments_count > 5
-  end
-
-  def has_comments
-    object.comments.accepted.count > 0
   end
 
   def has_plannings
