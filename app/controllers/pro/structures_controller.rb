@@ -170,6 +170,7 @@ class Pro::StructuresController < Pro::ProController
 
   def edit
     @structure = Structure.friendly.find(params[:id])
+    retrieve_home_places
   end
 
   def new
@@ -177,7 +178,7 @@ class Pro::StructuresController < Pro::ProController
     session[:zip_code] = params[:zip_code]
     session[:email]    = params[:email]
     @structure  = Structure.new name: params[:name], zip_code: params[:zip_code], contact_email: params[:email]
-    @structure.places.build
+    @structure.places.build type: 'Place::Public'
     @structures = Structure.where.not(comments_count: nil).order('comments_count DESC').limit(3)
   end
 
@@ -203,6 +204,8 @@ class Pro::StructuresController < Pro::ProController
           end
         end
       else
+        # azd?
+        retrieve_home_places
         format.html { render action: 'edit' }
       end
     end
@@ -295,5 +298,10 @@ class Pro::StructuresController < Pro::ProController
   # Check if need to reprocess logo
   def has_cropping_attributes?
     params[:structure][:crop_width].present? || params[:structure][:crop_x].present? || params[:structure][:crop_y].present?
+  end
+
+  def retrieve_home_places
+    @structure.places.homes.build if @structure.places.homes.empty?
+    @home_places = @structure.places.select{ |p| p.type == 'Place::Home' }
   end
 end

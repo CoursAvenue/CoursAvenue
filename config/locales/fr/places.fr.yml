@@ -19,6 +19,13 @@ fr:
         contact_phone: Téléphone
         contact_mobile_phone: Téléphone portable
 
+  places:
+    home:
+      name: À domicile chez l'élève
+      street: "%{zip_code} %{city_name} (rayon de %{radius}km)"
+    infos: >
+      <p><strong>Infos publiques</strong><br>%{info}</p>
+      <p><strong>Infos privées</strong><br>%{private_info}</p>
   pro:
     places:
       form:
@@ -26,12 +33,12 @@ fr:
         street: Numéro et nom de la rue
         zip_code: Code postal
       wizard_helper:
-        address: >
+        home_address: >
+          <p><strong>Cours à domicile chez l'élève</strong><br>
+          <p>Si vous donnez des cours à domicile chez les élèves, renseignez la ville centrale de vos déplacements et le rayon géographique exprimé en kilomètres.</p>
+        public_address: >
           <p><strong>Adresse de vos cours</strong><br>
           L'adresse est un élément déterminant de votre profil : si elle est incomplète, votre profil risque de ne pas être visible.</p>
-          <p><strong>Cas particulier des cours à domicile </strong> :
-          s'il s'agit du lieu principal de vos cours à domicile, indiquez « Adresse principale » comme nom de lieu,
-          puis indiquez un code postal et une ville sans numéro et nom de rue.</p>
         infos: >
           <p><strong>Publiques</strong><br>
           Indiquez ici les informations relatives au lieu&nbsp;:

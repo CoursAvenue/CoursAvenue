@@ -1,8 +1,10 @@
 # encoding: utf-8
 class Planning < ActiveRecord::Base
-  extend ActiveHashHelper
+  # extend ActiveHashHelper
+  include Concerns::ActiveHashHelper
 
   include PlanningsHelper
+  include Concerns::HasAudiencesAndLevels
 
   acts_as_paranoid
 
@@ -42,8 +44,8 @@ class Planning < ActiveRecord::Base
   has_many :participations, dependent: :destroy
   has_many :users, through: :participations
 
-  define_has_many_for :audience
-  define_has_many_for :level
+  # define_has_many_for :audience
+  # define_has_many_for :level
 
   ######################################################################
   # Callbacks                                                          #
@@ -54,8 +56,8 @@ class Planning < ActiveRecord::Base
   before_validation :set_end_date
   before_validation :set_end_time
   before_validation :update_duration
-  before_validation :set_audience_if_empty
-  before_validation :set_level_if_empty
+  # before_validation :set_audience_if_empty
+  # before_validation :set_level_if_empty
 
   before_save :set_structure_if_blank
   before_save :update_start_and_end_date
@@ -63,14 +65,15 @@ class Planning < ActiveRecord::Base
   ######################################################################
   # Validations                                                        #
   ######################################################################
-  validates :place, :audience_ids, :level_ids, presence: true
+  # validates :place, :audience_ids, :level_ids, presence: true
+  validate  :presence_of_place
   validate  :presence_of_start_date
   validate  :end_date_in_future
 
-  validates :min_age_for_kid, numericality: { less_than: 18 }, allow_nil: true
-  validates :max_age_for_kid, numericality: { less_than: 19 }, allow_nil: true
+  # validates :min_age_for_kid, numericality: { less_than: 18 }, allow_nil: true
+  # validates :max_age_for_kid, numericality: { less_than: 19 }, allow_nil: true
 
-  validate :min_age_must_be_less_than_max_age
+  # validate :min_age_must_be_less_than_max_age
 
   attr_accessible :duration, # In minutes
                   :end_date,
@@ -91,7 +94,7 @@ class Planning < ActiveRecord::Base
   ######################################################################
   scope :future,         -> { where( Planning.arel_table[:end_date].gt(Date.today) ) }
   scope :past,           -> { where( Planning.arel_table[:end_date].lteq(Date.today) ) }
-  scope :ordered_by_day, -> { order('week_day=0, week_day ASC') }
+  scope :ordered_by_day, -> { order('week_day=0, week_day ASC, start_date ASC, start_time ASC') }
 
   ######################################################################
   # Solr                                                               #
@@ -274,26 +277,6 @@ class Planning < ActiveRecord::Base
     return (end_date - start_date).to_i + 1
   end
 
-  # Return if KID audience is included in audiences
-  #
-  # @return Boolean
-  def for_kid?
-    audiences.include? Audience::KID
-  end
-
-  # Return if ADULT audience is included in audiences
-  #
-  # @return Boolean
-  def for_adult?
-    audiences.include? Audience::ADULT
-  end
-
-  # Return if SENIOR audience is included in audiences
-  #
-  # @return Boolean
-  def for_senior?
-    audiences.include? Audience::SENIOR
-  end
 
   def min_price_amount_for(type)
     price = price_amount_for_scope(type).order('amount ASC').first
@@ -449,32 +432,9 @@ class Planning < ActiveRecord::Base
     end
   end
 
-  # Set audience to Adult if none is set
-  #
-  # @return audiences
-  def set_audience_if_empty
-    self.audiences = [Audience::ADULT] if self.audiences.empty?
-  end
-
-  # Set level to All if none is set
-  #
-  # @return levels
-  def set_level_if_empty
-    self.levels    = [Level::ALL]      if self.levels.empty?
-  end
-
   ######################################################################
   # Validations                                                        #
   ######################################################################
-
-  # Add errors to model if min_age < max_age
-  #
-  # @return nil
-  def min_age_must_be_less_than_max_age
-    if (max_age_for_kid.present? or min_age_for_kid.present?) and min_age_for_kid.to_i >= max_age_for_kid.to_i
-      self.errors.add(:max_age_for_kid, "L'age maximum ne peut être inférieur à l'age minimum")
-    end
-  end
 
   # Add errors to model if the course associated needs a start date and
   # there is no start_date is not present
@@ -486,6 +446,16 @@ class Planning < ActiveRecord::Base
       unless start_date.present?
         errors.add(:start_date, :blank)
       end
+    end
+  end
+
+  # Add errors to model if there is no place selected
+  #
+  # @return nil
+  def presence_of_place
+    return if course.nil?
+    unless course.is_private?
+      errors.add(:place, :blank) if self.place.nil?
     end
   end
 

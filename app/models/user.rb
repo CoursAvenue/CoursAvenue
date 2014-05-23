@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
-  extend HstoreHelper
 
+  include Concerns::HstoreHelper
   include ActsAsUnsubscribable
   include Rails.application.routes.url_helpers
 

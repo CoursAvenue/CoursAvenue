@@ -22,24 +22,21 @@ class Place < ActiveRecord::Base
   after_save :reindex_structure_and_places
   after_save :geocode_if_needs_to
 
+  ######################################################################
+  # Scopes                                                             #
+  ######################################################################
+  scope :publics,                -> { where( type: 'Place::Public' ) }
+  scope :homes,                  -> { where( type: 'Place::Home' ) }
+
   accepts_nested_attributes_for :contacts,
                                 reject_if: lambda {|attributes| attributes.values.compact.reject(&:blank?).empty?},
                                 allow_destroy: true
 
-  attr_accessible :name, :location, :structure, :contacts,
+  attr_accessible :name, :type, :location, :structure, :contacts,
                   :info, :private_info,
                   :contacts_attributes,
                   :street, :zip_code, :city, :city_id,
-                  :latitude, :longitude, :gmaps
-
-  ######################################################################
-  # Validations                                                        #
-  ######################################################################
-  validates :structure, presence: true
-  validates :name     , presence: true
-  validates :street   , presence: true
-  validates :city     , presence: true
-  validates :zip_code , presence: true, numericality: { only_integer: true }
+                  :latitude, :longitude, :gmaps, :radius
 
   def main_contact
     self.contacts.first
@@ -52,6 +49,10 @@ class Place < ActiveRecord::Base
 
   def to_gmap_json
     { lng: self.longitude, lat: self.latitude }
+  end
+
+  def is_home?
+    false
   end
 
   private

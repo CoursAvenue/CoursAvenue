@@ -1,11 +1,11 @@
 - @structure.places.each do |place|
-  .hidden.gray.flush{data: {place_id: place.id, info: place.info, private_info: place.private_info, address: place.location.address } }
+  .hidden.gray.flush{data: {place_id: place.id, info: place.info, private_info: place.private_info, address: place.address } }
 
 .input.flush--bottom
   = f.label :place, class: 'v-top label--large'
   %div
     .inline-block.v-middle
-      = f.input :place_id , as: :select, collection: @structure.places, label_method: lambda {|place| place.location.name}, include_blank: false, label: false, wrapper_html: { class: 'flush' }, input_html: { class: 'input--large' }
+      = f.input :place_id , as: :select, collection: @structure.places, label_method: lambda {|place| place.name}, include_blank: false, label: false, wrapper_html: { class: 'flush' }, input_html: { class: 'input--large' }
     .inline-block.v-middle
       = link_to new_pro_structure_place_path(@structure, return_to: request.fullpath), class: 'push-half--left' do
         %i.fa.fa-map-marker

@@ -24,10 +24,6 @@ class Course::Open < Course
     price.nil? or price == 0
   end
 
-  def type_name_html
-    'Journée portes ouvertes'
-  end
-
   def type_name
     'Journée portes ouvertes'
   end

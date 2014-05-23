@@ -32,6 +32,7 @@ class PriceGroup < ActiveRecord::Base
   ######################################################################
   scope :for_lessons,   -> { where( course_type: 'Course::Lesson' ) }
   scope :for_trainings, -> { where( course_type: 'Course::Training' ) }
+  scope :for_privates , -> { where( course_type: 'Course::Private' ) }
 
   def for_lesson?
     course_type == 'Course::Lesson'

@@ -9,11 +9,7 @@
     .panel__header.soft
       %h4.flush.inline-block.v-middle
         %span.v-middle
-          Nom du
-          - if @course.is_lesson?
-            cours :
-          - else
-            stage :
+          Nom du #{@course.type_name.downcase}
         = f.input :name, label: false, input_html: { class: 'input--large', style: 'width: 20em;' }, wrapper_html: { class: 'inline-block v-middle flush--ends push-half--left' }
 
       .inline-block.push-half--left.v-middle{ data: { toggle: 'popover', placement: 'bottom', html: 'true', content: t('pro.structures.courses.wizard.name'), trigger: 'hover' } }
@@ -58,6 +54,43 @@
           .input-container>
             = f.input :description, as: :text, placeholder: 'Décrivez en quoi consiste votre cours sans parler de tarif ni de planning.', label: false, input_html: { class: 'input--large one-whole', data: { behavior: 'text-counter', 'average-words-nb' => 20, 'good-words-nb' => 50, 'bad-text' => 'Votre description doit comporter au moins 20 mots. Nos Partenaires qui ont le plus de succès ont plus de 50 mots', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !' } }, wrapper_html: { class: 'flush--top one-whole' }
 
+        - if @course.is_private?
+          .input
+            %label.control-label.label--large.v-top> Lieux
+            .input-container.v-middle>
+              - home_place = @structure.places.homes.first
+              %div
+                = f.input :teaches_at_home, input_html: { class: 'input--large', disabled: home_place.nil? }, label: false, wrapper_html: { class: 'inline-block v-middle' }
+                = f.label :teaches_at_home, class: "label--large inline-block v-middle nowrap hard #{home_place.nil? ? 'gray-light' : ''}"
+                - if home_place
+                  %div
+                    %i
+                      Dans un rayon de #{home_place.radius}km autour de #{home_place.city.name}
+                      = link_to 'Modifier', pro_structure_places_path(@structure), target: :_blank
+                - else
+                  %div
+                    %i
+                      = link_to 'Ajouter la zone géographique pour mes cours à domicile ', pro_structure_places_path(@structure), target: :_blank
+              %div
+                %label.inline-block.label--large{ for: 'course_place_id_checkbox' }
+                  %input#course_place_id_checkbox{ type: 'checkbox' }
+                  Les cours ont lieux à cette addresse :
+                = f.input :place_id, as: :select, collection: @structure.places.publics, input_html: { class: 'input--large', style: 'max-width: 13em;' }, label: false, wrapper_html: { class: 'inline-block v-middle' }
+
+          = f.input :level_ids, as: :check_boxes, collection: Level.all, label_method: lambda {|level| t(level.name)}, label: t('planning.levels'), wrapper_html: { data: { behavior: 'checkbox-list' } }, label_html: { class: 'label--large v-middle' }, input_html: { class: 'input--large' }
+
+          = f.input :audience_ids, as: :check_boxes, collection: Audience.all, label_method: lambda {|audience| t(audience.name)}, label: t('planning.audiences'), input_html: { class: 'input--large' }, label_html: { class: 'label--large v-middle' }
+
+          .input#children-ages{class: f.object.audiences.include?(Audience::KID) ? '' : 'hidden'}
+            %label.label--large.control-label.v-middle Âge pour les enfants (optionnel)
+            %span.v-middle.label--large de
+            = f.input :min_age_for_kid, label: false, input_html: { class: 'input--large', style: 'width: 5em;', value: f.object.min_age_for_kid || 0}, wrapper_html: {class: 'flush v-middle'}
+            %span.v-middl.label--large  à
+            = f.input :max_age_for_kid, label: false, input_html: { class: 'input--large', style: 'width: 5em;', value: f.object.max_age_for_kid || 18}, wrapper_html: {class: 'flush v-middle'}
+            %span.v-middle ans
+
+
+
         %input#save-and-add-planning-input{ name: 'add_planning', type: 'hidden' }
         .grid.push--top
           .grid__item.two-tenths>
@@ -72,3 +105,20 @@
         $('#save-and-add-planning-input').val('true');
     });
     $('textarea').textareaResizer();
+
+- if @course.is_private?
+  :javascript
+      if ($('[name="planning[audience_ids][]"]').length > 0) {
+          $('[name="planning[audience_ids][]"]').change(function(event) {
+              if (event.target.value == '1') {
+                  if (event.target.checked) {
+                      $('#children-ages').removeClass('hidden');
+                  } else {
+                      $('#children-ages').addClass('hidden');
+                  }
+              }
+          });
+      }
+      $('#course_place_id').change(function() {
+          $('#course_place_id_checkbox')[0].checked = (this.value != '');
+      });

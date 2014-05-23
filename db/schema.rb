@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140521145428) do
+ActiveRecord::Schema.define(version: 20140523133045) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -203,6 +203,10 @@ ActiveRecord::Schema.define(version: 20140521145428) do
     t.float    "common_price"
     t.boolean  "ok_nico",                    default: false
     t.integer  "price_group_id"
+    t.string   "audience_ids"
+    t.string   "level_ids"
+    t.integer  "min_age_for_kid"
+    t.integer  "max_age_for_kid"
   end
 
   add_index "courses", ["active"], name: "index_courses_on_active", using: :btree
@@ -452,6 +456,8 @@ ActiveRecord::Schema.define(version: 20140521145428) do
     t.string  "zip_code"
     t.integer "city_id"
     t.boolean "gmaps"
+    t.string  "type"
+    t.integer "radius"
   end
 
   add_index "places", ["location_id", "structure_id"], name: "index_places_on_location_id_and_structure_id", using: :btree

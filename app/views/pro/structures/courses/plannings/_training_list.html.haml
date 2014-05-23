@@ -4,11 +4,11 @@
       %th Dates
       %th Horaire
       %th.three-twelfths Niveau
-      %th.three-twelfths Public
-      %th Lieu
+      %th.two-twelfths Public
+      %th.two-twelfths Lieu
       %th
         %i.lbc-icon-info i
       %th
   %tbody
-    - course.plannings.each do |planning|
+    - course.plannings.ordered_by_day.each do |planning|
       = render partial: 'pro/structures/courses/plannings/training_row', locals: { planning: planning, course: course }

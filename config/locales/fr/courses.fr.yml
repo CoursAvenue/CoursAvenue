@@ -23,7 +23,7 @@ fr:
         cant_be_joined_during_year: Pas d'inscription en cours d'année
         no_class_during_holidays: Pas de cours pendant les vacances scolaires
         subjects: Étiquettes disciplines
-        teaches_at_home: Cours à domicile
+        teaches_at_home: Je me déplace à domicile
         common_price: Tarif habituellement appliqué
 
   courses:

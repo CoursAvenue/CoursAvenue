@@ -1,5 +1,5 @@
 class Passion < ActiveRecord::Base
-  extend ActiveHashHelper
+  include Concerns::ActiveHashHelper
 
   ######################################################################
   # Relations                                                          #

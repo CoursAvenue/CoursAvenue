@@ -114,4 +114,8 @@ class CourseSerializer < ActiveModel::Serializer
   def trials
     object.prices.trials.map{ |price| PriceSerializer.new(price) }
   end
+
+  def price_details
+    object.price_group.details if object.price_group
+  end
 end

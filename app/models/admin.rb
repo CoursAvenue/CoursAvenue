@@ -1,7 +1,7 @@
 class ::Admin < ActiveRecord::Base
-  extend HstoreHelper
   acts_as_paranoid
   acts_as_messageable
+  include Concerns::HstoreHelper
   include Concerns::MessagableWithLabel
 
   include ActsAsUnsubscribable

@@ -1,7 +1,7 @@
 # encoding: utf-8
 class Structure < ActiveRecord::Base
-  extend ActiveHashHelper, HstoreHelper
-
+  include Concerns::HstoreHelper
+  include Concerns::ActiveHashHelper
   include HasSubjects
   include ActsAsCommentable
   include ActsAsGeolocalizable

@@ -24,7 +24,6 @@ class Course < ActiveRecord::Base
 
   has_and_belongs_to_many :subjects, -> { uniq }
 
-  after_initialize :set_teaches_at_home
   before_save      :sanatize_description
 
   ######################################################################
@@ -34,6 +33,7 @@ class Course < ActiveRecord::Base
   scope :disabled,               -> { where( active: false ) }
   scope :lessons,                -> { where( type: "Course::Lesson" ) }
   scope :trainings,              -> { where( type: "Course::Training" ) }
+  scope :privates,               -> { where( type: "Course::Private" ) }
   scope :without_open_courses,   -> { where.not( type: 'Course::Open' ) }
   scope :open_courses,           -> { where( type: 'Course::Open' ) }
 
@@ -43,7 +43,7 @@ class Course < ActiveRecord::Base
   validates :type, :name  , presence: true
   validates :subjects     , presence: true
   validates :name, length: { maximum: 255 }
-  validate :price_group_type
+  validate  :price_group_type
 
   attr_accessible :name, :type, :description,
                   :active,
@@ -235,6 +235,7 @@ class Course < ActiveRecord::Base
   end
 
   def has_unit_course_price
+    return false if price_group.nil?
     return (price_group.book_tickets.any? or prices.where(libelle: 'prices.individual_course').any?)
   end
 
@@ -276,6 +277,10 @@ class Course < ActiveRecord::Base
   end
 
   def is_training?
+    false
+  end
+
+  def is_private?
     false
   end
 
@@ -343,25 +348,16 @@ class Course < ActiveRecord::Base
     new_record? || false
   end
 
-  def migration_set_teaches_at_home
-    self.update_column(:teaches_at_home, self.structure.teaches_at_home) if self.structure
-  end
-
   def other_event_type?
     false
   end
 
   def has_premium_prices?
+    return false if price_group.nil?
     price_group.has_premium_prices?
   end
 
   private
-
-  def set_teaches_at_home
-    if self.new_record? and self.teaches_at_home.nil?
-      self.teaches_at_home = self.structure.teaches_at_home if self.structure
-    end
-  end
 
   # Attributes used to create the slug for Friendly ID
   #

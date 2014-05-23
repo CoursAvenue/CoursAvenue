@@ -158,7 +158,11 @@ CoursAvenue::Application.routes.draw do
         resources :images, only: [:create, :new], controller: 'structures/medias/images'
 
         resources :teachers     , controller: 'structures/teachers'
-        resources :places       , controller: 'structures/places'
+        resources :places       , controller: 'structures/places' do
+          member do
+            get :ask_for_deletion
+          end
+        end
 
         resources :messages     , controller: 'structures/messages'
         resources :conversations, controller: 'structures/conversations'

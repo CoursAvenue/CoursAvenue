@@ -34,10 +34,10 @@
         .grid
           .grid__item.two-twelfths.v-top>
             %h5.flush--bottom.push-half--top.label--large
-              - if @price_group.for_lesson?
-                Au cours / Au carnet
-              - else
+              - if @price_group.for_training?
                 Au stage / À l'atelier
+              - else
+                Au cours / Au carnet
           .grid__item.ten-twelfths.v-top>
             .book-tickets{ data: { behavior: 'show-more-on-demand' } }<>
               - @book_tickets.each_with_index do |item, i|
@@ -48,12 +48,12 @@
                     .grid>
                       .grid__item.v-middle.one-quarter>
                         = book_ticket_form.input :number, label: false, as: :select, collection: range, selected: book_ticket_form.object.number || 5, wrapper_html: { class: 'flush inline-block v-middle' }, input_html: { class: 'input--large' }
-                        - if @price_group.for_lesson?
+                        - if @price_group.for_training?
+                          .inline-block.v-middle.label--large stage(s) / atelier(s)
+                        - else
                           %span.v-middle.label--large cours de
                           .inline-block.v-middle
                             = book_ticket_form.input :duration, label: false, as: :select, collection: duration_collection, selected: book_ticket_form.object.duration || 60, wrapper_html: { class: 'flush' }, input_html: { class: 'input--large' }
-                        - elsif @price_group.for_training?
-                          .inline-block.v-middle.label--large stage(s) / atelier(s)
                       .grid__item.v-middle.two-twelfths>
                         = book_ticket_form.input :amount, placeholder: 'Ex. : 120', label: false, input_html: { class: 'one-whole input--large' }, wrapper_html: { class: 'two-thirds flush inline-block v-middle' }, as: :string
                         .inline-block.v-middle.label--large €
@@ -72,7 +72,7 @@
                 .grid__item.v-middle.two-twelfths{ class: @price_group.for_training? ? '' : 'premium-box' }>
                   &nbsp;
 
-      - if @price_group.for_lesson?
+      - unless @price_group.for_training?
         .soft--sides>
           .grid
             .grid__item.two-twelfths.v-top>
@@ -103,7 +103,7 @@
 
       %hr.push--top.flush--bottom
       .premium-box.soft--ends
-        - if @trial and @price_group.for_lesson?
+        - if @trial and !@price_group.for_training?
           .soft--sides
             .grid
               .grid__item.two-twelfths.v-top>

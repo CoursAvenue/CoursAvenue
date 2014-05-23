@@ -121,9 +121,11 @@
                                 </tr>
                             {{/each}}
                             {{#if premium}}
+                                {{#xif "this.trials.length > 0 || this.premium_offers.length > 0 || this.discounts.length > 0" }}
                                 <tr>
                                     <th colspan="4" class=" soft-half--ends text--left bordered--top epsilon green">Offres découvertes</th>
                                 </tr>
+                                {{/xif}}
                                 {{#each trials}}
                                     <tr>
                                         <td>{{libelle}}</td>

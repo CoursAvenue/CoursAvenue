@@ -124,6 +124,8 @@ function HandlebarsX (expression, options) {
     return result;
 }
 
+
+// Ex. of usage: {{#xif " this.name == 'Sam' && this.age === '12' " }}
 Handlebars.registerHelper("xif", function (expression, options) {
     return HandlebarsX.apply(this, [expression, options]) ? options.fn(this) : options.inverse(this);
 });

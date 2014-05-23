@@ -1,5 +1,7 @@
 class Course::Training < Course
 
+  validates :start_date, :end_date, presence: true
+
   def is_training?
     true
   end
@@ -10,10 +12,6 @@ class Course::Training < Course
     else
       0
     end
-  end
-
-  def type_name_html
-    'Stage'
   end
 
   def type_name

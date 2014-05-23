@@ -65,6 +65,6 @@
     Cours : #{@course.name}
   %div
     %span.lbl.milli
-      = @course.type_name_html
+      = @course.type_name
       - if @course.plannings.any? and @course.plannings.first.duration
         = "de #{readable_duration @course.plannings.first.duration}"

@@ -8,6 +8,6 @@
         setTimeout(function() { $('#course-<%= @course.id %>').yellowFade(); }, 400);
     <% end %>
 <% else %>
-    $.fancybox("<%= escape_javascript(render partial: 'pro/structures/courses/form') %>", { width: 700, minWidth: 700, maxWidth: 700, padding: 0 });
+    $.fancybox("<%= escape_javascript(render partial: 'pro/structures/courses/form') %>", { width: 750, minWidth: 750, maxWidth: 750, padding: 0 });
 <% end %>
 GLOBAL.reinitializePlugins();

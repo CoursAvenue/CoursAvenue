@@ -29,7 +29,7 @@
 
         %footer
           %span.lbl.milli
-            = course.type_name_html
+            = course.type_name
             - if course.is_training?
               = " de #{pluralize course.length, 'jour'}"
             - else

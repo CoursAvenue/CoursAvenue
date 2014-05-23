@@ -1,15 +1,13 @@
 class Course::Lesson < Course
 
+  validates :start_date, :end_date, presence: true
+
   def is_lesson?
     true
   end
 
-  def type_name_html
-    'Cours'
-  end
-
   def type_name
-    'Cours'
+    'Cours collectif'
   end
 
   def self.underscore_name

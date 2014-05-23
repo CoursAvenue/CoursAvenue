@@ -6,6 +6,14 @@ class Pro::Structures::PlacesController < InheritedResources::Base
   belongs_to :structure
   load_and_authorize_resource :structure, find_by: :slug
 
+  def ask_for_deletion
+    @structure = Structure.friendly.find params[:structure_id]
+    @place     = @structure.places.find params[:id]
+    if request.xhr?
+      render layout: false
+    end
+  end
+
   def edit
     @structure = Structure.friendly.find params[:structure_id]
     @place     = @structure.places.find params[:id]
@@ -21,7 +29,7 @@ class Pro::Structures::PlacesController < InheritedResources::Base
 
   def new
     @structure      = Structure.friendly.find params[:structure_id]
-    @place          = @structure.places.build
+    @place          = @structure.places.build type: params[:type]
     @gmap_center    = Gmaps4rails.build_markers(@structure) do |structure, marker|
       marker.lat structure.latitude
       marker.lng structure.longitude

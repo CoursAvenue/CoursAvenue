@@ -1,4 +1,4 @@
-- if true# current_pro_admin.confirmed_at > Date.yesterday and !cookies[:modal_info_popup].present?
+- if current_pro_admin.confirmed_at > Date.yesterday and !cookies[:modal_info_popup].present?
   .relative
     = render 'modal_info_popup'
 

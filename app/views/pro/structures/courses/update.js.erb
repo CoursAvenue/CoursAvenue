@@ -1,5 +1,5 @@
 <% if @course.errors.any? %>
-    $.fancybox("<%= escape_javascript(render partial: 'pro/structures/courses/form') %>", { width: 700, minWidth: 700, maxWidth: 700, padding: 0 });
+    $.fancybox("<%= escape_javascript(render partial: 'pro/structures/courses/form') %>", { width: 750, minWidth: 750, maxWidth: 750, padding: 0 });
 <%- # params[:live_form] is here to indicate if the form is updating info in live. If so, then we don't want to reload the page %>
 <% elsif !params.has_key?(:live_form) %>
     <%- # When saving a course, user can choose wether or not to add a planning after saving. %>

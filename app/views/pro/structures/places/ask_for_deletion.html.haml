@@ -1,0 +1,15 @@
+.panel
+  .panel__header.soft
+    .delta.line-height-normal
+      Suppression du lieu :
+      %br
+      %strong= @place.name
+  .panel__body
+    .soft
+      %p
+        Attention, la suppression aura pour effet de désactiver tous les créneaux liés à ce lieu.
+      .grid
+        .grid__item.one-third>
+          %a.btn.btn--full{ onclick: '$.fancybox.close()' } Annuler
+        .grid__item.two-thirds>
+          = link_to 'Supprimer ce lieu', pro_structure_place_path(@structure, @place), class: 'red', method: :delete, class: 'btn btn--full btn--red'
