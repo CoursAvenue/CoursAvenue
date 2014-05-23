@@ -42,7 +42,6 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
 
         onAfterShow: function onAfterShow () {
             this.trigger("filter:breadcrumbs:add", this.model.get("query_params"));
-            this.showOrCreateTab({ currentTarget: $("[data-view=comments]")[0] });
         },
 
         onRender: function onRender () {
