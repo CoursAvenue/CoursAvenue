@@ -15,22 +15,27 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
                 this.$('[data-empty-comments]').show();
             }
             pagination_bottom = new CoursAvenue.Views.PaginationToolView({});
+            pagination_top    = new CoursAvenue.Views.PaginationToolView({});
             pagination_bottom.on('pagination:next', this.nextPage.bind(this));
             pagination_bottom.on('pagination:prev', this.prevPage.bind(this));
             pagination_bottom.on('pagination:page', this.goToPage.bind(this));
+            pagination_top.on('pagination:next', this.nextPage.bind(this));
+            pagination_top.on('pagination:prev', this.prevPage.bind(this));
+            pagination_top.on('pagination:page', this.goToPage.bind(this));
         },
 
         onRender: function onRender () {
             // TODO: Get rid of this
             if (this.deprecated) { return; }
-            this.$('[data-type="pagination-tool"]').append(pagination_bottom.el);
+            this.$('[data-type="bottom-pagination-tool"]').append(pagination_bottom.el);
+            this.$('[data-type="top-pagination-tool"]').append(pagination_top.el);
         },
 
         announcePaginatorUpdated: function announcePaginatorUpdated () {
             // TODO: Get rid of this
             if (this.deprecated) { return; }
             if (this.collection.paginator_ui) { this.collection.paginator_ui.currentPage = this.collection.currentPage; }
-            pagination_bottom.reset({
+            var data = {
                 current_page:        this.collection.paginator_ui.currentPage,
                 queryOptions:       '',
                 last_page:           this.collection.paginator_ui.totalPages,
@@ -38,8 +43,9 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
                 query_strings:       '',
                 previous_page_query: this.collection.previousQuery(),
                 next_page_query:     this.collection.nextQuery()
-            });
-            pagination_bottom.render();
+            };
+            pagination_bottom.reset(data)
+            pagination_top.reset(data)
         }
     });
 });
