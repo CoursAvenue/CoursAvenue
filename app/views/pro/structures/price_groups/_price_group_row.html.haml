@@ -10,13 +10,10 @@
       &nbsp;
   %td.text--center.nowrap
     - if price_group.has_premium_prices?
-      .lbl.lbl--chip.lbl--small.v-middle{ class: (price_group.premium_visible? ? 'lbl--green' : 'lbl--red')}
-      %select.v-middle
-        %option{ value: 'visible',     selected: price_group.premium_visible? } Visible
-        %option{ value: 'not-visible', selected: !price_group.premium_visible? } Non visible
+      = render partial: 'pro/structures/premium_select', locals: { text: 'proposer vos offres découvertes à tous les utilisateurs CoursAvenue ?', label_text: ''}
     - else
       Pas d'offre
-  %td.nowrap
+  %td.nowrap.text--right
     = link_to edit_pro_structure_price_group_path(@structure, price_group), class: 'orange fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0', close_click: 'false' } do
       %i.fa.fa-pencil
       Modifier

@@ -79,6 +79,7 @@ CoursAvenue::Application.routes.draw do
       resources :structures, path: 'etablissements' do
         member do
           get   :premium
+          get   :premium_modal
           get   :edit_contact
           get   :add_subjects
           get   :update_widget_status

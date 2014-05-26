@@ -31,6 +31,17 @@ class Pro::StructuresController < Pro::ProController
   end
 
   # GET member
+  def premium
+  end
+
+  # GET member
+  def premium_modal
+    if request.xhr?
+      render layout: false
+    end
+  end
+
+  # GET member
   def signature
   end
 

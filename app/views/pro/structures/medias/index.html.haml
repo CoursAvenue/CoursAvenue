@@ -21,11 +21,8 @@
             %p.text--center.flush
               %strong Votre première photo / vidéo figure dans les résultats de recherche !
           .grid__item.two-thirds.v-middle.text--right>
-            %strong.push-half--right Statut de mes photos & vidéos :
-            .lbl.lbl--chip.lbl--small.v-middle{ class: (@structure.premium? ? 'lbl--green' : 'lbl--red')}
-            %select.v-middle.input--large
-              %option{ value: 'visible',     selected: @structure.premium? } Visible
-              %option{ value: 'not-visible', selected: !@structure.premium? } Non visible
+            = render partial: 'pro/structures/premium_select', locals: { text: 'afficher vos photos et vidéos à tous les utilisateurs CoursAvenue ?', label_text: 'Statut de mes photos & vidéos :'}
+
         - @medias.each_with_index do |media, index|
           .soft-half.inline-block.one-third>
             .media__item.gray-box.one-whole.relative

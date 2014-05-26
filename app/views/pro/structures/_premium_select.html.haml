@@ -1,0 +1,21 @@
+- text       = text || 'passez au profil premium ?'
+- label_text = label_text || 'Statut :'
+%strong.label--large.push-half--right.v-middle= label_text
+.lbl.lbl--chip.lbl--small.v-middle{ class: (@structure.premium? ? 'lbl--green' : 'lbl--red')}
+%select.v-middle.input--large{ disabled: @structure.premium?, data: { behavior: 'premium-select' } }
+  %option{ value: 'visible',     selected: @structure.premium?,  disabled: @structure.premium? } Visible
+  %option{ value: 'not-visible', selected: !@structure.premium?, disabled: @structure.premium? } Non visible
+
+.hidden= link_to 'Premium modal', premium_modal_pro_structure_path(@structure, text: text), data: { behavior: 'modal', padding: 0, width: 900 }, class: 'premium-modal fancybox.ajax'
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('[data-behavior=premium-select]').change(function() {
+            if (this.value == 'visible') {
+                // First to prevent clicking on multiple links
+                $('.premium-modal').first().click();
+                this.value = 'not-visible';
+            }
+        });
+    });

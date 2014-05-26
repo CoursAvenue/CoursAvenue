@@ -1,0 +1,33 @@
+.panel
+  .panel__header.soft
+    .grid
+      .grid__item.one-twelfth.v-middle.text--center
+        %i.fa.fa-star.fa-4x.yellow
+      .grid__item.ten-twelfths.v-middle
+        %h4.flush Vous souhaitez #{params[:text]}
+        %p.flush.epsilon Devenez membre Premium et pilotez les performances de votre profil pour recruter plus d'élèves.
+  .panel__body
+    .soft
+      .grid
+        .grid__item.one-half>
+          %h4 Choisissez votre formule d'abonnement
+          .grid.bordered--bottom.soft-half--bottom.push-half--bottom
+            .grid__item.two-twelfths.epsilon.v-middle.text--center>
+              %label.f-weight-bold.green.v-middle.label--large{ for: 'annual' }= "-15%"
+            .grid__item.seven-twelfths.v-middle>
+              %input.input--large.v-middle#annual{ type: 'radio', name: 'premium_type', value: 'annual' }
+              %label.inline-block.v-middle.label--large{ for: 'annual' } 12 mois Premium
+            .grid__item.three-twelfths.epsilon.v-middle>
+              %label.v-middle.label--large{ for: 'annual' } 29€ / mois
+          .grid.push-half--bottom
+            .grid__item.two-twelfths.text--center.v-middle>
+              %label{ for: 'monthly' } Tarif normal
+            .grid__item.seven-twelfths.v-middle>
+              %input.input--large.v-middle#monthly{ type: 'radio', name: 'premium_type', value: 'monthly' }
+              %label.inline-block.v-middle.label--large{ for: 'monthly' } 1 mois Premium
+            .grid__item.three-twelfths.epsilon.v-middle>
+              %label.label--large{ for: 'monthly' } 34€ / mois
+          .text--center= link_to 'Continuer', '#', class: 'btn btn--green soft--sides'
+        .grid__item.one-half>
+          %h4 Ce que vous offre le profil Premium :
+          = render 'pro/structures/premium_advantages'
