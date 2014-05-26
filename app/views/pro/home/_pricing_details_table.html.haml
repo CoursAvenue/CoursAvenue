@@ -1,0 +1,150 @@
+%table.table--data.table--striped.table--white.push--top
+  %thead
+    %tr.border-none--bottom
+      %td.no-stripe.four-twelfths.bordered--right.v-top.epsilon
+        Tarifs :
+        %ul.nav.tabs--link.inline-block
+          %li.active.relative
+            %a{ href: '#price-annual', data: { toggle: 'tab' } } Annuel
+            = image_tag 'texts/premium.png', class: 'absolute east', height: 35, style: 'top: 20px; left: 20px;'
+          %span.gray= '|'
+          %li
+            %a{ href: '#price-mensual', data: { toggle: 'tab' } } Mensuel
+      %td.text--center.four-twelfths.bordered--top.bordered--right.v-top.bordered--bottom
+        %p.green.beta.push-half--bottom
+          %strong Basic
+        .delta Gratuit
+        %p &nbsp;
+        = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--green btn--full'
+      %td.bordered--right.four-twelfths.text--center.bordered--top.v-top.bordered--bottom
+        %p.green.beta.push-half--bottom
+          %strong Premium
+        .tab-content
+          .tab-pane.hard#price-annual.active
+            .delta 29€ TTC / mois
+            %p
+              %i Facturation annuelle
+          .tab-pane.hard#price-mensual
+            .delta 34€ TTC / mois
+            %p
+              %i Facturation mensuelle
+
+        = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--green btn--full'
+  %tbody
+    %tr
+    %tr
+      %td.bordered--right.no-stripe &nbsp;
+      %td.bordered.text--center.soft-half{ colspan: 2 }
+        %strong.delta Options de votre profil public
+    %tr
+      %td.bordered--right.no-stripe.text--right
+        %p.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Affichez votre profil sur le moteur de recherche géolocalisé CoursAvenue." } }
+          %strong Gagnez en visibilité
+          %i.fa.fa-question-circle
+      %td.bordered--right.text--center
+        %i.fa.fa-check.green.delta
+      %td.bordered--right.text--center
+        %i.fa.fa-check.green.delta
+    %tr
+      %td.bordered--right.no-stripe.text--right
+        %p.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Montez dans les résultats grâce à vos photos & vidéos, aux liens vers vos pages (site Internet & Facebook), et à une accroche personnalisée." } }
+          %strong Profil complet et personnalisé
+          %i.fa.fa-question-circle
+      %td.bordered--right.text--center
+        Limité
+      %td.bordered--right.text--center
+        %i.fa.fa-check.green.delta
+    %tr
+      %td.bordered--right.no-stripe.text--right
+        %p.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Apparaissez sur tous les autres profils qui proposent les mêmes types d'activités autour de vous." } }
+          %strong Profils similaires
+          %i.fa.fa-question-circle
+      %td.bordered--right.text--center
+      %td.bordered--right.text--center
+        %i.fa.fa-check.green.delta
+    %tr
+      %td.bordered--right.no-stripe &nbsp;
+      %td.bordered.text--center.soft-half{ colspan: 2 }
+        %strong.delta Recrutez de nouveaux élèves
+    %tr
+      %td.bordered--right.no-stripe.text--right
+        %p.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Tout le monde sur CoursAvenue peut gratuitement vous envoyer un message ou vous téléphoner (pas de numéro surtaxé)." } }
+          %strong Mises en relation
+          %i.fa.fa-question-circle
+      %td.bordered--right.text--center
+        %i.fa.fa-check.green.delta
+      %td.bordered--right.text--center
+        %i.fa.fa-check.green.delta
+    %tr
+      %td.bordered--right.no-stripe.text--right
+        %p.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Obtenez les e-mails des élèves qui vous ont envoyé un message ou ajouté en favori." } }
+          %strong Coordonnées des élèves
+          %i.fa.fa-question-circle
+      %td.bordered--right.text--center
+      %td.bordered--right.text--center
+        %i.fa.fa-check.green.delta
+    %tr
+      %td.bordered--right.no-stripe.text--right
+        %p.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Démarquez-vous en affichant vos cours d'essai gratuits ou vos tarifs spéciaux qui invitent les nouveaux élèves à venir vous découvrir." } }
+          %strong Offres découvertes
+          %i.fa.fa-question-circle
+      %td.bordered--right.text--center
+      %td.bordered--right.text--center
+        %i.fa.fa-check.green.delta
+
+    %tr
+      %td.bordered--right.no-stripe &nbsp;
+      %td.bordered.text--center.soft-half{ colspan: 2 }
+        %strong.delta Pilotez votre efficacité
+    %tr
+      %td.bordered--right.no-stripe.text--right
+        %p.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Suivez les statistiques de votre profil (nombre de visites, de prises de contact, etc.) et optimisez son efficacité." } }
+          %strong Statistiques
+          %i.fa.fa-question-circle
+      %td.bordered--right.text--center
+        Limité
+      %td.bordered--right.text--center
+        %i.fa.fa-check.green.delta
+    %tr
+      %td.bordered--right.no-stripe.text--right
+        %p.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Rassemblez toutes les coordonnées de vos contacts et envoyez-leurs des messages groupés." } }
+          %strong Répertoire et messagerie
+          %i.fa.fa-question-circle
+      %td.bordered--right.text--center
+        Limité
+      %td.bordered--right.text--center
+        %i.fa.fa-check.green.delta
+    %tr
+      %td.bordered--right.no-stripe.text--right
+        %p.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Recevez les meilleurs conseils de l'équipe CoursAvenue pour optimiser vos performances de profil et de votre communication en général." } }
+          %strong Conseils personnalisés
+          %i.fa.fa-question-circle
+      %td.bordered--right.text--center
+      %td.bordered--right.text--center
+        %i.fa.fa-check.green.delta
+    %tr
+      %td.bordered--right.no-stripe &nbsp;
+      %td.bordered.text--center.soft-half{ colspan: 2 }
+        %strong.delta Contactez CoursAvenue
+    %tr
+      %td.bordered--right.no-stripe.text--right
+      %td.bordered--right.text--center
+        Chat & e-mail.
+      %td.bordered--right.text--center
+        Conseiller par téléphone.
+    %tr
+      %td.bordered--right.no-stripe.text--right
+      %td.bordered--right.text--center.soft-half
+        = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--green btn--full'
+      %td.bordered--right.text--center.soft-half
+        = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--green btn--full'
+    %tr
+      %td.bordered--right.no-stripe.text--right
+      %td.bordered.text--left{ colspan: 2 }
+        %p
+          %strong Abonnement sans contrat
+          ni frais supplémentaires, vous pouvez changer d'offre ou annuler votre abonnement à tout moment.
+
+        %p
+          %strong Besoin d'une facture ?
+          Une fois abonné, vous pourrez l'imprimer directement depuis votre profil.

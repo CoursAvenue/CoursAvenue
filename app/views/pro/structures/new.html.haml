@@ -3,7 +3,7 @@
     %nav.flexbox__item.v-top.side-menu.gray-box.border-none--right.soft-half--sides
       %h4.push-half--top
         Plus de #{Admin.count.round(-2)} partenaires
-      - @structures.each do |structure|
+      - @structures.premium.each do |structure|
         .white-box.push-half--bottom
           .grid
             .grid__item.one-quarter.v-middle>
@@ -23,13 +23,12 @@
                 = link_to structure_url(structure, subdomain: 'www'), target: '_blank', onclic: "ga('send', 'event', 'Go to other profile', 'click', 'From inscription page');" do
                   = structure.comments_count
                   avis
-                  %i.lbc-brand-icon
       .push--bottom.text--center= link_to "Et plein d'autres !", structures_url(subdomain: 'www'), target: '_blank'
       %hr
       %h4 Plus de #{Comment.count.round(-2)} avis
       %ul.comment-list
         - Comment.order('created_at DESC').limit(3).each do |comment|
-          %li.push--bottom.gray-box.soft-half.rounded--top
+          %li.push--bottom.white-box.soft-half.rounded--top
             = link_to commentable_url(comment), target: '_blank', class: 'muted-link hard' do
               - if comment.title.present?
                 %h6.quoted.inline-block.push-half--bottom{itemprop: 'headline', content: comment.title}= "#{comment.title}"

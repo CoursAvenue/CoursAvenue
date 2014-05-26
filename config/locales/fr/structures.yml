@@ -93,33 +93,34 @@ fr:
         structure_address_info: "Si vous êtes un professeur indépendant, renseignez votre adresse ; si ce n’est pas celle de vos cours, vous pourrez le spécifier dans votre espace et rajouter d’autres lieux"
         structure_address: Adresse principale (N° + Rue)
       side_menu:
-        presentation: Présentation
+        account: Compte
+        clicks: Nombre de click
         comments: Avis
-        messages: Messages
-        dashboard: Tableau de bord
-        courses: 'Cours & Stages'
-        price_groups: Tarifs
-        jpo: Portes Ouvertes
-        medias: "Photos & vidéos"
-        crm: Répertoire
         communicate: Communiquer
-        share: Parrainer
+        contact: Contact
+        courses: 'Cours & Stages'
+        crm: Répertoire
+        dashboard: Tableau de bord
+        invitations: Invitations
+        jpo: Portes Ouvertes
         last_comments: Derniers avis
+        last_messages: Derniers messages
+        medias: "Photos & vidéos"
+        messages: Messages
+        places: Lieux
+        premium: Premium
+        presentation: Présentation
+        price_groups: Tarifs
+        share: Parrainer
+        statistics: Statistiques
+        stickers: Demande de stickers
         students_invitations: Invitation élèves
-        users: Users
+        subjects: Disciplines
         teachers: Profs
         teachers_stars: Profs stars
+        users: Users
         vertical_pages: Pages verticales
-        subjects: Disciplines
-        clicks: Nombre de click
-        last_messages: Derniers messages
-        stickers: Demande de stickers
         visitors: Visiteurs
-        invitations: Invitations
-        places: Lieux
-        contact: Contact
-        statistics: Statistiques
-        account: Compte
       wizard_helper:
         name: >
           <p><strong>Un bon titre de profil</strong>

@@ -78,6 +78,7 @@ CoursAvenue::Application.routes.draw do
       resources :participations, only: [:index], controller: 'participations'
       resources :structures, path: 'etablissements' do
         member do
+          get   :premium
           get   :edit_contact
           get   :add_subjects
           get   :update_widget_status
