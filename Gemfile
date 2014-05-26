@@ -167,35 +167,35 @@ gem 'jquery-turbolinks'
 gem 'aws-sdk'                   , '~>1.36.1'
 
 # Roo implements read access for all spreadsheet, xls and more
-gem 'roo'                   , '~>1.13.2'
+gem 'roo'                       , '~>1.13.2'
 
 # Rack::UTF8Sanitizer is a Rack middleware which cleans up invalid UTF8 characters in request URI and headers.
 # https://github.com/whitequark/rack-utf8_sanitizer
-gem 'rack-utf8_sanitizer',   '~> 1.1.0'
+gem 'rack-utf8_sanitizer'       , '~> 1.1.0'
 
 group :production, :staging do
-  gem 'execjs'            , '~>2.0.2'
-  gem 'rails_12factor'    , '~> 0.0.2'
+  gem 'execjs'                  , '~>2.0.2'
+  gem 'rails_12factor'          , '~> 0.0.2'
   # Sync assets to S3 and CloudFront
-  gem 'asset_sync'        , '~>1.0.0'
+  gem 'asset_sync'              , '~>1.0.0'
 end
 
 group :test do
-  gem 'factory_girl_rails', '~>4.3.0'
-  gem 'rspec-rails'       , '~>2.14.1'
-  gem 'rspec-instafail'   , '~>0.2.4'
-  gem 'faker'             , '~>1.2.0'
-  gem 'simplecov'         , '~>0.7.1'
+  gem 'factory_girl_rails'      , '~>4.3.0'
+  gem 'rspec-rails'             , '~>2.14.1'
+  gem 'rspec-instafail'         , '~>0.2.4'
+  gem 'faker'                   , '~>1.2.0'
+  gem 'simplecov'               , '~>0.7.1'
   # gem 'sunspot_test'
-  gem 'database_cleaner'  , '~>1.2.0'
-  gem 'capybara'          , '~>2.2.1'
-  gem 'selenium-webdriver', '~>2.40.0'
+  gem 'database_cleaner'        , '~>1.2.0'
+  gem 'capybara'                , '~>2.2.1'
+  gem 'selenium-webdriver'      , '~>2.40.0'
 end
 
 group :development do
   # Removes useless logging in dev.
-  gem 'brakeman'          , '~>2.3.1'
-  gem 'rubocop'           , '~>0.18.1'
+  gem 'brakeman'                , '~>2.3.1'
+  gem 'rubocop'                 , '~>0.18.1'
 
   # Removes useless logging in dev.
   gem 'quiet_assets', '~>1.0.2'

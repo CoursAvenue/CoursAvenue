@@ -26,13 +26,12 @@ class Structure < ActiveRecord::Base
   ######################################################################
   # Scope                                                              #
   ######################################################################
-  scope :premium, -> { where(premium: true) }
+  scope :premium, -> { where.not(pricing_plan: 'free') }
 
   ######################################################################
   # Relations                                                          #
   ######################################################################
   belongs_to :city
-  belongs_to :pricing_plan
 
   has_many :invited_users             , foreign_key: :referrer_id, dependent: :destroy
   has_many :invited_teachers          , -> { where(type: 'InvitedUser::Teacher') }, class_name: 'InvitedUser', foreign_key: :referrer_id, dependent: :destroy
@@ -695,9 +694,17 @@ class Structure < ActiveRecord::Base
     end
   end
 
+
+  # Tells wether or not the structure is premium
+  #
+  # @return Boolean
+  def premium
+    self.pricing_plan != 'free'
+  end
+
+  # Alias for premium
   def premium?
-    # true
-    false
+    self.premium
   end
 
   def similar_profiles
@@ -742,7 +749,7 @@ class Structure < ActiveRecord::Base
   end
 
   def set_free_pricing_plan
-    self.pricing_plan = PricingPlan.where(name: 'free').first unless self.pricing_plan.present?
+    self.pricing_plan = 'free' unless self.pricing_plan.present?
   end
 
   def set_active_to_true

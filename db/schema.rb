@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140523133045) do
+ActiveRecord::Schema.define(version: 20140526153000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -536,13 +536,6 @@ ActiveRecord::Schema.define(version: 20140523133045) do
 
   add_index "prices", ["type"], name: "index_prices_on_type", using: :btree
 
-  create_table "pricing_plans", force: true do |t|
-    t.string   "name"
-    t.decimal  "price"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "reservation_loggers", force: true do |t|
     t.integer  "course_id"
     t.datetime "created_at", null: false
@@ -610,7 +603,6 @@ ActiveRecord::Schema.define(version: 20140523133045) do
     t.text     "description"
     t.integer  "city_id"
     t.boolean  "active",                   default: false
-    t.integer  "pricing_plan_id"
     t.boolean  "has_validated_conditions", default: false
     t.integer  "validated_by"
     t.time     "deleted_at"
@@ -643,6 +635,7 @@ ActiveRecord::Schema.define(version: 20140523133045) do
     t.integer  "teaches_at_home_radius"
     t.hstore   "meta_data"
     t.integer  "highlighted_comment_id"
+    t.string   "pricing_plan"
   end
 
   add_index "structures", ["slug"], name: "index_structures_on_slug", unique: true, using: :btree
