@@ -78,23 +78,26 @@ CoursAvenue::Application.routes.draw do
       resources :participations, only: [:index], controller: 'participations'
       resources :structures, path: 'etablissements' do
         member do
+          get   :add_subjects
+          get   :ask_for_deletion
+          get   :confirm_deletion
+          get   :crop_logo
+          get   :dashboard, path: 'tableau-de-bord'
+          get   :edit_contact
+          get   :logo
           get   :premium
           get   :premium_modal
-          get   :edit_contact
-          get   :add_subjects
-          get   :update_widget_status
-          get   :crop_logo
-          get   :wizard
-          get   :signature
-          get   :logo
-          get   :dashboard, path: 'tableau-de-bord'
           get   :recommendations, path: 'recommandations'
+          get   :signature
+          get   :update_widget_status
+          get   :widget
+          get   :wizard
+          get   :widget_jpo
+          match :widget_ext, controller: 'structures', via: [:options, :get], as: 'widget_ext'
+          match :widget_jpo_ext, controller: 'structures', via: [:options, :get], as: 'widget_jpo_ext'
+          patch :update_and_delete
           post  :recommend_friends
           post  :update
-          get   :widget
-          match :widget_ext, controller: 'structures', via: [:options, :get], as: 'widget_ext'
-          get :widget_jpo
-          match :widget_jpo_ext, controller: 'structures', via: [:options, :get], as: 'widget_jpo_ext'
         end
         collection do
           get :stars

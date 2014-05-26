@@ -165,4 +165,16 @@ class AdminMailer < ActionMailer::Base
     end
   end
 
+  ######################################################################
+  # To CoursAvenue team                                                #
+  ######################################################################
+  def is_about_to_delete(structure)
+    @structure = structure
+    mail to: 'contact@coursavenue.com', subject: "#{@structure.name} est sur le point de supprimer son compte"
+  end
+
+  def has_destroyed(structure)
+    @structure = structure
+    mail to: 'contact@coursavenue.com', subject: "#{@structure.name} a supprimé son compte..."
+  end
 end

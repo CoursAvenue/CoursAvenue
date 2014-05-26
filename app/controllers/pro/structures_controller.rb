@@ -31,25 +31,6 @@ class Pro::StructuresController < Pro::ProController
   end
 
   # GET member
-  def premium
-  end
-
-  # GET member
-  def premium_modal
-    if request.xhr?
-      render layout: false
-    end
-  end
-
-  # GET member
-  def signature
-  end
-
-  # GET member
-  def logo
-  end
-
-  # GET member
   def widget
     @structure = Structure.friendly.find params[:id]
     respond_to do |format|
@@ -215,7 +196,6 @@ class Pro::StructuresController < Pro::ProController
           end
         end
       else
-        # azd?
         retrieve_home_places
         format.html { render action: 'edit' }
       end
@@ -257,15 +237,54 @@ class Pro::StructuresController < Pro::ProController
     end
   end
 
+  def update_and_delete
+    @structure.update_attributes(params[:structure])
+    AdminMailer.delay.is_about_to_delete(@structure)
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def destroy
     @structure = Structure.friendly.find params[:id]
+    AdminMailer.delay.has_destroyed(@structure)
     respond_to do |format|
       if @structure.destroy
-        format.html { redirect_to pro_admins_path, notice: 'Structure supprimé' }
+        if current_pro_admin.super_admin?
+          format.html { redirect_to pro_admins_path, notice: 'Structure supprimé' }
+        else
+          format.html { redirect_to root_admins_path, notice: 'Vous allez nous manquer...' }
+        end
       else
         format.html { redirect_to pro_admins_path, alert: 'Oups...' }
       end
     end
+  end
+
+  # GET member
+  def ask_for_deletion
+    if request.xhr?
+      render layout: false
+    end
+  end
+
+  # GET member
+  def premium
+  end
+
+  # GET member
+  def premium_modal
+    if request.xhr?
+      render layout: false
+    end
+  end
+
+  # GET member
+  def signature
+  end
+
+  # GET member
+  def logo
   end
 
   private

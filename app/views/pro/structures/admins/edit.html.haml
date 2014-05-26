@@ -9,9 +9,5 @@
 
     = render partial: 'form'
 
-    - if current_pro_admin.super_admin?
-      .soft
-        %p.push-half--top
-          = link_to "Supprimer #{@admin.name}", pro_admin_path(@admin), method: 'delete'
-        %p
-          = link_to "Supprimer #{@admin.name} ET sa structure", pro_admin_path(@admin, delete_structure: true), method: 'delete'
+    .soft
+      = link_to 'Supprimer mon compte', ask_for_deletion_pro_structure_path(@structure), class: 'red fancybox.ajax', data: { behavior: 'modal', padding: '0', width: 800 }

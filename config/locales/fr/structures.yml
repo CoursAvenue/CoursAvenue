@@ -52,6 +52,14 @@ fr:
     restaurant_ticket: Tickets restaurant
 
   structures:
+    deletion_reasons:
+      too_much_mails: Je reçois trop d'e-mails.
+      useless: "Je trouve mon profil inutile, il ne m'apporte rien."
+      dont_want_to_communicate: "Je ne cherche pas à communiquer sur mes cours & stages, j'ai suffisamment d'élèves et je ne recherche pas à développer mon activité."
+      dont_give_courses_no_more: "Je ne donne plus de cours de loisirs, mon activité a cessé."
+      dont_have_my_place: "Je pense qu'un profil comme le mien n'a pas sa place sur votre site."
+      dont_understand_how_to_use_it: Je ne comprends pas comment l'utiliser.
+      other: J'ai d'autres raisons.
     accepted_image_formats: "Formats autorisés : JPEG / JPG / GIF / PNG / BMP- Taille maximum 5mo"
     company: École privée
     association: Association

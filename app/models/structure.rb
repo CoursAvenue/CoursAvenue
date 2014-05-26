@@ -63,8 +63,7 @@ class Structure < ActiveRecord::Base
   has_many :users, through: :user_profiles
 
   has_many :places                   , dependent: :destroy
-
-  has_many :admins
+  has_many :admins                   , dependent: :destroy
 
   attr_reader :delete_logo
   attr_accessible :structure_type, :street, :zip_code, :city_id,
@@ -86,7 +85,8 @@ class Structure < ActiveRecord::Base
                   :subjects_string, :parent_subjects_string, # "Name of the subject,slug-of-the-subject;Name,slug"
                   :gives_group_courses, :gives_individual_courses,
                   :gives_non_professional_courses, :gives_professional_courses,
-                  :highlighted_comment_id, :places_attributes
+                  :highlighted_comment_id, :places_attributes,
+                  :deletion_reasons, :deletion_reasons_text
 
   accepts_nested_attributes_for :places,
                                 allow_destroy: false
@@ -98,7 +98,8 @@ class Structure < ActiveRecord::Base
                              :highlighted_comment_title, :min_price_libelle, :min_price_amount, :max_price_libelle, :max_price_amount,
                              :level_ids, :audience_ids, :busy,
                              :open_courses_open_places, :open_course_nb, :jpo_email_status, :open_course_plannings_nb,
-                             :response_rate, :response_time, :gives_non_professional_courses, :gives_professional_courses
+                             :response_rate, :response_time, :gives_non_professional_courses, :gives_professional_courses,
+                             :deletion_reasons, :deletion_reasons_text
 
 
   define_boolean_accessor_for :meta_data, :has_promotion, :gives_group_courses, :gives_individual_courses,

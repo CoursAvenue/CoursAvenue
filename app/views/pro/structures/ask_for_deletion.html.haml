@@ -1,0 +1,36 @@
+.panel
+  .panel__header.soft
+    .delta.line-height-normal
+      Supprimer mon compte
+  .panel__body.soft
+    .grid
+      .grid__item.two-thirds.bordered--right.soft--right>
+        %h4 Indiquez-nous la raison de votre départ
+        = simple_form_for [:pro, @structure], url: update_and_delete_pro_structure_path(@structure), remote: true do |f|
+          = f.input :deletion_reasons, as: :check_boxes, collection: t('structures.deletion_reasons'), label_method: lambda { |array| array.last }, label: false, wrapper_html: { class: 'checkbox-block-list' }
+
+          %p.flush Pouvez-vous nous en dire d'avantage ?
+          = f.input :deletion_reasons_text, as: :text, placeholder: "Pouvez-vous nous aider et nous expliquer la raison de votre départ ? Nous cherchons à nous améliorer chaque jour et nous prenons très au sérieux les remarques de nos partenaires.", label: false, input_html: { class: 'one-whole' }
+
+          %p.push--top.flush--bottom CE QU'IL VA SE PASSER SI VOUS SUPPRIMEZ VOTRE COMPTE :
+          %ul
+            %li Votre profil et son contenu vont disparaître définitivement.
+            %li Le référencement naturel sur Google et Bing sera perdu.
+            %li Vous allez nous manquer énormément.
+          .grid
+            .grid__item.one-half>
+              = f.submit 'Supprimer mon compte', class: 'btn btn--red btn--full'
+            .grid__item.one-half>
+              %a.btn.btn--gray.btn--full{ onclick: '$.fancybox.close()' } Ne pas supprimer mon compte
+      .grid__item.one-third>
+        %h4 Alternative à l'annulation
+
+        %p
+          %strong Recevoir moins d'e-mails
+          %br
+          Vous recevez trop d'e-mails de notre part ? Changez vos préférences de notification dans les champs ci-dessus.
+
+        %p
+          %strong Ajuster mon profil à ce que je propose
+          %br
+          CoursAvenue est le moteur de recherche de référence pour les cours de loisirs. Vous proposez des cours ou des stages au grand public ? Contactez-nous si vous avez besoin d'aide pour compléter votre profil ou l'optimiser pour recruter encore plus d'élèves.

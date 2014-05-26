@@ -161,6 +161,17 @@
             border: none;
         }
     }
+    // Inline checkbox list
+    .checkbox-block-list {
+        .checkbox {
+            display: block;
+            margin: 7px 0;
+            label {
+                width: 90%; // Prevent text from falling under checkbox
+            }
+        }
+    }
+    // Inline checkbox list
     .checkbox-list {
         .input.boolean {
             input {

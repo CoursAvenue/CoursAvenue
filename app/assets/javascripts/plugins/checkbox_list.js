@@ -1,6 +1,8 @@
 /*
+    If one checkbox has value all and is checked, other will be unchecked.
+    If other are checked, all value will uncheck
     Usage:
-        %ul{data: {behavior: 'checkbox-list'}}
+        %ul{ data: { behavior: 'checkbox-list' } }
           %li
             = check_box_tag '', '', data: {value: 'all'}
             = label_tag "...", 'All label'
