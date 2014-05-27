@@ -19,7 +19,7 @@
       %h4 Cours collectifs
       - if @courses.lessons.empty?
         %p Vous n'avez pas de cours.
-      #lesson-list.block-list
+      #private-list.block-list
         - @courses.lessons.each_with_index do |course, index|
           = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure }
 
