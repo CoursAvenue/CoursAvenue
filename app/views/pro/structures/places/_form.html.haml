@@ -14,7 +14,7 @@
     .grid
       .grid__item.five-tenths>
         - # Don't use remote if is home because we'll want to redirect
-        = simple_form_for [:pro, @structure, @place], remote: !@place.is_home?, url: place_url, as: :place do |f|
+        = simple_form_for [:pro, @structure, @place], remote: true, url: place_url, as: :place do |f|
 
           - if params[:return_to].present?
             %input{type: 'hidden', value: params[:return_to], name: 'from'}
