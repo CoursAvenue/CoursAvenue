@@ -1,4 +1,10 @@
 $(function() {
+    $.extend($.fancybox.defaults, {
+        tpl: $.extend($.fancybox.defaults.tpl, {
+            closeBtn : '<a title="Fermer" class="fancybox-item fancybox-close fa fa-times" href="javascript:;"></a>',
+        })
+    });
+
     $('input, textarea').placeholder();
     var global = GLOBAL.namespace('GLOBAL');
     global.initialize_fancy = function($elements) {
@@ -43,9 +49,6 @@ $(function() {
                     complete: function(){
                         $.each(global.initialize_callbacks, function(i, func) { func(); });
                     }
-                },
-                tpl: {
-                    closeBtn : '<a title="Fermer" class="fancybox-item fancybox-close fa fa-times" href="javascript:;"></a>',
                 },
                 helpers : {
                     title : {
