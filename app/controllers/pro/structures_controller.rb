@@ -170,7 +170,7 @@ class Pro::StructuresController < Pro::ProController
     session[:zip_code] = params[:zip_code]
     session[:email]    = params[:email]
     @structure  = Structure.new name: params[:name], zip_code: params[:zip_code], contact_email: params[:email]
-    @structure.places.build type: 'Place::Public'
+    @structure.places << @structure.places.publics.build
     @structures = Structure.where.not(comments_count: nil).order('comments_count DESC').limit(3)
   end
 

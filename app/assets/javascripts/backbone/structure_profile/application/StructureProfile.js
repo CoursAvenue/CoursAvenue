@@ -7,18 +7,13 @@ StructureProfile.addRegions({
 StructureProfile.addInitializer(function(options) {
     var bootstrap      = window.coursavenue.bootstrap,
         layout         = new StructureProfile.Views.StructureProfileLayout(),
-        structure      = new CoursAvenue.Models.Structure(bootstrap.structure, bootstrap.structure.options),
+        structure      = new StructureProfile.Models.Structure(bootstrap.structure, bootstrap.meta),
         structure_view = new StructureProfile.Views.Structure.StructureView({
             model: structure
         }),
         google_maps_view, sticky_google_maps_view, filter_breadcrumbs, places_collection, places_list_view, comments_collection_view;
 
     places_collection   = structure.get('places');
-    comments_collection = new StructureProfile.Models.CommentsCollection(bootstrap.comments, {
-        structure_id: structure.get('id'),
-        total: bootstrap.total_comments
-    });
-
     google_maps_view  = new StructureProfile.Views.Map.GoogleMapsView({
         collection:         places_collection,
         infoBoxViewOptions: { infoBoxClearance: new google.maps.Size(0, 0) },
@@ -35,7 +30,7 @@ StructureProfile.addInitializer(function(options) {
 
     places_list_view         = new StructureProfile.Views.Structure.Places.PlacesCollectionView({ collection: places_collection });
     comments_collection_view = new StructureProfile.Views.Structure.Comments.CommentsCollectionView({
-        collection: comments_collection
+        collection: structure.get('comments')
     });
 
     filter_breadcrumbs = new FilteredSearch.Views.StructuresCollection.Filters.FilterBreadcrumbs.FilterBreadcrumbsView({

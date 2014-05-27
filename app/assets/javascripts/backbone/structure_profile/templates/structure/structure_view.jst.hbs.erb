@@ -4,10 +4,13 @@
               <a href="#tab-description" data-toggle="tab"> Description</a>
           </li>
           <li>
-              <a href="#tab-courses" data-toggle="tab" data-view="courses"><i class="fa fa-calendar"></i> Cours</a>
+              <a href="#tab-courses" data-toggle="tab" data-view="courses">Cours</a>
           </li>
           <li>
-              <a href="#tab-teachers" data-toggle="tab" data-view="teachers"><i class="fa fa-group"></i> Professeurs</a>
+              <a href="#tab-trainings" data-toggle="tab" data-view="trainings">Stages</a>
+          </li>
+          <li>
+              <a href="#tab-teachers" data-toggle="tab" data-view="teachers">Professeurs</a>
           </li>
 <!--           <li>
               <a href="#tab-subjects" data-toggle="tab" data-view="subjects"><i class="fa fa-group"></i> Disciplines</a>
@@ -50,7 +53,11 @@
                  </tbody>
                </table>
                 <div class="gray">
-                    {{{ simple_format description }}}
+                    {{#if description}}
+                      {{{ simple_format description }}}
+                    {{else}}
+                      Pas de description pour cet établissement.
+                    {{/if}}
                 </div>
             </div>
         </article>
@@ -66,6 +73,18 @@
             </div>
 
             <div data-type="courses-collection"></div>
+        </article>
+        <article id="tab-trainings"  class="tab-pane" data-type="trainings-collection">
+            <img src="<%= asset_path 'gifs/loading-indicator.gif' %>"/ class="center-block push--ends" height="10" data-trainings-loader style="display: none;">
+            <div data-summary-container class="soft-half hard--top rounded--none">
+                <div data-type="trainings-summary"></div>
+            </div>
+
+            <div data-empty-courses class="hidden soft">
+                <p>Pas de cours pour cette structure.</p>
+            </div>
+
+            <div data-type="trainings-collection"></div>
         </article>
         <article id="tab-teachers" class="tab-pane" data-type="teachers-collection">
           <img src="<%= asset_path 'gifs/loading-indicator.gif' %>"/ class="center-block push--ends" height="10" data-teachers-loader style="display: none;">

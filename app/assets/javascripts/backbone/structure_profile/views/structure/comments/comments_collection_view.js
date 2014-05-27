@@ -7,10 +7,6 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
         itemViewContainer: '[data-type=container]',
 
         initialize: function() {
-            // TODO: improve following
-            // This is because we have comments as a relation in models/Structure.js
-            if (this.collection.length === 0) { this.deprecated = true; return; }
-
             if (this.collection.length == 0) {
                 this.$('[data-empty-comments]').show();
             }
@@ -25,15 +21,11 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
         },
 
         onRender: function onRender () {
-            // TODO: Get rid of this
-            if (this.deprecated) { return; }
             this.$('[data-type="bottom-pagination-tool"]').append(pagination_bottom.el);
             this.$('[data-type="top-pagination-tool"]').append(pagination_top.el);
         },
 
         announcePaginatorUpdated: function announcePaginatorUpdated () {
-            // TODO: Get rid of this
-            if (this.deprecated) { return; }
             if (this.collection.paginator_ui) { this.collection.paginator_ui.currentPage = this.collection.currentPage; }
             var data = {
                 current_page:        this.collection.paginator_ui.currentPage,

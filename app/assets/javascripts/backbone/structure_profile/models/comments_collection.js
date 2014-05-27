@@ -9,13 +9,13 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
         },
 
         initialize: function initialize (models, options) {
-            this.url.resource = Routes.structure_comments_path({ id: options.structure_id });
+            // this.url.resource = Routes.structure_comments_path({ id: this.structure.get('id') });
             this.currentPage              = 1; // Always start at first page.
             this.server_api               = this.server_api || {};
             this.server_api.page = function () { return this.currentPage; }.bind(this);
             this.paginator_ui.currentPage = this.server_api.page();
             this.paginator_ui.perPage     = 5;
-            this.paginator_ui.grandTotal  = (models.length === 0) ? 0 : options.total;
+            this.paginator_ui.grandTotal  = (models.length === 0) ? 0 : options.total_comments;
             this.paginator_ui.totalPages  = Math.ceil(this.paginator_ui.grandTotal / this.paginator_ui.perPage);
             this.totalPages               = this.paginator_ui.totalPages;
         },

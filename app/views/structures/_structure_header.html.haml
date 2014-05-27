@@ -17,13 +17,14 @@
         Coordonnées
     .grid--full
       .grid__item.ten-twelfths.v-top>
-        %h1.flush
-          %span.v-middle= @structure.name
+        #structure-profile-title
+          %h1.flush.v-middle.inline-block= @structure.name
+          %span.v-middle
           - if @structure.premium?
-            .milli.v-middle.push-half--left.inline-block.lbl.lbl--yellow.visible-on-stick-ilb
+            .v-middle.push-half--left.inline-block.lbl.lbl--yellow.visible-on-stick-ilb
               %i.fa.fa-tag
               Offres découvertes
-        .hidden-on-stick.push-half--top
+        .hidden-on-stick.push-half--top#structure-profile-description
           -# Structure type
           - if @structure.structure_type
             %p.flush.inline-block.v-middle.epsilon
@@ -37,7 +38,7 @@
             .epsilon.v-middle.push-half--left.inline-block.lbl.lbl--yellow
               %i.fa.fa-tag
               Offres découvertes
-          .inline-block{ data: { type: "filter-breadcrumbs" } }
+          .inline-block.v-middle{ data: { type: "filter-breadcrumbs" } }
       .grid__item.two-twelfths.v-bottom>
         .inline-bock.text--right
           %a.inline-block.f-decoration-not-underlined.text--center.hidden-on-stick{ href: '#avis' }

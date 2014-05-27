@@ -128,7 +128,8 @@
       window.coursavenue.bootstrap = {
         total_plannings_count: #{ @structure.plannings_count.to_i },
         structure: #{ @model.to_json },
-        comments: #{ ActiveModel::ArraySerializer.new(@comments, each_serializer: CommentSerializer).to_json },
-        total_comments: #{ @structure.comments.accepted.count }
+        meta: {
+          total_comments: #{ @structure.comments.accepted.count }
+        }
       };
     }());

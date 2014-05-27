@@ -128,7 +128,7 @@ class Structure < ActiveRecord::Base
   ######################################################################
   before_create :set_active_to_true
 
-  after_create  :set_default_location_attributes
+  after_create  :set_default_place_attributes
   after_create  :set_free_pricing_plan
   after_create  :geocode
 
@@ -307,28 +307,19 @@ class Structure < ActiveRecord::Base
 
   def places_around(latitude, longitude, radius=2)
     places.reject do |place|
-      Geocoder::Calculations.distance_between([latitude, longitude], [place.location.latitude, place.location.longitude], unit: :km) >= radius
+      Geocoder::Calculations.distance_between([latitude, longitude], [place.latitude, place.longitude], unit: :km) >= radius
     end
   end
 
-
-  #
-  # @param  bbox_sw Array [latitude, longitude]
-  # @param  bbox_ne Array [latitude, longitude]
+  # Check wether a place is in a given bounding box
+  # @param  south_west Array [latitude, longitude]
+  # @param  north_east Array [latitude, longitude]
   #
   # @return Locations
-  def locations_in_bounding_box(bbox_sw, bbox_ne)
-    locations.reject do |location|
-      # ensure that the location really is completely inside the box
-      is_in_bounds = true
-
-      if nil != location.latitude && bbox_sw[0].to_f < location.latitude && location.latitude < bbox_ne[0].to_f
-        if nil != location.longitude && bbox_sw[1].to_f < location.longitude && location.longitude < bbox_ne[1].to_f
-          is_in_bounds = false
-        end
-      end
-
-      is_in_bounds
+  def places_in_bounding_box(south_west, north_east)
+    places.select do |place|
+      south_west[0].to_f < place.latitude and north_east[0].to_f > place.latitude and
+      south_west[1].to_f < place.longitude and north_east[1].to_f > place.longitude
     end
   end
 
@@ -820,7 +811,7 @@ class Structure < ActiveRecord::Base
   # Set street / ZipCode and City regarding the first place being created
   #
   # @return nil
-  def set_default_location_attributes
+  def set_default_place_attributes
     self.update_column :street,   places.first.street
     self.update_column :zip_code, places.first.zip_code
     self.update_column :city_id,  places.first.city.id

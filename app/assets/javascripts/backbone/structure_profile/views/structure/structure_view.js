@@ -25,19 +25,24 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             this.broadenSearch();
         },
 
-        params_for_resource: {
-            courses: {},
-            teachers: {}
-        },
-
         initialize: function initialize () {
             _.bindAll(this, "showOrCreateTab", "hideLoader");
 
             this.empty_relation_handlers = {
+                "trainings": this.showEmptyCourses,
                 "courses": this.showEmptyCourses,
                 "places" : this.showEmptyMap,
             };
-            $('#structure-header').sticky({'z': 25 });
+            $('#structure-header').sticky({
+                z: 25,
+                onStick: function() {
+                    $('#structure-profile-title').append($('[data-type="filter-breadcrumbs"]'));
+                },
+                onUnStick: function() {
+                    $('#structure-profile-description').append($('[data-type="filter-breadcrumbs"]'));
+                }
+            });
+
         },
 
         onAfterShow: function onAfterShow () {
@@ -45,15 +50,8 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         },
 
         onRender: function onRender () {
-            var $currently_active_tab = $(".tabs li.active"),
-                anchor = $currently_active_tab.find("[data-toggle]");
-
-            if (anchor.length > 0) {
-                anchor = anchor[0];
-                this.showOrCreateTab({ currentTarget: anchor });
-            } else {
-                this.showOrCreateTab({ currentTarget: $("[data-view=courses]")[0] });
-            }
+            var $currently_active_tab = $(".tabs li.active [data-toggle]");
+            this.showOrCreateTab({ currentTarget: $currently_active_tab[0] });
         },
 
         /* broadenSearch
@@ -86,6 +84,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             this.model.set("query_params", params);
 
             this.updateModelWithRelation("courses");
+            this.updateModelWithRelation("trainings");
             this.updateModelWithRelation("places");
         },
 
@@ -99,7 +98,6 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             // need to parse the search... blech
             var params = CoursAvenue.Models.PaginatedCollection.prototype.makeOptionsFromSearch.call(this, window.location.search);
 
-            // set the query_params on the model so that getparamsforresource will work
             this.model.set("query_params", params);
 
             this.updateModelWithRelation("courses").then(function () {
@@ -107,12 +105,15 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
                 this.summary_view.enableRemoveFilterButton();
             }.bind(this));
 
+            this.updateModelWithRelation("trainings");
             this.updateModelWithRelation("places");
         },
 
+        /*
+         * Fetch associated relation passing it the query_params
+         */
         updateModelWithRelation: function updateModelWithRelation (relation) {
-            // var fetch = this.model.fetchRelated(relation, { data: this.getParamsForResource(relation)}, true)[0];
-            var fetch = this.model.get(relation).fetch({ data: this.getParamsForResource(relation)});
+            var fetch = this.model.get(relation).fetch({ data: this.model.get("query_params")});
 
             if (fetch !== undefined) {
                 fetch.then(function (resources) {
@@ -150,9 +151,11 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
                 data_url: this.model.get("data_url")
             });
 
+            // Don't fetch resources if it already exists
+            // if (this.model.get(resources).length > 0) { return; }
+
             // always fetch, since we don't know whether we have resources or just ids
             this.showLoader(resources);
-
             this.updateModelWithRelation(resources)
                 .then(function (collection) {
                     if (resources === "courses") {
@@ -175,19 +178,19 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             this.summary_view.rerender(data);
         },
 
-        showLoader: function(resources_name) {
+        showLoader: function showLoader (resources_name) {
             $('#tab-' + resources_name).append(this.ui.$loader);
             this.$('[data-' + resources_name + '-loader]').show();
         },
 
-        hideLoader: function(resources_name) {
+        hideLoader: function hideLoader (resources_name) {
             this.$('[data-' + resources_name + '-loader]').hide();
         },
 
-        getParamsForResource: function getParamsForResource (resource) {
-            return _.extend({}, this.params_for_resource[resource], this.model.get("query_params"));
-        },
-
+        /*
+         * Tries to get an existing collectonView for the given resource
+         * If it doesn't exist it creates a default abstract CollectionView
+         */
         findOrCreateCollectionViewForResource: function findOrCreateCollectionViewForResource (resources) {
             var resource = _.singularize(resources),
                 ViewClass;

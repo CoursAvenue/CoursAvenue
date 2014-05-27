@@ -2,7 +2,7 @@
 //= require_tree ./application
 
 //---------- Models
-//= require_tree ./models
+//= require ./models/manifest
 //
 //---------- Templates
 //= require_tree ./templates

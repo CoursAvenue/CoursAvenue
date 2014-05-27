@@ -11,7 +11,9 @@ class StructuresController < ApplicationController
     Statistic.view(@structure.id, current_user, cookies[:fingerprint]) unless current_pro_admin
     @structure_decorator = @structure.decorate
 
-    if params.has_key?(:lat) and params.has_key?(:lng)
+    if params.has_key?(:bbox_ne) and params.has_key?(:bbox_sw)
+      @place_ids = @structure.places_in_bounding_box(params[:bbox_sw], params[:bbox_ne]).map(&:id)
+    elsif params.has_key?(:lat) and params.has_key?(:lng)
       @place_ids = @structure.places_around(params[:lat], params[:lng]).map(&:id)
     else
       @place_ids = @structure.places.map(&:id)
