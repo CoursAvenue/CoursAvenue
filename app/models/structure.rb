@@ -26,7 +26,7 @@ class Structure < ActiveRecord::Base
   ######################################################################
   # Scope                                                              #
   ######################################################################
-  scope :premium, -> { where.not(pricing_plan: 'free') }
+  scope :premiums, -> { where.not(pricing_plan: 'free') }
 
   ######################################################################
   # Relations                                                          #
@@ -119,8 +119,8 @@ class Structure < ActiveRecord::Base
   ######################################################################
   # Validations                                                        #
   ######################################################################
-  validates :name               , :presence   => true
-  validate :subject_parent_and_children
+  validates :name, presence: true
+  validate  :subject_parent_and_children
   validates :name, :website, :facebook_url, length: { maximum: 255 }
 
   ######################################################################

@@ -1,3 +1,4 @@
+# TODO: Move this into a concern
 module ActsAsGeolocalizable
 
   def self.included(base)
