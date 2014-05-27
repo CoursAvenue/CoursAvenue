@@ -1,5 +1,4 @@
 = side_menu_currently_at 'courses'
-
 .panel
   .panel__header.soft
     .grid
@@ -7,11 +6,12 @@
         %h4.flush Ajouter un :
       .grid__item.ten-twelfths.v-middle>
         .grid
-          .grid__item.one-third.v-middle>
+          .grid__item.v-middle{ class: @structure.gives_individual_courses? ? 'one-third' : 'one-half'}>
             = link_to 'Cours collectif', new_pro_structure_course_path(@structure, type: 'Course::Lesson'), class: 'btn btn--green btn--full fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false' }
-          .grid__item.one-third.v-middle>
-            = link_to 'Cours particulier', new_pro_structure_course_path(@structure, type: 'Course::Private'), class: 'btn btn--green btn--full fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false' }
-          .grid__item.one-third.v-middle>
+          - if @structure.gives_individual_courses?
+            .grid__item.v-middle{ class: @structure.gives_individual_courses? ? 'one-third' : 'one-half'}>
+              = link_to 'Cours particulier', new_pro_structure_course_path(@structure, type: 'Course::Private'), class: 'btn btn--green btn--full fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false' }
+          .grid__item.v-middle{ class: @structure.gives_individual_courses? ? 'one-third' : 'one-half'}>
             = link_to 'Stage / Atelier', new_pro_structure_course_path(@structure, type: 'Course::Training'), class: 'btn btn--green btn--full fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false' }
 
   .panel__body.soft--ends
@@ -23,15 +23,16 @@
         - @courses.lessons.each_with_index do |course, index|
           = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure }
 
-    %hr.push--ends
+    - if @structure.gives_individual_courses?
+      %hr.push--ends
 
-    .soft--sides
-      %h4 Cours particulier
-      - if @courses.privates.empty?
-        %p Vous n'avez pas de cours particulier.
-      #lesson-list.block-list
-        - @courses.privates.each_with_index do |course, index|
-          = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure }
+      .soft--sides
+        %h4 Cours particulier
+        - if @courses.privates.empty?
+          %p Vous n'avez pas de cours particulier.
+        #lesson-list.block-list
+          - @courses.privates.each_with_index do |course, index|
+            = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure }
 
     %hr.push--ends
 
