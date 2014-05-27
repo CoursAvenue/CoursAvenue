@@ -3,7 +3,7 @@
     %nav.flexbox__item.v-top.side-menu.gray-box.border-none--right.soft-half--sides
       %h4.push-half--top
         Plus de #{Admin.count.round(-2)} partenaires
-      - @structures.premium.each do |structure|
+      - @structures.premiums.each do |structure|
         .white-box.push-half--bottom
           .grid
             .grid__item.one-quarter.v-middle>
@@ -90,6 +90,7 @@
             .soft--sides{ data: { behavior: 'wizard-helper', content: '<p><strong>Adresse</strong><br>Si vos cours se situent dans plusieurs lieux, vous pourrez les renseigner depuis votre profil.</p>' } }
               %h5#informations Adresse
               = f.simple_fields_for :places do |place_form|
+                = place_form.input :type, as: :hidden
                 = place_form.input :name, label: "Nom du lieu", input_html: {  placeholder: "Exemple : Bastille, Studio Bleu, Centre de Danse du Marais", class: 'input--large', data: { behavior: 'tooltip' }, title: "Si pas de nom : métro ou arrêt de bus le plus proche, nom de quartier / rue, nom d'un parc à proximité" }, wrapper_html: { class: 'flush--bottom' }, label_html: { class: 'label--large' }
                 = place_form.input :street, input_html: { value: cookies[:street] }, input_html: { placeholder: 'N° + rue', class: 'input--large' }, label_html: { class: 'label--large' }
                 .input.city-autocomplete-wrapper<
