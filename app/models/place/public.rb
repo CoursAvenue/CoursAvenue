@@ -4,10 +4,7 @@ class Place::Public < Place
   ######################################################################
   # Validations                                                        #
   ######################################################################
-  validates :structure, presence: true
-  validates :name     , presence: true
-  validates :street   , presence: true
-  validates :city     , presence: true
-  validates :zip_code , presence: true, numericality: { only_integer: true }
+  validates :structure, :name, :street, :zip_code, :city_id , presence: true
+  validates :zip_code, numericality: { only_integer: true }
 
 end
