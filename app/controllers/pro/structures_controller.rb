@@ -145,6 +145,7 @@ class Pro::StructuresController < Pro::ProController
   # GET member
   def show
     @structure = Structure.friendly.find params[:id]
+    retrieve_home_places
     render action: :edit
   end
 

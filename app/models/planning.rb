@@ -56,8 +56,6 @@ class Planning < ActiveRecord::Base
   before_validation :set_end_date
   before_validation :set_end_time
   before_validation :update_duration
-  # before_validation :set_audience_if_empty
-  # before_validation :set_level_if_empty
 
   before_save :set_structure_if_blank
   before_save :update_start_and_end_date
@@ -65,15 +63,9 @@ class Planning < ActiveRecord::Base
   ######################################################################
   # Validations                                                        #
   ######################################################################
-  # validates :place, :audience_ids, :level_ids, presence: true
   validate  :presence_of_place
   validate  :presence_of_start_date
   validate  :end_date_in_future
-
-  # validates :min_age_for_kid, numericality: { less_than: 18 }, allow_nil: true
-  # validates :max_age_for_kid, numericality: { less_than: 19 }, allow_nil: true
-
-  # validate :min_age_must_be_less_than_max_age
 
   attr_accessible :duration, # In minutes
                   :end_date,
