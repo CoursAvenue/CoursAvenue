@@ -234,7 +234,7 @@ class Structure < ActiveRecord::Base
     end
 
     string :zip_codes, multiple: true do
-      (self.places.map(&:location).map(&:zip_code) << self.zip_code).uniq
+      (self.places.map(&:zip_code) << self.zip_code).uniq
     end
 
     double :jpo_score
@@ -301,10 +301,6 @@ class Structure < ActiveRecord::Base
     return email_status
   end
 
-  def locations
-    self.places.map(&:location)
-  end
-
   def places_around(latitude, longitude, radius=2)
     places.reject do |place|
       Geocoder::Calculations.distance_between([latitude, longitude], [place.latitude, place.longitude], unit: :km) >= radius
@@ -315,7 +311,7 @@ class Structure < ActiveRecord::Base
   # @param  south_west Array [latitude, longitude]
   # @param  north_east Array [latitude, longitude]
   #
-  # @return Locations
+  # @return Places
   def places_in_bounding_box(south_west, north_east)
     places.select do |place|
       south_west[0].to_f < place.latitude and north_east[0].to_f > place.latitude and
