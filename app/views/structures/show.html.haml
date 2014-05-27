@@ -126,7 +126,6 @@
 
       window.coursavenue = window.coursavenue || {};
       window.coursavenue.bootstrap = {
-        total_plannings_count: #{ @structure.plannings_count.to_i },
         structure: #{ @model.to_json },
         meta: {
           total_comments: #{ @structure.comments.accepted.count }

@@ -162,8 +162,8 @@ CoursAvenue::Application.routes.draw do
         resources :videos, only: [:create, :new], controller: 'structures/medias/videos'
         resources :images, only: [:create, :new], controller: 'structures/medias/images'
 
-        resources :teachers     , controller: 'structures/teachers'
-        resources :places       , controller: 'structures/places', path: 'lieux' do
+        resources :teachers, controller: 'structures/teachers', path: 'professeurs'
+        resources :places  , controller: 'structures/places'  , path: 'lieux' do
           member do
             get :ask_for_deletion
           end

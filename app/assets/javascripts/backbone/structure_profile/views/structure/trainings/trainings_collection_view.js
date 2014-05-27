@@ -3,6 +3,15 @@ StructureProfile.module('Views.Structure.Trainings', function(Module, App, Backb
 
     Module.TrainingsCollectionView = StructureProfile.Views.Structure.Courses.CoursesCollectionView.extend({
         itemView: Module.TrainingView,
-        template: Module.templateDirname() + 'trainings_collection_view'
+        template: Module.templateDirname() + 'trainings_collection_view',
+
+        onRender: function onRender () {
+            if (this.collection.length == 0) {
+                this.$('[data-empty-trainings]').show();
+            } else {
+                this.$('[data-empty-trainings]').hide();
+            }
+        }
+
     });
 });

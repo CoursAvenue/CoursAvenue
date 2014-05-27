@@ -1,8 +1,8 @@
 <strong>
-{{#if plannings_not_shown}}
-    {{#ifCond plannings_not_shown '!=' '0'}}
+{{#if total_not_filtered}}
+    {{#ifCond total_not_filtered '!=' 0}}
         {{ plannings_count }} seances correspondent a votre recherche
-        <a href="{{ data_url }}" data-action="show-all-courses">Visualiser les {{ plannings_not_shown }} autres seances</a>
+        <a href="{{ data_url }}" data-action="show-all-courses">Visualiser les {{ total_not_filtered }} autres seances</a>
     {{/ifCond}}
 {{else}}
     {{ plannings_count }} {{ pluralize plannings_count 'seance correspond' 'seances correspondent' }} a votre recherche

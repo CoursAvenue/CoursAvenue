@@ -8,31 +8,28 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
 
         ui: {
             '$loader'           : '[data-loader]',
-            '$summary_container': '[data-summary-container]',
-            '$empty_courses'    : '[data-empty-courses]'
+            '$summary_container': '[data-summary-container]'
         },
 
         events: {
             'breadcrumbs:clear'       : 'broadenSearch',
             'filter:popstate'         : 'narrowSearch',
-            'courses:collection:reset': 'renderCourseSummary',
+            'courses:collection:reset': 'renderCourseSummaries',
             'filter:removed'          : 'removeSummary',
             'click [data-toggle=tab] ': 'showOrCreateTab'
         },
 
         removeSummary: function () {
-            this.$('[data-type="filter-breadcrumbs"]').slideUp();
+            $('[data-type="filter-breadcrumbs"]').slideUp();
             this.broadenSearch();
         },
 
         initialize: function initialize () {
             _.bindAll(this, "showOrCreateTab", "hideLoader");
 
-            this.empty_relation_handlers = {
-                "trainings": this.showEmptyCourses,
-                "courses": this.showEmptyCourses,
-                "places" : this.showEmptyMap,
-            };
+            this.summary_views = [];
+
+            // Initialize stickiness of header
             $('#structure-header').sticky({
                 z: 25,
                 onStick: function() {
@@ -102,7 +99,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
 
             this.updateModelWithRelation("courses").then(function () {
                 this.ui.$summary_container.slideDown();
-                this.summary_view.enableRemoveFilterButton();
+                _.invoke(this.summary_views, 'enableRemoveFilterButton');
             }.bind(this));
 
             this.updateModelWithRelation("trainings");
@@ -113,26 +110,15 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
          * Fetch associated relation passing it the query_params
          */
         updateModelWithRelation: function updateModelWithRelation (relation) {
-            var fetch = this.model.get(relation).fetch({ data: this.model.get("query_params")});
+            var fetch = this.model.get(relation).fetch({ data: this.model.get("query_params") });
 
             if (fetch !== undefined) {
-                fetch.then(function (resources) {
-                    this.model.get(relation).reset(resources);
+                fetch.then(function (response) {
+                    this.model.get(relation).trigger('fetch:done', response);
                 }.bind(this));
-            } else {
-                // if the fetch is undefined, we don't have any of that resource
-                handler = this.empty_relation_handlers[relation];
-
-                if (_.isFunction(handler)) {
-                    handler.call(this);
-                }
             }
 
             return fetch || new $.Deferred().reject();
-        },
-
-        showEmptyCourses: function showEmptyCourses () {
-            this.ui.$empty_courses.show();
         },
 
         showOrCreateTab: function showOrCreateTab (e) {
@@ -143,7 +129,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             // if this tab has no associated resource, or if it is already populated, we bail
             if (!resources) { return; }
 
-            ViewClass = this.findOrCreateCollectionViewForResource(resources);
+            ViewClass = this.findCollectionViewForResource(resources);
 
             // Only fetch when there is no data
             view = new ViewClass({
@@ -151,20 +137,21 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
                 data_url: this.model.get("data_url")
             });
 
-            // Don't fetch resources if it already exists
-            // if (this.model.get(resources).length > 0) { return; }
-
             // always fetch, since we don't know whether we have resources or just ids
             this.showLoader(resources);
             this.updateModelWithRelation(resources)
                 .then(function (collection) {
+                    var summary_view;
                     if (resources === "courses") {
-                        this.summary_view = new StructureProfile.Views.Structure.Courses.CoursesSummaryView(view.serializeData());
-                        this.showWidget(this.summary_view, {
-                            events: {
-                                'courses:collection:reset': 'rerender'
-                            }
-                        });
+                        summary_view = new StructureProfile.Views.Structure.Courses.CoursesSummaryView(view.serializeData());
+                        this.summary_views.push(summary_view);
+                        this.showWidget(summary_view, { events: { 'courses:collection:reset': 'rerender' }});
+                    }
+
+                    if (resources === "trainings") {
+                        summary_view = new StructureProfile.Views.Structure.Trainings.TrainingsSummaryView(view.serializeData());
+                        this.summary_views.push(summary_view);
+                        this.showWidget(summary_view, { events: { 'courses:collection:reset': 'rerender' }});
                     }
 
                     this.showWidget(view);
@@ -174,8 +161,8 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
                 .always(function() { this.hideLoader(resources) }.bind(this));
         },
 
-        renderCourseSummary: function renderCourseSummary (data) {
-            this.summary_view.rerender(data);
+        renderCourseSummaries: function renderCourseSummaries (data) {
+            _.invoke(this.summary_views, 'rerender', data);
         },
 
         showLoader: function showLoader (resources_name) {
@@ -188,31 +175,10 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         },
 
         /*
-         * Tries to get an existing collectonView for the given resource
-         * If it doesn't exist it creates a default abstract CollectionView
+         * Return the collectionView related to the resource based on its name
          */
-        findOrCreateCollectionViewForResource: function findOrCreateCollectionViewForResource (resources) {
-            var resource = _.singularize(resources),
-                ViewClass;
-
-            if (Module[_.capitalize(resources)] && Module[_.capitalize(resources)][_.capitalize(resources) + 'CollectionView']) {
-                ViewClass = Module[_.capitalize(resources)][_.capitalize(resources) + 'CollectionView'];
-
-            } else {
-                ViewClass = Backbone.Marionette.CollectionView.extend({
-                    template: Module.templateDirname() + resources + '/' + resources + '_collection_view',
-                    itemView: Marionette.ItemView.extend({
-                        template: Module.templateDirname() + resources + '/' + resource + '_view'
-                    }),
-                    // TODO this seems like it shouldn't be necessary...
-                    // I thought this would just happen automatically?
-                    collectionEvents: {
-                        'change': 'render'
-                    }
-                });
-            }
-
-            return ViewClass;
+        findCollectionViewForResource: function findCollectionViewForResource (resources) {
+            return Module[_.capitalize(resources)][_.capitalize(resources) + 'CollectionView'];
         }
     });
 });

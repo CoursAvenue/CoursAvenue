@@ -1,4 +1,3 @@
-
 StructureProfile.module('Views.Structure.Trainings', function(Module, App, Backbone, Marionette, $, _, undefined) {
 
     Module.TrainingView = StructureProfile.Views.Structure.Courses.CourseView.extend({

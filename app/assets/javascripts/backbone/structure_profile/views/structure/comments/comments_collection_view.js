@@ -20,6 +20,14 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
             pagination_top.on('pagination:page', this.goToPage.bind(this));
         },
 
+        onAfterShow: function onAfterShow () {
+            if (this.collection.length == 0) {
+                this.$('[data-empty-comments]').show();
+            } else {
+                this.$('[data-empty-comments]').hide();
+            }
+        },
+
         onRender: function onRender () {
             this.$('[data-type="bottom-pagination-tool"]').append(pagination_bottom.el);
             this.$('[data-type="top-pagination-tool"]').append(pagination_top.el);
@@ -38,6 +46,12 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
             };
             pagination_bottom.reset(data)
             pagination_top.reset(data)
+        },
+
+        serializeData: function serializeData () {
+            return {
+                new_comments_path: Routes.new_structure_comment_path(this.collection.structure.get('slug'))
+            }
         }
     });
 });

@@ -36,7 +36,7 @@
     .islet.white-box.two-thrids.center-block
       = simple_form_for @comment, url: comments_path, data: { recover: "comment" } do |f|
         = f.error_notification
-        %input{type: :hidden, name: 'from', value: 'recommendation-page'}
+        %input{ type: :hidden, name: 'from', value: 'recommendation-page' }
         = f.hidden_field :commentable_type
         = f.hidden_field :commentable_id
         - if @comment.errors.any?
@@ -54,18 +54,18 @@
               Public
           %h5.inline
             Déposez votre avis visible de tous
-        = f.input :course_name, label_html: {class: 'v-middle', style: 'vertical-align: top;'}, wrapper_html: {class: 'flush--bottom'}, placeholder: 'Ex. : Stage de danse jazz new style pour ado du jeudi soir'
-        = f.input :title, label_html: {class: 'v-middle', style: 'vertical-align: top;'}, wrapper_html: {class: 'flush--bottom'}, placeholder: "Ex. : Un professeur toujours à l'écoute"
+        = f.input :course_name, label_html: { class: 'label--large v-top' }, wrapper_html: { class: 'flush--bottom' }, placeholder: 'Ex. : Stage de danse jazz new style pour ado du jeudi soir', input_html: { class: 'input--large' }
+        = f.input :title, label_html: { class: 'v-top label--large' }, wrapper_html: {class: 'flush--bottom'}, placeholder: "Ex. : Un professeur toujours à l'écoute", input_html: { class: 'input--large' }
 
-        = f.association :subjects, as: :select, collection: @structure.subjects.at_depth(2).uniq, multiple: true, input_html: { class: 'multiple-select', data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}}
+        = f.association :subjects, as: :select, collection: @structure.subjects.at_depth(2).uniq, multiple: true, input_html: { class: 'input--large multiple-select', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' } }, label_html: { class: 'label--large'}
 
         .input.flush--bottom<
-          = f.label :content, style: 'vertical-align: top;'
-          = f.input :content, label: false, input_html: {style: 'height: 150px;', class: 'one-whole', data: { behavior: 'text-counter', 'average-words-nb' => Comment::MIN_LENGTH, 'good-words-nb' => 60, 'bad-text' => "Votre avis doit comporter au moins #{Comment::MIN_LENGTH} mots.", 'average-text' => 'Encore quelques mots et votre professeur sera enchanté !', 'good-text' => "Là c'est certain, votre professeur va adorer !"}}, wrapper_html: { class: 'flush' }, required: true
+          = f.label :content, class: 'v-top label--large'
+          = f.input :content, label: false, input_html: { style: 'height: 150px;', class: 'input--large one-whole', data: { behavior: 'text-counter', 'average-words-nb' => Comment::MIN_LENGTH, 'good-words-nb' => 60, 'bad-text' => "Votre avis doit comporter au moins #{Comment::MIN_LENGTH} mots.", 'average-text' => 'Encore quelques mots et votre professeur sera enchanté !', 'good-text' => "Là c'est certain, votre professeur va adorer !"}}, wrapper_html: { class: 'flush' }, required: true
         %p.field-form-info.flush
           = link_to 'Astuces pour un avis utile', '#', id: 'show_comments_trick'
         - unless current_user
-          = f.input :author_name, label_html: {style: 'vertical-align: top;', class: 'v-middle'}, required: true, placeholder: 'Ex. : Stéphanie P.'
+          = f.input :author_name, label_html: { class: 'v-middle label--large' }, required: true, placeholder: 'Ex. : Stéphanie P.', input_html: { class: 'input--large' }
         %hr.push--top
         .input
           %label.control-label
@@ -75,16 +75,16 @@
           %h5.inline
             Informations visibles uniquement par votre professeur
         - unless current_user
-          = f.input :email, label_html: {style: 'vertical-align: top;', class: 'v-middle'}, required: true, placeholder: "Votre email ne sera visible que par votre professeur", input_html: { value: (params[:comment].present? ? params[:comment][:email] : params[:email])}
+          = f.input :email, label_html: { class: 'v-top label--large' }, required: true, placeholder: "Votre email ne sera visible que par votre professeur", input_html: { value: (params[:comment].present? ? params[:comment][:email] : params[:email]), class: 'input--large' }
         .input.push-half--bottom
           %label.control-label.text>
             %strong Message personnel
         .input
-          %label.control-label.text> Objet
-          = text_field_tag :subject, params[:subject], placeholder: "Ex. : Merci d'avoir pensé à moi !"
+          %label.label--large.control-label.text> Objet
+          = text_field_tag :subject, params[:subject], placeholder: "Ex. : Merci d'avoir pensé à moi !", input_html: { class: 'input--large' }
         .input
-          %label.control-label.text> Message
-          = text_area_tag :private_message, (params[:private_message] || default_fake_message.sample), class: 'text', style: 'height: 100px', data: { behavior: 'autoresize' }
+          %label.label--large.control-label.text> Message
+          = text_area_tag :private_message, (params[:private_message] || default_fake_message.sample), class: 'text', style: 'height: 100px', data: { behavior: 'autoresize' }, input_html: { class: 'input--large' }
         .text--center
           = f.submit 'Publier mon avis', class: 'btn btn--large btn--green', style: 'padding-top: 6px; padding-bottom: 6px;', data: { disable_with: "En cours de publication" }
 
@@ -105,7 +105,7 @@
       - if @comments.any?
         %h4 Derniers avis sur cet établissement
         %ul.comment-list.milli
-          = render partial: 'comments/comment', collection: @comments, locals: {small_avatar: true}
+          = render partial: 'comments/comment', collection: @comments, locals: { small_avatar: true }
       - else
         %h4 Derniers avis sur CoursAvenue
         %ul.comment-list.milli

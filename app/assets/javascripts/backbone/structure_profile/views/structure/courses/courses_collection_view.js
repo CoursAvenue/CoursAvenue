@@ -6,7 +6,6 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         template: Module.templateDirname() + 'courses_collection_view',
         itemViewContainer: '[data-type=container]',
 
-
         initialize: function initialize (options) {
             this.data_url = options.data_url;
         },
@@ -15,10 +14,18 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             'reset': 'collectionReset'
         },
 
+        onAfterShow: function onAfterShow () {
+            if (this.collection.length == 0) {
+                this.$('[data-empty-courses]').show();
+            } else {
+                this.$('[data-empty-courses]').hide();
+            }
+        },
+
         collectionReset: function collectionReset () {
             var courses_count   = this.collection.length;
             var plannings_count = _.reduce(this.collection.map(function(model) { return model.get('plannings').length }), function(memo, num){ return memo + num; }, 0);
-            this.trigger('courses:collection:reset', { courses_count: courses_count, plannings_count: plannings_count, plannings_not_shown: 0});
+            this.trigger('courses:collection:reset', this.serializeData());
 
             this.render();
         },
@@ -54,14 +61,14 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         * */
         serializeData: function serializeData () {
             var plannings_count   = this.collection.reduce(function (memo, model) {
-                    memo                += model.get("plannings").length;
+                    memo         += model.get("plannings").length;
                     return memo;
                 }, 0);
 
             return {
                 courses_count: this.collection.length,
                 plannings_count: plannings_count,
-                plannings_not_shown: (window.coursavenue.bootstrap.total_plannings_count || 0) - plannings_count,
+                total_not_filtered:   (this.collection.total_not_filtered || 0) - plannings_count,
                 data_url: this.data_url
             };
         },
