@@ -116,6 +116,9 @@ class Structure < ActiveRecord::Base
                         processors: [:cropper]
                         }
                       }
+
+  validates_attachment_content_type :logo, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
+
   ######################################################################
   # Validations                                                        #
   ######################################################################
@@ -500,7 +503,7 @@ class Structure < ActiveRecord::Base
   # Meta data update                                                   #
   ######################################################################
   def update_meta_datas
-    self.plannings_count          = self.plannings.future.count
+    self.plannings_count          = self.plannings.visible.future.count
     self.gives_group_courses      = self.courses.select{|course| !course.is_individual? }.any?
     self.gives_individual_courses = self.courses.select(&:is_individual?).any?
     self.has_promotion            = self.prices.select{|p| p.promo_amount.present?}.any?

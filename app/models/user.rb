@@ -29,8 +29,11 @@ class User < ActiveRecord::Base
 
   define_boolean_accessor_for :meta_data, :have_seen_first_jpo_popup
 
+
   has_attached_file :avatar,
-                    styles: { wide: '800x800#', normal: '450x', thumb: '200x200#', small: '100x100#', mini: '40x40#' }#,
+                    styles: { wide: '800x800#', normal: '450x', thumb: '200x200#', small: '100x100#', mini: '40x40#' }
+
+  validates_attachment_content_type :avatar, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 
   ######################################################################
   # Relations                                                          #

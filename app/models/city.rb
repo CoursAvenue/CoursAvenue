@@ -29,7 +29,11 @@ class City < ActiveRecord::Base
                   :department_code, :commune_name, :commune_code, :latitude, :longitude, :acuracy,
                   :title, :subtitle, :description
 
-  has_attached_file :image, :styles => { default: '900×600#', small: '250x200#'}
+
+  has_attached_file :image,
+                    styles: { default: '900×600#', small: '250x200#'}
+  validates_attachment_content_type :image, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
+
   def to_gmap_json
     {lng: self.longitude, lat: self.latitude}
   end

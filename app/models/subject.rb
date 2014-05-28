@@ -36,6 +36,7 @@ class Subject < ActiveRecord::Base
   attr_accessible :name, :short_name, :info, :parent, :position, :title, :subtitle, :description, :image,
                   :good_to_know, :needed_meterial, :tips, :ancestry
   has_attached_file :image,
+                    content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'],
                     :styles => { super_wide: "825x250#", wide: "600x375#", small: '250x200#', thumb: "200x200#" }
 
   # Tells wether the given subject is a descendant of self by checking its ancestry string
