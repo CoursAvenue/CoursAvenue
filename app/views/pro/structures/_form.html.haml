@@ -102,7 +102,7 @@
     .input
       = structure_form.label :description, class: 'label--large'
       .input-container>
-        = structure_form.input :description, label: false, wrapper_html: { class: 'flush one-whole' }, input_html: { id: 'description-textarea', class: 'input--large one-whole', placeholder: 'Quels types de cours proposez-vous et en quoi consistent-ils ? Présentez-vous sans renseigner vos coordonnées de contact ni votre planning de cours.', data: { behavior: 'text-counter', 'average-words-nb' => 30, 'good-words-nb' => 100, 'bad-text' => 'Votre description doit comporter au moins 30 mots. Nos Partenaires qui ont le plus de succès ont plus de 100 mots.', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}}
+        = structure_form.input :description, label: false, wrapper_html: { class: 'flush one-whole' }, input_html: { id: 'description-textarea', class: 'input--large one-whole', placeholder: "Exemple : « Je m'appelle Nicolas Bourseul et je suis conseiller naturopathe, enseignant de Qi Gong et de Tao Yin. Mais j'enseigne surtout comment prendre soin de soi-même. Mon parcours : (liste des événements importants classés par date). C'est tout cela que je souhaite partager avec ceux qui veulent prendre leur santé et leur vie en main. »", data: { behavior: 'text-counter', 'average-words-nb' => 30, 'good-words-nb' => 100, 'bad-text' => 'Votre description doit comporter au moins 30 mots. Nos Partenaires qui ont le plus de succès ont plus de 100 mots.', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}}
   - if @structure.comments_count >= 5
     %hr.push--ends
     .soft--sides
@@ -111,7 +111,8 @@
         = structure_form.input :widget_status, as: :select, collection: Structure::WIDGET_STATUS, label_method: lambda{|status| t("structures.widget_status.#{status}")}, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
         = structure_form.input :widget_url, as: :string, placeholder: 'Ex. : http://www.mon-site.com/livre-d-or', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
 
-  .soft--sides= structure_form.button :submit, "Enregistrer", class: 'btn btn--green btn--full push--bottom', disable_with: "En cours d'enregistrement"
+  .soft--sides
+    = structure_form.button :submit, "Enregistrer", class: 'btn btn--green btn--full push--bottom', data: { disable_with: "En cours d'enregistrement" }
 
 = content_for :scripts do
   :javascript
