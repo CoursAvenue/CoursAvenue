@@ -6,7 +6,7 @@ class PlanningSerializer < ActiveModel::Serializer
              :common_price, :course_id, :info, :address
 
   def address
-    object.place.location.address if object.place
+    object.place.address if object.place
   end
 
   def date

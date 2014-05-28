@@ -13,9 +13,9 @@
                 .grid__item.width-auto
                   .map-marker-image
                     %a
-                      %span= @location_index_hash[place.location]
+                      %span= @location_index_hash[place]
                 .grid__item.width-auto
-                  = place.location.name
+                  = place.name
             - if @course.is_lesson?
               = render partial: 'lesson_schedule', locals: {grouped_plannings: grouped_plannings}
             - if @course.is_training?

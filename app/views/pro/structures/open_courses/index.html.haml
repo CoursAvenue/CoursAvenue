@@ -88,7 +88,7 @@
                   = planning_time_for(planning)
                 %td= join_audiences planning
                 %td= join_levels planning.levels
-                %td= planning.place.location.name
+                %td= planning.place.name
                 %td.text--center
                   - if planning.nb_jpo_participants > 0
                     = link_to pro_structure_participations_path(@structure), class: 'progress flush block' do

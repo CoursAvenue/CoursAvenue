@@ -5,7 +5,7 @@
   %td= readable_time_slot planning.start_time, planning.end_time
   %td= join_levels_text planning
   %td= join_audiences planning
-  %td= planning.place.location.name
+  %td= planning.place.name
   %td
     - if planning.info.present?
       .lbc-brand-icon{ data: { behavior: 'tooltip', 'original-title' => planning.info } }

@@ -245,7 +245,7 @@ class Planning < ActiveRecord::Base
     end
 
     latlon :location, multiple: true do
-      Sunspot::Util::Coordinates.new(place.location.latitude, place.location.longitude) if place
+      Sunspot::Util::Coordinates.new(place.latitude, place.longitude) if place
     end
 
     integer :open_courses_open_places do

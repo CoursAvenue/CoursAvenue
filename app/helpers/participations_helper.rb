@@ -58,7 +58,7 @@ module ParticipationsHelper
         <span class="_zonecode">40</span>
         <span class="_summary">JPO CoursAvenue - #{course.name}</span>
         <span class="_description">#{place_info}</span>
-        <span class="_location">#{planning.place.location.address}</span>
+        <span class="_location">#{planning.place.address}</span>
         <span class="_organizer">CoursAvenue en collaboration avec #{structure.name}</span>
         <span class="_organizer_email">#{structure.main_contact.email}</span>
         <span class="_all_day_event">false</span>

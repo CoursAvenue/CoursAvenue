@@ -34,13 +34,6 @@
     input.float, input.integer {
         max-width: 5em;
     }
-    .error {
-        padding    : 5px 10px !important;
-        margin     : 0;
-        min-width  : 150px;
-        margin-left: $label-width;
-        @extend .alert--error;
-    }
     .check_boxes {
         .checkbox {
             vertical-align: middle;
@@ -268,4 +261,23 @@
     background-size     : 100%;
     color               : white;
     text-shadow         : $gray;
+}
+
+.field_with_errors {
+
+    .chosen-choices input {
+        @include box-shadow(none !important);
+    }
+    input, .chosen-choices {
+        border-color: opacify($red, 0.8) !important;
+    }
+    input, select {
+        @include box-shadow(inset 0 1px 1px 0 rgba(0, 0, 0, 0.08),0 0 1px 1px transparentize($red, 0.5) !important);
+    }
+    .input_field_error {
+        display    : block !important;
+        font-size  : 12px;
+        line-height: 22px;
+        font-weight: normal;
+    }
 }

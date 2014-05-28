@@ -15,6 +15,16 @@
           = link_to edit_pro_structure_path(@structure), class: 'block semi-muted-link' do
             = @structure.name
       .flexbox__item.v-middle.text--right.soft-half--right
+        - unless @structure.premium?
+          = link_to premium_modal_pro_structure_path(@structure), class: 'yellow f-weight-bold fancybox.ajax', data: { behavior: 'modal', padding: 0, width: 900 } do
+            %i.fa.fa-star.yellow
+            Passer au Premium
+          %span.push-half--sides= '|'
+        - if @structure.comments.pending.any?
+          = link_to pro_structure_comments_path(@structure), class: 'white f-weight-bold' do
+            %i.fa.fa-comment
+            = "#{@structure.comments.pending.count} avis en attente"
+          %span.push-half--sides= '|'
         = link_to structure_url(@structure, subdomain: 'www'), class: 'white', target: :_blank do
           .fa.fa-eye
           Voir mon profil public

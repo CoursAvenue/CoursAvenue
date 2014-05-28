@@ -114,12 +114,12 @@
               %br
               = place.private_info
         .flexbox__item.two-twelfths.v-top>
-          = link_to "http://maps.google.com/?q=#{place.location.address}", target: :_blank, class: 'block' do
-            %img.one-whole.block{src:"http://maps.googleapis.com/maps/api/staticmap?center=#{place.location.latitude},#{place.location.longitude}&zoom=14&size=200x130&sensor=false&markers=#{place.location.latitude},#{place.location.longitude}"}
+          = link_to "http://maps.google.com/?q=#{place.address}", target: :_blank, class: 'block' do
+            %img.one-whole.block{src:"http://maps.googleapis.com/maps/api/staticmap?center=#{place.latitude},#{place.longitude}&zoom=14&size=200x130&sensor=false&markers=#{place.latitude},#{place.longitude}"}
           %p.text--center
-            %strong= place.location.name
+            %strong= place.name
             %br
-            %i= place.location.address
+            %i= place.address
 
   - if params[:inscription_confirmed]
     = render 'registration_confirmed'

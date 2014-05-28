@@ -17,9 +17,9 @@
   .panel__body.soft--ends
     .soft--sides
       %h4 Cours collectifs
-      - if @courses.lessons.empty?
-        %p Vous n'avez pas de cours.
-      #private-list.block-list
+      %p{ class: (@courses.lessons.empty? ? '' : 'hidden'), data: { empty: 'lesson'} }
+        Vous n'avez pas de cours.
+      #lesson-list.block-list
         - @courses.lessons.each_with_index do |course, index|
           = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure }
 
@@ -28,9 +28,9 @@
 
       .soft--sides
         %h4 Cours particulier
-        - if @courses.privates.empty?
-          %p Vous n'avez pas de cours particulier.
-        #lesson-list.block-list
+        %p{ class: (@courses.privates.empty? ? '' : 'hidden'), data: { empty: 'private'} }
+          Vous n'avez pas de cours particulier.
+        #private-list.block-list
           - @courses.privates.each_with_index do |course, index|
             = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure }
 
@@ -38,8 +38,8 @@
 
     .soft--sides
       %h4 Stages & Ateliers
-      - if @courses.trainings.empty?
-        %p Vous n'avez pas de stages.
+      %p{ class: (@courses.trainings.empty? ? '' : 'hidden'), data: { empty: 'training'} }
+        Vous n'avez pas de stages.
       %ul#training-list.block-list
         - @courses.trainings.each_with_index do |course, index|
           = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure }

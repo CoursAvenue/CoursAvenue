@@ -51,7 +51,7 @@
               = planning_time_for(planning, false)
               %br
               %strong Lieu :
-              = "#{planning.place.location.name} (#{planning.place.location.address})"
+              = "#{planning.place.name} (#{planning.place.address})"
               %br
               %strong Nombre d'inscriptions :
               = "#{pluralize(planning.participations.not_canceled.not_in_waiting_list.count, 'élève')}"

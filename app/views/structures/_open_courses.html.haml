@@ -41,8 +41,8 @@
               %td= join_audiences planning
               %td= join_levels planning.levels
               %td
-                = link_to "http://maps.google.com/?q=#{planning.place.location.address}", target: :_blank, class: 'pointer semi-muted-link', title: planning.place.location.address, data: { behavior: 'tooltip' } do
-                  = planning.place.location.name
+                = link_to "http://maps.google.com/?q=#{planning.place.address}", target: :_blank, class: 'pointer semi-muted-link', title: planning.place.address, data: { behavior: 'tooltip' } do
+                  = planning.place.name
               %td.text--center
                 - if planning.places_left > 10
                   > 10

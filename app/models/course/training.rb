@@ -1,7 +1,5 @@
 class Course::Training < Course
 
-  validates :start_date, :end_date, presence: true
-
   def is_training?
     true
   end

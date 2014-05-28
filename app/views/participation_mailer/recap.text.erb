@@ -40,8 +40,8 @@ Ci-dessous, un récapitulatif de vos inscriptions :
     <%= l(participation.planning.start_date, format: :semi_long).capitalize %>
     <%= "de #{l(participation.planning.start_time, format: :short)} à #{l(participation.planning.end_time, format: :short)}" %>
 
-    <%= place.location.name %> <%= place.location.address %>
-    Voir l'adresse sur Google Maps : http://maps.google.com/?q=<%=place.location.address %>
+    <%= place.name %> <%= place.address %>
+    Voir l'adresse sur Google Maps : http://maps.google.com/?q=<%=place.address %>
     <% if course.info.present? %>
       Infos pratiques sur le cours :
       <%= course.info %>
