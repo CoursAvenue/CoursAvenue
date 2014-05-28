@@ -123,6 +123,7 @@ class CourseSerializer < ActiveModel::Serializer
   end
 
   def course_location
+    return '' unless object.is_private?
     string = "Le cours se déroule "
     if object.teaches_at_home? and object.home_place and object.place
        string << "dans 2 lieux : "

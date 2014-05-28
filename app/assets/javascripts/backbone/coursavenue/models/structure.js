@@ -4,7 +4,11 @@ CoursAvenue.module('Models', function(Module, App, Backbone, Marionette, $, _) {
     Module.CoursesCollection = Backbone.Collection.extend({
         resource: "/" + App.resource + "/",
 
-        url: function (models) {
+        parse: function parse (response, options) {
+            return response.courses;
+        },
+
+        url: function url (models) {
             var structure_id  = this.structure.get('id'),
                 query_params  = this.structure.get("query_params"),
                 route_details = {

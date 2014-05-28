@@ -10,7 +10,7 @@ class Structures::CoursesController < ApplicationController
     @courses              = []
 
     @total_planning_search = PlanningSearch.search({ structure_id: @structure.id,
-                                                     course_types: params[:course_types],
+                                                     course_types: params[:course_types] || [],
                                                      visible: true })
 
     @plannings = @plannings.sort do |planning_a, planning_b|
