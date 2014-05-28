@@ -3,18 +3,18 @@ class Course::Private < Course
   include Concerns::ActiveHashHelper
   include Concerns::HasAudiencesAndLevels
 
-  # define_has_many_for :audience
-  # define_has_many_for :level
-
+  ######################################################################
+  # Relations                                                          #
+  ######################################################################
   belongs_to :place
 
-  # validates :audience_ids, :level_ids, presence: true
-  # validates :min_age_for_kid, numericality: { less_than: 18 }, allow_nil: true
-  # validates :max_age_for_kid, numericality: { less_than: 19 }, allow_nil: true
+  attr_accessible :place, :min_age_for_kid, :max_age_for_kid, :on_appointment, :teaches_at_home
 
-  # validate :min_age_must_be_less_than_max_age
-
-  attr_accessible :place, :min_age_for_kid, :max_age_for_kid
+  ######################################################################
+  # Callbacks                                                          #
+  ######################################################################
+  after_save :create_hidden_plannings
+  before_save :set_start_and_end_date
 
   def is_private?
     true
@@ -38,16 +38,30 @@ class Course::Private < Course
 
   private
 
-  ######################################################################
-  # Validations                                                        #
-  ######################################################################
-
-  # Add errors to model if min_age < max_age
+  #
+  # Creates plannings for each days if the course is on_appointment (meaning
+  # the student has to ask first the teacher to know availability.
   #
   # @return nil
-  def min_age_must_be_less_than_max_age
-    if (max_age_for_kid.present? or min_age_for_kid.present?) and min_age_for_kid.to_i >= max_age_for_kid.to_i
-      self.errors.add(:max_age_for_kid, "L'age maximum ne peut être inférieur à l'age minimum")
+  def create_hidden_plannings
+    if on_appointment_changed?
+      self.plannings.map(&:destroy)
+      if self.on_appointment
+        (0..6).each do |week_day|
+          self.plannings.create(week_day: week_day,
+                                visible: false,
+                                start_time: Time.parse('2000-01-01 06:00:00 UTC'),
+                                start_date: Date.yesterday,
+                                end_time: Time.parse('2000-01-01 23:00:00 UTC'),
+                                end_date: Date.today + 100.years)
+        end
+      end
     end
+    nil
+  end
+
+  def set_start_and_end_date
+    self.start_date = Date.yesterday         if start_date.nil?
+    self.end_date   = Date.today + 100.years if end_date.nil?
   end
 end

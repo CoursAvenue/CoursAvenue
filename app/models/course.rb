@@ -56,7 +56,6 @@ class Course < ActiveRecord::Base
                   :frequency,
                   :registration_date,
                   :is_individual, :is_for_handicaped,
-                  :teaches_at_home,
                   :trial_lesson_info, # Info prix
                   :conditions,
                   :partner_rib_info,
@@ -67,7 +66,7 @@ class Course < ActiveRecord::Base
                   :no_class_during_holidays,
                   :start_date, :end_date,
                   :subject_ids, :level_ids, :audience_ids, :place_id, :active,
-                  :price_group_id
+                  :price_group_id, :on_appointment
 
   # ------------------------------------------------------------------------------------ Search attributes
   searchable do

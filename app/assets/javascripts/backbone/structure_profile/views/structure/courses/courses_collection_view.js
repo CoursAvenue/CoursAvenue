@@ -14,14 +14,6 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             'reset': 'collectionReset'
         },
 
-        onAfterShow: function onAfterShow () {
-            if (this.collection.length == 0) {
-                this.$('[data-empty-courses]').show();
-            } else {
-                this.$('[data-empty-courses]').hide();
-            }
-        },
-
         collectionReset: function collectionReset () {
             var courses_count   = this.collection.length;
             var plannings_count = _.reduce(this.collection.map(function(model) { return model.get('plannings').length }), function(memo, num){ return memo + num; }, 0);
@@ -50,7 +42,13 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
 
         onAfterShow: function onAfterShow () {
             this.$('[data-behavior=read-more]').readMore();
+            // Visual improvement for the course list
             this.$('.panel').last().removeClass('push-half--bottom').addClass('border-none--bottom');
+            if (this.collection.length == 0) {
+                this.$('[data-empty-courses]').show();
+            } else {
+                this.$('[data-empty-courses]').hide();
+            }
         },
 
         /* serializeData
@@ -81,15 +79,9 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         },
 
         appendHtml: function appendHtml (collectionView, itemView, index){
-            if (itemView.collection.length < 1) {
-                return /* NOP */;
-            }
-
             if (collectionView.isBuffering) {
-
                 collectionView.elBuffer.appendChild(itemView.el);
             } else {
-
                 collectionView.$el.append(itemView.el);
             }
         },

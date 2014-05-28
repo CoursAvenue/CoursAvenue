@@ -55,6 +55,9 @@ module Concerns
       self.levels    = [Level::ALL]      if self.levels.empty?
     end
 
+    ######################################################################
+    # Validations                                                        #
+    ######################################################################
     # Add errors to model if min_age < max_age
     #
     # @return nil

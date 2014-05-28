@@ -9,7 +9,7 @@
 
 // usage: {{pluralize collection.length 'quiz' 'quizzes'}}
 Handlebars.registerHelper('pluralize', function(number, single, plural) {
-    return ((number === 1 || number === '1') ? single : plural);
+    return ((number == 1 || number == 0) ? single : plural);
 });
 
 

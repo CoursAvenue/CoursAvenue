@@ -25,6 +25,7 @@ fr:
         subjects: Étiquettes disciplines
         teaches_at_home: Je me déplace à domicile
         common_price: Tarif habituellement appliqué
+        on_appointment: "Pas de créneau précis, uniquement sur demande."
 
   courses:
     training:

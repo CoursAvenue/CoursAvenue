@@ -9,7 +9,9 @@ class Structures::CoursesController < ApplicationController
     @plannings            = @planning_search.results
     @courses              = []
 
-    @total_planning_search = PlanningSearch.search({ structure_id: @structure.id, course_types: params[:course_types] })
+    @total_planning_search = PlanningSearch.search({ structure_id: @structure.id,
+                                                     course_types: params[:course_types],
+                                                     visible: true })
 
     @plannings = @plannings.sort do |planning_a, planning_b|
       [planning_a.week_day, planning_a.start_date, planning_a.start_time] <=> [planning_b.week_day, planning_b.start_date, planning_b.start_time]
@@ -23,7 +25,7 @@ class Structures::CoursesController < ApplicationController
         structure: @structure,
         search_term: params[:search_term],
         jpo: (params[:course_types] == ['open_course']),
-        plannings: plannings
+        plannings: plannings.select(&:visible)
       })
     end
 

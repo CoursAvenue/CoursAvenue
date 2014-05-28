@@ -29,7 +29,18 @@
         <div class="flexbox__item v-top four-fifths soft-half--sides">
             <div class="tab-content">
                 <article id="tab-plannings-course-{{id}}" class="tab-pane active hard--top">
-                    <table class="table--striped table--data-small">
+                    {{#if on_appointment}}
+                    <p class="soft">
+                        <i>Pas de créneau précis, uniquement sur demande.</i>
+                        <br>
+                        {{#if course_location}}
+                            {{course_location}}
+                            <br>
+                        {{/if}}
+                        <a data-behavior="modal" data-padding="0" data-width="450" href="#contact-panel">Envoyer un message au professeur pour connaître ses disponibilités.</a>
+                    </p>
+                    {{/if}}
+                    <table class="table--striped table--data-small {{#if on_appointment}}hidden{{/if}}">
                         <thead>
                             <tr>
                                 <th>Jour</th>
@@ -77,6 +88,18 @@
                             {{#if no_class_during_holidays}}
                                 <tr>
                                     <td class="f-size-12">Pas de cours pendant les vacances scolaires</td>
+                                </tr>
+                            {{/if}}
+                            {{#if is_private}}
+                                <tr>
+                                    <td class="f-size-12">
+                                        {{audiences}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="f-size-12">
+                                        {{levels}}
+                                    </td>
                                 </tr>
                             {{/if}}
                         </tbody>

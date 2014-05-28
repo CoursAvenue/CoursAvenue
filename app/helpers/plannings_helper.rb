@@ -9,7 +9,7 @@ module PlanningsHelper
   def planning_date_for(planning)
     if planning.end_date and planning.start_date != planning.end_date
       "Du #{I18n.l(planning.start_date, format: :semi_long)} au #{I18n.l(planning.end_date, format: :semi_long)}"
-    else
+    elsif planning.start_date
       "#{I18n.l(planning.start_date, format: :semi_long)}"
     end
   end

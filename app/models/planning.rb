@@ -79,7 +79,9 @@ class Planning < ActiveRecord::Base
                   :info,
                   :min_age_for_kid, :max_age_for_kid,
                   :teacher,
-                  :teacher_id, :level_ids, :audience_ids, :place_id
+                  :teacher_id, :level_ids, :audience_ids, :place_id,
+                  :visible # True by default, will be false only for plannings of
+                           # private courses that are on demand
 
   ######################################################################
   # Scopes                                                             #
@@ -87,11 +89,14 @@ class Planning < ActiveRecord::Base
   scope :future,         -> { where( Planning.arel_table[:end_date].gt(Date.today) ) }
   scope :past,           -> { where( Planning.arel_table[:end_date].lteq(Date.today) ) }
   scope :ordered_by_day, -> { order('week_day=0, week_day ASC, start_date ASC, start_time ASC') }
+  scope :visible,        -> { where(visible: true)}
 
   ######################################################################
   # Solr                                                               #
   ######################################################################
   searchable do
+    boolean :visible
+
     boolean :active_course do
       course.active?
     end
@@ -173,8 +178,13 @@ class Planning < ActiveRecord::Base
       end_time.hour if end_time
     end
 
-    time :start_date
-    time :end_date
+    time :start_date do
+      self.start_date || self.course.start_date
+    end
+
+    time :end_date do
+      self.end_date || self.course.end_date
+    end
 
     string :price_types, multiple: true do
       price_types = []

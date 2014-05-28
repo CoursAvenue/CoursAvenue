@@ -1,11 +1,15 @@
-%table.table--striped.table--data{ id: "course-planning-list-#{course.id}"}
-  %thead
-    %tr
-      %th Jour
-      %th Créneau horaire
-      %th
-        %i.lbc-icon-info i
-      %th
-  %tbody
-    - course.plannings.ordered_by_day.each do |planning|
-      = render partial: 'pro/structures/courses/plannings/private_row', locals: { planning: planning, course: course }
+- if course.on_appointment?
+  %p
+    %i Pas de créneau précis, uniquement sur demande.
+- else
+  %table.table--striped.table--data{ id: "course-planning-list-#{course.id}"}
+    %thead
+      %tr
+        %th Jour
+        %th Créneau horaire
+        %th
+          %i.lbc-icon-info i
+        %th
+    %tbody
+      - course.plannings.ordered_by_day.each do |planning|
+        = render partial: 'pro/structures/courses/plannings/private_row', locals: { planning: planning, course: course }

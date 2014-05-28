@@ -1,5 +1,7 @@
 class CourseSerializer < ActiveModel::Serializer
   include CoursesHelper
+  include PlanningsHelper
+
   include ActionView::Helpers::NumberHelper
   include ActionView::Helpers::NumberHelper
 
@@ -7,12 +9,13 @@ class CourseSerializer < ActiveModel::Serializer
              :has_free_trial_lesson, :event_type, :best_price, :is_individual, :search_term, :is_lesson, :frequency,
              :cant_be_joined_during_year, :no_class_during_holidays, :teaches_at_home, :teaches_at_home_radius,
              :premium_offers, :book_tickets, :discounts, :registrations, :subscriptions, :trials, :price_details,
-             :has_premium_prices, :premium
+             :has_premium_prices, :premium, :on_appointment, :course_location, :min_age_for_kid, :max_age_for_kid,
+             :audiences, :levels, :is_private
 
   has_many :plannings, serializer: PlanningSerializer
 
   def plannings
-    @options[:plannings] || object.plannings.future.ordered_by_day
+    @options[:plannings] || object.plannings.visible.future.ordered_by_day
   end
 
   def has_free_trial_lesson
@@ -118,4 +121,36 @@ class CourseSerializer < ActiveModel::Serializer
   def price_details
     object.price_group.details if object.price_group
   end
+
+  def course_location
+    string = "Le cours se déroule "
+    if object.teaches_at_home? and object.home_place and object.place
+       string << "dans 2 lieux : "
+    else
+       string << "à l'adresse : "
+    end
+    if object.teaches_at_home? and object.home_place
+      string << "À domicile (#{object.home_place.city.name}, #{object.home_place.radius})"
+    end
+    if object.teaches_at_home? and object.home_place and object.place
+      string << " et"
+    end
+    if object.place
+      string << object.place.address
+    end
+    string
+  end
+
+  def levels
+    join_levels_text(object) if object.is_private?
+  end
+
+  def audiences
+    join_audiences(object) if object.is_private?
+  end
+
+  def is_private
+    object.is_private?
+  end
+
 end
