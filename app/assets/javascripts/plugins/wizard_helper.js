@@ -42,12 +42,23 @@
                 $('.wizard-helper').hide();
                 var offset_top = this.$element.offset().top - this.$wizard_container.offset().top;
                 if (offset_top < 0) { offset_top = 0; }
+
+                // If the content will go too much down and increase the size of the body
+                // We remove the difference from offset_top
+                if ($(document).height() < offset_top + this.$content.height()) {
+                    offset_top = $(document).height() - this.$content.height() - this.$wizard_container.offset().top;
+                }
+
                 this.$content.css({
                     top:  offset_top
                 })
                 this.$content.show();
             }.bind(this));
+            this.$element.on('wizard:close', this.hideContent.bind(this))
+        },
 
+        hideContent: function hideContent () {
+            this.$content.fadeOut();
         }
     };
 
