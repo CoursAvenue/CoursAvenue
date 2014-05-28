@@ -1,0 +1,7 @@
+<% if @admin.errors.any? %>
+    $.fancybox('<%= escape_javascript(render template: "pro/structures/admins/modify_email") %>', { width: 500, minWidth: 500, maxWidth: 500, padding: 0 });
+<% elsif !params.has_key?(:live_form) %>
+    $.fancybox("<%= escape_javascript(render partial: 'pro/structures/admins/email_changed_confirmation') %>", { width: 500, minWidth: 500, maxWidth: 500, padding: 0 });
+    $('#unconfirmed-email-wrapper').show();
+    $('#unconfirmed-email-wrapper input').val('<%= @admin.unconfirmed_email %>');
+<% end %>

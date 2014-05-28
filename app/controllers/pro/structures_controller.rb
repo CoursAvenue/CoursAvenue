@@ -166,6 +166,11 @@ class Pro::StructuresController < Pro::ProController
     retrieve_home_places
   end
 
+  def edit_contact
+    @structure = Structure.friendly.find(params[:id])
+    @admin     = @structure.main_contact
+  end
+
   def new
     session[:name]     = params[:name]
     session[:zip_code] = params[:zip_code]

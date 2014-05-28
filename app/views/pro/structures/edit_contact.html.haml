@@ -2,25 +2,35 @@
 
 .soft--ends.white-box
   = simple_form_for [:pro, @structure], html: { autocomplete: 'off', id: 'structure-form' } do |form|
-    %input{ type: 'hidden', name: 'return_to', value: edit_pro_structure_path(@structure)}
+    %input{ type: 'hidden', name: 'return_to', value: edit_contact_pro_structure_path(@structure)}
     = form.error_notification
 
-    .soft--sides{ data: { behavior: 'wizard-helper', content: "<p><strong>Vous joindre facilement</strong>Renseignez uniquement vos coordonnées de contact que vous utilisez au quotidien : privilégiez votre adresse mail principale et votre numéro de téléphone portable.</p><p><strong>E-mail</strong> : les messages des internautes vous seront envoyés à cet adresse e-mail. Il est important d'avoir un e-mail confirmé pour que les élèves CoursAvenue puissent vous contacter de manière totalement sécurisée. Important : votre adresse e-mail vous sert également d'identifiant pour votre compte CoursAvenue.</p><p><strong>Téléphones</strong> : indiquez votre portable, éventuellement votre fixe si vous l'utilisez au quotidien. Renseignez autant de numéros que nécessaires.</p>" } }
+    .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.contacts') } }
       %h5 Coordonnées de réservation
       .input
         %label.control-label.label--large> Email
-        %input.input--large{ disabled: true, value: @structure.main_contact.email}>
+        .input-with-icon.v-middle
+          %input.one-whole.input--large{ disabled: true, value: @admin.email}>
+          %i.fa.fa-check.green
+        .input-with-icon.v-middle#unconfirmed-email-wrapper{ style: 'display: none;' }
+          %input.one-whole.input--large{ disabled: true, value: @admin.unconfirmed_email}>
+          %i.fa.fa-times.red
+        = link_to 'Modifier', modify_email_pro_structure_admin_path(@structure, @structure.main_contact), class: 'v-middle btn btn--orange fancybox.ajax', data: { behavior: 'modal', padding: '0', width: 500 }
         %p.field-form-info.blue Cet e-mail vous sert également d'identifiant pour accéder à votre compte CoursAvenue.
       = form.input :contact_phone, placeholder: 'Ex. : 01 04 12 49 12', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
       = form.input :contact_mobile_phone, placeholder: 'Ex. : 06 34 41 99 31', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
 
     %hr.push--ends
     .soft--sides
-      %h5 Lien vers vos pages
+      .grid
+        .grid__item.v-middle.one-half>
+          %h5.flush Lien vers vos pages
+        .grid__item.v-middle.one-half>
+          = render partial: 'pro/structures/premium_select', locals: { text: 'afficher les liens vers votre site Internet et votre page Facebook ?', label_text: 'Statut des liens de vos pages' }
       %div
         = form.input :website, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
         = form.input :facebook_url, as: :string ,placeholder: 'https://www.facebook.com/CoursAvenue', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
 
-    .soft--sides= form.button :submit, "Enregistrer", class: 'btn btn--green btn--full push--bottom', disable_with: "En cours d'enregistrement"
+    .soft--sides= form.button :submit, "Enregistrer", class: 'btn btn--green btn--full push--bottom', data: { disable_with: "En cours d'enregistrement" }
 
 

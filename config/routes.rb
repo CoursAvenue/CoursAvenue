@@ -112,6 +112,7 @@ CoursAvenue::Application.routes.draw do
         end
         resources :admins, controller: 'structures/admins' do
           member do
+            get :modify_email
             get :notifications
           end
           collection do

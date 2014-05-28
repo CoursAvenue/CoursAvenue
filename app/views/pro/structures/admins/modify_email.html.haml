@@ -1,0 +1,12 @@
+.panel
+  .panel__header.soft
+    %h4.flush Modifier mon adresse e-mail
+  .panel__body
+    .soft
+      = simple_form_for [:pro, @structure, @admin], remote: true do |f|
+        .grid
+          .grid__item.four-tenths.text--right.v-middle>
+            = f.label :email, 'Nouvelle adresse e-mail', class: 'label--large'
+          .grid__item.six-tenths.v-middle>
+            = f.input :email, input_html: { class: 'input--large one-whole' }, label: false
+        = f.submit 'Confirmer mon nouvel e-mail', class: 'btn btn--green btn--full', data: { disable_with: 'Confirmation en cours...' }
