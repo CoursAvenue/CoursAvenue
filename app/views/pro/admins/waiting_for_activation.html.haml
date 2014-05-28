@@ -7,9 +7,24 @@
 
         %h4.flush--bottom
           Activez votre compte depuis le mail que nous venons de vous envoyer.
-        %p
-          Une fois votre compte activé vous pourrez gérer votre profil.
+
+        %h4.flush--bottom.alert.alert--warning{style: 'max-width: 900px;'}
+          %i.fa.fa-warning
+          Si vous ne recevez pas votre mail d'activation,
+          = link_to 'cliquez ici pour nous contacter', "mailto:contact@coursavenue.com?subject=Je%20n'ai%20pas%20reçu%20mon%20mail%20d'activation&body=Bonjour,%20je%20n'ai%20pas%20reçu%20mon%20mail%20d'activation,%20pouvez-vous%20me%20le%20renvoyer.%20Cordialement."
+
+
+        %p.flush--bottom
+          Le mail d’activation peut être considéré comme un spam, vérifiez votre boîte «Courrier&nbsp;Indésirable»
           %br
-          %i
-            Si l'email ne vous parvient pas dans les 10 minutes et n'apparaît pas dans vos courriers indésirables,
-            = link_to 'contactez-nous.', pages_contact_path, target: '_blank'
+          et indiquez ce message comme valide en cliquant sur : «ce message est sûr».
+          = link_to 'Cliquez ici pour voir comment faire', '#how-to', data: { behavior: 'modal' }
+
+        .hidden#how-to.text--center
+          .delta.push-half--bottom
+            %strong 1. Allez dans la boite Courrier indésirable.
+          = image_tag "users/tutos/hotmail_spam_1.png"
+          %hr
+          .delta.push-half--bottom
+            %strong 2. Cliquez sur le mail de CoursAvenue puis cliquez sur "Ce message est sûr" sinon vous ne recevrez pas nos futurs messages.
+          = image_tag "users/tutos/hotmail_spam_2.png"
