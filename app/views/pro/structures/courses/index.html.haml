@@ -19,6 +19,7 @@
       %h4 Cours collectifs
       %p{ class: (@courses.lessons.empty? ? '' : 'hidden'), data: { empty: 'lesson'} }
         Vous n'avez pas de cours.
+        = link_to 'Ajouter un cours', new_pro_structure_course_path(@structure, type: 'Course::Lesson'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false' }
       #lesson-list.block-list
         - @courses.lessons.each_with_index do |course, index|
           = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure }
@@ -30,6 +31,7 @@
         %h4 Cours particulier
         %p{ class: (@courses.privates.empty? ? '' : 'hidden'), data: { empty: 'private'} }
           Vous n'avez pas de cours particulier.
+          = link_to 'Ajouter un cours particulier', new_pro_structure_course_path(@structure, type: 'Course::Private'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false' }
         #private-list.block-list
           - @courses.privates.each_with_index do |course, index|
             = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure }
@@ -40,6 +42,7 @@
       %h4 Stages & Ateliers
       %p{ class: (@courses.trainings.empty? ? '' : 'hidden'), data: { empty: 'training'} }
         Vous n'avez pas de stages.
+        = link_to 'Ajouter un stage / atelier', new_pro_structure_course_path(@structure, type: 'Course::Training'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false' }
       %ul#training-list.block-list
         - @courses.trainings.each_with_index do |course, index|
           = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure }

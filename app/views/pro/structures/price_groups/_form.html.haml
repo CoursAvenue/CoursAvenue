@@ -12,6 +12,8 @@
 
     .panel__body.soft--ends
       .soft--sides>
+        - if @price_group.errors.messages[:base].present?
+          .alert.alert--error= @price_group.errors.messages[:base].to_sentence
         .grid
           .grid__item.two-twelfths.v-top>
           .grid__item.ten-twelfths.v-top>

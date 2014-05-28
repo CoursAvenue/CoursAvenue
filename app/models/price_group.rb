@@ -21,6 +21,7 @@ class PriceGroup < ActiveRecord::Base
   # Validations                                                        #
   ######################################################################
   validates :name, :structure, presence: true
+  validate :at_least_one_price
 
   ######################################################################
   # Callbacks                                                          #
@@ -80,6 +81,12 @@ class PriceGroup < ActiveRecord::Base
   end
 
   private
+
+  def at_least_one_price
+    if prices.empty?
+      errors.add :base, "Ajoutez au moins un tarif"
+    end
+  end
 
   def default_name
     self.name ||= "Grille tarifaire #{self.structure.price_groups.count + 1}" if self.new_record? and self.structure
