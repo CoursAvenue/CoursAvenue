@@ -7,18 +7,21 @@
 
       = render 'pro/structures/premium_advantages'
 
-      .epsilon
-        %strong Choisissez votre abonnement :
-        %br
-        %input.v-middle.input--lage#annual-pricing{ type: 'checkbox' }
-        %label.v-middle.inline-block.label--large{ for: 'annual-pricing' }Annuel : 29 € / mois (économisez 15%)
-        %br
-        %input.v-middle.input--lage#annual-mensual{ type: 'checkbox' }
-        %label.v-middle.inline-block.label--large{ for: 'annual-mensual' } Mensuel : 34 € / mois
-      .btn.btn--green Souscrire au profil Premium
-      %p
-        %strong Le saviez-vous ?
-        Vous pouvez annuler votre compte Premium à tout moment, abonnement sans contrat ni commissions.
+      .gray-box.soft
+        .grid.epsilon
+          .grid__item.one-half>
+            %p
+              %strong.delta Choisissez votre abonnement :
+            %p
+              %strong Le saviez-vous ?
+              Vous pouvez annuler votre compte Premium à tout moment, abonnement sans contrat ni commissions.
+          .grid__item.one-half>
+            %input.v-middle.input--lage#annual-pricing{ type: 'checkbox' }
+            %label.v-middle.inline-block.label--large{ for: 'annual-pricing' }Annuel : 29 € / mois (économisez 15%)
+            %br
+            %input.v-middle.input--lage#annual-mensual{ type: 'checkbox' }
+            %label.v-middle.inline-block.label--large{ for: 'annual-mensual' } Mensuel : 34 € / mois
+            .btn.btn--green.btn--full Souscrire au profil Premium
       -# %hr.push--ends
       -# %h4 Ils ont souscrit au profil Premium
     %hr.push--ends
