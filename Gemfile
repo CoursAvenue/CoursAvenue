@@ -150,7 +150,7 @@ gem 'coffee-rails'              , '~>4.0.0'
 gem 'js-routes'                 , '~>0.9.7'
 
 # Load FontAwesome
-gem 'font-awesome-rails'        , '~>4.0.3.1'
+gem 'font-awesome-rails'        , '~>4.1.0.0'
 # Load jQuery
 gem 'jquery-rails'              , '~>3.0.4'
 # Load Compass utilities
