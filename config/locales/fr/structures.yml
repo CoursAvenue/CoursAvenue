@@ -187,3 +187,14 @@ fr:
           votre compte CoursAvenue.</p>
           <p><strong>Téléphones</strong> : indiquez votre portable, éventuellement votre fixe si vous
           l'utilisez au quotidien. Renseignez autant de numéros que nécessaires.</p>
+        recommandations:
+          global: >
+            <p><strong> CoursAvenue est basé sur la confiance et le bouche à oreille :</strong>
+            plus vous avez d'avis, plus votre profil apparaîtra dans les premiers résultats de notre moteur de recherche.</p>
+            <p><strong> Demandez à vos élèves de vous recommander :</strong>
+            vous recevrez un email à chaque nouvelle recommandation que vous pourrez alors soit accepter, soit ignorer, avant qu'elle ne s'affiche sur votre profil public.</p>
+          email: >
+            <p><strong>Vos données sont confidentielles</strong></p>
+            <p>Nous considérons que vos coordonnées et adresses de courrier électronique constituent des données
+            confidentielles, et nous nous engageons à ne pas les divulguer. Conformément à l'article 27 de la loi
+            "Informatique et Liberté" du 6 janvier 1978, vous disposez d'un droit d'accès et de rectification des informations vous concernant.</p>
