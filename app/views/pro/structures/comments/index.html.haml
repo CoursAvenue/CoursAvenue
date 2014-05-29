@@ -15,7 +15,7 @@
                   %i.fa.fa-star.yellow.epsilon
                   = Structure.human_attribute_name :highlighted_comment_id
               .grid__item.six-tenths.v-middle>
-                = f.input :highlighted_comment_id, as: :select, collection: @structure.comments.accepted.order('created_at DESC').reject{ |comment| comment.title.blank? }, label_method: lambda{ |comment| "\"#{comment.title}\"" }, include_blank: false, input_html: { class: 'input--large one-whole' }, label: false, wrapper_html: { class: 'flush' }
+                = f.input :highlighted_comment_id, as: :select, collection: @structure.comments.accepted.order('created_at DESC').reject{ |comment| comment.title.blank? }, label_method: lambda{ |comment| "\"#{comment.title}\"" }, include_blank: false, input_html: { class: 'input--large one-whole' }, label: false, wrapper_html: { class: 'flush' }, include_blank: 'Aucun avis'
         .grid__item.three-tenths.text--right>
           = render partial: 'pro/structures/premium_select', locals: { text: 'ajouter une accroche personnalisée et mettre en avant votre profil ?' }
     %hr.push--bottom
@@ -36,14 +36,14 @@
               %p.flush
                 %b= comment.author_name
                 = "(#{comment.email})"
-            .grid__item.one-quarter.v-middle.text--right>
-              = link_to accept_pro_structure_comment_path(@structure, comment), class: 'btn btn--green', method: :patch do
+            .grid__item.one-quarter.v-middle.text--right.nowrap>
+              = link_to accept_pro_structure_comment_path(@structure, comment), class: 'btn btn--small btn--green', method: :patch do
                 %i.fa.fa-check
                 Valider
-              = link_to decline_pro_structure_comment_path(@structure, comment), class: 'btn btn--red', method: :patch do
+              = link_to decline_pro_structure_comment_path(@structure, comment), class: 'btn btn--small btn--red', method: :patch do
                 %i.fa.fa-times
                 Rejeter
-        %hr
+        %hr.push-half--ends
 
       - if @comments.empty?
         %p.flush Encore aucun avis.
