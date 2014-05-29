@@ -131,7 +131,7 @@ html, body {
   height: 100%;
 }
 
-html {
+html, pre {
   font-family : $brand-face;
   font-weight : 400;
   background  : $site-background-color;
