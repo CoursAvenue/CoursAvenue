@@ -3,7 +3,6 @@
 .soft--ends.white-box
   = simple_form_for [:pro, @structure], html: { autocomplete: 'off', id: 'structure-form' } do |form|
     %input{ type: 'hidden', name: 'return_to', value: edit_contact_pro_structure_path(@structure)}
-    = form.error_notification
 
     .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.contacts') } }
       %h5 Coordonnées de réservation
@@ -31,8 +30,11 @@
           = render partial: 'pro/structures/premium_select', locals: { text: 'afficher les liens vers votre site Internet et votre page Facebook ?', label_text: 'Statut des liens de vos pages' }
       %div
         = form.input :website, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
-        = form.input :facebook_url, as: :string ,placeholder: 'https://www.facebook.com/CoursAvenue', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
-
+        = form.input :facebook_url, as: :string ,placeholder: 'https://www.facebook.com/CoursAvenue', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, wrapper_html: { class: 'flush--bottom' }
+        %p.field-form-info.blue
+          Le lien doit impérativement être le lien d'une
+          %strong page facebook
+          et non d'un profil
     .soft--sides= form.button :submit, "Enregistrer", class: 'btn btn--green btn--full push--bottom', data: { disable_with: "En cours d'enregistrement" }
 
 

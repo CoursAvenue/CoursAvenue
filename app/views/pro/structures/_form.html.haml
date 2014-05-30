@@ -1,46 +1,44 @@
 = simple_form_for [:pro, @structure], html: { autocomplete: 'off', id: 'structure-form' } do |structure_form|
-  = structure_form.error_notification
 
   - if params[:return_to].present?
     %input{type: 'hidden', value: params[:return_to], name: 'return_to'}
   .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.logo')} }
     %h5 Logo
-    - if @structure.valid?
-      %div
-        %div{data: {behavior: 'image-input' }}
-          .input
-            %label.control-label.label--large> Logo de votre structure
-            .input--large.input-container
-              #logo-progress.progress.hidden.push-half--bottom{data: {progress: true }}
-                .bar
-              - if @structure.logo?
-                .push-half--bottom.bordered{style: "height: 200px; width: 200px; display: inline-block; line-height: 196px;"}<
-                  = image_tag @structure.logo.url(:thumb), class: 'v-middle inline-block', style: 'max-height: 100%;'
-                .visuallyhidden= structure_form.input :delete_logo, as: :boolean, label: false
-              - else
-                .push-half--bottom.bordered{style: "height: 200px; width: 200px; display: inline-block; line-height: 196px; display: none;"}
-                  %img#logo-placeholder.v-middle.inline-block{style: 'max-height: 100%;'}
+    %div
+      %div{ data: { behavior: 'image-input' } }
+        .input
+          %label.control-label.label--large> Logo de votre structure
+          .input-container
+            #logo-progress.progress.hidden.push-half--bottom{data: {progress: true }}
+              .bar
+            - if @structure.logo?
+              .push-half--bottom.bordered{style: "height: 200px; width: 200px; display: inline-block; line-height: 196px;"}<
+                = image_tag @structure.logo.url(:thumb), class: 'v-middle inline-block', style: 'max-height: 100%;'
+              .visuallyhidden= structure_form.input :delete_logo, as: :boolean, label: false
+            - else
+              .push-half--bottom.bordered{style: "height: 200px; width: 200px; display: inline-block; line-height: 196px; display: none;"}
+                %img#logo-placeholder.v-middle.inline-block{style: 'max-height: 100%;'}
 
-              - if @structure.logo?
-                .inline-block.v-top>
-                  = link_to crop_logo_pro_structure_path(@structure), class: 'fancybox.ajax btn btn--small btn--blue push-half--right push-half--bottom', data: { behavior: 'modal', width: 800 } do
-                    %i.fa.fa-expand.soft--sides-half--right
-                    Recadrer
-                  %br
-                  = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small push-half--bottom', data: { trigger: true } do
-                    %i.fa.fa-picture-o
-                    Modifier
-                  %br
-                  %a.btn.btn--small.btn--red#delete-logo{href: 'javascript:void(0)'}
-                    %i.fa.fa-trash-o.soft--sides-half--right
-                    Supprimer
-              - else
-                = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', data: {trigger: true} do
+            - if @structure.logo? and @structure.valid?
+              .inline-block.v-top>
+                = link_to crop_logo_pro_structure_path(@structure), class: 'fancybox.ajax btn btn--small btn--blue push-half--right push-half--bottom', data: { behavior: 'modal', width: 800 } do
+                  %i.fa.fa-expand.soft--sides-half--right
+                  Recadrer
+                %br
+                = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small push-half--bottom', data: { trigger: true } do
                   %i.fa.fa-picture-o
-                  Choisir mon logo
-              .visuallyhidden= structure_form.input :logo, label: false, input_html: {id: 'logo-input'}
-    - else
-      %p.alert--error Vous devez régler les problèmes pour mettre un logo.
+                  Modifier
+                %br
+                %a.btn.btn--small.btn--red#delete-logo{href: 'javascript:void(0)'}
+                  %i.fa.fa-trash-o.soft--sides-half--right
+                  Supprimer
+            - elsif @structure.valid?
+              = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', data: {trigger: true} do
+                %i.fa.fa-picture-o
+                Choisir mon logo
+            .visuallyhidden= structure_form.input :logo, label: false, input_html: {id: 'logo-input'}
+            - unless @structure.valid?
+              %p.alert--error Vous devez régler les problèmes pour pouvoir mettre à jour votre logo.
 
   %hr.push--ends
   .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.name') } }

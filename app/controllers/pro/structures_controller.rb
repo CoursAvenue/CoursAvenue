@@ -182,6 +182,7 @@ class Pro::StructuresController < Pro::ProController
 
   def update
     @structure = Structure.friendly.find params[:id]
+    @admin     = @structure.main_contact
     if params[:structure] && params[:structure].delete(:delete_logo) == '1'
       @structure.logo.clear
     end
@@ -203,7 +204,11 @@ class Pro::StructuresController < Pro::ProController
         end
       else
         retrieve_home_places
-        format.html { render action: 'edit' }
+        if params[:return_to].present?
+          format.html { render action: 'edit_contact' }
+        else
+          format.html { render action: 'edit' }
+        end
       end
     end
   end
