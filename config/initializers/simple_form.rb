@@ -45,7 +45,7 @@ SimpleForm.setup do |config|
     b.use :hint,  :wrap_with => { tag: :span, class: :hint }
     b.use :label
     b.use :input
-    b.use :error, wrap_with: { tag: :div, class: 'input_field_error red' }
+    b.use :error, wrap_with: { tag: :div, class: 'input_field_error red text--right' }
   end
 
   # The default wrapper to be used by the FormBuilder.
