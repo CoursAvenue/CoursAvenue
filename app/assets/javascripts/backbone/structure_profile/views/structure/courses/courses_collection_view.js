@@ -40,7 +40,7 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             $breacrumb.appendTo(this.$('[data-breadcrumb]'));
         },
 
-        onAfterShow: function onAfterShow () {
+        onRender: function onRender () {
             this.$('[data-behavior=read-more]').readMore();
             // Visual improvement for the course list
             this.$('.panel').last().removeClass('push-half--bottom').addClass('border-none--bottom');

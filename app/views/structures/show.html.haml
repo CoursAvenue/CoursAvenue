@@ -90,33 +90,34 @@
             %p.flush.text--center.push-half--top
               %strong Suivi par #{@structure.followers.count} élèves
 
-      .panel
-        .panel__header.soft-half--ends.soft--left
-          %h5.flush Profils similaires
-        .panel__body.soft-half--ends
-          - @structure.similar_profiles.each_with_index do |structure, index|
-            - unless index == 0
-              %hr.push-half--ends
-            = link_to structure_path(structure), class: 'soft-half--sides block muted-link' do
-              .grid--full
-                .grid__item.v-middle.one-fifth>
-                  .media-photo= image_tag structure.logo.url
-                .grid__item.v-middle.four-fifths.soft-half--left>
-                  %div
-                    %strong= structure.name
-                  - if structure.has_free_trial_course?
+      - unless @structure.premium?
+        .panel
+          .panel__header.soft-half--ends.soft--left
+            %h5.flush Profils similaires
+          .panel__body.soft-half--ends
+            - @structure.similar_profiles.each_with_index do |structure, index|
+              - unless index == 0
+                %hr.push-half--ends
+              = link_to structure_path(structure), class: 'soft-half--sides block muted-link' do
+                .grid--full
+                  .grid__item.v-middle.one-fifth>
+                    .media-photo= image_tag structure.logo.url
+                  .grid__item.v-middle.four-fifths.soft-half--left>
                     %div
-                      .lbl.lbl--small.lbl--yellow
-                        %i.fa.fa-tag
-                        Cours d'essai gratuit
-                  - elsif structure.has_promotion?
+                      %strong= structure.name
+                    - if structure.has_free_trial_course?
+                      %div
+                        .lbl.lbl--small.lbl--yellow
+                          %i.fa.fa-tag
+                          Cours d'essai gratuit
+                    - elsif structure.has_promotion?
+                      %div
+                        .lbl.lbl--small.lbl--yellow
+                          %i.fa.fa-tag
+                          Promotions
                     %div
-                      .lbl.lbl--small.lbl--yellow
-                        %i.fa.fa-tag
-                        Promotions
-                  %div
-                    à
-                    = readable_distance(Geocoder::Calculations.distance_between([@structure.latitude, @structure.longitude], [structure.latitude, structure.longitude], unit: :km).round(1))
+                      à
+                      = readable_distance(Geocoder::Calculations.distance_between([@structure.latitude, @structure.longitude], [structure.latitude, structure.longitude], unit: :km).round(1))
 
       %div{ data: { type: "sticky-map" }}>
 

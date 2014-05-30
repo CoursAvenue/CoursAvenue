@@ -9,7 +9,11 @@ StructureProfile.module('Views.Structure.Teachers', function(Module, App, Backbo
         itemView: Module.TeacherView,
         itemViewContainer: '[data-type=container]',
 
-        onAfterShow: function onAfterShow () {
+        collectionEvents: {
+            'reset': 'render'
+        },
+
+        onRender: function onRender () {
             if (this.collection.length == 0) {
                 this.$('[data-empty-teachers]').show();
             } else {
