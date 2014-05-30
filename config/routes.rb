@@ -411,7 +411,7 @@ CoursAvenue::Application.routes.draw do
 
   get '/blog' => redirect('/blog/')
 
-  post 'contact/' => 'home#contact'
+  post 'contact/' => 'pages#send_message'
 
   root :to => 'home#index'
 end

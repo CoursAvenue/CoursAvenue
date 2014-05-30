@@ -76,7 +76,7 @@
                     Gérez votre profil
 
             .text--center
-              = link_to "Pas le temps de créer votre profil ? Contactez notre équipe qui s'en chargera.", pages_contact_url(message: "Bonjour,\nPourriez-vous créer mon profil à ma place ? Voici le lien vers mon site Internet où vous trouverez toutes mes informations : www.", subdomain: 'www'), onclick: "ga('send', 'event', 'Create a profile for me', 'click', 'From inscription page');"
+              = link_to "Pas le temps de créer votre profil ? Contactez notre équipe qui s'en chargera.", pages_contact_url(content: "Bonjour,\nPourriez-vous créer mon profil à ma place ? Voici le lien vers mon site Internet où vous trouverez toutes mes informations : www.", subdomain: 'www'), onclick: "ga('send', 'event', 'Create a profile for me', 'click', 'From inscription page');"
 
           %hr.push--ends
           = simple_form_for [:pro, @structure], url: pro_structures_path, method: :post do |f|

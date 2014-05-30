@@ -21,28 +21,28 @@
       = form_tag(contact_path, method: :post) do
         .grid.push-half--bottom
           .grid__item.one-third.text--right>
-            %label.f-weight-bold * Votre nom
+            %label.label--large.f-weight-bold * Votre nom
+          .grid__item.two-thirds>
+            %input.input--large.one-whole{ type: 'text', name: 'name', value: params[:name], placeholder: 'Patrick' }
             - if @errors and @errors.include?(:name)
-              %span.error
+              %div.text--right.red
                 Doit être remplis
-          .grid__item.two-thirds>
-            %input.one-whole{type: 'text', name: 'name', value: params[:name]}
         .grid.push-half--bottom
           .grid__item.one-third.text--right>
-            %label.f-weight-bold * Votre email
+            %label.label--large.f-weight-bold * Votre email
+          .grid__item.two-thirds>
+            %input.input--large.one-whole{ type: 'text', name: 'email', value: params[:email], placeholder: 'patrick@gmail.com' }
             - if @errors and @errors.include?(:email)
-              %span.error
+              %div.text--right.red
                 Doit être remplis
-          .grid__item.two-thirds>
-            %input.one-whole{type: 'text', name: 'email', value: params[:email]}
         .grid.push-half--bottom
           .grid__item.one-third.text--right>
-            %label.f-weight-bold * Votre message
-            - if @errors and @errors.include?(:content)
-              %span.error
-                Doit être remplis
+            %label.label--large.f-weight-bold * Votre message
           .grid__item.two-thirds>
-            %textarea.one-whole{type: 'text', name: 'content', rows: 10, value: params[:content], data: {behavior: 'autoresize'}}= params[:message]
+            %textarea.input--large.one-whole{ type: 'text', name: 'content', rows: 10, value: params[:content], data: {behavior: 'autoresize'}}= params[:content]
+            - if @errors and @errors.include?(:content)
+              %div.text--right.red
+                Doit être remplis
         .grid
           .grid__item.push--one-third.text--left>
             %input.btn.btn--full.btn--green{type: 'submit', value: 'Envoyer'}
