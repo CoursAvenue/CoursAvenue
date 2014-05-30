@@ -38,14 +38,13 @@
           %h4.f-weight-normal Contactez le partenaire par téléphone :
           %p.epsilon
             - if @structure.contact_phone.present?
-              %strong= readable_phone_number @structure.contact_phone
-              %strong= readable_phone_number '+33 9 72 40 47 30'
+              %strong.v-middle= readable_phone_number @structure.contact_phone
               - if @structure.premium
                 %i.soft-half--left.v-middle.fa.fa-check-circle.green
                 %i.v-middle.green.milli vérifié
               %br
             - if @structure.contact_mobile_phone.present?
-              %strong= readable_phone_number @structure.contact_mobile_phone
+              %strong.v-middle= readable_phone_number @structure.contact_mobile_phone
               - if @structure.premium
                 %i.soft-half--left.v-middle.fa.fa-check-circle.green
                 %i.v-middle.green.milli vérifié
