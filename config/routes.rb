@@ -84,7 +84,7 @@ CoursAvenue::Application.routes.draw do
           get   :confirm_deletion
           get   :crop_logo
           get   :dashboard, path: 'tableau-de-bord'
-          get   :edit_contact
+          get   :edit_contact, path: 'informations-contact'
           get   :logo
           get   :premium
           get   :premium_modal
