@@ -56,7 +56,10 @@
               %hr.push--ends
               %h4.f-weight-normal.push-half--bottom Pages du partenaire
               - if @structure.website.present?
-                .push-half--bottom= link_to 'Site internet', @structure.website, target: '_blank', rel: 'nofollow', onclick: "ga('send', 'event', 'Contact structure', 'click', 'website')", class: 'btn'
+                .push-half--bottom
+                  = link_to @structure.website, target: '_blank', rel: 'nofollow', onclick: "ga('send', 'event', 'Contact structure', 'click', 'website')", class: 'btn btn--small btn--gray' do
+                    %i.fa.fa-external-link.v-middle
+                    %span.v-middle Site internet
               - if @structure.facebook_url.present?
                 = link_to "Page Facebook", @structure.facebook_url, target: '_blank', class: 'btn--facebook btn'
           %hr.push--ends
