@@ -1,0 +1,6 @@
+fr:
+  validators:
+    url:
+      errors:
+        messages:
+          invalid: Le lien est incorrect

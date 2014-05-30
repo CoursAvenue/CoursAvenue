@@ -125,6 +125,7 @@ class Structure < ActiveRecord::Base
   validates :name, presence: true
   validate  :subject_parent_and_children
   validates :name, :website, :facebook_url, length: { maximum: 255 }
+  validates :website, :facebook_url, :widget_url, url: true
 
   ######################################################################
   # Callbacks                                                          #
@@ -138,9 +139,6 @@ class Structure < ActiveRecord::Base
   after_touch   :update_email_status
 
   before_save   :sanatize_description
-  before_save   :fix_website_url
-  before_save   :fix_facebook_url
-  before_save   :fix_widget_url
   before_save   :encode_uris
   before_save   :reset_cropping_attributes, if: :logo_has_changed?
 
@@ -756,18 +754,6 @@ class Structure < ActiveRecord::Base
   end
   handle_asynchronously :delay_subscribe_to_nutshell, :run_at => Proc.new { 10.minutes.from_now }
 
-  def fix_website_url
-    self.website = URLHelper.fix_url(self.website) if self.website.present?
-  end
-
-  def fix_facebook_url
-    self.facebook_url = URLHelper.fix_url(self.facebook_url) if self.facebook_url.present?
-  end
-
-  def fix_widget_url
-    self.widget_url = URLHelper.fix_url(self.widget_url) if self.widget_url.present?
-  end
-
   def encode_uris
     self.website      = URI.encode(URI.decode(self.website))      if website.present? and website_changed?
     self.facebook_url = URI.encode(URI.decode(self.facebook_url)) if facebook_url.present? and facebook_url_changed?
@@ -811,9 +797,10 @@ class Structure < ActiveRecord::Base
   #
   # @return nil
   def set_default_place_attributes
-    self.update_column :street,   places.first.street
-    self.update_column :zip_code, places.first.zip_code
-    self.update_column :city_id,  places.first.city.id
+    place = places.first
+    self.update_column :street,   place.street   if place
+    self.update_column :zip_code, place.zip_code if place
+    self.update_column :city_id,  place.city.id  if place
     nil
   end
 end
