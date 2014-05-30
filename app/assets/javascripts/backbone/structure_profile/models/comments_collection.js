@@ -9,7 +9,7 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
         },
 
         initialize: function initialize (models, options) {
-            // this.url.resource = Routes.structure_comments_path({ id: this.structure.get('id') });
+            this.url.resource             = Routes.structure_comments_path(options.structure_id);
             this.currentPage              = 1; // Always start at first page.
             this.server_api               = this.server_api || {};
             this.server_api.page = function () { return this.currentPage; }.bind(this);

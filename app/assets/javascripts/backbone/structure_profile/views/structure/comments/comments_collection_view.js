@@ -10,14 +10,15 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
             if (this.collection.length == 0) {
                 this.$('[data-empty-comments]').show();
             }
-            pagination_bottom = new CoursAvenue.Views.PaginationToolView({});
-            pagination_top    = new CoursAvenue.Views.PaginationToolView({});
-            pagination_bottom.on('pagination:next', this.nextPage.bind(this));
-            pagination_bottom.on('pagination:prev', this.prevPage.bind(this));
-            pagination_bottom.on('pagination:page', this.goToPage.bind(this));
-            pagination_top.on('pagination:next', this.nextPage.bind(this));
-            pagination_top.on('pagination:prev', this.prevPage.bind(this));
-            pagination_top.on('pagination:page', this.goToPage.bind(this));
+            this.pagination_bottom = new CoursAvenue.Views.PaginationToolView({});
+            this.pagination_top    = new CoursAvenue.Views.PaginationToolView({});
+            this.pagination_bottom.on('pagination:next', this.nextPage.bind(this));
+            this.pagination_bottom.on('pagination:prev', this.prevPage.bind(this));
+            this.pagination_bottom.on('pagination:page', this.goToPage.bind(this));
+            this.pagination_top.on('pagination:next', this.nextPage.bind(this));
+            this.pagination_top.on('pagination:prev', this.prevPage.bind(this));
+            this.pagination_top.on('pagination:page', this.goToPage.bind(this));
+            this.announcePaginatorUpdated();
         },
 
         onAfterShow: function onAfterShow () {
@@ -29,8 +30,8 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
         },
 
         onRender: function onRender () {
-            this.$('[data-type="bottom-pagination-tool"]').append(pagination_bottom.el);
-            this.$('[data-type="top-pagination-tool"]').append(pagination_top.el);
+            this.$('[data-type="bottom-pagination-tool"]').append(this.pagination_bottom.el);
+            this.$('[data-type="top-pagination-tool"]').append(this.pagination_top.el);
         },
 
         announcePaginatorUpdated: function announcePaginatorUpdated () {
@@ -44,8 +45,8 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
                 previous_page_query: this.collection.previousQuery(),
                 next_page_query:     this.collection.nextQuery()
             };
-            pagination_bottom.reset(data)
-            pagination_top.reset(data)
+            this.pagination_bottom.reset(data);
+            this.pagination_top.reset(data);
         },
 
         serializeData: function serializeData () {

@@ -129,7 +129,8 @@
       window.coursavenue.bootstrap = {
         structure: #{ @model.to_json },
         meta: {
-          total_comments: #{ @structure.comments.accepted.count }
+          total_comments: #{ @structure.comments.accepted.count },
+          structure_id  : #{ @structure.id }
         }
       };
     }());
