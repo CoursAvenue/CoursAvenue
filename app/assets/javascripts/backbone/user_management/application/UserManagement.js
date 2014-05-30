@@ -8,6 +8,7 @@ UserManagement.addInitializer(function(options) {
     var bootstrap = window.coursavenue.bootstrap;
 
     var user_profiles                 = new UserManagement.Models.UserProfilesCollection(bootstrap.models, bootstrap.options);
+    user_profiles.structure_id        = bootstrap.structure_id;
     var user_profiles_collection_view = new UserManagement.Views.UserProfilesCollection.UserProfilesCollectionView({
         collection: user_profiles,
         events: {
@@ -27,6 +28,7 @@ UserManagement.addInitializer(function(options) {
             'controls:clear:selected'     : 'clearSelected',
             'controls:add:tags'           : 'addTags',
             'controls:destroy:selected'   : 'destroySelected',
+            'controls:message:new'        : 'sendMessageToSelected',
 
             'click [data-behavior=bulk-select]'  : 'bulkSelect',
             'click [data-sort]'                  : 'sort'

@@ -13,7 +13,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         className: 'relative',
         chevron: Handlebars.compile("<span class='soft-half--left fa fa-chevron-{{ order }}' data-type='order'></span>"),
 
-        initialize: function () {
+        initialize: function initialize () {
             this.setEditing            = _.debounce(this.setEditing).bind(this);
             this.announceFilterSummary = _.debounce(this.announceFilterSummary, 500).bind(this);
 
@@ -46,7 +46,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             'selection:counts': 'announceUpdate'
         },
 
-        onRender: function () {
+        onRender: function onRender () {
             // set the chevron for the pivot column
             var sort    = this.collection.server_api.sort;
             var order   = (this.collection.server_api.order === "desc")? "down" : "up";
@@ -57,73 +57,73 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             $pivot.addClass("active");
         },
 
-        onClickOutside: function () {
+        onClickOutside: function onClickOutside () {
             this.getCurrentlyEditing().finishEditing({ restore: false });
         },
 
-        cancel: function (e) {
+        cancel: function cancel (e) {
             this.getCurrentlyEditing().finishEditing({ restore: true });
         },
 
-        commit: function () {
+        commit: function commit () {
             this.getCurrentlyEditing().finishEditing({ restore: false });
         },
 
-        bulkSelect: function (e) {
+        bulkSelect: function bulkSelect (e) {
             var checked = e.currentTarget.checked;
 
             (checked)? this.selectAll() : this.deselectAll();
         },
 
-        announceUpdate: function (data) {
+        announceUpdate: function announceUpdate (data) {
             this.trigger("user_profiles:update:selected", data);
         },
 
-        selectAll: function () {
+        selectAll: function selectAll () {
             this.collection.selectAll();
         },
 
-        deselectAll: function () {
+        deselectAll: function deselectAll () {
             this.collection.deselectAll();
         },
 
-        deepSelect: function () {
+        deepSelect: function deepSelect () {
             this.collection.deepSelect();
         },
 
-        clearSelected: function () {
+        clearSelected: function clearSelected () {
             this.collection.clearSelected();
         },
 
-        addTags: function (tags) {
+        addTags: function addTags (tags) {
             this.collection.bulkAddTags(tags);
 
             this.poller.start();
         },
 
-        destroySelected: function () {
+        destroySelected: function destroySelected () {
             this.collection.destroySelected();
             this.refreshPage(); // to fill in the hole
         },
 
-        newUserProfile: function () {
+        newUserProfile: function newUserProfile () {
             var attributes = { first_name: "", email: "", last_name: "", tags: "", "new": true };
             this.collection.add(attributes, { at: 0 });
         },
 
         /* currently_editing may have more than one view. We are only
          * concerned with the top one. */
-        getCurrentlyEditing: function () {
+        getCurrentlyEditing: function getCurrentlyEditing () {
             var itemview = _.first(this.currently_editing);
 
-            return (itemview)? itemview : { finishEditing: function () { /* NOOP */ } } ;
+            return (itemview)? itemview : { finishEditing: function finishEditing () { /* NOOP */ } } ;
         },
 
         /* when we click on a header: */
         /* find the current sorting pivot and remove a class from it
          *  add that class to the new one. Ensure that the disclosure triangle
          *  has the correct orientation. Then trigger filter:summary */
-        sort: function (e) {
+        sort: function sort (e) {
             var sort, order;
             e.preventDefault();
 
@@ -158,7 +158,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             this.trigger('filter:summary', { sort: sort, order: order });
         },
 
-        toggleChevron: function (order, target) {
+        toggleChevron: function toggleChevron (order, target) {
             var $target = $(target);
             var $headers = this.ui.$headers;
             var $triangle = $headers.find("[data-type=order]").remove();
@@ -187,7 +187,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         * In the second case, we have two kinds of "finishing" to do:
         *  1. We undo any changes that were made by the collection
         *  2. We allow the itemview a chance to finalize anything it needs to */
-        onItemviewChangedEditing: function (itemview) {
+        onItemviewChangedEditing: function onItemviewChangedEditing (itemview) {
             var previous_itemview = this.getCurrentlyEditing();
 
             var is_new            = itemview.model.get("new"),
@@ -215,7 +215,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         /* we should use this opportunity to create the next editable
         * profile if this was a create action, and to unset our
         * currently_editing view */
-        onItemviewUpdateSuccess: function (itemView, response) {
+        onItemviewUpdateSuccess: function onItemviewUpdateSuccess (itemView, response) {
             var action = response.action;
 
             if (action === "create") {
@@ -233,11 +233,11 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         },
 
         /* an item has been checked or unchecked */
-        onItemviewAddToSelected: function (itemview) {
+        onItemviewAddToSelected: function onItemviewAddToSelected (itemview) {
             this.collection.toggleSelected(itemview.model);
         },
 
-        onAfterItemAdded: function (itemView) {
+        onAfterItemAdded: function onAfterItemAdded (itemView) {
             if (itemView.model.get("new")) {
                 itemView.$(".editable-text").first().click();
 
@@ -250,7 +250,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             }
         },
 
-        setEditing: function (editing) {
+        setEditing: function setEditing (editing) {
             this.is_editing = editing
 
             this.trigger("user_profiles:changed:editing", this.is_editing);
@@ -261,7 +261,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
          * if do we would do it here */
         /* remember that itemViews are constructed and destroyed more often
          * than the corresponding models */
-        itemViewOptions: function(model, index) {
+        itemViewOptions: function itemViewOptions(model, index) {
             var id = model.get("id");
             var tags_url = this.collection.url.basename + '/tags.json';
             var checked = this.collection.isChecked(model);
@@ -280,7 +280,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             };
         },
 
-        onAfterShow: function () {
+        onAfterShow: function onAfterShow () {
             this.announcePaginatorUpdated();
 
             this.announceInitialFilters();
@@ -290,7 +290,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         },
 
         /* override inherited method */
-        announcePaginatorUpdated: function () {
+        announcePaginatorUpdated: function announcePaginatorUpdated () {
             if (this.collection.totalPages == undefined || this.collection.totalPages < 1) {
                 return;
             }
@@ -315,21 +315,34 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             this.ui.$checkbox.prop("checked", checked);
         },
 
-        announceInitialFilters: function () {
+        announceInitialFilters: function announceInitialFilters () {
             /* the filters have been set up and are ready to be shown */
             this.trigger('user_profiles:updated:keyword:filters', this.collection.server_api.name);
         },
 
-        announceInitialAdvancedFilters: function () {
+        announceInitialAdvancedFilters: function announceInitialAdvancedFilters () {
             this.trigger('user_profiles:updated:filters');
             this.trigger('user_profiles:updated:tag:filters', this.collection.server_api["tags[]"]);
+        },
+
+        sendMessageToSelected: function sendMessageToSelected () {
+            var data = { structure_id: this.collection.structure_id,
+                          message: { recipients: this.collection.selected_ids }
+                       }
+            $.fancybox.open({ href: Routes.new_pro_structure_message_path(data),
+                              type    : 'ajax',
+                              width   : 800,
+                              minWidth: 800,
+                              maxWidth: 800
+                            });
+            // window.open(Routes.new_pro_structure_message_path(data));
         },
 
         /* OVERRIDE */
         /* We are implementing appendHTML here so that we can both
         * append (normal) and prepend (when using "new") to the
         * table */
-        appendHtml: function(compositeView, itemView, index){
+        appendHtml: function appendHtml(compositeView, itemView, index){
             if (compositeView.isBuffering) {
                 compositeView.elBuffer.appendChild(itemView.el);
             } else {

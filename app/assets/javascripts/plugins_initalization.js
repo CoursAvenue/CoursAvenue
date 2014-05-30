@@ -2,7 +2,10 @@ $(function() {
     $.extend($.fancybox.defaults, {
         tpl: $.extend($.fancybox.defaults.tpl, {
             closeBtn : '<a title="Fermer" class="fancybox-item fancybox-close fa fa-times" href="javascript:;"></a>',
-        })
+        }),
+        afterShow   : function () {
+            $.each(global.initialize_callbacks, function(i, func) { func(); });
+        }
     });
 
     $('input, textarea').placeholder();
@@ -45,11 +48,6 @@ $(function() {
                 height      : height,
                 autoSize    : false,
                 autoResize  : true,
-                ajax        : {
-                    complete: function(){
-                        $.each(global.initialize_callbacks, function(i, func) { func(); });
-                    }
-                },
                 helpers : {
                     title : {
                         type: 'outside',

@@ -126,7 +126,7 @@ CoursAvenue::Application.routes.draw do
           end
         end
 
-        resources :user_profiles, controller: 'structures/user_profiles', path: 'mes-eleves'
+        resources :user_profiles, controller: 'structures/user_profiles', path: 'repertoire'
         resources :bulk_user_profile_jobs, controller: 'structures/bulk_user_profile_jobs', path: 'bulk', only: [:create, :index, :new]
         resources :tags, controller: 'structures/tags', path: 'tags'
         resources :user_profile_imports, only: [:new, :create], controller: 'structures/user_profile_imports', path: 'importer-mes-eleves' do
@@ -149,7 +149,7 @@ CoursAvenue::Application.routes.draw do
           end
         end
         resources :comment_notifications, controller: 'structures/comment_notifications'
-        resources :comments, only: [:index], controller: 'structures/comments' do
+        resources :comments, only: [:index], controller: 'structures/comments', path: 'avis' do
           member do
             patch :accept
             patch :decline

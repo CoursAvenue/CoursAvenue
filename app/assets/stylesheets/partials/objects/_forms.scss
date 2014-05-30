@@ -268,10 +268,10 @@
     .chosen-choices input {
         @include box-shadow(none !important);
     }
-    input, .chosen-choices {
+    textarea, input, .chosen-choices {
         border-color: opacify($red, 0.8) !important;
     }
-    input, select {
+    textarea, input, select {
         @include box-shadow(inset 0 1px 1px 0 rgba(0, 0, 0, 0.08),0 0 1px 1px transparentize($red, 0.5) !important);
     }
     .input_field_error {

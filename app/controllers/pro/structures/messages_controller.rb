@@ -32,11 +32,13 @@ class Pro::Structures::MessagesController < ApplicationController
     respond_to do |format|
       if @conversation and @conversation.persisted?
         format.html { redirect_to params[:return_to] || pro_structure_conversation_path(@structure, @conversation), notice: 'Votre message a bien été envoyé' }
+        format.js
       else
         @message = @admin.messages.build params[:message]
         @message.valid? # Triggers errors to appear
         @message.errors.add :recipients, :blank if @recipients.empty?
         format.html { render action: :new }
+        format.js
       end
     end
   end

@@ -29,6 +29,7 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
             'click [data-behavior=deep-select]'    : 'deepSelect',
             /* TODO do try to make this a proper tag bar by installing tag bar */
             'click [data-behavior=manage-tags]'    : 'manageTags',
+            'click [data-behavior=send-message]'   : 'sendMessage',
             'submit [data-behavior=add-tags-form]' : 'addTags',
             'click [data-behavior=destroy]'        : 'destroySelected'
         },
@@ -39,7 +40,7 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
         *    - everything is selected
         *    - not everything is selected */
         /* TODO I'm sure we could express this more succinctly */
-        updateSelected: function (data) {
+        updateSelected: function updateSelected (data) {
             this.ui.$selected_count.html(data.count);
 
             if (data.count === 0) {
@@ -70,7 +71,7 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
             }
         },
 
-        setSelectButton: function (options) {
+        setSelectButton: function setSelectButton (options) {
             if (!options) {
                 return;
             }
@@ -86,27 +87,27 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
             $button.attr("data-behavior", behavior);
         },
 
-        toggleEditManager: function (is_editing) {
+        toggleEditManager: function toggleEditManager (is_editing) {
             var rotate = (is_editing)? "rotateX(-180deg)" : "rotateX(0deg)";
 
             this.ui.$edit_manager.parent().css({ transform: rotate });
         },
 
-        announceSave: function (e) {
+        announceSave: function announceSave (e) {
             e.stopPropagation();
             this.trigger("controls:save");
         },
 
-        announceCancel: function (e) {
+        announceCancel: function announceCancel (e) {
             e.stopPropagation();
             this.trigger("controls:cancel");
         },
 
-        onAfterShow: function () {
+        onAfterShow: function onAfterShow () {
             this.setUpRotation();
         },
 
-        setUpRotation: function () {
+        setUpRotation: function setUpRotation () {
             this.$("[data-behavior=edits-container]")
                 .css({
                     "transform-origin": "right center 0",
@@ -131,32 +132,32 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
                 });
         },
 
-        selectAll: function (options) {
+        selectAll: function selectAll (options) {
             this.showDetails("select-all");
             this.trigger("controls:select:all", { deep: false });
         },
 
-        deepSelect: function () {
+        deepSelect: function deepSelect () {
             this.trigger("controls:deep:select");
         },
 
-        clearSelection: function () {
+        clearSelection: function clearSelection () {
             this.trigger("controls:clear:selected");
         },
 
-        showDetails: function (target) {
+        showDetails: function showDetails (target) {
             this.$('[data-target=' + target + ']').slideDown();
         },
 
-        hideDetails: function (target) {
+        hideDetails: function hideDetails (target) {
             this.$('[data-target=' + target + ']').slideUp();
         },
 
-        manageTags: function () {
+        manageTags: function manageTags () {
             this.$('[data-target=manage-tags]').slideToggle();
         },
 
-        addTags: function (event) {
+        addTags: function addTags (event) {
             event.preventDefault(); // Prevent the form to be submitted because it's a form
             this.hideDetails("manage-tags");
 
@@ -166,17 +167,20 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
 
         /* TODO implement the notifications card, and then add
          *  a notification that checks with the user "are you suuuuuuur?" */
-        destroySelected: function () {
+        destroySelected: function destroySelected () {
             if (confirm('Êtes-vous sûr de supprimer tous les contacts sélectionnés ?')) {
                 this.trigger("controls:destroy:selected");
             }
         },
 
-        newUserProfile: function (e) {
-            e.stopPropagation();
+        newUserProfile: function newUserProfile (event) {
+            event.stopPropagation();
 
             this.trigger("controls:new");
-        }
+        },
 
+        sendMessage: function sendMessage (event) {
+            this.trigger('controls:message:new');
+        }
     });
 });

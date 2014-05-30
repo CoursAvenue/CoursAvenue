@@ -1,0 +1,6 @@
+<% if @conversation and @conversation.persisted? %>
+    GLOBAL.flash('Message envoyé', 'success')
+    $.fancybox.close();
+<% else %>
+    $.fancybox("<%= escape_javascript(render partial: 'pro/structures/messages/form') %>", { width: 800, minWidth: 800, maxWidth: 800 });
+<% end %>

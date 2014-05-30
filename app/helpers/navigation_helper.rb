@@ -22,9 +22,6 @@ module NavigationHelper
     if options[:icon].present?
       html_title = "<i class='#{options[:icon]}'></i>&nbsp;#{I18n.t('pro.structures.side_menu.' + title)}".html_safe
     end
-    if title == 'messages'
-      html_title << " (#{@structure.main_contact.mailbox.conversations.length})" if @structure.main_contact and @structure.main_contact.mailbox.conversations.any?
-    end
     content_tag(:li, link_to(html_title, url, class: 'side-menu-link'), options)
   end
 
