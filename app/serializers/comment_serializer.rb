@@ -1,7 +1,6 @@
 class CommentSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::DateHelper
-  include ActionView::Helpers::UrlHelper
   include TruncateHtmlHelper
 
   attributes :id, :content, :title, :author_name, :course_name, :created_at, :rating, :distance_of_time, :full_content

@@ -46,7 +46,7 @@ gem 'rack-cors',           require: 'rack/cors'
 
 # Caching
 gem 'memcachier'
-gem 'dalli'      , '~>2.6.4'
+gem 'dalli'                     , '~>2.6.4'
 
 # Non stored hash models
 # See Level and Audience model
