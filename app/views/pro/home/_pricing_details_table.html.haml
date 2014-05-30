@@ -15,7 +15,7 @@
           %strong Basic
         .delta Gratuit
         %p &nbsp;
-        = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--green btn--full'
+        = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--yellow btn--full'
       %td.bordered--right.four-twelfths.text--center.bordered--top.v-top.bordered--bottom
         %p.green.beta.push-half--bottom
           %strong Premium
@@ -24,12 +24,13 @@
             .delta 29€ TTC / mois
             %p
               %i Facturation annuelle
+            = link_to 'Commencer', go_premium_pro_structure_path(@structure, premium_type: 'annual'), class: 'btn btn--yellow btn--full'
           .tab-pane.hard#price-mensual
             .delta 34€ TTC / mois
             %p
               %i Facturation mensuelle
+            = link_to 'Commencer', go_premium_pro_structure_path(@structure, premium_type: 'monthly'), class: 'btn btn--yellow btn--full'
 
-        = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--green btn--full'
   %tbody
     %tr
     %tr
@@ -135,9 +136,9 @@
     %tr
       %td.bordered--right.no-stripe.text--right
       %td.bordered--right.text--center.soft-half
-        = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--green btn--full'
+        = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--yellow btn--full'
       %td.bordered--right.text--center.soft-half
-        = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--green btn--full'
+        = link_to 'Commencer', go_premium_pro_structure_path(@structure, premium_type: 'annual'), class: 'btn btn--yellow btn--full'
     %tr
       %td.bordered--right.no-stripe.text--right
       %td.bordered.text--left{ colspan: 2 }
