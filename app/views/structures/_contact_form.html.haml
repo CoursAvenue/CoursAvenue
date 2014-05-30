@@ -5,7 +5,7 @@
   .panel#contact-panel
     %ul.panel__header.tabs.tabs--thin
       %li.active
-        %a.contact-button{ href: "#tab-message", data: { toggle: "tab" } }
+        %a.contact-button#tab-contact-message{ href: "#tab-message", data: { toggle: "tab" } }
           Envoyer un message
       %li
         %a.contact-button{ href: "#tab-contacts", data: { toggle: "tab" } }
@@ -40,23 +40,31 @@
             - if @structure.contact_phone.present?
               %strong= readable_phone_number @structure.contact_phone
               %strong= readable_phone_number '+33 9 72 40 47 30'
+              - if @structure.premium
+                %i.soft-half--left.v-middle.fa.fa-check-circle.green
+                %i.v-middle.green.milli vérifié
               %br
             - if @structure.contact_mobile_phone.present?
               %strong= readable_phone_number @structure.contact_mobile_phone
+              - if @structure.premium
+                %i.soft-half--left.v-middle.fa.fa-check-circle.green
+                %i.v-middle.green.milli vérifié
           %p.push-half--bottom
-            %i Mentionnez que vous avez trouvé le contact sur le site CoursAvenue pour bénéficier d'offres éventuelles. Vous tomberez peut-être sur le répondeur : envoyez un message !
-          - if @structure.website.present? or @structure.facebook_url.present?
-            %hr.push--ends
-            %h4.f-weight-normal.push-half--bottom Pages du partenaire
-            - if @structure.website.present?
-              .text--center.push-half--bottom= link_to 'Site internet', @structure.website, target: '_blank', rel: 'nofollow', onclick: "ga('send', 'event', 'Contact structure', 'click', 'website')", class: 'btn'
-            - if @structure.facebook_url.present?
-              .text--center= link_to "Page Facebook", @structure.facebook_url, target: '_blank', class: 'btn--facebook btn'
+            %i Mentionnez que vous avez trouvé le contact sur le site CoursAvenue pour bénéficier d'offres éventuelles. Vous tomberez peut-être sur le répondeur :
+            %a.contact-button{ href: "javascript:$('#tab-contact-message').click()" } envoyez un message !
+          - if @structure.premium?
+            - if @structure.website.present? or @structure.facebook_url.present?
+              %hr.push--ends
+              %h4.f-weight-normal.push-half--bottom Pages du partenaire
+              - if @structure.website.present?
+                .push-half--bottom= link_to 'Site internet', @structure.website, target: '_blank', rel: 'nofollow', onclick: "ga('send', 'event', 'Contact structure', 'click', 'website')", class: 'btn'
+              - if @structure.facebook_url.present?
+                = link_to "Page Facebook", @structure.facebook_url, target: '_blank', class: 'btn--facebook btn'
           %hr.push--ends
           %h4.f-weight-normal.push-half--bottom= "Adresse".pluralize(@structure.places.count)
           - @structure.places.each_with_index do |place, index|
             %p.epsilon{ class: (index < @structure.places.count - 1 ? 'push-half--bottom' : 'flush')}
-              = place.address
+              = "#{place.name} : #{place.address}"
 
 = content_for :scripts do
   :javascript
