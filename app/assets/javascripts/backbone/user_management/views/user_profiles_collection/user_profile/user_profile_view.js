@@ -213,6 +213,12 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         flashError: function (model, response) {
             /* display a flash containing the error message */
             GLOBAL.flash(response.responseJSON.errors.join("\n"), "alert");
+        },
+
+        serializeData: function () {
+            var data = this.model.toJSON();
+            data.edit_path = Routes.edit_pro_structure_user_profile_path(data.structure_id, data.id)
+            return data;
         }
     });
 });

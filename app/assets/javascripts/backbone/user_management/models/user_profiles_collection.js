@@ -30,22 +30,20 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
 
             this.paginator_ui.grandTotal  = (models.length === 0) ? 0 : options.total;
             this.paginator_ui.totalPages  = Math.ceil(this.paginator_ui.grandTotal / this.paginator_ui.perPage);
-            this.url.basename         = window.location.toString().split('/');
-            this.url.basename.pop();
-            this.url.basename         = this.url.basename.join('/');
 
-            this.grandTotal = options.total;
-            this.all_ids    = options.ids;
+            this.grandTotal   = options.total;
+            this.all_ids      = options.ids;
+            this.structure_id = options.structure_id;
 
             this.selected_ids    = [];
             this.setSelectedCount(0);
             this.deep_select     = false;
+            this.url.resource = Routes.pro_structure_user_profiles_path(this.structure_id);
         },
 
-        /* where we can expect to find the resource we seek
-         *  TODO this needs to be set on the server side */
         url: {
-            resource: '/mes-eleves',
+            basename: '',
+            resource: '',
             data_type: '.json'
         },
 
@@ -221,7 +219,7 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
 
             return $.ajax({
                 type: "GET",
-                url: this.url.basename + '/bulk/new.json',
+                url: Routes.new_pro_structure_bulk_user_profile_job_path(this.collection.structure_id, { format: 'json' }),
                 data: this.server_api,
                 success: function (data) {
                     self.selected_ids = data.ids;
@@ -263,7 +261,7 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             // models that we _do not_ want to affect
             return $.ajax({
                 type: "POST",
-                url: this.url.basename + '/bulk.json',
+                url: Routes.pro_structure_bulk_user_profile_jobs_path(this.collection.structure_id, { format: 'json' }),
                 data: {
                     bulk_action:     action_name,
                     delegate_params: delegate_params,

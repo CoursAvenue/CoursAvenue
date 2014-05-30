@@ -16,9 +16,9 @@
   var models = #{ActiveModel::ArraySerializer.new(@user_profiles, each_serializer: UserProfileSerializer).to_json};
   window.coursavenue.bootstrap = {
     options: {
-      total: #{ @user_profiles_search.total },
-      ids: #{ @ids }
+      total       : #{ @user_profiles_search.total },
+      ids         : #{ @ids },
+      structure_id: #{ @structure.id }
     },
-    models: models,
-    structure_id: #{ @structure.id }
+    models: models
   };

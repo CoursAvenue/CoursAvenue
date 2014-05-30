@@ -8,7 +8,6 @@ UserManagement.addInitializer(function(options) {
     var bootstrap = window.coursavenue.bootstrap;
 
     var user_profiles                 = new UserManagement.Models.UserProfilesCollection(bootstrap.models, bootstrap.options);
-    user_profiles.structure_id        = bootstrap.structure_id;
     var user_profiles_collection_view = new UserManagement.Views.UserProfilesCollection.UserProfilesCollectionView({
         collection: user_profiles,
         events: {
