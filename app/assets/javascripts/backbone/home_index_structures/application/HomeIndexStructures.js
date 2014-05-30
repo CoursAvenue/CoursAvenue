@@ -32,7 +32,8 @@ HomeIndexStructures.addInitializer(function(options) {
     google_maps_view = new HomeIndexStructures.Views.Map.GoogleMap.GoogleMapsView({
         collection: structures,
         mapOptions: {
-            center: new google.maps.LatLng(bounds.lat, bounds.lng)
+            center: new google.maps.LatLng(bounds.lat, bounds.lng),
+            scrollwheel: false
         },
         mapClass: 'google-map google-map--medium'
     });
