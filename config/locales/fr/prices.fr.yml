@@ -12,7 +12,7 @@ fr:
     individual_course: 1 cours
     registration_fees: Frais d'adhésion
     errors:
-      promo_amount_less_than_promo: doit être inférieur au prix de base
+      promo_amount_less_than_promo: doit être inférieur au tarif normal
     filter:
       per_course: Séances individuelles
       book_ticket: Carnet
