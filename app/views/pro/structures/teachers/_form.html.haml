@@ -6,14 +6,14 @@
       .text--center
         %a#delete-image.red{href: 'javascript:void(0)'} Supprimer la photo
     .input
-      .control-label Photo du professeur
+      .control-label.label--large Photo du professeur
       = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', data: {trigger: true} do
         %i.fa.fa-picture-o
         Choisir l'image
       .visuallyhidden= f.input :image, label: false
   .visuallyhidden= f.input :delete_image, as: :boolean, label: false, id: 'teacher_delete_image'
-  = f.input :name
-  = f.input :description, input_html: {'data-behavior' => 'autoresize'}
+  = f.input :name, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+  = f.input :description, input_html: { class: 'input--large', data: { behavior: 'autoresize' } }, label_html: { class: 'label--large' }
   = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
 
 
