@@ -94,7 +94,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
 
         rerender: function rerender () {
             this.render();
-            setTimeout(function() { this.$el.yellowFade(); }.bind(this), 400);
+            this.$el.yellowFade({ delay: 400 });
         },
 
         /* when the model changes, we update the fields to represent

@@ -9,7 +9,7 @@
         $.fancybox('<%= escape_javascript(render partial: "pro/structures/courses/plannings/form") %>', { width: 800, minWidth: 800, maxWidth: 800, padding: 0 });
     <% else %>
         $.fancybox.close();
-        setTimeout(function() { $('#course-<%= @course.id %>').yellowFade(); }, 400);
+        $('#course-<%= @course.id %>').yellowFade({ delay: 400 });
     <% end %>
 <% end %>
 GLOBAL.reinitializePlugins();

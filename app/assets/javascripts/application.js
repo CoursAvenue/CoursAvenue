@@ -109,20 +109,27 @@
 
 
 (function($) {
-  $.fn.yellowFade = function() {
+  $.fn.yellowFade = function(options) {
+    options = options || {};
     $(this).each(function () {
-        var el = $(this);
-        $("<div/>")
-            .width(el.outerWidth())
-            .height(el.outerHeight())
-            .css({
-                "position"        : "absolute",
-                "left"            : el.offset().left,
-                "top"             : el.offset().top,
-                "background-color": "#ffff99",
-                "opacity"         : ".7",
-                "z-index"         : "9999999"
-            }).appendTo('body').fadeOut(1000).queue(function () { $(this).remove(); });
+        var fadeIt;
+        options.delay = options.delay || 0
+        var $this = $(this);
+        var el    = $this;
+        fadeIt = function () {
+            $("<div/>")
+                .width(el.outerWidth())
+                .height(el.outerHeight())
+                .css({
+                    "position"        : "absolute",
+                    "left"            : el.offset().left,
+                    "top"             : el.offset().top,
+                    "background-color": "#ffff99",
+                    "opacity"         : ".7",
+                    "z-index"         : "9999999"
+                }).appendTo('body').fadeOut(1000).queue(function () { this.remove(); });
+        }
+        _.delay(fadeIt, options.delay);
     });
   }
 })(jQuery);

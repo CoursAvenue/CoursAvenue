@@ -11,5 +11,5 @@ if ($('#<%= @price_group.course_type_underscore_name.pluralize %>-table tbody tr
     $('#<%= @price_group.course_type_underscore_name.pluralize %>-table').hide();
 }
 
-setTimeout(function() { $course_to_affect_container.yellowFade(); }, 400);
+$course_to_affect_container.yellowFade({ delay: 400 });
 initPriceGroupDragAndDrop();

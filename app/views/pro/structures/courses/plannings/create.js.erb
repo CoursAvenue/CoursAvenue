@@ -2,7 +2,7 @@
     <% # If this is the first planning, rerender the whole course   %>
     <% if @course.plannings.length == 1 %>
         $("#course-<%= @course.id %>").replaceWith('<%= escape_javascript(render partial: "pro/structures/courses/live_form", locals: { course: @course, structure: @structure }) %>')
-        setTimeout(function() { $('#course-<%= @course.id %>').yellowFade(); }, 400);
+        $('#course-<%= @course.id %>').yellowFade({ delay: 400 });
     <% else %>
         $('#course-planning-list-<%= @course.id %> tbody').append('<%= escape_javascript(render partial: "pro/structures/courses/plannings/#{@course.underscore_name}_row", locals: { planning: @planning, course: @course }) %>');
     <% end %>
@@ -13,7 +13,7 @@
         $.fancybox('<%= escape_javascript(render partial: "pro/structures/courses/plannings/form") %>', { width: 800, minWidth: 800, maxWidth: 800, padding: 0 });
     <% else %>
         $.fancybox.close();
-        setTimeout(function() { $('#planning-<%= @planning.id %>').yellowFade(); }, 400);
+        $('#planning-<%= @planning.id %>').yellowFade({ delay: 400 });
     <% end %>
     GLOBAL.flash("Créneau enregistré", 'success');
 <% else %>

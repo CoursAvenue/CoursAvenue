@@ -3,7 +3,7 @@
     $element.append('<%= escape_javascript(render partial: "pro/structures/price_groups/price_group_row", locals: { price_group: @price_group }) %>')
     GLOBAL.flash("Grille tarifaire enregistrée", 'success');
     $.fancybox.close();
-    setTimeout(function() { $element.yellowFade(); }, 400);
+    $element.yellowFade({ delay: 400 });
 
     var $course_to_affect_table = $('#<%= @price_group.course_type_underscore_name.pluralize %>-table');
     var $message_to_hide        = $('#<%= @price_group.course_type_underscore_name.pluralize %>-empty-message');
