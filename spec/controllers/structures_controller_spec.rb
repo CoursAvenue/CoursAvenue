@@ -7,16 +7,6 @@ describe StructuresController do
     %w(id name slug comments_count rating street zip_code logo_thumb_url data_url places)
   end
 
-  describe :create do
-    let(:structure) { FactoryGirl.create(:structure) }
-    it 'creates a new following' do
-      followings_count = structure.followings.count
-      # structure: {name: "Association de la rue", contact_email=>, location=>{name=>Dans la rue}, street=>bercy", "zip_code"=>"75012", "city_id"=>"177569", "subject_ids"=>["", "1591"]}, "commit"=>"Valider", "subdomain"=>"pro"}
-      post :create, structure: { name: 'Name' }
-      expect(structure.followings.count).to eq followings_count + 1
-    end
-  end
-
   describe :show do
     let(:structure) { FactoryGirl.create(:structure_with_place) }
     it 'returns 200' do
@@ -42,7 +32,7 @@ describe StructuresController do
     it "renders structures with the json required by filtered search" do
       get :index, format: :json, lat: 48.8592, lng: 2.3417
       response.should be_success
-      result = JSON.parse(StructureSerializer.new(@structure, {root: false}).to_json)
+      result = JSON.parse(StructureSerializer.new(@structure, { root: false }).to_json)
 
       result.keys.should include(*required_keys) # splat ^o^//
     end

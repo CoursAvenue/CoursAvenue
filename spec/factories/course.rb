@@ -10,6 +10,8 @@ FactoryGirl.define do
 
     active                      true
     type                        'Course::Lesson'
+    start_date                  Date.today
+    end_date                    Date.tomorrow
     name                        Faker::Lorem.sentence(4)
     description                 Faker::Lorem.sentence(10)
     info                        Faker::Lorem.sentence(4)

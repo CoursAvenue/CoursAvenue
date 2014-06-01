@@ -7,7 +7,7 @@ describe UnfinishedResource do
 
     describe "#to_c" do
       it "returns a valid comment" do
-        expect(comment.to_c.class.name).to eq("Comment")
+        expect(comment.to_c.class.name).to eq("Comment::Review")
       end
     end
 

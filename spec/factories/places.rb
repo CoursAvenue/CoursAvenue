@@ -2,7 +2,13 @@
 
 FactoryGirl.define do
   factory :place do
-    location
     structure
+    city
+    latitude          48.8592
+    longitude         2.3417
+
+    name              { Faker::Name.name + ' place' }
+    street            'Paris'
+    zip_code          75014
   end
 end

@@ -73,7 +73,7 @@ describe Structure do
 
   context :comments do
     it 'retrieves course comments' do
-      comment = structure.comments.create FactoryGirl.attributes_for(:comment)
+      comment = structure.comments.create FactoryGirl.attributes_for(:comment_review)
       structure.comments.should include comment
     end
   end

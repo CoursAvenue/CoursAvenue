@@ -11,7 +11,7 @@ describe Structures::CoursesController do
 
     it 'returns 200' do
       get :show, structure_id: course.structure.id, id: course.id
-      expect(response.status).to eq(200)
+      expect(response.status).to eq(301)
     end
   end
 

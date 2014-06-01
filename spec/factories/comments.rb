@@ -1,13 +1,15 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
-  factory :comment do
-    commentable {FactoryGirl.create(:structure)}
+  factory :comment_review, class: 'Comment::Review'  do
+    commentable { FactoryGirl.create(:structure) }
+    type        'Comment::Review'
     user
     title       Faker::Lorem.sentence(4)
 
-    after(:build) do |course|
-      course.subjects << Subject.at_depth(2).first
+
+    after(:build) do |comment|
+      comment.subjects << Subject.at_depth(2).first
     end
 
     # Comment contact

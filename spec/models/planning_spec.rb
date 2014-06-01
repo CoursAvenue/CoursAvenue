@@ -139,22 +139,7 @@ describe Planning do
 
   context :participations do
     let(:user) { FactoryGirl.create(:user) }
-    describe '#can_change_nb_participants_max' do
 
-      it 'does not validate' do
-        subject.nb_participants_max = 0
-        participation               = subject.participations.build(user: user)
-        participation.save
-        expect(subject.save).to be_false
-      end
-
-      it 'does validate' do
-        subject.nb_participants_max = 1
-        participation               = subject.participations.build(user: user)
-        participation.save
-        expect(subject.save).to be_false
-      end
-    end
     describe '#waiting_list' do
       it 'shows no one' do
         subject.nb_participants_max = 1

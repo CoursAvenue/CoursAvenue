@@ -49,7 +49,7 @@ describe User do
     end
 
     it 'merges the comments' do
-      comment         = FactoryGirl.create(:comment)
+      comment         = FactoryGirl.create(:comment_review)
       old_user.comments << comment
       new_user.merge(old_user)
       new_user.comments.should include comment
