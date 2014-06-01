@@ -39,30 +39,8 @@ class Structures::CoursesController < ApplicationController
 
   def show
     @structure = Structure.friendly.find params[:structure_id]
-    @course    = Course.friendly.find(params[:id])
-    @comment   = @course.comments.build
-    @comments  = @structure.comments.accepted.reject(&:new_record?)
-    @medias    = @structure.medias
-    @places    = @course.places
-    if @course.is_lesson?
-      @plannings = @course.plannings.order('week_day ASC, start_time ASC')
-    else
-      @plannings = @course.plannings.order('start_date ASC, start_time ASC')
-    end
-    @plannings_grouped_by_places = @plannings.future.group_by(&:place)
-    @subjects                    = @course.subjects
-    @price_range                 = @course.price_range
-    @prices                      = @course.book_tickets + @course.subscriptions
-
     respond_to do |format|
-      if @course.is_open?
-        format.html { redirect_to jpo_structure_path(@structure), status: 301 }
-      elsif @course.active
-        format.html
-        format.json { render json: CourseSerializer.new(@course).to_json }
-      else
-        format.html { redirect_to root_path, notice: "Ce cours n'est pas visible.", status: 301 }
-      end
+      format.html { redirect_to structure_path(@structure), status: 301 }
     end
   end
 end

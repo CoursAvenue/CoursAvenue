@@ -1,0 +1,8 @@
+<% if @comment_reply.persisted? %>
+    $('#comment-reply-<%= @comment.id %>').html("<%= escape_javascript(render partial: 'comments/reply', locals: { reply: @comment_reply}) %>")
+    $('#comment-reply-button-<%= @comment.id %>').remove();
+    $('#comment-reply-<%= @comment.id %>').yellowFade({ delay: 400 });
+    $.fancybox.close();
+<% else %>
+    $.fancybox("<%= escape_javascript(render template: 'pro/structures/comments/comment_replies/new') %>", { width: 700, minWidth: 700, maxWidth: 700, padding: 0 });
+<% end %>

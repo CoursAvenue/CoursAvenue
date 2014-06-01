@@ -14,7 +14,7 @@ class StructureShowSerializer < ActiveModel::Serializer
              :audience, :funding_types, :gives_group_courses, :gives_individual_courses, :structure_type,
              :has_promotion, :tag_names, :given_course_types, :given_funding_type, :places_count, :comments
 
-  has_many :comments
+  has_many :comments, serializer: CommentSerializer
   has_many :places
   has_many :teachers, serializer: ShortSerializer
 

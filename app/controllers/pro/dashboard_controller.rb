@@ -8,17 +8,17 @@ class Pro::DashboardController < Pro::ProController
     end
 
     @comments_by_hour = { 0 => 0, 1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0, 6 => 0, 7 => 0, 8 => 0, 9 => 0, 10 => 0, 11 => 0, 12 => 0, 13 => 0, 14 => 0, 15 => 0, 16 => 0, 17 => 0, 18 => 0, 19 => 0, 20 => 0, 21 => 0, 22 => 0, 23 => 0 }
-    Comment.find_each do |admin|
+    Comment::Review.find_each do |admin|
       @comments_by_hour[admin.created_at.hour] += 1
     end
 
     @courses  = Course.where( Course.arel_table[:created_at].gt(Date.parse('01/06/2013')).and(
                                Course.arel_table[:active].eq(true)) ).order("DATE_TRUNC('week', created_at) ASC").group("DATE_TRUNC('week', created_at)").count
     @admins   = Admin  .where( Admin.arel_table[:created_at].gt(Date.today - 1.months) ).order('DATE(created_at) ASC').group('DATE(admins.created_at)').count
-    @comments = Comment.where( Comment.arel_table[:created_at].gt(Date.today - 1.months) ).order('DATE(created_at) ASC').group('DATE(comments.created_at)').count
+    @comments = Comment::Review.where( Comment::Review.arel_table[:created_at].gt(Date.today - 1.months) ).order('DATE(created_at) ASC').group('DATE(comments.created_at)').count
 
     @admins_weekly   = Admin  .where( Admin.arel_table[:created_at].gt(Date.today - 3.months) ).order("DATE_TRUNC('week', created_at) ASC").group("DATE_TRUNC('week', created_at)").count
-    @comments_weekly = Comment.where( Comment.arel_table[:created_at].gt(Date.today - 3.months) ).order("DATE_TRUNC('week', created_at) ASC").group("DATE_TRUNC('week', created_at)").count
+    @comments_weekly = Comment::Review.where( Comment::Review.arel_table[:created_at].gt(Date.today - 3.months) ).order("DATE_TRUNC('week', created_at) ASC").group("DATE_TRUNC('week', created_at)").count
 
     if params[:with_subjects].present?
       _structures = Structure.joins { admins }.joins { subjects }.count(group: ['subjects.id'])
@@ -37,7 +37,7 @@ class Pro::DashboardController < Pro::ProController
     @comments_progression = {}
     dates.each do |date|
       @admins_progression[date]   = Admin.where( Admin.arel_table[:created_at].lt(date) ).count
-      @comments_progression[date] = Comment.where( Comment.arel_table[:created_at].lt(date) ).count
+      @comments_progression[date] = Comment::Review.where( Comment::Review.arel_table[:created_at].lt(date) ).count
     end
     @admins2 = [0, 0, 0, 0]
     Structure.find_each do |s|

@@ -25,9 +25,9 @@
                   avis
       .push--bottom.text--center= link_to "Et plein d'autres !", structures_url(subdomain: 'www'), target: '_blank'
       %hr
-      %h4 Plus de #{Comment.count.round(-2)} avis
+      %h4 Plus de #{Comment::Review.count.round(-2)} avis
       %ul.comment-list
-        - Comment.order('created_at DESC').limit(3).each do |comment|
+        - Comment::Review.order('created_at DESC').limit(3).each do |comment|
           %li.push--bottom.white-box.soft-half.rounded--top
             = link_to commentable_url(comment), target: '_blank', class: 'muted-link hard' do
               - if comment.title.present?

@@ -150,6 +150,7 @@ CoursAvenue::Application.routes.draw do
         end
         resources :comment_notifications, controller: 'structures/comment_notifications'
         resources :comments, only: [:index], controller: 'structures/comments', path: 'avis' do
+          resources :comment_replies, only: [:new, :create], controller: 'structures/comments/comment_replies'
           member do
             patch :accept
             patch :decline
@@ -312,7 +313,7 @@ CoursAvenue::Application.routes.draw do
     resources :messages , only: [:create], controller: 'structures/messages'
     resources :places , only: [:index], controller: 'structures/places'
     resources :courses , only: [:show, :index], path: 'cours', controller: 'structures/courses'
-    resources :comments, only: [:new, :show, :index], path: 'recommandations', controller: 'structures/comments'
+    resources :comments, only: [:new, :show, :index], path: 'avis', controller: 'structures/comments'
     resources :teachers, only: [:index], controller: 'structures/teachers'
     resources :medias, only: [:index], controller: 'structures/medias'
   end

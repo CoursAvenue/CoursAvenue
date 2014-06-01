@@ -9,7 +9,7 @@ class UnfinishedResource::Comment < UnfinishedResource
   #
   # @return a Comment
   def to_c
-    comment = ::Comment.new
+    comment = ::Comment::Review.new
     comment.assign_attributes(comment_attributes, without_protection: true)
     comment
   end

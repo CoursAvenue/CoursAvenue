@@ -412,7 +412,7 @@ class User < ActiveRecord::Base
   def associate_all_comments
     _email   = self.email
     _user_id = self.id
-    Comment.where(Comment.arel_table[:email].matches(_email)).each do |comment|
+    Comment::Review.where(Comment::Review.arel_table[:email].matches(_email)).each do |comment|
       comment.update_column(:user_id, _user_id)
     end
   end

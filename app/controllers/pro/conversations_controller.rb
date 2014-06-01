@@ -6,7 +6,7 @@ class Pro::ConversationsController < Pro::ProController
 
   def index
     if params[:info]
-      @conversations = Mailboxer::Conversation.where( subject: "Demande d'informations" ).order('updated_at DESC').limit(100)
+      @conversations = Mailboxer::Conversation.where( subject: "Demande d'information" ).order('updated_at DESC').limit(100)
     else
       @conversations = Mailboxer::Conversation.order('updated_at DESC').limit(100)
     end

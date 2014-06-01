@@ -13,13 +13,20 @@
                         <i class="v-middle">— {{course_name}}</i>
                       {{/if}}
                     {{/if}}
-                    <p>{{ full_content }}</p>
+                    {{{ simple_format content }}}
                 </div>
                 <p class="text--right flush">
                     <i itemprop="datePublished" content="{{ created_at }}" class="semi-muted">
                         Il y a {{ distance_of_time }}
                     </i>
                 </p>
+                {{#if reply}}
+                    <hr class="push-half--ends message__appendix--top">
+                    <p><strong>Réponse </strong></p>
+                    <div itemprop="reviewBody" data-behavior="read-more" class="read-more" style="max-height: none;">
+                        {{{ simple_format reply.content }}}
+                    </div>
+                {{/if}}
             </div>
         </div>
     </div>

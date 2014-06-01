@@ -15,17 +15,17 @@
 .message__appendix {
     position: relative;
     &:before, &:after {
-        left: -10px;
-        top : 10px;
-        position           : absolute;
-        content            : '';
-        display            : inline-block;
-        border-top         : 0;
+        left      : -10px;
+        top       : 10px;
+        position  : absolute;
+        content   : '';
+        display   : inline-block;
+        border-top: 0;
     }
     &:before {
-        border-top         : 10px solid transparent;
-        border-right       : 10px solid #BBB;
-        border-bottom      : 10px solid transparent;
+        border-top   : 10px solid transparent;
+        border-right : 10px solid #BBB;
+        border-bottom: 10px solid transparent;
     }
     &:after {
         border-top   : 9px solid transparent;
@@ -33,5 +33,29 @@
         border-bottom: 9px solid transparent;
         top          : 11px;
         left         : -9px;
+    }
+}
+
+.message__appendix--top {
+    position: relative;
+    &:before, &:after {
+        position  : absolute;
+        content   : '';
+        display   : inline-block;
+        border-top: 0;
+    }
+    &:before {
+        left         : 10px;
+        top          : -9px;
+        border-left  : 10px solid transparent;
+        border-bottom: 10px solid #D3D3D3;
+        border-right : 10px solid transparent;
+    }
+    &:after {
+        border-left  : 9px solid transparent;
+        border-bottom: 9px solid $pane-background-color;
+        border-right : 9px solid transparent;
+        top          : -8px;
+        left         : 11px;
     }
 }

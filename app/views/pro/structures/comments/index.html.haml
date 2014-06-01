@@ -51,5 +51,5 @@
         %h4.push-half--bottom Avis validés
         .text--center.push-half--ends= paginate @comments, window: 1, outer_window: 3
         %ul.comment-list
-          = render partial: '/comments/comment', collection: @comments
+          = render partial: '/comments/comment', collection: @comments, locals: { with_reply: true }
         .text--center.push-half--ends= paginate @comments, window: 1, outer_window: 3

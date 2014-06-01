@@ -1,0 +1,11 @@
+.soft.gray-box
+  .comment__content
+    %h6.quoted.inline-block.push-half--bottom{itemprop: 'headline', content: @comment.title}= @comment.title
+    .read-more{itemprop: 'reviewBody', data: {behavior: 'read-more'}}
+      = simple_format @comment.content
+  %hr.push-half--ends.message__appendix--top
+  %p.push-half--bottom
+    %strong.flush Votre réponse à #{@comment.author_name}
+  = simple_form_for [:pro, @structure, @comment, @comment_reply], url: pro_structure_comment_comment_replies_path(@structure, @comment), remote: true do |f|
+    = f.input :content, label: false, input_html: { class: 'one-whole input--large', placeholder: 'Ajoutez votre réponse ici' }
+    = f.submit 'Répondre', class: 'btn btn--full btn--green', data: { disable_with: 'Enregistrement en cours...' }

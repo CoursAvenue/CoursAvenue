@@ -19,7 +19,7 @@ namespace :scheduler do
     desc 'Send email to admins that have pending comments'
     task :remind_for_pending_comments => :environment do |t, args|
       if Time.now.thursday?
-        Comment.pending.map(&:structure).uniq.map(&:remind_for_pending_comments)
+        Comment::Review.pending.map(&:structure).uniq.map(&:remind_for_pending_comments)
       end
     end
 

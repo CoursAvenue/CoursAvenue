@@ -425,6 +425,7 @@ class Planning < ActiveRecord::Base
   #
   # @return nil
   def update_start_and_end_date
+    return if course.nil? # Statement here for tests
     case course.type
     when 'Course::Open'
       self.end_date = start_date

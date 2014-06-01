@@ -284,7 +284,8 @@ class Participation < ActiveRecord::Base
   #
   # @return nil
   def update_structure_meta_datas
-    planning.structure.update_meta_datas
+    # If statement is here for tests
+    planning.structure.update_meta_datas if planning.structure
     nil
   end
 

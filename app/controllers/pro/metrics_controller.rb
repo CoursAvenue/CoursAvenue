@@ -2,13 +2,13 @@
 class Pro::MetricsController < Pro::ProController
 
   def comments
-    render json: Comment.order('created_at DESC').limit(10)
+    render json: Comment::Review.order('created_at DESC').limit(10)
   end
 
   def comments_count
-    render json: { total:           Comment.count,
-                   today:           Comment.where( Comment.arel_table[:created_at].gt(Date.today) ).count,
-                   last_seven_days: Comment.where( Comment.arel_table[:created_at].gt(7.days.ago) ).count, }
+    render json: { total:           Comment::Review.count,
+                   today:           Comment::Review.where( Comment::Review.arel_table[:created_at].gt(Date.today) ).count,
+                   last_seven_days: Comment::Review.where( Comment::Review.arel_table[:created_at].gt(7.days.ago) ).count, }
   end
 
   def admins_count
