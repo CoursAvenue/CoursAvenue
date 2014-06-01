@@ -93,10 +93,10 @@ gem 'simple_form'               , '~>3.0.2'
 gem 'inherited_resources'       , '~>1.4.1'
 
 # For messaging
-gem 'mailboxer'                 , '~> 0.12.0.rc1', git: 'git://github.com/mailboxer/mailboxer.git'
+gem 'mailboxer'                 , '~> 0.12.0.rc2', git: 'git://github.com/mailboxer/mailboxer.git'
 
 # For authorizations
-gem 'cancancan'                 , '~>1.7.0'
+gem 'cancancan'                 , '~>1.8.1'
 # gem 'cancan'                    , '~>1.6.10'
 # For authentication
 gem 'devise'                    , '~>3.2.3'
@@ -208,6 +208,7 @@ group :development do
 end
 
 group :development, :test do
+  # Debugger
   gem 'byebug'
   # Permits to travel in the past
   gem 'delorean'
