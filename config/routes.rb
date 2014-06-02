@@ -135,7 +135,7 @@ CoursAvenue::Application.routes.draw do
             patch :import
           end
         end
-        resources :invited_teachers, only: [:index, :new, :destroy], controller: 'structures/invited_teachers' do
+        resources :invited_teachers, only: [:index, :new, :destroy], controller: 'structures/invited_teachers', path: 'parrainage-professeurs' do
           collection do
             post :bulk_create
           end
@@ -297,8 +297,6 @@ CoursAvenue::Application.routes.draw do
 
   resources :reservations, only: [:create]
 
-  resources :comments, only: [:create]
-
   resources :open_courses, path: 'portes-ouvertes-cours-loisirs', only: [:index], controller: 'open_courses'
 
   resources :structures, only: [:show, :index], path: 'etablissements', controller: 'structures' do
@@ -313,7 +311,7 @@ CoursAvenue::Application.routes.draw do
     resources :messages , only: [:create], controller: 'structures/messages'
     resources :places , only: [:index], controller: 'structures/places'
     resources :courses , only: [:show, :index], path: 'cours', controller: 'structures/courses'
-    resources :comments, only: [:new, :show, :index], path: 'avis', controller: 'structures/comments'
+    resources :comments, only: [:create, :new, :show, :index], path: 'avis', controller: 'structures/comments'
     resources :teachers, only: [:index], controller: 'structures/teachers'
     resources :medias, only: [:index], controller: 'structures/medias'
   end
