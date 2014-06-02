@@ -94,7 +94,7 @@ class User < ActiveRecord::Base
   # @return User
   def self.from_omniauth(auth)
     # Check if the user already exists
-    # TODO: Check
+    # TODO: Check if it works
     # ((provider == auth.provider) & (uid == auth.uid)) | (email == auth.info.email)}.first_or_initialize.tap do |user|
     where((User.arel_table[:provider].eq(auth.provider).and(User.arel_table[:uid].eq(auth.uid))).or(User.arel_table[:email].eq(auth.info.email))).first_or_initialize.tap do |user|
       user.provider           = auth.provider
