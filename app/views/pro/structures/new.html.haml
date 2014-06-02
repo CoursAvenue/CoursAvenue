@@ -42,6 +42,12 @@
 
     .flexbox__item.v-top.small-container
       .panel
+        %ul.tabs.panel__header
+          %li.active
+            = link_to 'Publiez vos cours', '#'
+          %li
+            = link_to root_url(subdomain: 'pro') do
+              Découvrir CoursAvenue Pro
         .panel__body.soft--ends
           .soft--sides
             %h2.flush
