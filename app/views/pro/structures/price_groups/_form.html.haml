@@ -46,7 +46,9 @@
                 - i += 100
                 - range = (1..20).to_a + [30] + [40] + [50] + [60] + [70] + [80] + [90] + [100]
                 = f.simple_fields_for :prices, item, child_index: i do |book_ticket_form|
-                  .book-ticket{ data: { el: true, hidden: !book_ticket_form.object.persisted? } }<>
+                  .book-ticket.relative{ data: { el: true, hidden: !book_ticket_form.object.persisted? } }<>
+                    %a.pointer.absolute{ href: 'javascript:void(0);', style: 'left: -1.3em; top: 1.4em;', data: { clear: true } }
+                      %i.fa.fa-times
                     .grid>
                       .grid__item.v-middle.one-quarter>
                         = book_ticket_form.input :number, label: false, as: :select, collection: range, selected: book_ticket_form.object.number || 5, wrapper_html: { class: 'flush inline-block v-middle' }, input_html: { class: 'input--large' }
@@ -85,7 +87,9 @@
                   - # Adding 100 to index in order that indexes doesn't override each others
                   - i += 200
                   = f.simple_fields_for :prices, item, child_index: i do |price_form|
-                    .subscription.flush--top{ data: { el: true, hidden: !item.persisted? } }
+                    .subscription.flush--top.relative{ data: { el: true, hidden: !item.persisted? } }
+                      %a.pointer.absolute{ href: 'javascript:void(0);', style: 'left: -1.3em; top: 1.4em;', data: { clear: true } }
+                        %i.fa.fa-times
                       .grid
                         .grid__item.v-middle.one-quarter>
                           = price_form.input :libelle, as: :select, collection: Price::Subscription::TYPES, label_method: lambda{|l| I18n.t(l)}, label: false, wrapper_html: { class: 'flush' }, include_blank: false, input_html: { class: 'input--large' }
@@ -136,7 +140,9 @@
                 - @premium_offers.each_with_index do |item, i|
                   - i += 400
                   = f.simple_fields_for :prices, item, child_index: i do |price_form|
-                    .premium-offer.push-half--bottom.flush--top{ data: { el: true, hidden: !price_form.object.persisted? } }
+                    .premium-offer.push-half--bottom.flush--top.relative{ data: { el: true, hidden: !price_form.object.persisted? } }
+                      %a.pointer.absolute{ href: 'javascript:void(0);', style: 'left: -1.3em; top: 0.8em;', data: { clear: true } }
+                        %i.fa.fa-times
                       .grid
                         .grid__item.v-middle.one-quarter>
                           = price_form.input :libelle, as: :select, collection: Price::PremiumOffer::TYPES, label_method: lambda{|l| I18n.t(l)}, wrapper_html: { class: 'flush control-label text--left' }, label: false, include_blank: false, input_html: { class: 'input--large', data: { promo_amount: "#premium_offer_#{i}_promo_amount", promo_amount_type: "#premium_offer_#{i}_promo_amount_type", promo_amount_type_alternative: "#premium_offer_#{i}_promo_amount_type_alternative", promo_amount_info: "#premium_offer_#{i}_info", behavior: 'premium-offer' } }
@@ -162,7 +168,10 @@
                 - @discounts.each_with_index do |item, i|
                   - i += 500
                   = f.simple_fields_for :prices, item, child_index: i do |price_form|
-                    .flush--top.discount.push-half--bottom{ data: { el: true, hidden: !price_form.object.persisted? } }
+                    .flush--top.discount.push-half--bottom.relative{ data: { el: true, hidden: !price_form.object.persisted? } }
+                      %a.pointer.absolute{ href: 'javascript:void(0);', style: 'left: -1.3em; top: 0.8em;', data: { clear: true } }
+                        %i.fa.fa-times
+
                       .grid
                         .grid__item.v-middle.one-quarter>
                           = price_form.input :libelle, as: :select, collection: Price::Discount::TYPES, label_method: lambda{|l| I18n.t(l)}, wrapper_html: { class: 'flush control-label text--left' }, label: false, include_blank: false, input_html: { class: 'input--large' }
@@ -188,7 +197,9 @@
               - @registrations.each_with_index do |item, i|
                 - i += 600
                 = f.simple_fields_for :prices, item, child_index: i do |registration_form|
-                  .flush--top.registration-fee.push-half--bottom{ data: { el: true, hidden: !registration_form.object.persisted? } }
+                  .flush--top.registration-fee.push-half--bottom.relative{ data: { el: true, hidden: !registration_form.object.persisted? } }
+                    %a.pointer.absolute{ href: 'javascript:void(0);', style: 'left: -1.3em; top: 0.8em;', data: { clear: true } }
+                      %i.fa.fa-times
                     .grid
                       .grid__item.v-middle.one-quarter>
                         %select.input--large{ data: { behavior: 'disable-toggle-input', el: "#non_free_subscription_#{i}" } }

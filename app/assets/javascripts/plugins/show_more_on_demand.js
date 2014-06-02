@@ -4,6 +4,10 @@
         %div{ data: { el: true, hidden: !item.persisted? } }
             some content
         %div{ data: { el: true, hidden: !item.persisted? } }
+            // First one will be removed
+            // On click, will clear and hide the el
+            %a{ data: { clear: true } }
+                %i.fa.fa-times
             some other content
         %div{ data: { trigger: true } } Add item
 
@@ -35,11 +39,13 @@
 
     Plugin.prototype = {
 
-        init: function() {
+        init: function init () {
             this.$trigger      = $(this.$element.find('[data-trigger]'));
             this.$items        = $(this.$element.find('[data-el]'));
+            this.$clearers     = $(this.$element.find('[data-clear]'));
             this.$hidden_items = $(this.$element.find('[data-el][data-hidden]'));
             this.$hidden_items.hide();
+            this.$clearers.first().remove();
             // Show first empty item if none is shown
             if (this.$items.first().is(':hidden')) {
                 this.showMoreItem();
@@ -47,13 +53,21 @@
             this.attachEvents();
         },
 
-        attachEvents: function() {
+        attachEvents: function attachEvents () {
             this.$trigger.click(function() {
                 this.showMoreItem();
             }.bind(this));
+            this.$clearers.click(function(event) {
+                this.clearAndHide(event);
+            }.bind(this));
         },
 
-        showMoreItem: function() {
+        clearAndHide: function clearAndHide (event) {
+            var $wrapping_el = $(event.currentTarget).closest('[data-el]');
+            $wrapping_el.hide();
+            $wrapping_el.find('input, select, textarea').val('');
+        },
+        showMoreItem: function showMoreItem () {
             var item_to_show = this.$hidden_items.first();
             item_to_show.removeAttr('data-hidden');
             item_to_show.show();
