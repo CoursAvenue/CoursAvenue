@@ -1,14 +1,22 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
 
-describe CommentsController do
+describe Structures::CommentsController do
+
+  let(:structure) { FactoryGirl.create(:structure_with_admin) }
+
+  describe '#new' do
+    it 'returns 200' do
+      get :new, structure_id: structure.id
+      expect(response.status).to eq 200
+    end
+  end
 
   describe '#create' do
-    let(:structure) { FactoryGirl.create(:structure_with_admin) }
-
     it 'raises an error if commentable_type is incorrect' do
       expect do
-        post :create, comment: {
+        post :create, structure_id: structure.id,
+                      comment: {
                     commentable_type: 'FakeModel',
                     commentable_id: structure.id,
                     author_name: 'Author name',
@@ -21,7 +29,8 @@ describe CommentsController do
     end
 
     it 'creates a comment' do
-      post :create, comment: {
+      post :create, structure_id: structure.id,
+                    comment: {
                     commentable_type: 'Structure',
                     commentable_id: structure.id,
                     author_name: 'Author name',
@@ -35,7 +44,8 @@ describe CommentsController do
     end
 
     it 'creates a user' do
-      post :create, comment: {
+      post :create, structure_id: structure.id,
+                    comment: {
                     commentable_type: 'Structure',
                     commentable_id: structure.id,
                     author_name: 'Author name',
@@ -52,7 +62,8 @@ describe CommentsController do
       it 'changes the email of the user' do
         User.delete_all
         user = FactoryGirl.create(:user)
-        post :create, comment: {
+        post :create, structure_id: structure.id,
+                      comment: {
                         commentable_type: 'Structure',
                         commentable_id:    structure.id,
                         author_name:       'Author name',
@@ -69,7 +80,8 @@ describe CommentsController do
     context 'I add a private message' do
       it 'sends a private message' do
         structure.main_contact.messages.should be_empty
-        post :create, comment: {
+        post :create, structure_id: structure.id,
+                      comment: {
                         commentable_type: 'Structure',
                         commentable_id:    structure.id,
                         author_name:       'Author name',
