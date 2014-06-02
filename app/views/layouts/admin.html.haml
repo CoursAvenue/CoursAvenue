@@ -3,11 +3,11 @@
 
 = content_for :content do
   - if @structure
-    .darkgray-box.flexbox
-      .flexbox__item.v-middle.soft-half--left{ style: 'width: 40px ;' }
+    .pro-top-menu.darkgray-box.flexbox{ data: { behavior: 'sticky'} }
+      .flexbox__item.v-middle.soft-half--left{ style: 'width: 40px;' }
         - if @structure.logo?
           = link_to edit_pro_structure_path(@structure), class: 'block push-half--right' do
-            = image_tag @structure.logo.url(:thumb), width: 40, class: 'block'
+            = image_tag @structure.logo.url(:thumb), width: 40, height: 40, class: 'block'
         - else
           = link_to '', edit_pro_structure_path(@structure), class: 'fa-2x fa fa-picture-o soft-half muted-link white', data: { toggle: 'popover', content: "Ajouter un logo", placement: 'right', trigger: 'hover' }
       .flexbox__item.v-middle
@@ -31,8 +31,9 @@
 
   .flexbox
     - if content_for? :side_menu
-      %nav.flexbox__item.v-top.side-menu.gray-box.border-none--right
-        = yield :side_menu
+      %nav.flexbox__item.v-top.border-none--right.side-menu
+        .border-none--right.side-menu.side-menu--sticky.gray-box.west{ data: { behavior: 'sticky', 'offset-top' => 45} }
+          = yield :side_menu
     .flexbox__item.v-top.small-container
       = yield :breadcrumb
       = content_for?(:admins_content) ? yield(:admins_content) : yield

@@ -11,8 +11,8 @@
     // Create the defaults once
     var pluginName = "sticky",
         defaults = {
-            offset_top: 0,
-            z         : 1,
+            offsetTop : 0,
+            z         : 300,
             onStick   : $.noop,
             onUnStick : $.noop
         };
@@ -44,10 +44,10 @@
          */
         husk: function ($element) {
             var result = $element.map(function () {
-                var classes = $($element).attr("class");
+                var classes = $element.attr("class");
                 var div     = $("<div>")
-                                 .height($element.offsetHeight)
-                                 .width($element.offsetWidth).get(0);
+                                 .height($element[0].offsetHeight)
+                                 .width($element[0].offsetWidth).get(0);
 
                 return div;
             });
@@ -67,13 +67,12 @@
             var element_top = this.$element.offset().top;
             var fixed = this.$element.hasClass("sticky");
 
-            if (!fixed && scroll_top >= (element_top - this.options.offset_top)) {
+            if (!fixed && scroll_top >= (element_top - this.options.offsetTop)) {
                 var $placeholder = this.husk(this.$element)
                     .css({ visibility: "hidden" })
                     .attr("data-placeholder", "")
                     .attr("data-behavior", "");
                 // we have scrolled past the element
-                var old_width = this.$element.outerWidth();
                 var old_top   = this.$element.offset().top;
 
                 // $placeholder stays behind to hold the place
@@ -87,11 +86,9 @@
                 this.$element.addClass("sticky");
                 this.$element.addClass(this.old_classes);
 
-                if (this.options && this.options.old_width) {
-                    this.$element.css({ width: old_width, margin: 0 });
-                }
+                this.$element.css('top', this.options.offsetTop + 'px');
                 this.options.onStick();
-            } else if ( fixed && scroll_top < (this.sticky_home - this.options.offset_top)) {
+            } else if ( fixed && scroll_top < (this.sticky_home - this.options.offsetTop)) {
                 // we have now scrolled back up, and are replacing the element
 
                 this.$element.parent().find("[data-placeholder]").remove();

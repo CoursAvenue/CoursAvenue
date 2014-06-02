@@ -15,21 +15,22 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
                     $view                   = this.$el.parent(),
                     $grid_item              = $view.closest('.grid__item'),
                     initial_map_width       = $view.width();
-                $view.sticky({ 'z': 10, old_width: false,  offset_top: 50 });
-
-                setStickyStyle = function setStickyStyle () {
-                    if ($view.hasClass("sticky")) {
+                $view.sticky({
+                    z: 10,
+                    oldWidth: false,
+                    offsetTop: 50,
+                    onStick: function () {
                         $view.css({
-                            top : '50px',
                             left: $grid_item.offset().left + parseInt($view.closest('.grid__item').css('padding-left'), 10) + 'px',
                             width: initial_map_width
                         });
-                    } else if (!$view.hasClass("sticky") && $view.hasClass("sticky--full")) {
+                    },
+                    onUnStick: function () {
                         $view.removeAttr('style');
                     }
-                };
-                $(window).on("scroll", setStickyStyle);
-                $(window).resize(setStickyStyle);
+                });
+                // $(window).on("scroll", setStickyStyle);
+                // $(window).resize(setStickyStyle);
             } else {
                 if ($(window).height() < 700) {
                     this.$el.closest('.rslides-wrapper').css('height', '30em');

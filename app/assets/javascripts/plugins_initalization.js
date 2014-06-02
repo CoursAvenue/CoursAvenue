@@ -102,4 +102,8 @@ $(function() {
         $.each(global.initialize_callbacks, function(i, func) { func(); });
     };
     global.reinitializePlugins();
+
+    $('[data-behavior=sticky]').each(function(index, el) {
+        $(this).sticky(this.dataset);
+    });
 });
