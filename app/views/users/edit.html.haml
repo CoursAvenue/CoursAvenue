@@ -1,51 +1,50 @@
 = user_menu_currently_at 'Mes infos'
 
-= render partial: 'tabs', locals: { current: 'profile' }
+.panel
+  = render partial: 'tabs', locals: { current: 'profile' }
+  .panel__body.soft
+    %h4.push-half--bottom Quelques infos sur vous
 
-%h4.push-half--bottom Quelques infos sur vous
-
-.form-white-box
-  = simple_form_for @user do |f|
-    .grid
-      .grid__item.one-quarter>
-        .input{data: { behavior: 'image-input' } }
-          - if @user.has_avatar?
-            .text--center
-              = image_tag @user.avatar_url(:thumb)
-              %br
-              %a.btn.btn--blue.btn--small{data: { trigger: true }} Changer ma photo
-              = f.input :avatar, label: false, wrapper_html: {style: 'position:absolute; left:-1000px;'},input_html: {id: 'avatar-input'}
-          - else
-            .input.text--center
-              = link_to 'javascript:void(0)', style: 'width: 170px; height: 170px; background-color: #555; padding-top: 55px; color: white; display: block;', id: 'avatar-placeholder', data: { trigger: true } do
-                Ajouter
+    = simple_form_for @user do |f|
+      .grid
+        .grid__item.one-third>
+          .input{data: { behavior: 'image-input' } }
+            - if @user.has_avatar?
+              .text--center
+                .media-photo
+                  = image_tag @user.avatar_url(:thumb), class: 'block'
                 %br
-                ma photo
+                %a.btn.btn--blue.btn--small{data: { trigger: true }} Changer ma photo
+                = f.input :avatar, label: false, wrapper_html: {style: 'position:absolute; left:-1000px;'},input_html: {id: 'avatar-input'}
+            - else
+              .input.text--center
+                = link_to 'javascript:void(0)', style: 'width: 170px; height: 170px; background-color: #555; padding-top: 55px; color: white; display: block;', id: 'avatar-placeholder', data: { trigger: true } do
+                  Ajouter
+                  %br
+                  ma photo
 
-              %img{style: 'max-height: 5em; max-width: 15em;'}
-            = f.input :avatar, wrapper_html: {class: 'visuallyhidden'}
-      .grid__item.two-thirds>
-        = f.input :first_name
-        = f.input :last_name
+                %img{style: 'max-height: 5em; max-width: 15em;'}
+              = f.input :avatar, wrapper_html: {class: 'visuallyhidden'}
+        .grid__item.two-thirds>
+          = f.input :first_name, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+          = f.input :last_name, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
 
-        %hr
-        .input
-          %label.control-label{data: {toggle: 'popover', trigger: "hover", placement: "right", content: "CoursAvenue est basé sur la confiance. Ces infos sont gardées confidentielles et nous serviront à vous proposer les meilleurs cours autour de vous et pour vos professeurs, à mieux vous connaître."}}
-            .lbl.lbl--gray
-              %i.fa.fa-lock
-              Privé
+          %hr
+          .input
+            %label.control-label{ data: { toggle: 'popover', trigger: "hover", placement: "right", content: "CoursAvenue est basé sur la confiance. Ces infos sont gardées confidentielles et nous serviront à vous proposer les meilleurs cours autour de vous et pour vos professeurs, à mieux vous connaître." } }
+              .lbl.lbl--gray
+                %i.fa.fa-lock
+                Privé
 
-        = f.input :gender, as: :select, collection: [['Femme', 'female'], ['Homme', 'male']]
-        = f.input :birthdate, start_year: (Date.today.year - 1), end_year: 1900, include_blank: true
-        = f.input :email, disabled: true
-        = f.input :phone_number
-        .input.flush--top.city-autocomplete-wrapper
-          = f.label :zip_code, label: Location.human_attribute_name(:zip_code)
-          = f.input :zip_code, placeholder: 'Ex. : 75008', input_html: { data: {behavior: 'city-autocomplete', el: '#user_city_id'} }, label: false, wrapper_html: { class: 'flush' }
-          = f.input :city_id, collection: [@user.city], label: false, selected: @user.city, wrapper_html: { class: 'flush--top' }
-
-    = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
-
+          = f.input :gender, as: :select, collection: [['Femme', 'female'], ['Homme', 'male']], input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+          = f.input :birthdate, start_year: (Date.today.year - 1), end_year: 1900, include_blank: true, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+          = f.input :email, disabled: true, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+          = f.input :phone_number, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+          .input.flush--top.city-autocomplete-wrapper<
+            = f.label :zip_code, label: Location.human_attribute_name(:zip_code), class: 'label--large'
+            = f.input :zip_code, placeholder: 'Ex. : 75008', input_html: { class: 'input--large', data: { behavior: 'city-autocomplete', el: '#user_city_id'} }, label: false, wrapper_html: { class: 'flush' }
+            = f.input :city_id, collection: [@user.city], label: false, selected: @user.city, wrapper_html: { class: 'flush--top' }, input_html: { class: 'input--large' }
+          = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
 
 - unless @user.has_avatar?
   = content_for :scripts do

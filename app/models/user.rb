@@ -38,7 +38,7 @@ class User < ActiveRecord::Base
   ######################################################################
   # Relations                                                          #
   ######################################################################
-  has_many :comments, -> { order('created_at DESC') }
+  has_many :comments, -> { order('created_at DESC') }, class_name: 'Comment::Review'
   has_many :reservations
   has_many :comment_notifications
   has_many :passions

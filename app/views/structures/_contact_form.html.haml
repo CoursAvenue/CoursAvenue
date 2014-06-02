@@ -1,6 +1,3 @@
-- session.delete :user_return_to
-- session.delete :after_inactive_sign_up_path
-
 .push--bottom
   .panel#contact-panel
     %ul.panel__header.tabs.tabs--thin
@@ -28,11 +25,11 @@
                   .grid__item.one-half>
                     %input.input--large.one-whole{ name: 'user[email]', type: 'text', placeholder: 'Email', value: params[:email] }
               - prefilled_body = params[:message_body] || "Bonjour,\n\nJe souhaiterais venir pour une première séance. Pouvez-vous m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt"
-              = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole input--large', style: 'height: 170px;', value: prefilled_body, data: { behavior: 'autoresize' } }
+              = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole input--large', style: 'height: 170px;', value: cookies[:user_contact_message] || prefilled_body, data: { behavior: 'autoresize' } }, id: 'contact-message-body'
               - if current_user
                 = f.submit 'Envoyer mon message', class: 'btn btn--green btn--full', disable_with: "En cours d'envoi"
               - else
-                = link_to 'Envoyer mon message', new_user_registration_path, data: { behavior: 'modal', title: 'Connexion', width: 600, padding: 0 }, class: 'fancybox.ajax btn btn--green btn--full'
+                = link_to 'Envoyer mon message', new_user_registration_path, data: { behavior: 'modal', title: 'Connexion', width: 600, padding: 0 }, class: 'fancybox.ajax btn btn--green btn--full', id: 'send-message'
 
         %article#tab-contacts.tab-pane.hard
           %h4.f-weight-normal Contactez le partenaire par téléphone :
@@ -67,6 +64,14 @@
           - @structure.places.each_with_index do |place, index|
             %p.epsilon{ class: (index < @structure.places.count - 1 ? 'push-half--bottom' : 'flush')}
               = "#{place.name} : #{place.address}"
+
+- unless current_user
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          var body_message = $('#contact-message-body').val();
+          $.cookie('user_contact_message', body_message);
+      });
 
 = content_for :scripts do
   :javascript

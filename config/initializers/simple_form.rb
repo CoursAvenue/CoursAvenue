@@ -43,8 +43,9 @@ SimpleForm.setup do |config|
 
     ## Inputs
     b.use :hint,  :wrap_with => { tag: :span, class: :hint }
-    b.use :label
-    b.use :input
+    # b.use :label
+    # b.use :input
+    b.use :label_input
     b.use :error, wrap_with: { tag: :div, class: 'input_field_error red text--right' }
   end
 

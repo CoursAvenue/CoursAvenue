@@ -1,32 +1,35 @@
 = user_menu_currently_at 'Mes messages'
 
-.white-box.soft
-  - recipients = @conversation.recipients.reject{|recipient| recipient == @user }
-  %ol.nav.breadcrumb{itemprop: 'breadcrumb'}
-    - if current_user
-      %li.delta= link_to 'Mes conversations', user_conversations_path(current_user)
+.panel
+  .panel__header.soft
+    - recipients = @conversation.recipients.reject{|recipient| recipient == @user }
+    %ol.nav.breadcrumb.flush{ itemprop: 'breadcrumb' }
+      - if current_user
+        %li.delta= link_to 'Mes conversations', user_conversations_path(current_user)
+      - else
+        %li.delta= link_to "Mes conversations", 'javascript:void(0);', data: { behavior: 'connection' }
+      %li.delta Conversation avec #{truncate(recipients.map{|recipient| recipient.name || recipient.email}.join(', '), length: 50) }
+  .panel__body.soft
+    .grid
+      .grid__item.two-twelfths.v-middle.text--right>
+        %p.flush Objet
+      .grid__item.ten-twelfths.soft-half--left.v-middle>
+        %h5.flush= @conversation.subject
+    .grid
+      .grid__item.two-twelfths.v-middle.text--right>
+        %p À
+      .grid__item.ten-twelfths.soft-half--left.v-middle>
+        %p= recipients.map(&:name).join(', ')
+
+    - if current_user and @user.active?
+      = render 'users/conversations/form'
     - else
-      %li.delta= link_to "Mes conversations", 'javascript:void(0);', data: { behavior: 'connection' }
-    %li.delta Conversation avec #{truncate(recipients.map{|recipient| recipient.name || recipient.email}.join(', '), length: 50) }
+      .text--center
+        = link_to 'Répondre', '#registration', title: 'Enregistrez-vous pour répondre', class: 'btn btn--green btn--large btn--full', data: {behavior: 'modal'}, id: 'registration-link'
 
-  .grid
-    .grid__item.two-twelfths.v-middle.text--right>
-      %p.flush Objet
-    .grid__item.ten-twelfths.soft-half--left.v-middle>
-      %h5.flush= @conversation.subject
-  .grid
-    .grid__item.two-twelfths.v-middle.text--right>
-      %p À
-    .grid__item.ten-twelfths.soft-half--left.v-middle>
-      %p= recipients.map(&:name).join(', ')
+      - session['user_return_to'] = user_conversations_path(@user)
 
-  - if current_user and @user.active?
-    = render 'users/conversations/form'
-  - else
-    .text--center
-      = link_to 'Répondre', '#registration', title: 'Enregistrez-vous pour répondre', class: 'btn btn--green btn--large btn--full', data: {behavior: 'modal'}, id: 'registration-link'
-
-    - session['user_return_to'] = user_conversations_path(@user)
+    = render partial: 'messages/message', collection: @conversation.messages.reject(&:new_record?).sort_by(&:created_at)
 
     #registration.hidden
       = render 'users/registrations/form'
@@ -48,4 +51,3 @@
           }
       });
 
-  = render partial: 'messages/message', collection: @conversation.messages.reject(&:new_record?).sort_by(&:created_at)

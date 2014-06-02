@@ -2,12 +2,17 @@
   = f.error_notification
   - if params[:return_to].present?
     %input{ type: 'hidden', value: params[:return_to], name: 'return_to' }
-  .input.flush
-    = f.label :recipients
-    = f.input :recipients, label: false, as: :select, collection: current_user.structures.uniq.sort_by(&:name), include_blank: false, wrapper_html: { class: 'flush' }, selected: (params[:message] ? params[:message][:recipients] : nil)
-    %i.pointer.fa.fa-question-circle{ data: { toggle: 'popover', content: "Envoyez des messages personnels aux professeurs, associations ou écoles que vous avez décidé de \"suivre\" ou qui vous ont déjà sollicité(e) pour déposer votre avis.", trigger: 'hover', placement: 'right'}}
+  - if @message.errors.any?
+    .grid--full.push-half--bottom
+      .grid__item.two-twelfths>
+      .grid__item.ten-twelfths>
+        = f.error_notification
+  .grid--full.push-half--bottom.message
+    .grid__item.two-twelfths.v-top.v-top>
+      = image_tag @user.avatar, class: 'message__avatar block center-block bordered'
+    .grid__item.ten-twelfths.message__body.message__appendix.soft-half.gray-box>
+      = f.input :recipients, label: false, as: :select, collection: current_user.structures.uniq.sort_by(&:name), include_blank: false, wrapper_html: { class: 'flush' }, selected: (params[:message] ? params[:message][:recipients] : nil), input_html: { class: 'input--large one-whole' }
 
-  = f.input :subject
-  = f.input :body, input_html: { style: 'height: 150px', data: {behavior: 'autoresize'} }
-  .form-actions
-    = f.submit 'Envoyer', class: 'btn btn--green one-whole', data: { disable_with: "Message en cours d'envoi" }
+      = f.input :subject, label: false, input_html: { class: 'input--large one-whole', placeholder: 'Ajouter un objet' }
+      = f.input :body, input_html: { class: 'input--large one-whole', placeholder: 'Ajouter un message personnel ici', data: { behavior: 'autoresize' } }, label: false
+      = f.submit 'Envoyer', class: 'btn btn--green', data: { disable_with: "Message en cours d'envoi" }

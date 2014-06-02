@@ -1,8 +1,9 @@
 = user_menu_currently_at 'messages'
 
-%ol.nav.breadcrumb.epsilon.push-half--bottom
-  %li= link_to 'Tous mes messages', user_conversations_path(current_user)
-  %li Nouveau message
-
-.form-white-box
-  = render 'form'
+.panel
+  .panel__header.soft
+    %ol.nav.breadcrumb.epsilon.flush
+      %li.delta= link_to 'Tous mes messages', user_conversations_path(current_user)
+      %li.delta Nouveau message
+  .panel__body.soft
+    = render 'form'

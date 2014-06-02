@@ -69,26 +69,18 @@
               - if comment.reply
                 = render partial: 'comments/reply', locals: { reply: comment.reply }
 
-          - if current_user and comment.owner?(current_user)
-            .drop-down__wrapper.float--right{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
-              %a.btn.btn--small.btn--blue{href: 'javascript:void(0)'}
-                Actions
-                %i.fa.fa-chevron-down.soft-half--left
-              %ul.drop-down__el.text--left
-                %li.nowrap
-                  = link_to new_user_message_path(current_user, message: {recipients: [comment.commentable.id]}) do
-                    %i.fa.fa-envelope
-                    Envoyer un message
-                - if comment.pending?
-                  %li.nowrap
-                    = link_to edit_user_comment_path(current_user, comment) do
-                      %i.fa.fa-pencil
-                      Modifier mon avis
-                %li.nowrap
-                  = link_to structure_url(comment.commentable), target: :_blank do
-                    %i.fa.fa-eye
-                    Voir tous les avis du profil
-
+        - if current_user and comment.owner?(current_user)
+          .gray-box__footer.soft-half.text--right.rounded--bottom
+            = link_to new_user_message_path(current_user, message: { recipients: [comment.commentable.id] }), class: 'btn btn--small btn--blue' do
+              %i.fa.fa-envelope
+              Envoyer un message
+            - if comment.pending?
+              = link_to edit_user_comment_path(current_user, comment), class: 'btn btn--small btn--orange' do
+                %i.fa.fa-pencil
+                Modifier mon avis
+            = link_to structure_url(comment.commentable), target: :_blank, class: 'btn btn--small' do
+              %i.fa.fa-eye
+              Voir tous les avis du profil
 
         - if current_pro_admin and (comment.owner?(current_pro_admin) or current_pro_admin.super_admin?)
           .gray-box__footer.soft-half.text--right.rounded--bottom
