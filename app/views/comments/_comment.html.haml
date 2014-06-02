@@ -1,21 +1,25 @@
-- show_structure_logo = false if show_structure_logo.nil?
-- with_link           = false if with_link.nil?
-- show_title          = true  if show_title.nil?
-- small_avatar        = false if small_avatar.nil?
-- class_name          = ''    if class_name.nil?
-- with_reply          = false if with_reply.nil?
+- structure           = comment.structure if structure.nil?
+- show_structure_logo = false             if show_structure_logo.nil?
+- with_link           = false             if with_link.nil?
+- show_title          = true              if show_title.nil?
+- small_avatar        = false             if small_avatar.nil?
+- class_name          = ''                if class_name.nil?
+- with_reply          = false             if with_reply.nil?
 
 %li.push--bottom.hard--left{ class: class_name, id: "recommandation-#{comment.id}" }
   %article{ itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review' }
     .grid--full
       .grid__item.two-twelfths.text--center>
         - if show_structure_logo
-          = image_tag comment.structure.logo.url(:thumb), height: (small_avatar ? 30 : 60), width: (small_avatar ? 30 : 60)
+          = image_tag structure.logo.url(:thumb), height: (small_avatar ? 30 : 60), width: (small_avatar ? 30 : 60)
         - else
           - if comment.user
             = image_tag comment.user.avatar_url(:small), height: (small_avatar ? 30 : 60), width: (small_avatar ? 30 : 60), class: 'bordered rounded--circle'
         .text--center
           %strong= comment.author_name
+          %br
+          %i.semi-muted{ itemprop: 'datePublished', content: l(comment.created_at, format: :iso_date) }
+            Il y a #{distance_of_time_in_words_to_now comment.created_at}
           - if current_pro_admin and current_pro_admin.super_admin?
             .break-word (#{comment.email})
 
@@ -54,9 +58,6 @@
             %meta{itemprop: 'bestRating', content: 5}
           .read-more{ itemprop: 'reviewBody', data: { behavior: 'read-more' } }
             = simple_format comment.content
-          %p.text--right.flush
-            %i.semi-muted{itemprop: 'datePublished', content: l(comment.created_at, format: :iso_date)}
-              Il y a #{distance_of_time_in_words_to_now comment.created_at}
           - if with_link
             %p.text--right.flush
               = link_to comment.commentable.name, commentable_url(comment), target: '_blank'
@@ -67,7 +68,7 @@
           - if with_reply
             %div{ id: "comment-reply-#{comment.id}" }
               - if comment.reply
-                = render partial: 'comments/reply', locals: { reply: comment.reply }
+                = render partial: 'comments/reply', locals: { structure: @structure, comment: comment, reply: comment.reply }
 
         - if current_user and comment.owner?(current_user)
           .gray-box__footer.soft-half.text--right.rounded--bottom
@@ -89,24 +90,23 @@
                 Motif de suppression :
                 %strong= t(comment.deletion_reason)
             - if comment.user
-              = link_to new_pro_structure_message_path(comment.structure, return_to: request.fullpath, message: { subject: "Merci beaucoup pour ta recommandation", recipients: [comment.user.user_profile_for(comment.structure).id] }), class: 'btn btn--small btn--blue fancybox.ajax', data: { behavior: 'modal', width: '780' }, title: "Réponse au message de #{comment.author_name}", onclick: "ga('send', 'event', 'Answer to student', 'click')" do
-                %i.fa.fa-envelope.v-middle.soft-half--right
-                %span.v-middle Envoyer un message privé
+              = link_to new_pro_structure_message_path(structure, return_to: request.fullpath, message: { subject: "Merci beaucoup pour ta recommandation", recipients: [comment.user.user_profile_for(structure).id] }), class: 'btn btn--small btn--blue fancybox.ajax', data: { behavior: 'modal', width: '780' }, title: "Réponse au message de #{comment.author_name}", onclick: "ga('send', 'event', 'Answer to student', 'click')" do
+                %i.fa.fa-envelope.v-middle
+                %span.v-middle Message privé
 
-            - unless comment.reply
-              = link_to new_pro_structure_comment_comment_reply_path(comment.structure, comment), class: 'btn btn--small btn--yellow fancybox.ajax', data: { behavior: 'modal', width: '700', padding: 0 }, id: "comment-reply-button-#{comment.id}" do
-                %i.fa.fa-comment.v-middle.soft-half--right
-                %span.v-middle Répondre publiquement
+            = link_to new_pro_structure_comment_comment_reply_path(structure, comment), class: "#{(comment.reply.nil? ? '' : 'hidden')} btn btn--small btn--yellow fancybox.ajax", data: { behavior: 'modal', width: '700', padding: 0 }, id: "comment-reply-button-#{comment.id}" do
+              %i.fa.fa-comment.v-middle
+              %span.v-middle Commentaire public
             - if comment.persisted? and !comment.waiting_for_deletion?
               .inline-block.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
                 %a.btn.btn--small{href: 'javascript:void(0)'}
-                  %i.fa.fa-flag.v-middle.soft-half--right
-                  Signaler cet avis
+                  %i.fa.fa-flag.v-middle
+                  Signaler
                   %i.fa.fa-chevron-down.soft-half--left
                 %ul.drop-down__el.text--left
                   - t('comments.deletion_reasons').each do |i18n_key, traducted_string|
                     %li.nowrap
-                      = link_to ask_for_deletion_pro_structure_comment_path(comment.structure, comment, deletion_reason: "comments.deletion_reasons.#{i18n_key.to_s.downcase}"), method: :patch do
+                      = link_to ask_for_deletion_pro_structure_comment_path(structure, comment, deletion_reason: "comments.deletion_reasons.#{i18n_key.to_s.downcase}"), method: :patch do
                         = traducted_string
             - if current_pro_admin.super_admin?
               .inline-block.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}

@@ -150,11 +150,15 @@ CoursAvenue::Application.routes.draw do
         end
         resources :comment_notifications, controller: 'structures/comment_notifications'
         resources :comments, only: [:index], controller: 'structures/comments', path: 'avis' do
-          resources :comment_replies, only: [:new, :create], controller: 'structures/comments/comment_replies'
           member do
             patch :accept
             patch :decline
             patch :ask_for_deletion
+          end
+          resources :comment_replies, controller: 'structures/comments/comment_replies' do
+            member do
+              get :ask_for_deletion
+            end
           end
         end
         resources :medias, only: [:edit, :update, :index, :destroy], controller: 'structures/medias' do

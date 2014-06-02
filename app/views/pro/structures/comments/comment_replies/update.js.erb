@@ -1,6 +1,5 @@
-<% if @comment_reply.persisted? %>
-    $('#comment-reply-<%= @comment.id %>').html("<%= escape_javascript(render partial: 'comments/reply', locals: { structure: @structure, comment: @comment, reply: @comment_reply}) %>")
-    $('#comment-reply-button-<%= @comment.id %>').hide();
+<% if @comment_reply.errors.empty? %>
+    $('#comment-reply-<%= @comment.id %>').html("<%= escape_javascript(render partial: 'comments/reply', locals: {  structure: @structure, comment: @comment, reply: @comment_reply}) %>");
     $('#comment-reply-<%= @comment.id %>').yellowFade({ delay: 400 });
     $.fancybox.close();
 <% else %>
