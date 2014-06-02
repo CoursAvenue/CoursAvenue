@@ -84,7 +84,7 @@
         - if @comments.any?
           %ul#comments.comment-list
             - @comments.each_with_index do |comment, index|
-              = render partial: 'comments/comment', locals: {comment: comment, show_title: true}
+              = render partial: 'comments/comment', locals: { structure: @structure, comment: comment, show_title: true }
       - if @structure.teachers.any?
         %article#tab-teachers.tab-pane
           #teachers
