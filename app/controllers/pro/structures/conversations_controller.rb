@@ -8,6 +8,7 @@ class Pro::Structures::ConversationsController < ApplicationController
 
   def show
     @conversation = @admin.mailbox.conversations.find(params[:id])
+    @conversation.mark_as_read(@admin)
     @message      = @conversation.messages.build
   end
 

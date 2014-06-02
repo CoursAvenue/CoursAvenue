@@ -86,7 +86,7 @@
           %label.label--large.control-label.text> Message
           = text_area_tag :private_message, (params[:private_message] || default_fake_message.sample), class: 'text', style: 'height: 100px', data: { behavior: 'autoresize' }, class: 'input--large'
         .text--center
-          = f.submit 'Publier mon avis', class: 'btn btn--large btn--green btn--full', data: { disable_with: "En cours de publication" }
+          = f.submit 'Publier mon avis', class: 'btn btn--large btn--green btn--full', data: { disable_with: "En cours de publication..." }
 
   .grid__item.one-third>
     #comment_tricks.hidden
