@@ -32,6 +32,7 @@ class StructuresController < ApplicationController
   end
 
   def jpo
+    @structure = Structure.friendly.find params[:id]
     respond_to do |format|
       format.html { redirect_to structure_path(@structure), status: 301 }
     end
