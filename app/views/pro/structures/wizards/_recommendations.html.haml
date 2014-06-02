@@ -1,30 +1,33 @@
 %h4
   %i.fa.fa-envelope-o.fa.fa-2x.v-middle.soft-half--right
   %span.v-middle Demandez des recommandations à vos élèves
+
 = simple_form_for [:pro, @structure, @structure.comment_notifications.build], remote: true do |f|
-  %input{type: 'hidden', value: 'true', name: 'next'}
+  .grid.push-half--bottom
+    .grid__item.two-twelfths.text--right>
+      %h4 À
+    .grid__item.ten-twelfths>
+      %textarea.one-whole{ name: 'emails', rows: 3, placeholder: 'Ex. : patrick@gmail.com, thomas@wanadoo.fr', style: 'min-height: 80px;', data: { behavior: 'autoresize' } }
   .grid
-    .grid__item.one-half>
-      %h4 À :
-      %p.flush.italic{data: {behavior: 'tooltip', title: "Nous considérons que vos coordonnées et adresses de courrier électronique constituent des données confidentielles, et nous nous engageons à ne pas les divulguer. Conformément à l'article 27 de la loi \"Informatique et Liberté\" du 6 janvier 1978, vous disposez d'un droit d'accès et de rectification des informations vous concernant."}}
-        %i.fa.fa-question-circle
-        Entrez les emails de vos élèves : rassurez-vous, ils resteront confidentiels et ne seront jamais divulgués.
-      %textarea.autoresize.one-whole{name: 'emails', rows: 8, placeholder: 'patrick@gmail.com, thomas@wanadoo.fr', style: 'height: 160px', data: {behavior: 'autoresize'}}
-    .grid__item.one-half>
-      %h4 Message :
-      %p.flush
-        %i Modifiez ce texte en le rendant le plus personnel possible avant d'envoyer votre demande.
-      %textarea.autoresize.one-whole{name: 'text', rows: 8, style: 'height: 160px', data: {behavior: 'autoresize'}}
+    .grid__item.two-twelfths.text--right>
+      %h4 Message
+    .grid__item.ten-twelfths>
+      %textarea#recommendation-user-content.one-whole{ name: 'text', rows: 5, style: 'min-height: 150px;', data: { behavior: 'autoresize' } }
         Bonjour,&#x000A;&#x000A;J'ai créé mon profil sur CoursAvenue et je voudrais savoir ce que vous avez pensé de mes cours. Pouvez-vous prendre quelques secondes pour laisser un avis sur mon profil ?
+      %p.push-half--top.flush--bottom
+        = link_to 'Lien que recevront mes élèves', new_structure_comment_url(@structure, email: @email, subdomain: 'www'), target: '_blank'
       %p.flush
         Merci et à très bientôt,
         %br
         = @structure.name
-  .push-half--top.text--right
-    = f.submit 'Envoyer ma demande', class: 'btn btn--green', id: 'submit-form', data: { disable_with: "En cours d'evoi" }
-%hr.push--top
-.text--center.push-half--bottom
-  = link_to 'Envoyer un email depuis ma boite perso', '#hidden-send', id: 'send-from-personal', data: { behavior: 'modal', width: 500, padding: 0 }
+      .push-half--top.grid
+        .grid__item.one-fifth>
+          %a.btn.btn--full#recommendation-overview
+            %i.fa.fa-eye
+            Aperçu
+        .grid__item.four-fifths>
+          = f.submit 'Envoyer ma demande', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }
+        .text--center= link_to 'Envoyer un email depuis ma boîte perso', '#hidden-send', data: { behavior: 'modal', width: 550, padding: 0 }
 
 #hidden-send.hidden
   .panel
@@ -44,6 +47,15 @@
       $('#submit-form').click(function() {
           $('#save-wizard').click();
           return false;
+      });
+      $('#recommendation-overview').click(function() {
+          $('#recommendation-overview-content').text($('#recommendation-user-content').val());
+          $.fancybox.open($('#recommendation-overview-popup'), {
+              padding: 0,
+              width: 600,
+              minWidth: 600,
+              maxWidth: 600
+          });
       });
   }
   if (typeof($) == 'function') {
@@ -66,3 +78,20 @@
   } else {
       document.ready = submit_form;
   }
+
+#recommendation-overview-popup.hidden
+  .panel
+    .panel__body.soft
+      .grid--full
+        .grid__item{ style: 'width: 60px;' }>
+          - if @structure.logo?
+            = link_to structure_url(@structure, subdomain: 'www'), target: '_blank', class: 'media-photo block' do
+              = image_tag @structure.logo.url(:thumb), style: 'width: 50px; height: 50px;', width: '50', height: '50'
+        .grid__item.eight-tenths.soft--left>
+          %h4 #{@structure.name} vous demande de lui rédiger une recommandation sur CoursAvenue.com
+      %hr
+      %pre#recommendation-overview-content.push--bottom
+      %p= link_to 'Déposer mon avis en 20 secondes', new_structure_comment_url(@structure, email: @email, subdomain: 'www'), class: 'btn btn--green', target: :_blank
+      %p À très bientôt !
+      %p= @structure.name
+

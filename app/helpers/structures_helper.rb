@@ -16,13 +16,11 @@ module StructuresHelper
     end
   end
 
-  def join_child_subjects(structure, with_h3 = false)
+  def join_child_subjects(structure)
     structure.subjects_string.split(';').collect do |subject_string|
       subject_name, subject_slug = subject_string.split(':')
-      content_tag(:li) do
-        content_tag((with_h3 ? :h3: :span), class: 'flush--bottom inherit-font-size') do
-          link_to subject_name, structures_url(name: subject_name, subdomain: 'www'), class: 'lbl milli inline subject-link', target: :_blank
-        end
+      content_tag :span, class: 'lbl lbl--small', style: 'margin-bottom: 2px;' do
+        subject_name
       end
     end.uniq.join(' ').html_safe
   end
@@ -34,13 +32,11 @@ module StructuresHelper
     end.uniq.join(', ').html_safe
   end
 
-  def join_parent_subjects(structure, with_h3 = false)
+  def join_parent_subjects(structure)
     structure.parent_subjects_string.split(';').collect do |subject_string|
       subject_name, subject_slug = subject_string.split(':')
-      content_tag(:li) do
-        content_tag((with_h3 ? :h3: :span), class: 'flush--bottom inherit-font-size') do
-          link_to subject_name, structures_url(name: subject_name, subdomain: 'www'), class: 'lbl milli inline subject-link', target: :_blank
-        end
+      content_tag :span, class: 'lbl lbl--small', style: 'margin-bottom: 2px;' do
+        subject_name
       end
     end.uniq.join(' ').html_safe
   end

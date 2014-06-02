@@ -96,8 +96,14 @@ class Pro::StructuresController < Pro::ProController
     commentable_ids << @structure.id
     @comments       = @structure.comments.accepted
     @courses        = @structure.courses
-    @medias         = @structure.medias.cover_first
     @places         = @structure.places
+
+    if @structure.premium?
+      @medias = @structure.medias.cover_first
+    else
+      @medias = [@structure.medias.cover_first.first]
+    end
+
     @profile_percentage = 100
     @profile_percentage -= 20 if !@structure.profile_completed?
     @profile_percentage -= 20 if @structure.medias.empty?

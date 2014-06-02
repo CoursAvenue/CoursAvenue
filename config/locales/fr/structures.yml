@@ -187,6 +187,20 @@ fr:
           votre compte CoursAvenue.</p>
           <p><strong>Téléphones</strong> : indiquez votre portable, éventuellement votre fixe si vous
           l'utilisez au quotidien. Renseignez autant de numéros que nécessaires.</p>
+        dashboard:
+          profile_completion: >
+            <p><strong>Un profil complet</strong><p>
+            <p>Les profils complets reçoivent le plus de visites et sont mis en avant sur le moteur de recherche
+            CoursAvenue. En quelques minutes, renseignez toutes les informations vous concernant (logo, disciplines
+            enseignées, adresses de vos lieux, planning de vos cours et stages, tarifs, photos & vidéos) puis demandez
+            à vos élèves de rédiger leur recommandation. Complétez votre profil jusqu'à 100% pour entrer en contact
+            avec le maximum de nouveaux élèves.</p>
+          recommendations: >
+            <p><strong>Plus de 15 avis</strong></p>
+            <p>Demandez à vos élèves les plus fidèles de déposer leur témoignage et recommandation :
+            au-delà de 5 avis, vous pourrez les afficher sur votre propre site Internet (Livre d'Or interactif).
+            Au-delà de 15, nous vous offrons vos autocollants CoursAvenue, ce qui vous permettra aussi de remonter
+            dans les résultats de recherche CoursAvenue.</p>
         recommandations:
           global: >
             <p><strong> CoursAvenue est basé sur la confiance et le bouche à oreille :</strong>

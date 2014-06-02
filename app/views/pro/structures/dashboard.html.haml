@@ -1,19 +1,20 @@
 = side_menu_currently_at 'dashboard'
 .panel
   - if @wizard
-    .panel__header#wizard.hidden.relative.soft
-      %a#close-wizard.closer{href: 'javascript:void(0)', data: { behavior: 'closer', el: '#wizard'}}
-        %i.fa.fa-times
-      #wizard-form= render @wizard.partial
-      .text--right
-        - if @wizard.show_save
-          %span.btn.btn--green#save-wizard Enregistrer
-        %a#skip-wizard.soft-half--left{href: 'javascript:void(0)'} Passer
+    .panel__header.hard#wizard.hidden
+      .blue-box.relative.soft.rounded--none
+        %a#close-wizard.closer{ href: 'javascript:void(0)', data: { behavior: 'closer', el: '#wizard' } }
+          %i.fa.fa-times
+        #wizard-form= render @wizard.partial
+        .text--right
+          - if @wizard.show_save
+            %span.btn.btn--green#save-wizard Enregistrer
+          %a#skip-wizard.soft-half--left{href: 'javascript:void(0)'} Passer
     = render 'pro/structures/wizards/share_your_profile'
-  .panel__body.soft--sides
-    .soft--top
+  .panel__body.soft--ends
+    .soft--sides
       .grid
-        .grid__item.one-half.bordered--right>
+        .grid__item.one-half.bordered--right{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.dashboard.profile_completion')} }>
           %h4.push-half--bottom Votre profil est complété à #{@profile_percentage}%
           .text--center.progress.push-half--bottom{style: "width: 280px;"}
             - if @profile_percentage == 0
@@ -57,7 +58,7 @@
                 = link_to pro_structure_courses_path(@structure), class: 'profile-task-uncomplete' do
                   %i.fa.fa-square-o
                   Renseigner mes cours et mon planning
-        .grid__item.one-half>
+        .grid__item.one-half{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.dashboard.recommendations')} }>
           .soft--right
             %h4.push-half--bottom Vos recommandations et récompenses
             %table#progress-comments.push-half--right.flush--bottom
@@ -80,7 +81,7 @@
 
               %tbody
                 %tr
-                  %td.v-top.text--center.hard{colspan: 9}
+                  %td.v-top.text--center.hard{ colspan: 9 }
                     %i.fa.fa-arrow-up
                     %br
                     %span.nowrap À partir du 5<sup>e</sup> avis :
@@ -91,8 +92,8 @@
                         %br
                         livre d'or
                     - else
-                      %a.btn.text--center{href: '#livre-dor-explanation', data: {behavior: 'modal'}} OBTENEZ VOTRE LIVRE D'OR
-                  %td.text--right.v-top.hard{colspan: 6}
+                      %a.btn.btn--small.text--center{ href: '#livre-dor-explanation', data: { behavior: 'modal', width: 500, padding: 0 } } OBTENEZ VOTRE LIVRE D'OR
+                  %td.text--right.v-top.hard{ colspan: 6 }
                     %i.fa.fa-arrow-up
                     %br
                     %span.nowrap À partir de 15 avis et +
@@ -103,33 +104,39 @@
                         %br
                         autocollants
                     - else
-                      %a.btn.text--center{href: '#sticker-explanation', data: {behavior: 'modal'}} OBTENEZ VOS AUTOCOLLANTS
+                      %a.btn.btn--small.text--center{ href: '#sticker-explanation', data: { behavior: 'modal', width: 500, padding: 0 } } OBTENEZ VOS AUTOCOLLANTS
 
     #livre-dor-explanation.hidden
-      %h3.text--center Vous n'avez pas encore accès à votre livre d'or
-
-      %p
-        %strong Au-delà de 5 avis, nous vous offrons votre livre d'or interactif
-        qui vous permet d'afficher toutes les recommandations de vos élèves directement sur votre propre site Internet ou blog, mais aussi sur tous les autres supports de communication (flyers, affiches, signature de vos emails, etc.).
-      %p
-        Le bouche à oreille restant le 1er facteur d'inscription à un cours, nos partenaires qui affichent publiquement les témoignages de leurs élèves sont ceux qui ont le plus fort taux d'inscription et de fidélisation.
-      .text--center.push--bottom= link_to "Exemples de livres d'Or.", pro_pages_widget_path, target: '_blank', rel: 'nofollow'
-      %p.text--center
-        = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--green'
+      .panel
+        .panel__header.soft
+          %h4.flush Vous n'avez pas encore accès à votre livre d'or
+        .panel__body.soft
+          %p
+            %strong Au-delà de 5 avis, nous vous offrons votre livre d'or interactif
+            qui vous permet d'afficher toutes les recommandations de vos élèves directement sur votre propre site Internet ou blog, mais aussi sur tous les autres supports de communication (flyers, affiches, signature de vos emails, etc.).
+          %p
+            Le bouche à oreille restant le 1er facteur d'inscription à un cours, nos partenaires qui affichent publiquement les témoignages de leurs élèves sont ceux qui ont le plus fort taux d'inscription et de fidélisation.
+          .text--center.push--bottom= link_to "Exemples de livres d'Or.", pro_pages_widget_path, target: '_blank', rel: 'nofollow'
+          %p.text--center
+            = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--green'
 
     #sticker-explanation.hidden
-      %h3.text--center Vous n'avez pas encore accès à votre autocollant
-      %p
-        %strong Au-delà de 15 avis, nous vous offrons l'autocollant "Recommandé par les élèves sur CoursAvenue"
-        à afficher sur vos lieux de cours : cela signifie que vos cours sont appréciés d'une large partie de vos élèves et que le bouche à oreille participe à votre développement.
+      .panel
+        .panel__header.soft
+          %h4.flush Vous n'avez pas encore accès à votre autocollant
+        .panel__body.soft
+          %p
+            %strong Au-delà de 15 avis, nous vous offrons l'autocollant "Recommandé par les élèves sur CoursAvenue"
+            à afficher sur vos lieux de cours : cela signifie que vos cours sont appréciés d'une large partie de vos élèves et que le bouche à oreille participe à votre développement.
 
-      %p.text--center
-        = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--green'
-
+          %p.text--center
+            = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--green'
 
     %hr.push--ends
     .soft--sides
-      %h4.push-half--bottom Résumé du profil
+      %h4.push-half--bottom
+        %i.fa.fa-user
+        Résumé du profil
       = render 'pro/structures/structure'
 
     %hr.push--ends
@@ -149,11 +156,11 @@
           .islet.text--center
             %h4.flush
               %i.fa.fa-list
-              Cours en ligne
+              Cours & Stages
             %p
-              %span.beta{class: (@structure.courses.active.count > 2 ? 'green' : 'red')}= @structure.courses.active.count
+              %span.beta{class: (@structure.courses.active.count > 0 ? 'green' : 'red')}= @structure.courses.active.count
               %br
-              = link_to 'Ajouter des cours', pro_structure_courses_path(@structure), onclick: "ga('send', 'event', 'Dashboard', 'click', 'Ajouter des cours')", class: 'btn btn--blue btn--small'
+              = link_to 'Ajouter des cours / stages', pro_structure_courses_path(@structure), onclick: "ga('send', 'event', 'Dashboard', 'click', 'Ajouter des cours')", class: 'btn btn--blue btn--small'
         .grid__item.one-third>
           .islet.text--center
             %h4.flush
@@ -171,8 +178,8 @@
         Mes lieux d'enseignement
 
       #map.google-map
-      .text--center
-        = link_to "Ajouter un lieu d'enseignement", pro_structure_places_path(@structure), class: 'btn btn--blue push-half--ends'
+      .text--center.media-photo
+        = link_to "Ajouter un lieu", pro_structure_places_path(@structure), class: 'btn btn--blue push-half--ends'
 
     - if @comments.length > 0
       %hr.push--ends
@@ -181,59 +188,78 @@
           %i.fa.fa-comments
           Mes derniers avis
         %ul.comment-list
-          = render partial: 'comments/comment', collection: @comments[0..2]
+          = render partial: 'comments/comment', collection: @comments[0..2], locals: { structure: @structure, with_reply: true }
           - if @comments.length > 3
             %p.text--center= link_to 'Voir mes autres avis', pro_structure_comments_path(@structure)
 
     - if @courses.any?
       %hr.push--ends
       .soft--sides
-        %h4 Mes cours
-        %table.table--striped
-          %thead
-            %tr
-              %th.text--center.one-twelfth Statut
-              %th.five-twelfths Nom du <b>cours</b>
-              %th.three-twelfths.text--center Disciplines
-              %th.two-twelfths.text--center Séances à venir
-              %th.text--right Prix
-          %tbody
-            - @courses.each do |course|
+        %h4
+          %i.fa.fa-list
+          Mes cours & stages
+
+        - if @courses.lessons.any?
+          %h5 Cours collectifs
+          %table.table--striped
+            %thead
               %tr
-                %td.text--center
-                  - if course.active
-                    = link_to disable_pro_structure_course_path(@structure, course), method: :patch, class: 'switch-button on', title: 'Enlever le cours de CoursAvenue' do
-                      Visible
-                  - else
-                    = link_to activate_pro_structure_course_path(@structure, course), method: :patch, class: 'switch-button off', title: 'Afficher le cours sur CoursAvenue'  do
-                      Non&nbsp;visible
+                %th.one-half Nom
+                %th.one-half Créneaux
+            %tbody
+              - @courses.lessons.each do |course|
+                %td= course.name
                 %td
-                  %h3.base-font-style.flush--bottom= link_to course.name.capitalize, edit_pro_structure_course_path(@structure, course)
-                %td.text--center
-                  %ul.nav.flush--bottom
-                    = join_course_subjects course
-                %td.text--center= course.plannings.future.count
-                %td.text--right
-                  - if course.best_price
-                    = "#{readable_amount course.best_price.amount}€".html_safe
-        %p.text--center= link_to 'Ajouter un cours', pro_structure_courses_path(@structure), class: 'btn btn--blue'
+                  - if course.plannings.count > 1
+                    = "#{course.plannings.count} créneaux"
+                  - else
+                    1 créneau
+                  = "(#{course.plannings.map{ |planning| week_day_for(planning).downcase }.uniq.join(', ')})"
+
+        - if @courses.trainings.any?
+          %h5 Stages
+          %table.table--striped
+            %thead
+              %tr
+                %th.one-half Nom
+                %th.one-half Créneaux
+            %tbody
+              - @courses.trainings.each do |course|
+                %td= course.name
+                %td
+                  - if course.plannings.count > 1
+                    = "#{course.plannings.count} créneaux"
+                  - else
+                    1 créneau
+                  = course.plannings.map{ |planning| l(planning.start_date) }.join(', ')
+
+        - if @courses.privates.any?
+          %h5 Cours particuliers
+          %table.table--striped
+            %thead
+              %tr
+                %th.one-half Nom
+                %th.one-half Créneaux
+            %tbody
+              - @courses.privates.each do |course|
+                %td= course.name
+                %td
+                  - if course.plannings.count > 1
+                    = "#{course.plannings.count} créneaux"
+                  - else
+                    1 créneau
+                  = "(#{course.plannings.map{ |planning| week_day_for(planning).downcase }.uniq.join(', ')})"
+        %p.text--center= link_to 'Ajouter un cours / stage', pro_structure_courses_path(@structure), class: 'btn btn--blue'
 
     - if @medias.any?
       %hr.push--ends
       .soft--sides
-        %h4 Mes photos & vidéos
-        .media-gallery
-          - @medias.each do |media|
-            .one-third.media__item.very-soft.show-on-hover-wrapper>
-              %a.break-all.soft-half.hard--bottom.block{href: media.url, title: media.caption, data: {behavior: 'fancy'}}
-                %i.fa.fa-expand
-                = media.thumbnail_url_html
-                - if media.caption.present?
-                  %p.flush--bottom
-                    %i= media.caption
-              - if media.image? and !media.cover?
-                = link_to 'Mettre en avant', make_it_cover_pro_structure_media_path(@structure, media), method: :put, class: 'push-half--left show-on-hover btn btn--small btn--blue'
-              = link_to 'Supprimer', pro_structure_media_path(@structure, media), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce média ?' }, class: 'push-half--left show-on-hover btn btn--small btn--red'
+        %h4
+          %i.fa.fa-youtube-play
+          Mes photos & vidéos
+        - @medias.each_with_index do |media, index|
+          .soft-half.inline-block.one-third>
+            = render partial: 'pro/structures/medias/media', locals: { media: media, index: index, show: true }
 
         %p.text--center= link_to 'Ajouter une photo ou une vidéo', pro_structure_medias_path(@structure), class: 'btn btn--blue'
 

@@ -6,8 +6,7 @@
       %p.text--center
         = link_to '', edit_pro_structure_path(@structure), style: 'width: 100px; height: 100px; background-color: #555; padding-top: 28px; color: white; display: block;', class: 'fa fa-picture-o fa-3x rounded'
   .grid__item.five-tenths.bordered--right.soft-half--right>
-    %p
-      %b= @structure.name
+    %h5= @structure.name
     - if @structure.description.present?
       .read-more{data: {behavior: 'read-more'}}
         = simple_format @structure.description
@@ -18,10 +17,10 @@
         = link_to 'Ajouter ma description', edit_pro_structure_path(@structure)
 
   .grid__item.three-tenths>
-    %p.flush
-      %b Disciplines pratiquées :
-    %ul.nav= join_child_subjects @structure, true
+    %h5 Disciplines pratiquées :
+    = join_child_subjects @structure
+    %p
     - if @structure.website.present?
-      %p= link_to 'Site web', @structure.website, class: 'btn btn--blue btn--small', target: '_blank', rel: 'nofollow'
+      = link_to 'Site web', @structure.website, class: 'btn btn--blue btn--small', target: '_blank', rel: 'nofollow'
     - if @structure.facebook_url.present?
-      %p= link_to 'Facebook', @structure.facebook_url, class: 'btn btn--small btn--blue', target: '_blank', rel: 'nofollow'
+      = link_to 'Facebook', @structure.facebook_url, class: 'btn btn--small btn--blue', target: '_blank', rel: 'nofollow'
