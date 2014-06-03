@@ -209,13 +209,14 @@
                 %th.one-half Créneaux
             %tbody
               - @courses.lessons.each do |course|
-                %td= course.name
-                %td
-                  - if course.plannings.count > 1
-                    = "#{course.plannings.count} créneaux"
-                  - else
-                    1 créneau
-                  = "(#{course.plannings.map{ |planning| week_day_for(planning).downcase }.uniq.join(', ')})"
+                %tr
+                  %td= course.name
+                  %td
+                    - if course.plannings.count > 1
+                      = "#{course.plannings.count} créneaux"
+                    - else
+                      1 créneau
+                    = "(#{course.plannings.map{ |planning| week_day_for(planning).downcase }.uniq.join(', ')})"
 
         - if @courses.trainings.any?
           %h5 Stages
@@ -226,13 +227,14 @@
                 %th.one-half Créneaux
             %tbody
               - @courses.trainings.each do |course|
-                %td= course.name
-                %td
-                  - if course.plannings.count > 1
-                    = "#{course.plannings.count} créneaux"
-                  - else
-                    1 créneau
-                  = course.plannings.map{ |planning| l(planning.start_date) }.join(', ')
+                %tr
+                  %td= course.name
+                  %td
+                    - if course.plannings.count > 1
+                      = "#{course.plannings.count} créneaux"
+                    - else
+                      1 créneau
+                    = course.plannings.map{ |planning| l(planning.start_date) }.join(', ')
 
         - if @courses.privates.any?
           %h5 Cours particuliers
@@ -243,13 +245,14 @@
                 %th.one-half Créneaux
             %tbody
               - @courses.privates.each do |course|
-                %td= course.name
-                %td
-                  - if course.plannings.count > 1
-                    = "#{course.plannings.count} créneaux"
-                  - else
-                    1 créneau
-                  = "(#{course.plannings.map{ |planning| week_day_for(planning).downcase }.uniq.join(', ')})"
+                %tr
+                  %td= course.name
+                  %td
+                    - if course.plannings.count > 1
+                      = "#{course.plannings.count} créneaux"
+                    - else
+                      1 créneau
+                    = "(#{course.plannings.map{ |planning| week_day_for(planning).downcase }.uniq.join(', ')})"
         %p.text--center= link_to 'Ajouter un cours / stage', pro_structure_courses_path(@structure), class: 'btn btn--blue'
 
     - if @medias.any?
