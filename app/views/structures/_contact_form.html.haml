@@ -27,7 +27,7 @@
               - prefilled_body = params[:message_body] || "Bonjour,\n\nJe souhaiterais venir pour une première séance. Pouvez-vous m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt"
               = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole input--large', style: 'height: 170px;', value: cookies[:user_contact_message] || prefilled_body, data: { behavior: 'autoresize' } }, id: 'contact-message-body'
               - if current_user
-                = f.submit 'Envoyer mon message', class: 'btn btn--green btn--full', disable_with: "En cours d'envoi"
+                = f.submit 'Envoyer mon message', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }
               - else
                 = link_to 'Envoyer mon message', new_user_registration_path, data: { behavior: 'modal', title: 'Connexion', width: 600, padding: 0 }, class: 'fancybox.ajax btn btn--green btn--full', id: 'send-message'
 

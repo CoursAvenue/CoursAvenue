@@ -30,7 +30,7 @@
             - if unread_conversations_count > 0
               %span.push--left.lbl.lbl--yellow.lbl--small= unread_conversations_count
           .drop-down__el
-            %ul.no-bullet-list.flush{ style: 'width: 350px' }
+            %ul.no-bullet-list.flush{ style: 'width: 400px' }
               - if unread_conversations_count == 0
                 %li.soft-half Pas de nouveau message
               - unread_conversations.each do |conversation|
@@ -44,9 +44,12 @@
                       %strong= conversation.subject
                       %br
                       = last_recipient.name
-                    .grid__item.four-twelfths.v-middle.text--right.f-weight-normal.nowrap>
-                      %span.v-middle= conversation_label_name conversation
-                      = conversation_label conversation, class: 'v-middle lbl--small'
+                    .grid__item.four-twelfths.v-middle.text--right.f-weight-normal>
+                      .grid--full
+                        .grid__item.v-middle.ten-twelfths>
+                          = conversation_label_name conversation
+                        .grid__item.v-middle.two-twelfths>
+                          = conversation_label conversation, class: 'lbl--small'
               %li= link_to 'Voir tous les messages', pro_structure_conversations_path(@structure)
         %span.push-half--sides= '|'
         .inline-block.v-middle.drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
