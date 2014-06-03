@@ -1,10 +1,12 @@
 .modal-info-popup#modal-info-dashboard {
-  top: 214px;
-  left: 1em;
+  top     : 165px;
+  left    : 285px;
+  position: fixed;
 }
 .modal-info-popup#modal-info-check-info-at-right {
-  top : 50px;
-  left: 250px;
+  top : 160px;
+  left: 500px;
+  position: fixed;
 }
 .modal-info-popup#modal-info-mes-infos {
   top: 55px;
@@ -28,7 +30,7 @@
   left: 385px;
   top : 105px;
 }
-.modal-info-popup{
+.modal-info-popup {
   position  : absolute;
   z-index   : 10;
   width     : 40em;
