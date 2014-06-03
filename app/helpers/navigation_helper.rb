@@ -20,7 +20,7 @@ module NavigationHelper
     options[:class] ||= 'nowrap'
     options[:class] << ((current_tab == title) ? ' active' : '')
     if options[:icon].present?
-      html_title = "<i class='#{options[:icon]}'></i>&nbsp;#{I18n.t('pro.structures.side_menu.' + title)}".html_safe
+      html_title = "<i class='#{options[:icon]}'></i> #{I18n.t('pro.structures.side_menu.' + title)}".html_safe
     end
     content_tag(:li, link_to(html_title, url, class: 'side-menu-link'), options)
   end
