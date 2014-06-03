@@ -25,7 +25,7 @@
             $(function() {
                 // June 7, 2087 15:03:26
                 $('#conversation-countdown-#{conversation.id}').countdown({
-                    date: Date.parse("#{conversation.created_at}")
+                    date: Date.parse("#{l(conversation.created_at, format: :js )}")
                 });
             });
 

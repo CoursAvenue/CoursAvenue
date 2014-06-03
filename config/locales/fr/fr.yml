@@ -101,6 +101,7 @@ fr:
       date_short: "%d/%m/%Y"
       date_short_en: "%Y-%m-%d"
       iso_date: "%Y-%m-%d"
+      js: "%Y/%m/%d %H:%M:%S"
     am: 'am'
     pm: 'pm'
 
