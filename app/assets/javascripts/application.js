@@ -58,6 +58,8 @@
 //= require libs/backbone.poller.js
 //= require backbone/cours_avenue
 
+//= require libs/countdown
+
 //= require_tree ./libs/fancybox/helpers/
 
 //---- Bootstrap plugins

@@ -21,16 +21,12 @@
             Passer au Premium
           %span.push-half--sides= '|'
 
-        - if current_pro_admin.super_admin?
-          - mailbox       = @structure.main_contact.mailbox
-        - else
-          - mailbox       = current_pro_admin.mailbox
-        - unread_conversations       = mailbox.inbox(read: false)
+        - unread_conversations       = @structure.mailbox.inbox(read: false)
         - unread_conversations_count = unread_conversations.count
         .inline-block.v-middle.drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
           = link_to pro_structure_conversations_path(@structure), class: 'white block soft-half--ends muted-link f-weight-bold' do
             %i.fa.fa-envelope
-            = pluralize mailbox.inbox.count, 'message'
+            = pluralize @structure.mailbox.inbox.count, 'message'
             - if unread_conversations_count > 0
               %span.push--left.lbl.lbl--yellow.lbl--small= unread_conversations_count
           .drop-down__el

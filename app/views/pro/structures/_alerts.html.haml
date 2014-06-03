@@ -1,0 +1,52 @@
+.soft--sides
+  - if @structure.unanswered_information_message.any? or @structure.comments.pending.any?
+    %h4
+      %i.fa.fa-warning
+      Alertes
+    .gray-box
+      - @structure.unanswered_information_message.each_with_index do |conversation, index|
+        - if index > 0
+          %hr.push-half--ends
+        .soft.grid--full
+          .grid__item.two-twelfths.soft-half--right>
+            .lbl{ class: "lbl--#{Mailboxer::Label::INFORMATION.color}"}
+              %i.fa.fa-tag
+              Demande d'information
+          .grid__item.ten-twelfths>
+            %p
+              Félicitations ! Vous avez reçu une demande d'information. Répondez rapidement à cet élève potentiel, de préférence sous 48h pour augmenter les chances d'inscription à l'un de vos cours.
+
+            .float--right.nowrap.delta.orange
+              %i.fa.fa-clock-o
+              %strong{ id: "conversation-countdown-#{conversation.id}" }
+            = link_to 'Répondre maintenant', pro_structure_conversation_path(@structure, conversation), class: 'btn btn--green btn--small'
+        = content_for :scripts do
+          :javascript
+            $(function() {
+                // June 7, 2087 15:03:26
+                $('#conversation-countdown-#{conversation.id}').countdown({
+                    date: Date.parse("#{conversation.created_at}")
+                });
+            });
+
+      - @structure.comments.pending.each_with_index do |comment, index|
+        - if index > 0
+          %hr.push-half--ends
+        .soft.grid--full
+          .grid__item.two-twelfths.soft-half--right>
+            .lbl.lbl--green
+              %i.fa.fa-tag
+              Avis déposé
+          .grid__item.ten-twelfths>
+            %p
+              Félicitations ! L'élève
+              %strong= "#{comment.author_name} (#{comment.email})"
+              a déposé son avis sur votre profil CoursAvenue. S'il s'agit bien d'un de vos élèves, validez sa recommandation pour qu'elle apparaisse sur votre profil public.
+            = link_to accept_pro_structure_comment_path(@structure, comment), class: 'btn btn--small btn--green', method: :patch do
+              %i.fa.fa-check
+              Valider
+            = link_to decline_pro_structure_comment_path(@structure, comment), class: 'btn btn--small btn--red', method: :patch do
+              %i.fa.fa-times
+              Rejeter
+
+  %hr.push-ends

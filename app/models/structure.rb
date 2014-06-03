@@ -699,14 +699,37 @@ class Structure < ActiveRecord::Base
     StructureSearch.similar_profile(self, 3)
   end
 
+  # Return highlighted comment if has one
+  #
+  # @return Comment
   def highlighted_comment
     self.comments.find(highlighted_comment_id) if highlighted_comment_id
   end
 
+  # Return wether the structure has any premium prices
+  #
+  # @return Boolean
   def has_premium_prices
     # [false, true].any?  # => true
     # [false, false].any? # => false
     price_groups.map(&:has_premium_prices?).any?
+  end
+
+  # Return main admin mailbox
+  #
+  # @return Mailbox
+  def mailbox
+    return @mailbox if @mailbox
+    return @mailbox = main_contact.mailbox
+  end
+
+  # Return all conversations that are information demand AND are unanswered
+  #
+  # @return Mailboxer::Conversation
+  def unanswered_information_message
+    mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).select do |conversation|
+      conversation.messages.count == 1
+    end
   end
 
   private

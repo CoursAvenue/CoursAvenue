@@ -98,9 +98,6 @@
             // }
             &.active, &.active:hover {
                 background-color   : $blue;
-                box-shadow         : inset 0px 0px 10px darken($blue, 4%);
-                border-right       : 3px solid darken($blue, 10%);
-                border-bottom-color: darken($blue, 4%);
                 a { color: white; }
             }
             // border-bottom: 1px solid #DDD;
