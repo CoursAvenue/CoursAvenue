@@ -22,16 +22,22 @@
           %span.push-half--sides= '|'
 
         - if current_pro_admin.super_admin?
-          - conversations = @structure.main_contact.mailbox.inbox(read: false)
+          - mailbox       = @structure.main_contact.mailbox
         - else
-          - conversations = current_pro_admin.mailbox.inbox(read: false)
-        .inline-block.v-middle.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
-          = link_to pro_structure_conversations_path(@structure), class: 'white f-weight-bold' do
+          - mailbox       = current_pro_admin.mailbox
+        - unread_conversations       = mailbox.inbox(read: false)
+        - unread_conversations_count = unread_conversations.count
+        .inline-block.v-middle.drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
+          = link_to pro_structure_conversations_path(@structure), class: 'white block soft-half--ends muted-link f-weight-bold' do
             %i.fa.fa-envelope
-            = "#{conversations.count} messages"
+            = pluralize mailbox.inbox.count, 'message'
+            - if unread_conversations_count > 0
+              %span.push--left.lbl.lbl--yellow.lbl--small= unread_conversations_count
           .drop-down__el
             %ul.no-bullet-list.flush{ style: 'width: 350px' }
-              - conversations.each do |conversation|
+              - if unread_conversations_count == 0
+                %li.soft-half Pas de nouveau message
+              - unread_conversations.each do |conversation|
                 %li
                   = link_to pro_structure_conversation_path(@structure, conversation), class: 'grid--full' do
                     .grid__item.two-twelfths.v-middle>
@@ -47,9 +53,26 @@
                       = conversation_label conversation, class: 'v-middle lbl--small'
               %li= link_to 'Voir tous les messages', pro_structure_conversations_path(@structure)
         %span.push-half--sides= '|'
-        = link_to pro_structure_comments_path(@structure), class: 'white f-weight-bold' do
-          %i.fa.fa-comment
-          = "#{@structure.comments.pending.count} avis en attente"
+        .inline-block.v-middle.drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
+          = link_to pro_structure_comments_path(@structure), class: 'white block soft-half--ends muted-link f-weight-bold' do
+            %i.fa.fa-comment
+            = "#{@structure.comments.accepted.count} avis"
+            - if @structure.comments.pending.count > 0
+              %span.push--left.lbl.lbl--yellow.lbl--small= "#{@structure.comments.pending.count}"
+          .drop-down__el
+            %ul.no-bullet-list.flush{ style: 'width: 350px' }
+              - if @structure.comments.pending.count == 0
+                %li Pas d'avis en attente
+              - @structure.comments.pending.each do |comment|
+                %li
+                  = link_to pro_structure_comments_path(@structure), class: 'grid--full' do
+                    .grid__item.two-twelfths.v-middle>
+                      = image_tag comment.user.avatar_url(:small), height: 30, width: 30, class: 'bordered rounded--circle'
+                    .grid__item.ten-twelfths.f-weight-normal.text--left>
+                      %strong= comment.author_name
+                      %br
+                      = comment.email
+              %li= link_to 'Voir tous les avis', pro_structure_comments_path(@structure)
         %span.push-half--sides= '|'
         = link_to structure_url(@structure, subdomain: 'www'), class: 'white', target: :_blank do
           .fa.fa-eye
