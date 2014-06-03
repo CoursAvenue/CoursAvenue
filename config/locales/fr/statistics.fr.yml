@@ -6,13 +6,13 @@ fr:
   statistics:
     wizard:
       infos: >
-        <p><strong>Légende des données de statistiques*</strong></p>
+        <p><strong>Suivez vos statistiques de performance</strong></p>
         <p><strong>Affichages</strong> = apparitions de votre profil dans la liste des résultats du moteur de recherche CoursAvenue.</p>
         <p><strong>Vues</strong> = visualisations de votre page profil.</p>
-        <p><strong>Prises de contact</strong> = quand un Internaute a souhaité vous contacter (nombre de messages envoyés ou nombre de visualisations de vos coordonnées de contact : téléphone, site Internet & page Facebook).</p>
-        <p><strong>Actions</strong> = internautes qui ont cliqué sur le bouton "Suivre" (toutes leurs coordonnées de contact sont visibles dans votre Répertoire), sur le bouton "J'aime" (relié à votre page Facebook), ou sur le bouton "Ajouter à mes favoris".</p>
-        <p><strong>Note importante</strong> : pour chaque internaute, les données ne sont pas cumulables. En d'autres termes, si plusieurs actions identiques sont réalisées par un seul et même utilisateur, le nombre d'actions n'augmente pas. Exemple : si un internaute clique sur plusieurs onglets de contact (onglets téléphone, site Internet...) ou s'il ouvre plusieurs fois votre page profil, le nombre de prises de contact ou de vues comptabilisé pour cet utilisateur sera de 1.</p>
+        <p><strong>Actions</strong> = nombre d'interactions avec votre profil (messages envoyés, visualisations de vos coordonnées de contact, ajout de votre profil en "Favori" ou bouton Facebook "J'aime").</p>
+        <p><strong>Note importante</strong> : pour chaque internaute, les données ne sont pas cumulables. Si plusieurs actions identiques sont réalisées par un seul et même utilisateur, le nombre d'actions reste inchangé.</p>
       advices: >
         <p><strong>Conseils personnalisés</strong></p>
         <p>L'objectif de votre profil CoursAvenue est de maximiser le nombre de visites et de mises en relation avec des élèves potentiels. Grâce au volume de profils présents sur CoursAvenue, nous analysons les comportements des internautes pour comprendre ce qui les pousse à prendre contact avec nos partenaires.</p>
-        <p>Ainsi, nos analyses et nos conseils personnalisés vous permettent de répondre au mieux à la demande et d'optimiser l'activité de votre profil. Vous bénéficiez de conseils en marketing et en communication que vous pouvez également appliquer sur tous vos supports de communication (site Internet, newsletters, affiches, etc.).</p>
+
+

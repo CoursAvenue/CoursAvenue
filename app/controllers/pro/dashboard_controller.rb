@@ -70,6 +70,6 @@ class Pro::DashboardController < Pro::ProController
       @videos[date] ||= 0
       @images[date] ||= 0
     end
-    @messages = Mailboxer::Conversation.where( subject: "Demande d'informations" ).order('DATE(created_at) ASC').group('DATE(created_at)').count
+    @messages = Mailboxer::Conversation.where( subject: t(Mailboxer::Label::INFORMATION.name) ).order('DATE(created_at) ASC').group('DATE(created_at)').count
   end
 end

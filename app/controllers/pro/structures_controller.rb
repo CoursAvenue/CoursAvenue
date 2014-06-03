@@ -348,7 +348,9 @@ class Pro::StructuresController < Pro::ProController
   end
 
   def retrieve_home_places
-    @structure.places.homes.build if @structure.places.homes.empty?
+    if @structure.places.homes.empty?
+      @structure.places.homes.build
+    end
     @home_places = @structure.places.select{ |p| p.type == 'Place::Home' }
   end
 end

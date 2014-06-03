@@ -9,7 +9,7 @@ class Structures::MessagesController < ApplicationController
       user = current_user || User.create_or_find_from_email(params[:user][:email], params[:user][:first_name])
       @structure.create_user_profile_for_message(user)
       @recipients   = @structure.main_contact
-      @receipt      = user.send_message_with_label(@recipients, params[:message][:body], "Demande d'informations", 'information')
+      @receipt      = user.send_message_with_label(@recipients, params[:message][:body], I18n.t(Mailboxer::Label::INFORMATION.name), 'information')
       @conversation = @receipt.conversation
     end
     Statistic.action(@structure.id, current_user, cookies[:fingerprint], 'contact')

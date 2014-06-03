@@ -19,7 +19,7 @@ fr:
         email_address: Adresse email
         funding_type_ids: Type de financements acceptés
         gives_professional_courses: Formation professionnelle
-        gives_non_professional_courses: Pour amateur
+        gives_non_professional_courses: Pour amateurs
         billing_contact_first_name: Prénom
         billing_contact_last_name: Nom
         billing_contact_phone_number: Numéro de téléphone
@@ -60,7 +60,7 @@ fr:
       dont_have_my_place: "Je pense qu'un profil comme le mien n'a pas sa place sur votre site."
       dont_understand_how_to_use_it: Je ne comprends pas comment l'utiliser.
       other: J'ai d'autres raisons.
-    accepted_image_formats: "Formats autorisés : JPEG / JPG / GIF / PNG / BMP- Taille maximum 5mo"
+    accepted_image_formats: "Format : JPEG / JPG / GIF / PNG / BMP (5Mo max)."
     company: École privée
     association: Association
     other: Autre
@@ -149,21 +149,18 @@ fr:
           bien précis et dans des salles que vous louez ou qui vous appartiennent.</p>
           <p><strong>Cours particuliers</strong> : vous proposez des cours à la demande pour une personne, un couple,
           ou un nombre restreint de participants.</p>
-          <p><strong>Cours à domicile</strong> : vous vous déplacez chez les participants pour donner vos cours.
-          Renseignez votre ville principale et votre rayon de déplacement.</p>
-          <p><strong>Cours à distance</strong> : vous proposez des cours en ligne via Internet grâce à un système de vidéo-conférence
-          en temps réel incluant l'utilisation d'une webcam (comme Skype).</p>
         funding_types: >
           <p><strong>Vos financements acceptés</strong><br>
           Listez toutes les solutions de financements que vous acceptez : chèques vacances ou loisirs, DIF / CIF, tickets restaurants...</p>
+          <p>Laissez ce champ vide si vous ne proposez pas l'un de ces financements.</p>
         description: >
           <p><strong>Une bonne description</strong><br>
           Elle doit être complète et captivante ! Soyez sincère, original, et décrivez objectivement vos principales caractéristiques.</p>
-          <p>Questions auxquelles vous pouvez répondre :<br>
-          Qu'est-ce qui vous différencie ?<br>D'où vient votre passion pour votre discipline ?
-          Quels en sont les bénéfices ?<br>Pourquoi devrait-on suivre des cours avec vous ?<br>
-          Quelle est votre équipe, combien êtes-vous ?<br>Quel est le parcours des professeurs ?<br>
-          Depuis quand votre structure existe-t-elle, quelle est sa notoriété ?</p>
+          <p><strong>Questions auxquelles vous pouvez répondre</strong><br>
+          - Qu'est-ce qui vous différencie ?<br>D'où vient votre passion pour votre discipline ?
+          - Quels en sont les bénéfices ?<br>Pourquoi devrait-on suivre des cours avec vous ?<br>
+          - Quelle est votre équipe, combien êtes-vous ?<br>Quel est le parcours des professeurs ?<br>
+          - Depuis quand votre structure existe-t-elle, quelle est sa notoriété ?</p>
           <p><strong>Important</strong> : vos coordonnées de contact (téléphone, e-mail, site Internet...) ou
           votre planning de cours ne doivent pas être renseignés ici.</p>
         logo: >

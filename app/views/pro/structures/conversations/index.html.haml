@@ -21,11 +21,11 @@
         .grid__item.one-half.v-middle>
           .text--right= paginate @conversations, window: 1, outer_window: 3
       .push--bottom
-        .lbl.lbl--green.rounded--thick= conversation_information_count
+        .lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::INFORMATION.color}"}= conversation_information_count
         %strong Demandes d'informations
-        .push-half--left.lbl.lbl--yellow.rounded--thick= conversation_comment_count
+        .push-half--left.lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::COMMENT.color}"}= conversation_comment_count
         %strong Avis déposés
-        .push-half--left.lbl.lbl--gray.rounded--thick= conversation_conversation_count
+        .push-half--left.lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::CONVERSATION.color}"}= conversation_conversation_count
         %strong Conversations
       - @conversations.each do |conversation|
         = link_to pro_structure_conversation_path(@structure, conversation), class: 'muted-link block' do

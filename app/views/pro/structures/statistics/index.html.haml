@@ -35,8 +35,9 @@
 
     .soft--sides{ data: { behavior: 'wizard-helper', content: t('statistics.wizard.advices') } }
       %h4 Conseils personnalisés
-      .text--center
-        = link_to '10 conseils personnalisés pour améliorer ses statistiques', '#', class: 'btn btn--yellow'
+      .text--center.push--bottom
+        = link_to '10 conseils personnalisés pour optimiser votre communication et vos statistiques', '#', class: 'btn btn--yellow'
+      %p.epsilon Bénéficiez de conseils en marketing et en communication que vous pouvez également appliquer sur tous vos supports de communication (site Internet, newsletters, affiches, etc.)
 
 = content_for :scripts do
   :javascript

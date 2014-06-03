@@ -11,15 +11,15 @@
         - else
           = link_to '', edit_pro_structure_path(@structure), class: 'fa-2x fa fa-picture-o soft-half muted-link white', data: { toggle: 'popover', content: "Ajouter un logo", placement: 'right', trigger: 'hover' }
       .flexbox__item.v-middle
-        %h5.flush--bottom.white
+        %h5.flush--bottom.white.inline-block.v-middle
           = link_to edit_pro_structure_path(@structure), class: 'block semi-muted-link' do
             = @structure.name
-      .flexbox__item.v-middle.text--right.soft-half--right
         - unless @structure.premium?
+          %span.push-half--sides= '|'
           = link_to premium_modal_pro_structure_path(@structure), class: 'btn btn--yellow f-weight-bold fancybox.ajax', data: { behavior: 'modal', padding: 0, width: 900 } do
             %i.fa.fa-star
             Passer au Premium
-          %span.push-half--sides= '|'
+      .flexbox__item.v-middle.text--right.soft-half--right
 
         - unread_conversations       = @structure.mailbox.inbox(read: false)
         - unread_conversations_count = unread_conversations.count
@@ -28,11 +28,17 @@
             %i.fa.fa-envelope
             = pluralize @structure.mailbox.inbox.count, 'message'
             - if unread_conversations_count > 0
-              %span.push--left.lbl.lbl--yellow.lbl--small= unread_conversations_count
+              %span.push--left.lbl.lbl--orange.lbl--small= unread_conversations_count
           .drop-down__el
             %ul.no-bullet-list.flush{ style: 'width: 400px' }
               - if unread_conversations_count == 0
                 %li.soft-half Pas de nouveau message
+              - else
+                %li.soft-half
+                  - if unread_conversations_count == 1
+                    %strong= "#{unread_conversations_count} nouveau message"
+                  - else
+                    %strong= "#{unread_conversations_count} nouveaux messages"
               - unread_conversations.each do |conversation|
                 %li
                   = link_to pro_structure_conversation_path(@structure, conversation), class: 'grid--full' do
@@ -57,11 +63,14 @@
             %i.fa.fa-comment
             = "#{@structure.comments.accepted.count} avis"
             - if @structure.comments.pending.count > 0
-              %span.push--left.lbl.lbl--yellow.lbl--small= "#{@structure.comments.pending.count}"
+              %span.push--left.lbl.lbl--orange.lbl--small= "#{@structure.comments.pending.count}"
           .drop-down__el
             %ul.no-bullet-list.flush{ style: 'width: 350px' }
               - if @structure.comments.pending.count == 0
                 %li Pas d'avis en attente
+              - else
+                %li.soft-half
+                  %strong= "#{@structure.comments.pending.count} avis en attente de validation"
               - @structure.comments.pending.each do |comment|
                 %li
                   = link_to pro_structure_comments_path(@structure), class: 'grid--full' do

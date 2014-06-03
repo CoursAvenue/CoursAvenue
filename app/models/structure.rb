@@ -634,7 +634,7 @@ class Structure < ActiveRecord::Base
   # @return Integer that is the percentage. Ex: 67
   def compute_response_rate
     return if main_contact.nil?
-    conversations = main_contact.mailbox.conversations.where(subject: "Demande d'informations")
+    conversations = main_contact.mailbox.conversations.where(subject: I18n.t(Mailboxer::Label::INFORMATION.name))
     number_of_messages = conversations.length
     if number_of_messages == 0
       self.response_rate = nil
@@ -658,7 +658,7 @@ class Structure < ActiveRecord::Base
   # @return Integer that is the average number of hours between each responses. Ex: 14
   def compute_response_time
     return if main_contact.nil?
-    conversations = main_contact.mailbox.conversations.where(subject: "Demande d'informations")
+    conversations = main_contact.mailbox.conversations.where(subject: I18n.t(Mailboxer::Label::INFORMATION.name))
     number_of_messages = conversations.length
     if number_of_messages == 0
       self.response_time = nil

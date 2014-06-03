@@ -18,12 +18,12 @@
           %div et #{Comment::Review.where( Comment::Review.arel_table[:created_at].gt(Date.today - 7.days) ).count} les 7 derniers jours
       .grid__item.one-quarter.bordered--right>
         .soft-half.text--center
-          %h3.flush= "#{Mailboxer::Conversation.where( subject: "Demande d'informations" ).count} mess"
+          %h3.flush= "#{Mailboxer::Conversation.where( subject: I18n.t(Mailboxer::Label::INFORMATION.name) ).count} mess"
           %h6.flush
             dont
-            = Mailboxer::Conversation.where( Mailboxer::Conversation.arel_table[:subject].eq("Demande d'informations").and(Mailboxer::Conversation.arel_table[:created_at].gt(Date.today)) ).count
+            = Mailboxer::Conversation.where( Mailboxer::Conversation.arel_table[:subject].eq(I18n.t(Mailboxer::Label::INFORMATION.name)).and(Mailboxer::Conversation.arel_table[:created_at].gt(Date.today)) ).count
             aujourd'hui
-          %div et #{Mailboxer::Conversation.where( Mailboxer::Conversation.arel_table[:subject].eq("Demande d'informations").and(Mailboxer::Conversation.arel_table[:created_at].gt(Date.today - 7.days)) ).count} les 7 derniers jours
+          %div et #{Mailboxer::Conversation.where( Mailboxer::Conversation.arel_table[:subject].eq(I18n.t(Mailboxer::Label::INFORMATION.name)).and(Mailboxer::Conversation.arel_table[:created_at].gt(Date.today - 7.days)) ).count} les 7 derniers jours
       .grid__item.one-quarter>
         .soft-half.text--center
           %h3.flush= "#{CommentNotification.count} élèves"
@@ -99,7 +99,7 @@
       Demande d'infos
     .text--center
       .gamma
-        = Mailboxer::Conversation.where( subject: "Demande d'informations" ).count
+        = Mailboxer::Conversation.where( subject: I18n.t(Mailboxer::Label::INFORMATION.name) ).count
         Messages
       #messages
 

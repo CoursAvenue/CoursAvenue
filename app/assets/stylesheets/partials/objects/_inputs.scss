@@ -45,7 +45,10 @@ input, textarea {
     .chosen-choices {
         font-size     : 15px !important;
         padding-top   : 5px !important;
-        padding-bottom: 9px !important;
+        padding-bottom: 5px !important;
+        input {
+            height: 20px !important;
+        }
     }
     .chosen-drop {
         margin-top: -9px;
