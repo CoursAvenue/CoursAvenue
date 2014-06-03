@@ -1,15 +1,15 @@
-.page
+.page.soft
   %h2 Me renvoyer le lien de confirmation
 
-  = simple_form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post }) do |f|
+  = simple_form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
     = f.error_notification
     = f.full_error :confirmation_token
 
     .form-inputs
-      = f.input :email, :required => true, :autofocus => true
+      = f.input :email, required: true, autofocus: true
 
     .form-actions
-      = f.button :submit, "Renvoyer le lien"
+      = f.button :submit, "Renvoyer le lien", class: 'btn btn--green'
 
     .form-actions
       = render "pro/admins/shared/links"
