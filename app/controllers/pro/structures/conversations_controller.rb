@@ -28,9 +28,13 @@ class Pro::Structures::ConversationsController < ApplicationController
 
   def update
     @conversation    = @admin.mailbox.conversations.find params[:id]
-    @admin.reply_to_conversation(@conversation, params[:conversation][:message][:body])
+    @admin.reply_to_conversation(@conversation, params[:conversation][:message][:body]) unless params[:conversation][:message][:body].blank?
     respond_to do |format|
-      format.html { redirect_to pro_structure_conversation_path(@structure, @conversation) }
+      if params[:conversation][:message][:body].blank?
+        format.html { redirect_to pro_structure_conversation_path(@structure, @conversation), error: 'Vous devez mettre un text pour répondre' }
+      else
+        format.html { redirect_to pro_structure_conversation_path(@structure, @conversation) }
+      end
     end
   end
 
