@@ -16,6 +16,11 @@ class Course::Private < Course
   after_save :create_hidden_plannings
   before_save :set_start_and_end_date
 
+  ######################################################################
+  # Validations                                                        #
+  ######################################################################
+  validate :place_or_teachers_at_home
+
   def is_private?
     true
   end
@@ -63,5 +68,15 @@ class Course::Private < Course
   def set_start_and_end_date
     self.start_date = Date.yesterday         if start_date.nil?
     self.end_date   = Date.today + 100.years if end_date.nil?
+  end
+
+  #
+  # A course have to have a place OR teachers_at_home with a place
+  #
+  # @return [type] [description]
+  def place_or_teachers_at_home
+    if (teaches_at_home.nil? or teaches_at_home == false) and place.nil?
+      errors.add :place_id, :blank
+    end
   end
 end

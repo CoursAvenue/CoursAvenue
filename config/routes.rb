@@ -188,6 +188,10 @@ CoursAvenue::Application.routes.draw do
           end
         end
         resources :courses, path: 'cours', controller: 'structures/courses' do
+          collection do
+            get :trainings, path: 'stages'
+            get :regular, path: 'reguliers'
+          end
           member do
             get  :ask_for_deletion
           end

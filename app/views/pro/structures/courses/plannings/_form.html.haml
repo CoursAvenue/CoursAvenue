@@ -20,11 +20,14 @@
             du #{l(@course.start_date)}
           - if @course.end_date
             au #{l(@course.end_date)}
-      = link_to 'Modifier les informations générales', edit_pro_structure_course_path(@structure, @course), class: 'fancybox.ajax nowrap', data: { behavior: 'modal', width: '750', padding: '0' }
-      - other_plannings = @course.plannings.reject{ |p| p.new_record? or p == @planning }
+      = link_to edit_pro_structure_course_path(@structure, @course), class: 'fancybox.ajax nowrap', data: { behavior: 'modal', width: '750', padding: '0' } do
+        %i.fa.fa-pencil
+        Modifier les informations générales
+      - other_plannings = @course.plannings.ordered_by_day.reject{ |p| p.new_record? or p == @planning }
       - if other_plannings.any?
         %hr.push-half--ends
         %div
+          %strong Créneaux enregistrés :
           - other_plannings.each do |planning|
             .lbl.lbl--gray-light
               - if @course.is_training?
@@ -44,9 +47,9 @@
         = f.label :start_time, class: 'control-label label--large' do
           %i.fa.fa-time
           Horaire
-        = f.input :start_time, as: :time, minute_step: 15, default: { year: 2000, month: 1, day: 1, hour: 8, min: 00 }, wrapper_html: { id: 'start-time-wrapper', class: 'flush' }, label: false, input_html: { class: 'input--large' }
+        = f.input :start_time, as: :time, minute_step: 15, default: { year: 2000, month: 1, day: 1, hour: 8, min: 00 }, wrapper_html: { id: 'start-time-wrapper', class: 'flush input-time--large' }, label: false, input_html: { class: 'input--large' }
         %span.label--large.v-middle.inline-block -
-        = f.input :end_time, as: :time, minute_step: 15, min_hour: 7, label: false, default: { year: 2000, month: 1, day: 1, hour: 9, min: 00 }, wrapper_html: { id: 'end-time-wrapper', class: 'flush'}, input_html: { class: 'input--large' }
+        = f.input :end_time, as: :time, minute_step: 15, min_hour: 7, label: false, default: { year: 2000, month: 1, day: 1, hour: 9, min: 00 }, wrapper_html: { id: 'end-time-wrapper', class: 'flush input-time--large'}, input_html: { class: 'input--large' }
 
       - unless @course.is_private?
         = f.input :level_ids, as: :check_boxes, collection: Level.all, label_method: lambda {|level| t(level.name)}, label: t('planning.levels'), wrapper_html: { data: { behavior: 'checkbox-list' } }, label_html: { class: 'label--large v-middle' }, input_html: { class: 'input--large' }
@@ -61,16 +64,18 @@
           = f.input :max_age_for_kid, label: false, input_html: { class: 'input--large', style: 'width: 5em;', value: f.object.max_age_for_kid || 18}, wrapper_html: {class: 'flush v-middle'}
           %span.v-middle ans
 
-      = f.input :info, as: :string, placeholder: 'Exemple : Nous préparerons un gâteau au chocolat', label: 'Information (optionnel)', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+      = f.input :info, as: :string, placeholder: 'Indiquez toute information utile sur le cours concernant ce créneau', label: 'Information (optionnel)', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
 
       %input#save-and-add-planning-input{ name: 'add_planning', type: 'hidden' }
       .grid.push--top
         .grid__item.two-tenths>
           %a.btn.btn--gray.btn--full{ onclick: '$.fancybox.close()' } Annuler
-        .grid__item.five-tenths>
-          = f.submit (@course.is_lesson? ? "Ajouter un nouveau créneau" : "Ajouter d'autres dates"), class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours...' }, id: 'save-and-add-planning'
-        .grid__item.three-tenths>
-          = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours...' }
+        .grid__item.eight-tenths>
+          = f.submit (@course.is_lesson? ? "Enregistrer et ajouter un autre créneau" : "Enregistrer et ajouter d'autres dates"), class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours...' }, id: 'save-and-add-planning'
+          %br
+          .text--center= f.submit 'Enregistrer', class: 'btn-as-link', data: { disable_with: 'Enregistrement en cours...' }
+          -# = f.submit (@course.is_lesson? ? "Ajouter un nouveau créneau" : "Ajouter d'autres dates"), class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours...' }, id: 'save-and-add-planning'
+        -# .grid__item.three-tenths>
 
 :javascript
     if ($('[name="planning[audience_ids][]"]').length > 0) {

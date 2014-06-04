@@ -11,9 +11,11 @@
         %span.v-middle
           Nom du #{@course.type_name.downcase}
         = f.input :name, label: false, input_html: { class: 'input--large', style: 'width: 20em;' }, wrapper_html: { class: 'inline-block v-middle flush--ends push-half--left' }
-
-      .inline-block.push-half--left.v-middle{ data: { toggle: 'popover', placement: 'bottom', html: 'true', content: t('pro.structures.courses.wizard.name'), trigger: 'hover' } }
-        %i.fa.fa-lightbulb-o.fa-2x.blue
+      -# .inline-block.push-half--left.v-middle{ data: { toggle: 'popover', placement: 'bottom', html: 'true', content: t('pro.structures.courses.wizard.name'), trigger: 'hover' } }
+      -#   %i.fa.fa-lightbulb-o.fa-2x.blue
+      %p.flush
+        %i.blue
+          Un bon nom doit être court et explicite (aucune information sur le lieu ou le niveau).
 
     .panel__body.soft--ends
       .soft--sides
@@ -52,7 +54,7 @@
         .input
           = f.label :description, class: 'label--large'
           .input-container>
-            = f.input :description, as: :text, placeholder: 'Décrivez en quoi consiste votre cours sans parler de tarif ni de planning.', label: false, input_html: { class: 'input--large one-whole', data: { behavior: 'text-counter', 'average-words-nb' => 20, 'good-words-nb' => 50, 'bad-text' => 'Votre description doit comporter au moins 20 mots. Nos Partenaires qui ont le plus de succès ont plus de 50 mots', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !' } }, wrapper_html: { class: 'flush--top one-whole' }
+            = f.input :description, as: :text, placeholder: 'Décrivez en quoi consiste votre cours sans parler de tarif ni de planning', label: false, input_html: { class: 'input--large one-whole', data: { behavior: 'text-counter', 'average-words-nb' => 20, 'good-words-nb' => 50, 'bad-text' => 'Votre description doit comporter au moins 20 mots. Nos Partenaires qui ont le plus de succès ont plus de 50 mots', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !' } }, wrapper_html: { class: 'flush--top one-whole' }
 
         - if @course.is_private?
           .input
@@ -69,18 +71,17 @@
                       = link_to 'Modifier', pro_structure_places_path(@structure), target: :_blank
                 - else
                   %div
-                    %i
-                      = link_to 'Ajouter la zone géographique pour mes cours à domicile ', pro_structure_places_path(@structure), target: :_blank
+                    = link_to pro_structure_places_path(@structure), target: :_blank do
+                      %i.fa.fa-plus
+                      Ajouter la zone géographique pour mes cours à domicile
               %div
                 %label.inline-block.label--large{ for: 'course_place_id_checkbox' }
                   %input#course_place_id_checkbox{ type: 'checkbox' }
                   Les cours ont lieux à cette addresse :
                 = f.input :place_id, as: :select, collection: @structure.places.publics, input_html: { class: 'input--large', style: 'max-width: 13em;' }, label: false, wrapper_html: { class: 'inline-block v-middle' }
 
-          .input
-            %label.control-label>
-            .checkbox-list>
-              = f.input :on_appointment, as: :boolean, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, wrapper_html: { class: 'inline-block v-middle' }
+          = f.input :on_appointment, as: :select, collection: [["Cours particuliers selon des créneaux précis", false], ["Pas de créneau précis, uniquement sur demande.", true]], label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, label: 'Disponibilités', include_blank: false
+
 
           = f.input :level_ids, as: :check_boxes, collection: Level.all, label_method: lambda {|level| t(level.name)}, label: t('planning.levels'), wrapper_html: { data: { behavior: 'checkbox-list' } }, label_html: { class: 'label--large v-middle' }, input_html: { class: 'input--large' }
 
@@ -94,22 +95,15 @@
             = f.input :max_age_for_kid, label: false, input_html: { class: 'input--large', style: 'width: 5em;', value: f.object.max_age_for_kid || 18}, wrapper_html: {class: 'flush v-middle'}
             %span.v-middle ans
 
-
-
-        %input#save-and-add-planning-input{ name: 'add_planning', type: 'hidden' }
+        %input#save-and-add-planning-input{ name: 'add_planning', type: 'hidden', value: 'true' }
         .grid.push--top
           .grid__item.two-tenths>
             %a.btn.btn--gray.btn--full{ onclick: '$.fancybox.close()' } Annuler
-          .grid__item.four-tenths>
-            = f.submit 'Ajouter un créneau', class: 'btn btn--green btn--full push--bottom', data: { disable_with: 'Enregistrement en cours...' }, id: 'save-and-add-planning'
-          .grid__item.four-tenths>
-            = f.submit 'Enregistrer', class: 'btn btn--green btn--full push--bottom', data: { disable_with: 'Enregistrement en cours...' }
+          .grid__item.eight-tenths>
+            = f.submit (@course.is_private? ? 'Enregistrer et ajouter mes disponibilités' : 'Enregistrer et ajouter un créneau'), class: 'btn btn--green btn--full push--bottom', data: { disable_with: 'Enregistrement en cours...' }, id: 'save-and-add-planning'
 
 :javascript
-    $('#save-and-add-planning').click(function() {
-        $('#save-and-add-planning-input').val('true');
-    });
-    $('textarea').textareaResizer();
+  $('textarea').textareaResizer();
 
 - if @course.is_private?
   :javascript
@@ -128,10 +122,12 @@
           $('#course_place_id_checkbox')[0].checked = (this.value != '');
       });
       $('#course_on_appointment').change(function() {
-          if (this.checked) {
-              $('#save-and-add-planning').attr('disabled', true);
+          if (this.value == 'true') {
+              $('#save-and-add-planning-input').val('false');
+              $('#save-and-add-planning').val('Enregistrer');
           } else {
-              $('#save-and-add-planning').removeAttr('disabled');
+              $('#save-and-add-planning-input').val('true');
+              $('#save-and-add-planning').val('Enregistrer et ajouter mes disponibilités');
           }
       });
       $('#course_on_appointment').change()

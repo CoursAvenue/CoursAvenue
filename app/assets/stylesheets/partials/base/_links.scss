@@ -3,14 +3,18 @@
 \*------------------------------------*/
 
 //a:link, a:visited {
-a {
+.btn-as-link {
+    border    : none;
+    background: none;
+}
+a, .btn-as-link {
     color          : $brand-color;
     text-decoration: none;
 }
-a:hover {
+a:hover, .btn-as-link:hover {
     text-decoration: underline;
 }
-.current a{
+.current a {
     text-decoration: none;
 }
 

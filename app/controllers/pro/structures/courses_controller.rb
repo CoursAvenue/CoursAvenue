@@ -15,7 +15,14 @@ class Pro::Structures::CoursesController < Pro::ProController
   end
 
   def index
-    @structure = Structure.friendly.find params[:structure_id]
+    redirect_to regular_pro_structure_courses(@structure)
+  end
+
+  def regular
+    @courses   = @structure.courses.without_open_courses.order('name ASC')
+  end
+
+  def trainings
     @courses   = @structure.courses.without_open_courses.order('name ASC')
   end
 

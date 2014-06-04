@@ -1,5 +1,5 @@
 $('#course-<%= @course.id %>').remove();
-if ($("#<%= @course.underscore_name %>-list li").length == 0) {
+if ($("#<%= @course.underscore_name %>-list > div").length == 0) {
     $("[data-empty=<%= @course.underscore_name %>]").show();
 }
 GLOBAL.flash("Cours supprimé", 'success');

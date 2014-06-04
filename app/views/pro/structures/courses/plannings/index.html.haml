@@ -10,7 +10,7 @@
 
   .soft--sides
     .text--center.push-half--bottom
-      = link_to 'Ajouter un créneau', new_pro_structure_course_planning_path(@structure, @course), title: 'Ajouter un créneau', data: {behavior: 'modal', width: 780}, class: 'fancybox.ajax btn btn--green btn--large'
+      = link_to 'Ajouter un créneau', new_pro_structure_course_planning_path(@structure, @course), data: { behavior: 'modal', width: 780 }, class: 'fancybox.ajax btn btn--green btn--large'
       %br
       = link_to 'Mon planning est à jour, revenir à tous mes cours', pro_structure_courses_path(@structure)
     - if @planning and @planning.errors.any?
