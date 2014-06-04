@@ -19,10 +19,10 @@
             <li class="relative">
                 <a data-toggle="tab" href="#tab-price-course-{{id}}">
                     Tarifs
-                    {{#if has_premium_prices}}
-                        <img src="<%= asset_path 'icons/premium-ribbon.png' %>" class='north west absolute on-top' height='40', width='40' style='width: 40px; height: 40px;' />
-                        <div><strong class="green">Offres découvertes</strong></div>
-                    {{/if}}
+                    {{#if premium}} <!-- AND --> {{#if has_premium_prices}}
+                            <img src="<%= asset_path 'icons/premium-ribbon.png' %>" class='north west absolute on-top' height='40', width='40' style='width: 40px; height: 40px;' />
+                            <div><strong class="green">Offres découvertes</strong></div>
+                    {{/if}} {{/if}}
                 </a>
             </li>
         </ul>
