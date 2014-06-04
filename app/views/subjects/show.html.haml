@@ -60,28 +60,28 @@
 
 = render partial: 'subjects/courses', locals: { courses: @courses }
 
-- unless @subject.image.present?
-  = content_for :scripts do
-    :javascript
-      $(function() {
-          handler = Gmaps.build('Google', { markers: { maxRandomDistance: null } });
-          handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
-              markers = handler.addMarkers([#{@france_center_lat}, #{@france_center_lng}]);
-              handler.bounds.extendWith(markers);
-              handler.fitMapToBounds();
-          });
-          google.maps.event.addListener(handler.getMap(), 'tilesloaded', function() {
-              handler.getMap().setZoom(12);
-          });
-      });
-
 = content_for :scripts do
   :javascript
     $(function() {
         handler = Gmaps.build('Google', { markers: { maxRandomDistance: null } });
-        handler.buildMap({ provider: {}, internal: {id: 'structures-map'}}, function(){
+        handler.buildMap({ provider: { scrollwheel: false }, internal: { id: 'structures-map' }}, function(){
             markers = handler.addMarkers(#{@json_structure_addresses.to_json});
             handler.bounds.extendWith(markers);
             handler.fitMapToBounds();
         });
     });
+
+- unless @subject.image.present?
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          handler = Gmaps.build('Google', { markers: { maxRandomDistance: null } });
+          handler.buildMap({ provider: { scrollwheel: false }, internal: { id: 'map' }}, function(){
+              markers = handler.addMarkers([{"lat": #{@france_center_lat}, "lng": #{@france_center_lng}}]);
+              handler.bounds.extendWith(markers);
+              handler.fitMapToBounds();
+          });
+          google.maps.event.addListenerOnce(handler.getMap(), 'tilesloaded', function() {
+              handler.getMap().setZoom(5);
+          });
+      });

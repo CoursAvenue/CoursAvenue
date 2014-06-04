@@ -9,9 +9,11 @@ class CommentSearch
     params[:sort] ||= 'rating_desc'
     retrieve_location params
 
-    @search = Sunspot.search(Comment) do
+    @search = Sunspot.search(Comment::Review) do
       # --------------- Geolocation
-      with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 7, bbox: (params.has_key?(:bbox) ? params[:bbox] : true)) if params[:lat].present? and params[:lng].present?
+      if params[:lat].present? and params[:lng].present?
+        with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 7, bbox: (params.has_key?(:bbox) ? params[:bbox] : true))
+      end
 
       with :has_title, params[:has_title]              if params[:has_title]
 

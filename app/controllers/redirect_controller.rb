@@ -1,6 +1,11 @@
 class RedirectController < ApplicationController
   include SubjectHelper
 
+  def vertical_page
+    @subject = Subject.find params[:id]
+    redirect_to vertical_page_url_for(@subject), status: 301
+  end
+
   def vertical_page_city
     @subject = Subject.find params[:subject_id]
     @city    = City.find params[:id]

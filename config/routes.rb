@@ -382,6 +382,9 @@ CoursAvenue::Application.routes.draw do
   end
   resources :subjects, only: [], path: 'disciplines' do
     resources :cities, only: [:show], path: 'villes', to: 'redirect#vertical_page_subject_city'
+    member do
+      get 'cours', to: 'redirect#vertical_page'
+    end
   end
   resources :subjects, only: [], path: 'disciplines' do
     resources :places, only: [:index], path: 'etablissement', to: 'redirect#subject_place_index'
