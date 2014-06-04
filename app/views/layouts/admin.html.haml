@@ -67,7 +67,7 @@
           .drop-down__el
             %ul.no-bullet-list.flush{ style: 'width: 350px' }
               - if @structure.comments.pending.count == 0
-                %li Pas d'avis en attente
+                %li.soft-half Pas d'avis en attente
               - else
                 %li.soft-half
                   %strong= "#{@structure.comments.pending.count} avis en attente de validation"

@@ -2,15 +2,15 @@
 
 .panel
   .panel__header.soft.text--center
-    = link_to 'Ajouter un nouveau lieu', new_pro_structure_place_path(@structure, type: 'Place::Public'), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '750', padding: 0 }
+    = link_to 'Ajouter un nouveau lieu', new_pro_structure_place_path(@structure, type: 'Place::Public'), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 }
     - if @structure.gives_individual_courses? and @places.homes.empty?
       .text--center
-        = link_to 'Ajouter la zone géographique pour mes cours à domicile', new_pro_structure_place_path(@structure, type: 'Place::Home'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '750', padding: 0 }
+        = link_to 'Ajouter la zone géographique pour mes cours à domicile', new_pro_structure_place_path(@structure, type: 'Place::Home'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 }
   .panel__body{ data: { behavior: 'wizard-helper', content: t('pro.places.wizard_helper.index') } }
     - if @places.any?
-      #map.google-map.push--ends
+      #map.google-map.push--bottom
 
-      %table.table--striped
+      %table.table--striped.flush
         %thead
           %tr
             %th.four-twelfths Nom du lieu
@@ -30,7 +30,7 @@
                 - if place.info.present? or place.private_info.present?
                   %a.btn{ data: { toggle: 'popover', content: t('places.infos', info: place.info, private_info: place.private_info), html: 'true', placement: 'top', trigger: 'hover' } } Infos
               %td.text--right.nowrap
-                = link_to edit_pro_structure_place_path(@structure, place), title: 'Modifier ce lieu', class: 'btn btn--orange btn--small fancybox.ajax', data: { behavior: 'modal', width: '750', padding: 0 } do
+                = link_to edit_pro_structure_place_path(@structure, place), class: 'btn btn--orange btn--small fancybox.ajax', data: { behavior: 'modal', width: '750', padding: 0 } do
                   %i.fa.fa-pencil
                   %span.soft-half--left Modifier ce lieu
                 &nbsp;

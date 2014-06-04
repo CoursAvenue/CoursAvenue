@@ -11,51 +11,53 @@
       %h4.flush Entrez l'adresse
       %p.flush.epsilon Où proposez-vous des cours ?
   .panel__body.soft--ends
-    .grid
-      .grid__item.five-tenths>
-        - # Don't use remote if is home because we'll want to redirect
-        = simple_form_for [:pro, @structure, @place], remote: true, url: place_url, as: :place do |f|
+    = simple_form_for [:pro, @structure, @place], remote: true, url: place_url, as: :place do |f|
+      -# .grid
+      -#   .grid__item.five-tenths>
+      - # Don't use remote if is home because we'll want to redirect
+      - if params[:return_to].present?
+        %input{type: 'hidden', value: params[:return_to], name: 'from'}
+      -# { data: { container: '#place-wizard-container', behavior: 'wizard-helper', content: (@place.is_home? ? t('pro.places.wizard_helper.home_address') : 't('pro.places.wizard_helper.public_address')') } }
+      .soft--sides
+        - if @place.is_home?
+          %h5 Je me déplace à domicile autour de :
+        - else
+          %h5 Adresse
+        = f.input :type, as: :hidden
+        - unless @place.is_home?
+          = f.input :name, placeholder: "Ex. : « Gymnase Bercy », « Ecole d'Art Modigliani », « Adresse principale » ...", label_html: { class: 'label--large' }, input_html: { class: 'input--large', data: { behavior: 'tooltip' }, title: "Indiquez le nom du lieu. S'il s'agit d'une adresse privée, mettre « Résidence privée »." }
+          = f.input :street, placeholder: 'Ex. : 83 avenue du général Leclerc', input_html: { class: 'input--large', title: "Ne renseignez ni le code postal ni la ville, uniquement le numéro et la rue.", data: { behavior: 'tooltip' } }, label_html: { class: 'label--large' }
 
-          - if params[:return_to].present?
-            %input{type: 'hidden', value: params[:return_to], name: 'from'}
+        .input.flush--top
+          = f.label :zip_code, label: 'Code postal et ville', class: 'label--large v-middle'
+          = f.input :zip_code, placeholder: 'Ex. : 75008', input_html: { class: 'input--large', style: 'width: 7em;', data: { behavior: 'city-autocomplete', el: '#place_city_id' } }, label: false, wrapper_html: { class: 'flush v-middle' }
+          = f.input :city_id, as: :select, collection: [], label: false, selected: @place.city, wrapper_html: { class: 'flush v-middle' }, input_html: { class: 'input--large' }
+          = f.input :latitude, as: :hidden
+          = f.input :longitude, as: :hidden
+        - if @place.is_home?
+          = f.label :radius, label: 'Dans un rayon de', class: 'label--large text--left nowrap block inline-block v-middle hard'
+          = f.input :radius, label: false, input_html: { class: 'input--large one-whole' }, wrapper_html: { class: 'flush inline-block v-middle' }
+          %span.v-middle.label--large km
 
-          .soft--sides{ data: { container: '#place-wizard-container', behavior: 'wizard-helper', content: (@place.is_home? ? t('pro.places.wizard_helper.home_address') : t('pro.places.wizard_helper.public_address')) } }
-            - if @place.is_home?
-              %h5 Je me déplace à domicile autour de :
-            - else
-              %h5 Adresse
-            = f.input :type, as: :hidden
-            - unless @place.is_home?
-              = f.input :name, placeholder: "Ex. : « Gymnase Bercy », « Ecole d'Art Modigliani », « Adresse principale » ...", label_html: { class: 'label--large text--left nowrap' }, input_html: { class: 'input--large one-whole', data: { behavior: 'tooltip' }, title: "Indiquez le nom du lieu. S'il s'agit d'une adresse privée, mettre « Résidence privée »." }
-              = f.input :street, placeholder: 'Ex. : 83 avenue du général Leclerc', input_html: { class: 'input--large one-whole', title: "Ne renseignez ni le code postal ni la ville, uniquement le numéro et la rue.", data: { behavior: 'tooltip' } }, label_html: { class: 'label--large text--left nowrap' }
+      - unless @place.is_home?
+        -# { data: { container: '#place-wizard-container', behavior: 'wizard-helper', content: t('pro.places.wizard_helper.infos') } }
+        .soft--sides
+          %hr.push--ends
+          %h5
+            %i.lbc-icon-info
+            Infos pratiques
 
-            = f.label :zip_code, label: 'Code postal et ville', class: 'label--large text--left nowrap block'
-            .input.flush--top
-              = f.input :zip_code, placeholder: 'Ex. : 75008', input_html: { class: 'input--large one-whole', style: 'width: 7em;', data: { behavior: 'city-autocomplete', el: '#place_city_id' } }, label: false, wrapper_html: { class: 'flush--top' }
-              = f.input :city_id, collection: [@place.city || @structure.city], label: false, selected: @place.city, wrapper_html: { class: 'flush--top' }, input_html: { class: 'input--large' }
-              = f.input :latitude, as: :hidden
-              = f.input :longitude, as: :hidden
-            - if @place.is_home?
-              = f.label :radius, label: 'Dans un rayon de', class: 'label--large text--left nowrap block inline-block v-middle hard'
-              = f.input :radius, label: false, input_html: { class: 'input--large one-whole' }, wrapper_html: { class: 'flush inline-block v-middle' }
-              %span.v-middle.label--large km
+          = f.input :info, placeholder: "Indiquez comment y accéder (station de métro, arrêt de bus...) et toute information pratique.", input_html: { class: 'input--large', data: { behavior: 'autoresize' } }, label_html: { class: 'label--large' }
+          .input<
+            %label.label--large.text.optional.control-label{for: "course_private_info"}
+              %i.fa.fa-lock
+              Privées
+            = f.input :private_info, label: false, placeholder: "Indiquez les informations pratiques confidentielles : digicode, étage, etc. (non visibles sur votre profil public et communiquées qu'aux élèves inscrits à vos activités)", input_html: { data: { behavior: 'autoresize' }}, wrapper_html: { class: 'flush' }, input_html: { class: 'one-whole input--large' }
 
-          - unless @place.is_home?
-            %hr.push--ends
-            .soft--sides{ data: { container: '#place-wizard-container', behavior: 'wizard-helper', content: t('pro.places.wizard_helper.infos') } }
-              %h5
-                %i.lbc-icon-info
-                Infos pratiques
-
-              = f.input :info, placeholder: "Station métro / RER / bus, etc.", input_html: { class: 'input--large', data: { behavior: 'autoresize' } }, label_html: { class: 'label--large' }
-              .input<
-                %label.label--large.text.optional.control-label{for: "course_private_info"}
-                  %i.fa.fa-lock
-                  Privées
-                = f.input :private_info, label: false, placeholder: "Code d'entrée, étage, etc.", input_html: { data: { behavior: 'autoresize' }}, wrapper_html: { class: 'flush' }, input_html: { class: 'one-whole input--large' }
-
-          .text--right.push--top
-            %a.btn.btn--gray{ onclick: '$.fancybox.close();' } Annuler
-            = f.submit (@place.is_home? ? 'Enregistrer' : 'Suivant'), class: 'btn btn--green', data: { disable_with: "En cours d'enregistrement" }
-
-      .grid__item.five-tenths#place-wizard-container.relative.bordered--left>
+      -# .grid__item.five-tenths#place-wizard-container.relative.bordered--left>
+      .soft--sides.push--top
+        .grid--full.push--top
+          .grid__item.three-twelfths.soft-half--right>
+            %a.btn.btn--full.btn--gray{ onclick: '$.fancybox.close();' } Annuler
+          .grid__item.nine-twelfths>
+            = f.submit (@place.is_home? ? 'Enregistrer' : 'Suivant'), class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
