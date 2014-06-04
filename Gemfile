@@ -79,7 +79,7 @@ gem 'paperclip'                 , '~>4.1.1'
 gem 'ancestry'                  , '~>2.0.0'
 
 # Nice helper to use google maps
-gem 'gmaps4rails'               , '~>2.1.1'
+gem 'gmaps4rails'               , '~>2.1.2'
 # Helper methods for geolocations
 gem 'geocoder'                  , '~>1.1.9'
 # To have model serializers apart from models

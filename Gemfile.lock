@@ -554,7 +554,7 @@ DEPENDENCIES
   font-awesome-rails (~> 4.1.0.0)
   friendly_id (~> 5.0.0)
   geocoder (~> 1.1.9)
-  gmaps4rails (~> 2.1.1)
+  gmaps4rails (~> 2.1.2)
   haml (~> 4.0.3)
   handlebars_assets (~> 0.15)!
   heroku-api
