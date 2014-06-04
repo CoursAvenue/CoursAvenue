@@ -261,7 +261,7 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             // models that we _do not_ want to affect
             return $.ajax({
                 type: "POST",
-                url: Routes.pro_structure_bulk_user_profile_jobs_path(this.collection.structure_id, { format: 'json' }),
+                url: Routes.pro_structure_bulk_user_profile_jobs_path(this.structure_id, { format: 'json' }),
                 data: {
                     bulk_action:     action_name,
                     delegate_params: delegate_params,
