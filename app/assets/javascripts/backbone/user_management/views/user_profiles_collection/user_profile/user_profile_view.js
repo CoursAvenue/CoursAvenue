@@ -217,7 +217,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
 
         serializeData: function () {
             var data = this.model.toJSON();
-            data.edit_path = Routes.edit_pro_structure_user_profile_path(data.structure_id, data.id)
+            if (data.id) { data.edit_path = Routes.edit_pro_structure_user_profile_path(data.structure_id, data.id); }
             return data;
         }
     });
