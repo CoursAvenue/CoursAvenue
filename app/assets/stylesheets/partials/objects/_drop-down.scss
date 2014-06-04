@@ -31,5 +31,11 @@
                 border-color    : $blue;
                 color           : white;
             }
+            &.not-hoverable:hover {
+                text-decoration : inherit;
+                background-color: inherit;
+                border-color    : #EEE;
+                color           : inherit;
+            }
         }
     }

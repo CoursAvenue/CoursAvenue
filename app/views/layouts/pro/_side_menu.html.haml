@@ -27,8 +27,8 @@
       = pro_side_menu_link 'contact'      , edit_contact_pro_structure_path(@structure) , current: current_tab,   icon: 'fa fa-phone'
       = pro_side_menu_link 'medias'       , pro_structure_medias_path(@structure)       , current: current_tab,   icon: 'fa fa-youtube-play'
       %li.subtitle PLANNINGS & TARIFS
-      = pro_side_menu_link 'courses'      , pro_structure_courses_path(@structure)      , current: current_tab,   icon: 'fa fa-list'
-      = pro_side_menu_link 'trainings'    , trainings_pro_structure_courses_path(@structure)      , current: current_tab,   icon: 'fa fa-ellipsis-v'
+      = pro_side_menu_link 'courses'      , pro_structure_courses_path(@structure)      , current: current_tab,   icon: 'fa fa-circle-o' #fa-list
+      = pro_side_menu_link 'trainings'    , trainings_pro_structure_courses_path(@structure)      , current: current_tab,   icon: 'fa fa-dot-circle-o' #fa-ellipsis-v
       = pro_side_menu_link 'price_groups' , pro_structure_price_groups_path(@structure) , current: current_tab,   icon: 'fa fa-eur'
       -# if @structure.parisian?
       -# = pro_side_menu_link 'jpo'        , pro_structure_course_opens_path(@structure) , current: current_tab,   icon: 'fa fa-calendar'
