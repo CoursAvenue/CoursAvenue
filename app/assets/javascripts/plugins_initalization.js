@@ -1,12 +1,10 @@
 $(function() {
-    $.extend($.fancybox.defaults, {
-        tpl: $.extend($.fancybox.defaults.tpl, {
-            closeBtn : '<a title="Fermer" class="fancybox-item fancybox-close fa fa-times" href="javascript:;"></a>',
-        }),
-        afterShow   : function () {
-            $.each(global.initialize_callbacks, function(i, func) { func(); });
-        }
-    });
+    // Setting default settings of Fancybox
+    $.fancybox.defaults.tpl.closeBtn = '<a title="Fermer" class="fancybox-item fancybox-close fa fa-times" href="javascript:;"></a>';
+    $.fancybox.defaults.afterShow = function () {
+        $.each(global.initialize_callbacks, function(i, func) { func(); });
+    };
+    $.fancybox.defaults.helpers.title = null;
 
     $('input, textarea').placeholder();
     var global = GLOBAL.namespace('GLOBAL');
@@ -49,10 +47,6 @@ $(function() {
                 autoSize    : false,
                 autoResize  : true,
                 helpers : {
-                    title : {
-                        type: 'outside',
-                        position : 'top'
-                    },
                     overlay: {
                         locked: false,
                         closeClick: close_click
