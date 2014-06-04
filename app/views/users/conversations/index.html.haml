@@ -1,6 +1,13 @@
 = user_menu_currently_at 'messages'
 .white-box.soft
   %h3 Mes conversations
+  .push--bottom
+    .v-middle.lbl.lbl--chip.rounded--thick{ class: "lbl--#{Mailboxer::Label::INFORMATION.color}"}
+    %strong.v-middle Demandes d'informations
+    .v-middle.push-half--left.lbl.lbl--chip.rounded--thick{ class: "lbl--#{Mailboxer::Label::COMMENT.color}"}
+    %strong.v-middle Avis déposés
+    .v-middle.push-half--left.lbl.lbl--chip.rounded--thick{ class: "lbl--#{Mailboxer::Label::CONVERSATION.color}"}
+    %strong.v-middle Conversations
   - unless cookies[:understood__user_conversation_message]
     %p.alert.alert--info#conversation-info
       Envoyez des messages personnels aux professeurs, associations ou écoles que vous avez décidé de "suivre" ou qui vous ont déjà sollicité(e) pour déposer votre avis.

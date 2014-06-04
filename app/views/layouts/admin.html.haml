@@ -48,13 +48,14 @@
                 %li
                   = link_to pro_structure_conversation_path(@structure, conversation), class: 'grid--full' do
                     .grid__item.two-twelfths.v-middle>
-                      - recipients = conversation.recipients.reject{ |recipient| recipient == @structure.main_contact }
-                      - last_recipient = recipients.first
-                      .media-photo= image_tag recipients.first.avatar_url(:thumb), class: 'block'
+                      -# - azD?
+                      -# - recipients = conversation.recipients.reject{ |recipient| recipient == @structure.main_contact }
+                      - last_sender = conversation.messages.order('created_at DESC').first.sender
+                      .media-photo= image_tag last_sender.avatar_url(:thumb), class: 'block'
                     .grid__item.six-twelfths.v-top.text--left.soft-half--left.f-weight-normal>
                       %strong= conversation.subject
                       %br
-                      = last_recipient.name
+                      = last_sender.name
                     .grid__item.four-twelfths.v-middle.text--right.f-weight-normal>
                       .grid--full
                         .grid__item.v-middle.ten-twelfths>
