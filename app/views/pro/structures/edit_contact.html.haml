@@ -20,7 +20,7 @@
           = render partial: 'pro/structures/premium_select', locals: { title: 'afficher les liens vers votre site Internet et votre page Facebook ?', label_text: 'Statut des liens de vos pages' }
       %div
         = form.input :website, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
-        = form.input :facebook_url, as: :string ,placeholder: 'https://www.facebook.com/CoursAvenue', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, wrapper_html: { class: 'flush--bottom' }
+        = form.input :facebook_url, as: :string, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, wrapper_html: { class: 'flush--bottom' }
         %p.field-form-info
           Le lien doit impérativement être le lien d'une page facebook et non d'un profil
     .soft--sides= form.button :submit, "Enregistrer", class: 'btn btn--green btn--full push--bottom', data: { disable_with: "En cours d'enregistrement" }

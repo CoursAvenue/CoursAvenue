@@ -63,7 +63,7 @@ class Structures::CommentsController < ApplicationController
       if @comment.save
         send_private_message unless params[:private_message].blank?
         cookies[:delete_cookies] = true
-        if params[:from] && params[:from] == 'recommendation-page'
+        if params[:return_to] && params[:return_to] == 'recommendation-page'
           format.html { redirect_to structure_comment_path(@comment.commentable, @comment), notice: "Merci d'avoir laissé votre avis !" }
         else
           format.html { redirect_to (request.referrer || commentable_path(@comment)), notice: "Merci d'avoir laissé votre avis !" }

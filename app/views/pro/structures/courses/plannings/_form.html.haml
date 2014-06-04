@@ -64,7 +64,7 @@
           = f.input :max_age_for_kid, label: false, input_html: { class: 'input--large', style: 'width: 5em;', value: f.object.max_age_for_kid || 18}, wrapper_html: {class: 'flush v-middle'}
           %span.v-middle ans
 
-      = f.input :info, as: :string, placeholder: 'Indiquez toute information utile sur le cours concernant ce créneau', label: 'Information (optionnel)', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+      = f.input :info, as: :string, label: 'Information (optionnel)', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
 
       %input#save-and-add-planning-input{ name: 'add_planning', type: 'hidden' }
       .grid.push--top

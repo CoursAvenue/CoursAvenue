@@ -1,3 +1,8 @@
+- if @course.is_training?
+  - return_to_url = trainings_pro_structure_courses_path(@structure)
+- else
+  - return_to_url = regular_pro_structure_courses_path(@structure)
+
 - if @course.new_record?
   - url = pro_structure_courses_path(@structure)
 - else
@@ -11,8 +16,6 @@
         %span.v-middle
           Nom du #{@course.type_name.downcase}
         = f.input :name, label: false, input_html: { class: 'input--large', style: 'width: 20em;' }, wrapper_html: { class: 'inline-block v-middle flush--ends push-half--left' }
-      -# .inline-block.push-half--left.v-middle{ data: { toggle: 'popover', placement: 'bottom', html: 'true', content: t('pro.structures.courses.wizard.name'), trigger: 'hover' } }
-      -#   %i.fa.fa-lightbulb-o.fa-2x.blue
       %p.flush
         %i.blue
           Un bon nom doit être court et explicite (aucune information sur le lieu ou le niveau).
@@ -26,7 +29,7 @@
             - subjects = @structure.subjects.roots.map(&:little_children).flatten
           .input-container>
             = f.association :subjects , as: :select, collection: subjects, input_html: { class: 'input--large hard', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' }, multiple: true }, label: t('.subjects'), selected: @course.subject_ids, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush' }, label: false
-            = link_to add_subjects_pro_structure_path(@structure, return_to: pro_structure_courses_path(@structure), anchor: 'informations'), class: 'fancybox.ajax', data: { behavior: 'modal', width: 650 } do
+            = link_to add_subjects_pro_structure_path(@structure, return_to: return_to_url, anchor: 'informations'), class: 'fancybox.ajax', data: { behavior: 'modal', width: 650 } do
               %i.fa.fa-plus
               Ajouter des disciplines à mon profil
 
@@ -54,7 +57,7 @@
         .input
           = f.label :description, class: 'label--large'
           .input-container>
-            = f.input :description, as: :text, placeholder: 'Décrivez en quoi consiste votre cours sans parler de tarif ni de planning', label: false, input_html: { class: 'input--large one-whole', data: { behavior: 'text-counter', 'average-words-nb' => 20, 'good-words-nb' => 50, 'bad-text' => 'Votre description doit comporter au moins 20 mots. Nos Partenaires qui ont le plus de succès ont plus de 50 mots', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !' } }, wrapper_html: { class: 'flush--top one-whole' }
+            = f.input :description, as: :text, label: false, input_html: { class: 'input--large one-whole', data: { behavior: 'text-counter', 'average-words-nb' => 20, 'good-words-nb' => 50, 'bad-text' => 'Votre description doit comporter au moins 20 mots. Nos Partenaires qui ont le plus de succès ont plus de 50 mots', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !' } }, wrapper_html: { class: 'flush--top one-whole' }
 
         - if @course.is_private?
           .input
@@ -68,10 +71,10 @@
                   %div
                     %i
                       Dans un rayon de #{home_place.radius}km autour de #{home_place.city.name}
-                      = link_to 'Modifier', pro_structure_places_path(@structure), target: :_blank
+                      = link_to 'Modifier', edit_pro_structure_place_path(@structure, @structure.places.homes.first, type: 'Place::Home', return_to: return_to_url), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 }
                 - else
                   %div
-                    = link_to pro_structure_places_path(@structure), target: :_blank do
+                    = link_to new_pro_structure_place_path(@structure, type: 'Place::Home', return_to: return_to_url), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 } do
                       %i.fa.fa-plus
                       Ajouter la zone géographique pour mes cours à domicile
               %div

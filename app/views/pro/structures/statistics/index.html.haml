@@ -1,8 +1,9 @@
 = side_menu_currently_at 'statistics'
 .panel
-  .panel__body.soft--ends
+  .panel__body.soft--ends.relative
+    = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 80, width: 80, style: 'width: 80px; height: 80px;'
     .soft--sides{ data: { behavior: 'wizard-helper', content: t('statistics.wizard.infos') } }
-      %h4 Statistiques de votre annonce pour les 15 derniers jours
+      %h4.text--center Statistiques de votre annonce pour les 15 derniers jours
       .grid.push--bottom
         .grid__item.one-third.text--center>
           .inline-block.pointer{ data: { behavior: 'toggle-serie' } }
@@ -54,7 +55,7 @@
                 showEmpty: true,
                 minTickInterval: 1
             },
-            colors: ['#e2493c', '#00B0FF', '#ffc40d', '#47b442'],
+            colors: ['#e2493c', '#00B0FF', '#47b442'],
             plotOptions: {
                 series: {
                     pointPadding: 0,

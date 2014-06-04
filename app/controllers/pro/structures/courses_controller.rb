@@ -15,7 +15,7 @@ class Pro::Structures::CoursesController < Pro::ProController
   end
 
   def index
-    redirect_to regular_pro_structure_courses(@structure)
+    redirect_to regular_pro_structure_courses_path(@structure)
   end
 
   def regular

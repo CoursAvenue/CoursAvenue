@@ -74,7 +74,7 @@
           - @home_places.each_with_index do |place, child_index|
             = structure_form.simple_fields_for :places, place, child_index: child_index, html: { class: 'inline-block' } do |place_form|
               = place_form.input :type, as: :hidden
-              = place_form.input :zip_code, placeholder: 'Ex. : 75008', input_html: { class: 'input--large one-whole', style: 'width: 7em', data: { behavior: 'city-autocomplete', el: "#place_city_id_#{child_index}" } }, label: false, wrapper_html: { class: 'inline-block v-middle flush' }
+              = place_form.input :zip_code, input_html: { class: 'input--large one-whole', style: 'width: 7em', data: { behavior: 'city-autocomplete', el: "#place_city_id_#{child_index}" } }, label: false, wrapper_html: { class: 'inline-block v-middle flush' }
               = place_form.input :city_id, collection: [place.city], label: false, selected: place.city, wrapper_html: { class: 'flush--top inline-block v-middle flush' }, input_html: { class: 'input--large', id: "place_city_id_#{child_index}"}
               %label.label--large.inline-block.v-middle dans un rayon de
               = place_form.input :radius, input_html: { class: 'input--large', style: 'width: 5em;' }, wrapper_html: {class: 'inline-block v-middle flush'}, label: false
@@ -100,14 +100,14 @@
     .input
       = structure_form.label :description, class: 'label--large'
       .input-container>
-        = structure_form.input :description, label: false, wrapper_html: { class: 'flush one-whole' }, input_html: { style: 'height: 130px;', id: 'description-textarea', class: 'input--large one-whole', placeholder: "Exemple : « Je m'appelle Nicolas Bourseul et je suis conseiller naturopathe, enseignant de Qi Gong et de Tao Yin. Mais j'enseigne surtout comment prendre soin de soi-même. Mon parcours : (liste des événements importants classés par date). C'est tout cela que je souhaite partager avec ceux qui veulent prendre leur santé et leur vie en main. »", data: { behavior: 'text-counter', 'average-words-nb' => 30, 'good-words-nb' => 100, 'bad-text' => 'Votre description doit comporter au moins 30 mots. Nos Partenaires qui ont le plus de succès ont plus de 100 mots.', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}}
+        = structure_form.input :description, label: false, wrapper_html: { class: 'flush one-whole' }, input_html: { style: 'height: 130px;', id: 'description-textarea', class: 'input--large one-whole', data: { behavior: 'text-counter', 'average-words-nb' => 30, 'good-words-nb' => 100, 'bad-text' => 'Votre description doit comporter au moins 30 mots. Nos Partenaires qui ont le plus de succès ont plus de 100 mots.', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}}
   - if @structure.comments_count >= 5
     %hr.push--ends
     .soft--sides
       %h5 Autre
       %div
         = structure_form.input :widget_status, as: :select, collection: Structure::WIDGET_STATUS, label_method: lambda{|status| t("structures.widget_status.#{status}")}, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
-        = structure_form.input :widget_url, as: :string, placeholder: 'Ex. : http://www.mon-site.com/livre-d-or', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+        = structure_form.input :widget_url, as: :string, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
 
   .soft--sides
     = structure_form.button :submit, "Enregistrer", class: 'btn btn--green btn--full push--bottom', data: { disable_with: "En cours d'enregistrement" }

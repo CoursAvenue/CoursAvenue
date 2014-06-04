@@ -1,6 +1,6 @@
 <% if @place.persisted? %>
     <% if @place.is_home? %>
-        window.location.href = "<%= pro_structure_places_path(@structure) %>";
+        window.location.href = "<%= params[:return_to] || pro_structure_places_path(@structure) %>";
     <% else %>
         $.fancybox("<%== escape_javascript(render partial: 'pro/structures/places/verify_address') %>", { width: 600, minWidth: 600, maxWidth: 600, padding: 0, helpers: { overlay : { closeClick: false } } });
     <% end %>

@@ -16,8 +16,7 @@
       -#   .grid__item.five-tenths>
       - # Don't use remote if is home because we'll want to redirect
       - if params[:return_to].present?
-        %input{type: 'hidden', value: params[:return_to], name: 'from'}
-      -# { data: { container: '#place-wizard-container', behavior: 'wizard-helper', content: (@place.is_home? ? t('pro.places.wizard_helper.home_address') : 't('pro.places.wizard_helper.public_address')') } }
+        %input{type: 'hidden', value: params[:return_to], name: 'return_to'}
       .soft--sides
         - if @place.is_home?
           %h5 Je me déplace à domicile autour de :
@@ -25,12 +24,12 @@
           %h5 Adresse
         = f.input :type, as: :hidden
         - unless @place.is_home?
-          = f.input :name, placeholder: "Ex. : « Gymnase Bercy », « Ecole d'Art Modigliani », « Adresse principale » ...", label_html: { class: 'label--large' }, input_html: { class: 'input--large', data: { behavior: 'tooltip' }, title: "Indiquez le nom du lieu. S'il s'agit d'une adresse privée, mettre « Résidence privée »." }
-          = f.input :street, placeholder: 'Ex. : 83 avenue du général Leclerc', input_html: { class: 'input--large', title: "Ne renseignez ni le code postal ni la ville, uniquement le numéro et la rue.", data: { behavior: 'tooltip' } }, label_html: { class: 'label--large' }
+          = f.input :name, label_html: { class: 'label--large' }, input_html: { class: 'input--large', data: { behavior: 'tooltip' }, title: "Indiquez le nom du lieu. S'il s'agit d'une adresse privée, mettre « Résidence privée »." }
+          = f.input :street, input_html: { class: 'input--large', title: "Ne renseignez ni le code postal ni la ville, uniquement le numéro et la rue.", data: { behavior: 'tooltip' } }, label_html: { class: 'label--large' }
 
         .input.flush--top
           = f.label :zip_code, label: 'Code postal et ville', class: 'label--large v-middle'
-          = f.input :zip_code, placeholder: 'Ex. : 75008', input_html: { class: 'input--large', style: 'width: 7em;', data: { behavior: 'city-autocomplete', el: '#place_city_id' } }, label: false, wrapper_html: { class: 'flush v-middle' }
+          = f.input :zip_code, input_html: { class: 'input--large', style: 'width: 7em;', data: { behavior: 'city-autocomplete', el: '#place_city_id' } }, label: false, wrapper_html: { class: 'flush v-middle' }
           = f.input :city_id, as: :select, collection: [], label: false, selected: @place.city, wrapper_html: { class: 'flush v-middle' }, input_html: { class: 'input--large' }
           = f.input :latitude, as: :hidden
           = f.input :longitude, as: :hidden
@@ -40,19 +39,18 @@
           %span.v-middle.label--large km
 
       - unless @place.is_home?
-        -# { data: { container: '#place-wizard-container', behavior: 'wizard-helper', content: t('pro.places.wizard_helper.infos') } }
         .soft--sides
           %hr.push--ends
           %h5
             %i.lbc-icon-info
             Infos pratiques
 
-          = f.input :info, placeholder: "Indiquez comment y accéder (station de métro, arrêt de bus...) et toute information pratique.", input_html: { class: 'input--large', data: { behavior: 'autoresize' } }, label_html: { class: 'label--large' }
+          = f.input :info, input_html: { class: 'input--large', data: { behavior: 'autoresize' } }, label_html: { class: 'label--large' }
           .input<
             %label.label--large.text.optional.control-label{for: "course_private_info"}
               %i.fa.fa-lock
               Privées
-            = f.input :private_info, label: false, placeholder: "Indiquez les informations pratiques confidentielles : digicode, étage, etc. (non visibles sur votre profil public et communiquées qu'aux élèves inscrits à vos activités)", input_html: { data: { behavior: 'autoresize' }}, wrapper_html: { class: 'flush' }, input_html: { class: 'one-whole input--large' }
+            = f.input :private_info, label: false, input_html: { data: { behavior: 'autoresize' }}, wrapper_html: { class: 'flush' }, input_html: { class: 'one-whole input--large' }
 
       -# .grid__item.five-tenths#place-wizard-container.relative.bordered--left>
       .soft--sides.push--top

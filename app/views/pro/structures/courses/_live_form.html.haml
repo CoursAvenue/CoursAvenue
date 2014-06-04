@@ -13,7 +13,7 @@
             - if price_groups.empty?
               = link_to 'Définir les tarifs', pro_structure_price_groups_path(structure), class: 'btn btn--small', style: 'margin-top: 2px;'
             - elsif course.price_group.nil?
-              %strong Sélectionnez une grille tarifaire
+              %strong.epsilon Sélectionnez une grille tarifaire
 
     .panel__body.soft-half
       = simple_form_for [:pro, structure, course], url: pro_structure_course_path(structure, course), as: :course, remote: true, html: { data: { behavior: 'live-form' } } do |f|
