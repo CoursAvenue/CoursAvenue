@@ -18,7 +18,10 @@ fr:
         max_age_for_kid:
         room: Salle
         teacher: Professeur
-
+  simple_form:
+    placeholders:
+      planning:
+        info: Indiquez toute information utile sur le cours concernant ce créneau
   planning:
     no_duration: Pas de durée
     levels: Niveau(x)

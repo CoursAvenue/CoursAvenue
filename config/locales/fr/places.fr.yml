@@ -26,6 +26,19 @@ fr:
     infos: >
       <p><strong>Infos publiques</strong><br>%{info}</p>
       <p><strong>Infos privées</strong><br>%{private_info}</p>
+
+
+  simple_form:
+    placeholders:
+      place:
+        name: "Ex. : « Gymnase Bercy », « Ecole d'Art Modigliani », « Adresse principale » ..."
+        street: "Ex. : 83 avenue du général Leclerc"
+        zip_code: "Ex. : 75008"
+        info: "Indiquez comment y accéder (station de métro, arrêt de bus...) et toute information pratique"
+        private_info: >
+          Indiquez les informations pratiques confidentielles : digicode, étage, etc. (non visibles sur votre profil
+          public et communiquées qu'aux élèves inscrits à vos activités)
+
   pro:
     places:
       form:
@@ -36,16 +49,6 @@ fr:
         home_address: >
           <p><strong>Cours à domicile chez l'élève</strong><br>
           <p>Si vous donnez des cours à domicile chez les élèves, renseignez la ville centrale de vos déplacements et le rayon géographique exprimé en kilomètres.</p>
-        public_address: >
-          <p><strong>Adresse de vos cours</strong><br>
-          L'adresse est un élément déterminant de votre profil : si elle est incomplète, votre profil risque de ne pas être visible.</p>
-        infos: >
-          <p><strong>Publiques</strong><br>
-          Indiquez ici les informations relatives au lieu&nbsp;:
-          station de métro / RER, l'arrêt de bus le plus proche, la description du lieu...</p>
-          <p><strong>Privées</strong><br>
-          Indiquez toutes les informations pratiques confidentielles : digicode de la porte d'entrée, étage de l'immeuble, etc.
-          Elles ne seront pas visibles sur votre profil public et ne seront communiquées qu'aux élèves qui s'inscriront à vos stages ou cours.</p>
         index: >
           <p><strong>Toutes les adresses de vos cours</strong></p>
           <p>Pour les internautes, le lieu constitue le premier critère de sélection d'un cours : pour cette raison, le moteur de recherche CoursAvenue est basé sur la géolocalisation.</p>

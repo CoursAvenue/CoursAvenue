@@ -39,6 +39,16 @@ fr:
         gives_group_courses: Collectifs
         gives_individual_courses: Particuliers
         highlighted_comment_id: 'Accroche de votre profil :'
+  simple_form:
+    placeholders:
+      structure:
+        zip_code: 'Ex. : 75008'
+        description: >
+          Exemple : « Je m'appelle Nicolas Bourseul et je suis conseiller naturopathe, enseignant de
+          Qi Gong et de Tao Yin. Mais j'enseigne surtout comment prendre soin de soi-même. Mon parcours :
+          (liste des événements importants classés par date). C'est tout cela que je souhaite partager avec ceux qui veulent prendre leur santé et leur vie en main. »
+        widget_url: 'Ex. : http://www.mon-site.com/livre-d-or'
+        facebook_url: 'Ex. : https://www.facebook.com/CoursAvenue'
 
   funding_type:
     holiday_vouchers: Tickets CAF ("loisirs" et "temps libre")

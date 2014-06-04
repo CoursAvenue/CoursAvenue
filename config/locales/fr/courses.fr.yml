@@ -27,6 +27,11 @@ fr:
         common_price: Tarif habituellement appliqué
         on_appointment: "Pas de créneau précis, uniquement sur demande."
 
+  simple_form:
+    placeholders:
+      course:
+        description: Décrivez en quoi consiste votre cours sans parler de tarif ni de planning
+
   courses:
     training:
       day_schedule: "%{day} à %{start_time} (%{duration})"
