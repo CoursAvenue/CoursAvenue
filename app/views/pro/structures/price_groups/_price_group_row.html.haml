@@ -10,7 +10,7 @@
       &nbsp;
   %td.text--center.nowrap
     - if price_group.has_premium_prices?
-      = render partial: 'pro/structures/premium_select', locals: { text: 'proposer vos offres découvertes à tous les utilisateurs CoursAvenue ?', label_text: ''}
+      = render partial: 'pro/structures/premium_select', locals: { title: 'proposer vos offres découvertes à tous les utilisateurs CoursAvenue ?', label_text: ''}
     - else
       Pas d'offre
   %td.nowrap.text--right

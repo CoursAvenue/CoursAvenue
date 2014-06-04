@@ -14,8 +14,12 @@
         %h5.flush--bottom.white.inline-block.v-middle
           = link_to edit_pro_structure_path(@structure), class: 'block semi-muted-link' do
             = @structure.name
-        - unless @structure.premium?
-          %span.push-half--sides= '|'
+        %span.push-half--sides= '|'
+        - if @structure.premium?
+          %span.yellow
+            Premium
+            %i.fa.fa-check
+        - else
           = link_to premium_modal_pro_structure_path(@structure), class: 'btn btn--yellow f-weight-bold fancybox.ajax', data: { behavior: 'modal', padding: 0, width: 900 } do
             %i.fa.fa-star
             Passer au Premium

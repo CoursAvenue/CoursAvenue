@@ -36,7 +36,7 @@ class Structure < ActiveRecord::Base
   has_many :invited_users             , foreign_key: :referrer_id, dependent: :destroy
   has_many :invited_teachers          , -> { where(type: 'InvitedUser::Teacher') }, class_name: 'InvitedUser', foreign_key: :referrer_id, dependent: :destroy
   has_many :invited_students          , -> { where(type: 'InvitedUser::Student') }, class_name: 'InvitedUser', foreign_key: :referrer_id, dependent: :destroy
-  has_many :medias                    , -> { order('created_at ASC') },  as: :mediable
+  has_many :medias                    , as: :mediable
   has_many :comments                  , -> { order('created_at DESC') }, as: :commentable, dependent: :destroy, class_name: 'Comment::Review'
   has_many :teachers                  , dependent: :destroy
   has_many :courses                   , dependent: :destroy

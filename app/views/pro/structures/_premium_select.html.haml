@@ -1,12 +1,14 @@
-- text       = text || 'passez au profil premium ?'
-- label_text = label_text || 'Statut :'
+- title             = title || 'passez au profil premium ?'
+- subtitle          = subtitle || "Devenez membre Premium et pilotez les performances de votre profil pour recruter plus d'élèves."
+- label_text        = label_text || 'Statut :'
+- select_collection = select_collection || ['Visible', 'Non visible']
 %strong.label--large.push-half--right.v-middle= label_text
 .lbl.lbl--chip.lbl--small.v-middle{ class: (@structure.premium? ? 'lbl--green' : 'lbl--red')}
 %select.v-middle.input--large{ disabled: @structure.premium?, data: { behavior: 'premium-select' } }
-  %option{ value: 'visible',     selected: @structure.premium?,  disabled: @structure.premium? } Visible
-  %option{ value: 'not-visible', selected: !@structure.premium?, disabled: @structure.premium? } Non visible
+  %option{ value: 'visible',     selected: @structure.premium?,  disabled: @structure.premium? }= select_collection.first
+  %option{ value: 'not-visible', selected: !@structure.premium?, disabled: @structure.premium? }= select_collection.last
 
-.hidden= link_to 'Premium modal', premium_modal_pro_structure_path(@structure, text: text), data: { behavior: 'modal', padding: 0, width: 900 }, class: 'premium-modal fancybox.ajax'
+.hidden= link_to 'Premium modal', premium_modal_pro_structure_path(@structure, title: title, subtitle: subtitle), data: { behavior: 'modal', padding: 0, width: 900 }, class: 'premium-modal fancybox.ajax'
 
 = content_for :scripts do
   :javascript

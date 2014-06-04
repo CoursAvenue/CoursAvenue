@@ -4,8 +4,12 @@
       .grid__item.one-twelfth.v-middle.text--center
         %i.fa.fa-star.fa-4x.yellow
       .grid__item.ten-twelfths.v-middle
-        %h4.flush Vous souhaitez #{params[:text] || 'passer au premium'}
-        %p.flush.epsilon Devenez membre Premium et pilotez les performances de votre profil pour recruter plus d'élèves.
+        %h4.flush Vous souhaitez #{params[:title] || 'passer au premium'}
+        %p.flush.epsilon
+          - if params[:subtitle].present?
+            = params[:subtitle]
+          - else
+            Devenez membre Premium et pilotez les performances de votre profil pour recruter plus d'élèves.
   .panel__body
     .soft
       .grid

@@ -15,15 +15,15 @@ class Media < ActiveRecord::Base
 
   scope :images,       -> { where( type: "Media::Image" ) }
   scope :videos,       -> { where( type: "Media::Video" ) }
-  scope :videos_first, -> { order('type DESC, cover DESC NULLS LAST') }
+  scope :videos_first, -> { order('type DESC') }
   scope :cover,        -> { where( cover: true) }
   scope :cover_first,  -> { order('cover DESC NULLS LAST') }
 
   # ------------------------------------------------------------------------------------ Search attributes
   searchable do
     latlon :location, multiple: true do
-      self.mediable.locations.collect do |location|
-        Sunspot::Util::Coordinates.new(location.latitude, location.longitude)
+      self.mediable.places.collect do |place|
+        Sunspot::Util::Coordinates.new(place.latitude, place.longitude)
       end
     end
 

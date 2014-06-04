@@ -5,7 +5,7 @@
   .panel__body.soft--ends
     .soft--sides{ data: { behavior: 'wizard-helper', content: t('user_profile.wizard.infos')} }
       .text--right.push-half--bottom
-        = render partial: 'pro/structures/premium_select', locals: { text: "accéder aux coordonnées d'élèves de la communauté CousAvenue ?", label_text: 'Coordonnées des élèves CoursAvenue :' }
+        = render partial: 'pro/structures/premium_select', locals: { title: "accéder aux coordonnées d'élèves de la communauté CousAvenue ?", label_text: 'Coordonnées des élèves CoursAvenue :' }
 
     .text--center.island{ :data => { :type => "user-management-loader" }}
       = image_tag 'gifs/loading-indicator-circle.gif', class: 'center-block', height: 20

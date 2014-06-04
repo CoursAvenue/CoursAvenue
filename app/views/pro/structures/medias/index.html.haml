@@ -21,11 +21,12 @@
             %p.text--center.flush
               %strong Votre première photo / vidéo figure dans les résultats de recherche !
           .grid__item.two-thirds.v-middle.text--right>
-            = render partial: 'pro/structures/premium_select', locals: { text: 'afficher vos photos et vidéos à tous les utilisateurs CoursAvenue ?', label_text: 'Statut de mes photos & vidéos :'}
+            .inline-block.premium-box.soft-half.rounded
+              = render partial: 'pro/structures/premium_select', locals: { title: "afficher plus d'une photo / vidéo à tous les utilisateurs CoursAvenue ?", subtitle: "Souscrivez au profil Premium et affichez toutes vos photos / vidéos pour monter dans les résultats.", label_text: "Afficher plus d'une photo / vidéo sur mon profil", select_collection: ['Actif', 'Non actif'] }
 
         - @medias.each_with_index do |media, index|
           .soft-half.inline-block.one-third>
-            = render partial: 'pro/structures/medias/media', locals: { media: media, index: index }
+            = render partial: 'pro/structures/medias/media', locals: { media: media, index: index, structure: @structure }
 
 = content_for :scripts do
   :javascript

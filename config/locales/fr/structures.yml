@@ -10,7 +10,7 @@ fr:
         street: Adresse
         zip_code: Code postal
         city: Ville
-        website: "Site internet"
+        website: Site Internet
         facebook_url: "Page facebook"
         has_handicap_access: Accès handicapés
         contact_phone: Téléphone fixe
@@ -183,7 +183,12 @@ fr:
           manière totalement sécurisée. Important : votre adresse e-mail vous sert également d'identifiant pour
           votre compte CoursAvenue.</p>
           <p><strong>Téléphones</strong> : indiquez votre portable, éventuellement votre fixe si vous
-          l'utilisez au quotidien. Renseignez autant de numéros que nécessaires.</p>
+          l'utilisez au quotidien. Renseignez autant de numéros que nécessaire.</p>
+        links: >
+          <p><strong>Communiquez sur vos pages web</strong></p>
+          <p>Renseignez l'adresse de votre site Internet et de votre page Facebook qui apparaitront parmi
+          vos coordonnées de contact. Ainsi, les Internautes pourront visiter vos propres pages et mieux
+          vous connaître. Souscrivez au profil Premium pour accéder à cette option.</p>
         dashboard:
           profile_completion: >
             <p><strong>Un profil complet</strong><p>
