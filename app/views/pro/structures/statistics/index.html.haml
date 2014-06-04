@@ -1,7 +1,7 @@
 = side_menu_currently_at 'statistics'
 .panel
   .panel__body.soft--ends.relative
-    = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 80, width: 80, style: 'width: 80px; height: 80px;'
+    = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 80, width: 80, style: 'width: 80px; height: 80px; top: -1px !important'
     .soft--sides{ data: { behavior: 'wizard-helper', content: t('statistics.wizard.infos') } }
       %h4.text--center Statistiques de votre annonce pour les 15 derniers jours
       .grid.push--bottom
@@ -9,10 +9,7 @@
           .inline-block.pointer{ data: { behavior: 'toggle-serie' } }
             .lbl.lbl--chip.lbl--red.v-middle.lbl--small
             %h5.flush.v-middle.inline-block
-              - if @structure.premium?
-                = "#{pluralize(@impressions_total_count, 'Affichage')}"
-              - else
-                XX Affichages
+              = "#{pluralize(@impressions_total_count, 'Affichage')}"
         .grid__item.one-third.text--center>
           .inline-block.pointer{ data: { behavior: 'toggle-serie' } }
             .lbl.lbl--chip.lbl--blue.v-middle.lbl--small
@@ -36,9 +33,30 @@
 
     .soft--sides{ data: { behavior: 'wizard-helper', content: t('statistics.wizard.advices') } }
       %h4 Conseils personnalisés
-      .text--center.push--bottom
-        = link_to '10 conseils personnalisés pour optimiser votre communication et vos statistiques', '#', class: 'btn btn--yellow'
       %p.epsilon Bénéficiez de conseils en marketing et en communication que vous pouvez également appliquer sur tous vos supports de communication (site Internet, newsletters, affiches, etc.)
+      .text--center
+        = link_to '10 conseils personnalisés pour optimiser votre communication et vos statistiques', '#', class: 'btn btn--yellow'
+
+- if @structure.premium?
+  :javascript
+    window.coursavenue = {};
+    window.coursavenue.series = [ { data: #{@impressions.sort.map{|date, count| count}},
+                                    name: 'Affichages'
+                                   },
+                                  { data: #{@views.sort.map{|date, count| count}},
+                                    name: 'Vues'
+                                  },
+                                  { data: #{@actions.sort.map{|date, count| count}},
+                                    name: 'Actions'
+                                  }
+                                ]
+- else
+  :javascript
+    window.coursavenue = {};
+    window.coursavenue.series = [ { data: #{@impressions.sort.map{|date, count| count}},
+                                    name: 'Affichages'
+                                   }
+                                ]
 
 = content_for :scripts do
   :javascript
@@ -64,17 +82,7 @@
                     shadow: false
                 }
             },
-            series: [
-              { data: #{@impressions.sort.map{|date, count| count}},
-                name: 'Affichages'
-               },
-              { data: #{@views.sort.map{|date, count| count}},
-                name: 'Vues'
-              },
-              { data: #{@actions.sort.map{|date, count| count}},
-                name: 'Actions'
-              }
-            ]
+            series: window.coursavenue.series
         });
         $("[data-behavior='toggle-serie']").each(function(index) {
             var serie = statistic_chart.series[index];

@@ -25,6 +25,9 @@ class UserProfile < ActiveRecord::Base
   scope :with_email, -> { where( UserProfile.arel_table[:email].not_eq(nil).or(
                                  UserProfile.arel_table[:email].not_eq('')) )}
 
+  scope :with_name,  -> { where( UserProfile.arel_table[:first_name].not_eq('').or(
+                                 UserProfile.arel_table[:last_name].not_eq('')) )}
+
   ######################################################################
   # Search attributes                                                  #
   ######################################################################
