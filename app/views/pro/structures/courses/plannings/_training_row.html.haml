@@ -3,11 +3,15 @@
 %tr{ id: "planning-#{planning.id}" }
   %td.nowrap
     = training_dates planning
-  %td
+  %td.nowrap
     = readable_time_slot planning.start_time, planning.end_time
   %td= join_levels_text planning
   %td= join_audiences planning
-  %td= planning.place.name
+  %td
+    - if planning.is_in_foreign_country
+      Séjour à l'étranger
+    - else
+      = planning.place.name
 
   %td
     - if planning.info.present?

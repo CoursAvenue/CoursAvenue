@@ -80,6 +80,7 @@ class Planning < ActiveRecord::Base
                   :min_age_for_kid, :max_age_for_kid,
                   :teacher,
                   :teacher_id, :level_ids, :audience_ids, :place_id,
+                  :is_in_foreign_country,
                   :visible # True by default, will be false only for plannings of
                            # private courses that are on demand
 
@@ -245,7 +246,11 @@ class Planning < ActiveRecord::Base
     end
 
     latlon :location, multiple: true do
-      Sunspot::Util::Coordinates.new(place.latitude, place.longitude) if place
+      if place
+        Sunspot::Util::Coordinates.new(place.latitude, place.longitude)
+      else # Happens when the planning is out of France for example.
+        Sunspot::Util::Coordinates.new(structure.latitude, structure.longitude)
+      end
     end
 
     integer :open_courses_open_places do
@@ -458,7 +463,7 @@ class Planning < ActiveRecord::Base
   def presence_of_place
     return if course.nil?
     unless course.is_private?
-      errors.add(:place, :blank) if self.place.nil?
+      errors.add(:place_id, :blank) if self.place.nil? and self.is_in_foreign_country == false
     end
   end
 

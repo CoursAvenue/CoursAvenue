@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140604084341) do
+ActiveRecord::Schema.define(version: 20140605172213) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -483,8 +483,8 @@ ActiveRecord::Schema.define(version: 20140604084341) do
     t.integer  "max_age_for_kid"
     t.integer  "min_age_for_kid"
     t.integer  "course_id"
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
     t.integer  "room_id"
     t.integer  "teacher_id"
     t.integer  "nb_participants_max"
@@ -495,6 +495,7 @@ ActiveRecord::Schema.define(version: 20140604084341) do
     t.integer  "place_id"
     t.integer  "structure_id"
     t.boolean  "visible",               default: true
+    t.boolean  "is_in_foreign_country", default: false
   end
 
   add_index "plannings", ["audience_ids"], name: "index_plannings_on_audience_ids", using: :btree

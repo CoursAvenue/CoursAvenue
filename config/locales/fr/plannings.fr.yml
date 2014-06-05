@@ -18,6 +18,7 @@ fr:
         max_age_for_kid:
         room: Salle
         teacher: Professeur
+        is_in_foreign_country: Séjour à l'étranger
   simple_form:
     placeholders:
       planning:
