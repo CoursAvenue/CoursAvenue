@@ -34,9 +34,10 @@
           = f.input :latitude, as: :hidden
           = f.input :longitude, as: :hidden
         - if @place.is_home?
-          = f.label :radius, label: 'Dans un rayon de', class: 'label--large text--left nowrap block inline-block v-middle hard'
-          = f.input :radius, label: false, input_html: { class: 'input--large one-whole' }, wrapper_html: { class: 'flush inline-block v-middle' }
-          %span.v-middle.label--large km
+          .input
+            = f.label :radius, label: 'Dans un rayon de', class: 'label--large v-middle'
+            = f.input :radius, label: false, input_html: { class: 'input--large one-whole' }, wrapper_html: { class: 'flush inline-block v-middle' }
+            %span.v-middle.label--large km
 
       - unless @place.is_home?
         .soft--sides

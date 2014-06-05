@@ -18,6 +18,7 @@ fr:
         contact_name: Nom
         contact_phone: Téléphone
         contact_mobile_phone: Téléphone portable
+        radius: Dans un rayon de
 
   places:
     home:

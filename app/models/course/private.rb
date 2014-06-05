@@ -13,6 +13,8 @@ class Course::Private < Course
   ######################################################################
   # Callbacks                                                          #
   ######################################################################
+  after_initialize :default_values
+
   after_save :create_hidden_plannings
   before_save :set_start_and_end_date
 
@@ -77,6 +79,13 @@ class Course::Private < Course
   def place_or_teachers_at_home
     if (teaches_at_home.nil? or teaches_at_home == false) and place.nil?
       errors.add :place_id, :blank
+    end
+  end
+
+  def default_values
+    if self.new_record?
+      self.audiences = [Audience::ADULT] if self.audiences.empty?
+      self.levels    = [Level::ALL]      if self.levels.empty?
     end
   end
 end

@@ -46,7 +46,7 @@
           - if course.teaches_at_home? and course.home_place and course.place
             %strong 2 lieux :
           - if course.teaches_at_home? and course.home_place
-            À domicile (#{course.home_place.city.name}, #{course.home_place.radius})
+            À domicile (#{course.home_place.city.name}, #{course.home_place.radius}km)
           - if course.teaches_at_home? and course.home_place and course.place
             et
           - if course.place

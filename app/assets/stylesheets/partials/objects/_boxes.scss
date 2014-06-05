@@ -85,5 +85,9 @@
 
 
 .premium-box {
-    background-color: transparentize($yellow, 0.5) !important;
+    background-color: $yellow_premium !important;
+    &.premium-box--bordered {
+        border: 3px solid $yellow_premium;
+    }
 }
+

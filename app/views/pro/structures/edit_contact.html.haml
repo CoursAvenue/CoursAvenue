@@ -17,7 +17,7 @@
         .grid__item.v-middle.one-half>
           %h5.flush--bottom.soft--left.push--left Liens vers vos pages
         .grid__item.v-middle.one-half>
-          = render partial: 'pro/structures/premium_select', locals: { title: 'afficher les liens vers votre site Internet et votre page Facebook ?', label_text: 'Statut des liens de vos pages' }
+          = render partial: 'pro/structures/premium_select', locals: { title: 'afficher les liens vers votre site Internet et votre page Facebook ?', label_text: 'Statut des liens vers vos pages :' }
       %div
         = form.input :website, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
         = form.input :facebook_url, as: :string, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, wrapper_html: { class: 'flush--bottom' }

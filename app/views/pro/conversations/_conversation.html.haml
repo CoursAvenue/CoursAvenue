@@ -1,0 +1,33 @@
+- last_message = conversation.messages.last
+
+- recipients = conversation.recipients.reject{|recipient| recipient == ((@admin || current_pro_admin) || (@user || current_user)) }
+
+.bordered--top.push-half--top.soft-half--top
+  - if conversation.mailboxer_label_id == Mailboxer::Label::INFORMATION.id and conversation.messages.count == 1
+    .grid--full.blue-box.soft-half
+      .grid__item.v-middle.one-half>
+        %strong.epsilon En attente de réponse
+      .grid__item.v-middle.one-half.text--right>
+        = link_to 'Répondre par un message', pro_structure_conversation_path(@structure, conversation), class: 'btn btn--small'
+  = link_to pro_structure_conversation_path(@structure, conversation), class: 'muted-link block grid--full' do
+    .grid__item.v-top.v-middle{ style: 'width: 30%' }>
+      .grid--full
+        .grid__item.one-quarter.v-middle>
+          - if recipients.first
+            = image_tag recipients.first.avatar_url(:thumb), class: 'block bordered'
+        .grid__item.three-quarters.soft-half--left.v-middle>
+          %p.flush
+            = truncate((recipients.first.name || recipients.first.email), length: 18)
+            - if recipients.length > 1
+              %span.nowrap.milli{title: recipients.map(&:name).join(', '), data: { behavior: 'tooltip' }}
+                et #{pluralize(recipients.length - 1, 'autre')}
+              %br
+            %span.milli= "le #{l(last_message.created_at.to_date, format: :short)}"
+    .grid__item.soft-half--left.v-middle{ style: 'width: 65%' }>
+      %p.flush
+        %strong= conversation.subject
+        = "(#{pluralize conversation.messages.count, 'message'})"
+        %br
+        = truncate(last_message.body, length: 90)
+    .grid__item.soft-half--left.text--center.v-middle{ style: 'width: 5%' }>
+      = conversation_label conversation

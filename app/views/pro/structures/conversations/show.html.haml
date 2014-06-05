@@ -4,7 +4,6 @@
   .panel__header.soft
     %ol.nav.flush.breadcrumb{itemprop: 'breadcrumb'}
       %li.delta= link_to 'Boîte de réception', pro_structure_conversations_path(@structure)
-      %li.delta= link_to conversation_label_name(@conversation), pro_structure_conversations_path(@structure, conversation_label_id: @conversation.mailboxer_label_id)
       %li.delta Conversation avec #{truncate(recipients.map{|recipient| recipient.name || recipient.email}.join(', '), length: 50) }
   .panel__body.soft
     .grid

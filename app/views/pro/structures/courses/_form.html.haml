@@ -69,9 +69,10 @@
                 = f.label :teaches_at_home, class: "label--large inline-block v-middle nowrap hard #{home_place.nil? ? 'gray-light' : ''}"
                 - if home_place
                   %div
-                    %i
-                      Dans un rayon de #{home_place.radius}km autour de #{home_place.city.name}
-                      = link_to 'Modifier', edit_pro_structure_place_path(@structure, @structure.places.homes.first, type: 'Place::Home', return_to: return_to_url), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 }
+                    %i.blue Dans un rayon de #{home_place.radius}km autour de #{home_place.city.name}.
+                    = link_to edit_pro_structure_place_path(@structure, @structure.places.homes.first, type: 'Place::Home', return_to: return_to_url), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 } do
+                      %i.fa.fa-pencil
+                      Modifier
                 - else
                   %div
                     = link_to new_pro_structure_place_path(@structure, type: 'Place::Home', return_to: return_to_url), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 } do
@@ -83,7 +84,7 @@
                   Les cours ont lieu à cette adresse :
                 = f.input :place_id, as: :select, collection: @structure.places.publics, input_html: { class: 'input--large', style: 'max-width: 13em;' }, label: false, wrapper_html: { class: 'inline-block v-middle' }
 
-          = f.input :on_appointment, as: :select, collection: [["Cours particuliers selon des créneaux précis", false], ["Pas de créneau précis, uniquement sur demande.", true]], label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, label: 'Disponibilités', include_blank: false
+          = f.input :on_appointment, as: :select, collection: [["Cours particuliers selon des créneaux précis", false], ["Pas de créneau précis, uniquement sur demande", true]], label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, label: 'Disponibilités', include_blank: false
 
 
           = f.input :level_ids, as: :check_boxes, collection: Level.all, label_method: lambda {|level| t(level.name)}, label: t('planning.levels'), wrapper_html: { data: { behavior: 'checkbox-list' } }, label_html: { class: 'label--large v-middle' }, input_html: { class: 'input--large' }
@@ -110,8 +111,8 @@
 
 - if @course.is_private?
   :javascript
-      if ($('[name="planning[audience_ids][]"]').length > 0) {
-          $('[name="planning[audience_ids][]"]').change(function(event) {
+      if ($('[name="course[audience_ids][]"]').length > 0) {
+          $('[name="course[audience_ids][]"]').change(function(event) {
               if (event.target.value == '1') {
                   if (event.target.checked) {
                       $('#children-ages').removeClass('hidden');
