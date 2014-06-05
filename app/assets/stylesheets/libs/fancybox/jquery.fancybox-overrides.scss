@@ -1,0 +1,11 @@
+#fancybox-loading{
+    background      : none;
+    background-color: $site-background-color;
+    opacity         : 1;
+    border          : 1px solid #EEE;
+    @include border-radius($brand-round);
+}
+
+#fancybox-loading div {
+    @include background-size(20px);
+}
