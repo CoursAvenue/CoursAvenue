@@ -9,6 +9,7 @@
 }
 
 .sticky {
+    &.bordered--bottom-on-stick { @extend .bordered--bottom; }
     .hidden-on-stick      { display: none; }
     .visible-on-stick     { display: block !important; }
     .visible-on-stick-ilb { display: inline-block !important; }

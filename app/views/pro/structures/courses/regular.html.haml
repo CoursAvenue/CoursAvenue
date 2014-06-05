@@ -1,6 +1,6 @@
 = side_menu_currently_at 'courses'
 .panel
-  .panel__header.soft.text--center
+  .panel__header.soft.text--center.bordered--bottom-on-stick{ style: 'height: 80px;', data: { behavior: 'sticky', offset_top: 45, z: 500 } }
     .grid
       .grid__item.two-twelfths.v-middle>
         %h4.flush Ajouter un :
@@ -9,13 +9,8 @@
         = link_to 'Cours particulier', new_pro_structure_course_path(@structure, type: 'Course::Private'), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false', action: 'new_course', course_type: 'private' }
 
   .panel__body
-    #lessons_header{ data: { behavior: 'sticky', offset_top: '45', old_width: 'true', z: 300 } }
-      %h3.soft.flush.hidden-on-stick Cours collectifs
-      .soft.bg-white.bordered--bottom.visible-on-stick
-        %h3.flush.v-middle.inline-block Cours collectifs
-        .visible-on-stick-ilb.v-middle.push-half--left
-          = link_to 'Ajouter un cours collectif', new_pro_structure_course_path(@structure, type: 'Course::Lesson'), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false', action: 'new_course', course_type: 'lesson' }
-
+    #lessons_header.soft.bg-white.bordered--bottom-on-stick{ data: { behavior: 'sticky', offset_top: 125, old_width: 'true', z: 300 } }
+      %h3.flush Cours collectifs
     .soft--sides
       %p{ class: (@courses.lessons.empty? ? '' : 'hidden'), data: { empty: 'lesson'} }
         Vous n'avez pas de cours.
@@ -27,12 +22,8 @@
 
     %hr.push--top.flush--bottom
 
-    .bg-white{ data: { behavior: 'sticky', offset_top: '45', old_width: 'true', pushed: '#lessons_header' } }
-      %h3.soft.flush.hidden-on-stick Cours particuliers
-      .soft.bordered--bottom.visible-on-stick
-        %h3.flush.v-middle.inline-block Cours particuliers
-        .visible-on-stick-ilb.v-middle.push-half--left
-          = link_to 'Ajouter un cours particulier', new_pro_structure_course_path(@structure, type: 'Course::Private'), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false', action: 'new_course', course_type: 'private' }
+    .bg-white.soft.bg-white.bordered--bottom-on-stick{ data: { behavior: 'sticky', offset_top: 125, old_width: 'true', pushed: '#lessons_header', z: 400 } }
+      %h3.flush Cours particuliers
 
     .soft--sides
       %p{ class: (@courses.privates.empty? ? '' : 'hidden'), data: { empty: 'private'} }
@@ -42,3 +33,11 @@
       #private-list.block-list
         - @courses.privates.each_with_index do |course, index|
           = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure, price_groups: price_groups }
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('body').on('change', 'select[data-type=price-group]', function(event) {
+            $(this).closest('form').submit();
+        });
+    });

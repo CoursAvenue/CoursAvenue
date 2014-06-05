@@ -17,7 +17,7 @@
         defaults = {
             offsetTop : 0,
             z         : 300,
-            oldWidth  : false,
+            oldWidth  : true,
             onStick   : $.noop,
             onUnStick : $.noop
         };
@@ -67,7 +67,8 @@
             this.old_top       = this.$element.offset().top;
             if (this.options.pushed) {
                 this.$pusher_el    = $(this.options.pushed);
-                this.pusher_height = this.$pusher_el.height();
+                this.pusher_height = this.$pusher_el.outerHeight();
+                // this.pusher_height = this.$pusher_el.height();
             }
             $(window).scroll(this.onScroll.bind(this));
         },
@@ -120,17 +121,18 @@
             this.options.onStick();
         },
         fixAndPush: function fixAndPush () {
-            this.pusher_el_offset_top = this.pusher_el_offset_top || this.$pusher_el.data('offset-top') || 0;
             // Pusher element is the element on top that will push the current element.
             // When coming down and pusher element hit the current element
             if ( !this.fixed &&
                  this.scroll_top >= (this.element_top - this.options.offsetTop - this.pusher_height) &&
                  this.scroll_top <= (this.element_top - this.options.offsetTop)) {
-                this.$pusher_el.css('margin-top',  - (this.pusher_height - (this.$element.offset().top - this.scroll_top - this.options.offsetTop)));
+                this.$pusher_el.css('margin-top', - (this.pusher_height - (this.$element.offset().top - this.scroll_top - this.options.offsetTop)));
             } else if ( !this.fixed && this.scroll_top >= (this.element_top - this.options.offsetTop) ) {
                 this.fixIt();
             } else if ( this.fixed && this.scroll_top < (this.sticky_home - this.options.offsetTop)) {
                 this.unFixit();
+            } else {
+                this.$pusher_el.css('margin-top', 0);
             }
         }
     };
