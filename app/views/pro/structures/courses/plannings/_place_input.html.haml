@@ -1,12 +1,17 @@
-- @structure.places.each do |place|
+- if planning.new_record?
+  - return_to_action = "$('[data-course-id=#{course.id}][data-action=new_planning]').click();"
+- else
+  - return_to_action = "$('[data-planning-id=#{planning.id}][data-action=edit]').click();"
+
+- structure.places.each do |place|
   .hidden.gray.flush{data: {place_id: place.id, info: place.info, private_info: place.private_info, address: place.address } }
 
 .input.flush--bottom
   = f.label :place, class: 'v-top label--large'
   %div
     .inline-block.v-middle
-      = f.input :place_id , as: :select, collection: @structure.places, label_method: lambda {|place| place.name}, include_blank: false, label: false, wrapper_html: { class: 'flush' }, input_html: { class: 'input--large' }
+      = f.input :place_id , as: :select, collection: structure.places, label_method: lambda {|place| place.name}, include_blank: false, label: false, wrapper_html: { class: 'flush' }, input_html: { class: 'input--large' }
     .inline-block.v-middle
-      = link_to new_pro_structure_place_path(@structure, type: 'Place::Public'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 } do
+      = link_to new_pro_structure_place_path(structure, type: 'Place::Public', return_to_action: return_to_action), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 } do
         %i.fa.fa-map-marker
         Ajouter un lieu

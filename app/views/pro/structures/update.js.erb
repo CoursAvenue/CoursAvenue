@@ -1,0 +1,5 @@
+<% if params[:return_to_action] %>
+<%== params[:return_to_action] %>
+<% else %>
+window.location.href = '<%= params[:return_to] %>'
+<% end %>

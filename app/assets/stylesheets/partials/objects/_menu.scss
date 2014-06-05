@@ -119,8 +119,10 @@
 
 .side-menu--sticky {
     height        : 100%;
-    overflow      : scroll;
     padding-bottom: 100px;
+    &.sticky{
+        overflow: scroll;
+    }
 }
 .pro-top-menu {
     height: 45px;

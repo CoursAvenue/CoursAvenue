@@ -1,7 +1,7 @@
 = side_menu_currently_at 'trainings'
 .panel
   .panel__header.soft.text--center
-    = link_to 'Ajouter un stage / atelier', new_pro_structure_course_path(@structure, type: 'Course::Training'), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false' }
+    = link_to 'Ajouter un stage / atelier', new_pro_structure_course_path(@structure, type: 'Course::Training'), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false', action: 'new_course', course_type: 'training' }
 
   .panel__body.soft--ends
     .soft--sides

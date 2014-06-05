@@ -39,7 +39,7 @@
     .panel__body.soft
       = f.error_notification
       - unless @course.is_private?
-        = render partial: 'pro/structures/courses/plannings/place_input', locals: { f: f }
+        = render partial: 'pro/structures/courses/plannings/place_input', locals: { f: f, course: @course, structure: @structure, planning: @planning }
 
       = render partial: "pro/structures/courses/plannings/#{@course.underscore_name}_form", locals: { f: f }
 

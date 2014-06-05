@@ -15,13 +15,15 @@ class Course::Private < Course
   ######################################################################
   after_initialize :default_values
 
+  after_create :set_gives_individual_courses_if_false
+
   after_save :create_hidden_plannings
   before_save :set_start_and_end_date
 
   ######################################################################
   # Validations                                                        #
   ######################################################################
-  validate :place_or_teachers_at_home
+  validate :place_or_teaches_at_home
 
   def is_private?
     true
@@ -76,7 +78,7 @@ class Course::Private < Course
   # A course have to have a place OR teachers_at_home with a place
   #
   # @return [type] [description]
-  def place_or_teachers_at_home
+  def place_or_teaches_at_home
     if (teaches_at_home.nil? or teaches_at_home == false) and place.nil?
       errors.add :place_id, :blank
     end
@@ -87,5 +89,15 @@ class Course::Private < Course
       self.audiences = [Audience::ADULT] if self.audiences.empty?
       self.levels    = [Level::ALL]      if self.levels.empty?
     end
+  end
+
+  # If a user creates a private course, then by default, it will set the teaches
+  # at home flag of structure to true.
+  #
+  # @return nil
+  def set_gives_individual_courses_if_false
+    self.structure.gives_individual_courses = true
+    self.structure.save
+    nil
   end
 end

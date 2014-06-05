@@ -3,7 +3,7 @@
 .panel
   .panel__header.soft.text--center
     = link_to 'Ajouter un nouveau lieu', new_pro_structure_place_path(@structure, type: 'Place::Public'), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 }
-    - if @structure.gives_individual_courses? and @places.homes.empty?
+    - if @places.homes.empty?
       .text--center
         = link_to 'Ajouter la zone géographique pour mes cours à domicile', new_pro_structure_place_path(@structure, type: 'Place::Home'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 }
   .panel__body{ data: { behavior: 'wizard-helper', content: t('pro.places.wizard_helper.index') } }

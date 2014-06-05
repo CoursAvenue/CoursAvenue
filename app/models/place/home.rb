@@ -8,6 +8,11 @@ class Place::Home < Place
   validates :zip_code , presence: true, numericality: { only_integer: true }
   validates :radius   , presence: true, numericality: { only_integer: true }
 
+  ######################################################################
+  # Callbacks                                                          #
+  ######################################################################
+  after_create :set_gives_individual_courses_if_false
+
   def name
     I18n.t('places.home.name')
   end
@@ -22,5 +27,18 @@ class Place::Home < Place
 
   def is_home?
     true
+  end
+
+  private
+
+  # If a user creates a private course, then by default, it will set the teaches
+  # at home flag of structure to true.
+  #
+  # @return nil
+  def set_gives_individual_courses_if_false
+    self.structure.gives_individual_courses = true
+    self.structure.teaches_at_home          = true
+    self.structure.save
+    nil
   end
 end

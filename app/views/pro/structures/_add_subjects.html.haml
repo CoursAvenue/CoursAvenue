@@ -1,27 +1,34 @@
 - return_to = edit_pro_structure_path(@structure) unless return_to
-%h4.text--center Gérez vos disciplines
-= simple_form_for [:pro, @structure], html: { autocomplete: 'off', id: 'structure-form' } do |f|
-  %input{type: 'hidden', name: 'return_to', value: return_to}
-  %div{ data: { behavior: 'parent-descendant-subjects', 'parent-select' => '#parent-subjects', 'descendant-select' => '#subject-descendants-select', 'descendant-select-wrapper' => '#descendants-subjects'}}
-    = f.association :subjects, as: :select, collection: Subject.roots.order('name ASC'), input_html: { class: 'input--large', style: 'width: 74%;', id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true }, label: 'Disciplines générales pratiquées ', label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush--bottom' }, label_html: { class: 'label--large' }
+#loader.text--center.island{ style: 'height: 400px;'}
+  = image_tag 'gifs/loading-indicator-circle.gif', class: 'center-block', height: 20, style: 'margin-top: 190px;'
+#content.hidden
+  %h4.text--center Gérez vos disciplines
+  = simple_form_for [:pro, @structure], html: { autocomplete: 'off', id: 'structure-form' }, remote: params[:return_to_action].present? do |f|
+    %input{type: 'hidden', name: 'return_to', value: return_to}
+    - if params[:return_to_action].present?
+      %input{type: 'hidden', name: 'return_to_action', value: params[:return_to_action]}
+    %div{ data: { behavior: 'parent-descendant-subjects', 'parent-select' => '#parent-subjects', 'descendant-select' => '#subject-descendants-select', 'descendant-select-wrapper' => '#descendants-subjects'}}
+      = f.association :subjects, as: :select, collection: Subject.roots.order('name ASC'), input_html: { class: 'input--large', style: 'width: 74%;', id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true }, label: 'Disciplines générales pratiquées ', label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush--bottom' }, label_html: { class: 'label--large' }
 
-    #descendants-subjects
-      .input{title: 'Sélectionnez plusieurs disciplines en maintenant la touche CTRL ou CMD enfoncée.', data: { behavior: 'tooltip'}}>
-        %label.label--large.control-label> Sous disciplines
-        %select.input--large#subject-descendants-select{ name: 'structure[subject_descendants_ids][]', style: 'width: 74%;', multiple: true, data: { behavior: 'chosen', placeholder: 'Tapez ou sélectionnez une ou plusieurs disciplines', selected: @structure.subjects.children.map(&:id).join(',')}}>
-  - if @structure.errors[:children_subjects].present?
-    %p.error= @structure.errors[:children_subjects].to_sentence
-  = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
+      #descendants-subjects
+        .input{title: 'Sélectionnez plusieurs disciplines en maintenant la touche CTRL ou CMD enfoncée.', data: { behavior: 'tooltip'}}>
+          %label.label--large.control-label> Sous disciplines
+          %select.input--large#subject-descendants-select{ name: 'structure[subject_descendants_ids][]', style: 'width: 74%;', multiple: true, data: { behavior: 'chosen', placeholder: 'Tapez ou sélectionnez une ou plusieurs disciplines', selected: @structure.subjects.children.map(&:id).join(',')}}>
+    - if @structure.errors[:children_subjects].present?
+      %p.error= @structure.errors[:children_subjects].to_sentence
+    - if params[:return_to_action].present?
+      .grid
+        .grid__item.three-twelfths>
+          %a.btn.btn--full.btn--gray{ onclick: params[:return_to_action]} Annuler
+        .grid__item.nine-twelfths>
+          = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
+    - else
+      = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
 
 :javascript
   jQuery.ready();
   setTimeout(function() {
       $('.fancybox-inner').css('overflow', 'visible');
-  }, 100);
-
-  $('select').bind('chosen:updated', function() {
-      $(window).trigger('resize'); // To adapt fancy popups
-  });
-  $('select').change(function() {
-      $(window).trigger('resize'); // To adapt fancy popups
-  });
+      $('#loader').hide();
+      $('#content').show();
+  }, 1000);

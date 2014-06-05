@@ -5,9 +5,8 @@
       .grid__item.two-twelfths.v-middle>
         %h4.flush Ajouter un :
       .grid__item.ten-twelfths.v-middle.text--center>
-        = link_to 'Cours collectif', new_pro_structure_course_path(@structure, type: 'Course::Lesson'), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false' }
-        - if @structure.gives_individual_courses?
-          = link_to 'Cours particulier', new_pro_structure_course_path(@structure, type: 'Course::Private'), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false' }
+        = link_to 'Cours collectif', new_pro_structure_course_path(@structure, type: 'Course::Lesson'), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false', action: 'new_course', course_type: 'lesson' }
+        = link_to 'Cours particulier', new_pro_structure_course_path(@structure, type: 'Course::Private'), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false', action: 'new_course', course_type: 'private' }
 
   .panel__body.soft--ends
     .soft--sides
@@ -20,15 +19,14 @@
         - @courses.lessons.each_with_index do |course, index|
           = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure, price_groups: price_groups }
 
-    - if @structure.gives_individual_courses?
-      %hr.push--ends
+    %hr.push--ends
 
-      .soft--sides
-        %h3 Cours particuliers
-        %p{ class: (@courses.privates.empty? ? '' : 'hidden'), data: { empty: 'private'} }
-          Vous n'avez pas de cours particulier.
-          = link_to 'Ajouter un cours particulier', new_pro_structure_course_path(@structure, type: 'Course::Private'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false' }
-        - price_groups = @structure.price_groups.for_privates
-        #private-list.block-list
-          - @courses.privates.each_with_index do |course, index|
-            = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure, price_groups: price_groups }
+    .soft--sides
+      %h3 Cours particuliers
+      %p{ class: (@courses.privates.empty? ? '' : 'hidden'), data: { empty: 'private'} }
+        Vous n'avez pas de cours particulier.
+        = link_to 'Ajouter un cours particulier', new_pro_structure_course_path(@structure, type: 'Course::Private'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false' }
+      - price_groups = @structure.price_groups.for_privates
+      #private-list.block-list
+        - @courses.privates.each_with_index do |course, index|
+          = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure, price_groups: price_groups }

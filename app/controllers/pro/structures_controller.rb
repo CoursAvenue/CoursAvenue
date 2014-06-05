@@ -203,13 +203,14 @@ class Pro::StructuresController < Pro::ProController
           format.html { redirect_to (crop_logo_pro_structure_path(@structure)), notice: 'Vos informations ont bien été mises à jour.' }
         else
           format.html { redirect_to (params[:return_to] || edit_pro_structure_path(@structure)), notice: 'Vos informations ont bien été mises à jour.' }
-          format.js { render nothing: true }
+          format.js
           format.json do
             render json: { logo: { path: @structure.logo.url(:large) } }
           end
         end
       else
         retrieve_home_places
+        format.js
         if params[:return_to].present?
           format.html { render action: 'edit_contact' }
         else

@@ -12,8 +12,11 @@
         %strong= @place.city.name
     %hr.flush.soft--sides
     .soft.text--right
-      = link_to "Modifier l'adresse", edit_pro_structure_place_path(@structure, @place), class: 'btn fancybox.ajax', data: { behavior: 'modal', width: '650', padding: '0' }
-      %a.btn.btn--green{ onclick: 'window.location.reload();'} Parfait !
+      = link_to "Modifier l'adresse", edit_pro_structure_place_path(@structure, @place, return_to: params[:return_to], return_to_action: params[:return_to_action]), class: 'btn fancybox.ajax', data: { behavior: 'modal', width: '650', padding: '0' }
+      - if params[:return_to].present?
+        %a.btn.btn--green{ onclick: "#{params[:return_to_action]}"} Parfait !
+      - else
+        %a.btn.btn--green{ onclick: 'window.location.reload();'} Parfait !
 
 - @json_locations = Gmaps4rails.build_markers([@place]) do |place, marker|
   - marker.lat place.latitude
