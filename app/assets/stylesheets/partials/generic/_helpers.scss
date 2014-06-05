@@ -58,6 +58,7 @@
 .bg-gray            { background-color: $gray-light; }
 .bg-orange          { background-color: $orange; }
 .bg-red             { background-color: $red; }
+.bg-white           { background-color: white; }
 .bg-site-background { background-color: $site-background-color; }
 .bg-black-faded     { background-color: black; background-color: rgba(0, 0, 0, 0.65) }
 .margin-bottom {
@@ -66,10 +67,6 @@
 .small-margin-bottom {
     margin-bottom: 0.5em;
 }
-.b-white {
-    background: white;
-}
-
 // Rounded
 .rounded--none    { @include border-radius(0!important); }
 .rounded          { @include border-radius($brand-round); }

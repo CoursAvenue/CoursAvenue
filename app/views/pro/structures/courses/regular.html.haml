@@ -8,9 +8,15 @@
         = link_to 'Cours collectif', new_pro_structure_course_path(@structure, type: 'Course::Lesson'), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false', action: 'new_course', course_type: 'lesson' }
         = link_to 'Cours particulier', new_pro_structure_course_path(@structure, type: 'Course::Private'), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false', action: 'new_course', course_type: 'private' }
 
-  .panel__body.soft--ends
+  .panel__body
+    #lessons_header{ data: { behavior: 'sticky', offset_top: '45', old_width: 'true', z: 300 } }
+      %h3.soft.flush.hidden-on-stick Cours collectifs
+      .soft.bg-white.bordered--bottom.visible-on-stick
+        %h3.flush.v-middle.inline-block Cours collectifs
+        .visible-on-stick-ilb.v-middle.push-half--left
+          = link_to 'Ajouter un cours collectif', new_pro_structure_course_path(@structure, type: 'Course::Lesson'), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false', action: 'new_course', course_type: 'lesson' }
+
     .soft--sides
-      %h3 Cours collectifs
       %p{ class: (@courses.lessons.empty? ? '' : 'hidden'), data: { empty: 'lesson'} }
         Vous n'avez pas de cours.
         = link_to 'Ajouter un cours', new_pro_structure_course_path(@structure, type: 'Course::Lesson'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false' }
@@ -19,10 +25,16 @@
         - @courses.lessons.each_with_index do |course, index|
           = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure, price_groups: price_groups }
 
-    %hr.push--ends
+    %hr.push--top.flush--bottom
+
+    .bg-white{ data: { behavior: 'sticky', offset_top: '45', old_width: 'true', pushed: '#lessons_header' } }
+      %h3.soft.flush.hidden-on-stick Cours particuliers
+      .soft.bordered--bottom.visible-on-stick
+        %h3.flush.v-middle.inline-block Cours particuliers
+        .visible-on-stick-ilb.v-middle.push-half--left
+          = link_to 'Ajouter un cours particulier', new_pro_structure_course_path(@structure, type: 'Course::Private'), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false', action: 'new_course', course_type: 'private' }
 
     .soft--sides
-      %h3 Cours particuliers
       %p{ class: (@courses.privates.empty? ? '' : 'hidden'), data: { empty: 'private'} }
         Vous n'avez pas de cours particulier.
         = link_to 'Ajouter un cours particulier', new_pro_structure_course_path(@structure, type: 'Course::Private'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false' }

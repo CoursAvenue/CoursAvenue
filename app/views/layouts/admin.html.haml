@@ -3,7 +3,7 @@
 
 = content_for :content do
   - if @structure
-    .pro-top-menu.darkgray-box.flexbox{ data: { behavior: 'sticky'} }
+    .pro-top-menu.darkgray-box.flexbox{ data: { behavior: 'sticky', z: 400 } }
       .flexbox__item.v-middle.soft-half--left{ style: 'width: 40px;' }
         - if @structure.logo?
           = link_to edit_pro_structure_path(@structure), class: 'block push-half--right' do

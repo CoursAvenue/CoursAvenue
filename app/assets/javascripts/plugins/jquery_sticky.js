@@ -1,8 +1,12 @@
 /*
  * Attach the stickyness to the given jquery object
+ * Usage:
+ *    <div data-behavior="sticky"> // Options can be passed in html data
+ *
  * Options:
  *      offsetTop: Integer offset top from where the sticky has to stick
  *      z:         Integer z-index
+ *      oldWidth:  Will apply old width as style
  *      onStick:   Function callback called when stick class is added
  *      onUnStick: Function callback called when stick class is removed
  */
@@ -13,6 +17,7 @@
         defaults = {
             offsetTop : 0,
             z         : 300,
+            oldWidth  : false,
             onStick   : $.noop,
             onUnStick : $.noop
         };
@@ -57,46 +62,75 @@
 
         init: function init () {
             this.$element.css({ "z-index": this.options.z });
-            this.sticky_home = -1; // TODO this is still a magic number
-            this.old_classes = this.$element.attr("class");
-
+            this.sticky_home   = -1; // TODO this is still a magic number
+            this.old_classes   = this.$element.attr("class");
+            this.old_top       = this.$element.offset().top;
+            if (this.options.pushed) {
+                this.$pusher_el    = $(this.options.pushed);
+                this.pusher_height = this.$pusher_el.height();
+            }
             $(window).scroll(this.onScroll.bind(this));
         },
+
         onScroll: function onScroll () {
-            var scroll_top = $(window).scrollTop();
-            var element_top = this.$element.offset().top;
-            var fixed = this.$element.hasClass("sticky");
+            this.scroll_top  = $(window).scrollTop();
+            this.element_top = this.$element.offset().top;
+            this.fixed       = this.$element.hasClass("sticky");
+            if (this.options.pushed) {
+                this.fixAndPush();
+            } else if ( !this.fixed && this.scroll_top >= (this.element_top - this.options.offsetTop) ) {
+                this.fixIt();
+            // we have now scrolled back up, and are replacing the element
+            } else if ( this.fixed && this.scroll_top < (this.sticky_home - this.options.offsetTop)) {
+                this.unFixit();
+            }
+        },
+        unFixit: function unFixit () {
+            this.$element.css('top', 0);
+            this.$element.parent().find("[data-placeholder]").remove();
+            this.$element.removeClass("sticky");
+            this.$element.addClass(this.old_classes);
+            this.$element.css({ width: "", margin: "" });
+            this.sticky_home = -1;
+            this.options.onUnStick();
+        },
+        fixIt: function fixIt () {
+            var $placeholder = this.husk(this.$element)
+                .css({ visibility: "hidden" })
+                .attr("data-placeholder", "")
+                .attr("data-behavior", "");
+            // we have scrolled past the element
+            var old_top   = this.$element.offset().top;
 
-            if (!fixed && scroll_top >= (element_top - this.options.offsetTop)) {
-                var $placeholder = this.husk(this.$element)
-                    .css({ visibility: "hidden" })
-                    .attr("data-placeholder", "")
-                    .attr("data-behavior", "");
-                // we have scrolled past the element
-                var old_top   = this.$element.offset().top;
+            // $placeholder stays behind to hold the place
+            if (this.options) {
+                this.$element.parent().prepend($placeholder);
+            }
 
-                // $placeholder stays behind to hold the place
-                if (this.options) {
-                    this.$element.parent().prepend($placeholder);
-                }
+            this.sticky_home = this.element_top;
+            this.$element.removeClass(this.old_classes);
+            $placeholder.addClass(this.old_classes);
+            this.$element.addClass("sticky");
+            this.$element.addClass(this.old_classes);
 
-                this.sticky_home = element_top;
-                this.$element.removeClass(this.old_classes);
-                $placeholder.addClass(this.old_classes);
-                this.$element.addClass("sticky");
-                this.$element.addClass(this.old_classes);
-
-                this.$element.css('top', this.options.offsetTop + 'px');
-                this.options.onStick();
-            } else if ( fixed && scroll_top < (this.sticky_home - this.options.offsetTop)) {
-                // we have now scrolled back up, and are replacing the element
-
-                this.$element.parent().find("[data-placeholder]").remove();
-                this.$element.removeClass("sticky");
-                this.$element.addClass(this.old_classes);
-                this.$element.css({ width: "", margin: "" });
-                this.sticky_home = -1;
-                this.options.onUnStick();
+            if (this.options.oldWidth) {
+                this.$element.css('width', $placeholder.outerWidth() + 'px');
+            }
+            this.$element.css('top', this.options.offsetTop + 'px');
+            this.options.onStick();
+        },
+        fixAndPush: function fixAndPush () {
+            this.pusher_el_offset_top = this.pusher_el_offset_top || this.$pusher_el.data('offset-top') || 0;
+            // Pusher element is the element on top that will push the current element.
+            // When coming down and pusher element hit the current element
+            if ( !this.fixed &&
+                 this.scroll_top >= (this.element_top - this.options.offsetTop - this.pusher_height) &&
+                 this.scroll_top <= (this.element_top - this.options.offsetTop)) {
+                this.$pusher_el.css('margin-top',  - (this.pusher_height - (this.$element.offset().top - this.scroll_top - this.options.offsetTop)));
+            } else if ( !this.fixed && this.scroll_top >= (this.element_top - this.options.offsetTop) ) {
+                this.fixIt();
+            } else if ( this.fixed && this.scroll_top < (this.sticky_home - this.options.offsetTop)) {
+                this.unFixit();
             }
         }
     };
