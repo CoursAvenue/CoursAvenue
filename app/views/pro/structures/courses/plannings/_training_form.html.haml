@@ -1,12 +1,8 @@
-- if @planning.start_date == @planning.end_date
-  - end_date_placeholder = l(@planning.end_date)
-- else
-  - end_date_placeholder = "04/08/#{Date.today.year}"
 .input
   %label.label--large.required.control-label Dates
   %input.input--large#start-date.datepicker-input{ type: 'text', value: (@planning.start_date.nil? ? '' : l(@planning.start_date)), placeholder: "02/08/#{Date.today.year}", name: 'planning[start_date]', data: { behavior: 'datepicker' } }
   %label.label--large -
-  %input.input--large#end-date.datepicker-input{ type: 'text', value: (@planning.end_date.nil? || @planning.start_date == @planning.end_date ? '' : l(@planning.end_date)), placeholder: end_date_placeholder, name: 'planning[end_date]', title: 'Laisser vide si le stage se déroule sur 1 seul jour', data: { behavior: 'datepicker' } }
+  %input.input--large#end-date.datepicker-input{ type: 'text', value: (@planning.end_date.nil? || @planning.start_date == @planning.end_date ? '' : l(@planning.end_date)), placeholder: "04/08/#{Date.today.year}", name: 'planning[end_date]', title: 'Laisser vide si le stage se déroule sur 1 seul jour', data: { behavior: 'datepicker' } }
   - if f.object.errors.include? :end_date
     .alert.alert-error.flush= f.object.errors.messages[:end_date].to_sentence
   - if f.object.errors.include? :start_date
@@ -15,5 +11,13 @@
 :javascript
   $('#end-date').tooltip()
   $('#start-date').change(function() {
-      $('#end-date').attr('placeholder', $('#start-date').val());
+      if ($('#start-date').val().length > 0) {
+          $('#end-date').attr('placeholder', $('#start-date').val());
+          // Will bug if set startDate of already defined value
+          if ($('#end-date').val().length == 0) {
+              var start_date = moment($('#start-date').val(), GLOBAL.MOMENT_DATE_FORMAT)._d
+              $('#end-date').datepicker('setStartDate', start_date);
+          }
+      }
   });
+  $('#start-date').change();
