@@ -356,6 +356,10 @@ class Course < ActiveRecord::Base
     price_group.has_premium_prices?
   end
 
+  def can_be_published?
+    plannings.any? and price_group_id.present?
+  end
+
   private
 
   # Attributes used to create the slug for Friendly ID

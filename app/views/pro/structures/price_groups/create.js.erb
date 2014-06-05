@@ -1,15 +1,22 @@
 <% if @price_group.persisted? %>
-    var $element = $("#<%= @price_group.course_type_underscore_name.pluralize %>-table tbody");
-    $element.append('<%= escape_javascript(render partial: "pro/structures/price_groups/price_group_row", locals: { price_group: @price_group }) %>')
-    GLOBAL.flash("Grille tarifaire enregistrée", 'success');
-    $.fancybox.close();
-    $element.yellowFade({ delay: 400 });
+    <% if @course %>
+        var $element = $("#course-<%= @course.id %>").replaceWith('<%= escape_javascript(render partial: "pro/structures/courses/live_form", locals: { course: @course, structure: @structure }) %>')
+        GLOBAL.flash("Grille tarifaire enregistrée", 'success');
+        $.fancybox.close();
+        $element.yellowFade({ delay: 400 });
+    <% else %>
+        var $element = $("#<%= @price_group.course_type_underscore_name.pluralize %>-table tbody");
+        $element.append('<%= escape_javascript(render partial: "pro/structures/price_groups/price_group_row", locals: { price_group: @price_group }) %>')
+        GLOBAL.flash("Grille tarifaire enregistrée", 'success');
+        $.fancybox.close();
+        $element.yellowFade({ delay: 400 });
 
-    var $course_to_affect_table = $('#<%= @price_group.course_type_underscore_name.pluralize %>-table');
-    var $message_to_hide        = $('#<%= @price_group.course_type_underscore_name.pluralize %>-empty-message');
+        var $course_to_affect_table = $('#<%= @price_group.course_type_underscore_name.pluralize %>-table');
+        var $message_to_hide        = $('#<%= @price_group.course_type_underscore_name.pluralize %>-empty-message');
 
-    $course_to_affect_table.removeClass('hidden');
-    $message_to_hide.addClass('hidden')
+        $course_to_affect_table.removeClass('hidden');
+        $message_to_hide.addClass('hidden')
+    <% end %>
 <% else %>
     $.fancybox("<%= escape_javascript(render partial: 'pro/structures/price_groups/form') %>", { width: 1100, minWidth: 1100, maxWidth: 1100, padding: 0 });
 <% end %>

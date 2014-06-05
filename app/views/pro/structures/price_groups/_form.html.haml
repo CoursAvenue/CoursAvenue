@@ -2,6 +2,8 @@
 
 = simple_form_for [:pro, @structure, @price_group], remote: true do |f|
   = f.input :course_type, as: :hidden, value: (@price_group.course_type || params[:course_type])
+  - if params[:course_id].present?
+    %input{ type: 'hidden', name: 'course_id', value: params[:course_id]}
   .panel
     .panel__header.soft
       %h4.flush.inline-block.v-middle

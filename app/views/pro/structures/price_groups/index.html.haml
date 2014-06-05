@@ -6,12 +6,12 @@
       %h4 Ajouter une grille tarifaire pour les :
       .grid
         .grid__item{ class: (@structure.gives_individual_courses? ? 'one-third' : 'one-half')}>
-          = link_to 'Cours collectifs', new_pro_structure_price_group_path(@structure, course_type: 'Course::Lesson'), class: 'btn btn--green btn--full fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0', close_click: 'false' }
+          = link_to 'Cours collectifs', new_pro_structure_price_group_path(@structure, course_type: 'Course::Lesson'), class: 'btn btn--green btn--large hard--sides btn--full fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0', close_click: 'false' }
         - if @structure.gives_individual_courses?
           .grid__item.one-third>
-            = link_to 'Cours particulier', new_pro_structure_price_group_path(@structure, course_type: 'Course::Private'), class: 'btn btn--green btn--full fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0', close_click: 'false' }
+            = link_to 'Cours particulier', new_pro_structure_price_group_path(@structure, course_type: 'Course::Private'), class: 'btn btn--green btn--large hard--sides btn--full fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0', close_click: 'false' }
         .grid__item{ class: (@structure.gives_individual_courses? ? 'one-third' : 'one-half')}>
-          = link_to 'Stages / Ateliers', new_pro_structure_price_group_path(@structure, course_type: 'Course::Training'), class: 'btn btn--green btn--full fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0', close_click: 'false' }
+          = link_to 'Stages / Ateliers', new_pro_structure_price_group_path(@structure, course_type: 'Course::Training'), class: 'btn btn--green btn--large hard--sides btn--full fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0', close_click: 'false' }
   .panel__body.soft--ends
     %div{ data: { behavior: 'wizard-helper', content: t('price_group.wizard.premium_offers') } }
       .soft--sides

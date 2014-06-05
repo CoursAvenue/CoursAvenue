@@ -6,10 +6,6 @@
     .panel__header {
         background-color: $pane-background-color;
         padding-top     : 0.5em;
-        &.panel__header--blue {
-            background-color: $blue;
-            color           : white;
-        }
     }
     // .panel__body {
     .panel__header + .panel__body {
@@ -17,5 +13,15 @@
     }
     .panel__header.tabs--blue + .panel__body {
         border-top-color: $blue;
+    }
+    .panel--blue {
+        .panel__header {
+            background-color: $blue;
+            color           : white;
+        }
+        .panel__body {
+            border    : 2px solid $blue;
+            border-top: none;
+        }
     }
 // -------------------- PANELS ------------------------- //

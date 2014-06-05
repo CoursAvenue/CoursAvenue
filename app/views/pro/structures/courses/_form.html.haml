@@ -69,9 +69,9 @@
                 - home_place = @structure.places.homes.first
                 %div
                   = f.input :teaches_at_home, input_html: { class: 'input--large', disabled: home_place.nil? }, label: false, wrapper_html: { class: 'inline-block v-middle' }
-                  = f.label :teaches_at_home, class: "label--large inline-block v-middle nowrap hard #{home_place.nil? ? 'gray-light' : ''}"
+                  = f.label :teaches_at_home, class: "label--large inline-block v-middle width-auto hard #{home_place.nil? ? 'gray-light' : ''}"
                   - if home_place
-                    %div
+                    .inline-block.v-middle.soft-half--left
                       %i.blue Dans un rayon de #{home_place.radius}km autour de #{home_place.city.name}.
                       = link_to edit_pro_structure_place_path(@structure, @structure.places.homes.first, type: 'Place::Home', return_to_action: return_to_action), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 } do
                         %i.fa.fa-pencil
@@ -85,7 +85,7 @@
                   %label.inline-block.label--large{ for: 'course_place_id_checkbox' }
                     %input#course_place_id_checkbox{ type: 'checkbox' }
                     Les cours ont lieu à cette adresse :
-                  = f.input :place_id, as: :select, collection: @structure.places.publics, input_html: { class: 'input--large', style: 'max-width: 13em;' }, label: false, wrapper_html: { class: 'inline-block v-middle' }
+                  = f.input :place_id, as: :select, collection: @structure.places.publics, input_html: { class: 'input--large', style: 'max-width: 13em;' }, label: false, wrapper_html: { class: 'inline-block v-middle' }, include_blank: 'Sélectionnez une adresse'
 
             = f.input :on_appointment, as: :select, collection: [["Cours particuliers selon des créneaux précis", false], ["Pas de créneau précis, uniquement sur demande", true]], label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, label: 'Disponibilités', include_blank: false
 

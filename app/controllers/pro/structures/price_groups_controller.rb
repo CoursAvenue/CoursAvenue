@@ -9,7 +9,7 @@ class Pro::Structures::PriceGroupsController < Pro::ProController
   end
 
   def new
-    @price_group = @structure.price_groups.build(course_type: params[:course_type])
+    @price_group = @structure.price_groups.build(course_type: params[:course_type], name: params[:name])
     retrieve_prices
     if request.xhr?
       render partial: 'form', layout: false
@@ -32,8 +32,10 @@ class Pro::Structures::PriceGroupsController < Pro::ProController
 
   def create
     @price_group = @structure.price_groups.build(params[:price_group])
+    @course      = @structure.courses.find(params[:course_id]) if params[:course_id].present?
     respond_to do |format|
       if @price_group.save
+        @course.update_column(:price_group_id, @price_group.id) if @course
         format.html { redirect_to pro_structure_price_groups_path(@structure) }
         format.js
       else
