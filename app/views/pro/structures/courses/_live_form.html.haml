@@ -10,17 +10,20 @@
         - if price_groups.empty?
           = link_to 'Définir les tarifs', new_pro_structure_price_group_path(@structure, course_type: course.type, name: course.name, course_id: course.id), class: 'btn btn--small v-middle fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0', close_click: 'false' }
         - elsif course.price_group.nil?
-          %strong.epsilon Sélectionnez une grille tarifaire
+          = simple_form_for [:pro, structure, course], url: pro_structure_course_path(structure, course), as: :course, remote: true, html: { id: "course-form-#{course.id}", class: 'inline-block' } do |f|
+            = f.input :price_group_id, as: :select, collection: price_groups, label: false, input_html: { style: 'max-width: 13em;', data: { type: 'price-group' } }, wrapper_html: {  class: 'flush v-middle inline-block' }, include_blank: 'Sélectionnez la grille tarifaire'
 
     .panel__body.soft-half
+      .float--right
+        .nowrap
+          - if price_groups.empty?
+            = link_to 'Définir les tarifs', new_pro_structure_price_group_path(@structure, course_type: course.type, name: course.name, course_id: course.id), class: 'btn btn--small btn--green fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0', close_click: 'false' }
+          - else
+            %span Tarifs appliqués :
+            = simple_form_for [:pro, structure, course], url: pro_structure_course_path(structure, course), as: :course, remote: true, html: { id: "course-form-#{course.id}", class: 'inline-block' } do |f|
+              = f.input :price_group_id, as: :select, collection: price_groups, label: false, input_html: { style: 'max-width: 16em;', data: { type: 'price-group' } }, wrapper_html: {  class: 'flush v-middle inline-block' }, include_blank: 'Sélectionnez la grille tarifaire'
+
       = simple_form_for [:pro, structure, course], url: pro_structure_course_path(structure, course), as: :course, remote: true, html: { data: { behavior: 'live-form' } } do |f|
-        .float--right
-          .nowrap
-            - if price_groups.empty?
-              = link_to 'Définir les tarifs', new_pro_structure_price_group_path(@structure, course_type: course.type, name: course.name, course_id: course.id), class: 'btn btn--small btn--green fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0', close_click: 'false' }
-            - else
-              %label.inline-block.v-middle Tarifs appliqués :
-              = f.input :price_group_id, as: :select, collection: price_groups, label: false, input_html: { style: 'max-width: 16em;' }, wrapper_html: {  class: 'flush v-middle inline-block' }, include_blank: 'Sélectionnez la grille tarifaire'
         .push-half--bottom
           %h5.flush--bottom.inline-block.v-middle.push-half--right{ data: { behavior: 'tooltip', title: course.name } }
             = truncate course.name, length: 35
