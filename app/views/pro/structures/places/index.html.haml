@@ -30,12 +30,13 @@
                 - if place.info.present? or place.private_info.present?
                   %a.btn{ data: { toggle: 'popover', content: t('places.infos', info: place.info, private_info: place.private_info), html: 'true', placement: 'top', trigger: 'hover' } } Infos
               %td.text--right.nowrap
-                = link_to edit_pro_structure_place_path(@structure, place), class: 'btn btn--orange btn--small fancybox.ajax', data: { behavior: 'modal', width: '750', padding: 0 } do
+                = link_to edit_pro_structure_place_path(@structure, place), class: 'orange fancybox.ajax', data: { behavior: 'modal', width: '750', padding: 0 } do
                   %i.fa.fa-pencil
-                  %span.soft-half--left Modifier ce lieu
-                &nbsp;
-                = link_to ask_for_deletion_pro_structure_place_path(@structure, place), class: 'btn btn--red btn--small fancybox.ajax', data: { behavior: 'modal', width: '400', padding: '0' } do
+                  Modifier
+                \/
+                = link_to ask_for_deletion_pro_structure_place_path(@structure, place), class: 'red fancybox.ajax', data: { behavior: 'modal', width: '400', padding: '0' } do
                   %i.fa.fa-trash-o
+                  Supprimer
 
 = content_for :scripts do
   :javascript
