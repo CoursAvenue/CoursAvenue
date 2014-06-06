@@ -3,9 +3,11 @@
 .panel
   .panel__header.soft.text--center
     = link_to 'Ajouter un nouveau lieu', new_pro_structure_place_path(@structure, type: 'Place::Public'), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 }
-    - if @places.homes.empty?
-      .text--center
+    .text--center
+      - if @places.homes.empty?
         = link_to 'Ajouter la zone géographique pour mes cours à domicile', new_pro_structure_place_path(@structure, type: 'Place::Home'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 }
+      - else
+        = link_to 'Modifier la zone géographique pour mes cours à domicile', edit_pro_structure_place_path(@structure, @places.homes.first), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 }
   .panel__body{ data: { behavior: 'wizard-helper', content: t('pro.places.wizard_helper.index') } }
     - if @places.any?
       #map.google-map.push--bottom

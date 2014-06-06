@@ -74,8 +74,6 @@
           = f.submit "Enregistrer et ajouter un créneau", class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours...' }, id: 'save-and-add-planning'
           %br
           .text--center= f.submit 'Enregistrer et revenir à mon planning', class: 'btn-as-link', data: { disable_with: 'Enregistrement en cours...' }
-          -# = f.submit (@course.is_lesson? ? "Ajouter un nouveau créneau" : "Ajouter d'autres dates"), class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours...' }, id: 'save-and-add-planning'
-        -# .grid__item.three-tenths>
 
 :javascript
     if ($('[name="planning[audience_ids][]"]').length > 0) {

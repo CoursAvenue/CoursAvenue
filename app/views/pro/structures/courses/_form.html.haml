@@ -107,9 +107,14 @@
             .grid__item.two-tenths>
               %a.btn.btn--gray.btn--full{ onclick: '$.fancybox.close()' } Annuler
             .grid__item.eight-tenths>
-              = f.submit (@course.is_private? ? 'Enregistrer et ajouter mes disponibilités' : 'Enregistrer et ajouter un créneau'), class: 'btn btn--green btn--full push--bottom', data: { disable_with: 'Enregistrement en cours...' }, id: 'save-and-add-planning'
+              = f.submit (@course.is_private? ? 'Enregistrer et ajouter mes disponibilités' : 'Enregistrer et ajouter un créneau'), class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours...' }, id: 'save-and-add-planning'
+              - unless @course.new_record?
+                .text--center= f.submit 'Enregistrer et revenir à mon planning', class: 'btn-as-link', id: 'save-and-leave', data: { disable_with: 'Enregistrement en cours...' }
 
 :javascript
+  $('#save-and-leave').click(function() {
+      $('#save-and-add-planning-input').val('false');
+  });
   $('textarea').textareaResizer();
   setTimeout(function() {
       $('#loader').hide();

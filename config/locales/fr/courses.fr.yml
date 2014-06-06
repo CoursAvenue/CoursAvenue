@@ -105,3 +105,7 @@ fr:
             <p><strong>Un planning complet</strong></p>
             <p><strong>Cours collectifs<strong><br>
             Renseignez votre planning de cours collectifs : ajoutez tous vos créneaux, ils seront visibles en tant réel sur votre profil public.</p>
+          trainings: >
+            <p><strong>Un planning complet</strong></p>
+            <p>Renseignez votre planning de stages et ateliers à venir. Pour chacun d'eux, renseignez toutes les informations que recherchent les Internautes : disciplines, niveaux, publics, dates, prix... Les stages et ateliers sans tarif ni créneau ne seront pas visibles sur votre profil public. Une fois toutes ces informations complétées, ils apparaitront automatiquement.</p>
+            <p><strong>Important :</strong> si un même stage ou atelier possède plusieurs lieux, plusieurs niveaux, pour des publics différents, renseignez-le à chaque date mais ne créez pas de nouvel atelier.</p>
