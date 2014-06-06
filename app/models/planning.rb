@@ -410,7 +410,7 @@ class Planning < ActiveRecord::Base
 
   # Set default start date
   def set_start_date
-    if self.start_date.nil? and self.course.try(:is_lesson?)
+    if self.start_date.nil? and !self.course.try(:is_training?)
       self.start_date = self.course.start_date || Date.yesterday
     end
   end
@@ -418,7 +418,7 @@ class Planning < ActiveRecord::Base
   # Set end date
   def set_end_date
     unless end_date.present?
-      if course.try(:is_lesson?)
+      if !course.try(:is_training?)
         self.end_date = self.course.end_date
       else
         self.end_date = self.start_date
