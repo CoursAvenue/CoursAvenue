@@ -39,7 +39,6 @@
 //= require libs/jquery.stickem
 //= require libs/jquery.masonry
 //= require libs/jquery.lazyload
-//= require libs/moment
 //= require libs/responsiveslides
 //= require libs/add_this_event
 //= require libs/jquery.placeholder
@@ -87,7 +86,6 @@
 // require plugins/checkbox_list
 // require plugins/city_autocomplete
 // require plugins/closer
-// require plugins/date_range
 // require plugins/drop_down
 // require plugins/dropped_options
 // require plugins/flash

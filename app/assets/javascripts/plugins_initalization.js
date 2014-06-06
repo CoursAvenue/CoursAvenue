@@ -57,16 +57,17 @@ $(function() {
     });
     var datepicker_initializer = function() {
         $('[data-behavior=datepicker]').each(function() {
-            $(this).datepicker({
+            var datepicker_options = {
                 format: GLOBAL.DATE_FORMAT,
                 weekStart: 1,
                 language: 'fr',
-                autoClose: true,
+                autoclose: true,
                 todayHighlight: true
-            });
-            $(this).on('changeDate', function(){
-                $(this).datepicker('hide');
-            });
+            };
+            if ($(this).data('start-date')) {
+                datepicker_options.startDate = $(this).data('start-date');
+            }
+            $(this).datepicker(datepicker_options);
         });
     };
     global.initialize_callbacks.push(datepicker_initializer);

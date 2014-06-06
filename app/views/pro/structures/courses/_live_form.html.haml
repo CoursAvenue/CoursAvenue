@@ -38,10 +38,12 @@
         - if course.is_lesson?
           = f.input :frequency, as: :select, collection: Course::COURSE_FREQUENCIES, label_method: lambda {|course_frequency| t(course_frequency)}, default: Course::COURSE_FREQUENCIES.first, label: false, wrapper_html: { class: 'flush inline-block v-middle' }
           %span.soft-half--sides.v-middle> du
-          .inline-block.v-middle{ data: { behavior: 'date-range', 'start-date' => '#course_start_date', 'end-date' => '#course_end_date' } }>
-            = f.input :start_date, as: :string, label: false, input_html: { value: (course.start_date ? l(course.start_date) : nil), style: 'margin-right: 5px', class: 'datepicker-input datepicker-input--small', data: { behavior: 'datepicker' } }, wrapper_html: { class: 'flush inline-block v-middle' }
-            %span.soft-half--sides.v-middle> au
-            = f.input :end_date, as: :string, label: false, input_html: { value: (course.end_date ? l(course.end_date) : nil), class: 'datepicker-input datepicker-input--small', data: { behavior: 'datepicker' } }, wrapper_html: { class: 'flush inline-block v-middle' }
+          .inline-block.v-middle.input.input-daterange.input-group.flush{ data: { behavior: 'datepicker' } }>
+            = f.input :start_date, as: :string, label: false, input_html: { style: 'margin-right: 5px', class: 'datepicker-input datepicker-input--small', value: (course.start_date.present? ? l(course.start_date) : l(Date.parse('15/09/2014'))) }, wrapper_html: { class: 'flush inline-block v-middle' }
+            %span.v-middle -&nbsp;
+            - next_june = Date.parse("28 June #{Date.today.year + 1}")
+            = f.input :end_date, as: :string, label: false, input_html: { class: 'datepicker-input datepicker-input--small', value: (course.end_date.present? ? l(course.end_date) : '') }, wrapper_html: { class: 'flush inline-block v-middle' }
+
         - if course.is_private?
           - if course.teaches_at_home? and course.home_place and course.place
             %strong 2 lieux :
