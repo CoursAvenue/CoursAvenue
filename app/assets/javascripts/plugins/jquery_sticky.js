@@ -17,7 +17,7 @@
         defaults = {
             offsetTop : 0,
             z         : 300,
-            oldWidth  : true,
+            oldWidth  : false,
             onStick   : $.noop,
             onUnStick : $.noop
         };
