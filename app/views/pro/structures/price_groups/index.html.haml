@@ -10,7 +10,7 @@
   .panel__body.soft--ends
     %div{ data: { behavior: 'wizard-helper', content: t('price_group.wizard.premium_offers') } }
       .soft--sides
-        %h4 Cours réguliers
+        %h3 Cours réguliers
 
         %p#regulars-empty-message{ class: (@structure.price_groups.for_regular_courses.empty? ? '': 'hidden') }
           Vous n'avez pas encore de grille tarifaire pour vos cours régulier.
@@ -31,7 +31,7 @@
 
       %hr.push--ends
       .soft--sides
-        %h4 Stages / Ateliers
+        %h3 Stages / Ateliers
 
         %p#trainings-empty-message{ class: (@structure.price_groups.for_trainings.empty? ? '': 'hidden') }
           Vous n'avez pas encore de grille tarifaire pour vos stages / ateliers.
