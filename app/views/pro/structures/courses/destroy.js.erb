@@ -1,4 +1,4 @@
-$('#course-<%= @course.id %>').remove();
+$('#course-<%= @course.id %>').slideUp();
 if ($("#<%= @course.underscore_name %>-list > div").length == 0) {
     $("[data-empty=<%= @course.underscore_name %>]").show();
 }

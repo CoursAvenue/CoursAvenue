@@ -34,6 +34,7 @@ class Course < ActiveRecord::Base
   scope :lessons,                -> { where( type: "Course::Lesson" ) }
   scope :trainings,              -> { where( type: "Course::Training" ) }
   scope :privates,               -> { where( type: "Course::Private" ) }
+  scope :regulars,               -> { where(arel_table[:type].eq('Course::Private').or(arel_table[:type].eq('Course::Lesson')) ) }
   scope :without_open_courses,   -> { where.not( type: 'Course::Open' ) }
   scope :open_courses,           -> { where( type: 'Course::Open' ) }
 
@@ -43,7 +44,6 @@ class Course < ActiveRecord::Base
   validates :type, :name  , presence: true
   validates :subjects     , presence: true
   validates :name, length: { maximum: 255 }
-  validate  :price_group_type
 
   attr_accessible :name, :type, :description,
                   :active,
@@ -357,7 +357,7 @@ class Course < ActiveRecord::Base
   end
 
   def can_be_published?
-    plannings.any? and price_group_id.present?
+    plannings.any? and price_group.present?
   end
 
   private
@@ -378,13 +378,6 @@ class Course < ActiveRecord::Base
   # @return nil
   def sanatize_description
     self.description = self.description.scan(/[[:print:]]|[[:space:]]/).join if self.description.present?
-    nil
-  end
-
-  def price_group_type
-    if price_group
-      self.errors.add :price_group_id, "La grille tarifaire n'est pas du bon type" if price_group.course_type != self.type
-    end
     nil
   end
 end

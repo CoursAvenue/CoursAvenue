@@ -31,20 +31,15 @@ class PriceGroup < ActiveRecord::Base
   ######################################################################
   # Scopes                                                             #
   ######################################################################
-  scope :for_lessons,   -> { where( course_type: 'Course::Lesson' ) }
-  scope :for_trainings, -> { where( course_type: 'Course::Training' ) }
-  scope :for_privates , -> { where( course_type: 'Course::Private' ) }
+  scope :for_regular_courses, -> { where( course_type: 'regular' ) }
+  scope :for_trainings,       -> { where( course_type: 'training' ) }
 
-  def for_lesson?
-    course_type == 'Course::Lesson'
+  def for_regular_course?
+    course_type == 'regular'
   end
 
   def for_training?
-    course_type == 'Course::Training'
-  end
-
-  def course_type_underscore_name
-    course_type.constantize.underscore_name
+    course_type == 'training'
   end
 
   # Following methods use select instead of where to force retrieving prices even
@@ -78,6 +73,14 @@ class PriceGroup < ActiveRecord::Base
   # @return Boolean
   def has_premium_prices?
     return (premium_offers.any? or trial.present? or discounts.any? or book_tickets.map(&:promo_amount).compact.any?)
+  end
+
+  def offers_text
+    offers = []
+    offers << 'Essai gratuit'      if trial.free?
+    offers << 'Tarifs réduits'     if discounts.any?
+    offers << 'Offres découvertes' if premium_offers.any?
+    offers
   end
 
   private

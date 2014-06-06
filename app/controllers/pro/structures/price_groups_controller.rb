@@ -124,8 +124,8 @@ class Pro::Structures::PriceGroupsController < Pro::ProController
   end
 
   def retrieve_non_affected_courses
-    if @price_group.for_lesson?
-      @courses = @structure.courses.lessons.select{ |course| course.price_group.nil? }
+    if @price_group.for_regular_course?
+      @courses = @structure.courses.regulars.select{ |course| course.price_group.nil? }
     else
       @courses = @structure.courses.trainings.select{ |course| course.price_group.nil? }
     end

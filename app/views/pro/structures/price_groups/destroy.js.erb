@@ -2,13 +2,13 @@ $('#price-group-<%= @price_group.id %>').remove();
 GLOBAL.flash("Grille tarifaire supprimée", 'success');
 $.fancybox.close();
 
-var $course_to_affect_container = $('#<%= @price_group.course_type_underscore_name.pluralize %>-to-affect');
+var $course_to_affect_container = $('#<%= @price_group.course_type.pluralize %>-to-affect');
 $course_to_affect_container.html('<%= escape_javascript(render partial: "pro/structures/price_groups/courses_to_affect", locals: { courses: @courses }) %>')
 
 // Show empty message
-if ($('#<%= @price_group.course_type_underscore_name.pluralize %>-table tbody tr').length == 0) {
-    $('#<%= @price_group.course_type_underscore_name.pluralize %>-empty-message').show();
-    $('#<%= @price_group.course_type_underscore_name.pluralize %>-table').hide();
+if ($('#<%= @price_group.course_type.pluralize %>-table tbody tr').length == 0) {
+    $('#<%= @price_group.course_type.pluralize %>-empty-message').show();
+    $('#<%= @price_group.course_type.pluralize %>-table').hide();
 }
 
 $course_to_affect_container.yellowFade({ delay: 400 });
