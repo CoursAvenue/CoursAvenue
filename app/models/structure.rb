@@ -11,13 +11,13 @@ class Structure < ActiveRecord::Base
 
   extend FriendlyId
 
-  STRUCTURE_STATUS        = %w(SA SAS SASU EURL SARL)
-  STRUCTURE_TYPES         = ['structures.company',
-                             'structures.independant',
-                             'structures.association',
-                             'structures.other']
+  STRUCTURE_STATUS = %w(SA SAS SASU EURL SARL)
+  STRUCTURE_TYPES  = ['structures.company',
+                      'structures.independant',
+                      'structures.association',
+                      'structures.other']
 
-  WIDGET_STATUS           = ['installed', 'remind_me', 'dont_want', 'need_help']
+  WIDGET_STATUS    = ['installed', 'remind_me', 'dont_want', 'need_help']
 
   friendly_id :slug_candidates, use: [:slugged, :finders]
 
@@ -37,6 +37,7 @@ class Structure < ActiveRecord::Base
   has_many :invited_teachers          , -> { where(type: 'InvitedUser::Teacher') }, class_name: 'InvitedUser', foreign_key: :referrer_id, dependent: :destroy
   has_many :invited_students          , -> { where(type: 'InvitedUser::Student') }, class_name: 'InvitedUser', foreign_key: :referrer_id, dependent: :destroy
   has_many :medias                    , as: :mediable
+  has_many :phone_numbers             , as: :callable
   has_many :comments                  , -> { order('created_at DESC') }, as: :commentable, dependent: :destroy, class_name: 'Comment::Review'
   has_many :teachers                  , dependent: :destroy
   has_many :courses                   , dependent: :destroy
@@ -67,13 +68,12 @@ class Structure < ActiveRecord::Base
   attr_reader :delete_logo
   attr_accessible :structure_type, :street, :zip_code, :city_id,
                   :place_ids, :name, :info, :registration_info,
-                  :website, :facebook_url, :contact_phone,
-                  :contact_mobile_phone, :contact_email, :description,
-                  :subject_ids,
-                  :active,
+                  :website, :facebook_url,
+                  :contact_phone, :contact_mobile_phone, # TODO: remove after V1 deploy, have been replaced by callable
+                  :contact_email,
+                  :description, :subject_ids, :active,
                   :has_validated_conditions,
-                  :validated_by,
-                  :logo,
+                  :validated_by, :logo,
                   :funding_type_ids,
                   :crop_x, :crop_y, :crop_width,
                   :rating, :comments_count,
@@ -84,11 +84,16 @@ class Structure < ActiveRecord::Base
                   :subjects_string, :parent_subjects_string, # "Name of the subject,slug-of-the-subject;Name,slug"
                   :gives_group_courses, :gives_individual_courses,
                   :gives_non_professional_courses, :gives_professional_courses,
-                  :highlighted_comment_id, :places_attributes,
-                  :deletion_reasons, :deletion_reasons_text
+                  :highlighted_comment_id,
+                  :deletion_reasons, :deletion_reasons_text,
+                  :phone_numbers_attributes, :places_attributes
 
   accepts_nested_attributes_for :places,
-                                allow_destroy: false
+                                 allow_destroy: false
+
+  accepts_nested_attributes_for :phone_numbers,
+                                 reject_if: :reject_phone_number,
+                                 allow_destroy: true
 
 
   # To store hashes into hstore
@@ -826,4 +831,13 @@ class Structure < ActiveRecord::Base
     self.update_column :city_id,  place.city.id  if place
     nil
   end
+
+  def reject_phone_number attributes
+    exists = attributes[:id].present?
+    # Destroy if phone_number exists and number is blank
+    attributes.merge!({:_destroy => 1}) if exists and attributes[:number].blank?
+    # Reject if price does't not exist yet and amount is nil
+    return (!exists and attributes[:number].blank?)
+  end
+
 end

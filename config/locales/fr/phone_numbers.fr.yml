@@ -1,0 +1,16 @@
+fr:
+  activerecord:
+    models:
+      phone_number:
+    attributes:
+      phone_number:
+  phone_numbers:
+    type:
+      mobile: Mobile
+      home: Fixe
+
+  simple_form:
+    placeholders:
+      phone_number:
+        number: 'Ex. : 06 05 10 41 32'
+

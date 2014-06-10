@@ -34,14 +34,11 @@
         %article#tab-contacts.tab-pane.hard
           %h4.f-weight-normal Contactez le partenaire par téléphone :
           %p.epsilon
-            - if @structure.contact_phone.present?
-              %strong.v-middle= readable_phone_number @structure.contact_phone
-              - if @structure.premium
-                %i.soft-half--left.v-middle.fa.fa-check-circle.green
-                %i.v-middle.green.milli vérifié
-              %br
-            - if @structure.contact_mobile_phone.present?
-              %strong.v-middle= readable_phone_number @structure.contact_mobile_phone
+            - @structure.phone_numbers.each_with_index do |phone_number, index|
+              - if index > 0
+                %br
+              %strong.v-middle= readable_phone_number phone_number.number
+              = "(#{t(phone_number.phone_type).downcase})"
               - if @structure.premium
                 %i.soft-half--left.v-middle.fa.fa-check-circle.green
                 %i.v-middle.green.milli vérifié

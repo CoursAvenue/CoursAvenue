@@ -45,7 +45,6 @@
             this.$clearers     = $(this.$element.find('[data-clear]'));
             this.$hidden_items = $(this.$element.find('[data-el][data-hidden]'));
             this.$hidden_items.hide();
-            this.$clearers.first().remove();
             // Show first empty item if none is shown
             if (this.$items.first().is(':hidden')) {
                 this.showMoreItem();
@@ -64,8 +63,13 @@
 
         clearAndHide: function clearAndHide (event) {
             var $wrapping_el = $(event.currentTarget).closest('[data-el]');
-            $wrapping_el.hide();
             $wrapping_el.find('input, select, textarea').val('');
+            this.$hidden_items = $(this.$element.find('[data-el][data-hidden]'));
+            if (this.$hidden_items.length < (this.$items.length - 1) ) {
+                $wrapping_el.hide();
+                $wrapping_el.attr('data-hidden', true);
+            }
+            this.$trigger.show();
         },
         showMoreItem: function showMoreItem () {
             var item_to_show = this.$hidden_items.first();

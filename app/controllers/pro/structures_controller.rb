@@ -174,6 +174,7 @@ class Pro::StructuresController < Pro::ProController
 
   def edit_contact
     @structure = Structure.friendly.find(params[:id])
+    5.times { @structure.phone_numbers.build }
     @admin     = @structure.main_contact
   end
 

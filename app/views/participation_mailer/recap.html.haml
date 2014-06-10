@@ -99,10 +99,7 @@
             %strong Organisateur :
             = "#{course.structure.name},"
             = course.structure.contact_email
-            - if course.structure.contact_mobile_phone.present?
-              = ", #{course.structure.contact_mobile_phone}"
-            - if course.structure.contact_phone.present?
-              = ", #{course.structure.contact_phone}"
+            = course.structure.phone_numbers.map(&:number).join(', ')
             %p
               %strong Nombre d'inscrits :
               - if participation.size == 1

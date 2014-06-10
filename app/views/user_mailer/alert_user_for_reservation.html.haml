@@ -10,12 +10,7 @@
   - if @structure.contact_phone or @structure.contact_mobile_phone
     %br
     Numéro de téléphone :
-  - if @structure.contact_phone
-    = @structure.contact_phone
-  - if @structure.contact_phone and @structure.contact_mobile_phone
-    \/
-  - if @structure.contact_mobile_phone
-    = @structure.contact_mobile_phone
+  = @structure.phone_numbers.map(&:number).join(', ')
 
 %p À très bientôt,
 
