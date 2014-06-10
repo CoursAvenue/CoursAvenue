@@ -49,6 +49,12 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
             this.pagination_top.reset(data);
         },
 
+        itemViewOptions: function itemViewOptions () {
+            return {
+                structure_name: this.collection.structure.get('name')
+            }
+        },
+
         serializeData: function serializeData () {
             return {
                 new_comments_path: Routes.new_structure_comment_path(this.collection.structure.get('slug'))
