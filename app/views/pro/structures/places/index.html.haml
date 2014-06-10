@@ -4,41 +4,27 @@
   .panel__header.soft.text--center
     = link_to 'Ajouter un nouveau lieu', new_pro_structure_place_path(@structure, type: 'Place::Public'), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 }
     .text--center
-      - if @places.homes.empty?
+      #new-home-place{ class: (@places.homes.empty? ? '' : 'hidden') }
         = link_to 'Ajouter la zone géographique pour mes cours à domicile', new_pro_structure_place_path(@structure, type: 'Place::Home'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 }
-      - else
-        = link_to 'Modifier la zone géographique pour mes cours à domicile', edit_pro_structure_place_path(@structure, @places.homes.first), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 }
+      #update-home-place{ class: (@places.homes.empty? ? 'hidden' : '') }
+        = link_to 'Modifier la zone géographique pour mes cours à domicile', edit_pro_structure_place_path(@structure, (@places.homes.first ? @places.homes.first : '__HOME_PLACE_ID__')), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 }
   .panel__body{ data: { behavior: 'wizard-helper', content: t('pro.places.wizard_helper.index') } }
-    - if @places.any?
-      #map.google-map.push--bottom
+    #map.google-map.push--bottom{ class: (@places.any? ? '' : 'hidden')}
 
-      %table.table--striped.flush
-        %thead
-          %tr
-            %th.four-twelfths Nom du lieu
-            %th.four-twelfths Adresse
-            %th.one-twelfths
-            %th.three-twelfths
-        %tbody
-          - @places.each do |place|
-            %tr
-              %td
-                - if current_pro_admin
-                  = link_to place.name, edit_pro_structure_place_path(@structure, place)
-                - else
-                  = link_to place.name, place_url(place, subdomain: 'www')
-              %td= place.address
-              %td.text--center
-                - if place.info.present? or place.private_info.present?
-                  %a.btn{ data: { toggle: 'popover', content: t('places.infos', info: place.info, private_info: place.private_info), html: 'true', placement: 'top', trigger: 'hover' } } Infos
-              %td.text--right.nowrap
-                = link_to edit_pro_structure_place_path(@structure, place), class: 'orange fancybox.ajax', data: { behavior: 'modal', width: '750', padding: 0 } do
-                  %i.fa.fa-pencil
-                  Modifier
-                \/
-                = link_to ask_for_deletion_pro_structure_place_path(@structure, place), class: 'red fancybox.ajax', data: { behavior: 'modal', width: '400', padding: '0' } do
-                  %i.fa.fa-trash-o
-                  Supprimer
+    %table.table--striped.flush#place-table{ class: (@places.any? ? '' : 'hidden')}
+      %thead
+        %tr
+          %th.four-twelfths Nom du lieu
+          %th.four-twelfths Adresse
+          %th.one-twelfths
+          %th.three-twelfths
+      %tbody
+        - @places.each do |place|
+          = render partial: 'pro/structures/places/place', locals: { place: place, structure: @structure}
+
+- if current_pro_admin.email == 'nima@coursavenue.com'
+  :javascript
+    alert('TODO: add marker when we create or update a place');
 
 = content_for :scripts do
   :javascript

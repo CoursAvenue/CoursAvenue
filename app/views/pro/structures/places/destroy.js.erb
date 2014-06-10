@@ -1,0 +1,6 @@
+<% if @place.is_home? %>
+    $('#update-home-place').hide();
+    $('#new-home-place').show();
+<% end %>
+$('#place-<%= @place.id %>').remove();
+$.fancybox.close();
