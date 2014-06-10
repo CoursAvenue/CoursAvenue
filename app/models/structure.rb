@@ -86,7 +86,7 @@ class Structure < ActiveRecord::Base
                   :gives_non_professional_courses, :gives_professional_courses,
                   :highlighted_comment_id,
                   :deletion_reasons, :deletion_reasons_text,
-                  :phone_numbers_attributes, :places_attributes
+                  :phone_numbers_attributes, :places_attributes, :other_emails
 
   accepts_nested_attributes_for :places,
                                  allow_destroy: false
@@ -103,7 +103,7 @@ class Structure < ActiveRecord::Base
                              :level_ids, :audience_ids, :busy,
                              :open_courses_open_places, :open_course_nb, :jpo_email_status, :open_course_plannings_nb,
                              :response_rate, :response_time, :gives_non_professional_courses, :gives_professional_courses,
-                             :deletion_reasons, :deletion_reasons_text
+                             :deletion_reasons, :deletion_reasons_text, :other_emails
 
 
   define_boolean_accessor_for :meta_data, :has_promotion, :gives_group_courses, :gives_individual_courses,
@@ -131,6 +131,8 @@ class Structure < ActiveRecord::Base
   validate  :subject_parent_and_children
   validates :name, :website, :facebook_url, length: { maximum: 255 }
   validates :website, :facebook_url, :widget_url, url: true
+  validate  :no_contacts_in_name
+  validate  :no_contacts_in_description
 
   ######################################################################
   # Callbacks                                                          #
@@ -147,9 +149,11 @@ class Structure < ActiveRecord::Base
   before_save   :encode_uris
   before_save   :reset_cropping_attributes, if: :logo_has_changed?
 
+
   after_save    :geocode_if_needs_to
   after_save    :update_email_status
   after_save    :delay_subscribe_to_nutshell
+
   # after_save    :delay_subscribe_to_mailchimp
 
   ######################################################################
@@ -840,4 +844,35 @@ class Structure < ActiveRecord::Base
     return (!exists and attributes[:number].blank?)
   end
 
+  # Remove any kind of contact info in the name
+  # eg. it will remove www.danse.com
+  #
+  # @return nil
+  def no_contacts_in_name
+    return nil if self.name.nil?
+    if self.name.match(/((?:[-a-z0-9]+\.)+[a-z]{2,})/i)
+      self.errors.add :name, "Le nom ne peut pas contenir votre site internet"
+    end
+    nil
+  end
+
+  # Remove any kind of contact info in the description
+  # eg. it will remove www.danse.com
+  #
+  # @return nil
+  def no_contacts_in_description
+    return nil if self.description.nil?
+    if self.description.match(/((?:[-a-z0-9]+\.)+[a-z]{2,})/i)
+      self.errors.add :description, "La description ne peut pas contenir votre site internet."
+    end
+
+    if self.description.match(/([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})/i)
+      self.errors.add :description, "La description ne peut pas contenir d'emails de contacts."
+    end
+
+    if self.description.match(/[0-9][ \.]{,3}[0-9][ \.]{,3}[0-9][ \.]{,3}[0-9][ \.]{,3}[0-9][ \.]{,3}[0-9][ \.]{,3}[0-9][ \.]{,3}[0-9][ \.]{,3}[0-9]/)
+      self.errors.add :description, "La description ne peut pas contenir de numéros de téléphones."
+    end
+    nil
+  end
 end

@@ -241,4 +241,31 @@ describe Structure do
       end
     end
   end
+
+  context 'validations' do
+    describe '#no_contacts_in_name' do
+      it 'has errors on name' do
+        subject.name = "www.test.com"
+        expect(subject.valid?).to be_false
+        expect(subject.errors.messages).to include :name
+      end
+    end
+
+    describe '#no_contacts_in_description' do
+      it 'has errors description' do
+        no_contacts_in_description_test_values = ["www.test.com",
+                                                  "lala@test.com",
+                                                  '05 04 10 40 10',
+                                                  '05.04.10.40.10',
+                                                  '0504104010',
+                                                  '050 410 4010',
+                                                  '+33 01 04 10 23']
+        no_contacts_in_description_test_values.each do |value|
+          subject.description = value
+          expect(subject.valid?).to be_false
+          expect(subject.errors.messages).to include :description
+        end
+      end
+    end
+  end
 end
