@@ -101,7 +101,7 @@
               = link_to structure_path(structure), class: 'soft-half--sides block muted-link' do
                 .grid--full
                   .grid__item.v-middle.one-fifth>
-                    .media-photo= image_tag structure.logo.url
+                    .media-photo= image_tag structure.logo.url(:thumb)
                   .grid__item.v-middle.four-fifths.soft-half--left>
                     %div
                       %strong= structure.name
