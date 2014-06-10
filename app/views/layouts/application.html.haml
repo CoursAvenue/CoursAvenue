@@ -41,7 +41,6 @@
 
     = yield :scripts
     = yield :layout_scripts
-    = filepicker_js_include_tag
     - cache 'social_sdks' do
       = render 'layouts/social_sdks'
     :javascript

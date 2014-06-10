@@ -109,6 +109,8 @@
 //= require libs/richmarker-compiled
 //= require libs/infobox_packed
 
+//= require libs/filepicker
+
 //= require ./plugins_initalization
 //= require handlebars
 
