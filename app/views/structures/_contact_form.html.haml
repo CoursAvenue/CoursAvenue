@@ -63,7 +63,8 @@
           %h4.f-weight-normal.push-half--bottom= "Adresse".pluralize(@structure.places.count)
           - @structure.places.each_with_index do |place, index|
             %p.epsilon{ class: (index < @structure.places.count - 1 ? 'push-half--bottom' : 'flush')}
-              = "#{place.name} : #{place.address}"
+              %strong= place.name
+              = ": #{place.address}"
 
 - unless current_user
   = content_for :scripts do
