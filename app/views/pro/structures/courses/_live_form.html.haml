@@ -37,7 +37,7 @@
                 %i.fa.fa-trash-o
                 Supprimer
 
-      %div
+      .push-half--bottom
         - if price_groups.empty?
           = link_to 'Définir les tarifs', new_pro_structure_price_group_path(@structure, course_type: (course.is_training? ? 'training' : 'regular'), name: course.name, course_id: course.id), class: 'btn btn--small btn--green fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0', close_click: 'false' }
         - else
