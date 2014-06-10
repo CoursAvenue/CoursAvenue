@@ -13,6 +13,7 @@
 //= require global
 
 // ---------------------------------- Core include
+//= require libs/jquery
 //= require jquery_ujs
 //= require libs/jquery-ui-1.10.3.custom
 // require libs/jquery_ui_custom_draggable_droppable.js
@@ -103,6 +104,10 @@
 // require plugins/wizard_helper
 
 //= require gmaps/google
+//= require libs/google.maps
+//= require libs/markerclusterer
+//= require libs/richmarker-compiled
+//= require libs/infobox_packed
 
 //= require ./plugins_initalization
 //= require handlebars
