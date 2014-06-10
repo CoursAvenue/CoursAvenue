@@ -15,12 +15,14 @@ class Structures::MessagesController < ApplicationController
     Statistic.action(@structure.id, current_user, cookies[:fingerprint], 'contact')
     respond_to do |format|
       if @conversation and @conversation.persisted?
+        cookies.delete :user_contact_message
         format.html { redirect_to user_conversation_path(user, @conversation) }
       elsif current_user
         format.html { redirect_to structure_path(@structure, message_body: params[:message][:body]), alert: "Vous n'avez pas remplis toutes les informations" }
       else
         format.html { redirect_to structure_path(@structure, message_body: params[:message][:body], first_name: params[:user][:first_name], email: params[:user][:email]), alert: "Vous n'avez pas remplis toutes les informations" }
       end
+      format.js
     end
   end
 

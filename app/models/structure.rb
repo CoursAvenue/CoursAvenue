@@ -695,8 +695,8 @@ class Structure < ActiveRecord::Base
     self.premium
   end
 
-  def similar_profiles
-    StructureSearch.similar_profile(self, 3)
+  def similar_profiles(limit=3)
+    StructureSearch.similar_profile(self, limit)
   end
 
   # Return highlighted comment if has one

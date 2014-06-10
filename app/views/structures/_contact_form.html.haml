@@ -11,7 +11,7 @@
       .tab-content.soft
         %article#tab-message.tab-pane.active.hard
           #structure-contact
-            = simple_form_for [structure, Mailboxer::Message.new], url: structure_messages_path(structure), as: :message  do |f|
+            = simple_form_for [structure, Mailboxer::Message.new], url: structure_messages_path(structure), as: :message, remote: true do |f|
               %h4.f-weight-normal
                 Contactez pour réserver ou obtenir plus d'infos :
               -# Here to stop bots.
