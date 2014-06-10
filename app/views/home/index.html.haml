@@ -24,21 +24,3 @@
           = link_to 'blog', target: '_blank', class: 'btn btn--blue' do
             %i.fa.fa-align-left
             &nbsp;Accéder au blog
-
-= content_for :scripts do
-  :javascript
-    $(function() {
-        if (window.location && window.location.hash == '#video') {
-            $('#show-video').click();
-        }
-        $("#gallery .media__item img").lazyload({
-            effect : "fadeIn",
-            event: 'gallery:show',
-            skip_invisible: true,
-            load: function(elements_left, settings) {
-                if (elements_left == 0) {
-                   $('#gallery .media-gallery').masonry({ itemSelector: '.media__item' });
-                }
-            }
-        });
-    });
