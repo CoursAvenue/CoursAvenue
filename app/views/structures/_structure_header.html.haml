@@ -1,10 +1,10 @@
 #structure-header.one-whole.west.push-half--bottom
   .main-container.soft--sides.soft-half--ends.relative
     .nowrap.absolute.east.top-contacts-buttons-wrapper.visible-on-stick.soft--right
-      %a.contact-button.btn.btn--green{ href: '#contact-panel', data: { behavior: 'modal', padding: 0, width: 450 } }
+      %a.contact-button.btn.btn--green{ data: { behavior: 'show-contact-panel' } }
         %i.fa.fa-envelope
         Message
-      %a.contact-button.btn{ href: '#contact-panel', data: { behavior: 'modal', padding: 0, width: 450 } }
+      %a.contact-button.btn{ data: { behavior: 'show-contact-panel' } }
         %i.fa.fa-phone
         Coordonnées
     .grid
@@ -54,3 +54,11 @@
             %meta{itemprop: 'postal-code', content: structure.zip_code}
             - if @city
               %meta{itemprop: 'locality', content: @city.name}
+
+= content_for :scripts do
+  :javascript
+      $(function() {
+          $('[data-behavior=show-contact-panel]').click(function() {
+              $.fancybox.open($('#contact-panel').clone(), { padding: 0, width: 450, helpers: { overlay: { locked: false } } });
+          })
+      })
