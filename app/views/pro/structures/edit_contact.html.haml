@@ -21,8 +21,6 @@
       %div
         = form.input :website, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
         = form.input :facebook_url, as: :string, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, wrapper_html: { class: 'flush--bottom' }
-        %p.field-form-info
-          Lien vers une page Facebook et non vers un profil personnel.
     .soft--sides= form.button :submit, "Enregistrer", class: 'btn btn--green btn--full push--bottom', data: { disable_with: "En cours d'enregistrement" }
 
 
