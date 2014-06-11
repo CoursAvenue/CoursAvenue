@@ -11,6 +11,8 @@ UserManagement.addInitializer(function(options) {
     var user_profiles_collection_view = new UserManagement.Views.UserProfilesCollection.UserProfilesCollectionView({
         collection: user_profiles,
         events: {
+            'paginator:updating'          : 'showLoader',
+            'paginator:updated'           : 'hideLoader',
             'pagination:next'             : 'nextPage',
             'pagination:prev'             : 'prevPage',
             'pagination:page'             : 'goToPage',

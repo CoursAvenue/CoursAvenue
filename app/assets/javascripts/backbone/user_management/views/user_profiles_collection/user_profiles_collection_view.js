@@ -39,7 +39,8 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
         ui: {
             '$headers' : '[data-sort]',
-            '$checkbox': '[data-behavior=bulk-select]'
+            '$checkbox': '[data-behavior=bulk-select]',
+            '$loader'  : '[data-type="loader"]'
         },
 
         collectionEvents: {
@@ -291,6 +292,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
         /* override inherited method */
         announcePaginatorUpdated: function announcePaginatorUpdated () {
+            this.trigger('paginator:updated');
             if (this.collection.totalPages == undefined || this.collection.totalPages < 1) {
                 return;
             }
@@ -336,6 +338,14 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
                               maxWidth: 800
                             });
             // window.open(Routes.new_pro_structure_message_path(data));
+        },
+
+        showLoader: function showLoader () {
+            this.ui.$loader.show();
+        },
+
+        hideLoader: function hideLoader () {
+            this.ui.$loader.hide();
         },
 
         /* OVERRIDE */

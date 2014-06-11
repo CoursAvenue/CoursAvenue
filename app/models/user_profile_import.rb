@@ -45,28 +45,28 @@ class UserProfileImport < ActiveRecord::Base
   def load_imported_user_profiles
     spreadsheet = open_spreadsheet
     # header      = spreadsheet.row(1)
-
-    (2..spreadsheet.last_row).map do |i|
+    first_line = (skip_header?(spreadsheet) ? 2 : 1)
+    (first_line..spreadsheet.last_row).collect do |spreadsheet_line|
       row = {}
       user_profile_accessible_attributes.map do |attribute_name|
         if (index = self.send("#{attribute_name}_index")).present?
-          row[attribute_name] = spreadsheet.row(i)[index.to_i]
+          row[attribute_name] = spreadsheet.row(spreadsheet_line)[index.to_i]
         else
           row[attribute_name] = nil
         end
       end
-      # row = Hash[[header, spreadsheet.row(i)].transpose]
+      # row = Hash[[header, spreadsheet.row(spreadsheet_line)].transpose]
       # Prevents from blank email affecting some bs
       if row['email'].present?
         row['email'] = strip_noise(row['email'])
-        _structure_id = self.structure_id
+        _structure_id = self.structure.id
         user_profile = UserProfile.where( UserProfile.arel_table[:structure_id].eq(_structure_id).and(
                                           UserProfile.arel_table[:email].eq(row['email'])) ).first || UserProfile.new
       else
         user_profile = UserProfile.new
       end
       user_profile.attributes = row.slice(*UserProfile.accessible_attributes)
-      user_profile.structure_id = self.structure_id
+      user_profile.structure_id ||= self.structure.id
       user_profile
     end
   end
@@ -99,5 +99,12 @@ class UserProfileImport < ActiveRecord::Base
   # Remove non breaking spaces
   def strip_noise(string)
     ActiveSupport::Inflector.transliterate string.to_s, ''
+  end
+
+  # Skip header if there is no '@' sign in the first line
+  #
+  # @return Boolean
+  def skip_header? spreadsheet
+    ! spreadsheet.row(1).join.include?('@')
   end
 end

@@ -46,7 +46,7 @@ class Pro::Structures::UserProfileImportsController < ApplicationController
     end
     @user_profile_import
     if @user_profile_import.import
-      redirect_to pro_structure_user_profiles_path(@structure), notice: 'Imported products successfully.'
+      redirect_to pro_structure_user_profiles_path(@structure), notice: "Import du carnet d'adresse terminé"
     else
       render :choose_headers
     end

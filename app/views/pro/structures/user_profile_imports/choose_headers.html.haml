@@ -1,34 +1,36 @@
 = side_menu_currently_at 'crm'
 
-= render partial: 'pro/structures/user_profiles/tabs', locals: { current: 'import' }
-
-= simple_form_for [:import, :pro, @structure, @user_profile_import] do |f|
-  .form-white-box
-    = f.error_notification
-    - if @user_profile_import.errors.any?
-      %br
-      .alert--error
-        - @user_profile_import.errors[:base].each do |error|
-          = error
-          %br
-    %table.table--data.table--striped
-      %thead
-        %tr
-          %th 1ère ligne
-          %th Association
-      %tbody
-        - @user_profile_import.headers.each_with_index do |excel_first_row, index|
+.panel
+  = render partial: 'pro/structures/user_profiles/tabs', locals: { current: 'import' }
+  .panel__body.soft--ends
+    %h4.soft--sides Associez les colonnes du fichier aux champs correspondants
+    = simple_form_for [:import, :pro, @structure, @user_profile_import] do |f|
+      = f.error_notification
+      - if @user_profile_import.errors.any?
+        %br
+        .alert--error
+          - @user_profile_import.errors[:base].each do |error|
+            = error
+            %br
+      %table.table--data.table--striped
+        %thead
           %tr
-            %td= excel_first_row
-            %td
-              %select{name: 'table_indexes[]'}
-                %option
-                - @user_profile_import.user_profile_accessible_attributes.each do |attribute_name|
-                  %option{selected: (@user_profile_import.send("#{attribute_name}_index") == index) ,value: "#{attribute_name}:#{index}"}= UserProfile.human_attribute_name(attribute_name)
+            %th 1ère ligne
+            %th Association
+        %tbody
+          - @user_profile_import.headers.each_with_index do |excel_first_row, index|
+            %tr
+              %td= excel_first_row
+              %td
+                %select{name: 'table_indexes[]'}
+                  %option
+                  - @user_profile_import.user_profile_accessible_attributes.each do |attribute_name|
+                    %option{selected: (@user_profile_import.send("#{attribute_name}_index") == index) ,value: "#{attribute_name}:#{index}"}= UserProfile.human_attribute_name(attribute_name)
 
-    - if @user_profile_import.errors.any?
-      %hr
-      = f.input :file, as: :file, label: 'Nouveau fichier à importer', wrapper_html: { class: 'flush' }
-      %p.field-form-info.blue Laisser vide si vous ne voulez pas le changer
+      - if @user_profile_import.errors.any?
+        %hr
+        = f.input :file, as: :file, label: 'Nouveau fichier à importer', wrapper_html: { class: 'flush' }
+        %p.field-form-info.blue Laisser vide si vous ne voulez pas le changer
 
-    = f.submit 'Valider', class: 'btn btn--green btn--full', data: { disable_with: "En cours de validation" }
+      .soft--sides
+        = f.submit 'Valider', class: 'btn btn--green btn--full', data: { disable_with: "En cours de validation" }
