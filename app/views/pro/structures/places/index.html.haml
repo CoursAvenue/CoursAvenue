@@ -20,22 +20,28 @@
           %th.three-twelfths
       %tbody
         - @places.each do |place|
-          = render partial: 'pro/structures/places/place', locals: { place: place, structure: @structure}
-
-- if current_pro_admin.email == 'nima@coursavenue.com'
-  :javascript
-    alert('TODO: add marker when we create or update a place');
+          = render partial: 'pro/structures/places/place', locals: { place: place, structure: @structure }
 
 = content_for :scripts do
   :javascript
     $(function() {
-        google_map_handler = Gmaps.build('Google', { markers: { maxRandomDistance: null } });
-        google_map_handler.buildMap({ provider: { scrollwheel: false }, internal: { id: 'map' }}, function(){
-            var markers = google_map_handler.addMarkers(#{@place_coordinates.to_json});
-            google_map_handler.bounds.extendWith(markers);
-            google_map_handler.fitMapToBounds();
-            if (google_map_handler.getMap().getZoom() > 15) {
-                google_map_handler.getMap().setZoom(15);
+        window.coursavenue = {};
+        window.coursavenue.markers = [];
+        window.coursavenue.map = Gmaps.build('Google', { markers: { maxRandomDistance: null } });
+        window.coursavenue.map.buildMap({ provider: { scrollwheel: false }, internal: { id: 'map' }}, function () {
+            window.coursavenue.markers = window.coursavenue.map.addMarkers(#{@place_coordinates.to_json});
+            window.coursavenue.map.bounds.extendWith(window.coursavenue.markers);
+            window.coursavenue.map.fitMapToBounds();
+            if (window.coursavenue.map.getMap().getZoom() > 15) {
+                window.coursavenue.map.getMap().setZoom(15);
             }
         });
+        window.coursavenue.redrawMap = function redrawMap (markers) {
+            window.coursavenue.map.removeMarkers(window.coursavenue.markers);
+            window.coursavenue.markers = window.coursavenue.map.addMarkers(markers);
+            window.coursavenue.map.resetBounds();
+            window.coursavenue.map.bounds.extendWith(window.coursavenue.markers);
+            window.coursavenue.map.fitMapToBounds();
+        }
     });
+

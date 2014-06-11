@@ -16,6 +16,8 @@
     $("#place-table").show();
     $("#place-table tbody").append('<%= escape_javascript(render partial: "pro/structures/places/place", locals: { place: @place, structure: @structure }) %>')
     $('#place-<%= @place.id %>').yellowFade({ delay: 400 });
+    window.coursavenue.redrawMap(<%== @place_coordinates.to_json %>);
+
 <% else %>
     $.fancybox("<%== escape_javascript(render partial: 'pro/structures/places/form') %>", { width: 650, minWidth: 650, maxWidth: 650, padding: 0, helpers: { overlay : { closeClick: false } } });
 <% end %>

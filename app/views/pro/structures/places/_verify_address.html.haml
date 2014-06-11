@@ -16,7 +16,7 @@
       - if params[:return_to].present?
         %a.btn.btn--green{ onclick: "#{params[:return_to_action]}"} Parfait !
       - else
-        %a.btn.btn--green{ onclick: 'window.location.reload();'} Parfait !
+        %a.btn.btn--green{ onclick: '$.fancybox.close();'} Parfait !
 
 - @json_locations = Gmaps4rails.build_markers([@place]) do |place, marker|
   - marker.lat place.latitude

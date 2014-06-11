@@ -51,10 +51,7 @@ class Pro::Structures::PlacesController < InheritedResources::Base
 
   def index
     index! do |format|
-      @place_coordinates = Gmaps4rails.build_markers(@structure.places) do |place, marker|
-        marker.lat place.latitude
-        marker.lng place.longitude
-      end
+      get_places_coordinates
       format.html
     end
   end
@@ -64,6 +61,7 @@ class Pro::Structures::PlacesController < InheritedResources::Base
     @place     = @structure.places.build params[:place]
     respond_to do |format|
       if @place.save
+        get_places_coordinates
         format.html { redirect_to (params[:return_to] || pro_structure_places_path(@structure)), notice: 'Le lieu à bien été créé' }
         format.js
       else
@@ -78,6 +76,7 @@ class Pro::Structures::PlacesController < InheritedResources::Base
     @place     = @structure.places.find params[:id]
     respond_to do |format|
       if @place.update_attributes params[:place]
+        get_places_coordinates
         format.html { redirect_to (params[:return_to] || pro_structure_places_path(@structure)), notice: 'Le lieu à bien été créé' }
         format.js
       else
@@ -89,8 +88,18 @@ class Pro::Structures::PlacesController < InheritedResources::Base
 
   def destroy
     destroy! do |success, failure|
+      get_places_coordinates
       success.html { redirect_to pro_structure_places_path(@structure) }
       success.js
+    end
+  end
+
+  private
+
+  def get_places_coordinates
+    @place_coordinates = Gmaps4rails.build_markers(@structure.places) do |place, marker|
+      marker.lat place.latitude
+      marker.lng place.longitude
     end
   end
 end

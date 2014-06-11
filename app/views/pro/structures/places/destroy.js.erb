@@ -4,3 +4,4 @@
 <% end %>
 $('#place-<%= @place.id %>').remove();
 $.fancybox.close();
+window.coursavenue.redrawMap(<%== @place_coordinates.to_json %>);
