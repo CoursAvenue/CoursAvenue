@@ -95,4 +95,5 @@ CoursAvenue::Application.configure do
 
   ActionMailer::Base.register_interceptor(DevelopmentMailInterceptor)
 
+  config.eager_load = false
 end
