@@ -167,7 +167,9 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
 
         activateButton: function activateButton (subject_slug) {
             this.$('[data-type="button"]').removeClass(ACTIVE_CLASS);
-            this.$('[data-type="button"][data-value=' + subject_slug + ']').addClass(ACTIVE_CLASS);
+            if (subject_slug) {
+                this.$('[data-type="button"][data-value=' + subject_slug + ']').addClass(ACTIVE_CLASS);
+            }
         }
     });
 });

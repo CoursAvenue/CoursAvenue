@@ -236,41 +236,6 @@ _.extend(_, {
     }
 });
 
-/* wow debounce! Call it like this:
- *
- *   wat: function () {
- *
- *   }.debounce(500),
- *
- * Remeber that the function will still be called with "this" bound
- * to whatever it would normally be called with. So if you pass wat
- * as an event handler, it will not have a Marionette object as its
- * this, unless you also bind it to this in the context of the Marionette
- * object.
- *
- *   this.on("click", this.wat); // NO!
- *   this.on("click", this.wat.bind(this)); // OK!
- *
- *   wat: function () {
- *
- *   }.debounce(500).bind(this), // Sure, why not!?
- *
- * */
-if (!Function.prototype.debounce) {
-    Function.prototype.debounce = function (time) {
-        if (typeof this !== "function") {
-          // closest thing possible to the ECMAScript 5 internal IsCallable function
-          throw new TypeError("Function.prototype.debounce - what is trying to be bound is not callable");
-        }
-
-        var args      = Array.prototype.slice.call(arguments, 0), // put the arguments into an arra
-            wait      = args.shift(), // the first is the wait
-            immediate = (args.shift() === undefined)? false : true; // the second is the "immediate" flag
-
-        return _.debounce(this, wait, immediate);
-    }
-}
-
 
 /* when building an Application, the NullApplication will be
  * returned if the given app root was not detected */

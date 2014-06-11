@@ -1,3 +1,4 @@
+//= require libs/underscore
 //= require global
 
 // ---------------------------------- Core include
@@ -31,16 +32,6 @@
 //= require libs/fancybox/jquery.fancybox
 
 //= require libs/fingerprint
-
-// ---------------------------------- Backbone
-//= require libs/underscore
-//= require libs/backbone
-//= require backbone.marionette
-//= require libs/backbone.googlemaps
-//= require backbone-relational
-//= require libs/backbone.paginator.js
-//= require libs/backbone.poller.js
-//= require backbone/cours_avenue.pro
 
 //= require libs/countdown
 
@@ -90,13 +81,19 @@
 //= require gmaps/google
 //= require libs/google.maps
 //= require libs/markerclusterer
-//= require libs/richmarker
-//= require libs/infobox
 
 //= require libs/filepicker
 
 //= require ./plugins_initalization
-//= require handlebars
+
+// ---------------------------------- Backbone
+//= require libs/backbone
+//= require backbone.marionette
+//= require libs/backbone.googlemaps
+//= require backbone-relational
+//= require libs/backbone.paginator.js
+//= require libs/backbone.poller.js
+//= require backbone/cours_avenue.pro
 
 (function($) {
   $.fn.yellowFade = function(options) {
