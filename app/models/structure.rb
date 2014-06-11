@@ -706,7 +706,7 @@ class Structure < ActiveRecord::Base
   #
   # @return Boolean
   def premium
-    self.pricing_plan != 'free'
+    self.pricing_plan != 'free' and self.pricing_plan != nil
   end
 
   # Alias for premium
