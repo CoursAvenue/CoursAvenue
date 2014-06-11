@@ -77,7 +77,9 @@
           %h5.flush Suivez l'actualité et recevez des offres exclusives
         .panel__body.soft
           - if current_user and current_user.follows?(@structure)
-            = link_to 'Vous suivez déjà ce profil', '#', class: "btn btn--full disabled"
+            = link_to '#', class: "btn btn--full disabled" do
+              %i.fa.fa-heart
+              Déjà en favoris
           - elsif current_user
             = link_to follow_structure_path(@structure), method: :post, class: "btn btn--full btn--gray" do
               %i.fa.fa-heart

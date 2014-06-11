@@ -3,9 +3,10 @@ class UserProfile < ActiveRecord::Base
   acts_as_taggable_on :tags
 
   DEFAULT_TAGS = {
-    :comments => 'Avis',
-    :contacts => "Demande d'info",
-    :jpo_2014 => "JPO 2014"
+    :comments  => 'Avis',
+    :contacts  => "Demande d'info",
+    :jpo_2014  => 'JPO 2014',
+    :following => 'Favoris'
   }
 
   belongs_to :structure
@@ -93,6 +94,7 @@ class UserProfile < ActiveRecord::Base
   end
 
   def add_tags(tags)
+    tags = [tags] unless tags.is_a? Array
     self.structure.add_tags_on(self, tags)
   end
 
