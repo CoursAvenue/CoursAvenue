@@ -177,7 +177,11 @@ CoursAvenue::Application.routes.draw do
         end
 
         resources :messages     , controller: 'structures/messages'
-        resources :conversations, controller: 'structures/conversations'
+        resources :conversations, controller: 'structures/conversations' do
+          member do
+            patch :treat_by_phone
+          end
+        end
         resources :statistics   , controller: 'structures/statistics', only: [:index]
 
         resources :price_groups, path: 'tarifs', controller: 'structures/price_groups' do

@@ -6,6 +6,17 @@ class Pro::Structures::ConversationsController < ApplicationController
 
   layout 'admin'
 
+  def treat_by_phone
+    @conversation = @admin.mailbox.conversations.find(params[:id])
+    @conversation.update_column :treated_by_phone, true
+    @conversation.update_column :treated_at, Time.now
+    @structure.delay.compute_response_time
+    @structure.delay.compute_response_rate
+    respond_to do |format|
+      format.html { redirect_to pro_structure_conversations_path(@structure), notice: "La demande est considérée comme traitée" }
+    end
+  end
+
   def show
     @conversation = @admin.mailbox.conversations.find(params[:id])
     @conversation.mark_as_read(@admin)

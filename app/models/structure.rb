@@ -640,23 +640,28 @@ class Structure < ActiveRecord::Base
 
   # Compute the reponse rate of the main_contact
   #
-  # @return Integer that is the percentage. Ex: 67
+  # @return Integer [0-100] that is the percentage. Ex: 67
   def compute_response_rate
     return if main_contact.nil?
     conversations = main_contact.mailbox.conversations.where(subject: I18n.t(Mailboxer::Label::INFORMATION.name))
-    number_of_messages = conversations.length
-    if number_of_messages == 0
+    number_of_conversations = conversations.length
+    if number_of_conversations == 0
       self.response_rate = nil
       self.save
       return nil
     else
       # Select conversations that have :
       # More than 1 message and the number of sender is more than 1. It will mean that there has been a response.
-      number_of_messages_with_answers = 0
+      number_of_conversations_with_answers = 0
       conversations.select do |conversation|
-        number_of_messages_with_answers += 1 if conversation.messages.map(&:sender).uniq.length > 1
+        # A conversation will be considered as treated if there is an answer OR
+        # if there is the flag treated_by_phone
+        if conversation.messages.map(&:sender).uniq.length > 1 or
+          conversation.read_attribute(:treated_by_phone) == true
+          number_of_conversations_with_answers += 1
+        end
       end
-      self.response_rate = ((number_of_messages_with_answers.to_f / number_of_messages.to_f) * 100).round
+      self.response_rate = ((number_of_conversations_with_answers.to_f / number_of_conversations.to_f) * 100).round
       self.save
       return self.response_rate
     end
@@ -667,9 +672,8 @@ class Structure < ActiveRecord::Base
   # @return Integer that is the average number of hours between each responses. Ex: 14
   def compute_response_time
     return if main_contact.nil?
-    conversations = main_contact.mailbox.conversations.where(subject: I18n.t(Mailboxer::Label::INFORMATION.name))
-    number_of_messages = conversations.length
-    if number_of_messages == 0
+    conversations      = main_contact.mailbox.conversations.where(subject: I18n.t(Mailboxer::Label::INFORMATION.name))
+    if conversations.length == 0
       self.response_time = nil
       self.save
       return nil
@@ -678,12 +682,18 @@ class Structure < ActiveRecord::Base
       # More than 1 message and the number of sender is more than 1. It will mean that there has been a response.
       delta_hours = []
       conversations.select do |conversation|
-        if conversation.messages.count > 1
+        # We consider treated_by_phone status to be faster because user can set this flag
+        # only if the message haven't been answered
+        if conversation.read_attribute(:treated_by_phone) == true
+          first_message_created_at = conversation.messages.order('created_at ASC').first.created_at
+          delta = ( (conversation.read_attribute(:treated_at) - first_message_created_at).abs.round / 60 ) / 60
+        elsif conversation.messages.count > 1
           creation_dates = conversation.messages.order('created_at ASC').limit(2).map(&:created_at)
           # (Time 1 - Time 2) => number of seconds between the two times
           # / 60 => To minutes | / 60 to hours
-          delta_hours << ((creation_dates[1] - creation_dates[0]).abs.round / 60) / 60
+          delta = ((creation_dates[1] - creation_dates[0]).abs.round / 60) / 60
         end
+        delta_hours << delta if delta
       end
       self.response_time = (delta_hours.reduce(&:+).to_f / delta_hours.length.to_f).round
       self.save
