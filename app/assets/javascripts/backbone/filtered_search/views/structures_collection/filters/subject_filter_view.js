@@ -28,7 +28,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 var subject_slug = this.$('.' + ACTIVE_CLASS + '[data-type="button"]').data('value');
             }
 
-            if (this.$('[data-value=' + subject_slug + ']').hasClass(ACTIVE_CLASS)) {
+            if (subject_slug && this.$('[data-value=' + subject_slug + ']').hasClass(ACTIVE_CLASS)) {
                 this.current_subject_slug = null;
                 this.disabledButton(subject_slug);
                 this.announceSubject();
@@ -44,12 +44,16 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
         disabledButton: function(subject_slug) {
-            this.$('[data-value=' + subject_slug + ']').removeClass(ACTIVE_CLASS);
+            if (subject_slug) {
+                this.$('[data-value=' + subject_slug + ']').removeClass(ACTIVE_CLASS);
+            }
         },
 
         activateButton: function(subject_slug) {
             this.$('[data-type="button"]').removeClass(ACTIVE_CLASS);
-            this.$('[data-value=' + subject_slug + ']').addClass(ACTIVE_CLASS);
+            if (subject_slug) {
+                this.$('[data-value=' + subject_slug + ']').addClass(ACTIVE_CLASS);
+            }
         },
 
         // Clears all the given filters

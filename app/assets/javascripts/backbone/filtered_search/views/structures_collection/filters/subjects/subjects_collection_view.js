@@ -80,7 +80,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
                 var subject_slug = this.$('.' + ACTIVE_CLASS + '[data-type="button"]').data('value');
             }
 
-            if (this.$('[data-value=' + subject_slug + ']').hasClass(ACTIVE_CLASS)) {
+            if (subject_slug && this.$('[data-value=' + subject_slug + ']').hasClass(ACTIVE_CLASS)) {
                 this.current_subject_slug = null;
                 this.disabledButton(subject_slug);
                 this.announceSubject();
@@ -162,7 +162,9 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
         },
 
         disabledButton: function disabledButton (subject_slug) {
-            this.$('[data-value=' + subject_slug + ']').removeClass(ACTIVE_CLASS);
+            if (subject_slug) {
+                this.$('[data-value=' + subject_slug + ']').removeClass(ACTIVE_CLASS);
+            }
         },
 
         activateButton: function activateButton (subject_slug) {

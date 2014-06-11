@@ -10,7 +10,9 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             if (data.trial_course_amount === '20') {
                 this.ui.$buttons.find('input[value=0]').prop('checked', true).parent('.btn').addClass('active');
             }
-            this.ui.$buttons.find('input[value=' + data.trial_course_amount + ']').prop('checked', true).parent('.btn').addClass('active');
+            if (data.trial_course_amount) {
+                this.ui.$buttons.find('input[value=' + data.trial_course_amount + ']').prop('checked', true).parent('.btn').addClass('active');
+            }
             this.announceBreadcrumb();
         },
 
