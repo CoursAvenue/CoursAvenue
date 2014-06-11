@@ -43,9 +43,10 @@
                 var offset_top = this.$element.offset().top - this.$wizard_container.offset().top;
                 if (offset_top < 0) { offset_top = 0; }
 
-                // If the content will go too much down and increase the size of the body
+                // If the content goes too much at the bottom and increases the size of the body
                 // We remove the difference from offset_top
-                if ($(document).height() < offset_top + this.$content.height()) {
+                // if ($(document).height() < offset_top + this.$content.height()) {
+                if (($(document).height() - this.$wizard_container.offset().top) < offset_top + this.$content.height()) {
                     offset_top = $(document).height() - this.$content.height() - this.$wizard_container.offset().top;
                 }
 
