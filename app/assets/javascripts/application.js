@@ -76,8 +76,8 @@
 //= require gmaps/google
 //= require libs/google.maps
 //= require libs/markerclusterer
-//= require libs/richmarker-compiled
-//= require libs/infobox_packed
+//= require libs/richmarker
+//= require libs/infobox
 
 //= require ./plugins_initalization
 //= require handlebars
