@@ -10,15 +10,22 @@
 //= require libs/handlebars
 //= require libs/handlebars-helpers
 //= require libs/chosen.jquery
+//= require libs/jquery.tablesorter
 //= require libs/jquery.cookie
 //= require libs/typeahead
 //= require libs/jquery.scrollTo
+//= require libs/jquery.Jcrop
+//= require libs/jquery.fileupload/vendor/jquery.ui.widget
+//= require libs/jquery.fileupload/jquery.iframe-transport
+//= require libs/jquery.fileupload/jquery.fileupload
+//= require libs/jquery.fileupload/jquery.fileupload-process
+//= require libs/jquery.fileupload/jquery.fileupload-validate
+//= require libs/jquery.fileupload/jquery.fileupload-image
 //= require libs/jquery.nouislider
 //= require libs/jquery.stickem
 //= require libs/jquery.masonry
 //= require libs/jquery.lazyload
 //= require libs/responsiveslides
-//= require libs/add_this_event
 //= require libs/jquery.placeholder
 
 //= require libs/fancybox/jquery.fancybox
@@ -33,7 +40,9 @@
 //= require backbone-relational
 //= require libs/backbone.paginator.js
 //= require libs/backbone.poller.js
-//= require backbone/cours_avenue
+//= require backbone/cours_avenue.pro
+
+//= require libs/countdown
 
 //= require_tree ./libs/fancybox/helpers/
 
@@ -46,6 +55,11 @@
 //= require libs/bootstrap/bootstrap.datepicker
 //= require libs/bootstrap/bootstrap.button
 //= require libs/bootstrap/datepicker-locales/bootstrap.datepicker.fr
+
+
+//---- Highcharts
+//= require libs/highcharts/highcharts
+//= require libs/highcharts/modules/exporting
 
 // ---------------------------------- jQuery plugins
 // See boilerplate and pattern:
@@ -79,5 +93,33 @@
 //= require libs/richmarker-compiled
 //= require libs/infobox_packed
 
+//= require libs/filepicker
+
 //= require ./plugins_initalization
 //= require handlebars
+
+(function($) {
+  $.fn.yellowFade = function(options) {
+    options = options || {};
+    $(this).each(function () {
+        var fadeIt;
+        options.delay = options.delay || 0
+        var $this = $(this);
+        var el    = $this;
+        fadeIt = function () {
+            $("<div/>")
+                .width(el.outerWidth())
+                .height(el.outerHeight())
+                .css({
+                    "position"        : "absolute",
+                    "left"            : el.offset().left,
+                    "top"             : el.offset().top,
+                    "background-color": "#ffff99",
+                    "opacity"         : ".7",
+                    "z-index"         : "9999999"
+                }).appendTo('body').fadeOut(1000).queue(function () { this.remove(); });
+        }
+        _.delay(fadeIt, options.delay);
+    });
+  }
+})(jQuery);

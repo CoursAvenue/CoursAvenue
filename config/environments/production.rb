@@ -52,9 +52,8 @@ CoursAvenue::Application.configure do
   config.action_controller.asset_host = "https://#{ENV['FOG_DIRECTORY']}.s3.amazonaws.com"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  config.assets.precompile += %w( modernizr.js libs/richmarker.js email.css)
-
-
+  config.assets.precompile += %w( email.css )
+  config.assets.precompile += %w( application.pro.js modernizr.js )
 
   # Enable threaded mode
   # config.threadsafe!

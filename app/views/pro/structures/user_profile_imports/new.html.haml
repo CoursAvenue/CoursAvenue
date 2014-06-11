@@ -18,7 +18,7 @@
             = f.input :file, as: :file, label: false, wrapper_html: { class: 'visuallyhidden' }
       .text--center
         = image_tag 'gifs/loading-indicator.gif', height: 10, id: 'loader', class: 'hidden'
-      -# = f.submit 'Télécharger', class: 'btn btn--green btn--full', data: { disable_with: "En cours de téléchargement" }
+
 
 = content_for :scripts do
   :javascript

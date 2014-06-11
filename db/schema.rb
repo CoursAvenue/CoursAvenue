@@ -613,8 +613,8 @@ ActiveRecord::Schema.define(version: 20140610160811) do
     t.string   "contact_phone"
     t.string   "contact_mobile_phone"
     t.string   "contact_email"
-    t.datetime "created_at",                                null: false
-    t.datetime "updated_at",                                null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
     t.string   "slug"
     t.string   "street"
     t.string   "zip_code"
@@ -653,7 +653,7 @@ ActiveRecord::Schema.define(version: 20140610160811) do
     t.integer  "teaches_at_home_radius"
     t.hstore   "meta_data"
     t.integer  "highlighted_comment_id"
-    t.string   "pricing_plan",             default: "free"
+    t.string   "pricing_plan"
   end
 
   add_index "structures", ["slug"], name: "index_structures_on_slug", unique: true, using: :btree
