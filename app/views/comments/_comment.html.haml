@@ -90,24 +90,31 @@
                 Motif de suppression :
                 %strong= t(comment.deletion_reason)
             - if comment.user
-              = link_to new_pro_structure_message_path(structure, return_to: request.fullpath, message: { subject: "Merci beaucoup pour ta recommandation", recipients: [comment.user.user_profile_for(structure).id] }), class: 'btn btn--small btn--blue fancybox.ajax', data: { behavior: 'modal', width: '780' }, title: "Réponse au message de #{comment.author_name}", onclick: "ga('send', 'event', 'Answer to student', 'click')" do
-                %i.fa.fa-envelope.v-middle
-                %span.v-middle Message privé
-
-            = link_to new_pro_structure_comment_comment_reply_path(structure, comment), class: "#{(comment.reply.nil? ? '' : 'hidden')} btn btn--small btn--yellow fancybox.ajax", data: { behavior: 'modal', width: '700', padding: 0 }, id: "comment-reply-button-#{comment.id}" do
-              %i.fa.fa-comment.v-middle
-              %span.v-middle Commentaire public
+              = succeed ' ' do
+                = link_to new_pro_structure_message_path(structure, return_to: request.fullpath, message: { subject: "Merci beaucoup pour ta recommandation", recipients: [comment.user.user_profile_for(structure).id] }), class: 'btn btn--small btn--blue fancybox.ajax', data: { behavior: 'modal', width: '780' }, title: "Réponse au message de #{comment.author_name}", onclick: "ga('send', 'event', 'Answer to student', 'click')" do
+                  %i.fa.fa-envelope.v-middle
+                  %span.v-middle Message privé
+            = succeed ' ' do
+              - if structure.premium?
+                = link_to new_pro_structure_comment_comment_reply_path(structure, comment), class: "#{(comment.reply.nil? ? '' : 'hidden')} btn btn--small btn--yellow fancybox.ajax", data: { behavior: 'modal', width: '700', padding: 0 }, id: "comment-reply-button-#{comment.id}" do
+                  %i.fa.fa-comment.v-middle
+                  %span.v-middle Commentaire public
+              - else
+                = link_to premium_modal_pro_structure_path(structure, title: 'répondre publiquement à vos avis ?'), data: { behavior: 'modal', padding: 0, width: 900 }, class: "#{(comment.reply.nil? ? '' : 'hidden')} btn btn--small btn--yellow fancybox.ajax" do
+                  %i.fa.fa-comment.v-middle
+                  %span.v-middle Commentaire public
             - if comment.persisted? and !comment.waiting_for_deletion?
-              .inline-block.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
-                %a.btn.btn--small{href: 'javascript:void(0)'}
-                  %i.fa.fa-flag.v-middle
-                  Signaler
-                  %i.fa.fa-chevron-down.soft-half--left
-                %ul.drop-down__el.text--left
-                  - t('comments.deletion_reasons').each do |i18n_key, traducted_string|
-                    %li.nowrap
-                      = link_to ask_for_deletion_pro_structure_comment_path(structure, comment, deletion_reason: "comments.deletion_reasons.#{i18n_key.to_s.downcase}"), method: :patch do
-                        = traducted_string
+              = succeed ' ' do
+                .inline-block.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
+                  %a.btn.btn--small{href: 'javascript:void(0)'}
+                    %i.fa.fa-flag.v-middle
+                    Signaler
+                    %i.fa.fa-chevron-down.soft-half--left
+                  %ul.drop-down__el.text--left
+                    - t('comments.deletion_reasons').each do |i18n_key, traducted_string|
+                      %li.nowrap
+                        = link_to ask_for_deletion_pro_structure_comment_path(structure, comment, deletion_reason: "comments.deletion_reasons.#{i18n_key.to_s.downcase}"), method: :patch do
+                          = traducted_string
             - if current_pro_admin.super_admin?
               .inline-block.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
                 %a.btn.btn--small{href: 'javascript:void(0)'}

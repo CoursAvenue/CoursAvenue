@@ -42,9 +42,10 @@
                 %b= comment.author_name
                 = "(#{comment.email})"
             .grid__item.one-quarter.v-middle.text--right.nowrap>
-              = link_to accept_pro_structure_comment_path(@structure, comment), class: 'btn btn--small btn--green', method: :patch do
-                %i.fa.fa-check
-                Valider
+              = succeed ' ' do
+                = link_to accept_pro_structure_comment_path(@structure, comment), class: 'btn btn--small btn--green', method: :patch do
+                  %i.fa.fa-check
+                  Valider
               = link_to decline_pro_structure_comment_path(@structure, comment), class: 'btn btn--small btn--red', method: :patch do
                 %i.fa.fa-times
                 Rejeter
