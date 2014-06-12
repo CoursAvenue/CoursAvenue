@@ -870,7 +870,7 @@ class Structure < ActiveRecord::Base
   # @return nil
   def no_contacts_in_name
     return nil if self.name.nil?
-    if self.name.match(/((?:[-a-z0-9]+\.)+[a-z]{2,})/i)
+    if self.name.match(/((?:[-a-z0-9]+\.)+[a-z]{2,4})(?: |\Z)/i)
       self.errors.add :name, "Le nom ne peut pas contenir votre site internet"
     end
     nil
@@ -882,7 +882,7 @@ class Structure < ActiveRecord::Base
   # @return nil
   def no_contacts_in_description
     return nil if self.description.nil?
-    if self.description.match(/((?:[-a-z0-9]+\.)+[a-z]{2,})/i)
+    if self.description.match(/((?:[-a-z0-9]+\.)+[a-z]{2,4})(?: |\Z)/i)
       self.errors.add :description, "La description ne peut pas contenir votre site internet."
     end
 

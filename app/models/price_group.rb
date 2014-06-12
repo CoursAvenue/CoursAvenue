@@ -77,7 +77,7 @@ class PriceGroup < ActiveRecord::Base
 
   def offers_text
     offers = []
-    offers << 'Essai gratuit'      if trial.free?
+    offers << 'Essai gratuit'      if trial and trial.free?
     offers << 'Tarifs réduits'     if discounts.any?
     offers << 'Offres découvertes' if premium_offers.any?
     offers

@@ -4,7 +4,8 @@ class StructureDecorator < Draper::Decorator
     types = []
     if object.teaches_at_home
       if object.teaches_at_home_radius.present?
-        types << "cours à domicile (#{object.teaches_at_home_radius} km)"
+        types << "cours à domicile"
+        types << " (#{object.teaches_at_home_radius} km)" unless object.teaches_at_home_radius.nil? or object.teaches_at_home_radius == 0
       else
         types << "cours à domicile"
       end
