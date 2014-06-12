@@ -20,8 +20,7 @@
       .grid--full
         .grid__item.one-quarter.v-middle>
           - if recipients.first
-            %div{ class: (waiting_for_reply ? '' : 'media-photo')}
-              = image_tag recipients.first.avatar_url(:thumb), class: 'block'
+            = image_tag recipients.first.avatar_url(:thumb), class: 'block bordered rounded--circle'
         .grid__item.three-quarters.soft-half--left.v-middle>
           %p.flush
             = truncate((recipients.first.name || recipients.first.email), length: 18)

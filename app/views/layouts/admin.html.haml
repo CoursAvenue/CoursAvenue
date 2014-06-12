@@ -51,7 +51,7 @@
                       -# - azD?
                       -# - recipients = conversation.recipients.reject{ |recipient| recipient == @structure.main_contact }
                       - last_sender = conversation.messages.order('created_at DESC').first.sender
-                      .media-photo= image_tag last_sender.avatar_url(:thumb), class: 'block'
+                      = image_tag last_sender.avatar_url(:thumb), class: 'block bordered rounded--circle'
                     .grid__item.six-twelfths.v-top.text--left.soft-half--left.f-weight-normal>
                       %strong= conversation.subject
                       %br
