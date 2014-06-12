@@ -277,7 +277,7 @@ class Comment::Review < Comment
   #
   # @return nil
   def sanatize_content
-    self.content = self.content.scan(/[[:print:]]|[[:space:]]/).join if self.content.present?
+    self.content = StringHelper.sanatize(self.content) if self.content.present?
     nil
   end
 end

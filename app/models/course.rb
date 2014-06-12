@@ -71,6 +71,7 @@ class Course < ActiveRecord::Base
   # ------------------------------------------------------------------------------------ Search attributes
   searchable do
     text :name, :boost => 2
+
     text :structure_name do
       self.structure.name if self.structure
     end
@@ -377,7 +378,8 @@ class Course < ActiveRecord::Base
   #
   # @return nil
   def sanatize_description
-    self.description = self.description.scan(/[[:print:]]|[[:space:]]/).join if self.description.present?
+    self.description = StringHelper.sanatize(self.description) if self.description.present?
     nil
   end
 end
+

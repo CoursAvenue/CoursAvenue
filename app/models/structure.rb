@@ -840,7 +840,7 @@ class Structure < ActiveRecord::Base
   #
   # @return nil
   def sanatize_description
-    self.description = self.description.scan(/[[:print:]]|[[:space:]]/).join if self.description.present?
+    self.description = StringHelper.sanatize(self.description) if self.description.present?
     nil
   end
 
