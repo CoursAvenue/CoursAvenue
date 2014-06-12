@@ -270,6 +270,7 @@ CoursAvenue::Application.routes.draw do
       get  :notifications
       post :recommend_friends
     end
+    resources :followings, only: [:index], controller: 'users/followings', path: 'favoris'
     resources :invited_users, only: [:index, :new], controller: 'users/invited_users' do
       collection do
         post :bulk_create
