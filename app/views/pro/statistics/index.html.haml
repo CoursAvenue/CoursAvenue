@@ -1,0 +1,72 @@
+= side_menu_currently_at 'statistics'
+.panel
+  .panel__header.soft
+    %h3.flush Statistiques
+  .panel__body.soft
+    .grid.push--bottom
+      .grid__item.one-third.text--center>
+        .inline-block.pointer{ data: { behavior: 'toggle-serie' } }
+          .lbl.lbl--chip.lbl--red.v-middle.lbl--small
+          %h5.flush.v-middle.inline-block
+            = "#{pluralize(@impressions_total_count, 'Affichage')}"
+      .grid__item.one-third.text--center>
+        .inline-block.pointer{ data: { behavior: 'toggle-serie' } }
+          .lbl.lbl--chip.lbl--blue.v-middle.lbl--small
+          %h5.flush.v-middle.inline-block
+            = "#{pluralize(@views_total_count, 'Vue')}"
+      .grid__item.one-third.text--center>
+        .inline-block.pointer{ data: { behavior: 'toggle-serie' } }
+          .lbl.lbl--chip.lbl--green.v-middle.lbl--small
+          %h5.flush.v-middle.inline-block
+            = "#{pluralize(@actions_total_count, 'Action')}"
+
+    #statistics
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        var statistic_chart = new Highcharts.Chart({
+            chart: { renderTo: 'statistics', type: 'column' },
+            title: { text: null },
+            xAxis: {
+                categories: #{((Date.today - 30.days)..Date.today).map{|date| l(Date.parse(date.to_s), format: :short)}},
+                showEmpty: true
+            },
+            yAxis: {
+                title: { text: ''},
+                showEmpty: true,
+                minTickInterval: 1
+            },
+            colors: ['#e2493c', '#00B0FF', '#47b442'],
+            plotOptions: {
+                series: {
+                    pointPadding: 0,
+                    groupPadding: 0.1,
+                    borderWidth: 0,
+                    shadow: false
+                }
+            },
+            series: [ { data: #{@impressions.sort.map{|date, count| count}},
+                        name: 'Affichages'
+                       },
+                      { data: #{@views.sort.map{|date, count| count}},
+                        name: 'Vues'
+                      },
+                      { data: #{@actions.sort.map{|date, count| count}},
+                        name: 'Actions'
+                      }
+                    ]
+        });
+        $("[data-behavior='toggle-serie']").each(function(index) {
+            var serie = statistic_chart.series[index];
+            $(this).click(function() {
+                if (serie.visible) {
+                    $(this).addClass('muted');
+                    serie.hide();
+                } else {
+                    $(this).removeClass('muted');
+                    serie.show();
+                }
+            });
+        });
+    });

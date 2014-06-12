@@ -39,7 +39,6 @@ CoursAvenue::Application.routes.draw do
           get :users_count
         end
       end
-      resources :click_logs, only: [:index]
 
       resources :comments, only: [:edit, :update, :index, :destroy] do
         member do
@@ -76,6 +75,7 @@ CoursAvenue::Application.routes.draw do
         end
       end
       resources :participations, only: [:index], controller: 'participations'
+      resources :statistics, only: [:index]
       resources :structures, path: 'etablissements' do
         member do
           get   :go_premium

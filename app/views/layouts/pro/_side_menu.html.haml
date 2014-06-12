@@ -2,6 +2,7 @@
   %ul
     - if current_pro_admin and current_pro_admin.super_admin?
       = pro_side_menu_link 'dashboard'            , pro_dashboard_path             , current: current_tab, icon: 'fa fa-dashboard'
+      = pro_side_menu_link 'statistics'           , pro_statistics_path              , current: current_tab, icon: 'fa fa-bar-chart-o'
       = pro_side_menu_link 'last_comments'        , pro_comments_path              , current: current_tab, icon: 'fa fa-comments'
       = pro_side_menu_link 'students_invitations' , pro_comment_notifications_path , current: current_tab, icon: 'fa fa-group'
       = pro_side_menu_link 'users'                , pro_users_path                 , current: current_tab, icon: 'fa fa-group'
@@ -11,7 +12,6 @@
       = pro_side_menu_link 'invitations'          , pro_invited_users_path         , current: current_tab, icon: 'fa fa-group'
       = pro_side_menu_link 'vertical_pages'       , pro_subjects_path              , current: current_tab, icon: 'fa fa-arrow-up'
       = pro_side_menu_link 'subjects'             , all_pro_subjects_path          , current: current_tab, icon: 'fa fa-arrow-down'
-      = pro_side_menu_link 'clicks'               , pro_click_logs_path            , current: current_tab, icon: 'fa fa-hand-o-up'
       = pro_side_menu_link 'last_messages'        , pro_conversations_path         , current: current_tab, icon: 'fa fa-envelope'
       = pro_side_menu_link 'stickers'             , pro_sticker_demands_path       , current: current_tab, icon: 'fa fa-envelope'
       = pro_side_menu_link 'visitors'             , pro_visitors_path              , current: current_tab, icon: 'fa fa-group'

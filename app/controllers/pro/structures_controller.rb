@@ -140,7 +140,7 @@ class Pro::StructuresController < Pro::ProController
 
   # GET collection
   def stars
-    @structures = Structure.order('created_at DESC').where { comments_count >= 5 }
+    @structures = Structure.order('created_at DESC').where(Structure.arel_table[:comments_count].gteq(5))
   end
 
   # GET collection

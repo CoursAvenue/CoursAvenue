@@ -1,59 +1,59 @@
 = side_menu_currently_at 'Users'
 
-.white-box.soft
-  %h3.header-group
-    %i.fa.fa-group
-    Évolution des inscriptions élèves
-  .islet.text--center
-    .gamma
-      #{User.active.count} élèves
-    #users
+.panel
+  .panel__header.soft
+    %h3.flush Évolution des inscriptions élèves
+  .panel__body.soft--ends
+    .text--center
+      .gamma
+        #{User.active.count} élèves
+      #users
 
-  .islet.text--center
-    .gamma
-      Cumulé
-    #users-cumul
+    .text--center
+      .gamma
+        Cumulé
+      #users-cumul
 
-  .text--center.push--ends
-    = link_to 'Avec avis', pro_users_path(with_comments: true), class: 'btn btn--blue btn--small push-half--right'
-    = link_to 'Inactif', pro_users_path(inactive: true), class: 'btn btn--blue btn--small'
+    .text--center.push--ends
+      = link_to 'Avec avis', pro_users_path(with_comments: true), class: 'btn btn--blue btn--small push-half--right'
+      = link_to 'Inactif', pro_users_path(inactive: true), class: 'btn btn--blue btn--small'
 
-%table.table--striped#dataTable
-  %thead
-    %tr
-      %th
-      %th
-        %span Nom
-      %th
-        %span Date d'inscription
-      %th.text--center
-        %span Facebook
-      - if params[:with_comments]
-        %th.text--center
-          %span Dernier avis
-  %tbody
-    - @users.each do |user|
-      %tr
-        %td.text--center
-          = image_tag user.avatar_url(:small), height: 40, class: 'rounded--circle'
-        %td
-          = user.name
-          = link_to "(#{user.email})", "mailto:#{user.email}"
-        %td{data: {value: user.confirmed_at}}
-          - if user.confirmed_at
-            = l(user.confirmed_at, format: :date).capitalize
-          - else
-            = link_to 'Activer le compte', activate_pro_user_path(user), method: :patch, class: 'btn btn--small btn--blue'
-            %br
-            = l(user.created_at, format: :date).capitalize
-        %td.text--center{data: {value: (user.provider == 'facebook' ? 'f' : '')}}
-          - if user.provider == 'facebook'
-            %i.fa.fa-check
-        - if params[:with_comments]
-          %td{data: {value: user.created_at}}
-            - comment = user.comments.last
-            - if comment
-              = link_to "Voir l'avis", structure_url(comment.structure, anchor: "recommandation-#{comment.id}", subdomain: 'www')
+    %table.table--striped#dataTable
+      %thead
+        %tr
+          %th
+          %th
+            %span Nom
+          %th
+            %span Date d'inscription
+          %th.text--center
+            %span Facebook
+          - if params[:with_comments]
+            %th.text--center
+              %span Dernier avis
+      %tbody
+        - @users.each do |user|
+          %tr
+            %td.text--center
+              = image_tag user.avatar_url(:small), height: 40, class: 'rounded--circle'
+            %td
+              = user.name
+              = link_to "(#{user.email})", "mailto:#{user.email}"
+            %td{data: {value: user.confirmed_at}}
+              - if user.confirmed_at
+                = l(user.confirmed_at, format: :date).capitalize
+              - else
+                = link_to 'Activer le compte', activate_pro_user_path(user), method: :patch, class: 'btn btn--small btn--blue'
+                %br
+                = l(user.created_at, format: :date).capitalize
+            %td.text--center{data: {value: (user.provider == 'facebook' ? 'f' : '')}}
+              - if user.provider == 'facebook'
+                %i.fa.fa-check
+            - if params[:with_comments]
+              %td{data: {value: user.created_at}}
+                - comment = user.comments.last
+                - if comment
+                  = link_to "Voir l'avis", structure_url(comment.structure, anchor: "recommandation-#{comment.id}", subdomain: 'www')
 
 = content_for :scripts do
   :javascript
@@ -73,15 +73,4 @@
             yAxis: { title: { text: ''}},
             series: [{ data: #{@users_cumul.map{|date, count| (count > 10000 ? 100 : count)}} }]
         });
-        // new Highcharts.Chart({
-        //     chart: { renderTo: 'user-cumul', type: 'column' },
-        //     title: { text: null },
-        //     xAxis: { categories: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"] },
-        //     yAxis: { title: { text: ''}},
-        //     series: [
-        //       { data: #{@users_per_hour.map{|key, value| value}},
-        //         name: 'Inscriptions'
-        //        }
-        //     ]
-        // });
     });

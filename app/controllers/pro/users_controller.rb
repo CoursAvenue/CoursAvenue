@@ -19,11 +19,13 @@ class Pro::UsersController < Pro::ProController
       @users_per_hour[user.created_at.hour] += 1
     end
 
-    @users_graph = User.where(User.arel_table[:created_at].gt(2.months.ago) ).active.count(order: "DATE(created_at) ASC", group: ["DATE(created_at)"])
+    @users_graph = User.where(User.arel_table[:created_at].gt(2.months.ago) ).active
+                       .order("DATE(created_at) ASC").group("DATE(created_at)").count
+
     dates = (1.month.ago.to_date..Date.today).step
     @users_cumul = {}
     dates.each do |date|
-      @users_cumul[date] = User.active.where { created_at < date + 1.day }.count
+      @users_cumul[date] = User.active.where(User.arel_table[:created_at].lt(date + 1.day)).count
     end
 
     respond_to do |format|

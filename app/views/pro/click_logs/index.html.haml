@@ -1,24 +1,24 @@
-= side_menu_currently_at 'Clicks'
+= side_menu_currently_at 'clicks'
 
-%h3.header-group
-  %i.fa.fa-map-marker
-  \# Clicks / jours
-.white-box.islet.text--center
-  #click_logs
-
-%table.white-box.table--data.table--striped#dataTable
-  %thead
-    %tr
-      %th Nom
-      %th # avis
-      %th # clicks
-  %tbody
-    - @click_logs.each do |structure_id, count|
-      - structure = Structure.find(structure_id)
-      %tr
-        %td= link_to structure.name, structure_url(structure)
-        %td= structure.comments_count
-        %td= count
+.panel
+  .panel__header.soft
+    %h3.flush \# Clicks / jours
+  .panel__body.soft--ends
+    .soft--sides
+      #click_logs
+    %table.table--data.table--striped#dataTable
+      %thead
+        %tr
+          %th Nom
+          %th # avis
+          %th # clicks
+      %tbody
+        - @click_logs.each do |structure_id, count|
+          - structure = Structure.find(structure_id)
+          %tr
+            %td= link_to structure.name, structure_url(structure)
+            %td= structure.comments_count
+            %td= count
 
 = content_for :scripts do
   :javascript

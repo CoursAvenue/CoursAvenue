@@ -1,38 +1,40 @@
-= side_menu_currently_at 'Invitations'
+= side_menu_currently_at 'invitations'
 
-%h2 Invitations
+.panel
+  .panel__header.soft
+    %h3.flush Invitations
+  .panel__body.soft--ends
+    %table.table--striped.table--data
+      %thead
+        %tr
+          %th De
+          %th À
+          %th Type
+          %th S'est créé un compte
+          %th S'est inscrits à un atelier
+          %th Date
+      %tbody
+        - @invited_users.each do |invited_user|
+          %tr
+            %td.nowrap
+              - if invited_user.referrer_type == 'User'
+                Élève
+                (#{invited_user.referrer.email})
+              - else
+                Prof
+                (#{invited_user.referrer.contact_email})
+            %td.nowrap
+              - if invited_user.type == 'InvitedUser::Student'
+                Élève
+              - else
+                Prof
+              (#{invited_user.email})
 
-%table.table--striped.table--data.white-box
-  %thead
-    %tr
-      %th De
-      %th À
-      %th Type
-      %th S'est créé un compte
-      %th S'est inscrits à un atelier
-      %th Date
-  %tbody
-    - @invited_users.each do |invited_user|
-      %tr
-        %td.nowrap
-          - if invited_user.referrer_type == 'User'
-            Élève
-            (#{invited_user.referrer.email})
-          - else
-            Prof
-            (#{invited_user.referrer.contact_email})
-        %td.nowrap
-          - if invited_user.type == 'InvitedUser::Student'
-            Élève
-          - else
-            Prof
-          (#{invited_user.email})
-
-        %td= invited_user.invitation_for
-        %td
-          - if invited_user.registered?
-            %i.fa.fa-check
-        %td
-          - if invited_user.user and Participation.where(user_id: invited_user.user.id).any?
-            %i.fa.fa-check
-        %td= l(invited_user.created_at, format: :date)
+            %td= invited_user.invitation_for
+            %td
+              - if invited_user.registered?
+                %i.fa.fa-check
+            %td
+              - if invited_user.user and Participation.where(user_id: invited_user.user.id).any?
+                %i.fa.fa-check
+            %td= l(invited_user.created_at, format: :date)
