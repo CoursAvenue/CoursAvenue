@@ -137,6 +137,10 @@ class Comment::Review < Comment
     self.commentable.update_comments_count
   end
 
+  def highlighted?
+    self.commentable.highlighted_comment_id == self.id
+  end
+
   protected
 
   def set_pending_status

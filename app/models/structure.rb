@@ -751,6 +751,16 @@ class Structure < ActiveRecord::Base
     end
   end
 
+  #
+  # Set the highlighted comment
+  # @param comment Comment to hightlight
+  #
+  # @return Boolean if saved or not
+  def highlighted_comment! comment
+    self.highlighted_comment_id = comment.id
+    self.save
+  end
+
   private
 
   # Strip name if exists to prevent from name starting by a space

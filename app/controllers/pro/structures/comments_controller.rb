@@ -13,18 +13,25 @@ class Pro::Structures::CommentsController < InheritedResources::Base# Pro::ProCo
     @waiting_for_deletion_comments = @structure.comments.waiting_for_deletion
   end
 
+  def highlight
+    @structure = Structure.friendly.find params[:structure_id]
+    @comment   = @structure.comments.find params[:id]
+    @structure.highlighted_comment! @comment
+    redirect_to pro_structure_comments_path(@structure), notice: "Le titre de l'avis a bien été utilisé en accroche"
+  end
+
   def accept
     @structure = Structure.friendly.find params[:structure_id]
     @comment   = @structure.comments.find params[:id]
     @comment.accept!
-    redirect_to pro_structure_comments_path(@structure), notice: "L'avis à bien été accepté"
+    redirect_to pro_structure_comments_path(@structure), notice: "L'avis a bien été accepté"
   end
 
   def decline
     @structure = Structure.friendly.find params[:structure_id]
     @comment   = @structure.comments.find params[:id]
     @comment.decline!
-    redirect_to pro_structure_comments_path(@structure), notice: "L'avis à bien été refusé"
+    redirect_to pro_structure_comments_path(@structure), notice: "L'avis a bien été refusé"
   end
 
   def ask_for_deletion

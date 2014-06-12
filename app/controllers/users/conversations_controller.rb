@@ -39,7 +39,7 @@ class Users::ConversationsController < ApplicationController
         @user.password = params[:password]
         @user.save
         sign_in(@user, bypass: true)
-        flash[:notice] = 'Votre message à bien été envoyé et vous êtes maintenant connecté.'
+        flash[:notice] = 'Votre message a bien été envoyé et vous êtes maintenant connecté.'
       else
         flash[:alert] = "Le token n'est pas valide, vous ne pouvez pas changer votre mot de passe."
       end

@@ -70,6 +70,10 @@ class UnfinishedResource::Comment < UnfinishedResource
     self.fields["submitted"] == "true"
   end
 
+  def highlighted?
+    self.commentable.highlighted_comment_id == self.id
+  end
+
   private
 
   def comment_attributes

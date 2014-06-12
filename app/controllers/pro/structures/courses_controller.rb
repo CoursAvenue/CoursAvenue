@@ -112,7 +112,7 @@ class Pro::Structures::CoursesController < Pro::ProController
     @course = @structure.courses.friendly.find params[:id]
     respond_to do |format|
       if @course.update_attributes params[:course]
-        format.html { redirect_to pro_structure_courses_path(@structure), notice: 'Le cours à bien été mis à jour' }
+        format.html { redirect_to pro_structure_courses_path(@structure), notice: 'Le cours a bien été mis à jour' }
         format.json { render json: {}, status: 200 }
         format.js
       else

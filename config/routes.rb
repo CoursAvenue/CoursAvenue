@@ -151,6 +151,7 @@ CoursAvenue::Application.routes.draw do
         resources :comment_notifications, controller: 'structures/comment_notifications'
         resources :comments, only: [:index], controller: 'structures/comments', path: 'avis' do
           member do
+            patch :highlight
             patch :accept
             patch :decline
             patch :ask_for_deletion

@@ -29,8 +29,8 @@
         - #   - user is owner
         .gray-box.soft-half.rounded--top.message__appendix
           - if comment.accepted? and (current_pro_admin or current_user) and comment.owner?(current_pro_admin || current_user)
-            .drop-down__wrapper.float--right{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
-              = link_to share_comment_url(comment, :facebook), target: '_blank', class: 'btn btn--blue btn--small', onclick: "ga('send', 'event', 'Share comment on Facebook', 'click')" do
+            .drop-down__wrapper.float--right{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
+              = link_to share_comment_url(comment, :facebook), target: '_blank', class: 'btn btn--small', onclick: "ga('send', 'event', 'Share comment on Facebook', 'click')" do
                 %i.fa.fa-share
                 Partager
               %ul.drop-down__el.text--left
@@ -89,11 +89,11 @@
               %p.red.flush.float--left
                 Motif de suppression :
                 %strong= t(comment.deletion_reason)
-            - if comment.user
+            - unless comment.highlighted?
               = succeed ' ' do
-                = link_to new_pro_structure_message_path(structure, return_to: request.fullpath, message: { subject: "Merci beaucoup pour ta recommandation", recipients: [comment.user.user_profile_for(structure).id] }), class: 'btn btn--small btn--blue fancybox.ajax', data: { behavior: 'modal', width: '780' }, title: "Réponse au message de #{comment.author_name}", onclick: "ga('send', 'event', 'Answer to student', 'click')" do
-                  %i.fa.fa-envelope.v-middle
-                  %span.v-middle Message privé
+                = link_to highlight_pro_structure_comment_path(structure, comment), class: 'btn btn--yellow btn--small', method: 'patch', data: { behavior: 'tooltip', title: 'Utiliser le titre de cet avis comme accroche de profil' } do
+                  %i.fa.fa-thumb-tack
+                  Accroche
             = succeed ' ' do
               - if structure.premium?
                 = link_to new_pro_structure_comment_comment_reply_path(structure, comment), class: "#{(comment.reply.nil? ? '' : 'hidden')} btn btn--small btn--yellow fancybox.ajax", data: { behavior: 'modal', width: '700', padding: 0 }, id: "comment-reply-button-#{comment.id}" do
@@ -103,6 +103,11 @@
                 = link_to premium_modal_pro_structure_path(structure, title: 'répondre publiquement à vos avis ?'), data: { behavior: 'modal', padding: 0, width: 900 }, class: "#{(comment.reply.nil? ? '' : 'hidden')} btn btn--small btn--yellow fancybox.ajax" do
                   %i.fa.fa-comment.v-middle
                   %span.v-middle Commentaire public
+            - if comment.user
+              = succeed ' ' do
+                = link_to new_pro_structure_message_path(structure, return_to: request.fullpath, message: { subject: "Merci beaucoup pour ta recommandation", recipients: [comment.user.user_profile_for(structure).id] }), class: 'btn btn--small btn--blue fancybox.ajax', data: { behavior: 'modal', width: '780' }, title: "Réponse au message de #{comment.author_name}", onclick: "ga('send', 'event', 'Answer to student', 'click')" do
+                  %i.fa.fa-envelope.v-middle
+                  %span.v-middle Message privé
             - if comment.persisted? and !comment.waiting_for_deletion?
               = succeed ' ' do
                 .inline-block.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}

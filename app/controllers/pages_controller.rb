@@ -14,7 +14,7 @@ class PagesController < ApplicationController
         format.html { render 'pages/contact', alert: 'Tous les champs doivent être remplis' }
       else
         UserMailer.delay.contact(params[:name], params[:email], params[:content])
-        format.html { redirect_to pages_contact_path, notice: "Votre message à bien été transmis à l'équipe CoursAvenue !" }
+        format.html { redirect_to pages_contact_path, notice: "Votre message a bien été transmis à l'équipe CoursAvenue !" }
       end
     end
   end
