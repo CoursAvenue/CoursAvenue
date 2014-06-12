@@ -36,7 +36,6 @@
     .islet.white-box.two-thrids.center-block
       = simple_form_for @comment, url: structure_comments_path(@structure), as: :comment, data: { recover: "comment" } do |f|
         = f.error_notification
-        %input{ type: :hidden, name: 'from', value: 'recommendation-page' }
         = f.hidden_field :commentable_type
         = f.hidden_field :commentable_id
         - if @comment.errors.any?

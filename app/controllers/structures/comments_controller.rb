@@ -43,8 +43,8 @@ class Structures::CommentsController < ApplicationController
   end
 
   def create
-    @commentable  = find_commentable
-    @comment      = @commentable.comments.build params[:comment]
+    @structure = Structure.friendly.find(params[:structure_id])
+    @comment   = @structure.comments.build params[:comment]
 
     # If current user exists, affect it to the comment
     if current_user
@@ -63,13 +63,8 @@ class Structures::CommentsController < ApplicationController
       if @comment.save
         send_private_message unless params[:private_message].blank?
         cookies[:delete_cookies] = true
-        if params[:return_to] && params[:return_to] == 'recommendation-page'
-          format.html { redirect_to structure_comment_path(@comment.commentable, @comment), notice: "Merci d'avoir laissé votre avis !" }
-        else
-          format.html { redirect_to (request.referrer || commentable_path(@comment)), notice: "Merci d'avoir laissé votre avis !" }
-        end
+        format.html { redirect_to structure_comment_path(@structure, @comment), notice: "Merci d'avoir laissé votre avis !" }
       else
-        @structure    = @commentable
         @comments     = @structure.comments.accepted.reject(&:new_record?)[0..5]
         flash[:alert] = "L'avis n'a pas pu être posté. Assurez-vous d'avoir bien rempli tous les champs."
         format.html { render 'structures/comments/new' }
@@ -83,12 +78,6 @@ class Structures::CommentsController < ApplicationController
     @recipient    = @comment.structure.main_contact
     @receipt      = @comment.user.send_message_with_label(@recipient, params[:private_message], (params[:subject].present? ? params[:subject] : 'Message personnel suite à ma recommandation'), 'comment')
     @conversation = @receipt.conversation
-  end
-
-  def find_commentable
-    type = params[:comment][:commentable_type]
-    raise "Unknown commentable type" unless %w(Structure).include?(type)
-    type.classify.constantize.find(params[:comment][:commentable_id])
   end
 
 end
