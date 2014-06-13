@@ -35,7 +35,10 @@
       %h4 Conseils personnalisés
       %p.epsilon Bénéficiez de conseils en marketing et en communication que vous pouvez également appliquer sur tous vos supports de communication (site Internet, newsletters, affiches, etc.)
       .text--center
-        = link_to '10 conseils personnalisés pour optimiser votre communication et vos statistiques', '#', class: 'btn btn--yellow'
+        - if @structure.premium?
+          = link_to 'Contacter un conseiller CoursAvenue pour des conseils personnalisés', pages_contact_url(subdomain: 'www'), class: 'btn btn--yellow'
+        - else
+          = link_to 'Conseils personnalisés pour améliorer mes statistiques', premium_modal_pro_structure_path(@structure, title: "des conseils personnalisés de l'équipe CoursAvenue pour améliorer vos performances de profil ?"), class: 'btn btn--yellow f-weight-bold fancybox.ajax', data: { behavior: 'modal', padding: 0, width: 900 }
 
 - if @structure.premium?
   :javascript
