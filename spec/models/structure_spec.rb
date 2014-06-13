@@ -252,9 +252,17 @@ describe Structure do
     end
 
     describe '#no_contacts_in_description' do
+      it 'is a valid description' do
+        no_contacts_in_description_test_values = ['Inst.formation']
+        no_contacts_in_description_test_values.each do |value|
+          subject.description = value
+          subject.valid? # Trigger validations
+          expect(subject.errors.messages[:description]).to be_nil
+        end
+      end
       it 'has errors description' do
         no_contacts_in_description_test_values = ["www.test.com",
-                                                  "lala@test.com",
+                                                  'lala@test.com',
                                                   '05 04 10 40 10',
                                                   '05.04.10.40.10',
                                                   '0504104010',
