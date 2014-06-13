@@ -1,0 +1,28 @@
+.panel
+  .panel__header.soft
+    .delta.line-height-normal
+      %h3.flush Souhaitez-vous vous désabonner ?
+  .panel__body.soft
+    %p
+      Nous sommes désolés d'apprendre cette nouvelle. Voici un petit rappel des fonctionnalités CoursAvenue Premium que vous allez perdre si vous vous désabonnez :
+
+    %p
+      %strong Statistiques avancées -
+      Avec CoursAvenue Premium, vous suivez les performances de votre profil de manière à l'optimiser et à toujours mieux répondre aux attentes des élèves.
+
+    %p
+      %strong Mise en avant de vos offres découvertes -
+      Recrutez efficacement de nouveaux élèves en leur proposant des offres spéciales : cours d'essai gratuits, tarifs spéciaux sur des stages... Vous remplissez ainsi vos cours et fidélisez de nouveaux élèves tout au long de l'année. Les profils proposant des offres découvertes apparaissent en tête de liste sur CoursAvenue.
+
+    %p
+      %strong Coordonnées des élèves qui suivent votre profil -
+      Les utilisateurs CoursAvenue intéressés par votre actualité peuvent vous "suivre" : pour vous, c'est l'opportunité de recevoir chaque jour les coordonnées de nouveaux élèves potentiels et de les inclure dans vos newsletters.
+
+    %p
+      %strong Visibilité accrue -
+      Votre profil apparaît en tête de liste et sur tous les profils proposant les mêmes disciplines que vous et situés à quelques kilomètres de vos lieux de cours.
+    .grid
+      .grid__item.one-half>
+        %a.btn.btn--full.btn--green{ onclick: '$.fancybox.close();' } Ne pas me désabonner
+      .grid__item.one-half>
+        = link_to 'Me désabonner', confirm_cancellation_pro_structure_subscription_plan_path(@structure, @subscription_plan), class: 'btn btn--full btn--red fancybox.ajax',  data: { behavior: 'modal', width: '600', padding: 0 }

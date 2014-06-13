@@ -19,14 +19,9 @@ class Structure < ActiveRecord::Base
 
   WIDGET_STATUS    = ['installed', 'remind_me', 'dont_want', 'need_help']
 
-  friendly_id :slug_candidates, use: [:slugged, :finders]
+  friendly_id :slug_candidates, use: [:slugged, :finders, :history]
 
   geocoded_by :geocoder_address
-
-  ######################################################################
-  # Scope                                                              #
-  ######################################################################
-  scope :premiums, -> { where.not(pricing_plan: 'free') }
 
   ######################################################################
   # Relations                                                          #
@@ -53,6 +48,7 @@ class Structure < ActiveRecord::Base
 
   has_many :price_groups              , dependent: :destroy
   has_many :prices                    , through: :price_groups
+  has_many :orders
 
   define_has_many_for :funding_type
 
@@ -64,6 +60,7 @@ class Structure < ActiveRecord::Base
 
   has_many :places                   , dependent: :destroy
   has_many :admins                   , dependent: :destroy
+  has_many :subscription_plans       , dependent: :destroy
 
   attr_reader :delete_logo
   attr_accessible :structure_type, :street, :zip_code, :city_id,
@@ -140,7 +137,6 @@ class Structure < ActiveRecord::Base
   before_create :set_active_to_true
 
   after_create  :set_default_place_attributes
-  after_create  :set_free_pricing_plan
   after_create  :geocode
 
   after_touch   :update_email_status
@@ -701,12 +697,18 @@ class Structure < ActiveRecord::Base
     end
   end
 
+  # Return current (last) subscription plan
+  #
+  # @return SubscriptionPlan
+  def subscription_plan
+    self.subscription_plans.order('created_at DESC').first
+  end
 
   # Tells wether or not the structure is premium
   #
   # @return Boolean
   def premium
-    self.pricing_plan != 'free' and self.pricing_plan != nil
+    self.subscription_plan and self.subscription_plan.active?
   end
 
   # Alias for premium
@@ -786,10 +788,6 @@ class Structure < ActiveRecord::Base
       [:name, :zip_code],
       [:name, :zip_code, :street],
     ]
-  end
-
-  def set_free_pricing_plan
-    self.pricing_plan = 'free' unless self.pricing_plan.present?
   end
 
   def set_active_to_true

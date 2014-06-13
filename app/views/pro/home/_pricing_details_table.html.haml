@@ -25,7 +25,7 @@
             %p
               %i Facturation annuelle
             - if @structure
-              = link_to 'Commencer', go_premium_pro_structure_path(@structure, premium_type: 'annual'), class: 'btn btn--yellow btn--full'
+              = link_to 'Commencer', go_premium_pro_structure_path(@structure, premium_type: 'yearly'), class: 'btn btn--yellow btn--full'
             - else
               = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--yellow btn--full'
           .tab-pane.hard#price-mensual
@@ -145,7 +145,7 @@
         = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--yellow btn--full'
       %td.bordered--right.text--center.soft-half
         - if @structure
-          = link_to 'Commencer', go_premium_pro_structure_path(@structure, premium_type: 'annual'), class: 'btn btn--yellow btn--full'
+          = link_to 'Commencer', go_premium_pro_structure_path(@structure, premium_type: 'yearly'), class: 'btn btn--yellow btn--full'
         - else
           = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--yellow btn--full'
     %tr

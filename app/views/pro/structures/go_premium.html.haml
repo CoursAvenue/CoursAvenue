@@ -1,8 +1,31 @@
 = side_menu_currently_at 'premium'
 
 .panel
+  .panel__header.soft
+    = render partial: 'premium_breadcrumb', locals: { current: 'recap' }
   .panel__body.soft
-    %h1
-      %i.fa.fa-warning
-      En construction
-    -# Saisissez vos coordonnées bancaires
+    %table.epsilon.table--striped
+      %thead
+        %tr
+          %th Offre
+          %th Montant
+      %tbody
+        %tr
+          %td Abonnement mensuel
+          %td
+            %strong #{SubscriptionPlan::PLAN_TYPE_PRICES[params[:premium_type]] / SubscriptionPlan::PLAN_TYPE_DURATION[params[:premium_type]]}€
+            par mois x #{SubscriptionPlan::PLAN_TYPE_DURATION[params[:premium_type]]} mois
+        %tr
+          %th Total TTC
+          %td= "#{SubscriptionPlan::PLAN_TYPE_PRICES[params[:premium_type]]}€"
+
+    = form_tag ENV['BE2BILL_URL'] do
+      = hidden_field_tag :ORDERID, @order_id
+      = hidden_field_tag :IDENTIFIER, ENV['BE2BILL_LOGIN']
+      = hidden_field_tag :OPERATIONTYPE, "payment"
+      = hidden_field_tag :DESCRIPTION, @be2bill_description
+      = hidden_field_tag :AMOUNT, @amount
+      = hidden_field_tag :VERSION, "2.0"
+      = hidden_field_tag :CLIENTIDENT, @structure.id
+      = hidden_field_tag :HASH, @be2bill_hash
+      = submit_tag 'Payer', class: 'btn btn--green btn--large btn--full'

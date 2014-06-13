@@ -1,0 +1,14 @@
+= side_menu_currently_at 'premium'
+
+.panel
+  .panel__header.soft
+    = render partial: 'premium_breadcrumb', locals: { current: 'validation' }
+  .panel__body.soft
+    %h2
+      %i.fa.fa-check.green.fa-2x.v-middle
+      %span.v-middle Félicitations ! Votre compte Premium est activé.
+    %h5.text--center
+      Profitez dès maintenant de toutes les fonctionnalités du compte Premium CoursAvenue :
+    = render 'pro/structures/premium_advantages'
+    .text--center
+      = link_to 'Accéder à mon profil CoursAvenue', dashboard_pro_structure_path(@structure), class: 'btn btn--green btn--large'

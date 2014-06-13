@@ -1,0 +1,37 @@
+.panel
+  .panel__body.soft--ends
+    .soft--sides
+      %h3.flush Prenez le contrôle de votre profil et recrutez efficacement de nouveaux élèves.
+      .epsilon.push--bottom Passez à l'offre Premium à partir de 29€ par mois et optimisez votre communication sur Internet. Fonctionne par abonnement mensuel sans engagement de durée et sans frais cachés.
+
+      = render 'pro/structures/premium_advantages'
+
+      .gray-box.soft
+        = form_for @structure, method: :get, url: go_premium_pro_structure_path(@structure) do
+          .grid.epsilon
+            .grid__item.one-half>
+              %p
+                %strong.delta Choisissez votre abonnement :
+              %p
+                %strong Le saviez-vous ?
+                Vous pouvez annuler votre compte Premium à tout moment, abonnement sans contrat ni commissions.
+            .grid__item.one-half>
+              %div
+                %input.v-middle.input--lage#three-months-pricing{ type: 'radio', name: 'premium_type', value: 'three_months' }
+                %label.v-middle.inline-block.label--large{ for: 'three-months-pricing', style: 'width: 80%' }
+                  %strong Offre spéciale lancement
+                  %br
+                  3 mois : 23 € / mois (économisez 30%)
+              %div
+                %input.v-middle.input--lage#annual-pricing{ type: 'radio', name: 'premium_type', checked: true, value: 'yearly' }
+                %label.v-middle.inline-block.label--large{ for: 'annual-pricing' } Annuel : 29 € / mois (économisez 15%)
+              %div
+              %input.v-middle.input--lage#annual-mensual{ type: 'radio', name: 'premium_type', value: 'monthly' }
+              %label.v-middle.inline-block.label--large{ for: 'annual-mensual' } Mensuel : 34 € / mois
+              = submit_tag 'Souscrire au profil Premium', class: 'btn btn--yellow btn--full'
+      -# %hr.push--ends
+      -# %h4 Ils ont souscrit au profil Premium
+    %hr.push--ends
+    .soft--sides
+      %h4 Détails du profil Premium
+      = render 'pro/home/pricing_details_table'

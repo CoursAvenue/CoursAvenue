@@ -86,6 +86,7 @@ CoursAvenue::Application.routes.draw do
           get   :dashboard, path: 'tableau-de-bord'
           get   :edit_contact, path: 'informations-contact'
           get   :logo
+          get   :payment_confirmation, path: 'confirmation-paiement'
           get   :premium
           get   :premium_modal
           get   :recommendations, path: 'recommandations'
@@ -101,11 +102,20 @@ CoursAvenue::Application.routes.draw do
           post  :update
         end
         collection do
+          post :be2bill_placeholder
+          get :payment_confirmation_be2_bill, path: 'confirmation-paiement'
           get :stars
           get :best
           get :inscription, to: :new
         end
         devise_for :admins, controllers: { registrations: 'pro/admins/registrations'}, path: '/', path_names: { registration: 'rejoindre-coursavenue-pro', sign_up: '/' }
+        resources :orders, only: [:index], controller: 'structures/orders', path: 'mes-factures'
+        resources :subscription_plans, only: [:destroy], controller: 'structures/subscription_plans' do
+          member do
+            get :ask_for_cancellation
+            get :confirm_cancellation
+          end
+        end
         resources :participations, only: [:index], controller: 'structures/participations' do
           member do
             patch :pop_from_waiting_list

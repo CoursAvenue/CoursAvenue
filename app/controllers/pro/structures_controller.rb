@@ -292,6 +292,50 @@ class Pro::StructuresController < Pro::ProController
   end
 
   # GET member
+  def go_premium
+    require 'digest'
+    secret = ENV['BE2BILL_PASSWORD']
+
+    @be2bill_description = "Abonnement Premium CoursAvenue"
+    params[:premium_type] = 'yearly' unless SubscriptionPlan::PLAN_TYPE.include? params[:premium_type]
+    @amount = SubscriptionPlan::PLAN_TYPE_PRICES[params[:premium_type]] * 100
+
+    @order_id = Order.next_order_id_for @structure
+    string =  "#{secret}AMOUNT=#{@amount}"
+    string << "#{secret}CLIENTIDENT=#{@structure.id}"
+    string << "#{secret}DESCRIPTION=#{@be2bill_description}"
+    string << "#{secret}IDENTIFIER=#{ENV['BE2BILL_LOGIN']}"
+    string << "#{secret}OPERATIONTYPE=payment"
+    string << "#{secret}ORDERID=#{@order_id}"
+    string << "#{secret}VERSION=2.0#{secret}"
+    sha256 = Digest::SHA256.new
+    sha256.update string
+    @be2bill_hash = sha256.hexdigest
+  end
+
+  def payment_confirmation
+  end
+
+  def payment_confirmation_be2_bill
+    @structure = Structure.find params[:CLIENTIDENT]
+    # Only create an order if there is no existing one with this ID
+    # Prevents from reloading the page and creating another order
+    if params[:EXECCODE] == '0000'
+      if params[:AMOUNT] == '34800'
+        subscription_plan = SubscriptionPlan.subscribe! :yearly, @structure, params
+      else
+        subscription_plan = SubscriptionPlan.subscribe! :monthly, @structure, params
+      end
+      @structure.orders.create amount: subscription_plan.amount, order_id: params[:ORDERID], subscription_plan: subscription_plan
+    end
+    redirect_to payment_confirmation_pro_structure_path(@structure)
+  end
+
+  def be2bill_placeholder
+    render 'be2bill_placeholder'
+  end
+
+  # GET member
   def premium_modal
     if request.xhr?
       render layout: false

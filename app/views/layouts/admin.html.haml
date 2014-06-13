@@ -16,7 +16,7 @@
             = @structure.name
         %span.push-half--sides= '|'
         - if @structure.premium?
-          %span.yellow
+          = link_to premium_pro_structure_path(@structure), class: 'yellow' do
             Premium
             %i.fa.fa-check
         - else

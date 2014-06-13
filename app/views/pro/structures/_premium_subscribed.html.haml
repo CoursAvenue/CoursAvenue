@@ -1,0 +1,29 @@
+.panel
+  .panel__header.soft
+    %h3.flush
+      Votre abonnement
+  .panel__body.soft--ends
+    .soft--sides
+      %h4 État de votre abonnement
+      %p.epsilon
+        Votre abonnement <strong>CoursAvenue Premium</strong> sera automatiquement renouvelé le
+        %strong= l(@structure.subscription_plan.expires_at, format: :date_short)
+        et nous prélèverons
+        %strong= "#{@structure.subscription_plan.amount}€"
+        = "#{@structure.subscription_plan.frequency},"
+        sauf si vous l'annulez avant cette date. Vous pouvez annuler votre abonnement à tout moment en accédant à l'espace « Gestion de votre abonnement ».
+
+    %hr.push--ends
+    .soft--sides
+      %h4 Mode de paiement
+
+    %hr.push--ends
+    .soft--sides
+      %h4 Historique des factures
+      = link_to "Voir l'historique des factures.", pro_structure_orders_path(@structure)
+
+    %hr.push--ends
+    .soft--sides
+      %h4 Gestion de votre abonnement
+      %p
+        = link_to 'Confirmer mon désabonnement', ask_for_cancellation_pro_structure_subscription_plan_path(@structure, @structure.subscription_plan), class: 'red fancybox.ajax',  data: { behavior: 'modal', width: '600', padding: 0 }

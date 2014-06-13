@@ -3,7 +3,7 @@
     %nav.flexbox__item.v-top.side-menu.gray-box.border-none--right.soft-half--sides
       %h4.push-half--top
         Plus de #{Admin.count.round(-2)} partenaires
-      - @structures.premiums.each do |structure|
+      - @structures.each do |structure|
         .white-box.push-half--bottom
           .grid
             .grid__item.one-quarter.v-middle>
