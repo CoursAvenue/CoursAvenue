@@ -102,7 +102,7 @@ CoursAvenue::Application.routes.draw do
           post  :update
         end
         collection do
-          post :be2bill_placeholder
+          get :be2bill_placeholder
           get :payment_confirmation_be2_bill, path: 'confirmation-paiement'
           get :stars
           get :best

@@ -7,7 +7,7 @@
       %h4 État de votre abonnement
       %p.epsilon
         Votre abonnement <strong>CoursAvenue Premium</strong> sera automatiquement renouvelé le
-        %strong= l(@structure.subscription_plan.expires_at, format: :date_short)
+        %strong= l(@structure.subscription_plan.expires_at)
         et nous prélèverons
         %strong= "#{@structure.subscription_plan.amount}€"
         = "#{@structure.subscription_plan.frequency},"

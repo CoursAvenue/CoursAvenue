@@ -1,8 +1,8 @@
 # encoding: utf-8
 class Pro::StructuresController < Pro::ProController
 
-  before_action :authenticate_pro_admin!, except: [:select, :new, :create, :get_feedbacks, :widget_ext, :best]
-  load_and_authorize_resource :structure, except: [:select, :new, :create, :get_feedbacks, :widget_ext, :best], find_by: :slug
+  before_action :authenticate_pro_admin!, except: [:new, :create, :widget_ext, :best, :be2bill_placeholder]
+  load_and_authorize_resource :structure, except: [:new, :create, :widget_ext, :best, :be2bill_placeholder], find_by: :slug
 
   layout :get_layout
 
@@ -293,24 +293,25 @@ class Pro::StructuresController < Pro::ProController
 
   # GET member
   def go_premium
-    require 'digest'
-    secret = ENV['BE2BILL_PASSWORD']
-
+    if @structure.premium?
+      redirect_to premium_pro_structure_path(@structure)
+    end
     @be2bill_description = "Abonnement Premium CoursAvenue"
     params[:premium_type] = 'yearly' unless SubscriptionPlan::PLAN_TYPE.include? params[:premium_type]
     @amount = SubscriptionPlan::PLAN_TYPE_PRICES[params[:premium_type]] * 100
 
     @order_id = Order.next_order_id_for @structure
-    string =  "#{secret}AMOUNT=#{@amount}"
-    string << "#{secret}CLIENTIDENT=#{@structure.id}"
-    string << "#{secret}DESCRIPTION=#{@be2bill_description}"
-    string << "#{secret}IDENTIFIER=#{ENV['BE2BILL_LOGIN']}"
-    string << "#{secret}OPERATIONTYPE=payment"
-    string << "#{secret}ORDERID=#{@order_id}"
-    string << "#{secret}VERSION=2.0#{secret}"
-    sha256 = Digest::SHA256.new
-    sha256.update string
-    @be2bill_hash = sha256.hexdigest
+    @be2bill_params = {
+      'AMOUNT'        => @amount,
+      'CLIENTIDENT'   => @structure.id,
+      'CREATEALIAS'   => 'yes',
+      'DESCRIPTION'   => @be2bill_description,
+      'IDENTIFIER'    => ENV['BE2BILL_LOGIN'],
+      'OPERATIONTYPE' => 'payment',
+      'ORDERID'       => @order_id,
+      'VERSION'       => '2.0'
+    }
+    @be2bill_params['HASH'] = SubscriptionPlan.hash_be2bill_params @be2bill_params
   end
 
   def payment_confirmation
@@ -320,6 +321,7 @@ class Pro::StructuresController < Pro::ProController
     @structure = Structure.find params[:CLIENTIDENT]
     # Only create an order if there is no existing one with this ID
     # Prevents from reloading the page and creating another order
+    params[:CLIENT_IP] = request.remote_ip
     if params[:EXECCODE] == '0000'
       if params[:AMOUNT] == '34800'
         subscription_plan = SubscriptionPlan.subscribe! :yearly, @structure, params

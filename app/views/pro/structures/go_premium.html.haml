@@ -20,12 +20,13 @@
           %td= "#{SubscriptionPlan::PLAN_TYPE_PRICES[params[:premium_type]]}€"
 
     = form_tag ENV['BE2BILL_URL'] do
-      = hidden_field_tag :ORDERID, @order_id
-      = hidden_field_tag :IDENTIFIER, ENV['BE2BILL_LOGIN']
-      = hidden_field_tag :OPERATIONTYPE, "payment"
-      = hidden_field_tag :DESCRIPTION, @be2bill_description
-      = hidden_field_tag :AMOUNT, @amount
-      = hidden_field_tag :VERSION, "2.0"
-      = hidden_field_tag :CLIENTIDENT, @structure.id
-      = hidden_field_tag :HASH, @be2bill_hash
+      = hidden_field_tag :ORDERID,       @be2bill_params['ORDERID']
+      = hidden_field_tag :IDENTIFIER,    @be2bill_params['IDENTIFIER']
+      = hidden_field_tag :OPERATIONTYPE, @be2bill_params['OPERATIONTYPE']
+      = hidden_field_tag :DESCRIPTION,   @be2bill_params['DESCRIPTION']
+      = hidden_field_tag :AMOUNT,        @be2bill_params['AMOUNT']
+      = hidden_field_tag :VERSION,       @be2bill_params['VERSION']
+      = hidden_field_tag :CLIENTIDENT,   @be2bill_params['CLIENTIDENT']
+      = hidden_field_tag :CREATEALIAS,   @be2bill_params['CREATEALIAS']
+      = hidden_field_tag :HASH,          @be2bill_params['HASH']
       = submit_tag 'Payer', class: 'btn btn--green btn--large btn--full'

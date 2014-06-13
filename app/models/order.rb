@@ -9,6 +9,6 @@ class Order < ActiveRecord::Base
   validates :order_id, uniqueness: true
 
   def self.next_order_id_for(structure)
-    "PREMIUM_#{I18n.l(Date.today)}_#{structure.id}_#{structure.orders.count + 1}"
+    "#{structure.id}_#{I18n.l(Date.today)}__#{structure.orders.count + 1}"
   end
 end
