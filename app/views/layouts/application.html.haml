@@ -39,8 +39,8 @@
     - else
       = javascript_include_tag 'application'
 
-    = javascript_include_tag 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/richmarker/src/richmarker-compiled.js'
-    = javascript_include_tag 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox_packed.js'
+    = javascript_include_tag '//google-maps-utility-library-v3.googlecode.com/svn/trunk/richmarker/src/richmarker-compiled.js'
+    = javascript_include_tag '//google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox_packed.js'
     = yield :scripts
     = yield :layout_scripts
     - cache 'social_sdks' do
