@@ -2,13 +2,13 @@
 
 .panel
   = render partial: 'pro/structures/comments_tabs', locals: {current: 'recommandation'}
-  .panel__body.soft--ends
-    .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.recommandations.global')} }
+  .panel__body.soft--ends{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.recommandations.global')} }
+    .soft--sides
       %h3 Utilisez nos 3 méthodes de recommandations :
 
-    .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.recommandations.email')} }
+    .soft--sides
       %h4#email-reco
-        Envoyez un email à vos élèves
+        Envoyez un e-mail à vos élèves
         %i= link_to '(voir les 5 avantages de cette méthode la + utilisée)', '#most-used-method', data: { behavior: 'modal', width: 550, padding: 0 }
 
       .gray-box.soft.relative
@@ -17,12 +17,12 @@
             .grid__item.two-twelfths.text--right>
               %h4 À
             .grid__item.ten-twelfths>
-              %textarea.one-whole{ name: 'emails', rows: 3, placeholder: 'Ex. : patrick@gmail.com, thomas@wanadoo.fr', data: { behavior: 'autoresize' } }
+              %textarea.input--large.one-whole{ name: 'emails', rows: 3, placeholder: "Entrez les e-mails de vos élèves gardés confidentiels et non réutilisés. Ex. : patrick@gmail.com, thomas.dupont@wanadoo.fr", data: { behavior: 'autoresize' } }
           .grid
             .grid__item.two-twelfths.text--right>
               %h4 Message
             .grid__item.ten-twelfths>
-              %textarea#recommendation-user-content.one-whole{ name: 'text', rows: 5, data: { behavior: 'autoresize' } }
+              %textarea.input--large#recommendation-user-content.one-whole{ name: 'text', rows: 5, data: { behavior: 'autoresize' } }
                 Bonjour,&#x000A;&#x000A;J'ai créé mon profil sur CoursAvenue et je voudrais savoir ce que vous avez pensé de mes cours. Pouvez-vous prendre quelques secondes pour laisser un avis sur mon profil ?
               %p.gray-light.push-half--top.flush--bottom
                 = link_to 'Lien que recevront mes élèves', new_structure_comment_url(@structure, email: @email, subdomain: 'www'), target: '_blank'
@@ -54,26 +54,28 @@
 
     %hr.push--ends
     .soft--sides
-      %h4.fb-blue#facebook-reco
+      %h4#facebook-reco
         %span.v-middle Demandez à vos fans Facebook de vous recommander
 
+      %p
+        Copiez puis collez ce texte sur Facebook
       .text--center
-        = link_to 'Demandez des recommandations', "https://www.facebook.com/sharer/sharer.php?u=#{new_structure_comment_url(@structure, subdomain: 'www', utm_source: 'facebook', utm_campaign: 'recommandation')}", class: 'btn btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From recommendation page')"
-      %p.alert--info.push-half--top.flush--left#facebook-text> Vous aimez #{@structure.independant? ? 'mes' : 'nos'} cours ? Dites-le sur notre profil CoursAvenue en cliquant sur le lien suivant : #{link_to new_structure_comment_url(@structure, subdomain: 'www', utm_source: 'facebook', utm_campaign: 'recommandation'), new_structure_comment_url(@structure, facebook: '', subdomain: 'www'), target: '_blank'} Merci !
+        = link_to 'Demander des recommandations', "https://www.facebook.com/sharer/sharer.php?u=#{new_structure_comment_url(@structure, subdomain: 'www', utm_source: 'facebook', utm_campaign: 'recommandation')}", class: 'btn btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From recommendation page')"
+      %p.gray-box.soft.push-half--top.flush--left#facebook-text> Vous aimez #{@structure.independant? ? 'mes' : 'nos'} cours ? Dites-le sur notre profil CoursAvenue en cliquant sur le lien suivant : #{link_to new_structure_comment_url(@structure, subdomain: 'www', utm_source: 'facebook', utm_campaign: 'recommandation'), new_structure_comment_url(@structure, subdomain: 'www', utm_source: 'facebook', utm_campaign: 'recommandation'), target: '_blank'} Merci !
 
     %hr.push--ends
     .soft--sides
-      %h4#website-reco Directement sur votre site internet
-      %p
-        Partagez les deux liens suivants :
-      .alert--info.one-whole#website-text
+      %h4#website-reco Partagez ces deux liens sur la page d'accueil de votre site Internet
+      .gray-box.soft.one-whole#website-text
         Pour que les internautes visualisent tous vos avis :
         = link_to structure_url(@structure, website: '', subdomain: 'www'), structure_url(@structure, subdomain: 'www', utm_source: 'teacher_website', utm_campaign: 'share_profile'), target: '_blank'
         %br
         Pour que vos élèves déposent de nouveaux avis :
         = link_to new_structure_comment_url(@structure, website: '', subdomain: 'www'), new_structure_comment_url(@structure, subdomain: 'www', utm_source: 'teacher_website', utm_campaign: 'recommandation'), target: '_blank'
 
-      .alert.alert--success.one-whole.push--ends
+    %hr.push--ends
+    .soft--sides
+      .gray-box.soft.one-whole
         %h4.text--center.flush
           Lien à communiquer à vos élèves pour déposer leurs recommandations :
           %br
@@ -102,9 +104,9 @@
               %li
                 Dans l'onglet "Mes messages", vous pourrez
                 %strong envoyer un message privé à chaque élève
-                dont l'email a été préalablement utilisé dans cet outil de demande de recommandation ;
+                dont l'e-mail a été préalablement utilisé dans cet outil de demande de recommandation ;
               %li
-                %strong Les élèves n'auront pas besoin de remplir leur email
+                %strong Les élèves n'auront pas besoin de remplir leur e-mail
                 qui sera automatiquement pré-renseigné (ils pourront tout de même le modifier s'ils le souhaitent).
 
 #recommendation-overview-popup.hidden

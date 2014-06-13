@@ -18,7 +18,7 @@
       .soft--sides
         .grid
           .grid__item.one-third.v-middle>
-            %p.text--center.flush
+            %p.text--center.flush.hidden#first-photo-helper
               %strong Votre première photo / vidéo figure dans les résultats de recherche !
           .grid__item.two-thirds.v-middle.text--right>
             .inline-block.premium-box.soft-half--ends.soft--sides.rounded
@@ -31,6 +31,11 @@
 = content_for :scripts do
   :javascript
     $(function() {
+        $('.media__item').first().hover(function() {
+            $('#first-photo-helper').show();
+        }, function() {
+            $('#first-photo-helper').hide();
+        });
         // --------- FilePicker
         var convertImages;
         $('#media_image_url').change(function(event) {
