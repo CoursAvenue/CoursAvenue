@@ -11,10 +11,10 @@
   - if waiting_for_reply
     .grid--full.blue-box.soft-half--sides.very-soft.rounded--none.border-none
       .grid__item.v-middle.one-third>
-        %strong.epsilon Message en attente de réponse
+        %strong.epsilon En attente de réponse
       .grid__item.v-middle.two-thirds.text--right>
-        = link_to 'Demande traitée par téléphone', treat_by_phone_pro_structure_conversation_path(@structure, conversation), class: 'btn btn--small', method: :patch
         = link_to 'Répondre par un message', pro_structure_conversation_path(@structure, conversation), class: 'btn btn--small'
+        = link_to 'Demande traitée par téléphone', treat_by_phone_pro_structure_conversation_path(@structure, conversation), class: 'btn btn--small', method: :patch
   = link_to pro_structure_conversation_path(@structure, conversation), class: "muted-link block grid--full #{(waiting_for_reply ? 'bordered--blue bordered-none--top bordered--larger' : '')}" do
     .grid__item.v-top.v-middle{ style: 'width: 30%' }>
       .grid--full

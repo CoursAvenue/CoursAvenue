@@ -5,5 +5,5 @@
     %ol.nav.flush.breadcrumb{itemprop: 'breadcrumb'}
       %li.delta= link_to 'Boîte de réception', pro_structure_conversations_path(@structure)
       %li.delta Nouveau message
-  .panel__body.soft
+  .panel__body.soft{ data: { behavior: 'wizard-helper', content: t('messages.wizard.grouped_conversation') } }
     = render 'form'

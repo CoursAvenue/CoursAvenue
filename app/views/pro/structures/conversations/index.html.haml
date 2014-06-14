@@ -7,7 +7,7 @@
       = link_to 'Nouveau message', '#no_users', class: 'btn btn--green btn--large', data: { behavior: 'modal' }
 
   .panel__body.soft
-    %div{ data: { behavior: 'wizard-helper', content: "<p><strong>Envoyez des messages à vos contacts</strong></p><p><strong>Messages privés</strong><br>Envoyez des messages personnels aux contacts présents dans votre répertoire.</p><p><strong>Important</strong> : répondez en priorité aux messages de demande d'information. Plus vous êtes réactif, plus votre profil apparaîtra dans les 1ers résultats de CoursAvenue. Si vous ne répondez pas sous 48h, un e-mail sera envoyé à l'élève l'invitant à contacter un autre profil.</p><p><strong>Messages groupés</strong><br>Envoyez des messages à plusieurs contacts présents dans votre répertoire en même temps. Ils recevront individuellement votre message par e-mail (sans toutefois voir les autres contacts du message groupé) et pourront y répondre simplement.</p><p>La messagerie groupée n'est accessible que pour les comptes Premium.</p>" } }
+    %div{ data: { behavior: 'wizard-helper', content: t('messages.wizard.index') } }
       - conversation_information_count  = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).count
       - conversation_comment_count      = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::COMMENT.id).count
       - conversation_conversation_count = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::CONVERSATION.id).count
