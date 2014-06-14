@@ -599,10 +599,10 @@ ActiveRecord::Schema.define(version: 20140613075417) do
     t.integer  "structure_id"
     t.string   "action_type"
     t.string   "user_fingerprint"
+    t.text     "infos"
     t.time     "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "infos"
   end
 
   create_table "sticker_demands", force: true do |t|
