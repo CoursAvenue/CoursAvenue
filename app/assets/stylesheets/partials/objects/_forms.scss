@@ -284,3 +284,19 @@
         font-weight: normal;
     }
 }
+
+// Be2Bill
+#b2b-table {
+    th, td {
+        padding: 3px !important;
+    }
+    tbody tr th:first-child {
+        text-align: right;
+    }
+    #b2b-submit {
+        @extend .btn;
+        @extend .btn--green;
+        @extend .btn--large;
+        @extend .btn--full;
+    }
+}

@@ -1,5 +1,11 @@
+= side_menu_currently_at 'premium'
+
 .panel
   .panel__header.soft
     = render partial: 'premium_breadcrumb', locals: { current: 'payment' }
   .panel__body.soft
+    .text--center
+      = image_tag 'logos/be2bill/logo_cb.png', class: 'soft-half--sides', height: 40, style: 'height: 40px;'
+      = image_tag 'logos/be2bill/logo_mastercard.png', class: 'soft-half--sides', height: 40, style: 'height: 40px;'
+      = image_tag 'logos/be2bill/logo_verified_by_visa.png', class: 'soft-half--sides', height: 40, style: 'height: 40px;'
     \%PLACEHOLDER%

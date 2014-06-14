@@ -304,6 +304,7 @@ class Pro::StructuresController < Pro::ProController
     @be2bill_params = {
       'AMOUNT'        => @amount,
       'CLIENTIDENT'   => @structure.id,
+      'CLIENTEMAIL'   => @structure.main_contact.email,
       'CREATEALIAS'   => 'yes',
       'DESCRIPTION'   => @be2bill_description,
       'IDENTIFIER'    => ENV['BE2BILL_LOGIN'],
