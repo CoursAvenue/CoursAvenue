@@ -78,9 +78,8 @@
 // require plugins/parent_descendant_subjects
 // require plugins/wizard_helper
 
-//= require gmaps/google
-//= require libs/google.maps
 //= require libs/markerclusterer
+//= require gmaps/google
 
 //= require libs/filepicker
 

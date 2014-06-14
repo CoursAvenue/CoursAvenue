@@ -64,7 +64,6 @@
 // require plugins/parent_descendant_subjects
 // require plugins/wizard_helper
 
-//= require libs/google.maps
 //= require libs/markerclusterer
 //= require gmaps/google
 
