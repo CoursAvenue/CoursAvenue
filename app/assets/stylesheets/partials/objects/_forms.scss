@@ -286,7 +286,11 @@
 }
 
 // Be2Bill
+#b2b-errors, .invalid {
+    color: red;
+}
 #b2b-table {
+    margin-bottom: 0;
     th, td {
         padding: 3px !important;
     }
