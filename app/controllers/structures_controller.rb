@@ -48,7 +48,8 @@ class StructuresController < ApplicationController
       params.delete :bbox_sw
     end
 
-    params[:page] = 1 unless request.xhr?
+    params[:address_name] ||= 'Paris, France' unless request.xhr?
+    params[:page]          = 1 unless request.xhr?
 
     if params_has_planning_filters?
       @structures, @places, @total = search_plannings
