@@ -335,6 +335,14 @@ class Pro::StructuresController < Pro::ProController
   end
 
   def be2bill_placeholder
+    case params[:AMOUNT]
+    when 34800
+      params[:premium_type] = 'yearly'
+    when 3400
+      params[:premium_type] = 'monthly'
+    when 6800
+      params[:premium_type] = 'three_months'
+    end
     @structure = Structure.find params[:CLIENTIDENT]
     render 'be2bill_placeholder'
   end
