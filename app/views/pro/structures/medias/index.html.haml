@@ -17,12 +17,12 @@
     - if @medias.any?
       .soft--sides
         .grid
-          .grid__item.one-third.v-middle>
+          .grid__item.v-middle{ style: 'width: 32%; '}>
             %p.text--center.flush.hidden#first-photo-helper
               %strong Votre première photo / vidéo figure dans les résultats de recherche !
-          .grid__item.two-thirds.v-middle.text--right>
+          .grid__item.v-middle.text--right{ style: 'width: 68%; '}>
             .inline-block.premium-box.soft-half--ends.soft--sides.rounded
-              = render partial: 'pro/structures/premium_select', locals: { title: "afficher plus d'une photo / vidéo à tous les utilisateurs CoursAvenue ?", subtitle: "Souscrivez au profil Premium et affichez toutes vos photos / vidéos pour monter dans les résultats.", label_text: "Afficher plus d'une photo / vidéo sur mon profil", select_collection: ['Actif', 'Non actif'] }
+              = render partial: 'pro/structures/premium_select', locals: { title: "afficher plus d'une photo / vidéo à tous les utilisateurs CoursAvenue ?", subtitle: "Souscrivez au profil Premium et affichez toutes vos photos / vidéos pour monter dans les résultats.", label_text: "Afficher plus d'une photo / vidéo sur mon profil :", select_collection: ['Actif', 'Non actif'] }
 
         - @medias.each_with_index do |media, index|
           .soft-half.inline-block.one-third>

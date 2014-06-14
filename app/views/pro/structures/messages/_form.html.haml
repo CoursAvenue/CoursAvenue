@@ -1,5 +1,6 @@
-.text--right.premium-box.soft-half.rounded.push--bottom
-  = render partial: 'pro/structures/premium_select', locals: { title: "envoyer des messages groupés à plusieurs élèves ? ", subtitle: "Souscrivez au profil Premium et créez des groupes de discussion avec vos élèves.", label_text: "Envoyer des messages groupés à plusieurs élèves", select_collection: ['Actif', 'Non actif'] }
+.text--right.premium-box.soft-half.rounded.push--bottom.relative
+  = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 55, width: 55, style: 'width: 55px; height: 55px;'
+  = render partial: 'pro/structures/premium_select', locals: { title: "envoyer des messages groupés à plusieurs élèves ? ", subtitle: "Souscrivez au profil Premium et créez des groupes de discussion avec vos élèves.", label_text: "Envoyer des messages groupés à plusieurs élèves : ", select_collection: ['Actif', 'Non actif'] }
 
 = simple_form_for [:pro, @structure, @message], url: pro_structure_messages_path(@structure, @message), as: :message, remote: request.xhr? do |f|
   - if params[:return_to].present?
