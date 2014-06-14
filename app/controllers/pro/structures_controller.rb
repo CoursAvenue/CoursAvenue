@@ -334,6 +334,7 @@ class Pro::StructuresController < Pro::ProController
   end
 
   def be2bill_placeholder
+    @structure = Structure.find params[:CLIENTIDENT]
     render 'be2bill_placeholder'
   end
 
