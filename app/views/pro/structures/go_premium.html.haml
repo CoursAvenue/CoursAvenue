@@ -11,7 +11,7 @@
           %th Montant
       %tbody
         %tr
-          %td Abonnement mensuel
+          %td= SubscriptionPlan::PLAN_TYPE_DESCRIPTION[params[:premium_type]]
           %td
             %strong #{SubscriptionPlan::PLAN_TYPE_PRICES[params[:premium_type]] / SubscriptionPlan::PLAN_TYPE_DURATION[params[:premium_type]]}€
             par mois x #{SubscriptionPlan::PLAN_TYPE_DURATION[params[:premium_type]]} mois

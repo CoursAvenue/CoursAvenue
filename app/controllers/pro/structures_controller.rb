@@ -340,7 +340,7 @@ class Pro::StructuresController < Pro::ProController
       params[:premium_type] = 'yearly'
     when 3400
       params[:premium_type] = 'monthly'
-    when 6800
+    when 6900
       params[:premium_type] = 'three_months'
     end
     @structure = Structure.find params[:CLIENTIDENT]

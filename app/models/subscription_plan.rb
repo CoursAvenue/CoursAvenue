@@ -5,7 +5,7 @@ class SubscriptionPlan < ActiveRecord::Base
   PLAN_TYPE = %w(monthly yearly three_months)
   PLAN_TYPE_PRICES = {
     'monthly'      => 34, # €
-    'three_months' => 68, # €
+    'three_months' => 69, # €
     'yearly'       => 348 # €
   }
   PLAN_TYPE_FREQUENCY = {
