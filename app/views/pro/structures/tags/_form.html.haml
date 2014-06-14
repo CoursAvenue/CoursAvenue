@@ -3,11 +3,18 @@
 - else
   - url = pro_structure_tags_path(@structure)
 
-= simple_form_for [:pro, @structure, @tag], url: url, html: { autocomplete: 'off' }, as: :tag do |f|
-  = f.error_notification
+.panel
+  .panel__header.soft
+    %h3.flush Ajouter une étiquette
+  .panel__body.soft
+    = simple_form_for [:pro, @structure, @tag], url: url, html: { autocomplete: 'off' }, as: :tag do |f|
+      = f.error_notification
 
-  = f.input :name, label: 'Nom'
+      = f.input :name, label: "Nom de l'étiquette", label_html: { class: 'label--large' }, input_html: { class: 'input--large'}
 
-  .push--top
-    = f.submit 'Enregistrer',  class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
+      .push--top.grid
+        .grid__item.one-quarter>
+          %a.btn.btn--gray.btn--full Annuler
+        .grid__item.three-quarters>
+          = f.submit 'Enregistrer',  class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
 

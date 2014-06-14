@@ -48,13 +48,16 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
 
                 // selection is empty, hide the controls
                 this.hideDetails("select-all");
+                // this.hideDetails("bulk-actions");
                 this.hideDetails("bulk-actions");
                 this.hideDetails("manage-tags");
+                this.hideDetails("deep-select");
             } else {
                 this.setSelectButton({ select: false }); // show the deselect button
 
                 // normally, show everything
                 this.showDetails("select-all");
+                // this.showDetails("bulk-actions");
                 this.showDetails("bulk-actions");
                 this.showDetails("deep-select");
             }

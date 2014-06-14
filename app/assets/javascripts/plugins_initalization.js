@@ -85,7 +85,7 @@ $(function() {
     };
     global.initialize_callbacks.push(chosen_initializer);
     $('body').tooltip({
-        selector: '[data-behavior=tooltip]'
+        selector: '[data-behavior=tooltip],[data-toggle=tooltip]'
     });
     var popover_initializer = function() {
         $('[data-toggle=popover]').popover();

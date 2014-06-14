@@ -3,7 +3,10 @@
     .panel__header.soft
       %h4.push-half--bottom= @user_profile.full_name
       %p.flush
-        = @user_profile.email
+        - if @structure.premium?
+          = @user_profile.email
+        - else
+          = @user_profile.email.gsub(/.*@/, 'XXXXXXXX@')
       %div
         - @user_profile.tags.each do |tag|
           .lbl.lbl--small= tag.name

@@ -4,13 +4,13 @@
   = render partial: 'pro/structures/user_profiles/tabs', locals: { current: 'tags' }
   .panel__body
     .soft.text--center
-      = link_to 'Ajouter un tag', new_pro_structure_tag_path(@structure), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal' }
+      = link_to 'Ajouter une etiquette', new_pro_structure_tag_path(@structure), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: 700, padding: 0 }
 
     %table.table--data.table--striped
       %thead
         %tr
-          %th Nom du tag
-          %th Nombre d'élèves taggé
+          %th Nom de l'étiquette
+          %th Nombre d'élèves
           %th
       %tbody
         - @tags.each do |tag|

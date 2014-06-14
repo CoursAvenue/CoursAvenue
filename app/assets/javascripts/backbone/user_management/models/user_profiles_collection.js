@@ -145,10 +145,12 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
                 var id = model.get("id");
                 var index = selected_ids.indexOf(id);
 
+                model.trigger("change", { changed: { selected: "true" }});
+
+                // Only add if the id of the model haven't been yet added
                 if (index == -1) {
                     selected_ids.push(id)
                     added += 1;
-                    model.trigger("change", { changed: { selected: "true" }});
                 }
             });
 
@@ -219,7 +221,7 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
 
             return $.ajax({
                 type: "GET",
-                url: Routes.new_pro_structure_bulk_user_profile_job_path(this.collection.structure_id, { format: 'json' }),
+                url: Routes.new_pro_structure_bulk_user_profile_job_path(this.structure_id, { format: 'json' }),
                 data: this.server_api,
                 success: function (data) {
                     self.selected_ids = data.ids;
