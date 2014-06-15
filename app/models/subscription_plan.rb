@@ -71,6 +71,9 @@ class SubscriptionPlan < ActiveRecord::Base
     sha256.hexdigest
   end
 
+  # Renew subscription by calling Be2bill API.
+  #
+  # @return Boolean
   def renew!
     require 'net/http'
 
@@ -99,6 +102,7 @@ class SubscriptionPlan < ActiveRecord::Base
     # res = Net::HTTP.post_form URI('http://coursavenue.dev'), params
     res = Net::HTTP.post_form URI(ENV['BE2BILL_REST_URL']), params
     puts res.body if res.is_a?(Net::HTTPSuccess)
+    return res.is_a?(Net::HTTPSuccess)
   end
 
   def amount
