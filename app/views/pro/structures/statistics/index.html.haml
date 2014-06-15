@@ -3,7 +3,8 @@
   .panel__body.soft--ends.relative
     = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 80, width: 80, style: 'width: 80px; height: 80px; top: -1px !important'
     .soft--sides{ data: { behavior: 'wizard-helper', content: t('statistics.wizard.infos') } }
-      %h4.text--center Statistiques de votre annonce pour les 15 derniers jours
+      %h4.flush.text--center Statistiques de votre annonce pour les 15 derniers jours
+      .push--bottom.text--center.epsilon (les statistiques sont prises en compte à partir du 16 juin 2014)
       .grid.push--bottom
         .grid__item.one-third.text--center>
           .inline-block.pointer{ data: { behavior: 'toggle-serie' } }

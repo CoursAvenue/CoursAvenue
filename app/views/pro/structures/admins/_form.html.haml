@@ -1,6 +1,6 @@
 = simple_form_for [:pro, @structure, @admin], html: { autocomplete: 'off' } do |f|
   = f.error_notification
-  .soft--ends
+  .soft--top
     .soft--sides.hard--bottom{ data: { behavior: 'wizard-helper', content: t('pro.admins.wizard.email')} }
       %h5
         %i.fa.fa-user
