@@ -10,7 +10,7 @@ class PlanningSerializer < ActiveModel::Serializer
   end
 
   def date
-    if object.course.is_lesson?
+    if object.course.is_lesson? or object.course.is_private?
       week_day_for(object)
     else
       planning_date_for object

@@ -66,7 +66,6 @@ class Structure < ActiveRecord::Base
   attr_accessible :structure_type, :street, :zip_code, :city_id,
                   :place_ids, :name, :info, :registration_info,
                   :website, :facebook_url,
-                  :contact_phone, :contact_mobile_phone, # TODO: remove after V1 deploy, have been replaced by callable
                   :contact_email,
                   :description, :subject_ids, :active,
                   :has_validated_conditions,

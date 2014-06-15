@@ -10,7 +10,6 @@ class Place < ActiveRecord::Base
   # Relations                                                          #
   ######################################################################
   belongs_to :city
-  belongs_to :location, touch: true # TODO: remove after V1 deploy
   belongs_to :structure
 
   has_many :contacts, as: :contactable, dependent: :destroy
