@@ -65,7 +65,7 @@
                 Temps de réponse
               .grid__item.v-middle.one-half>
                 %strong= response_time_in_words @structure
-          - if @structure.main_contact
+          - if @structure.main_contact and @structure.main_contact.last_sign_in_at
             .grid--full
               .grid__item.v-middle.one-half.gray>
                 Dernière activité
