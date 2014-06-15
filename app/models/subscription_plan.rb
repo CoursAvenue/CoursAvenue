@@ -118,6 +118,6 @@ class SubscriptionPlan < ActiveRecord::Base
   end
 
   def active?
-    !canceled? and self.expires_at > Date.today
+    !canceled? and self.expires_at >= Date.today
   end
 end
