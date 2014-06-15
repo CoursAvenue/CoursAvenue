@@ -10,27 +10,18 @@ class Pro::Structures::UserProfilesController < Pro::ProController
   # to the given page. This is so that we can intersect
   # the filtered results with the selected results
   def index
-    # we will paginate ourselves, thank you
-    page                  = (params[:page].to_i > 0)? params[:page].to_i : 1;
-    per_page              = 30
+    page = (params[:page].to_i > 0)? params[:page].to_i : 1;
 
     # set the page info to get EVERYTHING
     params[:structure_id] = @structure.id
-    params[:per_page]     = @structure.user_profiles.count
-    params[:page]         = 1
+    params[:per_page]     = UserProfile::PER_PAGE_CRM
+    params[:page]       ||= 1
 
-    # collect the ids
     @user_profiles_search  = UserProfileSearch.search(params)
     @user_profiles         = @user_profiles_search.results
-    @ids                   = @user_profiles.map(&:id) # all the ids
-
-    # get the relevant page of results
-    first          = ( page - 1 ) * per_page
-    last           = first + 30
-    @user_profiles = @user_profiles[first, last]
 
     respond_to do |format|
-      format.json { render json: @user_profiles, root: 'user_profiles', meta: { total: @user_profiles_search.total, busy: @structure.busy, ids: @ids }}
+      format.json { render json: @user_profiles, root: 'user_profiles', meta: { total: @user_profiles_search.total, busy: @structure.busy }}
       format.html
     end
   end

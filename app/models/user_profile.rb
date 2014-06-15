@@ -2,6 +2,7 @@
 class UserProfile < ActiveRecord::Base
   acts_as_taggable_on :tags
 
+  PER_PAGE_CRM = 20
   DEFAULT_TAGS = {
     :comments  => 'Avis',
     :contacts  => "Demande d'info",

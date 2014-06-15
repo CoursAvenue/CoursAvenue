@@ -95,7 +95,7 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
 
         paginator_ui: {
             firstPage:   1,
-            perPage:     30,
+            perPage:     <%= UserProfile::PER_PAGE_CRM %>,
             totalPages:  0,
             grandTotal:  0,
             radius:      2 // determines the behaviour of the ellipsis

@@ -18,7 +18,7 @@
   window.coursavenue.bootstrap = {
     options: {
       total       : #{ @user_profiles_search.total },
-      ids         : #{ @ids },
+      ids         : #{ @structure.user_profiles.map(&:id) },
       structure_id: #{ @structure.id }
     },
     models: models
