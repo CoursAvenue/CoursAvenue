@@ -293,26 +293,27 @@ class Pro::StructuresController < Pro::ProController
 
   # GET member
   def go_premium
-    if @structure.premium?
-      redirect_to premium_pro_structure_path(@structure)
-    end
-    @be2bill_description = "Abonnement Premium CoursAvenue"
-    params[:premium_type] = 'yearly' unless SubscriptionPlan::PLAN_TYPE.include? params[:premium_type]
-    @amount = SubscriptionPlan::PLAN_TYPE_PRICES[params[:premium_type]] * 100
+    AdminMailer.delay.go_premium(@structure, params[:premium_type])
+    # if @structure.premium?
+    #   redirect_to premium_pro_structure_path(@structure)
+    # end
+    # @be2bill_description = "Abonnement Premium CoursAvenue"
+    # params[:premium_type] = 'yearly' unless SubscriptionPlan::PLAN_TYPE.include? params[:premium_type]
+    # @amount = SubscriptionPlan::PLAN_TYPE_PRICES[params[:premium_type]] * 100
 
-    @order_id = Order.next_order_id_for @structure
-    @be2bill_params = {
-      'AMOUNT'        => @amount,
-      'CLIENTIDENT'   => @structure.id,
-      'CLIENTEMAIL'   => @structure.main_contact.email,
-      'CREATEALIAS'   => 'yes',
-      'DESCRIPTION'   => @be2bill_description,
-      'IDENTIFIER'    => ENV['BE2BILL_LOGIN'],
-      'OPERATIONTYPE' => 'payment',
-      'ORDERID'       => @order_id,
-      'VERSION'       => '2.0'
-    }
-    @be2bill_params['HASH'] = SubscriptionPlan.hash_be2bill_params @be2bill_params
+    # @order_id = Order.next_order_id_for @structure
+    # @be2bill_params = {
+    #   'AMOUNT'        => @amount,
+    #   'CLIENTIDENT'   => @structure.id,
+    #   'CLIENTEMAIL'   => @structure.main_contact.email,
+    #   'CREATEALIAS'   => 'yes',
+    #   'DESCRIPTION'   => @be2bill_description,
+    #   'IDENTIFIER'    => ENV['BE2BILL_LOGIN'],
+    #   'OPERATIONTYPE' => 'payment',
+    #   'ORDERID'       => @order_id,
+    #   'VERSION'       => '2.0'
+    # }
+    # @be2bill_params['HASH'] = SubscriptionPlan.hash_be2bill_params @be2bill_params
   end
 
   def payment_confirmation
