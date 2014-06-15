@@ -37,13 +37,13 @@
             %ul.no-bullet-list.flush{ style: 'width: 400px' }
               - if unread_conversations_count == 0
                 %li
-                  %a.not-hoverable Pas de nouveau message
+                  %a.not-hoverable.f-weight-normal Pas de nouveau message
               - else
                 %li
                   - if unread_conversations_count == 1
-                    %a.not-hoverable= "#{unread_conversations_count} nouveau message"
+                    %a.not-hoverable.f-weight-normal= "#{unread_conversations_count} nouveau message"
                   - else
-                    %a.not-hoverable= "#{unread_conversations_count} nouveaux messages"
+                    %a.not-hoverable.f-weight-normal= "#{unread_conversations_count} nouveaux messages"
               - unread_conversations.each do |conversation|
                 %li
                   = link_to pro_structure_conversation_path(@structure, conversation), class: 'grid--full' do
@@ -74,10 +74,10 @@
             %ul.no-bullet-list.flush{ style: 'width: 350px' }
               - if @structure.comments.pending.count == 0
                 %li
-                  %a.not-hoverable Pas d'avis en attente
+                  %a.not-hoverable.f-weight-normal Pas d'avis en attente
               - else
                 %li
-                  %a.not-hoverable= "#{@structure.comments.pending.count} avis en attente de validation"
+                  %a.not-hoverable.f-weight-normal= "#{@structure.comments.pending.count} avis en attente de validation"
               - @structure.comments.pending.each do |comment|
                 %li
                   = link_to pro_structure_comments_url(@structure, subdomain: 'pro'), class: 'grid--full' do

@@ -3,10 +3,10 @@
     - if current_pro_admin and current_pro_admin.super_admin?
       = pro_side_menu_link 'dashboard'            , pro_dashboard_url(subdomain: 'pro')             , current: current_tab, icon: 'fa fa-dashboard'
       = pro_side_menu_link 'statistics'           , pro_statistics_url(subdomain: 'pro')              , current: current_tab, icon: 'fa fa-bar-chart-o'
+      = pro_side_menu_link 'teachers'             , pro_admins_url(subdomain: 'pro')                , current: current_tab, icon: 'fa fa-group'
       = pro_side_menu_link 'last_comments'        , pro_comments_url(subdomain: 'pro')              , current: current_tab, icon: 'fa fa-comments'
       = pro_side_menu_link 'students_invitations' , pro_comment_notifications_url(subdomain: 'pro') , current: current_tab, icon: 'fa fa-group'
       = pro_side_menu_link 'users'                , pro_users_url(subdomain: 'pro')                 , current: current_tab, icon: 'fa fa-group'
-      = pro_side_menu_link 'teachers'             , pro_admins_url(subdomain: 'pro')                , current: current_tab, icon: 'fa fa-group'
       = pro_side_menu_link 'teachers_stars'       , stars_pro_structures_url(subdomain: 'pro')      , current: current_tab, icon: 'fa fa-star'
       -# = pro_side_menu_link 'jpo'                  , pro_open_courses_url(subdomain: 'pro')          , current: current_tab, icon: 'fa fa-list'
       = pro_side_menu_link 'invitations'          , pro_invited_users_url(subdomain: 'pro')         , current: current_tab, icon: 'fa fa-group'
