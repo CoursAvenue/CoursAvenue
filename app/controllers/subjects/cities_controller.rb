@@ -16,7 +16,6 @@ class Subjects::CitiesController < ApplicationController
     @medias_search               = MediaSearch.search({ lat: @city.latitude, lng: @city.longitude, radius: 7, per_page: 1, bbox: true }.merge(to_merge))
     @images_search               = MediaSearch.search({ lat: @city.latitude, lng: @city.longitude, radius: 7, per_page: 25, type: 'Media::Image', bbox: true }.merge(to_merge))
     @comments_search             = CommentSearch.search({ lat: @city.latitude, lng: @city.longitude, radius: 7, per_page: 25, has_title: true, bbox: true }.merge(to_merge))
-    @courses_search              = CourseSearch.search({ lat: @city.latitude, lng: @city.longitude, radius: 7, per_page: 20, has_description: true, bbox: true }.merge(to_merge))
 
     if @subject.depth > 1
       @videos_search            = MediaSearch.search({ lat: @city.latitude, lng: @city.longitude, radius: 7, per_page: 5, type: 'Media::Video', bbox: true }.merge(to_merge))
@@ -27,7 +26,6 @@ class Subjects::CitiesController < ApplicationController
 
     @structures               = @structure_search.results
     @images                   = @images_search.results
-    @courses                  = @courses_search.results
     @comments                 = @comments_search.results
 
     @structures_count         = @structure_search.total

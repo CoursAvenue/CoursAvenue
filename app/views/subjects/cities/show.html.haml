@@ -64,10 +64,6 @@
     à
     %strong= @city.name
 
-%hr
-
-= render partial: 'subjects/courses', locals: { courses: @courses }
-
 - unless @city.image.present?
   = content_for :scripts do
     :javascript
