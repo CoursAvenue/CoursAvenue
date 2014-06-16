@@ -62,7 +62,11 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def medias_count
-    [object.medias.count, 20].min
+    if object.premium?
+      [object.medias.count, 20].min
+    else
+      1
+    end
   end
 
   def videos_count

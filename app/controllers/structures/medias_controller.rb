@@ -4,7 +4,8 @@ class Structures::MediasController < ApplicationController
 
   def index
     @structure    = Structure.friendly.find(params[:structure_id])
-    @medias       = @structure.medias.videos_first.limit(20).to_a
+    limit = (@structure.premium? ? 20 : 1)
+    @medias       = @structure.medias.videos_first.limit(limit).to_a
 
     respond_to do |format|
       format.json { render json: @medias, each_serializer: MediaSerializer }
