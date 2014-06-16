@@ -8,17 +8,20 @@
         .inline-block.pointer{ data: { behavior: 'toggle-serie' } }
           .lbl.lbl--chip.lbl--red.v-middle.lbl--small
           %h5.flush.v-middle.inline-block
-            = "#{pluralize(@impressions_total_count, 'Affichage')}"
+            Affichage :
+            = @impressions_total_count
       .grid__item.one-third.text--center>
         .inline-block.pointer{ data: { behavior: 'toggle-serie' } }
           .lbl.lbl--chip.lbl--blue.v-middle.lbl--small
           %h5.flush.v-middle.inline-block
-            = "#{pluralize(@views_total_count, 'Vue')}"
+            Vue :
+            = @views_total_count
       .grid__item.one-third.text--center>
         .inline-block.pointer{ data: { behavior: 'toggle-serie' } }
           .lbl.lbl--chip.lbl--green.v-middle.lbl--small
           %h5.flush.v-middle.inline-block
-            = "#{pluralize(@actions_total_count, 'Action')}"
+            Action :
+            = @actions_total_count
 
     #statistics
 

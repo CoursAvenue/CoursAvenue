@@ -66,7 +66,7 @@ class StructuresController < ApplicationController
       cookies["search_term_logs_#{params[:name]}"] = { value: params[:name], expires: 12.hours.from_now }
     end
 
-    @structures.map{ |structure| Statistic.print(structure.id, current_user, cookies[:fingerprint]) } unless current_pro_admin
+    @structures.compact.map{ |structure| Statistic.print(structure.id, current_user, cookies[:fingerprint]) } unless current_pro_admin
 
     respond_to do |format|
       format.json do

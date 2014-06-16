@@ -5,6 +5,7 @@ class Structure < ActiveRecord::Base
   include HasSubjects
   include ActsAsCommentable
   include ActsAsGeolocalizable
+  include ConversationsHelper
 
   acts_as_paranoid
   acts_as_tagger
@@ -19,7 +20,7 @@ class Structure < ActiveRecord::Base
 
   WIDGET_STATUS    = ['installed', 'remind_me', 'dont_want', 'need_help']
 
-  friendly_id :slug_candidates, use: [:slugged, :finders, :history]
+  friendly_id :slug_candidates, use: [:slugged, :finders]
 
   geocoded_by :geocoder_address
 
@@ -128,7 +129,6 @@ class Structure < ActiveRecord::Base
   validates :name, :website, :facebook_url, length: { maximum: 255 }
   validates :website, :facebook_url, :widget_url, url: true
   validate  :no_contacts_in_name
-  validate  :no_contacts_in_description
 
   ######################################################################
   # Callbacks                                                          #
@@ -749,7 +749,7 @@ class Structure < ActiveRecord::Base
   # @return Mailboxer::Conversation
   def unanswered_information_message
     mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).select do |conversation|
-      conversation.messages.count == 1
+      conversation_waiting_for_reply?(conversation)
     end
   end
 
@@ -870,26 +870,6 @@ class Structure < ActiveRecord::Base
     return nil if self.name.nil?
     if self.name.match(/((?:[-a-z0-9]+\.)+[a-z]{2,4})(?: |\Z)/i)
       self.errors.add :name, "Le nom ne peut pas contenir votre site internet"
-    end
-    nil
-  end
-
-  # Remove any kind of contact info in the description
-  # eg. it will remove www.danse.com
-  #
-  # @return nil
-  def no_contacts_in_description
-    return nil if self.description.nil?
-    if self.description.match(/((?:[-a-z0-9]+\.)+[a-z]{2,4})(?: |\Z)/i)
-      self.errors.add :description, "La description ne peut pas contenir votre site internet."
-    end
-
-    if self.description.match(/([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})/i)
-      self.errors.add :description, "La description ne peut pas contenir d'emails de contacts."
-    end
-
-    if self.description.match(/[0-9][ \.]{,3}[0-9][ \.]{,3}[0-9][ \.]{,3}[0-9][ \.]{,3}[0-9][ \.]{,3}[0-9][ \.]{,3}[0-9][ \.]{,3}[0-9][ \.]{,3}[0-9]/)
-      self.errors.add :description, "La description ne peut pas contenir de numéros de téléphones."
     end
     nil
   end

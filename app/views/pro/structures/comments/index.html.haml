@@ -36,7 +36,7 @@
         %p.blue.push-half--bottom
           %i Validez les avis si ce sont bien vos élèves. Une fois validé, l'avis sera visible sur votre profil public.
         - @pending_comments.each do |comment|
-          .grid
+          .grid.push-half--bottom
             .grid__item.three-quarters.v-middle>
               %p.flush
                 %b= comment.author_name

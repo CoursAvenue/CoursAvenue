@@ -161,6 +161,22 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
                 .always(function() { this.hideLoader(resources) }.bind(this));
         },
 
+        serializeData: function serializeData () {
+            var attributes = this.model.toJSON();
+            attributes.description = this.hideContactsInfo(attributes.description);
+            return attributes;
+        },
+
+        hideContactsInfo: function hideContactsInfo (text) {
+            // Phone numbers
+            text = text.replace(/((\+|00)33\s?|0)[1-5](\s?\d{2}){4}/g, '<a class="pointer" data-behavior="show-contact-panel">(numéro de téléphone)</a>')
+            // Links
+            text = text.replace(/(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/gi, '<a class="pointer" data-behavior="show-contact-panel">(site internet)</a>')
+            // Emails
+            text = text.replace(/([^@\s]+)@(([-a-z0-9]+\.)+[a-z]{2,})/gi, '<a class="pointer" data-behavior="show-contact-panel">(e-mail de contact)</a>');
+            return text;
+        },
+
         renderCourseSummaries: function renderCourseSummaries (data) {
             _.invoke(this.summary_views, 'rerender', data);
         },
