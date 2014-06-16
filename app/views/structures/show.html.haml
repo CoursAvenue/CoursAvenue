@@ -106,7 +106,7 @@
                     .media-photo= image_tag structure.logo.url(:thumb)
                   .grid__item.v-top.four-fifths.soft-half--left>
                     %h6.push-half--bottom= structure.name
-                    - if structure.premium? and structure.has_free_trial_course? or structure.has_promotion?
+                    - if structure.premium? and (structure.has_free_trial_course? or structure.has_promotion?)
                       .push-half--bottom
                         - if structure.has_free_trial_course?
                           .lbl.lbl--small.lbl--yellow
