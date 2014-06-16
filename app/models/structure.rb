@@ -129,7 +129,6 @@ class Structure < ActiveRecord::Base
   validates :name, :website, :facebook_url, length: { maximum: 255 }
   validates :website, :facebook_url, :widget_url, url: true
   validate  :no_contacts_in_name
-  validate  :no_contacts_in_description
 
   ######################################################################
   # Callbacks                                                          #
@@ -871,26 +870,6 @@ class Structure < ActiveRecord::Base
     return nil if self.name.nil?
     if self.name.match(/((?:[-a-z0-9]+\.)+[a-z]{2,4})(?: |\Z)/i)
       self.errors.add :name, "Le nom ne peut pas contenir votre site internet"
-    end
-    nil
-  end
-
-  # Remove any kind of contact info in the description
-  # eg. it will remove www.danse.com
-  #
-  # @return nil
-  def no_contacts_in_description
-    return nil if self.description.nil?
-    if self.description.match(/((?:[-a-z0-9]+\.)+[a-z]{2,4})(?: |\Z)/i)
-      self.errors.add :description, "La description ne peut pas contenir votre site internet."
-    end
-
-    if self.description.match(/([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})/i)
-      self.errors.add :description, "La description ne peut pas contenir d'emails de contacts."
-    end
-
-    if self.description.match(/[0-9][ \.]{,3}[0-9][ \.]{,3}[0-9][ \.]{,3}[0-9][ \.]{,3}[0-9][ \.]{,3}[0-9][ \.]{,3}[0-9][ \.]{,3}[0-9][ \.]{,3}[0-9]/)
-      self.errors.add :description, "La description ne peut pas contenir de numéros de téléphones."
     end
     nil
   end
