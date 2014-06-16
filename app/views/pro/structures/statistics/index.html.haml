@@ -22,7 +22,7 @@
             .v-middle.lbl.lbl--blue.v-middle.lbl--small &nbsp;
             %h5.flush.v-middle.inline-block
               Vues :
-              - if @structure.premium?
+              - if @structure.premium? or current_pro_admin.super_admin?
                 = @views_total_count
               - else
                 = render partial: 'pro/structures/premium_select', locals: { title: 'suivre toutes les statistiques de votre profil CoursAvenue', label_text: "", select_collection: ['Visibles', 'Non visibles'] }
@@ -31,7 +31,7 @@
             .v-middle.lbl.lbl--green.v-middle.lbl--small &nbsp;
             %h5.flush.v-middle.inline-block
               Actions :
-              - if @structure.premium?
+              - if @structure.premium? or current_pro_admin.super_admin?
                 = @actions_total_count
               - else
                 = render partial: 'pro/structures/premium_select', locals: { title: 'suivre toutes les statistiques de votre profil CoursAvenue', label_text: "", select_collection: ['Visibles', 'Non visibles'] }
@@ -49,7 +49,7 @@
         - else
           = link_to 'Conseils personnalisés pour améliorer mes statistiques', premium_modal_pro_structure_path(@structure, title: "des conseils personnalisés de l'équipe CoursAvenue pour améliorer vos performances de profil ?"), class: 'btn btn--yellow f-weight-bold fancybox.ajax', data: { behavior: 'modal', padding: 0, width: 900 }
 
-- if @structure.premium?
+- if @structure.premium? or current_pro_admin.super_admin?
   :javascript
     window.coursavenue = {};
     window.coursavenue.series = [ { data: #{@impressions.sort.map{|date, count| count}},
