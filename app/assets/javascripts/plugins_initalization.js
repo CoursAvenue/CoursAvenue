@@ -35,9 +35,11 @@ $(function() {
         var width       = $this.data('width') || 'auto';
         var height      = $this.data('height') || 'auto';
         var padding     = (typeof($this.data('padding')) == 'undefined' ? '15' : $this.data('padding'));
+        var top_ratio  = (typeof($this.data('top-ratio')) == 'undefined' ? '0.5' : $this.data('top-ratio'));
         var close_click =  (typeof($this.data('close-click')) == 'undefined' ? true : $this.data('close-click'));
         $.fancybox.open($this, {
                 padding     : parseInt(padding),
+                topRatio    : parseFloat(top_ratio),
                 openSpeed   : 300,
                 maxWidth    : 1200,
                 maxHeight   : 1200,

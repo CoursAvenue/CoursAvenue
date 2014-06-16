@@ -63,7 +63,15 @@
 
         clearAndHide: function clearAndHide (event) {
             var $wrapping_el = $(event.currentTarget).closest('[data-el]');
-            $wrapping_el.find('input, select, textarea').val('');
+            $wrapping_el.find('input, textarea').val('');
+            // Don't set select value to '' if there is no blank options
+            $wrapping_el.find('select').each(function() {
+                if ($(this).find('option[value=""]').length == 1) {
+                    $(this).val('');
+                } else {
+                    $(this).val($(this).find('option').first().val());
+                }
+            });
             this.$hidden_items = $(this.$element.find('[data-el][data-hidden]'));
             if (this.$hidden_items.length < (this.$items.length - 1) ) {
                 $wrapping_el.hide();
