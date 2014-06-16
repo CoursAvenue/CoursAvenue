@@ -69,7 +69,7 @@
             chart: { renderTo: 'statistics', type: 'column' },
             title: { text: null },
             xAxis: {
-                categories: #{((Date.today - 30.days)..Date.today).map{|date| l(Date.parse(date.to_s), format: :short)}},
+                categories: #{((Date.today - 15.days)..Date.today).map{|date| l(Date.parse(date.to_s), format: :short)}},
                 showEmpty: true
             },
             yAxis: {
