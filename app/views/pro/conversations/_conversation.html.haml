@@ -2,20 +2,16 @@
 
 - recipients = conversation.recipients.reject{|recipient| recipient == ((@admin || current_pro_admin) || (@user || current_user)) }
 
-- waiting_for_reply = false
-- if conversation.mailboxer_label_id == Mailboxer::Label::INFORMATION.id
-  - if conversation.messages.count == 1 and !conversation.treated_by_phone
-    - waiting_for_reply = true
 
 .bordered--top.push-half--top.soft-half--top
-  - if waiting_for_reply
+  - if conversation_waiting_for_reply?(conversation)
     .grid--full.blue-box.soft-half--sides.very-soft.rounded--none.border-none
       .grid__item.v-middle.one-third>
         %strong.epsilon En attente de réponse
       .grid__item.v-middle.two-thirds.text--right>
         = link_to 'Répondre par un message', pro_structure_conversation_path(@structure, conversation), class: 'btn btn--small'
         = link_to 'Demande traitée par téléphone', treat_by_phone_pro_structure_conversation_path(@structure, conversation), class: 'btn btn--small', method: :patch
-  = link_to pro_structure_conversation_path(@structure, conversation), class: "muted-link block grid--full #{(waiting_for_reply ? 'bordered--blue bordered-none--top bordered--larger' : '')}" do
+  = link_to pro_structure_conversation_path(@structure, conversation), class: "muted-link block grid--full #{(conversation_waiting_for_reply?(conversation) ? 'bordered--blue bordered-none--top bordered--larger' : '')}" do
     .grid__item.v-top.v-middle{ style: 'width: 30%' }>
       .grid--full
         .grid__item.one-quarter.v-middle>
