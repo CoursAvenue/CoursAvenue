@@ -11,4 +11,18 @@ module ConversationsHelper
     label = Mailboxer::Label.find(conversation.mailboxer_label_id)
     I18n.t(label.name).pluralize(2)
   end
+
+  # Tells wether or not the admin has responded to the message
+  #
+  # @return Boolean
+  def conversation_waiting_for_reply? conversation
+    if conversation.mailboxer_label_id == Mailboxer::Label::INFORMATION.id
+      senders = conversation.messages.map(&:sender).compact.uniq
+      if senders.length == 1 and !conversation.treated_by_phone
+        return true
+      end
+    end
+    return false
+  end
+
 end

@@ -54,8 +54,8 @@
 
           %td{data: {value: admin.created_at}}
             = l(admin.created_at, format: :date_short)
-          %td.hidden{data: {value: admin.last_sign_in_at}}
-            = l(admin.last_sign_in_at) if admin.last_sign_in_at
+          %td.hidden{data: {value: admin.current_sign_in_at}}
+            = l(admin.current_sign_in_at) if admin.current_sign_in_at
           %td.text--right.nowrap
             - if admin.confirmed?
               .switch-button.on

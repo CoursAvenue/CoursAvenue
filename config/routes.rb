@@ -363,8 +363,8 @@ CoursAvenue::Application.routes.draw do
       get :zip_code_search
     end
   end
-  resources :cities, only: [:show], path: 'tous-les-cours-a' do
-    resources :subjects, only: [:show], path: 'disciplines', controller: 'cities/subjects'
+  resources :cities, only: [:show], path: 'tous-les-cours-a', controller: 'cities' do
+    resources :subjects, only: [:show], path: 'disciplines'
   end
 
   resources :subjects, only: [] do

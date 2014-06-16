@@ -21,7 +21,7 @@
                     Tarifs
                     {{#if premium}} <!-- AND --> {{#if has_premium_prices}}
                             <img src="<%= asset_path 'icons/star-ribbon.png' %>" class='north west absolute on-top' height='40', width='40' style='width: 40px; height: 40px;' />
-                            <div><strong class="green">Offres découvertes</strong></div>
+                            <div><strong class="green">Promotionnelles</strong></div>
                     {{/if}} {{/if}}
                 </a>
             </li>
@@ -117,7 +117,7 @@
                                 <th class="three-twelfths">Type de formule</th>
                                 <th class="one-twelfth  text--center">Prix</th>
                                 {{#if premium}}
-                                    <th class="one-twelfth  text--center">Offre découverte</th>
+                                    <th class="one-twelfth  text--center">Promotions</th>
                                 {{/if}}
                                 <th class="{{#if premium}}six-twelfths{{else}}eight-twelfths{{/if}}">Info</th>
                             </tr>
@@ -150,7 +150,7 @@
                             {{#if premium}}
                                 {{#xif "this.trials.length > 0 || this.premium_offers.length > 0 || this.discounts.length > 0" }}
                                 <tr>
-                                    <th colspan="4" class=" soft-half--ends text--left bordered--top epsilon green">Offres découvertes</th>
+                                    <th colspan="4" class=" soft-half--ends text--left bordered--top epsilon green">Promotions</th>
                                 </tr>
                                 {{/xif}}
                                 {{#each trials}}
@@ -201,14 +201,6 @@
                                 </td>
                                 </tr>
                             {{/each}}
-                            {{#if price_details}}
-                                <tr>
-                                    <th colspan="3" class=" text--left bordered--top">Autres infos</th>
-                                </tr>
-                                <tr>
-                                    <td class="text--left" colspan="3">{{price_details}}</td>
-                                </tr>
-                            {{/if}}
                         </tbody>
                     </table>
                </article>

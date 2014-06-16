@@ -8,7 +8,7 @@ class CourseSerializer < ActiveModel::Serializer
   attributes :id, :name, :description, :type, :start_date, :end_date, :min_price_amount, :min_price_libelle, :data_url, :subjects,
              :has_free_trial_lesson, :event_type, :best_price, :is_individual, :search_term, :is_lesson, :frequency,
              :cant_be_joined_during_year, :no_class_during_holidays, :teaches_at_home, :teaches_at_home_radius,
-             :premium_offers, :book_tickets, :discounts, :registrations, :subscriptions, :trials, :price_details,
+             :premium_offers, :book_tickets, :discounts, :registrations, :subscriptions, :trials,
              :has_premium_prices, :premium, :on_appointment, :course_location, :min_age_for_kid, :max_age_for_kid,
              :audiences, :levels, :is_private
 
@@ -116,10 +116,6 @@ class CourseSerializer < ActiveModel::Serializer
 
   def trials
     object.prices.trials.map{ |price| PriceSerializer.new(price) }
-  end
-
-  def price_details
-    object.price_group.details if object.price_group
   end
 
   def course_location

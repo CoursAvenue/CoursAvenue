@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140613075417) do
+ActiveRecord::Schema.define(version: 20140616120830) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -471,20 +471,22 @@ ActiveRecord::Schema.define(version: 20140613075417) do
   add_index "phone_numbers", ["callable_type"], name: "index_phone_numbers_on_callable_type", using: :btree
 
   create_table "places", force: true do |t|
-    t.integer "location_id"
-    t.integer "structure_id"
-    t.text    "info"
-    t.time    "deleted_at"
-    t.text    "private_info"
-    t.string  "name"
-    t.float   "latitude"
-    t.float   "longitude"
-    t.string  "street"
-    t.string  "zip_code"
-    t.integer "city_id"
-    t.boolean "gmaps"
-    t.string  "type"
-    t.integer "radius"
+    t.integer  "location_id"
+    t.integer  "structure_id"
+    t.text     "info"
+    t.time     "deleted_at"
+    t.text     "private_info"
+    t.string   "name"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.string   "street"
+    t.string   "zip_code"
+    t.integer  "city_id"
+    t.boolean  "gmaps"
+    t.string   "type"
+    t.integer  "radius"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "places", ["location_id", "structure_id"], name: "index_places_on_location_id_and_structure_id", using: :btree
