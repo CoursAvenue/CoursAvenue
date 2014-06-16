@@ -18,6 +18,7 @@
             offsetTop : 0,
             z         : 300,
             oldWidth  : false,
+            oldHeight : true,
             onStick   : $.noop,
             onUnStick : $.noop
         };
@@ -47,14 +48,19 @@
          * Will be used for replacing sticked element in order to not break
          * all the existing layout
          */
-        husk: function ($element) {
+        husk: function husk ($element) {
+            var self = this;
             var result = $element.map(function () {
                 var classes = $element.attr("class");
-                var div     = $("<div>")
-                                 .height($element[0].offsetHeight)
-                                 .width($element[0].offsetWidth).get(0);
+                var div     = $("<div>");
+                if (self.options.oldHeight != 'false' && self.options.oldHeight != false) {
+                    div.height($element[0].offsetHeight);
+                } else {
+                    div.height($(window).height() + 50);
+                }
+                div.width($element[0].offsetWidth);
 
-                return div;
+                return div.get(0);
             });
 
             return result;
