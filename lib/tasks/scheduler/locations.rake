@@ -6,12 +6,12 @@ namespace :scheduler do
 
   # Remind students to go recommend
   # $ rake scheduler:fix_locations
-  desc 'Fix location that does not have latitude and longitude'
+  desc 'Fix place that does not have latitude and longitude'
   task :fix_locations => :environment do |t, args|
-    Location.where{latitude == nil}.select{ |l| l.places.empty? }.map(&:destroy)
-    Location.where{latitude == nil}.each do |location|
-      location.geocode
-      location.save(validate: false)
+    Place.where{latitude == nil}.select{ |l| l.places.empty? }.map(&:destroy)
+    Place.where{latitude == nil}.each do |place|
+      place.geocode
+      place.save(validate: false)
       sleep 1
     end
 
