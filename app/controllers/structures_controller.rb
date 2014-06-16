@@ -50,13 +50,13 @@ class StructuresController < ApplicationController
 
     params[:address_name] ||= 'Paris, France' unless request.xhr?
     params[:page]          = 1 unless request.xhr?
+    params[:per_page]      = 15
 
     if params_has_planning_filters?
       @structures, @places, @total = search_plannings
     else
       @structures, @total = search_structures
     end
-
     @latlng = retrieve_location
     @models = jasonify @structures
 

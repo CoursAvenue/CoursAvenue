@@ -5,6 +5,7 @@ class Structures::CoursesController < ApplicationController
     params.delete(:page) if params[:page]
     @structure            = Structure.find params[:structure_id]
     params[:structure_id] = @structure.id
+    params[:per_page]     = 1000 # Show all the plannings
     @planning_search      = PlanningSearch.search(params)
     @plannings            = @planning_search.results
     @courses              = []

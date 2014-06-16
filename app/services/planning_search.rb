@@ -102,7 +102,7 @@ class PlanningSearch
         order_by :has_comment, :desc
       end
 
-      paginate page: (params.has_key? :page ? params[:page] : 1), per_page: (params[:per_page] || 500)
+      paginate page: (params.has_key? :page ? params[:page] : 1), per_page: (params[:per_page] || 15)
     end
 
     @search
