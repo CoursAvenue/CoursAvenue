@@ -193,7 +193,7 @@ CoursAvenue::Application.routes.draw do
             patch :treat_by_phone
           end
         end
-        resources :statistics   , controller: 'structures/statistics', only: [:index]
+        resources :statistics   , controller: 'structures/statistics', only: [:index], path: 'statistiques'
 
         resources :price_groups, path: 'tarifs', controller: 'structures/price_groups' do
           member do
