@@ -31,10 +31,8 @@
     tbody {
         tr:nth-of-type(odd)            { background-color: transparent; }
         tr:nth-of-type(odd) td         { background-color: $alternative-background; }
+        tr.premium-box:nth-of-type(odd) td { background-color: inherit; }
         tr.selectable:nth-of-type(odd) { @extend .selectable; }
-
-        // tr:nth-of-type(odd)            { background-color: transparent; }
-        // tr:nth-of-type(odd) td         { background-color: transparent; }
 
         tr.active td {
             background-color: $hover-list-element;

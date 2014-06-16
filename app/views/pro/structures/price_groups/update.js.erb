@@ -1,5 +1,5 @@
 <% if @price_group.errors.empty? %>
-    $('#price-group-<%= @price_group.id %>').replaceWith('<%= escape_javascript(render partial: "pro/structures/price_groups/price_group_row", locals: { price_group: @price_group }) %>')
+    $('#price-group-<%= @price_group.id %>').replaceWith('<%= escape_javascript(render partial: "pro/structures/price_groups/price_group", locals: { price_group: @price_group }) %>')
     GLOBAL.flash("Grille tarifaire enregistrée", 'success');
     $.fancybox.close();
     $('#price-group-<%= @price_group.id %>').yellowFade({ delay: 400 });

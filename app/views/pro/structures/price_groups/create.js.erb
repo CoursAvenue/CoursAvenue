@@ -5,8 +5,8 @@
         $.fancybox.close();
         $element.yellowFade({ delay: 400 });
     <% else %>
-        var $element = $("#<%= @price_group.course_type.pluralize %>-table tbody");
-        $element.append('<%= escape_javascript(render partial: "pro/structures/price_groups/price_group_row", locals: { price_group: @price_group }) %>')
+        var $element = $("#<%= @price_group.course_type.pluralize %>-table");
+        $element.append('<%= escape_javascript(render partial: "pro/structures/price_groups/price_group", locals: { price_group: @price_group }) %>')
         GLOBAL.flash("Grille tarifaire enregistrée", 'success');
         $.fancybox.close();
         $element.yellowFade({ delay: 400 });
