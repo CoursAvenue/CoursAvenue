@@ -72,7 +72,7 @@ FilteredSearch.addInitializer(function(options) {
             center: new google.maps.LatLng(bounds.lat, bounds.lng)
         },
         infoBoxViewOptions: {
-            infoBoxClearance: new google.maps.Size(50, 300)
+            infoBoxClearance: new google.maps.Size(50, 250)
         }
     });
 
