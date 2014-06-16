@@ -4,8 +4,8 @@
   .panel__header.soft.bordered--bottom-on-stick{ style: 'height: 125px;', data: { behavior: 'sticky', offset_top: 45, z: 500, old_width: 'true' } }
     %h4 Ajouter une grille tarifaire pour les :
     .text--center
-      = link_to 'Cours réguliers', new_pro_structure_price_group_path(@structure, course_type: 'regular'), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '1100', top_ratio: 0.2, padding: '0', close_click: 'false' }
-      = link_to 'Stages / Ateliers', new_pro_structure_price_group_path(@structure, course_type: 'training'), class: 'push--left btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '1100', top_ratio: 0.2,  padding: '0', close_click: 'false' }
+      = link_to 'Cours réguliers', new_pro_structure_price_group_path(@structure, course_type: 'regular'), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '1000', top_ratio: 0.2, padding: '0', close_click: 'false' }
+      = link_to 'Stages / Ateliers', new_pro_structure_price_group_path(@structure, course_type: 'training'), class: 'push--left btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '1000', top_ratio: 0.2,  padding: '0', close_click: 'false' }
   .panel__body.soft--ends{ data: { behavior: 'wizard-helper', content: t('price_group.wizard.premium_offers') } }
     .relative.soft.premium-box.text--right
       = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 70, width: 70, style: 'width: 70px; height: 70px;'
