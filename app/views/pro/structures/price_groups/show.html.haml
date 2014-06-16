@@ -64,11 +64,6 @@
                   = "#{readable_amount(price.amount)}€"
               %td
               %td= price.info
-          - if @price_group.details.present?
-            %tr
-              %td.v-top Autres infos
-              %td.text--left{ colspan: 3 }
-                = simple_format @price_group.details
 
       .grid
         .grid__item.one-fifth>

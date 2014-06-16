@@ -707,7 +707,8 @@ class Structure < ActiveRecord::Base
   #
   # @return Boolean
   def premium
-    self.subscription_plan and self.subscription_plan.active?
+    return false if self.subscription_plan.nil?
+    return self.subscription_plan.active?
   end
 
   # Alias for premium

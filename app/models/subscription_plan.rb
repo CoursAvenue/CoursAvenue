@@ -83,7 +83,7 @@ class SubscriptionPlan < ActiveRecord::Base
       'CLIENTIDENT'     => self.structure.id,
       'CLIENTEMAIL'     => self.structure.main_contact.email,
       'AMOUNT'          => self.amount_for_be2bill,
-      'DESCRIPTION'     => "Renouvellement :  LAN_TYPE_DESCRIPTION[self.plan_type]}",
+      'DESCRIPTION'     => "Renouvellement :  #{PLAN_TYPE_DESCRIPTION[self.plan_type]}",
       'IDENTIFIER'      => ENV['BE2BILL_LOGIN'],
       'OPERATIONTYPE'   => 'payment',
       'ORDERID'         => Order.next_order_id_for(self.structure),
