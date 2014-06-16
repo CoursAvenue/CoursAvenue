@@ -10,15 +10,18 @@
         .soft.grid--full
           .grid__item.two-twelfths.soft-half--right>
             .lbl{ class: "lbl--#{Mailboxer::Label::INFORMATION.color}"}
-              %i.fa.fa-tag
               Demande d'information
           .grid__item.ten-twelfths>
             %p
-              Félicitations ! Vous avez reçu une demande d'information. Répondez rapidement à cet élève potentiel, de préférence sous 48h pour augmenter les chances d'inscription à l'un de vos cours.
+              %strong Félicitations !
+              Vous avez reçu une demande d'information de
+              %strong= "#{conversation.messages.first.sender.name}."
+              Plus vous répondez rapidement (de préférence sous 48h), plus vous avez de chances que cet élève s'inscrive à vos cours.
 
-            .float--right.nowrap.delta.orange
-              %i.fa.fa-clock-o
-              %strong{ id: "conversation-countdown-#{conversation.id}" }
+            .float--right.nowrap.orange
+              %i.fa.fa-clock-o.delta
+              %strong.epsilon Reçu il y a
+              %strong.delta{ id: "conversation-countdown-#{conversation.id}" }
             = link_to 'Répondre maintenant', pro_structure_conversation_path(@structure, conversation), class: 'btn btn--green btn--small'
         = content_for :scripts do
           :javascript
@@ -35,16 +38,16 @@
         .soft.grid--full
           .grid__item.two-twelfths.soft-half--right>
             .lbl.lbl--green
-              %i.fa.fa-tag
               Avis déposé
           .grid__item.ten-twelfths>
             %p
               Félicitations ! L'élève
               %strong= "#{comment.author_name} (#{comment.email})"
-              a déposé son avis sur votre profil CoursAvenue. S'il s'agit bien d'un de vos élèves, validez sa recommandation pour qu'elle apparaisse sur votre profil public.
-            = link_to accept_pro_structure_comment_path(@structure, comment), class: 'btn btn--small btn--green', method: :patch do
-              %i.fa.fa-check
-              Valider
+              a déposé son avis sur votre profil CoursAvenue. S'il s'agit bien d'un de vos élèves, validez-le pour qu'il apparaisse sur votre profil public :
+            = succeed ' ' do
+              = link_to accept_pro_structure_comment_path(@structure, comment), class: 'btn btn--small btn--green', method: :patch do
+                %i.fa.fa-check
+                Valider
             = link_to decline_pro_structure_comment_path(@structure, comment), class: 'btn btn--small btn--red', method: :patch do
               %i.fa.fa-times
               Rejeter

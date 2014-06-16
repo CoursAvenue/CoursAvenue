@@ -1,32 +1,42 @@
 = side_menu_currently_at 'statistics'
 .panel
   .panel__body.soft--ends.relative
-    = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 80, width: 80, style: 'width: 80px; height: 80px; top: -1px !important'
     .soft--sides{ data: { behavior: 'wizard-helper', content: t('statistics.wizard.infos') } }
-      %h4.flush.text--center Statistiques de votre annonce pour les 15 derniers jours
-      .push--bottom.text--center.epsilon (les statistiques sont prises en compte à partir du 16 juin 2014)
+      %h4.flush.text--center Statistiques de votre profil des 15 derniers jours
+      %p.blue.text--center
+        %i Prises en compte à partir du 16 juin 2014
+
+      .relative.soft.premium-box.text--right
+        = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 60, width: 60, style: 'width: 60px; height: 60px;'
+        = render partial: 'pro/structures/premium_select', locals: { title: 'suivre toutes les statistiques de votre profil CoursAvenue', label_text: "Statistiques du nombre de vues et d'actions :" }
+      %p.blue.flush.soft-half--ends.soft--sides
+        %i Dans chaque grille tarifaire ci-dessous, ajoutez vos offres découvertes (cours d'essai gratuits, tarifs spéciaux, etc.) pour recruter encore plus d'élèves.
+
       .grid.push--bottom
-        .grid__item.one-third.text--center>
+        .grid__item.one-third.text--center.v-middle>
           .inline-block.pointer{ data: { behavior: 'toggle-serie' } }
             .lbl.lbl--chip.lbl--red.v-middle.lbl--small
             %h5.flush.v-middle.inline-block
-              = "#{pluralize(@impressions_total_count, 'Affichage')}"
-        .grid__item.one-third.text--center>
+              Affichages :
+              = @impressions_total_count
+        .grid__item.one-third.text--center.v-middle>
           .inline-block.pointer{ data: { behavior: 'toggle-serie' } }
             .lbl.lbl--chip.lbl--blue.v-middle.lbl--small
             %h5.flush.v-middle.inline-block
+              Vues :
               - if @structure.premium?
-                = "#{pluralize(@views_total_count, 'Vue')}"
+                = @views_total_count
               - else
-                XX Vues
-        .grid__item.one-third.text--center>
+                = render partial: 'pro/structures/premium_select', locals: { title: 'suivre toutes les statistiques de votre profil CoursAvenue', label_text: "", chip: false }
+        .grid__item.one-third.text--center.v-middle>
           .inline-block.pointer{ data: { behavior: 'toggle-serie' } }
             .lbl.lbl--chip.lbl--green.v-middle.lbl--small
             %h5.flush.v-middle.inline-block
+              Actions :
               - if @structure.premium?
-                = "#{pluralize(@actions_total_count, 'Action')}"
+                = @actions_total_count
               - else
-                XX Actions
+                = render partial: 'pro/structures/premium_select', locals: { title: 'suivre toutes les statistiques de votre profil CoursAvenue', label_text: "", chip: false }
 
       #statistics
 
@@ -68,6 +78,7 @@
         var statistic_chart = new Highcharts.Chart({
             chart: { renderTo: 'statistics', type: 'column' },
             title: { text: null },
+            legend: { enabled: false },
             xAxis: {
                 categories: #{((Date.today - 15.days)..Date.today).map{|date| l(Date.parse(date.to_s), format: :short)}},
                 showEmpty: true

@@ -5,6 +5,7 @@ class Structure < ActiveRecord::Base
   include HasSubjects
   include ActsAsCommentable
   include ActsAsGeolocalizable
+  include ConversationsHelper
 
   acts_as_paranoid
   acts_as_tagger
@@ -749,7 +750,7 @@ class Structure < ActiveRecord::Base
   # @return Mailboxer::Conversation
   def unanswered_information_message
     mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).select do |conversation|
-      conversation.messages.count == 1
+      conversation_waiting_for_reply?(conversation)
     end
   end
 
