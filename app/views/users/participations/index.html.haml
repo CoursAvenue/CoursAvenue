@@ -125,18 +125,19 @@
         = render 'registration_confirmed'
         = render 'share_on_social_networks'
 
-  - content_for :scripts do
-    :javascript
-      $(function() {
-          $('.share-on-facebook').click(function() {
-              window.open("#{share_participation_url(@participations.last, :facebook)}", 'Partager', "height=400,width=600");
-              ga('send', 'event', 'Share on Facebook', 'share');
-          });
-          $('.share-on-twitter').click(function() {
-              window.open("#{share_participation_url(@participations.last, :twitter)}", 'Partager', "height=400,width=600");
-              ga('send', 'event', 'Share on Twitter', 'share');
-          });
-      });
+  - if @participations.any?
+    - content_for :scripts do
+      :javascript
+        $(function() {
+            $('.share-on-facebook').click(function() {
+                window.open("#{share_participation_url(@participations.last, :facebook)}", 'Partager', "height=400,width=600");
+                ga('send', 'event', 'Share on Facebook', 'share');
+            });
+            $('.share-on-twitter').click(function() {
+                window.open("#{share_participation_url(@participations.last, :twitter)}", 'Partager', "height=400,width=600");
+                ga('send', 'event', 'Share on Twitter', 'share');
+            });
+        });
 
 - if params[:success] == '1'
   :javascript
