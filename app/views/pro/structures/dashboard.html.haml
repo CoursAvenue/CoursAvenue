@@ -179,7 +179,7 @@
         Mes lieux d'enseignement
 
       #map.google-map
-      .text--center.media-photo
+      .text--center
         = link_to "Ajouter un lieu", pro_structure_places_path(@structure), class: 'btn btn--blue push-half--ends'
 
     - if @comments.length > 0
@@ -200,7 +200,7 @@
           %i.fa.fa-list
           Mes cours & stages
 
-        - if @courses.lessons.any?
+        - if @courses.active.lessons.any?
           %h5 Cours réguliers
           %table.table--striped
             %thead
@@ -208,7 +208,7 @@
                 %th.one-half Nom
                 %th.one-half Créneaux
             %tbody
-              - @courses.lessons.each do |course|
+              - @courses.active.lessons.each do |course|
                 %tr
                   %td= course.name
                   %td
@@ -218,7 +218,7 @@
                       1 créneau
                     = "(#{course.plannings.ordered_by_day.map{ |planning| week_day_for(planning).downcase }.uniq.join(', ')})"
 
-        - if @courses.trainings.any?
+        - if @courses.active.trainings.any?
           %h5 Stages
           %table.table--striped
             %thead
@@ -226,7 +226,7 @@
                 %th.one-half Nom
                 %th.one-half Créneaux
             %tbody
-              - @courses.trainings.each do |course|
+              - @courses.active.trainings.each do |course|
                 %tr
                   %td= course.name
                   %td
@@ -253,7 +253,10 @@
                     - else
                       1 créneau
                     = "(#{course.plannings.map{ |planning| week_day_for(planning).downcase }.uniq.join(', ')})"
-        %p.text--center= link_to 'Ajouter un cours / stage', pro_structure_courses_path(@structure), class: 'btn btn--blue'
+        %p.text--center
+          = succeed ' ' do
+            = link_to 'Ajouter un cours', regular_pro_structure_courses_path(@structure), class: 'btn btn--blue'
+          = link_to 'Ajouter un stage', trainings_pro_structure_courses_path(@structure), class: 'btn btn--blue'
 
     - if @medias.any?
       %hr.push--ends

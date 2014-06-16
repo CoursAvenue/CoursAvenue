@@ -4,9 +4,9 @@
   = render partial: 'tabs', locals: { current: 'list' }
   .panel__body.soft--ends
     .soft--sides{ data: { behavior: 'wizard-helper', content: t('user_profile.wizard.infos')} }
-      .text--right.push-half--bottom.premium-box.soft.relative
-        = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 65, width: 65, style: 'width: 65px; height: 65px;'
-        = render partial: 'pro/structures/premium_select', locals: { title: "accéder aux coordonnées d'élèves CousAvenue ?", label_text: 'Affichage des coordonnées des élèves :', select_collection: ['Actif', 'Non actif'] }
+      .push-half--bottom.premium-box.soft.relative
+        = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 70, width: 70, style: 'width: 70px; height: 70px;'
+        .soft--left= render partial: 'pro/structures/premium_select', locals: { title: "accéder aux coordonnées d'élèves CousAvenue ?", label_text: 'Affichage des coordonnées des élèves :', select_collection: ['Actif', 'Non actif'] }
 
     .text--center.island{ :data => { :type => "user-management-loader" }}
       = image_tag 'gifs/loading-indicator-circle.gif', class: 'center-block', height: 20

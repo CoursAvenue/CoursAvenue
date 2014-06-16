@@ -7,9 +7,9 @@
       = link_to 'Cours réguliers', new_pro_structure_price_group_path(@structure, course_type: 'regular'), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0', close_click: 'false' }
       = link_to 'Stages / Ateliers', new_pro_structure_price_group_path(@structure, course_type: 'training'), class: 'push--left btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '1100', padding: '0', close_click: 'false' }
   .panel__body.soft--ends{ data: { behavior: 'wizard-helper', content: t('price_group.wizard.premium_offers') } }
-    .relative.soft.premium-box.text--right
-      = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 60, width: 60, style: 'width: 60px; height: 60px;'
-      = render partial: 'pro/structures/premium_select', locals: { title: 'afficher les liens vers votre site Internet et votre page Facebook ?', label_text: 'Statut de vos offres découvertes :' }
+    .relative.soft.premium-box
+      = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 70, width: 70, style: 'width: 70px; height: 70px;'
+      .soft--left= render partial: 'pro/structures/premium_select', locals: { title: 'afficher les liens vers votre site Internet et votre page Facebook ?', label_text: 'Statut de vos offres découvertes :' }
     %p.blue.flush.soft-half--ends.soft--sides
       %i Dans chaque grille tarifaire ci-dessous, ajoutez vos offres découvertes (cours d'essai gratuits, tarifs spéciaux, etc.) pour recruter encore plus d'élèves.
 

@@ -6,37 +6,35 @@
       %i Prises en compte à partir du 16 juin 2014
   .panel__body.soft--ends.relative
     .soft--sides{ data: { behavior: 'wizard-helper', content: t('statistics.wizard.infos') } }
-      .relative.soft.premium-box.text--right
-        = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 60, width: 60, style: 'width: 60px; height: 60px;'
-        = render partial: 'pro/structures/premium_select', locals: { title: 'suivre toutes les statistiques de votre profil CoursAvenue', label_text: "Statistiques du nombre de vues et d'actions :" }
-      %p.blue.flush.soft-half--ends.soft--sides
-        %i Dans chaque grille tarifaire ci-dessous, ajoutez vos offres découvertes (cours d'essai gratuits, tarifs spéciaux, etc.) pour recruter encore plus d'élèves.
+      .relative.soft.premium-box.text--left.push--bottom
+        = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 70, width: 70, style: 'width: 70px; height: 70px;'
+        .soft--left= render partial: 'pro/structures/premium_select', locals: { title: 'suivre toutes les statistiques de votre profil CoursAvenue', label_text: "Statistiques du nombre de vues et d'actions :", select_collection: ['Visibles', 'Non visibles'] }
 
       .grid.push--bottom
         .grid__item.one-third.text--center.v-middle>
           .inline-block.pointer{ data: { behavior: 'toggle-serie' } }
-            .lbl.lbl--chip.lbl--red.v-middle.lbl--small
+            .v-middle.lbl.lbl--red.v-middle.lbl--small &nbsp;
             %h5.flush.v-middle.inline-block
               Affichages :
               = @impressions_total_count
         .grid__item.one-third.text--center.v-middle>
           .inline-block.pointer{ data: { behavior: 'toggle-serie' } }
-            .lbl.lbl--chip.lbl--blue.v-middle.lbl--small
+            .v-middle.lbl.lbl--blue.v-middle.lbl--small &nbsp;
             %h5.flush.v-middle.inline-block
               Vues :
               - if @structure.premium?
                 = @views_total_count
               - else
-                = render partial: 'pro/structures/premium_select', locals: { title: 'suivre toutes les statistiques de votre profil CoursAvenue', label_text: "", chip: false }
+                = render partial: 'pro/structures/premium_select', locals: { title: 'suivre toutes les statistiques de votre profil CoursAvenue', label_text: "", select_collection: ['Visibles', 'Non visibles'] }
         .grid__item.one-third.text--center.v-middle>
           .inline-block.pointer{ data: { behavior: 'toggle-serie' } }
-            .lbl.lbl--chip.lbl--green.v-middle.lbl--small
+            .v-middle.lbl.lbl--green.v-middle.lbl--small &nbsp;
             %h5.flush.v-middle.inline-block
               Actions :
               - if @structure.premium?
                 = @actions_total_count
               - else
-                = render partial: 'pro/structures/premium_select', locals: { title: 'suivre toutes les statistiques de votre profil CoursAvenue', label_text: "", chip: false }
+                = render partial: 'pro/structures/premium_select', locals: { title: 'suivre toutes les statistiques de votre profil CoursAvenue', label_text: "", select_collection: ['Visibles', 'Non visibles'] }
 
       #statistics
 
