@@ -19,7 +19,7 @@ class Structure < ActiveRecord::Base
 
   WIDGET_STATUS    = ['installed', 'remind_me', 'dont_want', 'need_help']
 
-  friendly_id :slug_candidates, use: [:slugged, :finders, :history]
+  friendly_id :slug_candidates, use: [:slugged, :finders]
 
   geocoded_by :geocoder_address
 
