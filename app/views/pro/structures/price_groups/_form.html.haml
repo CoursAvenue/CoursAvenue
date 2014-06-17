@@ -8,249 +8,226 @@
     .panel__header.soft
       %h4.flush.inline-block.v-middle
         %span.v-middle Nom de la grille tarifaire
-        = f.input :name, label: false, input_html: { class: 'input--large', style: 'width: 20em;' }, wrapper_html: { class: 'inline-block v-middle flush--ends push-half--left' }
+        = f.input :name, label: false, input_html: { style: 'width: 20em;' }, wrapper_html: { class: 'inline-block v-middle flush--ends push-half--left' }
       .inline-block.push-half--left.v-middle{ data: { toggle: 'popover', placement: 'bottom', html: 'true', content: t('price_group.wizard.info'), trigger: 'hover' } }
         %i.fa.fa-lightbulb-o.fa-2x.blue
 
     .panel__body.soft--ends
-      .grid.soft-half
-        .grid__item.v-middle.one-quarter.text--right>
-          %h5.flush Ajouter un tarif normal
-        .grid__item.v-middle.three-quarters>
-          %a.btn.btn--green{ data: { behavior: 'show-price-group-form', el: '#per-courses-form', show_table: 'true' } }
-            - if @price_group.for_training?
-              Au stage / À l'atelier
-            - else
-              À la séance / Au carnet
-          - unless @price_group.for_training?
-            %a.btn.btn--green{ data: { behavior: 'show-price-group-form', el: '#per-subscription-form', show_table: 'true' } } À l'abonnement
-          %a.btn.btn--green{ data: { behavior: 'show-price-group-form', el: '#per-registration-fee-form', show_table: 'true' } } Adhésion
       .soft--sides>
-        - if @price_group.errors.messages[:base].present?
-          .alert.alert--error= @price_group.errors.messages[:base].to_sentence
-        .grid.hidden#table-header
-          .grid__item.two-twelfths.v-top>
-          .grid__item.ten-twelfths.v-top>
-            .grid
-              .grid__item.v-bottom.one-quarter>
-              .grid__item.v-bottom.two-twelfths>
-                %strong.label--large Prix
-              .grid__item.v-bottom.two-twelfths.hard--left>
-                %strong.label--large Tarif promotionnel
-
-              .grid__item.v-middle.five-twelfths>
-                %br
-                %strong.label--large
-                  %i.lbc-icon-info i
-                  Info
-        .grid#per-courses-form{ class: @book_tickets.select{ |price| price.persisted? or price.errors.any? }.any? ? '' : 'hidden', data: { behavior: 'form-group' } }
-          .grid__item.two-twelfths.v-top>
-            %h5.flush--bottom.push-half--top.label--large
+        .grid
+          .grid__item.v-middle.one-quarter.text--right>
+            %h5.flush Ajouter un tarif normal
+          .grid__item.v-middle.three-quarters>
+            %a.btn.btn--green{ data: { behavior: 'show-price-group-form', el: '#per-courses-form', show_table: 'true' } }
               - if @price_group.for_training?
                 Au stage / À l'atelier
               - else
-                Au cours / Au carnet
-          .grid__item.ten-twelfths.v-top>
-            .book-tickets{ data: { behavior: 'show-more-on-demand' } }<>
-              - @book_tickets.each_with_index do |item, i|
-                - i += 100
-                - range = (1..20).to_a + [30] + [40] + [50] + [60] + [70] + [80] + [90] + [100]
-                = f.simple_fields_for :prices, item, child_index: i do |book_ticket_form|
-                  .book-ticket.relative{ data: { el: true, hidden: !book_ticket_form.object.persisted? } }<>
-                    %a.pointer.absolute{ href: 'javascript:void(0);', style: 'left: -1.3em; top: 1.4em;', data: { clear: true } }
-                      %i.fa.fa-times
-                    .grid>
-                      .grid__item.v-middle.one-quarter>
-                        = book_ticket_form.input :number, label: false, as: :select, collection: range, selected: book_ticket_form.object.number || 5, wrapper_html: { class: 'flush inline-block v-middle' }, input_html: { class: 'input--large' }
-                        - if @price_group.for_training?
-                          .inline-block.v-middle.label--large stage(s) / atelier(s)
-                        - else
-                          %span.v-middle.label--large cours de
-                          .inline-block.v-middle
-                            = book_ticket_form.input :duration, label: false, as: :select, collection: duration_collection, selected: book_ticket_form.object.duration || 60, wrapper_html: { class: 'flush' }, input_html: { class: 'input--large' }
+                À la séance / Au carnet
+            - unless @price_group.for_training?
+              %a.btn.btn--green{ data: { behavior: 'show-price-group-form', el: '#per-subscription-form', show_table: 'true' } } À l'abonnement
+            %a.btn.btn--green{ data: { behavior: 'show-price-group-form', el: '#per-registration-fee-form', show_table: 'true' } } Adhésion
+        - if @price_group.errors.messages[:base].present?
+          .alert.alert--error= @price_group.errors.messages[:base].to_sentence
+        .hidden#table-header
+          .grid.push-half--bottom
+            .grid__item.v-bottom.four-twelfths>
+            .grid__item.v-bottom.two-twelfths.text--center>
+              %strong Prix
+            .grid__item.v-bottom.two-twelfths.hard--left.text--center>
+              %strong Tarif promotionnel
+
+            .grid__item.v-middle.four-twelfths.text--center>
+              %br
+              %strong
+                %i.lbc-icon-info i
+                Info
+        #per-courses-form{ class: @book_tickets.select{ |price| price.persisted? or price.errors.any? }.any? ? '' : 'hidden', data: { behavior: 'form-group' } }
+          .book-tickets{ data: { behavior: 'show-more-on-demand' } }<>
+            - @book_tickets.each_with_index do |item, i|
+              - i += 100
+              - range = (1..20).to_a + [30] + [40] + [50] + [60] + [70] + [80] + [90] + [100]
+              = f.simple_fields_for :prices, item, child_index: i do |book_ticket_form|
+                .book-ticket.relative{ data: { el: true, hidden: !book_ticket_form.object.persisted? } }<>
+                  .grid>
+                    .grid__item.v-middle.four-twelfths.text--right>
+                      %a.pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
+                        %i.fa.fa-times
+                      = book_ticket_form.input :number, label: false, as: :select, collection: range, selected: book_ticket_form.object.number || 5, wrapper_html: { class: 'flush inline-block v-middle' }
+                      - if @price_group.for_training?
+                        .inline-block.v-middle stage(s) / atelier(s)
+                      - else
+                        %span.v-middle cours de
+                        .inline-block.v-middle
+                          = book_ticket_form.input :duration, label: false, as: :select, collection: duration_collection, selected: book_ticket_form.object.duration || 60, wrapper_html: { class: 'flush' }
+                    .grid__item.v-middle.two-twelfths>
+                      = book_ticket_form.input :amount, placeholder: 'Ex. : 120', label: false, input_html: { class: 'one-whole' }, wrapper_html: { class: 'two-thirds flush inline-block v-middle' }, as: :string
+                      .inline-block.v-middle €
+                    .grid__item.v-middle.two-twelfths.premium-box.soft-half--ends.hard--sides.text--center>
+                      = book_ticket_form.input :promo_amount, placeholder: 'Ex. : 100', label: false, input_html: { class: 'one-whole' }, wrapper_html: { class: 'two-thirds flush inline-block v-middle' }, as: :string
+                      .inline-block.v-middle €
+                    .grid__item.v-middle.four-twelfths>
+                      = book_ticket_form.input :info, as: :string, placeholder: 'Ex. : Valable 3 mois, payable en 2 fois, ...', label: false, input_html: { class: 'one-whole' }, wrapper_html: { class: 'flush'}
+                  = book_ticket_form.input :type, as: :hidden
+            .input.flush.hidden
+              %a#add-book-ticket{ href: 'javascript:void(0)', data: { trigger: true } }>
+                %i.fa.fa-plus
+                Ajouter une ligne
+
+        - unless @price_group.for_training?
+          #per-subscription-form{ class: @subscriptions.select{ |price| price.persisted? or price.errors.any? }.any? ? '' : 'hidden', data: { behavior: 'form-group' } }>
+            .subscriptions{ data: { behavior: 'show-more-on-demand' } }
+              - @subscriptions.each_with_index do |item, i|
+                - # Adding 100 to index in order that indexes doesn't override each others
+                - i += 200
+                = f.simple_fields_for :prices, item, child_index: i do |price_form|
+                  .subscription.flush--top.relative{ data: { el: true, hidden: !item.persisted? } }
+                    .grid
+                      .grid__item.v-middle.four-twelfths.text--right>
+                        %a.pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
+                          %i.fa.fa-times
+                        = price_form.input :libelle, as: :select, collection: Price::Subscription::TYPES, label_method: lambda{|l| I18n.t(l)}, label: false, wrapper_html: { class: 'flush v-middle inline-block' }, include_blank: false
                       .grid__item.v-middle.two-twelfths>
-                        = book_ticket_form.input :amount, placeholder: 'Ex. : 120', label: false, input_html: { class: 'one-whole input--large' }, wrapper_html: { class: 'two-thirds flush inline-block v-middle' }, as: :string
-                        .inline-block.v-middle.label--large €
+                        = price_form.input :amount, placeholder: 'Ex. : 250', label: false, input_html: { class: 'one-whole' }, wrapper_html: { class: 'two-thirds flush inline-block v-middle' }, as: :string
+                        .inline-block.v-middle €
                       .grid__item.v-middle.two-twelfths.premium-box.soft-half--ends.hard--sides.text--center>
-                        = book_ticket_form.input :promo_amount, placeholder: 'Ex. : 100', label: false, input_html: { class: 'one-whole input--large' }, wrapper_html: { class: 'two-thirds flush inline-block v-middle' }, as: :string
-                        .inline-block.v-middle.label--large €
-                      .grid__item.v-middle.five-twelfths>
-                        = book_ticket_form.input :info, as: :string, placeholder: 'Ex. : Valable 3 mois, payable en 2 fois, ...', label: false, input_html: { class: 'one-whole input--large' }, wrapper_html: { class: 'flush'}
-                    = book_ticket_form.input :type, as: :hidden
-              .input.flush
-                %a#add-book-ticket{ href: 'javascript:void(0)', data: { trigger: true } }>
+                        = price_form.input :promo_amount, placeholder: 'Ex. : 200', label: false, input_html: { class: 'one-whole' }, wrapper_html: { class: 'two-thirds flush inline-block v-middle' }, as: :string
+                        .inline-block.v-middle €
+                      .grid__item.v-middle.four-twelfths>
+                        = price_form.input :info, as: :string, placeholder: 'Ex. : 2 cours par semaine', label: false, input_html: { class: 'one-whole' }, wrapper_html: { class: 'flush v-middle' }
+                    = price_form.input :type, as: :hidden
+              .input.flush.hidden
+                %a#add-subscription{ href: 'javascript:void(0)', data: { trigger: true } }
                   %i.fa.fa-plus
                   Ajouter une ligne
-              -# .grid{ style: 'margin-top: -1px;' }>
-              -#   .grid__item.v-middle.one-quarter>
-              -#       %i.fa.fa-plus
-              -#       Ajouter une ligne
-              -#   .grid__item.v-middle.two-twelfths>
-              -#   .grid__item.v-middle.two-twelfths{ class: @price_group.for_training? ? '' : 'premium-box' }>
-              -#     &nbsp;
 
-      - unless @price_group.for_training?
-        .soft--sides.push--top#per-subscription-form{ class: @subscriptions.select{ |price| price.persisted? or price.errors.any? }.any? ? '' : 'hidden', data: { behavior: 'form-group' } }>
-          .grid
-            .grid__item.two-twelfths.v-top>
-              %h5.flush--bottom.push-half--top.label--large Abonnements
-            .grid__item.ten-twelfths.v-top>
-              .subscriptions{ data: { behavior: 'show-more-on-demand' } }
-                - @subscriptions.each_with_index do |item, i|
-                  - # Adding 100 to index in order that indexes doesn't override each others
-                  - i += 200
-                  = f.simple_fields_for :prices, item, child_index: i do |price_form|
-                    .subscription.flush--top.relative{ data: { el: true, hidden: !item.persisted? } }
-                      %a.pointer.absolute{ href: 'javascript:void(0);', style: 'left: -1.3em; top: 1.4em;', data: { clear: true } }
+        #per-registration-fee-form{ class: @registrations.select{ |price| price.persisted? or price.errors.any? }.any? ? '' : 'hidden', data: { behavior: 'form-group' } }
+          .registration-fees{ data: { behavior: 'show-more-on-demand' } }
+            - @registrations.each_with_index do |item, i|
+              - i += 600
+              = f.simple_fields_for :prices, item, child_index: i do |registration_form|
+                .registration-fee.relative{ data: { el: true, hidden: !registration_form.object.persisted? } }
+                  .grid.soft-half--bottom
+                    .grid__item.v-middle.four-twelfths.text--right>
+                      %a.pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
                         %i.fa.fa-times
-                      .grid
-                        .grid__item.v-middle.one-quarter>
-                          = price_form.input :libelle, as: :select, collection: Price::Subscription::TYPES, label_method: lambda{|l| I18n.t(l)}, label: false, wrapper_html: { class: 'flush' }, include_blank: false, input_html: { class: 'input--large' }
-                        .grid__item.v-middle.two-twelfths>
-                          = price_form.input :amount, placeholder: 'Ex. : 250', label: false, input_html: { class: 'one-whole input--large' }, wrapper_html: { class: 'two-thirds flush inline-block v-middle' }, as: :string
-                          .inline-block.v-middle.label--large €
-                        .grid__item.v-middle.two-twelfths.premium-box.soft-half--ends.hard--sides.text--center>
-                          = price_form.input :promo_amount, placeholder: 'Ex. : 200', label: false, input_html: { class: 'one-whole input--large' }, wrapper_html: { class: 'two-thirds flush inline-block v-middle' }, as: :string
-                          .inline-block.v-middle.label--large €
-                        .grid__item.v-middle.five-twelfths>
-                          = price_form.input :info, as: :string, placeholder: 'Ex. : 2 cours par semaine', label: false, input_html: { class: 'one-whole input--large' }, wrapper_html: { class: 'flush v-middle' }
-                      = price_form.input :type, as: :hidden
-                .input.flush
-                  %a#add-subscription{ href: 'javascript:void(0)', data: { trigger: true } }
-                    %i.fa.fa-plus
-                    Ajouter une ligne
+                      %select.v-middle{ data: { behavior: 'disable-toggle-input', el: "#non_free_subscription_#{i}" } }
+                        %option{ selected: item.amount == nil } Pas d'adhésion
+                        %option{ value: 'hide', selected: item.free? } Adhésion gratuite
+                        %option{ value: 'show', selected: (!item.free? and item.amount.present?) } Adhésion payante
+                    .grid__item.v-middle.two-twelfths>
+                      %div{ id: "non_free_subscription_#{i}" }>
+                        = registration_form.input :amount, placeholder: 'Ex. : 15', label: false, input_html: { class: 'one-whole' }, wrapper_html: { class: 'flush two-thirds v-middle inline-block' }, as: :string
+                        .inline-block.v-middle €
+                    .grid__item.v-middle.two-twelfths>
+                    .grid__item.v-middle.four-twelfths>
+                      = registration_form.input :info, as: :string, placeholder: 'Ex. : Pour les enfants', label: false, input_html: { class: 'one-whole' }, wrapper_html: { class: 'flush--ends' }
+                  = registration_form.input :type, as: :hidden
+            .input.flush.hidden
+              %a#add-registration-fee{ href: 'javascript:void(0)', data: { trigger: true } }
+                %i.fa.fa-plus
+                Ajouter une ligne
+      %hr.push--ends
+      .soft--sides
+        .grid.push-half--bottom
+          .grid__item.v-middle.one-quarter.text--right>
+            %h5.flush Ajouter un tarif découverte
+          .grid__item.v-middle.three-quarters>
+            - unless @price_group.for_training?
+              %a.btn.btn--green{ data: { behavior: 'show-price-group-form', el: '#trial-course-form',  show_premium: 'true' } } Cours d'essai
+            %a.btn.btn--green{ data: { behavior: 'show-price-group-form', el: '#premium-prices-form',  show_premium: 'true' } } Offre spéciale
+            %a.btn.btn--green{ data: { behavior: 'show-price-group-form', el: '#discounts-form',  show_premium: 'true' } } Tarif réduit
 
-      .soft--sides.push--top#per-registration-fee-form{ class: @registrations.select{ |price| price.persisted? or price.errors.any? }.any? ? '' : 'hidden', data: { behavior: 'form-group' } }
-        .grid
-          .grid__item.two-twelfths.v-top>
-            %h5.flush.label--large Adhésion annuelle
-          .grid__item.ten-twelfths.v-top>
-            .registration-fees{ data: { behavior: 'show-more-on-demand' } }
-              - @registrations.each_with_index do |item, i|
-                - i += 600
-                = f.simple_fields_for :prices, item, child_index: i do |registration_form|
-                  .flush--top.registration-fee.push-half--bottom.relative{ data: { el: true, hidden: !registration_form.object.persisted? } }
-                    %a.pointer.absolute{ href: 'javascript:void(0);', style: 'left: -1.3em; top: 0.8em;', data: { clear: true } }
-                      %i.fa.fa-times
+        .premium-box.soft-half.hard--bottom#premium-box{ class: [@trial, @premium_offers, @discounts].flatten.select{ |price| price.persisted? or price.errors.any? }.any? ? '' : 'hidden' }
+          - if @trial and !@price_group.for_training?
+            #trial-course-form{ class: (@trial.persisted? or @trial.errors.any? ? '' : 'hidden' )}
+              .grid.soft-half--bottom
+                .grid__item.two-twelfths.v-middle.text--right>
+                  %a.pointer.v-middle{ href: 'javascript:void(0);', onclick: "$('#trial_select').val($('#trial_select option').first().val());$('#trial-course-form').slideUp();"}
+                    %i.fa.fa-times
+                  %span.v-middle Cours d'essai
+                .grid__item.ten-twelfths.v-middle>
+                  = f.simple_fields_for :prices, @trial, child_index: 300 do |registration_form|
                     .grid
                       .grid__item.v-middle.one-quarter>
-                        %select.input--large{ data: { behavior: 'disable-toggle-input', el: "#non_free_subscription_#{i}" } }
-                          %option{ selected: item.amount == nil } Choisissez une option
-                          %option{ value: 'hide', selected: item.free? } Gratuite
-                          %option{ value: 'show', selected: (!item.free? and item.amount.present?) } Payante
+                        %select#trial_select{ data: { behavior: 'disable-toggle-input', el: '#trial_amount' } }
+                          %option{ selected: @trial.amount == nil } Choisissez une option
+                          %option{ value: 'hide', selected: @trial.free? } Gratuit
+                          %option{ value: 'show', selected: (!@trial.free? and @trial.amount.present?) } Payant
                       .grid__item.v-middle.two-twelfths>
-                        %div{ id: "non_free_subscription_#{i}" }>
-                          = registration_form.input :amount, placeholder: 'Ex. : 15', label: false, input_html: { class: 'one-whole input--large' }, wrapper_html: { class: 'flush two-thirds v-middle inline-block' }, as: :string
-                          .inline-block.v-middle.label--large €
+                        #trial_amount
+                          = registration_form.input :amount, placeholder: 'Ex. : 15', label: false, input_html: { class: 'one-whole' }, wrapper_html: { class: 'flush two-thirds inline-block v-middle' }, as: :string
+                          .inline-block.v-middle €
                       .grid__item.v-middle.two-twelfths>
                       .grid__item.v-middle.five-twelfths>
-                        = registration_form.input :info, as: :string, placeholder: 'Ex. : Pour les enfants', label: false, input_html: { class: 'one-whole input--large' }, wrapper_html: { class: 'flush--ends' }
+                        = registration_form.input :info, as: :string, placeholder: 'Ex. : Infos. Ex. : valable en septembre', label: false, input_html: { class: 'one-whole'}, wrapper_html: { class: 'flush--ends' }
                     = registration_form.input :type, as: :hidden
-              .input.flush
-                %a#add-registration-fee{ href: 'javascript:void(0)', data: { trigger: true } }
+          #premium-prices-form{ class: @premium_offers.select{ |price| price.persisted? or price.errors.any? }.any? ? '' : 'hidden', data: { behavior: 'form-group' } }
+            .discounts{ data: { behavior: 'show-more-on-demand' } }
+              - @premium_offers.each_with_index do |item, i|
+                - i += 400
+                = f.simple_fields_for :prices, item, child_index: i do |price_form|
+                  .premium-offer.relative{ data: { el: true, hidden: !price_form.object.persisted? } }
+                    .grid.soft-half--bottom
+                      .grid__item.two-twelfths.v-middle.text--right>
+                        %a.pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
+                          %i.fa.fa-times
+                        %span.v-middle Offres spéciales
+                      .grid__item.ten-twelfths.v-middle>
+                        .grid
+                          .grid__item.v-middle.one-quarter>
+                            = price_form.input :libelle, as: :select, collection: Price::PremiumOffer::TYPES, label_method: lambda{|l| I18n.t(l)}, wrapper_html: { class: 'flush control-label text--left' }, label: false, include_blank: false, input_html: { data: { promo_amount: "#premium_offer_#{i}_promo_amount", promo_amount_type: "#premium_offer_#{i}_promo_amount_type", promo_amount_type_alternative: "#premium_offer_#{i}_promo_amount_type_alternative", promo_amount_info: "#premium_offer_#{i}_info", behavior: 'premium-offer' } }
+                          .grid__item.v-middle.three-twelfths<>
+                            = price_form.input :promo_amount, placeholder: 'Ex. : 20', label: false, input_html: { id: "premium_offer_#{i}_promo_amount", class: 'flush one-whole' }, wrapper_html: { class: 'five-twelfths flush inline-block v-middle' }, as: :string
+                            .inline-block.v-middle.hidden{ id: "premium_offer_#{i}_promo_amount_type_alternative" }> €
+                            = price_form.input :promo_amount_type, as: :select, collection: ['%', '€'], label: false, input_html: { id: "premium_offer_#{i}_promo_amount_type", class: 'one-whole' }, wrapper_html: { class: 'four-twelfths flush inline-block v-middle' }, include_blank: false
+                          .grid__item.v-middle.one-twelfth>
+                          .grid__item.v-middle.five-twelfths>
+                            = price_form.input :info, as: :string, label: false, input_html: { id: "premium_offer_#{i}_info", class: 'one-whole' }, wrapper_html: { class: 'flush--ends' }
+                        = price_form.input :type, as: :hidden
+              .input.flush.hidden
+                %a#add-discount{ href: 'javascript:void(0)', data: { trigger: true } }
                   %i.fa.fa-plus
                   Ajouter une ligne
-      %hr.push--ends
-      .grid.soft-half
-        .grid__item.v-middle.one-quarter.text--right>
-          %h5.flush Ajouter un tarif découverte
-        .grid__item.v-middle.three-quarters>
-          - unless @price_group.for_training?
-            %a.btn.btn--green{ data: { behavior: 'show-price-group-form', el: '#trial-course-form' } } Cours d'essai
-          %a.btn.btn--green{ data: { behavior: 'show-price-group-form', el: '#premium-prices-form' } } Offre spéciale
-          %a.btn.btn--green{ data: { behavior: 'show-price-group-form', el: '#discounts-form' } } Tarif réduit
 
-      %hr.push--top.flush--bottom
-      .premium-box
-        - if @trial and !@price_group.for_training?
-          .soft#trial-course-form{ class: (@trial.persisted? or @trial.errors.any? ? '' : 'hidden' )}
-            .grid
-              .grid__item.two-twelfths.v-top>
-                %h5.flush.label--large Cours d'essai
-              .grid__item.ten-twelfths.v-top>
-                = f.simple_fields_for :prices, @trial, child_index: 300 do |registration_form|
-                  .grid
-                    .grid__item.v-middle.one-quarter>
-                      %select.input--large{ data: { behavior: 'disable-toggle-input', el: '#trial_amount' } }
-                        %option{ selected: @trial.amount == nil } Choisissez une option
-                        %option{ value: 'hide', selected: @trial.free? } Gratuit
-                        %option{ value: 'show', selected: (!@trial.free? and @trial.amount.present?) } Payant
-                    .grid__item.v-middle.two-twelfths>
-                      #trial_amount
-                        = registration_form.input :amount, placeholder: 'Ex. : 15', label: false, input_html: { class: 'one-whole input--large' }, wrapper_html: { class: 'flush two-thirds inline-block v-middle' }, as: :string
-                        .inline-block.v-middle.label--large €
-                    .grid__item.v-middle.two-twelfths>
-                    .grid__item.v-middle.five-twelfths>
-                      = registration_form.input :info, as: :string, placeholder: 'Ex. : Infos. Ex. : valable en septembre', label: false, input_html: { class: 'one-whole input--large'}, wrapper_html: { class: 'flush--ends' }
-                  = registration_form.input :type, as: :hidden
-        .soft--sides.soft-half--ends#premium-prices-form{ class: @premium_offers.select{ |price| price.persisted? or price.errors.any? }.any? ? '' : 'hidden', data: { behavior: 'form-group' } }
-          .grid
-            .grid__item.two-twelfths.v-top>
-              %h5.flush.label--large Offres spéciales
-            .grid__item.ten-twelfths.v-top>
-              .discounts{ data: { behavior: 'show-more-on-demand' } }
-                - @premium_offers.each_with_index do |item, i|
-                  - i += 400
-                  = f.simple_fields_for :prices, item, child_index: i do |price_form|
-                    .premium-offer.push-half--bottom.flush--top.relative{ data: { el: true, hidden: !price_form.object.persisted? } }
-                      %a.pointer.absolute{ href: 'javascript:void(0);', style: 'left: -1.3em; top: 0.8em;', data: { clear: true } }
-                        %i.fa.fa-times
-                      .grid
-                        .grid__item.v-middle.one-quarter>
-                          = price_form.input :libelle, as: :select, collection: Price::PremiumOffer::TYPES, label_method: lambda{|l| I18n.t(l)}, wrapper_html: { class: 'flush control-label text--left' }, label: false, include_blank: false, input_html: { class: 'input--large', data: { promo_amount: "#premium_offer_#{i}_promo_amount", promo_amount_type: "#premium_offer_#{i}_promo_amount_type", promo_amount_type_alternative: "#premium_offer_#{i}_promo_amount_type_alternative", promo_amount_info: "#premium_offer_#{i}_info", behavior: 'premium-offer' } }
-                        .grid__item.v-middle.three-twelfths<>
-                          = price_form.input :promo_amount, placeholder: 'Ex. : 20', label: false, input_html: { id: "premium_offer_#{i}_promo_amount", class: 'flush one-whole input--large' }, wrapper_html: { class: 'five-twelfths flush inline-block v-middle' }, as: :string
-                          .inline-block.v-middle.label--large.hidden{ id: "premium_offer_#{i}_promo_amount_type_alternative" }> €
-                          = price_form.input :promo_amount_type, as: :select, collection: ['%', '€'], label: false, input_html: { id: "premium_offer_#{i}_promo_amount_type", class: 'one-whole input--large' }, wrapper_html: { class: 'one-quarter flush inline-block v-middle' }, include_blank: false
-                        .grid__item.v-middle.one-twelfth>
-                        .grid__item.v-middle.five-twelfths>
-                          = price_form.input :info, as: :string, label: false, input_html: { id: "premium_offer_#{i}_info", class: 'one-whole input--large' }, wrapper_html: { class: 'flush--ends' }
-                      = price_form.input :type, as: :hidden
-                .input.flush
-                  %a#add-discount{ href: 'javascript:void(0)', data: { trigger: true } }
-                    %i.fa.fa-plus
-                    Ajouter une ligne
+          #discounts-form{ class: @discounts.select{ |price| price.persisted? or price.errors.any? }.any? ? '' : 'hidden', data: { behavior: 'form-group' } }
+            .discounts{ data: { behavior: 'show-more-on-demand' } }
+              - @discounts.each_with_index do |item, i|
+                - i += 500
+                = f.simple_fields_for :prices, item, child_index: i do |price_form|
+                  .discount.relative{ data: { el: true, hidden: !price_form.object.persisted? } }
+                    .grid.soft-half--bottom
+                      .grid__item.two-twelfths.v-middle.text--right>
+                        %a.pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
+                          %i.fa.fa-times
+                        %span.v-middle Tarifs réduits
+                      .grid__item.ten-twelfths.v-middle>
+                        .grid
+                          .grid__item.v-middle.one-quarter>
+                            = price_form.input :libelle, as: :select, collection: Price::Discount::TYPES, label_method: lambda{|l| I18n.t(l)}, wrapper_html: { class: 'flush control-label text--left' }, label: false, include_blank: false
+                          .grid__item.v-middle.three-twelfths<>
+                            = price_form.input :promo_amount, placeholder: 'Ex. : 20', label: false, input_html: { class: 'one-whole' }, wrapper_html: { class: 'five-twelfths flush inline-block v-middle' }, as: :string
+                            = price_form.input :promo_amount_type, as: :select, collection: ['%', '€'], label: false, input_html: { class: 'one-whole' }, wrapper_html: { class: 'four-twelfths flush inline-block v-middle' }, include_blank: false
+                          .grid__item.v-middle.one-twelfth>
+                          .grid__item.v-middle.five-twelfths>
+                            = price_form.input :info, as: :string, label: false, input_html: { class: 'one-whole' }, wrapper_html: { class: 'flush--ends' }
+                        = price_form.input :type, as: :hidden
+              .input.flush.hidden
+                %a#add-discount{ href: 'javascript:void(0)', data: { trigger: true } }
+                  %i.fa.fa-plus
+                  Ajouter une ligne
 
-        .soft--sides.soft-half--ends#discounts-form{ class: @discounts.select{ |price| price.persisted? or price.errors.any? }.any? ? '' : 'hidden', data: { behavior: 'form-group' } }
-          .grid
-            .grid__item.two-twelfths.v-top>
-              %h5.flush.label--large Tarifs réduits
-            .grid__item.ten-twelfths.v-top>
-              .discounts{ data: { behavior: 'show-more-on-demand' } }
-                - @discounts.each_with_index do |item, i|
-                  - i += 500
-                  = f.simple_fields_for :prices, item, child_index: i do |price_form|
-                    .flush--top.discount.push-half--bottom.relative{ data: { el: true, hidden: !price_form.object.persisted? } }
-                      %a.pointer.absolute{ href: 'javascript:void(0);', style: 'left: -1.3em; top: 0.8em;', data: { clear: true } }
-                        %i.fa.fa-times
+        .soft--sides
+          -# .grid
+          -#   .grid__item.two-twelfths.v-top>
+          -#     %h5.flush Informations complémentaires
+          -#   .grid__item.ten-twelfths.v-top>
+          -#     = f.input :details, wrapper_html: { class: 'flush--bottom' }, input_html: { class: 'one-whole', data: { behavior: 'autoresize' } }, label: false
 
-                      .grid
-                        .grid__item.v-middle.one-quarter>
-                          = price_form.input :libelle, as: :select, collection: Price::Discount::TYPES, label_method: lambda{|l| I18n.t(l)}, wrapper_html: { class: 'flush control-label text--left' }, label: false, include_blank: false, input_html: { class: 'input--large' }
-                        .grid__item.v-middle.three-twelfths<>
-                          = price_form.input :promo_amount, placeholder: 'Ex. : 20', label: false, input_html: { class: 'one-whole input--large' }, wrapper_html: { class: 'five-twelfths flush inline-block v-middle' }, as: :string
-                          = price_form.input :promo_amount_type, as: :select, collection: ['%', '€'], label: false, input_html: { class: 'one-whole input--large' }, wrapper_html: { class: 'one-quarter flush inline-block v-middle' }, include_blank: false
-                        .grid__item.v-middle.one-twelfth>
-                        .grid__item.v-middle.five-twelfths>
-                          = price_form.input :info, as: :string, label: false, input_html: { class: 'one-whole input--large' }, wrapper_html: { class: 'flush--ends' }
-                      = price_form.input :type, as: :hidden
-                .input.flush
-                  %a#add-discount{ href: 'javascript:void(0)', data: { trigger: true } }
-                    %i.fa.fa-plus
-                    Ajouter une ligne
-
-      .soft--sides
-        -# .grid
-        -#   .grid__item.two-twelfths.v-top>
-        -#     %h5.flush.label--large Informations complémentaires
-        -#   .grid__item.ten-twelfths.v-top>
-        -#     = f.input :details, wrapper_html: { class: 'flush--bottom' }, input_html: { class: 'one-whole input--large', data: { behavior: 'autoresize' } }, label: false
-
-        .grid.push--top
-          .grid__item.one-fifth>
-            %a.btn.btn--gray.btn--full{ onclick: '$.fancybox.close()' } Annuler
-          .grid__item.four-fifths>
-            = f.submit 'Enregistrer', class: 'btn btn--green btn--full push--bottom', data: { disable_with: "En cours d'enregistrement" }
+          .grid.push--top
+            .grid__item.one-fifth>
+              %a.btn.btn--gray.btn--full{ onclick: '$.fancybox.close()' } Annuler
+            .grid__item.four-fifths>
+              = f.submit 'Enregistrer', class: 'btn btn--green btn--full push--bottom', data: { disable_with: "En cours d'enregistrement" }
 
 
 :javascript
@@ -258,20 +235,25 @@
         // If we are showing one of the top form
         if (!$(this.dataset.el).is(':visible') && this.dataset.showTable == 'true') {
             $('#table-header').slideDown();
-        } else {
-            if (this.dataset.showTable == 'true') {
-                if ($('#per-courses-form:visible, #per-subscription-form:visible, #per-registration-fee-form:visible').length == 1) {
-                  $('#table-header').slideUp();
-                }
-            }
         }
-        $(this.dataset.el).slideToggle();
+       if (!$(this.dataset.el).is(':visible') && this.dataset.showPremium == 'true') {
+            $('#premium-box').slideDown();
+        }
+
+        if ($(this.dataset.el).is(':visible')) {
+            $(this.dataset.el).find('[data-trigger]').click();
+        } else {
+            $(this.dataset.el).slideDown();
+        }
     });
     $('[data-behavior="show-more-on-demand"]').each(function(index, el) {
         var $this = $(this);
         $(this).find('[data-clear]').click(function() {
             if($this.find('[data-clear]:visible').length == 1) {
                 $this.closest('[data-behavior=form-group]').slideUp();
+                if ($('#per-courses-form:visible, #per-subscription-form:visible, #per-registration-fee-form:visible').length == 1) {
+                  $('#table-header').slideUp();
+                }
             }
         });
     });

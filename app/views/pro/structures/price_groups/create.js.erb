@@ -18,5 +18,5 @@
         $message_to_hide.hide();
     <% end %>
 <% else %>
-    $.fancybox("<%= escape_javascript(render partial: 'pro/structures/price_groups/form') %>", { width: 1100, minWidth: 1100, maxWidth: 1100, padding: 0 });
+    $.fancybox("<%= escape_javascript(render partial: 'pro/structures/price_groups/form') %>", { topRatio: 0.2, width: 1000, minWidth: 1000, maxWidth: 1100, padding: 0 });
 <% end %>

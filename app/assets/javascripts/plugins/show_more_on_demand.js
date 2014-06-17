@@ -74,20 +74,24 @@
             });
             this.$hidden_items = $(this.$element.find('[data-el][data-hidden]'));
             if (this.$hidden_items.length < (this.$items.length - 1) ) {
-                $wrapping_el.hide();
+                $wrapping_el.slideUp();
+                // $wrapping_el.hide();
                 $wrapping_el.attr('data-hidden', true);
             }
-            this.$trigger.show();
+            // this.$trigger.show();
+            this.$trigger.slideDown();
         },
         showMoreItem: function showMoreItem () {
             var item_to_show = this.$hidden_items.first();
             item_to_show.removeAttr('data-hidden');
-            item_to_show.show();
+            // item_to_show.show();
+            item_to_show.slideDown();
             // Update hidden items
             this.$hidden_items = $(this.$element.find('[data-el][data-hidden]'));
             // Remove trigger if there is no more item
             if (this.$hidden_items.length == 0) {
-                this.$trigger.hide();
+                this.$trigger.slideUp();
+                // this.$trigger.hide();
             }
         }
     };
