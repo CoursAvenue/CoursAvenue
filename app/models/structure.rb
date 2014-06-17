@@ -86,6 +86,7 @@ class Structure < ActiveRecord::Base
                   :phone_numbers_attributes, :places_attributes, :other_emails
 
   accepts_nested_attributes_for :places,
+                                 reject_if: lambda { |attributes| attributes[:zip_code].blank? },
                                  allow_destroy: false
 
   accepts_nested_attributes_for :phone_numbers,
