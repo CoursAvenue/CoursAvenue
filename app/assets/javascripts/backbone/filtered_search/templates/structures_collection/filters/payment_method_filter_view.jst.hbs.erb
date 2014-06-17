@@ -3,7 +3,7 @@
         <strong class="gray-light">FINANCEMENTS ACCEPTÉS</strong>
     </div><!--
  --><div class="grid__item v-middle four-fifths palm-one-whole">
-      <select data-behavior="chosen" multiple style="width: 100%;" class="input--large">
+      <select data-behavior="chosen" data-placeholder="Selectionnez une ou plusieurs options" multiple style="width: 100%;" class="input--large">
         <% FundingType.all.each do |funding_type| %>
             <option value="<%= funding_type.id %>"><%= I18n.t(funding_type.name) %></option>
         <% end %>

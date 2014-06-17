@@ -74,18 +74,20 @@ $(function() {
     };
     global.initialize_callbacks.push(datepicker_initializer);
 
-    var chosen_initializer = function() {
+    global.chosen_initializer = function() {
         // -------------------------- Chosen
         $('[data-behavior=chosen]').each(function() {
             $(this).chosen({
-                no_results_text: 'Pas de résultat...',
-                search_contains: true,
-                width: $(this).css('width'), // Returns undefined if there is no width style defined.
-                inherit_select_classes: true
+                no_results_text          : 'Pas de résultat...',
+                placeholder_multiple_text: 'Selectionnez une ou plusieurs options',
+                placeholder_single_text  : 'Selectionnez une option',
+                search_contains          : true,
+                width                    : $(this).css('width'), // Returns undefined if there is no width style defined.
+                inherit_select_classes   : true
             });
         });
     };
-    global.initialize_callbacks.push(chosen_initializer);
+    global.initialize_callbacks.push(global.chosen_initializer);
     $('body').tooltip({
         selector: '[data-behavior=tooltip],[data-toggle=tooltip]'
     });

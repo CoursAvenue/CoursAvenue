@@ -4,6 +4,6 @@ FilteredSearch.module('Views.StructuresCollection.Structure.Medias', function(Mo
     /* views here temporarily to get this all all started */
     Module.MediaView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + "media_view",
-        className: 'media__item one-third'
+        className: 'soft-half inline-block one-third v-top',
     });
 });

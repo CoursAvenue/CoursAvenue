@@ -3,7 +3,7 @@
         <strong class="gray-light">TARIFS RÉDUITS</strong>
     </div><!--
  --><div class="grid__item v-middle four-fifths palm-one-whole">
-      <select data-behavior="chosen" multiple style="width: 100%;" class="input--large">
+      <select data-behavior="chosen" data-placeholder="Selectionnez une ou plusieurs options" multiple style="width: 100%;" class="input--large">
         <% Price::Discount::TYPES.each do |discount_name| %>
           <option value="<%= discount_name.split('.').last %>"><%= I18n.t(discount_name) %></option>
         <% end %>
