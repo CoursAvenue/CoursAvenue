@@ -123,7 +123,7 @@ if (!Function.prototype.debounce) {
 GLOBAL.hideContactsInfo = function hideContactsInfo (text) {
     if (!text) { return ''; }
     // Phone numbers
-    text = text.replace(/((\+|00)33\s?|0)[0-9](\s?\d{2}){4}/g, '<a class="pointer" data-behavior="show-contact-panel">(numéro de téléphone)</a>')
+    text = text.replace(/((\+|00)33\s?|0)[0-9]([\s-\.]?\d{2}){4}/g, '<a class="pointer" data-behavior="show-contact-panel">(numéro de téléphone)</a>')
     // Links
     text = text.replace(/((http|ftp|https):\/\/)?[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/gi, '<a class="pointer" data-behavior="show-contact-panel">(site internet)</a>')
     // Emails
