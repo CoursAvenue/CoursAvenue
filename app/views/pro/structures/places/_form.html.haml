@@ -30,7 +30,7 @@
           = f.input :street, input_html: { class: 'input--large', title: "Ne renseignez ni le code postal ni la ville, uniquement le numéro et la rue.", data: { behavior: 'tooltip' } }, label_html: { class: 'label--large' }
 
         .input.flush--top
-          = f.label :zip_code, label: 'Code postal et ville', class: 'label--large v-middle'
+          = f.label :zip_code, label: 'Code postal et ville', class: 'label--large v-middle nowrap'
           = f.input :zip_code, input_html: { class: 'input--large', style: 'width: 7em;', data: { behavior: 'city-autocomplete', el: '#place_city_id' } }, label: false, wrapper_html: { class: 'flush v-middle' }
           = f.input :city_id, as: :select, collection: [@place.city], label: false, selected: @place.city, wrapper_html: { class: 'flush v-middle' }, input_html: { class: 'input--large' }
           = f.input :latitude, as: :hidden

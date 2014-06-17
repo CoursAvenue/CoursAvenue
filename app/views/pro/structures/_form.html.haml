@@ -75,7 +75,7 @@
         - @home_places.each_with_index do |place, child_index|
           = structure_form.simple_fields_for :places, place, child_index: child_index, html: { class: 'inline-block' } do |place_form|
             = place_form.input :type, as: :hidden
-            = place_form.input :zip_code, input_html: { placeholder: 'Ex. : 75014', class: 'one-whole', style: 'width: 7em', data: { behavior: 'city-autocomplete', el: "#place_city_id_#{child_index}" } }, label: false, wrapper_html: { class: 'inline-block v-middle flush' }
+            = place_form.input :zip_code, input_html: { placeholder: 'Code postal', class: 'one-whole', style: 'width: 7em', data: { behavior: 'city-autocomplete', el: "#place_city_id_#{child_index}" } }, label: false, wrapper_html: { class: 'inline-block v-middle flush' }
             = place_form.input :city_id, collection: [place.city], label: false, selected: place.city, wrapper_html: { class: 'flush--top inline-block v-middle flush' }, input_html: { id: "place_city_id_#{child_index}"}
             %label.inline-block.v-middle dans un rayon de
             = place_form.input :radius, input_html: { style: 'width: 4em;' }, wrapper_html: {class: 'inline-block v-middle flush'}, label: false

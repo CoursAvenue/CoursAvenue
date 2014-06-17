@@ -108,4 +108,15 @@ fr:
           trainings: >
             <p><strong>Un planning complet</strong></p>
             <p>Renseignez votre planning de stages et ateliers à venir. Pour chacun d'eux, renseignez toutes les informations que recherchent les Internautes : disciplines, niveaux, publics, dates, prix... Les stages et ateliers sans tarif ni créneau ne seront pas visibles sur votre profil public. Une fois toutes ces informations complétées, ils apparaitront automatiquement.</p>
-            <p><strong>Important :</strong> si un même stage ou atelier possède plusieurs lieux, plusieurs niveaux, pour des publics différents, renseignez-le à chaque date mais ne créez pas de nouvel atelier.</p>
+            <p><strong>Important :</strong> cette rubrique ne concerne pas les spectacles ni les auditions, ne les ajoutez pas (nous réfléchissons actuellement à une nouvelle rubrique spécifique).</p>
+          regular: >
+            <p><strong>Un planning complet</strong></p>
+            <p>Renseignez votre planning de cours réguliers : ajoutez tous vos créneaux de cours collectifs et vos
+            disponibilités pour les cours particuliers.</p>
+            <p>Pour chaque cours, renseignez toutes les informations que recherchent les Internautes : disciplines,
+            niveaux, publics, jours, horaires, prix... Les cours sans tarif ni créneau à jour ne seront pas visibles
+            sur votre profil public. Une fois toutes ces informations complétées, ils apparaitront automatiquement.</p>
+            <p><strong> Important :</strong> si un même cours possède plusieurs lieux, plusieurs niveaux, pour des publics
+            différents, renseignez-le à chaque créneau, mais n'ajoutez pas de nouveau cours.</p>
+
+

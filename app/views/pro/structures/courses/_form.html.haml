@@ -17,11 +17,14 @@
       .panel__header.soft
         %h4.flush.inline-block.v-middle
           %span.v-middle
-            Nom du #{@course.type_name.downcase}
+            - if @course.is_training?
+              Nom du stage / de l'atelier
+            - else
+              Nom du #{@course.type_name.downcase}
           = f.input :name, label: false, input_html: { class: 'input--large', style: 'width: 20em;' }, wrapper_html: { class: 'inline-block v-middle flush--ends push-half--left' }
         %p.flush
           %i.blue
-            Un bon nom doit être court et explicite : aucune information sur le lieu ni le niveau, c'est à renseigner au niveau des créneaux.
+            Un bon nom doit être court et explicite : aucune information sur le lieu, l'âge ou le niveau.
 
       .panel__body.soft--ends
         .soft--sides
