@@ -81,7 +81,7 @@ gem 'ancestry'                  , '~>2.0.0'
 # Nice helper to use google maps
 gem 'gmaps4rails'               , '~>2.1.2'
 # Helper methods for geolocations
-gem 'geocoder'                  , '~>1.1.9'
+gem 'geocoder'                  , '~>1.2.2'
 # To have model serializers apart from models
 gem 'active_model_serializers'  , '~>0.8.1'
 

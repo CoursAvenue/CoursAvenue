@@ -231,7 +231,7 @@ GEM
     friendly_id (5.0.3)
       activerecord (>= 4.0.0)
     fssm (0.2.10)
-    geocoder (1.1.9)
+    geocoder (1.2.2)
     gmaps4rails (2.1.2)
     haml (4.0.5)
       tilt
@@ -553,7 +553,7 @@ DEPENDENCIES
   filepicker-rails
   font-awesome-rails (~> 4.1.0.0)
   friendly_id (~> 5.0.0)
-  geocoder (~> 1.1.9)
+  geocoder (~> 1.2.2)
   gmaps4rails (~> 2.1.2)
   haml (~> 4.0.3)
   handlebars_assets (~> 0.15)!

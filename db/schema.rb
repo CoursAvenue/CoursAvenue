@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140616120830) do
+ActiveRecord::Schema.define(version: 20140617184028) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -487,6 +487,7 @@ ActiveRecord::Schema.define(version: 20140616120830) do
     t.integer  "radius"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "last_geocode_try"
   end
 
   add_index "places", ["location_id", "structure_id"], name: "index_places_on_location_id_and_structure_id", using: :btree
