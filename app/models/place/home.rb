@@ -18,7 +18,7 @@ class Place::Home < Place
   end
 
   def street
-    I18n.t('places.home.street', zip_code: zip_code, city_name: city.name, radius: radius)
+    I18n.t('places.home.street', zip_code: zip_code, city_name: city.name, radius: radius) unless city.nil?
   end
 
   def address
