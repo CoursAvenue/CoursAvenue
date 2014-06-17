@@ -42,7 +42,7 @@
       .soft--sides
         - if @price_group.errors.messages[:base].present?
           .alert.alert--error= @price_group.errors.messages[:base].to_sentence
-        .hidden#table-header
+        #table-header{ class: [@per_courses, @book_tickets, @subscriptions, @registrations].compact.flatten.select{ |price| price.persisted? or price.errors.any? }.any? ? '' : 'hidden' }
           .grid.soft-half--bottom.bordered--top.soft--top
             .grid__item.v-bottom.two-twelfths>
               %strong Formule
@@ -188,7 +188,7 @@
               %a{ href: 'javascript:void(0)', data: { trigger: true } }
                 %i.fa.fa-plus
                 Ajouter une ligne
-      #premium-box.hidden
+      #premium-box{ class: [@trial, @discounts, @premium_offers].compact.flatten.select{ |price| price.persisted? or price.errors.any? }.any? ? '' : 'hidden' }
         .bordered--top.soft--top.soft--sides
           - if @trial and !@price_group.for_training?
             #trial-course-form{ class: (@trial.persisted? or @trial.errors.any? ? '' : 'hidden' )}

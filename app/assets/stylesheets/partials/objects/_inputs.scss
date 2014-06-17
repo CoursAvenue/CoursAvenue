@@ -94,7 +94,7 @@ textarea:focus, input:focus, select:focus {
 .input-addon {
     display     : table;
     width       : 100%;
-    table-layout: fixed;
+    // table-layout: fixed;
     > div {
         display       : table-cell;
         vertical-align: middle;
@@ -103,7 +103,7 @@ textarea:focus, input:focus, select:focus {
         text-align      : center;
         width           : 2.3em;
         border          : 1px solid #ccc;
-        border-left    : none;
+        border-left     : none;
         background-color: #EFEFEF;
         @include border-right-radius($brand-round);
     }
