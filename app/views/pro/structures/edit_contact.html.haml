@@ -13,8 +13,7 @@
           = form.simple_fields_for :phone_numbers, phone_number, child_index: i do |phone_number_form|
             %div{ class: (!phone_number_form.object.persisted? ? 'hidden' : ''), data: { el: true, hidden: !phone_number_form.object.persisted? } }<>
               .input.flush--bottom
-                .control-label>
-                  = phone_number_form.input :phone_type, as: :select, collection: PhoneNumber::PHONE_TYPES, label_method: lambda { |string| t(string) }, label: false, input_html: { class: 'input--large' }, include_blank: false, wrapper_html: { class: 'flush' }
+                %label.control-label.label--large> Téléphone
                 .input-container>
                   = phone_number_form.input :number, label: false, input_html: { class: 'input--large one-whole', placeholder: 'Ex. : 06 05 10 41 32' }, wrapper_html: { class: 'inline-block v-middle flush' }
                   %a.pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
@@ -27,17 +26,17 @@
               %i.fa.fa-plus
               Ajouter un numéro de téléphone
 
-    %hr.push--top.flush--bottom
-    .relative.push--bottom.soft.premium-box{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.links') } }
-      = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 80, width: 80, style: 'width: 80px; height: 80px;'
-      .grid
-        .grid__item.v-middle.one-half>
+    %hr.push--ends
+    .soft--sides
+      .panel.panel--yellow{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.links') } }
+        .panel__header.soft.f-weight-bold.text--center.relative
+          = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 80, width: 80, style: 'width: 80px; height: 80px;'
+          = render partial: 'pro/structures/premium_select', locals: { title: 'afficher les liens vers votre site Internet et votre page Facebook ?', label_text: 'Statut des liens vers vos pages :', select_collection: ['Visibles', 'Non visibles'] }
+        .panel__body.soft
           %h5.flush--bottom.soft--left.push--left Liens vers vos pages
-        .grid__item.v-middle.one-half>
-          = render partial: 'pro/structures/premium_select', locals: { title: 'afficher les liens vers votre site Internet et votre page Facebook ?', label_text: 'Statut des liens vers vos pages :' }
-      %div
-        = form.input :website, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
-        = form.input :facebook_url, as: :string, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, wrapper_html: { class: 'flush--bottom' }
-    .soft--sides= form.button :submit, "Enregistrer", class: 'btn btn--green btn--full push--bottom', data: { disable_with: "En cours d'enregistrement" }
+
+          = form.input :website, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+          = form.input :facebook_url, as: :string, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, wrapper_html: { class: 'flush--bottom' }
+    .soft--top= form.button :submit, "Enregistrer", class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
 
 

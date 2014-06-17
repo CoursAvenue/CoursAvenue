@@ -84,6 +84,9 @@
     }
 
 
+.premium-bordered-box {
+    border: 2px solid $yellow_premium !important;
+}
 .premium-box {
     background-color: $yellow_premium !important;
     &.premium-box--bordered {
