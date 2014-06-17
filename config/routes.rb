@@ -172,7 +172,7 @@ CoursAvenue::Application.routes.draw do
             end
           end
         end
-        resources :medias, only: [:edit, :update, :index, :destroy], controller: 'structures/medias' do
+        resources :medias, only: [:edit, :update, :index, :destroy], controller: 'structures/medias', path: 'photos-videos' do
           member do
             put :make_it_cover
           end

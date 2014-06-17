@@ -109,14 +109,16 @@ class Pro::Structures::PriceGroupsController < Pro::ProController
   private
 
   def retrieve_prices
-    @book_tickets       = @price_group.book_tickets
+    @per_courses        = @price_group.book_tickets.select{|price| price.number == 1}
+    @book_tickets       = @price_group.book_tickets.reject{|price| price.number == 1}
     @discounts          = @price_group.discounts
     @subscriptions      = @price_group.subscriptions
     @registrations      = @price_group.registrations
     @premium_offers     = @price_group.premium_offers
     @trial              = @price_group.trial || @price_group.prices.build(type: 'Price::Trial')
 
-    8.times  { @book_tickets       << @price_group.prices.build(type: 'Price::BookTicket', number: 1) }
+    8.times  { @per_courses       << @price_group.prices.build(type: 'Price::BookTicket', number: 1) }
+    8.times  { @book_tickets       << @price_group.prices.build(type: 'Price::BookTicket', number: 2) }
     10.times { @subscriptions      << @price_group.prices.build(type: 'Price::Subscription',) }
     10.times { @premium_offers     << @price_group.prices.build(type: 'Price::PremiumOffer',) }
     6.times  { @discounts          << @price_group.prices.build(type: 'Price::Discount',) }

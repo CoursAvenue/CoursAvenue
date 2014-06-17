@@ -29,9 +29,13 @@ fr:
         other: Carnet de %{count} tickets
     subscription:
       annual: Abonnement annuel
+      annual_short: Annuel
       semester: Abonnement semestriel
+      semester_short: Semestriel
       trimester: Abonnement trimestriel
+      trimester_short: Trimestriel
       month: Abonnement mensuel
+      month_short: Mensuel
     discount:
       student: Étudiant
       young_and_senior: Jeune et sénior

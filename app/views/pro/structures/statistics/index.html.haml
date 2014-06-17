@@ -6,9 +6,9 @@
       %i Prises en compte à partir du 16 juin 2014
   .panel__body.soft--ends.relative
     .soft--sides{ data: { behavior: 'wizard-helper', content: t('statistics.wizard.infos') } }
-      .relative.soft.premium-box.text--left.push--bottom
+      .relative.soft.premium-box.text--center.push--bottom
         = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 70, width: 70, style: 'width: 70px; height: 70px;'
-        .soft--left= render partial: 'pro/structures/premium_select', locals: { title: 'suivre toutes les statistiques de votre profil CoursAvenue', label_text: "Statistiques du nombre de vues et d'actions :", select_collection: ['Visibles', 'Non visibles'] }
+        = render partial: 'pro/structures/premium_select', locals: { title: 'suivre toutes les statistiques de votre profil CoursAvenue', label_text: "Statistiques du nombre de vues et d'actions :", select_collection: ['Visibles', 'Non visibles'] }
 
       .grid.push--bottom
         .grid__item.one-third.text--center.v-middle>

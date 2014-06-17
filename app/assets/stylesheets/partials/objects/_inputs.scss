@@ -91,6 +91,36 @@ textarea:focus, input:focus, select:focus {
     @include box-shadow(inset 0 1px 1px 0 rgba(0, 0, 0, 0.08),0 0 2px 2px #F6F3CE);
 }
 
+.input-addon {
+    display     : table;
+    width       : 100%;
+    table-layout: fixed;
+    > div {
+        display       : table-cell;
+        vertical-align: middle;
+    }
+    .input-suffix {
+        text-align      : center;
+        width           : 2.3em;
+        border          : 1px solid #ccc;
+        border-left    : none;
+        background-color: #EFEFEF;
+        @include border-right-radius($brand-round);
+    }
+    input {
+        @include border-right-radius(0);
+    }
+    .input.select {
+        width: 100%;
+        select {
+            border        : none;
+            width         : 100%;
+            padding-top   : 6px;
+            padding-bottom: 6px;
+            @include border-radius(0);
+        }
+    }
+}
 .input-with-icon {
     position: relative;
     input {
