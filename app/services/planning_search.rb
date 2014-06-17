@@ -26,8 +26,6 @@ class PlanningSearch
       end
 
       all_of do
-        # with :active_structure,  true
-        with :active_course, true
         with :visible,                                    params[:visible]                              if params.has_key? :visible
 
         with(:start_hour).greater_than_or_equal_to        params[:start_hour].to_i                      if params.has_key? :start_hour
