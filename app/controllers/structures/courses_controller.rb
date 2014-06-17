@@ -20,7 +20,6 @@ class Structures::CoursesController < ApplicationController
 
     @plannings.group_by(&:course_id).each do |course_id, plannings|
       course    = Course.find(course_id)
-      next unless course.active
       @courses << CourseSerializer.new(course, {
         root: false,
         structure: @structure,
