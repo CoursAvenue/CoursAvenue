@@ -1,12 +1,17 @@
 <td class="two-twelfths">{{ date }}</td>
 <td class="three-twelfths">{{ time_slot }}</td>
 <td class="three-twelfths">{{ levels }}</td>
-<td class="three-twelfths {{#if info}}nowrap{{/if}}">
+<td class="three-twelfths">
     {{ audiences }}
+    {{#if info}}
+        <i data-original-title="{{ info }}" data-behavior="tooltip"></i>
+    {{/if}}
 </td>
 <td class="nowrap text--right">
+    {{#if address }}
     <div class="gray milli">
         <i>{{address}}</i>
         <i class="fa fa-map-marker"></i>
     </div>
+    {{/if}}
 </td>

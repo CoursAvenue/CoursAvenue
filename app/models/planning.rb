@@ -467,8 +467,10 @@ class Planning < ActiveRecord::Base
   #
   # @return [type] [description]
   def end_date_in_future
-    if end_date and end_date < Date.today
-      errors.add(:end_date, 'Le cours ne peut pas être dans le passé.')
+    if course.is_training?
+      if end_date and end_date < Date.today
+        errors.add(:end_date, 'Le cours ne peut pas être dans le passé.')
+      end
     end
   end
 end

@@ -20,15 +20,15 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         * TODO: clearly plannings should be a relation on Course... it will
         * just take a brief sojourn in serialization hell to get it done.
         * */
-        updatePlannings: function (model) {
+        updatePlannings: function updatePlannings (model) {
             this.collection.set(model.changed.plannings);
         },
 
-        onItemviewMouseenter: function (view, data) {
+        onItemviewMouseenter: function onItemviewMouseenter (view, data) {
             this.trigger("mouseenter", data);
         },
 
-        onItemviewMouseleave: function (view, data) {
+        onItemviewMouseleave: function onItemviewMouseleave (view, data) {
             this.trigger("mouseleave", data);
         }
     });

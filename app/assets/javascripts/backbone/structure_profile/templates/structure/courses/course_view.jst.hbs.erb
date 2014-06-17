@@ -105,7 +105,7 @@
                         </tbody>
                     </table>
                     {{#if description }}
-                        {{{ simple_format description }}}
+                        {{{ simple_format_hide_contacts description }}}
                     {{else}}
                         Pas de description pour ce cours.
                     {{/if}}
@@ -132,7 +132,7 @@
                                             <strong>{{#if promo_amount}}{{promo_amount}}€{{/if}}</strong>
                                         </td>
                                     {{/if}}
-                                    <td>{{info}}</td>
+                                    <td>{{{ hide_contacts info }}}</td>
                                 </tr>
                             {{/each}}
                             {{#each subscriptions}}
@@ -144,7 +144,7 @@
                                             <strong>{{#if promo_amount}}{{promo_amount}}€{{/if}}</strong>
                                         </td>
                                     {{/if}}
-                                    <td>{{info}}</td>
+                                    <td>{{{ hide_contacts info }}}</td>
                                 </tr>
                             {{/each}}
                             {{#if premium}}
@@ -164,9 +164,7 @@
                                             {{/ifCond}}
                                         </td>
                                         <td></td>
-                                        <td>
-                                            {{info}}
-                                    </td>
+                                        <td>{{{ hide_contacts info }}}</td>
                                     </tr>
                                 {{/each}}
                                 {{#each premium_offers}}
@@ -174,7 +172,7 @@
                                         <td>{{libelle}}</td>
                                         <td class="text--right">{{promo_amount}}{{promo_amount_type}}</td>
                                         <td></td>
-                                        <td>{{info}}</td>
+                                        <td>{{{ hide_contacts info }}}</td>
                                     </tr>
                                 {{/each}}
                                 {{#each discounts}}
@@ -182,7 +180,7 @@
                                         <td>{{libelle}}</td>
                                         <td class="text--right">{{promo_amount}}{{promo_amount_type}}</td>
                                         <td></td>
-                                        <td>{{info}}</td>
+                                        <td>{{{ hide_contacts info }}}</td>
                                     </tr>
                                 {{/each}}
                             {{/if}}
@@ -196,9 +194,7 @@
                                             {{amount}}€
                                         {{/ifCond}}
                                     </td>
-                                    <td>
-                                        {{info}}
-                                </td>
+                                    <td>{{{ hide_contacts info }}}</td>
                                 </tr>
                             {{/each}}
                         </tbody>

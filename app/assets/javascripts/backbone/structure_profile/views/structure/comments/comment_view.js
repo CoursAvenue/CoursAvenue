@@ -8,6 +8,14 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
             this.model.set('structure_name', options.structure_name);
         },
 
+        serializeData: function serializeData () {
+            var attributes = this.model.toJSON();
+            if (attributes.reply) {
+                attributes.reply.content = GLOBAL.hideContactsInfo(attributes.reply.content);
+            }
+            return attributes;
+        }
+
     });
 
 }, undefined);

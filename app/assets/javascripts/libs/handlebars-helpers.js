@@ -130,3 +130,13 @@ Handlebars.registerHelper("xif", function (expression, options) {
     return HandlebarsX.apply(this, [expression, options]) ? options.fn(this) : options.inverse(this);
 });
 
+// Ex. of usage: {{ hide_contacts description }}
+Handlebars.registerHelper("hide_contacts", function (text, options) {
+    return GLOBAL.hideContactsInfo(text);
+});
+
+// Ex. of usage: {{ simple_format_hide_contacts description }}
+Handlebars.registerHelper("simple_format_hide_contacts", function (text, options) {
+    return Handlebars.helpers.simple_format(GLOBAL.hideContactsInfo(text));
+});
+
