@@ -72,7 +72,7 @@
                   = f.label :teaches_at_home, class: "label--large inline-block v-middle width-auto hard #{home_place.nil? ? 'gray-light' : ''}"
                   - if home_place
                     .inline-block.v-middle.soft-half--left
-                      %i.blue Dans un rayon de #{home_place.radius}km autour de #{home_place.city.name}.
+                      %i.blue Dans un rayon de #{home_place.radius}km autour de #{home_place.city.try(:name)}.
                       = link_to edit_pro_structure_place_path(@structure, @structure.places.homes.first, type: 'Place::Home', return_to_action: return_to_action), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 } do
                         %i.fa.fa-pencil
                         Modifier

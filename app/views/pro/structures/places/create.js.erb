@@ -2,6 +2,8 @@
     <% if @place.is_home? %>
         <% if params[:return_to].present?%>
             window.location.href = "<%= params[:return_to] %>";
+        <% elsif params[:return_to_action].present?%>
+            <%== params[:return_to_action] %>
         <% else %>
             $('#new-home-place').hide();
             $('#update-home-place').show();
