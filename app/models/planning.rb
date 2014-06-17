@@ -98,10 +98,6 @@ class Planning < ActiveRecord::Base
   searchable do
     boolean :visible
 
-    boolean :active_course do
-      course.active?
-    end
-
     boolean :active_structure do
       course.structure.active?
     end
