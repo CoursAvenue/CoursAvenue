@@ -741,6 +741,7 @@ class Structure < ActiveRecord::Base
   #
   # @return Mailbox
   def mailbox
+    return nil if main_contact.nil?
     return @mailbox if @mailbox
     return @mailbox = main_contact.mailbox
   end
