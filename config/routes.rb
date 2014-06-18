@@ -77,6 +77,7 @@ CoursAvenue::Application.routes.draw do
       end
       resources :participations, only: [:index], controller: 'participations'
       resources :statistics, only: [:index]
+      resources :subscription_plans, only: [:index]
       resources :structures, path: 'etablissements' do
         member do
           get   :go_premium

@@ -1,0 +1,21 @@
+= side_menu_currently_at 'subscription_plans'
+.panel
+  .panel__header.soft
+    %h3.flush Abonnements
+  .panel__body.soft
+    .text--center
+      %h3= "CA : #{@subscription_plans.map(&:amount).reduce(&:+)}€"
+    %table.table--striped
+      %thead
+        %tr
+          %th Formule
+          %th Établissement
+          %th Date d'expiration
+          %th.text--right Prix
+      %tbody
+        - @subscription_plans.each do |subscription_plan|
+          %tr
+            %td= SubscriptionPlan::PLAN_TYPE_DESCRIPTION[subscription_plan.plan_type]
+            %td= link_to subscription_plan.structure.name, pro_structure_path(subscription_plan.structure)
+            %td= l(subscription_plan.expires_at)
+            %td.text--right= "#{subscription_plan.amount}€"
