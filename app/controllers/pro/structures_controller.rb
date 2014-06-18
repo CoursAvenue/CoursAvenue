@@ -293,6 +293,7 @@ class Pro::StructuresController < Pro::ProController
 
   # GET member
   def go_premium
+    AdminMailer.delay.wants_to_go_premium(@structure, params[:premium_type])
     if @structure.premium?
       redirect_to premium_pro_structure_path(@structure)
     end

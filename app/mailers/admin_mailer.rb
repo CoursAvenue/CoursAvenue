@@ -4,16 +4,22 @@ class AdminMailer < ActionMailer::Base
 
   default from: "\"L'équipe CoursAvenue\" <contact@coursavenue.com>"
 
-  def go_premium structure, offer
+  def wants_to_go_premium structure, offer
     @structure = structure
     @offer     = offer
     mail to: 'contact@coursavenue.com', subject: 'Un professeur veut passer premium'
   end
 
+  def go_premium structure, offer
+    @structure = structure
+    @offer     = offer
+    mail to: 'contact@coursavenue.com', subject: 'Un professeur est passé premium'
+  end
+
   def go_premium_fail structure, params
     @structure = structure
     @params    = params
-    mail to: 'nima@coursavenue.com', subject: 'Un professeur veut passer premium mais a échoué'
+    mail to: 'nima@coursavenue.com', subject: 'Un professeur voulait passer premium mais a échoué'
   end
 
   def be2bill_transaction_notifications structure, params

@@ -94,7 +94,7 @@ CoursAvenue::Application.routes.draw do
           get   :payment_confirmation, path: 'confirmation-paiement'
           get   :premium
           get   :premium_modal
-          get   :recommendations, path: 'recommandations'
+          get   :recommendations, path: 'recommendations'
           get   :signature
           get   :update_widget_status
           get   :widget
