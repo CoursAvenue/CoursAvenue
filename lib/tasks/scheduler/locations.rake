@@ -15,7 +15,7 @@ namespace :scheduler do
       sleep 1
     end
 
-    Structure.where{latitude == nil}.each do |structure|
+    Structure.where(latitude: nil).each do |structure|
       structure.geocode
       structure.save(validate: false)
       sleep 1
