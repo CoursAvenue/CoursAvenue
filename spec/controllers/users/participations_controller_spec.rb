@@ -9,13 +9,13 @@ describe Users::ParticipationsController do
     sign_in user
   end
 
-  describe :destroy do
-    it 'cancel the participation' do
-      participation = planning.participations.create(user: user)
-      delete :destroy, { id: participation.id, user_id: user.id }
-      response.should be_redirect
-      assigns(:participation).canceled?.should be_true
-    end
-  end
+  # describe :destroy do
+  #   it 'cancel the participation' do
+  #     participation = planning.participations.create(user: user)
+  #     delete :destroy, { id: participation.id, user_id: user.id }
+  #     response.should be_redirect
+  #     assigns(:participation).canceled?.should be_true
+  #   end
+  # end
 
 end

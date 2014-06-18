@@ -4,36 +4,30 @@
   .panel__header.soft
     = render partial: 'premium_breadcrumb', locals: { current: 'recap' }
   .panel__body.soft
-    - if Rails.env.production?
-      %h3.push-half--bottom.text--center
-        Le paiement par carte bleue est en cours d'installation.
-      .epsilon.flush.text--center
-        En attendant, notre équipe a été prévenue et vous recontactera d'ici peu.
-    - else
-      %table.epsilon.table--striped
-        %thead
-          %tr
-            %th Offre
-            %th Montant
-        %tbody
-          %tr
-            %td= SubscriptionPlan::PLAN_TYPE_DESCRIPTION[params[:premium_type]]
-            %td
-              %strong #{SubscriptionPlan::PLAN_TYPE_PRICES[params[:premium_type]] / SubscriptionPlan::PLAN_TYPE_DURATION[params[:premium_type]]}€
-              par mois x #{SubscriptionPlan::PLAN_TYPE_DURATION[params[:premium_type]]} mois
-          %tr
-            %th Total TTC
-            %td= "#{SubscriptionPlan::PLAN_TYPE_PRICES[params[:premium_type]]}€"
+    %table.epsilon.table--striped
+      %thead
+        %tr
+          %th Offre
+          %th Montant
+      %tbody
+        %tr
+          %td= SubscriptionPlan::PLAN_TYPE_DESCRIPTION[params[:premium_type]]
+          %td
+            %strong #{SubscriptionPlan::PLAN_TYPE_PRICES[params[:premium_type]] / SubscriptionPlan::PLAN_TYPE_DURATION[params[:premium_type]]}€
+            par mois x #{SubscriptionPlan::PLAN_TYPE_DURATION[params[:premium_type]]} mois
+        %tr
+          %th Total TTC
+          %td= "#{SubscriptionPlan::PLAN_TYPE_PRICES[params[:premium_type]]}€"
 
-      = form_tag ENV['BE2BILL_URL'] do
-        = hidden_field_tag :ORDERID,       @be2bill_params['ORDERID']
-        = hidden_field_tag :IDENTIFIER,    @be2bill_params['IDENTIFIER']
-        = hidden_field_tag :OPERATIONTYPE, @be2bill_params['OPERATIONTYPE']
-        = hidden_field_tag :DESCRIPTION,   @be2bill_params['DESCRIPTION']
-        = hidden_field_tag :AMOUNT,        @be2bill_params['AMOUNT']
-        = hidden_field_tag :VERSION,       @be2bill_params['VERSION']
-        = hidden_field_tag :CLIENTIDENT,   @be2bill_params['CLIENTIDENT']
-        = hidden_field_tag :CREATEALIAS,   @be2bill_params['CREATEALIAS']
-        = hidden_field_tag :CLIENTEMAIL,   @be2bill_params['CLIENTEMAIL']
-        = hidden_field_tag :HASH,          @be2bill_params['HASH']
-        = submit_tag 'Payer', class: 'btn btn--green btn--large btn--full'
+    = form_tag ENV['BE2BILL_URL'] do
+      = hidden_field_tag :ORDERID,       @be2bill_params['ORDERID']
+      = hidden_field_tag :IDENTIFIER,    @be2bill_params['IDENTIFIER']
+      = hidden_field_tag :OPERATIONTYPE, @be2bill_params['OPERATIONTYPE']
+      = hidden_field_tag :DESCRIPTION,   @be2bill_params['DESCRIPTION']
+      = hidden_field_tag :AMOUNT,        @be2bill_params['AMOUNT']
+      = hidden_field_tag :VERSION,       @be2bill_params['VERSION']
+      = hidden_field_tag :CLIENTIDENT,   @be2bill_params['CLIENTIDENT']
+      = hidden_field_tag :CREATEALIAS,   @be2bill_params['CREATEALIAS']
+      = hidden_field_tag :CLIENTEMAIL,   @be2bill_params['CLIENTEMAIL']
+      = hidden_field_tag :HASH,          @be2bill_params['HASH']
+      = submit_tag 'Payer', class: 'btn btn--green btn--large btn--full'
