@@ -83,7 +83,7 @@ class Structure < ActiveRecord::Base
                   :gives_non_professional_courses, :gives_professional_courses,
                   :highlighted_comment_id,
                   :deletion_reasons, :deletion_reasons_text,
-                  :phone_numbers_attributes, :places_attributes, :other_emails
+                  :phone_numbers_attributes, :places_attributes, :other_emails, :last_geocode_try
 
   accepts_nested_attributes_for :places,
                                  reject_if: :reject_places,
@@ -828,7 +828,11 @@ class Structure < ActiveRecord::Base
 
   # Only geocode if  lat and lng are nil
   def geocode_if_needs_to
+    # Don't try to geocode if it has failed less than 5 seconds earlier.
+    # It might be because of Google query limit
+    return nil if self.last_geocode_try and (Time.now - self.last_geocode_try) < 5 # 5 seconds
     if latitude.nil? or longitude.nil?
+      self.update_column :last_geocode_try, Time.now
       self.geocode
       # Save only if lat and lng have been set.
       # Prevent from infinite trying to save
