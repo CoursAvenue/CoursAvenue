@@ -1,23 +1,28 @@
 # https://github.com/alexreisner/geocoder
 
-Geocoder.configure(
+unless Rails.env.development?
+  Geocoder.configure(
 
-  # geocoding service (see below for supported options):
-  # :lookup => :yandex,
+    # geocoding service (see below for supported options):
+    # :lookup => :yandex,
 
-  # IP address geocoding service (see below for supported options):
-  # :ip_lookup => :maxmind,
+    # IP address geocoding service (see below for supported options):
+    # :ip_lookup => :maxmind,
 
-  # to use an API key:
-  # :api_key => '',
+    :api_key => ENV['GOOGLE_MAPS_API_KEY'],
+    :use_https => true,
 
-  # geocoding service request timeout, in seconds (default 3):
-  :timeout => 5,
+    # to use an API key:
+    # :api_key => '',
 
-  # set default units to kilometers:
-  :units => :km,
+    # geocoding service request timeout, in seconds (default 3):
+    :timeout => 5,
 
-  # caching (see below for details):
-  # :cache => Redis.new,
-  # :cache_prefix => "..."
-)
+    # set default units to kilometers:
+    :units => :km,
+
+    # caching (see below for details):
+    # :cache => Redis.new,
+    # :cache_prefix => "..."
+  )
+end
