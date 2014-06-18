@@ -14,10 +14,10 @@
       .text--center
         = link_to 'Accéder à mon profil CoursAvenue', dashboard_pro_structure_path(@structure), class: 'btn btn--green btn--large'
     - else
-      %h2.text--center.push-half--bottom Une erreur est survenue lors du paiement
-      %h5.text--center Notre équipe vient d'en être informé et va vous recontacter d'ici peu.
-      %p.text--center.flush
-        Vous pouvez réessayer en cliquant sur le bouton suivant :
-        = link_to 'Passer au Premium', premium_modal_pro_structure_url(@structure, subdomain: 'pro'), class: 'btn btn--small btn--yellow f-weight-bold fancybox.ajax', data: { behavior: 'modal', padding: 0, width: 900 }
-
-
+      %h2.text--center.push-half--bottom
+        Une erreur est survenue lors du paiement :
+      %h4.text--center
+        - if params['EXECCODE']
+          = t("pro.structures.be2bill_errors.error_#{params['EXECCODE']}")
+      .text--center
+        = link_to 'Réessayer', go_premium_pro_structure_url(@structure, premium_type: params[:premium_type], subdomain: 'pro'), class: 'btn btn--large btn--yellow f-weight-bold'
