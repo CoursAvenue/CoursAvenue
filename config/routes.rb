@@ -339,7 +339,7 @@ CoursAvenue::Application.routes.draw do
     resources :messages , only: [:create], controller: 'structures/messages'
     resources :places , only: [:index], controller: 'structures/places'
     resources :courses , only: [:show, :index], path: 'cours', controller: 'structures/courses'
-    resources :comments, only: [:new], path: 'recommendations', controller: 'structures/comments'
+    resources :comments, only: [:new], path: 'recommandations', controller: 'structures/comments'
     resources :comments, only: [:create, :new, :show, :index], path: 'avis', controller: 'structures/comments'
     resources :teachers, only: [:index], controller: 'structures/teachers'
     resources :medias, only: [:index], controller: 'structures/medias'
