@@ -1,5 +1,7 @@
 class Price < ActiveRecord::Base
   acts_as_paranoid
+  include I18n::Alchemy
+  localize :amount, :using => :number
 
   ######################################################################
   # Relations                                                          #

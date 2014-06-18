@@ -1,5 +1,6 @@
 class PriceGroup < ActiveRecord::Base
   acts_as_paranoid
+  include I18n::Alchemy
 
   ######################################################################
   # Relations                                                          #

@@ -31,7 +31,8 @@ class Pro::Structures::PriceGroupsController < Pro::ProController
   end
 
   def create
-    @price_group = @structure.price_groups.build(params[:price_group])
+    @price_group = @structure.price_groups.build
+    @price_group.localized.assign_attributes(params[:price_group])
     @course      = @structure.courses.find(params[:course_id]) if params[:course_id].present?
     respond_to do |format|
       if @price_group.save
@@ -57,7 +58,7 @@ class Pro::Structures::PriceGroupsController < Pro::ProController
   def update
     @price_group = @structure.price_groups.find params[:id]
     respond_to do |format|
-      if @price_group.update_attributes params[:price_group]
+      if @price_group.localized.update_attributes params[:price_group]
         format.html { redirect_to pro_structure_price_groups_path(@structure) }
         format.js
       else
@@ -123,6 +124,13 @@ class Pro::Structures::PriceGroupsController < Pro::ProController
     10.times { @premium_offers     << @price_group.prices.build(type: 'Price::PremiumOffer',) }
     6.times  { @discounts          << @price_group.prices.build(type: 'Price::Discount',) }
     6.times  { @registrations      << @price_group.prices.build(type: 'Price::Registration',) }
+    @per_courses      = @per_courses.map(&:localized)
+    @book_tickets     = @book_tickets.map(&:localized)
+    @discounts        = @discounts.map(&:localized)
+    @subscriptions    = @subscriptions.map(&:localized)
+    @registrations    = @registrations.map(&:localized)
+    @premium_offers   = @premium_offers.map(&:localized)
+    @trial            = @trial.localized
   end
 
   def retrieve_non_affected_courses

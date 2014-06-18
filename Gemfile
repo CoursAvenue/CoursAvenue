@@ -40,9 +40,8 @@ gem 'rack-reverse-proxy',  require: 'rack/reverse_proxy'
 gem 'rack-cors',           require: 'rack/cors'
 
 # Formats numbers and prices regarding the locale
-# TODO Fix this gem
-# The gem is not ready yet for Rails 4.
-# gem 'delocalize', '~>0.3.2'
+# https://github.com/carlosantoniodasilva/i18n_alchemy
+gem 'i18n_alchemy', '~>0.2.1'
 
 # Caching
 gem 'memcachier'
