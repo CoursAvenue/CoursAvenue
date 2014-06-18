@@ -86,7 +86,7 @@ class Structure < ActiveRecord::Base
                   :phone_numbers_attributes, :places_attributes, :other_emails
 
   accepts_nested_attributes_for :places,
-                                 reject_if: lambda { |attributes| attributes[:zip_code].blank? },
+                                 reject_if: :reject_places,
                                  allow_destroy: false
 
   accepts_nested_attributes_for :phone_numbers,
@@ -741,6 +741,7 @@ class Structure < ActiveRecord::Base
   #
   # @return Mailbox
   def mailbox
+    return nil if main_contact.nil?
     return @mailbox if @mailbox
     return @mailbox = main_contact.mailbox
   end
@@ -853,6 +854,10 @@ class Structure < ActiveRecord::Base
     self.update_column :zip_code, place.zip_code if place
     self.update_column :city_id,  place.city.id  if place
     nil
+  end
+
+  def reject_places attributes
+    self.persisted? and attributes[:zip_code].blank?
   end
 
   def reject_phone_number attributes

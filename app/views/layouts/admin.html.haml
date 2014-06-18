@@ -25,45 +25,46 @@
             Passer au Premium
       .flexbox__item.v-middle.text--right.soft-half--right
 
-        - unread_conversations       = @structure.mailbox.inbox(read: false)
-        - unread_conversations      += @structure.unanswered_information_message
-        - unread_conversations_count = unread_conversations.count
-        .inline-block.v-middle.drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
-          = link_to pro_structure_conversations_url(@structure, subdomain: 'pro'), class: 'white block soft-half--ends muted-link f-weight-bold' do
-            %i.fa.fa-envelope
-            = pluralize @structure.mailbox.inbox.count, 'message'
-            - if unread_conversations_count > 0
-              %span.push--left.lbl.lbl--orange.lbl--small= unread_conversations_count
-          .drop-down__el
-            %ul.no-bullet-list.flush{ style: 'width: 400px' }
-              - if unread_conversations_count == 0
-                %li
-                  %a.not-hoverable.f-weight-normal Pas de nouveau message
-              - else
-                %li
-                  - if unread_conversations_count == 1
-                    %a.not-hoverable.f-weight-normal= "#{unread_conversations_count} nouveau message"
-                  - else
-                    %a.not-hoverable.f-weight-normal= "#{unread_conversations_count} nouveaux messages"
-              - unread_conversations.each do |conversation|
-                %li
-                  = link_to pro_structure_conversation_path(@structure, conversation), class: 'grid--full' do
-                    .grid__item.two-twelfths.v-middle>
-                      -# - azD?
-                      -# - recipients = conversation.recipients.reject{ |recipient| recipient == @structure.main_contact }
-                      - last_sender = conversation.messages.order('created_at DESC').first.sender
-                      = image_tag last_sender.avatar_url(:thumb), class: 'block bordered rounded--circle'
-                    .grid__item.six-twelfths.v-top.text--left.soft-half--left.f-weight-normal>
-                      %strong= conversation.subject
-                      %br
-                      = last_sender.name
-                    .grid__item.four-twelfths.v-middle.text--right.f-weight-normal>
-                      .grid--full
-                        .grid__item.v-middle.ten-twelfths>
-                          = conversation_label_name conversation
-                        .grid__item.v-middle.two-twelfths>
-                          = conversation_label conversation, class: 'lbl--small'
-              %li= link_to 'Voir tous les messages', pro_structure_conversations_url(@structure, subdomain: 'pro')
+        - if @structure.mailbox
+          - unread_conversations       = @structure.mailbox.inbox(read: false)
+          - unread_conversations      += @structure.unanswered_information_message
+          - unread_conversations_count = unread_conversations.count
+          .inline-block.v-middle.drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
+            = link_to pro_structure_conversations_url(@structure, subdomain: 'pro'), class: 'white block soft-half--ends muted-link f-weight-bold' do
+              %i.fa.fa-envelope
+              = pluralize @structure.mailbox.inbox.count, 'message'
+              - if unread_conversations_count > 0
+                %span.push--left.lbl.lbl--orange.lbl--small= unread_conversations_count
+            .drop-down__el
+              %ul.no-bullet-list.flush{ style: 'width: 400px' }
+                - if unread_conversations_count == 0
+                  %li
+                    %a.not-hoverable.f-weight-normal Pas de nouveau message
+                - else
+                  %li
+                    - if unread_conversations_count == 1
+                      %a.not-hoverable.f-weight-normal= "#{unread_conversations_count} nouveau message"
+                    - else
+                      %a.not-hoverable.f-weight-normal= "#{unread_conversations_count} nouveaux messages"
+                - unread_conversations.each do |conversation|
+                  %li
+                    = link_to pro_structure_conversation_path(@structure, conversation), class: 'grid--full' do
+                      .grid__item.two-twelfths.v-middle>
+                        -# - azD?
+                        -# - recipients = conversation.recipients.reject{ |recipient| recipient == @structure.main_contact }
+                        - last_sender = conversation.messages.order('created_at DESC').first.sender
+                        = image_tag last_sender.avatar_url(:thumb), class: 'block bordered rounded--circle'
+                      .grid__item.six-twelfths.v-top.text--left.soft-half--left.f-weight-normal>
+                        %strong= conversation.subject
+                        %br
+                        = last_sender.name
+                      .grid__item.four-twelfths.v-middle.text--right.f-weight-normal>
+                        .grid--full
+                          .grid__item.v-middle.ten-twelfths>
+                            = conversation_label_name conversation
+                          .grid__item.v-middle.two-twelfths>
+                            = conversation_label conversation, class: 'lbl--small'
+                %li= link_to 'Voir tous les messages', pro_structure_conversations_url(@structure, subdomain: 'pro')
         %span.v-middle.push-half--sides= '|'
         .inline-block.v-middle.drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
           = link_to pro_structure_comments_url(@structure, subdomain: 'pro'), class: 'white block soft-half--ends muted-link f-weight-bold' do
