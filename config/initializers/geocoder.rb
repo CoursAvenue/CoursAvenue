@@ -1,6 +1,6 @@
 # https://github.com/alexreisner/geocoder
 
-unless Rails.env.development?
+if Rails.env.production?
   Geocoder.configure(
 
     # geocoding service (see below for supported options):
