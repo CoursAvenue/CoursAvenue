@@ -2,13 +2,22 @@
 
 .panel
   .panel__header.soft
-    = render partial: 'premium_breadcrumb', locals: { current: 'validation' }
+    = render partial: 'premium_breadcrumb', locals: { current: 'validation', failure: params['EXECCODE'] != '0000' }
   .panel__body.soft
-    %h2
-      %i.fa.fa-check.green.fa-2x.v-middle
-      %span.v-middle Félicitations ! Votre compte Premium est activé.
-    %h5.text--center
-      Profitez dès maintenant de toutes les fonctionnalités du compte Premium CoursAvenue :
-    = render 'pro/structures/premium_advantages'
-    .text--center
-      = link_to 'Accéder à mon profil CoursAvenue', dashboard_pro_structure_path(@structure), class: 'btn btn--green btn--large'
+    - if params['EXECCODE'] == '0000'
+      %h2
+        %i.fa.fa-check.green.fa-2x.v-middle
+        %span.v-middle Félicitations ! Votre compte Premium est activé.
+      %h5.text--center
+        Profitez dès maintenant de toutes les fonctionnalités du compte Premium CoursAvenue :
+      = render 'pro/structures/premium_advantages'
+      .text--center
+        = link_to 'Accéder à mon profil CoursAvenue', dashboard_pro_structure_path(@structure), class: 'btn btn--green btn--large'
+    - else
+      %h2.text--center.push-half--bottom Une erreur est survenue lors du paiement
+      %h5.text--center Notre équipe vient d'en être informé et va vous recontacter d'ici peu.
+      %p.text--center.flush
+        Vous pouvez réessayer en cliquant sur le bouton suivant :
+        = link_to 'Passer au Premium', premium_modal_pro_structure_url(@structure, subdomain: 'pro'), class: 'btn btn--small btn--yellow f-weight-bold fancybox.ajax', data: { behavior: 'modal', padding: 0, width: 900 }
+
+

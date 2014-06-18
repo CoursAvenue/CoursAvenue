@@ -315,12 +315,21 @@ class Pro::StructuresController < Pro::ProController
     @be2bill_params['HASH'] = SubscriptionPlan.hash_be2bill_params @be2bill_params
   end
 
+  # GET Payment confirmation page
   def payment_confirmation
-    AdminMailer.delay.go_premium(@structure, params[:premium_type])
   end
 
+  # POST Payment confirmation page called by Be2bill
   def payment_confirmation_be2_bill
     @structure = Structure.find params[:CLIENTIDENT]
+
+    if params['EXECCODE'] != '0000'
+      Bugsnag.notify(RuntimeError.new("Payment refused"), params)
+      AdminMailer.delay.go_premium_fail(@structure, params)
+    else
+      AdminMailer.delay.go_premium(@structure, SubscriptionPlan.premium_type_from_be2bill_amount(params[:AMOUNT]))
+    end
+
     # Only create an order if there is no existing one with this ID
     # Prevents from reloading the page and creating another order
     params[:CLIENT_IP] = request.remote_ip || @structure.main_contact.last_sign_in_ip
@@ -332,18 +341,11 @@ class Pro::StructuresController < Pro::ProController
       end
       @structure.orders.create amount: subscription_plan.amount, order_id: params[:ORDERID], subscription_plan: subscription_plan
     end
-    redirect_to payment_confirmation_pro_structure_path(@structure)
+    redirect_to payment_confirmation_pro_structure_path(@structure, EXECCODE: params['EXECCODE'])
   end
 
   def be2bill_placeholder
-    case params[:AMOUNT]
-    when 34800
-      params[:premium_type] = 'yearly'
-    when 3400
-      params[:premium_type] = 'monthly'
-    when 6900
-      params[:premium_type] = 'three_months'
-    end
+    params[:premium_type] = SubscriptionPlan.premium_type_from_be2bill_amount params[:AMOUNT]
     @structure = Structure.find params[:CLIENTIDENT]
     render 'be2bill_placeholder'
   end

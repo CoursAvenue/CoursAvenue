@@ -124,4 +124,16 @@ class SubscriptionPlan < ActiveRecord::Base
   def active?
     !canceled? and self.expires_at >= Date.today
   end
+
+  def self.premium_type_from_be2bill_amount amount
+    case amount
+    when 34800
+      return 'yearly'
+    when 3400
+      return 'monthly'
+    when 6900
+      return 'three_months'
+    end
+    return 'yearly'
+  end
 end

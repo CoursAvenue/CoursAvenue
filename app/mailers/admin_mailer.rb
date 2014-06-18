@@ -10,6 +10,12 @@ class AdminMailer < ActionMailer::Base
     mail to: 'contact@coursavenue.com', subject: 'Un professeur veut passer premium'
   end
 
+  def go_premium_fail structure, params
+    @structure = structure
+    @params    = params
+    mail to: 'nima@coursavenue.com', subject: 'Un professeur veut passer premium mais a échoué'
+  end
+
   def inform_admin(subject, text)
     @text = text
     mail to: 'contact@coursavenue.com', subject: subject
