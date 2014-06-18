@@ -9,7 +9,7 @@
       = render "pro/structures/admins/change_email"
 
       %div{ data: { behavior: 'show-more-on-demand' } }<>
-        - @structure.phone_numbers.each_with_index do |phone_number, i|
+        - @structure.phone_numbers.order('created_at ASC').each_with_index do |phone_number, i|
           = form.simple_fields_for :phone_numbers, phone_number, child_index: i do |phone_number_form|
             %div{ class: (!phone_number_form.object.persisted? ? 'hidden' : ''), data: { el: true, hidden: !phone_number_form.object.persisted? } }<>
               .input.flush--bottom

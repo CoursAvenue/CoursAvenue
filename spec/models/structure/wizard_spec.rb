@@ -38,23 +38,23 @@ describe Structure::Wizard do
   #   end
   # end
 
-  describe '#coordonates' do
-    let (:coordonates_wizard) { Structure::Wizard.where(name: 'wizard.coordonates').first }
-    context :empty do
-      it 'is not completed' do
-        structure.contact_phone = ''
-        structure.contact_mobile_phone = ''
-        expect(coordonates_wizard.completed?.call(structure)).to be_false
-      end
-    end
+  # describe '#coordonates' do
+  #   let (:coordonates_wizard) { Structure::Wizard.where(name: 'wizard.coordonates').first }
+  #   context :empty do
+  #     it 'is not completed' do
+  #       structure.contact_phone = ''
+  #       structure.contact_mobile_phone = ''
+  #       expect(coordonates_wizard.completed?.call(structure)).to be_false
+  #     end
+  #   end
 
-    context :filled do
-      it 'is completed' do
-        structure.contact_phone = '02 14 01 41 32'
-        expect(coordonates_wizard.completed?.call(structure)).to be_true
-      end
-    end
-  end
+  #   context :filled do
+  #     it 'is completed' do
+  #       structure.contact_phone = '02 14 01 41 32'
+  #       expect(coordonates_wizard.completed?.call(structure)).to be_true
+  #     end
+  #   end
+  # end
 
   describe '#places' do
     let (:places_wizard) { Structure::Wizard.where(name: 'wizard.places').first }
