@@ -26,6 +26,7 @@ class Pro::Structures::SubscriptionPlansController < Pro::ProController
     @subscription_plan.update_attributes params[:subscription_plan]
     @subscription_plan.canceled_at = Time.now
     @subscription_plan.save
+    @structure.index
     redirect_to pro_structure_path(@structure)
   end
 

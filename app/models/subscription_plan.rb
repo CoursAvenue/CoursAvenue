@@ -56,6 +56,7 @@ class SubscriptionPlan < ActiveRecord::Base
                             recurrent: true,
                             be2bill_alias: params[:ALIAS],
                             client_ip: params[:CLIENT_IP]
+    structure.index
   end
 
   def self.hash_be2bill_params params

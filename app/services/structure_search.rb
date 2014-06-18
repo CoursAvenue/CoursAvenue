@@ -59,6 +59,8 @@ class StructureSearch
         order_by :nb_comments, :desc
       elsif params[:sort] == 'relevancy'
         order_by :has_comment, :desc
+      elsif params[:sort] == 'premium'
+        order_by :premium, :desc
       end
       paginate page: (params[:page].present? ? params[:page] : 1), per_page: (params[:per_page] || 15)
     end
@@ -88,8 +90,7 @@ class StructureSearch
                                             lng: structure.longitude,
                                             without_id: structure.id,
                                             radius: 10,
-                                            nb_comments: 4,
-                                            sort: 'rating_desc',
+                                            sort: 'premium',
                                             has_logo: true,
                                             per_page: limit,
                                             subject_id: parent_subject.slug
@@ -101,9 +102,18 @@ class StructureSearch
       @structures << StructureSearch.search({lat: structure.latitude,
                                              lng: structure.longitude,
                                              without_id: structure.id,
+                                             radius: 50,
+                                             sort: 'premium',
+                                             has_logo: true,
+                                             per_page: (limit - @structures.length)
+                                          }).results
+    end
+    if @structures.length < limit
+      @structures << StructureSearch.search({lat: structure.latitude,
+                                             lng: structure.longitude,
+                                             without_id: structure.id,
                                              radius: 500,
-                                             nb_comments: 4,
-                                             sort: 'rating_desc',
+                                             sort: 'premium',
                                              has_logo: true,
                                              per_page: (limit - @structures.length)
                                           }).results
