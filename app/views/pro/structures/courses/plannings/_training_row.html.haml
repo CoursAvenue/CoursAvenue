@@ -10,7 +10,7 @@
   %td
     - if planning.is_in_foreign_country
       Séjour à l'étranger
-    - else
+    - elsif planning.place
       = planning.place.name
 
   %td

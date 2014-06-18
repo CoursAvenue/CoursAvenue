@@ -52,6 +52,8 @@ class Pro::Structures::PriceGroupsController < Pro::ProController
     retrieve_prices
     if request.xhr?
       render partial: 'form', layout: false
+    else
+      redirect_to pro_structure_price_groups_path(@structure)
     end
   end
 
