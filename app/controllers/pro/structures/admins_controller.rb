@@ -11,7 +11,7 @@ class Pro::Structures::AdminsController < Pro::ProController
   def show
     @structure = Structure.find params[:structure_id]
     @admin     = @structure.admins.find(params[:id])
-    redirect_to notifications_pro_structure_admin_path(@structure, @admin)
+    redirect_to edit_pro_structure_admin_path(@structure, @admin)
   end
 
   def edit
@@ -27,6 +27,7 @@ class Pro::Structures::AdminsController < Pro::ProController
 
   def notifications
     @admin = @structure.admins.find(params[:id])
+    redirect_to edit_pro_structure_admin_path(@structure, @admin)
   end
 
   def create
