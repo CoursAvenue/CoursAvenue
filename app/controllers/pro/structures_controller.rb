@@ -1,8 +1,8 @@
 # encoding: utf-8
 class Pro::StructuresController < Pro::ProController
 
-  before_action :authenticate_pro_admin!, except: [:new, :create, :widget_ext, :best, :be2bill_placeholder]
-  load_and_authorize_resource :structure, except: [:new, :create, :widget_ext, :best, :be2bill_placeholder], find_by: :slug
+  before_action :authenticate_pro_admin!, except: [:new, :create, :widget_ext, :best]
+  load_and_authorize_resource :structure, except: [:new, :create, :widget_ext, :best], find_by: :slug
 
   layout :get_layout
 
@@ -342,20 +342,6 @@ class Pro::StructuresController < Pro::ProController
       @structure.orders.create amount: subscription_plan.amount, order_id: params[:ORDERID], subscription_plan: subscription_plan
     end
     redirect_to payment_confirmation_pro_structure_path(@structure, EXECCODE: params['EXECCODE'])
-  end
-
-  # POST Called by Be2bill to integrate payment form
-  def be2bill_placeholder
-    params[:premium_type] = SubscriptionPlan.premium_type_from_be2bill_amount params[:AMOUNT]
-    @structure = Structure.find params[:CLIENTIDENT]
-    render 'be2bill_placeholder'
-  end
-
-  # POST Called by Be2bill to notify for a transaction
-  def be2bill_transaction_notifications
-    @structure = Structure.find params[:CLIENTIDENT] if params[:CLIENTIDENT]
-    AdminMailer.delay.be2bill_transaction_notifications(@structure, params)
-    render text: 'OK'
   end
 
   # GET member

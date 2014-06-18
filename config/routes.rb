@@ -7,8 +7,10 @@ CoursAvenue::Application.routes.draw do
   constraints subdomain: (Rails.env.staging? ? 'pro.staging' : 'pro') do
     namespace :pro, path: '' do
       root :to => 'home#index'
-      post 'be2bill_placeholder'                => 'structures#be2bill_placeholder'
-      post 'be2bill_transaction_notifications'  => 'structures#be2bill_transaction_notifications'
+      # Be2bill urls
+      post 'be2bill/placeholder'                => 'be2bill#placeholder'
+      post 'be2bill/transaction_notifications'  => 'be2bill#transaction_notifications'
+
       get 'pages/livres-blancs'                 => 'home#white_book',         as: 'pages_white_books'
       get 'mailjet_custo'                       => 'home#mailjet_custo'
       get 'pages/pourquoi-etre-recommande'      => 'home#why_be_recommended', as: 'pages_why_be_recommended'
