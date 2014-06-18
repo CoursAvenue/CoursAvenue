@@ -16,6 +16,12 @@ class AdminMailer < ActionMailer::Base
     mail to: 'nima@coursavenue.com', subject: 'Un professeur veut passer premium mais a échoué'
   end
 
+  def be2bill_transaction_notifications structure, params
+    @structure = structure
+    @params    = params
+    mail to: 'nima@coursavenue.com', subject: 'Be2Bill transaction notifiaction'
+  end
+
   def inform_admin(subject, text)
     @text = text
     mail to: 'contact@coursavenue.com', subject: subject

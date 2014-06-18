@@ -1,0 +1,5 @@
+%h3 Be2bill transaction notification
+- if @structure
+  %p= link_to @structure.name, pro_structure_url(@structure, subdomain: 'pro')
+
+= debug @params
