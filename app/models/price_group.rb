@@ -46,7 +46,7 @@ class PriceGroup < ActiveRecord::Base
   # Following methods use select instead of where to force retrieving prices even
   # if they are not persisted
   def book_tickets
-    self.prices.select{ |p| p.type == 'Price::BookTicket' }.sort_by(&:number)
+    self.prices.select{ |p| p.type == 'Price::BookTicket' }.reject(&:blank?).sort_by(&:number)
   end
 
   def premium_offers

@@ -47,9 +47,9 @@ class SubscriptionPlan < ActiveRecord::Base
 
   # Create a plan associated to the given structure with a monthly subscription plan
   #
-  # @return Boolean
+  # @return SubscriptionPlan
   def self.subscribe! plan_type, structure, params={}
-    SubscriptionPlan.create structure: structure,
+    subscription_plan = SubscriptionPlan.create structure: structure,
                             plan_type: plan_type.to_s,
                             expires_at: Date.today + PLAN_TYPE_DURATION[plan_type.to_s].month,
                             credit_card_number: params[:CARDCODE],
@@ -57,6 +57,7 @@ class SubscriptionPlan < ActiveRecord::Base
                             be2bill_alias: params[:ALIAS],
                             client_ip: params[:CLIENT_IP]
     structure.index
+    subscription_plan
   end
 
   def self.hash_be2bill_params params

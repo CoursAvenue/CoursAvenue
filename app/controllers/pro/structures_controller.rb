@@ -336,11 +336,11 @@ class Pro::StructuresController < Pro::ProController
     params[:CLIENT_IP] = request.remote_ip || @structure.main_contact.last_sign_in_ip
     if params[:EXECCODE] == '0000'
       if params[:AMOUNT] == '34800'
-        subscription_plan = SubscriptionPlan.subscribe! :yearly, @structure, params
+        subscription_plan = SubscriptionPlan.subscribe!(:yearly, @structure, params)
       else
-        subscription_plan = SubscriptionPlan.subscribe! :monthly, @structure, params
+        subscription_plan = SubscriptionPlan.subscribe!(:monthly, @structure, params)
       end
-      @structure.orders.create amount: subscription_plan.amount, order_id: params[:ORDERID], subscription_plan: subscription_plan
+      @structure.orders.create(amount: subscription_plan.amount, order_id: params[:ORDERID], subscription_plan: subscription_plan)
     end
     redirect_to payment_confirmation_pro_structure_path(@structure, EXECCODE: params['EXECCODE'], premium_type: SubscriptionPlan.premium_type_from_be2bill_amount(params[:AMOUNT]))
   end
