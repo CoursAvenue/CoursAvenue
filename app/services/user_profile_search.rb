@@ -17,5 +17,4 @@ class UserProfileSearch
     end
     @search
   end
-
 end
