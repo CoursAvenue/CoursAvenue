@@ -49,13 +49,13 @@ class SubscriptionPlan < ActiveRecord::Base
   #
   # @return SubscriptionPlan
   def self.subscribe! plan_type, structure, params={}
-    subscription_plan = SubscriptionPlan.create structure: structure,
-                            plan_type: plan_type.to_s,
-                            expires_at: Date.today + PLAN_TYPE_DURATION[plan_type.to_s].month,
-                            credit_card_number: params[:CARDCODE],
-                            recurrent: true,
-                            be2bill_alias: params[:ALIAS],
-                            client_ip: params[:CLIENT_IP]
+    subscription_plan = SubscriptionPlan.create({structure: structure,
+                                                plan_type: plan_type.to_s,
+                                                expires_at: Date.today + PLAN_TYPE_DURATION[plan_type.to_s].month,
+                                                credit_card_number: params[:CARDCODE],
+                                                recurrent: true,
+                                                be2bill_alias: params[:ALIAS],
+                                                client_ip: params[:CLIENT_IP]})
     structure.index
     return subscription_plan
   end
