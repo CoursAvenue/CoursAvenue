@@ -334,9 +334,12 @@ class Pro::StructuresController < Pro::ProController
     # Only create an order if there is no existing one with this ID
     # Prevents from reloading the page and creating another order
     params[:CLIENT_IP] = request.remote_ip || @structure.main_contact.last_sign_in_ip
+    # TODO Fix this
     if params[:EXECCODE] == '0000'
       if params[:AMOUNT] == '34800'
         subscription_plan = SubscriptionPlan.subscribe!(:yearly, @structure, params)
+      elsif params[:AMOUNT] == '6900'
+        subscription_plan = SubscriptionPlan.subscribe!(:three_months, @structure, params)
       else
         subscription_plan = SubscriptionPlan.subscribe!(:monthly, @structure, params)
       end

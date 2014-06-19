@@ -28,7 +28,7 @@ namespace :scheduler do
     desc 'Send email to admins that have access to the widget'
     task :remind_for_widget => :environment do |t, args|
       if Time.now.thursday?
-        Structure.where{comments_count >= 5}.map(&:remind_for_widget)
+        Structure.where(Structure.arel_table[:comments_count].gteq(5)).map(&:remind_for_widget)
       end
     end
 

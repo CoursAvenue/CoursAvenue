@@ -31,7 +31,7 @@ class SubscriptionPlan < ActiveRecord::Base
   belongs_to :structure
 
   attr_accessible :plan_type, :expires_at, :renewed_at, :recurrent, :structure, :canceled_at,
-                  :credit_card_number, :be2bill_alias,
+                  :credit_card_number, :be2bill_alias, :client_ip,
                   :cancelation_reason_dont_want_more_students, :cancelation_reason_stopping_activity,
                   :cancelation_reason_didnt_have_return_on_investment, :cancelation_reason_too_hard_to_use,
                   :cancelation_reason_not_satisfied_of_coursavenue_users, :cancelation_reason_other, :cancelation_reason_text
@@ -57,7 +57,7 @@ class SubscriptionPlan < ActiveRecord::Base
                             be2bill_alias: params[:ALIAS],
                             client_ip: params[:CLIENT_IP]
     structure.index
-    subscription_plan
+    return subscription_plan
   end
 
   def self.hash_be2bill_params params
