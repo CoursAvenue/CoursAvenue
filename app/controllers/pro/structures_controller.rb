@@ -1,6 +1,5 @@
 # encoding: utf-8
 class Pro::StructuresController < Pro::ProController
-
   before_action :authenticate_pro_admin!, except: [:new, :create, :widget_ext, :best]
   load_and_authorize_resource :structure, except: [:new, :create, :widget_ext, :best], find_by: :slug
 
