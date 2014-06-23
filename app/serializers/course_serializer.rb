@@ -127,10 +127,10 @@ class CourseSerializer < ActiveModel::Serializer
        string << "à l'adresse : "
     end
     if object.teaches_at_home? and object.home_place
-      string << "À domicile (#{object.home_place.city.name}, #{object.home_place.radius})"
+      string << "À domicile (#{object.home_place.city.name}, #{object.home_place.radius}km)"
     end
     if object.teaches_at_home? and object.home_place and object.place
-      string << " et"
+      string << " et "
     end
     if object.place
       string << object.place.address
