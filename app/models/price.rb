@@ -64,8 +64,13 @@ class Price < ActiveRecord::Base
     false
   end
 
+  #
+  # [localized_libelle description]
+  #
+  # @return String
   def localized_libelle
-    I18n.t(read_attribute(:libelle)) if read_attribute(:libelle)
+    return I18n.t(read_attribute(:libelle)) if read_attribute(:libelle)
+    return ''
   end
 
   def book_ticket?
