@@ -70,7 +70,7 @@
     :javascript
       $(function() {
           handler = Gmaps.build('Google', { markers: { maxRandomDistance: null } });
-          handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+          handler.buildMap({ provider: { scrollwheel: false }, internal: {id: 'map'}}, function(){
               markers = handler.addMarkers(#{@city_latlng.to_json});
               handler.bounds.extendWith(markers);
               handler.fitMapToBounds();
