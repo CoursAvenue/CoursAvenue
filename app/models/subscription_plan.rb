@@ -57,6 +57,7 @@ class SubscriptionPlan < ActiveRecord::Base
                                                 be2bill_alias: params[:ALIAS],
                                                 card_validity_date: Date.strptime(params[:CARDVALIDITYDATE], '%m-%y'),
                                                 client_ip: params[:CLIENT_IP]})
+    structure.compute_search_score(true)
     structure.index
     return subscription_plan
   end

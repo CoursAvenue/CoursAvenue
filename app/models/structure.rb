@@ -101,7 +101,7 @@ class Structure < ActiveRecord::Base
                              :level_ids, :audience_ids, :busy,
                              :open_courses_open_places, :open_course_nb, :jpo_email_status, :open_course_plannings_nb,
                              :response_rate, :response_time, :gives_non_professional_courses, :gives_professional_courses,
-                             :deletion_reasons, :deletion_reasons_text, :other_emails
+                             :deletion_reasons, :deletion_reasons_text, :other_emails, :search_score, :search_score_updated_at
 
 
   define_boolean_accessor_for :meta_data, :has_promotion, :gives_group_courses, :gives_individual_courses,
@@ -156,6 +156,12 @@ class Structure < ActiveRecord::Base
   # Solr                                                               #
   ######################################################################
   searchable do
+    integer :search_score do
+      compute_search_score
+    end
+
+    integer :view_count
+
     text :name, boost: 5
 
     text :course_names do
@@ -763,6 +769,84 @@ class Structure < ActiveRecord::Base
   def highlighted_comment! comment
     self.highlighted_comment_id = comment.id
     self.save
+  end
+
+
+  #
+  # Number of view counts
+  #
+  # @return Integer, the number of view counts the last 15 days
+  def view_count
+    return Statistic.view_count(self, Date.today - 15.days)
+  end
+
+  SEARCH_SCORE_COEF = {
+    :medias         => 2,
+    :plannings      => 3,
+    :ratings        => 1,
+    :logo           => 1,
+    :external_links => 1,
+    :response_time  => 1,
+    :promotions     => 2
+  }
+
+  # Compute a search score for ordering
+  #
+  # See file 'Score de profil.xlsx' for more info
+  # @return Integer
+  def compute_search_score(force=false)
+    # Return already stored search score if it has been computed recently
+    if !force and self.search_score.present? and self.search_score_updated_at.present? and Date.parse(self.search_score_updated_at) > Date.yesterday
+      return self.search_score
+    else
+      score = 0
+      ## Medias
+      if self.premium? and self.medias.count > 1
+        score += (2 * SEARCH_SCORE_COEF[:medias])
+      elsif (!self.premium? and self.medias.count > 1) or self.medias.count == 1
+        score += (1 * SEARCH_SCORE_COEF[:medias])
+      end
+      ## Plannings
+      if self.plannings.visible.future.count > 0
+        courses = self.plannings.visible.future.map(&:course).select(&:price_group_id)
+        if courses.length > 0
+          score += (2 * SEARCH_SCORE_COEF[:plannings])
+        else
+          score += (1 * SEARCH_SCORE_COEF[:plannings])
+        end
+      end
+      ## Ratings
+      if self.comments_count > 15
+        score += (3 * SEARCH_SCORE_COEF[:ratings])
+      elsif self.comments_count > 5
+        score += (2 * SEARCH_SCORE_COEF[:ratings])
+      elsif self.comments_count > 1
+        score += (1 * SEARCH_SCORE_COEF[:ratings])
+      end
+      ## Logo
+      if self.logo.present?
+        score += (1 * SEARCH_SCORE_COEF[:logo])
+      end
+      ## External_links
+      if self.premium? and (self.facebook_url.present? or self.website.present?)
+        score += (1 * SEARCH_SCORE_COEF[:external_links])
+      end
+      ## Response_time
+      if self.response_rate and self.response_rate >= 80
+        score += (2 * SEARCH_SCORE_COEF[:response_time])
+      elsif self.response_rate and self.response_rate >= 50
+        score += (1 * SEARCH_SCORE_COEF[:response_time])
+      end
+      ## Promotions
+      if self.premium? and self.prices.select{|p| p.promo_amount.present?}.any?
+        score += (2 * SEARCH_SCORE_COEF[:promotions])
+      end
+
+      self.search_score            = score
+      self.search_score_updated_at = Time.now
+      self.save
+      return score
+    end
   end
 
   private

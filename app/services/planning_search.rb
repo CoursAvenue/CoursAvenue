@@ -92,13 +92,8 @@ class PlanningSearch
         with(:structure_type).any_of                       params[:structure_types]                     if params.has_key? :structure_types
       end
 
-      order_by params[:order_by], (params[:order_direction] || :desc) if params.has_key? :order_by
-      order_by :has_logo, :desc
-      if params[:sort] == 'rating_desc'
-        order_by :nb_comments, :desc
-      elsif params[:sort] == 'relevancy'
-        order_by :has_comment, :desc
-      end
+      order_by :search_score, :desc
+      order_by :view_count, :asc
 
       paginate page: (params.has_key? :page ? params[:page] : 1), per_page: (params[:per_page] || 15)
     end

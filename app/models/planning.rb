@@ -96,6 +96,14 @@ class Planning < ActiveRecord::Base
   # Solr                                                               #
   ######################################################################
   searchable do
+    integer :search_score do
+      self.structure.compute_search_score
+    end
+
+    integer :view_count do
+      self.structure.view_count
+    end
+
     boolean :visible
 
     boolean :active_structure do

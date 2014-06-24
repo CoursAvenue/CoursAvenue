@@ -53,15 +53,13 @@ class StructureSearch
 
       with(:nb_comments).greater_than params[:nb_comments].to_i                     if params[:nb_comments].present?
 
-      order_by :has_admin, :desc
-      order_by :has_logo, :desc
-      if params[:sort] == 'rating_desc'
-        order_by :nb_comments, :desc
-      elsif params[:sort] == 'relevancy'
-        order_by :has_comment, :desc
-      elsif params[:sort] == 'premium'
+      if params[:sort] == 'premium'
         order_by :premium, :desc
       end
+      order_by :search_score, :desc
+      order_by :view_count, :asc
+      order_by :has_admin, :desc
+
       paginate page: (params[:page].present? ? params[:page] : 1), per_page: (params[:per_page] || 15)
     end
 
