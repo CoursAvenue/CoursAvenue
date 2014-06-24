@@ -16,13 +16,13 @@ class StructureSearch
     @search = Sunspot.search(Structure) do
 
       facet :subject_ids
-      fulltext params[:name]                             if params[:name].present?
+      fulltext params[:name]                                                           if params[:name].present?
 
-      without :id, params[:without_id]                   if params[:without_id]
+      without :id, params[:without_id]                                                 if params[:without_id].present?
 
-      with(:email_status).any_of params[:email_status]   if params[:email_status]
+      with(:email_status).any_of params[:email_status]                                 if params[:email_status].present?
       # --------------- Geolocation
-      if params[:bbox_sw] && params[:bbox_ne]
+      if params[:bbox_sw].present? && params[:bbox_ne].present?
         with(:location).in_bounding_box(params[:bbox_sw], params[:bbox_ne])
       else
         with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 10, bbox: (params[:bbox] ? params[:bbox] : true)) if params[:lat].present? and params[:lng].present?
@@ -37,19 +37,19 @@ class StructureSearch
         end
       end
       # For admin dashboard purpose
-      with(:subject_ids).any_of params[:subject_ids] if params[:subject_ids]
+      with(:subject_ids).any_of params[:subject_ids]                                 if params[:subject_ids].present?
 
-      with(:zip_codes).any_of params[:zip_codes] if params[:zip_codes]
+      with(:zip_codes).any_of params[:zip_codes]                                     if params[:zip_codes].present?
 
       ######################################################################
       # Other filters                                                      #
       ######################################################################
-      with(:structure_type).any_of   params[:structure_types]                    if params[:structure_types].present?
-      with(:funding_type_ids).any_of params[:funding_type_ids].map(&:to_i)       if params[:funding_type_ids].present?
+      with(:structure_type).any_of   params[:structure_types]                       if params[:structure_types].present?
+      with(:funding_type_ids).any_of params[:funding_type_ids].map(&:to_i)          if params[:funding_type_ids].present?
 
       with :active,  true
 
-      with :has_logo,                params[:has_logo]                           if params[:has_logo].present?
+      with :has_logo,                params[:has_logo]                              if params[:has_logo].present?
 
       with(:nb_comments).greater_than params[:nb_comments].to_i                     if params[:nb_comments].present?
 
