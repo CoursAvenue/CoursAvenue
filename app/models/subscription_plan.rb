@@ -128,6 +128,7 @@ class SubscriptionPlan < ActiveRecord::Base
   end
 
   def self.premium_type_from_be2bill_amount amount
+    amount = amount.to_i
     case amount
     when 34800
       return 'yearly'

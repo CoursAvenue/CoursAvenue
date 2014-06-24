@@ -1,7 +1,7 @@
 # encoding: utf-8
 class Pro::StructuresController < Pro::ProController
-  before_action :authenticate_pro_admin!, except: [:new, :create, :widget_ext, :best]
-  load_and_authorize_resource :structure, except: [:new, :create, :widget_ext, :best], find_by: :slug
+  before_action :authenticate_pro_admin!, except: [:new, :create, :widget_ext, :best, :payment_confirmation_be2_bill]
+  load_and_authorize_resource :structure, except: [:new, :create, :widget_ext, :best, :payment_confirmation_be2_bill], find_by: :slug
 
   layout :get_layout
 
@@ -319,7 +319,7 @@ class Pro::StructuresController < Pro::ProController
   def payment_confirmation
   end
 
-  # POST Payment confirmation page called by Be2bill
+  # GET Payment confirmation page called by Be2bill
   def payment_confirmation_be2_bill
     @structure = Structure.find params[:CLIENTIDENT]
 
@@ -335,13 +335,8 @@ class Pro::StructuresController < Pro::ProController
     params[:CLIENT_IP] = request.remote_ip || @structure.main_contact.last_sign_in_ip
     # TODO Fix this
     if params[:EXECCODE] == '0000'
-      if params[:AMOUNT] == '34800'
-        subscription_plan = SubscriptionPlan.subscribe!(:yearly, @structure, params)
-      elsif params[:AMOUNT] == '6900'
-        subscription_plan = SubscriptionPlan.subscribe!(:three_months, @structure, params)
-      else
-        subscription_plan = SubscriptionPlan.subscribe!(:monthly, @structure, params)
-      end
+      plan_type = SubscriptionPlan.premium_type_from_be2bill_amount(params[:AMOUNT]).to_sym
+      subscription_plan = SubscriptionPlan.subscribe!(plan_type, @structure, params)
       @structure.orders.create(amount: subscription_plan.amount, order_id: params[:ORDERID], subscription_plan: subscription_plan)
     end
     redirect_to payment_confirmation_pro_structure_path(@structure, EXECCODE: params['EXECCODE'], premium_type: SubscriptionPlan.premium_type_from_be2bill_amount(params[:AMOUNT]))
