@@ -1,4 +1,4 @@
-%table.table--data.table--striped.table--white.push--top
+%table.table--data.table--striped.table--white.push--top{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.go_premium')} }
   %thead
     %tr.border-none--bottom
       %td.no-stripe.four-twelfths.bordered--right.v-top.epsilon
@@ -15,7 +15,10 @@
           %strong Basic
         .delta Gratuit
         %p &nbsp;
-        = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--yellow btn--full'
+        - if @structure
+          = link_to 'Votre compte actuel', dashboard_pro_structure_path(@structure), class: 'btn btn--full btn--gray'
+        - else
+          = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--yellow btn--full'
       %td.bordered--right.four-twelfths.text--center.bordered--top.v-top.bordered--bottom
         %p.green.beta.push-half--bottom
           %strong Premium
@@ -42,30 +45,27 @@
     %tr
       %td.bordered--right.no-stripe &nbsp;
       %td.bordered.text--center.soft-half{ colspan: 2 }
-        %strong.delta Options de votre profil public
+        %strong.delta Gagnez en visibilité
     %tr
       %td.bordered--right.no-stripe.text--right
-        %p.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Affichez votre profil sur le moteur de recherche géolocalisé CoursAvenue." } }
-          %strong.epsilon Gagnez en visibilité
-          %i.fa.fa-question-circle
+        %p.epsilon.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Affichez votre profil sur le moteur de recherche géolocalisé CoursAvenue." } }
+          Référencement CoursAvenue
       %td.bordered--right.text--center
         %i.fa.fa-check.green.delta
       %td.bordered--right.text--center
         %i.fa.fa-check.green.delta
     %tr
       %td.bordered--right.no-stripe.text--right
-        %p.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Montez dans les résultats grâce à vos photos & vidéos, aux liens vers vos pages (site Internet & Facebook), et à une accroche personnalisée." } }
-          %strong.epsilon Profil complet et personnalisé
-          %i.fa.fa-question-circle
+        %p.epsilon.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Montez dans les résultats grâce à vos photos & vidéos, aux liens vers vos pages (site Internet & Facebook), et à une accroche personnalisée." } }
+          Profil complet et personnalisé
       %td.bordered--right.text--center
         Limité
       %td.bordered--right.text--center
         %i.fa.fa-check.green.delta
     %tr
       %td.bordered--right.no-stripe.text--right
-        %p.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Apparaissez sur tous les autres profils qui proposent les mêmes types d'activités autour de vous." } }
-          %strong.epsilon Profils similaires
-          %i.fa.fa-question-circle
+        %p.epsilon.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Apparaissez sur tous les autres profils qui proposent les mêmes types d'activités autour de vous." } }
+          Profils similaires
       %td.bordered--right.text--center
       %td.bordered--right.text--center
         %i.fa.fa-check.green.delta
@@ -75,26 +75,23 @@
         %strong.delta Recrutez de nouveaux élèves
     %tr
       %td.bordered--right.no-stripe.text--right
-        %p.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Tout le monde sur CoursAvenue peut gratuitement vous envoyer un message ou vous téléphoner (pas de numéro surtaxé)." } }
-          %strong.epsilon Mises en relation
-          %i.fa.fa-question-circle
+        %p.epsilon.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Tout le monde sur CoursAvenue peut gratuitement vous envoyer un message ou vous téléphoner (pas de numéro surtaxé)." } }
+          Mises en relation
       %td.bordered--right.text--center
         %i.fa.fa-check.green.delta
       %td.bordered--right.text--center
         %i.fa.fa-check.green.delta
     %tr
       %td.bordered--right.no-stripe.text--right
-        %p.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Obtenez les e-mails des élèves qui vous ont envoyé un message ou ajouté en favori." } }
-          %strong.epsilon Coordonnées des élèves
-          %i.fa.fa-question-circle
+        %p.epsilon.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Obtenez les e-mails des élèves qui vous ont envoyé un message ou ajouté en favori." } }
+          Coordonnées des élèves
       %td.bordered--right.text--center
       %td.bordered--right.text--center
         %i.fa.fa-check.green.delta
     %tr
       %td.bordered--right.no-stripe.text--right
-        %p.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Démarquez-vous en affichant vos cours d'essai gratuits ou vos tarifs spéciaux qui invitent les nouveaux élèves à venir vous découvrir." } }
-          %strong.epsilon Offres découvertes
-          %i.fa.fa-question-circle
+        %p.epsilon.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Démarquez-vous en affichant vos cours d'essai gratuits ou vos tarifs spéciaux qui invitent les nouveaux élèves à venir vous découvrir." } }
+          Offres découvertes
       %td.bordered--right.text--center
       %td.bordered--right.text--center
         %i.fa.fa-check.green.delta
@@ -105,27 +102,24 @@
         %strong.delta Pilotez votre efficacité
     %tr
       %td.bordered--right.no-stripe.text--right
-        %p.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Suivez les statistiques de votre profil (nombre de visites, de prises de contact, etc.) et optimisez son efficacité." } }
-          %strong.epsilon Statistiques
-          %i.fa.fa-question-circle
+        %p.epsilon.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Suivez les statistiques de votre profil (nombre de visites, de prises de contact, etc.) et optimisez son efficacité." } }
+          Statistiques
       %td.bordered--right.text--center
         Limité
       %td.bordered--right.text--center
         %i.fa.fa-check.green.delta
     %tr
       %td.bordered--right.no-stripe.text--right
-        %p.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Rassemblez toutes les coordonnées de vos contacts et envoyez-leurs des messages groupés." } }
-          %strong.epsilon Répertoire et messagerie
-          %i.fa.fa-question-circle
+        %p.epsilon.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Rassemblez toutes les coordonnées de vos contacts et envoyez-leur des messages groupés." } }
+          Répertoire et messagerie
       %td.bordered--right.text--center
         Limité
       %td.bordered--right.text--center
         %i.fa.fa-check.green.delta
     %tr
       %td.bordered--right.no-stripe.text--right
-        %p.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Recevez les meilleurs conseils de l'équipe CoursAvenue pour optimiser vos performances de profil et de votre communication en général." } }
-          %strong.epsilon Conseils personnalisés
-          %i.fa.fa-question-circle
+        %p.epsilon.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Recevez les meilleurs conseils de l'équipe CoursAvenue pour optimiser vos performances de profil et de votre communication en général." } }
+          Conseils personnalisés
       %td.bordered--right.text--center
       %td.bordered--right.text--center
         %i.fa.fa-check.green.delta
@@ -136,13 +130,16 @@
     %tr
       %td.bordered--right.no-stripe.text--right
       %td.bordered--right.text--center
-        Chat & e-mail.
+        Chat & e-mail
       %td.bordered--right.text--center
-        Conseiller par téléphone.
+        Conseiller par téléphone
     %tr
       %td.bordered--right.no-stripe.text--right
       %td.bordered--right.text--center.soft-half
-        = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--yellow btn--full'
+        - if @structure
+          = link_to 'Votre compte actuel', dashboard_pro_structure_path(@structure), class: 'btn btn--full btn--gray'
+        - else
+          = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--yellow btn--full'
       %td.bordered--right.text--center.soft-half
         - if @structure
           = link_to 'Commencer', go_premium_pro_structure_path(@structure, premium_type: 'yearly'), class: 'btn btn--yellow btn--full'
