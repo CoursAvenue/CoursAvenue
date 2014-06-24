@@ -58,7 +58,8 @@ class Pro::SubjectsController < Pro::ProController
     @city       = City.find('paris')
     _city_id    = @city.id
     _subject_id = @subject.id
-    if (@city_subject_info = CitySubjectInfo.where { (city_id == _city_id) & (subject_id == _subject_id) }.first).nil?
+    if (@city_subject_info = CitySubjectInfo.where(CitySubjectInfo.arel_table[:city_id].eq(_city_id).and(
+                                                   CitySubjectInfo.arel_table[:subject_id].eq(_subject_id))).first).nil?
       @city_subject_info = CitySubjectInfo.new(city_id: @city.id, subject_id: @subject.id)
     end
   end
