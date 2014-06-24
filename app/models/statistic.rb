@@ -9,7 +9,7 @@ class Statistic < ActiveRecord::Base
 
   ACTION_TYPES = %w(impression view action)
 
-  attr_accessible :action_type, :structure_id, :user_fingerprint, :infos
+  attr_accessible :action_type, :structure_id, :user_fingerprint, :infos, :ip_address
 
   ######################################################################
   # Scopes                                                             #
@@ -22,53 +22,57 @@ class Statistic < ActiveRecord::Base
   # Creates a statistic when a structure appears in the results of a search
   # @param structure_id Integer Structure id that appeared in the search
   # @param user User who searched for it
-  # @param fingerprint=generate_fingerprint String, Fingerprint (hash) generated client side to identify a unique user
+  # @param fingerprint String, Fingerprint (hash) generated client side to identify a unique user
   # @param infos=nil String, more info on the stat
   #
   # @return Statistic
-  def self.print(structure_id, user, fingerprint=generate_fingerprint, infos=nil)
-    Statistic.create(action_type: 'impression', structure_id: structure_id, user_fingerprint: fingerprint)
+  def self.print(structure_id, user, fingerprint, ip_address, infos=nil)
+    fingerprint ||= generate_fingerprint
+    Statistic.create(action_type: 'impression', structure_id: structure_id, user_fingerprint: fingerprint, ip_address: ip_address)
   end
 
 
   # Creates a statistic when a structure has been viewed (#show action)
   # @param structure_id Integer Structure id that appeared in the search
   # @param user User who searched for it
-  # @param fingerprint=generate_fingerprint String, Fingerprint (hash) generated client side to identify a unique user
+  # @param fingerprint String, Fingerprint (hash) generated client side to identify a unique user
   # @param infos=nil String, more info on the stat
   #
   # @return Statistic
-  def self.view(structure_id, user, fingerprint=generate_fingerprint, infos=nil)
-    Statistic.create(action_type: 'view', structure_id: structure_id, user_fingerprint: fingerprint)
+  def self.view(structure_id, user, fingerprint, ip_address, infos=nil)
+    fingerprint ||= generate_fingerprint
+    Statistic.create(action_type: 'view', structure_id: structure_id, user_fingerprint: fingerprint, ip_address: ip_address)
   end
 
   # Creates a statistic when there has been an action on a structure (eg. contact etc.)
   # @param structure_id Integer Structure id that appeared in the search
   # @param user User who searched for it
-  # @param fingerprint=generate_fingerprint String, Fingerprint (hash) generated client side to identify a unique user
+  # @param fingerprint String, Fingerprint (hash) generated client side to identify a unique user
   # @param infos=nil String, more info on the stat
   #
   # @return Statistic
-  def self.action(structure_id, user, fingerprint=generate_fingerprint, infos=nil)
-    Statistic.create(action_type: 'action', structure_id: structure_id, user_fingerprint: fingerprint, infos: infos )
+  def self.action(structure_id, user, fingerprint, ip_address, infos=nil)
+    fingerprint ||= generate_fingerprint
+    Statistic.create(action_type: 'action', structure_id: structure_id, user_fingerprint: fingerprint, ip_address: ip_address, infos: infos )
   end
 
   # Creates a statistic regarding the action name
   # @param action_name String Type of an action
   # @param structure_id Integer Structure id that appeared in the search
   # @param user User who searched for it
-  # @param fingerprint=generate_fingerprint String, Fingerprint (hash) generated client side to identify a unique user
+  # @param fingerprint String, Fingerprint (hash) generated client side to identify a unique user
   # @param infos=nil String, more info on the stat
   #
   # @return Statistic
-  def self.create_action(action_name, structure_id, user, fingerprint=generate_fingerprint, infos=nil)
+  def self.create_action(action_name, structure_id, user, fingerprint, ip_address, infos=nil)
+    fingerprint ||= generate_fingerprint
     case action_name
     when 'print'
-      Statistic.print(structure_id, user, fingerprint, infos)
+      Statistic.print(structure_id, user, fingerprint, ip_address, infos)
     when 'action'
-      Statistic.action(structure_id, user, fingerprint, infos)
+      Statistic.action(structure_id, user, fingerprint, ip_address, infos)
     when 'view'
-      Statistic.view(structure_id, user, fingerprint, infos)
+      Statistic.view(structure_id, user, fingerprint, ip_address, infos)
     end
   end
 

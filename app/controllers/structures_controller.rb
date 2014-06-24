@@ -8,7 +8,7 @@ class StructuresController < ApplicationController
 
   def show
     @structure = Structure.friendly.find params[:id]
-    Statistic.view(@structure.id, current_user, cookies[:fingerprint]) unless current_pro_admin
+    Statistic.view(@structure.id, current_user, cookies[:fingerprint], request.ip) # unless current_pro_admin
     @structure_decorator = @structure.decorate
 
     if params.has_key?(:bbox_ne) and params.has_key?(:bbox_sw)
@@ -66,7 +66,7 @@ class StructuresController < ApplicationController
       cookies["search_term_logs_#{params[:name]}"] = { value: params[:name], expires: 12.hours.from_now }
     end
 
-    @structures.compact.map{ |structure| Statistic.print(structure.id, current_user, cookies[:fingerprint]) } unless current_pro_admin
+    @structures.compact.map{ |structure| Statistic.print(structure.id, current_user, cookies[:fingerprint], request.ip) } unless current_pro_admin
 
     respond_to do |format|
       format.json do
@@ -91,7 +91,7 @@ class StructuresController < ApplicationController
   def follow
     @structure = Structure.friendly.find params[:id]
     @structure.followings.create(user: current_user)
-    Statistic.action(@structure.id, current_user, cookies[:fingerprint], 'follow')
+    Statistic.action(@structure.id, current_user, cookies[:fingerprint], request.ip, 'follow')
     respond_to do |format|
       format.html { redirect_to structure_path(@structure), notice: "Vous suivez désormais #{@structure.name}"}
     end

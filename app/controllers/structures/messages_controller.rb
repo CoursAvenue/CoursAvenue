@@ -12,7 +12,7 @@ class Structures::MessagesController < ApplicationController
       @receipt      = user.send_message_with_label(@recipients, params[:message][:body], I18n.t(Mailboxer::Label::INFORMATION.name), 'information')
       @conversation = @receipt.conversation
     end
-    Statistic.action(@structure.id, current_user, cookies[:fingerprint], 'contact')
+    Statistic.action(@structure.id, current_user, cookies[:fingerprint], request.ip, 'contact')
     respond_to do |format|
       if @conversation and @conversation.persisted?
         cookies.delete :user_contact_message
