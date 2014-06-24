@@ -63,13 +63,14 @@ class Statistic < ActiveRecord::Base
   # @return Statistic
   def self.create_action(action_name, structure_id, user, fingerprint, ip_address, infos=nil)
     case action_name
-    when 'print'
-      Statistic.print(structure_id, user, fingerprint, ip_address, infos)
+    when 'impression'
+      stat = Statistic.print(structure_id, user, fingerprint, ip_address, infos)
     when 'action'
-      Statistic.action(structure_id, user, fingerprint, ip_address, infos)
+      stat = Statistic.action(structure_id, user, fingerprint, ip_address, infos)
     when 'view'
-      Statistic.view(structure_id, user, fingerprint, ip_address, infos)
+      stat = Statistic.view(structure_id, user, fingerprint, ip_address, infos)
     end
+    return stat
   end
 
   # Total view count
