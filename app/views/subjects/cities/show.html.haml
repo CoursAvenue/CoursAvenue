@@ -51,12 +51,6 @@
 
 = render partial: 'subjects/subjects_facets'
 
-= render partial: 'subjects/structures_list'
-
-= render partial: 'subjects/comments', locals: { comments: @comments }
-
-= render partial: 'subjects/images', locals: { comments: @images }
-
 .text--center.push--bottom
   = link_to structures_path(lat: @city.latitude, lng: @city.longitude, name: @subject.name), class: 'btn btn--green btn--large' do
     Voir tous les cours de
