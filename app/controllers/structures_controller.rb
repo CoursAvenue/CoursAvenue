@@ -8,7 +8,6 @@ class StructuresController < ApplicationController
 
   def show
     @structure = Structure.friendly.find params[:id]
-    Statistic.view(@structure.id, current_user, cookies[:fingerprint], request.ip) # unless current_pro_admin
     @structure_decorator = @structure.decorate
 
     if params.has_key?(:bbox_ne) and params.has_key?(:bbox_sw)
@@ -65,8 +64,6 @@ class StructuresController < ApplicationController
       SearchTermLog.create(name: params[:name]) unless cookies["search_term_logs_#{params[:name]}"].present?
       cookies["search_term_logs_#{params[:name]}"] = { value: params[:name], expires: 12.hours.from_now }
     end
-
-    @structures.compact.map{ |structure| Statistic.print(structure.id, current_user, cookies[:fingerprint], request.ip) } unless current_pro_admin
 
     respond_to do |format|
       format.json do

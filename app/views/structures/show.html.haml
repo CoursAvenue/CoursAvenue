@@ -125,9 +125,9 @@
 = content_for :scripts do
   :javascript
     (function () {
-
       window.coursavenue = window.coursavenue || {};
       window.coursavenue.bootstrap = {
+        current_pro_admin: #{(current_pro_admin ? true : false)},
         structure: #{ @model.to_json },
         meta: {
           total_comments: #{ @structure.comments.accepted.count },

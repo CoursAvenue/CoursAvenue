@@ -80,6 +80,7 @@
                 url: Routes.structure_statistics_path(#{@structure.id}),
                 data: {
                     action_type: 'contact',
+                    fingerprint: $.cookie('fingerprint'),
                     infos: $(this).text().trim()
                 }
             });

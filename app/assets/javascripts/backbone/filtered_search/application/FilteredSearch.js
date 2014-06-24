@@ -34,7 +34,7 @@ FilteredSearch.addInitializer(function(options) {
             'filter:location':         'filterQuery',
             'filter:trial_course':     'filterQuery',
             'map:marker:focus':        'findItemView',
-            'structures:updated':      'renderSlideshows'
+            'structures:updated':      'structuresUpdated'
         }
     });
 
@@ -180,5 +180,4 @@ $(document).ready(function() {
     if (FilteredSearch.detectRoot()) {
         FilteredSearch.start({});
     }
-
 });

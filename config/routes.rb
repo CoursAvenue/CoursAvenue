@@ -327,6 +327,7 @@ CoursAvenue::Application.routes.draw do
 
   resources :open_courses, path: 'portes-ouvertes-cours-loisirs', only: [:index], controller: 'open_courses'
 
+  resources :statistics, only: [:create]
   resources :structures, only: [:show, :index], path: 'etablissements', controller: 'structures' do
     member do
       get  :jpo, path: 'portes-ouvertes-cours-loisirs'

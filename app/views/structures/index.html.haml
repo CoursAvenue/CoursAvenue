@@ -13,36 +13,6 @@
     = "Établissements #{(params[:name].present? ? "correspondant à : « #{params[:name]} »" : (params[:city].present? ? "à #{params[:city]}" : 'à Paris'))}"
 
 
-:javascript
-  window.coursavenue  = window.coursavenue || {};
-  var subjects        = #{ Subject.stars.to_json };
-  // Adding other subject to the collection because it's a fake object
-  subjects.push( { name: 'Autres', slug: 'other'} );
-
-  window.coursavenue.bootstrap = {
-      options: {
-          total: #{ @total },
-          latlng: #{ @latlng }
-      },
-      models: #{ @models.to_json },
-      subjects: subjects,
-      discount_types: #{ Price::Discount::TYPES.to_json }
-  };
-
-- content_for :scripts do
-  :javascript
-      $(function() {
-          setTimeout(function() {
-              $('#not-on-jpo-box').animate({top: '0'});
-          }, 1500);
-          if ($('#understood').length > 0) {
-              $('#understood').click(function() {
-                  $('#not-on-jpo-box').animate({top: '-200px'});
-                  $.cookie('understood_jpo_2014', true);
-              });
-          }
-      })
-
 %ol.visuallyhidden.nav.breadcrumb.epsilon.push-half--top.push-half--bottom{itemprop: 'breadcrumb'}
   %li= link_to 'Tous les établissements', structures_path(name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
   - if @subject
@@ -67,3 +37,34 @@
   = image_tag 'logo.png', class: 'center-block'
   = image_tag 'gifs/loading-indicator-circle.gif', class: 'center-block', height: 20
 .filtered-search{ :data => { :type => "#{ @app_slug }-root" }, id: "#{ @app_slug }"}
+
+:javascript
+  window.coursavenue  = window.coursavenue || {};
+  var subjects        = #{ Subject.stars.to_json };
+  // Adding other subject to the collection because it's a fake object
+  subjects.push( { name: 'Autres', slug: 'other'} );
+
+  window.coursavenue.bootstrap = {
+      current_pro_admin: #{(current_pro_admin ? true : false)},
+      options: {
+          total: #{ @total },
+          latlng: #{ @latlng }
+      },
+      models: #{ @models.to_json },
+      subjects: subjects,
+      discount_types: #{ Price::Discount::TYPES.to_json }
+  };
+
+- content_for :scripts do
+  :javascript
+      $(function() {
+          setTimeout(function() {
+              $('#not-on-jpo-box').animate({top: '0'});
+          }, 1500);
+          if ($('#understood').length > 0) {
+              $('#understood').click(function() {
+                  $('#not-on-jpo-box').animate({top: '-200px'});
+                  $.cookie('understood_jpo_2014', true);
+              });
+          }
+      })

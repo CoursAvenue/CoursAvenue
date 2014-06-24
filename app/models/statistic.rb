@@ -27,7 +27,6 @@ class Statistic < ActiveRecord::Base
   #
   # @return Statistic
   def self.print(structure_id, user, fingerprint, ip_address, infos=nil)
-    fingerprint ||= generate_fingerprint
     Statistic.create(action_type: 'impression', structure_id: structure_id, user_fingerprint: fingerprint, ip_address: ip_address)
   end
 
@@ -40,7 +39,6 @@ class Statistic < ActiveRecord::Base
   #
   # @return Statistic
   def self.view(structure_id, user, fingerprint, ip_address, infos=nil)
-    fingerprint ||= generate_fingerprint
     Statistic.create(action_type: 'view', structure_id: structure_id, user_fingerprint: fingerprint, ip_address: ip_address)
   end
 
@@ -52,7 +50,6 @@ class Statistic < ActiveRecord::Base
   #
   # @return Statistic
   def self.action(structure_id, user, fingerprint, ip_address, infos=nil)
-    fingerprint ||= generate_fingerprint
     Statistic.create(action_type: 'action', structure_id: structure_id, user_fingerprint: fingerprint, ip_address: ip_address, infos: infos )
   end
 
@@ -65,7 +62,6 @@ class Statistic < ActiveRecord::Base
   #
   # @return Statistic
   def self.create_action(action_name, structure_id, user, fingerprint, ip_address, infos=nil)
-    fingerprint ||= generate_fingerprint
     case action_name
     when 'print'
       Statistic.print(structure_id, user, fingerprint, ip_address, infos)
@@ -90,16 +86,4 @@ class Statistic < ActiveRecord::Base
 
   end
 
-  private
-
-  #
-  # Generate a random number if the fingerprint is nil
-  # Fingerprint is important because it will be unique when looking at the stats
-  # and if nil, the stat won't show up.
-  #
-  # @return String Fingerprint with one character longer than the fingerprint
-  # generated client side to be able to identify it
-  def self.generate_fingerprint
-    (rand * 10000000000).to_i.to_s
-  end
 end

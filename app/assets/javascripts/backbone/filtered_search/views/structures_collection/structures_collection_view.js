@@ -70,7 +70,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
             var data         = this.collection;
             var first_result = (data.currentPage - 1) * data.perPage + 1;
 
-            this.trigger('structures:updated');
+            this.trigger('structures:updated', data.map(function(structure) {return structure.get('id')}));
 
             /* announce the pagination statistics for the current page */
             this.trigger('structures:updated:pagination', {
@@ -117,6 +117,26 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
             });
 
             this.trigger('structures:updated:maps');
+        },
+
+        structuresUpdated: function structuresUpdated (structure_ids) {
+            this.logImpressions(structure_ids);
+            this.renderSlideshows();
+        },
+
+        logImpressions: function logImpressions (structure_ids) {
+            if (!window.coursavenue.bootstrap.current_pro_admin) {
+                $.ajax({
+                    type: "POST",
+                    dataType: 'js',
+                    url: Routes.statistics_path(),
+                    data: {
+                        action_type: 'impression',
+                        fingerprint: $.cookie('fingerprint'),
+                        structure_ids: structure_ids
+                    }
+                });
+            }
         },
 
         renderSlideshows: function renderSlideshows () {

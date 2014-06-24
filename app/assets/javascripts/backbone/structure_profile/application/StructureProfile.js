@@ -109,5 +109,16 @@ $(document).ready(function() {
     /* we only want the current app on the search page */
     if (StructureProfile.detectRoot()) {
         StructureProfile.start({});
+        if (!window.coursavenue.bootstrap.current_pro_admin) {
+            $.ajax({
+                type: "POST",
+                dataType: 'js',
+                url: Routes.structure_statistics_path(window.coursavenue.bootstrap.structure.id),
+                data: {
+                    action_type: 'view',
+                    fingerprint: $.cookie('fingerprint')
+                }
+            });
+        }
     }
 });
