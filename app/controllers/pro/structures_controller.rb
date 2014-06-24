@@ -333,7 +333,6 @@ class Pro::StructuresController < Pro::ProController
     # Only create an order if there is no existing one with this ID
     # Prevents from reloading the page and creating another order
     params[:CLIENT_IP] = request.remote_ip || @structure.main_contact.last_sign_in_ip
-    # TODO Fix this
     if params[:EXECCODE] == '0000'
       plan_type = SubscriptionPlan.premium_type_from_be2bill_amount(params[:AMOUNT]).to_sym
       subscription_plan = SubscriptionPlan.subscribe!(plan_type, @structure, params)
