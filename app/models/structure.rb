@@ -832,9 +832,9 @@ class Structure < ActiveRecord::Base
         score += (1 * SEARCH_SCORE_COEF[:external_links])
       end
       ## Response_time
-      if self.response_rate and self.response_rate >= 80
+      if self.response_rate and self.response_rate.to_i >= 80
         score += (2 * SEARCH_SCORE_COEF[:response_time])
-      elsif self.response_rate and self.response_rate >= 50
+      elsif self.response_rate and self.response_rate.to_i >= 50
         score += (1 * SEARCH_SCORE_COEF[:response_time])
       end
       ## Promotions
