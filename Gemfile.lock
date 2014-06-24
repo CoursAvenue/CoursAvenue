@@ -282,7 +282,7 @@ GEM
     marionette-rails (1.4.1)
       rails (>= 3.1.0)
     memcachier (0.0.2)
-    meta_request (0.2.6)
+    meta_request (0.3.0)
       callsite
       rack-contrib
       railties
@@ -571,7 +571,7 @@ DEPENDENCIES
   mailboxer (~> 0.12.0.rc2)!
   marionette-rails (~> 1.4.1)
   memcachier
-  meta_request (= 0.2.6)
+  meta_request (~> 0.3.0)
   newrelic_rpm (~> 3.6.8.164)
   nutshell-crm
   omniauth-facebook (~> 1.4.1)
