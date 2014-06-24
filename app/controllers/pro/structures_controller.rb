@@ -333,12 +333,12 @@ class Pro::StructuresController < Pro::ProController
     # Only create an order if there is no existing one with this ID
     # Prevents from reloading the page and creating another order
     params[:CLIENT_IP] = request.remote_ip || @structure.main_contact.last_sign_in_ip
+    plan_type = SubscriptionPlan.premium_type_from_be2bill_amount(params[:AMOUNT]).to_sym
     if params[:EXECCODE] == '0000'
-      plan_type = SubscriptionPlan.premium_type_from_be2bill_amount(params[:AMOUNT]).to_sym
       subscription_plan = SubscriptionPlan.subscribe!(plan_type, @structure, params)
       @structure.orders.create(amount: subscription_plan.amount, order_id: params[:ORDERID], subscription_plan: subscription_plan)
     end
-    redirect_to payment_confirmation_pro_structure_path(@structure, EXECCODE: params['EXECCODE'], premium_type: SubscriptionPlan.premium_type_from_be2bill_amount(params[:AMOUNT]))
+    redirect_to payment_confirmation_pro_structure_path(@structure, EXECCODE: params['EXECCODE'], premium_type: plan_type)
   end
 
   # GET member
