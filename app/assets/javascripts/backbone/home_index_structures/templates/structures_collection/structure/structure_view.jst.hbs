@@ -1,52 +1,55 @@
-<div class="flexbox white-box structure-item">
-    <div class="flexbox__item structure-item__logo one-twelfth">
+<div class="flexbox white-box structure-item" data-el="structure-view">
+    <div class="flexbox__item v-top structure-item__logo" style="width: 150px;">
         <div class="relative">
-            <a href="{{ data_url }}" class="block">
+            <a href="{{ query_url }}" class="block">
                 <img src="{{ logo_thumb_url }}" class="block one-whole" alt="Cours de {{ parent_subjects_text }} à {{ name }}">
             </a>
         </div>
     </div><!--
- --><article class="flexbox__item seven-twelfths v-top structure-item__see-all-wrapper structure-item__button">
+ --><article class="flexbox__item v-top structure-item__see-all-wrapper structure-item__button line-height-1-7">
         <div class="relative full-height soft-half hard--right">
-            <h2 class="delta flush v-top">
-                <a href="{{ data_url }}">{{ name }}</a>
-            </h2>
-            {{#if course_names}}
-                <div class="milli gray">
-                    <span title="{{course_names}}" data-behavior="tooltip">
-                        <i>{{{truncate course_names 55}}}</i>
-                    </span>
+            <h4 class="flush v-top">
+                <a class="v-middle" href="{{ query_url }}">{{ name }}</a>
+                {{#if premium}}
+                    <div class="inline-block lbl lbl--yellow milli v-middle"><i class="fa fa-tag"></i> Offres promotionnelles</div>
+                {{/if}}
+            </h4>
+            <div>
+                {{#if structure_type}}
+                    {{ structure_type }}
+                {{else}}
+                    Structure
+                {{/if}}
+                proposant des
+                {{ given_course_types }}
+            </div>
+            <div>
+                {{#if has_plannings}}
+                <div>
+                    {{ plannings_count }} {{ pluralize plannings_count 'créneau horaire' 'créneaux horaires' }}
+                    {{#if has_price_range }}
+                        de
+                        <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
+                        à
+                        <span class="pointer" data-behavior="tooltip" title="{{ max_price_libelle }}">{{ max_price_amount }}€</span>
+                    {{else}}
+                        {{#if min_price_amount}}
+                            à partir de
+                            <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
+                        {{/if}}
+                    {{/if}}
                 </div>
-            {{/if}}
-        </div>
-    </article><!--
- --><div class="flexbox__item relative soft-half--sides structure-item__see-all-wrapper four-twelfths {{#if has_comments}}structure-item__button{{/if}} one-thirds v-middle text--center" {{#if has_comments}}data-behavior="accordion-control" data-model="comment" data-attributes="data_url more_than_five_comments"{{/if}}>
-        {{#if has_comments }}
-        <div class="relative full-height soft--top">
-            <div class="alpha thin orange"> {{ comments_count }} </div>
-            <span class="orange soft-half--bottom milli">avis
-                <i class="lbc-brand-icon"></i>
-            </span>
-            {{#if highlighted_comment_title}}
-            <div class="quoted milli visuallyhidden--palm">
-                {{{truncate highlighted_comment_title 60}}}
-            </div>
-            {{/if}}
-            <a style="position: static" href="javascritp:void(0)" class="structure-item__see-all blue"><span>Voir tous les avis</span></a>
-            <div itemtype="http://data-vocabulary.org/review-aggregate" itemscope="" itemprop="aggregateRating">
-                <span title="Note : 5 étoiles (Excellent !)" class="rating"></span>
-                <meta property="v:rating" itemprop="rating" content="{{ rating }}">
-                <meta itemprop="count" content="{{ comments_count }}">
-                <meta itemprop="name" content="{{ name }}">
-                <meta itemprop="street-address" content="{{ street }}">
-                <meta itemprop="postal-code" content="{{ zip_code }}">
+                {{/if}}
+                {{#ifCond comments_count '>' 0 }}
+                    <div>
+                        <strong>
+                            <i class="fa fa-comments"></i> {{ comments_count }}
+                            {{#if highlighted_comment_title}}<i class="quoted milli">{{{truncate highlighted_comment_title 60}}}</i>{{/if}}
+                        </strong>
+                    </div>
+                {{/ifCond}}
+
             </div>
         </div>
-        {{else}}
-            <div class="alpha thin gray-light">0</div>
-            <span class="gray-light milli">
-                avis <i class="fa fa-comment"></i>
-            </span>
-        {{/if}}
-    </div>
+    </article>
 </div>

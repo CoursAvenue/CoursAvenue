@@ -133,7 +133,7 @@ class Pro::StructuresController < Pro::ProController
     @latlng = StructureSearch.retrieve_location(params)
 
     respond_to do |format|
-      format.json { render json: @structures, root: 'structures', each_serializer: LightStructureSerializer, meta: { total: 50, location: @latlng } }
+      format.json { render json: @structures, root: 'structures', each_serializer: StructureSerializer, meta: { total: 50, location: @latlng } }
     end
   end
 

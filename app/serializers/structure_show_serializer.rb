@@ -1,7 +1,3 @@
-class ShortSerializer < ActiveModel::Serializer
-  attributes :id
-end
-
 class StructureShowSerializer < ActiveModel::Serializer
   include StructuresHelper
   include ActionView::Helpers::TextHelper

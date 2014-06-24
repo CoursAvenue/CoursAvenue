@@ -8,12 +8,6 @@ HomeIndexStructures.module('Views.StructuresCollection.Structure', function(Modu
         className: 'structure',
         attributes: {
             'data-behavior': 'top-structure'
-        },
-
-        onRender: function() {
-            $("img").lazyload({
-                effect : "fadeIn"
-            });
         }
     });
 });
