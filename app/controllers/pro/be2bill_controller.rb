@@ -1,5 +1,5 @@
 # encoding: utf-8
-class Pro::Be2billController < InheritedResources::Base
+class Pro::Be2billController < Pro::ProController
   protect_from_forgery only: []
 
   layout 'admin'
