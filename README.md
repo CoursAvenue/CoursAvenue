@@ -115,3 +115,8 @@ PGPASSWORD=QP2Qnt2tBGS06FFE58w0RM5j_0 pg_restore --verbose --clean --no-acl --no
 
 Restart mysql
 `sudo /etc/init.d/mysqld restart
+
+## Delayed::Job
+
+Reinvoke all jobs :
+`Delayed::Job.where.not(last_error: nil).each{ |dj| dj.run_at = Time.now; dj.attempts = 0; dj.save! }`

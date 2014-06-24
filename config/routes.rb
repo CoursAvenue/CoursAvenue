@@ -107,7 +107,7 @@ CoursAvenue::Application.routes.draw do
           post  :update
         end
         collection do
-          get :payment_confirmation_be2_bill, path: 'confirmation-paiement'
+          get :payment_confirmation_be2bill, path: 'confirmation-paiement'
           get :stars
           get :best
           get :inscription, to: :new
