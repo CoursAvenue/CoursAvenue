@@ -147,6 +147,19 @@
                                     <td>{{{ hide_contacts info }}}</td>
                                 </tr>
                             {{/each}}
+                            {{#each registrations}}
+                                <tr>
+                                    <td>Adhésion</td>
+                                    <td class="text--right">
+                                        {{#ifCond amount '==' '0'}}
+                                            Gratuite
+                                        {{else}}
+                                            {{amount}}€
+                                        {{/ifCond}}
+                                    </td>
+                                    <td>{{{ hide_contacts info }}}</td>
+                                </tr>
+                            {{/each}}
                             {{#if premium}}
                                 {{#xif "this.trials.length > 0 || this.premium_offers.length > 0 || this.discounts.length > 0" }}
                                 <tr>
@@ -184,19 +197,6 @@
                                     </tr>
                                 {{/each}}
                             {{/if}}
-                            {{#each registrations}}
-                                <tr>
-                                    <td>Adhésion</td>
-                                    <td class="text--right">
-                                        {{#ifCond amount '==' '0'}}
-                                            Gratuite
-                                        {{else}}
-                                            {{amount}}€
-                                        {{/ifCond}}
-                                    </td>
-                                    <td>{{{ hide_contacts info }}}</td>
-                                </tr>
-                            {{/each}}
                         </tbody>
                     </table>
                </article>
