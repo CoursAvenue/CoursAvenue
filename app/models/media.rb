@@ -56,14 +56,6 @@ class Media < ActiveRecord::Base
     read_attribute(:url_html).html_safe
   end
 
-  # def url
-  #   read_attribute(:url).gsub(/^http:/, 'https:')
-  # end
-
-  # def thumbnail_url
-  #   read_attribute(:url).gsub(/^http:/, 'https:')
-  # end
-
   def video?
     self.type == 'Media::Video'
   end

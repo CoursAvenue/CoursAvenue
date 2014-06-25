@@ -6,17 +6,17 @@ class Media::Video < Media
     'youtube' => {
       pattern: /https?:\/\/(www.)?(youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/watch\?feature=player_embedded&v=)([A-Za-z0-9_-]*)(\&\S+)?(\S)*/,
       key: 3,
-      video_thumbnail: "http://img.youtube.com/vi/__ID__/0.jpg"
+      video_thumbnail: "https://img.youtube.com/vi/__ID__/0.jpg"
     },
     'dailymotion' => {
-      pattern: /http:\/\/www\.dailymotion\.com.*\/video\/(.+)_*/,
+      pattern: /https?:\/\/www\.dailymotion\.com.*\/video\/(.+)_*/,
       key: 1,
-      video_thumbnail: 'http://www.dailymotion.com/thumbnail/video/__ID__'
+      video_thumbnail: 'https://www.dailymotion.com/thumbnail/video/__ID__'
     },
     'vimeo' => {
       pattern: /https?:\/\/(www.)?vimeo\.com\/([A-Za-z0-9._%-]*)((\?|#)\S+)?/,
       key: 2,
-      video_thumbnail: 'http://vimeo.com/api/v2/video/__ID__.json'
+      video_thumbnail: 'https://vimeo.com/api/v2/video/__ID__.json'
     }
   }
 
