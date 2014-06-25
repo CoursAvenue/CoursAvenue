@@ -168,6 +168,7 @@ class AdminMailer < ActionMailer::Base
   end
 
   def welcome_email(admin)
+    return if admin.sign_in_count > 1
     @admin         = admin
     @structure     = @admin.structure
     @show_links    = true
