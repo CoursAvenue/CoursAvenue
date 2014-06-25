@@ -40,7 +40,7 @@
 
     }
     tbody, thead {
-        tr td.no-stripe {
+        tr.no-stripe td, tr td.no-stripe {
             background-color: transparent;
         }
     }

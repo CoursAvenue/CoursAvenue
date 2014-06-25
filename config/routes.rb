@@ -113,7 +113,7 @@ CoursAvenue::Application.routes.draw do
           get :inscription, to: :new
         end
         devise_for :admins, controllers: { registrations: 'pro/admins/registrations'}, path: '/', path_names: { registration: 'rejoindre-coursavenue-pro', sign_up: '/' }
-        resources :orders, only: [:index], controller: 'structures/orders', path: 'mes-factures'
+        resources :orders, only: [:index, :show], controller: 'structures/orders', path: 'mes-factures'
         resources :subscription_plans, only: [:destroy], controller: 'structures/subscription_plans' do
           member do
             get :ask_for_cancellation
