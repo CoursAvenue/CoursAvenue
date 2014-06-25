@@ -12,6 +12,7 @@ class Place::Home < Place
   # Callbacks                                                          #
   ######################################################################
   after_create :set_gives_individual_courses_if_false
+  after_destroy :set_teachers_at_home_to_false
 
   def name
     I18n.t('places.home.name')
@@ -38,6 +39,16 @@ class Place::Home < Place
   def set_gives_individual_courses_if_false
     self.structure.gives_individual_courses = true
     self.structure.teaches_at_home          = true
+    self.structure.save
+    nil
+  end
+
+  # If a user destroys a private course, then by default, it will set the teaches
+  # at home flag of structure to false.
+  #
+  # @return nil
+  def set_teachers_at_home_to_false
+    self.structure.teaches_at_home          = false
     self.structure.save
     nil
   end
