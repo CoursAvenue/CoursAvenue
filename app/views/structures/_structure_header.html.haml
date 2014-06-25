@@ -59,6 +59,6 @@
   :javascript
       $(function() {
           $('[data-behavior=show-contact-panel]').click(function() {
-              $.fancybox.open($('#contact-panel').clone(), { padding: 0, width: 450, helpers: { overlay: { locked: false } } });
+              $.fancybox.open($('#contact-panel').clone(), { padding: 0, maxWidth: 450, minWidth: 450, width: 450, helpers: { overlay: { locked: false } } });
           })
       })
