@@ -1,8 +1,8 @@
 # This file is used by Rack-based servers to start the application.
-require 'rack/ssl-enforcer'
-if ENV['RACK_ENV'].to_s.eql?('production')
-  use Rack::SslEnforcer, ignore: /.*widget_ext.*/
-end
+# require 'rack/ssl-enforcer'
+# if ENV['RACK_ENV'].to_s.eql?('production')
+#   use Rack::SslEnforcer, ignore: /.*widget_ext.*/
+# end
 
 require ::File.expand_path('../config/environment',  __FILE__)
 require "rack-timeout"
