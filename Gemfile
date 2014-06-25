@@ -5,12 +5,14 @@ ruby '2.1.2'
 
 gem 'rails', '4.1.1'
 
-gem 'rack-attack', '~>3.0.0'
+gem 'rack-attack',  '~>3.0.0'
 gem 'rack-timeout', '~> 0.0.4'
 
 gem 'filepicker-rails'
 
 gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
+
+gem 'rack-ssl-enforcer',    '~> 0.2.7'
 
 # Webserver
 # gem 'unicorn'
