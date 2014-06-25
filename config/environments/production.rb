@@ -34,7 +34,7 @@ CoursAvenue::Application.configure do
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
-  config.middleware.use Rack::SslEnforcer, except_methods: ['OPTIONS']
+  config.middleware.use Rack::SslEnforcer, ignore: /.*widget_ext.*/
 
   # See everything in the log (default is :info)
   config.log_level = :warn
