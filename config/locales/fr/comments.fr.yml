@@ -34,7 +34,9 @@ fr:
       content_too_small: Votre avis doit comporter au moins %{count} mots
     wizard:
       infos: >
-        <p><strong>2 manières de répondre aux avis</strong> :</p>
+        <p><strong>Votre accroche personnalisée</strong></p>
+        <p>Parmi les titres de vos avis, choisissez l'accroche qui vous permettra de personnaliser votre profil qui attirera encore plus l'oeil dans le moteur de recherche.</p>
+        <p><strong>2 manières de répondre aux avis :
         <p><strong>Envoyez un message privé</strong><br>A chaque nouveau commentaire, répondez à l'élève en lui envoyant un message privé : remerciez-le pour sa recommandation ou envoyez-lui un simple mot de gentillesse en prévision du prochain cours.</p>
         <p><strong>Ajoutez un commentaire public</strong><br>Répondez au maximum d'avis par un commentaire public qui s'affichera à la suite de l'avis sur votre profil public. Cela apporte de la crédibilité à vos témoignages et vous offre l'opportunité d'apporter des informations complémentaires.</p>
         <p>Si l'avis ne respecte pas les critères de publication, signalez-le nous.</p>
