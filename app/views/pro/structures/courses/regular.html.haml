@@ -13,7 +13,7 @@
       %h3.flush Cours collectifs
     .soft--sides
       %p{ class: (@courses.lessons.empty? ? '' : 'hidden'), data: { empty: 'lesson'} }
-        Vous n'avez pas de cours.
+        Vous n'avez pas de cours collectif.
         = link_to new_pro_structure_course_path(@structure, type: 'Course::Lesson'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false' } do
           %i.fa.fa-plus
           Ajouter un cours collectif
