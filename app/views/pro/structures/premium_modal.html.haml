@@ -53,8 +53,33 @@
                 %i Facturé en un unique paiement de 69 €
             .text--center= submit_tag 'Continuer', class: 'btn btn--yellow btn--full'
         .grid__item.one-half>
-          %h4 Accédez à tous les avantages Premium :
-          = render partial: 'pro/structures/premium_advantages', locals: { short: true }
+          .panel.panel--yellow
+            .panel__header.soft-half
+              %h4.text--center.flush--bottom Avantages du Premium
+            .panel__body.soft
+              %ul.epsilon.line-height-1-7.no-bullet-list.flush
+                %li.flexbox.push-half--ends
+                  .flexbox__item.v-middle{ style: 'width: 40px;'}>
+                    = image_tag 'icons/visibility.png', width: 30
+                  .flexbox__item.nine-tenths.v-middle>
+                    Augmentez votre visibilité
+                %li.flexbox.push-half--bottom
+                  .flexbox__item.v-middle{ style: 'width: 40px;'}>
+                    = image_tag 'icons/discount.png', width: 30
+                  .flexbox__item.nine-tenths.v-middle>
+                    Démarquez-vous grâce à vos offres découvertes
+                %li.flexbox.push-half--bottom
+                  .flexbox__item.v-middle{ style: 'width: 40px;'}>
+                    = image_tag 'icons/contact.png', width: 30
+                  .flexbox__item.nine-tenths.v-middle>
+                    Accédez aux coordonnées des élèves
+                %li.flexbox.border-none--bottom
+                  .flexbox__item.v-middle{ style: 'width: 40px;'}>
+                    = image_tag 'icons/stats.png', width: 30
+                  .flexbox__item.nine-tenths.v-middle>
+                    Suivez les statistiques avancées de votre profil
+
+          -# = render partial: 'pro/structures/premium_advantages', locals: { short: true }
 
 :javascript
     $("[data-behavior=local-tab]").click(function() {
