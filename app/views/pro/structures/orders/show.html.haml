@@ -41,7 +41,7 @@
           %th Qté
           %th TVA
           %th Prix Unit.
-          %th Montant
+          %th.text--right Montant
       %tbody
         %tr.bordered--bottom
           %td Abonnement
@@ -49,42 +49,42 @@
           %td 1
           %td 20%
           %td= "#{readable_amount(@order.amount)}€"
-          %td= "#{readable_amount(@order.amount)}€"
+          %td.text--right= "#{readable_amount(@order.amount)}€"
         %tr.no-stripe
           %td
           %td
           %td
           %td
           %td Remise
-          %td 0.00€
+          %td.text--right 0.00€
         %tr.no-stripe
           %td
           %td
           %td
           %td
           %td Total HT
-          %td= "#{readable_amount(@order.amount / 1.20)}€"
+          %td.text--right= "#{readable_amount(@order.amount / 1.20)}€"
         %tr.no-stripe
           %td
           %td
           %td
           %td
           %td TVA
-          %td= "#{readable_amount(@order.amount - @order.amount / 1.20)}€"
+          %td.text--right= "#{readable_amount(@order.amount - @order.amount / 1.20)}€"
         %tr.no-stripe.f-weight-bold
           %td
           %td
           %td
           %td
           %td Total TTC
-          %td= "#{readable_amount(@order.amount)}€"
+          %td.text--right= "#{readable_amount(@order.amount)}€"
         %tr.no-stripe.f-weight-bold
           %td
           %td
           %td
           %td
           %td PAYÉ
-          %td= "#{readable_amount(@order.amount)}€"
+          %td.text--right= "#{readable_amount(@order.amount)}€"
 
     %div Siret : 79009610100015 - APE 6201Z - 790 096 101 R.C.S. Paris
     %div N° TVA intracommunautaire FR01790096101

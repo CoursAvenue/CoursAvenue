@@ -21,4 +21,4 @@
             %td Carte bancaire
             %td= "#{('%.2f' % order.amount).gsub('.', ',')}€"
             %td= order.public_order_id
-            %td= link_to 'Afficher', pro_structure_order_path(@structure, order), target: :_blank
+            %td= link_to 'Afficher', pro_structure_order_path(@structure, order)
