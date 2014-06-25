@@ -278,6 +278,7 @@
 
 :javascript
     $('[data-behavior=show-price-group-form]').click(function() {
+        $(window).trigger('resize');
         // If we are showing one of the top form
         if (!$(this.dataset.el).is(':visible') && this.dataset.showTable == 'true') {
             $('#table-header').slideDown();

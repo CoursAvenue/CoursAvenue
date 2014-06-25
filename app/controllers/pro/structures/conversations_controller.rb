@@ -6,6 +6,8 @@ class Pro::Structures::ConversationsController < ApplicationController
 
   layout 'admin'
 
+  # Set the message as treated_by_phone. It means that the admin don't have to
+  # answer it to be it counted as treated when computing score
   def treat_by_phone
     @conversation = @admin.mailbox.conversations.find(params[:id])
     @conversation.update_column :treated_by_phone, true
@@ -14,6 +16,19 @@ class Pro::Structures::ConversationsController < ApplicationController
     @structure.delay.compute_response_rate
     respond_to do |format|
       format.html { redirect_to pro_structure_conversations_path(@structure), notice: "La demande est considérée comme traitée" }
+    end
+  end
+
+  # Flag message and set the label to be a conversation
+  def flag
+    @conversation = @admin.mailbox.conversations.find(params[:id])
+    @conversation.update_column :flagged, params[:flag]
+    @conversation.update_column :flagged_at, Time.now
+    @conversation.update_column :mailboxer_label_id, Mailboxer::Label::CONVERSATION
+    @structure.delay.compute_response_time
+    @structure.delay.compute_response_rate
+    respond_to do |format|
+      format.html { redirect_to pro_structure_conversations_path(@structure), notice: "Le message a été signalé" }
     end
   end
 

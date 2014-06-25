@@ -8,4 +8,15 @@
         = message_form.input :body, input_html: { placeholder: 'Ajouter un message personnel ici', style: 'height: 100px', class: 'input--large one-whole', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
       = f.submit 'Répondre', class: 'btn btn--green', data: { disable_with: "Message en cours d'envoi" }
       - if conversation_waiting_for_reply? @conversation
-        = link_to 'Demande traitée par téléphone', treat_by_phone_pro_structure_conversation_path(@structure, @conversation), class: 'btn btn--green', method: :patch
+        = succeed ' ' do
+          = link_to 'Demande traitée par téléphone', treat_by_phone_pro_structure_conversation_path(@structure, @conversation), class: 'btn btn--green', method: :patch
+        = succeed ' ' do
+          .inline-block.drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'left' } }
+            %a.btn
+              %i.fa.fa-flag
+              Signaler
+            %ul.drop-down__el.text--left
+              %li.nowrap
+                = link_to 'Contenu inapproprié / offensant', flag_pro_structure_conversation_path(@structure, @conversation, flag: 'Contenu inapproprié / offensant'), method: :patch
+              %li.nowrap
+                = link_to 'Autres', flag_pro_structure_conversation_path(@structure, @conversation, flag: 'Autres'), method: :patch

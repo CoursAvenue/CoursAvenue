@@ -6,11 +6,24 @@
 .bordered--top.push-half--top.soft-half--top
   - if conversation_waiting_for_reply?(conversation)
     .grid--full.blue-box.soft-half--sides.very-soft.rounded--none.border-none
-      .grid__item.v-middle.one-third>
+      .grid__item.v-middle.three-twelfths>
         %strong.epsilon En attente de réponse
-      .grid__item.v-middle.two-thirds.text--right>
-        = link_to 'Répondre par un message', pro_structure_conversation_path(@structure, conversation), class: 'btn btn--small'
-        = link_to 'Demande traitée par téléphone', treat_by_phone_pro_structure_conversation_path(@structure, conversation), class: 'btn btn--small', method: :patch
+      .grid__item.v-middle.nine-twelfths.text--right>
+        = succeed ' ' do
+          = link_to 'Répondre par un message', pro_structure_conversation_path(@structure, conversation), class: 'btn btn--small'
+        = succeed ' ' do
+          = link_to 'Demande traitée par téléphone', treat_by_phone_pro_structure_conversation_path(@structure, conversation), class: 'btn btn--small', method: :patch
+        = succeed ' ' do
+          .inline-block.drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'left' } }
+            %a.btn.btn--small
+              %i.fa.fa-flag
+              Signaler
+            %ul.drop-down__el.text--left
+              %li.nowrap
+                = link_to 'Contenu inapproprié / offensant', flag_pro_structure_conversation_path(@structure, conversation, flag: 'Contenu inapproprié / offensant'), method: :patch, class: 'muted-link'
+              %li.nowrap
+                = link_to 'Autres', flag_pro_structure_conversation_path(@structure, conversation, flag: 'Autres'), method: :patch, class: 'muted-link'
+
   = link_to pro_structure_conversation_path(@structure, conversation), class: "muted-link block grid--full #{(conversation_waiting_for_reply?(conversation) ? 'bordered--blue bordered-none--top bordered--larger' : '')}" do
     .grid__item.v-top.v-middle{ style: 'width: 30%' }>
       .grid--full
