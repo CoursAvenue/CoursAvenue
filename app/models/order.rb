@@ -14,6 +14,6 @@ class Order < ActiveRecord::Base
 
   def public_order_id
     order_number = self.structure.orders.index(self) + 1
-    "FR#{Date.today.year}#{order_number.to_s.rjust(6, "0")}"
+    "FR#{Date.today.year}#{structure.id}#{order_number}"
   end
 end
