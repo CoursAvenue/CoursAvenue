@@ -1,4 +1,6 @@
 CoursAvenue::Application.configure do
+  config.middleware.use Rack::SslEnforcer, ignore: /.*widget_ext.*/
+
   # config.session_store :cookie_store, key: '_CoursAvenue__session', :domain => 'coursavenue.com'
   # config.session_store :cookie_store, key: '_CoursAvenue_session', :domain => 'coursavenue.com'
   CoursAvenue::Application.config.session_store :active_record_store, key: '_CoursAvenue_session_ar', domain: 'coursavenue.com'
@@ -34,7 +36,6 @@ CoursAvenue::Application.configure do
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
-  config.middleware.use Rack::SslEnforcer, ignore: /.*widget_ext.*/
 
   # See everything in the log (default is :info)
   config.log_level = :warn
