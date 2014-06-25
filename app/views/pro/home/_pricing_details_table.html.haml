@@ -16,7 +16,7 @@
         .delta Gratuit
         %p &nbsp;
         - if @structure
-          = link_to 'Votre compte actuel', dashboard_pro_structure_path(@structure), class: 'btn btn--full btn--gray'
+          %span.gray.v-middle Votre compte actuel
         - else
           = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--yellow btn--full'
       %td.bordered--right.four-twelfths.text--center.bordered--top.v-top.bordered--bottom
@@ -137,7 +137,7 @@
       %td.bordered--right.no-stripe.text--right
       %td.bordered--right.text--center.soft-half
         - if @structure
-          = link_to 'Votre compte actuel', dashboard_pro_structure_path(@structure), class: 'btn btn--full btn--gray'
+          %span.gray.v-middle Votre compte actuel
         - else
           = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--yellow btn--full'
       %td.bordered--right.text--center.soft-half
