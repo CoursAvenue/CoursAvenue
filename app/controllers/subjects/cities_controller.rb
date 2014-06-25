@@ -24,10 +24,6 @@ class Subjects::CitiesController < ApplicationController
 
     @city_subject_info        = CitySubjectInfo.load(@city.id, @subject.id)
 
-    @structures               = @structure_search.results
-    @images                   = @images_search.results
-    @comments                 = @comments_search.results
-
     @structures_count         = @structure_search.total
     @places_count             = @location_search.total
     @plannings_count          = @planning_search.total
@@ -35,9 +31,9 @@ class Subjects::CitiesController < ApplicationController
     @comments_count           = @comments_search.total
     @medias_count             = @medias_search.total
 
-    @json_structure_addresses = Gmaps4rails.build_markers(@location_search.results) do |location, marker|
-      marker.lat location.latitude
-      marker.lng location.longitude
+    @city_latlng = Gmaps4rails.build_markers(@city) do |city, marker|
+      marker.lat city.latitude
+      marker.lng city.longitude
     end
   end
 end
