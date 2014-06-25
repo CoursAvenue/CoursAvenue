@@ -8,7 +8,7 @@
       = render "pro/structures/admins/change_email"
 
   %hr.push--ends
-  .soft--sides
+  .soft--sides{ data: { behavior: 'wizard-helper', content: 'pro.admins.wizard.password' } }
     %h5
       %i.fa.fa-lock
       Changement de mot de passe
@@ -23,7 +23,7 @@
       Mes notifications mails
 
     %input{type: 'hidden', name: 'return_to', value: notifications_pro_structure_admin_url(@structure, @structure.main_contact, subdomain: 'pro')}
-    .soft--sides{ data: { behavior: 'wizard-helper', content: "<p><strong>Pas de spam</strong><br>Nous vous promettons de ne pas vous envoyer de spam. Cette option peut être désactivée à tout moment.</p>" } }
+    .soft--sides{ data: { behavior: 'wizard-helper', content: 'pro.admins.wizard.notifications' } }
       .grid
         .grid__item.one-third>
           %strong.label--large Envoyez-moi des e-mails quand :
@@ -34,7 +34,5 @@
             = f.input :monday_email_opt_in, as: :boolean, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
           .checkbox-at-left
             = f.input :thursday_email_opt_in, as: :boolean, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
-          .checkbox-at-left
-            = f.input :jpo_email_opt_in, as: :boolean, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
 
     = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
