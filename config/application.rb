@@ -12,7 +12,7 @@ module CoursAvenue
     S3_BUCKET       = AMAZON_S3.buckets[ENV['AWS_BUCKET']]
     FACEBOOK_APP_ID = 589759807705512
 
-    config.middleware.use Rack::SslEnforcer, ignore: /.*widget_ext.*/ #if Rails.env.production?
+    config.middleware.use Rack::SslEnforcer, ignore: /.*widget_ext.*/ unless Rails.env.development?
 
     # config.middleware.use Rack::Cors do
     #   allow do
