@@ -27,4 +27,8 @@ class Course::Training < Course
   def latest_end_date
     self.plannings.order('end_date DESC').first.try(:end_date)
   end
+
+  def expired?
+    plannings.map(&:end_date).sort.last < Date.today
+  end
 end

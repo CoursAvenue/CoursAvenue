@@ -40,7 +40,9 @@ fr:
       default: "%d/%m/%Y"
       short: "%e %b"
       semi_short: "%e %B"
+      semi_shorter: "%e %B %Y"
       semi_long: "%A %e %B"
+      semi_longer: "%A %e %B %Y"
       long: "%e %B %Y"
     day_names:
       - dimanche

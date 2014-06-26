@@ -8,7 +8,9 @@
 
     // Create the defaults once
     var pluginName = "liveForm",
-        defaults = {};
+        defaults = {
+            live_form_attribute: true
+        };
 
     // The actual plugin constructor
     function Plugin( element, options ) {
@@ -35,7 +37,10 @@
 
         init: function() {
             this.$form = this.$element;
-            this.$form.append('<input type="hidden" name="live_form" value="true">');
+            if (typeof(this.$element.data('live-form-attribute')) != 'undefined') { this.options.live_form_attribute = this.$element.data('live-form-attribute'); }
+            if (this.options.live_form_attribute) {
+                this.$form.append('<input type="hidden" name="live_form" value="true">');
+            }
             this.$wizard_container = ( this.$element.data('flash-container') ? $(this.$element.data('flash-container')) : $('.wizard-container') );
             this.$form.find('textarea').keyup(this.submitForm.bind(this));
             this.$form.find('input, select').change(this.submitForm.bind(this));

@@ -45,6 +45,10 @@ class Course::Private < Course
     self.structure.places.homes.first
   end
 
+  def expired?
+    false
+  end
+
   private
 
   #

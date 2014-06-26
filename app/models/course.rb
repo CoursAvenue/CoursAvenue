@@ -361,6 +361,10 @@ class Course < ActiveRecord::Base
     plannings.any? and price_group.present?
   end
 
+  def expired?
+    false
+  end
+
   private
 
   # Attributes used to create the slug for Friendly ID

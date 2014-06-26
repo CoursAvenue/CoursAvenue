@@ -27,6 +27,10 @@ class Course::Lesson < Course
     self.end_date
   end
 
+  def expired?
+    end_date < Date.today
+  end
+
   private
   # Add errors if end date is not in the future
   #

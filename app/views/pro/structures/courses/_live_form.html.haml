@@ -1,7 +1,22 @@
 - price_groups = structure.price_groups.where(course_type: (course.is_training? ? 'training' : 'regular')) if price_groups.nil?
 
 .push--bottom{ id: "course-#{course.id}"}
-  .panel{ class: (course.can_be_published? ? '' : 'panel--blue')}
+  .panel{ class: ((!course.can_be_published? or course.expired?) ? 'panel--blue' : '')}
+    - if course.can_be_published? and course.expired?
+      .panel__header.soft-half.f-weight-bold.nowrap
+        - if course.is_training?
+          %span.v-middle.epsilon Stage / atelier non visible car sans date à venir :
+          = link_to 'Ajouter une date', new_pro_structure_course_planning_path(structure, course), class: 'btn btn--small v-middle fancybox.ajax nowrap', data: { behavior: 'modal', width: '800', padding: '0' }
+
+        - elsif course.is_lesson?
+          %span.v-middle.epsilon Les dates pour ce cours ne sont plus à jour, actualisez les jours de début et de fin :
+          = simple_form_for [:pro, structure, course], url: pro_structure_course_path(structure, course), as: :course, remote: true, html: { class: 'inline-block', data: { behavior: 'live-form', live_form_attribute: false } } do |f|
+            .inline-block.v-middle.input.input-daterange.input-group.flush{ data: { behavior: 'datepicker' } }>
+              = f.input :start_date, as: :string, label: false, input_html: { style: 'margin-right: 5px', class: 'datepicker-input datepicker-input--small', value: (course.start_date.present? ? l(course.start_date) : l(Date.parse('15/09/2014'))) }, wrapper_html: { class: 'flush inline-block v-middle' }
+              %span.v-middle -&nbsp;
+              - next_june = Date.parse("28 June #{Date.today.year + 1}")
+              = f.input :end_date, as: :string, label: false, input_html: { class: 'datepicker-input datepicker-input--small', value: (course.end_date.present? ? l(course.end_date) : '') }, wrapper_html: { class: 'flush inline-block v-middle' }
+
     - if !course.can_be_published?
       .panel__header.soft-half.f-weight-bold.nowrap
         %span.v-middle.epsilon Complétez ces informations pour rendre le cours visible :
