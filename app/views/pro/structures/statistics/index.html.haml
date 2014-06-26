@@ -21,7 +21,7 @@
           .inline-block.pointer{ data: { behavior: 'toggle-serie' } }
             .v-middle.lbl.lbl--blue.v-middle.lbl--small &nbsp;
             %h5.flush.v-middle.inline-block
-              Vues :
+              Consultations :
               - if @structure.premium? or current_pro_admin.super_admin?
                 = @views_total_count
               - else
