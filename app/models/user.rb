@@ -228,8 +228,12 @@ class User < ActiveRecord::Base
     # Mailbox
     user_id = user.id
 
-    Mailboxer::Notification.where(Mailboxer::Notification.arel_table[:sender_id].eq(user_id).and(Mailboxer::Notification.arel_table[:sender_type].eq('User'))).update_all(sender_id: self.id)
-    Mailboxer::Receipt.where(Mailboxer::Receipt.arel_table[:receiver_id].eq(user_id).and(Mailboxer::Receipt.arel_table[:receiver_type].eq('User'))).update_all(receiver_id: self.id)
+    Mailboxer::Notification.where(Mailboxer::Notification.arel_table[:sender_id].eq(user_id).and(
+                                  Mailboxer::Notification.arel_table[:sender_type].eq('User'))
+                                ).update_all(sender_id: self.id)
+    Mailboxer::Receipt.where(Mailboxer::Receipt.arel_table[:receiver_id].eq(user_id).and(
+                             Mailboxer::Receipt.arel_table[:receiver_type].eq('User'))
+                            ).update_all(receiver_id: self.id)
     self.save
     user.reload.destroy
   end

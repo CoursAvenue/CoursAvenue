@@ -6,7 +6,7 @@ module HomeHelper
   def blog_feed
     source = "http://54.217.250.8/feed" # url or local file
     content = "" # raw content of rss feed will be loaded here
-    # begin
+    begin
       open(source) do |s| content = s.read end
       rss = RSS::Parser.parse(content, false)
 
@@ -23,7 +23,7 @@ module HomeHelper
       end
       html << "</ul>"
       html.html_safe
-    # rescue Exception => e
-    # end
+    rescue Exception => e
+    end
   end
 end

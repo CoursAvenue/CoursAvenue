@@ -55,7 +55,7 @@ class SubscriptionPlan < ActiveRecord::Base
                                                 credit_card_number: params[:CARDCODE],
                                                 recurrent: true,
                                                 be2bill_alias: params[:ALIAS],
-                                                card_validity_date: Date.strptime(params[:CARDVALIDITYDATE], '%m-%y'),
+                                                card_validity_date: (params[:CARDVALIDITYDATE] ? Date.strptime(params[:CARDVALIDITYDATE], '%m-%y') : nil),
                                                 client_ip: params[:CLIENT_IP]})
     structure.compute_search_score(true)
     structure.index

@@ -22,7 +22,7 @@ class StructureSearch
 
       with(:email_status).any_of params[:email_status]                                 if params[:email_status].present?
       # --------------- Geolocation
-      if params[:bbox_sw].present? && params[:bbox_ne].present?
+      if params[:bbox_sw].present? && params[:bbox_ne].present? && params[:bbox_sw].length == 2 && params[:bbox_ne].length == 2
         with(:location).in_bounding_box(params[:bbox_sw], params[:bbox_ne])
       else
         with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 10, bbox: (params[:bbox] ? params[:bbox] : true)) if params[:lat].present? and params[:lng].present?

@@ -28,6 +28,7 @@ class Course::Lesson < Course
   end
 
   def expired?
+    return true if end_date.nil?
     end_date < Date.today
   end
 
