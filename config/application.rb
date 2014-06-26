@@ -12,13 +12,15 @@ module CoursAvenue
     S3_BUCKET       = AMAZON_S3.buckets[ENV['AWS_BUCKET']]
     FACEBOOK_APP_ID = 589759807705512
 
-    config.middleware.use Rack::Cors do
-      allow do
-        origins '*'
-        # resource '/*', headers: :any, methods: :get
-        resource '/etablissements/.*/widget.json', headers: :any, methods: :get
-      end
-    end
+    config.middleware.use Rack::SslEnforcer, ignore: /.*widget_ext.*/ #if Rails.env.production?
+
+    # config.middleware.use Rack::Cors do
+    #   allow do
+    #     origins '*'
+    #     # resource '/*', headers: :any, methods: :get
+    #     resource '/etablissements/.*/widget.json', headers: :any, methods: :get
+    #   end
+    # end
 
     # S3 = AWS::S3.new(
     #   :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
