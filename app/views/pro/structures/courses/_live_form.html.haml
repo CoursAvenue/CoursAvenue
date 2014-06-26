@@ -2,7 +2,7 @@
 
 .push--bottom{ id: "course-#{course.id}"}
   .panel{ class: ((!course.can_be_published? or course.expired?) ? 'panel--blue' : '')}
-    - if course.can_be_published? and course.expired?
+    - if course.expired?
       .panel__header.soft-half.f-weight-bold.nowrap
         - if course.is_training?
           %span.v-middle.epsilon Stage / atelier non visible car sans date à venir :
@@ -17,7 +17,7 @@
               - next_june = Date.parse("28 June #{Date.today.year + 1}")
               = f.input :end_date, as: :string, label: false, input_html: { class: 'datepicker-input datepicker-input--small', value: (course.end_date.present? ? l(course.end_date) : '') }, wrapper_html: { class: 'flush inline-block v-middle' }
 
-    - if !course.can_be_published?
+    - if !course.expired? and !course.can_be_published?
       .panel__header.soft-half.f-weight-bold.nowrap
         %span.v-middle.epsilon Complétez ces informations pour rendre le cours visible :
         - if course.plannings.empty?
