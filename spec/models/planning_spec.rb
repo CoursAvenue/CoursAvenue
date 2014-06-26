@@ -19,14 +19,6 @@ describe Planning do
         expect(subject.errors.messages).to include :start_date
       end
     end
-    context :open_course do
-      it 'needs a start_date' do
-        course          = Course::Open.new
-        subject.course = course
-        expect(subject.valid?).to be_false
-        expect(subject.errors.messages).to include :start_date
-      end
-    end
     describe '#min_age_must_be_less_than_max_age' do
       context 'min_age_for_kid is more than max_age_for_kid' do
         it 'add errors to base' do

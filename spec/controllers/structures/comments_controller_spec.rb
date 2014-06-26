@@ -13,20 +13,6 @@ describe Structures::CommentsController do
   end
 
   describe '#create' do
-    it 'raises an error if commentable_type is incorrect' do
-      expect do
-        post :create, structure_id: structure.id,
-                      comment: {
-                    commentable_type: 'FakeModel',
-                    commentable_id: structure.id,
-                    author_name: 'Author name',
-                    title:       'Title',
-                    course_name: 'Course name',
-                    content:     'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,',
-                    email:       'random@test.com'
-                  }
-      end.to raise_error
-    end
 
     it 'creates a comment' do
       post :create, structure_id: structure.id,

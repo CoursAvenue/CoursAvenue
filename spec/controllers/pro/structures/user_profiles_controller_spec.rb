@@ -12,9 +12,6 @@ describe Pro::Structures::UserProfilesController do
 
   before do
     sign_in admin
-
-    # normally we are testing the result of the job
-    Delayed::Worker.delay_jobs = false
   end
 
   describe :index do

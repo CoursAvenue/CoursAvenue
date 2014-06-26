@@ -13,11 +13,6 @@ describe StructuresController do
       get :show, id: structure.id
       expect(response.status).to eq(200)
     end
-    it 'creates a new Statistic view' do
-      views_count = structure.statistics.views.count
-      get :show, id: structure.id
-      expect(structure.statistics.views.count).to eq views_count + 1
-    end
   end
 
   describe :index, search: true do

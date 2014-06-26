@@ -17,6 +17,8 @@ require 'capybara/rspec'
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
 RSpec.configure do |config|
+  Delayed::Worker.delay_jobs = false
+
   config.include Devise::TestHelpers, :type => :controller
   config.include Delorean
 

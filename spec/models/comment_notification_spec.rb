@@ -20,10 +20,10 @@ describe CommentNotification do
     context 'after creation' do
       it 'sends an email after create' do
         comment_notification = FactoryGirl.build :comment_notification
-        delayed_job_count    = Delayed::Job.count
-        comment_notification.save
+        expect {
+          comment_notification.save
+        }.to change { ActionMailer::Base.deliveries.count }.by(1)
         expect(comment_notification.status).to eq nil
-        expect(Delayed::Job.count).to eq (delayed_job_count + 1)
       end
     end
     # -------------------------------

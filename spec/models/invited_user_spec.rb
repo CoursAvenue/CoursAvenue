@@ -13,9 +13,9 @@ describe InvitedUser do
       expect(invited_user.registered).to be_true
     end
     it 'sends an email in queue' do
-      previous_job_count = Delayed::Job.count
-      invited_user.inform_proposer
-      expect(Delayed::Job.count).to eq previous_job_count + 1
+      expect {
+        invited_user.inform_proposer
+      }.to change { ActionMailer::Base.deliveries.count }.by(1)
     end
   end
 
@@ -26,9 +26,9 @@ describe InvitedUser do
     end
 
     it 'sends an email in queue' do
-      previous_job_count = Delayed::Job.count
-      invited_user.send_invitation_stage_1
-      expect(Delayed::Job.count).to eq previous_job_count + 1
+      expect {
+        invited_user.send_invitation_stage_1
+      }.to change { ActionMailer::Base.deliveries.count }.by(1)
     end
   end
 
@@ -39,9 +39,9 @@ describe InvitedUser do
     end
 
     it 'sends an email in queue' do
-      previous_job_count = Delayed::Job.count
-      invited_user.send_invitation_stage_2
-      expect(Delayed::Job.count).to eq previous_job_count + 1
+      expect {
+        invited_user.send_invitation_stage_2
+      }.to change { ActionMailer::Base.deliveries.count }.by(1)
     end
   end
 
