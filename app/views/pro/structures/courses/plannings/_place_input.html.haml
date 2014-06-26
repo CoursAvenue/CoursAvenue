@@ -5,13 +5,25 @@
 
 .input.flush--bottom
   = f.label :place, class: 'v-top label--large'
+  - places = structure.places.to_a
+  - if course.is_training?
+    - foreign_place = OpenStruct.new name: Planning.human_attribute_name(:is_in_foreign_country), id: 'foreign'
+    - places << foreign_place
   %div
     .inline-block.v-middle
-      = f.input :place_id , as: :select, collection: structure.places, label_method: lambda {|place| place.name}, include_blank: "Sélectionnez un lieu", label: false, wrapper_html: { class: 'flush' }, input_html: { class: 'input--large' }
+      = f.input :place_id , as: :select, collection: places, label_method: lambda {|place| place.name}, include_blank: "Sélectionnez un lieu", label: false, wrapper_html: { class: 'flush' }, input_html: { class: 'input--large' }, selected: (planning.is_in_foreign_country? ? 'foreign' : planning.place.try(:id))
     .inline-block.v-middle
       = link_to new_pro_structure_place_path(structure, type: 'Place::Public', return_to_action: return_to_action), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 } do
         %i.fa.fa-map-marker
         Ajouter un lieu
 
 - if course.is_training?
-  = f.input :is_in_foreign_country, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+  .visuallyhidden= f.input :is_in_foreign_country, as: :boolean
+  :javascript
+    $('#planning_place_id').change(function() {
+        if ($(this).val() == 'foreign') {
+            $('#planning_is_in_foreign_country')[0].checked = true;
+        } else {
+            $('#planning_is_in_foreign_country')[0].checked = false;
+        }
+    });
