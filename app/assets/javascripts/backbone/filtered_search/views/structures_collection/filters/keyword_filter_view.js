@@ -23,39 +23,8 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             'click':                            'clickInsinde',
         },
 
-        onRender: function onRender () {
-            var engine   = new Bloodhound({
-                datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.num); },
-                queryTokenizer: Bloodhound.tokenizers.whitespace,
-                remote: Routes.keywords_path({format: 'json'}) + '?name=%QUERY'
-            });
-            engine.initialize();
-            this.ui.$search_input.typeahead({
-                highlight : true
-            }, {
-                name: 'keywords',
-                limit: 10,
-                displayKey: 'name',
-                source: engine.ttAdapter()
-            });
-        },
-
-        // This is to prevent the input to be cleared when pressing escape.
-        // After investigation, don't know where the input is being cleared...
-        // I agree, this is ugly.
-        // keydown: function keydown (event) {
-        //     this.previous_searched_name = this.ui.$search_input.typeahead('val');
-        //     if (event.keyCode === 13 || event.keyCode === 27) { // Enter || Escape
-        //         setTimeout(function() { this.ui.$search_input.typeahead('val', this.previous_searched_name) }.bind(this) );
-        //     }
-        // },
-
         // Announce on keyup and hide the typeahead on enter or escape
         keyup: function keyup (event) {
-            if (event.keyCode === 13 || event.keyCode === 27) { // Enter || Escape
-                this.ui.$search_input.typeahead('close');
-                this.ui.$search_input.typeahead('val', this.previous_searched_name);
-            }
             this.announce(event);
         },
 

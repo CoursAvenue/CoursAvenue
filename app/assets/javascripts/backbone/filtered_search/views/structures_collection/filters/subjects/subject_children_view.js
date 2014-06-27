@@ -63,8 +63,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
                 this.activateButtons(event.currentTarget.dataset.value);
                 var data = { root_subject_id: event.currentTarget.dataset.rootSubject,
                              parent_subject_id: (event.currentTarget.dataset.parentSubject || event.currentTarget.dataset.value),
-                             subject_id: event.currentTarget.dataset.value,
-                             name: event.currentTarget.textContent.trim() };
+                             subject_id: event.currentTarget.dataset.value };
                 this.trigger("filter:subject", data);
             }
             this.current_subject_slug       = data.subject_id;

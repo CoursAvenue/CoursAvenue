@@ -56,12 +56,11 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             root_subject = this.collection.where({slug: (root_subject_slug || clicked_subject_slug)})[0];
             // If it's a clicked slug is root, announce it
             if (depth == '0') {
-                this.announceSubject({ name: root_subject.get('name'), subject_id: root_subject.get('slug')})
+                this.announceSubject({ subject_id: root_subject.get('slug')})
             // Else if it's a parent - depth 1
             } else {
                 clicked_model = _.select(root_subject.get('children'), function(children) { return children.slug == clicked_subject_slug })[0];
-                this.announceSubject({ name: clicked_model.name,
-                                       subject_id: clicked_model.slug,
+                this.announceSubject({ subject_id: clicked_model.slug,
                                        root_subject_id: root_subject.get('slug'),
                                        parent_subject_id: clicked_model.slug })
             }
@@ -92,7 +91,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
         },
 
         announceSubject: function announceSubject (data) {
-            data = data || { name: '', subject_id: this.current_subject_slug, root_subject_id: this.current_subject_slug};
+            data = data || { subject_id: this.current_subject_slug, root_subject_id: this.current_subject_slug};
             this.menu_item.current_subject_slug       = data.subject_id;
             this.menu_item.selected_parent_subject_id = data.parent_subject_id;
             this.menu_item.model                = null;
