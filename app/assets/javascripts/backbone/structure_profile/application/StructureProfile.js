@@ -109,6 +109,8 @@ $(document).ready(function() {
     /* we only want the current app on the search page */
     if (StructureProfile.detectRoot()) {
         StructureProfile.start({});
+        // Create view for current structure only if not a current admin
+        // Create impressions for similar profiles
         if (!window.coursavenue.bootstrap.current_pro_admin) {
             $.ajax({
                 type: "POST",
@@ -117,6 +119,20 @@ $(document).ready(function() {
                 data: {
                     action_type: 'view',
                     fingerprint: $.cookie('fingerprint')
+                }
+            });
+            var similar_profile_structure_ids = [];
+            $('[data-similar-profile]').map(function(index, element) {
+                similar_profile_structure_ids.push($(element).data('structure-id'));
+            });
+            $.ajax({
+                type: "POST",
+                dataType: 'js',
+                url: Routes.statistics_path(),
+                data: {
+                    action_type: 'impression',
+                    fingerprint: $.cookie('fingerprint'),
+                    structure_ids: similar_profile_structure_ids
                 }
             });
         }

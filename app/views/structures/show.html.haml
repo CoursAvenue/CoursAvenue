@@ -101,7 +101,7 @@
               - unless index == 0
                 %hr.push-half--ends
               = link_to structure_path(structure), class: 'soft-half--sides block muted-link' do
-                .grid--full
+                .grid--full{ data: { similar_profile: true, structure_id: structure.id } }
                   .grid__item.v-top.one-fifth>
                     .media-photo= image_tag structure.logo.url(:thumb)
                   .grid__item.v-top.four-fifths.soft-half--left>
