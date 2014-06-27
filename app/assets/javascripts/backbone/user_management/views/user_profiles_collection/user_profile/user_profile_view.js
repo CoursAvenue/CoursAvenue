@@ -6,9 +6,37 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
     Module.UserProfileView = CoursAvenue.Views.EventLayout.extend({
         template: Module.templateDirname() + 'user_profile_view',
         tagName: 'tr',
-        className: 'table__cell--editable unflipped',
+        className: 'table__cell--editable',
         tagBarView: Module.EditableTagBar.EditableTagBarView,
         textFieldView: Module.EditableText.EditableTextView,
+
+
+        ui: {
+            '$manage_edits': '[data-behavior="manage-edits"]',
+            '$show_infos'  : '[data-behavior="show-info"]',
+            '$editable': "[data-behavior=editable]",
+            '$editing' : "[data-behavior=editable]:has('input')",
+            '$checkbox': "[data-behavior=select]"
+        },
+
+        events: {
+            'change @ui.$checkbox'          : 'addToSelected',
+            'click [data-behavior=save]'    : 'save',
+            'click [data-behavior=cancel]'  : 'cancel'
+        },
+
+        modelEvents: {
+            'render': 'rerender',
+            'change': 'syncFieldsToModel'
+        },
+
+        save: function announceSave (e) {
+            this.finishEditing({ restore: false });
+        },
+
+        cancel: function announceCancel (e) {
+            this.finishEditing({ restore: true });
+        },
 
         initialize: function (options) {
             this.finishEditing = _.bind(this.finishEditing, this);
@@ -77,21 +105,6 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
 
         },
 
-        ui: {
-            '$editable': "[data-behavior=editable]",
-            '$editing' : "[data-behavior=editable]:has('input')",
-            '$checkbox': "[data-behavior=select]"
-        },
-
-        events: {
-            'change @ui.$checkbox'       : 'addToSelected'
-        },
-
-        modelEvents: {
-            'render': 'rerender',
-            'change': 'syncFieldsToModel'
-        },
-
         rerender: function rerender () {
             this.render();
             this.$el.yellowFade({ delay: 400 });
@@ -148,6 +161,10 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         *  gives focus to the editable that was clicked */
         startEditing: function ($target) {
             this.setEditing(true);
+
+            this.ui.$manage_edits.show();
+            this.ui.$show_infos.hide();
+
             /* tell all the other fields to start themselves */
             this.trigger("start:editing");
         },
@@ -156,6 +173,8 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
          * must either clean up, rollback, or save, based on external
          * inputs and the state of the edits. */
         finishEditing: function (e) {
+            this.ui.$manage_edits.hide();
+            this.ui.$show_infos.show();
 
             // rollback if we aught to, or if there are no edits
             if (e.restore || _.isEmpty(this.edits)) {

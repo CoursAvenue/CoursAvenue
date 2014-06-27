@@ -20,8 +20,6 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
         },
 
         events: {
-            'click [data-behavior=save]'           : 'announceSave',
-            'click [data-behavior=cancel]'         : 'announceCancel',
             'click [data-behavior=new]'            : 'newUserProfile',
             'click [data-behavior=select-all]'     : 'selectAll',
             'click [data-behavior=deselect-all]'   : 'clearSelection',
@@ -94,16 +92,6 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
             var rotate = (is_editing)? "rotateX(-180deg)" : "rotateX(0deg)";
 
             this.ui.$edit_manager.parent().css({ transform: rotate });
-        },
-
-        announceSave: function announceSave (e) {
-            e.stopPropagation();
-            this.trigger("controls:save");
-        },
-
-        announceCancel: function announceCancel (e) {
-            e.stopPropagation();
-            this.trigger("controls:cancel");
         },
 
         onAfterShow: function onAfterShow () {

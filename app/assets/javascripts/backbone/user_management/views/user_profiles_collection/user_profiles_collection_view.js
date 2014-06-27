@@ -62,14 +62,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             this.getCurrentlyEditing().finishEditing({ restore: false });
         },
 
-        cancel: function cancel (e) {
-            this.getCurrentlyEditing().finishEditing({ restore: true });
-        },
-
-        commit: function commit () {
-            this.getCurrentlyEditing().finishEditing({ restore: false });
-        },
-
         bulkSelect: function bulkSelect (e) {
             var checked = e.currentTarget.checked;
 
@@ -108,7 +100,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         },
 
         newUserProfile: function newUserProfile () {
-	    var attributes = { first_name: "", email: "", last_name: "", tags: "", new: true, structure_id: this.collection.structure_id };
+            var attributes = { first_name: "", email: "", last_name: "", tags: "", new: true, structure_id: this.collection.structure_id };
             this.collection.add(attributes, { at: 0 });
         },
 

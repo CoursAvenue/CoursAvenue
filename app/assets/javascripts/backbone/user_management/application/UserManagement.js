@@ -20,8 +20,6 @@ UserManagement.addInitializer(function(options) {
             'filter:search_term'          : 'filterQuery',
             'filter:tags'                 : 'filterQuery',
 
-            'controls:save'               : 'commit',
-            'controls:cancel'             : 'cancel',
             'controls:new'                : 'newUserProfile',
             'controls:select:all'         : 'selectAll',
             'controls:deselect:all'       : 'deselectAll',
