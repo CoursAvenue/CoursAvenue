@@ -108,7 +108,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         },
 
         newUserProfile: function newUserProfile () {
-            var attributes = { first_name: "", email: "", last_name: "", tags: "", "new": true };
+	    var attributes = { first_name: "", email: "", last_name: "", tags: "", new: true, structure_id: this.collection.structure_id };
             this.collection.add(attributes, { at: 0 });
         },
 
