@@ -87,7 +87,7 @@ gem 'geocoder'                  , '~>1.2.2'
 gem 'active_model_serializers'  , '~>0.8.1'
 
 # Generate slugs for records
-gem 'friendly_id'               , '~>5.0.0'
+gem 'friendly_id'               , '~>5.0.4'
 # Handy forms
 gem 'simple_form'               , '~>3.0.2'
 # Dry the controllers

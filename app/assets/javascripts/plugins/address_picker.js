@@ -49,37 +49,43 @@
             }.bind(this));
             template = Handlebars.compile(this.options.template_string);
 
-            this.$element.typeahead({
-                    autoselect: true,
-                    cache     : false,
-                    highlight : true
-                }, {
-                    templates: {
-                        suggestion: template
-                    },
-                    source: function (query, callback) {
-                        query = query + ' France';
-                        geocoder.geocode({ address: query }, function (results, status) {
-                            callback($.map(results, function (result) {
-                                var city, arrAddress = result.address_components;
-                                // iterate through address_component array
-                                $.each(arrAddress, function (i, address_component) {
-                                    if (address_component.types[0] == "locality") {// locality type
-                                        city = address_component.long_name;
-                                        return false; // break the loop
-                                    }
-                                });
-                                return {
-                                    city:         city,
-                                    lat:          result.geometry.location.lat(),
-                                    lng:          result.geometry.location.lng(),
-                                    address_name: result.formatted_address
-                                };
-                            }));
+            var engine   = new Bloodhound({
+                datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.num); },
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                remote: {
+                    url: 'https://maps.googleapis.com/maps/api/geocode/json?address=%QUERY&components=country:FR&sensor=false&region=fr',
+                    filter: function (parsedResponse) {
+                        // query = query + ' France';
+                        return _.map(parsedResponse.results, function (result) {
+                            var city, arrAddress = result.address_components;
+                            // iterate through address_component array to keep only locality type
+                            $.each(arrAddress, function (i, address_component) {
+                                if (address_component.types[0] == "locality") {// locality type
+                                    city = address_component.long_name;
+                                    return false; // break the loop
+                                }
+                            });
+                            return {
+                                city:         city,
+                                lat:          result.geometry.location.lat,
+                                lng:          result.geometry.location.lng,
+                                address_name: result.formatted_address
+                            };
                         });
                     }
                 }
-            );
+            });
+            engine.initialize();
+            this.$element.typeahead({
+                highlight : true,
+                minLength: 1,
+            }, {
+                displayKey: 'address_name',
+                templates: {
+                    suggestion: template
+                },
+                source: engine.ttAdapter()
+            });
         }
     };
 

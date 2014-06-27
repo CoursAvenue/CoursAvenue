@@ -15,6 +15,10 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             'typeahead:selected #address-picker': 'announce'
         },
 
+        onRender: function() {
+            this.ui.$address_picker.addressPicker();
+        },
+
         announce: function (e, data) {
             this.trigger("filter:location", data);
         }.debounce(GLOBAL.DEBOUNCE_DELAY),

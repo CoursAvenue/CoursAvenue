@@ -228,7 +228,7 @@ GEM
     foreigner (1.6.1)
       activerecord (>= 3.0.0)
     formatador (0.2.4)
-    friendly_id (5.0.3)
+    friendly_id (5.0.4)
       activerecord (>= 4.0.0)
     fssm (0.2.10)
     geocoder (1.2.2)
@@ -556,7 +556,7 @@ DEPENDENCIES
   fb_graph (~> 2.7.10)
   filepicker-rails
   font-awesome-rails (~> 4.1.0.0)
-  friendly_id (~> 5.0.0)
+  friendly_id (~> 5.0.4)
   geocoder (~> 1.2.2)
   gmaps4rails (~> 2.1.2)
   haml (~> 4.0.3)
