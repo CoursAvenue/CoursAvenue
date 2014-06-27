@@ -10,6 +10,16 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         tagBarView: Module.EditableTagBar.EditableTagBarView,
         textFieldView: Module.EditableText.EditableTextView,
 
+        initialize: function (options) {
+            this.finishEditing = _.bind(this.finishEditing, this);
+            // callbacks need to be bound to this
+            _.bindAll(this, "updateSuccess", "updateError", "flashError");
+
+            this.model.set("checked", options.checked);
+            this.tags_url = options.tags_url;
+            this.edits = {};
+
+        },
 
         ui: {
             '$manage_edits': '[data-behavior="manage-edits"]',
@@ -38,17 +48,6 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             this.finishEditing({ restore: true });
         },
 
-        initialize: function (options) {
-            this.finishEditing = _.bind(this.finishEditing, this);
-            // callbacks need to be bound to this
-            _.bindAll(this, "updateSuccess", "updateError", "flashError");
-
-            this.model.set("checked", options.checked);
-            this.tags_url = options.tags_url;
-            this.edits = {};
-
-        },
-
         announceEditableClicked: function (e) {
             this.trigger("editable:clicked", e);
         },
@@ -67,7 +66,9 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
                 data      = this.model.get(attribute),
                 options   = _.extend(options || {}, { data: data, attribute: attribute }),
                 view      = new Klass(options);
-
+            if (Klass == this.tagBarView) {
+                this.editable_tag_bar = view;
+            }
             if (_.isFunction(event_hash.selector)) {
                 event_hash.selector = event_hash.selector(attribute, data);
             }
@@ -196,6 +197,8 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
 
             this.setEditing(false);
 
+            // Force tagbar view to create a tag of the rest of the text in the input
+            if(this.editable_tag_bar) { this.editable_tag_bar.currentView.createTaggy(); }
             // otherwise, collect and save the updates
             var update    = {
                 user_profile: this.edits

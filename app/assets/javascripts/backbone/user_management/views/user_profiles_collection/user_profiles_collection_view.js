@@ -255,9 +255,9 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         /* remember that itemViews are constructed and destroyed more often
          * than the corresponding models */
         itemViewOptions: function itemViewOptions(model, index) {
-            var id = model.get("id");
-            var tags_url = this.collection.url.basename + '/tags.json';
-            var checked = this.collection.isChecked(model);
+            var id       = model.get("id");
+            var tags_url = Routes.pro_structure_tags_path(this.collection.structure_id, { format: 'json' })
+            var checked  = this.collection.isChecked(model);
 
             /* we pass in the hash of layout events the view will respond to */
             return {
