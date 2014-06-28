@@ -89,6 +89,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def authenticate_pro_super_admin!
+    unless current_pro_admin && current_pro_admin.super_admin?
+      redirect_to root_path, alert: "Vous n'avez pas le droit !"
+    end
+  end
+
   private
 
   def update_sanitized_params

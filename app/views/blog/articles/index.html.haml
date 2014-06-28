@@ -1,0 +1,10 @@
+- @articles.each do |article|
+  .panel.push--bottom
+    .panel__header.soft
+      - if current_pro_admin and current_pro_admin.super_admin?
+        .float--right= link_to 'Éditer', edit_blog_article_path(article)
+      %h3.flush= article.title
+    .panel__body.soft
+      = article.description
+      = article.content.html_safe
+      = article.subjects.map(&:name)

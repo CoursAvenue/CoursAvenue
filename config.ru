@@ -12,11 +12,11 @@ Rack::Timeout.timeout = 30
 
 # For blog url
 # See: http://rywalker.com/setting-up-a-wordpress-blog-on-heroku-as-a-subdirectory-of-a-rails-app-also-hosted-on-heroku
-use Rack::ReverseProxy do
-  reverse_proxy(/^\/blog(\/.*)$/,
-    'http://blog.coursavenue.com$1',
-    opts = {:preserve_host => true})
-end
+# use Rack::ReverseProxy do
+#   reverse_proxy(/^\/blog(\/.*)$/,
+#     'http://blog.coursavenue.com$1',
+#     opts = {:preserve_host => true})
+# end
 
 run CoursAvenue::Application
 

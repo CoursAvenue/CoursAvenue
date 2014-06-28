@@ -78,3 +78,6 @@
 //= require libs/backbone.poller.js
 //= require backbone/cours_avenue
 
+//= require ckeditor/override
+//= require ckeditor/init
+//= require ckeditor/config

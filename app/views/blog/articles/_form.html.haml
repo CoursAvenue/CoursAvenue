@@ -1,0 +1,12 @@
+= simple_form_for @article do |f|
+  .input
+    = f.input :published, input_html: { class: 'input--large' }, label: false, wrapper_html: { class: 'flush' }
+    = f.label :published, class: 'label--large text--left v-middle hard'
+
+  = f.input :title, label: false, input_html: { class: 'input--large' }
+  = f.input :description, label: false, input_html: { class: 'input--large' }
+  = f.association :subjects, as: :select, collection: Subject.all, input_html: { class: 'input--large', style: 'width: 74%;', id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Disciplines associée' }, multiple: true }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush--bottom' }, label_html: { class: 'label--large' }
+
+  = f.input :content, as: :ckeditor, label: false
+
+  = f.submit 'Enregistrer', class: 'btn btn--green btn--full'

@@ -1,0 +1,13 @@
+fr:
+  activerecord:
+    models:
+      blog_article: Article
+    attributes:
+      blog_article:
+        published: Visible
+
+  simple_form:
+    placeholders:
+      blog_article:
+        title: Titre
+        description: Description

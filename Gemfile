@@ -150,6 +150,8 @@ gem 'uglifier'                  , '>= 1.0.3'
 gem 'coffee-rails'              , '~>4.0.0'
 gem 'js-routes'                 , '~>0.9.7'
 
+gem 'activesupport-json_encoder', '~> 1.1.0'
+
 # Load FontAwesome
 gem 'font-awesome-rails'        , '~>4.1.0.0'
 # Load jQuery
@@ -173,6 +175,9 @@ gem 'roo'                       , '~>1.13.2'
 # Rack::UTF8Sanitizer is a Rack middleware which cleans up invalid UTF8 characters in request URI and headers.
 # https://github.com/whitequark/rack-utf8_sanitizer
 gem 'rack-utf8_sanitizer'       , '~> 1.1.0'
+
+# Use ckeditor for post body
+gem 'ckeditor'                  , '~> 4.0.11'
 
 group :production, :staging do
   gem 'execjs'                  , '~>2.0.2'

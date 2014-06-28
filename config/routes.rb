@@ -1,6 +1,7 @@
 # encoding: utf-8
 CoursAvenue::Application.routes.draw do
 
+  mount Ckeditor::Engine => '/ckeditor'
   # ---------------------------------------------
   # ----------------------------------------- PRO
   # ---------------------------------------------
@@ -257,6 +258,7 @@ CoursAvenue::Application.routes.draw do
   # ---------------------------------------------
   # ----------------------------------------- WWW
   # ---------------------------------------------
+  resources :blog_articles, controller: 'blog/articles', path: 'blog'
   devise_for :users, controllers: {
                       omniauth_callbacks: 'users/omniauth_callbacks',
                       sessions: 'users/sessions',
