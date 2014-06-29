@@ -1,10 +1,10 @@
+= content_for :blog_side_menu do
+  %h4 Derniers articles de kung fu
+  %ul
+    %li foo
+    %li bar
 - @articles.each do |article|
-  .panel.push--bottom
-    .panel__header.soft
-      - if current_pro_admin and current_pro_admin.super_admin?
-        .float--right= link_to 'Éditer', edit_blog_article_path(article)
-      %h3.flush= article.title
-    .panel__body.soft
-      = article.description
-      = article.content.html_safe
-      = article.subjects.map(&:name)
+  = render partial: 'blog/articles/article', locals: { article: article }
+
+.text--center.push-half--ends= paginate @articles, window: 1, outer_window: 3
+

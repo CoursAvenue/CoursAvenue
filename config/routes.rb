@@ -33,6 +33,7 @@ CoursAvenue::Application.routes.draw do
       get 'modifier-mon-profil'                      , to: 'redirect#structure_edit',      as: 'structure_edit_redirect'
       get 'etablissements/:structure_id/journees-portes-ouvertes', to: 'redirect#structures_jpo_index'
 
+      resources :blog_articles, controller: 'blog/articles', path: 'blog'
       resources :metrics, only: [] do
         collection do
           get :comments

@@ -127,12 +127,12 @@ fr:
         structure_address: Adresse principale (N° + Rue)
       side_menu:
         account: Compte
+        blog: Blog
         clicks: Nombre de click
         comments: Avis
         communicate: Communiquer
         contact: Contact
         courses: Cours réguliers
-        trainings: Stages & ateliers
         crm: Répertoire
         dashboard: Tableau de bord
         invitations: Invitations
@@ -146,13 +146,14 @@ fr:
         presentation: Présentation
         price_groups: Tarifs
         share: Parrainer
-        subscription_plans: Abonnements
         statistics: Statistiques
         stickers: Demande de stickers
         students_invitations: Invitation élèves
         subjects: Disciplines
+        subscription_plans: Abonnements
         teachers: Derniers professeurs
         teachers_stars: Profs stars
+        trainings: Stages & ateliers
         users: Users
         vertical_pages: Pages verticales
         visitors: Visiteurs

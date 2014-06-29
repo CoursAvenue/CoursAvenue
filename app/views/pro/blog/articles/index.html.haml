@@ -1,0 +1,29 @@
+= side_menu_currently_at 'blog'
+
+.panel
+  .panel__header.soft.text--center
+    = link_to 'Nouvel article', new_pro_blog_article_path, class: 'btn btn--large btn--green'
+  .panel__body
+    %table.table--data.table--striped
+      %thead
+        %tr
+          %th.one-half Nom
+          %th Description
+          %th.three-twelfths Date de publication
+          %th Publié
+          %th
+      %tbody
+      - @articles.each do |article|
+        %tr
+          %td= article.title
+          %td
+            %div{ data: { toggle: 'popover', content: article.description, trigger: 'hover', position: 'top' } }
+              = truncate(article.description, length: 100)
+          %td= l(article.published_at, format: :date_with_year)
+          %td.text--center
+            - if article.published?
+              %i.fa.fa-check.green
+          %td.nowrap
+            = link_to 'Modifier', edit_pro_blog_article_path(article), class: 'orange'
+            \/
+            = link_to 'Supprimer', pro_blog_article_path(article), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette article ?' }, class: 'red'

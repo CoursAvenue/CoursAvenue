@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140627152113) do
+ActiveRecord::Schema.define(version: 20140629144233) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,8 +62,14 @@ ActiveRecord::Schema.define(version: 20140627152113) do
     t.text     "description"
     t.text     "content"
     t.boolean  "published"
+    t.datetime "published_at"
+    t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "cover_image_file_name"
+    t.string   "cover_image_content_type"
+    t.integer  "cover_image_file_size"
+    t.datetime "cover_image_updated_at"
   end
 
   create_table "blog_articles_subjects", force: true do |t|

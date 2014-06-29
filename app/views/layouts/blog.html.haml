@@ -1,0 +1,12 @@
+= content_for :header do
+  = render 'shared/headers/header'
+
+= content_for :content do
+  .main-container{class: controller_path}
+    .flexbox
+      .flexbox__item.three-quarters.v-top>
+        = content_for?(:blog_content) ? yield(:blog_content) : yield
+      .flexbox__item.one-quarter.v-top>
+        = yield(:blog_side_menu)
+
+= render :template => 'layouts/application'

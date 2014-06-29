@@ -1,0 +1,11 @@
+.grid
+  .grid__item.one-quarter>
+    = image_tag article.cover_image
+  .grid__item.three-quarters>
+    = link_to blog_article_path(article), class: 'muted-link' do
+      %h2.flush= article.title
+      %div
+        %i.fa.fa-clock-o
+        = l article.published_at, format: :date_with_year
+      %p.delta.line-height-1-7
+        = article.description

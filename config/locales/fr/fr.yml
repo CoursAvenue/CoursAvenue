@@ -100,6 +100,7 @@ fr:
       short: "%Hh%M"
       long: "%A %d %B %Y %H:%M"
       date: "%A %d %B"
+      date_with_year: "%A %d %B %Y"
       date_short: "%d/%m/%Y"
       date_short_en: "%Y-%m-%d"
       iso_date: "%Y-%m-%d"
