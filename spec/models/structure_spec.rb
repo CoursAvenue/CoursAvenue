@@ -242,12 +242,90 @@ describe Structure do
     end
   end
 
+  describe '#highlighted_comment' do
+    it 'returns highlighted_comment' do
+      comment = structure.comments.create FactoryGirl.attributes_for(:comment_review)
+      subject.stub(:highlighted_comment_id) { comment.id }
+      expect(subject.highlighted_comment_id).to be comment.id
+    end
+  end
+
+  describe '#highlight_comment!' do
+    it 'sets highlighted_comment_id' do
+      comment = structure.comments.create FactoryGirl.attributes_for(:comment_review)
+      subject.highlight_comment! comment
+      expect(subject.highlighted_comment_id).to be comment.id
+    end
+  end
+
+  describe '#strip_name' do
+    it 'removes end spaces' do
+      subject.name = ' test name '
+      subject.save
+      expect(subject.name).to eq 'test name'
+    end
+  end
+
+  describe '#reset_cropping_attributes' do
+    it 'sets to 0 attributes' do
+      subject.crop_width = 1
+      subject.crop_x     = 1
+      subject.crop_y     = 1
+      subject.send :reset_cropping_attributes
+      expect(subject.crop_width).to eq 0
+      expect(subject.crop_x).to     eq 0
+      expect(subject.crop_y).to     eq 0
+    end
+  end
+
   context 'validations' do
     describe '#no_contacts_in_name' do
       it 'has errors on name' do
         subject.name = "www.test.com"
         expect(subject.valid?).to be_false
         expect(subject.errors.messages).to include :name
+      end
+    end
+
+    describe '#subject_parent_and_children' do
+      it "doesn't have any subjects" do
+        subject.subjects = []
+        subject.valid?
+        expect(subject.errors.messages).to include :subjects
+        expect(subject.errors.messages).to include :children_subjects
+      end
+
+      it "doesn't have child subjects" do
+        subject.subjects = [Subject.roots.first]
+        subject.valid?
+        expect(subject.errors.messages).not_to include :subjects
+        expect(subject.errors.messages).to include :children_subjects
+      end
+    end
+
+    describe '#reject_places' do
+      it 'rejects it' do
+        expect(subject.send(:reject_places, { zip_code: '' })).to be_true
+      end
+
+      it 'does not rejects it' do
+        expect(subject.send(:reject_places, { zip_code: '75014' })).to be_false
+      end
+    end
+
+    describe '#reject_phone_number' do
+      it 'rejects it' do
+        expect(subject.send(:reject_phone_number, { number: '' })).to be_true
+      end
+
+      it 'does not rejects it' do
+        expect(subject.send(:reject_phone_number, { number: '04102401240' })).to be_false
+      end
+
+      it 'destroys it' do
+        attributes = { id: 4,  number: '' }
+        subject.send :reject_phone_number, attributes
+        expect(attributes[:_destroy]).to eq 1
       end
     end
   end

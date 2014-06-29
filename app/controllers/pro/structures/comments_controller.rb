@@ -16,7 +16,7 @@ class Pro::Structures::CommentsController < InheritedResources::Base# Pro::ProCo
   def highlight
     @structure = Structure.friendly.find params[:structure_id]
     @comment   = @structure.comments.find params[:id]
-    @structure.highlighted_comment! @comment
+    @structure.highlight_comment! @comment
     redirect_to pro_structure_comments_path(@structure), notice: "Le titre de l'avis a bien été utilisé en accroche"
   end
 

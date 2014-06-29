@@ -414,14 +414,14 @@ class Planning < ActiveRecord::Base
     end
   end
 
-  # Set default start date
+  # Set default start date if not defined
   def set_start_date
     if self.start_date.nil? and !self.course.try(:is_training?)
       self.start_date = self.course.start_date || Date.yesterday
     end
   end
 
-  # Set end date
+  # Set end date if not defined
   def set_end_date
     unless end_date.present?
       if !course.try(:is_training?)
