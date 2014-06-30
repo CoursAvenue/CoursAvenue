@@ -11,6 +11,8 @@ CoursAvenue::Application.routes.draw do
       post 'be2bill/placeholder'                => 'be2bill#placeholder'
       post 'be2bill/transaction_notifications'  => 'be2bill#transaction_notifications'
 
+      get '/premium'                            => 'redirect#structures_premium'
+
       get 'pages/livres-blancs'                 => 'home#white_book',         as: 'pages_white_books'
       get 'mailjet_custo'                       => 'home#mailjet_custo'
       get 'pages/pourquoi-etre-recommande'      => 'home#why_be_recommended', as: 'pages_why_be_recommended'

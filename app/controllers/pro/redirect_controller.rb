@@ -1,4 +1,13 @@
 class Pro::RedirectController < ApplicationController
+
+  def structures_premium
+    @admin = Admin.where(email: params[:email]).first
+    if @admin
+      redirect_to premium_pro_structure_url(@admin.structure, subdomain: 'pro')
+    else
+      redirect_to new_pro_admin_session_url(subdomain: 'pro')
+    end
+  end
   def structures_jpo_index
     redirect_to pro_structure_course_opens_url(params[:structure_id], subdomain: 'pro'), status: 301
   end
