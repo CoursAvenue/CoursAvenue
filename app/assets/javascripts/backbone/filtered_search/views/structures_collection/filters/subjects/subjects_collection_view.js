@@ -53,10 +53,11 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             root_subject_slug                   = event.currentTarget.dataset.rootSubjectSlug;
             depth                               = event.currentTarget.dataset.depth;
             if (this.current_subject_slug == clicked_subject_slug) { return; }
+            this.current_subject_slug = clicked_subject_slug;
             root_subject = this.collection.where({slug: (root_subject_slug || clicked_subject_slug)})[0];
             // If it's a clicked slug is root, announce it
             if (depth == '0') {
-                this.announceSubject({ subject_id: root_subject.get('slug')})
+                this.announceSubject({ subject_id: root_subject.get('slug'), root_subject_id: root_subject.get('slug')})
             // Else if it's a parent - depth 1
             } else {
                 clicked_model = _.select(root_subject.get('children'), function(children) { return children.slug == clicked_subject_slug })[0];
@@ -94,7 +95,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             data = data || { subject_id: this.current_subject_slug, root_subject_id: this.current_subject_slug};
             this.menu_item.current_subject_slug       = data.subject_id;
             this.menu_item.selected_parent_subject_id = data.parent_subject_id;
-            this.menu_item.model                = null;
+            this.menu_item.model                      = null;
             this.trigger("filter:subject", data);
             this.showSubjectBreadcrumb(data);
         }.debounce(GLOBAL.DEBOUNCE_DELAY),
@@ -119,7 +120,9 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             if (data.root_subject_id == data.subject_id) { return; }
             // parent_subject = _.select(current_model.get('children'), function(children) { return children.slug == data.parent_subject_id })[0] || {};
             parent_subject = _.select(current_model.get('children'), function(children) { return (children.slug == data.subject_id) || (children.slug == data.parent_subject_id) })[0];
-            this.ui.$subjects_breadcrumb.append($(this.breadcrumb_template(_.extend(parent_subject, { depth: '1', root_subject_slug: current_model.get('slug') }))));
+            _.extend(parent_subject, { depth: '1', root_subject_slug: current_model.get('slug') });
+            var to_append = $(this.breadcrumb_template(parent_subject));
+            this.ui.$subjects_breadcrumb.append(to_append);
 
             if (data.parent_subject_id == data.subject_id) { return; }
             child_subject = _.select(parent_subject.children, function(children) { return children.slug == data.subject_id })[0];

@@ -5,6 +5,7 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         template: Module.templateDirname() + 'courses_summary_view',
 
         initialize: function initialize () {
+            _.bindAll(this, 'rerender');
             $(window).on("popstate", function (state) {
                 // if popstate fires and the new state has a query string,
                 // we should refresh the collections
@@ -25,8 +26,7 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         },
 
         ui: {
-            '$summary': '[data-summary]',
-            '$loader': '[data-loader]',
+            '$loader': '[data-loader]'
         },
 
         events: {
