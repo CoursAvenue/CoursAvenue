@@ -14,7 +14,6 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         events: {
             'breadcrumbs:clear'       : 'broadenSearch',
             'filter:popstate'         : 'narrowSearch',
-            'courses:collection:reset': 'renderCourseSummaries',
             'filter:removed'          : 'removeSummary',
             'click [data-toggle=tab] ': 'showOrCreateTab'
         },
@@ -146,12 +145,10 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
                         summary_view = new StructureProfile.Views.Structure.Courses.CoursesSummaryView(view.serializeData());
                         this.summary_views.push(summary_view);
                         this.showWidget(summary_view, { events: { 'courses:collection:reset': 'rerender' }});
-                    }
-
-                    if (resources === "trainings") {
+                    } else if (resources === "trainings") {
                         summary_view = new StructureProfile.Views.Structure.Trainings.TrainingsSummaryView(view.serializeData());
                         this.summary_views.push(summary_view);
-                        this.showWidget(summary_view, { events: { 'courses:collection:reset': 'rerender' }});
+                        this.showWidget(summary_view, { events: { 'trainings:collection:reset': 'rerender' }});
                     }
 
                     this.showWidget(view);
@@ -159,10 +156,6 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
 
                 }.bind(this))
                 .always(function() { this.hideLoader(resources) }.bind(this));
-        },
-
-        renderCourseSummaries: function renderCourseSummaries (data) {
-            _.invoke(this.summary_views, 'rerender', data);
         },
 
         showLoader: function showLoader (resources_name) {
