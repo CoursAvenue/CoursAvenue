@@ -3,6 +3,17 @@
   .panel__header.soft
     %h3.flush Statistiques
   .panel__body.soft
+    %table.table--data.table--striped
+      %thead
+        %tr
+          %th URL
+          %th #
+      %tbody
+        - Statistic.structure_go_premium.group_by(&:action_type).each do |url, statistics|
+          %tr
+            %td= url
+            %td= statistics.count
+    %hr
     .grid.push--bottom
       .grid__item.one-third.text--center>
         .inline-block.pointer{ data: { behavior: 'toggle-serie' } }

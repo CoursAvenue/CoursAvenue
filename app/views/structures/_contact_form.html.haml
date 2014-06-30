@@ -79,7 +79,7 @@
                 dataType: 'js',
                 url: Routes.structure_statistics_path(#{@structure.id}),
                 data: {
-                    action_type: 'contact',
+                    action_type: 'action',
                     fingerprint: $.cookie('fingerprint'),
                     infos: $(this).text().trim()
                 }

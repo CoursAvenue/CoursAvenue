@@ -93,7 +93,7 @@ class SubscriptionPlan < ActiveRecord::Base
       'ORDERID'         => Order.next_order_id_for(self.structure),
       'VERSION'         => '2.0',
       'CLIENTUSERAGENT' => 'Mozilla/5.0 (Windows NT 6.1; WOW64)',
-      'CLIENTIP'        => '120.12.41.24',
+      'CLIENTIP'        => self.client_ip
     }
     params = {}
     params['params[HASH]'] = SubscriptionPlan.hash_be2bill_params params_for_hash
@@ -141,4 +141,5 @@ class SubscriptionPlan < ActiveRecord::Base
     end
     return 'yearly'
   end
+
 end

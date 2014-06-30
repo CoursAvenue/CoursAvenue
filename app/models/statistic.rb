@@ -14,9 +14,10 @@ class Statistic < ActiveRecord::Base
   ######################################################################
   # Scopes                                                             #
   ######################################################################
-  scope :impressions, -> { where( action_type: 'impression') }
-  scope :views,       -> { where( action_type: 'view') }
-  scope :actions,     -> { where( action_type: 'action') }
+  scope :impressions,          -> { where( action_type: 'impression') }
+  scope :views,                -> { where( action_type: 'view') }
+  scope :actions,              -> { where( action_type: 'action') }
+  scope :structure_go_premium, -> { where( arel_table[:action_type].matches('structure_go_premium_%') ) }
 
 
   # Creates a statistic when a structure appears in the results of a search

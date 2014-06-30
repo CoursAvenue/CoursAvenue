@@ -141,6 +141,7 @@ class Structure < ActiveRecord::Base
 
   after_touch   :update_email_status
 
+  before_save   :strip_name
   before_save   :sanatize_description
   before_save   :encode_uris
   before_save   :reset_cropping_attributes, if: :logo_has_changed?
@@ -149,8 +150,6 @@ class Structure < ActiveRecord::Base
   after_save    :geocode_if_needs_to
   after_save    :update_email_status
   after_save    :delay_subscribe_to_nutshell
-
-  # after_save    :delay_subscribe_to_mailchimp
 
   ######################################################################
   # Solr                                                               #
@@ -734,6 +733,16 @@ class Structure < ActiveRecord::Base
     self.comments.find(highlighted_comment_id) if highlighted_comment_id
   end
 
+  #
+  # Set the highlighted comment
+  # @param comment Comment to hightlight
+  #
+  # @return Boolean if saved or not
+  def highlight_comment! comment
+    self.highlighted_comment_id = comment.id
+    self.save
+  end
+
   # Return wether the structure has any premium prices
   #
   # @return Boolean
@@ -760,17 +769,6 @@ class Structure < ActiveRecord::Base
       conversation_waiting_for_reply?(conversation)
     end
   end
-
-  #
-  # Set the highlighted comment
-  # @param comment Comment to hightlight
-  #
-  # @return Boolean if saved or not
-  def highlighted_comment! comment
-    self.highlighted_comment_id = comment.id
-    self.save
-  end
-
 
   #
   # Number of view counts
@@ -879,10 +877,6 @@ class Structure < ActiveRecord::Base
   def set_active_to_true
     self.active              = true
     self.gives_group_courses = true
-  end
-
-  def delay_subscribe_to_mailchimp
-    MailchimpUpdater.delay.update(self) if self.main_contact and Rails.env.production?
   end
 
   def delay_subscribe_to_nutshell
