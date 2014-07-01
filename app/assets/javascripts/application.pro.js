@@ -113,7 +113,7 @@
                     "background-color": "#ffff99",
                     "opacity"         : ".7",
                     "z-index"         : "9999999"
-                }).appendTo('body').fadeOut(1000).queue(function () { $this.remove(); });
+                }).appendTo('body').fadeOut(1000).queue(function () { $(this).remove(); });
         }
         _.delay(fadeIt, options.delay);
     });
