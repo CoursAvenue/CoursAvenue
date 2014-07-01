@@ -2,19 +2,23 @@
   .panel__body.soft--ends
     .soft--sides
       %h3 Accédez à toutes les fonctionnalités de CoursAvenue et recrutez plus d'élèves.
-      -# .epsilon.push--bottom Passez à l'offre Premium :
 
       %p
         %strong.delta Choisissez votre abonnement :
-      .gray-box.soft.push--bottom
-        = form_for @structure, method: :get, url: go_premium_pro_structure_path(@structure) do
-          .grid--full
-            .grid__item.one-third.text--center>
+      = form_for @structure, method: :get, url: go_premium_pro_structure_path(@structure) do
+        %input#premium_type_value{ type: 'hidden', name: 'premium_type', value: 'yearly' }
+        .grid--full.push--bottom
+          .grid__item.one-third.text--center>
+            .white-box.soft.push--top.border-none--right
               %p.green.gamma.push-half--bottom
                 %strong Annuel à -15%
               .delta
                 29€ TTC / mois
-            .grid__item.one-third.text--center.bordered--right.bordered--left>
+              %p
+                %br
+              = submit_tag 'Souscrire', class: 'btn btn--full btn--yellow', onclick: "$('#premium_type_value').val('yearly');"
+          .grid__item.one-third.text--center>
+            .gray-box.soft.bordered--larger
               %p.green.beta.push-half--bottom
                 %strong 6 mois à -50%
               .delta.push-half--bottom
@@ -25,23 +29,20 @@
                 %br
                 %i
                   jusqu'au 1er août 2014
-            .grid__item.one-third.text--center>
+              = submit_tag 'Souscrire', class: 'btn btn--full btn--yellow', onclick: "$('#premium_type_value').val('six_months_half_price');"
+          .grid__item.one-third.text--center>
+            .white-box.soft.push--top.border-none--left
               %p.green.gamma.push-half--bottom
                 %strong Mensuel
               .delta
                 34€ TTC / mois
-
-          %input#premium_type_value{ type: 'hidden', name: 'premium_type', value: 'yearly' }
-          .grid--full.push--bottom
-            .grid__item.soft-half--sides.one-third.text--center>
-              = submit_tag 'Souscrire', class: 'btn btn--full btn--yellow', onclick: "$('#premium_type_value').val('yearly');"
-            .grid__item.soft-half--sides.one-third.text--center>
-              = submit_tag 'Souscrire', class: 'btn btn--full btn--yellow', onclick: "$('#premium_type_value').val('six_months_half_price');"
-            .grid__item.soft-half--sides.one-third.text--center>
+              %p
+                %br
               = submit_tag 'Souscrire', class: 'btn btn--full btn--yellow', onclick: "$('#premium_type_value').val('monthly');"
-          %p.flush--bottom.milli.f-style-italic
-            %strong Le saviez-vous ?
-            Vous pouvez annuler votre compte Premium à tout moment, abonnement sans contrat ni commissions.
+
+      %p.milli.f-style-italic
+        %strong Le saviez-vous ?
+        Vous pouvez annuler votre compte Premium à tout moment, abonnement sans contrat ni commissions.
 
       %p
         %strong.delta  Les avantages du profil Premium :
