@@ -9,7 +9,8 @@ class Order < ActiveRecord::Base
   validates :order_id, uniqueness: true
 
   def self.next_order_id_for(structure)
-    "#{structure.id}_#{I18n.l(Date.today)}__#{structure.orders.count + 1}"
+    order_number = structure.orders.count + 1
+    "FR#{Date.today.year}#{structure.id}#{order_number}"
   end
 
   def public_order_id
