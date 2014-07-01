@@ -44,9 +44,6 @@ class Planning < ActiveRecord::Base
   has_many :participations, dependent: :destroy
   has_many :users, through: :participations
 
-  # define_has_many_for :audience
-  # define_has_many_for :level
-
   ######################################################################
   # Callbacks                                                          #
   ######################################################################
