@@ -11,30 +11,34 @@
           .grid--full
             .grid__item.one-third.text--center>
               %p.green.gamma.push-half--bottom
-                %strong 1 ans à -15%
+                %strong Annuel à -15%
               .delta
                 29€ TTC / mois
             .grid__item.one-third.text--center.bordered--right.bordered--left>
               %p.green.beta.push-half--bottom
                 %strong 6 mois à -50%
-              .delta
+              .delta.push-half--bottom
                 17€ TTC / mois
               %p
-                %i Offre spéciale lancement jusqu'au 01/08/2014
+                %i
+                  Offre spéciale lancement
+                %br
+                %i
+                  jusqu'au 1er août 2014
             .grid__item.one-third.text--center>
               %p.green.gamma.push-half--bottom
-                %strong 1 mois
+                %strong Mensuel
               .delta
                 34€ TTC / mois
 
           %input#premium_type_value{ type: 'hidden', name: 'premium_type', value: 'yearly' }
-          .grid.push--bottom
-            .grid__item.one-third.text--center>
-              = submit_tag 'Souscrire', class: 'btn btn--yellow', onclick: "$('#premium_type_value').val('yearly');"
-            .grid__item.one-third.text--center>
-              = submit_tag 'Souscrire', class: 'btn btn--yellow', onclick: "$('#premium_type_value').val('six_months_half_price');"
-            .grid__item.one-third.text--center>
-              = submit_tag 'Souscrire', class: 'btn btn--yellow', onclick: "$('#premium_type_value').val('monthly');"
+          .grid--full.push--bottom
+            .grid__item.soft-half--sides.one-third.text--center>
+              = submit_tag 'Souscrire', class: 'btn btn--full btn--yellow', onclick: "$('#premium_type_value').val('yearly');"
+            .grid__item.soft-half--sides.one-third.text--center>
+              = submit_tag 'Souscrire', class: 'btn btn--full btn--yellow', onclick: "$('#premium_type_value').val('six_months_half_price');"
+            .grid__item.soft-half--sides.one-third.text--center>
+              = submit_tag 'Souscrire', class: 'btn btn--full btn--yellow', onclick: "$('#premium_type_value').val('monthly');"
           %p.flush--bottom.milli.f-style-italic
             %strong Le saviez-vous ?
             Vous pouvez annuler votre compte Premium à tout moment, abonnement sans contrat ni commissions.

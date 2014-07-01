@@ -288,6 +288,7 @@ class Pro::StructuresController < Pro::ProController
 
   # GET member
   def premium
+    Statistic.create(structure_id: @structure.id, action_type: "structure_go_premium_premium_page", infos: request.referrer)
   end
 
   # GET member
