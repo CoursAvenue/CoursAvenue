@@ -4,6 +4,15 @@ class AdminMailer < ActionMailer::Base
 
   default from: "\"L'équipe CoursAvenue\" <contact@coursavenue.com>"
 
+  ######################################################################
+  # For premium users                                                  #
+  ######################################################################
+  def your_premium_account_has_been_activated(subscription_plan)
+    @structure         = subscription_plan.structure
+    @subscription_plan = subscription_plan
+    mail to: @structure.main_contact.email, subject: 'Votre profil Premium est activé'
+  end
+
   def wants_to_go_premium structure, offer
     @structure = structure
     @offer     = offer

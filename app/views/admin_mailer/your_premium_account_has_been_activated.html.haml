@@ -1,0 +1,28 @@
+- content_for :logo do
+  = image_tag @structure.logo.url(:thumb), style: 'width: 125px; height: 125px;', class: 'block', class: 'block', alt: "Logo de #{@structure.name}"
+- content_for :promo do
+  %h4.flush Félicitations !
+  %p
+    Votre profil Premium est maintenant activé. Connectez-vous pour découvrir toutes les fonctionnalités et mettre votre profil en avant :
+
+%p
+  En priorité, nous vous recommandons de mettre à jour le planning de vos cours et stages, de proposer les offres découvertes de votre choix (essai gratuit, promotions, etc.) et d'afficher toutes vos photos et vidéos.
+
+%p
+  A très bientôt,
+
+%p.action
+  = link_to "Accéder à mon profil premium", dashboard_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN, utm_source: 'email', utm_campaign: 'premium', utm_medium: 'account_activated'), class: 'btn btn--green'
+
+= content_for :under_content do
+  %h4
+    = link_to "Foire au questions", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+  %ul
+    %li
+      = link_to "Que faire après avoir activé mon compte Premium ?", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+    %li
+      = link_to "A quoi sert un profil Premium ?", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+    %li
+      = link_to "Où retrouver les informations de mon compte Premium (durée d'abonnement, renouvellement, factures...) ?", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+    %li
+      = link_to "Quand est-ce que mon compte Premium sera renouvelé ?", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'

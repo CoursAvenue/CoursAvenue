@@ -23,10 +23,14 @@
 @import "partials/generic/helpers";
 @import "partials/generic/font_helpers";
 
+.white-box{
+    border: 1px solid #DBDBDB !important;
+    @include border-radius(4px);
+}
 
 .coursavenue-email-body {
     width                   : 100% !important;
-    background              : $beige;
+    background              : #f8f8f8;
     -webkit-font-smoothing  : antialiased;
     -webkit-text-size-adjust: none;
     font-family             : 'Helvetica Neue',Helvetica,Arial,sans-serif;
@@ -35,16 +39,19 @@
         height: auto;
     }
 }
-    .email-title {
+    .soft-td {
+        font-size: 14px;
+        padding: 1.35em 1.35em 0 1.35em;
+    }
+    .email-title, .email-title * {
         font-size: 9px;
-        color: $beige;
+        color: #f8f8f8;
     }
     p.logo-subtitle {
-        color            : darken($beige, 50%);
+        color            : #333;
         font-size        : 12px;
         line-height      : 19px;
         font-family      : 'Helvetica Neue',Helvetica,Arial,sans-serif;
-        margin-top       : 0;
         margin-bottom    : 5px;
         padding-top      : 0;
         padding-bottom   : 0;
@@ -54,13 +61,14 @@
     .promo-table {
         .content-block{
             h4 {
-                margin-bottom: 0px;
+                margin: 0;
+                padding-bottom: 0.5em;
             }
         }
     }
     .content-block {
         h4 {
-            color            : #444444 !important;
+            color            : #333 !important;
             font-size        : 16px;
             line-height      : 24px;
             font-family      : 'Helvetica Neue',Helvetica,Arial,sans-serif;
@@ -71,22 +79,25 @@
             font-weight      : bold;
         }
         p, ul, li{
-            color            : #666;
+            color            : #333;
             font-size        : 14px;
             line-height      : 19px;
             font-family      : 'Helvetica Neue',Helvetica,Arial,sans-serif;
             margin-top       : 0;
-            margin-bottom    : 12px;
+            margin-bottom    : 1.35em;
             padding-top      : 0;
             padding-bottom   : 0;
             font-weight      : normal;
             &.blue-tip {
                 font-size: 12px;
-                margin-bottom: 0;
             }
             &.action {
-              text-align: center;
-              margin    : 30px auto;
+                text-align   : center;
+                line-height  : 35px;
+                a {
+                    margin : auto;
+                    display: inline-block;
+                }
             }
             a {
                 color: #006cdb;
@@ -115,12 +126,12 @@
     }
     .footer {
         p {
-            color            : darken($beige, 50%);
+            color            : #959595;
             font-size        : 12px;
             line-height      : 19px;
             font-family      : 'Helvetica Neue',Helvetica,Arial,sans-serif;
             margin-top       : 0;
-            margin-bottom    : 12px;
+            margin-bottom    : 1.35em;
             padding-top      : 0;
             padding-bottom   : 0;
             font-weight      : normal;

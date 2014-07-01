@@ -36,6 +36,11 @@ class SubscriptionPlan < ActiveRecord::Base
   }
 
   ######################################################################
+  # Callbacks                                                          #
+  ######################################################################
+  after_create :inform_admin_of_success
+
+  ######################################################################
   # Relations                                                          #
   ######################################################################
   has_many :orders
@@ -167,6 +172,12 @@ class SubscriptionPlan < ActiveRecord::Base
       return plan_type if plan_type_amount * 100 == amount
     end
     return 'yearly'
+  end
+
+  private
+
+  def inform_admin_of_success
+    AdminMailer.delay.your_premium_account_has_been_activated(self)
   end
 
 end

@@ -1,5 +1,5 @@
 - content_for :logo do
-  = image_tag 'emails_logo/bouche.jpg', style: 'width: 100px; height: 100px;', width: '100', height: '100'
+  = image_tag 'emails_logo/bouche.jpg', style: 'width: 125px; height: 125px;', class: 'block'
 
 - content_for :promo do
   %h4 Demandez à vos élèves de vous recommander et multipliez par 7 votre nombre de visites
@@ -17,25 +17,25 @@
     à afficher sur votre propre site Internet.
 
 - content_for :under_content do
-  %table{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600'}
-    %tr{valign: 'top'}
-      %td.content-block{width: '300'}
-        %table{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '300'}
-          %tr{valign: 'top'}
-            %td.soft-half--top.text--center{width: '300'}
+  %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600' }
+    %tr{ valign: 'top' }
+      %td.content-block{ width: '300' }
+        %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '300' }
+          %tr{ valign: 'top' }
+            %td.soft-half--top.text--center{ width: '300' }
               = image_tag 'emails_logo/x7.png', alt: 'CoursAvenue', height: '80', width: '80', style: 'width: 80px; height: 80px;'
-          %tr{valign: 'top'}
-            %td.content-block.push--bottom{width: '300', style: 'padding-right: 0; padding-left: 0;'}
+          %tr{ valign: 'top' }
+            %td.content-block.push--bottom{ width: '300', style: 'padding-right: 0; padding-left: 0;' }
               %p.text--center.soft-half--top
                 Les profils affichant plus de 5 recommandations ont 7 fois plus de visites
 
-      %td.content-block{width: '300'}
-        %table{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '300'}
-          %tr{valign: 'top'}
-            %td.soft-half--top.text--center{width: '300'}
+      %td.content-block{ width: '300' }
+        %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '300' }
+          %tr{ valign: 'top' }
+            %td.soft-half--top.text--center{ width: '300' }
               = image_tag 'emails_logo/eye.png', alt: 'CoursAvenue', height: '80', width: '80', style: 'width: 80px; height: 80px;'
-          %tr{valign: 'top'}
-            %td.content-block.push--bottom{width: '300', style: 'padding-right: 0; padding-left: 0;'}
+          %tr{ valign: 'top' }
+            %td.content-block.push--bottom{ width: '300', style: 'padding-right: 0; padding-left: 0;' }
               %p.text--center.soft-half--top
                 Depuis votre profil, vous gardez un droit de contrôle sur tous vos avis
 
