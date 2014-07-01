@@ -5,9 +5,9 @@
 
 %p.action
   - if @token
-    = link_to "Répondre au message", user_conversation_url(@user, @message.conversation, token: @token, email: @user.email, subdomain: 'www'), class: 'btn btn--green'
+    = link_to "Répondre au message", user_conversation_url(@user, @message.conversation, token: @token, email: @user.email, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green'
   - else
-    = link_to "Répondre au message", user_conversation_url(@user, @message.conversation, subdomain: 'www'), class: 'btn btn--blue'
+    = link_to "Répondre au message", user_conversation_url(@user, @message.conversation, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--blue'
 
 - if @structure
   - content_for :footer do

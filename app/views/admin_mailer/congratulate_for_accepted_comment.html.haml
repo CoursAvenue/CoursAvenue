@@ -6,7 +6,7 @@
   vient de déposer un avis sur votre profil public CoursAvenue.
 
 %p.action
-  = link_to "Voir l'avis de #{@comment.author_name}", pro_structure_comments_url(@structure, subdomain: 'pro'), class: 'btn btn--green'
+  = link_to "Voir l'avis de #{@comment.author_name}", pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
 
 %p À très bientôt,
 

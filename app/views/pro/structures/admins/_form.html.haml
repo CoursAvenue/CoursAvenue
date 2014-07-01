@@ -22,7 +22,7 @@
       %i.fa.fa-envelope-o
       Mes notifications mails
 
-    %input{type: 'hidden', name: 'return_to', value: notifications_pro_structure_admin_url(@structure, @structure.main_contact, subdomain: 'pro')}
+    %input{type: 'hidden', name: 'return_to', value: notifications_pro_structure_admin_url(@structure, @structure.main_contact, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)}
     .soft--sides{ data: { behavior: 'wizard-helper', content: 'pro.admins.wizard.notifications' } }
       .grid
         .grid__item.one-third>

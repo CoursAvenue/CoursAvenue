@@ -244,9 +244,9 @@ class Pro::StructuresController < Pro::ProController
 
     respond_to do |format|
       if @structure.persisted? # If structure already existed
-        format.html { redirect_to new_pro_admin_structure_registration_path(@structure, subdomain: 'pro'), notice: 'Félicitations, votre profil est maintenant créé !<br>Dernière étape : créez vos identifiants.' }
+        format.html { redirect_to new_pro_admin_structure_registration_path(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), notice: 'Félicitations, votre profil est maintenant créé !<br>Dernière étape : créez vos identifiants.' }
       elsif @structure.new_record? && @structure.save
-        format.html { redirect_to new_pro_admin_structure_registration_path(@structure, subdomain: 'pro'), notice: 'Félicitations, votre profil est maintenant créé !<br>Dernière étape : créez vos identifiants.' }
+        format.html { redirect_to new_pro_admin_structure_registration_path(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), notice: 'Félicitations, votre profil est maintenant créé !<br>Dernière étape : créez vos identifiants.' }
       else
         # Used for showing side structure list on new action
         @structures = Structure.where.not(comments_count: nil).order('comments_count DESC').limit(3)

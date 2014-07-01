@@ -6,7 +6,7 @@
     %tr{valign: 'top'}
       - structure_group.each do |structure|
         %td.soft-half.v-middle.content-block.push--bottom{width: '50'}
-          = link_to structure_url(structure, subdomain: 'www'), class: 'push-half--bottom' do
+          = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'push-half--bottom' do
             = image_tag structure.logo.url(:thumb), width: 50, height: 50, style: 'width: 50px; height: 50px;'
         %td.soft-half.v-middle.content-block.push--bottom{width: '250', style: 'padding-right: 0; padding-left: 0;'}
           %p.flush--bottom
@@ -16,4 +16,4 @@
           %p.flush--bottom.milli
             "#{structure.comments.first.try(:title)}"
           %p.flush--bottom.milli
-            = link_to "Lire les #{structure.comments_count} avis", structure_url(structure, subdomain: 'www')
+            = link_to "Lire les #{structure.comments_count} avis", structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)

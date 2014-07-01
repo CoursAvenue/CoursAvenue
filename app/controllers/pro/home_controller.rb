@@ -31,6 +31,6 @@ class Pro::HomeController < Pro::ProController
   end
 
   def convictions
-    redirect_to pro_pages_why_be_recommended_url(subdomain: 'pro'), status: 301
+    redirect_to pro_pages_why_be_recommended_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), status: 301
   end
 end

@@ -8,7 +8,7 @@
     Bienvenue sur CoursAvenue ! Pour commencer, vous devez confirmer votre adresse e-mail :
 
 %p.action
-  = link_to pro_admin_confirmation_url(confirmation_token: @token, subdomain: 'pro'), class: 'btn btn--green' do
+  = link_to pro_admin_confirmation_url(confirmation_token: @token, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green' do
     - if @resource.unconfirmed_email.present?
       Valider mon nouvel e-mail
     - else

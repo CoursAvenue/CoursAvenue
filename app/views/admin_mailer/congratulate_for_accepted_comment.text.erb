@@ -3,7 +3,7 @@ Bonjour <%= @structure.name %>,
 Félicitations !
 <%= @comment.author_name %> vient de déposer un avis sur votre profil public CoursAvenue.
 
-Voir l'avis de <%= @comment.author_name %> : <% pro_structure_comments_url(@structure, subdomain: 'pro') %>
+Voir l'avis de <%= @comment.author_name %> : <% pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN) %>
 
 À très bientôt,
 

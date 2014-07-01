@@ -4,14 +4,14 @@ Bonjour <%= @structure.name %>,
 
 Vous avez récemment dépassé les 5 recommandations sur votre profil CoursAvenue. Pour vous en féliciter, nous vous offrons la possibilité de les afficher publiquement sur votre propre site Internet ou blog : avez-vous déjà installé votre livre d'or ?
 
-L'installer tout de suite : <%= widget_pro_structure_url(@structure, subdomain: 'pro', utm_source: 'email', utm_campaign: 'widget', utm_medium: '5_comments') %>
-<%= I18n.t('structures.widget_status.installed') %> <%= update_widget_status_pro_structure_url(@structure, status: 'installed', subdomain: 'pro') %>
-<%= I18n.t('structures.widget_status.need_help') %> <%= update_widget_status_pro_structure_url(@structure, status: 'need_help', subdomain: 'pro') %>
-<%= I18n.t('structures.widget_status.dont_want') %> <%= update_widget_status_pro_structure_url(@structure, status: 'dont_want', subdomain: 'pro') %>
-<%= I18n.t('structures.widget_status.remind_me') %> <%= update_widget_status_pro_structure_url(@structure, status: 'remind_me', subdomain: 'pro') %>
+L'installer tout de suite : <%= widget_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN, utm_source: 'email', utm_campaign: 'widget', utm_medium: '5_comments') %>
+<%= I18n.t('structures.widget_status.installed') %> <%= update_widget_status_pro_structure_url(@structure, status: 'installed', subdomain: CoursAvenue::Application::PRO_SUBDOMAIN) %>
+<%= I18n.t('structures.widget_status.need_help') %> <%= update_widget_status_pro_structure_url(@structure, status: 'need_help', subdomain: CoursAvenue::Application::PRO_SUBDOMAIN) %>
+<%= I18n.t('structures.widget_status.dont_want') %> <%= update_widget_status_pro_structure_url(@structure, status: 'dont_want', subdomain: CoursAvenue::Application::PRO_SUBDOMAIN) %>
+<%= I18n.t('structures.widget_status.remind_me') %> <%= update_widget_status_pro_structure_url(@structure, status: 'remind_me', subdomain: CoursAvenue::Application::PRO_SUBDOMAIN) %>
 
 Si vous avez des questions, n'hésitez pas à nous contacter. Merci et à très bientôt,
 
 L'équipe de CoursAvenue
 
-Gérer mes préférences e-mails : <%= notifications_pro_structure_admin_url(@structure, @structure.main_contact, subdomain: 'pro') %>
+Gérer mes préférences e-mails : <%= notifications_pro_structure_admin_url(@structure, @structure.main_contact, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN) %>

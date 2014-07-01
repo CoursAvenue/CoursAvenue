@@ -8,9 +8,9 @@
 
     .grid__item.two-thirds.v-middle.text--right
       %ul.nav
-        %li.visuallyhidden--palm= link_to 'Accéder à CoursAvenue.com', root_url(subdomain: 'www'), class: 'btn btn--small'
+        %li.visuallyhidden--palm= link_to 'Accéder à CoursAvenue.com', root_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--small'
         %li.visuallyhidden--palm
-          = link_to pages_contact_url(subdomain: 'www'), rel: :nofollow, class: 'btn btn--small' do
+          = link_to pages_contact_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), rel: :nofollow, class: 'btn btn--small' do
             %i.fa.fa-envelope-o
             Nous contacter
         %li.visuallyhidden--palm= render 'shared/question_dropdown_menu'

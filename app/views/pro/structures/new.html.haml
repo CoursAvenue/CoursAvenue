@@ -10,7 +10,7 @@
               = image_tag structure.logo.url(:thumb), class: 'block'
             .grid__item.three-quarters.v-middle>
               %b
-                = link_to structure.name, structure_url(structure, subdomain: 'www'), target: '_blank', onclick: "ga('send', 'event', 'Go to other profile', 'click', 'From inscription page');"
+                = link_to structure.name, structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank', onclick: "ga('send', 'event', 'Go to other profile', 'click', 'From inscription page');"
               %div
                 .delta{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
                   %meta{property: 'v:rating', itemprop: 'rating', content: structure.rating}
@@ -20,10 +20,10 @@
                   %meta{itemprop: 'street-address', content: structure.street}
                   %meta{itemprop: 'postal-code', content: structure.zip_code}
               %div
-                = link_to structure_url(structure, subdomain: 'www'), target: '_blank', onclic: "ga('send', 'event', 'Go to other profile', 'click', 'From inscription page');" do
+                = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank', onclic: "ga('send', 'event', 'Go to other profile', 'click', 'From inscription page');" do
                   = structure.comments_count
                   avis
-      .push--bottom.text--center= link_to "Et plein d'autres !", structures_url(subdomain: 'www'), target: '_blank'
+      .push--bottom.text--center= link_to "Et plein d'autres !", structures_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank'
       %hr
       %h4 Plus de #{Comment::Review.count.round(-2)} avis
       %ul.comment-list
@@ -46,7 +46,7 @@
           %li.active
             = link_to 'Publiez vos cours', '#'
           %li
-            = link_to root_url(subdomain: 'pro') do
+            = link_to root_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN) do
               Découvrir CoursAvenue Pro
         .panel__body.soft--ends
           .soft--sides
@@ -82,7 +82,7 @@
                     Gérez votre profil
 
             .text--center
-              = link_to "Pas le temps de créer votre profil ? Contactez notre équipe qui s'en chargera.", pages_contact_url(content: "Bonjour,\nPourriez-vous créer mon profil à ma place ? Voici le lien vers mon site Internet où vous trouverez toutes mes informations : www.", subdomain: 'www'), onclick: "ga('send', 'event', 'Create a profile for me', 'click', 'From inscription page');"
+              = link_to "Pas le temps de créer votre profil ? Contactez notre équipe qui s'en chargera.", pages_contact_url(content: "Bonjour,\nPourriez-vous créer mon profil à ma place ? Voici le lien vers mon site Internet où vous trouverez toutes mes informations : www.", subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), onclick: "ga('send', 'event', 'Create a profile for me', 'click', 'From inscription page');"
 
           %hr.push--ends
           = simple_form_for [:pro, @structure], url: pro_structures_path, method: :post do |f|

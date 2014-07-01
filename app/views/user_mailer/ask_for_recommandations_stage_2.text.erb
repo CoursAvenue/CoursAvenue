@@ -11,4 +11,4 @@ Merci pour votre contribution et à très bientôt !
 L'équipe de CoursAvenue
 
 Vous recevez cet email car <%= @structure.name %> est inscrit sur CoursAvenue et vous demande de lui rédiger une recommandation sur ses cours.
-Ne plus recevoir ces emails : <%= unsubscribe_users_url(@user.access_token, subdomain: 'www') %>
+Ne plus recevoir ces emails : <%= unsubscribe_users_url(@user.access_token, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN) %>

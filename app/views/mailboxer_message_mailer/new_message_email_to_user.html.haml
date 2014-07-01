@@ -1,6 +1,6 @@
 - if @structure.logo?
   - content_for :logo do
-    = link_to structure_url(@structure, subdomain: 'www'), target: '_blank' do
+    = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank' do
       = image_tag @structure.logo.url(:thumb), style: 'width: 100px; height: 100px;', width: '100', height: '100'
 
 - content_for :promo do
@@ -18,9 +18,9 @@
 
 %p.action
   - if @token
-    = link_to "Répondre au message", user_conversation_url(@user, @message.conversation, token: @token, email: @user.email, subdomain: 'www'), class: 'btn btn--green'
+    = link_to "Répondre au message", user_conversation_url(@user, @message.conversation, token: @token, email: @user.email, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green'
   - else
-    = link_to "Répondre au message", user_conversation_url(@user, @message.conversation, subdomain: 'www'), class: 'btn btn--blue'
+    = link_to "Répondre au message", user_conversation_url(@user, @message.conversation, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--blue'
 
 %p
   L'équipe de CoursAvenue

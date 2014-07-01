@@ -1,7 +1,7 @@
 # encoding: utf-8
 module CommentsHelper
   def structure_comment_url(comment)
-    structure_url(comment.structure, anchor: "recommandation-#{comment.id}", subdomain: 'www')
+    structure_url(comment.structure, anchor: "recommandation-#{comment.id}", subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
   end
 
   def share_comment_url(comment, provider = :facebook)
@@ -25,9 +25,9 @@ module CommentsHelper
   # URL of the commentable
   def commentable_url(comment, options = {})
     if comment.commentable.is_a? Structure
-      structure_url(comment.commentable, { subdomain: 'www' }.merge(options))
+      structure_url(comment.commentable, { subdomain: CoursAvenue::Application::WWW_SUBDOMAIN }.merge(options))
     elsif comment.commentable
-      structure_course_url comment.commentable.structure, comment.commentable, { subdomain: 'www' }.merge(options)
+      structure_course_url comment.commentable.structure, comment.commentable, { subdomain: CoursAvenue::Application::WWW_SUBDOMAIN }.merge(options)
     end
   end
 end

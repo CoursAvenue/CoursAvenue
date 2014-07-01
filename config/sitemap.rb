@@ -5,15 +5,15 @@ SitemapGenerator::Sitemap.create do
   def vertical_page_path(subject, city=nil)
     if city
       if subject.depth == 0
-        return vertical_root_subject_city_path(subject, city, subdomain: 'www')
+        return vertical_root_subject_city_path(subject, city, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
       else
-        return vertical_subject_city_path(subject.root, subject, city, subdomain: 'www')
+        return vertical_subject_city_path(subject.root, subject, city, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
       end
     else
       if subject.depth == 0
-        return vertical_root_subject_path(subject, subdomain: 'www')
+        return vertical_root_subject_path(subject, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
       else
-        return vertical_subject_path(subject.root, subject, subdomain: 'www')
+        return vertical_subject_path(subject.root, subject, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
       end
     end
   end

@@ -3,7 +3,7 @@ class Pro::Admins::SessionsController < Devise::SessionsController
 
   def after_sign_in_path_for(admin)
     # Prevent from infininte loop
-    banned_url                = [new_pro_admin_session_url(subdomain: 'pro'), new_pro_admin_session_url(subdomain: 'pro'), new_pro_admin_password_url(subdomain: 'pro')]
+    banned_url                = [new_pro_admin_session_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), new_pro_admin_session_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), new_pro_admin_password_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)]
     session['pro_admin_return_to'] = nil if banned_url.include? session['user_return_to']
     referrer                  = nil if banned_url.include? request.referrer
     if session['pro_admin_return_to']
