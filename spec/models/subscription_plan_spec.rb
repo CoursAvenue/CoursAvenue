@@ -41,6 +41,19 @@ describe SubscriptionPlan do
     end
   end
 
+  describe '#next_amount' do
+    it 'returns monthly amount' do
+      plan_types =  {'monthly'               => 'monthly',
+                     'yearly'                => 'yearly',
+                     'three_months'          => 'monthly',
+                     'six_months_half_price' => 'monthly'}
+      plan_types.each do |plan_type, expected_plan_type|
+        subscription_plan = SubscriptionPlan.subscribe! plan_type, structure, {}
+        expect(subscription_plan.next_amount).to eq SubscriptionPlan::PLAN_TYPE_PRICES[expected_plan_type]
+      end
+    end
+  end
+
   describe '#amount_for_be2bill' do
     it 'gives price regarding plan type multiplied by 100' do
       plan_types = ['yearly', 'monthly', 'three_months']
@@ -79,6 +92,19 @@ describe SubscriptionPlan do
       subscription_plan = SubscriptionPlan.subscribe! 'yearly', structure, {}
       subscription_plan.stub(:expires_at) { Date.tomorrow }
       expect(subscription_plan.active?).to be_true
+    end
+  end
+
+  describe '#frequency' do
+    it 'returns monthly' do
+      plan_types =  {'monthly'               => 'monthly',
+                     'yearly'                => 'yearly',
+                     'three_months'          => 'monthly',
+                     'six_months_half_price' => 'monthly'}
+      plan_types.each do |plan_type, expected_plan_type|
+        subscription_plan = SubscriptionPlan.subscribe! plan_type, structure, {}
+        expect(subscription_plan.frequency).to eq SubscriptionPlan::PLAN_TYPE_FREQUENCY[expected_plan_type]
+      end
     end
   end
 

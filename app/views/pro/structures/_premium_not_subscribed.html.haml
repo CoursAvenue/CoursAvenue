@@ -1,30 +1,67 @@
 .panel
   .panel__body.soft--ends
     .soft--sides
-      %h3.flush Accédez à toutes les fonctionnalités de CoursAvenue et recrutez plus d'élèves.
-      .epsilon.push--bottom Passez à l'offre Premium :
+      %h3 Accédez à toutes les fonctionnalités de CoursAvenue et recrutez plus d'élèves.
+      -# .epsilon.push--bottom Passez à l'offre Premium :
 
-      = render 'pro/structures/premium_advantages'
-
-      .gray-box.soft
+      %p
+        %strong.delta Choisissez votre abonnement :
+      .gray-box.soft.push--bottom
         = form_for @structure, method: :get, url: go_premium_pro_structure_path(@structure) do
-          %p.push-half--bottom
-            %strong.delta Choisissez votre abonnement :
-          .push-half--bottom
-            %input.v-middle.input--lage#three-months-pricing{ type: 'radio', name: 'premium_type', value: 'three_months' }
-            %label.v-middle.inline-block.hard--ends.label--large{ for: 'three-months-pricing', style: 'width: 80%' }
-              3 mois : 23 € / mois (économisez 30%)
-              %strong — Offre spéciale lancement jusqu'au 13/07/2014
-          .push-half--bottom
-            %input.v-middle.input--lage#annual-pricing{ type: 'radio', name: 'premium_type', checked: true, value: 'yearly' }
-            %label.v-middle.inline-block.hard--ends.label--large{ for: 'annual-pricing' } Annuel : 29 € / mois (économisez 15%)
-          .push-half--bottom
-            %input.v-middle.input--lage#annual-mensual{ type: 'radio', name: 'premium_type', value: 'monthly' }
-            %label.v-middle.inline-block.hard--ends.label--large{ for: 'annual-mensual' } Mensuel : 34 € / mois
-          = submit_tag 'Souscrire au profil Premium', class: 'btn btn--yellow'
-          %p.push-half--top.flush--bottom.milli.f-style-italic
+          .grid--full
+            .grid__item.one-third.text--center>
+              %p.green.gamma.push-half--bottom
+                %strong 1 ans à -15%
+              .delta
+                29€ TTC / mois
+            .grid__item.one-third.text--center.bordered--right.bordered--left>
+              %p.green.beta.push-half--bottom
+                %strong 6 mois à -50%
+              .delta
+                17€ TTC / mois
+              %p
+                %i Offre spéciale lancement jusqu'au 01/08/2014
+            .grid__item.one-third.text--center>
+              %p.green.gamma.push-half--bottom
+                %strong 1 mois
+              .delta
+                34€ TTC / mois
+
+          %input#premium_type_value{ type: 'hidden', name: 'premium_type', value: 'yearly' }
+          .grid.push--bottom
+            .grid__item.one-third.text--center>
+              = submit_tag 'Souscrire', class: 'btn btn--yellow', onclick: "$('#premium_type_value').val('yearly');"
+            .grid__item.one-third.text--center>
+              = submit_tag 'Souscrire', class: 'btn btn--yellow', onclick: "$('#premium_type_value').val('six_months_half_price');"
+            .grid__item.one-third.text--center>
+              = submit_tag 'Souscrire', class: 'btn btn--yellow', onclick: "$('#premium_type_value').val('monthly');"
+          %p.flush--bottom.milli.f-style-italic
             %strong Le saviez-vous ?
             Vous pouvez annuler votre compte Premium à tout moment, abonnement sans contrat ni commissions.
+
+      %p
+        %strong.delta  Les avantages du profil Premium :
+      = render 'pro/structures/premium_advantages'
+
+      -# .gray-box.soft
+      -#   = form_for @structure, method: :get, url: go_premium_pro_structure_path(@structure) do
+      -#     %p.push-half--bottom
+      -#       %strong.delta Choisissez votre abonnement :
+      -#     .push-half--bottom
+      -#       %input.v-middle.input--lage#six-months-pricing{ type: 'radio', name: 'premium_type', value: 'six_months_half_price' }
+      -#       %label.v-middle.inline-block.hard--ends.label--large{ for: 'six-months-pricing', style: 'width: 80%' }
+      -#         6 mois : 17 € / mois (économisez 50%)
+      -#         %strong — Offre spéciale lancement jusqu'au 01/08/2014
+      -#     .push-half--bottom
+      -#       %input.v-middle.input--lage#annual-pricing{ type: 'radio', name: 'premium_type', checked: true, value: 'yearly' }
+      -#       %label.v-middle.inline-block.hard--ends.label--large{ for: 'annual-pricing' } Annuel : 29 € / mois (économisez 15%)
+      -#     .push-half--bottom
+      -#       %input.v-middle.input--lage#annual-mensual{ type: 'radio', name: 'premium_type', value: 'monthly' }
+      -#       %label.v-middle.inline-block.hard--ends.label--large{ for: 'annual-mensual' } Mensuel : 34 € / mois
+      -#     = submit_tag 'Souscrire au profil Premium', class: 'btn btn--yellow'
+      -#     %p.push-half--top.flush--bottom.milli.f-style-italic
+      -#       %strong Le saviez-vous ?
+      -#       Vous pouvez annuler votre compte Premium à tout moment, abonnement sans contrat ni commissions.
       -# %hr.push--ends
       -# %h4 Ils ont souscrit au profil Premium
     %hr.push--ends

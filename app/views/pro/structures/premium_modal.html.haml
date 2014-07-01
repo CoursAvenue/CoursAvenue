@@ -17,15 +17,15 @@
           %h4 Choisissez votre formule d'abonnement :
 
           = form_for @structure, method: :get, url: go_premium_pro_structure_path(@structure) do
-            %label.black.grid.bordered--bottom.soft-half--bottom.push-half--bottom{ for: 'three-months', data: { el: '#price-three-months', behavior: 'local-tab' } }
+            %label.black.grid.bordered--bottom.soft-half--bottom.push-half--bottom{ for: 'six-months', data: { el: '#price-six-months', behavior: 'local-tab' } }
               .grid__item.two-twelfths.epsilon.v-middle.text--center>
-                .f-weight-bold.green.v-middle.label--large= "-30%"
+                .f-weight-bold.green.v-middle.label--large= "-50%"
               .grid__item.seven-twelfths.v-middle>
-                %input.input--large.v-middle#three-months{ type: 'radio', name: 'premium_type', value: 'three_months' }
+                %input.input--large.v-middle#six-months{ type: 'radio', name: 'premium_type', value: 'six_months_half_price' }
                 .inline-block.v-middle.label--large{ style: 'width: 88%;'}
-                  %strong Offre spéciale lancement jusqu'au 13/07/2014
+                  %strong Offre spéciale lancement jusqu'au 01/08/2014
                   %br
-                  3 mois Premium
+                  6 mois Premium
               .grid__item.three-twelfths.epsilon.v-middle>
                 .v-middle.label--large 23€ / mois
             %label.black.grid.bordered--bottom.soft-half--bottom.push-half--bottom{ for: 'yearly', data: { el: '#price-yearly', behavior: 'local-tab' } }
@@ -49,7 +49,7 @@
                 %i Facturé en un unique paiement de 348 €
               #price-monthly.hidden{ data: { behavior: 'local-tab-el' } }
                 %i Facturé en un unique paiement de 34 €
-              #price-three-months.hidden{ data: { behavior: 'local-tab-el' } }
+              #price-six-months.hidden{ data: { behavior: 'local-tab-el' } }
                 %i Facturé en un unique paiement de 69 €
             .text--center= submit_tag 'Continuer', class: 'btn btn--yellow btn--full'
         .grid__item.one-half>
@@ -78,8 +78,8 @@
                     = image_tag 'icons/stats.png', width: 30
                   .flexbox__item.nine-tenths.v-middle>
                     Suivez les statistiques avancées de votre profil
-
-          -# = render partial: 'pro/structures/premium_advantages', locals: { short: true }
+                %li.text--center
+                  = link_to 'Voir tous les avantages', premium_pro_structure_path(@structure)
 
 :javascript
     $("[data-behavior=local-tab]").click(function() {
