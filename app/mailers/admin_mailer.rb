@@ -1,5 +1,7 @@
 # encoding: utf-8
 class AdminMailer < ActionMailer::Base
+  include ::ActionMailerWithTextPart
+
   layout 'email'
 
   default from: "\"L'équipe CoursAvenue\" <contact@coursavenue.com>"

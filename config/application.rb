@@ -83,7 +83,7 @@ module CoursAvenue
     end
 
     config.to_prepare do
-      Devise::Mailer.layout 'email' # email.haml or email.erb
+      Devise::Mailer.layout 'email'
     end
 
     # Filepicker
