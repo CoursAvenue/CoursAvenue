@@ -12,9 +12,9 @@
           que 2 fois.
         .p
           Passez au Premium pour recruter plus d'élèves.
-      %td.v-middle.text--center.content-block{ width: 100, background: asset_path('emails_logo/premium/blue_bubble.png')}
-        .alpha.white= @view_count || 8
-        .p.white Consultations
+      %td.v-middle.text--center.content-block{ width: 100, background: asset_path('emails_logo/premium/blue_bubble.png'), style: "background-size: 100% 100%;"}
+        .alpha.white= @view_count || 28
+        .white{ style: 'font-size: 12px;' } Consultations
 
 - content_for :under_content_2 do
   %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
@@ -27,8 +27,9 @@
           = link_to structure_url(similar_profile, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'muted-link block' do
             = image_tag similar_profile.logo.url(:thumb), width: 50, height: 50
         %td.v-middle.content-block{ width: 250 }
-          .p
-            %strong= link_to similar_profile.name, structure_url(similar_profile, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'muted-link block'
+          .p.soft-half--left
+            %strong
+              = link_to similar_profile.name, structure_url(similar_profile, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'muted-link'
             %br
             = similar_profile.city.name
             %br
@@ -37,9 +38,10 @@
             = "#{similar_profile.view_count(7)} visites"
     %tr{ valign: 'top' }
       %td.v-middle.content-block{ colspan: 4 }
-        = link_to 'Devenez Premium et augmentez les performances de votre profil.', premium_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+        .p.hard--bottom
+          = link_to 'Devenez Premium et augmentez les performances de votre profil.', premium_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
 
-- content_for :under_content_gray do
+- content_for :under_content_3 do
   %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
     %tr{ valign: 'top' }
       %td.content-block{ colspan: 4 }
