@@ -1,0 +1,20 @@
+.p Bonjour,
+
+.p
+  Votre abonnement Premium vient d'être renouvelé. Retrouvez toutes les informations de facturation dans la
+  = link_to 'rubrique Premium', premium_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+  de votre profil.
+
+
+.p
+  Pour toute question, vous pouvez consulter notre
+  = link_to "centre d'aide.", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+  Merci pour votre confiance,
+
+.p
+  À très bientôt,
+  %br
+  = image_tag 'emails_logo/signature.png', height: 25, width: 177, class: 'soft-half--top'
+
+= content_for :under_content_gray do
+  = render 'admin_mailer/premium/faq'

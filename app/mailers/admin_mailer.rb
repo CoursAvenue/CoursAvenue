@@ -3,16 +3,48 @@ class AdminMailer < ActionMailer::Base
   include ::ActionMailerWithTextPart
 
   layout 'email'
+  helper :structures
 
   default from: "\"L'équipe CoursAvenue\" <contact@coursavenue.com>"
 
   ######################################################################
   # For premium users                                                  #
   ######################################################################
+  def commercial_email(structure)
+    @structure = structure
+    mail to: @structure.main_contact.email, subject: 'Votre profil Premium est activé'
+  end
+
   def your_premium_account_has_been_activated(subscription_plan)
     @structure         = subscription_plan.structure
     @subscription_plan = subscription_plan
     mail to: @structure.main_contact.email, subject: 'Votre profil Premium est activé'
+  end
+
+  def fifteen_days_to_end_of_subscription(subscription_plan)
+    @structure         = subscription_plan.structure
+    @subscription_plan = subscription_plan
+    mail to: @structure.main_contact.email, subject: 'Votre profil Premium prendra fin dans 15 jours'
+  end
+
+  def five_days_to_end_of_subscription(subscription_plan)
+    @structure         = subscription_plan.structure
+    @subscription_plan = subscription_plan
+    mail to: @structure.main_contact.email, subject: 'Votre profil Premium sera renouvelé dans 5 jours'
+  end
+
+  def subscription_has_been_renewed(subscription_plan)
+    @structure         = subscription_plan.structure
+    @subscription_plan = subscription_plan
+    mail to: @structure.main_contact.email, subject: 'Votre profil Premium a été renouvelé'
+  end
+
+  def subscription_has_been_canceled(subscription_plan)
+    @structure         = subscription_plan.structure
+    @subscription_plan = subscription_plan
+    mail to: @structure.main_contact.email,
+         subject: 'Résiliation de votre profil Premium',
+         from: 'CoursAvenue <info@coursavenue.com>'
   end
 
   def wants_to_go_premium structure, offer
@@ -83,40 +115,40 @@ class AdminMailer < ActionMailer::Base
   def congratulate_for_fifth_comment(comment)
     @comment    = comment
     @structure  = @comment.structure
-    @show_links = true
-    mail to: @structure.main_contact.email, subject: "Votre profil comporte déjà 5 recommandations d'élèves"
+    mail to: @structure.main_contact.email,
+         subject: "Bravo ! Vous avez accès à votre livre d'or",
+         from: 'CoursAvenue <hello@coursavenue.com>'
   end
 
   def congratulate_for_fifteenth_comment(comment)
     @comment    = comment
     @structure  = @comment.structure
-    @show_links = true
-    mail to: @structure.main_contact.email, subject: "Votre profil comporte déjà 15 recommandations d'élèves"
+    mail to: @structure.main_contact.email,
+         subject: "Bravo ! Votre profil comporte déjà 15 avis",
+         from: 'CoursAvenue <hello@coursavenue.com>'
   end
 
   def recommandation_has_been_recovered(structure, deletion_reason)
     @structure          = structure
     deletion_reason_key = deletion_reason.split('.').last
     @email_text         = I18n.t("comments.recover_email_texts.#{deletion_reason_key}")
-    @show_links         = true
     mail to: @structure.main_contact.email, subject: "Votre demande de modification d'avis a bien été prise en compte"
   end
 
   def recommandation_has_been_deleted(structure)
     @structure  = structure
-    @show_links = true
     mail to: @structure.main_contact.email, subject: "Votre suppression d'avis a bien été prise en compte"
   end
 
   def remind_for_pending_comments(structure)
     @structure  = structure
-    @show_links = true
-    mail to: @structure.main_contact.email, subject: "Vous avez #{@structure.comments.pending.count} avis en attente de validation"
+    mail to: @structure.main_contact.email,
+         subject: "Vous avez #{@structure.comments.pending.count} avis en attente de validation",
+         from: 'CoursAvenue <info@coursavenue.com>'
   end
 
   def remind_for_widget(structure)
     @structure  = structure
-    @show_links = true
     mail to: @structure.main_contact.email, subject: "Vous avez accès à votre livre d'or"
   end
   ######################################################################
@@ -128,44 +160,48 @@ class AdminMailer < ActionMailer::Base
   ######################################################################
   # def monday_jpo(structure)
   #   @structure  = structure
-  #   @show_links = true
   #   mail to: structure.main_contact.email, subject: "J-5 avant vos Portes Ouvertes : annoncez la dernière ligne droite !"
   # end
 
+  def your_profile_has_been_viewed(structure)
+    @structure        = structure
+    @view_count       = @structure.view_count(7)
+    @similar_profiles = @structure.similar_profiles(2)
+    mail to: structure.main_contact.email, subject: "Votre profil a été vu #{@view_count} fois"
+  end
+
   def no_logo_yet(structure)
     @structure  = structure
-    @show_links = true
     @structures = StructureSearch.similar_profile(@structure)
     mail to: structure.main_contact.email, subject: "Ajoutez un logo ou une photo à votre profil"
   end
 
   def incomplete_profile(structure)
     @structure  = structure
-    @show_links = true
-    mail to: structure.main_contact.email, subject: "Votre profil pourrait être 7 fois plus visible"
+    mail to: structure.main_contact.email,
+         subject: 'Votre profil 7 fois plus visible',
+         from: 'CoursAvenue <hello@coursavenue.com>'
   end
 
   def no_recommendations(structure)
     @structure  = structure
-    @show_links = true
     mail to: structure.main_contact.email, subject: 'Votre bouche à oreille sur Internet augmente votre visibilité'
   end
 
   def less_than_five_recommendations(structure)
     @structure  = structure
-    @show_links = true
     mail to: structure.main_contact.email, subject: 'Dépassez les 5 avis et multipliez par 7 votre visibilité'
   end
 
   def planning_outdated(structure)
     @structure  = structure
-    @show_links = true
-    mail to: structure.main_contact.email, subject: 'Mettez à jour votre planning sur CoursAvenue'
+    mail to: structure.main_contact.email,
+         subject: 'Actualisez vos cours',
+         from: 'CoursAvenue <hello@coursavenue.com>'
   end
 
   def less_than_fifteen_recommendations(structure)
     @structure  = structure
-    @show_links = true
     mail to: structure.main_contact.email, subject: 'Dépassez les 15 avis et apparaissez en tête de liste'
   end
   ######################################################################
@@ -176,15 +212,6 @@ class AdminMailer < ActionMailer::Base
     @comment   = comment
     @structure = @comment.structure
     mail to: 'contact@coursavenue.com', subject: 'Un professeur demande une suppression de commentaire'
-  end
-
-  def welcome_email(admin)
-    return if admin.sign_in_count > 1
-    @admin         = admin
-    @structure     = @admin.structure
-    @show_links    = true
-    @structures    = StructureSearch.similar_profile(@structure)
-    mail to: @admin.email, subject: 'Bienvenue sur CoursAvenue'
   end
 
   def new_admin_has_signed_up(admin)

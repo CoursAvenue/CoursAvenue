@@ -1,20 +1,41 @@
-%p Bonjour,
+- @admin      = @resource
+- @structure  = @admin.structure
+- @structures = @structure.similar_profiles(4)
 
-- if @resource.unconfirmed_email.present?
-  %p
+.p Bonjour
+
+- if @resource.sign_in_count > 0
+  .p
     Nous avons bien pris en compte votre changement d'e-mail. Pour valider ce changement veuillez cliquer sur le lien de validation suivant :
+  .p.action.hard--bottom
+    = link_to pro_admin_confirmation_url(confirmation_token: @token, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green' do
+      Valider mon nouvel e-mail
 - else
-  %p
+  .p
     Bienvenue sur CoursAvenue ! Pour commencer, vous devez confirmer votre adresse e-mail :
 
-%p.action
-  = link_to pro_admin_confirmation_url(confirmation_token: @token, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green' do
-    - if @resource.unconfirmed_email.present?
-      Valider mon nouvel e-mail
-    - else
+  .p.action.hard--bottom
+    = link_to pro_admin_confirmation_url(confirmation_token: @token, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green' do
       Valider mon inscription
 
-%p
-  Très bonne journée,
-  %br
-  L'équipe CoursAvenue
+  = content_for :under_content do
+    .p
+      Une fois votre profil activé, complétez votre profil, affichez vos photos et vidéos, demandez à vos élèves de vous recommander et gagnez en visibilité sur Internet :
+
+    .p.action
+      = link_to "Compléter mon profil", edit_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
+
+    .p.blue.blue-tip
+      %i Trucs & astuces : en priorité, mettez à jour votre description et invitez vos élèves à vous recommander.
+
+    .p.hard--bottom
+      A très bientôt,
+      %br
+      L'équipe CoursAvenue
+
+  - content_for :under_content_2 do
+    = render 'admin_mailer/visite_100k_visits'
+
+  - if @structures.length == 4
+    - content_for :under_content_gray do
+      = render 'admin_mailer/similare_profiles'

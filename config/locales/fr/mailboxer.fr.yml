@@ -1,6 +1,7 @@
 fr:
   mailboxer:
     message_mailer:
+      information_subject_new: "Demande d'information - %{sender}"
       subject_new: "Vous avez reçu un message de %{sender}"
       subject_reply: "Vous avez reçu une réponse de %{sender}"
     notification_mailer:

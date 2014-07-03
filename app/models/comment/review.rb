@@ -1,7 +1,8 @@
 class Comment::Review < Comment
   MIN_NB_WORD_CONTENT  = 20
 
-  attr_accessible :author_name, :email, :rating, :title, :course_name, :deletion_reason, :subjects, :subject_ids
+  attr_accessible :author_name, :email, :rating, :title, :course_name, :deletion_reason, :subjects, :subject_ids,
+                  :associated_message_id
 
   # A comment has a status which can be one of the following:
   #   - pending
@@ -11,6 +12,7 @@ class Comment::Review < Comment
   # Relations                                                          #
   ######################################################################
   belongs_to :user
+  belongs_to :associated_message, class_name: 'Mailboxer::Message', foreign_key: :associated_message_id
 
   has_one :reply, class_name: 'Comment::Reply', as: :commentable
 
@@ -236,8 +238,8 @@ class Comment::Review < Comment
   # @return nil
   def send_email
     if self.accepted?
-      AdminMailer.delay.congratulate_for_accepted_comment(self)
       UserMailer.delay.congratulate_for_accepted_comment(self)
+      AdminMailer.delay.congratulate_for_accepted_comment(self)
     else
       AdminMailer.delay.congratulate_for_comment(self)
       UserMailer.delay.congratulate_for_comment(self)

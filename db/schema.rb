@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140625091423) do
+ActiveRecord::Schema.define(version: 20140703084047) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,29 @@ ActiveRecord::Schema.define(version: 20140625091423) do
   add_index "admins", ["invited_by_id"], name: "index_admin_users_on_invited_by_id", using: :btree
   add_index "admins", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
 
+  create_table "blog_articles", force: true do |t|
+    t.string   "title"
+    t.string   "slug"
+    t.text     "description"
+    t.text     "content"
+    t.boolean  "published"
+    t.datetime "published_at"
+    t.datetime "deleted_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "cover_image_file_name"
+    t.string   "cover_image_content_type"
+    t.integer  "cover_image_file_size"
+    t.datetime "cover_image_updated_at"
+  end
+
+  create_table "blog_articles_subjects", force: true do |t|
+    t.integer "article_id"
+    t.integer "subject_id"
+  end
+
+  add_index "blog_articles_subjects", ["article_id", "subject_id"], name: "index_blog_articles_subjects_on_article_id_and_subject_id", using: :btree
+
   create_table "cities", force: true do |t|
     t.string   "name"
     t.datetime "created_at",         null: false
@@ -98,6 +121,22 @@ ActiveRecord::Schema.define(version: 20140625091423) do
     t.text     "tips"
   end
 
+  create_table "ckeditor_assets", force: true do |t|
+    t.string   "data_file_name",               null: false
+    t.string   "data_content_type"
+    t.integer  "data_file_size"
+    t.integer  "assetable_id"
+    t.string   "assetable_type",    limit: 30
+    t.string   "type",              limit: 30
+    t.integer  "width"
+    t.integer  "height"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ckeditor_assets", ["assetable_type", "assetable_id"], name: "idx_ckeditor_assetable", using: :btree
+  add_index "ckeditor_assets", ["assetable_type", "type", "assetable_id"], name: "idx_ckeditor_assetable_type", using: :btree
+
   create_table "click_logs", force: true do |t|
     t.string   "name"
     t.datetime "created_at",   null: false
@@ -129,8 +168,8 @@ ActiveRecord::Schema.define(version: 20140625091423) do
     t.integer  "rating"
     t.integer  "commentable_id"
     t.string   "commentable_type"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
     t.string   "title"
     t.integer  "user_id"
     t.time     "deleted_at"
@@ -138,6 +177,7 @@ ActiveRecord::Schema.define(version: 20140625091423) do
     t.string   "status"
     t.string   "deletion_reason"
     t.string   "type"
+    t.integer  "associated_message_id"
   end
 
   add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree

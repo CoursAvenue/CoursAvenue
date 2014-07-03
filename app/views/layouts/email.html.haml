@@ -17,7 +17,7 @@
           %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', style: 'margin: auto;' }
             %tr
               %td{ width: '600' }
-                %table{ border: '0', cellpadding: '0', cellspacing: '0' }
+                %table{ border: '0', cellpadding: '0', cellspacing: '0', width: '100%'}
                   %tr{ valign: 'bottom' }
                     %td.email-title.text--center.logo-cell
                       - if content_for? :promo
@@ -25,59 +25,64 @@
                       - elsif content_for? :email_title
                         = yield(:email_title).gsub(/(<|&lt;)[^;<]*(>|&gt;)/, '').gsub('  ',' ').strip.html_safe
                       - else
-                        = truncate(yield, length: 80).gsub(/(<|&lt;)[^;<]*(>|&gt;)/, '').gsub('  ',' ').strip.html_safe
+                        - lala = (yield).gsub(/(<|&lt;)[^;<]*(>|&gt;)/, '').gsub('  ',' ').strip.html_safe
+                        = truncate(lala, length: 80)
             %tr
-              %td.soft{ width: '600' }
-                - if content_for? :email_logo
-                  = link_to 'http://www.coursavenue.com', target: '_blank', class: 'block push-half--bottom' do
-                    = yield :email_logo
-                - else
-                  = link_to 'http://www.coursavenue.com', target: '_blank', class: 'block text--center' do
-                    = image_tag 'logo.png', height: '50', style: 'height: 50px; width: 250px;', width: '250', alt: 'Logo CoursAvenue'
+              %td{ width: '600' }
+                .soft
+                  - if content_for? :email_logo
+                    = link_to 'http://www.coursavenue.com', target: '_blank', class: 'block push-half--bottom' do
+                      = yield :email_logo
+                  - else
+                    = link_to 'http://www.coursavenue.com', target: '_blank', class: 'block text--center' do
+                      = image_tag 'logo.png', height: '50', style: 'height: 50px; width: 250px;', width: '250', alt: 'Logo CoursAvenue'
 
             %tr
               %td.white-box{ width: '600' }
                 - if content_for? :promo
                   %table.promo-table{ border: '0', cellpadding: '0', cellspacing: '0' }
                     %tr
-                      %td.soft.content-block
+                      %td.content-block
                         %table.promo-table{ border: '0', cellpadding: '0', cellspacing: '0' }
                           %tr
                             - if content_for? :logo
                               %td.logo-cell{ width: '100', valign: 'middle', align: 'center', style: 'padding-right: 0px;' }
-                                = yield :logo
-                            %td{ width: (content_for?(:logo) ? '500' : '600'), valign: 'middle', class: (content_for?(:logo) ? 'soft--left' : '') }
+                                .soft
+                                  = yield :logo
+                            %td{ width: (content_for?(:logo) ? '500' : '600'), valign: 'middle', class: (content_for?(:logo) ? 'soft--left' : 'soft') }
                               = yield :promo
                   %hr
 
                 - unless content_for? :no_yield
                   %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0' }
                     %tr
-                      %td.soft-td.content-block
+                      %td.soft--left.soft--top.soft--right.content-block{ width: 600 }
                         = yield
 
                 - if content_for? :under_content_no_box
                   = yield :under_content_no_box
 
+
                 - if content_for? :under_content
-                  -# %hr
-                  %table.bordered--top.under-content{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', style: 'margin: auto;' }
+                  - unless content_for? :no_yield
+                    %hr
+                  %table.under-content{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', style: 'margin: auto;' }
                     %tr
-                      %td.content-block.gray-box.soft-td
+                      %td.soft.content-block{ width: 600 }
                         = yield :under_content
 
                 - if content_for? :under_content_2
                   %hr
                   %table.under-content{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', style: 'margin: auto;' }
                     %tr
-                      %td.soft-td.content-block
+                      %td.soft.content-block{ width: 600 }
                         = yield :under_content_2
 
                 - if content_for? :under_content_3
                   %hr
                   %table.under-content{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', style: 'margin: auto;' }
                     %tr
-                      %td.soft-td.content-block
+                      %td.soft.content-block{ width: 600 }
                         = yield :under_content_3
 
                 - if content_for? :under_content_4
@@ -86,6 +91,12 @@
                     %tr
                       %td.soft.content-block
                         = yield :under_content_4
+
+                - if content_for? :under_content_gray
+                  %table.bordered--top.under-content{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0' }
+                    %tr
+                      %td.content-block.gray-box.soft{ width: 600 }
+                        = yield :under_content_gray
 
             %table{ align: 'center', border: '0', cellpadding: '5', cellspacing: '0', style: 'margin: auto;' }
               %tr
@@ -105,7 +116,7 @@
                       = link_to 'Préférences e-mail', edit_pro_structure_admin_url(@structure, @structure.main_contact, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
                   - elsif @user
                     %div
-                      = link_to 'Gérer mes préférences de notifications e-mails.', notifications_user_url(@user, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+                      = link_to 'Préférences e-mail.', notifications_user_url(@user, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
                   - else
                     %div
                       Vous recevez cet email car vous êtes inscrit sur CoursAvenue, le 1er moteur de recherche de cours en France.

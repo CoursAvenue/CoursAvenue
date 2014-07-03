@@ -36,6 +36,17 @@ class SubscriptionPlan < ActiveRecord::Base
   }
 
   ######################################################################
+  # Scopes                                                             #
+  ######################################################################
+  scope :yearly,                  -> { where( plan_type: 'yearly') }
+  scope :not_monthly,             -> { where.not( plan_type: 'monthly') }
+  scope :monthly,                 -> { where( plan_type: 'monthly') }
+  scope :expires_in_fifteen_days, -> { where( arel_table[:expires_at].gteq(Date.today - 15.days).and(
+                                              arel_table[:expires_at].lt(Date.today - 14.days)) ) }
+
+  scope :expires_in_five_days,    -> { where( arel_table[:expires_at].gteq(Date.today - 5.days).and(
+                                              arel_table[:expires_at].lt(Date.today - 4.days)) ) }
+  ######################################################################
   # Callbacks                                                          #
   ######################################################################
   after_create :inform_admin_of_success
@@ -122,6 +133,7 @@ class SubscriptionPlan < ActiveRecord::Base
     res = Net::HTTP.post_form URI(ENV['BE2BILL_REST_URL']), params
     puts res.body if res.is_a?(Net::HTTPSuccess)
     return res.is_a?(Net::HTTPSuccess)
+    AdminMailer.delay.subscription_has_been_renewed(self)
   end
 
   # Amount of the current subscription plan
@@ -160,6 +172,17 @@ class SubscriptionPlan < ActiveRecord::Base
 
   def canceled?
     self.canceled_at.present?
+  end
+
+  # Cancel subscription plan
+  #
+  # @return SubscriptionPlan
+  def cancel!
+    self.canceled_at = Time.now
+    self.save
+    self.structure.index
+    AdminMailer.delay.subscription_has_been_canceled(self)
+    return self
   end
 
   def active?

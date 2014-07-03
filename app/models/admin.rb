@@ -77,15 +77,6 @@ class ::Admin < ActiveRecord::Base
   end
   handle_asynchronously :solr_index
 
-  def confirm!
-    super
-    send_welcome_email
-  end
-
-  def send_welcome_email
-    AdminMailer.delay.welcome_email(self)
-  end
-
   def mailboxer_email(object)
     self.email
   end

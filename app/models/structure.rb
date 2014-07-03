@@ -774,8 +774,8 @@ class Structure < ActiveRecord::Base
   # Number of view counts
   #
   # @return Integer, the number of view counts the last 15 days
-  def view_count
-    return Statistic.view_count(self, Date.today - 15.days)
+  def view_count(days_ago=15)
+    return Statistic.view_count(self, Date.today - days_ago.days)
   end
 
   SEARCH_SCORE_COEF = {

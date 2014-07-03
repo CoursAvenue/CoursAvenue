@@ -1,15 +1,11 @@
-- if @user.avatar.present?
-  - content_for :logo do
-    = image_tag @user.avatar_url(:thumb), style: 'width: 125px; height: 125px;', class: 'block'
+.title #{@user.name} a répondu à votre message :
 
-- content_for :promo do
-  %h4 #{@user.name} a répondu à votre message :
+.p
+  = @message.body
 
-= simple_format @message.body
-
-%p.action
+.p.action
   = link_to "Répondre au message", pro_structure_conversation_url(@admin.structure, @message.conversation, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
-
-
-- content_for :footer do
-  %p Vous recevez ce message car #{@user.name} vous a envoyé un message privé sur CoursAvenue.com
+.p
+  À très bientôt,
+  %br
+  = image_tag 'emails_logo/signature.png', height: 25, width: 177, class: 'soft-half--top'

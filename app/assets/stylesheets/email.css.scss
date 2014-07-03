@@ -13,6 +13,7 @@
 @import "colors";
 @import "compass-inuit/generic/mixins";
 @import "compass-inuit/generic/helper";
+@import "compass-inuit/base/headings";
 
 @import "partials/base/links";
 @import "partials/objects/emphasis";
@@ -23,6 +24,9 @@
 @import "partials/generic/helpers";
 @import "partials/generic/font_helpers";
 
+div {
+    color: #333;
+}
 .white-box{
     border: 1px solid #DBDBDB !important;
     @include border-radius(4px);
@@ -39,12 +43,6 @@
         height: auto;
     }
 }
-    .soft-td {
-        font-size: 14px;
-        padding: 1.35em 1.35em 0 1.35em;
-    }
-    .soft       { padding: 1.35em; }
-    .soft--left { padding-left: 1.35em; }
     .email-title, .email-title {
         font-size: 9px;
         color    : #f8f8f8;
@@ -60,32 +58,22 @@
         font-size        : 12px;
         line-height      : 19px;
         font-family      : 'Helvetica Neue',Helvetica,Arial,sans-serif;
-        margin-bottom    : 5px;
+        padding-bottom    : 5px;
         padding-top      : 0;
         padding-bottom   : 0;
         padding-left     : 10px;
         font-weight      : normal;
     }
-    .promo-table {
-        .content-block{
-            h4 {
-                margin: 0;
-                padding-bottom: 0.5em;
-            }
-        }
+    .title {
+        line-height      : 19px;
+        font-size        : 16px;
+        color            : #333 !important;
+        font-family      : 'Helvetica Neue',Helvetica,Arial,sans-serif;
+        margin-top       : 0;
+        padding-bottom    : 1em;
+        font-weight      : bold;
     }
     .content-block {
-        h4 {
-            color            : #333 !important;
-            font-size        : 16px;
-            line-height      : 24px;
-            font-family      : 'Helvetica Neue',Helvetica,Arial,sans-serif;
-            margin-top       : 0;
-            margin-bottom    : 10px;
-            padding-top      : 0;
-            padding-bottom   : 0;
-            font-weight      : bold;
-        }
 
         .action {
             text-align   : center;
@@ -94,15 +82,15 @@
                 display: inline-block;
             }
         }
-        p, ul, li{
+        li {
+            padding-bottom: 5px;
+        }
+        p, ul, .p {
             color            : #333;
             font-size        : 14px;
             line-height      : 19px;
             font-family      : 'Helvetica Neue',Helvetica,Arial,sans-serif;
-            margin-top       : 0;
-            margin-bottom    : 1.35em;
-            padding-top      : 0;
-            padding-bottom   : 0;
+            padding-bottom    : 1.35em;
             font-weight      : normal;
             &.blue-tip {
                 font-size: 12px;
@@ -123,9 +111,6 @@
                 color: inherit;
             }
             text-decoration: none;
-        }
-        li{
-            margin: 3px;
         }
     }
     .under-content {

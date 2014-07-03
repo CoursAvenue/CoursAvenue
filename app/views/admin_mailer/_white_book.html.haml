@@ -1,13 +1,13 @@
-%table{align: 'center', border: '0', cellpadding: '15', cellspacing: '0', width: '600'}
-  %tr{valign: 'top'}
-    %td.soft-half.content-block.hard--bottom{width: '500'}
-      %h4 Livre Blanc : étude sur les avis sur Internet
-      %p
+%table{ align: 'center', border: '0', cellpadding: '15', cellspacing: '0', width: '600' }
+  %tr{ valign: 'top' }
+    %td.soft-half.content-block.hard--bottom{ width: '500' }
+      .title Livre Blanc : étude sur les avis sur Internet
+      .p
         %strong Avis de vos élèves : pourquoi les afficher sur Internet ?
         %br
         Accédez à notre étude exclusive réalisée avec l'aide de plus de 500 associations, écoles, professeurs et élèves.
-      %p.action
+      .p.action
         = link_to 'Télécharger gratuitement', 'https://s3-eu-west-1.amazonaws.com/coursavenue-public/livres-blancs/Livre_Blanc_avis_CoursAvenue_RMars2014.pdf', class: 'btn btn--blue'
-    %td.soft-half.content-block.hard--bottom{width: '100'}
+    %td.soft-half.content-block.hard--bottom{ width: '100' }
       = link_to pro_pages_white_books_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'block' do
         = image_tag 'emails_logo/white_book.png', alt: 'CoursAvenue', height: 130, width: 100, style: 'width: 100px; height: 130px;', class: 'block'

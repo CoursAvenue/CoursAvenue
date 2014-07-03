@@ -60,8 +60,10 @@ class Structures::CommentsController < ApplicationController
     end
     @comment.user = @user || current_user
     respond_to do |format|
+      if @comment.valid? and params[:private_message].present?
+        create_private_message
+      end
       if @comment.save
-        send_private_message unless params[:private_message].blank?
         cookies[:delete_cookies] = true
         format.html { redirect_to structure_comment_path(@structure, @comment), notice: "Merci d'avoir laissé votre avis !" }
       else
@@ -74,10 +76,14 @@ class Structures::CommentsController < ApplicationController
 
   private
 
-  def send_private_message
+  def create_private_message
     @recipient    = @comment.structure.main_contact
-    @receipt      = @comment.user.send_message_with_label(@recipient, params[:private_message], (params[:subject].present? ? params[:subject] : 'Message personnel suite à ma recommandation'), 'comment')
+    @receipt      = @comment.user.send_message_with_label(@recipient,
+                                                          params[:private_message],
+                                                          (params[:subject].present? ? params[:subject] : 'Message personnel suite à ma recommandation'),
+                                                          'comment')
     @conversation = @receipt.conversation
+    @comment.associated_message_id = @conversation.messages.first.id
   end
 
 end

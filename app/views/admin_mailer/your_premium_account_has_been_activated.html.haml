@@ -1,26 +1,26 @@
-- content_for :logo do
-  = image_tag @structure.logo.url(:thumb), style: 'width: 125px; height: 125px;', class: 'block', class: 'block', alt: "Logo de #{@structure.name}"
+-# - content_for :logo do
+-#   = image_tag @structure.logo.url(:thumb), style: 'width: 125px; height: 125px;', class: 'block', class: 'block', alt: "Logo de #{@structure.name}"
 - content_for :promo do
-  %h4 Félicitations !
-  %p
+  .title Félicitations !
+  .p
     Votre profil Premium est maintenant activé. Connectez-vous pour découvrir toutes les fonctionnalités et mettre votre profil en avant :
-  .action.text--left
+  .action
     = link_to "Accéder à mon profil premium", dashboard_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN, utm_source: 'email', utm_campaign: 'premium', utm_medium: 'account_activated'), class: 'btn btn--green'
 
-%h4 Nos conseils
+.title Nos conseils
 
-%p
+.p
   En priorité, nous vous recommandons de mettre à jour le planning de vos cours et stages, de proposer les offres découvertes de votre choix (essais gratuits, promotions, etc.) et d'afficher toutes vos photos et vidéos.
 
-%p
-  A très bientôt,
+.p
+  À très bientôt,
   %br
-  L'équipe CoursAvenue
+  = image_tag 'emails_logo/signature.png', height: 25, width: 177, class: 'soft-half--top'
 
-= content_for :under_content do
-  %h4
+= content_for :under_content_gray do
+  .title
     = link_to "Foire aux questions", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
-  .soft-half--ends.bordered--bottom
+  .soft-half--bottom.bordered--bottom
     = link_to "Que faire après avoir activé mon compte Premium ?", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
   .soft-half--ends.bordered--bottom
     = link_to "A quoi sert un profil Premium ?", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'

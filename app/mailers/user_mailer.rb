@@ -1,5 +1,7 @@
 # encoding: utf-8
 class UserMailer < ActionMailer::Base
+  include ::ActionMailerWithTextPart
+
   layout 'email'
 
   helper :prices, :comments

@@ -1,13 +1,33 @@
-%p Bonjour #{@structure.name},
+.p Bonjour #{@structure.name},
 
-%p
+.p
   %strong= @comment.author_name
   = "(#{@comment.email})"
   vient de déposer un avis sur votre profil public CoursAvenue. Si c'est un de vos élèves, validez-le pour le voir.
 
-%p.action
+.p.action
   = link_to "Voir l'avis de #{@comment.author_name}", pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
 
-%p À très bientôt,
+.p
+  À très bientôt,
+  %br
+  = image_tag 'emails_logo/signature.png', height: 25, width: 177, class: 'soft-half--top'
 
-%p L'équipe de CoursAvenue
+- if @comment.associated_message
+  = content_for :under_content_gray do
+    - @comment.associated_message
+    - @user    = @comment.associated_message.sender
+    - @message = @comment.associated_message
+
+    .title
+      Message laissé avec l'avis :
+    - if @message.subject.present?
+      .p
+        %strong
+          Objet :
+          = @message.subject
+    .p
+      = @message.body
+
+    .p.action.hard--bottom
+      = link_to "Répondre au message", pro_structure_conversation_url(@structure, @message.conversation, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'

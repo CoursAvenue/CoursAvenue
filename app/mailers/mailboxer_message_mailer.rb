@@ -38,9 +38,6 @@ class MailboxerMessageMailer < ActionMailer::Base
     @message     = message
     @user        = receiver
     @structure   = message.sender.structure
-    subject      = message.subject.to_s
-    subject      = strip_tags(subject) unless subject.html_safe?
-
     @token       = @user.generate_and_set_reset_password_token if !@user.active?
 
     mail to: @user.email,
@@ -49,13 +46,18 @@ class MailboxerMessageMailer < ActionMailer::Base
   end
 
   def new_message_email_to_admin(message, receiver)
+    return if message.conversation.mailboxer_label_id == Mailboxer::Label::COMMENT.id
     @message   = message
-    @admin     = receiver
-    @user      = message.sender
-    subject    = message.subject.to_s
-    subject    = strip_tags(subject) unless subject.html_safe?
+    @conversation = message.conversation
+    @admin        = receiver
+    @user         = message.sender
+    if @conversation.mailboxer_label_id == Mailboxer::Label::INFORMATION.id
+      subject = t('mailboxer.message_mailer.information_subject_new', sender: @user.name)
+    else
+      subject = t('mailboxer.message_mailer.subject_new', sender: @user.name)
+    end
     mail to: @admin.email,
-         subject: t('mailboxer.message_mailer.subject_new', sender: @user.name),
+         subject: subject,
          template_name: 'new_message_email_to_admin'
   end
 
@@ -64,8 +66,6 @@ class MailboxerMessageMailer < ActionMailer::Base
   def reply_message_email_to_user(message, receiver)
     @message   = message
     @user      = receiver
-    subject    = message.subject.to_s
-    subject    = strip_tags(subject) unless subject.html_safe?
     @structure = message.sender.try(:structure)
 
     @token   = @user.generate_and_set_reset_password_token if !@user.active?
@@ -78,8 +78,6 @@ class MailboxerMessageMailer < ActionMailer::Base
     @message   = message
     @admin     = receiver
     @user      = message.sender
-    subject    = message.subject.to_s
-    subject    = strip_tags(subject) unless subject.html_safe?
     mail to: @admin.email,
          subject: t('mailboxer.message_mailer.subject_reply', sender: @user.name),
          template_name: 'reply_message_email_to_admin'

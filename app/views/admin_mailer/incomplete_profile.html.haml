@@ -1,48 +1,50 @@
-- content_for :logo do
-  = image_tag 'emails_logo/clock.png', style: 'width: 125px; height: 125px;', class: 'block'
+.p
+  Votre profil est visible sur CoursAvenue mais n'apparaît pas en tête des résultats de recherche.
+.p
+  Complétez-le pour remonter dans le classement et multiplier par 7 votre visibilité :
 
-- content_for :promo do
-  %h4 Remplissez votre profil en 3min : c'est un jeu d'enfant !
-
-%p
-  Saviez-vous que vous pouvez mettre à jour votre profil en quelques clics seulement ? Mettez votre description et votre planning à jour et le tour est joué !
-
-%p.action
+.p.action
   = link_to "Compléter mon profil", edit_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN, utm_source: 'email', utm_campaign: 'complete_profile', utm_medium: 'monday'), class: 'btn btn--green'
 
-%p.blue.blue-tip
-  %i Trucs & astuces : en priorité, mettez à jour votre description et invitez vos élèves à vous recommander.
-
 - content_for :under_content do
-  %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0' }
+  %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
     %tr{ valign: 'top' }
-      %td.content-block{ width: '50%' }
-        %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
-          %tr{ valign: 'top' }
-            %td.soft-half--top.text--center{ width: '100%' }
-              = image_tag 'emails_logo/x7.png', alt: 'CoursAvenue', height: '80', width: '80', style: 'width: 80px; height: 80px;'
-          %tr{ valign: 'top' }
-            %td.content-block.push--bottom{ width: '100%', style: 'padding-right: 0; padding-left: 0;' }
-              %p.text--center.soft-half--top
-                Les profils complétés ont
-                %br
-                7 fois plus de visites
-
-      %td.content-block{ width: '50%' }
-        %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
-          %tr{ valign: 'top' }
-            %td.soft-half--top.text--center{ width: '100%' }
-              = image_tag 'emails_logo/eye.png', alt: 'CoursAvenue', height: '80', width: '80', style: 'width: 80px; height: 80px;'
-          %tr{ valign: 'top' }
-            %td.content-block.push--bottom{ width: '100%', style: 'padding-right: 0; padding-left: 0;' }
-              %p.text--center.soft-half--top
-                Les Internautes recherchent en priorité les recommandations des élèves
+      %td.content-block{ colspan: 2 }
+        .title Votre profil complet en quelques minutes :
+    %tr{ valign: 'top' }
+      %td.text--center{ width: '100' }
+        = image_tag @structure.logo.url(:thumb), alt: "Logo #{@structure.name}", height: '100', width: '100'
+      %td.content-block.soft--left
+        %ul
+          - if !@structure.logo.present?
+            %li Compléter mes informations générales et ajouter un logo
+          - if @structure.comments.empty?
+            %li Demander des recommandations à mes élèves
+          - if @structure.courses.empty?
+            %li Renseigner mes cours et mon planning
+          - if @structure.medias.empty?
+            %li Mettre en ligne mes photos et vidéos
 
 - content_for :under_content_2 do
-  = render 'admin_mailer/recommandations_advantages'
-
-- content_for :under_content_3 do
-  = render 'admin_mailer/white_book'
-
-- content_for :footer do
-  %p= link_to 'Gérer mes préférences e-mails', notifications_pro_structure_admin_url(@structure, @structure.main_contact, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+  - @similar_profiles = @structure.similar_profiles(2)
+  %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
+    %tr{ valign: 'top' }
+      %td.content-block{ colspan: 2 }
+        .title Ils ont complété leur profil
+    %tr{ valign: 'top' }
+      - @similar_profiles.each do |similar_profile|
+        %td.text--center{ width: '300' }
+          %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
+            %tr{ valign: 'top' }
+              %td.content-block{ width: 80 }
+                = link_to structure_url(similar_profile, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'muted-link block' do
+                  = image_tag similar_profile.logo.url(:thumb)
+              %td.content-block{ width: 220 }
+                .p
+                  %strong= link_to similar_profile.name, structure_url(similar_profile, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'muted-link'
+                  %br
+                  = similar_profile.address
+                  %br
+                  = truncate(join_parent_subjects_text(similar_profile), lenght: 100)
+                  %br
+                  %span.green= pluralize similar_profile.view_count, 'Visite'
