@@ -1,16 +1,16 @@
-%p Bonjour #{@structure.name} demande une suppression,
+.p Bonjour #{@structure.name} demande une suppression,
 
-%p= "#{@comment.author_name} (#{@comment.email}) — #{@comment.course_name}"
-%p
+.p= "#{@comment.author_name} (#{@comment.email}) — #{@comment.course_name}"
+.p
   %strong= @comment.title
   %br
   = simple_format @comment.content
 
-%p
+.p
   Motif de suppression :
   %strong= t(@comment.deletion_reason)
 
-%p.action
+.p.action
   = link_to "Accéder aux commentaires", pro_comments_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
 
-%p Le robot CoursAvenue
+.p Le robot CoursAvenue

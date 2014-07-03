@@ -47,18 +47,20 @@ class MailboxerMessageMailer < ActionMailer::Base
 
   def new_message_email_to_admin(message, receiver)
     return if message.conversation.mailboxer_label_id == Mailboxer::Label::COMMENT.id
-    @message   = message
+    @message      = message
     @conversation = message.conversation
     @admin        = receiver
+    @structure    = @admin.structure
     @user         = message.sender
     if @conversation.mailboxer_label_id == Mailboxer::Label::INFORMATION.id
-      subject = t('mailboxer.message_mailer.information_subject_new', sender: @user.name)
+      mail to: @admin.email,
+           subject: t('mailboxer.message_mailer.information_subject_new', sender: @user.name),
+           template_name: 'new_information_message_email_to_admin'
     else
-      subject = t('mailboxer.message_mailer.subject_new', sender: @user.name)
+      mail to: @admin.email,
+           subject: t('mailboxer.message_mailer.subject_new', sender: @user.name),
+           template_name: 'new_message_email_to_admin'
     end
-    mail to: @admin.email,
-         subject: subject,
-         template_name: 'new_message_email_to_admin'
   end
 
   # Sends and email for indicating a reply in an already created conversation

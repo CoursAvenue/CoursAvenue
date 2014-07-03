@@ -46,10 +46,10 @@
                         %table.promo-table{ border: '0', cellpadding: '0', cellspacing: '0' }
                           %tr
                             - if content_for? :logo
-                              %td.logo-cell{ width: '100', valign: 'middle', align: 'center', style: 'padding-right: 0px;' }
+                              %td.v-middle.logo-cell{ width: '100', valign: 'middle', align: 'center', style: 'padding-right: 0px;' }
                                 .soft
                                   = yield :logo
-                            %td{ width: (content_for?(:logo) ? '500' : '600'), valign: 'middle', class: (content_for?(:logo) ? 'soft--left' : 'soft') }
+                            %td.v-middle.soft{ width: (content_for?(:logo) ? '500' : '600'), valign: 'middle' }
                               = yield :promo
                   %hr
 

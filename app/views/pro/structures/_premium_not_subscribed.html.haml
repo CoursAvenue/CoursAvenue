@@ -7,37 +7,25 @@
         %strong.delta Choisissez votre abonnement :
       = form_for @structure, method: :get, url: go_premium_pro_structure_path(@structure) do
         %input#premium_type_value{ type: 'hidden', name: 'premium_type', value: 'yearly' }
-        .grid--full.push--bottom
-          .grid__item.one-third.text--center>
-            .white-box.soft.push--top.border-none--right
+        .grid.push--bottom
+          .grid__item.one-half.text--center>
+            .white-box.soft
               %p.green.gamma.push-half--bottom
-                %strong Annuel à -15%
-              .delta
-                29€ TTC / mois
-              %p
-                %br
+                %strong Annuel
+              %p.delta
+                348€ TTC / an
+              %p.epsilon
+                Économique -15% (soit 29€ / mois)
+
               = submit_tag 'Souscrire', class: 'btn btn--full btn--yellow', onclick: "$('#premium_type_value').val('yearly');"
-          .grid__item.one-third.text--center>
-            .gray-box.soft.bordered--larger
-              %p.green.beta.push-half--bottom
-                %strong 6 mois à -50%
-              .delta.push-half--bottom
-                17€ TTC / mois
-              %p
-                %i
-                  Offre spéciale lancement
-                %br
-                %i
-                  jusqu'au 1er août 2014
-              = submit_tag 'Souscrire', class: 'btn btn--full btn--yellow', onclick: "$('#premium_type_value').val('six_months_half_price');"
-          .grid__item.one-third.text--center>
-            .white-box.soft.push--top.border-none--left
+          .grid__item.one-half.text--center>
+            .white-box.soft
               %p.green.gamma.push-half--bottom
                 %strong Mensuel
-              .delta
+              %p.delta
                 34€ TTC / mois
-              %p
-                %br
+              %p.epsilon
+                Sans engagement
               = submit_tag 'Souscrire', class: 'btn btn--full btn--yellow', onclick: "$('#premium_type_value').val('monthly');"
 
       %p.milli.f-style-italic

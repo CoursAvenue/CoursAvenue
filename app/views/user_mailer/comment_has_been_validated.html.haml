@@ -1,7 +1,9 @@
-%p Bonjour #{@comment.author_name.titleize},
+.p Bonjour #{@comment.author_name.titleize},
 
-%p
+.p
   #{@structure.name} vient de valider votre avis !
 
-%p.action
+.p.action
   = link_to "Voir mon avis", structure_url(@structure), class: 'btn btn--green'
+
+= render 'shared/mailers/footer'

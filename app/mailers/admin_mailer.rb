@@ -170,27 +170,11 @@ class AdminMailer < ActionMailer::Base
     mail to: structure.main_contact.email, subject: "Votre profil a été vu #{@view_count} fois"
   end
 
-  def no_logo_yet(structure)
-    @structure  = structure
-    @structures = StructureSearch.similar_profile(@structure)
-    mail to: structure.main_contact.email, subject: "Ajoutez un logo ou une photo à votre profil"
-  end
-
   def incomplete_profile(structure)
     @structure  = structure
     mail to: structure.main_contact.email,
          subject: 'Votre profil 7 fois plus visible',
          from: 'CoursAvenue <hello@coursavenue.com>'
-  end
-
-  def no_recommendations(structure)
-    @structure  = structure
-    mail to: structure.main_contact.email, subject: 'Votre bouche à oreille sur Internet augmente votre visibilité'
-  end
-
-  def less_than_five_recommendations(structure)
-    @structure  = structure
-    mail to: structure.main_contact.email, subject: 'Dépassez les 5 avis et multipliez par 7 votre visibilité'
   end
 
   def planning_outdated(structure)
@@ -200,10 +184,6 @@ class AdminMailer < ActionMailer::Base
          from: 'CoursAvenue <hello@coursavenue.com>'
   end
 
-  def less_than_fifteen_recommendations(structure)
-    @structure  = structure
-    mail to: structure.main_contact.email, subject: 'Dépassez les 15 avis et apparaissez en tête de liste'
-  end
   ######################################################################
   # The End                                                            #
   ######################################################################

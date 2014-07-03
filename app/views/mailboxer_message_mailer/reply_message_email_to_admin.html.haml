@@ -5,7 +5,4 @@
 
 .p.action
   = link_to "Répondre au message", pro_structure_conversation_url(@admin.structure, @message.conversation, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
-.p
-  À très bientôt,
-  %br
-  = image_tag 'emails_logo/signature.png', height: 25, width: 177, class: 'soft-half--top'
+= render 'shared/mailers/footer'

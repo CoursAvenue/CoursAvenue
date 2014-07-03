@@ -295,18 +295,10 @@ class Structure < ActiveRecord::Base
   # Update the email status of the structure
   def update_email_status
     email_status = nil
-    if !self.logo.present?
-      email_status = 'no_logo_yet'
-    elsif !self.profile_completed?
+    if self.view_count(7) > 15
+      email_status = 'your_profile_has_been_viewed'
+    else
       email_status = 'incomplete_profile'
-    elsif self.comments_count == 0
-      email_status = 'no_recommendations'
-    elsif self.comments_count < 5
-      email_status = 'less_than_five_recommendations'
-    elsif self.courses.active.empty?
-      email_status = 'planning_outdated'
-    elsif self.comments_count < 15
-      email_status = 'less_than_fifteen_recommendations'
     end
     self.update_column :email_status, email_status
     return email_status
