@@ -62,6 +62,15 @@
                 - if content_for? :under_content_no_box
                   = yield :under_content_no_box
 
+                - if content_for? :under_content_no_box_2
+                  = yield :under_content_no_box_2
+
+                - if content_for? :under_content_no_box_3
+                  = yield :under_content_no_box_3
+
+                - if content_for? :under_content_no_box_4
+                  = yield :under_content_no_box_4
+
 
                 - if content_for? :under_content
                   - unless content_for? :no_yield

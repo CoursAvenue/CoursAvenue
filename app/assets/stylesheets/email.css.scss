@@ -43,14 +43,16 @@ div {
         height: auto;
     }
 }
-    .email-title, .email-title {
-        font-size: 9px;
-        color    : #f8f8f8;
+    .email-title {
+        padding-top: 10px;
+        font-size  : 12px;
+        color      : #AAA;
         a {
-            background: none;
-            color     : #f8f8f8;
-            padding   : 0;
-            border    : none;
+            text-decoration: underline;
+            background     : none;
+            color          : #AAA;
+            padding        : 0;
+            border         : none;
         }
     }
     p.logo-subtitle {
@@ -129,10 +131,10 @@ div {
             margin           : 0;
             padding          : 0;
             font-weight      : normal;
-            a {
-                color          : darken($beige, 40%);
-                text-decoration: underline;
-            }
+        }
+        a {
+            color          : darken($beige, 40%);
+            text-decoration: underline;
         }
     }
 
