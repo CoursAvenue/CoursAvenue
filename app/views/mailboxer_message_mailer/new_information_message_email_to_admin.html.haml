@@ -10,7 +10,7 @@
   %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
     %tr{ valign: 'top' }
       %td.text--center.v-middle.content-block{ width: 125 }
-        = image_tag @user.avatar_url(:thumb), class: 'message__avatar rounded--circle bordered', width: 50, height: 50
+        = image_tag @user.avatar_url(:thumb), class: 'message__avatar rounded--circle bordered', width: 50, height: 50, alt: "Photo de #{@user.name}"
         .p.text--center.milli
           %strong= @user.name
           %br
@@ -39,7 +39,7 @@
         sera expirée. Si vous avez déjà répondu directement par téléphone ou s'il ne s'agit pas d'une véritable demande,
         = link_to 'signalez-le.', flag_pro_structure_conversation_path(@structure, @conversation, flag: 'from_email'), method: :patch
     %td.text--center.v-middle.content-block{ width: 125 }
-      = image_tag 'emails_logo/48hours.png', width: 75, height: 120
+      = image_tag 'emails_logo/48hours.png', width: 75, height: 120, alt: 'Vous avez 48 heures'
 
 = render 'shared/mailers/footer'
 

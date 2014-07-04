@@ -9,20 +9,22 @@
         %input#premium_type_value{ type: 'hidden', name: 'premium_type', value: 'yearly' }
         .grid.push--bottom
           .grid__item.one-half.text--center>
-            .white-box.soft
+            .white-box.soft.relative
+              = image_tag 'icons/premium/eco_ribbon.png', class: 'absolute north west', height: 100
               %p.green.gamma.push-half--bottom
                 %strong Annuel
-              %p.delta
-                348€ TTC / an
+              .delta 348€ TTC / an
               %p.epsilon
-                Économique -15% (soit 29€ / mois)
+                Soit 29€ / mois (
+                %strong.green -15%
+                de réduction)
 
               = submit_tag 'Souscrire', class: 'btn btn--full btn--yellow', onclick: "$('#premium_type_value').val('yearly');"
           .grid__item.one-half.text--center>
             .white-box.soft
               %p.green.gamma.push-half--bottom
                 %strong Mensuel
-              %p.delta
+              .delta
                 34€ TTC / mois
               %p.epsilon
                 Sans engagement
@@ -32,6 +34,8 @@
         %strong Le saviez-vous ?
         Vous pouvez annuler votre compte Premium à tout moment, abonnement sans contrat ni commissions.
 
+    %hr.push--ends
+    .soft--sides
       %p
         %strong.delta  Les avantages du profil Premium :
       = render 'pro/structures/premium_advantages'

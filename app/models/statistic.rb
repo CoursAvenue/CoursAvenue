@@ -81,11 +81,10 @@ class Statistic < ActiveRecord::Base
   # @return Integer number of view counts since `from_date`
   def self.view_count(structure, from_date=(Date.today - 10.years))
     return structure.statistics.views.where( Statistic.arel_table[:created_at].gt(from_date) )
-                              .order('DATE(created_at) ASC')
-                              .group('DATE(created_at)')
-                              .select('DATE(created_at) as created_at, COUNT(DISTINCT(user_fingerprint)) as user_count')
-                              .map(&:user_count).reduce(&:+)
+                               .order('DATE(created_at) ASC')
+                               .group('DATE(created_at)')
+                               .select('DATE(created_at) as created_at, COUNT(DISTINCT(user_fingerprint)) as user_count')
+                               .map(&:user_count).reduce(&:+)
 
   end
-
 end

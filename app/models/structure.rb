@@ -292,6 +292,16 @@ class Structure < ActiveRecord::Base
     end
   end
 
+  # Thursday email
+  # Only send if thursday email opt in is true
+  def remind_for_planning_outdated
+    if self.main_contact and self.main_contact.thursday_email_opt_in?
+      if self.plannings.empty? or self.courses.without_open_courses.collect{ |course| !course.can_be_published? }.any? or self.courses.without_open_courses.collect(&:expired?).any?
+        AdminMailer.delay.planning_outdated(self)
+      end
+    end
+  end
+
   # Update the email status of the structure
   def update_email_status
     email_status = nil
@@ -767,7 +777,7 @@ class Structure < ActiveRecord::Base
   #
   # @return Integer, the number of view counts the last 15 days
   def view_count(days_ago=15)
-    return Statistic.view_count(self, Date.today - days_ago.days)
+    return Statistic.view_count(self, Date.today - days_ago.days) || 0
   end
 
   SEARCH_SCORE_COEF = {

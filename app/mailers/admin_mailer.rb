@@ -10,6 +10,10 @@ class AdminMailer < ActionMailer::Base
   ######################################################################
   # For premium users                                                  #
   ######################################################################
+  def commercial_email_2
+    mail to: "adz@azd.az", subject: 'Votre profil Premium est activé'
+  end
+
   def commercial_email(structure)
     @structure = structure
     mail to: @structure.main_contact.email, subject: 'Votre profil Premium est activé'

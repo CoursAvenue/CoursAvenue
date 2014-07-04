@@ -32,6 +32,15 @@ namespace :scheduler do
       end
     end
 
+    # Email sent on thursday
+    # $ rake scheduler:admins:remind_for_widget
+    desc 'Send email to admins that have access to the widget'
+    task :remind_for_widget => :environment do |t, args|
+      if Time.now.thursday?
+        Structure.find_each(&:remind_for_planning_outdated)
+      end
+    end
+
     ######################################################################
     # For premium users                                                  #
     ######################################################################

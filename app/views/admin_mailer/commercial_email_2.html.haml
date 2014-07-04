@@ -1,0 +1,76 @@
+- content_for :no_yield do
+  &nbsp;
+
+- content_for :under_content_no_box do
+  %table.promo-table{ border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
+    %tr
+      %td.content-block
+        = image_tag 'http://coursavenue-public.s3.amazonaws.com/email_headers/commercial_header.jpg', alt: "Stages d'été. Du soleil dans vos loisirs. Voir tous les stages d'été à Paris.", width: 600, height: 207
+
+- content_for :under_content do
+  .p.hard--bottom
+    Slam, écriture, peinture libre, couture, jeu face caméra, improvisation, musique actuelle, danse orientale... Cet été, plus de 100 stages sont ouverts dans tout Paris, pour adultes et enfants, à partir de 30€. Votre curiosité vous guidera peut-être vers de nouvelles passions !
+
+
+- content_for :under_content_2 do
+  %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
+    %tr{ valign: 'top' }
+      %td.v-middle.content-block{ colspan: 2 }
+        .text--center.delta.soft--bottom Bons plans
+    %tr{ valign: 'top' }
+      %td.v-middle.content-block.soft-half--right{ width: 300 }
+        = link_to 'https://www.coursavenue.com/etablissements/method-acting-center/#tab-trainings', class: 'muted-link p' do
+          = image_tag 'https://coursavenue.s3.amazonaws.com/medias/structures/718/thumbnails/ytQ2E2x7QcSTSzYzgrOV_02_Stage3_methodacting.jpg', width: 300, height: 200
+        = link_to 'https://www.coursavenue.com/etablissements/method-acting-center/#tab-trainings', class: 'muted-link p' do
+          %strong Théâtre
+          %br
+          Method Acting Center
+          %br
+          1 stage : 7-11 juillet
+      %td.v-middle.content-block.soft-half--left{ width: 300 }
+        = link_to 'https://www.coursavenue.com/etablissements/atelier-dantzig/#tab-trainings', class: 'muted-link p' do
+          = image_tag 'https://coursavenue.s3.amazonaws.com/medias/structures/718/thumbnails/ytQ2E2x7QcSTSzYzgrOV_02_Stage3_methodacting.jpg', width: 300, height: 200
+        = link_to 'https://www.coursavenue.com/etablissements/atelier-dantzig/#tab-trainings', class: 'muted-link p' do
+          %strong Dessin & Peinture
+          %br
+          Atelier Dantzig
+          %br
+          1 stage : 7-11 juillet
+    %tr{ valign: 'top' }
+      %td.v-middle.content-block.soft-half--right{ width: 300 }
+        = link_to 'https://www.coursavenue.com/etablissements/collectif-d-un-atelier-a-l-autre/#tab-trainings', class: 'muted-link p' do
+          = image_tag 'https://coursavenue.s3.amazonaws.com/medias/structures/718/thumbnails/ytQ2E2x7QcSTSzYzgrOV_02_Stage3_methodacting.jpg', width: 300, height: 200
+        = link_to 'https://www.coursavenue.com/etablissements/collectif-d-un-atelier-a-l-autre/#tab-trainings', class: 'muted-link p' do
+          %strong Dessin & Peinture
+          %br
+          Atelier Dantzig
+          %br
+          1 stage : 7-11 juillet
+      %td.v-middle.content-block.soft-half--left{ width: 300 }
+        = link_to 'https://www.coursavenue.com/etablissements/ecole-de-theatre-bonacorsi/#tab-courses', class: 'muted-link p' do
+          = image_tag 'https://coursavenue.s3.amazonaws.com/medias/structures/718/thumbnails/ytQ2E2x7QcSTSzYzgrOV_02_Stage3_methodacting.jpg', width: 300, height: 200
+        = link_to 'https://www.coursavenue.com/etablissements/ecole-de-theatre-bonacorsi/#tab-courses', class: 'muted-link p' do
+          %strong Théâtre
+          %br
+          Ecole de théâtre Bonacorsi
+          %br
+          Cours réguliers
+
+- content_for :under_content_2 do
+  %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
+    %tr{ valign: 'top' }
+      %td.v-middle.content-block{ colspan: 2 }
+        .title Autres suggestions
+    %tr{ valign: 'top' }
+      %td.v-middle.content-block{ width: 300, rowspan: 1.5 }
+        = link_to '', class: 'block', style: 'padding-bottom: 5px;' do
+          = image_tag 'https://coursavenue.s3.amazonaws.com/medias/structures/718/thumbnails/ytQ2E2x7QcSTSzYzgrOV_02_Stage3_methodacting.jpg', width: 300, height: 300, class: 'block'
+        = link_to '', class: 'block', style: 'padding-bottom: 5px;' do
+          = image_tag 'https://coursavenue.s3.amazonaws.com/medias/structures/718/thumbnails/ytQ2E2x7QcSTSzYzgrOV_02_Stage3_methodacting.jpg', width: 300, height: 300, class: 'block'
+      %td.v-middle.content-block{ width: 300 }
+        = link_to '', class: 'block', style: 'padding-bottom: 5px;' do
+          = image_tag 'https://coursavenue.s3.amazonaws.com/medias/structures/718/thumbnails/ytQ2E2x7QcSTSzYzgrOV_02_Stage3_methodacting.jpg', width: 300, height: 200, class: 'block'
+        = link_to '', class: 'block', style: 'padding-bottom: 5px;' do
+          = image_tag 'https://coursavenue.s3.amazonaws.com/medias/structures/718/thumbnails/ytQ2E2x7QcSTSzYzgrOV_02_Stage3_methodacting.jpg', width: 300, height: 200, class: 'block'
+        = link_to '', class: 'block', style: 'padding-bottom: 5px;' do
+          = image_tag 'https://coursavenue.s3.amazonaws.com/medias/structures/718/thumbnails/ytQ2E2x7QcSTSzYzgrOV_02_Stage3_methodacting.jpg', width: 300, height: 200, class: 'block'
