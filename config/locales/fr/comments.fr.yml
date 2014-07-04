@@ -20,14 +20,14 @@ fr:
       other: Autres
     recover_email_texts:
       duplicate: |
-        <p>Vous avez récemment demandé la modification d'un avis pour cause de <strong>« Avis en doublon »</strong> : cet avis vient d'être modifié et mis à jour sur votre profil CoursAvenue.</p>
+        <div class="p">Vous avez récemment demandé la modification d'un avis pour cause de <strong>« Avis en doublon »</strong> : cet avis vient d'être modifié et mis à jour sur votre profil CoursAvenue.</div>
       misspellings: |
-        <p>Vous avez récemment demandé la modification d'un avis pour cause de <strong>« Fautes d'orthographes »</strong> : cet avis vient d'être modifié et mis à jour sur votre profil CoursAvenue.</p>
+        <div class="p">Vous avez récemment demandé la modification d'un avis pour cause de <strong>« Fautes d'orthographes »</strong> : cet avis vient d'être modifié et mis à jour sur votre profil CoursAvenue.</div>
       inapropriate_content: |
-        <p>Vous avez récemment demandé la modification d'un avis pour cause de <strong>« Contenu inapproprié / offensant »</strong>. Après relecture et analyse du contenu par notre équipe, il apparaît que ce commentaire respecte tous nos critères de publication et ne justifie pas une suppression.</p>
-        <p>La réputation de nos partenaires se mesure surtout par le volume des témoignages : plus il y a d’avis, plus le bouche à oreille fonctionne et les élèves sont curieux d’assister à vos cours. Demandez à d’autres élèves de déposer leur recommandations, et apparaissez dans les premiers résultats de recherche sur CoursAvenue.</p>
+        <div class="p">Vous avez récemment demandé la modification d'un avis pour cause de <strong>« Contenu inapproprié / offensant »</strong>. Après relecture et analyse du contenu par notre équipe, il apparaît que ce commentaire respecte tous nos critères de publication et ne justifie pas une suppression.</div>
+        <div class="p">La réputation de nos partenaires se mesure surtout par le volume des témoignages : plus il y a d’avis, plus le bouche à oreille fonctionne et les élèves sont curieux d’assister à vos cours. Demandez à d’autres élèves de déposer leur recommandations, et apparaissez dans les premiers résultats de recherche sur CoursAvenue.</div>
       other: |
-        <p>Vous avez récemment demandé la modification d'un avis : cet avis vient d'être modifié et mis à jour sur votre profil CoursAvenue.</p>
+        <div class="p">Vous avez récemment demandé la modification d'un avis : cet avis vient d'être modifié et mis à jour sur votre profil CoursAvenue.</div>
     errors:
       already_posted: Vous avez déjà posté un avis sur cet établissement.
       content_too_small: Votre avis doit comporter au moins %{count} mots

@@ -774,10 +774,20 @@ class Structure < ActiveRecord::Base
 
   #
   # Number of view counts
+  # @param days_ago=15 Integer number of days ago
   #
   # @return Integer, the number of view counts the last 15 days
   def view_count(days_ago=15)
     return Statistic.view_count(self, Date.today - days_ago.days) || 0
+  end
+
+  #
+  # Number of impression counts
+  # @param days_ago=15 Integer number of days ago
+  #
+  # @return Integer, the number of impression counts the last 15 days
+  def impression_count(days_ago=15)
+    return Statistic.impression_count(self, Date.today - days_ago.days) || 0
   end
 
   SEARCH_SCORE_COEF = {

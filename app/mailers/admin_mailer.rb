@@ -28,7 +28,7 @@ class AdminMailer < ActionMailer::Base
   def fifteen_days_to_end_of_subscription(subscription_plan)
     @structure         = subscription_plan.structure
     @subscription_plan = subscription_plan
-    mail to: @structure.main_contact.email, subject: 'Votre profil Premium prendra fin dans 15 jours'
+    mail to: @structure.main_contact.email, subject: 'Votre profil Premium renouvelé dans 15 jours'
   end
 
   def five_days_to_end_of_subscription(subscription_plan)
@@ -48,7 +48,7 @@ class AdminMailer < ActionMailer::Base
     @subscription_plan = subscription_plan
     mail to: @structure.main_contact.email,
          subject: 'Résiliation de votre profil Premium',
-         from: 'CoursAvenue <info@coursavenue.com>'
+         from: 'CoursAvenue <hello@coursavenue.com>'
   end
 
   def wants_to_go_premium structure, offer
@@ -107,13 +107,13 @@ class AdminMailer < ActionMailer::Base
   def congratulate_for_accepted_comment(comment)
     @comment   = comment
     @structure = @comment.structure
-    mail to: @comment.commentable.contact_email, subject: 'Un élève vient de poster une recommandation sur votre profil'
+    mail to: @comment.commentable.contact_email, subject: "Vous avez reçu un avis de #{@comment.author_name}"
   end
 
   def congratulate_for_comment(comment)
     @comment   = comment
     @structure = @comment.structure
-    mail to: @comment.commentable.contact_email, subject: 'Un élève vient de poster une recommandation sur votre profil'
+    mail to: @comment.commentable.contact_email, subject: "Vous avez reçu un avis de #{@comment.author_name}"
   end
 
   def congratulate_for_fifth_comment(comment)
@@ -148,7 +148,7 @@ class AdminMailer < ActionMailer::Base
     @structure  = structure
     mail to: @structure.main_contact.email,
          subject: "Vous avez #{@structure.comments.pending.count} avis en attente de validation",
-         from: 'CoursAvenue <info@coursavenue.com>'
+         from: 'CoursAvenue <hello@coursavenue.com>'
   end
 
   def remind_for_widget(structure)
@@ -168,9 +168,10 @@ class AdminMailer < ActionMailer::Base
   # end
 
   def your_profile_has_been_viewed(structure)
-    @structure        = structure
-    @view_count       = @structure.view_count(7)
-    @similar_profiles = @structure.similar_profiles(2)
+    @structure         = structure
+    @view_count        = @structure.view_count(7)
+    @impressions_count = @structure.impression_count(7)
+    @similar_profiles  = @structure.similar_profiles(2)
     mail to: structure.main_contact.email, subject: "Votre profil a été vu #{@view_count} fois"
   end
 
@@ -184,7 +185,7 @@ class AdminMailer < ActionMailer::Base
   def planning_outdated(structure)
     @structure  = structure
     mail to: structure.main_contact.email,
-         subject: 'Actualisez vos cours',
+         subject: "Votre profil n'affiche pas de cours",
          from: 'CoursAvenue <hello@coursavenue.com>'
   end
 

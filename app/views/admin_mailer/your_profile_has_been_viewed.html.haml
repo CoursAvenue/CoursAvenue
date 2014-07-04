@@ -1,3 +1,6 @@
+- content_for :email_title do
+  Votre profil est remonté dans #{@impressions_count} recherches la semaine dernière mais n'a été consulté que #{@view_count} fois.
+
 - content_for :no_yield do
   &nbsp;
 
@@ -5,19 +8,19 @@
   %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
     %tr{ valign: 'top' }
       %td.v-middle.content-block{ width: 100 }
-        = image_tag @structure.logo.url(:thumb), width: 100, height: 100
+        = image_tag @structure.logo.url(:thumb), width: 100, height: 100, alt: "Logo #{@structure.name}", class: 'bordered'
       %td.v-middle.content-block.soft--sides{ width: 400 }
         .p
           Votre profil est remonté dans
-          %strong #{@view_count} recherches
-          la semaine dernière mais n'a été consulté que 2 fois.
+          %strong #{@impressions_count} recherches
+          la semaine dernière mais n'a été consulté que #{@view_count} fois.
         .p
           Passez au
           %strong Premium
           pour recruter plus d'élèves.
       %td.v-middle.text--center.content-block{ width: 100, background: asset_path('emails_logo/premium/blue_bubble.png'), style: "background-size: 100% 100%;"}
-        .alpha.white= @view_count || 28
-        .white{ style: 'font-size: 12px;' } Consultations
+        .alpha.white= @impressions_count || 4
+        .white{ style: 'font-size: 12px;' } Affichages
     %tr{ valign: 'top' }
       %td.text--center.v-middle.content-block{ colspan: 3}
         = link_to 'Passer au premium', premium_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--yellow', style: 'padding-left: 25px; padding-right: 25px;'
@@ -28,22 +31,22 @@
         .title Ils sont passés au Premium
     %tr{ valign: 'top' }
       - @similar_profiles.each do |similar_profile|
-        %td.v-middle.content-block{ width: 50 }
+        %td.v-middle.content-block{ width: 80 }
           = link_to structure_url(similar_profile, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'muted-link block' do
-            = image_tag similar_profile.logo.url(:thumb), width: 50, height: 50
-        %td.v-middle.content-block{ width: 250 }
-          .p.soft-half--left
+            = image_tag similar_profile.logo.url(:thumb), width: 80, height: 80, alt: "Logo #{similar_profile.name}", class: 'bordered'
+        %td.v-middle.content-block{ width: 220 }
+          .p.soft-half--left.hard--bottom
             %strong
-              = link_to similar_profile.name, structure_url(similar_profile, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'muted-link'
+              = link_to truncate(similar_profile.name, length: 23), structure_url(similar_profile, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'muted-link'
             %br
             = similar_profile.city.name
             %br
             = truncate(join_parent_subjects_text(similar_profile), lenght: 100)
             %br
-            = "#{similar_profile.view_count(7)} visites"
+            %i.green= "#{similar_profile.view_count(7)} visites"
     %tr{ valign: 'top' }
       %td.v-middle.content-block{ colspan: 4 }
-        .p.hard--bottom
+        .p.hard--bottom.soft--top
           = link_to 'Devenez Premium et augmentez les performances de votre profil.', premium_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
 
 - content_for :under_content_3 do

@@ -1,3 +1,6 @@
+- content_for :email_logo do
+  = image_tag 'http://coursavenue-public.s3.amazonaws.com/logo.png', height: '50', style: 'height: 50px; width: 250px;', width: '250', alt: 'Logo CoursAvenue'
+
 - content_for :email_title do
   Ateliers peinture & dessin à -20%, théâtre, workshops photo,
   = link_to 'à Paris et plus encore !', 'https://www.coursavenue.com/etablissements?utf8=%E2%9C%93&subject_id=&address_name=Paris&lat=48.8592&lng=2.3417&page=1&course_types[]=training&start_date=05%2F07%2F2014&end_date=31%2F08%2F2014'
@@ -29,7 +32,7 @@
     %tr{ valign: 'top' }
       %td.v-middle.content-block.soft-half.soft--left{ width: 300 }
         = link_to 'https://www.coursavenue.com/etablissements/method-acting-center/#tab-trainings', class: 'muted-link p' do
-          = image_tag 'https://coursavenue.s3.amazonaws.com/medias/structures/718/thumbnails/ytQ2E2x7QcSTSzYzgrOV_02_Stage3_methodacting.jpg', width: '100%', height: 200
+          = image_tag 'http://coursavenue-public.s3.amazonaws.com/images/4juillet2014/method-acting-bandeau.jpg', width: '100%', height: 180, alt: '100€ offert par Method Acting Center '
         = link_to 'https://www.coursavenue.com/etablissements/method-acting-center/#tab-trainings', class: 'muted-link p' do
           %strong Théâtre
           %br
@@ -38,8 +41,8 @@
           1 stage : 7-11 juillet
       %td.v-middle.content-block.soft-half.soft--right{ width: 300 }
         = link_to 'https://www.coursavenue.com/etablissements/atelier-dantzig/#tab-trainings', class: 'muted-link p' do
-          = image_tag 'https://coursavenue.s3.amazonaws.com/medias/structures/718/thumbnails/ytQ2E2x7QcSTSzYzgrOV_02_Stage3_methodacting.jpg', width: '100%', height: 200
-        = link_to 'https://www.coursavenue.com/etablissements/atelier-dantzig/#tab-trainings', class: 'muted-link p soft-half--left' do
+          = image_tag 'http://coursavenue-public.s3.amazonaws.com/images/4juillet2014/atelier-dantzig-bandeau.jpg', width: '100%', height: 180, alt: "-20% sur les stages de l'Atelier Dantzig"
+        = link_to 'https://www.coursavenue.com/etablissements/atelier-dantzig/#tab-trainings', class: 'muted-link p' do
           %strong Dessin & Peinture
           %br
           Atelier Dantzig
@@ -48,7 +51,7 @@
     %tr{ valign: 'top' }
       %td.v-middle.content-block.soft-half.soft--left{ width: 300 }
         = link_to 'https://www.coursavenue.com/etablissements/collectif-d-un-atelier-a-l-autre/#tab-trainings', class: 'muted-link p' do
-          = image_tag 'https://coursavenue.s3.amazonaws.com/medias/structures/718/thumbnails/ytQ2E2x7QcSTSzYzgrOV_02_Stage3_methodacting.jpg', width: '100%', height: 200
+          = image_tag 'http://coursavenue-public.s3.amazonaws.com/images/4juillet2014/collectif-bandeau.jpg', width: '100%', height: 180, alt: "Cours d'essai gratuit chez Collectif d'un atelier à l'autre"
         = link_to 'https://www.coursavenue.com/etablissements/collectif-d-un-atelier-a-l-autre/#tab-trainings', class: 'muted-link p' do
           %strong Dessin, Peinture & Photo
           %br
@@ -57,7 +60,7 @@
           8 stages : 5 juillet-1er août
       %td.v-middle.content-block.soft-half.soft--right{ width: 300 }
         = link_to 'https://www.coursavenue.com/etablissements/ecole-de-theatre-bonacorsi/#tab-courses', class: 'muted-link p' do
-          = image_tag 'https://coursavenue.s3.amazonaws.com/medias/structures/718/thumbnails/ytQ2E2x7QcSTSzYzgrOV_02_Stage3_methodacting.jpg', width: '100%', height: 200
+          = image_tag 'http://coursavenue-public.s3.amazonaws.com/images/4juillet2014/bonacorsi-bandeau.jpg', width: '100%', height: 180, alt: "Cours d'essai gratuit chez l'école de théâtre Bonacorsi"
         = link_to 'https://www.coursavenue.com/etablissements/ecole-de-theatre-bonacorsi/#tab-courses', class: 'muted-link p' do
           %strong Théâtre
           %br
@@ -75,16 +78,16 @@
     %tr{ valign: 'top' }
       %td.v-middle.content-block{ width: 300 }
         = link_to 'https://www.coursavenue.com/etablissements?utf8=%E2%9C%93&subject_id=photo-video&address_name=Paris&lat=48.8592&lng=2.3417&page=1&course_types[]=training&start_date=05%2F07%2F2014&end_date=31%2F08%2F2014&root_subject_id=photo-video', class: 'block' do
-          = image_tag 'https://coursavenue.s3.amazonaws.com/medias/structures/718/thumbnails/ytQ2E2x7QcSTSzYzgrOV_02_Stage3_methodacting.jpg', width: '100%', height: 300, class: 'block'
+          = image_tag 'http://coursavenue-public.s3.amazonaws.com/images/4juillet2014/photo.jpg', width: '100%', height: 300, class: 'block', alt: 'Stages de photo'
         = link_to 'https://www.coursavenue.com/etablissements?utf8=%E2%9C%93&subject_id=danse&address_name=Paris&lat=48.8592&lng=2.3417&page=1&course_types[]=training&start_date=05%2F07%2F2014&end_date=31%2F08%2F2014&root_subject_id=danse', class: 'block' do
-          = image_tag 'https://coursavenue.s3.amazonaws.com/medias/structures/718/thumbnails/ytQ2E2x7QcSTSzYzgrOV_02_Stage3_methodacting.jpg', width: '100%', height: 300, class: 'block'
+          = image_tag 'http://coursavenue-public.s3.amazonaws.com/images/4juillet2014/danse.jpg', width: '100%', height: 300, class: 'block', alt: 'Stages de danse'
       %td.v-middle.content-block{ width: 300 }
         = link_to 'https://www.coursavenue.com/etablissements?utf8=%E2%9C%93&subject_id=theatre-scene&address_name=Paris&lat=48.8592&lng=2.3417&page=1&course_types[]=training&start_date=05%2F07%2F2014&end_date=31%2F08%2F2014&root_subject_id=theatre-scene', class: 'block' do
-          = image_tag 'https://coursavenue.s3.amazonaws.com/medias/structures/718/thumbnails/ytQ2E2x7QcSTSzYzgrOV_02_Stage3_methodacting.jpg', width: '100%', height: 200, class: 'block'
+          = image_tag 'http://coursavenue-public.s3.amazonaws.com/images/4juillet2014/theatre.jpg', width: '100%', height: 200, class: 'block', alt: 'Stages de théâtre'
         = link_to 'https://www.coursavenue.com/etablissements?utf8=%E2%9C%93&subject_id=dessin-peinture-arts-plastiques&address_name=Paris&lat=48.8592&lng=2.3417&page=1&course_types[]=training&start_date=05%2F07%2F2014&end_date=31%2F08%2F2014&root_subject_id=dessin-peinture-arts-plastiques', class: 'block' do
-          = image_tag 'https://coursavenue.s3.amazonaws.com/medias/structures/718/thumbnails/ytQ2E2x7QcSTSzYzgrOV_02_Stage3_methodacting.jpg', width: '100%', height: 200, class: 'block'
+          = image_tag 'http://coursavenue-public.s3.amazonaws.com/images/4juillet2014/dessin.jpg', width: '100%', height: 200, class: 'block', alt: "Stages d'arts"
         = link_to 'https://www.coursavenue.com/etablissements?utf8=%E2%9C%93&subject_id=musique-chant&address_name=Paris&lat=48.8592&lng=2.3417&page=1&course_types[]=training&start_date=05%2F07%2F2014&end_date=31%2F08%2F2014&root_subject_id=musique-chant', class: 'block' do
-          = image_tag 'https://coursavenue.s3.amazonaws.com/medias/structures/718/thumbnails/ytQ2E2x7QcSTSzYzgrOV_02_Stage3_methodacting.jpg', width: '100%', height: 200, class: 'block'
+          = image_tag 'http://coursavenue-public.s3.amazonaws.com/images/4juillet2014/guitare.jpg', width: '100%', height: 200, class: 'block', alt: 'Stages de musique'
 
 - content_for :footer do
   = link_to 'Se désabonner', '[[UNSUB_LINK_FR]]'
