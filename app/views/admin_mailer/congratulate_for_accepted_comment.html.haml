@@ -1,3 +1,6 @@
+- content_for :email_title do
+  #{@comment.author_name} vient de déposer un avis sur votre profil public CoursAvenue.
+
 .p Bonjour #{@structure.name},
 
 .p
@@ -26,5 +29,5 @@
     .p
       = @message.body
 
-    .p.action.hard--bottom
+    .p.action
       = link_to "Répondre au message", pro_structure_conversation_url(@structure, @message.conversation, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'

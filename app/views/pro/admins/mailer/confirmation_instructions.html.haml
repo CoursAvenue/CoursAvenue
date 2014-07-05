@@ -1,3 +1,9 @@
+- content_for :email_title do
+  - if @resource.sign_in_count > 0
+    Nous avons bien pris en compte votre changement d'e-mail.
+  - else
+    Bienvenue sur CoursAvenue ! Pour commencer, vous devez confirmer votre adresse e-mail.
+
 - @admin      = @resource
 - @structure  = @admin.structure
 - @structures = @structure.similar_profiles(4)
@@ -7,14 +13,14 @@
 - if @resource.sign_in_count > 0
   .p
     Nous avons bien pris en compte votre changement d'e-mail. Pour valider ce changement veuillez cliquer sur le lien de validation suivant :
-  .p.action.hard--bottom
+  .p.action
     = link_to pro_admin_confirmation_url(confirmation_token: @token, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green' do
       Valider mon nouvel e-mail
 - else
   .p
     Bienvenue sur CoursAvenue ! Pour commencer, vous devez confirmer votre adresse e-mail :
 
-  .p.action.hard--bottom
+  .p.action
     = link_to pro_admin_confirmation_url(confirmation_token: @token, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green' do
       Valider mon inscription
 
@@ -28,10 +34,7 @@
     .p.blue.blue-tip
       %i Trucs & astuces : en priorité, mettez à jour votre description et invitez vos élèves à vous recommander.
 
-    .p.hard--bottom
-      A très bientôt,
-      %br
-      L'équipe CoursAvenue
+    = render 'shared/mailers/footer'
 
   - content_for :under_content_2 do
     = render 'admin_mailer/visite_100k_visits'

@@ -5,16 +5,16 @@
   - @structures.in_groups_of(2, false) do |structure_group|
     %tr{valign: 'top'}
       - structure_group.each do |structure|
-        %td.soft-half.v-middle.content-block.push--bottom{width: '50'}
+        %td.soft-half.v-middle.content-block.push--bottom{ width: 80 }
           = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN) do
-            = image_tag structure.logo.url(:thumb), width: 50, height: 50
-        %td.soft-half.v-middle.content-block.push--bottom{width: '250', style: 'padding-right: 0; padding-left: 0;'}
-          .p
-            %strong= "#{structure.name} (#{structure.city.name})"
+            = image_tag structure.logo.url(:thumb), width: 80, height: 80
+        %td.soft-half.v-middle.content-block.push--bottom{ width: '250', style: 'padding-right: 0; padding-left: 0;' }
+          .p.hard--bottom
+            %strong= truncate("#{structure.name} (#{structure.city.name})", length: 23)
             %br
-            %i= "#{truncate(structure.subjects.at_depth(0).map(&:name).join(', '), length: 30)}".html_safe
+            %i= "#{truncate(structure.subjects.at_depth(0).map(&:name).join(', '), length: 23)}".html_safe
             %br
-            "#{structure.comments.first.try(:title)}"
+            = truncate "#{structure.comments.first.try(:title)}", length: 23
             - if structure.comments_count > 0
               %br
               = link_to "Lire les #{structure.comments_count} avis", structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)

@@ -1,3 +1,6 @@
+- content_for :email_title do
+  Félicitations ! Votre profil comporte déjà 15 recommandations.
+
 .title
   Félicitations ! Votre profil comporte déjà 15 recommandations.
 
@@ -18,4 +21,4 @@
 
 .p N'hésitez pas à nous solliciter si vous avez des questions ! Merci et à très bientôt,
 
-.p L'équipe de CoursAvenue
+= render 'shared/mailers/footer'
