@@ -1,6 +1,6 @@
 - duration_collection = (4..12).collect{ |i| time = i*15; ["#{(time/60).floor}h#{(time%60 == 0 ? '' : time%60)}",time] }
 
-= simple_form_for [:pro, @structure, @price_group], remote: true do |f|
+= simple_form_for [:pro, @structure, @price_group], remote: true, html: { id: 'price-group-form' } do |f|
   = f.input :course_type, as: :hidden, value: (@price_group.course_type || params[:course_type])
   - if params[:course_id].present?
     %input{ type: 'hidden', name: 'course_id', value: params[:course_id]}
@@ -194,10 +194,10 @@
           - if @trial and !@price_group.for_training?
             #trial-course-form{ class: (@trial.persisted? or @trial.errors.any? ? '' : 'hidden' )}
               = f.simple_fields_for :prices, @trial, child_index: 1000 do |trial_form|
-                = trial_form.input :delete_price, as: :hidden, input_html: { id: 'delete_trial_price' }
+                = trial_form.input :delete_price, as: :hidden, input_html: { id: 'delete-trial-price' }
                 .grid.soft-half--bottom
                   .grid__item.two-twelfths.v-middle>
-                    %a.pointer.v-middle{ href: 'javascript:void(0);', onclick: "$('#delete_trial_price').val('1'); $('#trial-course-form').slideUp();"}
+                    %a.pointer.v-middle{ href: 'javascript:void(0);', onclick: "$('#delete-trial-price').val('1'); $('#trial-course-form').slideUp();"}
                       %i.fa.fa-times
                     %span.v-middle Cours d'essai
                   .grid__item.two-twelfths.v-middle>
@@ -342,3 +342,8 @@
     });
     $('[data-behavior=disable-toggle-input]').change();
     $('[data-behavior=show-more-on-demand]').showMoreOnDemand();
+    $('#price-group-form').submit(function() {
+        if (!$('#trial-course-form').is(':visible')) {
+            $('#delete-trial-price').val('1');
+        }
+    });
