@@ -105,7 +105,7 @@ class PriceGroup < ActiveRecord::Base
   def reject_price attributes
     exists = attributes[:id].present?
     _price = Price.new(attributes.merge(price_group: self))
-    price_has_to_be_rejected  = _price.has_to_be_rejected?
+    price_has_to_be_rejected  = _price.has_to_be_rejected? || attributes[:delete_price].present?
     # Destroy if price exists and amount is nil
     attributes.merge!({:_destroy => 1}) if exists and price_has_to_be_rejected
     # Reject if price does't not exist yet and amount is nil

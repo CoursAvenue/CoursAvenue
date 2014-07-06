@@ -1,6 +1,6 @@
 - duration_collection = (4..12).collect{ |i| time = i*15; ["#{(time/60).floor}h#{(time%60 == 0 ? '' : time%60)}",time] }
 
-= simple_form_for [:pro, @structure, @price_group], remote: true do |f|
+= simple_form_for [:pro, @structure, @price_group], remote: true, html: { id: 'price-group-form' } do |f|
   = f.input :course_type, as: :hidden, value: (@price_group.course_type || params[:course_type])
   - if params[:course_id].present?
     %input{ type: 'hidden', name: 'course_id', value: params[:course_id]}
@@ -193,10 +193,11 @@
         .bordered--top.soft--top.soft--sides
           - if @trial and !@price_group.for_training?
             #trial-course-form{ class: (@trial.persisted? or @trial.errors.any? ? '' : 'hidden' )}
-              = f.simple_fields_for :prices, @trial, child_index: 300 do |registration_form|
+              = f.simple_fields_for :prices, @trial, child_index: 1000 do |trial_form|
+                = trial_form.input :delete_price, as: :hidden, input_html: { id: 'delete-trial-price' }
                 .grid.soft-half--bottom
                   .grid__item.two-twelfths.v-middle>
-                    %a.pointer.v-middle{ href: 'javascript:void(0);', onclick: "$('#trial_select').val($('#trial_select option').first().val());$('#trial-course-form').slideUp();"}
+                    %a.pointer.v-middle{ href: 'javascript:void(0);', onclick: "$('#delete-trial-price').val('1'); $('#trial-course-form').slideUp();"}
                       %i.fa.fa-times
                     %span.v-middle Cours d'essai
                   .grid__item.two-twelfths.v-middle>
@@ -206,13 +207,13 @@
                   .grid__item.v-middle.text--right{ style: 'width: 12%;'}>
                     #trial_amount
                       .input-addon
-                        = registration_form.input :amount, label: false, input_html: { class: 'one-whole' }, wrapper_html: { class: 'flush two-thirds inline-block v-middle' }, as: :string
+                        = trial_form.input :amount, label: false, input_html: { class: 'one-whole' }, wrapper_html: { class: 'flush two-thirds inline-block v-middle' }, as: :string
                         .input-suffix
                           %i.fa.fa-eur
                   .grid__item.v-middle.text--right{ style: 'width: 12%;'}>
                   .grid__item.four-twelfths.v-middle.text--right>
-                    = registration_form.input :info, as: :string, placeholder: 'Ex. : Valable en septembre', label: false, input_html: { class: 'one-whole'}, wrapper_html: { class: 'flush--ends' }
-                    = registration_form.input :type, as: :hidden
+                    = trial_form.input :info, as: :string, placeholder: 'Ex. : Valable en septembre', label: false, input_html: { class: 'one-whole'}, wrapper_html: { class: 'flush--ends' }
+                    = trial_form.input :type, as: :hidden
           #premium-prices-form{ class: @premium_offers.select{ |price| price.persisted? or price.errors.any? }.any? ? '' : 'hidden', data: { behavior: 'form-group' } }
             .discounts{ data: { behavior: 'show-more-on-demand' } }
               - @premium_offers.each_with_index do |item, i|
@@ -341,3 +342,8 @@
     });
     $('[data-behavior=disable-toggle-input]').change();
     $('[data-behavior=show-more-on-demand]').showMoreOnDemand();
+    $('#price-group-form').submit(function() {
+        if (!$('#trial-course-form').is(':visible')) {
+            $('#delete-trial-price').val('1');
+        }
+    });

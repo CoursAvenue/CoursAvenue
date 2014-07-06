@@ -11,22 +11,7 @@
           L'objectif des Journées Portes Ouvertes est de permettre au plus grand nombre de découvrir gratuitement leurs passions le temps d'un week-end. Si vous souhaitez participer avec vos proches, réservez votre atelier, puis envoyez-leurs votre invitation.
         %li Pour les ateliers pour enfants, une inscription comprend 2 places (1 adulte + 1 enfant).
 
-    - if @participations.empty?
-      .text--center
-        %h4 Aucune inscription aux Journées Portes Ouvertes
-        = link_to "M'inscrire aux journées portes ouvertes", open_courses_path, class: 'btn btn--blue'
-    - else
-      - if @participations.length >= 6
-        .text--center.push-half--bottom.print--hidden
-          %h4 Vous ne pouvez plus vous inscrire à un atelier, les inscriptions sont limitées à 6 par personne.
-      - else
-        .text--center.push-half--bottom.print--hidden
-          = link_to "M'inscrire à d'autres ateliers", open_courses_path, class: 'btn btn--blue btn--large'
-
-      .text--center.push--bottom.print--hidden
-        = link_to 'javascript:window.print()', class: 'btn btn--yellow' do
-          %i.fa.fa-print
-          Imprimer mon récapitulatif
+    - if @participations.any?
 
       - @participations.each do |participation|
         - course = participation.course
@@ -74,7 +59,7 @@
                       %span.line-through #{readable_amount(course.common_price)}€
                     %span.green GRATUIT
                     %strong= link_to participation.structure.name, structure_path(participation.structure), class: 'semi-muted-link', target: :_blank
-                    = ([course.structure.contact_email] + course.structure.phone_numbers).map(&:number).join(', ')
+                    = ([course.structure.contact_email] + course.structure.phone_numbers.map(&:number)).join(', ')
                   %p
                     = "#{join_audiences participation.planning} / #{join_levels participation.planning.levels}"
                   %p
