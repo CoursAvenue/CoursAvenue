@@ -36,13 +36,19 @@ class SubscriptionPlan < ActiveRecord::Base
   }
 
   ######################################################################
+  # Callbacks                                                          #
+  ######################################################################
+  after_initialize :check_plan_type
+
+  ######################################################################
   # Relations                                                          #
   ######################################################################
   has_many :orders
   belongs_to :structure
+  belongs_to :promotion_code
 
   attr_accessible :plan_type, :expires_at, :renewed_at, :recurrent, :structure, :canceled_at,
-                  :credit_card_number, :be2bill_alias, :client_ip, :card_validity_date,
+                  :credit_card_number, :be2bill_alias, :client_ip, :card_validity_date, :promotion_code_id,
                   :cancelation_reason_dont_want_more_students, :cancelation_reason_stopping_activity,
                   :cancelation_reason_didnt_have_return_on_investment, :cancelation_reason_too_hard_to_use,
                   :cancelation_reason_not_satisfied_of_coursavenue_users, :cancelation_reason_other, :cancelation_reason_text
@@ -66,6 +72,7 @@ class SubscriptionPlan < ActiveRecord::Base
                                                               recurrent: true,
                                                               be2bill_alias: params[:ALIAS],
                                                               card_validity_date: (params[:CARDVALIDITYDATE] ? Date.strptime(params[:CARDVALIDITYDATE], '%m-%y') : nil),
+                                                              promotion_code_id: JSON.parse(params[:EXTRADATA])['promotion_code_id'],
                                                               client_ip: params[:CLIENT_IP]})
     structure.compute_search_score(true)
     structure.index
@@ -119,11 +126,43 @@ class SubscriptionPlan < ActiveRecord::Base
     return res.is_a?(Net::HTTPSuccess)
   end
 
+  # Description of the plan in months
+  #
+  # @return Integer
+  def description
+    PLAN_TYPE_DESCRIPTION[self.plan_type]
+  end
+
+  # Duration of the plan in months
+  #
+  # @return Integer
+  def duration
+    PLAN_TYPE_DURATION[self.plan_type]
+  end
+
   # Amount of the current subscription plan
   #
-  # @return [type] [description]
+  # @return Integer
   def amount
-    PLAN_TYPE_PRICES[self.plan_type]
+    if promotion_code
+      PLAN_TYPE_PRICES[self.plan_type] - promotion_code.promo_amount
+    else
+      PLAN_TYPE_PRICES[self.plan_type]
+    end
+  end
+
+  # See amount
+  #
+  # @return Integer next amount to pay, Be2bill formatted
+  def amount_for_be2bill
+    self.amount * 100
+  end
+
+  # Amount of the current subscription plan montly
+  #
+  # @return Integer
+  def monthly_amount
+    PLAN_TYPE_PRICES[self.plan_type] / PLAN_TYPE_DURATION[self.plan_type]
   end
 
   # As we can have a special offer for 6 months for instance, we don't want it to continue
@@ -133,13 +172,6 @@ class SubscriptionPlan < ActiveRecord::Base
   # @return Integer next amount to pay
   def next_amount
     PLAN_TYPE_PRICES[NEXT_PLAN_TYPE[self.plan_type]]
-  end
-
-  # See amount
-  #
-  # @return Integer next amount to pay, Be2bill formatted
-  def amount_for_be2bill
-    self.amount * 100
   end
 
   # See next_amount
@@ -169,4 +201,10 @@ class SubscriptionPlan < ActiveRecord::Base
     return 'yearly'
   end
 
+  private
+
+  # Set plan_type to yearly if not defined
+  def check_plan_type
+    self.plan_type = 'yearly' unless PLAN_TYPE.include? plan_type
+  end
 end

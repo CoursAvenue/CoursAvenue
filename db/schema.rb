@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140625091423) do
+ActiveRecord::Schema.define(version: 20140707140522) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -570,6 +570,18 @@ ActiveRecord::Schema.define(version: 20140625091423) do
 
   add_index "prices", ["type"], name: "index_prices_on_type", using: :btree
 
+  create_table "promotion_codes", force: true do |t|
+    t.string   "name"
+    t.string   "code_id"
+    t.integer  "promo_amount"
+    t.string   "plan_type"
+    t.date     "expires_at"
+    t.integer  "usage_nb"
+    t.integer  "max_usage_nb"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "reservation_loggers", force: true do |t|
     t.integer  "course_id"
     t.datetime "created_at", null: false
@@ -743,6 +755,7 @@ ActiveRecord::Schema.define(version: 20140625091423) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "card_validity_date"
+    t.integer  "promotion_code_id"
   end
 
   create_table "taggings", force: true do |t|

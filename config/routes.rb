@@ -8,7 +8,7 @@ CoursAvenue::Application.routes.draw do
     namespace :pro, path: '' do
       root :to => 'home#index'
       # Be2bill urls
-      post 'be2bill/placeholder'                => 'be2bill#placeholder'
+      get 'be2bill/placeholder'                => 'be2bill#placeholder'
       post 'be2bill/transaction_notifications'  => 'be2bill#transaction_notifications'
 
       get '/premium'                            => 'redirect#structures_premium'
@@ -82,6 +82,7 @@ CoursAvenue::Application.routes.draw do
       end
       resources :participations, only: [:index], controller: 'participations'
       resources :statistics, only: [:index]
+      resources :promotion_codes, path: 'code-promos'
       resources :subscription_plans, only: [:index]
       resources :structures, path: 'etablissements' do
         member do
