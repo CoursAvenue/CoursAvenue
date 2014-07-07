@@ -2,14 +2,14 @@
   .panel#contact-panel
     %ul.panel__header.tabs.tabs--thin
       %li.active
-        %a.contact-button#tab-contact-message{ href: "#tab-message", data: { toggle: "tab" } }
+        %a.contact-button#tab-contact-message{ href: ".tab-message", data: { toggle: "tab" } }
           Envoyer un message
       %li
-        %a.contact-button{ href: "#tab-contacts", data: { toggle: "tab" } }
+        %a.contact-button{ href: ".tab-contacts", data: { toggle: "tab" } }
           Voir les coordonnées
     .panel__body
       .tab-content.soft
-        %article#tab-message.tab-pane.active.hard
+        %article.tab-message.tab-pane.active.hard
           #structure-contact
             = simple_form_for [structure, Mailboxer::Message.new], url: structure_messages_path(structure), as: :message, remote: true do |f|
               %h4.f-weight-normal
@@ -31,7 +31,7 @@
               - else
                 = link_to 'Envoyer mon message', new_user_registration_path, data: { behavior: 'modal', title: 'Connexion', width: 600, padding: 0 }, class: 'fancybox.ajax btn btn--green btn--full', id: 'send-message'
 
-        %article#tab-contacts.tab-pane.hard
+        %article.tab-contacts.tab-pane.hard
           %h4.f-weight-normal Contactez le partenaire par téléphone :
           %p.epsilon
             - @structure.phone_numbers.each_with_index do |phone_number, index|
