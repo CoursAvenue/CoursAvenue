@@ -79,6 +79,12 @@ class AdminMailer < ActionMailer::Base
     @text = text
     mail to: 'contact@coursavenue.com', subject: subject
   end
+
+  def user_is_now_following_you(structure, user)
+    # @structure = structure
+    # @user      = user
+    # mail to: @structure.main_contact.email, subject: "Votre profil vient d'être ajouté en favori"
+  end
   ######################################################################
   # JPOs                                                               #
   ######################################################################
