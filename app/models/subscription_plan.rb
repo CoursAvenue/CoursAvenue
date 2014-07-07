@@ -39,6 +39,7 @@ class SubscriptionPlan < ActiveRecord::Base
   # Callbacks                                                          #
   ######################################################################
   after_initialize :check_plan_type
+  after_create     :increment_promotion_code_nb
 
   ######################################################################
   # Relations                                                          #
@@ -144,7 +145,7 @@ class SubscriptionPlan < ActiveRecord::Base
   #
   # @return Integer
   def amount
-    if promotion_code
+    if promotion_code and promotion_code.valid?
       PLAN_TYPE_PRICES[self.plan_type] - promotion_code.promo_amount
     else
       PLAN_TYPE_PRICES[self.plan_type]
@@ -206,5 +207,13 @@ class SubscriptionPlan < ActiveRecord::Base
   # Set plan_type to yearly if not defined
   def check_plan_type
     self.plan_type = 'yearly' unless PLAN_TYPE.include? plan_type
+  end
+
+  # Increment promotion code usage_nb
+  #
+  # @return nil
+  def increment_promotion_code_nb
+    self.promotion_code.increment! if self.promotion_code
+    nil
   end
 end
