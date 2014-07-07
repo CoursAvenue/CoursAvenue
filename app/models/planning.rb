@@ -90,7 +90,7 @@ class Planning < ActiveRecord::Base
   scope :future,         -> { where( Planning.arel_table[:end_date].gt(Date.today) ) }
   scope :past,           -> { where( Planning.arel_table[:end_date].lteq(Date.today) ) }
   scope :ordered_by_day, -> { order('week_day=0, week_day ASC, start_date ASC, start_time ASC') }
-  scope :visible,        -> { where(visible: true)}
+  scope :visible,        -> { where(visible: true) }
 
   ######################################################################
   # Solr                                                               #
