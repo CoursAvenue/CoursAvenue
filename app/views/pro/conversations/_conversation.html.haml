@@ -20,6 +20,8 @@
               Signaler
             %ul.drop-down__el.text--left
               %li.nowrap
+                = link_to 'Fausse demande', flag_pro_structure_conversation_path(@structure, conversation, flag: 'Fausse demande'), method: :patch, class: 'muted-link'
+              %li.nowrap
                 = link_to 'Contenu inapproprié / offensant', flag_pro_structure_conversation_path(@structure, conversation, flag: 'Contenu inapproprié / offensant'), method: :patch, class: 'muted-link'
               %li.nowrap
                 = link_to 'Autres', flag_pro_structure_conversation_path(@structure, conversation, flag: 'Autres'), method: :patch, class: 'muted-link'
