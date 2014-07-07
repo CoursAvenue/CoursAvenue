@@ -1,20 +1,12 @@
 # Set the host name for URL creation
-SitemapGenerator::Sitemap.default_host = "http://www.coursavenue.com"
+SitemapGenerator::Sitemap.default_host = "https://www.coursavenue.com"
 
 SitemapGenerator::Sitemap.create do
-  def vertical_page_path(subject, city=nil)
-    if city
-      if subject.depth == 0
-        return vertical_root_subject_city_path(subject, city, subdomain: 'www')
-      else
-        return vertical_subject_city_path(subject.root, subject, city, subdomain: 'www')
-      end
+  def vertical_page_path(subject)
+    if subject.depth == 0
+      return vertical_root_subject_path(subject, subdomain: 'www')
     else
-      if subject.depth == 0
-        return vertical_root_subject_path(subject, subdomain: 'www')
-      else
-        return vertical_subject_path(subject.root, subject, subdomain: 'www')
-      end
+      return vertical_subject_path(subject.root, subject, subdomain: 'www')
     end
   end
 
@@ -41,24 +33,17 @@ SitemapGenerator::Sitemap.create do
   #     add article_path(article), :lastmod => article.updated_at
   #   end
 
-  add blog_path, priority: 0.5, changefreq: 'daily'
+  add blog_path, priority: 0.5, changefreq: 'weekly'
   add root_path, priority: 0.8, changefreq: 'daily'
 
-  add courses_path, priority: 0.8, changefreq: 'daily'
   add structures_path, priority: 0.8, changefreq: 'daily'
 
-  @paris = City.find 'paris'
+  Structure.all.each do |structure|
+    add structure_path structure, changefreq: 'weekly'
+  end
 
   Subject.all.each do |subject|
     add vertical_page_path(subject), priority: 0.8, changefreq: 'weekly'
-    add vertical_page_path(subject, @paris), priority: 0.8, changefreq: 'weekly'
-  end
-
-  Structure.all.each do |structure|
-    add structure_path structure, changefreq: 'daily'
-  end
-  Course.active.all.each do |course|
-    add structure_course_path(course.structure, course), lastmod: course.updated_at, priority: 0.8, changefreq: 'daily'
   end
 
 
@@ -66,7 +51,6 @@ SitemapGenerator::Sitemap.create do
     pages_how_it_works_path,
     pages_faq_users_path,
     pages_faq_partners_path,
-    pages_who_are_we_path,
     pages_customer_service_path,
     pages_press_path,
     pages_mentions_partners_path,
