@@ -48,7 +48,7 @@ class ::Admin < ActiveRecord::Base
   after_create :check_if_was_invited
   after_create :set_email_opt_ins
   after_save   :subscribe_to_nutshell
-  before_save :downcase_email
+  before_save  :downcase_email
 
   ######################################################################
   # Scopes                                                             #
