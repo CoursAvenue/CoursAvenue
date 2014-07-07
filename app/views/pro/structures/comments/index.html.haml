@@ -52,7 +52,12 @@
         %hr.push-half--ends
 
       - if @comments.empty?
-        %p.flush Encore aucun avis.
+        %p.flush
+          Encore aucun avis.
+          = link_to recommendations_pro_structure_path(@structure) do
+            %i.fa.fa-plus
+            Demander des avis
+
       - else
         %h4.push-half--bottom Avis validés
         .text--center.push-half--ends= paginate @comments, window: 1, outer_window: 3
