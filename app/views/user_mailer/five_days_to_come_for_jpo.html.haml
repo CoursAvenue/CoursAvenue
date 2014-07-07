@@ -15,8 +15,6 @@
   %h4
     Ce week-end, c’est gratuit ! Derniers jours pour réserver vos ateliers : faites vite, les places sont limitées.
 
-- content_for :no_yield do
-  &nbsp;
 - content_for :under_content do
   = link_to open_courses_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'email', utm_campaign: 'jpo', utm_medium: 'j_moins_4_image') do
     = image_tag 'jpo_2014/illustration_j_5.jpg', style: 'height: 465px; width: 600px;', width: '600', height: '465'

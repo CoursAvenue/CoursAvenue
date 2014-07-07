@@ -1,9 +1,6 @@
 - content_for :email_title do
   Votre profil est remonté dans #{@impressions_count} recherches la semaine dernière mais n'a été consulté que #{@view_count} fois.
 
-- content_for :no_yield do
-  &nbsp;
-
 - content_for :under_content do
   %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
     %tr{ valign: 'top' }
@@ -34,6 +31,9 @@
         %td.v-middle.content-block{ width: 80 }
           = link_to structure_url(similar_profile, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'muted-link block' do
             = image_tag similar_profile.logo.url(:thumb), width: 80, height: 80, alt: "Logo #{similar_profile.name}", class: 'bordered'
+          %div.yellow.text--center{ style: 'padding-top: 2px;' }
+            = image_tag 'icons/icon-star.png', height: 15, widht: 15, class: 'v-middle', style: 'padding-right: 2px;'
+            %span.v-middle Premium
         %td.v-middle.content-block{ width: 220 }
           .p.soft-half--left.hard--bottom
             %strong
