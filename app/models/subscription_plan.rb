@@ -145,7 +145,7 @@ class SubscriptionPlan < ActiveRecord::Base
   #
   # @return Integer
   def amount
-    if promotion_code and promotion_code.still_valid? and promotion_code.plan_type == self.plan_type
+    if promotion_code and promotion_code.still_valid?(self)
       PLAN_TYPE_PRICES[self.plan_type] - promotion_code.promo_amount
     else
       PLAN_TYPE_PRICES[self.plan_type]

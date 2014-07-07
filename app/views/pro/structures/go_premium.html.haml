@@ -15,7 +15,7 @@
           %td
             %strong= "#{@subscription_plan.monthly_amount}€"
             par mois x #{@subscription_plan.duration} mois
-        - if @promotion_code
+        - if @subscription_plan.promotion_code and @subscription_plan.promotion_code.still_valid?(@subscription_plan)
           %tr
             %td= @promotion_code.name
             %td= "-#{@promotion_code.promo_amount}€"
@@ -23,7 +23,7 @@
           %th Total TTC
 
           %td= "#{@subscription_plan.amount}€"
-        - unless @promotion_code
+        - unless @subscription_plan.promotion_code
           %tr.no-stripe
             %td
             %td

@@ -576,7 +576,7 @@ ActiveRecord::Schema.define(version: 20140707140522) do
     t.integer  "promo_amount"
     t.string   "plan_type"
     t.date     "expires_at"
-    t.integer  "usage_nb"
+    t.integer  "usage_nb",     default: 0
     t.integer  "max_usage_nb"
     t.datetime "created_at"
     t.datetime "updated_at"
