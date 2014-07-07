@@ -27,8 +27,15 @@ class Pro::PromotionCodesController < Pro::ProController
 
   def update
     @promotion_code = PromotionCode.find params[:id]
-    azD?
     @promotion_code.update_attributes params[:promotion_code]
+    respond_to do |format|
+      format.html { redirect_to pro_promotion_codes_path }
+    end
+  end
+
+  def destroy
+    @promotion_code = PromotionCode.find params[:id]
+    @promotion_code.destroy
     respond_to do |format|
       format.html { redirect_to pro_promotion_codes_path }
     end

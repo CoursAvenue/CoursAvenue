@@ -27,7 +27,11 @@
               = l(promotion_code.expires_at) if promotion_code.expires_at
             %td= promotion_code.max_usage_nb
             %td= promotion_code.usage_nb
-            %td
+            %td.nowrap
               = link_to edit_pro_promotion_code_path(promotion_code), class: 'nowrap' do
                 %i.fa.fa-pencil
                 Modifier
+              \/
+              = link_to pro_promotion_code_path(promotion_code), method: :delete, class: 'nowrap red' do
+                %i.fa.fa-trash-o
+                Supprimer

@@ -5,12 +5,12 @@ class PromotionCode < ActiveRecord::Base
 
   validates :name, :code_id, :promo_amount, :plan_type, presence: true
 
-
+  # Don't use `valid?` because taken by Rails
   # Tells wether or not the plan is valid
   #
   # @return Boolean
-  def valid?
-    !expired? and usage_nb < max_usage_nb
+  def still_valid?
+    return (!self.expired? and (usage_nb < max_usage_nb))
   end
 
   def expired?
