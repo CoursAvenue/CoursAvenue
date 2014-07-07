@@ -31,7 +31,7 @@
                 %input#premium_type_value{ type: 'hidden', name: 'premium_type', value: params[:premium_type] }
                 .hidden.promo-hidden
                   %input#promo-code{ name: 'promo_code', placeholder: 'CODE'}
-                  %a.btn.btn--green{ type: 'submit' } OK
+                  %input.btn.btn--green{ type: 'submit' } OK
                 %a.pointer.milli#i-have-promo-code Entrer un code promotionnel
 
     = form_tag ENV['BE2BILL_URL'] do

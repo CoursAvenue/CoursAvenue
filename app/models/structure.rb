@@ -794,7 +794,7 @@ class Structure < ActiveRecord::Base
   # @return Integer
   def compute_search_score(force=false)
     # Return already stored search score if it has been computed recently
-    if !force and self.search_score.present? and self.search_score_updated_at.present? and Date.parse(self.search_score_updated_at) > Date.yesterday
+    if !force and self.search_score.present? and self.search_score_updated_at.present? and Date.parse(self.search_score_updated_at.to_s) > Date.yesterday
       return self.search_score
     else
       score = 0
