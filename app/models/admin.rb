@@ -24,12 +24,13 @@ class ::Admin < ActiveRecord::Base
                   :structure_id,
                   :email_opt_in,
                   :student_action_email_opt_in, :newsletter_email_opt_in,
-                  :monday_email_opt_in, :thursday_email_opt_in, :jpo_email_opt_in
+                  :monday_email_opt_in, :thursday_email_opt_in, :jpo_email_opt_in, :stats_email
 
   store_accessor :email_opt_in_status, :student_action_email_opt_in, :newsletter_email_opt_in,
-                                       :monday_email_opt_in, :thursday_email_opt_in, :jpo_email_opt_in
+                                       :monday_email_opt_in, :thursday_email_opt_in, :jpo_email_opt_in, :stats_email
 
-  define_boolean_accessor_for :email_opt_in_status, :student_action_email_opt_in, :newsletter_email_opt_in, :monday_email_opt_in, :thursday_email_opt_in, :jpo_email_opt_in
+  define_boolean_accessor_for :email_opt_in_status, :student_action_email_opt_in, :newsletter_email_opt_in, :monday_email_opt_in,
+                              :thursday_email_opt_in, :jpo_email_opt_in, :stats_email
 
   ######################################################################
   # Relations                                                          #
@@ -46,8 +47,7 @@ class ::Admin < ActiveRecord::Base
   ######################################################################
   after_create :check_if_was_invited
   after_create :set_email_opt_ins
-  after_save :delay_subscribe_to_nutshell
-  # after_save :delay_subscribe_to_mailchimp
+  after_save   :subscribe_to_nutshell
   before_save :downcase_email
 
   ######################################################################
@@ -108,16 +108,8 @@ class ::Admin < ActiveRecord::Base
 
   private
 
-  def delay_subscribe_to_nutshell
-    self.structure.send(:delay_subscribe_to_nutshell) if self.structure and Rails.env.production?
-  end
-
-  def delay_subscribe_to_nutshell_without_delay
-    self.send(:delay_subscribe_to_nutshell)
-  end
-
-  def delay_subscribe_to_mailchimp
-    self.structure.send(:delay_subscribe_to_mailchimp) if self.structure and Rails.env.production?
+  def subscribe_to_nutshell
+    self.structure.send(:subscribe_to_nutshell) if self.structure and Rails.env.production?
   end
 
   def check_if_was_invited

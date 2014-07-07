@@ -149,7 +149,7 @@ class Structure < ActiveRecord::Base
 
   after_save    :geocode_if_needs_to
   after_save    :update_email_status
-  after_save    :delay_subscribe_to_nutshell
+  after_save    :subscribe_to_nutshell
 
   ######################################################################
   # Solr                                                               #
@@ -879,10 +879,10 @@ class Structure < ActiveRecord::Base
     self.gives_group_courses = true
   end
 
-  def delay_subscribe_to_nutshell
+  def subscribe_to_nutshell
     NutshellUpdater.update(self) if self.main_contact and Rails.env.production?
   end
-  handle_asynchronously :delay_subscribe_to_nutshell, :run_at => Proc.new { 10.minutes.from_now }
+  handle_asynchronously :subscribe_to_nutshell, :run_at => Proc.new { 10.minutes.from_now }
 
   def encode_uris
     self.website      = URI.encode(URI.decode(self.website))      if website.present? and website_changed?
