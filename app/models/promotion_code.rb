@@ -22,6 +22,7 @@ class PromotionCode < ActiveRecord::Base
   #
   # @return Integer usage_nb
   def increment!
-    usage_nb += 1
+    self.usage_nb = (usage_nb || 0) + 1
+    self.save
   end
 end
