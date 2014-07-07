@@ -29,7 +29,10 @@ class Pro::Be2billController < Pro::ProController
     plan_type = SubscriptionPlan.premium_type_from_be2bill_amount(params[:AMOUNT]).to_sym
     if params[:EXECCODE] == '0000'
       subscription_plan = SubscriptionPlan.subscribe!(plan_type, @structure, params)
-      @structure.orders.create(amount: subscription_plan.amount, order_id: params[:ORDERID], subscription_plan: subscription_plan)
+      @structure.orders.create(amount: subscription_plan.amount,
+                               order_id: params[:ORDERID],
+                               promotion_code_id: JSON.parse(params[:EXTRADATA])['promotion_code_id'],
+                               subscription_plan: subscription_plan)
     end
 
     render text: 'OK'

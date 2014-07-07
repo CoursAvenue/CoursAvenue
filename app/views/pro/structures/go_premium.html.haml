@@ -15,7 +15,7 @@
           %td
             %strong= "#{@subscription_plan.monthly_amount}€"
             par mois x #{@subscription_plan.duration} mois
-        - if @subscription_plan.promotion_code and @subscription_plan.promotion_code.still_valid?(@subscription_plan)
+        - if @promotion_code and @promotion_code.still_valid?(@subscription_plan)
           %tr
             %td= @promotion_code.name
             %td= "-#{@promotion_code.promo_amount}€"
@@ -23,7 +23,7 @@
           %th Total TTC
 
           %td= "#{@subscription_plan.amount}€"
-        - unless @subscription_plan.promotion_code
+        - unless @promotion_code
           %tr.no-stripe
             %td
             %td
@@ -31,7 +31,7 @@
                 %input#premium_type_value{ type: 'hidden', name: 'premium_type', value: params[:premium_type] }
                 .hidden.promo-hidden
                   %input#promo-code{ name: 'promo_code', placeholder: 'CODE'}
-                  %input.btn.btn--green{ type: 'submit' } OK
+                  %input.btn.btn--green{ type: 'submit', value: 'OK' }
                 %a.pointer.milli#i-have-promo-code Entrer un code promotionnel
 
     = form_tag ENV['BE2BILL_URL'] do

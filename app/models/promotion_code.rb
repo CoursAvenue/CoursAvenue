@@ -25,4 +25,9 @@ class PromotionCode < ActiveRecord::Base
     self.usage_nb = (usage_nb || 0) + 1
     self.save
   end
+
+  def promo_amount_for_be2bill
+    promo_amount * 100
+  end
+
 end

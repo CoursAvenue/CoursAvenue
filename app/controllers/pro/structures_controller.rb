@@ -296,7 +296,12 @@ class Pro::StructuresController < Pro::ProController
     if params[:promo_code]
       @promotion_code = PromotionCode.where(code_id: params[:promo_code]).first
     end
-    @subscription_plan = SubscriptionPlan.new plan_type: params[:premium_type], promotion_code_id: @promotion_code.try(:id)
+    @subscription_plan = SubscriptionPlan.new plan_type: params[:premium_type]
+    if @promotion_code and @promotion_code.valid?(@subscription_plan)
+      @amount = @subscription_plan.amount_for_be2bill - @promotion_code.promo_amount_for_be2bill
+    else
+      @amount = @subscription_plan.amount_for_be2bill
+    end
 
     AdminMailer.delay.wants_to_go_premium(@structure, @subscription_plan.plan_type)
     if @structure.premium?
@@ -306,7 +311,7 @@ class Pro::StructuresController < Pro::ProController
 
     @order_id = Order.next_order_id_for @structure
     @be2bill_params = {
-      'AMOUNT'        => @subscription_plan.amount_for_be2bill,
+      'AMOUNT'        => @amount,
       'CLIENTIDENT'   => @structure.id,
       'CLIENTEMAIL'   => @structure.main_contact.email,
       'CREATEALIAS'   => 'yes',

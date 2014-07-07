@@ -39,17 +39,15 @@ class SubscriptionPlan < ActiveRecord::Base
   # Callbacks                                                          #
   ######################################################################
   after_initialize :check_plan_type
-  after_create     :increment_promotion_code_nb
 
   ######################################################################
   # Relations                                                          #
   ######################################################################
   has_many :orders
   belongs_to :structure
-  belongs_to :promotion_code
 
   attr_accessible :plan_type, :expires_at, :renewed_at, :recurrent, :structure, :canceled_at,
-                  :credit_card_number, :be2bill_alias, :client_ip, :card_validity_date, :promotion_code_id,
+                  :credit_card_number, :be2bill_alias, :client_ip, :card_validity_date,
                   :cancelation_reason_dont_want_more_students, :cancelation_reason_stopping_activity,
                   :cancelation_reason_didnt_have_return_on_investment, :cancelation_reason_too_hard_to_use,
                   :cancelation_reason_not_satisfied_of_coursavenue_users, :cancelation_reason_other, :cancelation_reason_text
@@ -73,7 +71,6 @@ class SubscriptionPlan < ActiveRecord::Base
                                                               recurrent: true,
                                                               be2bill_alias: params[:ALIAS],
                                                               card_validity_date: (params[:CARDVALIDITYDATE] ? Date.strptime(params[:CARDVALIDITYDATE], '%m-%y') : nil),
-                                                              promotion_code_id: JSON.parse(params[:EXTRADATA])['promotion_code_id'],
                                                               client_ip: params[:CLIENT_IP]})
     structure.compute_search_score(true)
     structure.index
@@ -145,11 +142,7 @@ class SubscriptionPlan < ActiveRecord::Base
   #
   # @return Integer
   def amount
-    if promotion_code and promotion_code.still_valid?(self)
-      PLAN_TYPE_PRICES[self.plan_type] - promotion_code.promo_amount
-    else
-      PLAN_TYPE_PRICES[self.plan_type]
-    end
+    PLAN_TYPE_PRICES[self.plan_type]
   end
 
   # See amount
@@ -209,11 +202,4 @@ class SubscriptionPlan < ActiveRecord::Base
     self.plan_type = 'yearly' unless PLAN_TYPE.include? plan_type
   end
 
-  # Increment promotion code usage_nb
-  #
-  # @return nil
-  def increment_promotion_code_nb
-    self.promotion_code.increment! if self.promotion_code
-    nil
-  end
 end
