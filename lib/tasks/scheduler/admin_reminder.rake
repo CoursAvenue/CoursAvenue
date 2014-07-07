@@ -1,5 +1,7 @@
 # encoding: utf-8
 require 'rake/clean'
+require "#{Rails.root}/app/helpers/conversations_helper"
+include ConversationsHelper
 
 namespace :scheduler do
   namespace :admins do
@@ -42,6 +44,40 @@ namespace :scheduler do
     end
 
     ######################################################################
+    # For user requests                                                  #
+    ######################################################################
+
+    # Send email to admin if he has a user request not answered that is 1 day old
+    # $ rake scheduler:admins:remind_for_user_requests_1
+    desc 'Send email to admins who have user requests not answered'
+    task :remind_for_user_requests_1 => :environment do |t, args|
+      conversations = Mailboxer::Conversation.where( Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq(Mailboxer::Label::INFORMATION.id).and(
+                                                     Mailboxer::Conversation.arel_table[:created_at].gteq(Date.today - 1.day).and(
+                                                     Mailboxer::Conversation.arel_table[:created_at].lt(Date.today))) )
+      conversations.each do |conversation|
+        if conversation_waiting_for_reply?(conversation)
+          admin = conversation.recipients.select{|recipient| recipient.is_a? Admin }.first
+          AdminMailer.delay.message_information_reminder_1(conversation, admin)
+        end
+      end
+    end
+
+    # Send email to admin if he has a user request not answered that is 2 days old
+    # $ rake scheduler:admins:remind_for_user_requests_2
+    desc 'Send email to admins who have user requests not answered'
+    task :remind_for_user_requests_2 => :environment do |t, args|
+      conversations = Mailboxer::Conversation.where( Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq(Mailboxer::Label::INFORMATION.id).and(
+                                                     Mailboxer::Conversation.arel_table[:created_at].gteq(Date.today - 2.days).and(
+                                                     Mailboxer::Conversation.arel_table[:created_at].lt(Date.today - 1.day))) )
+      conversations.each do |conversation|
+        if conversation_waiting_for_reply?(conversation)
+          admin = conversation.recipients.select{|recipient| recipient.is_a? Admin }.first
+          AdminMailer.delay.message_information_reminder_2(conversation, admin)
+        end
+      end
+    end
+
+    ######################################################################
     # For premium users                                                  #
     ######################################################################
 
@@ -62,6 +98,5 @@ namespace :scheduler do
         AdminMailer.delay.five_days_to_end_of_subscription(subscription_plan)
       end
     end
-
   end
 end

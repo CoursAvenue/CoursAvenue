@@ -85,6 +85,25 @@ class AdminMailer < ActionMailer::Base
     # @user      = user
     # mail to: @structure.main_contact.email, subject: "Votre profil vient d'être ajouté en favori"
   end
+
+  def message_information_reminder_1(conversation, admin)
+    @conversation = conversation
+    @admin        = admin
+    @structure    = admin.structure
+    @user         = conversation.recipients.select{|recipient| recipient.is_a? User }.first
+    mail to: @admin.email,
+         subject: "Rappel : demande d'information - #{@user.name}"
+  end
+
+  def message_information_reminder_2(conversation, admin)
+    @conversation = conversation
+    @admin        = admin
+    @structure    = admin.structure
+    @user         = conversation.recipients.select{|recipient| recipient.is_a? User }.first
+    mail to: @admin.email,
+         subject: "Rappel : demande d'information - #{@user.name}"
+  end
+
   ######################################################################
   # JPOs                                                               #
   ######################################################################
