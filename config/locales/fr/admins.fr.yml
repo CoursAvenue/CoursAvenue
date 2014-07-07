@@ -15,8 +15,9 @@ fr:
         role: Fonction
         is_teacher: Je suis professeur
         newsletter_email_opt_in: "CoursAvenue a des infos intéressantes sur les dernières nouveautés de son site, sur l'entreprise, ou me propose de participer à des événements exclusifs pour mieux faire connaître mes cours."
-        monday_email_opt_in: "Chaque lundi matin, CoursAvenue m'envoie des bons conseils pour améliorer ma visibilité sur CoursAvenue."
-        thursday_email_opt_in: "Chaque jeudi matin, CoursAvenue m'envoie des bons conseils pour m'aider à développer le bouche à oreille."
+        stats_email: "CoursAvenue m'envoie les statistiques de mon profil et m'aide à améliorer ma visibilité."
+        monday_email_opt_in: "CoursAvenue m'informe de l'activité de mon profil."
+        thursday_email_opt_in: "CoursAvenue m'envoie des notifications pour m'aider à optimiser mon profil et gagner en visibilité."
         student_action_email_opt_in: "Un élève a fait une action sur mon profil (nouvelle recommandation, nouveau message, demande d'inscription à mes cours)."
         jpo_email_opt_in: "Un élève s'inscrit ou se désinscrit d'un de mes ateliers."
 
