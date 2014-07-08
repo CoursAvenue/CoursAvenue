@@ -285,7 +285,7 @@ class Structure < ActiveRecord::Base
   # Thursday email
   # Only send if thursday email opt in is true
   def remind_for_widget
-    if self.main_contact and self.main_contact.thursday_email_opt_in?
+    if self.main_contact and self.main_contact.monday_email_opt_in?
       if widget_status.nil?
         AdminMailer.delay.remind_for_widget(self)
       end
@@ -295,7 +295,7 @@ class Structure < ActiveRecord::Base
   # Thursday email
   # Only send if thursday email opt in is true
   def remind_for_planning_outdated
-    if self.main_contact and self.main_contact.thursday_email_opt_in?
+    if self.main_contact and self.main_contact.monday_email_opt_in?
       if self.plannings.empty? or self.courses.without_open_courses.collect{ |course| !course.can_be_published? }.any? or self.courses.without_open_courses.collect(&:expired?).any?
         AdminMailer.delay.planning_outdated(self)
       end
