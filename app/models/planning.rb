@@ -1,12 +1,12 @@
 # encoding: utf-8
 class Planning < ActiveRecord::Base
+  acts_as_paranoid
   # extend ActiveHashHelper
   include Concerns::ActiveHashHelper
 
   include PlanningsHelper
   include Concerns::HasAudiencesAndLevels
 
-  acts_as_paranoid
 
   TIME_SLOTS = {
     morning: {

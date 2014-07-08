@@ -455,6 +455,7 @@ ActiveRecord::Schema.define(version: 20140703084047) do
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "promotion_code_id"
   end
 
   create_table "participations", force: true do |t|
@@ -609,6 +610,19 @@ ActiveRecord::Schema.define(version: 20140703084047) do
   end
 
   add_index "prices", ["type"], name: "index_prices_on_type", using: :btree
+
+  create_table "promotion_codes", force: true do |t|
+    t.string   "name"
+    t.string   "code_id"
+    t.integer  "promo_amount"
+    t.string   "plan_type"
+    t.date     "expires_at"
+    t.integer  "usage_nb",     default: 0
+    t.integer  "max_usage_nb"
+    t.datetime "deleted_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "reservation_loggers", force: true do |t|
     t.integer  "course_id"

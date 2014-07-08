@@ -50,6 +50,7 @@ class SubscriptionPlan < ActiveRecord::Base
   # Callbacks                                                          #
   ######################################################################
   after_create :inform_admin_of_success
+  after_initialize :check_plan_type
 
   ######################################################################
   # Relations                                                          #
@@ -119,7 +120,8 @@ class SubscriptionPlan < ActiveRecord::Base
       'ORDERID'         => Order.next_order_id_for(self.structure),
       'VERSION'         => '2.0',
       'CLIENTUSERAGENT' => 'Mozilla/5.0 (Windows NT 6.1; WOW64)',
-      'CLIENTIP'        => self.client_ip
+      'CLIENTIP'        => self.client_ip,
+      'EXTRADATA'       => { renew: true }.to_json
     }
     params = {}
     params['params[HASH]'] = SubscriptionPlan.hash_be2bill_params params_for_hash
@@ -136,11 +138,39 @@ class SubscriptionPlan < ActiveRecord::Base
     AdminMailer.delay.subscription_has_been_renewed(self)
   end
 
+  # Description of the plan in months
+  #
+  # @return Integer
+  def description
+    PLAN_TYPE_DESCRIPTION[self.plan_type]
+  end
+
+  # Duration of the plan in months
+  #
+  # @return Integer
+  def duration
+    PLAN_TYPE_DURATION[self.plan_type]
+  end
+
   # Amount of the current subscription plan
   #
-  # @return [type] [description]
+  # @return Integer
   def amount
     PLAN_TYPE_PRICES[self.plan_type]
+  end
+
+  # See amount
+  #
+  # @return Integer next amount to pay, Be2bill formatted
+  def amount_for_be2bill
+    self.amount * 100
+  end
+
+  # Amount of the current subscription plan montly
+  #
+  # @return Integer
+  def monthly_amount
+    PLAN_TYPE_PRICES[self.plan_type] / PLAN_TYPE_DURATION[self.plan_type]
   end
 
   # As we can have a special offer for 6 months for instance, we don't want it to continue
@@ -150,13 +180,6 @@ class SubscriptionPlan < ActiveRecord::Base
   # @return Integer next amount to pay
   def next_amount
     PLAN_TYPE_PRICES[NEXT_PLAN_TYPE[self.plan_type]]
-  end
-
-  # See amount
-  #
-  # @return Integer next amount to pay, Be2bill formatted
-  def amount_for_be2bill
-    self.amount * 100
   end
 
   # See next_amount
@@ -203,4 +226,8 @@ class SubscriptionPlan < ActiveRecord::Base
     AdminMailer.delay.your_premium_account_has_been_activated(self)
   end
 
+  # Set plan_type to yearly if not defined
+  def check_plan_type
+    self.plan_type = 'yearly' unless PLAN_TYPE.include? plan_type
+  end
 end

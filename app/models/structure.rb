@@ -704,11 +704,16 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  # Return current (last) subscription plan
+  # Return current (last) subscription plan if still active
   #
-  # @return SubscriptionPlan
+  # @return SubscriptionPlan or nil if there is no current SubscriptionPlan
   def subscription_plan
-    self.subscription_plans.order('created_at DESC').first
+    subscription_plan = self.subscription_plans.order('created_at DESC').first
+    if subscription_plan and subscription_plan.active?
+      return subscription_plan
+    else
+      return nil
+    end
   end
 
   # Tells wether or not the structure is premium
@@ -806,7 +811,7 @@ class Structure < ActiveRecord::Base
   # @return Integer
   def compute_search_score(force=false)
     # Return already stored search score if it has been computed recently
-    if !force and self.search_score.present? and self.search_score_updated_at.present? and Date.parse(self.search_score_updated_at) > Date.yesterday
+    if !force and self.search_score.present? and self.search_score_updated_at.present? and Date.parse(self.search_score_updated_at.to_s) > Date.yesterday
       return self.search_score
     else
       score = 0
