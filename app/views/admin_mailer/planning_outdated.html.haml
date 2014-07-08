@@ -16,10 +16,8 @@
   .p.action
     = link_to "Mettre à jour mon planning", trainings_pro_structure_courses_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'email', utm_campaign: 'update_planning', utm_medium: 'monday'), class: 'btn btn--green'
 
-  .p
-    Pour toute question, vous pouvez consulter notre
-    = link_to "centre d'aide.", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
-    Merci pour votre confiance,
+  = render 'admin_mailer/shared/see_help_center'
+
   = render 'shared/mailers/footer'
 
 - content_for :under_content do

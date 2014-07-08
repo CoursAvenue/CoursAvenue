@@ -19,6 +19,12 @@ class AdminMailer < ActionMailer::Base
     mail to: @structure.main_contact.email, subject: 'Votre profil Premium est activé'
   end
 
+  def subscription_renewal_failed(structure, params)
+    @structure = structure
+    @params    = params
+    mail to: @structure.main_contact.email, subject: 'Il y a un problème avec votre abonnement CoursAvenue'
+  end
+
   def your_premium_account_has_been_activated(subscription_plan)
     @structure         = subscription_plan.structure
     @subscription_plan = subscription_plan

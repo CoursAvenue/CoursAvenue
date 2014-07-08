@@ -43,6 +43,9 @@ class Pro::Be2billController < Pro::ProController
     if params['EXECCODE'] != '0000'
       Bugsnag.notify(RuntimeError.new("Payment refused"), params)
       AdminMailer.delay.go_premium_fail(@structure, params)
+      if params[:EXTRADATA]['renew'].present?
+        AdminMailer.delay.subscription_renewal_failed(@structure, params)
+      end
     else
       AdminMailer.delay.go_premium(@structure, SubscriptionPlan.premium_type_from_be2bill_amount(params[:AMOUNT]))
     end

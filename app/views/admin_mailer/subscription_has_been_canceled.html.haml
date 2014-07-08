@@ -15,10 +15,7 @@
     Votre abonnement Premium vient d'être résilié. A tout moment, vous pouvez le réactiver pour bénéficier de toutes les fonctionnalités Premium depuis
     = link_to 'votre profil', dashboard_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
 
-  .p
-    Pour toute question, vous pouvez consulter notre
-    = link_to "centre d'aide.", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
-    Merci pour votre confiance,
+  = render 'admin_mailer/shared/see_help_center'
 
   = render 'shared/mailers/footer'
 

@@ -16,10 +16,7 @@
     %strong 5 jours.
     Sans action de votre part, il sera renouvelé.
 
-  .p
-    Pour toute question, vous pouvez consulter notre
-    = link_to "centre d'aide.", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
-    Merci pour votre confiance,
+  = render 'admin_mailer/shared/see_help_center'
 
   = render 'shared/mailers/footer'
 
