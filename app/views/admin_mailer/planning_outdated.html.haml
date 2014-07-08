@@ -21,4 +21,25 @@
   = render 'shared/mailers/footer'
 
 - content_for :under_content do
+  %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600' }
+    %tr{ valign: 'top' }
+      %td.content-block{ width: '600', colspan: '4' }
+        .title Ils ont mis à jour leur planning
+    %tr{valign: 'top'}
+      - @similar_profiles.each do |structure|
+        %td.soft-half.v-middle.content-block{ width: 80 }
+          = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN) do
+            = image_tag structure.logo.url(:thumb), width: 80, height: 80
+        %td.soft-half.v-middle.content-block{ width: '250', style: 'padding-right: 0; padding-left: 0;' }
+          .p.hard--bottom
+            %strong= truncate("#{structure.name} (#{structure.city.name})", length: 23)
+            %br
+            %i= "#{truncate(structure.subjects.at_depth(0).map(&:name).join(', '), length: 23)}".html_safe
+            %br
+            = truncate "#{structure.comments.first.try(:title)}", length: 23
+            - if structure.comments_count > 0
+              %br
+              = link_to "Lire les #{structure.comments_count} avis", structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+
+- content_for :under_content_2 do
   = render 'admin_mailer/free_profile_advantages'
