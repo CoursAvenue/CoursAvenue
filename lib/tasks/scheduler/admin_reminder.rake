@@ -77,6 +77,28 @@ namespace :scheduler do
       end
     end
 
+    # Send email to admin when they don't have any visible courses
+    # And the last visible course is from yesterday :
+    # = The mail is sent when the last course perishes
+    # $ rake scheduler:admins:check_if_courses_are_perished
+    desc 'Send email to admins who have user requests not answered'
+    task :check_if_courses_are_perished => :environment do |t, args|
+      Structure.find_each do |structure|
+        # As private courses never persihes
+        next if structure.courses.privates.any?
+        # Next if the structure doesn't have any courses
+        next if structure.courses.empty?
+        # Next if there is plannings in the future
+        next if structure.plannings.future.any?
+        # Next if there is courses in the future
+        next if structure.courses.where(Course.arel_table[:end_date].gteq(Date.today)).any?
+        if structure.plannings.where(Planning.arel_table[:end_date].lt(Date.today).and(
+                                  Planning.arel_table[:end_date].gteq(Date.yesterday)) ).any?
+          AdminMailer.delay.no_more_active_courses(structure)
+        end
+      end
+    end
+
     ######################################################################
     # For premium users                                                  #
     ######################################################################

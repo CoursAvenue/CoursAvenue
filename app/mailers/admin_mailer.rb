@@ -233,10 +233,16 @@ class AdminMailer < ActionMailer::Base
     mail to: structure.main_contact.email,
          subject: "Votre profil n'affiche pas de cours"
   end
-
   ######################################################################
   # The End                                                            #
   ######################################################################
+
+  def no_more_active_courses(structure)
+    @structure        = structure
+    @similar_profiles = @structure.similar_profiles(2)
+    mail to: structure.main_contact.email,
+         subject: "Votre profil n'affiche plus de cours"
+  end
 
   def ask_for_deletion(comment)
     @comment   = comment
