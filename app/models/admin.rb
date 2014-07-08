@@ -74,6 +74,7 @@ class ::Admin < ActiveRecord::Base
     boolean :not_confirmed do
       self.confirmed?
     end
+    boolean :super_admin
   end
   handle_asynchronously :solr_index
 
