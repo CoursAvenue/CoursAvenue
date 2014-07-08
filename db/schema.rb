@@ -579,6 +579,7 @@ ActiveRecord::Schema.define(version: 20140707163530) do
     t.date     "expires_at"
     t.integer  "usage_nb",     default: 0
     t.integer  "max_usage_nb"
+    t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

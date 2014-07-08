@@ -9,6 +9,10 @@ class CreatePromotionCodes < ActiveRecord::Migration
       t.integer :usage_nb, default: 0
       t.integer :max_usage_nb
 
+      t.datetime :canceled_at
+
+      t.datetime :deleted_at
+
       t.timestamps
     end
   end

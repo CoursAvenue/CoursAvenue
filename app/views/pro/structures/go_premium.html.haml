@@ -22,7 +22,10 @@
         %tr.text--right
           %th Total TTC
 
-          %td= "#{@subscription_plan.amount}€"
+          - if @promotion_code
+            %td= "#{@subscription_plan.amount - @promotion_code.promo_amount}€"
+          - else
+            %td= "#{@subscription_plan.amount}€"
         - unless @promotion_code
           %tr.no-stripe
             %td

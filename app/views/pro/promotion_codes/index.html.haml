@@ -15,6 +15,7 @@
           %th Expiration
           %th # max
           %th # utilisations
+          %th Encore valide ?
           %th
       %tbody
         - @promotion_codes.each do |promotion_code|
@@ -27,6 +28,7 @@
               = l(promotion_code.expires_at) if promotion_code.expires_at
             %td= promotion_code.max_usage_nb
             %td= promotion_code.usage_nb
+            %td= promotion_code.still_valid?
             %td.nowrap
               = link_to edit_pro_promotion_code_path(promotion_code), class: 'nowrap' do
                 %i.fa.fa-pencil

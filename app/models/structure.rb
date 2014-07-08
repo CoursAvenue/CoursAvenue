@@ -702,11 +702,16 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  # Return current (last) subscription plan
+  # Return current (last) subscription plan if still active
   #
-  # @return SubscriptionPlan
+  # @return SubscriptionPlan or nil if there is no current SubscriptionPlan
   def subscription_plan
-    self.subscription_plans.order('created_at DESC').first
+    subscription_plan = self.subscription_plans.order('created_at DESC').first
+    if subscription_plan and subscription_plan.active?
+      return subscription_plan
+    else
+      return nil
+    end
   end
 
   # Tells wether or not the structure is premium

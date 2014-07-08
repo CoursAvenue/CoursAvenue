@@ -35,7 +35,7 @@ class Pro::PromotionCodesController < Pro::ProController
 
   def destroy
     @promotion_code = PromotionCode.find params[:id]
-    @promotion_code.destroy
+    @promotion_code.cancel!
     respond_to do |format|
       format.html { redirect_to pro_promotion_codes_path }
     end

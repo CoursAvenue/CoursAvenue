@@ -108,7 +108,8 @@ class SubscriptionPlan < ActiveRecord::Base
       'ORDERID'         => Order.next_order_id_for(self.structure),
       'VERSION'         => '2.0',
       'CLIENTUSERAGENT' => 'Mozilla/5.0 (Windows NT 6.1; WOW64)',
-      'CLIENTIP'        => self.client_ip
+      'CLIENTIP'        => self.client_ip,
+      'EXTRADATA'       => { renew: true }.to_json
     }
     params = {}
     params['params[HASH]'] = SubscriptionPlan.hash_be2bill_params params_for_hash

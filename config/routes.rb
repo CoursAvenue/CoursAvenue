@@ -83,7 +83,7 @@ CoursAvenue::Application.routes.draw do
       resources :participations, only: [:index], controller: 'participations'
       resources :statistics, only: [:index]
       resources :promotion_codes, path: 'code-promos'
-      resources :subscription_plans, only: [:index]
+      resources :subscription_plans, only: [:index], path: 'abonnements'
       resources :structures, path: 'etablissements' do
         member do
           get   :go_premium
