@@ -58,9 +58,9 @@
           %td Remise
           %td.text--right
             - if @order.promotion_code
-              = "#{@order.promotion_code.promo_amount}€"
+              = "-#{@order.promotion_code.promo_amount}€"
             - else
-              0.00€
+              0,00€
         %tr.no-stripe
           %td
           %td
