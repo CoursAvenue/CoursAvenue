@@ -30,10 +30,11 @@
     %label.label--large.required.control-label{ for: 'published_date' } Date de publication
     %input.input-sm.input--large.datepicker-input#published_date{ type: 'text', value: (@article.published_at.nil? ? '' : l(@article.published_at.to_date)), name: 'blog_article[published_at]' }
 
+  = f.input :tag_list, input_html: { class: 'input--large one-whole' }, label: false
   = f.input :title, label: false, input_html: { class: 'input--large one-whole' }
   = f.input :description, label: false, input_html: { class: 'input--large one-whole' }
   = f.association :subjects, as: :select, collection: Subject.all, input_html: { class: 'input--large one-whole', id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Disciplines associée' }, multiple: true }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush--bottom' }, label_html: { class: 'label--large' }
 
   = f.input :content, as: :ckeditor, label: false, input_html: { class: 'one-whole' }
 
-  = f.submit 'Enregistrer', class: 'btn btn--green btn--full', disable_with: 'Enregistrement en cours...'
+  = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours...' }

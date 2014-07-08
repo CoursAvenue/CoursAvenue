@@ -11,3 +11,4 @@ fr:
       blog_article:
         title: Titre
         description: Description
+        tag_list: "Liste de tag, ex. : (toto, tata)"

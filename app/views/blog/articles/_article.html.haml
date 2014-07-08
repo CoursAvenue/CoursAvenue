@@ -1,11 +1,16 @@
-.grid
-  .grid__item.one-quarter>
-    = image_tag article.cover_image
-  .grid__item.three-quarters>
-    = link_to blog_article_path(article), class: 'muted-link' do
-      %h2.flush= article.title
-      %div
-        %i.fa.fa-clock-o
+.push--bottom
+  - if article.cover_image.present?
+    = link_to blog_article_path(article), class: 'muted-link push-half--bottom block' do
+      = image_tag article.cover_image, class: 'block'
+  %h2.flush
+    = link_to blog_article_path(article), class: 'semi-muted-link' do
+      = article.title
+
+  .text--right.blog-article__published-date.gray
+    %i
+      Publié le
+      %time{ datetime: l(article.published_at, format: :iso_date) }
         = l article.published_at, format: :date_with_year
-      %p.delta.line-height-1-7
-        = article.description
+  %p.epsilon.line-height-1-7
+    = article.description
+    = link_to 'Lire la suite →', blog_article_path(article)

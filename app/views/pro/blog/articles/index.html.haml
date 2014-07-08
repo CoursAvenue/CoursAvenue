@@ -10,6 +10,7 @@
           %th.one-half Nom
           %th Description
           %th.three-twelfths Date de publication
+          %th Tags
           %th Publié
           %th
       %tbody
@@ -18,8 +19,10 @@
           %td= article.title
           %td
             %div{ data: { toggle: 'popover', content: article.description, trigger: 'hover', position: 'top' } }
-              = truncate(article.description, length: 100)
+              .btn Desc
           %td= l(article.published_at, format: :date_with_year)
+          %td
+            = article.tags.map(&:name).join(', ')
           %td.text--center
             - if article.published?
               %i.fa.fa-check.green
@@ -27,3 +30,5 @@
             = link_to 'Modifier', edit_pro_blog_article_path(article), class: 'orange'
             \/
             = link_to 'Supprimer', pro_blog_article_path(article), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette article ?' }, class: 'red'
+            \/
+            = link_to 'Voir', blog_article_url(article, subdomain: 'www')

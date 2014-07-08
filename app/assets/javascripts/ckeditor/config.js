@@ -96,10 +96,11 @@ CKEDITOR.editorConfig = function( config )
          [ 'Bold','Italic','Underline','Strike','-','RemoveFormat' ],
          [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote', '-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' ],
         '/',
-         [ 'Link','Unlink','Anchor' ],
+         [ 'Youtube', 'Link','Unlink','Anchor' ],
          [ 'Image','Table','HorizontalRule'],
          [ 'Styles','Format' ],
          [ 'TextColor','BGColor' ],
          [ 'Source' ]
     ];
+    config.extraPlugins = 'youtube';
 };

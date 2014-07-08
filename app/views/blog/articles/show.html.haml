@@ -1,0 +1,18 @@
+= content_for :side_content do
+  = render 'blog/side_content'
+%h1.blog-article__title
+  = @article.title
+
+.text--right.blog-article__published-date.gray
+  %i
+    Publié le
+    %time{ datetime: l(@article.published_at, format: :iso_date) }
+      = l @article.published_at, format: :date_with_year
+
+- if @article.tags.any?
+  %div
+    - @article.tags.each do |tag|
+      .lbl= tag.name
+
+.push--top.blog-article__content
+  = @article.content.html_safe

@@ -1,3 +1,21 @@
+.blog-article__content {
+    p {
+        color      : #1E1E1E;
+        font-size  : 16px;
+        line-height: 24px;
+    }
+    blockquote {
+        p {
+            font-style : italic;
+            font-size  : 20px;
+            color      : #777;
+            line-height: 30px;
+        }
+        border-left : 4px solid #CCC;
+        padding-left: 1em;
+    }
+}
+
 .blog-feed {
     margin-left: 0;
     list-style: none;

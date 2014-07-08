@@ -262,7 +262,11 @@ CoursAvenue::Application.routes.draw do
   # ---------------------------------------------
   # ----------------------------------------- WWW
   # ---------------------------------------------
-  resources :blog_articles, controller: 'blog/articles', path: 'blog'
+  resources :blog_articles, controller: 'blog/articles', path: 'blog' do
+    collection do
+      get 'tag/:tag', to: 'blog/articles#tags', as: :tags
+    end
+  end
   devise_for :users, controllers: {
                       omniauth_callbacks: 'users/omniauth_callbacks',
                       sessions: 'users/sessions',

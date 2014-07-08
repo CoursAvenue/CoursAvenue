@@ -2,11 +2,13 @@
   = render 'shared/headers/header'
 
 = content_for :content do
-  .main-container{class: controller_path}
+  .main-container.soft.center-block{class: controller_path}
     .flexbox
-      .flexbox__item.three-quarters.v-top>
+      .flexbox__item.v-top.eight-twelfths.soft>
         = content_for?(:blog_content) ? yield(:blog_content) : yield
-      .flexbox__item.one-quarter.v-top>
-        = yield(:blog_side_menu)
+      .flexbox__item.v-top.four-twelfths.soft--top>
+        - if content_for? :side_content
+          = yield :side_content
+  = render 'shared/footer'
 
 = render :template => 'layouts/application'

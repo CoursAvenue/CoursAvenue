@@ -97,6 +97,7 @@
 //= require ckeditor/override
 //= require ckeditor/init
 //= require ckeditor/config
+//= require_tree ./ckeditor/plugins
 
 (function($) {
   $.fn.yellowFade = function(options) {

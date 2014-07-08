@@ -1,10 +1,9 @@
-= content_for :blog_side_menu do
-  %h4 Derniers articles de kung fu
-  %ul
-    %li foo
-    %li bar
-- @articles.each do |article|
-  = render partial: 'blog/articles/article', locals: { article: article }
+- content_for :above_container do
+
+  - @articles.each_with_index do |article, index|
+    %div{ class: (index % 2 == 0 ? 'home-screen-promotion-wrapper' : '')}
+      .small-container.soft.center-block
+        = render partial: 'blog/articles/article', locals: { article: article }
 
 .text--center.push-half--ends= paginate @articles, window: 1, outer_window: 3
 
