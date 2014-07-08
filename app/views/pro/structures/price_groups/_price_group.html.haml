@@ -31,6 +31,7 @@
               %td.text--center= "#{readable_amount(price.amount)}€" if price.amount
               %td.text--center.premium-bordered-box
                 - if price.promo_amount
+                  %i.fa.fa-star.yellow{ data: { behavior: 'tooltip', title: "Ne s'affiche que sur les profils Premiums" } }
                   = "#{readable_amount(price.promo_amount)}€" if price.promo_amount
                 - else
                   = link_to edit_pro_structure_price_group_path(@structure, price_group), class: 'orange fancybox.ajax', data: { behavior: 'modal', width: '1000', top_ratio: 0.2, padding: '0', close_click: 'false' } do
@@ -44,6 +45,7 @@
               %td.text--center= "#{readable_amount(price.amount)}€" if price.amount
               %td.text--center.premium-bordered-box
                 - if price.promo_amount
+                  %i.fa.fa-star.yellow{ data: { behavior: 'tooltip', title: "Ne s'affiche que sur les profils Premiums" } }
                   = "#{readable_amount(price.promo_amount)}€" if price.promo_amount
                 - else
                   = link_to edit_pro_structure_price_group_path(@structure, price_group), class: 'orange fancybox.ajax', data: { behavior: 'modal', width: '1000', top_ratio: 0.2, padding: '0', close_click: 'false' } do
@@ -65,7 +67,9 @@
           - @trial = price_group.trial
           - if @trial
             %tr.premium-bordered-box
-              %td Cours d'essai
+              %td
+                %i.fa.fa-star.yellow{ data: { behavior: 'tooltip', title: "Ne s'affiche que sur les profils Premiums" } }
+                Cours d'essai
               %td.text--center
                 - if @trial.free?
                   Gratuit
@@ -76,7 +80,9 @@
 
           - price_group.premium_offers.each do |price|
             %tr.premium-bordered-box
-              %td= t(price.libelle)
+              %td
+                %i.fa.fa-star.yellow{ data: { behavior: 'tooltip', title: "Ne s'affiche que sur les profils Premiums" } }
+                = t(price.libelle)
               %td
               %td.text--center= "#{readable_amount(price.promo_amount)}#{price.promo_amount_type}" if price.promo_amount
               %td= price.info
@@ -84,7 +90,9 @@
 
           - price_group.discounts.each do |price|
             %tr.premium-bordered-box
-              %td= t(price.libelle)
+              %td
+                %i.fa.fa-star.yellow{ data: { behavior: 'tooltip', title: "Ne s'affiche que sur les profils Premiums" } }
+                = t(price.libelle)
               %td
               %td.text--center= "#{readable_amount(price.promo_amount)}#{price.promo_amount_type}" if price.promo_amount
               %td= price.info

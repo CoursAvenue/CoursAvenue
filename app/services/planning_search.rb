@@ -35,7 +35,7 @@ class PlanningSearch
         if params[:end_date].present?.present?
           with(:end_date).less_than_or_equal_to           params[:end_date]
         else # Always retrieve future plannings
-          with(:end_date).greater_than Date.today
+          with(:end_date).greater_than_or_equal_to Date.today
         end
 
         with :structure_id,        params[:structure_id].to_i                                         if params[:structure_id].present?

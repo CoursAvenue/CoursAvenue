@@ -15,11 +15,7 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         },
 
         collectionReset: function collectionReset () {
-            var courses_count   = this.collection.length;
-            var plannings_count = _.reduce(this.collection.map(function(model) { return model.get('plannings').length }), function(memo, num){ return memo + num; }, 0);
             this.trigger('courses:collection:reset', this.serializeData());
-
-            this.render();
         },
 
         onItemviewMouseenter: function onItemviewMouseenter (view, data) {
@@ -59,10 +55,9 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         * */
         serializeData: function serializeData () {
             var plannings_count   = this.collection.reduce(function (memo, model) {
-                    memo         += model.get("plannings").length;
+                    memo += model.get("plannings").length;
                     return memo;
                 }, 0);
-
             return {
                 courses_count: this.collection.length,
                 plannings_count: plannings_count,

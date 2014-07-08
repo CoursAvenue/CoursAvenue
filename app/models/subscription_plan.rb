@@ -2,11 +2,20 @@ class SubscriptionPlan < ActiveRecord::Base
   acts_as_paranoid
   include Concerns::HstoreHelper
 
-  PLAN_TYPE = %w(monthly yearly three_months)
+  PLAN_TYPE = %w(monthly yearly three_months six_months_half_price)
+
+  NEXT_PLAN_TYPE = {
+    'monthly'                 => 'monthly',
+    'three_months'            => 'monthly',
+    'six_months_half_price'   => 'monthly',
+    'yearly'                  => 'yearly'
+  }
+
   PLAN_TYPE_PRICES = {
-    'monthly'      => 34, # €
-    'three_months' => 69, # €
-    'yearly'       => 348 # €
+    'monthly'               => 34, # €
+    'three_months'          => 69, # €
+    'six_months_half_price' => 102, # €
+    'yearly'                => 348 # €
   }
   PLAN_TYPE_FREQUENCY = {
     'monthly'      => 'tous les mois',
@@ -14,15 +23,34 @@ class SubscriptionPlan < ActiveRecord::Base
     'yearly'       => 'tous les ans'
   }
   PLAN_TYPE_DESCRIPTION = {
-    'monthly'      => 'Abonnement mensuel',
-    'three_months' => 'Abonnement pour 3 mois',
-    'yearly'       => 'Abonnement annuel'
+    'monthly'               => 'Abonnement mensuel',
+    'three_months'          => 'Abonnement pour 3 mois',
+    'six_months_half_price' => 'Abonnement pour 6 mois',
+    'yearly'                => 'Abonnement annuel'
   }
   PLAN_TYPE_DURATION = {
-    'monthly'      => 1, # month
-    'three_months' => 3, # months
-    'yearly'       => 12 # months
+    'monthly'               => 1, # month
+    'three_months'          => 3, # months
+    'six_months_half_price' => 6, # months
+    'yearly'                => 12 # months
   }
+
+  ######################################################################
+  # Scopes                                                             #
+  ######################################################################
+  scope :yearly,                  -> { where( plan_type: 'yearly') }
+  scope :not_monthly,             -> { where.not( plan_type: 'monthly') }
+  scope :monthly,                 -> { where( plan_type: 'monthly') }
+  scope :expires_in_fifteen_days, -> { where( arel_table[:expires_at].gteq(Date.today - 15.days).and(
+                                              arel_table[:expires_at].lt(Date.today - 14.days)) ) }
+
+  scope :expires_in_five_days,    -> { where( arel_table[:expires_at].gteq(Date.today - 5.days).and(
+                                              arel_table[:expires_at].lt(Date.today - 4.days)) ) }
+  ######################################################################
+  # Callbacks                                                          #
+  ######################################################################
+  after_create :inform_admin_of_success
+  after_initialize :check_plan_type
 
   ######################################################################
   # Relations                                                          #
@@ -49,14 +77,13 @@ class SubscriptionPlan < ActiveRecord::Base
   #
   # @return SubscriptionPlan
   def self.subscribe! plan_type, structure, params={}
-    subscription_plan = SubscriptionPlan.create({structure: structure,
-                                                plan_type: plan_type.to_s,
-                                                expires_at: Date.today + PLAN_TYPE_DURATION[plan_type.to_s].month,
-                                                credit_card_number: params[:CARDCODE],
-                                                recurrent: true,
-                                                be2bill_alias: params[:ALIAS],
-                                                card_validity_date: (params[:CARDVALIDITYDATE] ? Date.strptime(params[:CARDVALIDITYDATE], '%m-%y') : nil),
-                                                client_ip: params[:CLIENT_IP]})
+    subscription_plan = structure.subscription_plans.create({ plan_type: plan_type.to_s,
+                                                              expires_at: Date.today + PLAN_TYPE_DURATION[plan_type.to_s].months,
+                                                              credit_card_number: params[:CARDCODE],
+                                                              recurrent: true,
+                                                              be2bill_alias: params[:ALIAS],
+                                                              card_validity_date: (params[:CARDVALIDITYDATE] ? Date.strptime(params[:CARDVALIDITYDATE], '%m-%y') : nil),
+                                                              client_ip: params[:CLIENT_IP]})
     structure.compute_search_score(true)
     structure.index
     return subscription_plan
@@ -86,14 +113,15 @@ class SubscriptionPlan < ActiveRecord::Base
       'ALIASMODE'       => 'subscription',
       'CLIENTIDENT'     => self.structure.id,
       'CLIENTEMAIL'     => self.structure.main_contact.email,
-      'AMOUNT'          => self.amount_for_be2bill,
-      'DESCRIPTION'     => "Renouvellement :  #{PLAN_TYPE_DESCRIPTION[self.plan_type]}",
+      'AMOUNT'          => self.next_amount_for_be2bill,
+      'DESCRIPTION'     => "Renouvellement :  #{NEXT_PLAN_TYPE[self.plan_type]}",
       'IDENTIFIER'      => ENV['BE2BILL_LOGIN'],
       'OPERATIONTYPE'   => 'payment',
       'ORDERID'         => Order.next_order_id_for(self.structure),
       'VERSION'         => '2.0',
       'CLIENTUSERAGENT' => 'Mozilla/5.0 (Windows NT 6.1; WOW64)',
-      'CLIENTIP'        => '120.12.41.24',
+      'CLIENTIP'        => self.client_ip,
+      'EXTRADATA'       => { renew: true }.to_json
     }
     params = {}
     params['params[HASH]'] = SubscriptionPlan.hash_be2bill_params params_for_hash
@@ -107,22 +135,77 @@ class SubscriptionPlan < ActiveRecord::Base
     res = Net::HTTP.post_form URI(ENV['BE2BILL_REST_URL']), params
     puts res.body if res.is_a?(Net::HTTPSuccess)
     return res.is_a?(Net::HTTPSuccess)
+    AdminMailer.delay.subscription_has_been_renewed(self)
   end
 
+  # Description of the plan in months
+  #
+  # @return Integer
+  def description
+    PLAN_TYPE_DESCRIPTION[self.plan_type]
+  end
+
+  # Duration of the plan in months
+  #
+  # @return Integer
+  def duration
+    PLAN_TYPE_DURATION[self.plan_type]
+  end
+
+  # Amount of the current subscription plan
+  #
+  # @return Integer
   def amount
     PLAN_TYPE_PRICES[self.plan_type]
   end
 
+  # See amount
+  #
+  # @return Integer next amount to pay, Be2bill formatted
   def amount_for_be2bill
-    PLAN_TYPE_PRICES[self.plan_type] * 100
+    self.amount * 100
+  end
+
+  # Amount of the current subscription plan montly
+  #
+  # @return Integer
+  def monthly_amount
+    PLAN_TYPE_PRICES[self.plan_type] / PLAN_TYPE_DURATION[self.plan_type]
+  end
+
+  # As we can have a special offer for 6 months for instance, we don't want it to continue
+  # So we this special offer has a next plan type which is the next plan that the user will subscribe to.
+  # That's why we have a 'next_amount'
+  #
+  # @return Integer next amount to pay
+  def next_amount
+    PLAN_TYPE_PRICES[NEXT_PLAN_TYPE[self.plan_type]]
+  end
+
+  # See next_amount
+  #
+  # @return Integer next amount to pay, Be2bill formatted
+  def next_amount_for_be2bill
+    self.next_amount * 100
   end
 
   def frequency
-    PLAN_TYPE_FREQUENCY[self.plan_type]
+    PLAN_TYPE_FREQUENCY[NEXT_PLAN_TYPE[self.plan_type]]
   end
 
   def canceled?
     self.canceled_at.present?
+  end
+
+  # Cancel subscription plan
+  #
+  # @return SubscriptionPlan
+  def cancel!
+    self.canceled_at = Time.now
+    self.save
+    self.structure.index
+    AdminMailer.delay.subscription_has_been_canceled(self)
+    return self
   end
 
   def active?
@@ -131,14 +214,20 @@ class SubscriptionPlan < ActiveRecord::Base
 
   def self.premium_type_from_be2bill_amount amount
     amount = amount.to_i
-    case amount
-    when 34800
-      return 'yearly'
-    when 3400
-      return 'monthly'
-    when 6900
-      return 'three_months'
+    PLAN_TYPE_PRICES.each do |plan_type, plan_type_amount|
+      return plan_type if plan_type_amount * 100 == amount
     end
     return 'yearly'
+  end
+
+  private
+
+  def inform_admin_of_success
+    AdminMailer.delay.your_premium_account_has_been_activated(self)
+  end
+
+  # Set plan_type to yearly if not defined
+  def check_plan_type
+    self.plan_type = 'yearly' unless PLAN_TYPE.include? plan_type
   end
 end

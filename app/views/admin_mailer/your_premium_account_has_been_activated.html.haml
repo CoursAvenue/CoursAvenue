@@ -1,0 +1,35 @@
+- content_for :email_title do
+  Félicitations ! Votre profil Premium est maintenant activé.
+
+- content_for :logo do
+  = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank' do
+    = image_tag @structure.logo.url(:thumb), class: 'block', height: 100, width: 100, alt: "Logo de #{@structure.name}"
+  %div.yellow.text--center{ style: 'padding-top: 2px;' }
+    = image_tag 'icons/icon-star.png', height: 15, widht: 15, class: 'v-middle', style: 'padding-right: 2px;'
+    %span.v-middle Premium
+
+- content_for :promo do
+  .title Félicitations !
+  .p
+    Votre profil Premium est maintenant activé. Connectez-vous pour découvrir toutes les fonctionnalités et mettre votre profil en avant :
+  .action.text--left
+    = link_to "Accéder à mon profil premium", dashboard_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN, utm_source: 'email', utm_campaign: 'premium', utm_medium: 'account_activated'), class: 'btn btn--green'
+
+.title Nos conseils
+
+.p
+  En priorité, nous vous recommandons de mettre à jour le planning de vos cours et stages, de proposer les offres découvertes de votre choix (essais gratuits, promotions, etc.) et d'afficher toutes vos photos et vidéos.
+
+= render 'shared/mailers/footer'
+
+= content_for :under_content_gray do
+  .title
+    = link_to "Foire aux questions", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+  .soft-half--bottom.bordered--bottom
+    = link_to "Que faire après avoir activé mon compte Premium ?", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+  .soft-half--ends.bordered--bottom
+    = link_to "A quoi sert un profil Premium ?", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+  .soft-half--ends.bordered--bottom
+    = link_to "Où retrouver les informations de mon compte Premium (durée d'abonnement, renouvellement, factures...) ?", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+  .soft-half--ends
+    = link_to "Quand est-ce que mon compte Premium sera renouvelé ?", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'

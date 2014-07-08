@@ -5,7 +5,7 @@
         %h1.text--center.push-half--bottom Félicitations, votre profil vient d'être créé !
         .grid--full.text--center.push--top
           .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
-            = link_to structure_url(@structure, subdomain: 'www'), class: 'muted-link blue-box islet word-break-normal', target: '_blank' do
+            = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'muted-link blue-box islet word-break-normal', target: '_blank' do
               %h5
                 %i.fa.fa-user.fa.fa-2x
                 %br

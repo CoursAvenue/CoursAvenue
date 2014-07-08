@@ -1,10 +1,11 @@
-%p Bonjour #{@structure.name},
+.p Bonjour #{@structure.name},
 
+- # Keep simple format because text is correctly formatted in comments.yml
 = simple_format @email_text
 
-%p Si vous avez des questions, n'hésitez pas à nous contacter. Merci et à très bientôt,
+.p Si vous avez des questions, n'hésitez pas à nous contacter. Merci et à très bientôt,
 
-%p L'équipe de CoursAvenue
+= render 'shared/mailers/footer'
 
-- content_for :under_content do
+- content_for :under_content_gray do
   = render 'footer_info'

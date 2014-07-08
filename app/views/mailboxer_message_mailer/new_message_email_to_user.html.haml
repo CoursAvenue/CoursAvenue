@@ -1,30 +1,17 @@
-- if @structure.logo?
-  - content_for :logo do
-    = link_to structure_url(@structure, subdomain: 'www'), target: '_blank' do
-      = image_tag @structure.logo.url(:thumb), style: 'width: 100px; height: 100px;', width: '100', height: '100'
+- content_for :email_title do
+  #{@structure.name} vient de vous envoyer un message personnel
 
-- content_for :promo do
-  %h4
-    = @structure.name
-    vient de vous envoyer un message personnel :
+.title
+  = @structure.name
+  vient de vous envoyer un message personnel :
 
 - if @message.subject.present?
-  %p.flush
-    %strong
-      Objet :
-      = @message.subject
+  = render partial: 'mailboxer_message_mailer/message_to_user', locals: { message: @message, structure: @structure }
 
-= simple_format @message.body
-
-%p.action
+.p.action
   - if @token
-    = link_to "Répondre au message", user_conversation_url(@user, @message.conversation, token: @token, email: @user.email, subdomain: 'www'), class: 'btn btn--green'
+    = link_to "Répondre au message", user_conversation_url(@user, @message.conversation, token: @token, email: @user.email, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green'
   - else
-    = link_to "Répondre au message", user_conversation_url(@user, @message.conversation, subdomain: 'www'), class: 'btn btn--blue'
+    = link_to "Répondre au message", user_conversation_url(@user, @message.conversation, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--blue'
 
-%p
-  L'équipe de CoursAvenue
-
-- if @structure
-  - content_for :footer do
-    %p Vous recevez ce message car #{@structure.name} vous a envoyé un message privé sur CoursAvenue.com
+= render 'shared/mailers/footer'

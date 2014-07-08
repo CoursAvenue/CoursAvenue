@@ -1,10 +1,11 @@
 = side_menu_currently_at 'subscription_plans'
 .panel
-  .panel__header.soft
-    %h3.flush Abonnements
+  = render partial: 'pro/subscription_plans/tabs', locals: { current: 'subscription_plans' }
+
   .panel__body.soft
     .text--center
-      %h3= "CA : #{@subscription_plans.map(&:amount).reduce(&:+)}€"
+      %h3.flush= "CA : #{@subscription_plans.map(&:amount).reduce(&:+)}€ TTC"
+      %h4= "CA : #{readable_amount(@subscription_plans.map(&:amount).reduce(&:+) / 1.2)}€ HT"
     %table.table--striped
       %thead
         %tr

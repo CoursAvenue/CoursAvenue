@@ -8,19 +8,14 @@ Bundler.require(:default, Rails.env)
 module CoursAvenue
   class Application < Rails::Application
 
+    CoursAvenue::Application::WWW_SUBDOMAIN = Rails.env.staging? ? 'staging' : 'www'
+    CoursAvenue::Application::PRO_SUBDOMAIN = Rails.env.staging? ? 'pro.staging' : 'pro'
+
     AMAZON_S3       = AWS::S3.new(access_key_id: ENV['AWS_ACCESS_KEY_ID'], secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'])
     S3_BUCKET       = AMAZON_S3.buckets[ENV['AWS_BUCKET']]
     FACEBOOK_APP_ID = 589759807705512
 
-    config.middleware.insert_before ActionDispatch::Static, Rack::SslEnforcer, ignore: /.*widget_ext.*/ unless Rails.env.development?
-
-    # config.middleware.use Rack::Cors do
-    #   allow do
-    #     origins '*'
-    #     # resource '/*', headers: :any, methods: :get
-    #     resource '/etablissements/.*/widget.json', headers: :any, methods: :get
-    #   end
-    # end
+    config.middleware.insert_before ActionDispatch::Static, Rack::SslEnforcer, ignore: /.*widget_ext.*/ if Rails.env.production?
 
     # S3 = AWS::S3.new(
     #   :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
@@ -89,7 +84,7 @@ module CoursAvenue
     end
 
     config.to_prepare do
-      Devise::Mailer.layout 'email' # email.haml or email.erb
+      Devise::Mailer.layout 'email'
     end
 
     # Filepicker

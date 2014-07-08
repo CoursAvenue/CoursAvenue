@@ -9,7 +9,7 @@
         Votre abonnement <strong>CoursAvenue Premium</strong> sera automatiquement renouvelé le
         %strong= l(@structure.subscription_plan.expires_at)
         et nous prélèverons
-        %strong= "#{@structure.subscription_plan.amount}€"
+        %strong= "#{@structure.subscription_plan.next_amount}€"
         = "#{@structure.subscription_plan.frequency},"
         sauf si vous l'annulez avant cette date. Vous pouvez annuler votre abonnement à tout moment en accédant à l'espace « Gestion de votre abonnement ».
 

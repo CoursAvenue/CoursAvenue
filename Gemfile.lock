@@ -8,15 +8,6 @@ GIT
       sprockets (<= 2.11.0)
 
 GIT
-  remote: git://github.com/mailboxer/mailboxer.git
-  revision: 514fec7e833d8c04c3a5cdf780c2914cc8b6bad1
-  specs:
-    mailboxer (0.12.0.rc2)
-      carrierwave (>= 0.5.8)
-      foreigner (>= 0.9.1)
-      rails (>= 3.2.0)
-
-GIT
   remote: git://github.com/rails/activerecord-session_store.git
   revision: e879bf087eb684452aaddb734efa20b95588b141
   specs:
@@ -284,6 +275,10 @@ GEM
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    mailboxer (0.12.1)
+      carrierwave (>= 0.5.8)
+      foreigner (>= 0.9.1)
+      rails (>= 3.2.0)
     marionette-rails (1.4.1)
       rails (>= 3.1.0)
     memcachier (0.0.2)
@@ -576,7 +571,7 @@ DEPENDENCIES
   jquery-turbolinks
   js-routes (~> 0.9.7)
   kaminari (~> 0.15.1)
-  mailboxer (~> 0.12.0.rc2)!
+  mailboxer (~> 0.12.1)
   marionette-rails (~> 1.4.1)
   memcachier
   meta_request (~> 0.3.0)

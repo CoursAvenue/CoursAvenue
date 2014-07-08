@@ -1,0 +1,18 @@
+
+.title Félicitations !
+
+.p
+  Un élève de la communauté CoursAvenue vient d'ajouter votre profil parmi ses favoris. Cela signifie qu'il est intéressé par vos cours et qu'il souhaite vous garder en mémoire pour une éventuelle première séance.
+
+- unless @structure.premium?
+  .p
+    %strong En passant au Premium,
+    vous pourrez à tout moment accéder à ses coordonnées de contact depuis la rubrique "Répertoire" de votre profil pour l'inviter à assister à l'un de vos cours :
+
+.action
+  = link_to 'Accéder à mon répertoire', pro_structure_user_profiles_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
+
+= render 'shared/mailers/footer'
+
+- content_for :under_content do
+  = render 'admin_mailer/they_are_premium'

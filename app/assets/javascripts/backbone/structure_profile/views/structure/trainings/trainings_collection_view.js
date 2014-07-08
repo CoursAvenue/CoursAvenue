@@ -5,6 +5,10 @@ StructureProfile.module('Views.Structure.Trainings', function(Module, App, Backb
         itemView: Module.TrainingView,
         template: Module.templateDirname() + 'trainings_collection_view',
 
+        collectionReset: function collectionReset () {
+            this.trigger('trainings:collection:reset', this.serializeData());
+        },
+
         onRender: function onRender () {
             if (this.collection.length == 0) {
                 this.$('[data-empty-trainings]').show();

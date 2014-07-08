@@ -29,12 +29,12 @@
         }
     }
     tbody {
-        tr:nth-of-type(odd)            { background-color: transparent; }
-        tr:nth-of-type(odd) td         { background-color: $alternative-background; }
-        tr.premium-box:nth-of-type(odd) td { background-color: inherit; }
+        tr:nth-of-type(odd)                                                    { background-color: transparent; }
+        tr:nth-of-type(odd) td, tr:nth-of-type(odd) th                         { background-color: $alternative-background; }
+        tr.premium-box:nth-of-type(odd) td, tr.premium-box:nth-of-type(odd) th { background-color: inherit; }
         tr.selectable:nth-of-type(odd) { @extend .selectable; }
 
-        tr.active td {
+        tr.active td, tr.active th {
             background-color: $hover-list-element;
         }
 

@@ -141,6 +141,7 @@ class Structure < ActiveRecord::Base
 
   after_touch   :update_email_status
 
+  before_save   :strip_name
   before_save   :sanatize_description
   before_save   :encode_uris
   before_save   :reset_cropping_attributes, if: :logo_has_changed?
@@ -148,9 +149,7 @@ class Structure < ActiveRecord::Base
 
   after_save    :geocode_if_needs_to
   after_save    :update_email_status
-  after_save    :delay_subscribe_to_nutshell
-
-  # after_save    :delay_subscribe_to_mailchimp
+  after_save    :subscribe_to_nutshell
 
   ######################################################################
   # Solr                                                               #
@@ -286,9 +285,19 @@ class Structure < ActiveRecord::Base
   # Thursday email
   # Only send if thursday email opt in is true
   def remind_for_widget
-    if self.main_contact and self.main_contact.thursday_email_opt_in?
+    if self.main_contact and self.main_contact.monday_email_opt_in?
       if widget_status.nil?
         AdminMailer.delay.remind_for_widget(self)
+      end
+    end
+  end
+
+  # Thursday email
+  # Only send if thursday email opt in is true
+  def remind_for_planning_outdated
+    if self.main_contact and self.main_contact.monday_email_opt_in?
+      if self.plannings.empty? or self.courses.without_open_courses.collect{ |course| !course.can_be_published? }.any? or self.courses.without_open_courses.collect(&:expired?).any?
+        AdminMailer.delay.planning_outdated(self)
       end
     end
   end
@@ -296,18 +305,10 @@ class Structure < ActiveRecord::Base
   # Update the email status of the structure
   def update_email_status
     email_status = nil
-    if !self.logo.present?
-      email_status = 'no_logo_yet'
-    elsif !self.profile_completed?
+    if self.view_count(7) > 15
+      email_status = 'your_profile_has_been_viewed'
+    else
       email_status = 'incomplete_profile'
-    elsif self.comments_count == 0
-      email_status = 'no_recommendations'
-    elsif self.comments_count < 5
-      email_status = 'less_than_five_recommendations'
-    elsif self.courses.active.empty?
-      email_status = 'planning_outdated'
-    elsif self.comments_count < 15
-      email_status = 'less_than_fifteen_recommendations'
     end
     self.update_column :email_status, email_status
     return email_status
@@ -703,11 +704,16 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  # Return current (last) subscription plan
+  # Return current (last) subscription plan if still active
   #
-  # @return SubscriptionPlan
+  # @return SubscriptionPlan or nil if there is no current SubscriptionPlan
   def subscription_plan
-    self.subscription_plans.order('created_at DESC').first
+    subscription_plan = self.subscription_plans.order('created_at DESC').first
+    if subscription_plan and subscription_plan.active?
+      return subscription_plan
+    else
+      return nil
+    end
   end
 
   # Tells wether or not the structure is premium
@@ -732,6 +738,16 @@ class Structure < ActiveRecord::Base
   # @return Comment
   def highlighted_comment
     self.comments.find(highlighted_comment_id) if highlighted_comment_id
+  end
+
+  #
+  # Set the highlighted comment
+  # @param comment Comment to hightlight
+  #
+  # @return Boolean if saved or not
+  def highlight_comment! comment
+    self.highlighted_comment_id = comment.id
+    self.save
   end
 
   # Return wether the structure has any premium prices
@@ -762,22 +778,21 @@ class Structure < ActiveRecord::Base
   end
 
   #
-  # Set the highlighted comment
-  # @param comment Comment to hightlight
-  #
-  # @return Boolean if saved or not
-  def highlighted_comment! comment
-    self.highlighted_comment_id = comment.id
-    self.save
-  end
-
-
-  #
   # Number of view counts
+  # @param days_ago=15 Integer number of days ago
   #
   # @return Integer, the number of view counts the last 15 days
-  def view_count
-    return Statistic.view_count(self, Date.today - 15.days)
+  def view_count(days_ago=15)
+    return Statistic.view_count(self, Date.today - days_ago.days) || 0
+  end
+
+  #
+  # Number of impression counts
+  # @param days_ago=15 Integer number of days ago
+  #
+  # @return Integer, the number of impression counts the last 15 days
+  def impression_count(days_ago=15)
+    return Statistic.impression_count(self, Date.today - days_ago.days) || 0
   end
 
   SEARCH_SCORE_COEF = {
@@ -796,7 +811,7 @@ class Structure < ActiveRecord::Base
   # @return Integer
   def compute_search_score(force=false)
     # Return already stored search score if it has been computed recently
-    if !force and self.search_score.present? and self.search_score_updated_at.present? and Date.parse(self.search_score_updated_at) > Date.yesterday
+    if !force and self.search_score.present? and self.search_score_updated_at.present? and Date.parse(self.search_score_updated_at.to_s) > Date.yesterday
       return self.search_score
     else
       score = 0
@@ -881,14 +896,10 @@ class Structure < ActiveRecord::Base
     self.gives_group_courses = true
   end
 
-  def delay_subscribe_to_mailchimp
-    MailchimpUpdater.delay.update(self) if self.main_contact and Rails.env.production?
-  end
-
-  def delay_subscribe_to_nutshell
+  def subscribe_to_nutshell
     NutshellUpdater.update(self) if self.main_contact and Rails.env.production?
   end
-  handle_asynchronously :delay_subscribe_to_nutshell, :run_at => Proc.new { 10.minutes.from_now }
+  handle_asynchronously :subscribe_to_nutshell, :run_at => Proc.new { 10.minutes.from_now }
 
   def encode_uris
     self.website      = URI.encode(URI.decode(self.website))      if website.present? and website_changed?

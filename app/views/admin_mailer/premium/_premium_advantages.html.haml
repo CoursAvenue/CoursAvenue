@@ -1,0 +1,59 @@
+%table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
+  %tr
+    %td.content-block{ colspan: 4 }
+      .text--center.delta.soft--bottom
+        Les avantages Premium
+  %tr
+    %td.v-middle.content-block.soft--bottom{ width: 50 }
+      = image_tag 'icons/premium/icon_discount.png', width: 30
+    %td.v-middle.content-block.soft--bottom.soft-half--right{ width: 250 }
+      Vous complétez votre profil avec vos cours d'essai gratuits et offres découvertes
+    %td.v-middle.content-block.soft--bottom{ width: 50 }
+      = image_tag 'icons/premium/icon_stats.png', width: 30
+    %td.v-middle.content-block.soft--bottom{ width: 250 }
+      Vous suivez le nombre de consultations quotidiennes de votre profil
+
+  %tr
+    %td.v-middle.content-block.soft--bottom{ width: 50 }
+      = image_tag 'icons/premium/icon_search.png', width: 30
+    %td.v-middle.content-block.soft--bottom{ width: 250 }
+      Votre profil est mis en avant dans les recherches grâce à vos offres spéciales
+    %td.v-middle.content-block.soft--bottom{ width: 50 }
+      = image_tag 'icons/premium/icon_contact.png', width: 30
+    %td.v-middle.content-block.soft--bottom.soft-half--right{ width: 250 }
+      Vous accédez aux coordonnées des élèves qui vous ont ajouté en favori
+
+  %tr
+    %td.v-middle.content-block.soft--bottom{ width: 50 }
+      = image_tag 'icons/premium/icon_similar.png', width: 30
+    %td.v-middle.content-block.soft--bottom.soft-half--right{ width: 250 }
+      Les profils similaires n'apparaissent plus sur votre profil
+    %td.v-middle.content-block.soft--bottom{ width: 50 }
+      = image_tag 'icons/premium/icon_world.png', width: 30
+    %td.v-middle.content-block.soft--bottom{ width: 250 }
+      Votre site Internet et page Facebook apparaissent sur votre profil pour vous apporter plus de trafic
+
+  %tr
+    %td.v-middle.content-block.soft--bottom{ width: 50 }
+      = image_tag 'icons/premium/icon_similar_forward.png', width: 30
+    %td.v-middle.content-block.soft--bottom.soft-half--right{ width: 250 }
+      Votre profil apparaît en priorité sur les profils similaires
+    %td.v-middle.content-block.soft--bottom{ width: 50 }
+      = image_tag 'icons/premium/icon_quote.png', width: 30
+    %td.v-middle.content-block.soft--bottom{ width: 250 }
+      Vous choisissez votre accroche personnalisée dans les résultats de recherche
+
+  %tr
+    %td.v-middle.content-block.soft--bottom{ width: 50 }
+      = image_tag 'icons/premium/icon_medias.png', width: 30
+    %td.v-middle.content-block.soft--bottom.soft-half--right{ width: 250 }
+      Vous affichez autant de photos / vidéos que vous le voulez
+    %td.v-middle.content-block.soft--bottom{ width: 50 }
+      = image_tag 'icons/premium/icon_customer_service.png', width: 30
+    %td.v-middle.content-block.soft--bottom{ width: 250 }
+      Vous avez accès à nos conseils personnalisés
+
+  %tr
+    %td.content-block{ colspan: 4 }
+      .text--center.soft--top
+        = link_to 'Voir les avantages en détail', premium_pro_structure_url(@structure)

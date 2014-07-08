@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140629144233) do
+ActiveRecord::Schema.define(version: 20140703084047) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -168,8 +168,8 @@ ActiveRecord::Schema.define(version: 20140629144233) do
     t.integer  "rating"
     t.integer  "commentable_id"
     t.string   "commentable_type"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
     t.string   "title"
     t.integer  "user_id"
     t.time     "deleted_at"
@@ -177,6 +177,7 @@ ActiveRecord::Schema.define(version: 20140629144233) do
     t.string   "status"
     t.string   "deletion_reason"
     t.string   "type"
+    t.integer  "associated_message_id"
   end
 
   add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree
@@ -454,6 +455,7 @@ ActiveRecord::Schema.define(version: 20140629144233) do
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "promotion_code_id"
   end
 
   create_table "participations", force: true do |t|
@@ -608,6 +610,19 @@ ActiveRecord::Schema.define(version: 20140629144233) do
   end
 
   add_index "prices", ["type"], name: "index_prices_on_type", using: :btree
+
+  create_table "promotion_codes", force: true do |t|
+    t.string   "name"
+    t.string   "code_id"
+    t.integer  "promo_amount"
+    t.string   "plan_type"
+    t.date     "expires_at"
+    t.integer  "usage_nb",     default: 0
+    t.integer  "max_usage_nb"
+    t.datetime "deleted_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "reservation_loggers", force: true do |t|
     t.integer  "course_id"

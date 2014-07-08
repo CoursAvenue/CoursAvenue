@@ -24,9 +24,7 @@ class Pro::Structures::SubscriptionPlansController < Pro::ProController
   def destroy
     @subscription_plan = @structure.subscription_plans.find params[:id]
     @subscription_plan.update_attributes params[:subscription_plan]
-    @subscription_plan.canceled_at = Time.now
-    @subscription_plan.save
-    @structure.index
+    @subscription_plan.cancel!
     redirect_to pro_structure_path(@structure)
   end
 

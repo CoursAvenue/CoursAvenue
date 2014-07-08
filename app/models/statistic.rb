@@ -14,9 +14,10 @@ class Statistic < ActiveRecord::Base
   ######################################################################
   # Scopes                                                             #
   ######################################################################
-  scope :impressions, -> { where( action_type: 'impression') }
-  scope :views,       -> { where( action_type: 'view') }
-  scope :actions,     -> { where( action_type: 'action') }
+  scope :impressions,          -> { where( action_type: 'impression') }
+  scope :views,                -> { where( action_type: 'view') }
+  scope :actions,              -> { where( action_type: 'action') }
+  scope :structure_go_premium, -> { where( arel_table[:action_type].matches('structure_go_premium_%') ) }
 
 
   # Creates a statistic when a structure appears in the results of a search
@@ -80,11 +81,24 @@ class Statistic < ActiveRecord::Base
   # @return Integer number of view counts since `from_date`
   def self.view_count(structure, from_date=(Date.today - 10.years))
     return structure.statistics.views.where( Statistic.arel_table[:created_at].gt(from_date) )
-                              .order('DATE(created_at) ASC')
-                              .group('DATE(created_at)')
-                              .select('DATE(created_at) as created_at, COUNT(DISTINCT(user_fingerprint)) as user_count')
-                              .map(&:user_count).reduce(&:+)
+                               .order('DATE(created_at) ASC')
+                               .group('DATE(created_at)')
+                               .select('DATE(created_at) as created_at, COUNT(DISTINCT(user_fingerprint)) as user_count')
+                               .map(&:user_count).reduce(&:+)
 
   end
 
+  # Total impression count
+  # @param structure Structure concerned
+  # @param from_date=(Date.today - 10.years Date Date from where to start
+  #
+  # @return Integer number of view counts since `from_date`
+  def self.impression_count(structure, from_date=(Date.today - 10.years))
+    return structure.statistics.impressions.where( Statistic.arel_table[:created_at].gt(from_date) )
+                                           .order('DATE(created_at) ASC')
+                                           .group('DATE(created_at)')
+                                           .select('DATE(created_at) as created_at, COUNT(DISTINCT(user_fingerprint)) as user_count')
+                                           .map(&:user_count).reduce(&:+)
+
+  end
 end

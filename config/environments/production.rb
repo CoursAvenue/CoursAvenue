@@ -54,7 +54,7 @@ CoursAvenue::Application.configure do
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
   config.assets.precompile += %w( email.css )
-  config.assets.precompile += %w( application.pro.js modernizr.js )
+  config.assets.precompile += %w( application.pro.js modernizr.js libs/infobox_packed.js )
 
   # Enable threaded mode
   # config.threadsafe!
@@ -88,7 +88,7 @@ CoursAvenue::Application.configure do
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
   config.action_mailer.default_url_options = { host: 'coursavenue.com' }
-  config.action_mailer.asset_host = 'http://www.coursavenue.com'
+  config.action_mailer.asset_host = 'https://www.coursavenue.com'
 
   config.action_mailer.smtp_settings = {
     address:          "in.mailjet.com",

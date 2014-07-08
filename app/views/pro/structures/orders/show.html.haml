@@ -48,15 +48,19 @@
           %td CoursAvenue Premium
           %td 1
           %td 20%
-          %td= "#{readable_amount(@order.amount)}€"
-          %td.text--right= "#{readable_amount(@order.amount)}€"
+          %td= "#{readable_amount(@order.amount_without_promo)}€"
+          %td.text--right= "#{readable_amount(@order.amount_without_promo)}€"
         %tr.no-stripe
           %td
           %td
           %td
           %td
           %td Remise
-          %td.text--right 0.00€
+          %td.text--right
+            - if @order.promotion_code
+              = "-#{@order.promotion_code.promo_amount}€"
+            - else
+              0,00€
         %tr.no-stripe
           %td
           %td

@@ -24,12 +24,13 @@ class ::Admin < ActiveRecord::Base
                   :structure_id,
                   :email_opt_in,
                   :student_action_email_opt_in, :newsletter_email_opt_in,
-                  :monday_email_opt_in, :thursday_email_opt_in, :jpo_email_opt_in
+                  :monday_email_opt_in, :jpo_email_opt_in, :stats_email
 
   store_accessor :email_opt_in_status, :student_action_email_opt_in, :newsletter_email_opt_in,
-                                       :monday_email_opt_in, :thursday_email_opt_in, :jpo_email_opt_in
+                                       :monday_email_opt_in, :jpo_email_opt_in, :stats_email
 
-  define_boolean_accessor_for :email_opt_in_status, :student_action_email_opt_in, :newsletter_email_opt_in, :monday_email_opt_in, :thursday_email_opt_in, :jpo_email_opt_in
+  define_boolean_accessor_for :email_opt_in_status, :student_action_email_opt_in, :newsletter_email_opt_in, :monday_email_opt_in,
+                              :jpo_email_opt_in, :stats_email
 
   ######################################################################
   # Relations                                                          #
@@ -46,9 +47,8 @@ class ::Admin < ActiveRecord::Base
   ######################################################################
   after_create :check_if_was_invited
   after_create :set_email_opt_ins
-  after_save :delay_subscribe_to_nutshell
-  # after_save :delay_subscribe_to_mailchimp
-  before_save :downcase_email
+  after_save   :subscribe_to_nutshell
+  before_save  :downcase_email
 
   ######################################################################
   # Scopes                                                             #
@@ -74,17 +74,9 @@ class ::Admin < ActiveRecord::Base
     boolean :not_confirmed do
       self.confirmed?
     end
+    boolean :super_admin
   end
   handle_asynchronously :solr_index
-
-  def confirm!
-    super
-    send_welcome_email
-  end
-
-  def send_welcome_email
-    AdminMailer.delay.welcome_email(self)
-  end
 
   def mailboxer_email(object)
     self.email
@@ -108,16 +100,8 @@ class ::Admin < ActiveRecord::Base
 
   private
 
-  def delay_subscribe_to_nutshell
-    self.structure.send(:delay_subscribe_to_nutshell) if self.structure and Rails.env.production?
-  end
-
-  def delay_subscribe_to_nutshell_without_delay
-    self.send(:delay_subscribe_to_nutshell)
-  end
-
-  def delay_subscribe_to_mailchimp
-    self.structure.send(:delay_subscribe_to_mailchimp) if self.structure and Rails.env.production?
+  def subscribe_to_nutshell
+    self.structure.send(:subscribe_to_nutshell) if self.structure and Rails.env.production?
   end
 
   def check_if_was_invited
@@ -131,8 +115,8 @@ class ::Admin < ActiveRecord::Base
     self.student_action_email_opt_in = true
     self.newsletter_email_opt_in     = true
     self.monday_email_opt_in         = true
-    self.thursday_email_opt_in       = true
     self.jpo_email_opt_in            = true
+    self.stats_email                 = true
     self.save(validate: false)
   end
 

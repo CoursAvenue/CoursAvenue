@@ -103,7 +103,7 @@
     options = options || {};
     $(this).each(function () {
         var fadeIt;
-        options.delay = options.delay || 0
+        options.delay = options.delay || 0;
         var $this = $(this);
         var el    = $this;
         fadeIt = function () {
@@ -117,7 +117,7 @@
                     "background-color": "#ffff99",
                     "opacity"         : ".7",
                     "z-index"         : "9999999"
-                }).appendTo('body').fadeOut(1000).queue(function () { this.remove(); });
+                }).appendTo('body').fadeOut(1000).queue(function () { $(this).remove(); });
         }
         _.delay(fadeIt, options.delay);
     });

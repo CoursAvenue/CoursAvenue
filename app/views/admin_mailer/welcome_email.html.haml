@@ -5,7 +5,7 @@
   Complétez votre profil, affichez vos photos et vidéos, demandez à vos élèves de vous recommander et gagnez en visibilité sur Internet :
 
 %p.action
-  = link_to "Compléter mon profil", edit_pro_structure_url(@structure, subdomain: 'pro'), class: 'btn btn--green'
+  = link_to "Compléter mon profil", edit_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
 
 %p.blue.blue-tip
   %i Trucs & astuces : en priorité, mettez à jour votre description et invitez vos élèves à vous recommander.
@@ -18,4 +18,4 @@
     = render 'admin_mailer/similare_profiles'
 
 - content_for :footer do
-  %p= link_to 'Gérer mes préférences e-mails', notifications_pro_structure_admin_url(@structure, @structure.main_contact, subdomain: 'pro')
+  %p= link_to 'Gérer mes préférences e-mails', notifications_pro_structure_admin_url(@structure, @structure.main_contact, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)

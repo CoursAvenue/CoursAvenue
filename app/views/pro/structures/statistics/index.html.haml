@@ -2,13 +2,11 @@
 .panel
   .panel__header.soft
     %h3.flush.text--center Statistiques de votre profil des 15 derniers jours
-    %p.blue.text--center.flush
-      %i Prises en compte à partir du 16 juin 2014
   .panel__body.soft--ends.relative
     .soft--sides{ data: { behavior: 'wizard-helper', content: t('statistics.wizard.infos') } }
       .relative.soft.premium-box.text--center.push--bottom
         = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 70, width: 70, style: 'width: 70px; height: 70px;'
-        = render partial: 'pro/structures/premium_select', locals: { title: 'suivre toutes les statistiques de votre profil CoursAvenue', label_text: "Statistiques du nombre de vues et d'actions :", select_collection: ['Visibles', 'Non visibles'] }
+        = render partial: 'pro/structures/premium_select', locals: { title: 'suivre toutes les statistiques de votre profil CoursAvenue', label_text: "Statistiques du nombre de consultations et d'actions :", select_collection: ['Visibles', 'Non visibles'] }
 
       .grid.push--bottom
         .grid__item.one-third.text--center.v-middle>
@@ -18,14 +16,14 @@
               Affichages :
               = @impressions_total_count
         .grid__item.one-third.text--center.v-middle>
-          .inline-block.pointer{ data: { behavior: 'toggle-serie' } }
+          .inline-block.pointer.nowrap{ data: { behavior: 'toggle-serie' } }
             .v-middle.lbl.lbl--blue.v-middle.lbl--small &nbsp;
             %h5.flush.v-middle.inline-block
               Consultations :
               - if @structure.premium? or current_pro_admin.super_admin?
                 = @views_total_count
               - else
-                = render partial: 'pro/structures/premium_select', locals: { title: 'suivre toutes les statistiques de votre profil CoursAvenue', label_text: "", select_collection: ['Visibles', 'Non visibles'] }
+                = render partial: 'pro/structures/premium_select', locals: { title: 'suivre toutes les statistiques de votre profil CoursAvenue', label_text: "", select_collection: ['Visibles', 'Non visibles'], show_bubble: false }
         .grid__item.one-third.text--center.v-middle>
           .inline-block.pointer{ data: { behavior: 'toggle-serie' } }
             .v-middle.lbl.lbl--green.v-middle.lbl--small &nbsp;
@@ -34,7 +32,7 @@
               - if @structure.premium? or current_pro_admin.super_admin?
                 = @actions_total_count
               - else
-                = render partial: 'pro/structures/premium_select', locals: { title: 'suivre toutes les statistiques de votre profil CoursAvenue', label_text: "", select_collection: ['Visibles', 'Non visibles'] }
+                = render partial: 'pro/structures/premium_select', locals: { title: 'suivre toutes les statistiques de votre profil CoursAvenue', label_text: "", select_collection: ['Visibles', 'Non visibles'], show_bubble: false }
 
       #statistics
 
@@ -45,11 +43,11 @@
       %p.epsilon Bénéficiez de conseils en marketing et en communication que vous pouvez également appliquer sur tous vos supports de communication (site Internet, newsletters, affiches, etc.)
       .text--center
         - if @structure.premium?
-          = link_to 'Contacter un conseiller CoursAvenue pour des conseils personnalisés', pages_contact_url(subdomain: 'www'), class: 'btn btn--yellow'
+          = link_to 'Contacter un conseiller CoursAvenue pour des conseils personnalisés', pages_contact_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--yellow'
         - else
           = link_to 'Conseils personnalisés pour améliorer mes statistiques', premium_modal_pro_structure_path(@structure, title: "des conseils personnalisés de l'équipe CoursAvenue pour améliorer vos performances de profil ?"), class: 'btn btn--yellow f-weight-bold fancybox.ajax', data: { behavior: 'modal', padding: 0, width: 900 }
 
-- if @structure.premium? or current_pro_admin.super_admin?
+- if false# @structure.premium? or current_pro_admin.super_admin?
   :javascript
     window.coursavenue = {};
     window.coursavenue.series = [ { data: #{@impressions.sort.map{|date, count| count}},

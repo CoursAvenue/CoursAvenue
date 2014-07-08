@@ -94,7 +94,7 @@ gem 'simple_form'               , '~>3.0.2'
 gem 'inherited_resources'       , '~>1.4.1'
 
 # For messaging
-gem 'mailboxer'                 , '~> 0.12.0.rc2', git: 'git://github.com/mailboxer/mailboxer.git'
+gem 'mailboxer'                 , '~> 0.12.1'
 
 # For authorizations
 gem 'cancancan'                 , '~>1.8.1'

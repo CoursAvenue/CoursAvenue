@@ -1,9 +1,9 @@
-%p
+.p
   Ça y est... #{@structure.name} a supprimé son compte de CoursAvenue...!
 
-%p
+.p
   Voilà les raisons l'ont poussé à partir :
 
-%p= @structure.deletion_reasons
+.p= @structure.deletion_reasons
 
 = simple_format @structure.deletion_reasons_text

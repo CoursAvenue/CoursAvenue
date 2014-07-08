@@ -89,6 +89,7 @@ class StructureSearch
                                             without_id: structure.id,
                                             radius: 10,
                                             sort: 'premium',
+                                            nb_comments: 1,
                                             has_logo: true,
                                             per_page: limit,
                                             subject_id: parent_subject.slug
@@ -102,6 +103,7 @@ class StructureSearch
                                              without_id: structure.id,
                                              radius: 50,
                                              sort: 'premium',
+                                             nb_comments: 1,
                                              has_logo: true,
                                              per_page: (limit - @structures.length)
                                           }).results

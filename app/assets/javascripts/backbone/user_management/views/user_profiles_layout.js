@@ -17,7 +17,8 @@ UserManagement.module('Views', function(Module, App, Backbone, Marionette, $, _)
 
         onRender: function () {
             this.$("[data-behavior=sticky-controls]").sticky({
-                offsetTop: 45
+                offsetTop: 45,
+                oldWidth: true
             });
         }
 

@@ -244,9 +244,9 @@ class Pro::StructuresController < Pro::ProController
 
     respond_to do |format|
       if @structure.persisted? # If structure already existed
-        format.html { redirect_to new_pro_admin_structure_registration_path(@structure, subdomain: 'pro'), notice: 'Félicitations, votre profil est maintenant créé !<br>Dernière étape : créez vos identifiants.' }
+        format.html { redirect_to new_pro_admin_structure_registration_path(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), notice: 'Félicitations, votre profil est maintenant créé !<br>Dernière étape : créez vos identifiants.' }
       elsif @structure.new_record? && @structure.save
-        format.html { redirect_to new_pro_admin_structure_registration_path(@structure, subdomain: 'pro'), notice: 'Félicitations, votre profil est maintenant créé !<br>Dernière étape : créez vos identifiants.' }
+        format.html { redirect_to new_pro_admin_structure_registration_path(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), notice: 'Félicitations, votre profil est maintenant créé !<br>Dernière étape : créez vos identifiants.' }
       else
         # Used for showing side structure list on new action
         @structures = Structure.where.not(comments_count: nil).order('comments_count DESC').limit(3)
@@ -288,17 +288,26 @@ class Pro::StructuresController < Pro::ProController
 
   # GET member
   def premium
+    Statistic.create(structure_id: @structure.id, action_type: "structure_go_premium_premium_page", infos: request.referrer)
   end
 
   # GET member
   def go_premium
-    AdminMailer.delay.wants_to_go_premium(@structure, params[:premium_type])
+    if params[:promo_code]
+      @promotion_code = PromotionCode.where(code_id: params[:promo_code]).first
+    end
+    @subscription_plan = SubscriptionPlan.new plan_type: params[:premium_type]
+    if @promotion_code and @promotion_code.valid?(@subscription_plan)
+      @amount = @subscription_plan.amount_for_be2bill - @promotion_code.promo_amount_for_be2bill
+    else
+      @amount = @subscription_plan.amount_for_be2bill
+    end
+
+    AdminMailer.delay.wants_to_go_premium(@structure, @subscription_plan.plan_type)
     if @structure.premium?
       redirect_to premium_pro_structure_path(@structure)
     end
     @be2bill_description = "Abonnement Premium CoursAvenue"
-    params[:premium_type] = 'yearly' unless SubscriptionPlan::PLAN_TYPE.include? params[:premium_type]
-    @amount = SubscriptionPlan::PLAN_TYPE_PRICES[params[:premium_type]] * 100
 
     @order_id = Order.next_order_id_for @structure
     @be2bill_params = {
@@ -310,7 +319,8 @@ class Pro::StructuresController < Pro::ProController
       'IDENTIFIER'    => ENV['BE2BILL_LOGIN'],
       'OPERATIONTYPE' => 'payment',
       'ORDERID'       => @order_id,
-      'VERSION'       => '2.0'
+      'VERSION'       => '2.0',
+      'EXTRADATA'     => { promotion_code_id: @promotion_code.try(:id) }.to_json
     }
     @be2bill_params['HASH'] = SubscriptionPlan.hash_be2bill_params @be2bill_params
   end
@@ -324,6 +334,8 @@ class Pro::StructuresController < Pro::ProController
 
   # GET member
   def premium_modal
+    suffix_acton_type = request.referrer.split('new').first.split('?').first.split('/').last
+    Statistic.create(structure_id: @structure.id, action_type: "structure_go_premium_#{suffix_acton_type}", infos: request.referrer)
     if request.xhr?
       render layout: false
     end

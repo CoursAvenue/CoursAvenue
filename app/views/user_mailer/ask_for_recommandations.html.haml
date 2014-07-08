@@ -1,24 +1,23 @@
-- if @structure.logo?
-  - content_for :logo do
-    = link_to structure_url(@structure, subdomain: 'www'), target: '_blank' do
-      = image_tag @structure.logo.url(:thumb), style: 'width: 100px; height: 100px;', width: '100', height: '100'
+- content_for :logo do
+  = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank' do
+    = image_tag @structure.logo.url(:thumb), style: 'width: 125px; height: 125px;', class: 'block'
 
 - content_for :promo do
-  %h4
+  .title
     #{@structure.name} vous demande de lui rédiger une recommandation sur CoursAvenue.com
 
 - if @email_text
-  = simple_format @email_text
+  .p= @email_text
 
-%p.action
-  = link_to 'Déposer mon avis en 20 secondes', new_structure_comment_url(@structure, email: @email, subdomain: 'www', utm_source: 'email', utm_campaign: 'ask_for_recommandation', utm_medium: 'stage_0'), class: 'btn btn--green'
+.p.action
+  = link_to 'Déposer mon avis en 20 secondes', new_structure_comment_url(@structure, email: @email, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'email', utm_campaign: 'ask_for_recommandation', utm_medium: 'stage_0'), class: 'btn btn--green'
 
-%p
+.p
   Merci et à très bientôt !
-
-%p= @structure.name
+  %br
+  = @structure.name
 
 = content_for :footer do
-  %p
+  .p
     Vous recevez cet email car #{@structure.name} est inscrit sur CoursAvenue et vous demande de lui rédiger une recommandation sur ses cours.
-    = link_to 'Ne plus recevoir ces emails', unsubscribe_users_url(@user.access_token, subdomain: 'www')
+    = link_to 'Ne plus recevoir ces emails', unsubscribe_users_url(@user.access_token, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)

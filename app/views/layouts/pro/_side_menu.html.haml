@@ -1,51 +1,51 @@
 - content_for :side_menu do
   %ul
     - if current_pro_admin and current_pro_admin.super_admin?
-      = pro_side_menu_link 'dashboard'            , pro_dashboard_url(subdomain: 'pro')             , current: current_tab, icon: 'fa fa-dashboard'
-      = pro_side_menu_link 'statistics'           , pro_statistics_url(subdomain: 'pro')              , current: current_tab, icon: 'fa fa-bar-chart-o'
-      = pro_side_menu_link 'subscription_plans'   , pro_subscription_plans_url(subdomain: 'pro')                , current: current_tab, icon: 'fa fa-credit-card'
-      = pro_side_menu_link 'teachers'             , pro_admins_url(subdomain: 'pro')                , current: current_tab, icon: 'fa fa-group'
-      = pro_side_menu_link 'last_comments'        , pro_comments_url(subdomain: 'pro')              , current: current_tab, icon: 'fa fa-comments'
-      = pro_side_menu_link 'students_invitations' , pro_comment_notifications_url(subdomain: 'pro') , current: current_tab, icon: 'fa fa-group'
-      = pro_side_menu_link 'users'                , pro_users_url(subdomain: 'pro')                 , current: current_tab, icon: 'fa fa-group'
-      = pro_side_menu_link 'teachers_stars'       , stars_pro_structures_url(subdomain: 'pro')      , current: current_tab, icon: 'fa fa-star'
-      -# = pro_side_menu_link 'jpo'                  , pro_open_courses_url(subdomain: 'pro')          , current: current_tab, icon: 'fa fa-list'
-      = pro_side_menu_link 'invitations'          , pro_invited_users_url(subdomain: 'pro')         , current: current_tab, icon: 'fa fa-group'
-      = pro_side_menu_link 'vertical_pages'       , pro_subjects_url(subdomain: 'pro')              , current: current_tab, icon: 'fa fa-arrow-up'
-      = pro_side_menu_link 'subjects'             , all_pro_subjects_url(subdomain: 'pro')          , current: current_tab, icon: 'fa fa-arrow-down'
-      = pro_side_menu_link 'last_messages'        , pro_conversations_url(subdomain: 'pro')         , current: current_tab, icon: 'fa fa-envelope'
-      = pro_side_menu_link 'stickers'             , pro_sticker_demands_url(subdomain: 'pro')       , current: current_tab, icon: 'fa fa-envelope'
-      = pro_side_menu_link 'blog'                 , pro_blog_articles_url(subdomain: 'pro')              , current: current_tab, icon: 'fa fa-book'
-      = pro_side_menu_link 'visitors'             , pro_visitors_url(subdomain: 'pro')              , current: current_tab, icon: 'fa fa-group'
+      = pro_side_menu_link 'dashboard'            , pro_dashboard_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)             , current: current_tab, icon: 'fa fa-dashboard'
+      = pro_side_menu_link 'statistics'           , pro_statistics_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)              , current: current_tab, icon: 'fa fa-bar-chart-o'
+      = pro_side_menu_link 'subscription_plans'   , pro_subscription_plans_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)                , current: current_tab, icon: 'fa fa-credit-card'
+      = pro_side_menu_link 'blog'                 , pro_blog_articles_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)              , current: current_tab, icon: 'fa fa-book'
+      = pro_side_menu_link 'teachers'             , pro_admins_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)                , current: current_tab, icon: 'fa fa-group'
+      = pro_side_menu_link 'last_comments'        , pro_comments_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)              , current: current_tab, icon: 'fa fa-comments'
+      = pro_side_menu_link 'students_invitations' , pro_comment_notifications_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN) , current: current_tab, icon: 'fa fa-group'
+      = pro_side_menu_link 'users'                , pro_users_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)                 , current: current_tab, icon: 'fa fa-group'
+      = pro_side_menu_link 'teachers_stars'       , stars_pro_structures_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)      , current: current_tab, icon: 'fa fa-star'
+      -# = pro_side_menu_link 'jpo'                  , pro_open_courses_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)          , current: current_tab, icon: 'fa fa-list'
+      = pro_side_menu_link 'invitations'          , pro_invited_users_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)         , current: current_tab, icon: 'fa fa-group'
+      = pro_side_menu_link 'vertical_pages'       , pro_subjects_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)              , current: current_tab, icon: 'fa fa-arrow-up'
+      = pro_side_menu_link 'subjects'             , all_pro_subjects_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)          , current: current_tab, icon: 'fa fa-arrow-down'
+      = pro_side_menu_link 'last_messages'        , pro_conversations_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)         , current: current_tab, icon: 'fa fa-envelope'
+      = pro_side_menu_link 'stickers'             , pro_sticker_demands_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)       , current: current_tab, icon: 'fa fa-envelope'
+      = pro_side_menu_link 'visitors'             , pro_visitors_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)              , current: current_tab, icon: 'fa fa-group'
       %li &nbsp;
 
     - if @structure
       %li.subtitle ACTIVITÉ
-      = pro_side_menu_link 'dashboard'    , dashboard_pro_structure_url(@structure, subdomain: 'pro')    , current: current_tab, icon: 'fa fa-dashboard'
-      = pro_side_menu_link 'statistics'   , pro_structure_statistics_url(@structure, subdomain: 'pro')   , current: current_tab, icon: 'fa fa-bar-chart-o'
+      = pro_side_menu_link 'dashboard'    , dashboard_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)    , current: current_tab, icon: 'fa fa-dashboard'
+      = pro_side_menu_link 'statistics'   , pro_structure_statistics_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)   , current: current_tab, icon: 'fa fa-bar-chart-o'
       %li.subtitle DESCRIPTION
-      = pro_side_menu_link 'presentation' , edit_pro_structure_url(@structure, subdomain: 'pro')         , current: current_tab,   icon: 'fa fa-user'
-      = pro_side_menu_link 'places'       , pro_structure_places_url(@structure, subdomain: 'pro')       , current: current_tab,   icon: 'fa fa-map-marker'
-      = pro_side_menu_link 'contact'      , edit_contact_pro_structure_url(@structure, subdomain: 'pro') , current: current_tab,   icon: 'fa fa-phone'
-      = pro_side_menu_link 'medias'       , pro_structure_medias_url(@structure, subdomain: 'pro')       , current: current_tab,   icon: 'fa fa-youtube-play'
+      = pro_side_menu_link 'presentation' , edit_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)         , current: current_tab,   icon: 'fa fa-user'
+      = pro_side_menu_link 'places'       , pro_structure_places_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)       , current: current_tab,   icon: 'fa fa-map-marker'
+      = pro_side_menu_link 'contact'      , edit_contact_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN) , current: current_tab,   icon: 'fa fa-phone'
+      = pro_side_menu_link 'medias'       , pro_structure_medias_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)       , current: current_tab,   icon: 'fa fa-youtube-play'
       %li.subtitle PLANNINGS & TARIFS
-      = pro_side_menu_link 'courses'      , pro_structure_courses_url(@structure, subdomain: 'pro')      , current: current_tab,   icon: 'fa fa-circle-o' #fa-list
-      = pro_side_menu_link 'trainings'    , trainings_pro_structure_courses_url(@structure, subdomain: 'pro')      , current: current_tab,   icon: 'fa fa-dot-circle-o' #fa-ellipsis-v
-      = pro_side_menu_link 'price_groups' , pro_structure_price_groups_url(@structure, subdomain: 'pro') , current: current_tab,   icon: 'fa fa-eur'
+      = pro_side_menu_link 'courses'      , pro_structure_courses_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)      , current: current_tab,   icon: 'fa fa-circle-o' #fa-list
+      = pro_side_menu_link 'trainings'    , trainings_pro_structure_courses_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)      , current: current_tab,   icon: 'fa fa-dot-circle-o' #fa-ellipsis-v
+      = pro_side_menu_link 'price_groups' , pro_structure_price_groups_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN) , current: current_tab,   icon: 'fa fa-eur'
       -# if @structure.parisian?
-      -# = pro_side_menu_link 'jpo'        , pro_structure_course_opens_url(@structure, subdomain: 'pro') , current: current_tab,   icon: 'fa fa-calendar'
+      -# = pro_side_menu_link 'jpo'        , pro_structure_course_opens_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN) , current: current_tab,   icon: 'fa fa-calendar'
       %li.subtitle INTERACTIONS
-      = pro_side_menu_link 'comments'     , pro_structure_comments_url(@structure, subdomain: 'pro')     , current: current_tab, icon: 'fa fa-comments'
-      = pro_side_menu_link 'messages'     , pro_structure_conversations_url(@structure, subdomain: 'pro') , current: current_tab,   icon: 'fa fa-envelope'
+      = pro_side_menu_link 'comments'     , pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)     , current: current_tab, icon: 'fa fa-comments'
+      = pro_side_menu_link 'messages'     , pro_structure_conversations_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN) , current: current_tab,   icon: 'fa fa-envelope'
       - if current_pro_admin and current_pro_admin.super_admin?
-        = pro_side_menu_link 'crm'        , pro_structure_user_profiles_url(@structure, subdomain: 'pro') , current: current_tab,   icon: 'fa fa-book'
+        = pro_side_menu_link 'crm'        , pro_structure_user_profiles_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN) , current: current_tab,   icon: 'fa fa-book'
       - if @structure.comments_count >= 5
-        = pro_side_menu_link 'communicate' , widget_pro_structure_url(@structure, subdomain: 'pro')     , current: current_tab, icon: 'fa fa-bullhorn'
-      = pro_side_menu_link 'share'        , new_pro_structure_invited_teacher_url(@structure, subdomain: 'pro')     , current: current_tab, icon: 'fa fa-gift', id: 'recommandation-side-menu'
+        = pro_side_menu_link 'communicate' , widget_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)     , current: current_tab, icon: 'fa fa-bullhorn'
+      = pro_side_menu_link 'share'        , new_pro_structure_invited_teacher_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)     , current: current_tab, icon: 'fa fa-gift', id: 'recommandation-side-menu'
       - if @structure.main_contact
         %li.subtitle PARAMÈTRES
         = pro_side_menu_link 'account'        , edit_pro_structure_admin_url(@structure, @structure.main_contact)     , current: current_tab, icon: 'fa fa-cogs'
-        = pro_side_menu_link 'premium'        , premium_pro_structure_url(@structure, subdomain: 'pro')  , current: current_tab, icon: 'fa fa-star'
+        = pro_side_menu_link 'premium'        , premium_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)  , current: current_tab, icon: 'fa fa-star'
 
 = content_for :scripts do
   :javascript

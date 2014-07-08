@@ -38,9 +38,6 @@ class MailboxerMessageMailer < ActionMailer::Base
     @message     = message
     @user        = receiver
     @structure   = message.sender.structure
-    subject      = message.subject.to_s
-    subject      = strip_tags(subject) unless subject.html_safe?
-
     @token       = @user.generate_and_set_reset_password_token if !@user.active?
 
     mail to: @user.email,
@@ -49,14 +46,23 @@ class MailboxerMessageMailer < ActionMailer::Base
   end
 
   def new_message_email_to_admin(message, receiver)
-    @message   = message
-    @admin     = receiver
-    @user      = message.sender
-    subject    = message.subject.to_s
-    subject    = strip_tags(subject) unless subject.html_safe?
-    mail to: @admin.email,
-         subject: t('mailboxer.message_mailer.subject_new', sender: @user.name),
-         template_name: 'new_message_email_to_admin'
+    # Don't send email if message is new AND the label is comment because we show
+    # this message in new comment email
+    return if message.conversation.mailboxer_label_id == Mailboxer::Label::COMMENT.id
+    @message      = message
+    @conversation = message.conversation
+    @admin        = receiver
+    @structure    = @admin.structure
+    @user         = message.sender
+    if @conversation.mailboxer_label_id == Mailboxer::Label::INFORMATION.id
+      mail to: @admin.email,
+           subject: t('mailboxer.message_mailer.information_subject_new', sender: @user.name),
+           template_name: 'new_information_message_email_to_admin'
+    else
+      mail to: @admin.email,
+           subject: t('mailboxer.message_mailer.subject_new', sender: @user.name),
+           template_name: 'new_message_email_to_admin'
+    end
   end
 
   # Sends and email for indicating a reply in an already created conversation
@@ -64,8 +70,6 @@ class MailboxerMessageMailer < ActionMailer::Base
   def reply_message_email_to_user(message, receiver)
     @message   = message
     @user      = receiver
-    subject    = message.subject.to_s
-    subject    = strip_tags(subject) unless subject.html_safe?
     @structure = message.sender.try(:structure)
 
     @token   = @user.generate_and_set_reset_password_token if !@user.active?
@@ -78,8 +82,6 @@ class MailboxerMessageMailer < ActionMailer::Base
     @message   = message
     @admin     = receiver
     @user      = message.sender
-    subject    = message.subject.to_s
-    subject    = strip_tags(subject) unless subject.html_safe?
     mail to: @admin.email,
          subject: t('mailboxer.message_mailer.subject_reply', sender: @user.name),
          template_name: 'reply_message_email_to_admin'

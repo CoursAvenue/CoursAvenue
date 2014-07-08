@@ -1,22 +1,13 @@
-- if @user.avatar.present?
-  - content_for :logo do
-    = image_tag @user.avatar.url(:thumb), style: 'width: 100px; height: 100px;', width: '100', height: '100'
+- content_for :email_title do
+  = @user.name
+  vient de vous envoyer un message personnel.
 
-- content_for :promo do
-  %h4
-    = @user.name
-    vient de vous envoyer un message personnel :
+.title
+  = @user.name
+  vient de vous envoyer un message personnel :
 
-- if @message.subject.present?
-  %p.flush
-    %strong
-      Objet :
-      = @message.subject
+= render partial: 'mailboxer_message_mailer/message_to_admin', locals: { message: @message, user: @user }
 
-= simple_format @message.body
-
-%p.action
-  = link_to "Répondre au message", pro_structure_conversation_url(@admin.structure, @message.conversation, subdomain: 'pro'), class: 'btn btn--green'
-
-- content_for :footer do
-  %p Vous recevez ce message car #{@user.name} vous a envoyé un message privé sur CoursAvenue.com
+.p.action.soft--top
+  = link_to "Répondre au message", pro_structure_conversation_url(@admin.structure, @message.conversation, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
+= render 'shared/mailers/footer'

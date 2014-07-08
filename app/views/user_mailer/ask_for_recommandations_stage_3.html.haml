@@ -1,27 +1,22 @@
-- if @structure.logo?
-  - content_for :logo do
-    = link_to structure_url(@structure, subdomain: 'www'), target: '_blank' do
-      = image_tag @structure.logo.url(:thumb), style: 'width: 100px; height: 100px;', width: '100', height: '100'
+- content_for :logo do
+  = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank' do
+    = image_tag @structure.logo.url(:thumb), style: 'width: 125px; height: 125px;', class: 'block'
 
 - content_for :promo do
-  %h4
+  .title
     C'est votre dernier jour pour recommander #{@structure.name}
 
-%p Bonjour !
+.p Bonjour !
 
-%p
+.p
   #{@structure.name} vous a récemment demandé votre avis sur son profil public CoursAvenue : c'est votre dernier jour pour déposer votre recommandation. C'est simple, très rapide, et #{@structure.name} vous en remerciera !
 
-%p.action
+.p.action
   = link_to 'Déposer ma recommandation', new_structure_comment_url(@structure, email: @email, utm_source: 'email', utm_campaign: 'recommandation', utm_medium: 'stage_3'), class: 'btn btn--green'
 
-%p
-  Merci pour votre contribution et à très bientôt !
-
-%p
-  L'équipe de CoursAvenue
+= render 'shared/mailers/footer'
 
 = content_for :footer do
-  %p
+  .p
     Vous recevez cet email car #{@structure.name} est inscrit sur CoursAvenue et vous demande de lui rédiger une recommandation sur ses cours.
-    = link_to 'Ne plus recevoir ces emails', unsubscribe_users_url(@user.access_token, subdomain: 'www')
+    = link_to 'Ne plus recevoir ces emails', unsubscribe_users_url(@user.access_token, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)

@@ -1,11 +1,11 @@
-%p Cher fondateurs,
+.p Cher fondateurs,
 
-%p
+.p
   #{@structure.name} (#{@admin.email}) vient de s'inscrire !
   %br
   Disciplines : #{@structure.subjects.map(&:name).join(', ')}
 
-%p.action
-  = link_to 'Voir son profil', dashboard_pro_structure_url(@structure, subdomain: 'pro'), class: 'btn btn--green'
+.p.action
+  = link_to 'Voir son profil', dashboard_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
 
-%p L'équipe de CoursAvenue
+= render 'shared/mailers/footer'

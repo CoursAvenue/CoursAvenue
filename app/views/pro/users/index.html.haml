@@ -53,7 +53,7 @@
               %td{data: {value: user.created_at}}
                 - comment = user.comments.last
                 - if comment
-                  = link_to "Voir l'avis", structure_url(comment.structure, anchor: "recommandation-#{comment.id}", subdomain: 'www')
+                  = link_to "Voir l'avis", structure_url(comment.structure, anchor: "recommandation-#{comment.id}", subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
 
 = content_for :scripts do
   :javascript

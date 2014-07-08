@@ -6,30 +6,34 @@
     .pro-top-menu.darkgray-box.flexbox.print--hidden{ data: { behavior: 'sticky', z: 1000 } }
       .flexbox__item.v-middle.soft-half--left{ style: 'width: 40px;' }
         - if @structure.logo?
-          = link_to edit_pro_structure_url(@structure, subdomain: 'pro'), class: 'block push-half--right' do
+          = link_to edit_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'block push-half--right' do
             = image_tag @structure.logo.url(:thumb), width: 40, height: 40, class: 'block'
         - else
-          = link_to '', edit_pro_structure_url(@structure, subdomain: 'pro'), class: 'fa-2x fa fa-picture-o soft-half muted-link white', data: { toggle: 'popover', content: "Ajouter un logo", placement: 'right', trigger: 'hover' }
+          = link_to '', edit_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'fa-2x fa fa-picture-o soft-half muted-link white', data: { toggle: 'popover', content: "Ajouter un logo", placement: 'right', trigger: 'hover' }
       .flexbox__item.v-middle
         %h5.flush--bottom.white.inline-block.v-middle
-          = link_to edit_pro_structure_url(@structure, subdomain: 'pro'), class: 'block semi-muted-link' do
+          = link_to edit_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'block semi-muted-link' do
             = @structure.name
         %span.push-half--sides= '|'
         - if @structure.premium?
-          = link_to premium_pro_structure_url(@structure, subdomain: 'pro'), class: 'yellow' do
+          = link_to premium_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'yellow' do
             Premium
             %i.fa.fa-check
         - else
-          = link_to premium_modal_pro_structure_url(@structure, subdomain: 'pro'), class: 'btn btn--yellow f-weight-bold fancybox.ajax', data: { behavior: 'modal', padding: 0, width: 900 } do
+          = link_to premium_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--yellow f-weight-bold' do
             %i.fa.fa-star
             Passer au Premium
+          = link_to premium_modal_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'f-weight-bold yellow soft-half--left inline-block v-middle text--center' do
+            Offre spéciale 1ers partenaires
+            %br
+            \-50% pendant 6 mois
       .flexbox__item.v-middle.text--right.soft-half--right
         - if @structure.mailbox
           - unread_conversations       = @structure.mailbox.inbox(read: false)
           - unread_conversations      += @structure.unanswered_information_message
           - unread_conversations_count = unread_conversations.count
           .inline-block.v-middle.drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
-            = link_to pro_structure_conversations_url(@structure, subdomain: 'pro'), class: 'white block soft-half--ends muted-link f-weight-bold' do
+            = link_to pro_structure_conversations_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'white block soft-half--ends muted-link f-weight-bold' do
               %i.fa.fa-envelope
               = pluralize @structure.mailbox.inbox.count, 'message'
               - if unread_conversations_count > 0
@@ -63,10 +67,10 @@
                             = conversation_label_name conversation
                           .grid__item.v-middle.two-twelfths>
                             = conversation_label conversation, class: 'lbl--small'
-                %li= link_to 'Voir tous les messages', pro_structure_conversations_url(@structure, subdomain: 'pro')
+                %li= link_to 'Voir tous les messages', pro_structure_conversations_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
         %span.v-middle.push-half--sides= '|'
         .inline-block.v-middle.drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
-          = link_to pro_structure_comments_url(@structure, subdomain: 'pro'), class: 'white block soft-half--ends muted-link f-weight-bold' do
+          = link_to pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'white block soft-half--ends muted-link f-weight-bold' do
             %i.fa.fa-comment
             = "#{@structure.comments.accepted.count} avis"
             - if @structure.comments.pending.count > 0
@@ -81,16 +85,16 @@
                   %a.not-hoverable.f-weight-normal= "#{@structure.comments.pending.count} avis en attente de validation"
               - @structure.comments.pending.each do |comment|
                 %li
-                  = link_to pro_structure_comments_url(@structure, subdomain: 'pro'), class: 'grid--full' do
+                  = link_to pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'grid--full' do
                     .grid__item.two-twelfths.v-middle>
                       = image_tag comment.user.avatar_url(:small), height: 30, width: 30, class: 'bordered rounded--circle'
                     .grid__item.ten-twelfths.f-weight-normal.text--left>
                       %strong= comment.author_name
                       %br
                       = comment.email
-              %li= link_to 'Voir tous les avis', pro_structure_comments_url(@structure, subdomain: 'pro')
+              %li= link_to 'Voir tous les avis', pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
         %span.v-middle.push-half--sides= '|'
-        = link_to structure_url(@structure, subdomain: 'www'), class: 'white v-middle', target: :_blank do
+        = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'white v-middle', target: :_blank do
           .fa.fa-eye
           Voir mon profil public
 

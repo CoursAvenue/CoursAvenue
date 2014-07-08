@@ -1,24 +1,21 @@
-- content_for :promo do
-  %h4
-    Accédez à des cours d'essai gratuits et aux promotions exclusives en lien avec vos passions !
+.title
+  Accédez à des cours d'essai gratuits et aux promotions exclusives en lien avec vos passions !
 
-%p Bonjour #{@user.name} !
+.p Bonjour #{@user.name} !
 
-%p
+.p
   Renseignez vos passions sur votre profil CoursAvenue et recevez des invitations à des cours d'essai gratuits ou des promotions exclusives chez nos partenaires situés tout près de vous.
 
-%p
+.p
   Pour cela, connectez-vous et renseignez vos disciplines :
 
-%p.action
-  = link_to 'Renseigner mes passions', user_passions_url(@user, subdomain: 'www', utm_source: 'email', utm_campaign: 'passions', utm_medium: 'monday_email'), class: 'btn btn--green'
+.p.action
+  = link_to 'Renseigner mes passions', user_passions_url(@user, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'email', utm_campaign: 'passions', utm_medium: 'monday_email'), class: 'btn btn--green'
 
-%p.blue.blue-tip
+.p.blue.blue-tip
   Trucs & astuces : si votre profil n'est pas complet, renseignez en priorité vos informations personnelles, votre photo, et toutes vos passions.
+
+= render 'shared/mailers/footer'
 
 = content_for :under_content do
   = render 'user_mailer/footer_info'
-
-= content_for :footer do
-  %p
-    = link_to 'Gérer mes préférences de notifications e-mails.', notifications_user_url(@user, subdomain: 'www')

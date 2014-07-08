@@ -33,7 +33,7 @@ class LightStructureSerializer < ActiveModel::Serializer
   end
 
   def data_url
-    structure_url(object, subdomain: 'www')
+    structure_url(object, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
   end
 
   def course_names

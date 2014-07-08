@@ -1,7 +1,9 @@
-%p Bonjour #{@comment.author_name.titleize},
+.p Bonjour #{@comment.author_name.titleize},
 
-%p
+.p
   Merci de nous avoir fait part de votre expérience. Votre avis vient d'être transmis à #{@structure.name}. Une fois validé, il sera publié sur son profil public.
 
-%p.action
+.p.action
   = link_to "Voir le profil de #{@structure.name}", structure_url(@structure), class: 'btn btn--green'
+
+= render 'shared/mailers/footer'

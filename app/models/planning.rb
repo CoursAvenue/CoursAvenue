@@ -1,12 +1,12 @@
 # encoding: utf-8
 class Planning < ActiveRecord::Base
+  acts_as_paranoid
   # extend ActiveHashHelper
   include Concerns::ActiveHashHelper
 
   include PlanningsHelper
   include Concerns::HasAudiencesAndLevels
 
-  acts_as_paranoid
 
   TIME_SLOTS = {
     morning: {
@@ -43,9 +43,6 @@ class Planning < ActiveRecord::Base
   has_many :reservations,   as: :reservable
   has_many :participations, dependent: :destroy
   has_many :users, through: :participations
-
-  # define_has_many_for :audience
-  # define_has_many_for :level
 
   ######################################################################
   # Callbacks                                                          #
@@ -90,7 +87,7 @@ class Planning < ActiveRecord::Base
   scope :future,         -> { where( Planning.arel_table[:end_date].gt(Date.today) ) }
   scope :past,           -> { where( Planning.arel_table[:end_date].lteq(Date.today) ) }
   scope :ordered_by_day, -> { order('week_day=0, week_day ASC, start_date ASC, start_time ASC') }
-  scope :visible,        -> { where(visible: true)}
+  scope :visible,        -> { where(visible: true) }
 
   ######################################################################
   # Solr                                                               #
@@ -414,14 +411,14 @@ class Planning < ActiveRecord::Base
     end
   end
 
-  # Set default start date
+  # Set default start date if not defined
   def set_start_date
     if self.start_date.nil? and !self.course.try(:is_training?)
       self.start_date = self.course.start_date || Date.yesterday
     end
   end
 
-  # Set end date
+  # Set end date if not defined
   def set_end_date
     unless end_date.present?
       if !course.try(:is_training?)
