@@ -8,6 +8,7 @@
 
 .p.action
   = link_to "Compléter mon profil", edit_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN, utm_source: 'email', utm_campaign: 'complete_profile', utm_medium: 'monday'), class: 'btn btn--green'
+= render 'shared/mailers/footer'
 
 - content_for :under_content do
   %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }

@@ -1,20 +1,12 @@
-- if @structure.logo?
-  - content_for :logo do
-    = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank' do
-      = image_tag @structure.logo.url(:thumb), style: 'width: 125px; height: 125px;', class: 'block'
+- content_for :email_title do
+  #{@structure.name} vient de vous envoyer un message personnel
 
-- content_for :promo do
-  .title
-    = @structure.name
-    vient de vous envoyer un message personnel :
+.title
+  = @structure.name
+  vient de vous envoyer un message personnel :
 
 - if @message.subject.present?
-  .p.flush
-    %strong
-      Objet :
-      = @message.subject
-
-= simple_format @message.body
+  = render partial: 'mailboxer_message_mailer/message_to_user', locals: { message: @message, structure: @structure }
 
 .p.action
   - if @token

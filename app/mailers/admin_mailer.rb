@@ -28,18 +28,21 @@ class AdminMailer < ActionMailer::Base
   def fifteen_days_to_end_of_subscription(subscription_plan)
     @structure         = subscription_plan.structure
     @subscription_plan = subscription_plan
+    @similar_profiles  = @structure.similar_profiles(2)
     mail to: @structure.main_contact.email, subject: 'Votre profil Premium renouvelé dans 15 jours'
   end
 
   def five_days_to_end_of_subscription(subscription_plan)
     @structure         = subscription_plan.structure
     @subscription_plan = subscription_plan
+    @similar_profiles  = @structure.similar_profiles(2)
     mail to: @structure.main_contact.email, subject: 'Votre profil Premium sera renouvelé dans 5 jours'
   end
 
   def subscription_has_been_renewed(subscription_plan)
     @structure         = subscription_plan.structure
     @subscription_plan = subscription_plan
+    @similar_profiles  = @structure.similar_profiles(2)
     mail to: @structure.main_contact.email, subject: 'Votre profil Premium a été renouvelé'
   end
 
@@ -81,13 +84,15 @@ class AdminMailer < ActionMailer::Base
   end
 
   def user_is_now_following_you(structure, user)
-    # @structure = structure
-    # @user      = user
-    # mail to: @structure.main_contact.email, subject: "Votre profil vient d'être ajouté en favori"
+    @structure        = structure
+    @user             = user
+    @similar_profiles = @structure.similar_profiles(2)
+    mail to: @structure.main_contact.email, subject: "Votre profil vient d'être ajouté en favori"
   end
 
   def message_information_reminder_1(conversation, admin)
     @conversation = conversation
+    @message      = conversation.messages.first
     @admin        = admin
     @structure    = admin.structure
     @user         = conversation.recipients.select{|recipient| recipient.is_a? User }.first
@@ -97,6 +102,7 @@ class AdminMailer < ActionMailer::Base
 
   def message_information_reminder_2(conversation, admin)
     @conversation = conversation
+    @message      = conversation.messages.first
     @admin        = admin
     @structure    = admin.structure
     @user         = conversation.recipients.select{|recipient| recipient.is_a? User }.first

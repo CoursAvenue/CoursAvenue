@@ -23,5 +23,37 @@
 
   = render 'shared/mailers/footer'
 
+
+- content_for :under_content do
+  %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
+    %tr{ valign: 'top' }
+      %td.v-middle.content-block{ colspan: 4 }
+        .title Ils ont renouvelé leur abonnement Premium
+    %tr{ valign: 'top' }
+      - @similar_profiles.each do |similar_profile|
+        %td.v-middle.content-block{ width: 80 }
+          = link_to structure_url(similar_profile, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'muted-link block' do
+            = image_tag similar_profile.logo.url(:thumb), width: 80, height: 80, alt: "Logo #{similar_profile.name}", class: 'bordered'
+          %div.yellow.text--center{ style: 'padding-top: 2px;' }
+            = image_tag 'icons/icon-star.png', height: 15, widht: 15, class: 'v-middle', style: 'padding-right: 2px;'
+            %span.v-middle Premium
+        %td.v-middle.content-block{ width: 220 }
+          .p.soft-half--left.hard--bottom
+            %strong
+              = link_to truncate(similar_profile.name, length: 23), structure_url(similar_profile, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'muted-link'
+            %br
+            = similar_profile.city.name
+            %br
+            = truncate(join_parent_subjects_text(similar_profile), lenght: 100)
+            %br
+            %i.green= "#{similar_profile.view_count(7)} visites"
+    - unless @structure.premium?
+      %tr{ valign: 'top' }
+        %td.v-middle.content-block{ colspan: 4 }
+          .p.hard--bottom.soft--top
+            = link_to 'Devenez Premium et augmentez les performances de votre profil.', premium_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+
+
 = content_for :under_content_gray do
   = render 'admin_mailer/premium/faq'
+

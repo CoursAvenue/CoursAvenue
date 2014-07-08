@@ -8,37 +8,45 @@
 - @structure  = @admin.structure
 - @structures = @structure.similar_profiles(4)
 
-.p Bonjour
 
 - if @resource.sign_in_count > 0
+  .p Bonjour
   .p
     Nous avons bien pris en compte votre changement d'e-mail. Pour valider ce changement veuillez cliquer sur le lien de validation suivant :
   .p.action
     = link_to pro_admin_confirmation_url(confirmation_token: @token, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green' do
       Valider mon nouvel e-mail
 - else
-  .p
-    Bienvenue sur CoursAvenue ! Pour commencer, vous devez confirmer votre adresse e-mail :
+  .title
+    Bienvenue sur CoursAvenue !
+
+  .p Accédez dès maintenant à votre profil pour valider votre inscription et votre e-mail :
 
   .p.action
     = link_to pro_admin_confirmation_url(confirmation_token: @token, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green' do
-      Valider mon inscription
+      Valider et compléter mon profil
 
   = content_for :under_content do
-    .p
-      Une fois votre profil activé, complétez votre profil, affichez vos photos et vidéos, demandez à vos élèves de vous recommander et gagnez en visibilité sur Internet :
+    %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
+      %tr{ valign: 'top' }
+        %td.content-block{ colspan: 2 }
+          .title Votre profil complet en quelques minutes :
+      %tr{ valign: 'top' }
+        %td.text--center{ width: '100' }
+          = image_tag @structure.logo.url(:thumb), alt: "Logo #{@structure.name}", height: '100', width: '100'
+        %td.content-block.soft--left
+          %ul
+            %li Compléter mes informations générales et ajouter un logo
+            %li Demander des recommandations à mes élèves
+            %li Renseigner mes cours et mon planning
+            %li Mettre en ligne mes photos et vidéos
 
-    .p.action
-      = link_to "Compléter mon profil", edit_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
+  = render 'shared/mailers/footer'
 
-    .p.blue.blue-tip
-      %i Trucs & astuces : en priorité, mettez à jour votre description et invitez vos élèves à vous recommander.
-
-    = render 'shared/mailers/footer'
-
-  - content_for :under_content_2 do
-    = render 'admin_mailer/visite_100k_visits'
 
   - if @structures.length == 4
-    - content_for :under_content_gray do
+    - content_for :under_content_2 do
       = render 'admin_mailer/similare_profiles'
+
+  - content_for :under_content_gray do
+    = render 'admin_mailer/visite_100k_visits'
