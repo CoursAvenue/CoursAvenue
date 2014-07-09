@@ -15,6 +15,7 @@
           %th Expiration
           %th # max
           %th # utilisations
+          %th S'applique jusqu'à
           %th Encore valide ?
           %th
       %tbody
@@ -28,6 +29,8 @@
               = l(promotion_code.expires_at) if promotion_code.expires_at
             %td= promotion_code.max_usage_nb
             %td= promotion_code.usage_nb
+            %td
+              = l(promotion_code.apply_until) if promotion_code.apply_until
             %td= promotion_code.still_valid?
             %td.nowrap
               = link_to edit_pro_promotion_code_path(promotion_code), class: 'nowrap' do

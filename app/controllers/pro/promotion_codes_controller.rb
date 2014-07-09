@@ -19,17 +19,23 @@ class Pro::PromotionCodesController < Pro::ProController
 
   def create
     @promotion_code = PromotionCode.new params[:promotion_code]
-    @promotion_code.save
     respond_to do |format|
-      format.html { redirect_to pro_promotion_codes_path }
+      if @promotion_code.save
+        format.html { redirect_to pro_promotion_codes_path }
+      else
+        format.html { render action: :new }
+      end
     end
   end
 
   def update
     @promotion_code = PromotionCode.find params[:id]
-    @promotion_code.update_attributes params[:promotion_code]
     respond_to do |format|
-      format.html { redirect_to pro_promotion_codes_path }
+      if @promotion_code.update_attributes params[:promotion_code]
+        format.html { redirect_to pro_promotion_codes_path }
+      else
+        format.html { render action: :edit }
+      end
     end
   end
 

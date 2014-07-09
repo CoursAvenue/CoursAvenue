@@ -10,6 +10,7 @@ fr:
         plan_type: S'applique au plan
         expires_at: Date d'expiration
         max_usage_nb: Usage max
+        apply_until: "Appliquer la réduction aux renouvellement jusqu'au"
 
   simple_form:
     placeholders:

@@ -53,9 +53,10 @@ class SubscriptionPlan < ActiveRecord::Base
   ######################################################################
   has_many :orders
   belongs_to :structure
+  belongs_to :promotion_code
 
   attr_accessible :plan_type, :expires_at, :renewed_at, :recurrent, :structure, :canceled_at,
-                  :credit_card_number, :be2bill_alias, :client_ip, :card_validity_date,
+                  :credit_card_number, :be2bill_alias, :client_ip, :card_validity_date, :promotion_code_id,
                   :cancelation_reason_dont_want_more_students, :cancelation_reason_stopping_activity,
                   :cancelation_reason_didnt_have_return_on_investment, :cancelation_reason_too_hard_to_use,
                   :cancelation_reason_not_satisfied_of_coursavenue_users, :cancelation_reason_other, :cancelation_reason_text
@@ -73,12 +74,14 @@ class SubscriptionPlan < ActiveRecord::Base
   #
   # @return SubscriptionPlan
   def self.subscribe! plan_type, structure, params={}
+    promotion_code_id = params[:EXTRADATA]['promotion_code_id'] if params[:EXTRADATA].present?
     subscription_plan = structure.subscription_plans.create({ plan_type: plan_type.to_s,
                                                               expires_at: Date.today + PLAN_TYPE_DURATION[plan_type.to_s].months,
                                                               credit_card_number: params[:CARDCODE],
                                                               recurrent: true,
                                                               be2bill_alias: params[:ALIAS],
                                                               card_validity_date: (params[:CARDVALIDITYDATE] ? Date.strptime(params[:CARDVALIDITYDATE], '%m-%y') : nil),
+                                                              promotion_code_id: promotion_code_id,
                                                               client_ip: params[:CLIENT_IP]})
     structure.compute_search_score(true)
     structure.index
@@ -104,6 +107,13 @@ class SubscriptionPlan < ActiveRecord::Base
   def renew!
     require 'net/http'
 
+    extra_data = { renew: true }
+    # Passes promotion code only if the promotion code still applies on the renew
+    if self.promotion_code and self.promotion_code.still_apply?
+      extra_data[:promotion_code_id] = self.promotion_code_id
+    else
+      extra_data[:promotion_code_id] = nil
+    end
     params_for_hash = {
       'ALIAS'           => self.be2bill_alias,
       'ALIASMODE'       => 'subscription',
@@ -175,7 +185,11 @@ class SubscriptionPlan < ActiveRecord::Base
   #
   # @return Integer next amount to pay
   def next_amount
-    PLAN_TYPE_PRICES[NEXT_PLAN_TYPE[self.plan_type]]
+    if self.promotion_code and self.promotion_code.still_apply?
+      PLAN_TYPE_PRICES[NEXT_PLAN_TYPE[self.plan_type]] - self.promotion_code.promo_amount
+    else
+      PLAN_TYPE_PRICES[NEXT_PLAN_TYPE[self.plan_type]]
+    end
   end
 
   # See next_amount
