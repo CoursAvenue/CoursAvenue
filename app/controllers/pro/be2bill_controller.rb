@@ -6,25 +6,25 @@ class Pro::Be2billController < Pro::ProController
 
   # POST Called by Be2bill to integrate payment form
   def placeholder
-    params[:premium_type] = SubscriptionPlan.premium_type_from_be2bill_amount params[:AMOUNT]
+    params[:EXTRADATA] = JSON.parse(params[:EXTRADATA])
+    params[:premium_type] = params[:EXTRADATA]['plan_type']
     @structure = Structure.find params[:CLIENTIDENT]
     render 'be2bill_placeholder'
   end
 
   # POST Called by Be2bill to notify for a transaction
   def transaction_notifications
-    params[:EXTRADATA] = JSON.parse(params[:EXTRADATA]) if params[:EXTRADATA].present?
+    params[:EXTRADATA] = JSON.parse(params[:EXTRADATA])
     @structure = Structure.find params[:CLIENTIDENT]
     send_emails
     # Sets CLIENT_IP to have it for subscription
     params[:CLIENT_IP] = request.remote_ip || @structure.main_contact.last_sign_in_ip
 
-    plan_type = SubscriptionPlan.premium_type_from_be2bill_amount(params[:AMOUNT]).to_sym
     if params[:EXECCODE] == '0000'
       if params[:EXTRADATA]['renew'].present?
         subscription_plan = @structure.subscription_plan
       else
-        subscription_plan = SubscriptionPlan.subscribe!(plan_type, @structure, params)
+        subscription_plan = SubscriptionPlan.subscribe!(params[:EXTRADATA]['plan_type'], @structure, params)
       end
       @structure.orders.create(amount: subscription_plan.amount,
                                order_id: params[:ORDERID],
@@ -47,7 +47,7 @@ class Pro::Be2billController < Pro::ProController
         AdminMailer.delay.subscription_renewal_failed(@structure, params)
       end
     else
-      AdminMailer.delay.go_premium(@structure, SubscriptionPlan.premium_type_from_be2bill_amount(params[:AMOUNT]))
+      AdminMailer.delay.go_premium(@structure, params[:EXTRADATA]['plan_type'])
     end
   end
 end

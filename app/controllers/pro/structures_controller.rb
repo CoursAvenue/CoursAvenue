@@ -328,7 +328,7 @@ class Pro::StructuresController < Pro::ProController
       'OPERATIONTYPE' => 'payment',
       'ORDERID'       => @order_id,
       'VERSION'       => '2.0',
-      'EXTRADATA'     => { promotion_code_id: @promotion_code.try(:id) }.to_json
+      'EXTRADATA'     => { promotion_code_id: @promotion_code.try(:id), plan_type: @subscription_plan.plan_type }.to_json
     }
     @be2bill_params['HASH'] = SubscriptionPlan.hash_be2bill_params @be2bill_params
   end
@@ -336,8 +336,9 @@ class Pro::StructuresController < Pro::ProController
   # GET Payment confirmation page called by Be2bill
   # Redirect to payment confirmation in order to removes all the parameters from the URL
   def payment_confirmation_be2bill
-    @structure    = Structure.find params[:CLIENTIDENT]
-    @premium_type = SubscriptionPlan.premium_type_from_be2bill_amount(params[:AMOUNT]).to_sym
+    @structure         = Structure.find params[:CLIENTIDENT]
+    params[:EXTRADATA] = JSON.parse(params[:EXTRADATA])
+    @premium_type = params[:EXTRADATA]['plan_type']
   end
 
   # GET member

@@ -111,7 +111,7 @@ class SubscriptionPlan < ActiveRecord::Base
   def renew!
     require 'net/http'
 
-    extra_data = { renew: true }
+    extra_data = { renew: true, plan_type: self.plan_type }
     # Passes promotion code only if the promotion code still applies on the renew
     if self.promotion_code and self.promotion_code.still_apply?
       extra_data[:promotion_code_id] = self.promotion_code_id
@@ -131,7 +131,7 @@ class SubscriptionPlan < ActiveRecord::Base
       'VERSION'         => '2.0',
       'CLIENTUSERAGENT' => 'Mozilla/5.0 (Windows NT 6.1; WOW64)',
       'CLIENTIP'        => self.client_ip,
-      'EXTRADATA'       => { renew: true }.to_json
+      'EXTRADATA'       => extra_data.to_json
     }
     params = {}
     params['params[HASH]'] = SubscriptionPlan.hash_be2bill_params params_for_hash
@@ -224,14 +224,6 @@ class SubscriptionPlan < ActiveRecord::Base
 
   def active?
     !canceled? and self.expires_at >= Date.today
-  end
-
-  def self.premium_type_from_be2bill_amount amount
-    amount = amount.to_i
-    PLAN_TYPE_PRICES.each do |plan_type, plan_type_amount|
-      return plan_type if plan_type_amount * 100 == amount
-    end
-    return 'yearly'
   end
 
   private

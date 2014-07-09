@@ -118,12 +118,4 @@ describe SubscriptionPlan do
     end
   end
 
-  describe '#premium_type_from_be2bill_amount' do
-    it 'returns correct plan_type' do
-      SubscriptionPlan::PLAN_TYPE_PRICES.each do |plan_type, price|
-        expect(SubscriptionPlan.premium_type_from_be2bill_amount(price * 100)).to eq plan_type
-      end
-    end
-  end
-
 end
