@@ -6,9 +6,10 @@
           = image_tag 'logo_pro.png', width: 200, alt: 'Tous les cours et stages autour de vous | CoursAvenue.com'
     %nav.grid__item.two-thirds.text--right.v-middle
       %ul.nav
-        %li= link_to 'CoursAvenue.com', root_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--small'
-        %li= render 'shared/question_dropdown_menu'
-
+        %li.visuallyhidden--palm
+          = link_to 'Tarifs', pro_pages_price_path
+        %li.soft--sides
+          = render 'shared/question_dropdown_menu'
         - if current_pro_admin
           %li.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
             - if current_pro_admin.super_admin?

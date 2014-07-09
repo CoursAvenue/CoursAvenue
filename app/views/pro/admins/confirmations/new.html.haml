@@ -1,15 +1,19 @@
-.page.soft
-  %h2 Me renvoyer le lien de confirmation
+= content_for :above_container do
+  .home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background7.jpg'})" }
+    .main-container.soft
+      %h1.flush Me renvoyer le lien de confirmation
 
-  = simple_form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
-    = f.error_notification
-    = f.full_error :confirmation_token
+  .main-container.soft
+    .white-box.soft
+      = simple_form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
+        = f.error_notification
+        = f.full_error :confirmation_token
 
-    .form-inputs
-      = f.input :email, required: true, autofocus: true
+        .form-inputs
+          = f.input :email, required: true, autofocus: true
 
-    .form-actions
-      = f.button :submit, "Renvoyer le lien", class: 'btn btn--green'
+        .form-actions
+          = f.button :submit, "Renvoyer le lien", class: 'btn btn--green'
 
-    .form-actions
-      = render "pro/admins/shared/links"
+        .form-actions
+          = render "pro/admins/shared/links"

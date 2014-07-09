@@ -1,197 +1,202 @@
 = content_for :title do
   Développez votre bouche à oreille sur Internet
 
-= pro_menu_currently_at 'Accueil'
+.home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background.jpg'})" }
+  .main-container.soft.push--bottom
+    %header.grid.push--bottom
+      .grid__item.one-half>
+        %h1.flush
+          Recrutez de nouveaux élèves
+        .delta.line-height-1-7.push-half--bottom
+          CoursAvenue permet à chaque professeur, association, ou école de gagner facilement en visibilité pour recruter de nouveaux élèves. L'inscription est gratuite. Faites partie d'une communauté en pleine expansion passionnée par les cours de loisirs.
+        %div
+          = link_to "Publiez vos cours", inscription_pro_structures_path, class: 'btn btn--green soft--sides'
+        %div
+          %i Gratuit et sans engagement
 
-- content_for :above_container do
-  .home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background.jpg'})" }
-    .main-container.soft.push--bottom
-      %header.grid.push--bottom
-        .grid__item.one-half>
-          %h1.flush
-            Recrutez de nouveaux élèves
-          .delta.line-height-1-7.push-half--bottom
-            CoursAvenue permet à chaque professeur, association, ou école de gagner facilement en visibilité pour recruter de nouveaux élèves. L'inscription est gratuite. Faites partie d'une communauté en pleine expansion passionnée par les cours de loisirs.
-          %div
-            = link_to "Publiez vos cours", inscription_pro_structures_path, class: 'btn btn--green soft--sides'
-          %div
-            %i Gratuit et sans engagement
+      .grid__item.one-half.text--center>
+        .relative.center-block{ style: 'width: 300px;' }
+          .media-photo
+            = image_tag 'pro/premium/testimonies/yoga-sattva-big.jpg', class: 'rounded block', width: 300
+          .absolute.south.soft-half.white.soft-black-text-shadow
+            %p.quoted.line-height-1-5.push-half--bottom
+              = link_to structure_url('yoga-sattva-paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, target: :_blank), class: 'muted-link' do
+                Après avoir complété mon profil gratuit, j'ai reçu mes premières recommandations et de nouveaux élèves sont venus à moi.
+            %p.f-style-italic
+              Emilie Omnès, Professeur de yoga à Paris.
 
-        .grid__item.one-half.text--center>
-          .relative.center-block{ style: 'width: 300px;' }
-            .media-photo
-              = image_tag 'pro/premium/testimonies/yoga-sattva-big.jpg', class: 'rounded block', width: 300
-            .absolute.south.soft-half.white.soft-black-text-shadow
-              %p.quoted.line-height-1-5.push-half--bottom
-                = link_to structure_url('yoga-sattva-paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, target: :_blank), class: 'muted-link' do
-                  Après avoir complété mon profil gratuit, j'ai reçu mes premières recommandations et de nouveaux élèves sont venus à moi.
-              %p.f-style-italic
-                Emilie Omnès, Professeur de yoga à Paris.
-
-  .home-screen-promotion-wrapper.soft
-    .main-container.soft--sides
-      %h2.text--center.push--bottom.soft--ends.f-weight-300 Les avantages du profil CoursAvenue
-      .inline-block.one-third.palm-one-whole.lap-one-half.pro-homepage-advantage-box>
-        .flexbox.one-whole
-          .flexbox__item.v-top.soft--right{ style: 'width: 60px;'}>
-            = image_tag 'icons/icon-euro-orange.png', width: '30', style: 'padding-top: 3px'
-          .flexbox__item.v-top.soft-half--right>
-            %h4 Publication gratuite
-            %p.epsilon
-              Votre profil CoursAvenue est gratuit et sans engagement.
-      .inline-block.one-third.palm-one-whole.lap-one-half.pro-homepage-advantage-box>
-        .flexbox.one-whole
-          .flexbox__item.v-top.soft--right{ style: 'width: 60px;'}>
-            = image_tag 'icons/icon-handshake-orange.png', width: '40', style: 'padding-top: 3px'
-          .flexbox__item.v-top.soft-half--right>
-            %h4 Mise en relation gratuite
-            %p.epsilon
-              Faites connaissance et échangez avec ceux qui vont peut-être rejoindre l'un de vos cours.
-      .inline-block.one-third.palm-one-whole.lap-one-half.pro-homepage-advantage-box>
-        .flexbox.one-whole
-          .flexbox__item.v-top.soft--right{ style: 'width: 60px;'}>
-            = image_tag 'icons/icon-profile-complete-orange.png', width: '23', style: 'padding-top: 3px'
-          .flexbox__item.v-top.soft-half--right>
-            %h4 Profil complet
-            %p.epsilon
-              Complétez votre profil qui remonte en tête des résultats de recherche.
-      .inline-block.one-third.palm-one-whole.lap-one-half.pro-homepage-advantage-box>
-        .flexbox.one-whole
-          .flexbox__item.v-top.soft--right{ style: 'width: 60px;'}>
-            = image_tag 'icons/icon-bubble-heart-orange.png', width: '25', style: 'padding-top: 3px'
-          .flexbox__item.v-top.soft-half--right>
-            %h4 Bouche à oreille
-            %p.epsilon
-              Gérez les recommandations de vos élèves qui consolident votre réputation.
-              %br
-              = link_to 'Lire nos critères de publication', pro_pages_why_be_recommended_path
-      .inline-block.one-third.palm-one-whole.lap-one-half.pro-homepage-advantage-box>
-        .flexbox.one-whole
-          .flexbox__item.v-top.soft--right{ style: 'width: 60px;'}>
-            %i.fa.fa-bar-chart-o.orange.fa-2x
-          .flexbox__item.v-top.soft-half--right>
-            %h4 Statistiques
-            %p.epsilon
-              Suivez le nombre de visites quotidiennes de votre profil.
-      .inline-block.one-third.palm-one-whole.lap-one-half.pro-homepage-advantage-box>
-        .flexbox.one-whole
-          .flexbox__item.v-top.soft--right{ style: 'width: 60px;'}>
-            %i.fa.fa-google.orange.fa-2x
-          .flexbox__item.v-top.soft-half--right>
-            %h4 Google
-            %p.epsilon
-              Nous travaillons directement avec Google pour vous apporter du trafic et de la visibilité.
-      .inline-block.one-third.palm-one-whole.lap-one-half.pro-homepage-advantage-box>
-        .flexbox.one-whole
-          .flexbox__item.v-top.soft--right{ style: 'width: 60px;'}>
-            %i.fa.fa-cogs.orange.fa-2x
-          .flexbox__item.v-top.soft-half--right>
-            %h4 Profil personnalisé
-            %p.epsilon
-              Personnalisez votre profil avec votre logo, vos photos et vidéos.
-      .inline-block.one-third.palm-one-whole.lap-one-half.pro-homepage-advantage-box>
-        .flexbox.one-whole
-          .flexbox__item.v-top.soft--right{ style: 'width: 60px;'}>
-            %i.fa.fa-calendar-o.orange.fa-2x
-          .flexbox__item.v-top.soft-half--right>
-            %h4 Planning à jour
-            %p.epsilon
-              Gérez facilement le planning de vos activités pour qu'il reste tout le temps à jour.
-      .inline-block.one-third.palm-one-whole.lap-one-half.pro-homepage-advantage-box>
-        .flexbox.one-whole
-          .flexbox__item.v-top.soft--right{ style: 'width: 60px;'}>
-            %i.fa.fa-comments.orange.fa-2x
-          .flexbox__item.v-top.soft-half--right>
-            %h4 Avis sur votre site
-            %p.epsilon
-              Installez votre livre d'Or CoursAvenue sur votre propre site Internet.
-              = link_to 'Voir des exemples', pro_pages_widget_path
-      .inline-block.one-third.palm-one-whole.lap-one-half.pro-homepage-advantage-box>
-        .flexbox.one-whole
-          .flexbox__item.v-top.soft--right{ style: 'width: 60px;'}>
-            = image_tag 'icons/icon-money-orange.png', width: '40', style: 'padding-top: 3px'
-          .flexbox__item.v-top.soft-half--right>
-            %h4 Pas de paiement en ligne
-            %p.epsilon
-              Il n'y a aucune transaction financière sur CoursAvenue, le paiement de vos cours se fait directement entre vous et vos élèves.
-      .inline-block.one-third.palm-one-whole.lap-one-half.pro-homepage-advantage-box>
-        .flexbox.one-whole
-          .flexbox__item.v-top.soft--right{ style: 'width: 60px;'}>
-            %i.fa.fa-phone.orange.fa-2x
-          .flexbox__item.v-top.soft-half--right>
-            %h4 Assistance utilisateurs
-            %p.epsilon
-              Notre équipé dédiée à la communauté est disponible à toute heure.
-      .inline-block.one-third.palm-one-whole.lap-one-half.pro-homepage-advantage-box>
-        .flexbox.one-whole
-          .flexbox__item.v-top.soft--right{ style: 'width: 60px;'}>
-            = image_tag 'icons/icon-auto-publication-orange.png', width: '30', style: 'padding-top: 3px'
-          .flexbox__item.v-top.soft-half--right>
-            %h4 Publications automatiques
-            %p.epsilon
-              En un clic, publiez votre annonce sur Facebook et Twitter.
+.home-screen-promotion-wrapper.soft
+  .main-container.soft--sides
+    %h2.text--center.push--bottom.soft--ends.f-weight-300 Les avantages du profil CoursAvenue
+    .inline-block.one-third.palm-one-whole.lap-one-half.pro-homepage-advantage-box>
+      .flexbox.one-whole
+        .flexbox__item.v-top.soft--right{ style: 'width: 60px;'}>
+          = image_tag 'icons/icon-euro-orange.png', width: '30', style: 'padding-top: 3px'
+        .flexbox__item.v-top.soft-half--right>
+          %h4 Publication gratuite
+          %p.epsilon
+            Votre profil CoursAvenue est gratuit et sans engagement.
+    .inline-block.one-third.palm-one-whole.lap-one-half.pro-homepage-advantage-box>
+      .flexbox.one-whole
+        .flexbox__item.v-top.soft--right{ style: 'width: 60px;'}>
+          = image_tag 'icons/icon-handshake-orange.png', width: '40', style: 'padding-top: 3px'
+        .flexbox__item.v-top.soft-half--right>
+          %h4 Mise en relation gratuite
+          %p.epsilon
+            Faites connaissance et échangez avec ceux qui vont peut-être rejoindre l'un de vos cours.
+    .inline-block.one-third.palm-one-whole.lap-one-half.pro-homepage-advantage-box>
+      .flexbox.one-whole
+        .flexbox__item.v-top.soft--right{ style: 'width: 60px;'}>
+          = image_tag 'icons/icon-profile-complete-orange.png', width: '23', style: 'padding-top: 3px'
+        .flexbox__item.v-top.soft-half--right>
+          %h4 Profil complet
+          %p.epsilon
+            Complétez votre profil qui remonte en tête des résultats de recherche.
+    .inline-block.one-third.palm-one-whole.lap-one-half.pro-homepage-advantage-box>
+      .flexbox.one-whole
+        .flexbox__item.v-top.soft--right{ style: 'width: 60px;'}>
+          = image_tag 'icons/icon-bubble-heart-orange.png', width: '25', style: 'padding-top: 3px'
+        .flexbox__item.v-top.soft-half--right>
+          %h4 Bouche à oreille
+          %p.epsilon
+            Gérez les recommandations de vos élèves qui consolident votre réputation.
+            %br
+            = link_to 'Lire nos critères de publication', pro_pages_why_be_recommended_path
+    .inline-block.one-third.palm-one-whole.lap-one-half.pro-homepage-advantage-box>
+      .flexbox.one-whole
+        .flexbox__item.v-top.soft--right{ style: 'width: 60px;'}>
+          %i.fa.fa-bar-chart-o.orange.fa-2x
+        .flexbox__item.v-top.soft-half--right>
+          %h4 Statistiques
+          %p.epsilon
+            Suivez le nombre de visites quotidiennes de votre profil.
+    .inline-block.one-third.palm-one-whole.lap-one-half.pro-homepage-advantage-box>
+      .flexbox.one-whole
+        .flexbox__item.v-top.soft--right{ style: 'width: 60px;'}>
+          %i.fa.fa-google.orange.fa-2x
+        .flexbox__item.v-top.soft-half--right>
+          %h4 Google
+          %p.epsilon
+            Nous travaillons directement avec Google pour vous apporter du trafic et de la visibilité.
+    .inline-block.one-third.palm-one-whole.lap-one-half.pro-homepage-advantage-box>
+      .flexbox.one-whole
+        .flexbox__item.v-top.soft--right{ style: 'width: 60px;'}>
+          %i.fa.fa-cogs.orange.fa-2x
+        .flexbox__item.v-top.soft-half--right>
+          %h4 Profil personnalisé
+          %p.epsilon
+            Personnalisez votre profil avec votre logo, vos photos et vidéos.
+    .inline-block.one-third.palm-one-whole.lap-one-half.pro-homepage-advantage-box>
+      .flexbox.one-whole
+        .flexbox__item.v-top.soft--right{ style: 'width: 60px;'}>
+          %i.fa.fa-calendar-o.orange.fa-2x
+        .flexbox__item.v-top.soft-half--right>
+          %h4 Planning à jour
+          %p.epsilon
+            Gérez facilement le planning de vos activités pour qu'il reste tout le temps à jour.
+    .inline-block.one-third.palm-one-whole.lap-one-half.pro-homepage-advantage-box>
+      .flexbox.one-whole
+        .flexbox__item.v-top.soft--right{ style: 'width: 60px;'}>
+          %i.fa.fa-comments.orange.fa-2x
+        .flexbox__item.v-top.soft-half--right>
+          %h4 Avis sur votre site
+          %p.epsilon
+            Installez votre livre d'Or CoursAvenue sur votre propre site Internet.
+            = link_to 'Voir des exemples', pro_pages_widget_path
+    .inline-block.one-third.palm-one-whole.lap-one-half.pro-homepage-advantage-box>
+      .flexbox.one-whole
+        .flexbox__item.v-top.soft--right{ style: 'width: 60px;'}>
+          = image_tag 'icons/icon-money-orange.png', width: '40', style: 'padding-top: 3px'
+        .flexbox__item.v-top.soft-half--right>
+          %h4 Pas de paiement en ligne
+          %p.epsilon
+            Il n'y a aucune transaction financière sur CoursAvenue, le paiement de vos cours se fait directement entre vous et vos élèves.
+    .inline-block.one-third.palm-one-whole.lap-one-half.pro-homepage-advantage-box>
+      .flexbox.one-whole
+        .flexbox__item.v-top.soft--right{ style: 'width: 60px;'}>
+          %i.fa.fa-phone.orange.fa-2x
+        .flexbox__item.v-top.soft-half--right>
+          %h4 Assistance utilisateurs
+          %p.epsilon
+            Notre équipé dédiée à la communauté est disponible à toute heure.
+    .inline-block.one-third.palm-one-whole.lap-one-half.pro-homepage-advantage-box>
+      .flexbox.one-whole
+        .flexbox__item.v-top.soft--right{ style: 'width: 60px;'}>
+          = image_tag 'icons/icon-auto-publication-orange.png', width: '30', style: 'padding-top: 3px'
+        .flexbox__item.v-top.soft-half--right>
+          %h4 Publications automatiques
+          %p.epsilon
+            En un clic, publiez votre annonce sur Facebook et Twitter.
 
 
-  .main-container.soft--ends
-    %h2.text--center.push--bottom.soft--ends.f-weight-300 Simple et rapide
-    .grid
-      .grid__item.one-third.text--center.lap-one-whole>
-        %p.epsilon Ajoutez photos, textes, planning et obtenez votre 1ères recommandations
-        %p Un seul profil pour gérer l'ensemble de vos informations.
-      .grid__item.one-third.text--center.lap-one-whole>
-        %p.epsilon Votre profil devient visible sur le moteur de recherche CoursAvenue
-        %p Votre profil complet et personnalisé gagne en visibilité sur le moteur de recherche CoursAvenue.
-      .grid__item.one-third.text--center.lap-one-whole>
-        %p.epsilon Recrutez de nouveaux élèves tout au long de l'année
-        %p Les élèves intéressés par vos cours prennent contact gratuitement avec vous
-  .home-screen-promotion-wrapper.soft
-    .main-container.soft--sides
-      %h2.text--center.push--bottom.soft--ends.f-weight-300 Une communauté grandissante
-      - StructureSearch.search(per_page: 9, has_logo: true, sort: 'premium').results.each do |structure|
-        .inline-block.one-third.palm-one-whole.lap-one-half>
-          .grid.push--bottom
-            .grid__item.one-third.epsilon>
-              = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block muted-link media-photo', target: :_blank do
-                = image_tag structure.logo.url(:thumb), class: 'block'
-            .grid__item.two-thirds>
-              = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank, class: 'muted-link' do
+.main-container.soft--ends
+  %h2.text--center.push--bottom.soft--ends.f-weight-300 Simple et rapide
+  .grid
+    .grid__item.one-third.text--center.lap-one-whole>
+    .grid__item.one-third.text--center.lap-one-whole>
+    .grid__item.one-third.text--center.lap-one-whole>
+  .grid
+    .grid__item.one-third.text--center.lap-one-whole>
+      %p.epsilon Ajoutez photos, textes, planning et obtenez votre 1ères recommandations
+    .grid__item.one-third.text--center.lap-one-whole>
+      %p.epsilon Votre profil devient visible sur le moteur de recherche CoursAvenue
+    .grid__item.one-third.text--center.lap-one-whole>
+      %p.epsilon Recrutez de nouveaux élèves tout au long de l'année
+  .grid
+    .grid__item.one-third.text--center.lap-one-whole>
+      %p Un seul profil pour gérer l'ensemble de vos informations.
+    .grid__item.one-third.text--center.lap-one-whole>
+      %p Votre profil complet et personnalisé gagne en visibilité sur le moteur de recherche CoursAvenue.
+    .grid__item.one-third.text--center.lap-one-whole>
+      %p Les élèves intéressés par vos cours prennent contact gratuitement avec vous
+.home-screen-promotion-wrapper.soft
+  .main-container.soft--sides
+    %h2.text--center.push--bottom.soft--ends.f-weight-300 Une communauté grandissante
+    - StructureSearch.search(per_page: 9, has_logo: true, sort: 'premium').results.each do |structure|
+      .inline-block.one-third.palm-one-whole.lap-one-half>
+        .grid.push--bottom
+          .grid__item.one-third.epsilon>
+            = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block muted-link media-photo', target: :_blank do
+              = image_tag structure.logo.url(:thumb), class: 'block'
+          .grid__item.two-thirds>
+            = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank, class: 'muted-link' do
+              %p
+                %strong= structure.name
+                %br
+                - if structure.structure_type.present?
+                  = t(structure.structure_type)
+                - else
+                  Association
+                %br
+                = truncate(join_parent_subjects_text(structure), lenght: 36)
+    .text--center.push--top
+      = link_to "Publiez vos cours", inscription_pro_structures_path, class: 'btn btn--green'
+
+.main-container.soft--ends
+  %h2.text--center.push--bottom.soft--ends.f-weight-300 Développez votre bouche à oreille sur Internet
+  - CommentSearch.search(per_page: 9, has_avatar: true, has_title: true).results.in_groups_of(3, false).each do |review_group|
+    .grid.push--bottom
+      - review_group.each do |review|
+        .grid__item.one-third.palm-one-whole.lap-one-half>
+          .flexbox.push--bottom
+            .flexbox__item.soft--left.v-top>
+              = link_to structure_url(review.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block media-photo', target: :_blank, class: 'muted-link' do
+                = image_tag review.user.avatar_url(:thumb), class: 'block rounded--circle', width: 60
+            .flexbox__item.soft--sides.v-top>
+              .message__body.soft-half.message__appendix.gray-box
+                %p.epsilon.push-half--bottom.quoted
+                  %strong= review.title
                 %p
-                  %strong= structure.name
-                  %br
-                  - if structure.structure_type.present?
-                    = t(structure.structure_type)
-                  - else
-                    Association
-                  %br
-                  = truncate(join_parent_subjects_text(structure), lenght: 36)
-      .text--center.push--top
-        = link_to "Publiez vos cours", inscription_pro_structures_path, class: 'btn btn--green'
+                  = truncate(review.content, length: 210)
+                %p
+                  %i
+                    = "#{review.author_name} pour"
+                    = link_to review.structure.name, structure_url(review.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank
 
-  .main-container.soft--ends
-    %h2.text--center.push--bottom.soft--ends.f-weight-300 Développez votre bouche à oreille sur Internet
-    - CommentSearch.search(per_page: 9, has_avatar: true, has_title: true).results.in_groups_of(3, false).each do |review_group|
-      .grid.push--bottom
-        - review_group.each do |review|
-          .grid__item.one-third.palm-one-whole.lap-one-half>
-            .flexbox.push--bottom
-              .flexbox__item.soft--left.v-top>
-                = link_to structure_url(review.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block media-photo', target: :_blank, class: 'muted-link' do
-                  = image_tag review.user.avatar_url(:thumb), class: 'block rounded--circle', width: 60
-              .flexbox__item.soft--sides.v-top>
-                .message__body.soft-half.message__appendix.gray-box
-                  %p.epsilon.push-half--bottom.quoted
-                    %strong= review.title
-                  %p
-                    = truncate(review.content, length: 210)
-                  %p
-                    %i
-                      = "#{review.author_name} pour"
-                      = link_to review.structure.name, structure_url(review.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank
-
-  .home-screen-promotion-wrapper.soft
-    .main-container
-      .white-box.soft.delta.text--center.f-weight-bold.textn--center
-        %span.soft--right Rejoignez la communauté CoursAvenue et recrutez de nouveaux élèves :
-        = link_to "Publiez vos cours", inscription_pro_structures_path, class: 'btn btn--green btn btn--large'
+.home-screen-promotion-wrapper.soft
+  .main-container
+    .white-box.soft.delta.text--center.f-weight-bold.textn--center
+      %span.soft--right Rejoignez la communauté CoursAvenue et recrutez de nouveaux élèves :
+      = link_to "Publiez vos cours", inscription_pro_structures_path, class: 'btn btn--green btn btn--large'
 
 = render 'shared/live_chat'

@@ -101,7 +101,7 @@
           = yield :side_menu
     .flexbox__item.v-top.small-container
       = yield :breadcrumb
-      = content_for?(:admins_content) ? yield(:admins_content) : yield
+      = yield
     .grid__item.relative.wizard-container.print--hidden
 
 = render :template => 'layouts/application'

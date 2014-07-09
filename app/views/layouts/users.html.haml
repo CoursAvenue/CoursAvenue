@@ -6,7 +6,7 @@
 
 = content_for :content do
   .main-container.soft--ends{class: controller_path}
-    = content_for?(:users_content) ? yield(:users_content) : yield
+    = yield
 
   = render 'shared/footer'
 
