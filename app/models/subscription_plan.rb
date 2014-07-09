@@ -2,37 +2,38 @@ class SubscriptionPlan < ActiveRecord::Base
   acts_as_paranoid
   include Concerns::HstoreHelper
 
-  PLAN_TYPE = %w(monthly yearly three_months six_months_half_price)
+  PLAN_TYPE = %w(monthly yearly three_months six_months)
 
   NEXT_PLAN_TYPE = {
-    'monthly'                 => 'monthly',
-    'three_months'            => 'monthly',
-    'six_months_half_price'   => 'monthly',
-    'yearly'                  => 'yearly'
+    'monthly'      => 'monthly',
+    'three_months' => 'monthly',
+    'six_months'   => 'six_months',
+    'yearly'       => 'yearly'
   }
 
   PLAN_TYPE_PRICES = {
-    'monthly'               => 34, # €
-    'three_months'          => 69, # €
-    'six_months_half_price' => 102, # €
-    'yearly'                => 348 # €
+    'monthly'      => 44, # €
+    'three_months' => 69, # €
+    'six_months'   => 204, # €
+    'yearly'       => 348 # €
   }
   PLAN_TYPE_FREQUENCY = {
     'monthly'      => 'tous les mois',
     'three_months' => 'tous les 3 mois',
+    'six_months'   => 'tous les 6 mois',
     'yearly'       => 'tous les ans'
   }
   PLAN_TYPE_DESCRIPTION = {
-    'monthly'               => 'Abonnement mensuel',
-    'three_months'          => 'Abonnement pour 3 mois',
-    'six_months_half_price' => 'Abonnement pour 6 mois',
-    'yearly'                => 'Abonnement annuel'
+    'monthly'      => 'Abonnement mensuel',
+    'three_months' => 'Abonnement pour 3 mois',
+    'six_months'   => 'Abonnement pour 6 mois',
+    'yearly'       => 'Abonnement annuel'
   }
   PLAN_TYPE_DURATION = {
-    'monthly'               => 1, # month
-    'three_months'          => 3, # months
-    'six_months_half_price' => 6, # months
-    'yearly'                => 12 # months
+    'monthly'      => 1, # month
+    'three_months' => 3, # months
+    'six_months'   => 6, # months
+    'yearly'       => 12 # months
   }
 
   ######################################################################

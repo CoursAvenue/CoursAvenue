@@ -55,10 +55,10 @@ describe SubscriptionPlan do
 
   describe '#next_amount' do
     it 'returns monthly amount' do
-      plan_types =  {'monthly'               => 'monthly',
-                     'yearly'                => 'yearly',
-                     'three_months'          => 'monthly',
-                     'six_months_half_price' => 'monthly'}
+      plan_types =  {'monthly'      => 'monthly',
+                     'yearly'       => 'yearly',
+                     'three_months' => 'monthly',
+                     'six_months'   => 'monthly'}
       plan_types.each do |plan_type, expected_plan_type|
         subscription_plan = SubscriptionPlan.subscribe! plan_type, structure, {}
         expect(subscription_plan.next_amount).to eq SubscriptionPlan::PLAN_TYPE_PRICES[expected_plan_type]
@@ -109,10 +109,10 @@ describe SubscriptionPlan do
 
   describe '#frequency' do
     it 'returns monthly' do
-      plan_types =  {'monthly'               => 'monthly',
-                     'yearly'                => 'yearly',
-                     'three_months'          => 'monthly',
-                     'six_months_half_price' => 'monthly'}
+      plan_types =  {'monthly'      => 'monthly',
+                     'yearly'       => 'yearly',
+                     'three_months' => 'monthly',
+                     'six_months'   => 'monthly'}
       plan_types.each do |plan_type, expected_plan_type|
         subscription_plan = SubscriptionPlan.subscribe! plan_type, structure, {}
         expect(subscription_plan.frequency).to eq SubscriptionPlan::PLAN_TYPE_FREQUENCY[expected_plan_type]

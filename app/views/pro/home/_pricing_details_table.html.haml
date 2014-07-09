@@ -2,39 +2,65 @@
   %thead
     %tr.border-none--bottom
       %td.no-stripe.four-twelfths.bordered--right.v-top.epsilon
-        Tarifs :
-        %ul.nav.tabs--link.inline-block
-          %li.active.relative
-            %a{ href: '#price-annual', data: { toggle: 'tab' } } Annuel
-            = image_tag 'texts/premium.png', class: 'absolute east', height: 35, style: 'top: 20px; left: 20px;'
-          %span.gray= '|'
-          %li
-            %a{ href: '#price-mensual', data: { toggle: 'tab' } } Mensuel
+        -# Tarifs :
       %td.text--center.four-twelfths.bordered--top.bordered--right.v-top.bordered--bottom
         %p.green.beta.push-half--bottom
           %strong Basic
+        %ul.nav.tabs--link.inline-block
+          %li.active &nbsp;
         .delta Gratuit
-        %p &nbsp;
+        %p
+          %i &nbsp;
+          %br
+          %strong.gamma &nbsp;
         - if @structure
-          %span.gray.v-middle Votre compte actuel
+          %p
+            %span.gray Votre compte actuel
         - else
           = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--yellow btn--full'
       %td.bordered--right.four-twelfths.text--center.bordered--top.v-top.bordered--bottom
         %p.green.beta.push-half--bottom
           %strong Premium
+        %ul.nav.tabs--link.inline-block
+          %li.active
+            %a{ href: '.price-annual', data: { toggle: 'tab' } } 12 mois
+          %span.gray= '|'
+          %li
+            %a{ href: '.price-bi-annual', data: { toggle: 'tab' } } 6 mois
+          %span.gray= '|'
+          %li
+            %a{ href: '.price-mensual', data: { toggle: 'tab' } } 1 mois
+
         .tab-content
-          .tab-pane.hard#price-annual.active
+          .tab-pane.hard.price-annual.active
             .delta 29€ TTC / mois
             %p
-              %i Facturation annuelle
+              %i Soit 348€
+              %br
+              %strong.green.gamma -34%
+              %span.delta.green de réduction
+
             - if @structure
               = link_to 'Commencer', go_premium_pro_structure_path(@structure, premium_type: 'yearly'), class: 'btn btn--yellow btn--full'
             - else
               = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--yellow btn--full'
-          .tab-pane.hard#price-mensual
+          .tab-pane.hard.price-bi-annual
             .delta 34€ TTC / mois
             %p
+              %i Soit 204€
+              %br
+              %strong.green.gamma -23%
+              %span.delta.green de réduction
+            - if @structure
+              = link_to 'Commencer', go_premium_pro_structure_path(@structure, premium_type: 'six_months'), class: 'btn btn--yellow btn--full'
+            - else
+              = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--yellow btn--full'
+          .tab-pane.hard.price-mensual
+            .delta 44€ TTC / mois
+            %p
               %i Facturation mensuelle
+              %br
+              %strong.gamma &nbsp;
             - if @structure
               = link_to 'Commencer', go_premium_pro_structure_path(@structure, premium_type: 'monthly'), class: 'btn btn--yellow btn--full'
             - else
@@ -142,7 +168,12 @@
           = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--yellow btn--full'
       %td.bordered--right.text--center.soft-half
         - if @structure
-          = link_to 'Commencer', go_premium_pro_structure_path(@structure, premium_type: 'yearly'), class: 'btn btn--yellow btn--full'
+          .tab-pane.hard.price-annual.active
+            = link_to 'Commencer', go_premium_pro_structure_path(@structure, premium_type: 'yearly'), class: 'btn btn--yellow btn--full'
+          .tab-pane.hard.price-bi-annual
+            = link_to 'Commencer', go_premium_pro_structure_path(@structure, premium_type: 'six_months'), class: 'btn btn--yellow btn--full'
+          .tab-pane.hard.price-mensual
+            = link_to 'Commencer', go_premium_pro_structure_path(@structure, premium_type: 'monthly'), class: 'btn btn--yellow btn--full'
         - else
           = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--yellow btn--full'
     %tr
