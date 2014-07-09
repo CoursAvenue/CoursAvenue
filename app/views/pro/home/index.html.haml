@@ -4,11 +4,11 @@
 = pro_menu_currently_at 'Accueil'
 
 - content_for :above_container do
-  .home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/premium/testimonies/background.jpg'})" }
-    .main-container.soft
-      .grid
-        .grid__item.two-thirds>
-          %h1.f-weight-300.flush
+  .home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background.jpg'})" }
+    .main-container.soft.push--bottom
+      .grid.push--bottom
+        .grid__item.one-half>
+          %h1.flush
             Recrutez de nouveaux élèves
           .delta.line-height-1-7.push-half--bottom
             CoursAvenue permet à chaque professeur, association, ou école de gagner facilement en visibilité pour recruter de nouveaux élèves. L'inscription est gratuite. Faites partie d'une communauté en pleine expansion passionnée par les cours de loisirs.
@@ -18,11 +18,12 @@
           Gratuit et sans engagement
           - unless current_pro_admin
             .text--center= link_to "Je suis déjà inscrit, me connecter", new_pro_admin_session_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
-        .grid__item.one-third>
-          .relative
-            = image_tag 'pro/premium/testimonies/yoga-sattva-big.jpg'
+        .grid__item.one-half.text--center>
+          .relative.center-block{ style: 'width: 300px;' }
+            .media-photo
+              = image_tag 'pro/premium/testimonies/yoga-sattva-big.jpg', class: 'rounded block', width: 300
             .absolute.south.soft-half.white.soft-black-text-shadow
-              %p.delta.quoted.line-height-1-5.push-half--bottom
+              %p.quoted.line-height-1-5.push-half--bottom
                 = link_to structure_url('yoga-sattva-paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, target: :_blank), class: 'muted-link' do
                   Après avoir complété mon profil gratuit, j'ai reçu mes premières recommandations et de nouveaux élèves sont venus à moi.
               %p.f-style-italic
@@ -147,7 +148,7 @@
   .home-screen-promotion-wrapper.soft
     .main-container
       %h2.text--center.push--bottom.soft--ends.f-weight-300 Une communauté grandissante
-      - StructureSearch.search(per_page: 9).results.each do |structure|
+      - StructureSearch.search(per_page: 9, has_logo: true).results.each do |structure|
         .inline-block.one-third.palm-one-whole.lap-one-half>
           .grid.push--bottom
             .grid__item.one-third.epsilon>
