@@ -165,7 +165,7 @@
                   %br
                   = truncate(join_parent_subjects_text(structure), lenght: 36)
       .text--center
-        = link_to "Publiez vos cours", inscription_pro_structures_path, class: 'btn btn--green', id: 'register'
+        = link_to "Publiez vos cours", inscription_pro_structures_path, class: 'btn btn--green'
 
   .main-container.soft--ends
     %h2.text--center.push--bottom.soft--ends.f-weight-300 Développez votre bouche à oreille sur Internet
@@ -176,7 +176,7 @@
             .flexbox.push--bottom
               .flexbox__item.soft--left.v-top>
                 = link_to structure_url(review.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block media-photo', target: :_blank, class: 'muted-link' do
-                  = image_tag review.user.avatar_url(:thumb), class: 'block', width: 60
+                  = image_tag review.user.avatar_url(:thumb), class: 'block rounded--circle', width: 60
               .flexbox__item.soft--sides.v-top>
                 .message__body.soft-half.message__appendix.gray-box
                   %p.epsilon.push-half--bottom.quoted
@@ -189,9 +189,9 @@
                       = link_to review.structure.name, structure_url(review.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank
 
   .home-screen-promotion-wrapper.soft
-    .main-container.text--center
-      .inline-block.white-box.soft.epsilon.text--center
+    .main-container
+      .white-box.soft.delta.text--center.f-weight-bold.textn--center
         Rejoignez la communauté CoursAvenue et recrutez de nouveaux élèves :
-        = link_to "Publiez vos cours", inscription_pro_structures_path, class: 'btn btn--green', id: 'register'
+        = link_to "Publiez vos cours", inscription_pro_structures_path, class: 'btn btn--green btn btn--large'
 
 = render 'shared/live_chat'

@@ -8,14 +8,12 @@
 
     .grid__item.two-thirds.v-middle.text--right
       %ul.nav
-        %li.visuallyhidden--palm= link_to 'Accéder à CoursAvenue.com', root_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--small'
         %li.visuallyhidden--palm
-          = link_to pages_contact_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), rel: :nofollow, class: 'btn btn--small' do
-            %i.fa.fa-envelope-o
-            Nous contacter
-        %li.visuallyhidden--palm= render 'shared/question_dropdown_menu'
+          = link_to 'Tarifs', pro_pages_price_path
+        %li.soft--sides.visuallyhidden--palm
+          = render 'shared/question_dropdown_menu'
         - if current_pro_admin
-          %li.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
+          %li.drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
             - if current_pro_admin.super_admin?
               = link_to 'Espace super admin', pro_dashboard_path, class: 'btn btn--green btn--small'
             - elsif current_pro_admin.structure.present?
@@ -27,9 +25,6 @@
                   %i.fa.fa-sign-out
         - else
           %li
-            = link_to new_pro_admin_session_path, class: 'header-link' do
+            = link_to new_pro_admin_session_path, class: 'btn btn--green' do
               %i.fa.fa-sign-in
-              Se connecter
-
-%nav.nav-links-wrapper.main-container.page-menu
-  = yield :main_navigation
+              Connexion
