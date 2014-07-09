@@ -31,7 +31,7 @@
                   = testimony[:content]
               %p.f-style-italic
                 = testimony[:from]
-                = link_to 'Voir son profil', structure_url(testimony[:slug], subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, target: :_blank)
+                = link_to '— Voir son profil', structure_url(testimony[:slug], subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, target: :_blank), class: 'white'
 
 
 = content_for :scripts do

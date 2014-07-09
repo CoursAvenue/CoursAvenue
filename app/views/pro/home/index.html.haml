@@ -6,18 +6,17 @@
 - content_for :above_container do
   .home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background.jpg'})" }
     .main-container.soft.push--bottom
-      .grid.push--bottom
+      %header.grid.push--bottom
         .grid__item.one-half>
           %h1.flush
             Recrutez de nouveaux élèves
           .delta.line-height-1-7.push-half--bottom
             CoursAvenue permet à chaque professeur, association, ou école de gagner facilement en visibilité pour recruter de nouveaux élèves. L'inscription est gratuite. Faites partie d'une communauté en pleine expansion passionnée par les cours de loisirs.
           %div
-            = link_to "Publiez vos cours", inscription_pro_structures_path, class: 'btn btn--green', id: 'register'
+            = link_to "Publiez vos cours", inscription_pro_structures_path, class: 'btn btn--green soft--sides'
           %div
-          Gratuit et sans engagement
-          - unless current_pro_admin
-            .text--center= link_to "Je suis déjà inscrit, me connecter", new_pro_admin_session_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+            %i Gratuit et sans engagement
+
         .grid__item.one-half.text--center>
           .relative.center-block{ style: 'width: 300px;' }
             .media-photo
@@ -146,13 +145,13 @@
         %p.epsilon Recrutez de nouveaux élèves tout au long de l'année
         %p Les élèves intéressés par vos cours prennent contact gratuitement avec vous
   .home-screen-promotion-wrapper.soft
-    .main-container
+    .main-container.soft--sides
       %h2.text--center.push--bottom.soft--ends.f-weight-300 Une communauté grandissante
-      - StructureSearch.search(per_page: 9, has_logo: true).results.each do |structure|
+      - StructureSearch.search(per_page: 9, has_logo: true, sort: 'premium').results.each do |structure|
         .inline-block.one-third.palm-one-whole.lap-one-half>
           .grid.push--bottom
             .grid__item.one-third.epsilon>
-              = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block muted-link', target: :_blank do
+              = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block muted-link media-photo', target: :_blank do
                 = image_tag structure.logo.url(:thumb), class: 'block'
             .grid__item.two-thirds>
               = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank, class: 'muted-link' do
@@ -165,7 +164,7 @@
                     Association
                   %br
                   = truncate(join_parent_subjects_text(structure), lenght: 36)
-      .text--center
+      .text--center.push--top
         = link_to "Publiez vos cours", inscription_pro_structures_path, class: 'btn btn--green'
 
   .main-container.soft--ends
@@ -192,7 +191,7 @@
   .home-screen-promotion-wrapper.soft
     .main-container
       .white-box.soft.delta.text--center.f-weight-bold.textn--center
-        Rejoignez la communauté CoursAvenue et recrutez de nouveaux élèves :
+        %span.soft--right Rejoignez la communauté CoursAvenue et recrutez de nouveaux élèves :
         = link_to "Publiez vos cours", inscription_pro_structures_path, class: 'btn btn--green btn btn--large'
 
 = render 'shared/live_chat'

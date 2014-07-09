@@ -4,12 +4,15 @@
   Optimisez votre visibilité, augmentez votre taux d'inscription et de fidélisation
 
 - content_for :above_container do
-  .home-screen-promotion-wrapper--blue.soft
-    %header.text--center
-      %h1.f-weight-300.flush Prenez le contrôle de votre profil et recrutez efficacement de nouveaux élèves.
-      %h4.f-weight-300.flush.text--center Passez à l'offre Premium à partir de 29€ par mois et optimisez votre communication sur Internet. Fonctionne par abonnement mensuel sans engagement de durée et sans frais cachés.
+  .home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background.jpg'})" }
+    .main-container.soft.push--bottom
+      %header
+        %h1.flush Prenez le contrôle de votre profil et recrutez efficacement de nouveaux élèves.
+        .delta.line-height-1-7.push-half--bottom Passez à l'offre Premium à partir de 39€ par mois et optimisez votre communication sur Internet. Fonctionne par abonnement mensuel sans engagement de durée et sans frais cachés.
 
   .main-container
     = render 'pro/home/pricing_details_table'
+
+  = render 'pro/shared/premium_testimonies'
 
 = render 'shared/live_chat'
