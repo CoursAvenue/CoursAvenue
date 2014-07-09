@@ -4,44 +4,36 @@
       %h3 Passez au Premium pour accéder à toutes les fonctionnalités de CoursAvenue et recruter plus d'élèves.
 
       .text--center.push-half--bottom
-        = link_to "Voir l'offre spéciale (valable jusqu'au 31/07/2014)", '', class: 'epsilon'
+        = link_to "Voir l'offre spéciale (valable jusqu'au 31/07/2014)", pro_pages_july_offer_path, class: 'epsilon'
       %p
         %strong.delta Choisissez votre abonnement :
       = form_for @structure, method: :get, url: go_premium_pro_structure_path(@structure) do
         %input#premium_type_value{ type: 'hidden', name: 'premium_type', value: 'yearly' }
-        .grid--full.push-half--bottom
+        .grid--full.push-half--bottom.text--center
           .grid__item.v-middle.one-third.text--center>
-            .premium-bordered-box.soft-half--sides.soft--ends.relative
-              .soft--top
-                = image_tag 'pro/premium/eco_banner.png', class: 'absolute north', width: 200, style: 'left: 50%; margin-left: -100px;'
-              %p.gamma.push-half--bottom
+            .premium-bordered-box.soft-half.relative
+              .premium-banner
+                .premium-banner__content
+                  La plus économique
+              %p.gamma.push-half--bottom.soft--top
                 %strong 12 mois
               %hr
               .delta.line-height-1-7 29€ / mois
-              %p Soit 348€
+              %p Soit 468€ en un prélèvement unique
               %p.green
-                %strong.gamma -34%
+                %strong.gamma -11%
                 %span.delta de réduction
               = submit_tag 'Souscrire', class: 'btn btn--full btn--yellow', onclick: "$('#premium_type_value').val('yearly');"
           .grid__item.v-middle.one-third.text--center>
-            .white-box.soft-half.border-none--left
-              %p.gamma.push-half--bottom
-                %strong 6 mois
-              %hr
-              .delta.line-height-1-7 34€ / mois
-              %p Soit 204€
-              %p.green
-                %strong.gamma -23%
-                %span.delta de réduction
-
-              = submit_tag 'Souscrire', class: 'btn btn--full btn--yellow', onclick: "$('#premium_type_value').val('six_months');"
-          .grid__item.v-middle.one-third.text--center>
-            .white-box.soft-half.border-none--left
-              %p.gamma.push-half--bottom
+            .white-box.soft-half.border-none--left.relative
+              .premium-banner
+                .premium-banner__content
+                  La plus libre
+              %p.gamma.push-half--bottom.soft--top
                 %strong 1 mois
               %hr
               .delta.line-height-1-7 44€ / mois
-              %p &nbsp;
+              %p Prélèvement mensuel
               %p
                 %strong.gamma &nbsp;
 
@@ -55,42 +47,14 @@
     .soft--sides
       %p
         %strong.delta  Les avantages du profil Premium :
-      = render 'pro/structures/premium_advantages'
+      = render 'pro/shared/premium_advantages'
 
     %hr.push--ends
     .soft--sides
       %h4 Ils ont déjà souscrit au Premium
-      .flexbox
-        - @structures.each do |structure|
-          .flexbox__item.one-third
-            .flexbox
-              .flexbox__item.one-third
-                = image_tag structure.logo.url(:thumb)
-              .flexbox__item.two-thirds.soft-half--left
-                .epsilon
-                  %strong= structure.name
-                %div{ data: { toggle: 'popover', title: join_parent_subjects_text(structure), trigger: 'hover' } }
-                  = truncate join_parent_subjects_text(structure), length: 25
-                %div
-                  %i.green= "#{structure.view_count(1000)} visites"
-
+      = render 'pro/shared/they_already_subscribed'
     %hr.push--top.flush--bottom
-    .soft.white.bg-cover.f-weight-bold.black-text-shadow{ style: "background-image: url(#{asset_path 'pro/premium/testimonies/background.jpg'})" }
-      %ul.testimonies.no-bullet-list
-        - @testimonies.each do |testimony|
-          %li.soft--sides
-            .grid
-              .grid__item.v-middle.one-quarter>
-                = link_to structure_url(testimony[:slug], subdomain: CoursAvenue::Application::PRO_SUBDOMAIN, target: :_blank), class: 'muted-link block text--center soft' do
-                  = image_tag "pro/premium/testimonies/#{testimony[:image]}", class: 'bordered rounded--circle'
-              .grid__item.v-middle.three-quarters>
-                %p.delta.quoted.line-height-1-5.push-half--bottom
-                  = link_to structure_url(testimony[:slug], subdomain: CoursAvenue::Application::PRO_SUBDOMAIN, target: :_blank), class: 'muted-link' do
-                    = testimony[:content]
-                %p.f-style-italic
-                  = testimony[:from]
-                  = link_to 'Voir son profil', structure_url(testimony[:slug], subdomain: CoursAvenue::Application::PRO_SUBDOMAIN, target: :_blank)
-
+    = render 'pro/shared/premium_testimonies'
 
     %hr.push--bottom.flush--top
     .soft--sides
@@ -98,13 +62,3 @@
       = render 'pro/home/pricing_details_table'
 
 = render 'shared/live_chat'
-
-= content_for :scripts do
-  :javascript
-      $(function() {
-          $(".testimonies").responsiveSlides({
-              timeout: 7000,
-              pager: true,           // Boolean: Show pager, true or false
-              pauseControls: true    // Boolean: Pause when hovering controls, true or false
-          });
-      });

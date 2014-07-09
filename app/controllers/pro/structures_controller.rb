@@ -288,23 +288,6 @@ class Pro::StructuresController < Pro::ProController
 
   # GET member
   def premium
-    @structures = [Structure.find('atelier-dantzig'), Structure.find('method-acting-center'), Structure.find('collectif-d-un-atelier-a-l-autre')]
-    @testimonies = [{
-      image: 'yoga-sattva.png',
-      slug: 'yoga-sattva-paris',
-      content: "En passant au Premium, mes visites ont augmenté, ce qui m'a permis de recruter rapidement de nouveaux élèves intéressés par mes cours de yoga dans le 18ème.",
-      from: "Emilie Omnès, Professeur de yoga à Paris."
-    },{
-      image: 'colette-bonacorsi.png',
-      slug: 'ecole-de-theatre-bonacorsi',
-      content: "Je communiquais déjà beaucoup sur Internet mais cela me prenait beaucoup de temps. Maintenant que nous avons un profil Premium, CoursAvenue se charge de tout et je peux me concentrer sur mes cours.",
-      from: "Colette Bonacorsi, Directrice de l'école de théâtre Bonacorsi à Paris."
-    },{
-      image: 'charles-boiry.png',
-      slug: 'studio-international-vanina-mareschal',
-      content: "Si je regarde l'apport de services et l'apport de nouveaux élèves, le prix payé pour le profil Premium devient marginal et le retour sur investissement excellent.",
-      from: "Charles Boiry, Responsable communication du STUDIO International Vanina Mareschal à Paris."
-    },]
     Statistic.create(structure_id: @structure.id, action_type: "structure_go_premium_premium_page", infos: request.referrer)
   end
 

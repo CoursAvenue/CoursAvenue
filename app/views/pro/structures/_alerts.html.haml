@@ -26,10 +26,16 @@
         = content_for :scripts do
           :javascript
             $(function() {
-                // June 7, 2087 15:03:26
-                $('#conversation-countdown-#{conversation.id}').countdown({
-                    date: Date.parse("#{l(conversation.created_at, format: :js )}")
-                });
+              var date            = Date.parse("#{l(conversation.created_at, format: :js )}");
+              var $countdown_div = $('#conversation-countdown-#{conversation.id}');
+              countdown(date,
+                  function(ts) {
+                      var hours   = ("0" + ts.hours).slice(-2);
+                      var minutes = ("0" + ts.minutes).slice(-2);
+                      var seconds = ("0" + ts.seconds).slice(-2);
+                      $countdown_div.text((ts.days > 0 ? ts.days + ' jours et ' : '') + hours + ':' + minutes + ':' + seconds);
+                  },
+                  countdown.DAYS|countdown.HOURS|countdown.MINUTES|countdown.SECONDS);
             });
 
       - @structure.comments.pending.each_with_index do |comment, index|

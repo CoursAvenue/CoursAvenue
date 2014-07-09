@@ -1,0 +1,15 @@
+- @structures = [Structure.find('atelier-dantzig'), Structure.find('method-acting-center'), Structure.find('collectif-d-un-atelier-a-l-autre')]
+.flexbox
+  - @structures.each do |structure|
+    .flexbox__item.one-third
+      .flexbox
+        .flexbox__item.one-third
+          = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'muted-link' do
+            = image_tag structure.logo.url(:thumb)
+        .flexbox__item.two-thirds.soft-half--left
+          = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'muted-link epsilon' do
+            %strong= structure.name
+          %div{ data: { toggle: 'popover', title: join_parent_subjects_text(structure), trigger: 'hover' } }
+            = truncate join_parent_subjects_text(structure), length: 25
+          %div
+            %i.green= "#{structure.view_count(1000)} visites"
