@@ -292,12 +292,20 @@ class Pro::StructuresController < Pro::ProController
   end
 
   # GET member
+  def choose_premium
+  end
+
+  # GET member
   def go_premium
-    if params[:promo_code]
-      @promotion_code = PromotionCode.where(code_id: params[:promo_code]).first
-    end
     @subscription_plan = SubscriptionPlan.new plan_type: params[:premium_type]
-    if @promotion_code and @promotion_code.valid?(@subscription_plan)
+    if params[:promo_code]
+      if (promotion_code = PromotionCode.where(code_id: params[:promo_code]).first) and promotion_code.still_valid?(@subscription_plan)
+        @promotion_code = promotion_code
+      else
+        flash[:error] = "Le code promo : #{params[:promo_code]} n'est pas valide"
+      end
+    end
+    if @promotion_code
       @amount = @subscription_plan.amount_for_be2bill - @promotion_code.promo_amount_for_be2bill
     else
       @amount = @subscription_plan.amount_for_be2bill

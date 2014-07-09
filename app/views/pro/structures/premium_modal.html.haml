@@ -12,9 +12,13 @@
             Devenez membre Premium et recrutez encore plus d'élèves.
   .panel__body
     .soft
+      %h3.text--center Les 10 avantages du profil Premium
       = render 'pro/shared/premium_advantages'
-      .text--center
-        = link_to 'En savoir plus', premium_pro_structure_path(@structure), class: 'btn btn--yellow'
+      .grid
+        .grid__item.one-third>
+          = link_to 'En savoir plus', premium_pro_structure_path(@structure), class: 'btn btn--full'
+        .grid__item.two-thirds>
+          = link_to 'Souscrire', choose_premium_pro_structure_path(@structure), class: 'btn btn--green btn--full'
 
 :javascript
     $("[data-behavior=local-tab]").click(function() {

@@ -88,6 +88,7 @@ CoursAvenue::Application.routes.draw do
       resources :structures, path: 'etablissements' do
         member do
           get   :go_premium
+          get   :choose_premium
           get   :add_subjects
           get   :ask_for_deletion
           get   :confirm_deletion

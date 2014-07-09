@@ -74,7 +74,11 @@ class SubscriptionPlan < ActiveRecord::Base
   #
   # @return SubscriptionPlan
   def self.subscribe! plan_type, structure, params={}
-    promotion_code_id = params[:EXTRADATA]['promotion_code_id'] if params[:EXTRADATA].present?
+    if params[:EXTRADATA].present?
+      promotion_code_id = params[:EXTRADATA]['promotion_code_id']
+    else
+      promotion_code_id = nil
+    end
     subscription_plan = structure.subscription_plans.create({ plan_type: plan_type.to_s,
                                                               expires_at: Date.today + PLAN_TYPE_DURATION[plan_type.to_s].months,
                                                               credit_card_number: params[:CARDCODE],
