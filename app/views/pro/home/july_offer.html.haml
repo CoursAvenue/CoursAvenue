@@ -40,15 +40,16 @@
             %br
             .relative.push--bottom.push--left.soft-half.orange-box.inline-block.gamma{ style: 'top: -10px; '} Et faites des économies le reste de l'année
             %p.gamma.soft-black-text-shadow
-              Jusqu'à la fin de l'année, bénéficiez de 50% de réduction sur l'abonnement Premium. Offre sans engagement valable jusqu'au 31 juillet 2014 avec le code coupon suivant : SPECIALJUILLET_5M
+              Jusqu'à la fin de l'année, bénéficiez de 50% de réduction sur l'abonnement Premium. Offre sans engagement valable jusqu'au 31 juillet 2014 avec le code coupon suivant : SPECIAL_JUILLET
 
         .text--center
           - if current_pro_admin and current_pro_admin.structure
-            = link_to "J'en profite", go_premium_pro_structure_path(current_pro_admin.structure, premium_type: 'monthly', promo_code: 'SPECIALJUILLET_6M'), class: 'btn btn--yellow btn--large'
+            = link_to "J'en profite", go_premium_pro_structure_path(current_pro_admin.structure, premium_type: 'monthly', promo_code: 'SPECIAL_JUILLET'), class: 'btn btn--green btn--large'
+            .soft-black-text-shadow= link_to "Voir les autres offres", premium_pro_structure_path(current_pro_admin.structrue), class: 'white'
           - else
-            - session['pro_admin_return_to'] = go_premium_pro_structure_path('__STRUCTURE_ID__', premium_type: 'monthly', promo_code: 'SPECIALJUILLET_6M')
-            = link_to "J'en profite", new_pro_admin_session_path, class: 'btn btn--yellow btn--large'
-          .soft-black-text-shadow= link_to "Voir les autres offres", premium_pro_structure_path(Structure.last), class: 'white'
+            - session['pro_admin_return_to'] = go_premium_pro_structure_path('__STRUCTURE_ID__', premium_type: 'monthly', promo_code: 'SPECIAL_JUILLET')
+            = link_to "J'en profite", new_pro_admin_session_path, class: 'btn btn--green btn--large'
+            .soft-black-text-shadow= link_to "Voir les autres offres", pro_pages_price_path, class: 'white'
 
   .home-screen-promotion-wrapper.one-whole
     .main-container.main-container--medium.soft
