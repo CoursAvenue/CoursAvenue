@@ -4,11 +4,11 @@
 .home-screen-promotion-wrapper.soft--sides.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background.jpg'})" }
   .main-container.main-container--medium
     %header.grid
-      .grid__item.one-third.v-bottom.soft--top.relative>
+      .grid__item.one-third.v-bottom.soft--top.relative.visuallyhidden--palm>
         = link_to structure_url('yoga-sattva-paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'absolute soft--left block', target: :_blank, id: 'emilie-profile', style: 'bottom: -70px;' do
           = image_tag 'pro/emilie-profile-small.png', class: 'block'
         = image_tag 'pro/emilie-detour.png', class: 'rounded block', width: 350
-      .grid__item.two-thirds.v-bottom.soft--top.soft--right.hard--left>
+      .grid__item.two-thirds.v-bottom.soft--top.soft--right.hard--left.palm-one-whole>
         .center-block
           .soft--top.white.soft-black-text-shadow
             %p.gamma.line-height-1-5.push-half--bottom
@@ -36,28 +36,24 @@
 .main-container.main-container--medium.soft--ends
   %h2.text--center.push--bottom.soft--ends.f-weight-300 Simple et rapide
   .grid
-    .grid__item.one-third.text--center.lap-one-whole.text--center>
+    .grid__item.one-third.text--center.lap-one-whole.text--center.palm-one-whole>
       .inline-block.gamma.soft.rounded--circle.white-box.push--bottom{ style: 'width: 80px; height: 80px;'} 1
-    .grid__item.one-third.text--center.lap-one-whole.text--center>
-      .inline-block.gamma.soft.rounded--circle.white-box.push--bottom{ style: 'width: 80px; height: 80px;'} 2
-    .grid__item.one-third.text--center.lap-one-whole.text--center>
-      .inline-block.gamma.soft.rounded--circle.white-box.push--bottom{ style: 'width: 80px; height: 80px;'} 3
-  .grid
-    .grid__item.one-third.text--center.lap-one-whole>
       %p.gamma.orange
         %strong Créez
-    .grid__item.one-third.text--center.lap-one-whole>
+    .grid__item.one-third.text--center.lap-one-whole.text--center.palm-one-whole>
+      .inline-block.gamma.soft.rounded--circle.white-box.push--bottom{ style: 'width: 80px; height: 80px;'} 2
       %p.gamma.orange
         %strong Complétez
-    .grid__item.one-third.text--center.lap-one-whole>
+    .grid__item.one-third.text--center.lap-one-whole.text--center.palm-one-whole>
+      .inline-block.gamma.soft.rounded--circle.white-box.push--bottom{ style: 'width: 80px; height: 80px;'} 3
       %p.gamma.orange
         %strong Recrutez
   .grid
-    .grid__item.one-third.text--center.lap-one-whole>
+    .grid__item.one-third.text--center.lap-one-whole.palm-one-whole>
       %p Créez votre profil qui vous permettra de gérer l'ensemble de vos informations.
-    .grid__item.one-third.text--center.lap-one-whole>
+    .grid__item.one-third.text--center.lap-one-whole.palm-one-whole>
       %p Ajoutez photos, textes, planning et obtenez votre 1ères recommandations : votre profil gagne en visibilité.
-    .grid__item.one-third.text--center.lap-one-whole>
+    .grid__item.one-third.text--center.lap-one-whole.palm-one-whole>
       %p Les élèves intéressés par vos cours prennent contact gratuitement avec vous
 .home-screen-promotion-wrapper.soft
   .main-container.main-container--medium.soft--sides
@@ -109,7 +105,7 @@
   .main-container.main-container--medium
     .white-box.soft.delta.text--center.f-weight-bold.textn--center
       %span.soft--right Rejoignez la communauté CoursAvenue et recrutez de nouveaux élèves :
-      = link_to "Publiez vos cours", inscription_pro_structures_path, class: 'btn btn--green btn btn--large'
+      = link_to "Publiez vos cours", inscription_pro_structures_path, class: 'btn btn--green btn btn--large push-half--ends'
 
 = render 'shared/live_chat'
 

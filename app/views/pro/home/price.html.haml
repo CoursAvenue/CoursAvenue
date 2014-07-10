@@ -1,11 +1,12 @@
 = content_for :title do
   Optimisez votre visibilité, augmentez votre taux d'inscription et de fidélisation
+
 .home-screen-promotion-wrapper.soft--sides.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background.jpg'})" }
   .main-container.main-container--medium
     %header.grid
-      .grid__item.one-third.v-top.soft--top.text--right.soft--right>
+      .grid__item.one-third.v-top.soft--top.text--right.soft--right.visuallyhidden--palm>
         = image_tag 'pro/premium/testimonies/nicolas-bourseul.jpg', class: 'rounded--circle inline-block bordered border-color-gray', width: 150, height: 150
-      .grid__item.two-thirds.v-top.soft--top.soft--right.hard--left>
+      .grid__item.two-thirds.v-top.soft--top.soft--right.hard--left.palm-one-whole>
         .soft--top.white.soft-black-text-shadow
           %p.gamma.line-height-1-5.push-half--bottom
             %strong.quoted<
@@ -25,7 +26,7 @@
 .main-container.main-container--medium.soft
   %h2.text--center.f-weight-300 Nos 2 offres
   .grid.text--center
-    .grid__item.one-third>
+    .grid__item.one-third.palm-one-whole>
       %h3.flush.text--center Basic
       %h4.text--center.f-weight-300 Gratuit
       .soft-half.white-box
@@ -36,7 +37,7 @@
         .push--top.soft-half--top
           = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--full btn--green'
 
-    .grid__item.two-thirds>
+    .grid__item.two-thirds.palm-one-whole>
       %h3.flush.text--center Premium
       %h4.text--center.f-weight-300 Abonnement annuel ou mensuel
       .grid--full.push-half--bottom.text--center

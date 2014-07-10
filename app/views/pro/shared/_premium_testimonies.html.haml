@@ -22,10 +22,10 @@
       - @testimonies.each do |testimony|
         %li.soft--sides
           .grid
-            .grid__item.v-middle.one-quarter>
+            .grid__item.v-middle.one-quarter.palm-one-whole>
               = link_to structure_url(testimony[:slug], subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, target: :_blank), class: 'muted-link block text--center soft' do
                 = image_tag "pro/premium/testimonies/#{testimony[:image]}", class: 'bordered rounded--circle'
-            .grid__item.v-middle.three-quarters>
+            .grid__item.v-middle.three-quarters.palm-one-whole>
               %p.delta.quoted.line-height-1-5.push-half--bottom
                 = link_to structure_url(testimony[:slug], subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, target: :_blank), class: 'muted-link' do
                   = testimony[:content]

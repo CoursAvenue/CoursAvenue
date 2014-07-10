@@ -1,7 +1,7 @@
 - @structures = [Structure.find('atelier-dantzig'), Structure.find('method-acting-center'), Structure.find('collectif-d-un-atelier-a-l-autre')]
-.flexbox
+.grid
   - @structures.each do |structure|
-    .flexbox__item.one-third
+    .grid__item.one-third.palm-one-whole>
       .flexbox
         .flexbox__item.one-third.relative
           = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 70, width: 70
