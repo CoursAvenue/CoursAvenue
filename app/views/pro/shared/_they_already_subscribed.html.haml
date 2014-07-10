@@ -3,7 +3,8 @@
   - @structures.each do |structure|
     .flexbox__item.one-third
       .flexbox
-        .flexbox__item.one-third
+        .flexbox__item.one-third.relative
+          = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 70, width: 70
           = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'muted-link' do
             = image_tag structure.logo.url(:thumb)
         .flexbox__item.two-thirds.soft-half--left
