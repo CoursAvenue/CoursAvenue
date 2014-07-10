@@ -12,7 +12,7 @@
         .center-block
           .soft--top.white.soft-black-text-shadow
             %p.gamma.line-height-1-5.push-half--bottom
-              %strong.quoted>
+              %strong.quoted<
                 Communiquer sur Internet me prenait trop de temps, ne serait-ce pour trouver où promouvoir mes cours. Avec CoursAvenue, c'est simple et efficace.
             %p.f-style-italic
               — Emilie, Professeur de yoga chez Yoga Sattva Paris.
@@ -33,28 +33,33 @@
     %h2.text--center.push--bottom.soft--ends.f-weight-300 Les avantages du profil CoursAvenue
     = render partial: 'pro/shared/free_profile_advantages', locals: { show_all: true }
 
-.main-container.main-container--medium.soft--ends
-  %h2.text--center.push--bottom.soft--ends.f-weight-300 Simple et rapide
-  .grid
-    .grid__item.one-third.text--center.lap-one-whole.text--center.palm-one-whole>
-      .inline-block.gamma.soft.rounded--circle.white-box.push--bottom{ style: 'width: 80px; height: 80px;'} 1
-      %p.gamma.orange
-        %strong Créez
-    .grid__item.one-third.text--center.lap-one-whole.text--center.palm-one-whole>
-      .inline-block.gamma.soft.rounded--circle.white-box.push--bottom{ style: 'width: 80px; height: 80px;'} 2
-      %p.gamma.orange
-        %strong Complétez
-    .grid__item.one-third.text--center.lap-one-whole.text--center.palm-one-whole>
-      .inline-block.gamma.soft.rounded--circle.white-box.push--bottom{ style: 'width: 80px; height: 80px;'} 3
-      %p.gamma.orange
-        %strong Recrutez
-  .grid
-    .grid__item.one-third.text--center.lap-one-whole.palm-one-whole>
-      %p Créez votre profil qui vous permettra de gérer l'ensemble de vos informations.
-    .grid__item.one-third.text--center.lap-one-whole.palm-one-whole>
-      %p Ajoutez photos, textes, planning et obtenez votre 1ères recommandations : votre profil gagne en visibilité.
-    .grid__item.one-third.text--center.lap-one-whole.palm-one-whole>
-      %p Les élèves intéressés par vos cours prennent contact gratuitement avec vous
+.bg-cover{ style: "background-image: url(#{asset_path 'pro/home_background6.jpg'})" }
+  .main-container.main-container--medium.soft--ends
+    %h2.text--center.push--bottom.soft--ends.soft-black-text-shadow.white Simple et rapide
+    .grid
+      .grid__item.one-third.text--center.lap-one-whole.text--center.palm-one-whole>
+        .inline-block.gamma.soft.rounded--circle.white-box.push--bottom{ style: 'width: 80px; height: 80px;'} 1
+        %p.gamma.white.soft-black-text-shadow
+          %strong Créez
+      .grid__item.one-third.text--center.lap-one-whole.text--center.palm-one-whole>
+        .inline-block.gamma.soft.rounded--circle.white-box.push--bottom{ style: 'width: 80px; height: 80px;'} 2
+        %p.gamma.white.soft-black-text-shadow
+          %strong Complétez
+      .grid__item.one-third.text--center.lap-one-whole.text--center.palm-one-whole>
+        .inline-block.gamma.soft.rounded--circle.white-box.push--bottom{ style: 'width: 80px; height: 80px;'} 3
+        %p.gamma.white.soft-black-text-shadow
+          %strong Recrutez
+    .grid.soft-black-text-shadow.white
+      .grid__item.one-third.text--center.lap-one-whole.palm-one-whole>
+        %p
+          %strong Créez votre profil qui vous permettra de gérer l'ensemble de vos informations.
+      .grid__item.one-third.text--center.lap-one-whole.palm-one-whole>
+        %p
+          %strong Ajoutez photos, textes, planning et obtenez votre 1ères recommandations : votre profil gagne en visibilité.
+      .grid__item.one-third.text--center.lap-one-whole.palm-one-whole>
+        %p
+          %strong Les élèves intéressés par vos cours prennent contact gratuitement avec vous
+
 .home-screen-promotion-wrapper.soft
   .main-container.main-container--medium.soft--sides
     %h2.text--center.push--bottom.soft--ends.f-weight-300 + de 2 000 profils
@@ -74,7 +79,7 @@
                 - else
                   Association
                 %br
-                = truncate(join_parent_subjects_text(structure), lenght: 36)
+                %i= truncate(join_parent_subjects_text(structure), lenght: 36)
     .text--center.push--top
       = link_to "Publiez vos cours", inscription_pro_structures_path, class: 'btn btn--green'
 

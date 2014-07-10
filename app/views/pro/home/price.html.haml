@@ -10,87 +10,62 @@
         .soft--top.white.soft-black-text-shadow
           %p.gamma.line-height-1-5.push-half--bottom
             %strong.quoted<
-              Communiquer sur Internet me prenait trop de temps, ne serait-ce pour trouver où promouvoir mes cours. Avec CoursAvenue, c'est simple et efficace.
+              Les 2 offres proposées sont cohérentes et en ligne avec mes besoins. Après avoir créé mon profil gratuit, j'ai ensuite basculé au Premium pour booster mes inscriptions.
           %p.f-style-italic
-            — Nicolas, Professeur de Qi gong chez Nature & Chi à Toulouse
+            — Nicolas, Professeur de qi gong chez Nature & Chi à Toulouse
         .soft.push.flush--top.hard--top
           %h1.flush
             2 offres adaptées à vos besoins
           .soft--right
             Nos 2 offres sont sans surprise : le profil
-            %strong Basic est gratuit et vous permet d'être visible sur CoursAvenue. Pour recruter encore plus d'élèves, passez au profil
+            %strong Basic
+            est gratuit et vous permet d'être visible sur CoursAvenue. Pour recruter encore plus d'élèves, passez au profil
             %strong Premium
             qui fonctionne par abonnement et qui vous donne accès à toutes les fonctionnalités.
 
 
 .main-container.main-container--medium.soft
-  %h2.text--center.f-weight-300 Nos 2 offres
-  .grid.text--center
-    .grid__item.one-third.palm-one-whole>
-      %h3.flush.text--center Basic
-      %h4.text--center.f-weight-300 Gratuit
-      .soft-half.white-box
-        %p.gamma.push-half--bottom.soft--top
-          %strong Gratuit
-        %hr
-        .push--bottom.soft--ends.delta.line-height-1-7 Sans engagement
-        .push--top.soft-half--top
-          = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--full btn--green'
-
-    .grid__item.two-thirds.palm-one-whole>
-      %h3.flush.text--center Premium
-      %h4.text--center.f-weight-300 Abonnement annuel ou mensuel
-      .grid--full.push-half--bottom.text--center
-        .grid__item.v-middle.one-half.text--center>
-          .white-box.premium-bordered-box.soft-half.relative
-            .premium-banner
-              .premium-banner__content
-                La plus économique
-            %p.gamma.push-half--bottom.soft--top
-              %strong 12 mois
-            %hr
-            .delta.line-height-1-7 39€ / mois
-            %p Soit 468€ en un prélèvement unique
-            %p.green
-              %strong.gamma -11%
-              %span.delta de réduction
-        .grid__item.v-middle.one-half.text--center>
-          .white-box.soft-half.border-none--left.relative
-            .premium-banner
-              .premium-banner__content
-                La plus libre
-            %p.gamma.push-half--bottom.soft--top
-              %strong 1 mois
-            %hr
-            .delta.line-height-1-7 44€ / mois
-            %p Prélèvement mensuel
-            %p
-              %strong.gamma &nbsp;
-
-
-
-  .text--center
+  %h2.text--center.f-weight-300.flush--bottom Nos 2 offres
+  .text--center.push--bottom
     = link_to 'Voir le comparatif', '#details'
+  .grid.text--center
+    .grid__item.one-half.palm-one-whole.soft--sides>
+      .push--sides
+        %h3.flush.text--center Basic
+        %h4.text--center.f-weight-300
+          Votre profil apparaît sur le moteur
+          %br
+          de recherche CoursAvenue
+      %p Gratuit et sans engagement
+    .grid__item.one-half.palm-one-whole.soft--sides>
+      .push--sides
+        %h3.flush.text--center Premium
+        %h4.text--center.f-weight-300 Vous accédez à toutes les fonctionnalités de CoursAvenue et vous recrutez plus d'élèves
+        %p Abonnement annuel (39€ / mois) ou mensuel (44€ / mois)
+
 
 .home-screen-promotion-wrapper
   .main-container.main-container--medium.soft
-    %h2.text--center.f-weight-300 Détail des offres
-    %h3.text--center.f-weight-300.push-half--bottom
-      Avantages du profil
-      %strong Premium
-      %br
-      \=
-    %h4.text--center.f-weight-300.flush
-      Avantages du profil
-      %strong Basic
-      = link_to '(voir la liste)', 'javascript:void()', id: 'see-free-profile-advantages'
-    #free-profile-advantages.hidden.soft--top
-      = render partial: 'pro/shared/free_profile_advantages', locals: { show_all: false }
+    %h2.text--center.f-weight-300.push--bottom
+      Détail du profil
+      %ul.nav.tabs--link.inline-block.flush
+        %li.active
+          %a{ href: '#basic-details', data: { toggle: 'tab' } } Basic
+        %span.gray= '|'
+        %li
+          %a{ href: '#premium-details', data: { toggle: 'tab' } } Premium
 
-    %h4.text--center.f-weight-300
-      +
-    .main-container.main-container--medium
-      = render 'pro/shared/premium_advantages'
+    .tab-content
+      .tab-pane#basic-details.active
+        = render partial: 'pro/shared/free_profile_advantages', locals: { show_all: false }
+      .tab-pane#premium-details
+        %h4.text--center.f-weight-300.flush
+          Avantages du profil
+          %strong Basic
+        %h4.text--center.f-weight-300.push--bottom
+          +
+        .main-container.main-container--medium
+          = render 'pro/shared/premium_advantages'
 
 .main-container.main-container--medium.soft.push--bottom
   %h2.text--center.push--bottom.soft--ends.f-weight-300 Ils ont déjà souscrit au Premium
@@ -100,14 +75,7 @@
 
 .home-screen-promotion-wrapper.soft#details
   .main-container.main-container--medium.soft
+    %h2.text--center.f-weight-300 Tableau comparatif des 2 offres
     = render 'pro/home/pricing_details_table'
 
 = render 'shared/live_chat'
-
-= content_for :scripts do
-  :javascript
-    $(function() {
-        $('#see-free-profile-advantages').click(function() {
-          $('#free-profile-advantages').slideToggle();
-        });
-    });

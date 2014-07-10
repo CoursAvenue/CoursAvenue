@@ -10,7 +10,12 @@
         .flexbox__item.two-thirds.soft-half--left
           = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'muted-link epsilon' do
             %strong= structure.name
-          %div{ data: { toggle: 'popover', title: join_parent_subjects_text(structure), trigger: 'hover' } }
-            = truncate join_parent_subjects_text(structure), length: 25
           %div
-            %i.green= "#{structure.view_count(1000)} visites"
+            - if structure.structure_type.present?
+              = t(structure.structure_type)
+            - else
+              Association
+          %div
+            %i= truncate join_parent_subjects_text(structure), length: 30
+          -# %div
+          -#   %i.green= "#{structure.view_count(1000)} visites"
