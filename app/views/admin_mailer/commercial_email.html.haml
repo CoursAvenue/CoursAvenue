@@ -2,7 +2,7 @@
   %table.promo-table{ border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
     %tr
       %td.content-block
-        = link_to pro_pages_july_offer_path(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'block' do
+        = link_to pro_pages_july_offer_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'block' do
           = image_tag 'emails_logo/premium/commercial_header_50percents.jpg', alt: "Profitez de l'été et faites des économies le reste de l'année", width: 600, height: 189, class: 'block'
 
 - content_for :under_content do
@@ -18,7 +18,7 @@
     %tr{ valign: 'top' }
       %td.content-block{ colspan: 2 }
         .action
-          = link_to "J'en profite", pro_pages_july_offer_path(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--yellow', style: 'padding-left: 30px; padding-right: 30px;'
+          = link_to "J'en profite", pro_pages_july_offer_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--yellow', style: 'padding-left: 30px; padding-right: 30px;'
 
 - content_for :under_content_gray do
   = render 'admin_mailer/premium/premium_advantages'

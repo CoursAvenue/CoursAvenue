@@ -45,7 +45,7 @@
         .text--center
           - if current_pro_admin and current_pro_admin.structure
             = link_to "J'en profite", go_premium_pro_structure_path(current_pro_admin.structure, premium_type: 'monthly', promo_code: 'SPECIAL_JUILLET'), class: 'btn btn--green btn--large'
-            .soft-black-text-shadow= link_to "Voir les autres offres", premium_pro_structure_path(current_pro_admin.structrue), class: 'white'
+            .soft-black-text-shadow= link_to "Voir les autres offres", premium_pro_structure_path(current_pro_admin.structure), class: 'white'
           - else
             - session['pro_admin_return_to'] = go_premium_pro_structure_path('__STRUCTURE_ID__', premium_type: 'monthly', promo_code: 'SPECIAL_JUILLET')
             = link_to "J'en profite", new_pro_admin_session_path, class: 'btn btn--green btn--large'
