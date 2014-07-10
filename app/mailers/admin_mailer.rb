@@ -17,7 +17,7 @@ class AdminMailer < ActionMailer::Base
   def commercial_email(structure)
     @structure = structure
     mail to: @structure.main_contact.email,
-         subject: 'Votre profil Premium est activé',
+         subject: "Moins de 20€ jusqu'à la fin de l'année",
          from: 'CoursAvenue Premium <premium@coursavenue.com>'
   end
 
