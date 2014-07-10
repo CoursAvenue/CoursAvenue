@@ -6,4 +6,4 @@
   = f.input :expires_at, label_html: { class: 'label--large' }, input_html: { class: 'input--large'}
   = f.input :apply_until, label_html: { class: 'label--large' }, input_html: { class: 'input--large'}
   = f.input :max_usage_nb, label_html: { class: 'label--large' }, input_html: { class: 'input--large'}
-  = f.submit 'Enregistrer', class: 'btn btn--full btn--green'
+  = f.submit 'Enregistrer', class: 'btn btn--full btn--green', data: { disable_with: 'Enregistrement en cours' }
