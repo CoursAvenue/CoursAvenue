@@ -12,8 +12,12 @@
     max-width: 1400px;
     margin   : auto;
 }
+
 .main-container {
     max-width: $siteMaxWidth;
+    &.main-container--medium{
+        max-width: $siteMaxWidth - 100;
+    }
     min-width: 1000px;
     margin   : auto;
     @include media-query(lap) {

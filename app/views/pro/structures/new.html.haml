@@ -1,131 +1,124 @@
-= content_for :above_container do
-  .flexbox
-    %nav.flexbox__item.v-top.side-menu.gray-box.border-none--right.soft-half--sides
-      %h4.push-half--top
-        Plus de #{Admin.count.round(-2)} partenaires
-      - @structures.each do |structure|
-        .white-box.push-half--bottom
-          .grid
-            .grid__item.one-quarter.v-middle>
-              = image_tag structure.logo.url(:thumb), class: 'block'
-            .grid__item.three-quarters.v-middle>
-              %b
-                = link_to structure.name, structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank', onclick: "ga('send', 'event', 'Go to other profile', 'click', 'From inscription page');"
-              %div
-                .delta{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
-                  %meta{property: 'v:rating', itemprop: 'rating', content: structure.rating}
-                  %meta{itemprop: 'count', content: structure.comments_count}
-                  %meta{itemprop: 'itemreviewed', content: structure.name}
-                  %meta{itemprop: 'name', content: structure.name}
-                  %meta{itemprop: 'street-address', content: structure.street}
-                  %meta{itemprop: 'postal-code', content: structure.zip_code}
-              %div
-                = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank', onclic: "ga('send', 'event', 'Go to other profile', 'click', 'From inscription page');" do
-                  = structure.comments_count
-                  avis
-      .push--bottom.text--center= link_to "Et plein d'autres !", structures_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank'
-      %hr
-      %h4 Plus de #{Comment::Review.count.round(-2)} avis
-      %ul.comment-list
-        - Comment::Review.order('created_at DESC').limit(3).each do |comment|
-          %li.push--bottom.white-box.soft-half.rounded--top
-            = link_to commentable_url(comment), target: '_blank', class: 'muted-link hard' do
-              - if comment.title.present?
-                %h6.quoted.inline-block.push-half--bottom{itemprop: 'headline', content: comment.title}= "#{comment.title}"
-                - if comment.course_name
-                  %span.v-middle= "— #{comment.course_name.capitalize}"
-              .read-more{itemprop: 'reviewBody', data: {behavior: 'read-more'}}
-                = simple_format comment.content
-              %p.text--right.flush
-                %i.semi-muted{itemprop: 'datePublished', content: l(comment.created_at, format: :iso_date)}
-                  Il y a #{distance_of_time_in_words_to_now comment.created_at} par #{comment.author_name}
+= content_for :title do
+  Publiez vos cours gratuitement et recruter de nouveaux élèves.
 
-    .flexbox__item.v-top.small-container
-      .panel
-        %ul.tabs.panel__header
-          %li.active
-            = link_to 'Publiez vos cours', '#'
-          %li
-            = link_to root_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN) do
-              Découvrir CoursAvenue Pro
-        .panel__body.soft--ends
-          .soft--sides
-            %h2.flush
-              Développez votre bouche à oreille sur Internet
-            %p.epsilon
-              %strong 100% gratuit, simple et rapide.
+.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background.jpg'})" }
+  .main-container.soft.text--center
+    %header
+      %h1.flush
+        Publiez vos cours
+      .delta.line-height-1-7
+        CoursAvenue vous permet de recruter de nouveaux élèves.
+        %br
+        Gratuitement.
 
-            .grid--full.text--center.push--top
-              .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
-                %a.muted-link.blue-box.islet.word-break-normal
-                  %h5
-                    %i.fa.fa-user.fa.fa-2x
-                    %br
-                    Créez votre profil
-              .grid__item.one-twelfth.text--center.v-middle>
-                .islet
-                  %i.fa.fa-chevron-right.fa.fa-2x
-              .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
-                %a.muted-link.bordered.islet.word-break-normal
-                  %h5
-                    %i.fa.fa-check.fa.fa-2x
-                    %br
-                    Validez votre inscription
-              .grid__item.one-twelfth.text--center.v-middle>
-                .islet
-                  %i.fa.fa-chevron-right.fa.fa-2x
-              .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
-                %a.muted-link.bordered.islet.word-break-normal
-                  %h5
-                    %i.fa.fa-cogs.fa.fa-2x
-                    %br
-                    Gérez votre profil
-
-            .text--center
-              = link_to "Pas le temps de créer votre profil ? Contactez notre équipe qui s'en chargera.", pages_contact_url(content: "Bonjour,\nPourriez-vous créer mon profil à ma place ? Voici le lien vers mon site Internet où vous trouverez toutes mes informations : www.", subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), onclick: "ga('send', 'event', 'Create a profile for me', 'click', 'From inscription page');"
-
-          %hr.push--ends
-          = simple_form_for [:pro, @structure], url: pro_structures_path, method: :post do |f|
-            .soft--sides{ data: { behavior: 'wizard-helper', content: "<p><strong>Un bon titre de profil</strong><br>Le nom de votre structure est le titre de votre profil public. Les titres les plus courts sont les plus efficaces. Si vous êtes un professeur indépendant, renseignez votre Prénom + Nom.</p><p><strong>Remarque </strong> : ne renseignez pas le type de cours que vous proposez, c'est à indiquer dans la partie « Disciplines ». Par exemple, ne pas mettre « Cours de dessin Association Artik », mais simplement « Association Artik ».</p>" } }
-              %h5#informations Structure
-              = f.input :name, wrapper_html: { class: 'flush--bottom' }, label: 'Nom de votre structure', input_html: { placeholder: 'Exemple : Association KDanse, Paris Dance School, Laurent Garu', class: 'input--large' }, label_html: { class: 'label--large' }
-
-            = f.input :contact_email, as: :hidden
-
-            %hr.push--ends
-            .soft--sides{ data: { behavior: 'wizard-helper', content: '<p><strong>Adresse</strong><br>Si vos cours se situent dans plusieurs lieux, vous pourrez les renseigner depuis votre profil.</p>' } }
-              %h5#informations Adresse
-              = f.simple_fields_for :places do |place_form|
-                = place_form.input :type, as: :hidden
-                = place_form.input :name, label: "Nom du lieu", input_html: {  placeholder: "Exemple : Bastille, Studio Bleu, Centre de Danse du Marais", class: 'input--large', data: { behavior: 'tooltip' }, title: "Si pas de nom : métro ou arrêt de bus le plus proche, nom de quartier / rue, nom d'un parc à proximité" }, wrapper_html: { class: 'flush--bottom' }, label_html: { class: 'label--large' }
-                = place_form.input :street, input_html: { value: cookies[:street] }, input_html: { placeholder: 'N° + rue', class: 'input--large' }, label_html: { class: 'label--large' }
-                .input.city-autocomplete-wrapper<
-                  = place_form.label :zip_code, class: 'label--large'
-                  = place_form.input :zip_code, input_html: { placeholder: '75003', class: 'input--large', style: ' width: 6em;', data: { behavior: 'city-autocomplete', el: '#structure_places_attributes_0_city_id' } }, label: false, wrapper_html: { style: 'width: 8em;', class: 'flush--top' }
-                  = place_form.association :city, collection: [@structure.city], label: false, wrapper_html: { style: 'width: 10em;' }, input_html: { class: 'input--large' }, wrapper_html: { class: 'flush--top' }
-
-            %hr.push--ends
-            .soft--sides{ data: { behavior: 'wizard-helper', content: '<p><strong>Étiquettes de disciplines</strong><br>Ces étiquettes de disciplines nous permettent de mieux vous catégoriser dans notre moteur de recherche. Néanmoins, une fois vos cours renseignés dans la rubrique « Planning », les intitulés de vos cours seront pris en compte en priorité, car ils seront plus précis.</p>' } }
-              %h5#informations Étiquettes de disciplines
-              %div{data: {behavior: 'parent-descendant-subjects', 'parent-select' => '#parent-subjects', 'descendant-select' => '#subject-descendants-select', 'descendant-select-wrapper' => '#descendants-subjects'}}
-                = f.association :subjects, as: :select, collection: Subject.roots.order('name ASC'), input_html: { style: 'width: 74%;', id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' }, multiple: true, class: 'input--large' }, label: 'Disciplines générales pratiquées ', label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush--bottom'}, label_html: { class: 'label--large' }
-
-                #descendants-subjects
-                  .input{title: 'Sélectionnez plusieurs disciplines en maintenant la touche CTRL ou CMD enfoncée.', data: {behavior: 'tooltip'}}
-                    %label.label--large.control-label> Sous disciplines
-                    %select.input--large.hard--top#subject-descendants-select{name: 'structure[subject_descendants_ids][]', style: 'width: 74%;', multiple: true, data: {behavior: 'chosen', placeholder: 'Tapez ou sélectionnez une ou plusieurs disciplines', selected: @structure.subjects.select{|subj| subj.depth == 2}.map(&:id).join(',')}}>
-                - if @structure.errors[:children_subjects].present?
-                  %p.error= @structure.errors[:children_subjects].to_sentence
-            .push--bottom.text--center
-              = f.submit 'Valider', class: 'btn--large btn btn--large btn--green', data: { disable_with: "En cours de validation" }
-    .grid__item.relative.wizard-container
+.soft.panel-background-blue-radial
+  .main-container
+    = simple_form_for [:pro, @structure], url: pro_structures_path, method: :post, html: { class: 'push--ends' } do |f|
+      .grid.push--bottom
+        .grid__item.one-third.text--right.v-middle>
+          %label.gamma.white.smooth-black-text-shadow> Type de structure
+        .grid__item.v-middle.two-thirds>
+          .btn-group{ data: { toggle: 'buttons' } }
+            %label.text--center.soft-half.btn.button{ style: 'height: 95px; width: 150px;', class: (@structure.structure_type == 'structures.independant' ? 'active' : '')}>
+              = image_tag 'icons/icon-structure-type-independant.png', height: 40, width: 31, class: 'v-middle'
+              .soft-half--ends Professeur indépendant
+              %input{ type: 'radio', name: 'structure[structure_type]', value: 'structures.independant', checked: @structure.structure_type == 'structures.independant' }
+            %label.text--center.soft-half.btn.button{ style: 'height: 95px; width: 150px;', class: (@structure.structure_type == 'structures.association' ? 'active' : '')}>
+              = image_tag 'icons/icon-structure-type-association.png', height: 50, width: 84, class: 'v-middle'
+              .soft-half--ends Association
+              %input{ type: 'radio', name: 'structure[structure_type]', value: 'structures.association', checked: @structure.structure_type == 'structures.association' }
+            %label.text--center.soft-half.btn.button{ style: 'height: 95px; width: 150px;', class: (@structure.structure_type == 'structures.company' ? 'active' : '')}>
+              = image_tag 'icons/icon-structure-type-school.png', height: 50, width: 64, class: 'v-middle'
+              .soft-half--ends École privée
+              %input{ type: 'radio', name: 'structure[structure_type]', value: 'structures.company', checked: @structure.structure_type == 'structures.company' }
+            %label.text--center.soft-half.btn.button{ style: 'height: 95px; width: 150px;', class: (@structure.structure_type == 'structures.other' ? 'active' : '')}>
+              = image_tag 'icons/icon-structure-type-other.png', width: 70, height: 50, class: 'v-middle', style: 'padding-top: 25px; padding-bottom: 8px;'
+              .soft-half--ends Autres
+              %input{ type: 'radio', name: 'structure[structure_type]', value: 'structures.other', checked: @structure.structure_type == 'structures.other' }
 
 
-  = content_for :scripts do
-    :javascript
-      $(function() {
-          $('#structure_zip_code').trigger('keyup');
-          $('#structure_street').blur(function() {
-              $.cookie('street', $(this).val());
-          });
-      });
+      %div{ data: { behavior: 'parent-descendant-subjects', 'parent-select' => '#parent-subjects', 'descendant-select' => '#subject-descendants-select', 'descendant-select-wrapper' => '#descendants-subjects' } }
+        .grid.push--bottom
+          .grid__item.one-third.text--right.v-middle>
+            %label.gamma.white.smooth-black-text-shadow> Disciplines générales pratiquées
+          .grid__item.v-middle.two-thirds>
+            = f.association :subjects, as: :select, collection: Subject.roots.order('name ASC'), input_html: { id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' }, multiple: true, class: 'input--large hard one-whole' }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush', style: 'max-width: 600px;'}
+        #descendants-subject.grid.push--bottom
+          .grid__item.one-third.text--right.v-middle>
+            %label.gamma.white.smooth-black-text-shadow> Sous disciplines
+          .grid__item.v-middle.two-thirds{ title: 'Sélectionnez plusieurs disciplines en maintenant la touche CTRL ou CMD enfoncée.', data: { behavior: 'tooltip' } }>
+            %div{ style: 'max-width: 600px;'}
+              %select.input--large.one-whole.hard#subject-descendants-select{ name: 'structure[subject_descendants_ids][]', multiple: true, data: { behavior: 'chosen', placeholder: 'Tapez ou sélectionnez une ou plusieurs disciplines', selected: @structure.subjects.select{|subj| subj.depth == 2}.map(&:id).join(',')}}>
+              - if @structure.errors[:children_subjects].present?
+                .input_field_error.red.text--right= @structure.errors[:children_subjects].to_sentence
+
+      .grid.push--bottom
+        .grid__item.one-third.text--right.v-middle>
+          %label.gamma.white.smooth-black-text-shadow> Nom de votre structure
+        .grid__item.v-middle.two-thirds>
+          = f.input :name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole' }
+
+      = f.simple_fields_for :places do |place_form|
+        = place_form.input :type, as: :hidden
+        .grid.push--bottom
+          .grid__item.one-third.text--right.v-middle>
+            %label.gamma.white.smooth-black-text-shadow> Nom de votre lieu
+          .grid__item.v-middle.two-thirds>
+            = place_form.input :name, label: false, input_html: {  placeholder: "Ex. : Bastille, Gymnase municipal, etc.", class: 'input--large one-whole', data: { behavior: 'tooltip' }, title: "Si pas de nom : métro ou arrêt de bus le plus proche, nom de quartier / rue, nom d'un parc à proximité" }, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }
+        .grid.push--bottom
+          .grid__item.one-third.text--right.v-middle>
+            %label.gamma.white.smooth-black-text-shadow> Adresse de votre lieu principal
+          .grid__item.v-middle.two-thirds>
+            = place_form.input :street, input_html: { placeholder: 'N° + rue', class: 'input--large one-whole' }, label: false, wrapper_html: { class: 'inline-block flush v-top', style: 'width: 20em;' }
+            .input.flush.city-autocomplete-wrapper.inline-block.v-top<
+              = place_form.input :zip_code, input_html: { placeholder: 'Code postal', class: 'input--large one-whole', data: { behavior: 'city-autocomplete', el: '#structure_places_attributes_0_city_id' } }, label: false, wrapper_html: { style: 'width: 8em;', class: 'flush' }
+              = place_form.association :city, collection: [@structure.city], label: false, wrapper_html: { style: 'width: 10em;' }, input_html: { class: 'input--large one-whole' }, wrapper_html: { class: 'flush' }
+
+      = f.input :contact_email, as: :hidden
+
+
+      .push--bottom.text--center
+        = f.submit 'Continuer', class: 'btn--large btn btn--large btn--green', data: { disable_with: "Profil en cours de création" }
+
+.home-screen-promotion-wrapper.soft
+  .main-container.soft
+    .grid.text--center
+      .grid__item.one-third>
+        %h3 Mise en relation gratuite
+        %p Les élèves intéressés par vos cours vous contactent gratuitement sans frais cachés.
+      .grid__item.one-third>
+        %h3 Contrôle de votre profil
+        %p Vous gardez le contrôle des informations présentes sur votre profil : à tout moment, mettez à jour votre planning, affichez vos dernières photos ou invitez vos élèves à déposer leur recommandation.
+      .grid__item.one-third>
+        %h3 Transparence
+        %p Grâce à votre outil de statistiques, suivez au quotidien le nombre de fois que votre profil apparaît dans les résultats de recherche.
+
+.main-container.soft--ends
+  %h2.text--center.push--bottom.soft--ends.f-weight-300
+    + de 2 000 profils et 6 000 avis
+  - StructureSearch.search(per_page: 9, has_logo: true, sort: 'premium', nb_comments: 4).results.each do |structure|
+    .inline-block.one-third.palm-one-whole.lap-one-half>
+      .grid.push--bottom
+        .grid__item.one-third.epsilon>
+          = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block muted-link media-photo', target: :_blank do
+            = image_tag structure.logo.url(:thumb), class: 'block'
+        .grid__item.two-thirds>
+          = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank, class: 'muted-link' do
+            %p.flush
+              %strong= "#{structure.name} (#{structure.city.name})"
+            %p.quoted
+              - if structure.highlighted_comment
+                = structure.highlighted_comment.title
+              - else
+                = structure.comments.order('created_at DESC').first.title
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('#structure_zip_code').trigger('keyup');
+        $('#structure_street').blur(function() {
+            $.cookie('street', $(this).val());
+        });
+    });
+
+= render 'shared/live_chat'
