@@ -1,4 +1,9 @@
-= form_for @structure, method: :get, url: go_premium_pro_structure_path(@structure) do
+- if @structure
+  - url = go_premium_pro_structure_path(@structure)
+- else
+  - url = inscription_pro_structures_path
+
+= form_for (@structure || Structure.new), method: :get, url: url do
   %input#premium_type_value{ type: 'hidden', name: 'premium_type', value: 'yearly' }
   .grid--full.push-half--bottom.text--center
     .grid__item.v-middle.one-third.text--center>

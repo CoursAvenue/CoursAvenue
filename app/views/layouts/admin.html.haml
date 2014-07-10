@@ -22,7 +22,7 @@
         - else
           = link_to premium_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--yellow f-weight-bold' do
             %i.fa.fa-star
-            Passer au Premium
+            Offre spéciale Premium
       .flexbox__item.v-middle.text--right.soft-half--right
         - if @structure.mailbox
           - unread_conversations       = @structure.mailbox.inbox(read: false)

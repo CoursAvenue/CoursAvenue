@@ -7,9 +7,25 @@
       %h1.flush Prenez le contrôle de votre profil et recrutez efficacement de nouveaux élèves.
       .delta.line-height-1-7.push-half--bottom Passez à l'offre Premium à partir de 39€ par mois et optimisez votre communication sur Internet. Fonctionne par abonnement mensuel sans engagement de durée et sans frais cachés.
 
-.main-container
-  = render 'pro/home/pricing_details_table'
+.small-container.soft.center-block
+  = render 'pro/shared/choose_premium_boxes'
+  .text--center
+    = link_to 'Voir le détail des offres', '#details'
+
+.home-screen-promotion-wrapper.soft
+  .main-container
+    %p
+      %strong.delta  Les avantages du profil Premium :
+    = render 'pro/shared/premium_advantages'
+
+.main-container.soft
+  %h4 Ils ont déjà souscrit au Premium
+  = render 'pro/shared/they_already_subscribed'
 
 = render 'pro/shared/premium_testimonies'
+
+.home-screen-promotion-wrapper.soft#details
+  .main-container.soft
+    = render 'pro/home/pricing_details_table'
 
 = render 'shared/live_chat'
