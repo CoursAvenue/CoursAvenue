@@ -51,16 +51,14 @@
           .soft-black-text-shadow= link_to "Voir les autres offres", premium_pro_structure_path(Structure.last), class: 'white'
 
   .home-screen-promotion-wrapper.one-whole
-    .main-container.soft
-      .push--ends
-        %h3 Les avantages du Premium
-        = render 'pro/shared/premium_advantages'
-        .text--center
-          = link_to 'En savoir plus', ''
-  .main-container.soft
-    .push--ends
-      %h3 Ils ont déjà souscrit au Premium
-      = render 'pro/shared/they_already_subscribed'
+    .main-container.main-container--medium.soft
+      %h2.text--center.push--bottom.soft--ends.f-weight-300 Les avantages du Premium
+      = render 'pro/shared/premium_advantages'
+      .text--center
+        = link_to 'En savoir plus', ''
+  .main-container.main-container--medium.soft
+    %h2.text--center.push--bottom.soft--ends.f-weight-300 Ils ont déjà souscrit au Premium
+    = render 'pro/shared/they_already_subscribed'
 
   .home-screen-promotion-wrapper
     = render 'pro/shared/premium_testimonies'
