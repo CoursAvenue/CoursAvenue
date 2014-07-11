@@ -1,5 +1,5 @@
 - content_for :email_title do
-  Votre profil est remonté dans #{@impressions_count} recherches la semaine dernière mais n'a été consulté que #{@view_count} fois.
+  Votre profil est remonté dans #{@impressions_count} recherches le mois dernier mais n'a été consulté que #{@view_count} fois.
 
 - content_for :under_content do
   %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
@@ -10,7 +10,7 @@
         .p
           Votre profil est remonté dans
           %strong #{@impressions_count} recherches
-          la semaine dernière mais n'a été consulté que #{@view_count} fois.
+          le mois dernier mais n'a été consulté que #{@view_count} fois.
         .p
           Passez au
           %strong Premium

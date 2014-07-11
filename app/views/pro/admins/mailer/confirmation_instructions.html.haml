@@ -28,26 +28,15 @@
 
   = render 'shared/mailers/footer'
 
-  = content_for :under_content do
-    %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
-      %tr{ valign: 'top' }
-        %td.content-block{ colspan: 2 }
-          .title Votre profil complet en quelques minutes :
-      %tr{ valign: 'top' }
-        %td.text--center{ width: '100' }
-          = image_tag @structure.logo.url(:thumb), alt: "Logo #{@structure.name}", height: '100', width: '100'
-        %td.content-block.soft--left
-          %ul
-            %li Compléter mes informations générales et ajouter un logo
-            %li Demander des recommandations à mes élèves
-            %li Renseigner mes cours et mon planning
-            %li Mettre en ligne mes photos et vidéos
-
-
-
   - if @structures.length == 4
-    - content_for :under_content_2 do
+    - content_for :under_content do
       = render 'admin_mailer/similare_profiles'
 
   - content_for :under_content_gray do
-    = render 'admin_mailer/visite_100k_visits'
+    .title Les étapes pour un profil complet
+    %ul.flush--bottom.hard--bottom
+      %li Complétez vos informations générales et ajoutez votre logo
+      %li Demandez des recommandations à vos élèves
+      %li Renseignez votre planning de cours et stages
+      %li Mettez en ligne vos photos et vidéos
+

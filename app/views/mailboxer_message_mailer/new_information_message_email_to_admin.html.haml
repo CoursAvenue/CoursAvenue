@@ -26,7 +26,7 @@
         la demande d'information de
         = @user.name
         sera expirée. Si vous avez déjà répondu directement par téléphone ou s'il ne s'agit pas d'une véritable demande,
-        = link_to 'signalez-le.', flag_pro_structure_conversation_path(@structure, @conversation, flag: 'from_email'), method: :patch
+        = link_to 'signalez-le.', flag_pro_structure_conversation_url(@structure, @conversation, flag: 'from_email', subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
     %td.text--center.v-middle.content-block{ width: 125 }
       = image_tag 'emails_logo/48hours.png', width: 75, height: 120, alt: 'Vous avez 48 heures'
 

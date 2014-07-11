@@ -1,3 +1,5 @@
+- content_for :email_title do
+  Félicitations ! Un élève de la communauté CoursAvenue vient d'ajouter votre profil parmi ses favoris.
 
 .title Félicitations !
 
@@ -15,4 +17,4 @@
 = render 'shared/mailers/footer'
 
 - content_for :under_content do
-  = render 'admin_mailer/they_are_premium'
+  = render partial: 'admin_mailer/they_are_premium', locals: { show_consultation: false }

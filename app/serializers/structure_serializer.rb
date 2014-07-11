@@ -17,7 +17,11 @@ class StructureSerializer < ActiveModel::Serializer
   has_many :preloaded_medias,  serializer: MediaSerializer
 
   def medias
-    (object.premium? ? object.medias.videos_first.limit(20) : object.medias.videos_first.limit(1))
+    (object.premium? ? object.medias.videos_first.limit(20) : object.medias.cover_first.limit(1))
+  end
+
+  def preloaded_medias
+    (object.premium? ? object.medias.videos_first.limit(20) : object.medias.cover_first.limit(1))
   end
 
   def comments
@@ -34,11 +38,6 @@ class StructureSerializer < ActiveModel::Serializer
     else
       object.places
     end
-  end
-
-  # TODO Use MediaSerializer
-  def preloaded_medias
-    object.medias.videos_first.limit(6)
   end
 
   def highlighted_comment_title

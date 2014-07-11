@@ -305,7 +305,7 @@ class Structure < ActiveRecord::Base
   # Update the email status of the structure
   def update_email_status
     email_status = nil
-    if self.view_count(7) > 15
+    if self.view_count(30) > 30
       email_status = 'your_profile_has_been_viewed'
     else
       email_status = 'incomplete_profile'

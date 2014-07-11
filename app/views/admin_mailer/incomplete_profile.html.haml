@@ -11,25 +11,6 @@
 = render 'shared/mailers/footer'
 
 - content_for :under_content do
-  %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
-    %tr{ valign: 'top' }
-      %td.content-block{ colspan: 2 }
-        .title Votre profil complet en quelques minutes :
-    %tr{ valign: 'top' }
-      %td.text--center{ width: '100' }
-        = image_tag @structure.logo.url(:thumb), alt: "Logo #{@structure.name}", height: '100', width: '100'
-      %td.content-block.soft--left
-        %ul
-          - if !@structure.logo.present?
-            %li Compléter mes informations générales et ajouter un logo
-          - if @structure.comments.empty?
-            %li Demander des recommandations à mes élèves
-          - if @structure.courses.empty?
-            %li Renseigner mes cours et mon planning
-          - if @structure.medias.empty?
-            %li Mettre en ligne mes photos et vidéos
-
-- content_for :under_content_2 do
   - @similar_profiles = @structure.similar_profiles(2)
   %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
     %tr{ valign: 'top' }
@@ -45,10 +26,30 @@
                   = image_tag similar_profile.logo.url(:thumb), width: 80, height: 80
               %td.content-block{ width: 220 }
                 .p.soft-half--sides
-                  %strong= link_to similar_profile.name, structure_url(similar_profile, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'muted-link'
+                  %strong= link_to truncate(similar_profile.name, length: 25), structure_url(similar_profile, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'muted-link'
                   %br
-                  = similar_profile.address
+                  = similar_profile.city.name
                   %br
-                  = truncate(join_parent_subjects_text(similar_profile), lenght: 100)
-                  %br
-                  %span.green= pluralize similar_profile.view_count, 'Visite'
+                  %i= truncate(join_parent_subjects_text(similar_profile), lenght: 100)
+
+
+- unless @structure.logo.present?
+  - content_for :under_content_2 do
+    .title Voici l'image que véhicule actuellement votre profil
+    .text--center
+      = image_tag @structure.logo.url(:thumb), alt: "Logo #{@structure.name}", height: '100', width: '100'
+      .p.action.soft-half--top
+        = link_to 'Ajouter mon logo', edit_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN, utm_source: 'email', utm_campaign: 'complete_profile', utm_medium: 'monday'), class: 'btn btn--green'
+      .p.hard--bottom Soignez votre première impression en choisissant un logo à votre image.
+
+- content_for :under_content_gray do
+  .title Les étapes pour un profil complet
+  %ul.flush--bottom.hard--bottom
+    - if !@structure.logo.present?
+      %li Complétez vos informations générales et ajoutez votre logo
+    - if @structure.comments.empty?
+      %li Demandez des recommandations à vos élèves
+    - if @structure.courses.empty?
+      %li Renseignez votre planning de cours et stages
+    - if @structure.medias.empty?
+      %li Mettez en ligne vos photos et vidéos

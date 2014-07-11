@@ -20,7 +20,7 @@ namespace :scheduler do
     # $ rake scheduler:admins:remind_for_pending_comments
     desc 'Send email to admins that have pending comments'
     task :remind_for_pending_comments => :environment do |t, args|
-      if Time.now.thursday?
+      if Time.now.wednesday?
         Comment::Review.pending.map(&:structure).uniq.map(&:remind_for_pending_comments)
       end
     end
@@ -29,7 +29,7 @@ namespace :scheduler do
     # $ rake scheduler:admins:remind_for_widget
     desc 'Send email to admins that have access to the widget'
     task :remind_for_widget => :environment do |t, args|
-      if Time.now.thursday?
+      if Time.now.friday?
         Structure.where(Structure.arel_table[:comments_count].gteq(5)).map(&:remind_for_widget)
       end
     end

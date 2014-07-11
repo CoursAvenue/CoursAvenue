@@ -201,6 +201,7 @@ CoursAvenue::Application.routes.draw do
           member do
             patch :treat_by_phone
             patch :flag
+            get :flag
           end
         end
         resources :statistics   , controller: 'structures/statistics', only: [:index], path: 'statistiques'
