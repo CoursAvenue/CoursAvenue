@@ -11,7 +11,7 @@ namespace :scheduler do
     # Email sent on monday
     desc 'Send email to admins for inactivity'
     task :send_reminder => :environment do |t, args|
-      if (Time.now.cweek % 2 == 0) and Time.now.monday?
+      if (Date.today.cweek % 2 == 1) and Time.now.monday?
         Structure.all.map(&:send_reminder)
       end
     end
@@ -35,9 +35,9 @@ namespace :scheduler do
     end
 
     # Email sent on thursday
-    # $ rake scheduler:admins:remind_for_widget
+    # $ rake scheduler:admins:remind_for_planning_outdated
     desc 'Send email to admins that have access to the widget'
-    task :remind_for_widget => :environment do |t, args|
+    task :remind_for_planning_outdated => :environment do |t, args|
       if Time.now.thursday?
         Structure.find_each(&:remind_for_planning_outdated)
       end
