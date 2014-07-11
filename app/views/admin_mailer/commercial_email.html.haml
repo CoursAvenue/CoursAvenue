@@ -1,3 +1,6 @@
+- content_for :email_title do
+  Pour vous remercier, offre spéciale été 2014 : -50% jusqu'à la fin de l'année
+
 - content_for :under_content_no_box do
   %table.promo-table{ border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
     %tr
@@ -11,14 +14,16 @@
       %td.v-middle.content-block{ width: 450 }
         .p Pour vous remercier de faire partie de nos premiers partenaires, nous vous proposons de bénéficier d'une offre exclusive :
         .p
-          %strong Passez au profil Premium maintenant et profitez du tarif spécial de 22€/mois au lieu de 44€ jusqu'à la fin de l'année.
+          %strong
+            Passez au profil Premium maintenant et profitez du tarif spécial de 22€/mois au lieu de 44€ jusqu'à la fin de l'année.
+            Valable jusqu'à fin juillet avec le code promo SPECIALETE.
         .p Avec votre compte Premium vous mettrez ainsi toutes les chances de votre côté pour réussir votre rentrée :
-      %td.text--center.v-middle.content-block{ width: 150 }
-        = image_tag 'emails_logo/premium/50percents.png', height: 100, width: 100, alt: '-50% pendant 6 mois'
+      %td.text--center.v-middle.content-block.text--center{ width: 150 }
+        = image_tag 'emails_logo/premium/50percents.png', height: 100, width: 100, alt: "-50% pendant jusqu'à la fin de l'année"
     %tr{ valign: 'top' }
       %td.content-block{ colspan: 2 }
         .action
-          = link_to "J'en profite", pro_pages_july_offer_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--yellow', style: 'padding-left: 30px; padding-right: 30px;'
+          = link_to "J'en profite", pro_pages_july_offer_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green', style: 'padding-left: 30px; padding-right: 30px;'
 
 - content_for :under_content_gray do
   = render 'admin_mailer/premium/premium_advantages'

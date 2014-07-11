@@ -2,7 +2,7 @@
   %tr
     %td.content-block{ colspan: 4 }
       .text--center.delta.soft--bottom
-        Les avantages Premium
+        Les avantages du Premium
   %tr
     %td.v-middle.content-block.soft--bottom{ width: 50 }
       = image_tag 'icons/premium/icon_discount.png', width: 30
@@ -56,4 +56,4 @@
   %tr
     %td.content-block{ colspan: 4 }
       .text--center.soft--top
-        = link_to 'Voir les avantages en détail', premium_pro_structure_url(@structure)
+        = link_to 'Voir en détail', premium_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
