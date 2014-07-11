@@ -88,12 +88,14 @@
 .border-none         { border        : none !important; }
 .border-none--sides  { border-left   : none !important; border-right: none !important; }
 .border-none--bottom { border-bottom : none !important; }
+.border-none--left   { border-left  : none !important; }
 .border-none--right  { border-right  : none !important; }
 .border-none--left   { border-left   : none !important; }
 .border-none--top    { border-top    : none !important; }
 .bordered--larger    { border-width  : 2px !important; }
 .bordered--thick     { border-width  : 4px !important; }
 .bordered--orange    { border-color  : $orange; }
+.border-color-gray   { border-color  : $gray; }
 
 .center-block        { margin-left: auto; margin-right: auto; display: block; }
 .block               { display: block; }
@@ -160,6 +162,7 @@
 .z-index-3 { z-index: 3; }
 .white-text-shadow { @include text-shadow(0 0 2px #FFF, 0 0 12px #FFF, 0 0 22px #FFF, 0 0 42px #FFF, 0 0 92px #FFF); }
 .black-text-shadow { @include text-shadow(0 0 2px #000, 0 0 12px #000, 0 0 22px #000, 0 0 42px #000, 0 0 92px #000); }
+.soft-black-text-shadow { @include text-shadow(0px 0px 2px #444, 0px 0px 15px #444); }
 .smooth-black-text-shadow { @include text-shadow(0px 0px 2px #444); }
 
 .highlight {
@@ -226,3 +229,46 @@
 .transition-all-linear { @include transition(all 250ms linear); }
 
 .text-shadow-white { @include text-shadow(0px 0px 6px #FFF, 0px 0px 6px #FFF, 0px 0px 6px #FFF, 0px 0px 6px #FFF) }
+
+.premium-banner {
+    position   : absolute;
+    top        : -8px;
+    left       : 50%;
+    margin-left: -75px;
+    &:before {
+        border-bottom: 6px solid #C55300;
+        border-left  : 3px solid rgba(0, 0, 0, 0);
+        border-right : 3px solid rgba(0, 0, 0, 0);
+        transform    : scale(0.99);
+        content      : "";
+        height       : 0;
+        left         : -6px;
+        position     : absolute;
+        top          : 0;
+        width        : 162px;
+        z-index      : 0;
+    }
+}
+    .premium-banner__content {
+        position        : absolute;
+        top             : 0;
+        width           : 150px;
+        background      : #FA6900;
+        background-image: -webkit-linear-gradient(top,#FF973A,#FA6900);
+        background-image: linear-gradient(to bottom,#FF973A,#FA6900);
+        text-shadow     : 0 1px 0 #7D3F0C;
+        text-shadow     : 0 1px 0 rgba(125, 63, 12, 0.5);
+        color           : #FFF;
+        padding         : 9px 5px 4px;
+        &:after {
+            content     : '';
+            border-style: solid;
+            border-color: #FA6900 rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
+            transform   : scale(0.99);
+            border-width: 8px 75px 0;
+            position    : absolute;
+            top         : 100%;
+            left        : 0;
+            z-index     : 1;
+        }
+    }

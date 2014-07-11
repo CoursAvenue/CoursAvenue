@@ -1,20 +1,22 @@
-.soft
-  %h1.blue Comment pouvons-nous vous aider ?
-  .grid
+.home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background5.jpg'})" }
+  .main-container.soft
+    %h1.flush Comment pouvons-nous vous aider ?
+
+.main-container.soft
+  .grid.epsilon
     .grid__item.one-half>
-      .islet
+      .soft
         %p
           Vous pouvez nous écrire directement à l'adresse e-mail ci-dessous.
           %br
           Nous répondons rapidement, presque toujours dans la demi-journée.
           %br
-          = image_tag 'pages/email_contact.png', style: 'height: 20px'
-
+          = image_tag 'pages/email_contact.png', height: 20, class: 'push-half--ends'
 
         %p
           Vous pouvez aussi nous joindre par téléphone, mais s'il vous plaît privilégiez autant que possible l'email, nous sommes une petite équipe !
           %br
-          = image_tag 'pages/phone_number.png', style: 'height: 13px'
+          = image_tag 'pages/phone_number.png', height: 13, class: 'push-half--ends'
           %br
           Du lundi au vendredi de 9h30 à 18h30.
     .grid__item.one-half.bordered--left>
@@ -25,26 +27,26 @@
           .grid__item.two-thirds>
             %input.input--large.one-whole{ type: 'text', name: 'name', value: params[:name], placeholder: 'Patrick' }
             - if @errors and @errors.include?(:name)
-              %div.text--right.red
-                Doit être remplis
+              %div.text--right.red.milli
+                Doit être rempli
         .grid.push-half--bottom
           .grid__item.one-third.text--right>
             %label.label--large.f-weight-bold * Votre email
           .grid__item.two-thirds>
             %input.input--large.one-whole{ type: 'text', name: 'email', value: params[:email], placeholder: 'patrick@gmail.com' }
             - if @errors and @errors.include?(:email)
-              %div.text--right.red
-                Doit être remplis
+              %div.text--right.red.milli
+                Doit être rempli
         .grid.push-half--bottom
           .grid__item.one-third.text--right>
             %label.label--large.f-weight-bold * Votre message
           .grid__item.two-thirds>
             %textarea.input--large.one-whole{ type: 'text', name: 'content', rows: 10, value: params[:content], data: {behavior: 'autoresize'}}= params[:content]
             - if @errors and @errors.include?(:content)
-              %div.text--right.red
-                Doit être remplis
+              %div.text--right.red.milli
+                Doit être rempli
         .grid
           .grid__item.push--one-third.text--left>
-            %input.btn.btn--full.btn--green{type: 'submit', value: 'Envoyer'}
+            %input.btn.btn--full.btn--green{ type: 'submit', value: 'Envoyer', data: { disable_with: "En cours d'envoi" } }
 
 = render 'shared/live_chat'

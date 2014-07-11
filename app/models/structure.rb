@@ -698,7 +698,7 @@ class Structure < ActiveRecord::Base
         end
         delta_hours << delta if delta
       end
-      self.response_time = (delta_hours.reduce(&:+).to_f / delta_hours.length.to_f).round
+      self.response_time = (delta_hours.reduce(&:+).to_f / (delta_hours.length.to_f)).round if delta_hours.any?
       self.save
       return self.response_time
     end

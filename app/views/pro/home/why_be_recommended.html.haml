@@ -3,227 +3,198 @@
 = content_for :title do
   Développez votre bouche à oreille
 
-= pro_menu_currently_at 'Recommandations'
-
-- content_for :above_container do
-  .home-screen-promotion-wrapper--blue.soft
-    %h1.f-weight-300.text--center.flush
+.home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background4.jpg'})" }
+  .main-container.soft
+    %h1.flush
       Développez votre bouche à oreille
-    %h4.f-weight-300.flush.text--center
+    .delta.line-height-1-7.push-half--bottom
       Tout en gardant la maîtrise de vos recommandations
 
-  .home-screen-promotion-wrapper.soft--top
-    .main-container
-      %ul.tabs.tabs--large
-        %li.active
-          %a{href: '#avantages', data: {toggle: 'tab'} }
-            %i.fa.fa-heart
-            Avantages
-        %li
-          %a{href: '#convictions', data: {toggle: 'tab'} }
-            %i.fa.fa-thumbs-up
-            Nos convictions
-        %li
-          %a{href: '#control-d-identite', data: {toggle: 'tab'} }
-            %i.fa.fa-lock
-            Contrôles d'identité
-        %li
-          %a{href: '#critere-de-publication', data: {toggle: 'tab'} }
-            %i.fa.fa-book
-            Critères de publication
-        %li
-          %a{href: '#moderation', data: {toggle: 'tab'} }
-            %i.fa.fa-cogs
-            Modération
+.main-container.soft
+  .main-container
+    %ul.tabs.tabs--large
+      %li.active
+        %a{href: '#avantages', data: {toggle: 'tab'} }
+          %i.fa.fa-heart
+          Avantages
+      %li
+        %a{href: '#convictions', data: {toggle: 'tab'} }
+          %i.fa.fa-thumbs-up
+          Nos convictions
+      %li
+        %a{href: '#control-d-identite', data: {toggle: 'tab'} }
+          %i.fa.fa-lock
+          Contrôles d'identité
+      %li
+        %a{href: '#critere-de-publication', data: {toggle: 'tab'} }
+          %i.fa.fa-book
+          Critères de publication
+      %li
+        %a{href: '#moderation', data: {toggle: 'tab'} }
+          %i.fa.fa-cogs
+          Modération
 
-      .tab-content
-        #avantages.tab-pane.active
-          .grid
-            .grid__item.four-tenths>
-              .blue-box.islet
-                %h3 L’essentiel :
-                %ul
-                  %li Vous attirez 2 fois plus d’élèves
-                  %li Vous faites plaisir à vos élèves
-                  %li Vous augmentez votre taux de fidélisation
-                  %li Vous multipliez par 3 le bouche à oreille
-            .grid__item.six-tenths>
-              .white-box.islet
-                %h3 Dans le détail :
-                %h5 Vous attirez 2 fois plus d’élèves
+    .tab-content
+      #avantages.tab-pane.active
+        .grid
+          .grid__item.four-tenths>
+            .blue-box.soft
+              %h3 L’essentiel :
+              %ul
+                %li Vous attirez 2 fois plus d’élèves
+                %li Vous faites plaisir à vos élèves
+                %li Vous augmentez votre taux de fidélisation
+                %li Vous multipliez par 3 le bouche à oreille
+          .grid__item.six-tenths>
+            .white-box.soft
+              %h3 Dans le détail :
+              %h5 Vous attirez 2 fois plus d’élèves
 
-                %p Les professeurs, associations et écoles qui attirent le plus d’élèves sont ceux qui ont un bon bouche à oreille. La raison est simple : un élève qui recherche un cours ne va pas rechercher uniquement de la technique. Il recherchera avant tout le cours qui correspondra à tous ses autres critères : rejoindre une communauté qui partage ses valeurs, partager des passions, s’ouvrir, se défier, se construire personnellement, se développer mentalement et physiquement.
+              %p Les professeurs, associations et écoles qui attirent le plus d’élèves sont ceux qui ont un bon bouche à oreille. La raison est simple : un élève qui recherche un cours ne va pas rechercher uniquement de la technique. Il recherchera avant tout le cours qui correspondra à tous ses autres critères : rejoindre une communauté qui partage ses valeurs, partager des passions, s’ouvrir, se défier, se construire personnellement, se développer mentalement et physiquement.
 
-                %p Tout cela, un élève ayant suivi le cours l’exprimera toujours mieux qu’un professeur.
+              %p Tout cela, un élève ayant suivi le cours l’exprimera toujours mieux qu’un professeur.
 
-                %p Pour vos cours, la meilleure publicité restera celle de vos élèves : les partenaires qui affichent publiquement les témoignages de leurs élèves ont en moyenne un taux d'inscription et de fidélisation 2 fois supérieur à la moyenne. C’est pour cela qu’au-delà de 5 avis, CoursAvenue vous offre un livre d’or qui vous permet d’afficher toutes vos recommandations sur votre propre site web, blog, flyers, signatures d’emails…
+              %p Pour vos cours, la meilleure publicité restera celle de vos élèves : les partenaires qui affichent publiquement les témoignages de leurs élèves ont en moyenne un taux d'inscription et de fidélisation 2 fois supérieur à la moyenne. C’est pour cela qu’au-delà de 5 avis, CoursAvenue vous offre un livre d’or qui vous permet d’afficher toutes vos recommandations sur votre propre site web, blog, flyers, signatures d’emails…
 
-                %h5 Vous faites plaisir à vos élèves
+              %h5 Vous faites plaisir à vos élèves
 
-                %p Combien de compliments recevez-vous à la fin de vos cours ? Vos élèves n’attendent que cela : partager leur expérience et vous complimenter. Sollicitez leurs témoignages : ils le feront avec grand plaisir. Vous allez être surpris !
+              %p Combien de compliments recevez-vous à la fin de vos cours ? Vos élèves n’attendent que cela : partager leur expérience et vous complimenter. Sollicitez leurs témoignages : ils le feront avec grand plaisir. Vous allez être surpris !
 
-                %h5 Vous augmentez votre taux de fidélisation
+              %h5 Vous augmentez votre taux de fidélisation
 
-                %p Demander à un élève de témoigner, c’est créer du lien prof-élève en dehors du cours : plus vous offrez à vos élèves des occasions de s’exprimer, plus vous gardez contact avec eux, plus vous les fidélisez. Communiquer et créer du lien, c’est aussi instaurer une relation de confiance, élément fondateur de la fidélité d’un élève.
+              %p Demander à un élève de témoigner, c’est créer du lien prof-élève en dehors du cours : plus vous offrez à vos élèves des occasions de s’exprimer, plus vous gardez contact avec eux, plus vous les fidélisez. Communiquer et créer du lien, c’est aussi instaurer une relation de confiance, élément fondateur de la fidélité d’un élève.
 
-                %h5 Vous multipliez par 3 le bouche à oreille
+              %h5 Vous multipliez par 3 le bouche à oreille
 
-                %p Plusieurs partenaires nous ont fait part d’un phénomène intéressant : un élève qui vous recommande sur CoursAvenue est souvent très fier d’avoir pu s’exprimer publiquement sur Internet pour défendre la qualité de vos cours : il y a ensuite 3 fois plus de chances que cet élève parle de vous lors d’un rendez-vous entre amis et famille
+              %p Plusieurs partenaires nous ont fait part d’un phénomène intéressant : un élève qui vous recommande sur CoursAvenue est souvent très fier d’avoir pu s’exprimer publiquement sur Internet pour défendre la qualité de vos cours : il y a ensuite 3 fois plus de chances que cet élève parle de vous lors d’un rendez-vous entre amis et famille
 
-        #convictions.tab-pane
-          = render 'convictions'
-        #control-d-identite.tab-pane
-          .grid
-            .grid__item.four-tenths>
-              .blue-box.islet
-                %h3 L’essentiel :
+      #convictions.tab-pane
+        = render 'convictions'
+      #control-d-identite.tab-pane
+        .grid
+          .grid__item.four-tenths>
+            .blue-box.soft
+              %h3 L’essentiel :
 
-                %p.flush Nous contrôlons sérieusement l’identité de ceux qui déposent des avis sur CoursAvenue. Les différents algorithmes et outils de contrôles que nous avons mis en place nous permettent d’éviter la fraude. Ainsi, nous assurons que ce sont de véritables élèves et uniquement eux qui déposent des avis. Voici une partie des contrôles que nous appliquons tous les jours :
-                %ul
-                  %li Contrôle de l’adresse IP : une personne qui a créé son profil ne peut pas déposer un avis, nous le vérifions grâce à l’adresse IP. Ainsi, un professeur ne peut pas s’auto-complimenter ;
-                  %li Contrôle des élèves : régulièrement, nous faisons des tests de contrôle en contactant des élèves ayant déposé des avis ;
-                  %li Contrôle des messages : un système automatique de lecture détecte automatiquement des témoignages qui seraient potentiellement faux (facilement repérables).
+              %p.flush Nous contrôlons sérieusement l’identité de ceux qui déposent des avis sur CoursAvenue. Les différents algorithmes et outils de contrôles que nous avons mis en place nous permettent d’éviter la fraude. Ainsi, nous assurons que ce sont de véritables élèves et uniquement eux qui déposent des avis. Voici une partie des contrôles que nous appliquons tous les jours :
+              %ul
+                %li Contrôle de l’adresse IP : une personne qui a créé son profil ne peut pas déposer un avis, nous le vérifions grâce à l’adresse IP. Ainsi, un professeur ne peut pas s’auto-complimenter ;
+                %li Contrôle des élèves : régulièrement, nous faisons des tests de contrôle en contactant des élèves ayant déposé des avis ;
+                %li Contrôle des messages : un système automatique de lecture détecte automatiquement des témoignages qui seraient potentiellement faux (facilement repérables).
 
-                %p
-                  Mais nous ne sommes pas les seuls à modérer les avis, vous êtes également impliqué dans le contrôle de l’identité :
-                  = link_to 'voir la modération des avis.', '#moderation'
-            .grid__item.six-tenths>
-              .white-box.islet
-                %h3 Dans le détail :
+              %p
+                Mais nous ne sommes pas les seuls à modérer les avis, vous êtes également impliqué dans le contrôle de l’identité :
+                = link_to 'voir la modération des avis.', '#moderation'
+          .grid__item.six-tenths>
+            .white-box.soft
+              %h3 Dans le détail :
 
-                %p Nous nous engageons à garantir la fiabilité des avis et de l’identité de ceux qui les déposent. Toute tentative d'induire en erreur, d'influencer ou de se faire passer pour un élève peut être considérée comme frauduleuse et faire l'objet d'une sanction.
+              %p Nous nous engageons à garantir la fiabilité des avis et de l’identité de ceux qui les déposent. Toute tentative d'induire en erreur, d'influencer ou de se faire passer pour un élève peut être considérée comme frauduleuse et faire l'objet d'une sanction.
 
-                %p.flush Ces tentatives incluent, mais sans s'y limiter :
-                %ul
-                  %li Les tentatives d'un professeur ou de tout type de structure inscrite sur CoursAvenue (association, école, etc.) d'améliorer sa réputation en :
-                  %li Rédigeant un avis concernant son propre établissement ou quelconque établissement appartenant au contributeur ou géré ou bien financé de quelque manière que ce soit par ce dernier ;
-                  %li Faisant appel à une société d'optimisation, une entreprise de marketing ou un prestataire tiers pour soumettre des avis ;
-                  %li Se faisant passer pour un concurrent, un élève ou un client ;
-                  %li Offrant des cadeaux (ex. : réductions, surclassements ou tout traitement spécial) en échange d'avis positifs ;
-                  %li Demandant à des proches ou amis de rédiger des avis positifs ;
-                  %li Soumettant des avis pour le compte d’élèves ou de clients :
-                  %li Recopiant des questionnaires de satisfaction, puis en les soumettant sous forme d'avis d’élèves ;
-                  %li Faisant pression sur un membre de CoursAvenue pour qu'il retire un avis négatif ;
-                  %li Interdisant ou dissuadant les clients ou élèves de publier des avis négatifs ou des critiques à propos de leur séjour.
-                  %li Tentant de nuire à ses concurrents en soumettant un avis négatif : les professeurs ou structures inscrites sur CoursAvenue (ayant créé leur profil) ne doivent pas rédiger d'avis concernant leurs concurrents directs, même s'il s'agit d'une expérience authentique.
+              %p.flush Ces tentatives incluent, mais sans s'y limiter :
+              %ul
+                %li Les tentatives d'un professeur ou de tout type de structure inscrite sur CoursAvenue (association, école, etc.) d'améliorer sa réputation en :
+                %li Rédigeant un avis concernant son propre établissement ou quelconque établissement appartenant au contributeur ou géré ou bien financé de quelque manière que ce soit par ce dernier ;
+                %li Faisant appel à une société d'optimisation, une entreprise de marketing ou un prestataire tiers pour soumettre des avis ;
+                %li Se faisant passer pour un concurrent, un élève ou un client ;
+                %li Offrant des cadeaux (ex. : réductions, surclassements ou tout traitement spécial) en échange d'avis positifs ;
+                %li Demandant à des proches ou amis de rédiger des avis positifs ;
+                %li Soumettant des avis pour le compte d’élèves ou de clients :
+                %li Recopiant des questionnaires de satisfaction, puis en les soumettant sous forme d'avis d’élèves ;
+                %li Faisant pression sur un membre de CoursAvenue pour qu'il retire un avis négatif ;
+                %li Interdisant ou dissuadant les clients ou élèves de publier des avis négatifs ou des critiques à propos de leur séjour.
+                %li Tentant de nuire à ses concurrents en soumettant un avis négatif : les professeurs ou structures inscrites sur CoursAvenue (ayant créé leur profil) ne doivent pas rédiger d'avis concernant leurs concurrents directs, même s'il s'agit d'une expérience authentique.
 
-        #critere-de-publication.tab-pane
-          .grid
-            .grid__item.four-tenths>
-              .blue-box.islet
-                %h3 L’essentiel :
+      #critere-de-publication.tab-pane
+        .grid
+          .grid__item.four-tenths>
+            .blue-box.soft
+              %h3 L’essentiel :
 
-                %p.flush Les avis qui ne respectent pas nos critères de publication seront automatiquement supprimés :
-                %ul
-                  %li Ils doivent être authentiques et objectifs
-                  %li Ils doivent être rédigés dans l’unique but de partager une expérience et d’informer d’autres élèves
-                  %li Ils ne doivent pas être rédigés dans un but commercial
-            .grid__item.six-tenths>
-              .white-box.islet
-                %h3 Dans le détail :
+              %p.flush Les avis qui ne respectent pas nos critères de publication seront automatiquement supprimés :
+              %ul
+                %li Ils doivent être authentiques et objectifs
+                %li Ils doivent être rédigés dans l’unique but de partager une expérience et d’informer d’autres élèves
+                %li Ils ne doivent pas être rédigés dans un but commercial
+          .grid__item.six-tenths>
+            .white-box.soft
+              %h3 Dans le détail :
 
-                %p Nous vous rappelons que les avis déposés sont des opinions personnelles et très subjectives. Les opinions exprimées sont celles des membres de CoursAvenue. Nous n'avons de lien d'affiliation avec aucun des établissements répertoriés sur notre site ou mentionnés dans les avis et nous ne faisons la publicité d'aucun d'entre eux. CoursAvenue se réserve le droit de supprimer tout message pour quelle que raison que ce soit.
+              %p Nous vous rappelons que les avis déposés sont des opinions personnelles et très subjectives. Les opinions exprimées sont celles des membres de CoursAvenue. Nous n'avons de lien d'affiliation avec aucun des établissements répertoriés sur notre site ou mentionnés dans les avis et nous ne faisons la publicité d'aucun d'entre eux. CoursAvenue se réserve le droit de supprimer tout message pour quelle que raison que ce soit.
 
-                %p Tous les avis doivent respecter le règlement de CoursAvenue. Pour être publiés les avis doivent répondre aux critères suivants :
+              %p Tous les avis doivent respecter le règlement de CoursAvenue. Pour être publiés les avis doivent répondre aux critères suivants :
 
-                %h5.flush Tous publics
-                %p Les textes ne peuvent contenir aucune injures, menaces, commentaires biaisés ou violents, propos haineux ainsi que tout autre contenu qui ne conviendrait pas à une audience familiale.
+              %h5.flush Tous publics
+              %p Les textes ne peuvent contenir aucune injures, menaces, commentaires biaisés ou violents, propos haineux ainsi que tout autre contenu qui ne conviendrait pas à une audience familiale.
 
-                %h5.flush Avis exclusifs et indépendants
-                %p.flush
-                  Chaque élève peut rédiger un seul avis par établissement. S’il souhaite en déposer un nouveau, il pourra le faire trois mois après la publication de son dernier avis.
-                  %br
-                  %i
-                    Remarque importante : si un Internaute souhaite mettre à jour l’un de ses avis,
-                    = link_to 'merci de nous contacter.', pages_contact_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), rel: :nofollow, target: '_blank'
-                %ul
-                  %li Les avis ne doivent contenir que les propos de l'auteur et ne comporter aucune citation provenant d'autres sources.
-                  %li Les coordonnées et adresses e-mail commerciales, de même que tout contenu à caractère publicitaire, ne sont pas admis dans les avis. Nous nous réservons le droit de refuser toute URL, quelle qu'en soit la raison.
-                  %li Merci de ne pas inclure de questions destinées aux autres auteurs, ni de commentaires sur les autres avis, leurs auteurs ou les réponses de la direction.
+              %h5.flush Avis exclusifs et indépendants
+              %p.flush
+                Chaque élève peut rédiger un seul avis par établissement. S’il souhaite en déposer un nouveau, il pourra le faire trois mois après la publication de son dernier avis.
+                %br
+                %i
+                  Remarque importante : si un Internaute souhaite mettre à jour l’un de ses avis,
+                  = link_to 'merci de nous contacter.', pages_contact_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), rel: :nofollow, target: '_blank'
+              %ul
+                %li Les avis ne doivent contenir que les propos de l'auteur et ne comporter aucune citation provenant d'autres sources.
+                %li Les coordonnées et adresses e-mail commerciales, de même que tout contenu à caractère publicitaire, ne sont pas admis dans les avis. Nous nous réservons le droit de refuser toute URL, quelle qu'en soit la raison.
+                %li Merci de ne pas inclure de questions destinées aux autres auteurs, ni de commentaires sur les autres avis, leurs auteurs ou les réponses de la direction.
 
-                %h5.flush Authenticité
-                %p Les textes ne doivent contenir que les propos de l'auteur et ne comporter aucune citation provenant d'autres sources.
+              %h5.flush Authenticité
+              %p Les textes ne doivent contenir que les propos de l'auteur et ne comporter aucune citation provenant d'autres sources.
 
-                %h5.flush Caractère personnel, point de vue d'un élève
-                %p Les avis doivent relater une expérience personnelle. Sont interdits les avis rédigés par un professeur ou la direction d'un établissement qui se fait passer pour un élève. Les rumeurs, les citations d'autres sources ou d’autres personnes ne sont pas autorisées. Seules sont autoriséEs les opinions d’élèves individuels.
-                %p Nous ne permettons pas que les professeurs incitent leurs élèves à écrire des avis en échange de récompenses. En aucun cas nous n'autorisons que des réductions (sur des cours en cours ou à venir) soient proposés en échange d'une critique. Si nous découvrons des établissements incitant leurs élèves à écrire des avis en échange de récompenses, nous prendrons les mesures appropriées.
+              %h5.flush Caractère personnel, point de vue d'un élève
+              %p Les avis doivent relater une expérience personnelle. Sont interdits les avis rédigés par un professeur ou la direction d'un établissement qui se fait passer pour un élève. Les rumeurs, les citations d'autres sources ou d’autres personnes ne sont pas autorisées. Seules sont autoriséEs les opinions d’élèves individuels.
+              %p Nous ne permettons pas que les professeurs incitent leurs élèves à écrire des avis en échange de récompenses. En aucun cas nous n'autorisons que des réductions (sur des cours en cours ou à venir) soient proposés en échange d'une critique. Si nous découvrons des établissements incitant leurs élèves à écrire des avis en échange de récompenses, nous prendrons les mesures appropriées.
 
-                %h5.flush Pertinence pour les autres élèves
-                %p Le langage ou les descriptions à caractère injurieux, les campagnes de diffamation et les contenus qui ne sont pas pertinents et utiles pour d’autres potentiels élèves ne sont pas acceptés. CoursAvenue n'est pas un espace de débats politiques, éthiques ou religieux.
+              %h5.flush Pertinence pour les autres élèves
+              %p Le langage ou les descriptions à caractère injurieux, les campagnes de diffamation et les contenus qui ne sont pas pertinents et utiles pour d’autres potentiels élèves ne sont pas acceptés. CoursAvenue n'est pas un espace de débats politiques, éthiques ou religieux.
 
-                %h5.flush Portant sur un établissement référencé
-                %p L’avis doit porter sur un professeur ou un établissement conforme à nos critères et dont le profil apparaît sur CoursAvenue.
+              %h5.flush Portant sur un établissement référencé
+              %p L’avis doit porter sur un professeur ou un établissement conforme à nos critères et dont le profil apparaît sur CoursAvenue.
 
-                %h5.flush Nature non commerciale
-                %p Nous ne publions pas les adresses Internet ni les e-mails commerciaux ni aucun autre contenu à caractère publicitaire. Nous nous réservons le droit de refuser toute adresse de site Internet quelle qu'en soit la raison.
+              %h5.flush Nature non commerciale
+              %p Nous ne publions pas les adresses Internet ni les e-mails commerciaux ni aucun autre contenu à caractère publicitaire. Nous nous réservons le droit de refuser toute adresse de site Internet quelle qu'en soit la raison.
 
-                %h5.flush Rédaction selon les règles standard utilisées pour les e-mails
-                %p L'emploi unique de MAJUSCULES, les balises HTML, l'utilisation excessive des symboles typographiques et l'argot ne sont pas autorisés.
+              %h5.flush Rédaction selon les règles standard utilisées pour les e-mails
+              %p L'emploi unique de MAJUSCULES, les balises HTML, l'utilisation excessive des symboles typographiques et l'argot ne sont pas autorisés.
 
-                %h5.flush Utilisation d'une adresse e-mail valide
-                %p
-                  Chaque Internaute doit fournir une adresse e-mail valable. Nous serons peut-être amenés à contacter un élève suite à l'envoi d’un avis. CoursAvenue respecte toutes les données personnelles.
-
-
-
-        #moderation.tab-pane
-          .grid
-            .grid__item.four-tenths>
-              .blue-box.islet
-                %h3 L’essentiel :
-
-                %p.flush Chaque partenaire inscrit sur CoursAvenue peut modérer ses avis depuis son profil :
-                %ul
-                  %li Il peut rejeter un avis qui a été déposé par une personne qu’il ne reconnaît pas comme étant l’un de ses élèves ;
-                  %li Il peut demander à l’équipe CoursAvenue la suppression d’un avis ; si cette demande de suppression est justifiée, l’équipe CoursAvenue effacera l’avis et le partenaire en sera notifié.
-            .grid__item.six-tenths>
-              .white-box.islet
-                %h3 Dans le détail :
-
-                %p Les modérateurs des avis sont représentés par l’équipe CoursAvenue mais également par nos partenaires eux-mêmes qui peuvent gérer leurs recommandations.
-
-                %h5.flush Sources des avis
-
-                %p.flush Pour bien comprendre notre système, n’importe qui ne peut pas déposer son avis : ce sont uniquement vos élèves qui peuvent le faire. Voici les 2 méthodes pour pouvoir déposer un avis sur votre profil :
-                %ul
-                  %li Soit vous avez vous-même envoyé votre demande de recommandation à vos élèves après avoir renseigné leur email grâce à notre outil dédié : la demande est alors destinée à vos élèves qui peuvent déposer librement leur avis ;
-                  %li Soit un internaute dépose son avis sur votre profil public CoursAvenue (suite au partage de votre profil sur Facebook, suite à un email que vous avez vous-même envoyé ou tout simplement si un internaute trouve par lui-même votre profil CoursAvenue) : dans ce cas, nous vous envoyons un email automatique qui vous demandera de valider l’identité de l’internaute (son prénom, nom et email). S’il s’agit bien d’un de vos élèves, son avis sera publié ; dans le cas contraire, nous ne le publierons pas.
-
-                %h5.flush Identité des élèves
-
-                %p Depuis son profil, chaque partenaire a accès à son espace « Mes avis » qui lui permet de visualiser tous ses avis. Pour tous ceux qui ont été déposés autrement que par notre outil automatique dédié, chaque partenaire devra valider l’identité de l’internaute (son prénom, nom et email) ayant rédigé le commentaire. S’il pense que ce n’est pas son élève, alors il pourra refuser l’avis qui ne sera pas publié.
-
-                %h5.flush Contenu
-
-                %p Chaque partenaire a la possibilité de demander la suppression d’un avis : une fois la demande envoyée, l’équipe CoursAvenue étudiera la raison (avis dupliqué, non approprié, non constructif, etc.) et l’effacera.
-
-                %h5.flush Réactivité
-
-                %p L’équipe de CoursAvenue est très réactive, et traitera vos demandes de modération d’avis dans la journée même.
+              %h5.flush Utilisation d'une adresse e-mail valide
+              %p
+                Chaque Internaute doit fournir une adresse e-mail valable. Nous serons peut-être amenés à contacter un élève suite à l'envoi d’un avis. CoursAvenue respecte toutes les données personnelles.
 
 
 
+      #moderation.tab-pane
+        .grid
+          .grid__item.four-tenths>
+            .blue-box.soft
+              %h3 L’essentiel :
 
--# %h2.text--center.blue 4 bonnes raisons de demander des recommandations à vos élèves
+              %p.flush Chaque partenaire inscrit sur CoursAvenue peut modérer ses avis depuis son profil :
+              %ul
+                %li Il peut rejeter un avis qui a été déposé par une personne qu’il ne reconnaît pas comme étant l’un de ses élèves ;
+                %li Il peut demander à l’équipe CoursAvenue la suppression d’un avis ; si cette demande de suppression est justifiée, l’équipe CoursAvenue effacera l’avis et le partenaire en sera notifié.
+          .grid__item.six-tenths>
+            .white-box.soft
+              %h3 Dans le détail :
 
--# .grid
--#   .grid__item.four-twelfths>
--#     = image_tag 'pages/recommandations.jpeg'
--#   .grid__item.eight-twelfths>
--#     %h4.push-half--bottom Vous faites plaisir à vos élèves
+              %p Les modérateurs des avis sont représentés par l’équipe CoursAvenue mais également par nos partenaires eux-mêmes qui peuvent gérer leurs recommandations.
 
--#     %p Combien de compliments recevez-vous à la fin de vos cours ? Vos élèves n’attendent que cela : partager leur expérience et vous complimenter. Sollicitez leurs témoignages : ils le feront avec grand plaisir. Vous allez être surpris !
--#     %hr
--#     %h4.push-half--bottom Vous augmentez votre taux de fidélisation
+              %h5.flush Sources des avis
 
--#     %p Demander à un élève de témoigner, c’est créer du lien prof-élève en dehors du cours : plus vous offrez à vos élèves des occasions de s’exprimer, plus vous gardez contact avec eux, plus vous les fidélisez. Communiquer et créer du lien, c’est aussi instaurer une relation de confiance, élément fondateur de la fidélité d’un élève.
+              %p.flush Pour bien comprendre notre système, n’importe qui ne peut pas déposer son avis : ce sont uniquement vos élèves qui peuvent le faire. Voici les 2 méthodes pour pouvoir déposer un avis sur votre profil :
+              %ul
+                %li Soit vous avez vous-même envoyé votre demande de recommandation à vos élèves après avoir renseigné leur email grâce à notre outil dédié : la demande est alors destinée à vos élèves qui peuvent déposer librement leur avis ;
+                %li Soit un internaute dépose son avis sur votre profil public CoursAvenue (suite au partage de votre profil sur Facebook, suite à un email que vous avez vous-même envoyé ou tout simplement si un internaute trouve par lui-même votre profil CoursAvenue) : dans ce cas, nous vous envoyons un email automatique qui vous demandera de valider l’identité de l’internaute (son prénom, nom et email). S’il s’agit bien d’un de vos élèves, son avis sera publié ; dans le cas contraire, nous ne le publierons pas.
 
--#     %hr
--#     %h4.push-half--bottom Vous multipliez par 3 le bouche à oreille
+              %h5.flush Identité des élèves
 
--#     %p Plusieurs partenaires nous ont fait part d’un phénomène intéressant : un élève qui vous recommande sur CoursAvenue est souvent très fier d’avoir pu s’exprimer publiquement sur Internet pour défendre la qualité de vos cours : il y a ensuite 3 fois plus de chances que cet élève parle de vous lors d’un rendez-vous entre amis et famille
+              %p Depuis son profil, chaque partenaire a accès à son espace « Mes avis » qui lui permet de visualiser tous ses avis. Pour tous ceux qui ont été déposés autrement que par notre outil automatique dédié, chaque partenaire devra valider l’identité de l’internaute (son prénom, nom et email) ayant rédigé le commentaire. S’il pense que ce n’est pas son élève, alors il pourra refuser l’avis qui ne sera pas publié.
 
--#     %hr
--#     %h4.push-half--bottom Vous attirez 2 fois plus d’élèves
+              %h5.flush Contenu
 
--#     %p La meilleure publicité, c’est celle de vos élèves ! Les partenaires qui affichent publiquement les témoignages de leurs élèves ont en moyenne un taux d'inscription et de fidélisation 2 fois supérieur à la moyenne. C’est pour cela qu’au-delà de 5 avis, CoursAvenue vous offre un livre d’or qui vous permet d’afficher toutes vos recommandations sur votre propre site web, blog, flyers, signatures d’emails…
+              %p Chaque partenaire a la possibilité de demander la suppression d’un avis : une fois la demande envoyée, l’équipe CoursAvenue étudiera la raison (avis dupliqué, non approprié, non constructif, etc.) et l’effacera.
+
+              %h5.flush Réactivité
+
+              %p L’équipe de CoursAvenue est très réactive, et traitera vos demandes de modération d’avis dans la journée même.

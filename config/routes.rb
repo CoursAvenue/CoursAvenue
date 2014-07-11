@@ -14,6 +14,7 @@ CoursAvenue::Application.routes.draw do
 
       get '/premium'                            => 'redirect#structures_premium'
 
+      get 'pages/offre-speciale-premiers-partenaires' => 'home#july_offer',   as: 'pages_july_offer'
       get 'pages/livres-blancs'                 => 'home#white_book',         as: 'pages_white_books'
       get 'mailjet_custo'                       => 'home#mailjet_custo'
       get 'pages/pourquoi-etre-recommande'      => 'home#why_be_recommended', as: 'pages_why_be_recommended'
@@ -89,6 +90,7 @@ CoursAvenue::Application.routes.draw do
       resources :structures, path: 'etablissements' do
         member do
           get   :go_premium
+          get   :choose_premium
           get   :add_subjects
           get   :ask_for_deletion
           get   :confirm_deletion

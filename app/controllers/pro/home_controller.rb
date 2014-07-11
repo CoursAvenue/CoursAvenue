@@ -30,6 +30,9 @@ class Pro::HomeController < Pro::ProController
   def jpo
   end
 
+  def july_offer
+  end
+
   def convictions
     redirect_to pro_pages_why_be_recommended_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), status: 301
   end

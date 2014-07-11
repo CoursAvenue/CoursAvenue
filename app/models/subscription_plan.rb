@@ -2,20 +2,18 @@ class SubscriptionPlan < ActiveRecord::Base
   acts_as_paranoid
   include Concerns::HstoreHelper
 
-  PLAN_TYPE = %w(monthly yearly three_months six_months_half_price)
+  PLAN_TYPE = %w(monthly yearly three_months)
 
   NEXT_PLAN_TYPE = {
-    'monthly'                 => 'monthly',
-    'three_months'            => 'monthly',
-    'six_months_half_price'   => 'monthly',
-    'yearly'                  => 'yearly'
+    'monthly'      => 'monthly',
+    'three_months' => 'monthly',
+    'yearly'       => 'yearly'
   }
 
   PLAN_TYPE_PRICES = {
-    'monthly'               => 34, # €
-    'three_months'          => 69, # €
-    'six_months_half_price' => 102, # €
-    'yearly'                => 348 # €
+    'monthly'      => 44, # €
+    'three_months' => 69, # €
+    'yearly'       => 468 # €
   }
   PLAN_TYPE_FREQUENCY = {
     'monthly'      => 'tous les mois',
@@ -23,16 +21,14 @@ class SubscriptionPlan < ActiveRecord::Base
     'yearly'       => 'tous les ans'
   }
   PLAN_TYPE_DESCRIPTION = {
-    'monthly'               => 'Abonnement mensuel',
-    'three_months'          => 'Abonnement pour 3 mois',
-    'six_months_half_price' => 'Abonnement pour 6 mois',
-    'yearly'                => 'Abonnement annuel'
+    'monthly'      => 'Abonnement mensuel',
+    'three_months' => 'Abonnement pour 3 mois',
+    'yearly'       => 'Abonnement annuel'
   }
   PLAN_TYPE_DURATION = {
-    'monthly'               => 1, # month
-    'three_months'          => 3, # months
-    'six_months_half_price' => 6, # months
-    'yearly'                => 12 # months
+    'monthly'      => 1, # month
+    'three_months' => 3, # months
+    'yearly'       => 12 # months
   }
 
   ######################################################################
@@ -57,9 +53,10 @@ class SubscriptionPlan < ActiveRecord::Base
   ######################################################################
   has_many :orders
   belongs_to :structure
+  belongs_to :promotion_code
 
   attr_accessible :plan_type, :expires_at, :renewed_at, :recurrent, :structure, :canceled_at,
-                  :credit_card_number, :be2bill_alias, :client_ip, :card_validity_date,
+                  :credit_card_number, :be2bill_alias, :client_ip, :card_validity_date, :promotion_code_id,
                   :cancelation_reason_dont_want_more_students, :cancelation_reason_stopping_activity,
                   :cancelation_reason_didnt_have_return_on_investment, :cancelation_reason_too_hard_to_use,
                   :cancelation_reason_not_satisfied_of_coursavenue_users, :cancelation_reason_other, :cancelation_reason_text
@@ -77,12 +74,18 @@ class SubscriptionPlan < ActiveRecord::Base
   #
   # @return SubscriptionPlan
   def self.subscribe! plan_type, structure, params={}
+    if params[:EXTRADATA].present?
+      promotion_code_id = params[:EXTRADATA]['promotion_code_id']
+    else
+      promotion_code_id = nil
+    end
     subscription_plan = structure.subscription_plans.create({ plan_type: plan_type.to_s,
                                                               expires_at: Date.today + PLAN_TYPE_DURATION[plan_type.to_s].months,
                                                               credit_card_number: params[:CARDCODE],
                                                               recurrent: true,
                                                               be2bill_alias: params[:ALIAS],
                                                               card_validity_date: (params[:CARDVALIDITYDATE] ? Date.strptime(params[:CARDVALIDITYDATE], '%m-%y') : nil),
+                                                              promotion_code_id: promotion_code_id,
                                                               client_ip: params[:CLIENT_IP]})
     structure.compute_search_score(true)
     structure.index
@@ -108,6 +111,13 @@ class SubscriptionPlan < ActiveRecord::Base
   def renew!
     require 'net/http'
 
+    extra_data = { renew: true, plan_type: self.plan_type }
+    # Passes promotion code only if the promotion code still applies on the renew
+    if self.promotion_code and self.promotion_code.still_apply?
+      extra_data[:promotion_code_id] = self.promotion_code_id
+    else
+      extra_data[:promotion_code_id] = nil
+    end
     params_for_hash = {
       'ALIAS'           => self.be2bill_alias,
       'ALIASMODE'       => 'subscription',
@@ -121,7 +131,7 @@ class SubscriptionPlan < ActiveRecord::Base
       'VERSION'         => '2.0',
       'CLIENTUSERAGENT' => 'Mozilla/5.0 (Windows NT 6.1; WOW64)',
       'CLIENTIP'        => self.client_ip,
-      'EXTRADATA'       => { renew: true }.to_json
+      'EXTRADATA'       => extra_data.to_json
     }
     params = {}
     params['params[HASH]'] = SubscriptionPlan.hash_be2bill_params params_for_hash
@@ -179,7 +189,11 @@ class SubscriptionPlan < ActiveRecord::Base
   #
   # @return Integer next amount to pay
   def next_amount
-    PLAN_TYPE_PRICES[NEXT_PLAN_TYPE[self.plan_type]]
+    if self.promotion_code and self.promotion_code.still_apply?
+      PLAN_TYPE_PRICES[NEXT_PLAN_TYPE[self.plan_type]] - self.promotion_code.promo_amount
+    else
+      PLAN_TYPE_PRICES[NEXT_PLAN_TYPE[self.plan_type]]
+    end
   end
 
   # See next_amount
@@ -210,14 +224,6 @@ class SubscriptionPlan < ActiveRecord::Base
 
   def active?
     !canceled? and self.expires_at >= Date.today
-  end
-
-  def self.premium_type_from_be2bill_amount amount
-    amount = amount.to_i
-    PLAN_TYPE_PRICES.each do |plan_type, plan_type_amount|
-      return plan_type if plan_type_amount * 100 == amount
-    end
-    return 'yearly'
   end
 
   private

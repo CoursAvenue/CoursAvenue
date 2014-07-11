@@ -2,39 +2,51 @@
   %thead
     %tr.border-none--bottom
       %td.no-stripe.four-twelfths.bordered--right.v-top.epsilon
-        Tarifs :
-        %ul.nav.tabs--link.inline-block
-          %li.active.relative
-            %a{ href: '#price-annual', data: { toggle: 'tab' } } Annuel
-            = image_tag 'texts/premium.png', class: 'absolute east', height: 35, style: 'top: 20px; left: 20px;'
-          %span.gray= '|'
-          %li
-            %a{ href: '#price-mensual', data: { toggle: 'tab' } } Mensuel
+        -# Tarifs :
       %td.text--center.four-twelfths.bordered--top.bordered--right.v-top.bordered--bottom
-        %p.green.beta.push-half--bottom
+        %p.beta.push-half--bottom.soft--top
           %strong Basic
+        %ul.nav.tabs--link.inline-block
+          %li.active &nbsp;
         .delta Gratuit
-        %p &nbsp;
+        %p
+          %i &nbsp;
+          %br
+          %strong.gamma &nbsp;
         - if @structure
-          %span.gray.v-middle Votre compte actuel
+          %p
+            %span.gray Votre compte actuel
         - else
           = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--yellow btn--full'
       %td.bordered--right.four-twelfths.text--center.bordered--top.v-top.bordered--bottom
-        %p.green.beta.push-half--bottom
+        %p.beta.push-half--bottom.soft--top
           %strong Premium
+        %ul.nav.tabs--link.inline-block
+          %li.active
+            %a{ href: '.price-annual', data: { toggle: 'tab' } } 12 mois
+          %span.gray= '|'
+          %li
+            %a{ href: '.price-mensual', data: { toggle: 'tab' } } 1 mois
+
         .tab-content
-          .tab-pane.hard#price-annual.active
-            .delta 29€ TTC / mois
+          .tab-pane.hard.price-annual.active
+            .delta 39€ TTC / mois
             %p
-              %i Facturation annuelle
+              %i Soit 468€ en un prélèvement unique
+              %br
+              %strong.green.gamma -11%
+              %span.delta.green de réduction
+
             - if @structure
               = link_to 'Commencer', go_premium_pro_structure_path(@structure, premium_type: 'yearly'), class: 'btn btn--yellow btn--full'
             - else
               = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--yellow btn--full'
-          .tab-pane.hard#price-mensual
-            .delta 34€ TTC / mois
+          .tab-pane.hard.price-mensual
+            .delta 44€ TTC / mois
             %p
               %i Facturation mensuelle
+              %br
+              %strong.gamma &nbsp;
             - if @structure
               = link_to 'Commencer', go_premium_pro_structure_path(@structure, premium_type: 'monthly'), class: 'btn btn--yellow btn--full'
             - else
@@ -48,24 +60,30 @@
         %strong.delta Gagnez en visibilité
     %tr
       %td.bordered--right.no-stripe.text--right
-        %p.epsilon.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Affichez votre profil sur le moteur de recherche géolocalisé CoursAvenue." } }
-          Référencement CoursAvenue
+        %p.epsilon.flush
+          %strong Référencement CoursAvenue
+          %br
+          %span.milli Affichez votre profil sur le moteur de recherche géolocalisé CoursAvenue.
       %td.bordered--right.text--center
         %i.fa.fa-check.green.delta
       %td.bordered--right.text--center
         %i.fa.fa-check.green.delta
     %tr
       %td.bordered--right.no-stripe.text--right
-        %p.epsilon.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Montez dans les résultats grâce à vos photos & vidéos, aux liens vers vos pages (site Internet & Facebook), et à une accroche personnalisée." } }
-          Profil complet et personnalisé
+        %p.epsilon.flush
+          %strong Profil complet et personnalisé
+          %br
+          %span.milli Montez dans les résultats grâce à vos photos & vidéos, aux liens vers vos pages (site Internet & Facebook), et à une accroche personnalisée.
       %td.bordered--right.text--center
         Limité
       %td.bordered--right.text--center
         %i.fa.fa-check.green.delta
     %tr
       %td.bordered--right.no-stripe.text--right
-        %p.epsilon.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Apparaissez sur tous les autres profils qui proposent les mêmes types d'activités autour de vous." } }
-          Profils similaires
+        %p.epsilon.flush
+          %strong Profils similaires
+          %br
+          %span.milli Apparaissez sur tous les autres profils qui proposent les mêmes types d'activités autour de vous.
       %td.bordered--right.text--center
       %td.bordered--right.text--center
         %i.fa.fa-check.green.delta
@@ -75,23 +93,30 @@
         %strong.delta Recrutez de nouveaux élèves
     %tr
       %td.bordered--right.no-stripe.text--right
-        %p.epsilon.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Tout le monde sur CoursAvenue peut gratuitement vous envoyer un message ou vous téléphoner (pas de numéro surtaxé)." } }
-          Mises en relation
+        %p.epsilon.flush
+          %strong Mises en relation
+          %br
+          %span.milli Tout le monde sur CoursAvenue peut gratuitement vous envoyer un message ou vous téléphoner (pas de numéro surtaxé).
+
       %td.bordered--right.text--center
         %i.fa.fa-check.green.delta
       %td.bordered--right.text--center
         %i.fa.fa-check.green.delta
     %tr
       %td.bordered--right.no-stripe.text--right
-        %p.epsilon.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Obtenez les e-mails des élèves qui vous ont envoyé un message ou ajouté en favori." } }
-          Coordonnées des élèves
+        %p.epsilon.flush
+          %strong Coordonnées des élèves
+          %br
+          %span.milli Obtenez les e-mails des élèves qui vous ont envoyé un message ou ajouté en favori.
       %td.bordered--right.text--center
       %td.bordered--right.text--center
         %i.fa.fa-check.green.delta
     %tr
       %td.bordered--right.no-stripe.text--right
-        %p.epsilon.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Démarquez-vous en affichant vos cours d'essai gratuits ou vos tarifs spéciaux qui invitent les nouveaux élèves à venir vous découvrir." } }
-          Offres découvertes
+        %p.epsilon.flush
+          %strong Offres découvertes
+          %br
+          %span.milli Démarquez-vous en affichant vos cours d'essai gratuits ou vos tarifs spéciaux qui invitent les nouveaux élèves à venir vous découvrir.
       %td.bordered--right.text--center
       %td.bordered--right.text--center
         %i.fa.fa-check.green.delta
@@ -102,24 +127,30 @@
         %strong.delta Pilotez votre efficacité
     %tr
       %td.bordered--right.no-stripe.text--right
-        %p.epsilon.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Suivez les statistiques de votre profil (nombre de visites, de prises de contact, etc.) et optimisez son efficacité." } }
-          Statistiques
+        %p.epsilon.flush
+          %strong Statistiques
+          %br
+          %span.milli Suivez les statistiques de votre profil (nombre de visites, de prises de contact, etc.) et optimisez son efficacité.
       %td.bordered--right.text--center
         Limité
       %td.bordered--right.text--center
         %i.fa.fa-check.green.delta
     %tr
       %td.bordered--right.no-stripe.text--right
-        %p.epsilon.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Rassemblez toutes les coordonnées de vos contacts et envoyez-leur des messages groupés." } }
-          Répertoire et messagerie
+        %p.epsilon.flush
+          %strong Répertoire et messagerie
+          %br
+          %span.milli Rassemblez toutes les coordonnées de vos contacts et envoyez-leur des messages groupés.
       %td.bordered--right.text--center
         Limité
       %td.bordered--right.text--center
         %i.fa.fa-check.green.delta
     %tr
       %td.bordered--right.no-stripe.text--right
-        %p.epsilon.flush{ data: { toggle: 'popover', trigger: 'hover', placement: 'right', content: "Recevez les meilleurs conseils de l'équipe CoursAvenue pour optimiser vos performances de profil et de votre communication en général." } }
-          Conseils personnalisés
+        %p.epsilon.flush
+          %strong Conseils personnalisés
+          %br
+          %span.milli Recevez les meilleurs conseils de l'équipe CoursAvenue pour optimiser vos performances de profil et de votre communication en général.
       %td.bordered--right.text--center
       %td.bordered--right.text--center
         %i.fa.fa-check.green.delta
@@ -142,7 +173,10 @@
           = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--yellow btn--full'
       %td.bordered--right.text--center.soft-half
         - if @structure
-          = link_to 'Commencer', go_premium_pro_structure_path(@structure, premium_type: 'yearly'), class: 'btn btn--yellow btn--full'
+          .tab-pane.hard.price-annual.active
+            = link_to 'Commencer', go_premium_pro_structure_path(@structure, premium_type: 'yearly'), class: 'btn btn--yellow btn--full'
+          .tab-pane.hard.price-mensual
+            = link_to 'Commencer', go_premium_pro_structure_path(@structure, premium_type: 'monthly'), class: 'btn btn--yellow btn--full'
         - else
           = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--yellow btn--full'
     %tr

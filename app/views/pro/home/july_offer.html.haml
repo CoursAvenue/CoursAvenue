@@ -1,0 +1,66 @@
+- d_day = DateTime.parse('2014/08/01')
+= content_for :scripts do
+  :javascript
+    $(function() {
+        date = Date.parse("#{l(d_day, format: :js )}");
+        var $countdown_day  = $('#countdown-day');
+        var $countdown_time = $('#countdown-time');
+        countdown(date,
+            function(ts) {
+                var hours   = ("0" + ts.hours).slice(-2);
+                var minutes = ("0" + ts.minutes).slice(-2);
+                var seconds = ("0" + ts.seconds).slice(-2);
+                $countdown_day.text(ts.days);
+                $countdown_time.text(hours + 'h' + minutes + 'm' + seconds);
+            },
+            countdown.DAYS|countdown.HOURS|countdown.MINUTES|countdown.SECONDS);
+    });
+
+
+= content_for :above_container do
+  .home-screen-promotion-wrapper.one-whole.blue-box
+    .main-container.soft-half.text--center
+      .gamma
+        %i.fa.fa-clock.fa-2x
+        Vite ! Plus que
+        %span#countdown-day
+        jours et
+        %strong#countdown-time
+        pour profiter de cette offre !
+
+
+  .soft.white.bg-cover.f-weight-bold{ style: "background-image: url(#{asset_path 'pro/premium/six_months_with_promo_background.jpg'})" }
+    .main-container.soft
+      .push--ends
+        .grid
+          .grid__item.one-quarter.text--center>
+            = image_tag 'pro/premium/six_months_with_promo_badge.png', class: 'block center-block', width: 200
+          .grid__item.three-quarters>
+            %h1.flush.soft-half.orange-box.inline-block PROFITEZ DE L'ETE
+            %br
+            .relative.push--bottom.push--left.soft-half.orange-box.inline-block.gamma{ style: 'top: -10px; '} Et faites des économies le reste de l'année
+            %p.gamma.soft-black-text-shadow
+              Jusqu'à la fin de l'année, bénéficiez de 50% de réduction sur l'abonnement Premium. Offre sans engagement valable jusqu'au 31 juillet 2014 avec le code coupon suivant : SPECIALETE
+
+        .text--center
+          - if current_pro_admin and current_pro_admin.structure
+            = link_to "J'en profite", go_premium_pro_structure_path(current_pro_admin.structure, premium_type: 'monthly', promo_code: 'SPECIALETE'), class: 'btn btn--green btn--large'
+            .soft-black-text-shadow= link_to "Voir les autres offres", premium_pro_structure_path(current_pro_admin.structure), class: 'white'
+          - else
+            - session['pro_admin_return_to'] = go_premium_pro_structure_path('__STRUCTURE_ID__', premium_type: 'monthly', promo_code: 'SPECIALETE')
+            = link_to "J'en profite", new_pro_admin_session_path, class: 'btn btn--green btn--large'
+            .soft-black-text-shadow= link_to "Voir les autres offres", pro_pages_price_path, class: 'white'
+
+  .home-screen-promotion-wrapper.one-whole
+    .main-container.main-container--medium.soft
+      %h2.text--center.push--bottom.soft--ends.f-weight-300 Les avantages du Premium
+      = render 'pro/shared/premium_advantages'
+      .text--center
+        = link_to 'En savoir plus', ''
+  .main-container.main-container--medium.soft
+    %h2.text--center.push--bottom.soft--ends.f-weight-300 Ils ont déjà souscrit au Premium
+    .push--bottom
+      = render 'pro/shared/they_already_subscribed'
+
+  .home-screen-promotion-wrapper
+    = render 'pro/shared/premium_testimonies'

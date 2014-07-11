@@ -9,7 +9,8 @@
           = link_to structure_path(structure), target: '_blank' do
             %b= truncate structure.name, length: 55
         %p.flush
-          %b.quoted{itemprop: 'headline', content: comment.title.capitalize}= "#{comment.title.capitalize}"
+          %b.quoted{itemprop: 'headline', content: comment.title.capitalize}<
+            = "#{comment.title.capitalize}"
         %p.flush.text--right
           %i Par #{comment.author_name.titleize} le #{l(comment.created_at, format: :date)}
           %br

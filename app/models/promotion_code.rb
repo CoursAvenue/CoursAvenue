@@ -2,10 +2,18 @@
 class PromotionCode < ActiveRecord::Base
   acts_as_paranoid
 
-  attr_accessible :name, :code_id, :promo_amount, :plan_type, :expires_at, :usage_nb, :max_usage_nb, :canceled
+  attr_accessible :name, :code_id, :promo_amount, :plan_type, :expires_at, :usage_nb, :max_usage_nb, :canceled,
+                  :apply_until
 
-  validates :name, :code_id, :promo_amount, :plan_type, :max_usage_nb, presence: true
+
+  validates :name, :code_id, :promo_amount, :plan_type, presence: true
   validates :code_id, uniqueness: true
+
+
+  ######################################################################
+  # Callbacks                                                          #
+  ######################################################################
+  after_initialize :default_values
 
   # Don't use `valid?` because taken by Rails
   # Tells wether or not the plan is valid
@@ -15,6 +23,15 @@ class PromotionCode < ActiveRecord::Base
   def still_valid? subscription_plan=nil
     return (!self.expired? and (usage_nb < max_usage_nb) and plan_type == subscription_plan.plan_type) if subscription_plan
     return (!self.expired? and (usage_nb < max_usage_nb))
+  end
+
+  # Check if apply_until is still valid
+  # apply_until tells wether on renew the promotion code has to apply
+  #
+  # @return Boolean
+  def still_apply?
+    return false if apply_until.nil?
+    apply_until >= Date.today
   end
 
   def expired?
@@ -42,4 +59,13 @@ class PromotionCode < ActiveRecord::Base
     self.save
   end
 
+  private
+
+  # Set default values
+  #
+  # @return nil
+  def default_values
+    self.max_usage_nb ||= 999999
+    nil
+  end
 end

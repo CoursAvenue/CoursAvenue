@@ -2,8 +2,7 @@
   = render 'shared/headers/pro_pages'
 
 = content_for :content do
-  .page-style.main-container{class: controller_path}
-    = content_for?(:users_content) ? yield(:users_content) : yield
+  = yield
 
   = render 'shared/footer'
 

@@ -1,7 +1,7 @@
 .soft.gray-box
   .comment__content
     %h6.quoted.inline-block.push-half--bottom{itemprop: 'headline', content: @comment.title}= @comment.title
-    .read-more{itemprop: 'reviewBody', data: {behavior: 'read-more'}}
+    .read-more{itemprop: 'reviewBody', data: {behavior: 'read-more'}}<
       = simple_format @comment.content
   %hr.push-half--ends.message__appendix--top
   %p.push-half--bottom

@@ -32,8 +32,8 @@ fr:
   simple_form:
     placeholders:
       place:
-        name: "Ex. : « Gymnase Bercy », « Ecole d'Art Modigliani », « Adresse principale » ..."
-        street: "Ex. : 83 avenue du général Leclerc"
+        name: "Ex. : Bastille, Gymnase municipal, etc."
+        street: "N° + rue"
         zip_code: "Ex. : 75008"
         info: "Indiquez comment y accéder (station de métro, arrêt de bus...) et toute information pratique"
         private_info: >

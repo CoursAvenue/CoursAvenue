@@ -1,0 +1,32 @@
+= form_for (@structure), method: :get, url: go_premium_pro_structure_path(@structure) do
+  %input#premium_type_value{ type: 'hidden', name: 'premium_type', value: 'yearly' }
+  .grid--full.push-half--bottom.text--center
+    .grid__item.v-middle.one-half.text--center>
+      .white-box.premium-bordered-box.soft-half.relative
+        .premium-banner
+          .premium-banner__content
+            La plus économique
+        %p.gamma.push-half--bottom.soft--top
+          %strong 12 mois
+        %hr
+        .delta.line-height-1-7 39€ / mois
+        %p Soit 468€ en un prélèvement unique
+        %p.green
+          %strong.gamma -11%
+          %span.delta de réduction
+        = submit_tag 'Souscrire', class: 'btn btn--full btn--yellow', onclick: "$('#premium_type_value').val('yearly');"
+    .grid__item.v-middle.one-half.text--center>
+      .white-box.soft-half.border-none--left.relative
+        .premium-banner
+          .premium-banner__content
+            La plus libre
+        %p.gamma.push-half--bottom.soft--top
+          %strong 1 mois
+        %hr
+        .delta.line-height-1-7 44€ / mois
+        %p Prélèvement mensuel
+        %p
+          %strong.gamma &nbsp;
+
+        = submit_tag 'Souscrire', class: 'btn btn--full btn--yellow', onclick: "$('#premium_type_value').val('monthly');"
+

@@ -17,8 +17,8 @@ class AdminMailer < ActionMailer::Base
   def commercial_email(structure)
     @structure = structure
     mail to: @structure.main_contact.email,
-         subject: 'Votre profil Premium est activé',
-         from: 'CoursAvenue Premium <premium@coursavenue.com>'
+         subject: "-50% jusqu'à la fin de l'année",
+         from: "L'équipe CoursAvenue <contact@coursavenue.com>"
   end
 
   def subscription_renewal_failed(structure, params)

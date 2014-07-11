@@ -43,6 +43,7 @@ fr:
   simple_form:
     placeholders:
       structure:
+        name: 'Ex. : Association KDance, Juliette Maret, Ateliers créatifs Lyon...'
         zip_code: 'Ex. : 75008'
         description: >
           Exemple : « Je m'appelle Nicolas Bourseul et je suis conseiller naturopathe, enseignant de

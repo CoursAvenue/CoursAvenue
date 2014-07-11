@@ -227,13 +227,12 @@
             display: inline-block;
         }
     .btn.btn--active, .btn.active {
-        border     : 1px solid $orange;
-        @include box-shadow(0px 0px 5px rgba(233, 104, 61, 0.5));
+        background-color: $orange;
+        border          : 1px solid $orange;
+        color           : white;
+        @include text-shadow(none);
         & + .btn.active {
             border-left: none;
-        }
-        &:first-child {
-            border-left: 1px solid $orange;
         }
     }
 

@@ -1,3 +1,6 @@
+.pro-homepage-advantage-box {
+    min-height: 130px;
+}
 .white-box, .blue-box {
     @include border-radius($brand-round);
 }
@@ -10,8 +13,9 @@
 }
 
 .orange-box {
-    background-color: $orange_pale;
+    background-color: $orange;
 }
+
 .blue-box {
     color     : white;
     border    : 1px solid darken($blue, 5%);

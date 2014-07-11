@@ -5,7 +5,7 @@
         = image_tag comment.structure.logo.url(:thumb), class: 'block one-whole'
       .flexbox__item.four-fifths.comment__header>
         %div
-          %b.quoted.v-middle{itemprop: 'author'}
+          %b.quoted.v-middle{itemprop: 'author'}<
             = "#{truncate(comment.title, length: 80)}".html_safe
           .milli.gray= truncate(comment.content, length: 150)
           %div.muted.text--right.milli{title: 'Excellent !', itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}

@@ -6,7 +6,7 @@
     .soft--sides{ data: { behavior: 'wizard-helper', content: t('statistics.wizard.infos') } }
       .relative.soft.premium-box.text--center.push--bottom
         = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 70, width: 70, style: 'width: 70px; height: 70px;'
-        = render partial: 'pro/structures/premium_select', locals: { title: 'suivre toutes les statistiques de votre profil CoursAvenue', label_text: "Statistiques du nombre de consultations et d'actions :", select_collection: ['Visibles', 'Non visibles'] }
+        = render partial: 'pro/structures/premium_select', locals: { title: 'suivre toutes les statistiques de votre profil CoursAvenue ?', label_text: "Statistiques du nombre de consultations et d'actions :", select_collection: ['Visibles', 'Non visibles'] }
 
       .grid.push--bottom
         .grid__item.one-third.text--center.v-middle>
@@ -23,7 +23,7 @@
               - if @structure.premium? or current_pro_admin.super_admin?
                 = @views_total_count
               - else
-                = render partial: 'pro/structures/premium_select', locals: { title: 'suivre toutes les statistiques de votre profil CoursAvenue', label_text: "", select_collection: ['Visibles', 'Non visibles'], show_bubble: false }
+                = render partial: 'pro/structures/premium_select', locals: { title: 'suivre toutes les statistiques de votre profil CoursAvenue ?', label_text: "", select_collection: ['Visibles', 'Non visibles'], show_bubble: false }
         .grid__item.one-third.text--center.v-middle>
           .inline-block.pointer{ data: { behavior: 'toggle-serie' } }
             .v-middle.lbl.lbl--green.v-middle.lbl--small &nbsp;
@@ -32,7 +32,7 @@
               - if @structure.premium? or current_pro_admin.super_admin?
                 = @actions_total_count
               - else
-                = render partial: 'pro/structures/premium_select', locals: { title: 'suivre toutes les statistiques de votre profil CoursAvenue', label_text: "", select_collection: ['Visibles', 'Non visibles'], show_bubble: false }
+                = render partial: 'pro/structures/premium_select', locals: { title: 'suivre toutes les statistiques de votre profil CoursAvenue ?', label_text: "", select_collection: ['Visibles', 'Non visibles'], show_bubble: false }
 
       #statistics
 

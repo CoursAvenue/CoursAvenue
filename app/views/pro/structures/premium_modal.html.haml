@@ -12,77 +12,13 @@
             Devenez membre Premium et recrutez encore plus d'élèves.
   .panel__body
     .soft
-      = render 'pro/structures/premium_advantages'
-      .text--center
-        = link_to 'En savoir plus', premium_pro_structure_path(@structure), class: 'btn btn--yellow'
-      -# .grid
-      -#   .grid__item.one-half>
-      -#     %h4 Choisissez votre formule d'abonnement :
-
-      -#     = form_for @structure, method: :get, url: go_premium_pro_structure_path(@structure) do
-      -#       %label.black.grid.bordered--bottom.soft-half--bottom.push-half--bottom{ for: 'six-months', data: { el: '#price-six-months', behavior: 'local-tab' } }
-      -#         .grid__item.two-twelfths.epsilon.v-middle.text--center>
-      -#           .f-weight-bold.green.v-middle.label--large= "-50%"
-      -#         .grid__item.seven-twelfths.v-middle>
-      -#           %input.input--large.v-middle#six-months{ type: 'radio', name: 'premium_type', value: 'six_months_half_price' }
-      -#           .inline-block.v-middle.label--large{ style: 'width: 88%;'}
-      -#             %strong Offre spéciale lancement jusqu'au 01/08/2014
-      -#             %br
-      -#             6 mois Premium
-      -#         .grid__item.three-twelfths.epsilon.v-middle>
-      -#           .v-middle.label--large 17€ / mois
-      -#       %label.black.grid.bordered--bottom.soft-half--bottom.push-half--bottom{ for: 'yearly', data: { el: '#price-yearly', behavior: 'local-tab' } }
-      -#         .grid__item.two-twelfths.epsilon.v-middle.text--center>
-      -#           .f-weight-bold.green.v-middle.label--large= "-15%"
-      -#         .grid__item.seven-twelfths.v-middle>
-      -#           %input.input--large.v-middle#yearly{ type: 'radio', name: 'premium_type', value: 'yearly', checked: true }
-      -#           .inline-block.v-middle.label--large 12 mois Premium
-      -#         .grid__item.three-twelfths.epsilon.v-middle>
-      -#           .v-middle.label--large 29€ / mois
-      -#       %label.black.grid.push-half--bottom{ for: 'monthly', data: { el: '#price-monthly', behavior: 'local-tab' } }
-      -#         .grid__item.two-twelfths.text--center.v-middle>
-      -#           Tarif normal
-      -#         .grid__item.seven-twelfths.v-middle>
-      -#           %input.input--large.v-middle#monthly{ type: 'radio', name: 'premium_type', value: 'monthly' }
-      -#           .inline-block.v-middle.label--large 1 mois Premium
-      -#         .grid__item.three-twelfths.epsilon.v-middle>
-      -#           .label--large 34€ / mois
-      -#       .text--right.tab-content.push--bottom
-      -#         #price-yearly{ data: { behavior: 'local-tab-el' } }
-      -#           %i Facturé en un unique paiement de 348 €
-      -#         #price-monthly.hidden{ data: { behavior: 'local-tab-el' } }
-      -#           %i Facturé en un unique paiement de 34 €
-      -#         #price-six-months.hidden{ data: { behavior: 'local-tab-el' } }
-      -#           %i Facturé en un unique paiement de 69 €
-      -#       .text--center= submit_tag 'Continuer', class: 'btn btn--yellow btn--full'
-      -#   .grid__item.one-half>
-      -#     .panel.panel--yellow
-      -#       .panel__header.soft-half
-      -#         %h4.text--center.flush--bottom Avantages du Premium
-      -#       .panel__body.soft
-      -#         %ul.epsilon.line-height-1-7.no-bullet-list.flush
-      -#           %li.flexbox.push-half--ends
-      -#             .flexbox__item.v-middle{ style: 'width: 40px;'}>
-      -#               = image_tag 'icons/visibility.png', width: 30
-      -#             .flexbox__item.nine-tenths.v-middle>
-      -#               Augmentez votre visibilité
-      -#           %li.flexbox.push-half--bottom
-      -#             .flexbox__item.v-middle{ style: 'width: 40px;'}>
-      -#               = image_tag 'icons/discount.png', width: 30
-      -#             .flexbox__item.nine-tenths.v-middle>
-      -#               Démarquez-vous grâce à vos offres découvertes
-      -#           %li.flexbox.push-half--bottom
-      -#             .flexbox__item.v-middle{ style: 'width: 40px;'}>
-      -#               = image_tag 'icons/contact.png', width: 30
-      -#             .flexbox__item.nine-tenths.v-middle>
-      -#               Accédez aux coordonnées des élèves
-      -#           %li.flexbox.border-none--bottom
-      -#             .flexbox__item.v-middle{ style: 'width: 40px;'}>
-      -#               = image_tag 'icons/stats.png', width: 30
-      -#             .flexbox__item.nine-tenths.v-middle>
-      -#               Suivez les statistiques avancées de votre profil
-      -#           %li.text--center
-      -#             = link_to 'Voir tous les avantages', premium_pro_structure_path(@structure)
+      %h3.text--center Les 10 avantages du profil Premium
+      = render 'pro/shared/premium_advantages'
+      .grid
+        .grid__item.one-third>
+          = link_to 'En savoir plus', premium_pro_structure_path(@structure), class: 'btn btn--full'
+        .grid__item.two-thirds>
+          = link_to 'Souscrire', choose_premium_pro_structure_path(@structure), class: 'btn btn--green btn--full'
 
 :javascript
     $("[data-behavior=local-tab]").click(function() {

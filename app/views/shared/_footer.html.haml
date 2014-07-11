@@ -1,5 +1,5 @@
 %footer.main-footer.relative.print--hidden
-  .main-container.soft--ends
+  .main-container.soft--ends.palm-text--center
     .grid
       .grid__item.one-quarter.palm-one-whole>
         %p.push-half--bottom
@@ -14,9 +14,8 @@
         %p.push-half--bottom
           %strong Partenaires
         %ul.no-bullet-list.line-height-1-7
-          %li= link_to 'Référencez vos cours !', 'http://pro.coursavenue.com'
+          %li= link_to 'Référencez vos cours !', root_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
           %li= link_to 'Nos convictions',     pro_pages_why_be_recommended_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), title: 'Nos convictions'
-          %li= link_to 'Présentation',        pro_pages_presentation_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), title: 'Présentation'
           %li= link_to 'Recommandations',     pro_pages_why_be_recommended_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), title: 'Recommandations'
           %li= link_to 'Offres & Tarifs',     pro_pages_price_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), title: 'Offres & Tarifs'
           %li= link_to 'Questions les plus fréquentes', pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), rel: :nofollow, title: 'Questions les plus fréquentes'

@@ -67,6 +67,14 @@ class Comment::Review < Comment
       self.title.present?
     end
 
+    boolean :has_avatar do
+      if self.user
+        self.user.has_avatar?
+      else
+        false
+      end
+    end
+
     string :subject_slugs, multiple: true do
       subject_slugs = []
       self.structure.subjects.uniq.each do |subject|
