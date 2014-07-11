@@ -5,25 +5,27 @@
   .main-container.main-container--medium
     %header.grid--full
       .grid__item.three-tenths.v-bottom.soft--top.relative.visuallyhidden--palm>
-        = link_to structure_url('yoga-sattva-paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'absolute block', target: :_blank, id: 'emilie-profile', style: 'bottom: -180px; padding-left: 20px;' do
-          = image_tag 'pro/emilie-profile-small.jpg', class: 'block', width: 300
+        = link_to structure_url('yoga-sattva-paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'absolute block', target: :_blank, id: 'emilie-profile', style: 'bottom: -155px; padding-left: 35px;' do
+          = image_tag 'pro/emilie-profile-small.jpg', class: 'block', width: 275
         = image_tag 'pro/emilie-detour.png', class: 'rounded block', width: 350
       .grid__item.seven-tenths.v-bottom.soft--top.soft--right.palm-one-whole>
         .center-block
           .soft--top.white.soft-black-text-shadow
             %p.gamma.line-height-1-5.push-half--bottom
               %strong.quoted<
-                Communiquer sur Internet me prenait trop de temps, je m'éparpillais sans résultat. Avec CoursAvenue, c'est intuitif et efficace, en accord avec mes valeurs.
+                Communiquer sur Internet me prenait trop de temps,
+                %br
+                je m'éparpillais sans résultat. Avec CoursAvenue, c'est intuitif et efficace, en accord avec mes valeurs.
             %p.f-style-italic
               Emilie, professeur de yoga chez Yoga Sattva Paris.
         .soft--left.push--left.soft--right.push--right
           .soft--left
             %h1.flush
               Recrutez de nouveaux élèves
-            .push-half--bottom.epsilon
+            .push-half--bottom
               CoursAvenue permet à chaque professeur, association, ou école de gagner facilement en visibilité pour recruter de nouveaux élèves. L'inscription est gratuite. Faites partie d'une communauté en pleine expansion passionnée par les cours de loisirs.
             %div
-              = link_to "Publiez vos cours", inscription_pro_structures_path, class: 'btn btn--green btn--large soft--sides'
+              = link_to "Publiez vos cours", inscription_pro_structures_path, class: 'btn btn--green btn--bigger soft--sides'
             %div.push--bottom
               %i Gratuit et sans engagement
 
@@ -41,19 +43,19 @@
         .inline-block.gamma.soft.rounded--circle.white-box.push--bottom{ style: 'width: 80px; height: 80px; line-height: 40px;'} 1
         %p.gamma.white.soft-black-text-shadow
           %strong Créez
-        %p.white.soft-black-text-shadow
-          %strong Créez votre profil qui vous permettra de gérer l'ensemble de vos informations.
+        %p.white.soft-black-text-shadow.epsilon
+          %strong Créez votre profil qui vous permettra de gérer l'ensemble de vos informations
       .grid__item.one-third.text--center.lap-one-whole.text--center.palm-one-whole>
         .inline-block.gamma.soft.rounded--circle.white-box.push--bottom{ style: 'width: 80px; height: 80px; line-height: 40px;'} 2
         %p.gamma.white.soft-black-text-shadow
           %strong Complétez
-        %p.white.soft-black-text-shadow
-          %strong Ajoutez photos, textes, planning et obtenez votre 1ères recommandations : votre profil gagne en visibilité.
+        %p.white.soft-black-text-shadow.epsilon
+          %strong Ajoutez photos, textes, planning et obtenez votre 1ères recommandations : votre profil gagne en visibilité
       .grid__item.one-third.text--center.lap-one-whole.text--center.palm-one-whole>
         .inline-block.gamma.soft.rounded--circle.white-box.push--bottom{ style: 'width: 80px; height: 80px; line-height: 40px;'} 3
         %p.gamma.white.soft-black-text-shadow
           %strong Recrutez
-        %p.white.soft-black-text-shadow
+        %p.white.soft-black-text-shadow.epsilon
           %strong Les élèves intéressés par vos cours prennent contact gratuitement avec vous
     .text--center
       = link_to "Commencer !", inscription_pro_structures_path, class: 'btn btn--green'
@@ -78,8 +80,6 @@
                   Association
                 %br
                 %i= truncate(join_parent_subjects_text(structure), lenght: 36)
-    .text--center.push--top
-      = link_to "Publiez vos cours", inscription_pro_structures_path, class: 'btn btn--green'
 
 .main-container.main-container--medium.soft--ends
   %h2.text--center.push--bottom.soft--ends.f-weight-300 Développez votre bouche à oreille sur Internet
@@ -118,7 +118,7 @@
         $('#emilie-profile').hover(function() {
             $(this).animate({ bottom:  '0' }, 600, 'easeOutExpo');
         }, function() {
-            $(this).animate({ bottom: '-180px' }, 600, 'easeOutExpo');
+            $(this).animate({ bottom: '-155px' }, 600, 'easeOutExpo');
         });
     });
 
