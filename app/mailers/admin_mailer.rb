@@ -214,6 +214,7 @@ class AdminMailer < ActionMailer::Base
   # end
 
   def your_profile_has_been_viewed(structure)
+    return if structure.premium?
     @structure         = structure
     @view_count        = @structure.view_count(7)
     @impressions_count = @structure.impression_count(7)
