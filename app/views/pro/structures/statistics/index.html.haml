@@ -47,7 +47,7 @@
         - else
           = link_to 'Conseils personnalisés pour améliorer mes statistiques', premium_modal_pro_structure_path(@structure, title: "des conseils personnalisés de l'équipe CoursAvenue pour améliorer vos performances de profil ?"), class: 'btn btn--yellow f-weight-bold fancybox.ajax', data: { behavior: 'modal', padding: 0, width: 900 }
 
-- if false# @structure.premium? or current_pro_admin.super_admin?
+- if @structure.premium? or current_pro_admin.super_admin?
   :javascript
     window.coursavenue = {};
     window.coursavenue.series = [ { data: #{@impressions.sort.map{|date, count| count}},
