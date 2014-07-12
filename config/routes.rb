@@ -265,7 +265,7 @@ CoursAvenue::Application.routes.draw do
   # ---------------------------------------------
   # ----------------------------------------- WWW
   # ---------------------------------------------
-  resources :blog_articles, controller: 'blog/articles', path: 'blog' do
+  resources :blog_articles, controller: 'blog/articles', path: 'blogg' do
     collection do
       get 'tag/:tag', to: 'blog/articles#tags', as: :tags
     end
