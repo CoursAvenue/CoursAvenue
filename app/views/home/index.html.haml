@@ -29,7 +29,7 @@
                   %time.blog-feed__date{ datetime: l(article.published_at, format: :iso_date) }= l(article.published_at.to_date, format: :long)
                   %br
                   = article.description
-                  = link_to 'Lire la suite', blog_article_path(article)
+                  = link_to 'Lire la suite →', blog_article_path(article)
           .push--bottom
             = link_to blog_articles_path, target: '_blank', class: 'btn btn--blue' do
               %i.fa.fa-align-left

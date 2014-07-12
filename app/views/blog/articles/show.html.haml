@@ -1,10 +1,8 @@
-= content_for :side_content do
-  = render 'blog/side_content'
 %article{ itemscope: true, itemtype: 'http://schema.org/Article' }
   %h1.blog-article__title{ itemprop: 'name' }
     = @article.title
 
-  .text--right.blog-article__published-date.gray
+  .blog-article__published-date.gray
     %i
       Publié le
       %time{ itemprop: 'dateCreated', datetime: l(@article.published_at, format: :iso_date) }

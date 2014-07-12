@@ -6,7 +6,7 @@
     = link_to blog_article_path(article), class: 'semi-muted-link' do
       = article.title
 
-  .text--right.blog-article__published-date.gray
+  .blog-article__published-date.gray
     %i
       Publié le
       %time{ itemprop: 'dateCreated', datetime: l(article.published_at, format: :iso_date) }

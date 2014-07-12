@@ -2,7 +2,7 @@
   %h3.flush.inline-block.v-middle Tous les articles avec le tag :
   .inline-block.v-middle.lbl= params[:tag]
 
-- @articles.each do |article|
+- @articles.each_with_indew do |article, index|
   %div{ class: (index % 2 == 0 ? 'home-screen-promotion-wrapper' : '')}
     .small-container.soft.center-block
       = render partial: 'blog/articles/article', locals: { article: article }
