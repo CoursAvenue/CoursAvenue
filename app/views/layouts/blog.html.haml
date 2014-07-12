@@ -5,7 +5,7 @@
   .home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background5.jpg'})" }
     .main-container.soft
       %h1.flush
-        = link_to "CoursAvenue, le blog", blog_path, class: 'muted-link'
+        = link_to "CoursAvenue, le blog", blog_articles_path, class: 'muted-link'
   - if content_for? :side_content
     .main-container
       .flexbox

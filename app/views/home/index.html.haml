@@ -4,23 +4,33 @@
 = content_for :above_container do
   = render 'home_screen'
   = render 'boxes'
-  = render 'guide'
-  .very-soft= render 'share_links'
   .home-screen-promotion-wrapper
-    %section.main-container.home-screen-promotion.soft--top
-      .grid--full
-        .grid__item.palm-one-whole.one-half.soft-half>
-          %h2.home-title Derniers avis des élèves
-          - @comments.each do |comment|
-            = render partial: 'comments/home_comment', locals: {comment: comment}
-        .grid__item.palm-one-whole.one-half.soft-half{style: 'min-height: 35em;'}
-          = render 'subject_guides'
-  .main-container.soft--top
-    - cache "home_blog_#{ENV["ETAG_VERSION_ID"]}", public: true do
-      %div
-        %h3.home-title--no-border Le Blog
-        = blog_feed
-        .push--bottom
-          = link_to 'blog', target: '_blank', class: 'btn btn--blue' do
-            %i.fa.fa-align-left
-            &nbsp;Accéder au blog
+    = render 'guide'
+    .very-soft= render 'share_links'
+  %section.main-container.main-container--medium.home-screen-promotion.soft--top
+    .grid--full
+      .grid__item.palm-one-whole.one-half.soft-half>
+        %h2.home-title Derniers avis des élèves
+        - @comments.each do |comment|
+          = render partial: 'comments/home_comment', locals: {comment: comment}
+      .grid__item.palm-one-whole.one-half.soft-half{style: 'min-height: 35em;'}
+        = render 'subject_guides'
+  .home-screen-promotion-wrapper
+    .main-container.main-container--medium.soft--top
+      - cache "home_blog_#{ENV["ETAG_VERSION_ID"]}", public: true do
+        %div
+          %h3.home-title--no-border Le Blog
+          %ul.flush
+            - Blog::Article.order('published_at DESC').limit(4).each do |article|
+              %li.white-box.island{ itemscope: true, itemtype: 'http://schema.org/Article' }
+                %h4.flush
+                  = link_to article.title, blog_article_path(article), class: 'muted-link'
+                %p
+                  %time.blog-feed__date{ datetime: l(article.published_at, format: :iso_date) }= l(article.published_at.to_date, format: :long)
+                  %br
+                  = article.description
+                  = link_to 'Lire la suite', blog_article_path(article)
+          .push--bottom
+            = link_to blog_articles_path, target: '_blank', class: 'btn btn--blue' do
+              %i.fa.fa-align-left
+              &nbsp;Accéder au blog

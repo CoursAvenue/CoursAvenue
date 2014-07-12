@@ -1,22 +1,23 @@
-%article.comment-list__el.push-half--bottom
-  = link_to commentable_path(comment, anchor: "recommandation-#{comment.id}"), class: 'comment_link', onclick: "ga('send', 'event', 'Commentaire home', 'click', 'Note : #{comment.rating}')" do
-    .flexbox{itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review'}
-      .flexbox__item.one-fifth>
-        = image_tag comment.structure.logo.url(:thumb), class: 'block one-whole'
-      .flexbox__item.four-fifths.comment__header>
-        %div
-          %b.quoted.v-middle{itemprop: 'author'}<
-            = "#{truncate(comment.title, length: 80)}".html_safe
-          .milli.gray= truncate(comment.content, length: 150)
-          %div.muted.text--right.milli{title: 'Excellent !', itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
-            Par
-            = truncate(comment.author_name.titleize, length: 20).html_safe
-            il y a
-            = distance_of_time_in_words_to_now comment.created_at
-            %i.fa.fa-time
-            %meta{itemprop: 'ratingValue', content: comment.rating}
-            %meta{itemprop: 'bestRating', content: 5}
-            %meta{itemprop: 'worstRating', content: 1}
-          .visuallyhidden{itemprop: 'itemReviewed', itemscope: true, itemtype: 'http://schema.org/Thing'}
-            %meta{itemprop: 'url', content: commentable_url(comment)}
-            %meta{itemprop: 'name', content: comment.commentable.name}
+.flexbox.push--bottom{itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review'}
+  .flexbox__item.soft--left.v-top.text--center>
+    = link_to structure_url(comment.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block media-photo', target: :_blank, class: 'muted-link' do
+      = image_tag comment.structure.logo.url(:thumb), class: 'block', width: 60
+  .flexbox__item.soft--sides.v-top>
+    .message__body.soft-half.message__appendix.gray-box
+      %p.epsilon.push-half--bottom.quoted
+        %strong= comment.title
+      %p
+        = truncate(comment.content, length: 500)
+      %p.text--right.flush{title: 'Excellent !', itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
+        %i
+          Par
+          = truncate(comment.author_name, length: 20).html_safe
+          il y a
+          = distance_of_time_in_words_to_now comment.created_at
+          %i.fa.fa-time
+          %meta{itemprop: 'ratingValue', content: comment.rating}
+          %meta{itemprop: 'bestRating', content: 5}
+          %meta{itemprop: 'worstRating', content: 1}
+        .visuallyhidden{itemprop: 'itemReviewed', itemscope: true, itemtype: 'http://schema.org/Thing'}
+          %meta{itemprop: 'url', content: commentable_url(comment)}
+          %meta{itemprop: 'name', content: comment.commentable.name}

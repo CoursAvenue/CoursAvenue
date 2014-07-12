@@ -1,17 +1,13 @@
-.home-screen.soft--top
-  %h1.text--center.home-screen-title.soft--top
+- url = asset_path "pro/home_background#{[2,3,4,5,6,7].sample}.jpg"
+.home-screen.soft--top.white.bg-cover{ style: "background-image: url(#{url})" }
+  %h1.text--center.home-screen-title.soft--top.soft-black-text-shadow
     Trouvez un cours de loisir près de chez vous.
-  %h4.text--center.home-screen-title.push--bottom
+  %h4.text--center.home-screen-title.push--bottom.soft-black-text-shadow
     Parmi plus de 10 000 cours recommandés par les élèves.
   = render 'shared/home_page_search_form'
 
-  - cache "home_screen_#{ENV["ETAG_VERSION_ID"]}" do
-    .slideshow.home-slideshow
-      %div
-        = image_tag 'home-page/dance.jpg', alt: 'Cours de danse'
-
   - if @last_comment
-    .home-screen-comment.visuallyhidden--palm
+    .home-screen-comment.visuallyhidden--palm.soft-black-text-shadow
       .grid
         .grid__item.two-twelfths.v-middle>
           = link_to structure_path(@last_comment.structure), class: 'muted-link block' do

@@ -36,7 +36,7 @@ CoursAvenue::Application.routes.draw do
       get 'modifier-mon-profil'                      , to: 'redirect#structure_edit',      as: 'structure_edit_redirect'
       get 'etablissements/:structure_id/journees-portes-ouvertes', to: 'redirect#structures_jpo_index'
 
-      resources :blog_articles, controller: 'blog/articles', path: 'blogg'
+      resources :blog_articles, controller: 'blog/articles', path: 'blog'
       resources :metrics, only: [] do
         collection do
           get :comments
@@ -265,7 +265,7 @@ CoursAvenue::Application.routes.draw do
   # ---------------------------------------------
   # ----------------------------------------- WWW
   # ---------------------------------------------
-  resources :blog_articles, controller: 'blog/articles', path: 'blogg' do
+  resources :blog_articles, controller: 'blog/articles', path: 'blog' do
     collection do
       get 'tag/:tag', to: 'blog/articles#tags', as: :tags
     end
@@ -455,8 +455,6 @@ CoursAvenue::Application.routes.draw do
   get '/musique', to: 'structures#index', subject_id: 'musique-chant'
   get '/danse', to: 'structures#index'  , subject_id: 'danse'
   get '/theatre', to: 'structures#index', subject_id: 'theatre'
-
-  get '/blog' => redirect('/blog/')
 
   post 'contact/' => 'pages#send_message'
 

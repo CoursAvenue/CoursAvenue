@@ -34,7 +34,10 @@ SitemapGenerator::Sitemap.create do
   #     add article_path(article), :lastmod => article.updated_at
   #   end
 
-  add blog_path, priority: 0.5, changefreq: 'weekly'
+  add blog_articles_path, priority: 0.5, changefreq: 'weekly'
+  Blog::Article.each do |article|
+    add blog_article_path(article), priority: 0.5
+  end
   add root_path, priority: 0.8, changefreq: 'daily'
 
   add structures_path, priority: 0.8, changefreq: 'daily'
