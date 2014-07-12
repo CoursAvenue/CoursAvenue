@@ -1,36 +1,41 @@
 = content_for :title do
   CoursAvenue | Les élèves vous guident vers les meilleurs cours
 
-= content_for :above_container do
-  = render 'home_screen'
-  = render 'boxes'
-  .home-screen-promotion-wrapper
-    = render 'guide'
-    .very-soft= render 'share_links'
-  %section.main-container.main-container--medium.home-screen-promotion.soft--top
-    .grid--full
-      .grid__item.palm-one-whole.one-half.soft-half>
-        %h2.home-title Derniers avis des élèves
-        - @comments.each do |comment|
-          = render partial: 'comments/home_comment', locals: {comment: comment}
-      .grid__item.palm-one-whole.one-half.soft-half{style: 'min-height: 35em;'}
-        = render 'subject_guides'
-  .home-screen-promotion-wrapper
-    .main-container.main-container--medium.soft--top
-      - cache "home_blog_#{ENV["ETAG_VERSION_ID"]}", public: true do
-        %div
-          %h3.home-title--no-border Le Blog
-          %ul.flush
-            - Blog::Article.order('published_at DESC').limit(3).each do |article|
-              %li.white-box.island{ itemscope: true, itemtype: 'http://schema.org/Article' }
-                %h4.flush
-                  = link_to article.title, blog_article_path(article), class: 'muted-link'
-                %p
-                  %time.blog-feed__date{ datetime: l(article.published_at, format: :iso_date) }= l(article.published_at.to_date, format: :long)
-                  %br
-                  = article.description
-                  = link_to 'Lire la suite →', blog_article_path(article)
-          .push--bottom
-            = link_to blog_articles_path, target: '_blank', class: 'btn btn--blue' do
-              %i.fa.fa-align-left
-              &nbsp;Accéder au blog
+= render 'home_screen'
+= render 'boxes'
+.home-screen-promotion-wrapper
+  = render 'guide'
+  .very-soft= render 'share_links'
+%section.main-container.main-container--medium.home-screen-promotion.soft--ends
+  .grid--full
+    .grid__item.palm-one-whole.one-half.soft-half>
+      %h2.push--bottom.f-weight-300 Derniers avis des élèves
+      - @comments.each do |comment|
+        = render partial: 'comments/home_comment', locals: {comment: comment}
+    .grid__item.palm-one-whole.one-half.soft-half{style: 'min-height: 35em;'}
+      = render 'subject_guides'
+.home-screen-promotion-wrapper
+  .main-container.main-container--medium.soft--top
+    - cache "home_blog_#{ENV["ETAG_VERSION_ID"]}", public: true do
+      %div
+        %h2.push--bottom.f-weight-300 Le Blog
+        %ul.flush
+          - Blog::Article.order('published_at DESC').limit(3).each do |article|
+            %li.white-box.island{ itemscope: true, itemtype: 'http://schema.org/Article' }
+              .flexbox
+                .flexbox__item.v-top.two-twelfths
+                  - if article.cover_image.present?
+                    = link_to blog_article_path(article), class: 'muted-link push-half--bottom block' do
+                      = image_tag article.cover_image.url(:small), class: 'block blog-article__image', alt: article.title, title: article.title
+                .flexbox__item.v-top.ten-twelfths.soft--left
+                  %h4.flush
+                    = link_to article.title, blog_article_path(article), class: 'muted-link'
+                  %p
+                    %time.blog-feed__date{ datetime: l(article.published_at, format: :iso_date) }= l(article.published_at.to_date, format: :long)
+                    %br
+                    = article.description
+                    = link_to 'Lire la suite →', blog_article_path(article)
+        .push--bottom
+          = link_to blog_articles_path, target: '_blank', class: 'btn btn--blue' do
+            %i.fa.fa-align-left
+            &nbsp;Accéder au blog

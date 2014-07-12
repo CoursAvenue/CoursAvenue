@@ -1,3 +1,6 @@
+= content_for :title do
+  Le blog CoursAvenue
+
 - @articles.each_with_index do |article, index|
   = render partial: 'blog/articles/article', locals: { article: article }
   %hr

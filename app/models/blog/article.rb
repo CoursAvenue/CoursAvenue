@@ -14,6 +14,7 @@ class Blog::Article < ActiveRecord::Base
   validates :title, :description, :content, :published_at, presence: true
   has_attached_file :cover_image,
                     styles: { default: '900×600#', small: '250x200#'}
+
   validates_attachment_content_type :cover_image, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 
   ######################################################################
