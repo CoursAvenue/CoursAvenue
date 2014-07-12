@@ -1,16 +1,18 @@
-%article.push--bottom{ itemscope: true, itemtype: 'http://schema.org/Article' }
-  - if article.cover_image.present?
-    = link_to blog_article_path(article), class: 'muted-link push-half--bottom block' do
-      = image_tag article.cover_image, class: 'block blog-article__image', alt: article.title, title: article.title
-  %h2.flush{ itemprop: 'name' }
-    = link_to blog_article_path(article), class: 'semi-muted-link' do
-      = article.title
+%article.grid.push--bottom{ itemscope: true, itemtype: 'http://schema.org/Article' }
+  .grid__item.one-third>
+    - if article.cover_image.present?
+      = link_to blog_article_path(article), class: 'muted-link push-half--bottom block' do
+        = image_tag article.cover_image, class: 'block blog-article__image', alt: article.title, title: article.title
+  .grid__item.two-thirds>
+    %h2.flush{ itemprop: 'name' }
+      = link_to blog_article_path(article), class: 'semi-muted-link' do
+        = article.title
 
-  .blog-article__published-date.gray
-    %i
-      Publié le
-      %time{ itemprop: 'dateCreated', datetime: l(article.published_at, format: :iso_date) }
-        = l article.published_at, format: :date_with_year
-  %p.epsilon.line-height-1-7{ itemprop: 'description' }
-    = article.description
-    = link_to 'Lire&nbsp;la&nbsp;suite&nbsp;→'.html_safe, blog_article_path(article)
+    .blog-article__published-date.gray
+      %i
+        Publié le
+        %time{ itemprop: 'dateCreated', datetime: l(article.published_at, format: :iso_date) }
+          = l article.published_at, format: :date_with_year
+    %p.epsilon.line-height-1-7{ itemprop: 'description' }
+      = article.description
+      = link_to 'Lire&nbsp;la&nbsp;suite&nbsp;→'.html_safe, blog_article_path(article)
