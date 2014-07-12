@@ -1,7 +1,7 @@
 %article.push--bottom{ itemscope: true, itemtype: 'http://schema.org/Article' }
   - if article.cover_image.present?
     = link_to blog_article_path(article), class: 'muted-link push-half--bottom block' do
-      = image_tag article.cover_image, class: 'block .blog-article__image'
+      = image_tag article.cover_image, class: 'block blog-article__image'
   %h2.flush{ itemprop: 'name' }
     = link_to blog_article_path(article), class: 'semi-muted-link' do
       = article.title
