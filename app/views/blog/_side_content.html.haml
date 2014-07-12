@@ -2,7 +2,10 @@
 %hr
 %ul.no-bullet-list
   - Blog::Article.tag_counts_on(:tags).each do |tag|
-    %li.epsilon.line-height-1-7= link_to tag.name, tags_blog_articles_path(tag: tag.name)
+    %li.epsilon.line-height-1-7
+      = link_to tags_blog_articles_path(tag: tag.name) do
+        = tag.name
+        = "(#{Blog::Article.published.tagged_with(tag.name).count})"
 .push--top.gamma.soft-half--bottom.push-half--bottom.f-weight-bold Suivez-nous sur les réseaux sociaux
 %hr
 %div

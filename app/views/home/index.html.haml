@@ -21,7 +21,7 @@
         %div
           %h3.home-title--no-border Le Blog
           %ul.flush
-            - Blog::Article.order('published_at DESC').limit(4).each do |article|
+            - Blog::Article.order('published_at DESC').limit(3).each do |article|
               %li.white-box.island{ itemscope: true, itemtype: 'http://schema.org/Article' }
                 %h4.flush
                   = link_to article.title, blog_article_path(article), class: 'muted-link'

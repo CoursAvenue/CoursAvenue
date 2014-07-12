@@ -17,4 +17,4 @@
 
   .push--top.blog-article__content{ itemprop: 'text' }
     = @article.content.html_safe
-  = link_to "Lien vers l'article", blog_article_url(@article), itemprop: 'url'
+  .visuallyhidden= link_to "Lien vers l'article", blog_article_url(@article), itemprop: 'url'

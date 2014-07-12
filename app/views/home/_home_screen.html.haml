@@ -1,4 +1,8 @@
-- url = asset_path "pro/home_background#{[2,3,4,5,6,7].sample}.jpg"
+- if @last_comment
+  - slug = @last_comment.structure.subjects.at_depth(0).first.slug
+  - url = asset_path "home_backgrounds/#{slug}.jpg"
+- else
+  - url = asset_path "pro/home_background#{[2,3,4,5,6,7].sample}.jpg"
 .home-screen.soft--top.white.bg-cover{ style: "background-image: url(#{url})" }
   %h1.text--center.home-screen-title.soft--top.soft-black-text-shadow
     Trouvez un cours de loisir près de chez vous.
