@@ -30,7 +30,7 @@
                 .flexbox__item.v-top.ten-twelfths.soft--left
                   %h4.flush
                     = link_to article.title, blog_article_path(article), class: 'muted-link'
-                  %p
+                  %p.flush
                     %time.blog-feed__date{ datetime: l(article.published_at, format: :iso_date) }= l(article.published_at.to_date, format: :long)
                     %br
                     = article.description
