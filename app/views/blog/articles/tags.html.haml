@@ -1,10 +1,10 @@
-.small-container.soft.center-block
-  %h3.flush.inline-block.v-middle Tous les articles avec le tag :
-  .inline-block.v-middle.lbl= params[:tag]
+%h3.line-height-2.gamma.soft-half--bottom.push-half--bottom.f-weight-bold
+  Tous les articles avec le tag :
+  = params[:tag]
+
+%hr
 
 - @articles.each_with_index do |article, index|
-  %div{ class: (index % 2 == 1 ? 'home-screen-promotion-wrapper' : '')}
-    .small-container.soft.center-block
-      = render partial: 'blog/articles/article', locals: { article: article }
-
+  = render partial: 'blog/articles/article', locals: { article: article }
+  %hr
 .text--center.push-half--ends= paginate @articles, window: 1, outer_window: 3

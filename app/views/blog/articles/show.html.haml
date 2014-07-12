@@ -1,6 +1,3 @@
-= content_for :side_content do
-  = render 'blog/side_content'
-
 %article{ itemscope: true, itemtype: 'http://schema.org/Article' }
   %h1.blog-article__title{ itemprop: 'name' }
     = @article.title

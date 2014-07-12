@@ -5,16 +5,14 @@
   .home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background5.jpg'})" }
     .main-container.soft
       %h1.flush
-        = link_to "CoursAvenue, le blog", blog_articles_path, class: 'muted-link'
-  - if content_for? :side_content
-    .main-container
-      .flexbox
-        .flexbox__item.v-top.eight-twelfths.soft.palm-one-whole>
-          = yield
-        .flexbox__item.v-top.four-twelfths.soft.visuallyhidden--palm>
-          = yield :side_content
-  - else
-    = yield
+        = link_to "Blog", blog_articles_path, class: 'muted-link'
+  .main-container
+    .flexbox
+      .flexbox__item.v-top.eight-twelfths.soft.palm-one-whole>
+        = yield
+      .flexbox__item.v-top.four-twelfths.soft.visuallyhidden--palm>
+        = render 'blog/side_content'
+
   = render 'shared/footer'
 
 = render :template => 'layouts/application'

@@ -13,4 +13,4 @@
         = l article.published_at, format: :date_with_year
   %p.epsilon.line-height-1-7{ itemprop: 'description' }
     = article.description
-    = link_to 'Lire la suite →', blog_article_path(article)
+    = link_to 'Lire&nbsp;la&nbsp;suite&nbsp;→'.html_safe, blog_article_path(article)
