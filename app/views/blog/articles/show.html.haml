@@ -14,7 +14,8 @@
   - if @article.tags.any?
     %div
       - @article.tags.each do |tag|
-        .lbl= tag.name
+        .lbl
+          = link_to tag.name, tags_blog_articles_path(tag: tag.name), class: 'muted-link'
 
   .push--top.blog-article__content{ itemprop: 'text' }
     = @article.content.html_safe

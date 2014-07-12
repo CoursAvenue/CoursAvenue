@@ -1,5 +1,5 @@
 - @articles.each_with_index do |article, index|
-  %div{ class: (index % 2 == 0 ? 'home-screen-promotion-wrapper' : '')}
+  %div{ class: (index % 2 == 1 ? 'home-screen-promotion-wrapper' : '')}
     .small-container.soft.center-block
       = render partial: 'blog/articles/article', locals: { article: article }
 
