@@ -214,9 +214,10 @@ class AdminMailer < ActionMailer::Base
   # end
 
   def your_profile_has_been_viewed(structure)
+    return if structure.premium?
     @structure         = structure
-    @view_count        = @structure.view_count(7)
-    @impressions_count = @structure.impression_count(7)
+    @view_count        = @structure.view_count(30)
+    @impressions_count = @structure.impression_count(30)
     @similar_profiles  = @structure.similar_profiles(2)
     mail to: structure.main_contact.email, subject: "Votre profil a été vu #{@view_count} fois"
   end

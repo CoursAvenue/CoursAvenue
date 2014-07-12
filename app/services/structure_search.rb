@@ -5,7 +5,7 @@ class StructureSearch
   #     subject_id:    slug of a subject
   #     audience_ids:  [1, 2, 3]
   #     level_ids:     [1, 2, 3]
-  def self.search params
+  def self.search params={}
     params[:sort] ||= 'rating_desc'
     retrieve_location params
 

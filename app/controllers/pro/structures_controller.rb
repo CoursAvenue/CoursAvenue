@@ -271,7 +271,7 @@ class Pro::StructuresController < Pro::ProController
         if current_pro_admin.super_admin?
           format.html { redirect_to pro_admins_path, notice: 'Structure supprimé' }
         else
-          format.html { redirect_to root_admins_path, notice: 'Vous allez nous manquer...' }
+          format.html { redirect_to root_path, notice: 'Vous allez nous manquer...' }
         end
       else
         format.html { redirect_to pro_admins_path, alert: 'Oups...' }

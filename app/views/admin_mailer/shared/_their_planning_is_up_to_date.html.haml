@@ -6,7 +6,7 @@
     - @similar_profiles.each do |structure|
       %td.soft-half.v-middle.content-block{ width: 80 }
         = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN) do
-          = image_tag structure.logo.url(:thumb), width: 80, height: 80
+          = image_tag structure.logo.url(:thumb), width: 80, height: 80, alt: "Logo de #{structure.name}"
       %td.soft-half.v-middle.content-block{ width: '250', style: 'padding-right: 0; padding-left: 0;' }
         .p.hard--bottom
           %strong= truncate("#{structure.name} (#{structure.city.name})", length: 23)
