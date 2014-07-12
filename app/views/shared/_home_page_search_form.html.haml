@@ -1,6 +1,6 @@
-.home-page-search
+.home-page-search.main-container
   = form_tag structures_path, method: :get, authenticity_token: false, class: 'header-search-bar--dark', id: 'header-search', data: { gather: true } do
-    .header-search-bar
+    .header-search-bar.flush--sides
       %div.search-input-wrapper
         %select.one-whole.epsilon{name: 'subject_id'}
           %option{value: ''} Toutes disciplines

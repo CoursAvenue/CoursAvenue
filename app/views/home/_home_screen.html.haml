@@ -4,10 +4,11 @@
 - else
   - url = asset_path "pro/home_background#{[2,3,4,5,6,7].sample}.jpg"
 .home-screen.soft--top.white.bg-cover{ style: "background-image: url(#{url})" }
-  %h1.text--center.home-screen-title.soft--top.soft-black-text-shadow
-    Trouvez un cours de loisir près de chez vous.
-  %h4.text--center.home-screen-title.push--bottom.soft-black-text-shadow
-    Parmi plus de 10 000 cours recommandés par les élèves.
+  .main-container
+    %h1.soft--top.soft-black-text-shadow.flush
+      Trouvez un cours de loisir près de chez vous.
+    %h4.push--bottom.soft-black-text-shadow
+      Parmi plus de 10 000 cours recommandés par les élèves.
   = render 'shared/home_page_search_form'
 
   - if @last_comment
