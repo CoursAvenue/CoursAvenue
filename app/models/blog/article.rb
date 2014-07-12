@@ -33,7 +33,7 @@ class Blog::Article < ActiveRecord::Base
   end
 
   def title_with_date
-    [title, I18n.l(published_at, format: :date_short)]
+    [title, (published_at ? I18n.l(published_at, format: :date_short) : nil)]
   end
 
   def should_generate_new_friendly_id?
