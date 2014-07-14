@@ -53,18 +53,6 @@
     Voir tous les cours de
     %strong= @subject.name
 
-
-= content_for :scripts do
-  :javascript
-    $(function() {
-        handler = Gmaps.build('Google', { markers: { maxRandomDistance: null } });
-        handler.buildMap({ provider: { scrollwheel: false }, internal: { id: 'structures-map' }}, function(){
-            markers = handler.addMarkers(#{@json_structure_addresses.to_json});
-            handler.bounds.extendWith(markers);
-            handler.fitMapToBounds();
-        });
-    });
-
 - unless @subject.image.present?
   = content_for :scripts do
     :javascript
