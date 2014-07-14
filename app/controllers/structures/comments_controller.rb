@@ -11,7 +11,7 @@ class Structures::CommentsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to new_structure_comment_path(@structure) }
-      format.json { render json: @comments.to_a, root: 'comments', each_serializer: CommentSerializer, meta: { total: @structure.comments.accepted.count } }
+      format.json { render json: @comments.to_a, root: 'comments', each_serializer: CommentSerializer, meta: { total: @structure.comments.accepted.count }, options: { structure: @structure } }
     end
   end
 

@@ -19,5 +19,5 @@
           %meta{itemprop: 'bestRating', content: 5}
           %meta{itemprop: 'worstRating', content: 1}
       .visuallyhidden{itemprop: 'itemReviewed', itemscope: true, itemtype: 'http://schema.org/Thing'}
-        %meta{itemprop: 'url', content: commentable_url(comment)}
+        %meta{itemprop: 'url', content: structure_comment_url(comment)}
         %meta{itemprop: 'name', content: comment.commentable.name}

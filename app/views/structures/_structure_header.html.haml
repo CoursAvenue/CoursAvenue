@@ -10,7 +10,7 @@
     .grid
       .grid__item.eight-twelfths.v-top>
         #structure-profile-title
-          %h1.flush.v-middle.inline-block= @structure.name
+          %h1.flush.v-middle.inline-block{ itemprop: 'name' }= @structure.name
           %span.v-middle
           - if @structure.premium?
             .v-middle.push-half--left.inline-block.lbl.lbl--yellow.visible-on-stick-ilb
@@ -34,17 +34,16 @@
       .grid__item.two-twelfths.v-bottom.hidden-on-stick>
         %a.v-middle{ href: "https://twitter.com/share", class: "twitter-share-button", data: { text: "J'adore \"#{@structure.name}\" @CoursAvenue #{structure_url(@structure)}", lang: "fr", count: 'none'}} Tweet
 
-        -# .g-plus{ data: { action: "share", annotation: 'none', heigh: 20 } }
-
         - if @structure.premium? and @structure.facebook_url.present?
           .v-middle.fb-like{ data: { href: @structure.facebook_url, layout: 'button_count', action: 'like', 'show-faces' => 'false', share: "false" } }
         - else
           .v-middle.fb-like{ data: { href: structure_url(@structure), layout: 'button', action: 'recommend', 'show-faces' => 'false', share: "false" } }
       .grid__item.two-twelfths.v-bottom.text--right>
-        %a.inline-block.f-decoration-not-underlined.text--center.hidden-on-stick{ href: '#avis' }
-          %strong.beta= structure.comments_count
+        %a.inline-block.f-decoration-not-underlined.text--center.hidden-on-stick{ href: '#avis', itemprop: "aggregateRating", itemscope: true, itemtype: "http://schema.org/AggregateRating" }
+          %strong.beta{ itemprop: "reviewCount" }= structure.comments_count
           %br
           recommandations
+          .visuallyhidden{ itemprop: "ratingValue" } 5
           .visuallyhidden{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
             %meta{property: 'v:rating', itemprop: 'rating', content: 5}
             %meta{itemprop: 'count', content: structure.comments_count}
@@ -61,4 +60,4 @@
           $('body').on('click', '[data-behavior=show-contact-panel]', function() {
               $.fancybox.open($('#contact-panel').clone(), { padding: 0, maxWidth: 450, minWidth: 450, width: 450, helpers: { overlay: { locked: false } } });
           })
-      })
+      });

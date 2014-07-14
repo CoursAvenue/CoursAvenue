@@ -36,91 +36,92 @@
   .blue-box.islet.text--center.push--ends
     = render 'users/waiting_for_activation_text'
 
-= render partial: 'structures/structure_header', locals: { structure: @structure }
-.soft--sides
-  .grid
-    .grid__item.eight-twelfths.soft-half--right>
-      = render partial: 'structures/map_and_gallery', locals: { structure: @structure, places: @structure.places, medias: @medias }
+%div{ itemscope: true, itemtype: "http://schema.org/LocalBusiness" }
+  = render partial: 'structures/structure_header', locals: { structure: @structure }
+  .soft--sides
+    .grid
+      .grid__item.eight-twelfths.soft-half--right>
+        = render partial: 'structures/map_and_gallery', locals: { structure: @structure, places: @structure.places, medias: @medias }
 
-      #structure-profile{ data: { type: 'structure-profile-root' } }
-        #structure-region
-        %div{ data: { type: "comments-collection" } }
-    .grid__item.four-twelfths>
+        #structure-profile{ data: { type: 'structure-profile-root' } }
+          #structure-region
+          %div{ data: { type: "comments-collection" } }
+      .grid__item.four-twelfths>
 
-      = render partial: 'structures/contact_form', locals: { structure: @structure }
+        = render partial: 'structures/contact_form', locals: { structure: @structure }
 
-      .panel.push--bottom
-        .panel__header.soft
-          .media-photo= image_tag @structure.logo.url(:large), class: 'block one-whole'
-        .panel__body.soft.epsilon
-          - if @structure.response_rate
-            .grid--full.soft-half--bottom
-              .grid__item.v-middle.one-half.gray>
-                Taux de réponse
-              .grid__item.v-middle.one-half>
-                %strong= "#{@structure.response_rate}%"
-          - if @structure.response_time
-            .grid--full.soft-half--bottom
-              .grid__item.v-middle.one-half.gray>
-                Temps de réponse
-              .grid__item.v-middle.one-half>
-                %strong= response_time_in_words @structure
-          - if @structure.main_contact and @structure.main_contact.current_sign_in_at
-            .grid--full
-              .grid__item.v-middle.one-half.gray>
-                Dernière activité
-              .grid__item.v-middle.one-half>
-                %strong= l(@structure.main_contact.current_sign_in_at, format: :date).capitalize
+        .panel.push--bottom
+          .panel__header.soft
+            .media-photo= image_tag @structure.logo.url(:large), class: 'block one-whole'
+          .panel__body.soft.epsilon
+            - if @structure.response_rate
+              .grid--full.soft-half--bottom
+                .grid__item.v-middle.one-half.gray>
+                  Taux de réponse
+                .grid__item.v-middle.one-half>
+                  %strong= "#{@structure.response_rate}%"
+            - if @structure.response_time
+              .grid--full.soft-half--bottom
+                .grid__item.v-middle.one-half.gray>
+                  Temps de réponse
+                .grid__item.v-middle.one-half>
+                  %strong= response_time_in_words @structure
+            - if @structure.main_contact and @structure.main_contact.current_sign_in_at
+              .grid--full
+                .grid__item.v-middle.one-half.gray>
+                  Dernière activité
+                .grid__item.v-middle.one-half>
+                  %strong= l(@structure.main_contact.current_sign_in_at, format: :date).capitalize
 
-      .panel.push--bottom
-        .panel__header.soft-half
-          %h5.flush Suivez l'actualité et recevez des offres exclusives
-        .panel__body.soft
-          - if current_user and current_user.follows?(@structure)
-            = link_to '#', class: "btn btn--full disabled" do
-              %i.fa.fa-heart
-              Déjà en favoris
-          - elsif current_user
-            = link_to follow_structure_path(@structure), method: :post, class: "btn btn--full btn--gray" do
-              %i.fa.fa-heart
-              Favoris
-          - else
-            = link_to new_user_registration_path, data: { behavior: 'modal', title: 'Connexion', width: 600, padding: 0 }, class: 'fancybox.ajax btn btn--full btn--gray', onclick: "ga('send', 'event', 'Se créer un compte', 'click','Inscrit')" do
-              %i.fa.fa-heart
-              Favoris
-          - if @structure.followers.count > 9
-            %p.flush.text--center.push-half--top
-              %strong Suivi par #{@structure.followers.count} élèves
+        .panel.push--bottom
+          .panel__header.soft-half
+            %h5.flush Suivez l'actualité et recevez des offres exclusives
+          .panel__body.soft
+            - if current_user and current_user.follows?(@structure)
+              = link_to '#', class: "btn btn--full disabled" do
+                %i.fa.fa-heart
+                Déjà en favoris
+            - elsif current_user
+              = link_to follow_structure_path(@structure), method: :post, class: "btn btn--full btn--gray" do
+                %i.fa.fa-heart
+                Favoris
+            - else
+              = link_to new_user_registration_path, data: { behavior: 'modal', title: 'Connexion', width: 600, padding: 0 }, class: 'fancybox.ajax btn btn--full btn--gray', onclick: "ga('send', 'event', 'Se créer un compte', 'click','Inscrit')" do
+                %i.fa.fa-heart
+                Favoris
+            - if @structure.followers.count > 9
+              %p.flush.text--center.push-half--top
+                %strong Suivi par #{@structure.followers.count} élèves
 
-      - unless @structure.premium?
-        .panel
-          .panel__header.soft-half--ends.soft--left
-            %h5.flush Profils similaires
-          .panel__body.soft-half--ends
-            - @structure.similar_profiles.each_with_index do |structure, index|
-              - unless index == 0
-                %hr.push-half--ends
-              = link_to structure_path(structure), class: 'soft-half--sides block muted-link' do
-                .grid--full{ data: { similar_profile: true, structure_id: structure.id } }
-                  .grid__item.v-top.one-fifth>
-                    .media-photo= image_tag structure.logo.url(:thumb)
-                  .grid__item.v-top.four-fifths.soft-half--left>
-                    %h6.push-half--bottom= structure.name
-                    - if structure.premium? and (structure.has_free_trial_course? or structure.has_promotion?)
-                      .push-half--bottom
-                        - if structure.has_free_trial_course?
-                          .lbl.lbl--small.lbl--yellow
-                            %i.fa.fa-tag
-                            Cours d'essai gratuit
-                        - elsif structure.has_promotion?
-                          .lbl.lbl--small.lbl--yellow
-                            %i.fa.fa-tag
-                            Promotions
-                    %div
-                      à
-                      = readable_distance(Geocoder::Calculations.distance_between([@structure.latitude, @structure.longitude], [structure.latitude, structure.longitude], unit: :km).round(1))
+        - unless @structure.premium?
+          .panel
+            .panel__header.soft-half--ends.soft--left
+              %h5.flush Profils similaires
+            .panel__body.soft-half--ends
+              - @structure.similar_profiles.each_with_index do |structure, index|
+                - unless index == 0
+                  %hr.push-half--ends
+                = link_to structure_path(structure), class: 'soft-half--sides block muted-link' do
+                  .grid--full{ data: { similar_profile: true, structure_id: structure.id } }
+                    .grid__item.v-top.one-fifth>
+                      .media-photo{ itemprop: 'image', content: structure.logo.url }= image_tag structure.logo.url(:thumb)
+                    .grid__item.v-top.four-fifths.soft-half--left>
+                      %h6.push-half--bottom= structure.name
+                      - if structure.premium? and (structure.has_free_trial_course? or structure.has_promotion?)
+                        .push-half--bottom
+                          - if structure.has_free_trial_course?
+                            .lbl.lbl--small.lbl--yellow
+                              %i.fa.fa-tag
+                              Cours d'essai gratuit
+                          - elsif structure.has_promotion?
+                            .lbl.lbl--small.lbl--yellow
+                              %i.fa.fa-tag
+                              Promotions
+                      %div
+                        à
+                        = readable_distance(Geocoder::Calculations.distance_between([@structure.latitude, @structure.longitude], [structure.latitude, structure.longitude], unit: :km).round(1))
 
-      %div{ data: { type: "sticky-map" }}>
+        %div{ data: { type: "sticky-map" }}>
 
 = content_for :scripts do
   :javascript

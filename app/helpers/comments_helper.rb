@@ -25,7 +25,7 @@ module CommentsHelper
   # URL of the commentable
   def commentable_url(comment, options = {})
     if comment.commentable.is_a? Structure
-      structure_url(comment.commentable, { subdomain: CoursAvenue::Application::WWW_SUBDOMAIN }.merge(options))
+      structure_url(comment.commentable, { subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, anchor: "recommandation-#{comment.id}" }.merge(options))
     elsif comment.commentable
       structure_course_url comment.commentable.structure, comment.commentable, { subdomain: CoursAvenue::Application::WWW_SUBDOMAIN }.merge(options)
     end

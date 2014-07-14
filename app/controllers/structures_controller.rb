@@ -23,6 +23,7 @@ class StructuresController < ApplicationController
 
     @comments = @structure.comments.accepted.page(1).per(5)
     @model = StructureShowSerializer.new(@structure, {
+      structure:          @structure,
       unlimited_comments: false,
       query:              get_filters_params,
       query_string:       request.env['QUERY_STRING'],
