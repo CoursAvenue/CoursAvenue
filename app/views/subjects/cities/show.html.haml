@@ -1,20 +1,24 @@
 = content_for :title do
   Tous les cours de #{@subject.name.downcase} à #{@city.name} | CoursAvenue
 
+= content_for :description do
+  Tous les cours de #{@subject.name.downcase} à #{@city.name} | CoursAvenue
+
 = content_for :above_container do
   - if @city.image.present?
     .home-screen.bg-cover{style: "background-image: url('#{@city.image.url(:default)}')"}
       - if @subject.image.present?
         .soft--top
           = image_tag @subject.image.url(:thumb), class: 'block center-block subject-logo white-circle white-circle--thick', height: 130
-      %h1.text--center.home-screen-title{style: (@subject.image.present? ? '' : 'padding-top: 3em;')}
-        Tous les cours de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
-      - if @subject.title.present?
-        %h4.push--top.center-block.text--center.home-screen-title{style: 'width: 1000px'}
-          = @subject.title
-      - elsif @city.title.present?
-        %h4.push--tops.center-block.text--center.home-screen-title{style: 'width: 1000px'}
-          = @city.title
+      .main-container.main-container--medium
+        %h1.white.soft-black-text-shadow{style: (@subject.image.present? ? '' : 'padding-top: 3em;')}
+          Tous les cours de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
+        - if @subject.title.present?
+          %h4.push--top.white.soft-black-text-shadow
+            = @subject.title
+        - elsif @city.title.present?
+          %h4.push--tops.white.soft-black-text-shadow
+            = @city.title
   - else
     #map.google-map.google-map--medium-small
 

@@ -49,19 +49,6 @@
     position        : relative;
     overflow        : visible;
 }
-    .home-screen-subtitle, .home-screen-title {
-        position        : relative;
-        z-index         : 5;
-        letter-spacing  : 0.1em;
-    }
-    .home-screen-subtitle {
-        font-weight : 300;
-    }
-    .home-screen-title {
-        margin : 0 auto 0 auto;
-        padding: 0;
-        @include media-query(palm) { margin: 0; font-size: 20px;}
-    }
     .home-page-search {
         position        : relative;
         z-index         : 5;

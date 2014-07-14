@@ -1,14 +1,18 @@
 = content_for :title do
   Tous les cours de #{@subject.name.downcase} | CoursAvenue
 
+= content_for :description do
+  Tous les cours de #{@subject.name.downcase} | CoursAvenue
+
 = content_for :above_container do
   - if @subject.image.present?
     .home-screen.bg-cover{style: "background-image: url('#{@subject.image.url(:default)}')"}
-      %h1.push--bottom.text--center.home-screen-title{style: 'padding-top: 3em;'}
-        Tous les cours de <strong>#{@subject.name.downcase}</strong>
-      - if @subject.title
-        %h4.center-block.text--center.home-screen-title{style: 'width: 1000px'}
-          = @subject.title
+      .main-container.main-container--medium
+        %h1.push--bottom.white.soft-black-text-shadow{style: 'padding-top: 3em;'}
+          Tous les cours de <strong>#{@subject.name.downcase}</strong>
+        - if @subject.title
+          %h4.center-block.white.soft-black-text-shadow
+            = @subject.title
   - else
     #map.google-map.google-map--medium-small
 
