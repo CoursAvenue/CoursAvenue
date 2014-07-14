@@ -3,7 +3,7 @@
 .print--visible
   = image_tag 'logo.png', width: 250, height: 50
 %header.header.print--hidden
-  .very-soft.flexbox{class: medium ? 'main-container main-container--medium' : 'main-container'}
+  .very-soft.flexbox{class: [medium ? 'main-container--medium' : '', expanded ? '' : 'main-container']}
     .flexbox__item.palm-one-whole.v-middle>
       = link_to '', root_path, class: 'v-middle coursavenue-header-logo', title: 'CoursAvenue | Tous les cours autour de vous'
     %nav.text--right.flexbox__item.v-middle.nowrap.visuallyhidden--palm.print--hidden>
