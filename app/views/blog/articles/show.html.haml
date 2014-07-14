@@ -1,4 +1,7 @@
 %article{ itemscope: true, itemtype: 'http://schema.org/Article' }
+  - if @article.cover_image.present?
+    = link_to blog_article_path(@article), class: 'muted-link push-half--bottom block' do
+      = image_tag @article.cover_image.url(:default), class: 'block blog-article__image', alt: @article.title, title: @article.title
   %h1.blog-article__title{ itemprop: 'name' }
     = @article.title
 
