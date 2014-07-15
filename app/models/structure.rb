@@ -307,8 +307,10 @@ class Structure < ActiveRecord::Base
     email_status = nil
     if self.view_count(30) > 30
       email_status = 'your_profile_has_been_viewed'
-    else
+    elsif !self.logo.present? or self.comments.empty? or self.courses.without_open_courses.empty? or self.medias.empty?
       email_status = 'incomplete_profile'
+    else
+      email_status = nil
     end
     self.update_column :email_status, email_status
     return email_status
