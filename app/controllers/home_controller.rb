@@ -1,7 +1,7 @@
 # encoding: utf-8
 class HomeController < ApplicationController
 
-  layout 'admin_pages'
+  layout 'pages'
 
   def index
     # For search
