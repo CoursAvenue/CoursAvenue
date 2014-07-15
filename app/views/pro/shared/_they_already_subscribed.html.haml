@@ -2,20 +2,20 @@
 .grid
   - @structures.each do |structure|
     .grid__item.one-third.palm-one-whole>
-      .grid
+      .grid--full
         .grid__item.one-third.relative>
           = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 70, width: 70
           = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'muted-link' do
             = image_tag structure.logo.url(:thumb), class: 'one-whole'
         .grid__item.two-thirds.soft-half--left>
-          = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'muted-link epsilon' do
+          = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'muted-link delta' do
             %strong= structure.name
-          %div
+          %div.epsilon
             - if structure.structure_type.present?
               = t(structure.structure_type)
             - else
               Association
-          %div
+          %div.epsilon
             %i= truncate join_parent_subjects_text(structure), length: 30
           -# %div
           -#   %i.green= "#{structure.view_count(1000)} visites"
