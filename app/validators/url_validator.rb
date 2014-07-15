@@ -2,6 +2,7 @@ class UrlValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     return if value.blank?
     # Add http if there is not
+    value = value.downcase
     unless value[/^https?/]
       value = "http://#{value}"
       record[attribute] = value
