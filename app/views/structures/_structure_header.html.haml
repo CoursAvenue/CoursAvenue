@@ -30,6 +30,9 @@
             .epsilon.v-middle.push-half--left.inline-block.lbl.lbl--yellow
               %i.fa.fa-tag
               Offres promotionnelles
+          - if @is_sleeping and params.present?
+            .epsilon.v-middle.inline-block
+              Vos filtres
           .inline-block.v-middle{ data: { type: "filter-breadcrumbs" } }
       .grid__item.two-twelfths.v-bottom.hidden-on-stick>
         %a.v-middle{ href: "https://twitter.com/share", class: "twitter-share-button", data: { text: "J'adore \"#{@structure.name}\" @CoursAvenue #{structure_url(@structure)}", lang: "fr", count: 'none'}} Tweet

@@ -83,7 +83,8 @@ class Structure < ActiveRecord::Base
                   :gives_non_professional_courses, :gives_professional_courses,
                   :highlighted_comment_id,
                   :deletion_reasons, :deletion_reasons_text,
-                  :phone_numbers_attributes, :places_attributes, :other_emails, :last_geocode_try
+                  :phone_numbers_attributes, :places_attributes, :other_emails, :last_geocode_try,
+                  :is_sleeping
 
   accepts_nested_attributes_for :places,
                                  reject_if: :reject_places,
@@ -101,11 +102,13 @@ class Structure < ActiveRecord::Base
                              :level_ids, :audience_ids, :busy,
                              :open_courses_open_places, :open_course_nb, :jpo_email_status, :open_course_plannings_nb,
                              :response_rate, :response_time, :gives_non_professional_courses, :gives_professional_courses,
-                             :deletion_reasons, :deletion_reasons_text, :other_emails, :search_score, :search_score_updated_at
+                             :deletion_reasons, :deletion_reasons_text, :other_emails, :search_score, :search_score_updated_at,
+                             :is_sleeping
 
 
   define_boolean_accessor_for :meta_data, :has_promotion, :gives_group_courses, :gives_individual_courses,
-                              :has_free_trial_course, :gives_non_professional_courses, :gives_professional_courses
+                              :has_free_trial_course, :gives_non_professional_courses, :gives_professional_courses,
+                              :is_sleeping
 
   has_attached_file :logo,
                     styles: {
@@ -305,7 +308,7 @@ class Structure < ActiveRecord::Base
   # Update the email status of the structure
   def update_email_status
     email_status = nil
-    if self.view_count(30) > 30
+    if self.impression_count(30) > 15
       email_status = 'your_profile_has_been_viewed'
     elsif !self.logo.present? or self.comments.empty? or self.courses.without_open_courses.empty? or self.medias.empty?
       email_status = 'incomplete_profile'

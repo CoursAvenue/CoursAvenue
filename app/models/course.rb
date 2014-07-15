@@ -365,6 +365,10 @@ class Course < ActiveRecord::Base
     false
   end
 
+  def is_published?
+    return (!expired? and can_be_published?)
+  end
+
   private
 
   # Attributes used to create the slug for Friendly ID

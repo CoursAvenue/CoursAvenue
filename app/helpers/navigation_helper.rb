@@ -22,7 +22,14 @@ module NavigationHelper
     if options[:icon].present?
       html_title = "<i class='#{options[:icon]}'></i> #{I18n.t('pro.structures.side_menu.' + title)}".html_safe
     end
-    content_tag(:li, link_to(html_title, url, class: 'side-menu-link'), options)
+    if options.has_key? :completed
+      if options[:completed]
+        html_title << "<i class='fa absolute east fa-check soft--right completion-icon #{(current_tab == title ? ' white' : 'green')}'></i>".html_safe
+      else
+        html_title << "<i class='fa absolute east fa-plus soft--right completion-icon #{(current_tab == title ? ' white' : 'orange')}'></i>".html_safe
+      end
+    end
+    content_tag(:li, link_to(html_title, url, class: 'side-menu-link relative'), options)
   end
 
   def pro_submenu_link(title, url, options = {})

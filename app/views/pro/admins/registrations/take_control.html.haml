@@ -1,0 +1,181 @@
+= content_for :title do
+  Prenez le contrôle de votre profil
+
+.relative.soft--sides.bg-cover{ style: "background-image: url(#{asset_path 'pro/home_background5.jpg'})" }
+  .main-container
+    %header.grid--full
+      .grid__item.five-twelfths.v-bottom.soft--top.relative.visuallyhidden--palm>
+        = link_to structure_url('st-germain-des-arts', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'absolute block', target: :_blank, id: 'emilie-profile', style: 'bottom: -155px; padding-left: 130px;' do
+          = image_tag 'pro/valerie-profile-small.jpg', class: 'block', width: 275
+        = image_tag 'pro/valerie-detour.png', class: 'rounded block', width: 500
+      .grid__item.seven-twelfths.v-bottom.soft--top.soft--right.palm-one-whole>
+        .center-block
+          .soft--top
+            %p.gamma.line-height-1-5.push-half--bottom.white.soft-black-text-shadow
+              %strong.quoted<
+                J'ai débloqué le profil CoursAvenue de notre atelier d'arts plastiques pour afficher le planning de nos cours. Quelques jours après, nous avons reçu nos premières demandes d'inscription.
+            %p.f-style-italic.white.soft-black-text-shadow.f-weight-bold
+              Valérie, Directrice de l'atelier St Germain des Arts à Paris
+
+            .soft--left
+              .bg-white.soft.push--left.bordered--top.bordered--right.bordered--left
+                .grid
+                  - if @structure.logo.present?
+                    .grid__item.one-quarter.v-middle.text--right>
+                      = image_tag @structure.logo.url(:thumb), width: 85
+                  .grid__item.three-quarters.v-middle>
+                    %h3.flush
+                      Travaillez-vous pour "#{@structure.name}" ?
+                    %h4 Choisissez vos identifiants pour gérer votre profil :
+
+                = simple_form_for [:pro, @admin], url: pro_admin_registration_path, html: { autocomplete: 'off', class: 'half-form'} do |f|
+                  = f.error_notification
+                  .grid
+                    .grid__item.one-quarter.text--right.v-middle>
+                      %strong.epsilon> E-mail
+                    .grid__item.three-quarters.v-middle>
+                      = f.input :email, required: true, autofocus: true, wrapper_html: { class: 'flush--bottom' }, input_html: { class: 'input--large' }, label: false
+                  .grid
+                    .grid__item.one-quarter.text--right.v-middle>
+                      %strong.epsilon> Mot de passe
+                    .grid__item.three-quarters.v-middle>
+                      = f.input :password, required: true, input_html: { class: 'input--large' }, label: false
+                  = f.hidden_field :structure_id, as: :hidden, value: @structure.try(:id)
+                  .grid
+                    .grid__item.one-quarter.text--right.v-middle>
+                      &nbsp;
+                    .grid__item.three-quarters.v-middle>
+                      = f.button :submit, 'Gérer ce profil',  class: 'btn--green btn--large', data: { disable_with: 'Veuillez patienter...' }
+                      %br
+                      %i Gratuit et sans engagement
+
+-# .soft.panel-background-blue-radial.relative
+-#   .main-container.main-container--medium
+-#     .grid
+-#       - if @structure.logo.present?
+-#         .grid__item.one-twelfth.v-middle>
+-#           = image_tag @structure.logo.url(:thumb)
+-#       .grid__item.eleven-twelfths.v-middle>
+-#         %h1.flush.white.smooth-black-text-shadow
+-#           Travaillez-vous pour "#{@structure.name}" ?
+-#         %h2.white.smooth-black-text-shadow.push--bottom Choisissez vos identifiants pour gérer votre profil :
+-#     = simple_form_for [:pro, @admin], url: pro_admin_registration_path, html: { autocomplete: 'off', class: 'half-form'} do |f|
+-#       = f.error_notification
+-#       .grid
+-#         .grid__item.one-third.text--right.v-middle>
+-#           .gamma.white.smooth-black-text-shadow> E-mail
+-#         .grid__item.two-thirds.v-middle>
+-#           = f.input :email, required: true, autofocus: true, wrapper_html: { class: 'flush--bottom' }, input_html: { class: 'input--large' }, label: false
+-#       .grid
+-#         .grid__item.one-third.text--right.v-middle>
+-#           .gamma.white.smooth-black-text-shadow> Mot de passe
+-#         .grid__item.two-thirds.v-middle>
+-#           = f.input :password, required: true, input_html: { class: 'input--large' }, label: false
+-#       = f.hidden_field :structure_id, as: :hidden, value: @structure.try(:id)
+-#       .text--center
+-#         = f.button :submit, 'Gérer ce profil',  class: 'btn--green btn--large', data: { disable_with: 'Veuillez patienter...' }
+-#         %br
+-#         %i.white.smooth-black-text-shadow Gratuit et sans engagement
+
+
+.home-screen-promotion-wrapper.relative
+  .main-container.main-container--medium.soft.text--center
+    %h2.push--bottom.soft--ends.f-weight-300 Rejoignez nos passionnés
+    %p.epsilon
+      CoursAvenue permet à chaque professeur, association, ou école de gagner facilement en
+      %br
+      visibilité pour recruter de nouveaux élèves. Prenez le contrôle de votre profil pour compléter
+      %br
+      vos informations, votre planning, afficher les recommandations de vos élèves, suivre vos
+      %br
+      statistiques de profil et bien d'autres choses encore. L'inscription est gratuite. Faites partie
+      %br
+      d'une communauté en pleine expansion passionnée par les cours de loisirs.
+    %p
+      = link_to 'En savoir plus sur CoursAvenue', root_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
+
+.main-container.main-container--medium.soft--sides
+  %h2.text--center.push--bottom.soft--ends.f-weight-300 Les avantages du profil CoursAvenue
+  = render partial: 'pro/shared/free_profile_advantages', locals: { show_all: true }
+
+.bg-cover{ style: "background-image: url(#{asset_path 'pro/home_background6.jpg'})" }
+  .main-container.main-container--medium.soft--ends
+    %h2.text--center.push--bottom.soft--ends.soft-black-text-shadow.white Simple et rapide
+    .grid
+      .grid__item.one-third.text--center.lap-one-whole.text--center.palm-one-whole>
+        .inline-block.gamma.soft.rounded--circle.white-box.push--bottom{ style: 'width: 80px; height: 80px; line-height: 40px;'} 1
+        %p.gamma.white.soft-black-text-shadow
+          %strong Créez
+        %p.white.soft-black-text-shadow.epsilon
+          %strong Créez votre compte professionnel CoursAvenue pour vous connecter à votre profil et prendre son contrôle
+      .grid__item.one-third.text--center.lap-one-whole.text--center.palm-one-whole>
+        .inline-block.gamma.soft.rounded--circle.white-box.push--bottom{ style: 'width: 80px; height: 80px; line-height: 40px;'} 2
+        %p.gamma.white.soft-black-text-shadow
+          %strong Complétez
+        %p.white.soft-black-text-shadow.epsilon
+          %strong Ajoutez photos, textes, planning et obtenez votre 1ères recommandations : votre profil gagne en visibilité
+      .grid__item.one-third.text--center.lap-one-whole.text--center.palm-one-whole>
+        .inline-block.gamma.soft.rounded--circle.white-box.push--bottom{ style: 'width: 80px; height: 80px; line-height: 40px;'} 3
+        %p.gamma.white.soft-black-text-shadow
+          %strong Recrutez
+        %p.white.soft-black-text-shadow.epsilon
+          %strong Les élèves intéressés par vos cours prennent contact gratuitement avec vous
+    .text--center
+      = link_to "Commencer !", inscription_pro_structures_path, class: 'btn btn--green'
+
+.home-screen-promotion-wrapper.soft
+  .main-container.main-container--medium.soft--sides
+    %h2.text--center.push--bottom.soft--ends.f-weight-300 + de 2 000 profils
+    - StructureSearch.search(per_page: 9, has_logo: true, sort: 'premium').results.each do |structure|
+      .inline-block.one-third.palm-one-whole.lap-one-half>
+        .grid.push--bottom
+          .grid__item.one-quarter.epsilon.v-middle>
+            = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block muted-link media-photo', target: :_blank do
+              = image_tag structure.logo.url(:thumb), class: 'block'
+          .grid__item.three-quarters.v-middle>
+            = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank, class: 'muted-link block' do
+              %p.flush.epsilon
+                %strong= structure.name
+                %br
+                - if structure.structure_type.present?
+                  = t(structure.structure_type)
+                - else
+                  Association
+                %br
+                %i= truncate(join_parent_subjects_text(structure), lenght: 36)
+
+.main-container.main-container--medium.soft--ends
+  %h2.text--center.push--bottom.soft--ends.f-weight-300 Développez votre bouche à oreille sur Internet
+  - CommentSearch.search(per_page: 4, has_avatar: true, has_title: true).results.in_groups_of(2, false).each do |review_group|
+    .grid.push--bottom
+      - review_group.each do |review|
+        .grid__item.one-half.palm-one-whole.lap-one-half>
+          .flexbox.push--bottom
+            .flexbox__item.soft--left.v-top.text--center>
+              = link_to structure_url(review.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block media-photo', target: :_blank, class: 'muted-link' do
+                = image_tag review.user.avatar_url(:thumb), class: 'block rounded--circle', width: 60
+              .milli.soft-half--top
+                = review.author_name
+            .flexbox__item.soft--sides.v-top>
+              .message__body.soft-half.message__appendix.gray-box
+                %p.epsilon.push-half--bottom.quoted
+                  %strong= review.title
+                %p
+                  = truncate(review.content, length: 500)
+                %p.text--right.flush
+                  %i
+                    À propos de
+                    = link_to review.structure.name, structure_url(review.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank
+
+= render 'shared/live_chat'
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('#emilie-profile').hover(function() {
+            $(this).animate({ bottom:  '0' }, 600, 'easeOutExpo');
+        }, function() {
+            $(this).animate({ bottom: '-155px' }, 600, 'easeOutExpo');
+        });
+    });
+

@@ -6,6 +6,11 @@ class Pro::Admins::RegistrationsController < Devise::RegistrationsController
     @structure = Structure.where(slug: params[:structure_id]).first
     if @structure
       @admin = @structure.admins.build(email: @structure.contact_email)
+      if @structure.is_sleeping?
+        render template: 'pro/admins/registrations/take_control'
+      else
+        render
+      end
     else
       redirect_to inscription_pro_structures_path
     end

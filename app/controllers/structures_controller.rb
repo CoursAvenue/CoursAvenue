@@ -29,6 +29,7 @@ class StructuresController < ApplicationController
       query_string:       request.env['QUERY_STRING'],
       place_ids:          @place_ids
     })
+    @is_sleeping = @structure.is_sleeping
   end
 
   def jpo

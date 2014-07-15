@@ -9,3 +9,7 @@
 #fancybox-loading div {
     @include background-size(20px);
 }
+
+.fancybox-close {
+    @include text-shadow(-1px -1px 1px rgba(230, 230, 230, 0.8), 1px 1px 1px rgba(230, 230, 230, 0.8) !important);
+}
