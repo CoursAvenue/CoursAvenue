@@ -809,7 +809,7 @@ class Structure < ActiveRecord::Base
   #
   # See file 'Score de profil.xlsx' for more info
   # @return Integer
-  def compute_search_score(force=true) # TODO when do we have to compute score ?
+  def compute_search_score(force=false) # TODO when do we have to compute score ?
     # Return already stored search score if it has been computed recently
     if !force and self.search_score.present? and self.search_score_updated_at.present? and Date.parse(self.search_score_updated_at.to_s) > Date.yesterday
       return self.search_score
