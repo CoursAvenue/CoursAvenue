@@ -34,10 +34,11 @@ namespace :import do
         first = false
         next
       end
+      bar.increment!
       attributes = structure_hash_from_row(row)
       already_exists = false
       attributes[:emails].each do |email|
-        if Admin.where(email: email).any?
+        if Admin.where(email: email).any? or Structure.where(contact_email: email).any?
           already_exists = true
           break
         end
@@ -83,14 +84,14 @@ namespace :import do
                         phone_attributes: phone_attributes,
                         places_attributes: places_attributes,
                         contact_email: attributes[:emails].first,
+                        is_sleeping: true,
                         other_emails: attributes[:emails][0..-1].join(';'))
       unless structure.persisted?
         puts "#{attributes[:key]} : #{attributes[:name]}\n#{structure.errors.full_messages.to_sentence}\n\n"
-      # else
-      #   structure.logo = URI.parse("#{attributes[:key].png}")
-      #   structure.save
+      else
+        structure.logo = URI.parse("http://coursavenue-public.s3.amazonaws.com/Logos_Paris/#{attributes[:key]}.png")
+        structure.save
       end
-      bar.increment!
     end
   end
 end
