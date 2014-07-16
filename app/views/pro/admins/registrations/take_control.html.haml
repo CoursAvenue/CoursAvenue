@@ -3,7 +3,11 @@
 
 - profiles = [{ name: "Valérie, Directrice de l'atelier St Germain des Arts à Paris", slug: 'st-germain-des-arts', bg: 'pro/home_background5-shadowed.jpg', profile_name: 'valerie', image_name: 'valerie', quote: "J'ai débloqué le profil CoursAvenue de notre atelier d'arts plastiques pour afficher le planning de nos cours. <br>Quelques jours après, nous avons reçu nos premières demandes d'inscription.", image_width: 500}]
 - profiles << { name: "Alain Pons, formateur en photographie à Clermont-Ferrand", slug: 'alain-pons-photographe', bg: 'pro/home_background_alain.jpg', profile_name: 'alain', image_name: 'alain-2', quote: "En prenant le contrôle de mon profil, j'ai complété mes informations et grâce au module « Mes Avis »  j'ai reçu les premières recommandations de mes élèves. J'ai ainsi gagné en visibilité sur CoursAvenue et sur Internet en général.", image_width: 400}
-- selected_profile = profiles.last
+
+- selected_profile = profiles.sample
+- # In order not to see alain in pro home page
+- if selected_profile[:slug] == 'alain-pons-photographe'
+  - cookies[:have_seen_alain] = true
 
 .relative.soft--sides.bg-cover{ style: "background-image: url(#{asset_path(selected_profile[:bg])})" }
   .main-container

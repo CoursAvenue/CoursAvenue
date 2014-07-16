@@ -2,9 +2,12 @@
   Développez votre bouche à oreille sur Internet
 
 - profiles = [{ name: "Emilie, Professeur de yoga chez Yoga Sattva Paris.", slug: 'yoga-sattva-paris', bg: 'pro/home_background.jpg', image_name: 'emilie', quote: "Communiquer sur Internet me prenait trop de temps, <br> je m'éparpillais sans résultat. Avec CoursAvenue, c'est intuitif et efficace, en accord avec mes valeurs.", image_width: 350, profile_style: '58', medium: true }]
-- profiles << { name: "Alain Pons, formateur en photographie à Clermont-Ferrand", slug: 'alain-pons-photographe', bg: 'pro/home_background_alain.jpg', image_name: 'alain', quote: "Ma présence sur Internet demande un travail quotidien que je ne peux pas faire par manque de temps. <br>Sur CoursAvenue, c'est simple et très pratique et je peux enfin me consacrer à 100% à la qualité de mes cours et stages.", image_width: 450, profile_style: '62' }
+- profiles << { name: "Alain Pons, formateur en photographie à Clermont-Ferrand", slug: 'alain-pons-photographe', bg: 'pro/home_background_alain.jpg', image_name: 'alain', quote: "Ma présence sur Internet demande un travail quotidien que je ne peux pas faire par manque de temps. Sur CoursAvenue, c'est simple et très pratique et je peux enfin me consacrer à 100% à la qualité de mes cours et stages.", image_width: 450, profile_style: '62' }
 
-- selected_profile = profiles.first
+- if cookies[:have_seen_alain]
+  - selected_profile = profiles.first
+- else
+  - selected_profile = profiles.sample
 
 .home-screen-promotion-wrapper.soft--sides.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path(selected_profile[:bg])})" }
   .main-container{ class: ( selected_profile[:medium] ? 'main-container--medium' : '')}
@@ -13,7 +16,7 @@
         = link_to structure_url(selected_profile[:slug], subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'absolute', target: :_blank, id: 'emilie-profile', style: "bottom: -155px; left: #{selected_profile[:profile_style]}%; margin-left: -137px;" do
           = image_tag "pro/testimonies/#{selected_profile[:image_name]}-profile-small.jpg", class: 'block', width: 275
         = image_tag "pro/testimonies/#{selected_profile[:image_name]}-detour.png", class: 'block', width: selected_profile[:image_width], style: 'margin-left: auto'
-      .grid__item.v-bottom.soft--top.soft--right.palm-one-whole.relative{ class: ( selected_profile[:medium] ? 'seven-tenths' : 'seven-twelfths')}>
+      .grid__item.v-bottom.soft--top.palm-one-whole.relative{ class: ( selected_profile[:medium] ? 'seven-tenths' : 'seven-twelfths')}>
         .center-block
           .soft--top.white.soft-black-text-shadow
             %p.gamma.line-height-1-5.push-half--bottom
