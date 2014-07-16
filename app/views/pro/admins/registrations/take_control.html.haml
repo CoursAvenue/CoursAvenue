@@ -1,21 +1,25 @@
 = content_for :title do
-  Prenez le contrôle de votre profil
+  Vous travaillez pour #{@structure.name} ? Prenez le contrôle de votre profil.
 
-.relative.soft--sides.bg-cover{ style: "background-image: url(#{asset_path 'pro/home_background5-shadowed.jpg'})" }
+- profiles = [{ name: "Valérie, Directrice de l'atelier St Germain des Arts à Paris", slug: 'st-germain-des-arts', bg: 'pro/home_background5-shadowed.jpg', profile_name: 'valerie', image_name: 'valerie', quote: "J'ai débloqué le profil CoursAvenue de notre atelier d'arts plastiques pour afficher le planning de nos cours. <br>Quelques jours après, nous avons reçu nos premières demandes d'inscription.", image_width: 500}]
+- profiles << { name: "Alain Pons, formateur en photographie à Clermont-Ferrand", slug: 'alain-pons-photographe', bg: 'pro/home_background_alain.jpg', profile_name: 'alain', image_name: 'alain-2', quote: "En prenant le contrôle de mon profil, j'ai complété mes informations et grâce au module « Mes Avis »  j'ai reçu les premières recommandations de mes élèves. J'ai ainsi gagné en visibilité sur CoursAvenue et sur Internet en général.", image_width: 400}
+- selected_profile = profiles.last
+
+.relative.soft--sides.bg-cover{ style: "background-image: url(#{asset_path(selected_profile[:bg])})" }
   .main-container
     %header.grid--full
       .grid__item.four-twelfths.v-bottom.soft--top.relative.visuallyhidden--palm>
-        = link_to structure_url('st-germain-des-arts', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'absolute block', target: :_blank, id: 'valerie-profile', style: 'bottom: -185px; padding-left: 70px;' do
-          = image_tag 'pro/valerie-profile-small.jpg', class: 'block', width: 375
-        = image_tag 'pro/valerie-detour.png', class: 'rounded block', width: 500
-      .grid__item.eight-twelfths.v-bottom.soft--top.soft--right.palm-one-whole>
+        = link_to structure_url(selected_profile[:slug], subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'absolute block', target: :_blank, id: 'valerie-profile', style: 'bottom: -185px; padding-left: 70px;' do
+          = image_tag "pro/testimonies/#{selected_profile[:profile_name]}-profile-small.jpg", class: 'block', width: 375
+        = image_tag "pro/testimonies/#{selected_profile[:image_name]}-detour.png", class: 'rounded block', width: selected_profile[:image_width]
+      .grid__item.eight-twelfths.v-bottom.soft--top.soft--right.palm-one-whole.relative>
         .center-block#gerer-ce-profil
           .soft--top
             %p.gamma.line-height-1-5.push-half--bottom.white.soft-black-text-shadow
               %strong.quoted<
-                J'ai débloqué le profil CoursAvenue de notre atelier d'arts plastiques pour afficher le planning de nos cours. Quelques jours après, nous avons reçu nos premières demandes d'inscription.
+                = selected_profile[:quote].html_safe
             %p.f-style-italic.white.soft-black-text-shadow.f-weight-bold
-              Valérie, Directrice de l'atelier St Germain des Arts à Paris
+              = selected_profile[:name]
 
             .soft--left
               .bg-white-faded.rounded--top.soft{ style: 'margin-left: 100px;' }
@@ -65,7 +69,7 @@
           Pour développer votre bouche à oreille sur Internet grâce aux recommandations de vos élèves qui consolident votre réputation.
       .grid__item.one-third.v-top>
         .text--center.push--bottom
-          %i.fa.fa-cogs.orange.fa-3x
+          %i.fa.fa-bullhorn.orange.fa-3x
         %p.epsilon
           Pour booster votre communication sur Internet si vous souhaitez remplir vos cours ou en ouvrir de nouveaux
     %p.text--center.epsilon

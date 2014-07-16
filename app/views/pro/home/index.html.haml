@@ -1,23 +1,26 @@
 = content_for :title do
   Développez votre bouche à oreille sur Internet
 
-.home-screen-promotion-wrapper.soft--sides.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background.jpg'})" }
-  .main-container.main-container--medium
+- profiles = [{ name: "Emilie, Professeur de yoga chez Yoga Sattva Paris.", slug: 'yoga-sattva-paris', bg: 'pro/home_background.jpg', image_name: 'emilie', quote: "Communiquer sur Internet me prenait trop de temps, <br> je m'éparpillais sans résultat. Avec CoursAvenue, c'est intuitif et efficace, en accord avec mes valeurs.", image_width: 350, profile_style: '58', medium: true }]
+- profiles << { name: "Alain Pons, formateur en photographie à Clermont-Ferrand", slug: 'alain-pons-photographe', bg: 'pro/home_background_alain.jpg', image_name: 'alain', quote: "Ma présence sur Internet demande un travail quotidien que je ne peux pas faire par manque de temps. <br>Sur CoursAvenue, c'est simple et très pratique et je peux enfin me consacrer à 100% à la qualité de mes cours et stages.", image_width: 450, profile_style: '62' }
+
+- selected_profile = profiles.first
+
+.home-screen-promotion-wrapper.soft--sides.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path(selected_profile[:bg])})" }
+  .main-container{ class: ( selected_profile[:medium] ? 'main-container--medium' : '')}
     %header.grid--full
-      .grid__item.three-tenths.v-bottom.soft--top.relative.visuallyhidden--palm>
-        = link_to structure_url('yoga-sattva-paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'absolute block', target: :_blank, id: 'emilie-profile', style: 'bottom: -155px; padding-left: 35px;' do
-          = image_tag 'pro/emilie-profile-small.jpg', class: 'block', width: 275
-        = image_tag 'pro/emilie-detour.png', class: 'rounded block', width: 350
-      .grid__item.seven-tenths.v-bottom.soft--top.soft--right.palm-one-whole>
+      .grid__item.v-bottom.relative.visuallyhidden--palm{ class: ( selected_profile[:medium] ? 'three-tenths' : 'five-twelfths')}>
+        = link_to structure_url(selected_profile[:slug], subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'absolute', target: :_blank, id: 'emilie-profile', style: "bottom: -155px; left: #{selected_profile[:profile_style]}%; margin-left: -137px;" do
+          = image_tag "pro/testimonies/#{selected_profile[:image_name]}-profile-small.jpg", class: 'block', width: 275
+        = image_tag "pro/testimonies/#{selected_profile[:image_name]}-detour.png", class: 'block', width: selected_profile[:image_width], style: 'margin-left: auto'
+      .grid__item.v-bottom.soft--top.soft--right.palm-one-whole.relative{ class: ( selected_profile[:medium] ? 'seven-tenths' : 'seven-twelfths')}>
         .center-block
           .soft--top.white.soft-black-text-shadow
             %p.gamma.line-height-1-5.push-half--bottom
               %strong.quoted<
-                Communiquer sur Internet me prenait trop de temps,
-                %br
-                je m'éparpillais sans résultat. Avec CoursAvenue, c'est intuitif et efficace, en accord avec mes valeurs.
+                = selected_profile[:quote].html_safe
             %p.f-style-italic
-              Emilie, Professeur de yoga chez Yoga Sattva Paris.
+              = selected_profile[:name]
         .soft--left.push--left.soft--right.push--right
           .soft--left
             %h1.flush
