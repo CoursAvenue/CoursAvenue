@@ -89,8 +89,12 @@ namespace :import do
       unless structure.persisted?
         puts "#{attributes[:key]} : #{attributes[:name]}\n#{structure.errors.full_messages.to_sentence}\n\n"
       else
-        structure.logo = URI.parse("http://coursavenue-public.s3.amazonaws.com/Logos_Paris/#{attributes[:key]}.png")
-        structure.save
+        begin
+          structure.logo = URI.parse("http://coursavenue-public.s3.amazonaws.com/Logos_Paris/#{attributes[:key]}.png")
+          structure.save
+        rescue Exception => exception
+          Bugsnag.notify(exception)
+        end
       end
     end
   end
