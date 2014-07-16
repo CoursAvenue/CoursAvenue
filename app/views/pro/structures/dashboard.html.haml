@@ -52,7 +52,7 @@
                   %i.fa.fa-square-o
                   Mettre en ligne les photos et vidéos de mes cours
             %li
-              - if @structure.courses.without_open_courses.any?{ |course| course.plannings.any? }
+              - if @structure.courses.without_open_courses.detect(&:is_published?).nil?
                 %i.fa.fa-check-square-o
                 %span.line-through--gray Renseigner mes cours et mon planning
               - else

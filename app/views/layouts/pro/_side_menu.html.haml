@@ -42,7 +42,8 @@
       = pro_side_menu_link 'places',
                             pro_structure_places_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
                             current: current_tab,
-                            icon: 'fa fa-map-marker'
+                            icon: 'fa fa-map-marker',
+                            completed: true
 
       - to_complete_step_nb += 1 if @structure.phone_numbers.empty?
       = pro_side_menu_link 'contact',
