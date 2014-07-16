@@ -16,24 +16,25 @@
             .v-middle.push-half--left.inline-block.lbl.lbl--yellow.visible-on-stick-ilb
               %i.fa.fa-tag
               Promotions
-        .hidden-on-stick.push-half--top#structure-profile-description
-          -# Structure type
-          - if @structure.structure_type
-            %p.flush.inline-block.v-middle.epsilon
-              - if @structure.structure_type.present?
-                %strong #{t(@structure.structure_type)}
-              - else
-                Structure
-              proposant des
-              = @structure_decorator.given_course_types
-          - if @structure.premium?
-            .epsilon.v-middle.push-half--left.inline-block.lbl.lbl--yellow
-              %i.fa.fa-tag
-              Offres promotionnelles
-          - if @is_sleeping and params.present?
-            .epsilon.v-middle.inline-block
-              Vos filtres
-          .inline-block.v-middle{ data: { type: "filter-breadcrumbs" } }
+        - if @structure.structure_type or @structure.premium? or params.length > 3 or (@is_sleeping and params.length > 3)
+          .hidden-on-stick.push-half--top#structure-profile-description
+            -# Structure type
+            - if @structure.structure_type
+              %p.flush.inline-block.v-middle.epsilon
+                - if @structure.structure_type.present?
+                  %strong #{t(@structure.structure_type)}
+                - else
+                  Structure
+                proposant des
+                = @structure_decorator.given_course_types
+            - if @structure.premium?
+              .epsilon.v-middle.push-half--left.inline-block.lbl.lbl--yellow
+                %i.fa.fa-tag
+                Offres promotionnelles
+            - if @is_sleeping and params.length > 3 # 3 Because there is already action, controller and id set
+              .epsilon.v-middle.inline-block
+                Vos filtres
+            .inline-block.v-middle{ data: { type: "filter-breadcrumbs" } }
       .grid__item.two-twelfths.v-bottom.hidden-on-stick>
         %a.v-middle{ href: "https://twitter.com/share", class: "twitter-share-button", data: { text: "J'adore \"#{@structure.name}\" @CoursAvenue #{structure_url(@structure)}", lang: "fr", count: 'none'}} Tweet
 

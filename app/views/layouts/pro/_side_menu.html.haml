@@ -67,7 +67,7 @@
 
       - to_complete_step_nb += 1 if courses_options_link[:completed] == false
       = pro_side_menu_link 'courses',
-                            pro_structure_courses_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
+                            regular_pro_structure_courses_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
                             courses_options_link
 
       - trainings_options_link = { current: current_tab, icon: 'fa fa-dot-circle-o' }
@@ -124,22 +124,18 @@
 
     - if @structure and to_complete_step_nb > 0
       %li.side-menu__footer.fixed.south.soft.epsilon.text--center.gray-light.gray-box
-        Pour un
-        %strong profil complet :
-        renseignez
-        - if to_complete_step_nb == 1
-          %strong.orange la rubrique
-          marquée du signe
-        - else
-          les
-          %strong.orange #{to_complete_step_nb} rubriques
-          marquées du signe
-        %i.fa.fa-plus.orange.v-middle
+        = link_to '#side-menu-helper-modal', class: 'muted-link', data: { behavior: 'modal', width: 600, padding: 0 } do
+          Pour un
+          %strong profil complet :
+          renseignez
+          - if to_complete_step_nb == 1
+            %strong.orange la rubrique
+            marquée du signe
+          - else
+            les
+            %strong.orange #{to_complete_step_nb} rubriques
+            marquées du signe
+          %i.fa.fa-plus.orange.v-middle
 
-= content_for :scripts do
-  :javascript
-    $(function(){
-        $('#recommandation-side-menu a').click(function() {
-            ga('send', 'event', 'Goto Recommander CoursAvenue', 'click');
-        });
-    });
+  - if @structure and to_complete_step_nb > 0
+    = render partial: 'modal_helper_popup', locals: { to_complete_step_nb: to_complete_step_nb }

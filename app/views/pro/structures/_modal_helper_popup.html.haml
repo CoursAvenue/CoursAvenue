@@ -1,0 +1,55 @@
+#side-menu-helper-modal.hidden.white.bg-cover{ style: "background-image: url(#{asset_path('pro/home_background4.jpg')});"}
+  .soft
+    %h1.flush.soft-black-text-shadow.text--center Complétez votre profil
+    %p.line-height-1-5.delta.f-weight-bold.soft-black-text-shadow.text--center.push--bottom.soft--bottom
+      - if to_complete_step_nb == 1
+        Mettez à jour
+        %span.orange la rubrique
+        suivante :
+      - else
+        Mettez à jour les
+        %span.orange #{to_complete_step_nb} rubriques
+        suivantes :
+
+    - if @structure.description.blank? or @structure.logo.blank?
+      .line-height-1-5.delta.f-weight-bold.soft--left{ data: { behavior: 'side-menu-todo', url: edit_pro_structure_path(@structure), name: 'Mettre à jour mes informations générales' } }
+        = link_to edit_pro_structure_path(@structure), class: 'semi-muted-link' do
+          %i.fa.fa-plus.orange
+          %span.soft-black-text-shadow Mettre à jour mes informations générales et mon logo
+    - if @structure.phone_numbers.empty?
+      .line-height-1-5.delta.f-weight-bold.soft--left{ data: { behavior: 'side-menu-todo', url: edit_contact_pro_structure_url(@structure), name: 'Mettre à jour mes informations de contact' } }
+        = link_to edit_contact_pro_structure_url(@structure), class: 'semi-muted-link' do
+          %i.fa.fa-plus.orange
+          %span.soft-black-text-shadow Mettre à jour mes informations de contact
+    - if @structure.medias.empty?
+      .line-height-1-5.delta.f-weight-bold.soft--left{ data: { behavior: 'side-menu-todo', url: pro_structure_medias_path(@structure), name: 'Ajouter mes photos et vidéos' } }
+        = link_to pro_structure_medias_path(@structure), class: 'semi-muted-link' do
+          %i.fa.fa-plus.orange
+          %span.soft-black-text-shadow Ajouter mes photos et vidéos
+    - unless @structure.courses.without_open_courses.detect(&:is_published?).nil?
+      .line-height-1-5.delta.f-weight-bold.soft--left{ data: { behavior: 'side-menu-todo', url: regular_pro_structure_courses_path(@structure), name: 'Mettre à jour mon planning' } }
+        = link_to regular_pro_structure_courses_path(@structure), class: 'semi-muted-link' do
+          %i.fa.fa-plus.orange
+          %span.soft-black-text-shadow Mettre à jour le planning de mes cours
+    - if @structure.price_groups.empty?
+      .line-height-1-5.delta.f-weight-bold.soft--left{ data: { behavior: 'side-menu-todo', url: pro_structure_price_groups_path(@structure), name: 'Mettre à jour mes tarifs' } }
+        = link_to pro_structure_price_groups_path(@structure), class: 'semi-muted-link' do
+          %i.fa.fa-plus.orange
+          %span.soft-black-text-shadow Mettre à jour mes tarifs
+    - if @structure.comments.empty?
+      .line-height-1-5.delta.f-weight-bold.soft--left{ data: { behavior: 'side-menu-todo', url: recommendations_pro_structure_path(@structure), name: 'Demander des recommandations' } }
+        = link_to recommendations_pro_structure_path(@structure), class: 'semi-muted-link' do
+          %i.fa.fa-plus.orange
+          %span.soft-black-text-shadow Demander des recommandations à mes élèves
+
+    %p.push--top.flush--bottom.soft--top.epsilon.text--center.soft-black-text-shadow.f-weight-bold Les profils complets sont mis en avant sur CoursAvenue et sont ceux qui reçoivent le plus de visites.
+
+  %div.soft.bg-white-faded.text--center
+    %a#side-menu-helper__link.btn.btn--bigger.btn--blue{ onclick: '$.fancybox.close()'} Compléter mon profil
+
+= content_for :scripts do
+  :javascript
+      $(function() {
+          $('#side-menu-helper__link').attr('href', $('[data-behavior=side-menu-todo]').first().data('url'));
+          $('#side-menu-helper__link').text($('[data-behavior=side-menu-todo]').first().data('name'));
+      });

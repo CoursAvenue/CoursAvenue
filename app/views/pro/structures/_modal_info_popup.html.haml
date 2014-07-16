@@ -1,101 +1,25 @@
-.modal-info-popup#modal-info-dashboard.hidden
-  .modal-info-popup__left-arrow.absolute.north.white.soft-half--top
-    %i.fa.fa-chevron-left.fa-2x
-  .modal-info-popup__content
-    %p
-      Parcourez toutes ces rubriques pour compléter votre description, vos cours, vos photos, etc
-    .text--right
-      %a.btn.btn--blue{ data: { behavior: 'show-next', next: '#modal-info-check-info-at-right' } } Suivant
+#helper-modal.hidden.text--center.white.bg-cover{ style: "background-image: url(#{asset_path('pro/home_background3.jpg')});"}
+  .soft
+    %h1.soft-black-text-shadow Bienvenue !
 
-.modal-info-popup#modal-info-check-info-at-right.hidden
-  .modal-info-popup__content
-    %p
-      Besoin d'aide pour renseigner votre profil ? Retrouvez toutes les informations pratiques dans ce bandeau de droite.
-    .text--right
-      %a.btn.btn--blue{ data: { behavior: 'show-next', next: '#modal-info-lets-start' } } Suivant
-  .modal-info-popup__right-arrow.absolute.north.white.soft-half--top
-    %i.fa.fa-chevron-right.fa-2x
+    .inline-block.beta.soft.rounded--circle.orange-box.push--bottom{ style: 'width: 80px; height: 80px; line-height: 40px;'} 7
+    %p.line-height-1-5.delta.f-weight-bold
+      %span.soft-black-text-shadow rubriques à compléter pour finaliser votre profil :
+      %br
+      %span.soft-black-text-shadow retrouvez-les à gauche grâce au signe
+      %i.fa.fa-plus.orange.v-middle
 
-.modal-info-popup#modal-info-mes-infos.hidden
-  .modal-info-popup__left-arrow.absolute.north.white.soft-half--top
-    %i.fa.fa-chevron-left.fa-2x
-  .modal-info-popup__content
-    %p
-      Renseignez vos informations générales, disciplines, lieux d'enseignement et professeurs.
-    .text--right
-      %a.btn.btn--blue{ data: { behavior: 'show-next', next: '#modal-info-mes-avis' } } Suivant
+  %div.soft-black-text-shadow.soft.bg-white-faded
+    %a.btn.btn--bigger.btn--blue{ onclick: '$.fancybox.close()'} Compléter mon profil
 
-.modal-info-popup#modal-info-mes-avis.hidden
-  .modal-info-popup__left-arrow.absolute.north.white.soft-half--top
-    %i.fa.fa-chevron-left.fa-2x
-  .modal-info-popup__content
-    %p
-      Demandez à vos élèves de vous recommander et modérez vos dernières recommandations.
-    .text--right
-      %a.btn.btn--blue{ data: { behavior: 'show-next', next: '#modal-info-mes-cours' } } Suivant
-
-.modal-info-popup#modal-info-mes-cours.hidden
-  .modal-info-popup__left-arrow.absolute.north.white.soft-half--top
-    %i.fa.fa-chevron-left.fa-2x
-  .modal-info-popup__content
-    %p
-      Renseignez votre planning de cours (description, tarifs et planning) pour les rendre visible de tous.
-    .text--right
-      %a.btn.btn--blue{ data: { behavior: 'show-next', next: '#modal-info-mes-photos' } } Suivant
-
-.modal-info-popup#modal-info-mes-photos.hidden
-  .modal-info-popup__left-arrow.absolute.north.white.soft-half--top
-    %i.fa.fa-chevron-left.fa-2x
-  .modal-info-popup__content
-    %p
-      Rendez votre profil attractif en ajoutant des photos et des vidéos.
-    .text--right
-      %a.btn.btn--blue{ data: { behavior: 'show-next', next: '#modal-info-conversation' } } Suivant
-
-.modal-info-popup#modal-info-conversation.hidden
-  .modal-info-popup__left-arrow.absolute.north.white.soft-half--top
-    %i.fa.fa-chevron-left.fa-2x
-  .modal-info-popup__content
-    %p
-      Communiquez efficacement avec vos élèves et gérez vos demandes d'inscription.
-    .text--right
-      %a.btn.btn--blue{ data: { behavior: 'show-next', next: '#modal-info-parainage' } } Suivant
-
-.modal-info-popup#modal-info-parainage.hidden
-  .modal-info-popup__left-arrow.absolute.north.white.soft-half--top
-    %i.fa.fa-chevron-left.fa-2x
-  .modal-info-popup__content
-    %p
-      Vous aimez CoursAvenue ? Invitez d'autres professeurs, associations et écoles à vous rejoindre !
-    .text--right
-      %a.btn.btn--blue{ data: { behavior: 'show-next', next: '#modal-info-lets-start' } } Suivant
-
-.modal-info-popup#modal-info-lets-start.hidden
-  .modal-info-popup__left-arrow.absolute.north.white.soft-half--top
-    %i.fa.fa-chevron-left.fa-2x
-  .modal-info-popup__content
-    %p
-      Commencez par votre logo, puis renseignez ci-dessous toutes vos informations générales
-    .text--right
-      %a.btn.btn--blue{ data: { behavior: 'got-it' } } OK
-
-
-= content_for :scripts do
-  :javascript
-    $(function(){
-        setTimeout(function(){
-            $('#modal-info-dashboard').fadeIn();
-        }, 250);
-        $('[data-behavior=show-next]').click(function(){
-            var $this = $(this);
-            $this.closest('.modal-info-popup').fadeOut();
-            setTimeout(function(){
-              $($this.data('next')).fadeIn();
-            }, 150);
-        });
-        $('[data-behavior=got-it]').click(function(){
-            var $this = $(this);
-            $this.closest('.modal-info-popup').fadeOut();
-            $.cookie('modal_info_popup', true);
-        });
-    });
+  #arrow-helpert.fixed{ style: 'left: 100px; top: 400px;'}
+    .flexbox
+      .flexbox__item.soft--top.soft--right
+        = image_tag 'icons/arrow-white.png', width: 50, class: 'push--top'
+      .flexbox__item.text--center.white.soft-black-text-shadow.delta
+        Retrouvez à gauche toutes
+        %br
+        les rubriques à compléter
+        %br
+        en priorité grâce au signe
+        %i.fa.fa-plus.orange.v-middle

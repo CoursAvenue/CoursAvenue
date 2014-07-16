@@ -1,6 +1,11 @@
 - if current_pro_admin.confirmed_at > Date.yesterday and current_pro_admin.sign_in_count < 2 and !cookies[:modal_info_popup].present?
-  .relative
-    = render 'modal_info_popup'
+  = render 'modal_info_popup'
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          $.fancybox($('#helper-modal'), { padding: 0, maxWidth: 600, minWidth: 600 });
+      });
+
 
 = side_menu_currently_at 'presentation'
 .panel

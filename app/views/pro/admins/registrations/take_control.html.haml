@@ -5,8 +5,8 @@
   .main-container
     %header.grid--full
       .grid__item.four-twelfths.v-bottom.soft--top.relative.visuallyhidden--palm>
-        = link_to structure_url('st-germain-des-arts', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'absolute block', target: :_blank, id: 'emilie-profile', style: 'bottom: -155px; padding-left: 130px;' do
-          = image_tag 'pro/valerie-profile-small.jpg', class: 'block', width: 275
+        = link_to structure_url('st-germain-des-arts', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'absolute block', target: :_blank, id: 'valerie-profile', style: 'bottom: -185px; padding-left: 70px;' do
+          = image_tag 'pro/valerie-profile-small.jpg', class: 'block', width: 375
         = image_tag 'pro/valerie-detour.png', class: 'rounded block', width: 500
       .grid__item.eight-twelfths.v-bottom.soft--top.soft--right.palm-one-whole>
         .center-block#gerer-ce-profil
@@ -18,7 +18,7 @@
               Valérie, Directrice de l'atelier St Germain des Arts à Paris
 
             .soft--left
-              .bg-white.soft.push--left.bordered--top.bordered--right.bordered--left
+              .bg-white.soft.bordered--top.bordered--right.bordered--left{ style: 'margin-left: 100px;' }
                 .grid
                   - if @structure.logo.present?
                     .grid__item.one-quarter.v-middle.text--right>
@@ -48,35 +48,6 @@
                       = f.button :submit, 'Gérer ce profil',  class: 'btn--green btn--large', data: { disable_with: 'Veuillez patienter...' }
                       %br
                       %i.epsilon Gratuit et sans engagement
-
--# .soft.panel-background-blue-radial.relative
--#   .main-container.main-container--medium
--#     .grid
--#       - if @structure.logo.present?
--#         .grid__item.one-twelfth.v-middle>
--#           = image_tag @structure.logo.url(:thumb)
--#       .grid__item.eleven-twelfths.v-middle>
--#         %h1.flush.white.smooth-black-text-shadow
--#           Travaillez-vous pour "#{@structure.name}" ?
--#         %h2.white.smooth-black-text-shadow.push--bottom Choisissez vos identifiants pour gérer votre profil :
--#     = simple_form_for [:pro, @admin], url: pro_admin_registration_path, html: { autocomplete: 'off', class: 'half-form'} do |f|
--#       = f.error_notification
--#       .grid
--#         .grid__item.one-third.text--right.v-middle>
--#           .gamma.white.smooth-black-text-shadow> E-mail
--#         .grid__item.two-thirds.v-middle>
--#           = f.input :email, required: true, autofocus: true, wrapper_html: { class: 'flush--bottom' }, input_html: { class: 'input--large' }, label: false
--#       .grid
--#         .grid__item.one-third.text--right.v-middle>
--#           .gamma.white.smooth-black-text-shadow> Mot de passe
--#         .grid__item.two-thirds.v-middle>
--#           = f.input :password, required: true, input_html: { class: 'input--large' }, label: false
--#       = f.hidden_field :structure_id, as: :hidden, value: @structure.try(:id)
--#       .text--center
--#         = f.button :submit, 'Gérer ce profil',  class: 'btn--green btn--large', data: { disable_with: 'Veuillez patienter...' }
--#         %br
--#         %i.white.smooth-black-text-shadow Gratuit et sans engagement
-
 
 .home-screen-promotion-wrapper.relative
   .main-container.main-container--medium.soft.text--center
@@ -172,10 +143,10 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        $('#emilie-profile').hover(function() {
+        $('#valerie-profile').hover(function() {
             $(this).animate({ bottom:  '0' }, 600, 'easeOutExpo');
         }, function() {
-            $(this).animate({ bottom: '-155px' }, 600, 'easeOutExpo');
+            $(this).animate({ bottom: '-185px' }, 600, 'easeOutExpo');
         });
     });
 
