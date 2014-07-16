@@ -81,7 +81,7 @@ namespace :import do
       structure = Structure.create(name: attributes[:name],
                         subject_ids: subject_ids.uniq,
                         website: attributes[:website],
-                        phone_attributes: phone_attributes,
+                        phone_numbers_attributes: phone_attributes,
                         places_attributes: places_attributes,
                         contact_email: attributes[:emails].first,
                         is_sleeping: true,
