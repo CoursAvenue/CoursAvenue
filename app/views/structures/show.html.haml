@@ -65,9 +65,10 @@
           = render partial: 'structures/contact_form', locals: { structure: @structure }
 
         .panel.push--bottom
-          .panel__header.soft
-            .media-photo= image_tag @structure.logo.url(:large), class: 'block one-whole'
-          - unless @is_sleeping
+          - if @structure.logo.present?
+            .panel__header.soft
+              .media-photo= image_tag @structure.logo.url(:large), class: 'block one-whole'
+          - if !@is_sleeping or @structure.response_rate or @structure.response_time or (@structure.main_contact and @structure.main_contact.current_sign_in_at)
             .panel__body.soft.epsilon
               - if @structure.response_rate
                 .grid--full.soft-half--bottom
