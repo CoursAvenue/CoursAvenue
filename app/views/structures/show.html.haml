@@ -64,30 +64,31 @@
         - unless @is_sleeping
           = render partial: 'structures/contact_form', locals: { structure: @structure }
 
-        .panel.push--bottom
-          - if @structure.logo.present?
-            .panel__header.soft
-              .media-photo= image_tag @structure.logo.url(:large), class: 'block one-whole'
-          - if !@is_sleeping or @structure.response_rate or @structure.response_time or (@structure.main_contact and @structure.main_contact.current_sign_in_at)
-            .panel__body.soft.epsilon
-              - if @structure.response_rate
-                .grid--full.soft-half--bottom
-                  .grid__item.v-middle.one-half.gray>
-                    Taux de réponse
-                  .grid__item.v-middle.one-half>
-                    %strong= "#{@structure.response_rate}%"
-              - if @structure.response_time
-                .grid--full.soft-half--bottom
-                  .grid__item.v-middle.one-half.gray>
-                    Temps de réponse
-                  .grid__item.v-middle.one-half>
-                    %strong= response_time_in_words @structure
-              - if @structure.main_contact and @structure.main_contact.current_sign_in_at
-                .grid--full
-                  .grid__item.v-middle.one-half.gray>
-                    Dernière activité
-                  .grid__item.v-middle.one-half>
-                    %strong= l(@structure.main_contact.current_sign_in_at, format: :date).capitalize
+        - if !@is_sleeping
+          .panel.push--bottom
+            - if @structure.logo.present?
+              .panel__header.soft
+                .media-photo= image_tag @structure.logo.url(:large), class: 'block one-whole'
+            - if @structure.response_rate or @structure.response_time or (@structure.main_contact and @structure.main_contact.current_sign_in_at)
+              .panel__body.soft.epsilon
+                - if @structure.response_rate
+                  .grid--full.soft-half--bottom
+                    .grid__item.v-middle.one-half.gray>
+                      Taux de réponse
+                    .grid__item.v-middle.one-half>
+                      %strong= "#{@structure.response_rate}%"
+                - if @structure.response_time
+                  .grid--full.soft-half--bottom
+                    .grid__item.v-middle.one-half.gray>
+                      Temps de réponse
+                    .grid__item.v-middle.one-half>
+                      %strong= response_time_in_words @structure
+                - if @structure.main_contact and @structure.main_contact.current_sign_in_at
+                  .grid--full
+                    .grid__item.v-middle.one-half.gray>
+                      Dernière activité
+                    .grid__item.v-middle.one-half>
+                      %strong= l(@structure.main_contact.current_sign_in_at, format: :date).capitalize
 
         - unless @is_sleeping
           .panel.push--bottom
@@ -138,6 +139,10 @@
                       %div
                         à
                         = readable_distance(Geocoder::Calculations.distance_between([@structure.latitude, @structure.longitude], [structure.latitude, structure.longitude], unit: :km).round(1))
+
+        - if @is_sleeping and @structure.logo.present?
+          .panel__header.soft
+            .media-photo= image_tag @structure.logo.url(:large), class: 'block one-whole'
 
         - unless @is_sleeping
           %div{ data: { type: "sticky-map" }}>

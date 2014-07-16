@@ -1,7 +1,7 @@
 = content_for :title do
   Prenez le contrôle de votre profil
 
-.relative.soft--sides.bg-cover{ style: "background-image: url(#{asset_path 'pro/home_background5.jpg'})" }
+.relative.soft--sides.bg-cover{ style: "background-image: url(#{asset_path 'pro/home_background5-shadowed.jpg'})" }
   .main-container
     %header.grid--full
       .grid__item.four-twelfths.v-bottom.soft--top.relative.visuallyhidden--palm>
@@ -18,12 +18,12 @@
               Valérie, Directrice de l'atelier St Germain des Arts à Paris
 
             .soft--left
-              .bg-white.soft.bordered--top.bordered--right.bordered--left{ style: 'margin-left: 100px;' }
+              .bg-white-faded.rounded--top.soft{ style: 'margin-left: 100px;' }
                 .grid
                   - if @structure.logo.present?
                     .grid__item.one-quarter.v-middle.text--right>
                       = image_tag @structure.logo.url(:thumb), width: 85
-                  .grid__item.three-quarters.v-middle>
+                  .grid__item.v-middle{ class: (@structure.logo.present? ? 'three-quarters' : 'one-whole')}>
                     %h3.flush
                       Travaillez-vous pour "#{@structure.name}" ?
                     %h4 Choisissez vos identifiants pour gérer votre profil :
@@ -34,12 +34,12 @@
                     .grid__item.one-quarter.text--right.v-middle>
                       %strong.epsilon> E-mail
                     .grid__item.three-quarters.v-middle>
-                      = f.input :email, required: true, autofocus: true, wrapper_html: { class: 'flush--bottom' }, input_html: { class: 'input--large' }, label: false
+                      = f.input :email, required: true, autofocus: true, wrapper_html: { class: 'flush--bottom' }, input_html: { class: 'input--large one-whole' }, label: false
                   .grid
                     .grid__item.one-quarter.text--right.v-middle>
                       %strong.epsilon> Mot de passe
                     .grid__item.three-quarters.v-middle>
-                      = f.input :password, required: true, input_html: { class: 'input--large' }, label: false
+                      = f.input :password, required: true, input_html: { class: 'input--large one-whole' }, label: false
                   = f.hidden_field :structure_id, as: :hidden, value: @structure.try(:id)
                   .grid
                     .grid__item.one-quarter.text--right.v-middle>
@@ -50,22 +50,32 @@
                       %i.epsilon Gratuit et sans engagement
 
 .home-screen-promotion-wrapper.relative
-  .main-container.main-container--medium.soft.text--center
-    %h2.push--bottom.soft--ends.f-weight-300 Rejoignez nos passionnés
-    %p.epsilon
-      CoursAvenue permet à chaque professeur, association, ou école de gagner facilement en
+  .main-container.main-container--medium.soft
+    %h2.push--bottom.soft--ends.f-weight-300.text--center Pourquoi gérer son profil ?
+    .grid.push--bottom
+      .grid__item.one-third.v-top>
+        .text--center.push--bottom
+          = image_tag 'icons/icon-handshake-orange.png', height: 34
+        %p.epsilon
+          Pour recruter gratuitement de nouveaux élèves qui accèdent aux informations que vous renseignez vous-même (téléphone, planning, recommandations d'élèves...)
+      .grid__item.one-third.v-top>
+        .text--center.push--bottom
+          %i.fa.fa-comments.orange.fa-3x
+        %p.epsilon
+          Pour développer votre bouche à oreille sur Internet grâce aux recommandations de vos élèves qui consolident votre réputation.
+      .grid__item.one-third.v-top>
+        .text--center.push--bottom
+          %i.fa.fa-cogs.orange.fa-3x
+        %p.epsilon
+          Pour booster votre communication sur Internet si vous souhaitez remplir vos cours ou en ouvrir de nouveaux
+    %p.text--center.epsilon
+      Prenez le contrôle de votre profil pour le compléter et rejoindre une
       %br
-      visibilité pour recruter de nouveaux élèves. Prenez le contrôle de votre profil pour compléter
-      %br
-      vos informations, votre planning, afficher les recommandations de vos élèves, suivre vos
-      %br
-      statistiques de profil et bien d'autres choses encore. L'inscription est gratuite. Faites partie
-      %br
-      d'une communauté en pleine expansion passionnée par les cours de loisirs.
-    %p
+      communauté en pleine expansion passionnée par les cours de loisirs.
+    %p.text--center
       = link_to 'En savoir plus sur CoursAvenue', root_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
 
-.main-container.main-container--medium.soft--sides
+.main-container.main-container--medium.soft
   %h2.text--center.push--bottom.soft--ends.f-weight-300 Les avantages du profil CoursAvenue
   = render partial: 'pro/shared/free_profile_advantages', locals: { show_all: true }
 
