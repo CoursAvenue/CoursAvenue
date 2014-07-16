@@ -2,7 +2,7 @@
   = form_tag structures_path, method: :get, authenticity_token: false, class: 'header-search-bar--dark', id: 'header-search', data: { gather: true } do
     .header-search-bar.flush--sides
       %div.search-input-wrapper
-        %select.one-whole.epsilon{name: 'subject_id'}
+        %select.one-whole.epsilon{ name: 'root_subject_id' }
           %option{value: ''} Toutes disciplines
           - cache ['home_page_dropdown', Subject.stars] do
             - Subject.stars.each do |subject|
