@@ -1,18 +1,20 @@
-.push-half--ends.center-block{style: 'max-width: 800px;'}
-  .grid--full.visuallyhidden--lap
-    .grid__item.text--center.epsilon.soft-half.relative.v-middle.width-30-percent>
-      = link_to structures_path, class: 'block muted-link pointer white-box soft-half white-box--rounded', data: { toggle: 'popover', content: "Trouvez le cours correspondant à tous vos critères : discipline, lieu, niveau, horaires, prix, etc.", 'original-title' => '', trigger: 'hover', placement: 'top'} do
-        = image_tag "icons/search-geoloc.png", height: 27, class: 'v-middle push-half--right'
-        %span.v-middle 1. Trouvez
-    .grid__item.text--center.relative.v-middle.visuallyhidden--palm{style: 'width: 5%;' }>
-      %i.fa.fa-chevron-right.alpha.smooth-black-text-shadow.white
-    .grid__item.text--center.epsilon.soft-half.relative.v-middle.width-30-percent>
-      .pointer.white-box.soft-half.white-box--rounded{data: { toggle: 'popover', content: "Contactez gratuitement le professeur, l’association ou l'école pour un stage, une 1ère séance ou un cours d'essai gratuit.", placement: 'top', 'original-title' => '', trigger: 'hover' } }
-        %i.fa.fa-phone.gamma.v-middle.push-half--right.line-height-normal
-        %span.v-middle 2. Contactez
-    .grid__item.text--center.relative.v-middle.visuallyhidden--palm{style: 'width: 5%;' }>
-      %i.fa.fa-chevron-right.alpha.smooth-black-text-shadow.white
-    .grid__item.text--center.epsilon.soft-half.relative.v-middle.width-30-percent>
-      .pointer.white-box.soft-half.white-box--rounded{data: { toggle: 'popover', content: "Une fois inscrit, assistez au cours puis laissez votre témoignage : votre expérience est précieuse pour les prochains élèves !", placement: 'top', trigger: 'hover', 'original-title' => '' } }
-        %i.fa.fa-check.gamma.v-middle.push-half--right.line-height-normal
-        %span.v-middle 3. Assistez au cours
+.main-container.soft
+  .push--sides
+    %h2.soft--bottom.text--center.f-weight-300 Les avantages de CoursAvenue
+    .grid--full
+      .grid__item.one-twelfth.text--right.soft--right>
+        = image_tag 'icons/icon-handshake-circle.png', width: 70
+      .grid__item.three-twelfths>
+        %h4.push-half--bottom Mise en relation gratuite
+        %p.epsilon Contactez gratuitement chaque profil. Comme vous, nous détestons les numéros surtaxés.
+      .grid__item.one-twelfth.text--right.soft--right>
+        = image_tag 'icons/icon-promotion-circle.png', width: 70
+      .grid__item.three-twelfths>
+        %h4.push-half--bottom Essais gratuits & promotions
+        %p.epsilon
+          Bénéficiez de cours d'essai gratuits et d'offres exclusives.
+      .grid__item.one-twelfth.text--right.soft--right>
+        = image_tag 'icons/icon-money-circle.png', width: 70
+      .grid__item.three-twelfths>
+        %h4.push-half--bottom Pas de paiement en ligne
+        %p.epsilon Payez directement votre professeur lors de votre séance.
