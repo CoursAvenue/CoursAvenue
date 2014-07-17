@@ -27,11 +27,11 @@
 
             %div{ class: (selected_profile[:hidden_by_form] ? '' : 'soft--left') }
               .bg-white-faded.rounded--top.soft.hard--left{ style: (selected_profile[:hidden_by_form] ? '' : 'margin-left: 100px;') }
-                .grid
+                .grid--full
                   - if @structure.logo.present?
-                    .grid__item.one-quarter.v-middle.text--right>
+                    .grid__item.one-quarter.v-middle.text--right.soft--left>
                       = image_tag @structure.logo.url(:thumb), width: 85
-                  .grid__item.v-middle{ class: (@structure.logo.present? ? 'three-quarters' : 'one-whole')}>
+                  .grid__item.v-middle.soft--left{ class: (@structure.logo.present? ? 'three-quarters' : 'one-whole')}>
                     %h3.flush
                       Travaillez-vous pour "#{@structure.name}" ?
                     %h4 Choisissez vos identifiants pour gérer votre profil :
