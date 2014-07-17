@@ -24,7 +24,7 @@ namespace :import do
   desc 'Import structures'
   task :structures, [:filename] => :environment do |t, args|
     file_name = args.filename || 'Export/import_dormants.csv'
-    bar = ProgressBar.new 2619
+    bar = ProgressBar.new 1783
     # csv_text = File.read(file_name)
     # csv = CSV.parse(csv_text, { col_sep: ";" })
     # csv.each_with_index do |row, i|
@@ -43,7 +43,6 @@ namespace :import do
           break
         end
       end
-      next if attributes[:key] == '2364'
       next if already_exists
       # Getting cities
       attributes[:cities] = []
