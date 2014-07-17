@@ -38,11 +38,14 @@
         init: function() {
             this.caret_icon = this.$element.find('i');
             this.toggled_el = this.$element.find(this.$element.data('el'));
+            if (this.toggled_el.length == 0) {
+                this.toggled_el = $(this.$element.data('el'));
+            }
             this.attachEvents();
         },
 
         attachEvents: function() {
-            var is_hidden = this.toggled_el.hasClass('hide');
+            var is_hidden = this.toggled_el.hasClass('hide') || this.toggled_el.hasClass('hidden');
             if (is_hidden) {
                 this.toggled_el.slideUp(0);
                 this.toggled_el.removeClass('hide');
