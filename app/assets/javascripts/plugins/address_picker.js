@@ -79,6 +79,7 @@
             this.$element.typeahead({
                 highlight : true,
                 minLength: 1,
+                autoselect: true
             }, {
                 displayKey: 'address_name',
                 templates: {
