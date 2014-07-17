@@ -29,7 +29,9 @@ namespace :import do
     # csv = CSV.parse(csv_text, { col_sep: ";" })
     # csv.each_with_index do |row, i|
     first = true
-    CSV.foreach(file_name, { col_sep: ";" }) do |row|
+    # CSV.foreach(file_name, { col_sep: ";" }) do |row|
+    url = 'http://coursavenue-public.s3.amazonaws.com/import_dormants.csv'
+    CSV.foreach(open(url), { col_sep: ";" }) do |row|
       if first
         first = false
         next
@@ -78,6 +80,7 @@ namespace :import do
         subject_ids << subject.id
         subject_ids << subject.root.id
       end
+      puts attributes
       structure = Structure.create(name: attributes[:name],
                                     subject_ids: subject_ids.uniq,
                                     website: attributes[:website],
@@ -86,7 +89,6 @@ namespace :import do
                                     contact_email: attributes[:emails].first,
                                     is_sleeping: true,
                                     other_emails: attributes[:emails][0..-1].join(';'))
-      puts attributes
       unless structure.persisted?
         puts "#{attributes[:key]} : #{attributes[:name]}\n#{structure.errors.full_messages.to_sentence}\n\n"
       else
