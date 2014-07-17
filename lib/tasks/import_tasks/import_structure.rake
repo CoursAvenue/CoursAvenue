@@ -43,6 +43,7 @@ namespace :import do
           break
         end
       end
+      next if attributes[:key] == '2364'
       next if already_exists
       # Getting cities
       attributes[:cities] = []
@@ -79,30 +80,29 @@ namespace :import do
         subject_ids << subject.root.id
       end
       structure = Structure.create(name: attributes[:name],
-                        subject_ids: subject_ids.uniq,
-                        website: attributes[:website],
-                        phone_numbers_attributes: phone_attributes,
-                        places_attributes: places_attributes,
-                        contact_email: attributes[:emails].first,
-                        is_sleeping: true,
-                        other_emails: attributes[:emails][0..-1].join(';'))
-      puts attributes[:key]
+                                    subject_ids: subject_ids.uniq,
+                                    website: attributes[:website],
+                                    phone_numbers_attributes: phone_attributes,
+                                    places_attributes: places_attributes,
+                                    contact_email: attributes[:emails].first,
+                                    is_sleeping: true,
+                                    other_emails: attributes[:emails][0..-1].join(';'))
+      puts attributes
       unless structure.persisted?
         puts "#{attributes[:key]} : #{attributes[:name]}\n#{structure.errors.full_messages.to_sentence}\n\n"
-      # else
-      #   begin
-      #     url = URI.parse("http://coursavenue-public.s3.amazonaws.com/Logos_Paris/#{attributes[:key]}.png")
-      #     req = Net::HTTP.new(url.host, url.port)
-      #     res = req.request_head(url.path)
-      #     if res.code == "200"
-      #       structure.logo = url
-      #       structure.save
-      #     end
-      #   rescue Exception => exception
-      #     Bugsnag.notify(exception)
-      #   end
+      else
+        begin
+          url = URI.parse("http://coursavenue-public.s3.amazonaws.com/Logos_Paris/#{attributes[:key]}.png")
+          req = Net::HTTP.new(url.host, url.port)
+          res = req.request_head(url.path)
+          if res.code == "200"
+            structure.logo = url
+            structure.save
+          end
+        rescue Exception => exception
+          Bugsnag.notify(exception)
+        end
       end
     end
   end
 end
-
