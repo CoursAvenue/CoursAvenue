@@ -61,7 +61,7 @@ namespace :import do
           name: attributes[:cities][index].name,
           street: attributes[:streets][index],
           zip_code: zip_code,
-          city_id: attributes[:cities][index].id,
+          city_id: attributes[:cities][index].id
         }
       end
       phone_attributes = []
@@ -86,6 +86,7 @@ namespace :import do
                         contact_email: attributes[:emails].first,
                         is_sleeping: true,
                         other_emails: attributes[:emails][0..-1].join(';'))
+      puts attributes[:key]
       unless structure.persisted?
         puts "#{attributes[:key]} : #{attributes[:name]}\n#{structure.errors.full_messages.to_sentence}\n\n"
       else
