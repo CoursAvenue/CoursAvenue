@@ -20,219 +20,114 @@
 = content_for :meta_description do
   Donnez votre avis sur #{@structure.name}
 
-.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background.jpg'})" }
-  .main-container.main-container--medium.soft.text--center
-    %header
-      %h1.flush
-        Donnez votre avis
-      .delta.line-height-1-7
-        Votre expérience est précieuse pour les autres élèves. Merci !
-.soft.panel-background-blue-radial
-  .main-container
-    = simple_form_for @comment, url: structure_comments_path(@structure), as: :comment, data: { recover: "comment" } do |f|
-      = f.hidden_field :commentable_type
-      = f.hidden_field :commentable_id
+-# .soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background.jpg'})" }
+-#   .main-container.main-container--medium.soft.text--center
+-#     %header
+-#       %h1.flush
+-#         Donnez votre avis
+-#       .delta.line-height-1-7
+-#         Votre expérience est précieuse pour les autres élèves. Merci !
+-# .soft.panel-background-blue-radial
+-#   .main-container
+-#     = simple_form_for @comment, url: structure_comments_path(@structure), as: :comment, data: { recover: "comment" } do |f|
+-#       = f.hidden_field :commentable_type
+-#       = f.hidden_field :commentable_id
 
-      .gamma.white.smooth-black-text-shadow.text--center.push--bottom>
-        %i.fa.fa-eye
-        Public
-      .grid.push--bottom
-        .grid__item.one-third.text--right.v-middle>
-          .gamma.white.smooth-black-text-shadow> Nom du cours suivi *
-        .grid__item.two-thirds.v-middle{ style: 'max-width: 600px;'}>
-          = f.input :course_name, label: false, wrapper_html: { class: 'flush' }, placeholder: 'Ex. : Stage de danse jazz new style pour ado du jeudi soir', input_html: { class: 'input--large one-whole' }
-      .grid.push--bottom
-        .grid__item.one-third.text--right.v-middle>
-          .gamma.white.smooth-black-text-shadow> Titre de votre avis *
-        .grid__item.two-thirds.v-middle{ style: 'max-width: 600px;'}>
-          = f.input :title, label: false, wrapper_html: { class: 'flush' }, placeholder: "Ex. : Un professeur toujours à l'écoute", input_html: { class: 'input--large one-whole' }
+-#       .gamma.white.smooth-black-text-shadow.text--center.push--bottom>
+-#         %i.fa.fa-eye
+-#         Public
+-#       .grid.push--bottom
+-#         .grid__item.one-third.text--right.v-middle>
+-#           .gamma.white.smooth-black-text-shadow> Nom du cours suivi *
+-#         .grid__item.two-thirds.v-middle{ style: 'max-width: 600px;'}>
+-#           = f.input :course_name, label: false, wrapper_html: { class: 'flush' }, placeholder: 'Ex. : Stage de danse jazz new style pour ado du jeudi soir', input_html: { class: 'input--large one-whole' }
+-#       .grid.push--bottom
+-#         .grid__item.one-third.text--right.v-middle>
+-#           .gamma.white.smooth-black-text-shadow> Titre de votre avis *
+-#         .grid__item.two-thirds.v-middle{ style: 'max-width: 600px;'}>
+-#           = f.input :title, label: false, wrapper_html: { class: 'flush' }, placeholder: "Ex. : Un professeur toujours à l'écoute", input_html: { class: 'input--large one-whole' }
 
-      .grid.push--bottom
-        .grid__item.one-third.text--right.v-middle>
-          .gamma.white.smooth-black-text-shadow> Disciplines associées
-        .grid__item.two-thirds.v-middle{ style: 'max-width: 600px;'}>
-          = f.association :subjects, as: :select, collection: @structure.subjects.at_depth(2).uniq, multiple: true, input_html: { class: 'input--large multiple-select one-whole hard', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' } }, label: false, wrapper_html: { class: 'flush' }
+-#       .grid.push--bottom
+-#         .grid__item.one-third.text--right.v-middle>
+-#           .gamma.white.smooth-black-text-shadow> Disciplines associées
+-#         .grid__item.two-thirds.v-middle{ style: 'max-width: 600px;'}>
+-#           = f.association :subjects, as: :select, collection: @structure.subjects.at_depth(2).uniq, multiple: true, input_html: { class: 'input--large multiple-select one-whole hard', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' } }, label: false, wrapper_html: { class: 'flush' }
 
-      .grid.push--bottom
-        .grid__item.one-third.text--right.v-top>
-          .gamma.white.smooth-black-text-shadow> Votre avis *
-        .grid__item.two-thirds.v-top.white.smooth-black-text-shadow{ style: 'max-width: 600px;'}>
-          = f.input :content, label: false, input_html: { style: 'height: 150px;', class: 'input--large one-whole', data: { behavior: 'text-counter', 'average-words-nb' => Comment::Review::MIN_NB_WORD_CONTENT, 'good-words-nb' => 60, 'bad-text' => "Votre avis doit comporter au moins #{Comment::Review::MIN_NB_WORD_CONTENT} mots.", 'average-text' => 'Encore quelques mots et votre professeur sera enchanté !', 'good-text' => "Là c'est certain, votre professeur va adorer !"}}, wrapper_html: { class: 'flush' }, required: true
-      -# %p.field-form-info.flush
-      -#   = link_to 'Astuces pour un avis utile', '#', id: 'show_comments_trick'
-      - unless current_user
-        .grid.push--bottom
-          .grid__item.one-third.text--right.v-middle>
-            .gamma.white.smooth-black-text-shadow> Votre nom / pseudo *
-          .grid__item.two-thirds.v-middle{ style: 'max-width: 600px;'}>
-            = f.input :author_name, required: true, placeholder: 'Ex. : Stéphanie P.', input_html: { class: 'input--large one-whole' }, label: false, wrapper_html: { class: 'flush' }
-      %hr.hr--blue.push--top
-      .gamma.white.smooth-black-text-shadow.text--center.push--bottom>
-        %i.fa.fa-lock
-        Privé
-      - unless current_user
-        .grid.push--bottom
-          .grid__item.one-third.text--right.v-middle>
-            .gamma.white.smooth-black-text-shadow> Votre e-mail *
-          .grid__item.two-thirds.v-middle{ style: 'max-width: 600px;'}>
-            = f.input :email, label: false, required: true, placeholder: "Votre email ne sera visible que par votre professeur", input_html: { value: (params[:comment].present? ? params[:comment][:email] : params[:email]), class: 'input--large one-whole' }
-
-      .gamma.white.smooth-black-text-shadow.text--center.push--bottom>
-        %i.fa.fa-envelope
-        Message personnel
-      .grid.push--bottom
-        .grid__item.one-third.text--right.v-middle>
-          .gamma.white.smooth-black-text-shadow> Objet
-        .grid__item.two-thirds.v-middle{ style: 'max-width: 600px;'}>
-          = text_field_tag :subject, params[:subject], placeholder: "Ex. : Merci d'avoir pensé à moi !", class: 'input--large one-whole'
-      .grid.push--bottom
-        .grid__item.one-third.text--right.v-top>
-          .gamma.white.smooth-black-text-shadow> Message
-        .grid__item.two-thirds.v-top{ style: 'max-width: 600px;'}>
-          = text_area_tag :private_message, (params[:private_message] || default_fake_message.sample), class: 'input--large one-whole', style: 'height: 100px', data: { behavior: 'autoresize' }
-      .text--center
-        = f.submit 'Publier mon avis', class: 'btn btn--large btn--green btn--full', data: { disable_with: "En cours de publication..." }
-
-      -# #comment_tricks.hidden
-      -#   .alert--info
-      -#     %b Astuces pour un avis utile.
-      -#     %p.flush Rédigez votre avis en répondant aux questions suivantes :
-      -#     %ul
-      -#       %li Depuis quand suivez-vous ce cours ? / Quand avez-vous suivi ce stage ?
-      -#       %li Quelle est la principale qualité du professeur ?
-      -#       %li Qu’est-ce qui rend ce cours différent des autres ?
-      -#       %li Qu’est-ce que vous avez tiré de ce cours ou de ce stage ? Quels en sont les bénéfices (mieux dans mon corps, moins stressé(e), etc.) ?
-      -#       %li Concrètement, qu’est-ce que vous faites aujourd’hui grâce à ce que vous avez appris ?
-      -#       %li Comment vous êtes-vous senti(e) à la fin du dernier cours ou stage ?
-      -#       %li Racontez une anecdote sympa à partager aux futurs élèves !
-
-.main-container.main-conainer--medium.soft
-  - if @comments.any?
-    %h2.text--center.push--bottom.soft--ends.f-weight-300 Derniers avis à propos de #{@structure.name}
-  - else
-    %h2.text--center.push--bottom.soft--ends.f-weight-300 Derniers avis sur CoursAvenue
-  - (@comments || Comment::Review.accepted.order('created_at DESC').limit(4)).in_groups_of(2, false).each do |review_group|
-    .grid.push--bottom
-      - review_group.each do |review|
-        .grid__item.one-half.palm-one-whole.lap-one-half>
-          .flexbox.push--bottom
-            .flexbox__item.soft--left.v-top.text--center>
-              = link_to structure_url(review.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block media-photo', target: :_blank, class: 'muted-link' do
-                = image_tag review.user.avatar_url(:thumb), class: 'block rounded--circle', width: 60
-              .milli.soft-half--top
-                = review.author_name
-            .flexbox__item.soft--sides.v-top>
-              .message__body.soft-half.message__appendix.gray-box
-                %p.epsilon.push-half--bottom.quoted
-                  %strong= review.title
-                %p.flush
-                  = truncate(review.content, length: 500)
-
-
-
-= content_for :scripts do
-  :javascript
-    $(function() {
-        $('#comment_content').textareaResizer();
-        $('#show_comments_trick').click(function() {
-            $('#comment_tricks').slideToggle();
-        });
-    });
-
--# --------------- OLD
-
--# = content_for :meta_description do
--#   = "Merci d'avance pour tous vos témoignages."
-
--# .grid.push-half--top
--#   .grid__item.two-thirds>
--#     .grid
--#       .grid__item.one-eighth>
--#         = link_to structure_path(@structure), class: 'muted-link', target: :_blank do
--#           = image_tag @structure.logo.url(:thumb)
--#       .grid__item.seven-eighths>
--#         %h2.flush--bottom.small-margin-bottom
--#           = link_to @structure.name, structure_path(@structure), class: 'semi-muted-link', target: :_blank
--#           = link_to structure_path(@structure), class: 'btn btn--small push-half--left', target: :_blank do
--#             %i.fa.fa-external-link
--#             Voir le profil
--#         %h4 Votre expérience est précieuse pour les autres élèves. Merci !
--#     .islet.white-box.two-thrids.center-block
--#       = simple_form_for @comment, url: structure_comments_path(@structure), as: :comment, data: { recover: "comment" } do |f|
--#         = f.error_notification
--#         = f.hidden_field :commentable_type
--#         = f.hidden_field :commentable_id
--#         - if @comment.errors.any?
--#           %br
--#           %p.alert.alert-error
--#             - @comment.errors.full_messages.each_with_index do |message, index|
--#               - if index != 0
--#                 %br
--#               = message
-
--#         .input
--#           %label.control-label
--#             .lbl.lbl--blue
--#               %i.fa.fa-eye.soft-half--right
--#               Public
--#           %h5.inline
--#             Déposez votre avis visible de tous
--#         = f.input :course_name, label_html: { class: 'label--large v-top' }, wrapper_html: { class: 'flush--bottom' }, placeholder: 'Ex. : Stage de danse jazz new style pour ado du jeudi soir', input_html: { class: 'input--large' }
--#         = f.input :title, label_html: { class: 'v-top label--large' }, wrapper_html: {class: 'flush--bottom'}, placeholder: "Ex. : Un professeur toujours à l'écoute", input_html: { class: 'input--large' }
-
--#         = f.association :subjects, as: :select, collection: @structure.subjects.at_depth(2).uniq, multiple: true, input_html: { class: 'input--large multiple-select', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' } }, label_html: { class: 'label--large'}
-
--#         .input.flush--bottom<
--#           = f.label :content, class: 'v-top label--large'
+-#       .grid.push--bottom
+-#         .grid__item.one-third.text--right.v-top>
+-#           .gamma.white.smooth-black-text-shadow> Votre avis *
+-#         .grid__item.two-thirds.v-top.white.smooth-black-text-shadow{ style: 'max-width: 600px;'}>
 -#           = f.input :content, label: false, input_html: { style: 'height: 150px;', class: 'input--large one-whole', data: { behavior: 'text-counter', 'average-words-nb' => Comment::Review::MIN_NB_WORD_CONTENT, 'good-words-nb' => 60, 'bad-text' => "Votre avis doit comporter au moins #{Comment::Review::MIN_NB_WORD_CONTENT} mots.", 'average-text' => 'Encore quelques mots et votre professeur sera enchanté !', 'good-text' => "Là c'est certain, votre professeur va adorer !"}}, wrapper_html: { class: 'flush' }, required: true
--#         %p.field-form-info.flush
--#           = link_to 'Astuces pour un avis utile', '#', id: 'show_comments_trick'
--#         - unless current_user
--#           = f.input :author_name, label_html: { class: 'v-middle label--large' }, required: true, placeholder: 'Ex. : Stéphanie P.', input_html: { class: 'input--large' }
--#         %hr.push--top
--#         .input
--#           %label.control-label
--#             .lbl.lbl--gray
--#               %i.fa.fa-lock.soft-half--right
--#               Privé
--#           %h5.inline
--#             Informations visibles uniquement par votre professeur
--#         - unless current_user
--#           = f.input :email, label_html: { class: 'v-top label--large' }, required: true, placeholder: "Votre email ne sera visible que par votre professeur", input_html: { value: (params[:comment].present? ? params[:comment][:email] : params[:email]), class: 'input--large' }
--#         .input.push-half--bottom
--#           %label.control-label.text>
--#             %strong Message personnel
--#         .input
--#           %label.label--large.control-label.text> Objet
--#           = text_field_tag :subject, params[:subject], placeholder: "Ex. : Merci d'avoir pensé à moi !", class: 'input--large'
--#         .input
--#           %label.label--large.control-label.text> Message
--#           = text_area_tag :private_message, (params[:private_message] || default_fake_message.sample), class: 'text', style: 'height: 100px', data: { behavior: 'autoresize' }, class: 'input--large'
--#         .text--center
--#           = f.submit 'Publier mon avis', class: 'btn btn--large btn--green btn--full', data: { disable_with: "En cours de publication..." }
+-#       -# %p.field-form-info.flush
+-#       -#   = link_to 'Astuces pour un avis utile', '#', id: 'show_comments_trick'
+-#       - unless current_user
+-#         .grid.push--bottom
+-#           .grid__item.one-third.text--right.v-middle>
+-#             .gamma.white.smooth-black-text-shadow> Votre nom / pseudo *
+-#           .grid__item.two-thirds.v-middle{ style: 'max-width: 600px;'}>
+-#             = f.input :author_name, required: true, placeholder: 'Ex. : Stéphanie P.', input_html: { class: 'input--large one-whole' }, label: false, wrapper_html: { class: 'flush' }
+-#       %hr.hr--blue.push--top
+-#       .gamma.white.smooth-black-text-shadow.text--center.push--bottom>
+-#         %i.fa.fa-lock
+-#         Privé
+-#       - unless current_user
+-#         .grid.push--bottom
+-#           .grid__item.one-third.text--right.v-middle>
+-#             .gamma.white.smooth-black-text-shadow> Votre e-mail *
+-#           .grid__item.two-thirds.v-middle{ style: 'max-width: 600px;'}>
+-#             = f.input :email, label: false, required: true, placeholder: "Votre email ne sera visible que par votre professeur", input_html: { value: (params[:comment].present? ? params[:comment][:email] : params[:email]), class: 'input--large one-whole' }
 
--#   .grid__item.one-third>
--#     #comment_tricks.hidden
--#       .alert--info
--#         %b Astuces pour un avis utile.
--#         %p.flush Rédigez votre avis en répondant aux questions suivantes :
--#         %ul
--#           %li Depuis quand suivez-vous ce cours ? / Quand avez-vous suivi ce stage ?
--#           %li Quelle est la principale qualité du professeur ?
--#           %li Qu’est-ce qui rend ce cours différent des autres ?
--#           %li Qu’est-ce que vous avez tiré de ce cours ou de ce stage ? Quels en sont les bénéfices (mieux dans mon corps, moins stressé(e), etc.) ?
--#           %li Concrètement, qu’est-ce que vous faites aujourd’hui grâce à ce que vous avez appris ?
--#           %li Comment vous êtes-vous senti(e) à la fin du dernier cours ou stage ?
--#           %li Racontez une anecdote sympa à partager aux futurs élèves !
--#     .bordered--left.soft--left
--#       - if @comments.any?
--#         %h4 Derniers avis sur cet établissement
--#         %ul.comment-list.milli
--#           = render partial: 'comments/comment', collection: @comments, locals: { small_avatar: true }
--#       - else
--#         %h4 Derniers avis sur CoursAvenue
--#         %ul.comment-list.milli
--#           = render partial: 'comments/comment', collection: Comment::Review.accepted.order('created_at DESC').limit(4), locals: {small_avatar: true}
+-#       .gamma.white.smooth-black-text-shadow.text--center.push--bottom>
+-#         %i.fa.fa-envelope
+-#         Message personnel
+-#       .grid.push--bottom
+-#         .grid__item.one-third.text--right.v-middle>
+-#           .gamma.white.smooth-black-text-shadow> Objet
+-#         .grid__item.two-thirds.v-middle{ style: 'max-width: 600px;'}>
+-#           = text_field_tag :subject, params[:subject], placeholder: "Ex. : Merci d'avoir pensé à moi !", class: 'input--large one-whole'
+-#       .grid.push--bottom
+-#         .grid__item.one-third.text--right.v-top>
+-#           .gamma.white.smooth-black-text-shadow> Message
+-#         .grid__item.two-thirds.v-top{ style: 'max-width: 600px;'}>
+-#           = text_area_tag :private_message, (params[:private_message] || default_fake_message.sample), class: 'input--large one-whole', style: 'height: 100px', data: { behavior: 'autoresize' }
+-#       .text--center
+-#         = f.submit 'Publier mon avis', class: 'btn btn--large btn--green btn--full', data: { disable_with: "En cours de publication..." }
+
+-#       -# #comment_tricks.hidden
+-#       -#   .alert--info
+-#       -#     %b Astuces pour un avis utile.
+-#       -#     %p.flush Rédigez votre avis en répondant aux questions suivantes :
+-#       -#     %ul
+-#       -#       %li Depuis quand suivez-vous ce cours ? / Quand avez-vous suivi ce stage ?
+-#       -#       %li Quelle est la principale qualité du professeur ?
+-#       -#       %li Qu’est-ce qui rend ce cours différent des autres ?
+-#       -#       %li Qu’est-ce que vous avez tiré de ce cours ou de ce stage ? Quels en sont les bénéfices (mieux dans mon corps, moins stressé(e), etc.) ?
+-#       -#       %li Concrètement, qu’est-ce que vous faites aujourd’hui grâce à ce que vous avez appris ?
+-#       -#       %li Comment vous êtes-vous senti(e) à la fin du dernier cours ou stage ?
+-#       -#       %li Racontez une anecdote sympa à partager aux futurs élèves !
+
+-# .main-container.main-conainer--medium.soft
+-#   - if @comments.any?
+-#     %h2.text--center.push--bottom.soft--ends.f-weight-300 Derniers avis à propos de #{@structure.name}
+-#   - else
+-#     %h2.text--center.push--bottom.soft--ends.f-weight-300 Derniers avis sur CoursAvenue
+-#   - (@comments || Comment::Review.accepted.order('created_at DESC').limit(4)).in_groups_of(2, false).each do |review_group|
+-#     .grid.push--bottom
+-#       - review_group.each do |review|
+-#         .grid__item.one-half.palm-one-whole.lap-one-half>
+-#           .flexbox.push--bottom
+-#             .flexbox__item.soft--left.v-top.text--center>
+-#               = link_to structure_url(review.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block media-photo', target: :_blank, class: 'muted-link' do
+-#                 = image_tag review.user, class: 'block rounded--circle', width: 60
+-#               .milli.soft-half--top
+-#                 = review.author_name
+-#             .flexbox__item.soft--sides.v-top>
+-#               .message__body.soft-half.message__appendix.gray-box
+-#                 %p.epsilon.push-half--bottom.quoted
+-#                   %strong= review.title
+-#                 %p.flush
+-#                   = truncate(review.content, length: 500)
+
 
 
 -# = content_for :scripts do
@@ -243,3 +138,107 @@
 -#             $('#comment_tricks').slideToggle();
 -#         });
 -#     });
+
+-# --------------- OLD
+
+= content_for :meta_description do
+  = "Merci d'avance pour tous vos témoignages."
+.main-container
+  .grid.push-half--top
+    .grid__item.two-thirds>
+      .grid
+        .grid__item.one-eighth>
+          = link_to structure_path(@structure), class: 'muted-link', target: :_blank do
+            = image_tag @structure.logo.url(:thumb)
+        .grid__item.seven-eighths>
+          %h2.flush--bottom.small-margin-bottom
+            = link_to @structure.name, structure_path(@structure), class: 'semi-muted-link', target: :_blank
+            = link_to structure_path(@structure), class: 'btn btn--small push-half--left', target: :_blank do
+              %i.fa.fa-external-link
+              Voir le profil
+          %h4 Votre expérience est précieuse pour les autres élèves. Merci !
+      .islet.white-box.two-thrids.center-block
+        = simple_form_for @comment, url: structure_comments_path(@structure), as: :comment, data: { recover: "comment" } do |f|
+          = f.error_notification
+          = f.hidden_field :commentable_type
+          = f.hidden_field :commentable_id
+          - if @comment.errors.any?
+            %br
+            %p.alert.alert-error
+              - @comment.errors.full_messages.each_with_index do |message, index|
+                - if index != 0
+                  %br
+                = message
+
+          .input
+            %label.control-label
+              .lbl.lbl--blue
+                %i.fa.fa-eye.soft-half--right
+                Public
+            %h5.inline
+              Déposez votre avis visible de tous
+          = f.input :course_name, label_html: { class: 'label--large v-top' }, wrapper_html: { class: 'flush--bottom' }, placeholder: 'Ex. : Stage de danse jazz new style pour ado du jeudi soir', input_html: { class: 'input--large' }
+          = f.input :title, label_html: { class: 'v-top label--large' }, wrapper_html: {class: 'flush--bottom'}, placeholder: "Ex. : Un professeur toujours à l'écoute", input_html: { class: 'input--large' }
+
+          = f.association :subjects, as: :select, collection: @structure.subjects.at_depth(2).uniq, multiple: true, input_html: { class: 'input--large multiple-select', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' } }, label_html: { class: 'label--large'}
+
+          .input.flush--bottom<
+            = f.label :content, class: 'v-top label--large'
+            = f.input :content, label: false, input_html: { style: 'height: 150px;', class: 'input--large one-whole', data: { behavior: 'text-counter', 'average-words-nb' => Comment::Review::MIN_NB_WORD_CONTENT, 'good-words-nb' => 60, 'bad-text' => "Votre avis doit comporter au moins #{Comment::Review::MIN_NB_WORD_CONTENT} mots.", 'average-text' => 'Encore quelques mots et votre professeur sera enchanté !', 'good-text' => "Là c'est certain, votre professeur va adorer !"}}, wrapper_html: { class: 'flush' }, required: true
+          %p.field-form-info.flush
+            = link_to 'Astuces pour un avis utile', '#', id: 'show_comments_trick'
+          - unless current_user
+            = f.input :author_name, label_html: { class: 'v-middle label--large' }, required: true, placeholder: 'Ex. : Stéphanie P.', input_html: { class: 'input--large' }
+          %hr.push--top
+          .input
+            %label.control-label
+              .lbl.lbl--gray
+                %i.fa.fa-lock.soft-half--right
+                Privé
+            %h5.inline
+              Informations visibles uniquement par votre professeur
+          - unless current_user
+            = f.input :email, label_html: { class: 'v-top label--large' }, required: true, placeholder: "Votre email ne sera visible que par votre professeur", input_html: { value: (params[:comment].present? ? params[:comment][:email] : params[:email]), class: 'input--large' }
+          .input.push-half--bottom
+            %label.control-label.text>
+              %strong Message personnel
+          .input
+            %label.label--large.control-label.text> Objet
+            = text_field_tag :subject, params[:subject], placeholder: "Ex. : Merci d'avoir pensé à moi !", class: 'input--large'
+          .input
+            %label.label--large.control-label.text> Message
+            = text_area_tag :private_message, (params[:private_message] || default_fake_message.sample), class: 'text', style: 'height: 100px', data: { behavior: 'autoresize' }, class: 'input--large'
+          .text--center
+            = f.submit 'Publier mon avis', class: 'btn btn--large btn--green btn--full', data: { disable_with: "En cours de publication..." }
+
+    .grid__item.one-third>
+      #comment_tricks.hidden
+        .alert--info
+          %b Astuces pour un avis utile.
+          %p.flush Rédigez votre avis en répondant aux questions suivantes :
+          %ul
+            %li Depuis quand suivez-vous ce cours ? / Quand avez-vous suivi ce stage ?
+            %li Quelle est la principale qualité du professeur ?
+            %li Qu’est-ce qui rend ce cours différent des autres ?
+            %li Qu’est-ce que vous avez tiré de ce cours ou de ce stage ? Quels en sont les bénéfices (mieux dans mon corps, moins stressé(e), etc.) ?
+            %li Concrètement, qu’est-ce que vous faites aujourd’hui grâce à ce que vous avez appris ?
+            %li Comment vous êtes-vous senti(e) à la fin du dernier cours ou stage ?
+            %li Racontez une anecdote sympa à partager aux futurs élèves !
+      .bordered--left.soft--left
+        - if @comments.any?
+          %h4 Derniers avis sur cet établissement
+          %ul.comment-list.milli
+            = render partial: 'comments/comment', collection: @comments, locals: { small_avatar: true }
+        - else
+          %h4 Derniers avis sur CoursAvenue
+          %ul.comment-list.milli
+            = render partial: 'comments/comment', collection: Comment::Review.accepted.order('created_at DESC').limit(4), locals: {small_avatar: true}
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('#comment_content').textareaResizer();
+        $('#show_comments_trick').click(function() {
+            $('#comment_tricks').slideToggle();
+        });
+    });
