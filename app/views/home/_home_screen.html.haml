@@ -10,14 +10,16 @@
       Trouvez votre cours de loisir idéal.
     %h4.push--bottom.soft-black-text-shadow
       Parmi plus de 10 000 cours recommandés par les élèves.
-    = render 'shared/home_page_search_form'
+    .push--bottom.soft--bottom
+      = render 'shared/home_page_search_form'
 
-    .relative.bg-cover{style: "background-image: url('#{asset_path('home-page/video_thumbnail.jpg')}'); width: 175px; height: 120px;"}>
+    .relative.bg-cover{style: "background-image: url('#{asset_path('home-page/video_thumbnail.jpg')}'); width: 150px; height: 75px;"}>
       = link_to 'https://www.youtube.com/watch?v=t7-PIg-YsHg', class: 'block show-on-hover__wrapper', data: { behavior: 'fancy', height: 560, width: 1000 } do
-        .home-screen-gallery__title.text--center.push-half--top.soft--top
+        .home-screen-gallery__title.text--center
+          %i.fa.fa-youtube-play.fa-2x
           .show-on-hover__child.milli Voir la vidéo
     .push-half--bottom
-      = link_to 'Comment ça marche', 'javascript:void(0);', class: 'btn btn--small btn--full', style: 'width: 175px;', data: { behavior: 'toggleable', el: '#comment-ca-marche' }
+      = link_to 'Comment ça marche', 'javascript:void(0);', class: 'btn btn--small btn--full rounded-top--none', style: 'width: 150px; font-size: 11px;', data: { behavior: 'toggleable', el: '#comment-ca-marche' }
 
   - if @last_comment
     .home-screen-comment.visuallyhidden--palm.soft-black-text-shadow
@@ -38,30 +40,6 @@
 
 .main-container.main-container--medium.hidden#comment-ca-marche
   .soft.push
-    .grid
-      .grid__item.one-third>
-        .flexbox
-          .flexbox__item.one-fifth.v-middle.soft--right>
-            = image_tag 'icons/icon-search-circle.png', width: 70
-          .flexbox__item.four-fifths.v-middle>
-            %h3.push-half--bottom.f-weight-300 Repérez
-            %p.epsilon les associations, écoles et professeurs près de vous.
-      .grid__item.one-third>
-        .flexbox
-          .flexbox__item.one-fifth.v-middle.soft--right>
-            = image_tag 'icons/icon-user-circle.png', width: 70
-          .flexbox__item.four-fifths.v-middle>
-            %h3.push-half--bottom.f-weight-300 Choisissez
-            %p.epsilon
-              les cours de votre choix.
-              %br
-              %br
-      .grid__item.one-third>
-        .flexbox
-          .flexbox__item.one-fifth.v-middle.soft--right>
-            = image_tag 'icons/icon-check-circle.png', width: 70
-          .flexbox__item.four-fifths.v-middle>
-            %h3.push-half--bottom.f-weight-300 Contactez
-            %p.epsilon gratuitement pour une première séance.
+    = render 'how_it_works'
     .text--center.epsilon
-      = link_to 'En savoir plus', '#'
+      = link_to 'En savoir plus', pages_what_is_it_path

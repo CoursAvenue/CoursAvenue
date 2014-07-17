@@ -74,6 +74,7 @@
 }
 // Rounded
 .rounded--none    { @include border-radius(0!important); }
+.rounded-top--none{ @include border-top-radius(0!important); }
 .rounded          { @include border-radius($brand-round); }
 .rounded--top     { @include border-top-radius($brand-round); }
 .rounded--bottom  { @include border-bottom-radius($brand-round); }
