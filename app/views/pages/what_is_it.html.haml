@@ -1,0 +1,128 @@
+= content_for :title do
+  Qu'est-ce que CoursAvenue
+
+- profiles = [{ name: "Elodie, passionnée de salsa à Paris", bg: 'home_backgrounds/danse.jpg', image_name: 'mary', quote: "J'ai longtemps cherché un cours de salsa qui remplirait tous mes critères. J'ai enfin trouvé sur CoursAvenue une superbe association à deux pas de chez moi.", image_width: 260 }]
+
+- profiles << { name: "Alain Pons, formateur en photographie à Clermont-Ferrand", slug: 'alain-pons-photographe', bg: 'pro/home_background_alain.jpg', image_name: 'alain', quote: "Gérer ma présence sur Internet relève du quotidien. Grâce à CoursAvenue, c'est devenu simple et je peux enfin me consacrer à la qualité de mes cours.", image_width: 450, profile_style: '62' }
+
+- selected_profile = profiles.first
+
+.home-screen-promotion-wrapper.soft--sides.white.bg-cover{ style: "background-image: url(#{asset_path(selected_profile[:bg])})" }
+  .main-container
+    %header.grid--full
+      .grid__item.soft--top.v-bottom.relative.visuallyhidden--palm{ class: ( selected_profile[:medium] ? 'three-tenths' : 'five-twelfths')}>
+        = image_tag "www/testimonies/#{selected_profile[:image_name]}.png", class: 'block', width: selected_profile[:image_width], style: 'margin-left: auto'
+      .grid__item.v-bottom.soft--ends.palm-one-whole.relative{ class: ( selected_profile[:medium] ? 'seven-tenths' : 'seven-twelfths')}>
+        .center-block
+          .soft--top.white.soft-black-text-shadow
+            %p.gamma.line-height-1-5.push-half--bottom
+              %strong.quoted<
+                = selected_profile[:quote].html_safe
+            %p.f-style-italic
+              = selected_profile[:name]
+        .soft--left.push--left.soft--right.push--right
+          .soft--left
+            %h1.flush.soft-black-text-shadow
+              Vos loisirs sont vos passions
+            .push-half--bottom.soft-black-text-shadow
+              Nous avons tous des passions plus ou moins cachées, une soif d'apprendre et une curiosité naturelle pour les arts, le bien-être et le sport. Avec CoursAvenue, partez à la découverte de tous les cours de loisirs qui vous entourent.
+            = render 'shared/home_page_search_form'
+
+.main-container.main-container--medium
+  .soft.push
+    %h2.text--center.soft--bottom.f-weight-300 Comment ça marche ?
+    = render 'home/how_it_works'
+
+.bg-cover{ style: "background-image: url(#{asset_path 'home_backgrounds/dessin-peinture-arts-plastiques.jpg'}); min-height: 430px;" }
+  .main-container.main-container--medium.soft--ends
+    %h2.text--center.push--bottom.soft--ends.soft-black-text-shadow.white Plus de 5 000 élèves recommandent leurs cours
+    %ul.comments.no-bullet-list
+      - CommentSearch.search(per_page: 8, has_avatar: true, has_title: true).results.in_groups_of(2, false).each do |review_group|
+        %li.grid
+          - review_group.each do |review|
+            .grid__item.one-half.palm-one-whole.lap-one-half>
+              .flexbox.push--bottom
+                .flexbox__item.soft--left.v-top.text--center>
+                  = link_to structure_url(review.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block media-photo', target: :_blank, class: 'muted-link' do
+                    = image_tag review.user.avatar_url(:thumb), class: 'block rounded--circle', width: 60
+                  .milli.soft-half--top.white.soft-black-text-shadow
+                    = review.author_name
+                .flexbox__item.soft--sides.v-top>
+                  .message__body.soft-half.message__appendix.gray-box
+                    %p.epsilon.push-half--bottom.quoted
+                      %strong= review.title
+                    %p
+                      = truncate(review.content, length: 500)
+                    %p.text--right.flush
+                      %i
+                        À propos de
+                        = link_to review.structure.name, structure_url(review.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank
+
+
+= render 'home/guide'
+
+.home-screen-promotion-wrapper
+  .main-container.main-container--medium.soft.push--ends
+    .grid
+      .grid__item.v-top.one-half.soft--right>
+        %h2.soft--bottom.f-weight-300 CoursAvenue en vidéo
+        .relative.bg-cover{style: "background-image: url('#{asset_path('home-page/video_thumbnail.jpg')}'); width: 100%; height: 260px;"}>
+          = link_to 'https://www.youtube.com/watch?v=t7-PIg-YsHg', class: 'block show-on-hover__wrapper', data: { behavior: 'fancy', height: 560, width: 1000 } do
+            .home-screen-gallery__title.text--center{ style: 'margin-top: -2em;'}
+              %i.fa.fa-youtube-play.fa-3x
+              .show-on-hover__child Voir la vidéo
+
+      .grid__item.v-top.one-half>
+        %h2.soft--bottom.f-weight-300
+          La réponse est
+          %strong « oui »
+        .flexbox.epsilon.push-half--bottom
+          .flexbox__item.v-middle.soft-half--right
+            %i.fa.fa-check.green.fa-2x
+          .flexbox__item.v-middle.line-height-1-7.one-whole
+            Est-ce que CoursAvenue est gratuit ?
+        .flexbox.epsilon.push-half--bottom
+          .flexbox__item.v-middle.soft-half--right
+            %i.fa.fa-check.green.fa-2x
+          .flexbox__item.v-middle.line-height-1-7.one-whole
+            Est-ce que CoursAvenue permet également de trouver des cours pour enfants ou séniors ?
+        .flexbox.epsilon.push-half--bottom
+          .flexbox__item.v-middle.soft-half--right
+            %i.fa.fa-check.green.fa-2x
+          .flexbox__item.v-middle.line-height-1-7.one-whole
+            Est-ce que CoursAvenue couvre tous les différents types de loisirs, partout en France ?
+        .flexbox.epsilon.push-half--bottom
+          .flexbox__item.v-middle.soft-half--right
+            %i.fa.fa-check.green.fa-2x
+          .flexbox__item.v-middle.line-height-1-7.one-whole
+            Si je me crée un compte, est-ce que mes informations sont protégées et jamais divulguées ?
+        .flexbox.epsilon.push-half--bottom
+          .flexbox__item.v-middle.soft-half--right
+            %i.fa.fa-check.green.fa-2x
+          .flexbox__item.v-middle.line-height-1-7.one-whole
+            A-t-on accès aux cours d'essai gratuits et à des offres promotionnelles ?
+        .flexbox.epsilon.push-half--bottom
+          .flexbox__item.v-middle.soft-half--right
+            %i.fa.fa-check.green.fa-2x
+          .flexbox__item.v-middle.line-height-1-7.one-whole
+            Est-ce que je suis sûr de ne pas payer plus cher qu'en passant directement par le professeur ?
+        .flexbox.epsilon.push-half--bottom
+          .flexbox__item.v-middle.soft-half--right
+            %i.fa.fa-check.green.fa-2x
+          .flexbox__item.v-middle.line-height-1-7.one-whole
+            Est-ce que je peux contacter autant de professeurs, associations ou écoles que je le souhaite ?
+        .flexbox.epsilon.push-half--bottom
+          .flexbox__item.v-middle.soft-half--right
+            %i.fa.fa-check.green.fa-2x
+          .flexbox__item.v-middle.line-height-1-7.one-whole
+            Sur le moteur de recherche CoursAvenue, est-ce que je peux filtrer les cours selon plusieurs critères comme les horaires, les prix, les niveaux, les âges... ?
+
+= content_for :scripts do
+  :javascript
+      $(function() {
+          $(".comments").responsiveSlides({
+              timeout: 7000,
+              pager: true,           // Boolean: Show pager, true or false
+              pauseControls: true    // Boolean: Pause when hovering controls, true or false
+          });
+      });
