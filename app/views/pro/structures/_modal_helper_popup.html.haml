@@ -30,7 +30,11 @@
       .line-height-1-5.delta.f-weight-bold.soft--left{ data: { behavior: 'side-menu-todo', url: regular_pro_structure_courses_path(@structure), name: 'Mettre à jour mon planning' } }
         = link_to regular_pro_structure_courses_path(@structure), class: 'semi-muted-link' do
           %i.fa.fa-plus.orange
-          %span.soft-black-text-shadow Mettre à jour le planning de mes cours
+          %span.soft-black-text-shadow Mettre à jour le planning de mes cours réguliers
+      .line-height-1-5.delta.f-weight-bold.soft--left{ data: { behavior: 'side-menu-todo', url: regular_pro_structure_courses_path(@structure), name: 'Mettre à jour mon planning' } }
+        = link_to trainings_pro_structure_courses_path(@structure), class: 'semi-muted-link' do
+          %i.fa.fa-plus.orange
+          %span.soft-black-text-shadow Mettre à jour le planning de mes stages
     - if @structure.price_groups.empty?
       .line-height-1-5.delta.f-weight-bold.soft--left{ data: { behavior: 'side-menu-todo', url: pro_structure_price_groups_path(@structure), name: 'Mettre à jour mes tarifs' } }
         = link_to pro_structure_price_groups_path(@structure), class: 'semi-muted-link' do
