@@ -7,6 +7,19 @@ class Pro::StructuresController < Pro::ProController
 
   respond_to :json
 
+  # GET collection
+  def sleepings
+    @structures = StructureSearch.search({ is_sleeping: true, has_admin: true}).results
+  end
+
+  # PUT member
+  # Changed is_sleeping from true to false
+  def wake_up
+    @structure = Structure.find params[:id]
+    @structure.wake_up!
+    redirect_to pro_structure_path(@structure), notice: 'Le profil est réveillé !'
+  end
+
   # GET member
   # Set the widget status
   # params

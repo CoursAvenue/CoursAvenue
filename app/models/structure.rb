@@ -149,7 +149,6 @@ class Structure < ActiveRecord::Base
   before_save   :encode_uris
   before_save   :reset_cropping_attributes, if: :logo_has_changed?
 
-
   after_save    :geocode_if_needs_to
   after_save    :update_email_status
   after_save    :subscribe_to_nutshell
@@ -158,6 +157,7 @@ class Structure < ActiveRecord::Base
   # Solr                                                               #
   ######################################################################
   searchable do
+
     integer :search_score do
       compute_search_score
     end
@@ -227,10 +227,6 @@ class Structure < ActiveRecord::Base
 
     boolean :has_premium_prices
 
-    boolean :active do
-      self.active
-    end
-
     integer :nb_courses do
       courses.count
     end
@@ -243,6 +239,9 @@ class Structure < ActiveRecord::Base
     boolean :has_logo do
       self.logo?
     end
+
+    boolean :is_sleeping
+
     boolean :has_admin do
       self.has_admin?
     end
@@ -867,6 +866,18 @@ class Structure < ActiveRecord::Base
       self.save
       return score
     end
+  end
+
+  #
+  # Set is_sleeping to false and sends an email to the teacher to tell him
+  # that CoursAvenue team has validated his profile.
+  #
+  # @return Boolean saved or not
+  def wake_up!
+    self.is_sleeping = false
+    saved = self.save
+    AdminMailer.delay.you_have_control_of_your_account(self)
+    saved
   end
 
   private

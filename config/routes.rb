@@ -104,6 +104,7 @@ CoursAvenue::Application.routes.draw do
           get   :recommendations, path: 'recommendations'
           get   :signature
           get   :update_widget_status
+          patch :wake_up
           get   :widget
           get   :wizard
           get   :widget_jpo
@@ -115,6 +116,7 @@ CoursAvenue::Application.routes.draw do
         end
         collection do
           get :payment_confirmation_be2bill, path: 'confirmation-paiement'
+          get :sleepings
           get :stars
           get :best
           get :inscription, to: :new

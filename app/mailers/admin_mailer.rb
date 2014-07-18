@@ -261,6 +261,19 @@ class AdminMailer < ActionMailer::Base
     end
   end
 
+  def you_have_control_of_your_account(structure)
+    return if structure.contact_email.blank?
+    @structure        = structure
+    mail to: structure.contact_email,
+         subject: "Prenez le contrôle de votre profil"
+  end
+
+  def you_have_control_of_your_account(structure)
+    @structure        = structure
+    mail to: structure.main_contact.email,
+         subject: "Votre profil est maintenant à vous !"
+  end
+
   ######################################################################
   # To CoursAvenue team                                                #
   ######################################################################
