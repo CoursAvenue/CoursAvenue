@@ -5,7 +5,7 @@
 - else
   - url = asset_path "pro/home_background#{[2,3,4,5,6,7].sample}.jpg"
 .home-screen.soft--top.white.bg-cover{ style: "background-image: url(#{url})" }
-  .main-container.soft-half--bottom
+  .main-container.main-container--medium.soft-half--bottom
     %h1.soft--top.soft-black-text-shadow.flush
       Trouvez votre cours de loisir idéal.
     %h4.push--bottom.soft-black-text-shadow
@@ -18,8 +18,8 @@
         .home-screen-gallery__title.text--center
           %i.fa.fa-youtube-play.fa-2x
           .show-on-hover__child.milli Voir la vidéo
-    .push-half--bottom
-      = link_to 'Comment ça marche', 'javascript:void(0);', class: 'btn btn--small btn--full rounded-top--none', style: 'width: 150px; font-size: 11px;', data: { behavior: 'toggleable', el: '#comment-ca-marche' }
+    .push-half--bottom.very-soft.hard--sides
+      = link_to 'Comment ça marche', 'javascript:void(0);', class: 'btn btn--small btn--full', style: 'width: 150px; font-size: 11px;', data: { behavior: 'toggleable', el: '#comment-ca-marche' }
 
   - if @last_comment
     .home-screen-comment.visuallyhidden--palm.soft-black-text-shadow
@@ -36,7 +36,7 @@
           .milli
             = link_to "Avis rédigé par #{@last_comment.author_name} il y a #{distance_of_time_in_words_to_now(@last_comment.created_at)}", structure_path(@last_comment.structure), class: 'muted-link'
           %strong
-            = @last_comment.course_name.capitalize
+            = truncate(@last_comment.course_name.capitalize, length: 65)
 
 .main-container.main-container--medium.hidden#comment-ca-marche
   .soft.push

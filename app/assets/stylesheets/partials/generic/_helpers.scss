@@ -219,6 +219,12 @@
     }
 }
 
+.palm-hard {
+    @include media-query(palm) {
+        padding: 0 !important;
+    }
+}
+
 .print--visible {
     @media only screen {
         display: none;

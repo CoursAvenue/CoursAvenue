@@ -14,7 +14,7 @@
         @media screen and (max-width: 600px) and (min-width: $lap-start) {
             width: 12em;
         }
-        width: 19em;
+        min-width: 19em;
     }
 
     @include media-query(palm) { display: block; };

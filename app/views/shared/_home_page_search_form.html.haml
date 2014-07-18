@@ -2,15 +2,15 @@
   = form_tag structures_path, method: :get, authenticity_token: false, id: 'header-search', data: { gather: true } do
     .header-search-bar.relative.flexbox.rounded.very-soft
       .flexbox__item.v-middle.search-input-wrapper
-        %select.input--large.one-whole{ name: 'root_subject_id' }
+        %select.palm-one-whole.input--large.one-whole{ name: 'root_subject_id' }
           %option{value: ''} Toutes disciplines
           - cache ['home_page_dropdown', Subject.stars] do
             - Subject.stars.each do |subject|
               %option{value: subject.slug}= subject.name
           %option{value: 'other'} Autres
-      .flexbox__item.v-middle.search-input-wrapper.soft-half--sides
+      .flexbox__item.v-middle.search-input-wrapper.soft-half--sides.palm-hard
         .input-with-icon
-          %input.input--large#address-picker.one-whole.soft-half--left{ size: 25, placeholder:'Ville / CP / Adresse', type:'text', autocomplete: 'off', name:'address_name', value: 'Paris', data: {behavior:'address-picker', lng:'#address-lng',lat: '#address-lat', city: '#address-city' } }
+          %input.palm-one-whole.input--large#address-picker.one-whole.soft-half--left{ size: 25, placeholder:'Ville / CP / Adresse', type:'text', autocomplete: 'off', name:'address_name', value: 'Paris', data: {behavior:'address-picker', lng:'#address-lng',lat: '#address-lat', city: '#address-city' } }
           %i.fa.fa-map-marker.delta
         %input#address-lat{type: 'hidden', value: '48.8592', name: 'lat'}
         %input#address-lng{type: 'hidden', value: '2.3417', name: 'lng'}

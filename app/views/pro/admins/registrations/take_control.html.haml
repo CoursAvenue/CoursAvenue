@@ -4,7 +4,7 @@
 - profiles = [{ name: "Valérie, Directrice de l'atelier St Germain des Arts à Paris", slug: 'st-germain-des-arts', bg: 'pro/home_background5-shadowed.jpg', profile_name: 'valerie', image_name: 'valerie', quote: "J'ai débloqué le profil CoursAvenue de notre atelier d'arts plastiques pour afficher le planning de nos cours. Quelques jours après, nous avons reçu nos premières demandes.", image_width: 470, image_profile_width: 375, profile_bottom: 185, image_style: 'margin-left: -50px;'}]
 - profiles << { name: "Alain Pons, formateur en photographie à Clermont-Ferrand", slug: 'alain-pons-photographe', bg: 'pro/home_background_alain.jpg', profile_name: 'alain', image_name: 'alain-2', quote: "En prenant le contrôle de mon profil, j'ai reçu les premières recommandations de mes élèves. J'ai alors gagné en visibilité sur CoursAvenue et sur Internet en général", image_width: 300, image_profile_width: 375, profile_bottom: 230 }
 
-- selected_profile = profiles.first
+- selected_profile = profiles.sample
 - # In order not to see alain in pro home page
 - if selected_profile[:slug] == 'alain-pons-photographe'
   - cookies[:have_seen_alain] = true
@@ -27,12 +27,12 @@
 
           .soft--top
             %div
-              .bg-white-faded.rounded--top.soft.hard--left
+              .bg-white-faded.rounded--top.soft.hard--left{ style: 'max-width: 650px;' }
                 .grid--full
                   - if @structure.logo.present?
-                    .grid__item.one-quarter.v-top.text--right.soft--left>
+                    .grid__item.one-fifth.v-top.text--right.soft--left>
                       = image_tag @structure.logo.url(:thumb), width: 85
-                  .grid__item.v-top.soft--left{ class: (@structure.logo.present? ? 'three-quarters' : 'one-whole')}>
+                  .grid__item.v-top.soft--left{ class: (@structure.logo.present? ? 'four-fifths' : 'one-whole')}>
                     %h3.flush
                       Travaillez-vous pour "#{@structure.name}" ?
                     %h4 Choisissez vos identifiants pour gérer votre profil :
@@ -40,20 +40,20 @@
                 = simple_form_for [:pro, @admin], url: pro_admin_registration_path, html: { autocomplete: 'off', class: 'half-form'} do |f|
                   = f.error_notification
                   .grid
-                    .grid__item.one-quarter.text--right.v-middle>
+                    .grid__item.one-fifth.text--right.v-middle>
                       %strong.epsilon> E-mail
-                    .grid__item.three-quarters.v-middle>
+                    .grid__item.four-fifths.v-middle>
                       = f.input :email, required: true, autofocus: true, wrapper_html: { class: 'flush--bottom' }, input_html: { class: 'input--large one-whole' }, label: false
                   .grid
-                    .grid__item.one-quarter.text--right.v-middle>
+                    .grid__item.one-fifth.text--right.v-middle>
                       %strong.epsilon> Mot de passe
-                    .grid__item.three-quarters.v-middle>
+                    .grid__item.four-fifths.v-middle>
                       = f.input :password, required: true, input_html: { class: 'input--large one-whole' }, label: false
                   = f.hidden_field :structure_id, as: :hidden, value: @structure.try(:id)
                   .grid
-                    .grid__item.one-quarter.text--right.v-middle>
+                    .grid__item.one-fifth.text--right.v-middle>
                       &nbsp;
-                    .grid__item.three-quarters.v-middle>
+                    .grid__item.four-fifths.v-middle>
                       = f.button :submit, 'Gérer ce profil',  class: 'btn--green btn--large', data: { disable_with: 'Veuillez patienter...' }
                       %br
                       %i.epsilon Gratuit et sans engagement
@@ -62,19 +62,19 @@
   .main-container.soft
     %h2.push--bottom.soft--ends.f-weight-300.text--center Pourquoi gérer son profil ?
     .grid.push--bottom.text--center
-      .grid__item.one-third.v-top>
+      .grid__item.one-third.v-top.palm-one-whole>
         .push--bottom
           = image_tag 'icons/icon-handshake-orange.png', height: 34
         %h4.push-half--bottom Pour le compléter
         %p.epsilon
           Grâce à vos identifiants, connectez-vous à tout moment à votre profil pour le compléter : planning de cours, photos, avis de vos élèves...
-      .grid__item.one-third.v-top>
+      .grid__item.one-third.v-top.palm-one-whole>
         .push--bottom
           %i.fa.fa-comments.orange.fa-3x
         %h4.push-half--bottom Pour recruter des élèves
         %p.epsilon
           Renseignez toutes vos coordonnées de manière à ce que les utilisateurs CoursAvenue puissent vous contacter gratuitement
-      .grid__item.one-third.v-top>
+      .grid__item.one-third.v-top.palm-one-whole>
         .push--bottom
           %i.fa.fa-bullhorn.orange.fa-3x
         %h4.push-half--bottom Pour développer votre bouche à oreille
