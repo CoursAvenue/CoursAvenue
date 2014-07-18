@@ -5,10 +5,11 @@ class Pro::Admins::RegistrationsController < Devise::RegistrationsController
   def new
     @structure = Structure.where(slug: params[:structure_id]).first
     if @structure
-      @admin = @structure.admins.build(email: @structure.contact_email)
       if @structure.is_sleeping?
+        @admin = @structure.admins.build
         render template: 'pro/admins/registrations/take_control'
       else
+        @admin = @structure.admins.build(email: @structure.contact_email)
         render
       end
     else

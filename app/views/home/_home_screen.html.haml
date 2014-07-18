@@ -1,6 +1,5 @@
 - if @last_comment
   - slug = @last_comment.structure.subjects.at_depth(0).first.slug
-  - slug = 'musique-chant'
   - url = asset_path "home_backgrounds/#{slug}.jpg"
 - else
   - url = asset_path "pro/home_background#{[2,3,4,5,6,7].sample}.jpg"
