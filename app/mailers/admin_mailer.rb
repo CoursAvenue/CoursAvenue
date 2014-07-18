@@ -261,7 +261,7 @@ class AdminMailer < ActionMailer::Base
     end
   end
 
-  def you_have_control_of_your_account(structure)
+  def take_control_of_your_account(structure)
     return if structure.contact_email.blank?
     @structure        = structure
     mail to: structure.contact_email,

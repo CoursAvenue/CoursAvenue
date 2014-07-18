@@ -68,7 +68,7 @@ class Structure < ActiveRecord::Base
                   :place_ids, :name, :info, :registration_info,
                   :website, :facebook_url,
                   :contact_email,
-                  :description, :subject_ids, :active,
+                  :description, :subject_ids, :active, # active: for tests profile, eg. L'atelier de Nima, etc.
                   :has_validated_conditions,
                   :validated_by, :logo,
                   :funding_type_ids,
@@ -241,6 +241,7 @@ class Structure < ActiveRecord::Base
     end
 
     boolean :is_sleeping
+    boolean :active
 
     boolean :has_admin do
       self.has_admin?

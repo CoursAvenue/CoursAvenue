@@ -49,7 +49,7 @@ class StructureSearch
 
       with :is_sleeping,  params[:is_sleeping]                                      if params.has_key? :is_sleeping
       with :has_admin,    params[:has_admin]                                        if params.has_key? :has_admin
-
+      with :active, true
 
       with :has_logo,                params[:has_logo]                              if params[:has_logo].present?
 
@@ -98,7 +98,7 @@ class StructureSearch
                                           }).results
       # If there is not enough with the same subjects
     end
-    @structures = @structures.flatten
+    @structures = @structures.flatten.uniq
     if @structures.length < limit
       @structures << StructureSearch.search({lat: structure.latitude,
                                              lng: structure.longitude,
@@ -120,7 +120,7 @@ class StructureSearch
                                              per_page: (limit - @structures.length)
                                           }).results
     end
-    @structures = @structures.flatten
+    @structures = @structures.flatten.uniq
     return @structures[0..(limit - 1)]
   end
 end
