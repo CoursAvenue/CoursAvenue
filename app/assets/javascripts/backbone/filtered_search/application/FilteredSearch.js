@@ -83,7 +83,6 @@ FilteredSearch.addInitializer(function(options) {
     /* basic filters */
     results_summary            = new FiltersModule.ResultsSummaryView({});
     keyword_filter             = new FiltersModule.KeywordFilterView({});
-    subject_filter             = new FiltersModule.SubjectFilterView({});
     subjects_collection_filter = new FiltersModule.Subjects.SubjectsCollectionView({ collection: subjects });
     location_filter            = new FiltersModule.LocationFilterView({});
 
@@ -146,7 +145,6 @@ FilteredSearch.addInitializer(function(options) {
 
     layout.showWidget(subjects_collection_filter);
     layout.showWidget(location_filter);
-    layout.showWidget(subject_filter);
     layout.showWidget(results_summary);
 
     layout.showWidget(keyword_filter,        { events: { 'breadcrumbs:clear:search_term':     'clear'} });
