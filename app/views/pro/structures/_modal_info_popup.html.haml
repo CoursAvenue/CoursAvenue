@@ -10,7 +10,7 @@
       %i.fa.fa-plus.orange.v-middle
 
   %div.soft-black-text-shadow.soft.bg-white-faded
-    %a.btn.btn--bigger.btn--blue{ onclick: '$.fancybox.close()'} Compléter mon profil
+    %a.btn.btn--bigger.btn--blue{ onclick: "$.cookie('modal_info_popup', true); $.fancybox.close()"} Compléter mon profil
 
   #arrow-helpert.fixed{ style: 'left: 100px; top: 400px;'}
     .flexbox

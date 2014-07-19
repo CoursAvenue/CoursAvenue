@@ -244,4 +244,8 @@ Devise.setup do |config|
   # When using omniauth, Devise cannot automatically set Omniauth path,
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = "/my_engine/users/auth"
+  Devise::Mailer.class_eval do
+    helper :structures # include "StructuresHelper", adjust to suit your needs
+  end
+
 end

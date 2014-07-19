@@ -1,8 +1,8 @@
 = content_for :title do
   Développez votre bouche à oreille sur Internet
 
-- profiles = [{ name: "Emilie, Professeur de yoga chez Yoga Sattva Paris.", slug: 'yoga-sattva-paris', bg: 'pro/home_background.jpg', image_name: 'emilie', quote: "Communiquer sur Internet me prenait trop de temps, <br> je m'éparpillais sans résultat. Avec CoursAvenue, c'est intuitif et efficace, en accord avec mes valeurs.", image_width: 350, profile_style: '58', medium: true }]
-- profiles << { name: "Alain Pons, formateur en photographie à Clermont-Ferrand", slug: 'alain-pons-photographe', bg: 'pro/home_background_alain.jpg', image_name: 'alain', quote: "Ma présence sur Internet demande un travail quotidien que je ne peux pas faire par manque de temps. Sur CoursAvenue, c'est simple et très pratique et je peux enfin me consacrer à 100% à la qualité de mes cours et stages.", image_width: 450, profile_style: '62' }
+- profiles = [{ name: "Emilie, Professeur de yoga chez Yoga Sattva Paris", slug: 'yoga-sattva-paris', bg: 'pro/home_background.jpg', image_name: 'emilie', quote: "Communiquer sur Internet me prenait trop de temps, <br> je m'éparpillais sans résultat. Avec CoursAvenue, c'est intuitif et efficace, en accord avec mes valeurs.", image_width: 350, profile_style: '58', medium: true }]
+- profiles << { name: "Alain Pons, formateur en photographie à Clermont-Ferrand", slug: 'alain-pons-photographe', bg: 'pro/home_background_alain.jpg', image_name: 'alain', quote: "Gérer ma présence sur Internet relève du quotidien. Grâce à CoursAvenue, c'est devenu simple et je peux enfin me consacrer à la qualité de mes cours.", image_width: 450, profile_style: '62' }
 
 - if cookies[:have_seen_alain]
   - selected_profile = profiles.first
@@ -12,7 +12,7 @@
 .home-screen-promotion-wrapper.soft--sides.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path(selected_profile[:bg])})" }
   .main-container{ class: ( selected_profile[:medium] ? 'main-container--medium' : '')}
     %header.grid--full
-      .grid__item.v-bottom.relative.visuallyhidden--palm{ class: ( selected_profile[:medium] ? 'three-tenths' : 'five-twelfths')}>
+      .grid__item.soft--top.v-bottom.relative.visuallyhidden--palm{ class: ( selected_profile[:medium] ? 'three-tenths' : 'five-twelfths')}>
         = link_to structure_url(selected_profile[:slug], subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'absolute', target: :_blank, id: 'emilie-profile', style: "bottom: -155px; left: #{selected_profile[:profile_style]}%; margin-left: -137px;" do
           = image_tag "pro/testimonies/#{selected_profile[:image_name]}-profile-small.jpg", class: 'block', width: 275
         = image_tag "pro/testimonies/#{selected_profile[:image_name]}-detour.png", class: 'block', width: selected_profile[:image_width], style: 'margin-left: auto'
@@ -62,7 +62,7 @@
         %p.gamma.white.soft-black-text-shadow
           %strong Recrutez
         %p.white.soft-black-text-shadow.epsilon
-          %strong Les élèves intéressés par vos cours prennent contact gratuitement avec vous
+          %strong Les élèves intéressés par vos cours prennent gratuitement contact avec vous
     .text--center
       = link_to "Commencer !", inscription_pro_structures_path, class: 'btn btn--green'
 
@@ -122,9 +122,9 @@
   :javascript
     $(function() {
         $('#emilie-profile').hover(function() {
-            $(this).animate({ bottom:  '0' }, 600, 'easeOutExpo');
+            $(this).stop(true, true).animate({ bottom:  '0' }, 600, 'easeOutExpo');
         }, function() {
-            $(this).animate({ bottom: '-155px' }, 600, 'easeOutExpo');
+            $(this).stop(true, true).animate({ bottom: '-155px' }, 600, 'easeOutExpo');
         });
     });
 

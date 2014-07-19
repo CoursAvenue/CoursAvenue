@@ -52,10 +52,6 @@
     .home-page-search {
         position        : relative;
         z-index         : 5;
-        .header-search-bar {
-            margin-left : auto;
-            margin-right: auto;
-        }
     }
 
 .home-screen-promotion-wrapper--blue {
@@ -76,69 +72,4 @@
         .course-block {
             margin-bottom: 1em;
         }
-    }
-.newsletter-form {
-    position        : relative;
-    display         : inline-block;
-    background-color: #ebe8e6;
-    padding         : 1em;
-    top             : -2.5em;
-    margin-bottom   : -2.5em;
-    @include border-radius($brand-round);
-    p {
-        font-size   : 0.9em;
-        margin-right: 1em;
-    }
-}
-
-.home-screen-button {
-    font-weight     : bold;
-    font-size       : 1.5em;
-    color           : #FFF;
-    background-color: $blue-green;
-    background-color: transparentize($blue-green, 0.2);
-    height          : 8em;
-    @include border-radius(5em);
-    width           : 8em;
-    margin          : auto;
-    img {
-        padding: 1em 0 0.6em 0;
-        display: block;
-        width  : 40px;
-        margin : auto;
-    }
-}
-
-.home-screen-subjects {
-    text-align      : center;
-    width           : 100%;
-    z-index         : 1;
-    padding         : 1em 0;
-    position        : relative;
-}
-    .home-screen-subjects__item {
-        display : block;
-        width   : 200px;
-        margin  : 0 auto;
-        position: relative;
-        overflow: hidden;
-        border   : 3px solid #DDD;
-        @include border-radius(100px);
-        img {
-            display: block;
-            width  : 100%;
-        }
-    }
-    .home-screen-subjects__title {
-        bottom          : 0;
-        font-size       : 15px;
-        position        : absolute;
-        background-color: $blue-green;
-        background-color: transparentize($blue-green, 0.2);
-        color           : white;
-        width           : 100%;
-        text-align      : center;
-        padding-top     : em;
-        padding-bottom  : 2em;
-        @include transition(bottom 200ms ease-in);
     }

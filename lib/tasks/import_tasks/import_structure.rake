@@ -24,12 +24,14 @@ namespace :import do
   desc 'Import structures'
   task :structures, [:filename] => :environment do |t, args|
     file_name = args.filename || 'Export/import_dormants.csv'
-    bar = ProgressBar.new 2619
+    bar = ProgressBar.new 1783
     # csv_text = File.read(file_name)
     # csv = CSV.parse(csv_text, { col_sep: ";" })
     # csv.each_with_index do |row, i|
     first = true
-    CSV.foreach(file_name, { col_sep: ";" }) do |row|
+    # CSV.foreach(file_name, { col_sep: ";" }) do |row|
+    url = 'http://coursavenue-public.s3.amazonaws.com/import_dormants.csv'
+    CSV.foreach(open(url), { col_sep: ";" }) do |row|
       if first
         first = false
         next
@@ -61,7 +63,7 @@ namespace :import do
           name: attributes[:cities][index].name,
           street: attributes[:streets][index],
           zip_code: zip_code,
-          city_id: attributes[:cities][index].id,
+          city_id: attributes[:cities][index].id
         }
       end
       phone_attributes = []
@@ -78,21 +80,30 @@ namespace :import do
         subject_ids << subject.id
         subject_ids << subject.root.id
       end
+      puts attributes
       structure = Structure.create(name: attributes[:name],
-                        subject_ids: subject_ids.uniq,
-                        website: attributes[:website],
-                        phone_attributes: phone_attributes,
-                        places_attributes: places_attributes,
-                        contact_email: attributes[:emails].first,
-                        is_sleeping: true,
-                        other_emails: attributes[:emails][0..-1].join(';'))
+                                    subject_ids: subject_ids.uniq,
+                                    website: attributes[:website],
+                                    phone_numbers_attributes: phone_attributes,
+                                    places_attributes: places_attributes,
+                                    contact_email: attributes[:emails].first,
+                                    is_sleeping: true,
+                                    other_emails: attributes[:emails][0..-1].join(';'))
       unless structure.persisted?
         puts "#{attributes[:key]} : #{attributes[:name]}\n#{structure.errors.full_messages.to_sentence}\n\n"
       else
-        structure.logo = URI.parse("http://coursavenue-public.s3.amazonaws.com/Logos_Paris/#{attributes[:key]}.png")
-        structure.save
+        begin
+          url = URI.parse("http://coursavenue-public.s3.amazonaws.com/Logos_Paris/#{attributes[:key]}.png")
+          req = Net::HTTP.new(url.host, url.port)
+          res = req.request_head(url.path)
+          if res.code == "200"
+            structure.logo = url
+            structure.save
+          end
+        rescue Exception => exception
+          Bugsnag.notify(exception)
+        end
       end
     end
   end
 end
-

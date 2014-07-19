@@ -52,7 +52,7 @@
 
 .palm-text--center {
     @include media-query(palm) {
-        text-align: center;
+        text-align: center !important;
     }
 }
 
