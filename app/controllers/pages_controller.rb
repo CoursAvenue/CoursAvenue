@@ -1,6 +1,7 @@
 # encoding: utf-8
 class PagesController < ApplicationController
-  layout 'admin_pages'
+
+  layout 'pages'
 
   def faq_partners
     redirect_to pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), status: 301

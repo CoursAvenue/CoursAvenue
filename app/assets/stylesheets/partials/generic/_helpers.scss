@@ -74,6 +74,7 @@
 }
 // Rounded
 .rounded--none    { @include border-radius(0!important); }
+.rounded-top--none{ @include border-top-radius(0!important); }
 .rounded          { @include border-radius($brand-round); }
 .rounded--top     { @include border-top-radius($brand-round); }
 .rounded--bottom  { @include border-bottom-radius($brand-round); }
@@ -218,6 +219,12 @@
     }
 }
 
+.palm-hard {
+    @include media-query(palm) {
+        padding: 0 !important;
+    }
+}
+
 .print--visible {
     @media only screen {
         display: none;
@@ -275,3 +282,7 @@
             z-index     : 1;
         }
     }
+
+.height-whole {
+    height: 100%;
+}

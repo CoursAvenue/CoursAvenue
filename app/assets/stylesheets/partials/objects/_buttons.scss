@@ -127,6 +127,20 @@
     }
 }
 
+.btn--blue-green {
+    text-transform  : uppercase;
+    background-color: $blue-green;
+    border          : none;
+    color           : white;
+    @include text-shadow(-1px -1px 1px darken($blue-green, 10%));
+    &:hover, &:active {
+        background-color: lighten($blue-green, 5%);
+    }
+    &.disabled, &[disabled] {
+        background-color: lighten($blue-green, 15%);
+    }
+}
+
 .btn--yellow {
     text-transform  : uppercase;
     color           : darken($yellow, 35%);
@@ -227,8 +241,8 @@
             display: inline-block;
         }
     .btn.btn--active, .btn.active {
-        background-color: $orange;
-        border          : 1px solid $orange;
+        background-color: $blue-green;
+        border          : 1px solid $blue-green;
         color           : white;
         @include text-shadow(none);
         & + .btn.active {

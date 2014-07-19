@@ -1,5 +1,5 @@
 = content_for :header do
-  = render 'shared/headers/header'
+  = render partial: 'shared/headers/header', locals: { medium: true }
 
 = content_for :content do
   = yield

@@ -50,13 +50,15 @@
                 {{/ifCond}}
 
             </div>
-            <a href="javascritp:void(0);" class="structure-item__see-all btn btn--blue btn--full btn--small" data-behavior="accordion-control" data-model="course" data-attributes="data_url" data-wrapper=".structure-item__see-all-wrapper">
-                {{#if plannings_count}}
-                    <span>Voir les séances</span>
-                {{else}}
-                    <span>Pas de séance, contactez le professeur</span>
-                {{/if}}
-            </a>
+            <div class="structure-item__see-all soft-half--sides">
+                <a href="javascritp:void(0);" class="btn btn--blue-green btn--full btn--small" data-behavior="accordion-control" data-model="course" data-attributes="data_url" data-wrapper=".structure-item__see-all-wrapper">
+                    {{#if plannings_count}}
+                        <span>Voir les séances</span>
+                    {{else}}
+                        <span>Pas de séance, contactez le professeur</span>
+                    {{/if}}
+                </a>
+            </div>
         </div>
     </article><!--
  --><div class="flexbox__item visuallyhidden--palm two-eighths v-middle text--center rslides-wrapper structure-item__see-all-wrapper">

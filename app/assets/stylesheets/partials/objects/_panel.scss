@@ -7,7 +7,6 @@
         background-color: $pane-background-color;
         padding-top     : 0.5em;
     }
-    // .panel__body {
     .panel__header + .panel__body {
         border-top: 1px solid $pane-border-color;
     }
@@ -41,6 +40,7 @@
     @include box-shadow(inset 0 0 15px rgba(0, 0, 0, 0.6));
     background: $blue-green;
     @include background-image(radial-gradient(farthest-side circle at center center, lighten($blue-green, 10%) 20%, $blue-green 100%));
+    // Old Airbnb blue
     // background: #0F92CD;
     // @include background-image(radial-gradient(farthest-side circle at center center, #30B9F1 20%, #0F92CD 100%));
     .input_field_error {

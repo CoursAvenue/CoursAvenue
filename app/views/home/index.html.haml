@@ -2,20 +2,20 @@
   CoursAvenue | Les élèves vous guident vers les meilleurs cours
 
 = render 'home_screen'
-= render 'boxes'
 .home-screen-promotion-wrapper
   = render 'guide'
-  .very-soft= render 'share_links'
-%section.main-container.main-container--medium.home-screen-promotion.soft--ends
+
+%section.main-container.main-container--medium.home-screen-promotion.soft.push--ends
   .grid--full
-    .grid__item.palm-one-whole.one-half.soft-half>
-      %h2.push--bottom.f-weight-300 Derniers avis des élèves
+    .grid__item.palm-one-whole.one-half>
+      %h2.soft--bottom.f-weight-300 Derniers avis des élèves
       - @comments.each do |comment|
         = render partial: 'comments/home_comment', locals: {comment: comment}
-    .grid__item.palm-one-whole.one-half.soft-half{style: 'min-height: 35em;'}
+    .grid__item.palm-one-whole.one-half.soft--left{style: 'min-height: 35em;'}
       = render 'subject_guides'
+
 .home-screen-promotion-wrapper
-  .main-container.main-container--medium.soft--top
+  .main-container.main-container--medium.soft.push--ends
     - cache "home_blog_#{ENV["ETAG_VERSION_ID"]}", public: true do
       %div
         %h2.push--bottom.f-weight-300 Le Blog
@@ -39,3 +39,4 @@
           = link_to blog_articles_path, target: '_blank', class: 'btn btn--blue' do
             %i.fa.fa-align-left
             &nbsp;Accéder au blog
+

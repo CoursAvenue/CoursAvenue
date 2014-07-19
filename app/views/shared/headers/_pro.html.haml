@@ -21,10 +21,7 @@
                 = link_to destroy_pro_admin_session_path, method: :delete do
                   Déconnexion
                   %i.fa.fa-sign-out
-
         - else
           %li
-            = link_to new_pro_admin_session_path, class: 'header-link' do
-              %i.fa.fa-sign-in
-              Se connecter
+            = link_to 'Se connecter', new_pro_admin_session_path
 
