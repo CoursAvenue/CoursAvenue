@@ -55,6 +55,7 @@ CoursAvenue::Application.routes.draw do
         end
       end
 
+      resources :vertical_pages, path: 'pages-verticales'
       resources :city_subject_infos, only: [:new, :create]
       resources :cities, only: [:index, :edit, :update], path: 'villes' do
         collection do
@@ -369,14 +370,14 @@ CoursAvenue::Application.routes.draw do
 
   resources :keywords, only: [:index]
   ########### Vertical pages ###########
+  get 'cours-de-:id'                               , to: 'vertical_pages#show' , as: :vertical_page
+  ###########  REDIRECTIONS --old
   ## With city
   # Root subject
   get 'cours-de-:subject_id-a/:id'                 , to: 'subjects/cities#show', as: :vertical_root_subject_city
   # Child subject
   get 'cours-de-:parent_subject_id/:subject_id/:id', to: 'subjects/cities#show', as: :vertical_subject_city
   ## Without city
-  # Root subject
-  get 'cours-de-:id'                               , to: 'subjects#show'       , as: :vertical_root_subject
   # Child subject
   get 'cours-de-:parent_subject_id/:id'            , to: 'subjects#show'       , as: :vertical_subject
   ########### Vertical pages ###########

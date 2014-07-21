@@ -420,7 +420,7 @@ class Planning < ActiveRecord::Base
 
   # Set end date if not defined
   def set_end_date
-    unless end_date.present?
+    if end_date.blank? or end_date < Date.today
       if !course.try(:is_training?)
         self.end_date = self.course.end_date
       else

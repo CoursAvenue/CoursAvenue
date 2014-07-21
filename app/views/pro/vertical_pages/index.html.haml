@@ -1,0 +1,39 @@
+= side_menu_currently_at 'vertical_pages'
+
+.panel
+  .panel__header.soft.text--center
+    = link_to 'Nouvelle page', new_pro_vertical_page_path, class: 'btn btn--green btn--large'
+  .panel__body.soft
+    %table.table--data.table--striped#dataTable
+      %thead
+        %tr
+          %th Nom de la page
+          %th Discipline associé
+          %th.text--center Validé ?
+          %th
+          %th
+      %tbody
+        - @vertical_pages.order('checked DESC, name DESC').each do |vertical_page|
+          %tr
+            %td= vertical_page.name
+            %td= vertical_page.subject.name
+            %td.text--center
+              - if vertical_page.checked?
+                %i.fa.fa-check.green
+              - else
+                = simple_form_for [:pro, vertical_page] do |f|
+                  = f.input :checked, as: :hidden, input_html: { value: true }
+                  = f.submit 'Valider', class: 'btn btn--small btn--green', data: { disable_with: "Validation en cours"}
+
+            %td
+              = simple_form_for [:pro, vertical_page] do |f|
+                .flexbox
+                  = f.input :comments, label: false, wrapper_html: { class: 'flexbox__item v-middle' }, input_html: { class: 'one-whole', style: 'height: 35px; padding: 0;' }
+                  = f.submit 'OK', class: 'flexbox__item v-middle btn btn--small btn--green', data: { disable_with: "Validation en cours"}
+
+            %td
+              = link_to 'Voir', vertical_page_url(vertical_page, subdomain: 'www')
+              \/
+              = link_to 'Éditer', edit_pro_vertical_page_path(vertical_page)
+              \/
+              = link_to 'Supprimer', pro_vertical_page_path(vertical_page), class: 'red', method: :destroy

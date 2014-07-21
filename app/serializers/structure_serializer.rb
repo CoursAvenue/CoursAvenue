@@ -168,9 +168,9 @@ class StructureSerializer < ActiveModel::Serializer
 
   def given_course_types
     types = []
-    if object.teaches_at_home
-      if object.teaches_at_home_radius.present?
-        types << "cours à domicile (#{object.teaches_at_home_radius} km)"
+    if object.teaches_at_home and object.places.homes.any?
+      if object.places.homes.first.radius.present?
+        types << "cours à domicile (#{object.places.homes.first.radius})"
       else
         types << "cours à domicile"
       end

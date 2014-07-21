@@ -1,5 +1,5 @@
 .home-page-search
-  = form_tag structures_path, method: :get, authenticity_token: false, id: 'header-search', data: { gather: true } do
+  = form_tag structures_path, method: :get, authenticity_token: false, data: { gather: true } do
     .header-search-bar.relative.flexbox.rounded.very-soft
       .flexbox__item.v-middle.search-input-wrapper
         %select.palm-one-whole.input--large.one-whole{ name: 'root_subject_id' }

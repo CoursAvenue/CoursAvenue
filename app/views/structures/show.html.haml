@@ -41,7 +41,7 @@
   .soft--sides
     .grid
       .grid__item.eight-twelfths.soft-half--right>
-        = render partial: 'structures/map_and_gallery', locals: { structure: @structure, places: @structure.places, medias: @medias }
+        = render partial: 'structures/map_and_gallery', locals: { medias: @medias }
 
         #structure-profile{ data: { type: 'structure-profile-root' } }
           - if @is_sleeping

@@ -17,7 +17,7 @@ class AdminMailer < ActionMailer::Base
   def commercial_email(structure)
     @structure = structure
     mail to: @structure.main_contact.email,
-         subject: "-50% jusqu'à la fin de l'année",
+         subject: "★ Encore 10 jours pour l'offre spéciale été -50%",
          from: "L'équipe CoursAvenue <contact@coursavenue.com>"
   end
 

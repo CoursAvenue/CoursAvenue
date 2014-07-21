@@ -9,25 +9,25 @@
   .relative{ style: 'height: 600px;'}
     .absolute.bg-cover.west.north{style: "background-image: url('#{dance.image.url(:small)}'); width: 49.5%; height: 200px;"}>
       .relative.one-whole.height-whole
-        %a.block.show-on-hover__wrapper{href: vertical_page_url_for(dance, paris), title: "Cours de danse à Paris"}>
+        %a.block.show-on-hover__wrapper{href: subject_path(dance), title: "Cours de danse"}>
           .home-screen-gallery__title.text--center
             Danse
             .milli.show-on-hover__child Découvrir
     .absolute.bg-cover.east.north{style: "background-image: url('#{music.image.url(:small)}'); width: 49.5%; height: 298px;"}
       .relative.one-whole.height-whole
-        %a.block.show-on-hover__wrapper{href: vertical_page_url_for(music, paris), title: "Cours de danse à Paris"}>
+        %a.block.show-on-hover__wrapper{href: subject_path(music), title: "Cours de musique et chant"}>
           .home-screen-gallery__title.text--center
             Musique & Chant
             .milli.show-on-hover__child Découvrir
     .absolute.bg-cover.east.south{style: "background-image: url('#{theatre.image.url(:small)}'); width: 49.5%; height: 298px;"}
       .relative.one-whole.height-whole
-        %a.block.show-on-hover__wrapper{href: vertical_page_url_for(theatre, paris), title: "Cours de théâtre et scène à Paris"}>
+        %a.block.show-on-hover__wrapper{href: subject_path(theatre), title: "Cours de théâtre et scène"}>
           .home-screen-gallery__title.text--center
             Théâtre & Scène
             .milli.show-on-hover__child Découvrir
     .absolute.bg-cover.west{style: "background-image: url('#{arts.image.url(:small)}'); width: 49.5%; height: 194px; top: 203px"}>
       .relative.one-whole.height-whole
-        %a.block.show-on-hover__wrapper{href: vertical_page_url_for(arts, paris), title: "Cours de danse à Paris"}>
+        %a.block.show-on-hover__wrapper{href: subject_path(arts), title: "Cours de dessin, peinture et arts"}>
           .home-screen-gallery__title.text--center
             Dessin, Peinture
             %br
@@ -35,12 +35,10 @@
             .milli.show-on-hover__child Découvrir
     .absolute.bg-cover.west.south{style: "background-image: url('#{yoga.image.url(:small)}'); width: 49.5%; height: 200px;"}
       .relative.one-whole.height-whole
-        %a.block.show-on-hover__wrapper{href: vertical_page_url_for(yoga, paris), title: "Cours de danse à Paris"}>
+        %a.block.show-on-hover__wrapper{href: subject_path(yoga), title: "Cours de yoga, bien-être et santé"}>
           .home-screen-gallery__title.text--center
             Yoga, Bien-être
             %br
             & Santé
             .milli.show-on-hover__child Découvrir
 
-  .text--center.epsilon.soft-half--ends
-    = link_to 'Découvrir toutes les disciplines', city_path('paris')
