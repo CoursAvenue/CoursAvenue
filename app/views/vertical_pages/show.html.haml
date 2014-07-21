@@ -15,28 +15,30 @@
         = @vertical_page.caption
 
 .main-container.main-container--medium.soft--ends
-  %h2.soft--bottom.f-weight-300= @vertical_page.title
-  .blog-article__content
-    = @vertical_page.content.html_safe
+  .grid
+    .grid__item.three-fifths.palm-one-whole.v-top.soft--right>
+      %h2.soft--bottom.f-weight-300= @vertical_page.title
+      .blog-article__content
+        = @vertical_page.content.html_safe
 
-  - if @vertical_page.medias.any?
-    = render partial: 'structures/map_and_gallery', locals: { medias: @vertical_page.medias, without_map: true }
-
-.home-screen-promotion-wrapper.soft--ends
-  = render partial: 'vertical_pages/cities'
+      - if @vertical_page.medias.any?
+        = render partial: 'structures/map_and_gallery', locals: { medias: @vertical_page.medias, without_map: true }
+    .grid__item.two-fifths.palm-one-whole.v-top>
+      = render partial: 'vertical_pages/cities'
 
 - if @subject.depth == 0
-  .main-container.main-container--medium.soft--ends
-    %h2.soft--bottom.f-weight-300 Plus de disciplines
-    = render partial: 'vertical_pages/subjects', locals: { subjects: @subject.children }
+  .home-screen-promotion-wrapper
+    .main-container.main-container--medium.soft--ends
+      %h2.soft--bottom.f-weight-300 Plus de disciplines
+      = render partial: 'vertical_pages/subjects', locals: { subjects: @subject.children }
 
 - unless @subject.depth == 2
-  .soft--ends{ class: (@subject.depth == 0 ? 'home-screen-promotion-wrapper' : '') }
+  .soft--ends{ class: (@subject.depth == 0 ? '' : 'home-screen-promotion-wrapper') }
     .main-container.main-container--medium
       %h2.soft--bottom.f-weight-300 Tous les styles
       = render partial: 'vertical_pages/subjects', locals: { subjects: @subject.descendants.at_depth(2) }
 
-%div{ class: (@subject.depth == 0 || @subject.depth == 2 ? '' : 'home-screen-promotion-wrapper') }
+%div{ class: (@subject.depth == 0 || @subject.depth == 2 ? 'home-screen-promotion-wrapper' : '') }
   .main-container.main-container--medium.soft--ends
     %h2.soft--bottom.f-weight-300 Sélection d'avis
     - CommentSearch.search(per_page: 4, has_avatar: true, has_title: true, subject_slugs: [@subject.root.slug, @subject.slug]).results.in_groups_of(2, false).each do |review_group|
