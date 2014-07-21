@@ -22,8 +22,10 @@ class Media < ActiveRecord::Base
   # ------------------------------------------------------------------------------------ Search attributes
   searchable do
     latlon :location, multiple: true do
-      self.mediable.places.collect do |place|
-        Sunspot::Util::Coordinates.new(place.latitude, place.longitude)
+      if self.mediable.is_a? Structure
+        self.mediable.places.collect do |place|
+          Sunspot::Util::Coordinates.new(place.latitude, place.longitude)
+        end
       end
     end
 
@@ -32,23 +34,25 @@ class Media < ActiveRecord::Base
     boolean :star
 
     boolean :comments_count do
-      self.mediable.comments_count
+      self.mediable.comments_count if self.mediable.is_a? Structure
     end
 
     string :subject_slugs, multiple: true do
-      subject_slugs = []
-      if self.subjects.empty?
-        self.mediable.subjects.uniq.each do |subject|
-          subject_slugs << subject.root.slug
-          subject_slugs << subject.slug
+      if self.mediable.is_a? Structure
+        subject_slugs = []
+        if self.subjects.empty?
+          self.mediable.subjects.uniq.each do |subject|
+            subject_slugs << subject.root.slug
+            subject_slugs << subject.slug
+          end
+        else
+          self.subjects.uniq.each do |subject|
+            subject_slugs << subject.root.slug
+            subject_slugs << subject.slug
+          end
         end
-      else
-        self.subjects.uniq.each do |subject|
-          subject_slugs << subject.root.slug
-          subject_slugs << subject.slug
-        end
+        subject_slugs.uniq
       end
-      subject_slugs.uniq
     end
   end
 

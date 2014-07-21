@@ -9,12 +9,28 @@
         %tr
           %th Nom de la page
           %th Discipline associé
+          %th.text--center Validé ?
+          %th
           %th
       %tbody
-        - @vertical_pages.each do |vertical_page|
+        - @vertical_pages.order('checked DESC, name DESC').each do |vertical_page|
           %tr
             %td= vertical_page.name
             %td= vertical_page.subject.name
+            %td.text--center
+              - if vertical_page.checked?
+                %i.fa.fa-check.green
+              - else
+                = simple_form_for [:pro, vertical_page] do |f|
+                  = f.input :checked, as: :hidden, input_html: { value: true }
+                  = f.submit 'Valider', class: 'btn btn--small btn--green', data: { disable_with: "Validation en cours"}
+
+            %td
+              = simple_form_for [:pro, vertical_page] do |f|
+                .flexbox
+                  = f.input :comments, label: false, wrapper_html: { class: 'flexbox__item v-middle' }, input_html: { class: 'one-whole', style: 'height: 35px; padding: 0;' }
+                  = f.submit 'OK', class: 'flexbox__item v-middle btn btn--small btn--green', data: { disable_with: "Validation en cours"}
+
             %td
               = link_to 'Voir', vertical_page_path(vertical_page, subdomain: 'www')
               \/

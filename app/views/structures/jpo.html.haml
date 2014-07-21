@@ -55,7 +55,7 @@
           %i{data: { placement: 'bottom', behavior: 'tooltip', title: subject_course_names }}= truncate(subject_course_names, length: 190)
 
 
-    = render partial: 'structures/map_and_gallery', locals: { structure: @structure, places: @places, medias: @medias }
+    = render partial: 'structures/map_and_gallery', locals: { medias: @medias }
 
     %ul.tabs
       %li.active
@@ -111,7 +111,6 @@
       = link_to "Page facebook de l'établissement", @structure.facebook_url, target: '_blank', class: 'btn--facebook btn one-whole push--bottom'
 
 
-#course_info.hidden= render 'structures/courses/info_popup'
 
 = content_for :scripts do
   :javascript
