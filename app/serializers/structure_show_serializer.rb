@@ -6,7 +6,7 @@ class StructureShowSerializer < ActiveModel::Serializer
              :logo_thumb_url, :data_url, :query_url, :query_params, :courses, :courses_count,
              :has_courses, :plannings_count, :has_plannings,
              :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range,
-             :has_free_trial_course, :medias_count, :teaches_at_home, :teaches_at_home_radius, :videos_count, :images_count,
+             :has_free_trial_course, :medias_count, :teaches_at_home, :videos_count, :images_count,
              :audience, :funding_types, :gives_group_courses, :gives_individual_courses, :structure_type,
              :has_promotion, :tag_names, :given_course_types, :given_funding_type, :places_count, :comments
 
@@ -152,9 +152,9 @@ class StructureShowSerializer < ActiveModel::Serializer
 
   def given_course_types
     types = []
-    if object.teaches_at_home
-      if object.teaches_at_home_radius.present?
-        types << "cours à domicile (#{object.teaches_at_home_radius})"
+    if object.teaches_at_home and object.places.homes.any?
+      if object.places.homes.first.radius.present?
+        types << "cours à domicile (#{object.places.homes.first.radius})"
       else
         types << "cours à domicile"
       end

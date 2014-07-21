@@ -36,7 +36,7 @@
                   %i.fa.fa-square-o
                   Compléter mes informations générales et ajouter un logo
             %li
-              - if @comments.any?
+              - if @structure.comments.any?
                 %i.fa.fa-check-square-o
                 %span.line-through--gray Demander des recommandations à mes élèves
               - else
@@ -52,7 +52,7 @@
                   %i.fa.fa-square-o
                   Mettre en ligne les photos et vidéos de mes cours
             %li
-              - if @structure.courses.without_open_courses.detect(&:is_published?).nil?
+              - unless @structure.courses.without_open_courses.detect(&:is_published?).nil?
                 %i.fa.fa-check-square-o
                 %span.line-through--gray Renseigner mes cours et mon planning
               - else
