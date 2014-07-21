@@ -8,10 +8,10 @@
 - lille     = City.find 'lille'
 - cities = [paris, marseille, lyon, toulouse, nice, nantes, bordeaux, lille]
 
-%h2.soft--bottom.f-weight-300 Trouvez un cours près de chez vous
+%h2.soft--bottom.f-weight-300 Trouvez un cours de #{@vertical_page.name.downcase} près de chez vous
 - cities.each do |city|
   .inline-block.very-soft.hard--bottom.one-half>
-    .relative.bg-cover{style: "background-image: url('#{city.image.url(:small)}'); height: 150px; "}>
+    .relative.bg-cover{style: "background-image: url('#{city.image.url(:small)}'); height: 120px; "}>
       - if @subject.depth == 0
         - url = structures_path(lat: city.latitude, lng: city.longitude, address_name: city.name, root_subject_id: @subject.root.slug)
       - elsif @subject.depth == 1
