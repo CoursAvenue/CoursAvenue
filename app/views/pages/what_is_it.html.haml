@@ -1,17 +1,26 @@
 = content_for :title do
   Qu'est-ce que CoursAvenue
 
-- profiles = [{ name: "Elodie, passionnée de salsa à Paris", bg: 'home_backgrounds/danse.jpg', image_name: 'mary', quote: "J'ai longtemps cherché un cours de salsa qui remplirait tous mes critères. J'ai enfin trouvé sur CoursAvenue une superbe association à deux pas de chez moi.", image_width: 260 }]
+- profiles = [{ name: "Julie, passionnée de salsa à Paris", bg: 'www/testimonies/julie.jpg', image_name: '', quote: "J'ai longtemps cherché un cours de salsa qui remplirait tous mes critères. J'ai enfin trouvé sur CoursAvenue une superbe association à deux pas de chez moi." }]
 
-- profiles << { name: "Alain Pons, formateur en photographie à Clermont-Ferrand", slug: 'alain-pons-photographe', bg: 'pro/home_background_alain.jpg', image_name: 'alain', quote: "Gérer ma présence sur Internet relève du quotidien. Grâce à CoursAvenue, c'est devenu simple et je peux enfin me consacrer à la qualité de mes cours.", image_width: 450, profile_style: '62' }
+- profiles << { name: "David, passionné d'improvisation théâtrale à Marseille", bg: 'www/testimonies/bg/impro.jpg', image_name: 'david', quote: "J'ai toujours voulu faire de l'improvisation, mais je n'ai jamais osé me lancer. Grâce à CoursAvenue, j'ai trouvé une super association, au pied de mon immeuble !", image_width: 400 }
 
-- selected_profile = profiles.first
+- profiles << { name: "Lyne, passionnée d'écriture et de danse à Lyon", bg: 'www/testimonies/bg/writing.jpg', image_name: 'lyne', quote: "J'ai deux grandes passions : l'écriture et la danse. CoursAvenue me permet de tester sans cesse de nouveaux cours, parfois avec des offres spéciales ou des cours d'essai gratuits.", image_width: 500 }
+
+- profiles << { name: "Mariel, passionnée de cours d'éveil musical pour sa petite fille à Nice", bg: 'www/testimonies/bg/kid_drum.jpg', image_name: 'mariel', quote: "Je n'arrivais pas à trouver des cours d'éveil musical pour Elsa, ma petite fille. J'ai découvert CoursAvenue et cela m'a semblé très simple.", image_width: 370 }
+
+- profiles << { name: "Nicolas, passionné de dessin et de confection de bières à Toulouse", bg: 'www/testimonies/bg/drawing.jpg', image_name: 'nicolas', quote: "J'ai toujours voulu apprendre à dessiner et CoursAvenue m'a permis de m'inscrire à un premier cours gratuit. Depuis, j'ai aussi pris des cours de confection de bières, et je dessine mes propres étiquettes.", image_width: 260 }
+
+- profiles << { name: "Mary, passionnée de barre au sol classique à Toulouse", bg: 'www/testimonies/bg/barre.jpg', image_name: 'mary', quote: "La barre au sol classique ? Une discipline qui m'a toujours fascinée. Sans CoursAvenue, je ne m'y serais jamais lancée, alors qu'aujourd'hui, je ne peux plus m'en passer.", image_width: 300 }
+
+- selected_profile = profiles[1]
 
 .home-screen-promotion-wrapper.soft--sides.white.bg-cover{ style: "background-image: url(#{asset_path(selected_profile[:bg])})" }
   .main-container
     %header.grid--full
       .grid__item.soft--top.v-bottom.relative.visuallyhidden--palm{ class: ( selected_profile[:medium] ? 'three-tenths' : 'five-twelfths')}>
-        = image_tag "www/testimonies/#{selected_profile[:image_name]}.png", class: 'block', width: selected_profile[:image_width], style: 'margin-left: auto'
+        - if selected_profile[:image_name].present?
+          = image_tag "www/testimonies/#{selected_profile[:image_name]}.png", class: 'block', width: selected_profile[:image_width], style: 'margin-left: auto'
       .grid__item.v-bottom.soft--ends.palm-one-whole.relative{ class: ( selected_profile[:medium] ? 'seven-tenths' : 'seven-twelfths')}>
         .center-block
           .soft--top.white.soft-black-text-shadow
@@ -67,7 +76,7 @@
       .grid__item.v-top.one-half.soft--right>
         %h2.soft--bottom.f-weight-300 CoursAvenue en vidéo
         .relative.bg-cover{style: "background-image: url('#{asset_path('home-page/video_thumbnail.jpg')}'); width: 100%; height: 260px;"}>
-          = link_to 'https://www.youtube.com/watch?v=t7-PIg-YsHg', class: 'block show-on-hover__wrapper', data: { behavior: 'fancy', height: 560, width: 1000 } do
+          = link_to 'https://www.youtube.com/watch?v=-hq0sxFEcOw', class: 'block show-on-hover__wrapper', data: { behavior: 'fancy', height: 560, width: 1000 } do
             .home-screen-gallery__title.text--center{ style: 'margin-top: -2em;'}
               %i.fa.fa-youtube-play.fa-3x
               .show-on-hover__child Voir la vidéo
