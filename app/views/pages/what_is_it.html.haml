@@ -13,7 +13,7 @@
 
 - profiles << { name: "Mary, passionnée de barre au sol classique à Toulouse", bg: 'www/testimonies/bg/barre.jpg', image_name: 'mary', quote: "La barre au sol classique ? Une discipline qui m'a toujours fascinée. Sans CoursAvenue, je ne m'y serais jamais lancée, alors qu'aujourd'hui, je ne peux plus m'en passer.", image_width: 300 }
 
-- selected_profile = profiles[1]
+- selected_profile = profiles.sample
 
 .home-screen-promotion-wrapper.soft--sides.white.bg-cover{ style: "background-image: url(#{asset_path(selected_profile[:bg])})" }
   .main-container
