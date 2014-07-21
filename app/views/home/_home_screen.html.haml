@@ -13,12 +13,14 @@
       = render 'shared/home_page_search_form'
 
     .relative.bg-cover{style: "background-image: url('#{asset_path('home-page/video_thumbnail.jpg')}'); width: 150px; height: 75px;"}>
-      = link_to 'https://www.youtube.com/watch?v=t7-PIg-YsHg', class: 'block show-on-hover__wrapper', data: { behavior: 'fancy', height: 560, width: 1000 } do
+      = link_to 'https://www.youtube.com/watch?v=-hq0sxFEcOw', class: 'block show-on-hover__wrapper', data: { behavior: 'fancy', height: 560, width: 1000 } do
         .home-screen-gallery__title.text--center
           %i.fa.fa-youtube-play.fa-2x
           .show-on-hover__child.milli Voir la vidéo
     .push-half--bottom.very-soft.hard--sides
-      = link_to 'Comment ça marche', 'javascript:void(0);', class: 'btn btn--small btn--full', style: 'width: 150px; font-size: 11px;', data: { behavior: 'toggleable', el: '#comment-ca-marche' }
+      = link_to 'javascript:void(0);', data: { behavior: 'toggleable', el: '#comment-ca-marche' }, style: 'width: 150px;', class: 'text--center inline-block semi-muted-link' do
+        Comment ça marche
+        %i.fa.fa-caret-down
 
   - if @last_comment
     .home-screen-comment.visuallyhidden--palm.soft-black-text-shadow

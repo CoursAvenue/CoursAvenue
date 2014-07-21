@@ -1,0 +1,23 @@
+= side_menu_currently_at 'vertical_pages'
+
+.panel
+  .panel__header.soft.text--center
+    = link_to 'Nouvelle page', new_pro_vertical_page_path, class: 'btn btn--green btn--large'
+  .panel__body.soft
+    %table.table--data.table--striped#dataTable
+      %thead
+        %tr
+          %th Nom de la page
+          %th Discipline associé
+          %th
+      %tbody
+        - @vertical_pages.each do |vertical_page|
+          %tr
+            %td= vertical_page.name
+            %td= vertical_page.subject.name
+            %td
+              = link_to 'Voir', vertical_page_path(vertical_page, subdomain: 'www')
+              \/
+              = link_to 'Éditer', edit_pro_vertical_page_path(vertical_page)
+              \/
+              = link_to 'Supprimer', pro_vertical_page_path(vertical_page), class: 'red', method: :destroy

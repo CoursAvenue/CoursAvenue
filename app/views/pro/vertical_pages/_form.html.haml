@@ -1,0 +1,9 @@
+= simple_form_for [:pro, @vertical_page] do |f|
+  = f.input :image
+  = f.input :name, label: 'Nom de discipline', placeholder: 'Ex. : Fox trot'
+  = f.input :title, label: 'Titre'
+  = f.input :caption, label: 'Description du header'
+  = f.input :content, as: :ckeditor, label: false, input_html: { class: 'one-whole' }
+  = f.input :keywords
+  = f.input :subject_id, as: :select, collection: Subject.all, input_html: { data: { behavior: 'chosen' } }
+  = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement"}
