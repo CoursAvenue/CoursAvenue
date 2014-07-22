@@ -443,7 +443,7 @@ CoursAvenue::Application.routes.draw do
   # Pages
   get 'pages/pourquoi-le-bon-cours',        to: 'redirect#why_coursavenue'
   get 'pages/portes-ouvertes-cours-loisirs' => 'pages#jpo',                  as: 'pages_jpo'
-  get 'pages/qu-est-ce-que-coursavenue'     => 'pages#what_is_it',         as: 'pages_what_is_it'
+  get 'pages/qu-est-ce-que-coursavenue'     => 'pages#what_is_it',           as: 'pages_what_is_it'
   get 'pages/faq-utilisateurs'              => 'pages#faq_users',            as: 'pages_faq_users'
   get 'pages/faq-partenaires'               => 'pages#faq_partners',         as: 'pages_faq_partners'
   get 'pages/qui-sommes-nous'               => 'pages#who_are_we',           as: 'pages_who_are_we'

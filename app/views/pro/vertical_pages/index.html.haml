@@ -9,6 +9,8 @@
         %tr
           %th Nom de la page
           %th Discipline associé
+          %th Photo
+          %th Contenu
           %th.text--center Validé ?
           %th
           %th
@@ -17,6 +19,12 @@
           %tr
             %td= vertical_page.name
             %td= vertical_page.subject.name
+            %td
+              - if vertical_page.image.present?
+                %i.fa.fa-check.green
+            %td
+              - if vertical_page.content.present?
+                %i.fa.fa-check.green
             %td.text--center
               - if vertical_page.checked?
                 %i.fa.fa-check.green
