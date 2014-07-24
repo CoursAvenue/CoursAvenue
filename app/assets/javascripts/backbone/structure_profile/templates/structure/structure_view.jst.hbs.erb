@@ -1,84 +1,143 @@
-<div class="panel push--bottom">
-      <ul class="tabs panel__header">
-          <li class="active">
-              <a href="#tab-description" data-toggle="tab"> Description</a>
-          </li>
-          <li>
-              <a href="#tab-courses" data-toggle="tab" data-view="courses">Cours</a>
-          </li>
-          <li>
-              <a href="#tab-trainings" data-toggle="tab" data-view="trainings">Stages</a>
-          </li>
-          <li>
-              <a href="#tab-teachers" data-toggle="tab" data-view="teachers">Professeurs</a>
-          </li>
-<!--           <li>
-              <a href="#tab-subjects" data-toggle="tab" data-view="subjects"><i class="fa fa-group"></i> Disciplines</a>
-          </li> -->
-      </ul>
+<div class="panel push--bottom" id="presentation">
+    <div class="panel__header soft-half--ends soft--sides">
+        <h4 class="flush">{{about}}</h4>
+    </div>
     <div class="panel__body">
-        <article id="tab-description" class="tab-pane active">
-            <div class="island">
-               <table class="one-half float--right table--data table--striped bordered push-half--left push-half--bottom">
-                 <tbody>
-                   {{#if structure_type}}
-                     <tr>
-                         <td class="nowrap">Type de structure</td>
-                         <td class="text--right"><strong>{{structure_type}}</strong></td>
-                     </tr>
-                    {{/if}}
-                     <tr>
-                         <td class="nowrap">Cours proposés</td>
-                         <td class="text--right"><strong>{{given_course_types}}</strong></td>
-                     </tr>
-                   {{#if given_funding_type}}
-                     <tr>
-                         <td class="nowrap">Financements acceptés</td>
-                         <td class="text--right"><strong>{{given_funding_type}}</strong></td>
-                     </tr>
-                    {{/if}}
-                    {{#if min_price_libelle}}
-                     <tr>
-                         <td class="nowrap">Tarifs</td>
-                         <td class="text--right">
-                            <strong>
-                            De
-                            <span title="{{min_price_libelle}}" data-behavior='tooltip'>{{min_price_amount}}€</span>
-                            à
-                            <span title="{{max_price_libelle}}" data-behavior='tooltip'>{{max_price_amount}}€</span>
-                            </strong>
-                         </td>
-                     </tr>
-                    {{/if}}
-                 </tbody>
-               </table>
-                <div class="gray" itemprop="description">
+        <article>
+            <div class="soft">
+                {{#if logo_thumb_url}}
+                <div class="media-photo float--right push-half--left">
+                    <img src="{{logo_thumb_url}}" alt="Image de profil de {{name}}" height="150" class="block">
+                </div>
+                {{/if}}
+                <div class="push-half--bottom">
                     {{#if description}}
-                      {{{ simple_format_hide_contacts description }}}
+                    {{#ifCond description '!=' description_short}}
+                    <div id="description-short" class="gray">
+                        {{{ simple_format_hide_contacts description_short }}}
+                    </div>
+                    <a href="#" data-behavior="show-long-version" data-short-version="#description-short" data-long-version="#description-long">
+                    + Plus
+                    </a>
+                    <div id="description-long" class="gray hidden" itemprop="description">
+                        {{{ simple_format_hide_contacts description }}}
+                    </div>
                     {{else}}
-                      Pas de description pour cet établissement.
+                    <div class="gray" itemprop="description">
+                        {{{ simple_format_hide_contacts description }}}
+                    </div>
+                    {{/ifCond}}
+                    {{else}}
+                    <div class="gray">
+                        Pas de description pour cet établissement.
+                    </div>
                     {{/if}}
+                </div>
+                <div class="push-half--bottom">
+                    <a class="pointer" data-behavior="show-contact-panel">Contacter ce profil</a>
+                </div>
+                <hr class="push--ends">
+                <div class="flexbox">
+                    <div class="flexbox__item v-top one-quarter">
+                        <strong class="gray-light">Disciplines enseignées</strong>
+                    </div>
+                    <div class="flexbox__item v-top three-quarters">
+                        {{#each subjects}}
+                        <div class="push-half--bottom {{#ifCond @index '>' 1}}description-more-long hidden{{/ifCond}}">
+                            <img src="{{this.icon}}" alt="Disciplines pratiquées : {{this.icon}}" height="16" class="v-middle">
+                            <strong class="v-middle">{{this.root_name}}</strong>
+                            <br>
+                            {{this.child_names}}
+                        </div>
+                        {{/each}}
+                        <div>
+                            <a href="#" data-behavior="show-long-version" data-long-version=".description-more-long">
+                            + Plus
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="description-more-long hidden">
+                    <hr class="push--bottom push-half--top">
+                    <div class="flexbox">
+                        <div class="flexbox__item v-top one-quarter">
+                            <strong class="gray-light">Plus d'infos</strong>
+                        </div>
+                        <div class="flexbox__item v-top three-quarters">
+                            <table class="table--data table--striped bordered">
+                                <tbody>
+                                    {{#if structure_type}}
+                                    <tr>
+                                        <td class="nowrap">Type de structure</td>
+                                        <td class="text--right"><strong>{{structure_type}}</strong></td>
+                                    </tr>
+                                    {{/if}}
+                                    <tr>
+                                        <td class="nowrap">Cours proposés</td>
+                                        <td class="text--right"><strong>{{given_course_types}}</strong></td>
+                                    </tr>
+                                    {{#if audience}}
+                                    <tr>
+                                        <td class="nowrap">Public</td>
+                                        <td class="text--right"><strong>{{audience}}</strong></td>
+                                    </tr>
+                                    {{/if}}
+                                    {{#if given_funding_type}}
+                                    <tr>
+                                        <td class="nowrap">Financements acceptés</td>
+                                        <td class="text--right"><strong>{{given_funding_type}}</strong></td>
+                                    </tr>
+                                    {{/if}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <hr class="push--ends">
+                    <div class="flexbox">
+                        <div class="flexbox__item v-top one-quarter">
+                            <strong class="gray-light">Professeurs</strong>
+                        </div>
+                        <div data-type="teachers-collection" class="flexbox__item v-top three-quarters">
+                            <img src="<%= asset_path 'gifs/loading-indicator.gif' %>"/ class="center-block push--ends" height="10" data-teachers-loader style="display: none;">
+                        </div>
+                    </div>
                 </div>
             </div>
         </article>
+    </div>
+</div>
 
-        <article id="tab-courses"  class="tab-pane">
-            <img src="<%= asset_path 'gifs/loading-indicator.gif' %>"/ class="center-block push--ends" height="10" data-courses-loader style="display: none;">
+<div class="panel push--bottom" id="cours-reguliers">
+    <div class="panel__header soft-half--ends soft--sides">
+        <h4 class="flush">Cours réguliers</h4>
+    </div>
+    <div class="panel__body soft">
+        <article>
+            <div class="one-whole text--center">
+                <img src="<%= asset_path 'gifs/loading-indicator.gif' %>"/ class="push--ends" height="10" data-courses-loader style="display: none;">
+            </div>
             <div data-summary-container class="soft-half hard--top rounded--none">
                 <div data-type="courses-summary"></div>
             </div>
             <div data-type="courses-collection"></div>
         </article>
-        <article id="tab-trainings" class="tab-pane">
-            <img src="<%= asset_path 'gifs/loading-indicator.gif' %>"/ class="center-block push--ends" height="10" data-trainings-loader style="display: none;">
+    </div>
+</div>
+
+<div class="panel push--bottom" id="stages-ateliers">
+    <div class="panel__header soft-half--ends soft--sides">
+        <h4 class="flush">Stages et ateliers</h4>
+    </div>
+    <div class="panel__body soft">
+        <article>
+            <div class="one-whole text--center">
+                <img src="<%= asset_path 'gifs/loading-indicator.gif' %>"/ class="push--ends" height="10" data-trainings-loader style="display: none;">
+            </div>
             <div data-summary-container class="soft-half hard--top rounded--none">
                 <div data-type="trainings-summary"></div>
             </div>
             <div data-type="trainings-collection"></div>
         </article>
-        <article id="tab-teachers" class="tab-pane" data-type="teachers-collection">
-          <img src="<%= asset_path 'gifs/loading-indicator.gif' %>"/ class="center-block push--ends" height="10" data-teachers-loader style="display: none;">
-        </article>
-        <!-- <article id="tab-subjects" class="tab-pane" data-type="subjects-collection"></article> -->
+    </div>
     </div>
 </div>

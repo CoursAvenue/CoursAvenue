@@ -2,7 +2,7 @@
     .map-marker-image {
         position : absolute;
         font-size: 13px;
-        top      : -40px;
+        top      : -43px;
         left     : -10px;
         &.map-marker-image--small {
             top : -5px !important;
@@ -29,10 +29,10 @@
 .map-marker-image {
     display : inline-block;
     width   : 30px;
-    height  : 40px;
+    height  : 43px;
     a {
         width               : 30px;
-        height              : 41px;
+        height              : 43px;
         line-height         : 28px;
         position            : relative;
         display             : block;

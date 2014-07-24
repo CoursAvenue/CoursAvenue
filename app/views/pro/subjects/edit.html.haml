@@ -5,7 +5,7 @@
 
 %div
   %h3.inline-block= @subject.name
-  .inline-block= link_to 'Voir la page', vertical_page_url_for(@subject), target: :_blank
+  -# .inline-block= link_to 'Voir la page', vertical_page_url_for(@subject), target: :_blank
 .form-white-box
   = simple_form_for [:pro, @subject], remote: true do |f|
     = f.input :image
@@ -16,19 +16,19 @@
     = f.input :tips, input_html: { data: { behavior: 'autoresize'} }
     = f.submit 'Enregistrer', class: 'btn btn--full btn--green', data: { disable_with: "En cours d'enregistrement" }
 
-%div
-  %h3.inline-block= "#{@city.name} / #{@subject.name}"
-  .inline-block= link_to 'Voir la page', vertical_page_url_for(@subject, @city), target: :_blank
+-# %div
+-#   %h3.inline-block= "#{@city.name} / #{@subject.name}"
+-#   .inline-block= link_to 'Voir la page', vertical_page_url_for(@subject, @city), target: :_blank
 
-.form-white-box
-  = simple_form_for @city_subject_info, url: pro_city_subject_infos_path, method: :post, remote: true do |f|
-    = f.input :subject_id , as: :hidden
-    = f.input :city_id , as: :hidden
-    = f.input :where_to_practice, input_html: { data: { behavior: 'autoresize'} }
-    = f.input :where_to_suit_up, input_html: { data: { behavior: 'autoresize'} }
-    = f.input :average_price, input_html: { data: { behavior: 'autoresize'} }
-    = f.input :tips, input_html: { data: { behavior: 'autoresize'} }
-    = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
+-# .form-white-box
+-#   = simple_form_for @city_subject_info, url: pro_city_subject_infos_path, method: :post, remote: true do |f|
+-#     = f.input :subject_id , as: :hidden
+-#     = f.input :city_id , as: :hidden
+-#     = f.input :where_to_practice, input_html: { data: { behavior: 'autoresize'} }
+-#     = f.input :where_to_suit_up, input_html: { data: { behavior: 'autoresize'} }
+-#     = f.input :average_price, input_html: { data: { behavior: 'autoresize'} }
+-#     = f.input :tips, input_html: { data: { behavior: 'autoresize'} }
+-#     = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
 
 
 %h4.push--bottom Textes relatifs aux villes

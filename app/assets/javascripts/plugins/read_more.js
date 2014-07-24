@@ -11,8 +11,7 @@
     var pluginName = "readMore",
         defaults = {
             text_height: 150,
-            read_more_text: 'Lire la suite →',
-            read_less_text: 'Cacher'
+            read_more_text: '+ Plus'
         };
 
     // The actual plugin constructor
@@ -45,21 +44,13 @@
             }
             this.$element.css('max-height', this.options.text_height + 'px');
             if (this.original_height > this.options.text_height) {
-                this.is_hidden = true;
                 this.$element.addClass('read-more');
                 this.read_more_link = $('<a>').text(this.options.read_more_text).attr('href','javascript:void(0)');
                 this.$element.after(this.read_more_link);
                 this.read_more_link.click(function() {
-                    if (this.is_hidden) {
-                        this.read_more_link.text(this.options.read_less_text);
-                        this.$element.removeClass('read-more');
-                        this.$element.css('max-height', 'none');
-                    } else {
-                        this.read_more_link.text(this.options.read_more_text);
-                        this.$element.addClass('read-more');
-                        this.$element.css('max-height', this.options.text_height + 'px');
-                    }
-                    this.is_hidden = !this.is_hidden;
+                    this.$element.removeClass('read-more');
+                    this.$element.css('max-height', 'none');
+                    this.read_more_link.hide();
                 }.bind(this));
             }
             if (this.original_height == 0) {

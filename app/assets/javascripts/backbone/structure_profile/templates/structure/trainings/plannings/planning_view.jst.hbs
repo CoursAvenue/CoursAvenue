@@ -3,6 +3,9 @@
 <td>{{ levels }}</td>
 <td class="{{#if info}}nowrap{{/if}}">
     {{ audiences }}
+    {{#if info}}
+        <i data-original-title="{{ hide_contacts info }}" data-behavior="tooltip"></i>
+    {{/if}}
 </td>
 <td class="three-twelfths text--right">
     <div class="gray milli">

@@ -3,10 +3,21 @@ class PlanningSerializer < ActiveModel::Serializer
   include PricesHelper
 
   attributes :id, :date, :duration, :time_slot, :levels, :audiences, :place_id, :places_left, :more_than_ten_places,
-             :common_price, :course_id, :info, :address
+             :common_price, :course_id, :info, :address, :address_with_info, :address_name
 
   def address
     object.place.address if object.place
+  end
+
+  def address_with_info
+    if object.place
+      str = "<p class='flush'><strong>#{object.place.address}</strong></p>"
+      str << "<p class='flush'><strong>Infos publics : </strong>#{object.info}</strong></p>" if object.info.present?
+    end
+  end
+
+  def address_name
+    object.place.name if object.place
   end
 
   def date

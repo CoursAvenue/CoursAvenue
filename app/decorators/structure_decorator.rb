@@ -1,23 +1,28 @@
 class StructureDecorator < Draper::Decorator
 
-  def given_course_types
-    types = []
-    if object.teaches_at_home
-      if object.teaches_at_home and object.places.homes.any?
-        if object.places.homes.first.radius.present?
-          types << "cours à domicile (#{object.places.homes.first.radius})"
-        else
-          types << "cours à domicile"
-        end
+  def places_popover
+    output = ''
+    object.places.each do |place|
+      output << "<div class='flexbox'><div class='flexbox__item v-top'><strong>#{place.name}&nbsp;:&nbsp;</strong></div><div class='flexbox__item'>#{place.street}, #{place.city.name}</div></div>"
+    end
+    output.html_safe
+  end
+
+  def subjects_popover
+    output = ''
+    object.subjects.at_depth(0).each do |root_subject|
+      child_subjects = object.subjects.at_depth(2).order('name ASC').select{ |subject|  subject.ancestry.start_with?(root_subject.id.to_s) }
+      if child_subjects.any?
+        output << <<-eos
+          <div class='push-half--bottom'>
+            <strong>#{root_subject.name}</strong>
+            <br>
+            #{child_subjects.map(&:name).join(', ')}
+          </div>
+        eos
       end
     end
-    if object.gives_group_courses
-      types << 'cours collectifs'
-    end
-    if object.gives_individual_courses
-      types << 'cours individuels'
-    end
-    types.join(', ')
+    output.html_safe
   end
 
   def given_funding_type

@@ -1,21 +1,26 @@
 class CourseSerializer < ActiveModel::Serializer
   include CoursesHelper
   include PlanningsHelper
-
+  include ActionView::Helpers::TextHelper
   include ActionView::Helpers::NumberHelper
-  include ActionView::Helpers::NumberHelper
 
-  attributes :id, :name, :description, :type, :start_date, :end_date, :min_price_amount, :min_price_libelle, :data_url, :subjects,
+  attributes :id, :name, :description, :description_short, :type, :start_date, :end_date, :min_price_amount, :min_price_libelle, :data_url, :subjects,
              :has_free_trial_lesson, :event_type, :best_price, :is_individual, :search_term, :is_lesson, :frequency,
              :cant_be_joined_during_year, :no_class_during_holidays, :teaches_at_home, :teaches_at_home_radius,
-             :premium_offers, :book_tickets, :discounts, :registrations, :subscriptions, :trials,
              :has_premium_prices, :premium, :on_appointment, :course_location, :min_age_for_kid, :max_age_for_kid,
-             :audiences, :levels, :is_private
+             :audiences, :levels, :is_private, :details, :prices, :premium_prices, :prices_length
 
-  has_many :plannings, serializer: PlanningSerializer
+
+  has_many :plannings,      serializer: PlanningSerializer
+  has_many :prices,         serializer: PriceSerializer
+  has_many :premium_prices, serializer: PriceSerializer
 
   def plannings
     @options[:plannings] || object.plannings.visible.future.ordered_by_day
+  end
+
+  def description_short
+    truncate(object.description, :length => 200, :separator => ' ') if object.description
   end
 
   def has_free_trial_lesson
@@ -66,8 +71,18 @@ class CourseSerializer < ActiveModel::Serializer
     structure_course_path((@options[:structure] || object.structure), object)
   end
 
+  # TODO improve with subject_strings ?
   def subjects
-    object.subjects.map(&:name).join(', ')
+    _subjects = []
+    object.subjects.map(&:root).uniq.each do |root_subject|
+      child_subjects = object.subjects.at_depth(2).order('name ASC').select{ |subject|  subject.ancestry.start_with?(root_subject.id.to_s) }
+      _subjects << {
+        root_name: root_subject.name,
+        child_names: child_subjects.map(&:name).join(', '),
+        icon: ActionController::Base.helpers.asset_path("icons/subjects/#{root_subject.slug}.png")
+      }
+    end
+    _subjects.sort_by(&:length).reverse
   end
 
   def event_type
@@ -94,40 +109,11 @@ class CourseSerializer < ActiveModel::Serializer
     object.structure.premium?
   end
 
-  def registrations
-    object.prices.registrations.map{ |price| PriceSerializer.new(price) }
-  end
-
-  def premium_offers
-    object.prices.premium_offers.map{ |price| PriceSerializer.new(price) }
-  end
-
-  def subscriptions
-    object.prices.subscriptions.map{ |price| PriceSerializer.new(price) }
-  end
-
-  def book_tickets
-    object.prices.book_tickets.map{ |price| PriceSerializer.new(price) }
-  end
-
-  def discounts
-    object.prices.discounts.map{ |price| PriceSerializer.new(price) }
-  end
-
-  def trials
-    object.prices.trials.map{ |price| PriceSerializer.new(price) }
-  end
-
   def course_location
     return '' unless object.is_private?
-    string = "Le cours se déroule "
-    if object.teaches_at_home? and object.home_place and object.place
-       string << "dans 2 lieux : "
-    else
-       string << "à l'adresse : "
-    end
+    string = ""
     if object.teaches_at_home? and object.home_place
-      string << "À domicile (#{object.home_place.city.name}, #{object.home_place.radius}km)"
+      string << "Au domicile de l'élève (rayon de #{object.home_place.radius}km autour de #{object.home_place.city.name})"
     end
     if object.teaches_at_home? and object.home_place and object.place
       string << " et "
@@ -148,6 +134,73 @@ class CourseSerializer < ActiveModel::Serializer
 
   def is_private
     object.is_private?
+  end
+
+  def details
+    _details = []
+    if on_appointment
+      _details << { text: 'Pas de créneau précis, uniquement sur demande',
+                    icon: ActionController::Base.helpers.asset_path("icons/icon-telephone.png") }
+    end
+    if teaches_at_home
+      _details << { text: 'Cours à domicile',
+                    icon: ActionController::Base.helpers.asset_path("icons/icon-house.png") }
+    end
+    if is_individual
+      _details << { text: 'Cours individuel',
+                    icon: ActionController::Base.helpers.asset_path("icons/icon-user.png") }
+    else
+      _details << { text: 'Cours collectif',
+                    icon: ActionController::Base.helpers.asset_path("icons/icon-group.png") }
+    end
+    if is_lesson
+      _details << { text: 'Cours régulier',
+                    icon: ActionController::Base.helpers.asset_path("icons/icon-repeat.png") }
+      _details << { text: "#{frequency} du #{start_date} au #{end_date}",
+                  icon: ActionController::Base.helpers.asset_path("icons/icon-calendar.png") }
+    end
+    if cant_be_joined_during_year
+      _details << { text: "Pas d'inscription en cours d'année",
+                    icon: ActionController::Base.helpers.asset_path("icons/icon-forbidden.png") }
+    else
+      _details << { text: "Inscription tout au long de l'année",
+                    icon: ActionController::Base.helpers.asset_path("icons/icon-repeat.png") }
+    end
+    if no_class_during_holidays
+      _details << { text: "Pas de cours pendant les vacances scolaires",
+                    icon: ActionController::Base.helpers.asset_path("icons/icon-forbidden.png") }
+    end
+    if is_private
+      _details << { text: audiences,
+                    icon: ActionController::Base.helpers.asset_path("icons/icon-group.png") }
+      _details << { text: levels,
+                    icon: ActionController::Base.helpers.asset_path("icons/icon-group.png") }
+    end
+    _details
+  end
+
+  def premium_prices
+    if object.price_group
+      object.price_group.prices.premium_prices
+    else
+      []
+    end
+  end
+
+  def prices
+    if object.price_group
+      object.price_group.prices.non_premium_prices
+    else
+      []
+    end
+  end
+
+  def prices_length
+    if object.price_group
+      object.price_group.prices.non_premium_prices.length
+    else
+      0
+    end
   end
 
 end

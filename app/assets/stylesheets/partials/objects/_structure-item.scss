@@ -1,3 +1,7 @@
+.structure__header-icon {
+    width: 8em;
+}
+
 #structure-header {
     &, h1, #coordinate-buttons, #comments-count {
         @include transition(all 250ms linear);
@@ -8,10 +12,6 @@
         h1 { font-size: 19px; }
     }
 }
-        .top-contacts-buttons-wrapper {
-            top       : 50%;
-            margin-top: -1.4em;
-        }
 
 // ------------------ AS ON SHOW PAGE
 .structure__logo {

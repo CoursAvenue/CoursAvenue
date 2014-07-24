@@ -365,7 +365,7 @@
           // this.a comes from the minified googly code since we are
           // in the context of a minified googly object
           $(this.a).find(".map-marker-image").css({ top: "-500px" });
-          $(this.a).find(".map-marker-image").animate({ top: "-40px" }, 700, "easeOutBounce");
+          $(this.a).find(".map-marker-image").animate({ top: "-43px" }, 700, "easeOutBounce");
 
       }.bind(this.gOverlay));
     }

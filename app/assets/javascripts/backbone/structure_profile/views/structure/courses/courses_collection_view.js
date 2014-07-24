@@ -37,7 +37,7 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         },
 
         onRender: function onRender () {
-            this.$('[data-behavior=read-more]').readMore();
+            // this.$('[data-behavior=read-more]').readMore();
             // Visual improvement for the course list
             this.$('.panel').last().removeClass('push-half--bottom').addClass('border-none--bottom');
             if (this.collection.length == 0) {
@@ -45,6 +45,10 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             } else {
                 this.$('[data-empty-courses]').hide();
             }
+        },
+
+        onAfterShow: function onAfterShow () {
+            this.$('[data-behavior=read-more]').readMore();
         },
 
         /* serializeData

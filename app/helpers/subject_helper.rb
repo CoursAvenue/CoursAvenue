@@ -1,18 +1,11 @@
 module SubjectHelper
 
-  def vertical_page_url_for(subject, city=nil)
-    if city
-      if subject.depth == 0
-        return vertical_root_subject_city_path(subject, city)
-      else
-        return vertical_subject_city_path(subject.root, subject, city)
-      end
+  def vertical_page_url_for(subject)
+    page = VerticalPage.where(subject_id: subject.id).first
+    if page
+      vertical_page_url(page, subdomain: 'www')
     else
-      if subject.depth == 0
-        return vertical_root_subject_path(subject)
-      else
-        return vertical_subject_path(subject.root, subject)
-      end
+      root_url(subdomain: 'www')
     end
   end
 

@@ -12,8 +12,8 @@
     &.bordered--bottom-on-stick { @extend .bordered--bottom; }
     .hidden-on-stick      { display: none; }
     .visible-on-stick     { display: block !important; }
-    .visible-on-stick-ilb { display: inline-block !important; }
+    .visible-on-stick.inline-block { display: inline-block !important; }
 }
-    .visible-on-stick-ilb, .visible-on-stick {
+    .visible-on-stick {
         display: none !important;
     }

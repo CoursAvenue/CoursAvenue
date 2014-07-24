@@ -1,7 +1,8 @@
 StructureProfile.module('Views.Structure.Teachers', function(Module, App, Backbone, Marionette, $, _, undefined) {
 
     Module.TeacherView = Backbone.Marionette.ItemView.extend({
-        template: Module.templateDirname() + 'teacher_view'
+        template: Module.templateDirname() + 'teacher_view',
+        className: 'one-half inline-block push--bottom'
     });
 
     Module.TeachersCollectionView = Backbone.Marionette.CollectionView.extend({

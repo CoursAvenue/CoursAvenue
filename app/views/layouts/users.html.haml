@@ -5,7 +5,7 @@
     = render 'shared/headers/header'
 
 = content_for :content do
-  .main-container.soft--ends{class: controller_path}
+  .main-container{ class: controller_path }
     = yield
 
   = render 'shared/footer'

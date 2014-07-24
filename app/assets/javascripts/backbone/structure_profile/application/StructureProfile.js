@@ -96,7 +96,6 @@ StructureProfile.addInitializer(function(options) {
     layout.showWidget(comments_collection_view);
 
     layout.master.show(structure_view);
-
     if (window.location.hash.length > 0 && window.location.hash != '#_=_' && $(window.location.hash).length > 0) {
         $('[href=' + window.location.hash + ']').click();
         _.delay(function() {

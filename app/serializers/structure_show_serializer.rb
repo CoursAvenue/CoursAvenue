@@ -2,13 +2,14 @@ class StructureShowSerializer < ActiveModel::Serializer
   include StructuresHelper
   include ActionView::Helpers::TextHelper
 
-  attributes :id, :name, :slug, :rating, :street, :zip_code, :description,
+  attributes :id, :name, :slug, :rating, :street, :zip_code, :description, :description_short,
              :logo_thumb_url, :data_url, :query_url, :query_params, :courses, :courses_count,
-             :has_courses, :plannings_count, :has_plannings,
+             :has_courses, :plannings_count, :has_plannings, :about,
              :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range,
              :has_free_trial_course, :medias_count, :teaches_at_home, :videos_count, :images_count,
              :audience, :funding_types, :gives_group_courses, :gives_individual_courses, :structure_type,
-             :has_promotion, :tag_names, :given_course_types, :given_funding_type, :places_count, :comments
+             :has_promotion, :tag_names, :given_course_types, :given_funding_type, :places_count, :comments,
+             :subjects
 
   has_many :comments, serializer: CommentSerializer
   has_many :places
@@ -43,13 +44,37 @@ class StructureShowSerializer < ActiveModel::Serializer
     end
   end
 
+  def description_short
+    truncate(object.description, :length => 300, :separator => ' ') if object.description
+  end
+
   # TODO Use MediaSerializer
   def preloaded_medias
     object.medias.videos_first.limit(6)
   end
 
   def structure_type
-    I18n.t(object.structure_type) if object.structure_type.present?
+    case object.structure_type
+    when 'structures.association'
+      "Association"
+    when 'structures.company'
+      "École"
+    when 'structures.independant'
+      "Professeur"
+    end
+  end
+
+  def about
+    case object.structure_type
+    when 'structures.association'
+      "À propos de cette association"
+    when 'structures.company'
+      "À propos de cet école"
+    when 'structures.independant'
+      "À propos de ce professeur"
+    else
+      "À propos de ce profil"
+    end
   end
 
   def funding_types
@@ -101,7 +126,7 @@ class StructureShowSerializer < ActiveModel::Serializer
   end
 
   def logo_thumb_url
-    object.logo.url(:thumb)
+    object.logo.url(:thumb) if object.logo.present?
   end
 
   def data_url
@@ -152,23 +177,37 @@ class StructureShowSerializer < ActiveModel::Serializer
 
   def given_course_types
     types = []
+    if object.gives_individual_courses
+      types << 'cours individuels'
+    end
     if object.teaches_at_home and object.places.homes.any?
       if object.places.homes.first.radius.present?
-        types << "cours à domicile (#{object.places.homes.first.radius})"
+        types << "cours individuels à domicile (#{object.places.homes.first.city.name} dans un rayon de #{object.places.homes.first.radius})"
       else
-        types << "cours à domicile"
+        types << "cours individuels à domicile"
       end
     end
     if object.gives_group_courses
       types << 'cours collectifs'
-    end
-    if object.gives_individual_courses
-      types << 'cours individuels'
     end
     types.join(', ').capitalize
   end
 
   def given_funding_type
     object.funding_types.map{ |funding_type| I18n.t(funding_type.name)}.join(', ')
+  end
+
+  # TODO improve with subject_strings ?
+  def subjects
+    _subjects = []
+    object.subjects.at_depth(0).each do |root_subject|
+      child_subjects = object.subjects.at_depth(2).order('name ASC').select{ |subject|  subject.ancestry.start_with?(root_subject.id.to_s) }
+      _subjects << {
+        root_name: root_subject.name,
+        child_names: child_subjects.map(&:name).join(', '),
+        icon: ActionController::Base.helpers.asset_path("icons/subjects/#{root_subject.slug}.png")
+      }
+    end
+    _subjects.sort_by(&:length).reverse
   end
 end

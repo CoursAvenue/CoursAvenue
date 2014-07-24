@@ -1,0 +1,16 @@
+<td class="two-twelfths">{{ date }}</td>
+<td class="two-twelfths">{{ time_slot }}</td>
+<td class="two-twelfths">{{ levels }}</td>
+<td class="two-twelfths">
+    {{ audiences }}
+    {{#if info}}
+        <i data-original-title="{{ hide_contacts info }}" data-behavior="tooltip"></i>
+    {{/if}}
+</td>
+<td class="text--right three-twelfths">
+    {{#if address }}
+    <div class="gray milli" data-toggle="popover" data-html="true" data-trigger="hover" data-content="{{address_with_info}}">
+        {{address_name}} <img src="<%= asset_path('icons/icon-map-marker.png') %>" height="16" class="v-middle">
+    </div>
+    {{/if}}
+</td>

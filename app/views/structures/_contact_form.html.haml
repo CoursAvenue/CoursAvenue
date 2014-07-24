@@ -1,19 +1,12 @@
 .push--bottom
   .panel#contact-panel
-    %ul.panel__header.tabs.tabs--thin
-      %li.active
-        %a.contact-button#tab-contact-message{ href: ".tab-message", data: { toggle: "tab" } }
-          Envoyer un message
-      %li
-        %a.contact-button{ href: ".tab-contacts", data: { toggle: "tab" } }
-          Voir les coordonnées
+    .panel__header.soft-half
+      %h5.flush Contacter
     .panel__body
       .tab-content.soft
         %article.tab-message.tab-pane.active.hard
           #structure-contact
-            = simple_form_for [structure, Mailboxer::Message.new], url: structure_messages_path(structure), as: :message, remote: true do |f|
-              %h4.f-weight-normal
-                Contactez pour réserver ou obtenir plus d'infos :
+            = simple_form_for [structure, Mailboxer::Message.new], url: (current_user ? structure_messages_path(structure) : ''), as: :message, remote: true do |f|
               -# Here to stop bots.
               -# If this is filled, the message won't be sent
               .visuallyhidden
@@ -24,6 +17,13 @@
                     %input.input--large.one-whole{ name: 'user[first_name]', type: 'text', placeholder: 'Prénom + Nom', value: params[:first_name] }
                   .grid__item.one-half>
                     %input.input--large.one-whole{ name: 'user[email]', type: 'text', placeholder: 'Email', value: params[:email] }
+              .grid--full.push-half--bottom
+                .grid__item.one-half.soft-half--right.v-middle>
+                  %input.input--large.one-whole{ name: 'user[phone_number]', type: 'text', placeholder: 'N° de téléphone', value: params[:phone_number] }
+                .grid__item.one-half.soft-half--right.v-middle>
+                  %p.flush.blue{ data: { toggle: 'popover', content: "Comme les professeurs sont souvent en cours, nous vous conseillons de laisser votre numéro de téléphone pour être recontacté dans les plus brefs délais. Il ne sera communiqué à personne d'autre.", trigger: 'hover' } }
+                    %i Recommandé
+
               - prefilled_body = params[:message_body] || "Bonjour,\n\nJe souhaiterais venir pour une première séance. Pouvez-vous m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt"
               = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole input--large', style: 'height: 170px;', value: cookies[:user_contact_message] || prefilled_body, data: { behavior: 'autoresize' } }, id: 'contact-message-body'
               - if current_user
@@ -31,44 +31,38 @@
               - else
                 = link_to 'Envoyer mon message', new_user_registration_path, data: { behavior: 'modal', title: 'Connexion', width: 600, padding: 0 }, class: 'fancybox.ajax btn btn--green btn--full', id: 'send-message'
 
-        %article.tab-contacts.tab-pane.hard
-          %h4.f-weight-normal Contactez le partenaire par téléphone :
-          %p.epsilon
-            - @structure.phone_numbers.each_with_index do |phone_number, index|
-              - if index > 0
-                %br
-              %strong.v-middle{ itemprop: "telephone" }= readable_phone_number phone_number.number
-              - if @structure.premium
-                %i.soft-half--left.v-middle.fa.fa-check-circle.green
-                %i.v-middle.green.milli vérifié
-          %p.push-half--bottom
-            %i Mentionnez que vous avez trouvé le contact sur le site CoursAvenue pour bénéficier d'offres éventuelles. Vous tomberez peut-être sur le répondeur :
-            %a.contact-button{ href: "javascript:$('#tab-contact-message').click()" } envoyez un message !
-          - if @structure.premium?
-            - if @structure.website.present? or @structure.facebook_url.present?
-              %hr.push--ends
-              %h4.f-weight-normal.push-half--bottom Pages du partenaire
-              - if @structure.website.present?
-                .push-half--bottom
-                  = link_to @structure.website, target: '_blank', rel: 'nofollow', onclick: "ga('send', 'event', 'Contact structure', 'click', 'website')", class: 'btn btn--small btn--gray' do
-                    %i.fa.fa-external-link.v-middle
-                    %span.v-middle Site internet
-              - if @structure.facebook_url.present?
-                = link_to "Page Facebook", @structure.facebook_url, target: '_blank', class: 'btn--facebook btn'
-          %hr.push--ends
-          %h4.f-weight-normal.push-half--bottom= "Adresse".pluralize(@structure.places.count)
-          - @structure.places.each_with_index do |place, index|
-            %p.epsilon{ class: (index < @structure.places.count - 1 ? 'push-half--bottom' : 'flush'), itemprop: "address", itemscope: true, itemtype: "http://schema.org/PostalAddress" }
-              %strong{ itemprop: "name" }= place.name
-              %span{ itemprop: "streetAddress" }= ": #{place.address}"
-              %div.visuallyhidden{ itemprop: "geo", itemscope: true, itemtype: "http://schema.org/GeoCoordinates" }
-                %meta{ itemprop: "latitude", content: place.latitude }
-                %meta{ itemprop: "longitude", content: place.longitude }
-              %div.visuallyhidden{ itemprop: "addressLocality" }= place.city.name
-              %div.visuallyhidden{ itemprop: "postalCode" }= place.zip_code
-              %div.visuallyhidden{ itemprop: "addressCountry" } FR
-              - if @structure.phone_numbers.any?
-                %div.visuallyhidden{ itemprop: "telephone" }= readable_phone_number @structure.phone_numbers.first.number
+              = link_to 'javascript:void(0);', data: { behavior: 'toggleable', el: '#phone_number' }, class: 'push-half--top btn btn--green btn--full' do
+                %i.fa.fa-phone.v-middle
+                %span.v-middle Téléphone
+            #phone_number.hidden
+              .soft
+                - @structure.phone_numbers.each_with_index do |phone_number, index|
+                  - if index > 0
+                    %br
+                  %strong.v-middle{ itemprop: "telephone" }= readable_phone_number phone_number.number
+                  - if @structure.premium
+                    %i.soft-half--left.v-middle.fa.fa-check-circle.green
+                    %i.v-middle.green.milli vérifié
+
+            - if @structure.website.present?
+              = link_to @structure.website, target: '_blank', rel: 'nofollow', onclick: "ga('send', 'event', 'Contact structure', 'click', 'website')", class: 'btn btn--green btn--full push-half--top' do
+                %i.fa.fa-globe.v-middle
+                %span.v-middle Site internet
+
+
+          .visuallyhidden
+            - @structure.places.each_with_index do |place, index|
+              %p.epsilon{ class: (index < @structure.places.count - 1 ? 'push-half--bottom' : 'flush'), itemprop: "address", itemscope: true, itemtype: "http://schema.org/PostalAddress" }
+                %strong{ itemprop: "name" }= place.name
+                %span{ itemprop: "streetAddress" }= ": #{place.address}"
+                %div.visuallyhidden{ itemprop: "geo", itemscope: true, itemtype: "http://schema.org/GeoCoordinates" }
+                  %meta{ itemprop: "latitude", content: place.latitude }
+                  %meta{ itemprop: "longitude", content: place.longitude }
+                %div.visuallyhidden{ itemprop: "addressLocality" }= place.city.name
+                %div.visuallyhidden{ itemprop: "postalCode" }= place.zip_code
+                %div.visuallyhidden{ itemprop: "addressCountry" } FR
+                - if @structure.phone_numbers.any?
+                  %div.visuallyhidden{ itemprop: "telephone" }= readable_phone_number @structure.phone_numbers.first.number
 
 - unless current_user
   = content_for :scripts do

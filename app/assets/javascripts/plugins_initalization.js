@@ -105,4 +105,10 @@ $(function() {
     $('[data-behavior=sticky]').each(function(index, el) {
         $(this).sticky(this.dataset);
     });
+    $('[data-behavior=parallax]').stellar();
+
+    $('body').on('click', '[data-behavior=scroll-to]', function(event) {
+        $.scrollTo($(this.hash), { duration: 500, offset: { top: $(this).data('offset-top') || 0 } });
+        return false;
+    });
 });

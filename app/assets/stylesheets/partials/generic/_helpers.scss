@@ -20,8 +20,6 @@
 .east              { right      : 0 !important; }
 .north             { top        : 0 !important; }
 .south             { bottom     : 0 !important; }
-.hidden            { display    : none; }
-.visibility-hidden { visibility : hidden; }
 
 .absolute--center {
     top        : 50%;
@@ -102,9 +100,12 @@
 .border-color-gray   { border-color  : $gray; }
 
 .center-block        { margin-left: auto; margin-right: auto; display: block; }
-.block               { display: block; }
-.inline              { display: inline; }
-.inline-block        { display: inline-block; }
+.block               { display    : block; }
+.inline              { display    : inline; }
+.inline-block        { display    : inline-block; }
+.hidden.inline-block { display    : none; }
+.hidden              { display    : none; }
+.visibility-hidden   { visibility : hidden; }
 
 
 .width-auto         { width: auto !important; }
