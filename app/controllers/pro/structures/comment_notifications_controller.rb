@@ -10,7 +10,7 @@ class Pro::Structures::CommentNotificationsController < Pro::ProController
     emails = params[:emails].scan(regexp).uniq
     text = '<p>' + params[:text].gsub(/\r\n/, '</p><p>') + '</p>'
     emails.each do |_email|
-      if (user = User.where(email: _email).first).nil?
+      if (user = User.where(User.arel_table[:email].matches(_email)).first).nil?
         user             = User.new(email: _email)
         user.structures << @structure
         user.subjects   << @structure.subjects
