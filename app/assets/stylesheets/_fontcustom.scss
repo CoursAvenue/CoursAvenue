@@ -1,0 +1,81 @@
+//
+// Icon Font: fontcustom
+//
+
+@font-face {
+  font-family: "fontcustom";
+  src: font-url("fontcustom_446c8768e689a2253d1d20a2887b924f.eot");
+  src: font-url("fontcustom_446c8768e689a2253d1d20a2887b924f.eot?#iefix") format("embedded-opentype"),
+       font-url("fontcustom_446c8768e689a2253d1d20a2887b924f.woff") format("woff"),
+       font-url("fontcustom_446c8768e689a2253d1d20a2887b924f.ttf") format("truetype"),
+       font-url("fontcustom_446c8768e689a2253d1d20a2887b924f.svg#fontcustom") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "fontcustom";
+    src: font-url("fontcustom_446c8768e689a2253d1d20a2887b924f.svg#fontcustom") format("svg");
+  }
+}
+
+[data-icon]:before { content: attr(data-icon); }
+
+[data-icon]:before,
+.fa-audiences:before,
+.fa-bars:before,
+.fa-calendar:before,
+.fa-chevron-down:before,
+.fa-chevron-left:before,
+.fa-chevron-right:before,
+.fa-chevron-up:before,
+.fa-clock:before,
+.fa-comment:before,
+.fa-envelope-o:before,
+.fa-eye:before,
+.fa-forbidden:before,
+.fa-group:before,
+.fa-heart:before,
+.fa-house:before,
+.fa-map-marker:before,
+.fa-phone-o:before,
+.fa-repeat:before,
+.fa-star:before,
+.fa-tag:before,
+.fa-user:before {
+  display: inline-block;
+  font-family: "fontcustom";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-decoration: inherit;
+  text-rendering: optimizeLegibility;
+  text-transform: none;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+}
+
+.fa-audiences:before { content: "\f112"; }
+.fa-bars:before { content: "\f126"; }
+.fa-calendar:before { content: "\f113"; }
+.fa-chevron-down:before { content: "\f114"; }
+.fa-chevron-left:before { content: "\f12b"; }
+.fa-chevron-right:before { content: "\f116"; }
+.fa-chevron-up:before { content: "\f117"; }
+.fa-clock:before { content: "\f118"; }
+.fa-comment:before { content: "\f119"; }
+.fa-envelope-o:before { content: "\f129"; }
+.fa-eye:before { content: "\f127"; }
+.fa-forbidden:before { content: "\f11a"; }
+.fa-group:before { content: "\f11b"; }
+.fa-heart:before { content: "\f11c"; }
+.fa-house:before { content: "\f11d"; }
+.fa-map-marker:before { content: "\f11e"; }
+.fa-phone-o:before { content: "\f12a"; }
+.fa-repeat:before { content: "\f125"; }
+.fa-star:before { content: "\f121"; }
+.fa-tag:before { content: "\f122"; }
+.fa-user:before { content: "\f123"; }

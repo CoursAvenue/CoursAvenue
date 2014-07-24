@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" width="22px" height="22px" viewBox="0 0 22 22" version="1.1">
+    <!-- Generator: Sketch 3.0.1 (7597) - http://www.bohemiancoding.com/sketch -->
+    <title>bubble_talk_chat_</title>
+    <description>Created with Sketch.</description>
+    <defs>
+        <path d="M11,0.0832611207 C17.0751325,0.0832611207 22,4.33655574 22,9.58326112 C22,14.8299665 17.0751325,19.0832611 11,19.0832611 C9.27848099,19.0832611 7.64932754,18.7417242 6.19842901,18.1328277 L0.766113281,20.6170746 L2.11319081,15.1830167 C0.784369101,13.6127828 0,11.6771308 0,9.58326112 C0,4.33655574 4.92486745,0.0832611207 11,0.0832611207 Z M11,1.08326112 C5.47715225,1.08326112 1,4.88884053 1,9.58326112 C1,11.592802 1.82041116,13.4394681 3.19206569,14.8944668 L2.06799316,19.1136566 L6.07579946,16.983008 C7.52940879,17.6833958 9.20976698,18.0832611 11,18.0832611 C16.5228478,18.0832611 21,14.2776817 21,9.58326112 C21,4.88884053 16.5228478,1.08326112 11,1.08326112 Z" id="path-1"/>
+    </defs>
+    <g id="miu" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="bubble_talk_chat_">
+            <use fill="#000000" fill-rule="evenodd" sketch:type="MSShapeGroup" xlink:href="#path-1"/>
+            <use fill="none" xlink:href="#path-1"/>
+        </g>
+    </g>
+</svg>

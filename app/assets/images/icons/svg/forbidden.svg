@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" width="44px" height="44px" viewBox="0 0 44 44" version="1.1">
+    <title>forbidden</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs/>
+    <g id="circle" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <path d="M35.4174499,36.8316635 C31.8691711,40.043591 27.1630576,42 22,42 C10.9543045,42 2,33.0456955 2,22 C2,16.8369424 3.95640902,12.1308289 7.1683365,8.58255006 L35.4174499,36.8316635 Z M36.8316635,35.4174499 C40.043591,31.8691711 42,27.1630576 42,22 C42,10.9543045 33.0456955,2 22,2 C16.8369424,2 12.1308289,3.95640902 8.58255006,7.1683365 L36.8316635,35.4174499 Z M22,44 C34.1502651,44 44,34.1502651 44,22 C44,9.8497349 34.1502651,0 22,0 C9.8497349,0 0,9.8497349 0,22 C0,34.1502651 9.8497349,44 22,44 Z M22,44" id="forbidden" fill="#000000" sketch:type="MSShapeGroup"/>
+    </g>
+</svg>

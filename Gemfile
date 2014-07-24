@@ -200,6 +200,7 @@ end
 
 group :development do
   # Removes useless logging in dev.
+  gem 'fontcustom'
   gem 'brakeman'                , '~>2.3.1'
   gem 'rubocop'                 , '~>0.18.1'
 
