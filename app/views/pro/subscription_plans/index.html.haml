@@ -5,7 +5,7 @@
   .panel__body.soft
     .text--center
       %h3.flush= "CA : #{@orders.map(&:amount).reduce(&:+)}€ TTC"
-      %h4= "CA : #{readable_amount(@orders.map(&:amount).reduce(&:+) / 1.2)}€ HT"
+      %h4= "CA : #{readable_amount(@orders.map(&:amount).reduce(&:+) / 1.2)} HT"
     %table.table--striped
       %thead
         %tr

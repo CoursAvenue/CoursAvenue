@@ -56,7 +56,7 @@
                       = "(#{course.event_type})"
                   %p.flush
                     - if course.common_price
-                      %span.line-through #{readable_amount(course.common_price)}€
+                      %span.line-through= readable_amount(course.common_price)
                     %span.green GRATUIT
                     %strong= link_to participation.structure.name, structure_path(participation.structure), class: 'semi-muted-link', target: :_blank
                     = ([course.structure.contact_email] + course.structure.phone_numbers.map(&:number)).join(', ')

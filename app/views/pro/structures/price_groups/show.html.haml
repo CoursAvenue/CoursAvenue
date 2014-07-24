@@ -16,15 +16,15 @@
           - @price_group.book_tickets.each do |price|
             %tr
               %td= "#{price.number} cours de #{readable_duration(price.duration)}"
-              %td.text--center= "#{readable_amount(price.amount)}€" if price.amount
-              %td.text--center.premium-box= "#{readable_amount(price.promo_amount)}€" if price.promo_amount
+              %td.text--center= readable_amount(price.amount) if price.amount
+              %td.text--center.premium-box= readable_amount(price.promo_amount if price.promo_amount
               %td= price.info
 
           - @price_group.subscriptions.each do |price|
             %tr
               %td= t(price.libelle)
-              %td.text--center= "#{readable_amount(price.amount)}€" if price.amount
-              %td.text--center.premium-box= "#{readable_amount(price.promo_amount)}€" if price.promo_amount
+              %td.text--center= readable_amount(price.amount if price.amount
+              %td.text--center.premium-box= readable_amount(price.promo_amount if price.promo_amount
               %td= price.info
 
           - @trial = @price_group.trial
@@ -43,7 +43,7 @@
             %tr.premium-box
               %td= t(price.libelle)
               %td
-              %td.text--center= "#{readable_amount(price.promo_amount)}€" if price.promo_amount
+              %td.text--center= readable_amount(price.promo_amount if price.promo_amount
               %td= price.info
 
 
@@ -51,7 +51,7 @@
             %tr.premium-box
               %td= t(price.libelle)
               %td
-              %td.text--center= "#{readable_amount(price.promo_amount)}€" if price.promo_amount
+              %td.text--center= readable_amount(price.promo_amount if price.promo_amount
               %td= price.info
 
           - @price_group.registrations.each do |price|
@@ -61,7 +61,7 @@
                 - if price.free?
                   Gratuite
                 - else
-                  = "#{readable_amount(price.amount)}€"
+                  = readable_amount(price.amount)
               %td
               %td= price.info
 

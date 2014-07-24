@@ -51,7 +51,7 @@
 
               %td.nowrap
                 - if course.common_price
-                  %span.line-through #{readable_amount(course.common_price)}€
+                  %span.line-through= readable_amount(course.common_price)
                 %span.green GRATUIT
               %td.text--right
                 - if current_user

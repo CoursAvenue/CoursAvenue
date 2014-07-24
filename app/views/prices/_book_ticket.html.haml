@@ -8,7 +8,7 @@
     = book_ticket.info
   %td.text--right
     - if book_ticket.promo_amount
-      %span.line-through= "#{readable_amount(book_ticket.amount)}€"
-      %span.green= "#{readable_amount(book_ticket.promo_amount)}€"
+      %span.line-through= readable_amount(book_ticket.amount)
+      %span.green= readable_amount(book_ticket.promo_amount)
     - else
-      = "#{readable_amount(book_ticket.amount)}€"
+      = readable_amount(book_ticket.amount)

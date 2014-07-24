@@ -10,7 +10,7 @@
     - else
       %td.text--right
         - if price.promo_amount
-          %span.line-through= "#{readable_amount(price.amount)}€"
-          %span.green= "#{readable_amount(price.promo_amount)}€"
+          %span.line-through= readable_amount(price.amount)
+          %span.green= readable_amount(price.promo_amount)
         - else
-          = "#{readable_amount(price.amount)}€"
+          = readable_amount(price.amount)
