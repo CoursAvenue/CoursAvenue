@@ -13,7 +13,7 @@
                 <div class="push-half--bottom">
                     {{#if description}}
                     {{#ifCond description '!=' description_short}}
-                    <div id="description-short" class="gray">
+                    <div id="description-short" class="gray last-p-push-half--bottom">
                         {{{ simple_format_hide_contacts description_short }}}
                     </div>
                     <a href="#" data-behavior="show-long-version" data-short-version="#description-short" data-long-version="#description-long">
@@ -116,7 +116,7 @@
             <div class="one-whole text--center">
                 <img src="<%= asset_path 'gifs/loading-indicator.gif' %>"/ class="push--ends" height="10" data-courses-loader style="display: none;">
             </div>
-            <div data-summary-container class="soft-half hard--top rounded--none">
+            <div data-summary-container class="text--left epsilon rounded--none">
                 <div data-type="courses-summary"></div>
             </div>
             <div data-type="courses-collection"></div>
@@ -133,7 +133,7 @@
             <div class="one-whole text--center">
                 <img src="<%= asset_path 'gifs/loading-indicator.gif' %>"/ class="push--ends" height="10" data-trainings-loader style="display: none;">
             </div>
-            <div data-summary-container class="soft-half hard--top rounded--none">
+            <div data-summary-container class="text--left epsilon rounded--none">
                 <div data-type="trainings-summary"></div>
             </div>
             <div data-type="trainings-collection"></div>

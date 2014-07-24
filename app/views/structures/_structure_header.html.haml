@@ -7,39 +7,39 @@
           .relative.on-top
             - if @structure.structure_type.present?
               .milli.structure__header-icon.inline-block.text--center.semi-muted.v-top
-                = image_tag 'icons/icon-house.png', height: 30
+                %i.fa-4x.fa-house
                 %div
                   = t(@structure.structure_type)
             - if @structure.gives_group_courses
               .milli.structure__header-icon.inline-block.text--center.semi-muted.v-top
-                = image_tag 'icons/icon-group.png', height: 30
+                %i.fa-4x.fa-group
                 %div
                   Cours
                   %br
                   collectifs
             - if @structure.gives_individual_courses
               .milli.structure__header-icon.inline-block.text--center.semi-muted.v-top
-                = image_tag 'icons/icon-user.png', height: 30
+                %i.fa-4x.fa-user
                 %div
                   Cours
                   %br
                   particuliers
             .milli.structure__header-icon.inline-block.text--center.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.subjects_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
-              = image_tag 'icons/icon-tag.png', height: 30
+              %i.fa-4x.fa-tag
               %div
                 = @structure.subjects.count
                 %br
                 = "disciplines".pluralize @structure.subjects.count
 
             .milli.structure__header-icon.inline-block.text--center.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.places_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
-              = image_tag 'icons/icon-map-marker.png', height: 30
+              %i.fa-4x.fa-map-marker
               %div
                 = @structure.places.count
                 %br
                 = "lieu#{@structure.places.count > 1 ? 'x' : ''}"
             - if @structure.comments_count > 0
               .milli.structure__header-icon.inline-block.text--center.semi-muted.v-top
-                = image_tag 'icons/icon-comment.png', height: 30
+                %i.fa-4x.fa-comment
                 %div{ href: '#recommandations', itemprop: "aggregateRating", itemscope: true, itemtype: "http://schema.org/AggregateRating" }
                   .visuallyhidden{ itemprop: "ratingValue" } 5
                   .visuallyhidden{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
@@ -63,40 +63,42 @@
           .v-middle.fb-like{ data: { href: structure_url(@structure), layout: 'button', action: 'recommend', 'show-faces' => 'false', share: "false" } }
       .grid__item.two-twelfths.v-bottom>
         - if @structure.premium?
-          - # TODO
-          .lbl.lbl--yellow.nowrap Essai gratuit & promotions
-          -# = "Essai gratuit"
-          -# = "Promotions"
-
+          .lbl.lbl--yellow.nowrap
+            %i.fa-star
+            = header_promotion_title_for_structure @structure
 
 #structure-profile-menu.one-whole.west.fixed.on-top{ style: 'top: -100px;' }
   .bg-site-background.soft-half--ends.bordered--bottom
-    .main-container.grid--full
-      .grid__item.v-middle.nine-twelfths>
-        .flexbox.top-page-menu
-          %h4.flexbox__item.push--right.flush--bottom.v-middle{ itemprop: 'name' }= truncate @structure.name, length: 25
-          %ul.nav.flush.flexbox__item.v-middle
-            %li.soft-half--sides= link_to 'Lieux & photos', '#lieux-photos', class: 'f-weight-normal', data: { behavior: 'scroll-to', offset_top: '-55' }
-            %li.soft-half--sides= link_to 'Présentation', '#presentation', class: 'f-weight-normal', data: { behavior: 'scroll-to', offset_top: '-55' }
-            %li.soft-half--sides= link_to 'Cours réguliers', '#cours-reguliers', class: 'f-weight-normal', data: { behavior: 'scroll-to', offset_top: '-55' }
-            %li.soft-half--sides= link_to 'Stages & ateliers', '#stages-ateliers', class: 'f-weight-normal', data: { behavior: 'scroll-to', offset_top: '-55' }
-            %li.soft-half--sides= link_to 'Recommandations', '#recommandations', class: 'f-weight-normal', data: { behavior: 'scroll-to', offset_top: '-55' }
-      .grid__item.v-middle.three-twelfths.text--right>
-        .soft--right
-          %a.contact-button.btn.btn--green{ data: { behavior: 'show-contact-panel' } }
-            %i.fa.fa-envelope
-            Message
-          %a.contact-button.btn{ data: { behavior: 'show-contact-panel' } }
-            %i.fa.fa-phone
-            Coordonnées
-
-
+    .main-container.soft--ends
+      .grid--full
+        .grid__item.v-middle.nine-twelfths>
+          .flexbox.top-page-menu
+            %ul.nav.flush.flexbox__item.v-middle
+              %li.soft-half--sides= link_to 'Lieux & photos', '#lieux-photos', class: 'f-weight-normal', data: { behavior: 'scroll-to', offset_top: '-55' }
+              %li.soft-half--sides= link_to 'Présentation', '#presentation', class: 'f-weight-normal', data: { behavior: 'scroll-to', offset_top: '-55' }
+              %li.soft-half--sides= link_to 'Cours réguliers', '#cours-reguliers', class: 'f-weight-normal', data: { behavior: 'scroll-to', offset_top: '-55' }
+              %li.soft-half--sides= link_to 'Stages & ateliers', '#stages-ateliers', class: 'f-weight-normal', data: { behavior: 'scroll-to', offset_top: '-55' }
+              %li.soft-half--sides= link_to 'Recommandations', '#recommandations', class: 'f-weight-normal', data: { behavior: 'scroll-to', offset_top: '-55' }
+            - if @structure.premium?
+              .flexbox__item.push--right
+                .lbl.lbl--yellow.nowrap
+                  %i.fa-star
+                  = header_promotion_title_for_structure @structure
+        .grid__item.v-middle.three-twelfths.text--right>
+          .soft--right
+            %a.contact-button.btn.btn--green{ data: { behavior: 'show-contact-panel' } }
+              %i.fa.fa-envelope
+              Message
+            %a.contact-button.btn{ data: { behavior: 'show-contact-panel' } }
+              %i.fa.fa-phone
+              Coordonnées
 
 = content_for :scripts do
   :javascript
       $(function() {
-          $('body').addClass('relative').scrollspy({ target: '#structure-profile-menu .top-page-menu' })
+          $('body').addClass('relative').scrollspy({ target: '#structure-profile-menu .top-page-menu', offset: 85 })
           $('body').on('click', '[data-behavior=show-contact-panel]', function() {
               $.fancybox.open($('#contact-panel').clone(), { padding: 0, maxWidth: 450, minWidth: 450, width: 450, helpers: { overlay: { locked: false } } });
+              return false;
           })
       });

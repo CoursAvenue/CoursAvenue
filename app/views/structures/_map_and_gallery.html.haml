@@ -20,8 +20,7 @@
             %p.one-whole.absolute.south.soft-half.flush.white.media-caption.f-weight-bold= media.caption
   .thumbnails-container.relative
     %a.thumbnails-container__nav.prev.pointer{ data: { 'slide-prev' => true } }
-      -# %i.fa.fa-chevron-left
-      = image_tag 'icons/icon-chevron-left.png', height: 25, class: 'v-middle semi-muted'
+      %i.delta.fa-chevron-left.v-middle.gray-light
     .thumbnails-viewport.relative
       %ul.nav.rslides__custom-pager.push-half--bottom.slideshow-thumbnails.thumbnails-slide-panel#galery-controls-thumb
         - unless without_map
@@ -33,8 +32,7 @@
             %a.pointer.media-photo
               %img{ src: media.thumbnail_url, height: 70, width: 70}
     %a.thumbnails-container__nav.next.pointer{ data: { 'slide-next' => true } }
-      -# %i.fa.fa-chevron-right
-      = image_tag 'icons/icon-chevron-right.png', height: 25, class: 'v-middle semi-muted'
+      %i.delta.fa-chevron-right.v-middle.gray-light
 
 = content_for :scripts do
   :javascript
@@ -52,10 +50,8 @@
         $(".galery-rslides").responsiveSlides({
             auto: false,
             nav: true,
-            // prevText: '<i class="fa fa-chevron-left blue"></i>',
-            // nextText: '<i class="fa fa-chevron-right blue"></i>',
-            prevText: '<img height="50" class="v-middle" src="#{asset_path("icons/icon-chevron-left.png")}" />',
-            nextText: '<img height="50" class="v-middle" src="#{asset_path("icons/icon-chevron-right.png")}" />',
+            prevText: '<i class="fa-2x fa-chevron-left soft-black-text-shadow"></i>',
+            nextText: '<i class="fa-2x fa-chevron-right soft-black-text-shadow"></i>',
             manualControls: '#galery-controls-thumb',
             before: function(currentlySelectedIndex) {
                 //------

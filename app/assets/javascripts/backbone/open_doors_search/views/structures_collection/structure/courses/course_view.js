@@ -18,6 +18,10 @@ OpenDoorsSearch.module('Views.StructuresCollection.Structure.Courses', function(
 
         itemViewOptions: function itemViewOptions (model, index) {
             return { structure_url: this.structure_url };
+        },
+
+        onAfterShow: function onAfterShow () {
+            this.$('[data-toggle=popover]').popover();
         }
 
     });

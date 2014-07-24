@@ -11,6 +11,10 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             'change': 'updatePlannings'
         },
 
+        initialize: function(options) {
+            this.model.set('is_last', options.is_last);
+        },
+
         /* the Course model used here as the composite part is the actual
         * course model in the structure's courses relation. However, the
         * collection of plannings is _not_ part of the structure. This means

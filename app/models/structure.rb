@@ -97,7 +97,7 @@ class Structure < ActiveRecord::Base
 
   # To store hashes into hstore
   store_accessor :meta_data, :gives_group_courses, :gives_individual_courses,
-                             :plannings_count, :has_promotion, :has_free_trial_course, :course_names, :open_course_names, :open_course_subjects,
+                             :plannings_count, :has_promotion, :has_free_trial_course, :has_promotion, :course_names, :open_course_names, :open_course_subjects,
                              :highlighted_comment_title, :min_price_libelle, :min_price_amount, :max_price_libelle, :max_price_amount,
                              :level_ids, :audience_ids, :busy,
                              :open_courses_open_places, :open_course_nb, :jpo_email_status, :open_course_plannings_nb,
@@ -107,7 +107,7 @@ class Structure < ActiveRecord::Base
 
 
   define_boolean_accessor_for :meta_data, :has_promotion, :gives_group_courses, :gives_individual_courses,
-                              :has_free_trial_course, :gives_non_professional_courses, :gives_professional_courses,
+                              :has_free_trial_course, :has_promotion, :gives_non_professional_courses, :gives_professional_courses,
                               :is_sleeping
 
   has_attached_file :logo,
@@ -521,8 +521,8 @@ class Structure < ActiveRecord::Base
     self.plannings_count          = self.plannings.visible.future.count
     self.gives_group_courses      = self.courses.select{|course| !course.is_individual? }.any?
     self.gives_individual_courses = self.courses.select(&:is_individual?).any?
-    self.has_promotion            = self.prices.select{|p| p.promo_amount.present?}.any?
-    self.has_free_trial_course    = self.prices.trials.where(Price.arel_table[:amount].eq(nil).or(Price.arel_table[:amount].eq(0))).any?
+    self.has_promotion            = self.courses.detect(&:has_promotion?).any?
+    self.has_free_trial_course    = self.courses.detect(&:has_free_trial_course?).any?
     self.course_names              = self.courses.map(&:name).uniq.join(', ')
     self.highlighted_comment_title = (self.highlighted_comment ? self.highlighted_comment.title : comments.accepted.order('created_at DESC').first.try(:title))
     # Store level and audiences ids as coma separated string values: "1,3,5"

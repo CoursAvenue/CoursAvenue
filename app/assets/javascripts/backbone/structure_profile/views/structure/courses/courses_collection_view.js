@@ -49,6 +49,7 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
 
         onAfterShow: function onAfterShow () {
             this.$('[data-behavior=read-more]').readMore();
+            this.$('[data-toggle=popover]').popover();
         },
 
         /* serializeData
@@ -71,9 +72,10 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         },
 
         itemViewOptions: function itemViewOptions (model, index) {
-
+            var is_last = (index == (this.collection.length - 1));
             return {
-                collection: new Backbone.Collection(model.get("plannings"))
+                collection: new Backbone.Collection(model.get("plannings")),
+                is_last: is_last
             };
         },
 

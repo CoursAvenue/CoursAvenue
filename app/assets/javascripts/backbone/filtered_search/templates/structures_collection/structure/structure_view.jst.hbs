@@ -10,8 +10,8 @@
         <div class="relative full-height soft-half hard--right">
             <h4 class="flush v-top">
                 <a class="v-middle" href="{{ query_url }}">{{ name }}</a>
-                {{#if premium}}
-                    <div class="inline-block lbl lbl--yellow milli v-middle"><i class="fa fa-tag"></i> Offres promotionnelles</div>
+                {{#if promotion_title}}
+                    <div class="inline-block lbl lbl--yellow milli v-middle"><i class="fa fa-star"></i> {{promotion_title }}</div>
                 {{/if}}
             </h4>
             <div>
@@ -43,7 +43,7 @@
                 {{#ifCond comments_count '>' 0 }}
                     <div>
                         <strong>
-                            <i class="fa fa-comments"></i> {{ comments_count }}
+                            <i class="fa fa-comment"></i> {{ comments_count }}
                             {{#if highlighted_comment_title}}<i class="quoted milli">{{{truncate highlighted_comment_title 60}}}</i>{{/if}}
                         </strong>
                     </div>

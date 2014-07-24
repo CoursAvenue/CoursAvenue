@@ -1,4 +1,9 @@
-<h3 class="epsilon push-half--bottom">{{ name }}</h3>
+<div class="push-half--bottom">
+  <h3 class="v-middle flush inline-block delta">{{ name }}</h3>
+  {{#if promotion_title}}
+    <a href="#{{type_dash}}-{{id}}-tarifs" class="v-middle lbl lbl--yellow muted-link push-half--left" data-behavior='scroll-to' data-offset-top='-65'><i class="fa-star"></i> {{ promotion_title }}</a>
+  {{/if}}
+</div>
 <div class="flexbox push--bottom">
     <div class="flexbox__item v-top one-quarter">
         <strong class="gray-light">Description</strong>
@@ -6,13 +11,13 @@
     <div class="flexbox__item v-top three-quarters">
         {{#if description}}
             {{#ifCond description '!=' description_short}}
-            <div id="course-{{id}}-description-short" class="gray">
+            <div id="{{type_dash}}-{{id}}-description-short" class="gray last-p-push-half--bottom">
                 {{{ simple_format_hide_contacts description_short }}}
             </div>
-            <a href="#" data-behavior="show-long-version" data-short-version="#course-{{id}}-description-short" data-long-version="#course-{{id}}-description-long">
+            <a href="#" data-behavior="show-long-version" data-short-version="#{{type_dash}}-{{id}}-description-short" data-long-version="#{{type_dash}}-{{id}}-description-long">
             + Plus
             </a>
-            <div id="course-{{id}}-description-long" class="gray hidden" itemprop="description">
+            <div id="{{type_dash}}-{{id}}-description-long" class="gray hidden" itemprop="description">
                 {{{ simple_format_hide_contacts description }}}
             </div>
             {{else}}
@@ -34,7 +39,7 @@
               <strong class="gray-light text--right">Lieux</strong>
           </div>
           <div class="flexbox__item v-top three-quarters">
-              {{ course_location }}
+              {{{ course_location }}}
           </div>
       </div>
     {{/if}}
@@ -49,7 +54,7 @@
           --><div class="inline-block one-half v-middle push-half--bottom soft-half--right {{#ifCond @index '>' 1}}course-{{../../id}}-details-long hidden{{/ifCond}}">
                 <div class="flexbox">
                     <div class="flexbox__item v-middle two-twelfths text--center">
-                        <img src="{{this.icon}}" height="15" class="v-middle">
+                        <i class="{{this.icon}} v-middle" title="{{this.alt}}"></i>
                     </div>
                     <div class="flexbox__item v-middle ten-twelfths">
                         {{this.text}}
@@ -71,7 +76,7 @@
     </div>
     <div class="flexbox__item v-top three-quarters">
         <table class="table--striped table--data-small {{#if on_appointment}}hidden{{/if}}">
-            <thead>
+            <thead class="gray-light">
                 <tr>
                     <th>Jour</th>
                     <th>Horaires</th>
@@ -85,13 +90,16 @@
     </div>
 </div>
 
-<div class="flexbox push--bottom">
+<div class="flexbox push--bottom" id="{{type_dash}}-{{id}}-tarifs">
     <div class="flexbox__item v-top one-quarter">
-        <strong class="gray-light">Tarifs</strong>
+        <strong class="gray-light v-middle">Tarifs</strong>
+        {{#if promotion_title}}
+          <img src="<%= asset_path('icons/icon-star-yellow-full-bordered.png') %>" height="14" class="v-middle" data-toggle="tooltip" data-title="{{ promotion_title }}">
+        {{/if}}
     </div>
     <div class="flexbox__item v-top three-quarters">
         <table class="table--striped table--data-small">
-            <thead>
+            <thead class="gray-light">
                 <tr>
                     <th class="three-twelfths">Formule</th>
                     <th class="one-twelfth  text--center">Prix</th>
@@ -123,7 +131,7 @@
                 {{/if}}
                 {{#each prices}}
                     {{#ifCond @index '==' 2}}
-                        <tr data-behavior="show-long-version" data-long-version=".course-{{id}}-prices-long">
+                        <tr data-behavior="show-long-version" data-long-version=".{{type_dash}}-{{id}}-prices-long">
                           <td colspan="4">
                               <a href="#" class="block">
                               + Plus
@@ -131,7 +139,7 @@
                           </td>
                         </tr>
                     {{/ifCond}}
-                    <tr class="{{#ifCond @index '==' 0}}bordered--top{{/ifCond}}{{#ifCond @index '>' 1}}course-{{id}}-prices-long hidden{{/ifCond}}">
+                    <tr class="{{#ifCond @index '==' 0}}bordered--top{{/ifCond}}{{#ifCond @index '>' 1}}{{type_dash}}-{{id}}-prices-long hidden{{/ifCond}}">
                         <td>
                             {{this.libelle}}
                         </td>
@@ -161,7 +169,7 @@
     <div class="flexbox__item v-top three-quarters">
         <div>
             {{#each subjects}}
-            <div class="push-half--bottom {{#ifCond @index '>' 0}}course-{{id}}-subjects-long hidden{{/ifCond}}">
+            <div class="push-half--bottom {{#ifCond @index '>' 0}}{{type_dash}}-{{id}}-subjects-long hidden{{/ifCond}}">
                 <img src="{{this.icon}}" alt="Disciplines pratiquées : {{this.icon}}" height="16" class="v-middle">
                 <strong class="v-middle">{{this.root_name}}</strong>
                 <br>
@@ -169,7 +177,7 @@
             </div>
             {{#ifCond @index '==' 1}}
                 <div>
-                    <a href="#" data-behavior="show-long-version" data-long-version="#course-{{id}}-subjects-long">
+                    <a href="#" data-behavior="show-long-version" data-long-version="#{{type_dash}}-{{id}}-subjects-long">
                     + Plus
                     </a>
                 </div>
@@ -178,4 +186,6 @@
         </div>
     </div>
 </div>
+{{#unless is_last}}
 <hr class="push--ends">
+{{/unless}}

@@ -1,4 +1,5 @@
-<td class="nowrap">{{ date }}</td>
+<td class="nowrap">{{ activity_name }}</td>
+<td>{{ date }}</td>
 <td>{{ time_slot }}</td>
 <td>{{ levels }}</td>
 <td class="{{#if info}}nowrap{{/if}}">
@@ -8,8 +9,9 @@
     {{/if}}
 </td>
 <td class="three-twelfths text--right">
-    <div class="gray milli">
-        <i>{{address}}</i>
-        <i class="fa fa-map-marker"></i>
+    {{#if address }}
+        <div class="gray milli" data-toggle="popover" data-html="true" data-trigger="hover" data-content="{{address_with_info}}">
+        {{address_name}} <i class="fa-map-marker epsilon v-middle"></i>
     </div>
+    {{/if}}
 </td>

@@ -13,7 +13,7 @@
 .invisible   { @include opacity(0); }
 
 .relative          { position   : relative; }
-.on-top            { z-index: 10; }
+.on-top            { z-index    : 1000; }
 .absolute          { position   : absolute; }
 .fixed             { position   : fixed; }
 .west              { left       : 0 !important; }
@@ -286,4 +286,10 @@
 
 .height-whole {
     height: 100%;
+}
+
+.last-p-push-half--bottom {
+    p:last-child {
+        margin-bottom: $base-line-height / 2;
+    }
 }

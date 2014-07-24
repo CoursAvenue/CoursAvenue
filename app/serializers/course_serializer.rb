@@ -4,11 +4,11 @@ class CourseSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::NumberHelper
 
-  attributes :id, :name, :description, :description_short, :type, :start_date, :end_date, :min_price_amount, :min_price_libelle, :data_url, :subjects,
+  attributes :id, :name, :description, :description_short, :type, :type_dash, :start_date, :end_date, :min_price_amount, :min_price_libelle, :data_url, :subjects,
              :has_free_trial_lesson, :event_type, :best_price, :is_individual, :search_term, :is_lesson, :frequency,
              :cant_be_joined_during_year, :no_class_during_holidays, :teaches_at_home, :teaches_at_home_radius,
              :has_premium_prices, :premium, :on_appointment, :course_location, :min_age_for_kid, :max_age_for_kid,
-             :audiences, :levels, :is_private, :details, :prices, :premium_prices, :prices_length
+             :audiences, :levels, :is_private, :details, :prices, :premium_prices, :prices_length, :promotion_title
 
 
   has_many :plannings,      serializer: PlanningSerializer
@@ -20,7 +20,7 @@ class CourseSerializer < ActiveModel::Serializer
   end
 
   def description_short
-    truncate(object.description, :length => 200, :separator => ' ') if object.description
+    truncate(object.description, :length => 170, :separator => ' ') if object.description
   end
 
   def has_free_trial_lesson
@@ -53,6 +53,10 @@ class CourseSerializer < ActiveModel::Serializer
 
   def type
     object.type_name
+  end
+
+  def type_dash
+    object.type_name.downcase.gsub(' ', '-')
   end
 
   def is_lesson
@@ -116,7 +120,7 @@ class CourseSerializer < ActiveModel::Serializer
       string << "Au domicile de l'élève (rayon de #{object.home_place.radius}km autour de #{object.home_place.city.name})"
     end
     if object.teaches_at_home? and object.home_place and object.place
-      string << " et "
+      string << "<br>"
     end
     if object.place
       string << object.place.address
@@ -140,41 +144,43 @@ class CourseSerializer < ActiveModel::Serializer
     _details = []
     if on_appointment
       _details << { text: 'Pas de créneau précis, uniquement sur demande',
-                    icon: ActionController::Base.helpers.asset_path("icons/icon-telephone.png") }
+                    icon: 'delta fa-phone-o' }
     end
     if teaches_at_home
       _details << { text: 'Cours à domicile',
-                    icon: ActionController::Base.helpers.asset_path("icons/icon-house.png") }
+                    icon: 'delta fa-house' }
     end
     if is_individual
       _details << { text: 'Cours individuel',
-                    icon: ActionController::Base.helpers.asset_path("icons/icon-user.png") }
+                    icon: 'delta fa-user' }
     else
       _details << { text: 'Cours collectif',
-                    icon: ActionController::Base.helpers.asset_path("icons/icon-group.png") }
+                    icon: 'fa-2x fa-group' }
     end
     if is_lesson
       _details << { text: 'Cours régulier',
-                    icon: ActionController::Base.helpers.asset_path("icons/icon-repeat.png") }
+                    icon: 'delta fa-repeat' }
       _details << { text: "#{frequency} du #{start_date} au #{end_date}",
-                  icon: ActionController::Base.helpers.asset_path("icons/icon-calendar.png") }
+                    icon: 'delta fa-calendar' }
     end
     if cant_be_joined_during_year
       _details << { text: "Pas d'inscription en cours d'année",
-                    icon: ActionController::Base.helpers.asset_path("icons/icon-forbidden.png") }
+                    icon: 'delta fa-forbidden' }
     else
       _details << { text: "Inscription tout au long de l'année",
-                    icon: ActionController::Base.helpers.asset_path("icons/icon-repeat.png") }
+                    icon: 'delta fa-repeat' }
     end
     if no_class_during_holidays
       _details << { text: "Pas de cours pendant les vacances scolaires",
-                    icon: ActionController::Base.helpers.asset_path("icons/icon-forbidden.png") }
+                    icon: 'delta fa-forbidden' }
     end
     if is_private
       _details << { text: audiences,
-                    icon: ActionController::Base.helpers.asset_path("icons/icon-group.png") }
+                    icon: 'fa-2x fa-audiences',
+                    alt: 'Public' }
       _details << { text: levels,
-                    icon: ActionController::Base.helpers.asset_path("icons/icon-group.png") }
+                    icon: 'delta fa-bars',
+                    alt: 'Niveau' }
     end
     _details
   end
@@ -189,7 +195,7 @@ class CourseSerializer < ActiveModel::Serializer
 
   def prices
     if object.price_group
-      object.price_group.prices.non_premium_prices
+      object.price_group.prices.non_premium_prices.order('amount ASC')
     else
       []
     end
@@ -203,4 +209,15 @@ class CourseSerializer < ActiveModel::Serializer
     end
   end
 
+  def promotion_title
+    if object.structure.premium? and object.price_group
+      if object.has_free_trial_lesson? and object.has_promotion?
+        "Essai gratuit & promotions"
+      elsif object.has_promotion?
+        "Promotions"
+      elsif object.has_free_trial_lesson?
+        "Essai gratuit"
+      end
+    end
+  end
 end

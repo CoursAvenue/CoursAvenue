@@ -3,24 +3,30 @@ class StructureDecorator < Draper::Decorator
   def places_popover
     output = ''
     object.places.each do |place|
-      output << "<div class='flexbox'><div class='flexbox__item v-top'><strong>#{place.name}&nbsp;:&nbsp;</strong></div><div class='flexbox__item'>#{place.street}, #{place.city.name}</div></div>"
+      output << "<div class='push-half--bottom'><strong>#{place.name}</strong><br>#{place.street}, #{place.city.name}</div>"
     end
     output.html_safe
   end
 
   def subjects_popover
-    output = ''
+    _subjects = []
     object.subjects.at_depth(0).each do |root_subject|
       child_subjects = object.subjects.at_depth(2).order('name ASC').select{ |subject|  subject.ancestry.start_with?(root_subject.id.to_s) }
-      if child_subjects.any?
-        output << <<-eos
-          <div class='push-half--bottom'>
-            <strong>#{root_subject.name}</strong>
-            <br>
-            #{child_subjects.map(&:name).join(', ')}
-          </div>
-        eos
-      end
+      _subjects << {
+        root_name: root_subject.name,
+        child_names: child_subjects.map(&:name).join(', ')
+      }
+    end
+
+    output = ''
+    _subjects.sort_by(&:length).reverse.each do |subject_hash|
+      output << <<-eos
+        <div class='push-half--bottom'>
+          <strong>#{subject_hash[:root_name]}</strong>
+          <br>
+          #{subject_hash[:child_names]}
+        </div>
+      eos
     end
     output.html_safe
   end

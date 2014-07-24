@@ -217,9 +217,12 @@ class Course < ActiveRecord::Base
     return has_promotion?
   end
 
+  # Wether it has promotions or not. A Promotion include Premium offsers AND Discounts
+  #
+  # @return Boolean
   def has_promotion?
     return false if self.prices.empty?
-    !(self.prices.order('promo_amount ASC').first.promo_amount).nil?
+    !(self.prices.order('promo_amount ASC NULLS LAST').first.promo_amount).nil?
   end
 
   def has_package_price
@@ -230,6 +233,9 @@ class Course < ActiveRecord::Base
     return self.prices.where( type: 'Price::Trial' ).any?
   end
 
+  # Wether it has free trial course or not
+  #
+  # @return Boolean
   def has_free_trial_lesson?
     return self.prices.where( Price.arel_table[:type].eq('Price::Trial').and(
                               (Price.arel_table[:amount].eq(nil).or(Price.arel_table[:amount].eq(0)))) ).any?

@@ -95,15 +95,15 @@
               - if current_user and current_user.follows?(@structure)
                 = link_to '#', class: "btn btn--full disabled" do
                   %i.fa.fa-heart
-                  Déjà en favoris
+                  Déjà en favori
               - elsif current_user
                 = link_to follow_structure_path(@structure), method: :post, class: "btn btn--full btn--gray" do
                   %i.fa.fa-heart
-                  Favoris
+                  Favori
               - else
                 = link_to new_user_registration_path, data: { behavior: 'modal', title: 'Connexion', width: 600, padding: 0 }, class: 'fancybox.ajax btn btn--full btn--gray', onclick: "ga('send', 'event', 'Se créer un compte', 'click','Inscrit')" do
                   %i.fa.fa-heart
-                  Favoris
+                  Favori
               - if @structure.followers.count > 9
                 %p.flush.text--center.push-half--top
                   %strong Suivi par #{@structure.followers.count} élèves
