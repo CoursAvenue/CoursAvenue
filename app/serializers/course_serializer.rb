@@ -83,10 +83,11 @@ class CourseSerializer < ActiveModel::Serializer
       _subjects << {
         root_name: root_subject.name,
         child_names: child_subjects.map(&:name).join(', '),
-        icon: ActionController::Base.helpers.asset_path("icons/subjects/#{root_subject.slug}.png")
+        icon: ActionController::Base.helpers.asset_path("icons/subjects/#{root_subject.slug}.png"),
+        child_length: child_subjects.length
       }
     end
-    _subjects.sort_by(&:length).reverse
+    _subjects.sort{ |a, b| b[:child_length] <=> a[:child_length] }
   end
 
   def event_type

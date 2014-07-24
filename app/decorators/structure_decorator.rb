@@ -14,12 +14,13 @@ class StructureDecorator < Draper::Decorator
       child_subjects = object.subjects.at_depth(2).order('name ASC').select{ |subject|  subject.ancestry.start_with?(root_subject.id.to_s) }
       _subjects << {
         root_name: root_subject.name,
-        child_names: child_subjects.map(&:name).join(', ')
+        child_names: child_subjects.map(&:name).join(', '),
+        child_length: child_subjects.length
       }
     end
 
     output = ''
-    _subjects.sort_by(&:length).reverse.each do |subject_hash|
+    _subjects.sort{ |a, b| b[:child_length] <=> a[:child_length] }.each do |subject_hash|
       output << <<-eos
         <div class='push-half--bottom'>
           <strong>#{subject_hash[:root_name]}</strong>
