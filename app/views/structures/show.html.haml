@@ -89,7 +89,7 @@
 
         - unless @is_sleeping
           .panel.push--bottom
-            .panel__header.soft-half
+            .panel__header.soft-half--ends.soft--sides
               %h5.flush Actualités et offres exclusives
             .panel__body.soft
               - if current_user and current_user.follows?(@structure)
@@ -110,7 +110,7 @@
 
         - unless @structure.premium?
           .panel
-            .panel__header.soft-half--ends.soft--left
+            .panel__header.soft-half--ends.soft--sides
               %h5.flush Profils similaires
             .panel__body.soft-half--ends
 

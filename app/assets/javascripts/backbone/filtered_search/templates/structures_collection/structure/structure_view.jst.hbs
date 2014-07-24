@@ -43,21 +43,16 @@
                 {{#ifCond comments_count '>' 0 }}
                     <div>
                         <strong>
-                            <i class="fa fa-comment"></i> {{ comments_count }}
-                            {{#if highlighted_comment_title}}<i class="quoted milli">{{{truncate highlighted_comment_title 60}}}</i>{{/if}}
+                            <i class="fa fa-comment"></i> {{ comments_count }} recommandations
+                            {{#if highlighted_comment_title}}
+                            ・ <i class="quoted milli">{{{truncate highlighted_comment_title 60}}}</i>{{/if}}
                         </strong>
                     </div>
                 {{/ifCond}}
 
             </div>
             <div class="structure-item__see-all soft-half--sides">
-                <a href="javascritp:void(0);" class="btn btn--blue-green btn--full btn--small" data-behavior="accordion-control" data-model="course" data-attributes="data_url" data-wrapper=".structure-item__see-all-wrapper">
-                    {{#if plannings_count}}
-                        <span>Voir les séances</span>
-                    {{else}}
-                        <span>Pas de séance, contactez le professeur</span>
-                    {{/if}}
-                </a>
+                <a href="{{ query_url }}" class="btn btn--blue-green btn--full btn--small" data-wrapper=".structure-item__see-all-wrapper">Voir le profil</a>
             </div>
         </div>
     </article><!--
@@ -72,14 +67,14 @@
                     <li class="bg-cover">
                         <a rel="slideshow-{{mediable_id}}" href="{{{this.url}}}" class="rslides_nav rslides_nav--icon {{#if this.is_video}}visible{{/if}}" data-behavior="fancy">
                             {{#if this.is_video}}
-                                <i class="fa-youtube-play" style="line-height: 100px;"></i>
+                                <i class="fa-youtube-play" style="line-height: 85px;"></i>
                             {{else}}
                                 <i class="fa-eye"></i>
                             {{/if}}
                         </a>
                         <div class="media__item media__item--slides">
                             <a class="break-all" title="{{this.caption}}" href="{{this.url}}">
-                                <img src="{{this.thumbnail_url}}" />
+                                <img src="{{this.thumbnail_url}}" alt="{{this.caption}}"/>
                             </a>
                         </div>
                     </li>
