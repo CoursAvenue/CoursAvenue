@@ -71,7 +71,11 @@
                 {{#each preloaded_medias}}
                     <li class="bg-cover">
                         <a rel="slideshow-{{mediable_id}}" href="{{{this.url}}}" class="rslides_nav rslides_nav--icon {{#if this.is_video}}visible{{/if}}" data-behavior="fancy">
-                            <i class="fa {{#if this.is_video}}fa-youtube-play{{else}}fa-eye{{/if}}"></i>
+                            {{#if this.is_video}}
+                                <i class="fa-youtube-play" style="line-height: 100px;"></i>
+                            {{else}}
+                                <i class="fa-eye"></i>
+                            {{/if}}
                         </a>
                         <div class="media__item media__item--slides">
                             <a class="break-all" title="{{this.caption}}" href="{{this.url}}">
