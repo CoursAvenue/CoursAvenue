@@ -41,7 +41,7 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
         },
 
         // We have some weird behavior having two maps on the same page...
-        addChild: function(childModel, html) {
+        addChild: function addChild (childModel, html) {
             var markerView = new this.markerView({
                 model:   childModel,
                 map:     this.map,
@@ -53,7 +53,7 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
         },
 
         // We have some weird behavior having two maps on the same page...
-        closeChildren: function() {
+        closeChildren: function closeChildren () {
             for(var cid in this.markerViewChildren) {
                 if (this.sticky && cid.indexOf('sticky') !== -1) {
                     this.closeChild(this.markerViewChildren[cid]);
@@ -103,21 +103,22 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
         * matches this marker's location it will get excited. */
         exciteMarkers: function exciteMarkers (data) {
             var key = data.place_id || data.id;
-
-            if (key === null) {
-                return;
-            }
-
+            if (key === null) { return; }
             _.each(this.markerViewChildren, function (child) {
                 if (child.model.get("id") === key) {
+                    child.highlight({ show_info_box: false });
+                    child.excite();
+                }
+            });
+        },
 
-                    if (child.isHighlighted()) {
-                        child.unhighlight();
-                        child.calm();
-                    } else {
-                        child.highlight({ show_info_box: false });
-                        child.excite();
-                    }
+        unexciteMarkers: function exciteMarkers (data) {
+            var key = data.place_id || data.id;
+            if (key === null) { return; }
+            _.each(this.markerViewChildren, function (child) {
+                if (child.model.get("id") === key) {
+                    child.unhighlight();
+                    child.calm();
                 }
             });
         }

@@ -78,9 +78,9 @@ StructureProfile.addInitializer(function(options) {
     layout.showWidget(google_maps_view, {
         events: {
             "course:mouse:enter": "exciteMarkers",
-            "course:mouse:leave": "exciteMarkers",
+            "course:mouse:leave": "unexciteMarkers",
             "place:mouse:enter": "exciteMarkers",
-            "place:mouse:leave": "exciteMarkers",
+            "place:mouse:leave": "unexciteMarkers",
             "places:collection:updated": "recenterMap"
         }
     });

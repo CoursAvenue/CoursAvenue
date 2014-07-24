@@ -44,7 +44,8 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
         },
 
         retireMarkers: function(data) {
-            this.$el.find('.map-marker-image').addClass('map-marker-image--small');
+            // this.$el.find('.map-marker-image').addClass('map-marker-image--small');
+            this.$el.find('.map-marker-image').remove();
         },
 
         /* a set of markers should be made to stand out */

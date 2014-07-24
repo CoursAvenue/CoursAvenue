@@ -100,8 +100,8 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
                 old_top = parseInt(this.$el.css('top'), 10),
                 crest = old_top - 30;
 
-            this.$el.animate({ top: crest }, 200, 'easeOutQuint', function (event) {
-                self.$el.animate({ top: old_top }, 400, 'easeOutBounce');
+            this.$el.finish().animate({ top: crest }, 200, 'easeOutQuint', function (event) {
+                self.$el.finish().animate({ top: old_top }, 400, 'easeOutBounce');
             });
         },
 
@@ -114,8 +114,8 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
                 old_top = parseInt(this.$el.css('top'), 10),
                 crest = old_top - 30;
 
-            this.$el.animate({ top: crest }, 200, 'easeOutQuint', function () {
-                self.$el.animate({ top: old_top }, 400, 'easeOutBounce', _.bind(self.bounce, self));
+            this.$el.finish().animate({ top: crest }, 200, 'easeOutQuint', function () {
+                self.$el.finish().animate({ top: old_top }, 400, 'easeOutBounce', _.bind(self.bounce, self));
             });
         },
 
