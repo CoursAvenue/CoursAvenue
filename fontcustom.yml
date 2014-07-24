@@ -43,5 +43,4 @@ output:
 
 templates:
  - scss
- - preview
  #- my-custom-template.yml

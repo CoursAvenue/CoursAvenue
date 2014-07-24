@@ -1,13 +1,13 @@
 {
   "checksum": {
-    "previous": "4a192c40c5c204977a427c1815a9bc5a941244217117fe5d2267dd313bd9e1b7",
-    "current": "4a192c40c5c204977a427c1815a9bc5a941244217117fe5d2267dd313bd9e1b7"
+    "previous": "689c6eacca90e025300ce3e9d93094d7fcf8261af39623876d649f48e9240437",
+    "current": "689c6eacca90e025300ce3e9d93094d7fcf8261af39623876d649f48e9240437"
   },
   "fonts": [
-    "app/assets/fonts/fontcustom_4a192c40c5c204977a427c1815a9bc5a.ttf",
-    "app/assets/fonts/fontcustom_4a192c40c5c204977a427c1815a9bc5a.svg",
-    "app/assets/fonts/fontcustom_4a192c40c5c204977a427c1815a9bc5a.woff",
-    "app/assets/fonts/fontcustom_4a192c40c5c204977a427c1815a9bc5a.eot"
+    "app/assets/fonts/fontcustom_689c6eacca90e025300ce3e9d93094d7.ttf",
+    "app/assets/fonts/fontcustom_689c6eacca90e025300ce3e9d93094d7.svg",
+    "app/assets/fonts/fontcustom_689c6eacca90e025300ce3e9d93094d7.woff",
+    "app/assets/fonts/fontcustom_689c6eacca90e025300ce3e9d93094d7.eot"
   ],
   "glyphs": {
     "audiences": {
@@ -95,7 +95,7 @@
       "source": "app/assets/images/icons/svg/user.svg"
     },
     "youtube-play": {
-      "codepoint": 61740,
+      "codepoint": 61742,
       "source": "app/assets/images/icons/svg/youtube-play.svg"
     }
   },
