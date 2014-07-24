@@ -1,26 +1,42 @@
 {
   "checksum": {
-    "previous": "689c6eacca90e025300ce3e9d93094d7fcf8261af39623876d649f48e9240437",
-    "current": "689c6eacca90e025300ce3e9d93094d7fcf8261af39623876d649f48e9240437"
+    "previous": "41afad1d1984cf1122177e6470ee8dae6c2b3bbf47df8ccba73786da49616991",
+    "current": "41afad1d1984cf1122177e6470ee8dae6c2b3bbf47df8ccba73786da49616991"
   },
   "fonts": [
-    "app/assets/fonts/fontcustom_689c6eacca90e025300ce3e9d93094d7.ttf",
-    "app/assets/fonts/fontcustom_689c6eacca90e025300ce3e9d93094d7.svg",
-    "app/assets/fonts/fontcustom_689c6eacca90e025300ce3e9d93094d7.woff",
-    "app/assets/fonts/fontcustom_689c6eacca90e025300ce3e9d93094d7.eot"
+    "app/assets/fonts/GlyphAvenue_41afad1d1984cf1122177e6470ee8dae.ttf",
+    "app/assets/fonts/GlyphAvenue_41afad1d1984cf1122177e6470ee8dae.svg",
+    "app/assets/fonts/GlyphAvenue_41afad1d1984cf1122177e6470ee8dae.woff",
+    "app/assets/fonts/GlyphAvenue_41afad1d1984cf1122177e6470ee8dae.eot"
   ],
   "glyphs": {
     "audiences": {
       "codepoint": 61714,
       "source": "app/assets/images/icons/svg/audiences.svg"
     },
+    "bar-chart-o": {
+      "codepoint": 61765,
+      "source": "app/assets/images/icons/svg/bar-chart-o.svg"
+    },
     "bars": {
       "codepoint": 61734,
       "source": "app/assets/images/icons/svg/bars.svg"
     },
+    "book": {
+      "codepoint": 61762,
+      "source": "app/assets/images/icons/svg/book.svg"
+    },
+    "bullhorn": {
+      "codepoint": 61743,
+      "source": "app/assets/images/icons/svg/bullhorn.svg"
+    },
     "calendar": {
       "codepoint": 61715,
       "source": "app/assets/images/icons/svg/calendar.svg"
+    },
+    "check": {
+      "codepoint": 61749,
+      "source": "app/assets/images/icons/svg/check.svg"
     },
     "chevron-down": {
       "codepoint": 61716,
@@ -42,13 +58,33 @@
       "codepoint": 61720,
       "source": "app/assets/images/icons/svg/clock.svg"
     },
+    "cogs": {
+      "codepoint": 61759,
+      "source": "app/assets/images/icons/svg/cogs.svg"
+    },
     "comment": {
       "codepoint": 61721,
       "source": "app/assets/images/icons/svg/comment.svg"
     },
+    "contact": {
+      "codepoint": 61744,
+      "source": "app/assets/images/icons/svg/contact.svg"
+    },
+    "credit-card": {
+      "codepoint": 61755,
+      "source": "app/assets/images/icons/svg/credit-card.svg"
+    },
+    "dashboard": {
+      "codepoint": 61751,
+      "source": "app/assets/images/icons/svg/dashboard.svg"
+    },
     "envelope-o": {
       "codepoint": 61737,
       "source": "app/assets/images/icons/svg/envelope-o.svg"
+    },
+    "eur": {
+      "codepoint": 61753,
+      "source": "app/assets/images/icons/svg/eur.svg"
     },
     "eye": {
       "codepoint": 61735,
@@ -58,9 +94,17 @@
       "codepoint": 61722,
       "source": "app/assets/images/icons/svg/forbidden.svg"
     },
+    "gift": {
+      "codepoint": 61745,
+      "source": "app/assets/images/icons/svg/gift.svg"
+    },
     "group": {
       "codepoint": 61723,
       "source": "app/assets/images/icons/svg/group.svg"
+    },
+    "group-copy": {
+      "codepoint": 61761,
+      "source": "app/assets/images/icons/svg/group copy.svg"
     },
     "heart": {
       "codepoint": 61724,
@@ -78,9 +122,17 @@
       "codepoint": 61738,
       "source": "app/assets/images/icons/svg/phone-o.svg"
     },
+    "plus": {
+      "codepoint": 61760,
+      "source": "app/assets/images/icons/svg/plus.svg"
+    },
     "repeat": {
       "codepoint": 61733,
       "source": "app/assets/images/icons/svg/repeat.svg"
+    },
+    "shopping-cart": {
+      "codepoint": 61764,
+      "source": "app/assets/images/icons/svg/shopping-cart.svg"
     },
     "star": {
       "codepoint": 61729,
@@ -104,7 +156,7 @@
     "config": "fontcustom.yml",
     "css_selector": ".fa-{{glyph}}",
     "debug": false,
-    "font_name": "fontcustom",
+    "font_name": "GlyphAvenue",
     "force": false,
     "input": {
       "templates": "app/assets/images/icons/svg/",
@@ -120,12 +172,10 @@
     "quiet": false,
     "skip_first": false,
     "templates": [
-      "scss",
-      "preview"
+      "scss"
     ]
   },
   "templates": [
-    "app/assets/stylesheets/_fontcustom.scss",
-    "app/views/styleguide/fontcustom-preview.html"
+    "app/assets/stylesheets/_GlyphAvenue.scss"
   ]
 }

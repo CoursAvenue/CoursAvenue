@@ -1,22 +1,22 @@
 //
-// Icon Font: fontcustom
+// Icon Font: GlyphAvenue
 //
 
 @font-face {
-  font-family: "fontcustom";
-  src: font-url("fontcustom_689c6eacca90e025300ce3e9d93094d7.eot");
-  src: font-url("fontcustom_689c6eacca90e025300ce3e9d93094d7.eot?#iefix") format("embedded-opentype"),
-       font-url("fontcustom_689c6eacca90e025300ce3e9d93094d7.woff") format("woff"),
-       font-url("fontcustom_689c6eacca90e025300ce3e9d93094d7.ttf") format("truetype"),
-       font-url("fontcustom_689c6eacca90e025300ce3e9d93094d7.svg#fontcustom") format("svg");
+  font-family: "GlyphAvenue";
+  src: font-url("GlyphAvenue_41afad1d1984cf1122177e6470ee8dae.eot");
+  src: font-url("GlyphAvenue_41afad1d1984cf1122177e6470ee8dae.eot?#iefix") format("embedded-opentype"),
+       font-url("GlyphAvenue_41afad1d1984cf1122177e6470ee8dae.woff") format("woff"),
+       font-url("GlyphAvenue_41afad1d1984cf1122177e6470ee8dae.ttf") format("truetype"),
+       font-url("GlyphAvenue_41afad1d1984cf1122177e6470ee8dae.svg#GlyphAvenue") format("svg");
   font-weight: normal;
   font-style: normal;
 }
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
-    font-family: "fontcustom";
-    src: font-url("fontcustom_689c6eacca90e025300ce3e9d93094d7.svg#fontcustom") format("svg");
+    font-family: "GlyphAvenue";
+    src: font-url("GlyphAvenue_41afad1d1984cf1122177e6470ee8dae.svg#GlyphAvenue") format("svg");
   }
 }
 
@@ -24,29 +24,42 @@
 
 [data-icon]:before,
 .fa-audiences:before,
+.fa-bar-chart-o:before,
 .fa-bars:before,
+.fa-book:before,
+.fa-bullhorn:before,
 .fa-calendar:before,
+.fa-check:before,
 .fa-chevron-down:before,
 .fa-chevron-left:before,
 .fa-chevron-right:before,
 .fa-chevron-up:before,
 .fa-clock:before,
+.fa-cogs:before,
 .fa-comment:before,
+.fa-contact:before,
+.fa-credit-card:before,
+.fa-dashboard:before,
 .fa-envelope-o:before,
+.fa-eur:before,
 .fa-eye:before,
 .fa-forbidden:before,
+.fa-gift:before,
 .fa-group:before,
+.fa-group-copy:before,
 .fa-heart:before,
 .fa-house:before,
 .fa-map-marker:before,
 .fa-phone-o:before,
+.fa-plus:before,
 .fa-repeat:before,
+.fa-shopping-cart:before,
 .fa-star:before,
 .fa-tag:before,
 .fa-user:before,
 .fa-youtube-play:before {
   display: inline-block;
-  font-family: "fontcustom";
+  font-family: "GlyphAvenue";
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -60,23 +73,36 @@
 }
 
 .fa-audiences:before { content: "\f112"; }
+.fa-bar-chart-o:before { content: "\f145"; }
 .fa-bars:before { content: "\f126"; }
+.fa-book:before { content: "\f142"; }
+.fa-bullhorn:before { content: "\f12f"; }
 .fa-calendar:before { content: "\f113"; }
+.fa-check:before { content: "\f135"; }
 .fa-chevron-down:before { content: "\f114"; }
 .fa-chevron-left:before { content: "\f12b"; }
 .fa-chevron-right:before { content: "\f116"; }
 .fa-chevron-up:before { content: "\f117"; }
 .fa-clock:before { content: "\f118"; }
+.fa-cogs:before { content: "\f13f"; }
 .fa-comment:before { content: "\f119"; }
+.fa-contact:before { content: "\f130"; }
+.fa-credit-card:before { content: "\f13b"; }
+.fa-dashboard:before { content: "\f137"; }
 .fa-envelope-o:before { content: "\f129"; }
+.fa-eur:before { content: "\f139"; }
 .fa-eye:before { content: "\f127"; }
 .fa-forbidden:before { content: "\f11a"; }
+.fa-gift:before { content: "\f131"; }
 .fa-group:before { content: "\f11b"; }
+.fa-group-copy:before { content: "\f141"; }
 .fa-heart:before { content: "\f11c"; }
 .fa-house:before { content: "\f11d"; }
 .fa-map-marker:before { content: "\f11e"; }
 .fa-phone-o:before { content: "\f12a"; }
+.fa-plus:before { content: "\f140"; }
 .fa-repeat:before { content: "\f125"; }
+.fa-shopping-cart:before { content: "\f144"; }
 .fa-star:before { content: "\f121"; }
 .fa-tag:before { content: "\f122"; }
 .fa-user:before { content: "\f123"; }
