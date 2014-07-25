@@ -9,7 +9,7 @@ class StructureSerializer < ActiveModel::Serializer
              :has_free_trial_course, :medias_count, :teaches_at_home, :teaches_at_home_radius, :videos_count, :images_count,
              :audience, :gives_group_courses, :gives_individual_courses, :structure_type,
              :has_promotion, :tag_names, :highlighted_comment_title, :open_courses_open_places, :open_course_names, :open_course_plannings_nb,
-             :given_course_types, :premium
+             :given_course_types, :premium, :promotion_title
 
   has_many :places
   has_many :comments,          serializer: ShortSerializer

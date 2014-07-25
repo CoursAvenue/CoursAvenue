@@ -10,8 +10,8 @@ class StructureDecorator < Draper::Decorator
 
   def subjects_popover
     _subjects = []
-    object.subjects.at_depth(0).each do |root_subject|
-      child_subjects = object.subjects.at_depth(2).order('name ASC').select{ |subject|  subject.ancestry.start_with?(root_subject.id.to_s) }
+    object.subjects.at_depth(0).uniq.each do |root_subject|
+      child_subjects = object.subjects.at_depth(2).uniq.order('name ASC').select{ |subject|  subject.ancestry.start_with?(root_subject.id.to_s) }
       _subjects << {
         root_name: root_subject.name,
         child_names: child_subjects.map(&:name).join(', '),
