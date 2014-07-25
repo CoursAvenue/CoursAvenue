@@ -1,3 +1,8 @@
+.heart-link:hover {
+    i {
+        @extend .fa-heart;
+    }
+}
 .structure__header-icon {
     width: 8em;
 }
