@@ -37,9 +37,6 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         },
 
         onRender: function onRender () {
-            // this.$('[data-behavior=read-more]').readMore();
-            // Visual improvement for the course list
-            this.$('.panel').last().removeClass('push-half--bottom').addClass('border-none--bottom');
             if (this.collection.length == 0) {
                 this.$('[data-empty-courses]').show();
             } else {
@@ -48,8 +45,17 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         },
 
         onAfterShow: function onAfterShow () {
+            var course_view_titles, offset, stop_at;
             this.$('[data-behavior=read-more]').readMore();
             this.$('[data-toggle=popover]').popover();
+            course_view_titles = this.$('[data-type="course-view-title"]');
+            offset             = $('#structure-profile-menu').outerHeight();
+            stop_at_el         = this.$el.closest('.panel').attr('id');
+            course_view_titles.each(function(index, el) {
+                var data = { offsetTop: offset, oldWidth: true, stopAtEl: '#' + stop_at_el }
+                if (index > 0) { data.pushed = '#' + course_view_titles[index - 1].id; }
+                $(el).sticky(data);
+            });
         },
 
         /* serializeData
