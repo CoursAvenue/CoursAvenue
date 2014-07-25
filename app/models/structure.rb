@@ -521,8 +521,8 @@ class Structure < ActiveRecord::Base
     self.plannings_count          = self.plannings.visible.future.count
     self.gives_group_courses      = self.courses.select{|course| !course.is_individual? }.any?
     self.gives_individual_courses = self.courses.select(&:is_individual?).any?
-    self.has_promotion            = self.courses.detect(&:has_promotion?).any?
-    self.has_free_trial_course    = self.courses.detect(&:has_free_trial_course?).any?
+    self.has_promotion            = self.courses.detect(&:has_promotion?).present?
+    self.has_free_trial_course    = self.courses.detect(&:has_free_trial_lesson?).present?
     self.course_names              = self.courses.map(&:name).uniq.join(', ')
     self.highlighted_comment_title = (self.highlighted_comment ? self.highlighted_comment.title : comments.accepted.order('created_at DESC').first.try(:title))
     # Store level and audiences ids as coma separated string values: "1,3,5"
