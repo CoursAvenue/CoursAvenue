@@ -7,6 +7,6 @@ class TeacherSerializer < ActiveModel::Serializer
   end
 
   def description_short
-    truncate(object.description, :length => 100, :separator => ' ') if object.description
+    truncate(object.description, :length => 30, :separator => ' ') if object.description
   end
 end

@@ -26,6 +26,7 @@ class Course < ActiveRecord::Base
 
   before_save :sanatize_description
   after_save  :update_plannings_dates_if_needs_to
+  after_save  :reindex_plannings
 
   ######################################################################
   # Scopes                                                             #
@@ -411,5 +412,9 @@ class Course < ActiveRecord::Base
       end
     end
     nil
+  end
+
+  def reindex_plannings
+    self.plannings.index
   end
 end

@@ -6,14 +6,8 @@ StructureProfile.module('Views.Structure.Courses.Plannings', function(Module, Ap
         template: Module.templateDirname() + 'planning_view',
 
         onRender: function onRender () {
-            if (this.model.get('info')) {
-                this.$el.data('behavior', 'tooltip');
-                this.$el.attr('title', this.model.get('info'));
-            }
-        },
-
-        onAfterShow: function onAfterShow () {
-          this.$('[data-toggle=popover]').popover();
+            this.$('[data-toggle=popover]').popover();
+            this.$('[data-toggle=tooltip]').tooltip();
         },
 
         events: {

@@ -34,7 +34,7 @@
     text-transform  : uppercase;
     white-space     : normal;
     line-height     : 1.2;
-    font-weight     : bold;
+    font-weight     : 600;
     padding         : 0.8em;
     font-size       : 12px;
     @include border-radius($brand-round);
@@ -42,6 +42,9 @@
     background-color: #fefefe;
     color           : #555;
     @include text-shadow(0 1px 0 white);
+    &[type=submit] {
+        font-weight: 500;
+    }
     &:active {
         cursor: default;
     }

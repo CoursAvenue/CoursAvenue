@@ -4,11 +4,11 @@
 
 @font-face {
   font-family: "GlyphAvenue";
-  src: font-url("GlyphAvenue_eea03047af3fa7df8c15653340187f92.eot");
-  src: font-url("GlyphAvenue_eea03047af3fa7df8c15653340187f92.eot?#iefix") format("embedded-opentype"),
-       font-url("GlyphAvenue_eea03047af3fa7df8c15653340187f92.woff") format("woff"),
-       font-url("GlyphAvenue_eea03047af3fa7df8c15653340187f92.ttf") format("truetype"),
-       font-url("GlyphAvenue_eea03047af3fa7df8c15653340187f92.svg#GlyphAvenue") format("svg");
+  src: font-url("GlyphAvenue_fefb7fb8c69256fce5d8343bc43fd0b4.eot");
+  src: font-url("GlyphAvenue_fefb7fb8c69256fce5d8343bc43fd0b4.eot?#iefix") format("embedded-opentype"),
+       font-url("GlyphAvenue_fefb7fb8c69256fce5d8343bc43fd0b4.woff") format("woff"),
+       font-url("GlyphAvenue_fefb7fb8c69256fce5d8343bc43fd0b4.ttf") format("truetype"),
+       font-url("GlyphAvenue_fefb7fb8c69256fce5d8343bc43fd0b4.svg#GlyphAvenue") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -16,7 +16,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: "GlyphAvenue";
-    src: font-url("GlyphAvenue_eea03047af3fa7df8c15653340187f92.svg#GlyphAvenue") format("svg");
+    src: font-url("GlyphAvenue_fefb7fb8c69256fce5d8343bc43fd0b4.svg#GlyphAvenue") format("svg");
   }
 }
 
@@ -51,14 +51,20 @@
 .fa-group-copy:before,
 .fa-heart:before,
 .fa-house:before,
+.fa-info:before,
 .fa-map-marker:before,
+.fa-pencil:before,
+.fa-pencil-o:before,
 .fa-phone-o:before,
 .fa-plus:before,
 .fa-repeat:before,
+.fa-search:before,
 .fa-shopping-cart:before,
+.fa-signal:before,
 .fa-star:before,
 .fa-tag:before,
 .fa-thumb-tack:before,
+.fa-trash-o:before,
 .fa-user:before,
 .fa-youtube-play:before {
   display: inline-block;
@@ -103,13 +109,19 @@
 .fa-group-copy:before { content: "\f141"; }
 .fa-heart:before { content: "\f11c"; }
 .fa-house:before { content: "\f11d"; }
+.fa-info:before { content: "\f153"; }
 .fa-map-marker:before { content: "\f11e"; }
+.fa-pencil:before { content: "\f150"; }
+.fa-pencil-o:before { content: "\f152"; }
 .fa-phone-o:before { content: "\f12a"; }
 .fa-plus:before { content: "\f140"; }
 .fa-repeat:before { content: "\f125"; }
+.fa-search:before { content: "\f14e"; }
 .fa-shopping-cart:before { content: "\f144"; }
+.fa-signal:before { content: "\f14d"; }
 .fa-star:before { content: "\f121"; }
 .fa-tag:before { content: "\f122"; }
 .fa-thumb-tack:before { content: "\f149"; }
+.fa-trash-o:before { content: "\f14f"; }
 .fa-user:before { content: "\f123"; }
 .fa-youtube-play:before { content: "\f12e"; }

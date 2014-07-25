@@ -102,7 +102,6 @@
 @import "partials/objects/loading-indicator";
 @import "partials/objects/infobox";
 @import "partials/objects/filepicker";
-@import "partials/objects/popover";
 @import "partials/objects/tags";
 @import "partials/objects/faux_column";
 @import "partials/objects/chart";
@@ -124,8 +123,10 @@
 @import "libs/jquery-editable";
 @import "libs/add_this_event";
 
+@import "libs/bootstrap/bootstrap.animation-component";
 @import "libs/bootstrap/bootstrap.datepicker";
 @import "libs/bootstrap/bootstrap.tooltip";
+@import "libs/bootstrap/bootstrap.popover";
 @import "libs/bootstrap/bootstrap.collapse";
 
 html, body {

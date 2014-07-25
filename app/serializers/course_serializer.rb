@@ -152,7 +152,7 @@ class CourseSerializer < ActiveModel::Serializer
                     icon: 'delta fa-house' }
     end
     if is_individual
-      _details << { text: 'Cours individuel',
+      _details << { text: 'Cours particulier',
                     icon: 'delta fa-user' }
     else
       _details << { text: 'Cours collectif',
@@ -180,7 +180,7 @@ class CourseSerializer < ActiveModel::Serializer
                     icon: 'fa-2x fa-audiences',
                     alt: 'Public' }
       _details << { text: levels,
-                    icon: 'delta fa-bars',
+                    icon: 'delta fa-signal',
                     alt: 'Niveau' }
     end
     _details

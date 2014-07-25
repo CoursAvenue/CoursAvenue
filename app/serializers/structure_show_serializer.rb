@@ -6,10 +6,9 @@ class StructureShowSerializer < ActiveModel::Serializer
              :logo_thumb_url, :data_url, :query_url, :query_params, :courses, :courses_count,
              :has_courses, :plannings_count, :has_plannings, :about,
              :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range,
-             :has_free_trial_course, :medias_count, :teaches_at_home, :videos_count, :images_count,
-             :audience, :funding_types, :gives_group_courses, :gives_individual_courses, :structure_type,
-             :has_promotion, :tag_names, :given_course_types, :given_funding_type, :places_count, :comments,
-             :subjects
+             :has_free_trial_course, :teaches_at_home, :audience, :funding_types, :gives_group_courses,
+             :gives_individual_courses, :structure_type, :has_promotion, :tag_names, :given_course_types,
+             :given_funding_type, :places_count, :comments, :subjects, :has_teachers
 
   has_many :comments, serializer: CommentSerializer
   has_many :places
@@ -27,10 +26,6 @@ class StructureShowSerializer < ActiveModel::Serializer
     end
   end
 
-  def medias
-    object.medias.videos_first.limit(20)
-  end
-
   def places_count
     object.places.count
   end
@@ -46,11 +41,6 @@ class StructureShowSerializer < ActiveModel::Serializer
 
   def description_short
     truncate(object.description, :length => 300, :separator => ' ') if object.description
-  end
-
-  # TODO Use MediaSerializer
-  def preloaded_medias
-    object.medias.videos_first.limit(6)
   end
 
   def structure_type
@@ -83,18 +73,6 @@ class StructureShowSerializer < ActiveModel::Serializer
 
   def audience
     object.audiences.sort_by(&:order).map{|audience| I18n.t(audience.name)}.join(', ')
-  end
-
-  def medias_count
-    [object.medias.count, 20].min
-  end
-
-  def videos_count
-    (object.medias.videos.count == 0 ? nil : object.medias.videos.count)
-  end
-
-  def images_count
-    (object.medias.images.count == 0 ? nil : object.medias.images.count)
   end
 
   def has_free_trial_course
@@ -209,5 +187,9 @@ class StructureShowSerializer < ActiveModel::Serializer
       }
     end
     _subjects.sort_by(&:length).reverse
+  end
+
+  def has_teachers
+    object.teachers.count > 0
   end
 end

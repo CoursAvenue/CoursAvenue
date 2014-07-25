@@ -2,7 +2,11 @@ StructureProfile.module('Views.Structure.Teachers', function(Module, App, Backbo
 
     Module.TeacherView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'teacher_view',
-        className: 'one-half inline-block push--bottom'
+        className: 'one-half inline-block push--bottom',
+
+        initialize: function initialize (options) {
+            this.model.set('index', options.index);
+        }
     });
 
     Module.TeachersCollectionView = Backbone.Marionette.CollectionView.extend({
@@ -20,7 +24,11 @@ StructureProfile.module('Views.Structure.Teachers', function(Module, App, Backbo
             } else {
                 this.$('[data-empty-teachers]').hide();
             }
+        },
+        itemViewOptions: function itemViewOptions (model, index) {
+            return { index: index };
         }
+
     });
 
 }, undefined);

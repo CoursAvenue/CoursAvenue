@@ -1,97 +1,97 @@
 #structure-header.one-whole.west.push-half--bottom
   .main-container.soft--sides.soft-half--ends.relative
-    %h1.flush.v-middle{ itemprop: 'name' }= @structure.name
+    %h1.flush.v-middle.inline-block{ itemprop: 'name' }= @structure.name
+    - if @structure.premium?
+      .lbl.lbl--yellow.nowrap.v-middle.push-half--left
+        %i.fa-star
+        = header_promotion_title_for_structure @structure
+
     .grid
       .grid__item.eight-twelfths.v-top>
         .push-half--top
           .relative.on-top
             - if @structure.structure_type.present?
               .milli.structure__header-icon.inline-block.text--center.semi-muted.v-top
-                %i.fa-4x.fa-house
-                %div
+                %i.fa-3x.fa-house
+                .epsilon
                   = t(@structure.structure_type)
             - if @structure.gives_group_courses
               .milli.structure__header-icon.inline-block.text--center.semi-muted.v-top
-                %i.fa-4x.fa-group
-                %div
+                %i.fa-3x.fa-group
+                .epsilon
                   Cours
                   %br
                   collectifs
             - if @structure.gives_individual_courses
               .milli.structure__header-icon.inline-block.text--center.semi-muted.v-top
-                %i.fa-4x.fa-user
-                %div
+                %i.fa-3x.fa-user
+                .epsilon
                   Cours
                   %br
                   particuliers
             .milli.structure__header-icon.inline-block.text--center.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.subjects_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
-              %i.fa-4x.fa-tag
-              %div
+              %i.fa-3x.fa-tag
+              .epsilon
                 = @structure.subjects.count
                 %br
                 = "disciplines".pluralize @structure.subjects.count
 
             .milli.structure__header-icon.inline-block.text--center.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.places_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
-              %i.fa-4x.fa-map-marker
-              %div
+              %i.fa-3x.fa-map-marker
+              .epsilon
                 = @structure.places.count
                 %br
                 = "lieu#{@structure.places.count > 1 ? 'x' : ''}"
             - if @structure.comments_count > 0
               .milli.structure__header-icon.inline-block.text--center.semi-muted.v-top
-                %i.fa-4x.fa-comment
-                %div{ href: '#recommandations', itemprop: "aggregateRating", itemscope: true, itemtype: "http://schema.org/AggregateRating" }
-                  .visuallyhidden{ itemprop: "ratingValue" } 5
-                  .visuallyhidden{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
-                    %meta{property: 'v:rating', itemprop: 'rating', content: 5}
-                    %meta{itemprop: 'count', content: structure.comments_count}
-                    %meta{itemprop: 'itemreviewed', content: structure.name}
-                    %meta{itemprop: 'name', content: structure.name}
-                    %meta{itemprop: 'street-address', content: structure.street}
-                    %meta{itemprop: 'postal-code', content: structure.zip_code}
-                    - if @city
-                      %meta{itemprop: 'locality', content: @city.name}
-                  = @structure.comments_count
-                  %br
-                  recommandations
-      .grid__item.two-twelfths.v-bottom>
+                = link_to '#avis', class: 'block muted-link f-weight-normal', data: { behavior: 'scroll-to', offset_top: '-55' } do
+                  %i.fa-3x.fa-comment
+                  %div{ href: '#avis', itemprop: "aggregateRating", itemscope: true, itemtype: "http://schema.org/AggregateRating" }
+                    .visuallyhidden{ itemprop: "ratingValue" } 5
+                    .visuallyhidden{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
+                      %meta{property: 'v:rating', itemprop: 'rating', content: 5}
+                      %meta{itemprop: 'count', content: structure.comments_count}
+                      %meta{itemprop: 'itemreviewed', content: structure.name}
+                      %meta{itemprop: 'name', content: structure.name}
+                      %meta{itemprop: 'street-address', content: structure.street}
+                      %meta{itemprop: 'postal-code', content: structure.zip_code}
+                      - if @city
+                        %meta{itemprop: 'locality', content: @city.name}
+                  .epsilon
+                    = @structure.comments_count
+                    %br
+                    avis
+      .grid__item.four-twelfths.v-bottom>
         %a.v-middle{ href: "https://twitter.com/share", class: "twitter-share-button", data: { text: "J'adore \"#{@structure.name}\" @CoursAvenue #{structure_url(@structure)}", lang: "fr", count: 'none'}} Tweet
 
         - if @structure.premium? and @structure.facebook_url.present?
           .v-middle.fb-like{ data: { href: @structure.facebook_url, layout: 'button_count', action: 'like', 'show-faces' => 'false', share: "false" } }
         - else
           .v-middle.fb-like{ data: { href: structure_url(@structure), layout: 'button', action: 'recommend', 'show-faces' => 'false', share: "false" } }
-      .grid__item.two-twelfths.v-bottom.text--right>
-        - if @structure.premium?
-          .lbl.lbl--yellow.nowrap
-            %i.fa-star
-            = header_promotion_title_for_structure @structure
 
 #structure-profile-menu.one-whole.west.fixed.on-top{ style: 'top: -100px;' }
   .bg-site-background.soft-half--ends.bordered--bottom
     .main-container.soft--sides
       .grid--full
-        .grid__item.v-middle.nine-twelfths>
+        .grid__item.v-middle.ten-twelfths>
           .flexbox.top-page-menu
+            .flexbox__item
+              %strong= truncate @structure.name, lenght: 25
             .flexbox__item
               %ul.nav.flush.v-middle.inline-block.v-middle
                 %li.soft-half--sides= link_to 'Lieux & photos', '#lieux-photos', class: 'f-weight-normal', data: { behavior: 'scroll-to', offset_top: '-55' }
                 %li.soft-half--sides= link_to 'Présentation', '#presentation', class: 'f-weight-normal', data: { behavior: 'scroll-to', offset_top: '-55' }
                 %li.soft-half--sides= link_to 'Cours réguliers', '#cours-reguliers', class: 'f-weight-normal', data: { behavior: 'scroll-to', offset_top: '-55' }
                 %li.soft-half--sides= link_to 'Stages & ateliers', '#stages-ateliers', class: 'f-weight-normal', data: { behavior: 'scroll-to', offset_top: '-55' }
-                %li.soft-half--sides= link_to 'Recommandations', '#recommandations', class: 'f-weight-normal', data: { behavior: 'scroll-to', offset_top: '-55' }
+                %li.soft-half--sides= link_to 'Avis', '#avis', class: 'f-weight-normal', data: { behavior: 'scroll-to', offset_top: '-55' }
               - if @structure.premium?
                 .lbl.lbl--yellow.nowrap.push--left.v-middle
                   %i.fa-star
                   = header_promotion_title_for_structure @structure
-        .grid__item.v-middle.three-twelfths.text--right>
+        .grid__item.v-middle.two-twelfths.text--right>
           .soft--right
-            %a.contact-button.btn.btn--green{ data: { behavior: 'show-contact-panel' } }
-              %i.fa.fa-envelope
-              Message
-            %a.contact-button.btn{ data: { behavior: 'show-contact-panel' } }
-              %i.fa.fa-phone
-              Coordonnées
+            %a.soft--sides.contact-button.btn.btn--green{ data: { behavior: 'show-contact-panel' } }
+              Contacter
 
 = content_for :scripts do
   :javascript

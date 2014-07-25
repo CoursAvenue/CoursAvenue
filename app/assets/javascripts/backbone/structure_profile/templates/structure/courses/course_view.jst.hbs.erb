@@ -54,7 +54,7 @@
           --><div class="inline-block one-half v-middle push-half--bottom soft-half--right {{#ifCond @index '>' 1}}course-{{../../id}}-details-long hidden{{/ifCond}}">
                 <div class="flexbox">
                     <div class="flexbox__item v-middle two-twelfths text--center">
-                        <i class="{{this.icon}} v-middle" title="{{this.alt}}"></i>
+                        <i class="fa {{this.icon}} v-middle" title="{{this.alt}}"></i>
                     </div>
                     <div class="flexbox__item v-middle ten-twelfths">
                         {{this.text}}
@@ -75,14 +75,15 @@
         <strong class="gray-light">Planning</strong>
     </div>
     <div class="flexbox__item v-top three-quarters">
-        <table class="table--striped table--data-small {{#if on_appointment}}hidden{{/if}}">
+        <table class="table--striped table--data table--data-small {{#if on_appointment}}hidden{{/if}}">
             <thead class="gray-light">
                 <tr>
-                    <th>Jour</th>
-                    <th>Horaires</th>
-                    <th>Niveau</th>
-                    <th>Public</th>
-                    <th>Lieu</th>
+                    <th class="one-tenths">Jour</th>
+                    <th class="two-tenths text--center">Horaires</th>
+                    <th class="two-tenths">Niveau</th>
+                    <th class="two-tenths">Public</th>
+                    <th class="three-tenths">Lieu</th>
+                    <th><i class="fa fa-info"></i></th>
                 </tr>
             </thead>
             <tbody data-type="plannings-container"></tbody>
@@ -93,20 +94,15 @@
 <div class="flexbox push--bottom" id="{{type_dash}}-{{id}}-tarifs">
     <div class="flexbox__item v-top one-quarter">
         <strong class="gray-light v-middle">Tarifs</strong>
-        {{#if promotion_title}}
-          <img src="<%= asset_path('icons/icon-star-yellow-full-bordered.png') %>" height="14" class="v-middle" data-toggle="tooltip" data-title="{{ promotion_title }}">
-        {{/if}}
     </div>
     <div class="flexbox__item v-top three-quarters">
-        <table class="table--striped table--data-small">
+        <table class="table--striped table--data table--data-small">
             <thead class="gray-light">
                 <tr>
-                    <th class="three-twelfths">Formule</th>
-                    <th class="one-twelfth  text--center">Prix</th>
-                    {{#if premium}}
-                        <th class="one-twelfth  text--center">Promotion</th>
-                    {{/if}}
-                    <th class="{{#if premium}}six-twelfths{{else}}eight-twelfths{{/if}}">Info</th>
+                    <th class="four-twelfths">Formule</th>
+                    <th class="two-twelfths text--center">Prix</th>
+                    <th class="two-twelfths text--center">Promotion</th>
+                    <th class="four-twelfths"><i class="fa fa-info"></i></th>
                 </tr>
             </thead>
             <tbody>
@@ -115,41 +111,40 @@
                 {{#each premium_prices}}
                     <tr>
                         <td class="nowrap">
-                            <img src="<%= asset_path('icons/icon-star-yellow-full-bordered.png') %>" height="14" class="v-middle" data-toggle="tooltip" data-title="{{this.libelle_type}}">
-                            <span class="v-middle">{{this.libelle}}</span>
+                            <img src="<%= asset_path('icons/icon-star-yellow-full-bordered.png') %>" height="14" class="v-middle" data-toggle="tooltip" data-title="Offre spéciale CoursAvenue">
+                            <span class="v-middle">{{this.libelle_type}}</span>
                         </td>
-                        <td class="text--right">
+                        <td class="text--center">
                             <strong class="green">{{this.amount}}</strong>
                         </td>
                         <td class="text--center">
                             <strong class="green">{{this.promo_amount}}</strong>
                         </td>
-                        <td>{{{ hide_contacts this.info }}}</td>
+                        <td>{{ this.libelle }}. {{{ hide_contacts this.info }}}</td>
                     </tr>
                 {{/each}}
                 {{/if}}
                 {{/if}}
                 {{#each prices}}
                     {{#ifCond @index '==' 2}}
-                        <tr data-behavior="show-long-version" data-long-version=".{{type_dash}}-{{id}}-prices-long">
-                          <td colspan="4">
+                        <tr data-behavior="show-long-version" data-long-version=".{{../../type_dash}}-{{../../id}}-prices-long">
+                          <td colspan="4" class="text--left">
                               <a href="#" class="block">
                               + Plus
                               </a>
                           </td>
                         </tr>
                     {{/ifCond}}
-                    <tr class="{{#ifCond @index '==' 0}}bordered--top{{/ifCond}}{{#ifCond @index '>' 1}}{{type_dash}}-{{id}}-prices-long hidden{{/ifCond}}">
+                    <tr class="{{#ifCond @index '==' 0}}bordered--top{{/ifCond}}{{#ifCond @index '>' 1}}{{../../type_dash}}-{{../../id}}-prices-long hidden{{/ifCond}}">
                         <td>
                             {{this.libelle}}
                         </td>
-                        <td class="text--right {{#if this.promo_amount}}line-through{{/if}}">
+                        <td class="text--center {{#if this.promo_amount}}line-through{{/if}}">
                             {{this.amount}}
                         </td>
                         <td class="text--center">
                             {{#if ../premium}}
                               {{#if this.promo_amount}}
-                                <img src="<%= asset_path('icons/icon-star-yellow-full-bordered.png') %>" height="14" class="v-middle" data-toggle="tooltip" data-title="Offre spéciale CoursAvenue">
                                 <strong class="green">{{this.promo_amount}}</strong>
                               {{/if}}
                             {{/if}}
@@ -169,7 +164,7 @@
     <div class="flexbox__item v-top three-quarters">
         <div>
             {{#each subjects}}
-            <div class="push-half--bottom {{#ifCond @index '>' 0}}{{type_dash}}-{{id}}-subjects-long hidden{{/ifCond}}">
+            <div class="push-half--bottom {{#ifCond @index '>' 0}}{{../../type_dash}}-{{../../id}}-subjects-long hidden{{/ifCond}}">
                 <img src="{{this.icon}}" alt="Disciplines pratiquées : {{this.icon}}" height="16" class="v-middle">
                 <strong class="v-middle">{{this.root_name}}</strong>
                 <br>
@@ -177,7 +172,7 @@
             </div>
             {{#ifCond @index '==' 1}}
                 <div>
-                    <a href="#" data-behavior="show-long-version" data-long-version="#{{type_dash}}-{{id}}-subjects-long">
+                    <a href="#" data-behavior="show-long-version" data-long-version=".{{../../type_dash}}-{{../../id}}-subjects-long">
                     + Plus
                     </a>
                 </div>

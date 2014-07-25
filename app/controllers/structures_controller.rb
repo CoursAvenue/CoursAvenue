@@ -19,7 +19,7 @@ class StructuresController < ApplicationController
     end
 
     @city      = @structure.city
-    @medias    = (@structure.premium? ? @structure.medias.videos_first : @structure.medias.cover_first.limit(1))
+    @medias    = (@structure.premium? ? @structure.medias.videos_first : @structure.medias.cover_first.limit(Media::FREE_PROFIL_LIMIT))
 
     @comments = @structure.comments.accepted.page(1).per(5)
     @model = StructureShowSerializer.new(@structure, {

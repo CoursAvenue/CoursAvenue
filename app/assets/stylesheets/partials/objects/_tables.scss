@@ -50,10 +50,16 @@
  * Data table
  */
 .table--data {
-    @include font-size(13px);
+    font-size: 13px;
     td, thead tr th {
         padding    : 0.5em 0.8em;
         line-height: 1.5;
+    }
+    td {
+        border-right: 1px solid #DDD;
+        &:last-child {
+            border-right: none;
+        }
     }
 }
 

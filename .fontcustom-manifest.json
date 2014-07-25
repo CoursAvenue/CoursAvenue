@@ -1,13 +1,13 @@
 {
   "checksum": {
-    "previous": "eea03047af3fa7df8c15653340187f92233e92c47ff08a008d8c8d84092e9756",
-    "current": "eea03047af3fa7df8c15653340187f92233e92c47ff08a008d8c8d84092e9756"
+    "previous": "fefb7fb8c69256fce5d8343bc43fd0b4665fb22a3ab06dd33b967dc47d59b90a",
+    "current": "fefb7fb8c69256fce5d8343bc43fd0b4665fb22a3ab06dd33b967dc47d59b90a"
   },
   "fonts": [
-    "app/assets/fonts/GlyphAvenue_eea03047af3fa7df8c15653340187f92.ttf",
-    "app/assets/fonts/GlyphAvenue_eea03047af3fa7df8c15653340187f92.svg",
-    "app/assets/fonts/GlyphAvenue_eea03047af3fa7df8c15653340187f92.woff",
-    "app/assets/fonts/GlyphAvenue_eea03047af3fa7df8c15653340187f92.eot"
+    "app/assets/fonts/GlyphAvenue_fefb7fb8c69256fce5d8343bc43fd0b4.ttf",
+    "app/assets/fonts/GlyphAvenue_fefb7fb8c69256fce5d8343bc43fd0b4.svg",
+    "app/assets/fonts/GlyphAvenue_fefb7fb8c69256fce5d8343bc43fd0b4.woff",
+    "app/assets/fonts/GlyphAvenue_fefb7fb8c69256fce5d8343bc43fd0b4.eot"
   ],
   "glyphs": {
     "audiences": {
@@ -122,9 +122,21 @@
       "codepoint": 61725,
       "source": "app/assets/images/icons/svg/house.svg"
     },
+    "info": {
+      "codepoint": 61779,
+      "source": "app/assets/images/icons/svg/info.svg"
+    },
     "map-marker": {
       "codepoint": 61726,
       "source": "app/assets/images/icons/svg/map-marker.svg"
+    },
+    "pencil": {
+      "codepoint": 61776,
+      "source": "app/assets/images/icons/svg/pencil.svg"
+    },
+    "pencil-o": {
+      "codepoint": 61778,
+      "source": "app/assets/images/icons/svg/pencil-o.svg"
     },
     "phone-o": {
       "codepoint": 61738,
@@ -138,9 +150,17 @@
       "codepoint": 61733,
       "source": "app/assets/images/icons/svg/repeat.svg"
     },
+    "search": {
+      "codepoint": 61774,
+      "source": "app/assets/images/icons/svg/search.svg"
+    },
     "shopping-cart": {
       "codepoint": 61764,
       "source": "app/assets/images/icons/svg/shopping-cart.svg"
+    },
+    "signal": {
+      "codepoint": 61773,
+      "source": "app/assets/images/icons/svg/signal.svg"
     },
     "star": {
       "codepoint": 61729,
@@ -153,6 +173,10 @@
     "thumb-tack": {
       "codepoint": 61769,
       "source": "app/assets/images/icons/svg/thumb-tack.svg"
+    },
+    "trash-o": {
+      "codepoint": 61775,
+      "source": "app/assets/images/icons/svg/trash-o.svg"
     },
     "user": {
       "codepoint": 61731,

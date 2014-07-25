@@ -5,20 +5,20 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
 
         initialize: function(options) {
             this.sticky = this.options.sticky;
-            if (this.sticky) { this.$el.addClass('soft--top'); }
         },
 
         onShow: function onShow () {
             // If the current instance is the stycky map that appears on the right of the StructureProfile
             if (this.sticky) {
+                this.$('.google-map').addClass('google-map--medium-small');
                 var setStickyStyle,
-                    $view                   = this.$el.parent(),
+                    $view                   = this.$el.closest('[data-type=sticky-map-container]'),
                     $grid_item              = $view.closest('.grid__item'),
                     initial_map_width       = $view.width();
                 $view.sticky({
                     z: 10,
                     oldWidth: false,
-                    offsetTop: 50,
+                    offsetTop: 72,
                     onStick: function () {
                         $view.css({
                             left: $grid_item.offset().left + parseInt($view.closest('.grid__item').css('padding-left'), 10) + 'px',
@@ -29,10 +29,8 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
                         $view.removeAttr('style');
                     }
                 });
-                // $(window).on("scroll", setStickyStyle);
-                // $(window).resize(setStickyStyle);
             } else {
-                if ($(window).height() < 700) {
+                if ($(window).height() < 800) {
                     this.$el.closest('.rslides-wrapper').css('height', '30em');
                     this.$('.google-map--medium').removeClass('google-map--medium').addClass('google-map--medium-small');
                 }

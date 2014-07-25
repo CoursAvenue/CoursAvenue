@@ -293,3 +293,9 @@
         margin-bottom: $base-line-height / 2;
     }
 }
+
+.last-p-flush {
+    p:last-child {
+        margin-bottom: 0;
+    }
+}

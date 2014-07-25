@@ -92,16 +92,18 @@
                             </table>
                         </div>
                     </div>
-                    <hr class="push--ends">
-                    <div class="flexbox">
-                        <div class="flexbox__item v-top one-quarter">
-                            <strong class="gray-light">Professeurs</strong>
-                        </div>
-                        <div data-type="teachers-collection" class="flexbox__item v-top three-quarters">
-                            <img src="<%= asset_path 'gifs/loading-indicator.gif' %>"/ class="center-block push--ends" height="10" data-teachers-loader style="display: none;">
-                        </div>
+                </div>
+                {{#if has_teachers}}
+                <hr class="push--ends">
+                <div class="flexbox">
+                    <div class="flexbox__item v-top one-quarter">
+                        <strong class="gray-light">Professeurs</strong>
+                    </div>
+                    <div data-type="teachers-collection" class="flexbox__item v-top three-quarters">
+                        <img src="<%= asset_path 'gifs/loading-indicator.gif' %>"/ class="center-block push--ends" height="10" data-teachers-loader style="display: none;">
                     </div>
                 </div>
+                {{/if}}
             </div>
         </article>
     </div>

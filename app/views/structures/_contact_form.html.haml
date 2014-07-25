@@ -11,6 +11,8 @@
               -# If this is filled, the message won't be sent
               .visuallyhidden
                 %input{ name: 'content', type: 'text' }
+              - prefilled_body = params[:message_body] || "Bonjour,\n\nJe souhaiterais venir pour une première séance. Pouvez-vous m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt"
+              = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole input--large', style: 'height: 170px;', value: cookies[:user_contact_message] || prefilled_body, data: { behavior: 'autoresize' } }, id: 'contact-message-body'
               - unless current_user
                 .grid--full.push-half--bottom
                   .grid__item.one-half.soft-half--right>
@@ -21,19 +23,18 @@
                 .grid__item.one-half.soft-half--right.v-middle>
                   %input.input--large.one-whole{ name: 'user[phone_number]', type: 'text', placeholder: 'N° de téléphone', value: params[:phone_number] }
                 .grid__item.one-half.soft-half--right.v-middle>
-                  %p.flush.blue{ data: { toggle: 'popover', content: "Comme les professeurs sont souvent en cours, nous vous conseillons de laisser votre numéro de téléphone pour être recontacté dans les plus brefs délais. Il ne sera communiqué à personne d'autre.", trigger: 'hover' } }
+                  %p.flush.blue{ data: { toggle: 'popover', content: "Comme les professeurs sont souvent en cours, nous vous conseillons de laisser votre numéro de téléphone pour être recontacté dans les plus brefs délais. Il ne sera communiqué à personne d'autre.", trigger: 'hover', placement: 'bottom' } }
                     %i Recommandé
 
-              - prefilled_body = params[:message_body] || "Bonjour,\n\nJe souhaiterais venir pour une première séance. Pouvez-vous m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt"
-              = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole input--large', style: 'height: 170px;', value: cookies[:user_contact_message] || prefilled_body, data: { behavior: 'autoresize' } }, id: 'contact-message-body'
               - if current_user
                 = f.submit 'Envoyer mon message', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }
               - else
                 = link_to 'Envoyer mon message', new_user_registration_path, data: { behavior: 'modal', title: 'Connexion', width: 600, padding: 0 }, class: 'fancybox.ajax btn btn--green btn--full', id: 'send-message'
 
-              = link_to 'javascript:void(0);', data: { behavior: 'toggleable', el: '#phone_number' }, class: 'push-half--top btn btn--green btn--full' do
-                %i.fa.fa-phone.v-middle
-                %span.v-middle Téléphone
+            %hr.push-half--ends
+            = link_to 'javascript:void(0);', data: { behavior: 'toggleable', el: '#phone_number' }, class: 'btn btn--green btn--full' do
+              %i.fa.fa-phone.v-middle
+              %span.v-middle Téléphone
             #phone_number.hidden
               .soft
                 - @structure.phone_numbers.each_with_index do |phone_number, index|

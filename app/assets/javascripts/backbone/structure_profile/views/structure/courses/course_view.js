@@ -34,7 +34,11 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
 
         onItemviewMouseleave: function onItemviewMouseleave (view, data) {
             this.trigger("mouseleave", data);
-        }
+        },
+
+        onAfterShow: function onAfterShow () {
+            this.$('[data-toggle=popover]').popover();
+        },
     });
 
 }, undefined);

@@ -12,7 +12,7 @@ class PlanningSerializer < ActiveModel::Serializer
   def address_with_info
     if object.place
       str = "<p class='flush'><strong>#{object.place.address}</strong></p>"
-      str << "<p class='flush'><strong>Infos publics : </strong>#{object.info}</strong></p>" if object.info.present?
+      str << "<p class='flush'><strong>Infos publics : </strong>#{object.place.info}</strong></p>" if object.place.info.present?
     end
   end
 
@@ -35,7 +35,9 @@ class PlanningSerializer < ActiveModel::Serializer
     if object.course.is_lesson? or object.course.is_private?
       week_day_for(object)
     else
-      planning_date_for object
+      _date = "#{planning_date_for(object)}"
+      _date << " (#{object.length} jours)" if object.length > 1
+      _date
     end
   end
 
