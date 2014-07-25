@@ -1,13 +1,13 @@
 {
   "checksum": {
-    "previous": "fefb7fb8c69256fce5d8343bc43fd0b4665fb22a3ab06dd33b967dc47d59b90a",
-    "current": "fefb7fb8c69256fce5d8343bc43fd0b4665fb22a3ab06dd33b967dc47d59b90a"
+    "previous": "ede09ae65da294278788cc3a9059706dee4e64647e2dda8c0bada61287ddf622",
+    "current": "ede09ae65da294278788cc3a9059706dee4e64647e2dda8c0bada61287ddf622"
   },
   "fonts": [
-    "app/assets/fonts/GlyphAvenue_fefb7fb8c69256fce5d8343bc43fd0b4.ttf",
-    "app/assets/fonts/GlyphAvenue_fefb7fb8c69256fce5d8343bc43fd0b4.svg",
-    "app/assets/fonts/GlyphAvenue_fefb7fb8c69256fce5d8343bc43fd0b4.woff",
-    "app/assets/fonts/GlyphAvenue_fefb7fb8c69256fce5d8343bc43fd0b4.eot"
+    "app/assets/fonts/GlyphAvenue_ede09ae65da294278788cc3a9059706d.ttf",
+    "app/assets/fonts/GlyphAvenue_ede09ae65da294278788cc3a9059706d.svg",
+    "app/assets/fonts/GlyphAvenue_ede09ae65da294278788cc3a9059706d.woff",
+    "app/assets/fonts/GlyphAvenue_ede09ae65da294278788cc3a9059706d.eot"
   ],
   "glyphs": {
     "audiences": {
@@ -109,10 +109,6 @@
     "group": {
       "codepoint": 61723,
       "source": "app/assets/images/icons/svg/group.svg"
-    },
-    "group-copy": {
-      "codepoint": 61761,
-      "source": "app/assets/images/icons/svg/group copy.svg"
     },
     "heart": {
       "codepoint": 61724,

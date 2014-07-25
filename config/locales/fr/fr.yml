@@ -97,7 +97,7 @@ fr:
     formats:
       default_only_time: "%H:%M:%S"
       default: "%d %B %Y %H:%M:%S"
-      short: "%lh%M"
+      short: "%Hh%M"
       long: "%A %d %B %Y %H:%M"
       date: "%A %d %B"
       date_with_year: "%A %d %B %Y"

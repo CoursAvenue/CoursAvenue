@@ -8,7 +8,7 @@ class CourseSerializer < ActiveModel::Serializer
              :has_free_trial_lesson, :event_type, :best_price, :is_individual, :search_term, :is_lesson, :frequency,
              :cant_be_joined_during_year, :no_class_during_holidays, :teaches_at_home, :teaches_at_home_radius,
              :has_premium_prices, :premium, :on_appointment, :course_location, :min_age_for_kid, :max_age_for_kid,
-             :audiences, :levels, :is_private, :details, :prices, :premium_prices, :prices_length, :promotion_title
+             :audiences, :levels, :details, :prices, :premium_prices, :prices_length, :promotion_title
 
 
   has_many :plannings,      serializer: PlanningSerializer
@@ -137,10 +137,6 @@ class CourseSerializer < ActiveModel::Serializer
     join_audiences(object) if object.is_private?
   end
 
-  def is_private
-    object.is_private?
-  end
-
   def details
     _details = []
     if on_appointment
@@ -159,8 +155,6 @@ class CourseSerializer < ActiveModel::Serializer
                     icon: 'fa-2x fa-group' }
     end
     if is_lesson
-      _details << { text: 'Cours régulier',
-                    icon: 'delta fa-repeat' }
       _details << { text: "#{frequency} du #{start_date} au #{end_date}",
                     icon: 'delta fa-calendar' }
     end
@@ -174,14 +168,6 @@ class CourseSerializer < ActiveModel::Serializer
     if no_class_during_holidays
       _details << { text: "Pas de cours pendant les vacances scolaires",
                     icon: 'delta fa-forbidden' }
-    end
-    if is_private
-      _details << { text: audiences,
-                    icon: 'fa-2x fa-audiences',
-                    alt: 'Public' }
-      _details << { text: levels,
-                    icon: 'delta fa-signal',
-                    alt: 'Niveau' }
     end
     _details
   end
