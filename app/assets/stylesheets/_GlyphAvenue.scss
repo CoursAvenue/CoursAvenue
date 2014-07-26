@@ -4,11 +4,11 @@
 
 @font-face {
   font-family: "GlyphAvenue";
-  src: font-url("GlyphAvenue_2e56d69661ab08b9265dd280ff06ce3e.eot");
-  src: font-url("GlyphAvenue_2e56d69661ab08b9265dd280ff06ce3e.eot?#iefix") format("embedded-opentype"),
-       font-url("GlyphAvenue_2e56d69661ab08b9265dd280ff06ce3e.woff") format("woff"),
-       font-url("GlyphAvenue_2e56d69661ab08b9265dd280ff06ce3e.ttf") format("truetype"),
-       font-url("GlyphAvenue_2e56d69661ab08b9265dd280ff06ce3e.svg#GlyphAvenue") format("svg");
+  src: font-url("GlyphAvenue.eot");
+  src: font-url("GlyphAvenue.eot?#iefix") format("embedded-opentype"),
+       font-url("GlyphAvenue.woff") format("woff"),
+       font-url("GlyphAvenue.ttf") format("truetype"),
+       font-url("GlyphAvenue.svg#GlyphAvenue") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -16,7 +16,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: "GlyphAvenue";
-    src: font-url("GlyphAvenue_2e56d69661ab08b9265dd280ff06ce3e.svg#GlyphAvenue") format("svg");
+    src: font-url("GlyphAvenue.svg#GlyphAvenue") format("svg");
   }
 }
 
@@ -24,6 +24,7 @@
 
 [data-icon]:before,
 .fa-audiences:before,
+.fa-audiences-old:before,
 .fa-bar-chart-o:before,
 .fa-bars:before,
 .fa-book:before,
@@ -89,6 +90,7 @@
 }
 
 .fa-audiences:before { content: "\f112"; }
+.fa-audiences-old:before { content: "\f162"; }
 .fa-bar-chart-o:before { content: "\f145"; }
 .fa-bars:before { content: "\f126"; }
 .fa-book:before { content: "\f142"; }
