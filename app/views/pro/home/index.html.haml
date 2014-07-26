@@ -9,7 +9,7 @@
 - else
   - selected_profile = profiles.sample
 
-.home-screen-promotion-wrapper.soft--sides.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path(selected_profile[:bg])})", 'data-stellar-background-ratio' => "0.5" }
+.home-screen-promotion-wrapper.soft--sides.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path(selected_profile[:bg])})", 'data-stellar-background-ratio' => '0.6' }
   .main-container{ class: ( selected_profile[:medium] ? 'main-container--medium' : '')}
     %header.grid--full
       .grid__item.soft--top.v-bottom.relative.visuallyhidden--palm{ class: ( selected_profile[:medium] ? 'three-tenths' : 'five-twelfths')}>
@@ -41,7 +41,7 @@
     %h2.text--center.push--bottom.soft--ends.f-weight-300 Les avantages du profil CoursAvenue
     = render partial: 'pro/shared/free_profile_advantages', locals: { show_all: true }
 
-.bg-cover{ style: "background-image: url(#{asset_path 'pro/home_background6.jpg'})" }
+.bg-cover{ style: "background-image: url(#{asset_path 'pro/home_background6.jpg'})", 'data-stellar-background-ratio' => '0.6' }
   .main-container.main-container--medium.soft--ends
     %h2.text--center.push--bottom.soft--ends.soft-black-text-shadow.white Simple et rapide
     .grid

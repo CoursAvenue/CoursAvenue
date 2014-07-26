@@ -9,7 +9,7 @@
 - if selected_profile[:slug] == 'alain-pons-photographe'
   - cookies[:have_seen_alain] = true
 
-.relative.soft--sides.bg-cover{ style: "background-image: url(#{asset_path(selected_profile[:bg])})" }
+.relative.soft--sides.bg-cover{ style: "background-image: url(#{asset_path(selected_profile[:bg])})", 'data-stellar-background-ratio' => '0.6' }
   .main-container
     %header.grid--full
       .grid__item.four-twelfths.v-bottom.soft--top.relative.visuallyhidden--palm>
@@ -90,7 +90,7 @@
   %h2.text--center.push--bottom.soft--ends.f-weight-300 Les avantages du profil CoursAvenue
   = render partial: 'pro/shared/free_profile_advantages', locals: { show_all: true }
 
-.bg-cover{ style: "background-image: url(#{asset_path 'pro/home_background6.jpg'})" }
+.bg-cover{ style: "background-image: url(#{asset_path 'pro/home_background6.jpg'})", 'data-stellar-background-ratio' => '0.6' }
   .main-container.main-container--medium.soft--ends
     %h2.text--center.push--bottom.soft--ends.soft-black-text-shadow.white Simple et rapide
     .grid

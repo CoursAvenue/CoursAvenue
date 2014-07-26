@@ -1,7 +1,7 @@
 %article.soft-half--top.push--bottom{ itemscope: true, itemtype: 'http://schema.org/Article' }
   - if article.cover_image.present?
     = link_to blog_article_path(article), class: 'muted-link push-half--bottom block' do
-      .bg-cover{ style: "background-image: url(#{asset_path(article.cover_image.url(:default))}); height: 150px;"}
+      .bg-cover{ style: "background-image: url(#{asset_path(article.cover_image.url(:default))}); height: 150px;" }
   %h2.flush{ itemprop: 'name' }
     = link_to blog_article_path(article), class: 'semi-muted-link' do
       = article.title

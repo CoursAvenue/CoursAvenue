@@ -20,7 +20,7 @@
 = content_for :meta_description do
   Donnez votre avis sur #{@structure.name}
 
-.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background.jpg'})" }
+.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background.jpg'})", 'data-stellar-background-ratio' => '0.6' }
   .main-container.main-container--medium.soft
     .grid
       - if @structure.logo.present?

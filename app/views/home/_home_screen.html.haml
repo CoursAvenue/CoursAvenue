@@ -6,7 +6,7 @@
   - url = asset_path "home_backgrounds/#{slug}.jpg"
 - else
   - url = asset_path "pro/home_background#{[2,3,4,5,6,7].sample}.jpg"
-.home-screen.soft--top.white.bg-cover{ style: "background-image: url(#{url})", 'data-stellar-background-ratio' => "0.7" }
+.home-screen.soft--top.white.bg-cover{ style: "background-image: url(#{url})", 'data-stellar-background-ratio' => '0.6' }
   .main-container.main-container--medium.soft-half--bottom
     %h1.soft--top.soft-black-text-shadow.flush
       Trouvez votre cours de loisir idéal.
@@ -15,7 +15,7 @@
     .push--bottom.soft--bottom
       = render 'shared/home_page_search_form'
 
-    .relative.bg-cover{style: "background-image: url('#{asset_path('home-page/video_thumbnail.jpg')}'); width: 150px; height: 75px;"}>
+    .relative.bg-cover{style: "background-image: url('#{asset_path('home-page/video_thumbnail.jpg')}'); width: 150px; height: 75px;", 'data-stellar-background-ratio' => '0.6'}>
       = link_to 'https://www.youtube.com/watch?v=-hq0sxFEcOw', class: 'block show-on-hover__wrapper', data: { behavior: 'fancy', height: 560, width: 1000 } do
         .home-screen-gallery__title.text--center
           %i.fa-youtube-play.alpha
