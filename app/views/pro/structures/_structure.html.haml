@@ -8,8 +8,10 @@
   .grid__item.five-tenths.bordered--right.soft-half--right>
     %h5= @structure.name
     - if @structure.description.present?
-      .read-more{data: {behavior: 'read-more'}}
-        = simple_format @structure.description
+      #structure-description-short= simple_format truncate(@structure.description, length: 300, separator: ' ')
+      %a{ href: "#", data: { behavior: "show-long-version", 'short-version' => "#structure-description-short", 'long-version' => '#structure-description-long' } }
+        + Plus
+      #structure-description-long.hidden= simple_format @structure.description
     - else
       %p
         %i Pas de description
@@ -18,7 +20,7 @@
 
   .grid__item.three-tenths>
     %h5 Disciplines pratiquées :
-    = join_child_subjects @structure
+    = @structure_decorator.subjects_popover
     %p
     - if @structure.website.present?
       = link_to 'Site web', @structure.website, class: 'btn btn--yellow btn--small', target: '_blank', rel: 'nofollow'

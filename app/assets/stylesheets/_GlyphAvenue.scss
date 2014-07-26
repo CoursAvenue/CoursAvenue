@@ -4,11 +4,11 @@
 
 @font-face {
   font-family: "GlyphAvenue";
-  src: font-url("GlyphAvenue_a2f4398ec8eb317fdc32a28b72cf71ab.eot");
-  src: font-url("GlyphAvenue_a2f4398ec8eb317fdc32a28b72cf71ab.eot?#iefix") format("embedded-opentype"),
-       font-url("GlyphAvenue_a2f4398ec8eb317fdc32a28b72cf71ab.woff") format("woff"),
-       font-url("GlyphAvenue_a2f4398ec8eb317fdc32a28b72cf71ab.ttf") format("truetype"),
-       font-url("GlyphAvenue_a2f4398ec8eb317fdc32a28b72cf71ab.svg#GlyphAvenue") format("svg");
+  src: font-url("GlyphAvenue_2e56d69661ab08b9265dd280ff06ce3e.eot");
+  src: font-url("GlyphAvenue_2e56d69661ab08b9265dd280ff06ce3e.eot?#iefix") format("embedded-opentype"),
+       font-url("GlyphAvenue_2e56d69661ab08b9265dd280ff06ce3e.woff") format("woff"),
+       font-url("GlyphAvenue_2e56d69661ab08b9265dd280ff06ce3e.ttf") format("truetype"),
+       font-url("GlyphAvenue_2e56d69661ab08b9265dd280ff06ce3e.svg#GlyphAvenue") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -16,7 +16,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: "GlyphAvenue";
-    src: font-url("GlyphAvenue_a2f4398ec8eb317fdc32a28b72cf71ab.svg#GlyphAvenue") format("svg");
+    src: font-url("GlyphAvenue_2e56d69661ab08b9265dd280ff06ce3e.svg#GlyphAvenue") format("svg");
   }
 }
 
@@ -34,6 +34,7 @@
 .fa-chevron-left:before,
 .fa-chevron-right:before,
 .fa-chevron-up:before,
+.fa-circle-o:before,
 .fa-clock:before,
 .fa-close:before,
 .fa-cogs:before,
@@ -41,9 +42,11 @@
 .fa-contact:before,
 .fa-credit-card:before,
 .fa-dashboard:before,
+.fa-dot-circle-o:before,
 .fa-envelope-o:before,
 .fa-eur:before,
 .fa-eye:before,
+.fa-facebook:before,
 .fa-flag:before,
 .fa-forbidden:before,
 .fa-gift:before,
@@ -52,6 +55,8 @@
 .fa-heart-o:before,
 .fa-house:before,
 .fa-info:before,
+.fa-lightbulb-o:before,
+.fa-list:before,
 .fa-map-marker:before,
 .fa-pencil:before,
 .fa-pencil-o:before,
@@ -59,12 +64,14 @@
 .fa-plus:before,
 .fa-repeat:before,
 .fa-search:before,
+.fa-share:before,
 .fa-shopping-cart:before,
 .fa-signal:before,
 .fa-star:before,
 .fa-tag:before,
 .fa-thumb-tack:before,
 .fa-trash-o:before,
+.fa-twitter:before,
 .fa-user:before,
 .fa-youtube-play:before {
   display: inline-block;
@@ -92,6 +99,7 @@
 .fa-chevron-left:before { content: "\f12b"; }
 .fa-chevron-right:before { content: "\f116"; }
 .fa-chevron-up:before { content: "\f117"; }
+.fa-circle-o:before { content: "\f15a"; }
 .fa-clock:before { content: "\f118"; }
 .fa-close:before { content: "\f14c"; }
 .fa-cogs:before { content: "\f13f"; }
@@ -99,9 +107,11 @@
 .fa-contact:before { content: "\f130"; }
 .fa-credit-card:before { content: "\f13b"; }
 .fa-dashboard:before { content: "\f137"; }
+.fa-dot-circle-o:before { content: "\f15c"; }
 .fa-envelope-o:before { content: "\f129"; }
 .fa-eur:before { content: "\f139"; }
 .fa-eye:before { content: "\f127"; }
+.fa-facebook:before { content: "\f160"; }
 .fa-flag:before { content: "\f148"; }
 .fa-forbidden:before { content: "\f11a"; }
 .fa-gift:before { content: "\f131"; }
@@ -110,6 +120,8 @@
 .fa-heart-o:before { content: "\f155"; }
 .fa-house:before { content: "\f11d"; }
 .fa-info:before { content: "\f153"; }
+.fa-lightbulb-o:before { content: "\f15d"; }
+.fa-list:before { content: "\f159"; }
 .fa-map-marker:before { content: "\f11e"; }
 .fa-pencil:before { content: "\f150"; }
 .fa-pencil-o:before { content: "\f152"; }
@@ -117,11 +129,13 @@
 .fa-plus:before { content: "\f140"; }
 .fa-repeat:before { content: "\f125"; }
 .fa-search:before { content: "\f14e"; }
+.fa-share:before { content: "\f15e"; }
 .fa-shopping-cart:before { content: "\f144"; }
 .fa-signal:before { content: "\f14d"; }
 .fa-star:before { content: "\f121"; }
 .fa-tag:before { content: "\f122"; }
 .fa-thumb-tack:before { content: "\f149"; }
 .fa-trash-o:before { content: "\f14f"; }
+.fa-twitter:before { content: "\f15f"; }
 .fa-user:before { content: "\f123"; }
 .fa-youtube-play:before { content: "\f12e"; }

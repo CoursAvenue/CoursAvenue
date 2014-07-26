@@ -178,6 +178,7 @@
     vertical-align  : middle;
     display         : inline-block;
     &:before {
+        font-family     : Helvetica, Arial;
         text-transform  : lowercase;
         display         : inline-block;
         padding-left    : 15px;

@@ -106,7 +106,7 @@
             - if comment.user
               = succeed ' ' do
                 = link_to new_pro_structure_message_path(structure, return_to: request.fullpath, message: { subject: "Merci beaucoup pour ta recommandation", recipients: [comment.user.user_profile_for(structure).id] }), class: 'btn btn--small btn--blue fancybox.ajax', data: {  toggle: 'tooltip', behavior: 'modal', width: '780' }, title: "Répondre par un message privé à #{comment.author_name}", onclick: "ga('send', 'event', 'Answer to student', 'click')" do
-                  %i.fa.fa-envelope.v-middle
+                  %i.fa.fa-envelope-o.v-middle
                   %span.v-middle Message privé
             - if comment.persisted? and !comment.waiting_for_deletion?
               = succeed ' ' do

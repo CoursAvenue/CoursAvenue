@@ -11,12 +11,13 @@
   .panel__body{ data: { behavior: 'wizard-helper', content: t('pro.places.wizard_helper.index') } }
     #map.google-map.push--bottom{ class: (@places.any? ? '' : 'hidden')}
 
-    %table.table--striped.flush#place-table{ class: (@places.any? ? '' : 'hidden')}
+    %table.table--striped.table--data.flush#place-table{ class: (@places.any? ? '' : 'hidden')}
       %thead
         %tr
           %th.four-twelfths Nom du lieu
           %th.four-twelfths Adresse
-          %th.one-twelfths
+          %th.one-twelfths.text--center
+            %i.fa.fa-info
           %th.three-twelfths
       %tbody
         - @places.each do |place|

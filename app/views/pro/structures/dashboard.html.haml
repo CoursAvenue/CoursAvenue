@@ -146,7 +146,7 @@
         .grid__item.one-third>
           .islet.text--center
             %h4.flush
-              %i.fa.fa-comments
+              %i.fa.fa-comment
               Avis
             %p
               %span.beta{class: (@comments.length > 6 ? 'green' : 'red')}= @comments.length
@@ -186,7 +186,7 @@
       %hr.push--ends
       .soft--sides
         %h4
-          %i.fa.fa-comments
+          %i.fa.fa-comment
           Mes derniers avis
         %ul.comment-list
           = render partial: 'comments/comment', collection: @comments[0..2], locals: { structure: @structure, with_reply: true }

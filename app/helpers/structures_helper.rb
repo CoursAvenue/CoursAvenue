@@ -68,7 +68,6 @@ module StructuresHelper
     return nil
   end
 
-
   # @param distance decimal, eg. 1.4, 0.4, etc.
   #
   # @return 100m, 2.4km, etc.
