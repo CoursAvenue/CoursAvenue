@@ -75,6 +75,7 @@
         <strong class="gray-light">Planning</strong>
     </div>
     <div class="flexbox__item v-top three-quarters">
+        {{#if on_appointment}}Pas de créneau précis, uniquement sur demande.{{/if}}
         <table class="table--striped table--data table--data-small {{#if on_appointment}}hidden{{/if}}">
             <thead class="gray-light">
                 <tr>

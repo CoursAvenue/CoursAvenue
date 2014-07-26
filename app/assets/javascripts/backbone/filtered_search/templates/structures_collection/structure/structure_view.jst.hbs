@@ -15,31 +15,19 @@
                 {{/if}}
             </h4>
             <div>
-                {{#if structure_type}}
-                    {{ structure_type }}
-                {{else}}
-                    Structure
-                {{/if}}
-                proposant des
-                {{ given_course_types }}
+                {{#if structure_type}}{{ structure_type }}{{else}}Structure{{/if}}
+                ・ {{ cities }}
             </div>
             <div>
-                {{#if has_plannings}}
                 <div>
-                    {{ plannings_count }} {{ pluralize plannings_count 'créneau horaire' 'créneaux horaires' }}
-                    {{#if has_price_range }}
-                        de
-                        <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
-                        à
-                        <span class="pointer" data-behavior="tooltip" title="{{ max_price_libelle }}">{{ max_price_amount }}€</span>
-                    {{else}}
-                        {{#if min_price_amount}}
-                            à partir de
-                            <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
-                        {{/if}}
-                    {{/if}}
+                    {{#ifCond regular_courses_plannings_count '>' 0 }}
+                        Cours réguliers ({{regular_courses_plannings_count}} {{ pluralize regular_courses_plannings_count 'créneau' 'créneaux' }})
+                    {{/ifCond}}
+                    {{#ifCond regular_courses_plannings_count '>' 0 }}{{#ifCond training_courses_plannings_count '>' 0 }}・{{/ifCond}}{{/ifCond}}
+                    {{#ifCond training_courses_plannings_count '>' 0 }}
+                        Stages & ateliers ({{training_courses_plannings_count}} {{ pluralize training_courses_plannings_count 'date' 'dates' }})
+                    {{/ifCond}}
                 </div>
-                {{/if}}
                 {{#ifCond comments_count '>' 0 }}
                     <div>
                         <strong>

@@ -141,33 +141,39 @@ class CourseSerializer < ActiveModel::Serializer
     _details = []
     if on_appointment
       _details << { text: 'Pas de créneau précis, uniquement sur demande',
-                    icon: 'delta fa-phone-o' }
+                    icon: 'delta fa fa-phone-o' }
     end
     if teaches_at_home
       _details << { text: 'Cours à domicile',
-                    icon: 'delta fa-house' }
+                    icon: 'delta fa fa-house' }
     end
     if is_individual
       _details << { text: 'Cours particulier',
-                    icon: 'delta fa-user' }
+                    icon: 'delta fa fa-user' }
     else
       _details << { text: 'Cours collectif',
                     icon: 'fa-2x fa-group' }
     end
     if is_lesson
       _details << { text: "#{frequency} du #{start_date} au #{end_date}",
-                    icon: 'delta fa-calendar' }
+                    icon: 'delta fa fa-calendar' }
     end
     if cant_be_joined_during_year
       _details << { text: "Pas d'inscription en cours d'année",
-                    icon: 'delta fa-forbidden' }
+                    icon: 'delta fa fa-forbidden' }
     else
       _details << { text: "Inscription tout au long de l'année",
-                    icon: 'delta fa-repeat' }
+                    icon: 'delta fa fa-repeat' }
     end
     if no_class_during_holidays
       _details << { text: "Pas de cours pendant les vacances scolaires",
-                    icon: 'delta fa-forbidden' }
+                    icon: 'delta fa fa-forbidden' }
+    end
+    if object.is_private? and object.on_appointment?
+      _details << { text: join_audiences(object),
+                    icon: 'delta fa fa-audiences' }
+      _details << { text: join_levels_text(object),
+                    icon: 'delta fa fa-bar-chart-o' }
     end
     _details
   end
