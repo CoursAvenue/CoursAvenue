@@ -19,7 +19,7 @@ class RedirectController < ApplicationController
   end
 
   def why_coursavenue
-    redirect_to pages_why_path, status: 301
+    redirect_to pages_what_is_it_url, status: 301
   end
 
   def blog
