@@ -1,4 +1,4 @@
-- show_consultation = true if show_consultation.nil?
+- show_consultation = false if show_consultation.nil?
 %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
   %tr{ valign: 'top' }
     %td.v-middle.content-block{ colspan: 4 }
@@ -21,9 +21,9 @@
           = truncate(join_parent_subjects_text(similar_profile), lenght: 100)
           - if show_consultation
             %br
-            - if @view_count and (@view_count * 1.3) < similar_profile.view_count(30)
+            - if (view_count * 1.3) > similar_profile.view_count(30)
               %i.green
-                = (@view_count * [2, 2.5, 3, 3.5, 4, 4.5].sample).ceil
+                = (view_count * [2, 2.5, 3, 3.5, 4, 4.5].sample).ceil + (1..10).to_a.sample
                 consultations
             - else
               %i.green= "#{similar_profile.view_count(30)} consultations"
