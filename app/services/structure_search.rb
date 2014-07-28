@@ -33,7 +33,7 @@ class StructureSearch
         if params[:subject_id] == 'other'
           without(:subject_slugs, Subject.stars.map(&:slug))
         else
-          with(:subject_slugs).any_of [params[:subject_id]]
+          with(:subject_slugs).any_of [params[:subject_id]].flatten # Flatten in case of subject_id is an array
         end
       end
       # For admin dashboard purpose
@@ -83,44 +83,30 @@ class StructureSearch
   end
 
   def self.similar_profile structure, limit=4
-    parent_subject = structure.subjects.at_depth(0).first
-    @structures    = []
-    if parent_subject
+    # Choose parent subjects that are used if the profile has courses
+    used_root_subjects = []
+    if structure.courses.any?
+      used_root_subjects = structure.courses.map(&:subjects).flatten.map(&:root).uniq
+    else
+      used_root_subject = structure.subjects.at_depth(0).uniq
+    end
+
+    @structures = [] # The structures we will return at the ed
+    7.times do |index|
       @structures << StructureSearch.search({lat: structure.latitude,
                                             lng: structure.longitude,
                                             without_id: structure.id,
-                                            radius: 10,
+                                            # Radius will increment from 2.7 to > 1000
+                                            radius: Math.exp(index),
                                             sort: 'premium',
                                             nb_comments: 1,
                                             has_logo: true,
                                             per_page: limit,
-                                            subject_id: parent_subject.slug
+                                            subject_id: (used_root_subjects.any? ? used_root_subjects.map(&:slug) : nil)
                                           }).results
-      # If there is not enough with the same subjects
+      @structures = @structures.flatten.uniq
+      break if @structures.length >= limit
     end
-    @structures = @structures.flatten.uniq
-    if @structures.length < limit
-      @structures << StructureSearch.search({lat: structure.latitude,
-                                             lng: structure.longitude,
-                                             without_id: structure.id,
-                                             radius: 50,
-                                             sort: 'premium',
-                                             nb_comments: 1,
-                                             has_logo: true,
-                                             per_page: (limit - @structures.length)
-                                          }).results
-    end
-    if @structures.length < limit
-      @structures << StructureSearch.search({lat: structure.latitude,
-                                             lng: structure.longitude,
-                                             without_id: structure.id,
-                                             radius: 500,
-                                             sort: 'premium',
-                                             has_logo: true,
-                                             per_page: (limit - @structures.length)
-                                          }).results
-    end
-    @structures = @structures.flatten.uniq
     return @structures[0..(limit - 1)]
   end
 end
