@@ -35,7 +35,7 @@ OpenDoorsSearch.addInitializer(function(options) {
             'filter:audience':         'filterQuery',
             'filter:date':             'filterQuery',
             'filter:search_term':      'filterQuery',
-            'map:marker:focus':        'findItemView',
+            'map:marker:click':        'findItemView',
             'structures:updated':      'renderSlideshows'
         }
     });

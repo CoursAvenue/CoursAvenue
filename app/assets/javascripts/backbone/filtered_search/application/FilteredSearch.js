@@ -33,7 +33,7 @@ FilteredSearch.addInitializer(function(options) {
             'filter:search_term':      'filterQuery',
             'filter:location':         'filterQuery',
             'filter:trial_course':     'filterQuery',
-            'map:marker:focus':        'findItemView',
+            'map:marker:click':        'findItemView',
             'structures:updated':      'structuresUpdated'
         }
     });
@@ -126,7 +126,7 @@ FilteredSearch.addInitializer(function(options) {
             'structures:itemview:highlighted':   'exciteMarkers',
             'structures:itemview:unhighlighted': 'exciteMarkers',
             'filter:update:map':                 'centerMap',
-            'structures:itemview:found':         'showInfoWindow',
+            'structures:itemview:found':         'setMarkerViewAndshowInfoWindow',
             'structures:itemview:peacock':       'togglePeacockingMarkers'
         }
     });

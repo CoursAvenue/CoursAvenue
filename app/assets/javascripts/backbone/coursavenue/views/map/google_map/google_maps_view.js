@@ -117,25 +117,25 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             /* this prevents an infinite loop of map update at the beginning */
             this.lock('map:bounds');
             this.toggleLiveUpdate();
-            this.on('marker:focus'          , this.markerFocus);
+            this.on('marker:click'          , this.markerFocus);
             this.on('marker:hovered'        , this.markerHovered);
             this.on('marker:unhighlight:all', this.unhighlightEveryMarker);
             this.infoBox = new this.infoBoxView(options.infoBoxViewOptions || {});
         },
 
-        onItemviewCloseClick: function () {
+        onItemviewCloseClick: function onItemviewCloseClick () {
             if (this.current_info_marker) {
                 this.unlockCurrentMarker();
                 this.hideInfoWindow();
             }
         },
 
-        markerHovered: function (marker_view) {
+        markerHovered: function markerHovered (marker_view) {
             this.current_info_marker = marker_view.model.cid;
-            this.showInfoWindow(marker_view);
+            // this.showInfoWindow(marker_view);
         },
 
-        unhighlightEveryMarker: function () {
+        unhighlightEveryMarker: function unhighlightEveryMarker () {
             _.each(this.markerViewChildren, function(marker_view) {
                 marker_view.unhighlight()
             });
@@ -143,7 +143,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
 
         markerFocus: function (marker_view) {
             /* it seems to me this test was to ensure that re-clicking on
-            * the current_info_marker wouldn't retrigger map:marker:focus.
+            * the current_info_marker wouldn't retrigger map:marker:click.
             * however, not the current_info_marker is set in markerHovered,
             * so we can avoid this check. */
             //  var marker = this.markerViewChildren[this.current_info_marker];
@@ -155,7 +155,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
 
             /* TODO this is a problem, we need to not pass out the whole view, d'uh */
             this.current_info_marker = marker_view.model.cid;
-            this.trigger('map:marker:focus', marker_view);
+            this.trigger('map:marker:click', marker_view);
         },
 
         unlockCurrentMarker: function () {
@@ -307,6 +307,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
 
         showInfoWindow: function (view) {
             var marker = this.markerViewChildren[this.current_info_marker];
+            if (!marker) { return; }
 
             if (this.infoBox) {
                 this.infoBox.close();
@@ -321,6 +322,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             /* when the info window shows, it may cause the map to adjust. If this happens,
              * we don't want the map bounds to fire so we ignore it once */
             this.lock('map:bounds', 'showInfoWindow');
+
             this.infoBox.open(marker.map, marker.gOverlay);
         },
 

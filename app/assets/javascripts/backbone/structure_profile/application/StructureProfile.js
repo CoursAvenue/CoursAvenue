@@ -67,21 +67,23 @@ StructureProfile.addInitializer(function(options) {
     layout.showWidget(sticky_google_maps_view, {
         selector: '[data-type=sticky-map]',
         events: {
-            "course:mouse:enter": "exciteMarkers",
-            "course:mouse:leave": "unexciteMarkers",
-            "place:mouse:enter": "exciteMarkers",
-            "place:mouse:leave": "unexciteMarkers",
-            "places:collection:updated": "recenterMap"
+            'course:mouse:enter'       : 'exciteMarkers',
+            'course:mouse:leave'       : 'unexciteMarkers',
+            'place:mouse:enter'        : 'exciteMarkers',
+            'place:mouse:leave'        : 'unexciteMarkers',
+            'places:collection:updated': 'recenterMap',
+            'map:marker:click'         : 'showInfoWindow'
         }
     });
 
     layout.showWidget(google_maps_view, {
         events: {
-            "course:mouse:enter": "exciteMarkers",
-            "course:mouse:leave": "unexciteMarkers",
-            "place:mouse:enter": "exciteMarkers",
-            "place:mouse:leave": "unexciteMarkers",
-            "places:collection:updated": "recenterMap"
+            'course:mouse:enter'       : 'exciteMarkers',
+            'course:mouse:leave'       : 'unexciteMarkers',
+            'place:mouse:enter'        : 'exciteMarkers',
+            'place:mouse:leave'        : 'unexciteMarkers',
+            'places:collection:updated': 'recenterMap',
+            'map:marker:click'         : 'showInfoWindow'
         }
     });
 
