@@ -16,6 +16,7 @@
     // Create the defaults once
     var pluginName = "sticky",
         defaults = {
+            scrollContainer: window,
             offsetTop : 0,
             z         : 300,
             oldWidth  : false,
@@ -77,12 +78,13 @@
                 this.$pusher_el    = $(this.options.pushed);
                 this.pusher_height = this.$pusher_el.outerHeight();
             }
-            $(window).scroll(this.onScroll.bind(this));
+            this.element_top = this.$element.offset().top
+            $(this.options.scrollContainer).scroll(this.onScroll.bind(this));
+            if (this.options.scrollContainer != window) { this.element_top -= $(this.options.scrollContainer).offset().top; }
         },
 
         onScroll: function onScroll () {
-            this.scroll_top  = $(window).scrollTop();
-            this.element_top = this.$element.offset().top;
+            this.scroll_top  = $(this.options.scrollContainer).scrollTop();
             this.fixed       = this.$element.hasClass("sticky");
             if (this.options.stopAtHeight && this.scroll_top > this.options.stopAtHeight ) {
               this.unFixit();
