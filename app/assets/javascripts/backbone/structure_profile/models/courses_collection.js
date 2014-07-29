@@ -3,6 +3,7 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
 
     Module.CoursesCollection = Backbone.Collection.extend({
         model: Backbone.Model.extend(),
+        comparator: 'type',
 
         initialize: function initialize() {
             this.on('fetch:done', this.resetCollection.bind(this));
