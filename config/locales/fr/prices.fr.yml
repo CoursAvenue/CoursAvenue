@@ -38,11 +38,17 @@ fr:
       month_short: Mensuel
     discount:
       student: Étudiant
+      student_plural: étudiants
       young_and_senior: Jeune et sénior
+      young_and_senior_plural: jeunes et séniors
       job_seeker: Demandeur d'emploi
+      job_seeker_plural: demandeurs d'emploi
       low_income: Revenu faible
+      low_income_plural: revenus faibles
       large_family: Famille nombreuse
+      large_family_plural: familles nombreuses
       couple: Couple
+      couple_plural: couples
       training: Prix du stage
       trial_lesson: Cours d'essai
       other: Autres

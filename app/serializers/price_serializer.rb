@@ -1,7 +1,7 @@
 class PriceSerializer < ActiveModel::Serializer
   include PricesHelper
 
-  attributes :libelle, :amount, :info, :promo_percentage, :promo_amount, :promo_amount_type, :libelle_type, :discount, :is_free
+  attributes :libelle, :amount, :info, :promo_percentage, :promo_amount, :promo_amount_type, :libelle_type, :is_free
 
   def libelle_type
     case object.type
@@ -13,6 +13,16 @@ class PriceSerializer < ActiveModel::Serializer
       'Tarif réduit'
     else
       'Tarif normal'
+    end
+  end
+
+  def info
+    if object.discount? and object.libelle != 'prices.discount.other'
+      str = "Pour les "
+      str << I18n.t("#{object.libelle}_plural")
+      str << ". #{object.info}" if object.info.present?
+    else
+      object.info
     end
   end
 
@@ -39,10 +49,6 @@ class PriceSerializer < ActiveModel::Serializer
 
   def promo_amount
     "#{readable_amount(object.promo_amount, false, (object.promo_amount_type || '€'))}" if object.promo_amount
-  end
-
-  def discount
-    object.discount?
   end
 
 end

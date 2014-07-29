@@ -46,7 +46,7 @@
                 - unless current_user
                   .grid__item.one-half.soft-half--right>
                     %input.input--large.one-whole{ name: 'user[email]', type: 'text', placeholder: 'Votre e-mail', value: params[:email] }
-                .grid__item.one-half.v-middle{ data: { toggle: 'popover', content: "Les professeurs sont souvent en cours, nous vous recommandons donc de laisser votre numéro de téléphone pour être recontacté dans les plus brefs délais. Il ne sera communiqué à personne d'autre.", trigger: 'hover', placement: 'bottom' } }>
+                .grid__item.v-middle{ class: (current_user ? 'one-whole' : 'one-half'), data: { toggle: 'popover', content: "Les professeurs sont souvent en cours, nous vous recommandons donc de laisser votre numéro de téléphone pour être recontacté dans les plus brefs délais. Il ne sera communiqué à personne d'autre.", trigger: 'hover', placement: 'bottom' } }>
                   .input-addon.soft-half--right
                     .input-prefix
                       %i.fa.fa-phone
