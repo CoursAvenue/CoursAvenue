@@ -23,7 +23,7 @@ class StructureDecorator < Draper::Decorator
     _subjects.sort{ |a, b| b[:child_length] <=> a[:child_length] }.each do |subject_hash|
       output << <<-eos
         <div class='push-half--bottom'>
-          <strong>#{subject_hash[:root_name]}</strong>
+          <strong>#{subject_hash[:root_name]} :</strong>
           <br>
           #{subject_hash[:child_names]}
         </div>

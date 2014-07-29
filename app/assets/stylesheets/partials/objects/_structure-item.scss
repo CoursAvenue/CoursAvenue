@@ -4,7 +4,11 @@
     }
 }
 .structure__header-icon {
-    width: 8em;
+    width      : 8em;
+    line-height: 18px;
+    div {
+        font-size: 13px;
+    }
 }
 
 #structure-header {

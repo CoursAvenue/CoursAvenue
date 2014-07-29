@@ -7,7 +7,10 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         itemViewContainer: '[data-type=container]',
 
         initialize: function initialize (options) {
-            this.data_url = options.data_url;
+            this.about       = options.about;
+            this.about_genre = options.about_genre;
+            this.data_url    = options.data_url;
+            _.bindAll(this, 'iPhonizeCourseTitles');
         },
 
         collectionEvents: {
@@ -16,6 +19,7 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
 
         collectionReset: function collectionReset () {
             this.trigger('courses:collection:reset', this.serializeData());
+            _.delay(this.iPhonizeCourseTitles, 500);
         },
 
         onItemviewMouseenter: function onItemviewMouseenter (view, data) {
@@ -37,7 +41,8 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         },
 
         onRender: function onRender () {
-            if (this.collection.length == 0) {
+            var new_html = this.$('[data-empty-courses]').html().replace('__about__', _.capitalize(this.about));
+            if (this.collection.length == 0 && this.collection.total_not_filtered == 0) {
                 this.$('[data-empty-courses]').show();
             } else {
                 this.$('[data-empty-courses]').hide();
@@ -45,6 +50,10 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         },
 
         onAfterShow: function onAfterShow () {
+            this.iPhonizeCourseTitles();
+        },
+
+        iPhonizeCourseTitles: function iPhonizeCourseTitles () {
             var course_view_titles, offset, stop_at;
             this.$('[data-behavior=read-more]').readMore();
             this.$('[data-toggle=popover]').popover();
@@ -81,7 +90,8 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             var is_last = (index == (this.collection.length - 1));
             return {
                 collection: new Backbone.Collection(model.get("plannings")),
-                is_last: is_last
+                is_last   : is_last,
+                about     : this.about
             };
         },
 

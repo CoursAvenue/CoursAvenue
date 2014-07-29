@@ -19,7 +19,7 @@
             .inline-block.drop-down__wrapper.soft--sides
               = link_to "Connexion", new_user_session_path, data: { behavior: 'modal', title: 'Connexion', width: 600, padding: 0 }, class: 'fancybox.ajax', id: 'connection'
             .inline-block
-              = link_to 'Publiez vos cours', inscription_pro_structures_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), onclick: "ga('send', 'event', 'Publier vos cours', 'click','Inscrit')", class: 'btn btn--yellow'
+              = link_to 'Publiez vos cours', inscription_pro_structures_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), onclick: "ga('send', 'event', 'Publier vos cours', 'click','Inscrit')", class: 'btn btn--blue'
             = render 'shared/help_dropdown'
 
 

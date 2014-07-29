@@ -123,8 +123,10 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
 
             // Only fetch when there is no data
             view = new ViewClass({
-                collection: this.model.get(resource_name),
-                data_url: this.model.get("data_url")
+                collection : this.model.get(resource_name),
+                data_url   : this.model.get("data_url"),
+                about      : this.model.get('about'),
+                about_genre: this.model.get('about_genre')
             });
 
             // always fetch, since we don't know whether we have resource_name or just ids
@@ -163,5 +165,6 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         findCollectionViewForResource: function findCollectionViewForResource (resources) {
             return Module[_.capitalize(resources)][_.capitalize(resources) + 'CollectionView'];
         }
+
     });
 });

@@ -1,13 +1,13 @@
 <div class="panel push--bottom" id="presentation">
     <div class="panel__header soft-half--ends soft--sides">
-        <h4 class="flush">{{about}}</h4>
+        <h4 class="flush">À propos de {{about}}</h4>
     </div>
     <div class="panel__body">
         <article>
             <div class="soft">
                 {{#if logo_thumb_url}}
                 <div class="media-photo float--right push-half--left">
-                    <img src="{{logo_thumb_url}}" alt="Image de profil de {{name}}" height="150" class="block">
+                    <img src="{{logo_thumb_url}}" alt="Image de profil de {{name}}" height="200" class="block">
                 </div>
                 {{/if}}
                 <div class="push-half--bottom">
@@ -34,7 +34,7 @@
                     {{/if}}
                 </div>
                 <div class="push-half--bottom">
-                    <a class="pointer" data-behavior="show-contact-panel">Contacter ce profil</a>
+                    <a class="pointer" data-behavior="show-contact-panel">Contacter {{about}}</a>
                 </div>
                 <hr class="push--ends">
                 <div class="flexbox">
@@ -45,51 +45,51 @@
                         {{#each subjects}}
                         <div class="push-half--bottom {{#ifCond @index '>' 1}}description-more-long hidden{{/ifCond}}">
                             <img src="{{this.icon}}" alt="Disciplines pratiquées : {{this.icon}}" height="16" class="v-middle">
-                            <strong class="v-middle">{{this.root_name}}</strong>
-                            <br>
-                            {{this.child_names}}
+                            <strong>{{this.root_name}} : </strong>{{this.child_names}}
                         </div>
                         {{/each}}
-                        <div>
-                            <a href="#" data-behavior="show-long-version" data-long-version=".description-more-long">
-                            + Plus
-                            </a>
-                        </div>
                     </div>
                 </div>
-                <div class="description-more-long hidden">
+                <div>
                     <hr class="push--bottom push-half--top">
                     <div class="flexbox">
                         <div class="flexbox__item v-top one-quarter">
                             <strong class="gray-light">Plus d'infos</strong>
                         </div>
                         <div class="flexbox__item v-top three-quarters">
-                            <table class="table--data table--striped bordered">
+                            <table class="table--data table--striped bordered push-half--bottom">
                                 <tbody>
-                                    {{#if structure_type}}
-                                    <tr>
-                                        <td class="nowrap">Type de structure</td>
-                                        <td class="text--right"><strong>{{structure_type}}</strong></td>
-                                    </tr>
-                                    {{/if}}
-                                    <tr>
-                                        <td class="nowrap">Cours proposés</td>
-                                        <td class="text--right"><strong>{{given_course_types}}</strong></td>
-                                    </tr>
-                                    {{#if audience}}
-                                    <tr>
-                                        <td class="nowrap">Public</td>
-                                        <td class="text--right"><strong>{{audience}}</strong></td>
-                                    </tr>
-                                    {{/if}}
                                     {{#if given_funding_type}}
                                     <tr>
-                                        <td class="nowrap">Financements acceptés</td>
-                                        <td class="text--right"><strong>{{given_funding_type}}</strong></td>
+                                        <td class="one-third">Financements acceptés</td>
+                                        <td class="two-thirds"><strong>{{given_funding_type}}</strong></td>
                                     </tr>
                                     {{/if}}
+                                    {{#if audience}}
+                                    <tr class="{{#if given_funding_type}}description-more-info-long hidden{{/if}}">
+                                        <td class="one-third">Public</td>
+                                        <td class="two-thirds"><strong>{{audience}}</strong></td>
+                                    </tr>
+                                    {{/if}}
+                                    {{#if structure_type}}
+                                    <tr class="{{#if given_funding_type}}description-more-info-long hidden{{/if}}{{#if audience}}description-more-info-long hidden{{/if}}">
+                                        <td class="one-third">Type de structure</td>
+                                        <td class="two-thirds"><strong>{{structure_type}}</strong></td>
+                                    </tr>
+                                    {{/if}}
+                                    <tr class="{{#unless has_only_one_more_info}}description-more-info-long hidden{{/unless}}">
+                                        <td class="one-third">Cours proposés</td>
+                                        <td class="two-thirds"><strong>{{given_course_types}}</strong></td>
+                                    </tr>
                                 </tbody>
                             </table>
+                            {{#unless has_only_one_more_info}}
+                            <div>
+                                <a href="#" data-behavior="show-long-version" data-long-version=".description-more-info-long">
+                                + Plus
+                                </a>
+                            </div>
+                            {{/unless}}
                         </div>
                     </div>
                 </div>

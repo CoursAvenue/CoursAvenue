@@ -1,4 +1,4 @@
-<div class="bordered--bottom-on-stick soft--ends bg-white" id="{{type_dash}}-{{id}}" data-type="course-view-title">
+<div class="bordered--bottom-on-stick soft--ends bg-white relative" id="{{type_dash}}-{{id}}" data-type="course-view-title">
   <h3 class="v-middle flush inline-block delta">{{ name }}</h3>
   {{#if promotion_title}}
     <a href="#{{type_dash}}-{{id}}-tarifs" class="v-middle lbl lbl--yellow muted-link push-half--left" data-behavior='scroll-to' data-offset-top='-115'><i class="fa-star"></i> {{ promotion_title }}</a>
@@ -74,7 +74,9 @@
                     <tr>
                         <td class="nowrap">
                             <img src="<%= asset_path('icons/icon-star-yellow-full-bordered.png') %>" height="14" class="v-middle" data-toggle="tooltip" data-title="{{this.libelle_type}}">
-                            <span class="v-middle">{{this.libelle}}</span>
+                            <span class="v-middle">
+                            {{#if this.discount}} {{ this.libelle_type }} {{else}} {{ this.libelle }} {{/if}}
+                            </span>
                         </td>
                         <td class="text--center">
                             <strong class="green">{{this.amount}}</strong>
@@ -82,7 +84,7 @@
                         <td class="text--center">
                             <strong class="green">{{this.promo_amount}}</strong>
                         </td>
-                        <td>{{{ hide_contacts this.info }}}</td>
+                        <td>{{#if this.discount}}{{ this.libelle }}.{{/if}} {{{ hide_contacts this.info }}}</td>
                     </tr>
                 {{/each}}
                 {{/if}}
@@ -128,9 +130,7 @@
             {{#each subjects}}
             <div class="push-half--bottom {{#ifCond @index '>' 0}}{{../../type_dash}}-{{../../id}}-subjects-long hidden{{/ifCond}}">
                 <img src="{{this.icon}}" alt="Disciplines pratiquées : {{this.icon}}" height="16" class="v-middle">
-                <strong class="v-middle">{{this.root_name}}</strong>
-                <br>
-                {{this.child_names}}
+                <strong>{{this.root_name}} : </strong>{{this.child_names}}
             </div>
             {{#ifCond @index '==' 1}}
                 <div>

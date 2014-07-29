@@ -10,14 +10,35 @@ class PlanningSerializer < ActiveModel::Serializer
   end
 
   def address_with_info
-    if object.place
-      str = "<p class='flush'><strong>#{object.place.address}</strong></p>"
-      str << "<p class='flush'><strong>Infos publics : </strong>#{object.place.info}</strong></p>" if object.place.info.present?
+    str = ''
+    if object.course.is_private?
+      if object.course.place
+        str << "<p class='flush'><strong>#{object.course.place.address}#{(object.course.place.info.present? ? ' : ' : '')}</strong></p>"
+        str << "<p class='flush'>#{object.course.place.info}</strong></p>" if object.course.place.info.present?
+      end
+      if object.course.home_place
+        str << "<p class='flush'><strong>#{object.course.home_place.name}</strong> :<br> #{object.course.home_place.address}</p>"
+      end
+    elsif object.place
+      str << "<p class='flush'><strong>#{object.place.address}#{(object.place.info.present? ? ' : ' : '')}</strong></p>"
+      str << "<p class='flush'>#{object.place.info}</strong></p>" if object.place.info.present?
     end
   end
 
   def address_name
-    object.place.name if object.place
+    places = []
+    if object.is_in_foreign_country?
+      fake_place = Struct.new(:name)
+      _place = fake_place.new I18n.t('places.is_in_foreign_country')
+      places << _place
+    end
+    if object.course.is_private?
+      places << object.course.home_place if object.course.home_place
+      places << object.course.place if object.course.place
+    else
+      places << object.place if object.place
+    end
+    places.map(&:name).join(', ')
   end
 
   def activity_name

@@ -1,4 +1,4 @@
-<div class="bordered--bottom-on-stick soft--ends bg-white" id="{{type_dash}}-{{id}}" data-type="course-view-title">
+<div class="bordered--bottom-on-stick soft--ends bg-white relative" id="{{type_dash}}-{{id}}" data-type="course-view-title">
   <h3 class="v-middle flush inline-block delta">{{ name }}</h3>
   {{#if promotion_title}}
     <a href="#{{type_dash}}-{{id}}-tarifs" class="v-middle lbl lbl--yellow muted-link push-half--left" data-behavior='scroll-to' data-offset-top='-115'><i class="fa-star"></i> {{ promotion_title }}</a>
@@ -75,7 +75,9 @@
         <strong class="gray-light">Planning</strong>
     </div>
     <div class="flexbox__item v-top three-quarters">
-        {{#if on_appointment}}Pas de créneau précis, uniquement sur demande.{{/if}}
+        {{#if on_appointment}}
+          Cours particuliers sur demande. <a href="#" data-behavior="show-contact-panel">Contactez {{ about }}</a> pour prendre un rendez-vous.
+        {{/if}}
         <table class="table--striped table--data table--data-small {{#if on_appointment}}hidden{{/if}}">
             <thead class="gray-light">
                 <tr>
@@ -100,10 +102,10 @@
         <table class="table--striped table--data table--data-small">
             <thead class="gray-light">
                 <tr>
-                    <th class="four-twelfths">Formule</th>
+                    <th class="three-twelfths">Formule</th>
                     <th class="two-twelfths text--center">Prix</th>
                     <th class="two-twelfths text--center">Promotion</th>
-                    <th class="four-twelfths"><i class="fa fa-info"></i></th>
+                    <th class="five-twelfths"><i class="fa fa-info"></i></th>
                 </tr>
             </thead>
             <tbody>
@@ -113,7 +115,9 @@
                     <tr>
                         <td class="nowrap">
                             <img src="<%= asset_path('icons/icon-star-yellow-full-bordered.png') %>" height="14" class="v-middle" data-toggle="tooltip" data-title="Offre spéciale CoursAvenue">
-                            <span class="v-middle">{{this.libelle_type}}</span>
+                            <span class="v-middle">
+                            {{#if this.discount}} {{ this.libelle_type }} {{else}} {{ this.libelle }} {{/if}}
+                            </span>
                         </td>
                         <td class="text--center">
                             <strong class="green">{{this.amount}}</strong>
@@ -121,7 +125,7 @@
                         <td class="text--center">
                             <strong class="green">{{this.promo_amount}}</strong>
                         </td>
-                        <td>{{ this.libelle }}. {{{ hide_contacts this.info }}}</td>
+                        <td>{{#if this.discount}}{{ this.libelle }}.{{/if}} {{{ hide_contacts this.info }}}</td>
                     </tr>
                 {{/each}}
                 {{/if}}
@@ -138,10 +142,17 @@
                     {{/ifCond}}
                     <tr class="{{#ifCond @index '==' 0}}bordered--top{{/ifCond}}{{#ifCond @index '>' 1}}{{../../type_dash}}-{{../../id}}-prices-long hidden{{/ifCond}}">
                         <td>
-                            {{this.libelle}}
+                            {{#if ../premium}}{{#if this.promo_amount}}
+                            <img src="<%= asset_path('icons/icon-star-yellow-full-bordered.png') %>" height="14" class="v-middle" data-toggle="tooltip" data-title="Offre spéciale CoursAvenue">
+                            {{/if}}{{/if}}
+                              <span class="v-middle">{{this.libelle}}</span>
                         </td>
                         <td class="text--center {{#if this.promo_amount}}line-through{{/if}}">
-                            {{this.amount}}
+                            {{#if this.is_free}}
+                              <strong class="green">Gratuit</strong>
+                            {{else}}
+                              {{this.amount}}
+                            {{/if}}
                         </td>
                         <td class="text--center">
                             {{#if ../premium}}
@@ -167,9 +178,7 @@
             {{#each subjects}}
             <div class="push-half--bottom {{#ifCond @index '>' 0}}{{../../type_dash}}-{{../../id}}-subjects-long hidden{{/ifCond}}">
                 <img src="{{this.icon}}" alt="Disciplines pratiquées : {{this.icon}}" height="16" class="v-middle">
-                <strong class="v-middle">{{this.root_name}}</strong>
-                <br>
-                {{this.child_names}}
+                <strong>{{this.root_name}} : </strong>{{this.child_names}}
             </div>
             {{#ifCond @index '==' 1}}
                 <div>

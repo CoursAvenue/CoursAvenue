@@ -1,13 +1,13 @@
 - without_map = false if without_map.nil?
-.gray-box.push--bottom#lieux-photos.relative
+.gray-box.push--bottom.relative
   - if current_user and current_user.follows?(@structure)
-    = link_to '#', class: "absolute north east push--right push--top on-top" do
+    = link_to '#', class: "absolute north east push--right push--top on-under-top" do
       %i.fa.fa-heart.fa-4x
   - elsif current_user
-    = link_to follow_structure_path(@structure), method: :post, class: "heart-link absolute north east push--right push--top on-top", data: { toggle: 'tooltip', placement: 'left', title: 'Mettre ce profil en favori' } do
+    = link_to follow_structure_path(@structure), method: :post, class: "heart-link absolute north east push--right push--top on-under-top", data: { toggle: 'tooltip', placement: 'left', title: 'Ajouter ce profil en favori' } do
       %i.fa.fa-heart-o.fa-4x
   - else
-    = link_to new_user_registration_path, data: { toggle: 'tooltip', behavior: 'modal', placement: 'left', title: 'Mettre ce profil en favori', width: 600, padding: 0 }, class: 'fancybox.ajax heart-link absolute north east push--right push--top on-top', onclick: "ga('send', 'event', 'Se créer un compte', 'click','Inscrit')" do
+    = link_to new_user_registration_path, data: { toggle: 'tooltip', behavior: 'modal', placement: 'left', title: 'Ajouter ce profil en favori', width: 600, padding: 0 }, class: 'fancybox.ajax heart-link absolute north east push--right push--top on-under-top', onclick: "ga('send', 'event', 'Se créer un compte', 'click','Inscrit')" do
       %i.fa.fa-heart-o.fa-4x
 
   .rslides-wrapper.rslides--big#media-grid{ style: 'height: 500px;'}>
@@ -35,7 +35,7 @@
       %ul.nav.rslides__custom-pager.push-half--bottom.slideshow-thumbnails.thumbnails-slide-panel#galery-controls-thumb
         - unless without_map
           %li.rslides-thumbnail
-            %a.pointer.media-photo.media-slideshow
+            %a.pointer.media-photo.media-slideshow#map-thumbnail
               = image_tag 'icons/google-maps-thumb.jpg', height: 70, width: 70
         - medias.each do |media|
           %li.rslides-thumbnail

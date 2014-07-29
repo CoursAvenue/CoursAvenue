@@ -124,7 +124,7 @@ class CourseSerializer < ActiveModel::Serializer
       string << "<br>"
     end
     if object.place
-      string << object.place.address
+      string << "#{object.place.name}, #{object.place.address}"
     end
     string
   end
@@ -143,10 +143,6 @@ class CourseSerializer < ActiveModel::Serializer
       _details << { text: 'Pas de créneau précis, uniquement sur demande',
                     icon: 'delta fa fa-phone-o' }
     end
-    if teaches_at_home
-      _details << { text: 'Cours à domicile',
-                    icon: 'delta fa fa-house' }
-    end
     if is_individual
       _details << { text: 'Cours particulier',
                     icon: 'delta fa fa-user' }
@@ -154,15 +150,19 @@ class CourseSerializer < ActiveModel::Serializer
       _details << { text: 'Cours collectif',
                     icon: 'fa-2x fa-group' }
     end
+    if teaches_at_home
+      _details << { text: 'Peut se déplacer à domicile',
+                    icon: 'delta fa fa-house' }
+    end
     if is_lesson
       _details << { text: "#{frequency} du #{start_date} au #{end_date}",
                     icon: 'delta fa fa-calendar' }
     end
-    if cant_be_joined_during_year
+    if object.is_lesson? and cant_be_joined_during_year
       _details << { text: "Pas d'inscription en cours d'année",
                     icon: 'delta fa fa-forbidden' }
-    else
-      _details << { text: "Inscription tout au long de l'année",
+    elsif object.is_lesson?
+      _details << { text: "Inscriptions tout au long de l'année",
                     icon: 'delta fa fa-repeat' }
     end
     if no_class_during_holidays
@@ -171,9 +171,9 @@ class CourseSerializer < ActiveModel::Serializer
     end
     if object.is_private? and object.on_appointment?
       _details << { text: join_audiences(object),
-                    icon: 'delta fa fa-audiences' }
+                    icon: 'gamma fa fa-audiences' }
       _details << { text: join_levels_text(object),
-                    icon: 'delta fa fa-bar-chart-o' }
+                    icon: 'delta fa fa-levels' }
     end
     _details
   end

@@ -31,7 +31,8 @@ a.selected, a.active {
 }
 
 .muted-link {
-    color: inherit;
+    font-weight: inherit;
+    color      : inherit;
     &:hover {
         text-decoration: none;
     }

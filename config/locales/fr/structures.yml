@@ -86,6 +86,19 @@ fr:
       remind_me: "Me le rappeler plus tard"
       dont_want: "Non, je n'en veux pas"
       need_help: "Non, j'ai besoin d'aide"
+    structure_type_genre:
+      structures:
+        company: la
+        association: la
+        independant: le
+        other: le
+    structure_type_contact:
+      structures:
+        company: cette école
+        association: cette association
+        independant: ce professeur
+        other: ce profil
+
 
   pro:
     structures:

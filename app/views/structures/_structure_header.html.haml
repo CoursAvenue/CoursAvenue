@@ -13,35 +13,38 @@
             - if @structure.structure_type.present?
               .milli.structure__header-icon.inline-block.text--center.semi-muted.v-top
                 %i.fa-3x.fa-house
-                .epsilon
+                %div
                   = t(@structure.structure_type)
             - if @structure.gives_group_courses
-              .milli.structure__header-icon.inline-block.text--center.semi-muted.v-top
-                %i.fa-3x.fa-group
-                .epsilon
-                  Cours
-                  %br
-                  collectifs
+              .milli.structure__header-icon.inline-block.text--center.semi-muted.v-top{ data: { toggle: 'popover', content: @structure.courses.lessons.select(&:is_published?).map(&:name).join(', '), trigger: 'hover', html: 'true', placement: 'bottom' } }
+                = link_to '#cours-reguliers', class: 'muted-link block', data: { behavior: 'scroll-to', offset_top: '-55' } do
+                  %i.fa-3x.fa-group
+                  %div
+                    Cours
+                    %br
+                    collectifs
             - if @structure.gives_individual_courses
-              .milli.structure__header-icon.inline-block.text--center.semi-muted.v-top
-                %i.fa-3x.fa-user
-                .epsilon
-                  Cours
-                  %br
-                  particuliers
+              .milli.structure__header-icon.inline-block.text--center.semi-muted.v-top{ data: { toggle: 'popover', content: @structure.courses.privates.select(&:is_published?).map(&:name).join(', '), trigger: 'hover', html: 'true', placement: 'bottom' } }
+                = link_to '#cours-reguliers', class: 'muted-link block', data: { behavior: 'scroll-to', offset_top: '-55' } do
+                  %i.fa-3x.fa-user
+                  %div
+                    Cours
+                    %br
+                    particuliers
             .milli.structure__header-icon.inline-block.text--center.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.subjects_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
               %i.fa-3x.fa-tag
-              .epsilon
+              %div
                 = @structure.subjects.count
                 %br
                 = "disciplines".pluralize @structure.subjects.count
 
             .milli.structure__header-icon.inline-block.text--center.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.places_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
-              %i.fa-3x.fa-map-marker
-              .epsilon
-                = @structure.places.count
-                %br
-                = "lieu#{@structure.places.count > 1 ? 'x' : ''}"
+              = link_to "javascript:$('#map-thumbnail').click()", class: 'muted-link block' do
+                %i.fa-3x.fa-map-marker
+                %div
+                  = @structure.places.count
+                  %br
+                  = "lieu#{@structure.places.count > 1 ? 'x' : ''}"
             - if @structure.comments_count > 0
               .milli.structure__header-icon.inline-block.text--center.semi-muted.v-top
                 = link_to '#avis', class: 'block muted-link f-weight-normal', data: { behavior: 'scroll-to', offset_top: '-55' } do
@@ -57,7 +60,7 @@
                       %meta{itemprop: 'postal-code', content: structure.zip_code}
                       - if @city
                         %meta{itemprop: 'locality', content: @city.name}
-                  .epsilon
+                  %div
                     = @structure.comments_count
                     %br
                     avis
@@ -79,26 +82,26 @@
               %strong= truncate @structure.name, lenght: 25
             .flexbox__item
               %ul.nav.flush.v-middle.inline-block.v-middle
-                %li.soft-half--sides= link_to 'Lieux & photos', '#lieux-photos', class: 'f-weight-normal', data: { behavior: 'scroll-to', offset_top: '-55' }
-                %li.soft-half--sides= link_to 'Présentation', '#presentation', class: 'f-weight-normal', data: { behavior: 'scroll-to', offset_top: '-55' }
-                %li.soft-half--sides= link_to 'Cours réguliers', '#cours-reguliers', class: 'f-weight-normal', data: { behavior: 'scroll-to', offset_top: '-55' }
-                %li.soft-half--sides= link_to 'Stages & ateliers', '#stages-ateliers', class: 'f-weight-normal', data: { behavior: 'scroll-to', offset_top: '-55' }
-                %li.soft-half--sides= link_to 'Avis', '#avis', class: 'f-weight-normal', data: { behavior: 'scroll-to', offset_top: '-55' }
+                %li.soft-half--sides= link_to 'Lieux & photos', '#lieux-photos', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
+                %li.soft-half--sides= link_to 'Présentation', '#presentation', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
+                %li.soft-half--sides= link_to 'Cours réguliers', '#cours-reguliers', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
+                %li.soft-half--sides= link_to 'Stages & ateliers', '#stages-ateliers', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
+                %li.soft-half--sides= link_to 'Avis', '#avis', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
               - if @structure.premium?
                 .lbl.lbl--yellow.nowrap.push--left.v-middle
                   %i.fa-star
                   = header_promotion_title_for_structure @structure
         .grid__item.v-middle.two-twelfths.text--right>
-          .soft--right
-            %a.soft--sides.contact-button.btn.btn--green{ data: { behavior: 'show-contact-panel' } }
-              Contacter
+          %a.contact-button.btn.btn--green.nowrap{ data: { behavior: 'show-contact-panel' } }
+            Contacter
+            = I18n.t("structures.structure_type_contact.#{@structure.structure_type || 'other'}")
 
 = content_for :scripts do
   :javascript
       $(function() {
           $('body').addClass('relative').scrollspy({ target: '#structure-profile-menu .top-page-menu', offset: 85 })
           $('body').on('click', '[data-behavior=show-contact-panel]', function() {
-              $.fancybox.open($('#contact-panel').clone(), { padding: 0, maxWidth: 450, minWidth: 450, width: 450, helpers: { overlay: { locked: false } } });
+              $.fancybox.open($('#contact-panel').clone(true), { padding: 0, maxWidth: 450, minWidth: 450, width: 450, helpers: { overlay: { locked: false } } });
               return false;
           })
       });

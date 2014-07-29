@@ -14,7 +14,7 @@
     - else
       = "Retrouvez tous les cours de #{@structure.name} à #{@city.name}"
 
-.visuallyhidden
+.visuallyhidden#lieux-photos
   .inline-block
     - if cookies[:structure_search_path]
       = link_to cookies[:structure_search_path] do
@@ -97,11 +97,11 @@
                   %i.fa.fa-heart
                   Déjà en favori
               - elsif current_user
-                = link_to follow_structure_path(@structure), method: :post, class: "btn btn--full btn--gray" do
+                = link_to follow_structure_path(@structure), method: :post, class: "btn btn--full btn--gray", data: { toggle: 'tooltip', placement: 'left', title: "Ajoutez ce profil en favori pour suivre son actualité et recevoir des offres exclusives (cours d'essai gratuits, promotions, invitations, etc.)." } do
                   %i.fa.fa-heart
                   Favori
               - else
-                = link_to new_user_registration_path, data: { behavior: 'modal', title: 'Connexion', width: 600, padding: 0 }, class: 'fancybox.ajax btn btn--full btn--gray', onclick: "ga('send', 'event', 'Se créer un compte', 'click','Inscrit')" do
+                = link_to new_user_registration_path, data: { behavior: 'modal', title: 'Connexion', width: 600, padding: 0, toggle: 'tooltip', placement: 'left', title: "Ajoutez ce profil en favori pour suivre son actualité et recevoir des offres exclusives (cours d'essai gratuits, promotions, invitations, etc.)." }, class: 'fancybox.ajax btn btn--full btn--gray', onclick: "ga('send', 'event', 'Se créer un compte', 'click','Inscrit')" do
                   %i.fa.fa-heart
                   Favori
               - if @structure.followers.count > 9
@@ -117,6 +117,10 @@
         %div
           %div{ data: { type: (@is_sleeping ? '' : 'sticky-map-container') }}>
             .push--bottom{ data: { type: (@is_sleeping ? '' : 'sticky-map') }}>
+            %a.push--bottom.contact-button.btn--full.btn.btn--green{ data: { behavior: 'show-contact-panel' } }
+              Contacter
+              = I18n.t("structures.structure_type_contact.#{@structure.structure_type || 'other'}")
+
             - unless @structure.premium?
               .panel
                 .panel__header.soft-half--ends.soft--sides
