@@ -177,6 +177,7 @@ _.extend(Marionette.View.prototype, {
 /* convenience method */
 _.extend(_, {
     capitalize: function (word) {
+        if (!word) { return ''; }
         return word.charAt(0).toUpperCase() + word.slice(1);
     },
 
