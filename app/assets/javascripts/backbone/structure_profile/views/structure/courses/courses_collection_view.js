@@ -42,7 +42,7 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
 
         onRender: function onRender () {
             var new_html = this.$('[data-empty-courses]').html().replace('__about__', _.capitalize(this.about));
-            this.$('[data-empty-trainings]').html(new_html);
+            this.$('[data-empty-courses]').html(new_html);
             if (this.collection.length == 0 && this.collection.total_not_filtered == 0) {
                 this.$('[data-empty-courses]').show();
             } else {
