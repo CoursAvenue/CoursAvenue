@@ -42,7 +42,7 @@ class Course::Private < Course
   end
 
   def home_place
-    self.structure.places.homes.first
+    self.structure.places.homes.first if teaches_at_home
   end
 
   def expired?
