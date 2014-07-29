@@ -1,7 +1,7 @@
 {
   "checksum": {
-    "previous": "ab319c5dc7296cf9f687a05323033bd84a0b0adbcbaad9168bd54a9f585bc870",
-    "current": "ab319c5dc7296cf9f687a05323033bd84a0b0adbcbaad9168bd54a9f585bc870"
+    "previous": "d43bee13dd194d03a78b9e119669a7dcb78df746b4792efa491278b037383162",
+    "current": "d43bee13dd194d03a78b9e119669a7dcb78df746b4792efa491278b037383162"
   },
   "fonts": [
     "app/assets/fonts/GlyphAvenue.ttf",
@@ -141,6 +141,10 @@
     "info": {
       "codepoint": 61779,
       "source": "app/assets/images/icons/svg/info.svg"
+    },
+    "levels": {
+      "codepoint": 61795,
+      "source": "app/assets/images/icons/svg/levels.svg"
     },
     "lightbulb-o": {
       "codepoint": 61789,
