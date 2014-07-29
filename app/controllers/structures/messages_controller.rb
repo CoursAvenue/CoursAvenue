@@ -6,10 +6,12 @@ class Structures::MessagesController < ApplicationController
     @structure    = Structure.find params[:structure_id]
     # Retrieve or create user
     if form_is_valid?
-      user = current_user || User.create_or_find_from_email(params[:user][:email], params[:user][:first_name])
+      user              = current_user || User.create_or_find_from_email(params[:user][:email], params[:user][:first_name])
+      user.phone_number = params[:user][:phone_number]
+      user.save
       @structure.create_user_profile_for_message(user)
       @recipients   = @structure.main_contact
-      @receipt      = user.send_message_with_label(@recipients, params[:message][:body], I18n.t(Mailboxer::Label::INFORMATION.name), 'information')
+      @receipt      = user.send_message_with_extras(@recipients, params[:message][:body], I18n.t(Mailboxer::Label::INFORMATION.name), 'information', params[:message][:extra_info_ids], params[:message][:course_ids])
       @conversation = @receipt.conversation
     end
     Statistic.action(@structure.id, current_user, cookies[:fingerprint], request.ip, 'contact')

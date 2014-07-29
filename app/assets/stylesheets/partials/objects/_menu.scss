@@ -46,13 +46,13 @@ $side-menu-width--large: 250px;
 $side-menu-width       : 200px;
 .side-menu {
     &.one-whole { width: 100%; }
-    width         : $side-menu-width--large;
+    width         : $side-menu-width;
     padding-bottom: 150px;
     @include transition(width 150ms ease);
-    @media screen and (min-width: 1400px) { width: $side-menu-width; }
+    @media screen and (min-width: 1400px) { width: $side-menu-width--large; }
     .side-menu__footer {
         width: $side-menu-width;
-        @media screen and (min-width: 1400px) { width: $side-menu-width; }
+        @media screen and (min-width: 1400px) { width: $side-menu-width--large; }
     }
 
     ul {
