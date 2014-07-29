@@ -125,9 +125,8 @@
               .panel.push--bottom
                 .panel__header.soft-half--ends.soft--sides
                   %h5.flush Profils similaires
-                .panel__body.soft-half--ends
-
-                  - @structure.similar_profiles(@is_sleeping ? 10 : 3).each_with_index do |structure, index|
+                .panel__body.soft-half--ends{ style: 'height: 250px; overflow: scroll;' }
+                  - @structure.similar_profiles(10).each_with_index do |structure, index|
                     - unless index == 0
                       %hr.push-half--ends
                     = link_to structure_path(structure), class: 'soft-half--sides block muted-link' do
@@ -142,8 +141,7 @@
                                 %i.fa.fa-star
                                 = header_promotion_title_for_structure(structure)
                           %div
-                            à
-                            = readable_distance(Geocoder::Calculations.distance_between([@structure.latitude, @structure.longitude], [structure.latitude, structure.longitude], unit: :km).round(1))
+                            %i= structure.places.map(&:city).uniq.map(&:name).join(', ')
 
 = content_for :scripts do
   :javascript

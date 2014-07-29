@@ -6,8 +6,11 @@
         <article>
             <div class="soft">
                 {{#if logo_thumb_url}}
-                <div class="media-photo float--right push-half--left">
-                    <img src="{{logo_thumb_url}}" alt="Image de profil de {{name}}" height="200" class="block">
+                <div class="float--right push-half--left push--bottom text--center">
+                    <div class="media-photo">
+                        <img src="{{logo_thumb_url}}" alt="Image de profil de {{name}}" height="200" class="block">
+                    </div>
+                    <i class="gray-light">Logo de {{about}}</i>
                 </div>
                 {{/if}}
                 <div class="push-half--bottom">
@@ -29,14 +32,14 @@
                     {{/ifCond}}
                     {{else}}
                     <div class="gray">
-                        Pas de description pour cet établissement.
+                        {{ capitalize about }} n'a pas ajouté sa description.
                     </div>
                     {{/if}}
                 </div>
                 <div class="push-half--bottom text--center">
                     <a class="pointer" data-behavior="show-contact-panel">Contacter {{about}}</a>
                 </div>
-                <hr class="push--ends">
+                <hr class="push--ends flexbox">
                 <div class="flexbox">
                     <div class="flexbox__item v-top one-quarter">
                         <strong class="gray-light">Disciplines enseignées</strong>

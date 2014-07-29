@@ -6,10 +6,8 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
         template: Module.templateDirname() + 'comments_collection_view',
         itemViewContainer: '[data-type=container]',
 
-        initialize: function() {
-            if (this.collection.length == 0) {
-                this.$('[data-empty-comments]').show();
-            }
+        initialize: function(options) {
+            this.about = options.about;
             this.pagination_bottom = new CoursAvenue.Views.PaginationToolView({});
             this.pagination_bottom.on('pagination:next', this.nextPage.bind(this));
             this.pagination_bottom.on('pagination:prev', this.prevPage.bind(this));
@@ -18,6 +16,8 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
         },
 
         onAfterShow: function onAfterShow () {
+            var new_html = this.$('[data-empty-comments]').html().replace('__about__', _.capitalize(this.about));
+            this.$('[data-empty-comments]').html(new_html);
             if (this.collection.length == 0) {
                 this.$('[data-empty-comments]').show();
             } else {

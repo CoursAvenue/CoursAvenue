@@ -2,10 +2,19 @@ StructureProfile.module('Views.Structure.Teachers', function(Module, App, Backbo
 
     Module.TeacherView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'teacher_view',
-        className: 'one-half inline-block push--bottom',
-
+        className: 'one-half inline-block',
         initialize: function initialize (options) {
             this.model.set('index', options.index);
+        },
+        onRender: function onRender () {
+            if (this.model.get('index') > 1) {
+                this.$el.addClass('structure-teachers-long hidden');
+            }
+        },
+        onShow: function onShow () {
+            if (this.model.get('index') == 2) {
+                this.$el.before("<a href='#' data-behavior='show-long-version' data-long-version='.structure-teachers-long'>+ Voir tous les professeurs</a>");
+            }
         }
     });
 

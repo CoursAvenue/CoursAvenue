@@ -19,6 +19,7 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
                     z: 10,
                     oldWidth: false,
                     offsetTop: 72,
+                    stopAtEl: '#coursavenue-footer',
                     onStick: function () {
                         $view.css({
                             left: $grid_item.offset().left + parseInt($view.closest('.grid__item').css('padding-left'), 10) + 'px',
@@ -30,9 +31,9 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
                     }
                 });
             } else {
-                if ($(window).height() < 800) {
-                    this.$el.closest('.rslides-wrapper').css('height', '30em');
-                    this.$('.google-map--medium').removeClass('google-map--medium').addClass('google-map--medium-small');
+                if ($(window).height() < 900) {
+                    this.$el.closest('.rslides-wrapper').css('height', '25em');
+                    this.$('.google-map--medium').removeClass('google-map--medium').addClass('google-map--medium-smaller');
                 }
             }
             this.recenterMap();

@@ -28,30 +28,33 @@
                   %div
                     %input.inline-block.v-middle.more-info-more-info#more-info-more-info{ type: 'checkbox', name: 'message[extra_info_ids][]', value: Mailboxer::ExtraInfo::MORE_INFO.id }
                     %label.inline-block.v-middle{ for: 'more-info-more-info' }= t('mailboxer.extra_info.more_info')
-              .input.flush
-                %select.input--large.one-whole{ name: 'message[course_ids][]', multiple: true, data: { behavior: 'chosen', placeholder: 'Choisissez le(s) cours qui vous intéresse(nt)' } }
-                  %optgroup{ label: 'Cours réguliers' }
-                    = @structure.courses.lessons.select(&:is_published?).each_with_index do |course, index|
-                      %option{ value: course.id }= course.name
-                    = @structure.courses.privates.select(&:is_published?).each_with_index do |course, index|
-                      %option{ value: course.id }= course.name
-                  %optgroup{ label: 'Stages & Ateliers' }
-                    = @structure.courses.trainings.select(&:is_published?).each_with_index do |course, index|
-                      %option{ value: course.id }= course.name
+              - if @structure.courses.without_open_courses.detect(&:is_published?)
+                .input.flush
+                  %select.input--large.one-whole{ name: 'message[course_ids][]', multiple: true, data: { behavior: 'chosen', placeholder: 'Quels cours vous intéressent ?' } }
+                    - if @structure.courses.lessons.detect(&:is_published?) or @structure.courses.privates.detect(&:is_published?)
+                      %optgroup{ label: 'Cours réguliers' }
+                        = @structure.courses.lessons.select(&:is_published?).each_with_index do |course, index|
+                          %option{ value: course.id }= course.name
+                        = @structure.courses.privates.select(&:is_published?).each_with_index do |course, index|
+                          %option{ value: course.id }= course.name
+                    - if @structure.courses.trainings.detect(&:is_published?)
+                      %optgroup{ label: 'Stages & Ateliers' }
+                        = @structure.courses.trainings.select(&:is_published?).each_with_index do |course, index|
+                          %option{ value: course.id }= course.name
               - prefilled_body = params[:message_body] || "Bonjour,\n\nJe souhaiterais venir pour une première séance. Pouvez-vous m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt"
               = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole input--large', style: 'height: 170px;', value: cookies[:user_contact_message] || prefilled_body, data: { behavior: 'autoresize' } }, id: 'contact-message-body'
               - unless current_user
                 .input-addon.push-half--bottom
                   .input-prefix
-                    %i.fa.fa-user
-                  %input.input--large.one-whole{ name: 'user[first_name]', type: 'text', placeholder: 'Votre nom', value: params[:first_name] }
+                    %i.fa.fa-envelope-o
+                  %input.input--large.one-whole{ name: 'user[email]', type: 'text', placeholder: 'Votre e-mail', value: params[:email] }
               .grid--full.push-half--bottom
                 - unless current_user
                   .grid__item.one-half.soft-half--right>
                     .input-addon
                       .input-prefix
-                        %i.fa.fa-envelope-o
-                      %input.input--large.one-whole{ name: 'user[email]', type: 'text', placeholder: 'Votre e-mail', value: params[:email] }
+                        %i.fa.fa-user
+                      %input.input--large.one-whole{ name: 'user[first_name]', type: 'text', placeholder: 'Votre nom', value: params[:first_name] }
                 .grid__item.v-middle{ class: (current_user ? 'one-whole' : 'one-half'), data: { toggle: 'popover', content: "Les professeurs sont souvent en cours, nous vous recommandons donc de laisser votre numéro de téléphone pour être recontacté dans les plus brefs délais. Il ne sera communiqué à personne d'autre.", trigger: 'hover', placement: 'bottom' } }>
                   .input-addon
                     .input-prefix
@@ -73,7 +76,7 @@
               %i.fa.fa-phone.v-middle
               %span.v-middle Téléphone
             .phone_number.hidden
-              .soft--ends
+              .soft--top
                 - @structure.phone_numbers.map{ |phone_number| readable_phone_number(phone_number.number) }.uniq.each_with_index do |formatted_phone_number, index|
                   - if index > 0
                     %br

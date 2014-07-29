@@ -15,8 +15,7 @@
                 %i.fa-3x.fa-house
                 %div
                   = t(@structure.structure_type)
-            - if @structure.gives_group_courses
-
+            - if @structure.gives_group_courses or @structure.gives_individual_courses.blank?
               .milli.structure__header-icon.inline-block.text--center.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.group_courses_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
                 = link_to '#cours-reguliers', class: 'muted-link block', data: { behavior: 'scroll-to', offset_top: '-55' } do
                   %i.fa-3x.fa-group
@@ -35,9 +34,9 @@
             .milli.structure__header-icon.inline-block.text--center.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.subjects_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
               %i.fa-3x.fa-tag
               %div
-                = @structure.subjects.count
+                = @structure.subjects.at_depth(2).count
                 %br
-                = "disciplines".pluralize @structure.subjects.count
+                = "disciplines".pluralize @structure.subjects.at_depth(2)
 
             .milli.structure__header-icon.inline-block.text--center.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.places_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
               = link_to "javascript:$('#map-thumbnail').click()", class: 'muted-link block' do

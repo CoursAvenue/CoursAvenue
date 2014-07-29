@@ -1,9 +1,4 @@
-{{#ifCond index '==' 2}}
-    <a href="#" data-behavior="show-long-version" data-long-version=".structure-teachers-long">
-    + Voir tous les professeurs
-    </a>
-{{/ifCond}}
-<div class="grid--full {{#ifCond index '>' 1}}structure-teachers-long hidden{{/ifCond}}">
+<div class="grid--full push--bottom">
     <div class="grid__item two-tenths">
         <div class="media-photo">
             <img src='{{ image }}' class='block' />

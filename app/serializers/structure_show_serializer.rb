@@ -11,7 +11,7 @@ class StructureShowSerializer < ActiveModel::Serializer
              :given_funding_type, :places_count, :comments, :subjects, :has_teachers, :has_only_one_more_info
 
   has_many :comments, serializer: CommentSerializer
-  has_many :places
+  has_many :places  , serializer: PlaceSerializer
   has_many :teachers, serializer: ShortSerializer
 
   def comments
