@@ -319,6 +319,10 @@ class Structure < ActiveRecord::Base
     return email_status
   end
 
+  ######################################################################
+  # Email reminder END                                                 #
+  ######################################################################
+
   def places_around(latitude, longitude, radius=2)
     places.reject do |place|
       Geocoder::Calculations.distance_between([latitude, longitude], [place.latitude, place.longitude], unit: :km) >= radius
@@ -696,7 +700,9 @@ class Structure < ActiveRecord::Base
           first_message_created_at = conversation.messages.order('created_at ASC').first.created_at
           delta = ( (conversation.read_attribute(:treated_at) - first_message_created_at).abs.round / 60 ) / 60
         elsif conversation.messages.count > 1
-          creation_dates = conversation.messages.order('created_at ASC').limit(2).map(&:created_at)
+          first_message_of_admin = conversation.messages.order('created_at ASC').detect{|m| m.sender.is_a? Admin }
+          first_message_of_user  = conversation.messages.order('created_at ASC').detect{|m| m.sender.is_a? User }
+          creation_dates = [first_message_of_admin.created_at, first_message_of_user.created_at]
           # (Time 1 - Time 2) => number of seconds between the two times
           # / 60 => To minutes | / 60 to hours
           delta = ((creation_dates[1] - creation_dates[0]).abs.round / 60) / 60
