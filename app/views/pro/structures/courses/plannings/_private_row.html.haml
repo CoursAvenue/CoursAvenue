@@ -3,7 +3,7 @@
 %tr{ id: "planning-#{planning.id}" }
   %td= week_day_for(planning)
   %td= readable_time_slot planning.start_time, planning.end_time
-  %td
+  %td.text--center
     - if planning.info.present?
       %i.fa.fa-info{ data: { behavior: 'tooltip', 'original-title' => planning.info } }
   %td.text--right.nowrap
