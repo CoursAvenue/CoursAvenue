@@ -1,7 +1,7 @@
-<div class="bordered--bottom-on-stick soft--ends bg-white relative" id="{{type_dash}}-{{id}}" data-type="course-view-title">
+<div class="bordered--bottom-on-stick soft--ends bg-white relative" id="course-{{id}}" data-type="course-view-title">
   <h3 class="v-middle flush inline-block delta">{{ name }}</h3>
   {{#if promotion_title}}
-    <a href="#{{type_dash}}-{{id}}-tarifs" class="v-middle lbl lbl--yellow muted-link push-half--left" data-behavior='scroll-to' data-offset-top='-115'><i class="fa-star"></i> {{ promotion_title }}</a>
+    <a href="#course-{{id}}-tarifs" class="v-middle lbl lbl--yellow muted-link push-half--left" data-behavior='scroll-to' data-offset-top='-115'><i class="fa-star"></i> {{ promotion_title }}</a>
   {{/if}}
 </div>
 <div class="flexbox push--bottom">
@@ -11,13 +11,13 @@
     <div class="flexbox__item v-top three-quarters">
         {{#if description}}
             {{#ifCond description '!=' description_short}}
-            <div id="{{type_dash}}-{{id}}-description-short" class="gray last-p-push-half--bottom">
+            <div id="course-{{id}}-description-short" class="gray last-p-push-half--bottom">
                 {{{ simple_format_hide_contacts description_short }}}
             </div>
-            <a href="#" data-behavior="show-long-version" data-short-version="#{{type_dash}}-{{id}}-description-short" data-long-version="#{{type_dash}}-{{id}}-description-long">
+            <a href="#" data-behavior="show-long-version" data-short-version="#course-{{id}}-description-short" data-long-version="#course-{{id}}-description-long">
             + Plus
             </a>
-            <div id="{{type_dash}}-{{id}}-description-long" class="gray hidden" itemprop="description">
+            <div id="course-{{id}}-description-long" class="gray hidden" itemprop="description">
                 {{{ simple_format_hide_contacts description }}}
             </div>
             {{else}}
@@ -53,7 +53,7 @@
     </div>
 </div>
 
-<div class="flexbox push--bottom" id="{{type_dash}}-{{id}}-tarifs">
+<div class="flexbox push--bottom" id="course-{{id}}-tarifs">
     <div class="flexbox__item v-top one-quarter">
         <strong class="gray-light v-middle">Tarifs</strong>
     </div>
@@ -91,7 +91,7 @@
                 {{/if}}
                 {{#each prices}}
                     {{#ifCond @index '==' 2}}
-                        <tr data-behavior="show-long-version" data-long-version=".{{../../type_dash}}-{{../../id}}-prices-long">
+                        <tr data-behavior="show-long-version" data-long-version=".course-{{../../id}}-prices-long">
                           <td colspan="4" class="text--left">
                               <a href="#" class="block">
                               + Plus
@@ -99,7 +99,7 @@
                           </td>
                         </tr>
                     {{/ifCond}}
-                    <tr class="{{#ifCond @index '==' 0}}bordered--top{{/ifCond}}{{#ifCond @index '>' 1}}{{../../type_dash}}-{{../../id}}-prices-long hidden{{/ifCond}}">
+                    <tr class="{{#ifCond @index '==' 0}}bordered--top{{/ifCond}} {{#ifCond @index '>' 1}}course-{{../../id}}-prices-long hidden{{/ifCond}}">
                         <td>
                             {{this.libelle}}
                         </td>
@@ -128,13 +128,13 @@
     <div class="flexbox__item v-top three-quarters">
         <div>
             {{#each subjects}}
-            <div class="push-half--bottom {{#ifCond @index '>' 0}}{{../../type_dash}}-{{../../id}}-subjects-long hidden{{/ifCond}}">
+            <div class="push-half--bottom {{#ifCond @index '>' 0}}course-{{../../id}}-subjects-long hidden{{/ifCond}}">
                 <img src="{{this.icon}}" alt="Disciplines pratiquées : {{this.icon}}" height="16" class="v-middle">
                 <strong>{{this.root_name}} : </strong>{{this.child_names}}
             </div>
             {{#ifCond @index '==' 1}}
                 <div>
-                    <a href="#" data-behavior="show-long-version" data-long-version=".{{../../type_dash}}-{{../../id}}-subjects-long">
+                    <a href="#" data-behavior="show-long-version" data-long-version=".course-{{../../id}}-subjects-long">
                     + Plus
                     </a>
                 </div>

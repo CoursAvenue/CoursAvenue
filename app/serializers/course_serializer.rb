@@ -4,7 +4,7 @@ class CourseSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::NumberHelper
 
-  attributes :id, :name, :description, :description_short, :type, :type_dash, :start_date, :end_date, :min_price_amount, :min_price_libelle, :data_url, :subjects,
+  attributes :id, :name, :description, :description_short, :type, :start_date, :end_date, :min_price_amount, :min_price_libelle, :data_url, :subjects,
              :has_free_trial_lesson, :event_type, :best_price, :is_individual, :search_term, :is_lesson, :frequency,
              :cant_be_joined_during_year, :no_class_during_holidays, :teaches_at_home, :teaches_at_home_radius,
              :has_premium_prices, :premium, :on_appointment, :course_location, :min_age_for_kid, :max_age_for_kid,
@@ -53,10 +53,6 @@ class CourseSerializer < ActiveModel::Serializer
 
   def type
     object.type_name
-  end
-
-  def type_dash
-    object.type_name.downcase.gsub(' ', '-')
   end
 
   def is_lesson
