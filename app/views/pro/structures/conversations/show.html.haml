@@ -28,7 +28,7 @@
     - if conversation_courses(@conversation, @structure).any?
       .grid
         .grid__item.two-twelfths.v-middle.text--right>
-          %strong.flush Cours concernés
+          %strong.flush= "Cours concerné".pluralize(conversation_courses(@conversation, @structure).length)
         .grid__item.ten-twelfths.soft-half--left.v-middle>
           = conversation_courses(@conversation, @structure).map(&:name).join(', ')
     - user = @conversation.recipients.detect{ |recipient| recipient.is_a? User }

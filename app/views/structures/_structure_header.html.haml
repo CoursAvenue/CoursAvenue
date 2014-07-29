@@ -2,9 +2,9 @@
   .main-container.soft--sides.soft-half--ends.relative
     %h1.flush.v-middle.inline-block{ itemprop: 'name' }= @structure.name
     - if @structure.premium?
-      .lbl.lbl--yellow.nowrap.v-middle.push-half--left
+      .lbl.lbl--yellow.nowrap.v-middle.push-half--left{ data: { toggle: 'popover', content: @structure_decorator.promotion_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
         %i.fa-star
-        = header_promotion_title_for_structure @structure
+        = @header_promotion_title_for_structure
 
     .grid
       .grid__item.eight-twelfths.v-top>
@@ -16,7 +16,8 @@
                 %div
                   = t(@structure.structure_type)
             - if @structure.gives_group_courses
-              .milli.structure__header-icon.inline-block.text--center.semi-muted.v-top{ data: { toggle: 'popover', content: @structure.courses.lessons.select(&:is_published?).map(&:name).join(', '), trigger: 'hover', html: 'true', placement: 'bottom' } }
+
+              .milli.structure__header-icon.inline-block.text--center.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.group_courses_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
                 = link_to '#cours-reguliers', class: 'muted-link block', data: { behavior: 'scroll-to', offset_top: '-55' } do
                   %i.fa-3x.fa-group
                   %div
@@ -24,7 +25,7 @@
                     %br
                     collectifs
             - if @structure.gives_individual_courses
-              .milli.structure__header-icon.inline-block.text--center.semi-muted.v-top{ data: { toggle: 'popover', content: @structure.courses.privates.select(&:is_published?).map(&:name).join(', '), trigger: 'hover', html: 'true', placement: 'bottom' } }
+              .milli.structure__header-icon.inline-block.text--center.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.individual_courses_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
                 = link_to '#cours-reguliers', class: 'muted-link block', data: { behavior: 'scroll-to', offset_top: '-55' } do
                   %i.fa-3x.fa-user
                   %div
@@ -90,7 +91,7 @@
               - if @structure.premium?
                 .lbl.lbl--yellow.nowrap.push--left.v-middle
                   %i.fa-star
-                  = header_promotion_title_for_structure @structure
+                  = @header_promotion_title_for_structure
         .grid__item.v-middle.two-twelfths.text--right>
           %a.contact-button.btn.btn--green.nowrap{ data: { behavior: 'show-contact-panel' } }
             Contacter

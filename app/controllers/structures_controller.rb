@@ -1,6 +1,7 @@
 # encoding: utf-8
 class StructuresController < ApplicationController
   include FilteredSearchProvider
+  include StructuresHelper
 
   respond_to :json
 
@@ -17,7 +18,7 @@ class StructuresController < ApplicationController
     else
       @place_ids = @structure.places.map(&:id)
     end
-
+    @header_promotion_title_for_structure = header_promotion_title_for_structure(@structure)
     @city      = @structure.city
     @medias    = (@structure.premium? ? @structure.medias.videos_first : @structure.medias.cover_first.limit(Media::FREE_PROFIL_LIMIT))
 

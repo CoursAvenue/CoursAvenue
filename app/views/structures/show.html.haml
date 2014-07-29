@@ -122,7 +122,7 @@
               = I18n.t("structures.structure_type_contact.#{(@structure.structure_type.present? ? @structure.structure_type : 'structures.other')}")
 
             - unless @structure.premium?
-              .panel
+              .panel.push--bottom
                 .panel__header.soft-half--ends.soft--sides
                   %h5.flush Profils similaires
                 .panel__body.soft-half--ends

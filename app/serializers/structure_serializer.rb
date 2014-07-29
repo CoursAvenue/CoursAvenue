@@ -11,7 +11,7 @@ class StructureSerializer < ActiveModel::Serializer
              :has_promotion, :tag_names, :highlighted_comment_title, :open_courses_open_places, :open_course_names, :open_course_plannings_nb,
              :given_course_types, :premium, :promotion_title, :cities, :regular_courses_plannings_count, :training_courses_plannings_count
 
-  has_many :places
+  has_many :places,            serializer: PlaceSerializer
   has_many :comments,          serializer: ShortSerializer
   has_many :medias,            serializer: ShortSerializer
   has_many :preloaded_medias,  serializer: MediaSerializer
@@ -60,7 +60,7 @@ class StructureSerializer < ActiveModel::Serializer
     if object.premium?
       [object.medias.count, 20].min
     else
-      1
+      object.medias.limit(3).count
     end
   end
 

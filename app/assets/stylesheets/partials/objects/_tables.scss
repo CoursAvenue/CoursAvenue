@@ -37,7 +37,12 @@
         tr.active td, tr.active th {
             background-color: $hover-list-element;
         }
-
+    }
+    &.table--striped-reversed tbody {
+        tr:nth-of-type(odd)                            { background-color: transparent; }
+        tr:nth-of-type(odd) td, tr:nth-of-type(odd) th { background-color: transparent; }
+        tr:nth-of-type(even)                            { background-color: $alternative-background; }
+        tr:nth-of-type(even) td, tr:nth-of-type(even) th { background-color: $alternative-background; }
     }
     tbody, thead {
         tr.no-stripe td, tr td.no-stripe {

@@ -41,22 +41,28 @@
               - prefilled_body = params[:message_body] || "Bonjour,\n\nJe souhaiterais venir pour une première séance. Pouvez-vous m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt"
               = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole input--large', style: 'height: 170px;', value: cookies[:user_contact_message] || prefilled_body, data: { behavior: 'autoresize' } }, id: 'contact-message-body'
               - unless current_user
-                %input.push-half--bottom.input--large.one-whole{ name: 'user[first_name]', type: 'text', placeholder: 'Votre nom', value: params[:first_name] }
+                .input-addon.push-half--bottom
+                  .input-prefix
+                    %i.fa.fa-user
+                  %input.input--large.one-whole{ name: 'user[first_name]', type: 'text', placeholder: 'Votre nom', value: params[:first_name] }
               .grid--full.push-half--bottom
                 - unless current_user
                   .grid__item.one-half.soft-half--right>
-                    %input.input--large.one-whole{ name: 'user[email]', type: 'text', placeholder: 'Votre e-mail', value: params[:email] }
+                    .input-addon
+                      .input-prefix
+                        %i.fa.fa-envelope-o
+                      %input.input--large.one-whole{ name: 'user[email]', type: 'text', placeholder: 'Votre e-mail', value: params[:email] }
                 .grid__item.v-middle{ class: (current_user ? 'one-whole' : 'one-half'), data: { toggle: 'popover', content: "Les professeurs sont souvent en cours, nous vous recommandons donc de laisser votre numéro de téléphone pour être recontacté dans les plus brefs délais. Il ne sera communiqué à personne d'autre.", trigger: 'hover', placement: 'bottom' } }>
                   .input-addon
                     .input-prefix
-                      %i.fa.fa-phone
+                      %i.fa.fa-phone-o
                     %input.input--large.one-whole.hard--right{ name: 'user[phone_number]', type: 'text', placeholder: 'Votre téléphone', value: params[:phone_number] }
               - if current_user
                 = button_tag type: 'submit', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" } do
                   %i.fa.fa-envelope
                   Envoyer mon message
               - else
-                = link_to new_user_registration_path, data: { behavior: 'modal', title: 'Connexion', width: 600, padding: 0 }, class: 'fancybox.ajax btn btn--green btn--full', id: 'send-message' do
+                = link_to new_user_registration_path(users: true), data: { behavior: 'modal', title: 'Connexion', width: 600, padding: 0 }, class: 'fancybox.ajax btn btn--green btn--full', id: 'send-message' do
                   %i.fa.fa-envelope
                   Envoyer mon message
               %p.text--center.flush.blue{ data: { toggle: 'popover', content: "Les professeurs sont souvent en cours et difficilement joignables. Notre conseil : envoyez-leur un message et demandez d'être rappelé(e).", trigger: 'hover', placement: 'bottom' } }>

@@ -33,7 +33,7 @@
                     </div>
                     {{/if}}
                 </div>
-                <div class="push-half--bottom">
+                <div class="push-half--bottom text--center">
                     <a class="pointer" data-behavior="show-contact-panel">Contacter {{about}}</a>
                 </div>
                 <hr class="push--ends">
@@ -57,7 +57,7 @@
                             <strong class="gray-light">Plus d'infos</strong>
                         </div>
                         <div class="flexbox__item v-top three-quarters">
-                            <table class="table--data table--striped bordered push-half--bottom">
+                            <table class="table--data table--striped table--striped-reversed bordered push-half--bottom">
                                 <tbody>
                                     {{#if given_funding_type}}
                                     <tr>
@@ -77,19 +77,21 @@
                                         <td class="two-thirds"><strong>{{structure_type}}</strong></td>
                                     </tr>
                                     {{/if}}
+                                    {{#if given_course_types}}
                                     <tr class="{{#unless has_only_one_more_info}}description-more-info-long hidden{{/unless}}">
                                         <td class="one-third">Cours proposés</td>
                                         <td class="two-thirds"><strong>{{given_course_types}}</strong></td>
                                     </tr>
+                                    {{/if}}
                                 </tbody>
                             </table>
-                            {{#unless has_only_one_more_info}}
+                            {{#unless has_only_one_more_info}}{{#if given_course_types}}
                             <div>
                                 <a href="#" data-behavior="show-long-version" data-long-version=".description-more-info-long">
                                 + Plus
                                 </a>
                             </div>
-                            {{/unless}}
+                            {{/if}}{{/unless}}
                         </div>
                     </div>
                 </div>
