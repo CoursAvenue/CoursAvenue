@@ -1,7 +1,5 @@
 - expanded = false unless expanded.present?
 - medium   = false if medium.nil?
-.print--visible
-  = image_tag 'logo.png', width: 250, height: 50
 %header.header.print--hidden
   .very-soft.soft-half--sides.flexbox{class: [medium ? 'main-container--medium' : '', expanded ? '' : 'main-container']}
     .flexbox__item.palm-one-whole.v-middle>
