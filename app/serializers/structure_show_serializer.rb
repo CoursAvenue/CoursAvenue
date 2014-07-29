@@ -4,11 +4,11 @@ class StructureShowSerializer < ActiveModel::Serializer
 
   attributes :id, :name, :slug, :rating, :street, :zip_code, :description, :description_short,
              :logo_thumb_url, :data_url, :query_url, :query_params, :courses, :courses_count,
-             :has_courses, :plannings_count, :has_plannings, :about,
+             :has_courses, :plannings_count, :has_plannings, :about, :about_genre,
              :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range,
              :has_free_trial_course, :teaches_at_home, :audience, :funding_types, :gives_group_courses,
              :gives_individual_courses, :structure_type, :has_promotion, :tag_names, :given_course_types,
-             :given_funding_type, :places_count, :comments, :subjects, :has_teachers
+             :given_funding_type, :places_count, :comments, :subjects, :has_teachers, :has_only_one_more_info
 
   has_many :comments, serializer: CommentSerializer
   has_many :places
@@ -55,16 +55,11 @@ class StructureShowSerializer < ActiveModel::Serializer
   end
 
   def about
-    case object.structure_type
-    when 'structures.association'
-      "À propos de cette association"
-    when 'structures.company'
-      "À propos de cet école"
-    when 'structures.independant'
-      "À propos de ce professeur"
-    else
-      "À propos de ce profil"
-    end
+    I18n.t("structures.structure_type_contact.#{object.structure_type || 'other'}")
+  end
+
+  def about_genre
+    I18n.t("structures.structure_type_genre.#{object.structure_type || 'other'}")
   end
 
   def funding_types
@@ -191,5 +186,9 @@ class StructureShowSerializer < ActiveModel::Serializer
 
   def has_teachers
     object.teachers.count > 0
+  end
+
+  def has_only_one_more_info
+    return (object.funding_types.empty? and object.audiences.empty? and object.structure_type.nil?)
   end
 end
