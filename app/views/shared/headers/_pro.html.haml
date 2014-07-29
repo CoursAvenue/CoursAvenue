@@ -7,7 +7,7 @@
         %li.visuallyhidden--palm
           = link_to 'Tarifs', pro_pages_price_path
         %li.soft--sides
-          = render 'shared/question_dropdown_menu'
+          = render 'shared/pro_question_dropdown_menu'
         - if current_pro_admin
           %li.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
             - if current_pro_admin.super_admin?
