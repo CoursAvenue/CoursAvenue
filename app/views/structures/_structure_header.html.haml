@@ -94,14 +94,10 @@
         .grid__item.v-middle.two-twelfths.text--right>
           %a.contact-button.btn.btn--green.nowrap{ data: { behavior: 'show-contact-panel' } }
             Contacter
-            = I18n.t("structures.structure_type_contact.#{@structure.structure_type || 'other'}")
+            = I18n.t("structures.structure_type_contact.#{(@structure.structure_type.present? ? @structure.structure_type : 'structures.other')}")
 
 = content_for :scripts do
   :javascript
       $(function() {
           $('body').addClass('relative').scrollspy({ target: '#structure-profile-menu .top-page-menu', offset: 85 })
-          $('body').on('click', '[data-behavior=show-contact-panel]', function() {
-              $.fancybox.open($('#contact-panel').clone(true), { padding: 0, maxWidth: 450, minWidth: 450, width: 450, helpers: { overlay: { locked: false } } });
-              return false;
-          })
       });

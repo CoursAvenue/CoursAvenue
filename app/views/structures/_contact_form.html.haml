@@ -3,7 +3,7 @@
     .panel__header.soft-half--ends.soft--sides
       %h5.flush
         Contacter
-        = I18n.t("structures.structure_type_contact.#{@structure.structure_type || 'other'}")
+        = I18n.t("structures.structure_type_contact.#{(@structure.structure_type.present? ? @structure.structure_type : 'structures.other')}")
     .panel__body
       .tab-content.soft
         %article.tab-message.tab-pane.active.hard
@@ -16,17 +16,17 @@
               .grid--full.push-half--bottom
                 .grid__item.one-half>
                   .push-half--bottom
-                    %input.inline-block.v-middle#more-info-inscription{ type: 'checkbox', name: 'message[extra_info_ids][]', value: Mailboxer::ExtraInfo::INSCRIPTION.id, checked: true }
+                    %input.inline-block.v-middle.more-info-inscription#more-info-inscription{ type: 'checkbox', name: 'message[extra_info_ids][]', value: Mailboxer::ExtraInfo::INSCRIPTION.id, checked: true }
                     %label.inline-block.v-middle{ for: 'more-info-inscription' }= t('mailboxer.extra_info.inscription')
                   %div
-                    %input.inline-block.v-middle#more-info-planning-info{ type: 'checkbox', name: 'message[extra_info_ids][]', value: Mailboxer::ExtraInfo::PLANNING_INFO.id }
+                    %input.inline-block.v-middle.more-info-planning-info#more-info-planning-info{ type: 'checkbox', name: 'message[extra_info_ids][]', value: Mailboxer::ExtraInfo::PLANNING_INFO.id }
                     %label.inline-block.v-middle{ for: 'more-info-planning-info' }= t('mailboxer.extra_info.planning_info')
                 .grid__item.one-half>
                   .push-half--bottom
-                    %input.inline-block.v-middle#more-info-be-called{ type: 'checkbox', name: 'message[extra_info_ids][]', value: Mailboxer::ExtraInfo::BE_CALLED.id }
+                    %input.inline-block.v-middle.more-info-be-called#more-info-be-called{ type: 'checkbox', name: 'message[extra_info_ids][]', value: Mailboxer::ExtraInfo::BE_CALLED.id }
                     %label.inline-block.v-middle{ for: 'more-info-be-called' }= t('mailboxer.extra_info.be_called')
                   %div
-                    %input.inline-block.v-middle#more-info-more-info{ type: 'checkbox', name: 'message[extra_info_ids][]', value: Mailboxer::ExtraInfo::MORE_INFO.id }
+                    %input.inline-block.v-middle.more-info-more-info#more-info-more-info{ type: 'checkbox', name: 'message[extra_info_ids][]', value: Mailboxer::ExtraInfo::MORE_INFO.id }
                     %label.inline-block.v-middle{ for: 'more-info-more-info' }= t('mailboxer.extra_info.more_info')
               .input.flush
                 %select.input--large.one-whole{ name: 'message[course_ids][]', multiple: true, data: { behavior: 'chosen', placeholder: 'Choisissez le(s) cours qui vous intéresse(nt)' } }
@@ -47,7 +47,7 @@
                   .grid__item.one-half.soft-half--right>
                     %input.input--large.one-whole{ name: 'user[email]', type: 'text', placeholder: 'Votre e-mail', value: params[:email] }
                 .grid__item.v-middle{ class: (current_user ? 'one-whole' : 'one-half'), data: { toggle: 'popover', content: "Les professeurs sont souvent en cours, nous vous recommandons donc de laisser votre numéro de téléphone pour être recontacté dans les plus brefs délais. Il ne sera communiqué à personne d'autre.", trigger: 'hover', placement: 'bottom' } }>
-                  .input-addon.soft-half--right
+                  .input-addon
                     .input-prefix
                       %i.fa.fa-phone
                     %input.input--large.one-whole.hard--right{ name: 'user[phone_number]', type: 'text', placeholder: 'Votre téléphone', value: params[:phone_number] }
@@ -107,6 +107,13 @@
 = content_for :scripts do
   :javascript
     $(function() {
+        $('body').on('click', '[data-behavior=show-contact-panel]', function() {
+            $.fancybox.open($('#contact-panel').clone(true), { padding: 0, maxWidth: 450, minWidth: 450, width: 450, helpers: { overlay: { locked: false } } });
+            if ($(this).data('info-planning')) {
+                $('.more-info-planning-info').prop('checked', true)
+            }
+            return false;
+        })
         $('.contact-button, [data-behavior=show-contact-panel]').click(function() {
             $.ajax({
                 type: "POST",
