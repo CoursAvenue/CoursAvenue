@@ -66,8 +66,7 @@ class Price < ActiveRecord::Base
                                         arel_table[:type].eq('Price::Discount'))) ) }
 
   scope :non_premium_prices, -> { where(arel_table[:type].eq('Price::BookTicket').or(
-                                        arel_table[:type].eq('Price::Subscription').or(
-                                        arel_table[:type].eq('Price::Registration'))) ) }
+                                        arel_table[:type].eq('Price::Subscription')) ) }
 
   def free?
     false
