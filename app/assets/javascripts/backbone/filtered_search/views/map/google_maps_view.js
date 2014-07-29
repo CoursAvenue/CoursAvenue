@@ -88,10 +88,9 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
             });
         },
 
-        setMarkerViewAndshowInfoWindow: function (structure_view) {
-            // this.current_info_marker = marker_view.model.cid;
-            var structure = structure_view.model;
-            structure.set('current_location', structure_view.model.toJSON());
+        setMarkerViewAndshowInfoWindow: function (options) {
+            var structure = options.structure_view.model;
+            structure.set('current_location', options.location_view.model.toJSON());
             this.showInfoWindow({ model: structure });
         }
     });

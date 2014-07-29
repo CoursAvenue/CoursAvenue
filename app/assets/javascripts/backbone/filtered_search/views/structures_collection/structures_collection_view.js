@@ -60,7 +60,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
             var itemview = this.children.findByModel(relevant_structure);
 
             /* announce the view we found */
-            this.trigger('structures:itemview:found', itemview);
+	    this.trigger('structures:itemview:found', { structure_view: itemview, location_view: data } );
             this.scrollToView(itemview);
 
         },
