@@ -57,7 +57,7 @@
       - @structures.each do |structure|
         .inline-block.one-third.relative.very-soft>
           .relative.bg-cover{style: "background-image: url('#{structure.logo.url(:thumb)}'); height: 180px;"}>
-            = link_to structure.widget_url, target: :_blank, class: 'block show-on-hover__wrapper' do
+            = link_to structure.widget_url, target: :_blank, class: 'block show-on-hover__wrapper show-on-hover__wrapper--black-curtain' do
               .home-screen-gallery__title.text--center
                 .show-on-hover__child
                   Voir le livre d'or
