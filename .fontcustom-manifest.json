@@ -1,7 +1,7 @@
 {
   "checksum": {
-    "previous": "d43bee13dd194d03a78b9e119669a7dcb78df746b4792efa491278b037383162",
-    "current": "d43bee13dd194d03a78b9e119669a7dcb78df746b4792efa491278b037383162"
+    "previous": "ffd3f233973f62cb5eb8737201bc2782937bc40a76a9551b30276809d5f29598",
+    "current": "ffd3f233973f62cb5eb8737201bc2782937bc40a76a9551b30276809d5f29598"
   },
   "fonts": [
     "app/assets/fonts/GlyphAvenue.ttf",
@@ -141,6 +141,10 @@
     "info": {
       "codepoint": 61779,
       "source": "app/assets/images/icons/svg/info.svg"
+    },
+    "instagram": {
+      "codepoint": 61797,
+      "source": "app/assets/images/icons/svg/instagram.svg"
     },
     "levels": {
       "codepoint": 61795,
