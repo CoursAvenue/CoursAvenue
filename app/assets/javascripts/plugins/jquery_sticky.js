@@ -23,7 +23,8 @@
             oldHeight : true,
             onStick   : $.noop,
             onUnStick : $.noop,
-            stopAtEl : null
+            stopAtEl : null,
+            updateOnScroll: false
         };
 
     // The actual plugin constructor
@@ -78,12 +79,17 @@
                 this.$pusher_el    = $(this.options.pushed);
                 this.pusher_height = this.$pusher_el.outerHeight();
             }
-            this.element_top = this.$element.offset().top
             $(this.options.scrollContainer).scroll(this.onScroll.bind(this));
+            this.calculateElementTop();
+        },
+
+        calculateElementTop: function calculateElementTop () {
+            this.element_top = this.$element.offset().top
             if (this.options.scrollContainer != window) { this.element_top -= $(this.options.scrollContainer).offset().top; }
         },
 
         onScroll: function onScroll () {
+            if (this.options.updateOnScroll) { this.calculateElementTop(); }
             this.scroll_top  = $(this.options.scrollContainer).scrollTop();
             this.fixed       = this.$element.hasClass("sticky");
             if (this.options.stopAtHeight && this.scroll_top > this.options.stopAtHeight ) {
