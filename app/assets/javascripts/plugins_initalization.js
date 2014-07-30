@@ -109,7 +109,13 @@ $(function() {
     $.stellar({ horizontalScrolling: false });
 
     $('body').on('click', '[data-behavior=scroll-to]', function(event) {
-        $.scrollTo($(this.hash), { duration: 500, offset: { top: $(this).data('offset-top') || 0 } });
-        return false;
+        if ($(this).data('wrapper')) {
+            $($(this).data('wrapper')).scrollTo($(this.hash), { duration: 500, offset: { top: $(this).data('offset-top') || 0 } });
+        } else {
+            $.scrollTo($(this.hash), { duration: 500, offset: { top: $(this).data('offset-top') || 0 } });
+        }
+        if (!$(this).data('bubble')) {
+            return false;
+        }
     });
 });

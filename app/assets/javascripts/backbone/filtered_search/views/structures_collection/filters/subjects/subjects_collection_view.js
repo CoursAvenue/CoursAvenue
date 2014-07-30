@@ -159,7 +159,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             if (document.body.offsetWidth - $currentTarget.offset().left < this.ui.$menu.width()) {
                 this.ui.$menu.css({right: 0, left: 'auto'});
             } else {
-                var offset_left = $currentTarget.offset().left - $('[data-value="dessin-peinture-arts-plastiques"]').first().closest('[data-type=subjects-filter]').offset().left - 1;
+                var offset_left = $currentTarget.offset().left - $('[data-value="dessin-peinture-arts-plastiques"]').first().closest('[data-type=subjects-filter]').offset().left + 1;
                 this.ui.$menu.css({left: offset_left, right: 'auto'});
             }
         },
