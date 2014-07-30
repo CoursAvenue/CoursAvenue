@@ -29,6 +29,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
         emptyView: EmptyStrcutureList,
 
         onAfterShow: function onAfterShow () {
+          this.announcePaginatorUpdated();
           var $sticky = $('[data-behavior=sticky]');
           $sticky.sticky({ scrollContainer: '.filtered-search__list-wrapper',
                                                oldWidth: true,
