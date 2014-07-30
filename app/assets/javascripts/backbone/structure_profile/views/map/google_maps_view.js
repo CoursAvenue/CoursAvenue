@@ -32,7 +32,7 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
                 });
             } else {
                 if ($(window).height() < 900) {
-                    this.$el.closest('.rslides-wrapper').css('height', '25em');
+                    this.$el.closest('.rslides-wrapper').css('height', '27em');
                     this.$('.google-map--medium').removeClass('google-map--medium').addClass('google-map--medium-smaller');
                 }
             }

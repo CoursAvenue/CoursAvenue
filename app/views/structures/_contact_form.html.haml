@@ -1,109 +1,124 @@
-.push--bottom
-  .panel#contact-panel
-    .panel__header.soft-half--ends.soft--sides
-      %h5.flush
-        Contacter
-        = I18n.t("structures.structure_type_contact.#{(@structure.structure_type.present? ? @structure.structure_type : 'structures.other')}")
-    .panel__body
-      .tab-content.soft
-        %article.tab-message.tab-pane.active.hard
-          #structure-contact
-            = simple_form_for [structure, Mailboxer::Message.new], url: (current_user ? structure_messages_path(structure) : ''), as: :message, remote: true do |f|
-              -# Here to stop bots.
-              -# If this is filled, the message won't be sent
-              .visuallyhidden
-                %input{ name: 'message[content]', type: 'text' }
-              .grid--full.push-half--bottom
-                .grid__item.one-half>
-                  .push-half--bottom
-                    %input.inline-block.v-middle.more-info-inscription#more-info-inscription{ type: 'checkbox', name: 'message[extra_info_ids][]', value: Mailboxer::ExtraInfo::INSCRIPTION.id, checked: true }
-                    %label.inline-block.v-middle{ for: 'more-info-inscription' }= t('mailboxer.extra_info.inscription')
-                  %div
-                    %input.inline-block.v-middle.more-info-planning-info#more-info-planning-info{ type: 'checkbox', name: 'message[extra_info_ids][]', value: Mailboxer::ExtraInfo::PLANNING_INFO.id }
-                    %label.inline-block.v-middle{ for: 'more-info-planning-info' }= t('mailboxer.extra_info.planning_info')
-                .grid__item.one-half>
-                  .push-half--bottom
-                    %input.inline-block.v-middle.more-info-be-called#more-info-be-called{ type: 'checkbox', name: 'message[extra_info_ids][]', value: Mailboxer::ExtraInfo::BE_CALLED.id }
-                    %label.inline-block.v-middle{ for: 'more-info-be-called' }= t('mailboxer.extra_info.be_called')
-                  %div
-                    %input.inline-block.v-middle.more-info-more-info#more-info-more-info{ type: 'checkbox', name: 'message[extra_info_ids][]', value: Mailboxer::ExtraInfo::MORE_INFO.id }
-                    %label.inline-block.v-middle{ for: 'more-info-more-info' }= t('mailboxer.extra_info.more_info')
-              - if @structure.courses.without_open_courses.detect(&:is_published?)
-                .input.flush
-                  %select.input--large.one-whole{ name: 'message[course_ids][]', multiple: true, data: { behavior: 'chosen', placeholder: 'Quels cours vous intéressent ?' } }
-                    - if @structure.courses.lessons.detect(&:is_published?) or @structure.courses.privates.detect(&:is_published?)
-                      %optgroup{ label: 'Cours réguliers' }
-                        = @structure.courses.lessons.select(&:is_published?).each_with_index do |course, index|
-                          %option{ value: course.id }= course.name
-                        = @structure.courses.privates.select(&:is_published?).each_with_index do |course, index|
-                          %option{ value: course.id }= course.name
-                    - if @structure.courses.trainings.detect(&:is_published?)
-                      %optgroup{ label: 'Stages & Ateliers' }
-                        = @structure.courses.trainings.select(&:is_published?).each_with_index do |course, index|
-                          %option{ value: course.id }= course.name
-              - prefilled_body = params[:message_body] || "Bonjour,\n\nJe souhaiterais venir pour une première séance. Pouvez-vous m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt"
-              = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole input--large', style: 'height: 170px;', value: cookies[:user_contact_message] || prefilled_body, data: { behavior: 'autoresize' } }, id: 'contact-message-body'
-              - unless current_user
-                .input-addon.push-half--bottom
-                  .input-prefix
-                    %i.fa.fa-envelope-o
-                  %input.input--large.one-whole{ name: 'user[email]', type: 'text', placeholder: 'Votre e-mail', value: params[:email] }
-              .grid--full.push-half--bottom
+- if @is_sleeping and @structure.phone_numbers.any?
+  .push--bottom
+    = link_to 'javascript:void(0);', data: { behavior: 'toggleable', el: '.phone_number' }, class: 'btn btn--green btn--full' do
+      %i.fa.fa-phone.v-middle
+      %span.v-middle Contacter
+    .phone_number.hidden
+      .soft--top
+        - @structure.phone_numbers.map{ |phone_number| readable_phone_number(phone_number.number) }.uniq.each_with_index do |formatted_phone_number, index|
+          - if index > 0
+            %br
+          %strong.v-middle{ itemprop: "telephone" }=formatted_phone_number
+          - if @structure.premium
+            %i.soft-half--left.v-middle.fa.fa-check-circle.green
+            %i.v-middle.green.milli vérifié
+- elsif !@is_sleeping
+  .push--bottom
+    .panel#contact-panel
+      .panel__header.soft-half--ends.soft--sides
+        %h5.flush
+          Contacter
+          = I18n.t("structures.structure_type_contact.#{(@structure.structure_type.present? ? @structure.structure_type : 'structures.other')}")
+      .panel__body
+        .tab-content.soft
+          %article.tab-message.tab-pane.active.hard
+            #structure-contact
+              = simple_form_for [structure, Mailboxer::Message.new], url: (current_user ? structure_messages_path(structure) : ''), as: :message, remote: true do |f|
+                -# Here to stop bots.
+                -# If this is filled, the message won't be sent
+                .visuallyhidden
+                  %input{ name: 'message[content]', type: 'text' }
+                .grid--full.push-half--bottom
+                  .grid__item.one-half>
+                    .push-half--bottom
+                      %input.inline-block.v-middle.more-info-inscription#more-info-inscription{ type: 'checkbox', name: 'message[extra_info_ids][]', value: Mailboxer::ExtraInfo::INSCRIPTION.id, checked: true }
+                      %label.inline-block.v-middle{ for: 'more-info-inscription' }= t('mailboxer.extra_info.inscription')
+                    %div
+                      %input.inline-block.v-middle.more-info-planning-info#more-info-planning-info{ type: 'checkbox', name: 'message[extra_info_ids][]', value: Mailboxer::ExtraInfo::PLANNING_INFO.id }
+                      %label.inline-block.v-middle{ for: 'more-info-planning-info' }= t('mailboxer.extra_info.planning_info')
+                  .grid__item.one-half>
+                    .push-half--bottom
+                      %input.inline-block.v-middle.more-info-be-called#more-info-be-called{ type: 'checkbox', name: 'message[extra_info_ids][]', value: Mailboxer::ExtraInfo::BE_CALLED.id }
+                      %label.inline-block.v-middle{ for: 'more-info-be-called' }= t('mailboxer.extra_info.be_called')
+                    %div
+                      %input.inline-block.v-middle.more-info-more-info#more-info-more-info{ type: 'checkbox', name: 'message[extra_info_ids][]', value: Mailboxer::ExtraInfo::MORE_INFO.id }
+                      %label.inline-block.v-middle{ for: 'more-info-more-info' }= t('mailboxer.extra_info.more_info')
+                - if @structure.courses.without_open_courses.detect(&:is_published?)
+                  .input.flush
+                    %select.input--large.one-whole{ name: 'message[course_ids][]', multiple: true, data: { behavior: 'chosen', placeholder: 'Quels cours vous intéressent ?' } }
+                      - if @structure.courses.lessons.detect(&:is_published?) or @structure.courses.privates.detect(&:is_published?)
+                        %optgroup{ label: 'Cours réguliers' }
+                          = @structure.courses.lessons.select(&:is_published?).each_with_index do |course, index|
+                            %option{ value: course.id }= course.name
+                          = @structure.courses.privates.select(&:is_published?).each_with_index do |course, index|
+                            %option{ value: course.id }= course.name
+                      - if @structure.courses.trainings.detect(&:is_published?)
+                        %optgroup{ label: 'Stages & Ateliers' }
+                          = @structure.courses.trainings.select(&:is_published?).each_with_index do |course, index|
+                            %option{ value: course.id }= course.name
+                - prefilled_body = params[:message_body] || "Bonjour,\n\nJe souhaiterais venir pour une première séance. Pouvez-vous m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt"
+                = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole input--large', style: 'height: 170px;', value: cookies[:user_contact_message] || prefilled_body, data: { behavior: 'autoresize' } }, id: 'contact-message-body'
                 - unless current_user
-                  .grid__item.one-half.soft-half--right>
+                  .input-addon.push-half--bottom
+                    .input-prefix
+                      %i.fa.fa-envelope-o
+                    %input.input--large.one-whole{ name: 'user[email]', type: 'text', placeholder: 'Votre e-mail', value: params[:email] }
+                .grid--full.push-half--bottom
+                  - unless current_user
+                    .grid__item.one-half.soft-half--right>
+                      .input-addon
+                        .input-prefix
+                          %i.fa.fa-user
+                        %input.input--large.one-whole{ name: 'user[first_name]', type: 'text', placeholder: 'Votre nom', value: params[:first_name] }
+                  .grid__item.v-middle{ class: (current_user ? 'one-whole' : 'one-half'), data: { toggle: 'popover', content: "Les professeurs sont souvent en cours, nous vous recommandons donc de laisser votre numéro de téléphone pour être recontacté dans les plus brefs délais. Il ne sera communiqué à personne d'autre.", trigger: 'hover', placement: 'bottom' } }>
                     .input-addon
                       .input-prefix
-                        %i.fa.fa-user
-                      %input.input--large.one-whole{ name: 'user[first_name]', type: 'text', placeholder: 'Votre nom', value: params[:first_name] }
-                .grid__item.v-middle{ class: (current_user ? 'one-whole' : 'one-half'), data: { toggle: 'popover', content: "Les professeurs sont souvent en cours, nous vous recommandons donc de laisser votre numéro de téléphone pour être recontacté dans les plus brefs délais. Il ne sera communiqué à personne d'autre.", trigger: 'hover', placement: 'bottom' } }>
-                  .input-addon
-                    .input-prefix
-                      %i.fa.fa-phone-o
-                    %input.input--large.one-whole.hard--right{ name: 'user[phone_number]', type: 'text', placeholder: 'Votre téléphone', value: params[:phone_number] }
-              - if current_user
-                = button_tag type: 'submit', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" } do
-                  %i.fa.fa-envelope
-                  Envoyer mon message
-              - else
-                = link_to new_user_registration_path(users: true), data: { behavior: 'modal', title: 'Connexion', width: 600, padding: 0 }, class: 'fancybox.ajax btn btn--green btn--full', id: 'send-message' do
-                  %i.fa.fa-envelope
-                  Envoyer mon message
-              %p.text--center.flush.blue{ data: { toggle: 'popover', content: "Les professeurs sont souvent en cours et difficilement joignables. Notre conseil : envoyez-leur un message et demandez d'être rappelé(e).", trigger: 'hover', placement: 'bottom' } }>
-                %i Méthode recommandée
+                        %i.fa.fa-phone-o
+                      %input.input--large.one-whole.hard--right{ name: 'user[phone_number]', type: 'text', placeholder: 'Votre téléphone', value: params[:phone_number] }
+                - if current_user
+                  = button_tag type: 'submit', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" } do
+                    %i.fa.fa-envelope
+                    Envoyer mon message
+                - else
+                  = link_to new_user_registration_path(users: true), data: { behavior: 'modal', title: 'Connexion', width: 600, padding: 0 }, class: 'fancybox.ajax btn btn--green btn--full', id: 'send-message' do
+                    %i.fa.fa-envelope
+                    Envoyer mon message
+                %p.text--center.flush.blue{ data: { toggle: 'popover', content: "Les professeurs sont souvent en cours et difficilement joignables. Notre conseil : envoyez-leur un message et demandez d'être rappelé(e).", trigger: 'hover', placement: 'bottom' } }>
+                  %i Méthode recommandée
 
-            %hr.push-half--ends
-            = link_to 'javascript:void(0);', data: { behavior: 'toggleable', el: '.phone_number' }, class: 'btn btn--green btn--full' do
-              %i.fa.fa-phone.v-middle
-              %span.v-middle Téléphone
-            .phone_number.hidden
-              .soft--top
-                - @structure.phone_numbers.map{ |phone_number| readable_phone_number(phone_number.number) }.uniq.each_with_index do |formatted_phone_number, index|
-                  - if index > 0
-                    %br
-                  %strong.v-middle{ itemprop: "telephone" }=formatted_phone_number
-                  - if @structure.premium
-                    %i.soft-half--left.v-middle.fa.fa-check-circle.green
-                    %i.v-middle.green.milli vérifié
+              %hr.push-half--ends
+              = link_to 'javascript:void(0);', data: { behavior: 'toggleable', el: '.phone_number' }, class: 'btn btn--green btn--full' do
+                %i.fa.fa-phone.v-middle
+                %span.v-middle Téléphone
+              .phone_number.hidden
+                .soft--top
+                  - @structure.phone_numbers.map{ |phone_number| readable_phone_number(phone_number.number) }.uniq.each_with_index do |formatted_phone_number, index|
+                    - if index > 0
+                      %br
+                    %strong.v-middle{ itemprop: "telephone" }=formatted_phone_number
+                    - if @structure.premium
+                      %i.soft-half--left.v-middle.fa.fa-check-circle.green
+                      %i.v-middle.green.milli vérifié
 
-            - if @structure.website.present?
-              = link_to @structure.website, target: '_blank', rel: 'nofollow', onclick: "ga('send', 'event', 'Contact structure', 'click', 'website')", class: 'btn btn--green btn--full push-half--top' do
-                %i.fa.fa-globe.v-middle
-                %span.v-middle Site internet
+              - if @structure.website.present?
+                = link_to @structure.website, target: '_blank', rel: 'nofollow', onclick: "ga('send', 'event', 'Contact structure', 'click', 'website')", class: 'btn btn--green btn--full push-half--top' do
+                  %i.fa.fa-globe.v-middle
+                  %span.v-middle Site internet
 
 
-          .visuallyhidden
-            - @structure.places.each_with_index do |place, index|
-              %p.epsilon{ class: (index < @structure.places.count - 1 ? 'push-half--bottom' : 'flush'), itemprop: "address", itemscope: true, itemtype: "http://schema.org/PostalAddress" }
-                %strong{ itemprop: "name" }= place.name
-                %span{ itemprop: "streetAddress" }= ": #{place.address}"
-                %div.visuallyhidden{ itemprop: "geo", itemscope: true, itemtype: "http://schema.org/GeoCoordinates" }
-                  %meta{ itemprop: "latitude", content: place.latitude }
-                  %meta{ itemprop: "longitude", content: place.longitude }
-                %div.visuallyhidden{ itemprop: "addressLocality" }= place.city.name
-                %div.visuallyhidden{ itemprop: "postalCode" }= place.zip_code
-                %div.visuallyhidden{ itemprop: "addressCountry" } FR
-                - if @structure.phone_numbers.any?
-                  %div.visuallyhidden{ itemprop: "telephone" }= readable_phone_number @structure.phone_numbers.first.number
+            .visuallyhidden
+              - @structure.places.each_with_index do |place, index|
+                %p.epsilon{ class: (index < @structure.places.count - 1 ? 'push-half--bottom' : 'flush'), itemprop: "address", itemscope: true, itemtype: "http://schema.org/PostalAddress" }
+                  %strong{ itemprop: "name" }= place.name
+                  %span{ itemprop: "streetAddress" }= ": #{place.address}"
+                  %div.visuallyhidden{ itemprop: "geo", itemscope: true, itemtype: "http://schema.org/GeoCoordinates" }
+                    %meta{ itemprop: "latitude", content: place.latitude }
+                    %meta{ itemprop: "longitude", content: place.longitude }
+                  %div.visuallyhidden{ itemprop: "addressLocality" }= place.city.name
+                  %div.visuallyhidden{ itemprop: "postalCode" }= place.zip_code
+                  %div.visuallyhidden{ itemprop: "addressCountry" } FR
+                  - if @structure.phone_numbers.any?
+                    %div.visuallyhidden{ itemprop: "telephone" }= readable_phone_number @structure.phone_numbers.first.number
 
 - unless current_user
   = content_for :scripts do

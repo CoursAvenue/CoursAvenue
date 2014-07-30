@@ -36,6 +36,7 @@ class StructureSearch
           with(:subject_slugs).any_of [params[:subject_id]].flatten # Flatten in case of subject_id is an array
         end
       end
+      with(:medias_count).greater_than_or_equal_to params[:medias_count].to_i        if params[:medias_count].present?
       # For admin dashboard purpose
       with(:subject_ids).any_of params[:subject_ids]                                 if params[:subject_ids].present?
 
@@ -82,7 +83,7 @@ class StructureSearch
     params[:bbox_ne] = params[:bbox_ne].split(',') if params[:bbox_ne].is_a? String
   end
 
-  def self.similar_profile structure, limit=4
+  def self.similar_profile structure, limit=4, _params={}
     # Choose parent subjects that are used if the profile has courses
     used_root_subjects = []
     if structure.courses.any?
@@ -103,7 +104,7 @@ class StructureSearch
                                             has_logo: true,
                                             per_page: limit,
                                             subject_id: (used_root_subjects.any? ? used_root_subjects.map(&:slug) : nil)
-                                          }).results
+                                          }.merge(_params)).results
       @structures = @structures.flatten.uniq
       break if @structures.length >= limit
     end

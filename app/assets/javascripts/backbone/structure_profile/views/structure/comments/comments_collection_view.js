@@ -16,7 +16,7 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
         },
 
         onAfterShow: function onAfterShow () {
-            var new_html = this.$('[data-empty-comments]').html().replace('__about__', _.capitalize(this.about));
+            var new_html = this.$('[data-empty-comments]').html().replace('__about__', _.capitalize(this.about || 'Ce profil'));
             this.$('[data-empty-comments]').html(new_html);
             if (this.collection.length == 0) {
                 this.$('[data-empty-comments]').show();

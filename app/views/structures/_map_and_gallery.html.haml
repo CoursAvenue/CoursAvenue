@@ -17,13 +17,13 @@
           %div{ data: { type: "google-maps" } }>
       - medias.each_with_index do |media, index|
         %li.relative.bg-contain
-          %a.rslides_nav.rslides_nav--icon{rel: 'slideshow', href: media.url, class: (media.video? ? 'visible' : ''), data: { behavior: "fancy" } }
+          %a.rslides_nav.rslides_nav--icon{ rel: 'slideshow', href: media.url, class: (media.video? ? 'visible' : ''), data: { behavior: "fancy" } }
             - if media.video?
               %i.fa.fa-youtube-play
             - else
               %i.fa.fa-eye
           .one-whole.media__item.media__item--slides>
-            %a.block.break-all{href: media.url, title: media.caption, data: {behavior: "fancy"}}
+            %a.block.break-all{ href: media.url, title: media.caption, data: { behavior: "fancy" } }
               = media.thumbnail_url_html
               %i.fa.fa-expand
           - if media.caption.present?

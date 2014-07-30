@@ -45,26 +45,13 @@
 
         #structure-profile{ data: { type: 'structure-profile-root' } }
           - if @is_sleeping
-            .panel.push--bottom
-              .panel__header.soft-half--ends.soft--left
-                .epsilon.f-weight-bold
-                  Cet établissement n'a pas encore activé son profil
-              .panel__body.soft
-                .gamma.f-weight-bold
-                  S'agit-il de votre profil ?
-                %div
-                  = link_to 'Gérer ce profil', new_pro_admin_structure_registration_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
-                  %br
-                  = link_to 'Avantages de votre profil CoursAvenue', root_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+            = render partial: 'structures/sleeping_content', locals: { medias: @medias }
           - else
             #structure-region
           %div{ data: { type: "comments-collection" } }
       .grid__item.four-twelfths>
-
+        = render partial: 'structures/contact_form', locals: { structure: @structure }
         - unless @is_sleeping
-          = render partial: 'structures/contact_form', locals: { structure: @structure }
-
-        - if !@is_sleeping
           .panel.push--bottom
             - if @structure.response_rate or @structure.response_time or (@structure.main_contact and @structure.main_contact.current_sign_in_at)
               .panel__body.soft.epsilon
@@ -87,7 +74,6 @@
                     .grid__item.v-middle.one-half>
                       %strong= l(@structure.main_contact.current_sign_in_at, format: :date).capitalize
 
-        - unless @is_sleeping
           .panel.push--bottom
             .panel__header.soft-half--ends.soft--sides
               %h5.flush Actualités et offres exclusives
@@ -108,25 +94,22 @@
                 %p.flush.text--center.push-half--top
                   %strong Suivi par #{@structure.followers.count} élèves
 
-        - if @is_sleeping and @structure.logo.present?
-          .panel__header.soft
-            .media-photo= image_tag @structure.logo.url(:large), class: 'block one-whole'
-
         - # This additionnal div is necessary for the husk that will be prepended
         - # to the parent of the sticky div
         %div
           %div{ data: { type: (@is_sleeping ? '' : 'sticky-map-container') }}>
-            .push--bottom{ data: { type: (@is_sleeping ? '' : 'sticky-map') }}>
-            %a.push--bottom.contact-button.btn--full.btn.btn--green{ data: { behavior: 'show-contact-panel' } }
-              Contacter
-              = I18n.t("structures.structure_type_contact.#{(@structure.structure_type.present? ? @structure.structure_type : 'structures.other')}")
+            - unless @is_sleeping
+              .push--bottom{ data: { type: (@is_sleeping ? '' : 'sticky-map') }}>
+              %a.push--bottom.contact-button.btn--full.btn.btn--green{ data: { behavior: 'show-contact-panel' } }
+                Contacter
+                = I18n.t("structures.structure_type_contact.#{(@structure.structure_type.present? ? @structure.structure_type : 'structures.other')}")
 
             - unless @structure.premium?
               .panel.push--bottom
                 .panel__header.soft-half--ends.soft--sides
                   %h5.flush Profils similaires
-                .panel__body.soft-half--ends{ style: 'height: 250px; overflow: scroll;' }
-                  - @structure.similar_profiles(10).each_with_index do |structure, index|
+                .panel__body.soft-half--ends{ style: (@is_sleeping ? '' : 'height: 250px; overflow: scroll;') }
+                  - @structure.similar_profiles(14).each_with_index do |structure, index|
                     - unless index == 0
                       %hr.push-half--ends
                     %div{ style: 'height: 70px;' }
@@ -144,7 +127,7 @@
                               - else
                                 %h6.inline-block.push-half--bottom= truncate(structure.name, length: 30)
                             %div
-                              %i= structure.places.map(&:city).uniq.map(&:name).join(', ')
+                              %i= truncate(structure.places.map(&:city).uniq.map(&:name).join(', '), length: 40)
                             .btn.btn--small.btn--blue.btn--full.opacity-hidden-on-hover__child Voir le profil
 
 = content_for :scripts do

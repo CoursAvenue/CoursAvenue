@@ -240,6 +240,10 @@ class Structure < ActiveRecord::Base
       self.logo?
     end
 
+    boolean :medias_count do
+      self.medias.count
+    end
+
     boolean :is_sleeping
     boolean :active
 
@@ -740,8 +744,8 @@ class Structure < ActiveRecord::Base
     self.premium
   end
 
-  def similar_profiles(limit=3)
-    StructureSearch.similar_profile(self, limit)
+  def similar_profiles(limit=3, _params={})
+    StructureSearch.similar_profile(self, limit, _params)
   end
 
   # Return highlighted comment if has one
