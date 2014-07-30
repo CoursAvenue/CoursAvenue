@@ -37,8 +37,6 @@
                 %i.fa.fa-picture-o
                 Choisir mon logo
             .visuallyhidden= structure_form.input :logo, label: false, input_html: {id: 'logo-input'}
-            - unless @structure.valid?
-              %p.alert--error Vous devez régler les problèmes pour pouvoir mettre à jour votre logo.
 
   %hr.push--ends
   .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.name') } }
