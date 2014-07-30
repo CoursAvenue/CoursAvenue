@@ -32,9 +32,7 @@
                 = @structure.name
               .push-half--top.grid
                 .grid__item.one-fifth>
-                  %a.btn.btn--full#recommendation-overview
-                    %i.fa.fa-eye
-                    Aperçu
+                  %a.btn.btn--full#recommendation-overview Aperçu
                 .grid__item.four-fifths>
                   = f.submit 'Envoyer ma demande', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }
                 .text--center= link_to 'Envoyer un email depuis ma boîte perso', '#hidden-send', data: { behavior: 'modal', width: 550, padding: 0 }

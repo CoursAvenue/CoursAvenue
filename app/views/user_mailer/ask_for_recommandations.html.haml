@@ -1,13 +1,13 @@
 - content_for :logo do
   = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank' do
-    = image_tag @structure.logo.url(:thumb), style: 'width: 125px; height: 125px;', class: 'block'
+    = image_tag @structure.logo.url(:thumb), width: 80, height: 80, class: 'block'
 
 - content_for :promo do
-  .title
+  .title.line-height-1-7
     #{@structure.name} vous demande de lui rédiger une recommandation sur CoursAvenue.com
 
 - if @email_text
-  .p= @email_text
+  = @email_text.html_safe
 
 .p.action
   = link_to 'Déposer mon avis en 20 secondes', new_structure_comment_url(@structure, email: @email, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'email', utm_campaign: 'ask_for_recommandation', utm_medium: 'stage_0'), class: 'btn btn--green'

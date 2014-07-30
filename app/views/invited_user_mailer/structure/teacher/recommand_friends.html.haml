@@ -1,10 +1,10 @@
 - if @referrer.logo?
   - content_for :logo do
     = link_to structure_url(@referrer, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank' do
-      = image_tag @referrer.logo.url(:thumb), style: 'width: 125px; height: 125px;', class: 'block'
+      = image_tag @referrer.logo.url(:thumb), width: 80, height: 80, class: 'block'
 
 - content_for :promo do
-  %h4
+  .title.line-height-1-7
     #{@referrer.name} vous invite à créer votre profil sur CoursAvenue
 
 - if @email_text
@@ -17,7 +17,7 @@
 %p= @referrer.name
 
 - content_for :under_content do
-  = render 'admin_mailer/footer_info'
+  = render 'admin_mailer/shared/footer_info'
 
 - content_for :footer do
   %p Vous recevez cet email car #{@referrer.name} vous invite sur CoursAvenue.

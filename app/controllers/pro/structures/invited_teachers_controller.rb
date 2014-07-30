@@ -15,7 +15,7 @@ class ::Pro::Structures::InvitedTeachersController < Pro::ProController
     params[:emails] ||= ''
     regexp = Regexp.new(/\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b/)
     emails = params[:emails].scan(regexp).uniq
-    text = '<p>' + params[:text].gsub(/\r\n/, '</p><p>') + '</p>' if params[:text].present?
+    text = '<div class="p">' + params[:text].gsub(/\r\n\r\n/, '</div><div class="p">').gsub(/\r\n/, '<br>') + '</div>' if params[:text].present?
 
     emails.each do |_email|
       invited_user = ::InvitedUser.where(type: 'InvitedUser::Teacher', email: _email, referrer_id: @structure.id, referrer_type: 'Structure', email_text: text).first_or_create
