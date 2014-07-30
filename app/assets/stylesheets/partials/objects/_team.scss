@@ -1,7 +1,7 @@
 .team-wrapper {
     .team {
         opacity: 1;
-        @include transition(opacity linear 250ms);
+        @include transition(opacity linear 150ms);
     }
     &:hover {
         .team {
@@ -31,23 +31,23 @@
         background-position: -272px 0px;
     }
 }
-.team__adelaide  {
+.team__thanh  {
     height: 400px;
     width : 170px;
-    @include background-image-retina('pages/equipe/adelaide.png', 'pages/equipe/adelaide@2x.png');
-    &:hover { background-position: -186px 0px; }
+    @include background-image-retina('pages/equipe/thanh.png', 'pages/equipe/thanh@2x.png');
+    &:hover { background-position: -179px 0px; }
 }
-.team__hugo {
+.team__boris {
     height: 400px;
     width : 156px;
-    @include background-image-retina('pages/equipe/hugo.png', 'pages/equipe/hugo@2x.png');
-    &:hover { background-position: -157px 0px; }
+    @include background-image-retina('pages/equipe/boris.png', 'pages/equipe/boris@2x.png');
+    &:hover { background-position: -160px 0px; }
 }
-.team__natan {
+.team__nabil {
     height: 400px;
-    width : 163px;
-    @include background-image-retina('pages/equipe/natan.png', 'pages/equipe/natan@2x.png');
-    &:hover { background-position: -198px 0px; }
+    width : 160px;
+    @include background-image-retina('pages/equipe/nabil.png', 'pages/equipe/nabil@2x.png');
+    &:hover { background-position: -183px 0px; }
 }
 .team__offre {
     height: 400px;
