@@ -26,11 +26,11 @@
         = link_to structure_path(structure), class: 'muted-link opacity-hidden-on-hover__wrapper block' do
           .push-half--bottom.one-whole.bg-cover{ style: "background-image: url(#{structure.medias.first.thumbnail_url}); height: 200px;"}
             - if header_promotion_title_for_structure(structure).present?
-              .north.west.absolute.one-whole
+              .north.west.absolute
                 .lbl.lbl--small.lbl--yellow
                   %i.fa.fa-star
                   = header_promotion_title_for_structure(structure)
-            .absolute.text--center{ style: 'top: 90px;' }
+            .absolute.text--center.one-whole{ style: 'top: 90px;' }
               .btn.btn--small.btn--blue.opacity-hidden-on-hover__child Voir le profil
           .grid--full{ data: { similar_profile: true, structure_id: structure.id } }
             .grid__item.v-top.one-fifth>
