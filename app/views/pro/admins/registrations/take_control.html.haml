@@ -1,7 +1,7 @@
 = content_for :title do
   Vous travaillez pour #{@structure.name} ? Prenez le contrôle de votre profil.
 
-- profiles = [{ name: "Valérie, Directrice de l'atelier St Germain des Arts à Paris", slug: 'st-germain-des-arts', bg: 'pro/home_background5-shadowed.jpg', profile_name: 'valerie', image_name: 'valerie', quote: "J'ai débloqué le profil CoursAvenue de notre atelier d'arts plastiques pour afficher le planning de nos cours. Enfin un site rapide, intuitif et très simple d'utilisation.", image_width: 470, image_profile_width: 375, profile_bottom: 185, image_style: 'margin-left: 0px;'}]
+- profiles = [{ name: "Valérie, Co-dirigeante de l'atelier St Germain des Arts à Paris", slug: 'st-germain-des-arts', bg: 'pro/home_background5-shadowed.jpg', profile_name: 'valerie', image_name: 'valerie', quote: "Avec mon compte gratuit CoursAvenue, j'ai pu améliorer le profil de notre atelier d'arts plastiques et compléter le planning de nos cours. Enfin un site rapide, intuitif et simple d'utilisation.", image_width: 470, image_profile_width: 375, profile_bottom: 185, image_style: 'margin-left: 0px;'}]
 - profiles << { name: "Alain Pons, formateur en photographie à Clermont-Ferrand", slug: 'alain-pons-photographe', bg: 'pro/home_background_alain.jpg', profile_name: 'alain', image_name: 'alain-2', quote: "En prenant le contrôle de mon profil, j'ai reçu les premières recommandations de mes élèves. J'ai alors gagné en visibilité sur CoursAvenue et sur Internet en général", image_width: 300, image_profile_width: 375, profile_bottom: 230 }
 
 - selected_profile = profiles.sample
@@ -43,12 +43,12 @@
                     .grid__item.one-fifth.text--right.v-middle>
                       %strong.epsilon> E-mail
                     .grid__item.four-fifths.v-middle>
-                      = f.input :email, required: true, autofocus: true, wrapper_html: { class: 'flush--bottom' }, input_html: { class: 'input--large one-whole' }, label: false
+                      = f.input :email, required: true, autofocus: true, wrapper_html: { class: 'flush--bottom' }, input_html: { class: 'input--large two-thirds' }, label: false
                   .grid
                     .grid__item.one-fifth.text--right.v-middle>
                       %strong.epsilon> Mot de passe
                     .grid__item.four-fifths.v-middle>
-                      = f.input :password, required: true, input_html: { class: 'input--large one-whole' }, label: false
+                      = f.input :password, required: true, input_html: { class: 'input--large two-thirds' }, label: false
                   = f.hidden_field :structure_id, as: :hidden, value: @structure.try(:id)
                   .grid
                     .grid__item.one-fifth.text--right.v-middle>

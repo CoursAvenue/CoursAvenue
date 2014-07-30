@@ -12,9 +12,11 @@
       - else
         .inline-block
           #connection-registration-buttons
-            .inline-block.drop-down__wrapper
+            .inline-block.drop-down__wrapper.soft--right
+              = link_to "Blog", blog_articles_path
+            .inline-block.drop-down__wrapper.soft--right
               = link_to "Inscription", new_user_registration_path, data: { behavior: 'modal', title: 'Connexion', width: 600, padding: 0 }, class: 'fancybox.ajax', onclick: "ga('send', 'event', 'Se créer un compte', 'click','Inscrit')"
-            .inline-block.drop-down__wrapper.soft--sides
+            .inline-block.drop-down__wrapper.soft--right
               = link_to "Connexion", new_user_session_path, data: { behavior: 'modal', title: 'Connexion', width: 600, padding: 0 }, class: 'fancybox.ajax', id: 'connection'
             = render 'shared/help_dropdown'
             .inline-block.soft--sides

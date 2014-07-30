@@ -15,6 +15,7 @@ CoursAvenue::Application.routes.draw do
       get '/premium'                            => 'redirect#structures_premium'
 
       get 'pages/offre-speciale-premiers-partenaires' => 'home#july_offer',   as: 'pages_july_offer'
+      get 'pages/portraits'                     => 'home#portraits',          as: 'pages_portraits'
       get 'pages/livres-blancs'                 => 'home#white_book',         as: 'pages_white_books'
       get 'mailjet_custo'                       => 'home#mailjet_custo'
       get 'pages/pourquoi-etre-recommande'      => 'home#why_be_recommended', as: 'pages_why_be_recommended'
@@ -371,6 +372,7 @@ CoursAvenue::Application.routes.draw do
   resources :keywords, only: [:index]
   ########### Vertical pages ###########
   get 'cours-de-:id'                               , to: 'vertical_pages#show' , as: :vertical_page
+  get 'guide-des-disciplines'                      , to: 'vertical_pages#index', as: :vertical_pages
   ###########  REDIRECTIONS --old
   ## With city
   # Root subject

@@ -1,10 +1,7 @@
-- @is_responsive = true
-.home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background7.jpg'})", 'data-stellar-background-ratio' => '0.6' }
-  .main-container.soft
-    %h1.flush= t('.log_in')
-
-.main-container.soft
-  .white-box.soft
+.panel
+  .panel__header.soft
+    %h4.flush Connectez-vous à votre espace admin
+  .panel__body.soft
     = simple_form_for(Admin.new, as: :pro_admin, url: pro_admin_session_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)) do |f|
       .form-inputs
         = f.input :email, required: false, autofocus: true, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }

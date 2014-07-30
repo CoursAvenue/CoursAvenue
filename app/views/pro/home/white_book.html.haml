@@ -4,9 +4,10 @@
 = pro_menu_currently_at 'Recommandations'
 
 - content_for :above_container do
-  .home-screen-promotion-wrapper--blue.soft
-    %h1.text--center.flush
-      Livres Blancs
+  .home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background2.jpg'})" }
+    .main-container.main-container--medium.soft
+      %h1.flush Livres Blancs
+      %h5.flush Accédez à nos études destinées à aider les professionnels des loisirs
 
   .home-screen-promotion-wrapper.soft
     .main-container
@@ -15,9 +16,11 @@
 
   .main-container.f-weight-300.epsilon.soft
     .grid
-      .grid__item.one-third
+      .grid__item.one-third.text--center
         %h1.f-weight-100 Avis des internautes
-        = image_tag 'emails_logo/white_book.png', alt: 'CoursAvenue', height: 130, width: 100, style: '-ms-interpolation-mode:bicubic;', class: 'block'
+        = image_tag 'emails_logo/white_book.png', alt: 'CoursAvenue', height: 130, width: 100, style: '-ms-interpolation-mode:bicubic;', class: 'center-block push-half--bottom'
+        = link_to 'Télécharger gratuitement', 'https://s3-eu-west-1.amazonaws.com/coursavenue-public/livres-blancs/Livre_Blanc_avis_CoursAvenue_RMars2014.pdf', class: 'btn btn--green', target: :_blank
+
       .grid__item.two-thirds>
         %h5.push-half--top Comment considérer les avis des Internautes sur les cours de loisirs ?
         %p
@@ -40,5 +43,3 @@
           %li Comment faire de son réseau un vecteur efficace de son développement
           %li Comment garder la maîtrise de son bouche à oreille
 
-        .text--center
-          = link_to 'Télécharger gratuitement', 'https://s3-eu-west-1.amazonaws.com/coursavenue-public/livres-blancs/Livre_Blanc_avis_CoursAvenue_RMars2014.pdf', class: 'btn btn--green btn--large', target: :_blank

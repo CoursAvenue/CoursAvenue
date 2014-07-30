@@ -7,10 +7,14 @@
 
     .grid__item.two-thirds.v-middle.text--right
       %ul.nav
-        %li
+        %li.soft--right.visuallyhidden--palm
+          = link_to 'Accueil', root_path
+        %li.soft--right.visuallyhidden--palm
+          = link_to 'Portraits', pro_pages_portraits_path
+        %li.soft--right.visuallyhidden--palm
           = link_to 'Tarifs', pro_pages_price_path
-        %li.soft--sides.visuallyhidden--palm
-          = render 'shared/pro_question_dropdown_menu'
+        %li.soft--right.visuallyhidden--palm
+          = render 'shared/question_dropdown_menu'
         - if current_pro_admin
           %li.drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
             - if current_pro_admin.super_admin?
@@ -24,5 +28,5 @@
                   %i.fa.fa-sign-out
         - else
           %li
-            = link_to new_pro_admin_session_path do
+            = link_to new_pro_admin_session_path, class: 'btn btn--small fancybox.ajax', data: { behavior: 'modal', width: '700', padding: 0 } do
               Connexion

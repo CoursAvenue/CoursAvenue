@@ -4,6 +4,9 @@ class Pro::HomeController < Pro::ProController
   def mailjet_custo
   end
 
+  def portraits
+  end
+
   def index
     @admin      = ::Admin.new
   end
