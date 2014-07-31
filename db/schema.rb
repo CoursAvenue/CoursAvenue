@@ -583,6 +583,7 @@ ActiveRecord::Schema.define(version: 20140730160426) do
   add_index "plannings_users", ["planning_id", "user_id"], name: "index_plannings_users_on_planning_id_and_user_id", using: :btree
 
   create_table "portraits", force: true do |t|
+    t.string   "top_line_about"
     t.string   "thumb_title"
     t.string   "thumb_subtitle"
     t.text     "title"

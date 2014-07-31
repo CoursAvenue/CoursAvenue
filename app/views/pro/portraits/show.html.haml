@@ -13,8 +13,7 @@
     .grid__item.two-thirds>
       .blog-article__content
         .soft.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{@portrait.medias.order('caption DESC').limit(1).offset(0).first.thumbnail_url}); height: 200px;" }>
-          %p.epsilon.white
-            A propos d'Emilie
+          %p.epsilon.white= @portrait.top_line_about
           %p.white= @portrait.top_line
 
         = @portrait.content.html_safe

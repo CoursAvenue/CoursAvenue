@@ -1,6 +1,7 @@
 class CreatePortraitsTable < ActiveRecord::Migration
   def change
     create_table :portraits do |t|
+      t.string :top_line_about
       t.string :thumb_title
       t.string :thumb_subtitle
       t.text :title
