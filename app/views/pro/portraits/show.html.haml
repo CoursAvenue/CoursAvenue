@@ -23,5 +23,5 @@
           %p.white.absolute.south= @portrait.bottom_line
 
     .grid__item.one-third>
-      - @images.offset(7).limit(7).each do |image|
+      - @images.offset(7).limit(6).each do |image|
         .bg-cover{ style: "background-image: url(#{image.thumbnail_url}); height: 400px;" }>
