@@ -20,8 +20,8 @@ module Concerns
       conversation = receipt.conversation
       if conversation
         conversation.update_column :mailboxer_label_id, Mailboxer::Label.where(name: "mailboxer.label.#{label_name}").first.id
-        conversation.update_column :mailboxer_extra_info_ids, extra_info_ids.join(',')
-        conversation.update_column :mailboxer_course_ids, course_ids.join(',')
+        conversation.update_column :mailboxer_extra_info_ids, extra_info_ids.join(',')  if extra_info_ids.present?
+        conversation.update_column(:mailboxer_course_ids, course_ids.join(','))         if course_ids.present?
       end
       return receipt
     end
