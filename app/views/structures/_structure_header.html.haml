@@ -12,7 +12,7 @@
           .relative.on-top
             - if @structure.structure_type.present?
               .milli.inline-block.structure__header-icon.semi-muted.v-top
-                .flexbox
+                = link_to '#presentation', class: 'muted-link flexbox', data: { behavior: 'scroll-to', offset_top: '-55' } do
                   %i.fa-3x.fa-house.flexbox__item
                   .flexbox__item.soft-half--left.soft--right
                     - t(@structure.structure_type).split(' ').each_with_index do |splitted_structure_type, index|
@@ -24,7 +24,7 @@
                 = link_to '#cours-reguliers', class: 'muted-link flexbox', data: { behavior: 'scroll-to', offset_top: '-55' } do
                   %i.fa-3x.fa-group.flexbox__item
                   .flexbox__item.soft-half--left.soft--right
-                    Cours
+                    #{(@structure.courses.trainings + @structure.courses.lessons).select(&:is_published?).length} cours
                     %br
                     collectifs
             - if @structure.gives_individual_courses
@@ -32,11 +32,11 @@
                 = link_to '#cours-reguliers', class: 'muted-link flexbox', data: { behavior: 'scroll-to', offset_top: '-55' } do
                   %i.fa-3x.fa-user.flexbox__item
                   .flexbox__item.soft-half--left.soft--right
-                    Cours
+                    #{@structure.courses.privates.select(&:is_published?).length} cours
                     %br
                     particuliers
             .milli.structure__header-icon.inline-block.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.subjects_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
-              .flexbox
+              = link_to '#disciplines', class: 'muted-link flexbox', data: { behavior: 'scroll-to', offset_top: '-55' } do
                 %i.fa-3x.fa-tag.flexbox__item
                 .flexbox__item.soft-half--left.soft--right
                   = @structure.subjects.at_depth(2).count
