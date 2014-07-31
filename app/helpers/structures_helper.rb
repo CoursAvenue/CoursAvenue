@@ -1,11 +1,11 @@
 module StructuresHelper
 
   def header_promotion_title_for_structure(structure)
-    if @structure.has_free_trial_course? and @structure.has_promotion?
+    if structure.has_free_trial_course? and structure.has_promotion?
       "Essai gratuit & promotions"
-    elsif @structure.has_promotion?
+    elsif structure.has_promotion?
       "Promotions"
-    elsif @structure.has_free_trial_course?
+    elsif structure.has_free_trial_course?
       "Essai gratuit"
     else
       nil

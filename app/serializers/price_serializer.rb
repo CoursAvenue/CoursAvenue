@@ -21,6 +21,7 @@ class PriceSerializer < ActiveModel::Serializer
       str = "Pour les "
       str << I18n.t("#{object.libelle}_plural")
       str << ". #{object.info}" if object.info.present?
+      str
     else
       object.info
     end

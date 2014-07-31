@@ -10,7 +10,7 @@ fr:
     free: Gratuit
     contact_structure: Contacter l'établissement
     individual_course: 1 cours
-    registration_fees: Frais d'adhésion
+    registration_fees: Adhésion
     errors:
       promo_amount_less_than_promo: doit être inférieur au tarif normal
     filter:

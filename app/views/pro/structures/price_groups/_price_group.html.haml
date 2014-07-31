@@ -73,7 +73,7 @@
                 - if @trial.free?
                   Gratuit
                 - else
-                  = @trial.amount
+                  = readable_amount @trial.amount
               %td
               %td= @trial.info
 

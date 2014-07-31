@@ -36,7 +36,7 @@
             = link_to @last_comment.title, structure_path(@last_comment.structure), class: 'muted-link'
           %p.flush
             = link_to structure_path(@last_comment.structure), class: 'muted-link' do
-              = truncate(@last_comment.content, length: 65)
+              = truncate(@last_comment.content, length: 50)
           .milli
             = link_to "Avis rédigé par #{@last_comment.author_name} il y a #{distance_of_time_in_words_to_now(@last_comment.created_at)}", structure_path(@last_comment.structure), class: 'muted-link'
           %strong
