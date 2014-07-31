@@ -34,7 +34,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
           $sticky.sticky({ scrollContainer: '.filtered-search__list-wrapper',
                                                oldWidth: true,
                                                onStick: function() {
-                                                  $sticky.css('top', '55px');
+                                                  $sticky.css('top', '50px');
                                                } });
         },
         /* forward events with only the necessary data */

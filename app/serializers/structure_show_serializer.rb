@@ -4,7 +4,7 @@ class StructureShowSerializer < ActiveModel::Serializer
 
   attributes :id, :name, :slug, :rating, :street, :zip_code, :description, :description_short,
              :logo_thumb_url, :data_url, :query_url, :query_params, :courses, :courses_count,
-             :has_courses, :plannings_count, :has_plannings, :about, :about_genre,
+             :has_courses, :plannings_count, :has_plannings, :about, :about_bis, :about_genre,
              :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range,
              :has_free_trial_course, :teaches_at_home, :audience, :funding_types, :gives_group_courses,
              :gives_individual_courses, :structure_type, :has_promotion, :tag_names, :given_course_types,
@@ -56,6 +56,10 @@ class StructureShowSerializer < ActiveModel::Serializer
 
   def about
     I18n.t("structures.structure_type_contact.#{(object.structure_type.present? ? object.structure_type : 'structures.other')}")
+  end
+
+  def about_bis
+    I18n.t("structures.structure_type_contact_bis.#{(object.structure_type.present? ? object.structure_type : 'structures.other')}")
   end
 
   def about_genre

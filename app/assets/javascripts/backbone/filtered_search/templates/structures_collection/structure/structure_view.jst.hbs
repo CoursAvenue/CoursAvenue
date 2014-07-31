@@ -16,7 +16,8 @@
             </h4>
             <div>
                 {{#if structure_type}}{{ structure_type }}{{else}}Structure{{/if}}
-                ・ {{ cities }}
+                ・
+                <span data-toggle="tooltip" data-title="{{ cities }}">{{ truncate cities 60 }}</span>
             </div>
             <div>
                 <div>

@@ -11,56 +11,61 @@
         .push-half--top
           .relative.on-top
             - if @structure.structure_type.present?
-              .milli.structure__header-icon.inline-block.text--center.semi-muted.v-top
-                %i.fa-3x.fa-house
-                %div
-                  = t(@structure.structure_type)
+              .milli.inline-block.structure__header-icon.semi-muted.v-top
+                .flexbox
+                  %i.fa-3x.fa-house.flexbox__item
+                  .flexbox__item.soft-half--left.soft--right
+                    - t(@structure.structure_type).split(' ').each_with_index do |splitted_structure_type, index|
+                      - if index == 1
+                        %br
+                      = splitted_structure_type
             - if @structure.gives_group_courses or @structure.gives_individual_courses.blank?
-              .milli.structure__header-icon.inline-block.text--center.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.group_courses_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
-                = link_to '#cours-reguliers', class: 'muted-link block', data: { behavior: 'scroll-to', offset_top: '-55' } do
-                  %i.fa-3x.fa-group
-                  %div
+              .milli.inline-block.structure__header-icon.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.group_courses_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
+                = link_to '#cours-reguliers', class: 'muted-link flexbox', data: { behavior: 'scroll-to', offset_top: '-55' } do
+                  %i.fa-3x.fa-group.flexbox__item
+                  .flexbox__item.soft-half--left.soft--right
                     Cours
                     %br
                     collectifs
             - if @structure.gives_individual_courses
-              .milli.structure__header-icon.inline-block.text--center.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.individual_courses_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
-                = link_to '#cours-reguliers', class: 'muted-link block', data: { behavior: 'scroll-to', offset_top: '-55' } do
-                  %i.fa-3x.fa-user
-                  %div
+              .milli.structure__header-icon.inline-block.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.individual_courses_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
+                = link_to '#cours-reguliers', class: 'muted-link flexbox', data: { behavior: 'scroll-to', offset_top: '-55' } do
+                  %i.fa-3x.fa-user.flexbox__item
+                  .flexbox__item.soft-half--left.soft--right
                     Cours
                     %br
                     particuliers
-            .milli.structure__header-icon.inline-block.text--center.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.subjects_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
-              %i.fa-3x.fa-tag
-              %div
-                = @structure.subjects.at_depth(2).count
-                %br
-                = "disciplines".pluralize @structure.subjects.at_depth(2)
+            .milli.structure__header-icon.inline-block.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.subjects_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
+              .flexbox
+                %i.fa-3x.fa-tag.flexbox__item
+                .flexbox__item.soft-half--left.soft--right
+                  = @structure.subjects.at_depth(2).count
+                  %br
+                  = "disciplines".pluralize @structure.subjects.at_depth(2)
 
-            .milli.structure__header-icon.inline-block.text--center.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.places_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
-              = link_to "javascript:$('#map-thumbnail').click()", class: 'muted-link block' do
-                %i.fa-3x.fa-map-marker
-                %div
+            .milli.inline-block.structure__header-icon.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.places_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
+              = link_to "javascript:$('#map-thumbnail').click()", class: 'muted-link flexbox' do
+                %i.fa-3x.fa-map-marker.flexbox__item
+                .flexbox__item.soft-half--left.soft--right
                   = @structure.places.count
                   %br
                   = "lieu#{@structure.places.count > 1 ? 'x' : ''}"
             - if @structure.comments_count > 0
-              .milli.structure__header-icon.inline-block.text--center.semi-muted.v-top
-                = link_to '#avis', class: 'block muted-link f-weight-normal', data: { behavior: 'scroll-to', offset_top: '-55' } do
-                  %i.fa-3x.fa-comment
-                  %div{ href: '#avis', itemprop: "aggregateRating", itemscope: true, itemtype: "http://schema.org/AggregateRating" }
-                    .visuallyhidden{ itemprop: "ratingValue" } 5
-                    .visuallyhidden{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
-                      %meta{property: 'v:rating', itemprop: 'rating', content: 5}
-                      %meta{itemprop: 'count', content: structure.comments_count}
-                      %meta{itemprop: 'itemreviewed', content: structure.name}
-                      %meta{itemprop: 'name', content: structure.name}
-                      %meta{itemprop: 'street-address', content: structure.street}
-                      %meta{itemprop: 'postal-code', content: structure.zip_code}
-                      - if @city
-                        %meta{itemprop: 'locality', content: @city.name}
-                  %div
+              .milli.inline-block.structure__header-icon.inline-block.semi-muted.v-top
+                %div{ href: '#avis', itemprop: "aggregateRating", itemscope: true, itemtype: "http://schema.org/AggregateRating" }
+                  .visuallyhidden{ itemprop: "ratingValue" } 5
+                  .visuallyhidden{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
+                    %meta{property: 'v:rating', itemprop: 'rating', content: 5}
+                    %meta{itemprop: 'count', content: structure.comments_count}
+                    %meta{itemprop: 'itemreviewed', content: structure.name}
+                    %meta{itemprop: 'name', content: structure.name}
+                    %meta{itemprop: 'street-address', content: structure.street}
+                    %meta{itemprop: 'postal-code', content: structure.zip_code}
+                    - if @city
+                      %meta{itemprop: 'locality', content: @city.name}
+                = link_to '#avis', class: 'flexbox muted-link f-weight-normal', data: { behavior: 'scroll-to', offset_top: '-55' } do
+                  %i.fa-3x.fa-comment.flexbox__item
+                  .flexbox__item.soft-half--left.soft--right
                     = @structure.comments_count
                     %br
                     avis

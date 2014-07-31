@@ -98,6 +98,12 @@ fr:
         association: cette association
         independant: ce professeur
         other: ce profil
+    structure_type_contact_bis:
+      structures:
+        company: de l'école
+        association: de l'association
+        independant: du professeur
+        other: du profil
 
 
   pro:
