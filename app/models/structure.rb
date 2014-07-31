@@ -811,13 +811,13 @@ class Structure < ActiveRecord::Base
   end
 
   SEARCH_SCORE_COEF = {
-    :medias         => 2,
-    :plannings      => 3,
-    :ratings        => 1,
-    :logo           => 1,
+    :medias         => 3,
+    :plannings      => 5,
+    :ratings        => 3,
+    :logo           => 2,
+    :response_time  => 3,
     :external_links => 1,
-    :response_time  => 1,
-    :promotions     => 2
+    :promotions     => 5
   }
 
   # Compute a search score for ordering
@@ -862,7 +862,7 @@ class Structure < ActiveRecord::Base
         score += (1 * SEARCH_SCORE_COEF[:external_links])
       end
       ## Response_time
-      if self.response_rate and self.response_rate.to_i >= 80
+      if self.response_rate.nil? or self.response_rate.to_i >= 80
         score += (2 * SEARCH_SCORE_COEF[:response_time])
       elsif self.response_rate and self.response_rate.to_i >= 50
         score += (1 * SEARCH_SCORE_COEF[:response_time])
