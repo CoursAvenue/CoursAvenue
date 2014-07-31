@@ -62,6 +62,7 @@ class StructureDecorator < Draper::Decorator
     trainings.each do |training|
       output << "<div>#{training.name}</div>"
     end
+    output = '' if courses.empty? and trainings.empty?
     output
   end
 

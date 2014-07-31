@@ -40,7 +40,6 @@
                 %i.fa-3x.fa-tag.flexbox__item
                 .flexbox__item.soft-half--left.soft--right
                   = @structure.subjects.at_depth(2).count
-                  %br
                   = "disciplines".pluralize @structure.subjects.at_depth(2)
 
             .milli.inline-block.structure__header-icon.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.places_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
@@ -48,7 +47,6 @@
                 %i.fa-3x.fa-map-marker.flexbox__item
                 .flexbox__item.soft-half--left.soft--right
                   = @structure.places.count
-                  %br
                   = "lieu#{@structure.places.count > 1 ? 'x' : ''}"
             - if @structure.comments_count > 0
               .milli.inline-block.structure__header-icon.inline-block.semi-muted.v-top
@@ -67,7 +65,6 @@
                   %i.fa-3x.fa-comment.flexbox__item
                   .flexbox__item.soft-half--left.soft--right
                     = @structure.comments_count
-                    %br
                     avis
       .grid__item.four-twelfths.v-bottom>
         %a.v-middle{ href: "https://twitter.com/share", class: "twitter-share-button", data: { text: "J'adore \"#{@structure.name}\" @CoursAvenue #{structure_url(@structure)}", lang: "fr", count: 'none'}} Tweet
