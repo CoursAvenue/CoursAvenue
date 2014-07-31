@@ -1,5 +1,5 @@
 - if @is_sleeping and @structure.phone_numbers.any?
-  .push--bottom
+  .push--bottom#contact-panel
     = link_to 'javascript:void(0);', data: { behavior: 'toggleable', el: '.phone_number' }, class: 'btn btn--green btn--full' do
       %i.fa.fa-phone.v-middle
       %span.v-middle Contacter

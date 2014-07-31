@@ -1,5 +1,5 @@
 %header.header.header--pro
-  .main-container.grid--full
+  .main-container.main-container--medium.grid--full
     %h1.accessibility
       CoursAvenue
     .grid__item.one-third.v-middle>
@@ -10,9 +10,9 @@
         %li.soft--right.visuallyhidden--palm
           = link_to 'Accueil', root_path
         %li.soft--right.visuallyhidden--palm
-          = link_to 'Portraits', pro_portraits_path
-        %li.soft--right.visuallyhidden--palm
           = link_to 'Tarifs', pro_pages_price_path
+        %li.soft--right.visuallyhidden--palm
+          = link_to 'Portraits', pro_portraits_path
         %li.soft--right.visuallyhidden--palm
           = render 'shared/question_dropdown_menu'
         - if current_pro_admin

@@ -4,7 +4,7 @@
       Cet établissement n'a pas encore activé son profil
   .panel__body.soft
     - if @structure.logo.present?
-      .media-photo.float--left.push--right= image_tag @structure.logo.url(:thumb), class: 'block', height: 200, width: 200
+      .media-photo.float--right.push--left= image_tag @structure.logo.url(:thumb), class: 'block', height: 200, width: 200
     .gamma.f-weight-bold S'agit-il de votre profil ?
     %p Prenez gratuitement le contrôle de votre profil CoursAvenue pour :
     %ul
@@ -24,7 +24,7 @@
     - similars.each do |structure|
       .inline-block.one-half.very-soft.relative>
         = link_to structure_path(structure), class: 'muted-link opacity-hidden-on-hover__wrapper block' do
-          .push-half--bottom.one-whole.bg-cover{ style: "background-image: url(#{structure.medias.first.thumbnail_url}); height: 200px;"}
+          .push-half--bottom.one-whole.bg-cover{ style: "background-image: url(#{structure.medias.cover_first.first.thumbnail_url}); height: 200px;"}
             - if header_promotion_title_for_structure(structure).present?
               .north.west.absolute
                 .lbl.lbl--small.lbl--yellow
@@ -33,10 +33,11 @@
             .absolute.text--center.one-whole{ style: 'top: 90px;' }
               .btn.btn--small.btn--blue.opacity-hidden-on-hover__child Voir le profil
           .grid--full{ data: { similar_profile: true, structure_id: structure.id } }
-            .grid__item.v-top.one-fifth>
-              .media-photo{ itemprop: 'image', content: structure.logo.url }= image_tag structure.logo.url(:thumb)
             .grid__item.v-top.four-fifths.soft-half--left>
               %h6.inline-block.push-half--bottom= truncate(structure.name, length: 40)
               %div= truncate(structure.places.map(&:city).uniq.map(&:name).join(', '), length: 40)
               %div
                 %i= truncate(structure.subjects.roots.uniq.map(&:name).join(', '), length: 40)
+            .grid__item.v-top.one-fifth>
+              .relative{ style: 'top: -45px', itemprop: 'image', content: structure.logo.url }
+                = image_tag structure.logo.url(:thumb), class: 'bordered rounded--circle'
