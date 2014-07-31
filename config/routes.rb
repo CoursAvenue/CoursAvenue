@@ -42,11 +42,7 @@ CoursAvenue::Application.routes.draw do
         collection do
           get :list
         end
-        resources :medias, controller: 'portraits/medias', path: 'photos-videos' do
-          member do
-            put :make_it_cover
-          end
-        end
+        resources :medias, controller: 'portraits/medias'
       end
 
       resources :blog_articles, controller: 'blog/articles', path: 'blog'

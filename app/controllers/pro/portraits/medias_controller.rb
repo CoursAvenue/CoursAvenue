@@ -21,23 +21,25 @@ class Pro::Portraits::MediasController < Pro::ProController
     end
   end
 
+  def update
+    @image = @portrait.medias.find params[:id]
+    @image.update_attributes params[:media]
+    respond_to do |format|
+      format.js { render nothing: true }
+    end
+  end
+
+  def destroy
+    @image = @portrait.medias.find params[:id]
+    @image.destroy
+    respond_to do |format|
+      format.html { redirect_to edit_pro_portrait_path(@image.mediable) }
+      format.js { render nothing: true }
+    end
+  end
+
   def new
     @image = Media::Image.new mediable: @portrait
-  end
-
-  def edit
-    @image = @portrait.medias.find params[:id]
-  end
-
-  def make_it_cover
-    @image                  = @portrait.medias.find params[:id]
-    @portrait_cover_images = @portrait.medias.images.cover
-    @portrait_cover_images.map { |image| image.cover = false; image.save }
-    @image.cover = true
-    @image.save
-    respond_to do |format|
-      format.html { redirect_to pro_portraits_path(@portrait), notice: 'Votre image est maintenant visible par défaut sur votre page profil' }
-    end
   end
 
   private
