@@ -32,14 +32,4 @@
         }, function() {
             $('#first-photo-helper').addClass('visibility-hidden');
         });
-        // --------- FilePicker
-        var convertImages;
-        $('#media_image_url').change(function(event) {
-            var image_string = [];
-            _.each(event.originalEvent.fpfiles, function(file) {
-                image_string.push(file.url + ';' + file.key);
-            });
-            $(this).val(image_string.join(','));
-            $('#image-form').submit();
-        });
     });

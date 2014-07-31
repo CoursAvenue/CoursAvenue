@@ -1,0 +1,72 @@
+= simple_form_for [:pro, @portrait] do |f|
+
+  = f.input :visible, as: :boolean
+  = f.input :thumb_title
+  = f.input :thumb_subtitle
+  = f.input :title
+  = f.input :quote
+  = f.input :quote_name
+  = f.input :top_line
+  = f.input :content, as: :ckeditor
+  = f.input :bottom_line
+
+  = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours...' }
+
+- if @portrait.persisted?
+  %hr
+
+  %h3 Images
+
+  - @image = Media::Image.new mediable: @portrait
+  = simple_form_for [:pro, @portrait, @image], url: pro_portrait_medias_path(@portrait), remote: true, html: { id: 'image-form' } do |f|
+    = f.error_notification
+    .text--center
+      = f.filepicker_field :url, multiple: true, button_text: 'Choisir mes photos', button_class: 'btn btn--blue btn--large', services: 'COMPUTER,FACEBOOK,DROPBOX,BOX,FLICKR,PICASA,INSTAGRAM,URL', dragdrop: true, drag_text: 'Ou glissez vos photos ici', drag_class: 'filepicker__dropzone push-half--top', store_location: 'S3', store_path: @image.s3_media_path, store_access: 'public'
+      = f.input :thumbnail_url, as: :hidden
+    %h4#preview-title.hidden.push-half--ends Aperçu
+    #preview
+    .text--center= link_to 'Retour à la galerie', pro_portrait_medias_path(@portrait)
+
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          var convertImages;
+          $('#media_image_url').change(function(event) {
+              $('#preview-title').show();
+              var $preview = $('#preview').empty();
+              var image_string = [];
+              _.each(event.originalEvent.fpfiles, function(file) {
+                  image_string.push(file.url + ';' + file.key);
+                  $preview.append($('<img>', {src: file.url, style: 'height: 100px;', class: 'push-half--right'}));
+              });
+              $(this).val(image_string.join(','));
+              $('#image-form').submit();
+          });
+      });
+
+
+  - @medias.each_with_index do |media, index|
+    .soft-half.inline-block.one-third>
+      .media__item.one-whole.relative.gray-box
+        %a.bg-cover.break-all.soft-half.hard--bottom.block.show-on-hover-wrapper.relative{ href: media.url, title: media.caption, style: "height: 200px; background-image: url(#{media.thumbnail_url})", data: { behavior: 'fancy' } }
+          .show-on-hover.absolute.absolute--center.text--center
+            %i.fa.fa-eye.fa-4x.white
+        .soft-half
+          = simple_form_for [:pro, @portrait, media], url: pro_portrait_media_path(@portrait, media), remote: true, as: :media, html: { data: { behavior: 'live-form' } } do |f|
+            = f.input :caption, as: :string, label: false, input_html: { class: 'one-whole media_caption input--large', placeholder: 'Position' }, wrapper_html: { class: 'flush--top push-half--bottom' }
+          = link_to pro_portrait_media_path(@portrait, media), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce média ?' }, title: 'Supprimer', class: 'btn btn--small btn--red' do
+            Supprimer
+
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('#media_image_url').change(function(event) {
+            var image_string = [];
+            _.each(event.originalEvent.fpfiles, function(file) {
+                image_string.push(file.url + ';' + file.key);
+            });
+            $(this).val(image_string.join(','));
+            $('#image-form').submit();
+        });
+    });

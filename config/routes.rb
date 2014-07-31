@@ -15,7 +15,6 @@ CoursAvenue::Application.routes.draw do
       get '/premium'                            => 'redirect#structures_premium'
 
       get 'pages/offre-speciale-premiers-partenaires' => 'home#july_offer',   as: 'pages_july_offer'
-      get 'pages/portraits'                     => 'home#portraits',          as: 'pages_portraits'
       get 'pages/livres-blancs'                 => 'home#white_book',         as: 'pages_white_books'
       get 'mailjet_custo'                       => 'home#mailjet_custo'
       get 'pages/pourquoi-etre-recommande'      => 'home#why_be_recommended', as: 'pages_why_be_recommended'
@@ -28,6 +27,8 @@ CoursAvenue::Application.routes.draw do
       get 'pages/portes-ouvertes-cours-loisirs' => 'home#jpo',                as: 'pages_jpo'
       get 'pages/journees-portes-ouvertes'      => redirect('pages/portes-ouvertes-cours-loisirs', status: 301)
       get '/dashboard'                          => 'dashboard#index',         as: 'dashboard'
+
+
       # 301 Redirection
       get 'etablissements/demande-de-recommandations', to: 'redirect#structures_new'
       get 'inscription'                              , to: 'structures#new'
@@ -36,6 +37,17 @@ CoursAvenue::Application.routes.draw do
       get 'tableau-de-bord'                          , to: 'redirect#structure_dashboard', as: 'structure_dashboard_redirect'
       get 'modifier-mon-profil'                      , to: 'redirect#structure_edit',      as: 'structure_edit_redirect'
       get 'etablissements/:structure_id/journees-portes-ouvertes', to: 'redirect#structures_jpo_index'
+
+      resources :portraits, controller: 'portraits' do
+        collection do
+          get :list
+        end
+        resources :medias, controller: 'portraits/medias', path: 'photos-videos' do
+          member do
+            put :make_it_cover
+          end
+        end
+      end
 
       resources :blog_articles, controller: 'blog/articles', path: 'blog'
       resources :metrics, only: [] do

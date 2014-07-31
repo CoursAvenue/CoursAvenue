@@ -6,6 +6,7 @@
       = pro_side_menu_link 'statistics'           , pro_statistics_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)              , current: current_tab, icon: 'fa fa-bar-chart-o'
       = pro_side_menu_link 'subscription_plans'   , pro_subscription_plans_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)                , current: current_tab, icon: 'fa fa-credit-card'
       = pro_side_menu_link 'blog'                 , pro_blog_articles_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)              , current: current_tab, icon: 'fa fa-book'
+      = pro_side_menu_link 'portraits'            , list_pro_portraits_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)              , current: current_tab, icon: 'fa fa-user'
       = pro_side_menu_link 'teachers'             , pro_admins_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)                , current: current_tab, icon: 'fa fa-group'
       = pro_side_menu_link 'last_comments'        , pro_comments_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)              , current: current_tab, icon: 'fa fa-comment'
       = pro_side_menu_link 'students_invitations' , pro_comment_notifications_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN) , current: current_tab, icon: 'fa fa-group'
