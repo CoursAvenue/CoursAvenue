@@ -815,6 +815,7 @@ class Structure < ActiveRecord::Base
     :plannings      => 5,
     :ratings        => 3,
     :logo           => 2,
+    :response_rate  => 3,
     :response_time  => 3,
     :external_links => 1,
     :promotions     => 5
@@ -837,9 +838,8 @@ class Structure < ActiveRecord::Base
         score += (1 * SEARCH_SCORE_COEF[:medias])
       end
       ## Plannings
-      if self.plannings.visible.future.count > 0
-        courses = self.plannings.visible.future.map(&:course).select(&:price_group_id)
-        if courses.length > 0
+      if self.courses.detect(&:is_published?)
+        if self.courses.select(&:is_published?).detect(&:price_group)
           score += (2 * SEARCH_SCORE_COEF[:plannings])
         else
           score += (1 * SEARCH_SCORE_COEF[:plannings])
@@ -850,7 +850,7 @@ class Structure < ActiveRecord::Base
         score += (3 * SEARCH_SCORE_COEF[:ratings])
       elsif self.comments_count > 5
         score += (2 * SEARCH_SCORE_COEF[:ratings])
-      elsif self.comments_count > 1
+      elsif self.comments_count > 0
         score += (1 * SEARCH_SCORE_COEF[:ratings])
       end
       ## Logo
@@ -861,10 +861,16 @@ class Structure < ActiveRecord::Base
       if self.premium? and (self.facebook_url.present? or self.website.present?)
         score += (1 * SEARCH_SCORE_COEF[:external_links])
       end
-      ## Response_time
+      ## Response_rate
       if self.response_rate.nil? or self.response_rate.to_i >= 80
-        score += (2 * SEARCH_SCORE_COEF[:response_time])
+        score += (2 * SEARCH_SCORE_COEF[:response_rate])
       elsif self.response_rate and self.response_rate.to_i >= 50
+        score += (1 * SEARCH_SCORE_COEF[:response_rate])
+      end
+      ## Response_time
+      if self.response_time.nil? or self.response_time.to_i < 24
+        score += (2 * SEARCH_SCORE_COEF[:response_time])
+      elsif self.response_time and self.response_time.to_i < 120
         score += (1 * SEARCH_SCORE_COEF[:response_time])
       end
       ## Promotions
