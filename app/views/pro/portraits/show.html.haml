@@ -12,9 +12,10 @@
   .grid
     .grid__item.two-thirds>
       .blog-article__content
-        .soft.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{@portrait.medias.order('caption DESC').limit(1).offset(0).first.url});" }>
-          %p.epsilon.white= @portrait.top_line_about
-          %p.white= @portrait.top_line
+        .bg-cover.soft.soft-black-text-shadow.relative{ style: "background-image: url(#{@portrait.medias.order('caption DESC').limit(1).offset(0).first.url}); height: 400px;" }>
+          .absolute.south
+            %p.epsilon.white= @portrait.top_line_about
+            %p.white= @portrait.top_line
 
         = @portrait.content.html_safe
 
@@ -22,5 +23,5 @@
           %p.white.absolute.south= @portrait.bottom_line
 
     .grid__item.one-third>
-      - @images.offset(1).limit(7).each do |image|
+      - @images.offset(7).limit(7).each do |image|
         .bg-cover{ style: "background-image: url(#{image.thumbnail_url}); height: 400px;" }>
