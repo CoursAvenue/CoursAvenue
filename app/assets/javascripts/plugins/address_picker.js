@@ -48,13 +48,14 @@
                 this.$element.typeahead('val', data.address_name);
             }.bind(this));
             template = Handlebars.compile(this.options.template_string);
-
+            this.latest_results = [];
             var engine   = new Bloodhound({
                 datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.num); },
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
                 remote: {
                     url: 'https://maps.googleapis.com/maps/api/geocode/json?address=%QUERY&components=country:FR&sensor=false&region=fr',
                     filter: function (parsedResponse) {
+                        this.latest_results = parsedResponse.results;
                         // query = query + ' France';
                         return _.map(parsedResponse.results, function (result) {
                             var city, arrAddress = result.address_components;
@@ -72,10 +73,19 @@
                                 address_name: result.formatted_address
                             };
                         });
-                    }
+                    }.bind(this)
                 }
             });
             engine.initialize();
+            // Select first of latest results when blurring the input
+            this.$element.blur(function() {
+                if (this.latest_results.length > 0) {
+                    this.input_lat.val(this.latest_results[0].geometry.location.lat);
+                    this.input_lng.val(this.latest_results[0].geometry.location.lng);
+                    this.input_city.val(this.latest_results[0].formatted_address);
+                    this.$element.typeahead('val', this.latest_results[0].formatted_address);
+                }
+            }.bind(this));
             this.$element.typeahead({
                 highlight : true,
                 minLength: 1,
