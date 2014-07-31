@@ -20,8 +20,8 @@ class StructureDecorator < Draper::Decorator
     end
 
     output = ''
-    _subjects.sort{ |a, b| b[:child_length] <=> a[:child_length] }.each do |subject_hash|
-      output << "<div class='push-half--bottom'><strong>#{subject_hash[:root_name]} :</strong>"
+    _subjects.sort{ |a, b| b[:child_length] <=> a[:child_length] }.each_with_index do |subject_hash, index|
+      output << "<div class='#{index > 0 ? 'push-half--top' : ''}'><strong>#{subject_hash[:root_name]} :</strong>"
       subject_hash[:child_names].each do |child_name|
         output << "<br>- #{child_name}"
       end

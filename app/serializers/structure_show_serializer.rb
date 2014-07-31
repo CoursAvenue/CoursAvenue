@@ -40,7 +40,7 @@ class StructureShowSerializer < ActiveModel::Serializer
   end
 
   def description_short
-    truncate(object.description, length: 300, separator: ' ') if object.description
+    truncate(object.description, length: 600, separator: ' ') if object.description
   end
 
   def structure_type
