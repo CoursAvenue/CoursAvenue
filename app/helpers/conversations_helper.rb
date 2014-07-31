@@ -2,11 +2,11 @@
 module ConversationsHelper
 
   def conversation_extra_infos(conversation)
-    extra_infos = Mailboxer::ExtraInfo.find(conversation.mailboxer_extra_info_ids.split(','))
+    extra_infos = Mailboxer::ExtraInfo.find(conversation.mailboxer_extra_info_ids.split(',')) if conversation.mailboxer_extra_info_ids.present?
   end
 
   def conversation_courses(conversation, structure)
-    courses = structure.courses.find(conversation.mailboxer_course_ids.split(','))
+    courses = structure.courses.find(conversation.mailboxer_course_ids.split(',')) if conversation.mailboxer_course_ids.present?
   end
 
   def conversation_label(conversation, options={})

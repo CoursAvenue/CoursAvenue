@@ -30,6 +30,6 @@ class Course::Training < Course
 
   def expired?
     return true if plannings.empty?
-    plannings.map(&:end_date).compact.sort.last < Date.today
+    (plannings.map(&:end_date).compact.sort.last || Date.yesterday) < Date.today
   end
 end
