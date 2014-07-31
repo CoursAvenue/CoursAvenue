@@ -16,7 +16,7 @@
     - if @medias.any?
       .premium-box.soft.rounded.text--center.relative
         = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 80, width: 80, style: 'width: 80px; height: 80px;'
-        = render partial: 'pro/structures/premium_select', locals: { title: "afficher plus d'une photo / vidéo à tous les utilisateurs CoursAvenue ?", subtitle: "Souscrivez au profil Premium et affichez toutes vos photos / vidéos pour monter dans les résultats.", label_text: "Afficher plus d'une photo / vidéo sur mon profil :", select_collection: ['Actif', 'Non actif'] }
+        = render partial: 'pro/structures/premium_select', locals: { title: "afficher plus de photos / vidéos à tous les utilisateurs CoursAvenue ?", subtitle: "Souscrivez au profil Premium et affichez toutes vos photos / vidéos pour monter dans les résultats.", label_text: "Afficher plus de photos / vidéos sur mon profil :", select_collection: ['Actif', 'Non actif'] }
 
       %p.soft-half--top.soft--sides.flush#first-photo-helper.visibility-hidden
         %strong Votre première photo / vidéo figure dans les résultats de recherche !
@@ -31,15 +31,5 @@
             $('#first-photo-helper').removeClass('visibility-hidden');
         }, function() {
             $('#first-photo-helper').addClass('visibility-hidden');
-        });
-        // --------- FilePicker
-        var convertImages;
-        $('#media_image_url').change(function(event) {
-            var image_string = [];
-            _.each(event.originalEvent.fpfiles, function(file) {
-                image_string.push(file.url + ';' + file.key);
-            });
-            $(this).val(image_string.join(','));
-            $('#image-form').submit();
         });
     });

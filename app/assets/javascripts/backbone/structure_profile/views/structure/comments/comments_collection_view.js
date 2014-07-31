@@ -6,22 +6,18 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
         template: Module.templateDirname() + 'comments_collection_view',
         itemViewContainer: '[data-type=container]',
 
-        initialize: function() {
-            if (this.collection.length == 0) {
-                this.$('[data-empty-comments]').show();
-            }
+        initialize: function(options) {
+            this.about = options.about;
             this.pagination_bottom = new CoursAvenue.Views.PaginationToolView({});
-            this.pagination_top    = new CoursAvenue.Views.PaginationToolView({});
             this.pagination_bottom.on('pagination:next', this.nextPage.bind(this));
             this.pagination_bottom.on('pagination:prev', this.prevPage.bind(this));
             this.pagination_bottom.on('pagination:page', this.goToPage.bind(this));
-            this.pagination_top.on('pagination:next', this.nextPage.bind(this));
-            this.pagination_top.on('pagination:prev', this.prevPage.bind(this));
-            this.pagination_top.on('pagination:page', this.goToPage.bind(this));
             this.announcePaginatorUpdated();
         },
 
         onAfterShow: function onAfterShow () {
+            var new_html = this.$('[data-empty-comments]').html().replace('__about__', _.capitalize(this.about || 'Ce profil'));
+            this.$('[data-empty-comments]').html(new_html);
             if (this.collection.length == 0) {
                 this.$('[data-empty-comments]').show();
             } else {
@@ -31,7 +27,6 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
 
         onRender: function onRender () {
             this.$('[data-type="bottom-pagination-tool"]').append(this.pagination_bottom.el);
-            this.$('[data-type="top-pagination-tool"]').append(this.pagination_top.el);
         },
 
         announcePaginatorUpdated: function announcePaginatorUpdated () {
@@ -46,7 +41,6 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
                 next_page_query:     this.collection.nextQuery()
             };
             this.pagination_bottom.reset(data);
-            this.pagination_top.reset(data);
         },
 
         itemViewOptions: function itemViewOptions () {

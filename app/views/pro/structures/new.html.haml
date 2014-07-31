@@ -1,7 +1,7 @@
 = content_for :title do
   Publiez vos cours gratuitement et recruter de nouveaux élèves.
 
-.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background.jpg'})" }
+.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background.jpg'})", 'data-stellar-background-ratio' => '0.6' }
   .main-container.soft.text--center
     %header
       %h1.flush
@@ -9,7 +9,7 @@
       .delta.line-height-1-7
         CoursAvenue vous permet de recruter de nouveaux élèves.
         %br
-        Gratuitement.
+        Remplacer par "Gratuit et sans engagement.
 
 .soft.panel-background-blue-radial
   .main-container
@@ -75,10 +75,10 @@
               = place_form.association :city, collection: [@structure.city], label: false, wrapper_html: { style: 'width: 10em;' }, input_html: { class: 'input--large one-whole' }, wrapper_html: { class: 'flush' }
 
       = f.input :contact_email, as: :hidden
-
-
-      .push--bottom.text--center
-        = f.submit 'Continuer', class: 'btn--large btn btn--large btn--green', data: { disable_with: "Profil en cours de création" }
+      .grid.push--bottom
+        .grid__item.one-third.text--right.v-middle>
+        .grid__item.v-middle.two-thirds>
+          = f.submit 'Continuer', class: 'btn--large btn btn--full btn--green', data: { disable_with: "Profil en cours de création" }
 
 .home-screen-promotion-wrapper.soft
   .main-container.main-container--medium.soft
@@ -95,6 +95,10 @@
         %i.fa.fa-eye.fa-3x.orange
         %h3.soft-half--top Transparence
         %p Grâce à votre outil de statistiques, suivez au quotidien le nombre de fois que votre profil apparaît dans les résultats de recherche.
+    %h5.text--center.push-half--bottom Pourquoi CoursAvenue ?
+    %p.epsilon.text--center
+      L'objectif de CoursAvenue est de relier les Français aux meilleurs cours de loisirs locaux.
+      = link_to 'En savoir plus', root_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
 
 .main-container.main-container--medium.soft--ends
   %h2.text--center.push--bottom.soft--ends.f-weight-300

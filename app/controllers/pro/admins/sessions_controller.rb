@@ -1,5 +1,6 @@
 class Pro::Admins::SessionsController < Devise::SessionsController
-  layout 'admin'
+
+  layout 'admin_pages'
 
   def after_sign_in_path_for(admin)
     # Prevent from infininte loop
@@ -22,5 +23,13 @@ class Pro::Admins::SessionsController < Devise::SessionsController
 
   def after_sign_out_path_for(admin)
     request.referrer || root_path
+  end
+
+  def new
+    if request.xhr?
+      render partial: 'new_popup'
+    else
+      render
+    end
   end
 end

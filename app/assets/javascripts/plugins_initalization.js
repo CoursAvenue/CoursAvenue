@@ -1,6 +1,6 @@
 $(function() {
     // Setting default settings of Fancybox
-    $.fancybox.defaults.tpl.closeBtn = '<a title="Fermer" class="fancybox-item fancybox-close fa fa-times" href="javascript:;"></a>';
+    $.fancybox.defaults.tpl.closeBtn = '<a title="Fermer" class="fancybox-item fancybox-close fa fa-close" href="javascript:;"></a>';
     $.fancybox.defaults.afterShow = function () {
         $.each(global.initialize_callbacks, function(i, func) { func(); });
     };
@@ -104,5 +104,18 @@ $(function() {
 
     $('[data-behavior=sticky]').each(function(index, el) {
         $(this).sticky(this.dataset);
+    });
+
+    $.stellar({ horizontalScrolling: false });
+
+    $('body').on('click', '[data-behavior=scroll-to]', function(event) {
+        if ($(this).data('wrapper')) {
+            $($(this).data('wrapper')).scrollTo($(this.hash), { duration: 500, offset: { top: $(this).data('offset-top') || 0 } });
+        } else {
+            $.scrollTo($(this.hash), { duration: 500, offset: { top: $(this).data('offset-top') || 0 } });
+        }
+        if (!$(this).data('bubble')) {
+            return false;
+        }
     });
 });

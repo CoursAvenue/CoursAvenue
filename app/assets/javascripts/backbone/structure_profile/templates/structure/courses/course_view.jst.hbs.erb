@@ -1,206 +1,196 @@
-<div class="panel border-none--sides push-half--bottom">
-    <div class="soft-half panel__header">
-        <h3 class="epsilon push-half--bottom">{{ name }}</h3>
-        <div class="gray">
-            {{#if subjects }}
-                <i class="fa fa-tags"></i>
-                {{ subjects }}
-            {{/if}}
-        </div>
+<div class="bordered--bottom-on-stick soft--ends bg-white relative" id="course-{{id}}" data-type="course-view-title">
+  <h3 class="v-middle flush inline-block delta">{{ name }}</h3>
+  {{#if promotion_title}}
+    <a href="#course-{{id}}-tarifs" class="v-middle lbl lbl--yellow muted-link push-half--left" data-behavior='scroll-to' data-offset-top='-115'><i class="fa-star"></i> {{ promotion_title }}</a>
+  {{/if}}
+</div>
+<div class="flexbox push--bottom">
+    <div class="flexbox__item v-top one-quarter">
+        <strong class="gray-light">Description</strong>
     </div>
-    <div class="flexbox panel__body">
-        <ul class="tabs--stacked flexbox__item v-top one-fifth">
-            <li class="active">
-                <a data-toggle="tab" href="#tab-plannings-course-{{id}}">Planning</a>
-            </li>
-            <li>
-                <a data-toggle="tab" href="#tab-description-course-{{id}}">Description</a>
-            </li>
-            <li class="relative">
-                <a data-toggle="tab" href="#tab-price-course-{{id}}">
-                    Tarifs
-                    {{#if premium}} <!-- AND --> {{#if has_premium_prices}}
-                            <img src="<%= asset_path 'icons/star-ribbon.png' %>" class='north west absolute on-top' height='40', width='40' style='width: 40px; height: 40px;' />
-                            <div><strong class="green">Promotionnels</strong></div>
-                    {{/if}} {{/if}}
-                </a>
-            </li>
-        </ul>
-        <div class="flexbox__item v-top four-fifths soft-half--sides">
-            <div class="tab-content">
-                <article id="tab-plannings-course-{{id}}" class="tab-pane active hard--top">
-                    {{#if on_appointment}}
-                    <p class="soft">
-                        <i>Pas de créneau précis, uniquement sur demande.</i>
-                        <br>
-                        {{#if course_location}}
-                            {{course_location}}
-                            <br>
-                        {{/if}}
-                        <a data-behavior="modal" data-padding="0" data-width="450" href="#contact-panel">Envoyer un message au professeur pour connaître ses disponibilités.</a>
-                    </p>
-                    {{/if}}
-                    <table class="table--striped table--data-small {{#if on_appointment}}hidden{{/if}}">
-                        <thead>
-                            <tr>
-                                <th>Jour</th>
-                                <th>Horaire</th>
-                                <th>Niveau</th>
-                                <th>Public</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody data-type="plannings-container"></tbody>
-                    </table>
-                </article>
-                <article id="tab-description-course-{{id}}" class="tab-pane">
-                    <table class="float--right one-third table--data-small table--striped bordered">
-                        <tbody>
-                            {{#if teaches_at_home}}
-                                <tr>
-                                    <td class="f-size-12">
-                                        <i class="fa fa-home"></i> Cours à domicile {{#if teaches_at_home_radius}}(dans un rayon de {{teaches_at_home_radius}}km){{/if}}
-                                    </td>
-                                </tr>
-                            {{/if}}
-                            {{#if is_individual}}
-                                <tr>
-                                    <td class="f-size-12"><i class="fa fa-user"></i> Cours individuel</td>
-                                </tr>
-                            {{else}}
-                                <tr>
-                                    <td class="f-size-12"><i class="fa fa-group"></i> Cours collectif</td>
-                                </tr>
-                            {{/if}}
-                            {{#if is_lesson}}
-                                <tr>
-                                    <td class="f-size-12"><i class="fa fa-clock-o"></i> Cours régulier</td>
-                                </tr>
-                                <tr>
-                                    <td class="f-size-12">{{frequency}} du {{start_date}} au {{end_date}}</td>
-                                </tr>
-                            {{/if}}
-                            {{#if cant_be_joined_during_year}}
-                                <tr>
-                                    <td class="f-size-12">Pas d'inscription en cours d'année</td>
-                                </tr>
-                            {{/if}}
-                            {{#if no_class_during_holidays}}
-                                <tr>
-                                    <td class="f-size-12">Pas de cours pendant les vacances scolaires</td>
-                                </tr>
-                            {{/if}}
-                            {{#if is_private}}
-                                <tr>
-                                    <td class="f-size-12">
-                                        {{audiences}}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="f-size-12">
-                                        {{levels}}
-                                    </td>
-                                </tr>
-                            {{/if}}
-                        </tbody>
-                    </table>
-                    {{#if description }}
-                        {{{ simple_format_hide_contacts description }}}
-                    {{else}}
-                        Pas de description pour ce cours.
-                    {{/if}}
-                </article>
-                <article id="tab-price-course-{{id}}" class="tab-pane">
-                    <table class="table--striped table--data">
-                        <thead>
-                            <tr>
-                                <th class="three-twelfths">Type de formule</th>
-                                <th class="one-twelfth  text--center">Prix</th>
-                                {{#if premium}}
-                                    <th class="one-twelfth  text--center">Promotions</th>
-                                {{/if}}
-                                <th class="{{#if premium}}six-twelfths{{else}}eight-twelfths{{/if}}">Info</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {{#each book_tickets}}
-                                <tr>
-                                    <td>{{libelle}}</td>
-                                    <td class="text--right {{#if promo_amount}}line-through{{/if}}">{{amount}}€</td>
-                                    {{#if ../premium}}
-                                        <td class="green text--center">
-                                            <strong>{{#if promo_amount}}{{promo_amount}}€{{/if}}</strong>
-                                        </td>
-                                    {{/if}}
-                                    <td>{{{ hide_contacts info }}}</td>
-                                </tr>
-                            {{/each}}
-                            {{#each subscriptions}}
-                                <tr>
-                                    <td>{{libelle}}</td>
-                                    <td class="text--right {{#if promo_amount}}line-through{{/if}}">{{amount}}€</td>
-                                    {{#if ../premium}}
-                                        <td class="green text--center">
-                                            <strong>{{#if promo_amount}}{{promo_amount}}€{{/if}}</strong>
-                                        </td>
-                                    {{/if}}
-                                    <td>{{{ hide_contacts info }}}</td>
-                                </tr>
-                            {{/each}}
-                            {{#each registrations}}
-                                <tr>
-                                    <td>Adhésion</td>
-                                    <td class="text--right">
-                                        {{#ifCond amount '==' '0'}}
-                                            Gratuite
-                                        {{else}}
-                                            {{amount}}€
-                                        {{/ifCond}}
-                                    </td>
-                                    <td>{{{ hide_contacts info }}}</td>
-                                </tr>
-                            {{/each}}
-                            {{#if premium}}
-                                {{#xif "this.trials.length > 0 || this.premium_offers.length > 0 || this.discounts.length > 0" }}
-                                <tr>
-                                    <th colspan="4" class=" soft-half--ends text--left bordered--top epsilon green">Promotions</th>
-                                </tr>
-                                {{/xif}}
-                                {{#each trials}}
-                                    <tr>
-                                        <td>{{libelle}}</td>
-                                        <td class="text--right">
-                                            {{#ifCond amount '==' '0'}}
-                                                Gratuit
-                                            {{else}}
-                                                {{amount}}€
-                                            {{/ifCond}}
-                                        </td>
-                                        <td></td>
-                                        <td>{{{ hide_contacts info }}}</td>
-                                    </tr>
-                                {{/each}}
-                                {{#each premium_offers}}
-                                    <tr>
-                                        <td>{{libelle}}</td>
-                                        <td class="text--right">{{promo_amount}}{{promo_amount_type}}</td>
-                                        <td></td>
-                                        <td>{{{ hide_contacts info }}}</td>
-                                    </tr>
-                                {{/each}}
-                                {{#each discounts}}
-                                    <tr>
-                                        <td>{{libelle}}</td>
-                                        <td class="text--right">{{promo_amount}}{{promo_amount_type}}</td>
-                                        <td></td>
-                                        <td>{{{ hide_contacts info }}}</td>
-                                    </tr>
-                                {{/each}}
-                            {{/if}}
-                        </tbody>
-                    </table>
-               </article>
+    <div class="flexbox__item v-top three-quarters">
+        {{#if description}}
+            {{#ifCond description '!=' description_short}}
+            <div id="course-{{id}}-description-short" class="gray last-p-push-half--bottom">
+                {{{ simple_format_hide_contacts description_short }}}
             </div>
+            <a href="#" data-behavior="show-long-version" data-short-version="#course-{{id}}-description-short" data-long-version="#course-{{id}}-description-long">
+            + Plus
+            </a>
+            <div id="course-{{id}}-description-long" class="gray hidden" itemprop="description">
+                {{{ simple_format_hide_contacts description }}}
+            </div>
+            {{else}}
+            <div class="gray" itemprop="description">
+                {{{ simple_format_hide_contacts description }}}
+            </div>
+            {{/ifCond}}
+        {{else}}
+            <div class="gray" itemprop="description">
+                Pas de description
+            </div>
+        {{/if}}
+    </div>
+</div>
+{{#if on_appointment}}
+    {{#if course_location}}
+      <div class="flexbox push--bottom">
+          <div class="flexbox__item v-top one-quarter">
+              <strong class="gray-light text--right">Lieux</strong>
+          </div>
+          <div class="flexbox__item v-top three-quarters">
+              {{{ course_location }}}
+          </div>
+      </div>
+    {{/if}}
+{{/if}}
+<div class="flexbox push--bottom">
+    <div class="flexbox__item v-top one-quarter">
+        <strong class="gray-light">Détails</strong>
+    </div>
+    <div class="flexbox__item v-top three-quarters">
+        <div><!--
+         -->{{#each details}}<!--
+          --><div class="inline-block one-half v-middle push-half--bottom soft-half--right {{#ifCond @index '>' 1}}course-{{../../id}}-details-long hidden{{/ifCond}}">
+                <div class="flexbox">
+                    <div class="flexbox__item v-middle two-twelfths text--center">
+                        <i class="fa {{this.icon}} v-middle" title="{{this.alt}}"></i>
+                    </div>
+                    <div class="flexbox__item v-middle ten-twelfths">
+                        {{this.text}}
+                    </div>
+                </div>
+            </div><!--
+         -->{{#ifCond @index '==' 2}}<!--
+             --><a href="#" data-behavior="show-long-version" data-long-version=".course-{{../../id}}-details-long">
+                    + Plus
+                </a><!--
+         -->{{/ifCond}}<!--
+         -->{{/each}}<!--
+      --></div>
+    </div>
+</div>
+<div class="flexbox push--bottom">
+    <div class="flexbox__item v-top one-quarter">
+        <strong class="gray-light">Planning</strong>
+    </div>
+    <div class="flexbox__item v-top three-quarters">
+        {{#if on_appointment}}
+          Cours particuliers sur demande. <a href="#" data-behavior="show-contact-panel">Contactez {{ about }}</a> pour prendre un rendez-vous.
+        {{/if}}
+        <table class="table--striped table--data table--data-small {{#if on_appointment}}hidden{{/if}}">
+            <thead class="gray-light">
+                <tr>
+                    <th class="one-tenths">Jour</th>
+                    <th class="two-tenths text--center">Horaires</th>
+                    <th class="two-tenths">Niveau</th>
+                    <th class="two-tenths">Public</th>
+                    <th class="three-tenths">Lieu</th>
+                    <th><i class="fa fa-info"></i></th>
+                </tr>
+            </thead>
+            <tbody data-type="plannings-container"></tbody>
+        </table>
+    </div>
+</div>
+
+<div class="flexbox push--bottom" id="course-{{id}}-tarifs">
+    <div class="flexbox__item v-top one-quarter">
+        <strong class="gray-light v-middle">Tarifs</strong>
+    </div>
+    <div class="flexbox__item v-top three-quarters">
+        <table class="table--striped table--data table--data-small">
+            <thead class="gray-light">
+                <tr>
+                    <th class="three-twelfths">Formule</th>
+                    <th class="two-twelfths text--center">Prix</th>
+                    <th class="two-twelfths text--center">Promotion</th>
+                    <th class="five-twelfths"><i class="fa fa-info"></i></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#if premium}}
+                {{#if premium_prices}}
+                {{#each premium_prices}}
+                    <tr>
+                        <td class="nowrap">
+                            <img src="<%= asset_path('icons/icon-star-yellow-full-bordered.png') %>" height="14" class="v-middle" data-toggle="tooltip" data-title="Offre spéciale CoursAvenue">
+                            <span class="v-middle">
+                            {{#if this.discount}} {{ this.libelle_type }} {{else}} {{ this.libelle }} {{/if}}
+                            </span>
+                        </td>
+                        <td class="text--center">
+                            <strong class="green">{{this.amount}}</strong>
+                        </td>
+                        <td class="text--center">
+                            <strong class="green">{{this.promo_amount}}</strong>
+                        </td>
+                        <td>{{{ hide_contacts this.info }}}</td>
+                    </tr>
+                {{/each}}
+                {{/if}}
+                {{/if}}
+                {{#each prices}}
+                    {{#ifCond @index '==' 2}}
+                        <tr data-behavior="show-long-version" data-long-version=".course-{{../../id}}-prices-long">
+                          <td colspan="4" class="text--left">
+                              <a href="#" class="block">
+                              + Plus
+                              </a>
+                          </td>
+                        </tr>
+                    {{/ifCond}}
+                    <tr class="{{#ifCond @index '==' 0}}bordered--top{{/ifCond}} {{#ifCond @index '>' 1}}course-{{../../id}}-prices-long hidden{{/ifCond}}">
+                        <td>
+                            {{#if ../premium}}{{#if this.promo_amount}}
+                            <img src="<%= asset_path('icons/icon-star-yellow-full-bordered.png') %>" height="14" class="v-middle" data-toggle="tooltip" data-title="Offre spéciale CoursAvenue">
+                            {{/if}}{{/if}}
+                              <span class="v-middle">{{this.libelle}}</span>
+                        </td>
+                        <td class="text--center {{#if this.promo_amount}}line-through{{/if}}">
+                            {{#if this.is_free}}
+                              <strong class="green">Gratuit</strong>
+                            {{else}}
+                              {{this.amount}}
+                            {{/if}}
+                        </td>
+                        <td class="text--center">
+                            {{#if ../premium}}
+                              {{#if this.promo_amount}}
+                                <strong class="green">{{this.promo_amount}}</strong>
+                              {{/if}}
+                            {{/if}}
+                        </td>
+                        <td>{{{ hide_contacts this.info }}}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="flexbox push--bottom">
+    <div class="flexbox__item v-top one-quarter">
+        <strong class="gray-light">Disciplines concernées</strong>
+    </div>
+    <div class="flexbox__item v-top three-quarters">
+        <div>
+            {{#each subjects}}
+            <div class="push-half--bottom {{#ifCond @index '>' 0}}course-{{../../id}}-subjects-long hidden{{/ifCond}}">
+                <img src="{{this.icon}}" alt="Disciplines pratiquées : {{this.icon}}" height="16" class="v-middle">
+                <strong>{{this.root_name}} : </strong>{{this.child_names}}
+            </div>
+            {{#ifCond @index '==' 1}}
+                <div>
+                    <a href="#" data-behavior="show-long-version" data-long-version=".course-{{../../id}}-subjects-long">
+                    + Plus
+                    </a>
+                </div>
+            {{/ifCond}}
+            {{/each}}
         </div>
     </div>
 </div>
+{{#unless is_last}}
+<hr class="push--ends">
+{{/unless}}

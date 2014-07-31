@@ -19,16 +19,11 @@
             .media-photo= image_tag structure.logo.url(:thumb)
           .grid__item.v-top.eight-twelfths.soft-half--left>
             %h6.push-half--bottom= structure.name
-            - if structure.has_free_trial_course? or structure.has_promotion?
+            - if structure.premium? and header_promotion_title_for_structure(structure).present?
               .push-half--bottom
-                - if structure.has_free_trial_course?
-                  .lbl.lbl--small.lbl--yellow
-                    %i.fa.fa-tag
-                    Cours d'essai gratuit
-                - elsif structure.has_promotion?
-                  .lbl.lbl--small.lbl--yellow
-                    %i.fa.fa-tag
-                    Promotions
+                .lbl.lbl--small.lbl--yellow
+                  %i.fa.fa-star
+                  = header_promotion_title_for_structure(structure)
             %div
               à
               = readable_distance(Geocoder::Calculations.distance_between([@structure.latitude, @structure.longitude], [structure.latitude, structure.longitude], unit: :km).round(1))

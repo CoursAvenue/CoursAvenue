@@ -1,9 +1,7 @@
 - expanded = false unless expanded.present?
 - medium   = false if medium.nil?
-.print--visible
-  = image_tag 'logo.png', width: 250, height: 50
 %header.header.print--hidden
-  .very-soft.flexbox{class: [medium ? 'main-container--medium' : '', expanded ? '' : 'main-container']}
+  .very-soft.soft-half--sides.flexbox{class: [medium ? 'main-container--medium' : '', expanded ? '' : 'main-container']}
     .flexbox__item.palm-one-whole.v-middle>
       = link_to '', root_path, class: 'v-middle coursavenue-header-logo', title: 'CoursAvenue | Tous les cours autour de vous'
     %nav.text--right.flexbox__item.v-middle.nowrap.visuallyhidden--palm.print--hidden>
@@ -14,13 +12,13 @@
       - else
         .inline-block
           #connection-registration-buttons
-            .inline-block.drop-down__wrapper
+            .inline-block.drop-down__wrapper.soft--right
               = link_to "Inscription", new_user_registration_path, data: { behavior: 'modal', title: 'Connexion', width: 600, padding: 0 }, class: 'fancybox.ajax', onclick: "ga('send', 'event', 'Se créer un compte', 'click','Inscrit')"
-            .inline-block.drop-down__wrapper.soft--sides
+            .inline-block.drop-down__wrapper.soft--right
               = link_to "Connexion", new_user_session_path, data: { behavior: 'modal', title: 'Connexion', width: 600, padding: 0 }, class: 'fancybox.ajax', id: 'connection'
-            .inline-block
-              = link_to 'Publiez vos cours', inscription_pro_structures_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), onclick: "ga('send', 'event', 'Publier vos cours', 'click','Inscrit')", class: 'btn btn--green'
             = render 'shared/help_dropdown'
+            .inline-block.soft--sides
+              = link_to 'Publiez vos cours', inscription_pro_structures_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), onclick: "ga('send', 'event', 'Publier vos cours', 'click','Inscrit')", class: 'btn btn--orange'
 
 
 = content_for :scripts do

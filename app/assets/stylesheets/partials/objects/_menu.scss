@@ -1,3 +1,11 @@
+.top-page-menu{
+    .active {
+        border-bottom: 3px solid $orange;
+        a {
+            font-weight: bold !important;
+        }
+    }
+}
 .page-menu {
     padding: 0;
     li {
@@ -85,12 +93,14 @@ $side-menu-width       : 200px;
                 display     : block;
                 font-size   : 15px;
                 padding     : 0.7em 0 0.7em 1.3em;
-                .fa:first-child {
-                    padding-right: 1em;
-                    width        : 35px;
-                    text-align   : center;
+                i:first-child {
+                    padding-right : 1em;
+                    width         : 35px;
+                    text-align    : center;
+                    font-size     : 18px;
+                    vertical-align: middle;
                 }
-                .fa.completion-icon {
+                i.completion-icon {
                     line-height: 1.5;
                 }
             }

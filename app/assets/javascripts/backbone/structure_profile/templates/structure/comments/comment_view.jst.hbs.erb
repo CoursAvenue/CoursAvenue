@@ -1,4 +1,4 @@
-<article class="soft--sides push--bottom" itemtype="http://schema.org/Review" itemscope="" itemprop="review">
+<article class="push--bottom" itemtype="http://schema.org/Review" itemscope="" itemprop="review">
     <div class="grid--full">
         <div class="grid__item two-twelfths text--center">
             <img height="60" src="<%= asset_path 'icons/avatar.png' %>" alt="Avatar" class="bordered rounded--circle center-block push-half--bottom">
@@ -6,7 +6,7 @@
         </div>{{!--
     --}}<div class="grid__item ten-twelfths">
             <div class="gray-box soft message__appendix">
-                <div itemprop="reviewBody" data-behavior="read-more" class="read-more" style="max-height: none;">
+                <div itemprop="reviewBody">
                     {{#if title}}
                       <h6 class="quoted inline-block push-half--bottom" itemprop='headline' content="{{title}}">{{title}}</h6>
                       {{#if course_name}}

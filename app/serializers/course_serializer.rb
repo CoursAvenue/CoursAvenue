@@ -1,21 +1,26 @@
 class CourseSerializer < ActiveModel::Serializer
   include CoursesHelper
   include PlanningsHelper
-
+  include ActionView::Helpers::TextHelper
   include ActionView::Helpers::NumberHelper
-  include ActionView::Helpers::NumberHelper
 
-  attributes :id, :name, :description, :type, :start_date, :end_date, :min_price_amount, :min_price_libelle, :data_url, :subjects,
+  attributes :id, :name, :description, :description_short, :type, :start_date, :end_date, :min_price_amount, :min_price_libelle, :data_url, :subjects,
              :has_free_trial_lesson, :event_type, :best_price, :is_individual, :search_term, :is_lesson, :frequency,
              :cant_be_joined_during_year, :no_class_during_holidays, :teaches_at_home, :teaches_at_home_radius,
-             :premium_offers, :book_tickets, :discounts, :registrations, :subscriptions, :trials,
              :has_premium_prices, :premium, :on_appointment, :course_location, :min_age_for_kid, :max_age_for_kid,
-             :audiences, :levels, :is_private
+             :audiences, :levels, :details, :prices, :premium_prices, :promotion_title
 
-  has_many :plannings, serializer: PlanningSerializer
+
+  has_many :plannings,      serializer: PlanningSerializer
+  has_many :prices,         serializer: PriceSerializer
+  has_many :premium_prices, serializer: PriceSerializer
 
   def plannings
     @options[:plannings] || object.plannings.visible.future.ordered_by_day
+  end
+
+  def description_short
+    truncate(object.description, :length => 170, :separator => ' ') if object.description
   end
 
   def has_free_trial_lesson
@@ -66,8 +71,19 @@ class CourseSerializer < ActiveModel::Serializer
     structure_course_path((@options[:structure] || object.structure), object)
   end
 
+  # TODO improve with subject_strings ?
   def subjects
-    object.subjects.map(&:name).join(', ')
+    _subjects = []
+    object.subjects.map(&:root).uniq.each do |root_subject|
+      child_subjects = object.subjects.at_depth(2).order('name ASC').select{ |subject|  subject.ancestry.start_with?(root_subject.id.to_s) }
+      _subjects << {
+        root_name: root_subject.name,
+        child_names: child_subjects.map(&:name).join(', '),
+        icon: ActionController::Base.helpers.asset_path("icons/subjects/#{root_subject.slug}.png"),
+        child_length: child_subjects.length
+      }
+    end
+    _subjects.sort{ |a, b| b[:child_length] <=> a[:child_length] }
   end
 
   def event_type
@@ -94,46 +110,17 @@ class CourseSerializer < ActiveModel::Serializer
     object.structure.premium?
   end
 
-  def registrations
-    object.prices.registrations.map{ |price| PriceSerializer.new(price) }
-  end
-
-  def premium_offers
-    object.prices.premium_offers.map{ |price| PriceSerializer.new(price) }
-  end
-
-  def subscriptions
-    object.prices.subscriptions.map{ |price| PriceSerializer.new(price) }
-  end
-
-  def book_tickets
-    object.prices.book_tickets.map{ |price| PriceSerializer.new(price) }
-  end
-
-  def discounts
-    object.prices.discounts.map{ |price| PriceSerializer.new(price) }
-  end
-
-  def trials
-    object.prices.trials.map{ |price| PriceSerializer.new(price) }
-  end
-
   def course_location
     return '' unless object.is_private?
-    string = "Le cours se déroule "
-    if object.teaches_at_home? and object.home_place and object.place
-       string << "dans 2 lieux : "
-    else
-       string << "à l'adresse : "
-    end
+    string = ""
     if object.teaches_at_home? and object.home_place
-      string << "À domicile (#{object.home_place.city.name}, #{object.home_place.radius}km)"
+      string << "Au domicile de l'élève (rayon de #{object.home_place.radius}km autour de #{object.home_place.city.name})"
     end
     if object.teaches_at_home? and object.home_place and object.place
-      string << " et "
+      string << "<br>"
     end
     if object.place
-      string << object.place.address
+      string << "#{object.place.name}, #{object.place.address}"
     end
     string
   end
@@ -146,8 +133,72 @@ class CourseSerializer < ActiveModel::Serializer
     join_audiences(object) if object.is_private?
   end
 
-  def is_private
-    object.is_private?
+  def details
+    _details = []
+    if on_appointment
+      _details << { text: 'Pas de créneau précis, uniquement sur demande',
+                    icon: 'delta fa fa-phone-o' }
+    end
+    if is_individual
+      _details << { text: 'Cours particulier',
+                    icon: 'delta fa fa-user' }
+    else
+      _details << { text: 'Cours collectif',
+                    icon: 'fa-2x fa-group' }
+    end
+    if teaches_at_home
+      _details << { text: 'Peut se déplacer à domicile',
+                    icon: 'delta fa fa-house' }
+    end
+    if is_lesson
+      _details << { text: "#{frequency} du #{start_date} au #{end_date}",
+                    icon: 'delta fa fa-calendar' }
+    end
+    if object.is_lesson? and cant_be_joined_during_year
+      _details << { text: "Pas d'inscription en cours d'année",
+                    icon: 'delta fa fa-forbidden' }
+    elsif object.is_lesson?
+      _details << { text: "Inscriptions tout au long de l'année",
+                    icon: 'delta fa fa-repeat' }
+    end
+    if no_class_during_holidays
+      _details << { text: "Pas de cours pendant les vacances scolaires",
+                    icon: 'delta fa fa-forbidden' }
+    end
+    if object.is_private? and object.on_appointment?
+      _details << { text: join_audiences(object),
+                    icon: 'gamma fa fa-audiences' }
+      _details << { text: join_levels_text(object),
+                    icon: 'delta fa fa-levels' }
+    end
+    _details
   end
 
+  def premium_prices
+    if object.price_group
+      object.price_group.prices.premium_prices
+    else
+      []
+    end
+  end
+
+  def prices
+    if object.price_group
+      object.price_group.prices.non_premium_prices.order('amount ASC') + object.price_group.prices.registrations.order('amount ASC')
+    else
+      []
+    end
+  end
+
+  def promotion_title
+    if object.structure.premium? and object.price_group
+      if object.has_free_trial_lesson? and object.has_promotion?
+        "Essai gratuit & promotions"
+      elsif object.has_promotion?
+        "Promotions"
+      elsif object.has_free_trial_lesson?
+        "Essai gratuit"
+      end
+    end
+  end
 end

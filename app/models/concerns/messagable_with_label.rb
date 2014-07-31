@@ -13,5 +13,17 @@ module Concerns
       end
       return receipt
     end
+
+    def send_message_with_extras(recipients, msg_body, subject, label_name='conversation', extra_info_ids=[], course_ids=[], sanitize_text=true, attachment=nil, message_timestamp = Time.now)
+      receipt = self.send_message(recipients, msg_body, subject, sanitize_text, attachment, message_timestamp)
+
+      conversation = receipt.conversation
+      if conversation
+        conversation.update_column :mailboxer_label_id, Mailboxer::Label.where(name: "mailboxer.label.#{label_name}").first.id
+        conversation.update_column :mailboxer_extra_info_ids, extra_info_ids.join(',')
+        conversation.update_column :mailboxer_course_ids, course_ids.join(',')
+      end
+      return receipt
+    end
   end
 end

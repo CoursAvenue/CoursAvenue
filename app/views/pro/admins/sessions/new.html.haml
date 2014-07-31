@@ -1,18 +1,17 @@
 - @is_responsive = true
-= content_for :above_container do
-  .home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background7.jpg'})" }
-    .main-container.soft
-      %h1.flush= t('.log_in')
-
+.home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background7.jpg'})", 'data-stellar-background-ratio' => '0.6' }
   .main-container.soft
-    .white-box.soft
-      = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-        .form-inputs
-          = f.input :email, required: false, autofocus: true, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
-          = f.input :password, required: false, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
-          = f.input :remember_me, as: :boolean, input_html: { class: 'flush--top input--large' }, label_html: { class: 'label--large' }
+    %h1.flush= t('.log_in')
 
-        .form-actions.one-whole
-          = f.button :submit, "Se connecter", class: 'btn--green btn--full'
-          .push-half--top
-            = render "pro/admins/shared/links"
+.main-container.soft
+  .white-box.soft
+    = simple_form_for(Admin.new, as: :pro_admin, url: pro_admin_session_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)) do |f|
+      .form-inputs
+        = f.input :email, required: false, autofocus: true, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+        = f.input :password, required: false, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+        = f.input :remember_me, as: :boolean, input_html: { class: 'flush--top input--large' }, label_html: { class: 'label--large' }
+
+      .form-actions.one-whole
+        = f.button :submit, "Se connecter", class: 'btn--green btn--full', data: { disable_with: 'Connexion en cours...' }
+        .push-half--top
+          = render "pro/admins/shared/links"

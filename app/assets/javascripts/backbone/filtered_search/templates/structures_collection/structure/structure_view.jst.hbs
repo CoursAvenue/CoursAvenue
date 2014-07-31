@@ -10,53 +10,39 @@
         <div class="relative full-height soft-half hard--right">
             <h4 class="flush v-top">
                 <a class="v-middle" href="{{ query_url }}">{{ name }}</a>
-                {{#if premium}}
-                    <div class="inline-block lbl lbl--yellow milli v-middle"><i class="fa fa-tag"></i> Offres promotionnelles</div>
+                {{#if promotion_title}}
+                    <div class="inline-block lbl lbl--yellow milli v-middle"><i class="fa fa-star"></i> {{promotion_title }}</div>
                 {{/if}}
             </h4>
             <div>
-                {{#if structure_type}}
-                    {{ structure_type }}
-                {{else}}
-                    Structure
-                {{/if}}
-                proposant des
-                {{ given_course_types }}
+                {{#if structure_type}}{{ structure_type }}{{else}}Structure{{/if}}
+                ・
+                <span data-toggle="tooltip" data-title="{{ cities }}">{{ truncate cities 60 }}</span>
             </div>
             <div>
-                {{#if has_plannings}}
                 <div>
-                    {{ plannings_count }} {{ pluralize plannings_count 'créneau horaire' 'créneaux horaires' }}
-                    {{#if has_price_range }}
-                        de
-                        <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
-                        à
-                        <span class="pointer" data-behavior="tooltip" title="{{ max_price_libelle }}">{{ max_price_amount }}€</span>
-                    {{else}}
-                        {{#if min_price_amount}}
-                            à partir de
-                            <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
-                        {{/if}}
-                    {{/if}}
+                    {{#ifCond regular_courses_plannings_count '>' 0 }}
+                        Cours réguliers ({{regular_courses_plannings_count}} {{ pluralize regular_courses_plannings_count 'créneau' 'créneaux' }})
+                    {{/ifCond}}
+                    {{#ifCond regular_courses_plannings_count '>' 0 }}{{#ifCond training_courses_plannings_count '>' 0 }}・{{/ifCond}}{{/ifCond}}
+                    {{#ifCond training_courses_plannings_count '>' 0 }}
+                        Stages & ateliers ({{training_courses_plannings_count}} {{ pluralize training_courses_plannings_count 'date' 'dates' }})
+                    {{/ifCond}}
                 </div>
-                {{/if}}
                 {{#ifCond comments_count '>' 0 }}
                     <div>
                         <strong>
-                            <i class="fa fa-comments"></i> {{ comments_count }}
-                            {{#if highlighted_comment_title}}<i class="quoted milli">{{{truncate highlighted_comment_title 60}}}</i>{{/if}}
+                            <i class="fa fa-comment"></i> {{ comments_count }} avis
+                            {{#if highlighted_comment_title}}
+                            ・ <i class="quoted milli">{{{truncate highlighted_comment_title 60}}}</i>{{/if}}
                         </strong>
                     </div>
                 {{/ifCond}}
 
             </div>
-            <a href="javascritp:void(0);" class="structure-item__see-all btn btn--blue btn--full btn--small" data-behavior="accordion-control" data-model="course" data-attributes="data_url" data-wrapper=".structure-item__see-all-wrapper">
-                {{#if plannings_count}}
-                    <span>Voir les séances</span>
-                {{else}}
-                    <span>Pas de séance, contactez le professeur</span>
-                {{/if}}
-            </a>
+            <div class="structure-item__see-all soft-half--sides">
+                <a href="{{ query_url }}" class="btn btn--blue-green btn--full btn--small" data-wrapper=".structure-item__see-all-wrapper">Voir le profil</a>
+            </div>
         </div>
     </article><!--
  --><div class="flexbox__item visuallyhidden--palm two-eighths v-middle text--center rslides-wrapper structure-item__see-all-wrapper">
@@ -69,11 +55,15 @@
                 {{#each preloaded_medias}}
                     <li class="bg-cover">
                         <a rel="slideshow-{{mediable_id}}" href="{{{this.url}}}" class="rslides_nav rslides_nav--icon {{#if this.is_video}}visible{{/if}}" data-behavior="fancy">
-                            <i class="fa {{#if this.is_video}}fa-youtube-play{{else}}fa-eye{{/if}}"></i>
+                            {{#if this.is_video}}
+                                <i class="fa-youtube-play" style="line-height: 85px;"></i>
+                            {{else}}
+                                <i class="fa-eye"></i>
+                            {{/if}}
                         </a>
                         <div class="media__item media__item--slides">
                             <a class="break-all" title="{{this.caption}}" href="{{this.url}}">
-                                <img src="{{this.thumbnail_url}}" />
+                                <img src="{{this.thumbnail_url}}" alt="{{this.caption}}"/>
                             </a>
                         </div>
                     </li>

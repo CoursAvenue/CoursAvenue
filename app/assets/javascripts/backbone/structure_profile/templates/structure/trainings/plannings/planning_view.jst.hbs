@@ -1,12 +1,18 @@
-<td class="nowrap">{{ date }}</td>
-<td>{{ time_slot }}</td>
+<td>{{ date }}</td>
+<td class="nowrap text--center">{{ time_slot }}</td>
 <td>{{ levels }}</td>
 <td class="{{#if info}}nowrap{{/if}}">
     {{ audiences }}
 </td>
-<td class="three-twelfths text--right">
-    <div class="gray milli">
-        <i>{{address}}</i>
-        <i class="fa fa-map-marker"></i>
+<td>
+    {{#if address_name }}
+        <div class="gray milli" data-toggle="popover" data-html="true" data-trigger="hover" data-content="{{address_with_info}}">{{address_name}}</div>
+    {{/if}}
+</td>
+<td>
+    {{#if info}}
+    <div data-title="{{ hide_contacts info }}" data-behavior="tooltip">
+        <i class='fa fa-info'></i>
     </div>
+    {{/if}}
 </td>

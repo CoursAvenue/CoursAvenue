@@ -8,6 +8,11 @@
 
 
 // usage: {{pluralize collection.length 'quiz' 'quizzes'}}
+Handlebars.registerHelper('capitalize', function(string) {
+    return _.capitalize(string);
+});
+
+// usage: {{pluralize collection.length 'quiz' 'quizzes'}}
 Handlebars.registerHelper('pluralize', function(number, single, plural) {
     return ((number == 1 || number == 0) ? single : plural);
 });

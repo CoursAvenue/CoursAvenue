@@ -57,9 +57,9 @@
           = course.nb_participants_max * course.plannings.count
         %td
           - if course.price
-            = "#{readable_amount(course.price)}€"
+            = readable_amount(course.price)
           - if course.common_price
-            %span.line-through #{readable_amount(course.common_price)}€
+            %span.line-through= readable_amount(course.common_price)
           %span.green Gratuit
         %td{ data: { value: course.updated_at.to_i }}
           = l(course.updated_at, format: :date)
@@ -102,9 +102,9 @@
           = course.nb_participants_max * course.plannings.count
         %td
           - if course.price
-            = "#{readable_amount(course.price)}€"
+            = readable_amount(course.price)
           - if course.common_price
-            %span.line-through #{readable_amount(course.common_price)}€
+            %span.line-through= readable_amount(course.common_price)
           %span.green Gratuit
         %td{ data: { value: course.updated_at.to_i }}
           = l(course.updated_at, format: :date)

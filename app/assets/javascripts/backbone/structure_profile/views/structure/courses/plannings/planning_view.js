@@ -5,11 +5,9 @@ StructureProfile.module('Views.Structure.Courses.Plannings', function(Module, Ap
         tagName: 'tr',
         template: Module.templateDirname() + 'planning_view',
 
-        onRender: function() {
-            if (this.model.get('info')) {
-                this.$el.data('behavior', 'tooltip');
-                this.$el.attr('title', this.model.get('info'));
-            }
+        onRender: function onRender () {
+            this.$('[data-toggle=popover]').popover();
+            this.$('[data-toggle=tooltip]').tooltip();
         },
 
         events: {

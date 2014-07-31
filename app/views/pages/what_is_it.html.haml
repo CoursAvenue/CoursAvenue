@@ -2,19 +2,19 @@
   Qu'est-ce que CoursAvenue
 
 - profiles = []
-- profiles << { name: "David, passionné d'improvisation théâtrale à Marseille", image_name: 'david', quote: "J'ai toujours voulu faire de l'improvisation, mais je n'ai jamais osé me lancer. Grâce à CoursAvenue, j'ai trouvé une super association, au pied de mon immeuble !", image_width: 400 }
+- profiles << { name: "David, passionné d'improvisation théâtrale à Marseille", image_name: 'david', quote: "Au pied de mon immeuble, j'ai découvert une super association pour mes cours d'improvisation : 5 ans que je passe devant chaque jour, et c'est sur CoursAvenue que je l'ai repérée.", image_width: 400 }
 
-- profiles << { name: "Lyne, passionnée d'écriture et de danse à Lyon", image_name: 'lyne', quote: "J'ai deux grandes passions : l'écriture et la danse. CoursAvenue me permet de tester sans cesse de nouveaux cours, parfois avec des offres spéciales ou des cours d'essai gratuits.", image_width: 500 }
+- profiles << { name: "Lyne, passionnée d'écriture et de danse à Lyon", image_name: 'lyne', quote: "J'adore écrire et danser. Grâce à CoursAvenue, j'ai repéré tous les cours à moins de 15min de chez moi, je me suis même inscrite à un cours d'essai gratuit d'écriture créative.", image_width: 500 }
 
 - profiles << { name: "Mariel, passionnée de cours d'éveil musical pour sa petite fille à Nice", image_name: 'mariel', quote: "Je n'arrivais pas à trouver des cours d'éveil musical pour Elsa, ma petite fille. J'ai découvert CoursAvenue et cela m'a semblé très simple.", image_width: 370 }
 
-- profiles << { name: "Nicolas, passionné de dessin et de confection de bières à Toulouse", image_name: 'nicolas', quote: "J'ai toujours voulu apprendre à dessiner et CoursAvenue m'a permis de m'inscrire à un premier cours gratuit. Depuis, j'ai aussi pris des cours de confection de bières, et je dessine mes propres étiquettes.", image_width: 240 }
+- profiles << { name: "Nicolas, passionné de dessin et de confection de bières à Toulouse", image_name: 'nicolas', quote: "2 ans que je voulais réapprendre à jouer de la guitare. Le moteur de recherche CoursAvenue m'a permis de comparer les tarifs, les horaires, les lieux, et même les avis.", image_width: 240 }
 
-- profiles << { name: "Mary, passionnée de barre au sol classique à Toulouse", image_name: 'mary', quote: "La barre au sol classique ? Une discipline qui m'a toujours fascinée. Sans CoursAvenue, je ne m'y serais jamais lancée, alors qu'aujourd'hui, je ne peux plus m'en passer.", image_width: 350 }
+- profiles << { name: "Mary, passionnée de barre au sol classique à Toulouse", image_name: 'mary', quote: "La barre au sol classique ? Une discipline qui m'a toujours fascinée. Sans CoursAvenue, je ne m'y serais jamais lancée, alors qu'aujourd'hui, je ne peux plus m'en passer.", image_width: 370 }
 
 - selected_profile = profiles.sample
 
-.home-screen-promotion-wrapper.soft--sides.white.bg-cover{ style: "background-image: url(https://coursavenue-public.s3.amazonaws.com/www/testimonies/bg/#{selected_profile[:image_name]}.jpg)" }
+.home-screen-promotion-wrapper.soft--sides.white.bg-cover{ style: "background-image: url(https://coursavenue-public.s3.amazonaws.com/www/testimonies/bg/#{selected_profile[:image_name]}.jpg)", 'data-stellar-background-ratio' => "0.5" }
   .main-container
     %header.grid--full
       .grid__item.soft--top.v-bottom.relative.visuallyhidden--palm{ class: ( selected_profile[:medium] ? 'three-tenths' : 'five-twelfths')}>
@@ -40,7 +40,7 @@
     %h2.text--center.soft--bottom.f-weight-300 Comment ça marche ?
     = render 'home/how_it_works'
 
-.bg-cover{ style: "background-image: url(#{asset_path 'home_backgrounds/dessin-peinture-arts-plastiques.jpg'}); min-height: 430px;" }
+.bg-cover{ style: "background-image: url(#{asset_path 'home_backgrounds/dessin-peinture-arts-plastiques.jpg'}); min-height: 430px;", 'data-stellar-background-ratio' => "0.5" }
   .main-container.main-container--medium.soft--ends
     %h2.text--center.push--bottom.soft--ends.soft-black-text-shadow.white Plus de 5 000 élèves recommandent leurs cours
     %ul.comments.no-bullet-list
@@ -74,7 +74,7 @@
       .grid__item.v-top.one-half.soft--right>
         %h2.soft--bottom.f-weight-300 CoursAvenue en vidéo
         .relative.bg-cover{style: "background-image: url('#{asset_path('home-page/video_thumbnail.jpg')}'); width: 100%; height: 260px;"}>
-          = link_to 'https://www.youtube.com/watch?v=-hq0sxFEcOw', class: 'block show-on-hover__wrapper', data: { behavior: 'fancy', height: 560, width: 1000 } do
+          = link_to 'https://www.youtube.com/watch?v=-hq0sxFEcOw', class: 'block show-on-hover__wrapper show-on-hover__wrapper--black-curtain', data: { behavior: 'fancy', height: 560, width: 1000 } do
             .home-screen-gallery__title.text--center{ style: 'margin-top: -2em;'}
               %i.fa.fa-youtube-play.fa-3x
               .show-on-hover__child Voir la vidéo
@@ -82,7 +82,8 @@
       .grid__item.v-top.one-half>
         %h2.soft--bottom.f-weight-300
           La réponse est
-          %strong « oui » !
+          %strong « oui »
+          !
         .flexbox.epsilon.push-half--bottom
           .flexbox__item.v-middle.soft-half--right
             %i.fa.fa-check.green.fa-2x

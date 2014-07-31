@@ -67,21 +67,23 @@ StructureProfile.addInitializer(function(options) {
     layout.showWidget(sticky_google_maps_view, {
         selector: '[data-type=sticky-map]',
         events: {
-            "course:mouse:enter": "exciteMarkers",
-            "course:mouse:leave": "exciteMarkers",
-            "place:mouse:enter": "exciteMarkers",
-            "place:mouse:leave": "exciteMarkers",
-            "places:collection:updated": "recenterMap"
+            'course:mouse:enter'       : 'exciteMarkers',
+            'course:mouse:leave'       : 'unexciteMarkers',
+            'place:mouse:enter'        : 'exciteMarkers',
+            'place:mouse:leave'        : 'unexciteMarkers',
+            'places:collection:updated': 'recenterMap',
+            'map:marker:click'         : 'showInfoWindow'
         }
     });
 
     layout.showWidget(google_maps_view, {
         events: {
-            "course:mouse:enter": "exciteMarkers",
-            "course:mouse:leave": "exciteMarkers",
-            "place:mouse:enter": "exciteMarkers",
-            "place:mouse:leave": "exciteMarkers",
-            "places:collection:updated": "recenterMap"
+            'course:mouse:enter'       : 'exciteMarkers',
+            'course:mouse:leave'       : 'unexciteMarkers',
+            'place:mouse:enter'        : 'exciteMarkers',
+            'place:mouse:leave'        : 'unexciteMarkers',
+            'places:collection:updated': 'recenterMap',
+            'map:marker:click'         : 'showInfoWindow'
         }
     });
 
@@ -96,7 +98,6 @@ StructureProfile.addInitializer(function(options) {
     layout.showWidget(comments_collection_view);
 
     layout.master.show(structure_view);
-
     if (window.location.hash.length > 0 && window.location.hash != '#_=_' && $(window.location.hash).length > 0) {
         $('[href=' + window.location.hash + ']').click();
         _.delay(function() {

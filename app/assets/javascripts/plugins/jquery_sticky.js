@@ -9,18 +9,22 @@
  *      oldWidth:  Will apply old width as style
  *      onStick:   Function callback called when stick class is added
  *      onUnStick: Function callback called when stick class is removed
+ *      stopAtEl:  When arriving at the bottom of that div, unfix
  */
 ;(function ( $, window, document, undefined ) {
 
     // Create the defaults once
     var pluginName = "sticky",
         defaults = {
+            scrollContainer: window,
             offsetTop : 0,
             z         : 300,
             oldWidth  : false,
             oldHeight : true,
             onStick   : $.noop,
-            onUnStick : $.noop
+            onUnStick : $.noop,
+            stopAtEl : null,
+            updateOnScroll: false
         };
 
     // The actual plugin constructor
@@ -74,16 +78,23 @@
             if (this.options.pushed) {
                 this.$pusher_el    = $(this.options.pushed);
                 this.pusher_height = this.$pusher_el.outerHeight();
-                // this.pusher_height = this.$pusher_el.height();
             }
-            $(window).scroll(this.onScroll.bind(this));
+            $(this.options.scrollContainer).scroll(this.onScroll.bind(this));
+            this.calculateElementTop();
+        },
+
+        calculateElementTop: function calculateElementTop () {
+            this.element_top = this.$element.offset().top
+            if (this.options.scrollContainer != window) { this.element_top -= $(this.options.scrollContainer).offset().top; }
         },
 
         onScroll: function onScroll () {
-            this.scroll_top  = $(window).scrollTop();
-            this.element_top = this.$element.offset().top;
+            if (this.options.updateOnScroll) { this.calculateElementTop(); }
+            this.scroll_top  = $(this.options.scrollContainer).scrollTop();
             this.fixed       = this.$element.hasClass("sticky");
-            if (this.options.pushed) {
+            if (this.options.stopAtHeight && this.scroll_top > this.options.stopAtHeight ) {
+              this.unFixit();
+            } else if (this.options.pushed) {
                 this.fixAndPush();
             } else if ( !this.fixed && this.scroll_top >= (this.element_top - this.options.offsetTop) ) {
                 this.fixIt();
@@ -101,7 +112,9 @@
             this.sticky_home = -1;
             this.options.onUnStick();
         },
+
         fixIt: function fixIt () {
+            this.calculateStopAtHeight()
             var $placeholder = this.husk(this.$element)
                 .css({ visibility: "hidden" })
                 .attr("data-placeholder", "")
@@ -126,6 +139,7 @@
             this.$element.css('top', this.options.offsetTop + 'px');
             this.options.onStick();
         },
+
         fixAndPush: function fixAndPush () {
             // Pusher element is the element on top that will push the current element.
             // When coming down and pusher element hit the current element
@@ -140,6 +154,17 @@
             } else {
                 this.$pusher_el.css('margin-top', 0);
             }
+        },
+
+        /*
+         * User can pass a stopAtEl which indicates where to stop fixing
+         * Calculate it when element is being fixed to be sure the dom hasn't
+         * changed and the height of the page neither
+         */
+        calculateStopAtHeight: function calculateStopAtHeight () {
+            if (this.options.stopAtHeight || this.options.stopAtEl == null) { return; }
+            this.options.stopAtHeight = $(this.options.stopAtEl).height() + $(this.options.stopAtEl).offset().top;
+            this.options.stopAtHeight = this.options.stopAtHeight - this.options.offsetTop - this.$element.outerHeight();
         }
     };
 

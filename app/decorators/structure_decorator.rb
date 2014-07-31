@@ -1,26 +1,78 @@
 class StructureDecorator < Draper::Decorator
 
-  def given_course_types
-    types = []
-    if object.teaches_at_home
-      if object.teaches_at_home and object.places.homes.any?
-        if object.places.homes.first.radius.present?
-          types << "cours à domicile (#{object.places.homes.first.radius})"
-        else
-          types << "cours à domicile"
-        end
-      end
+  def places_popover
+    output = ''
+    object.places.each do |place|
+      output << "<div class='push-half--bottom'><strong>#{place.name}</strong><br>#{place.street}, #{place.city.name}</div>"
     end
-    if object.gives_group_courses
-      types << 'cours collectifs'
+    output.html_safe
+  end
+
+  def subjects_popover
+    _subjects = []
+    object.subjects.at_depth(0).uniq.each do |root_subject|
+      child_subjects = object.subjects.at_depth(2).uniq.order('name ASC').select{ |subject|  subject.ancestry.start_with?(root_subject.id.to_s) }
+      _subjects << {
+        root_name: root_subject.name,
+        child_names: child_subjects.map(&:name).join(', '),
+        child_length: child_subjects.length
+      }
     end
-    if object.gives_individual_courses
-      types << 'cours individuels'
+
+    output = ''
+    _subjects.sort{ |a, b| b[:child_length] <=> a[:child_length] }.each do |subject_hash|
+      output << <<-eos
+        <div class='push-half--bottom'>
+          <strong>#{subject_hash[:root_name]} :</strong>
+          <br>
+          #{subject_hash[:child_names]}
+        </div>
+      eos
     end
-    types.join(', ')
+    output.html_safe
   end
 
   def given_funding_type
     object.funding_types.map{ |funding_type| I18n.t(funding_type.name)}.join(', ')
   end
+
+  def promotion_popover
+    courses = object.courses.lessons.select{ |course| course.is_published? and course.has_promotion? }
+    courses = courses + object.courses.privates.select{ |course| course.is_published? and course.has_promotion? }
+    output  = "<div><strong>#{courses.length} #{'cours régulier'.pluralize(courses.length)} :</strong></div>"
+    courses.each do |course|
+      output << "<div>#{course.name}</div>"
+    end
+    trainings = object.courses.trainings.select{ |course| course.is_published? and course.has_promotion? }
+    output  << "<div class='push-half--top'><strong>#{trainings.length} #{'stage'.pluralize(trainings.length)} :</strong></div>"
+    trainings.each do |training|
+      output << "<div>#{training.name}</div>"
+    end
+    output
+  end
+
+  def group_courses_popover
+    courses = object.courses.lessons.select(&:is_published?)
+    output  = "<div><strong>#{courses.length} #{'cours collectif'.pluralize(courses.length)} :</strong></div>"
+    courses.each do |course|
+      output << "<div>#{course.name}</div>"
+    end
+    trainings = object.courses.trainings.select(&:is_published?)
+    output  << "<div class='push-half--top'><strong>#{trainings.length} #{'stage'.pluralize(trainings.length)} :</strong></div>"
+    trainings.each do |training|
+      output << "<div>#{training.name}</div>"
+    end
+    output = '' if courses.empty? and trainings.empty?
+    output
+  end
+
+  def individual_courses_popover
+    courses = object.courses.privates.select(&:is_published?)
+    output  = "<div><strong>#{courses.length} #{'cours particulier'.pluralize(courses.length)} :</strong></div>"
+    courses.each do |course|
+      output << "<div>#{course.name}</div>"
+    end
+    output
+  end
+
 end

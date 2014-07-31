@@ -28,7 +28,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
         },
 
         // constructor: function (options) {
-        initialize: function (options) {
+        initialize: function initialize (options) {
             // Merging options
             _.extend(this.options, (options || {}));
             // Backbone.GoogleMaps.RichMarkerView.prototype.constructor.apply(this, arguments);
@@ -37,32 +37,33 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             this.overlayOptions.content = this.$el[0];
 
             /* apparently the only way to get this done */
-            this.$el.on('click', _.bind(this.markerSelected, this));
+            this.$el.on('click', _.bind(this.markerClicked, this));
             this.bounce     = _.debounce(this.bounce, 300);
             this.bounceOnce = _.debounce(this.bounceOnce, 300);
         },
 
         mapEvents: {
+            'click': 'showInfoBox',
             'mouseover': 'highlight',
             'mouseout':  'unhighlight'
         },
 
-        markerSelected: function (e) {
+        markerClicked: function markerClicked (e) {
             this.setSelectLock(true); // while one marker is selected, the rest should be unselectable
-            this.trigger('focus', e);
+            this.trigger('click', e);
             e.stopPropagation();
         },
 
         /* a highlighted marker needs to be different from the rest */
-        unhighlight: function () {
+        unhighlight: function unhighlight () {
             if (!this.select_lock) {
                 this.$el.removeClass('active');
             }
         },
 
         /* a highlighted marker needs to be different from the rest */
-        highlight: function (parameters) {
-            parameters = parameters || { show_info_box: true, unhighlight_all: true };
+        highlight: function highlight (parameters) {
+            parameters = parameters || { show_info_box: false, unhighlight_all: true };
             if (parameters.show_info_box)   { this.trigger('hovered', { model: this.model }); }
             if (parameters.unhighlight_all) { this.trigger('unhighlight:all'); }
             if (!this.select_lock) {
@@ -70,12 +71,12 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             }
         },
 
-        isHighlighted: function () {
+        isHighlighted: function isHighlighted () {
             return this.$el.hasClass('active');
         },
 
         /* an excited marker needs to be more than just highlighted */
-        excite: function () {
+        excite: function excite () {
             this.bounceOnce();
         },
 
@@ -100,8 +101,8 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
                 old_top = parseInt(this.$el.css('top'), 10),
                 crest = old_top - 30;
 
-            this.$el.animate({ top: crest }, 200, 'easeOutQuint', function (event) {
-                self.$el.animate({ top: old_top }, 400, 'easeOutBounce');
+            this.$el.finish().animate({ top: crest }, 200, 'easeOutQuint', function (event) {
+                self.$el.finish().animate({ top: old_top }, 400, 'easeOutBounce');
             });
         },
 
@@ -114,8 +115,8 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
                 old_top = parseInt(this.$el.css('top'), 10),
                 crest = old_top - 30;
 
-            this.$el.animate({ top: crest }, 200, 'easeOutQuint', function () {
-                self.$el.animate({ top: old_top }, 400, 'easeOutBounce', _.bind(self.bounce, self));
+            this.$el.finish().animate({ top: crest }, 200, 'easeOutQuint', function () {
+                self.$el.finish().animate({ top: old_top }, 400, 'easeOutBounce', _.bind(self.bounce, self));
             });
         },
 

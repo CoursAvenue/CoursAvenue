@@ -44,7 +44,8 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
         },
 
         retireMarkers: function(data) {
-            this.$el.find('.map-marker-image').addClass('map-marker-image--small');
+            // this.$el.find('.map-marker-image').addClass('map-marker-image--small');
+            this.$el.find('.map-marker-image').remove();
         },
 
         /* a set of markers should be made to stand out */
@@ -87,10 +88,9 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
             });
         },
 
-        markerHovered: function (marker_view) {
-            this.current_info_marker = marker_view.model.cid;
-            var structure = marker_view.model.get('structure')
-            structure.set('current_location', marker_view.model.toJSON())
+        setMarkerViewAndshowInfoWindow: function (options) {
+            var structure = options.structure_view.model;
+            structure.set('current_location', options.location_view.model.toJSON());
             this.showInfoWindow({ model: structure });
         }
     });

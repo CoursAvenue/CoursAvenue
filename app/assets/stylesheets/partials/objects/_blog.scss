@@ -5,8 +5,11 @@
 .blog-article__content {
     p, ul, div {
         color      : #1E1E1E;
+        &.white {
+            color: white;
+        }
         font-size  : 16px;
-        line-height: 24px;
+        line-height: 28px;
     }
     blockquote {
         p {

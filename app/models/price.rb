@@ -61,6 +61,13 @@ class Price < ActiveRecord::Base
   # Premium offers
   scope :premium_offers    , -> { where(type: 'Price::PremiumOffer') }
 
+  scope :premium_prices    , -> { where(arel_table[:type].eq('Price::PremiumOffer').or(
+                                        arel_table[:type].eq('Price::Trial').or(
+                                        arel_table[:type].eq('Price::Discount'))) ) }
+
+  scope :non_premium_prices, -> { where(arel_table[:type].eq('Price::BookTicket').or(
+                                        arel_table[:type].eq('Price::Subscription')) ) }
+
   def free?
     false
   end
@@ -138,6 +145,10 @@ class Price < ActiveRecord::Base
   # Can be overriden by a child model, eg. Discounts
   def has_to_be_rejected?
     self.amount.blank?
+  end
+
+  def premium_price?
+    ['Price::PremiumOffer', 'Price::Trial', 'Price::Discount'].include? self.type
   end
 
   private

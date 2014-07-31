@@ -3,14 +3,17 @@
     %h1.accessibility
       CoursAvenue
     .grid__item.one-third.v-middle>
-      = link_to root_path, class: 'logo' do
-        = image_tag 'logo_pro.png', width: 200, alt: 'Tous les cours et stages autour de vous | CoursAvenue.com'
+      = link_to '', root_path, class: 'v-middle coursavenue-header-logo coursavenue-header-logo--pro', title: 'Recrutez de nouveaux élèves'
 
     .grid__item.two-thirds.v-middle.text--right
       %ul.nav
-        %li
+        %li.soft--right.visuallyhidden--palm
+          = link_to 'Accueil', root_path
+        %li.soft--right.visuallyhidden--palm
+          = link_to 'Portraits', pro_portraits_path
+        %li.soft--right.visuallyhidden--palm
           = link_to 'Tarifs', pro_pages_price_path
-        %li.soft--sides.visuallyhidden--palm
+        %li.soft--right.visuallyhidden--palm
           = render 'shared/question_dropdown_menu'
         - if current_pro_admin
           %li.drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
@@ -25,5 +28,5 @@
                   %i.fa.fa-sign-out
         - else
           %li
-            = link_to new_pro_admin_session_path do
+            = link_to new_pro_admin_session_path, class: 'btn btn--small fancybox.ajax', data: { behavior: 'modal', width: '700', padding: 0 } do
               Connexion

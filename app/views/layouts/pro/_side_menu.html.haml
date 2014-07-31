@@ -6,18 +6,19 @@
       = pro_side_menu_link 'statistics'           , pro_statistics_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)              , current: current_tab, icon: 'fa fa-bar-chart-o'
       = pro_side_menu_link 'subscription_plans'   , pro_subscription_plans_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)                , current: current_tab, icon: 'fa fa-credit-card'
       = pro_side_menu_link 'blog'                 , pro_blog_articles_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)              , current: current_tab, icon: 'fa fa-book'
+      = pro_side_menu_link 'portraits'            , list_pro_portraits_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)              , current: current_tab, icon: 'fa fa-user'
       = pro_side_menu_link 'teachers'             , pro_admins_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)                , current: current_tab, icon: 'fa fa-group'
-      = pro_side_menu_link 'last_comments'        , pro_comments_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)              , current: current_tab, icon: 'fa fa-comments'
+      = pro_side_menu_link 'last_comments'        , pro_comments_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)              , current: current_tab, icon: 'fa fa-comment'
       = pro_side_menu_link 'students_invitations' , pro_comment_notifications_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN) , current: current_tab, icon: 'fa fa-group'
       = pro_side_menu_link 'users'                , pro_users_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)                 , current: current_tab, icon: 'fa fa-group'
       = pro_side_menu_link 'teachers_stars'       , stars_pro_structures_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)      , current: current_tab, icon: 'fa fa-star'
       -# = pro_side_menu_link 'jpo'                  , pro_open_courses_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)          , current: current_tab, icon: 'fa fa-list'
       = pro_side_menu_link 'invitations'          , pro_invited_users_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)         , current: current_tab, icon: 'fa fa-group'
-      = pro_side_menu_link 'vertical_pages'       , pro_vertical_pages_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)              , current: current_tab, icon: 'fa fa-arrow-up'
-      -# = pro_side_menu_link 'vertical_pages'       , pro_subjects_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)              , current: current_tab, icon: 'fa fa-arrow-up'
-      = pro_side_menu_link 'subjects'             , all_pro_subjects_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)          , current: current_tab, icon: 'fa fa-arrow-down'
-      = pro_side_menu_link 'last_messages'        , pro_conversations_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)         , current: current_tab, icon: 'fa fa-envelope'
-      = pro_side_menu_link 'stickers'             , pro_sticker_demands_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)       , current: current_tab, icon: 'fa fa-envelope'
+      = pro_side_menu_link 'vertical_pages'       , pro_vertical_pages_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)              , current: current_tab, icon: 'fa fa-chevron-up'
+      -# = pro_side_menu_link 'vertical_pages'       , pro_subjects_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)              , current: current_tab, icon: 'fa fa-chevron-up'
+      = pro_side_menu_link 'subjects'             , all_pro_subjects_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)          , current: current_tab, icon: 'fa fa-chevron-down'
+      = pro_side_menu_link 'last_messages'        , pro_conversations_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)         , current: current_tab, icon: 'fa fa-envelope-o'
+      = pro_side_menu_link 'stickers'             , pro_sticker_demands_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)       , current: current_tab, icon: 'fa fa-envelope-o'
       = pro_side_menu_link 'visitors'             , pro_visitors_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)              , current: current_tab, icon: 'fa fa-group'
       %li &nbsp;
 
@@ -51,7 +52,7 @@
       = pro_side_menu_link 'contact',
                             edit_contact_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
                             current: current_tab,
-                            icon: 'fa fa-phone',
+                            icon: 'fa fa-phone-o',
                             completed: @structure.phone_numbers.any?
 
       - to_complete_step_nb += 1 if @structure.medias.empty?
@@ -95,18 +96,18 @@
       = pro_side_menu_link 'comments',
                             pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
                             current: current_tab,
-                            icon: 'fa fa-comments',
+                            icon: 'fa fa-comment',
                             completed: @structure.comments.any?
 
       = pro_side_menu_link 'messages',
                             pro_structure_conversations_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
                             current: current_tab,
-                            icon: 'fa fa-envelope'
+                            icon: 'fa fa-envelope-o'
       - if current_pro_admin and current_pro_admin.super_admin?
         = pro_side_menu_link 'crm',
                               pro_structure_user_profiles_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN) ,
                               current: current_tab,
-                              icon: 'fa fa-book'
+                              icon: 'fa fa-contact'
       - if @structure.comments_count >= 5
         = pro_side_menu_link 'communicate',
                               widget_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),

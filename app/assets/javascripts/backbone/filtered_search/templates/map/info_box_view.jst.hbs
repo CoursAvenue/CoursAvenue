@@ -1,13 +1,13 @@
 <div data-type="closer" class="infobox__close">
-    <i class="fa fa-times"></i>
+    <i class="fa fa-close"></i>
 </div>
 
 <div class="media-photo">
     <a href="{{ data_url }}" class="block one-whole">
-        <img src="{{ logo_thumb_url }}" class="block one-whole">
+        <img src="{{ logo_thumb_url }}" class="block one-whole" height="186" width="186">
     </a>
 </div>
 <div class="very-soft">
     <a href="{{ data_url }}" class="infobox__title">{{ name }}</a>
-    <div>{{current_location.name}} - {{current_location.street}}</div>
+    <div>{{ current_location.address }}</div>
 </div>

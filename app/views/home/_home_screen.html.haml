@@ -6,7 +6,7 @@
   - url = asset_path "home_backgrounds/#{slug}.jpg"
 - else
   - url = asset_path "pro/home_background#{[2,3,4,5,6,7].sample}.jpg"
-.home-screen.soft--top.white.bg-cover{ style: "background-image: url(#{url})" }
+.home-screen.soft--top.white.bg-cover{ style: "background-image: url(#{url})", 'data-stellar-background-ratio' => '0.6' }
   .main-container.main-container--medium.soft-half--bottom
     %h1.soft--top.soft-black-text-shadow.flush
       Trouvez votre cours de loisir idéal.
@@ -15,10 +15,10 @@
     .push--bottom.soft--bottom
       = render 'shared/home_page_search_form'
 
-    .relative.bg-cover{style: "background-image: url('#{asset_path('home-page/video_thumbnail.jpg')}'); width: 150px; height: 75px;"}>
-      = link_to 'https://www.youtube.com/watch?v=-hq0sxFEcOw', class: 'block show-on-hover__wrapper', data: { behavior: 'fancy', height: 560, width: 1000 } do
+    .relative.bg-cover{ style: "background-image: url('#{asset_path('home-page/video_thumbnail.jpg')}'); width: 150px; height: 75px;" }>
+      = link_to 'https://www.youtube.com/watch?v=-hq0sxFEcOw', class: 'block show-on-hover__wrapper show-on-hover__wrapper--black-curtain', data: { behavior: 'fancy', height: 560, width: 1000 } do
         .home-screen-gallery__title.text--center
-          %i.fa.fa-youtube-play.fa-2x
+          %i.fa-youtube-play.alpha
           .show-on-hover__child.milli Voir la vidéo
     .push-half--bottom.very-soft.hard--sides
       = link_to 'javascript:void(0);', data: { behavior: 'toggleable', el: '#comment-ca-marche' }, style: 'width: 150px;', class: 'text--center inline-block semi-muted-link soft-black-text-shadow' do

@@ -1,6 +1,8 @@
 class Media < ActiveRecord::Base
   acts_as_paranoid
 
+  FREE_PROFIL_LIMIT = 3
+
   self.table_name = 'medias'
 
   attr_accessible :mediable, :mediable_id, :mediable_type, :url, :caption, :format,

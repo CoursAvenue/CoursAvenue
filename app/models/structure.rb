@@ -97,7 +97,7 @@ class Structure < ActiveRecord::Base
 
   # To store hashes into hstore
   store_accessor :meta_data, :gives_group_courses, :gives_individual_courses,
-                             :plannings_count, :has_promotion, :has_free_trial_course, :course_names, :open_course_names, :open_course_subjects,
+                             :plannings_count, :has_promotion, :has_free_trial_course, :has_promotion, :course_names, :open_course_names, :open_course_subjects,
                              :highlighted_comment_title, :min_price_libelle, :min_price_amount, :max_price_libelle, :max_price_amount,
                              :level_ids, :audience_ids, :busy,
                              :open_courses_open_places, :open_course_nb, :jpo_email_status, :open_course_plannings_nb,
@@ -107,7 +107,7 @@ class Structure < ActiveRecord::Base
 
 
   define_boolean_accessor_for :meta_data, :has_promotion, :gives_group_courses, :gives_individual_courses,
-                              :has_free_trial_course, :gives_non_professional_courses, :gives_professional_courses,
+                              :has_free_trial_course, :has_promotion, :gives_non_professional_courses, :gives_professional_courses,
                               :is_sleeping
 
   has_attached_file :logo,
@@ -240,6 +240,10 @@ class Structure < ActiveRecord::Base
       self.logo?
     end
 
+    boolean :medias_count do
+      self.medias.count
+    end
+
     boolean :is_sleeping
     boolean :active
 
@@ -318,6 +322,10 @@ class Structure < ActiveRecord::Base
     self.update_column :email_status, email_status
     return email_status
   end
+
+  ######################################################################
+  # Email reminder END                                                 #
+  ######################################################################
 
   def places_around(latitude, longitude, radius=2)
     places.reject do |place|
@@ -521,8 +529,8 @@ class Structure < ActiveRecord::Base
     self.plannings_count          = self.plannings.visible.future.count
     self.gives_group_courses      = self.courses.select{|course| !course.is_individual? }.any?
     self.gives_individual_courses = self.courses.select(&:is_individual?).any?
-    self.has_promotion            = self.prices.select{|p| p.promo_amount.present?}.any?
-    self.has_free_trial_course    = self.prices.trials.where(Price.arel_table[:amount].eq(nil).or(Price.arel_table[:amount].eq(0))).any?
+    self.has_promotion            = self.courses.detect(&:has_promotion?).present?
+    self.has_free_trial_course    = self.courses.detect(&:has_free_trial_lesson?).present?
     self.course_names              = self.courses.map(&:name).uniq.join(', ')
     self.highlighted_comment_title = (self.highlighted_comment ? self.highlighted_comment.title : comments.accepted.order('created_at DESC').first.try(:title))
     # Store level and audiences ids as coma separated string values: "1,3,5"
@@ -696,7 +704,9 @@ class Structure < ActiveRecord::Base
           first_message_created_at = conversation.messages.order('created_at ASC').first.created_at
           delta = ( (conversation.read_attribute(:treated_at) - first_message_created_at).abs.round / 60 ) / 60
         elsif conversation.messages.count > 1
-          creation_dates = conversation.messages.order('created_at ASC').limit(2).map(&:created_at)
+          first_message_of_admin = conversation.messages.order('created_at ASC').detect{|m| m.sender.is_a? Admin }
+          first_message_of_user  = conversation.messages.order('created_at ASC').detect{|m| m.sender.is_a? User }
+          creation_dates = [first_message_of_admin.created_at, first_message_of_user.created_at]
           # (Time 1 - Time 2) => number of seconds between the two times
           # / 60 => To minutes | / 60 to hours
           delta = ((creation_dates[1] - creation_dates[0]).abs.round / 60) / 60
@@ -734,8 +744,8 @@ class Structure < ActiveRecord::Base
     self.premium
   end
 
-  def similar_profiles(limit=3)
-    StructureSearch.similar_profile(self, limit)
+  def similar_profiles(limit=3, _params={})
+    StructureSearch.similar_profile(self, limit, _params)
   end
 
   # Return highlighted comment if has one

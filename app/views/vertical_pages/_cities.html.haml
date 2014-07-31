@@ -18,7 +18,7 @@
         - url = structures_path(lat: city.latitude, lng: city.longitude, address_name: city.name, root_subject_id: @subject.root.slug, parent_subject_id: @subject.slug)
       - else
         - url = structures_path(lat: city.latitude, lng: city.longitude, address_name: city.name, root_subject_id: @subject.root.slug, parent_subject_id: @subject.parent.slug, subject_id: @subject.slug)
-      = link_to url, class: 'block show-on-hover__wrapper', title: "Tous les cours de #{@subject.name} à #{city.name}" do
+      = link_to url, class: 'block show-on-hover__wrapper show-on-hover__wrapper--black-curtain', title: "Tous les cours de #{@subject.name} à #{city.name}" do
         .home-screen-gallery__title.text--center
           %div= city.name
           .show-on-hover__child.milli

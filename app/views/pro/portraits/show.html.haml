@@ -1,0 +1,26 @@
+.home-screen-promotion-wrapper.soft
+  .main-container
+    .grid
+      .grid__item.two-thirds>
+        %h1.f-weight-300= @portrait.title
+        %h3.quoted.line-height-1-7.f-weight-300= @portrait.quote
+        %p.epsilon= @portrait.quote_name
+      .grid__item.one-third>
+        = image_tag @images.first.thumbnail_url, class: 'block'
+
+.main-container.soft--ends
+  .grid
+    .grid__item.two-thirds>
+      .blog-article__content
+        .soft.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{@portrait.medias.order('caption DESC').limit(1).offset(0).first.thumbnail_url}); height: 200px;" }>
+          %p.epsilon.white= @portrait.top_line_about
+          %p.white= @portrait.top_line
+
+        = @portrait.content.html_safe
+
+        .bg-cover.soft.soft-black-text-shadow.relative{ style: "background-image: url(#{@portrait.medias.order('caption DESC').limit(1).offset(1).first.thumbnail_url}); height: 200px;" }>
+          %p.white.absolute.south= @portrait.bottom_line
+
+    .grid__item.one-third>
+      - @images.offset(1).limit(7).each do |image|
+        = image_tag image.thumbnail_url, class: 'block'

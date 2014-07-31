@@ -1,15 +1,12 @@
-<strong>
 {{#if total_not_filtered}}
+  <div class="soft--ends">
+    <strong>
     {{#ifCond total_not_filtered '!=' 0}}
-        {{ plannings_count }} seances correspondent a votre recherche
-        <a href="{{ data_url }}" data-action="show-all-courses">Visualiser les {{ total_not_filtered }} autres seances</a>
+        Des stages & ateliers sont proposés à d'autres lieux ou pour d'autres disciplines :
+        <a href="{{ data_url }}" data-action="show-all-courses">voir tous les stages & ateliers.</a>
     {{/ifCond}}
-{{else}}
-    {{ plannings_count }} {{ pluralize plannings_count 'seance correspond' 'seances correspondent' }} a votre recherche
-    {{#ifCond plannings_count '==' '0'}}
-        <a href="{{ data_url }}" data-action="show-all-courses">Voir toutes les autres seances</a>
-    {{/ifCond}}
+    </strong>
+  </div>
 {{/if}}
-</strong>
 <img src="<%= asset_path 'gifs/loading-indicator.gif' %>" class="center-block push-half--top" height="10" data-loader style="display: none;">
 

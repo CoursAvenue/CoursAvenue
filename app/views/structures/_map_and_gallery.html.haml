@@ -1,38 +1,48 @@
 - without_map = false if without_map.nil?
-.gray-box.push--bottom
+.gray-box.push--bottom.relative
+  - if current_user and current_user.follows?(@structure)
+    = link_to '#', class: "absolute north east push--right push--top on-under-top" do
+      %i.fa.fa-heart.fa-4x
+  - elsif current_user
+    = link_to follow_structure_path(@structure), method: :post, class: "heart-link absolute north east push--right push--top on-under-top", data: { toggle: 'tooltip', placement: 'left', title: 'Ajouter ce profil en favori' } do
+      %i.fa.fa-heart-o.fa-4x
+  - else
+    = link_to new_user_registration_path, data: { toggle: 'tooltip', behavior: 'modal', placement: 'left', title: 'Ajouter ce profil en favori', width: 600, padding: 0 }, class: 'fancybox.ajax heart-link absolute north east push--right push--top on-under-top', onclick: "ga('send', 'event', 'Se créer un compte', 'click','Inscrit')" do
+      %i.fa.fa-heart-o.fa-4x
+
   .rslides-wrapper.rslides--big#media-grid{ style: 'height: 500px;'}>
     %ul.galery-rslides.hidden>
       - unless without_map
         %li
-          %div{ data: { type: "google-maps" }}>
+          %div{ data: { type: "google-maps" } }>
       - medias.each_with_index do |media, index|
         %li.relative.bg-contain
-          %a.rslides_nav.rslides_nav--icon{rel: 'slideshow', href: media.url, class: (media.video? ? 'visible' : ''), data: {behavior: "fancy"}}
+          %a.rslides_nav.rslides_nav--icon{ rel: 'slideshow', href: media.url, class: (media.video? ? 'visible' : ''), data: { behavior: "fancy" } }
             - if media.video?
               %i.fa.fa-youtube-play
             - else
               %i.fa.fa-eye
           .one-whole.media__item.media__item--slides>
-            %a.block.break-all{href: media.url, title: media.caption, data: {behavior: "fancy"}}
+            %a.block.break-all{ href: media.url, title: media.caption, data: { behavior: "fancy" } }
               = media.thumbnail_url_html
               %i.fa.fa-expand
           - if media.caption.present?
             %p.one-whole.absolute.south.soft-half.flush.white.media-caption.f-weight-bold= media.caption
   .thumbnails-container.relative
     %a.thumbnails-container__nav.prev.pointer{ data: { 'slide-prev' => true } }
-      %i.fa.fa-chevron-left
+      %i.delta.fa-chevron-left.v-middle.gray-light
     .thumbnails-viewport.relative
       %ul.nav.rslides__custom-pager.push-half--bottom.slideshow-thumbnails.thumbnails-slide-panel#galery-controls-thumb
         - unless without_map
           %li.rslides-thumbnail
-            %a.pointer.media-photo.media-slideshow
+            %a.pointer.media-photo.media-slideshow#map-thumbnail
               = image_tag 'icons/google-maps-thumb.jpg', height: 70, width: 70
         - medias.each do |media|
           %li.rslides-thumbnail
             %a.pointer.media-photo
               %img{ src: media.thumbnail_url, height: 70, width: 70}
     %a.thumbnails-container__nav.next.pointer{ data: { 'slide-next' => true } }
-      %i.fa.fa-chevron-right
+      %i.delta.fa-chevron-right.v-middle.gray-light
 
 = content_for :scripts do
   :javascript
@@ -50,8 +60,8 @@
         $(".galery-rslides").responsiveSlides({
             auto: false,
             nav: true,
-            prevText: '<i class="fa fa-chevron-left"></i>',
-            nextText: '<i class="fa fa-chevron-right"></i>',
+            prevText: '<i class="fa-2x fa-chevron-left soft-black-text-shadow"></i>',
+            nextText: '<i class="fa-2x fa-chevron-right soft-black-text-shadow"></i>',
             manualControls: '#galery-controls-thumb',
             before: function(currentlySelectedIndex) {
                 //------
@@ -86,6 +96,7 @@
                 }
             }
         });
+        if ($('.rslides__custom-pager li a').length > 1) { $('.rslides__custom-pager li a')[1].click(); }
         // Set the height of the slides
         var media_height = $('#media-grid').height();
         $('.galery-rslides li').css('height', media_height);

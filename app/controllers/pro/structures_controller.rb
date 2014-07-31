@@ -102,13 +102,14 @@ class Pro::StructuresController < Pro::ProController
 
   # GET member
   def dashboard
-    @structure      = Structure.friendly.find params[:id]
-    @wizard         = get_next_wizard
-    commentable_ids = @structure.courses.map(&:id)
+    @structure           = Structure.friendly.find params[:id]
+    @structure_decorator = @structure.decorate
+    @wizard              = get_next_wizard
+    commentable_ids      = @structure.courses.map(&:id)
     commentable_ids << @structure.id
-    @comments       = @structure.comments.accepted
-    @courses        = @structure.courses
-    @places         = @structure.places
+    @comments            = @structure.comments.accepted
+    @courses             = @structure.courses
+    @places              = @structure.places
 
     if @structure.premium?
       @medias = @structure.medias.cover_first

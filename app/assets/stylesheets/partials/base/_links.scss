@@ -10,6 +10,7 @@
 a, .btn-as-link {
     color          : $brand-color;
     text-decoration: none;
+    font-weight    : 600;
 }
 a:hover, .btn-as-link:hover {
     text-decoration: underline;
@@ -30,7 +31,8 @@ a.selected, a.active {
 }
 
 .muted-link {
-    color: inherit;
+    font-weight: inherit;
+    color      : inherit;
     &:hover {
         text-decoration: none;
     }

@@ -21,6 +21,7 @@
 //= require libs/responsiveslides
 //= require libs/add_this_event
 //= require libs/jquery.placeholder
+//= require libs/stellar
 
 //= require libs/fancybox/jquery.fancybox
 
@@ -36,6 +37,7 @@
 //= require libs/bootstrap/bootstrap.tab
 //= require libs/bootstrap/bootstrap.datepicker
 //= require libs/bootstrap/bootstrap.button
+//= require libs/bootstrap/bootstrap.scrollspy
 //= require libs/bootstrap/datepicker-locales/bootstrap.datepicker.fr
 
 // ---------------------------------- jQuery plugins

@@ -1,7 +1,7 @@
 %ul.tabs.panel__header
   %li{class: current == 'comments' ? 'active' : ''}
     = link_to pro_structure_comments_path(@structure) do
-      %i.fa.fa-comments
+      %i.fa.fa-comment
       Mes avis
   %li{class: current == 'recommandation' ? 'active' : ''}
     = link_to recommendations_pro_structure_path(@structure) do

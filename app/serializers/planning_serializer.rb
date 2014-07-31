@@ -3,17 +3,62 @@ class PlanningSerializer < ActiveModel::Serializer
   include PricesHelper
 
   attributes :id, :date, :duration, :time_slot, :levels, :audiences, :place_id, :places_left, :more_than_ten_places,
-             :common_price, :course_id, :info, :address
+             :common_price, :course_id, :info, :address, :address_with_info, :address_name, :activity_name
 
   def address
     object.place.address if object.place
+  end
+
+  def address_with_info
+    str = ''
+    if object.course.is_private?
+      if object.course.place
+        str << "<p class='flush'><strong>#{object.course.place.address}#{(object.course.place.info.present? ? ' : ' : '')}</strong></p>"
+        str << "<p class='flush'>#{object.course.place.info}</strong></p>" if object.course.place.info.present?
+      end
+      if object.course.home_place
+        str << "<p class='flush'><strong>#{object.course.home_place.name}</strong> :<br> #{object.course.home_place.address}</p>"
+      end
+    elsif object.place
+      str << "<p class='flush'><strong>#{object.place.address}#{(object.place.info.present? ? ' : ' : '')}</strong></p>"
+      str << "<p class='flush'>#{object.place.info}</strong></p>" if object.place.info.present?
+    end
+  end
+
+  def address_name
+    places = []
+    if object.is_in_foreign_country?
+      fake_place = Struct.new(:name)
+      _place = fake_place.new I18n.t('places.is_in_foreign_country')
+      places << _place
+    end
+    if object.course.is_private?
+      places << object.course.home_place if object.course.home_place
+      places << object.course.place if object.course.place
+    else
+      places << object.place if object.place
+    end
+    places.map(&:name).join(', ')
+  end
+
+  def activity_name
+    if object.course.is_training?
+      case object.length
+      when 1
+        "Atelier"
+      else
+        "Stage de #{object.length} jours"
+      end
+    end
   end
 
   def date
     if object.course.is_lesson? or object.course.is_private?
       week_day_for(object)
     else
-      planning_date_for object
+      _date = "#{planning_date_for(object)}"
+      _date << " (#{object.length} jours)" if object.length > 1
+      _date
     end
   end
 

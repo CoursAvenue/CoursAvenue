@@ -28,6 +28,7 @@
 //= require libs/jquery.lazyload
 //= require libs/responsiveslides
 //= require libs/jquery.placeholder
+//= require libs/stellar
 
 //= require libs/fancybox/jquery.fancybox
 

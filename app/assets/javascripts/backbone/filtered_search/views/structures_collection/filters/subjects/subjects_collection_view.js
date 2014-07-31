@@ -1,6 +1,6 @@
 FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Module, App, Backbone, Marionette, $, _) {
 
-    var ACTIVE_CLASS = 'btn--blue subject-active';
+    var ACTIVE_CLASS = 'btn--blue-green subject-active';
 
     Module.SubjectsCollectionView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'subjects_filter_view',
@@ -155,6 +155,13 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             }
             $currentTarget.append(this.ui.$menu);
             this.ui.$menu.show();
+            // TODO here
+            if (document.body.offsetWidth - $currentTarget.offset().left < this.ui.$menu.width()) {
+                this.ui.$menu.css({right: 0, left: 'auto'});
+            } else {
+                var offset_left = $currentTarget.offset().left - $('[data-value="dessin-peinture-arts-plastiques"]').first().closest('[data-type=subjects-filter]').offset().left + 1;
+                this.ui.$menu.css({left: offset_left, right: 'auto'});
+            }
         },
 
         // Clears all the given filters

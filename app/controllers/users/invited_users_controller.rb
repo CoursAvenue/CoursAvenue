@@ -32,7 +32,7 @@ class Users::InvitedUsersController < ApplicationController
     params[:emails] ||= ''
     regexp = Regexp.new(/\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b/)
     emails = params[:emails].scan(regexp).uniq
-    text   = '<p>' + params[:text].gsub(/\r\n/, '</p><p>') + '</p>' if params[:text].present?
+    text   = '<div class="p">' + params[:text].gsub(/\r\n\r\n/, '</div><div class="p">').gsub(/\r\n/, '<br>') + '</div>' if params[:text].present?
 
     if params[:user_id]
       @user = User.find params[:user_id]
@@ -64,7 +64,7 @@ class Users::InvitedUsersController < ApplicationController
     params[:emails] ||= ''
     regexp = Regexp.new(/\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b/)
     emails = params[:emails].scan(regexp).uniq
-    text = '<p>' + params[:text].gsub(/\r\n/, '</p><p>') + '</p>' if params[:text].present?
+    text = '<div class="p">' + params[:text].gsub(/\r\n\r\n/, '</div><div class="p">').gsub(/\r\n/, '<br>') + '</div>' if params[:text].present?
 
     emails.each do |_email|
       invited_user = InvitedUser::Student.where(invitation_for: nil, email: _email, referrer_id: @user.id, referrer_type: 'User', email_text: text).first_or_create

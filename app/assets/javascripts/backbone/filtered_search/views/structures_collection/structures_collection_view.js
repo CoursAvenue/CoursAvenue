@@ -28,6 +28,15 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
 
         emptyView: EmptyStrcutureList,
 
+        onAfterShow: function onAfterShow () {
+          this.announcePaginatorUpdated();
+          var $sticky = $('[data-behavior=sticky]');
+          $sticky.sticky({ scrollContainer: '.filtered-search__list-wrapper',
+                                               oldWidth: true,
+                                               onStick: function() {
+                                                  $sticky.css('top', '50px');
+                                               } });
+        },
         /* forward events with only the necessary data */
         onItemviewHighlighted: function onItemviewHighlighted (view, data) {
             this.trigger('structures:itemview:highlighted', data);
@@ -60,7 +69,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
             var itemview = this.children.findByModel(relevant_structure);
 
             /* announce the view we found */
-            this.trigger('structures:itemview:found', itemview);
+            this.trigger('structures:itemview:found', { structure_view: itemview, location_view: data } );
             this.scrollToView(itemview);
 
         },

@@ -36,7 +36,10 @@ class Pro::Structures::PriceGroupsController < Pro::ProController
     @course      = @structure.courses.find(params[:course_id]) if params[:course_id].present?
     respond_to do |format|
       if @price_group.save
-        @course.update_column(:price_group_id, @price_group.id) if @course
+        if @course
+          @course.price_group = @price_group
+          @course.save
+        end
         format.html { redirect_to pro_structure_price_groups_path(@structure) }
         format.js
       else

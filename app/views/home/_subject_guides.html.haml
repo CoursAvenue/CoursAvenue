@@ -4,30 +4,29 @@
   - theatre = Subject.find('theatre-scene')
   - music   = Subject.find('musique-chant')
   - yoga    = Subject.find('yoga-bien-etre-sante')
-  - paris   = City.find('paris')
   %h2.soft--bottom.f-weight-300 Toutes vos passions
   .relative{ style: 'height: 600px;'}
-    .absolute.bg-cover.west.north{style: "background-image: url('#{dance.image.url(:small)}'); width: 49.5%; height: 200px;"}>
+    .absolute.bg-cover.west.north{style: "background-image: url('#{dance.image.url(:small)}'); width: 49.5%; height: 200px;" }>
       .relative.one-whole.height-whole
-        %a.block.show-on-hover__wrapper{href: subject_path(dance), title: "Cours de danse"}>
+        %a.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: vertical_page_path(dance), title: "Cours de danse" }>
           .home-screen-gallery__title.text--center
             Danse
             .milli.show-on-hover__child Découvrir
     .absolute.bg-cover.east.north{style: "background-image: url('#{music.image.url(:small)}'); width: 49.5%; height: 298px;"}
       .relative.one-whole.height-whole
-        %a.block.show-on-hover__wrapper{href: subject_path(music), title: "Cours de musique et chant"}>
+        %a.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: vertical_page_path(music), title: "Cours de musique et chant" }>
           .home-screen-gallery__title.text--center
             Musique & Chant
             .milli.show-on-hover__child Découvrir
     .absolute.bg-cover.east.south{style: "background-image: url('#{theatre.image.url(:small)}'); width: 49.5%; height: 298px;"}
       .relative.one-whole.height-whole
-        %a.block.show-on-hover__wrapper{href: subject_path(theatre), title: "Cours de théâtre et scène"}>
+        %a.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: vertical_page_path(theatre), title: "Cours de théâtre et scène" }>
           .home-screen-gallery__title.text--center
             Théâtre & Scène
             .milli.show-on-hover__child Découvrir
-    .absolute.bg-cover.west{style: "background-image: url('#{arts.image.url(:small)}'); width: 49.5%; height: 194px; top: 203px"}>
+    .absolute.bg-cover.west{style: "background-image: url('#{arts.image.url(:small)}'); width: 49.5%; height: 194px; top: 203px" }>
       .relative.one-whole.height-whole
-        %a.block.show-on-hover__wrapper{href: subject_path(arts), title: "Cours de dessin, peinture et arts"}>
+        %a.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: vertical_page_path(arts), title: "Cours de dessin, peinture et arts" }>
           .home-screen-gallery__title.text--center
             Dessin, Peinture
             %br
@@ -35,7 +34,7 @@
             .milli.show-on-hover__child Découvrir
     .absolute.bg-cover.west.south{style: "background-image: url('#{yoga.image.url(:small)}'); width: 49.5%; height: 200px;"}
       .relative.one-whole.height-whole
-        %a.block.show-on-hover__wrapper{href: subject_path(yoga), title: "Cours de yoga, bien-être et santé"}>
+        %a.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: vertical_page_path(yoga), title: "Cours de yoga, bien-être et santé" }>
           .home-screen-gallery__title.text--center
             Yoga, Bien-être
             %br

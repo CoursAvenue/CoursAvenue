@@ -82,13 +82,13 @@ namespace :import do
       end
       puts attributes
       structure = Structure.create(name: attributes[:name],
-                                    subject_ids: subject_ids.uniq,
-                                    website: attributes[:website],
-                                    phone_numbers_attributes: phone_attributes,
-                                    places_attributes: places_attributes,
-                                    contact_email: attributes[:emails].first,
-                                    is_sleeping: true,
-                                    other_emails: attributes[:emails][0..-1].join(';'))
+                                   subject_ids: subject_ids.uniq,
+                                   website: attributes[:website],
+                                   phone_numbers_attributes: phone_attributes,
+                                   places_attributes: places_attributes,
+                                   contact_email: attributes[:emails].first,
+                                   is_sleeping: true,
+                                   other_emails: attributes[:emails][0..-1].join(';'))
       unless structure.persisted?
         puts "#{attributes[:key]} : #{attributes[:name]}\n#{structure.errors.full_messages.to_sentence}\n\n"
       else

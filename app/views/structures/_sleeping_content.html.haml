@@ -1,0 +1,42 @@
+.panel.push--bottom
+  .panel__header.soft-half--ends.soft--left
+    .epsilon.f-weight-bold
+      Cet établissement n'a pas encore activé son profil
+  .panel__body.soft
+    - if @structure.logo.present?
+      .media-photo.float--left.push--right= image_tag @structure.logo.url(:large), class: 'block one-whole', height: 200, width: 200
+    .gamma.f-weight-bold S'agit-il de votre profil ?
+    %p Prenez gratuitement le contrôle de votre profil CoursAvenue pour :
+    %ul
+      %li Mettre immédiatement à jour vos informations et votre planning de cours
+      %li Remonter dans les résultats de recherche CoursAvenue et recruter plus d'élèves
+      %li Afficher les recommandations de vos élèves et développer votre bouche à oreille
+      %li Suivre le nombre de personnes qui consultent votre profil
+    %div
+      = link_to 'Gérer ce profil', new_pro_admin_structure_registration_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--orange'
+
+.panel.push--bottom
+  .panel__header.soft-half--ends.soft--sides
+    %h5.flush Bons plans & suggestions
+  .panel__body.soft
+    - similars = StructureSearch.search({lat: (params[:lat] || @structure.latitude), lng: (params[:lng] || @structure.longitude), without_id: @structure.id, radius: 10, sort: 'premium', has_logo: true,per_page: 6, subject_id: @structure.subjects.roots, medias_count: 1}).results
+    - similars += StructureSearch.search({lat: (params[:lat] || @structure.latitude), lng: (params[:lng] || @structure.longitude), without_id: @structure.id, radius: 100, sort: 'premium', has_logo: true,per_page: 6, medias_count: 1}).results if similars.length < 6
+    - similars.each do |structure|
+      .inline-block.one-half.very-soft.relative>
+        = link_to structure_path(structure), class: 'muted-link opacity-hidden-on-hover__wrapper block' do
+          .push-half--bottom.one-whole.bg-cover{ style: "background-image: url(#{structure.medias.first.thumbnail_url}); height: 200px;"}
+            - if header_promotion_title_for_structure(structure).present?
+              .north.west.absolute
+                .lbl.lbl--small.lbl--yellow
+                  %i.fa.fa-star
+                  = header_promotion_title_for_structure(structure)
+            .absolute.text--center.one-whole{ style: 'top: 90px;' }
+              .btn.btn--small.btn--blue.opacity-hidden-on-hover__child Voir le profil
+          .grid--full{ data: { similar_profile: true, structure_id: structure.id } }
+            .grid__item.v-top.one-fifth>
+              .media-photo{ itemprop: 'image', content: structure.logo.url }= image_tag structure.logo.url(:thumb)
+            .grid__item.v-top.four-fifths.soft-half--left>
+              %h6.inline-block.push-half--bottom= truncate(structure.name, length: 40)
+              %div= truncate(structure.places.map(&:city).uniq.map(&:name).join(', '), length: 40)
+              %div
+                %i= truncate(structure.subjects.roots.uniq.map(&:name).join(', '), length: 40)

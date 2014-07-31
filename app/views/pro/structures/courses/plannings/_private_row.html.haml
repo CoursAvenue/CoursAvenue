@@ -3,9 +3,9 @@
 %tr{ id: "planning-#{planning.id}" }
   %td= week_day_for(planning)
   %td= readable_time_slot planning.start_time, planning.end_time
-  %td
+  %td.text--center
     - if planning.info.present?
-      .lbc-brand-icon{ data: { behavior: 'tooltip', 'original-title' => planning.info } }
+      %i.fa.fa-info{ data: { behavior: 'tooltip', 'original-title' => planning.info } }
   %td.text--right.nowrap
     = link_to edit_pro_structure_course_planning_path(course.structure, course, planning), title: 'Modifier le créneau', data: { behavior: 'modal', width: '800', padding: '0', planning_id: planning.id, action: 'edit' }, class: 'fancybox.ajax nowrap' do
       %i.fa.fa-pencil

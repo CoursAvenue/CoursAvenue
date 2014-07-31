@@ -24,6 +24,7 @@
             %i.fa.fa-star
             Offre Premium spécial été
         - if @structure.is_sleeping?
+          %span.push-half--sides= '|'
           %span.v-middle.lbl.lbl--red{ data: { toggle: 'popover', content: "Vous venez de prendre le contrôle de votre profil : complétez-le pendant que l'équipe CoursAvenue vérifie votre identité. Vous recevrez un e-mail dès que c'est validé !  Les modifications que vous avez apportées deviendront alors directement visibles sur votre profil public.", trigger: 'hover' } } En attente de validation
       .flexbox__item.v-middle.text--right.soft-half--right
         - if @structure.mailbox
@@ -32,7 +33,7 @@
           - unread_conversations_count = unread_conversations.count
           .inline-block.v-middle.drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
             = link_to pro_structure_conversations_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'white block soft-half--ends muted-link f-weight-bold' do
-              %i.fa.fa-envelope
+              %i.fa.fa-envelope-o
               = pluralize @structure.mailbox.inbox.count, 'message'
               - if unread_conversations_count > 0
                 %span.push--left.lbl.lbl--orange.lbl--small= unread_conversations_count
@@ -69,18 +70,18 @@
         %span.v-middle.push-half--sides= '|'
         .inline-block.v-middle.drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
           = link_to pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'white block soft-half--ends muted-link f-weight-bold' do
-            %i.fa.fa-comment
-            = "#{@structure.comments.accepted.count} avis"
+            %i.fa.fa-comment.v-middle
+            %span.v-middle= "#{@structure.comments.accepted.count} recommandations"
             - if @structure.comments.pending.count > 0
               %span.push--left.lbl.lbl--orange.lbl--small= "#{@structure.comments.pending.count}"
           .drop-down__el
             %ul.no-bullet-list.flush{ style: 'width: 350px' }
               - if @structure.comments.pending.count == 0
                 %li
-                  %a.not-hoverable.f-weight-normal Pas d'avis en attente
+                  %a.not-hoverable.f-weight-normal Pas de recommandations en attente
               - else
                 %li
-                  %a.not-hoverable.f-weight-normal= "#{@structure.comments.pending.count} avis en attente de validation"
+                  %a.not-hoverable.f-weight-normal= "#{@structure.comments.pending.count} recommandations en attente de validation"
               - @structure.comments.pending.each do |comment|
                 %li
                   = link_to pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'grid--full' do
@@ -90,11 +91,11 @@
                       %strong= comment.author_name
                       %br
                       = comment.email
-              %li= link_to 'Voir tous les avis', pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+              %li= link_to 'Voir toutes les recommandations', pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
         %span.v-middle.push-half--sides= '|'
         = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'white v-middle', target: :_blank do
-          .fa.fa-eye
-          Voir mon profil public
+          .fa.fa-eye.v-middle
+          %span.v-middle Voir mon profil public
 
   .flexbox
     - if content_for? :side_menu

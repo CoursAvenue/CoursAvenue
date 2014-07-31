@@ -1,13 +1,27 @@
-<div class="islet">
-  <div class="grid--full">
-    <div class="grid__item one-tenth">
+<div class="grid--full push--bottom">
+    <div class="grid__item two-tenths">
         <div class="media-photo">
             <img src='{{ image }}' class='block' />
         </div>
     </div>{{!--
- --}}<div class="grid__item nine-tenths soft--left">
-        <p><strong>{{ name }}</strong></p>
-        {{#if description}} {{{ simple_format description }}} {{/if}}
+ --}}<div class="grid__item eight-tenths soft--left">
+        <div><strong>{{ name }}</strong></div>
+        {{#if description}}
+            {{#ifCond description '!=' description_short}}
+            <div id="teacher-{{id}}-description-short" class="gray last-p-flush">
+                {{{ simple_format_hide_contacts description_short }}}
+            </div>
+            <a href="#" data-behavior="show-long-version" data-short-version="#teacher-{{id}}-description-short" data-long-version="#teacher-{{id}}-description-long">
+            + Plus
+            </a>
+            <div id="teacher-{{id}}-description-long" class="gray hidden" itemprop="description">
+                {{{ simple_format_hide_contacts description }}}
+            </div>
+            {{else}}
+            <div class="gray" itemprop="description">
+                {{{ simple_format_hide_contacts description }}}
+            </div>
+            {{/ifCond}}
+        {{/if}}
     </div>
-  </div>
 </div>

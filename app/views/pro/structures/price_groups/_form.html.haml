@@ -229,7 +229,7 @@
                         = price_form.input :libelle, as: :select, collection: Price::PremiumOffer::TYPES, label_method: lambda{|l| I18n.t(l)}, wrapper_html: { class: 'flush control-label text--left' }, label: false, include_blank: false, input_html: { data: { promo_amount: "#premium_offer_#{i}_promo_amount", promo_amount_type: "#premium_offer_#{i}_promo_amount_type", promo_amount_type_alternative: "#premium_offer_#{i}_promo_amount_type_alternative", promo_amount_info: "#premium_offer_#{i}_info", behavior: 'premium-offer' } }
                       .grid__item.v-middle.text--right{ style: 'width: 12%;'}>
                         .input-addon
-                          = price_form.input :promo_amount, label: false, input_html: { id: "premium_offer_#{i}_promo_amount", class: 'flush one-whole' }, wrapper_html: { class: 'five-twelfths flush' }, as: :string
+                          = price_form.input :promo_amount, label: false, input_html: { id: "premium_offer_#{i}_promo_amount", class: 'flush one-whole', style: 'min-width: 55px;' }, wrapper_html: { class: 'five-twelfths flush' }, as: :string
                           .input-suffix
                             %i.fa.fa-eur.hidden{ id: "premium_offer_#{i}_promo_amount_type_alternative" }>
                             = price_form.input :promo_amount_type, as: :select, collection: ['%', '€'], label: false, input_html: {  class: 'one-whole' }, wrapper_html: { class: 'four-twelfths flush inline-block v-middle', id: "premium_offer_#{i}_promo_amount_type", }, include_blank: false
@@ -257,7 +257,7 @@
                         = price_form.input :libelle, as: :select, collection: Price::Discount::TYPES, label_method: lambda{|l| I18n.t(l)}, wrapper_html: { class: 'flush control-label text--left' }, label: false, include_blank: false
                       .grid__item.v-middle.text--right{ style: 'width: 12%;'}>
                         .input-addon
-                          = price_form.input :promo_amount, label: false, input_html: { class: 'one-whole' }, wrapper_html: { class: 'five-twelfths flush inline-block v-middle' }, as: :string
+                          = price_form.input :promo_amount, label: false, input_html: { class: 'one-whole', style: 'min-width: 55px;' }, wrapper_html: { class: 'five-twelfths flush inline-block v-middle' }, as: :string
                           .input-suffix
                             = price_form.input :promo_amount_type, as: :select, collection: ['%', '€'], label: false, input_html: { class: 'one-whole' }, wrapper_html: { class: 'four-twelfths flush inline-block v-middle' }, include_blank: false
                       .grid__item.v-middle.text--right{ style: 'width: 12%;'}>

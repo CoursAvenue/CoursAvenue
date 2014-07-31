@@ -5,23 +5,23 @@ class StructureSerializer < ActiveModel::Serializer
   attributes :id, :name, :slug, :comments_count, :rating, :street, :zip_code,
              :logo_thumb_url, :data_url, :query_url, :query_params,
              :courses_count, :has_courses, :plannings_count, :has_plannings, :more_than_five_comments, :has_comments,
-             :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range,
+             :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle,
              :has_free_trial_course, :medias_count, :teaches_at_home, :teaches_at_home_radius, :videos_count, :images_count,
              :audience, :gives_group_courses, :gives_individual_courses, :structure_type,
              :has_promotion, :tag_names, :highlighted_comment_title, :open_courses_open_places, :open_course_names, :open_course_plannings_nb,
-             :given_course_types, :premium
+             :given_course_types, :premium, :promotion_title, :cities, :regular_courses_plannings_count, :training_courses_plannings_count
 
-  has_many :places
+  has_many :places,            serializer: PlaceSerializer
   has_many :comments,          serializer: ShortSerializer
   has_many :medias,            serializer: ShortSerializer
   has_many :preloaded_medias,  serializer: MediaSerializer
 
   def medias
-    (object.premium? ? object.medias.videos_first.limit(20) : object.medias.cover_first.limit(1))
+    (object.premium? ? object.medias.videos_first.limit(20) : object.medias.cover_first.limit(Media::FREE_PROFIL_LIMIT))
   end
 
   def preloaded_medias
-    (object.premium? ? object.medias.videos_first.limit(20) : object.medias.cover_first.limit(1))
+    (object.premium? ? object.medias.videos_first.limit(20) : object.medias.cover_first.limit(Media::FREE_PROFIL_LIMIT))
   end
 
   def comments
@@ -60,7 +60,7 @@ class StructureSerializer < ActiveModel::Serializer
     if object.premium?
       [object.medias.count, 20].min
     else
-      1
+      object.medias.limit(3).count
     end
   end
 
@@ -82,10 +82,6 @@ class StructureSerializer < ActiveModel::Serializer
 
   def max_price_amount
     object.max_price_amount.to_i
-  end
-
-  def has_price_range
-    object.min_price_amount.present? and object.max_price_amount.present?
   end
 
   def more_than_five_comments
@@ -186,5 +182,33 @@ class StructureSerializer < ActiveModel::Serializer
 
   def premium
     object.premium?
+  end
+
+  def promotion_title
+    if object.premium?
+      if object.has_free_trial_course? and object.has_promotion?
+        "Essai gratuit & promotions"
+      elsif object.has_promotion?
+        "Promotions"
+      elsif object.has_free_trial_course?
+        "Essai gratuit"
+      end
+    end
+  end
+
+  def cities
+    object.places.map(&:city).uniq.map(&:name).join(', ')
+  end
+
+  def regular_courses_plannings_count
+    PlanningSearch.search({ structure_id: object.id,
+                            course_types: ['lesson', 'private'],
+                            visible: true }.merge(@options[:query])).total
+  end
+
+  def training_courses_plannings_count
+    PlanningSearch.search({ structure_id: object.id,
+                            course_types: ['training'],
+                            visible: true }.merge(@options[:query])).total
   end
 end

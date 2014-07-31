@@ -52,7 +52,11 @@ FilteredSearch.module('Views.StructuresCollection.Structure', function(Module, A
             if (event.target.nodeName !== 'A'
                 && $(event.target).parent('a').length === 0
                 && $(event.target).closest('[data-el="structure-view"]').length > 0) {
-                window.location = this.model.get('data_url');
+                if (event.metaKey || event.ctrlKey) { // Open in new window if user pushes meta or ctrl key
+                    window.open(this.model.get('data_url'));
+                } else {
+                    window.location = this.model.get('data_url');
+                }
             }
         },
         /* a structure was selected, so return the places JSON

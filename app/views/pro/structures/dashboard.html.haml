@@ -119,7 +119,7 @@
             Le bouche à oreille restant le 1er facteur d'inscription à un cours, nos partenaires qui affichent publiquement les témoignages de leurs élèves sont ceux qui ont le plus fort taux d'inscription et de fidélisation.
           .text--center.push--bottom= link_to "Exemples de livres d'Or.", pro_pages_widget_path, target: '_blank', rel: 'nofollow'
           %p.text--center
-            = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--green'
+            = link_to "Obtenir plus de recommandations", recommendations_pro_structure_path(@structure), class: 'btn btn--green'
 
     #sticker-explanation.hidden
       .panel
@@ -131,7 +131,7 @@
             à afficher sur vos lieux de cours : cela signifie que vos cours sont appréciés d'une large partie de vos élèves et que le bouche à oreille participe à votre développement.
 
           %p.text--center
-            = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--green'
+            = link_to "Obtenir plus de recommandations", recommendations_pro_structure_path(@structure), class: 'btn btn--green'
 
     %hr.push--ends
     .soft--sides
@@ -146,12 +146,12 @@
         .grid__item.one-third>
           .islet.text--center
             %h4.flush
-              %i.fa.fa-comments
+              %i.fa.fa-comment
               Avis
             %p
               %span.beta{class: (@comments.length > 6 ? 'green' : 'red')}= @comments.length
               %br
-              = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue btn--small', onclick: "ga('send', 'event', 'Dashboard', 'click', 'Demander des recommandations')"
+              = link_to "Obtenir plus de recommandations", recommendations_pro_structure_path(@structure), class: 'btn btn--blue btn--small', onclick: "ga('send', 'event', 'Dashboard', 'click', 'Demander des recommandations')"
 
         .grid__item.one-third>
           .islet.text--center
@@ -186,7 +186,7 @@
       %hr.push--ends
       .soft--sides
         %h4
-          %i.fa.fa-comments
+          %i.fa.fa-comment
           Mes derniers avis
         %ul.comment-list
           = render partial: 'comments/comment', collection: @comments[0..2], locals: { structure: @structure, with_reply: true }

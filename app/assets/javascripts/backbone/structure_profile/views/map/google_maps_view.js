@@ -5,20 +5,21 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
 
         initialize: function(options) {
             this.sticky = this.options.sticky;
-            if (this.sticky) { this.$el.addClass('soft--top'); }
         },
 
         onShow: function onShow () {
             // If the current instance is the stycky map that appears on the right of the StructureProfile
             if (this.sticky) {
+                this.$('.google-map').addClass('google-map--medium-small');
                 var setStickyStyle,
-                    $view                   = this.$el.parent(),
+                    $view                   = this.$el.closest('[data-type=sticky-map-container]'),
                     $grid_item              = $view.closest('.grid__item'),
                     initial_map_width       = $view.width();
                 $view.sticky({
                     z: 10,
                     oldWidth: false,
-                    offsetTop: 50,
+                    offsetTop: 72,
+                    stopAtEl: '#coursavenue-footer',
                     onStick: function () {
                         $view.css({
                             left: $grid_item.offset().left + parseInt($view.closest('.grid__item').css('padding-left'), 10) + 'px',
@@ -29,19 +30,17 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
                         $view.removeAttr('style');
                     }
                 });
-                // $(window).on("scroll", setStickyStyle);
-                // $(window).resize(setStickyStyle);
             } else {
-                if ($(window).height() < 700) {
-                    this.$el.closest('.rslides-wrapper').css('height', '30em');
-                    this.$('.google-map--medium').removeClass('google-map--medium').addClass('google-map--medium-small');
+                if ($(window).height() < 900) {
+                    this.$el.closest('.rslides-wrapper').css('height', '27em');
+                    this.$('.google-map--medium').removeClass('google-map--medium').addClass('google-map--medium-smaller');
                 }
             }
             this.recenterMap();
         },
 
         // We have some weird behavior having two maps on the same page...
-        addChild: function(childModel, html) {
+        addChild: function addChild (childModel, html) {
             var markerView = new this.markerView({
                 model:   childModel,
                 map:     this.map,
@@ -53,7 +52,7 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
         },
 
         // We have some weird behavior having two maps on the same page...
-        closeChildren: function() {
+        closeChildren: function closeChildren () {
             for(var cid in this.markerViewChildren) {
                 if (this.sticky && cid.indexOf('sticky') !== -1) {
                     this.closeChild(this.markerViewChildren[cid]);
@@ -103,21 +102,22 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
         * matches this marker's location it will get excited. */
         exciteMarkers: function exciteMarkers (data) {
             var key = data.place_id || data.id;
-
-            if (key === null) {
-                return;
-            }
-
+            if (key === null) { return; }
             _.each(this.markerViewChildren, function (child) {
                 if (child.model.get("id") === key) {
+                    child.highlight({ show_info_box: false });
+                    child.excite();
+                }
+            });
+        },
 
-                    if (child.isHighlighted()) {
-                        child.unhighlight();
-                        child.calm();
-                    } else {
-                        child.highlight({ show_info_box: false });
-                        child.excite();
-                    }
+        unexciteMarkers: function exciteMarkers (data) {
+            var key = data.place_id || data.id;
+            if (key === null) { return; }
+            _.each(this.markerViewChildren, function (child) {
+                if (child.model.get("id") === key) {
+                    child.unhighlight();
+                    child.calm();
                 }
             });
         }

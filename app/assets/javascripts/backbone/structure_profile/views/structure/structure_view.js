@@ -14,8 +14,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         events: {
             'breadcrumbs:clear'       : 'broadenSearch',
             'filter:popstate'         : 'narrowSearch',
-            'filter:removed'          : 'removeSummary',
-            'click [data-toggle=tab] ': 'showOrCreateTab'
+            'filter:removed'          : 'removeSummary'
         },
 
         removeSummary: function () {
@@ -24,21 +23,17 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         },
 
         initialize: function initialize () {
-            _.bindAll(this, "showOrCreateTab", "hideLoader");
+            _.bindAll(this, 'asyncLoadSection', 'hideLoader');
 
             this.summary_views = [];
-
-            // Initialize stickiness of header
-            $('#structure-header').sticky({
-                z: 25,
-                onStick: function() {
-                    $('#structure-profile-title').append($('[data-type="filter-breadcrumbs"]'));
-                },
-                onUnStick: function() {
-                    $('#structure-profile-description').append($('[data-type="filter-breadcrumbs"]'));
+            var $structure_profile_menu = $('#structure-profile-menu');
+            $(window).scroll(function() {
+                if ($(window).scrollTop() > 180 && parseInt($structure_profile_menu.css('top')) != 0 ) {
+                    $structure_profile_menu.stop(true, false).animate({ 'top': '0' });
+                } else if ($(window).scrollTop() < 180 && parseInt($structure_profile_menu.css('top')) == 0 ) {
+                    $structure_profile_menu.stop(true, false).animate({ 'top': '-100px' });
                 }
             });
-
         },
 
         onAfterShow: function onAfterShow () {
@@ -46,8 +41,9 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         },
 
         onRender: function onRender () {
-            var $currently_active_tab = $(".tabs li.active [data-toggle]");
-            this.showOrCreateTab({ currentTarget: $currently_active_tab[0] });
+            this.asyncLoadSection('courses');
+            this.asyncLoadSection('trainings');
+            this.asyncLoadSection('teachers');
         },
 
         /* broadenSearch
@@ -120,42 +116,38 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             return fetch || new $.Deferred().reject();
         },
 
-        showOrCreateTab: function showOrCreateTab (e) {
-            var $target   = $(e.currentTarget),
-                resources = $target.data("view"),
-                ViewClass, view, model, fetch;
+        asyncLoadSection: function asyncLoadSection (resource_name) {
+            var ViewClass, view, model, fetch;
 
-            // if this tab has no associated resource, or if it is already populated, we bail
-            if (!resources) { return; }
-
-            ViewClass = this.findCollectionViewForResource(resources);
+            ViewClass = this.findCollectionViewForResource(resource_name);
 
             // Only fetch when there is no data
             view = new ViewClass({
-                collection: this.model.get(resources),
-                data_url: this.model.get("data_url")
+                collection : this.model.get(resource_name),
+                data_url   : this.model.get("data_url"),
+                about      : this.model.get('about'),
+                about_genre: this.model.get('about_genre')
             });
 
-            // always fetch, since we don't know whether we have resources or just ids
-            this.showLoader(resources);
-            this.updateModelWithRelation(resources)
+            // always fetch, since we don't know whether we have resource_name or just ids
+            this.showLoader(resource_name);
+            this.updateModelWithRelation(resource_name)
                 .then(function (collection) {
                     var summary_view;
-                    if (resources === "courses") {
+                    if (resource_name === "courses") {
                         summary_view = new StructureProfile.Views.Structure.Courses.CoursesSummaryView(view.serializeData());
                         this.summary_views.push(summary_view);
                         this.showWidget(summary_view, { events: { 'courses:collection:reset': 'rerender' }});
-                    } else if (resources === "trainings") {
+                    } else if (resource_name === "trainings") {
                         summary_view = new StructureProfile.Views.Structure.Trainings.TrainingsSummaryView(view.serializeData());
                         this.summary_views.push(summary_view);
                         this.showWidget(summary_view, { events: { 'trainings:collection:reset': 'rerender' }});
                     }
 
                     this.showWidget(view);
-                    $target.data("view", null); // remove the data-view property, indicating that no further fetching should be done
 
                 }.bind(this))
-                .always(function() { this.hideLoader(resources) }.bind(this));
+                .always(function() { this.hideLoader(resource_name) }.bind(this));
         },
 
         showLoader: function showLoader (resources_name) {
@@ -173,5 +165,6 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         findCollectionViewForResource: function findCollectionViewForResource (resources) {
             return Module[_.capitalize(resources)][_.capitalize(resources) + 'CollectionView'];
         }
+
     });
 });

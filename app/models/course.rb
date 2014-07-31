@@ -26,6 +26,7 @@ class Course < ActiveRecord::Base
 
   before_save :sanatize_description
   after_save  :update_plannings_dates_if_needs_to
+  after_save  :reindex_plannings
 
   ######################################################################
   # Scopes                                                             #
@@ -217,9 +218,12 @@ class Course < ActiveRecord::Base
     return has_promotion?
   end
 
+  # Wether it has promotions or not. A Promotion include Premium offsers AND Discounts
+  #
+  # @return Boolean
   def has_promotion?
     return false if self.prices.empty?
-    !(self.prices.order('promo_amount ASC').first.promo_amount).nil?
+    !(self.prices.order('promo_amount ASC NULLS LAST').first.promo_amount).nil?
   end
 
   def has_package_price
@@ -230,6 +234,9 @@ class Course < ActiveRecord::Base
     return self.prices.where( type: 'Price::Trial' ).any?
   end
 
+  # Wether it has free trial course or not
+  #
+  # @return Boolean
   def has_free_trial_lesson?
     return self.prices.where( Price.arel_table[:type].eq('Price::Trial').and(
                               (Price.arel_table[:amount].eq(nil).or(Price.arel_table[:amount].eq(0)))) ).any?
@@ -405,5 +412,9 @@ class Course < ActiveRecord::Base
       end
     end
     nil
+  end
+
+  def reindex_plannings
+    self.plannings.index
   end
 end

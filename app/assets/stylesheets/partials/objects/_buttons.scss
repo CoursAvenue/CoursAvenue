@@ -34,7 +34,7 @@
     text-transform  : uppercase;
     white-space     : normal;
     line-height     : 1.2;
-    font-weight     : bold;
+    font-weight     : 700;
     padding         : 0.8em;
     font-size       : 12px;
     @include border-radius($brand-round);
@@ -42,6 +42,9 @@
     background-color: #fefefe;
     color           : #555;
     @include text-shadow(0 1px 0 white);
+    &[type=submit] {
+        font-weight: 400;
+    }
     &:active {
         cursor: default;
     }
@@ -96,6 +99,10 @@
     &:hover, &:active {
         background-color: lighten($btn--red, 5%);
     }
+    &.disabled, &[disabled] {
+        background-color: lighten($btn--red, 15%);
+        color           : #EEE;
+    }
 }
 // Danger and error appear as red
 // Success appears as green
@@ -113,17 +120,31 @@
         color           : #EEE;
     }
 }
-.btn--blue {
+// .btn--blue {
+//     text-transform  : uppercase;
+//     background-color: $btn--blue;
+//     border          : none;
+//     color           : white;
+//     @include text-shadow(-1px -1px 1px darken($btn--blue, 10%));
+//     &:hover, &:active {
+//         background-color: lighten($btn--blue, 5%);
+//     }
+//     &.disabled, &[disabled] {
+//         background-color: lighten($btn--blue, 15%);
+//     }
+// }
+
+.btn--blue , .btn--blue-green {
     text-transform  : uppercase;
-    background-color: $btn--blue;
+    background-color: $blue-green;
     border          : none;
     color           : white;
-    @include text-shadow(-1px -1px 1px darken($btn--blue, 10%));
+    @include text-shadow(-1px -1px 1px darken($blue-green, 10%));
     &:hover, &:active {
-        background-color: lighten($btn--blue, 5%);
+        background-color: lighten($blue-green, 5%);
     }
     &.disabled, &[disabled] {
-        background-color: lighten($btn--blue, 15%);
+        background-color: lighten($blue-green, 15%);
     }
 }
 
@@ -161,6 +182,7 @@
     vertical-align  : middle;
     display         : inline-block;
     &:before {
+        font-family     : Helvetica, Arial;
         text-transform  : lowercase;
         display         : inline-block;
         padding-left    : 15px;
@@ -227,8 +249,8 @@
             display: inline-block;
         }
     .btn.btn--active, .btn.active {
-        background-color: $orange;
-        border          : 1px solid $orange;
+        background-color: $blue-green;
+        border          : 1px solid $blue-green;
         color           : white;
         @include text-shadow(none);
         & + .btn.active {

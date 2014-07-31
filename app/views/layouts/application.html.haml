@@ -1,6 +1,7 @@
 !!!
 %html.no-js{lang: 'fr', 'xmlns:og' => "http://opengraphprotocol.org/schema", 'xmlns:fb' => "http://www.facebook.com/2008/fbml"}
   %head
+    %link{ href: 'http://fonts.googleapis.com/css?family=Raleway:500,400,300,600,700', rel: 'stylesheet', type: 'text/css' }
     = yield :right_after_head
 
     = render 'shared/meta_information'
@@ -41,7 +42,7 @@
 
     = javascript_include_tag '//maps.googleapis.com/maps/api/js?sensor=false'
     = javascript_include_tag '//google-maps-utility-library-v3.googlecode.com/svn/trunk/richmarker/src/richmarker-compiled.js'
-    = javascript_include_tag 'libs/infobox_packed'
+    = javascript_include_tag '//google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox_packed.js'
 
     = yield :scripts
     = yield :layout_scripts

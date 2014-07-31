@@ -11,4 +11,4 @@
         .grid__item.one-third>
           %a.btn.btn--full{ onclick: '$.fancybox.close()' } Annuler
         .grid__item.two-thirds>
-          = link_to 'Supprimer ma réponse', pro_structure_comment_comment_reply_path(@structure, @comment, @comment_reply), class: 'red', method: :delete, class: 'btn btn--full btn--red', remote: true
+          = link_to 'Supprimer ma réponse', pro_structure_comment_comment_reply_path(@structure, @comment, @comment_reply), class: 'red', method: :delete, class: 'btn btn--full btn--red', remote: true, data: { disable_with: 'Suppression en cours...' }

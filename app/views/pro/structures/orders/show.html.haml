@@ -7,7 +7,7 @@
       %li.delta.f-weight-bold Facture N°#{@order.public_order_id}
 
   .panel__body.soft
-    = image_tag 'logo.png', width: 200
+    = image_tag 'logos/logo@2x.png', width: 200
     .grid
       .grid__item.seven-tenths>
       .grid__item.three-tenths>
@@ -48,8 +48,8 @@
           %td CoursAvenue Premium
           %td 1
           %td 20%
-          %td= "#{readable_amount(@order.amount_without_promo)}€"
-          %td.text--right= "#{readable_amount(@order.amount_without_promo)}€"
+          %td= readable_amount(@order.amount_without_promo)
+          %td.text--right= readable_amount(@order.amount_without_promo)
         %tr.no-stripe
           %td
           %td
@@ -67,28 +67,28 @@
           %td
           %td
           %td Total HT
-          %td.text--right= "#{readable_amount(@order.amount / 1.20)}€"
+          %td.text--right= readable_amount(@order.amount / 1.20)
         %tr.no-stripe
           %td
           %td
           %td
           %td
           %td TVA
-          %td.text--right= "#{readable_amount(@order.amount - @order.amount / 1.20)}€"
+          %td.text--right= readable_amount(@order.amount - @order.amount / 1.20)
         %tr.no-stripe.f-weight-bold
           %td
           %td
           %td
           %td
           %td Total TTC
-          %td.text--right= "#{readable_amount(@order.amount)}€"
+          %td.text--right= readable_amount(@order.amount)
         %tr.no-stripe.f-weight-bold
           %td
           %td
           %td
           %td
           %td PAYÉ
-          %td.text--right= "#{readable_amount(@order.amount)}€"
+          %td.text--right= readable_amount(@order.amount)
 
     %div Siret : 79009610100015 - APE 6201Z - 790 096 101 R.C.S. Paris
     %div N° TVA intracommunautaire FR01790096101

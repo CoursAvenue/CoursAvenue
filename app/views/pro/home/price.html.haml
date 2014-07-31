@@ -1,7 +1,7 @@
 = content_for :title do
   Optimisez votre visibilité, augmentez votre taux d'inscription et de fidélisation
 
-.home-screen-promotion-wrapper.soft--sides.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background.jpg'})" }
+.home-screen-promotion-wrapper.soft--sides.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background.jpg'})", 'data-stellar-background-ratio' => '0.6' }
   .main-container.main-container--medium
     %header.grid
       .grid__item.one-third.v-top.soft--top.text--right.soft--right.visuallyhidden--palm>
@@ -52,6 +52,9 @@
     %h2.text--center.f-weight-300 Comparatif détaillé
     %div
       = render 'pro/home/pricing_details_table'
+
+.main-container.main-container--medium.soft.push--bottom
+  = render 'pro/shared/premium_graph'
 
 = render 'pro/shared/premium_testimonies'
 

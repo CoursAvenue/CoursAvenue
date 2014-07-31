@@ -1,3 +1,15 @@
+.heart-link:hover {
+    i {
+        @extend .fa-heart;
+    }
+}
+.structure__header-icon {
+    line-height: 18px;
+    div {
+        font-size: 13px;
+    }
+}
+
 #structure-header {
     &, h1, #coordinate-buttons, #comments-count {
         @include transition(all 250ms linear);
@@ -8,10 +20,6 @@
         h1 { font-size: 19px; }
     }
 }
-        .top-contacts-buttons-wrapper {
-            top       : 50%;
-            margin-top: -1.4em;
-        }
 
 // ------------------ AS ON SHOW PAGE
 .structure__logo {

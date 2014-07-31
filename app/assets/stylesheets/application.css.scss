@@ -2,6 +2,7 @@
 //*= require libs/jquery.fileupload/jquery.fileupload-ui
 
 @import "font-awesome";
+@import "GlyphAvenue";
 
 // Compass mixins
 @import "compass/css3/filter";
@@ -101,7 +102,6 @@
 @import "partials/objects/loading-indicator";
 @import "partials/objects/infobox";
 @import "partials/objects/filepicker";
-@import "partials/objects/popover";
 @import "partials/objects/tags";
 @import "partials/objects/faux_column";
 @import "partials/objects/chart";
@@ -123,8 +123,10 @@
 @import "libs/jquery-editable";
 @import "libs/add_this_event";
 
+@import "libs/bootstrap/bootstrap.animation-component";
 @import "libs/bootstrap/bootstrap.datepicker";
 @import "libs/bootstrap/bootstrap.tooltip";
+@import "libs/bootstrap/bootstrap.popover";
 @import "libs/bootstrap/bootstrap.collapse";
 
 html, body {
@@ -133,7 +135,7 @@ html, body {
 
 html, pre {
   font-family : $brand-face;
-  font-weight : 400;
+  font-weight : 500;
   background  : $site-background-color;
   color       : #393C3D;
   overflow    : auto;

@@ -31,4 +31,4 @@
             \/
             = link_to 'Supprimer', pro_blog_article_path(article), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette article ?' }, class: 'red'
             \/
-            = link_to 'Voir', blog_article_url(article, subdomain: 'www')
+            = link_to 'Voir', blog_article_url(article, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)

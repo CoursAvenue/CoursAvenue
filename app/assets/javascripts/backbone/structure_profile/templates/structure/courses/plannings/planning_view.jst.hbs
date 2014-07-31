@@ -1,17 +1,18 @@
-<td class="two-twelfths">{{ date }}</td>
-<td class="two-twelfths">{{ time_slot }}</td>
-<td class="two-twelfths">{{ levels }}</td>
-<td class="two-twelfths">
+<td>{{ date }}</td>
+<td class="no-wrap text--center">{{ time_slot }}</td>
+<td>{{ levels }}</td>
+<td>
     {{ audiences }}
-    {{#if info}}
-        <i data-original-title="{{ info }}" data-behavior="tooltip"></i>
+</td>
+<td>
+    {{#if address_name }}
+        <div class="gray milli" data-toggle="popover" data-html="true" data-trigger="hover" data-content="{{address_with_info}}">{{address_name}}</div>
     {{/if}}
 </td>
-<td class="text--right three-twelfths">
-    {{#if address }}
-    <div class="gray milli">
-        <i>{{address}}</i>
-        <i class="fa fa-map-marker"></i>
+<td>
+    {{#if info}}
+    <div data-title="{{ hide_contacts info }}" data-behavior="tooltip">
+        <i class='fa fa-info'></i>
     </div>
     {{/if}}
 </td>

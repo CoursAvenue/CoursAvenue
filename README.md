@@ -34,6 +34,11 @@ A custom renderer has been created in lib/
 Inuit.css
 Compass for mixins
 
+### Icon webfonts 
+We use FontAwesome and Fontcustom to generate own icon font
+Command to regenerate fonts:
+`bundle exec fontcustom compile app/assets/images/icons/svg/`
+
 ### Add remote branch for Heroku
 `git remote add heroku git@heroku.com:leboncours.git`
 

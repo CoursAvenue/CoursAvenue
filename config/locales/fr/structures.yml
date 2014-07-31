@@ -86,6 +86,25 @@ fr:
       remind_me: "Me le rappeler plus tard"
       dont_want: "Non, je n'en veux pas"
       need_help: "Non, j'ai besoin d'aide"
+    structure_type_genre:
+      structures:
+        company: la
+        association: la
+        independant: le
+        other: le
+    structure_type_contact:
+      structures:
+        company: cette école
+        association: cette association
+        independant: ce professeur
+        other: ce profil
+    structure_type_contact_bis:
+      structures:
+        company: de l'école
+        association: de l'association
+        independant: du professeur
+        other: du profil
+
 
   pro:
     structures:
@@ -129,6 +148,7 @@ fr:
       side_menu:
         account: Compte
         blog: Blog
+        portraits: Portraits
         clicks: Nombre de click
         comments: Avis
         communicate: Communiquer

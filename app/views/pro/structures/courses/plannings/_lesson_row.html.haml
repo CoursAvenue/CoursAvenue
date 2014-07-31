@@ -8,7 +8,7 @@
   %td= planning.place.try(:name)
   %td
     - if planning.info.present?
-      .lbc-brand-icon{ data: { behavior: 'tooltip', 'original-title' => planning.info } }
+      %i.fa.fa-info{ data: { behavior: 'tooltip', 'original-title' => planning.info } }
   %td.text--right.nowrap
     = link_to edit_pro_structure_course_planning_path(structure, course, planning), title: 'Modifier le créneau', data: { behavior: 'modal', width: '800', padding: '0', planning_id: planning.id, action: 'edit' }, class: 'fancybox.ajax orange nowrap' do
       %i.fa.fa-pencil

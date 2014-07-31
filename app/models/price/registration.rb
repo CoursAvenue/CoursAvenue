@@ -12,4 +12,8 @@ class Price::Registration < Price
   def free?
     amount == 0
   end
+
+  def libelle
+    'prices.registration_fees'
+  end
 end

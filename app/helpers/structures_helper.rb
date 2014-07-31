@@ -1,5 +1,17 @@
 module StructuresHelper
 
+  def header_promotion_title_for_structure(structure)
+    if @structure.has_free_trial_course? and @structure.has_promotion?
+      "Essai gratuit & promotions"
+    elsif @structure.has_promotion?
+      "Promotions"
+    elsif @structure.has_free_trial_course?
+      "Essai gratuit"
+    else
+      nil
+    end
+  end
+
   def response_time_in_words(structure)
     return unless structure.response_time
     date = Time.now - structure.response_time.to_i.hours
@@ -55,7 +67,6 @@ module StructuresHelper
     end
     return nil
   end
-
 
   # @param distance decimal, eg. 1.4, 0.4, etc.
   #

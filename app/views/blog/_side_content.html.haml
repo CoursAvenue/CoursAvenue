@@ -50,7 +50,9 @@
 .gamma.soft-half--bottom.push-half--bottom.f-weight-bold Suivez-nous sur les réseaux sociaux
 %hr
 %div
-  = link_to 'https://www.facebook.com/CoursAvenue', class: 'push-half--right', target: :_blank do
+  = link_to 'https://www.facebook.com/CoursAvenue', class: 'push-half--right', target: :_blank, rel: :nofollow do
     %i.fa.fa-facebook.fa-2x
-  = link_to 'https://www.twitter.com/CoursAvenue', target: :_blank do
+  = link_to 'https://www.twitter.com/CoursAvenue', class: 'push-half--right', target: :_blank, rel: :nofollow do
     %i.fa.fa-twitter.fa-2x
+  = link_to 'https://instagram.com/coursavenue', target: :_blank, rel: :nofollow do
+    %i.fa.fa-instagram.fa-2x

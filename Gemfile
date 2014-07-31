@@ -141,7 +141,7 @@ gem 'backbone-relational-rails' , '~>0.8.7'
 # See issue: https://github.com/leshill/handlebars_assets/pull/46
 gem 'handlebars_assets'         , '~>0.15', git: 'git://github.com/variousauthors/handlebars_assets.git'
 # Decorator
-gem 'draper'                    , '~>1.3.0'
+gem 'draper'                    , '~>1.3.1'
 # allows sharing of handlebars templates
 gem 'sht_rails'
 gem 'sass-rails'                , '~>4.0.1'
@@ -200,6 +200,7 @@ end
 
 group :development do
   # Removes useless logging in dev.
+  gem 'fontcustom'
   gem 'brakeman'                , '~>2.3.1'
   gem 'rubocop'                 , '~>0.18.1'
 

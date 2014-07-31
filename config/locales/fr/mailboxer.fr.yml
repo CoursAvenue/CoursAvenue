@@ -10,3 +10,8 @@ fr:
       information: Demande d'information
       comment: Avis déposé
       conversation: Conversation
+    extra_info:
+      inscription: Inscription
+      planning_info: Infos planning
+      be_called: Être rappelé
+      more_info: Plus d'infos

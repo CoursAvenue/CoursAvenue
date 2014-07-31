@@ -35,25 +35,33 @@
 
     Plugin.prototype = {
 
-        init: function() {
+        init: function init () {
             this.caret_icon = this.$element.find('i');
-            this.toggled_el = this.$element.find(this.$element.data('el'));
-            if (this.toggled_el.length == 0) {
-                this.toggled_el = $(this.$element.data('el'));
-            }
+            this.getToggledEl();
             this.attachEvents();
         },
 
-        attachEvents: function() {
+        getToggledEl: function getToggledEl () {
+            var toggled_el = this.$element.find(this.$element.data('el'));
+            if (toggled_el.length == 0) {
+                this.toggled_el = $(this.$element.data('el'));
+            } else {
+                this.toggled_el = toggled_el;
+            }
+        },
+
+        attachEvents: function attachEvents () {
             var is_hidden = this.toggled_el.hasClass('hide') || this.toggled_el.hasClass('hidden');
             if (is_hidden) {
                 this.toggled_el.slideUp(0);
                 this.toggled_el.removeClass('hide');
             }
             this.$element.click(function() {
+                this.getToggledEl();
                 if (is_hidden) {
                     this.caret_icon.addClass('icon-caret-down').removeClass('icon-caret-left');
                     this.toggled_el.slideDown();
+                    $(window).resize();
                 } else {
                     this.toggled_el.slideUp();
                     this.caret_icon.removeClass('icon-caret-down').addClass('icon-caret-left');

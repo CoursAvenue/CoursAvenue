@@ -6,7 +6,8 @@
 
     .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.contacts') } }
       %h5 Coordonnées de réservation
-      = render "pro/structures/admins/change_email"
+      - if @structure.main_contact
+        = render "pro/structures/admins/change_email"
 
       %div{ data: { behavior: 'show-more-on-demand' } }<>
         - @structure.phone_numbers.each_with_index do |phone_number, i|
@@ -37,6 +38,6 @@
 
           = form.input :website, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
           = form.input :facebook_url, as: :string, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, wrapper_html: { class: 'flush--bottom' }
-    .soft--top= form.button :submit, "Enregistrer", class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
+      .soft--top= form.button :submit, "Enregistrer", class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
 
 

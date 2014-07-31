@@ -1,6 +1,6 @@
 {{#if children}}
     <div class="flexbox">
-        <ul class="tabs--stacked flexbox__item v-top one-quarter">
+        <ul class="tabs--stacked flexbox__item v-top one-third">
             {{#each children}}
                 <li class="{{#ifCond slug '==' ../selected_slug}}selected{{/ifCond}} {{#ifCond slug '==' ../selected_parent_subject_id}}selected{{/ifCond}}">
                     <a data-subject data-depth="1" data-type="btn" data-toggle="tab" href="#tab-subjects-filter-{{slug}}" data-value="{{slug}}" data-toggle="tab" data-root-subject="{{../slug}}" class="pointer {{#ifCond slug '==' ../selected_slug}}f-weight-bold{{/ifCond}} {{#ifCond slug '==' ../selected_parent_subject_id}}f-weight-bold{{/ifCond}}">
@@ -9,7 +9,7 @@
                 </li>
             {{/each}}
         </ul>{{!--
-    --}}<div class="flexbox__item three-quarters v-top">
+    --}}<div class="flexbox__item two-thirds v-top">
             <div class="tab-content text--left">
                 {{#each children}}
                     <article id="tab-subjects-filter-{{slug}}" class="tab-pane soft-half">

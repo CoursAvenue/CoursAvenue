@@ -11,6 +11,11 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             'change': 'updatePlannings'
         },
 
+        initialize: function(options) {
+            this.model.set('is_last', options.is_last);
+            this.model.set('about', options.about);
+        },
+
         /* the Course model used here as the composite part is the actual
         * course model in the structure's courses relation. However, the
         * collection of plannings is _not_ part of the structure. This means
@@ -30,7 +35,11 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
 
         onItemviewMouseleave: function onItemviewMouseleave (view, data) {
             this.trigger("mouseleave", data);
-        }
+        },
+
+        onAfterShow: function onAfterShow () {
+            this.$('[data-toggle=popover]').popover();
+        },
     });
 
 }, undefined);
