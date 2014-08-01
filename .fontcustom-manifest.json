@@ -1,7 +1,7 @@
 {
   "checksum": {
-    "previous": "ffd3f233973f62cb5eb8737201bc2782937bc40a76a9551b30276809d5f29598",
-    "current": "ffd3f233973f62cb5eb8737201bc2782937bc40a76a9551b30276809d5f29598"
+    "previous": "5eb160da282b0c27c2c38abc18572244349b62a284e6e01c3c1622cb8f5a0e81",
+    "current": "5eb160da282b0c27c2c38abc18572244349b62a284e6e01c3c1622cb8f5a0e81"
   },
   "fonts": [
     "app/assets/fonts/GlyphAvenue.ttf",
@@ -75,7 +75,7 @@
       "source": "app/assets/images/icons/svg/cogs.svg"
     },
     "comment": {
-      "codepoint": 61767,
+      "codepoint": 61801,
       "source": "app/assets/images/icons/svg/comment.svg"
     },
     "contact": {
@@ -125,6 +125,10 @@
     "group": {
       "codepoint": 61723,
       "source": "app/assets/images/icons/svg/group.svg"
+    },
+    "handshake": {
+      "codepoint": 61802,
+      "source": "app/assets/images/icons/svg/handshake.svg"
     },
     "heart": {
       "codepoint": 61783,
