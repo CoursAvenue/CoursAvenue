@@ -15,10 +15,11 @@ class AdminMailer < ActionMailer::Base
   end
 
   def commercial_email(structure)
+    return if @structure.main_contact.nil?
     @structure = structure
-    mail to: @structure.main_contact.email,
-         subject: "★ Dernier jour à -50%",
-         from: "L'équipe CoursAvenue <contact@coursavenue.com>"
+    # mail to: @structure.main_contact.email,
+    #      subject: "★ Dernier jour à -50%",
+    #      from: "L'équipe CoursAvenue <contact@coursavenue.com>"
   end
 
   def subscription_renewal_failed(structure, params)

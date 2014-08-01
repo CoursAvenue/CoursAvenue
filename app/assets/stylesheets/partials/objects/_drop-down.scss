@@ -1,6 +1,5 @@
 .drop-down__wrapper {
     position    : relative;
-    // z-index     : 10;
 }
     .drop-down__el {
         display         : none;
@@ -15,7 +14,7 @@
         text-align      : center;
         border          : 1px solid #D0D0D0;
         max-height      : 30em;
-        overflow-y      : scroll;
+        overflow-y      : hidden;
         @include box-shadow(0px 2px 10px rgba(0, 0, 0, 0.1));
         a {
             display      : block;
