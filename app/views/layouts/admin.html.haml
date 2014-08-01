@@ -22,7 +22,7 @@
         - else
           = link_to premium_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--yellow f-weight-bold' do
             %i.fa.fa-star
-            Offre Premium spécial été
+            Offre Premium
         - if @structure.is_sleeping?
           %span.push-half--sides= '|'
           %span.v-middle.lbl.lbl--red{ data: { toggle: 'popover', content: "Vous venez de prendre le contrôle de votre profil : complétez-le pendant que l'équipe CoursAvenue vérifie votre identité. Vous recevrez un e-mail dès que c'est validé !  Les modifications que vous avez apportées deviendront alors directement visibles sur votre profil public.", trigger: 'hover' } } En attente de validation

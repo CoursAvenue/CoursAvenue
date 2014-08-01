@@ -3,8 +3,6 @@
     .soft--sides
       %h3 Passez au Premium pour accéder à toutes les fonctionnalités de CoursAvenue et recruter plus d'élèves.
 
-      .text--center.push-half--bottom
-        = link_to "Voir l'offre spéciale (valable jusqu'au 31/07/2014)", pro_pages_july_offer_path, class: 'epsilon'
       %p
         %strong.delta Choisissez votre abonnement :
       .two-thirds.center-block
@@ -13,10 +11,14 @@
         %strong Le saviez-vous ?
         Vous pouvez annuler votre compte Premium à tout moment, abonnement sans contrat ni commissions.
 
+    %hr.push--bottom.flush--top
+    .soft--sides
+      = render 'pro/shared/premium_graph'
+
     %hr.push--ends
     .soft--sides
       %p
-        %strong.delta  Les avantages du profil Premium :
+        %strong.delta Les avantages du profil Premium
       = render 'pro/shared/premium_advantages'
 
     %hr.push--ends
@@ -31,6 +33,3 @@
       %h4 Détails du profil Premium
       = render 'pro/home/pricing_details_table'
 
-    %hr.push--bottom.flush--top
-    .soft--sides
-      = render 'pro/shared/premium_graph'

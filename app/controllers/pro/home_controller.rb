@@ -34,6 +34,7 @@ class Pro::HomeController < Pro::ProController
   end
 
   def july_offer
+    redirect_to root_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN, notice: "L'offre spécial été n'est plus valable"), status: 301
   end
 
   def convictions
