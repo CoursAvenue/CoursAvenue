@@ -15,7 +15,7 @@ class AdminMailer < ActionMailer::Base
   end
 
   def commercial_email(structure)
-    return if @structure.main_contact.nil?
+    return
     @structure = structure
     # mail to: @structure.main_contact.email,
     #      subject: "★ Dernier jour à -50%",
