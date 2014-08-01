@@ -109,6 +109,7 @@ class SubscriptionPlan < ActiveRecord::Base
   #
   # @return Boolean
   def renew!
+    return if self.canceled?
     require 'net/http'
 
     extra_data = { renew: true, plan_type: self.plan_type }
@@ -141,11 +142,17 @@ class SubscriptionPlan < ActiveRecord::Base
 
     params['method']          = 'payment'
 
-    # res = Net::HTTP.post_form URI('http://coursavenue.dev'), params
     res = Net::HTTP.post_form URI(ENV['BE2BILL_REST_URL']), params
     puts res.body if res.is_a?(Net::HTTPSuccess)
-    return res.is_a?(Net::HTTPSuccess)
-    AdminMailer.delay.subscription_has_been_renewed(self)
+    if res.is_a?(Net::HTTPSuccess)
+      AdminMailer.delay.subscription_has_been_renewed(self)
+      self.renewed_at = Date.today
+      self.expires_at = Date.today + PLAN_TYPE_DURATION[plan_type.to_s].months
+      self.save
+      return true
+    else
+      return false
+    end
   end
 
   # Description of the plan in months
@@ -222,8 +229,18 @@ class SubscriptionPlan < ActiveRecord::Base
     return self
   end
 
+  # Reactivate subscription plan by removing canceled_at
+  #
+  # @return SubscriptionPlan
+  def reactivate!
+    self.canceled_at = nil
+    self.save
+    self.structure.index
+    return self
+  end
+
   def active?
-    !canceled? and self.expires_at >= Date.today
+    self.expires_at >= Date.today
   end
 
   private

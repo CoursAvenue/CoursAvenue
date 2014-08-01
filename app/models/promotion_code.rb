@@ -25,13 +25,14 @@ class PromotionCode < ActiveRecord::Base
     return (!self.expired? and (usage_nb < max_usage_nb))
   end
 
-  # Check if apply_until is still valid
+  # Check if apply_until is still valid on a given date
   # apply_until tells wether on renew the promotion code has to apply
+  # @param date=Date.today Given date to compare with
   #
   # @return Boolean
-  def still_apply?
+  def still_apply? date=Date.today
     return false if apply_until.nil?
-    apply_until >= Date.today
+    apply_until >= date
   end
 
   def expired?

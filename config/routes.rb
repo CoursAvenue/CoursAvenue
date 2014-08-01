@@ -135,6 +135,7 @@ CoursAvenue::Application.routes.draw do
         resources :orders, only: [:index, :show], controller: 'structures/orders', path: 'mes-factures'
         resources :subscription_plans, only: [:destroy], controller: 'structures/subscription_plans' do
           member do
+            patch :reactivate
             get :ask_for_cancellation
             get :confirm_cancellation
           end

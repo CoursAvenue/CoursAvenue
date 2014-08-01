@@ -21,4 +21,4 @@
         .grid__item.one-half>
           %a.btn.btn--full.btn--green{ onclick: '$.fancybox.close();' } Ne pas me désabonner
         .grid__item.one-half>
-          = f.submit 'Me désabonner', class: 'btn btn--full btn--red '
+          = f.submit 'Me désabonner', class: 'btn btn--full btn--red', data: { disable_with: 'Désabonnement en cours...' }
