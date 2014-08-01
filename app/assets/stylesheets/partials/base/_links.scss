@@ -10,10 +10,6 @@
 a, .btn-as-link {
     color          : $brand-color;
     text-decoration: none;
-    font-weight    : 600;
-    [data-toggle=tab]{
-        font-weight: 300;
-    }
 }
 a:hover, .btn-as-link:hover {
     text-decoration: underline;
