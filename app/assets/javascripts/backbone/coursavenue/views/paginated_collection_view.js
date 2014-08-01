@@ -87,7 +87,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         scrollToView: function(view) {
             var element = view.$el;
-            this.$el.parents('section').scrollTo(element[0], { duration: 400 });
+            this.$el.parents('section').scrollTo(element[0], { duration: 400, offset: -50 });
         }
     });
 });
