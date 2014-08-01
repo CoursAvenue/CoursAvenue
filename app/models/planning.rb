@@ -104,12 +104,12 @@ class Planning < ActiveRecord::Base
     boolean :visible
 
     boolean :active_structure do
-      course.structure.active?
+      course.structure.active? if course.structure
     end
 
     # ----------------------- For grouping
     string :structure_id_str do
-      course.structure_id.to_s
+      course.structure_id.to_s if course.structure
     end
 
     string :place_id_str do
@@ -117,7 +117,7 @@ class Planning < ActiveRecord::Base
     end
 
     integer :structure_id do
-      course.structure_id.to_s
+      course.structure_id.to_s if course.structure
     end
 
     # ----------------------- Fulltext search

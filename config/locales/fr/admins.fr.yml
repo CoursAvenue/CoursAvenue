@@ -40,7 +40,7 @@ fr:
           sign_up: S'inscrire
       sessions:
         new:
-          log_in: Connectez-vous à votre espace admin
+          log_in: Connectez-vous à votre espace pro
       wizard:
         notifications: >
           <p><strong>Pas de spam</strong></p>
@@ -62,4 +62,4 @@ fr:
       successful: "Merci de vous être enregistré ! Bienvenue dans votre espace de configuration."
     sessions:
       new:
-        log_in: Connectez-vous à votre espace admin
+        log_in: Connectez-vous à votre espace pro

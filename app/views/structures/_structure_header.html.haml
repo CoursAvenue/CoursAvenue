@@ -47,7 +47,7 @@
                   = "disciplines".pluralize @structure.subjects.at_depth(2)
 
             .milli.inline-block.structure__header-icon.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.places_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
-              = link_to "javascript:$('#map-thumbnail').click()", class: 'muted-link flexbox' do
+              = link_to "javascript:$('#map-thumbnail').click(); return false;", class: 'muted-link flexbox' do
                 %i.fa-3x.fa-map-marker.flexbox__item
                 .flexbox__item.soft-half--left.soft--right
                   = @structure.places.count
