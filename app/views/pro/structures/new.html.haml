@@ -42,7 +42,7 @@
           .grid__item.one-third.text--right.v-middle>
             .gamma.white.smooth-black-text-shadow> Disciplines générales pratiquées
           .grid__item.v-middle.two-thirds>
-            = f.association :subjects, as: :select, collection: Subject.roots.order('name ASC'), input_html: { id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' }, multiple: true, class: 'input--large hard one-whole' }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush', style: 'max-width: 600px;'}
+            = f.association :subjects, as: :select, collection: Subject.roots.order('name ASC'), input_html: { id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' }, multiple: true, class: 'input--large hard one-whole' }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }
         #descendants-subject.grid.push--bottom
           .grid__item.one-third.text--right.v-middle>
             .gamma.white.smooth-black-text-shadow> Sous disciplines
@@ -78,7 +78,7 @@
       .grid.push--bottom
         .grid__item.one-third.text--right.v-middle>
         .grid__item.v-middle.two-thirds>
-          = f.submit 'Continuer', class: 'btn--large btn btn--full btn--green', data: { disable_with: "Profil en cours de création" }
+          = f.submit 'Continuer', class: 'btn--large btn btn--full btn--green', data: { disable_with: "Profil en cours de création" }, style: 'max-width: 600px;'
 
 .home-screen-promotion-wrapper.soft
   .main-container.main-container--medium.soft
