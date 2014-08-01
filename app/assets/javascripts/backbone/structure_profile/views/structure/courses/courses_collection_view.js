@@ -40,16 +40,6 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             $breacrumb.appendTo(this.$('[data-breadcrumb]'));
         },
 
-        onRender: function onRender () {
-            var new_html = this.$('[data-empty-courses]').html().replace('__about__', _.capitalize(this.about));
-            this.$('[data-empty-courses]').html(new_html);
-            if (this.collection.length == 0 && this.collection.total_not_filtered == 0) {
-                this.$('[data-empty-courses]').show();
-            } else {
-                this.$('[data-empty-courses]').hide();
-            }
-        },
-
         onAfterShow: function onAfterShow () {
             this.iPhonizeCourseTitles();
         },
@@ -80,19 +70,23 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
                     return memo;
                 }, 0);
             return {
-                courses_count: this.collection.length,
-                plannings_count: plannings_count,
+                courses_count     : this.collection.length,
+                plannings_count   : plannings_count,
                 total_not_filtered:   (this.collection.total_not_filtered || 0) - plannings_count,
-                data_url: this.data_url
+                data_url          : this.data_url,
+                about             : this.about,
+                about_genre       : this.about_genre,
+                has_courses       : (this.collection.length > 0)
             };
         },
 
         itemViewOptions: function itemViewOptions (model, index) {
             var is_last = (index == (this.collection.length - 1));
             return {
-                collection: new Backbone.Collection(model.get("plannings")),
-                is_last   : is_last,
-                about     : this.about
+                collection : new Backbone.Collection(model.get("plannings")),
+                is_last    : is_last,
+                about      : this.about,
+                about_genre: this.about_genre
             };
         },
 

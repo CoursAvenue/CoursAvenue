@@ -2,6 +2,8 @@
   <h3 class="v-middle flush inline-block delta">{{ name }}</h3>
   {{#if promotion_title}}
     <a href="#course-{{id}}-tarifs" class="v-middle lbl lbl--yellow muted-link push-half--left" data-behavior='scroll-to' data-offset-top='-115'><i class="fa-star"></i> {{ promotion_title }}</a>
+  {{else}}
+    <div class="lbl visibility-hidden"></div>
   {{/if}}
 </div>
 <div class="flexbox push--bottom">
@@ -58,7 +60,10 @@
         <strong class="gray-light v-middle">Tarifs</strong>
     </div>
     <div class="flexbox__item v-top three-quarters">
-        <table class="table--striped table--data table--data-small">
+        {{#unless has_price_group}}
+          {{capitalize about}} n'a pas mis à jour ses tarifs : <a href="#" data-behavior="show-contact-panel">contactez-{{about_genre}}</a>.
+        {{/unless}}
+        <table class="table--striped table--data table--data-small {{#unless has_price_group}}hidden{{/unless}}">
             <thead class="gray-light">
                 <tr>
                     <th class="four-twelfths">Formule</th>
@@ -104,7 +109,11 @@
                             {{this.libelle}}
                         </td>
                         <td class="text--center {{#if this.promo_amount}}line-through{{/if}}">
-                            {{this.amount}}
+                            {{#if this.is_free}}
+                              <strong class="green">Gratuit{{#if this.is_registration}}e{{/if}}</strong>
+                            {{else}}
+                              {{this.amount}}
+                            {{/if}}
                         </td>
                         <td class="text--center">
                             {{#if ../premium}}
@@ -144,5 +153,5 @@
     </div>
 </div>
 {{#unless is_last}}
-<hr class="push--ends">
+<hr class="push--top flush--bottom">
 {{/unless}}

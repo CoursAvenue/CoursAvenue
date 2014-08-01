@@ -14,6 +14,7 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         initialize: function(options) {
             this.model.set('is_last', options.is_last);
             this.model.set('about', options.about);
+            this.model.set('about_genre', options.about_genre);
         },
 
         /* the Course model used here as the composite part is the actual

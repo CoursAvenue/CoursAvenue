@@ -22,8 +22,9 @@ class StructureDecorator < Draper::Decorator
     output = ''
     _subjects.sort{ |a, b| b[:child_length] <=> a[:child_length] }.each_with_index do |subject_hash, index|
       output << "<div class='#{index > 0 ? 'push-half--top' : ''}'><strong>#{subject_hash[:root_name]} :</strong>"
+      list_item_start = (subject_hash[:child_names].length > 1 ? '- ' : '')
       subject_hash[:child_names].each do |child_name|
-        output << "<br>- #{child_name}"
+        output << "<br>#{list_item_start}#{child_name}"
       end
       output << "</div>"
     end
@@ -39,13 +40,15 @@ class StructureDecorator < Draper::Decorator
     courses = courses + object.courses.privates.select{ |course| course.is_published? and course.has_promotion? }
     output  = ''
     output  << "<div><strong>#{courses.length} #{'cours régulier'.pluralize(courses.length)} :</strong></div>" if courses.any?
+    list_item_start = (courses.length > 1 ? '- ' : '')
     courses.each do |course|
-      output << "<div>- #{course.name}</div>"
+      output << "<div>#{list_item_start}#{course.name}</div>"
     end
     trainings = object.courses.trainings.select{ |course| course.is_published? and course.has_promotion? }
     output  << "<div class='push-half--top'><strong>#{trainings.length} #{'stage'.pluralize(trainings.length)} :</strong></div>" if trainings.any?
+    list_item_start = (trainings.length > 1 ? '- ' : '')
     trainings.each do |training|
-      output << "<div>- #{training.name}</div>"
+      output << "<div>#{list_item_start}#{training.name}</div>"
     end
     output
   end
@@ -54,13 +57,15 @@ class StructureDecorator < Draper::Decorator
     courses = object.courses.lessons.select(&:is_published?)
     output  = ''
     output  << "<div><strong>#{courses.length} #{'cours collectif'.pluralize(courses.length)} :</strong></div>" if courses.any?
+    list_item_start = (courses.length > 1 ? '- ' : '')
     courses.each do |course|
-      output << "<div>- #{course.name}</div>"
+      output << "<div>#{list_item_start}#{course.name}</div>"
     end
     trainings = object.courses.trainings.select(&:is_published?)
+    list_item_start = (trainings.length > 1 ? '- ' : '')
     output  << "<div class='#{courses.any? ? 'push-half--top' : ''}'><strong>#{trainings.length} #{'stage'.pluralize(trainings.length)} :</strong></div>" if trainings.any?
     trainings.each do |training|
-      output << "<div>- #{training.name}</div>"
+      output << "<div>#{list_item_start}#{training.name}</div>"
     end
     output
   end
@@ -68,8 +73,9 @@ class StructureDecorator < Draper::Decorator
   def individual_courses_popover
     courses = object.courses.privates.select(&:is_published?)
     output  = "<div><strong>#{courses.length} #{'cours particulier'.pluralize(courses.length)} :</strong></div>"
+    list_item_start = (courses.length > 1 ? '- ' : '')
     courses.each do |course|
-      output << "<div>- #{course.name}</div>"
+      output << "<div>#{list_item_start}#{course.name}</div>"
     end
     output
   end

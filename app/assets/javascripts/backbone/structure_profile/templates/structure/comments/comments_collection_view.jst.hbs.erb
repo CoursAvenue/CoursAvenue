@@ -3,14 +3,17 @@
         <h4 class="flush">Avis</h4>
     </div>
     <div class="panel__body soft">
-        <p class="text--center">
-          <a href="{{ new_comments_path }}" target="_blank" rel="nofollow">Déposer mon avis</a>
-        </p>
-        <article class="tab-pane active hard" data-type="container">
-          <div data-empty-comments class="soft hard--top hidden">
-            __about__ n'a encore aucun avis.
+        {{#if has_comments}}
+            <p class="text--center">
+              <a href="{{ new_comments_path }}" target="_blank" rel="nofollow">Déposer mon avis</a>
+            </p>
+        {{else}}
+          <div data-empty-comments>
+            {{ capitalize about }} n'a encore aucun avis : <a href="{{ new_comments_path }}" target="_blank" rel="nofollow">déposer mon avis</a>.
           </div>
+        {{/if}}
+        <article class="tab-pane active hard {{#unless has_comments}}hidden{{/unless}}" data-type="container">
         </article>
-        <div class="push--bottom" data-type="bottom-pagination-tool"></div>
+        <div class="push--bottom {{#unless has_comments}}hidden{{/unless}}" data-type="bottom-pagination-tool"></div>
     </div>
 </div>

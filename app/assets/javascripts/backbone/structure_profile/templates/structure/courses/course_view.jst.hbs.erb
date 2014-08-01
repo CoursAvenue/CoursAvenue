@@ -2,6 +2,9 @@
   <h3 class="v-middle flush inline-block delta">{{ name }}</h3>
   {{#if promotion_title}}
     <a href="#course-{{id}}-tarifs" class="v-middle lbl lbl--yellow muted-link push-half--left" data-behavior='scroll-to' data-offset-top='-115'><i class="fa-star"></i> {{ promotion_title }}</a>
+  {{else}}
+    {{! Here to keep same height if there is no promo. If not here, iPhone effect will be buggy }}
+    <div class="lbl visibility-hidden">&nbsp;</div>
   {{/if}}
 </div>
 <div class="flexbox push--bottom">
@@ -99,7 +102,10 @@
         <strong class="gray-light v-middle">Tarifs</strong>
     </div>
     <div class="flexbox__item v-top three-quarters">
-        <table class="table--striped table--data table--data-small">
+        {{#unless has_price_group}}
+          {{capitalize about}} n'a pas mis à jour ses tarifs : <a href="#" data-behavior="show-contact-panel">contactez-{{about_genre}}</a>.
+        {{/unless}}
+        <table class="table--striped table--data table--data-small {{#unless has_price_group}}hidden{{/unless}}">
             <thead class="gray-light">
                 <tr>
                     <th class="three-twelfths">Formule</th>
@@ -145,11 +151,11 @@
                             {{#if ../premium}}{{#if this.promo_amount}}
                             <img src="<%= asset_path('icons/icon-star-yellow-full-bordered.png') %>" height="14" class="v-middle" data-toggle="tooltip" data-title="Offre spéciale CoursAvenue">
                             {{/if}}{{/if}}
-                              <span class="v-middle">{{this.libelle}}</span>
+                            <span class="v-middle">{{this.libelle}}</span>
                         </td>
                         <td class="text--center {{#if this.promo_amount}}line-through{{/if}}">
                             {{#if this.is_free}}
-                              <strong class="green">Gratuit</strong>
+                              <strong class="green">Gratuit{{#if this.is_registration}}e{{/if}}</strong>
                             {{else}}
                               {{this.amount}}
                             {{/if}}
@@ -192,5 +198,5 @@
     </div>
 </div>
 {{#unless is_last}}
-<hr class="push--ends">
+<hr class="push--top flush--bottom">
 {{/unless}}

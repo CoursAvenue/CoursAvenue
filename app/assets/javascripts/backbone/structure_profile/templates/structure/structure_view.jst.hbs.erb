@@ -15,29 +15,30 @@
                 {{/if}}
                 <div class="push-half--bottom">
                     {{#if description}}
-                    {{#ifCond description '!=' description_short}}
-                    <div id="description-short" class="gray last-p-push-half--bottom">
-                        {{{ simple_format_hide_contacts description_short }}}
-                    </div>
-                    <a href="#" data-behavior="show-long-version" data-short-version="#description-short" data-long-version="#description-long">
-                    + Plus
-                    </a>
-                    <div id="description-long" class="gray hidden" itemprop="description">
-                        {{{ simple_format_hide_contacts description }}}
-                    </div>
-                    {{else}}
-                    <div class="gray" itemprop="description">
-                        {{{ simple_format_hide_contacts description }}}
-                    </div>
-                    {{/ifCond}}
+                      {{#ifCond description '!=' description_short}}
+                      <div id="description-short" class="gray last-p-push-half--bottom">
+                          {{{ simple_format_hide_contacts description_short }}}
+                      </div>
+                      <a href="#" data-behavior="show-long-version" data-short-version="#description-short" data-long-version="#description-long">
+                      + Plus
+                      </a>
+                      <div id="description-long" class="gray hidden" itemprop="description">
+                          {{{ simple_format_hide_contacts description }}}
+                      </div>
+                      {{else}}
+                      <div class="gray" itemprop="description">
+                          {{{ simple_format_hide_contacts description }}}
+                      </div>
+                      {{/ifCond}}
+                      <div class="push-half--bottom text--center">
+                          <a class="pointer" data-behavior="show-contact-panel">Contacter {{about}}</a>
+                      </div>
                     {{else}}
                     <div class="gray">
-                        {{ capitalize about }} n'a pas ajouté sa description.
+                        {{ capitalize about }} n'a pas ajouté sa description :
+                        <a class="pointer" data-behavior="show-contact-panel" data-info-planning="true" href="#">contactez-{{about_genre}}.</a
                     </div>
                     {{/if}}
-                </div>
-                <div class="push-half--bottom text--center">
-                    <a class="pointer" data-behavior="show-contact-panel">Contacter {{about}}</a>
                 </div>
                 <hr class="push--ends flexbox">
                 <div class="flexbox" id="disciplines">

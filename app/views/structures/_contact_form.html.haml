@@ -1,3 +1,4 @@
+- is_xhr = false if is_xhr.nil?
 - if @is_sleeping and @structure.phone_numbers.any?
   .push--bottom#contact-panel
     = link_to 'javascript:void(0);', data: { behavior: 'toggleable', el: '.phone_number' }, class: 'btn btn--green btn--full' do
@@ -23,7 +24,7 @@
         .tab-content.soft
           %article.tab-message.tab-pane.active.hard
             #structure-contact
-              = simple_form_for [structure, Mailboxer::Message.new], url: (current_user ? structure_messages_path(structure) : ''), as: :message, remote: true do |f|
+              = simple_form_for [@structure, Mailboxer::Message.new], url: (current_user ? structure_messages_path(@structure) : ''), as: :message, remote: true do |f|
                 -# Here to stop bots.
                 -# If this is filled, the message won't be sent
                 .visuallyhidden
@@ -34,7 +35,7 @@
                       %input.inline-block.v-middle.more-info-inscription#more-info-inscription{ type: 'checkbox', name: 'message[extra_info_ids][]', value: Mailboxer::ExtraInfo::INSCRIPTION.id, checked: true }
                       %label.inline-block.v-middle{ for: 'more-info-inscription' }= t('mailboxer.extra_info.inscription')
                     %div
-                      %input.inline-block.v-middle.more-info-planning-info#more-info-planning-info{ type: 'checkbox', name: 'message[extra_info_ids][]', value: Mailboxer::ExtraInfo::PLANNING_INFO.id }
+                      %input.inline-block.v-middle.more-info-planning-info#more-info-planning-info{ type: 'checkbox', name: 'message[extra_info_ids][]', value: Mailboxer::ExtraInfo::PLANNING_INFO.id, checked: is_xhr }
                       %label.inline-block.v-middle{ for: 'more-info-planning-info' }= t('mailboxer.extra_info.planning_info')
                   .grid__item.one-half>
                     .push-half--bottom
@@ -119,35 +120,3 @@
                   %div.visuallyhidden{ itemprop: "addressCountry" } FR
                   - if @structure.phone_numbers.any?
                     %div.visuallyhidden{ itemprop: "telephone" }= readable_phone_number @structure.phone_numbers.first.number
-
-- unless current_user
-  = content_for :scripts do
-    :javascript
-      $(function() {
-          var body_message = $('#contact-message-body').val();
-          $.cookie('user_contact_message', body_message);
-      });
-
-= content_for :scripts do
-  :javascript
-    $(function() {
-        $('body').on('click', '[data-behavior=show-contact-panel]', function() {
-            $.fancybox.open($('#contact-panel').clone(true), { padding: 0, maxWidth: 450, minWidth: 450, width: 450, helpers: { overlay: { locked: false } } });
-            if ($(this).data('info-planning')) {
-                $('.more-info-planning-info').prop('checked', true)
-            }
-            return false;
-        })
-        $('.contact-button, [data-behavior=show-contact-panel]').click(function() {
-            $.ajax({
-                type: "POST",
-                dataType: 'js',
-                url: Routes.structure_statistics_path(#{@structure.id}),
-                data: {
-                    action_type: 'action',
-                    fingerprint: $.cookie('fingerprint'),
-                    infos: $(this).text().trim()
-                }
-            });
-        });
-    });

@@ -13,16 +13,17 @@ class PlanningSerializer < ActiveModel::Serializer
     str = ''
     if object.course.is_private?
       if object.course.place
-        str << "<p class='flush'><strong>#{object.course.place.address}#{(object.course.place.info.present? ? ' : ' : '')}</strong></p>"
-        str << "<p class='flush'>#{object.course.place.info}</strong></p>" if object.course.place.info.present?
+        str << "<div><strong>#{object.course.place.address}#{(object.course.place.info.present? ? ' : ' : '')}</strong></div>"
+        str << "<div>#{object.course.place.info}</strong></div>" if object.course.place.info.present?
       end
       if object.course.home_place
-        str << "<p class='flush'><strong>#{object.course.home_place.name}</strong> :<br> #{object.course.home_place.address}</p>"
+        str << "<div><strong>#{object.course.home_place.name}</strong> :<br> #{object.course.home_place.address}</div>"
       end
     elsif object.place
-      str << "<p class='flush'><strong>#{object.place.address}#{(object.place.info.present? ? ' : ' : '')}</strong></p>"
-      str << "<p class='flush'>#{object.place.info}</strong></p>" if object.place.info.present?
+      str << "<div><strong>#{object.place.address}#{(object.place.info.present? ? ' : ' : '')}</strong></div>"
+      str << "<div>#{object.place.info}</strong></div>" if object.place.info.present?
     end
+    str
   end
 
   def address_name

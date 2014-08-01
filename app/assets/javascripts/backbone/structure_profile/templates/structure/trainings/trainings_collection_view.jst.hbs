@@ -1,7 +1,9 @@
 <div data-type="container"></div>
-<div data-empty-trainings class="hidden">
+{{#unless has_courses}}
+<div data-empty-courses>
     <p class="flush--bottom push--top">
-        __about__ n'affiche pas de stage ou atelier.
-        <a class="pointer" data-behavior="show-contact-panel" data-info-planning="true" href="#">Contactez-__about_genre__ pour demander son planning.</a>
+        {{ capitalize about }} n'affiche pas de stage ni d'atelier.
+        <a class="pointer" data-behavior="show-contact-panel" data-info-planning="true" href="#">Contacter-{{ about_genre }} pour demander son planning.</a>
     </p>
 </div>
+{{/unless}}

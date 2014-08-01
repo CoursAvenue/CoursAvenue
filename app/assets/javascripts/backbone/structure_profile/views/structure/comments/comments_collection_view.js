@@ -15,16 +15,6 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
             this.announcePaginatorUpdated();
         },
 
-        onAfterShow: function onAfterShow () {
-            var new_html = this.$('[data-empty-comments]').html().replace('__about__', _.capitalize(this.about || 'Ce profil'));
-            this.$('[data-empty-comments]').html(new_html);
-            if (this.collection.length == 0) {
-                this.$('[data-empty-comments]').show();
-            } else {
-                this.$('[data-empty-comments]').hide();
-            }
-        },
-
         onRender: function onRender () {
             this.$('[data-type="bottom-pagination-tool"]').append(this.pagination_bottom.el);
         },
@@ -51,7 +41,9 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
 
         serializeData: function serializeData () {
             return {
-                new_comments_path: Routes.new_structure_comment_path(this.collection.structure.get('slug'))
+                new_comments_path: Routes.new_structure_comment_path(this.collection.structure.get('slug')),
+                about            : this.about,
+                has_comments     : this.collection.length > 0
             }
         }
     });

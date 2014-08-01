@@ -30,7 +30,8 @@ StructureProfile.addInitializer(function(options) {
 
     places_list_view         = new StructureProfile.Views.Structure.Places.PlacesCollectionView({ collection: places_collection });
     comments_collection_view = new StructureProfile.Views.Structure.Comments.CommentsCollectionView({
-        collection: structure.get('comments')
+        collection: structure.get('comments'),
+        about     :  structure.get('about')
     });
 
     filter_breadcrumbs = new FilteredSearch.Views.StructuresCollection.Filters.FilterBreadcrumbs.FilterBreadcrumbsView({

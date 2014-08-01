@@ -185,7 +185,11 @@ class Planning < ActiveRecord::Base
     end
 
     time :end_date do
-      self.end_date || self.course.end_date
+      if self.course.is_private? # Because private courses doesn't have start and end_date
+        Date.today + 100.year
+      else
+        self.end_date || self.course.end_date
+      end
     end
 
     string :price_types, multiple: true do

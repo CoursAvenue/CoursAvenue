@@ -8,7 +8,7 @@ class CourseSerializer < ActiveModel::Serializer
              :has_free_trial_lesson, :event_type, :best_price, :is_individual, :search_term, :is_lesson, :frequency,
              :cant_be_joined_during_year, :no_class_during_holidays, :teaches_at_home, :teaches_at_home_radius,
              :has_premium_prices, :premium, :on_appointment, :course_location, :min_age_for_kid, :max_age_for_kid,
-             :audiences, :levels, :details, :prices, :premium_prices, :promotion_title
+             :audiences, :levels, :details, :prices, :premium_prices, :promotion_title, :has_price_group
 
 
   has_many :plannings,      serializer: PlanningSerializer
@@ -188,6 +188,10 @@ class CourseSerializer < ActiveModel::Serializer
     else
       []
     end
+  end
+
+  def has_price_group
+    object.price_group.present?
   end
 
   def promotion_title
