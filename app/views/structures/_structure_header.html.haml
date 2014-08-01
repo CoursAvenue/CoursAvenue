@@ -24,7 +24,11 @@
                 = link_to '#cours-reguliers', class: 'muted-link flexbox', data: { behavior: 'scroll-to', offset_top: '-55' } do
                   %i.fa-3x.fa-group.flexbox__item
                   .flexbox__item.soft-half--left.soft--right
-                    #{(@structure.courses.trainings + @structure.courses.lessons).select(&:is_published?).length} cours
+                    - collectif_courses_nb = (@structure.courses.trainings + @structure.courses.lessons).select(&:is_published?).length
+                    - if collectif_courses_nb > 0
+                      #{collectif_courses_nb} cours
+                    - else
+                      Cours
                     %br
                     collectifs
             - if @structure.gives_individual_courses

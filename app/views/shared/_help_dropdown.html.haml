@@ -3,7 +3,7 @@
   = link_to pages_faq_users_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank', class: button_class do
     Aide
     %i.fa.fa-caret-down
-  %ul.drop-down__el.text--left
+  %ul.drop-down__el.text--left.on-top
     %li.nowrap
       = link_to "Comment trouver puis s'inscrire à un cours de loisir ?", pages_faq_users_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, anchor: 'about-creating-profile'), target: '_blank'
     %li.nowrap

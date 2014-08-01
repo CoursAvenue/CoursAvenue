@@ -1,6 +1,6 @@
 .panel
   .panel__header.soft
-    %h4.flush Connectez-vous à votre espace admin
+    %h4.flush Connectez-vous à votre espace pro
   .panel__body.soft
     = simple_form_for(Admin.new, as: :pro_admin, url: pro_admin_session_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)) do |f|
       .form-inputs

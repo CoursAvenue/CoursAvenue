@@ -26,8 +26,8 @@ fr:
       name: À domicile chez l'élève
       street: "%{zip_code} %{city_name} (dans un rayon de %{radius}km)"
     infos: >
-      <p><strong>Infos publiques</strong><br>%{info}</p>
-      <p><strong>Infos privées</strong><br>%{private_info}</p>
+      <p><strong>Infos publiques :</strong><br>%{info}</p>
+      <p><strong>Infos privées :</strong><br>%{private_info}</p>
 
 
   simple_form:

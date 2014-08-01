@@ -404,7 +404,7 @@ class Pro::StructuresController < Pro::ProController
 
   def get_layout
     if action_name == 'new' || action_name == 'create'
-      'empty'
+      'admin_pages'
     else
       'admin'
     end
