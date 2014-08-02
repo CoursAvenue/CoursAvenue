@@ -111,12 +111,12 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             var parent_subject, child_subject;
             this.ui.$subjects_breadcrumb.empty();
             this.ui.$subjects_breadcrumb.show();
-            if (data.subject_id == null) { this.ui.$subjects_breadcrumb.hide(); return; }
+            if (_.isEmpty(data.subject_id)) { this.ui.$subjects_breadcrumb.hide(); return; }
             current_model = this.collection.where({slug: data.root_subject_id || data.subject_id})[0];
 
             this.ui.$subjects_breadcrumb.append($(this.breadcrumb_template(_.extend(current_model.toJSON(), {depth: '0'}))));
 
-            // Return if selected subject is root
+            // Return if selected subject is root or subject_id is nil
             if (data.root_subject_id == data.subject_id) { return; }
             // parent_subject = _.select(current_model.get('children'), function(children) { return children.slug == data.parent_subject_id })[0] || {};
             parent_subject = _.select(current_model.get('children'), function(children) { return (children.slug == data.subject_id) || (children.slug == data.parent_subject_id) })[0];
