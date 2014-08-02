@@ -10,7 +10,7 @@
         = link_to 'Stages / Ateliers', new_pro_structure_price_group_path(@structure, course_type: 'training'), class: 'soft--sides push--left btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '1000', top_ratio: 0.2,  padding: '0', close_click: 'false' }
   .panel__body.soft--bottom{ data: { behavior: 'wizard-helper', content: t('price_group.wizard.premium_offers') } }
     .relative.premium-box.text--center.soft--sides.soft-half--ends
-      = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 70, width: 70, style: 'width: 70px; height: 70px;'
+      = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-under-top', height: 70, width: 70, style: 'width: 70px; height: 70px;'
       = render partial: 'pro/structures/premium_select', locals: { title: 'afficher vos offres découvertes et promotionnelles sur votre profil ?', label_text: 'Statut de vos offres découvertes et promotionnelles :' }
       %p.blue-darker.flush--bottom.text--center
         %i Recrutez encore plus d'élèves en affichant vos cours d'essai gratuits et tarifs spéciaux de vos tarifs ci-dessous.
