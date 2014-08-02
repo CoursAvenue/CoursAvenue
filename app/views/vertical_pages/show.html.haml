@@ -8,8 +8,7 @@
 - bg = asset_path "home_backgrounds/#{slug}.jpg"
 .bg-cover{style: "background-image: url('#{bg}')", 'data-stellar-background-ratio' => '0.6'}
   .main-container.main-container--medium.soft--ends
-    %h1.white.soft-black-text-shadow
-      Guide des cours de <strong>#{@vertical_page.name}</strong>
+    %h1.white.soft-black-text-shadow= @vertical_page.name
     - if @vertical_page.caption
       %h4.center-block.white.soft-black-text-shadow
         = @vertical_page.caption
