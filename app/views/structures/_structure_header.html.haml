@@ -94,7 +94,7 @@
                   %li.soft-half--sides= link_to 'Cours réguliers', '#cours-reguliers', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
                   %li.soft-half--sides= link_to 'Stages & ateliers', '#stages-ateliers', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
                   %li.soft-half--sides= link_to 'Avis', '#avis', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
-                - if @structure.premium?
+                - if @structure.premium? and @header_promotion_title_for_structure.present?
                   .lbl.lbl--yellow.nowrap.push--left.v-middle
                     %i.fa-star
                     = @header_promotion_title_for_structure
