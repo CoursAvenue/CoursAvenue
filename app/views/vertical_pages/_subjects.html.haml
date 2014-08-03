@@ -3,7 +3,11 @@
   - subjects.each do |subject|
     - subject.vertical_pages.each do |vertical_page|
       .inline-block.one-quarter.very-soft>
-        .relative.bg-cover{style: "background-image: url('#{vertical_page.image.url(:thumb)}'); height: 150px; "}>
+        - if vertical_page.image.present?
+          - image = vertical_page.image.url(:thumb)
+        - else
+          - image = subject_image(subject)
+        .relative.bg-cover{style: "background-image: url('#{image}'); height: 150px; "}>
           = link_to vertical_page_path(vertical_page), class: 'block show-on-hover__wrapper show-on-hover__wrapper--black-curtain', title: "Cours de #{subject.name}" do
             .home-screen-gallery__title.text--center{ style: (vertical_page.name.length > 27 ? 'margin-top: -1.7em' : '') }
               %div= vertical_page.name
