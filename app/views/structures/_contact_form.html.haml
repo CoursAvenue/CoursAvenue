@@ -10,7 +10,7 @@
           - if index > 0
             %br
           %strong.v-middle{ itemprop: "telephone" }=formatted_phone_number
-          - if @structure.premium
+          - if @structure.premium?
             %i.soft-half--left.v-middle.fa.fa-check-circle.green
             %i.v-middle.green.milli vérifié
 - elsif !@is_sleeping
@@ -99,15 +99,14 @@
                       - if index > 0
                         %br
                       %strong.v-middle{ itemprop: "telephone" }=formatted_phone_number
-                      - if @structure.premium
+                      - if @structure.premium?
                         %i.soft-half--left.v-middle.fa.fa-check-circle.green
                         %i.v-middle.green.milli vérifié
 
-              - if @structure.website.present?
+              - if @structure.website.present? and @structure.premium?
                 = link_to @structure.website, target: '_blank', rel: 'nofollow', onclick: "ga('send', 'event', 'Contact structure', 'click', 'website')", class: 'btn btn--green btn--full push-half--top' do
                   %i.fa.fa-globe.v-middle
                   %span.v-middle Site internet
-
 
             .visuallyhidden
               - @structure.places.each_with_index do |place, index|
