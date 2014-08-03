@@ -69,7 +69,7 @@ class Pro::SubjectsController < Pro::ProController
     respond_to do |format|
       if @subject.update_attributes params[:subject]
         format.js { render nothing: true }
-        format.html { redirect_to pro_subjects_path }
+        format.html { redirect_to all_pro_subjects_path }
       else
         format.html { render action: :edit }
       end

@@ -36,7 +36,7 @@
             %td
               = simple_form_for [:pro, vertical_page] do |f|
                 .flexbox
-                  = f.input :comments, label: false, wrapper_html: { class: 'flexbox__item v-middle' }, input_html: { class: 'one-whole', style: 'height: 35px; padding: 0;' }
+                  = f.input :comments, label: false, wrapper_html: { class: 'flexbox__item v-middle' }, input_html: { class: 'one-whole', style: 'height: 35px; padding: 0; width: 100px;' }
                   = f.submit 'OK', class: 'flexbox__item v-middle btn btn--small btn--green', data: { disable_with: "Validation en cours"}
 
             %td
