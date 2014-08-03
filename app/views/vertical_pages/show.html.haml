@@ -16,10 +16,21 @@
 .main-container.main-container--medium.soft--ends
   .grid
     .grid__item.three-fifths.palm-one-whole.v-top.soft--right>
-      %h2.soft--bottom.f-weight-300= @vertical_page.title
       .blog-article__content
-        = @vertical_page.content.html_safe
-
+        - if @vertical_page.content.present?
+          %p
+            = @vertical_page.title
+          = @vertical_page.content.html_safe
+        - else
+          - if @subject.good_to_know.present?
+            %h3 Bon à savoir / Qu'est-ce que c'est ?
+            %p= @subject.good_to_know
+          - if @subject.needed_meterial.present?
+            %h3 Les bienfaits
+            %p= @subject.needed_meterial
+          - if @subject.tips.present?
+            %h3 Matériel à prévoir
+            %p= @subject.tips
       - if @vertical_page.medias.any?
         = render partial: 'structures/map_and_gallery', locals: { medias: @vertical_page.medias, without_map: true }
     .grid__item.two-fifths.palm-one-whole.v-top>

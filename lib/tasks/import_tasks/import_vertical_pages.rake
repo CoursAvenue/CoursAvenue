@@ -28,7 +28,7 @@ namespace :import do
   desc 'Import vertical_pages'
   task :vertical_pages, [:filename] => :environment do |t, args|
     file_name = args.filename || 'Export/import_dormants.csv'
-    bar = ProgressBar.new 1783
+    bar = ProgressBar.new 575
     # csv_text = File.read(file_name)
     # csv = CSV.parse(csv_text, { col_sep: ";" })
     # csv.each_with_index do |row, i|
@@ -51,28 +51,24 @@ namespace :import do
         subject = Subject.where(name: attributes[:subjects_depth_0]).first
       end
       if subject.nil?
-        if attributes[:subjects_depth_2].blank?
-          puts attributes[:subjects_depth_1]
-        else
-          puts attributes[:subjects_depth_2]
-        end
+        puts "#{attributes[:subjects_depth_0]} / #{attributes[:subjects_depth_1]} / #{attributes[:subjects_depth_2]}"
         next
       end
       content = ''
-      if attributes[:content_first].present?
-        content << "<h4>Bon à savoir / Qu'est-ce que c'est ?</h4>"
+      if attributes[:content_first].present? and attributes[:content_first].downcase != 'x'
+        content << "<h3>Bon à savoir / Qu'est-ce que c'est ?</h3>"
         content << "<p>#{attributes[:content_first]}</p>"
       end
-      if attributes[:content_second].present?
-        content << "<h4>Les bienfaits</h4>"
+      if attributes[:content_second].present? and attributes[:content_second].downcase != 'x'
+        content << "<h3>Les bienfaits</h3>"
         content << "<p>#{attributes[:content_second]}</p>"
       end
-      if attributes[:content_third].present?
-        content << "<h4>Matériel à prévoir</h4>"
+      if attributes[:content_third].present? and attributes[:content_third].downcase != 'x'
+        content << "<h3>Matériel à prévoir</h3>"
         content << "<p>#{attributes[:content_third]}</p>"
       end
-      if attributes[:content_fourth].present?
-        content << "<h4>Astuces & anecdotes</h4>"
+      if attributes[:content_fourth].present? and attributes[:content_fourth].downcase != 'x'
+        content << "<h3>Astuces & anecdotes</h3>"
         content << "<p>#{attributes[:content_fourth]}</p>"
       end
       VerticalPage.create(name: attributes[:name],

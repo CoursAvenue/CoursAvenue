@@ -6,7 +6,6 @@
   .panel__body.soft--ends
     .text--center.push-half--bottom
       = link_to 'Éditer les villes', pro_cities_path, class: 'btn btn--green'
-    - @paris = City.find('paris')
     %table.table--data.table--striped.white-box#dataTable
       %thead
         %tr
@@ -39,14 +38,9 @@
                 - if subject.title.present? and subject.good_to_know.present?
                   %i.fa.fa-check
                 Editer
-              \/
-              = link_to new_pro_city_subject_info_path(city_id: @paris.id, subject_id: subject.id) do
-                - city_subject_info = CitySubjectInfo.load(@paris.id, subject.id)
-                - if city_subject_info and city_subject_info.where_to_practice.present?
-                  %i.fa.fa-check
-                Paris
             %td.nowrap
-              -# link_to 'Lien', vertical_page_url_for(subject), target: :_blank
+              - subject.vertical_pages.each do |verticale_page|
+                = link_to 'Lien', vertical_page_url(verticale_page), target: :_blank
 
     %h2 Disciplines niveau 2
     %table.table--data.table--striped.white-box#dataTable{style: 'margin-bottom: 1000px;'}
@@ -66,7 +60,6 @@
               - if subject.image.present?
                 %i.fa.fa-check
             %td= link_to 'Editer', edit_pro_subject_path(subject)
-            %td= link_to 'Paris', new_pro_city_subject_info_path(city_id: @paris.id, subject_id: subject.id)
 
 = content_for :scripts do
   :javascript
