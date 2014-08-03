@@ -1,8 +1,14 @@
 = content_for :title do
-  Tous les cours de #{@subject.name.downcase} | CoursAvenue
+  - if @vertical_page.name.present?
+    = @vertical_page.name
+  - else
+    Tous les cours de #{@subject.name.downcase} | CoursAvenue
 
 = content_for :description do
-  Tous les cours de #{@subject.name.downcase} | CoursAvenue
+  - if @vertical_page.title.present?
+    = @vertical_page.title
+  - else
+    Tous les cours de #{@subject.name.downcase} | CoursAvenue
 
 - slug = @subject.root.slug
 - bg = asset_path "home_backgrounds/#{slug}.jpg"

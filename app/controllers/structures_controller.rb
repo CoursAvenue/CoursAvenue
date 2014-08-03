@@ -46,6 +46,9 @@ class StructuresController < ApplicationController
   end
 
   def index
+    if params[:root_subject_id].present? and params[:subject_id].blank?
+      params[:subject_id] = params[:root_subject_id]
+    end
     @app_slug = "filtered-search"
     @subject = filter_by_subject?
 

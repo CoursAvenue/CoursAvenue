@@ -5,7 +5,7 @@ class Pro::VerticalPagesController < InheritedResources::Base
   layout 'admin'
 
   def index
-    @vertical_pages = VerticalPage.all
+    @vertical_pages = VerticalPage.order('content DESC').all
   end
 
   def new
