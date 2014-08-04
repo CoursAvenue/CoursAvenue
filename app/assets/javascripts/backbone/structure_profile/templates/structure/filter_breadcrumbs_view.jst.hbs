@@ -2,7 +2,7 @@
     <div>
         <span class="v-middle label--large">:</span>
         {{#each breadcrumbs}}
-          <span class="lbl f-color-black v-middle pointer" data-type="clear" data-target="{{target}}" {{#if title}} data-behavior="tooltip" title="{{ title }}"{{/if}}>
+          <span class="lbl f-color-black v-middle pointer" data-type="clear" data-target="{{target}}" {{#if title}} data-behavior="tooltip" title="{{ title }}" data-placement="bottom"{{/if}}>
             <i class="fa fa-times soft-half--right"></i>{{name}}
           </span>
         {{/each}}
