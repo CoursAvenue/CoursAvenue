@@ -40,7 +40,7 @@ namespace :import do
       next if structure.nil? or structure.logo.present?
       begin
         # url = URI.parse("http://coursavenue-public.s3.amazonaws.com/import_dormants/Logos_Alpes-Maritimes/#{attributes[:key]}.png")
-        url = URI.parse("http://coursavenue-public.s3.amazonaws.com/import_dormants/Logos_MidiPyrenees/#{attributes[:key]}.png")
+        url = URI.parse("http://coursavenue-public.s3.amazonaws.com/import_dormants/Logos_MidiPyrenees/#{attributes[:key]}.PNG")
         req = Net::HTTP.new(url.host, url.port)
         res = req.request_head(url.path)
         if res.code == '200'
