@@ -32,10 +32,11 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
           this.announcePaginatorUpdated();
           var $sticky = $('[data-behavior=sticky]');
           $sticky.sticky({ scrollContainer: '.filtered-search__list-wrapper',
-                                               oldWidth: true,
-                                               onStick: function() {
-                                                  $sticky.css('top', '50px');
-                                               } });
+                           z: 1200,
+                           oldWidth: true,
+                           onStick: function() {
+                              $sticky.css('top', '50px');
+                           } });
         },
         /* forward events with only the necessary data */
         onItemviewHighlighted: function onItemviewHighlighted (view, data) {

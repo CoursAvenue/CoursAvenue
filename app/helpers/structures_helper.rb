@@ -78,4 +78,17 @@ module StructuresHelper
       "#{distance} km"
     end
   end
+
+  def subject_roots_ordered(structure)
+    _subjects = []
+    structure.subjects.at_depth(0).uniq.each do |root_subject|
+      child_subjects = structure.subjects.at_depth(2).uniq.order('name ASC').select{ |subject|  subject.ancestry.start_with?(root_subject.id.to_s) }
+      _subjects << {
+        root: root_subject,
+        child_length: child_subjects.length
+      }
+    end
+    _subjects.sort{ |subj| subj[:child_length] }.reverse.map{ |subj| subj[:root] }
+  end
+
 end

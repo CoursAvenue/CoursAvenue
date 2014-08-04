@@ -3,7 +3,7 @@ FilteredSearch.module('Views.StructuresCollection.Structure', function(Module, A
 
     Module.StructureView = CoursAvenue.Views.RelationalAccordionItemView.extend({
         template: Module.templateDirname() + 'structure_view',
-        className: 'push-half--bottom inline-block very-soft relative filtered_search__structure-item',
+        className: 'v-top push-half--bottom inline-block very-soft relative filtered_search__structure-item',
         attributes: {
             'data-type': 'structure-element'
         },

@@ -1,15 +1,15 @@
 <a href="{{ query_url }}" class="muted-link opacity-hidden-on-hover__wrapper block">
-    <div class="north west absolute push on-top">
+    <div class="north west absolute push on-under-top">
         {{#if promotion_title}}
             <div class="inline-block lbl lbl--yellow milli v-middle"><i class="fa fa-star"></i> {{promotion_title }}</div>
         {{/if}}
     </div>
 
-    <div class="relative rslides-wrapper push-half--bottom" style="height: 280px">
+    <div class="relative rslides-wrapper push-half--bottom" style="height: 240px">
         <ul class="rslides">
             {{#if preloaded_medias}}
                 {{#each preloaded_medias}}
-                    <li class="bg-cover" style="height: 280px">
+                    <li class="bg-cover" style="height: 240px">
                         <div class="media__item media__item--slides">
                             <span class="break-all" title="{{this.caption}}">
                                 <img src="{{this.thumbnail_url}}" alt="{{this.caption}}"/>
@@ -18,7 +18,7 @@
                     </li>
                 {{/each}}
             {{else}}
-                    <li class="bg-cover bg-blured" style="height: 280px">
+                    <li class="bg-cover bg-blured" style="height: 240px">
                         <div class="media__item media__item--slides">
                             <span class="break-all">
                                 <img src="{{logo_thumb_url}}"/>
@@ -29,41 +29,34 @@
         </ul>
         <div rel="slideshow-{{mediable_id}}" class="rslides_nav one-whole text--center">Voir le profil</div>
     </div>
-    <div class="flexbox soft-half--sides">
-        <div class="flexbox__item v-top soft-half--left">
-            <h4 class="flush v-top">
-                {{ name }}
-            </h4>
-            <div>
-                {{#if structure_type}}{{ structure_type }} ・ {{/if}}
-                {{ truncate cities 60 }}
+    <div class="soft-half--sides relative">
+        <h4 class="flush v-top">
+            {{ truncate name 29 }}
+        </h4>
+        <div>
+            {{#if structure_type}}{{ structure_type }} ・ {{/if}}
+            {{ truncate cities 60 }}
+        </div>
+        <div>
+            <div class="soft--right">
+                {{#ifCond regular_courses_plannings_count '>' 0 }}
+                    Cours réguliers ({{regular_courses_plannings_count}} {{ pluralize regular_courses_plannings_count 'créneau' 'créneaux' }})
+                {{/ifCond}}
+                {{#ifCond regular_courses_plannings_count '>' 0 }}{{#ifCond training_courses_plannings_count '>' 0 }}・{{/ifCond}}{{/ifCond}}
+                {{#ifCond training_courses_plannings_count '>' 0 }}
+                    Stages & ateliers ({{training_courses_plannings_count}} {{ pluralize training_courses_plannings_count 'date' 'dates' }})
+                {{/ifCond}}
             </div>
             <div>
-                <div>
-                    {{#ifCond regular_courses_plannings_count '>' 0 }}
-                        Cours réguliers ({{regular_courses_plannings_count}} {{ pluralize regular_courses_plannings_count 'créneau' 'créneaux' }})
-                    {{/ifCond}}
-                    {{#ifCond regular_courses_plannings_count '>' 0 }}{{#ifCond training_courses_plannings_count '>' 0 }}・{{/ifCond}}{{/ifCond}}
-                    {{#ifCond training_courses_plannings_count '>' 0 }}
-                        Stages & ateliers ({{training_courses_plannings_count}} {{ pluralize training_courses_plannings_count 'date' 'dates' }})
-                    {{/ifCond}}
-                </div>
-                <div>
-                    <strong>
-                        <i class="fa fa-comment"></i> {{ comments_count }} avis
-                        {{#if highlighted_comment_title}}
-                        ・ <i class="quoted milli">{{{truncate highlighted_comment_title 60}}}</i>
-                        {{/if}}
-                    </strong>
-                </div>
-
-
+                <strong>
+                    <i class="fa fa-comment"></i> {{ comments_count }} avis
+                    {{#if highlighted_comment_title}}
+                    ・ <i class="quoted milli">{{{truncate highlighted_comment_title 38}}}</i>
+                    {{/if}}
+                </strong>
             </div>
         </div>
-        <div class="flexbox__item v-top" style="width: 85px;">
-            <div class="relative on-top" style='top: -45px' itemprop='image'>
-                <img src="{{ logo_thumb_url }}" class="one-whole bordered rounded--circle bordered--larger border-color-white" alt="Cours de {{ parent_subjects_text }} à {{ name }}">
-            </div>
-        </div>
+
+        <img src="{{ logo_thumb_url }}" class="absolute on-under-top bordered rounded--circle bordered--larger border-color-white" alt="Cours de {{ parent_subjects_text }} à {{ name }}" style='width: 85px; height: 85px; top: -45px; right: 0;'>
     </div>
 </a>

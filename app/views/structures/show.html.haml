@@ -109,7 +109,7 @@
                 .panel__header.soft-half--ends.soft--sides
                   %h5.flush Profils similaires
                 .panel__body.soft-half--ends{ style: (@is_sleeping ? '' : 'height: 250px; overflow-y: scroll;') }
-                  - @structure.similar_profiles(14).each_with_index do |structure, index|
+                  - @structure.similar_profiles(21).each_with_index do |structure, index|
                     - unless index == 0
                       %hr.push-half--ends
                     %div{ style: 'height: 70px;' }
@@ -127,7 +127,7 @@
                               - else
                                 %h6.inline-block.push-half--bottom= truncate(structure.name, length: 30)
                             %div
-                              %i= truncate(structure.places.map(&:city).uniq.map(&:name).join(', '), length: 40)
+                              %i= truncate(structure.places.map(&:city).map(&:name).uniq.join(', '), length: 40)
                             .btn.btn--small.btn--blue.btn--full.opacity-hidden-on-hover__child Voir le profil
 
 = content_for :scripts do

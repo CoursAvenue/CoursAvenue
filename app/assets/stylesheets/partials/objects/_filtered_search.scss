@@ -17,7 +17,7 @@
 .filtered-search__list-wrapper {
     .filtered_search__structure-item {
         width: 33%;
-        @media only screen and (max-width: 1280px) { width: 50%; }
+        @media only screen and (max-width: 1080px) { width: 50%; }
         @media only screen and (max-width: 900px)  { width: 100%; }
     }
 }
