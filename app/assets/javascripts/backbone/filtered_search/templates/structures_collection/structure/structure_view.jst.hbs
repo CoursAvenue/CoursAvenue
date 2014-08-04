@@ -1,10 +1,4 @@
 <a href="{{ query_url }}" class="muted-link opacity-hidden-on-hover__wrapper block">
-    <div class="north west absolute push on-under-top">
-        {{#if promotion_title}}
-            <div class="inline-block lbl lbl--yellow milli v-middle"><i class="fa fa-star"></i> {{promotion_title }}</div>
-        {{/if}}
-    </div>
-
     <div class="relative rslides-wrapper push-half--bottom" style="height: 240px">
         <ul class="rslides">
             {{#if preloaded_medias}}
@@ -29,6 +23,11 @@
         </ul>
         <div rel="slideshow-{{mediable_id}}" class="rslides_nav one-whole text--center">Voir le profil</div>
     </div>
+    {{#if promotion_title}}
+        <div class="north west absolute push on-under-top">
+            <div class="inline-block lbl lbl--yellow milli v-middle"><i class="fa fa-star"></i> {{promotion_title }}</div>
+        </div>
+    {{/if}}
     <div class="soft-half--sides relative">
         <h4 class="flush v-top">
             {{ truncate name 29 }}

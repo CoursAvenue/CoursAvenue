@@ -18,7 +18,7 @@
         defaults = {
             scrollContainer: window,
             offsetTop : 0,
-            z         : 300,
+            z         : 1300,
             oldWidth  : false,
             oldHeight : true,
             onStick   : $.noop,

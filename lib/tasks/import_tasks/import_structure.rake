@@ -24,8 +24,8 @@ namespace :import do
   # Use rake import:structures_logo
   desc 'Import structures'
   task :structures_logo, [:filename] => :environment do |t, args|
-    # url = 'http://coursavenue-public.s3.amazonaws.com/import_dormants/Midi-Pyrenees.csv'
-    url = 'http://coursavenue-public.s3.amazonaws.com/import_dormants/Alpes-Maritimes.csv'
+    url = 'http://coursavenue-public.s3.amazonaws.com/import_dormants/Midi-Pyrenees.csv'
+    # url = 'http://coursavenue-public.s3.amazonaws.com/import_dormants/Alpes-Maritimes.csv'
     file = open(url)
     bar = ProgressBar.new file.readlines.size
     first = true
@@ -39,8 +39,8 @@ namespace :import do
       structure = Structure.where(name: attributes[:name]).order('created_at DESC').first
       next if structure.nil?
       begin
-        url = URI.parse("http://coursavenue-public.s3.amazonaws.com/import_dormants/Logos_Alpes-Maritimes/#{attributes[:key]}.png")
-        # url = URI.parse("http://coursavenue-public.s3.amazonaws.com/import_dormants/Logos_MidiPyrenees/#{attributes[:key]}.png")
+        # url = URI.parse("http://coursavenue-public.s3.amazonaws.com/import_dormants/Logos_Alpes-Maritimes/#{attributes[:key]}.png")
+        url = URI.parse("http://coursavenue-public.s3.amazonaws.com/import_dormants/Logos_MidiPyrenees/#{attributes[:key]}.png")
         req = Net::HTTP.new(url.host, url.port)
         res = req.request_head(url.path)
         if res.code == '200'
