@@ -21,17 +21,20 @@ namespace :import do
   end
 
   # Use rake "import:structures[Path to CSV]"
+  # Use rake import:structures
   desc 'Import structures'
   task :structures, [:filename] => :environment do |t, args|
     file_name = args.filename || 'Export/import_dormants.csv'
-    bar = ProgressBar.new 1783
     # csv_text = File.read(file_name)
     # csv = CSV.parse(csv_text, { col_sep: ";" })
     # csv.each_with_index do |row, i|
     first = true
     # CSV.foreach(file_name, { col_sep: ";" }) do |row|
-    url = 'http://coursavenue-public.s3.amazonaws.com/import_dormants.csv'
-    CSV.foreach(open(url), { col_sep: ";" }) do |row|
+    url = 'http://coursavenue-public.s3.amazonaws.com/import_dormants/Midi-Pyrenees.csv'
+    # url = 'http://coursavenue-public.s3.amazonaws.com/import_dormants/Alpes-Maritimes.csv'
+    file = open(url)
+    bar = ProgressBar.new file.readlines.size
+    CSV.foreach(file, { col_sep: ";" }) do |row|
       if first
         first = false
         next
@@ -49,7 +52,7 @@ namespace :import do
       # Getting cities
       attributes[:cities] = []
       attributes[:zip_codes].each_with_index do |zip_code, index|
-        city = City.where(City.arel_table[:zip_code].matches(zip_code)).first
+        city = City.where(City.arel_table[:zip_code].matches("%#{zip_code}%")).first
         if city.nil?
           puts zip_code
           puts attributes[:city_names][index]
@@ -68,6 +71,7 @@ namespace :import do
       end
       phone_attributes = []
       attributes[:phones].each_with_index do |phone_number|
+        phone_number = "0#{phone_number}" unless phone_number.starts_with?('0')
         phone_attributes << { number: phone_number }
       end
       subject_ids = []
@@ -80,7 +84,6 @@ namespace :import do
         subject_ids << subject.id
         subject_ids << subject.root.id
       end
-      puts attributes
       structure = Structure.create(name: attributes[:name],
                                    subject_ids: subject_ids.uniq,
                                    website: attributes[:website],
@@ -93,10 +96,11 @@ namespace :import do
         puts "#{attributes[:key]} : #{attributes[:name]}\n#{structure.errors.full_messages.to_sentence}\n\n"
       else
         begin
-          url = URI.parse("http://coursavenue-public.s3.amazonaws.com/Logos_Paris/#{attributes[:key]}.png")
+          # url = URI.parse("http://coursavenue-public.s3.amazonaws.com/Logos_Alpes-Maritimes/#{attributes[:key]}.png")
+          url = URI.parse("http://coursavenue-public.s3.amazonaws.com/Logos_MidiPyrenees/#{attributes[:key]}.png")
           req = Net::HTTP.new(url.host, url.port)
           res = req.request_head(url.path)
-          if res.code == "200"
+          if res.code == '200'
             structure.logo = url
             structure.save
           end
