@@ -1,7 +1,7 @@
 - course    ||= planning.course
 - structure ||= course.structure
 %tr{ id: "planning-#{planning.id}" }
-  %td= t('date.day_names')[planning.week_day].capitalize
+  %td= t('date.day_names')[planning.week_day].capitalize if planning.week_day
   %td= readable_time_slot planning.start_time, planning.end_time
   %td= join_levels_text planning
   %td= join_audiences planning

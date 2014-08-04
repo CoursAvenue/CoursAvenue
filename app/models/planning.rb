@@ -166,7 +166,7 @@ class Planning < ActiveRecord::Base
     end
 
     integer :week_days, multiple: true do
-      self.week_days
+      self.week_days.compact if self.week_days
     end
 
     time :start_time
