@@ -30,8 +30,8 @@ namespace :import do
     # csv.each_with_index do |row, i|
     first = true
     # CSV.foreach(file_name, { col_sep: ";" }) do |row|
-    url = 'http://coursavenue-public.s3.amazonaws.com/import_dormants/Midi-Pyrenees.csv'
-    # url = 'http://coursavenue-public.s3.amazonaws.com/import_dormants/Alpes-Maritimes.csv'
+    # url = 'http://coursavenue-public.s3.amazonaws.com/import_dormants/Midi-Pyrenees.csv'
+    url = 'http://coursavenue-public.s3.amazonaws.com/import_dormants/Alpes-Maritimes.csv'
     file = open(url)
     bar = ProgressBar.new file.readlines.size
     CSV.foreach(file, { col_sep: ";" }) do |row|
@@ -96,8 +96,8 @@ namespace :import do
         puts "#{attributes[:key]} : #{attributes[:name]}\n#{structure.errors.full_messages.to_sentence}\n\n"
       else
         begin
-          # url = URI.parse("http://coursavenue-public.s3.amazonaws.com/Logos_Alpes-Maritimes/#{attributes[:key]}.png")
-          url = URI.parse("http://coursavenue-public.s3.amazonaws.com/Logos_MidiPyrenees/#{attributes[:key]}.png")
+          url = URI.parse("http://coursavenue-public.s3.amazonaws.com/Logos_Alpes-Maritimes/#{attributes[:key]}.png")
+          # url = URI.parse("http://coursavenue-public.s3.amazonaws.com/Logos_MidiPyrenees/#{attributes[:key]}.png")
           req = Net::HTTP.new(url.host, url.port)
           res = req.request_head(url.path)
           if res.code == '200'
