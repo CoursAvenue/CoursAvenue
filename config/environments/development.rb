@@ -50,4 +50,18 @@ CoursAvenue::Application.configure do
 
   # auto rotate log files, keep 2 of 5MB each
   # config.logger = Logger.new(config.paths.log.first, 1, 5.megabytes)
+
+  # ACTIVATE THE FOLLOWING ONLY FOR READING PURPOSE
+  # config.paperclip_defaults = {
+  #   :storage => :s3,
+  #   :s3_protocol => 'https',
+  #   # 's3-eu-west-1.amazonaws.com'
+  #   :s3_host_name => ENV['ENDPOINT'],
+  #   :s3_credentials => {
+  #     :bucket => 'coursavenue',
+  #     :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
+  #     :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
+  #   }
+  # }
+
 end

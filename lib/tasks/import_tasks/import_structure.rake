@@ -28,6 +28,7 @@ namespace :import do
     url = 'http://coursavenue-public.s3.amazonaws.com/import_dormants/Alpes-Maritimes.csv'
     file = open(url)
     bar = ProgressBar.new file.readlines.size
+    first = true
     CSV.foreach(file, { col_sep: ";" }) do |row|
       if first
         first = false
