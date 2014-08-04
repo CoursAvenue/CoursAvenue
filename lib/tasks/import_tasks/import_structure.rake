@@ -46,6 +46,8 @@ namespace :import do
         if res.code == '200'
           structure.logo = url
           structure.save
+        else
+          puts "#{structure.slug} : http://coursavenue-public.s3.amazonaws.com/import_dormants/Logos_MidiPyrenees/#{attributes[:key]}.PNG"
         end
       rescue Exception => exception
         Bugsnag.notify(exception)
