@@ -23,7 +23,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
     Module.StructuresCollectionView = CoursAvenue.Views.PaginatedCollectionView.extend({
         template: Module.templateDirname() + 'structures_collection_view',
         itemView: Module.Structure.StructureView,
-        itemViewContainer: 'ul.' + FilteredSearch.slug + '__list',
+        itemViewContainer: '.' + FilteredSearch.slug + '__list',
         className: 'relative',
 
         emptyView: EmptyStrcutureList,
@@ -161,18 +161,10 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                 self.$(".rslides").responsiveSlides({
                     auto: false,
                     nav: true,
-                    prevText: '<i class="fa fa-chevron-left"></i>',
-                    nextText: '<i class="fa fa-chevron-right"></i>'
+                    prevText: '<i class="alpha fa fa-chevron-left"></i>',
+                    nextText: '<i class="alpha fa fa-chevron-right"></i>'
                 });
                 GLOBAL.initialize_fancy(self.$('.rslides-wrapper [data-behavior="fancy"]'));
-                // Set the height of relative divs that needs to fits the table cells.
-                self.$('.structure-item').each(function() {
-                    var $this = $(this);
-                    var media_height = $this.height();
-                    $this.find('.full-height').css('height', media_height);
-                    $this.find('.rslides li').css('height', media_height);
-                    $this.find('.rslides').removeClass('hidden');
-                });
             });
         },
 

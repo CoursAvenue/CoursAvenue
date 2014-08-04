@@ -1,18 +1,40 @@
-<div class="flexbox white-box structure-item" data-el="structure-view">
-    <div class="flexbox__item v-top structure-item__logo">
-        <div class="relative">
-            <a href="{{ query_url }}" class="block">
-                <img src="{{ logo_thumb_url }}" class="block one-whole" alt="Cours de {{ parent_subjects_text }} à {{ name }}">
-            </a>
+<a href="{{ query_url }}" class="muted-link opacity-hidden-on-hover__wrapper block">
+    <div class="north west absolute push">
+        {{#if promotion_title}}
+            <div class="inline-block lbl lbl--yellow milli v-middle"><i class="fa fa-star"></i> {{promotion_title }}</div>
+        {{/if}}
+    </div>
+
+    <div class="relative rslides-wrapper push-half--bottom" style="height: 280px">
+        <ul class="rslides">
+            {{#if preloaded_medias}}
+                {{#each preloaded_medias}}
+                    <li class="bg-cover" style="height: 280px">
+                        <div class="media__item media__item--slides">
+                            <span class="break-all" title="{{this.caption}}">
+                                <img src="{{this.thumbnail_url}}" alt="{{this.caption}}"/>
+                            </span>
+                        </div>
+                    </li>
+                {{/each}}
+            {{else}}
+                    <li class="bg-cover bg-blured" style="height: 280px">
+                        <div class="media__item media__item--slides">
+                            <span class="break-all">
+                                <img src="{{logo_thumb_url}}"/>
+                            </span>
+                        </div>
+                    </li>
+            {{/if}}
+        </ul>
+        <div rel="slideshow-{{mediable_id}}" class="rslides_nav one-whole text--center">
+            Voir le profil
         </div>
-    </div><!--
- --><article class="flexbox__item six-tenths palm-eight-tenths v-top structure-item__see-all-wrapper structure-item__button line-height-1-7">
-        <div class="relative full-height soft-half hard--right">
+    </div>
+    <div class="flexbox soft-half--sides">
+        <div class="flexbox__item v-top soft-half--left">
             <h4 class="flush v-top">
-                <a class="v-middle" href="{{ query_url }}">{{ name }}</a>
-                {{#if promotion_title}}
-                    <div class="inline-block lbl lbl--yellow milli v-middle"><i class="fa fa-star"></i> {{promotion_title }}</div>
-                {{/if}}
+                {{ name }}
             </h4>
             <div>
                 {{#if structure_type}}{{ structure_type }} ・ {{/if}}
@@ -28,53 +50,22 @@
                         Stages & ateliers ({{training_courses_plannings_count}} {{ pluralize training_courses_plannings_count 'date' 'dates' }})
                     {{/ifCond}}
                 </div>
-                {{#ifCond comments_count '>' 0 }}
-                    <div>
-                        <strong>
-                            <i class="fa fa-comment"></i> {{ comments_count }} avis
-                            {{#if highlighted_comment_title}}
-                            ・ <i class="quoted milli">{{{truncate highlighted_comment_title 60}}}</i>{{/if}}
-                        </strong>
-                    </div>
-                {{/ifCond}}
+                <div>
+                    <strong>
+                        <i class="fa fa-comment"></i> {{ comments_count }} avis
+                        {{#if highlighted_comment_title}}
+                        ・ <i class="quoted milli">{{{truncate highlighted_comment_title 60}}}</i>
+                        {{/if}}
+                    </strong>
+                </div>
+
 
             </div>
-            <div class="structure-item__see-all soft-half--sides">
-                <a href="{{ query_url }}" class="btn btn--blue-green btn--full btn--small" data-wrapper=".structure-item__see-all-wrapper">Voir le profil</a>
+        </div>
+        <div class="flexbox__item v-top" style="width: 85px;">
+            <div class="relative on-top" style='top: -45px' itemprop='image'>
+                <img src="{{ logo_thumb_url }}" class="one-whole bordered rounded--circle bordered--larger border-color-white" alt="Cours de {{ parent_subjects_text }} à {{ name }}">
             </div>
         </div>
-    </article><!--
- --><div class="flexbox__item visuallyhidden--palm two-eighths v-middle text--center rslides-wrapper structure-item__see-all-wrapper">
-        {{#if preloaded_medias}}
-        <div class="relative full-height">
-            <a class="structure-item__see-all rslides_nav rslides_nav--bottom" data-behavior="accordion-control" data-wrapper=".structure-item__see-all-wrapper" data-model="media" data-attributes="data_url">
-                <span>Voir la galerie ({{medias_count}})</span>
-            </a>
-            <ul class="rslides hidden">
-                {{#each preloaded_medias}}
-                    <li class="bg-cover">
-                        <a rel="slideshow-{{mediable_id}}" href="{{{this.url}}}" class="rslides_nav rslides_nav--icon {{#if this.is_video}}visible{{/if}}" data-behavior="fancy">
-                            {{#if this.is_video}}
-                                <i class="fa-youtube-play" style="line-height: 85px;"></i>
-                            {{else}}
-                                <i class="fa-eye"></i>
-                            {{/if}}
-                        </a>
-                        <div class="media__item media__item--slides">
-                            <a class="break-all" title="{{this.caption}}" href="{{this.url}}">
-                                <img src="{{this.thumbnail_url}}" alt="{{this.caption}}"/>
-                            </a>
-                        </div>
-                    </li>
-                {{/each}}
-            </ul>
-        </div>
-        {{else}}
-        <div class="text--center gray-light">
-            <i class="fa fa-picture-o fa-3x gray-light"></i>
-            <br />
-            0 photo / vidéo
-        </div>
-        {{/if}}
     </div>
-</div>
+</a>

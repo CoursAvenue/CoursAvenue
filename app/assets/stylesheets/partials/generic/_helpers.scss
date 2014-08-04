@@ -1,3 +1,19 @@
+// http://css-tricks.com/almanac/properties/f/filter/
+// blur()
+// brightness()
+// contrast()
+// url()
+// drop-shadow()
+// grayscale()
+// hue-rotate()
+// invert()
+// opacity()
+// sepia()
+
+.bg-blured-bw {
+  -webkit-filter: blur(5px);
+          filter: blur(5px);
+}
 .bg-contain, .bg-cover {
     background-position: center;
     background-repeat: no-repeat;
@@ -103,6 +119,7 @@
 .bordered--thick     { border-width  : 4px !important; }
 .bordered--orange    { border-color  : $orange; }
 .border-color-gray   { border-color  : $gray; }
+.border-color-white  { border-color  : white; }
 
 .center-block        { margin-left: auto; margin-right: auto; display: block; }
 .block               { display    : block; }
