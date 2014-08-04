@@ -21,15 +21,42 @@ namespace :import do
   end
 
   # Use rake "import:structures[Path to CSV]"
+  # Use rake import:structures_logo
+  desc 'Import structures'
+  task :structures_logo, [:filename] => :environment do |t, args|
+    # url = 'http://coursavenue-public.s3.amazonaws.com/import_dormants/Midi-Pyrenees.csv'
+    url = 'http://coursavenue-public.s3.amazonaws.com/import_dormants/Alpes-Maritimes.csv'
+    file = open(url)
+    bar = ProgressBar.new file.readlines.size
+    CSV.foreach(file, { col_sep: ";" }) do |row|
+      if first
+        first = false
+        next
+      end
+      bar.increment!
+      attributes = structure_hash_from_row(row)
+      structure = Structure.where(name: attributes[:name]).order('created_at DESC').first
+      next if structure.nil?
+      begin
+        url = URI.parse("http://coursavenue-public.s3.amazonaws.com/import_dormants/Logos_Alpes-Maritimes/#{attributes[:key]}.png")
+        # url = URI.parse("http://coursavenue-public.s3.amazonaws.com/import_dormants/Logos_MidiPyrenees/#{attributes[:key]}.png")
+        req = Net::HTTP.new(url.host, url.port)
+        res = req.request_head(url.path)
+        if res.code == '200'
+          structure.logo = url
+          structure.save
+        end
+      rescue Exception => exception
+        Bugsnag.notify(exception)
+      end
+    end
+  end
+
+  # Use rake "import:structures[Path to CSV]"
   # Use rake import:structures
   desc 'Import structures'
   task :structures, [:filename] => :environment do |t, args|
-    file_name = args.filename || 'Export/import_dormants.csv'
-    # csv_text = File.read(file_name)
-    # csv = CSV.parse(csv_text, { col_sep: ";" })
-    # csv.each_with_index do |row, i|
     first = true
-    # CSV.foreach(file_name, { col_sep: ";" }) do |row|
     # url = 'http://coursavenue-public.s3.amazonaws.com/import_dormants/Midi-Pyrenees.csv'
     url = 'http://coursavenue-public.s3.amazonaws.com/import_dormants/Alpes-Maritimes.csv'
     file = open(url)
@@ -96,8 +123,8 @@ namespace :import do
         puts "#{attributes[:key]} : #{attributes[:name]}\n#{structure.errors.full_messages.to_sentence}\n\n"
       else
         begin
-          url = URI.parse("http://coursavenue-public.s3.amazonaws.com/Logos_Alpes-Maritimes/#{attributes[:key]}.png")
-          # url = URI.parse("http://coursavenue-public.s3.amazonaws.com/Logos_MidiPyrenees/#{attributes[:key]}.png")
+          url = URI.parse("http://coursavenue-public.s3.amazonaws.com/import_dormants/Logos_Alpes-Maritimes/#{attributes[:key]}.png")
+          # url = URI.parse("http://coursavenue-public.s3.amazonaws.com/import_dormants/Logos_MidiPyrenees/#{attributes[:key]}.png")
           req = Net::HTTP.new(url.host, url.port)
           res = req.request_head(url.path)
           if res.code == '200'

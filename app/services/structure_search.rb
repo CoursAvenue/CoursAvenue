@@ -108,7 +108,7 @@ class StructureSearch
       @structures = @structures.flatten.uniq
       break if @structures.length >= limit
     end
-    @structures = @structures.sort_by(&:search_score).reverse
+    @structures = @structures.sort{ |_structure| (_structure.search_score.present? ? _structure.search_score.to_i : 0) }.reverse
     return @structures[0..(limit - 1)]
   end
 end
