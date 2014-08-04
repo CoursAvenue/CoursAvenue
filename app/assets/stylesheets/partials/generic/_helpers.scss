@@ -32,8 +32,8 @@
 .invisible   { @include opacity(0); }
 
 .relative          { position   : relative; }
-.on-top            { z-index    : 1000; }
-.on-under-top      { z-index    : 900; }
+.on-top            { z-index    : 1000 !important; }
+.on-under-top      { z-index    : 900 !important; }
 .absolute          { position   : absolute; }
 .fixed             { position   : fixed; }
 .west              { left       : 0 !important; }

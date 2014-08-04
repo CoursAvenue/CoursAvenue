@@ -14,26 +14,6 @@
     @include box-shadow(inset -1px 0 1px rgba(0, 0, 0, 0.3));
 }
 
-// .filtered-search__map-wrapper {
-//     padding-right: 950px;
-//     @media only screen and (max-width: 1380px) {
-//         padding-right: 775px;
-//     }
-//     @media only screen and (max-width: 1000px) {
-//         padding-right: 625px;
-//     }
-// }
-// .filtered-search__list-wrapper {
-//     max-width: 950px;
-//     @media only screen and (max-width: 1380px) {
-//         max-width: 775px;
-//     }
-//     @media only screen and (max-width: 1000px) {
-//         max-width: 625px;
-//     }
-// }
-.filtered-search__map-wrapper {
-}
 .filtered-search__list-wrapper {
     .filtered_search__structure-item {
         width: 33%;

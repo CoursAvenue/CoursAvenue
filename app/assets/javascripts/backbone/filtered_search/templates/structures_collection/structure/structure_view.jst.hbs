@@ -1,5 +1,5 @@
 <a href="{{ query_url }}" class="muted-link opacity-hidden-on-hover__wrapper block">
-    <div class="north west absolute push">
+    <div class="north west absolute push on-top">
         {{#if promotion_title}}
             <div class="inline-block lbl lbl--yellow milli v-middle"><i class="fa fa-star"></i> {{promotion_title }}</div>
         {{/if}}
@@ -27,9 +27,7 @@
                     </li>
             {{/if}}
         </ul>
-        <div rel="slideshow-{{mediable_id}}" class="rslides_nav one-whole text--center">
-            Voir le profil
-        </div>
+        <div rel="slideshow-{{mediable_id}}" class="rslides_nav one-whole text--center">Voir le profil</div>
     </div>
     <div class="flexbox soft-half--sides">
         <div class="flexbox__item v-top soft-half--left">

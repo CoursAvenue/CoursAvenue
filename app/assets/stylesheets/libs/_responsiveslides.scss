@@ -3,6 +3,8 @@
 .rslides-wrapper {
     position: relative;
     &:hover {
+        z-index: 900;
+        .rslides_nav.next, .rslides_nav.prev { z-index: 1000; }
         .rslides_nav {
             opacity   : 1;
         }
