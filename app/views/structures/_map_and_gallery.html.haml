@@ -1,15 +1,5 @@
 - without_map = false if without_map.nil?
 .gray-box.push--bottom.relative
-  - if current_user and current_user.follows?(@structure)
-    = link_to '#', class: "absolute north east push--right push--top on-under-top" do
-      %i.fa.fa-heart.fa-4x
-  - elsif current_user
-    = link_to follow_structure_path(@structure), method: :post, class: "heart-link absolute north east push--right push--top on-under-top", data: { toggle: 'tooltip', placement: 'left', title: 'Ajouter ce profil en favori' } do
-      %i.fa.fa-heart-o.fa-4x
-  - else
-    = link_to new_user_registration_path, data: { toggle: 'tooltip', behavior: 'modal', placement: 'left', title: 'Ajouter ce profil en favori', width: 600, padding: 0 }, class: 'fancybox.ajax heart-link absolute north east push--right push--top on-under-top', onclick: "ga('send', 'event', 'Se créer un compte', 'click','Inscrit')" do
-      %i.fa.fa-heart-o.fa-4x
-
   .rslides-wrapper.rslides--big#media-grid{ style: 'height: 500px;'}>
     %ul.galery-rslides.hidden>
       - unless without_map
@@ -43,6 +33,15 @@
               %img{ src: media.thumbnail_url, height: 70, width: 70}
     %a.thumbnails-container__nav.next.pointer{ data: { 'slide-next' => true } }
       %i.delta.fa-chevron-right.v-middle.gray-light
+  - if current_user and current_user.follows?(@structure)
+    = link_to '#', class: "absolute north east push--right push--top on-under-top" do
+      %i.fa.fa-heart.fa-4x
+  - elsif current_user
+    = link_to follow_structure_path(@structure), method: :post, class: "heart-link absolute north east push--right push--top on-under-top", data: { toggle: 'tooltip', placement: 'left', title: 'Ajouter ce profil en favori' } do
+      %i.fa.fa-heart-o.fa-4x
+  - else
+    = link_to new_user_registration_path, data: { toggle: 'tooltip', behavior: 'modal', placement: 'left', title: 'Ajouter ce profil en favori', width: 600, padding: 0 }, class: 'fancybox.ajax heart-link absolute north east push--right push--top on-under-top', onclick: "ga('send', 'event', 'Se créer un compte', 'click','Inscrit')" do
+      %i.fa.fa-heart-o.fa-4x
 
 = content_for :scripts do
   :javascript

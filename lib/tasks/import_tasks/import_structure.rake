@@ -37,7 +37,7 @@ namespace :import do
       bar.increment!
       attributes = structure_hash_from_row(row)
       structure = Structure.where(name: attributes[:name]).order('created_at DESC').first
-      next if structure.nil?
+      next if structure.nil? or structure.logo.present?
       begin
         # url = URI.parse("http://coursavenue-public.s3.amazonaws.com/import_dormants/Logos_Alpes-Maritimes/#{attributes[:key]}.png")
         url = URI.parse("http://coursavenue-public.s3.amazonaws.com/import_dormants/Logos_MidiPyrenees/#{attributes[:key]}.png")
