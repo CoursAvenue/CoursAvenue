@@ -20,7 +20,7 @@
 = content_for :meta_description do
   Donnez votre avis sur #{@structure.name}
 
-.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background.jpg'})", 'data-stellar-background-ratio' => '0.6' }
+.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background.jpg'})" }
   .main-container.main-container--medium.soft
     .grid
       - if @structure.logo.present?
@@ -31,7 +31,8 @@
         %h1.flush
           Rédigez votre avis
         .delta.line-height-1-7
-          à propos de #{@structure.name}
+          à propos de
+          = link_to @structure.name, structure_path(@structure), class: 'semi-muted-link', target: :_blank
         .epsilon Votre expérience est précieuse !
 
 .main-container.soft--ends
