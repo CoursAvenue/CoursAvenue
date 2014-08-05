@@ -103,16 +103,21 @@
                             pro_structure_conversations_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
                             current: current_tab,
                             icon: 'fa fa-envelope-o'
-      - if current_pro_admin and current_pro_admin.super_admin?
+      - if current_pro_admin
         = pro_side_menu_link 'crm',
                               pro_structure_user_profiles_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN) ,
                               current: current_tab,
                               icon: 'fa fa-contact'
+
       - if @structure.comments_count >= 5
-        = pro_side_menu_link 'communicate',
-                              widget_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
-                              current: current_tab,
-                              icon: 'fa fa-bullhorn'
+        - communcate_url = widget_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+      - else
+        - communcate_url = signature_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+      = pro_side_menu_link 'communicate',
+                            communcate_url,
+                            current: current_tab,
+                            icon: 'fa fa-bullhorn'
+
       = pro_side_menu_link 'share',
                             new_pro_structure_invited_teacher_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
                             current: current_tab,

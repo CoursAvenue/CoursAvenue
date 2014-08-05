@@ -1,12 +1,13 @@
 %ul.tabs.panel__header
-  %li{ class: current == 'widget' ? 'active' : '' }
-    = link_to widget_pro_structure_path(@structure) do
-      %i.fa.fa-book
-      Livre d'or
+  - if @structure.comments_count >= 5
+    %li{ class: current == 'widget' ? 'active' : '' }
+      = link_to widget_pro_structure_path(@structure) do
+        %i.fa.fa-book
+        Livre d'or
 
   %li{ class: current == 'signature' ? 'active' : '' }
     = link_to signature_pro_structure_path(@structure) do
-      %i.fa.fa-envelope
+      %i.fa.fa-envelope-o
       Signature
 
   %li{ class: current == 'logo' ? 'active' : '' }
