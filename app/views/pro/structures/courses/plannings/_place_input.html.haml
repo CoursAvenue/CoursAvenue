@@ -14,7 +14,7 @@
       = f.input :place_id , as: :select, collection: places, label_method: lambda {|place| place.name}, include_blank: "Sélectionnez un lieu", label: false, wrapper_html: { class: 'flush' }, input_html: { class: 'input--large' }, selected: (planning.is_in_foreign_country? ? 'foreign' : planning.place.try(:id))
     .inline-block.v-middle
       = link_to new_pro_structure_place_path(structure, type: 'Place::Public', return_to_action: return_to_action), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 } do
-        %i.fa.fa-map-marker
+        %i.fa.fa-plus
         Ajouter un lieu
 
 - if course.is_training?

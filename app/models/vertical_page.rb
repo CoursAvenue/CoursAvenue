@@ -10,7 +10,7 @@ class VerticalPage < ActiveRecord::Base
   belongs_to :subject
   has_many :medias, as: :mediable
 
-  attr_accessible :name, :caption, :title, :content, :keywords, :subject_id, :image, :medias_attributes,
+  attr_accessible :name, :caption, :title, :content, :keywords, :subject_id, :image, :medias_attributes, :sidebar_title,
                   :checked, :comments # For internal use
 
   accepts_nested_attributes_for :medias,

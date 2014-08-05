@@ -88,7 +88,14 @@
                   %label.inline-block.label--large{ for: 'course_place_id_checkbox' }
                     %input#course_place_id_checkbox{ type: 'checkbox', checked: @course.place.present? }
                     Les cours ont lieu à cette adresse :
-                  = f.input :place_id, as: :select, collection: @structure.places.publics, input_html: { class: 'input--large', style: 'max-width: 13em;' }, label: false, wrapper_html: { class: 'inline-block v-middle' }, include_blank: 'Sélectionnez une adresse'
+                  = f.input :place_id, as: :select, collection: @structure.places.publics, input_html: { class: 'input--large', style: 'max-width: 13em;' }, label: false, wrapper_html: { class: 'flush--bottom inline-block v-middle' }, include_blank: 'Sélectionnez une adresse'
+                - if @course.new_record?
+                  - return_to_action = "$('[data-course-type=private][data-action=new_course]').click();"
+                - else
+                  - return_to_action = "$('[data-course-id=#{@course.id}][data-action=edit]').click();"
+                = link_to new_pro_structure_place_path(@structure, type: 'Place::Public', return_to_action: return_to_action), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 } do
+                  %i.fa.fa-plus
+                  Ajouter un lieu
 
             = f.input :on_appointment, as: :select, collection: [["Cours particuliers selon des créneaux précis", false], ["Pas de créneau précis, uniquement sur demande", true]], label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, label: 'Disponibilités', include_blank: false
 
