@@ -23,7 +23,7 @@
   %body{ style: (Rails.env.development? ? 'border-top: 5px solid yellow;' : '') }
     - unless response.cache_control[:public]
       - flash.each do |key, msg|
-        .flash{class: key, data: {behavior: 'flash', type: key}}
+        .flash{ class: key, data: { behavior: 'flash', type: key } }
           = msg.html_safe
     <!--[if lte IE 8]>
     - cache 'IE8 and less' do

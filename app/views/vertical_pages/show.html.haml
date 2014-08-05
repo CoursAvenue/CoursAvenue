@@ -28,7 +28,7 @@
     = render partial: 'vertical_pages/cities'
   .blog-article__content
     - if @vertical_page.content.present?
-      %h3
+      %h2
         = @vertical_page.title
       = @vertical_page.content.html_safe
     - else
