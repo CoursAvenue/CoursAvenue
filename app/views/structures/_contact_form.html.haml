@@ -5,11 +5,11 @@
       %i.fa.fa-phone.v-middle
       %span.v-middle Contacter
     .phone_number.hidden
-      .soft--top
+      .white-box.soft.text--center
         - @structure.phone_numbers.map{ |phone_number| readable_phone_number(phone_number.number) }.uniq.each_with_index do |formatted_phone_number, index|
           - if index > 0
             %br
-          %strong.v-middle{ itemprop: "telephone" }=formatted_phone_number
+          %strong.epsilon.v-middle{ itemprop: "telephone" }=formatted_phone_number
           - if @structure.premium?
             %i.soft-half--left.v-middle.fa.fa-check-circle.green
             %i.v-middle.green.milli vérifié
@@ -94,11 +94,11 @@
                   %i.fa.fa-phone.v-middle
                   %span.v-middle Téléphone
                 .phone_number.hidden
-                  .soft--top
+                  .soft--ends.text--center
                     - @structure.phone_numbers.map{ |phone_number| readable_phone_number(phone_number.number) }.uniq.each_with_index do |formatted_phone_number, index|
                       - if index > 0
                         %br
-                      %strong.v-middle{ itemprop: "telephone" }=formatted_phone_number
+                      %strong.epsilon.v-middle{ itemprop: "telephone" }=formatted_phone_number
                       - if @structure.premium?
                         %i.soft-half--left.v-middle.fa.fa-check-circle.green
                         %i.v-middle.green.milli vérifié
