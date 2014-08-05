@@ -5,6 +5,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         className: 'header-search inline-block v-middle push--left palm-one-whole',
 
         setup: function (data) {
+            if (data.address_name) { data.address_name = data.address_name.replace('+', ' '); }
             this.ui.$address_picker.attr('value', data.address_name);
             $('[data-type="location-filter"]').replaceWith(this.$el);
         },
