@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140801173526) do
+ActiveRecord::Schema.define(version: 20140805084056) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -957,6 +957,7 @@ ActiveRecord::Schema.define(version: 20140801173526) do
     t.datetime "image_updated_at"
     t.boolean  "checked",            default: false
     t.text     "comments"
+    t.text     "sidebar_title"
   end
 
   create_table "visitors", force: true do |t|

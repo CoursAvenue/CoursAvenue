@@ -11,8 +11,12 @@
     Tous les cours de #{@subject.name.downcase} | CoursAvenue
 
 - slug = @subject.root.slug
-- bg = asset_path "home_backgrounds/#{slug}.jpg"
-.bg-cover{style: "background-image: url('#{bg}')", 'data-stellar-background-ratio' => '0.6'}
+- if @vertical_page.image.present?
+  - bg = asset_path(vertical_page.image.url(:large))
+- else
+  - bg = asset_path(subject_image(@subject))
+
+.bg-cover{ style: "background-image: url('#{bg}')", 'data-stellar-background-ratio' => '0.6' }
   .main-container.main-container--medium.soft--ends
     %h1.white.soft-black-text-shadow= @vertical_page.name
     - if @vertical_page.caption
@@ -24,7 +28,7 @@
     .grid__item.three-fifths.palm-one-whole.v-top.soft--right>
       .blog-article__content
         - if @vertical_page.content.present?
-          %p
+          %h3
             = @vertical_page.title
           = @vertical_page.content.html_safe
         - else
