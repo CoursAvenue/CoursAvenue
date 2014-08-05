@@ -1,29 +1,13 @@
-- paris     = City.find 'paris'
-- marseille = City.find 'marseille'
-- lyon      = City.find 'lyon'
-- toulouse  = City.find 'toulouse'
-- nice      = City.find 'nice'
-- nantes    = City.find 'nantes'
-- bordeaux  = City.find 'bordeaux'
-- lille     = City.find 'lille'
-- cities = [paris, marseille, lyon, toulouse, nice, nantes, bordeaux, lille]
-
 %h2.soft--bottom.f-weight-300
   - if @vertical_page.sidebar_title
     Trouvez #{@vertical_page.sidebar_title} près de chez vous
   - else
     Trouvez un cours de près de chez vous
 
-- cities.each do |city|
+- @cities.each do |city|
   .inline-block.very-soft.hard--bottom.one-half>
     .relative.bg-cover{style: "background-image: url('#{city.image.url(:small)}'); height: 120px; "}>
-      - if @subject.depth == 0
-        - url = structures_path(lat: city.latitude, lng: city.longitude, address_name: city.name, root_subject_id: @subject.root.slug)
-      - elsif @subject.depth == 1
-        - url = structures_path(lat: city.latitude, lng: city.longitude, address_name: city.name, root_subject_id: @subject.root.slug, parent_subject_id: @subject.slug)
-      - else
-        - url = structures_path(lat: city.latitude, lng: city.longitude, address_name: city.name, root_subject_id: @subject.root.slug, parent_subject_id: @subject.parent.slug, subject_id: @subject.slug)
-      = link_to url, class: 'block show-on-hover__wrapper show-on-hover__wrapper--black-curtain', title: "Tous les cours de #{@subject.name} à #{city.name}" do
+      = link_to structures_path_for_city_and_subject(city, @subject), class: 'block show-on-hover__wrapper show-on-hover__wrapper--black-curtain', title: "Tous les cours de #{@subject.name} à #{city.name}" do
         .home-screen-gallery__title.text--center
           %div= city.name
           .show-on-hover__child.milli

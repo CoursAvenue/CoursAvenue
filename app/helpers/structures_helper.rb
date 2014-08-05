@@ -91,4 +91,13 @@ module StructuresHelper
     _subjects.sort{ |subj| subj[:child_length] }.reverse.map{ |subj| subj[:root] }
   end
 
+  def structures_path_for_city_and_subject(city, subject)
+    if subject.depth == 0
+      structures_path(lat: city.latitude, lng: city.longitude, address_name: city.name, root_subject_id: subject.root.slug)
+    elsif subject.depth == 1
+      structures_path(lat: city.latitude, lng: city.longitude, address_name: city.name, root_subject_id: subject.root.slug, parent_subject_id: subject.slug)
+    else
+      structures_path(lat: city.latitude, lng: city.longitude, address_name: city.name, root_subject_id: subject.root.slug, parent_subject_id: subject.parent.slug, subject_id: subject.slug)
+    end
+  end
 end

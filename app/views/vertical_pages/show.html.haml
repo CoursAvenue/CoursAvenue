@@ -81,3 +81,9 @@
                     %i
                       À propos de
                       = link_to review.structure.name, structure_url(review.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank
+
+- if @vertical_page.keywords
+  .main-container.main-container--medium.soft--ends.text--center
+    - @vertical_page.keywords.split(',').each do |keyword|
+      - @cities.each do |city|
+        %span.push-half--right= link_to "#{keyword} à #{city.name}", structures_path_for_city_and_subject(city, @subject)
