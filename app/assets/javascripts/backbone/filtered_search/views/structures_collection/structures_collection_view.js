@@ -37,7 +37,6 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
         },
 
         onAfterShow: function onAfterShow () {
-          this.resize_thumbnails();
           this.announcePaginatorUpdated();
           var $sticky = $('[data-behavior=sticky]');
           $sticky.sticky({ scrollContainer: '.filtered-search__list-wrapper',
@@ -141,6 +140,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
         structuresUpdated: function structuresUpdated (structure_ids) {
             this.logImpressions(structure_ids);
             this.renderSlideshows();
+            setTimeout(this.resize_thumbnails);
         },
 
         logImpressions: function logImpressions (structure_ids) {

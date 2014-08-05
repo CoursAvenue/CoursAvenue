@@ -53,14 +53,14 @@
                             edit_contact_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
                             current: current_tab,
                             icon: 'fa fa-phone-o',
-                            completed: @structure.phone_numbers.any?
+                            completed: @structure.phone_numbers.reject(&:new_record?).any?
 
       - to_complete_step_nb += 1 if @structure.medias.empty?
       = pro_side_menu_link 'medias',
                             pro_structure_medias_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
                             current: current_tab,
                             icon: 'fa fa-youtube-play',
-                            completed: @structure.medias.any?
+                            completed: @structure.medias.reject(&:new_record?).any?
 
       %li.subtitle PLANNINGS & TARIFS
       - courses_options_link = { current: current_tab, icon: 'fa fa-circle-o' }
