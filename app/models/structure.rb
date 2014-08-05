@@ -327,7 +327,7 @@ class Structure < ActiveRecord::Base
   # Email reminder END                                                 #
   ######################################################################
 
-  def places_around(latitude, longitude, radius=2)
+  def places_around(latitude, longitude, radius=4)
     places.reject do |place|
       Geocoder::Calculations.distance_between([latitude, longitude], [place.latitude, place.longitude], unit: :km) >= radius
     end
