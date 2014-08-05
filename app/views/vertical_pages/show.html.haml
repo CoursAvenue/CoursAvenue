@@ -12,7 +12,7 @@
 
 - slug = @subject.root.slug
 - if @vertical_page.image.present?
-  - bg = asset_path(vertical_page.image.url(:large))
+  - bg = asset_path(@vertical_page.image.url(:large))
 - else
   - bg = asset_path(subject_image(@subject))
 
