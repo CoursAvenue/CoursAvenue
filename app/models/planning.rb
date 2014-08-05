@@ -288,7 +288,7 @@ class Planning < ActiveRecord::Base
   #
   # @return Integer
   def length
-    return (end_date - start_date).to_i + 1
+    return ((end_date || start_date) - start_date).to_i + 1
   end
 
 
