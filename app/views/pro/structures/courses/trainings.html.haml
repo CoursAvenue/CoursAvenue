@@ -7,7 +7,7 @@
     .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.courses.wizard.trainings') } }
       %h3 Planning de vos stages & ateliers
       %p{ class: (@courses.trainings.empty? ? '' : 'hidden'), data: { empty: 'training' } }
-        Vous n'avez pas de stages.
+        Vous n'avez pas de stage ni d'atelier.
         = link_to new_pro_structure_course_path(@structure, type: 'Course::Training'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false' } do
           %i.fa.fa-plus
           Ajouter un stage / atelier

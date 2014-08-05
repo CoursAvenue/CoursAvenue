@@ -46,7 +46,7 @@
       .input.flush--bottom{ data: { behavior: 'time-range', 'start-time-wrapper' => '#start-time-wrapper', 'end-time-wrapper' => '#end-time-wrapper' } }
         = f.label :start_time, class: 'control-label label--large' do
           %i.fa.fa-time
-          Horaire
+          Horaires
         = f.input :start_time, as: :time, minute_step: 15, default: { year: 2000, month: 1, day: 1, hour: 8, min: 00 }, wrapper_html: { id: 'start-time-wrapper', class: 'flush input-time--large' }, label: false, input_html: { class: 'input--large' }
         %span.label--large.v-middle.inline-block -
         = f.input :end_time, as: :time, minute_step: 15, min_hour: 7, label: false, default: { year: 2000, month: 1, day: 1, hour: 9, min: 00 }, wrapper_html: { id: 'end-time-wrapper', class: 'flush input-time--large'}, input_html: { class: 'input--large' }

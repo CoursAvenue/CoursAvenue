@@ -4,6 +4,14 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
     Module.StructuresCollection = CoursAvenue.Models.PaginatedCollection.extend({
         model: CoursAvenue.Models.Structure,
 
+        paginator_ui: {
+            firstPage:   1,
+            perPage:     18,
+            totalPages:  0,
+            grandTotal:  0,
+            radius:      2 // determines the behaviour of the ellipsis
+        },
+
         /* even if we are bootstrapping, we still want to know the total
          * number of pages and the grandTotal, for display purposes
          * also, we need to grab the location.search and parse it, so
