@@ -24,27 +24,25 @@
         = @vertical_page.caption
 
 .main-container.main-container--medium.soft--ends
-  .grid
-    .grid__item.three-fifths.palm-one-whole.v-top.soft--right>
-      .blog-article__content
-        - if @vertical_page.content.present?
-          %h3
-            = @vertical_page.title
-          = @vertical_page.content.html_safe
-        - else
-          - if @subject.good_to_know.present?
-            %h3 Bon à savoir / Qu'est-ce que c'est ?
-            %p= @subject.good_to_know
-          - if @subject.needed_meterial.present?
-            %h3 Les bienfaits
-            %p= @subject.needed_meterial
-          - if @subject.tips.present?
-            %h3 Matériel à prévoir
-            %p= @subject.tips
-      - if @vertical_page.medias.any?
-        = render partial: 'structures/map_and_gallery', locals: { medias: @vertical_page.medias, without_map: true }
-    .grid__item.two-fifths.palm-one-whole.v-top>
-      = render partial: 'vertical_pages/cities'
+  .float--right.two-fifths.palm-one-whole.v-top.push--left.push--bottom>
+    = render partial: 'vertical_pages/cities'
+  .blog-article__content
+    - if @vertical_page.content.present?
+      %h3
+        = @vertical_page.title
+      = @vertical_page.content.html_safe
+    - else
+      - if @subject.good_to_know.present?
+        %h3 Bon à savoir / Qu'est-ce que c'est ?
+        %p= @subject.good_to_know
+      - if @subject.needed_meterial.present?
+        %h3 Les bienfaits
+        %p= @subject.needed_meterial
+      - if @subject.tips.present?
+        %h3 Matériel à prévoir
+        %p= @subject.tips
+  - if @vertical_page.medias.any?
+    = render partial: 'structures/map_and_gallery', locals: { medias: @vertical_page.medias, without_map: true }
 
 - if @subject.depth == 0
   .home-screen-promotion-wrapper
