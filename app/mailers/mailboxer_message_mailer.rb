@@ -74,7 +74,7 @@ class MailboxerMessageMailer < ActionMailer::Base
 
     @token   = @user.generate_and_set_reset_password_token if !@user.active?
     mail to: @user.email,
-         subject: t('mailboxer.message_mailer.subject_reply', sender: message.sender.name),
+         subject: t('mailboxer.message_mailer.subject_reply', sender: @structure.name),
          template_name: 'reply_message_email_to_user'
   end
 
