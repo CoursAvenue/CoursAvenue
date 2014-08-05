@@ -53,7 +53,7 @@
                             edit_contact_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
                             current: current_tab,
                             icon: 'fa fa-phone-o',
-                            completed: @structure.phone_numbers.reject(&:new_record?).any?
+                            completed: (!@structure.is_sleeping and @structure.phone_numbers.reject(&:new_record?).any?)
 
       - to_complete_step_nb += 1 if @structure.medias.empty?
       = pro_side_menu_link 'medias',
