@@ -59,8 +59,8 @@ class StructuresController < ApplicationController
     end
 
     params[:address_name] ||= 'Paris, France' unless request.xhr?
-    params[:page]          = 1 unless request.xhr?
-    params[:per_page]      = 15
+    params[:page]         ||= 1
+    params[:per_page]      = 18
 
     if params_has_planning_filters?
       @structures, @places, @total = search_plannings

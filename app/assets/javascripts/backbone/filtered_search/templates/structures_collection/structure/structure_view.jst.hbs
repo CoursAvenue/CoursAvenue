@@ -12,7 +12,7 @@
                     </li>
                 {{/each}}
             {{else}}
-                <li class="bg-cover bg-blured" data-resizeable-height style="height: 200px">
+                <li class="bg-cover" data-resizeable-height style="height: 200px">
                     <div class="media__item media__item--slides">
                         <span class="break-all">
                             <img src="{{logo_thumb_url}}"/>
@@ -32,9 +32,9 @@
         <h4 class="flush v-top">
             {{ truncate name 29 }}
         </h4>
-        <div>
+        <div style="padding-right: 60px;">
             {{#if structure_type}}{{ structure_type }} ・ {{/if}}
-            {{ truncate cities 60 }}
+            {{ truncate cities 50 }}
         </div>
         <div>
             <div class="soft--right">
