@@ -322,8 +322,10 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             /* when the info window shows, it may cause the map to adjust. If this happens,
              * we don't want the map bounds to fire so we ignore it once */
             this.lock('map:bounds', 'showInfoWindow');
-
-            this.infoBox.open(marker.map, marker.gOverlay);
+            // THIS IS VERY IMPORTANT TO KEEP USING "this.map"
+            // Otherwise, on Structure#show page, when you click on a marker on
+            // the right map, the infobox will not show...
+            this.infoBox.open(this.map, marker.gOverlay);
         },
 
         serializeData: function () {
