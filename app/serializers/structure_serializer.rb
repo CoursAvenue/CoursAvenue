@@ -2,14 +2,9 @@ class StructureSerializer < ActiveModel::Serializer
   include StructuresHelper
   include ActionView::Helpers::TextHelper
 
-  attributes :id, :name, :slug, :comments_count, :rating, :street, :zip_code,
-             :logo_thumb_url, :data_url, :query_url, :query_params,
-             :courses_count, :has_courses, :plannings_count, :has_plannings, :more_than_five_comments, :has_comments,
-             :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle,
-             :has_free_trial_course, :medias_count, :teaches_at_home, :teaches_at_home_radius, :videos_count, :images_count,
-             :audience, :gives_group_courses, :gives_individual_courses, :structure_type,
-             :has_promotion, :tag_names, :highlighted_comment_title, :open_courses_open_places, :open_course_names, :open_course_plannings_nb,
-             :given_course_types, :premium, :promotion_title, :cities, :regular_courses_plannings_count, :training_courses_plannings_count
+  attributes :id, :name, :slug, :comments_count, :logo_thumb_url, :data_url, :query_url, :query_params,
+             :structure_type, :highlighted_comment_title, :premium, :promotion_title, :cities,
+             :regular_courses_plannings_count, :training_courses_plannings_count
 
   has_many :places,            serializer: PlaceSerializer
   has_many :comments,          serializer: ShortSerializer
@@ -50,58 +45,6 @@ class StructureSerializer < ActiveModel::Serializer
 
   def funding_types
     object.funding_types.map{|funding| I18n.t(funding.name)}.join(', ')
-  end
-
-  def audience
-    object.audiences.sort_by(&:order).map{|audience| I18n.t(audience.name)}.join(', ')
-  end
-
-  def medias_count
-    if object.premium?
-      [object.medias.count, 20].min
-    else
-      object.medias.limit(3).count
-    end
-  end
-
-  def videos_count
-    (object.medias.videos.count == 0 ? nil : object.medias.videos.count)
-  end
-
-  def images_count
-    (object.medias.images.count == 0 ? nil : object.medias.images.count)
-  end
-
-  def has_free_trial_course
-    object.has_free_trial_course
-  end
-
-  def min_price_amount
-    object.min_price_amount.to_i
-  end
-
-  def max_price_amount
-    object.max_price_amount.to_i
-  end
-
-  def more_than_five_comments
-    object.comments_count > 5
-  end
-
-  def has_comments
-    object.comments.accepted.count > 0
-  end
-
-  def has_plannings
-    object.plannings_count.to_i > 0 if object.plannings_count
-  end
-
-  def courses_count
-    object.courses.count
-  end
-
-  def has_courses
-    object.courses.count > 0
   end
 
   def logo_thumb_url
@@ -162,24 +105,6 @@ class StructureSerializer < ActiveModel::Serializer
     end
   end
 
-  def given_course_types
-    types = []
-    if object.teaches_at_home and object.places.homes.any?
-      if object.places.homes.first.radius.present?
-        types << "cours à domicile (#{object.places.homes.first.radius})"
-      else
-        types << "cours à domicile"
-      end
-    end
-    if object.gives_group_courses
-      types << 'cours collectifs'
-    end
-    if object.gives_individual_courses
-      types << 'cours individuels'
-    end
-    types.join(', ')
-  end
-
   def premium
     object.premium?
   end
@@ -197,7 +122,7 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def cities
-    object.places.map(&:city).uniq.map(&:name).join(', ')
+    object.places.map(&:city).map(&:name).uniq.join(', ')
   end
 
   def regular_courses_plannings_count
