@@ -125,6 +125,7 @@ FilteredSearch.addInitializer(function(options) {
             'paginator:updating':                'hideInfoWindow retireMarkers',
             'structures:itemview:highlighted':   'exciteMarkers',
             'structures:itemview:unhighlighted': 'exciteMarkers',
+            'map:update:zoom':                   'updateZoom',
             'filter:update:map':                 'centerMap',
             'structures:itemview:found':         'setMarkerViewAndshowInfoWindow',
             'structures:itemview:peacock':       'togglePeacockingMarkers'

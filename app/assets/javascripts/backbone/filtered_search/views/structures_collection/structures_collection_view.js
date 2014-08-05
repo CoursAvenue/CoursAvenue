@@ -109,11 +109,9 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
 
             this.trigger('structures:updated:query', { query: this.collection.getQuery().replace('?', '') }); // Removing the first '?' character
             /* announce the filters used in the current result set */
-            this.trigger('filter:update:map', {
+            this.trigger('map:update:zoom', {
                 radius_type: (data.server_api.radius_type ? data.server_api.radius_type                     : ''),
                 radius     : (data.server_api.radius ? data.server_api.radius                               : ''),
-                lat        : (data.server_api.lat    ? data.server_api.lat                                  : ''),
-                lng        : (data.server_api.lng    ? data.server_api.lng                                  : '')
             });
             this.trigger('structures:updated:filter', {
                 address_name         : (data.server_api.address_name         ? data.server_api.address_name                         : ''),

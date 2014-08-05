@@ -207,12 +207,6 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             return false;
         },
 
-        changeMapRadius: function changeMapRadius (data) {
-            if (data.radius) {
-                this.map.setZoom(data.radius);
-            }
-        },
-
         getZoomFromRadius: function getZoomFromRadius (data) {
             switch(parseFloat(data.radius)) {
               case 1: return 15;
@@ -223,11 +217,11 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             }
         },
 
+        updateZoom: function updateZoom (data) {
+            this.map.setZoom(this.getZoomFromRadius(data));
+        },
+
         centerMap: function centerMap (data) {
-            if (data.lat && data.lng) {
-                // More smooth than setCenter
-                this.map.panTo(new google.maps.LatLng(data.lat, data.lng));
-            }
             if (data.bbox) {
                 if (data.bbox.sw && data.bbox.ne) {
                     var sw_latlng = new google.maps.LatLng(data.bbox.sw.lat, data.bbox.sw.lng);
@@ -236,8 +230,13 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
                     var bounds = new google.maps.LatLngBounds(sw_latlng, ne_latlng);
                     this.map.fitBounds(bounds);
                 }
+            } else if (data.lat && data.lng) {
+                // More smooth than setCenter
+                this.map.panTo(new google.maps.LatLng(data.lat, data.lng));
             }
-            this.map.setZoom(this.getZoomFromRadius(data));
+            if (this.map.getZoom() != this.getZoomFromRadius(data)) {
+                this.map.setZoom(this.getZoomFromRadius(data));
+            }
         },
 
         // Renders the model once, and the collection once. Calling
