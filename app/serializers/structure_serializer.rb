@@ -2,7 +2,7 @@ class StructureSerializer < ActiveModel::Serializer
   include StructuresHelper
   include ActionView::Helpers::TextHelper
 
-  attributes :id, :name, :slug, :comments_count, :logo_thumb_url, :data_url, :query_url, :query_params,
+  attributes :id, :name, :slug, :comments_count, :logo_thumb_url, :logo_large_url, :data_url, :query_url, :query_params,
              :structure_type, :highlighted_comment_title, :premium, :promotion_title, :cities,
              :regular_courses_plannings_count, :training_courses_plannings_count
 
@@ -49,6 +49,10 @@ class StructureSerializer < ActiveModel::Serializer
 
   def logo_thumb_url
     object.logo.url(:thumb)
+  end
+
+  def logo_large_url
+    object.logo.url(:large)
   end
 
   def data_url
