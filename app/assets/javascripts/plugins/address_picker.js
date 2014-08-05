@@ -33,18 +33,20 @@
 
     Plugin.prototype = {
 
-        init: function() {
+        init: function init () {
             // Check if the element has already been initialized before doing the stuff
             if (this.$element.hasClass('tt-hint')) { return; }
             var geocoder;
-            this.input_lat      = $(this.$element.data('lat'));
-            this.input_lng      = $(this.$element.data('lng'));
-            this.input_city     = $(this.$element.data('city'));
+            this.input_lat         = $(this.$element.data('lat'));
+            this.input_lng         = $(this.$element.data('lng'));
+            this.input_city        = $(this.$element.data('city'));
+            this.input_radius = $(this.$element.data('radius'));
             geocoder            = new google.maps.Geocoder();
             this.$element.on('typeahead:selected', function(event, data) {
                 this.input_lat.val(data.lat);
                 this.input_lng.val(data.lng);
                 this.input_city.val(data.city);
+                this.input_radius.val(data.radius);
                 this.$element.typeahead('val', data.address_name);
             }.bind(this));
             template = Handlebars.compile(this.options.template_string);
@@ -67,12 +69,13 @@
                                 }
                             });
                             return {
-                                city:         city,
-                                lat:          result.geometry.location.lat,
-                                lng:          result.geometry.location.lng,
-                                address_name: result.formatted_address
+                                city        : city,
+                                lat         : result.geometry.location.lat,
+                                lng         : result.geometry.location.lng,
+                                address_name: result.formatted_address,
+                                radius      : this.getRadiusFromType(result.types[0])
                             };
-                        });
+                        }.bind(this));
                     }.bind(this)
                 }
             });
@@ -83,6 +86,7 @@
                     this.input_lat.val(this.latest_results[0].geometry.location.lat);
                     this.input_lng.val(this.latest_results[0].geometry.location.lng);
                     this.input_city.val(this.latest_results[0].formatted_address);
+                    this.input_radius.val(this.getRadiusFromType(this.latest_results[0].types[0]));
                     this.$element.typeahead('val', this.latest_results[0].formatted_address);
                 }
             }.bind(this));
@@ -97,6 +101,16 @@
                 },
                 source: engine.ttAdapter()
             });
+
+        },
+        getRadiusFromType: function getRadiusFromType (radius_type) {
+            switch(radius_type) {
+              case 'route'         : return 1;
+              case 'street_address': return 1;
+              case 'neighborhood'  : return 2;
+              case 'locality'      : return 5;
+              default              : return 5;
+            }
         }
     };
 

@@ -109,6 +109,12 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
 
             this.trigger('structures:updated:query', { query: this.collection.getQuery().replace('?', '') }); // Removing the first '?' character
             /* announce the filters used in the current result set */
+            this.trigger('filter:update:map', {
+                radius_type: (data.server_api.radius_type ? data.server_api.radius_type                     : ''),
+                radius     : (data.server_api.radius ? data.server_api.radius                               : ''),
+                lat        : (data.server_api.lat    ? data.server_api.lat                                  : ''),
+                lng        : (data.server_api.lng    ? data.server_api.lng                                  : '')
+            });
             this.trigger('structures:updated:filter', {
                 address_name         : (data.server_api.address_name         ? data.server_api.address_name                         : ''),
                 name                 : (data.server_api.name                 ? data.server_api.name                                 : ''),
@@ -131,7 +137,10 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                 end_date             : (data.server_api.end_date             ? data.server_api.end_date                             : ''),
                 start_hour           : (data.server_api.start_hour           ? data.server_api.start_hour                           : ''),
                 end_hour             : (data.server_api.end_hour             ? data.server_api.end_hour                             : ''),
-                trial_course_amount  : (data.server_api.trial_course_amount  ? data.server_api.trial_course_amount                  : '')
+                trial_course_amount  : (data.server_api.trial_course_amount  ? data.server_api.trial_course_amount                  : ''),
+                radius               : (data.server_api.radius               ? data.server_api.radius                               : ''),
+                lat                  : (data.server_api.lat                  ? data.server_api.lat                                  : ''),
+                lng                  : (data.server_api.lng                  ? data.server_api.lng                                  : '')
             });
 
             this.trigger('structures:updated:maps');

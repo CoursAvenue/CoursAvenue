@@ -2,9 +2,11 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
     Module.LocationFilterView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'location_filter_view',
+        className: 'header-search inline-block v-middle push--left palm-one-whole',
 
         setup: function (data) {
             this.ui.$address_picker.attr('value', data.address_name);
+            $('[data-type="location-filter"]').replaceWith(this.$el);
         },
 
         ui: {

@@ -141,7 +141,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             });
         },
 
-        markerFocus: function (marker_view) {
+        markerFocus: function markerFocus (marker_view) {
             /* it seems to me this test was to ensure that re-clicking on
             * the current_info_marker wouldn't retrigger map:marker:click.
             * however, not the current_info_marker is set in markerHovered,
@@ -158,7 +158,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             this.trigger('map:marker:click', marker_view);
         },
 
-        unlockCurrentMarker: function () {
+        unlockCurrentMarker: function unlockCurrentMarker () {
             if (this.current_info_marker) {
                 var marker = this.markerViewChildren[this.current_info_marker];
                 marker.setSelectLock(false);
@@ -166,7 +166,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             }
         },
 
-        liveUpdateClicked: function (e) {
+        liveUpdateClicked: function liveUpdateClicked (e) {
             this.update_live = e.currentTarget.checked;
             $.cookie('map:update:live', this.update_live);
 
@@ -177,7 +177,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             this.toggleLiveUpdate();
         },
 
-        toggleLiveUpdate: function () {
+        toggleLiveUpdate: function toggleLiveUpdate () {
             /* set or remove a listener */
             if (this.update_live) {
                 this.unlock('map:bounds', 'toggleLiveUpdate');
@@ -186,7 +186,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             }
         },
 
-        announceBounds: function (e) {
+        announceBounds: function announceBounds (e) {
             // we got here by a click
             if (e) { e.preventDefault(); }
 
@@ -207,18 +207,27 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             return false;
         },
 
-        changeMapRadius: function(data) {
+        changeMapRadius: function changeMapRadius (data) {
             if (data.radius) {
                 this.map.setZoom(data.radius);
             }
         },
 
-        centerMap: function (data) {
+        getZoomFromRadius: function getZoomFromRadius (data) {
+            switch(parseFloat(data.radius)) {
+              case 1: return 15;
+              case 2: return 14;
+              case 3: return 13;
+              case 4: return 12;
+              default: return 12;
+            }
+        },
+
+        centerMap: function centerMap (data) {
             if (data.lat && data.lng) {
                 // More smooth than setCenter
                 this.map.panTo(new google.maps.LatLng(data.lat, data.lng));
             }
-
             if (data.bbox) {
                 if (data.bbox.sw && data.bbox.ne) {
                     var sw_latlng = new google.maps.LatLng(data.bbox.sw.lat, data.bbox.sw.lng);
@@ -228,14 +237,13 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
                     this.map.fitBounds(bounds);
                 }
             }
-
-            this.map.setZoom(12);
+            this.map.setZoom(this.getZoomFromRadius(data));
         },
 
         // Renders the model once, and the collection once. Calling
         // this again will tell the model's view to re-render itself
         // but the collection will not re-render.
-        render: function(){
+        render: function render (){
             this.isRendered = true;
             this.isClosed   = false;
             this.resetItemViewContainer();
@@ -257,7 +265,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             return this;
         },
 
-        appendHtml: function(collectionView, itemView, index){
+        appendHtml: function appendHtml (collectionView, itemView, index){
             /* the markerview is kind of a silly little class
             * so we are rendering its template out here, and
             * passing that in to add child. */
@@ -265,7 +273,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             this.addChild(itemView.model, html);
         },
 
-        addChild: function (childModel, html) {
+        addChild: function addChild (childModel, html) {
             var markerView = new this.markerView({
                 model:   childModel,
                 map:     this.map,
@@ -277,13 +285,13 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             markerView.render();
         },
 
-        closeChildren: function() {
+        closeChildren: function closeChildren () {
             for(var cid in this.markerViewChildren) {
                 this.closeChild(this.markerViewChildren[cid]);
             }
         },
 
-        closeChild: function(child) {
+        closeChild: function closeChild (child) {
             // Param can be child's model, or child view itself
             var childView = (child instanceof Backbone.Model ? this.markerViewChildren[child.cid] : child);
 
@@ -296,16 +304,16 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
          * since cid is not actually an attribute and so
          * should not be included in the event from structureView
          * TODO: this todo is referenced in trello: https://trello.com/c/z8OddcYs */
-        toKey: function (model) {
+        toKey: function toKey (model) {
             return model.cid;
         },
 
-        hideInfoWindow: function () {
+        hideInfoWindow: function hideInfoWindow () {
             this.current_info_marker = null;
             this.infoBox.close();
         },
 
-        showInfoWindow: function (view) {
+        showInfoWindow: function showInfoWindow (view) {
             var marker = this.markerViewChildren[this.current_info_marker];
             if (!marker) { return; }
 
@@ -328,7 +336,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             this.infoBox.open(this.map, marker.gOverlay);
         },
 
-        serializeData: function () {
+        serializeData: function serializeData () {
             return {
                 update_live: this.update_live
             };

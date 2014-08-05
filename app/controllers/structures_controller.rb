@@ -14,7 +14,11 @@ class StructuresController < ApplicationController
     if params.has_key?(:bbox_ne) and params.has_key?(:bbox_sw)
       @place_ids = @structure.places_in_bounding_box(params[:bbox_sw], params[:bbox_ne]).map(&:id)
     elsif params.has_key?(:lat) and params.has_key?(:lng)
-      @place_ids = @structure.places_around(params[:lat], params[:lng]).map(&:id)
+      if params[:radius]
+        @place_ids = @structure.places_around(params[:lat], params[:lng], params[:radius].to_i).map(&:id)
+      else
+        @place_ids = @structure.places_around(params[:lat], params[:lng]).map(&:id)
+      end
     else
       @place_ids = @structure.places.map(&:id)
     end
