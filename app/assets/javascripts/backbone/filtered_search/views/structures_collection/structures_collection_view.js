@@ -28,7 +28,16 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
 
         emptyView: EmptyStrcutureList,
 
+        initialize: function initialize () {
+            window.onresize = this.resize_thumbnails;
+        },
+
+        resize_thumbnails: function resize_thumbnails () {
+            $('[data-resizeable-height]').css('height', $('[data-resizeable-height]').first().width() * 2 / 3);
+        },
+
         onAfterShow: function onAfterShow () {
+          this.resize_thumbnails();
           this.announcePaginatorUpdated();
           var $sticky = $('[data-behavior=sticky]');
           $sticky.sticky({ scrollContainer: '.filtered-search__list-wrapper',
