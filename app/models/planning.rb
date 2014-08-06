@@ -305,7 +305,7 @@ class Planning < ActiveRecord::Base
   end
 
   def week_days
-    if self.course.is_lesson?
+    if self.course.is_lesson? or self.course.is_private?
       [self.week_day]
     else
       if self.start_date and self.end_date
