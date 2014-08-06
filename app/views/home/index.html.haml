@@ -20,7 +20,7 @@
       %div
         %h2.push--bottom.f-weight-300 Le Blog
         %ul.flush
-          - Blog::Article.order('published_at DESC').limit(3).each do |article|
+          - Blog::Article.published.order('published_at DESC').limit(3).each do |article|
             %li.white-box.island{ itemscope: true, itemtype: 'http://schema.org/Article' }
               .flexbox
                 .flexbox__item.v-top.two-twelfths
