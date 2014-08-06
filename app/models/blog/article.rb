@@ -11,7 +11,6 @@ class Blog::Article < ActiveRecord::Base
 
   has_and_belongs_to_many :subjects
 
-  validates :title, :description, :content, :published_at, presence: true
   has_attached_file :cover_image,
                     styles: { default: '750x', small: '250x200#'}
 

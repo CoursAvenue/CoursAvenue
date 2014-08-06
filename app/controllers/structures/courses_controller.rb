@@ -15,7 +15,7 @@ class Structures::CoursesController < ApplicationController
                                                      visible: true })
 
     @plannings = @plannings.sort do |planning_a, planning_b|
-      [planning_a.week_day, planning_a.start_date, planning_a.start_time] <=> [planning_b.week_day, planning_b.start_date, planning_b.start_time]
+      [planning_a.week_day, planning_a.start_date, planning_a.start_time].compact <=> [planning_b.week_day, planning_b.start_date, planning_b.start_time].compact
     end
 
     @plannings.group_by(&:course_id).each do |course_id, plannings|
