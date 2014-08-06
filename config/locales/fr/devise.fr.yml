@@ -48,7 +48,7 @@ fr:
       send_paranoid_instructions: 'Si votre compte existe, vous allez bientôt recevoir un email contenant les instructions pour le déverrouiller.'
     omniauth_callbacks:
       success: 'Authentifié avec succès avec %{kind}.'
-      failure: "Nous n'avons pas pu vous authentifier via %{kind} : '%{reason}'."
+      failure: "Nous n'avons pas pu vous authentifier via %{kind}."
     mailer:
       confirmation_instructions:
         subject: Bienvenue sur CoursAvenue

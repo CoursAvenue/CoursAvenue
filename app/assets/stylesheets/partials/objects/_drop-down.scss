@@ -13,8 +13,11 @@
         z-index         : 10;
         text-align      : center;
         border          : 1px solid #D0D0D0;
-        max-height      : 30em;
         overflow-y      : hidden;
+        &, ul { max-height: 30em; }
+        ul {
+            overflow-y: scroll;
+        }
         @include box-shadow(0px 2px 10px rgba(0, 0, 0, 0.1));
         a {
             display      : block;

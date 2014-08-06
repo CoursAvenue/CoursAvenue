@@ -1,0 +1,53 @@
+%h4 Pour finaliser l'envoi du message et pouvoir recevoir la réponse du professeur, vous devez vous créer un compte.
+.text--center
+  = link_to "S'inscrire avec Facebook", '#', class: 'btn btn--facebook ', id: 'facebook-login'
+%ul.no-bullet-list.flush--bottom.push-half--top
+  %li
+    %i.fa.fa-check.green
+    Inscription en 3 secondes !
+  %li
+    %i.fa.fa-check.green
+    Plus de mot de passe nécessaire.
+  %li
+    %i.fa.fa-check.green
+    Nous ne publions rien sur votre mur.
+.or
+  %span ou
+
+#sign-in-content.collapse{ class: (@user and @user.errors.any? ? 'in' : '') }
+  = simple_form_for @user, url: user_registration_path, method: :post do |f|
+    = f.error_notification
+    = f.input :first_name, label: false, placeholder: 'Prénom',      input_html: { class: 'one-whole', value: (@user ? @user.first_name : nil)}, wrapper_html: { class: 'flush' }
+    = f.input :last_name,  label: false, placeholder: 'Nom',         input_html: { class: 'one-whole' }
+    = f.input :zip_code,   label: false, placeholder: 'Code postal', input_html: { class: 'one-whole' }
+    = f.input :email,      label: false, placeholder: 'Email',       input_html: { class: 'one-whole', value: (@user ? @user.email : nil)}, wrapper_html: { class: 'flush--top' }
+    = f.input :password, label: false, placeholder: 'Mot de passe', input_html: { class: 'one-whole' }
+    = f.button :submit, "Inscription", class: 'btn--green one-whole', data: { disable_with: 'Inscription en cours...' }
+
+
+.text--center.push--bottom= link_to 'Inscription avec votre adresse e-mail', 'javascript:void(0)', data: {toggle: "collapse", target: "#sign-in-content"}
+%p
+  %strong
+    En m'inscrivant, j'accepte
+    = link_to "les conditions générales d'utilisation.", pages_mentions_partners_path, target: :_blank
+%hr
+.push-half--top
+  Déjà membre CoursAvenue ?
+  = link_to "Connexion", '#', id: 'show_new_session_form'
+
+:javascript
+    $('#facebook-login').click(function() {
+        FB.login(function(response) {
+            debugger
+            if (response.status === 'connected') {
+                // window.location.href = "#{user_omniauth_callback_path(action: 'facebook')}";
+                // Logged into your app and Facebook.
+            } else if (response.status === 'not_authorized') {
+                GLOBAL.flash('Nous ne pouvons vous authentifier')
+                // The person is logged into Facebook, but not your app.
+            } else {
+              // The person is not logged into Facebook, so we're not sure if
+              // they are logged into this app or not.
+            }
+        }, { scope: 'email,user_birthday,user_location'});
+    });

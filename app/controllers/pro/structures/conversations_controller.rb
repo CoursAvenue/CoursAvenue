@@ -4,6 +4,8 @@ class Pro::Structures::ConversationsController < ApplicationController
   before_action :authenticate_pro_admin!
   before_action :get_structure, :get_admin
 
+  include ConversationsHelper
+
   layout 'admin'
 
   # Set the message as treated_by_phone. It means that the admin don't have to
@@ -44,6 +46,7 @@ class Pro::Structures::ConversationsController < ApplicationController
     else
       @conversations = @admin.mailbox.conversations
     end
+    @conversations = @conversations.select{ |conversation| conversation_valid?(conversation) }
     @conversations = Kaminari.paginate_array(@conversations).page(params[:page] || 1).per(15)
   end
 

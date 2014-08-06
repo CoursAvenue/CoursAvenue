@@ -8,7 +8,8 @@ class StructureShowSerializer < ActiveModel::Serializer
              :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range,
              :has_free_trial_course, :teaches_at_home, :audience, :funding_types, :gives_group_courses,
              :gives_individual_courses, :structure_type, :has_promotion, :tag_names, :given_course_types,
-             :given_funding_type, :places_count, :comments, :subjects, :has_teachers, :has_only_one_more_info
+             :given_funding_type, :places_count, :comments, :subjects, :has_teachers, :has_only_one_more_info,
+             :phone_numbers, :trainings_courses, :lessons_and_privates
 
   has_many :comments, serializer: CommentSerializer
   has_many :places  , serializer: PlaceSerializer
@@ -195,4 +196,17 @@ class StructureShowSerializer < ActiveModel::Serializer
   def has_only_one_more_info
     return (object.funding_types.empty? and object.audiences.empty? and object.structure_type.nil?)
   end
+
+  def phone_numbers
+    object.phone_numbers.map{ |phone_number| readable_phone_number(phone_number.number) }.uniq
+  end
+
+  def trainings_courses
+    object.courses.trainings.select(&:is_published?)
+  end
+
+  def lessons_and_privates
+    object.courses.lessons.select(&:is_published?) + object.courses.privates.select(&:is_published?)
+  end
+
 end
