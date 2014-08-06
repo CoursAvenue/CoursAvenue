@@ -177,7 +177,7 @@ gem 'roo'                       , '~>1.13.2'
 gem 'rack-utf8_sanitizer'       , '~> 1.1.0'
 
 # Use ckeditor for post body
-gem 'ckeditor'                  , '~> 4.0.11'
+gem 'ckeditor'                  , '~> 4.1.0'
 
 group :production, :staging do
   gem 'execjs'                  , '~>2.0.2'
