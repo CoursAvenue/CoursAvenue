@@ -2,9 +2,9 @@
   .text--center.push--bottom{ data: { behavior: 'image-input' } }
     .progress.hidden.push-half--bottom{ data: { progress: true } }
       .bar
-    - if @article.cover_image?
+    - if @article.cover_image.present?
       .push-half--bottom.bordered{ style: "height: 200px; width: 200px; display: inline-block; line-height: 196px;" }<
-        = image_tag @article.cover_image.url(:thumb), class: 'v-middle inline-block', style: 'max-height: 100%;'
+        = image_tag @article.cover_image.url(:small), class: 'v-middle inline-block', style: 'max-height: 100%;'
     - else
       .push-half--bottom.bordered{style: "height: 200px; width: 200px; display: inline-block; line-height: 196px;"}
         %img.v-middle.inline-block{style: 'max-height: 100%;'}

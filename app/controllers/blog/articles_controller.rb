@@ -13,6 +13,8 @@ class Blog::ArticlesController < ApplicationController
 
   def show
     @article = Blog::Article.find params[:id]
-    redirect_to blog_articles_path if ! @article.published?
+    unless current_pro_admin and current_pro_admin.super_admin?
+      redirect_to blog_articles_path if ! @article.published?
+    end
   end
 end
