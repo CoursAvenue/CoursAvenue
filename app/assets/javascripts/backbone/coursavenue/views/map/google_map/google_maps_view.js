@@ -209,7 +209,9 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
         },
 
         updateZoom: function updateZoom (data) {
-            this.map.setZoom(parseInt(data.zoom));
+            if (!_.isNaN(parseInt(data.zoom))) {
+                this.map.setZoom(parseInt(data.zoom));
+            }
         },
 
         centerMap: function centerMap (data) {
@@ -224,7 +226,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             } else if (data.lat && data.lng) {
                 // More smooth than setCenter
                 this.map.panTo(new google.maps.LatLng(data.lat, data.lng));
-                this.map.setZoom(parseInt(data.zoom));
+                this.updateZoom(data);
             }
         },
 
