@@ -25,6 +25,7 @@ class Blog::Article < ActiveRecord::Base
   # Scopes                                                             #
   ######################################################################
   scope :published, -> { where( published: true ) }
+  default_scope -> { order('published_at DESC') }
 
   private
 

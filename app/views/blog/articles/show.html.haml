@@ -1,3 +1,18 @@
+= content_for :title do
+  = @article.title
+
+= content_for :description do
+  = @article.description
+
+= content_for :meta_image do
+  = @article.cover_image.url(:default)
+
+.push-half--bottom
+  %strong.v-middle Partager :
+  .inline-block.v-middle.push-half--right{ class: "fb-share-button", data: { href:  blog_article_url(@article), type: 'button_count' } }
+  %a.inline-block.v-middle{ href: blog_article_url(@article), class: 'twitter-share-button', data: { lang: "fr", via: 'CoursAvenue', url: blog_article_url(@article) } } Tweeter
+
+
 %article{ itemscope: true, itemtype: 'http://schema.org/Article' }
   - if @article.cover_image.present?
     = link_to blog_article_path(@article), class: 'muted-link push-half--bottom block' do
