@@ -27,8 +27,12 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
 
         submitForm: function submitForm () {
             this.populateMessage();
-            //this.validate()
-            debugger
+            // this.model.validate();
+            CoursAvenue.signInUser({
+                success: function success () {
+
+                }
+            })
             return false;
         },
 
