@@ -4,7 +4,7 @@
   - else
     Tous les cours de #{@subject.name.downcase} | CoursAvenue
 
-= content_for :description do
+= content_for :meta_description do
   - if @vertical_page.title.present?
     = @vertical_page.caption
   - else
