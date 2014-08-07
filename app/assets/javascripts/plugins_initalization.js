@@ -31,18 +31,19 @@ $(function() {
     global.initialize_fancy($('[data-behavior="fancy"]'));
     $('body').on('click', '[data-behavior=modal]', function(event) {
         event.preventDefault();
-        var $this       = $(this);
-        var width       = $this.data('width') || 'auto';
-        var height      = $this.data('height') || 'auto';
-        var padding     = (typeof($this.data('padding')) == 'undefined' ? '15' : $this.data('padding'));
-        var top_ratio  = (typeof($this.data('top-ratio')) == 'undefined' ? '0.5' : $this.data('top-ratio'));
-        var close_click =  (typeof($this.data('close-click')) == 'undefined' ? true : $this.data('close-click'));
+        var $this        = $(this);
+        var width        = $this.data('width') || 'auto';
+        var height       = $this.data('height') || 'auto';
+        var padding      = (typeof($this.data('padding')) == 'undefined' ? '15' : $this.data('padding'));
+        var top_ratio    = (typeof($this.data('top-ratio')) == 'undefined' ? '0.5' : $this.data('top-ratio'));
+        var close_click  = (typeof($this.data('close-click')) == 'undefined' ? true : $this.data('close-click'));
+        var lock_overlay = (typeof($this.data('lock-overlay')) == 'undefined' ? false : true);
         $.fancybox.open($this, {
                 padding     : parseInt(padding),
                 topRatio    : parseFloat(top_ratio),
                 openSpeed   : 300,
                 maxWidth    : 1200,
-                maxHeight   : 1200,
+                maxHeight   : (window.innerHeight - 150),
                 fitToView   : false,
                 width       : width,
                 height      : height,
@@ -50,7 +51,7 @@ $(function() {
                 autoResize  : true,
                 helpers : {
                     overlay: {
-                        locked: false,
+                        locked: true,
                         closeClick: close_click
                     }
                 }

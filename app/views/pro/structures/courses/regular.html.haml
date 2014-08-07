@@ -5,8 +5,8 @@
       .grid__item.two-twelfths.v-middle>
         %h4.flush Ajouter un :
       .grid__item.ten-twelfths.v-middle.text--center>
-        = link_to 'Cours collectif', new_pro_structure_course_path(@structure, type: 'Course::Lesson'), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false', action: 'new_course', course_type: 'lesson' }
-        = link_to 'Cours particulier', new_pro_structure_course_path(@structure, type: 'Course::Private'), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false', action: 'new_course', course_type: 'private' }
+        = link_to 'Cours collectif', new_pro_structure_course_path(@structure, type: 'Course::Lesson'), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false', action: 'new_course', course_type: 'lesson', lock_overlay: true }
+        = link_to 'Cours particulier', new_pro_structure_course_path(@structure, type: 'Course::Private'), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false', action: 'new_course', course_type: 'private', lock_overlay: true }
 
   .panel__body{ data: { behavior: 'wizard-helper', content: t('pro.structures.courses.wizard.regular') } }
     #lessons_header.soft.bg-white.bordered--bottom-on-stick{ data: { behavior: 'sticky', offset_top: 125, old_width: 'true', z: 300 } }
