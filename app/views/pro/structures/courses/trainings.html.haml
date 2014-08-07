@@ -1,7 +1,7 @@
 = side_menu_currently_at 'trainings'
 .panel
   .panel__header.soft.text--center.bordered--bottom-on-stick{ data: { behavior: 'sticky', offset_top: 45, old_width: 'true' } }
-    = link_to 'Ajouter un stage / atelier', new_pro_structure_course_path(@structure, type: 'Course::Training'), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false', action: 'new_course', course_type: 'training' }
+    = link_to 'Ajouter un stage / atelier', new_pro_structure_course_path(@structure, type: 'Course::Training'), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false', action: 'new_course', course_type: 'training', lock_overlay: true }
 
   .panel__body.soft--ends
     .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.courses.wizard.trainings') } }

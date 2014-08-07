@@ -5,7 +5,7 @@
         .grid__item.two-thirds>
           %h5.flush--bottom= price_group.name
         .grid__item.one-third.text--right>
-          = link_to edit_pro_structure_price_group_path(@structure, price_group), class: 'orange fancybox.ajax', data: { behavior: 'modal', width: '1000', top_ratio: 0.2, padding: '0', close_click: 'false' } do
+          = link_to edit_pro_structure_price_group_path(@structure, price_group), class: 'orange fancybox.ajax', data: { behavior: 'modal', width: '1000', top_ratio: 0.2, padding: '0', close_click: 'false', lock_overlay: true } do
             %i.fa.fa-pencil
             Modifier
           \/
