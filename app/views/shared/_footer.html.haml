@@ -68,7 +68,7 @@
     .main-container.text--center.visuallyhidden
       - if @structure.city
         = link_to "Tous les cours à #{@structure.city.name}", city_url(@structure.city, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'semi-muted-link', target: :_blank
-      - @structure.subjects.uniq.each_with_index do |subject, index|
-        - if index > 0
-          ,
-        = link_to "Cours de #{subject.name} à #{@structure.city.name}", vertical_page_url_for(subject), class: 'semi-muted-link', target: :_blank
+        - @structure.subjects.uniq.each_with_index do |subject, index|
+          - if index > 0
+            ,
+          = link_to "Cours de #{subject.name} à #{@structure.city.name}", vertical_page_url_for(subject), class: 'semi-muted-link', target: :_blank
