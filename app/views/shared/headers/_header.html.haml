@@ -7,7 +7,7 @@
       - unless request.path == '/'
         = form_tag structures_path, method: :get, authenticity_token: false, class: 'inline-block v-middle push--left', data: { type: 'location-filter'}, id: 'header-location-form' do
           .input-with-icon.v-middle.header-search
-            %input.one-whole#header-location-form-address-picker.soft-half--left{ size: 25, placeholder: 'Où recherchez-vous ?', type:'text', autocomplete: 'off', name:'address_name', data: { behavior:'address-picker', lng:'#address-lng', lat: '#address-lat', city: '#address-city', zoom: '#address-zoom' } }
+            %input.one-whole#header-location-form-address-picker.soft-half--left{ size: 25, placeholder: 'Où recherchez-vous un cours ?', type:'text', autocomplete: 'off', name:'address_name', data: { behavior:'address-picker', lng:'#address-lng', lat: '#address-lat', city: '#address-city', zoom: '#address-zoom' } }
             %i.fa.fa-map-marker.delta
           %input#address-lat{ type: 'hidden', name: 'lat' }
           %input#address-lng{ type: 'hidden', name: 'lng' }

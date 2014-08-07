@@ -16,11 +16,12 @@
 
 .home-screen-promotion-wrapper
   .main-container.main-container--medium.soft.push--ends
-    - cache "home_blog_#{ENV["ETAG_VERSION_ID"]}", public: true do
+    - blog_articles = Blog::Article.published.order('published_at DESC').limit(3)
+    - cache blog_articles do
       %div
         %h2.push--bottom.f-weight-300 Le Blog
         %ul.flush
-          - Blog::Article.order('published_at DESC').limit(3).each do |article|
+          - blog_articles.each do |article|
             %li.white-box.island{ itemscope: true, itemtype: 'http://schema.org/Article' }
               .flexbox
                 .flexbox__item.v-top.two-twelfths
