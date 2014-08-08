@@ -27,10 +27,19 @@ class Blog::Article < ActiveRecord::Base
   scope :published, -> { where( published: true ) }
   default_scope -> { order('published_at DESC') }
 
+  def published_at
+    if read_attribute(:published_at).nil?
+      self.created_at
+    else
+      read_attribute(:published_at)
+    end
+  end
+
   private
 
   def set_published_at
     published_at ||= Time.now
+    self.save
   end
 
   def title_with_date
