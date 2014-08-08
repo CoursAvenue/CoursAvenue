@@ -299,13 +299,16 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  # Thursday email
-  # Only send if thursday email opt in is true
+  # Mail sent every thursday
+  # It's sent only if 'monday_email_opt_in' is set to true
+  # When? :
+  #     Tous les jeudis tant qu'un cours / stage non complété (les mêmes 3 raisons du
+  #     cadre bleu call to action : périmé, prix ou créneau manquant) OU pas de planning du tout
   def remind_for_planning_outdated
     if self.main_contact and self.main_contact.monday_email_opt_in?
-      if self.plannings.empty? or self.courses.without_open_courses.collect{ |course| !course.can_be_published? }.any? or self.courses.without_open_courses.collect(&:expired?).any?
-        AdminMailer.delay.planning_outdated(self)
-      end
+      # Don't send if there is a published course
+      return if self.courses.without_open_courses.detect(&:is_published?)
+      AdminMailer.delay.planning_outdated(self)
     end
   end
 

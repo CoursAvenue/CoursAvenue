@@ -20,12 +20,14 @@
 .team__nicolas {
     height: 400px;
     width : 158px;
+    @include background-size((158px * 2 ) 400px);
     @include background-image-retina('pages/equipe/nicolas.png', 'pages/equipe/nicolas@2x.png');
     &:hover { background-position: -157px 0px; }
 }
 .team__nima {
     height: 400px;
     width : 270px;
+    @include background-size((270px * 2 ) 400px);
     @include background-image-retina('pages/equipe/nima.png', 'pages/equipe/nima@2x.png');
     &:hover {
         background-position: -272px 0px;
@@ -34,24 +36,28 @@
 .team__thanh  {
     height: 400px;
     width : 170px;
+    @include background-size((170px * 2 ) 400px);
     @include background-image-retina('pages/equipe/thanh.png', 'pages/equipe/thanh@2x.png');
     &:hover { background-position: -179px 0px; }
 }
 .team__boris {
     height: 400px;
     width : 156px;
+    @include background-size((156px * 2 ) 400px);
     @include background-image-retina('pages/equipe/boris.png', 'pages/equipe/boris@2x.png');
     &:hover { background-position: -160px 0px; }
 }
 .team__nabil {
     height: 400px;
     width : 160px;
+    @include background-size((160px * 2 ) 400px);
     @include background-image-retina('pages/equipe/nabil.png', 'pages/equipe/nabil@2x.png');
     &:hover { background-position: -183px 0px; }
 }
 .team__offre {
     height: 400px;
     width : 110px;
+    @include background-size((110px * 2 ) 400px);
     @include background-image-retina('pages/equipe/offre.png', 'pages/equipe/offre@2x.png');
     &:hover { background-position: -112px 0px; }
 }
