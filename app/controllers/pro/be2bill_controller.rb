@@ -20,16 +20,22 @@ class Pro::Be2billController < Pro::ProController
     # Sets CLIENT_IP to have it for subscription
     params[:CLIENT_IP] = request.remote_ip || @structure.main_contact.last_sign_in_ip
 
+    logger.warn "*** BEGIN ***"
+    logger.warn params
     if params[:EXECCODE] == '0000'
       if params[:EXTRADATA]['renew'].present?
         subscription_plan = @structure.subscription_plan
       else
         subscription_plan = SubscriptionPlan.subscribe!(params[:EXTRADATA]['plan_type'], @structure, params)
       end
-      @structure.orders.create(amount: subscription_plan.amount,
+      order = @structure.orders.create(amount: subscription_plan.amount,
                                order_id: params[:ORDERID],
                                promotion_code_id: params[:EXTRADATA]['promotion_code_id'],
                                subscription_plan: subscription_plan)
+      logger.warn order
+      logger.warn order.errors
+      logger.warn order.id
+      logger.warn "*** END   ***"
     end
 
     render text: 'OK'
