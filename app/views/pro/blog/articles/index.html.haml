@@ -20,7 +20,8 @@
           %td
             %div{ data: { toggle: 'popover', content: article.description, trigger: 'hover', position: 'top' } }
               .btn Desc
-          %td= l(article.published_at, format: :date_with_year)
+          %td
+            = l(article.published_at, format: :date_with_year) if article.published_at
           %td
             = article.tags.map(&:name).join(', ')
           %td.text--center
