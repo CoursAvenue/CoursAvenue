@@ -18,9 +18,9 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         events: {
-            'click [data-behavior=sign-up]': 'signUp',
+            'click [data-behavior=sign-up]'       : 'signUp',
             'click [data-behavior=facebook-login]': 'loginWithFacebook',
-            'submit form'                  : 'signIn'
+            'submit form'                         : 'signIn'
         },
 
         loginWithFacebook: function loginWithFacebook () {
@@ -44,14 +44,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 url: Routes.user_session_path(),
                 type: 'POST',
                 dataType: 'json',
-                xhrFields: {
-                  withCredentials: true
-                },
-                beforeSend: function beforeSend (jqXHR, settings) {
-                    jqXHR.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
-                },
                 data: {
-                    authenticity_token: $('meta[name="csrf-token"]').attr('content'),
                     user: {
                         remember_me       : true,
                         email             : this.$('[name=email]').val(),

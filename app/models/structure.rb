@@ -304,6 +304,7 @@ class Structure < ActiveRecord::Base
   # When? :
   #     Tous les jeudis tant qu'un cours / stage non complété (les mêmes 3 raisons du
   #     cadre bleu call to action : périmé, prix ou créneau manquant) OU pas de planning du tout
+  # TODO: monday and thursday email have changed
   def remind_for_planning_outdated
     if self.main_contact and self.main_contact.monday_email_opt_in?
       # Don't send if there is a published course

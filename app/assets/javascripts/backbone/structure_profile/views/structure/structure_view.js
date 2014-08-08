@@ -13,7 +13,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
 
         events: {
             'breadcrumbs:clear'       : 'broadenSearch',
-            'filter:popstate'         : 'narrowSearch',
+            // 'filter:popstate'         : 'narrowSearch',
             'filter:removed'          : 'removeSummary'
         },
 

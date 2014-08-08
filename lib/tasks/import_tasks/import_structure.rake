@@ -20,6 +20,41 @@ namespace :import do
       }
   end
 
+  # Use rake import:vertical_pages_images
+  desc 'Import structures'
+  task :vertical_pages_images, [:filename] => :environment do |t, args|
+    url = 'http://coursavenue-public.s3.amazonaws.com/vertical_pages/vertical_images.csv'
+    file = open(url)
+    bar = ProgressBar.new file.readlines.size
+    first = true
+    CSV.foreach(file, { col_sep: ";" }) do |row|
+      if first
+        first = false
+        next
+      end
+      bar.increment!
+      vertical = VerticalPage.where(VerticalPage.arel_table[:name].matches("%#{row[1]}%")).first
+      if vertical.nil?
+        puts "--------------------------------------------------------------------------------"
+        puts "--------------------------------------------------------------------------------#{row[1]}"
+        puts "--------------------------------------------------------------------------------"
+        next
+      end
+      begin
+        url = URI.parse("http://coursavenue-public.s3.amazonaws.com/vertical_pages/#{row[0]}.jpg")
+        req = Net::HTTP.new(url.host, url.port)
+        res = req.request_head(url.path)
+        if res.code == '200'
+          vertical.image = url
+          vertical.save
+        else
+          puts vertical.name
+        end
+      rescue Exception => exception
+      end
+    end
+  end
+
   # Use rake "import:structures[Path to CSV]"
   # Use rake import:structures_logo
   desc 'Import structures'
