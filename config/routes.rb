@@ -294,6 +294,7 @@ CoursAvenue::Application.routes.draw do
                       sign_up: '/inscription',
                       confirmation: 'verification'
                     }
+
   resources  :users, only: [:edit, :show, :update], path: 'eleves' do
     collection do
       get :invite_entourage_to_jpo_page , path: 'inviter-mes-amis'
@@ -339,11 +340,6 @@ CoursAvenue::Application.routes.draw do
   resources :emails, only: [:create]
 
   resources :visitors, only: [:create, :update, :index]
-
-  get 'auth/:provider/callback', to: 'session#create'
-  get 'auth/failure'           , to: redirect('/')
-  get 'signout'                , to: 'session#destroy', as: 'signout'
-
 
   resources :plannings, only: [] do
     resources :participations, only: [:new, :create], controller: 'plannings/participations'

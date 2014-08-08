@@ -1,7 +1,5 @@
 # encoding: utf-8
 
-require "omniauth-facebook"
-
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
@@ -215,10 +213,10 @@ Devise.setup do |config|
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = :delete
 
-  # ==> OmniAuth
-  # Add a new OmniAuth provider. Check the wiki for more information on setting
-  # up on your models and hooks.
-  config.omniauth :facebook, '589759807705512', '2e0ced1408e8f72e3b0a555e1bc03471', scope: 'email,user_birthday,user_location'
+  # # ==> OmniAuth
+  # # Add a new OmniAuth provider. Check the wiki for more information on setting
+  # # up on your models and hooks.
+  # config.omniauth :facebook, '589759807705512', '2e0ced1408e8f72e3b0a555e1bc03471', scope: 'email,user_birthday,user_location'
 
   # :client_options => {:ssl => {:ca_file => '/usr/lib/ssl/certs/ca-certificates.crt'}}}
 

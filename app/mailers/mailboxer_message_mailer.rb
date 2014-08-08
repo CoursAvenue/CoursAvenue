@@ -49,8 +49,6 @@ class MailboxerMessageMailer < ActionMailer::Base
     # Don't send email if message is new AND the label is comment because we show
     # this message in new comment email
     return if message.conversation.mailboxer_label_id == Mailboxer::Label::COMMENT.id
-    # Don't send email it is an information demand AND the user is not valid yet
-    return if message.conversation.mailboxer_label_id == Mailboxer::Label::INFORMATION.id and !message.sender.active?
     @message      = message
     @conversation = message.conversation
     @admin        = receiver

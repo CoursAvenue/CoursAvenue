@@ -17,14 +17,24 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
         },
 
         url: function url () {
-            // var structure_id  = this.structure.get('id'),
-            //     query_params  = this.structure.get("query_params"),
-            //     route_details = {
-            //         format: 'json',
-            //         id: structure_id
-            //     };
-            // _.extend(query_params, { course_types: ['lesson', 'private']})
-            // return Routes.structure_courses_path(route_details, query_params);
+            return Routes.structure_messages_path({ structure_id: this.get('structure_id') });
+        },
+
+        sync: function sync (options) {
+            $.ajax({
+                url: this.url(),
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    message: this.toJSON()
+                },
+                error: function error (response) {
+                    if (options.error) { options.error(response); }
+                },
+                success: function success (response) {
+                    if (options.success) { options.success(response); }
+                }
+            });
         }
     });
 });

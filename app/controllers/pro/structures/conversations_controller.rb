@@ -46,7 +46,6 @@ class Pro::Structures::ConversationsController < ApplicationController
     else
       @conversations = @admin.mailbox.conversations
     end
-    @conversations = @conversations.select{ |conversation| conversation_valid?(conversation) }
     @conversations = Kaminari.paginate_array(@conversations).page(params[:page] || 1).per(15)
   end
 

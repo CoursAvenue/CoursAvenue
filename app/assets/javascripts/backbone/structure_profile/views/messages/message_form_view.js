@@ -14,6 +14,7 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
 
         populateMessage: function populateMessage (event) {
             this.model.set({
+                structure_id  : this.structure.get('id'),
                 extra_info_ids: _.map(this.$('[name="extra_info_ids[]"]:checked'), function(input) { return input.value }),
                 course_ids    : _.map(this.$('[name="course_ids[]"]:checked'), function(input) { return input.value }),
                 body          : this.$('[name=body]').val(),
@@ -27,13 +28,38 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
 
         submitForm: function submitForm () {
             this.populateMessage();
+            var user = {
+                first_name  : this.$('[name="user[first_name]"]').val(),
+                email       : this.$('[name="user[email]"]').val(),
+                phone_number: this.$('[name="user[phone_number]"]').val()
+            };
             // this.model.validate();
-            CoursAvenue.signInUser({
+            CoursAvenue.login({
+                user: user,
                 success: function success () {
-
-                }
+                    this.submitMessage();
+                }.bind(this),
+                dismiss: function dismiss () {
+                    alert(':(');
+                }.bind(this)
             })
             return false;
+        },
+
+        submitMessage: function() {
+            this.model.sync({
+                success: function success (response) {
+                    $.magnificPopup.open({
+                          items: {
+                              src: $(response.popup_to_show),
+                              type: 'inline'
+                          }
+                    });
+                },
+                error: function error () {
+                    debugger
+                }
+            });
         },
 
         onAfterShow: function onAfterShow () {

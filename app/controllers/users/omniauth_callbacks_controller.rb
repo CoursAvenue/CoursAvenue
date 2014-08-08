@@ -1,5 +1,7 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
+  respond_to :html, :json
+
   def after_omni_auth_sign_in_path_for(user)
     session[:after_sign_up_url] = user.after_sign_up_url || session['user_return_to'] || dashboard_user_path(user)
     if user.sign_in_count == 1
@@ -22,24 +24,16 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     @user = User.from_omniauth(request.env['omniauth.auth'])
 
     if @user.persisted?
-      # Merge user if it comes from a new message.
       flash[:notice] = I18n.t 'devise.omniauth_callbacks.success', kind: 'Facebook'
-      if request.referer && request.referer.include?('token') && request.referer.include?('email')
-        request_params = Rack::Utils.parse_nested_query(request.referer.split('?')[1])
-        requested_user = User.where(email: request_params['email']).first
-        if requested_user.reset_password_token_valid?(request_params['token'])
-          @user.merge(requested_user)
-        end
-        flash[:notice] += '<br>Vous pouvez maintenant envoyer votre message.'
-      end
-
       # redirect_to root_path, :event => :authentication, :current_user => @user
       # sign_in_and_redirect @user, event: :authentication
       sign_in(Devise::Mapping.find_scope!(@user), @user, event: :authentication)
-      redirect_to after_omni_auth_sign_in_path_for(@user)
+      respond_with @user, location: after_omni_auth_sign_in_path_for(@user)
+      # redirect_to after_omni_auth_sign_in_path_for(@user)
     else
       session['devise.facebook_data'] = request.env['omniauth.auth']
-      redirect_to new_user_registration_url
+      respond_with @user, location: new_user_registration_url
+      # redirect_to new_user_registration_url
     end
   end
 end

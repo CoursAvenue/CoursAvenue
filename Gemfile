@@ -100,13 +100,12 @@ gem 'mailboxer'                 , '~> 0.12.1'
 gem 'cancancan'                 , '~>1.8.1'
 # gem 'cancan'                    , '~>1.6.10'
 # For authentication
-gem 'devise'                    , '~>3.2.3'
-# Facebook connect
-gem 'omniauth-facebook'         , '~>1.4.1'
+gem 'devise'                    , '~>3.2.4'
+# For facebook connect or more
+gem 'omniauth-facebook'         , '~>1.6.0'
+gem 'omniauth'                  , '~>1.2.2'
 # A full-stack Facebook Graph API wrapper in Ruby.
 gem 'fb_graph'                  , '~>2.7.10'
-# Helps access to gmail contacts etc.
-gem 'omnicontacts'              , '~>0.3.4'
 gem 'certified'                 , '~>0.1.1'
 
 # Search engine

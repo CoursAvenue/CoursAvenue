@@ -1,5 +1,7 @@
 class Users::SessionsController < Devise::SessionsController
 
+  respond_to :html, :json
+
   def after_sign_in_path_for(user)
     # Prevent from infininte loop
     banned_url = [new_user_registration_url, new_user_session_url, new_user_password_url]

@@ -6,7 +6,7 @@
   = f.input :email, label: false, placeholder: 'Email', input_html: {class: 'one-whole'}
   = f.input :password, label: false, placeholder: 'Mot de passe', input_html: {class: 'one-whole'}
   = f.hidden_field :remember_me, value: true
-  = f.button :submit, "Se connecter", class: 'btn--green one-whole'
+  = f.button :submit, "Se connecter", class: 'btn--green one-whole', data: { disable_with: 'Connexion en cours...' }
 
 .push-half--top.milli
   = link_to "Je n'ai pas encore de compte", '#', id: 'show_new_registration_form'

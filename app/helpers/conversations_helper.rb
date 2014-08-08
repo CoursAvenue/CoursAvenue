@@ -1,11 +1,6 @@
 # encoding: utf-8
 module ConversationsHelper
 
-  def conversation_valid?(conversation)
-    return true unless conversation.mailboxer_label_id == Mailboxer::Label::INFORMATION.id
-    return conversation.recipients.select{ |recipient| recipient.is_a? User }.first.active?
-  end
-
   def conversation_extra_infos(conversation)
     extra_infos = Mailboxer::ExtraInfo.find(conversation.mailboxer_extra_info_ids.split(',')) if conversation.mailboxer_extra_info_ids.present?
   end

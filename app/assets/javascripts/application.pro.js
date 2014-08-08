@@ -30,6 +30,7 @@
 //= require libs/jquery.placeholder
 //= require libs/stellar
 
+//= require libs/jquery.magnific-popup
 //= require libs/fancybox/jquery.fancybox
 
 //= require libs/fingerprint
@@ -95,7 +96,6 @@
 //= require libs/backbone.poller.js
 //= require backbone/cours_avenue.pro
 
-//= require ckeditor/override
 //= require ckeditor/init
 //= require ckeditor/config
 //= require ckeditor/plugins/youtube/plugin

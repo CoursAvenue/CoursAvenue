@@ -1,5 +1,5 @@
 !!!
-%html.no-js{lang: 'fr', 'xmlns:og' => "http://opengraphprotocol.org/schema", 'xmlns:fb' => "http://www.facebook.com/2008/fbml"}
+%html.no-js{ lang: 'fr', 'xmlns:og' => "http://opengraphprotocol.org/schema", 'xmlns:fb' => "http://www.facebook.com/2008/fbml" }
   %head
     %link{ href: 'https://fonts.googleapis.com/css?family=Raleway:500,400,300,600,700', rel: 'stylesheet', type: 'text/css' }
     = yield :right_after_head
@@ -20,6 +20,7 @@
   :javascript
     window.GLOBAL = window.GLOBAL || {};
     GLOBAL.is_mobile = #{mobile_device?};
+
   %body{ style: (Rails.env.development? ? 'border-top: 5px solid yellow;' : '') }
     - unless response.cache_control[:public]
       - flash.each do |key, msg|

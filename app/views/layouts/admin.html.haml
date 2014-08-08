@@ -30,7 +30,6 @@
         - if @structure.mailbox
           - unread_conversations       = @structure.mailbox.inbox(read: false)
           - unread_conversations      += @structure.unanswered_information_message
-          - unread_conversations       = unread_conversations.select{ |conversation| conversation_valid?(conversation) }
           - unread_conversations_count = unread_conversations.count
           .inline-block.v-middle.drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
             = link_to pro_structure_conversations_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'white block soft-half--ends muted-link f-weight-bold' do
