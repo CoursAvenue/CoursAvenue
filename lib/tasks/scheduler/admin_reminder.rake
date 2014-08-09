@@ -86,7 +86,7 @@ namespace :scheduler do
     task :check_if_courses_are_perished => :environment do |t, args|
       Structure.find_each do |structure|
         # Next if there is a published course
-        next if self.courses.without_open_courses.detect(&:is_published?)
+        next if structure.courses.without_open_courses.detect(&:is_published?)
         # # Next if there is courses in the future
         # next if structure.courses.where(Course.arel_table[:end_date].gteq(Date.today)).any?
         if structure.plannings.where(Planning.arel_table[:end_date].lt(Date.today).and(
