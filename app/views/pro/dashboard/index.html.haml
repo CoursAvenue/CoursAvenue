@@ -28,6 +28,7 @@
           %h6.flush dont #{CommentNotification.where( CommentNotification.arel_table[:created_at].gt(Date.today) ).count} aujourd'hui
           %div et #{CommentNotification.where( CommentNotification.arel_table[:created_at].gt(Date.today - 7.days) ).count} les 7 derniers jours
 
+
   %hr.push--ends
   .soft--sides
     %h3
@@ -46,6 +47,17 @@
       .gamma
         = Admin.normal.count
         profs
+
+  %hr.push--ends
+  .soft--sides
+    %h3
+      %i.fa.fa-envelope-o
+      Demande d'infos
+    .text--center
+      .gamma
+        = Mailboxer::Conversation.where( subject: I18n.t(Mailboxer::Label::INFORMATION.name) ).count
+        Messages
+      #messages
       #admins2
 
   %hr.push--ends
@@ -90,16 +102,6 @@
   - else
     %p.text--center= link_to 'Voir la répartition par discipline',  pro_dashboard_path(with_subjects: true), class: 'btn btn--blue'
 
-  %hr.push--ends
-  .soft--sides
-    %h3
-      %i.fa.fa-youtube-play
-      Demande d'infos
-    .text--center
-      .gamma
-        = Mailboxer::Conversation.where( subject: I18n.t(Mailboxer::Label::INFORMATION.name) ).count
-        Messages
-      #messages
 
   %hr.push--ends
   .soft--sides

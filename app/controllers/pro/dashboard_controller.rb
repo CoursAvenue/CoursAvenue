@@ -21,7 +21,7 @@ class Pro::DashboardController < Pro::ProController
     @comments_weekly = Comment::Review.where( Comment::Review.arel_table[:created_at].gt(Date.today - 3.months) ).order("DATE_TRUNC('week', created_at) ASC").group("DATE_TRUNC('week', created_at)").count
 
     if params[:with_subjects].present?
-      _structures = Structure.joins { admins }.joins { subjects }.count(group: ['subjects.id'])
+      _structures = Structure.joins(:admins).joins(:subjects).group('subjects.id').count
       @structures = {}
       _structures.each do |key, value|
         subj = Subject.friendly.find(key)
@@ -70,6 +70,8 @@ class Pro::DashboardController < Pro::ProController
       @videos[date] ||= 0
       @images[date] ||= 0
     end
-    @messages = Mailboxer::Conversation.where( subject: t(Mailboxer::Label::INFORMATION.name) ).order('DATE(created_at) ASC').group('DATE(created_at)').count
+    @messages = Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:created_at].gt(Date.today - 2.months).and(
+                                              Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq(Mailboxer::Label::INFORMATION.id)) )
+                                       .order('DATE(created_at) ASC').group('DATE(created_at)').count
   end
 end
