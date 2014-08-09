@@ -167,8 +167,8 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 ViewClass = Backbone.Marionette.CompositeView.extend({
                     template: Relations.templateDirname() + relation_name + '_collection_view',
 
-                    itemView: Relations[_.capitalize(model_name) + 'View'],
-                    itemViewContainer: '[data-type=container]'
+                    childView: Relations[_.capitalize(model_name) + 'View'],
+                    childViewContainer: '[data-type=container]'
                 });
             }
 

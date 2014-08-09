@@ -6,7 +6,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this.currently_selected_cid = [];
         },
 
-        onItemviewAccordionClose: function (view, model_cid) {
+        onChildviewAccordionClose: function (view, model_cid) {
             var index = this.currently_selected_cid.indexOf(model_cid);
             if (index > -1) {
                 this.currently_selected_cid.splice(index, 1);
@@ -14,7 +14,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         /* function that is called in order to clear the currently active accordion */
-        onItemviewAccordionOpen: function(view, model_cid) {
+        onChildviewAccordionOpen: function(view, model_cid) {
             /*
             if (this.currently_selected_cid) {
                 var child_view = this.children.findByModelCid(this.currently_selected_cid);
@@ -33,8 +33,8 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             var self = this;
 
             _.each(_.clone(this.currently_selected_cid), function(cid) {
-                var itemView = self.children.findByModelCid(cid);
-                itemView.accordionToggle(itemView.active_region);
+                var childView = self.children.findByModelCid(cid);
+                childView.accordionToggle(childView.active_region);
             });
         }
     });

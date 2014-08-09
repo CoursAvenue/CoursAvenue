@@ -69,5 +69,8 @@ CoursAvenue.addInitializer(function(options){
 
 $(function() {
     CoursAvenue.start({});
-    CoursAvenue.userNav.show(new CoursAvenue.Views.UserNavView({ model: CoursAvenue.currentUser() }));
+    // Prevent from having it initialized on pro
+    if (CoursAvenue.userNav.$el.length > 0) {
+        CoursAvenue.userNav.show(new CoursAvenue.Views.UserNavView({ model: CoursAvenue.currentUser() }));
+    }
 });

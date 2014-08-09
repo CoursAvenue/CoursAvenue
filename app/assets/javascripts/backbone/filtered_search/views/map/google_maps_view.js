@@ -19,10 +19,10 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
 
                 self.markerViewChildren[place.cid] = markerView;
 
-                // this is clever because we are "hijacking" marionette's itemview event
+                // this is clever because we are "hijacking" marionette's childview event
                 // forwarding, which allows a parent to respond to child events with the
-                // onItemviewMethod style of methods. Hence the "buwa ha ha ha".
-                self.addChildViewEventForwarding(markerView); // buwa ha ha ha!
+                // onChildviewMethod style of methods. Hence the "buwa ha ha ha".
+                // self.addChildViewEventForwarding(markerView); // buwa ha ha ha!
 
                 markerView.render();
             });

@@ -158,9 +158,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
                         this.summary_views.push(summary_view);
                         this.showWidget(summary_view, { events: { 'trainings:collection:reset': 'rerender' }});
                     }
-
                     this.showWidget(view);
-
                 }.bind(this))
                 .always(function() { this.hideLoader(resource_name) }.bind(this));
         },

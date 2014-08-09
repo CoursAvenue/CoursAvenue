@@ -4,10 +4,10 @@ FilteredSearch.module('Views.StructuresCollection.Structure.Courses', function(M
         template: Module.templateDirname() + 'courses_collection_view',
 
         // The "value" has an 's' at the end, that's what the slice is for
-        itemView: Module.CourseView,
-        itemViewContainer: '[data-type=container]',
+        childView: Module.CourseView,
+        childViewContainer: '[data-type=container]',
 
-        onItemviewToggleSelected: function (view, data) {
+        onChildviewToggleSelected: function (view, data) {
             var places = view.model.get('structure').get('places'),
                 keys = places.findWhere({ id: data.place_id });
 
@@ -17,7 +17,7 @@ FilteredSearch.module('Views.StructuresCollection.Structure.Courses', function(M
         /* when rendering each collection item, we might want to
          * pass in some info from the paginator_ui or something
          * if do we would do it here */
-        itemViewOptions: function(model, index) {
+        childViewOptions: function(model, index) {
             // we could pass some information from the collectionView
             return { index: index };
         },
@@ -26,10 +26,10 @@ FilteredSearch.module('Views.StructuresCollection.Structure.Courses', function(M
         * are valid */
         showCollection: function(){
             var self = this;
-            var ItemView = this.getItemView();
+            var ItemView = this.getChildView();
             this.collection.each(function(item, index){
                 if (item.get('name')) {
-                    self.addItemView(item, ItemView, index);
+                    self.addChild(item, ItemView, index);
                 }
             });
         },

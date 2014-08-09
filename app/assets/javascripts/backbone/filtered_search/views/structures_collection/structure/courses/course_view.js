@@ -5,9 +5,9 @@ FilteredSearch.module('Views.StructuresCollection.Structure.Courses', function(M
     Module.CourseView = Backbone.Marionette.CompositeView.extend({
         template:  Module.templateDirname() + "course_view",
         className: "push-half--top soft-half--top bordered--top",
-        itemView: Module.Plannings.PlanningView,
+        childView: Module.Plannings.PlanningView,
 
-        itemViewContainer: 'tbody',
+        childViewContainer: 'tbody',
 
         initialize: function(options){
             this.index = options.index;
@@ -16,7 +16,7 @@ FilteredSearch.module('Views.StructuresCollection.Structure.Courses', function(M
             }));
         },
 
-        onItemviewToggleSelected: function (view, data) {
+        onChildviewToggleSelected: function (view, data) {
             this.trigger('toggleSelected', data);
         },
 

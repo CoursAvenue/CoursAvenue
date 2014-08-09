@@ -248,14 +248,14 @@ Marionette.NullApplication = Marionette.Application.extend({
 });
 
 Marionette.renderNothing = function renderNothing (view, args) {
-    view.isClosed = false;
+    view.isDestroyed = false;
     view.triggerMethod("before:render", view);
-    view.triggerMethod("item:before:render", view);
+    view.triggerMethod("before:render", view);
 
     view.bindUIElements();
 
     view.triggerMethod("render", view);
-    view.triggerMethod("item:rendered", view);
+    view.triggerMethod("render", view);
 
     return view;
 }
@@ -382,12 +382,12 @@ _.extend(Marionette.Application.prototype, {
 
                         var view = module[key];
 
-                        // and it is a collection (ie has an itemview)
-                        if (view.prototype.itemView) {
-                            var itemview_template = view.prototype.itemView.prototype.template;
+                        // and it is a collection (ie has an childview)
+                        if (view.prototype.childView) {
+                            var childview_template = view.prototype.childView.prototype.template;
 
-                            // and the itemview's template matches our template
-                            if (itemview_template.match(template)) {
+                            // and the childview's template matches our template
+                            if (childview_template.match(template)) {
                                 parent_views.push({ module: module, key: key }); // make a note
                             }
                         }
@@ -409,7 +409,7 @@ _.extend(Marionette.Application.prototype, {
                 var key           = pair.key;
 
                 parent_module[key] = parent_module[key].extend({
-                    itemView: module[view_name]
+                    childView: module[view_name]
                 });
             });
         });

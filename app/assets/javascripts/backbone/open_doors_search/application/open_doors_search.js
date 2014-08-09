@@ -98,11 +98,11 @@ OpenDoorsSearch.addInitializer(function(options) {
     layout.showWidget(google_maps_view, {
         events: {
             'paginator:updating':                'hideInfoWindow retireMarkers',
-            'structures:itemview:highlighted':   'exciteMarkers',
-            'structures:itemview:unhighlighted': 'exciteMarkers',
+            'structures:childview:highlighted':   'exciteMarkers',
+            'structures:childview:unhighlighted': 'exciteMarkers',
             'filter:update:map':                 'centerMap',
-            'structures:itemview:found':         'showInfoWindow',
-            'structures:itemview:peacock':       'togglePeacockingMarkers'
+            'structures:childview:found':         'showInfoWindow',
+            'structures:childview:peacock':       'togglePeacockingMarkers'
         }
     });
 

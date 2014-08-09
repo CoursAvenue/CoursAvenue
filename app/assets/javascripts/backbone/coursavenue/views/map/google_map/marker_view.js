@@ -20,7 +20,8 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
     *
     *  Other classes would expose similar semantics, but implement their behaviour differently
     * */
-    Module.MarkerView = Backbone.GoogleMaps.RichMarkerView.extend({
+    // Module.MarkerView = Backbone.GoogleMaps.RichMarkerView.extend({
+    Module.MarkerView = Backbone.GoogleMaps.MarkerView.extend({
         template: '',
 
         options: {
@@ -43,9 +44,9 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
         },
 
         mapEvents: {
-            'click': 'showInfoBox',
+            'click'    : 'showInfoBox',
             'mouseover': 'highlight',
-            'mouseout':  'unhighlight'
+            'mouseout' :  'unhighlight'
         },
 
         markerClicked: function markerClicked (e) {

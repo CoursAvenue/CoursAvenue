@@ -2,8 +2,8 @@ OpenDoorsSearch.module('Views.StructuresCollection.Structure.Courses', function(
 
     Module.CourseView = FilteredSearch.Views.StructuresCollection.Structure.Courses.CourseView.extend({
 
-        itemView: Module.Plannings.PlanningView,
-        itemViewContainer: 'tbody',
+        childView: Module.Plannings.PlanningView,
+        childViewContainer: 'tbody',
 
         initialize: function initialize (options) {
             this.structure_url = options.structure_url;
@@ -16,7 +16,7 @@ OpenDoorsSearch.module('Views.StructuresCollection.Structure.Courses', function(
             });
         },
 
-        itemViewOptions: function itemViewOptions (model, index) {
+        childViewOptions: function childViewOptions (model, index) {
             return { structure_url: this.structure_url };
         }
 

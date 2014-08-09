@@ -47,7 +47,7 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
                 content: html
             });
             this.markerViewChildren[childModel.cid + (this.sticky ? 'sticky' : '')] = markerView;
-            this.addChildViewEventForwarding(markerView); // buwa ha ha ha!
+            // this.addChildViewEventForwarding(markerView); // buwa ha ha ha!
             markerView.render();
         },
 
@@ -97,7 +97,7 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
         /* ***
         * ### \#exciteMarkers
         *
-        * Event handler for `itemview:course:hovered`, as such it expects
+        * Event handler for `childview:course:hovered`, as such it expects
         * a view. The view's model should have a location, and if the location
         * matches this marker's location it will get excited. */
         exciteMarkers: function exciteMarkers (data) {

@@ -183,7 +183,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
                 // if the model was new, we are done
                 if (this.model.get("new")) {
                     this.model.set("new", false);
-                    this.close();
+                    this.destroy();
                 } else {
                     this.trigger("rollback");
                 }

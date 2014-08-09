@@ -8,8 +8,8 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
     Module.UserProfilesCollectionView = CoursAvenue.Views.PaginatedCollectionView.extend({
         template: Module.templateDirname() + 'user_profiles_collection_view',
-        itemView: Module.UserProfile.UserProfileView,
-        itemViewContainer: '[data-type=container]',
+        childView: Module.UserProfile.UserProfileView,
+        childViewContainer: '[data-type=container]',
         className: 'relative',
         chevron: Handlebars.compile("<span class='soft-half--left fa fa-chevron-{{ order }}' data-type='order'></span>"),
 
@@ -107,16 +107,16 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         /* currently_editing may have more than one view. We are only
          * concerned with the top one. */
         getCurrentlyEditing: function getCurrentlyEditing () {
-            var itemview = _.first(this.currently_editing);
+            var childview = _.first(this.currently_editing);
 
-            return (itemview)? itemview : { finishEditing: function finishEditing () { /* NOOP */ } } ;
+            return (childview)? childview : { finishEditing: function finishEditing () { /* NOOP */ } } ;
         },
 
         /* when we click on a header: */
         /* find the current sorting pivot and remove a class from it
          *  add that class to the new one. Ensure that the disclosure triangle
          *  has the correct orientation. Then trigger filter:summary */
-        sort: function sort (e) {
+        doSort: function doSort (e) {
             var sort, order;
             e.preventDefault();
 
@@ -179,24 +179,24 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         *
         * In the second case, we have two kinds of "finishing" to do:
         *  1. We undo any changes that were made by the collection
-        *  2. We allow the itemview a chance to finalize anything it needs to */
-        onItemviewChangedEditing: function onItemviewChangedEditing (itemview) {
-            var previous_itemview = this.getCurrentlyEditing();
+        *  2. We allow the childview a chance to finalize anything it needs to */
+        onChildviewChangedEditing: function onChildviewChangedEditing (childview) {
+            var previous_childview = this.getCurrentlyEditing();
 
-            var is_new            = itemview.model.get("new"),
-                is_editing        = itemview.isEditing();
+            var is_new            = childview.model.get("new"),
+                is_editing        = childview.isEditing();
 
             // close any active view to make room for the new view
-            if (is_editing && previous_itemview.$el !== undefined) {
-                previous_itemview.$el.removeClass("unfinished"); // see note above
-                previous_itemview.finishEditing({ restore: false });
+            if (is_editing && previous_childview.$el !== undefined) {
+                previous_childview.$el.removeClass("unfinished"); // see note above
+                previous_childview.finishEditing({ restore: false });
             }
 
             // currently_editing editing is a FIFO list
             if (is_editing) {
-                this.currently_editing.push(itemview);
+                this.currently_editing.push(childview);
             } else {
-                this.currently_editing.shift(itemview);
+                this.currently_editing.shift(childview);
             }
 
             // very special case: if the view we are done with was "new"
@@ -208,7 +208,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         /* we should use this opportunity to create the next editable
         * profile if this was a create action, and to unset our
         * currently_editing view */
-        onItemviewUpdateSuccess: function onItemviewUpdateSuccess (itemView, response) {
+        onChildviewUpdateSuccess: function onChildviewUpdateSuccess (childView, response) {
             var action = response.action;
 
             if (action === "create") {
@@ -216,23 +216,23 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             }
         },
 
-        /* if the itemview was new, and its edits didn't get set on the server
+        /* if the childview was new, and its edits didn't get set on the server
          * because of invalid data, we just set the edits on the model so that
          * they don't disappear. */
-        onItemviewUpdateError: function onItemviewUpdateError (itemview, response) {
-            if (itemview.model.get("new") === true) {
-                itemview.model.set(itemview.edits);
+        onChildviewUpdateError: function onChildviewUpdateError (childview, response) {
+            if (childview.model.get("new") === true) {
+                childview.model.set(childview.edits);
             }
         },
 
         /* an item has been checked or unchecked */
-        onItemviewAddToSelected: function onItemviewAddToSelected (itemview) {
-            this.collection.toggleSelected(itemview.model);
+        onChildviewAddToSelected: function onChildviewAddToSelected (childview) {
+            this.collection.toggleSelected(childview.model);
         },
 
-        onAfterItemAdded: function onAfterItemAdded (itemView) {
-            if (itemView.model.get("new")) {
-                itemView.$(".editable-text").first().click();
+        onAddChild: function onAddChild (childView) {
+            if (childView.model.get("new")) {
+                childView.$(".editable-text").first().click();
 
                 var table_top  = this.$el.offset().top;
                 var scroll_top = $(window).scrollTop();
@@ -252,9 +252,9 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         /* when rendering each collection item, we might want to
          * pass in some info from the paginator_ui or something
          * if do we would do it here */
-        /* remember that itemViews are constructed and destroyed more often
+        /* remember that childViews are constructed and destroyed more often
          * than the corresponding models */
-        itemViewOptions: function itemViewOptions(model, index) {
+        childViewOptions: function childViewOptions(model, index) {
             var id       = model.get("id");
             var tags_url = Routes.pro_structure_tags_path(this.collection.structure_id, { format: 'json' })
             var checked  = this.collection.isChecked(model);
@@ -344,19 +344,19 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         /* We are implementing appendHTML here so that we can both
         * append (normal) and prepend (when using "new") to the
         * table */
-        appendHtml: function appendHtml(compositeView, itemView, index){
+        attachHtml: function attachHtml(compositeView, childView, index){
             if (compositeView.isBuffering) {
-                compositeView.elBuffer.appendChild(itemView.el);
+                compositeView.elBuffer.appendChild(childView.el);
             } else {
                 // If we've already rendered the main collection, just
                 // append the new items directly into the element.
-                var $container = this.getItemViewContainer(compositeView);
+                var $container = this.getChildViewContainer(compositeView);
 
                 // prepend if this is the first model in the collection
                 if (index === 0 ) {
-                    itemView.$el.prependTo($container);
+                    childView.$el.prependTo($container);
                 } else {
-                    $container.append(itemView.el);
+                    $container.append(childView.el);
                 }
             }
         },

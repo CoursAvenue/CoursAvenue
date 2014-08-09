@@ -30,7 +30,7 @@ UserManagement.addInitializer(function(options) {
             'controls:message:new'        : 'sendMessageToSelected',
 
             'click [data-behavior=bulk-select]'  : 'bulkSelect',
-            'click [data-sort]'                  : 'sort'
+            'click [data-sort]'                  : 'doSort' // Can't call it 'sort'
         }
     });
 

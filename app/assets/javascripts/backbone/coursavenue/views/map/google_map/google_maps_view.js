@@ -10,10 +10,10 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
 
         /* while the map is a composite view, it uses
          * marker views instead of item views */
-        itemView:                Module.BlankView,
+        childView:               Module.BlankView,
         markerView:              Module.MarkerView,
         markerViewTemplate:      Module.templateDirname() + 'marker_view',
-        itemViewEventPrefix:     'marker',
+        childViewEventPrefix:     'marker',
         markerViewChildren:      {},
 
         infoBoxView:         Module.InfoBoxView,
@@ -109,7 +109,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             this.update_live = this.update_live === 'true';
 
             /* add listeners, but ignore the first bounds change */
-            google.maps.event.addListener(this.map, 'click', _.bind(this.onItemviewCloseClick, this));
+            google.maps.event.addListener(this.map, 'click', _.bind(this.onChildviewCloseClick, this));
             google.maps.event.addListener(this.map, 'bounds_changed', _.debounce(this.announceBounds, 500));
             google.maps.event.addListener(this.map, 'dragend', function() { this.unlock('map:bounds', 'showInfoWindow'); }.bind(this));
 
@@ -123,7 +123,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             this.infoBox = new this.infoBoxView(options.infoBoxViewOptions || {});
         },
 
-        onItemviewCloseClick: function onItemviewCloseClick () {
+        onChildviewCloseClick: function onChildviewCloseClick () {
             if (this.current_info_marker) {
                 this.unlockCurrentMarker();
                 this.hideInfoWindow();
@@ -233,34 +233,35 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
         // Renders the model once, and the collection once. Calling
         // this again will tell the model's view to re-render itself
         // but the collection will not re-render.
-        render: function render (){
-            this.isRendered = true;
-            this.isClosed   = false;
-            this.resetItemViewContainer();
+        render: function render () {
+            this.isRendered  = true;
+            this.isDestroyed = false;
+            this.resetChildViewContainer();
 
             this.triggerBeforeRender();
-            var html = this.renderModel();
+            this.trigger('before:render');
+            var html = this._renderTemplate();
             this.$el.html(html);
             // the ui bindings is done here and not at the end of render since they
             // will not be available until after the model is rendered, but should be
             // available before the collection is rendered.
             this.bindUIElements();
-            this.triggerMethod("composite:model:rendered");
+            this.triggerMethod("render:template");
 
             this._renderChildren();
             this.$el.find('[data-type=map-container]').prepend(this.map_annex);
 
-            this.triggerMethod("composite:rendered");
+            this.triggerMethod("render");
             this.triggerRendered();
             return this;
         },
 
-        appendHtml: function appendHtml (collectionView, itemView, index){
+        attachHtml: function attachHtml (collectionView, childView, index){
             /* the markerview is kind of a silly little class
             * so we are rendering its template out here, and
             * passing that in to add child. */
             var html = Marionette.Renderer.render(this.markerViewTemplate, {});
-            this.addChild(itemView.model, html);
+            this.addChild(childView.model, html);
         },
 
         addChild: function addChild (childModel, html) {
@@ -271,7 +272,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             });
 
             this.markerViewChildren[childModel.cid] = markerView;
-            this.addChildViewEventForwarding(markerView); // buwa ha ha ha!
+            // this.addChildViewEventForwarding(markerView); // buwa ha ha ha!
             markerView.render();
         },
 
@@ -285,7 +286,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             // Param can be child's model, or child view itself
             var childView = (child instanceof Backbone.Model ? this.markerViewChildren[child.cid] : child);
 
-            childView.close();
+            childView.destroy();
             delete this.markerViewChildren[childView.model.cid];
         },
 

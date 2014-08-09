@@ -74,8 +74,8 @@
 
 // ---------------------------------- Backbone
 //= require libs/backbone
+//= require libs/backbone.marionette
 //= require libs/backbone-validation
-//= require backbone.marionette
 //= require libs/backbone.googlemaps
 //= require backbone-relational
 //= require libs/backbone.paginator.js

@@ -22,8 +22,8 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
 
     Module.StructuresCollectionView = CoursAvenue.Views.PaginatedCollectionView.extend({
         template: Module.templateDirname() + 'structures_collection_view',
-        itemView: Module.Structure.StructureView,
-        itemViewContainer: '.' + FilteredSearch.slug + '__list',
+        childView: Module.Structure.StructureView,
+        childViewContainer: '.' + FilteredSearch.slug + '__list',
         className: 'relative',
 
         emptyView: EmptyStrcutureList,
@@ -47,19 +47,19 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                            } });
         },
         /* forward events with only the necessary data */
-        onItemviewHighlighted: function onItemviewHighlighted (view, data) {
-            this.trigger('structures:itemview:highlighted', data);
+        onChildviewHighlighted: function onChildviewHighlighted (view, data) {
+            this.trigger('structures:childview:highlighted', data);
         },
 
-        onItemviewUnhighlighted: function onItemviewUnhighlighted (view, data) {
-            this.trigger('structures:itemview:unhighlighted', data);
+        onChildviewUnhighlighted: function onChildviewUnhighlighted (view, data) {
+            this.trigger('structures:childview:unhighlighted', data);
         },
 
         /* WHOA so this event is actually getting the course:focus event
-        *  via the broadcast method, not by having the itemview actually
+        *  via the broadcast method, not by having the childview actually
         *  trigger anything. Weird. */
-        onItemviewCourseFocus: function onItemviewCourseFocus (view, data) {
-            this.trigger('structures:itemview:peacock', data);
+        onChildviewCourseFocus: function onChildviewCourseFocus (view, data) {
+            this.trigger('structures:childview:peacock', data);
         },
 
 
@@ -75,11 +75,11 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                 });
             });
 
-            var itemview = this.children.findByModel(relevant_structure);
+            var childview = this.children.findByModel(relevant_structure);
 
             /* announce the view we found */
-            this.trigger('structures:itemview:found', { structure_view: itemview, location_view: data } );
-            this.scrollToView(itemview);
+            this.trigger('structures:childview:found', { structure_view: childview, location_view: data } );
+            this.scrollToView(childview);
 
         },
 
@@ -181,7 +181,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
             });
         },
 
-        itemViewOptions: function itemViewOptions () {
+        childViewOptions: function childViewOptions () {
             var subject_name = $('[data-value="' + decodeURIComponent(this.collection.server_api.subject_id) + '"]').text().trim();
             var search_term = this.collection.server_api.name || "";
 

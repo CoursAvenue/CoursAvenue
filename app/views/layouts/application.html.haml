@@ -42,7 +42,8 @@
       = javascript_include_tag 'application'
 
     = javascript_include_tag '//maps.googleapis.com/maps/api/js?sensor=false'
-    = javascript_include_tag '//google-maps-utility-library-v3.googlecode.com/svn/trunk/richmarker/src/richmarker-compiled.js'
+    - javascript_include_tag '//google-maps-utility-library-v3.googlecode.com/svn/trunk/richmarker/src/richmarker-compiled.js'
+    = javascript_include_tag 'richmarker.js'
     = javascript_include_tag '//google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox_packed.js'
 
     = yield :scripts
