@@ -1,5 +1,6 @@
 # encoding: utf-8
 class MailboxerMessageMailer < ActionMailer::Base
+  include Roadie::Rails::Automatic
   layout 'email'
 
   include ActionView::Helpers::SanitizeHelper

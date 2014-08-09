@@ -92,8 +92,8 @@ textarea:focus, input:focus, select:focus {
 }
 
 .input-addon {
-    display     : table;
-    width       : 100%;
+    display: table !important;
+    width  : 100%;
     > div {
         display       : table-cell;
         vertical-align: middle;

@@ -24,8 +24,8 @@
             %ul.drop-down__el
               %li.nowrap
                 = link_to destroy_pro_admin_session_path, method: :delete do
-                  Déconnexion
                   %i.fa.fa-sign-out
+                  Déconnexion
         - else
           %li
             = link_to new_pro_admin_session_path, class: 'btn btn--small fancybox.ajax', data: { behavior: 'modal', width: '700', padding: 0 } do

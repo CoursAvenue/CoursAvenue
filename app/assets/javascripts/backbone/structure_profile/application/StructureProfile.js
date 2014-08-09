@@ -14,7 +14,7 @@ StructureProfile.addInitializer(function(options) {
         google_maps_view, sticky_google_maps_view, filter_breadcrumbs, places_collection, places_list_view, comments_collection_view;
 
     places_collection = structure.get('places');
-    message_form_view = new StructureProfile.Views.Messages.MessageFormView( { structure: structure} );
+    message_form_view = new StructureProfile.Views.Messages.MessageFormView( { structure: structure } );
     google_maps_view  = new StructureProfile.Views.Map.GoogleMapsView({
         collection:         places_collection,
         infoBoxViewOptions: { infoBoxClearance: new google.maps.Size(0, 0) },
@@ -103,6 +103,7 @@ StructureProfile.addInitializer(function(options) {
     layout.showWidget(comments_collection_view);
 
     layout.master.show(structure_view);
+
     if (window.location.hash.length > 0 && window.location.hash != '#_=_' && $(window.location.hash).length > 0) {
         $('[href=' + window.location.hash + ']').click();
         _.delay(function() {

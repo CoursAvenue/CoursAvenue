@@ -1,8 +1,13 @@
-
-/* this file simply creates a top level Module in which Lib can live */
-
 CoursAvenue = new Backbone.Marionette.Application({
     slug: 'coursavenue',
+
+    setCurrentUser: function setCurrentUser (user_attributes) {
+        this.user.set(user_attributes);
+    },
+
+    currentUser: function currentUser () {
+        return this.user;
+    },
 
     /*
      * Try to login in user by showing the sign in/up popup
@@ -11,7 +16,18 @@ CoursAvenue = new Backbone.Marionette.Application({
      *     dismiss: function - callback executed if user dismiss the modal
      *
      */
-    login: function signIn (options) {
+    signIn: function signIn (options) {
+        new CoursAvenue.Views.SignInView(options);
+    },
+
+    /*
+     * Try to login in user by showing the sign in/up popup
+     * options:
+     *     success: function - callback executed if user correctly signs in / up
+     *     dismiss: function - callback executed if user dismiss the modal
+     *
+     */
+    signUp: function signUp (options) {
         new CoursAvenue.Views.SignUpView(options);
     },
 
@@ -26,8 +42,9 @@ CoursAvenue = new Backbone.Marionette.Application({
                         if (options.error) { options.error(); }
                     },
                     success: function success (response) {
+                        this.setCurrentUser(response);
                         if (options.success) { options.success(); }
-                    }
+                    }.bind(this)
                 });
                 // Logged into your app and Facebook.
             } else if (response.status === 'not_authorized') {
@@ -38,10 +55,19 @@ CoursAvenue = new Backbone.Marionette.Application({
               // The person is not logged into Facebook, so we're not sure if
               // they are logged into this app or not.
             }
-        }, { scope: 'public_profile,email,user_location,user_birthday,user_activities'});
+        }.bind(this), { scope: 'public_profile,email,user_location,user_birthday,user_activities'});
     }
 });
 
-$(document).ready(function() {
+CoursAvenue.addRegions({
+    userNav: '#user-nav'
+});
+
+CoursAvenue.addInitializer(function(options){
+    this.user = new CoursAvenue.Models.User();
+});
+
+$(function() {
     CoursAvenue.start({});
+    CoursAvenue.userNav.show(new CoursAvenue.Views.UserNavView({ model: CoursAvenue.currentUser() }));
 });

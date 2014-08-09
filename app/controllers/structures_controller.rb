@@ -37,11 +37,6 @@ class StructuresController < ApplicationController
     @is_sleeping = @structure.is_sleeping
   end
 
-  def contact_form
-    @structure = Structure.friendly.find params[:id]
-    render partial: 'structures/contact_form', locals: { is_xhr: true }
-  end
-
   def jpo
     @structure = Structure.friendly.find params[:id]
     respond_to do |format|

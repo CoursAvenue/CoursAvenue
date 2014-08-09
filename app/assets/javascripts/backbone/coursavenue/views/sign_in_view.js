@@ -59,6 +59,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                     this.$('[data-type=errors]').show();
                 }.bind(this),
                 success: function success (response) {
+                    CoursAvenue.setCurrentUser(new CoursAvenue.Models.User(response));
                     this.$('[data-type=errors]').slideUp();
                     if (this.options.success) { this.options.success(); }
                 }.bind(this)
@@ -67,9 +68,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         serializeData: function serializeData () {
-            return this.model.toJSON();
+            return _.extend(this.options, this.model.toJSON());
         }
-
-
     });
 });

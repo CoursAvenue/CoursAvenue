@@ -1,6 +1,7 @@
 # encoding: utf-8
 class Users::RegistrationsController < Devise::RegistrationsController
-  respond_to :html, :js, :json
+  respond_to :html, :json
+
   layout :choose_layout
 
   def after_inactive_sign_up_path_for(user)

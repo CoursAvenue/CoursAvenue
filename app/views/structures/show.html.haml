@@ -153,15 +153,9 @@
           $.cookie('user_contact_message', body_message);
       });
 
-.visuallyhidden= link_to '', contact_form_structure_path(@structure), class: 'fancybox.ajax', data: { behavior: 'modal', width: 450, padding: 0 }, id: 'contact-panel-link'
 = content_for :scripts do
   :javascript
     $(function() {
-        $('body').on('click', '[data-behavior=show-contact-panel]', function() {
-            // Use link like that to prevent from
-            $('#contact-panel-link').click();
-            return false;
-        })
         $('.contact-button, [data-behavior=show-contact-panel]').click(function() {
             $.ajax({
                 type: "POST",

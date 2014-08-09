@@ -25,27 +25,4 @@ class Users::SessionsController < Devise::SessionsController
       format.html { render layout: !request.xhr? }
     end
   end
-
-  # def create
-  #   respond_to do |format|
-  #     format.html { super }
-  #     format.json do
-  #       warden.authenticate!(:scope => resource_name, :recall => "#{controller_path}#failure")
-  #       render status: 200,
-  #              json: { success: true }
-  #     end
-  #   end
-  # end
-  # def create
-  #   respond_to do |format|
-  #     format.html { super }
-  #     format.js do
-  #       azd?
-  #       warden.authenticate!(:scope => resource_name, :recall => "#{controller_path}#failure")
-  #       partial = render_to_string @resource
-  #       render :json => { :success => true, :partial => partial }
-  #     end
-  #   end
-  # end
-
 end

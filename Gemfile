@@ -131,12 +131,14 @@ gem 'sitemap_generator'         , '~>4.2.0'
 # gem 'gibbon'                    , '~>1.0.4'
 
 # Transform external CSS stylesheets into inline CSS for emails
-gem 'roadie'                    , '~>2.4.3'
+gem 'roadie'                    , '~>3.0.0'
+gem 'roadie-rails'              , '~>1.0.2'
 
 # Includes Backbone Marionette
+# gem 'marionette-rails'          , '~>2.0.3'
 gem 'marionette-rails'          , '~>1.4.1'
 # Includes bacbone.relational
-gem 'backbone-relational-rails' , '~>0.8.7'
+gem 'backbone-relational-rails' , '~>0.8.8'
 # See issue: https://github.com/leshill/handlebars_assets/pull/46
 gem 'handlebars_assets'         , '~>0.15', git: 'git://github.com/variousauthors/handlebars_assets.git'
 # Decorator

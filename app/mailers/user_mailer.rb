@@ -1,6 +1,7 @@
 # encoding: utf-8
 class UserMailer < ActionMailer::Base
   include ::ActionMailerWithTextPart
+  include Roadie::Rails::Automatic
 
   layout 'email'
 

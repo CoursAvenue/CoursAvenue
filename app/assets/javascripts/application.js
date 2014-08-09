@@ -74,6 +74,7 @@
 
 // ---------------------------------- Backbone
 //= require libs/backbone
+//= require libs/backbone-validation
 //= require backbone.marionette
 //= require libs/backbone.googlemaps
 //= require backbone-relational
@@ -86,3 +87,14 @@ $.ajaxSetup({
         xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
     }
 });
+
+// Default magnificpopup style
+// http://codepen.io/dimsemenov/pen/GAIkt
+$.magnificPopup.defaults.callbacks = {
+    beforeOpen: function() {
+       this.st.mainClass = 'mfp-move-horizontal';
+    }
+}
+//delay removal by X to allow out-animation
+$.magnificPopup.defaults.removalDelay = 500;
+

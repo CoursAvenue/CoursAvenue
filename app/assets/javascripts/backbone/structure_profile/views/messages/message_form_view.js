@@ -2,14 +2,23 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
 
     Module.MessageFormView = Marionette.CompositeView.extend({
         template: Module.templateDirname() + 'message_form_view',
+        message_failed_to_send_template: Module.templateDirname() + 'message_failed_to_send',
+        className: 'panel center-block',
 
         initialize: function initialize (options) {
             this.structure = options.structure;
             this.model = new StructureProfile.Models.Message();
+            this.$el.css('max-width', '400px');
+            _.bindAll(this, 'showPopupMessageDidntSend');
         },
 
         events: {
-            'submit form': 'submitForm'
+            'submit form'                             : 'submitForm',
+            'click [data-behavior=show-phone-numbers]': 'showPhoneNumbers'
+        },
+
+        showPhoneNumbers: function showPhoneNumbers () {
+            this.$('.phone_number').slideToggle();
         },
 
         populateMessage: function populateMessage (event) {
@@ -26,27 +35,47 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
             });
         },
 
+        /*
+         * Called when the form is submitted.
+         * If user is connected, will post the message, else, will ask to login first.
+         */
         submitForm: function submitForm () {
             this.populateMessage();
-            var user = {
-                first_name  : this.$('[name="user[first_name]"]').val(),
-                email       : this.$('[name="user[email]"]').val(),
-                phone_number: this.$('[name="user[phone_number]"]').val()
-            };
-            // this.model.validate();
-            CoursAvenue.login({
-                user: user,
-                success: function success () {
-                    this.submitMessage();
-                }.bind(this),
-                dismiss: function dismiss () {
-                    alert(':(');
-                }.bind(this)
-            })
+            if (this.model.valid()) {
+                if (CoursAvenue.currentUser().isLogged()) {
+                    this.saveMessage();
+                } else {
+                    CoursAvenue.signUp({
+                        title: 'Enregistrez-vous pour envoyer votre message',
+                        // Passing the user in order to keep the email and more if we need.
+                        user: this.model.get('user'),
+                        success: function success (response) {
+                            this.saveMessage();
+                        }.bind(this),
+                        dismiss: this.showPopupMessageDidntSend
+                    });
+                }
+            } else {
+                this.showErrors();
+            }
             return false;
         },
 
-        submitMessage: function() {
+        /*
+         * TODO, user backbone validation
+         */
+        showErrors: function showErrors () {
+            this.$('.input_field_error').remove();
+            _.each(this.model.get('errors'), function(error, name) {
+                var error = $('<div>').addClass('input_field_error red text--right one-whole').text(error)
+                this.$('[name="' + name + '"]').closest('.input').append(error);
+            });
+        },
+
+        /*
+         * Save message model. Will make a POST request to save the message.
+         */
+        saveMessage: function saveMessage () {
             this.model.sync({
                 success: function success (response) {
                     $.magnificPopup.open({
@@ -56,14 +85,22 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
                           }
                     });
                 },
-                error: function error () {
-                    debugger
-                }
+                error: this.showPopupMessageDidntSend
             });
+        },
+
+        showPopupMessageDidntSend: function showPopupMessageDidntSend () {
+              $.magnificPopup.open({
+                    items: {
+                        src: $(),
+                        type: 'inline'
+                    }
+              });
         },
 
         onAfterShow: function onAfterShow () {
             GLOBAL.chosen_initializer();
+            this.$('[data-toggle=popover]').popover();
         },
 
         serializeData: function serializeData () {

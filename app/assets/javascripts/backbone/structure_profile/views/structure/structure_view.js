@@ -34,6 +34,21 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
                     $structure_profile_menu.stop(true, false).animate({ 'top': '-100px' });
                 }
             });
+            this.initializeContactLink();
+        },
+
+        initializeContactLink: function initializeContactLink () {
+            $('body').on('click', '[data-behavior=show-contact-panel]', function() {
+                var message_form_view = new StructureProfile.Views.Messages.MessageFormView( { structure: this.model } ).render();
+                message_form_view.onAfterShow();
+                $.magnificPopup.open({
+                      items: {
+                          src: $(message_form_view.$el),
+                          type: 'inline'
+                      }
+                });
+                return false;
+            }.bind(this));
         },
 
         onAfterShow: function onAfterShow () {

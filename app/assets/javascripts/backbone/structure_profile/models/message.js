@@ -4,16 +4,15 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
     Module.Message = Backbone.Model.extend({
 
         // Validates the form
-        validate: function validate () {
+        // Might want to use https://github.com/powmedia/backbone-forms at some point
+        // Return Boolean, wether it's valid or not
+        valid: function validate () {
             errors = {};
             if (!this.get('body') || this.get('body').length == 0) {
-                errors['body'] = true
+                errors['body'] = 'Doit être rempli'
             }
-            // if (!this.get('body') || this.get('body').length == 0) {
-            //     errors['body'] = true
-            // }
             this.set('errors', errors);
-            return errors;
+            return _.isEmpty(errors);
         },
 
         url: function url () {
