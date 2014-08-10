@@ -25,7 +25,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
         },
 
         onClose: function () {
-            this.infoBox.close();
+            this.infoBox.destroy();
         },
 
         closeClick: function () {

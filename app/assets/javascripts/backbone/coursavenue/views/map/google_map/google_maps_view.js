@@ -10,11 +10,11 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
 
         /* while the map is a composite view, it uses
          * marker views instead of item views */
-        childView:               Module.BlankView,
-        markerView:              Module.MarkerView,
-        markerViewTemplate:      Module.templateDirname() + 'marker_view',
-        childViewEventPrefix:     'marker',
-        markerViewChildren:      {},
+        childView           : Module.BlankView,
+        markerView          : Module.MarkerView,
+        markerViewTemplate  : Module.templateDirname() + 'marker_view',
+        childViewEventPrefix: 'marker',
+        markerViewChildren  : {},
 
         infoBoxView:         Module.InfoBoxView,
 
@@ -238,7 +238,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             this.isDestroyed = false;
             this.resetChildViewContainer();
 
-            this.triggerBeforeRender();
+            // this.triggerBeforeRender();
             this.trigger('before:render');
             var html = this._renderTemplate();
             this.$el.html(html);
@@ -252,7 +252,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             this.$el.find('[data-type=map-container]').prepend(this.map_annex);
 
             this.triggerMethod("render");
-            this.triggerRendered();
+            // this.triggerRendered();
             return this;
         },
 
@@ -272,21 +272,22 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             });
 
             this.markerViewChildren[childModel.cid] = markerView;
-            // this.addChildViewEventForwarding(markerView); // buwa ha ha ha!
+            this.addChildViewEventForwarding(markerView); // buwa ha ha ha!
             markerView.render();
         },
 
-        closeChildren: function closeChildren () {
+        destroyChildren: function destroyChildren () {
             for(var cid in this.markerViewChildren) {
-                this.closeChild(this.markerViewChildren[cid]);
+                this.destroyChild(this.markerViewChildren[cid]);
             }
         },
 
-        closeChild: function closeChild (child) {
+        destroyChild: function destroyChild (child) {
             // Param can be child's model, or child view itself
             var childView = (child instanceof Backbone.Model ? this.markerViewChildren[child.cid] : child);
 
-            childView.destroy();
+            // childView.destroy();
+            childView.close();
             delete this.markerViewChildren[childView.model.cid];
         },
 
@@ -301,7 +302,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
 
         hideInfoWindow: function hideInfoWindow () {
             this.current_info_marker = null;
-            this.infoBox.close();
+            this.infoBox.destroy();
         },
 
         showInfoWindow: function showInfoWindow (view) {
@@ -309,7 +310,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             if (!marker) { return; }
 
             if (this.infoBox) {
-                this.infoBox.close();
+                this.infoBox.destroy();
             }
 
             /* build content for infoBox */

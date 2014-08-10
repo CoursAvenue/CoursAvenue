@@ -24,17 +24,13 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
     Module.MarkerView = Backbone.GoogleMaps.MarkerView.extend({
         template: '',
 
-        options: {
-            content: Marionette.Renderer.render(Module.templateDirname() + 'marker_view', {})
-        },
-
         // constructor: function (options) {
         initialize: function initialize (options) {
             // Merging options
-            _.extend(this.options, (options || {}));
-            // Backbone.GoogleMaps.RichMarkerView.prototype.constructor.apply(this, arguments);
+            this.options = (options || {});
+            //Backbone.GoogleMaps.RichMarkerView.prototype.constructor.apply(this, arguments);
             /* TODO this setup should be done in the constructor, in the library, in another repo far, far away */
-            this.$el = $(this.options.content);
+            this.$el = $(Marionette.Renderer.render(CoursAvenue.Views.Map.GoogleMap.templateDirname() + 'marker_view'));
             this.overlayOptions.content = this.$el[0];
 
             /* apparently the only way to get this done */
@@ -82,22 +78,22 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
         },
 
         /* cancel an animation in progress */
-        calm: function () {
+        calm: function calm () {
             this.$el.finish();
         },
 
         /* a marker that should be continuously excited is peacocking */
-        startPeacocking: function () {
+        startPeacocking: function startPeacocking () {
             this.is_peacocking = true;
             this.bounce();
         },
 
-        stopPeacocking: function () {
+        stopPeacocking: function stopPeacocking () {
             this.is_peacocking = false;
             this.$el.finish();
         },
 
-        bounceOnce: function () {
+        bounceOnce: function bounceOnce () {
             var self = this,
                 old_top = parseInt(this.$el.css('top'), 10),
                 crest = old_top - 30;
@@ -107,7 +103,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             });
         },
 
-        bounce: function () {
+        bounce: function bounce () {
             if (! this.is_peacocking) {
                 return;
             }
@@ -121,7 +117,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             });
         },
 
-        setSelectLock: function (bool) {
+        setSelectLock: function setSelectLock (bool) {
             this.select_lock = bool;
         },
 
