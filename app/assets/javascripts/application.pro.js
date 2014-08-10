@@ -1,4 +1,5 @@
 //= require libs/underscore
+//= require underscore_extend
 //= require global
 
 // ---------------------------------- Core include

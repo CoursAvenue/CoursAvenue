@@ -16,7 +16,7 @@ Backbone.Marionette.Renderer.render = function(template, data){
     return rendered || JST[template](data);
 }
 
-var _module = Marionette.Module;
+var _module    = Marionette.Module;
 var _prototype = Marionette.Module.prototype;
 
 // A simple module system, used to create privacy and encapsulation in
@@ -174,77 +174,13 @@ _.extend(Marionette.View.prototype, {
     }
 });
 
-/* convenience method */
-_.extend(_, {
-    capitalize: function (word) {
-        if (!word) { return ''; }
-        return word.charAt(0).toUpperCase() + word.slice(1);
-    },
-
-    plural_map:{
-        "oxen"  : "ox",
-        "people": "person"
-    },
-
-    getSingularMap: function getSingularMap () {
-        if (_._singular_map === undefined) {
-            _._singular_map = _.invert(this.plural_map);
-        }
-
-        return _.clone(_._singular_map);
-    },
-
-    singularize: function (word) {
-        var last        = word.length - 1;
-        var ends_with_s = word.lastIndexOf("s") === last;
-        var is_plural   = ends_with_s || _.has(_.plural_map, word);
-
-        if (!is_plural) {
-            return word;
-        }
-
-        return (ends_with_s)? word.substring(0, last) : _.plural_map[word];
-    },
-
-    pluralize: function (word) {
-        var last        = word.length - 1,
-            ends_with_s = word.lastIndexOf("s") === last,
-            is_plural   = ends_with_s || _.has(_.plural_map, word),
-            map;
-
-        if (is_plural) {
-            return word;
-        }
-
-        map = _.getSingularMap();
-
-        return (map[word] === undefined)? word + 's' : map[word];
-    },
-
-    camelize: function (word) {
-        return word.replace (/(?:^|[-_])(\w)/g, function (_, c) {
-            return c ? c.toUpperCase () : '';
-        });
-    },
-
-    ensureArray: function ensureArray(a, b, n) {
-        if (arguments.length === 0) return []; //no args, ret []
-        if (arguments.length === 1) { //single argument
-            if (a === undefined || a === null) return []; // undefined or null, ret []
-            if (Array.isArray(a)) return a; // isArray, return it
-        }
-        return Array.prototype.slice.call(arguments); //return array with copy of all arguments
-    }
-});
-
-
 /* when building an Application, the NullApplication will be
  * returned if the given app root was not detected */
 Marionette.NullApplication = Marionette.Application.extend({
-    module: function (moduleNames, moduleDefinition) { /* NOP */ },
-    addRegions: function (options) { /* NOP */ },
+    module        : function (moduleNames, moduleDefinition) { /* NOP */ },
+    addRegions    : function (options) { /* NOP */ },
     addInitializer: function (initializer) { /* NOP */ },
-    start: function () { /* NOP */ },
+    start         : function () { /* NOP */ },
 });
 
 Marionette.renderNothing = function renderNothing (view, args) {
