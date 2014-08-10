@@ -243,6 +243,7 @@ Devise.setup do |config|
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = "/my_engine/users/auth"
   Devise::Mailer.class_eval do
+    include Roadie::Rails::Automatic
     helper :structures # include "StructuresHelper", adjust to suit your needs
   end
 

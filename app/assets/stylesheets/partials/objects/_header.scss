@@ -2,7 +2,7 @@
     @include media-query(palm) { text-align: center; };
     @include media-query(lap) { text-align: center; };
     padding         : 0;
-    // border-bottom   : 1px solid #D0D0D0;
+    border-bottom   : 1px solid #EEE;
     overflow        : visible;
     display         : table;
     width           : 100%;

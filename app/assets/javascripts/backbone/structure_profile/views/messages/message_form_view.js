@@ -43,6 +43,7 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
             this.populateMessage();
             if (this.model.valid()) {
                 if (CoursAvenue.currentUser().isLogged()) {
+                    this.$('form').trigger('ajax:beforeSend.rails');
                     this.saveMessage();
                 } else {
                     CoursAvenue.signUp({
@@ -78,13 +79,14 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
         saveMessage: function saveMessage () {
             this.model.sync({
                 success: function success (response) {
+                    this.$('form').trigger('ajax:complete.rails');
                     $.magnificPopup.open({
                           items: {
                               src: $(response.popup_to_show),
                               type: 'inline'
                           }
                     });
-                },
+                }.bind(this),
                 error: this.showPopupMessageDidntSend
             });
         },

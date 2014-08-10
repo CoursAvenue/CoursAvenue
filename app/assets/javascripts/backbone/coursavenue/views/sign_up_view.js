@@ -6,7 +6,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         className: 'panel center-block',
 
         initialize: function initialize (options) {
-            this.model = new CoursAvenue.Models.User (options.user || {});
+            this.model = CoursAvenue.currentUser();
             this.options = options;
             this.$el.css('width', '280px');
             $.magnificPopup.open({
@@ -56,10 +56,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         signUp: function signIn () {
             this.updateModel();
             if (this.model.isValid(true)) {
-                var $submit_button  = this.$('[data-disable-with]');
-                var old_button_text = $submit_button.text();
-                $submit_button.attr('disabled', true);
-                $submit_button.text($submit_button.data('disable-with'))
+                this.$('form').trigger('ajax:beforeSend.rails');
                 $.ajax({
                     url: Routes.user_registration_path(),
                     type: 'POST',
@@ -68,9 +65,8 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                         user: this.model.toJSON()
                     },
                     complete: function complete (response) {
-                        $submit_button.text(old_button_text);
-                        $submit_button.removeAttr('disabled');
-                    },
+                        this.$('form').trigger('ajax:complete.rails');
+                    }.bind(this),
                     error: function error (response) {
                         var errors = $.parseJSON(response.responseText).errors;
                         _.each(errors, function(value, key) {
@@ -80,7 +76,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                         this.render();
                     }.bind(this),
                     success: function success (response) {
-                        CoursAvenue.setCurrentUser(new CoursAvenue.Models.User(response));
+                        CoursAvenue.setCurrentUser(response);
                         this.showRegistrationConfirmedPopup()
                     }.bind(this)
                 });
