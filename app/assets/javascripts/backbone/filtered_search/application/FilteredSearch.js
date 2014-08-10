@@ -122,13 +122,13 @@ FilteredSearch.addInitializer(function(options) {
     * for setup */
     layout.showWidget(google_maps_view, {
         events: {
-            'paginator:updating':                'hideInfoWindow retireMarkers',
-            'structures:childview:highlighted':   'exciteMarkers',
+            'paginator:updating'                : 'hideInfoWindow retireMarkers',
+            'structures:childview:highlighted'  : 'exciteMarkers',
             'structures:childview:unhighlighted': 'exciteMarkers',
-            'map:update:zoom':                   'updateZoom',
-            'filter:update:map':                 'centerMap',
-            'structures:childview:found':         'setMarkerViewAndshowInfoWindow',
-            'structures:childview:peacock':       'togglePeacockingMarkers'
+            'map:update:zoom'                   : 'updateZoom',
+            'filter:update:map'                 : 'centerMap',
+            'structures:childview:found'        : 'setMarkerViewAndshowInfoWindow',
+            'structures:childview:peacock'      : 'togglePeacockingMarkers'
         }
     });
 

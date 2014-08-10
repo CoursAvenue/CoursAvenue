@@ -3,5 +3,4 @@
 //
 //= require ./data_mining/manifest
 //
-//= require ./filtered_search/manifest
 //= require ./user_management/manifest

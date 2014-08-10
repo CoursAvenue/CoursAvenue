@@ -1,7 +1,7 @@
 CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.EventLayout = Backbone.Marionette.LayoutView.extend({
-        constructor: function(options) {
+        constructor: function constructor (options) {
             /* NORMALLY events passed in as options to the constructor override
             * those set on the class. We haven't been using the options has that
             * way, and in particular for EventLayout this is a detriment. We
@@ -57,7 +57,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         /* add a new region to deal with a given widget
         * assumption: view.template is in_this_form */
-        showWidget: function (view, options) {
+        showWidget: function showWidget (view, options) {
             if (options === undefined) {
                 options = {};
             }
@@ -97,7 +97,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         /* this will only get called if there are subregions that have setup
         *  or reset methods. So, it is possible to get by without a master_region_name,
         *  as is the case with accordion_view */
-        getMasterRegionName: function () {
+        getMasterRegionName: function getMasterRegionName () {
             if (this.master_region_name === undefined) {
                 throw "Objects extending from EventLayout must define master_region_name."
             }
@@ -105,7 +105,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             return this.master_region_name;
         },
 
-        bindWidgetEvents: function (view, events, region_name) {
+        bindWidgetEvents: function bindWidgetEvents (view, events, region_name) {
             var event_suffix = _.last(region_name.split('_')),
                 self = this;
 
@@ -143,7 +143,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         /* fires after the main region is first shown */
-        onMasterShow: function(view) {
+        onMasterShow: function onMasterShow (view) {
 
             // Such edge case! Amaze!
             // if the master region is showing a view that... extends EventLayout!
@@ -175,11 +175,10 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         /* any events that come from the results region will be
         * triggered again from the layout */
-        broadcast: function(e, params) {
+        broadcast: function broadcast (e, params) {
             if (e === "click:outside") {
                 return;
             }
-
             this.trigger(e, params);
         }
     });

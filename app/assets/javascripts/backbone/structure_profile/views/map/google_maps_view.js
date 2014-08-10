@@ -3,7 +3,7 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
     Module.GoogleMapsView = CoursAvenue.Views.Map.GoogleMap.GoogleMapsView.extend({
         infoBoxView:  Module.InfoBoxView,
 
-        initialize: function(options) {
+        initialize: function initialize (options) {
             this.sticky = this.options.sticky;
         },
 
@@ -12,21 +12,21 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
             if (this.sticky) {
                 this.$('.google-map').addClass('google-map--medium-small');
                 var setStickyStyle,
-                    $view                   = this.$el.closest('[data-type=sticky-map-container]'),
-                    $grid_item              = $view.closest('.grid__item'),
-                    initial_map_width       = $view.width();
+                    $view             = this.$el.closest('[data-type=sticky-map-container]'),
+                    $grid_item        = $view.closest('.grid__item'),
+                    initial_map_width = $view.width();
                 $view.sticky({
-                    z: 10,
-                    oldWidth: false,
+                    z        : 10,
+                    oldWidth : false,
                     offsetTop: 72,
-                    stopAtEl: '#coursavenue-footer',
-                    onStick: function () {
+                    stopAtEl : '#coursavenue-footer',
+                    onStick: function onStick () {
                         $view.css({
-                            left: $grid_item.offset().left + parseInt($view.closest('.grid__item').css('padding-left'), 10) + 'px',
+                            left : $grid_item.offset().left + parseInt($view.closest('.grid__item').css('padding-left'), 10) + 'px',
                             width: initial_map_width
                         });
                     },
-                    onUnStick: function () {
+                    onUnStick: function onUnStick () {
                         $view.removeAttr('style');
                     }
                 });
