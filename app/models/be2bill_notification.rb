@@ -1,5 +1,5 @@
 # encoding: utf-8
-class B2billNotification < ActiveRecord::Base
+class Be2billNotification < ActiveRecord::Base
   attr_accessible :params, :structure_id, :order_id
 
   serialize :params
