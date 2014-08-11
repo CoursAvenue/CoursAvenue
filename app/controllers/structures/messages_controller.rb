@@ -8,9 +8,9 @@ class Structures::MessagesController < ApplicationController
     @structure    = Structure.find params[:structure_id]
     # Retrieve or create user
     if current_user
-      @user              = current_user
-      if params[:message][:phone_number].present?
-        @user.phone_number = params[:message][:phone_number]
+      @user = current_user
+      if params[:message][:user] and params[:message][:user][:phone_number].present?
+        @user.phone_number = params[:message][:user][:phone_number]
         @user.save
       end
       @structure.create_user_profile_for_message(@user)

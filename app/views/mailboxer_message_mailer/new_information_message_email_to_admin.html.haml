@@ -15,7 +15,7 @@
   = link_to "Répondre au message", pro_structure_conversation_url(@admin.structure, @message.conversation, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green', style: 'width: 300px;'
 - if @user.phone_number.present?
   .p.action.soft-half--top
-    = link_to 'Demande traitée par téléphone', treat_by_phone_pro_structure_conversation_path(@structure, @conversation), class: 'btn', method: :patch, style: 'width: 300px;'
+    = link_to 'Demande traitée par téléphone', treat_by_phone_pro_structure_conversation_url(@structure, @conversation, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn', method: :patch, style: 'width: 300px;'
 
 %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
   %tr{ valign: 'top' }

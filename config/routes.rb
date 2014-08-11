@@ -215,8 +215,9 @@ CoursAvenue::Application.routes.draw do
         resources :conversations, controller: 'structures/conversations' do
           member do
             patch :treat_by_phone
+            get   :treat_by_phone # Accept get for when user come by email
             patch :flag
-            get :flag
+            get   :flag
           end
         end
         resources :statistics   , controller: 'structures/statistics', only: [:index], path: 'statistiques'
