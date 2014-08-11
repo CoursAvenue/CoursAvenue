@@ -81,12 +81,6 @@
 //= require libs/backbone.poller.js
 //= require backbone/cours_avenue
 
-$.ajaxSetup({
-    beforeSend: function(xhr) {
-        xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
-    }
-});
-
 // Default magnificpopup style
 // http://codepen.io/dimsemenov/pen/GAIkt
 $.magnificPopup.defaults.callbacks = {

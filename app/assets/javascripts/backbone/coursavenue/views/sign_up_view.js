@@ -63,6 +63,9 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             if (this.model.isValid(true)) {
                 this.$('form').trigger('ajax:beforeSend.rails');
                 $.ajax({
+                    beforeSend: function beforeSend (xhr) {
+                        xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
+                    },
                     url: Routes.user_registration_path(),
                     type: 'POST',
                     dataType: 'json',

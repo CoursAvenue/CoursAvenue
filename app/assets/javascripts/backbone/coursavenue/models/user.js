@@ -70,6 +70,9 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
                 this.get('favorite_structure_ids').push(structure_id);
             }
             $.ajax({
+                beforeSend: function beforeSend (xhr) {
+                    xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
+                },
                 url: url,
                 type: 'POST',
                 dataType: 'json',
