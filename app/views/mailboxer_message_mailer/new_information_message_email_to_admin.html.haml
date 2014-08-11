@@ -7,7 +7,7 @@
 .p
   Vous avez reçu une
   %strong demande d'information de #{@user.name}.
-  Nous vous encourageons à répondre dès que possible pour que l'élève puisse s'organiser et s'incrire à l'un de vos cours :
+  Nous vous encourageons à répondre dès que possible :
 
 = render partial: 'mailboxer_message_mailer/message_to_admin', locals: { message: @message, user: @user }
 

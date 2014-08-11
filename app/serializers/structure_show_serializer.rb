@@ -9,7 +9,7 @@ class StructureShowSerializer < ActiveModel::Serializer
              :has_free_trial_course, :teaches_at_home, :audience, :funding_types, :gives_group_courses,
              :gives_individual_courses, :structure_type, :has_promotion, :tag_names, :given_course_types,
              :given_funding_type, :places_count, :comments, :subjects, :has_teachers, :has_only_one_more_info,
-             :phone_numbers, :trainings_courses, :lessons_and_privates, :has_published_courses, :is_sleeping
+             :phone_numbers, :trainings_courses, :lessons_and_privates, :has_published_courses, :is_sleeping, :website, :premium
 
   has_many :comments, serializer: CommentSerializer
   has_many :places  , serializer: PlaceSerializer
