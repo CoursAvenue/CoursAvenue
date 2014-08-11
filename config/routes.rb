@@ -45,6 +45,7 @@ CoursAvenue::Application.routes.draw do
         resources :medias, controller: 'portraits/medias'
       end
 
+      resources :be2bill_notifications, only: [:index, :show]
       resources :blog_articles, controller: 'blog/articles', path: 'blog'
       resources :metrics, only: [] do
         collection do

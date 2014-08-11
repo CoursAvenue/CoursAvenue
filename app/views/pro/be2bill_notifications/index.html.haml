@@ -1,0 +1,7 @@
+%table
+  %tbody
+    - @notifications.each do |notification|
+      %tr
+        %td= link_to notification.structure.name, edit_pro_structure_path(notification.structure.name), target: :_blank
+        %td= notification.params
+        %td= notification.order_id
