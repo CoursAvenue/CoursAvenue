@@ -100,7 +100,11 @@
                 .panel__header.soft-half--ends.soft--sides
                   %h5.flush Profils similaires
                 .panel__body.soft-half--ends{ style: (@is_sleeping ? '' : 'height: 300px; overflow-y: scroll;') }
-                  - @structure.similar_profiles(21).each_with_index do |structure, index|
+                  - if params[:lat] and params[:lng]
+                    - _params = { lat: params[:lat], lng: params[:lng] }
+                  - else
+                    - _params = {}
+                  - @structure.similar_profiles(21, _params).each_with_index do |structure, index|
                     - unless index == 0
                       %hr.push-half--ends
                     %div{ style: 'height: 70px;' }
