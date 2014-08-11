@@ -17,14 +17,14 @@
     var pluginName = "sticky",
         defaults = {
             scrollContainer: window,
-            offsetTop : 0,
-            z         : 1300,
-            oldWidth  : false,
-            oldHeight : true,
-            onStick   : $.noop,
-            onUnStick : $.noop,
-            stopAtEl : null,
-            updateOnScroll: false
+            offsetTop      : 0,
+            z              : 1300,
+            oldWidth       : false,
+            oldHeight      : true,
+            onStick        : $.noop,
+            onUnStick      : $.noop,
+            stopAtEl       : null,
+            updateOnScroll : false
         };
 
     // The actual plugin constructor

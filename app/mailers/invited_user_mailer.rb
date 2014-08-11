@@ -1,6 +1,6 @@
 # encoding: utf-8
 class InvitedUserMailer < ActionMailer::Base
-
+  include Roadie::Rails::Automatic
   # View structures
   #   /invited_user_mailer/referrer_type/invited_user_type/recommand_friends.html.haml
   # if 'for' is specified:

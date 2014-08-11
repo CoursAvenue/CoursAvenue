@@ -1,6 +1,6 @@
 - if @user and @user.errors.any?
   - # Just show the form if the users try to subscribe and there are errors
-  .white-box.center-block.islet{style: 'max-width: 500px;'}
+  .white-box.center-block.islet{ style: 'max-width: 500px;' }
     = render 'users/registrations/form'
 - else
   - content_for :above_container do

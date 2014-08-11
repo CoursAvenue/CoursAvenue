@@ -18,7 +18,7 @@ class Course < ActiveRecord::Base
   has_many :plannings           , dependent: :destroy
   has_many :teachers            , -> { uniq }, through: :plannings
   has_many :places              , -> { uniq }, through: :plannings
-  belongs_to :price_group       , dependent: :destroy
+  belongs_to :price_group
   has_many :prices              , through: :price_group
   has_many :reservation_loggers , dependent: :destroy
 

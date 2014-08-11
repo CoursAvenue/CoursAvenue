@@ -1,0 +1,92 @@
+<div class="panel__header soft-half">
+    <h4 class="flush">{{#if title }}{{ title }} {{else}}Inscription{{/if}}</h4>
+</div>
+<div class="soft panel__body">
+    <div class="text--center">
+      <a href="#" data-behavior="facebook-login" class="btn btn--facebook">S'inscrire avec Facebook</a>
+    </div>
+    <ul class="no-bullet-list flush--bottom push-half--top">
+      <li>
+        <i class="fa fa-check green"></i>
+        Inscription en 3 secondes !
+      </li>
+      <li>
+        <i class="fa fa-check green"></i>
+        Plus de mot de passe nécessaire.
+      </li>
+      <li>
+        <i class="fa fa-check green"></i>
+        Nous ne publions rien sur votre mur.
+      </li>
+    </ul>
+    <div class="or">
+      <span>ou</span>
+    </div>
+
+    <div data-type="email-section" class="{{#unless errors}}hidden{{/unless}}">
+        <form action="/">
+            <div class="push-half--bottom">
+                <div class="input-addon">
+                    <div class="input-prefix epsilon"><i class="fa fa-user"></i></div>
+                    <input type="text" name="first_name" placeholder="Prénom" class="one-whole input--large" value="{{first_name}}">
+                </div>
+                {{#if errors.first_name}}
+                    <div class="input_field_error red f-weight-bold text--right">{{errors.first_name}}</div>
+                {{/if}}
+            </div>
+            <div class="push-half--bottom">
+                <div class="input-addon">
+                    <div class="input-prefix epsilon"><i class="fa fa-user"></i></div>
+                    <input type="text" name="last_name" placeholder="Nom" class="one-whole input--large" value="{{last_name}}">
+                </div>
+                {{#if errors.last_name}}
+                    <div class="input_field_error red f-weight-bold text--right">{{errors.last_name}}</div>
+                {{/if}}
+            </div>
+            <div class="push-half--bottom">
+                <div class="input-addon">
+                    <div class="input-prefix epsilon"><i class="fa fa-envelope-o"></i></div>
+                    <input type="text" name="zip_code" placeholder="Code postal" class="one-whole input--large" value="{{zip_code}}">
+                </div>
+                {{#if errors.zip_code}}
+                    <div class="input_field_error red f-weight-bold text--right">{{errors.zip_code}}</div>
+                {{/if}}
+            </div>
+            <div class="push-half--bottom">
+                <div class="input-addon">
+                    <div class="input-prefix epsilon">@</div>
+                    <input type="email" name="email" placeholder="E-mail" class="one-whole input--large" value="{{email}}">
+                </div>
+                {{#if errors.email}}
+                    <div class="input_field_error red f-weight-bold text--right">{{errors.email}}</div>
+                {{/if}}
+            </div>
+            <div class="push-half--bottom">
+                <div class="input-addon">
+                    <div class="input-prefix epsilon"><i class="fa fa-lock"></i></div>
+                    <input type="password" name="password" placeholder="Mot de passe" class="one-whole input--large">
+                </div>
+                {{#if errors.password}}
+                    <div class="input_field_error red f-weight-bold text--right">{{errors.password}}</div>
+                {{/if}}
+            </div>
+            <input type="hidden" name="remember_me" value="true">
+            <button class="btn btn--green one-whole" type="submit" data-disable-with="Inscription en cours...">Inscription</button>
+        </form>
+    </div>
+
+    {{#unless errors}}
+    <div class="text--center push--bottom">
+        <a href="#" data-behavior="sign-up-with-email">Inscription avec votre adresse e-mail</a>
+    </div>
+    {{/unless}}
+    <p>
+      <strong>
+        En m'inscrivant, j'accepte <a href="{{ pages_mentions_partners_path }}" target="_blank">les conditions générales d'utilisation.</a>
+      </strong>
+    </p>
+    <hr>
+    <div class="push-half--top">
+      Déjà membre CoursAvenue ? <a href="#" data-behavior="sign-in">Connexion</a>
+    </div>
+</div>

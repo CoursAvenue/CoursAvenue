@@ -46,6 +46,10 @@ Handlebars.registerHelper('highlight', function(text, highlight_word, length) {
 
 
 
+Handlebars.registerHelper('ifPresent', function (v1, v2, options) {
+    return (!_.isEmpty(v1) || !_.isEmpty(v2)) ? options.fn(this) : options.inverse(this);
+});
+
 Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
 
     switch (operator) {

@@ -100,13 +100,12 @@ gem 'mailboxer'                 , '~> 0.12.1'
 gem 'cancancan'                 , '~>1.8.1'
 # gem 'cancan'                    , '~>1.6.10'
 # For authentication
-gem 'devise'                    , '~>3.2.3'
-# Facebook connect
-gem 'omniauth-facebook'         , '~>1.4.1'
+gem 'devise'                    , '~>3.2.4'
+# For facebook connect or more
+gem 'omniauth-facebook'         , '~>1.6.0'
+gem 'omniauth'                  , '~>1.2.2'
 # A full-stack Facebook Graph API wrapper in Ruby.
 gem 'fb_graph'                  , '~>2.7.10'
-# Helps access to gmail contacts etc.
-gem 'omnicontacts'              , '~>0.3.4'
 gem 'certified'                 , '~>0.1.1'
 
 # Search engine
@@ -132,12 +131,14 @@ gem 'sitemap_generator'         , '~>4.2.0'
 # gem 'gibbon'                    , '~>1.0.4'
 
 # Transform external CSS stylesheets into inline CSS for emails
-gem 'roadie'                    , '~>2.4.3'
+gem 'roadie'                    , '~>3.0.0'
+gem 'roadie-rails'              , '~>1.0.2'
 
 # Includes Backbone Marionette
+# gem 'marionette-rails'          , '~>2.0.3'
 gem 'marionette-rails'          , '~>1.4.1'
 # Includes bacbone.relational
-gem 'backbone-relational-rails' , '~>0.8.7'
+gem 'backbone-relational-rails' , '~>0.8.8'
 # See issue: https://github.com/leshill/handlebars_assets/pull/46
 gem 'handlebars_assets'         , '~>0.15', git: 'git://github.com/variousauthors/handlebars_assets.git'
 # Decorator

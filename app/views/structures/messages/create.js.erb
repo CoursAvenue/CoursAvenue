@@ -1,5 +1,0 @@
-<% if @conversation and @conversation.persisted? %>
-    $.fancybox("<%= escape_javascript(render partial: 'structures/messages/message_sent') %>", { width: 600, minWidth: 600, maxWidth: 600, padding: 0 });
-<% else %>
-    GLOBAL.flash("Vous n'avez pas remplis toutes les informations");
-<% end %>

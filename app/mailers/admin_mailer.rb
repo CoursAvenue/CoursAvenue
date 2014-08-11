@@ -1,6 +1,7 @@
 # encoding: utf-8
 class AdminMailer < ActionMailer::Base
   include ::ActionMailerWithTextPart
+  include Roadie::Rails::Automatic
 
   layout 'email'
   helper :structures
@@ -263,8 +264,8 @@ class AdminMailer < ActionMailer::Base
   end
 
   def take_control_of_your_account(structure)
-    return if structure.contact_email.blank?
-    @structure        = structure
+    return if structure.contact_email
+    @structure = structure
     mail to: structure.contact_email,
          subject: "Prenez le contrôle de votre profil"
   end

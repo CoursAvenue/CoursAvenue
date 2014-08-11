@@ -43,4 +43,7 @@ module ApplicationHelper
     end
   end
 
+  def current_user_as_json
+    UserSerializer.new(current_user).to_json
+  end
 end

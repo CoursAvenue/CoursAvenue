@@ -147,7 +147,7 @@
         position        : relative;
         bottom          : -10px;
         padding         : 0 1em;
-        background-color: #F9F9F9;
+        background-color: white;
     }
 }
 .nowrap    { white-space : nowrap !important; }
@@ -161,7 +161,8 @@
 .thin              { font-weight: 300; }
 .very-soft         { padding: 5px; }
 
-.pointer    { cursor: pointer !important; }
+.pointer        { cursor: pointer !important; }
+.cursor-default { cursor: default !important; }
 
 .ie-blocker {
     position   : fixed;

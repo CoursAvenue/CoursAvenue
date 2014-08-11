@@ -1,5 +1,5 @@
 !!!
-%html.no-js{lang: 'fr', 'xmlns:og' => "http://opengraphprotocol.org/schema", 'xmlns:fb' => "http://www.facebook.com/2008/fbml"}
+%html.no-js{ lang: 'fr', 'xmlns:og' => "http://opengraphprotocol.org/schema", 'xmlns:fb' => "http://www.facebook.com/2008/fbml" }
   %head
     %link{ href: 'https://fonts.googleapis.com/css?family=Raleway:500,400,300,600,700', rel: 'stylesheet', type: 'text/css' }
     = yield :right_after_head
@@ -20,6 +20,7 @@
   :javascript
     window.GLOBAL = window.GLOBAL || {};
     GLOBAL.is_mobile = #{mobile_device?};
+
   %body{ style: (Rails.env.development? ? 'border-top: 5px solid yellow;' : '') }
     - unless response.cache_control[:public]
       - flash.each do |key, msg|
@@ -51,6 +52,11 @@
     :javascript
       if (!$.cookie('fingerprint')) { $.cookie('fingerprint', new Fingerprint().get()); }
     %script{ src: "//d2wy8f7a9ursnm.cloudfront.net/bugsnag-2.min.js", "data-apikey" => "95a4635b1c13221f4232852f7badc00a" }
+    - if current_user
+      :javascript
+          CoursAvenue.addInitializer(function(options){
+              this.setCurrentUser(#{current_user_as_json});
+          });
     :javascript
       Bugsnag.releaseStage = '#{Rails.env}';
       Bugsnag.notifyReleaseStages = ["staging", "production"]

@@ -25,7 +25,7 @@ class StructureSearch
       if params[:bbox_sw].present? && params[:bbox_ne].present? && params[:bbox_sw].length == 2 && params[:bbox_ne].length == 2
         with(:location).in_bounding_box(params[:bbox_sw], params[:bbox_ne])
       else
-        with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 10, bbox: (params[:bbox] ? params[:bbox] : true)) if params[:lat].present? and params[:lng].present?
+        with(:location).in_radius(params[:lat], params[:lng], (params[:radius].to_i > 0 ? params[:radius].to_i : 10), bbox: (params[:bbox] ? params[:bbox] : true)) if params[:lat].present? and params[:lng].present?
       end
 
       # --------------- Subjects
@@ -100,7 +100,6 @@ class StructureSearch
                                             # Radius will increment from 2.7 to > 1000
                                             radius: Math.exp(index),
                                             sort: 'premium',
-                                            nb_comments: 1,
                                             has_logo: true,
                                             per_page: limit,
                                             subject_id: (used_root_subjects.any? ? used_root_subjects.map(&:slug) : nil)

@@ -16,25 +16,25 @@ FilteredSearch.addInitializer(function(options) {
     structures_view = new FilteredSearch.Views.StructuresCollection.StructuresCollectionView({
         collection: structures,
         events: {
-            'pagination:next':         'nextPage',
-            'pagination:prev':         'prevPage',
-            'pagination:page':         'goToPage',
-            'filter:summary':          'filterQuery',
-            'map:bounds':              'filterQuery',
-            'filter:subject':          'filterQuery',
-            'filter:level':            'filterQuery',
-            'filter:audience':         'filterQuery',
-            'filter:course_type':      'filterQuery',
-            'filter:discount':         'filterQuery',
-            'filter:date':             'filterQuery',
-            'filter:price':            'filterQuery',
-            'filter:structure_type':   'filterQuery',
-            'filter:payment_method':   'filterQuery',
-            'filter:search_term':      'filterQuery',
-            'filter:location':         'filterQuery',
-            'filter:trial_course':     'filterQuery',
-            'map:marker:click':        'findItemView',
-            'structures:updated':      'structuresUpdated'
+            'pagination:next'       : 'nextPage',
+            'pagination:prev'       : 'prevPage',
+            'pagination:page'       : 'goToPage',
+            'filter:summary'        : 'filterQuery',
+            'map:bounds'            : 'filterQuery',
+            'filter:subject'        : 'filterQuery',
+            'filter:level'          : 'filterQuery',
+            'filter:audience'       : 'filterQuery',
+            'filter:course_type'    : 'filterQuery',
+            'filter:discount'       : 'filterQuery',
+            'filter:date'           : 'filterQuery',
+            'filter:price'          : 'filterQuery',
+            'filter:structure_type' : 'filterQuery',
+            'filter:payment_method' : 'filterQuery',
+            'filter:search_term'    : 'filterQuery',
+            'filter:location'       : 'filterQuery',
+            'filter:trial_course'   : 'filterQuery',
+            'map:marker:click'      : 'findItemView',
+            'structures:updated'    : 'structuresUpdated'
         }
     });
 
@@ -169,7 +169,6 @@ FilteredSearch.addInitializer(function(options) {
 
     layout.master.show(structures_view);
     GLOBAL.chosen_initializer();
-    $('[data-toggle=popover]').popover();
 
     if (GLOBAL.is_mobile) {
         $('[data-type="location-filter"]').appendTo($('#mobile-location-filter'));

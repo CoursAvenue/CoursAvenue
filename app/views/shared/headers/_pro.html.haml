@@ -17,8 +17,8 @@
             %ul.drop-down__el
               %li.nowrap
                 = link_to destroy_pro_admin_session_path, method: :delete do
-                  Déconnexion
                   %i.fa.fa-sign-out
+                  Déconnexion
         - else
           %li
             = link_to 'Se connecter', new_pro_admin_session_path

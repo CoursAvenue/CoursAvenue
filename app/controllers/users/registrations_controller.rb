@@ -1,6 +1,7 @@
 # encoding: utf-8
 class Users::RegistrationsController < Devise::RegistrationsController
-  respond_to :html, :js, :json
+  respond_to :html, :json
+
   layout :choose_layout
 
   def after_inactive_sign_up_path_for(user)
@@ -27,6 +28,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     ## end of changes
     if resource.save
       resource.send_confirmation_instructions
+      resource.after_registration
       yield resource if block_given?
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_flashing_format?

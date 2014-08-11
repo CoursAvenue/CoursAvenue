@@ -1,31 +1,15 @@
-.panel
+.panel.center-block{ style: 'width: 700px;'}
   .panel__header.soft
     .grid
       .grid__item.one-tenth.v-middle>
         %i.fa.fa-check.fa-3x.green
       .grid__item.nine-tenths.v-middle>
-        %h3.flush Message envoyé
+        %h3.flush Message envoyé à #{@structure.name}
   .panel__body.soft
-    %h4 Contactez 3 autres profils et multipliez vos chances
+    %h4 Ne vous arrêtez pas et contactez 3 autres profils
     %p.epsilon
-      Nous vous conseillons de contacter 3 autres profils pour multiplier vos chances de trouver le cours de tous vos critères.
-    %h5 Profils similaires à contacter :
-    %div{ style: 'height: 20em; overflow-y: scroll;'}
-      - @structure.similar_profiles(5).each_with_index do |structure, index|
-        - unless index == 0
-          %hr.push-half--ends
-        .grid--full
-          .grid__item.two-twelfths.v-middle>
-            .media-photo= image_tag structure.logo.url(:thumb)
-          .grid__item.v-top.eight-twelfths.soft-half--left>
-            %h6.push-half--bottom= structure.name
-            - if structure.premium? and header_promotion_title_for_structure(structure).present?
-              .push-half--bottom
-                .lbl.lbl--small.lbl--yellow
-                  %i.fa.fa-star
-                  = header_promotion_title_for_structure(structure)
-            %div
-              à
-              = readable_distance(Geocoder::Calculations.distance_between([@structure.latitude, @structure.longitude], [structure.latitude, structure.longitude], unit: :km).round(1))
-          .grid__item.two-twelfths.v-middle>
-            = link_to 'Contacter', structure_path(structure), class: 'btn btn--green btn--small'
+      Nous vous conseillons de contacter 3 autres profils pour multiplier vos chances de trouver le cours de votre choix. Voici quelques suggestions pour vous :
+    %div{ style: 'height: 20em; overflow-y: scroll; overflow-x: hidden;'}
+      - @structure.similar_profiles(12).each_with_index do |structure, index|
+        .inline-block.one-half.very-soft.relative>
+          = render partial: "structures/similar_profile", locals: { structure: structure }

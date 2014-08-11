@@ -92,10 +92,10 @@ $(function() {
     $('body').tooltip({
         selector: '[data-behavior=tooltip],[data-toggle=tooltip]'
     });
-    var popover_initializer = function() {
-        $('[data-toggle=popover]').popover();
-    };
-    global.initialize_callbacks.push(popover_initializer);
+    $('body').popover({
+        selector: '[data-behavior=popover],[data-toggle=popover]',
+        trigger: 'hover'
+    });
 
     // Initialize all callbacks
     global.reinitializePlugins = function() {

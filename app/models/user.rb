@@ -14,7 +14,9 @@ class User < ActiveRecord::Base
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :confirmable
+         :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :confirmable,
+         :omniauth_providers => [:facebook]
+
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid, :oauth_token, :oauth_expires_at,
@@ -69,6 +71,11 @@ class User < ActiveRecord::Base
   # Callbacks                                                          #
   ######################################################################
   after_create :associate_all_comments
+
+  # Called from Registration Controller when user registers for first time
+  def after_registration
+    send_pending_messages
+  end
 
   # Not after create because user creation is made when teachers invite their students to post a comment
   after_save  :associate_city_from_zip_code, if: -> { zip_code.present? and city.nil? }
@@ -438,6 +445,21 @@ class User < ActiveRecord::Base
   # @return
   def downcase_email
     self.email = self.email.downcase if self.email
+    nil
+  end
+
+  # Send messages that have been created with this user (aka email) and inform
+  # the teacher about it.
+  #
+  # @return nil
+  def send_pending_messages
+    self.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).each do |conversation|
+      # Get the message that should have been sent
+      message = conversation.messages.first
+      # Select the admin who should receive the message
+      recipient = message.recipients.detect{ |recipient| recipient.is_a? Admin }
+      MailboxerMessageMailer.delay.new_message_email_to_admin(message, recipient)
+    end
     nil
   end
 end

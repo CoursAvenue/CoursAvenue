@@ -108,7 +108,7 @@
                         <td>
                             {{this.libelle}}
                         </td>
-                        <td class="text--center {{#if this.promo_amount}}line-through{{/if}}">
+                        <td class="text--center {{#if ../premium}}{{#if this.promo_amount}}line-through{{/if}}{{/if}}">
                             {{#if this.is_free}}
                               <strong class="green">Gratuit{{#if this.is_registration}}e{{/if}}</strong>
                             {{else}}

@@ -1,6 +1,7 @@
 # encoding: utf-8
 class ParticipationMailer < ActionMailer::Base
   include ::ActionMailerWithTextPart
+  include Roadie::Rails::Automatic
 
   helper :plannings, :levels, :participations
 

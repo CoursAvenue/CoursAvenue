@@ -1,4 +1,4 @@
-.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
+.inline-block.v-middle.drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
   - if current_pro_admin.super_admin?
     = link_to 'Super dashboard', pro_dashboard_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--blue btn--small'
   - if current_pro_admin.structure
@@ -6,5 +6,5 @@
   %ul.drop-down__el
     %li.nowrap
       = link_to destroy_pro_admin_session_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), method: :delete do
-        Déconnexion
         %i.fa.fa-sign-out
+        Déconnexion

@@ -21,7 +21,7 @@ class StructureDecorator < Draper::Decorator
 
     output = ''
     _subjects.sort{ |a, b| b[:child_length] <=> a[:child_length] }.each_with_index do |subject_hash, index|
-      output << "<div class='#{index > 0 ? 'push-half--top' : ''}'><strong>#{subject_hash[:root_name]} :</strong>"
+      output << "<div class='#{index > 0 ? 'push-half--top' : ''}'><strong>#{subject_hash[:root_name]} #{subject_hash[:child_names].length > 0 ? ' :' : ''}</strong>"
       list_item_start = (subject_hash[:child_names].length > 1 ? '- ' : '')
       subject_hash[:child_names].each do |child_name|
         output << "<br>#{list_item_start}#{child_name}"

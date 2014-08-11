@@ -177,7 +177,6 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             if (e === "click:outside") {
                 return;
             }
-
             this.trigger(e, params);
         }
     });

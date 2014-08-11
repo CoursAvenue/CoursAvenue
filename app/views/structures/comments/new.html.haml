@@ -67,7 +67,7 @@
             = f.label :content, class: 'v-top label--large'
             = f.input :content, label: false, input_html: { style: 'height: 150px;', class: 'input--large one-whole', data: { behavior: 'text-counter', 'average-words-nb' => Comment::Review::MIN_NB_WORD_CONTENT, 'good-words-nb' => 60, 'bad-text' => "Votre avis doit comporter au moins #{Comment::Review::MIN_NB_WORD_CONTENT} mots.", 'average-text' => 'Encore quelques mots et votre professeur sera enchanté !', 'good-text' => "Là c'est certain, votre professeur va adorer !"}}, wrapper_html: { class: 'flush' }, required: true
           %p.field-form-info.flush
-            = link_to 'Astuces pour un avis utile', 'javascript:void(0)', data: { behavior: 'toggler', el: '#comment_tricks'}
+            = link_to 'Astuces pour un avis utile', '#', data: { behavior: 'toggleable', el: '#comment_tricks'}
           - unless current_user
             = f.input :author_name, label_html: { class: 'v-middle label--large' }, required: true, placeholder: 'Ex. : Stéphanie P.', input_html: { class: 'input--large' }
           %hr.push--top

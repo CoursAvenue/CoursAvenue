@@ -1,7 +1,5 @@
 # encoding: utf-8
 
-require "omniauth-facebook"
-
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
@@ -62,7 +60,7 @@ Devise.setup do |config|
   # config.http_authenticatable = false
 
   # If http headers should be returned for AJAX requests. True by default.
-  # config.http_authenticatable_on_xhr = true
+  config.http_authenticatable_on_xhr = false
 
   # The realm used in Http Basic Authentication. "Application" by default.
   # config.http_authentication_realm = "Application"
@@ -96,7 +94,7 @@ Devise.setup do |config|
   # able to access the website for two days without confirming his account,
   # access will be blocked just in the third day. Default is 0.days, meaning
   # the user cannot access the website without confirming his account.
-  # config.allow_unconfirmed_access_for = 2.days
+  config.allow_unconfirmed_access_for = 2.days
   # A period that the user is allowed to confirm their account before their
   # token becomes invalid. For example, if set to 3.days, the user can confirm
   # their account within 3 days after the mail was sent, but on the fourth day
@@ -137,7 +135,7 @@ Devise.setup do |config|
   # ==> Configuration for :timeoutable
   # The time you want to timeout the user session without activity. After this
   # time the user will be asked for credentials again. Default is 30 minutes.
-  # config.timeout_in = 30.minutes
+  config.timeout_in = 1.year
 
   # If true, expires auth token on session timeout.
   # config.expire_auth_token_on_timeout = false
@@ -210,15 +208,15 @@ Devise.setup do |config|
   # should add them to the navigational formats lists.
   #
   # The "*/*" below is required to match Internet Explorer requests.
-  # config.navigational_formats = ["*/*", :html]
+  config.navigational_formats = ["*/*", :html, :json]
 
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = :delete
 
-  # ==> OmniAuth
-  # Add a new OmniAuth provider. Check the wiki for more information on setting
-  # up on your models and hooks.
-  config.omniauth :facebook, '589759807705512', '2e0ced1408e8f72e3b0a555e1bc03471', scope: 'email,user_birthday,user_location'
+  # # ==> OmniAuth
+  # # Add a new OmniAuth provider. Check the wiki for more information on setting
+  # # up on your models and hooks.
+  # config.omniauth :facebook, '589759807705512', '2e0ced1408e8f72e3b0a555e1bc03471', scope: 'email,user_birthday,user_location'
 
   # :client_options => {:ssl => {:ca_file => '/usr/lib/ssl/certs/ca-certificates.crt'}}}
 
@@ -245,6 +243,7 @@ Devise.setup do |config|
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = "/my_engine/users/auth"
   Devise::Mailer.class_eval do
+    include Roadie::Rails::Automatic
     helper :structures # include "StructuresHelper", adjust to suit your needs
   end
 

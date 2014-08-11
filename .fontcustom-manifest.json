@@ -1,7 +1,7 @@
 {
   "checksum": {
-    "previous": "5eb160da282b0c27c2c38abc18572244349b62a284e6e01c3c1622cb8f5a0e81",
-    "current": "5eb160da282b0c27c2c38abc18572244349b62a284e6e01c3c1622cb8f5a0e81"
+    "previous": "a3b29501156f5a38d9e0709b26f4bd8754eb2d29b38faad19f1d2eaa933ea37d",
+    "current": "a3b29501156f5a38d9e0709b26f4bd8754eb2d29b38faad19f1d2eaa933ea37d"
   },
   "fonts": [
     "app/assets/fonts/GlyphAvenue.ttf",
@@ -162,6 +162,10 @@
       "codepoint": 61785,
       "source": "app/assets/images/icons/svg/list.svg"
     },
+    "lock": {
+      "codepoint": 61803,
+      "source": "app/assets/images/icons/svg/lock.svg"
+    },
     "map-marker": {
       "codepoint": 61726,
       "source": "app/assets/images/icons/svg/map-marker.svg"
@@ -197,6 +201,10 @@
     "shopping-cart": {
       "codepoint": 61764,
       "source": "app/assets/images/icons/svg/shopping-cart.svg"
+    },
+    "sign-out": {
+      "codepoint": 61804,
+      "source": "app/assets/images/icons/svg/sign-out.svg"
     },
     "signal": {
       "codepoint": 61773,

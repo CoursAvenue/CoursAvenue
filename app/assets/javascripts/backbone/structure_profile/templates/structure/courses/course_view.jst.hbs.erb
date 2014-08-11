@@ -79,7 +79,7 @@
     </div>
     <div class="flexbox__item v-top three-quarters">
         {{#if on_appointment}}
-          Cours particuliers sur demande. <a href="#" data-behavior="show-contact-panel">Contactez {{ about }}</a> pour prendre un rendez-vous.
+          Cours particuliers sur demande. <a href="#" data-behavior="show-contact-panel" data-course-id="{{id}}" data-plannings-info="true">Contacter {{ about }}</a> pour prendre un rendez-vous.
         {{/if}}
         <table class="table--striped table--data table--data-small {{#if on_appointment}}hidden{{/if}}">
             <thead class="gray-light">
@@ -103,7 +103,7 @@
     </div>
     <div class="flexbox__item v-top three-quarters">
         {{#unless has_price_group}}
-          {{capitalize about}} n'a pas mis à jour ses tarifs : <a href="#" data-behavior="show-contact-panel">contactez-{{about_genre}}</a>.
+          {{capitalize about}} n'a pas mis à jour ses tarifs : <a href="#" data-behavior="show-contact-panel" data-course-id="{{id}}">contacter-{{about_genre}}</a>.
         {{/unless}}
         <table class="table--striped table--data table--data-small {{#unless has_price_group}}hidden{{/unless}}">
             <thead class="gray-light">
@@ -153,7 +153,7 @@
                             {{/if}}{{/if}}
                             <span class="v-middle">{{this.libelle}}</span>
                         </td>
-                        <td class="text--center {{#if this.promo_amount}}line-through{{/if}}">
+                        <td class="text--center {{#if ../premium}}{{#if this.promo_amount}}line-through{{/if}}{{/if}}">
                             {{#if this.is_free}}
                               <strong class="green">Gratuit{{#if this.is_registration}}e{{/if}}</strong>
                             {{else}}

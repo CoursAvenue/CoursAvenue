@@ -1,7 +1,7 @@
 /* just a basic backbone model */
 StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $, _) {
 
-    Module.Structure = Backbone.Model.extend({
+    Module.Structure = CoursAvenue.Models.Structure.extend({
 
         initialize: function initialize(bootstrap, bootstrap_meta) {
             var relations = ['places', 'courses', 'trainings', 'comments', 'teachers'],

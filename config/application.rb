@@ -91,5 +91,8 @@ module CoursAvenue
     config.filepicker_rails.api_key = ENV['FILEPICKER_API_KEY']
 
     config.middleware.insert_before "Rack::Runtime", Rack::UTF8Sanitizer
+
+    ROADIE_I_KNOW_ABOUT_VERSION_3 = true # Remove after Roadie 3.1
+    config.roadie.url_options = { host: 'coursavenue.com' }
   end
 end

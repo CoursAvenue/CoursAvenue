@@ -12,16 +12,12 @@ UserManagement.module('Views', function(Module, App, Backbone, Marionette, $, _)
         onShow: function() {
             if (App.$loader) {
                 App.$loader().fadeOut('slow');
+                this.$("[data-behavior=sticky-controls]").sticky({
+                    offsetTop: 45,
+                    oldWidth: true
+                });
             }
-        },
-
-        onRender: function () {
-            this.$("[data-behavior=sticky-controls]").sticky({
-                offsetTop: 45,
-                oldWidth: true
-            });
         }
-
     });
 });
 

@@ -30,6 +30,14 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
 
         initialize: function initialize () {
             window.onresize = this.resize_thumbnails;
+            _.bindAll(this, 'initializeAddToFavoriteLinks');
+            CoursAvenue.on('user:signed:in', this.initializeAddToFavoriteLinks);
+        },
+
+        initializeAddToFavoriteLinks: function initializeAddToFavoriteLinks () {
+            this.collection.each(function(model) {
+                model.trigger('user:signed:in');
+            });
         },
 
         resize_thumbnails: function resize_thumbnails () {
@@ -169,7 +177,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                 self.$('.rslides img').each(function(){
                     var $this = $(this);
                     $this.closest('.media__item').hide();
-                    $this.closest('li').css('background-image', 'url(' + $this.attr('src') + ')')
+                    $this.closest('li').css('background-image', 'url("' + $this.attr('src') + '")');
                 });
                 self.$(".rslides").responsiveSlides({
                     auto: false,

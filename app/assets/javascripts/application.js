@@ -15,7 +15,6 @@
 //= require libs/typeahead
 //= require libs/jquery.scrollTo
 //= require libs/jquery.nouislider
-//= require libs/jquery.stickem
 //= require libs/jquery.masonry
 //= require libs/jquery.lazyload
 //= require libs/responsiveslides
@@ -23,6 +22,7 @@
 //= require libs/jquery.placeholder
 //= require libs/stellar
 
+//= require libs/jquery.magnific-popup
 //= require libs/fancybox/jquery.fancybox
 
 //= require libs/fingerprint
@@ -73,9 +73,27 @@
 
 // ---------------------------------- Backbone
 //= require libs/backbone
+//= require libs/backbone-validation
 //= require backbone.marionette
 //= require libs/backbone.googlemaps
 //= require backbone-relational
 //= require libs/backbone.paginator.js
 //= require libs/backbone.poller.js
 //= require backbone/cours_avenue
+
+$.ajaxSetup({
+    beforeSend: function(xhr) {
+        xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
+    }
+});
+
+// Default magnificpopup style
+// http://codepen.io/dimsemenov/pen/GAIkt
+$.magnificPopup.defaults.callbacks = {
+    beforeOpen: function() {
+       this.st.mainClass = 'mfp-move-horizontal';
+    }
+}
+//delay removal by X to allow out-animation
+$.magnificPopup.defaults.removalDelay = 500;
+

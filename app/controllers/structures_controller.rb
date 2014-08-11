@@ -3,6 +3,8 @@ class StructuresController < ApplicationController
   include FilteredSearchProvider
   include StructuresHelper
 
+  skip_before_filter :verify_authenticity_token, only: [:add_to_favorite, :remove_from_favorite]
+
   respond_to :json
 
   layout :choose_layout
@@ -24,7 +26,7 @@ class StructuresController < ApplicationController
     end
     @header_promotion_title_for_structure = header_promotion_title_for_structure(@structure)
     @city      = @structure.city
-    @medias    = (@structure.premium? ? @structure.medias.videos_first : @structure.medias.cover_first.limit(Media::FREE_PROFIL_LIMIT))
+    @medias    = (@structure.premium? ? @structure.medias.cover_first.videos_first : @structure.medias.cover_first.limit(Media::FREE_PROFIL_LIMIT))
 
     @comments = @structure.comments.accepted.page(1).per(5)
     @model = StructureShowSerializer.new(@structure, {
@@ -35,11 +37,6 @@ class StructuresController < ApplicationController
       place_ids:          @place_ids
     })
     @is_sleeping = @structure.is_sleeping
-  end
-
-  def contact_form
-    @structure = Structure.friendly.find params[:id]
-    render partial: 'structures/contact_form', locals: { is_xhr: true }
   end
 
   def jpo
@@ -96,13 +93,23 @@ class StructuresController < ApplicationController
     end
   end
 
-  def follow
+  def add_to_favorite
     @structure = Structure.friendly.find params[:id]
     @structure.followings.create(user: current_user)
     AdminMailer.delay.user_is_now_following_you(@structure, current_user)
     Statistic.action(@structure.id, current_user, cookies[:fingerprint], request.ip, 'follow')
     respond_to do |format|
-      format.html { redirect_to structure_path(@structure), notice: "Vous suivez désormais #{@structure.name}"}
+      format.html { redirect_to structure_path(@structure), notice: "#{@structure.name} a été ajouté à vos favoris"}
+      format.json { render json: { succes: true } }
+    end
+  end
+
+  def remove_from_favorite
+    @structure = Structure.friendly.find params[:id]
+    @structure.followings.where(user_id: current_user.id).first.try(:destroy)
+    respond_to do |format|
+      format.html { redirect_to structure_path(@structure), notice: "#{@structure.name} n'est plus dans vos favoris"}
+      format.json { render json: { succes: true } }
     end
   end
 

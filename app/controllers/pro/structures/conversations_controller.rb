@@ -4,6 +4,8 @@ class Pro::Structures::ConversationsController < ApplicationController
   before_action :authenticate_pro_admin!
   before_action :get_structure, :get_admin
 
+  include ConversationsHelper
+
   layout 'admin'
 
   # Set the message as treated_by_phone. It means that the admin don't have to
