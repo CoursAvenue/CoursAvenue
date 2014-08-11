@@ -47,7 +47,6 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         iPhonizeCourseTitles: function iPhonizeCourseTitles () {
             var course_view_titles, offset, stop_at;
             this.$('[data-behavior=read-more]').readMore();
-            this.$('[data-toggle=popover]').popover();
             course_view_titles = this.$('[data-type="course-view-title"]');
             offset             = $('#structure-profile-menu').outerHeight();
             stop_at_el         = this.$el.closest('.panel').attr('id');

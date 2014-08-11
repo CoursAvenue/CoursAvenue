@@ -12,7 +12,7 @@
         .push-half--top
           - if @structure.structure_type.present?
             .milli.inline-block.structure__header-icon.semi-muted.v-top
-              = link_to '#presentation', class: 'muted-link flexbox', data: { behavior: 'scroll-to', offset_top: '-55' } do
+              = link_to '#presentation', class: "muted-link flexbox #{@structure.is_sleeping? ? 'cursor-default' : ''}", data: { behavior: 'scroll-to', offset_top: '-55' } do
                 %i.fa-3x.fa-house.flexbox__item
                 .flexbox__item.soft-half--left.soft--right
                   - t(@structure.structure_type).split(' ').each_with_index do |splitted_structure_type, index|
@@ -21,7 +21,7 @@
                     = splitted_structure_type
           - if @structure.gives_group_courses or @structure.gives_individual_courses.blank?
             .milli.inline-block.structure__header-icon.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.group_courses_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
-              = link_to '#cours-reguliers', class: 'muted-link flexbox', data: { behavior: 'scroll-to', offset_top: '-55' } do
+              = link_to '#cours-reguliers', class: "muted-link flexbox #{@structure.is_sleeping? ? 'cursor-default' : ''}", data: { behavior: 'scroll-to', offset_top: '-55' } do
                 %i.fa-3x.fa-group.flexbox__item
                 .flexbox__item.soft-half--left.soft--right
                   - collectif_courses_nb = (@structure.courses.trainings + @structure.courses.lessons).select(&:is_published?).length
@@ -30,24 +30,28 @@
                   - else
                     Cours
                   %br
-                  collectifs
+                  = "collectif".pluralize(collectif_courses_nb)
           - if @structure.gives_individual_courses
             .milli.structure__header-icon.inline-block.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.individual_courses_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
-              = link_to '#cours-reguliers', class: 'muted-link flexbox', data: { behavior: 'scroll-to', offset_top: '-55' } do
+              = link_to '#cours-reguliers', class: "muted-link flexbox #{@structure.is_sleeping? ? 'cursor-default' : ''}", data: { behavior: 'scroll-to', offset_top: '-55' } do
                 %i.fa-3x.fa-user.flexbox__item
                 .flexbox__item.soft-half--left.soft--right
-                  #{@structure.courses.privates.select(&:is_published?).length} cours
+                  - privates_courses_length = @structure.courses.privates.select(&:is_published?).length
+                  - if privates_courses_length > 0
+                    #{privates_courses_length} cours
+                  - else
+                    Cours
                   %br
-                  particuliers
+                  = "particulier".pluralize(privates_courses_length)
           .milli.structure__header-icon.inline-block.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.subjects_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
-            = link_to '#disciplines', class: 'muted-link flexbox', data: { behavior: 'scroll-to', offset_top: '-55' } do
+            = link_to '#disciplines', class: "muted-link flexbox #{@structure.is_sleeping? ? 'cursor-default' : ''}", data: { behavior: 'scroll-to', offset_top: '-55' } do
               %i.fa-3x.fa-tag.flexbox__item
               .flexbox__item.soft-half--left.soft--right
                 = @structure.subjects.at_depth(2).count
                 = "disciplines".pluralize @structure.subjects.at_depth(2)
 
           .milli.inline-block.structure__header-icon.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.places_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
-            = link_to '#', onclick: "$('#map-thumbnail').click();", class: 'muted-link flexbox' do
+            = link_to '#', onclick: "$('#map-thumbnail').click();", class: "muted-link flexbox #{@structure.is_sleeping? ? 'cursor-default' : ''}" do
               %i.fa-3x.fa-map-marker.flexbox__item
               .flexbox__item.soft-half--left.soft--right
                 = @structure.places.count

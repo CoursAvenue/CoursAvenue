@@ -169,7 +169,6 @@ FilteredSearch.addInitializer(function(options) {
 
     layout.master.show(structures_view);
     GLOBAL.chosen_initializer();
-    $('[data-toggle=popover]').popover();
 
     if (GLOBAL.is_mobile) {
         $('[data-type="location-filter"]').appendTo($('#mobile-location-filter'));

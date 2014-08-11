@@ -50,7 +50,7 @@
             #structure-region
           %div{ data: { type: "comments-collection" } }
       .grid__item.four-twelfths>
-        = render partial: 'structures/contact_form', locals: { structure: @structure }
+        %div{ data: { type: 'contact-form' } }
         - unless @is_sleeping
           .panel.push--bottom
             - if @structure.response_rate or @structure.response_time or (@structure.main_contact and @structure.main_contact.current_sign_in_at)
@@ -99,7 +99,7 @@
               .panel.push--bottom
                 .panel__header.soft-half--ends.soft--sides
                   %h5.flush Profils similaires
-                .panel__body.soft-half--ends{ style: (@is_sleeping ? '' : 'height: 250px; overflow-y: scroll;') }
+                .panel__body.soft-half--ends{ style: (@is_sleeping ? '' : 'height: 300px; overflow-y: scroll;') }
                   - @structure.similar_profiles(21).each_with_index do |structure, index|
                     - unless index == 0
                       %hr.push-half--ends

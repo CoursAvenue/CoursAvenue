@@ -1,3 +1,25 @@
+{{#if structure.is_sleeping}}
+  {{#if structure.phone_numbers}}
+    {{#if structure.phone_numbers}}
+    <a href="javascript:void(0)" class="btn btn--green btn--full" data-behavior="show-phone-numbers">
+        <i class="fa fa-phone v-middle"></i>
+        <span class="v-middle">Contacter</span>
+    </a>
+    <div class="phone_number hidden">
+        <div class="soft text--center white-box">
+            {{#each structure.phone_numbers}}
+                {{#ifCond @index '>' 0}}<br>{{/ifCond}}
+                <strong class="epsilon v-middle" itemprop="telephone">{{this}}</strong>
+                {{#if structure.premium }}
+                    <i class="soft-half--left v-middle fa fa-check-circle green"></i>
+                    <i class="v-middle green milli">vérifié</i>
+                {{/if}}
+            {{/each}}
+        </div>
+    </div>
+    {{/if}}
+  {{/if}}
+{{else}}
 <div class="panel__header soft-half--ends soft--sides">
     <h5 class="flush">
       Contacter
@@ -99,3 +121,4 @@
         </article>
     </div>
 </div>
+{{/if}}

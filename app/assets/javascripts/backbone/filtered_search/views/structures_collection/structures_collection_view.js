@@ -177,7 +177,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                 self.$('.rslides img').each(function(){
                     var $this = $(this);
                     $this.closest('.media__item').hide();
-                    $this.closest('li').css('background-image', 'url(' + $this.attr('src') + ')')
+                    $this.closest('li').css('background-image', 'url("' + $this.attr('src') + '")');
                 });
                 self.$(".rslides").responsiveSlides({
                     auto: false,

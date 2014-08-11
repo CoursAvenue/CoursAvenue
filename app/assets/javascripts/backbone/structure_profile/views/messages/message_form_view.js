@@ -3,10 +3,11 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
     Module.MessageFormView = Marionette.CompositeView.extend({
         template: Module.templateDirname() + 'message_form_view',
         message_failed_to_send_template: Module.templateDirname() + 'message_failed_to_send',
-        className: 'panel center-block',
+        className: 'panel center-block push--bottom',
 
         initialize: function initialize (options) {
             this.structure = options.structure;
+            if (this.structure.is_sleeping){ this.className = 'center-block push--bottom'; } // Not having panel class for sleeping structures
             this.model = new StructureProfile.Models.Message();
             this.$el.css('max-width', '400px');
             _.bindAll(this, 'showPopupMessageDidntSend');
@@ -102,7 +103,6 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
 
         onAfterShow: function onAfterShow () {
             GLOBAL.chosen_initializer();
-            this.$('[data-toggle=popover]').popover();
         },
 
         serializeData: function serializeData () {

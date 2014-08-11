@@ -100,7 +100,6 @@ class StructureSearch
                                             # Radius will increment from 2.7 to > 1000
                                             radius: Math.exp(index),
                                             sort: 'premium',
-                                            nb_comments: 1,
                                             has_logo: true,
                                             per_page: limit,
                                             subject_id: (used_root_subjects.any? ? used_root_subjects.map(&:slug) : nil)

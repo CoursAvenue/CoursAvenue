@@ -159,8 +159,10 @@ class Comment::Review < Comment
       _email        = self.email
       user          = User.where( email: _email ).first
       _user_id      = user.id if user
-      if _user_id and CommentNotification.where( CommentNotification.arel_table[:structure_id].eq(_structure_id).and(
-                                                 CommentNotification.arel_table[:user_id].eq(_user_id))).count > 0
+      # ACCEPT Comment ONLY IF:
+      # The user has been previously invited by the teacher
+      user_comment_notification_count = CommentNotification.where( CommentNotification.arel_table[:structure_id].eq(_structure_id).and(CommentNotification.arel_table[:user_id].eq(_user_id))).count
+      if _user_id and user_comment_notification_count > 0
         self.status = 'accepted'
       end
     end
