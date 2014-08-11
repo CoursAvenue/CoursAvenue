@@ -8,24 +8,27 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
         /* override addchild to add one marker for each place on the model */
         addChild: function(childModel, html) {
             var places = childModel.getRelation('places').related.models;
-            var self = this;
 
             _.each(places, function (place) {
-                var markerView = new self.markerView({
+                var markerView = new this.markerView({
                     model: place,
-                    map: self.map,
+                    map: this.map,
                     content: html
                 });
 
-                self.markerViewChildren[place.cid] = markerView;
+                markerView.on('click'          , function() { this.markerFocus(markerView) }.bind(this));
+                markerView.on('hovered'        , function() { this.markerHovered(markerView) }.bind(this));
+                markerView.on('unhighlight:all', function() { this.unhighlightEveryMarker(markerView) }.bind(this));
+
+                this.markerViewChildren[place.cid] = markerView;
 
                 // this is clever because we are "hijacking" marionette's childview event
                 // forwarding, which allows a parent to respond to child events with the
                 // onChildviewMethod style of methods. Hence the "buwa ha ha ha".
-                // self.addChildViewEventForwarding(markerView); // buwa ha ha ha!
+                // this.addChildViewEventForwarding(markerView); // buwa ha ha ha!
 
                 markerView.render();
-            });
+            }.bind(this));
         },
 
         /* UI and events */

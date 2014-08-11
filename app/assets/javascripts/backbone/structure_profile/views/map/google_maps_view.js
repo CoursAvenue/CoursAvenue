@@ -41,13 +41,16 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
 
         // We have some weird behavior having two maps on the same page...
         addChild: function addChild (childModel, html) {
+            console.log(this.map.j)
             var markerView = new this.markerView({
                 model:   childModel,
                 map:     this.map,
                 content: html
             });
+            markerView.on('click'          , function() { this.markerFocus(markerView) }.bind(this));
+            markerView.on('hovered'        , function() { this.markerHovered(markerView) }.bind(this));
+            markerView.on('unhighlight:all', function() { this.unhighlightEveryMarker(markerView) }.bind(this));
             this.markerViewChildren[childModel.cid + (this.sticky ? 'sticky' : '')] = markerView;
-            // this.addChildViewEventForwarding(markerView); // buwa ha ha ha!
             markerView.render();
         },
 

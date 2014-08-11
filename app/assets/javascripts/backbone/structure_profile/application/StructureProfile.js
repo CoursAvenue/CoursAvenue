@@ -39,6 +39,7 @@ StructureProfile.addInitializer(function(options) {
     layout.showWidget(message_form_view, {
         selector: '[data-type=contact-form]'
     });
+
     layout.showWidget(sticky_google_maps_view, {
         selector: '[data-type=sticky-map]',
         events: {

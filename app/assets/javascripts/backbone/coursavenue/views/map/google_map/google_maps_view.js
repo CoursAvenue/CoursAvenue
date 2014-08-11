@@ -73,7 +73,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             Marionette.CompositeView.prototype.constructor.apply(this, arguments);
 
             var self = this;
-            _.bindAll(this, 'announceBounds');
+            _.bindAll(this, 'announceBounds', 'markerFocus', 'unhighlightEveryMarker', 'markerHovered');
 
             /* default options */
             this.mapOptions = {
@@ -117,9 +117,9 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             /* this prevents an infinite loop of map update at the beginning */
             this.lock('map:bounds');
             this.toggleLiveUpdate();
-            this.on('marker:click'          , this.markerFocus);
-            this.on('marker:hovered'        , this.markerHovered);
-            this.on('marker:unhighlight:all', this.unhighlightEveryMarker);
+            // this.on('marker:click'          , this.markerFocus);
+            // this.on('marker:hovered'        , this.markerHovered);
+            // this.on('marker:unhighlight:all', this.unhighlightEveryMarker);
             this.infoBox = new this.infoBoxView(options.infoBoxViewOptions || {});
         },
 
@@ -154,7 +154,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             this.unlockCurrentMarker();
 
             /* TODO this is a problem, we need to not pass out the whole view, d'uh */
-            this.current_info_marker = marker_view.model.cid;
+            this.current_info_marker =  marker_view.model.cid;
             this.trigger('map:marker:click', marker_view);
         },
 
@@ -271,6 +271,10 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
                 content: html
             });
 
+            markerView.on('click'          , function() { this.markerFocus(markerView) }.bind(this));
+            markerView.on('hovered'        , function() { this.markerHovered(markerView) }.bind(this));
+            markerView.on('unhighlight:all', function() { this.unhighlightEveryMarker(markerView) }.bind(this));
+
             this.markerViewChildren[childModel.cid] = markerView;
             this.addChildViewEventForwarding(markerView); // buwa ha ha ha!
             markerView.render();
@@ -302,7 +306,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
 
         hideInfoWindow: function hideInfoWindow () {
             this.current_info_marker = null;
-            this.infoBox.destroy();
+            this.infoBox.infoBox.close();
         },
 
         showInfoWindow: function showInfoWindow (view) {
@@ -310,7 +314,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             if (!marker) { return; }
 
             if (this.infoBox) {
-                this.infoBox.destroy();
+                this.infoBox.infoBox.close();
             }
 
             /* build content for infoBox */
@@ -318,6 +322,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             var content = view.model;
 
             this.infoBox.setContent(content);
+            this.infoBox.$el.show();
 
             /* when the info window shows, it may cause the map to adjust. If this happens,
              * we don't want the map bounds to fire so we ignore it once */
