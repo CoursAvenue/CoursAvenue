@@ -12,18 +12,18 @@ class Be2billNotification < ActiveRecord::Base
   private
 
   def finalize_payment
-    params[:EXTRADATA] = JSON.parse(params[:EXTRADATA])
+    params['EXTRADATA'] = JSON.parse(params['EXTRADATA'])
 
-    if params[:EXECCODE] == '0000'
-      if params[:EXTRADATA]['renew'].present?
+    if params['EXECCODE'] == '0000'
+      if params['EXTRADATA']['renew'].present?
         subscription_plan = self.structure.subscription_plan
       else
-        subscription_plan = SubscriptionPlan.subscribe!(params[:EXTRADATA]['plan_type'], self.structure, params)
+        subscription_plan = SubscriptionPlan.subscribe!(params['EXTRADATA']['plan_type'], self.structure, params)
       end
       self.structure.orders.create(amount: subscription_plan.amount,
-                               order_id: params[:ORDERID],
-                               promotion_code_id: params[:EXTRADATA]['promotion_code_id'],
-                               subscription_plan: subscription_plan)
+                                   order_id: params['ORDERID'],
+                                   promotion_code_id: params['EXTRADATA']['promotion_code_id'],
+                                   subscription_plan: subscription_plan)
     end
   end
 
@@ -33,11 +33,11 @@ class Be2billNotification < ActiveRecord::Base
     if params['EXECCODE'] != '0000'
       Bugsnag.notify(RuntimeError.new("Payment refused"), params)
       AdminMailer.delay.go_premium_fail(self.structure, params)
-      if params[:EXTRADATA]['renew'].present?
+      if params['EXTRADATA']['renew'].present?
         AdminMailer.delay.subscription_renewal_failed(self.structure, params)
       end
     else
-      AdminMailer.delay.go_premium(self.structure, params[:EXTRADATA]['plan_type'])
+      AdminMailer.delay.go_premium(self.structure, params['EXTRADATA']['plan_type'])
     end
   end
 end
