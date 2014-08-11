@@ -190,7 +190,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
         },
 
         itemViewOptions: function itemViewOptions () {
-            var subject_name = $('[data-value="' + decodeURIComponent(this.collection.server_api.subject_id) + '"]').text().trim();
+            var subject_name = $('[data-value="' + decodeURIComponent(this.collection.server_api.subject_id) + '"]').first().text().trim();
             var search_term = this.collection.server_api.name || "";
 
             return {
