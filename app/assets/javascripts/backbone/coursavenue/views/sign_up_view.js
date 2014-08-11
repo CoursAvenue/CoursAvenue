@@ -7,7 +7,12 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         initialize: function initialize (options) {
             this.model = CoursAvenue.currentUser();
-            this.options = options;
+            this.options = options || {};
+            this.options.success = this.options.success || $.magnificPopup.close;
+            this.options.success = _.wrap(this.options.success, function(func) {
+                CoursAvenue.trigger('user:signed:in');
+                func();
+            });
             this.$el.css('width', '280px');
             $.magnificPopup.open({
                   items: {

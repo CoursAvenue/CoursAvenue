@@ -78,18 +78,9 @@
             .panel__header.soft-half--ends.soft--sides
               %h5.flush Actualités et offres exclusives
             .panel__body.soft
-              - if current_user and current_user.follows?(@structure)
-                = link_to '#', class: "btn btn--full disabled" do
-                  %i.fa.fa-heart
-                  Déjà en favori
-              - elsif current_user
-                = link_to follow_structure_path(@structure), method: :post, class: "btn btn--full btn--gray", data: { toggle: 'tooltip', placement: 'left', title: "Ajoutez ce profil en favori pour suivre son actualité et recevoir des offres exclusives (cours d'essai gratuits, promotions, invitations, etc.)." } do
-                  %i.fa.fa-heart
-                  Favori
-              - else
-                = link_to new_user_registration_path, data: { behavior: 'modal', title: 'Connexion', width: 600, padding: 0, toggle: 'tooltip', placement: 'left', title: "Ajoutez ce profil en favori pour suivre son actualité et recevoir des offres exclusives (cours d'essai gratuits, promotions, invitations, etc.)." }, class: 'fancybox.ajax btn btn--full btn--gray', onclick: "ga('send', 'event', 'Se créer un compte', 'click','Inscrit')" do
-                  %i.fa.fa-heart
-                  Favori
+              %a.btn.btn--full{ data: { behavior: 'add-to-favorite', added_text: 'Retirer de mes favoris', not_added_text: 'Favori' } }
+                %i.fa.fa-heart
+                %span
               - if @structure.followers.count > 9
                 %p.flush.text--center.push-half--top
                   %strong Suivi par #{@structure.followers.count} élèves

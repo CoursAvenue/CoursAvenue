@@ -55,5 +55,28 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
             return !_.isUndefined(this.get('id'));
         },
 
+        /*
+         * Add or remove from favorite regarding if user has already fave it
+         */
+        addOrRemoveStructureFromFavorite: function addOrRemoveStructureFromFavorite (structure_id, options) {
+            var url;
+            options = options || {};
+            if ( this.get('favorite_structure_ids').indexOf(structure_id) != -1 ) {
+                url = Routes.remove_from_favorite_structure_path(structure_id);
+                this.set('favorite_structure_ids', _.without(this.get('favorite_structure_ids'), structure_id));
+            } else {
+                url = Routes.add_to_favorite_structure_path(structure_id);
+                // Add current user to favorite
+                this.get('favorite_structure_ids').push(structure_id);
+            }
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: 'json',
+                error: (options.error || $.noop),
+                success: (options.success || $.noop)
+            });
+        },
+
     });
 });

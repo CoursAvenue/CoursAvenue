@@ -3,6 +3,8 @@ class StructuresController < ApplicationController
   include FilteredSearchProvider
   include StructuresHelper
 
+  skip_before_filter :verify_authenticity_token, only: [:add_to_favorite, :remove_from_favorite]
+
   respond_to :json
 
   layout :choose_layout
@@ -91,13 +93,23 @@ class StructuresController < ApplicationController
     end
   end
 
-  def follow
+  def add_to_favorite
     @structure = Structure.friendly.find params[:id]
     @structure.followings.create(user: current_user)
     AdminMailer.delay.user_is_now_following_you(@structure, current_user)
     Statistic.action(@structure.id, current_user, cookies[:fingerprint], request.ip, 'follow')
     respond_to do |format|
-      format.html { redirect_to structure_path(@structure), notice: "Vous suivez désormais #{@structure.name}"}
+      format.html { redirect_to structure_path(@structure), notice: "#{@structure.name} a été ajouté à vos favoris"}
+      format.json { render json: { succes: true } }
+    end
+  end
+
+  def remove_from_favorite
+    @structure = Structure.friendly.find params[:id]
+    @structure.followings.where(user_id: current_user.id).first.try(:destroy)
+    respond_to do |format|
+      format.html { redirect_to structure_path(@structure), notice: "#{@structure.name} n'est plus dans vos favoris"}
+      format.json { render json: { succes: true } }
     end
   end
 

@@ -12,18 +12,17 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         },
 
         events: {
-            'breadcrumbs:clear'       : 'broadenSearch',
-            // 'filter:popstate'         : 'narrowSearch',
-            'filter:removed'          : 'removeSummary'
-        },
-
-        removeSummary: function () {
-            $('[data-type="filter-breadcrumbs"]').slideUp();
-            this.broadenSearch();
+            'breadcrumbs:clear'                    : 'broadenSearch',
+            'filter:removed'                       : 'removeSummary',
+            'filter:popstate'                      : 'narrowSearch',
         },
 
         initialize: function initialize () {
-            _.bindAll(this, 'asyncLoadSection', 'hideLoader');
+            _.bindAll(this, 'asyncLoadSection', 'hideLoader', 'addOrRemoveFromFavorite', 'initializeAddToFavoriteLinks');
+
+            // Initialize it here because the button is not on structure_view
+            $('body').on('click', '[data-behavior=add-to-favorite]', this.addOrRemoveFromFavorite);
+            this.initializeAddToFavoriteLinks();
 
             this.summary_views = [];
             var $structure_profile_menu = $('#structure-profile-menu');
@@ -49,6 +48,44 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
                 });
                 return false;
             }.bind(this));
+        },
+
+        removeSummary: function removeSummary () {
+            $('[data-type="filter-breadcrumbs"]').slideUp();
+            this.broadenSearch();
+        },
+
+        addOrRemoveFromFavorite: function addOrRemoveFromFavorite () {
+            if (CoursAvenue.currentUser().isLogged()) {
+                CoursAvenue.currentUser().addOrRemoveStructureFromFavorite(this.model.get('id'), { success: this.initializeAddToFavoriteLinks });
+            } else {
+                CoursAvenue.signUp({
+                    title: 'Enregistrez-vous pour ajouter à vos favoris',
+                    success: function success (response) {
+                        CoursAvenue.currentUser().addOrRemoveStructureFromFavorite(this.model.get('id'), { success: this.initializeAddToFavoriteLinks });
+                    }.bind(this)
+                });
+            }
+            return false;
+        },
+
+        initializeAddToFavoriteLinks: function initializeAddToFavoriteLinks () {
+            var $add_to_favorite_links = $('[data-behavior=add-to-favorite]');
+            if ( CoursAvenue.currentUser().isLogged() &&  CoursAvenue.currentUser().get('favorite_structure_ids').indexOf(this.model.get('id')) != -1 ) {
+                $add_to_favorite_links.each(function() {
+                    $this = $(this);
+                    $this.find('i').removeClass('fa-heart-o').addClass('fa-heart')
+                    $this.attr('title', $this.data('added-title')).tooltip('fixTitle');
+                    $this.find('span').text($this.data('added-text'));
+                });
+            } else {
+                $add_to_favorite_links.each(function() {
+                    $this = $(this);
+                    $this.attr('title', $this.data('not-added-title')).tooltip('fixTitle');
+                    $this.find('span').text($this.data('not-added-text'));
+                    $this.find('i').removeClass('fa-heart').addClass('fa-heart-o')
+                });
+            }
         },
 
         onAfterShow: function onAfterShow () {

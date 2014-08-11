@@ -354,7 +354,8 @@ CoursAvenue::Application.routes.draw do
   resources :structures, only: [:show, :index], path: 'etablissements', controller: 'structures' do
     member do
       get  :jpo, path: 'portes-ouvertes-cours-loisirs'
-      post :follow
+      post :add_to_favorite
+      post :remove_from_favorite
     end
     collection do
       post :recommendation
