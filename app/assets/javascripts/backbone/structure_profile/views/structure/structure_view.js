@@ -63,6 +63,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
                     title: 'Enregistrez-vous pour ajouter à vos favoris',
                     success: function success (response) {
                         CoursAvenue.currentUser().addOrRemoveStructureFromFavorite(this.model.get('id'), { success: this.initializeAddToFavoriteLinks });
+                        $.magnificPopup.close();
                     }.bind(this)
                 });
             }

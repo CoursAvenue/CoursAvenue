@@ -43,7 +43,11 @@ CoursAvenue = new Backbone.Marionette.Application({
                     },
                     success: function success (response) {
                         this.setCurrentUser(response);
-                        if (options.success) { options.success(); }
+                        if (options.success) {
+                            options.success();
+                        } else {
+                            $.magnificPopup.close();
+                        }
                     }.bind(this)
                 });
                 // Logged into your app and Facebook.

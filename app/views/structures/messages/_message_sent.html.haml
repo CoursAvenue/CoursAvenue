@@ -10,6 +10,7 @@
     %p.epsilon
       Nous vous conseillons de contacter 3 autres profils pour multiplier vos chances de trouver le cours de votre choix. Voici quelques suggestions pour vous :
     %div{ style: 'height: 20em; overflow-y: scroll; overflow-x: hidden;'}
-      - @structure.similar_profiles(12).each_with_index do |structure, index|
+      - @structure.similar_profiles(12, { medias_count: 1 }).each_with_index do |structure, index|
+        - next if structure.medias.empty?
         .inline-block.one-half.very-soft.relative>
           = render partial: "structures/similar_profile", locals: { structure: structure }
