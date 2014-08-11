@@ -23,7 +23,6 @@
 //= require libs/jquery.fileupload/jquery.fileupload-validate
 //= require libs/jquery.fileupload/jquery.fileupload-image
 //= require libs/jquery.nouislider
-//= require libs/jquery.stickem
 //= require libs/jquery.masonry
 //= require libs/jquery.lazyload
 //= require libs/responsiveslides

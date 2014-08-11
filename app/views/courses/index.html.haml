@@ -8,8 +8,8 @@
   = "#{(params[:subject_id] ? "Cours de #{@subject.name.downcase}" : 'Cours')} #{(params[:name].present? ? "correspondant à : « #{params[:name]} »" : (params[:city].present? ? "à #{params[:city]}" : 'à Paris'))}"
 
 = render 'search_form'
-.grid.stickem-container.relative
-  %section.grid__item.four-tenths.visuallyhidden--lap.stickem.absolute>
+.grid.relative
+  %section.grid__item.four-tenths.visuallyhidden--lap.absolute>
     = render 'side_search_form'
   %section.grid__item.six-tenths.lap-one-whole.palm-one-whole.course-list-wrapper>
     %ol.nav.breadcrumb.epsilon.push-half--top.push-half--bottom{itemprop: 'breadcrumb'}
@@ -66,7 +66,6 @@
 = content_for :scripts do
   :javascript
       $(function() {
-          $('body').stickem();
           $('.filter-select').click(function() {
               $('#hidden-sort-input').val(this.dataset.value);
               $('#submit_search_form').click();

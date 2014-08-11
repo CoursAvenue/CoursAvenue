@@ -15,7 +15,6 @@
 //= require libs/typeahead
 //= require libs/jquery.scrollTo
 //= require libs/jquery.nouislider
-//= require libs/jquery.stickem
 //= require libs/jquery.masonry
 //= require libs/jquery.lazyload
 //= require libs/responsiveslides
