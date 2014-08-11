@@ -10,7 +10,7 @@ class Pro::Structures::MediasController < Pro::ProController
   def index
     @media     = @structure.medias.build
     @image     = Media::Image.new mediable: @structure
-    @medias    = @structure.medias.cover_first.reject(&:new_record?)
+    @medias    = @structure.medias.cover_first.videos_first.reject(&:new_record?)
   end
 
   def destroy
