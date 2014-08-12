@@ -228,8 +228,9 @@ class Structure < ActiveRecord::Base
     boolean :has_premium_prices
 
     integer :nb_courses do
-      courses.count
+      courses.select(&:is_published?).count
     end
+
     integer :nb_comments do
       self.comments_count
     end
@@ -244,7 +245,14 @@ class Structure < ActiveRecord::Base
       self.medias.count
     end
 
-    boolean :is_sleeping
+    boolean :is_sleeping do
+      if self.is_sleeping.blank?
+        false
+      else
+        true
+      end
+    end
+
     boolean :sleeping_email_opt_in
     boolean :active
 

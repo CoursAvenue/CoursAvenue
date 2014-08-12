@@ -5,9 +5,6 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         initialize: function initialize () {
             this.model.on('change', this.render);
-            // this.model.on('change', function() {
-            //     this.render();
-            // }.bind(this));
         },
 
         events: {
@@ -29,7 +26,9 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         serializeData: function serializeData () {
             var data = {
-                logged_in: this.model.isLogged()
+                logged_in: this.model.isLogged(),
+                on_sleeping_page: window.on_sleeping_page,
+                take_control_url: window.take_control_url
             }
             if (this.model.isLogged()) {
                 _.extend(data, {

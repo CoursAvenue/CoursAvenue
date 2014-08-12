@@ -18,7 +18,7 @@
       = link_to 'Voir mon profil actuel', structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'email', utm_campaign: 'take_control', utm_medium: 'see_my_profile')
 
 - content_for :under_content do
-  - @similar_profiles = @structure.similar_profiles(2)
+  - @similar_profiles = @structure.similar_profiles(2, { is_sleeping: false })
   %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
     %tr{ valign: 'top' }
       %td.content-block{ colspan: 2 }

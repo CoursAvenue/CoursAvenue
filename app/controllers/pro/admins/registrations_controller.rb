@@ -24,7 +24,7 @@ class Pro::Admins::RegistrationsController < Devise::RegistrationsController
       if @admin.save
         @admin.send_confirmation_instructions
         AdminMailer.delay.new_admin_has_signed_up(@admin)
-        format.html { redirect_to waiting_for_activation_pro_admins_path, notice: 'Un email de confirmation vient de vous être envoyé' }
+        format.html { redirect_to waiting_for_activation_pro_admins_path(email: @admin.unconfirmed_email), notice: 'Un email de confirmation vient de vous être envoyé' }
       else
         format.html { render 'new' }
       end

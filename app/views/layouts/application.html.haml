@@ -57,6 +57,10 @@
           CoursAvenue.addInitializer(function(options){
               this.setCurrentUser(#{current_user_as_json});
           });
+    - if @structure and @structure.is_sleeping
+      :javascript
+          window.on_sleeping_page = true;
+          window.take_control_url = "#{new_pro_admin_structure_registration_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)}";
     :javascript
       Bugsnag.releaseStage = '#{Rails.env}';
       Bugsnag.notifyReleaseStages = ["staging", "production"]

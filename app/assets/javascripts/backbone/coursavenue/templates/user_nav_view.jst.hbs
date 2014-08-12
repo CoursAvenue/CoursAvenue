@@ -50,14 +50,18 @@
 {{else}}
 <div class="inline-block">
     <div class="inline-block drop-down__wrapper soft--right">
-      <a href="#" data-behavior="sign-up">Inscription</a>
+        <a href="#" data-behavior="sign-up">Inscription</a>
     </div>
     <div class="inline-block drop-down__wrapper soft--right">
-      <a href="#" data-behavior="sign-in">Connexion</a>
+        <a href="#" data-behavior="sign-in">Connexion</a>
     </div>
     {{!-- = render 'shared/help_dropdown' --}}
     <div class="inline-block soft--sides">
-      <a href="{{ inscription_pro_structures_url }}" class="btn btn--orange">Publiez vos cours</a>
+        {{#if on_sleeping_page}}
+            <a href="{{ take_control_url }}" class="btn btn--orange">Gérer ce profil</a>
+        {{else}}
+            <a href="{{ inscription_pro_structures_url }}" class="btn btn--orange">Publiez vos cours</a>
+        {{/if}}
     </div>
 </div>
 {{/if}}

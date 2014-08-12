@@ -1,3 +1,4 @@
+
 StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marionette, $, _, undefined) {
 
     Module.MessageFormView = Marionette.CompositeView.extend({
@@ -7,12 +8,20 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
 
         initialize: function initialize (options) {
             this.structure = options.structure;
-            if (this.structure.is_sleeping){ this.className = 'center-block push--bottom'; } // Not having panel class for sleeping structures
             this.model = new StructureProfile.Models.Message();
             this.$el.css('max-width', '400px');
             _.bindAll(this, 'showPopupMessageDidntSend');
         },
 
+        onRender: function onRender () {
+            // Not having panel class for sleeping structures
+            if (this.structure.get('is_sleeping')){
+                this.$el.removeClass('panel');
+                if (this.structure.get('phone_numbers').length == 0) {
+                    this.$el.removeClass('push--bottom');
+                }
+            }
+        },
         events: {
             'submit form'                             : 'submitForm',
             'click [data-behavior=show-phone-numbers]': 'showPhoneNumbers'
