@@ -84,6 +84,18 @@
       %td.v-middle.content-block.soft--bottom{ width: 250 }
         Vous bénéficiez du trafic CoursAvenue et augmentez votre référencement
 
+- content_for :under_content_3 do
+  %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
+    %tr
+      %td.content-block{ colspan: 4 }
+        .title Vous ne souhaitez pas gérer votre profil ?
+        .p
+          Par souci d'amélioration continue et de qualité, merci de préciser la raison :
+        .p.action.text--left
+          = link_to 'Je ne souhaite pas communiquer sur mes cours', dont_want_to_take_control_of_my_sleeping_account_pro_structure_url(@structure, reason: 'dont_want_to_communicate', subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn'
+        .p.action.text--left.hard--bottom
+          = link_to "Mon établissement n'existe plus", dont_want_to_take_control_of_my_sleeping_account_pro_structure_url(@structure, reason: 'closed', subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn'
+
 - content_for :under_content_gray do
   .title
     = link_to "Foire aux questions", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'

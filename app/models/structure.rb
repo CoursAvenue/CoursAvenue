@@ -84,7 +84,7 @@ class Structure < ActiveRecord::Base
                   :highlighted_comment_id,
                   :deletion_reasons, :deletion_reasons_text,
                   :phone_numbers_attributes, :places_attributes, :other_emails, :last_geocode_try,
-                  :is_sleeping
+                  :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason
 
   accepts_nested_attributes_for :places,
                                  reject_if: :reject_places,
@@ -103,12 +103,12 @@ class Structure < ActiveRecord::Base
                              :open_courses_open_places, :open_course_nb, :jpo_email_status, :open_course_plannings_nb,
                              :response_rate, :response_time, :gives_non_professional_courses, :gives_professional_courses,
                              :deletion_reasons, :deletion_reasons_text, :other_emails, :search_score, :search_score_updated_at,
-                             :is_sleeping
+                             :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason
 
 
   define_boolean_accessor_for :meta_data, :has_promotion, :gives_group_courses, :gives_individual_courses,
                               :has_free_trial_course, :has_promotion, :gives_non_professional_courses, :gives_professional_courses,
-                              :is_sleeping
+                              :is_sleeping, :sleeping_email_opt_in
 
   has_attached_file :logo,
                     styles: {
@@ -245,6 +245,7 @@ class Structure < ActiveRecord::Base
     end
 
     boolean :is_sleeping
+    boolean :sleeping_email_opt_in
     boolean :active
 
     boolean :has_admin do

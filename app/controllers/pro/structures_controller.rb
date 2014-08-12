@@ -1,15 +1,25 @@
 # encoding: utf-8
 class Pro::StructuresController < Pro::ProController
-  before_action :authenticate_pro_admin!, except: [:new, :create, :widget_ext, :best, :payment_confirmation_be2_bill]
-  load_and_authorize_resource :structure, except: [:new, :create, :widget_ext, :best, :payment_confirmation_be2_bill], find_by: :slug
+  before_action :authenticate_pro_admin!, except: [:new, :create, :widget_ext, :best, :payment_confirmation_be2_bill, :dont_want_to_take_control_of_my_sleeping_account]
+  load_and_authorize_resource :structure, except: [:new, :create, :widget_ext, :best, :payment_confirmation_be2_bill, :dont_want_to_take_control_of_my_sleeping_account], find_by: :slug
 
   layout :get_layout
 
   respond_to :json
 
+  # GET etablissements/:id/dont_want_to_take_control_of_my_sleeping_account
+  # No login required
+  def dont_want_to_take_control_of_my_sleeping_account
+    @structure = Structure.find params[:id]
+    @structure.sleeping_email_opt_in = false
+    @structure.sleeping_email_opt_out_reason = params[:reason]
+    @structure.save
+    redirect_to root_path, notice: 'Vous avez bien été désabonné'
+  end
+
   # GET collection
   def sleepings
-    @structures = StructureSearch.search({ is_sleeping: true, has_admin: true}).results
+    @structures = StructureSearch.search({ is_sleeping: true, sleeping_email_opt_in: (params[:opt_in] == 'true') }).results
   end
 
   # PUT member
