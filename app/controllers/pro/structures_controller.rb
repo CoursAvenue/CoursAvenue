@@ -14,12 +14,14 @@ class Pro::StructuresController < Pro::ProController
     @structure.sleeping_email_opt_in = false
     @structure.sleeping_email_opt_out_reason = params[:reason]
     @structure.save
+    @structure.index
     redirect_to root_path, notice: 'Vous avez bien été désabonné'
   end
 
   # GET collection
   def sleepings
-    @structures = StructureSearch.search({ is_sleeping: true, sleeping_email_opt_in: (params[:opt_in] == 'true'), page: params[:page] }).results
+    params[:opt_in] ||= 'true'
+    @structures = StructureSearch.search({ is_sleeping: true, sleeping_email_opt_in: false, page: params[:page], radius: 10000 }).results
   end
 
   # PUT member
