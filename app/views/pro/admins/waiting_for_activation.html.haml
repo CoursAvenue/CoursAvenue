@@ -11,7 +11,7 @@
     .push--top.white-box.center-block{ style: 'max-width: 900px;' }
       .panel__body.soft
         %h4
-          Activez votre compte depuis le mail que nous venons de vous envoyer.
+          Félicitations ! Votre inscription vient d'être prise en compte : validez-la pour accéder à votre profil.
 
         %p
           Pour vous assurer la meilleure expérience, nous vous demandons de confirmer votre inscription depuis l'e-mail que nous venons de vous envoyer à votre adresse : ouvrez-le pour accéder et compléter votre profil CoursAvenue.
@@ -22,11 +22,11 @@
               %i.fa.fa-warning
               %strong Remarque importante :
               vous utilisez
-              = image_tag 'logos/hotmail-logo.jpg', class: "v-middle", height:"18"
+              = image_tag 'logos/hotmail-logo.jpg', class: "v-top", height: 22
               ? L'e-mail de validation est peut-être dans votre boîte "Courrier indésirable" : ouvrez-le puis cliquez sur "Ce message est sûr" pour recevoir correctement tous les prochains e-mails.
           - elsif params[:email].match /gmail/
             %h4.alert.alert--warning{style: 'max-width: 900px;'}
               %strong Remarque importante :
               vous utilisez
-              = image_tag 'logos/gmail-logo.jpg', class: "v-middle", height:"18"
+              = image_tag 'logos/gmail-logo.jpg', class: "v-top", height: 22
               ? L'e-mail de validation est peut-être arrivé dans le 3ème onglet "Promotions" de votre boîte de réception : glissez-le dans votre boîte "Principale" pour recevoir correctement tous les prochains e-mails.
