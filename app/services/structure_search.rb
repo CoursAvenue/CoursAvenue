@@ -36,7 +36,7 @@ class StructureSearch
           with(:subject_slugs).any_of [params[:subject_id]].flatten # Flatten in case of subject_id is an array
         end
       end
-      with(:nb_courses).greater_than_or_equal_to params[:nb_courses].to_i        if params[:nb_courses].present?
+      with(:nb_courses).greater_than_or_equal_to params[:nb_courses].to_i            if params[:nb_courses].present?
       with(:medias_count).greater_than_or_equal_to params[:medias_count].to_i        if params[:medias_count].present?
       # For admin dashboard purpose
       with(:subject_ids).any_of params[:subject_ids]                                 if params[:subject_ids].present?
