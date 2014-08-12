@@ -90,7 +90,7 @@ class StructureSearch
     if structure.courses.any?
       used_root_subjects = structure.courses.map(&:subjects).flatten.map(&:root).uniq
     else
-      used_root_subject = structure.subjects.at_depth(0).uniq
+      used_root_subjects = structure.subjects.at_depth(0).uniq
     end
 
     @structures = [] # The structures we will return at the ed
