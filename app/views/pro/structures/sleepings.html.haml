@@ -25,8 +25,11 @@
               = link_to structure.name, dashboard_pro_structure_path(structure)
             %td{data: {value: structure.created_at}}
               = l(structure.created_at.to_date)
-            %td.nowrap
-              = link_to 'Valider', wake_up_pro_structure_path(structure), method: :patch, class: 'btn btn--small btn--green'
+            %td
+              - if params[:opt_in] == 'false'
+                = structure.sleeping_email_opt_out_reason
+              - elsif structure.main_contact
+                = link_to 'Valider', wake_up_pro_structure_path(structure), method: :patch, class: 'btn btn--small btn--green'
             %td.nowrap
               = link_to 'Public', structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
               \/
