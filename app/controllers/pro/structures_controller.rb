@@ -21,7 +21,11 @@ class Pro::StructuresController < Pro::ProController
   # GET collection
   def sleepings
     params[:opt_in] ||= 'true'
-    @structures = StructureSearch.search({ is_sleeping: true, sleeping_email_opt_in: (params[:opt_in] == 'true'), page: params[:page], radius: 10000 }).results
+    other_params = {}
+    if params[:opt_in] == 'true'
+      other_params = { has_admin: true }
+    end
+    @structures = StructureSearch.search({ is_sleeping: true, sleeping_email_opt_in: (params[:opt_in] == 'true'), page: params[:page], radius: 10000 }.merge(other_params)).results
   end
 
   # PUT member

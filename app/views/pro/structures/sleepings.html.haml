@@ -3,10 +3,10 @@
   %ul.tabs.flush.panel__header
     %li{ class: params[:opt_in] == 'true' ? 'active' : '' }
       = link_to sleepings_pro_structures_path(opt_in: true) do
-        Opt in
+        En attente de validation
     %li{ class: params[:opt_in] == 'false' ? 'active' : '' }
       = link_to sleepings_pro_structures_path(opt_in: false) do
-        Opt out
+        Desinscription
 
   .panel__body.soft--ends
     %table.white-box.table--striped.table--data#dataTable
@@ -36,8 +36,6 @@
               = link_to 'Privé', pro_structure_path(structure)
               \/
               = link_to "Lien d'inscription", new_pro_admin_structure_registration_path(structure)
-              \/
-              = link_to "Supprimer", pro_structure_path(structure), method: :delete, class: 'red'
     .text--center.push-half--ends= paginate @structures, window: 1, outer_window: 3
 = content_for :scripts do
   :javascript
