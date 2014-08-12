@@ -247,12 +247,6 @@ class AdminMailer < ActionMailer::Base
          subject: "Votre profil n'affiche plus de cours"
   end
 
-  def ask_for_deletion(comment)
-    @comment   = comment
-    @structure = @comment.structure
-    mail to: 'contact@coursavenue.com', subject: 'Un professeur demande une suppression de commentaire'
-  end
-
   def new_admin_has_signed_up(admin)
     @admin     = admin
     @structure = admin.structure
@@ -288,5 +282,11 @@ class AdminMailer < ActionMailer::Base
   def has_destroyed(structure)
     @structure = structure
     mail to: 'contact@coursavenue.com', subject: "#{@structure.name} a supprimé son compte..."
+  end
+
+  def ask_for_deletion(comment)
+    @comment   = comment
+    @structure = @comment.structure
+    mail to: 'contact@coursavenue.com', subject: 'Un professeur demande une suppression de commentaire'
   end
 end
