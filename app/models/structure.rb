@@ -800,6 +800,7 @@ class Structure < ActiveRecord::Base
   #
   # @return Mailboxer::Conversation
   def unanswered_information_message
+    return [] if mailbox.nil?
     mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).select do |conversation|
       conversation_waiting_for_reply?(conversation)
     end
