@@ -11,6 +11,7 @@
           %th Rond
           %th Carré
           %th Adresse
+          %th Date de la demande
           %th
       %tbody
         - @sticker_demands.each do |sticker_demand|
@@ -19,6 +20,7 @@
             %td= sticker_demand.round_number
             %td= sticker_demand.square_number
             %td= sticker_demand.address
+            %td= l(sticker_demand.created_at, format: :date)
             %td.text--right
               - if sticker_demand.sent?
                 Envoyé le

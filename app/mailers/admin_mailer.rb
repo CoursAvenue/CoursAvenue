@@ -264,7 +264,8 @@ class AdminMailer < ActionMailer::Base
   end
 
   def take_control_of_your_account(structure)
-    return if structure.contact_email
+    return if structure.contact_email.blank?
+    return if !structure.sleeping_email_opt_in
     @structure = structure
     mail to: structure.contact_email,
          subject: "Prenez le contrôle de votre profil"

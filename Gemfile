@@ -188,11 +188,11 @@ group :production, :staging do
 end
 
 group :test do
-  gem 'factory_girl_rails'      , '~>4.3.0'
-  gem 'rspec-rails'             , '~>2.14.1'
-  gem 'rspec-instafail'         , '~>0.2.4'
+  gem 'factory_girl_rails'      , '~>4.4.1'
+  gem 'rspec-rails'             , '~>3.0.2'
+  gem 'rspec-instafail'         , '~>0.2.5'
   gem 'faker'                   , '~>1.2.0'
-  gem 'simplecov'               , '~>0.7.1'
+  gem 'simplecov'               , '~>0.9.0'
   # gem 'sunspot_test'
   gem 'database_cleaner'        , '~>1.2.0'
   gem 'capybara'                , '~>2.2.1'

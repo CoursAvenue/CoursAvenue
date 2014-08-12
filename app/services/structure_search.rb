@@ -49,6 +49,7 @@ class StructureSearch
       with(:funding_type_ids).any_of params[:funding_type_ids].map(&:to_i)          if params[:funding_type_ids].present?
 
       with :is_sleeping,  params[:is_sleeping]                                      if params.has_key? :is_sleeping
+      with :sleeping_email_opt_in,  params[:sleeping_email_opt_in]                  if params.has_key? :sleeping_email_opt_in
       with :has_admin,    params[:has_admin]                                        if params.has_key? :has_admin
       with :active, true
 

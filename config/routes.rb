@@ -45,6 +45,7 @@ CoursAvenue::Application.routes.draw do
         resources :medias, controller: 'portraits/medias'
       end
 
+      resources :be2bill_notifications, only: [:index, :show]
       resources :blog_articles, controller: 'blog/articles', path: 'blog'
       resources :metrics, only: [] do
         collection do
@@ -99,6 +100,7 @@ CoursAvenue::Application.routes.draw do
       resources :subscription_plans, only: [:index], path: 'abonnements'
       resources :structures, path: 'etablissements' do
         member do
+          get   :dont_want_to_take_control_of_my_sleeping_account, path: 'me-desabonner'
           get   :go_premium
           get   :choose_premium
           get   :add_subjects
