@@ -260,9 +260,14 @@ class AdminMailer < ActionMailer::Base
   def take_control_of_your_account(structure)
     return if structure.contact_email.blank?
     return if !structure.sleeping_email_opt_in
+    return if structure.main_contact.present?
     @structure = structure
-    mail to: structure.contact_email,
-         subject: "Prenez le contrôle de votre profil"
+    mail to: structure.contact_email, subject: "Prenez le contrôle de votre profil"
+    if @structure.other_emails.present?
+      @structure.other_emails.split(';').each do |email|
+        mail to: email, subject: "Prenez le contrôle de votre profil"
+      end
+    end
   end
 
   def you_have_control_of_your_account(structure)
