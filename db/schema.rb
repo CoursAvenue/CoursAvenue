@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140805084056) do
+ActiveRecord::Schema.define(version: 20140811151652) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,14 @@ ActiveRecord::Schema.define(version: 20140805084056) do
   add_index "admins", ["invitation_token"], name: "index_admin_users_on_invitation_token", using: :btree
   add_index "admins", ["invited_by_id"], name: "index_admin_users_on_invited_by_id", using: :btree
   add_index "admins", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
+
+  create_table "be2bill_notifications", force: true do |t|
+    t.text     "params"
+    t.integer  "structure_id"
+    t.string   "order_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "blog_articles", force: true do |t|
     t.string   "title"

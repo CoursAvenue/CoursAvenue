@@ -4,7 +4,7 @@ class Be2billNotification < ActiveRecord::Base
 
   serialize :params
 
-  belongs_to :structure_id
+  belongs_to :structure
 
   after_create :finalize_payment
   after_create :notify_user
