@@ -42,6 +42,10 @@
   :javascript
     $(function() {
         $('body').on('change', 'select[data-type=price-group]', function(event) {
-            $(this).closest('form').submit();
+            if (this.value == 'new') {
+                $(this).closest('.panel').find('.define-price-group').click()
+            } else {
+                $(this).closest('form').submit();
+            }
         });
     });
