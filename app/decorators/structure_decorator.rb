@@ -105,7 +105,7 @@ class StructureDecorator < Draper::Decorator
 
   def individual_courses_popover
     courses = object.courses.privates.select(&:is_published?)
-    output  = "<div><strong>#{courses.length} #{'cours particulier'.pluralize(courses.length)} :</strong></div>"
+    output  = "<div><strong>#{courses.length} #{'cours particulier'.pluralize(courses.length)} :</strong></div>" if courses.any?
     list_item_start = (courses.length > 1 ? '- ' : '')
     courses.each do |course|
       output << "<div>#{list_item_start}#{course.name}</div>"

@@ -12,7 +12,7 @@ class Structures::CoursesController < ApplicationController
 
     @total_planning_search = PlanningSearch.search({ structure_id: @structure.id,
                                                      course_types: params[:course_types] || [],
-                                                     visible: true })
+                                                     visible: true }).total
 
     @plannings = @plannings.sort do |planning_a, planning_b|
       [planning_a.week_day, planning_a.start_date, planning_a.start_time].compact <=> [planning_b.week_day, planning_b.start_date, planning_b.start_time].compact
@@ -20,7 +20,10 @@ class Structures::CoursesController < ApplicationController
 
     @plannings.group_by(&:course_id).each do |course_id, plannings|
       course    = Course.find(course_id)
-      next unless course.is_published?
+      if ! course.is_published?
+        @total_planning_search -= course.plannings.visible.count
+        next
+      end
       @courses << CourseSerializer.new(course, {
         root: false,
         structure: @structure,
@@ -33,7 +36,7 @@ class Structures::CoursesController < ApplicationController
     respond_to do |format|
       # We use courses root to be able to add meta.
       # It's used in the structureProfile backbone app.
-      format.json { render json: { courses: @courses, meta: { total_not_filtered: @total_planning_search.total  } } }
+      format.json { render json: { courses: @courses, meta: { total_not_filtered: @total_planning_search  } } }
       format.html { redirect_to structure_path(@structure)}
     end
   end
