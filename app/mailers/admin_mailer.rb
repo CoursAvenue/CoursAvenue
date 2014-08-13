@@ -265,6 +265,7 @@ class AdminMailer < ActionMailer::Base
     mail to: structure.contact_email, subject: "Prenez le contrôle de votre profil"
     if @structure.other_emails.present?
       @structure.other_emails.split(';').each do |email|
+        next if email == structure.contact_email
         mail to: email, subject: "Prenez le contrôle de votre profil"
       end
     end
