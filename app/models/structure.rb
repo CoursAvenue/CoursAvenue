@@ -916,7 +916,10 @@ class Structure < ActiveRecord::Base
   # Put sleeping attributes to self.attributes for show purpose
   def initialize_sleeping_attribute
     return if self.sleeping_attributes.nil?
-    self.attributes = self.sleeping_attributes
+    # Make sure to not trash `sleeping_attributes attribute.
+    _sleeping_attributes     = self.sleeping_attributes
+    self.attributes          = self.sleeping_attributes
+    self.sleeping_attributes = _sleeping_attributes
   end
 
   # A sleeping profile is a non activated (with no admin) profile
@@ -937,7 +940,7 @@ class Structure < ActiveRecord::Base
   # @return a hash with the sleeping attributes of the profile
   def sleeping_attributes
     if read_attribute(:sleeping_attributes).nil?
-      _sleeping_attributes                 = self.attributes
+      _sleeping_attributes = self.attributes
       _sleeping_attributes[:phone_numbers] = self.phone_numbers.map(&:attributes)
       _sleeping_attributes[:places]        = self.places.map(&:attributes)
       _sleeping_attributes
