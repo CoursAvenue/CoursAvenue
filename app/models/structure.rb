@@ -925,6 +925,10 @@ class Structure < ActiveRecord::Base
     self.places        = self.sleeping_attributes[:places].map{ |places_attributes| Place.create(places_attributes) }
     self.phone_numbers = self.sleeping_attributes[:phone_numbers].map{ |places_attributes| PhoneNumber.create(places_attributes) }
     self.subjects      = root_subjects_from_string(self) + child_subjects_from_string(self)
+    self.logo          = self.sleeping_logo
+    self.teachers.map(&:destroy)
+    self.courses.map(&:destroy)
+    self.price_groups.map(&:destroy)
     self.medias.map(&:destroy)
     AdminMailer.delay.you_dont_have_control_of_your_account(self, self.main_contact.email)
     self.main_contact.delete
