@@ -279,6 +279,12 @@ class AdminMailer < ActionMailer::Base
   ######################################################################
   # To CoursAvenue team                                                #
   ######################################################################
+  def someone_tried_to_take_control_of_existing_structure(structure, email)
+    @structure = structure
+    @email     = email
+    mail to: 'contact@coursavenue.com', subject: "#{@email} a essayé de prendre le contrôle de #{@structure.name} en vain"
+  end
+
   def is_about_to_delete(structure)
     @structure = structure
     mail to: 'contact@coursavenue.com', subject: "#{@structure.name} est sur le point de supprimer son compte"

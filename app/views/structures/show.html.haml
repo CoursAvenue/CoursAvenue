@@ -111,7 +111,11 @@
                       = link_to structure_path(structure), class: 'soft-half--sides block muted-link' do
                         .grid--full{ data: { similar_profile: true, structure_id: structure.id } }
                           .grid__item.v-top.one-fifth>
-                            .media-photo{ itemprop: 'image', content: structure.logo.url }= image_tag structure.logo.url(:thumb)
+                            .media-photo{ itemprop: 'image', content: structure.logo.url }
+                              - if structure.is_sleeping?
+                                = image_tag structure.sleeping_logo.url(:thumb)
+                              - else
+                                = image_tag structure.logo.url(:thumb)
                           .grid__item.v-top.four-fifths.soft-half--left.opacity-hidden-on-hover__wrapper>
                             .nowrap
                               - if structure.premium? and header_promotion_title_for_structure(structure).present?
