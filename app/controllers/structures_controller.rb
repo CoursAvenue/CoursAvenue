@@ -30,6 +30,7 @@ class StructuresController < ApplicationController
     @header_promotion_title_for_structure = header_promotion_title_for_structure(@structure)
     @city      = @structure.city
     @medias    = (@structure.premium? ? @structure.medias.cover_first.videos_first : @structure.medias.cover_first.limit(Media::FREE_PROFIL_LIMIT))
+    @medias    = [] if @structure.is_sleeping?
 
     @comments = @structure.comments.accepted.page(1).per(5)
     @model = StructureShowSerializer.new(@structure, {
