@@ -13,7 +13,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         signIn: function signIn () {
-            CoursAvenue.signIn();
+            CoursAvenue.signIn({ show_admin_form: true });
         },
 
         signUp: function signUp () {
@@ -26,9 +26,10 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         serializeData: function serializeData () {
             var data = {
-                logged_in: this.model.isLogged(),
-                on_sleeping_page: window.on_sleeping_page,
-                take_control_url: window.take_control_url
+                logged_in          : this.model.isLogged(),
+                on_sleeping_page   : window.on_sleeping_page,
+                take_control_url   : window.take_control_url,
+                pages_faq_users_url: Routes.pages_faq_users_path()
             }
             if (this.model.isLogged()) {
                 _.extend(data, {

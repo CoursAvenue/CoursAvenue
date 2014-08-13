@@ -1,28 +1,70 @@
-<div class="panel__header soft-half">
-    <h4 class="flush">{{#if title }}{{ title }} {{else}}Connectez-vous{{/if}}</h4>
+<div class="panel__header {{#if show_admin_form}}soft-half--sides soft--top{{else}}soft-half{{/if}}">
+    {{#if show_admin_form}}
+        <img src="<%= asset_path 'texts/student_teacher_connexion.png' %>" height="55" class='block center-block'>
+    {{else}}
+        <h4 class="flush">{{#if title }}{{ title }} {{else}}Connectez-vous{{/if}}</h4>
+    {{/if}}
 </div>
 <div class="soft panel__body">
-    <div class="text--center">
-        <a '#' data-behavior="facebook-login" class="btn btn--facebook btn--full" id="facebook_button">Connexion avec Facebook</a>
-    </div>
-    <div class="or"><span class="f-weight-600">ou</span></div>
-    <form action="/">
-        <div class="input-addon push-half--bottom">
-            <div class="input-prefix epsilon">@</div>
-            <input type="email" name="email" placeholder="E-mail" class="one-whole input--large" value="{{ email }}">
+    {{#if show_admin_form}}
+        <div class="grid">
+            <div class="grid__item one-half">
+                <h3 class="text--center f-decoration-underlined">Élèves</h3>
+            </div>{{!--
+        --}}<div class="grid__item one-half">
+                <h3 class="text--center flush f-decoration-underlined">Pro</h3>
+                <h5 class="flush text--center"><i>Profs, Associations, Écoles</i></h5>
+            </div>
         </div>
-        <div class="input-addon push-half--bottom">
-            <div class="input-prefix epsilon"><i class="fa fa-lock"></i></div>
-            <input type="password" name="password" placeholder="Mot de passe" class="one-whole input--large">
-        </div>
-        <div class="input_field_error red push-half--bottom hidden" data-type="errors">
-            Vos identifiants sont incorrects
-        </div>
-        <input type="hidden" name="remember_me" value="true">
-        <button class="btn btn--green one-whole" type="submit" data-disable-with="Connexion en cours...">Se connecter</button>
-    </form>
+    {{/if}}
+    <div class="grid">
+        <div class="grid__item {{#if show_admin_form}}one-half soft-half--right{{else}}one-whole{{/if}}">
+            <div class="text--center">
+                <a '#' data-behavior="facebook-login" class="btn btn--facebook btn--full" id="facebook_button">Connexion avec Facebook</a>
+            </div>
+            <div class="or"><span class="f-weight-600">ou</span></div>
+            <form action="/" data-behavior="user-form">
+                <div class="input-addon push-half--bottom">
+                    <div class="input-prefix epsilon">@</div>
+                    <input type="email" name="email" placeholder="E-mail" class="one-whole input--large" value="{{ email }}">
+                </div>
+                <div class="input-addon push-half--bottom">
+                    <div class="input-prefix epsilon"><i class="fa fa-lock"></i></div>
+                    <input type="password" name="password" placeholder="Mot de passe" class="one-whole input--large">
+                </div>
+                <div class="input_field_error red push-half--bottom hidden" data-type="errors">
+                    Vos identifiants sont incorrects
+                </div>
+                <input type="hidden" name="remember_me" value="true">
+                <button class="btn btn--green one-whole" type="submit" data-disable-with="Connexion en cours...">Se connecter</button>
+            </form>
 
-    <div class="push-half--top milli">
-        Vous n'avez pas de compte CoursAvenue ? <a href="#" data-behavior="sign-up">Inscription</a>
+            <div class="push-half--top milli">
+                Vous n'avez pas de compte CoursAvenue ? <a href="#" data-behavior="sign-up">Inscription</a>
+            </div>
+        </div>{{!--
+  --}}{{#if show_admin_form}}<div class="grid__item one-half bordered--left soft-half--left">
+            <form accept-charset="UTF-8" action="https://pro.coursavenue.com/connexion" class="simple_form" method="post" novalidate="novalidate">
+                  <div class="text--center" style="visibility: hidden;">
+                      <a '#' class="btn btn--facebook btn--full" id="facebook_button">&nbsp;</a>
+                  </div>
+                  <div  style="visibility: hidden;" class="or"><span class="f-weight-600">ou</span></div>
+                  <div style="display:none">
+                      <input name="utf8" type="hidden" value="✓"><input name="authenticity_token" type="hidden" value="5IQlcwfQvjDEFZZOG/P2KyWAU+jbWZVyJmav/jWKk4I=">
+                  </div>
+                  <div class="input-addon push-half--bottom">
+                      <div class="input-prefix epsilon">@</div>
+                      <input class="string email required one-whole input--large" name="pro_admin[email]" placeholder="E-mail" type="email" value="">
+                  </div>
+                  <div class="input-addon push-half--bottom">
+                      <div class="input-prefix epsilon"><i class="fa fa-lock"></i></div>
+                      <input class="password required one-whole input--large" name="pro_admin[password]" placeholder="Mot de passe" type="password">
+                  </div>
+                  <input class="btn btn--green btn--full" name="commit" type="submit" value="Se connecter" data-disable-with="Connexion en cours...">
+                  <div class="push-half--top milli">
+                      Vous voulez publier vos cours sur CoursAvenue ? <a href="https://pro.coursavenue.com/" data-behavior="sign-up">Inscription sur CoursAvenuePro</a>
+                  </div>
+            </form>
+        </div>{{/if}}
     </div>
 </div>

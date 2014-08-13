@@ -5,15 +5,19 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         after_sign_up_popup_template: Module.templateDirname() + 'after_sign_up_popup',
         className: 'panel center-block',
 
+        options: {
+            width: 280
+        },
+
         initialize: function initialize (options) {
             this.model = CoursAvenue.currentUser();
-            this.options = options || {};
+            _.extend(this.options, options || {});
             this.options.success = this.options.success || $.magnificPopup.close;
             this.options.success = _.wrap(this.options.success, function(func) {
                 CoursAvenue.trigger('user:signed:in');
                 func();
             });
-            this.$el.css('width', '280px');
+            this.$el.css('width', this.options.width + 'px');
             $.magnificPopup.open({
                   items: {
                       src: this.$el,
@@ -116,6 +120,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         serializeData: function serializeData () {
             var data = {};
+            _.extend(data, this.options);
             _.extend(data, { pages_mentions_partners_path: Routes.pages_mentions_partners_path() });
             _.extend(data, this.model.toJSON());
             if (this.errors) { _.extend(data, { errors: this.errors }); }

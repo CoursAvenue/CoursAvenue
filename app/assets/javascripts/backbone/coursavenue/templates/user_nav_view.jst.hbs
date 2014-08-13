@@ -55,7 +55,40 @@
     <div class="inline-block drop-down__wrapper soft--right">
         <a href="#" data-behavior="sign-in">Connexion</a>
     </div>
-    {{!-- = render 'shared/help_dropdown' --}}
+    <div class="inline-block soft-half--sides drop-down__wrapper" data-behavior='drop-down' data-el='> .drop-down__el' data-position='right'>
+      <a href="{{ pages_faq_users_url }}" target='_blank'>
+        Aide
+        <i class="fa fa-caret-down"></i>
+      </a>
+      <ul class="drop-down__el text--left on-top">
+        <li class="nowrap">
+            <a href="{{ pages_faq_users_url }}#about-creating-profile" target='_blank'>
+                Comment trouver puis s'inscrire à un cours de loisir ?
+            </a>
+        </li>
+        <li class="nowrap">
+            <a href="{{ pages_faq_users_url }}#about-creating-profile" target='_blank'>
+                Comment contacter un professeur, une association ou une école ?
+            </a>
+        </li>
+        <li class="nowrap">
+            <a href="{{ pages_faq_users_url }}#about-creating-profile" target='_blank'>
+                Je n'ai pas reçu mon mail d'activation : comment faire ?
+            </a>
+        </li>
+        <li class="nowrap">
+            <a href="{{ pages_faq_users_url }}#about-creating-profile" target='_blank'>
+                Pourquoi créer un compte élève ?
+            </a>
+        </li>
+        <li class="nowrap">
+            <a href="{{ pages_faq_users_url }}#about-creating-profile" target='_blank'>
+                Comment déposer une recommandation ?
+            </a>
+        </li>
+      </ul>
+    </div>
+
     <div class="inline-block soft--sides">
         {{#if on_sleeping_page}}
             <a href="{{ take_control_url }}" class="btn btn--orange">Gérer ce profil</a>

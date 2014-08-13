@@ -35,7 +35,9 @@
                         = image_tag @structure.logo.url(:thumb), width: 85
                   .grid__item.v-top.soft--left{ class: (@structure.logo.present? ? 'four-fifths' : 'one-whole')}>
                     %h3.flush
-                      Travaillez-vous pour "#{@structure.name}" ?
+                      Travaillez-vous pour
+                      = link_to "\"#{@structure.name}\"", structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'semi-muted-link', target: :_blank
+                      ?
                     %h4 Choisissez vos identifiants pour gérer votre profil :
 
                 = simple_form_for [:pro, @admin], url: pro_admin_registration_path, html: { autocomplete: 'off', class: 'half-form'} do |f|
