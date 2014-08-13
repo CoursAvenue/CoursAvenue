@@ -64,13 +64,14 @@ class Structure < ActiveRecord::Base
   has_many :subscription_plans       , dependent: :destroy
 
   attr_reader :delete_logo
+  serialize :sleeping_attributes # See `create_sleeping_attributes` method for more info
   attr_accessible :structure_type, :street, :zip_code, :city_id,
                   :place_ids, :name, :info, :registration_info,
                   :website, :facebook_url,
                   :contact_email,
                   :description, :subject_ids, :active, # active: for tests profile, eg. L'atelier de Nima, etc.
                   :has_validated_conditions,
-                  :validated_by, :logo,
+                  :validated_by, :logo, :sleeping_logo,
                   :funding_type_ids,
                   :crop_x, :crop_y, :crop_width,
                   :rating, :comments_count,
@@ -84,7 +85,7 @@ class Structure < ActiveRecord::Base
                   :highlighted_comment_id,
                   :deletion_reasons, :deletion_reasons_text,
                   :phone_numbers_attributes, :places_attributes, :other_emails, :last_geocode_try,
-                  :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason
+                  :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason, :sleeping_attributes
 
   accepts_nested_attributes_for :places,
                                  reject_if: :reject_places,
@@ -112,18 +113,20 @@ class Structure < ActiveRecord::Base
 
   has_attached_file :logo,
                     styles: {
-                      original: {
-                        geometry: '600x600#',
-                        processors: [:cropper_square]
-                      },
+                      original: { geometry: '600x600#', processors: [:cropper_square] },
                       large: '450x450',
-                      thumb: {
-                        geometry: '200x200#',
-                        processors: [:cropper]
-                        }
-                      }
-
+                      thumb: { geometry: '200x200#', processors: [:cropper] } }
   validates_attachment_content_type :logo, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
+  process_in_background :logo
+
+  has_attached_file :sleeping_logo,
+                    styles: {
+                      original: { geometry: '600x600#', processors: [:cropper_square] },
+                      large: '450x450',
+                      thumb: { geometry: '200x200#', processors: [:cropper] } }
+
+  validates_attachment_content_type :sleeping_logo, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
+  # process_in_background :sleeping_logo
 
   ######################################################################
   # Validations                                                        #
@@ -911,6 +914,39 @@ class Structure < ActiveRecord::Base
     saved
   end
 
+  # Put sleeping attributes to self.attributes for show purpose
+  def initialize_sleeping_attribute
+    return if self.sleeping_attributes.nil?
+    self.attributes = self.sleeping_attributes
+  end
+
+  # A sleeping profile is a non activated (with no admin) profile
+  # All attribute that is imported when creating this profile is serialized and stored
+  # in the `sleeping attributes` column which takes embed phone_numbers and places
+  # Return Boolean if saved or not
+  def create_sleeping_attributes
+    _sleeping_attributes = self.attributes
+    _sleeping_attributes[:phone_numbers] = self.phone_numbers.map(&:attributes)
+    _sleeping_attributes[:places]        = self.places.map(&:attributes)
+    self.sleeping_attributes             = _sleeping_attributes
+    self.save
+  end
+
+  # It is used mainly when the profile is sleeping and we want to show its
+  # information on www.CoursAveoue
+  #
+  # @return a hash with the sleeping attributes of the profile
+  def sleeping_attributes
+    if read_attribute(:sleeping_attributes).nil?
+      _sleeping_attributes                 = self.attributes
+      _sleeping_attributes[:phone_numbers] = self.phone_numbers.map(&:attributes)
+      _sleeping_attributes[:places]        = self.places.map(&:attributes)
+      _sleeping_attributes
+    else
+      read_attribute(:sleeping_attributes)
+    end
+  end
+
   private
 
   # Strip name if exists to prevent from name starting by a space
@@ -1025,4 +1061,5 @@ class Structure < ActiveRecord::Base
     end
     nil
   end
+
 end

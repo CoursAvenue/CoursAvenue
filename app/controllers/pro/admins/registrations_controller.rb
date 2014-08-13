@@ -18,10 +18,14 @@ class Pro::Admins::RegistrationsController < Devise::RegistrationsController
   end
 
   def create
-    @admin     = Admin.new params[:admin]
-    @structure = @admin.structure
+    @structure = Structure.find params[:admin][:structure_id]
+    if @structure.admins.length == 0
+      @admin     = Admin.new params[:admin]
+    end
     respond_to do |format|
-      if @admin.save
+      if @structure.admins.length > 0
+        format.html { redirect_to someone_already_took_control_pro_structure_path(@structure) }
+      elsif @admin.save
         @admin.send_confirmation_instructions
         AdminMailer.delay.new_admin_has_signed_up(@admin)
         format.html { redirect_to waiting_for_activation_pro_admins_path(email: @admin.unconfirmed_email), notice: 'Un email de confirmation vient de vous être envoyé' }

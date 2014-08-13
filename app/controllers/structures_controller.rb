@@ -11,6 +11,9 @@ class StructuresController < ApplicationController
 
   def show
     @structure = Structure.friendly.find params[:id]
+    if @structure.is_sleeping?
+      @structure.initialize_sleeping_attribute
+    end
     @structure_decorator = @structure.decorate
 
     if params.has_key?(:bbox_ne) and params.has_key?(:bbox_sw)

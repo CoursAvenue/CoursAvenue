@@ -52,8 +52,8 @@
       .grid__item.four-twelfths>
         %div{ data: { type: 'contact-form' } }
         - unless @is_sleeping
-          .panel.push--bottom
-            - if @structure.response_rate or @structure.response_time or (@structure.main_contact and @structure.main_contact.current_sign_in_at)
+          - if @structure.response_rate or @structure.response_time or (@structure.main_contact and @structure.main_contact.current_sign_in_at)
+            .panel.push--bottom
               .panel__body.soft.epsilon
                 - if @structure.response_rate
                   .grid--full.soft-half--bottom

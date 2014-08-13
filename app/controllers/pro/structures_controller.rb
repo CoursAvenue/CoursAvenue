@@ -1,11 +1,18 @@
 # encoding: utf-8
 class Pro::StructuresController < Pro::ProController
-  before_action :authenticate_pro_admin!, except: [:new, :create, :widget_ext, :best, :payment_confirmation_be2_bill, :dont_want_to_take_control_of_my_sleeping_account]
-  load_and_authorize_resource :structure, except: [:new, :create, :widget_ext, :best, :payment_confirmation_be2_bill, :dont_want_to_take_control_of_my_sleeping_account], find_by: :slug
+  before_action :authenticate_pro_admin!, except: [:new, :create, :widget_ext, :best, :payment_confirmation_be2_bill, :dont_want_to_take_control_of_my_sleeping_account, :someone_already_took_control]
+  load_and_authorize_resource :structure, except: [:new, :create, :widget_ext, :best, :payment_confirmation_be2_bill, :dont_want_to_take_control_of_my_sleeping_account, :someone_already_took_control], find_by: :slug
 
   layout :get_layout
 
   respond_to :json
+
+
+  # GET etablissements/:id/quelqu-un-a-deja-le-control
+  # When somebody try to register to a structure that already has an admin
+  def someone_already_took_control
+    @structure = Structure.find params[:id]
+  end
 
   # GET etablissements/:id/dont_want_to_take_control_of_my_sleeping_account
   # No login required
@@ -419,7 +426,7 @@ class Pro::StructuresController < Pro::ProController
   end
 
   def get_layout
-    if action_name == 'new' || action_name == 'create'
+    if action_name == 'new' || action_name == 'create' || action_name == 'someone_already_took_control'
       'admin_pages'
     else
       'admin'

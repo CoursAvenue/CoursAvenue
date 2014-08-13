@@ -100,6 +100,7 @@ CoursAvenue::Application.routes.draw do
       resources :subscription_plans, only: [:index], path: 'abonnements'
       resources :structures, path: 'etablissements' do
         member do
+          get   :someone_already_took_control, path: 'quelqu-un-a-deja-le-control'
           get   :dont_want_to_take_control_of_my_sleeping_account, path: 'me-desabonner'
           get   :go_premium
           get   :choose_premium
@@ -268,7 +269,7 @@ CoursAvenue::Application.routes.draw do
 
       resources :admins do
         collection do
-          get 'activez-votre-compte' => 'admins#waiting_for_activation', as: 'waiting_for_activation'
+          get :waiting_for_activation, path: 'activez-votre-compte'
         end
         member do
           patch 'confirm'

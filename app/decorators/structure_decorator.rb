@@ -2,20 +2,53 @@ class StructureDecorator < Draper::Decorator
 
   def places_popover
     output = ''
-    object.places.each do |place|
-      output << "<div class='push-half--bottom'><strong>#{place.name}</strong><br>#{place.street}, #{place.city.name}</div>"
+    if object.is_sleeping?
+      object.sleeping_attributes[:places].each do |place|
+        output << "<div class='push-half--bottom'><strong>#{place['name']}</strong><br>#{place['street']}, #{City.find(place['city_id']).name}</div>"
+      end
+    else
+      object.places.each do |place|
+        output << "<div class='push-half--bottom'><strong>#{place.name}</strong><br>#{place.street}, #{place.city.name}</div>"
+      end
     end
     output.html_safe
   end
 
+  def subjects_at_depth_2_count
+    if object.is_sleeping?
+      object.subjects_string.split(';').map{|subject_string__subject_slug| Subject.find(subject_string__subject_slug.split(':').last) }.select{ |subj| subj.depth == 2 }.length
+    else
+      object.subjects.at_depth(2).count
+    end
+  end
+
+  def places_count
+    if object.is_sleeping?
+      object.sleeping_attributes[:places].length
+    else
+      object.places.count
+    end
+  end
+
   def subjects_popover
     _subjects = []
-    object.subjects.at_depth(0).uniq.each do |root_subject|
-      child_subjects = object.subjects.at_depth(2).uniq.order('name ASC').select{ |subject|  subject.ancestry.start_with?(root_subject.id.to_s) }
+    is_sleeping = object.is_sleeping?
+    if is_sleeping
+      subjects_at_depth_0 = object.parent_subjects_string.split(';').map{|subject_string__subject_slug| Subject.find(subject_string__subject_slug.split(':').last) }
+    else
+      subjects_at_depth_0 = object.subjects.at_depth(0)
+    end
+    subjects_at_depth_0.uniq.each do |root_subject|
+      if is_sleeping
+        child_subjects = object.subjects_string.split(';').map{|subject_string__subject_slug| Subject.find(subject_string__subject_slug.split(':').last) }.select{ |subj| subj.depth == 2 }
+      else
+        child_subjects = object.subjects.at_depth(2)
+      end
+      _child_subjects = child_subjects.uniq.sort_by(&:name).select{ |subject|  subject.ancestry.start_with?(root_subject.id.to_s) }
       _subjects << {
         root_name: root_subject.name,
-        child_names: child_subjects.map(&:name),
-        child_length: child_subjects.length
+        child_names: _child_subjects.map(&:name),
+        child_length: _child_subjects.length
       }
     end
 

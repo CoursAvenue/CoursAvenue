@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140811151652) do
+ActiveRecord::Schema.define(version: 20140812153733) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -713,15 +713,15 @@ ActiveRecord::Schema.define(version: 20140811151652) do
     t.string   "contact_phone"
     t.string   "contact_mobile_phone"
     t.string   "contact_email"
-    t.datetime "created_at",                                null: false
-    t.datetime "updated_at",                                null: false
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
     t.string   "slug"
     t.string   "street"
     t.string   "zip_code"
     t.text     "description"
     t.integer  "city_id"
-    t.boolean  "active",                   default: false
-    t.boolean  "has_validated_conditions", default: false
+    t.boolean  "active",                     default: false
+    t.boolean  "has_validated_conditions",   default: false
     t.integer  "validated_by"
     t.time     "deleted_at"
     t.float    "latitude"
@@ -730,7 +730,7 @@ ActiveRecord::Schema.define(version: 20140811151652) do
     t.text     "subjects_string"
     t.text     "parent_subjects_string"
     t.decimal  "rating"
-    t.integer  "comments_count",           default: 0
+    t.integer  "comments_count",             default: 0
     t.text     "facebook_url"
     t.boolean  "no_facebook"
     t.boolean  "no_website"
@@ -738,9 +738,9 @@ ActiveRecord::Schema.define(version: 20140811151652) do
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
     t.datetime "logo_updated_at"
-    t.integer  "crop_x",                   default: 0
-    t.integer  "crop_y",                   default: 0
-    t.integer  "crop_width",               default: 500
+    t.integer  "crop_x",                     default: 0
+    t.integer  "crop_y",                     default: 0
+    t.integer  "crop_width",                 default: 500
     t.boolean  "has_only_one_place"
     t.string   "email_status"
     t.datetime "last_email_sent_at"
@@ -748,13 +748,18 @@ ActiveRecord::Schema.define(version: 20140811151652) do
     t.string   "funding_type_ids"
     t.string   "widget_status"
     t.string   "sticker_status"
-    t.boolean  "teaches_at_home",          default: false
+    t.boolean  "teaches_at_home",            default: false
     t.text     "widget_url"
     t.integer  "teaches_at_home_radius"
     t.hstore   "meta_data"
     t.integer  "highlighted_comment_id"
-    t.string   "pricing_plan",             default: "free"
+    t.string   "pricing_plan",               default: "free"
     t.datetime "last_geocode_try"
+    t.string   "sleeping_logo_file_name"
+    t.string   "sleeping_logo_content_type"
+    t.integer  "sleeping_logo_file_size"
+    t.datetime "sleeping_logo_updated_at"
+    t.text     "sleeping_attributes"
   end
 
   add_index "structures", ["slug"], name: "index_structures_on_slug", unique: true, using: :btree

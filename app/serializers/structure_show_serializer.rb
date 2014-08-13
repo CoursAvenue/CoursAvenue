@@ -198,7 +198,11 @@ class StructureShowSerializer < ActiveModel::Serializer
   end
 
   def phone_numbers
-    object.phone_numbers.map{ |phone_number| readable_phone_number(phone_number.number) }.uniq
+    if object.is_sleeping?
+      object.sleeping_attributes[:phone_numbers].map{ |phone_number| readable_phone_number(phone_number['number']) }.uniq
+    else
+      object.phone_numbers.map{ |phone_number| readable_phone_number(phone_number.number) }.uniq
+    end
   end
 
   def has_published_courses
