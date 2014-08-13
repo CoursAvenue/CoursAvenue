@@ -105,7 +105,7 @@
         },
         unFixit: function unFixit () {
             this.$element.css('top', 0);
-            this.$element.parent().find("[data-placeholder]").remove();
+            this.$element.parent().find("[data-sticky-placeholder]").remove();
             this.$element.removeClass("sticky");
             this.$element.addClass(this.old_classes);
             this.$element.css({ width: "", margin: "" });
@@ -117,7 +117,7 @@
             this.calculateStopAtHeight()
             var $placeholder = this.husk(this.$element)
                 .css({ visibility: "hidden" })
-                .attr("data-placeholder", "")
+                .attr("data-sticky-placeholder", "")
                 .attr("data-behavior", "");
             // we have scrolled past the element
             var old_top   = this.$element.offset().top;
