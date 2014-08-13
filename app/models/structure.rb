@@ -117,7 +117,6 @@ class Structure < ActiveRecord::Base
                       large: '450x450',
                       thumb: { geometry: '200x200#', processors: [:cropper] } }
   validates_attachment_content_type :logo, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
-  process_in_background :logo, only_process: [:original]
 
   has_attached_file :sleeping_logo,
                     styles: {
