@@ -1,0 +1,13 @@
+- content_for :email_title do
+  Prise de contrôle refusée
+
+.p
+  Bonjour,
+.p
+  L'équipe de CoursAvenue vient de vérifier votre identité et ne vous autorise malheureusement pas à prendre le contrôle de votre profil. S'il s'agit d'une erreur et que vous êtes bien le propriétaire du profil, contactez l'un de nos conseillers par tchat depuis la page d'aide :
+
+.p.action
+  = link_to "Tchatter avec l'un de nos conseillers", pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
+
+= render 'shared/mailers/footer'
+

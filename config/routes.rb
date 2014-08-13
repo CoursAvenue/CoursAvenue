@@ -118,6 +118,7 @@ CoursAvenue::Application.routes.draw do
           get   :signature
           get   :update_widget_status
           patch :wake_up
+          patch :return_to_sleeping_mode
           get   :widget
           get   :wizard
           get   :widget_jpo

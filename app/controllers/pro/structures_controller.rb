@@ -35,12 +35,20 @@ class Pro::StructuresController < Pro::ProController
     @structures = StructureSearch.search({ is_sleeping: true, sleeping_email_opt_in: (params[:opt_in] == 'true'), page: params[:page], radius: 10000 }.merge(other_params)).results
   end
 
-  # PUT member
+  # PUT etablissements/:id/wake_up
   # Changed is_sleeping from true to false
   def wake_up
     @structure = Structure.find params[:id]
     @structure.wake_up!
     redirect_to pro_structure_path(@structure), notice: 'Le profil est réveillé !'
+  end
+
+  # PUT etablissements/:id/return_to_sleeping_mode
+  # Rollback to sleeping attributes
+  def return_to_sleeping_mode
+    @structure = Structure.find params[:id]
+    @structure.return_to_sleeping_mode!
+    redirect_to pro_structure_path(@structure), notice: 'Rollback du profil effectué !'
   end
 
   # GET member

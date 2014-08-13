@@ -277,6 +277,12 @@ class AdminMailer < ActionMailer::Base
          subject: "Votre profil est maintenant à vous !"
   end
 
+  def you_dont_have_control_of_your_account(structure, email)
+    @structure = structure
+    mail to: email,
+         subject: "Prise de contrôle refusée"
+  end
+
   ######################################################################
   # To CoursAvenue team                                                #
   ######################################################################

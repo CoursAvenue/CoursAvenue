@@ -2,6 +2,7 @@
 class Structure < ActiveRecord::Base
   include Concerns::HstoreHelper
   include Concerns::ActiveHashHelper
+  include StructuresHelper
   include HasSubjects
   include ActsAsCommentable
   include ActsAsGeolocalizable
@@ -914,8 +915,24 @@ class Structure < ActiveRecord::Base
     saved
   end
 
+  #
+  # Rollback with sleeping attributes
+  # that CoursAvenue team has validated his profile.
+  #
+  # @return Boolean saved or not
+  def return_to_sleeping_mode!
+    initialize_sleeping_attributes
+    self.places        = self.sleeping_attributes[:places].map{ |places_attributes| Place.create(places_attributes) }
+    self.phone_numbers = self.sleeping_attributes[:phone_numbers].map{ |places_attributes| PhoneNumber.create(places_attributes) }
+    self.subjects      = root_subjects_from_string(self) + child_subjects_from_string(self)
+    self.medias.map(&:destroy)
+    AdminMailer.delay.you_dont_have_control_of_your_account(self, self.main_contact.email)
+    self.main_contact.delete
+    self.save
+  end
+
   # Put sleeping attributes to self.attributes for show purpose
-  def initialize_sleeping_attribute
+  def initialize_sleeping_attributes
     return if self.sleeping_attributes.nil?
     # Make sure to not trash `sleeping_attributes attribute.
     _sleeping_attributes     = self.sleeping_attributes

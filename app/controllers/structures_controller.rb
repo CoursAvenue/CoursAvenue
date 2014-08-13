@@ -12,7 +12,7 @@ class StructuresController < ApplicationController
   def show
     @structure = Structure.friendly.find params[:id]
     if @structure.is_sleeping?
-      @structure.initialize_sleeping_attribute
+      @structure.initialize_sleeping_attributes
     end
     @structure_decorator = @structure.decorate
 
