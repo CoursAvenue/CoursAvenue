@@ -11,10 +11,12 @@
     .push--top.white-box.center-block{ style: 'max-width: 900px;' }
       .panel__body.soft
         %h4
-          Félicitations ! Votre inscription vient d'être prise en compte : validez-la pour accéder à votre profil.
+          Félicitations !
 
         %p
-          Pour vous assurer la meilleure expérience, nous vous demandons de confirmer votre inscription depuis l'e-mail que nous venons de vous envoyer à votre adresse : ouvrez-le pour accéder et compléter votre profil CoursAvenue.
+          Pour vous assurer la meilleure expérience, nous vous demandons de confirmer votre inscription depuis l'e-mail que nous venons de vous envoyer à votre adresse
+          %strong #{params[:email]}
+          \: ouvrez-le pour accéder et compléter votre profil CoursAvenue.
 
         - if params[:email].present?
           - if params[:email].match /hotmail|live|outlook/

@@ -14,24 +14,12 @@
 - @portraits.each do |portrait|
   .main-container.main-container--medium.soft--ends.push--ends
     - medias = portrait.medias.order('caption ASC')
-    .grid--full
-      .grid__item.one-quarter>
-        .grid--full
-          .grid__item.one-half.bg-cover{ style: "background-image: url(#{medias.limit(1).offset(1).first.thumbnail_url}); height: 200px;" }>
-          .grid__item.one-half.bg-cover{ style: "background-image: url(#{medias.limit(1).offset(2).first.thumbnail_url}); height: 200px;" }>
-        .bg-cover{ style: "background-image: url(#{medias.limit(1).offset(3).first.thumbnail_url}); height: 200px;" }>
-
-      .grid__item.two-quarters.opacity-hidden-on-hover__wrapper.bg-cover.text--center.relative{ style: "background-image: url(#{medias.limit(1).first.url}); height: 400px;" }>
-        = link_to pro_portrait_path(portrait), class: 'block' do
-          .gamma.quoted.white.soft-black-text-shadow.absolute.one-whole.line-height-1-7{ style: 'top: 160px; '}= portrait.thumb_title
-          .opacity-hidden-on-hover__child.text--center.one-whole.absolute{ style: 'top: 300px; '}
-            .btn.btn--green Lire ce portrait
-          .epsilon.white.soft-black-text-shadow.absolute.one-whole.south.soft--bottom= portrait.thumb_subtitle
-      .grid__item.one-quarter>
-        .bg-cover{ style: "background-image: url(#{medias.limit(1).offset(4).first.thumbnail_url}); height: 200px;" }>
-        .grid--full
-          .grid__item.one-half.bg-cover{ style: "background-image: url(#{medias.limit(4).offset(5).first.thumbnail_url}); height: 200px;" }>
-          .grid__item.one-half.bg-cover{ style: "background-image: url(#{medias.limit(4).offset(6).first.thumbnail_url}); height: 200px;" }>
+    .opacity-hidden-on-hover__wrapper.bg-cover.text--center.relative{ style: "background-image: url(#{medias.limit(1).first.url}); height: 400px;" }>
+      = link_to pro_portrait_path(portrait), class: 'block show-on-hover__wrapper show-on-hover__wrapper--black-curtain' do
+        .gamma.quoted.white.soft-black-text-shadow.absolute.one-whole.line-height-1-7{ style: 'top: 160px; '}= portrait.thumb_title
+        .opacity-hidden-on-hover__child.text--center.one-whole.absolute{ style: 'top: 300px; '}
+          .btn.btn--blue Voir ce portrait
+        .epsilon.white.soft-black-text-shadow.absolute.one-whole.south.soft--bottom= portrait.thumb_subtitle
 
 .main-container.main-container--medium
   .white-box.text--center.epsilon.soft.push--bottom

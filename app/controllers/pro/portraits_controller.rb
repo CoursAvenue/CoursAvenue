@@ -47,7 +47,7 @@ class Pro::PortraitsController < Pro::ProController
   def update
     @portrait = Portrait.find params[:id]
     respond_to do |format|
-      if @portrait.update_attributes params[:blog_article]
+      if @portrait.update_attributes params[:portrait]
         format.html { redirect_to list_pro_portraits_path }
       else
         format.html { render action: :edit }

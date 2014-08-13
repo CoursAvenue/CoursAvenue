@@ -5,14 +5,9 @@
         %i.fa.fa-star.fa-4x.yellow
       .grid__item.ten-twelfths.v-middle
         %h4.flush Vous souhaitez #{params[:title] || 'passer au premium'}
-        %p.flush.epsilon
-          - if params[:subtitle].present?
-            = params[:subtitle]
-          - else
-            Devenez membre Premium et recrutez encore plus d'élèves.
   .panel__body
     .soft
-      %h3.text--center Les 10 avantages du profil Premium
+      %h3.text--center Les 10 fonctionnalités spéciales Premium
       = render 'pro/shared/premium_advantages'
       .grid
         .grid__item.one-third>

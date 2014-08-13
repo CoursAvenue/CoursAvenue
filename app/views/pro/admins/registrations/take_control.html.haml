@@ -31,7 +31,8 @@
                 .grid--full
                   - if @structure.logo.present?
                     .grid__item.one-fifth.v-top.text--right.soft--left>
-                      = image_tag @structure.logo.url(:thumb), width: 85
+                      = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block', target: :_blank do
+                        = image_tag @structure.logo.url(:thumb), width: 85
                   .grid__item.v-top.soft--left{ class: (@structure.logo.present? ? 'four-fifths' : 'one-whole')}>
                     %h3.flush
                       Travaillez-vous pour "#{@structure.name}" ?

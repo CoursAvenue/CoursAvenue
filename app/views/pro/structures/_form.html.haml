@@ -9,7 +9,7 @@
         .input
           %label.control-label.label--large> Logo de votre structure
           .input-container
-            #logo-progress.progress.hidden.push-half--bottom{data: {progress: true }}
+            #logo-progress.progress.hidden.push-half--bottom{ data: { progress: true } }
               .bar
             - if @structure.logo?
               .push-half--bottom.bordered{style: "height: 200px; width: 200px; display: inline-block; line-height: 196px;"}<
@@ -49,13 +49,12 @@
     %div
       %div{ data: { behavior: 'parent-descendant-subjects', 'parent-select' => '#parent-subjects', 'descendant-select' => '#subject-descendants-select', 'descendant-select-wrapper' => '#descendants-subjects' } }
         = structure_form.association :subjects, as: :select, collection: Subject.roots.order('name ASC'), input_html: { class: 'input--large', style: 'width: 74%;', id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' }, multiple: true }, label: 'Disciplines générales pratiquées ', label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush--bottom' }, label_html: { class: 'label--large' }
-
         #descendants-subjects
           .input{title: 'Sélectionnez plusieurs disciplines en maintenant la touche CTRL ou CMD enfoncée.', data: {behavior: 'tooltip'}}>
             %label.control-label.label--large> Sous disciplines
-            %select#subject-descendants-select.input--large{name: 'structure[subject_descendants_ids][]', style: 'width: 74%;', multiple: true, data: {behavior: 'chosen', placeholder: 'Tapez ou sélectionnez une ou plusieurs disciplines', selected: @structure.subjects.children.map(&:id).join(',')}}>
+            %select#subject-descendants-select.input--large{ name: 'structure[subject_descendants_ids][]', style: 'width: 74%;', multiple: true, data: {behavior: 'chosen', placeholder: 'Tapez ou sélectionnez une ou plusieurs disciplines', selected: @structure.subjects.children.map(&:id).join(',')}}>
       - if @structure.errors[:children_subjects].present?
-        %p.error= @structure.errors[:children_subjects].to_sentence
+        .input_field_error.red.text--right= @structure.errors[:children_subjects].to_sentence
 
   %hr.push--ends
   .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.courses') } }
