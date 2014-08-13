@@ -236,14 +236,10 @@ class Pro::StructuresController < Pro::ProController
     respond_to do |format|
       if @structure.update_attributes(params[:structure])
         @structure.logo.reprocess! if @structure.logo.present? && has_cropping_attributes?
-        if !request.xhr? && params[:structure][:logo].present?
-          format.html { redirect_to (crop_logo_pro_structure_path(@structure)), notice: 'Vos informations ont bien été mises à jour.' }
-        else
-          format.html { redirect_to (params[:return_to] || edit_pro_structure_path(@structure)), notice: 'Vos informations ont bien été mises à jour.' }
-          format.js
-          format.json do
-            render json: { logo: { path: @structure.logo.url(:large) } }
-          end
+        format.html { redirect_to (params[:return_to] || edit_pro_structure_path(@structure)), notice: 'Vos informations ont bien été mises à jour.' }
+        format.js
+        format.json do
+          render json: { logo: { path: @structure.logo.url(:large) } }
         end
       else
         retrieve_home_places

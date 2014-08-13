@@ -168,7 +168,8 @@ namespace :import do
           req = Net::HTTP.new(url.host, url.port)
           res = req.request_head(url.path)
           if res.code == '200'
-            structure.logo = url
+            structure.logo          = url
+            structure.sleeping_logo = url
             structure.save
           end
         rescue Exception => exception

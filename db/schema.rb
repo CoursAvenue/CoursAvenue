@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140812153733) do
+ActiveRecord::Schema.define(version: 20140813080523) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -760,6 +760,7 @@ ActiveRecord::Schema.define(version: 20140812153733) do
     t.integer  "sleeping_logo_file_size"
     t.datetime "sleeping_logo_updated_at"
     t.text     "sleeping_attributes"
+    t.boolean  "logo_processing"
   end
 
   add_index "structures", ["slug"], name: "index_structures_on_slug", unique: true, using: :btree
