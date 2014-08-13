@@ -50,11 +50,19 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def logo_thumb_url
-    object.logo.url(:thumb)
+    if object.is_sleeping?
+      object.sleeping_logo.url(:thumb)
+    else
+      object.logo.url(:thumb)
+    end
   end
 
   def logo_large_url
-    object.logo.url(:large)
+    if object.is_sleeping?
+      object.sleeping_logo.url(:large)
+    else
+      object.logo.url(:large)
+    end
   end
 
   def data_url
