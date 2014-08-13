@@ -1,7 +1,7 @@
 {
   "checksum": {
-    "previous": "a3b29501156f5a38d9e0709b26f4bd8754eb2d29b38faad19f1d2eaa933ea37d",
-    "current": "a3b29501156f5a38d9e0709b26f4bd8754eb2d29b38faad19f1d2eaa933ea37d"
+    "previous": "846c90e575dce07f1032269e4c4214da2a9b4bfbb17f790b96ce8b5d1b151fa8",
+    "current": "846c90e575dce07f1032269e4c4214da2a9b4bfbb17f790b96ce8b5d1b151fa8"
   },
   "fonts": [
     "app/assets/fonts/GlyphAvenue.ttf",
@@ -221,6 +221,10 @@
     "thumb-tack": {
       "codepoint": 61769,
       "source": "app/assets/images/icons/svg/thumb-tack.svg"
+    },
+    "times": {
+      "codepoint": 61805,
+      "source": "app/assets/images/icons/svg/times.svg"
     },
     "trash-o": {
       "codepoint": 61775,

@@ -1,5 +1,5 @@
 class StructureSearch
-
+  extend StructuresHelper
   # params: params
   #     name:          fulltext
   #     subject_id:    slug of a subject
@@ -88,7 +88,10 @@ class StructureSearch
   def self.similar_profile structure, limit=4, _params={}
     # Choose parent subjects that are used if the profile has courses
     used_root_subjects = []
-    if structure.courses.any?
+    if structure.is_sleeping?
+      structure.initialize_sleeping_attributes
+      used_root_subjects = root_subjects_from_string(structure).uniq
+    elsif structure.courses.any?
       used_root_subjects = structure.courses.map(&:subjects).flatten.map(&:root).uniq
     else
       used_root_subjects = structure.subjects.at_depth(0).uniq

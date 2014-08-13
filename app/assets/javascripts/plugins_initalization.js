@@ -107,6 +107,7 @@ $(function() {
         $(this).sticky(this.dataset);
     });
 
+    // $.stellar({ horizontalScrolling: false });
     $.stellar({ horizontalScrolling: false, verticalOffset: -200 });
 
     $('body').on('click', '[data-behavior=scroll-to]', function(event) {
