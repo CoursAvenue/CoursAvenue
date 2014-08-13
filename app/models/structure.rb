@@ -126,7 +126,6 @@ class Structure < ActiveRecord::Base
                       thumb: { geometry: '200x200#', processors: [:cropper] } }
 
   validates_attachment_content_type :sleeping_logo, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
-  process_in_background :sleeping_logo
 
   ######################################################################
   # Validations                                                        #
