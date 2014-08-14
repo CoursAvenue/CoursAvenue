@@ -8,22 +8,21 @@
     = simple_form_for @user do |f|
       .grid
         .grid__item.one-third>
-          .input{data: { behavior: 'image-input' } }
+          .input{ data: { behavior: 'image-input' } }
             - if @user.has_avatar?
               .text--center
                 .media-photo
                   = image_tag @user.avatar_url(:thumb), class: 'block'
                 %br
-                %a.btn.btn--blue.btn--small{data: { trigger: true }} Changer ma photo
-                = f.input :avatar, label: false, wrapper_html: {style: 'position:absolute; left:-1000px;'},input_html: {id: 'avatar-input'}
+                %a.btn.btn--blue.btn--small{ data: { trigger: true } } Changer ma photo
+                = f.input :avatar, label: false, wrapper_html: { style: 'position:absolute; left:-1000px;' },input_html: { id: 'avatar-input' }
             - else
               .input.text--center
-                = link_to edit_user_path(@user), style: 'width: 100%; height: 200px; background-color: #555; padding-top: 60px;', class: 'block white delta line-height-1-7 v-middle', id: 'avatar-placeholder', data: { trigger: true } do
+                = link_to '#', style: 'width: 200px; height: 200px; background-color: #555; padding-top: 60px;', class: 'block white delta line-height-1-7 v-middle', id: 'avatar-placeholder', data: { trigger: true } do
                   Ajouter
                   %br
                   ma photo
-
-                %img{style: 'max-height: 5em; max-width: 15em;'}
+                %img.hidden{ style: 'max-height: 200px; max-width: 200px;', height: 200, width: 200 }
               = f.input :avatar, wrapper_html: {class: 'visuallyhidden'}
         .grid__item.two-thirds>
           = f.input :first_name, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }

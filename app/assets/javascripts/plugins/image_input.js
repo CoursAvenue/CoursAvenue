@@ -60,6 +60,7 @@
                         var reader = new FileReader();
                         reader.onload = function (e) {
                             $(image_element).attr('src', e.target.result);
+                            $(image_element).show();
                             $(window).trigger('resize'); // To adapt fancy popups
                         }
                         reader.readAsDataURL(this.files[0]);

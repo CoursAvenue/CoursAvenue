@@ -17,7 +17,7 @@
               .visuallyhidden= structure_form.input :delete_logo, as: :boolean, label: false
             - else
               .push-half--bottom.bordered{style: "height: 200px; width: 200px; display: inline-block; line-height: 196px; display: none;"}
-                %img#logo-placeholder.v-middle.inline-block{style: 'max-height: 100%;'}
+                %img#logo-placeholder.v-middle.inline-block{ style: 'max-height: 100%;' }
 
             - if @structure.logo? and @structure.valid?
               .inline-block.v-top>
@@ -33,7 +33,7 @@
                   %i.fa.fa-trash-o.soft--sides-half--right
                   Supprimer
             - elsif @structure.valid?
-              = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', data: {trigger: true} do
+              = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', data: { trigger: true } do
                 %i.fa.fa-picture-o
                 Choisir mon logo
             .visuallyhidden= structure_form.input :logo, label: false, input_html: {id: 'logo-input'}
