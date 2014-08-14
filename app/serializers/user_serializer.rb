@@ -6,8 +6,9 @@ class UserSerializer < ActiveModel::Serializer
   end
 
   def last_message_sent
-    if @options[:structure].present?
+    if @options[:structure].present? and @options[:structure].persisted?
       structure_mailbox = @options[:structure].mailbox
+      return if structure_mailbox.nil?
       object.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).order('created_at DESC').each do |conversation|
         if structure_mailbox.conversations.where(id: conversation.id).any?
           return I18n.l(conversation.created_at, format: :date_short)
