@@ -50,6 +50,7 @@ class Structures::CommentsController < ApplicationController
     if current_user
       @comment.author_name = current_user.name
       @comment.email       = current_user.email
+      @user                = current_user
     else
       user_email = params[:comment][:email].downcase
       # If the user does not exists
@@ -58,7 +59,9 @@ class Structures::CommentsController < ApplicationController
       end
       @user.update_attribute(:first_name, params[:comment][:author_name]) if params[:comment][:author_name].present?
     end
-    @comment.user = @user || current_user
+    @user.subjects << @comment.subjects
+    @user.save
+    @comment.user = @user
     respond_to do |format|
       if @comment.valid? and params[:private_message].present?
         create_private_message

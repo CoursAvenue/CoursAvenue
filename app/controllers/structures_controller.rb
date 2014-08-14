@@ -112,7 +112,7 @@ class StructuresController < ApplicationController
     @structure = Structure.friendly.find params[:id]
     @structure.followings.where(user_id: current_user.id).first.try(:destroy)
     respond_to do |format|
-      format.html { redirect_to structure_path(@structure), notice: "#{@structure.name} n'est plus dans vos favoris"}
+      format.html { redirect_to user_followings_path(current_user), notice: "#{@structure.name} n'est plus dans vos favoris"}
       format.json { render json: { succes: true } }
     end
   end

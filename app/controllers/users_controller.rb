@@ -121,6 +121,9 @@ class UsersController < InheritedResources::Base
   end
 
   def update
+    if params[:user] && params[:user][:subject_descendants_ids].present?
+      params[:user][:subject_ids] = params[:user][:subject_ids] + params[:user].delete(:subject_descendants_ids)
+    end
     update! do |format|
       format.html { redirect_to (params[:return_to] || edit_user_path(@user)), notice: 'Votre profil a bien été mis à jour.' }
     end

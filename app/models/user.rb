@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid, :oauth_token, :oauth_expires_at,
                   :name, :first_name, :last_name, :gender, :fb_avatar, :location, :avatar,
-                  :birthdate, :phone_number, :zip_code, :city_id, :passions_attributes, :description,
+                  :birthdate, :phone_number, :zip_code, :city_id, :passion_zip_code, :passion_city_id, :passions_attributes, :description,
                   :email_opt_in, :sms_opt_in, :email_promo_opt_in, :email_newsletter_opt_in, :email_passions_opt_in,
                   :email_status, :last_email_sent_at, :last_email_sent_status,
                   :lived_places_attributes
@@ -58,6 +58,7 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :invited_participations, class_name: 'Participation'
 
   belongs_to :city
+  belongs_to :passion_city, class_name: 'City'
 
   accepts_nested_attributes_for :passions,
                                  reject_if: lambda {|attributes| attributes['subject_id'].blank? },
