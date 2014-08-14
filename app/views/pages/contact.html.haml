@@ -1,52 +1,152 @@
 .home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background5.jpg'})", 'data-stellar-background-ratio' => '0.6' }
-  .main-container.soft
-    %h1.flush Comment pouvons-nous vous aider ?
+  .main-container.main-container--medium.soft
+    %h1.flush Une question ? Besoin d'aide ?
+    %h3.flush Parcourez les questions suivantes pour accéder à toutes les réponses
 
-.main-container.soft
+.main-container.main-container--medium.soft
   .grid.epsilon
     .grid__item.one-half>
-      .soft
-        %p
-          Vous pouvez nous écrire directement à l'adresse e-mail ci-dessous.
-          %br
-          Nous répondons rapidement, presque toujours dans la demi-journée.
-          %br
-          = image_tag 'pages/email_contact.png', height: 20, class: 'push-half--ends'
-
-        %p
-          Vous pouvez aussi nous joindre par téléphone, mais s'il vous plaît privilégiez autant que possible l'email, nous sommes une petite équipe !
-          %br
-          = image_tag 'pages/phone_number.png', height: 20, class: 'push-half--ends'
-          %br
-          Du lundi au vendredi de 9h30 à 18h30.
+      %h3.flush Centre d'aide élèves
+      .epsilon.push--bottom
+        %i Pour les Internautes à la recherche de cours de loisirs
+      %ul
+        %li Comment trouver puis s'inscrire à un cours de loisir ?
+        %li Comment contacter un professeur, une association ou une école ?
+        %li Je n'ai pas reçu mon mail d'activation : comment faire ?
+        %li Pourquoi créer un compte élève ?
+        %li Comment déposer une recommandation ?
     .grid__item.one-half.bordered--left>
-      = form_tag(contact_path, method: :post) do
-        .grid.push-half--bottom
-          .grid__item.one-third.text--right>
-            %label.label--large.f-weight-bold * Votre nom
-          .grid__item.two-thirds>
-            %input.input--large.one-whole{ type: 'text', name: 'name', value: params[:name], placeholder: 'Patrick' }
-            - if @errors and @errors.include?(:name)
-              %div.text--right.red.milli
-                Doit être rempli
-        .grid.push-half--bottom
-          .grid__item.one-third.text--right>
-            %label.label--large.f-weight-bold * Votre email
-          .grid__item.two-thirds>
-            %input.input--large.one-whole{ type: 'text', name: 'email', value: params[:email], placeholder: 'patrick@gmail.com' }
-            - if @errors and @errors.include?(:email)
-              %div.text--right.red.milli
-                Doit être rempli
-        .grid.push-half--bottom
-          .grid__item.one-third.text--right>
-            %label.label--large.f-weight-bold * Votre message
-          .grid__item.two-thirds>
-            %textarea.input--large.one-whole{ type: 'text', name: 'content', rows: 10, value: params[:content], data: {behavior: 'autoresize'}}= params[:content]
-            - if @errors and @errors.include?(:content)
-              %div.text--right.red.milli
-                Doit être rempli
-        .grid
-          .grid__item.push--one-third.text--left>
+      %h3.flush Centre d'aide professionnels
+      .epsilon.push--bottom
+        %i Pour les professionnels proposant des cours de loisirs
+      %ul
+        %li Comment faire pour me connecter à mon compte ?
+        %li J'ai perdu mon mot de passe : comment faire ?
+        %li Comment recevoir des recommandations de mes élèves ?
+        %li Un profil CoursAvenue : pour quoi faire ?
+        %li Quels sont les avantages du profil Premium ?
+  .grid.epsilon
+    .grid__item.one-half>
+      = link_to "Voir toute l'aide élèves", pages_faq_users_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn'
+    .grid__item.one-half>
+      = link_to "Voir toute l'aide professionnels", pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn'
+
+.home-screen-promotion-wrapper
+  .main-container.main-container--medium.soft
+    %h2.text--center.f-weight-300 Découvrez comment fonctionne CoursAvenue
+    .center-block.relative.bg-cover.push--bottom{ style: "background-image: url('#{asset_path('home-page/video_thumbnail.jpg')}'); max-width: 600px; height: 260px;" }>
+      = link_to 'https://www.youtube.com/watch?v=-hq0sxFEcOw', class: 'block show-on-hover__wrapper show-on-hover__wrapper--black-curtain', data: { behavior: 'fancy', height: 560, width: 1000 } do
+        .home-screen-gallery__title.text--center{ style: 'margin-top: -2em;'}
+          %i.fa.fa-youtube-play.fa-3x
+          .show-on-hover__child Voir la vidéo
+
+.main-container.main-container--medium.soft
+  %h2.text--center.flush.f-weight-300 Vous recherchez un cours de loisir ?
+  %h4.text--center.f-weight-300 Choisissez la discipline générale et votre ville, vous pourrez ensuite affiner votre recherche :
+  .text--center
+    = render partial: 'shared/home_page_search_form', locals: { form_class: 'inline-block', wrapper_class: '' }
+  %p.epsilon.text--center
+    Besoin d'aide pour trouver un cours ? Accédez à toutes nos réponses dans notre
+    = link_to "centre d'aide", pages_faq_users_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+
+.home-screen-promotion-wrapper
+  .main-container.soft
+    %h2.text--center.f-weight-300 Toujours une question ? 2 solutions :
+    %p.epsilon.flush.text--center
+      1. Discutez en direct avec l'un de nos conseillers entre 9h et 18h en cliquant sur la fenêtre de chat
+      %strong "Besoin d'aide ?"
+      en bas à droite de l'écran.
+    %p.epsilon.text--center
+      2.
+      = link_to 'Envoyez-nous un message', '#', id: 'show-contact-form'
+      nous vous répondons en moins de 48 heures
+    %h2.text--center.flush.f-weight-300 Une urgence ?
+    %p.text--center.epsilon
+      Contactez-nous au
+      = image_tag 'pages/phone_number.png', class: 'push-half--left v-middle', width: 337, height: 18
+
+#contact-form{ class: params.has_key?(:content) ? '' : 'hidden' }
+  .main-container.main-container--medium.soft
+    .center-block{ style: 'max-width: 700px; '}
+      %h2.text--center.f-weight-300 Formulaire de contact
+      .white-box.soft
+        .flexbox
+          %label.flexbox__item.label--large.f-weight-bold.soft--right Sujet
+          %select.flexbox__item#contact-subject-select.input--large.one-whole{ name: 'subject'}
+            %option Sélectionnez votre sujet
+            %option{ value: "search-courses" } Je recherche des cours
+            %option{ value: "contact-teacher" } Je souhaite contacter un professeur, une association ou un professeur en particulier
+            %option{ value: "want-to-publish-courses" } Je souhaite proposer mes cours sur CoursAvenue
+            %option{ value: 'inputs' } J'ai repéré un dysfonctionnement sur CoursAvenue
+            %option{ value: 'inputs' } Autres
+        .hidden-contact-fields.hidden-contact-search-courses.soft--top.hidden
+          %p.epsilon
+            %strong Vous recherchez des cours ?
+            %br
+            Choisissez la discipline générale et votre ville, vous pourrez ensuite affiner votre recherche :
+          = render partial: 'shared/home_page_search_form', locals: { form_class: 'inline-block', wrapper_class: '' }
+          %p
+            Besoin d'aide pour trouver un cours ? Accédez à toutes nos réponses dans notre
+            = link_to "centre d'aide", pages_faq_users_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+
+        .hidden-contact-fields.hidden-contact-contact-teacher.soft--top.hidden
+          %p.epsilon
+            %strong Vous souhaitez contacter l'un des profils repérés sur CoursAvenue ?
+            %br
+            = link_to "Cliquez ici", pages_faq_users_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+            pour accéder à toutes nos réponses à vos questions.
+
+        .hidden-contact-fields.hidden-contact-want-to-publish-courses.soft--top.hidden
+          %p.epsilon
+            Vous donnez des cours de loisirs et souhaitez être présent sur CoursAvenue ?
+            %br
+            = link_to 'Publiez vos cours maintenant.', 'https://pro.coursavenue.com/etablissements/inscription'
+
+        .hidden-contact-fields.hidden-contact-inputs.soft--top{ class: params.has_key?(:content) ? '' : 'hidden' }
+          = form_tag(contact_path, method: :post) do
+            .grid.push-half--bottom
+              .grid__item.one-third.text--right>
+                %label.label--large.f-weight-bold * Votre nom
+              .grid__item.two-thirds>
+                %input.input--large.one-whole{ type: 'text', name: 'name', value: params[:name], placeholder: 'Patrick' }
+                - if @errors and @errors.include?(:name)
+                  %div.text--right.red.milli
+                    Doit être rempli
+            .grid.push-half--bottom
+              .grid__item.one-third.text--right>
+                %label.label--large.f-weight-bold * Votre email
+              .grid__item.two-thirds>
+                %input.input--large.one-whole{ type: 'text', name: 'email', value: params[:email], placeholder: 'patrick@gmail.com' }
+                - if @errors and @errors.include?(:email)
+                  %div.text--right.red.milli
+                    Doit être rempli
+            .grid.push-half--bottom
+              .grid__item.one-third.text--right>
+                %label.label--large.f-weight-bold * Votre message
+              .grid__item.two-thirds>
+                %textarea.input--large.one-whole{ type: 'text', name: 'content', rows: 10, value: params[:content], style: 'height: 200px;', data: { behavior: 'autoresize' } }= params[:content]
+                - if @errors and @errors.include?(:content)
+                  %div.text--right.red.milli
+                    Doit être rempli
             %input.btn.btn--full.btn--green{ type: 'submit', value: 'Envoyer', data: { disable_with: "En cours d'envoi" } }
 
+      %hr.push--ends
+      %h2.text--center.f-weight-300 E-mail & téléphone
+      %p.flush.epsilon Vous pouvez nous écrire directement à l'adresse e-mail ci-dessous. Nous répondons rapidement, presque toujours dans la demi-journée :
+      .text--center.push--bottom= image_tag 'pages/email_contact.png', class: 'push-half--left v-middle', height: 18
+      %p.epsilon Vous pouvez aussi nous joindre par téléphone, du lundi au vendredi de 9h30 à 18h :
+      .text--center= image_tag 'pages/phone_number.png', class: 'push-half--left v-middle', width: 337, height: 18
 = render 'shared/live_chat'
+
+= content_for :scripts do
+  :javascript
+      $(function() {
+          $('#show-contact-form').click(function(){
+              $('#contact-form').slideDown();
+              return false;
+          });
+          $('#contact-subject-select').change(function() {
+              $('.hidden-contact-fields').slideUp();
+              $('.hidden-contact-fields.hidden-contact-' + this.value).slideDown();
+          });
+      })
