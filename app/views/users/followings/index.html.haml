@@ -3,10 +3,9 @@
 .panel
   .panel__body.soft
     %h3 Mes favoris
-    - if current_user.followings.any?
-      - current_user.followings.each do |following|
+    - if @user.followings.any?
+      - @user.followings.each do |following|
         - structure = following.structure
-        - next if structure.medias.cover_first.first.nil?
         .inline-block.one-half.very-soft.relative>
           = render partial: "structures/similar_profile", locals: { structure: structure }
           %i.fa.fa-heart.north.east.absolute.push.fa-4x.orange

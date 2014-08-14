@@ -1,5 +1,9 @@
 = link_to structure_path(structure), class: 'muted-link opacity-hidden-on-hover__wrapper block' do
-  .push-half--bottom.one-whole.bg-cover{ style: "background-image: url(#{structure.medias.cover_first.first.thumbnail_url}); height: 200px;"}
+  - if structure.medias.any?
+    - image_url = structure.medias.cover_first.first.thumbnail_url
+  - else
+    - image_url = structure.logo.url(:large)
+  .push-half--bottom.one-whole.bg-cover{ style: "background-image: url(#{image_url}); height: 200px;"}
     .show-on-hover__wrapper.show-on-hover__wrapper--black-curtain
       - if structure.premium? and header_promotion_title_for_structure(structure).present?
         .north.west.absolute

@@ -157,6 +157,7 @@ namespace :import do
                                    contact_email: attributes[:emails].first,
                                    is_sleeping: true,
                                    sleeping_email_opt_in: true,
+                                   # Check validity of emails
                                    other_emails: attributes[:emails][1..-1].join(';'))
       unless structure.persisted?
         structure.create_sleeping_attributes
