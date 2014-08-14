@@ -24,6 +24,9 @@
         margin-top : -1em;
         font-size  : 1.5em;
         @include text-shadow(0 0 5px $gray, 0 0 10px $gray-dark, 0 0 20px $gray-darker);
+        &.home-screen-gallery__title--bigger {
+            font-size  : 2em;
+        }
     }
 .home-screen__item {
     position: relative;
