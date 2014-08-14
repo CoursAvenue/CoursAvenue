@@ -95,6 +95,40 @@ class User < ActiveRecord::Base
   scope :active,   -> { where.not(encrypted_password: '') }
   scope :inactive, -> { where( User.arel_table[:encrypted_password].eq('').or(User.arel_table[:encrypted_password] == nil)) }
 
+
+  searchable do
+    text :first_name
+    text :last_name
+    text :full_name
+    text :email
+
+    string :email
+    boolean :active do
+      self.active?
+    end
+
+    # Here we store event the subject at depth 2 for pro admin dashboard purpose.
+    integer :subject_ids, multiple: true do
+      subject_ids = []
+      self.subjects.uniq.each do |subject|
+        subject_ids << subject.id
+        subject_ids << subject.parent.id if subject.parent
+        subject_ids << subject.root.id if subject.root
+      end
+      subject_ids.compact.uniq
+    end
+
+    boolean :has_comments do
+      comments.any?
+    end
+
+    boolean :has_confirmed do
+      confirmed?
+    end
+    time :created_at
+
+  end
+
   # Creates a user from Facebook
   #
   # @param  auth [type] [description]

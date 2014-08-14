@@ -18,6 +18,7 @@
       = link_to 'Avec avis', pro_users_path(with_comments: true), class: 'btn btn--blue btn--small push-half--right'
       = link_to 'Inactif', pro_users_path(inactive: true), class: 'btn btn--blue btn--small'
 
+    .text--center.push-half--ends= paginate @users, window: 1, outer_window: 3
     %table.table--striped#dataTable
       %thead
         %tr
@@ -57,6 +58,8 @@
                 - comment = user.comments.last
                 - if comment
                   = link_to "Voir l'avis", structure_url(comment.structure, anchor: "recommandation-#{comment.id}", subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+
+    .text--center.push-half--ends= paginate @users, window: 1, outer_window: 3
 
 = content_for :scripts do
   :javascript
