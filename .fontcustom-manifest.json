@@ -1,7 +1,7 @@
 {
   "checksum": {
-    "previous": "846c90e575dce07f1032269e4c4214da2a9b4bfbb17f790b96ce8b5d1b151fa8",
-    "current": "846c90e575dce07f1032269e4c4214da2a9b4bfbb17f790b96ce8b5d1b151fa8"
+    "previous": "1e29b2de4d940fc87b10f3e2dbe4df662bbc4bfc8c5a2605857f9085aff9bbac",
+    "current": "1e29b2de4d940fc87b10f3e2dbe4df662bbc4bfc8c5a2605857f9085aff9bbac"
   },
   "fonts": [
     "app/assets/fonts/GlyphAvenue.ttf",
@@ -93,6 +93,10 @@
     "dot-circle-o": {
       "codepoint": 61788,
       "source": "app/assets/images/icons/svg/dot-circle-o.svg"
+    },
+    "download": {
+      "codepoint": 61808,
+      "source": "app/assets/images/icons/svg/download.svg"
     },
     "envelope-o": {
       "codepoint": 61737,

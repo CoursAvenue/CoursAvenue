@@ -1,6 +1,14 @@
 CoursAvenue = new Backbone.Marionette.Application({
     slug: 'coursavenue',
 
+    setCurrentAdmin: function setCurrentAdmin (admin_attributes) {
+        this.admin.set(admin_attributes);
+    },
+
+    currentAdmin: function currentAdmin () {
+        return this.admin;
+    },
+
     setCurrentUser: function setCurrentUser (user_attributes) {
         this.user.set(user_attributes);
     },
@@ -69,6 +77,7 @@ CoursAvenue.addRegions({
 
 CoursAvenue.addInitializer(function(options){
     this.user = new CoursAvenue.Models.User();
+    this.admin = new CoursAvenue.Models.Admin();
 });
 
 $(function() {

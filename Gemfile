@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 
 ruby '2.1.2'
 
-gem 'rails', '4.1.1'
+gem 'rails', '4.1.4'
 
 gem 'rack-attack',  '~>3.0.0'
 gem 'rack-timeout', '~> 0.0.4'
@@ -58,11 +58,11 @@ gem 'rails-observers'           , '~>0.1.2'
 gem 'auto_html'                 , '~>1.6.2'
 
 # Must be before jobs
-gem 'protected_attributes'      , '~>1.0.3'
+gem 'protected_attributes'      , '~>1.0.8'
 
 # Queue of jobs
-gem 'delayed_job'               , '~>4.0.0'#, git: 'git://github.com/nim1989/delayed_job.git'
-gem 'delayed_job_active_record' , '~>4.0.0'
+gem 'delayed_job'               , '~>4.0.2'#, git: 'git://github.com/nim1989/delayed_job.git'
+gem 'delayed_job_active_record' , '~>4.0.1'
 gem 'daemons'                   , '~>1.1.9'
 # Needed for hirefire to handle to access to jobs count
 gem 'hirefire-resource'
@@ -70,7 +70,7 @@ gem 'hirefire-resource'
 # Handle paperclip in background
 gem 'delayed_paperclip'         , '~>2.8.0'
 # Show progress bars in scripts
-gem 'progress_bar'              , '~>1.0.0'
+gem 'progress_bar'              , '~>1.0.3'
 
 # For image handling
 gem 'paperclip'                 , '~>4.1.1'
@@ -84,7 +84,7 @@ gem 'ancestry'                  , '~>2.0.0'
 # Nice helper to use google maps
 gem 'gmaps4rails'               , '~>2.1.2'
 # Helper methods for geolocations
-gem 'geocoder'                  , '~>1.2.2'
+gem 'geocoder'                  , '~>1.2.4'
 # To have model serializers apart from models
 gem 'active_model_serializers'  , '~>0.8.1'
 
@@ -99,7 +99,7 @@ gem 'inherited_resources'       , '~>1.4.1'
 gem 'mailboxer'                 , '~> 0.12.1'
 
 # For authorizations
-gem 'cancancan'                 , '~>1.8.1'
+gem 'cancancan'                 , '~>1.8.4'
 # gem 'cancan'                    , '~>1.6.10'
 # For authentication
 gem 'devise'                    , '~>3.2.4'
@@ -150,8 +150,7 @@ gem 'sht_rails'
 gem 'sass-rails'                , '~>4.0.1'
 gem 'haml'                      , '~>4.0.3'
 gem 'uglifier'                  , '>= 1.0.3'
-gem 'coffee-rails'              , '~>4.0.0'
-gem 'js-routes'                 , '~>0.9.7'
+gem 'js-routes'                 , '~>0.9.8'
 
 gem 'activesupport-json_encoder', '~> 1.1.0'
 
@@ -208,7 +207,7 @@ group :development do
   gem 'rubocop'                 , '~>0.18.1'
 
   # Removes useless logging in dev.
-  gem 'quiet_assets', '~>1.0.2'
+  gem 'quiet_assets', '~>1.0.3'
 
   # Show errors nicely
   gem 'better_errors'
@@ -225,7 +224,7 @@ group :development, :test do
   gem 'dotenv-rails'
 end
 
-gem 'rmagick', '~>2.13.2', require: 'RMagick'
+gem 'rmagick', '~>2.13.3', require: 'RMagick'
 
 # Rails 4 upgrade
 gem 'actionpack-action_caching', '~>1.0.0'

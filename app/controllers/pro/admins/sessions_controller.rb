@@ -29,7 +29,10 @@ class Pro::Admins::SessionsController < Devise::SessionsController
     if request.xhr?
       render partial: 'new_popup'
     else
-      render
+      respond_to do |format|
+        format.json { render nothing: true }
+        format.html
+      end
     end
   end
 end

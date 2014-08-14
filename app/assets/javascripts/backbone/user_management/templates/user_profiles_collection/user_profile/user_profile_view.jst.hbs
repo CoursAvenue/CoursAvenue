@@ -15,7 +15,7 @@
 </td>
 <td>
   {{#ifCond mobile_phone '||' phone}}
-  <span data-title="{{mobile_phone}} {{#ifCond mobile_phone '&&' phone}}/{{/ifCond}} {{phone}}" data-behavior="tooltip" class="pointer">
+  <span data-content="{{mobile_phone}} {{#ifCond mobile_phone '&&' phone}}/{{/ifCond}} {{phone}}" data-behavior="popover" data-trigger="hover">
     <i class="fa fa-phone"></i>
   </span>
   {{/ifCond}}

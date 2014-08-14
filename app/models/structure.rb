@@ -633,11 +633,19 @@ class Structure < ActiveRecord::Base
     return tagging.save
   end
 
-  def create_user_profile_for_message(user)
+
+  # Create or update a user profile for the current strucutre
+  # If tag is given, then affect a tag to it
+  # @param user User
+  # @param tag=nil String
+  #
+  # @return nil
+  def create_or_update_user_profile_for_user(user, tag=nil)
     user_profile = self.user_profiles.where(email: user.email).first_or_create
-    user_profile.first_name = user.first_name if user_profile.first_name.nil?
-    user_profile.last_name  = user.last_name  if user_profile.last_name.nil?
-    self.add_tags_on(user_profile, UserProfile::DEFAULT_TAGS[:contacts])
+    user_profile.first_name = user.first_name   if user_profile.first_name.nil?
+    user_profile.last_name  = user.last_name    if user_profile.last_name.nil?
+    user_profile.phone      = user.phone_number if user_profile.phone.nil?
+    self.add_tags_on(user_profile, tag) if tag
   end
 
   # Total nb JPO places given by the structure

@@ -13,7 +13,7 @@
       .flexbox__item.v-middle
         %h5.flush--bottom.white.inline-block.v-middle
           = link_to edit_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'block semi-muted-link' do
-            = @structure.name
+            = truncate(@structure.name, length: 80)
         %span.push-half--sides= '|'
         - if @structure.premium?
           = link_to premium_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'yellow' do
@@ -109,3 +109,9 @@
 
 = render :template => 'layouts/application'
 = render 'shared/live_chat'
+
+- if current_pro_admin
+  :javascript
+      CoursAvenue.addInitializer(function(options){
+          this.setCurrentAdmin(#{current_pro_admin_as_json});
+      });

@@ -87,6 +87,8 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
          * Save message model. Will make a POST request to save the message.
          */
         saveMessage: function saveMessage () {
+            // Save sent message to cookie to reuse it on another page.
+            $.cookie('last_sent_message', JSON.stringify(this.model.toJSON()));
             this.model.sync({
                 success: function success (response) {
                     this.$('form').trigger('ajax:complete.rails');
@@ -115,10 +117,12 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
         },
 
         serializeData: function serializeData () {
-            return {
+            var data = this.model.toJSON();
+            _.extend(data, {
                 structure: this.structure.toJSON(),
                 prefilled_body: "Bonjour,\n\nJe souhaiterais venir pour une première séance. Pouvez-vous m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt"
-            }
+            });
+            return data;
         }
     });
 

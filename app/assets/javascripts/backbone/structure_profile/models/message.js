@@ -3,6 +3,15 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
 
     Module.Message = Backbone.Model.extend({
 
+        initialize: function initialize () {
+            if ($.cookie('last_sent_message')) {
+                this.set(JSON.parse($.cookie('last_sent_message')));
+            }
+            if (CoursAvenue.currentUser()) {
+                this.set('user', CoursAvenue.currentUser().toJSON());
+            }
+        },
+
         // Validates the form
         // Might want to use https://github.com/powmedia/backbone-forms at some point
         // Return Boolean, wether it's valid or not

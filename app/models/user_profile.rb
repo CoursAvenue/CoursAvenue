@@ -7,7 +7,7 @@ class UserProfile < ActiveRecord::Base
     :comments  => 'Avis',
     :contacts  => "Demande d'info",
     :jpo_2014  => 'JPO 2014',
-    :following => 'Favoris'
+    :following => 'Favori'
   }
 
   belongs_to :structure

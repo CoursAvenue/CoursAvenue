@@ -46,10 +46,19 @@ Handlebars.registerHelper('highlight', function(text, highlight_word, length) {
 
 
 
+// usage: {{#ifPresent valueA valueB}}/*...*/{{/ifPresent}}
 Handlebars.registerHelper('ifPresent', function (v1, v2, options) {
     return (!_.isEmpty(v1) || !_.isEmpty(v2)) ? options.fn(this) : options.inverse(this);
 });
 
+
+// usage: {{#ifInclude array '4'}}{{/ifInclude}}
+Handlebars.registerHelper('ifInclude', function (array, value, options) {
+    if (!array || !value) { return options.inverse(this); }
+    return (array.indexOf(value) != -1 ? options.fn(this) : options.inverse(this));
+});
+
+// usage: {{#ifCond a '==' b'}}/*...*/{{/ifCond}}
 Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
 
     switch (operator) {

@@ -13,7 +13,7 @@ class Structures::MessagesController < ApplicationController
         @user.phone_number = params[:message][:user][:phone_number]
         @user.save
       end
-      @structure.create_user_profile_for_message(@user)
+      @structure.create_or_update_user_profile_for_user(@user, UserProfile::DEFAULT_TAGS[:contacts])
       @recipients   = @structure.main_contact
       @receipt      = @user.send_message_with_extras(@recipients, params[:message][:body], I18n.t(Mailboxer::Label::INFORMATION.name), 'information', params[:message][:extra_info_ids], params[:message][:course_ids])
       @conversation = @receipt.conversation

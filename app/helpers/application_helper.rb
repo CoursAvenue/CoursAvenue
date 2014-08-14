@@ -44,6 +44,14 @@ module ApplicationHelper
   end
 
   def current_user_as_json
-    UserSerializer.new(current_user).to_json
+    UserSerializer.new(current_user, { structure: @structure }).to_json
+  end
+
+  def current_pro_admin_as_json
+    if current_pro_admin.super_admin? and @structure
+      AdminSerializer.new(@structure.main_contact).to_json
+    else
+      AdminSerializer.new(current_pro_admin).to_json
+    end
   end
 end
