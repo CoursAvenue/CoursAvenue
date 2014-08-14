@@ -12,11 +12,11 @@ class StructureSerializer < ActiveModel::Serializer
   has_many :preloaded_medias,  serializer: MediaSerializer
 
   def medias
-    (object.premium? ? object.medias.videos_first.limit(20) : object.medias.cover_first.limit(Media::FREE_PROFIL_LIMIT))
+    object.medias.cover_first.videos_first.limit((object.premium? ? 20 : Media::FREE_PROFIL_LIMIT))
   end
 
   def preloaded_medias
-    (object.premium? ? object.medias.videos_first.limit(20) : object.medias.cover_first.limit(Media::FREE_PROFIL_LIMIT))
+    object.medias.cover_first.videos_first.limit((object.premium? ? 20 : Media::FREE_PROFIL_LIMIT))
   end
 
   def comments

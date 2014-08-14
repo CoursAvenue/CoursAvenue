@@ -1,7 +1,7 @@
 {
   "checksum": {
-    "previous": "1e29b2de4d940fc87b10f3e2dbe4df662bbc4bfc8c5a2605857f9085aff9bbac",
-    "current": "1e29b2de4d940fc87b10f3e2dbe4df662bbc4bfc8c5a2605857f9085aff9bbac"
+    "previous": "676899c0b17dd7b06aa4938ffceab2e15befe3876d6b878bcc8ad922630eb4ef",
+    "current": "676899c0b17dd7b06aa4938ffceab2e15befe3876d6b878bcc8ad922630eb4ef"
   },
   "fonts": [
     "app/assets/fonts/GlyphAvenue.ttf",
@@ -109,6 +109,18 @@
     "eye": {
       "codepoint": 61735,
       "source": "app/assets/images/icons/svg/eye.svg"
+    },
+    "face-happy": {
+      "codepoint": 61810,
+      "source": "app/assets/images/icons/svg/face-happy.svg"
+    },
+    "face-neutral": {
+      "codepoint": 61814,
+      "source": "app/assets/images/icons/svg/face-neutral.svg"
+    },
+    "face-sad": {
+      "codepoint": 61812,
+      "source": "app/assets/images/icons/svg/face-sad.svg"
     },
     "facebook": {
       "codepoint": 61792,

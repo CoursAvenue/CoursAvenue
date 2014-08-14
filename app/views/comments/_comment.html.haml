@@ -5,7 +5,6 @@
 - small_avatar        = false             if small_avatar.nil?
 - class_name          = ''                if class_name.nil?
 - with_reply          = false             if with_reply.nil?
-
 %li.push--bottom.hard--left{ class: class_name, id: "recommandation-#{comment.id}" }
   %article{ itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review' }
     .grid--full
@@ -22,6 +21,7 @@
             Il y a #{distance_of_time_in_words_to_now comment.created_at}
           - if current_pro_admin and current_pro_admin.super_admin?
             .break-word (#{comment.email})
+            = icon_rating(comment, 'fa-2x')
 
       .grid__item.ten-twelfths>
         - # User can share if:

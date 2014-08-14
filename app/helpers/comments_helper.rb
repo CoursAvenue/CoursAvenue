@@ -30,4 +30,14 @@ module CommentsHelper
       structure_course_url comment.commentable.structure, comment.commentable, { subdomain: CoursAvenue::Application::WWW_SUBDOMAIN }.merge(options)
     end
   end
+
+  def icon_rating(comment, class_name='')
+    if comment.rating.nil? or comment.rating > 3
+      content_tag(:i, '', class: "fa fa-face-happy #{class_name}")
+    elsif comment.rating > 1
+      content_tag(:i, '', class: "fa fa-face-neutral #{class_name}")
+    else
+      content_tag(:i, '', class: "fa fa-face-sad #{class_name}")
+    end
+  end
 end

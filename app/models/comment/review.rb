@@ -22,7 +22,7 @@ class Comment::Review < Comment
   # Validations                                                        #
   ######################################################################
   validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i }
-  validates :email, :author_name, :course_name, :title, presence: true
+  validates :email, :author_name, :course_name, :title, :rating, presence: true
   validate  :doesnt_exist_yet, on: :create
   validate  :content_length, on: :create
 
