@@ -1,20 +1,26 @@
+- form_class    = ''                   if form_class.nil?
+- lat           = '48.8592'            if lat.nil?
+- lng           = '2.3417'             if lng.nil?
+- city          = 'Paris'              if city.nil?
+- subject_slug  = ''                   if subject_slug.nil?
+- wrapper_class = 'header-search-bar' if wrapper_class.nil?
 .home-page-search
-  = form_tag structures_path, method: :get, authenticity_token: false, data: { gather: true } do
-    .header-search-bar.relative.flexbox.rounded.very-soft
+  = form_tag structures_path, method: :get, authenticity_token: false, data: { gather: true }, class: form_class do
+    .relative.flexbox.rounded.very-soft{ class: wrapper_class }
       .flexbox__item.v-middle.search-input-wrapper
         %select.palm-one-whole.input--large.one-whole{ name: 'root_subject_id' }
           %option{value: ''} Toutes disciplines
           - cache ['home_page_dropdown', Subject.stars] do
             - Subject.stars.each do |subject|
-              %option{value: subject.slug}= subject.name
+              %option{ value: subject.slug, selected: subject.slug == subject_slug }= subject.name
           %option{value: 'other'} Autres
       .flexbox__item.v-middle.search-input-wrapper.very-soft.hard--ends.palm-hard
         .input-with-icon
           %input.palm-one-whole.input--large#address-picker.one-whole.soft-half--left{ size: 25, placeholder:'Où recherchez-vous un cours ?', type:'text', autocomplete: 'off', name:'address_name', value: 'Paris', data: { behavior:'address-picker', lng:'#address-lng',lat: '#address-lat', city: '#address-city' } }
           %i.fa.fa-map-marker.delta
-        %input#address-lat{ type: 'hidden', value: '48.8592', name: 'lat' }
-        %input#address-lng{ type: 'hidden', value: '2.3417', name: 'lng' }
-        %input#address-city{ type: 'hidden', value: 'Paris', name: 'address_name' }
+        %input#address-lat{ type: 'hidden', value: lat, name: 'lat' }
+        %input#address-lng{ type: 'hidden', value: lng, name: 'lng' }
+        %input#address-city{ type: 'hidden', value: city, name: 'address_name' }
 
       .flexbox__item.v-middle.palm-text--center
         %button.nowrap.btn.btn--blue.btn--full.input--large{type: 'submit', id: 'submit_search_form'}

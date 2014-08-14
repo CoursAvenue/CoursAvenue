@@ -3,7 +3,7 @@ class Structures::CommentsController < ApplicationController
   include CommentsHelper
   helper :comments
 
-  layout 'empty'
+  layout :get_layout
 
   def index
     @structure    = Structure.friendly.find(params[:structure_id])
@@ -86,4 +86,11 @@ class Structures::CommentsController < ApplicationController
     @comment.associated_message_id = @conversation.messages.first.id
   end
 
+  def get_layout
+    if action_name == 'show'
+      'pages'
+    else
+      'empty'
+    end
+  end
 end
