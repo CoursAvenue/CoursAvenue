@@ -25,6 +25,7 @@
           %th
             %span Nom
           %th
+          %th
             %span Date d'inscription
           %th.text--center
             %span Facebook
@@ -39,6 +40,8 @@
             %td
               = user.name
               = link_to "(#{user.email})", "mailto:#{user.email}"
+            %td
+              = link_to 'Profil', user_url(user, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank
             %td{data: {value: user.confirmed_at}}
               - if user.confirmed_at
                 = l(user.confirmed_at, format: :date).capitalize

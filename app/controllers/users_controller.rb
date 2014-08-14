@@ -33,6 +33,7 @@ class UsersController < InheritedResources::Base
 
   def show
     @user = User.find(params[:id])
+    redirect_to edit_user_path(@user)
   end
 
   def edit_private_infos

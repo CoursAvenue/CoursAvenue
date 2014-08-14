@@ -43,7 +43,7 @@
           = f.input :phone_number, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
           .input.flush--top.city-autocomplete-wrapper<
             = f.label :zip_code, label: Location.human_attribute_name(:zip_code), class: 'label--large'
-            = f.input :zip_code, placeholder: 'Ex. : 75008', input_html: { class: 'input--large', data: { behavior: 'city-autocomplete', el: '#user_city_id'} }, label: false, wrapper_html: { class: 'flush' }
+            = f.input :zip_code, placeholder: 'Ex. : 75008', input_html: { class: 'input--large one-whole', data: { behavior: 'city-autocomplete', el: '#user_city_id'} }, label: false, wrapper_html: { class: 'flush soft-half--right', style: 'width: 10em;' }
             = f.input :city_id, collection: [@user.city], label: false, selected: @user.city, wrapper_html: { class: 'flush--top' }, input_html: { class: 'input--large' }
           = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
 
