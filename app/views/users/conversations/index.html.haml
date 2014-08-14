@@ -1,37 +1,39 @@
-= user_menu_currently_at 'messages'
-.white-box.soft
-  %h3 Mes conversations
-  .push--bottom
-    .v-middle.lbl.lbl--chip.rounded--thick{ class: "lbl--#{Mailboxer::Label::INFORMATION.color}"}
-    %strong.v-middle Demandes d'informations
-    .v-middle.push-half--left.lbl.lbl--chip.rounded--thick{ class: "lbl--#{Mailboxer::Label::COMMENT.color}"}
-    %strong.v-middle Avis déposés
-    .v-middle.push-half--left.lbl.lbl--chip.rounded--thick{ class: "lbl--#{Mailboxer::Label::CONVERSATION.color}"}
-    %strong.v-middle Conversations
-  - unless cookies[:understood__user_conversation_message]
-    %p.alert.alert--info#conversation-info
-      Envoyez des messages personnels aux professeurs, associations ou écoles que vous avez décidé de "suivre" ou qui vous ont déjà sollicité(e) pour déposer votre avis.
-      %a#understood__user_conversation_message{href: 'javascript:void(0)'} J'ai compris
+= user_menu_currently_at 'inbox'
 
-  - if @user.structures.any?
-    .text--center.push--bottom
-      = link_to 'Nouveau message', new_user_message_path(@user), class: 'btn btn--green btn--large'
+.panel
+  .panel__body.soft
+    %h3.flush Boîte de réception
+    .push--bottom
+      .v-middle.lbl.lbl--chip.rounded--thick{ class: "lbl--#{Mailboxer::Label::INFORMATION.color}"}
+      %strong.v-middle Demandes d'informations
+      .v-middle.push-half--left.lbl.lbl--chip.rounded--thick{ class: "lbl--#{Mailboxer::Label::COMMENT.color}"}
+      %strong.v-middle Avis déposés
+      .v-middle.push-half--left.lbl.lbl--chip.rounded--thick{ class: "lbl--#{Mailboxer::Label::CONVERSATION.color}"}
+      %strong.v-middle Conversations
+    - unless cookies[:understood__user_conversation_message]
+      %p.alert.alert--info#conversation-info
+        Envoyez des messages personnels aux professeurs, associations ou écoles que vous avez ajoutés en favori ou qui vous ont déjà sollicité(e) pour déposer votre avis.
+        %a#understood__user_conversation_message{href: 'javascript:void(0)'} J'ai compris
 
-  - @conversations.each do |conversation|
-    = link_to user_conversation_path(@user, conversation), class: 'muted-link' do
-      = render partial: 'conversations/conversation', locals: {conversation: conversation}
-  - if @conversations.empty?
-    %p.white-box.soft-half
-      Vous n'avez pas de conversation en cours
+    - if @user.structures.any?
+      .text--center.push--bottom
+        = link_to 'Nouveau message', new_user_message_path(@user), class: 'btn btn--green btn--large'
+
+    - @conversations.each do |conversation|
+      = link_to user_conversation_path(@user, conversation), class: 'muted-link' do
+        = render partial: 'conversations/conversation', locals: {conversation: conversation}
+    - if @conversations.empty?
+      %p.white-box.soft-half
+        Vous n'avez pas de conversation en cours
 
 
-  = content_for :scripts do
-    :javascript
-      $(function() {
-          if ($('#understood__user_conversation_message')) {
-              $('#understood__user_conversation_message').click(function() {
-                  $.cookie('understood__user_conversation_message', true, {expires: 100000});
-                  $('#conversation-info').remove();
-              });
-          }
-      });
+= content_for :scripts do
+  :javascript
+    $(function() {
+        if ($('#understood__user_conversation_message')) {
+            $('#understood__user_conversation_message').click(function() {
+                $.cookie('understood__user_conversation_message', true, {expires: 100000});
+                $('#conversation-info').remove();
+            });
+        }
+    });

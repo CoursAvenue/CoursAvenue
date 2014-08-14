@@ -33,11 +33,13 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             }
             if (this.model.isLogged()) {
                 _.extend(data, {
-                    dashboard_user_path      : Routes.dashboard_user_path({ id: this.model.get('slug') }),
-                    user_comments_path       : Routes.user_comments_path({ id: this.model.get('slug') }),
-                    user_conversations_path  : Routes.user_conversations_path({ id: this.model.get('slug') }),
-                    user_participations_path : Routes.user_participations_path({ id: this.model.get('slug') }),
-                    destroy_user_session_path: Routes.destroy_user_session_path()
+                    dashboard_user_path       : Routes.dashboard_user_path({ id: this.model.get('slug') }),
+                    user_comments_path        : Routes.user_comments_path({ id: this.model.get('slug') }),
+                    user_passions_path        : Routes.user_passions_path({ id: this.model.get('slug') }),
+                    user_followings_path      : Routes.user_followings_path({ id: this.model.get('slug') }),
+                    user_conversations_path   : Routes.user_conversations_path({ id: this.model.get('slug') }),
+                    new_user_invited_user_path: Routes.new_user_invited_user_path({ id: this.model.get('slug') }),
+                    destroy_user_session_path : Routes.destroy_user_session_path()
                 });
             } else {
                 _.extend(data, {

@@ -25,14 +25,14 @@
         .coursavenue-widget-top-logo-wrapper
           .coursavenue-widget-top-logo-inner-wrapper
             .coursavenue-widget-top-logo
-              = link_to 'http://www.coursavenue.com', target: '_blank', class: 'coursavenue-widget-title' do
+              = link_to 'https://www.coursavenue.com', target: '_blank', class: 'coursavenue-widget-title' do
                 %img.coursavenue-recommanded{src: asset_path('widget/recommanded_on.png')}
-              = link_to 'http://www.coursavenue.com', target: '_blank', class: 'coursavenue-widget-title' do
+              = link_to 'https://www.coursavenue.com', target: '_blank', class: 'coursavenue-widget-title' do
                 %img.coursavenue-logo{src: asset_path('widget/logo.png')}
-              = link_to 'http://www.coursavenue.com', target: '_blank', class: 'coursavenue-widget-title' do
+              = link_to 'https://www.coursavenue.com', target: '_blank', class: 'coursavenue-widget-title' do
                 %img.coursavenue-stars{src: asset_path('widget/stars.png')}
         %p{style: 'text-align: center; margin-bottom: 10px;'}
-          = link_to 'Déposer mon avis sur CoursAvenue', 'http://www.coursavenue.com', class: 'coursavenue-btn', target: '_blank'
+          = link_to 'Déposer mon avis sur CoursAvenue', 'https://www.coursavenue.com', class: 'coursavenue-btn', target: '_blank'
           - Comment::Review.accepted.order('created_at DESC').limit(20).each do |comment|
             .coursavenue-white-box
               %p.coursavenue-header
@@ -48,7 +48,7 @@
               %p.coursavenue-comment-footer
                 %i= "Avis déposé le #{I18n.l(comment.created_at, format: :date)}"
           %p{style: 'text-align: center; margin-bottom: 5px;'}
-            = link_to 'Voir tous les avis sur CoursAvenue', 'http://www.coursavenue.com', class: 'coursavenue-btn', target: '_blank'
+            = link_to 'Voir tous les avis sur CoursAvenue', 'https://www.coursavenue.com', class: 'coursavenue-btn', target: '_blank'
 
 
     .grid__item.one-half>

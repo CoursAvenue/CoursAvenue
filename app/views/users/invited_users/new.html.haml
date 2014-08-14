@@ -1,28 +1,25 @@
-= user_menu_currently_at 'Inviter mes amis'
+= user_menu_currently_at 'share'
 
-= render partial: 'users/invited_users/tabs', locals: { current: 'new' }
+.panel
+  = render partial: 'users/invited_users/tabs', locals: { current: 'new' }
+  .panel__body.soft
+    %h2 Invitez vos proches à rejoindre CoursAvenue
+    .gray-box.soft.relative
+      = form_tag(bulk_create_user_invited_users_path(current_user), method: :post) do
+        .grid.push-half--bottom
+          .grid__item.two-twelfths.text--right>
+            %h4 À
+          .grid__item.ten-twelfths>
+            %textarea.input--large.one-whole{ name: 'emails', rows: 2, placeholder: 'Entrez les emails des amis (gardés confidentiels) que vous souhaitez inviter.', data: { behavior: 'autoresize' } }
+        .grid
+          .grid__item.two-twelfths.text--right>
+            %h4 Message
+          .grid__item.ten-twelfths>
+            %textarea.input--large.one-whole{ name: 'text', rows: 6, data: { behavior: 'autoresize' } }
+              Salut,&#x000A;&#x000A;Je viens de créer mon compte gratuit sur CoursAvenue.com, le 1er moteur de recherche de cours de loisirs, pour bénéficier de cours d'essai gratuits ou de tarifs spéciaux en lien avec tes passions. Je t'invite à faire comme moi : c'est simple et rapide !
+            %p.gray
+              À très bientôt
+              %br
+              = @user.full_name
 
-%h2.text--center Invitez vos amis sur CoursAvenue
-
-.white-box.soft
-  = form_tag(bulk_create_user_invited_users_path(current_user), method: :post) do
-    .grid
-      .grid__item.one-half>
-        %h4.flush À :
-        %p.flush
-          %span.italic.blue{data: {behavior: 'tooltip', title: "Nous considérons que vos coordonnées et adresses de courrier électronique constituent des données confidentielles, et nous nous engageons à ne pas les divulguer. Conformément à l'article 27 de la loi \"Informatique et Liberté\" du 6 janvier 1978, vous disposez d'un droit d'accès et de rectification des informations vous concernant."}}
-            %i.fa.fa-question-circle
-            Entrez les emails des amis (gardés confidentiels) que vous souhaitez inviter.
-        %textarea.one-whole{name: 'emails', rows: 8, placeholder: 'Ex. : patrick@gmail.com, thomas@wanadoo.fr', data: {behavior: 'autoresize'}}
-      .grid__item.one-half>
-        %h4 Message :
-        %br
-        %textarea.one-whole{name: 'text', rows: 8, data: {behavior: 'autoresize'}}
-          Salut !&#x000A;&#x000A;Je viens de me créer un compte sur CoursAvenue et c'est trop cooooool ! C'est gratuit, simple et rapide.
-
-        %p.gray-light.flush
-          A+ !
-          %br
-          = current_user.name
-
-    .text--right.push-half--top= submit_tag 'Envoyer les invitations', class: 'btn btn--green', data: { disable_with: 'Envoi en cours' }
+        .text--right.push-half--top= submit_tag 'Envoyer les invitations', class: 'btn btn--green', data: { disable_with: 'Envoi en cours' }

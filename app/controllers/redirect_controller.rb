@@ -23,7 +23,7 @@ class RedirectController < ApplicationController
   end
 
   def blog
-    redirect_to 'http://www.coursavenue.com/blog', status: 301
+    redirect_to 'https://www.coursavenue.com/blog', status: 301
   end
 
   def structures_new

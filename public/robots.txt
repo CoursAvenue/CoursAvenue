@@ -6,4 +6,4 @@ Allow: /
 Disallow: /password/new
 Disallow: /verification/new
 Disallow: /professeurs/*
-Sitemap: http://www.coursavenue.com/sitemap.xml.gz
+Sitemap: https://www.coursavenue.com/sitemap.xml.gz

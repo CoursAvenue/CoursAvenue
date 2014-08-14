@@ -265,10 +265,9 @@ class User < ActiveRecord::Base
   def profile_completion
     percentage = 0
     percentage += 20 if self.full_name.present?
-    percentage += 20 if self.has_avatar?
-    percentage += 20 if self.city
-    percentage += 20 if self.gender and self.birthdate
+    percentage += 20 if self.has_avatar? and self.city
     percentage += 20 if self.passions.any?
+    percentage += 20 if self.followings.any?
     percentage
   end
 

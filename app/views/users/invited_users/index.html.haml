@@ -1,19 +1,20 @@
-= user_menu_currently_at 'Inviter mes amis'
+= user_menu_currently_at 'share'
 
-= render partial: 'users/invited_users/tabs', locals: { current: 'list' }
+.panel
+  = render partial: 'users/invited_users/tabs', locals: { current: 'list' }
+  .panel__body.soft
+    %h2 Invitations
 
-%h2 Invitations
-
-%table.table--striped.table--data.white-box
-  %thead
-    %tr
-      %th Email
-      %th S'est créé un compte
-  %tbody
-    - @invited_users.each do |invited_user|
-      %tr
-        %td= invited_user.email
-        %td
-          - if invited_user.registered?
-            %i.fa.fa-check
+    %table.table--striped.table--data
+      %thead
+        %tr
+          %th Email
+          %th S'est créé un compte
+      %tbody
+        - @invited_users.each do |invited_user|
+          %tr
+            %td= invited_user.email
+            %td
+              - if invited_user.registered?
+                %i.fa.fa-check
 

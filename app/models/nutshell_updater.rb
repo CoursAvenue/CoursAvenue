@@ -66,7 +66,7 @@ class NutshellUpdater
           'address'     => address,
           'customFields' => {
               'Profil privé' => "http://pro.coursavenue.com/etablissements/#{structure.slug}/tableau-de-bord",
-              'Profil public' => "http://www.coursavenue.com/etablissements/#{structure.slug}"
+              'Profil public' => "https://www.coursavenue.com/etablissements/#{structure.slug}"
           }
         }
         nutshell.edit_contact contact['id'], contact['rev'].to_i, new_contact

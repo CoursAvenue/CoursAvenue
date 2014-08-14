@@ -118,3 +118,15 @@ $side-menu-width       : 200px;
 .pro-top-menu {
     height: 45px;
 }
+.user-top-menu {
+    > div:hover {
+        border-bottom: 4px solid #AAA;
+    }
+    .active, .active:hover {
+        border-bottom: 4px solid #EEE;
+    }
+    > div {
+        position: relative;
+        top   : 1px;
+    }
+}

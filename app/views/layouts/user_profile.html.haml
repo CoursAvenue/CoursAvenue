@@ -3,53 +3,41 @@
 
 = content_for :content do
   - if @user
-    .white-box.main-container.push--top.print--hidden
-      .flexbox.one-whole
-        .flexbox__item.v-top{style: 'width: 11%;'}>
-          - if @user.has_avatar?
-            = link_to edit_user_path(@user) do
-              = image_tag @user.avatar_url(:thumb), class: 'block', width: 150
-          - else
-            .text--center
-              = link_to edit_user_path(@user), style: 'width: 130px; height: 130px; background-color: #555; padding-top: 40px; color: white; display: block;' do
-                Ajouter
-                %br
-                ma photo
-        .flexbox__item.v-top.eight-twelfths.soft-half>
-          %h4.push-half--bottom
-            %span.v-middle= @user.full_name
-            %span.v-middle.milli
-              \—
-              = link_to "Profil complété à #{@user.profile_completion} %", dashboard_user_path(@user), class: 'semi-muted-link'
-          %div
-            = link_to 'Partager', "https://www.facebook.com/sharer/sharer.php?u=http://www.coursavenue.com", class: 'btn btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'User / Share on Facebook', 'click', 'From dashboard page')"
-          -# %div.push-half--top
-          -#   = link_to new_user_invited_user_path(@user), class: 'btn btn--small', onclick: "ga('send', 'event', 'Share with friends', 'click')" do
-          -#     %i.fa.fa-bullhorn
-          -#     Parrainer mes amis
-        .flexbox__item.v-middle.two-twelfths.soft-half.text--center>
-          - if @user.city and @user.passions.reject(&:new_record?).any?
-            = link_to @user.around_courses_url, class: 'muted-link' do
-              .beta #{@user.around_courses_count} cours
-              - if @user.around_trial_courses_count > 0
-                dont #{@user.around_trial_courses_count} essais gratuits
-              %strong devraient vous plaire
-          - else
-            %p.push-half--bottom
-              %i
-                %strong Quelles sont vos passions ?
-                Mieux vous connaître,
-                %br
-                c'est mieux vous servir !
-          = link_to 'Gérer mes passions', user_passions_path(@user), class: "btn btn--blue #{(@user.passions.any? ? 'btn--small' : '')}"
+    = yield :user_top_menu
+    .main-container.soft--ends{class: controller_path}
+      .flexbox
+        .flexbox__item.one-fifth.v-top.soft-half--left>
+          .white-box.text--center.soft.push--bottom
+            - if @user.has_avatar?
+              = link_to edit_user_path(@user) do
+                = image_tag @user.avatar_url(:thumb), class: 'block'
+            - else
+              .text--center
+                = link_to edit_user_path(@user), style: 'width: 130px; height: 130px; background-color: #555; padding-top: 40px; color: white; display: block;' do
+                  Ajouter
+                  %br
+                  ma photo
+            %h3.text--center.push-half--ends= @user.full_name
+            .push-half--ends
+              = link_to "Modifier le profil", dashboard_user_path(@user)
+            %div
+              = link_to 'Partager', "https://www.facebook.com/sharer/sharer.php?u=https://www.coursavenue.com", class: 'btn btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'User / Share on Facebook', 'click', 'From dashboard page')"
 
+          = link_to new_user_invited_user_path(@user), class: 'btn btn--full push--bottom', onclick: "ga('send', 'event', 'Share with friends', 'click')" do
+            Inviter mes amis
+          .soft.bg-cover{ style: "background-image: url(#{asset_path('users/passions_bg.jpg')}); height: 300px;" }
+            .relative.one-whole.height-whole
+              %a.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: user_passions_path(@user) }>
+                .text--center.lbl.lbl--yellow.one-whole
+                  Cours d'essai gratuits
+                  %br
+                  et bons plans
+                .home-screen-gallery__title.text--center.f-weight-600
+                  Vos passions à petits prix
+                  .milli.show-on-hover__child Mettre à jour mes passions
 
-  .main-container.soft--ends{class: controller_path}
-    .flexbox
-      %nav.flexbox__item.v-top.side-menu.white-box.one-fifth.v-top.print--hidden>
-        = yield :user_side_menu
-      .flexbox__item.four-fifths.v-top.soft-half--left>
-        = content_for?(:users_content) ? yield(:users_content) : yield
+        .flexbox__item.four-fifths.v-top.soft-half--left>
+          = content_for?(:users_content) ? yield(:users_content) : yield
 
   = render 'shared/footer'
 

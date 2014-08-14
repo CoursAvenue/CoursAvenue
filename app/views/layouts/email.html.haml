@@ -31,10 +31,10 @@
               %td{ width: '600' }
                 .soft
                   - if content_for? :email_logo
-                    = link_to 'http://www.coursavenue.com', target: '_blank', class: 'block text--center' do
+                    = link_to 'https://www.coursavenue.com', target: '_blank', class: 'block text--center' do
                       = yield :email_logo
                   - else
-                    = link_to 'http://www.coursavenue.com', target: '_blank', class: 'block text--center' do
+                    = link_to 'https://www.coursavenue.com', target: '_blank', class: 'block text--center' do
                       = image_tag 'logos/logo@2x.png', height: '50', style: 'height: 50px; width: 250px;', width: '250', alt: 'Logo CoursAvenue'
 
             %tr
