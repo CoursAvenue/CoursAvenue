@@ -7,6 +7,7 @@ end
 # Block spammer
 Rack::Attack.blacklist('block /blog/xmlrpc.php') do |req|
   req.path == '/blog/xmlrpc.php'
+  req.path == '/ali.txt'
 end
 
 # Block requests containing '/etc/password' in the params.

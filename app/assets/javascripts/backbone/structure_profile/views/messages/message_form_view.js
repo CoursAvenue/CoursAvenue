@@ -113,7 +113,7 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
         },
 
         onAfterShow: function onAfterShow () {
-            GLOBAL.chosen_initializer();
+            setTimeout(GLOBAL.chosen_initializer, 5)
         },
 
         serializeData: function serializeData () {
