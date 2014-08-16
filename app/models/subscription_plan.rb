@@ -143,6 +143,7 @@ class SubscriptionPlan < ActiveRecord::Base
     params['method']          = 'payment'
 
     res = Net::HTTP.post_form URI(ENV['BE2BILL_REST_URL']), params
+    puts res.body
     if res.is_a?(Net::HTTPSuccess)
       return true
     else

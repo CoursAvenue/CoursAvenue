@@ -7,7 +7,7 @@
 
         %p.epsilon
           Votre <strong>#{last_subscription_plan.description.downcase} CoursAvenue Premium</strong> est arrété depuis le
-          %strong= l(last_subscription_plan.expires_at)
+          %strong= "#{l(last_subscription_plan.expires_at)}."
         = form_for (@structure), method: :get, url: go_premium_pro_structure_path(@structure) do
           = hidden_field_tag :subscription_plan_id, last_subscription_plan.id
           = submit_tag "Réactiver mon #{last_subscription_plan.description.downcase}", class: 'btn btn--yellow soft--sides'
