@@ -1,16 +1,20 @@
 .panel
   .panel__body.soft--ends
     .soft--sides
+      - # We show the user his last subscription to incentive him to reactivate
       - last_subscription_plan = @structure.subscription_plan
       - if last_subscription_plan
         %h2 Réactiver mon abonnement
 
         %p.epsilon
-          Votre <strong>#{last_subscription_plan.description.downcase} CoursAvenue Premium</strong> est arrété depuis le
-          %strong= "#{l(last_subscription_plan.expires_at)}."
+          - if !last_subscription_plan.canceled? and last_subscription_plan.last_renewal_failed_at and last_subscription_plan.last_renewal_failed_at.present?
+            Nous sommes désolés mais nous n'avons pas réussi à renouveler votre abonnement Premium. Ce problème est lié à votre carte bancaire (date d'expiration dépassée, solde insuffisant, opération rejetée, etc.)
+          - else
+            Votre <strong>#{last_subscription_plan.description.downcase} CoursAvenue Premium</strong> est arrété depuis le
+            %strong= "#{l(last_subscription_plan.expires_at)}."
         = form_for (@structure), method: :get, url: go_premium_pro_structure_path(@structure) do
           = hidden_field_tag :subscription_plan_id, last_subscription_plan.id
-          = submit_tag "Réactiver mon #{last_subscription_plan.description.downcase}", class: 'btn btn--yellow soft--sides'
+          = submit_tag "Réactiver mon #{last_subscription_plan.next_plan_type_description.downcase}", class: 'btn btn--yellow soft--sides'
 
     %hr.push--ends
     .soft--sides

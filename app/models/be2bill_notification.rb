@@ -26,6 +26,12 @@ class Be2billNotification < ActiveRecord::Base
                                    order_id: params['ORDERID'],
                                    promotion_code_id: params['EXTRADATA']['promotion_code_id'],
                                    subscription_plan: subscription_plan)
+    else
+      if params['EXTRADATA']['renew'].present?
+        subscription_plan = self.structure.subscription_plan
+        subscription_plan.last_renewal_failed_at = Date.today
+        subscription_plan.save
+      end
     end
   end
 

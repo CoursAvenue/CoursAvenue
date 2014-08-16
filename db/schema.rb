@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140814130307) do
+ActiveRecord::Schema.define(version: 20140816144322) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -822,7 +822,7 @@ ActiveRecord::Schema.define(version: 20140814130307) do
     t.string   "credit_card_number"
     t.string   "be2bill_alias"
     t.string   "client_ip"
-    t.boolean  "recurrent",          default: true
+    t.boolean  "recurrent",              default: true
     t.date     "expires_at"
     t.date     "renewed_at"
     t.datetime "canceled_at"
@@ -833,6 +833,7 @@ ActiveRecord::Schema.define(version: 20140814130307) do
     t.datetime "updated_at"
     t.date     "card_validity_date"
     t.integer  "promotion_code_id"
+    t.datetime "last_renewal_failed_at"
   end
 
   create_table "taggings", force: true do |t|

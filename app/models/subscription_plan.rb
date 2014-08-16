@@ -55,7 +55,7 @@ class SubscriptionPlan < ActiveRecord::Base
   belongs_to :structure
   belongs_to :promotion_code
 
-  attr_accessible :plan_type, :expires_at, :renewed_at, :recurrent, :structure, :canceled_at,
+  attr_accessible :plan_type, :expires_at, :renewed_at, :last_renewal_failed_at, :recurrent, :structure, :canceled_at,
                   :credit_card_number, :be2bill_alias, :client_ip, :card_validity_date, :promotion_code_id,
                   :cancelation_reason_dont_want_more_students, :cancelation_reason_stopping_activity,
                   :cancelation_reason_didnt_have_return_on_investment, :cancelation_reason_too_hard_to_use,
@@ -168,11 +168,19 @@ class SubscriptionPlan < ActiveRecord::Base
     self.expires_at         = Date.today + PLAN_TYPE_DURATION[plan_type.to_s].months
     self.reactivate!
   end
-  # Description of the plan in months
+
+  # Description of the plan
   #
   # @return Integer
   def description
     PLAN_TYPE_DESCRIPTION[self.plan_type]
+  end
+
+  # Description of the next plan
+  #
+  # @return Integer
+  def next_plan_type_description
+    PLAN_TYPE_DESCRIPTION[NEXT_PLAN_TYPE[self.plan_type]]
   end
 
   # Duration of the plan in months
