@@ -30,7 +30,7 @@ class UserMailer < ActionMailer::Base
     @name    = name
     @email   = email
     @content = content
-    mail to: 'contact@coursavenue.com', subject: 'Suite de votre message sur CoursAvenue'
+    mail to: 'contact@coursavenue.com', subject: 'Suite de votre message sur CoursAvenue', reply_to: email
   end
 
   # Welcomes the user on the platforme
