@@ -165,7 +165,7 @@ class SubscriptionPlan < ActiveRecord::Base
     self.card_validity_date = (params['CARDVALIDITYDATE'] ? Date.strptime(params['CARDVALIDITYDATE'], '%m-%y') : nil)
     self.renewed_at         = Date.today
     self.expires_at         = Date.today + PLAN_TYPE_DURATION[plan_type.to_s].months
-    self.save
+    self.reactivate!
   end
   # Description of the plan in months
   #
