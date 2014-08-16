@@ -7,7 +7,7 @@
         %h2 Réactiver mon abonnement
 
         %p.epsilon
-          - if !last_subscription_plan.canceled? and last_subscription_plan.last_renewal_failed_at and last_subscription_plan.last_renewal_failed_at.present?
+          - if !last_subscription_plan.canceled? and last_subscription_plan.last_renewal_failed_at
             Nous sommes désolés mais nous n'avons pas réussi à renouveler votre abonnement Premium. Ce problème est lié à votre carte bancaire (date d'expiration dépassée, solde insuffisant, opération rejetée, etc.)
           - else
             Votre <strong>#{last_subscription_plan.description.downcase} CoursAvenue Premium</strong> est arrété depuis le

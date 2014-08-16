@@ -359,9 +359,7 @@ class Pro::StructuresController < Pro::ProController
       @amount = @subscription_plan.amount_for_be2bill
     end
     AdminMailer.delay.wants_to_go_premium(@structure, @subscription_plan.plan_type)
-    if @structure.premium?
-      redirect_to premium_pro_structure_path(@structure)
-    end
+
     @be2bill_description = "Abonnement Premium CoursAvenue"
 
     @order_id = Order.next_order_id_for @structure
