@@ -110,18 +110,18 @@ fr:
     structures:
       be2bill_errors:
         error_4001: "Transaction refusée par le réseau bancaire"
-        error_4002: "Fonds insuffisants "
-        error_4003: "Carte refusée par le réseau bancaire "
-        error_4004: "Transaction abandonnée  "
+        error_4002: "Fonds insuffisants"
+        error_4003: "Carte refusée par le réseau bancaire"
+        error_4004: "Transaction abandonnée"
         error_4005: "Suspicion de fraude"
-        error_4006: "Carte perdue "
+        error_4006: "Carte perdue"
         error_4007: "Carte volée"
-        error_4008: "Authentification 3DSecure échouée "
-        error_4009: "Authentification 3DSecure expirée "
-        error_4010: "Transaction invalide "
-        error_4011: "Transaction doublon "
-        error_4012: "Données de carte invalides "
-        error_4013: "Transaction non autorisée par le réseau bancaire pour ce porteur  "
+        error_4008: "Authentification 3DSecure échouée"
+        error_4009: "Authentification 3DSecure expirée"
+        error_4010: "Transaction invalide"
+        error_4011: "Transaction doublon"
+        error_4012: "Données de carte invalides"
+        error_4013: "Transaction non autorisée par le réseau bancaire pour ce porteur"
       create:
         create_teacher: Super ! Renseignez maintenant les professeurs de votre établissement.
       form:

@@ -17,9 +17,11 @@ class Be2billNotification < ActiveRecord::Base
     if params['EXECCODE'] == '0000'
       if params['EXTRADATA']['renew'].present?
         subscription_plan = self.structure.subscription_plan
+        subscription_plan.extend_subscription
       else
         subscription_plan = SubscriptionPlan.subscribe!(params['EXTRADATA']['plan_type'], self.structure, params)
       end
+      # Create order for current payment
       self.structure.orders.create(amount: subscription_plan.amount,
                                    order_id: params['ORDERID'],
                                    promotion_code_id: params['EXTRADATA']['promotion_code_id'],
@@ -37,6 +39,7 @@ class Be2billNotification < ActiveRecord::Base
         AdminMailer.delay.subscription_renewal_failed(self.structure, params)
       end
     else
+      # Email for admin
       AdminMailer.delay.go_premium(self.structure, params['EXTRADATA']['plan_type'])
     end
   end

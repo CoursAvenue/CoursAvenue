@@ -79,6 +79,7 @@ class AdminMailer < ActionMailer::Base
     mail to: 'contact@coursavenue.com', subject: 'Un professeur veut passer premium'
   end
 
+  # Sent for admin
   def go_premium structure, offer
     @structure = structure
     @offer     = offer

@@ -143,18 +143,25 @@ class SubscriptionPlan < ActiveRecord::Base
     params['method']          = 'payment'
 
     res = Net::HTTP.post_form URI(ENV['BE2BILL_REST_URL']), params
-    puts res.body if res.is_a?(Net::HTTPSuccess)
     if res.is_a?(Net::HTTPSuccess)
-      AdminMailer.delay.subscription_has_been_renewed(self)
-      self.renewed_at = Date.today
-      self.expires_at = Date.today + PLAN_TYPE_DURATION[plan_type.to_s].months
-      self.save
       return true
     else
+      params['res_body'] = res.body
+      Bugsnag.notify(RuntimeError.new("Renewal failed on HTTP call"), params)
+      AdminMailer.delay.go_premium_fail(self.structure, params)
       return false
     end
   end
 
+  # Executed by Be2bill notification callback if the renwal has been successful
+  #
+  # @return Boolean, saved or not
+  def extend_subscription
+    AdminMailer.delay.subscription_has_been_renewed(self)
+    self.renewed_at = Date.today
+    self.expires_at = Date.today + PLAN_TYPE_DURATION[plan_type.to_s].months
+    self.save
+  end
   # Description of the plan in months
   #
   # @return Integer
