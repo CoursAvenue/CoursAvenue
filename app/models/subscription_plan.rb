@@ -156,10 +156,15 @@ class SubscriptionPlan < ActiveRecord::Base
   # Executed by Be2bill notification callback if the renwal has been successful
   #
   # @return Boolean, saved or not
-  def extend_subscription
+  def extend_subscription(params)
     AdminMailer.delay.subscription_has_been_renewed(self)
-    self.renewed_at = Date.today
-    self.expires_at = Date.today + PLAN_TYPE_DURATION[plan_type.to_s].months
+    #
+    self.credit_card_number = params['CARDCODE']
+    # Update be2bill_alias if the renew is done by the user because his card hasexpired
+    self.be2bill_alias      = params['ALIAS'] if params['ALIAS'].present?
+    self.card_validity_date = (params['CARDVALIDITYDATE'] ? Date.strptime(params['CARDVALIDITYDATE'], '%m-%y') : nil)
+    self.renewed_at         = Date.today
+    self.expires_at         = Date.today + PLAN_TYPE_DURATION[plan_type.to_s].months
     self.save
   end
   # Description of the plan in months

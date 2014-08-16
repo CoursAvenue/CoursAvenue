@@ -17,7 +17,7 @@ class Be2billNotification < ActiveRecord::Base
     if params['EXECCODE'] == '0000'
       if params['EXTRADATA']['renew'].present?
         subscription_plan = self.structure.subscription_plan
-        subscription_plan.extend_subscription
+        subscription_plan.extend_subscription(params)
       else
         subscription_plan = SubscriptionPlan.subscribe!(params['EXTRADATA']['plan_type'], self.structure, params)
       end

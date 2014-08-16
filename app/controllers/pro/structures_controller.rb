@@ -338,12 +338,19 @@ class Pro::StructuresController < Pro::ProController
 
   # GET member
   def go_premium
-    @subscription_plan = SubscriptionPlan.new plan_type: params[:premium_type]
-    if params[:promo_code]
-      if (promotion_code = PromotionCode.where(code_id: params[:promo_code]).first) and promotion_code.still_valid?(@subscription_plan)
-        @promotion_code = promotion_code
-      else
-        flash[:error] = "Le code promo : #{params[:promo_code]} n'est pas valide"
+    extra_data = {}
+    if params[:subscription_plan_id] and @structure.subscription_plans.find(params[:subscription_plan_id])
+      @subscription_plan = @structure.subscription_plans.find(params[:subscription_plan_id])
+      @promotion_code = @subscription_plan.promotion_code if @subscription_plan.promotion_code
+      extra_data[:renew] = true
+    else
+      @subscription_plan = SubscriptionPlan.new plan_type: params[:premium_type]
+      if params[:promo_code]
+        if (promotion_code = PromotionCode.where(code_id: params[:promo_code]).first) and promotion_code.still_valid?(@subscription_plan)
+          @promotion_code = promotion_code
+        else
+          flash[:error] = "Le code promo : #{params[:promo_code]} n'est pas valide"
+        end
       end
     end
     if @promotion_code
@@ -351,7 +358,6 @@ class Pro::StructuresController < Pro::ProController
     else
       @amount = @subscription_plan.amount_for_be2bill
     end
-
     AdminMailer.delay.wants_to_go_premium(@structure, @subscription_plan.plan_type)
     if @structure.premium?
       redirect_to premium_pro_structure_path(@structure)
@@ -369,7 +375,7 @@ class Pro::StructuresController < Pro::ProController
       'OPERATIONTYPE' => 'payment',
       'ORDERID'       => @order_id,
       'VERSION'       => '2.0',
-      'EXTRADATA'     => { promotion_code_id: @promotion_code.try(:id), plan_type: @subscription_plan.plan_type }.to_json
+      'EXTRADATA'     => extra_data.merge({ promotion_code_id: @promotion_code.try(:id), plan_type: @subscription_plan.plan_type }).to_json
     }
     @be2bill_params['HASH'] = SubscriptionPlan.hash_be2bill_params @be2bill_params
   end

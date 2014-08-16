@@ -15,7 +15,7 @@
           %td
             %strong= "#{@subscription_plan.monthly_amount}€"
             par mois x #{@subscription_plan.duration} mois
-        - if @promotion_code and @promotion_code.still_valid?(@subscription_plan)
+        - if @promotion_code
           %tr
             %td= @promotion_code.name
             %td= "-#{@promotion_code.promo_amount}€"
