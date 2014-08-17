@@ -3,6 +3,17 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
 
     Module.Message = Backbone.Model.extend({
 
+        validation: {
+            body: {
+                required: true,
+                msg: 'Doit être rempli'
+            },
+            'user.phone_number': {
+                maxLength: 20,
+                msg: 'Mauvais format'
+            }
+        },
+
         initialize: function initialize () {
             if ($.cookie('last_sent_message')) {
                 this.set(JSON.parse($.cookie('last_sent_message')));
@@ -10,18 +21,6 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
             if (CoursAvenue.currentUser()) {
                 this.set('user', CoursAvenue.currentUser().toJSON());
             }
-        },
-
-        // Validates the form
-        // Might want to use https://github.com/powmedia/backbone-forms at some point
-        // Return Boolean, wether it's valid or not
-        valid: function validate () {
-            errors = {};
-            if (!this.get('body') || this.get('body').length == 0) {
-                errors['body'] = 'Doit être rempli'
-            }
-            this.set('errors', errors);
-            return _.isEmpty(errors);
         },
 
         url: function url () {

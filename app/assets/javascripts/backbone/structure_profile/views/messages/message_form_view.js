@@ -10,6 +10,7 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
             this.structure = options.structure;
             this.model = new StructureProfile.Models.Message();
             this.$el.css('max-width', '400px');
+            Backbone.Validation.bind(this);
             _.bindAll(this, 'showPopupMessageDidntSend');
         },
 
@@ -21,6 +22,7 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
                     this.$el.removeClass('push--bottom');
                 }
             }
+            setTimeout(GLOBAL.chosen_initializer, 5)
         },
         events: {
             'submit form'                             : 'submitForm',
@@ -35,7 +37,7 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
             this.model.set({
                 structure_id  : this.structure.get('id'),
                 extra_info_ids: _.map(this.$('[name="extra_info_ids[]"]:checked'), function(input) { return input.value }),
-                course_ids    : _.map(this.$('[name="course_ids[]"]:checked'), function(input) { return input.value }),
+                course_ids    : this.$('[name="course_ids[]"]').val(),
                 body          : this.$('[name=body]').val(),
                 user: {
                     first_name  : this.$('[name="user[first_name]"]').val(),
@@ -51,7 +53,7 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
          */
         submitForm: function submitForm () {
             this.populateMessage();
-            if (this.model.valid()) {
+            if (this.model.isValid(true)) {
                 if (CoursAvenue.currentUser().isLogged()) {
                     this.$('form').trigger('ajax:beforeSend.rails');
                     this.saveMessage();
@@ -67,20 +69,13 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
                     });
                 }
             } else {
-                this.showErrors();
+                this.errors = this.model.validate();
+                if (this.errors['user.phone_number']) {
+                    this.errors.user = { phone_number: this.errors['user.phone_number'] }
+                }
+                this.render();
             }
             return false;
-        },
-
-        /*
-         * TODO, user backbone validation
-         */
-        showErrors: function showErrors () {
-            this.$('.input_field_error').remove();
-            _.each(this.model.get('errors'), function(error, name) {
-                var error = $('<div>').addClass('input_field_error red text--right one-whole').text(error)
-                this.$('[name="' + name + '"]').closest('.input').append(error);
-            });
         },
 
         /*
@@ -89,6 +84,7 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
         saveMessage: function saveMessage () {
             // Save sent message to cookie to reuse it on another page.
             $.cookie('last_sent_message', JSON.stringify(this.model.toJSON()));
+            this.$('.input_field_error').remove();
             this.model.sync({
                 success: function success (response) {
                     this.$('form').trigger('ajax:complete.rails');
@@ -112,12 +108,9 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
               });
         },
 
-        onAfterShow: function onAfterShow () {
-            setTimeout(GLOBAL.chosen_initializer, 5)
-        },
-
         serializeData: function serializeData () {
             var data = this.model.toJSON();
+            if (this.errors) { _.extend(data, { errors: this.errors }); }
             _.extend(data, {
                 structure: this.structure.toJSON(),
                 prefilled_body: "Bonjour,\n\nJe souhaiterais venir pour une première séance. Pouvez-vous m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt"

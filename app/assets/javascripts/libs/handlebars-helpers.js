@@ -58,6 +58,12 @@ Handlebars.registerHelper('ifInclude', function (array, value, options) {
     return (array.indexOf(value) != -1 ? options.fn(this) : options.inverse(this));
 });
 
+// usage: {{#ifIncludeString array '4'}}{{/ifIncludeString}}
+Handlebars.registerHelper('ifIncludeString', function (array, value, options) {
+    if (!array || !value) { return options.inverse(this); }
+    return (array.indexOf(value.toString()) != -1 ? options.fn(this) : options.inverse(this));
+});
+
 // usage: {{#ifCond a '==' b'}}/*...*/{{/ifCond}}
 Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
 

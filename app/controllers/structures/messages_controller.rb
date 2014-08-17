@@ -9,7 +9,7 @@ class Structures::MessagesController < ApplicationController
     # Retrieve or create user
     if current_user
       @user = current_user
-      if params[:message][:user] and params[:message][:user][:phone_number].present?
+      if params[:message][:user] and params[:message][:user][:phone_number].present? and params[:message][:user][:phone_number].length < 30
         @user.phone_number = params[:message][:user][:phone_number]
         @user.save
       end

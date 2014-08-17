@@ -39,7 +39,6 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         initializeContactLink: function initializeContactLink () {
             $('body').on('click', '[data-behavior=show-contact-panel]', function() {
                 var message_form_view = new StructureProfile.Views.Messages.MessageFormView( { structure: this.model } ).render();
-                message_form_view.onAfterShow();
                 $.magnificPopup.open({
                       items: {
                           src: $(message_form_view.$el),
