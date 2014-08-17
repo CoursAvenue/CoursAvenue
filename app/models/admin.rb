@@ -91,7 +91,7 @@ class ::Admin < ActiveRecord::Base
   end
 
   def name
-    if read_attribute(:name).blank? and self.structure
+    if self.structure
       structure.name
     else
       read_attribute(:name)
