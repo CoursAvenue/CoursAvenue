@@ -7,6 +7,10 @@ class PagesController < ApplicationController
     redirect_to pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), status: 301
   end
 
+  def jpo
+    redirect_to root_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), status: 301
+  end
+
   def send_message
     @errors = []
     @errors << :name    if params[:name].blank?

@@ -31,6 +31,7 @@ class Pro::HomeController < Pro::ProController
   end
 
   def jpo
+    redirect_to root_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), status: 301
   end
 
   def july_offer
