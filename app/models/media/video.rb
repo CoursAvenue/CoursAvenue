@@ -16,7 +16,7 @@ class Media::Video < Media
     'vimeo' => {
       pattern: /https?:\/\/(www.)?vimeo\.com\/([A-Za-z0-9._%-]*)((\?|#)\S+)?/,
       key: 2,
-      video_thumbnail: 'https://vimeo.com/api/v2/video/__ID__.json'
+      video_thumbnail: 'http://vimeo.com/api/v2/video/__ID__.json'
     }
   }
 
@@ -48,9 +48,9 @@ class Media::Video < Media
       if self.provider_name == 'vimeo'
         url = URI.parse(FILTER_REGEX[self.provider_name][:video_thumbnail].gsub('__ID__', self.provider_id))
         req = Net::HTTP::Get.new(url.path)
-        res = Net::HTTP.start(url.host, url.port) {|http|
+        res = Net::HTTP.start(url.host, url.port) do |http|
           http.request(req)
-        }
+        end
         thumbnail_url = JSON.parse(res.body).first['thumbnail_large']
       else
         thumbnail_url = FILTER_REGEX[self.provider_name][:video_thumbnail].gsub('__ID__', self.provider_id)
