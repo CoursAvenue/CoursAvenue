@@ -357,7 +357,7 @@ class Structure < ActiveRecord::Base
   # @return Places
   def places_in_bounding_box(south_west, north_east)
     places.select do |place|
-      south_west[0].to_f < place.latitude and north_east[0].to_f > place.latitude and
+      south_west[0].to_f < place.latitude and north_east[0].to_f > place.latitude
       south_west[1].to_f < place.longitude and north_east[1].to_f > place.longitude
     end
   end
