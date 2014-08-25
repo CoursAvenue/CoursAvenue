@@ -1,5 +1,5 @@
 !!!
-%html.no-js{ lang: 'fr', 'xmlns:og' => "http://opengraphprotocol.org/schema", 'xmlns:fb' => "http://www.facebook.com/2008/fbml" }
+%html.no-js{ lang: 'fr', prefix: 'og:http://opengraphprotocol.org/schema fb:http://www.facebook.com/2008/fbml' }
   %head
     %link{ href: 'https://fonts.googleapis.com/css?family=Raleway:500,400,300,600,700', rel: 'stylesheet', type: 'text/css' }
     = yield :right_after_head
@@ -17,9 +17,9 @@
     = javascript_include_tag "modernizr" # MUST BE In the Head and before CSS
     = stylesheet_link_tag "application", media: 'all'
     = csrf_meta_tags unless response.cache_control[:public]
-  :javascript
-    window.GLOBAL = window.GLOBAL || {};
-    GLOBAL.is_mobile = #{mobile_device?};
+    :javascript
+      window.GLOBAL = window.GLOBAL || {};
+      GLOBAL.is_mobile = #{mobile_device?};
 
   %body{ style: (Rails.env.development? ? 'border-top: 5px solid yellow;' : '') }
     - unless response.cache_control[:public]
