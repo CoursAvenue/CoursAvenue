@@ -5,11 +5,6 @@
 = simple_form_for [:pro, @structure, @message], url: pro_structure_messages_path(@structure, @message), as: :message, remote: request.xhr? do |f|
   - if params[:return_to].present?
     %input{ type: 'hidden', value: params[:return_to], name: 'return_to' }
-  - if @message.errors.any?
-    .grid--full.push-half--bottom
-      .grid__item.two-twelfths>
-      .grid__item.ten-twelfths>
-        = f.error_notification
   .grid--full.push-half--bottom.message
     .grid__item.two-twelfths.v-top.v-top>
       = image_tag @admin.avatar, class: 'message__avatar block center-block bordered'

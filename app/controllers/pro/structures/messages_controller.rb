@@ -28,8 +28,8 @@ class Pro::Structures::MessagesController < ApplicationController
   def create
     params[:message][:recipients].reject(&:blank?) if params[:message][:recipients].is_a? Array
     @recipients   = @structure.user_profiles.find(params[:message][:recipients]) if params[:message].has_key? :recipients
-    @recipients   = if @recipients.is_a? Array then @recipients.map(&:user) else @recipients.user end
-    @receipt      = @admin.send_message_with_label(@recipients, params[:message][:body], params[:message][:subject], 'conversation') if @recipients and @recipients.present?
+    @recipients   = (@recipients.is_a?(Array) ? @recipients.map(&:user) : @recipients.user)
+    @receipt      = @admin.send_message_with_label(@recipients, params[:message][:body], params[:message][:subject], 'conversation') if @recipients and @recipients.present? and params[:message][:body].present?
     @conversation = @receipt.conversation if @receipt
     respond_to do |format|
       if @conversation and @conversation.persisted?
@@ -38,7 +38,7 @@ class Pro::Structures::MessagesController < ApplicationController
       else
         @message = @admin.messages.build params[:message]
         @message.valid? # Triggers errors to appear
-        @message.errors.add :recipients, :blank if @recipients.empty?
+        @message.errors.add :recipients, :blank if @recipients.blank?
         format.html { render action: :new }
         format.js
       end

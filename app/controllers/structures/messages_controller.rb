@@ -25,10 +25,10 @@ class Structures::MessagesController < ApplicationController
         format.json { render json: { succes: true, popup_to_show: render_to_string(partial: 'structures/messages/message_sent', formats: [:html]) } }
         format.html { redirect_to user_conversation_path(@user, @conversation) }
       elsif current_user
-        format.json  { render json: { succes: false } }
+        format.json { render json: { succes: false } }
         format.html { redirect_to structure_path(@structure, message_body: params[:message][:body]), alert: "Vous n'avez pas remplis toutes les informations" }
       else
-        format.json  { render json: { succes: false } }
+        format.json { render json: { succes: false } }
         format.html { redirect_to structure_path(@structure, message_body: params[:message][:body], first_name: params[:user][:first_name], email: params[:user][:email]), alert: "Vous n'avez pas remplis toutes les informations" }
       end
     end
