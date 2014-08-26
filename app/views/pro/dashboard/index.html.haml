@@ -1,7 +1,6 @@
 = side_menu_currently_at 'dashboard'
 .panel
-  .panel__header.soft
-    %h3.flush Tableau de bord
+  = render partial: 'pro/shared/dashboard_tabs', locals: { current: 'dashboard' }
   .panel__body.soft
     .grid
       .grid__item.one-quarter.bordered--right>

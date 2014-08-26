@@ -148,6 +148,7 @@ fr:
       side_menu:
         account: Compte
         blog: Blog
+        pages: Pages
         portraits: Portraits
         clicks: Nombre de click
         comments: Avis
@@ -160,6 +161,7 @@ fr:
         jpo: Portes Ouvertes
         last_comments: Derniers avis
         last_messages: Derniers messages
+        activity: Activités
         medias: "Photos & vidéos"
         messages: Messages
         places: Lieux

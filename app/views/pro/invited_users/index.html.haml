@@ -1,9 +1,9 @@
 = side_menu_currently_at 'invitations'
 
 .panel
-  .panel__header.soft
-    %h3.flush Invitations
+  = render partial: 'pro/shared/invitation_tabs', locals: { current: 'invited_users' }
   .panel__body.soft--ends
+    %h2.soft--sides.f-weight-300 Demande de recommandations
     %table.table--striped.table--data
       %thead
         %tr

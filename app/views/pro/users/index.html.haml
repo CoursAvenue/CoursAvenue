@@ -1,8 +1,7 @@
-= side_menu_currently_at 'users'
+= side_menu_currently_at 'dashboard'
 
 .panel
-  .panel__header.soft
-    %h3.flush Évolution des inscriptions élèves
+  = render partial: 'pro/shared/dashboard_tabs', locals: { current: 'users' }
   .panel__body.soft--ends
     .text--center
       .gamma

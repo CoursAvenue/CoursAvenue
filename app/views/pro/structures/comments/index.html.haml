@@ -1,6 +1,6 @@
 = side_menu_currently_at 'comments'
 .panel
-  = render partial: 'pro/structures/comments_tabs', locals: {current: 'comments'}
+  = render partial: 'pro/structures/comments_tabs', locals: { current: 'comments' }
   .panel__body.soft--bottom{ data: { behavior: 'wizard-helper', content: t('comments.wizard.infos') } }
     .soft.text--center
       = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--green btn--large'

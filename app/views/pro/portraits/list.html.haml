@@ -1,9 +1,10 @@
-= side_menu_currently_at 'portraits'
+= side_menu_currently_at 'pages'
 
 .panel
-  .panel__header.soft.text--center
-    = link_to 'Nouvel portrait', new_pro_portrait_path, class: 'btn btn--large btn--green'
+  = render partial: 'pro/shared/pages_tabs', locals: { current: 'portraits' }
   .panel__body
+    .soft.text--center
+      = link_to 'Nouvel portrait', new_pro_portrait_path, class: 'btn btn--large btn--green'
     %table.table--data.table--striped
       %thead
         %tr

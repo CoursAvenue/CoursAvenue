@@ -1,8 +1,7 @@
-= side_menu_currently_at 'teachers_stars'
+= side_menu_currently_at 'dashboard'
 
 .panel
-  .panel__header.soft
-    %h3.flush Profs stars
+  = render partial: 'pro/shared/dashboard_tabs', locals: { current: 'teacher_stars' }
   .panel__body.soft--ends
     %table.table--striped.table--data#dataTable
       %thead

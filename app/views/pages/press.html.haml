@@ -1,15 +1,57 @@
-.home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background5.jpg'})", 'data-stellar-background-ratio' => '0.6' }
-  .main-container.soft
-    %h1.flush Votre contact presse
+.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background5.jpg'})" }
+  .main-container.main-container--medium.soft
+    %h1.flush
+      Presse
+.main-container.main-container--medium.soft
+  .grid
+    .grid__item.seven-tenths>
+      %iframe.push--bottom.one-whole{ width: "640", height:"360", src:"//www.youtube.com/embed/-hq0sxFEcOw", frameborder:"0", allowfullscreen: true }
 
-.main-container.soft
-  %h3{ style: 'margin-bottom: 5px' } Nicolas Lagarde
+      %h2.soft--bottom.f-weight-300 Ce qu'ils disent de nous
+      - PressArticle.all.each do |press_article|
+        .grid.push--bottom
+          .grid__item.one-quarter.v-top>
+            = link_to press_article.url, target: :_blank, class: 'block muted-link' do
+              = image_tag press_article.logo.url(:original)
+          .grid__item.three-quarters>
+            .message__appendix.message__appendix--white.message__body.white-box.soft
+              .gray.float--right= l(press_article.published_at)
+              = link_to press_article.url, target: :_blank, class: 'block epsilon f-weight-bold push-half--bottom' do
+                = press_article.title
+              %p.flush
+                = press_article.description
 
-  %p
-    = image_tag 'pages/email_nico.png', height: 13, class: 'push-half--ends'
-    %br
-    = image_tag 'pages/phone_number.png', height: 20, class: 'push-half--ends'
+    .grid__item.three-tenths>
+      .white-box.soft.push--bottom
+        %i.fa.fa-phone.float--right.gray-light.gamma.line-height-1
+        %h3.epsilon.push-half--bottom
+          Votre contact presse
+        %p.flush
+          %strong Nicolas Lagarde
+          %br
+          nicolas (at) coursavenue (point) com
+          %br
+          zéro neuf 82 24 27 74
+          %br
+          zéro six 07 94 54 52
+      .white-box.soft.push--bottom
+        %i.fa.fa-download.float--right.gray-light.gamma.line-height-1
+        %h3.epsilon.push-half--bottom
+          Téléchargement
+        %p.flush
+          = link_to 'Dossier de presse'
+          %br
+          = link_to 'Logos'
+          %br
+          = link_to 'Visuels du service'
+          %br
+          = link_to 'Textes descriptifs'
+      .white-box.soft.push--bottom
+        %i.fa.fa-info.float--right.gray-light.gamma.line-height-1
+        %h3.epsilon.push-half--bottom
+          En savoir plus
+        %p.flush
+          = link_to 'Espace élèves', pages_what_is_it_path, target: :_blank
+          %br
+          = link_to 'Espace professionnels (professeurs, associations, écoles)', root_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), target: :_blank
 
-  -# %h3 Dossier de presse
-  -# %p
-  -#   %b= link_to 'Télécharger notre dossier de presse !', 'https://s3-eu-west-1.amazonaws.com/coursavenue/docs/Dossier+Presse_CoursAvenue.zip'

@@ -1,9 +1,9 @@
-= side_menu_currently_at 'students_invitations'
+= side_menu_currently_at 'invitations'
 
 .panel
-  .panel__header.soft
-    %h3.flush Invitations d'élèves
+  = render partial: 'pro/shared/invitation_tabs', locals: { current: 'comment_notifications' }
   .panel__body.soft--ends
+    %h2.soft--sides.f-weight-300 Invitations d'élèves
     %table.table--striped.table--data#comment-notification-table
       %thead
         %tr

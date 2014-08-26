@@ -34,6 +34,9 @@
         top          : 11px;
         left         : -8px;
     }
+    &.message__appendix--white:after {
+        border-right : 9px solid white;
+    }
 }
 
 .message__appendix--top {

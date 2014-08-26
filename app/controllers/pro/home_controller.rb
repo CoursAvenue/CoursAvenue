@@ -27,9 +27,6 @@ class Pro::HomeController < Pro::ProController
     @email = ::Email.new
   end
 
-  def press
-  end
-
   def jpo
     redirect_to root_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), status: 301
   end

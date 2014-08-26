@@ -14,19 +14,32 @@ CoursAvenue::Application.routes.draw do
 
       get '/premium'                            => 'redirect#structures_premium'
 
-      get 'pages/offre-speciale-premiers-partenaires' => 'home#july_offer',   as: 'pages_july_offer'
-      get 'pages/livres-blancs'                 => 'home#white_book',         as: 'pages_white_books'
+      get 'offre-speciale-premiers-partenaires' => 'home#july_offer',         as: 'pages_july_offer'
+      get 'livres-blancs'                       => 'home#white_book',         as: 'pages_white_books'
       get 'mailjet_custo'                       => 'home#mailjet_custo'
-      get 'pages/pourquoi-etre-recommande'      => 'home#why_be_recommended', as: 'pages_why_be_recommended'
-      get 'pages/presentation'                  => 'home#presentation'
-      get 'pages/livre-d-or'                    => 'home#widget',             as: 'pages_widget'
-      get 'pages/questions-les-plus-frequentes' => 'home#questions',          as: 'pages_questions'
-      get 'pages/offre-et-tarifs'               => 'home#price',              as: 'pages_price'
-      get 'pages/nos-convictions'               => 'home#convictions',        as: 'pages_convictions'
-      get 'pages/presse'                        => 'home#press',              as: 'pages_press'
-      get 'pages/portes-ouvertes-cours-loisirs' => 'home#jpo',                as: 'pages_jpo'
-      get 'pages/journees-portes-ouvertes'      => redirect('pages/portes-ouvertes-cours-loisirs', status: 301)
+      get 'pourquoi-etre-recommande'            => 'home#why_be_recommended', as: 'pages_why_be_recommended'
+      get 'presentation'                        => 'home#presentation'
+      get 'livre-d-or'                          => 'home#widget',             as: 'pages_widget'
+      get 'questions-les-plus-frequentes'       => 'home#questions',          as: 'pages_questions'
+      get 'offre-et-tarifs'                     => 'home#price',              as: 'pages_price'
+      get 'nos-convictions'                     => 'home#convictions',        as: 'pages_convictions'
+      get 'presse'                              => redirect('presse', subdomain: 'www', status: 301)
+      get 'portes-ouvertes-cours-loisirs'       => 'home#jpo',                as: 'pages_jpo'
+      get 'journees-portes-ouvertes'            => redirect('pages/portes-ouvertes-cours-loisirs', status: 301)
       get '/dashboard'                          => 'dashboard#index',         as: 'dashboard'
+
+      # Redirect old pages
+      get 'pages/offre-speciale-premiers-partenaires' => redirect('offre-speciale-premiers-partenaires', status: 301)
+      get 'pages/livres-blancs'                       => redirect('livres-blancs'                      , status: 301)
+      get 'pages/pourquoi-etre-recommande'            => redirect('pourquoi-etre-recommande'           , status: 301)
+      get 'pages/presentation'                        => redirect('presentation'                       , status: 301)
+      get 'pages/livre-d-or'                          => redirect('livre-d-or'                         , status: 301)
+      get 'pages/questions-les-plus-frequentes'       => redirect('questions-les-plus-frequentes'      , status: 301)
+      get 'pages/offre-et-tarifs'                     => redirect('offre-et-tarifs'                    , status: 301)
+      get 'pages/nos-convictions'                     => redirect('nos-convictions'                    , status: 301)
+      get 'pages/presse'                              => redirect('presse'                             , status: 301)
+      get 'pages/portes-ouvertes-cours-loisirs'       => redirect('portes-ouvertes-cours-loisirs'      , status: 301)
+      get 'pages/journees-portes-ouvertes'            => redirect('journees-portes-ouvertes'           , status: 301)
 
 
       # 301 Redirection
@@ -47,6 +60,7 @@ CoursAvenue::Application.routes.draw do
 
       resources :be2bill_notifications, only: [:index, :show]
       resources :blog_articles, controller: 'blog/articles', path: 'blog'
+      resources :press_articles
       resources :metrics, only: [] do
         collection do
           get :comments
@@ -454,18 +468,32 @@ CoursAvenue::Application.routes.draw do
   # ----------------------------------------- Static pages
   # ------------------------------------------------------
   # Pages
-  get 'pages/pourquoi-le-bon-cours',        to: 'redirect#why_coursavenue'
-  get 'pages/portes-ouvertes-cours-loisirs' => 'pages#jpo',                  as: 'pages_jpo'
-  get 'pages/qu-est-ce-que-coursavenue'     => 'pages#what_is_it',           as: 'pages_what_is_it'
-  get 'pages/faq-utilisateurs'              => 'pages#faq_users',            as: 'pages_faq_users'
-  get 'pages/faq-partenaires'               => 'pages#faq_partners',         as: 'pages_faq_partners'
-  get 'pages/qui-sommes-nous'               => 'pages#who_are_we',           as: 'pages_who_are_we'
-  get 'pages/contact'                       => 'pages#contact'
-  get 'pages/service-client'                => 'pages#customer_service',     as: 'pages_customer_service'
-  get 'pages/presse'                        => 'pages#press',                as: 'pages_press'
-  get 'pages/jobs'                          => 'pages#jobs'
-  get 'pages/mentions-legales-partenaires'  => 'pages#mentions_partners',    as: 'pages_mentions_partners'
-  get 'pages/conditions-generale-de-vente'  => 'pages#terms_and_conditions', as: 'pages_terms_and_conditions'
+  get 'pourquoi-le-bon-cours',        to: 'redirect#why_coursavenue'
+  get 'portes-ouvertes-cours-loisirs' => 'pages#jpo',                  as: 'pages_jpo'
+  get 'qu-est-ce-que-coursavenue'     => 'pages#what_is_it',           as: 'pages_what_is_it'
+  get 'faq-utilisateurs'              => 'pages#faq_users',            as: 'pages_faq_users'
+  get 'faq-partenaires'               => 'pages#faq_partners',         as: 'pages_faq_partners'
+  get 'qui-sommes-nous'               => 'pages#who_are_we',           as: 'pages_who_are_we'
+  get 'contact'                       => 'pages#contact',              as: 'pages_contact'
+  get 'service-client'                => 'pages#customer_service',     as: 'pages_customer_service'
+  get 'presse'                        => 'pages#press',                as: 'pages_press'
+  get 'jobs'                          => 'pages#jobs'
+  get 'mentions-legales-partenaires'  => 'pages#mentions_partners',    as: 'pages_mentions_partners'
+  get 'conditions-generale-de-vente'  => 'pages#terms_and_conditions', as: 'pages_terms_and_conditions'
+
+  # Redirect old pages
+  get 'pages/pourquoi-le-bon-cours'         => redirect('pourquoi-le-bon-cours'         , status: 301)
+  get 'pages/portes-ouvertes-cours-loisirs' => redirect('portes-ouvertes-cours-loisirs' , status: 301)
+  get 'pages/qu-est-ce-que-coursavenue'     => redirect('qu-est-ce-que-coursavenue'     , status: 301)
+  get 'pages/faq-utilisateurs'              => redirect('faq-utilisateurs'              , status: 301)
+  get 'pages/faq-partenaires'               => redirect('faq-partenaires'               , status: 301)
+  get 'pages/qui-sommes-nous'               => redirect('qui-sommes-nous'               , status: 301)
+  get 'pages/contact'                       => redirect('contact'                       , status: 301)
+  get 'pages/service-client'                => redirect('service-client'                , status: 301)
+  get 'pages/presse'                        => redirect('presse'                        , status: 301)
+  get 'pages/jobs'                          => redirect('jobs'                          , status: 301)
+  get 'pages/mentions-legales-partenaires'  => redirect('mentions-legales-partenaires'  , status: 301)
+  get 'pages/conditions-generale-de-vente'  => redirect('conditions-generale-de-vente'  , status: 301)
 
   get '/musique', to: 'structures#index', subject_id: 'musique-chant'
   get '/danse', to: 'structures#index'  , subject_id: 'danse'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140816144322) do
+ActiveRecord::Schema.define(version: 20140826143352) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -603,6 +603,19 @@ ActiveRecord::Schema.define(version: 20140816144322) do
     t.text     "bottom_line"
     t.string   "slug"
     t.boolean  "visible"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "press_articles", force: true do |t|
+    t.string   "title"
+    t.text     "url"
+    t.text     "description"
+    t.date     "published_at"
+    t.string   "logo_file_name"
+    t.string   "logo_content_type"
+    t.integer  "logo_file_size"
+    t.datetime "logo_updated_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
