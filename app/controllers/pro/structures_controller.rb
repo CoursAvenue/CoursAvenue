@@ -328,7 +328,7 @@ class Pro::StructuresController < Pro::ProController
     end
   end
 
-  # GET member
+  # GET etablissements/:id/premium
   def premium
     Statistic.create(structure_id: @structure.id, action_type: "structure_go_premium_premium_page", infos: request.referrer)
   end
@@ -337,8 +337,9 @@ class Pro::StructuresController < Pro::ProController
   def choose_premium
   end
 
-  # GET member
+  # GET etablissements/:id/go_premium
   def go_premium
+    @structure.send_promo_code! unless @structure.promo_code_sent?
     extra_data = {}
     if params[:subscription_plan_id] and @structure.subscription_plans.find(params[:subscription_plan_id])
       @subscription_plan = @structure.subscription_plans.find(params[:subscription_plan_id])

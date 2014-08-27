@@ -3,7 +3,7 @@ class PromotionCode < ActiveRecord::Base
   acts_as_paranoid
 
   attr_accessible :name, :code_id, :promo_amount, :plan_type, :expires_at, :usage_nb, :max_usage_nb, :canceled,
-                  :apply_until
+                  :apply_until # Until what date the code still applies? It includes renewal
 
 
   validates :name, :code_id, :promo_amount, :plan_type, presence: true
