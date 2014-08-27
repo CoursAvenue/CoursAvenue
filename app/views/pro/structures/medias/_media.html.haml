@@ -12,7 +12,7 @@
       - else
         %i.fa.fa-eye.fa-4x.white
   .soft-half
-    - if show
+    - if show and media.caption.present?
       %p.flush= media.caption
     - else
       = simple_form_for [:pro, @structure, media], url: pro_structure_media_path(@structure, media), remote: true, as: :media, html: { data: { behavior: 'live-form' } } do |f|

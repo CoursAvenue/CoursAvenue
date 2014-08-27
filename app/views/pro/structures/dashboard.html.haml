@@ -265,7 +265,7 @@
           %i.fa.fa-youtube-play
           Mes photos & vidéos
         - @medias.each_with_index do |media, index|
-          .soft-half.inline-block.one-third>
+          .soft-half.inline-block.one-third.v-top>
             = render partial: 'pro/structures/medias/media', locals: { media: media, index: index, show: true }
 
         %p.text--center= link_to 'Ajouter une photo / vidéo', pro_structure_medias_path(@structure), class: 'btn btn--blue'
