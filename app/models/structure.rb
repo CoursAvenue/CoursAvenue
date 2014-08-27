@@ -105,12 +105,12 @@ class Structure < ActiveRecord::Base
                              :open_courses_open_places, :open_course_nb, :jpo_email_status, :open_course_plannings_nb,
                              :response_rate, :response_time, :gives_non_professional_courses, :gives_professional_courses,
                              :deletion_reasons, :deletion_reasons_text, :other_emails, :search_score, :search_score_updated_at,
-                             :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason
+                             :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason, :promo_code_sent
 
 
   define_boolean_accessor_for :meta_data, :has_promotion, :gives_group_courses, :gives_individual_courses,
                               :has_free_trial_course, :has_promotion, :gives_non_professional_courses, :gives_professional_courses,
-                              :is_sleeping, :sleeping_email_opt_in
+                              :is_sleeping, :sleeping_email_opt_in, :promo_code_sent
 
   has_attached_file :logo,
                     styles: {
@@ -974,6 +974,22 @@ class Structure < ActiveRecord::Base
       read_attribute(:sleeping_attributes)
     end
   end
+
+
+  # If admin wanted to go premium, we send promo_code the day later only if
+  # the structure is still not premium
+  #
+  # @return Boolean
+  def send_promo_code!
+    return if self.premium? or self.promo_code_sent?
+    annual_promo_code  = PromotionCode.create(name: "-10% sur l'abonnement annuel", code_id: "GOPREMIUMANNUEL_#{self.id}", promo_amount: 47, plan_type: 'yearly', expires_at: Date.tomorrow ,max_usage_nb: 1, apply_until: Date.tomorrow)
+    monthyl_promo_code = PromotionCode.create(name: "-20% sur le 1er mois d'abonnement", code_id: "GOPREMIUM_#{self.id}", promo_amount: 9, plan_type: 'monthly', expires_at: Date.tomorrow ,max_usage_nb: 1, apply_until: Date.tomorrow)
+    AdminMailer.premium_follow_up_with_promo_code(self, monthyl_promo_code, annual_promo_code)
+    self.promo_code_sent = true
+    self.save(validate: false)
+    true
+  end
+  handle_asynchronously :send_promo_code!, :run_at => Proc.new { Date.tomorrow + 9.hours }
 
   private
 

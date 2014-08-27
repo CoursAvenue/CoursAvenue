@@ -87,6 +87,14 @@ class AdminMailer < ActionMailer::Base
          subject: 'Votre réabonnement au Premium a bien été pris en compte'
   end
 
+  def premium_follow_up_with_promo_code structure, monthyl_promo_code, annual_promo_code
+    return if annual_promo_code.nil? or monthyl_promo_code.nil?
+    @structure          = structure
+    @monthly_promo_code = monthyl_promo_code
+    @annual_promo_code  = annual_promo_code
+    mail to: @structure.main_contact.email, subject: "Que s'est-il passé ?"
+  end
+
   def someone_reactivated_his_subscription(subscription_plan)
     @structure         = subscription_plan.structure
     @subscription_plan = subscription_plan
@@ -307,7 +315,7 @@ class AdminMailer < ActionMailer::Base
 
   # When user destroy his Structure
   def structure_has_been_destroy(structure)
-    return if @structure.main_contact.nil?
+    return if structure.main_contact.nil?
     @structure = structure
     mail to: @structure.main_contact.email,
          subject: "Votre profil vient d'être supprimé"

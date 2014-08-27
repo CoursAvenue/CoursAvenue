@@ -1,0 +1,69 @@
+- content_for :email_title do
+  Vous avez récemment souhaité passer au Premium, et vous nous avez quitté trop tôt !
+
+- content_for :logo do
+  = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'muted-link block' do
+    = image_tag @structure.logo.url(:thumb), class: 'block', height: 100, width: 100, alt: "Logo de #{@structure.name}"
+
+- content_for :promo do
+  .title Bonjour,
+
+  .p
+    Vous avez récemment souhaité passer au Premium, et vous nous avez quitté trop tôt ! A titre exceptionnel, nous avons le plaisir de vous offrir 2 coupons valables aujourd'hui uniquement :
+  .p
+    \- Si vous souhaitez souscrire à l'abonnement <strong>mensuel</strong>, économisez <strong>20%</strong> sur votre premier mois d'abonnement grâce au code promotionnel <strong>#{@monthly_promo_code.code_id}</strong> ;
+    %br
+    \- Si vous préférez l'offre <strong>annuelle</strong>, économisez encore plus grâce aux <strong>10%</strong> de réduction du coupon <strong>#{@annual_promo_code.code_id}</strong>.
+  .p
+    Pour en bénéficier, renseignez-le maintenant juste avant l'étape de paiement :
+
+  .p.action
+    = link_to 'Passer au Premium à -20%', premium_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
+
+  .p Vous avez des questions à propos des avantages que vous apportera le profil Premium ?
+
+
+  .p Ainsi, vous mettrez toutes vos chances de votre côté pour gagner en visibilité et remplir vos cours tout au long de l'année.
+
+  = render 'shared/mailers/footer'
+
+- content_for :under_content do
+  %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
+    %tr{ valign: 'top' }
+      %td.v-middle.content-block{ colspan: 2 }
+        .title Avantages du Premium : trafic supplémentaire ciblé et rentabilité
+    %tr{ valign: 'top' }
+      %td.v-top.content-block{ width: 300 }
+        = image_tag 'pro/premium/graph_visits.png', class: 'center-block', width: 250
+        .p.text--center
+          %strong
+            Un trafic plus qualifié et
+            %br
+            en croissance
+        .p.text--center
+          En passant au Premium, votre trafic augmentera et sera de plus en plus qualifié. Nos méthodes ? Votre profil est mis en avant sur CoursAvenue, dans nos newsletters ciblées par ville et par discipline, et grâce à toutes les autres actions de communication que nous pilotons au quotidien et dans lesquelles nous investissons de larges sommes, notamment sur
+          %span.nowrap
+            = image_tag 'pro/logo-adword.png', height: 20, class: 'v-middle'
+            et
+            = image_tag 'pro/logo-facebook.png', height: 24, class: 'v-middle'
+      %td.v-top.text--center.content-block.text--center{ width: 300 }
+        = image_tag 'pro/premium/graph_profits.png', class: 'center-block', width: 250
+        .p
+          %strong
+            Un retour sur investissement
+            %br
+            quasi immédiat
+        .p.text--center En moyenne sur une année, votre profil Premium devient rentable à partir de 2 abonnements annuels (et sur un mois, 2 séances) : plus de 95% de nos partenaires renouvellent leur abonnement.
+
+= content_for :under_content_gray do
+  .title
+    = link_to "Que faire après avoir activé mon compte Premium ?", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+  .soft-half--bottom.bordered--bottom
+    = link_to "A quoi sert un profil Premium ?", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+  .soft-half--ends.bordered--bottom
+    = link_to "Où retrouver les informations de mon compte Premium (durée d'abonnement, renouvellement, factures...) ?", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+  .soft-half--ends.bordered--bottom
+    = link_to "Où retrouver les informations de mon compte Premium (durée d'abonnement, renouvellement, factures...) ?", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+  .soft-half--ends
+    = link_to "Quand est-ce que mon compte Premium sera renouvelé ?", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+
