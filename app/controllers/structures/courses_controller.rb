@@ -12,26 +12,17 @@ class Structures::CoursesController < ApplicationController
 
     @total_planning_search = PlanningSearch.search({ structure_id: @structure.id,
                                                      course_types: params[:course_types] || [],
-                                                     visible: true }).total
+                                                     visible: true, per_page: 1000 }).results.count
+                                                     # We don't use `.total` here to prevent from missing document
+                                                     # See: https://www.coursavenue.com/etablissements/2802/cours.json?course_types%5B%5D=training for example
 
     @plannings = @plannings.sort do |planning_a, planning_b|
       [planning_a.week_day, planning_a.start_date, planning_a.start_time].compact <=> [planning_b.week_day, planning_b.start_date, planning_b.start_time].compact
     end
 
-    if params[:structure_id] == 2802 or params[:structure_id] == '2802'
-      logger.warn "--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
-      logger.warn "Plannings : #{@plannings.map(&:id)}"
-      logger.warn "Search params : #{params}"
-      logger.warn "Total plannings : #{@total_planning_search} / #{@planning_search.total}"
-    end
     @plannings.group_by(&:course_id).each do |course_id, plannings|
-      logger.warn "Plannings grouped : #{course_id}"
       course = Course.find(course_id)
       if !course.is_published?
-        if params[:structure_id] == 2802 or params[:structure_id] == '2802'
-          logger.warn "Course is not published"
-          logger.warn "Non visible plannings : #{course.plannings.future.visible.count}"
-        end
         @total_planning_search = @total_planning_search - course.plannings.future.visible.count
         next
       end
