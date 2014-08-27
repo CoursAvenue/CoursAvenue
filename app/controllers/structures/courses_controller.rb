@@ -19,18 +19,18 @@ class Structures::CoursesController < ApplicationController
     end
 
     if params[:structure_id] == 2802 or params[:structure_id] == '2802'
-      logger.debug "--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
-      logger.debug "Plannings : #{@plannings.map(&:id)}"
-      logger.debug "Search params : #{params}"
-      logger.debug "Total plannings : #{@total_planning_search} / #{@planning_search.total}"
+      logger.warn "--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+      logger.warn "Plannings : #{@plannings.map(&:id)}"
+      logger.warn "Search params : #{params}"
+      logger.warn "Total plannings : #{@total_planning_search} / #{@planning_search.total}"
     end
     @plannings.group_by(&:course_id).each do |course_id, plannings|
-      logger.debug "Plannings grouped : #{course_id}"
+      logger.warn "Plannings grouped : #{course_id}"
       course = Course.find(course_id)
       if !course.is_published?
         if params[:structure_id] == 2802 or params[:structure_id] == '2802'
-          logger.debug "Course is not published"
-          logger.debug "Non visible plannings : #{course.plannings.future.visible.count}"
+          logger.warn "Course is not published"
+          logger.warn "Non visible plannings : #{course.plannings.future.visible.count}"
         end
         @total_planning_search = @total_planning_search - course.plannings.future.visible.count
         next
