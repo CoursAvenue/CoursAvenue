@@ -21,7 +21,7 @@ class Structures::CoursesController < ApplicationController
     @plannings.group_by(&:course_id).each do |course_id, plannings|
       course    = Course.find(course_id)
       if ! course.is_published?
-        @total_planning_search -= course.plannings.visible.count
+        @total_planning_search -= course.plannings.future.visible.count
         next
       end
       @courses << CourseSerializer.new(course, {
