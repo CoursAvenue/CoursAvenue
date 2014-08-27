@@ -1,0 +1,20 @@
+- content_for :email_title do
+  Vous venez de supprimer définitivement votre profil CoursAvenue.
+
+- content_for :logo do
+  = image_tag @structure.logo.url(:thumb), class: 'block', height: 100, width: 100, alt: "Logo de #{@structure.name}"
+  %div.text--center{ style: 'padding-top: 2px;' }
+    %i Profil supprimé
+
+- content_for :promo do
+  .title Nous voilà bien tristes ! :-(
+
+  .p Vous venez de supprimer définitivement votre profil CoursAvenue. Pour notre équipe, c'est toujours une mauvaise nouvelle que nous prenons très au sérieux. Chaque jour, nous mettons tous nos efforts pour offrir à nos partenaires la meilleure expérience : communiquer sur Internet sur leurs cours de loisirs pour recruter de nouveaux élèves et développer leur activité.
+
+  .p Notre objectif est de relier chacun de nous aux meilleurs cours de loisirs qui nous entourent. Si nous pouvons vous aider, n'hésitez pas à nous contacter, nous serions ravis de vous compter de nouveau parmi nous :
+
+  .p.action
+    = link_to "Contacter l'équipe CoursAvenue", pages_contact_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Contact', class: 'btn btn--green'
+
+  .p De tout coeur, nous vous souhaitons le meilleur pour la suite ! Merci,
+  = render 'shared/mailers/footer'

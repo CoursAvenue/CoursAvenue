@@ -307,6 +307,7 @@ class Pro::StructuresController < Pro::ProController
   def destroy
     @structure = Structure.friendly.find params[:id]
     AdminMailer.delay.has_destroyed(@structure)
+    AdminMailer.delay.structure_has_been_destroy(@structure)
     respond_to do |format|
       if @structure.destroy
         if current_pro_admin.super_admin?

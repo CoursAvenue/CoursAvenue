@@ -84,14 +84,14 @@ class AdminMailer < ActionMailer::Base
     @structure         = subscription_plan.structure
     @subscription_plan = subscription_plan
     mail to: @structure.main_contact.email,
-         subject: 'Résiliation de votre profil Premium'
+         subject: 'Votre réabonnement au Premium a bien été pris en compte'
   end
 
   def someone_reactivated_his_subscription(subscription_plan)
     @structure         = subscription_plan.structure
     @subscription_plan = subscription_plan
     mail to: 'contact@coursavenue.com',
-         subject: "#{@structure.name} a résilié son abonnement"
+         subject: "#{@structure.name} a réactivé son abonnement"
   end
 
   def wants_to_go_premium structure, offer
@@ -305,6 +305,14 @@ class AdminMailer < ActionMailer::Base
          subject: "Prise de contrôle refusée"
   end
 
+  # When user destroy his Structure
+  def structure_has_been_destroy(structure)
+    return if @structure.main_contact.nil?
+    @structure = structure
+    mail to: @structure.main_contact.email,
+         subject: "Votre profil vient d'être supprimé"
+  end
+
   ######################################################################
   # To CoursAvenue team                                                #
   ######################################################################
@@ -312,11 +320,6 @@ class AdminMailer < ActionMailer::Base
     @structure = structure
     @email     = email
     mail to: 'contact@coursavenue.com', subject: "#{@email} a essayé de prendre le contrôle de #{@structure.name} en vain"
-  end
-
-  def is_about_to_delete(structure)
-    @structure = structure
-    mail to: 'contact@coursavenue.com', subject: "#{@structure.name} est sur le point de supprimer son compte"
   end
 
   def has_destroyed(structure)
