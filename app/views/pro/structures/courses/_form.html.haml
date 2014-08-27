@@ -147,6 +147,11 @@
       $('#course_place_id').change(function() {
           $('#course_place_id_checkbox')[0].checked = (this.value != '');
       });
+      $('#course_place_id_checkbox').change(function() {
+          if (this.checked == false) {
+              $('#course_place_id').val('');
+          }
+      });
       $('#course_on_appointment').change(function() {
           if (this.value == 'true') {
               $('#save-and-add-planning-input').val('false');

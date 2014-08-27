@@ -3,7 +3,21 @@ class PlanningSerializer < ActiveModel::Serializer
   include PricesHelper
 
   attributes :id, :date, :duration, :time_slot, :levels, :audiences, :place_id, :places_left, :more_than_ten_places,
-             :common_price, :course_id, :info, :address, :address_with_info, :address_name, :activity_name
+             :common_price, :course_id, :info, :address, :address_with_info, :address_name, :activity_name, :home_place_id
+
+  def home_place_id
+    if object.course.is_private? and object.course.teaches_at_home?
+      (@options[:structure] || object.course.structure).places.homes.first.id
+    end
+  end
+
+  def place_id
+    if object.course.is_private?
+      object.course.place_id
+    else
+      object.place_id
+    end
+  end
 
   def address
     object.place.address if object.place
