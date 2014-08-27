@@ -48,7 +48,15 @@ namespace :import do
           vertical.image = url
           vertical.save
         else
-          puts vertical.name
+          url = URI.parse("http://coursavenue-public.s3.amazonaws.com/vertical_pages/#{row[0]}.jpeg")
+          req = Net::HTTP.new(url.host, url.port)
+          res = req.request_head(url.path)
+          if res.code == '200'
+            vertical.image = url
+            vertical.save
+          else
+            puts vertical.name
+          end
         end
       rescue Exception => exception
       end

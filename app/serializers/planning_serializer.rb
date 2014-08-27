@@ -7,7 +7,7 @@ class PlanningSerializer < ActiveModel::Serializer
 
   def home_place_id
     if object.course.is_private? and object.course.teaches_at_home?
-      (@options[:structure] || object.course.structure).places.homes.first.id
+      (@options[:structure] || object.course.structure).places.homes.first.try(:id)
     end
   end
 

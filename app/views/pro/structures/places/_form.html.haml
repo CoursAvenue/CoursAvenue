@@ -12,13 +12,11 @@
       %p.flush.epsilon Où proposez-vous des cours ?
   .panel__body.soft--ends
     = simple_form_for [:pro, @structure, @place], remote: true, url: place_url, as: :place do |f|
-      -# .grid
-      -#   .grid__item.five-tenths>
       - # Don't use remote if is home because we'll want to redirect
       - if params[:return_to].present?
-        %input{type: 'hidden', value: params[:return_to], name: 'return_to'}
+        %input{ type: 'hidden', value: params[:return_to], name: 'return_to' }
       - if params[:return_to_action].present?
-        %input{type: 'hidden', value: params[:return_to_action], name: 'return_to_action'}
+        %input{ type: 'hidden', value: params[:return_to_action], name: 'return_to_action' }
       .soft--sides
         - if @place.is_home?
           %h5 Je me déplace à domicile autour de :
