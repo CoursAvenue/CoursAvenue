@@ -18,17 +18,27 @@ class Structures::CoursesController < ApplicationController
       [planning_a.week_day, planning_a.start_date, planning_a.start_time].compact <=> [planning_b.week_day, planning_b.start_date, planning_b.start_time].compact
     end
 
+    if params[:structure_id] == 2802 or params[:structure_id] == '2802'
+      logger.debug "--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+      logger.debug "Plannings : #{@plannings.map(&:id)}"
+      logger.debug "Search params : #{params}"
+      logger.debug "Total plannings : #{@total_planning_search} / #{@planning_search.total}"
+    end
     @plannings.group_by(&:course_id).each do |course_id, plannings|
-      course    = Course.find(course_id)
-      if ! course.is_published?
-        @total_planning_search -= course.plannings.future.visible.count
+      logger.debug "Plannings grouped : #{course_id}"
+      course = Course.find(course_id)
+      if !course.is_published?
+        if params[:structure_id] == 2802 or params[:structure_id] == '2802'
+          logger.debug "Course is not published"
+          logger.debug "Non visible plannings : #{course.plannings.future.visible.count}"
+        end
+        @total_planning_search = @total_planning_search - course.plannings.future.visible.count
         next
       end
       @courses << CourseSerializer.new(course, {
         root: false,
         structure: @structure,
         search_term: params[:search_term],
-        jpo: (params[:course_types] == ['open_course']),
         plannings: plannings.select(&:visible)
       })
     end
