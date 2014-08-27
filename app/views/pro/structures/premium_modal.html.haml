@@ -8,32 +8,7 @@
   .panel__body
     .soft
       %h3.text--center Passez au Premium pour recruter plus d'élèves
-      .grid
-        .grid__item.one-third.text--center.lap-one-whole.text--center.palm-one-whole>
-          .inline-block.gamma.soft.rounded--circle.blue-box.push--bottom{ style: 'width: 80px; height: 80px; line-height: 40px;'} 1
-          %h4
-            %strong Votre profil complet devient plus visible
-          %p.epsilon
-            Le compte Premium vous donne accès à
-            = link_to '10 fonctionnalités clés', '#ten-features', data: { behavior: 'modal', padding: 0, width: 900 }
-            qui vous permettent de compléter votre profil et de le personnaliser pour qu'il apparaisse dans les 1ers résultats de recherche.
-        .grid__item.one-third.text--center.lap-one-whole.text--center.palm-one-whole>
-          .inline-block.gamma.soft.rounded--circle.blue-box.push--bottom{ style: 'width: 80px; height: 80px; line-height: 40px;'} 2
-          %h4
-            %strong Nous communiquons pour vous de manière ciblée
-          %p.epsilon
-            En passant au Premium, vous bénéficiez directement de nos campagnes
-            = image_tag 'pro/logo-adword.png', height: 18, class: 'v-middle'
-            et
-            = image_tag 'pro/logo-facebook.png', height: 20, class: 'v-middle'
-            dans lesquelles nous investissons de larges sommes, et nous vous mettons en avant dans nos newsletters. C'est un travail minutieux que nous pilotons au quotidien.
-            = link_to 'En savoir plus', '#know-more', data: { behavior: 'modal', padding: 0, width: 900 }
-        .grid__item.one-third.text--center.lap-one-whole.text--center.palm-one-whole>
-          .inline-block.gamma.soft.rounded--circle.blue-box.push--bottom{ style: 'width: 80px; height: 80px; line-height: 40px;'} 3
-          %h4
-            %strong Votre trafic augmente et vous recrutez plus d'élèves
-          %p.epsilon
-            Les profils Premium sont optimisés pour avoir le plus fort taux de conversion : dès qu'un élève potentiel vous repère, vous augmentez vos chances d'être contacté de manière à recruter toujours plus d'élèves.
+      = render partial: 'pro/shared/premium_1_2_3', locals: { popup: true }
       .grid
         .grid__item.one-third>
           = link_to 'En savoir plus', premium_pro_structure_path(@structure), class: 'btn btn--full'

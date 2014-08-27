@@ -154,12 +154,13 @@ class SubscriptionPlan < ActiveRecord::Base
     end
   end
 
+  # Extend the current subscription
   # Executed by Be2bill notification callback if the renwal has been successful
   #
   # @return Boolean, saved or not
   def extend_subscription(params)
     AdminMailer.delay.subscription_has_been_renewed(self)
-    #
+
     self.credit_card_number = params['CARDCODE']
     # Update be2bill_alias if the renew is done by the user because his card hasexpired
     self.be2bill_alias      = params['ALIAS'] if params['ALIAS'].present?
@@ -247,6 +248,7 @@ class SubscriptionPlan < ActiveRecord::Base
     self.save
     self.structure.index
     AdminMailer.delay.subscription_has_been_canceled(self)
+    AdminMailer.delay.someone_canceled_his_subscription(self)
     return self
   end
 
@@ -257,6 +259,8 @@ class SubscriptionPlan < ActiveRecord::Base
     self.canceled_at = nil
     self.save
     self.structure.index
+    AdminMailer.delay.subscription_has_been_reactivated(self)
+    AdminMailer.delay.someone_reactivated_his_subscription(self)
     return self
   end
 

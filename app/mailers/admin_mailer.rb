@@ -73,6 +73,27 @@ class AdminMailer < ActionMailer::Base
          subject: 'Résiliation de votre profil Premium'
   end
 
+  def someone_canceled_his_subscription(subscription_plan)
+    @structure         = subscription_plan.structure
+    @subscription_plan = subscription_plan
+    mail to: 'contact@coursavenue.com',
+         subject: "#{@structure.name} a résilié son abonnement"
+  end
+
+  def subscription_has_been_reactivated(subscription_plan)
+    @structure         = subscription_plan.structure
+    @subscription_plan = subscription_plan
+    mail to: @structure.main_contact.email,
+         subject: 'Résiliation de votre profil Premium'
+  end
+
+  def someone_reactivated_his_subscription(subscription_plan)
+    @structure         = subscription_plan.structure
+    @subscription_plan = subscription_plan
+    mail to: 'contact@coursavenue.com',
+         subject: "#{@structure.name} a résilié son abonnement"
+  end
+
   def wants_to_go_premium structure, offer
     @structure = structure
     @offer     = offer

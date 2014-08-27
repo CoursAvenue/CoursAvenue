@@ -93,8 +93,12 @@
           Par souci d'amélioration continue et de qualité, merci de préciser la raison :
         .p.action.text--left
           = link_to 'Je ne souhaite pas communiquer sur mes cours', dont_want_to_take_control_of_my_sleeping_account_pro_structure_url(@structure, reason: 'dont_want_to_communicate', subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn'
+        .p.action.text--left
+          = link_to "Mon établissement n'existe plus", dont_want_to_take_control_of_my_sleeping_account_pro_structure_url(@structure, reason: 'no_more_exist', subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn'
+        .p.action.text--left
+          = link_to "Etablissement fermé", dont_want_to_take_control_of_my_sleeping_account_pro_structure_url(@structure, reason: 'closed', subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn'
         .p.action.text--left.hard--bottom
-          = link_to "Mon établissement n'existe plus", dont_want_to_take_control_of_my_sleeping_account_pro_structure_url(@structure, reason: 'closed', subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn'
+          = link_to "Ça ne m'intéresse pas", dont_want_to_take_control_of_my_sleeping_account_pro_structure_url(@structure, reason: 'not_interested', subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn'
 
 - content_for :under_content_gray do
   .title

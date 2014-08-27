@@ -1,9 +1,9 @@
 .panel
   .panel__body.soft--ends
-    .soft--sides
-      - # We show the user his last subscription to incentive him to reactivate
-      - last_subscription_plan = @structure.subscription_plan
-      - if last_subscription_plan
+    - # We show the user his last subscription to incentive him to reactivate
+    - last_subscription_plan = @structure.subscription_plan
+    - if last_subscription_plan
+      .soft--sides
         %h2 Réactiver mon abonnement
 
         %p.epsilon
@@ -16,7 +16,7 @@
           = hidden_field_tag :subscription_plan_id, last_subscription_plan.id
           = submit_tag "Réactiver mon #{last_subscription_plan.next_plan_type_description.downcase}", class: 'btn btn--yellow soft--sides'
 
-    %hr.push--ends
+        %hr.push--ends
     .soft--sides
       %h2 Passez au Premium pour recruter plus d'élèves
       %p
@@ -30,21 +30,23 @@
     %hr.push--bottom.flush--top
     .soft--sides
       = render 'pro/shared/premium_graph'
-
+      .soft--top
+        = render 'pro/shared/premium_1_2_3'
     %hr.push--ends
     .soft--sides
-      %h2.text--center.f-weight-300.push-half--ends Les avantages du profil Premium
-      = render 'pro/shared/premium_advantages'
-
-    %hr.push--ends
-    .soft--sides
-      %h2.text--center.f-weight-300.push-half--ends Ils ont déjà souscrit au Premium
+      %h2.text--center.f-weight-300 Ils ont déjà souscrit au Premium
       = render 'pro/shared/they_already_subscribed'
     %hr.push--top.flush--bottom
     = render 'pro/shared/premium_testimonies'
 
+    %hr.push--bottom#ten-features
+    .soft--sides
+      %h2.text--center.f-weight-300 Les 10 fonctionnalités spéciales Premium
+      = render 'pro/shared/premium_advantages'
+
+
     %hr.push--bottom.flush--top
     .soft--sides
-      %h2.text--center.f-weight-300.push-half--ends Détails du profil Premium
+      %h2.text--center.f-weight-300 Détails du profil Premium
       = render 'pro/home/pricing_details_table'
 
