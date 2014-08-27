@@ -1,7 +1,11 @@
 <article class="push--bottom" itemtype="http://schema.org/Review" itemscope="" itemprop="review">
     <div class="grid--full">
         <div class="grid__item two-twelfths text--center">
-            <img height="60" src="{{ avatar_url }}" alt="Photo de {{ author_name }}" class="bordered rounded--circle center-block push-half--bottom">
+            {{#if avatar_url}}
+              <img height="60" width="60" src="{{ avatar_url }}" alt="Photo de {{ author_name }}" class="bordered rounded--circle center-block push-half--bottom">
+            {{else}}
+              <img height="60" width="60" src="<%= asset_path('icons/avatar.png') %>" alt="Photo de {{ author_name }}" class="bordered rounded--circle center-block push-half--bottom">
+            {{/if}}
             <div class="text--center"><strong>{{ author_name }}</strong></div>
         </div>{{!--
     --}}<div class="grid__item ten-twelfths">

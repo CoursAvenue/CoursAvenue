@@ -16,6 +16,6 @@ class CommentSerializer < ActiveModel::Serializer
   end
 
   def avatar_url
-    object.user.avatar_url
+    object.user.try(:avatar_url)
   end
 end
