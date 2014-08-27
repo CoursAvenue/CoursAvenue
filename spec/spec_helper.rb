@@ -19,6 +19,9 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 RSpec.configure do |config|
   Delayed::Worker.delay_jobs = false
 
+  # http://stackoverflow.com/questions/23859653/rails-devise-rspec-undefined-method-sign-in?answertab=active#tab-top
+  config.infer_spec_type_from_file_location!
+
   config.include Devise::TestHelpers, :type => :controller
   config.include Delorean
 
