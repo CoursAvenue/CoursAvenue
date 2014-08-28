@@ -1,27 +1,28 @@
-%table{ align: 'center', border: '0', cellpadding: '15', cellspacing: '0', width: '600' }
+%table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600' }
   %tr{ valign: 'top' }
-    %td.soft-half.content-block{ width: '600', colspan: '4', style: 'padding-bottom: 0' }
-      .title Avantages du profil CoursAvenue
+    %td.content-block{ width: '600', colspan: '2', style: 'padding-bottom: 0' }
+      .title Avantages de CoursAvenue
   %tr{ valign: 'top' }
-    %td.soft-half.v-middle.cell.content-block.push--bottom{ width: '50' }
-      = image_tag 'emails_logo/book.png', alt: 'CoursAvenue', height: '50', width: '50', style: 'width: 50px; height: 50px'
-    %td.soft-half.v-middle.cell.content-block.push--bottom{ width: '250', style: 'padding-right: 0; padding-left: 0;' }
-      .p.flush--bottom
-        Renseignez vos passions et visualisez tous les cours à moins de 15km de vous.
-    %td.soft-half.v-middle.cell.content-block.push--bottom{ width: '50' }
-      = image_tag 'emails_logo/bullhorn.png', alt: 'CoursAvenue', height: '50', width: '50', style: 'width: 50px; height: 50px'
-    %td.soft-half.v-middle.cell.content-block.push--bottom{ width: '250', style: 'padding-right: 0; padding-left: 0;' }
-      .p.flush--bottom
-        Communiquez avec vos professeurs en toute simplicité.
-
+    %%td.v-middle{ width: '70' }
+      = image_tag 'icons/icon-handshake-circle.png', width: 60
+    %td.v-middle{ width: '530' }
+      .p.soft--top
+        %strong Mise en relation gratuite
+        %br
+        Contactez gratuitement chaque profil&nbsp;: comme vous, nous détestons les numéros surtaxés
   %tr{ valign: 'top' }
-    %td.soft-half.v-middle.cell.content-block.push--bottom{ width: '50' }
-      = image_tag 'emails_logo/people.png', alt: 'CoursAvenue', height: '50', width: '50', style: 'width: 50px; height: 50px'
-    %td.soft-half.v-middle.cell.content-block.push--bottom{ width: '250', style: 'padding-right: 0; padding-left: 0;' }
-      .p.flush--bottom
-        Recevez des cours d'essai gratuits et des promotions en lien avec vos passions.
-    %td.soft-half.v-middle.cell.content-block.push--bottom{ width: '50' }
-      = image_tag 'emails_logo/enveloppe.png', alt: 'CoursAvenue', height: '50', width: '50', style: 'width: 50px; height: 50px'
-    %td.soft-half.v-middle.cell.content-block.push--bottom{ width: '250', style: 'padding-right: 0; padding-left: 0;' }
-      .p.flush--bottom
-        Invitez vos proches à suivre les mêmes cours que vous.
+    %%td.v-middle{ width: '70' }
+      = image_tag 'icons/icon-promotion-circle.png', width: 60
+    %td.v-middle{ width: '530' }
+      .p.soft--top
+        %strong Essais gratuits & promotions
+        %br
+        Bénéficiez de cours d'essai gratuits et d'offres exclusives
+  %tr{ valign: 'top' }
+    %%td.v-middle{ width: '70' }
+      = image_tag 'icons/icon-money-circle.png', width: 60
+    %td.v-middle{ width: '530' }
+      .p.soft--top
+        %strong Paiement sur place
+        %br
+        Payez directement votre professeur lors de votre séance

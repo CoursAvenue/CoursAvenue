@@ -1,21 +1,24 @@
+- content_for :email_title do
+  #{@structure.name} vous demande de lui rédiger une recommandation sur CoursAvenue.com
+
 - content_for :logo do
   = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank' do
     = image_tag @structure.logo.url(:thumb), width: 80, height: 80, class: 'block'
 
 - content_for :promo do
-  .title.line-height-1-7
+  .title
     #{@structure.name} vous demande de lui rédiger une recommandation sur CoursAvenue.com
 
-- if @email_text
-  = @email_text.html_safe
+  - if @email_text
+    = @email_text.html_safe
 
-.p.action
-  = link_to 'Déposer mon avis en 20 secondes', new_structure_comment_url(@structure, email: @email, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'email', utm_campaign: 'ask_for_recommandation', utm_medium: 'stage_0'), class: 'btn btn--green'
+  .p.action
+    = link_to 'Déposer mon avis en 20 secondes', new_structure_comment_url(@structure, email: @email, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'email', utm_campaign: 'ask_for_recommandation', utm_medium: 'stage_0'), class: 'btn btn--green'
 
-.p
-  Merci et à très bientôt !
-  %br
-  = @structure.name
+  .p
+    Merci et à très bientôt !
+    %br
+    = @structure.name
 
 = content_for :footer do
   .p

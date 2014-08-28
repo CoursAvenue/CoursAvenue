@@ -1,3 +1,6 @@
+- content_for :email_title do
+  #{@structure.name} vous demande de lui rédiger une recommandation sur CoursAvenue.com
+
 - content_for :logo do
   = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank' do
     = image_tag @structure.logo.url(:thumb), style: 'width: 125px; height: 125px;', class: 'block'
@@ -6,16 +9,16 @@
   .title
     Il vous reste 5 jours pour recommander #{@structure.name}
 
-.p Bonjour !
+  .p Bonjour !
 
-.p
-  #{@structure.name} vous a récemment demandé votre avis sur son profil public CoursAvenue. Pour que votre recommandation soit directement visible, déposez-la dans les 5 prochains jours.
-  Pouvez-vous le faire dès maintenant en quelques minutes ?
+  .p
+    #{@structure.name} vous a récemment demandé votre avis sur son profil public CoursAvenue. Pour que votre recommandation soit directement visible, déposez-la dans les 5 prochains jours.
+    Pouvez-vous le faire dès maintenant en quelques minutes ?
 
-.p.action
-  = link_to 'Déposer ma recommandation', new_structure_comment_url(@structure, email: @email, utm_source: 'email', utm_campaign: 'recommandation', utm_medium: 'stage_2'), class: 'btn btn--green'
+  .p.action
+    = link_to 'Déposer ma recommandation', new_structure_comment_url(@structure, email: @email, utm_source: 'email', utm_campaign: 'recommandation', utm_medium: 'stage_2'), class: 'btn btn--green'
 
-= render 'shared/mailers/footer'
+  = render 'shared/mailers/footer'
 
 = content_for :footer do
   .p

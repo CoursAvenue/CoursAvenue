@@ -59,7 +59,11 @@ class Structures::CommentsController < ApplicationController
       end
       @user.update_attribute(:first_name, params[:comment][:author_name]) if params[:comment][:author_name].present?
     end
-    @user.subjects << @comment.subjects
+    if @comment.subjects.any?
+      @user.subjects << @comment.subjects
+    else
+      @user.subjects << @comment.structure.subjects
+    end
     @user.save
     @comment.user = @user
     respond_to do |format|

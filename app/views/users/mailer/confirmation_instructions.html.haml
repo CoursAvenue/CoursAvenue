@@ -1,18 +1,18 @@
 - content_for :email_title do
   Bienvenue sur CoursAvenue ! Pour commencer, vous devez confirmer votre adresse e-mail.
 
-.p Bonjour,
+.title Bonjour #{@resource.name},
 
-.p
-  Pour commencer, vous devez confirmer votre adresse e-mail :
+.p Nous avons bien pris en compte votre création de compte. Pour vous assurer la meilleure expérience sur CoursAvenue, confirmez votre inscription :
 
 .p.action
-  = link_to 'Confirmer mon e-mail', user_confirmation_url(confirmation_token: @token), class: 'btn btn--green'
+  = link_to 'Confirmer mon inscription', user_confirmation_url(confirmation_token: @token), class: 'btn btn--green'
 
-.p.blue.blue-tip
-  Trucs & astuces : depuis votre profil, renseignez vos passions pour recevoir des invitations à des cours d'essai gratuits.
+.p
+  Merci !
+  %br
+  = image_tag 'emails_logo/signature.png', height: 25, width: 177, class: 'soft-half--top', alt: "L'équipe CoursAvenue"
 
-= render 'shared/mailers/footer'
 
 = content_for :under_content do
   = render 'user_mailer/footer_info'

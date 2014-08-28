@@ -43,15 +43,17 @@ class UserMailer < ActionMailer::Base
   # When the user was invited before through a comment notification
   def congratulate_for_accepted_comment(comment)
     @comment   = comment
+    @user      = comment.user
     @structure = @comment.structure
-    mail to: @comment.email, subject: "Votre avis à propos de : #{@structure.name}"
+    mail to: @comment.email, subject: "Votre avis à propos de : #{@structure.name}", template_name: 'congratulate_for_comment'
   end
 
   # Inform the user that the comment has correctly been submitted
   def congratulate_for_comment(comment)
     @comment   = comment
+    @user      = comment.user
     @structure = @comment.structure
-    mail to: @comment.email, subject: "Votre avis à propos de : #{@structure.name}"
+    mail to: @comment.email, subject: "Votre avis à propos de : #{@structure.name}", template_name: 'congratulate_for_comment'
   end
 
   # Inform the user that the comment has been validated by the teacher
