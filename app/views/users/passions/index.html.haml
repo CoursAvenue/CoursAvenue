@@ -13,11 +13,11 @@
     = simple_form_for [@user], html: { autocomplete: 'off', id: 'user-form' } do |f|
       %input{ name: 'return_to', value: user_passions_path(@user), type: 'hidden' }
       %div{ data: { behavior: 'parent-descendant-subjects', 'parent-select' => '#parent-subjects', 'descendant-select' => '#subject-descendants-select', 'descendant-select-wrapper' => '#descendants-subjects' } }
-        = f.association :subjects, as: :select, collection: Subject.roots.order('name ASC'), input_html: { class: 'input--large', style: 'width: 74%;', id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' }, multiple: true }, label: 'Disciplines générales ', label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush--bottom' }, label_html: { class: 'label--large' }
+        = f.association :subjects, as: :select, collection: Subject.roots.order('name ASC'), input_html: { class: 'input--large hard', style: 'width: 74%;', id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' }, multiple: true }, label: 'Disciplines générales ', label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush--bottom' }, label_html: { class: 'label--large' }
         #descendants-subjects
           .input{title: 'Sélectionnez plusieurs disciplines en maintenant la touche CTRL ou CMD enfoncée.', data: {behavior: 'tooltip'}}>
             %label.control-label.label--large> Pouvez-vous préciser ?
-            %select#subject-descendants-select.input--large{ name: 'user[subject_descendants_ids][]', style: 'width: 74%;', multiple: true, data: {behavior: 'chosen', placeholder: 'Tapez ou sélectionnez une ou plusieurs disciplines', selected: @user.subjects.children.map(&:id).join(',')}}>
+            %select#subject-descendants-select.hard.input--large{ name: 'user[subject_descendants_ids][]', style: 'width: 74%;', multiple: true, data: { behavior: 'chosen', placeholder: 'Tapez ou sélectionnez une ou plusieurs disciplines', selected: @user.subjects.children.map(&:id).join(',') } }>
       - if @user.errors[:children_subjects].present?
         .input_field_error.red.text--right= @user.errors[:children_subjects].to_sentence
       .input.flush--top.city-autocomplete-wrapper<
