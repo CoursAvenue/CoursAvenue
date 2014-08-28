@@ -110,7 +110,7 @@ GEM
       columnize (~> 0.8)
       debugger-linecache (~> 1.2)
     callsite (0.0.11)
-    cancancan (1.8.4)
+    cancancan (1.9.2)
     capybara (2.2.1)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
@@ -566,7 +566,7 @@ DEPENDENCIES
   bugsnag
   bust_rails_etags
   byebug
-  cancancan (~> 1.8.4)
+  cancancan (~> 1.9.2)
   capybara (~> 2.2.1)
   certified (~> 0.1.1)
   ckeditor (~> 4.1.0)

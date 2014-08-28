@@ -99,7 +99,7 @@ gem 'inherited_resources'       , '~>1.4.1'
 gem 'mailboxer'                 , '~> 0.12.1'
 
 # For authorizations
-gem 'cancancan'                 , '~>1.8.4'
+gem 'cancancan'                 , '~>1.9.2'
 # gem 'cancan'                    , '~>1.6.10'
 # For authentication
 gem 'devise'                    , '~>3.2.4'
