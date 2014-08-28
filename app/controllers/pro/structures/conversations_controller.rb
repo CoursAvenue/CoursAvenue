@@ -38,6 +38,14 @@ class Pro::Structures::ConversationsController < ApplicationController
     @conversation = @admin.mailbox.conversations.find(params[:id])
     @conversation.mark_as_read(@admin)
     @message      = @conversation.messages.build
+    @is_xhr = request.xhr?
+    respond_to do |format|
+      if request.xhr?
+        format.html { render layout: false }
+      else
+        format.html
+      end
+    end
   end
 
   def index
@@ -60,8 +68,10 @@ class Pro::Structures::ConversationsController < ApplicationController
     respond_to do |format|
       if params[:conversation][:message][:body].blank?
         format.html { redirect_to pro_structure_conversation_path(@structure, @conversation), error: 'Vous devez mettre un text pour répondre' }
+        format.js
       else
         format.html { redirect_to pro_structure_conversation_path(@structure, @conversation) }
+        format.js
       end
     end
   end

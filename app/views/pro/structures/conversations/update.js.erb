@@ -1,0 +1,6 @@
+<% if params[:conversation][:message][:body].blank? %>
+    GLOBAL.flash('Vous ne pouvez pas envoyer un message vide')
+<% else %>
+    GLOBAL.flash('Message envoyé', 'success')
+    $.fancybox.close();
+<% end %>

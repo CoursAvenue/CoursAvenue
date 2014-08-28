@@ -5,13 +5,9 @@
   = @structure.name
   vient de vous envoyer un message personnel :
 
-- if @message.subject.present?
-  = render partial: 'mailboxer_message_mailer/message_to_user', locals: { message: @message, structure: @structure }
+= render partial: 'mailboxer_message_mailer/message_to_user', locals: { message: @message, structure: @structure }
 
-.p.action
-  - if @token
-    = link_to "Répondre au message", user_conversation_url(@user, @message.conversation, token: @token, email: @user.email, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green'
-  - else
-    = link_to "Répondre au message", user_conversation_url(@user, @message.conversation, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--blue'
+.p.action.soft--top
+  = link_to "Répondre au message", user_conversation_url(@user, @message.conversation, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green'
 
 = render 'shared/mailers/footer'

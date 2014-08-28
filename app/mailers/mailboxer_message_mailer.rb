@@ -39,7 +39,6 @@ class MailboxerMessageMailer < ActionMailer::Base
     @message     = message
     @user        = receiver
     @structure   = message.sender.structure
-    @token       = @user.generate_and_set_reset_password_token if !@user.active?
 
     mail to: @user.email,
          subject: t('mailboxer.message_mailer.subject_new', sender: @structure.name),
@@ -72,8 +71,7 @@ class MailboxerMessageMailer < ActionMailer::Base
     @message   = message
     @user      = receiver
     @structure = message.sender.try(:structure)
-
-    @token   = @user.generate_and_set_reset_password_token if !@user.active?
+    return if @structure.nil?
     mail to: @user.email,
          subject: t('mailboxer.message_mailer.subject_reply', sender: @structure.name),
          template_name: 'reply_message_email_to_user'
