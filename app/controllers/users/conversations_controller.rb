@@ -33,23 +33,15 @@ class Users::ConversationsController < ApplicationController
   end
 
   def update
-    @user = User.find(params[:user_id])
-    if params[:password]
-      if @user.reset_password_token_valid?(params[:reset_password_token])
-        @user.password = params[:password]
-        @user.save
-        sign_in(@user, bypass: true)
-        flash[:notice] = 'Votre message a bien été envoyé et vous êtes maintenant connecté.'
-      else
-        flash[:alert] = "Le token n'est pas valide, vous ne pouvez pas changer votre mot de passe."
-      end
-    end
-    if @user.active?
-      @conversation = @user.mailbox.conversations.find params[:id]
-      @user.reply_to_conversation(@conversation, params[:conversation][:message][:body])
-    end
+    @user         = User.find(params[:user_id])
+    @conversation = @user.mailbox.conversations.find params[:id]
+    @user.reply_to_conversation(@conversation, params[:conversation][:message][:body]) if params[:conversation][:message][:body].present?
     respond_to do |format|
-      format.html { redirect_to user_conversation_path(@user, @conversation) }
+      if params[:conversation][:message][:body].blank?
+        format.html { redirect_to user_conversation_path(@user, @conversation), alert: 'Vous ne pouvez pas envoyer de message vide' }
+      else
+        format.html { redirect_to user_conversation_path(@user, @conversation), notice: 'Message envoyé' }
+      end
     end
   end
 
