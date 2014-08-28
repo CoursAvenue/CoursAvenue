@@ -33,7 +33,9 @@ namespace :import do
         next
       end
       bar.increment!
+      next if row[1].blank?
       vertical = VerticalPage.where(VerticalPage.arel_table[:name].matches("%#{row[1]}%")).first
+      next if vertical.image.present?
       if vertical.nil?
         puts "--------------------------------------------------------------------------------"
         puts "--------------------------------------------------------------------------------#{row[1]}"
@@ -48,14 +50,14 @@ namespace :import do
           vertical.image = url
           vertical.save
         else
-          url = URI.parse("http://coursavenue-public.s3.amazonaws.com/vertical_pages/#{row[0]}.jpeg")
+          url = URI.parse("http://coursavenue-public.s3.amazonaws.com/vertical_pages/#{row[0]}.JPG")
           req = Net::HTTP.new(url.host, url.port)
           res = req.request_head(url.path)
           if res.code == '200'
             vertical.image = url
             vertical.save
           else
-            puts vertical.name
+            puts "#{vertical.name} / http://coursavenue-public.s3.amazonaws.com/vertical_pages/#{row[0]}.jpeg"
           end
         end
       rescue Exception => exception

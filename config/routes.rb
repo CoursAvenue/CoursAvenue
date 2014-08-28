@@ -470,7 +470,7 @@ CoursAvenue::Application.routes.draw do
   # Pages
   get 'pourquoi-le-bon-cours',        to: 'redirect#why_coursavenue'
   get 'portes-ouvertes-cours-loisirs' => 'pages#jpo',                  as: 'pages_jpo'
-  get 'qu-est-ce-que-coursavenue'     => 'pages#what_is_it',           as: 'pages_what_is_it'
+  get 'comment-ca-marche'             => 'pages#what_is_it',           as: 'pages_what_is_it'
   get 'faq-utilisateurs'              => 'pages#faq_users',            as: 'pages_faq_users'
   get 'faq-partenaires'               => 'pages#faq_partners',         as: 'pages_faq_partners'
   get 'qui-sommes-nous'               => 'pages#who_are_we',           as: 'pages_who_are_we'
@@ -484,6 +484,7 @@ CoursAvenue::Application.routes.draw do
   # Redirect old pages
   get 'pages/pourquoi-le-bon-cours'         => redirect('pourquoi-le-bon-cours'         , status: 301)
   get 'pages/portes-ouvertes-cours-loisirs' => redirect('portes-ouvertes-cours-loisirs' , status: 301)
+  get 'qu-est-ce-que-coursavenue'           => redirect('comment-ca-marche'             , status: 301)
   get 'pages/qu-est-ce-que-coursavenue'     => redirect('qu-est-ce-que-coursavenue'     , status: 301)
   get 'pages/faq-utilisateurs'              => redirect('faq-utilisateurs'              , status: 301)
   get 'pages/faq-partenaires'               => redirect('faq-partenaires'               , status: 301)
