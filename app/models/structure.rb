@@ -984,7 +984,7 @@ class Structure < ActiveRecord::Base
     return if self.premium? or self.promo_code_sent?
     annual_promo_code  = PromotionCode.create(name: "-10% sur l'abonnement annuel", code_id: "GOPREMIUMANNUEL_#{self.id}", promo_amount: 47, plan_type: 'yearly', expires_at: Date.tomorrow ,max_usage_nb: 1, apply_until: Date.tomorrow)
     monthyl_promo_code = PromotionCode.create(name: "-20% sur le 1er mois d'abonnement", code_id: "GOPREMIUM_#{self.id}", promo_amount: 9, plan_type: 'monthly', expires_at: Date.tomorrow ,max_usage_nb: 1, apply_until: Date.tomorrow)
-    AdminMailer.premium_follow_up_with_promo_code(self, monthyl_promo_code, annual_promo_code)
+    AdminMailer.delay.premium_follow_up_with_promo_code(self, monthyl_promo_code, annual_promo_code)
     self.promo_code_sent = true
     self.save(validate: false)
     true
