@@ -59,8 +59,9 @@ class UserMailer < ActionMailer::Base
   # Inform the user that the comment has been validated by the teacher
   def comment_has_been_validated(comment)
     @comment   = comment
+    @user      = comment.user
     @structure = @comment.structure
-    mail to: @comment.email, subject: "Votre avis à été validé !"
+    mail to: @comment.email, subject: "Votre avis est maintenant visible"
   end
 
   ######################################################################

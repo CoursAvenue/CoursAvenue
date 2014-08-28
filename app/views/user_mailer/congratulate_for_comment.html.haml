@@ -1,3 +1,6 @@
+- content_for :email_title do
+  Merci de nous avoir fait part de votre expérience. Votre avis vient d'être transmis à #{@structure.name}
+
 .p Bonjour #{@comment.author_name.titleize},
 
 - if @comment.accepted?
@@ -14,42 +17,4 @@
 
 = render 'shared/mailers/footer'
 
-- content_for :under_content do
-  %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600' }
-    %tr{ valign: 'top' }
-      %td.content-block{ width: '100', style: 'padding-bottom: 0' }
-        = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank' do
-          = image_tag @structure.logo.url(:thumb), class: 'block', height: 100, width: 100, alt: "Logo de #{@structure.name}"
-      %td.content-block.soft--left{ width: '500', style: 'padding-bottom: 0' }
-        = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank', class: 'p' do
-          %strong= @structure.name
-          %br
-          = truncate @structure.places.map(&:city).uniq.map(&:name).join(', '), length: 100
-          %br
-          = truncate @structure.subjects.at_depth(0).map(&:name).uniq.join(', '), length: 100
-          %br
-          = "#{@structure.comments_count} avis"
-
-- content_for :under_content_2 do
-  %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600' }
-    %tr{ valign: 'top' }
-      %td{ colspan: 2 }
-        .title Développez vos passions à prix réduit
-        - if @user.active?
-          .p Voici la liste des disciplines qui vous intéressent :
-          - @user.subjects.at_depth(0).uniq.each do |root_subject|
-            .p
-              %strong= "#{root_subject.name} : "
-              - child_subjects = @user.subjects.at_depth(2)
-              = @user.subjects.at_depth(2).uniq.sort_by(&:name).select{ |subject|  subject.ancestry.start_with?(root_subject.id.to_s) }.map(&:name).join(', ')
-
-          .p Depuis votre espace privé, mettez régulièrement à jour la liste de vos passions pour ne louper aucun bon plan (cours d'essai gratuits et offres découvertes) :        - else
-          .p.action.hard--bottom
-            = link_to "Modifier mes passions", user_passions_url(@user), class: 'btn btn--green'
-        - else
-          .p Créez votre compte CoursAvenue pour recevoir des offres exclusives tout au long de l'année, et en lien avec vos passions : cours d'essai gratuits, promotions exclusives, invitations à des événements...
-          .p.action.hard--bottom
-            = link_to "Recevoir des offres exclusives", root_url, class: 'btn btn--green'
-
-- content_for :under_content_3 do
-  = render 'user_mailer/footer_info'
+= render 'user_mailer/under_comment'
