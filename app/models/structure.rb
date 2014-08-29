@@ -182,7 +182,7 @@ class Structure < ActiveRecord::Base
         self.search_score.to_i - 18
       end
     end
-    integer :search_score_yoga_sante_bien_etre do
+    integer :search_score_yoga_bien_etre_sante do
       compute_search_score if search_score.blank?
       if self.courses.without_open_courses.map(&:subjects).flatten.map(&:root).uniq.map(&:slug).include? 'yoga-sante-bien_etre'
         self.search_score
