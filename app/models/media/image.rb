@@ -52,7 +52,7 @@ class Media::Image < Media
 
   def url
     if self.image.processing? or !self.image.present?
-      self.url
+      self.read_attribute(:url)
     else
       self.image.url(:original)
     end
@@ -60,7 +60,7 @@ class Media::Image < Media
 
   def thumbnail_url
     if self.image.processing? or !self.image.present?
-      self.url
+      self.read_attribute(:url)
     else
       self.image.url(:thumbnail)
     end
