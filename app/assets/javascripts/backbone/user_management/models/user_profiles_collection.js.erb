@@ -250,6 +250,13 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
 
         destroySelected: function () {
             this.bulkAction('destroy');
+            // Trigger destroy to model
+            _.map(this.selected_ids, function(selected_id) {
+                var user_profil;
+                if (user_profile = this.where({id: selected_id})[0]) {
+                    user_profile.trigger('destroy');
+                }
+            }.bind(this));
         },
 
         bulkAction: function (action_name, delegate_params) {

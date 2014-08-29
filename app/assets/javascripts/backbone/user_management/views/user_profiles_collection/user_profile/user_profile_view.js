@@ -16,6 +16,9 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             _.bindAll(this, "updateSuccess", "updateError", "flashError");
 
             this.model.set("checked", options.checked);
+            this.model.on("destroy", function() {
+                this.$el.remove();
+            }.bind(this));
             this.tags_url = options.tags_url;
             this.edits = {};
 
