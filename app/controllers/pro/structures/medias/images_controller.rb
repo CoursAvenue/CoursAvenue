@@ -14,6 +14,7 @@ class Pro::Structures::Medias::ImagesController < Pro::ProController
       filepicker_url, s3_path = s3_filepicker_url.split(';')
       url                     = CoursAvenue::Application::S3_BUCKET.objects[s3_path].public_url.to_s
       image                   = Media::Image.new url: url, filepicker_url: filepicker_url, mediable: @structure
+
       image.image             = URI.parse(url)
       image.save
     end
