@@ -1,5 +1,7 @@
 class StructureSearch
   extend StructuresHelper
+  ROOT_SUBJECT_ID_SUPPORTED = %w(danse theatre_scene yoga_bien_etre_sante musique_chant deco_mode_bricolage dessin_peinture_arts_plastiques sports_arts_martiaux cuisine_vins photo_video other)
+
   # params: params
   #     name:          fulltext
   #     subject_id:    slug of a subject
@@ -61,7 +63,8 @@ class StructureSearch
       if params[:sort] == 'premium'
         order_by :premium, :desc
       end
-      if params[:root_subject_id].present?
+
+      if params[:root_subject_id].present? and ROOT_SUBJECT_ID_SUPPORTED.include?(params[:root_subject_id])
         order_by "search_score_#{params[:root_subject_id]}".underscore.to_sym, :desc
       else
         order_by :search_score, :desc
