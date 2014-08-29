@@ -5,7 +5,7 @@
     = image_tag 'icons/first-ribbon.png', class: 'north west absolute on-top', height: 80, width: 80, style: 'width: 80px; height: 80px;'
   - elsif index > 2
     = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 80, width: 80, style: 'width: 80px; height: 80px; top: -3px !important; left: -3px !important;'
-  %a.bg-cover.break-all.soft-half.hard--bottom.block.show-on-hover-wrapper.relative{href: media.url, title: media.caption, style: "height: 200px; background-image: url(\"#{media.thumbnail_url}\")", data: { behavior: 'fancy' } }
+  %a.bg-cover.break-all.soft-half.hard--bottom.block.show-on-hover-wrapper.relative{ href: media.url, title: media.caption, style: "height: 200px; background-image: url(\"#{media.thumbnail_url}\")", data: { behavior: 'fancy' } }
     .show-on-hover.absolute.absolute--center.text--center
       - if media.video?
         %i.fa.fa-youtube-play.fa-4x.white

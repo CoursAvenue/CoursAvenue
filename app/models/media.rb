@@ -12,7 +12,6 @@ class Media < ActiveRecord::Base
   belongs_to :mediable, polymorphic: true
   has_and_belongs_to_many :subjects
 
-  validates :url, presence: true
   validates :caption, length: { maximum: 255 }
 
   scope :images,       -> { where( type: "Media::Image" ) }

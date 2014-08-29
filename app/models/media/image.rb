@@ -2,12 +2,23 @@ class Media::Image < Media
   require 'open-uri'
   require 'aws'
 
+  has_attached_file :image,
+                    styles: {
+                      original: { geometry: '600x600#', processors: [:cropper_square] },
+                      thumbnail: '500#'
+                    },
+                    convert_options: { original: '-interlace Plane', thumbnail: '-interlace Plane' }
+
+  process_in_background :image
+  # validates_attachment_content_type :image, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
+  do_not_validate_attachment_file_type :image
+
   ######################################################################
   # Callbacs                                                           #
   ######################################################################
   before_create :make_cover_if_first
-  after_create :save_thumbnail_url_to_s3
-  after_destroy :remove_file_from_s3
+  # after_create :save_thumbnail_url_to_s3
+  # after_destroy :remove_file_from_s3
 
   def video?
     false
@@ -36,9 +47,24 @@ class Media::Image < Media
   #
   # @return String name of the file
   def file_name
-    self.url.split('/').last
+    self.image.file_name
   end
 
+  def url
+    if self.image.processing?
+      self.url
+    else
+      self.image.url(:original)
+    end
+  end
+
+  def thumbnail_url
+    if self.image.processing?
+      self.url
+    else
+      self.image.url(:thumbnail)
+    end
+  end
   # Path of the media path on S3
   #
   # @return String path of the S3 media
@@ -60,39 +86,5 @@ class Media::Image < Media
   ######################################################################
   def make_cover_if_first
     self.cover = true if self.mediable.medias.images.empty?
-  end
-
-  # Create a thumbnail and saves it to S3
-  #
-  # @return nil
-  def save_thumbnail_url_to_s3
-    if self.filepicker_url
-      convert_options = {
-        fit: 'clip',
-        h:500,
-        w:500
-      }
-      file = open("#{self.filepicker_url}/convert?#{convert_options.to_query}")
-
-      # Writing file into S3 bucket
-      object = CoursAvenue::Application::S3_BUCKET.objects[s3_thumbnail_media_path + file_name]
-      written_file = object.write(file, acl: :public_read) # :authenticated_read
-      self.update_column :thumbnail_url, written_file.public_url.to_s
-    end
-    nil
-  end
-
-  # Remove file from S3 after destroy
-  #
-  # @return [type] [description]
-  def remove_file_from_s3
-    if self.thumbnail_url
-      thumbnail_image = CoursAvenue::Application::S3_BUCKET.objects[URI.unescape(self.thumbnail_url.split('.com/').last)]
-      thumbnail_image.delete
-    end
-    if self.url
-      original_image  = CoursAvenue::Application::S3_BUCKET.objects[URI.unescape(self.url.split('.com/').last)]
-      original_image.delete
-    end
   end
 end

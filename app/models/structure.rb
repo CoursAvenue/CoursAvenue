@@ -116,7 +116,10 @@ class Structure < ActiveRecord::Base
                     styles: {
                       original: { geometry: '600x600#', processors: [:cropper_square] },
                       large: '450x450',
-                      thumb: { geometry: '200x200#', processors: [:cropper] } }
+                      thumb: { geometry: '200x200#', processors: [:cropper] }
+                    },
+                    convert_options: { original: '-interlace Plane', large: '-interlace Plane', thumb: '-interlace Plane' }
+
   validates_attachment_content_type :logo, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
   # process_in_background :logo, only_process: [:original]
 
