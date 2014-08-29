@@ -23,7 +23,7 @@
           - @price_group.subscriptions.each do |price|
             %tr
               %td= t(price.libelle)
-              %td.text--center= readable_amount(price.amount if price.amount
+              %td.text--center= readable_amount(price.amount) if price.amount
               %td.text--center.premium-box= readable_amount(price.promo_amount) if price.promo_amount
               %td= price.info
 
