@@ -61,7 +61,11 @@ class StructureSearch
       if params[:sort] == 'premium'
         order_by :premium, :desc
       end
-      order_by :search_score, :desc
+      if params[:root_subject_id].present?
+        order_by "search_score_#{params[:root_subject_id]}".underscore.to_sym, :desc
+      else
+        order_by :search_score, :desc
+      end
       order_by :view_count, :asc
       order_by :has_admin, :desc
 
