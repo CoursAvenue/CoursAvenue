@@ -52,7 +52,7 @@ class Structures::CommentsController < ApplicationController
       @comment.email       = current_user.email
       @user                = current_user
     else
-      user_email = params[:comment][:email].downcase
+      user_email = params[:comment][:email].try(:downcase)
       # If the user does not exists
       unless (@user = User.where(email: user_email).first)
         @user = User.new email: user_email, first_name: params[:comment][:author_name]
