@@ -78,6 +78,12 @@ class Media::Image < Media
     "medias/#{self.mediable_type.downcase.pluralize}/#{self.mediable_id}/thumbnails/"
   end
 
+  def update_image
+    return if self.image.present?
+    self.image = URI.parse(self.read_attribute(:url))
+    self.save
+  end
+
   private
 
   ######################################################################
