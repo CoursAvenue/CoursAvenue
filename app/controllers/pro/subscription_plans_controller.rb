@@ -5,11 +5,18 @@ class Pro::SubscriptionPlansController < Pro::ProController
   def index
     @orders = Order.all
 
-    dates = (2.month.ago.to_date..Date.today).step
-    @orders_progression = {}
-    dates.each do |date|
-      @orders_progression[date] = Order.where( Order.arel_table[:created_at].lt(date) ).count
+    # @orders_per_month  = Order.order("DATE_TRUNC('month', created_at) ASC").group("DATE_TRUNC('month', created_at)").count
+    @orders_per_month = {}
+    (Date.new(2014, 6)..Date.today + 1.month).select {|d| d.day == 1}.map {|d| d - 1}.drop(1).each do |begining_of_month|
+      @orders_per_month[begining_of_month] = SubscriptionPlan.where(SubscriptionPlan.arel_table[:expires_at].gteq(begining_of_month).and(
+                                                                    SubscriptionPlan.arel_table[:created_at].lteq(begining_of_month))).count
     end
+
+    # dates = (2.month.ago.to_date..Date.today).step
+    # @orders_progression = {}
+    # dates.each do |date|
+    #   @orders_progression[date] = Order.where( Order.arel_table[:created_at].lt(date) ).count
+    # end
 
   end
 end
