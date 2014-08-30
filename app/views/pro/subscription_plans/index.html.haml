@@ -7,7 +7,7 @@
       %h2.f-weight-300.flush= "CA : #{@orders.map(&:amount).reduce(&:+)}€ TTC (#{readable_amount(@orders.map(&:amount).reduce(&:+) / 1.2)} HT)"
 
     %h2.text--center.f-weight-300 Total premium: #{SubscriptionPlan.where(SubscriptionPlan.arel_table[:expires_at].gt(Date.today)).count}
-    %h2.text--center.push--bottom.soft--ends.f-weight-300 Premium / mois non cumulé
+    %h2.text--center.push--bottom.soft--ends.f-weight-300 Premium / mois
     #graph-per-month
     -# %hr.push--ends
     -# #graph
