@@ -9,7 +9,6 @@ class Media::Image < Media
                     },
                     convert_options: { original: '-interlace Plane', thumbnail: '-interlace Plane' }
 
-  process_in_background :image
   # validates_attachment_content_type :image, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
   do_not_validate_attachment_file_type :image
 
@@ -51,18 +50,18 @@ class Media::Image < Media
   end
 
   def url
-    if self.image.processing? or !self.image.present?
-      self.read_attribute(:url)
-    else
+    if self.image.present?
       self.image.url(:original)
+    else
+      self.read_attribute(:url)
     end
   end
 
   def thumbnail_url
-    if self.image.processing? or !self.image.present?
-      self.read_attribute(:url)
-    else
+    if self.image.present?
       self.image.url(:thumbnail)
+    else
+      self.read_attribute(:url)
     end
   end
   # Path of the media path on S3
