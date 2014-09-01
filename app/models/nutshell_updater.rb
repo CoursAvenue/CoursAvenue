@@ -79,6 +79,7 @@ class NutshellUpdater
   end
 
   def self.create_contact(structure)
+    admin    = structure.main_contact
     contacts = nutshell.search_by_email admin.email.downcase
     # Prevent from creating multiple contacts
     return if contacts['contacts'].length > 0
