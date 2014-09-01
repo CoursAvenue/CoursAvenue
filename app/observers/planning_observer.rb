@@ -1,7 +1,7 @@
 class PlanningObserver < ActiveRecord::Observer
 
   def after_save(planning)
-    planning.structure.update_meta_datas
+    planning.course.structure.update_meta_datas
     # planning.participations.map(&:alert_for_changes)
   end
 
