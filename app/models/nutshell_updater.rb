@@ -24,6 +24,56 @@ class NutshellUpdater
     end
   end
 
+  def self.merge_contacts(email)
+    contacts = nutshell.search_by_email email.downcase
+    contact_to_keep = contacts['contacts'].shift
+    return if contact_to_keep.nil? or contacts['contacts'].length == 1
+    contact_to_keep = nutshell.get_contact contact_to_keep['id']
+    primary_email = contact_to_keep['email']['--primary']
+    emails = []
+    ## Merging activities
+    activities = nutshell.find_activities contactId: contacts['contacts'].map{ |c| c['id'] }
+    activities.each do |activity|
+      activity['participants'] = [{ "id" => contact_to_keep['id'], "entityType" => "Contacts" }]
+      nutshell.edit_activity(activity['id'], activity['rev'], activity)
+    end
+    contact_to_keep['notes'] = []
+    contacts['contacts'].each_with_index do |contact, index|
+      begin
+        contact = nutshell.get_contact contact['id']
+        ## Merging emails
+        emails += contact['email'].map(&:last)
+        ## Merging notes
+        notes = contact['notes']
+        notes.each{|n| n.delete('id') }
+        notes.each{|n| n.delete('rev') }
+        notes.each{|n| n.delete('originId') }
+        contact_to_keep['notes'] << notes
+        self.delete_contact(contact)
+      rescue Exception => exception
+        puts exception
+      end
+    end
+    new_emails = { '--primary' => primary_email }
+    emails.uniq.each_with_index do |email, index|
+      new_emails[index + 1] = email
+    end
+    contact_to_keep['email'] = new_emails
+    contact_to_keep.delete 'creator'
+    contact_to_keep.delete 'lastContactedDate'
+    contact_to_keep.delete 'contactedCount'
+    contact_to_keep.delete 'owner'
+    contact_to_keep.delete 'owner'
+    contact_to_keep.delete 'entityType'
+    contact_to_keep.delete 'htmlUrl'
+    contact_to_keep.delete 'leads'
+    contact_to_keep['notes'] = contact_to_keep['notes'].flatten
+    contact_to_keep.delete 'notes' if contact_to_keep['notes'].empty?
+    contact_to_keep.delete 'accounts'
+    puts primary_email
+    nutshell.edit_contact contact_to_keep['id'], contact_to_keep['rev'].to_i, contact_to_keep
+  end
+
   def self.update_contact(structure)
     admin    = structure.main_contact
     contacts = nutshell.search_by_email admin.email.downcase
@@ -75,6 +125,7 @@ class NutshellUpdater
       rescue Exception => exception
       end
     end
+    self.merge_contacts(admin.email.downcase) if contacts['contacts'].length > 1
 
   end
 
@@ -90,6 +141,12 @@ class NutshellUpdater
     self.nutshell.new_contact new_contact
     # Update after creating because tags fail in creation...
     self.update_contact structure
+  end
+
+  def self.delete_contact(contact)
+    params = JSON.parse(nutshell.send(:build_payload, contactId: contact['id'], rev: contact['rev']))
+    params['method'] = 'deleteContact'
+    nutshell.send :exec_request, params.to_json
   end
 
   private
