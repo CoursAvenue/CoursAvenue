@@ -94,22 +94,22 @@ class Planning < ActiveRecord::Base
   ######################################################################
   searchable do
     integer :search_score do
-      self.structure.compute_search_score
+      self.course.structure.compute_search_score
     end
 
     integer :view_count do
-      self.structure.view_count
+      self.course.structure.view_count
     end
 
     boolean :visible
 
     boolean :active_structure do
-      self.structure.active?
+      self.course.structure.active?
     end
 
     # ----------------------- For grouping
     string :structure_id_str do
-      self.structure_id.to_s
+      self.course.structure_id.to_s
     end
 
     string :place_id_str do
@@ -117,7 +117,7 @@ class Planning < ActiveRecord::Base
     end
 
     integer :structure_id do
-      self.structure_id.to_s
+      self.course.structure_id.to_s
     end
 
     # ----------------------- Fulltext search
@@ -135,7 +135,7 @@ class Planning < ActiveRecord::Base
     end
 
     text :name, boost: 5 do
-      self.structure.name
+      self.course.structure.name
     end
 
     integer :subject_ids, multiple: true do
@@ -231,23 +231,23 @@ class Planning < ActiveRecord::Base
     end
 
     integer :funding_type_ids, multiple: true do
-      self.structure.funding_type_ids
+      self.course.structure.funding_type_ids
     end
 
     string :structure_type do
-      self.structure.structure_type.split('.').last if self.structure.structure_type
+      self.course.structure.structure_type.split('.').last if self.course.structure.structure_type
     end
 
     integer :nb_comments do
-      self.structure.comments_count
+      self.course.structure.comments_count
     end
 
     boolean :has_comment do
-      self.structure.comments_count > 0
+      self.course.structure.comments_count > 0
     end
 
     boolean :has_logo do
-      self.structure.logo?
+      self.course.structure.logo?
     end
 
     latlon :location, multiple: true do
@@ -256,14 +256,6 @@ class Planning < ActiveRecord::Base
       else # Happens when the planning is out of France for example.
         Sunspot::Util::Coordinates.new(structure.latitude, structure.longitude)
       end
-    end
-
-    integer :open_courses_open_places do
-      self.structure.open_courses_open_places
-    end
-
-    double :jpo_score do
-      self.structure.jpo_score
     end
   end
 

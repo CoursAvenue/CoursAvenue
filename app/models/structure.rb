@@ -1110,7 +1110,7 @@ class Structure < ActiveRecord::Base
   def subscribe_to_nutshell
     NutshellUpdater.update(self) if self.main_contact and Rails.env.production?
   end
-  handle_asynchronously :subscribe_to_nutshell
+  handle_asynchronously :subscribe_to_nutshell, run_at: Proc.new { 1.minute.from_now }
 
   def encode_uris
     self.website      = URI.encode(URI.decode(self.website))      if website.present? and website_changed?

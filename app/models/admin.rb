@@ -103,6 +103,7 @@ class ::Admin < ActiveRecord::Base
   def subscribe_to_nutshell
     self.structure.send(:subscribe_to_nutshell) if self.structure and Rails.env.production?
   end
+  handle_asynchronously :subscribe_to_nutshell, run_at: Proc.new { 5.minute.from_now }
 
   def check_if_was_invited
     InvitedUser.where(email: self.email).map(&:inform_proposer)
