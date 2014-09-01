@@ -18,7 +18,9 @@ class VerticalPage < ActiveRecord::Base
                                  allow_destroy: true
 
   has_attached_file :image,
-                    :styles => { thumb: '250x200#', large: '1600x500#' }
+                    styles: { thumb: '250x200#', large: '1600x500#' },
+                    convert_options: { thumb: '-interlace Plane', large: '-interlace Plane' }
+
   validates_attachment_content_type :image, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 
   private

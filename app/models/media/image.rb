@@ -4,7 +4,7 @@ class Media::Image < Media
 
   has_attached_file :image,
                     styles: {
-                      original: { geometry: '1000x' },
+                      original: '1000x',
                       thumbnail: '500x'
                     },
                     convert_options: { original: '-interlace Plane', thumbnail: '-interlace Plane' }
