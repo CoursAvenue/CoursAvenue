@@ -503,4 +503,7 @@ CoursAvenue::Application.routes.draw do
   post 'contact/' => 'pages#send_message'
 
   root :to => 'home#index'
+
+  # Match every route that is not defined above and redirect it to the routing error method.
+  match "*path", to: "application#routing_error", via: :get
 end
