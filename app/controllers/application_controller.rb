@@ -63,6 +63,13 @@ class ApplicationController < ActionController::Base
     render template: 'errors/internal_server_error', status: :not_found
   end
 
+  # Create a RoutingError exception when the route is not matched.
+  #
+  # @return ActionController::RoutingError
+  def routing_error
+    raise ActionController::RoutingError.new(params[:path])
+  end
+
   #
   # Tell wether the page should use:
   # %meta{name: 'viewport', content: 'width=device-width, initial-scale=1.0' }
