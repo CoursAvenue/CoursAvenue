@@ -504,6 +504,6 @@ CoursAvenue::Application.routes.draw do
 
   root :to => 'home#index'
 
-  # Match every route that is not defined above and redirect it to the routing error method.
+  # Needed to catch 404 requests in ApplicationController
   match "*path", to: "application#routing_error", via: :get
 end
