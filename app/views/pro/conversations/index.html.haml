@@ -5,6 +5,7 @@
 
   .panel__body.soft
     - @conversations.each do |conversation|
-      - structure = conversation.recipients.select{|r| r.is_a? Admin}.first.structure
+      - structure = conversation.recipients.select{|r| r.is_a? Admin}.first.try(:structure)
+      - next if structure.nil?
       = link_to pro_structure_conversation_path(structure, conversation), class: 'muted-link' do
         = render partial: 'conversations/conversation', locals: { conversation: conversation }

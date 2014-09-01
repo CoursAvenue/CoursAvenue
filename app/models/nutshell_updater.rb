@@ -13,7 +13,7 @@ class NutshellUpdater
 
   def self.update(structure)
     if (admin = structure.main_contact)
-      contacts = self.nutshell.search_by_email admin.email
+      contacts = self.nutshell.search_by_email admin.email.downcase
       if contacts['contacts'].any?
         puts 'Updating contact'
         self.update_contact(structure)
@@ -26,8 +26,9 @@ class NutshellUpdater
 
   def self.update_contact(structure)
     admin    = structure.main_contact
-    contacts = nutshell.search_by_email admin.email
-    contacts['contacts'].each do |contact|
+    contacts = nutshell.search_by_email admin.email.downcase
+    contacts['contacts'].each_with_index do |contact, index|
+      break if index > 0
       begin
         contact = nutshell.get_contact contact['id']
         new_tags = contact['tags'] || []
@@ -70,7 +71,7 @@ class NutshellUpdater
           }
         }
         nutshell.edit_contact contact['id'], contact['rev'].to_i, new_contact
-        puts "Updating #{admin.email} from #{structure.name}"
+        puts "Updating #{admin.email.downcase} from #{structure.name}"
       rescue Exception => exception
       end
     end
@@ -78,9 +79,13 @@ class NutshellUpdater
   end
 
   def self.create_contact(structure)
+    contacts = nutshell.search_by_email admin.email.downcase
+    # Prevent from creating multiple contacts
+    return if contacts['contacts'].length > 0
+
     new_contact = self.create_nutshell_contact_object(structure)
     admin       = structure.main_contact
-    puts "Creating #{admin.email} from #{structure.name}"
+    puts "Creating #{admin.email.downcase} from #{structure.name}"
     self.nutshell.new_contact new_contact
     # Update after creating because tags fail in creation...
     self.update_contact structure
@@ -106,9 +111,9 @@ class NutshellUpdater
     }
     # if it does not exists
     new_contact['name'] = structure.name
-    new_contact['email'] = admin.email
+    new_contact['email'] = admin.email.downcase
     if structure.website
-      new_contact['url'] = {'0' => admin.email}
+      new_contact['url'] = {'0' => admin.email.downcase}
     end
     if admin.phone_number.present?
       new_contact['phone'] = {'number' => admin.phone_number}

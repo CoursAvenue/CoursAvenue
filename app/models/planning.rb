@@ -104,12 +104,12 @@ class Planning < ActiveRecord::Base
     boolean :visible
 
     boolean :active_structure do
-      self.course.structure.active?
+      self.structure.active?
     end
 
     # ----------------------- For grouping
     string :structure_id_str do
-      self.course.structure_id.to_s
+      self.structure_id.to_s
     end
 
     string :place_id_str do
@@ -117,7 +117,7 @@ class Planning < ActiveRecord::Base
     end
 
     integer :structure_id do
-      self.course.structure_id.to_s
+      self.structure_id.to_s
     end
 
     # ----------------------- Fulltext search
@@ -388,7 +388,7 @@ class Planning < ActiveRecord::Base
   end
 
   def set_structure_if_blank
-    self.structure = self.course.structure if self.course
+    self.structure = self.structure if self.course
   end
 
   def default_values
