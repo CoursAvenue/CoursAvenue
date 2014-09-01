@@ -251,6 +251,7 @@ class Planning < ActiveRecord::Base
     end
 
     latlon :location, multiple: true do
+      structure = self.structure || self.course.structure
       if place
         Sunspot::Util::Coordinates.new(place.latitude, place.longitude)
       else # Happens when the planning is out of France for example.
@@ -380,7 +381,7 @@ class Planning < ActiveRecord::Base
   end
 
   def set_structure_if_blank
-    self.structure = self.structure if self.course
+    self.structure = self.course.structure if self.course
   end
 
   def default_values
