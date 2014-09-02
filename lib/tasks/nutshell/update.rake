@@ -26,7 +26,7 @@ namespace :nutshell do
   task :update_contacts => :environment do |t, args|
     # bar = ProgressBar.new Admin.count
     Structure.all.each do |structure|
-      NutshellUpdater.update(structure)
+      CrmSync.update(structure)
     end
   end
 end
