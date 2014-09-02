@@ -24,7 +24,7 @@
         = @vertical_page.caption
 
 .main-container.main-container--medium.soft--ends
-  %ul.breadcrumb
+  %ul.nav.breadcrumb.epsilon
     - @ancestors.each do |ancestor|
       %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
         = link_to vertical_page_path(ancestor.vertical_pages.first), itemprop: 'url' do
