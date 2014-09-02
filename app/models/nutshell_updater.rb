@@ -25,9 +25,14 @@ class NutshellUpdater
   end
 
   def self.merge_contacts(email)
+    puts email
+    return if %w(dorothee@photo-up.fr parisdanceschool@hotmail.fr nim.izadi@gmail.com info@emiliecaille.com legay.h@gmail.com vincent.vincent.lacaille@winesitting.com danse-ateliers@hotmail.fr coursdanse@hotmail.fr sylvainchesnel@aol.com ecole@cuisineattitude.com mailflorent@gmail.com).include?(email)
     contacts = nutshell.search_by_email email.downcase
     contact_to_keep = contacts['contacts'].shift
-    return if contact_to_keep.nil? or contacts['contacts'].length == 1
+    if contact_to_keep.nil? or contacts['contacts'].length == 0
+      puts 'Skipped'
+      return
+    end
     contact_to_keep = nutshell.get_contact contact_to_keep['id']
     primary_email = contact_to_keep['email']['--primary']
     emails = []
@@ -35,6 +40,7 @@ class NutshellUpdater
     activities = nutshell.find_activities contactId: contacts['contacts'].map{ |c| c['id'] }
     activities.each do |activity|
       activity['participants'] = [{ "id" => contact_to_keep['id'], "entityType" => "Contacts" }]
+      activity.delete 'status'
       nutshell.edit_activity(activity['id'], activity['rev'], activity)
     end
     contact_to_keep['notes'] = []
@@ -70,8 +76,10 @@ class NutshellUpdater
     contact_to_keep['notes'] = contact_to_keep['notes'].flatten
     contact_to_keep.delete 'notes' if contact_to_keep['notes'].empty?
     contact_to_keep.delete 'accounts'
-    puts primary_email
-    nutshell.edit_contact contact_to_keep['id'], contact_to_keep['rev'].to_i, contact_to_keep
+    begin
+      nutshell.edit_contact contact_to_keep['id'], contact_to_keep['rev'].to_i, contact_to_keep
+    rescue Exception => exception
+    end
   end
 
   def self.update_contact(structure)
