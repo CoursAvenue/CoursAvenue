@@ -91,7 +91,7 @@
           %div{ data: { type: (@is_sleeping ? '' : 'sticky-map-container') }}>
             - unless @is_sleeping
               .push--bottom{ data: { type: (@is_sleeping ? '' : 'sticky-map') }}>
-              %a.push--bottom.contact-button.btn--full.btn.btn--green{ data: { behavior: 'show-contact-panel' } }
+              %a.push--bottom.contact-button.btn--full.btn.btn--green{ data: { behavior: 'show-contact-panel', action: 'log-action' } }
                 Contacter
                 = I18n.t("structures.structure_type_contact.#{(@structure.structure_type.present? ? @structure.structure_type : 'structures.other')}")
 
@@ -151,20 +151,3 @@
           var body_message = $('#contact-message-body').val();
           $.cookie('user_contact_message', body_message);
       });
-
-= content_for :scripts do
-  :javascript
-    $(function() {
-        $('.contact-button, [data-behavior=show-contact-panel]').click(function() {
-            $.ajax({
-                type: "POST",
-                dataType: 'js',
-                url: Routes.structure_statistics_path(#{@structure.id}),
-                data: {
-                    action_type: 'action',
-                    fingerprint: $.cookie('fingerprint'),
-                    infos: $(this).text().trim()
-                }
-            });
-        });
-    });

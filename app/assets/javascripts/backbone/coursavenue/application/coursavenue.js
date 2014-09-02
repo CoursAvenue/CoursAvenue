@@ -76,8 +76,9 @@ CoursAvenue.addRegions({
 });
 
 CoursAvenue.addInitializer(function(options){
-    this.user = new CoursAvenue.Models.User();
-    this.admin = new CoursAvenue.Models.Admin();
+    this.user      = new CoursAvenue.Models.User();
+    this.admin     = new CoursAvenue.Models.Admin();
+    this.statistic = new CoursAvenue.Models.Statistic();
 });
 
 $(function() {

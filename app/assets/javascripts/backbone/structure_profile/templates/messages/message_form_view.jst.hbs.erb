@@ -104,7 +104,7 @@
           <hr class="push-half--ends">
         {{/ifPresent}}
         {{#if structure.phone_numbers}}
-            <a href="javascript:void(0)" class="btn btn--green btn--full" data-behavior="show-phone-numbers">
+            <a href="javascript:void(0)" class="btn btn--green btn--full" data-behavior="show-phone-numbers" data-action="log-action" data-action-info="telephone">
                 <i class="fa fa-phone v-middle"></i>
                 <span class="v-middle">Téléphone</span>
             </a>
@@ -123,7 +123,7 @@
         {{/if}}
 
         {{#if structure.premium }}{{#if structure.website }}
-          <a href="{{ structure.website }}" class="btn btn--green btn--full push-half--top" target="_blank">
+          <a href="{{ structure.website }}" class="btn btn--green btn--full push-half--top" target="_blank" data-action="log-action" data-action-info="website">
             <i class="fa fa-globe v-middle"></i> <span class="v-middle">Site internet</span>
           </a>
         {{/if}}{{/if}}

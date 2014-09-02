@@ -31,12 +31,12 @@
                       </div>
                       {{/ifCond}}
                       <div class="push-half--bottom text--center">
-                          <a class="pointer" data-behavior="show-contact-panel">Contacter {{about}}</a>
+                          <a class="pointer" data-behavior="show-contact-panel" data-action="log-action">Contacter {{about}}</a>
                       </div>
                     {{else}}
                     <div class="gray">
                         {{ capitalize about }} n'a pas ajouté sa description :
-                        <a class="pointer" data-behavior="show-contact-panel" data-info-planning="true" href="#">contactez-{{about_genre}}.</a
+                        <a class="pointer" data-behavior="show-contact-panel" data-action="log-action" data-info-planning="true" href="#">contactez-{{about_genre}}.</a
                     </div>
                     {{/if}}
                 </div>

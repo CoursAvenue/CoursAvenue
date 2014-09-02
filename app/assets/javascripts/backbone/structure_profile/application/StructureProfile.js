@@ -119,6 +119,14 @@ $(document).ready(function() {
         // Create view for current structure only if not a current admin
         // Create impressions for similar profiles
         if (!window.coursavenue.bootstrap.current_pro_admin) {
+            $('body').on('click', '[data-action=log-action]', function() {
+                var infos = $(this).text().trim();
+                if ($(this).data('action-info')) {
+                    infos = $(this).data('action-info');
+                }
+                CoursAvenue.statistic.logStat(window.coursavenue.bootstrap.structure.id, 'action', { infos: infos });
+            });
+
             $.ajax({
                 type: "POST",
                 dataType: 'js',
