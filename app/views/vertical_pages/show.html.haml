@@ -24,6 +24,11 @@
         = @vertical_page.caption
 
 .main-container.main-container--medium.soft--ends
+  %ul.breadcrumb
+    - @ancestors.each do |ancestor|
+      %li
+        = link_to ancestor.name, vertical_page_path(ancestor.vertical_pages.first)
+
   .float--right.two-fifths.palm-one-whole.v-top.push--left.push--bottom>
     = render partial: 'vertical_pages/cities'
   .blog-article__content

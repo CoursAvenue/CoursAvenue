@@ -6,6 +6,7 @@ class VerticalPagesController < ApplicationController
   def show
     @vertical_page = VerticalPage.find(params[:id])
     @subject       = @vertical_page.subject
+    @ancestors     = @subject.ancestors
   end
 
   def index
