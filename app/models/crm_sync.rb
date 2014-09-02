@@ -21,6 +21,7 @@ class CrmSync
     person.set_field_value('# de photos/vidéos'             , structure.medias.count)
     person.set_field_value('Dernière connexion à son profil', I18n.l(admin.last_sign_in_at, format: :date)) if admin.last_sign_in_at.present?
     person.set_field_value('ID'                             , "https://coursavenue1.highrisehq.com/people/#{person.id}")
+    person.set_field_value('JPO'                            , structure.courses.open_courses.count)
     person.contact_data = {
       addresses: places_address.uniq,
       phone_numbers: structure.phone_numbers.map{ |phone_number| { number: phone_number.number, location: 'Work' } },
