@@ -21,14 +21,15 @@ class CrmSync
     person.set_field_value('# de photos/vidéos'             , structure.medias.count)
     person.set_field_value('Dernière connexion à son profil', I18n.l(admin.last_sign_in_at, format: :date)) if admin.last_sign_in_at.present?
     person.set_field_value('ID'                             , "https://coursavenue1.highrisehq.com/people/#{person.id}")
+
+    web_addresses = [{ url: Rails.application.routes.url_helpers.structure_url(structure, subdomain: 'www', host: 'coursavenue.com'), location: 'Work' },
+                    { url: Rails.application.routes.url_helpers.pro_structure_url(structure, subdomain: 'pro', host: 'coursavenue.com'), location: 'Work' },
+                    { url: structure.website, location: 'Work' }]
+    phone_numbers = structure.phone_numbers.map{ |phone_number| { number: phone_number.number, location: 'Work' } }
     person.contact_data = {
-      addresses: places_address.uniq,
-      phone_numbers: structure.phone_numbers.map{ |phone_number| { number: phone_number.number, location: 'Work' } },
-      web_addresses: [
-        { url: Rails.application.routes.url_helpers.structure_url(structure, subdomain: 'www', host: 'coursavenue.com'), location: 'Work' },
-        { url: Rails.application.routes.url_helpers.pro_structure_url(structure, subdomain: 'pro', host: 'coursavenue.com'), location: 'Work' },
-        { url: structure.website, location: 'Work' }
-      ]
+      addresses:     places_address.uniq.reject{ |address| person.contact_data.addresses.map(&:street).include? address[:street] },
+      phone_numbers: phone_numbers.uniq.reject{ |phone_number| person.contact_data.phone_numbers.map(&:number).include? phone_number[:number] },
+      web_addresses: web_addresses.uniq.reject{ |web_address| person.contact_data.web_addresses.map(&:url).include? web_address[:url] }
     }
     unless person.save
       puts person.errors.full_messages
