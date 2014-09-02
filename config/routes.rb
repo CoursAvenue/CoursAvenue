@@ -503,4 +503,7 @@ CoursAvenue::Application.routes.draw do
   post 'contact/' => 'pages#send_message'
 
   root :to => 'home#index'
+
+  # Needed to catch 404 requests in ApplicationController
+  match "*path", to: "application#routing_error", via: :get
 end
