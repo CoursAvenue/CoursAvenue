@@ -29,7 +29,7 @@
       %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
         = link_to vertical_page_path(ancestor.vertical_pages.first), itemprop: 'url' do
           %span{ itemprop: 'title' }
-            = ancestor.name
+            = ancestor.vertical_pages.first.name
 
   .float--right.two-fifths.palm-one-whole.v-top.push--left.push--bottom>
     = render partial: 'vertical_pages/cities'
