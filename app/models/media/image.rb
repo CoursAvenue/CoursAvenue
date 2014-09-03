@@ -85,6 +85,11 @@ class Media::Image < Media
     self.save
   end
 
+  def reprocess_thumbnail_cropped
+    return if self.image.exists?(:thumbnail_cropped)
+    self.image.reprocess! :thumbnail_cropped
+  end
+
   private
 
   ######################################################################
