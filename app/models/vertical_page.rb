@@ -32,5 +32,4 @@ class VerticalPage < ActiveRecord::Base
     return (!exists and empty)
   end
 
-
 end
