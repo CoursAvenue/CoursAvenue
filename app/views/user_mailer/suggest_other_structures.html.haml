@@ -13,11 +13,15 @@
 
 %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600' }
   %tr{ valign: 'top' }
-    - @structure.similar_profiles(3).each do |similar_profile|
+    - @structure.similar_profiles(3, { medias_count: 1 }).each do |similar_profile|
       %td.content-block{ width: '200', colspan: '2', style: 'padding-bottom: 0' }
         = link_to structure_url(similar_profile, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN) do
           .p
-            = image_tag similar_profile.medias.first.thumbnail_url, width: 180
+            - media = similar_profile.medias.cover_first.videos_first.first
+            - if media.image?
+              = image_tag media.image.url(:thumbnail_cropped), width: 170, height: 110
+            - else
+              = image_tag media.thumbnail_url, width: 170, height: 110
           .p
             %strong= similar_profile.name
             %br

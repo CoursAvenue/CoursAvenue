@@ -5,9 +5,10 @@ class Media::Image < Media
   has_attached_file :image,
                     styles: {
                       original: '1000x',
-                      thumbnail: '500x'
+                      thumbnail: '500x',
+                      thumbnail_cropped: '450x300#'
                     },
-                    convert_options: { original: '-interlace Plane', thumbnail: '-interlace Plane' }
+                    convert_options: { original: '-interlace Plane', thumbnail: '-interlace Plane', thumbnail_cropped: '-interlace Plane' }
 
   # validates_attachment_content_type :image, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
   do_not_validate_attachment_file_type :image

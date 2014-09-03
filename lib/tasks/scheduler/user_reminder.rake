@@ -4,6 +4,7 @@ require 'rake/clean'
 
 namespace :scheduler do
   namespace :users do
+    include ConversationsHelper
 
     # $ rake scheduler:users:send_reminder
     # Email sent on monday
