@@ -26,7 +26,7 @@ class Course < ActiveRecord::Base
 
   before_save :sanatize_description
   after_save  :update_plannings_dates_if_needs_to
-  after_save  :reindex_plannings
+  after_save  :reindex_plannings unless Rails.env.test?
 
   ######################################################################
   # Scopes                                                             #

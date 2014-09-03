@@ -4,6 +4,7 @@ class MailboxerMessageMailer < ActionMailer::Base
   layout 'email'
 
   include ActionView::Helpers::SanitizeHelper
+  include ConversationsHelper
 
   default from: "\"L'équipe CoursAvenue\" <contact@coursavenue.com>"
 

@@ -1095,12 +1095,22 @@ class Structure < ActiveRecord::Base
   #
   # @return Subject at depth 0
   def dominant_root_subject
-    if courses.any?
-      _subjects = courses.map{ |c| c.subjects }.flatten
-      _subjects.group_by{ |subject| subject.root }.values.max_by(&:size).first
+    if courses.active.any?
+      _subjects = courses.active.map{ |c| c.subjects }.flatten
       _subjects.group_by{ |subject| subject.root }.values.max_by(&:size).first.root
     else
       subjects.at_depth(2).group_by{ |subject| subject.root }.values.max_by(&:size).first.root
+    end
+  end
+
+  # Return the most used city
+  #
+  # @return City
+  def dominant_city
+    if plannings.any?
+      plannings.map(&:place).map(&:city).flatten.group_by{ |subject| subject.root }.values.max_by(&:size).first.root
+    else
+      ([city] + places.map(&:city)).group_by{ |city| city }.values.max_by(&:size).first
     end
   end
 

@@ -42,7 +42,11 @@
             %span.milli= "le #{l(last_message.created_at.to_date, format: :short)}"
     .grid__item.soft-half--left.v-middle{ style: 'width: 65%' }>
       %p.flush
-        %strong= conversation.subject
+        %strong
+          = conversation.subject
+          - if conversation_extra_infos(conversation).present?
+            = "(#{conversation_extra_infos(conversation).map{ |extra_info| t("#{extra_info.name}_small") }.join(', ')})"
+
         = "(#{pluralize conversation.messages.count, 'message'})"
         %br
         = truncate(last_message.body, length: 80)

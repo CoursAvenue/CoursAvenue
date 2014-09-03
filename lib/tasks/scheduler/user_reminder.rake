@@ -38,11 +38,21 @@ namespace :scheduler do
       end
     end
 
-    # 3 days after last email sent
-    # $ rake scheduler:users:resend_recommendation_stage_3
-    # desc 'Re ask users for recommendation'
-    # task :resend_recommendation_stage_3 => :environment do |t, args|
-    #   UsersReminder.resend_recommendation_stage_3
-    # end
+    # Send email to user if he has sent a request to a structure and it is not answered since 2 days
+    # $ rake scheduler:users:suggest_other_structures
+    desc 'Send email to admins who have user requests not answered'
+    task :suggest_other_structures => :environment do |t, args|
+      conversations = Mailboxer::Conversation.where( Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq(Mailboxer::Label::INFORMATION.id).and(
+                                                     Mailboxer::Conversation.arel_table[:created_at].gteq(Date.today - 2.days).and(
+                                                     Mailboxer::Conversation.arel_table[:created_at].lt(Date.today - 1.day))) )
+      conversations.each do |conversation|
+        if conversation_waiting_for_reply?(conversation)
+          user  = conversation.recipients.select{|recipient| recipient.is_a? User }.first
+          admin = conversation.recipients.select{|recipient| recipient.is_a? Admin }.first
+          next if user.nil? or admin.nil? or admin.structure.nil?
+          UserMailer.delay.suggest_other_structures(user, admin.structure)
+        end
+      end
+    end
   end
 end
