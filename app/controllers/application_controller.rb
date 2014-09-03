@@ -38,7 +38,7 @@ class ApplicationController < ActionController::Base
     if request.subdomain == 'pro'
       redirect_to new_pro_admin_session_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), alert: I18n.t('devise.failure.unauthenticated')
     else
-      redirect_to new_user_session_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), alert: I18n.t('devise.failure.unauthenticated')
+      redirect_to root_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), alert: I18n.t('devise.failure.unauthenticated')
     end
   end
 

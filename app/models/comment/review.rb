@@ -221,7 +221,8 @@ class Comment::Review < Comment
     end
   end
 
-  # Add errors if the user has already commented the commentable
+  # Add errors if the user has already commented the commentable AND it's less
+  # than a year old
   #
   # @return nil
   def doesnt_exist_yet
@@ -229,7 +230,7 @@ class Comment::Review < Comment
     _email        = self.email
     if Comment::Review.where( Comment::Review.arel_table[:commentable_id].eq(_structure_id).and(
                       Comment::Review.arel_table[:email].eq(_email).and(
-                      Comment::Review.arel_table[:created_at].gt(2.months.ago))) ).any?
+                      Comment::Review.arel_table[:created_at].gt(1.year.ago))) ).any?
       self.errors.add :email, I18n.t('comments.errors.already_posted')
     end
   end

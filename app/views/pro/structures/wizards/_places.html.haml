@@ -1,5 +1,5 @@
 = simple_form_for [:pro, @structure], html: { class: 'wizard-form', id: 'form' }, remote: true do |f|
-  %h4.flush#title
+  %h4#title
     %i.fa.fa-map-marker.fa.fa-2x.v-middle.soft-half--right
     %span.v-middle.soft-half--right Enseignez-vous dans plusieurs lieux ?
     = link_to 'Oui, ajouter un lieu', pro_structure_places_path(@structure), class: 'btn', target: '_blank'
@@ -7,16 +7,17 @@
   = f.input :has_only_one_place, as: :hidden, label: false, input_html: { id: 'only-one-place-input' }
 
 :javascript
-  var submit_form = function() {
+  var submit_form = function submit_form () {
       $('#save-wizard').hide();
       $('#title').append($('#skip-wizard').addClass('milli'));
       $('#only-one-place').click(function() {
           $('#only-one-place-input')[0].checked = true;
+          $('#only-one-place-input').val('1');
           $('#save-wizard').click();
       });
   };
   if (typeof($) == 'function') {
     submit_form();
   } else {
-    document.ready = submit_form;
+    document.addEventListener('DOMContentLoaded', submit_form, false);
   }
