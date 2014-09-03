@@ -16,7 +16,7 @@ class CrmSync
     person.set_field_value('Stats : # de demandes d’info'   , admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).count)
     person.set_field_value("Stats : # d'actions"            , structure.action_count(1000))
     person.set_field_value('# de discussions'               , admin.mailbox.conversations.count)
-    person.set_field_value("# d'avis"                       , structure.comments_count)
+    person.set_field_value("# avis"                         , structure.comments_count)
     person.set_field_value('# de cours actifs'              , structure.courses.select(&:is_published?).length)
     person.set_field_value('# de photos/vidéos'             , structure.medias.count)
     person.set_field_value('Dernière connexion à son profil', I18n.l(admin.last_sign_in_at, format: :date)) if admin.last_sign_in_at.present?
