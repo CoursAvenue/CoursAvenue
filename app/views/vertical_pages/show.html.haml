@@ -61,7 +61,7 @@
 %div{ class: (@subject.depth == 0 || @subject.depth == 2 ? 'home-screen-promotion-wrapper' : '') }
   .main-container.main-container--medium.soft--ends
     %h2.soft--bottom.f-weight-300 Sélection d'avis
-    - CommentSearch.search(per_page: 4, has_avatar: true, has_title: true, subject_slugs: [@subject.root.slug, @subject.slug]).results.in_groups_of(2, false).each do |review_group|
+    - @vertical_page.reviews.in_groups_of(2, false).each do |review_group|
       .grid.push--bottom
         - review_group.each do |review|
           .grid__item.one-half.palm-one-whole.lap-one-half>
