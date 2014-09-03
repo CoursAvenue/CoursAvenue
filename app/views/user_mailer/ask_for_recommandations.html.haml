@@ -7,7 +7,7 @@
 
 - content_for :promo do
   .title
-    #{@structure.name} vous demande de lui rédiger une recommandation sur CoursAvenue.com
+    #{@structure.name} vous demande de lui rédiger une recommandation sur CoursAvenue.com :
 
   - if @email_text
     = @email_text.html_safe

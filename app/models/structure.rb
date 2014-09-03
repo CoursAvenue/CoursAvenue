@@ -158,7 +158,7 @@ class Structure < ActiveRecord::Base
 
   after_save    :geocode_if_needs_to
   after_save    :update_email_status
-  after_save    :subscribe_to_nutshell
+  after_save    :subscribe_to_crm
 
   ######################################################################
   # Solr                                                               #
@@ -908,6 +908,15 @@ class Structure < ActiveRecord::Base
   end
 
   #
+  # Number of action counts
+  # @param days_ago=15 Integer number of days ago
+  #
+  # @return Integer, the number of view counts the last 15 days
+  def action_count(days_ago=15)
+    return Statistic.action_count(self, Date.today - days_ago.days) || 0
+  end
+
+  #
   # Number of impression counts
   # @param days_ago=15 Integer number of days ago
   #
@@ -1107,10 +1116,10 @@ class Structure < ActiveRecord::Base
     self.gives_group_courses = true
   end
 
-  def subscribe_to_nutshell
-    NutshellUpdater.update(self) if self.main_contact and Rails.env.production?
+  def subscribe_to_crm
+    CrmSync.update(self) if self.main_contact and Rails.env.production?
   end
-  handle_asynchronously :subscribe_to_nutshell, run_at: Proc.new { 1.minute.from_now }
+  handle_asynchronously :subscribe_to_crm
 
   def encode_uris
     self.website      = URI.encode(URI.decode(self.website))      if website.present? and website_changed?

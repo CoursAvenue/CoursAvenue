@@ -101,4 +101,18 @@ class Statistic < ActiveRecord::Base
                                            .map(&:user_count).reduce(&:+)
 
   end
+
+  # Total action count
+  # @param structure Structure concerned
+  # @param from_date=(Date.today - 10.years Date Date from where to start
+  #
+  # @return Integer number of view counts since `from_date`
+  def self.action_count(structure, from_date=(Date.today - 10.years))
+    return structure.statistics.actions.where( Statistic.arel_table[:created_at].gt(from_date) )
+                                       .order('DATE(created_at) ASC')
+                                       .group('DATE(created_at)')
+                                       .select('DATE(created_at) as created_at, COUNT(DISTINCT(user_fingerprint)) as user_count')
+                                       .map(&:user_count).reduce(&:+)
+
+  end
 end

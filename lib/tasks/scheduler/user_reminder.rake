@@ -28,6 +28,16 @@ namespace :scheduler do
       UsersReminder.resend_recommendation_stage_2
     end
 
+    # 1 year after a comment was written
+    # $ rake scheduler:users:celebrate_comment_anniversary
+    desc 'Re ask users for recommendation'
+    task :celebrate_comment_anniversary => :environment do |t, args|
+      date = 1.year.ago
+      Comment::Review.where(created_at:  date.beginning_of_day..date.end_of_day).each do |comment|
+        UserMailer.delay.comment_anniversary(comment)
+      end
+    end
+
     # 3 days after last email sent
     # $ rake scheduler:users:resend_recommendation_stage_3
     # desc 'Re ask users for recommendation'

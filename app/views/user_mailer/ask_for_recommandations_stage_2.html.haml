@@ -1,5 +1,5 @@
 - content_for :email_title do
-  #{@structure.name} vous demande de lui rédiger une recommandation sur CoursAvenue.com
+  Il vous reste 5 jours pour recommander #{@structure.name}
 
 - content_for :logo do
   = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank' do

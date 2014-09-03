@@ -57,6 +57,7 @@ namespace :scheduler do
       conversations.each do |conversation|
         if conversation_waiting_for_reply?(conversation)
           admin = conversation.recipients.select{|recipient| recipient.is_a? Admin }.first
+          next if admin.nil?
           AdminMailer.delay.message_information_reminder_1(conversation, admin)
         end
       end
