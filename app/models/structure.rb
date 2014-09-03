@@ -1095,9 +1095,8 @@ class Structure < ActiveRecord::Base
   #
   # @return Subject at depth 0
   def dominant_root_subject
-    if courses.any?
-      _subjects = courses.map{ |c| c.subjects }.flatten
-      _subjects.group_by{ |subject| subject.root }.values.max_by(&:size).first
+    if courses.active.any?
+      _subjects = courses.active.map{ |c| c.subjects }.flatten
       _subjects.group_by{ |subject| subject.root }.values.max_by(&:size).first.root
     else
       subjects.at_depth(2).group_by{ |subject| subject.root }.values.max_by(&:size).first.root
