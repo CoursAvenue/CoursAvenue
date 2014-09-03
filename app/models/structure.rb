@@ -849,6 +849,13 @@ class Structure < ActiveRecord::Base
     self.premium
   end
 
+  #
+  # Return similar profiles
+  # /!\ DO NOT CHANGE LIMIT, it could harm someone...
+  # limit     - Number of similar profile that will be returned
+  # _params   - Params of the search, {} by default
+  #
+  # @return Array [Structure]
   def similar_profiles(limit=3, _params={})
     StructureSearch.similar_profile(self, limit, _params)
   end
@@ -1084,6 +1091,18 @@ class Structure < ActiveRecord::Base
   end
   handle_asynchronously :send_promo_code!, :run_at => Proc.new { Date.tomorrow + 9.hours }
 
+  # Return the most used subject or the root subjects that has the most childs.
+  #
+  # @return Subject at depth 0
+  def dominant_root_subject
+    if courses.any?
+      _subjects = courses.map{ |c| c.subjects }.flatten
+      _subjects.group_by{ |subject| subject.root }.values.max_by(&:size).first
+    else
+      subjects.at_depth(2).group_by{ |subject| subject.root }.values.max_by(&:size).first.root
+    end
+  end
+
   private
 
   # Strip name if exists to prevent from name starting by a space
@@ -1131,6 +1150,10 @@ class Structure < ActiveRecord::Base
     new_record?
   end
 
+  # Validations
+  # Check if subjects at depth 0 AND 2 has been added, else add errors on model.
+  #
+  # @return errors
   def subject_parent_and_children
     # Not using scope because subject are not saved in tests and that can fail
     if self.subjects.select{|subject| subject.depth == 0}.empty?
