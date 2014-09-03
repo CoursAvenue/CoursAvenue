@@ -24,7 +24,7 @@ describe Structure do
     it 'activates' do
       structure.active = false
       structure.activate!
-      structure.active.should be_true
+      structure.active.should be(true)
     end
   end
 
@@ -34,8 +34,8 @@ describe Structure do
       courses = structure.courses
       structure.active = true
       structure.disable!
-      structure.active.should be_false
-      courses.each{ |c| c.active.should be_false }
+      structure.active.should be(false)
+      courses.each{ |c| c.active.should be(false) }
     end
   end
 
@@ -43,8 +43,8 @@ describe Structure do
     it 'destroys everything' do
       places = structure.places
       structure.destroy
-      structure.destroyed?.should be_true
-      places.each{ |p| p.destroyed?.should be_true }
+      structure.destroyed?.should be(true)
+      places.each{ |p| p.destroyed?.should be(true) }
     end
   end
 
@@ -128,21 +128,6 @@ describe Structure do
     end
   end
 
-  describe '#create_user_profile_for_message' do
-    let(:structure) { FactoryGirl.create(:structure) }
-    let(:user)      { FactoryGirl.create(:user) }
-    before do
-      @user_profile_count = structure.user_profiles.count
-      structure.create_user_profile_for_message(user)
-    end
-    it "creates a user profile" do
-      expect(structure.user_profiles.length).to eq (@user_profile_count + 1)
-    end
-    it "affects tag to the user profile" do
-      expect(structure.user_profiles.last.tags.map(&:name)).to include UserProfile::DEFAULT_TAGS[:contacts]
-    end
-  end
-
   context :funding_types do
     context :getters do
       describe '#funding_types' do
@@ -206,39 +191,6 @@ describe Structure do
         structure.update_email_status
         expect(structure.email_status).to eq 'incomplete_profile'
       end
-
-      it 'is no_recommendations' do
-        stub_logo(structure)
-        structure.stub(:profile_completed?) { true }
-        structure.comments_count = 0
-        structure.update_email_status
-        expect(structure.email_status).to eq 'no_recommendations'
-      end
-
-      it 'is less_than_five_recommendations' do
-        stub_logo(structure)
-        structure.stub(:profile_completed?) { true }
-        structure.comments_count = 3
-        structure.update_email_status
-        expect(structure.email_status).to eq 'less_than_five_recommendations'
-      end
-
-      it 'is planning_outdated' do
-        stub_logo(structure)
-        structure.stub(:profile_completed?) { true }
-        structure.comments_count = 12
-        structure.update_email_status
-        expect(structure.email_status).to eq 'planning_outdated'
-      end
-
-      it 'is less_than_fifteen_recommendations' do
-        stub_logo(structure)
-        structure.stub(:profile_completed?) { true }
-        structure.comments_count = 12
-        structure.courses = [FactoryGirl.create(:course)]
-        structure.update_email_status
-        expect(structure.email_status).to eq 'less_than_fifteen_recommendations'
-      end
     end
   end
 
@@ -282,7 +234,7 @@ describe Structure do
     describe '#no_contacts_in_name' do
       it 'has errors on name' do
         subject.name = "www.test.com"
-        expect(subject.valid?).to be_false
+        expect(subject.valid?).to be(false)
         expect(subject.errors.messages).to include :name
       end
     end
@@ -305,21 +257,21 @@ describe Structure do
 
     describe '#reject_places' do
       it 'rejects it' do
-        expect(subject.send(:reject_places, { zip_code: '' })).to be_true
+        expect(subject.send(:reject_places, { zip_code: '' })).to be(true)
       end
 
       it 'does not rejects it' do
-        expect(subject.send(:reject_places, { zip_code: '75014' })).to be_false
+        expect(subject.send(:reject_places, { zip_code: '75014' })).to be(false)
       end
     end
 
     describe '#reject_phone_number' do
       it 'rejects it' do
-        expect(subject.send(:reject_phone_number, { number: '' })).to be_true
+        expect(subject.send(:reject_phone_number, { number: '' })).to be(true)
       end
 
       it 'does not rejects it' do
-        expect(subject.send(:reject_phone_number, { number: '04102401240' })).to be_false
+        expect(subject.send(:reject_phone_number, { number: '04102401240' })).to be(false)
       end
 
       it 'destroys it' do

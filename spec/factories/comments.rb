@@ -5,6 +5,7 @@ FactoryGirl.define do
     commentable { FactoryGirl.create(:structure) }
     type        'Comment::Review'
     user
+    rating      4
     title       Faker::Lorem.sentence(4)
 
 
