@@ -12,5 +12,5 @@
   if (typeof($) == 'function') {
       show_save_button();
   } else {
-      document.ready = show_save_button;
+      document.addEventListener('DOMContentLoaded', show_save_button, false);
   }

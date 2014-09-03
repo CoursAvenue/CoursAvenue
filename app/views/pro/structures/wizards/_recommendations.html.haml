@@ -76,7 +76,7 @@
           });
       });
   } else {
-      document.ready = submit_form;
+      document.addEventListener('DOMContentLoaded', submit_form, false);
   }
 
 #recommendation-overview-popup.hidden
