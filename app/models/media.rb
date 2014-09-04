@@ -9,11 +9,26 @@ class Media < ActiveRecord::Base
                   :provider_id, :provider_name, :thumbnail_url, :filepicker_url, :cover,
                   :star, :vertical_page_caption, :subject_ids
 
-  belongs_to :mediable, polymorphic: true
+  ######################################################################
+  # Relations                                                          #
+  ######################################################################
+  belongs_to :mediable, polymorphic: true, touch: true
   has_and_belongs_to_many :subjects
 
+  ######################################################################
+  # Validations                                                        #
+  ######################################################################
   validates :caption, length: { maximum: 255 }
 
+  ######################################################################
+  # Callbacks                                                          #
+  ######################################################################
+  after_destroy :index_structure
+  after_create  :index_structure
+
+  ######################################################################
+  # Scopes                                                             #
+  ######################################################################
   scope :images,       -> { where( type: "Media::Image" ) }
   scope :videos,       -> { where( type: "Media::Video" ) }
   scope :videos_first, -> { order('type DESC') }
@@ -77,4 +92,10 @@ class Media < ActiveRecord::Base
     end
   end
 
+  private
+
+  # Reindex structure because we keep track of its media count
+  def index_structure
+    self.mediable.try(:index)
+  end
 end

@@ -216,6 +216,17 @@ class Pro::StructuresController < Pro::ProController
     retrieve_home_places
   end
 
+  def edit_order_recipient
+    @structure = Structure.friendly.find(params[:id])
+    @default_text =  <<-eos
+#{@structure.name}
+#{@structure.street}
+#{@structure.zip_code} #{@structure.city.name}
+France
+    eos
+    render layout: false
+  end
+
   def edit_contact
     @structure = Structure.friendly.find(params[:id])
     5.times { @structure.phone_numbers.build }

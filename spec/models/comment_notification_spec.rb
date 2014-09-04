@@ -7,12 +7,12 @@ describe CommentNotification do
     context 'validations' do
       it 'has an error on structure if notification_for is empty' do
         comment_notification = CommentNotification.new
-        expect(comment_notification.valid?).to be_false
+        expect(comment_notification.valid?).to be(false)
         expect(comment_notification.errors[:structure].length).to eq 1
       end
       it 'has no error on structure if notification_for is filled' do
         comment_notification = CommentNotification.new notification_for: 'lala'
-        expect(comment_notification.valid?).to be_false
+        expect(comment_notification.valid?).to be(false)
         expect(comment_notification.errors.messages[:structure]).to be_nil
       end
     end

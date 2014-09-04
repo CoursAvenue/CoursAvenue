@@ -86,7 +86,7 @@ class Structure < ActiveRecord::Base
                   :highlighted_comment_id,
                   :deletion_reasons, :deletion_reasons_text,
                   :phone_numbers_attributes, :places_attributes, :other_emails, :last_geocode_try,
-                  :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason, :sleeping_attributes
+                  :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason, :sleeping_attributes, :order_recipient
 
   accepts_nested_attributes_for :places,
                                  reject_if: :reject_places,
@@ -105,7 +105,7 @@ class Structure < ActiveRecord::Base
                              :open_courses_open_places, :open_course_nb, :jpo_email_status, :open_course_plannings_nb,
                              :response_rate, :response_time, :gives_non_professional_courses, :gives_professional_courses,
                              :deletion_reasons, :deletion_reasons_text, :other_emails, :search_score, :search_score_updated_at,
-                             :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason, :promo_code_sent
+                             :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason, :promo_code_sent, :order_recipient
 
 
   define_boolean_accessor_for :meta_data, :has_promotion, :gives_group_courses, :gives_individual_courses,
@@ -1103,6 +1103,17 @@ class Structure < ActiveRecord::Base
     end
   end
 
+  # Return the most used city
+  #
+  # @return City
+  def dominant_city
+    if plannings.any?
+      plannings.map(&:place).map(&:city).flatten.group_by{ |city| city }.values.max_by(&:size).first
+    else
+      ([city] + places.map(&:city)).group_by{ |city| city }.values.max_by(&:size).first
+    end
+  end
+
   private
 
   # Strip name if exists to prevent from name starting by a space
@@ -1216,7 +1227,7 @@ class Structure < ActiveRecord::Base
   # @return nil
   def no_contacts_in_name
     return nil if self.name.nil?
-    if self.name.match(/((?:[-a-z0-9]+\.)+[a-z]{2,4})(?: |\Z)/i)
+    if self.name.match(/((?:[-a-z0-9]+\.)+[a-z]{2,4})(?: |\Z|,)/i)
       self.errors.add :name, "Le nom ne peut pas contenir votre site internet"
     end
     nil

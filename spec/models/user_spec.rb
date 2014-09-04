@@ -14,16 +14,16 @@ describe User do
     let (:participation) { FactoryGirl.create(:participation) }
 
     it 'does not' do
-      expect(subject.participate_to?(Planning.new)).to be_false
+      expect(subject.participate_to?(Planning.new)).to be(false)
     end
 
     it 'participates' do
-      expect(participation.user.participate_to?(participation.planning)).to be_true
+      expect(participation.user.participate_to?(participation.planning)).to be(true)
     end
 
     it 'has canceled his participations' do
       participation.update_column :canceled_at, Time.now
-      expect(participation.user.participate_to?(participation.planning)).to be_false
+      expect(participation.user.participate_to?(participation.planning)).to be(false)
     end
   end
 
@@ -69,11 +69,11 @@ describe User do
 
     it 'returns true' do
       user.participations.create(planning: planning)
-      expect(user.participate_to?(planning)).to be_true
+      expect(user.participate_to?(planning)).to be(true)
     end
 
     it 'returns false' do
-      expect(user.participate_to?(planning)).to be_false
+      expect(user.participate_to?(planning)).to be(false)
     end
   end
 

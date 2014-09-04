@@ -114,6 +114,7 @@ CoursAvenue::Application.routes.draw do
       resources :subscription_plans, only: [:index], path: 'abonnements'
       resources :structures, path: 'etablissements' do
         member do
+          get   :edit_order_recipient
           get   :someone_already_took_control, path: 'quelqu-un-a-deja-le-control'
           get   :dont_want_to_take_control_of_my_sleeping_account, path: 'me-desabonner'
           get   :go_premium
