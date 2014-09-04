@@ -32,9 +32,10 @@
         = link_to vertical_page_path(ancestor.vertical_pages.first), itemprop: 'url' do
           %span{ itemprop: 'title' }
             = ancestor.vertical_pages.first.name
-    %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-      %span{ itemprop: 'title' }
-        = @vertical_page.name
+    - if @ancestors.any?
+      %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+        %span{ itemprop: 'title' }
+          = @vertical_page.name
 
   .float--right.two-fifths.palm-one-whole.v-top.push--left.push--bottom{ class: (content_present ? '' : 'push--top soft--top') }>
     = render partial: 'vertical_pages/cities'
