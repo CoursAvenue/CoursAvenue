@@ -262,7 +262,7 @@ class AdminMailer < ActionMailer::Base
 
   def planning_outdated(structure)
     @structure        = structure
-    @similar_profiles = @structure.similar_profiles(2)
+    @similar_profiles = @structure.similar_profiles(2, { has_admin: true })
     mail to: structure.main_contact.email,
          subject: "Votre profil n'affiche pas de cours"
   end
@@ -272,7 +272,7 @@ class AdminMailer < ActionMailer::Base
 
   def no_more_active_courses(structure)
     @structure        = structure
-    @similar_profiles = @structure.similar_profiles(2)
+    @similar_profiles = @structure.similar_profiles(2, { has_admin: true })
     mail to: structure.main_contact.email,
          subject: "Votre profil n'affiche plus de cours"
   end
