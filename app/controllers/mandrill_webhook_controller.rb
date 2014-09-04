@@ -28,7 +28,7 @@ class MandrillWebhookController < ApplicationController
   #       "_id" => "exampleaaaaaaaaaaaaaaaaaaaaaaaaa",
   #        "ts" => 1409834839
   #    }]
-  def process
+  def create
     events = JSON.parse(params['mandrill_events'])
     events.each do |event|
       user = User.where(email: event['msg']['email']).first
@@ -39,6 +39,12 @@ class MandrillWebhookController < ApplicationController
       user.delivery_email_status = event['event']
       user.save
     end
+    render nothing: true
+  end
+
+  # When adding a webhook it ensures the url works, here it how we handle it
+  def index
+    render nothing: true
   end
 
 end

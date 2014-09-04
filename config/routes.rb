@@ -503,7 +503,8 @@ CoursAvenue::Application.routes.draw do
 
   post 'contact/' => 'pages#send_message'
 
-  post 'mandrill-webhook' => 'mandrill_webhook#process'
+  post '/mandrill-webhook' => 'mandrill_webhook#create'
+  get  '/mandrill-webhook' => 'mandrill_webhook#index'
   root :to => 'home#index'
 
   # Needed to catch 404 requests in ApplicationController
