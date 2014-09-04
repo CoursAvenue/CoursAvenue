@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
                   :birthdate, :phone_number, :zip_code, :city_id, :passion_zip_code, :passion_city_id, :passions_attributes, :description,
                   :email_opt_in, :sms_opt_in, :email_promo_opt_in, :email_newsletter_opt_in, :email_passions_opt_in,
                   :email_status, :last_email_sent_at, :last_email_sent_status,
-                  :lived_places_attributes
+                  :lived_places_attributes, :delivery_email_status
 
   # To store hashes into hstore
   store_accessor :meta_data, :after_sign_up_url, :have_seen_first_jpo_popup
@@ -437,6 +437,14 @@ class User < ActiveRecord::Base
 
   def follows?(structure)
     self.followings.map(&:structure_id).include? structure.id
+  end
+
+  #
+  # Tell wether we can send email or not
+  #
+  # @return Boolean
+  def should_send_email?
+     (self.delivery_email_status != 'blocked' and self.delivery_email_status != 'bounce')
   end
 
   private
