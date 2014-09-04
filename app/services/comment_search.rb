@@ -19,13 +19,11 @@ class CommentSearch
       with :has_avatar, params[:has_avatar]            if params[:has_avatar]
 
       # --------------- Subjects
-      if params[:subject_slugs].present?
-        with(:subject_slugs).any_of  params[:subject_slugs]
-      else
-        with(:subject_slugs).any_of [params[:subject_id]]  if params[:subject_id].present?
-      end
+
+      with :subject_slug, params[:subject_slug]        if params[:subject_slug]
 
       paginate page: (params[:page] || 1), per_page: (params[:per_page] || 15)
+      order_by :has_avatar, :desc
     end
 
     @search
