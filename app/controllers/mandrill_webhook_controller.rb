@@ -1,5 +1,7 @@
 # encoding: utf-8
 class MandrillWebhookController < ApplicationController
+  protect_from_forgery only: []
+
   require 'json'
 
   # Here is what we get from Mandrill
