@@ -84,6 +84,14 @@ class Comment::Review < Comment
       end
       subject_slugs.uniq
     end
+
+    string :subject_slug do
+      if self.subjects.any?
+        self.subjects.first.slug
+      else
+        self.structure.dominant_root_subject.slug
+      end
+    end
   end
 
   def recover!
