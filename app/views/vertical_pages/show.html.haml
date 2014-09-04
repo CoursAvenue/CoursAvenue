@@ -26,7 +26,7 @@
 - content_present = [@vertical_page.content, @subject.good_to_know, @subject.needed_meterial, @subject.tips].reject(&:blank?).any?
 
 .main-container.main-container--medium.soft--ends
-  .float--right.two-fifths.palm-one-whole.v-top.push--left.push--bottom{ class: ('push--top soft--top' unless content_present) }>
+  .float--right.two-fifths.palm-one-whole.v-top.push--left.push--bottom{ class: (content_present ? '' : 'push--top soft--top') }>
     = render partial: 'vertical_pages/cities'
   .blog-article__content
     - if @vertical_page.content.present?

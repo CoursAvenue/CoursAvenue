@@ -23,6 +23,11 @@ class VerticalPage < ActiveRecord::Base
 
   validates_attachment_content_type :image, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 
+
+  # Return reviews related to the vertical page.
+  # @param limit=4 Integer number of review wanted
+  #
+  # @return array of Comment::Review
   def reviews(limit=4)
     reviews = []
     slugs = [subject.slug] + subject.ancestors.map(&:slug).reverse
