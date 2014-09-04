@@ -28,6 +28,7 @@
 .main-container.main-container--medium.soft--ends
   %ul.nav.breadcrumb.epsilon
     - @ancestors.each do |ancestor|
+      - next if ancestor.vertical_pages.empty?
       %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
         = link_to vertical_page_path(ancestor.vertical_pages.first), itemprop: 'url' do
           %span{ itemprop: 'title' }
