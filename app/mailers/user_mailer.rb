@@ -64,6 +64,22 @@ class UserMailer < ActionMailer::Base
     mail to: @comment.email, subject: "Votre avis est maintenant visible"
   end
 
+  # Inform the user that the comment has been validated by the teacher
+  def comment_anniversary(comment)
+    @comment   = comment
+    @user      = comment.user
+    @structure = @comment.structure
+    mail to: @comment.email, subject: "Un an déjà... bon anniversaire !"
+  end
+
+  def suggest_other_structures(user, structure)
+    @user       = user
+    @structure  = structure
+    @subject    = structure.dominant_root_subject
+    @city       = structure.dominant_city
+    mail to: @user.email, subject: "Alternatives à #{structure.name}"
+  end
+
   ######################################################################
   # For inactive users                                                 #
   ######################################################################

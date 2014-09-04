@@ -1,0 +1,38 @@
+- content_for :email_title do
+  Alternatives à #{@structure.name}
+
+.title Bonjour #{@user.name},
+
+.p
+  Nous sommes désolés que vous n'ayez pas eu de réponse de la part de
+  = link_to @structure.name, structure_url(@structure)
+  \. Nous passons régulièrement en revue nos partenaires afin de supprimer ceux qui ne répondent pas, mais cette situation peut tout de même se produire.
+
+.p
+  Nous avons identifié d'autres associations, écoles ou professeurs susceptibles de vous intéresser&nbsp;:
+
+%table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600' }
+  %tr{ valign: 'top' }
+    - @structure.similar_profiles(3, { medias_count: 1 }).each do |similar_profile|
+      %td.content-block{ width: '200', colspan: '2', style: 'padding-bottom: 0' }
+        = link_to structure_url(similar_profile, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN) do
+          .p
+            - media = similar_profile.medias.cover_first.videos_first.first
+            - if media.image?
+              = image_tag media.image.url(:thumbnail_cropped), width: 170, height: 110
+            - else
+              = image_tag media.thumbnail_url, width: 170, height: 110
+          .p
+            %strong= similar_profile.name
+            %br
+            %span{ style: 'font-size: 12px;'}= truncate(similar_profile.places.map(&:city).map(&:name).uniq.join(', '), length: 30)
+            %br
+            %span{ style: 'font-size: 12px;'}= truncate(similar_profile.subjects.at_depth(0).uniq.map(&:name).join(', '), length: 30)
+
+.p.action
+  = link_to "Voir tous les cours de #{@subject.name} à #{@city.name}", structures_path(lat: @city.latitude, lng: @city.longitude, address_name: @city.name, root_subject_id: @subject.root.slug), class: 'btn btn--green'
+
+= render 'shared/mailers/footer'
+
+- content_for :under_content do
+  = render 'user_mailer/footer_info'

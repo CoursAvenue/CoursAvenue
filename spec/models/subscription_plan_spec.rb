@@ -9,7 +9,7 @@ describe SubscriptionPlan do
     it 'is not active' do
       subject.stub(:plan_type) { 'monthly' }
       subject.stub(:expires_at) { Date.today - 2.month }
-      expect(subject.active?).to be_false
+      expect(subject.active?).to be(false)
     end
   end
 
@@ -18,7 +18,7 @@ describe SubscriptionPlan do
       subscription_plan = SubscriptionPlan.subscribe! :monthly, structure, {}
       expect(subscription_plan.plan_type).to eq 'monthly'
       expect(subscription_plan.expires_at).to eq Date.today + 1.month
-      expect(subscription_plan.active?).to be_true
+      expect(subscription_plan.active?).to be(true)
     end
   end
 
@@ -30,7 +30,7 @@ describe SubscriptionPlan do
           subscription_plan.cancel!
       }.to change { ActionMailer::Base.deliveries.count }.by(1)
       expect(subscription_plan.canceled_at).not_to be_nil
-      expect(subscription_plan.canceled?).to be_true
+      expect(subscription_plan.canceled?).to be(true)
     end
   end
 
@@ -39,7 +39,7 @@ describe SubscriptionPlan do
       subscription_plan = SubscriptionPlan.subscribe! :yearly, structure, {}
       expect(subscription_plan.plan_type).to eq 'yearly'
       expect(subscription_plan.expires_at).to eq Date.today + 1.year
-      expect(subscription_plan.active?).to be_true
+      expect(subscription_plan.active?).to be(true)
     end
   end
 
@@ -79,7 +79,7 @@ describe SubscriptionPlan do
     it 'is canceled' do
       subscription_plan = SubscriptionPlan.subscribe! 'yearly', structure, {}
       subscription_plan.stub(:canceled_at) { Time.now }
-      expect(subscription_plan.canceled?).to be_true
+      expect(subscription_plan.canceled?).to be(true)
     end
   end
 
@@ -88,7 +88,7 @@ describe SubscriptionPlan do
       it 'is not active' do
         subscription_plan = SubscriptionPlan.subscribe! 'yearly', structure, {}
         subscription_plan.stub(:canceled_at) { Time.now }
-        expect(subscription_plan.active?).to be_false
+        expect(subscription_plan.active?).to be(false)
       end
     end
 
@@ -96,13 +96,13 @@ describe SubscriptionPlan do
       it 'is not active' do
         subscription_plan = SubscriptionPlan.subscribe! 'yearly', structure, {}
         subscription_plan.stub(:expires_at) { Date.yesterday }
-        expect(subscription_plan.active?).to be_false
+        expect(subscription_plan.active?).to be(false)
       end
     end
     it 'is active' do
       subscription_plan = SubscriptionPlan.subscribe! 'yearly', structure, {}
       subscription_plan.stub(:expires_at) { Date.tomorrow }
-      expect(subscription_plan.active?).to be_true
+      expect(subscription_plan.active?).to be(true)
     end
   end
 

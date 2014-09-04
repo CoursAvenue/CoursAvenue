@@ -26,10 +26,13 @@
       .grid__item.three-tenths>
         %div
           %strong Destinataire
-        %div= @structure.name
-        %div= @structure.street
-        %div= "#{@structure.zip_code} #{@structure.city.name}"
-        %div France
+        - if @structure.order_recipient.present?
+          %div= simple_format @structure.order_recipient
+        - else
+          %div= @structure.name
+          %div= @structure.street
+          %div= "#{@structure.zip_code} #{@structure.city.name}"
+          %div France
     %p
       %strong
         Détails de la facture

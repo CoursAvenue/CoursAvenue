@@ -47,7 +47,7 @@ class ::Admin < ActiveRecord::Base
   ######################################################################
   after_create :check_if_was_invited
   after_create :set_email_opt_ins
-  after_save   :subscribe_to_nutshell
+  after_create :subscribe_to_crm
   before_save  :downcase_email
 
   ######################################################################
@@ -100,10 +100,9 @@ class ::Admin < ActiveRecord::Base
 
   private
 
-  def subscribe_to_nutshell
-    self.structure.send(:subscribe_to_nutshell) if self.structure and Rails.env.production?
+  def subscribe_to_crm
+    CrmSync.create_contact(self.structure) if self.structure and Rails.env.production?
   end
-  handle_asynchronously :subscribe_to_nutshell, run_at: Proc.new { 5.minute.from_now }
 
   def check_if_was_invited
     InvitedUser.where(email: self.email).map(&:inform_proposer)

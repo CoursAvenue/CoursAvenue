@@ -1,0 +1,4 @@
+= simple_form_for [:pro, @structure] do |f|
+  %input{ type: 'hidden', value: pro_structure_orders_path(@structure), name: 'return_to' }
+  = f.input :order_recipient, as: :text, label: 'Destinataire', input_html: { value: (@structure.order_recipient.present? ? @structure.order_recipient : @default_text), style: 'height: 80px' }
+  = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours...' }

@@ -101,7 +101,7 @@ describe Planning do
       it 'needs a start_date' do
         course          = Course::Training.new
         subject.course = course
-        expect(subject.valid?).to be_false
+        expect(subject.valid?).to be(false)
         expect(subject.errors.messages).to include :start_date
       end
     end

@@ -34,8 +34,7 @@ gem 'kaminari', '~> 0.15.1'
 # Monitoring
 gem 'newrelic_rpm'          , '~>3.6.8.164'
 
-# Used to update contacts in nutshell CRM
-gem 'nutshell-crm'
+gem 'highrise'
 
 # Used for the blog. Lets us have coursavenue.com/blog
 gem 'rack-reverse-proxy',  require: 'rack/reverse_proxy'
@@ -191,7 +190,7 @@ end
 group :test do
   gem 'factory_girl_rails'      , '~>4.4.1'
   gem 'rspec-rails'             , '~>3.0.2'
-  gem 'rspec-instafail'         , '~>0.2.5'
+  # gem 'rspec-instafail'         , '~>0.2.5'
   gem 'faker'                   , '~>1.2.0'
   gem 'simplecov'               , '~>0.9.0'
   # gem 'sunspot_test'

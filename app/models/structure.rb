@@ -86,7 +86,7 @@ class Structure < ActiveRecord::Base
                   :highlighted_comment_id,
                   :deletion_reasons, :deletion_reasons_text,
                   :phone_numbers_attributes, :places_attributes, :other_emails, :last_geocode_try,
-                  :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason, :sleeping_attributes
+                  :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason, :sleeping_attributes, :order_recipient
 
   accepts_nested_attributes_for :places,
                                  reject_if: :reject_places,
@@ -105,7 +105,7 @@ class Structure < ActiveRecord::Base
                              :open_courses_open_places, :open_course_nb, :jpo_email_status, :open_course_plannings_nb,
                              :response_rate, :response_time, :gives_non_professional_courses, :gives_professional_courses,
                              :deletion_reasons, :deletion_reasons_text, :other_emails, :search_score, :search_score_updated_at,
-                             :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason, :promo_code_sent
+                             :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason, :promo_code_sent, :order_recipient
 
 
   define_boolean_accessor_for :meta_data, :has_promotion, :gives_group_courses, :gives_individual_courses,
@@ -158,7 +158,7 @@ class Structure < ActiveRecord::Base
 
   after_save    :geocode_if_needs_to
   after_save    :update_email_status
-  after_save    :subscribe_to_nutshell
+  after_save    :subscribe_to_crm
 
   ######################################################################
   # Solr                                                               #
@@ -849,6 +849,13 @@ class Structure < ActiveRecord::Base
     self.premium
   end
 
+  #
+  # Return similar profiles
+  # /!\ DO NOT CHANGE LIMIT, it could harm someone...
+  # limit     - Number of similar profile that will be returned
+  # _params   - Params of the search, {} by default
+  #
+  # @return Array [Structure]
   def similar_profiles(limit=3, _params={})
     StructureSearch.similar_profile(self, limit, _params)
   end
@@ -905,6 +912,15 @@ class Structure < ActiveRecord::Base
   # @return Integer, the number of view counts the last 15 days
   def view_count(days_ago=15)
     return Statistic.view_count(self, Date.today - days_ago.days) || 0
+  end
+
+  #
+  # Number of action counts
+  # @param days_ago=15 Integer number of days ago
+  #
+  # @return Integer, the number of view counts the last 15 days
+  def action_count(days_ago=15)
+    return Statistic.action_count(self, Date.today - days_ago.days) || 0
   end
 
   #
@@ -1075,6 +1091,29 @@ class Structure < ActiveRecord::Base
   end
   handle_asynchronously :send_promo_code!, :run_at => Proc.new { Date.tomorrow + 9.hours }
 
+  # Return the most used subject or the root subjects that has the most childs.
+  #
+  # @return Subject at depth 0
+  def dominant_root_subject
+    if courses.active.any?
+      _subjects = courses.active.map{ |c| c.subjects }.flatten
+      _subjects.group_by{ |subject| subject.root }.values.max_by(&:size).first.root
+    else
+      subjects.at_depth(2).group_by{ |subject| subject.root }.values.max_by(&:size).first.root
+    end
+  end
+
+  # Return the most used city
+  #
+  # @return City
+  def dominant_city
+    if plannings.any?
+      plannings.map(&:place).map(&:city).flatten.group_by{ |city| city }.values.max_by(&:size).first
+    else
+      ([city] + places.map(&:city)).group_by{ |city| city }.values.max_by(&:size).first
+    end
+  end
+
   private
 
   # Strip name if exists to prevent from name starting by a space
@@ -1107,10 +1146,10 @@ class Structure < ActiveRecord::Base
     self.gives_group_courses = true
   end
 
-  def subscribe_to_nutshell
-    NutshellUpdater.update(self) if self.main_contact and Rails.env.production?
+  def subscribe_to_crm
+    CrmSync.update(self) if self.main_contact and Rails.env.production?
   end
-  handle_asynchronously :subscribe_to_nutshell, run_at: Proc.new { 1.minute.from_now }
+  handle_asynchronously :subscribe_to_crm
 
   def encode_uris
     self.website      = URI.encode(URI.decode(self.website))      if website.present? and website_changed?
@@ -1122,6 +1161,10 @@ class Structure < ActiveRecord::Base
     new_record?
   end
 
+  # Validations
+  # Check if subjects at depth 0 AND 2 has been added, else add errors on model.
+  #
+  # @return errors
   def subject_parent_and_children
     # Not using scope because subject are not saved in tests and that can fail
     if self.subjects.select{|subject| subject.depth == 0}.empty?
@@ -1184,7 +1227,7 @@ class Structure < ActiveRecord::Base
   # @return nil
   def no_contacts_in_name
     return nil if self.name.nil?
-    if self.name.match(/((?:[-a-z0-9]+\.)+[a-z]{2,4})(?: |\Z)/i)
+    if self.name.match(/((?:[-a-z0-9]+\.)+[a-z]{2,4})(?: |\Z|,)/i)
       self.errors.add :name, "Le nom ne peut pas contenir votre site internet"
     end
     nil

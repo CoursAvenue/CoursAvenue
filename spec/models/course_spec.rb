@@ -83,8 +83,8 @@ describe Course do
     context 'without plannings' do
       context 'without prices' do
         it 'fails' do
-          expect(@course.activate!).to be_false
-          expect(@course.active).to be_false
+          expect(@course.activate!).to be(false)
+          expect(@course.active).to be(false)
           expect(@course.errors[:price_group].length).to eq 1
           expect(@course.errors[:plannings].length).to eq 1
         end
