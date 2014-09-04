@@ -24,7 +24,7 @@ class ::Admin < ActiveRecord::Base
                   :structure_id,
                   :email_opt_in,
                   :student_action_email_opt_in, :newsletter_email_opt_in,
-                  :monday_email_opt_in, :jpo_email_opt_in, :stats_email
+                  :monday_email_opt_in, :jpo_email_opt_in, :stats_email, :delivery_email_status
 
   store_accessor :email_opt_in_status, :student_action_email_opt_in, :newsletter_email_opt_in,
                                        :monday_email_opt_in, :jpo_email_opt_in, :stats_email
