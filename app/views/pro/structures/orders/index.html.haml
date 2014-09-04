@@ -4,6 +4,8 @@
   .panel__header.soft
     %h3.flush Historique des factures
   .panel__body.soft
+    .text--center.push--bottom
+      = link_to 'Modifier le destinataire de facturation', edit_order_recipient_pro_structure_path(@structure), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: 500 }
     %table.table--striped.epsilon
       %thead
         %tr
