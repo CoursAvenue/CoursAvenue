@@ -444,7 +444,7 @@ class User < ActiveRecord::Base
   #
   # @return Boolean
   def should_send_email?
-     (self.delivery_email_status != 'blocked' and self.delivery_email_status != 'bounce')
+     (self.delivery_email_status != 'blocked' and self.delivery_email_status != 'bounce' and self.delivery_email_status != 'spam')
   end
 
   private
