@@ -7,10 +7,13 @@
     %link{rel: 'canonical', href: structures_url}
 
 = content_for :title do
+  - params[:city] = params[:address_name] if params[:address_name].present? and params[:city].blank?
   - if @subject
     = "#{(params[:subject_id].present? ? "Établissements de #{@subject.name.downcase}" : 'Établissements')} #{(params[:name].present? ? "correspondant à : « #{params[:name]} »" : (params[:city].present? ? "à #{params[:city]}" : 'à Paris'))}"
+  - elsif params[:city].present?
+    = "Tous les cours à #{params[:city]}"
   - else
-    = "Établissements #{(params[:name].present? ? "correspondant à : « #{params[:name]} »" : (params[:city].present? ? "à #{params[:city]}" : 'à Paris'))}"
+    = "Tous les cours à Paris"
 
 
 %ol.visuallyhidden.nav.breadcrumb.epsilon.push-half--top.push-half--bottom{itemprop: 'breadcrumb'}

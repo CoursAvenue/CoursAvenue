@@ -41,11 +41,11 @@
                           = image_tag media.thumbnail_url, width: 180, height: 110
                       .p.hard
                         - if similar_profile.courses.detect(&:is_published?)
-                          %strong= truncate similar_profile.courses.select(&:is_published?).map(&:subjects).flatten.uniq.map(&:name).map(&:capitalize).join(', '), length: 26
+                          %strong= truncate similar_profile.courses.select(&:is_published?).map(&:subjects).flatten.uniq.map(&:name).map(&:capitalize).join(', '), length: 24
                         - else
-                          %strong= truncate similar_profile.courses.active.map(&:subjects).flatten.uniq.map(&:name).map(&:capitalize).join(', '), length: 26
+                          %strong= truncate similar_profile.courses.active.map(&:subjects).flatten.uniq.map(&:name).map(&:capitalize).join(', '), length: 24
                         %br
-                        = truncate similar_profile.name, length: 25
+                        = truncate similar_profile.name, length: 22
                         - if similar_profile.premium? and header_promotion_title_for_structure(similar_profile).present?
                           %br
                           = image_tag 'icons/icon-star-full--yellow.png', height: 15, widht: 15, class: 'v-middle', style: 'padding-right: 2px;'
