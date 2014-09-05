@@ -5,7 +5,7 @@ class UserMailer < ActionMailer::Base
 
   layout 'email'
 
-  helper :prices, :comments
+  helper :prices, :comments, :structures
 
   default from: "\"L'équipe CoursAvenue\" <contact@coursavenue.com>"
 

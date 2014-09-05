@@ -1,12 +1,12 @@
 - content_for :email_title do
-  Ateliers peinture & dessin à -20%, théâtre, workshops photo,
-  = link_to 'à Paris et plus encore !', 'https://www.coursavenue.com/etablissements?utf8=%E2%9C%93&subject_id=&address_name=Paris&lat=48.8592&lng=2.3417&page=1&course_types[]=training&start_date=05%2F07%2F2014&end_date=31%2F08%2F2014'
+  Une rentrée créative, artistique, sportive
+  = link_to "à #{@city.name} et plus encore !", structures_url(lat: @city.latitude, lng: @city.longitude, subdomain: 'www')
 
 - content_for :under_content_no_box do
   %table.promo-table{ border: '0', cellpadding: '0', cellspacing: '0', width: '600' }
     %tr
       %td.content-block
-        = link_to structures_url(@user.around_courses_params.merge(subdomain: 'www')), class: 'muted-link block' do
+        = link_to structures_url(lat: @city.latitude, lng: @city.longitude, subdomain: 'www'), class: 'muted-link block' do
           = image_tag 'http://coursavenue-public.s3.amazonaws.com/newsletters/eleves_4Septembre2014.jpg', alt: "Une rentrée créative, artistique, sportive", width: 600, height: 244
 
 - content_for :under_content_no_box do
@@ -33,17 +33,23 @@
                     = link_to structure_url(similar_profile, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN) do
                       .text--center
                         - media = similar_profile.medias.cover_first.videos_first.first
-                        - if media.image?
+                        - if media.nil?
+                          = image_tag similar_profile.logo.url(:thumbnail), width: 180, height: 110
+                        - elsif media.image?
                           = image_tag media.image.url(:thumbnail_cropped), width: 180, height: 110
                         - else
                           = image_tag media.thumbnail_url, width: 180, height: 110
                       .p.hard
                         - if similar_profile.courses.detect(&:is_published?)
-                          %strong= truncate similar_profile.courses.select(&:is_published?).map(&:name).map(&:capitalize).join(', '), length: 26
+                          %strong= truncate similar_profile.courses.select(&:is_published?).map(&:subjects).flatten.uniq.map(&:name).map(&:capitalize).join(', '), length: 26
                         - else
-                          %strong= truncate similar_profile.courses.active.map(&:name).map(&:capitalize).join(', '), length: 26
+                          %strong= truncate similar_profile.courses.active.map(&:subjects).flatten.uniq.map(&:name).map(&:capitalize).join(', '), length: 26
                         %br
                         = truncate similar_profile.name, length: 25
+                        - if header_promotion_title_for_structure(similar_profile).present?
+                          %br
+                          = image_tag 'icons/icon-star-full--yellow.png', height: 15, widht: 15, class: 'v-middle', style: 'padding-right: 2px;'
+                          %span.v-middle= header_promotion_title_for_structure(similar_profile)
       %tr{ valign: 'top' }
         %td.content-block{ colspan: '3', width: '600', style: 'padding-bottom: 0' }
           .p.soft--left
