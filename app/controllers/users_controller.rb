@@ -58,6 +58,9 @@ class UsersController < InheritedResources::Base
   def unsubscribe
     if user = User.read_access_token(params[:signature])
       user.update_attribute :email_opt_in, false
+      user.update_attribute :email_promo_opt_in, false
+      user.update_attribute :email_newsletter_opt_in, false
+      user.update_attribute :email_passions_opt_in, false
       redirect_to root_url, notice: 'Vous avez bien été desinscrit de la liste.'
     else
       redirect_to root_url, notice: 'Lien invalide.'
