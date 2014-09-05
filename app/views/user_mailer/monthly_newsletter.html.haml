@@ -48,7 +48,7 @@
         %td.content-block{ colspan: '3', width: '600', style: 'padding-bottom: 0' }
           .p.soft--left
             - if subject_slug.nil?
-              = link_to "Voir tous les cours de #{subject_name.downcase} à #{@city.name} →", structures_url(lat: @city.latitude, lng: @city.longitude, subdomain: 'www')
+              = link_to "Voir tous les autres cours à #{@city.name} →", structures_url(lat: @city.latitude, lng: @city.longitude, subdomain: 'www')
             - else
               = link_to "Voir tous les cours de #{subject_name.downcase} à #{@city.name} →", structures_url({ lat: @city.latitude, lng: @city.longitude, subdomain: 'www' }.merge(root_subject_id: subject_slug))
 
