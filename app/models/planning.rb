@@ -101,6 +101,10 @@ class Planning < ActiveRecord::Base
       self.course.structure.view_count
     end
 
+    integer :action_count do
+      self.course.structure.action_count
+    end
+
     boolean :visible
 
     boolean :active_structure do
