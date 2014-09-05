@@ -463,11 +463,11 @@ class User < ActiveRecord::Base
   # @param params={} Hash    eventualparams for the search
   #
   # @return Array of Structure
-  def around_structures_all_subjects(limit=3, _params={})
+  def around_structures_all_subjects(limit=3, _params={}, radius_start=0)
     @city = city || City.find('paris')
 
     @structures = [] # The structures we will return at the ed
-    7.times do |index|
+    (radius_start..7).each do |index|
       @structures << StructureSearch.search({lat: @city.latitude,
                                             lng: @city.longitude,
                                             # Radius will increment from 2.7 to > 1000

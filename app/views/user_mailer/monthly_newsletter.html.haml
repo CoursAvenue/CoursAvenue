@@ -1,12 +1,12 @@
 - content_for :email_title do
   Une rentrée créative, artistique, sportive
-  = link_to "à #{@city.name} et plus encore !", structures_url(lat: @city.latitude, lng: @city.longitude, subdomain: 'www')
+  = link_to "à #{@city.name} et plus encore !", structures_url(address_name: @city.name, lat: @city.latitude, lng: @city.longitude, subdomain: 'www')
 
 - content_for :under_content_no_box do
   %table.promo-table{ border: '0', cellpadding: '0', cellspacing: '0', width: '600' }
     %tr
       %td.content-block
-        = link_to structures_url(lat: @city.latitude, lng: @city.longitude, subdomain: 'www'), class: 'muted-link block' do
+        = link_to structures_url(address_name: @city.name, lat: @city.latitude, lng: @city.longitude, subdomain: 'www'), class: 'muted-link block' do
           = image_tag 'http://coursavenue-public.s3.amazonaws.com/newsletters/eleves_4Septembre2014.jpg', alt: "Une rentrée créative, artistique, sportive", width: 600, height: 244
 
 - content_for :under_content_no_box do
@@ -17,7 +17,7 @@
           Ces derniers mois, c'était l'occasion de recharger ses batteries et de penser (un peu plus) à soi. Pour autant, le rythme du mois de septembre ne doit pas vous faire oublier vos bonnes résolutions. Danse, théâtre, yoga, dessin, écriture créative, arts martiaux... Repérez les cours de loisirs près de chez vous pour une année passionnante !
 
 - content_for :under_content_no_box_2 do
-  - [['Danse', @dance_structures, 'danse'], ['Théâtre & Scène', @theatre_structures, 'theatre-scene'], ['Dessin, Peinture & Arts', @arts_structures, 'dessin-peinture-arts-plastiques'], ['Yoga, Bien-être & Santé', @yoga_structures, 'yoga-bien-etre-sante'], ['Autres suggestions', @other, nil]].each do |subject_name, structures, subject_slug|
+  - [['Danse', @dance_structures, 'danse'], ['Théâtre & Scène', @theatre_structures, 'theatre-scene'], ['Dessin, Peinture & Arts', @arts_structures, 'dessin-peinture-arts-plastiques'], ['Yoga, Bien-être & Santé', @yoga_structures, 'yoga-bien-etre-sante'], ["Autres suggestions autour de #{@city.name}", @other, nil]].each do |subject_name, structures, subject_slug|
     %hr
     %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600' }
       %tr{ valign: 'top' }
@@ -49,12 +49,12 @@
                         - if similar_profile.premium? and header_promotion_title_for_structure(similar_profile).present?
                           %br
                           = image_tag 'icons/icon-star-full--yellow.png', height: 15, widht: 15, class: 'v-middle', style: 'padding-right: 2px;'
-                          %span.v-middle= header_promotion_title_for_structure(similar_profile)
+                          %i.v-middle= header_promotion_title_for_structure(similar_profile)
       %tr{ valign: 'top' }
         %td.content-block{ colspan: '3', width: '600', style: 'padding-bottom: 0' }
           .p.soft--left
             - if subject_slug.nil?
-              = link_to "Voir tous les autres cours à #{@city.name} →", structures_url(lat: @city.latitude, lng: @city.longitude, subdomain: 'www')
+              = link_to "Voir tous les autres cours à #{@city.name} →", structures_url(address_name: @city.name, lat: @city.latitude, lng: @city.longitude, subdomain: 'www')
             - else
-              = link_to "Voir tous les cours de #{subject_name.downcase} à #{@city.name} →", structures_url({ lat: @city.latitude, lng: @city.longitude, subdomain: 'www' }.merge(root_subject_id: subject_slug))
+              = link_to "Voir tous les cours de #{subject_name.downcase} à #{@city.name} →", structures_url({ address_name: @city.name, lat: @city.latitude, lng: @city.longitude, subdomain: 'www' }.merge(root_subject_id: subject_slug))
 

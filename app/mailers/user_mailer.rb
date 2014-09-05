@@ -90,7 +90,7 @@ class UserMailer < ActionMailer::Base
     @arts_structures    = @arts_structures.sort_by{|a| [(a.premium? ? 0 : 1), a.action_count] }
     @yoga_structures    = @user.around_structures_all_subjects(3, { nb_courses: 1, root_subject_id: 'yoga-bien-etre-sante', subject_id: 'yoga-bien-etre-sante', medias_count: 1, without_ids: @dance_structures.map(&:id) + @theatre_structures.map(&:id) + @arts_structures.map(&:id) })
     @yoga_structures    = @yoga_structures.sort_by{|a| [(a.premium? ? 0 : 1), a.action_count] }
-    @other              = @user.around_structures_all_subjects(6, { nb_courses: 1, medias_count: 1, without_ids: @dance_structures.map(&:id) + @theatre_structures.map(&:id) + @yoga_structures.map(&:id) + @arts_structures.map(&:id) })
+    @other              = @user.around_structures_all_subjects(6, { nb_courses: 1, medias_count: 1, without_ids: @dance_structures.map(&:id) + @theatre_structures.map(&:id) + @yoga_structures.map(&:id) + @arts_structures.map(&:id) }, 2)
     @other              = @other.sort_by{|a| [(a.premium? ? 0 : 1), a.action_count] }
     mail to: @user.email, subject: "☀ Cette année, vivez passionnément à #{@city.name}", from: "\"L'équipe CoursAvenue\" <news@coursavenue.com>"
   end
