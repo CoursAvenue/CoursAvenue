@@ -105,8 +105,12 @@ namespace :import do
   desc 'Import structures'
   task :structures, [:filename] => :environment do |t, args|
     first = true
-    # url = 'http://coursavenue-public.s3.amazonaws.com/import_dormants/Midi-Pyrenees.csv'
-    url = 'http://coursavenue-public.s3.amazonaws.com/import_dormants/Alpes-Maritimes.csv'
+    # url_key = 'Rhone'
+    url_key = 'BoucheDuRhone'
+    # url_key = 'IDF'
+    # url = 'http://coursavenue-public.s3.amazonaws.com/import_dormants/Rhone.csv'
+    # url = 'http://coursavenue-public.s3.amazonaws.com/import_dormants/Bouche_du_Rhone.csv'
+    url = "http://coursavenue-public.s3.amazonaws.com/import_dormants/#{url_key}.csv"
     file = open(url)
     bar = ProgressBar.new file.readlines.size
     CSV.foreach(file, { col_sep: ";" }) do |row|
@@ -168,24 +172,28 @@ namespace :import do
                                    is_sleeping: true,
                                    sleeping_email_opt_in: true,
                                    # Check validity of emails
-                                   other_emails: attributes[:emails][1..-1].join(';'))
+                                   other_emails: (attributes[:emails][1..-1] || []).join(';')
+                                   )
       unless structure.persisted?
         structure.create_sleeping_attributes
         puts "#{attributes[:key]} : #{attributes[:name]}\n#{structure.errors.full_messages.to_sentence}\n\n"
       else
-        begin
-          url = URI.parse("http://coursavenue-public.s3.amazonaws.com/import_dormants/Logos_Alpes-Maritimes/#{attributes[:key]}.png")
-          # url = URI.parse("http://coursavenue-public.s3.amazonaws.com/import_dormants/Logos_MidiPyrenees/#{attributes[:key]}.png")
-          req = Net::HTTP.new(url.host, url.port)
-          res = req.request_head(url.path)
-          if res.code == '200'
-            structure.logo          = url
-            structure.sleeping_logo = url
-            structure.save
-          end
-        rescue Exception => exception
-          Bugsnag.notify(exception)
-        end
+        # file_extensions = ['png', 'PNG']
+        # file_extensions.each do |file_extension|
+        #   begin
+        #     url = URI.parse("http://coursavenue-public.s3.amazonaws.com/import_dormants/Logos_#{url_key}/#{attributes[:key]}.png")
+        #     req = Net::HTTP.new(url.host, url.port)
+        #     res = req.request_head(url.path)
+        #     if res.code == '200'
+        #       structure.logo          = url
+        #       structure.sleeping_logo = url
+        #       structure.save
+        #       structure.logo.reprocess!
+        #       next
+        #     end
+        #   rescue Exception => exception
+        #   end
+        # end
       end
     end
   end
