@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140904112240) do
+ActiveRecord::Schema.define(version: 20140905084155) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 20140904112240) do
     t.time     "deleted_at"
     t.boolean  "email_opt_in",                      default: true
     t.hstore   "email_opt_in_status"
+    t.string   "delivery_email_status"
   end
 
   add_index "admins", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
@@ -779,6 +780,7 @@ ActiveRecord::Schema.define(version: 20140904112240) do
     t.datetime "sleeping_logo_updated_at"
     t.text     "sleeping_attributes"
     t.boolean  "logo_processing"
+    t.string   "delivery_email_status"
   end
 
   add_index "structures", ["slug"], name: "index_structures_on_slug", unique: true, using: :btree

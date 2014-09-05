@@ -21,6 +21,7 @@ class StructureSearch
       fulltext params[:name]                                                           if params[:name].present?
 
       without :id, params[:without_id]                                                 if params[:without_id].present?
+      without(:id).any_of params[:without_ids]                                         if params[:without_ids].present?
 
       with(:email_status).any_of params[:email_status]                                 if params[:email_status].present?
       # --------------- Geolocation
@@ -70,6 +71,7 @@ class StructureSearch
         order_by :search_score, :desc
       end
       order_by :view_count, :asc
+      order_by :action_count, :asc
       order_by :has_admin, :desc
 
       paginate page: (params[:page].present? ? params[:page] : 1), per_page: (params[:per_page] || 18)

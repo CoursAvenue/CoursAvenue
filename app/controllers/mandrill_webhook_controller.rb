@@ -32,8 +32,11 @@ class MandrillWebhookController < ApplicationController
     events = JSON.parse(params['mandrill_events'])
     events.each do |event|
       user = User.where(email: event['msg']['email']).first
+      user = Admin.where(email: event['msg']['email']).first                                  if user.nil?
+      user = Structure.where(contact_email: event['msg']['email']).first                      if user.nil?
       if user.nil?
-        user = Admin.where(email: event['msg']['email']).first
+        sleeping_structure = Structure.where("meta_data -> 'other_emails' LIKE '%#{event['msg']['email']}%'").first
+        sleeping_structure.other_emails = sleeping_structure.other_emails.split(';').delete(event['msg']['email']).join(',') if sleeping_structure
       end
       next if user.nil?
       user.delivery_email_status = event['event']

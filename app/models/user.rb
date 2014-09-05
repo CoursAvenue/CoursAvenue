@@ -1,11 +1,12 @@
 class User < ActiveRecord::Base
 
   include Concerns::HstoreHelper
+  include Concerns::HasDeliveryStatus
+  include Concerns::MessagableWithLabel
   include ActsAsUnsubscribable
   include Rails.application.routes.url_helpers
 
   acts_as_messageable
-  include Concerns::MessagableWithLabel
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]

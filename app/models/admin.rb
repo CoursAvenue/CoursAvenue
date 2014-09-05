@@ -3,7 +3,7 @@ class ::Admin < ActiveRecord::Base
   acts_as_messageable
   include Concerns::HstoreHelper
   include Concerns::MessagableWithLabel
-
+  include Concerns::HasDeliveryStatus
   include ActsAsUnsubscribable
 
   CIVILITY = [
