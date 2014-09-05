@@ -34,7 +34,7 @@
                       .text--center
                         - media = similar_profile.medias.cover_first.videos_first.first
                         - if media.nil?
-                          = image_tag similar_profile.logo.url(:thumbnail), width: 180, height: 110
+                          = image_tag similar_profile.logo.url(:thumb), width: 180, height: 110
                         - elsif media.image?
                           = image_tag media.image.url(:thumbnail_cropped), width: 180, height: 110
                         - else
