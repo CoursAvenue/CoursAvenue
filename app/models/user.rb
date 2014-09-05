@@ -307,19 +307,26 @@ class User < ActiveRecord::Base
     percentage
   end
 
+  # Params for structures_path regarding the data we have on the user
+  #
+  # @return Hash
+  def around_courses_params
+    if self.city
+      if self.passions.any?
+        { lat: self.city.latitude, lng: self.city.longitude, subject_slugs: self.passions.map(&:subjects).compact.flatten.map(&:slug) }
+      else
+        { lat: self.city.latitude, lng: self.city.longitude }
+      end
+    else
+      {}
+    end
+  end
+
   # A url to the /structures page of courses that correspond to user's passion
   #
   # @return string the url
   def around_courses_url
-    if self.city
-      if self.passions.any?
-        structures_path(lat: self.city.latitude, lng: self.city.longitude, subject_slugs: self.passions.map(&:subjects).compact.flatten.map(&:slug))
-      else
-        structures_path(lat: self.city.latitude, lng: self.city.longitude)
-      end
-    else
-      structures_path
-    end
+    structures_path(around_courses_params)
   end
 
   def around_courses_search
@@ -440,12 +447,40 @@ class User < ActiveRecord::Base
     self.followings.map(&:structure_id).include? structure.id
   end
 
+  def city
+    if read_attribute(:city_id)
+      City.find(read_attribute(:city_id))
+    elsif structures.any?
+      cities = structures.map(&:city) + structures.map(&:places).flatten.map(&:city)
+      cities.group_by{ |city| city }.values.max_by(&:size).first
+    else
+      nil
+    end
+  end
+
+  # Give structures around the user not filtered on subjects
+  # @param limit=3   Integer # of structures that should be returned
+  # @param params={} Hash    eventualparams for the search
   #
-  # Tell wether we can send email or not
-  #
-  # @return Boolean
-  def should_send_email?
-     self.delivery_email_status.nil?
+  # @return Array of Structure
+  def around_structures_all_subjects(limit=3, _params={})
+    @city = city || City.find('paris')
+
+    @structures = [] # The structures we will return at the ed
+    7.times do |index|
+      @structures << StructureSearch.search({lat: @city.latitude,
+                                            lng: @city.longitude,
+                                            # Radius will increment from 2.7 to > 1000
+                                            radius: Math.exp(index),
+                                            sort: 'premium',
+                                            has_logo: true,
+                                            per_page: limit
+                                          }.merge(_params)).results
+      @structures = @structures.flatten.uniq
+      break if @structures.length >= limit
+    end
+    @structures = @structures.sort{ |a, b| (a.search_score.present? ? a.search_score.to_i : 0) <=> (b.search_score.present? ? b.search_score.to_i : 0) }.reverse
+    return @structures[0..(limit - 1)]
   end
 
   private

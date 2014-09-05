@@ -9,7 +9,6 @@ class UserMailer < ActionMailer::Base
 
   default from: "\"L'équipe CoursAvenue\" <contact@coursavenue.com>"
 
-
   ######################################################################
   # Email reminder                                                     #
   ######################################################################
@@ -78,6 +77,17 @@ class UserMailer < ActionMailer::Base
     @subject    = structure.dominant_root_subject
     @city       = structure.dominant_city
     mail to: @user.email, subject: "Alternatives à #{structure.name}"
+  end
+
+  def monthly_newsletter(user)
+    @user       = user
+    @city       = user.city || City.find('paris')
+    @dance_structures   = @user.around_structures_all_subjects(3, { nb_courses: 1, root_subject_id: 'danse', subject_id: 'danse', medias_count: 1 })
+    @theatre_structures = @user.around_structures_all_subjects(3, { nb_courses: 1, root_subject_id: 'theatre-scene', subject_id: 'theatre-scene', medias_count: 1, without_ids: @dance_structures.map(&:id) })
+    @arts_structures    = @user.around_structures_all_subjects(3, { nb_courses: 1, root_subject_id: 'dessin-peinture-arts-plastiques', subject_id: 'dessin-peinture-arts-plastiques', medias_count: 1, without_ids: @dance_structures.map(&:id) + @theatre_structures.map(&:id) })
+    @yoga_structures    = @user.around_structures_all_subjects(3, { nb_courses: 1, root_subject_id: 'yoga-bien-etre-sante', subject_id: 'yoga-bien-etre-sante', medias_count: 1, without_ids: @dance_structures.map(&:id) + @theatre_structures.map(&:id) + @arts_structures.map(&:id) })
+    @other              = @user.around_structures_all_subjects(6, { nb_courses: 1, medias_count: 1, without_ids: @dance_structures.map(&:id) + @theatre_structures.map(&:id) + @yoga_structures.map(&:id) + @arts_structures.map(&:id) })
+    mail to: @user.email, subject: "☀ Cette année, vivez passionnément à #{@city.name}", from: "\"L'équipe CoursAvenue\" <news@coursavenue.com>"
   end
 
   ######################################################################
