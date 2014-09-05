@@ -309,7 +309,6 @@ France
 
   def update_and_delete
     @structure.update_attributes(params[:structure])
-    AdminMailer.delay.is_about_to_delete(@structure)
     respond_to do |format|
       format.js
     end
