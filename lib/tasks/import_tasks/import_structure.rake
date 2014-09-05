@@ -178,22 +178,22 @@ namespace :import do
         structure.create_sleeping_attributes
         puts "#{attributes[:key]} : #{attributes[:name]}\n#{structure.errors.full_messages.to_sentence}\n\n"
       else
-        # file_extensions = ['png', 'PNG']
-        # file_extensions.each do |file_extension|
-        #   begin
-        #     url = URI.parse("http://coursavenue-public.s3.amazonaws.com/import_dormants/Logos_#{url_key}/#{attributes[:key]}.png")
-        #     req = Net::HTTP.new(url.host, url.port)
-        #     res = req.request_head(url.path)
-        #     if res.code == '200'
-        #       structure.logo          = url
-        #       structure.sleeping_logo = url
-        #       structure.save
-        #       structure.logo.reprocess!
-        #       next
-        #     end
-        #   rescue Exception => exception
-        #   end
-        # end
+        file_extensions = ['png', 'PNG']
+        file_extensions.each do |file_extension|
+          begin
+            url = URI.parse("http://coursavenue-public.s3.amazonaws.com/import_dormants/Logos_#{url_key}/#{attributes[:key]}.png")
+            req = Net::HTTP.new(url.host, url.port)
+            res = req.request_head(url.path)
+            if res.code == '200'
+              structure.logo          = url
+              structure.sleeping_logo = url
+              structure.save
+              structure.logo.reprocess!
+              next
+            end
+          rescue Exception => exception
+          end
+        end
       end
     end
   end
