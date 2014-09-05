@@ -145,13 +145,13 @@ class User < ActiveRecord::Base
       user.oauth_token        = auth.credentials.token
       user.oauth_expires_at   = Time.at(auth.credentials.expires_at)
 
-      user.first_name         = auth.info.first_name
-      user.last_name          = auth.info.last_name
-      user.email              = auth.info.email
-      user.fb_avatar          = auth.info.image
-      user.password           = Devise.friendly_token[0,20]
+      user.first_name         = auth.info.first_name        if user.first_name.nil?
+      user.last_name          = auth.info.last_name         if user.last_name.nil?
+      user.email              = auth.info.email             if user.email.nil?
+      user.fb_avatar          = auth.info.image             if user.fb_avatar.nil?
+      user.password           = Devise.friendly_token[0,20] if user.password.nil?
 
-      if auth.info.location
+      if user.city.nil? and auth.info.location
         city = City.where(City.arel_table[:name].matches(auth.info.location.split(',').first)).first
         if city
           user.city     = city
@@ -479,7 +479,6 @@ class User < ActiveRecord::Base
       @structures = @structures.flatten.uniq
       break if @structures.length >= limit
     end
-    @structures = @structures.sort{ |a, b| (a.search_score.present? ? a.search_score.to_i : 0) <=> (b.search_score.present? ? b.search_score.to_i : 0) }.reverse
     return @structures[0..(limit - 1)]
   end
 

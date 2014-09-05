@@ -46,7 +46,7 @@
                           %strong= truncate similar_profile.courses.active.map(&:subjects).flatten.uniq.map(&:name).map(&:capitalize).join(', '), length: 26
                         %br
                         = truncate similar_profile.name, length: 25
-                        - if header_promotion_title_for_structure(similar_profile).present?
+                        - if similar_profile.premium? and header_promotion_title_for_structure(similar_profile).present?
                           %br
                           = image_tag 'icons/icon-star-full--yellow.png', height: 15, widht: 15, class: 'v-middle', style: 'padding-right: 2px;'
                           %span.v-middle= header_promotion_title_for_structure(similar_profile)
