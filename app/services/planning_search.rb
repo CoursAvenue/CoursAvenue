@@ -94,6 +94,7 @@ class PlanningSearch
 
       order_by :search_score, :desc
       order_by :action_count, :asc
+      order_by :view_count, :asc
 
       paginate page: (params[:page] ? params[:page] : 1), per_page: (params[:per_page] || 15)
     end

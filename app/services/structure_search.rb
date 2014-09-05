@@ -70,8 +70,8 @@ class StructureSearch
       else
         order_by :search_score, :desc
       end
-      order_by :view_count, :asc
       order_by :action_count, :asc
+      order_by :view_count, :asc
       order_by :has_admin, :desc
 
       paginate page: (params[:page].present? ? params[:page] : 1), per_page: (params[:per_page] || 18)
