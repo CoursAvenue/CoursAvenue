@@ -18,10 +18,12 @@
         = link_to structure_url(similar_profile, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN) do
           .p
             - media = similar_profile.medias.cover_first.videos_first.first
-            - if media.image?
-              = image_tag media.image.url(:thumbnail_cropped), width: 170, height: 110
+            - if media.nil?
+              = image_tag similar_profile.logo.url(:thumb), width: 180, height: 110
+            - elsif media.image?
+              = image_tag media.image.url(:thumbnail_cropped), width: 180, height: 110
             - else
-              = image_tag media.thumbnail_url, width: 170, height: 110
+              = image_tag media.thumbnail_url, width: 180, height: 110
           .p
             %strong= similar_profile.name
             %br
