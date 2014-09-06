@@ -125,6 +125,7 @@ $(document).ready(function() {
                     infos = $(this).data('action-info');
                 }
                 CoursAvenue.statistic.logStat(window.coursavenue.bootstrap.structure.id, 'action', { infos: infos });
+                ga('send', 'event', 'Action', infos);
             });
 
             $.ajax({
