@@ -105,9 +105,9 @@ namespace :import do
   desc 'Import structures'
   task :structures, [:filename] => :environment do |t, args|
     first = true
-    url_key = 'Rhone'
+    # url_key = 'Rhone'
     # url_key = 'BoucheDuRhone'
-    # url_key = 'IDF'
+    url_key = 'IDF'
     url = "http://coursavenue-public.s3.amazonaws.com/import_dormants/#{url_key}.csv"
     file = open(url)
     bar = ProgressBar.new file.readlines.size
