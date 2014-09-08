@@ -21,17 +21,25 @@ class Pro::SubscriptionPlansController < Pro::ProController
   end
 
   def premium_tracking
-    @subscriptions = SubscriptionPlan.all
+    @subscriptions = SubscriptionPlan.where(canceled_at: nil)
+    @current_tab = 'premium_tracking'
+  end
+
+  def unsubscribed_tracking
+    @subscriptions = SubscriptionPlan.where.not(canceled_at: nil)
+    @current_tab = 'unsubscribed_tracking'
+
+    render 'premium_tracking'
   end
 
   def stat_info
     subscription = SubscriptionPlan.find(params[:id])
-    data = { impressions:   subscription.structure.statistics.impressions.count,
-             views:         subscription.structure.statistics.views.count,
-             actions:       subscription.structure.statistics.actions.count,
+    data = { impressions:   Statistic.impression_count(subscription.structure),
+             views:         Statistic.view_count(subscription.structure),
+             actions:       Statistic.action_count(subscription.structure),
              conversations: subscription.structure.main_contact.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).count,
-             telephone:     subscription.structure.statistics.actions.where(infos: 'telephone').count,
-             website:       subscription.structure.statistics.actions.where(infos: 'website').count }
+             telephone:     Statistic.telephone_count(subscription.structure),
+             website:       Statistic.website_count(subscription.structure) }
     respond_to do |format|
       format.json { render json: data }
     end

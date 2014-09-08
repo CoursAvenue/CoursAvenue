@@ -1,6 +1,6 @@
 = side_menu_currently_at 'subscription_plans'
 .panel
-  = render partial: 'pro/subscription_plans/tabs', locals: { current: 'premium_tracking' }
+  = render partial: 'pro/subscription_plans/tabs', locals: { current: @current_tab }
 
   .panel__body.soft
     %table.table--striped
@@ -29,7 +29,7 @@
             %td= l(subscription.created_at.to_date)
             %td= (Time.now - renewed_date).to_i / 1.day
             %td{ data: { information: 'impressions' } }
-              = link_to '#', class: 'btn btn--green btn--small' do
+              = link_to 'javascript:void(0)', class: 'btn btn--green btn--small' do
                 %i.fa.fa-refresh
             %td{ data: { information: 'views' } }
             %td{ data: { information: 'actions' } }
@@ -44,7 +44,8 @@
 - content_for :scripts do
   :javascript
       $(document).ready(function() {
-          $('body').on('click', '[data-action=show-action]', function() {
+          $('[data-action=show-action]').click(function() {
+              $(this).removeAttr('data-action');
               var id = $(this).closest('tr').data('id');
               $.ajax({
                   type: 'GET',
