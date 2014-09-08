@@ -86,10 +86,10 @@ CoursAvenue::Application.configure do
   config.action_mailer.asset_host = 'http://staging.coursavenue.com'
 
   config.action_mailer.smtp_settings = {
-    address:          "in.mailjet.com",
+    address:          'smtp.mandrillapp.com',
     port:             '587',
-    user_name:        ENV["MAILJET_USERNAME"],
-    password:         ENV["MAILJET_PASSWORD"],
+    user_name:        ENV["MANDRILL_USERNAME"],
+    password:         ENV["MANDRILL_PASSWORD"],
     domain:           'coursavenue.com',
     authentication:   :plain
   }
