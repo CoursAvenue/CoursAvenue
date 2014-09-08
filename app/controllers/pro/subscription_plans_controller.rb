@@ -21,5 +21,6 @@ class Pro::SubscriptionPlansController < Pro::ProController
   end
 
   def premium_tracking
+    @subscriptions = SubscriptionPlan.all
   end
 end

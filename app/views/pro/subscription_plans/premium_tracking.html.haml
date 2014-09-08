@@ -2,3 +2,39 @@
 .panel
   = render partial: 'pro/subscription_plans/tabs', locals: { current: 'premium_tracking' }
 
+  .panel__body.soft
+    %table.table--striped
+      %thead
+        %tr
+          %th Nom du profile
+          %th Type abonnement
+          %th Date 1ere subscription
+          %th # jours aprés renouvellement
+          %th # impressions
+          %th # vue
+          %th # actions
+          %th # demande d'infos
+          %th # de tel
+          %th # de clic web
+          %th Code couleur
+          %th FB actif
+          %th AdWords actif
+          %th Commentaires
+      %tbody
+        - @subscriptions[0..2].each do |subscription|
+          - renewed_date = subscription.renewed_at.present? ? subscription.renewed_at.to_datetime : subscription.created_at
+          %tr
+            %td= subscription.structure.name
+            %td= SubscriptionPlan::PLAN_TYPE_DESCRIPTION[subscription.plan_type]
+            %td= l(subscription.created_at.to_date)
+            %td= (Time.now - renewed_date).to_i / 1.day
+            %td= subscription.structure.statistics.impressions.count
+            %td= subscription.structure.statistics.views.count
+            %td= subscription.structure.statistics.actions.count
+            %td= subscription.structure.main_contact.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).count
+            %td= subscription.structure.statistics.actions.where(infos: 'telephone').count
+            %td= subscription.structure.statistics.actions.where(infos: 'website').count
+            %td
+            %td
+            %td
+            %td
