@@ -43,18 +43,18 @@
 
 - content_for :scripts do
   :javascript
-    $(document).ready(function() {
-      $('body').on('click', '[data-action=show-action]', function() {
-        var id = $(this).closest('tr').data('id');
-        $.ajax({
-          type: 'GET',
-          dataType: 'json',
-          url: Routes.stat_info_pro_subscription_plan_path(id),
-          success: function success (response) {
-          _.each(response, function(value, key) {
-            $('[data-id=' + id + '] > [data-information=' + key + ']').text(value);
-          });
-          }
+      $(document).ready(function() {
+          $('body').on('click', '[data-action=show-action]', function() {
+              var id = $(this).closest('tr').data('id');
+              $.ajax({
+                  type: 'GET',
+                  dataType: 'json',
+                  url: Routes.stat_info_pro_subscription_plan_path(id),
+                  success: function success (response) {
+                      _.each(response, function(value, key) {
+                        $('[data-id=' + id + '] > [data-information=' + key + ']').text(value);
+                      });
+                  }
+            });
         });
-      });
     });
