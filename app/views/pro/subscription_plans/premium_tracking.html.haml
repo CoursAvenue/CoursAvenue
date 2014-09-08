@@ -21,7 +21,7 @@
           %th AdWords actif
           %th Commentaires
       %tbody
-        - @subscriptions[0..2].each do |subscription|
+        - @subscriptions.each do |subscription|
           - renewed_date = subscription.renewed_at.present? ? subscription.renewed_at.to_datetime : subscription.created_at
           %tr{ data: { action: 'show-action', id: subscription.id } }
             %td= subscription.structure.name
