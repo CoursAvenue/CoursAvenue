@@ -22,6 +22,14 @@ class Pro::SubscriptionPlansController < Pro::ProController
 
   def premium_tracking
     @subscriptions = SubscriptionPlan.where(canceled_at: nil)
+    @current_tab = 'premium_tracking'
+  end
+
+  def unsubscribed_tracking
+    @subscriptions = SubscriptionPlan.where.not(canceled_at: nil)
+    @current_tab = 'unsubscribed_tracking'
+
+    render 'premium_tracking'
   end
 
   def stat_info
