@@ -115,4 +115,35 @@ class Statistic < ActiveRecord::Base
                                        .map(&:user_count).reduce(&:+)
 
   end
+
+  # Total telephone action count
+  # @param structure Structure concerned
+  # @param from_date=(Date.today - 10.years Date Date from where to start
+  #
+  # @return Integer number of view counts since `from_date`
+  def self.telephone_count(structure, from_date=(Date.today - 10.years))
+    return structure.statistics.actions.where( Statistic.arel_table[:created_at].gt(from_date) )
+                                       .where(infos: 'telephone')
+                                       .order('DATE(created_at) ASC')
+                                       .group('DATE(created_at)')
+                                       .select('DATE(created_at) as created_at, COUNT(DISTINCT(user_fingerprint)) as user_count')
+                                       .map(&:user_count).reduce(&:+)
+
+  end
+
+  # Total website action count
+  # @param structure Structure concerned
+  # @param from_date=(Date.today - 10.years Date Date from where to start
+  #
+  # @return Integer number of view counts since `from_date`
+  def self.website_count(structure, from_date=(Date.today - 10.years))
+    return structure.statistics.actions.where( Statistic.arel_table[:created_at].gt(from_date) )
+                                       .where(infos: 'website')
+                                       .order('DATE(created_at) ASC')
+                                       .group('DATE(created_at)')
+                                       .select('DATE(created_at) as created_at, COUNT(DISTINCT(user_fingerprint)) as user_count')
+                                       .map(&:user_count).reduce(&:+)
+
+  end
+
 end
