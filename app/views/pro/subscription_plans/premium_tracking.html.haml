@@ -23,18 +23,39 @@
       %tbody
         - @subscriptions[0..2].each do |subscription|
           - renewed_date = subscription.renewed_at.present? ? subscription.renewed_at.to_datetime : subscription.created_at
-          %tr
+          %tr{ data: { action: 'show-action', id: subscription.id } }
             %td= subscription.structure.name
             %td= SubscriptionPlan::PLAN_TYPE_DESCRIPTION[subscription.plan_type]
             %td= l(subscription.created_at.to_date)
             %td= (Time.now - renewed_date).to_i / 1.day
-            %td= subscription.structure.statistics.impressions.count
-            %td= subscription.structure.statistics.views.count
-            %td= subscription.structure.statistics.actions.count
-            %td= subscription.structure.main_contact.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).count
-            %td= subscription.structure.statistics.actions.where(infos: 'telephone').count
-            %td= subscription.structure.statistics.actions.where(infos: 'website').count
+            %td{ data: { information: 'impressions' } }
+              = link_to '#', class: 'btn btn--green btn--small' do
+                %i.fa.fa-refresh
+                  Charger
+            %td{ data: { information: 'views' } }
+            %td{ data: { information: 'actions' } }
+            %td{ data: { information: 'conversations' } }
+            %td{ data: { information: 'telephone' } }
+            %td{ data: { information: 'website' } }
             %td
             %td
             %td
             %td
+
+- content_for :scripts do
+  :javascript
+    $(document).ready(function() {
+      $('body').on('click', '[data-action=show-action]', function() {
+        var id = $(this).closest('tr').data('id');
+        $.ajax({
+          type: 'GET',
+          dataType: 'json',
+          url: Routes.stat_info_pro_subscription_plan_path(id),
+          success: function success (response) {
+          _.each(response, function(value, key) {
+            $('[data-id=' + id + '] > [data-information=' + key + ']').text(value);
+          });
+          }
+        });
+      });
+    });
