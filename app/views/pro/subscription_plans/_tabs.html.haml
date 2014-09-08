@@ -1,7 +1,10 @@
 %ul.tabs.flush.panel__header
-  %li{class: current == 'subscription_plans' ? 'active' : ''}
+  %li{ class: current == 'subscription_plans' ? 'active' : '' }
     = link_to pro_subscription_plans_path do
       Abonnements
-  %li{class: current == 'promotion_codes' ? 'active' : ''}
+  %li{ class: current == 'promotion_codes' ? 'active' : '' }
     = link_to pro_promotion_codes_path do
       Code promos
+  %li{ class: current == 'premium_tracking' ? 'active' : '' }
+    = link_to premium_tracking_pro_subscription_plans_path do
+      Suivi Premium
