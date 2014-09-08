@@ -18,26 +18,32 @@
       = link_to 'Voir mon profil actuel', structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'email', utm_campaign: 'take_control', utm_medium: 'see_my_profile')
 
 - content_for :under_content do
-  - @similar_profiles = @structure.similar_profiles(2, { is_sleeping: false, nb_courses: 1 })
-  %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
+  - @similar_profiles = @structure.similar_profiles(3, { is_sleeping: false, nb_courses: 1, medias_count: 1 })
+  %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600' }
     %tr{ valign: 'top' }
-      %td.content-block{ colspan: 2 }
+      %td.content-block{ colspan: '3', width: '600', style: 'padding-bottom: 0' }
         .title Ils ont pris le contrôle de leur profil
     %tr{ valign: 'top' }
       - @similar_profiles.each do |similar_profile|
-        %td{ width: '300' }
-          %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
-            %tr{ valign: 'top' }
-              %td.v-middle.content-block{ width: 80 }
-                = link_to structure_url(similar_profile, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'muted-link block' do
-                  = image_tag similar_profile.logo.url(:thumb), width: 80, height: 80, alt: "Logo de #{similar_profile.name}"
-              %td.v-middle.content-block{ width: 220 }
-                .p.soft-half--sides
-                  %strong= link_to truncate(similar_profile.name, length: 25), structure_url(similar_profile, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'muted-link'
-                  %br
-                  = similar_profile.city.name
-                  %br
-                  %i= truncate(join_parent_subjects_text(similar_profile), lenght: 100)
+        %td.content-block{ width: '33%', style: 'padding-bottom: 0' }
+          = link_to structure_url(similar_profile, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN) do
+            .text--center
+              - media = similar_profile.medias.cover_first.videos_first.first
+              - if media.nil?
+                = image_tag similar_profile.logo.url(:thumb), width: 180, height: 110
+              - elsif media.image?
+                = image_tag media.image.url(:thumbnail_cropped), width: 180, height: 110
+              - else
+                = image_tag media.thumbnail_url, width: 180, height: 110
+            .p.soft-half--sides
+              - if similar_profile.courses.detect(&:is_published?)
+                %strong= truncate similar_profile.courses.select(&:is_published?).map(&:subjects).flatten.uniq.map(&:name).map(&:capitalize).join(', '), length: 24
+              - else
+                %strong= truncate similar_profile.courses.active.map(&:subjects).flatten.uniq.map(&:name).map(&:capitalize).join(', '), length: 24
+              %br
+              = truncate similar_profile.name, length: 22
+              %br
+              %i= truncate similar_profile.places.map(&:city).uniq.map(&:name).join(', '), length: 22
 
 - content_for :under_content_2 do
   %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
@@ -87,18 +93,17 @@
 - content_for :under_content_3 do
   %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
     %tr
-      %td.content-block{ colspan: 4 }
+      %td.content-block{ colspan: 2 }
         .title Vous ne souhaitez pas gérer votre profil ?
         .p
           Par souci d'amélioration continue et de qualité, merci de préciser la raison :
-        .p.action.text--left
-          = link_to 'Je ne souhaite pas communiquer sur mes cours', dont_want_to_take_control_of_my_sleeping_account_pro_structure_url(@structure, reason: 'dont_want_to_communicate', subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn'
-        .p.action.text--left
+    %tr
+      %td.content-block
+        .p.action
+          = link_to 'Je ne veux pas communiquer sur mes cours', dont_want_to_take_control_of_my_sleeping_account_pro_structure_url(@structure, reason: 'dont_want_to_communicate', subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn'
+      %td.content-block
+        .p.action
           = link_to "Mon établissement n'existe plus", dont_want_to_take_control_of_my_sleeping_account_pro_structure_url(@structure, reason: 'no_more_exist', subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn'
-        .p.action.text--left
-          = link_to "Etablissement fermé", dont_want_to_take_control_of_my_sleeping_account_pro_structure_url(@structure, reason: 'closed', subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn'
-        .p.action.text--left.hard--bottom
-          = link_to "Ça ne m'intéresse pas", dont_want_to_take_control_of_my_sleeping_account_pro_structure_url(@structure, reason: 'not_interested', subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn'
 
 - content_for :under_content_gray do
   .title

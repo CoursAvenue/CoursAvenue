@@ -288,6 +288,7 @@ class AdminMailer < ActionMailer::Base
   end
 
   def take_control_of_your_account(structure)
+    return if !structure.should_send_email?
     return if structure.contact_email.blank?
     return if !structure.sleeping_email_opt_in
     return if structure.main_contact.present?

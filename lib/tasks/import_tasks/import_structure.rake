@@ -20,6 +20,15 @@ namespace :import do
       }
   end
 
+  # Use rake import:notify_sleeping
+  desc 'Import structures'
+  task :notify_sleeping, [:filename] => :environment do |t, args|
+    Structure.where("meta_data -> 'is_sleeping' = 'true'").each do |s|
+      next if !s.should_send_email?
+      AdminMailer.delay.take_control_of_your_account(s)
+    end
+  end
+
   # Use rake import:vertical_pages_images
   desc 'Import structures'
   task :vertical_pages_images, [:filename] => :environment do |t, args|
