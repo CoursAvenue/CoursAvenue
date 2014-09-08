@@ -21,7 +21,7 @@ class Pro::SubscriptionPlansController < Pro::ProController
   end
 
   def premium_tracking
-    @subscriptions = SubscriptionPlan.all
+    @subscriptions = SubscriptionPlan.where(canceled_at: nil)
   end
 
   def stat_info
