@@ -149,15 +149,12 @@ class Structure < ActiveRecord::Base
   after_create  :set_default_place_attributes
   after_create  :geocode
 
-  after_touch   :update_email_status
-
   before_save   :strip_name
   before_save   :sanatize_description
   before_save   :encode_uris
   before_save   :reset_cropping_attributes, if: :logo_has_changed?
 
   after_save    :geocode_if_needs_to
-  after_save    :update_email_status
   after_save    :subscribe_to_crm
 
   ######################################################################
