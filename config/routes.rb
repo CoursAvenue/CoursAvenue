@@ -111,7 +111,11 @@ CoursAvenue::Application.routes.draw do
       resources :participations, only: [:index], controller: 'participations'
       resources :statistics, only: [:index]
       resources :promotion_codes, path: 'code-promos'
-      resources :subscription_plans, only: [:index], path: 'abonnements'
+      resources :subscription_plans, only: [:index], path: 'abonnements' do
+        collection do
+          get :premium_tracking, path: 'suivi-premium'
+        end
+      end
       resources :structures, path: 'etablissements' do
         member do
           get   :edit_order_recipient

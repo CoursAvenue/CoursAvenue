@@ -19,4 +19,7 @@ class Pro::SubscriptionPlansController < Pro::ProController
     # end
 
   end
+
+  def premium_tracking
+  end
 end
