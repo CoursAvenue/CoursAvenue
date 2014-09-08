@@ -115,6 +115,9 @@ CoursAvenue::Application.routes.draw do
         collection do
           get :premium_tracking, path: 'suivi-premium'
         end
+        member do
+          get :stat_info
+        end
       end
       resources :structures, path: 'etablissements' do
         member do
