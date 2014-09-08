@@ -26,13 +26,16 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
 
             this.summary_views = [];
             var $structure_profile_menu = $('#structure-profile-menu');
+            this.menu_scrolled_down = false;
             $(window).scroll(function() {
-                if ($(window).scrollTop() > 180 && parseInt($structure_profile_menu.css('top')) != 0 ) {
-                    $structure_profile_menu.stop(true, false).animate({ 'top': '0' });
+                if (!this.menu_scrolled_down && $(window).scrollTop() > 180 && parseInt($structure_profile_menu.css('top')) != 0 ) {
+                    $structure_profile_menu.animate({ 'top': '0' });
+                    this.menu_scrolled_down = true;
                 } else if ($(window).scrollTop() < 180 && parseInt($structure_profile_menu.css('top')) == 0 ) {
-                    $structure_profile_menu.stop(true, false).animate({ 'top': '-100px' });
+                    $structure_profile_menu.animate({ 'top': '-100px' });
+                    this.menu_scrolled_down = false;
                 }
-            });
+            }.bind(this));
             this.initializeContactLink();
         },
 
