@@ -80,12 +80,7 @@ class Statistic < ActiveRecord::Base
   #
   # @return Integer number of view counts since `from_date`
   def self.view_count(structure, from_date=(Date.today - 10.years))
-    return structure.statistics.views.where( Statistic.arel_table[:created_at].gt(from_date) )
-                               .order('DATE(created_at) ASC')
-                               .group('DATE(created_at)')
-                               .select('DATE(created_at) as created_at, COUNT(DISTINCT(user_fingerprint)) as user_count')
-                               .map(&:user_count).reduce(&:+)
-
+    return self.generic_count(structure, :views)
   end
 
   # Total impression count
@@ -94,12 +89,7 @@ class Statistic < ActiveRecord::Base
   #
   # @return Integer number of view counts since `from_date`
   def self.impression_count(structure, from_date=(Date.today - 10.years))
-    return structure.statistics.impressions.where( Statistic.arel_table[:created_at].gt(from_date) )
-                                           .order('DATE(created_at) ASC')
-                                           .group('DATE(created_at)')
-                                           .select('DATE(created_at) as created_at, COUNT(DISTINCT(user_fingerprint)) as user_count')
-                                           .map(&:user_count).reduce(&:+)
-
+    return self.generic_count(structure, :impressions)
   end
 
   # Total action count
@@ -108,12 +98,7 @@ class Statistic < ActiveRecord::Base
   #
   # @return Integer number of view counts since `from_date`
   def self.action_count(structure, from_date=(Date.today - 10.years))
-    return structure.statistics.actions.where( Statistic.arel_table[:created_at].gt(from_date) )
-                                       .order('DATE(created_at) ASC')
-                                       .group('DATE(created_at)')
-                                       .select('DATE(created_at) as created_at, COUNT(DISTINCT(user_fingerprint)) as user_count')
-                                       .map(&:user_count).reduce(&:+)
-
+    return self.generic_count(structure, :actions)
   end
 
   # Total telephone action count
@@ -122,13 +107,7 @@ class Statistic < ActiveRecord::Base
   #
   # @return Integer number of view counts since `from_date`
   def self.telephone_count(structure, from_date=(Date.today - 10.years))
-    return structure.statistics.actions.where( Statistic.arel_table[:created_at].gt(from_date) )
-                                       .where(infos: 'telephone')
-                                       .order('DATE(created_at) ASC')
-                                       .group('DATE(created_at)')
-                                       .select('DATE(created_at) as created_at, COUNT(DISTINCT(user_fingerprint)) as user_count')
-                                       .map(&:user_count).reduce(&:+) || 0
-
+    return self.generic_count(structure, :actions, 'telephone')
   end
 
   # Total website action count
@@ -137,13 +116,24 @@ class Statistic < ActiveRecord::Base
   #
   # @return Integer number of view counts since `from_date`
   def self.website_count(structure, from_date=(Date.today - 10.years))
-    return structure.statistics.actions.where( Statistic.arel_table[:created_at].gt(from_date) )
-                                       .where(infos: 'website')
-                                       .order('DATE(created_at) ASC')
-                                       .group('DATE(created_at)')
-                                       .select('DATE(created_at) as created_at, COUNT(DISTINCT(user_fingerprint)) as user_count')
-                                       .map(&:user_count).reduce(&:+) || 0
+    return self.generic_count(structure, :actions, 'website')
+  end
 
+  private
+
+  # Total statistic count from type
+  # @param structure Structure concerned
+  # @param type The type symbol
+  # @param from_date=(Date.today - 10.years Date Date from where to start
+  #
+  # @return Integer number of view counts since `from_date`
+  def self.generic_count(structure, type, infos=nil, from_date=(Date.today - 10.years))
+    values = structure.statistics.send(type).where( Statistic.arel_table[:created_at].gt(from_date) )
+                                          .order('DATE(created_at) ASC')
+                                          .group('DATE(created_at)')
+                                          .select('DATE(created_at) as created_at, COUNT(DISTINCT(user_fingerprint)) as user_count')
+    values = values.where(infos: infos) if infos
+    return values.map(&:user_count).reduce(&:+) || 0
   end
 
 end
