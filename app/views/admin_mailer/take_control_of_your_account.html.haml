@@ -13,7 +13,8 @@
       .p.action.text--left
         = link_to "Gérer mon profil gratuit", new_pro_admin_structure_registration_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN, utm_source: 'email', utm_campaign: 'take_control', utm_medium: 'take_control'), class: 'btn btn--green'
     %td.content-block.text--center{ width: '50%' }
-      = image_tag 'pro/flat_profile.png', width: 250, height: 188, alt: 'Exemple de profil CoursAvenue'
+      = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'email', utm_campaign: 'take_control', utm_medium: 'see_my_profile') do
+        = image_tag 'pro/flat_profile.png', width: 250, height: 188, alt: 'Exemple de profil CoursAvenue'
       %br
       = link_to 'Voir mon profil actuel', structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'email', utm_campaign: 'take_control', utm_medium: 'see_my_profile')
 
