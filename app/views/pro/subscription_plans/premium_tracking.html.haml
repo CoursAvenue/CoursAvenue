@@ -1,0 +1,60 @@
+= side_menu_currently_at 'subscription_plans'
+.panel
+  = render partial: 'pro/subscription_plans/tabs', locals: { current: 'premium_tracking' }
+
+  .panel__body.soft
+    %table.table--striped
+      %thead
+        %tr
+          %th Nom du profile
+          %th Type abonnement
+          %th Date 1ere subscription
+          %th # jours aprés renouvellement
+          %th # impressions
+          %th # vue
+          %th # actions
+          %th # demande d'infos
+          %th # de tel
+          %th # de clic web
+          %th Code couleur
+          %th FB actif
+          %th AdWords actif
+          %th Commentaires
+      %tbody
+        - @subscriptions.each do |subscription|
+          - renewed_date = subscription.renewed_at.present? ? subscription.renewed_at.to_datetime : subscription.created_at
+          %tr{ data: { action: 'show-action', id: subscription.id } }
+            %td= subscription.structure.name
+            %td= SubscriptionPlan::PLAN_TYPE_DESCRIPTION[subscription.plan_type]
+            %td= l(subscription.created_at.to_date)
+            %td= (Time.now - renewed_date).to_i / 1.day
+            %td{ data: { information: 'impressions' } }
+              = link_to '#', class: 'btn btn--green btn--small' do
+                %i.fa.fa-refresh
+            %td{ data: { information: 'views' } }
+            %td{ data: { information: 'actions' } }
+            %td{ data: { information: 'conversations' } }
+            %td{ data: { information: 'telephone' } }
+            %td{ data: { information: 'website' } }
+            %td
+            %td
+            %td
+            %td
+
+- content_for :scripts do
+  :javascript
+      $(document).ready(function() {
+          $('body').on('click', '[data-action=show-action]', function() {
+              var id = $(this).closest('tr').data('id');
+              $.ajax({
+                  type: 'GET',
+                  dataType: 'json',
+                  url: Routes.stat_info_pro_subscription_plan_path(id),
+                  success: function success (response) {
+                      _.each(response, function(value, key) {
+                        $('[data-id=' + id + '] > [data-information=' + key + ']').text(value);
+                      });
+                  }
+            });
+        });
+    });

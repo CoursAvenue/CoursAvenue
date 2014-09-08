@@ -19,4 +19,21 @@ class Pro::SubscriptionPlansController < Pro::ProController
     # end
 
   end
+
+  def premium_tracking
+    @subscriptions = SubscriptionPlan.all
+  end
+
+  def stat_info
+    subscription = SubscriptionPlan.find(params[:id])
+    data = { impressions:   subscription.structure.statistics.impressions.count,
+             views:         subscription.structure.statistics.views.count,
+             actions:       subscription.structure.statistics.actions.count,
+             conversations: subscription.structure.main_contact.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).count,
+             telephone:     subscription.structure.statistics.actions.where(infos: 'telephone').count,
+             website:       subscription.structure.statistics.actions.where(infos: 'website').count }
+    respond_to do |format|
+      format.json { render json: data }
+    end
+  end
 end
