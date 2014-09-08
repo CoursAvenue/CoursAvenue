@@ -27,6 +27,7 @@ class PlanningSearch
 
       all_of do
         with :visible,                                    params[:visible]                              if params[:visible].present?
+        with :is_published,                               params[:is_published]                         if params[:is_published].present?
 
         with(:start_hour).greater_than_or_equal_to        params[:start_hour].to_i                      if params[:start_hour].present?
         with(:end_hour).less_than_or_equal_to             params[:end_hour].to_i                        if params[:end_hour].present?
@@ -91,7 +92,7 @@ class PlanningSearch
 
         with(:structure_type).any_of                       params[:structure_types]                     if params[:structure_types].present?
       end
-
+      order_by :has_logo, :desc
       order_by :search_score, :desc
       order_by :action_count, :asc
       order_by :view_count, :asc

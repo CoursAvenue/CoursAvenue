@@ -6,12 +6,14 @@ class Structures::CoursesController < ApplicationController
     @structure            = Structure.find params[:structure_id]
     params[:structure_id] = @structure.id
     params[:per_page]     = 1000 # Show all the plannings
+    params[:is_published] = true # Show all the plannings
     @planning_search      = PlanningSearch.search(params)
     @plannings            = @planning_search.results
     @courses              = []
 
     @total_planning_search = PlanningSearch.search({ structure_id: @structure.id,
                                                      course_types: params[:course_types] || [],
+                                                     is_published: true,
                                                      visible: true, per_page: 1000 }).results.count
                                                      # We don't use `.total` here to prevent from missing document
                                                      # See: https://www.coursavenue.com/etablissements/2802/cours.json?course_types%5B%5D=training for example
@@ -22,10 +24,6 @@ class Structures::CoursesController < ApplicationController
 
     @plannings.group_by(&:course_id).each do |course_id, plannings|
       course = Course.find(course_id)
-      if !course.is_published?
-        @total_planning_search = @total_planning_search - course.plannings.future.visible.count
-        next
-      end
       @courses << CourseSerializer.new(course, {
         root: false,
         structure: @structure,

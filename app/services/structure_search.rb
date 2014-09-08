@@ -65,6 +65,8 @@ class StructureSearch
         order_by :premium, :desc
       end
 
+      order_by :is_sleeping, :asc # Sleeping at last
+      order_by :has_logo, :desc   # First show structure with logos
       if params[:root_subject_id].present? and ROOT_SUBJECT_ID_SUPPORTED.include?(params[:root_subject_id])
         order_by "search_score_#{params[:root_subject_id]}".underscore.to_sym, :desc
       else

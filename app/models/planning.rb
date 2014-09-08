@@ -106,6 +106,9 @@ class Planning < ActiveRecord::Base
     end
 
     boolean :visible
+    boolean :is_published do
+      self.course.is_published?
+    end
 
     boolean :active_structure do
       self.course.structure.active?
