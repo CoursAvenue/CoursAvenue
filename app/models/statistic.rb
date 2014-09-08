@@ -127,7 +127,7 @@ class Statistic < ActiveRecord::Base
                                        .order('DATE(created_at) ASC')
                                        .group('DATE(created_at)')
                                        .select('DATE(created_at) as created_at, COUNT(DISTINCT(user_fingerprint)) as user_count')
-                                       .map(&:user_count).reduce(&:+)
+                                       .map(&:user_count).reduce(&:+) || 0
 
   end
 
@@ -142,7 +142,7 @@ class Statistic < ActiveRecord::Base
                                        .order('DATE(created_at) ASC')
                                        .group('DATE(created_at)')
                                        .select('DATE(created_at) as created_at, COUNT(DISTINCT(user_fingerprint)) as user_count')
-                                       .map(&:user_count).reduce(&:+)
+                                       .map(&:user_count).reduce(&:+) || 0
 
   end
 
