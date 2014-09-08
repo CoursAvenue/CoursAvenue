@@ -129,6 +129,23 @@
                               %i= truncate(structure.places.map(&:city).map(&:name).uniq.join(', '), length: 40)
                             .btn.btn--small.btn--blue.btn--full.opacity-hidden-on-hover__child Voir le profil
 
+- if Rails.env.production?
+  <!-- Facebook Conversion Code for Action -->
+  :javascript
+    (function() {
+      var _fbq = window._fbq || (window._fbq = []);
+      if (!_fbq.loaded) {
+        var fbds = document.createElement('script');
+        fbds.async = true;
+        fbds.src = '//connect.facebook.net/en_US/fbds.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(fbds, s);
+        _fbq.loaded = true;
+      }
+    })();
+    window._fbq = window._fbq || [];
+  <noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/tr?ev=6016785958627&amp;cd[value]=0.00&amp;cd[currency]=EUR&amp;noscript=1" /></noscript>
+
 = content_for :scripts do
   :javascript
     (function () {
