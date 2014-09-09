@@ -37,14 +37,24 @@ class Pro::SubscriptionPlansController < Pro::ProController
   # @return The statistics for the related SubscriptionPlan as JSON.
   def stat_info
     subscription = SubscriptionPlan.find(params[:id])
-    stats = { impressions:  Statistic.impression_count(subscription.structure),
-             views:         Statistic.view_count(subscription.structure),
-             actions:       Statistic.action_count(subscription.structure),
-             conversations: subscription.structure.main_contact.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).count,
-             telephone:     Statistic.telephone_count(subscription.structure),
-             website:       Statistic.website_count(subscription.structure) }
+    since_date = subscription.renewed_at.present? ? subscription.renewed_at : subscription.created_at.to_date
+
+    stats = { impressions:        Statistic.impression_count(subscription.structure, since_date),
+              views:              Statistic.view_count(subscription.structure, since_date),
+              actions:            Statistic.action_count(subscription.structure, since_date),
+              telephone:          Statistic.telephone_count(subscription.structure, since_date),
+              website:            Statistic.website_count(subscription.structure, since_date),
+              conversations:      subscription.structure.main_contact.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).where(Mailboxer::Conversation.arel_table[:created_at].gt(since_date)).count,
+
+              impressions_full:   Statistic.impression_count(subscription.structure),
+              views_full:         Statistic.view_count(subscription.structure),
+              actions_full:       Statistic.action_count(subscription.structure),
+              telephone_full:     Statistic.telephone_count(subscription.structure),
+              website_full:       Statistic.website_count(subscription.structure),
+              conversations_full: subscription.structure.main_contact.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).count }
 
     stats[:color] = label_color(stats)
+    stats[:color_full] = label_color(stats, :actions_full, :conversations_full)
 
     respond_to do |format|
       format.json { render json: stats }
@@ -56,19 +66,19 @@ class Pro::SubscriptionPlansController < Pro::ProController
   # Deduce the label color from the fetched statistics.
   #
   # @return The color to use for the label.
-  def label_color(stats)
+  def label_color(stats, action=:actions, conversations=:conversations)
     case
-    when stats[:actions] == 0
+    when stats[action] == 0
       'red'
-    when stats[:actions].in?(1..4) && stats[:conversations] <= 2
+    when stats[action].in?(1..4) && stats[conversations] <= 2
       'orange'
-    when stats[:actions].in?(1..4) && stats[:conversations] > 2
+    when stats[action].in?(1..4) && stats[conversations] > 2
       'yellow'
-    when stats[:actions] > 5 && stats[:conversations] <= 2
+    when stats[action] > 5 && stats[conversations] <= 2
       'yellow'
-    when stats[:actions] > 5 && stats[:conversations].in?(3..5)
+    when stats[action] > 5 && stats[conversations].in?(3..5)
       'green-light'
-    when stats[:actions] > 5 && stats[:conversations] > 5
+    when stats[action] > 5 && stats[conversations] > 5
       'green'
     end
   end

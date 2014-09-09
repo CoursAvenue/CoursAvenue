@@ -24,6 +24,13 @@
           %th FB actif
           %th AdWords actif
           %th Commentaires
+          %th # impressions depuis le début
+          %th # vue depuis le début
+          %th # actions depuis le début
+          %th # demande d'infos depuis le début
+          %th # de tel depuis le début
+          %th # de clic web depuis le début
+          %th Code couleur depuis le début
       %tbody
         - @subscriptions.each do |subscription|
           - renewed_date = subscription.renewed_at.present? ? subscription.renewed_at.to_datetime : subscription.created_at
@@ -45,6 +52,14 @@
             %td
             %td
             %td
+            %td{ data: { information: 'impressions_full' } }
+            %td{ data: { information: 'views_full' } }
+            %td{ data: { information: 'actions_full' } }
+            %td{ data: { information: 'conversations_full' } }
+            %td{ data: { information: 'telephone_full' } }
+            %td{ data: { information: 'website_full' } }
+            %td{ data: { information: 'color_full' } }
+              %span.lbl.lbl--chip
 
 - content_for :scripts do
   :javascript
@@ -64,7 +79,7 @@
                   success: function success (response) {
                       _.each(response, function(value, key) {
                         var $elem = $('[data-id=' + id + '] > [data-information=' + key + ']');
-                        if (key != 'color') {
+                        if (key != 'color' && key != 'color_full') {
                             $elem.text(value);
                         } else {
                             $elem.children('span').addClass('lbl--' + value);
