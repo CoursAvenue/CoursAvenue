@@ -37,7 +37,7 @@ class Pro::SubscriptionPlansController < Pro::ProController
   # @return The statistics for the related SubscriptionPlan as JSON.
   def stat_info
     subscription = SubscriptionPlan.find(params[:id])
-    stats = { impressions:   Statistic.impression_count(subscription.structure),
+    stats = { impressions:  Statistic.impression_count(subscription.structure),
              views:         Statistic.view_count(subscription.structure),
              actions:       Statistic.action_count(subscription.structure),
              conversations: subscription.structure.main_contact.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).count,
