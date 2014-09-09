@@ -54,7 +54,6 @@ class Pro::SubscriptionPlansController < Pro::ProController
               conversations_full: subscription.structure.main_contact.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).count }
 
     stats[:color] = label_color(stats)
-    stats[:color_full] = label_color(stats, :actions_full, :conversations_full)
 
     respond_to do |format|
       format.json { render json: stats }

@@ -62,7 +62,6 @@
             %td{ data: { information: 'conversations_full' } }
             %td{ data: { information: 'telephone_full' } }
             %td{ data: { information: 'website_full' } }
-            %td{ data: { information: 'color_full' } }
               %span.lbl.lbl--chip
 
 - content_for :scripts do
@@ -83,7 +82,7 @@
                   success: function success (response) {
                       _.each(response, function(value, key) {
                         var $elem = $('[data-id=' + id + '] > [data-information=' + key + ']');
-                        if (key != 'color' && key != 'color_full') {
+                        if (key != 'color') {
                             $elem.text(value);
                         } else {
                             $elem.children('span').addClass('lbl--' + value);
