@@ -1,6 +1,7 @@
 # encoding: utf-8
 class Pro::SubscriptionPlansController < Pro::ProController
   before_action :authenticate_pro_super_admin!
+  before_action :set_subscription_plan, only: [:stat_info, :update]
 
   def index
     @orders = Order.all
@@ -60,6 +61,22 @@ class Pro::SubscriptionPlansController < Pro::ProController
     end
   end
 
+  # Updates the metadata from the related SubscriptionPlan
+  #
+  # @return
+  def update
+    # facebook_active = params[:facebook_active] || @subscription.facebook_active
+    # adwords_active = params[:adwords_active] || @subscription.adwords_active
+    # bo_comments = params[:bo_comments] || @subscription.bo_comments
+    respond_to do |format|
+      if @subscription.update_attributes(params[:subscription_plan])
+        format.js { render nothing: true}
+      else
+        format.js { render json: @subscription.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   private
 
   # Deduce the label color from the fetched statistics.
@@ -80,5 +97,12 @@ class Pro::SubscriptionPlansController < Pro::ProController
     when stats[action] > 5 && stats[conversations] > 5
       'green'
     end
+  end
+
+  # Set the current SubscriptionPlan
+  #
+  # @return The current SubscriptionPlan
+  def set_subscription_plan
+    @subscription = SubscriptionPlan.find(params[:id])
   end
 end
