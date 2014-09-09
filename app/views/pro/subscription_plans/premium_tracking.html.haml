@@ -3,6 +3,10 @@
   = render partial: 'pro/subscription_plans/tabs', locals: { current: @current_tab }
 
   .panel__body.soft
+    = link_to 'javascript:void(0)', class: 'btn btn--green', data: { action: 'load-action' } do
+      %i.fa.fa-refresh
+      Tout charger
+
     %table.table--striped
       %thead
         %tr
@@ -45,6 +49,11 @@
 - content_for :scripts do
   :javascript
       $(document).ready(function() {
+          $('[data-action=load-action]').click(function() {
+              $(this).children('i').addClass('fa-spin');
+              $('[data-action=show-action]').click();
+          });
+
           $('[data-action=show-action]').click(function() {
               $(this).removeAttr('data-action');
               var id = $(this).closest('tr').data('id');
