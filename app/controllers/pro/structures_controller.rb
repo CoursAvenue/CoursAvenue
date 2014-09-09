@@ -29,9 +29,9 @@ class Pro::StructuresController < Pro::ProController
   def sleepings
     params[:opt_in] ||= 'true'
     if params[:opt_in] == 'true'
-      @structures = StructureSearch.search({ is_sleeping: true, has_admin: true, page: params[:page], radius: 10000 }).results
+      @structures = StructureSearch.search({ is_sleeping: true, has_admin: true, page: params[:page], radius: 10000 }).results.reject{|s| !s.is_sleeping}
     else
-      @structures = StructureSearch.search({ is_sleeping: true, sleeping_email_opt_in: false, page: params[:page], radius: 10000 }).results
+      @structures = StructureSearch.search({ is_sleeping: true, sleeping_email_opt_in: false, page: params[:page], radius: 10000 }).results.reject{|s| !s.is_sleeping}
     end
   end
 
@@ -40,7 +40,7 @@ class Pro::StructuresController < Pro::ProController
   def wake_up
     @structure = Structure.find params[:id]
     @structure.wake_up!
-    redirect_to pro_structure_path(@structure), notice: 'Le profil est réveillé !'
+    redirect_to sleepings_pro_structure_path(@structure), notice: 'Le profil est réveillé !'
   end
 
   # PUT etablissements/:id/return_to_sleeping_mode
