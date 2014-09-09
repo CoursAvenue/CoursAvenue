@@ -37,22 +37,21 @@ class Pro::SubscriptionPlansController < Pro::ProController
   #
   # @return The statistics for the related SubscriptionPlan as JSON.
   def stat_info
-    subscription = SubscriptionPlan.find(params[:id])
-    since_date = subscription.renewed_at.present? ? subscription.renewed_at : subscription.created_at.to_date
+    since_date = @subscription.renewed_at.present? ? @subscription.renewed_at : @subscription.created_at.to_date
 
-    stats = { impressions:        Statistic.impression_count(subscription.structure, since_date),
-              views:              Statistic.view_count(subscription.structure, since_date),
-              actions:            Statistic.action_count(subscription.structure, since_date),
-              telephone:          Statistic.telephone_count(subscription.structure, since_date),
-              website:            Statistic.website_count(subscription.structure, since_date),
-              conversations:      subscription.structure.main_contact.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).where(Mailboxer::Conversation.arel_table[:created_at].gt(since_date)).count,
+    stats = { impressions:        Statistic.impression_count(@subscription.structure, since_date),
+              views:              Statistic.view_count(@subscription.structure, since_date),
+              actions:            Statistic.action_count(@subscription.structure, since_date),
+              telephone:          Statistic.telephone_count(@subscription.structure, since_date),
+              website:            Statistic.website_count(@subscription.structure, since_date),
+              conversations:      @subscription.structure.main_contact.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).where(Mailboxer::Conversation.arel_table[:created_at].gt(since_date)).count,
 
-              impressions_full:   Statistic.impression_count(subscription.structure),
-              views_full:         Statistic.view_count(subscription.structure),
-              actions_full:       Statistic.action_count(subscription.structure),
-              telephone_full:     Statistic.telephone_count(subscription.structure),
-              website_full:       Statistic.website_count(subscription.structure),
-              conversations_full: subscription.structure.main_contact.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).count }
+              impressions_full:   Statistic.impression_count(@subscription.structure),
+              views_full:         Statistic.view_count(@subscription.structure),
+              actions_full:       Statistic.action_count(@subscription.structure),
+              telephone_full:     Statistic.telephone_count(@subscription.structure),
+              website_full:       Statistic.website_count(@subscription.structure),
+              conversations_full: @subscription.structure.main_contact.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).count }
 
     stats[:color] = label_color(stats)
 
@@ -65,9 +64,6 @@ class Pro::SubscriptionPlansController < Pro::ProController
   #
   # @return
   def update
-    # facebook_active = params[:facebook_active] || @subscription.facebook_active
-    # adwords_active = params[:adwords_active] || @subscription.adwords_active
-    # bo_comments = params[:bo_comments] || @subscription.bo_comments
     respond_to do |format|
       if @subscription.update_attributes(params[:subscription_plan])
         format.js { render nothing: true}
