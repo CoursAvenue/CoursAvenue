@@ -13,6 +13,8 @@
           %th Nom du profile
           %th Type abonnement
           %th Date 1ere subscription
+          - if @current_tab == 'unsubscribed_tracking'
+            %th Date résiliation
           %th # jours aprés renouvellement
           %th # impressions
           %th # vue
@@ -38,6 +40,8 @@
             %td= subscription.structure.name
             %td= SubscriptionPlan::PLAN_TYPE_DESCRIPTION[subscription.plan_type]
             %td= l(subscription.created_at.to_date)
+            - if @current_tab == 'unsubscribed_tracking'
+              %td= l(subscription.canceled_at.to_date)
             %td= (Time.now - renewed_date).to_i / 1.day
             %td{ data: { information: 'impressions' } }
               = link_to 'javascript:void(0)', class: 'btn btn--green btn--small' do
