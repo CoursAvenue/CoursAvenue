@@ -50,4 +50,26 @@ class Pro::SubscriptionPlansController < Pro::ProController
       format.json { render json: stats }
     end
   end
+
+  private
+
+  # Deduce the label color from the fetched statistics.
+  #
+  # @return The color to use for the label.
+  def label_color(stats)
+    case
+    when stats[:actions] == 0
+      'red'
+    when stats[:actions].in?(1..4) && stats[:conversations] <= 2
+      'orange'
+    when stats[:actions].in?(1..4) && stats[:conversations] > 2
+      'yellow'
+    when stats[:actions] > 5 && stats[:conversations] <= 2
+      'yellow'
+    when stats[:actions] > 5 && stats[:conversations].in?(3..5)
+      'green-light'
+    when stats[:actions] > 5 && stats[:conversations] > 5
+      'green'
+    end
+  end
 end

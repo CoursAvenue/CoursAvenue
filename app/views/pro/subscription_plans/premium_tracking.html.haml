@@ -36,7 +36,8 @@
             %td{ data: { information: 'conversations' } }
             %td{ data: { information: 'telephone' } }
             %td{ data: { information: 'website' } }
-            %td
+            %td{ data: { information: 'color' } }
+              %span.lbl.lbl--chip
             %td
             %td
             %td
@@ -53,7 +54,12 @@
                   url: Routes.stat_info_pro_subscription_plan_path(id),
                   success: function success (response) {
                       _.each(response, function(value, key) {
-                        $('[data-id=' + id + '] > [data-information=' + key + ']').text(value);
+                        var $elem = $('[data-id=' + id + '] > [data-information=' + key + ']');
+                        if (key != 'color') {
+                            $elem.text(value);
+                        } else {
+                            $elem.children('span').addClass('lbl--' + value);
+                        }
                       });
                   }
             });
