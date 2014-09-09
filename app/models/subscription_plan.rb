@@ -69,10 +69,11 @@ class SubscriptionPlan < ActiveRecord::Base
 
   store_accessor :bo_meta_data, :facebook_active, :adwords_active, :bo_comments
 
-  define_boolean_accessor_for  :meta_data, :cancelation_reason_dont_want_more_students, :cancelation_reason_stopping_activity,
-                               :cancelation_reason_didnt_have_return_on_investment, :cancelation_reason_too_hard_to_use,
-                               :cancelation_reason_not_satisfied_of_coursavenue_users, :cancelation_reason_other,
-                               :facebook_active, :adwords_active
+  define_boolean_accessor_for  :meta_data,    :cancelation_reason_dont_want_more_students, :cancelation_reason_stopping_activity,
+                                              :cancelation_reason_didnt_have_return_on_investment, :cancelation_reason_too_hard_to_use,
+                                              :cancelation_reason_not_satisfied_of_coursavenue_users, :cancelation_reason_other
+
+  define_boolean_accessor_for  :bo_meta_data, :facebook_active, :adwords_active
 
   # Create a plan associated to the given structure with a monthly subscription plan
   #
