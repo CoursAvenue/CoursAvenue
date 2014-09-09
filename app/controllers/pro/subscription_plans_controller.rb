@@ -32,16 +32,22 @@ class Pro::SubscriptionPlansController < Pro::ProController
     render 'premium_tracking'
   end
 
+  # Fetches statistics for the related SubscriptionPlan
+  #
+  # @return The statistics for the related SubscriptionPlan as JSON.
   def stat_info
     subscription = SubscriptionPlan.find(params[:id])
-    data = { impressions:   Statistic.impression_count(subscription.structure),
+    stats = { impressions:   Statistic.impression_count(subscription.structure),
              views:         Statistic.view_count(subscription.structure),
              actions:       Statistic.action_count(subscription.structure),
              conversations: subscription.structure.main_contact.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).count,
              telephone:     Statistic.telephone_count(subscription.structure),
              website:       Statistic.website_count(subscription.structure) }
+
+    stats[:color] = label_color(stats)
+
     respond_to do |format|
-      format.json { render json: data }
+      format.json { render json: stats }
     end
   end
 end
