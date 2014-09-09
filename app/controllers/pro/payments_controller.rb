@@ -2,15 +2,6 @@ class Pro::PaymentsController < Pro::ProController
   protect_from_forgery only: []
   layout 'admin'
 
-  # GET /paiement/be2bill_confirmation
-  # Payment confirmation page called by Be2bill
-  # Redirect to payment confirmation in order to removes all the parameters from the URL
-  def be2bill_confirmation
-    @structure         = Structure.find params[:CLIENTIDENT]
-    params[:EXTRADATA] = JSON.parse(params[:EXTRADATA])
-    @premium_type = params[:EXTRADATA]['plan_type']
-  end
-
   # POST /paiement/be2bill_placeholder
   # Called by Be2bill to integrate payment form
   def be2bill_placeholder
@@ -29,5 +20,33 @@ class Pro::PaymentsController < Pro::ProController
 
     render text: 'OK'
   end
+
+  # GET /paiement/be2bill_confirmation
+  # Payment confirmation page called by Be2bill
+  # Redirect to payment confirmation in order to removes all the parameters from the URL
+  def be2bill_confirmation
+    @payer_type = 'be2bill'
+    @structure         = Structure.find params[:CLIENTIDENT]
+    params[:EXTRADATA] = JSON.parse(params[:EXTRADATA])
+    @premium_type = params[:EXTRADATA]['plan_type']
+    render 'confirmation'
+  end
+
+  # GET /paiement/paypal_confirmation
+  # Callback for paypal
+  def paypal_confirmation
+    @payer_type = 'paypal'
+    @structure         = Structure.find params[:structure_id]
+    render 'confirmation'
+  end
+
+  # POST /paiement/paypal_notifications
+  # Called by Paypal to notify when a transaction is made
+  def paypal_notification
+    PaymentNotification::Paypal.create params: params, structure_id: params[:structure_id]
+
+    render text: 'OK'
+  end
+
 
 end

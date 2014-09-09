@@ -40,7 +40,13 @@
     = form_tag ENV['BE2BILL_URL'] do
       - @be2bill_params.each do |key, value|
         = hidden_field_tag key.to_sym, value
-      = submit_tag 'Payer', class: 'btn btn--green btn--large btn--full'
+      = submit_tag 'Payer par carte bleu', class: 'btn btn--green btn--large btn--full'
+    .text--center
+      %div.soft-half--ends
+        %strong OU
+      = link_to paypal_express_checkout_pro_structure_subscription_plans_path(@structure, plan_type: @subscription_plan.plan_type) do
+        = image_tag("https://www.paypal.com/fr_XC/i/btn/btn_xpressCheckout.gif")
+
 
 = content_for :scripts do
   :javascript

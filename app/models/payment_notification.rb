@@ -1,4 +1,5 @@
-class PaymentNotification
+class PaymentNotification < ActiveRecord::Base
+
   attr_accessible :params, :structure_id, :order_id, :type
 
   serialize :params

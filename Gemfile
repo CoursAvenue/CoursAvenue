@@ -28,6 +28,8 @@ gem 'heroku-api'
 gem 'bust_rails_etags'          # https://github.com/n8/bust_rails_etags
 gem 'bugsnag'
 
+gem 'paypal-recurring', '~>1.1.0'
+
 # For pagination
 gem 'kaminari', '~> 0.15.1'
 

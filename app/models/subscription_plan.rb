@@ -60,7 +60,7 @@ class SubscriptionPlan < ActiveRecord::Base
                   :cancelation_reason_dont_want_more_students, :cancelation_reason_stopping_activity,
                   :cancelation_reason_didnt_have_return_on_investment, :cancelation_reason_too_hard_to_use,
                   :cancelation_reason_not_satisfied_of_coursavenue_users, :cancelation_reason_other, :cancelation_reason_text,
-                  :facebook_active, :adwords_active, :bo_comments
+                  :facebook_active, :adwords_active, :bo_comments, :paypal_token, :paypal_payer_id
 
   store_accessor :meta_data,   :cancelation_reason_dont_want_more_students, :cancelation_reason_stopping_activity,
                                :cancelation_reason_didnt_have_return_on_investment, :cancelation_reason_too_hard_to_use,
@@ -75,7 +75,7 @@ class SubscriptionPlan < ActiveRecord::Base
 
   define_boolean_accessor_for  :bo_meta_data, :facebook_active, :adwords_active
 
-  # Create a plan associated to the given structure with a monthly subscription plan
+  # Create a plan associated to the given structure with a subscription plan
   #
   # @return SubscriptionPlan
   def self.subscribe! plan_type, structure, params={}
@@ -86,12 +86,8 @@ class SubscriptionPlan < ActiveRecord::Base
     end
     subscription_plan = structure.subscription_plans.create({ plan_type: plan_type.to_s,
                                                               expires_at: Date.today + PLAN_TYPE_DURATION[plan_type.to_s].months,
-                                                              credit_card_number: params[:CARDCODE],
                                                               recurrent: true,
-                                                              be2bill_alias: params[:ALIAS],
-                                                              card_validity_date: (params[:CARDVALIDITYDATE] ? Date.strptime(params[:CARDVALIDITYDATE], '%m-%y') : nil),
-                                                              promotion_code_id: promotion_code_id,
-                                                              client_ip: params[:CLIENT_IP]})
+                                                              }.merge(params))
     structure.compute_search_score(true)
     structure.index
     return subscription_plan

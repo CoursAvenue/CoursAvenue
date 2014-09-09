@@ -1,5 +1,5 @@
 # encoding: utf-8
-class PaymentNotification::Be2bill < ActiveRecord::Base
+class PaymentNotification::Be2bill < PaymentNotification
 
   private
 
@@ -11,7 +11,13 @@ class PaymentNotification::Be2bill < ActiveRecord::Base
         subscription_plan = self.structure.subscription_plan
         subscription_plan.extend_subscription(params)
       else
-        subscription_plan = SubscriptionPlan.subscribe!(params['EXTRADATA']['plan_type'], self.structure, params)
+        subscription_plan_params = { credit_card_number: params[:CARDCODE],
+                                     be2bill_alias: params[:ALIAS],
+                                     card_validity_date: (params[:CARDVALIDITYDATE] ? Date.strptime(params[:CARDVALIDITYDATE], '%m-%y') : nil),
+                                     promotion_code_id: (params[:EXTRADATA].present? ? params[:EXTRADATA]['promotion_code_id'] : nil),
+                                     client_ip: params[:CLIENT_IP]
+                                   }
+        subscription_plan = SubscriptionPlan.subscribe!(params['EXTRADATA']['plan_type'], self.structure, subscription_plan_params)
       end
       # Create order for current payment
       self.structure.orders.create(amount: subscription_plan.amount,
