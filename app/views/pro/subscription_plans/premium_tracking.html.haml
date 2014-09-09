@@ -32,12 +32,11 @@
           %th # demande d'infos depuis le début
           %th # de tel depuis le début
           %th # de clic web depuis le début
-          %th Code couleur depuis le début
       %tbody
         - @subscriptions.each do |subscription|
           - renewed_date = subscription.renewed_at.present? ? subscription.renewed_at.to_datetime : subscription.created_at
           %tr{ data: { action: 'show-action', id: subscription.id } }
-            %td= subscription.structure.name
+            %td= link_to subscription.structure.name, pro_structure_statistics_path(subscription.structure), target: '_blank'
             %td= SubscriptionPlan::PLAN_TYPE_DESCRIPTION[subscription.plan_type]
             %td= l(subscription.created_at.to_date)
             - if @current_tab == 'unsubscribed_tracking'
