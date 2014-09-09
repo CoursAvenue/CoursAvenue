@@ -390,14 +390,6 @@ France
     @be2bill_params['HASH'] = SubscriptionPlan.hash_be2bill_params @be2bill_params
   end
 
-  # GET Payment confirmation page called by Be2bill
-  # Redirect to payment confirmation in order to removes all the parameters from the URL
-  def payment_confirmation_be2bill
-    @structure         = Structure.find params[:CLIENTIDENT]
-    params[:EXTRADATA] = JSON.parse(params[:EXTRADATA])
-    @premium_type = params[:EXTRADATA]['plan_type']
-  end
-
   # GET member
   def premium_modal
     suffix_acton_type = request.referrer.split('new').first.split('?').first.split('/').last

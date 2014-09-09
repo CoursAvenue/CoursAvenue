@@ -1,13 +1,5 @@
 # encoding: utf-8
-class Be2billNotification < ActiveRecord::Base
-  attr_accessible :params, :structure_id, :order_id
-
-  serialize :params
-
-  belongs_to :structure
-
-  after_create :finalize_payment
-  after_create :notify_user
+class PaymentNotification::Be2bill < ActiveRecord::Base
 
   private
 

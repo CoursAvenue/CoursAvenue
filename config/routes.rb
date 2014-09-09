@@ -8,9 +8,6 @@ CoursAvenue::Application.routes.draw do
   constraints subdomain: (Rails.env.staging? ? 'pro.staging' : 'pro') do
     namespace :pro, path: '' do
       root :to => 'home#index'
-      # Be2bill urls
-      post 'be2bill/placeholder'                => 'be2bill#placeholder'
-      post 'be2bill/transaction_notifications'  => 'be2bill#transaction_notifications'
 
       get '/premium'                            => 'redirect#structures_premium'
 
@@ -58,7 +55,7 @@ CoursAvenue::Application.routes.draw do
         resources :medias, controller: 'portraits/medias'
       end
 
-      resources :be2bill_notifications, only: [:index, :show]
+      resources :payment_notifications, only: [:index, :show]
       resources :blog_articles, controller: 'blog/articles', path: 'blog'
       resources :press_articles
       resources :metrics, only: [] do
@@ -119,6 +116,15 @@ CoursAvenue::Application.routes.draw do
           get :stat_info
         end
       end
+
+      resources :payments, path: 'paiement', only: [] do
+        collection do
+          get  :be2bill_confirmation
+          post :be2bill_notification
+          post :be2bill_placeholder
+        end
+      end
+
       resources :structures, path: 'etablissements' do
         member do
           get   :edit_order_recipient
@@ -151,7 +157,6 @@ CoursAvenue::Application.routes.draw do
           post  :update
         end
         collection do
-          get :payment_confirmation_be2bill, path: 'confirmation-paiement'
           get :sleepings
           get :stars
           get :best
@@ -160,6 +165,10 @@ CoursAvenue::Application.routes.draw do
         devise_for :admins, controllers: { registrations: 'pro/admins/registrations'}, path: '/', path_names: { registration: 'rejoindre-coursavenue-pro', sign_up: '/' }
         resources :orders, only: [:index, :show], controller: 'structures/orders', path: 'mes-factures'
         resources :subscription_plans, only: [:destroy], controller: 'structures/subscription_plans' do
+          collection do
+            get :paypal_express_checkout
+            get :paypal_confirmation
+          end
           member do
             patch :reactivate
             get :ask_for_cancellation

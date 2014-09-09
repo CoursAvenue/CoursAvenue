@@ -2,7 +2,7 @@
 
 .panel
   .panel__header.soft
-    = render partial: 'premium_breadcrumb', locals: { current: 'validation', failure: params['EXECCODE'] != '0000' }
+    = render partial: 'pro/structures/premium_breadcrumb', locals: { current: 'validation', failure: params['EXECCODE'] != '0000' }
   .panel__body.soft
     - if params['EXECCODE'] == '0000'
       %h2
