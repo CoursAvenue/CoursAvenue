@@ -80,7 +80,7 @@ class Statistic < ActiveRecord::Base
   #
   # @return Integer number of view counts since `from_date`
   def self.view_count(structure, from_date=(Date.today - 10.years))
-    return self.generic_count(structure, :views)
+    return self.generic_count(structure, :views, from_date)
   end
 
   # Total impression count
@@ -89,7 +89,7 @@ class Statistic < ActiveRecord::Base
   #
   # @return Integer number of view counts since `from_date`
   def self.impression_count(structure, from_date=(Date.today - 10.years))
-    return self.generic_count(structure, :impressions)
+    return self.generic_count(structure, :impressions, from_date)
   end
 
   # Total action count
@@ -98,7 +98,7 @@ class Statistic < ActiveRecord::Base
   #
   # @return Integer number of view counts since `from_date`
   def self.action_count(structure, from_date=(Date.today - 10.years))
-    return self.generic_count(structure, :actions)
+    return self.generic_count(structure, :actions, from_date)
   end
 
   # Total telephone action count
@@ -107,7 +107,7 @@ class Statistic < ActiveRecord::Base
   #
   # @return Integer number of view counts since `from_date`
   def self.telephone_count(structure, from_date=(Date.today - 10.years))
-    return self.generic_count(structure, :actions, 'telephone')
+    return self.generic_count(structure, :actions, from_date, 'telephone')
   end
 
   # Total website action count
@@ -116,7 +116,7 @@ class Statistic < ActiveRecord::Base
   #
   # @return Integer number of view counts since `from_date`
   def self.website_count(structure, from_date=(Date.today - 10.years))
-    return self.generic_count(structure, :actions, 'website')
+    return self.generic_count(structure, :actions, from_date, 'website')
   end
 
   private
@@ -127,7 +127,7 @@ class Statistic < ActiveRecord::Base
   # @param from_date=(Date.today - 10.years Date Date from where to start
   #
   # @return Integer number of view counts since `from_date`
-  def self.generic_count(structure, type, infos=nil, from_date=(Date.today - 10.years))
+  def self.generic_count(structure, type, from_date=(Date.today - 10.years), infos=nil)
     values = structure.statistics.send(type).where( Statistic.arel_table[:created_at].gt(from_date) )
                                           .order('DATE(created_at) ASC')
                                           .group('DATE(created_at)')

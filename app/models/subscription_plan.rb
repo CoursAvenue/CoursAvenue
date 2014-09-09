@@ -59,16 +59,21 @@ class SubscriptionPlan < ActiveRecord::Base
                   :credit_card_number, :be2bill_alias, :client_ip, :card_validity_date, :promotion_code_id,
                   :cancelation_reason_dont_want_more_students, :cancelation_reason_stopping_activity,
                   :cancelation_reason_didnt_have_return_on_investment, :cancelation_reason_too_hard_to_use,
-                  :cancelation_reason_not_satisfied_of_coursavenue_users, :cancelation_reason_other, :cancelation_reason_text
+                  :cancelation_reason_not_satisfied_of_coursavenue_users, :cancelation_reason_other, :cancelation_reason_text,
+                  :facebook_active, :adwords_active, :bo_comments
 
-  store_accessor :meta_data, :cancelation_reason_dont_want_more_students, :cancelation_reason_stopping_activity,
-                             :cancelation_reason_didnt_have_return_on_investment, :cancelation_reason_too_hard_to_use,
-                             :cancelation_reason_not_satisfied_of_coursavenue_users, :cancelation_reason_other,
-                             :cancelation_reason_text
+  store_accessor :meta_data,   :cancelation_reason_dont_want_more_students, :cancelation_reason_stopping_activity,
+                               :cancelation_reason_didnt_have_return_on_investment, :cancelation_reason_too_hard_to_use,
+                               :cancelation_reason_not_satisfied_of_coursavenue_users, :cancelation_reason_other,
+                               :cancelation_reason_text
 
-  define_boolean_accessor_for :meta_data, :cancelation_reason_dont_want_more_students, :cancelation_reason_stopping_activity,
-                             :cancelation_reason_didnt_have_return_on_investment, :cancelation_reason_too_hard_to_use,
-                             :cancelation_reason_not_satisfied_of_coursavenue_users, :cancelation_reason_other
+  store_accessor :bo_meta_data, :facebook_active, :adwords_active, :bo_comments
+
+  define_boolean_accessor_for  :meta_data,    :cancelation_reason_dont_want_more_students, :cancelation_reason_stopping_activity,
+                                              :cancelation_reason_didnt_have_return_on_investment, :cancelation_reason_too_hard_to_use,
+                                              :cancelation_reason_not_satisfied_of_coursavenue_users, :cancelation_reason_other
+
+  define_boolean_accessor_for  :bo_meta_data, :facebook_active, :adwords_active
 
   # Create a plan associated to the given structure with a monthly subscription plan
   #

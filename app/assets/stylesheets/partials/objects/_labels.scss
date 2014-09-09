@@ -77,6 +77,14 @@
     @include box-shadow(none);
 }
 
+.lbl.lbl--green-light {
+    background-color: $green-light;
+    border          : none;
+    color           : white;
+    @include text-shadow(none);
+    @include box-shadow(none);
+}
+
 .lbl--chip {
     height: 20px;
     width : 20px;
