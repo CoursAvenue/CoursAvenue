@@ -53,8 +53,14 @@
             %td{ data: { information: 'color' } }
               %span.lbl.lbl--chip
             %td
+              = simple_form_for [:pro, subscription], remote: true do |f|
+                = f.input :facebook_active, label: false, as: :boolean
             %td
+              = simple_form_for [:pro, subscription], remote: true do |f|
+                = f.input :adwords_active, label: false, as: :boolean
             %td
+              = simple_form_for [:pro, subscription], remote: true do |f|
+                = f.input :bo_comments, label: false, as: :text
             %td{ data: { information: 'impressions_full' } }
             %td{ data: { information: 'views_full' } }
             %td{ data: { information: 'actions_full' } }
@@ -72,7 +78,6 @@
           });
 
           $('[data-action=show-action]').click(function() {
-              $(this).removeAttr('data-action');
               var id = $(this).closest('tr').data('id');
               $.ajax({
                   type: 'GET',
