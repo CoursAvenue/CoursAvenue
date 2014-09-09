@@ -22,6 +22,7 @@
           %th Profil
       %tbody
         - @structures.each do |structure|
+          - next unless structure.is_sleeping
           %tr
             %td
               = link_to structure.name, dashboard_pro_structure_path(structure)
