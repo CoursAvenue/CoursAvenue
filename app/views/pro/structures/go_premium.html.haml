@@ -40,7 +40,7 @@
     = form_tag ENV['BE2BILL_URL'] do
       - @be2bill_params.each do |key, value|
         = hidden_field_tag key.to_sym, value
-      = submit_tag 'Payer par carte bleu', class: 'btn btn--green btn--large btn--full'
+      = submit_tag 'Payer par carte bleu', class: 'btn btn--green btn--large btn--full', data: { disable_with: 'Veuillez patienter...' }
     .text--center
       %div.soft-half--ends
         %strong OU

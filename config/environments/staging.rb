@@ -69,13 +69,13 @@ CoursAvenue::Application.configure do
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
   config.paperclip_defaults = {
-    :storage => :s3,
-    :s3_protocol => 'http',
-    :s3_host_name => 's3-eu-west-1.amazonaws.com',
-    :s3_credentials => {
-      :bucket => ENV['AWS_BUCKET'],
-      :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
-      :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
+    storage:      :s3,
+    s3_protocol:  'http',
+    s3_host_name: 's3-eu-west-1.amazonaws.com',
+    s3_credentials: {
+      bucket:            ENV['AWS_BUCKET'],
+      access_key_id:     ENV['AWS_ACCESS_KEY_ID'],
+      secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
     }
   }
 
@@ -97,4 +97,11 @@ CoursAvenue::Application.configure do
   ActionMailer::Base.register_interceptor(DevelopmentMailInterceptor)
 
   config.eager_load = false
+
+  PayPal::Recurring.configure do |config|
+    config.sandbox = true
+    config.username = ENV['PAYPAL_TEST_LOGIN']
+    config.password = ENV['PAYPAL_TEST_PASSWORD']
+    config.signature = ENV['PAYPAL_TEST_SIGNATURE']
+  end
 end
