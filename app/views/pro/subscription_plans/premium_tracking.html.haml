@@ -35,7 +35,7 @@
       %tbody
         - @subscriptions.each do |subscription|
           - renewed_date = subscription.renewed_at.present? ? subscription.renewed_at.to_datetime : subscription.created_at
-          %tr{ data: { action: 'show-action', id: subscription.id } }
+          %tr{ data: { id: subscription.id } }
             %td= link_to subscription.structure.name, pro_structure_statistics_path(subscription.structure), target: '_blank'
             %td= SubscriptionPlan::PLAN_TYPE_DESCRIPTION[subscription.plan_type]
             %td= l(subscription.created_at.to_date)
@@ -43,7 +43,7 @@
               %td= l(subscription.canceled_at.to_date)
             %td= (Time.now - renewed_date).to_i / 1.day
             %td{ data: { information: 'impressions' } }
-              = link_to 'javascript:void(0)', class: 'btn btn--green btn--small' do
+              = link_to 'javascript:void(0)', class: 'btn btn--green btn--small', data: { action: 'show-action' } do
                 %i.fa.fa-refresh
             %td{ data: { information: 'views' } }
             %td{ data: { information: 'actions' } }
@@ -79,6 +79,7 @@
 
           $('[data-action=show-action]').click(function() {
               var id = $(this).closest('tr').data('id');
+              $(this).children('i').addClass('fa-spin');
               $.ajax({
                   type: 'GET',
                   dataType: 'json',
