@@ -321,24 +321,4 @@ class AdminMailer < ActionMailer::Base
     mail to: @structure.main_contact.email,
          subject: "Votre profil vient d'être supprimé"
   end
-
-  ######################################################################
-  # To CoursAvenue team                                                #
-  ######################################################################
-  def someone_tried_to_take_control_of_existing_structure(structure, email)
-    @structure = structure
-    @email     = email
-    mail to: 'contact@coursavenue.com', subject: "#{@email} a essayé de prendre le contrôle de #{@structure.name} en vain"
-  end
-
-  def has_destroyed(structure)
-    @structure = structure
-    mail to: 'contact@coursavenue.com', subject: "#{@structure.name} a supprimé son compte..."
-  end
-
-  def ask_for_deletion(comment)
-    @comment   = comment
-    @structure = @comment.structure
-    mail to: 'contact@coursavenue.com', subject: 'Un professeur demande une suppression de commentaire'
-  end
 end

@@ -119,6 +119,26 @@ class Statistic < ActiveRecord::Base
     return self.generic_count(structure, :actions, from_date, 'website')
   end
 
+  # Score from the action and conversations statistics
+  #
+  # @return an Integer between 0 and 4 included.
+  def self.score(action, conversations)
+    case
+    when action == 0
+      0
+    when action.in?(1..4) && conversations <= 2
+      1
+    when action.in?(1..4) && conversations > 2
+      2
+    when action > 5 && conversations <= 2
+      2
+    when action > 5 && conversations.in?(3..5)
+      3
+    when action > 5 && conversations > 5
+      4
+    end
+  end
+
   private
 
   # Total statistic count from type
