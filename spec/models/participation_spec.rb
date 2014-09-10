@@ -3,6 +3,8 @@ require 'spec_helper'
 
 describe Participation do
 
+  subject { Participation.new }
+
   context :waiting_list do
     let (:planning) { FactoryGirl.create(:planning) }
 

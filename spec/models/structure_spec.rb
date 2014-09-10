@@ -99,16 +99,9 @@ describe Structure do
         pending("This test still behaves poorly, even though the same test works both online and in the console.")
         length = user_profile.tags.length
 
-        puts "before: #{user_profile.tags.inspect}"
-
         user_profile.reload
         structure.add_tags_on(user_profile, tags)
         user_profile.reload
-
-        puts "length: #{length}"
-        puts "tags  : #{tags}"
-        puts "got   : #{user_profile.tags.length}"
-        puts "after : #{user_profile.tags.inspect}"
 
         expect(user_profile.tags.length).to eq(length + tags.length)
       end
@@ -174,7 +167,7 @@ describe Structure do
     it 'has no logo' do
       structure.stub(:profile_completed?) { false }
       structure.update_email_status
-      expect(structure.email_status).to eq 'no_logo_yet'
+      expect(structure.email_status).to eq 'incomplete_profile'
     end
 
     context :logo_stubbed do
