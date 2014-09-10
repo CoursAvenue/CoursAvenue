@@ -275,7 +275,7 @@ class SubscriptionPlan < ActiveRecord::Base
 
   # Upload Subscription Plans export to S3
   #
-  # @return the UploadedFile
+  # @return the SubscriptionPlanExport
   def self.upload!
     subscriptions = SubscriptionPlan.where(canceled_at: nil)
 
@@ -340,7 +340,7 @@ class SubscriptionPlan < ActiveRecord::Base
 
     file_url = file.url_for(:read).to_s
     SuperAdminMailer.delay.subscription_plan_export_uploaded_to_s3(file_url)
-    UploadedFile.create(url: file_url)
+    SubscriptionPlanExports.create(url: file_url)
   end
 
   private
