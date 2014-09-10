@@ -12,10 +12,11 @@
         %i.fa.fa-download
         Exporter
 
-      - if SubscriptionPlanExport.any?
+      - if SubscriptionPlanExport.where.not(url: nil).any?
+        - file = SubscriptionPlanExport.where.not(url: nil).last
         .alert.alert--warning.inline-block
-          = "Date du dernier export : #{l(SubscriptionPlanExport.last.created_at)} : "
-          = link_to SubscriptionPlanExport.last.url do
+          = "Date du dernier export : #{l(file.created_at)} : "
+          = link_to file.url do
             %i.fa.fa-download
             Télécharger le dernier fichier
 
