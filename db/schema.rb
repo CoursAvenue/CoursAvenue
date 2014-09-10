@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140909095231) do
+ActiveRecord::Schema.define(version: 20140910120800) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -899,6 +899,12 @@ ActiveRecord::Schema.define(version: 20140909095231) do
   end
 
   add_index "unfinished_resources", ["visitor_id"], name: "index_unfinished_resources_on_visitor_id", using: :btree
+
+  create_table "uploaded_files", force: true do |t|
+    t.string   "url"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "user_profile_imports", force: true do |t|
     t.binary   "data",         null: false
