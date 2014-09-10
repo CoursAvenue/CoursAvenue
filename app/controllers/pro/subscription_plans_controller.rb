@@ -77,6 +77,7 @@ class Pro::SubscriptionPlansController < Pro::ProController
   #
   # @return nil
   def download
+    SubscriptionPlan.delay.upload!
   end
 
   private
