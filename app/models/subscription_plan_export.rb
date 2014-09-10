@@ -65,7 +65,7 @@ class SubscriptionPlanExport < ActiveRecord::Base
     stream = package.to_stream()
 
     s3 = AWS::S3.new
-    file = s3.buckets[ENV["AWS_BUCKET"]].objects["subscription_plan/export_#{Date.today.to_s}.xls"]
+    file = s3.buckets[ENV["AWS_BUCKET"]].objects["subscription_plan/export_#{Time.now.to_s}.xls"]
     file.write(content_length: stream.size) do |buffer, bytes|
       buffer.write(stream.read(bytes))
     end
