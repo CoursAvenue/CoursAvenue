@@ -73,5 +73,6 @@ class SubscriptionPlanExport < ActiveRecord::Base
     self.url = file.url_for(:read).to_s
     SuperAdminMailer.delay.subscription_plan_export_uploaded_to_s3(self)
   end
+  handle_asynchronously :upload_file
 
 end
