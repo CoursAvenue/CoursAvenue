@@ -336,6 +336,7 @@ class SubscriptionPlan < ActiveRecord::Base
     end
 
     file_url = file.url_for(:read).to_s
+    SuperAdminMailer.delay.subscription_plan_export_uploaded_to_s3(file_url)
   end
 
   private
