@@ -25,6 +25,7 @@ class SubscriptionPlanExport < ActiveRecord::Base
         "Nombre de demande d'infos",
         "Nombre de de tel",
         "Nombre de de clic web",
+        "Code couleur",
         "FB actif",
         "AdWords actif",
         "Commentaires",
@@ -38,6 +39,10 @@ class SubscriptionPlanExport < ActiveRecord::Base
       subscriptions.each do |subscription|
         renewed_date = subscription.renewed_at.present? ? subscription.renewed_at.to_datetime : subscription.created_at
         since_date = subscription.renewed_at.present? ? subscription.renewed_at : subscription.created_at.to_date
+
+        actions = Statistic.action_count(subscription.structure, since_date)
+        conversations = subscription.structure.main_contact.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).where(Mailboxer::Conversation.arel_table[:created_at].gt(since_date)).count
+
         sheet.add_row [
           subscription.structure.name,
           SubscriptionPlan::PLAN_TYPE_DESCRIPTION[subscription.plan_type],
@@ -45,10 +50,11 @@ class SubscriptionPlanExport < ActiveRecord::Base
           (Time.now - renewed_date).to_i / 1.day,
           Statistic.impression_count(subscription.structure, since_date),
           Statistic.view_count(subscription.structure, since_date),
-          Statistic.action_count(subscription.structure, since_date),
-          subscription.structure.main_contact.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).where(Mailboxer::Conversation.arel_table[:created_at].gt(since_date)).count,
+          actions,
+          conversations,
           Statistic.telephone_count(subscription.structure, since_date),
           Statistic.website_count(subscription.structure, since_date),
+          Statistic.score(actions, conversations),
           subscription.facebook_active.present? ? I18n.t(subscription.facebook_active.class) : 'Non',
           subscription.adwords_active.present? ? I18n.t(subscription.adwords_active.class) : 'Non',
           subscription.bo_comments.present? ? subscription.bo_comments.to_s : '',
