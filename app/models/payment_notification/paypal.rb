@@ -31,7 +31,7 @@ class PaymentNotification::Paypal < PaymentNotification
     PayPal::Recurring.new({
       :token       => params[:token],
       :payer_id    => params[:PayerID],
-      :amount      => SubscriptionPlan::PLAN_TYPE_PRICES[params[:plan_type]].to_f.to_s,,
+      :amount      => SubscriptionPlan::PLAN_TYPE_PRICES[params[:plan_type]].to_f.to_s,
       :currency    => "EUR",
       :description  => "CoursAvenue Premium - #{SubscriptionPlan::PLAN_TYPE_DESCRIPTION[params[:plan_type]]}"
     }).request_payment
@@ -39,7 +39,7 @@ class PaymentNotification::Paypal < PaymentNotification
 
   def create_paypal_recurring_profile
     PayPal::Recurring.new({
-        :amount      => SubscriptionPlan::PLAN_TYPE_PRICES[params[:plan_type]].to_f.to_s,,
+        :amount      => SubscriptionPlan::PLAN_TYPE_PRICES[params[:plan_type]].to_f.to_s,
         :currency    => "EUR",
         :description => "CoursAvenue Premium - #{SubscriptionPlan::PLAN_TYPE_DESCRIPTION[params[:plan_type]]}",
         # :ipn_url     => paypal_confirmation_pro_payments_url(structure_id: @structure.id, plan_type: params[:plan_type], ipn: true, host: 'coursavenue.com'),
