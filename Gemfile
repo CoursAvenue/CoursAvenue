@@ -199,7 +199,6 @@ group :test do
   # gem 'sunspot_test'
   gem 'database_cleaner'        , '~>1.2.0'
   gem 'capybara'                , '~>2.2.1'
-  gem 'selenium-webdriver'      , '~>2.40.0'
 end
 
 group :development do
