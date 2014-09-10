@@ -173,6 +173,9 @@ gem 'aws-sdk'                   , '~>1.36.1'
 # Roo implements read access for all spreadsheet, xls and more
 gem 'roo'                       , '~>1.13.2'
 
+# XLSX spreadsheet generation
+gem 'axlsx'                     , '~> 2.0.1'
+
 # Rack::UTF8Sanitizer is a Rack middleware which cleans up invalid UTF8 characters in request URI and headers.
 # https://github.com/whitequark/rack-utf8_sanitizer
 gem 'rack-utf8_sanitizer'       , '~> 1.1.0'
