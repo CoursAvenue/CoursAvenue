@@ -1087,7 +1087,7 @@ class Structure < ActiveRecord::Base
     self.save(validate: false)
     true
   end
-  # handle_asynchronously :send_promo_code!, :run_at => Proc.new { Date.tomorrow + 9.hours }
+  handle_asynchronously :send_promo_code!, :run_at => Proc.new { Date.tomorrow + 9.hours }
 
   # Return the most used subject or the root subjects that has the most childs.
   #
