@@ -60,7 +60,7 @@ class SubscriptionPlan < ActiveRecord::Base
                   :cancelation_reason_dont_want_more_students, :cancelation_reason_stopping_activity,
                   :cancelation_reason_didnt_have_return_on_investment, :cancelation_reason_too_hard_to_use,
                   :cancelation_reason_not_satisfied_of_coursavenue_users, :cancelation_reason_other, :cancelation_reason_text,
-                  :facebook_active, :adwords_active, :bo_comments, :paypal_token, :paypal_payer_id
+                  :facebook_active, :adwords_active, :bo_comments, :paypal_token, :paypal_payer_id, :paypal_profile_id
 
   store_accessor :meta_data,   :cancelation_reason_dont_want_more_students, :cancelation_reason_stopping_activity,
                                :cancelation_reason_didnt_have_return_on_investment, :cancelation_reason_too_hard_to_use,
@@ -117,10 +117,21 @@ class SubscriptionPlan < ActiveRecord::Base
     self.paypal_payer_id.present?
   end
 
-  # Renew subscription by calling Be2bill API.
   #
   # @return Boolean
   def renew!
+    return if self.canceled?
+    if payed_through_paypal?
+      return renew_with_be2bill!
+    end
+    return true
+  end
+
+  #
+  # Renew subscription by calling Be2bill API.
+  #
+  # @return Boolean, wether if succeeded or failed
+  def renew_with_be2bill!
     return if self.canceled?
     require 'net/http'
 
@@ -259,9 +270,15 @@ class SubscriptionPlan < ActiveRecord::Base
     self.canceled_at = Time.now
     self.save
     self.structure.index
+    cancel_paypal_subscription if payed_through_paypal?
     AdminMailer.delay.subscription_has_been_canceled(self)
     AdminMailer.delay.someone_canceled_his_subscription(self)
     return self
+  end
+
+  def cancel_paypal_subscription
+    paypal_recurring = PayPal::Recurring.new(profile_id: self.profile_id)
+    paypal_recurring.suspend
   end
 
   # Reactivate subscription plan by removing canceled_at
@@ -271,9 +288,15 @@ class SubscriptionPlan < ActiveRecord::Base
     self.canceled_at = nil
     self.save
     self.structure.index
+    reactivate_paypal_subscription if payed_through_paypal?
     AdminMailer.delay.subscription_has_been_reactivated(self)
     AdminMailer.delay.someone_reactivated_his_subscription(self)
     return self
+  end
+
+  def reactivate_paypal_subscription
+    paypal_recurring = PayPal::Recurring.new(profile_id: self.profile_id)
+    paypal_recurring.reactivate
   end
 
   def active?

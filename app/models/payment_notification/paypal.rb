@@ -14,8 +14,10 @@ class PaymentNotification::Paypal < PaymentNotification
   def finalize_payment
     response = request_first_paypal_payment
     if response.approved? and response.completed?
-      create_paypal_recurring_profile.profile_id
-      subscription_plan_params = { paypal_profile_id: create_paypal_recurring_profile.profile_id, paypal_payer_id: params['PayerID']  }
+      paypal_profile_id = create_paypal_recurring_profile.profile_id
+      self.params['profile_id'] = paypal_profile_id
+      self.save
+      subscription_plan_params = { paypal_token: params['token'], paypal_profile_id: paypal_profile_id, paypal_payer_id: params['PayerID']  }
       subscription_plan        = SubscriptionPlan.subscribe!(params['plan_type'], self.structure, subscription_plan_params)
       self.structure.orders.create(amount: subscription_plan.amount,
                                    order_id: Order.next_order_id_for(self.structure),
@@ -27,22 +29,22 @@ class PaymentNotification::Paypal < PaymentNotification
   def notify_user
   end
 
-  def create_first_paypal_payment
+  def request_first_paypal_payment
     PayPal::Recurring.new({
-      :token       => params[:token],
-      :payer_id    => params[:PayerID],
-      :amount      => SubscriptionPlan::PLAN_TYPE_PRICES[params[:plan_type]].to_f.to_s,
+      :token       => params['token'],
+      :payer_id    => params['PayerID'],
+      :amount      => SubscriptionPlan::PLAN_TYPE_PRICES[params['plan_type']].to_f.to_s,
       :currency    => "EUR",
-      :description  => "CoursAvenue Premium - #{SubscriptionPlan::PLAN_TYPE_DESCRIPTION[params[:plan_type]]}"
+      :description => "CoursAvenue Premium - #{SubscriptionPlan::PLAN_TYPE_DESCRIPTION[params['plan_type']]}"
     }).request_payment
   end
 
   def create_paypal_recurring_profile
     PayPal::Recurring.new({
-        :amount      => SubscriptionPlan::PLAN_TYPE_PRICES[params[:plan_type]].to_f.to_s,
+        :amount      => SubscriptionPlan::PLAN_TYPE_PRICES[params['plan_type']].to_f.to_s,
         :currency    => "EUR",
-        :description => "CoursAvenue Premium - #{SubscriptionPlan::PLAN_TYPE_DESCRIPTION[params[:plan_type]]}",
-        # :ipn_url     => paypal_confirmation_pro_payments_url(structure_id: @structure.id, plan_type: params[:plan_type], ipn: true, host: 'coursavenue.com'),
+        :description => "CoursAvenue Premium - #{SubscriptionPlan::PLAN_TYPE_DESCRIPTION[params['plan_type']]}",
+        # :ipn_url     => paypal_confirmation_pro_payments_url(structure_id: @structure.id, plan_type: params['plan_type'], ipn: true, host: 'coursavenue.com'),
         :frequency   => 1,
         :token       => params['token'],
         :period      => :monthly,

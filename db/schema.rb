@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140909095231) do
+ActiveRecord::Schema.define(version: 20140910091725) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -858,6 +858,7 @@ ActiveRecord::Schema.define(version: 20140909095231) do
     t.string   "paypal_token"
     t.string   "paypal_payer_id"
     t.hstore   "bo_meta_data"
+    t.string   "paypal_profile_id"
   end
 
   create_table "taggings", force: true do |t|
