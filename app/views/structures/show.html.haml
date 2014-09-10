@@ -1,12 +1,23 @@
-- if @structure.logo.present?
+- if params[:c].present?
+  - shared_comment = @structure.comments.find(params[:c])
+
+- if shared_comment and shared_comment.user and shared_comment.user.has_avatar?
+  = content_for :meta_image do
+    = shared_comment.user.avatar_url
+- elsif @structure.logo.present?
   = content_for :meta_image do
     = @structure.logo.url(:thumb)
 
 = content_for :title do
-  = "#{@structure.name} à #{@city.name}"
+  - if shared_comment
+    = "«#{shared_comment.title}» par #{shared_comment.author_name}"
+  - else
+    = "#{@structure.name} à #{@city.name}"
 
 = content_for :meta_description do
-  - if @structure.description.present?
+  - if shared_comment
+    = truncate(shared_comment.content, length: 300)
+  - elsif @structure.description.present?
     = "#{@structure.description_for_meta} à #{@city.name}"
   - else
     - if @structure.parent_subjects_string.present?
