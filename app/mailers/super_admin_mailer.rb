@@ -6,7 +6,7 @@ class SuperAdminMailer < ActionMailer::Base
   layout 'email'
 
   default from: 'CoursAvenue <hello@coursavenue.com>'
-  default to:   'sites+coursavenue@aliou.me'
+  default to:   'contact@coursavenue.com'
 
   def subscription_plan_export_uploaded_to_s3(export_url)
     @export_url = export_url
