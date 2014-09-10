@@ -73,6 +73,12 @@ class Pro::SubscriptionPlansController < Pro::ProController
     end
   end
 
+  # Create a dump of the Subscription in a queue
+  #
+  # @return nil
+  def download
+  end
+
   private
 
   # Deduce the label color from the fetched statistics.
