@@ -218,7 +218,11 @@ class SubscriptionPlan < ActiveRecord::Base
   #
   # @return Integer
   def amount
-    PLAN_TYPE_PRICES[self.plan_type]
+    if self.promotion_code and self.promotion_code.still_apply? and self.plan_type == self.promotion_code.plan_type
+      PLAN_TYPE_PRICES[self.plan_type] - self.promotion_code.promo_amount
+    else
+      PLAN_TYPE_PRICES[self.plan_type]
+    end
   end
 
   # See amount

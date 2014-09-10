@@ -2,6 +2,6 @@
 
 .panel
   .panel__header.soft
-    = render partial: 'pro/structures/premium_breadcrumb', locals: { current: 'validation', failure: params['EXECCODE'] != '0000' }
+    = render partial: 'pro/structures/subscription_plans/premium_breadcrumb', locals: { current: 'validation', failure: params['EXECCODE'] != '0000' }
   .panel__body.soft
     = render "#{@payer_type}_confirmation"

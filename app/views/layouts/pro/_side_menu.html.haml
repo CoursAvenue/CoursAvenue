@@ -115,7 +115,7 @@
         = pro_side_menu_link 'account'        , edit_pro_structure_admin_url(@structure, @structure.main_contact)     , current: current_tab,
         icon: 'fa fa-cogs'
       = pro_side_menu_link 'premium',
-                           premium_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
+                           pro_structure_subscription_plans_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
                            current: current_tab,
                            icon: 'fa fa-star'
 

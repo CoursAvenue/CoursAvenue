@@ -20,7 +20,7 @@
         .white{ style: 'font-size: 12px;' } Affichages
     %tr{ valign: 'top' }
       %td.text--center.v-middle.content-block{ colspan: 3}
-        = link_to 'Passer au premium', premium_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN, utm_source: 'email', utm_campaign: 'your_profile_has_been_viewed', utm_medium: "#{@impressions_count} impressions"), class: 'btn btn--yellow', style: 'padding-left: 25px; padding-right: 25px;'
+        = link_to 'Passer au premium', pro_structure_subscription_plans_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN, utm_source: 'email', utm_campaign: 'your_profile_has_been_viewed', utm_medium: "#{@impressions_count} impressions"), class: 'btn btn--yellow', style: 'padding-left: 25px; padding-right: 25px;'
 
 - content_for :under_content_3 do
   = render partial: 'admin_mailer/they_are_premium', locals: { show_consultation: true, view_count: @view_count}

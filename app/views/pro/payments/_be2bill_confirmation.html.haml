@@ -14,4 +14,4 @@
     - if params['EXECCODE']
       = t("pro.structures.be2bill_errors.error_#{params['EXECCODE']}")
   .text--center
-    = link_to 'Réessayer', go_premium_pro_structure_url(@structure, premium_type: @premium_type, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--large btn--yellow f-weight-bold'
+    = link_to 'Réessayer', new_pro_structure_subscription_plan_url(@structure, premium_type: @premium_type, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--large btn--yellow f-weight-bold'

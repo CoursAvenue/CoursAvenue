@@ -46,7 +46,7 @@
       %tr{ valign: 'top' }
         %td.v-middle.content-block{ colspan: 4 }
           .p.hard--bottom.soft--top.text--center
-            = link_to 'Devenez Premium et augmentez les performances de votre profil', premium_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+            = link_to 'Devenez Premium et augmentez les performances de votre profil', pro_structure_subscription_plans_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
 
 
 = content_for :under_content_gray do
