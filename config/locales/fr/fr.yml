@@ -306,3 +306,5 @@ fr:
       multi_page: "Résultat : %{from} à %{to} sur %{count} cours"
   female: Femme
   male: Homme
+  TrueClass: "Oui"
+  FalseClass: "Non"
