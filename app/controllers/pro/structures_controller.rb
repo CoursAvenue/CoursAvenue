@@ -349,7 +349,7 @@ France
 
   # GET etablissements/:id/go_premium
   def go_premium
-    @structure.send_promo_code! unless @structure.promo_code_sent?
+    # @structure.send_promo_code! unless @structure.promo_code_sent?
     extra_data = {}
     if params[:subscription_plan_id] and @structure.subscription_plans.find(params[:subscription_plan_id])
       @subscription_plan = @structure.subscription_plans.find(params[:subscription_plan_id])
