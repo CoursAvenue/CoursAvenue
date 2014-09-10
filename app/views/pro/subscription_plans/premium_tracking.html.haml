@@ -11,6 +11,11 @@
       %i.fa.fa-download
       Exporter
 
+    - if UploadedFile.any?
+      = link_to UploadedFile.last.url, class: 'btn btn--green', data: { behavior: 'tooltip', title: l(UploadedFile.last.created_at) } do
+        %i.fa.fa-download
+        Télécharger le dernier fichier
+
     %table.table--striped
       %thead
         %tr
