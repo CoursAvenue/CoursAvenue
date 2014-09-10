@@ -77,7 +77,7 @@ class Pro::SubscriptionPlansController < Pro::ProController
   #
   # @return nil
   def download
-    SubscriptionPlan.delay.upload!
+    SubscriptionPlanExport.create
     redirect_to premium_tracking_pro_subscription_plans_path, notice: 'Le fichier est en cours de création.'
   end
 
