@@ -277,7 +277,7 @@ class SubscriptionPlan < ActiveRecord::Base
   end
 
   def cancel_paypal_subscription
-    paypal_recurring = PayPal::Recurring.new(profile_id: self.profile_id)
+    paypal_recurring = PayPal::Recurring.new(profile_id: self.paypal_profile_id)
     paypal_recurring.suspend
   end
 
@@ -295,7 +295,7 @@ class SubscriptionPlan < ActiveRecord::Base
   end
 
   def reactivate_paypal_subscription
-    paypal_recurring = PayPal::Recurring.new(profile_id: self.profile_id)
+    paypal_recurring = PayPal::Recurring.new(profile_id: self.paypal_profile_id)
     paypal_recurring.reactivate
   end
 
