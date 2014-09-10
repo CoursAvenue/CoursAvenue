@@ -83,24 +83,18 @@ class Pro::SubscriptionPlansController < Pro::ProController
 
   private
 
-  # Deduce the label color from the fetched statistics.
+  # Deduce the label index from the statistics score
   #
-  # @return The color to use for the label.
+  # @return an Integer between 0 and 4 included.
+  def index_color(stats, action=:actions, conversations=:conversations)
+    Statistic.score(stats[action], stats[conversations])
+  end
+
+  # Return the color depending on the statistics score
+  #
+  # @return a String that is the label color.
   def label_color(stats, action=:actions, conversations=:conversations)
-    case
-    when stats[action] == 0
-      'red'
-    when stats[action].in?(1..4) && stats[conversations] <= 2
-      'orange'
-    when stats[action].in?(1..4) && stats[conversations] > 2
-      'yellow'
-    when stats[action] > 5 && stats[conversations] <= 2
-      'yellow'
-    when stats[action] > 5 && stats[conversations].in?(3..5)
-      'green-light'
-    when stats[action] > 5 && stats[conversations] > 5
-      'green'
-    end
+    ['red', 'orange', 'yellow', 'green-light', 'green'][index_color(stats, action, conversations)]
   end
 
   # Set the current SubscriptionPlan
