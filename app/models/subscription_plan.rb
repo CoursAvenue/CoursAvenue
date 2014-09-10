@@ -101,6 +101,22 @@ class SubscriptionPlan < ActiveRecord::Base
     sha256.hexdigest
   end
 
+  #
+  # Tells wether the subscription plan was payed with Be2Bill
+  #
+  # @return Boolean
+  def payed_through_be2bill?
+    self.be2bill_alias.present?
+  end
+
+  #
+  # Tells wether the subscription plan was payed with Paypal
+  #
+  # @return Boolean
+  def payed_through_paypal?
+    self.paypal_payer_id.present?
+  end
+
   # Renew subscription by calling Be2bill API.
   #
   # @return Boolean

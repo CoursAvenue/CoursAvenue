@@ -68,9 +68,9 @@ CoursAvenue::Application.configure do
   # }
 
   PayPal::Recurring.configure do |config|
-    config.sandbox = true
-    config.username = ENV['PAYPAL_TEST_LOGIN']
-    config.password = ENV['PAYPAL_TEST_PASSWORD']
+    config.sandbox   = true
+    config.username  = ENV['PAYPAL_TEST_LOGIN']
+    config.password  = ENV['PAYPAL_TEST_PASSWORD']
     config.signature = ENV['PAYPAL_TEST_SIGNATURE']
   end
 end

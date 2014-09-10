@@ -1,6 +1,14 @@
 # encoding: utf-8
 class PaymentNotification::Be2bill < PaymentNotification
 
+  def payment_succeeded?
+    params['EXECCODE'] != '0000'
+  end
+
+  def was_a_renewal?
+    params['EXTRADATA']['renew'].present?
+  end
+
   private
 
   def finalize_payment
@@ -33,18 +41,4 @@ class PaymentNotification::Be2bill < PaymentNotification
     end
   end
 
-  # Send email when be2bill hits transaction notifications
-  def notify_user
-    AdminMailer.delay.be2bill_transaction_notifications(self.structure, params)
-    if params['EXECCODE'] != '0000'
-      Bugsnag.notify(RuntimeError.new("Payment refused"), params)
-      AdminMailer.delay.go_premium_fail(self.structure, params)
-      if params['EXTRADATA']['renew'].present?
-        AdminMailer.delay.subscription_renewal_failed(self.structure, params)
-      end
-    else
-      # Email for admin
-      AdminMailer.delay.go_premium(self.structure, params['EXTRADATA']['plan_type'])
-    end
-  end
 end

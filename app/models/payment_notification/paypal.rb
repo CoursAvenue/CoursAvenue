@@ -1,6 +1,14 @@
 class PaymentNotification::Paypal < PaymentNotification
   include Rails.application.routes.url_helpers
 
+  def payment_succeeded?
+    return (params['PayerID'].present? and params['PayerID'].present?)
+  end
+
+  def was_a_renewal?
+    false
+  end
+
   private
 
   def finalize_payment
@@ -33,12 +41,12 @@ class PaymentNotification::Paypal < PaymentNotification
     PayPal::Recurring.new({
         :amount      => SubscriptionPlan::PLAN_TYPE_PRICES[params[:plan_type]].to_f.to_s,,
         :currency    => "EUR",
-        :description  => "CoursAvenue Premium - #{SubscriptionPlan::PLAN_TYPE_DESCRIPTION[params[:plan_type]]}",
-        :ipn_url     => paypal_confirmation_pro_payments_url(structure_id: @structure.id, plan_type: params[:plan_type], ipn: true, host: 'coursavenue.com'),
+        :description => "CoursAvenue Premium - #{SubscriptionPlan::PLAN_TYPE_DESCRIPTION[params[:plan_type]]}",
+        # :ipn_url     => paypal_confirmation_pro_payments_url(structure_id: @structure.id, plan_type: params[:plan_type], ipn: true, host: 'coursavenue.com'),
         :frequency   => 1,
         :token       => params['token'],
         :period      => :monthly,
-        :reference   => "1234",
+        :reference   => Order.next_order_id_for(self.structure),
         :payer_id    => params['PayerID'],
         :start_at    => Time.now,
         :failed      => 1,

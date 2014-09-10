@@ -120,7 +120,6 @@ CoursAvenue::Application.routes.draw do
       resources :payments, path: 'paiement', only: [] do
         collection do
           get  :paypal_confirmation
-          post :paypal_notification
           get  :be2bill_confirmation
           post :be2bill_notification
           post :be2bill_placeholder

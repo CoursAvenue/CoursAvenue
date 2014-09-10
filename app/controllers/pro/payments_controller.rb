@@ -37,16 +37,8 @@ class Pro::PaymentsController < Pro::ProController
   def paypal_confirmation
     @payer_type = 'paypal'
     @structure         = Structure.find params[:structure_id]
+    PaymentNotification::Paypal.create params: params, structure_id: params[:structure_id]
     render 'confirmation'
   end
-
-  # POST /paiement/paypal_notifications
-  # Called by Paypal to notify when a transaction is made
-  def paypal_notification
-    PaymentNotification::Paypal.create params: params, structure_id: params[:structure_id]
-
-    render text: 'OK'
-  end
-
 
 end
