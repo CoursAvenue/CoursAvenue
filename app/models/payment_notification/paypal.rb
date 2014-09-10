@@ -26,9 +26,6 @@ class PaymentNotification::Paypal < PaymentNotification
     end
   end
 
-  def notify_user
-  end
-
   def request_first_paypal_payment
     PayPal::Recurring.new({
       :token       => params['token'],
