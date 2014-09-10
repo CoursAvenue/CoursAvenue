@@ -273,6 +273,9 @@ class SubscriptionPlan < ActiveRecord::Base
     self.expires_at >= Date.today
   end
 
+  # Upload Subscription Plans export to S3
+  #
+  # @return the UploadedFile
   def self.upload!
     subscriptions = SubscriptionPlan.where(canceled_at: nil)
 
