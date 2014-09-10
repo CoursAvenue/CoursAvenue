@@ -8,7 +8,7 @@ module CommentsHelper
     case provider
     when :facebook
       # Add c parameter to pass id of the comment in the URL and have specific og:title and description
-      URI.encode("http://www.facebook.com/sharer.php?s=100&p[url]=#{structure_url(comment.structure, c: comment.id)}")
+      URI.encode("http://www.facebook.com/sharer.php?s=100&p[url]=#{structure_url(comment.structure, c: comment.id, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)}")
     when :twitter
       URI.encode("https://twitter.com/intent/tweet?text=\"#{comment.title}\" par #{comment.author_name}&via=CoursAvenue&url=#{structure_comment_url(comment)}")
     end
