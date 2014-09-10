@@ -120,7 +120,7 @@ class Comment::Review < Comment
     self.status          = :waiting_for_deletion
     self.deletion_reason = deletion_reason if deletion_reason
     self.save
-    AdminMailer.delay.ask_for_deletion(self)
+    SuperAdminMailer.delay.ask_for_deletion(self)
   end
 
   def waiting_for_deletion?
