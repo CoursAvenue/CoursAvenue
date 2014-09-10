@@ -843,7 +843,7 @@ ActiveRecord::Schema.define(version: 20140910091725) do
     t.string   "credit_card_number"
     t.string   "be2bill_alias"
     t.string   "client_ip"
-    t.boolean  "recurrent",              default: true
+    t.boolean  "recurrent",                      default: true
     t.date     "expires_at"
     t.date     "renewed_at"
     t.datetime "canceled_at"
@@ -858,7 +858,7 @@ ActiveRecord::Schema.define(version: 20140910091725) do
     t.string   "paypal_token"
     t.string   "paypal_payer_id"
     t.hstore   "bo_meta_data"
-    t.string   "paypal_profile_id"
+    t.string   "paypal_recurring_profile_token"
   end
 
   create_table "taggings", force: true do |t|

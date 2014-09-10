@@ -60,7 +60,7 @@ class SubscriptionPlan < ActiveRecord::Base
                   :cancelation_reason_dont_want_more_students, :cancelation_reason_stopping_activity,
                   :cancelation_reason_didnt_have_return_on_investment, :cancelation_reason_too_hard_to_use,
                   :cancelation_reason_not_satisfied_of_coursavenue_users, :cancelation_reason_other, :cancelation_reason_text,
-                  :facebook_active, :adwords_active, :bo_comments, :paypal_token, :paypal_payer_id, :paypal_profile_id
+                  :facebook_active, :adwords_active, :bo_comments, :paypal_token, :paypal_payer_id, :paypal_recurring_profile_token
 
   store_accessor :meta_data,   :cancelation_reason_dont_want_more_students, :cancelation_reason_stopping_activity,
                                :cancelation_reason_didnt_have_return_on_investment, :cancelation_reason_too_hard_to_use,
@@ -277,7 +277,7 @@ class SubscriptionPlan < ActiveRecord::Base
   end
 
   def cancel_paypal_subscription
-    paypal_recurring = PayPal::Recurring.new(profile_id: self.paypal_profile_id)
+    paypal_recurring = PayPal::Recurring.new(profile_id: self.paypal_recurring_profile_token)
     paypal_recurring.suspend
   end
 
@@ -295,7 +295,7 @@ class SubscriptionPlan < ActiveRecord::Base
   end
 
   def reactivate_paypal_subscription
-    paypal_recurring = PayPal::Recurring.new(profile_id: self.paypal_profile_id)
+    paypal_recurring = PayPal::Recurring.new(profile_id: self.paypal_recurring_profile_token)
     paypal_recurring.reactivate
   end
 

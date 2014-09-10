@@ -15,9 +15,9 @@ class PaymentNotification::Paypal < PaymentNotification
     response = request_first_paypal_payment
     if response.approved? and response.completed?
       paypal_profile_id = create_paypal_recurring_profile.profile_id
-      self.params['profile_id'] = paypal_profile_id
+      self.params['paypal_recurring_profile_token'] = paypal_profile_id
       self.save
-      subscription_plan_params = { paypal_token: params['token'], paypal_profile_id: paypal_profile_id, paypal_payer_id: params['PayerID']  }
+      subscription_plan_params = { paypal_token: params['token'], paypal_recurring_profile_token: paypal_profile_id, paypal_payer_id: params['PayerID']  }
       subscription_plan        = SubscriptionPlan.subscribe!(params['plan_type'], self.structure, subscription_plan_params)
       self.structure.orders.create(amount: subscription_plan.amount,
                                    order_id: Order.next_order_id_for(self.structure),
