@@ -7,10 +7,14 @@
       %i.fa.fa-refresh
       Tout charger
 
+    = link_to download_pro_subscription_plans_path, class: 'btn btn--green', data: { action: 'download-action' } do
+      %i.fa.fa-download
+      Exporter
+
     %table.table--striped
       %thead
         %tr
-          %th Nom du profile
+          %th Nom du profil
           %th Type abonnement
           %th Date 1ere subscription
           - if @current_tab == 'unsubscribed_tracking'
