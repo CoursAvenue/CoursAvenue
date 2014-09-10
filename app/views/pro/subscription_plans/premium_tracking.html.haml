@@ -3,18 +3,21 @@
   = render partial: 'pro/subscription_plans/tabs', locals: { current: @current_tab }
 
   .panel__body.soft
-    = link_to 'javascript:void(0)', class: 'btn btn--green', data: { action: 'load-action' } do
-      %i.fa.fa-refresh
-      Tout charger
+    %div
+      = link_to 'javascript:void(0)', class: 'btn btn--green push-half--right', data: { action: 'load-action' } do
+        %i.fa.fa-refresh
+        Tout charger
 
-    = link_to download_pro_subscription_plans_path, class: 'btn btn--green' do
-      %i.fa.fa-download
-      Exporter
-
-    - if SubscriptionPlanExport.any?
-      = link_to SubscriptionPlanExport.last.url, class: 'btn btn--green', data: { behavior: 'tooltip', title: l(SubscriptionPlanExport.last.created_at) } do
+      = link_to download_pro_subscription_plans_path, class: 'btn btn--green push-half--right' do
         %i.fa.fa-download
-        Télécharger le dernier fichier
+        Exporter
+
+      - if SubscriptionPlanExport.any?
+        .alert.alert--warning.inline-block
+          = "Date du dernier export : #{l(SubscriptionPlanExport.last.created_at)} : "
+          = link_to SubscriptionPlanExport.last.url do
+            %i.fa.fa-download
+            Télécharger le dernier fichier
 
     %table.table--striped
       %thead
