@@ -316,7 +316,7 @@ France
 
   def destroy
     @structure = Structure.friendly.find params[:id]
-    AdminMailer.delay.has_destroyed(@structure)
+    SuperAdminMailer.delay.has_destroyed(@structure)
     AdminMailer.delay.structure_has_been_destroy(@structure)
     respond_to do |format|
       if @structure.destroy

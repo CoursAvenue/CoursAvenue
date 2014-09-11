@@ -24,7 +24,7 @@ class Pro::Admins::RegistrationsController < Devise::RegistrationsController
     end
     respond_to do |format|
       if @structure.admins.length > 0
-        AdminMailer.delay.someone_tried_to_take_control_of_existing_structure(@structure, params[:admin][:email])
+        SuperAdminMailer.delay.someone_tried_to_take_control_of_existing_structure(@structure, params[:admin][:email])
         format.html { redirect_to someone_already_took_control_pro_structure_path(@structure) }
       elsif @admin.save
         @structure.delay.index

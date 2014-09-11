@@ -36,7 +36,7 @@ class MandrillWebhookController < ApplicationController
       user = Structure.where(contact_email: event['msg']['email']).first                      if user.nil?
       if user.nil?
         sleeping_structure = Structure.where("meta_data -> 'other_emails' LIKE '%#{event['msg']['email']}%'").first
-        return if sleeping_structure.nil?
+        next if sleeping_structure.nil?
         sleeping_emails = sleeping_structure.other_emails.split(';')
         sleeping_emails.delete(event['msg']['email'])
         sleeping_structure.other_emails = sleeping_emails.join(',') if sleeping_emails
