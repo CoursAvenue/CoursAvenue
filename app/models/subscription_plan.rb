@@ -71,8 +71,7 @@ class SubscriptionPlan < ActiveRecord::Base
   def self.subscribe! plan_type, structure, params={}
     subscription_plan = structure.subscription_plans.create({ plan_type: plan_type.to_s,
                                                               expires_at: Date.today + PLAN_TYPE_DURATION[plan_type.to_s].months,
-                                                              recurrent: true,
-                                                              }.merge(params))
+                                                              recurrent: true }.merge(params))
     structure.compute_search_score(true)
     structure.index
     return subscription_plan
