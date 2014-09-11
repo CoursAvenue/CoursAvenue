@@ -96,7 +96,10 @@ describe SubscriptionPlan do
     context 'canceled' do
       it 'is not active' do
         subscription_plan = SubscriptionPlan.subscribe! 'yearly', structure, {}
+        subscription_plan.stub(:expires_at) { Date.tomorrow }
         subscription_plan.stub(:canceled_at) { Time.now }
+        expect(subscription_plan.active?).to eq true
+        subscription_plan.stub(:expires_at) { Date.yesterday }
         expect(subscription_plan.active?).to eq false
       end
     end

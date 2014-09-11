@@ -304,8 +304,14 @@ class SubscriptionPlan < ActiveRecord::Base
     paypal_recurring.reactivate
   end
 
+  #
+  # Tells wether the structure is still premium, if the subscription plan is still working.
+  # We do not check the canceled_at because the user can cancel his subscription during his subscription
+  # but he will still be premium until the end of the subscription
+  #
+  # @return Boolean
   def active?
-    (!self.canceled? and self.expires_at >= Date.today)
+    self.expires_at >= Date.today
   end
 
   private
