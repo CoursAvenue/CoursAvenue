@@ -73,14 +73,14 @@ class Pro::Structures::SubscriptionPlansController < Pro::ProController
     @subscription_plan = @structure.subscription_plans.find params[:id]
     @subscription_plan.update_attributes params[:subscription_plan]
     @subscription_plan.cancel!
-    redirect_to premium_pro_structure_path(@structure)
+    redirect_to pro_structure_subscription_plans_path(@structure)
   end
 
   # PATCH on member
   def reactivate
     @subscription_plan = @structure.subscription_plans.find params[:id]
     @subscription_plan.reactivate!
-    redirect_to premium_pro_structure_path(@structure)
+    redirect_to pro_structure_subscription_plans_path(@structure)
   end
 
   def paypal_express_checkout

@@ -351,11 +351,13 @@ France
     end
   end
 
-  # GET member
+  # GET structure/:id/signature
+  # Static page that show example of email signature for teachers
   def signature
   end
 
-  # GET member
+  # GET structure/:id/logo
+  # Static page where teacher can download CoursAvenue logos for their communications
   def logo
   end
 

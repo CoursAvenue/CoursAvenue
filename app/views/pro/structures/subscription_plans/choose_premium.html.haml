@@ -2,7 +2,7 @@
 
 .panel
   .panel__header.soft
-    = render partial: 'premium_breadcrumb', locals: { current: '' }
+    = render partial: 'pro/structures/subscription_plans/premium_breadcrumb', locals: { current: '' }
   .panel__body.soft--ends
     .soft--sides
       = render 'pro/shared/choose_premium_boxes'
@@ -12,3 +12,5 @@
       = render 'pro/shared/they_already_subscribed'
     %hr.push--top.flush--bottom
     = render 'pro/shared/premium_testimonies'
+  %p.text--center
+    = link_to 'En savoir plus', pro_structure_subscription_plans_path(@structure), class: 'btn'

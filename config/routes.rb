@@ -133,7 +133,6 @@ CoursAvenue::Application.routes.draw do
           get   :edit_order_recipient
           get   :someone_already_took_control, path: 'quelqu-un-a-deja-le-control'
           get   :dont_want_to_take_control_of_my_sleeping_account, path: 'me-desabonner'
-          get   :choose_premium
           get   :add_subjects
           get   :ask_for_deletion
           get   :confirm_deletion
@@ -167,6 +166,7 @@ CoursAvenue::Application.routes.draw do
         resources :orders, only: [:index, :show], controller: 'structures/orders', path: 'mes-factures'
         resources :subscription_plans, only: [:new, :index, :destroy], controller: 'structures/subscription_plans', path: 'abonnements' do
           collection do
+            get :choose_premium, path: 'choisir-un-abonnement'
             get :paypal_express_checkout
             get :paypal_confirmation
           end
