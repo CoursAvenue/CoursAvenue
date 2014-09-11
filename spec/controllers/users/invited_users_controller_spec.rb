@@ -9,28 +9,28 @@ describe Users::InvitedUsersController do
     sign_in user
   end
 
-  describe :index do
+  describe 'index' do
     it 'returns 200' do
       get :index, user_id: user.id
       expect(response).to be_success
     end
   end
 
-  describe :new do
+  describe 'new' do
     it 'returns 200' do
       get :new, user_id: user.id
       expect(response).to be_success
     end
   end
 
-  describe :bulk_create do
+  describe 'bulk_create' do
     it 'returns 200' do
       post :bulk_create, user_id: user.id, emails: 'lazd@cazd.com', text: 'lorem'
       expect(response).to be_redirect
     end
   end
 
-  describe :bulk_create_jpo do
+  describe 'bulk_create_jpo' do
     it 'returns 200' do
       post :bulk_create_jpo, user_id: user.id, emails: "person#{rand.to_s.gsub('.', '')}@example.com", text: 'lorem'
       expect(response).to be_redirect

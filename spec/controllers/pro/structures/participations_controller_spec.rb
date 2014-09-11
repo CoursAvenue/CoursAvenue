@@ -9,7 +9,7 @@ describe Pro::Structures::ParticipationsController do
     sign_in admin
   end
 
-  describe :index do
+  describe 'index' do
     it 'returns 200' do
       get :index, structure_id: admin.structure.slug
       expect(response).to be_success

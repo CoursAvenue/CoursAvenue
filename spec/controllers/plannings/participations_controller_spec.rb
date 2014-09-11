@@ -9,7 +9,7 @@ describe Plannings::ParticipationsController do
     sign_in user
   end
 
-  describe :create do
+  describe 'create' do
 
     it 'saves the participation' do
       post :create, planning_id: planning.id, participation: { invited_friends: {} }

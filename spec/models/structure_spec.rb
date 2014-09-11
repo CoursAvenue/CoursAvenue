@@ -8,7 +8,7 @@ describe Structure do
   it {should be_valid}
   it {structure.active.should be true}
 
-  context :contact do
+  context 'contact' do
     it 'returns admin contact' do
       admin = FactoryGirl.create(:admin)
       admin.structure_id = structure.id
@@ -20,7 +20,7 @@ describe Structure do
     end
   end
 
-  context :activate do
+  context 'activate' do
     it 'activates' do
       structure.active = false
       structure.activate!
@@ -28,7 +28,7 @@ describe Structure do
     end
   end
 
-  context :disable do
+  context 'disable' do
     it 'disables' do
       FactoryGirl.create(:course, structure: structure)
       courses = structure.courses
@@ -39,7 +39,7 @@ describe Structure do
     end
   end
 
-  context :destroy do
+  context 'destroy' do
     it 'destroys everything' do
       places = structure.places
       structure.destroy
@@ -48,7 +48,7 @@ describe Structure do
     end
   end
 
-  context :address do
+  context 'address' do
     it 'includes street' do
       structure.address.should include structure.street
     end
@@ -57,7 +57,7 @@ describe Structure do
     end
   end
 
-  context :website do
+  context 'website' do
     it 'adds the http://' do
       structure.website = 'coursavenue.com'
       structure.save
@@ -71,7 +71,7 @@ describe Structure do
     end
   end
 
-  context :comments do
+  context 'comments' do
     it 'retrieves course comments' do
       comment = structure.comments.create FactoryGirl.attributes_for(:comment_review)
       structure.comments.should include comment
@@ -88,9 +88,9 @@ describe Structure do
     @structure.reload.comments_count.should eq 3
   end
 
-  context :tagging do
+  context 'tagging' do
 
-    describe :add_tags_on do
+    describe 'add_tags_on' do
       let(:structure) { FactoryGirl.create(:structure_with_user_profiles_with_tags) }
       let(:user_profile) { structure.user_profiles.first }
       let(:tags) { ['Master of the Arts', 'powerful', 'brazen', 'churlish'] }
@@ -99,16 +99,9 @@ describe Structure do
         pending("This test still behaves poorly, even though the same test works both online and in the console.")
         length = user_profile.tags.length
 
-        puts "before: #{user_profile.tags.inspect}"
-
         user_profile.reload
         structure.add_tags_on(user_profile, tags)
         user_profile.reload
-
-        puts "length: #{length}"
-        puts "tags  : #{tags}"
-        puts "got   : #{user_profile.tags.length}"
-        puts "after : #{user_profile.tags.inspect}"
 
         expect(user_profile.tags.length).to eq(length + tags.length)
       end
@@ -118,7 +111,7 @@ describe Structure do
 
     end
 
-    describe :create_tag do
+    describe 'create_tag' do
       let(:structure) { FactoryGirl.create(:structure) }
       it "creates a new tag" do
         length = structure.owned_tags.length
@@ -128,8 +121,8 @@ describe Structure do
     end
   end
 
-  context :funding_types do
-    context :getters do
+  context 'funding_types' do
+    context 'getters' do
       describe '#funding_types' do
         it 'returns FundingTypes' do
           structure.funding_types = [FundingType.first]
@@ -143,7 +136,7 @@ describe Structure do
         end
       end
     end
-    context :setters do
+    context 'setters' do
       describe '#funding_type_ids=' do
         it 'stores ids if given an array of ids' do
           structure.funding_type_ids = [1, 2]
@@ -174,10 +167,10 @@ describe Structure do
     it 'has no logo' do
       structure.stub(:profile_completed?) { false }
       structure.update_email_status
-      expect(structure.email_status).to eq 'no_logo_yet'
+      expect(structure.email_status).to eq 'incomplete_profile'
     end
 
-    context :logo_stubbed do
+    context 'logo_stubbed' do
       def stub_logo(structure)
         structure.stub(:logo_file_name) { 'lala' }
         structure.stub(:logo_content_type) { 'type/jpg' }

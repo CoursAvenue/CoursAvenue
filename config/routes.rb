@@ -8,9 +8,6 @@ CoursAvenue::Application.routes.draw do
   constraints subdomain: (Rails.env.staging? ? 'pro.staging' : 'pro') do
     namespace :pro, path: '' do
       root :to => 'home#index'
-      # Be2bill urls
-      post 'be2bill/placeholder'                => 'be2bill#placeholder'
-      post 'be2bill/transaction_notifications'  => 'be2bill#transaction_notifications'
 
       get '/premium'                            => 'redirect#structures_premium'
 
@@ -58,7 +55,7 @@ CoursAvenue::Application.routes.draw do
         resources :medias, controller: 'portraits/medias'
       end
 
-      resources :be2bill_notifications, only: [:index, :show]
+      resources :payment_notifications, only: [:index, :show]
       resources :blog_articles, controller: 'blog/articles', path: 'blog'
       resources :press_articles
       resources :metrics, only: [] do
@@ -121,13 +118,21 @@ CoursAvenue::Application.routes.draw do
           get :stat_info
         end
       end
+      resources :payments, path: 'paiement', only: [] do
+        collection do
+          post :paypal_notification
+          get  :paypal_confirmation
+          get  :be2bill_confirmation
+          post :be2bill_notification
+          post :be2bill_placeholder
+        end
+      end
+
       resources :structures, path: 'etablissements' do
         member do
           get   :edit_order_recipient
           get   :someone_already_took_control, path: 'quelqu-un-a-deja-le-control'
           get   :dont_want_to_take_control_of_my_sleeping_account, path: 'me-desabonner'
-          get   :go_premium
-          get   :choose_premium
           get   :add_subjects
           get   :ask_for_deletion
           get   :confirm_deletion
@@ -136,7 +141,6 @@ CoursAvenue::Application.routes.draw do
           get   :edit_contact, path: 'informations-contact'
           get   :logo
           get   :payment_confirmation, path: 'confirmation-paiement'
-          get   :premium
           get   :premium_modal
           get   :recommendations, path: 'recommendations'
           get   :signature
@@ -153,7 +157,6 @@ CoursAvenue::Application.routes.draw do
           post  :update
         end
         collection do
-          get :payment_confirmation_be2bill, path: 'confirmation-paiement'
           get :sleepings
           get :stars
           get :best
@@ -161,7 +164,12 @@ CoursAvenue::Application.routes.draw do
         end
         devise_for :admins, controllers: { registrations: 'pro/admins/registrations'}, path: '/', path_names: { registration: 'rejoindre-coursavenue-pro', sign_up: '/' }
         resources :orders, only: [:index, :show], controller: 'structures/orders', path: 'mes-factures'
-        resources :subscription_plans, only: [:destroy], controller: 'structures/subscription_plans' do
+        resources :subscription_plans, only: [:new, :index, :destroy], controller: 'structures/subscription_plans', path: 'abonnements' do
+          collection do
+            get :choose_premium, path: 'choisir-un-abonnement'
+            get :paypal_express_checkout
+            get :paypal_confirmation
+          end
           member do
             patch :reactivate
             get :ask_for_cancellation

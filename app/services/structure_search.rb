@@ -111,14 +111,14 @@ class StructureSearch
     @structures = [] # The structures we will return at the ed
     7.times do |index|
       @structures << StructureSearch.search({lat: structure.latitude,
-                                            lng: structure.longitude,
-                                            without_id: structure.id,
-                                            # Radius will increment from 2.7 to > 1000
-                                            radius: Math.exp(index),
-                                            sort: 'premium',
-                                            has_logo: true,
-                                            per_page: limit,
-                                            subject_id: (used_root_subjects.any? ? used_root_subjects.map(&:slug) : nil)
+                                             lng: structure.longitude,
+                                             without_id: structure.id,
+                                             # Radius will increment from 2.7 to > 1000
+                                             radius: Math.exp(index),
+                                             sort: 'premium',
+                                             has_logo: true,
+                                             per_page: limit,
+                                             subject_id: (used_root_subjects.any? ? used_root_subjects.map(&:slug) : nil)
                                           }.merge(_params)).results
       @structures = @structures.flatten.uniq
       break if @structures.length >= limit

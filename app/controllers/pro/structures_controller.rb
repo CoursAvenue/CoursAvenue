@@ -338,64 +338,8 @@ France
     end
   end
 
-  # GET etablissements/:id/premium
-  def premium
-    Statistic.create(structure_id: @structure.id, action_type: "structure_go_premium_premium_page", infos: request.referrer)
-  end
-
   # GET member
   def choose_premium
-  end
-
-  # GET etablissements/:id/go_premium
-  def go_premium
-    # @structure.send_promo_code! unless @structure.promo_code_sent?
-    extra_data = {}
-    if params[:subscription_plan_id] and @structure.subscription_plans.find(params[:subscription_plan_id])
-      @subscription_plan = @structure.subscription_plans.find(params[:subscription_plan_id])
-      @promotion_code = @subscription_plan.promotion_code if @subscription_plan.promotion_code
-      extra_data[:renew] = true
-    else
-      @subscription_plan = SubscriptionPlan.new plan_type: params[:premium_type]
-      if params[:promo_code]
-        if (promotion_code = PromotionCode.where(code_id: params[:promo_code]).first) and promotion_code.still_valid?(@subscription_plan)
-          @promotion_code = promotion_code
-        else
-          flash[:error] = "Le code promo : #{params[:promo_code]} n'est pas valide"
-        end
-      end
-    end
-    if @promotion_code
-      @amount = @subscription_plan.amount_for_be2bill - @promotion_code.promo_amount_for_be2bill
-    else
-      @amount = @subscription_plan.amount_for_be2bill
-    end
-    AdminMailer.delay.wants_to_go_premium(@structure, @subscription_plan.plan_type)
-
-    @be2bill_description = "Abonnement Premium CoursAvenue"
-
-    @order_id = Order.next_order_id_for @structure
-    @be2bill_params = {
-      'AMOUNT'        => @amount,
-      'CLIENTIDENT'   => @structure.id,
-      'CLIENTEMAIL'   => @structure.main_contact.email,
-      'CREATEALIAS'   => 'yes',
-      'DESCRIPTION'   => @be2bill_description,
-      'IDENTIFIER'    => ENV['BE2BILL_LOGIN'],
-      'OPERATIONTYPE' => 'payment',
-      'ORDERID'       => @order_id,
-      'VERSION'       => '2.0',
-      'EXTRADATA'     => extra_data.merge({ promotion_code_id: @promotion_code.try(:id), plan_type: @subscription_plan.plan_type }).to_json
-    }
-    @be2bill_params['HASH'] = SubscriptionPlan.hash_be2bill_params @be2bill_params
-  end
-
-  # GET Payment confirmation page called by Be2bill
-  # Redirect to payment confirmation in order to removes all the parameters from the URL
-  def payment_confirmation_be2bill
-    @structure         = Structure.find params[:CLIENTIDENT]
-    params[:EXTRADATA] = JSON.parse(params[:EXTRADATA])
-    @premium_type = params[:EXTRADATA]['plan_type']
   end
 
   # GET member
@@ -407,11 +351,13 @@ France
     end
   end
 
-  # GET member
+  # GET structure/:id/signature
+  # Static page that show example of email signature for teachers
   def signature
   end
 
-  # GET member
+  # GET structure/:id/logo
+  # Static page where teacher can download CoursAvenue logos for their communications
   def logo
   end
 

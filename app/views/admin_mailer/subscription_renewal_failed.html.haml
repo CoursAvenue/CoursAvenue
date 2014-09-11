@@ -11,7 +11,7 @@
   .p Nous sommes désolés mais nous n'avons pas réussi à renouveler votre abonnement Premium. Ce problème est lié à votre carte bancaire (date d'expiration dépassée, solde insuffisant, opération rejetée, etc.).
 
   .p.action
-    = link_to 'Renouveler mon abonnement', premium_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
+    = link_to 'Renouveler mon abonnement', pro_structure_subscription_plans_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
 
   = render 'admin_mailer/shared/see_help_center'
   = render 'shared/mailers/footer'

@@ -58,14 +58,6 @@ ActiveRecord::Schema.define(version: 20140910134517) do
   add_index "admins", ["invited_by_id"], name: "index_admin_users_on_invited_by_id", using: :btree
   add_index "admins", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
 
-  create_table "be2bill_notifications", force: true do |t|
-    t.text     "params"
-    t.integer  "structure_id"
-    t.string   "order_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "blog_articles", force: true do |t|
     t.string   "title"
     t.string   "slug"
@@ -518,6 +510,15 @@ ActiveRecord::Schema.define(version: 20140910134517) do
 
   add_index "passions_subjects", ["passion_id", "subject_id"], name: "index_passions_subjects_on_passion_id_and_subject_id", using: :btree
 
+  create_table "payment_notifications", force: true do |t|
+    t.text     "params"
+    t.integer  "structure_id"
+    t.string   "order_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "type"
+  end
+
   create_table "phone_numbers", force: true do |t|
     t.string   "number"
     t.string   "phone_type"
@@ -848,7 +849,7 @@ ActiveRecord::Schema.define(version: 20140910134517) do
     t.string   "credit_card_number"
     t.string   "be2bill_alias"
     t.string   "client_ip"
-    t.boolean  "recurrent",              default: true
+    t.boolean  "recurrent",                      default: true
     t.date     "expires_at"
     t.date     "renewed_at"
     t.datetime "canceled_at"
@@ -860,7 +861,10 @@ ActiveRecord::Schema.define(version: 20140910134517) do
     t.date     "card_validity_date"
     t.integer  "promotion_code_id"
     t.datetime "last_renewal_failed_at"
+    t.string   "paypal_token"
+    t.string   "paypal_payer_id"
     t.hstore   "bo_meta_data"
+    t.string   "paypal_recurring_profile_token"
   end
 
   create_table "taggings", force: true do |t|

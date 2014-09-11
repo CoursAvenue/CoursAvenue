@@ -16,7 +16,7 @@ describe UserProfile do
     it 'creates user if does not exists' do
       user_profile = structure.user_profiles.build(email: 'does-not@exists.com')
       user_profile.send(:associate_to_user_or_create)
-      user_profile.user.persisted?.should be_true
+      user_profile.user.persisted?.should be_truthy
     end
   end
 

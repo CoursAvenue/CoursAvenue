@@ -14,8 +14,8 @@ describe Pro::Structures::Courses::PlanningsController do
   end
 
 
-  describe :index do
-    context :course do
+  describe 'index' do
+    context 'course' do
       let(:course) { FactoryGirl.create(:lesson, structure: @admin.structure) }
       it 'works' do
         planning = FactoryGirl.create(:planning, structure: @admin.structure)
@@ -25,8 +25,8 @@ describe Pro::Structures::Courses::PlanningsController do
     end
   end
 
-  describe :new do
-    context :course do
+  describe 'new' do
+    context 'course' do
       let(:course) { FactoryGirl.create(:lesson, structure: @admin.structure) }
       it 'works' do
         get :new, course_id: course.id, structure_id: @admin.structure.slug
@@ -34,7 +34,7 @@ describe Pro::Structures::Courses::PlanningsController do
       end
     end
 
-    context :training do
+    context 'training' do
       let(:training) { FactoryGirl.create(:training, structure: @admin.structure) }
       it 'works' do
         get :new, course_id: training.id, structure_id: @admin.structure.slug
@@ -43,7 +43,7 @@ describe Pro::Structures::Courses::PlanningsController do
     end
   end
 
-  describe :edit do
+  describe 'edit' do
     let(:course)   { FactoryGirl.create(:lesson, structure: @admin.structure) }
     let(:planning) { FactoryGirl.create(:planning, course: course) }
 
@@ -53,8 +53,8 @@ describe Pro::Structures::Courses::PlanningsController do
     end
   end
 
-  describe :create do
-    context :open_course do
+  describe 'create' do
+    context 'open_course' do
       let(:open_course) { FactoryGirl.create(:open_course, structure: @admin.structure) }
       it 'redirects to open courses path' do
         post :create, course_id: open_course.id, planning: {  }, structure_id: @admin.structure.slug, format: :js
@@ -62,7 +62,7 @@ describe Pro::Structures::Courses::PlanningsController do
       end
     end
 
-    context :lesson do
+    context 'lesson' do
       let(:lesson) { FactoryGirl.create(:lesson, structure: @admin.structure) }
       it 'redirects to open courses path' do
         place_id = @admin.structure.places.first.id
@@ -70,7 +70,7 @@ describe Pro::Structures::Courses::PlanningsController do
         expect(response).to be_success
       end
     end
-    context :training do
+    context 'training' do
       let(:training) { FactoryGirl.create(:training, structure: @admin.structure) }
       it 'redirects to open courses path' do
         place_id = @admin.structure.places.first.id

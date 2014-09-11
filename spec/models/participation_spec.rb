@@ -3,7 +3,9 @@ require 'spec_helper'
 
 describe Participation do
 
-  context :waiting_list do
+  subject { Participation.new }
+
+  context 'waiting_list' do
     let (:planning) { FactoryGirl.create(:planning) }
 
     before do
@@ -24,7 +26,7 @@ describe Participation do
       expect(subject.waiting_list).to be(false)
     end
 
-    context :popps_off_waiting_list do
+    context 'popps_off_waiting_list' do
       before do
         # First person participate
         planning.update_attribute(:nb_participants_max, 1)
@@ -112,7 +114,7 @@ describe Participation do
     end
   end
 
-  context :callbacks do
+  context 'callbacks' do
     let (:planning) { FactoryGirl.create(:planning) }
 
     describe '#set_default_participation_for' do

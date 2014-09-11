@@ -5,8 +5,8 @@ describe User do
   context :active do
     it 'should not have password' do
       user = User.new first_name: 'Lorem', last_name: 'last_name', email: 'random@email.com'
-      user.password.should be_nil
-      user.active?.should be_false
+      expect(user.password).to eq nil
+      expect(user.active?).to eq false
     end
   end
 
@@ -38,7 +38,7 @@ describe User do
 
     it 'deletes the old user' do
       new_user.merge(old_user)
-      old_user.persisted?.should be_false
+      expect(old_user.persisted?).to eq false
     end
 
     it 'merges the comment_notifications' do

@@ -14,7 +14,12 @@
         %div
           %strong Facture n° #{@order.public_order_id}
         %div Date : #{l(@order.created_at)}
-        %div Moyen de paiement : carte bancaire
+        %div
+          Moyen de paiement :
+          - if @order.subscription_plan.payed_through_paypal?
+            Paypal
+          - else
+            carte bancaire
     %div.three-tenths>
       %div CoursAvenue SAS
       %div 39 boulevard Auguste Blanqui

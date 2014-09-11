@@ -11,7 +11,7 @@ describe Place do
   it { place.to_gmap_json[:lat].should eq place.latitude }
   it { place.to_gmap_json[:lng].should eq place.longitude }
 
-  context :destroy do
+  context 'destroy' do
     it 'destroys associate plannings' do
     end
   end

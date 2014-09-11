@@ -1,4 +1,4 @@
-= form_for (@structure), method: :get, url: go_premium_pro_structure_path(@structure) do
+= form_for (@structure), method: :get, url: new_pro_structure_subscription_plan_path(@structure) do
   %input#premium_type_value{ type: 'hidden', name: 'premium_type', value: 'yearly' }
   .grid--full.push-half--bottom.text--center
     .grid__item.v-middle.one-half.text--center>

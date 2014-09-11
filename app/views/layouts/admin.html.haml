@@ -16,11 +16,11 @@
             = truncate(@structure.name, length: 80)
         %span.push-half--sides= '|'
         - if @structure.premium?
-          = link_to premium_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'yellow' do
+          = link_to pro_structure_subscription_plans_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'yellow' do
             Premium
             %i.fa.fa-check
         - else
-          = link_to premium_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--yellow f-weight-bold' do
+          = link_to pro_structure_subscription_plans_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--yellow f-weight-bold' do
             %i.fa.fa-star
             Offre Premium
         - if @structure.is_sleeping?

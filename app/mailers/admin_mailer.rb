@@ -23,9 +23,8 @@ class AdminMailer < ActionMailer::Base
     #      from: "L'équipe CoursAvenue <contact@coursavenue.com>"
   end
 
-  def subscription_renewal_failed(structure, params)
+  def subscription_renewal_failed(structure)
     @structure = structure
-    @params    = params
     mail to: @structure.main_contact.email,
          subject: 'Il y a un problème avec votre abonnement CoursAvenue',
          from: 'CoursAvenue Premium <premium@coursavenue.com>'
