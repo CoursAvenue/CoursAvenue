@@ -17,7 +17,7 @@ class PaymentNotification::Be2bill < PaymentNotification
     if payment_succeeded?
       if is_a_renewal?
         subscription_plan = self.structure.subscription_plan
-        subscription_plan.extend_subscription(params)
+        subscription_plan.extend_be2bill_subscription(params)
       else
         subscription_plan_params = { credit_card_number: params[:CARDCODE],
                                      be2bill_alias: params[:ALIAS],

@@ -2,32 +2,22 @@ class SubscriptionPlan < ActiveRecord::Base
   acts_as_paranoid
   include Concerns::HstoreHelper
 
-  PLAN_TYPE = %w(monthly yearly three_months)
-
-  NEXT_PLAN_TYPE = {
-    'monthly'      => 'monthly',
-    'three_months' => 'monthly',
-    'yearly'       => 'yearly'
-  }
+  PLAN_TYPE = %w(monthly yearly)
 
   PLAN_TYPE_PRICES = {
     'monthly'      => 44, # €
-    'three_months' => 69, # €
     'yearly'       => 468 # €
   }
   PLAN_TYPE_FREQUENCY = {
     'monthly'      => 'tous les mois',
-    'three_months' => 'tous les 3 mois',
     'yearly'       => 'tous les ans'
   }
   PLAN_TYPE_DESCRIPTION = {
     'monthly'      => 'Abonnement mensuel',
-    'three_months' => 'Abonnement pour 3 mois',
     'yearly'       => 'Abonnement annuel'
   }
   PLAN_TYPE_DURATION = {
     'monthly'      => 1, # month
-    'three_months' => 3, # months
     'yearly'       => 12 # months
   }
 
@@ -123,6 +113,8 @@ class SubscriptionPlan < ActiveRecord::Base
     return if self.canceled?
     if payed_through_be2bill?
       return renew_with_be2bill!
+    else
+      self.extend_subscription_expires_date
     end
     return true
   end
@@ -148,7 +140,7 @@ class SubscriptionPlan < ActiveRecord::Base
       'CLIENTIDENT'     => self.structure.id,
       'CLIENTEMAIL'     => self.structure.main_contact.email,
       'AMOUNT'          => self.next_amount_for_be2bill,
-      'DESCRIPTION'     => "Renouvellement :  #{NEXT_PLAN_TYPE[self.plan_type]}",
+      'DESCRIPTION'     => "Renouvellement :  #{self.plan_type}",
       'IDENTIFIER'      => ENV['BE2BILL_LOGIN'],
       'OPERATIONTYPE'   => 'payment',
       'ORDERID'         => Order.next_order_id_for(self.structure),
@@ -181,16 +173,22 @@ class SubscriptionPlan < ActiveRecord::Base
   # Executed by Be2bill notification callback if the renwal has been successful
   #
   # @return Boolean, saved or not
-  def extend_subscription(params)
-    AdminMailer.delay.subscription_has_been_renewed(self)
-
-    self.credit_card_number = params['CARDCODE']
+  def extend_be2bill_subscription(params)
+    self.credit_card_number = params['CARDCODE'] if params['ALIAS'].present?
     # Update be2bill_alias if the renew is done by the user because his card hasexpired
     self.be2bill_alias      = params['ALIAS'] if params['ALIAS'].present?
     self.card_validity_date = (params['CARDVALIDITYDATE'] ? Date.strptime(params['CARDVALIDITYDATE'], '%m-%y') : nil)
-    self.renewed_at         = Date.today
-    self.expires_at         = Date.today + PLAN_TYPE_DURATION[plan_type.to_s].months
-    self.reactivate!
+    self.extend_subscription_expires_date
+  end
+
+  # Extend the duration of the subscription by changing its expires_at date.
+  #
+  # @return nil
+  def extend_subscription_expires_date
+    AdminMailer.delay.subscription_has_been_renewed(self)
+    self.renewed_at = Date.today
+    self.expires_at = Date.today + PLAN_TYPE_DURATION[plan_type.to_s].months
+    self.save
   end
 
   # Description of the plan
@@ -204,7 +202,7 @@ class SubscriptionPlan < ActiveRecord::Base
   #
   # @return Integer
   def next_plan_type_description
-    PLAN_TYPE_DESCRIPTION[NEXT_PLAN_TYPE[self.plan_type]]
+    PLAN_TYPE_DESCRIPTION[self.plan_type]
   end
 
   # Duration of the plan in months
@@ -247,9 +245,9 @@ class SubscriptionPlan < ActiveRecord::Base
   # @return Integer next amount to pay
   def next_amount
     if self.promotion_code and self.promotion_code.still_apply?
-      PLAN_TYPE_PRICES[NEXT_PLAN_TYPE[self.plan_type]] - self.promotion_code.promo_amount
+      PLAN_TYPE_PRICES[self.plan_type] - self.promotion_code.promo_amount
     else
-      PLAN_TYPE_PRICES[NEXT_PLAN_TYPE[self.plan_type]]
+      PLAN_TYPE_PRICES[self.plan_type]
     end
   end
 
@@ -261,7 +259,7 @@ class SubscriptionPlan < ActiveRecord::Base
   end
 
   def frequency
-    PLAN_TYPE_FREQUENCY[NEXT_PLAN_TYPE[self.plan_type]]
+    PLAN_TYPE_FREQUENCY[self.plan_type]
   end
 
   def canceled?

@@ -20,6 +20,7 @@ class Pro::Structures::SubscriptionPlansController < Pro::ProController
     # @structure.send_promo_code! unless @structure.promo_code_sent?
     extra_data = {}
     # A subscription_plan_id will be passed when the user will want to reactivate his subscription
+    # It happends if renewal with be2bill failed for instance
     if params[:subscription_plan_id] and @structure.subscription_plans.find(params[:subscription_plan_id])
       @subscription_plan = @structure.subscription_plans.find(params[:subscription_plan_id])
       @promotion_code = @subscription_plan.promotion_code if @subscription_plan.promotion_code
