@@ -5,7 +5,7 @@ class PaymentNotification::Paypal < PaymentNotification
     return (params['PayerID'].present? and params['PayerID'].present?)
   end
 
-  def was_a_renewal?
+  def is_a_renewal?
     false
   end
 
@@ -56,7 +56,7 @@ class PaymentNotification::Paypal < PaymentNotification
         :amount      => SubscriptionPlan::PLAN_TYPE_PRICES[params['plan_type']].to_f.to_s,
         :currency    => "EUR",
         :description => "CoursAvenue Premium - #{SubscriptionPlan::PLAN_TYPE_DESCRIPTION[params['plan_type']]}",
-        :ipn_url     => paypal_notification_pro_payments_url(structure_id: @structure.id, plan_type: params['plan_type'], host: 'coursavenue.com'),
+        :ipn_url     => paypal_notification_pro_payments_url(structure_id: self.structure.id, plan_type: params['plan_type'], host: 'coursavenue.com'),
         :frequency   => 1,
         :token       => params['token'],
         :period      => params['plan_type'].to_sym,

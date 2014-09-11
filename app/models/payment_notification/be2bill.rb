@@ -2,10 +2,10 @@
 class PaymentNotification::Be2bill < PaymentNotification
 
   def payment_succeeded?
-    params['EXECCODE'] != '0000'
+    params['EXECCODE'] == '0000'
   end
 
-  def was_a_renewal?
+  def is_a_renewal?
     params['EXTRADATA']['renew'].present?
   end
 
@@ -14,8 +14,8 @@ class PaymentNotification::Be2bill < PaymentNotification
   def finalize_payment
     params['EXTRADATA'] = JSON.parse(params['EXTRADATA'])
 
-    if params['EXECCODE'] == '0000'
-      if params['EXTRADATA']['renew'].present?
+    if payment_succeeded?
+      if is_a_renewal?
         subscription_plan = self.structure.subscription_plan
         subscription_plan.extend_subscription(params)
       else

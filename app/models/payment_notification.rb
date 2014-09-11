@@ -13,7 +13,7 @@ class PaymentNotification < ActiveRecord::Base
     false
   end
 
-  def was_a_renewal?
+  def is_a_renewal?
     false
   end
 
@@ -33,7 +33,7 @@ class PaymentNotification < ActiveRecord::Base
     else
       Bugsnag.notify(RuntimeError.new("Payment refused"), params)
       AdminMailer.delay.go_premium_fail(self.structure, params)
-      if self.was_a_renewal?
+      if self.is_a_renewal?
         AdminMailer.delay.subscription_renewal_failed(self.structure)
       end
     end
