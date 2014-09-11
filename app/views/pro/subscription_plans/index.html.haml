@@ -29,8 +29,6 @@
             %td= order.promotion_code.try(:code_id)
             %td.text--right= "#{order.amount}€"
 
-
-
 = content_for :scripts do
   :javascript
     $(function() {
@@ -46,14 +44,3 @@
             ]
         });
     });
--# new Highcharts.Chart({
--#     chart: { renderTo: 'graph'},
--#     title: { text: null },
--#     xAxis: { categories: #{@orders_progression.map{|date, count| l((date), format: :short)}} },
--#     yAxis: { title: { text: ''}},
--#     series: [
--#       { data: #{@orders_progression.map{|date, count| count}},
--#         name: 'Abonnements'
--#        }
--#     ]
--# });

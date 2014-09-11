@@ -72,13 +72,6 @@ class AdminMailer < ActionMailer::Base
          subject: 'Résiliation de votre profil Premium'
   end
 
-  def someone_canceled_his_subscription(subscription_plan)
-    @structure         = subscription_plan.structure
-    @subscription_plan = subscription_plan
-    mail to: 'contact@coursavenue.com',
-         subject: "#{@structure.name} a résilié son abonnement"
-  end
-
   def subscription_has_been_reactivated(subscription_plan)
     @structure         = subscription_plan.structure
     @subscription_plan = subscription_plan
@@ -92,43 +85,6 @@ class AdminMailer < ActionMailer::Base
     @monthly_promo_code = monthyl_promo_code
     @annual_promo_code  = annual_promo_code
     mail to: @structure.main_contact.email, subject: "Que s'est-il passé ?"
-  end
-
-  def someone_reactivated_his_subscription(subscription_plan)
-    @structure         = subscription_plan.structure
-    @subscription_plan = subscription_plan
-    mail to: 'contact@coursavenue.com',
-         subject: "#{@structure.name} a réactivé son abonnement"
-  end
-
-  def wants_to_go_premium structure, offer
-    @structure = structure
-    @offer     = offer
-    mail to: 'contact@coursavenue.com', subject: 'Un professeur veut passer premium'
-  end
-
-  # Sent for admin
-  def go_premium structure, offer
-    @structure = structure
-    @offer     = offer
-    mail to: 'contact@coursavenue.com', subject: 'Un professeur est passé premium'
-  end
-
-  def go_premium_fail structure, params
-    @structure = structure
-    @params    = params
-    mail to: 'nima@coursavenue.com', subject: 'Un professeur voulait passer premium mais a échoué'
-  end
-
-  def be2bill_transaction_notifications structure, params
-    @structure = structure
-    @params    = params
-    mail to: 'nima@coursavenue.com', subject: 'Be2Bill transaction notifiaction'
-  end
-
-  def inform_admin(subject, text)
-    @text = text
-    mail to: 'contact@coursavenue.com', subject: subject
   end
 
   def user_is_now_following_you(structure, user)
@@ -274,16 +230,6 @@ class AdminMailer < ActionMailer::Base
     @similar_profiles = @structure.similar_profiles(2, { has_admin: true })
     mail to: structure.main_contact.email,
          subject: "Votre profil n'affiche plus de cours"
-  end
-
-  def new_admin_has_signed_up(admin)
-    @admin     = admin
-    @structure = admin.structure
-    if Rails.env.development?
-      mail to: 'nim.izadi@gmail.com', subject: "Un prof vient de s'enregistrer !"
-    else
-      mail to: 'inscription@coursavenue.com', subject: "Un prof vient de s'enregistrer !"
-    end
   end
 
   def take_control_of_your_account(structure)

@@ -274,7 +274,7 @@ class SubscriptionPlan < ActiveRecord::Base
     self.structure.index
     cancel_paypal_subscription if payed_through_paypal?
     AdminMailer.delay.subscription_has_been_canceled(self)
-    AdminMailer.delay.someone_canceled_his_subscription(self)
+    SuperAdminMailer.delay.someone_canceled_his_subscription(self)
     return self
   end
 
@@ -292,7 +292,7 @@ class SubscriptionPlan < ActiveRecord::Base
     self.structure.index
     reactivate_paypal_subscription if payed_through_paypal?
     AdminMailer.delay.subscription_has_been_reactivated(self)
-    AdminMailer.delay.someone_reactivated_his_subscription(self)
+    SuperAdminMailer.delay.someone_reactivated_his_subscription(self)
     return self
   end
 
