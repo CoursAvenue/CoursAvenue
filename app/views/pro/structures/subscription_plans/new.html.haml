@@ -37,7 +37,7 @@
     = form_tag ENV['BE2BILL_URL'] do
       - @be2bill_params.each do |key, value|
         = hidden_field_tag key.to_sym, value
-      = submit_tag 'Payer par carte bleu', class: 'btn btn--green btn--large btn--full', data: { disable_with: 'Veuillez patienter...' }
+      = submit_tag 'Payer par carte bleue', class: 'btn btn--green btn--large btn--full', data: { disable_with: 'Veuillez patienter...' }
     - if params[:paypal].present?
       .text--center
         %div.soft-half--ends
