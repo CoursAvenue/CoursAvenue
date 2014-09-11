@@ -41,4 +41,8 @@ class Pro::PaymentsController < Pro::ProController
     render 'confirmation'
   end
 
+  def paypal_notifications
+    Bugsnag.notify(RuntimeError.new("Paypal notification"), params)
+  end
+
 end

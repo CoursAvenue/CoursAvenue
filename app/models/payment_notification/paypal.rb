@@ -31,6 +31,10 @@ class PaymentNotification::Paypal < PaymentNotification
     end
   end
 
+  #
+  # Request first payment to Paypal
+  #
+  # @return Paypal Response: response of paypal when creating a payment
   def request_first_paypal_payment
     subscription_plan = SubscriptionPlan.new plan_type: params['plan_type'], promotion_code_id: params['promotion_code_id']
     PayPal::Recurring.new({
@@ -42,18 +46,23 @@ class PaymentNotification::Paypal < PaymentNotification
     }).request_payment
   end
 
+  #
+  # Sends information to Paypal to create a recurring profile that will start
+  # at next payment date.
+  #
+  # @return Paypal Response: response of paypal when creating recurring profile
   def create_paypal_recurring_profile
     PayPal::Recurring.new({
         :amount      => SubscriptionPlan::PLAN_TYPE_PRICES[params['plan_type']].to_f.to_s,
         :currency    => "EUR",
         :description => "CoursAvenue Premium - #{SubscriptionPlan::PLAN_TYPE_DESCRIPTION[params['plan_type']]}",
-        # :ipn_url     => paypal_confirmation_pro_payments_url(structure_id: @structure.id, plan_type: params['plan_type'], ipn: true, host: 'coursavenue.com'),
+        :ipn_url     => paypal_notification_pro_payments_url(structure_id: @structure.id, plan_type: params['plan_type'], host: 'coursavenue.com'),
         :frequency   => 1,
         :token       => params['token'],
         :period      => params['plan_type'].to_sym,
         :reference   => Order.next_order_id_for(self.structure),
         :payer_id    => params['PayerID'],
-        :start_at    => Time.now,
+        :start_at    => Time.now + SubscriptionPlan::PLAN_TYPE_DURATION[params['plan_type']].months,
         :failed      => 1,
         :outstanding => :next_billing
       }).create_recurring_profile
