@@ -21,12 +21,12 @@ describe Media do
     end
   end
 
-  context :image do
+  context 'image' do
     describe '#url_html' do
       it 'has src attribute' do
         expect(Media::Image.new.url_html).to include 'src='
       end
-      context :lazy do
+      context 'lazy' do
         it 'does not have src attribute' do
           expect(Media::Image.new.url_html(lazy: true)).not_to include 'src='
         end
@@ -34,6 +34,6 @@ describe Media do
     end
   end
 
-  context :video do
+  context 'video' do
   end
 end

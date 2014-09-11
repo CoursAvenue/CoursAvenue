@@ -5,14 +5,14 @@ describe Planning do
 
   subject { Planning.new }
 
-  context :initialization do
+  context 'initialization' do
     it 'has default values' do
       expect(subject.audiences).to include Audience::ADULT
       expect(subject.levels).to    include Level::ALL
     end
   end
 
-  context :callbacks do
+  context 'callbacks' do
     describe '#set end_date' do
       it 'sets end_date same as start_date if training' do
         course             = Course::Training.new
@@ -59,7 +59,7 @@ describe Planning do
     end
   end
 
-  context :validations do
+  context 'validations' do
     describe '#presence_of_start_date' do
       it 'has error on start_date if in past' do
         course = Course::Training.new
@@ -99,7 +99,7 @@ describe Planning do
         expect(subject.errors.messages).not_to include :place_id
       end
     end
-    context :training do
+    context 'training' do
       it 'needs a start_date' do
         course          = Course::Training.new
         subject.course = course
@@ -120,7 +120,7 @@ describe Planning do
     end
   end
 
-  context :audiences do
+  context 'audiences' do
     describe '#audience_ids' do
       it 'returns array if nil' do
         subject.audience_ids = nil
@@ -148,7 +148,7 @@ describe Planning do
     end
   end
 
-  context :levels do
+  context 'levels' do
     describe '#level_ids' do
       it 'returns array if nil' do
         subject.level_ids = nil
@@ -217,7 +217,7 @@ describe Planning do
     end
   end
 
-  # context :participations do
+  # context 'participations' do
   #   let(:user) { FactoryGirl.create(:user) }
 
   #   describe '#waiting_list' do

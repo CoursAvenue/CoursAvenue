@@ -42,7 +42,7 @@ describe Pro::Structures::TagsController do
     end
   end
 
-  context :with_existing_tag do
+  context 'with_existing_tag' do
     before do
       structure.create_tag 'foo'
     end
