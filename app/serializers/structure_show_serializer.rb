@@ -162,7 +162,7 @@ class StructureShowSerializer < ActiveModel::Serializer
     end
     if object.teaches_at_home and object.places.homes.any?
       if object.places.homes.first.radius.present?
-        types << "cours individuels à domicile (#{object.places.homes.first.city.name} dans un rayon de #{object.places.homes.first.radius})"
+        types << "cours individuels à domicile (#{object.places.homes.first.city.name.capitalize} dans un rayon de #{object.places.homes.first.radius})"
       else
         types << "cours individuels à domicile"
       end
