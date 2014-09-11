@@ -20,7 +20,11 @@
           %tr
             %td Premium
             %td= l(order.created_at, format: :date_short)
-            %td Carte bancaire
+            %td
+              - if order.subscription_plan.payed_through_paypal?
+                Paypal
+              - else
+                Carte bancaire
             %td= "#{('%.2f' % order.amount).gsub('.', ',')}€"
             %td= order.public_order_id
             %td= link_to 'Afficher', pro_structure_order_path(@structure, order)
