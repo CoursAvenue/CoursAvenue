@@ -22,12 +22,12 @@ class Pro::SubscriptionPlansController < Pro::ProController
   end
 
   def premium_tracking
-    @subscriptions = SubscriptionPlan.where(canceled_at: nil)
+    @subscriptions = SubscriptionPlan.where(SubscriptionPlan.arel_table[:expires_at].gt(Date.today))
     @current_tab = 'premium_tracking'
   end
 
   def unsubscribed_tracking
-    @subscriptions = SubscriptionPlan.where.not(canceled_at: nil)
+    @subscriptions = SubscriptionPlan.where(SubscriptionPlan.arel_table[:expires_at].lt(Date.today))
     @current_tab = 'unsubscribed_tracking'
 
     render 'premium_tracking'

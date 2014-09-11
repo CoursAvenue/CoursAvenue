@@ -9,7 +9,7 @@ class SubscriptionPlanExport < ActiveRecord::Base
   #
   # @return
   def upload_file
-    subscriptions = SubscriptionPlan.where(canceled_at: nil)
+    subscriptions = SubscriptionPlan.where(SubscriptionPlan.arel_table[:expires_at].gt(Date.today))
 
     package = Axlsx::Package.new
     workbook = package.workbook
