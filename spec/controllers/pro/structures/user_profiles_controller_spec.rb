@@ -14,7 +14,7 @@ describe Pro::Structures::UserProfilesController do
     sign_in admin
   end
 
-  describe :index do
+  describe 'index' do
     it "includes 'meta' in the rendered json" do
       get :index, format: :json, structure_id: structure.id
       response.should be_success
@@ -26,7 +26,7 @@ describe Pro::Structures::UserProfilesController do
     end
   end
 
-  describe :edit do
+  describe 'edit' do
     context "when format is html" do
       it "responds to an xhr request" do
         xhr :get, :edit, format: :html, id: user_profile.id, structure_id: structure.id
@@ -37,7 +37,7 @@ describe Pro::Structures::UserProfilesController do
 
   end
 
-  describe :create do
+  describe 'create' do
 
     it "does not create tags if no tags are given" do
       post :create, format: :json, id: user_profile.id, structure_id: structure.id, user_profile: { email: "bob@email.com" }
@@ -61,7 +61,7 @@ describe Pro::Structures::UserProfilesController do
 
   end
 
-  describe :update do
+  describe 'update' do
     let(:tags) { user_profile.tags.map { |t| { "id" => t.id, "name" => t.name }}}
 
     it "does not change the tags if no tags are given" do

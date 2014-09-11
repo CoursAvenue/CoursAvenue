@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe UsersController do
 
-  describe :invite_entourage_to_jpo_page do
+  describe 'invite_entourage_to_jpo_page' do
     it 'redirects if no email passed' do
       get :invite_entourage_to_jpo_page
       expect(response).to be_redirect

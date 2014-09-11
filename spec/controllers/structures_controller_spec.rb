@@ -1,13 +1,13 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
 
-describe StructuresController do
+describe StructuresController, type: :controller do
 
   def required_keys
     %w(id name slug comments_count rating street zip_code logo_thumb_url data_url places)
   end
 
-  describe :show do
+  describe 'show' do
     let(:structure) { FactoryGirl.create(:structure_with_place) }
     it 'returns 200' do
       get :show, id: structure.id
@@ -15,7 +15,7 @@ describe StructuresController do
     end
   end
 
-  describe :index, search: true do
+  describe 'index', search: true do
     let(:structure) { FactoryGirl.build(:structure_with_place) }
     let(:subject) { Subject.first }
 
@@ -55,21 +55,21 @@ describe StructuresController do
     end
   end
 
-  describe :follow do
+  describe 'follow' do
     let(:user) { FactoryGirl.create(:user) }
     before do
       sign_in user
     end
 
-    let(:structure) { FactoryGirl.create(:structure) }
+    let(:structure) { FactoryGirl.create(:structure_with_admin) }
     it 'creates a new following' do
       followings_count = structure.followings.count
-      post :follow, id: structure.id
+      post :add_to_favorite, id: structure.id
       expect(structure.followings.count).to eq followings_count + 1
     end
     it 'creates a new Statistic action' do
       actions_count = structure.statistics.actions.count
-      post :follow, id: structure.id
+      post :add_to_favorite, id: structure.id
       expect(structure.statistics.actions.count).to eq actions_count + 1
     end
   end

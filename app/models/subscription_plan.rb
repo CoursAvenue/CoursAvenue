@@ -121,7 +121,7 @@ class SubscriptionPlan < ActiveRecord::Base
   # @return Boolean
   def renew!
     return if self.canceled?
-    if payed_through_paypal?
+    if payed_through_be2bill?
       return renew_with_be2bill!
     end
     return true
@@ -215,6 +215,7 @@ class SubscriptionPlan < ActiveRecord::Base
   end
 
   # Amount of the current subscription plan
+  # Will return the amount with the promo applied if there is one.
   #
   # @return Integer
   def amount
@@ -304,7 +305,7 @@ class SubscriptionPlan < ActiveRecord::Base
   end
 
   def active?
-    self.expires_at >= Date.today
+    (!self.canceled? and self.expires_at >= Date.today)
   end
 
   private

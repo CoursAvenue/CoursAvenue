@@ -9,7 +9,7 @@ describe Users::ParticipationsController do
     sign_in user
   end
 
-  # describe :destroy do
+  # describe 'destroy' do
   #   it 'cancel the participation' do
   #     participation = planning.participations.create(user: user)
   #     delete :destroy, { id: participation.id, user_id: user.id }

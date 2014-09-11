@@ -9,7 +9,7 @@ describe Pro::Structures::TagsController do
     sign_in admin
   end
 
-  describe :index do
+  describe 'index' do
     let(:user_profile) { FactoryGirl.create(:user_profile_with_tags) }
     let(:structure)    { user_profile.structure }
 
@@ -28,14 +28,14 @@ describe Pro::Structures::TagsController do
     end
   end
 
-  describe :new do
+  describe 'new' do
     it "returns 200" do
       xhr :get, :new, structure_id: structure.id
       expect(response).to be_success
     end
   end
 
-  describe :create do
+  describe 'create' do
     it 'creates a new tag' do
       post :create, structure_id: structure.id, tag: { name: 'foo'}
       expect(structure.owned_tags.map(&:name)).to include 'foo'
@@ -47,14 +47,14 @@ describe Pro::Structures::TagsController do
       structure.create_tag 'foo'
     end
 
-    describe :edit do
+    describe 'edit' do
       it "returns 200" do
         xhr :get, :edit, structure_id: structure.id, id: structure.owned_tags.last
         expect(response).to be_success
       end
     end
 
-    describe :update do
+    describe 'update' do
       it "updates a tag" do
         @tag = structure.owned_tags.last
         put :update, structure_id: structure.id, id: @tag.id, tag: { name: 'bar'}

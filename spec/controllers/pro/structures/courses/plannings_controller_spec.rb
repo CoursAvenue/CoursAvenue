@@ -14,7 +14,7 @@ describe Pro::Structures::Courses::PlanningsController do
   end
 
 
-  describe :index do
+  describe 'index' do
     context :course do
       let(:course) { FactoryGirl.create(:lesson, structure: @admin.structure) }
       it 'works' do
@@ -25,7 +25,7 @@ describe Pro::Structures::Courses::PlanningsController do
     end
   end
 
-  describe :new do
+  describe 'new' do
     context :course do
       let(:course) { FactoryGirl.create(:lesson, structure: @admin.structure) }
       it 'works' do
@@ -43,7 +43,7 @@ describe Pro::Structures::Courses::PlanningsController do
     end
   end
 
-  describe :edit do
+  describe 'edit' do
     let(:course)   { FactoryGirl.create(:lesson, structure: @admin.structure) }
     let(:planning) { FactoryGirl.create(:planning, course: course) }
 
@@ -53,7 +53,7 @@ describe Pro::Structures::Courses::PlanningsController do
     end
   end
 
-  describe :create do
+  describe 'create' do
     context :open_course do
       let(:open_course) { FactoryGirl.create(:open_course, structure: @admin.structure) }
       it 'redirects to open courses path' do

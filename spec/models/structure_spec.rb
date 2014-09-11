@@ -90,7 +90,7 @@ describe Structure do
 
   context :tagging do
 
-    describe :add_tags_on do
+    describe 'add_tags_on' do
       let(:structure) { FactoryGirl.create(:structure_with_user_profiles_with_tags) }
       let(:user_profile) { structure.user_profiles.first }
       let(:tags) { ['Master of the Arts', 'powerful', 'brazen', 'churlish'] }
@@ -111,7 +111,7 @@ describe Structure do
 
     end
 
-    describe :create_tag do
+    describe 'create_tag' do
       let(:structure) { FactoryGirl.create(:structure) }
       it "creates a new tag" do
         length = structure.owned_tags.length

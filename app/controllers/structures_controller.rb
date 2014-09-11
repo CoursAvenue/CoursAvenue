@@ -97,6 +97,8 @@ class StructuresController < ApplicationController
     end
   end
 
+  # POST structure/:id/add_to_favorite
+  # Create a following for the structure and the current_user
   def add_to_favorite
     @structure = Structure.friendly.find params[:id]
     @structure.followings.create(user: current_user)
@@ -108,6 +110,8 @@ class StructuresController < ApplicationController
     end
   end
 
+  # POST structure/:id/remove_from_favorite
+  # Destroy the existing following between the structure and the current_user
   def remove_from_favorite
     @structure = Structure.friendly.find params[:id]
     @structure.followings.where(user_id: current_user.id).first.try(:destroy)

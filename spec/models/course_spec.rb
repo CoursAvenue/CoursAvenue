@@ -98,7 +98,7 @@ describe Course do
           expect(@course.activate!).to eq false
           expect(@course.active).to eq false
           expect(@course.errors[:plannings].length).to eq 1
-          expect(@course).to have(0).errors_on(:price_group)
+          expect(@course.errors[:price_group].length).to eq 0
         end
       end
     end
@@ -112,7 +112,7 @@ describe Course do
           expect(@course.activate!).to eq false
           expect(@course.active).to eq false
           expect(@course.errors[:price_group].length).to eq 1
-          expect(@course).to have(0).errors_on(:plannings)
+          expect(@course.errors[:plannings].length).to eq 0
         end
       end
     end
@@ -125,8 +125,8 @@ describe Course do
       it 'activates' do
         expect(@course.activate!).to eq true
         expect(@course.active).to eq true
-        expect(@course).to have(0).errors_on(:plannings)
-        expect(@course).to have(0).errors_on(:price_group)
+        expect(@course.errors[:plannings].length).to eq 0
+        expect(@course.errors[:price_group].length).to eq 0
       end
     end
   end

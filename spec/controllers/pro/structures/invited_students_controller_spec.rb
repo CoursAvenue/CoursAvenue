@@ -9,21 +9,21 @@ describe Pro::Structures::InvitedStudentsController do
     sign_in admin
   end
 
-  describe :index do
+  describe 'index' do
     it 'returns 200' do
       get :index, structure_id: admin.structure.slug
       expect(response).to be_success
     end
   end
 
-  describe :new do
+  describe 'new' do
     it 'returns 200' do
       get :new, structure_id: admin.structure.slug
       expect(response).to be_success
     end
   end
 
-  describe :bulk_create do
+  describe 'bulk_create' do
     it 'returns 200' do
       post :bulk_create, structure_id: admin.structure.slug, emails: "person#{rand.to_s.gsub('.', '')}@example.com", text: 'lorem'
       expect(response).to be_redirect
@@ -35,7 +35,7 @@ describe Pro::Structures::InvitedStudentsController do
     end
   end
 
-  describe :bulk_create_jpo do
+  describe 'bulk_create_jpo' do
     it 'returns 200' do
       post :bulk_create_jpo, structure_id: admin.structure.slug, emails: "person#{rand.to_s.gsub('.', '')}@example.com", text: 'lorem'
       expect(response).to be_redirect
