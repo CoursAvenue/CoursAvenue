@@ -30,9 +30,6 @@
 
   %hr.push--ends
   .soft--sides
-    %h3
-      %i.fa.fa-envelope-o
-      Actions / mois
     .text--center
       #messages-months
   %hr.push--ends
@@ -64,15 +61,8 @@
         = Mailboxer::Conversation.where( subject: I18n.t(Mailboxer::Label::INFORMATION.name) ).count
         Messages
       #messages
-      #admins2
-
   %hr.push--ends
-  .soft--sides
-    %h3
-      %i.fa.fa-map-marker
-      Professeurs enregistrés / Avis laissés - progression / semaine (non cumulé)
-    .text--center
-      #comments-admins-progression-weekly
+    #admins2
 
   %hr.push--ends
   .soft--sides
@@ -133,59 +123,13 @@
         cours en ligne
       #courses
 
-  %hr.push--ends
-  .soft--sides
-    %h3
-      %i.fa.fa-map-marker
-      Lieux d'enseignement
-    .text--center
-      .gamma
-        = Place.count
-        Lieux
 
-  %hr.push--ends
-  .soft--sides
-    %h3
-      %i.fa.fa-map-time
-      Heures de création de profil
-    .text--center
-      #admins-hours
-
-  %hr.push--ends
-  .soft--sides
-    %h3
-      %i.fa.fa-map-time
-      Heures de dépot d'avis
-    .text--center
-      #comments-hours
     .text--center= link_to 'Mots clés', pro_keywords_path, class: 'btn btn--blue'
     .text--center= link_to 'Mots clés tapé par les utilisateurs', pro_search_term_logs_path, class: 'btn btn--blue'
 
 = content_for :scripts do
   :javascript
     $(function() {
-        new Highcharts.Chart({
-            chart: { renderTo: 'admins-hours', type: 'column' },
-            title: { text: null },
-            xAxis: { categories: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"] },
-            yAxis: { title: { text: ''}},
-            series: [
-              { data: #{@admins_by_hour.map{|key, value| value}},
-                name: 'Profs inscrits'
-               }
-            ]
-        });
-        new Highcharts.Chart({
-            chart: { renderTo: 'comments-hours', type: 'column' },
-            title: { text: null },
-            xAxis: { categories: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"] },
-            yAxis: { title: { text: ''}},
-            series: [
-              { data: #{@comments_by_hour.map{|key, value| value}},
-                name: 'Profs inscrits'
-               }
-            ]
-        });
         new Highcharts.Chart({
             chart: { renderTo: 'admins2', type: 'column' },
             title: { text: null },
@@ -207,20 +151,6 @@
                 name: 'Profs inscrits'
                },
               { data: #{@comments_hash.map{|date, count| count}},
-                name: 'Avis'
-              }
-            ]
-        });
-        new Highcharts.Chart({
-            chart: { renderTo: 'comments-admins-progression-weekly', type: 'column' },
-            title: { text: null },
-            xAxis: { categories: #{@admins_weekly.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
-            yAxis: { title: { text: ''}},
-            series: [
-              { data: #{@admins_weekly.map{|date, count| count}},
-                name: 'Profs inscrits'
-               },
-              { data: #{@comments_weekly.map{|date, count| count}},
                 name: 'Avis'
               }
             ]
@@ -248,9 +178,18 @@
         });
         new Highcharts.Chart({
             chart: { renderTo: 'messages-months', type: 'column' },
-            title: { text: null },
+            title: { text: "Actions / mois" },
             xAxis: { categories: #{@messages_per_months.map{|date, count| date}} },
-            yAxis: { title: { text: ''}},
+            yAxis: {
+              title: { text: ''},
+              stackLabels: {
+                  enabled: true,
+                  style: {
+                      fontWeight: 'bold',
+                      color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                  }
+              }
+            },
             plotOptions: {
                 column: {
                     stacking: 'normal',
@@ -275,9 +214,9 @@
                 shadow: false
             },
             series: [
-              { name: "Demande d'infos", data: #{@messages_per_months.map{|date, count| count}} },
               { name: "Site web", data: #{@actions_website_per_months.map{|date, count| count}} },
-              { name: "Telephone", data: #{@actions_phone_per_months.map{|date, count| count}} }
+              { name: "Telephone", data: #{@actions_phone_per_months.map{|date, count| count}} },
+              { name: "Demande d'infos", data: #{@messages_per_months.map{|date, count| count}} }
             ]
         });
         new Highcharts.Chart({

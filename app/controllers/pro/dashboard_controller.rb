@@ -2,23 +2,10 @@
 class Pro::DashboardController < Pro::ProController
   before_action :authenticate_pro_super_admin!
   def index
-    @admins_by_hour = { 0 => 0, 1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0, 6 => 0, 7 => 0, 8 => 0, 9 => 0, 10 => 0, 11 => 0, 12 => 0, 13 => 0, 14 => 0, 15 => 0, 16 => 0, 17 => 0, 18 => 0, 19 => 0, 20 => 0, 21 => 0, 22 => 0, 23 => 0 }
-    Admin.find_each do |admin|
-      @admins_by_hour[admin.created_at.hour] += 1
-    end
-
-    @comments_by_hour = { 0 => 0, 1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0, 6 => 0, 7 => 0, 8 => 0, 9 => 0, 10 => 0, 11 => 0, 12 => 0, 13 => 0, 14 => 0, 15 => 0, 16 => 0, 17 => 0, 18 => 0, 19 => 0, 20 => 0, 21 => 0, 22 => 0, 23 => 0 }
-    Comment::Review.find_each do |admin|
-      @comments_by_hour[admin.created_at.hour] += 1
-    end
-
     @courses  = Course.where( Course.arel_table[:created_at].gt(Date.parse('01/06/2013')).and(
                                Course.arel_table[:active].eq(true)) ).order("DATE_TRUNC('week', created_at) ASC").group("DATE_TRUNC('week', created_at)").count
     @admins   = Admin  .where( Admin.arel_table[:created_at].gt(Date.today - 1.months) ).order('DATE(created_at) ASC').group('DATE(admins.created_at)').count
     @comments = Comment::Review.where( Comment::Review.arel_table[:created_at].gt(Date.today - 1.months) ).order('DATE(created_at) ASC').group('DATE(comments.created_at)').count
-
-    @admins_weekly   = Admin  .where( Admin.arel_table[:created_at].gt(Date.today - 3.months) ).order("DATE_TRUNC('week', created_at) ASC").group("DATE_TRUNC('week', created_at)").count
-    @comments_weekly = Comment::Review.where( Comment::Review.arel_table[:created_at].gt(Date.today - 3.months) ).order("DATE_TRUNC('week', created_at) ASC").group("DATE_TRUNC('week', created_at)").count
 
     if params[:with_subjects].present?
       _structures = Structure.joins(:admins).joins(:subjects).group('subjects.id').count
@@ -81,20 +68,32 @@ class Pro::DashboardController < Pro::ProController
       conv_count = Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:created_at].in(((last_day_of_month - 1.month)..last_day_of_month)).and(
                                     Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq(Mailboxer::Label::INFORMATION.id)) ).count
       @messages_per_months[I18n.t('date.month_names')[last_day_of_month.month]] = conv_count
-      phone_count = Statistic.actions.where(created_at: ((last_day_of_month - 1.month)..last_day_of_month) ).where(infos: 'telephone')
-                           .order('DATE(created_at) ASC')
-                           .group('DATE(created_at)')
-                           .select('DATE(created_at) as created_at, COUNT(DISTINCT(structure_id, user_fingerprint, ip_address)) as user_count')
-                           .map(&:user_count).reduce(&:+) || 0
+      # Because we didn't have date before then
+      if last_day_of_month.month < 9
+        stat_count = Statistic.actions.where(created_at: ((last_day_of_month - 1.month)..last_day_of_month) )
+                             .order('DATE(created_at) ASC')
+                             .group('DATE(created_at)')
+                             .select('DATE(created_at) as created_at, COUNT(DISTINCT(structure_id, user_fingerprint, ip_address)) as user_count')
+                             .map(&:user_count).reduce(&:+) || conv_count
 
-      @actions_phone_per_months[I18n.t('date.month_names')[last_day_of_month.month]] = phone_count
-      website_count = Statistic.actions.where(created_at: ((last_day_of_month - 1.month)..last_day_of_month) ).where(infos: 'website')
-                           .order('DATE(created_at) ASC')
-                           .group('DATE(created_at)')
-                           .select('DATE(created_at) as created_at, COUNT(DISTINCT(structure_id, user_fingerprint, ip_address)) as user_count')
-                           .map(&:user_count).reduce(&:+) || 0
+        @actions_phone_per_months[I18n.t('date.month_names')[last_day_of_month.month]] = stat_count - conv_count
+        @actions_website_per_months[I18n.t('date.month_names')[last_day_of_month.month]] = 0
+      else
+        phone_count = Statistic.actions.where(created_at: ((last_day_of_month - 1.month)..last_day_of_month) ).where(infos: 'telephone')
+                             .order('DATE(created_at) ASC')
+                             .group('DATE(created_at)')
+                             .select('DATE(created_at) as created_at, COUNT(DISTINCT(structure_id, user_fingerprint, ip_address)) as user_count')
+                             .map(&:user_count).reduce(&:+) || 0
 
-      @actions_website_per_months[I18n.t('date.month_names')[last_day_of_month.month]] = website_count
+        @actions_phone_per_months[I18n.t('date.month_names')[last_day_of_month.month]] = phone_count
+        website_count = Statistic.actions.where(created_at: ((last_day_of_month - 1.month)..last_day_of_month) ).where(infos: 'website')
+                             .order('DATE(created_at) ASC')
+                             .group('DATE(created_at)')
+                             .select('DATE(created_at) as created_at, COUNT(DISTINCT(structure_id, user_fingerprint, ip_address)) as user_count')
+                             .map(&:user_count).reduce(&:+) || 0
+
+        @actions_website_per_months[I18n.t('date.month_names')[last_day_of_month.month]] = website_count
+      end
     end
   end
 end
