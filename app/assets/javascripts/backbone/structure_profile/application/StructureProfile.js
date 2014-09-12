@@ -127,6 +127,7 @@ $(document).ready(function() {
                 window._fbq.push(['track', '6016785958627', {'value':'0.00','currency':'EUR'}]);
                 CoursAvenue.statistic.logStat(window.coursavenue.bootstrap.structure.id, 'action', { infos: infos });
                 ga('send', 'event', 'Action', infos);
+                goog_report_conversion();
             });
 
             $.ajax({

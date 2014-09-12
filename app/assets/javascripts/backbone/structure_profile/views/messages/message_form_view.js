@@ -90,6 +90,7 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
                     if (window._fbq) { // If on production
                         window._fbq.push(['track', '6016785958627', { 'value':'0.00','currency':'EUR' }]);
                         ga('send', 'event', 'Action', 'message');
+                        goog_report_conversion();
                     }
                     this.$('form').trigger('ajax:complete.rails');
                     $.magnificPopup.open({
