@@ -10,9 +10,8 @@
       .flexbox__item.v-middle.search-input-wrapper
         %select.palm-one-whole.input--large.one-whole{ name: 'root_subject_id' }
           %option{value: ''} Toutes disciplines
-          - cache "home_page_dropdown_#{ENV["ETAG_VERSION_ID"]}", public: true do
-            - Subject.stars.each do |subject|
-              %option{ value: subject.slug, selected: subject.slug == subject_slug }= subject.name
+          - Subject.stars.each do |subject|
+            %option{ value: subject.slug, selected: subject.slug == subject_slug }= subject.name
           %option{value: 'other'} Autres
       .flexbox__item.v-middle.search-input-wrapper.very-soft.hard--ends.palm-hard
         .input-with-icon
