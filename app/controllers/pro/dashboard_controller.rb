@@ -70,8 +70,31 @@ class Pro::DashboardController < Pro::ProController
       @videos[date] ||= 0
       @images[date] ||= 0
     end
+
     @messages = Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:created_at].gt(Date.today - 2.months).and(
                                               Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq(Mailboxer::Label::INFORMATION.id)) )
                                        .order('DATE(created_at) ASC').group('DATE(created_at)').count
+
+
+    @messages_per_months, @actions_phone_per_months, @actions_website_per_months = {}, {}, {}
+    (Date.new(2014, 1)..Date.today + 1.month).select {|d| d.day == 1}.map {|d| d - 1}.drop(1).each do |last_day_of_month|
+      conv_count = Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:created_at].in(((last_day_of_month - 1.month)..last_day_of_month)).and(
+                                    Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq(Mailboxer::Label::INFORMATION.id)) ).count
+      @messages_per_months[I18n.t('date.month_names')[last_day_of_month.month]] = conv_count
+      phone_count = Statistic.actions.where(created_at: ((last_day_of_month - 1.month)..last_day_of_month) ).where(infos: 'telephone')
+                           .order('DATE(created_at) ASC')
+                           .group('DATE(created_at)')
+                           .select('DATE(created_at) as created_at, COUNT(DISTINCT(structure_id, user_fingerprint, ip_address)) as user_count')
+                           .map(&:user_count).reduce(&:+) || 0
+
+      @actions_phone_per_months[I18n.t('date.month_names')[last_day_of_month.month]] = phone_count
+      website_count = Statistic.actions.where(created_at: ((last_day_of_month - 1.month)..last_day_of_month) ).where(infos: 'website')
+                           .order('DATE(created_at) ASC')
+                           .group('DATE(created_at)')
+                           .select('DATE(created_at) as created_at, COUNT(DISTINCT(structure_id, user_fingerprint, ip_address)) as user_count')
+                           .map(&:user_count).reduce(&:+) || 0
+
+      @actions_website_per_months[I18n.t('date.month_names')[last_day_of_month.month]] = website_count
+    end
   end
 end

@@ -31,6 +31,13 @@
   %hr.push--ends
   .soft--sides
     %h3
+      %i.fa.fa-envelope-o
+      Actions / mois
+    .text--center
+      #messages-months
+  %hr.push--ends
+  .soft--sides
+    %h3
       %i.fa.fa-map-marker
       Professeurs enregistrés / Avis laissés (non cumulé)
     .text--center
@@ -238,6 +245,40 @@
             xAxis: { categories: #{@students.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
             yAxis: { title: { text: ''}},
             series: [{ data: #{@students.map{|date, count| (count > 10000 ? 100 : count)}} }]
+        });
+        new Highcharts.Chart({
+            chart: { renderTo: 'messages-months', type: 'column' },
+            title: { text: null },
+            xAxis: { categories: #{@messages_per_months.map{|date, count| date}} },
+            yAxis: { title: { text: ''}},
+            plotOptions: {
+                column: {
+                    stacking: 'normal',
+                    dataLabels: {
+                        enabled: true,
+                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                        style: {
+                            textShadow: '0 0 3px black, 0 0 3px black'
+                        }
+                    }
+                }
+            },
+            legend: {
+                align: 'right',
+                x: -70,
+                verticalAlign: 'top',
+                y: 20,
+                floating: true,
+                backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+                borderColor: '#CCC',
+                borderWidth: 1,
+                shadow: false
+            },
+            series: [
+              { name: "Demande d'infos", data: #{@messages_per_months.map{|date, count| count}} },
+              { name: "Site web", data: #{@actions_website_per_months.map{|date, count| count}} },
+              { name: "Telephone", data: #{@actions_phone_per_months.map{|date, count| count}} }
+            ]
         });
         new Highcharts.Chart({
             chart: { renderTo: 'messages', type: 'column' },
