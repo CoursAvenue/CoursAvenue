@@ -90,6 +90,8 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                     success: function success (response) {
                         CoursAvenue.setCurrentUser(response);
                         this.showRegistrationConfirmedPopup()
+                        // Pixel to track registration convertion with Facebook
+                        if (window._fbq) { window._fbq.push(['track', '6016889463627', {}]); }
                     }.bind(this)
                 });
             } else {
