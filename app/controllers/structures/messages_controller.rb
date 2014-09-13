@@ -17,10 +17,10 @@ class Structures::MessagesController < ApplicationController
       @recipients   = @structure.main_contact
       @receipt      = @user.send_message_with_extras(@recipients, params[:message][:body], I18n.t(Mailboxer::Label::INFORMATION.name), 'information', params[:message][:extra_info_ids], params[:message][:course_ids])
       @conversation = @receipt.conversation
-      Statistic.action(@structure.id, current_user, cookies[:fingerprint], request.ip, 'contact')
     end
     respond_to do |format|
       if @conversation and @conversation.persisted?
+        Statistic.action(@structure.id, current_user, cookies[:fingerprint], request.ip, 'contact_message')
         cookies.delete :user_contact_message
         format.json { render json: { succes: true, popup_to_show: render_to_string(partial: 'structures/messages/message_sent', formats: [:html]) } }
         format.html { redirect_to user_conversation_path(@user, @conversation) }
