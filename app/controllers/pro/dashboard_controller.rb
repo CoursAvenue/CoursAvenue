@@ -65,12 +65,12 @@ class Pro::DashboardController < Pro::ProController
 
     @messages_per_months, @actions_phone_per_months, @actions_website_per_months = {}, {}, {}
     (Date.new(2014, 1)..Date.today + 1.month).select {|d| d.day == 1}.map {|d| d - 1}.drop(1).each do |last_day_of_month|
-      conv_count = Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:created_at].in(((last_day_of_month - 1.month)..last_day_of_month)).and(
+      conv_count = Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:created_at].in(((last_day_of_month.beginning_of_month)..last_day_of_month)).and(
                                     Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq(Mailboxer::Label::INFORMATION.id)) ).count
       @messages_per_months[I18n.t('date.month_names')[last_day_of_month.month]] = conv_count
       # Because we didn't have date before then
       if last_day_of_month.month < 9
-        stat_count = Statistic.actions.where(created_at: ((last_day_of_month - 1.month)..last_day_of_month) )
+        stat_count = Statistic.actions.where(created_at: ((last_day_of_month.beginning_of_month)..last_day_of_month) )
                              .order('DATE(created_at) ASC')
                              .group('DATE(created_at)')
                              .select('DATE(created_at) as created_at, COUNT(DISTINCT(structure_id, user_fingerprint, ip_address)) as user_count')
@@ -79,14 +79,14 @@ class Pro::DashboardController < Pro::ProController
         @actions_phone_per_months[I18n.t('date.month_names')[last_day_of_month.month]] = stat_count - conv_count
         @actions_website_per_months[I18n.t('date.month_names')[last_day_of_month.month]] = 0
       else
-        phone_count = Statistic.actions.where(created_at: ((last_day_of_month - 1.month)..last_day_of_month) ).where(infos: 'telephone')
+        phone_count = Statistic.actions.where(created_at: ((last_day_of_month.beginning_of_month)..last_day_of_month) ).where(infos: 'telephone')
                              .order('DATE(created_at) ASC')
                              .group('DATE(created_at)')
                              .select('DATE(created_at) as created_at, COUNT(DISTINCT(structure_id, user_fingerprint, ip_address)) as user_count')
                              .map(&:user_count).reduce(&:+) || 0
 
         @actions_phone_per_months[I18n.t('date.month_names')[last_day_of_month.month]] = phone_count
-        website_count = Statistic.actions.where(created_at: ((last_day_of_month - 1.month)..last_day_of_month) ).where(infos: 'website')
+        website_count = Statistic.actions.where(created_at: ((last_day_of_month.beginning_of_month)..last_day_of_month) ).where(infos: 'website')
                              .order('DATE(created_at) ASC')
                              .group('DATE(created_at)')
                              .select('DATE(created_at) as created_at, COUNT(DISTINCT(structure_id, user_fingerprint, ip_address)) as user_count')
@@ -97,3 +97,4 @@ class Pro::DashboardController < Pro::ProController
     end
   end
 end
+
