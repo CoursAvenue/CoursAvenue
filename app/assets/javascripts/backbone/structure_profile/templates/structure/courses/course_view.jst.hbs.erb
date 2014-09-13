@@ -79,7 +79,7 @@
     </div>
     <div class="flexbox__item v-top three-quarters">
         {{#if on_appointment}}
-          Cours particuliers sur demande. <a href="#" data-behavior="show-contact-panel" data-action="log-action" data-course-id="{{id}}" data-plannings-info="true">Contacter {{ about }}</a> pour prendre un rendez-vous.
+          Cours particuliers sur demande. <a href="#" data-behavior="show-contact-panel" data-course-id="{{id}}" data-plannings-info="true">Contacter {{ about }}</a> pour prendre un rendez-vous.
         {{/if}}
         <table class="table--striped table--data table--data-small {{#if on_appointment}}hidden{{/if}}">
             <thead class="gray-light">
@@ -103,7 +103,7 @@
     </div>
     <div class="flexbox__item v-top three-quarters">
         {{#unless has_price_group}}
-          {{capitalize about}} n'a pas mis à jour ses tarifs : <a href="#" data-behavior="show-contact-panel" data-action="log-action" data-course-id="{{id}}">contacter-{{about_genre}}</a>.
+          {{capitalize about}} n'a pas mis à jour ses tarifs : <a href="#" data-behavior="show-contact-panel" data-course-id="{{id}}">contacter-{{about_genre}}</a>.
         {{/unless}}
         <table class="table--striped table--data table--data-small {{#unless has_price_group}}hidden{{/unless}}">
             <thead class="gray-light">
