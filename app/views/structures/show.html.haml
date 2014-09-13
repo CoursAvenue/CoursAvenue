@@ -102,7 +102,7 @@
           %div{ data: { type: (@is_sleeping ? '' : 'sticky-map-container') }}>
             - unless @is_sleeping
               .push--bottom{ data: { type: (@is_sleeping ? '' : 'sticky-map') }}>
-              %a.push--bottom.contact-button.btn--full.btn.btn--green{ data: { behavior: 'show-contact-panel', action: 'log-action' } }
+              %a.push--bottom.contact-button.btn--full.btn.btn--green{ data: { behavior: 'show-contact-panel' } }
                 Contacter
                 = I18n.t("structures.structure_type_contact.#{(@structure.structure_type.present? ? @structure.structure_type : 'structures.other')}")
 

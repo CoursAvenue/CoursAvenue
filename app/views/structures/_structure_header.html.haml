@@ -104,7 +104,7 @@
                       %i.fa-star
                       = @header_promotion_title_for_structure
         .flexbox__item.v-middle.nowrap.text--right>
-          %a.contact-button.btn.btn--green.nowrap{ data: { behavior: 'show-contact-panel', action: 'log-action' } }
+          %a.contact-button.btn.btn--green.nowrap{ data: { behavior: 'show-contact-panel' } }
             Contacter
             = I18n.t("structures.structure_type_contact.#{(@structure.structure_type.present? ? @structure.structure_type : 'structures.other')}")
 
