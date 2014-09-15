@@ -27,16 +27,18 @@ class Metrics
   scope :structure_go_premium, -> { where( action_type: /structure_go_premium_/) }
 
   ######################################################################
-  # Creation methods                                                   #
+  # Creation and migration methods                                     #
   ######################################################################
 
-  # Migrate the statistics from a structure to Metric
+  # Migrate the statistics from a structure to if it hasn't already been done.
   # @param structure The structure to migrate
   #
   # @return Nothing
   def self.migrate_statistics_from_structure(structure)
-    structure.statistics.each do |stat|
-      Metric.create_from_statistic(stat)
+    if structure.metrics.count == 0 && structure.statistics.count != 0
+      structure.statistics.each do |stat|
+        Metrics.create_from_statistic(stat)
+      end
     end
   end
 
