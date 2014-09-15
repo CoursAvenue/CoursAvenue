@@ -31,6 +31,16 @@ class Metrics
   # Creation methods                                                   #
   ######################################################################
 
+  # Migrate the statistics from a structure to Metric
+  # @param structure The structure to migrate
+  #
+  # @return Nothing
+  def self.migrate_statistics(structure)
+    structure.statistics.each do |stat|
+      Metric.create_from_statistic(stat)
+    end
+  end
+
   # Copies a Statistic to a Metric
   # @param statistic The original Statistic
   #
