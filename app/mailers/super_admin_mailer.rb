@@ -23,12 +23,6 @@ class SuperAdminMailer < ActionMailer::Base
     mail subject: "#{@structure.name} a réactivé son abonnement"
   end
 
-  def wants_to_go_premium structure, offer
-    @structure = structure
-    @offer     = offer
-    mail subject: 'Un professeur veut passer premium'
-  end
-
   # Sent for admin
   def go_premium structure, offer
     @structure = structure

@@ -35,7 +35,6 @@ class Pro::Structures::SubscriptionPlansController < Pro::ProController
         end
       end
     end
-    SuperAdminMailer.delay.wants_to_go_premium(@structure, @subscription_plan.plan_type)
 
     @be2bill_description = "Abonnement Premium CoursAvenue"
 
