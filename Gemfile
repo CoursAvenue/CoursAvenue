@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 
 ruby '2.1.2'
 
-gem 'rails', '4.1.4'
+gem 'rails', '4.1.6'
 
 gem 'rack-attack',  '~>3.0.0'
 gem 'rack-timeout', '~> 0.0.4'
