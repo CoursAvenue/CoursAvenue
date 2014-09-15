@@ -14,10 +14,9 @@ class Metrics
   field :user_fingerprint, type: String
   field :infos           , type: String
 
-  field :deleted_at      , type: DateTime
   field :ip_address      , type: String
+  field :deleted_at      , type: DateTime
 
-  attr_accessible :action_type, :structure_id, :user_fingerprint, :infos, :ip_address
   ######################################################################
   # Scopes                                                             #
   ######################################################################
@@ -35,7 +34,7 @@ class Metrics
   # @param structure The structure to migrate
   #
   # @return Nothing
-  def self.migrate_statistics(structure)
+  def self.migrate_statistics_from_structure(structure)
     structure.statistics.each do |stat|
       Metric.create_from_statistic(stat)
     end
