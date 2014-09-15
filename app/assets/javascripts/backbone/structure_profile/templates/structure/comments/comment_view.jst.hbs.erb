@@ -1,4 +1,4 @@
-<article class="push--bottom" itemtype="http://schema.org/Review" itemscope="" itemprop="review">
+<article class="push--bottom" itemscope itemtype="http://data-vocabulary.org/Review">
     <div class="grid--full">
         <div class="grid__item two-twelfths text--center">
             {{#if avatar_url}}
@@ -6,22 +6,22 @@
             {{else}}
               <img height="60" width="60" src="<%= asset_path('icons/avatar.png') %>" alt="Photo de {{ author_name }}" class="bordered rounded--circle center-block push-half--bottom">
             {{/if}}
-            <div class="text--center"><strong>{{ author_name }}</strong></div>
+            <div class="text--center"><strong itemprop="reviewer">{{ author_name }}</strong></div>
         </div>{{!--
     --}}<div class="grid__item ten-twelfths">
             <div class="gray-box soft message__appendix">
-                <div itemprop="reviewBody">
-                    {{#if title}}
-                      <h6 class="quoted inline-block push-half--bottom" itemprop='headline' content="{{title}}">{{{ hide_contacts title }}}</h6>
-                      {{#if course_name}}
-                        <i class="v-middle">— {{course_name}}</i>
-                      {{/if}}
-                    {{/if}}
-                    {{{ simple_format_hide_contacts content }}}
+                {{#if title}}
+                  <h6 class="quoted inline-block push-half--bottom" itemprop='summary' content="{{title}}">{{{ hide_contacts title }}}</h6>
+                  {{#if course_name}}
+                    <i itemprop="itemreviewed" class="v-middle">— {{course_name}}</i>
+                  {{/if}}
+                {{/if}}
+                <div itemprop="description">
+                  {{{ simple_format_hide_contacts content }}}
                 </div>
                 <p class="text--right flush">
-                    <i itemprop="datePublished" content="{{ created_at }}" class="semi-muted">
-                        Il y a {{ distance_of_time }}
+                    <i class="semi-muted">
+                        Il y a <span itemprop="dtreviewed" datetime="{{ created_at_iso }}" content="{{ created_at_iso }}">{{ distance_of_time }}</span>
                     </i>
                 </p>
                 {{#if reply}}
@@ -32,11 +32,10 @@
                     </div>
                 {{/if}}
             </div>
-            <meta itemprop='ratingValue' content="5">
-            <meta itemprop='bestRating' content="5">
-            <meta itemprop='worstRating' content="1">
-            <meta itemprop='url' content="{{comment_url}}">
-            <meta itemprop='name' content="{{structure_name}}">
+            <meta itemprop='rating' content="5">
+            <meta itemprop='url' content="{{ comment_url }}">
+            <meta itemprop='name' content="{{ structure_name }}">
         </div>
     </div>
 </article>
+

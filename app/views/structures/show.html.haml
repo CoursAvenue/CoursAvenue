@@ -12,7 +12,7 @@
   - if shared_comment
     = "«#{shared_comment.title}» par #{shared_comment.author_name}"
   - else
-    = "#{@structure.name} à #{@city.name}"
+    = "#{@structure.name} | CoursAvenue"
 
 = content_for :meta_description do
   - if shared_comment
@@ -47,7 +47,7 @@
   .blue-box.islet.text--center.push--ends
     = render 'users/waiting_for_activation_text'
 
-%div{ itemscope: true, itemtype: "http://schema.org/LocalBusiness" }
+%div{ itemscope: true, itemtype: "http://schema.org/Place" }
   = render partial: 'structures/structure_header', locals: { structure: @structure }
   .soft--sides
     .grid

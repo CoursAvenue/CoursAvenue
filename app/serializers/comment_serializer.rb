@@ -3,7 +3,7 @@ class CommentSerializer < ActiveModel::Serializer
   include ActionView::Helpers::DateHelper
 
   attributes :id, :content, :title, :author_name, :course_name, :created_at, :rating,
-             :distance_of_time, :comment_url, :avatar_url
+             :distance_of_time, :comment_url, :avatar_url, :created_at_iso
 
   has_one :reply, serializer: CommentReplySerializer
 
@@ -17,5 +17,9 @@ class CommentSerializer < ActiveModel::Serializer
 
   def avatar_url
     object.user.try(:avatar_url)
+  end
+
+  def created_at_iso
+    I18n.l(created_at, format: :iso_date_8601)
   end
 end

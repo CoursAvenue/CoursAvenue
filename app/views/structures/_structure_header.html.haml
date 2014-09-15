@@ -57,22 +57,21 @@
                 = @structure_decorator.places_count
                 = "lieu#{@structure.places.count > 1 ? 'x' : ''}"
           - if @structure.comments_count > 0
-            .milli.inline-block.structure__header-icon.inline-block.semi-muted.v-top
-              %div{ href: '#avis', itemprop: "aggregateRating", itemscope: true, itemtype: "http://schema.org/AggregateRating" }
-                .visuallyhidden{ itemprop: "ratingValue" } 5
-                .visuallyhidden{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
-                  %meta{property: 'v:rating', itemprop: 'rating', content: 5}
-                  %meta{itemprop: 'count', content: structure.comments_count}
-                  %meta{itemprop: 'itemreviewed', content: structure.name}
-                  %meta{itemprop: 'name', content: structure.name}
-                  %meta{itemprop: 'street-address', content: structure.street}
-                  %meta{itemprop: 'postal-code', content: structure.zip_code}
-                  - if @city
-                    %meta{itemprop: 'locality', content: @city.name}
+            .milli.inline-block.structure__header-icon.inline-block.semi-muted.v-top{ itemscope: true, itemtype: "http://data-vocabulary.org/Review-aggregate" }
+              %meta{ itemprop: 'itemreviewed', content: structure.name }
+              %meta{ itemprop: 'rating', content: structure.rating || 5 }
+              %meta{ itemprop: 'photo', content: structure.logo.url(:original) }
+              %meta{ itemprop: 'votes', content: structure.comments_count }
+              %meta{ itemprop: 'best', content: '5' }
+              %meta{ itemprop: 'street-address', content: structure.street }
+              %meta{ itemprop: 'postal-code', content: structure.zip_code }
+              - if @city
+                %meta{ itemprop: 'locality', content: @city.name }
               = link_to '#avis', class: 'flexbox muted-link f-weight-normal', data: { behavior: 'scroll-to', offset_top: '-55' } do
                 %i.fa-3x.fa-comment.flexbox__item
                 .flexbox__item.soft-half--left.soft--right
-                  = @structure.comments_count
+                  %span{ itemprop: 'count' }
+                    = @structure.comments_count
                   avis
       .grid__item.four-twelfths.v-bottom>
         %a.v-middle{ href: "https://twitter.com/share", class: "twitter-share-button", data: { text: "J'adore \"#{@structure.name}\" @CoursAvenue #{structure_url(@structure)}", lang: "fr", count: 'none'}} Tweet
