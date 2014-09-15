@@ -231,3 +231,6 @@ gem 'rmagick', '~>2.13.3', require: 'RMagick'
 
 # Rails 4 upgrade
 gem 'actionpack-action_caching', '~>1.0.0'
+
+# Use mongoid for statistics
+gem 'mongoid'                  , '~>4.0.0'
