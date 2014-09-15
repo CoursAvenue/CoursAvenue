@@ -90,7 +90,11 @@ class PlanningSerializer < ActiveModel::Serializer
   end
 
   def audiences
-    join_audiences(object)
+    if object.course.is_private?
+      join_audiences(object.course)
+    else
+      join_audiences(object)
+    end
   end
 
   def places_left

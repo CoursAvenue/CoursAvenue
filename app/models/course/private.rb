@@ -49,6 +49,10 @@ class Course::Private < Course
     false
   end
 
+  def is_individual?
+    true
+  end
+
   private
 
   #
