@@ -4,8 +4,9 @@ class Metrics
   include Mongoid::Timestamps
 
   ACTION_TYPES = %w(impression view action)
+
   ######################################################################
-  #                                                                    #
+  # Model definition                                                   #
   ######################################################################
 
   field :structure_id    , type: Integer
@@ -16,6 +17,7 @@ class Metrics
   field :deleted_at      , type: DateTime
   field :ip_address      , type: String
 
+  attr_accessible :action_type, :structure_id, :user_fingerprint, :infos, :ip_address
   ######################################################################
   # Scopes                                                             #
   ######################################################################
@@ -26,9 +28,13 @@ class Metrics
   scope :structure_go_premium, -> { where( action_type: /structure_go_premium_/) }
 
   ######################################################################
-  #                                                                    #
+  # Creation methods                                                   #
   ######################################################################
 
+  # Copies a Statistic to a Metric
+  # @param statistic The original Statistic
+  #
+  # @return The Metric created
   def self.create_from_statistic(statistic)
     Metrics.create(structure_id: statistic.structure_id,
                    action_type: statistic.action_type,
@@ -90,6 +96,10 @@ class Metrics
     end
     return stat
   end
+
+  ######################################################################
+  # Retrieval methods                                                  #
+  ######################################################################
 
   # Total view count
   # @param structure Structure concerned
@@ -157,8 +167,10 @@ class Metrics
   end
 
   ######################################################################
-  #                                                                    #
+  # Private methods and helpers                                        #
   ######################################################################
+
+  private
 
   # Total metric count from type
   # @param structure Structure concerned
