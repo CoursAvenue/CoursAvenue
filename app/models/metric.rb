@@ -47,12 +47,12 @@ class Metric
   #
   # @return The Metric created
   def self.create_from_statistic(statistic)
-    Metric.create(structure_id: statistic.structure_id,
-                   action_type: statistic.action_type,
+    Metric.create(structure_id:      statistic.structure_id,
+                   action_type:      statistic.action_type,
                    user_fingerprint: statistic.user_fingerprint,
-                   infos: statistic.infos,
-                   ip_address: statistic.ip_address,
-                   created_at: statistic.created_at)
+                   infos:            statistic.infos,
+                   ip_address:       statistic.ip_address,
+                   created_at:       statistic.created_at)
   end
 
   # Creates a statistic when a structure appears in the results of a search
@@ -185,43 +185,22 @@ class Metric
 
   # Total metric count from type
   # @param structure Structure concerned
-  # @param type The type symbol
+  # @param type The type symbol, to call scopes
   # @param from_date=(Date.today - 10.years Date Date from where to start
-  # @param infos=nil Additional informations
+  # @param infos=nil Additional information like the type of action for example
   #
   # @return Integer number of view counts since `from_date`
   def self.generic_count(structure, type, from_date=(Date.today - 10.years), infos=nil)
-    # Map the documents by their created_at, user_fingerprint and their ip_adress attributes.
-    map = %Q{
-      function() {
-        var key = { user_fingerprint: this.user_fingerprint,
-                    created_at:       this.created_at.toDateString(),
-                    ip_address:       this.ip_address }
-        emit(key, { count: 1 })
-      }
-    }
-
-    # Count the results
-    reduce = %Q{
-      function(key, values) {
-        var result = { count: 0 }
-        values.forEach(function(value) {
-          result.count += value.count
-        });
-
-        return (result);
-      }
-    }
-
     values = Metric.send(type).where(structure_id: structure.id)
                               .not.where(user_fingerprint: nil)
                               .where(:created_at.gt => from_date)
                               .asc(:created_at)
+                              .group_by { |metric| metric.created_at.to_date }
 
     values = values.where(infos: infos) if infos
-    values = values.map_reduce(map, reduce).out(inline: true)
 
-    return values.count
+    return values.map { |key, values| values.uniq { |v| v.user_fingerprint }.length }
+                 .reduce(&:+) || 0
   end
 
 end
