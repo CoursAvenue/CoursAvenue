@@ -32,18 +32,18 @@ class Pro::SubscriptionPlansController < Pro::ProController
   def stat_info
     since_date = @subscription.renewed_at.present? ? @subscription.renewed_at : @subscription.created_at.to_date
 
-    stats = { impressions:        Statistic.impression_count(@subscription.structure, since_date),
-              views:              Statistic.view_count(@subscription.structure, since_date),
-              actions:            Statistic.action_count(@subscription.structure, since_date),
-              telephone:          Statistic.telephone_count(@subscription.structure, since_date),
-              website:            Statistic.website_count(@subscription.structure, since_date),
+    stats = { impressions:        Metric.impression_count(@subscription.structure, since_date),
+              views:              Metric.view_count(@subscription.structure, since_date),
+              actions:            Metric.action_count(@subscription.structure, since_date),
+              telephone:          Metric.telephone_count(@subscription.structure, since_date),
+              website:            Metric.website_count(@subscription.structure, since_date),
               conversations:      @subscription.structure.main_contact.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).where(Mailboxer::Conversation.arel_table[:created_at].gt(since_date)).count,
 
-              impressions_full:   Statistic.impression_count(@subscription.structure),
-              views_full:         Statistic.view_count(@subscription.structure),
-              actions_full:       Statistic.action_count(@subscription.structure),
-              telephone_full:     Statistic.telephone_count(@subscription.structure),
-              website_full:       Statistic.website_count(@subscription.structure),
+              impressions_full:   Metric.impression_count(@subscription.structure),
+              views_full:         Metric.view_count(@subscription.structure),
+              actions_full:       Metric.action_count(@subscription.structure),
+              telephone_full:     Metric.telephone_count(@subscription.structure),
+              website_full:       Metric.website_count(@subscription.structure),
               conversations_full: @subscription.structure.main_contact.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).count }
 
     stats[:color] = label_color(stats)
@@ -80,7 +80,7 @@ class Pro::SubscriptionPlansController < Pro::ProController
   #
   # @return an Integer between 0 and 4 included.
   def index_color(stats, action=:actions, conversations=:conversations)
-    Statistic.score(stats[action], stats[conversations])
+    Metric.score(stats[action], stats[conversations])
   end
 
   # Return the color depending on the statistics score

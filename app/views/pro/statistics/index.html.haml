@@ -8,7 +8,7 @@
           %th URL
           %th #
       %tbody
-        - Statistic.structure_go_premium.group_by(&:action_type).each do |url, statistics|
+        - Metric.structure_go_premium.group_by(&:action_type).each do |url, statistics|
           %tr
             %td= url
             %td= statistics.count

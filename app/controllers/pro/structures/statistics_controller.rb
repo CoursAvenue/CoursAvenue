@@ -18,19 +18,19 @@ class Pro::Structures::StatisticsController < Pro::ProController
     # Ordering them by creation date
     # Grouping them by creation date (cast into a date)
     # selecting counting by DISTINCT(user_fingerprint) because each stats is counted only onced per user & per day
-    @statistics.impressions.where( Statistic.arel_table[:created_at].gt(Date.today - 15.days) )
+    @statistics.impressions.where( Metric.arel_table[:created_at].gt(Date.today - 15.days) )
                            .order('DATE(created_at) ASC')
                            .group('DATE(created_at)')
                            .select('DATE(created_at) as created_at, COUNT(DISTINCT(user_fingerprint, ip_address)) as user_count')
                            .each{ |stat| @impressions[stat.created_at] = stat.user_count; @impressions_total_count += stat.user_count }
 
-    @statistics.views      .where( Statistic.arel_table[:created_at].gt(Date.today - 15.days) )
+    @statistics.views      .where( Metric.arel_table[:created_at].gt(Date.today - 15.days) )
                            .order('DATE(created_at) ASC')
                            .group('DATE(created_at)')
                            .select('DATE(created_at) as created_at, COUNT(DISTINCT(user_fingerprint, ip_address)) as user_count')
                            .each{ |stat| @views[stat.created_at] = stat.user_count; @views_total_count += stat.user_count }
 
-    @statistics.actions    .where( Statistic.arel_table[:created_at].gt(Date.today - 15.days) )
+    @statistics.actions    .where( Metric.arel_table[:created_at].gt(Date.today - 15.days) )
                            .order('DATE(created_at) ASC')
                            .group('DATE(created_at)')
                            .select('DATE(created_at) as created_at, COUNT(DISTINCT(user_fingerprint, ip_address)) as user_count')
