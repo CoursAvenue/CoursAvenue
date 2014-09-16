@@ -312,6 +312,7 @@ GEM
       callsite (~> 0.0, >= 0.0.11)
       rack-contrib (~> 1.1)
       railties (>= 3.0.0, < 5.0.0)
+    method_source (0.8.2)
     mime-types (2.3)
     mini_portile (0.6.0)
     minitest (5.4.1)
@@ -365,6 +366,12 @@ GEM
       options (~> 2.3.0)
     protected_attributes (1.0.8)
       activemodel (>= 4.0.1, < 5.0)
+    pry (0.10.1)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
+    pry-rails (0.3.2)
+      pry (>= 0.9.10)
     quiet_assets (1.0.3)
       railties (>= 3.1, < 5.0)
     rack (1.5.2)
@@ -615,6 +622,7 @@ DEPENDENCIES
   pg
   progress_bar (~> 1.0.3)
   protected_attributes (~> 1.0.8)
+  pry-rails
   quiet_assets (~> 1.0.3)
   rack-attack (~> 3.0.0)
   rack-cors

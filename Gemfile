@@ -217,6 +217,7 @@ group :development do
   gem 'binding_of_caller'
   gem 'awesome_print'
   gem 'meta_request', '~>0.3.0'
+  gem 'pry-rails'
 end
 
 group :development, :test do

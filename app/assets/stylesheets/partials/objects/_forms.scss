@@ -248,26 +248,7 @@
     @include multiple-media-query(palm, lap) { padding-left: 0; };
 }
 
-.helper-label:after {
-    cursor              : pointer;
-    content             : '?';
-    display             : inline-block;
-    vertical-align      : middle;
-    width               : 25px;
-    height              : 25px;
-    text-align          : center;
-    font-weight         : bold;
-    margin-left         : 3px;
-    background-image    : image-url('icons/bulle.png');
-    background-repeat   : no-repeat;
-    background-position : center center;
-    background-size     : 100%;
-    color               : white;
-    text-shadow         : $gray;
-}
-
 .field_with_errors {
-
     .chosen-choices input {
         @include box-shadow(none !important);
     }

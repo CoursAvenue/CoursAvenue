@@ -60,21 +60,3 @@ a.header-link {
         font-weight: bold;
     }
 }
-.espace-pro-nav {
-    padding-left: 100px;
-    @include media-query(palm) { padding-left: 0; };
-}
-    .espace-pro-wrapper {
-        position: relative;
-    }
-        .espace-pro {
-            @include media-query(palm) { background-image: none; };
-            background-image    : image-url('header/espace-pro.png');
-            background-repeat   : no-repeat;
-            background-position : center center;
-            background-size     : 100%;
-            width               : 75px;
-            height              : 40px;
-            display             : inline-block;
-            vertical-align      : middle;
-        }
