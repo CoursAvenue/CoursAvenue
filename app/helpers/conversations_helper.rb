@@ -51,7 +51,8 @@ module ConversationsHelper
     end
 
     duplicate = messages.find do |original|
-      original.body == message[:body]
+      original.body == message[:body] &&
+        original.conversation.mailboxer_extra_info_ids == message[:extra_info_ids].join(',')
     end
 
     return duplicate.present?
