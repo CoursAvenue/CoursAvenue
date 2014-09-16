@@ -903,11 +903,11 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  # Return all the Metrics associated with this structure
+  # Return all the Metric associated with this structure
   #
-  # @return The Metrics
+  # @return The Metric
   def metrics
-    Metrics.where(structure_id: self.id)
+    Metric.where(structure_id: self.id)
   end
 
   #

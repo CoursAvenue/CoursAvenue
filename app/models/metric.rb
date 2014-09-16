@@ -1,5 +1,5 @@
 # encoding: utf-8
-class Metrics
+class Metric
   include Mongoid::Document
   include Mongoid::Timestamps
 
@@ -37,7 +37,7 @@ class Metrics
   def self.migrate_statistics_from_structure(structure)
     if structure.metrics.count == 0 && structure.statistics.count != 0
       structure.statistics.each do |stat|
-        Metrics.create_from_statistic(stat)
+        Metric.create_from_statistic(stat)
       end
     end
   end
@@ -47,7 +47,7 @@ class Metrics
   #
   # @return The Metric created
   def self.create_from_statistic(statistic)
-    Metrics.create(structure_id: statistic.structure_id,
+    Metric.create(structure_id: statistic.structure_id,
                    action_type: statistic.action_type,
                    user_fingerprint: statistic.user_fingerprint,
                    infos: statistic.infos,
@@ -61,9 +61,9 @@ class Metrics
   # @param fingerprint String, Fingerprint (hash) generated client side to identify a unique user
   # @param infos=nil String, more info on the stat
   #
-  # @return Metrics
+  # @return Metric
   def self.print(structure_id, user, fingerprint, ip_address, infos=nil)
-    Metrics.create(action_type: 'impression', structure_id: structure_id, user_fingerprint: fingerprint, ip_address: ip_address)
+    Metric.create(action_type: 'impression', structure_id: structure_id, user_fingerprint: fingerprint, ip_address: ip_address)
   end
 
   # Creates a statistic when a structure has been viewed (#show action)
@@ -72,9 +72,9 @@ class Metrics
   # @param fingerprint String, Fingerprint (hash) generated client side to identify a unique user
   # @param infos=nil String, more info on the stat
   #
-  # @return Metrics
+  # @return Metric
   def self.view(structure_id, user, fingerprint, ip_address, infos=nil)
-    Metrics.create(action_type: 'view', structure_id: structure_id, user_fingerprint: fingerprint, ip_address: ip_address)
+    Metric.create(action_type: 'view', structure_id: structure_id, user_fingerprint: fingerprint, ip_address: ip_address)
   end
 
   # Creates a statistic when there has been an action on a structure (eg. contact etc.)
@@ -83,9 +83,9 @@ class Metrics
   # @param fingerprint String, Fingerprint (hash) generated client side to identify a unique user
   # @param infos=nil String, more info on the stat
   #
-  # @return Metrics
+  # @return Metric
   def self.action(structure_id, user, fingerprint, ip_address, infos=nil)
-    Metrics.create(action_type: 'action', structure_id: structure_id, user_fingerprint: fingerprint, ip_address: ip_address, infos: infos )
+    Metric.create(action_type: 'action', structure_id: structure_id, user_fingerprint: fingerprint, ip_address: ip_address, infos: infos )
   end
 
   # Creates a statistic regarding the action name
@@ -95,15 +95,15 @@ class Metrics
   # @param fingerprint String, Fingerprint (hash) generated client side to identify a unique user
   # @param infos=nil String, more info on the stat
   #
-  # @return Metrics
+  # @return Metric
   def self.create_action(action_name, structure_id, user, fingerprint, ip_address, infos=nil)
     case action_name
     when 'impression'
-      stat = Metrics.print(structure_id, user, fingerprint, ip_address, infos)
+      stat = Metric.print(structure_id, user, fingerprint, ip_address, infos)
     when 'action'
-      stat = Metrics.action(structure_id, user, fingerprint, ip_address, infos)
+      stat = Metric.action(structure_id, user, fingerprint, ip_address, infos)
     when 'view'
-      stat = Metrics.view(structure_id, user, fingerprint, ip_address, infos)
+      stat = Metric.view(structure_id, user, fingerprint, ip_address, infos)
     end
     return stat
   end
@@ -212,7 +212,7 @@ class Metrics
       }
     }
 
-    values = Metrics.send(type).where(structure_id: structure.id)
+    values = Metric.send(type).where(structure_id: structure.id)
                                .not.where(user_fingerprint: nil)
                                .where(:created_at.gt => from_date)
                                .asc(:created_at)
