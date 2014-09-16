@@ -191,11 +191,12 @@ class Metric
   #
   # @return Integer number of view counts since `from_date`
   def self.generic_count(structure, type, from_date=(Date.today - 10.years), infos=nil)
-    # Map the documents by their created_at and their user_fingerprint attributes.
+    # Map the documents by their created_at, user_fingerprint and their ip_adress attributes.
     map = %Q{
       function() {
         var key = { user_fingerprint: this.user_fingerprint,
-                    created_at:       this.created_at.toDateString() }
+                    created_at:       this.created_at.toDateString(),
+                    ip_address:       this.ip_address }
         emit(key, { count: 1 })
       }
     }
@@ -213,9 +214,9 @@ class Metric
     }
 
     values = Metric.send(type).where(structure_id: structure.id)
-                               .not.where(user_fingerprint: nil)
-                               .where(:created_at.gt => from_date)
-                               .asc(:created_at)
+                              .not.where(user_fingerprint: nil)
+                              .where(:created_at.gt => from_date)
+                              .asc(:created_at)
 
     values = values.where(infos: infos) if infos
     values = values.map_reduce(map, reduce).out(inline: true)
