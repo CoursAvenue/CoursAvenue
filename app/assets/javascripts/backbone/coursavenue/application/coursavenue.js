@@ -1,6 +1,10 @@
 CoursAvenue = new Backbone.Marionette.Application({
     slug: 'coursavenue',
 
+    is_production: function is_production () {
+        return this.env == 'production';
+    },
+
     setCurrentAdmin: function setCurrentAdmin (admin_attributes) {
         this.admin.set(admin_attributes);
     },
