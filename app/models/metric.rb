@@ -195,9 +195,9 @@ class Metric
                               .not.where(user_fingerprint: nil)
                               .where(:created_at.gt => from_date)
                               .asc(:created_at)
-                              .group_by { |metric| metric.created_at.to_date }
 
     values = values.where(infos: infos) if infos
+    values = values.group_by { |metric| metric.created_at.to_date }
 
     return values.map { |key, values| values.uniq { |v| v.user_fingerprint }.length }
                  .reduce(&:+) || 0
