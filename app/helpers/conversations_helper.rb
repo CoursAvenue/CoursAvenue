@@ -22,6 +22,8 @@ module ConversationsHelper
 
   # Tells wether or not the admin has responded to the message
   #
+  # @param Mailboxer::Conversation
+  #
   # @return Boolean
   def conversation_waiting_for_reply? conversation
     if conversation.mailboxer_label_id == Mailboxer::Label::INFORMATION.id
