@@ -30,7 +30,7 @@ class Order < ActiveRecord::Base
   end
 
   def amount_without_promo
-    self.subscription_plan.amount
+    read_attribute(:amount)
   end
 
   private
