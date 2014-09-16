@@ -35,4 +35,26 @@ module ConversationsHelper
     return false
   end
 
+  # Wether or not the message is a duplicate from a previous message from the same user.
+  #
+  # @param user The user sending the message
+  # @param message The message to check.
+  # @param interval=2.day the interval within the message is considered as duplicate.
+  #
+  # @return Boolean
+  def duplicate_message?(user, message, interval=2.day)
+    conversations = user.mailbox.sentbox
+
+    messages = []
+    conversations.each do |conversation|
+      messages += conversation.messages.where(created_at: (Time.now - interval)..Time.now)
+    end
+
+    duplicate = messages.find do |original|
+      original.body == message[:body]
+    end
+
+    return duplicate.present?
+  end
+
 end
