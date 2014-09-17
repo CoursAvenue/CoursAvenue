@@ -72,12 +72,12 @@ staging:
     default:
       uri: <%= ENV['MONGOHQ_URL'] %>
       options:
-        skip_version_check: true
-        safe: true
+        # skip_version_check: true
+        # safe: true
 production:
   sessions:
     default:
       uri: <%= ENV['MONGOHQ_URL'] %>
       options:
-        skip_version_check: true
-        safe: true
+        # skip_version_check: true
+        # safe: true
