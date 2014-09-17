@@ -13,7 +13,7 @@ class Blog::Article < ActiveRecord::Base
 
   has_attached_file :cover_image,
                     styles: { default: '750x', small: '250x200#', very_small: '150x120#' },
-                    convert_options: { default: '-interlace Plane', small: '-interlace Plane' }
+                    convert_options: { default: '-interlace Plane', small: '-interlace Plane', very_small: '-interlace Plane' }
 
   validates_attachment_content_type :cover_image, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 

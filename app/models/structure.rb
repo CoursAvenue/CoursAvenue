@@ -119,7 +119,7 @@ class Structure < ActiveRecord::Base
                       thumb: { geometry: '200x200#', processors: [:cropper] },
                       small_thumb: { geometry: '60x60#', processors: [:cropper] }
                     },
-                    convert_options: { original: '-interlace Plane', large: '-interlace Plane', thumb: '-interlace Plane' }
+                    convert_options: { original: '-interlace Plane', large: '-interlace Plane', thumb: '-interlace Plane', small_thumb: '-interlace Plane' }
 
   validates_attachment_content_type :logo, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
   # process_in_background :logo, only_process: [:original]
