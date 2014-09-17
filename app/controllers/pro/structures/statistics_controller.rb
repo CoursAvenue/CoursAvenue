@@ -22,20 +22,20 @@ class Pro::Structures::StatisticsController < Pro::ProController
                            .asc(:created_at)
                            .group_by { |metric| metric.created_at.to_date }
                            .map{ |date, metrics| { created_at: date, user_count: metrics.uniq(&:identify).length } }
-                           .each{ |stat| @impressions[stat[:created_at] = stat[:user_count]; @impressions_total_count += stat[:user_count] }
+                           .each{ |stat| @impressions[stat[:created_at]] = stat[:user_count]; @impressions_total_count += stat[:user_count] }
 
 
     @statistics.views      .where(:created_at.gt => (Date.today - 15.days) )
                            .asc(:created_at)
                            .group_by { |metric| metric.created_at.to_date }
                            .map{ |date, metrics| { created_at: date, user_count: metrics.uniq(&:identify).length } }
-                           .each{ |stat| @views[stat[:created_at] = stat[:user_count]; @views_total_count += stat[:user_count] }
+                           .each{ |stat| @views[stat[:created_at]] = stat[:user_count]; @views_total_count += stat[:user_count] }
 
     @statistics.actions    .where(:created_at.gt => (Date.today - 15.days) )
                            .asc(:created_at)
                            .group_by { |metric| metric.created_at.to_date }
                            .map{ |date, metrics| { created_at: date, user_count: metrics.uniq(&:identify).length } }
-                           .each{ |stat| @actions[stat[:created_at] = stat[:user_count]; @actions_total_count += stat[:user_count] }
+                           .each{ |stat| @actions[stat[:created_at]] = stat[:user_count]; @actions_total_count += stat[:user_count] }
 
   end
 end
