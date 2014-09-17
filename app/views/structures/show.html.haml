@@ -18,12 +18,12 @@
   - if shared_comment
     = truncate(shared_comment.content, length: 300)
   - elsif @structure.description.present?
-    = "#{@structure.description_for_meta} à #{@city.name}"
+    = truncate("#{@structure.description_for_meta} à #{@city.name}", length: 155)
   - else
     - if @structure.parent_subjects_string.present?
-      = "Retrouvez tous les cours de #{@structure.name} à #{@city.name}. #{subjects_name_from_string(@structure.parent_subjects_string)} et bien plus ! à #{@city.name}"
+      = "#{@structure.name} à #{@city.name}. #{subjects_name_from_string(@structure.parent_subjects_string)} ! à #{@city.name}"
     - else
-      = "Retrouvez tous les cours de #{@structure.name} à #{@city.name}"
+      = "#{@structure.name} à #{@city.name}"
 
 .visuallyhidden#lieux-photos
   .inline-block

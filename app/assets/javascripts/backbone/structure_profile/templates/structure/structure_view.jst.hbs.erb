@@ -48,8 +48,10 @@
                     <div class="flexbox__item v-top three-quarters">
                         {{#each subjects}}
                         <div class="push-half--bottom {{#ifCond @index '>' 1}}description-more-long hidden{{/ifCond}}">
-                            <img src="{{this.icon}}" alt="Disciplines pratiquées : {{this.icon}}" height="16" class="v-middle">
-                            <strong>{{this.root_name}} : </strong>{{this.child_names}}
+                            <h3 class="f-weight-normal inline-block inherit-font-size">
+                              <img src="{{this.icon}}" alt="Disciplines pratiquées : {{this.icon}}" height="16" class="v-middle">
+                              <strong>{{this.root_name}} : </strong>{{this.child_names}}
+                            </h3>
                         </div>
                         {{/each}}
                     </div>
@@ -117,7 +119,7 @@
 
 <div class="panel push--bottom" id="cours-reguliers">
     <div class="panel__header soft-half--ends soft--sides">
-        <h4 class="flush">Cours réguliers</h4>
+        <div class="flush delta line-height-1-7"><strong>Cours réguliers</strong></div>
     </div>
     <div class="panel__body soft--bottom soft--sides">
         <article>
@@ -134,7 +136,7 @@
 
 <div class="panel push--bottom" id="stages-ateliers">
     <div class="panel__header soft-half--ends soft--sides">
-        <h4 class="flush">Stages et ateliers</h4>
+        <div class="flush delta line-height-1-7"><strong>Stages et ateliers</strong></div>
     </div>
     <div class="panel__body soft--bottom soft--sides">
         <article>
