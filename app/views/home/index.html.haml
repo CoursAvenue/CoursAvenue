@@ -8,7 +8,7 @@
 %section.main-container.main-container--medium.home-screen-promotion.soft.push--ends
   .grid--full
     .grid__item.palm-one-whole.one-half>
-      %h2.soft--bottom.f-weight-300 Derniers avis des élèves
+      .beta.push--bottom.soft--bottom.f-weight-300 Derniers avis des élèves
       - @comments.each do |comment|
         = render partial: 'comments/home_comment', locals: {comment: comment}
     .grid__item.palm-one-whole.one-half.soft--left{style: 'min-height: 35em;'}
@@ -19,7 +19,7 @@
     - blog_articles = Blog::Article.published.order('published_at DESC').limit(3)
     - cache blog_articles do
       %div
-        %h2.push--bottom.f-weight-300 Le Blog
+        .beta.push--bottom.f-weight-300 Le Blog
         %ul.flush
           - blog_articles.each do |article|
             %li.white-box.island{ itemscope: true, itemtype: 'http://schema.org/Article' }
@@ -29,7 +29,7 @@
                     = link_to blog_article_path(article), class: 'muted-link push-half--bottom block' do
                       = image_tag article.cover_image.url(:small), class: 'block blog-article__image', alt: article.title, title: article.title
                 .flexbox__item.v-top.ten-twelfths.soft--left
-                  %h4.flush
+                  %h3.delta.flush
                     = link_to article.title, blog_article_path(article), class: 'muted-link'
                   %p.flush
                     %time.blog-feed__date{ datetime: l(article.published_at, format: :iso_date) }= l(article.published_at.to_date, format: :long)

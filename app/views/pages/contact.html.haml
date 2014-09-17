@@ -1,4 +1,4 @@
-.home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background5.jpg'})", 'data-stellar-background-ratio' => '0.6' }
+.home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/home_background5.jpg'})", 'data-stellar-background-ratio' => '0.6' }
   .main-container.main-container--medium.soft
     %h1.flush Une question ? Besoin d'aide ?
     %h3.flush Parcourez les questions suivantes pour accéder à toutes les réponses
@@ -63,7 +63,7 @@
     %h2.text--center.flush.f-weight-300 Une urgence ?
     %p.text--center.epsilon
       Contactez-nous au
-      = image_tag 'pages/phone_number.png', class: 'push-half--left v-middle', width: 337, height: 18
+      = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pages/phone_number.png', class: 'push-half--left v-middle', width: 337, height: 18
 
 #contact-form{ class: params.has_key?(:content) ? '' : 'hidden' }
   .main-container.main-container--medium.soft
@@ -133,9 +133,9 @@
       %hr.push--ends
       %h2.text--center.f-weight-300 E-mail & téléphone
       %p.flush.epsilon Vous pouvez nous écrire directement à l'adresse e-mail ci-dessous. Nous répondons rapidement, presque toujours dans la demi-journée :
-      .text--center.push--bottom= image_tag 'pages/email_contact.png', class: 'push-half--left v-middle', height: 18
+      .text--center.push--bottom= image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pages/email_contact.png', class: 'push-half--left v-middle', height: 18
       %p.epsilon Vous pouvez aussi nous joindre par téléphone, du lundi au vendredi de 9h30 à 18h :
-      .text--center= image_tag 'pages/phone_number.png', class: 'push-half--left v-middle', width: 337, height: 18
+      .text--center= image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pages/phone_number.png', class: 'push-half--left v-middle', width: 337, height: 18
 = render 'shared/live_chat'
 
 = content_for :scripts do

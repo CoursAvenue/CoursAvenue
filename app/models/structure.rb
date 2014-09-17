@@ -916,7 +916,7 @@ class Structure < ActiveRecord::Base
   #
   # @return Integer, the number of view counts the last 15 days
   def view_count(days_ago=15)
-    return Statistic.view_count(self, Date.today - days_ago.days) || 0
+    return Metric.view_count(self, Date.today - days_ago.days) || 0
   end
 
   #
@@ -925,7 +925,7 @@ class Structure < ActiveRecord::Base
   #
   # @return Integer, the number of view counts the last 15 days
   def action_count(days_ago=15)
-    return Statistic.action_count(self, Date.today - days_ago.days) || 0
+    return Metric.action_count(self, Date.today - days_ago.days) || 0
   end
 
   #
@@ -934,7 +934,7 @@ class Structure < ActiveRecord::Base
   #
   # @return Integer, the number of impression counts the last 15 days
   def impression_count(days_ago=15)
-    return Statistic.impression_count(self, Date.today - days_ago.days) || 0
+    return Metric.impression_count(self, Date.today - days_ago.days) || 0
   end
 
   SEARCH_SCORE_COEF = {

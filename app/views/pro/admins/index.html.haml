@@ -52,7 +52,6 @@
             %td.nowrap{data: {value: (admin.structure ? admin.structure.rating : 0)}}
               - if admin.structure
                 = admin.structure.comments_count
-                %i.lbc-brand-icon
 
             %td{data: {value: admin.created_at}}
               = l(admin.created_at, format: :date_short)

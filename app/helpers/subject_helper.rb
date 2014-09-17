@@ -3,7 +3,7 @@ module SubjectHelper
   def vertical_page_url_for(subject)
     page = VerticalPage.where(subject_id: subject.id).first
     if page
-      vertical_page_url(page, subdomain: 'www')
+      vertical_page_url(page.subject.root, page, subdomain: 'www')
     else
       root_url(subdomain: 'www')
     end

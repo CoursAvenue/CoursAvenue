@@ -7,13 +7,6 @@
     display    : inline-block;
 }
 
-.lbc-brand-icon {
-    cursor           : pointer;
-    height           : 16px;
-    width            : 16px;
-    background-image : image-url('icons/bulle.png');
-}
-
 .subject_icon {
     height              : 30px;
     margin-left         : auto;
@@ -26,77 +19,77 @@
 
 .subject_icon__danse{
     width            : 24px;
-    @include background-image-retina('icons/subjects/danse.png', 'icons/subjects/danse@2x.png');
+    @include background-image-retina('https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/danse.png', 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/danse@2x.png');
     @include background-size(24px 30px);
 }
 .subject_icon__theatre-scene {
     width            : 40px;
-    @include background-image-retina('icons/subjects/theatre-scene.png', 'icons/subjects/theatre-scene@2x.png');
+    @include background-image-retina('https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/theatre-scene.png', 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/theatre-scene@2x.png');
     @include background-size(40px 30px);
 }
 .subject_icon__yoga-bien-etre-sante {
     width            : 30px;
-    @include background-image-retina('icons/subjects/yoga-bien-etre-sante.png', 'icons/subjects/yoga-bien-etre-sante@2x.png');
+    @include background-image-retina('https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/yoga-bien-etre-sante.png', 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/yoga-bien-etre-sante@2x.png');
     @include background-size(30px 30px);
 }
 .subject_icon__musique-chant {
     width            : 30px;
-    @include background-image-retina('icons/subjects/musique-chant.png', 'icons/subjects/musique-chant@2x.png');
+    @include background-image-retina('https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/musique-chant.png', 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/musique-chant@2x.png');
     @include background-size(30px 30px);
 }
 .subject_icon__dessin-peinture-arts-plastiques {
     width            : 34px;
-    @include background-image-retina('icons/subjects/dessin-peinture-arts-plastiques.png', 'icons/subjects/dessin-peinture-arts-plastiques@2x.png');
+    @include background-image-retina('https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/dessin-peinture-arts-plastiques.png', 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/dessin-peinture-arts-plastiques@2x.png');
     @include background-size(34px 30px);
 }
 .subject_icon__sports-arts-martiaux {
     width            : 33px;
-    @include background-image-retina('icons/subjects/sports-arts-martiaux.png', 'icons/subjects/sports-arts-martiaux@2x.png');
+    @include background-image-retina('https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/sports-arts-martiaux.png', 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/sports-arts-martiaux@2x.png');
     @include background-size(33px 30px);
 }
 .subject_icon__cuisine-vins {
     width            : 32px;
-    @include background-image-retina('icons/subjects/cuisine-vins.png', 'icons/subjects/cuisine-vins@2x.png');
+    @include background-image-retina('https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/cuisine-vins.png', 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/cuisine-vins@2x.png');
     @include background-size(32px 30px);
 }
 .subject_icon__deco-mode-bricolage {
     width            : 35px;
-    @include background-image-retina('icons/subjects/deco-mode-bricolage.png', 'icons/subjects/deco-mode-bricolage@2x.png');
+    @include background-image-retina('https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/deco-mode-bricolage.png', 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/deco-mode-bricolage@2x.png');
     @include background-size(35px 30px);
 }
 .subject_icon__photo-video {
     width            : 42px;
-    @include background-image-retina('icons/subjects/photo-video.png', 'icons/subjects/photo-video@2x.png');
+    @include background-image-retina('https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/photo-video.png', 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/photo-video@2x.png');
     @include background-size(42px 30px);
 }
 
 .subject-active, .keyword-subjects {
     .subject_icon__danse{
-        @include background-image-retina('icons/subjects/danse-white.png', 'icons/subjects/danse-white@2x.png');
+        @include background-image-retina('https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/danse-white.png', 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/danse-white@2x.png');
     }
     .subject_icon__theatre-scene {
-        @include background-image-retina('icons/subjects/theatre-scene-white.png', 'icons/subjects/theatre-scene-white@2x.png');
+        @include background-image-retina('https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/theatre-scene-white.png', 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/theatre-scene-white@2x.png');
     }
     .subject_icon__yoga-bien-etre-sante {
-        @include background-image-retina('icons/subjects/yoga-bien-etre-sante-white.png', 'icons/subjects/yoga-bien-etre-sante-white@2x.png');
+        @include background-image-retina('https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/yoga-bien-etre-sante-white.png', 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/yoga-bien-etre-sante-white@2x.png');
     }
     .subject_icon__musique-chant {
-        @include background-image-retina('icons/subjects/musique-chant-white.png', 'icons/subjects/musique-chant-white@2x.png');
+        @include background-image-retina('https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/musique-chant-white.png', 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/musique-chant-white@2x.png');
     }
     .subject_icon__dessin-peinture-arts-plastiques {
-        @include background-image-retina('icons/subjects/dessin-peinture-arts-plastiques-white.png', 'icons/subjects/dessin-peinture-arts-plastiques-white@2x.png');
+        @include background-image-retina('https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/dessin-peinture-arts-plastiques-white.png', 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/dessin-peinture-arts-plastiques-white@2x.png');
     }
     .subject_icon__sports-arts-martiaux {
-        @include background-image-retina('icons/subjects/sports-arts-martiaux-white.png', 'icons/subjects/sports-arts-martiaux-white@2x.png');
+        @include background-image-retina('https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/sports-arts-martiaux-white.png', 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/sports-arts-martiaux-white@2x.png');
     }
     .subject_icon__cuisine-vins {
-        @include background-image-retina('icons/subjects/cuisine-vins-white.png', 'icons/subjects/cuisine-vins-white@2x.png');
+        @include background-image-retina('https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/cuisine-vins-white.png', 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/cuisine-vins-white@2x.png');
     }
     .subject_icon__deco-mode-bricolage {
-        @include background-image-retina('icons/subjects/deco-mode-bricolage-white.png', 'icons/subjects/deco-mode-bricolage-white@2x.png');
+        @include background-image-retina('https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/deco-mode-bricolage-white.png', 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/deco-mode-bricolage-white@2x.png');
     }
     .subject_icon__photo-video {
-        @include background-image-retina('icons/subjects/photo-video-white.png', 'icons/subjects/photo-video-white@2x.png');
+        @include background-image-retina('https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/photo-video-white.png', 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/photo-video-white@2x.png');
     }
 }
 

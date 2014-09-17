@@ -24,3 +24,4 @@
 .ruby-version
 /Prod SSL
 .DS_Store
+/app/assets/images/icons/svg/*

@@ -13,7 +13,9 @@
                 {{#if title}}
                   <h6 class="quoted inline-block push-half--bottom" itemprop='summary' content="{{title}}">{{{ hide_contacts title }}}</h6>
                   {{#if course_name}}
-                    <i itemprop="itemreviewed" class="v-middle">— {{course_name}}</i>
+                    <h4 class="flush f-weight-normal inherit-font-size inline-block">
+                        <i itemprop="itemreviewed" class="v-middle">— {{course_name}}</i>
+                    </h4>
                   {{/if}}
                 {{/if}}
                 <div itemprop="description">

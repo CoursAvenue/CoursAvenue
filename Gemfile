@@ -183,7 +183,7 @@ gem 'axlsx'                     , '~> 2.0.1'
 gem 'rack-utf8_sanitizer'       , '~> 1.1.0'
 
 # Use ckeditor for post body
-gem 'ckeditor'                  , '~> 4.1.0'
+# gem 'ckeditor'                  , '~> 4.1.0'
 
 group :production, :staging do
   gem 'execjs'                  , '~>2.0.2'
@@ -217,6 +217,7 @@ group :development do
   gem 'binding_of_caller'
   gem 'awesome_print'
   gem 'meta_request', '~>0.3.0'
+  gem 'pry-rails'
 end
 
 group :development, :test do

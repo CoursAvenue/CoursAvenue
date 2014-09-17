@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" width="36px" height="44px" viewBox="0 0 36 44" version="1.1">
-    <title>sync_backup</title>
-    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
-    <defs/>
-    <g id="Editor" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <path d="M20.9036865,39.7670139 C29.4641659,38.3786619 36,30.9525943 36,22 C36,14.0757002 30.8793511,7.34739283 23.7664871,4.94351161 L23.7664871,4.94351161 L23.3520537,6.9170602 C29.5566324,9.11879781 34,15.0404965 34,22 C34,29.8450091 28.3539771,36.3713181 20.9036865,37.7371718 L20.9036865,33 L12.9036865,38.5 L20.9036865,44 L20.9036865,39.7670139 Z M13,4.70353325 C5.4914362,6.87022204 0,13.7938138 0,22 C0,29.3377009 4.39059346,35.6499232 10.6879364,38.4528229 L11.0946302,36.4372625 C5.71504733,33.8595458 2,28.363621 2,22 C2,14.9095595 6.61213661,8.89634192 13,6.796757 L13,11 L21,5.5 L13,0 L13,4.70353325 L13,4.70353325 Z M13,4.70353325" id="sync_backup" fill="#000000" sketch:type="MSShapeGroup"/>
-    </g>
-</svg>

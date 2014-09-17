@@ -1,4 +1,4 @@
-.home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background7.jpg'})", 'data-stellar-background-ratio' => '0.6' }
+.home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/home_background7.jpg'})", 'data-stellar-background-ratio' => '0.6' }
   .main-container.soft
     %h1.flush Questions les plus fréquentes
 
@@ -225,7 +225,9 @@
           %p.flush Voici les étapes à suivre pour réinitialiser votre mot de passe :
 
           %ul
-            %li Cliquez sur ce lien suivant : http://pro.coursavenue.com/connexion ;
+            %li
+              Cliquez sur ce lien suivant :
+              = link_to 'connexion à mon profil ;', new_pro_admin_session_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
             %li Cliquez sur le lien en gris "J'ai oublié mon mot de passe", juste au dessous du bouton vert ;
             %li Entrez l’email de votre compte et cliquez sur le bouton vert "Envoyer un nouveau mot de passe" ;
             %li Un email vous est automatiquement envoyé (si vous ne le recevez pas dans les 5min, vérifiez dans vos spams de votre boîte mail) : cliquez sur le bouton "Changer mon mot de passe" ;

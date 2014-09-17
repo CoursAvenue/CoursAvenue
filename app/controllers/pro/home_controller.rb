@@ -14,9 +14,6 @@ class Pro::HomeController < Pro::ProController
   def white_book
   end
 
-  def presentation
-  end
-
   def widget
     @structures = Structure.where( Structure.arel_table[:widget_status].eq('installed').and(
                                    Structure.arel_table[:widget_url].not_eq('')).and(

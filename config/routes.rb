@@ -1,7 +1,7 @@
 # encoding: utf-8
 CoursAvenue::Application.routes.draw do
 
-  mount Ckeditor::Engine => '/ckeditor'
+  # mount Ckeditor::Engine => '/ckeditor'
   # ---------------------------------------------
   # ----------------------------------------- PRO
   # ---------------------------------------------
@@ -15,7 +15,6 @@ CoursAvenue::Application.routes.draw do
       get 'livres-blancs'                       => 'home#white_book',         as: 'pages_white_books'
       get 'mailjet_custo'                       => 'home#mailjet_custo'
       get 'pourquoi-etre-recommande'            => 'home#why_be_recommended', as: 'pages_why_be_recommended'
-      get 'presentation'                        => 'home#presentation'
       get 'livre-d-or'                          => 'home#widget',             as: 'pages_widget'
       get 'questions-les-plus-frequentes'       => 'home#questions',          as: 'pages_questions'
       get 'offre-et-tarifs'                     => 'home#price',              as: 'pages_price'
@@ -29,7 +28,7 @@ CoursAvenue::Application.routes.draw do
       get 'pages/offre-speciale-premiers-partenaires' => redirect('offre-speciale-premiers-partenaires', status: 301)
       get 'pages/livres-blancs'                       => redirect('livres-blancs'                      , status: 301)
       get 'pages/pourquoi-etre-recommande'            => redirect('pourquoi-etre-recommande'           , status: 301)
-      get 'pages/presentation'                        => redirect('presentation'                       , status: 301)
+      get 'pages/presentation'                        => redirect('/'                                  , status: 301)
       get 'pages/livre-d-or'                          => redirect('livre-d-or'                         , status: 301)
       get 'pages/questions-les-plus-frequentes'       => redirect('questions-les-plus-frequentes'      , status: 301)
       get 'pages/offre-et-tarifs'                     => redirect('offre-et-tarifs'                    , status: 301)
@@ -414,7 +413,9 @@ CoursAvenue::Application.routes.draw do
 
   resources :keywords, only: [:index]
   ########### Vertical pages ###########
-  get 'cours-de-:id'                               , to: 'vertical_pages#show' , as: :vertical_page
+  get 'cours/:id'                                  , to: 'vertical_pages#show_root', as: :root_vertical_page
+  get 'cours/:root_subject_id/:id'                 , to: 'vertical_pages#show', as: :vertical_page
+  get 'cours-de-:id'                               , to: 'vertical_pages#redirect_to_show'
   get 'guide-des-disciplines'                      , to: 'vertical_pages#index', as: :vertical_pages
   ###########  REDIRECTIONS --old
   ## With city
@@ -444,7 +445,7 @@ CoursAvenue::Application.routes.draw do
       get :descendants
     end
   end
-  resources :subjects, only: [:show, :index], path: 'cours' do
+  resources :subjects, only: [:index], path: 'cours' do
     collection do
       get :tree
       get :tree_2
@@ -462,7 +463,7 @@ CoursAvenue::Application.routes.draw do
   # ----------------------------------------- Redirection 301
   # ---------------------------------------------------------
   # Catching all 301 redirection
-  resources :subjects, only: [:show, :index], path: 'cours' do
+  resources :subjects, only: [:index], path: 'cours' do
     resources :cities, only: [:show], path: 'a', to: 'redirect#vertical_page_subject_city'
   end
   resources :subjects, only: [], path: 'disciplines' do
@@ -513,10 +514,6 @@ CoursAvenue::Application.routes.draw do
   get 'pages/jobs'                          => redirect('jobs'                          , status: 301)
   get 'pages/mentions-legales-partenaires'  => redirect('mentions-legales-partenaires'  , status: 301)
   get 'pages/conditions-generale-de-vente'  => redirect('conditions-generale-de-vente'  , status: 301)
-
-  get '/musique', to: 'structures#index', subject_id: 'musique-chant'
-  get '/danse', to: 'structures#index'  , subject_id: 'danse'
-  get '/theatre', to: 'structures#index', subject_id: 'theatre'
 
   post 'contact/' => 'pages#send_message'
 

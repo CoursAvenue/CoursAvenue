@@ -178,10 +178,34 @@ class Metric
   end
 
   ######################################################################
-  # Private methods and helpers                                        #
+  # Helper Methods                                                     #
   ######################################################################
 
-  private
+  # Identify the Metric using its user_fingerprint and its ip address.
+  #
+  # @return a Hash
+  def identify
+    { user_fingerprint: self.user_fingerprint,
+      ip_address:       self.ip_address }
+  end
+
+  # Identify the Metric using its user_fingerprint, its ip address and the related Structure id.
+  #
+  # @return a Hash
+  def identify_with_structure
+    { structure_id:     self.structure_id,
+      user_fingerprint: self.user_fingerprint,
+      ip_address:       self.ip_address }
+  end
+
+  def self.generic_interval_count(type, interval, infos=nil)
+    count = Metric.send(type).where(created_at: interval).asc(:created_at)
+
+    count = count.where(infos: infos) if infos
+    count = count.group_by{ |metric| metric.created_at.to_date }
+
+    return count.map { |key, values| values.uniq(&:identify_with_structure).length }.reduce(&:+)
+  end
 
   # Total metric count from type
   # @param structure Structure concerned
@@ -199,7 +223,7 @@ class Metric
     values = values.where(infos: infos) if infos
     values = values.group_by { |metric| metric.created_at.to_date }
 
-    return values.map { |key, values| values.uniq { |v| v.user_fingerprint }.length }
+    return values.map { |key, values| values.uniq(&:user_fingerprint).length }
                  .reduce(&:+) || 0
   end
 

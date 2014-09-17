@@ -3,7 +3,7 @@
 
 .panel
   .panel__header.soft
-    %ol.nav.flush.breadcrumb{itemprop: 'breadcrumb'}
+    %ol.nav.flush.breadcrumb{ itemprop: 'breadcrumb' }
       %li.delta= link_to 'Boîte de réception', pro_structure_conversations_path(@structure)
       %li.delta Conversation avec #{truncate(recipients.map{|recipient| recipient.name || recipient.email}.join(', '), length: 50) }
   .panel__body.soft

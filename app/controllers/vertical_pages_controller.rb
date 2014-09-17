@@ -3,8 +3,23 @@ class VerticalPagesController < ApplicationController
   layout 'pages'
   before_action :load_cities
 
+  def redirect_to_show
+    @vertical_page = VerticalPage.find(params[:id])
+    redirect_to vertical_page_path(@vertical_page.subject.root, @vertical_page), status: 301
+  end
+
+  def show_root
+    @vertical_page = VerticalPage.find(params[:id])
+    @subject       = @vertical_page.subject
+    @ancestors     = @subject.ancestors
+    render action: :show
+  end
+
   def show
     @vertical_page = VerticalPage.find(params[:id])
+    if @vertical_page.slug != params[:id]
+      redirect_to vertical_page_path(@vertical_page.subject.root, @vertical_page), status: 301
+    end
     @subject       = @vertical_page.subject
     @ancestors     = @subject.ancestors
   end
