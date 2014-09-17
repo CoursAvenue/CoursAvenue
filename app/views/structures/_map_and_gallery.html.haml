@@ -30,7 +30,7 @@
         - medias.each do |media|
           %li.rslides-thumbnail
             %a.pointer.media-photo
-              %img{ src: media.thumbnail_url, height: 70, width: 70, alt: subjects_name_from_string(@structure.subjects_string) }
+              %img{ src: media.thumbnail_url, height: 70, width: 70, alt: subjects_name_from_string((@structure || media.mediable).subjects_string) }
     %a.thumbnails-container__nav.next.pointer{ data: { 'slide-next' => true } }
       %i.delta.fa-chevron-right.v-middle.gray-light
   %a.absolute.north.east.push--right.push--top.on-under-top.heart-link{ href: '#', data: { behavior: 'add-to-favorite', toggle: 'tooltip', added_title: 'Retirer de mes favoris', not_added_title: 'Ajouter à mes favoris', placement: 'left' } }
