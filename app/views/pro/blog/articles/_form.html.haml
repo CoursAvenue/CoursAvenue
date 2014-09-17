@@ -35,13 +35,16 @@
   = f.input :description, label: false, input_html: { class: 'input--large one-whole' }
   = f.association :subjects, as: :select, collection: Subject.all, input_html: { class: 'input--large one-whole', id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Disciplines associée' }, multiple: true }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush--bottom' }, label_html: { class: 'label--large' }
 
-  = f.input :content, as: :ckeditor, label: false, input_html: { class: 'one-whole' }
+  = f.input :content, label: false, input_html: { class: 'one-whole' }
 
   = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours...' }
 
 = content_for :scripts do
   = javascript_include_tag '//cdn.ckeditor.com/4.4.4/standard/ckeditor.js'
   :javascript
+      $(document).ready(function() {
+          CKEDITOR.replace('blog_article[content]');
+      });
       // Prevent the backspace key from navigating back.
       $(document).unbind('keydown').bind('keydown', function (event) {
           var doPrevent = false;

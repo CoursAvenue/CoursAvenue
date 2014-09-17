@@ -8,7 +8,7 @@
   = f.input :quote_name
   = f.input :top_line
   = f.input :top_line_about
-  = f.input :content, as: :ckeditor
+  = f.input :content
   = f.input :bottom_line
 
   = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours...' }
@@ -61,3 +61,7 @@
 
 = content_for :scripts do
   = javascript_include_tag '//cdn.ckeditor.com/4.4.4/standard/ckeditor.js'
+  :javascript
+      $(document).ready(function() {
+          CKEDITOR.replace('portrait[content]');
+      });

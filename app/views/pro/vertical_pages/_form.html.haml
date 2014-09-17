@@ -3,7 +3,7 @@
   = f.input :name, label: 'Nom de discipline', placeholder: 'Ex. : Fox trot', input_html: { class: 'input--large'}, label_html: { class: 'label--large' }
   = f.input :caption, label: 'Description du header', input_html: { class: 'input--large'}, label_html: { class: 'label--large' }
   = f.input :title, label: 'Titre', input_html: { class: 'input--large'}, label_html: { class: 'label--large' }
-  = f.input :content, as: :ckeditor, label: false, input_html: { class: 'one-whole input--large' }
+  = f.input :content, label: false, input_html: { class: 'one-whole input--large' }
   = f.input :sidebar_title, label: 'Trouvez...près de chez vous', input_html: { class: 'input--large'}, label_html: { class: 'label--large' }
   = f.input :keywords, input_html: { class: 'input--large'}, label_html: { class: 'label--large' }
   = f.input :subject_id, as: :select, collection: Subject.order('ancestry_depth ASC').all, input_html: { data: { behavior: 'chosen' } }, label_method: lambda{|subj| "#{subj.depth + 1} - #{subj.name}" }
@@ -29,3 +29,7 @@
 
 = content_for :scripts do
   = javascript_include_tag '//cdn.ckeditor.com/4.4.4/standard/ckeditor.js'
+  :javascript
+      $(document).ready(function() {
+          CKEDITOR.replace('vertical_page[content]');
+      });
