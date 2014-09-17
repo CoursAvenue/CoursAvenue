@@ -70,27 +70,15 @@ class Pro::DashboardController < Pro::ProController
       @messages_per_months[I18n.t('date.month_names')[last_day_of_month.month]] = conv_count
       # Because we didn't have date before then
       if last_day_of_month.month < 9
-        stat_count = Metric.actions.where(created_at: ((last_day_of_month.beginning_of_month)..last_day_of_month) )
-                           .order('DATE(created_at) ASC')
-                           .group('DATE(created_at)')
-                           .select('DATE(created_at) as created_at, COUNT(DISTINCT(structure_id, user_fingerprint, ip_address)) as user_count')
-                           .map(&:user_count).reduce(&:+) || conv_count
+        stat_count = Metric.generic_interval_count(:actions, ((last_day_of_month.beginning_of_month)..last_day_of_month)) || conv_count
 
         @actions_phone_per_months[I18n.t('date.month_names')[last_day_of_month.month]] = stat_count - conv_count
         @actions_website_per_months[I18n.t('date.month_names')[last_day_of_month.month]] = 0
       else
-        phone_count = Metric.actions.where(created_at: ((last_day_of_month.beginning_of_month)..last_day_of_month) ).where(infos: 'telephone')
-                            .order('DATE(created_at) ASC')
-                            .group('DATE(created_at)')
-                            .select('DATE(created_at) as created_at, COUNT(DISTINCT(structure_id, user_fingerprint, ip_address)) as user_count')
-                            .map(&:user_count).reduce(&:+) || 0
+        phone_count = Metric.generic_interval_count(:actions, ((last_day_of_month.beginning_of_month)..last_day_of_month), 'telephone') || 0
 
         @actions_phone_per_months[I18n.t('date.month_names')[last_day_of_month.month]] = phone_count
-        website_count = Metric.actions.where(created_at: ((last_day_of_month.beginning_of_month)..last_day_of_month) ).where(infos: 'website')
-                              .order('DATE(created_at) ASC')
-                              .group('DATE(created_at)')
-                              .select('DATE(created_at) as created_at, COUNT(DISTINCT(structure_id, user_fingerprint, ip_address)) as user_count')
-                              .map(&:user_count).reduce(&:+) || 0
+        website_count = Metric.generic_interval_count(:actions, ((last_day_of_month.beginning_of_month)..last_day_of_month), 'website') || 0
 
         @actions_website_per_months[I18n.t('date.month_names')[last_day_of_month.month]] = website_count
       end
