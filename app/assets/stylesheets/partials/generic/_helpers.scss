@@ -93,14 +93,16 @@
     margin-bottom: 0.5em;
 }
 // Rounded
-.rounded--none    { @include border-radius(0!important); }
-.rounded-top--none{ @include border-top-radius(0!important); }
-.rounded          { @include border-radius($brand-round); }
-.rounded--top     { @include border-top-radius($brand-round); }
-.rounded--bottom  { @include border-bottom-radius($brand-round); }
-.rounded--double  { @include border-radius($brand-round * 2); }
-.rounded--thick   { @include border-radius(1em !important); }
-.rounded--circle  { @include border-radius(100% !important); }
+.rounded--none      { @include border-radius(0!important); }
+.rounded-left--none { @include border-left-radius(0!important); }
+.rounded-right--none { @include border-right-radius(0!important); }
+.rounded-top--none  { @include border-top-radius(0!important); }
+.rounded            { @include border-radius($brand-round); }
+.rounded--top       { @include border-top-radius($brand-round); }
+.rounded--bottom    { @include border-bottom-radius($brand-round); }
+.rounded--double    { @include border-radius($brand-round * 2); }
+.rounded--thick     { @include border-radius(1em !important); }
+.rounded--circle    { @include border-radius(100% !important); }
 
 // Border
 .bordered--right     { border-right  : 1px solid $gray-smooth; }
@@ -163,6 +165,7 @@
 
 .pointer        { cursor: pointer !important; }
 .cursor-default { cursor: default !important; }
+.cursor-help    { cursor: help !important; }
 
 .ie-blocker {
     position   : fixed;
@@ -327,5 +330,11 @@
 .last-p-flush {
     p:last-child {
         margin-bottom: 0;
+    }
+}
+.zoom-on-hover {
+    @include transition(all 100ms ease-in-out);
+    &:hover {
+        @include transform(scale(1.05, 1.05));
     }
 }

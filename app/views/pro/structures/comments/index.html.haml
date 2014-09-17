@@ -6,7 +6,7 @@
       = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--green btn--large'
     %hr.flush
     .soft.premium-box.relative
-      = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 70, width: 70, style: 'width: 70px; height: 70px;'
+      = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/premium-ribbon.png', class: 'north west absolute on-top', height: 70, width: 70, style: 'width: 70px; height: 70px;'
       .grid
         .grid__item.seven-tenths>
           = simple_form_for [:pro, @structure], html: { data: { behavior: 'live-form' } }, remote: true do |f|

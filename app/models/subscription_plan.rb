@@ -2,31 +2,47 @@ class SubscriptionPlan < ActiveRecord::Base
   acts_as_paranoid
   include Concerns::HstoreHelper
 
-  PLAN_TYPE = %w(monthly yearly)
+  PLAN_TYPE = %w(monthly yearly monthly_school yearly_school monthly_master yearly_master)
 
   PLAN_TYPE_PRICES = {
-    'monthly'      => 44, # €
-    'yearly'       => 468 # €
+    'monthly'             => 44,   # €
+    'yearly'              => 440,  # €
+    'monthly_school'      => 144,  # €
+    'yearly_school'       => 1440, # €
+    'monthly_master'      => 244,  # €
+    'yearly_master'       => 2440  # €
   }
   PLAN_TYPE_FREQUENCY = {
-    'monthly'      => 'tous les mois',
-    'yearly'       => 'tous les ans'
+    'monthly'         => 'tous les mois',
+    'yearly'          => 'tous les ans',
+    'monthly_school'  => 'tous les mois',
+    'yearly_school'   => 'tous les ans',
+    'monthly_master'  => 'tous les mois',
+    'yearly_master'   => 'tous les ans'
   }
   PLAN_TYPE_DESCRIPTION = {
-    'monthly'      => 'Abonnement mensuel',
-    'yearly'       => 'Abonnement annuel'
+    'monthly'         => 'Abonnement mensuel Solo',
+    'yearly'          => 'Abonnement annuel Solo',
+    'monthly_school'  => 'Abonnement mensuel École',
+    'yearly_school'   => 'Abonnement annuel École',
+    'monthly_master'  => 'Abonnement mensuel Master',
+    'yearly_master'   => 'Abonnement annuel Master'
   }
   PLAN_TYPE_DURATION = {
-    'monthly'      => 1, # month
-    'yearly'       => 12 # months
+    'monthly'         => 1, # month
+    'yearly'          => 12, # months
+    'monthly_school'  => 1,
+    'yearly_school'   => 12,
+    'monthly_master'  => 1,
+    'yearly_master'   => 12
   }
 
   ######################################################################
   # Scopes                                                             #
   ######################################################################
-  scope :yearly,                  -> { where( plan_type: 'yearly') }
-  scope :not_monthly,             -> { where.not( plan_type: 'monthly') }
-  scope :monthly,                 -> { where( plan_type: 'monthly') }
+  scope :yearly,                  -> { where( arel_table[:plan_type].matches('yearly%')) }
+  scope :not_monthly,             -> { where.not( arel_table[:plan_type].matches('monthly%')) }
+  scope :monthly,                 -> { where( arel_table[:plan_type].matches('monthly%')) }
   scope :expires_in_fifteen_days, -> { where( arel_table[:expires_at].gteq(Date.today - 15.days).and(
                                               arel_table[:expires_at].lt(Date.today - 14.days)) ) }
 

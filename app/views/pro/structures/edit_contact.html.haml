@@ -31,7 +31,7 @@
     .soft--sides
       .panel.panel--yellow{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.links') } }
         .panel__header.soft.f-weight-bold.text--center.relative
-          = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 80, width: 80, style: 'width: 80px; height: 80px;'
+          = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/premium-ribbon.png', class: 'north west absolute on-top', height: 80, width: 80, style: 'width: 80px; height: 80px;'
           = render partial: 'pro/structures/premium_select', locals: { title: 'afficher les liens vers votre site Internet et votre page Facebook ?', label_text: 'Statut des liens vers vos pages :', select_collection: ['Visibles', 'Non visibles'] }
         .panel__body.soft
           %h5.flush--bottom.soft--left.push--left Liens vers vos pages
