@@ -152,6 +152,9 @@
 .tab-pane {
     display    : none;
     padding-top: 1em;
+    &.active.inline-block {
+        display: inline-block;
+    }
     &.active{
         display: block;
     }

@@ -1,32 +1,108 @@
+%h4.flush
+  Commencez dès maintenant :
+  .inline-block.green.tab-pane.hard--top.monthly-details.active offre sans engagement
+  .inline-block.green.tab-pane.hard--top.annual-details 12 mois pour le prix de 10
+%p.epsilon.two-thirds.center-block
+  60 secondes suffisent pour passer au Premium : immédiatement, votre trafic augmente et vous apporte de nouveaux élèves. Vous pouvez interrompre votre abonnement à tout moment, en toute liberté et simplement.
+
+.center-block.push-half--bottom
+  %ul.nav.tabs--link.inline-block.flush.btn-group
+    %li.active>
+      %a.btn.rounded-right--none{ href: '.monthly-details', data: { toggle: 'tab' } } Mensuel
+    %li>
+      %a.btn.rounded-left--none{ href: '.annual-details', data: { toggle: 'tab' } } Annuel
+
 = form_for (@structure), method: :get, url: new_pro_structure_subscription_plan_path(@structure) do
   %input#premium_type_value{ type: 'hidden', name: 'premium_type', value: 'yearly' }
   .grid--full.push-half--bottom.text--center
-    .grid__item.v-middle.one-half.text--center>
-      .white-box.premium-bordered-box.soft-half.relative
-        .premium-banner
-          .premium-banner__content
-            La plus économique
-        %p.gamma.push-half--bottom.soft--top
-          %strong 12 mois
-        %hr
-        .delta.line-height-1-7 39€ / mois
-        %p Soit 468€ en un prélèvement unique
-        %p.green
-          %strong.gamma -11%
-          %span.delta de réduction
-        = submit_tag 'Souscrire', class: 'btn btn--full btn--yellow', onclick: "$('#premium_type_value').val('yearly');"
-    .grid__item.v-middle.one-half.text--center>
-      .white-box.soft-half.border-none--left.relative
-        .premium-banner
-          .premium-banner__content
-            La plus libre
-        %p.gamma.push-half--bottom.soft--top
-          %strong 1 mois
-        %hr
-        .delta.line-height-1-7 44€ / mois
-        %p Prélèvement mensuel
-        %p
-          %strong.gamma &nbsp;
+    .grid__item.one-third.text--center.soft-half--right.v-top.zoom-on-hover>
+      .white-box-half.bordered
+        .orange-box.soft.white.tab-content
+          %p.epsilon.flush
+            Premium
+          %p.beta.push-half--ends
+            %strong Solo
+          .tab-pane.hard--top.monthly-details.active
+            %p.delta.line-height-1-7 44€ / mois
+            = submit_tag 'Souscrire', class: 'btn btn--full btn--yellow', onclick: "$('#premium_type_value').val('monthly');"
+          .tab-pane.hard--top.annual-details
+            %p.delta.line-height-1-7 440€ / an
+            = submit_tag 'Souscrire', class: 'btn btn--full btn--yellow', onclick: "$('#premium_type_value').val('yearly');"
+        .soft
+          %p
+            %i.milli Idéal pour les professeurs proposant moins de 5 séances par semaine et moins de 10 stages par an.
+          %p.cursor-help{ data: { behavior: 'popover', content: "En passant au Premium, vous accédez à 10 fonctionnalités qui ont pour but d'optimiser et de personnaliser votre profil. Par exemple, vos cours d'essai gratuits et vos offres découvertes deviennent visibles, le lien vers votre site Internet apparaît et vous n'avez plus de profil similaire sur votre profil.", trigger: 'hover', placement: 'top' } }
+            %strong 10 nouvelles fonctionnalités
+          %p.cursor-help{ data: { behavior: 'popover', content: "Grâce aux fonctionnalités spéciales Premium, votre profil devient complet et apparaît dans les 1er résultats de recherche CoursAvenue. Votre profil s'affiche également en 1er dans nos newsletters et sur chaque profil dans la partie \"profils similaires\".", trigger: 'hover', placement: 'top' } }
+            %strong Visibilité CoursAvenue et newsletters
+          %p.cursor-help{ data: { behavior: 'popover', content: "Chaque jour, nous pilotons des campagnes sur Google de manière à vous en faire pleinement profiter. Nous investissons de larges sommes sur Google AdWords pour gagner rapidement et efficacement en visibilité. Par exemple, vous donnez des cours de dessin à Paris ? Notre objectif est qu'un élève vous contacte après avoir recherché \"cours de dessin Paris\".", trigger: 'hover', placement: 'top' } }
+            %strong Visibilié Google AdWords
+          %p.cursor-help{ data: { behavior: 'popover', content: "Pour vous faire connaître des personnes intéressées par vos disciplines et proches de vos lieux, nous pilotons des campagnes ciblées sur Facebook. Avec l'offre Premium \"Solo\", ces campagnes sont basiques : pour communiquer sur votre profil, nous pilotons une annonce qui sera visible tout au long de votre abonnement.", trigger: 'hover', placement: 'top' } }
+            %strong Campagnes Facebook : basiques
+          %p.cursor-help{ data: { behavior: 'popover', content: "Grâce à tous les moyens mis en oeuvre, nous touchons une audience en adéquation avec vos besoins de communication.", trigger: 'hover', placement: 'top' } }
+            %strong Audience touchée : +
+          %p.cursor-help{ data: { behavior: 'popover', content: "En toute transparence, suivez quotidiennement les statistiques de performance de votre profil (nombre de visites, de prises de contact, etc.) et optimisez son efficacité.", trigger: 'hover', placement: 'top' } }
+            %strong Statistiques
+          %p.cursor-help{ data: { behavior: 'popover', content: "Contactez nos conseillers par chat ou e-mail, nous vous répondons sous 2 jours.", trigger: 'hover', placement: 'top' } }
+            %strong Chat & e-mail
+    .grid__item.one-third.text--center.soft-half--right.v-top.zoom-on-hover>
+      .white-box-half.bordered
+        .dark-blue-box.soft.white.tab-content
+          %p.epsilon.flush
+            Premium
+          %p.beta.push-half--ends
+            %strong École
+          .tab-pane.hard--top.monthly-details.active
+            %p.delta.line-height-1-7 144€ / mois
+            = submit_tag 'Souscrire', class: 'btn btn--full btn--yellow', onclick: "$('#premium_type_value').val('monthly_school');"
+          .tab-pane.hard--top.annual-details
+            %p.delta.line-height-1-7 1440€ / an
+            = submit_tag 'Souscrire', class: 'btn btn--full btn--yellow', onclick: "$('#premium_type_value').val('yearly_school');"
+        .soft
+          %p
+            %i.milli Idéal pour les associations proposant plus de 5 séances par semaine et une dizaine de stages par an.
+          %p.cursor-help{ data: { behavior: 'popover', content: "En passant au Premium, vous accédez à 10 fonctionnalités qui ont pour but d'optimiser et de personnaliser votre profil. Par exemple, vos cours d'essai gratuits et vos offres découvertes deviennent visibles, le lien vers votre site Internet apparaît et vous n'avez plus de profil similaire sur votre profil.", trigger: 'hover', placement: 'top' } }
+            %strong 10 nouvelles fonctionnalités
+          %p.cursor-help{ data: { behavior: 'popover', content: "Grâce aux fonctionnalités spéciales Premium, votre profil devient complet et apparaît dans les 1er résultats de recherche CoursAvenue. Votre profil s'affiche également en 1er dans nos newsletters et sur chaque profil dans la partie \"profils similaires\".", trigger: 'hover', placement: 'top' } }
+            %strong Visibilité CoursAvenue et newsletters
+          %p.cursor-help{ data: { behavior: 'popover', content: "Chaque jour, nous pilotons des campagnes sur Google de manière à vous en faire pleinement profiter. Nous investissons de larges sommes sur Google AdWords pour gagner rapidement et efficacement en visibilité. Par exemple, vous donnez des cours de dessin à Paris ? Notre objectif est qu'un élève vous contacte après avoir recherché \"cours de dessin Paris\".", trigger: 'hover', placement: 'top' } }
+            %strong Visibilié Google AdWords
+          %p.cursor-help{ data: { behavior: 'popover', content: "Pour vous faire connaître des personnes intéressées par vos disciplines et proches de vos lieux, nous pilotons des campagnes ciblées sur Facebook. Avec l'offre Premium \"Master\", nous lançons des campagnes avancées : nous pilotons plusieurs annonces pour communiquer sur chacun de vos cours et nous les personnalisons pour les optimiser.", trigger: 'hover', placement: 'top' } }
+            %strong Campagnes Facebook : multiples
+          %p.cursor-help{ data: { behavior: 'popover', content: "Grâce à tous les moyens mis en oeuvre, nous touchons une audience en adéquation avec vos besoins de communication.", trigger: 'hover', placement: 'top' } }
+            %strong Audience touchée : ++
+          %p.cursor-help{ data: { behavior: 'popover', content: "En toute transparence, suivez quotidiennement les statistiques de performance de votre profil (nombre de visites, de prises de contact, etc.) et optimisez son efficacité.", trigger: 'hover', placement: 'top' } }
+            %strong Statistiques
+          %p.cursor-help{ data: { behavior: 'popover', content: "Contactez nos conseillers par chat ou e-mail, nous vous répondons sous 2 jours.", trigger: 'hover', placement: 'top' } }
+            %strong Chat & e-mail
+    .grid__item.one-third.text--center.soft-half--right.v-top.zoom-on-hover>
+      .white-box-half.bordered
+        .green-box.soft.white.tab-content
+          %p.epsilon.flush
+            Premium
+          %p.beta.push-half--ends
+            %strong Master
+          .tab-pane.hard--top.monthly-details.active
+            %p.delta.line-height-1-7 244€ / mois
+            = submit_tag 'Souscrire', class: 'btn btn--full btn--yellow', onclick: "$('#premium_type_value').val('monthly_master');"
+          .tab-pane.hard--top.annual-details
+            %p.delta.line-height-1-7 2440€ / an
+            = submit_tag 'Souscrire', class: 'btn btn--full btn--yellow', onclick: "$('#premium_type_value').val('yearly_master');"
+        .soft
+          %p
+            %i.milli Idéal pour les centres proposant plus de 10 séances par semaine et des stages réguliers.
 
-        = submit_tag 'Souscrire', class: 'btn btn--full btn--yellow', onclick: "$('#premium_type_value').val('monthly');"
-
+          %p.cursor-help{ data: { behavior: 'popover', content: "En passant au Premium, vous accédez à 10 fonctionnalités qui ont pour but d'optimiser et de personnaliser votre profil. Par exemple, vos cours d'essai gratuits et vos offres découvertes deviennent visibles, le lien vers votre site Internet apparaît et vous n'avez plus de profil similaire sur votre profil.", trigger: 'hover', placement: 'top' } }
+            %strong 10 nouvelles fonctionnalités
+          %p.cursor-help{ data: { behavior: 'popover', content: "Grâce aux fonctionnalités spéciales Premium, votre profil devient complet et apparaît dans les 1er résultats de recherche CoursAvenue. Votre profil s'affiche également en 1er dans nos newsletters et sur chaque profil dans la partie \"profils similaires\".", trigger: 'hover', placement: 'top' } }
+            %strong Visibilité CoursAvenue et newsletters
+          %p.cursor-help{ data: { behavior: 'popover', content: "Chaque jour, nous pilotons des campagnes sur Google de manière à vous en faire pleinement profiter. Nous investissons de larges sommes sur Google AdWords pour gagner rapidement et efficacement en visibilité. Par exemple, vous donnez des cours de dessin à Paris ? Notre objectif est qu'un élève vous contacte après avoir recherché \"cours de dessin Paris\".", trigger: 'hover', placement: 'top' } }
+            %strong Visibilié Google AdWords
+          %p.cursor-help{ data: { behavior: 'popover', content: "Pour vous faire connaître des personnes intéressées par vos disciplines et proches de vos lieux, nous pilotons des campagnes ciblées sur Facebook. Avec l'offre Premium \"Solo\", ces campagnes sont basiques : pour communiquer sur votre profil, nous pilotons une annonce qui sera visible tout au long de votre abonnement.", trigger: 'hover', placement: 'top' } }
+            %strong Campagnes Facebook : avancées
+          %p.cursor-help{ data: { behavior: 'popover', content: "Grâce à tous les moyens mis en oeuvre, nous touchons une audience en adéquation avec vos besoins de communication.", trigger: 'hover', placement: 'top' } }
+            %strong Audience touchée : +++
+          %p.cursor-help{ data: { behavior: 'popover', content: "En toute transparence, suivez quotidiennement les statistiques de performance de votre profil (nombre de visites, de prises de contact, etc.) et optimisez son efficacité.", trigger: 'hover', placement: 'top' } }
+            %strong Statistiques
+          %p.cursor-help{ data: { behavior: 'popover', content: "Contactez nos conseillers par chat ou e-mail, nous vous répondons sous 2 jours.", trigger: 'hover', placement: 'top' } }
+            %strong Chat & e-mail
