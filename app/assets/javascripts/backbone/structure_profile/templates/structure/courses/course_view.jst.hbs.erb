@@ -120,7 +120,7 @@
                 {{#each premium_prices}}
                     <tr>
                         <td class="nowrap">
-                            <img src="<%= asset_path('icons/icon-star-yellow-full-bordered.png') %>" height="14" class="v-middle" data-toggle="tooltip" data-title="Offre spéciale CoursAvenue">
+                            <img src="https://coursavenue-public.s3.amazonaws.com/public_assets/icons/icon-star-yellow-full-bordered.png" height="14" class="v-middle" data-toggle="tooltip" data-title="Offre spéciale CoursAvenue">
                             <span class="v-middle">
                             {{#if this.discount}} {{ this.libelle_type }} {{else}} {{ this.libelle }} {{/if}}
                             </span>
@@ -149,7 +149,7 @@
                     <tr class="{{#ifCond @index '==' 0}}bordered--top{{/ifCond}} {{#ifCond @index '>' 1}}course-{{../../id}}-prices-long hidden{{/ifCond}}">
                         <td>
                             {{#if ../premium}}{{#if this.promo_amount}}
-                            <img src="<%= asset_path('icons/icon-star-yellow-full-bordered.png') %>" height="14" class="v-middle" data-toggle="tooltip" data-title="Offre spéciale CoursAvenue">
+                            <img src="https://coursavenue-public.s3.amazonaws.com/public_assets/icons/icon-star-yellow-full-bordered.png" height="14" class="v-middle" data-toggle="tooltip" data-title="Offre spéciale CoursAvenue">
                             {{/if}}{{/if}}
                             <span class="v-middle">{{this.libelle}}</span>
                         </td>

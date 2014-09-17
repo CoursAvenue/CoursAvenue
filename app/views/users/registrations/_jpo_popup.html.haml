@@ -23,7 +23,7 @@
             - @open_courses_slugs.each do |text_image, slug_group|
               %li
                 .push-half--bottom
-                  = image_tag "icons/subjects/#{text_image.last}-white.png", height: 30, class: 'v-middle'
+                  = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/#{text_image.last}-white.png", height: 30, class: 'v-middle'
                   %h4.flush.v-middle.inline-block= text_image.first
                 - slug_group.each do |slug|
                   - course = Course::Open.where(slug: slug).first

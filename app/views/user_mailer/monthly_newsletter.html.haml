@@ -48,7 +48,7 @@
                         = truncate similar_profile.name, length: 22
                         - if similar_profile.premium? and header_promotion_title_for_structure(similar_profile).present?
                           %br
-                          = image_tag 'icons/icon-star-full--yellow.png', height: 15, widht: 15, class: 'v-middle', style: 'padding-right: 2px;'
+                          = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/icon-star-full--yellow.png', height: 15, widht: 15, class: 'v-middle', style: 'padding-right: 2px;'
                           %i.v-middle= header_promotion_title_for_structure(similar_profile)
       %tr{ valign: 'top' }
         %td.content-block{ colspan: '3', width: '600', style: 'padding-bottom: 0' }

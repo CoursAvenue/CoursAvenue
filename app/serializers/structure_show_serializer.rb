@@ -185,7 +185,7 @@ class StructureShowSerializer < ActiveModel::Serializer
       _subjects << {
         root_name: root_subject.name,
         child_names: child_subjects.map(&:name).join(', '),
-        icon: ActionController::Base.helpers.asset_path("icons/subjects/#{root_subject.slug}.png")
+        icon: "https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/#{root_subject.slug}.png"
       }
     end
     _subjects.sort_by(&:length).reverse

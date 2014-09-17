@@ -7,7 +7,7 @@
           .p Voici la liste des disciplines qui vous intéressent :
           .p
             - user.subjects.at_depth(0).uniq.each do |root_subject|
-              = image_tag "icons/subjects/#{root_subject.slug}.png", width: 15
+              = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/#{root_subject.slug}.png", width: 15
               %strong= "#{root_subject.name} : "
               - child_subjects = user.subjects.at_depth(2)
               = user.subjects.at_depth(2).uniq.sort_by(&:name).select{ |subject|  subject.ancestry.start_with?(root_subject.id.to_s) }.map(&:name).join(', ')

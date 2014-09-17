@@ -5,7 +5,7 @@
   = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank' do
     = image_tag @structure.logo.url(:thumb), class: 'block', height: 100, width: 100, alt: "Logo de #{@structure.name}"
   %div.yellow.text--center{ style: 'padding-top: 2px;' }
-    = image_tag 'icons/icon-star-full--yellow.png', height: 15, widht: 15, class: 'v-middle', style: 'padding-right: 2px;'
+    = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/icon-star-full--yellow.png', height: 15, widht: 15, class: 'v-middle', style: 'padding-right: 2px;'
     %span.v-middle Premium
 
 - content_for :promo do
@@ -32,7 +32,7 @@
           = link_to structure_url(similar_profile, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'muted-link block' do
             = image_tag similar_profile.logo.url(:thumb), width: 80, height: 80, alt: "Logo #{similar_profile.name}", class: 'bordered'
           %div.yellow.text--center{ style: 'padding-top: 2px;' }
-            = image_tag 'icons/icon-star-full--yellow.png', height: 15, widht: 15, class: 'v-top', style: 'padding-right: 2px;'
+            = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/icon-star-full--yellow.png', height: 15, widht: 15, class: 'v-top', style: 'padding-right: 2px;'
             %span.v-top Premium
         %td.v-top.content-block{ width: 220 }
           .p.soft-half--left.hard--bottom
