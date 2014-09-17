@@ -1,0 +1,18 @@
+.panel.center-block{ style: 'width: 700px;'}
+  .panel__header.soft
+    %h3.flush
+      Vous avez déjà envoyé un message à ce professeur
+  .panel__body.soft
+    %p.epsilon
+      Allez dans la rubrique
+      = link_to '« Boite de réception »', user_conversations_path(current_user)
+      de votre profil pour consulter vos derniers messages.
+    %hr
+    %h4 Et ne vous arrêtez pas et contactez 3 autres profils
+    %p.epsilon
+      Nous vous conseillons de contacter 3 autres profils pour multiplier vos chances de trouver le cours de votre choix. Voici quelques suggestions pour vous :
+    %div{ style: 'height: 20em; overflow-y: scroll; overflow-x: hidden;'}
+      - @structure.similar_profiles(12, { medias_count: 1 }).each_with_index do |structure, index|
+        - next if structure.medias.empty?
+        .inline-block.one-half.very-soft.relative>
+          = render partial: "structures/similar_profile", locals: { structure: structure }
