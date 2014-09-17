@@ -69,6 +69,10 @@
                                   { data: #{@message_actions.sort.map{|date, count| count}},
                                     name: 'Message',
                                     stack: 'Actions'
+                                  },
+                                  { data: #{@follow_actions.sort.map{|date, count| count}},
+                                    name: 'Favori',
+                                    stack: 'Actions'
                                   }
                                 ]
 - else
@@ -95,7 +99,7 @@
                 showEmpty: true,
                 minTickInterval: 1
             },
-            colors: ['#e2493c', '#3ab8ae', '#47b442', '#62bc62', '#A0D468'],
+            colors: ['#e2493c', '#3ab8ae', '#47b442', '#62bc62', '#A0D468', '#B9DF90'],
             plotOptions: {
                 series: {
                     pointPadding: 0,
