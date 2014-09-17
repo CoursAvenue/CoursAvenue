@@ -27,7 +27,7 @@
                 .flexbox__item.v-top.two-twelfths
                   - if article.cover_image.present?
                     = link_to blog_article_path(article), class: 'muted-link push-half--bottom block' do
-                      = image_tag article.cover_image.url(:small), class: 'block blog-article__image', alt: article.title, title: article.title
+                      = image_tag article.cover_image.url(:very_small), class: 'block blog-article__image', alt: article.title, title: article.title
                 .flexbox__item.v-top.ten-twelfths.soft--left
                   %h3.delta.flush
                     = link_to article.title, blog_article_path(article), class: 'muted-link'

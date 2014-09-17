@@ -8,7 +8,7 @@
     .relative.bg-cover{style: "background-image: url('#{city.image.url(:small)}'); height: 120px; "}>
       = link_to structures_path_for_city_and_subject(city, @subject), class: 'block show-on-hover__wrapper show-on-hover__wrapper--black-curtain', title: "Tous les cours de #{@subject.name} à #{city.name}" do
         .home-screen-gallery__title.text--center
-          %div= city.name
+          %h3.f-weight-normal.flush.delta.soft-half--top= city.name
           .show-on-hover__child.milli
             = StructureSearch.search({ lat: city.latitude, lng: city.longitude }).total
             profils
