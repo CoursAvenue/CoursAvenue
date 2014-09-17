@@ -107,6 +107,7 @@ CoursAvenue::Application.routes.draw do
       resources :participations, only: [:index], controller: 'participations'
       resources :statistics, only: [:index]
       resources :promotion_codes, path: 'code-promos'
+
       resources :subscription_plans, only: [:index, :update], path: 'abonnements' do
         collection do
           get :premium_tracking, path: 'suivi-premium'
@@ -154,6 +155,7 @@ CoursAvenue::Application.routes.draw do
           patch :update_and_delete
           post  :recommend_friends
           post  :update
+          get   :premium # redirect to subscriptions
         end
         collection do
           get :sleepings
