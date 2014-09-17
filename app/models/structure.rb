@@ -814,6 +814,7 @@ class Structure < ActiveRecord::Base
         elsif conversation.messages.count > 1
           first_message_of_admin = conversation.messages.order('created_at ASC').detect{|m| m.sender.is_a? Admin }
           first_message_of_user  = conversation.messages.order('created_at ASC').detect{|m| m.sender.is_a? User }
+          next if first_message_of_admin.nil? or first_message_of_user.nil?
           creation_dates = [first_message_of_admin.created_at, first_message_of_user.created_at]
           # (Time 1 - Time 2) => number of seconds between the two times
           # / 60 => To minutes | / 60 to hours
