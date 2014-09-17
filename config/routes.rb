@@ -529,6 +529,7 @@ CoursAvenue::Application.routes.draw do
   # Must be at the end not to stop other routes
   get ':root_subject_id/:subject_id--:city_id'     , to: 'structures#index', as: :search_page
   get ':root_subject_id--:city_id'                 , to: 'structures#index', as: :root_search_page
+  get ':city_id'                                   , to: 'structures#index', as: :root_search_page_without_subject
   ########### Search pages ###########
 
   # Needed to catch 404 requests in ApplicationController

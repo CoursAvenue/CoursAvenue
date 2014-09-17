@@ -1,10 +1,7 @@
 - @is_responsive = true
 
 = content_for :head do
-  - if @subject
-    %link{rel: 'canonical', href: subject_structures_url(@subject)}
-  - else
-    %link{rel: 'canonical', href: structures_url}
+  %link{ rel: 'canonical', href: request.path }
 
 = content_for :title do
   - params[:city] = params[:address_name] if params[:address_name].present? and params[:city].blank?

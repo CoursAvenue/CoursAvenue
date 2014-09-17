@@ -5,7 +5,7 @@
 - subject_slug  = ''                   if subject_slug.nil?
 - wrapper_class = 'header-search-bar' if wrapper_class.nil?
 .home-page-search
-  = form_tag structures_path, method: :get, authenticity_token: false, data: { gather: true }, class: form_class do
+  = form_tag root_search_page_without_subject_path('paris'), method: :get, authenticity_token: false, data: { gather: true }, class: form_class, id: 'city-form' do
     .relative.flexbox.rounded.very-soft{ class: wrapper_class }
       .flexbox__item.v-middle.search-input-wrapper
         %select.palm-one-whole.input--large.one-whole{ name: 'root_subject_id' }
@@ -25,3 +25,18 @@
         %button.nowrap.btn.btn--blue.btn--full.input--large{type: 'submit', id: 'submit_search_form'}
           %i.fa.fa-search
           Trouver
+
+= content_for :scripts do
+  :javascript
+    $(function () {
+        $('#city-form').submit(function() {
+            var city_name = $('#address-city').val().split(',')[0].toLowerCase();
+            if ($('[name=root_subject_id]').val().length > 0) {
+                new_action = Routes.root_search_page_path($('[name=root_subject_id]').val(), city_name);
+            } else {
+                new_action = Routes.root_search_page_without_subject_path(city_name);
+            }
+            $('#city-form').attr('action', new_action);
+        });
+    });
+
