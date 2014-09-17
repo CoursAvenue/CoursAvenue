@@ -342,6 +342,11 @@ France
   def choose_premium
   end
 
+  # Get etablissements/:id/premium
+  def premium
+    redirect_to pro_structure_subscription_plans_path(@structure), status: 301
+  end
+
   # GET member
   def premium_modal
     suffix_acton_type = request.referrer.split('new').first.split('?').first.split('/').last
