@@ -30,7 +30,7 @@
       .grid
         .grid__item.two-twelfths.v-middle>
           = link_to structure_path(@last_comment.structure), class: 'muted-link block' do
-            = image_tag @last_comment.structure.logo.url(:thumb), class: 'block white-circle'
+            = image_tag @last_comment.structure.logo.url(:small_thumb), class: 'block white-circle'
         .grid__item.ten-twelfths.v-middle>
           .quoted.epsilon.quoted--large<
             = link_to @last_comment.title, structure_path(@last_comment.structure), class: 'muted-link'
