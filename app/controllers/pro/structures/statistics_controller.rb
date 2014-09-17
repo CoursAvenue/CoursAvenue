@@ -37,19 +37,19 @@ class Pro::Structures::StatisticsController < Pro::ProController
 
     actions["telephone"]         .group_by { |metric| metric.created_at.to_date }
                                  .map{ |date, metrics| { created_at: date, user_count: metrics.uniq(&:identify).length } }
-                                 .each{ |stat| @phone_actions[stat[:created_at]] = stat[:user_count]; @actions_total_count += stat[:user_count] } if action["telephone"].present?
+                                 .each{ |stat| @phone_actions[stat[:created_at]] = stat[:user_count]; @actions_total_count += stat[:user_count] } if actions["telephone"].present?
 
     actions["website"]           .group_by { |metric| metric.created_at.to_date }
                                  .map{ |date, metrics| { created_at: date, user_count: metrics.uniq(&:identify).length } }
-                                 .each{ |stat| @website_actions[stat[:created_at]] = stat[:user_count]; @actions_total_count += stat[:user_count] } if action["website"].present?
+                                 .each{ |stat| @website_actions[stat[:created_at]] = stat[:user_count]; @actions_total_count += stat[:user_count] } if actions["website"].present?
 
     actions["contact_message"]   .group_by { |metric| metric.created_at.to_date }
                                  .map{ |date, metrics| { created_at: date, user_count: metrics.uniq(&:identify).length } }
-                                 .each{ |stat| @message_actions[stat[:created_at]] = stat[:user_count]; @actions_total_count += stat[:user_count] } if action["contact_message"].present?
+                                 .each{ |stat| @message_actions[stat[:created_at]] = stat[:user_count]; @actions_total_count += stat[:user_count] } if actions["contact_message"].present?
 
     actions["follow"]            .group_by { |metric| metric.created_at.to_date }
                                  .map{ |date, metrics| { created_at: date, user_count: metrics.uniq(&:identify).length } }
-                                 .each{ |stat| @follow_actions[stat[:created_at]] = stat[:user_count]; @actions_total_count += stat[:user_count] } if action["follow"].present?
+                                 .each{ |stat| @follow_actions[stat[:created_at]] = stat[:user_count]; @actions_total_count += stat[:user_count] } if actions["follow"].present?
 
   end
 end
