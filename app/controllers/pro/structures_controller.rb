@@ -350,7 +350,7 @@ France
   # GET member
   def premium_modal
     suffix_acton_type = request.referrer.split('new').first.split('?').first.split('/').last
-    Statistic.create(structure_id: @structure.id, action_type: "structure_go_premium_#{suffix_acton_type}", infos: request.referrer)
+    Metric.create(structure_id: @structure.id, action_type: "structure_go_premium_#{suffix_acton_type}", infos: request.referrer)
     if request.xhr?
       render layout: false
     end
