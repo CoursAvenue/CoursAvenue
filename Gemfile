@@ -183,7 +183,7 @@ gem 'axlsx'                     , '~> 2.0.1'
 gem 'rack-utf8_sanitizer'       , '~> 1.1.0'
 
 # Use ckeditor for post body
-gem 'ckeditor'                  , '~> 4.1.0'
+# gem 'ckeditor'                  , '~> 4.1.0'
 
 group :production, :staging do
   gem 'execjs'                  , '~>2.0.2'
@@ -232,3 +232,6 @@ gem 'rmagick', '~>2.13.3', require: 'RMagick'
 
 # Rails 4 upgrade
 gem 'actionpack-action_caching', '~>1.0.0'
+
+# Use mongoid for statistics
+gem 'mongoid'                  , '~>4.0.0'
