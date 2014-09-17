@@ -178,7 +178,7 @@ class Metric
   end
 
   ######################################################################
-  # Private methods and helpers                                        #
+  # Helper Methods                                                     #
   ######################################################################
 
   # Identify the Metric using its user_fingerprint and its ip address.
@@ -197,8 +197,6 @@ class Metric
       user_fingerprint: self.user_fingerprint,
       ip_address:       self.ip_address }
   end
-
-  private
 
   def self.generic_interval_count(type, interval, infos=nil)
     count = Metric.send(type).where(created_at: interval).asc(:created_at)
