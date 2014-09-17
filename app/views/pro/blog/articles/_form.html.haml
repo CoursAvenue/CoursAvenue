@@ -40,6 +40,7 @@
   = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours...' }
 
 = content_for :scripts do
+  = javascript_include_tag '//cdn.ckeditor.com/4.4.4/standard/ckeditor.js'
   :javascript
       // Prevent the backspace key from navigating back.
       $(document).unbind('keydown').bind('keydown', function (event) {

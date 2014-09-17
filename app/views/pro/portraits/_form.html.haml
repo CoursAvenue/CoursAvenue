@@ -58,3 +58,6 @@
           = link_to pro_portrait_media_path(@portrait, media), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce média ?' }, title: 'Supprimer', class: 'btn btn--small btn--red' do
             Supprimer
 
+
+= content_for :scripts do
+  = javascript_include_tag '//cdn.ckeditor.com/4.4.4/standard/ckeditor.js'
