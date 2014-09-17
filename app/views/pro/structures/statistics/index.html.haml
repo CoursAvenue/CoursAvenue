@@ -51,13 +51,24 @@
   :javascript
     window.coursavenue = {};
     window.coursavenue.series = [ { data: #{@impressions.sort.map{|date, count| count}},
-                                    name: 'Affichages'
+                                    name: 'Affichages',
+                                    stack: 'Affichages'
                                    },
                                   { data: #{@views.sort.map{|date, count| count}},
-                                    name: 'Vues'
+                                    name: 'Vues',
+                                    stack: 'Vues'
                                   },
-                                  { data: #{@actions.sort.map{|date, count| count}},
-                                    name: 'Actions'
+                                  { data: #{@phone_actions.sort.map{|date, count| count}},
+                                    name: 'Téléphone',
+                                    stack: 'Actions'
+                                  },
+                                  { data: #{@website_actions.sort.map{|date, count| count}},
+                                    name: 'Website',
+                                    stack: 'Actions'
+                                  },
+                                  { data: #{@message_actions.sort.map{|date, count| count}},
+                                    name: 'Message',
+                                    stack: 'Actions'
                                   }
                                 ]
 - else
@@ -84,13 +95,16 @@
                 showEmpty: true,
                 minTickInterval: 1
             },
-            colors: ['#e2493c', '#00B0FF', '#47b442'],
+            colors: ['#e2493c', '#3ab8ae', '#47b442', '#62bc62', '#A0D468'],
             plotOptions: {
                 series: {
                     pointPadding: 0,
                     groupPadding: 0.1,
                     borderWidth: 0,
                     shadow: false
+                },
+                column: {
+                    stacking: 'normal'
                 }
             },
             series: window.coursavenue.series
@@ -101,9 +115,17 @@
                 if (serie.visible) {
                     $(this).addClass('muted');
                     serie.hide();
+                    if (index == 2) {
+                        statistic_chart.series[3].hide();
+                        statistic_chart.series[4].hide();
+                    }
                 } else {
                     $(this).removeClass('muted');
                     serie.show();
+                    if (index == 2) {
+                        statistic_chart.series[3].show();
+                        statistic_chart.series[4].show();
+                    }
                 }
             });
         });
