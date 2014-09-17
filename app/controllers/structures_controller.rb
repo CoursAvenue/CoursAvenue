@@ -103,7 +103,7 @@ class StructuresController < ApplicationController
     @structure = Structure.friendly.find params[:id]
     @structure.followings.create(user: current_user)
     AdminMailer.delay.user_is_now_following_you(@structure, current_user)
-    Statistic.action(@structure.id, current_user, cookies[:fingerprint], request.ip, 'follow')
+    Metric.action(@structure.id, current_user, cookies[:fingerprint], request.ip, 'follow')
     respond_to do |format|
       format.html { redirect_to structure_path(@structure), notice: "#{@structure.name} a été ajouté à vos favoris"}
       format.json { render json: { succes: true } }

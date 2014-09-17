@@ -95,11 +95,6 @@
 //= require libs/backbone.poller.js
 //= require backbone/cours_avenue.pro
 
-//= require ckeditor/init
-//= require ckeditor/config
-//= require ckeditor/plugins/youtube/plugin
-//= require ckeditor/plugins/youtube/lang/fr
-
 (function($) {
   $.fn.yellowFade = function(options) {
     options = options || {};
