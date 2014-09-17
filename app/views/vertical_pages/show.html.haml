@@ -36,13 +36,15 @@
           = @vertical_page.name
 
   = render partial: 'vertical_pages/cities'
-  %hr.push--top
   .blog-article__content.push--top
     - if @vertical_page.content.present?
+      %hr.push--top
       %h2
         = @vertical_page.title
       = @vertical_page.content.html_safe
     - else
+      - if [@subject.good_to_know, @subject.needed_meterial, @subject.tips].reject(&:blank?).any?
+        %hr.push--top
       - if @subject.good_to_know.present?
         %h3 Bon à savoir / Qu'est-ce que c'est ?
         %p= @subject.good_to_know

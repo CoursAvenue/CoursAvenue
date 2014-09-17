@@ -15,7 +15,6 @@ CoursAvenue::Application.routes.draw do
       get 'livres-blancs'                       => 'home#white_book',         as: 'pages_white_books'
       get 'mailjet_custo'                       => 'home#mailjet_custo'
       get 'pourquoi-etre-recommande'            => 'home#why_be_recommended', as: 'pages_why_be_recommended'
-      get 'presentation'                        => 'home#presentation'
       get 'livre-d-or'                          => 'home#widget',             as: 'pages_widget'
       get 'questions-les-plus-frequentes'       => 'home#questions',          as: 'pages_questions'
       get 'offre-et-tarifs'                     => 'home#price',              as: 'pages_price'
@@ -29,7 +28,7 @@ CoursAvenue::Application.routes.draw do
       get 'pages/offre-speciale-premiers-partenaires' => redirect('offre-speciale-premiers-partenaires', status: 301)
       get 'pages/livres-blancs'                       => redirect('livres-blancs'                      , status: 301)
       get 'pages/pourquoi-etre-recommande'            => redirect('pourquoi-etre-recommande'           , status: 301)
-      get 'pages/presentation'                        => redirect('presentation'                       , status: 301)
+      get 'pages/presentation'                        => redirect('/'                                  , status: 301)
       get 'pages/livre-d-or'                          => redirect('livre-d-or'                         , status: 301)
       get 'pages/questions-les-plus-frequentes'       => redirect('questions-les-plus-frequentes'      , status: 301)
       get 'pages/offre-et-tarifs'                     => redirect('offre-et-tarifs'                    , status: 301)
