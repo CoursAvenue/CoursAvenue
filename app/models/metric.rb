@@ -199,7 +199,7 @@ class Metric
     values = values.where(infos: infos) if infos
     values = values.group_by { |metric| metric.created_at.to_date }
 
-    return values.map { |key, values| values.uniq { |v| v.user_fingerprint }.length }
+    return values.map { |key, values| values.uniq(&:user_fingerprint).length }
                  .reduce(&:+) || 0
   end
 
