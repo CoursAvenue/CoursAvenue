@@ -387,6 +387,7 @@ CoursAvenue::Application.routes.draw do
   resources :open_courses, path: 'portes-ouvertes-cours-loisirs', only: [:index], controller: 'open_courses'
 
   resources :statistics, only: [:create]
+
   resources :structures, only: [:show, :index], path: 'etablissements', controller: 'structures' do
     member do
       get  :jpo, path: 'portes-ouvertes-cours-loisirs'
@@ -396,15 +397,15 @@ CoursAvenue::Application.routes.draw do
     collection do
       post :recommendation
     end
-    resources :statistics, only: [:create], controller: 'structures/statistics'
-    resources :messages , only: [:create], controller: 'structures/messages'
-    resources :places , only: [:index], controller: 'structures/places'
-    resources :courses , only: [:show, :index], path: 'cours', controller: 'structures/courses'
-    resources :comments, only: [:new], path: 'recommendations', controller: 'structures/comments'
-    resources :comments, only: [:new], path: 'recommandations', controller: 'structures/comments'
-    resources :comments, only: [:create, :new, :show, :index], path: 'avis', controller: 'structures/comments'
-    resources :teachers, only: [:index], controller: 'structures/teachers'
-    resources :medias, only: [:index], controller: 'structures/medias'
+    resources :statistics, only: [:create]                                    , controller: 'structures/statistics'
+    resources :messages  , only: [:create]                                    , controller: 'structures/messages'
+    resources :places    , only: [:index]                                     , controller: 'structures/places'
+    resources :courses   , only: [:show, :index]                              , controller: 'structures/courses'    , path: 'cours'
+    resources :comments  , only: [:new]                                       , controller: 'structures/comments'   , path: 'recommendations'
+    resources :comments  , only: [:new]                                       , controller: 'structures/comments'   , path: 'recommandations'
+    resources :comments  , only: [:create, :new, :show, :index]               , controller: 'structures/comments'   , path: 'avis'
+    resources :teachers  , only: [:index]                                     , controller: 'structures/teachers'
+    resources :medias    , only: [:index]                                     , controller: 'structures/medias'
   end
 
   resources :courses, only: [:index], path: 'cours' do
@@ -412,6 +413,7 @@ CoursAvenue::Application.routes.draw do
   end
 
   resources :keywords, only: [:index]
+
   ########### Vertical pages ###########
   get 'cours/:id'                                  , to: 'vertical_pages#show_root', as: :root_vertical_page
   get 'cours/:root_subject_id/:id'                 , to: 'vertical_pages#show', as: :vertical_page
@@ -520,6 +522,12 @@ CoursAvenue::Application.routes.draw do
   post '/mandrill-webhook' => 'mandrill_webhook#create'
   get  '/mandrill-webhook' => 'mandrill_webhook#index'
   root :to => 'home#index'
+
+  ########### Search pages ###########
+  # Must be at the end not to stop other routes
+  get ':root_subject_id/:subject_id--:city_id'     , to: 'structures#index', as: :search_page
+  get ':root_subject_id--:city_id'                 , to: 'structures#index', as: :root_search_page
+  ########### Search pages ###########
 
   # Needed to catch 404 requests in ApplicationController
   match "*path", to: "application#routing_error", via: :get

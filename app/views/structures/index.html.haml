@@ -51,12 +51,23 @@
       current_pro_admin: #{(current_pro_admin ? true : false)},
       options: {
           total: #{ @total },
-          latlng: #{ @latlng }
+          latlng: #{ @latlng },
+          server_api: {}
       },
       models: #{ @models.to_json },
       subjects: subjects,
       discount_types: #{ Price::Discount::TYPES.to_json }
   };
+
+- if params[:root_subject_id] != params[:subject_id]
+  :javascript
+    window.coursavenue.bootstrap.options.server_api.subject_id = "#{ params[:subject_id] }";
+- if @subject and @subject.depth == 2
+  :javascript
+    window.coursavenue.bootstrap.options.server_api.parent_subject_id = "#{ @subject.parent.slug }";
+- if params[:root_subject_id].present?
+  :javascript
+    window.coursavenue.bootstrap.options.server_api.root_subject_id = "#{ params[:root_subject_id] }";
 
 - content_for :scripts do
   :javascript

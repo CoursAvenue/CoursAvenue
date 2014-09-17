@@ -43,16 +43,16 @@
         %p.push-half--bottom
           %strong Disciplines
         %ul.no-bullet-list.line-height-1-7
-          %li= link_to 'Danse', structures_url(root_subject_id: 'danse', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Danse à Paris'
-          %li= link_to 'Théâtre & Scène', structures_url(root_subject_id: 'theatre-scene', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Théâtre & Scène à Paris'
-          %li= link_to 'Yoga, Bien-être & Santé', structures_url(root_subject_id: 'yoga-bien-etre-sante', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Yoga, Bien-être & Santé à Paris'
-          %li= link_to 'Musique & Chant', structures_url(root_subject_id: 'musique-chant', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Musique & Chant à Paris'
-          %li= link_to 'Dessin, Peinture & Arts', structures_url(root_subject_id: 'dessin-peinture-arts-plastiques', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Dessin, Peinture & Arts à Paris'
-          %li= link_to 'Sports & Arts martiaux', structures_url(root_subject_id: 'sports-arts-martiaux', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Sports & Arts martiaux à Paris'
-          %li= link_to 'Cuisine & Vins', structures_url(root_subject_id: 'cuisine-vins', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Cuisine & Vins à Paris'
-          %li= link_to 'Photo & Vidéo', structures_url(root_subject_id: 'photo-video', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Photo & Vidéo à Paris'
-          %li= link_to 'Déco, Mode & Bricolage', structures_url(root_subject_id: 'deco-mode-bricolage', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Déco, Mode & Bricolage à Paris'
-          %li= link_to 'Autres', structures_url(root_subject_id: 'other', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours à Paris'
+          %li= link_to 'Danse', root_search_page_url('danse', 'paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Danse à Paris'
+          %li= link_to 'Théâtre & Scène', root_search_page_url('theatre-scene', 'paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Théâtre & Scène à Paris'
+          %li= link_to 'Yoga, Bien-être & Santé', root_search_page_url('yoga-bien-etre-sante', 'paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Yoga, Bien-être & Santé à Paris'
+          %li= link_to 'Musique & Chant', root_search_page_url('musique-chant', 'paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Musique & Chant à Paris'
+          %li= link_to 'Dessin, Peinture & Arts', root_search_page_url('dessin-peinture-arts-plastiques', 'paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Dessin, Peinture & Arts à Paris'
+          %li= link_to 'Sports & Arts martiaux', root_search_page_url('sports-arts-martiaux', 'paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Sports & Arts martiaux à Paris'
+          %li= link_to 'Cuisine & Vins', root_search_page_url('cuisine-vins', 'paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Cuisine & Vins à Paris'
+          %li= link_to 'Photo & Vidéo', root_search_page_url('photo-video', 'paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Photo & Vidéo à Paris'
+          %li= link_to 'Déco, Mode & Bricolage', root_search_page_url('deco-mode-bricolage', 'paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Déco, Mode & Bricolage à Paris'
+          %li= link_to 'Autres', root_search_page_url('other', 'paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours à Paris'
 
   .text--center
     %p.push-half--bottom
