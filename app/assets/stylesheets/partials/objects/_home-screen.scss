@@ -1,3 +1,21 @@
+.home-screen-gallery__title {
+    color      : #FFF;
+    position   : absolute;
+    top        : 50%;
+    left       : 50%;
+    width      : 100%;
+    margin-left: -50%;
+    margin-top : -1em;
+    font-size  : 1.5em;
+    @include text-shadow(0 0 5px $gray, 0 0 10px $gray-dark, 0 0 20px $gray-darker);
+    &.home-screen-gallery__title--bigger {
+        font-size  : 2em;
+    }
+}
+.home-screen__item {
+    position: relative;
+    z-index : 1;
+}
 .home-screen-comment {
     position   : absolute;
     bottom     : 1em;

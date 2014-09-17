@@ -4,8 +4,8 @@
 = content_for :meta_description do
   CoursAvenue permet à chaque professeur, association, ou école de gagner facilement en visibilité pour recruter de nouveaux élèves. L'inscription est gratuite. Faites partie d'une communauté en pleine expansion passionnée par les cours de loisirs.
 
-- profiles = [{ name: "Emilie, Professeur de yoga chez Yoga Sattva Paris", slug: 'yoga-sattva-paris', bg: 'pro/home_background.jpg', image_name: 'emilie', quote: "Communiquer sur Internet me prenait trop de temps, <br> je m'éparpillais sans résultat. Avec CoursAvenue, c'est intuitif et efficace, en accord avec mes valeurs.", image_width: 350, profile_style: '58', medium: true }]
-- profiles << { name: "Alain Pons, formateur en photographie à Clermont-Ferrand", slug: 'alain-pons-photographe', bg: 'pro/home_background_alain.jpg', image_name: 'alain', quote: "Gérer ma présence sur Internet relève du quotidien. Grâce à CoursAvenue, c'est devenu simple et je peux enfin me consacrer à la qualité de mes cours.", image_width: 450, profile_style: '62' }
+- profiles = [{ name: "Emilie, Professeur de yoga chez Yoga Sattva Paris", slug: 'yoga-sattva-paris', bg: 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/home_background.jpg', image_name: 'emilie', quote: "Communiquer sur Internet me prenait trop de temps, <br> je m'éparpillais sans résultat. Avec CoursAvenue, c'est intuitif et efficace, en accord avec mes valeurs.", image_width: 350, profile_style: '58', medium: true }]
+- profiles << { name: "Alain Pons, formateur en photographie à Clermont-Ferrand", slug: 'alain-pons-photographe', bg: 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/home_background_alain.jpg', image_name: 'alain', quote: "Gérer ma présence sur Internet relève du quotidien. Grâce à CoursAvenue, c'est devenu simple et je peux enfin me consacrer à la qualité de mes cours.", image_width: 450, profile_style: '62' }
 
 - if cookies[:have_seen_alain]
   - selected_profile = profiles.first
@@ -17,8 +17,8 @@
     %header.grid--full
       .grid__item.soft--top.v-bottom.relative.visuallyhidden--palm{ class: ( selected_profile[:medium] ? 'three-tenths' : 'five-twelfths')}>
         = link_to structure_url(selected_profile[:slug], subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'absolute', target: :_blank, id: 'emilie-profile', style: "bottom: -155px; left: #{selected_profile[:profile_style]}%; margin-left: -137px;" do
-          = image_tag "pro/testimonies/#{selected_profile[:image_name]}-profile-small.jpg", class: 'block', width: 275
-        = image_tag "pro/testimonies/#{selected_profile[:image_name]}-detour.png", class: 'block', width: selected_profile[:image_width], style: 'margin-left: auto'
+          = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/pro/testimonies/#{selected_profile[:image_name]}-profile-small.jpg", class: 'block', width: 275
+        = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/pro/testimonies/#{selected_profile[:image_name]}-detour.png", class: 'block', width: selected_profile[:image_width], style: 'margin-left: auto'
       .grid__item.v-bottom.soft--top.palm-one-whole.relative{ class: ( selected_profile[:medium] ? 'seven-tenths' : 'seven-twelfths')}>
         .center-block
           .soft--top.white.soft-black-text-shadow
@@ -44,7 +44,7 @@
     %h2.text--center.push--bottom.soft--ends.f-weight-300 Les avantages du profil CoursAvenue
     = render partial: 'pro/shared/free_profile_advantages', locals: { show_all: true }
 
-.bg-cover{ style: "background-image: url(#{asset_path 'pro/home_background6.jpg'})", 'data-stellar-background-ratio' => '0.6' }
+.bg-cover{ style: "background-image: url(#{asset_path 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/home_background6.jpg'})", 'data-stellar-background-ratio' => '0.6' }
   .main-container.main-container--medium.soft--ends
     %h2.text--center.push--bottom.soft--ends.soft-black-text-shadow.white Simple et rapide
     .grid
