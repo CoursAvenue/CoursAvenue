@@ -1,8 +1,5 @@
 = content_for :title do
-  - if @vertical_page.name.present?
-    = @vertical_page.name
-  - else
-    Tous les cours de #{@subject.name.downcase} | CoursAvenue
+  #{(@vertical_page.name.present? ? @vertical_page.name : @subject.name.downcase)} à Paris, Marseille, Lyon, Toulouse, Nice, Nantes, Bordeaux, Lille
 
 = content_for :meta_description do
   - if @vertical_page.title.present?
@@ -30,7 +27,7 @@
     - @ancestors.each do |ancestor|
       - next if ancestor.vertical_pages.empty?
       %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-        = link_to vertical_page_path(ancestor.vertical_pages.first), itemprop: 'url' do
+        = link_to vertical_page_path(ancestor.root, ancestor.vertical_pages.first), itemprop: 'url' do
           %span{ itemprop: 'title' }
             = ancestor.vertical_pages.first.name
     - if @ancestors.any?
@@ -38,9 +35,9 @@
         %span{ itemprop: 'title' }
           = @vertical_page.name
 
-  .float--right.two-fifths.palm-one-whole.v-top.push--left.push--bottom{ class: (content_present ? '' : 'push--top soft--top') }>
-    = render partial: 'vertical_pages/cities'
-  .blog-article__content
+  = render partial: 'vertical_pages/cities'
+  %hr.push--top
+  .blog-article__content.push--top
     - if @vertical_page.content.present?
       %h2
         = @vertical_page.title
@@ -67,12 +64,12 @@
 - unless @subject.depth == 2
   .soft--ends{ class: (@subject.depth == 0 ? '' : 'home-screen-promotion-wrapper') }
     .main-container.main-container--medium
-      %h2.soft--bottom.f-weight-300 Tous les styles
+      %h2.soft--bottom.f-weight-300 #{@subject.name} : tous les styles
       = render partial: 'vertical_pages/subjects', locals: { subjects: @subject.descendants.at_depth(2) }
 
 %div{ class: (@subject.depth == 0 || @subject.depth == 2 ? 'home-screen-promotion-wrapper' : '') }
   .main-container.main-container--medium.soft--ends
-    %h2.soft--bottom.f-weight-300 Sélection d'avis
+    %h2.soft--bottom.f-weight-300 #{@subject.name} : sélection d'avis
     - @vertical_page.reviews.in_groups_of(2, false).each do |review_group|
       .grid.push--bottom
         - review_group.each do |review|

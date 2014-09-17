@@ -1,15 +1,10 @@
 %h2.soft--bottom.f-weight-300
-  - if @vertical_page.sidebar_title.present?
-    Trouvez
-    %strong.f-weight-300 #{@vertical_page.sidebar_title}
-    près de chez vous
-  - else
-    Trouvez
-    %strong.f-weight-300 un cours de #{@subject.name.downcase}
-    près de chez vous
+  Trouvez
+  %strong.f-weight-300 #{(@vertical_page.sidebar_title.present? ? @vertical_page.sidebar_title : @subject.name.downcase) }
+  près de chez vous
 
 - @cities.each do |city|
-  .inline-block.very-soft.hard--bottom.one-half>
+  .inline-block.very-soft.hard--bottom.one-quarter>
     .relative.bg-cover{style: "background-image: url('#{city.image.url(:small)}'); height: 120px; "}>
       = link_to structures_path_for_city_and_subject(city, @subject), class: 'block show-on-hover__wrapper show-on-hover__wrapper--black-curtain', title: "Tous les cours de #{@subject.name} à #{city.name}" do
         .home-screen-gallery__title.text--center
