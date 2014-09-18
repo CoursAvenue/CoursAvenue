@@ -63,7 +63,7 @@
                                     stack: 'Actions'
                                   },
                                   { data: #{@website_actions.sort.map{|date, count| count}},
-                                    name: 'Website',
+                                    name: 'Site internet',
                                     stack: 'Actions'
                                   },
                                   { data: #{@message_actions.sort.map{|date, count| count}},
@@ -91,7 +91,7 @@
             title: { text: null },
             legend: { enabled: false },
             xAxis: {
-                categories: #{((Date.today - 15.days)..Date.today).map{|date| l(Date.parse(date.to_s), format: :short)}},
+                categories: #{@empty_hash_of_days.map{|date| l(Date.parse(date.to_s), format: :short)}},
                 showEmpty: true
             },
             yAxis: {
