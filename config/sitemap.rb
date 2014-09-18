@@ -30,7 +30,7 @@ SitemapGenerator::Sitemap.create do
 
   add blog_articles_path, priority: 0.5, changefreq: 'weekly'
 
-  Blog::Article.each do |article|
+  Blog::Article.find_each do |article|
     add blog_article_path(article), priority: 0.5
   end
 
@@ -50,11 +50,12 @@ SitemapGenerator::Sitemap.create do
     add structure_path structure, changefreq: 'weekly'
   end
 
-  VerticalPage.each do |vertical_page|
+  VerticalPage.find_each do |vertical_page|
+    next if vertical_page.subject.nil?
     if vertical_page.subject and vertical_page.subject.is_root?
       add root_vertical_page_path(vertical_page), priority: 0.5, changefreq: 'weekly'
     else
-      add vertical_page_path(vertical_page), priority: 0.5, changefreq: 'weekly'
+      add vertical_page_path(vertical_page.subject.root, vertical_page), priority: 0.5, changefreq: 'weekly'
     end
   end
 
