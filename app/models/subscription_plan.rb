@@ -43,11 +43,11 @@ class SubscriptionPlan < ActiveRecord::Base
   scope :yearly,                  -> { where( arel_table[:plan_type].matches('yearly%')) }
   scope :not_monthly,             -> { where.not( arel_table[:plan_type].matches('monthly%')) }
   scope :monthly,                 -> { where( arel_table[:plan_type].matches('monthly%')) }
-  scope :expires_in_fifteen_days, -> { where( arel_table[:expires_at].gteq(Date.today - 15.days).and(
-                                              arel_table[:expires_at].lt(Date.today - 14.days)) ) }
+  scope :expires_in_fifteen_days, -> { where( arel_table[:expires_at].gt(Date.today + 14.days).and(
+                                              arel_table[:expires_at].lteq(Date.today + 15.days)) ) }
 
-  scope :expires_in_five_days,    -> { where( arel_table[:expires_at].gteq(Date.today - 5.days).and(
-                                              arel_table[:expires_at].lt(Date.today - 4.days)) ) }
+  scope :expires_in_five_days,    -> { where( arel_table[:expires_at].gt(Date.today + 4.days).and(
+                                              arel_table[:expires_at].lteq(Date.today + 5.days)) ) }
   ######################################################################
   # Callbacks                                                          #
   ######################################################################

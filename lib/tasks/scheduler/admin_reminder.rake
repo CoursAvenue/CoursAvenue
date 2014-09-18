@@ -107,6 +107,7 @@ namespace :scheduler do
     desc 'Send email to admins that have access to the widget'
     task :remind_for_premium_expiration_15 => :environment do |t, args|
       SubscriptionPlan.expires_in_fifteen_days.not_monthly.each do |subscription_plan|
+        next if subscription_plan.canceled?
         AdminMailer.delay.fifteen_days_to_end_of_subscription(subscription_plan)
       end
     end
@@ -116,6 +117,7 @@ namespace :scheduler do
     desc 'Send email to admins that have access to the widget'
     task :remind_for_premium_expiration_5 => :environment do |t, args|
       SubscriptionPlan.expires_in_five_days.each do |subscription_plan|
+        next if subscription_plan.canceled?
         AdminMailer.delay.five_days_to_end_of_subscription(subscription_plan)
       end
     end
