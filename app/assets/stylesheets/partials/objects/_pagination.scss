@@ -1,11 +1,6 @@
 /*------------------------------------*\
     $PAGINATION override
 \*------------------------------------*/
-.page-entries {
-    text-align: center;
-    @include font-size(14px);
-}
-
 .pagination {
     margin-bottom: 0;
     margin-left  : 0;

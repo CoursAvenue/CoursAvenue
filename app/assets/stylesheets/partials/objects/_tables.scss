@@ -1,14 +1,4 @@
 /**
- * Selectable table
- */
- table.table--selectable tbody tr {
-    @extend .selectable;
-}
-    .tablesorter-header {
-        cursor: pointer;
-    }
-
-/**
  * Table white
  */
 .table--white{

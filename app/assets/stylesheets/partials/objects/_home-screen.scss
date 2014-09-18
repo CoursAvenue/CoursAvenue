@@ -12,10 +12,7 @@
         font-size  : 2em;
     }
 }
-.home-screen__item {
-    position: relative;
-    z-index : 1;
-}
+
 .home-screen-comment {
     position   : absolute;
     bottom     : 1em;
@@ -40,10 +37,6 @@
         z-index         : 5;
     }
 
-.home-screen-promotion-wrapper--blue {
-    color           : white;
-    background-color: $blue-green;
-}
 
 .home-screen-promotion-wrapper {
     background-color: $homescreen-background;

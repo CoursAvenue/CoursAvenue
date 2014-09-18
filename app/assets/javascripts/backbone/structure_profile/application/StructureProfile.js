@@ -105,10 +105,12 @@ StructureProfile.addInitializer(function(options) {
     layout.master.show(structure_view);
 
     if (window.location.hash.length > 0 && window.location.hash != '#_=_' && $(window.location.hash).length > 0) {
-        $('[href=' + window.location.hash + ']').click();
-        _.delay(function() {
-            $.scrollTo($(window.location.hash), { duration: 500, offset: { top: -$('#media-grid').height() } });
-        }, 500);
+        try { // Prevent from bug when hash is corrupted
+            $('[href=' + window.location.hash + ']').click();
+            _.delay(function() {
+                $.scrollTo($(window.location.hash), { duration: 500, offset: { top: -$('#media-grid').height() } });
+            }, 500);
+        } catch(err) {}
     }
 });
 

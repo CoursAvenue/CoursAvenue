@@ -21,11 +21,6 @@
     }
 }
 
-// ------------------ AS ON SHOW PAGE
-.structure__logo {
-    width: 70px;
-}
-
 // ------------------ ITEM AS ON SEARCH PAGE
 $structure-item-height: 140px;
 .structure-item {
@@ -44,25 +39,6 @@ $structure-item-height: 140px;
             min-width     : $structure-item-height / 2;
         }
     }
-    .structure-item__play-button {
-        position   : absolute;
-        opacity    : 0;
-        color      : white;
-        top        : 0;
-        left       : 50%;
-        margin-top : -0.5em;
-        font-size  : 3em;
-        margin-left: -0.4em;
-        @include text-shadow(0px 0px 3px #333);
-        @include transition(all 200ms linear);
-        &:hover {
-            @include text-shadow(0px 0px 6px black);
-        }
-    }
-    .structure-item__play-button--no-image {
-        color: black;
-        opacity: 1;
-    }
     .structure-item__button {
         cursor  : pointer;
         position: relative;
@@ -73,42 +49,6 @@ $structure-item-height: 140px;
         &.active {
             &, .thin { font-weight: bold; }
         }
-        &:hover {
-            .structure-item__play-button {
-                opacity: 1;
-            }
-        }
-    }
-
-    .structure-item__comment-list {
-        position: relative;
-        top     : -1px;
-        z-index : 1;
-        .structure-item__comment-item{
-            border-bottom: 1px solid #EEE;
-        }
-        .structure-item__comment-item:last-child {
-            border-bottom: none;
-        }
-    }
-
-    .structure-item__comment-author {
-        position: absolute;
-        right   : 1em;
-    }
-
-    .structure-item__medias-count {
-        position         : absolute;
-        right            : 0;
-        bottom           : 4px;
-        padding          : 1px 3px;
-        // background-color : $beige-darker;
-        background-color : white;
-        background-color : rgba(255, 255, 255, 0.9);
-        // color            : darken($beige-darker, 35%);
-        color            : black;
-        font-size        : 12px;
-        @include border-left-radius(2px);
     }
 
     .structure-item__see-all-wrapper {

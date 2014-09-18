@@ -3,14 +3,6 @@
     margin-left: 0;
 }
 
-.comment__header {
-    background-color: white;
-    padding         : 5px 10px;
-    border          : 1px solid #EEE;
-    @include box-shadow(1px 1px 1px #DDD);
-    @include border-left-radius($brand-round);
-}
-
 .quoted {
     line-height  : 14px;
 }
