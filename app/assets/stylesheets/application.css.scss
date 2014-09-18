@@ -137,3 +137,8 @@ html, pre {
 #___plus_0 {
   vertical-align: middle !important;
 }
+
+// For seo purpose?
+@media print {
+  .lala { display: none; }
+}

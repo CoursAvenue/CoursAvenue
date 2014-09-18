@@ -10,7 +10,7 @@
     .grid__item.palm-one-whole.one-half>
       .beta.push--bottom.soft--bottom.f-weight-300 Derniers avis des élèves
       - @comments.each do |comment|
-        = render partial: 'comments/home_comment', locals: {comment: comment}
+        = render partial: 'comments/home_comment', locals: { comment: comment }
     .grid__item.palm-one-whole.one-half.soft--left{style: 'min-height: 35em;'}
       = render 'subject_guides'
 
@@ -41,3 +41,39 @@
             %i.fa.fa-align-left
             &nbsp;Accéder au blog
 
+%section.main-container.main-container--medium.home-screen-promotion.soft.push--ends
+  .grid--full
+    .grid__item.palm-one-whole.one-half>
+      %h2.push--bottom.soft--bottom.f-weight-300 Cours de danse
+      - CommentSearch.search(per_page: 2, has_title: true, subject_slug: 'danse').results.each do |comment|
+        = render partial: 'comments/home_comment', locals: { comment: comment }
+      .text--right= link_to 'Voir tous les cours de danse', root_search_page_path('danse', 'paris'), title: 'Cours de Danse à Paris'
+    .grid__item.palm-one-whole.one-half>
+      %h2.push--bottom.soft--bottom.f-weight-300 Cours de théâtre & scène
+      - CommentSearch.search(per_page: 2, has_title: true, subject_slug: 'theatre-scene').results.each do |comment|
+        = render partial: 'comments/home_comment', locals: { comment: comment }
+      .text--right= link_to 'Voir tous les cours de théâtre & scène', root_search_page_path('theatre-scene', 'paris'), title: 'Cours de Théâtre & Scène à Paris'
+  %hr.push--ends
+  .grid--full
+    .grid__item.palm-one-whole.one-half>
+      %h2.push--bottom.soft--bottom.f-weight-300 Cours de musique & chant
+      - CommentSearch.search(per_page: 2, has_title: true, subject_slug: 'musique-chant').results.each do |comment|
+        = render partial: 'comments/home_comment', locals: { comment: comment }
+      .text--right= link_to 'Voir tous les cours de yoga, bien-être & santé', root_search_page_path('yoga-bien-etre-sante', 'paris'), title: 'Cours de Yoga, Bien-être & Santé à Paris'
+    .grid__item.palm-one-whole.one-half>
+      %h2.push--bottom.soft--bottom.f-weight-300 Cours de yoga, bien-être & sante
+      - CommentSearch.search(per_page: 2, has_title: true, subject_slug: 'yoga-bien-etre-sante').results.each do |comment|
+        = render partial: 'comments/home_comment', locals: { comment: comment }
+      .text--right= link_to 'Voir tous les cours de musique & chant', root_search_page_path('musique-chant', 'paris'), title: 'Cours de Musique & Chant à Paris'
+  %hr.push--ends
+  .grid--full
+    .grid__item.palm-one-whole.one-half>
+      %h2.push--bottom.soft--bottom.f-weight-300 Cours de dessin, peinture & arts
+      - CommentSearch.search(per_page: 2, has_title: true, subject_slug: 'dessin-peinture-arts-plastiques').results.each do |comment|
+        = render partial: 'comments/home_comment', locals: { comment: comment }
+      .text--right= link_to 'Voir tous les cours de dessin, peinture & arts', root_search_page_path('dessin-peinture-arts-plastiques', 'paris'), title: 'Cours de Dessin, Peinture & Arts à Paris'
+    .grid__item.palm-one-whole.one-half>
+      %h2.push--bottom.soft--bottom.f-weight-300 Cours de sports & arts martiaux
+      - CommentSearch.search(per_page: 2, has_title: true, subject_slug: 'sports-arts-martiaux').results.each do |comment|
+        = render partial: 'comments/home_comment', locals: { comment: comment }
+      .text--right= link_to 'Voir tous les cours de sports & arts martiaux', root_search_page_path('sports-arts-martiaux', 'paris'), title: 'Cours de Sports & Arts martiaux à Paris'
