@@ -10,4 +10,8 @@ class HomeController < ApplicationController
     @comments         = Comment::Review.accepted.order('created_at DESC').limit(3).offset(1)
     @last_comment     = Comment::Review.accepted.last
   end
+
+  def pass_loisirs
+
+  end
 end

@@ -178,7 +178,6 @@
     text-transform  : uppercase;
     @include text-shadow(-1px -1px 0 darken($facebook-blue, 10%));
     color           : white;
-    padding         : 1em;
     vertical-align  : middle;
     display         : inline-block;
     &:before {
@@ -220,6 +219,7 @@
 
 .btn--twitter {
     @extend .btn--social;
+    padding         : 0.4em;
     border-color    : darken($twitter-blue, 3%);
     background-color: $twitter-blue;
     &:hover {

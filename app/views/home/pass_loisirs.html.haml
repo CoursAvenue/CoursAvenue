@@ -1,0 +1,118 @@
+= content_for :head do
+  %meta{ name: "robots", content: "noindex, nofollow" }
+
+= content_for :title do
+  CoursAvenue | Pass loisirs
+
+- if Rails.env.production?
+  = content_for :scripts do
+    :javascript
+      ga('send', 'event', 'Pass loisir', 'landed', '#{params[:referrer]}');
+.home-screen.soft--top.white.bg-cover{ style: "min-height: 600px; background-image: url('https://coursavenue-public.s3.amazonaws.com/public_assets/pass_loisirs.jpg')", 'data-stellar-background-ratio' => '0.6' }
+  .main-container.soft-half--bottom
+    .grid
+      .grid__item.one-third.soft--right>
+        .push-half--bottom.very-soft.hard--sides
+          .green-box.soft
+            - if params[:inscription].present?
+              %h3 Vous êtes bien enregistré, nous vous recontacterons au plus vite !
+              .text--center.push-half--bottom
+                = link_to 'Partager sur Facebook', "http://www.facebook.com/sharer.php?s=100&p[url]=#{pass_loisirs_url(referrer: 'facebook', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)}", class: 'btn btn--facebook', onclick: "ga('send', 'event', 'Pass loisir', 'shared', 'facebook');", target: :_blank
+              .text--center
+                = link_to 'Partager sur Twitter', "https://twitter.com/intent/tweet?text=\"Pour 39€, découvrez plus de 5 000 cours de loisirs autour de vous.\"&via=CoursAvenue&url=#{pass_loisirs_url(referrer: 'twitter', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)}", class: 'btn btn--twitter', onclick: "ga('send', 'event', 'Pass loisir', 'shared', 'twitter');", target: :_blank
+
+            - else
+              %h3 Pour 39€, découvrez plus de 5 000 cours de loisirs autour de vous.
+              %p.epsilon Parmi plus de 500 disciplines rien qu'à Paris : cours d'écriture créative, krav maga, danse, yoga, accordéon...
+              = link_to 'Obtenir mon PassLoisirs', '#first-popup', class: 'btn btn--large btn--full hard--sides', data: { behavior: 'modal', width: 400 }, onclick: "ga('send', 'event', 'Pass loisir', 'first-popup');"
+              %br
+              .text--center
+                = link_to 'javascript:void(0);', data: { behavior: 'toggleable', el: '#comment-ca-marche' }, class: 'text--center white' do
+                  Comment ça marche
+                  %i.fa.fa-caret-down
+      .grid__item.two-thirds>
+        %h1.soft--top.soft-black-text-shadow.flush.big-alpha
+          Réalisez-vous
+        %h4.push--bottom.soft-black-text-shadow
+          Pour une vie Créative. Sportive. Artistique.
+
+#first-popup.hidden
+  %p.epsilon
+    %i.fa.fa-check.green
+    Chaque mois, testez plus de 5 000 cours de loisirs
+  %p.epsilon
+    %i.fa.fa-check.green
+    Le pass fonctionne par abonnement mensuel sans engagement (vous résiliez quand vous voulez)
+  %p.epsilon
+    %i.fa.fa-check.green
+    La réservation à chaque cours est gratuite, vous ne payez que votre abonnement
+  %p.epsilon
+    %i.fa.fa-check.green
+    Votre pass est nominatif et vous ne pouvez pas revenir au même cours
+  .text--center
+    = link_to 'Payer 39€ par CB', '#second-popup', class: 'btn btn--green btn--large btn--full', data: { behavior: 'modal', width: 350 }, onclick: "ga('send', 'event', 'Pass loisir', 'second popup');"
+
+#second-popup.hidden
+  %h3 Merci pour votre confiance !
+  %p.epsilon Le système de paiement en ligne par carte bleue sera ouvert dans quelques jours seulement. Renseignez votre e-mail, nous vous avertirons dès que tout est mis en place :
+  = simple_form_for Email.new do |f|
+    = f.input :email, input_html: { class: 'input--large one-whole', placeholder: 'Votre e-mail' }, label: false
+    = f.input :email_type, as: :hidden, input_html: { value: 'pass-loisirs' }
+    = f.submit 'Valider', class: 'btn btn--green btn--large btn--full', data: { disable_with: 'Validation en cours...' }
+
+#comment-ca-marche.hidden.main-container
+  .soft
+    .grid
+      .grid__item.one-third.palm-one-whole>
+        .flexbox
+          .flexbox__item.one-fifth.v-middle.soft--right>
+            = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/icon-search-circle.png', width: 70
+          .flexbox__item.four-fifths.v-middle>
+            .gamma.push-half--bottom.f-weight-300 Obtenez votre PassLoisirs
+            %p.epsilon Payez l'abonnement pour votre PassLoisirs directement en ligne par carte bleue.
+      .grid__item.one-third.palm-one-whole>
+        .flexbox
+          .flexbox__item.one-fifth.v-middle.soft--right>
+            = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/icon-check-circle.png', width: 70
+          .flexbox__item.four-fifths.v-middle>
+            .gamma.push-half--bottom.f-weight-300 Sélectionnez les cours de loisirs qui vous intéressent
+            %p.epsilon
+              Le pass est dématérialisé : une fois le paiement des 39€ effectué, vous accèderez à votre espace privé pour réserver tous les cours de votre choix.
+      .grid__item.one-third.palm-one-whole>
+        .flexbox
+          .flexbox__item.one-fifth.v-middle.soft--right>
+            = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/icon-user-circle.png', width: 70
+          .flexbox__item.four-fifths.v-middle>
+            .gamma.push-half--bottom.f-weight-300 Réalisez-vous !
+            %p.epsilon
+              Sur une
+              = link_to 'carte géographique', root_search_page_without_subject_path('paris')
+              visualisez tous les cours de loisirs qui vous intéressent, puis contactez gratuitement chaque professeur, association ou école pour réserver votre atelier.
+
+
+.home-screen-promotion-wrapper
+  .main-container.soft
+    .push--sides
+      %h2.soft--bottom.text--center.f-weight-300 Les avantages du PassLoisirs
+      .grid--full
+        .grid__item.one-twelfth.palm-one-whole.text--right.palm-text--center.soft--right.v-middle>
+          = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/icon-handshake-circle.png', width: 70
+        .grid__item.three-twelfths.palm-one-whole>
+          %h4.push-half--bottom Plus de 5 000 ateliers
+          %p.epsilon Plus de 500 disciplines vous sont proposées, avec de nouveaux cours ajoutés chaque jour.
+        .grid__item.one-twelfth.palm-one-whole.text--right.palm-text--center.soft--right.v-middle>
+          = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/icon-promotion-circle.png', width: 70
+        .grid__item.three-twelfths.palm-one-whole>
+          %h4.push-half--bottom Réservation gratuite
+          %p.epsilon
+            Réservez les séances de votre choix en prenant directement contact avec le professeur, l'association ou l'école de votre choix.
+        .grid__item.one-twelfth.palm-one-whole.text--right.palm-text--center.soft--right.v-middle>
+          = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/icon-money-circle.png', width: 70
+        .grid__item.three-twelfths.palm-one-whole>
+          %h4.push-half--bottom En toute liberté
+          %p.epsilon Votre pass fonctionne par abonnement que vous pouvez résilier à tout moment. Satisfaction garantie.
+
+.main-container.soft
+  .push--sides
+    %h2.soft--bottom.text--center.f-weight-300 Découvrez vos passions en illimité
+    = render partial: 'vertical_pages/subjects', locals: { subjects: Subject.roots.order('position ASC') }

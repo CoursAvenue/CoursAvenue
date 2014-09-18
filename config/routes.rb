@@ -524,6 +524,8 @@ CoursAvenue::Application.routes.draw do
   post '/mandrill-webhook' => 'mandrill_webhook#create'
   get  '/mandrill-webhook' => 'mandrill_webhook#index'
   root :to => 'home#index'
+  get 'pass-loisirs' => 'home#pass_loisirs',  as: 'pass_loisirs'
+
 
   ########### Search pages ###########
   # Must be at the end not to stop other routes
