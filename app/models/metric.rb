@@ -17,6 +17,8 @@ class Metric
   field :ip_address      , type: String
   field :deleted_at      , type: DateTime
 
+  index structure_id: 1
+
   ######################################################################
   # Scopes                                                             #
   ######################################################################
@@ -174,6 +176,8 @@ class Metric
       3
     when action > 5 && conversations > 5
       4
+    else
+      0
     end
   end
 
