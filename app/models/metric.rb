@@ -17,8 +17,6 @@ class Metric
   field :ip_address      , type: String
   field :deleted_at      , type: DateTime
 
-  index structure_id: 1
-
   ######################################################################
   # Scopes                                                             #
   ######################################################################
