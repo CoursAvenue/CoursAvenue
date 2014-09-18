@@ -92,6 +92,8 @@ class Comment::Review < Comment
         self.structure.dominant_root_subject.slug
       end
     end
+
+    time :created_at
   end
 
   def recover!

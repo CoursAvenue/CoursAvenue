@@ -24,6 +24,7 @@ class CommentSearch
 
       paginate page: (params[:page] || 1), per_page: (params[:per_page] || 15)
       order_by :has_avatar, :desc
+      order_by :created_at, :desc
     end
 
     @search
