@@ -1,3 +1,4 @@
+- truncate_length = 255 if truncate_length.nil?
 .flexbox.push--bottom{itemprop: true, itemscope: true, itemtype:'http://data-vocabulary.org/Review'}
   .flexbox__item.soft--left.v-top.text--center>
     = link_to structure_url(comment.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block media-photo', target: :_blank, class: 'muted-link block' do
@@ -7,7 +8,7 @@
       %p.epsilon.push-half--bottom.quoted
         %strong{ itemprop: 'summary' }= comment.title
       %p{ itemprop: 'description' }
-        = truncate(comment.content, length: 250)
+        = truncate(comment.content, length: truncate_length)
       %p.text--right.flush{title: 'Excellent !', itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
         %i
           Par
