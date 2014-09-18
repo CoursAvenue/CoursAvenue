@@ -1,7 +1,5 @@
 /*
-    Usage:
-    .flash{data: {behavior: 'flash'}}
-      message
+    Usage: TODO
 */
 ;(function ( $, window, document, undefined ) {
 

@@ -15,10 +15,8 @@
 //= require libs/typeahead
 //= require libs/jquery.scrollTo
 //= require libs/jquery.nouislider
-//= require libs/jquery.masonry
 //= require libs/jquery.lazyload
 //= require libs/responsiveslides
-//= require libs/add_this_event
 //= require libs/jquery.placeholder
 //= require libs/stellar
 
@@ -51,22 +49,18 @@
 // require plugins/city_autocomplete
 // require plugins/closer
 // require plugins/drop_down
-// require plugins/dropped_options
 // require plugins/flash
 // require plugins/highlight
-// require plugins/input_updaters
 // require plugins/read_more
 // require plugins/text_counter
 // require plugins/textarea_resizer
 // require plugins/toggler
-// require plugins/time_range
 // require plugins/image_input
 // require plugins/show_more_on_demand
-// require plugins/jquery-sticky.js
+// require plugins/jquery_sticky
 // require plugins/parent_descendant_subjects
 // require plugins/wizard_helper
 
-//= require libs/markerclusterer
 //= require gmaps/google
 
 //= require ./plugins_initalization

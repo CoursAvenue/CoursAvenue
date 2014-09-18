@@ -1,40 +1,7 @@
 .main-footer {
     background-color: #FFF;
-    // background-color: $homescreen-background;
     padding-top     : 2em;
     padding-bottom  : 2em;
     border-top      : 1px solid darken($homescreen-background, 10%);
     color           : $gray-light;
-    @extend .milli;
-    h5 {
-        margin-bottom: 0;
-    }
-    .flexbox__item {
-        vertical-align: top;
-    }
-    .nav li {
-        margin-right: 3em;
-    }
-    .column-links {
-        padding-left: 10px;
-    }
-    .footer-link {
-        font-size: 12px;
-    }
-    @include media-query(palm) {
-        .nav {
-            text-align: center;
-        }
-        .flexbox, .flexbox__item {
-            padding: 0 1em;
-            @include box-sizing(border-box);
-        }
-        .flexbox__item .flexbox__item {
-            padding: 0;
-        }
-        .flexbox, .flexbox .flexbox {
-            display: block;
-        }
-        .flexbox__item, .flexbox__item .flexbox__item { display: inline-block; }
-    }
 }

@@ -85,12 +85,6 @@ textarea:focus, input:focus, select:focus {
     @include box-shadow(inset 0 1px 1px 0 rgba(0, 0, 0, 0.08),0 0 2px 2px #CEEAF6);
 }
 
-.input--premium {
-    border-color: opacify($yellow, 0.8);
-    outline     : none;
-    @include box-shadow(inset 0 1px 1px 0 rgba(0, 0, 0, 0.08),0 0 2px 2px #F6F3CE);
-}
-
 .input-addon {
     display: table !important;
     width  : 100%;

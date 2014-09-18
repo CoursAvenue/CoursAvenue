@@ -2,13 +2,12 @@ $(function() {
     // Setting default settings of Fancybox
     $.fancybox.defaults.tpl.closeBtn = '<a title="Fermer" class="fancybox-item fancybox-close fa fa-close" href="javascript:;"></a>';
     $.fancybox.defaults.afterShow = function () {
-        $.each(global.initialize_callbacks, function(i, func) { func(); });
+        $.each(GLOBAL.initialize_callbacks, function(i, func) { func(); });
     };
     $.fancybox.defaults.helpers.title = null;
 
     $('input, textarea').placeholder();
-    var global = GLOBAL.namespace('GLOBAL');
-    global.initialize_fancy = function($elements) {
+    GLOBAL.initialize_fancy = function($elements) {
         // Warning !
         // Do not iterate over each elements beccause it will break thumbs
         var width      = $elements.first().data('width') || 800;
@@ -28,7 +27,7 @@ $(function() {
                             }
                          });
     };
-    global.initialize_fancy($('[data-behavior="fancy"]'));
+    GLOBAL.initialize_fancy($('[data-behavior="fancy"]'));
     $('body').on('click', '[data-behavior=modal]', function(event) {
         event.preventDefault();
         var $this        = $(this);
@@ -73,9 +72,9 @@ $(function() {
             $(this).datepicker(datepicker_options);
         });
     };
-    global.initialize_callbacks.push(datepicker_initializer);
+    GLOBAL.initialize_callbacks.push(datepicker_initializer);
 
-    global.chosen_initializer = function() {
+    GLOBAL.chosen_initializer = function() {
         // -------------------------- Chosen
         $('[data-behavior=chosen]').each(function() {
             $(this).chosen({
@@ -88,7 +87,7 @@ $(function() {
             });
         });
     };
-    global.initialize_callbacks.push(global.chosen_initializer);
+    GLOBAL.initialize_callbacks.push(GLOBAL.chosen_initializer);
     $('body').tooltip({
         selector: '[data-behavior=tooltip],[data-toggle=tooltip]'
     });
@@ -98,10 +97,10 @@ $(function() {
     });
 
     // Initialize all callbacks
-    global.reinitializePlugins = function() {
-        $.each(global.initialize_callbacks, function(i, func) { func(); });
+    GLOBAL.reinitializePlugins = function() {
+        $.each(GLOBAL.initialize_callbacks, function(i, func) { func(); });
     };
-    global.reinitializePlugins();
+    GLOBAL.reinitializePlugins();
 
     $('[data-behavior=sticky]').each(function(index, el) {
         $(this).sticky(this.dataset);

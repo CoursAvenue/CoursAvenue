@@ -174,6 +174,8 @@ class Metric
       3
     when action > 5 && conversations > 5
       4
+    else
+      0
     end
   end
 

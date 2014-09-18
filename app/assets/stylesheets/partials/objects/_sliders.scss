@@ -1,12 +1,3 @@
-.map-slider-container {
-    background                 : white;
-    padding                    : 3px 8px;
-    border                     : 1px solid #CCC;
-    border-top                 : none;
-    @include border-bottom-left-radius($brand-round);
-    @include border-bottom-right-radius($brand-round);
-}
-
 /* Functional styling;
  * These styles are required for noUiSlider to function.
  * You don't need to change these rules to apply your design.

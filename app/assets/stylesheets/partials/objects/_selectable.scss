@@ -1,7 +1,0 @@
-.selectable {
-    cursor: pointer;
-    &:hover, &.selected {
-        background-color  : $brand-color;
-        color             : white;
-    }
-}

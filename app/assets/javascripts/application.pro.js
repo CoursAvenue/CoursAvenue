@@ -23,7 +23,6 @@
 //= require libs/jquery.fileupload/jquery.fileupload-validate
 //= require libs/jquery.fileupload/jquery.fileupload-image
 //= require libs/jquery.nouislider
-//= require libs/jquery.masonry
 //= require libs/jquery.lazyload
 //= require libs/responsiveslides
 //= require libs/jquery.placeholder
@@ -67,7 +66,6 @@
 // require plugins/dropped_options
 // require plugins/flash
 // require plugins/highlight
-// require plugins/input_updaters
 // require plugins/read_more
 // require plugins/text_counter
 // require plugins/textarea_resizer
