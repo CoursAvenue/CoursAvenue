@@ -7,22 +7,27 @@
 - if Rails.env.production?
   = content_for :scripts do
     :javascript
-      ga('send', 'event', 'Pass loisir', 'landed', '#{params[:referrer]}');
+      ga('send', 'event', 'Pass CoursAvenue', 'landed', '#{params[:referrer]}');
+- if params[:inscription].present?
+  = content_for :scripts do
+    :javascript
+      ga('send', 'event', 'Pass CoursAvenue', 'left email');
+
 .home-screen.soft--top.white.bg-cover{ style: "min-height: 500px; background-image: url('https://coursavenue-public.s3.amazonaws.com/public_assets/pass_loisirs.jpg')", 'data-stellar-background-ratio' => '0.6' }
   .main-container.main-container--medium.soft-half--bottom.relative{ style: "height: 500px;" }
     - if params[:inscription].present?
       .green-box.soft.text--center
         %h3 Félicitations ! Vous êtes bien enregistré : partagez-le sur Facebook et obtenez -50% de réduction sur votre 2ème mois.
         .text--center.push-half--bottom
-          = link_to 'Partager sur Facebook', "http://www.facebook.com/sharer.php?s=100&p[url]=#{pass_loisirs_url(referrer: 'facebook', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)}", class: 'btn btn--facebook', onclick: "ga('send', 'event', 'Pass loisir', 'shared', 'facebook');", target: :_blank
+          = link_to 'Partager sur Facebook', "http://www.facebook.com/sharer.php?s=100&p[url]=#{pass_loisirs_url(referrer: 'facebook', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)}", class: 'btn btn--facebook', onclick: "ga('send', 'event', 'Pass CoursAvenue', 'shared', 'facebook');", target: :_blank
     - else
       .grid
         .grid__item.one-third.soft--right>
           .push-half--bottom.very-soft.hard--sides
             .white-box.soft.black
               %h3 Pour 39€, participez à plus de 5 000 cours de loisirs autour de vous.
-              %p.epsilon Parmi plus de 500 disciplines rien qu'à Paris : cours d'écriture créative, krav maga, danse, yoga, accordéon...
-              = link_to 'Obtenir mon Pass', '#first-popup', class: 'btn btn--green btn--large btn--full hard--sides', data: { behavior: 'modal', width: 400, padding: 0 }, onclick: "ga('send', 'event', 'Pass loisir', 'first-popup');"
+              %p.epsilon Votre Pass vous ouvre à plus de 500 disciplines rien qu'à Paris : cours d'écriture créative, krav maga, danse, yoga, accordéon... Valable 1 mois, renouvelable autant de fois que vous le voulez.
+              = link_to 'Obtenir mon Pass', '#first-popup', class: 'btn btn--green btn--large btn--full hard--sides', data: { behavior: 'modal', width: 400, padding: 0 }, onclick: "ga('send', 'event', 'Pass CoursAvenue', 'first-popup');"
               %br
               .text--center
                 = link_to 'javascript:void(0);', data: { behavior: 'toggleable', el: '#comment-ca-marche' }, class: 'text--center' do
@@ -89,12 +94,12 @@
       .grid__item.one-third.palm-one-whole.text--center>
         .center-block.text--center.alpha 1
         .gamma.push-half--bottom.f-weight-300 Obtenez votre Pass
-        %p.epsilon Payez l'abonnement pour votre PassLoisirs directement en ligne par carte bleue.
+        %p.epsilon Payez votre pass directement en ligne par carte bleue : il est valable 1 mois et renouvelable autant de fois que vous le souhaitez.
       .grid__item.one-third.palm-one-whole.text--center>
         .center-block.text--center.alpha 2
         .gamma.push-half--bottom.f-weight-300 Choisissez vos passions
         %p.epsilon
-          Le pass est dématérialisé : une fois le paiement des 39€ effectué, vous accèderez à votre espace privé pour réserver tous les cours de votre choix.
+          Le pass est dématérialisé et vous réserverez tous les cours de votre choix depuis votre espace privé.
       .grid__item.one-third.palm-one-whole.text--center>
         .center-block.text--center.alpha 3
         .gamma.push-half--bottom.f-weight-300 Réalisez-vous !
@@ -150,6 +155,8 @@
     <noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/tr?ev=6017039707227&amp;cd[value]=0.00&amp;cd[currency]=EUR&amp;noscript=1" /></noscript>
     :javascript
       $('#pay-with-cb').click(function() {
-          ga('send', 'event', 'Pass loisir', 'second popup');
+          ga('send', 'event', 'Pass CoursAvenue', 'second popup');
           window._fbq.push(['track', '6017039707227', {'value':'39.00','currency':'EUR'}]);
       });
+
+
