@@ -1,7 +1,7 @@
 # encoding: utf-8
 class HomeController < ApplicationController
 
-  layout 'pages'
+  layout :get_layout
 
   def index
     # For search
@@ -12,6 +12,15 @@ class HomeController < ApplicationController
   end
 
   def pass_loisirs
+  end
 
+  private
+
+  def get_layout
+    if action_name == 'pass_loisirs'
+      'empty'
+    else
+      'pages'
+    end
   end
 end
