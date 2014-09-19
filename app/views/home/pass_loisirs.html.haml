@@ -8,7 +8,7 @@
   = content_for :scripts do
     :javascript
       ga('send', 'event', 'Pass CoursAvenue', 'landed', '#{params[:referrer]}');
-- if params[:inscription].present?
+- if Rails.env.production? and params[:inscription].present?
   = content_for :scripts do
     :javascript
       ga('send', 'event', 'Pass CoursAvenue', 'left email');
