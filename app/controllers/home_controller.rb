@@ -3,6 +3,14 @@ class HomeController < ApplicationController
 
   layout :get_layout
 
+  def redirect_to_account
+    if current_user
+      redirect_to dashboard_user_path(current_user)
+    else
+      redirect_to root_path(anchor: 'inscription')
+    end
+  end
+
   def index
     # For search
     @audiences        = Audience.all
