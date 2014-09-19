@@ -5,14 +5,12 @@
     .flexbox__item.palm-one-whole.v-middle>
       = link_to '', root_path, class: 'v-middle coursavenue-header-logo', title: 'CoursAvenue | Tous les cours autour de vous'
       - unless request.path == '/'
-        = form_tag structures_path, method: :get, authenticity_token: false, class: 'inline-block v-middle push--left', data: { type: 'location-filter'}, id: 'header-location-form' do
-          .input-with-icon.v-middle.header-search
-            %input.one-whole#header-location-form-address-picker.soft-half--left{ size: 25, placeholder: 'Où recherchez-vous un cours ?', type:'text', autocomplete: 'off', name:'address_name', data: { behavior:'address-picker', lng:'#address-lng', lat: '#address-lat', city: '#address-city', zoom: '#address-zoom' } }
-            %i.fa.fa-map-marker.delta
-          %input#address-lat{ type: 'hidden', name: 'lat' }
-          %input#address-lng{ type: 'hidden', name: 'lng' }
-          %input#address-zoom{ type: 'hidden', name: 'zoom' }
-          %input.visuallyhidden{  type: 'submit' }
+        = form_tag root_search_page_without_subject_path('paris'), class: 'inline-block v-middle push--left', method: :get, authenticity_token: false, data: { behavior: 'coursavenue-search' } do
+          .v-middle.header-search
+            %input.one-whole#header-location-form-address-picker.soft-half--left{ size: 25, placeholder:'Que recherchez-vous ?', type:'text', autocomplete: 'off', name:'address_name', value: '' , data: { type:  'subjects' }}
+          %input#address-lat{ type: 'hidden', name: 'lat', value: cookies[:lat] || '48.8592' }
+          %input#address-lng{ type: 'hidden', name: 'lng', value: cookies[:lng] || '2.3417' }
+          %input#address-city{ type: 'hidden', name: 'address_name', value: cookies[:city] || 'Paris' }
 
     %nav.text--right.flexbox__item.v-middle.nowrap.visuallyhidden--palm.print--hidden>
       #user-nav.inline-block.v-middle
