@@ -92,7 +92,7 @@
         %p.epsilon Payez l'abonnement pour votre PassLoisirs directement en ligne par carte bleue.
       .grid__item.one-third.palm-one-whole.text--center>
         .center-block.text--center.alpha 2
-        .gamma.push-half--bottom.f-weight-300 Sélectionnez les cours de loisirs qui vous intéressent
+        .gamma.push-half--bottom.f-weight-300 Choisissez vos passions
         %p.epsilon
           Le pass est dématérialisé : une fois le paiement des 39€ effectué, vous accèderez à votre espace privé pour réserver tous les cours de votre choix.
       .grid__item.one-third.palm-one-whole.text--center>
@@ -128,7 +128,7 @@
 
 .main-container.soft
   .push--sides
-    %h2.soft--bottom.text--center.f-weight-300 Découvrez vos passions en illimité
+    %h2.soft--bottom.text--center.f-weight-300 Vos passions sans limite
     = render partial: 'vertical_pages/subjects', locals: { subjects: Subject.roots.order('position ASC') }
 
 - if Rails.env.production?
