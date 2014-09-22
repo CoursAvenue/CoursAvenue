@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140922093618) do
+ActiveRecord::Schema.define(version: 20140922122758) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -289,6 +289,13 @@ ActiveRecord::Schema.define(version: 20140922093618) do
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
+  create_table "emailing_sections", force: true do |t|
+    t.string   "title"
+    t.integer  "emailing_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "emailings", force: true do |t|
     t.string   "title"
     t.text     "body"
@@ -298,6 +305,9 @@ ActiveRecord::Schema.define(version: 20140922093618) do
     t.string   "header_image_content_type"
     t.integer  "header_image_file_size"
     t.datetime "header_image_updated_at"
+    t.string   "section_metadata_one"
+    t.string   "section_metadata_two"
+    t.string   "section_metadata_three"
   end
 
   create_table "emails", force: true do |t|

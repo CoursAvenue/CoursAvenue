@@ -7,6 +7,8 @@ class Emailing < ActiveRecord::Base
                     styles: { large: '600x' },
                     convert_options: { large: '-interlace Plane' }
 
+  has_many :emailing_sections
+
   validates :title, presence: true
   validates :body, presence: true
   validates_attachment_content_type :header_image, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
