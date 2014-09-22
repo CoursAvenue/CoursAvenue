@@ -181,6 +181,7 @@ fr:
         users: Users
         vertical_pages: Pages verticales
         visitors: Visiteurs
+        emailings: Newsletters
       wizard_helper:
         name: >
           <p><strong>Un bon titre de profil</strong>
