@@ -53,7 +53,7 @@
             %td= SubscriptionPlan::PLAN_TYPE_DESCRIPTION[subscription.plan_type]
             %td= l(subscription.created_at.to_date)
             - if @current_tab == 'unsubscribed_tracking'
-              %td= l(subscription.canceled_at.to_date)
+              %td= l(subscription.canceled_at.to_date) if subscription.canceled_at.present?
             %td= (Time.now - renewed_date).to_i / 1.day
             %td{ data: { information: 'impressions' } }
               = link_to 'javascript:void(0)', class: 'btn btn--green btn--small', data: { action: 'show-action' } do
