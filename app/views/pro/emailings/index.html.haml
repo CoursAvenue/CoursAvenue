@@ -1,1 +1,19 @@
 = side_menu_currently_at 'emailings'
+
+.panel
+  .panel__body.soft
+    .soft.text--center
+      = link_to 'Nouvelle newsletter', new_pro_emailing_path, class: 'btn btn--green btn--large'
+    %table.table--data.table--striped#dataTable
+      %thead
+        %tr
+          %th Titre
+          %th Actions
+      %tbody
+        - @emailings.each do |emailing|
+          %tr
+            %td= emailing.title
+            %td
+              = link_to 'Éditer', edit_pro_emailing_path(emailing)
+              \/
+              = link_to 'Supprimer', pro_emailing_path(emailing), class: 'red', method: :delete

@@ -95,7 +95,7 @@ CoursAvenue::Application.routes.draw do
         end
       end
 
-      resources :emailings, only: [:index]
+      resources :emailings
 
       resources :reservations, only: [:index]
       resources :invited_users, only: [:index]

@@ -1,0 +1,15 @@
+= simple_form_for [:pro, @emailing] do |f|
+  = f.input :title, label: 'Titre de la Newsletter', placeholder: 'Ex. : Cours de Yoga autour de chez vous', input_html: { class: 'input--large'}, label_html: { class: 'label--large' }
+  = f.input :header_image, input_html: { class: 'input--large'}, label: 'Image', label_html: { class: 'label--large' }
+  = f.input :body, label: 'Contenu', input_html: { class: 'one-whole input--large' }
+
+  -# = f.input :meta_one, as: :select, collection: ['nom', 'avis']
+
+  = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement"}
+
+= content_for :scripts do
+  = javascript_include_tag '//cdn.ckeditor.com/4.4.4/standard/ckeditor.js'
+  :javascript
+      $(document).ready(function() {
+          CKEDITOR.replace('emailing[body]');
+      });
