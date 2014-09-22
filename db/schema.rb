@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140922122758) do
+ActiveRecord::Schema.define(version: 20140922145750) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -295,6 +295,13 @@ ActiveRecord::Schema.define(version: 20140922122758) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "emailing_sections_structures", id: false, force: true do |t|
+    t.integer "emailing_section_id"
+    t.integer "structure_id"
+  end
+
+  add_index "emailing_sections_structures", ["emailing_section_id", "structure_id"], name: "comments_subjects_index", using: :btree
 
   create_table "emailings", force: true do |t|
     t.string   "title"
