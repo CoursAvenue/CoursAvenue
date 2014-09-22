@@ -7,7 +7,7 @@ class HomeController < ApplicationController
     if current_user
       redirect_to dashboard_user_path(current_user)
     else
-      redirect_to root_path(anchor: 'inscription')
+      redirect_to root_path(anchor: 'connexion')
     end
   end
 

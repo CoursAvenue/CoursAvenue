@@ -12,7 +12,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             'click [data-behavior=sign-in]': 'signIn'
         },
 
-        signIn: function signIn (options) {
+        signIn: function signIn (event, options) {
             options = options || { show_admin_form: true };
             CoursAvenue.signIn(options);
         },
@@ -23,8 +23,8 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         onRender: function onRender () {
             this.$('[data-behavior=drop-down]').dropDown();
-            if (location.hash == '#inscription') {
-                this.signIn({ show_admin_form: false});
+            if (location.hash == '#connexion') {
+                this.signIn({}, { show_admin_form: false});
             }
         },
 

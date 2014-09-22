@@ -73,7 +73,7 @@ class User < ActiveRecord::Base
   # Callbacks                                                          #
   ######################################################################
   after_create :associate_all_comments
-  after_create :subscribe_to_mailchimp
+  after_save   :subscribe_to_mailchimp
 
   # Called from Registration Controller when user registers for first time
   def after_registration
