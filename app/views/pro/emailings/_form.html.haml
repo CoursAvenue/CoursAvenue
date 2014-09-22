@@ -3,7 +3,9 @@
   = f.input :header_image, input_html: { class: 'input--large'}, label: 'Image', label_html: { class: 'label--large' }
   = f.input :body, label: 'Contenu', input_html: { class: 'one-whole input--large' }
 
-  -# = f.input :meta_one, as: :select, collection: ['nom', 'avis']
+  = f.input :section_metadata_one, as: :select, collection: Emailing::SECTION_METADATA, input_html: { data: { behavior: 'chosen' } }, label: 'Texte 1 à afficher sous la section', label_method: lambda { |section| section[:title] } , value_method: lambda { |section| section[:action] }
+  = f.input :section_metadata_two, as: :select, collection: Emailing::SECTION_METADATA, input_html: { data: { behavior: 'chosen' } }, label: 'Texte 2 à afficher sous la section', label_method: lambda { |section| section[:title] } , value_method: lambda { |section| section[:action] }
+  = f.input :section_metadata_three, as: :select, collection: Emailing::SECTION_METADATA, input_html: { data: { behavior: 'chosen' } }, label: 'Texte 3 à afficher sous la section', label_method: lambda { |section| section[:title] } , value_method: lambda { |section| section[:action] }
 
   = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement"}
 
