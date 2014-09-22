@@ -10,7 +10,9 @@ class MailchimpUpdater
                                    :CITY       => user.city.try(:name),
                                    :ZIPCODE    => user.zip_code,
                                    :REGION     => user.city.try(:region_name),
-                                   :EMAILSTAT  => user.delivery_email_status
+                                   :EMAILSTAT  => user.delivery_email_status,
+                                   :ID         => user.id,
+                                   :GROUP      => user.id.modulo(6)
                                  },
                                    double_optin: false,
                                    update_existing: true
