@@ -1,0 +1,33 @@
+= side_menu_currently_at 'emailings'
+
+.panel
+  .panel__header.soft.text--center
+    %h3.flush Newsletter
+
+  .panel__body.soft.text--center
+    %p= @emailing.title
+
+    = image_tag '/assets/logos/logo.png', class: 'center-block'
+
+    = image_tag @emailing.header_image.url, class: 'very-soft'
+
+    %p= @emailing.body.html_safe
+
+    %hr
+
+    = link_to '/search' do
+      %i.fa.fa-search
+      Rechercher un Cours
+
+    = link_to '' do
+      %i.fa.fa-key
+      Votre compte
+
+    = link_to '' do
+      %i.fa
+      Se désabonner
+
+    %hr
+
+    - @emailing.emailing_sections.each do |section|
+      %h3= section.title
