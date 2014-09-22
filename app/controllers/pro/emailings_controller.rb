@@ -29,6 +29,9 @@ class Pro::EmailingsController < Pro::ProController
 
   def edit
     @emailing = Emailing.find params[:id]
+
+    count = 3 - @emailing.emailing_sections.count
+    count.times { @emailing.emailing_sections.build  }
   end
 
   def update
