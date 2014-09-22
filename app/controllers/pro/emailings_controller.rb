@@ -11,6 +11,10 @@ class Pro::EmailingsController < Pro::ProController
     @emailing = Emailing.new
   end
 
+  def show
+    @emailing = Emailing.find params[:id]
+  end
+
   def create
     @emailing = Emailing.new params[:emailing]
 
