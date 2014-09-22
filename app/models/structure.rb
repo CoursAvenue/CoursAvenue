@@ -55,6 +55,7 @@ class Structure < ActiveRecord::Base
   define_has_many_for :funding_type
 
   has_and_belongs_to_many :subjects
+  has_and_belongs_to_many :emailing_sections
 
   has_many :user_profiles
   has_many :user_profile_imports

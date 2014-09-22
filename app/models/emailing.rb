@@ -7,14 +7,15 @@ class Emailing < ActiveRecord::Base
     { title: 'Villes',        action: :cities }
   ]
 
-  attr_accessible :title, :body, :header_image, :section_metadata_one, :section_metadata_two, :section_metadata_three
+  attr_accessible :title, :body, :header_image, :section_metadata_one, :section_metadata_two, :section_metadata_three, :emailing_sections, :emailing_sections_attributes
 
-  # TODO: Change the values.
   has_attached_file :header_image,
                     styles: { large: '600x' },
                     convert_options: { large: '-interlace Plane' }
 
   has_many :emailing_sections
+
+  accepts_nested_attributes_for :emailing_sections
 
   validates :title, presence: true
   validates :body, presence: true
