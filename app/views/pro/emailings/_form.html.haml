@@ -7,6 +7,27 @@
   = f.input :section_metadata_two, as: :select, collection: Emailing::SECTION_METADATA, input_html: { data: { behavior: 'chosen' } }, label: 'Texte 2 à afficher sous la section', label_method: lambda { |section| section[:title] } , value_method: lambda { |section| section[:action] }
   = f.input :section_metadata_three, as: :select, collection: Emailing::SECTION_METADATA, input_html: { data: { behavior: 'chosen' } }, label: 'Texte 3 à afficher sous la section', label_method: lambda { |section| section[:title] } , value_method: lambda { |section| section[:action] }
 
+  %hr
+
+  %div{ data: { behavior: 'show-more-on-demand' } }
+    - @emailing.emailing_sections.each_with_index do |section, i|
+      = f.simple_fields_for :emailing_sections, section, child_index: i do |section_form|
+        %div{ class: (!section.persisted? ? 'hidden' : ''), data: { el: true, hidden: !section.persisted? } }
+          = section_form.input :title, label: 'Titre de la section'
+          = section_form.association :structures, as: :select, collection: Structure.all, input_html: { data: { behavior: 'chosen' } }, placeholder: 'Choisir une structure', label_method: :name
+          .input
+            .control-label>
+            .input-container>
+              %a{ href: 'javascript:void(0)', data: { trigger: true } }>
+                %i.fa.fa-plus
+                Ajouter une section
+          .input
+            .control-label>
+            .input-container>
+              %a.pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
+                %i.fa.fa-trash-o
+                Supprimer
+
   = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement"}
 
 = content_for :scripts do
