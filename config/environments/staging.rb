@@ -49,8 +49,8 @@ CoursAvenue::Application.configure do
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
   # config.action_controller.asset_host = "https://#{ENV['FOG_DIRECTORY']}.s3.amazonaws.com"
-  # config.action_controller.asset_host = "https://cdn%d.coursavenue.com"
-  config.action_controller.asset_host = "http://dqggv9zcmarb3.cloudfront.net"
+  # config.action_controller.asset_host = "http://cdn%d.coursavenue.com"
+  config.action_controller.asset_host = "d1eu1s8jeg2hfj.cloudfront.net"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
   config.assets.precompile += %w( email.css)
@@ -79,7 +79,7 @@ CoursAvenue::Application.configure do
       secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
     },
     url: ':s3_alias_url',
-    s3_host_alias: 'cdn.coursavenue.com'
+    s3_host_alias: 'd3e88xatz22clz.cloudfront.net'
   }
 
   # ------------ Mailer configuration
