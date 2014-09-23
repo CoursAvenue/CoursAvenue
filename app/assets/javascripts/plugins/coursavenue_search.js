@@ -66,9 +66,12 @@
                 var new_action;
                 if (this.selected_subject && this.selected_subject.depth == 0) {
                     new_action = Routes.root_search_page_path(this.selected_subject.slug, ($.cookie('city') || 'paris'));
+                    this.subjects_input.removeAttr('name'); // Remove name attribute to prevent word ending in the keywords filter
                 } else if (this.selected_subject) {
                     new_action = Routes.search_page_path(this.selected_subject.root, this.selected_subject.slug, ($.cookie('city') || 'paris'));
+                    this.subjects_input.removeAttr('name'); // Remove name attribute to prevent word ending in the keywords filter
                 } else {
+                  this.subjects_input.attr('name', 'name');
                     new_action = Routes.root_search_page_without_subject($.cookie('city') || 'paris');
                 }
                 this.$element.attr('action', new_action)
