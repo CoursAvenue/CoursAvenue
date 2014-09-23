@@ -536,5 +536,5 @@ CoursAvenue::Application.routes.draw do
   ########### Search pages ###########
 
   # Needed to catch 404 requests in ApplicationController
-  match "*path", to: "application#routing_error", via: :get
+  # match "*path", to: "application#routing_error", via: :get
 end

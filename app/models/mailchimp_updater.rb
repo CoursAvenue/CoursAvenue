@@ -12,7 +12,8 @@ class MailchimpUpdater
                                    :REGION     => user.city.try(:region_name),
                                    :EMAILSTAT  => user.delivery_email_status,
                                    :ID         => user.id,
-                                   :GROUP      => user.id.modulo(6)
+                                   :GROUP      => user.id.modulo(6),
+                                   :SLEEPING   => (user.active? ? 'Oui' : 'Non')
                                  },
                                    double_optin: false,
                                    update_existing: true
