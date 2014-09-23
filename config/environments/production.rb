@@ -50,8 +50,9 @@ CoursAvenue::Application.configure do
   config.cache_store = :dalli_store
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
-  # config.action_controller.asset_host = "https://#{ENV['FOG_DIRECTORY']}.s3.amazonaws.com"
-  config.action_controller.asset_host = "https://cdn%d.coursavenue.com"
+  # config.action_controller.asset_host = "#{ENV['FOG_DIRECTORY']}.s3.amazonaws.com"
+  # config.action_controller.asset_host = "cdn%d.coursavenue.com"
+  config.action_controller.asset_host = "dqggv9zcmarb3.cloudfront.net"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
   config.assets.precompile += %w( email.css )
@@ -83,7 +84,7 @@ CoursAvenue::Application.configure do
       secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
     },
     url: ':s3_alias_url',
-    s3_host_alias: 'cdn.coursavenue.com',
+    s3_host_alias: 'd3mloml2d643nt.cloudfront.net',
     path: ":class/:attachment/:id_partition/:style/:filename"
   }
 
