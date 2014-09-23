@@ -27,4 +27,21 @@ class EmailingSection < ActiveRecord::Base
   def media_with_structure(structure)
     self.emailing_section_bridges.where(structure_id: structure.id).first
   end
+
+  # Set the media by default if it isn't already set.
+  #
+  # @return nothing
+  def set_media
+    self.structures.each do |structure|
+      bridge = media_with_structure(structure)
+      if bridge.nil?
+        self.emailing_section_bridges.create(structure_id: structure.id,
+                                             media_id: structure.medias.first.id)
+      elsif bridge.media_id.nil?
+        bridge.media_id = structure.medias.first.id
+        bridge.save
+      end
+    end
+  end
+
 end
