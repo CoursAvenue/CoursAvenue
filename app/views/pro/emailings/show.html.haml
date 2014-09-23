@@ -14,20 +14,24 @@
     %p= @emailing.body.html_safe
 
     %hr
+    %div
+      = link_to '/search' do
+        %i.fa.fa-search
+        Rechercher un Cours
 
-    = link_to '/search' do
-      %i.fa.fa-search
-      Rechercher un Cours
+      = link_to '' do
+        %i.fa.fa-key
+        Votre compte
 
-    = link_to '' do
-      %i.fa.fa-key
-      Votre compte
-
-    = link_to '' do
-      %i.fa
-      Se désabonner
-
+      = link_to '' do
+        %i.fa
+        Se désabonner
     %hr
 
     - @emailing.emailing_sections.each do |section|
-      %h3= section.title
+      %div.grid--full
+        %h3= section.title
+        - section.structures.each do |structure|
+          %div.grid__item.one-third
+            - @emailing.section_metadata.each do |action|
+              %p= @emailing.call_action(action, structure)
