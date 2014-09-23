@@ -20,13 +20,6 @@
           .input
             .control-label>
             .input-container>
-              %a{ href: 'javascript:void(0)', data: { behavior: 'choose-pictures' }, class: 'btn btn--green btn--full' }
-                %i.fa.fa-camera
-                Choisir les photos
-
-          .input
-            .control-label>
-            .input-container>
               %a{ href: 'javascript:void(0)', data: { trigger: true } }>
                 %i.fa.fa-plus
                 Ajouter une section
@@ -41,8 +34,4 @@
   :javascript
       $(document).ready(function() {
           CKEDITOR.replace('emailing[body]');
-      });
-
-      $('[data-behavior=choose-pictures]').click(function() {
-          alert('coucou');
       });
