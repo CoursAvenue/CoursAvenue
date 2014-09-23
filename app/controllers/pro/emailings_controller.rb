@@ -41,7 +41,7 @@ class Pro::EmailingsController < Pro::ProController
       if @emailing.update_attributes params[:emailing]
         format.html { redirect_to pro_emailing_path, notice: 'Bien enregistré' }
       else
-        format.html { render action: :edit, locals: { errors: @emailing.errors } }
+        format.html { render action: :edit }
       end
     end
   end
