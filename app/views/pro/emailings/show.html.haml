@@ -32,6 +32,7 @@
       %div.grid--full
         %h3= section.title
         - section.structures.each do |structure|
-          %div.grid__item.one-third
+          %div.grid__item.one-third>
             - @emailing.section_metadata.each do |action|
               %p= @emailing.call_action(action, structure)
+      = link_to section.link, section.link_name
