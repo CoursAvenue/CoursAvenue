@@ -133,8 +133,243 @@
 
 .main-container.soft
   .push--sides
-    %h2.soft--bottom.text--center.f-weight-300 Vos passions sans limite
-    = render partial: 'vertical_pages/subjects', locals: { subjects: Subject.roots.order('position ASC') }
+    %h2.text--center.f-weight-300 Inclus dans votre Pass Découverte
+    %h4.soft--bottom.text--center.f-weight-300 Voici une sélection de cours inclus dans votre Pass Découverte.
+    .grid
+      .grid__item.one-third>
+        %h4
+          = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/danse.png", height: 20
+          Danse
+        %ul.no-bullet-list.epsilon.line-height-1-7
+          %li Hip Hop
+          %li Pilates
+          %li Lindy hop
+          %li Zumba
+          %li Claquette
+          %li Rock
+          %li Hip-hop New Style
+          %li Cours initiation danses enfants 7-9 ans
+          %li Danse Orientale
+          %li Moderne Jazz
+          %li Danse country
+          %li Danse orientale classique
+          %li Danse africaine moderne
+          %li Danse de société
+          %li Danse blues
+          %li Milonga et Valse argentine
+          %li Tango argentin
+          %li Salsa cubaine
+          %li Street jazz
+          %li Zumba
+          -# %li Aquazumba
+          -# %li Danse indienne Bollywood
+          -# %li Comédie musicale Bollywood
+          -# %li Danse Africaine de Côte d'ivoire, Mali et Guinée
+          -# %li Pole Dance
+          -# %li Danse Contemporaine
+          -# %li Cours de danse : chorégraphie de Chorus Line
+          -# %li Danse afro-caribéenne
+          -# %li Rock
+          -# %li Atelier d'initiation à la danse orientale
+          -# %li Danse Afro Jazz
+          -# %li Danse Butô (Danse contemporaine japonaise)
+          -# %li Street Fit
+          -# %li Danse arabian fitness
+          -# %li Salsa Colombienne
+          -# %li Atelier en toute liberté (chant, danse, jeu d'acteur)
+          -# %li Atelier Danse Orientale
+          -# %li Atelier d'initiation au rock
+          -# %li MasterClass Afroglow dance
+          -# %li Atelier d'initiation à la bachata
+          -# %li Découvrez le WECANDANCE
+          -# %li Cours de Hip-hop, Jazz, chorégraphie
+          -# %li Cours de salsa : maîtrisez les techniques de guidage
+          -# %li Eveil danse
+          -# %li Initiation de pas de danse congolaise
+          -# %li Danse orientale
+          -# %li Cours de Claquettes et Comédie Musicale
+          -# %li Tango Argentin
+          -# %li Initiation au hip-hop
+          -# %li Initiation à la danse arabe (Egypte, Maroc, Algérie, Tunisie)
+          -# %li Salsa
+          -# %li Zumba
+          -# %li Reunion d'information/Présentation de l'association
+          -# %li Stage Lindy Hop
+      .grid__item.one-third>
+        %h4
+          = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/theatre-scene.png", height: 20
+          Théâtre & Scène
+        %ul.no-bullet-list.epsilon.line-height-1-7
+          %li Cours de comédie musicale
+          %li Atelier de trapèze
+          %li Théâtre
+          %li Atelier Damien Acoca - Soirée Découverte gratuite 20 Juin
+          %li Comédien de doublage
+          %li Atelier d'art dramatique - coaching pour acteurs
+          %li Théâtre
+          %li Atelier d'initiation, rencontre avec nos techniques de jeu d'acteur.
+          %li Séance de répétition théâtre ouverte
+          %li Développement personnel par la voix
+          %li Théâtre pour enfants
+          %li Atelier d'improvisation théâtrale
+          %li Improvisation theatrale
+          %li Théâtre
+          %li Théâtre en mouvement
+          %li L'acteur face à la caméra
+          %li Théâtre
+      .grid__item.one-third>
+        %h4
+          = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/yoga-bien-etre-sante.png", height: 20
+          Yoga, Bien-être & Santé
+        %ul.no-bullet-list.epsilon.line-height-1-7
+          %li Atelier de do in et démonstration de shiatsu
+          %li Cours d'initiation au Hatha Yoga
+          %li Cours de Yoga
+          %li Initiation au Bikram Yoga
+          %li Yoga-Iyengar et  Méditation
+          %li Foot Massage & Réflexologie
+          %li Stretching Anti Stress
+          %li Massage Traditionnel Thaï
+          %li Qi Gong, Tai Chi et Stretching Postural
+          %li Atelier équilibre et marche
+          %li Cours de Yoga
+          %li Atelier de découverte à la Technique Alexander
+          %li Découverte Sophrologie
+          %li Atelier bien-être,  coaching & développement personnel
+          %li Hatha yoga
+          %li Cours de Wutao
+          %li Cours de yoga
+          %li Cours de  Shiatsu
+          -# %li Yoga - Cours découverte
+          -# %li Cous de yoga
+          -# %li Cours d'initiation individuel  à la sophrologie
+          -# %li Atelier de Flamenco tout niveaux
+          -# %li Qi Gong et Tai Chi Chuan
+          -# %li Cours de Qi Gong
+          -# %li Cours de Gyrotonic avec Paula
+          -# %li Cours de sophrologie avec Pauline
+          -# %li Atelier d'écriture créative
+          -# %li Cours de Stretching / Rélaxation avec Romina
+          -# %li Cours de Gyrokinesis avec Anna
+          -# %li Cours de Gyrotonic avec Lars
+          -# %li Séance de yoga prénatal
+          -# %li Séance de Yoga du Cachemire
+          -# %li Hatha Yoga
+          -# %li Atelier de Yoga
+          -# %li Sophro-Relaxation \"Bulle Détente & Sérénité\"
+          -# %li Cours de Hatha Yoga avec Corina
+          -# %li Cours de Hatha Yoga avec Perrine
+    .grid
+      .grid__item.one-third>
+        %h4
+          = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/dessin-peinture-arts-plastiques.png", height: 20
+          Dessin, Peinture & Arts
+        %ul.no-bullet-list.epsilon.line-height-1-7
+          %li Initiation à la gravure
+          %li Atelier de dessin, peinture et volume
+          %li Dessin
+          %li Initiation à la sculpture modelage
+          %li Initiation au portrait
+          %li Peinture à l'huile et tempera grasse
+          %li Démonstrations de peintures et patines décoratives sur bois
+          %li Atelier d'initiation à la couture
+          %li Initiation de dessin (reproduction de personnages et portraits)
+          %li Démonstration d'atelier d' écriture
+          %li Cours de céramique et de sculpture
+          %li Atelier de dessin et peinture
+          %li Atelier d'arts plastiques
+          %li Atelier d'initiation au dessin d'observation
+          %li Ateliers de dessin-peinture, de modelage-sculpture
+          %li cours de dessin musee
+          %li Fresque collective
+          %li Atelier d'initiation à la sellerie / maroquinerie
+          %li Atelier bande dessinée
+          %li Atelier Découverte de la Mode
+          %li Cours de nu,  modèle vivant
+          %li Atelier d'initiation au Manga
+          %li Atelier d'initiation à l'Animation 2D
+          %li Atelier d'initiation au Dessin / Peinture Ado - Adulte
+          %li Atelier d'initiation au Dessin / Peinture Enfant
+          %li Initiation au Stylisme
+      .grid__item.one-third>
+        %h4
+          = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/musique-chant.png", height: 20
+          Musique & Chant
+        %ul.no-bullet-list.epsilon.line-height-1-7
+          %li Eveil musical
+          %li Atelier de chant collectif
+          %li Ecriture de scénario
+          %li Ingénieur du son
+          %li Cours public de chorale
+          %li Présentation de la Réeducation vocale (Formation pour le chant en 6 cours)
+          %li Fondamentaux de technique vocale, voix lyrique et variété.
+          %li Atelier découverte instrumentale
+          %li Guitare, basse, batterie et chant.
+          %li Présentation du piano
+          %li Atelier de musique et chant
+          %li Approche de la basse
+          %li Composition de musique de film
+          %li Atelier d'initiation au chant moderne
+          %li Découverte et perfectionnement de la guitare
+          %li Chorale
+          %li Initiation à la musique persane et découverte des instruments iraniens
+          %li Atelier d'initiation au piano
+          %li Cours de Chant
+          %li Cours de piano
+          %li Initiation instrumentale
+          %li Chant, techniques vocales et coaching vocal
+          %li Chant et interprétation
+          %li Chant gospel
+          %li Initiation à la musique
+          %li Atelier \"S'AFFIRMER DANS SA VOIX PARLEE\"
+          %li Atelier \"jeu en groupe\"
+          %li Atelier d'initiation à la batterie
+          %li Présentation de la batterie
+          %li Atelier d'initiation à la guitare et à la basse
+          %li Cours de Chant
+          %li Atelier d'initiation à la percussion Africaine (Djembe Doun-doun)
+          %li Répétition Publique \"les filles de mon cœur\"
+          %li Cours de Chant
+          %li Cours de Chant
+          %li Musique assistée par ordinateur (MAO) Et Composition de musique de film
+          %li Chant  moderne : jazz, chansons, rock etc...
+          %li Eveil Musical
+          %li Chant \"Voix Libre\"
+          %li Théâtre et Chant
+      .grid__item.one-third>
+        %h4
+          = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/sports-arts-martiaux.png", height: 20
+          Sports & Arts martiaux
+        %ul.no-bullet-list.epsilon.line-height-1-7
+          %li Arts Martiaux Japonais adultes armes
+          %li Taekwondo
+          %li Kung fu
+          %li Cours de self-défense
+          %li Judo enfants
+          %li Initiation à la Capoeira
+          %li Initiation au Kinomichi
+          %li Initiation de Kung Fu
+          %li Stretching Anti Stress
+          %li Initiation à la Capoeira
+          %li Cours de Bolly Aerobic (Fitness Bollywood)
+          %li Initiation au Kung Fu Wushu
+          %li Cardio Trainning et apprentissage coup de pied sur cible
+          %li Karaté
+          %li Baby Karaté
+          %li Kobudo enfants adultes
+          %li Body Taekwondo
+          %li Aquagym Senior
+          %li Gymnastique Senior
+          %li Cours de combat
+          %li Initiation de Kung Fu
+          %li Cours d'initiation aux arts martiaux japonais
+          %li Golf à Paris
+          %li Atelier Initiation Taekwondo, art martial Olympique d'origine Coréenne
+          %li Cours de pilates
+          %li Ado Karaté
+          %li Karaté au féminin
+          %li Ateliers Capoeira
+          %li Atelier de Vélo avec technique Alexander
 
 - if Rails.env.production?
   = content_for :scripts do
