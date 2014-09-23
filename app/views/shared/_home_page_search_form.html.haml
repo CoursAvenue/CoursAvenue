@@ -5,17 +5,14 @@
 - subject_slug  = ''                   if subject_slug.nil?
 - wrapper_class = 'header-search-bar' if wrapper_class.nil?
 .home-page-search
-  = form_tag root_search_page_without_subject_path('paris'), method: :get, authenticity_token: false, data: { gather: true }, class: form_class, id: 'city-form' do
+  = form_tag root_search_page_without_subject_path('paris'), method: :get, authenticity_token: false, data: { behavior: 'coursavenue-search' }, class: form_class do
     .relative.flexbox.rounded.very-soft{ class: wrapper_class }
       .flexbox__item.v-middle.search-input-wrapper
-        %select.palm-one-whole.input--large.one-whole{ name: 'root_subject_id' }
-          %option{value: ''} Toutes disciplines
-          - Subject.stars.each do |subject|
-            %option{ value: subject.slug, selected: subject.slug == subject_slug }= subject.name
-          %option{value: 'other'} Autres
+        .input-with-icon
+          %input.palm-one-whole.input--large.one-whole.soft-half--left{ size: 35, placeholder:'Que recherchez-vous ?', type: 'text', autocomplete: 'off', name:'name', value: '' , data: { type: 'subjects' }}
       .flexbox__item.v-middle.search-input-wrapper.very-soft.hard--ends.palm-hard
         .input-with-icon
-          %input.palm-one-whole.input--large#address-picker.one-whole.soft-half--left{ size: 25, placeholder:'Où recherchez-vous un cours ?', type:'text', autocomplete: 'off', name:'address_name', value: 'Paris', data: { behavior:'address-picker', lng:'#address-lng',lat: '#address-lat', city: '#address-city' } }
+          %input.palm-one-whole.input--large.one-whole.soft-half--left{ size: 25, placeholder:'Ville', type:'text', autocomplete: 'off', name:'address_name', value: 'Paris', data: { type:'address', lng:'#address-lng',lat: '#address-lat', city: '#address-city' } }
           %i.fa.fa-map-marker.delta
         %input#address-lat{ type: 'hidden', value: lat, name: 'lat' }
         %input#address-lng{ type: 'hidden', value: lng, name: 'lng' }
@@ -25,18 +22,4 @@
         %button.nowrap.btn.btn--blue.btn--full.input--large{type: 'submit', id: 'submit_search_form'}
           %i.fa.fa-search
           Trouver
-
-= content_for :scripts do
-  :javascript
-    $(function () {
-        $('#city-form').submit(function() {
-            var city_name = $('#address-city').val().split(',')[0].toLowerCase();
-            if ($('[name=root_subject_id]').val().length > 0) {
-                new_action = Routes.root_search_page_path($('[name=root_subject_id]').val(), city_name);
-            } else {
-                new_action = Routes.root_search_page_without_subject_path(city_name);
-            }
-            $('#city-form').attr('action', new_action);
-        });
-    });
 

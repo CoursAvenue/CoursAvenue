@@ -44,22 +44,6 @@
 // - https://github.com/jquery-boilerplate/jquery-patterns/
 // - https://github.com/jquery-boilerplate/jquery-boilerplate
 //= require_tree ./plugins/
-// require plugins/address_picker
-// require plugins/checkbox_list
-// require plugins/city_autocomplete
-// require plugins/closer
-// require plugins/drop_down
-// require plugins/flash
-// require plugins/highlight
-// require plugins/read_more
-// require plugins/text_counter
-// require plugins/textarea_resizer
-// require plugins/toggler
-// require plugins/image_input
-// require plugins/show_more_on_demand
-// require plugins/jquery_sticky
-// require plugins/parent_descendant_subjects
-// require plugins/wizard_helper
 
 //= require gmaps/google
 
