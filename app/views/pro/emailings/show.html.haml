@@ -32,10 +32,14 @@
     - @emailing.emailing_sections.each do |section|
       %div.grid--full
         %h4= section.title
+
         - section.structures.each do |structure|
           %div.grid__item.one-third>
-            = link_to structure_path(structure) do
-              = image_tag structure.medias.first.thumbnail_url if structure.medias.any?
+            - bridge = section.media_with_structure(structure)
+            = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN) do
+              = image_tag bridge.media.thumbnail_url if bridge.present? and bridge.media.present?
+
             - @emailing.section_metadata.each do |action|
               %p= @emailing.call_action(action, structure)
+
       = link_to section.link_name, section.link
