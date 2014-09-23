@@ -4,7 +4,7 @@ class MailchimpUpdater
     Gibbon::API.lists.subscribe({id: '34fb5a48e8',
                                  email: { email: user.email},
                                  merge_vars: {
-                                   :FNAME      => user.first_name,
+                                   :FNAME      => user.first_name.try(:capitalize),
                                    :LNAME      => user.last_name,
                                    :GENDER     => user.gender,
                                    :CITY       => user.city.try(:name),
