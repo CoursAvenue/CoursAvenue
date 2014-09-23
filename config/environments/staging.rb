@@ -80,7 +80,7 @@ CoursAvenue::Application.configure do
     },
     url: ':s3_alias_url',
     s3_host_alias: ENV['PAPERCLIP_S3_HOST_ALIAS'],
-    path: "/:class/:attachment/:id_:basename.:style.:extension"
+    path: ":rails_root/public/system/:class/:attachment/:id_partition/:style/:filename"
   }
 
   # ------------ Mailer configuration
