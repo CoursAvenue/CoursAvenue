@@ -7,15 +7,17 @@ class Emailing < ActiveRecord::Base
   SECTION_METADATA = [
     { title: 'Nom'          , action: :metadata_name },
     { title: "Nombre d'avis", action: :metadata_comment_count }, # TODO: => comments.count
-    { title: 'À partir de',   action: :metadata_prices },        # TODO: => prices. ???
-    { title: 'Villes',        action: :metadata_cities }
+    { title: 'À partir de'  , action: :metadata_prices },        # TODO: => prices. ???
+    { title: 'Villes'       , action: :metadata_cities }
   ]
 
   ######################################################################
   # Macros                                                             #
   ######################################################################
 
-  attr_accessible :title, :body, :header_image, :section_metadata_one, :section_metadata_two, :section_metadata_three, :emailing_sections, :emailing_sections_attributes
+  attr_accessible :title, :body, :header_image, :section_metadata_one,
+                  :section_metadata_two, :section_metadata_three,
+                  :emailing_sections, :emailing_sections_attributes
 
   has_attached_file :header_image,
                     styles: { large: '600x' },
