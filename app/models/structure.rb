@@ -55,11 +55,13 @@ class Structure < ActiveRecord::Base
   define_has_many_for :funding_type
 
   has_and_belongs_to_many :subjects
-  has_and_belongs_to_many :emailing_sections
 
   has_many :user_profiles
   has_many :user_profile_imports
   has_many :users, through: :user_profiles
+
+  has_many :emailing_section_bridges
+  has_many :emailing_sections, through: :emailing_section_bridge
 
   has_many :places                   , dependent: :destroy
   has_many :admins                   , dependent: :destroy

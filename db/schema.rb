@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140923091626) do
+ActiveRecord::Schema.define(version: 20140923131737) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -289,6 +289,14 @@ ActiveRecord::Schema.define(version: 20140923091626) do
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
+  create_table "emailing_section_bridges", force: true do |t|
+    t.integer "emailing_section_id"
+    t.integer "structure_id"
+    t.integer "media_id"
+  end
+
+  add_index "emailing_section_bridges", ["emailing_section_id", "structure_id"], name: "comments_subjects_index", using: :btree
+
   create_table "emailing_sections", force: true do |t|
     t.string   "title"
     t.integer  "emailing_id"
@@ -297,13 +305,6 @@ ActiveRecord::Schema.define(version: 20140923091626) do
     t.string   "link"
     t.string   "link_name"
   end
-
-  create_table "emailing_sections_structures", id: false, force: true do |t|
-    t.integer "emailing_section_id"
-    t.integer "structure_id"
-  end
-
-  add_index "emailing_sections_structures", ["emailing_section_id", "structure_id"], name: "comments_subjects_index", using: :btree
 
   create_table "emailings", force: true do |t|
     t.string   "title"
