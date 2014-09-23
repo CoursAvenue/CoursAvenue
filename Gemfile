@@ -131,7 +131,7 @@ gem 'paranoia'                  , '~>2.0'
 # Helps having a clean ruby sitemap
 gem 'sitemap_generator'         , '~>4.2.0'
 # Mailchimp API
-# gem 'gibbon'                    , '~>1.0.4'
+gem 'gibbon'                    , '~>1.1.3'
 
 # Transform external CSS stylesheets into inline CSS for emails
 gem 'roadie'                    , '~>3.0.0'

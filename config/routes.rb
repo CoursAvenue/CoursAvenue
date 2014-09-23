@@ -491,6 +491,7 @@ CoursAvenue::Application.routes.draw do
   # ----------------------------------------- Static pages
   # ------------------------------------------------------
   # Pages
+  get 'mon-compte'                    => 'home#redirect_to_account'
   get 'pourquoi-le-bon-cours',        to: 'redirect#why_coursavenue'
   get 'portes-ouvertes-cours-loisirs' => 'pages#jpo',                  as: 'pages_jpo'
   get 'comment-ca-marche'             => 'pages#what_is_it',           as: 'pages_what_is_it'
@@ -524,6 +525,8 @@ CoursAvenue::Application.routes.draw do
   post '/mandrill-webhook' => 'mandrill_webhook#create'
   get  '/mandrill-webhook' => 'mandrill_webhook#index'
   root :to => 'home#index'
+  get 'pass-loisirs' => 'home#pass_loisirs',  as: 'pass_loisirs'
+
 
   ########### Search pages ###########
   # Must be at the end not to stop other routes
@@ -533,5 +536,5 @@ CoursAvenue::Application.routes.draw do
   ########### Search pages ###########
 
   # Needed to catch 404 requests in ApplicationController
-  match "*path", to: "application#routing_error", via: :get
+  # match "*path", to: "application#routing_error", via: :get
 end

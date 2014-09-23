@@ -73,6 +73,7 @@ class User < ActiveRecord::Base
   # Callbacks                                                          #
   ######################################################################
   after_create :associate_all_comments
+  after_save   :subscribe_to_mailchimp
 
   # Called from Registration Controller when user registers for first time
   def after_registration
@@ -540,4 +541,9 @@ class User < ActiveRecord::Base
     end
     nil
   end
+
+  def subscribe_to_mailchimp
+    MailchimpUpdater.delay.update(self)
+  end
+
 end
