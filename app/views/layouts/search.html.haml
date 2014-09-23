@@ -1,8 +1,5 @@
 = content_for :header do
-  - if on_jpo_pages?
-    = render 'shared/headers/jpo'
-  - else
-    = render partial: 'shared/headers/header', locals: { expanded: true }
+  = render partial: 'shared/headers/header', locals: { expanded: true }
 
 = content_for :content do
   .relative
