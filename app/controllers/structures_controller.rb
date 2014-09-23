@@ -50,6 +50,16 @@ class StructuresController < ApplicationController
     end
   end
 
+  def search
+    @structures = StructureSearch.search(params).results
+    respond_to do |format|
+      format.json do
+        render json: @structures, each_serializer: StructureTypeaheadSerializer
+      end
+    end
+
+  end
+
   def index
     if params[:root_subject_id].present? and params[:subject_id].blank?
       params[:subject_id] = params[:root_subject_id]

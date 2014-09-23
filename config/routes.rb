@@ -398,6 +398,7 @@ CoursAvenue::Application.routes.draw do
     end
     collection do
       post :recommendation
+      get :search
     end
     resources :statistics, only: [:create]                                    , controller: 'structures/statistics'
     resources :messages  , only: [:create]                                    , controller: 'structures/messages'
@@ -442,17 +443,16 @@ CoursAvenue::Application.routes.draw do
   end
 
   resources :subjects, only: [] do
+    collection do
+    end
+  end
+  resources :subjects, only: [:index] do
     member do
       get :depth_2
     end
     collection do
       get :descendants
-    end
-  end
-  resources :subjects, only: [:index], path: 'cours' do
-    collection do
-      get :tree
-      get :tree_2
+      get :search
     end
     resources :structures, only: [:index], path: 'etablissements'
     # resources :places, only: [:index], path: 'etablissements'
