@@ -7,7 +7,7 @@
       - unless request.path == '/'
         = form_tag root_search_page_without_subject_path('paris'), class: 'inline-block v-middle push--left', method: :get, authenticity_token: false, data: { behavior: 'coursavenue-search' } do
           .v-middle.header-search
-            %input.one-whole#header-location-form-address-picker.soft-half--left{ size: 25, placeholder:'Que recherchez-vous ?', type:'text', autocomplete: 'off', name:'address_name', value: '' , data: { type:  'subjects' }}
+            %input.one-whole#header-location-form-address-picker.soft-half--left{ size: 25, placeholder:'Que recherchez-vous ?', type:'text', autocomplete: 'off', name:'name', value: '' , data: { type:  'subjects' }}
           %input#address-lat{ type: 'hidden', name: 'lat', value: cookies[:lat] || '48.8592' }
           %input#address-lng{ type: 'hidden', name: 'lng', value: cookies[:lng] || '2.3417' }
           %input#address-city{ type: 'hidden', name: 'address_name', value: cookies[:city] || 'Paris' }
