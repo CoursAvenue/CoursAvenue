@@ -4,35 +4,38 @@
   .panel__header.soft.text--center
     %h3.flush Newsletter
 
-  .panel__body.soft.text--center
+  .panel__body.soft
     %p= @emailing.title
 
     = image_tag '/assets/logos/logo.png', class: 'center-block'
-
     = image_tag @emailing.header_image.url, class: 'very-soft'
-
     %p= @emailing.body.html_safe
 
     %hr
-    %div
-      = link_to '/search' do
-        %i.fa.fa-search
-        Rechercher un Cours
+    %div.text--center.grid--full
+      .grid__item.one-third>
+        = link_to '/search' do
+          %i.fa.fa-search
+          Rechercher un Cours
 
-      = link_to '' do
-        %i.fa.fa-key
-        Votre compte
+      .grid__item.one-third>
+        = link_to '' do
+          %i.fa.fa-key
+          Votre compte
 
-      = link_to '' do
-        %i.fa
-        Se désabonner
+      .grid__item.one-third>
+        = link_to '' do
+          %i.fa
+          Se désabonner
     %hr
 
     - @emailing.emailing_sections.each do |section|
       %div.grid--full
-        %h3= section.title
+        %h4= section.title
         - section.structures.each do |structure|
           %div.grid__item.one-third>
+            = link_to structure_path(structure) do
+              = image_tag structure.medias.first.thumbnail_url if structure.medias.any?
             - @emailing.section_metadata.each do |action|
               %p= @emailing.call_action(action, structure)
-      = link_to section.link, section.link_name
+      = link_to section.link_name, section.link
