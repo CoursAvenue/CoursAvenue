@@ -1,5 +1,5 @@
 class EmailingSection < ActiveRecord::Base
-  attr_accessible :title, :structures, :structure_ids
+  attr_accessible :title, :link, :link_name, :structures, :structure_ids
 
   belongs_to :emailing, polymorphic: true
   has_and_belongs_to_many :structures
