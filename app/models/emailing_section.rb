@@ -23,8 +23,8 @@ class EmailingSection < ActiveRecord::Base
   #
   # @param The associated Structure
   #
-  # @return an Array of EmailingSectionBridges or an empty Array
+  # @return an EmailingSectionBridge or nil
   def media_with_structure(structure)
-    self.emailing_section_bridges.where(structure_id: structure.id)
+    self.emailing_section_bridges.where(structure_id: structure.id).first
   end
 end
