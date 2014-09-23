@@ -15,9 +15,24 @@ class Emailing < ActiveRecord::Base
 
   has_many :emailing_sections
 
-  accepts_nested_attributes_for :emailing_sections
+  accepts_nested_attributes_for :emailing_sections,
+                                 reject_if: :reject_section,
+                                 allow_destroy: true
 
   validates :title, presence: true
   validates :body, presence: true
   validates_attachment_content_type :header_image, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
+
+  ######################################################################
+  # Methods                                                            #
+  ######################################################################
+
+  # Check if we should reject the section.
+  # We only reject the section if the title is blank.
+  #
+  # @return a Boolean
+  def reject_section(attributes)
+    attributes[:title].blank?
+  end
+
 end
