@@ -35,9 +35,8 @@
 
         - section.structures.each do |structure|
           %div.grid__item.one-third>
-            - bridge = section.media_with_structure(structure)
             = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN) do
-              = image_tag bridge.media.thumbnail_url if bridge.present? and bridge.media.present?
+              = render partial: 'image_chooser', locals: { section: section, structure: structure }
 
             - @emailing.section_metadata.each do |action|
               %p= @emailing.call_action(action, structure)
