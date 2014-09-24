@@ -86,6 +86,10 @@ module CoursAvenue
       Devise::Mailer.layout 'email'
     end
 
+    config.generators do |g|
+      g.orm :active_record
+    end
+
     # Filepicker
     config.filepicker_rails.api_key = ENV['FILEPICKER_API_KEY']
 
