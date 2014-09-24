@@ -121,7 +121,7 @@
                   - @structure.similar_profiles(21, _params).each_with_index do |structure, index|
                     - unless index == 0
                       %hr.push-half--ends
-                    - cache [structure, 'similar_profiles'] do
+                    - cache ['similar_profiles', structure] do
                       %div{ style: 'height: 70px;' }
                         = link_to structure_path(structure), class: 'soft-half--sides block muted-link' do
                           .grid--full{ data: { similar_profile: true, structure_id: structure.id } }

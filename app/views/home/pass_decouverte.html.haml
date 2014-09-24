@@ -81,30 +81,30 @@
     .panel__body.soft
       %p.epsilon Le Pass Découverte sera lancé le 15 octobre et réservé aux 500 premiers inscrits. Laissez votre adresse mail pour en bénéficier en avant première !
       %p.epsilon.push-half--bottom
-        %strong Réservez-moi un Pass Découverte, voici mon adresse mail :
+        %strong Réservez-moi un Pass Découverte
       = simple_form_for Email.new do |f|
         = f.input :email, input_html: { class: 'input--large one-whole', placeholder: 'Votre e-mail' }, label: false
         = f.input :email_type, as: :hidden, input_html: { value: "pass-decouverte_#{@price}" }
         %input{ type: 'hidden', name: 'utm_campaign', value: params[:utm_campaign] }
-        = f.submit 'Enregistrer', class: 'btn btn--green btn--large btn--full', data: { disable_with: 'Validation en cours...' }
+        = f.submit 'Réserver mon Pass', class: 'btn btn--green btn--large btn--full', data: { disable_with: 'Validation en cours...' }
 
 
-.bg-site-background.relative{ style: 'z-index: 120301230120321'}
+.bg-site-background.relative
   .home-screen-promotion-wrapper
     .main-container.soft
       .grid
         .grid__item.one-third.palm-one-whole.text--center>
           .center-block.text--center.alpha 1
           .gamma.push-half--bottom.f-weight-300 Achetez votre Pass
-          %p.epsilon Payez directement en ligne par CB : votre Pass est valable 1 mois et renouvelable
+          %p.epsilon Payez directement en ligne par carte bleue : votre Pass est valable 1 mois et est renouvelable autant de fois que vous le souhaitez
         .grid__item.one-third.palm-one-whole.text--center>
           .center-block.text--center.alpha 2
           .gamma.push-half--bottom.f-weight-300 Choisissez vos cours
-          %p.epsilon Sur le moteur de recherche CoursAvenue.com, choisissez les activités que vous aimeriez essayer parmi tous les cours présentant le logo Pass Découverte (plus de 3 000 !). Réservez ensuite votre séance d'essai directement sur la page du partenaire
+          %p.epsilon Sur CoursAvenue.com, visualisez tous les cours sur une carte géographique (plus de 3 000 !), choisissez les séances de votre choix en fonction des avis et des créneaux, puis réservez gratuitement auprès de chaque partenaire
         .grid__item.one-third.palm-one-whole.text--center>
           .center-block.text--center.alpha 3
           .gamma.push-half--bottom.f-weight-300 Suivez vos cours !
-          %p.epsilon Notez la date et l'adresse du cours dans votre agenda pour ne pas l'oublier. En cas de désistement, prévenez votre professeur au plus vite.
+          %p.epsilon Notez bien le créneau et l'adresse pour ne pas oublier chaque réservation. Vous pouvez participer une seule fois à chacun des cours de votre Pass : si un cours vous a particulièrement plu, libre à vous ensuite d'acheter un carnet ou un abonnement !
 
   .main-container.main-container--medium.soft
     .push--sides
@@ -371,6 +371,22 @@
             ga('send', 'event', 'Pass Découverte', 'second popup');
             window._fbq.push(['track', '6017039707227', {'value':'39.00','currency':'EUR'}]);
         });
+
+  %footer.main-footer.relative.print--hidden#coursavenue-footer
+    .main-container.soft.palm-text--center
+      .grid
+        .grid__item.one-quarter.palm-one-whole>
+          %p.push-half--bottom
+            %strong À propos
+          %p
+            = link_to 'CoursAvenue ', root_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: "Comment ça marche ?"
+            est le premier moteur de recherche de cours de loisirs qui permet de relier chacun de nous aux meilleurs professeurs, associations et écoles qui nous entourent.
+
+        .grid__item.one-quarter.palm-one-whole.soft--left>
+          %ul.no-bullet-list.line-height-1-7
+            %li= link_to 'En savoir plus'  , pages_what_is_it_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: "Comment ça marche ?"
+            %li= link_to "Page d'accueil CoursAvenue", root_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: "Page d'accueil CoursAvenue"
+            %li= link_to 'Moteur de recherche CoursAvenue', root_search_page_without_subject_url('paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Aide'
 
   :css
     .cb-slideshow,
