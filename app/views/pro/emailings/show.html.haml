@@ -29,16 +29,26 @@
           Se désabonner
     %hr
 
-    - @emailing.emailing_sections.each do |section|
-      %div.grid--full
-        %h4= section.title
+    %div#emailings
 
-        - section.structures.each do |structure|
-          %div.grid__item.one-third>
-            = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN) do
-              = render partial: 'image_chooser', locals: { section: section, structure: structure }
+    -# - @emailing.emailing_sections.each do |section|
+    -#   %div.grid--full
+    -#     %h4= section.title
+    -#
+    -#     - section.structures.each do |structure|
+    -#       %div.grid__item.one-third>
+    -#         = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN) do
+    -#           = render partial: 'image_chooser', locals: { section: section, structure: structure }
+    -#
+    -#         - @emailing.section_metadata.each do |action|
+    -#           %p= @emailing.call_action(action, structure)
+    -#
+    -#   = link_to section.link_name, section.link
 
-            - @emailing.section_metadata.each do |action|
-              %p= @emailing.call_action(action, structure)
-
-      = link_to section.link_name, section.link
+- content_for :scripts do
+  :javascript
+      window.coursavenue = window.coursavenue || {};
+      window.coursavenue.bootstrap = {
+        id: #{ @emailing.id },
+        models: {}
+      };
