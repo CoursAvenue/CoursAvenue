@@ -1,24 +1,16 @@
-Emailing = new Backbone.Marionette.Application({ slug: 'emailing' });
+Emailing = new Backbone.Marionette.Application({ slug: 'emailings' });
 
 // here was have to use Emailing rather than slug, because "this" will be window
 // I think...
 Emailing.addRegions({
-    mainRegion: '#' + Emailing.slug
+    mainRegion: '#emailings-region'
 });
 
 Emailing.addInitializer(function(options) {
 
-    // if the generator was called with a model and view the
-    // generator will also give us the following
-    // otherwise its just empty
+    var bootstrap = window.coursavenue.bootstrap;
 
-    // bootstrap data provided by the surrounding app
-    // var bootstrap = window.coursavenue.bootstrap;
-
-    // Create an instance of your class and populate with the models of your entire collection
-    // If you used a bootstrap, pass in models and options
-    // var EmailingSection                  = new Emailing.Models.EmailingSectionsCollection(bootstrap.models, bootstrap.options);
-    var EmailingSection                  = new Emailing.Models.EmailingSectionsCollection();
+    var EmailingSection                   = new Emailing.Models.EmailingSectionsCollection(bootstrap.models, bootstrap.options);
     var emailing_sections_collection_view = new Emailing.Views.EmailingSectionsCollection.EmailingSectionsCollectionView({
         collection: EmailingSection,
         events: {
@@ -27,11 +19,8 @@ Emailing.addInitializer(function(options) {
     });
 
 
-    // call bootstrap or fetch to get things started?
-    // EmailingSection.bootstrap(); // not sure if this will always be applicable
-    EmailingSection.fetch();
+    EmailingSection.bootstrap();
 
-    /* set up the layouts */
     var layout           = new Emailing.Views.EmailingSectionsLayout();
 
     /* code to demonstrate initializing some submodules to be added to the layout here */
