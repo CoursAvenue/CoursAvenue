@@ -6,7 +6,7 @@
         %li
           %div{ data: { type: "google-maps" } }>
       - medias.each_with_index do |media, index|
-        - cache do [media, 'structure#top1']
+        - cache ['structure_top1', media] do
           %li.relative.bg-contain
             %a.rslides_nav.rslides_nav--icon{ rel: 'slideshow', href: media.url, class: (media.video? ? 'visible' : ''), data: { behavior: "fancy" } }
               - if media.video?
@@ -29,7 +29,7 @@
             %a.pointer.media-photo.media-slideshow#map-thumbnail
               = image_tag 'icons/google-maps-thumb.jpg', height: 70, width: 70
         - medias.each do |media|
-          - cache do [media, 'structure#top2']
+          - cache ['structure_top2', media] do
             %li.rslides-thumbnail
               %a.pointer.media-photo
                 %img{ src: media.thumbnail_url, height: 70, width: 70, alt: (@structure ? subjects_name_from_string(@structure.subjects_string) : '') }

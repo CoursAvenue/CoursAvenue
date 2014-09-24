@@ -1,74 +1,75 @@
 %footer.main-footer.relative.print--hidden#coursavenue-footer
-  .main-container.soft.palm-text--center
-    .grid
-      .grid__item.one-fifth.palm-one-whole>
-        %p.push-half--bottom
-          %strong À propos
-        %p
-          = link_to 'CoursAvenue ', root_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: "Comment ça marche ?"
-          est le premier moteur de recherche de cours de loisirs qui permet de relier chacun de nous aux meilleurs professeurs, associations et écoles qui nous entourent.
+  - cache 'footer_v1' do
+    .main-container.soft.palm-text--center
+      .grid
+        .grid__item.one-fifth.palm-one-whole>
+          %p.push-half--bottom
+            %strong À propos
+          %p
+            = link_to 'CoursAvenue ', root_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: "Comment ça marche ?"
+            est le premier moteur de recherche de cours de loisirs qui permet de relier chacun de nous aux meilleurs professeurs, associations et écoles qui nous entourent.
 
-      .grid__item.one-fifth.palm-one-whole>
-        %p.push-half--bottom
-          %strong Élèves
-        %ul.no-bullet-list.line-height-1-7
-          %li= link_to 'Comment ça marche ?'  , pages_what_is_it_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: "Comment ça marche ?"
-          %li= link_to 'Guide des disciplines', vertical_pages_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Foire aux questions Utilisateurs'
-          %li= link_to 'Aide'                 , pages_faq_users_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Aide'
+        .grid__item.one-fifth.palm-one-whole>
+          %p.push-half--bottom
+            %strong Élèves
+          %ul.no-bullet-list.line-height-1-7
+            %li= link_to 'Comment ça marche ?'  , pages_what_is_it_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: "Comment ça marche ?"
+            %li= link_to 'Guide des disciplines', vertical_pages_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Foire aux questions Utilisateurs'
+            %li= link_to 'Aide'                 , pages_faq_users_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Aide'
 
-      .grid__item.one-fifth.palm-one-whole>
-        %p.push-half--bottom
-          %strong Professionnels
-        %ul.no-bullet-list.line-height-1-7
-          %li= link_to 'Accueil'          , root_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), title: 'Accueil CoursAvenue pour les professionnels'
-          %li= link_to 'Publiez vos cours', inscription_pro_structures_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), title: 'Publiez vos cours'
-          %li= link_to 'Portraits'        , pro_portraits_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), title: 'Portraits de professionnels'
-          %li= link_to 'Offres & Tarifs'  , pro_pages_price_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), title: 'Découvrez nos offres & tarifs', rel: :nofollow
-          %li= link_to "Livre d'Or"       , pro_pages_widget_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), title: "Qu'est ce que le Livre d'Or CoursAvenue ?"
-          %li= link_to 'Tout sur les avis', pro_pages_why_be_recommended_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), title: 'Tout sur les avis', rel: :nofollow
-          %li= link_to 'Livres Blancs'    , pro_pages_white_books_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), title: "Accédez à nos études destinées à aider les professionnels des loisirs", rel: :nofollow
-          %li= link_to 'Aide'             , pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), title: 'Questions les plus fréquentes', rel: :nofollow
+        .grid__item.one-fifth.palm-one-whole>
+          %p.push-half--bottom
+            %strong Professionnels
+          %ul.no-bullet-list.line-height-1-7
+            %li= link_to 'Accueil'          , root_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), title: 'Accueil CoursAvenue pour les professionnels'
+            %li= link_to 'Publiez vos cours', inscription_pro_structures_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), title: 'Publiez vos cours'
+            %li= link_to 'Portraits'        , pro_portraits_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), title: 'Portraits de professionnels'
+            %li= link_to 'Offres & Tarifs'  , pro_pages_price_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), title: 'Découvrez nos offres & tarifs', rel: :nofollow
+            %li= link_to "Livre d'Or"       , pro_pages_widget_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), title: "Qu'est ce que le Livre d'Or CoursAvenue ?"
+            %li= link_to 'Tout sur les avis', pro_pages_why_be_recommended_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), title: 'Tout sur les avis', rel: :nofollow
+            %li= link_to 'Livres Blancs'    , pro_pages_white_books_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), title: "Accédez à nos études destinées à aider les professionnels des loisirs", rel: :nofollow
+            %li= link_to 'Aide'             , pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), title: 'Questions les plus fréquentes', rel: :nofollow
 
-      .grid__item.one-fifth.palm-one-whole>
-        %p.push-half--bottom
-          %strong Société
-        %ul.no-bullet-list.line-height-1-7
-          %li= link_to 'Blog'                                   , blog_articles_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Blog CoursAvenue'
-          %li= link_to 'Qui sommes-nous ?'                      , pages_who_are_we_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
-          %li= link_to 'Presse'                                 , pages_press_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Presse', rel: :nofollow
-          %li= link_to 'Contact'                                , pages_contact_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Contact', rel: :nofollow
-          %li= link_to 'Conditions générales et confidentialité', pages_terms_and_conditions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Conditions générales et confidentialité', rel: :nofollow
+        .grid__item.one-fifth.palm-one-whole>
+          %p.push-half--bottom
+            %strong Société
+          %ul.no-bullet-list.line-height-1-7
+            %li= link_to 'Blog'                                   , blog_articles_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Blog CoursAvenue'
+            %li= link_to 'Qui sommes-nous ?'                      , pages_who_are_we_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+            %li= link_to 'Presse'                                 , pages_press_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Presse', rel: :nofollow
+            %li= link_to 'Contact'                                , pages_contact_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Contact', rel: :nofollow
+            %li= link_to 'Conditions générales et confidentialité', pages_terms_and_conditions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Conditions générales et confidentialité', rel: :nofollow
 
-      .grid__item.one-fifth.palm-one-whole>
-        %p.push-half--bottom
-          %strong Disciplines
-        %ul.no-bullet-list.line-height-1-7
-          %li= link_to 'Danse', root_search_page_url('danse', 'paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Danse à Paris'
-          %li= link_to 'Théâtre & Scène', root_search_page_url('theatre-scene', 'paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Théâtre & Scène à Paris'
-          %li= link_to 'Yoga, Bien-être & Santé', root_search_page_url('yoga-bien-etre-sante', 'paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Yoga, Bien-être & Santé à Paris'
-          %li= link_to 'Musique & Chant', root_search_page_url('musique-chant', 'paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Musique & Chant à Paris'
-          %li= link_to 'Dessin, Peinture & Arts', root_search_page_url('dessin-peinture-arts-plastiques', 'paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Dessin, Peinture & Arts à Paris'
-          %li= link_to 'Sports & Arts martiaux', root_search_page_url('sports-arts-martiaux', 'paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Sports & Arts martiaux à Paris'
-          %li= link_to 'Cuisine & Vins', root_search_page_url('cuisine-vins', 'paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Cuisine & Vins à Paris'
-          %li= link_to 'Photo & Vidéo', root_search_page_url('photo-video', 'paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Photo & Vidéo à Paris'
-          %li= link_to 'Déco, Mode & Bricolage', root_search_page_url('deco-mode-bricolage', 'paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Déco, Mode & Bricolage à Paris'
-          %li= link_to 'Autres', root_search_page_url('other', 'paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours à Paris'
+        .grid__item.one-fifth.palm-one-whole>
+          %p.push-half--bottom
+            %strong Disciplines
+          %ul.no-bullet-list.line-height-1-7
+            %li= link_to 'Danse', root_search_page_url('danse', 'paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Danse à Paris'
+            %li= link_to 'Théâtre & Scène', root_search_page_url('theatre-scene', 'paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Théâtre & Scène à Paris'
+            %li= link_to 'Yoga, Bien-être & Santé', root_search_page_url('yoga-bien-etre-sante', 'paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Yoga, Bien-être & Santé à Paris'
+            %li= link_to 'Musique & Chant', root_search_page_url('musique-chant', 'paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Musique & Chant à Paris'
+            %li= link_to 'Dessin, Peinture & Arts', root_search_page_url('dessin-peinture-arts-plastiques', 'paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Dessin, Peinture & Arts à Paris'
+            %li= link_to 'Sports & Arts martiaux', root_search_page_url('sports-arts-martiaux', 'paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Sports & Arts martiaux à Paris'
+            %li= link_to 'Cuisine & Vins', root_search_page_url('cuisine-vins', 'paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Cuisine & Vins à Paris'
+            %li= link_to 'Photo & Vidéo', root_search_page_url('photo-video', 'paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Photo & Vidéo à Paris'
+            %li= link_to 'Déco, Mode & Bricolage', root_search_page_url('deco-mode-bricolage', 'paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours de Déco, Mode & Bricolage à Paris'
+            %li= link_to 'Autres', root_search_page_url('other', 'paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Cours à Paris'
 
-  .text--center
-    %p.push-half--bottom
-      %strong Suivez-nous
-    %p
-      = link_to 'Facebook', 'https://www.facebook.com/CoursAvenue', class: 'push-half--right', target: :_blank, rel: :nofollow
-      = link_to 'Twitter', 'http://twitter.com/CoursAvenue', class: 'push-half--right', target: :_blank, rel: :nofollow
-      = link_to 'Instagram', 'https://instagram.com/coursavenue', target: :_blank, rel: :nofollow
-    %p.push-half--bottom.gray-very-light
-      © CoursAvenue
+    .text--center
+      %p.push-half--bottom
+        %strong Suivez-nous
+      %p
+        = link_to 'Facebook', 'https://www.facebook.com/CoursAvenue', class: 'push-half--right', target: :_blank, rel: :nofollow
+        = link_to 'Twitter', 'http://twitter.com/CoursAvenue', class: 'push-half--right', target: :_blank, rel: :nofollow
+        = link_to 'Instagram', 'https://instagram.com/coursavenue', target: :_blank, rel: :nofollow
+      %p.push-half--bottom.gray-very-light
+        © CoursAvenue
 
-  - if @structure
-    .main-container.text--center.visuallyhidden
-      - if @structure.city
-        = link_to "Tous les cours à #{@structure.city.name}", city_url(@structure.city, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'semi-muted-link', target: :_blank
+  - if @structure and @structure.city
+    - cache [@structure, 'footer'] do
+      .main-container.text--center.visuallyhidden
         - @structure.subjects.uniq.each_with_index do |subject, index|
-          - if index > 0
-            ,
-          = link_to "Cours de #{subject.name} à #{@structure.city.name}", vertical_page_url_for(subject), class: 'semi-muted-link', target: :_blank
+          - if subject.depth == 0
+            = link_to "#{subject.name} à #{@structure.city.name}", root_search_page_path(subject.root, @structure.city), class: 'semi-muted-link', target: :_blank
+          - else
+            = link_to "#{subject.name} à #{@structure.city.name}", search_page_path(subject.root, subject, @structure.city), class: 'semi-muted-link', target: :_blank
