@@ -9,6 +9,7 @@
   - @price = 39
 - else
   - @price = 9
+
 = content_for :head do
   %meta{ name: "robots", content: "noindex, nofollow" }
 
@@ -19,10 +20,28 @@
   = content_for :scripts do
     :javascript
       ga('send', 'event', 'Pass Découverte', 'landed', '#{params[:referrer]}');
+
+- # Has left email
 - if Rails.env.production? and params[:inscription].present?
   = content_for :scripts do
     :javascript
       ga('send', 'event', 'Pass Découverte', 'left email');
+    <!-- Facebook Conversion Code for Pass découverte checkout -->
+    <script>(function() {
+    var _fbq = window._fbq || (window._fbq = []);
+    if (!_fbq.loaded) {
+    var fbds = document.createElement('script');
+    fbds.async = true;
+    fbds.src = '//connect.facebook.net/en_US/fbds.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(fbds, s);
+    _fbq.loaded = true;
+    }
+    })();
+    window._fbq = window._fbq || [];
+    window._fbq.push(['track', '6017039707227', {'value':'#{@price}.00','currency':'EUR'}]);
+    </script>
+    <noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/tr?ev=6017039707227&amp;cd[value]=0.00&amp;cd[currency]=EUR&amp;noscript=1" /></noscript>
 
 %ul.cb-slideshow.no-bullet-list
   %li
@@ -59,9 +78,9 @@
           .white-box.soft.black
             %h3 Essayez autant de cours de loisirs que vous voulez !
             %p.epsilon Valable 1 mois et renouvelable, le Pass Découverte vous permet de suivre autant de cours d'essais que vous le souhaitez à Paris chez plus de 1 000 professeurs, écoles et associations.
-            = link_to 'Obtenir mon Pass', '#first-popup', class: 'btn btn--green btn--large btn--full hard--sides', data: { behavior: 'modal', width: 400, padding: 0 }, onclick: "ga('send', 'event', 'Pass Découverte', 'first-popup');"
+            = link_to 'Obtenir mon Pass', '#first-popup', class: 'btn btn--green btn--large btn--full hard--sides', data: { behavior: 'modal', width: 400, padding: 0 }, onclick: "ga('send', 'event', 'Pass Découverte', 'Clicked on popup');"
       .grid__item.six-tenths>
-        = link_to '#first-popup', class: 'block', data: { behavior: 'modal', width: 400, padding: 0 }, onclick: "ga('send', 'event', 'Pass Découverte', 'first-popup');", style: 'margin-left: -50px; margin-top: -20px;' do
+        = link_to '#first-popup', class: 'block', data: { behavior: 'modal', width: 400, padding: 0 }, onclick: "ga('send', 'event', 'Pass Découverte', 'Clicked on popup');", style: 'margin-left: -50px; margin-top: -20px;' do
           = image_tag "https://coursavenue-public.s3.amazonaws.com/pass/pass_#{@price}.png", height: 250, width: 250
       .home-screen-comment.visuallyhidden--palm.soft-black-text-shadow.south.soft--bottom
         .grid.epsilon
@@ -342,35 +361,12 @@
             %p.epsilon Votre pass est valable 1 mois et renouvelable autant de fois que vous le souhaitez. Satisfaction garantie.
 
     .text--center.push--bottom.soft--bottom
-      = link_to 'Obtenir mon Pass', '#first-popup', class: 'btn btn--green btn--large', data: { behavior: 'modal', width: 400, padding: 0 }, onclick: "ga('send', 'event', 'Pass Découverte', 'first-popup');"
+      = link_to 'Obtenir mon Pass', '#first-popup', class: 'btn btn--green btn--large', data: { behavior: 'modal', width: 400, padding: 0 }, onclick: "ga('send', 'event', 'Pass Découverte', 'Clicked on popup');"
 
   .main-container.main-container--medium.soft--top
     .text--center.push--ends
       %h2.soft-half--bottom.text--center.f-weight-300 Où que vous soyez à Paris
       = image_tag 'https://coursavenue-public.s3.amazonaws.com/pass/map-paris-pass.jpg'
-
-  - if Rails.env.production?
-    = content_for :scripts do
-      <!-- Facebook Conversion Code for Pass-loisir checkout -->
-      <script>(function() {
-      var _fbq = window._fbq || (window._fbq = []);
-      if (!_fbq.loaded) {
-      var fbds = document.createElement('script');
-      fbds.async = true;
-      fbds.src = '//connect.facebook.net/en_US/fbds.js';
-      var s = document.getElementsByTagName('script')[0];
-      s.parentNode.insertBefore(fbds, s);
-      _fbq.loaded = true;
-      }
-      })();
-      window._fbq = window._fbq || [];
-      </script>
-      <noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/tr?ev=6017039707227&amp;cd[value]=0.00&amp;cd[currency]=EUR&amp;noscript=1" /></noscript>
-      :javascript
-        $('#pay-with-cb').click(function() {
-            ga('send', 'event', 'Pass Découverte', 'second popup');
-            window._fbq.push(['track', '6017039707227', {'value':'39.00','currency':'EUR'}]);
-        });
 
   %footer.main-footer.relative.print--hidden#coursavenue-footer
     .main-container.soft.palm-text--center
