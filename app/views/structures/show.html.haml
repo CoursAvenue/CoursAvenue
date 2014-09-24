@@ -121,27 +121,28 @@
                   - @structure.similar_profiles(21, _params).each_with_index do |structure, index|
                     - unless index == 0
                       %hr.push-half--ends
-                    %div{ style: 'height: 70px;' }
-                      = link_to structure_path(structure), class: 'soft-half--sides block muted-link' do
-                        .grid--full{ data: { similar_profile: true, structure_id: structure.id } }
-                          .grid__item.v-top.one-fifth>
-                            .media-photo{ itemprop: 'image', content: structure.logo.url }
-                              - if structure.is_sleeping?
-                                = image_tag structure.sleeping_logo.url(:thumb)
-                              - else
-                                = image_tag structure.logo.url(:thumb)
-                          .grid__item.v-top.four-fifths.soft-half--left.opacity-hidden-on-hover__wrapper>
-                            .nowrap
-                              - if structure.premium? and header_promotion_title_for_structure(structure).present?
-                                %h6.inline-block.push-half--bottom= truncate(structure.name, length: 18)
-                                .lbl.lbl--small.lbl--yellow
-                                  %i.fa.fa-star
-                                  = header_promotion_title_for_structure(structure)
-                              - else
-                                %h6.inline-block.push-half--bottom= truncate(structure.name, length: 30)
-                            %div
-                              %i= truncate(structure.places.map(&:city).map(&:name).uniq.join(', '), length: 40)
-                            .btn.btn--small.btn--blue.btn--full.opacity-hidden-on-hover__child Voir le profil
+                    - cache [structure, 'similar_profiles'] do
+                      %div{ style: 'height: 70px;' }
+                        = link_to structure_path(structure), class: 'soft-half--sides block muted-link' do
+                          .grid--full{ data: { similar_profile: true, structure_id: structure.id } }
+                            .grid__item.v-top.one-fifth>
+                              .media-photo{ itemprop: 'image', content: structure.logo.url }
+                                - if structure.is_sleeping?
+                                  = image_tag structure.sleeping_logo.url(:thumb)
+                                - else
+                                  = image_tag structure.logo.url(:thumb)
+                            .grid__item.v-top.four-fifths.soft-half--left.opacity-hidden-on-hover__wrapper>
+                              .nowrap
+                                - if structure.premium? and header_promotion_title_for_structure(structure).present?
+                                  %h6.inline-block.push-half--bottom= truncate(structure.name, length: 18)
+                                  .lbl.lbl--small.lbl--yellow
+                                    %i.fa.fa-star
+                                    = header_promotion_title_for_structure(structure)
+                                - else
+                                  %h6.inline-block.push-half--bottom= truncate(structure.name, length: 30)
+                              %div
+                                %i= truncate(structure.places.map(&:city).map(&:name).uniq.join(', '), length: 40)
+                              .btn.btn--small.btn--blue.btn--full.opacity-hidden-on-hover__child Voir le profil
 
 - if Rails.env.production?
   = render 'tracking_pixels'
