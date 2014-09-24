@@ -58,4 +58,13 @@ class Pro::EmailingsController < Pro::ProController
     end
   end
 
+  def sections
+    @emailing = Emailing.find params[:id]
+    @sections = @emailing.emailing_sections
+
+    respond_to do |format|
+      format.json { render json: @sections }
+    end
+  end
+
 end

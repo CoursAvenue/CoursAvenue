@@ -1,19 +1,14 @@
-
-/* just a basic backbone model */
 Emailing.module('Models', function(Module, App, Backbone, Marionette, $, _) {
     Module.EmailingSectionsCollection = Backbone.Collection.extend({
         model: Module.EmailingSection,
         url: function () {
-            return 'bob.json'
+            var id = window.coursavenue.bootstrap.id;
+            return Routes.sections_pro_emailing_path(id);
         },
 
-        /* if fetch returns an object, rather than an array,
-        * you will process that object here */
         parse: function (data) {
             return data;
         }
-
-        // your implementation here
 
     });
 });
