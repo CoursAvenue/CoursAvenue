@@ -19,13 +19,13 @@ class HomeController < ApplicationController
     @last_comment     = Comment::Review.accepted.last
   end
 
-  def pass_loisirs
+  def pass_decouverte
   end
 
   private
 
   def get_layout
-    if action_name == 'pass_loisirs'
+    if action_name == 'pass_decouverte'
       'empty'
     else
       'pages'
