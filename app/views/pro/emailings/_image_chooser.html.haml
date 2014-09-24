@@ -1,12 +1,13 @@
 - bridge = section.media_with_structure(structure)
 - bridge_present = bridge.present? and bridge.media.present?
 
-%a.pointer{ data: { 'slide-prev' => true } }
-  %i.delta.fa-chevron-left.v-middle.gray-light
+%div{ data: { section: section.id, structure: structure.id } }
+  %a.pointer{ data: { 'slide-prev' => true } }
+    %i.delta.fa-chevron-left.v-middle.gray-light
 
-= image_tag bridge.media.thumbnail_url, size: '180x180' if bridge_present
-- structure.medias.each do |media|
-  = image_tag media.thumbnail_url, size: '180x180', class: 'hidden' unless bridge_present and bridge.media == media
+  = image_tag bridge.media.thumbnail_url, size: '180x180', data: { media: bridge.media.id, current: 'true' } if bridge_present
+  - structure.medias.each do |media|
+    = image_tag media.thumbnail_url, size: '180x180', class: 'hidden', data: { media: media.id } unless bridge_present and bridge.media == media
 
-%a.pointer{ data: { 'slide-next' => true } }
-  %i.delta.fa-chevron-right.v-middle.gray-light
+  %a.pointer{ data: { 'slide-next' => true } }
+    %i.delta.fa-chevron-right.v-middle.gray-light
