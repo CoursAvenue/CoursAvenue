@@ -1,4 +1,4 @@
-- case params[:utm_campaign].last
+- case (params[:utm_campaign] || '').last
 - when 'a'
   - @price = 9
 - when 'b'
@@ -36,19 +36,10 @@
             .white-box.soft.black
               %h3 Essayez autant de cours de loisirs que vous voulez !
               %p.epsilon Valable 1 mois et renouvelable, le Pass Découverte vous permet de suivre autant de cours d'essais que vous le souhaitez à Paris chez plus de 1 500 professeurs, écoles et associations.
-              = link_to 'Obtenir mon Pass', '#first-popup', class: 'btn btn--blue btn--large btn--full hard--sides', data: { behavior: 'modal', width: 400, padding: 0 }, onclick: "ga('send', 'event', 'Pass Découverte', 'first-popup');"
-              %br
-              .text--center
-                = link_to 'javascript:void(0);', data: { behavior: 'toggleable', el: '#comment-ca-marche' }, class: 'text--center' do
-                  Comment ça marche
-                  %i.fa.fa-caret-down
+              = link_to 'Obtenir mon Pass', '#first-popup', class: 'btn btn--green btn--large btn--full hard--sides', data: { behavior: 'modal', width: 400, padding: 0 }, onclick: "ga('send', 'event', 'Pass Découverte', 'first-popup');"
         .grid__item.six-tenths>
           = link_to '#first-popup', class: 'block', data: { behavior: 'modal', width: 400, padding: 0 }, onclick: "ga('send', 'event', 'Pass Découverte', 'first-popup');", style: 'margin-left: -50px; margin-top: -50px;' do
             = image_tag "https://coursavenue-public.s3.amazonaws.com/pass/pass_#{@price}.png", height: 250, width: 250
-          -# %h1.soft--top.soft-black-text-shadow.flush.big-alpha
-          -#   Réalisez-vous
-          -# %h2.push--bottom.soft-black-text-shadow
-          -#   Pour une vie Créative. Sportive. Artistique.
         .home-screen-comment.visuallyhidden--palm.soft-black-text-shadow.south.soft--bottom
           .grid.epsilon
             .grid__item.two-twelfths.v-middle.text--center>
@@ -70,22 +61,6 @@
         = f.input :email, input_html: { class: 'input--large one-whole', placeholder: 'Votre e-mail' }, label: false
         = f.input :email_type, as: :hidden, input_html: { value: 'pass-decouverte' }
         = f.submit 'Valider', class: 'btn btn--green btn--large btn--full', data: { disable_with: 'Validation en cours...' }
-
-#comment-ca-marche.hidden.main-container
-  .soft
-    .grid
-      .grid__item.one-third.palm-one-whole.text--center>
-        .center-block.text--center.alpha 1
-        .gamma.push-half--bottom.f-weight-300 Achetez votre Pass
-        %p.epsilon Payez directement en ligne par CB : votre Pass est valable 1 mois et renouvelable
-      .grid__item.one-third.palm-one-whole.text--center>
-        .center-block.text--center.alpha 2
-        .gamma.push-half--bottom.f-weight-300 Choisissez vos cours
-        %p.epsilon Sur le moteur de recherche CoursAvenue.com, choisissez les activités que vous aimeriez essayer parmi tous les cours présentant le logo Pass Découverte (plus de 1 500 !). Réservez ensuite votre séance d'essai directement sur la page du partenaire
-      .grid__item.one-third.palm-one-whole.text--center>
-        .center-block.text--center.alpha 3
-        .gamma.push-half--bottom.f-weight-300 Suivez vos cours !
-        %p.epsilon Notez la date et l'adresse du cours dans votre agenda pour ne pas l'oublier. En cas de désistement, prévenez votre professeur au plus vite.
 
 
 .home-screen-promotion-wrapper
@@ -110,6 +85,9 @@
           %h4.push-half--bottom En toute liberté
           %p.epsilon Votre pass est valable 1 mois et renouvelable autant de fois que vous le souhaitez. Satisfaction garantie.
 
+      .text--center.epsilon
+        = link_to '#comment-ca-marche', data: { behavior: 'scroll-to' }, class: 'text--center' do
+          Comment ça marche
 .main-container.soft
   .push--sides
     %h2.push-half--bottom.text--center.f-weight-300 Inclus dans votre Pass Découverte
@@ -323,10 +301,28 @@
           %li Atelier de Vélo avec technique Alexander
           %li . . .
 
-  .text--center.push--sides
-    %h2.push-half--bottom.text--center.f-weight-300 Où que vous soyez dans Paris
+.home-screen-promotion-wrapper#comment-ca-marche
+  .main-container.soft
+    %h2.soft--bottom.text--center.f-weight-300 Comment ça marche
+    .grid
+      .grid__item.one-third.palm-one-whole.text--center>
+        .center-block.text--center.alpha 1
+        .gamma.push-half--bottom.f-weight-300 Achetez votre Pass
+        %p.epsilon Payez directement en ligne par CB : votre Pass est valable 1 mois et renouvelable
+      .grid__item.one-third.palm-one-whole.text--center>
+        .center-block.text--center.alpha 2
+        .gamma.push-half--bottom.f-weight-300 Choisissez vos cours
+        %p.epsilon Sur le moteur de recherche CoursAvenue.com, choisissez les activités que vous aimeriez essayer parmi tous les cours présentant le logo Pass Découverte (plus de 1 500 !). Réservez ensuite votre séance d'essai directement sur la page du partenaire
+      .grid__item.one-third.palm-one-whole.text--center>
+        .center-block.text--center.alpha 3
+        .gamma.push-half--bottom.f-weight-300 Suivez vos cours !
+        %p.epsilon Notez la date et l'adresse du cours dans votre agenda pour ne pas l'oublier. En cas de désistement, prévenez votre professeur au plus vite.
 
+.main-container.main-container--medium.soft--top
+  .text--center.push--ends
+    %h2.soft-half--bottom.text--center.f-weight-300 Où que vous soyez dans Paris
     = image_tag 'https://coursavenue-public.s3.amazonaws.com/pass/map-paris-pass.jpg'
+
 
 - if Rails.env.production?
   = content_for :scripts do
