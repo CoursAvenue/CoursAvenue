@@ -26,9 +26,9 @@
   .main-container.main-container--medium.soft-half--bottom.relative{ style: "height: 500px;" }
     - if params[:inscription].present?
       .green-box.soft.text--center
-        %h3 Félicitations ! Vous êtes bien enregistré : partagez-le sur Facebook et obtenez -50% de réduction sur votre 2ème mois.
+        %h3 Félicitations ! Vous êtes bien enregistré : partagez-le sur Facebook.
         .text--center.push-half--bottom
-          = link_to 'Partager sur Facebook', "http://www.facebook.com/sharer.php?s=100&p[url]=#{pass_loisirs_url(referrer: 'facebook', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)}", class: 'btn btn--facebook', onclick: "ga('send', 'event', 'Pass Découverte', 'shared', 'facebook');", target: :_blank
+          = link_to 'Partager sur Facebook', "http://www.facebook.com/sharer.php?s=100&p[url]=#{pass_decouverte_url(utm_campaign: params[:utm_campaign], referrer: 'facebook', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)}", class: 'btn btn--facebook', onclick: "ga('send', 'event', 'Pass Découverte', 'shared', 'facebook');", target: :_blank
     - else
       .grid--full.push--top.soft--top
         .grid__item.four-tenths.soft--right>
@@ -54,19 +54,21 @@
 #first-popup.hidden
   .panel
     .panel__header.soft
-      %h3.flush Merci pour votre confiance !
+      %h3.flush Laissez-nous vos coordonnées
     .panel__body.soft
       %p.epsilon Pour vous offrir la meilleure expérience, nous sommes actuellement en train de finaliser le Pass Découverte. Renseignez votre e-mail, nous vous avertirons dès qu'il devient disponible (nombre limité !) :
+      %p.epsilon.push-half--bottom
+        %strong Me tenir au courant du lancement :
       = simple_form_for Email.new do |f|
         = f.input :email, input_html: { class: 'input--large one-whole', placeholder: 'Votre e-mail' }, label: false
-        = f.input :email_type, as: :hidden, input_html: { value: 'pass-decouverte' }
+        = f.input :email_type, as: :hidden, input_html: { value: "pass-decouverte_#{@price}" }
+        %input{ type: 'hidden', name: 'utm_campaign', value: params[:utm_campaign] }
         = f.submit 'Valider', class: 'btn btn--green btn--large btn--full', data: { disable_with: 'Validation en cours...' }
 
 
 .home-screen-promotion-wrapper
   .main-container.soft
     .push--sides.soft--ends
-      -# %h2.soft--bottom.text--center.f-weight-300 Les avantages du Pass Découverte
       .grid--full
         .grid__item.one-twelfth.palm-one-whole.text--right.palm-text--center.soft--right.v-middle>
           = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/abundance.png', width: 70
@@ -87,7 +89,7 @@
 
       .text--center.epsilon
         = link_to '#comment-ca-marche', data: { behavior: 'scroll-to' }, class: 'text--center' do
-          Comment ça marche
+          Comment ça marche ?
 .main-container.soft
   .push--sides
     %h2.push-half--bottom.text--center.f-weight-300 Inclus dans votre Pass Découverte
@@ -323,6 +325,8 @@
     %h2.soft-half--bottom.text--center.f-weight-300 Où que vous soyez dans Paris
     = image_tag 'https://coursavenue-public.s3.amazonaws.com/pass/map-paris-pass.jpg'
 
+  .text--center.soft--ends.push--ends
+    = link_to 'Obtenir mon Pass', '#first-popup', class: 'btn btn--green btn--large', data: { behavior: 'modal', width: 400, padding: 0 }, onclick: "ga('send', 'event', 'Pass Découverte', 'first-popup');"
 
 - if Rails.env.production?
   = content_for :scripts do
