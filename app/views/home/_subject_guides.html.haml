@@ -1,4 +1,4 @@
-- cache "home_subjects_guide_#{ENV["ETAG_VERSION_ID"]}", public: true do
+- cache "home_subjects_guide_#{ENV["ETAG_VERSION_ID"]}" do
   - arts    = Subject.find('dessin-peinture-arts-plastiques')
   - dance   = Subject.find('danse')
   - theatre = Subject.find('theatre-scene')
