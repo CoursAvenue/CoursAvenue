@@ -634,8 +634,8 @@ class Structure < ActiveRecord::Base
     self.course_names              = self.courses.map(&:name).uniq.join(', ')
     self.highlighted_comment_title = (self.highlighted_comment ? self.highlighted_comment.title : comments.accepted.order('created_at DESC').first.try(:title))
     # Store level and audiences ids as coma separated string values: "1,3,5"
-    self.level_ids                = self.plannings.collect(&:level_ids).flatten.sort.uniq.join(',')
-    self.audience_ids             = self.plannings.collect(&:audience_ids).flatten.sort.uniq.join(',')
+    self.level_ids                = (self.plannings.collect(&:level_ids) + self.courses.privates.collect(&:level_ids)).flatten.uniq.sort.join(',')
+    self.audience_ids             = (self.plannings.collect(&:audience_ids) + self.courses.privates.collect(&:audience_ids)).flatten.uniq.sort.join(',')
     self.set_min_and_max_price
     compute_response_rate
     # update_jpo_meta_datas
