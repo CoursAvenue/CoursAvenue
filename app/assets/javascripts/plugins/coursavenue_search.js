@@ -72,7 +72,7 @@
                     this.subjects_input.removeAttr('name'); // Remove name attribute to prevent word ending in the keywords filter
                 } else {
                   this.subjects_input.attr('name', 'name');
-                    new_action = Routes.root_search_page_without_subject($.cookie('city') || 'paris');
+                    new_action = Routes.root_search_page_without_subject_path($.cookie('city') || 'paris');
                 }
                 this.$element.attr('action', new_action)
 
@@ -85,10 +85,17 @@
                     this.selected_subject = data;
                 }
                 // Automatically submit form if there is just the subject input
-                if (!this.address_input.length > 0) {
+                if (this.address_input.length == 0) {
                     this.$element.submit();
                 }
             }.bind(this));
+            if (this.address_input.length == 0) {
+                this.subjects_input.keydown(function(event) {
+                    if(event.keyCode == 13) {
+                        this.$element.submit();
+                    }
+                }.bind(this));
+            }
         },
 
         /*
