@@ -5,8 +5,7 @@ Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
-CKEDITOR.editorConfig = function( config )
-{
+CKEDITOR.editorConfig = function( config ) {
     // Define changes to default configuration here. For example:
     config.language = 'fr';
     // config.uiColor = '#AADC6E';
@@ -96,11 +95,11 @@ CKEDITOR.editorConfig = function( config )
          [ 'Bold','Italic','Underline','Strike','-','RemoveFormat' ],
          [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote', '-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' ],
         '/',
-         [ 'Youtube', 'Link','Unlink','Anchor' ],
+         [ 'Link','Unlink','Anchor' ],
          [ 'Image','Table','HorizontalRule'],
          [ 'Styles','Format' ],
          [ 'TextColor','BGColor' ],
          [ 'Source' ]
     ];
-    config.extraPlugins = 'youtube';
+    // config.extraPlugins = 'youtube';
 };
