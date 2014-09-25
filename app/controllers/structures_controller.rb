@@ -37,7 +37,6 @@ class StructuresController < ApplicationController
       structure:          @structure,
       unlimited_comments: false,
       query:              get_filters_params,
-      query_string:       request.env['QUERY_STRING'],
       place_ids:          @place_ids
     })
     @is_sleeping = @structure.is_sleeping
@@ -93,7 +92,6 @@ class StructuresController < ApplicationController
                root: 'structures',
                place_ids: @places,
                query: params,
-               query_string: request.env['QUERY_STRING'],
                each_serializer: StructureSerializer,
                meta: { total: @total, location: @latlng }
       end
@@ -101,7 +99,7 @@ class StructuresController < ApplicationController
       # 'query' is the current query string, which allows us to direct users to
       # a filtered version of the structures show action
       format.html do
-        @models = jasonify @structures, place_ids: @places, query: params, query_string: request.env['QUERY_STRING']
+        @models = jasonify @structures, place_ids: @places, query: params
         cookies[:structure_search_path] = request.fullpath
       end
     end
