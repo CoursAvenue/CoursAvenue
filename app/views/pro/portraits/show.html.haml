@@ -1,26 +1,27 @@
-.bg-cover.home-screen-promotion-wrapper.soft{ style: "background-image: url(#{@portrait.medias.order('caption DESC').limit(1).offset(0).first.url}); ", 'data-stellar-background-ratio' => '0.6' }
-  .main-container.main-container--medium.white.soft-black-text-shadow
-    %h1= @portrait.title
-    %h3.quoted.line-height-1-7= @portrait.quote
-    %p.epsilon
-      %strong= @portrait.quote_name
+- cache [@portrait, 'pro/portrait/show_V1'] do
+  .bg-cover.home-screen-promotion-wrapper.soft{ style: "background-image: url(#{@portrait.medias.order('caption DESC').limit(1).offset(0).first.url}); ", 'data-stellar-background-ratio' => '0.6' }
+    .main-container.main-container--medium.white.soft-black-text-shadow
+      %h1= @portrait.title
+      %h3.quoted.line-height-1-7= @portrait.quote
+      %p.epsilon
+        %strong= @portrait.quote_name
 
-.main-container.main-container--medium.soft--ends
-  .grid
-    .grid__item.two-thirds>
-      .blog-article__content
-        .blue-box.soft.push--bottom
-          %p.epsilon.white
-            %strong= @portrait.top_line_about
-          %p.flush.white= @portrait.top_line
+  .main-container.main-container--medium.soft--ends
+    .grid
+      .grid__item.two-thirds>
+        .blog-article__content
+          .blue-box.soft.push--bottom
+            %p.epsilon.white
+              %strong= @portrait.top_line_about
+            %p.flush.white= @portrait.top_line
 
-        = @portrait.content.html_safe
+          = @portrait.content.html_safe
 
-        .blue-box.soft.push--bottom
-          %p.epsilon.white
-            %strong À retenir
-          %p.flush.white= @portrait.bottom_line
+          .blue-box.soft.push--bottom
+            %p.epsilon.white
+              %strong À retenir
+            %p.flush.white= @portrait.bottom_line
 
-    .grid__item.one-third>
-      - @images.offset(7).limit(6).each do |image|
-        .bg-cover{ style: "background-image: url(#{image.thumbnail_url}); height: 400px;" }>
+      .grid__item.one-third>
+        - @images.offset(7).limit(6).each do |image|
+          .bg-cover{ style: "background-image: url(#{image.thumbnail_url}); height: 400px;" }>
