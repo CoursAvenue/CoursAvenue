@@ -158,19 +158,19 @@ class StructureShowSerializer < ActiveModel::Serializer
   def given_course_types
     types = []
     if object.gives_individual_courses
-      types << 'cours individuels'
+      types << 'Cours individuels'
     end
     if object.teaches_at_home and object.places.homes.any?
       if object.places.homes.first.radius.present?
-        types << "cours individuels à domicile (#{object.places.homes.first.city.name.capitalize} dans un rayon de #{object.places.homes.first.radius})"
+        types << "Cours individuels à domicile (#{object.places.homes.first.city.name.capitalize} dans un rayon de #{object.places.homes.first.radius}km)"
       else
-        types << "cours individuels à domicile"
+        types << "Cours individuels à domicile"
       end
     end
     if object.gives_group_courses
-      types << 'cours collectifs'
+      types << 'Cours collectifs'
     end
-    types.join(', ').capitalize
+    types.join('. ')
   end
 
   def given_funding_type

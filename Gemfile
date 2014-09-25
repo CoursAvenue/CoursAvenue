@@ -204,6 +204,8 @@ group :test do
 end
 
 group :development do
+  # Guard::Pow automatically manage Pow applications restart
+  gem 'guard-pow', require: false
   # Removes useless logging in dev.
   gem 'fontcustom'
   gem 'brakeman'                , '~>2.3.1'

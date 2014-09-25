@@ -26,7 +26,7 @@
         = content_for :scripts do
           :javascript
             $(function() {
-              var date            = Date.parse("#{l(conversation.created_at, format: :js )}");
+              var date            = Date.parse("#{l(local_time(conversation.created_at), format: :js )}");
               var $countdown_div = $('#conversation-countdown-#{conversation.id}');
               countdown(date,
                   function(ts) {

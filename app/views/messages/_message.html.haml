@@ -7,7 +7,7 @@
       - else
         %strong= message.sender.name
       %br
-      = "#{l(message.created_at.to_date, format: :short)} à #{l(message.created_at, format: :short)}"
+      = "#{l(local_time(message.created_at).to_date, format: :short)} à #{l(local_time(message.created_at), format: :short)}"
   .grid__item.ten-twelfths.v-top>
     .message__body.soft-half.gray-box.message__appendix
       = simple_format message.body
