@@ -6,7 +6,7 @@
       = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--green btn--large'
     %hr.flush
     .soft.premium-box.relative
-      = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 70, width: 70, style: 'width: 70px; height: 70px;'
+      = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/premium-ribbon.png', class: 'north west absolute on-top', height: 70, width: 70, style: 'width: 70px; height: 70px;'
       .grid
         .grid__item.seven-tenths>
           = simple_form_for [:pro, @structure], html: { data: { behavior: 'live-form' } }, remote: true do |f|
@@ -62,5 +62,7 @@
         %h4.push-half--bottom Avis validés
         .text--center.push-half--ends= paginate @comments, window: 1, outer_window: 3
         %ul.comment-list
-          = render partial: '/comments/comment', collection: @comments, locals: { with_reply: true }
+          - @comments.each do |review|
+            - cache [review, 'pro/structure/comments/index'] do
+              = render partial: '/comments/comment', locals: { with_reply: true, comment: review }
         .text--center.push-half--ends= paginate @comments, window: 1, outer_window: 3

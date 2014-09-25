@@ -9,6 +9,6 @@
           - image = subject_image(subject)
         .relative.bg-cover{style: "background-image: url('#{image}'); height: 150px; "}>
           = link_to vertical_page_path(subject.root, vertical_page), class: 'block show-on-hover__wrapper show-on-hover__wrapper--black-curtain', title: "Cours de #{subject.name}" do
-            .home-screen-gallery__title.text--center{ style: (vertical_page.name.length > 27 ? 'margin-top: -1.7em' : '') }
-              %div= vertical_page.name
+            .home-screen-gallery__title.text--center
+              %h6.f-weight-normal.delta.push-half--bottom= vertical_page.name
               .show-on-hover__child.milli Voir le guide

@@ -140,7 +140,7 @@
     border          : none;
     color           : white;
     @include text-shadow(-1px -1px 1px darken($blue-green, 10%));
-    &:hover, &:active {
+    &:hover, &:active, &.active {
         background-color: lighten($blue-green, 5%);
     }
     &.disabled, &[disabled] {
@@ -178,7 +178,6 @@
     text-transform  : uppercase;
     @include text-shadow(-1px -1px 0 darken($facebook-blue, 10%));
     color           : white;
-    padding         : 1em;
     vertical-align  : middle;
     display         : inline-block;
     &:before {
@@ -220,6 +219,7 @@
 
 .btn--twitter {
     @extend .btn--social;
+    padding         : 0.4em;
     border-color    : darken($twitter-blue, 3%);
     background-color: $twitter-blue;
     &:hover {
@@ -244,24 +244,27 @@
     .btn--blue {
         color: white;
     }
+        .active a {
+            color  : white;
+        }
         a {
             color  : black;
             display: inline-block;
         }
-    .btn.btn--active, .btn.active {
+    .btn.btn--active, .btn.active, .active .btn {
         background-color: $blue-green;
         border          : 1px solid $blue-green;
-        color           : white;
+        color           : white !important;
         @include text-shadow(none);
         & + .btn.active {
             border-left: none;
         }
     }
 
-    .btn:first-child {
+    .btn:first-child, .btn:first-of-type {
         @include border-left-radius($brand-round);
     }
-    .btn:last-child {
+    .btn:last-child, .btn:last-of-type {
         @include border-right-radius($brand-round);
     }
     input {

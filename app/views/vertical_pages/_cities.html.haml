@@ -6,26 +6,28 @@
 - @cities.each do |city|
   .inline-block.very-soft.hard--bottom.one-quarter>
     .relative.bg-cover{style: "background-image: url('#{city.image.url(:small)}'); height: 120px; "}>
-      = link_to structures_path_for_city_and_subject(city, @subject), class: 'block show-on-hover__wrapper show-on-hover__wrapper--black-curtain', title: "Tous les cours de #{@subject.name} à #{city.name}" do
+      - if @subject.is_root?
+        - url = root_search_page_path(@subject, city)
+      - else
+        - url = search_page_path(@subject.root, @subject, city)
+      = link_to url, class: 'block show-on-hover__wrapper show-on-hover__wrapper--black-curtain', title: "Tous les cours de #{@subject.name} à #{city.name}" do
         .home-screen-gallery__title.text--center
-          %div= city.name
+          %h3.f-weight-normal.flush.delta.soft-half--top= city.name
           .show-on-hover__child.milli
             = StructureSearch.search({ lat: city.latitude, lng: city.longitude }).total
             profils
 
-= form_tag structures_path, method: :get, authenticity_token: false do
+- if @subject.is_root?
+  - url = root_search_page_path(@subject, '__city__')
+- else
+  - url = search_page_path(@subject.root, @subject, '__city__')
+= form_tag url, method: :get, authenticity_token: false, id: 'city-form' do
   .very-soft
     %h4.soft-half--right.one-third.nowrap.v-middle.flush.f-weight-300 Vous recherchez un cours dans une autre ville ?
-    %input{ type: 'hidden', name: 'root_subject_id', value: @subject.root.slug }
-    - if @subject.depth == 1
-      %input{ type: 'hidden', name: 'parent_subject_id', value: @subject.slug }
-    - elsif @subject.depth == 2
-      %input{ type: 'hidden', name: 'parent_subject_id', value: @subject.parent.slug }
-      %input{ type: 'hidden', name: 'subject_id', value: @subject.slug }
   .flexbox.very-soft
     .flexbox__item.soft-half--right
       .input-with-icon.v-middle
-        %input.one-whole.input--large#address-picker.soft-half--left{ size: 25, placeholder:'Ville / CP / Adresse', type:'text', autocomplete: 'off', name:'address_name', data: {behavior:'address-picker', lng:'#address-lng',lat: '#address-lat', city: '#address-city' , radius: '#address-radius' , zoom: '#address-zoom' } }
+        %input.one-whole.input--large#address-picker.soft-half--left{ size: 25, placeholder:'Ville / CP / Adresse', type:'text', autocomplete: 'off', name:'address_name', data: { behavior:'address-picker', lng:'#address-lng',lat: '#address-lat', city: '#address-city' , radius: '#address-radius' , zoom: '#address-zoom' } }
         %i.fa.fa-map-marker.delta
       %input#address-lat{ type: 'hidden', value: '48.8592', name: 'lat' }
       %input#address-lng{ type: 'hidden', value: '2.3417', name: 'lng' }
@@ -36,3 +38,12 @@
     %button.flexbox__item.v-middle.nowrap.btn.btn--blue.btn--full.input--large{type: 'submit', id: 'submit_search_form'}
       %i.fa.fa-search
       Trouver
+
+= content_for :scripts do
+  :javascript
+    $(function () {
+        $('#city-form').submit(function() {
+            var city_name = $('#address-city').val().split(',')[0].toLowerCase();
+            $('#city-form').attr('action', $('#city-form').attr('action').replace('__city__', city_name));
+        });
+    });

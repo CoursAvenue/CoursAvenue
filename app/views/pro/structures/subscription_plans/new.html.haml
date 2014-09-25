@@ -38,12 +38,11 @@
       - @be2bill_params.each do |key, value|
         = hidden_field_tag key.to_sym, value
       = submit_tag 'Payer par carte bleue', class: 'btn btn--green btn--large btn--full', data: { disable_with: 'Veuillez patienter...' }
-    - if params[:paypal].present?
-      .text--center
-        %div.soft-half--ends
-          %strong OU
-        = link_to paypal_express_checkout_pro_structure_subscription_plans_path(@structure, plan_type: @subscription_plan.plan_type, promotion_code_id: @subscription_plan.promotion_code.try(:id)) do
-          = image_tag("https://www.paypal.com/fr_XC/i/btn/btn_xpressCheckout.gif")
+    .text--center
+      %div.soft-half--ends
+        %strong OU
+      = link_to paypal_express_checkout_pro_structure_subscription_plans_path(@structure, plan_type: @subscription_plan.plan_type, promotion_code_id: @subscription_plan.promotion_code.try(:id)) do
+        = image_tag("https://www.paypal.com/fr_XC/i/btn/btn_xpressCheckout.gif")
 
 
 = content_for :scripts do

@@ -1,23 +1,21 @@
-.flexbox.push--bottom{itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review'}
+- truncate_length = 255 if truncate_length.nil?
+.flexbox.push--bottom{itemprop: true, itemscope: true, itemtype:'http://data-vocabulary.org/Review'}
   .flexbox__item.soft--left.v-top.text--center>
     = link_to structure_url(comment.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block media-photo', target: :_blank, class: 'muted-link block' do
-      = image_tag comment.structure.logo.url(:thumb), class: 'block rounded--circle', width: 60
+      = image_tag comment.structure.logo.url(:small_thumb), class: 'block rounded--circle', width: 60
   .flexbox__item.soft--sides.v-top>
     .message__body.soft-half.message__appendix.gray-box
       %p.epsilon.push-half--bottom.quoted
-        %strong= comment.title
-      %p
-        = truncate(comment.content, length: 250)
+        %strong{ itemprop: 'summary' }= comment.title
+      %p{ itemprop: 'description' }
+        = truncate(comment.content, length: truncate_length)
       %p.text--right.flush{title: 'Excellent !', itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
         %i
           Par
-          = truncate(comment.author_name, length: 20).html_safe
+          %span{ itemprop: 'reviewer' }= truncate(comment.author_name, length: 20).html_safe
           il y a
-          = distance_of_time_in_words_to_now comment.created_at
+          %span{ itemprop: "dtreviewed", datetime: I18n.l(comment.created_at, format: :iso_date_8601), content: I18n.l(comment.created_at, format: :iso_date_8601) }= distance_of_time_in_words_to_now comment.created_at
           %i.fa.fa-time
-          %meta{itemprop: 'ratingValue', content: comment.rating}
-          %meta{itemprop: 'bestRating', content: 5}
-          %meta{itemprop: 'worstRating', content: 1}
-      .visuallyhidden{itemprop: 'itemReviewed', itemscope: true, itemtype: 'http://schema.org/Thing'}
-        %meta{itemprop: 'url', content: structure_comment_url(comment)}
-        %meta{itemprop: 'name', content: comment.commentable.name}
+            %meta{ itemprop: 'rating', content: "5" }
+            %meta{ itemprop: 'url', content: structure_comment_url(comment) }
+            %meta{ itemprop: 'name', content: comment.structure.name }

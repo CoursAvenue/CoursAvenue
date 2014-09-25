@@ -4,7 +4,7 @@ class EmailsController < InheritedResources::Base
 
   def create
     create! do |format|
-      format.html { redirect_to pro_pages_price_path, notice: 'Merci pour votre email ! Nous vous recontacterons dès le lancement.' }
+      format.html { redirect_to pass_decouverte_path(inscription: 'ok', utm_campaign: params[:utm_campaign]), notice: 'Merci pour votre confiance ! Nous vous recontacterons dès le lancement.' }
     end
   end
 end

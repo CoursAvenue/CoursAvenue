@@ -15,6 +15,10 @@ module CoursAvenue
     S3_BUCKET       = AMAZON_S3.buckets[ENV['AWS_BUCKET']]
     FACEBOOK_APP_ID = 589759807705512
 
+    config.action_dispatch.default_headers = {
+      'Access-Control-Allow-Origin' => '*',
+      'Access-Control-Request-Method' => '*'
+    }
     config.middleware.insert_before ActionDispatch::Static, Rack::SslEnforcer, ignore: /.*widget_ext.*/ if Rails.env.production?
 
     # S3 = AWS::S3.new(
@@ -29,7 +33,6 @@ module CoursAvenue
 
     # Custom directories with classes and modules you want to be autoloadable.
     config.autoload_paths += %W(#{config.root}/lib)
-    config.autoload_paths += %W(#{config.root}/app/models/ckeditor)
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
@@ -85,6 +88,10 @@ module CoursAvenue
 
     config.to_prepare do
       Devise::Mailer.layout 'email'
+    end
+
+    config.generators do |g|
+      g.orm :active_record
     end
 
     # Filepicker

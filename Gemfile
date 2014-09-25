@@ -131,7 +131,7 @@ gem 'paranoia'                  , '~>2.0'
 # Helps having a clean ruby sitemap
 gem 'sitemap_generator'         , '~>4.2.0'
 # Mailchimp API
-# gem 'gibbon'                    , '~>1.0.4'
+gem 'gibbon'                    , '~>1.1.3'
 
 # Transform external CSS stylesheets into inline CSS for emails
 gem 'roadie'                    , '~>3.0.0'
@@ -204,6 +204,8 @@ group :test do
 end
 
 group :development do
+  # Guard::Pow automatically manage Pow applications restart
+  gem 'guard-pow', require: false
   # Removes useless logging in dev.
   gem 'fontcustom'
   gem 'brakeman'                , '~>2.3.1'
@@ -232,3 +234,6 @@ gem 'rmagick', '~>2.13.3', require: 'RMagick'
 
 # Rails 4 upgrade
 gem 'actionpack-action_caching', '~>1.0.0'
+
+# Use mongoid for statistics
+gem 'mongoid'                  , '~>4.0.0'

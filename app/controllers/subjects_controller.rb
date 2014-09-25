@@ -4,6 +4,13 @@ class SubjectsController < ApplicationController
 
   respond_to :json
 
+  def search
+    @subjects = SubjectSearch.search(name: params[:name]).results
+    respond_to do |format|
+      format.json { render json: @subjects, each_serializer: SubjectSearchSerializer }
+    end
+  end
+
   def show
     @subject = Subject.find params[:id]
     if @subject.vertical_pages.any?
@@ -19,48 +26,6 @@ class SubjectsController < ApplicationController
 
   def index
     @subjects = Subject.order('name ASC').all.map { |s| { name: s.name, slug: s.slug } }
-    respond_to do |format|
-      format.json { render json: @subjects.to_json }
-    end
-  end
-
-  def tree
-    if params[:parent]
-      subject_roots = [Subject.friendly.find(params[:parent])]
-    else
-      subject_roots = Subject.roots
-    end
-    @subjects = {}
-    subject_roots.each do |root|
-      @subjects[root.name] = {}
-      root.children.each do |sub_root|
-        @subjects[root.name][sub_root.name] = []
-        sub_root.children.each do |sub_sub_root|
-          @subjects[root.name][sub_root.name] << sub_sub_root.name
-        end
-      end
-    end
-    respond_to do |format|
-      format.json { render json: @subjects.to_json }
-    end
-  end
-
-  def tree_2
-    if params[:parent]
-      subject_roots = [Subject.friendly.find(params[:parent])]
-    else
-      subject_roots = Subject.roots
-    end
-    @subjects = {}
-    subject_roots.each do |root|
-      @subjects["#{root.name} - #{root.slug} (#{root.courses.count})"] = {}
-      root.children.each do |sub_root|
-        @subjects["#{root.name} - #{root.slug} (#{root.courses.count})"]["#{sub_root.name} - #{sub_root.slug} (#{sub_root.courses.count})"] = []
-        sub_root.children.each do |sub_sub_root|
-          @subjects["#{root.name} - #{root.slug} (#{root.courses.count})"]["#{sub_root.name} - #{sub_root.slug} (#{sub_root.courses.count})"] << "#{sub_sub_root.name} - #{sub_sub_root.slug} (#{sub_sub_root.courses.count})"
-        end
-      end
-    end
     respond_to do |format|
       format.json { render json: @subjects.to_json }
     end

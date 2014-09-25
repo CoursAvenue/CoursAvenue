@@ -27,7 +27,8 @@
           %strong Conversation
       .text--center= paginate @conversations, window: 1, outer_window: 3
       - @conversations.each do |conversation|
-        = render partial: 'pro/conversations/conversation', locals: { conversation: conversation }
+        - cache [conversation, 'pro/structures/conversation/index'] do
+          = render partial: 'pro/conversations/conversation', locals: { conversation: conversation }
 
     .text--center.push--top= paginate @conversations, window: 1, outer_window: 3
 

@@ -14,7 +14,7 @@
         .gamma.white.opacity-hidden-on-hover__child Voir le profil
   .grid--full{ data: { similar_profile: true, structure_id: structure.id } }
     .grid__item.v-top.four-fifths.soft-half--left>
-      %h6.inline-block.push-half--bottom= truncate(structure.name, length: 36)
+      %h6.inline-block.flush= truncate(structure.name, length: 36)
       %div= truncate(structure.places.map(&:city).map(&:name).uniq.join(', '), length: 40)
       %div
         %i= truncate(subject_roots_ordered(structure).map(&:name).join(', '), length: 40)

@@ -47,16 +47,3 @@
         width  : 262px;
     }
 }
-a.header-link {
-    color       : $gray-light;
-    font-weight : bold;
-    margin-left : 0.5em;
-    font-size   : 13px;
-}
-.nav-links-wrapper {
-    @include media-query(palm) { display: none!important; };
-    @include media-query(lap) { display: none!important; };
-    .active {
-        font-weight: bold;
-    }
-}

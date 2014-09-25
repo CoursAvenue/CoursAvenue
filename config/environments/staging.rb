@@ -48,12 +48,13 @@ CoursAvenue::Application.configure do
   config.cache_store = :dalli_store
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
-  config.action_controller.asset_host = "https://#{ENV['FOG_DIRECTORY']}.s3.amazonaws.com"
+  # config.action_controller.asset_host = "https://#{ENV['FOG_DIRECTORY']}.s3.amazonaws.com"
+  # config.action_controller.asset_host = "cdn%d.coursavenue.com"
+  config.action_controller.asset_host = "d1eu1s8jeg2hfj.cloudfront.net"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
   config.assets.precompile += %w( email.css)
   config.assets.precompile += %w( application.pro.js modernizr.js )
-  config.assets.precompile += Ckeditor.assets
 
   # Enable threaded mode
   # config.threadsafe!
@@ -76,7 +77,10 @@ CoursAvenue::Application.configure do
       bucket:            ENV['AWS_BUCKET'],
       access_key_id:     ENV['AWS_ACCESS_KEY_ID'],
       secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
-    }
+    },
+    url: ':s3_alias_url',
+    s3_host_alias: 'd3e88xatz22clz.cloudfront.net',
+    path: ":class/:attachment/:id_partition/:style/:filename"
   }
 
   # ------------ Mailer configuration

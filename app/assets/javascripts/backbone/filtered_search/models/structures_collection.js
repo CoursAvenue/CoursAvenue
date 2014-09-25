@@ -20,6 +20,9 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
             var self = this;
             // define the server API based on the load-time URI
             this.server_api = this.makeOptionsFromSearch(window.location.search);
+            if (options.server_api) {
+                _.extend(this.server_api, options.server_api);
+            }
             this.currentPage = this.server_api.page || 1; // we always start from page 1
             this.server_api.page = function () { return self.currentPage; };
 

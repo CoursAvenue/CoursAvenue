@@ -1,11 +1,12 @@
 #structure-header.one-whole.west.push-half--bottom
   .main-container.soft--sides.soft-half--ends.relative
-    %h1.flush.v-middle.inline-block{ itemprop: 'name' }= @structure.name
-    - if @structure.premium? and @header_promotion_title_for_structure.present?
-      = link_to '#cours-reguliers', data: { behavior: 'scroll-to', offset_top: '-55' }, class: 'muted-link' do
-        .lbl.lbl--yellow.nowrap.v-middle.push-half--left{ data: { toggle: 'popover', content: @structure_decorator.promotion_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
-          %i.fa-star
-          = @header_promotion_title_for_structure
+    .flush
+      %h1.inline.v-middle{ itemprop: 'name' }= @structure.name
+      - if @structure.premium? and @header_promotion_title_for_structure.present?
+        = link_to '#cours-reguliers', data: { behavior: 'scroll-to', offset_top: '-55' }, class: 'muted-link inline v-middle' do
+          .lbl.lbl--yellow.nowrap.v-middle.push-half--left{ data: { toggle: 'popover', content: @structure_decorator.promotion_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
+            %i.fa-star
+            = @header_promotion_title_for_structure
 
     .grid
       .grid__item.eight-twelfths.v-top>

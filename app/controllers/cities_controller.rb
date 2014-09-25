@@ -10,7 +10,7 @@ class CitiesController < ApplicationController
   end
 
   def show
-    redirect_to root_path, status: 410
+    redirect_to root_url, status: 410
   end
 
   def zip_code_search

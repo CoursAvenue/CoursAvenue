@@ -12,26 +12,38 @@
   .inline-block.v-middle.push-half--right{ class: "fb-share-button", data: { href:  blog_article_url(@article), type: 'button_count' } }
   %a.inline-block.v-middle{ href: blog_article_url(@article), class: 'twitter-share-button', data: { lang: "fr", via: 'CoursAvenue', url: blog_article_url(@article) } } Tweeter
 
+- cache [@article, 'blog/articles/index'] do
+  %article{ itemscope: true, itemtype: 'http://schema.org/Article' }
+    - if @article.cover_image.present?
+      = link_to blog_article_path(@article), class: 'muted-link push-half--bottom block' do
+        = image_tag @article.cover_image.url(:default), class: 'block blog-article__image', alt: @article.title, title: @article.title
+    %h1.blog-article__title{ itemprop: 'name' }
+      = @article.title
 
-%article{ itemscope: true, itemtype: 'http://schema.org/Article' }
-  - if @article.cover_image.present?
-    = link_to blog_article_path(@article), class: 'muted-link push-half--bottom block' do
-      = image_tag @article.cover_image.url(:default), class: 'block blog-article__image', alt: @article.title, title: @article.title
-  %h1.blog-article__title{ itemprop: 'name' }
-    = @article.title
+    .blog-article__published-date.gray
+      %i
+        Publié le
+        %time{ itemprop: 'dateCreated', datetime: l(@article.published_at, format: :iso_date) }
+          = l @article.published_at, format: :date_with_year
 
-  .blog-article__published-date.gray
-    %i
-      Publié le
-      %time{ itemprop: 'dateCreated', datetime: l(@article.published_at, format: :iso_date) }
-        = l @article.published_at, format: :date_with_year
+    - if @article.tags.any?
+      %div
+        - @article.tags.each do |tag|
+          .lbl
+            = link_to tag.name, tags_blog_articles_path(tag: tag.name), class: 'muted-link'
 
-  - if @article.tags.any?
-    %div
-      - @article.tags.each do |tag|
-        .lbl
-          = link_to tag.name, tags_blog_articles_path(tag: tag.name), class: 'muted-link'
+    .push--top.blog-article__content{ itemprop: 'text' }
+      = @article.content.html_safe
+    .visuallyhidden= link_to "Lien vers l'article", blog_article_url(@article), itemprop: 'url'
 
-  .push--top.blog-article__content{ itemprop: 'text' }
-    = @article.content.html_safe
-  .visuallyhidden= link_to "Lien vers l'article", blog_article_url(@article), itemprop: 'url'
+  #disqus_thread
+  :javascript
+    var disqus_shortname = 'coursavenue';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  %noscript
+    Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+

@@ -40,7 +40,7 @@ class SubscriptionPlanExport < ActiveRecord::Base
         renewed_date = subscription.renewed_at.present? ? subscription.renewed_at.to_datetime : subscription.created_at
         since_date = subscription.renewed_at.present? ? subscription.renewed_at : subscription.created_at.to_date
 
-        actions = Statistic.action_count(subscription.structure, since_date)
+        actions = Metric.action_count(subscription.structure, since_date)
         conversations = subscription.structure.main_contact.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).where(Mailboxer::Conversation.arel_table[:created_at].gt(since_date)).count
 
         sheet.add_row [
@@ -48,22 +48,22 @@ class SubscriptionPlanExport < ActiveRecord::Base
           SubscriptionPlan::PLAN_TYPE_DESCRIPTION[subscription.plan_type],
           I18n.l(subscription.created_at.to_date),
           (Time.now - renewed_date).to_i / 1.day,
-          Statistic.impression_count(subscription.structure, since_date),
-          Statistic.view_count(subscription.structure, since_date),
+          Metric.impression_count(subscription.structure, since_date),
+          Metric.view_count(subscription.structure, since_date),
           actions,
           conversations,
-          Statistic.telephone_count(subscription.structure, since_date),
-          Statistic.website_count(subscription.structure, since_date),
-          Statistic.score(actions, conversations),
+          Metric.telephone_count(subscription.structure, since_date),
+          Metric.website_count(subscription.structure, since_date),
+          Metric.score(actions, conversations),
           subscription.facebook_active.present? ? I18n.t(subscription.facebook_active.class) : 'Non',
           subscription.adwords_active.present? ? I18n.t(subscription.adwords_active.class) : 'Non',
           subscription.bo_comments.present? ? subscription.bo_comments.to_s : '',
-          Statistic.impression_count(subscription.structure),
-          Statistic.view_count(subscription.structure),
-          Statistic.action_count(subscription.structure),
+          Metric.impression_count(subscription.structure),
+          Metric.view_count(subscription.structure),
+          Metric.action_count(subscription.structure),
           subscription.structure.main_contact.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).count,
-          Statistic.telephone_count(subscription.structure),
-          Statistic.website_count(subscription.structure)
+          Metric.telephone_count(subscription.structure),
+          Metric.website_count(subscription.structure)
         ]
       end
     end

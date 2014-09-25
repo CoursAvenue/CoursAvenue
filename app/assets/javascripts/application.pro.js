@@ -23,7 +23,6 @@
 //= require libs/jquery.fileupload/jquery.fileupload-validate
 //= require libs/jquery.fileupload/jquery.fileupload-image
 //= require libs/jquery.nouislider
-//= require libs/jquery.masonry
 //= require libs/jquery.lazyload
 //= require libs/responsiveslides
 //= require libs/jquery.placeholder
@@ -59,25 +58,6 @@
 // - https://github.com/jquery-boilerplate/jquery-patterns/
 // - https://github.com/jquery-boilerplate/jquery-boilerplate
 //= require_tree ./plugins/
-// require plugins/address_picker
-// require plugins/checkbox_list
-// require plugins/city_autocomplete
-// require plugins/closer
-// require plugins/drop_down
-// require plugins/dropped_options
-// require plugins/flash
-// require plugins/highlight
-// require plugins/input_updaters
-// require plugins/read_more
-// require plugins/text_counter
-// require plugins/textarea_resizer
-// require plugins/toggler
-// require plugins/time_range
-// require plugins/image_input
-// require plugins/show_more_on_demand
-// require plugins/jquery-sticky.js
-// require plugins/parent_descendant_subjects
-// require plugins/wizard_helper
 
 //= require libs/markerclusterer
 //= require gmaps/google
@@ -94,11 +74,6 @@
 //= require libs/backbone.paginator.js
 //= require libs/backbone.poller.js
 //= require backbone/cours_avenue.pro
-
-//= require ckeditor/init
-//= require ckeditor/config
-//= require ckeditor/plugins/youtube/plugin
-//= require ckeditor/plugins/youtube/lang/fr
 
 (function($) {
   $.fn.yellowFade = function(options) {

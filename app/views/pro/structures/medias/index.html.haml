@@ -22,7 +22,8 @@
         %strong Votre première photo / vidéo figure dans les résultats de recherche !
       - @medias.each_with_index do |media, index|
         .soft-half.inline-block.one-third>
-          = render partial: 'pro/structures/medias/media', locals: { media: media, index: index, structure: @structure }
+          - cache [media, 'pro/structures/medias/index'] do
+            = render partial: 'pro/structures/medias/media', locals: { media: media, index: index, structure: @structure }
 
 = content_for :scripts do
   :javascript

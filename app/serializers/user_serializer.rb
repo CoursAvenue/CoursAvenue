@@ -1,4 +1,6 @@
 class UserSerializer < ActiveModel::Serializer
+  include ApplicationHelper
+
   attributes :id, :name, :first_name, :last_name, :avatar_url, :slug, :favorite_structure_ids, :last_message_sent
 
   def favorite_structure_ids
@@ -11,7 +13,7 @@ class UserSerializer < ActiveModel::Serializer
       return if structure_mailbox.nil?
       object.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).order('created_at DESC').each do |conversation|
         if structure_mailbox.conversations.where(id: conversation.id).any?
-          return I18n.l(conversation.created_at, format: :date_short)
+          return I18n.l(local_time(conversation.created_at), format: :date_short)
         end
       end
       nil

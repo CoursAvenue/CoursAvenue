@@ -116,9 +116,10 @@ class Structure < ActiveRecord::Base
                     styles: {
                       original: { geometry: '600x600#', processors: [:cropper_square] },
                       large: '450x450',
-                      thumb: { geometry: '200x200#', processors: [:cropper] }
+                      thumb: { geometry: '200x200#', processors: [:cropper] },
+                      small_thumb: { geometry: '60x60#', processors: [:cropper] }
                     },
-                    convert_options: { original: '-interlace Plane', large: '-interlace Plane', thumb: '-interlace Plane' }
+                    convert_options: { original: '-interlace Plane', large: '-interlace Plane', thumb: '-interlace Plane', small_thumb: '-interlace Plane' }
 
   validates_attachment_content_type :logo, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
   # process_in_background :logo, only_process: [:original]
@@ -633,8 +634,8 @@ class Structure < ActiveRecord::Base
     self.course_names              = self.courses.map(&:name).uniq.join(', ')
     self.highlighted_comment_title = (self.highlighted_comment ? self.highlighted_comment.title : comments.accepted.order('created_at DESC').first.try(:title))
     # Store level and audiences ids as coma separated string values: "1,3,5"
-    self.level_ids                = self.plannings.collect(&:level_ids).flatten.sort.uniq.join(',')
-    self.audience_ids             = self.plannings.collect(&:audience_ids).flatten.sort.uniq.join(',')
+    self.level_ids                = (self.plannings.collect(&:level_ids) + self.courses.privates.collect(&:level_ids)).flatten.uniq.sort.join(',')
+    self.audience_ids             = (self.plannings.collect(&:audience_ids) + self.courses.privates.collect(&:audience_ids)).flatten.uniq.sort.join(',')
     self.set_min_and_max_price
     compute_response_rate
     # update_jpo_meta_datas
@@ -813,6 +814,7 @@ class Structure < ActiveRecord::Base
         elsif conversation.messages.count > 1
           first_message_of_admin = conversation.messages.order('created_at ASC').detect{|m| m.sender.is_a? Admin }
           first_message_of_user  = conversation.messages.order('created_at ASC').detect{|m| m.sender.is_a? User }
+          next if first_message_of_admin.nil? or first_message_of_user.nil?
           creation_dates = [first_message_of_admin.created_at, first_message_of_user.created_at]
           # (Time 1 - Time 2) => number of seconds between the two times
           # / 60 => To minutes | / 60 to hours
@@ -903,13 +905,20 @@ class Structure < ActiveRecord::Base
     end
   end
 
+  # Return all the Metric associated with this structure
+  #
+  # @return The Metric
+  def metrics
+    Metric.where(structure_id: self.id)
+  end
+
   #
   # Number of view counts
   # @param days_ago=15 Integer number of days ago
   #
   # @return Integer, the number of view counts the last 15 days
   def view_count(days_ago=15)
-    return Statistic.view_count(self, Date.today - days_ago.days) || 0
+    return Metric.view_count(self, Date.today - days_ago.days) || 0
   end
 
   #
@@ -918,7 +927,7 @@ class Structure < ActiveRecord::Base
   #
   # @return Integer, the number of view counts the last 15 days
   def action_count(days_ago=15)
-    return Statistic.action_count(self, Date.today - days_ago.days) || 0
+    return Metric.action_count(self, Date.today - days_ago.days) || 0
   end
 
   #
@@ -927,7 +936,7 @@ class Structure < ActiveRecord::Base
   #
   # @return Integer, the number of impression counts the last 15 days
   def impression_count(days_ago=15)
-    return Statistic.impression_count(self, Date.today - days_ago.days) || 0
+    return Metric.impression_count(self, Date.today - days_ago.days) || 0
   end
 
   SEARCH_SCORE_COEF = {

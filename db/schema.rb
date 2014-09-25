@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140910134517) do
+ActiveRecord::Schema.define(version: 20140924150327) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -424,7 +424,7 @@ ActiveRecord::Schema.define(version: 20140910134517) do
   create_table "medias", force: true do |t|
     t.text     "url"
     t.text     "url_html"
-    t.string   "caption"
+    t.text     "caption"
     t.integer  "mediable_id"
     t.string   "mediable_type"
     t.datetime "created_at",                            null: false
@@ -861,9 +861,9 @@ ActiveRecord::Schema.define(version: 20140910134517) do
     t.date     "card_validity_date"
     t.integer  "promotion_code_id"
     t.datetime "last_renewal_failed_at"
+    t.hstore   "bo_meta_data"
     t.string   "paypal_token"
     t.string   "paypal_payer_id"
-    t.hstore   "bo_meta_data"
     t.string   "paypal_recurring_profile_token"
   end
 

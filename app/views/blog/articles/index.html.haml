@@ -2,8 +2,9 @@
   Le blog CoursAvenue
 
 - @articles.each_with_index do |article, index|
-  = render partial: 'blog/articles/article', locals: { article: article }
-  %hr
+  - cache [article, 'blog/articles/index'] do
+    = render partial: 'blog/articles/article', locals: { article: article }
+    %hr
 
 .text--center.push-half--ends= paginate @articles, window: 1, outer_window: 3
 

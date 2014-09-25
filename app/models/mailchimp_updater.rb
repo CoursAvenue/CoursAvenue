@@ -1,25 +1,23 @@
 class MailchimpUpdater
 
-  # def self.update(structure)
-  #   admin = structure.main_contact
-  #   return if admin.nil?
-  #   Gibbon::API.lists.subscribe({id: '0f824f0bd2',
-  #                                email: { email: admin.email},
-  #                                merge_vars: {
-  #                                  :NAME       => structure.name,
-  #                                  :SUBJ1      => structure.subjects.at_depth(0).map(&:name).join(', '),
-  #                                  :SUBJ3      => structure.subjects.at_depth(2).map(&:name).join(', '),
-  #                                  :ZIPCODE    => structure.zip_code,
-  #                                  :RECO_COUNT => structure.comments_count,
-  #                                  :NWS_OPT_IN => (admin.newsletter_email_opt_in? ? 'Oui' : 'Non'),
-  #                                  :MND_OPT_IN => (admin.monday_email_opt_in? ? 'Oui' : 'Non'),
-  #                                  :SLUG       => structure.slug,
-  #                                  :PARISIAN   => (structure.parisian? ? 'Oui' : 'Non'),
-  #                                  :JPO        => (structure.courses.open_courses.any? ? 'Oui' : 'Non')
-  #                                },
-  #                                  double_optin: false,
-  #                                  update_existing: true
-  #                                })
+  def self.update(user)
+    Gibbon::API.lists.subscribe({id: '34fb5a48e8',
+                                 email: { email: user.email},
+                                 merge_vars: {
+                                   :FNAME      => user.first_name.try(:capitalize),
+                                   :LNAME      => user.last_name,
+                                   :GENDER     => user.gender,
+                                   :CITY       => user.city.try(:name),
+                                   :ZIPCODE    => user.zip_code,
+                                   :REGION     => user.city.try(:region_name),
+                                   :EMAILSTAT  => user.delivery_email_status,
+                                   :ID         => user.id,
+                                   :GROUP      => user.id.modulo(6),
+                                   :SLEEPING   => (user.active? ? 'Oui' : 'Non')
+                                 },
+                                   double_optin: false,
+                                   update_existing: true
+                                 })
 
-  # end
+  end
 end

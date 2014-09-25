@@ -24,4 +24,5 @@
     - similars.each do |structure|
       - next if structure.medias.cover_first.first.nil?
       .inline-block.one-half.very-soft.relative>
-        = render partial: "structures/similar_profile", locals: { structure: structure }
+        - cache ['sleeping_content', structure] do
+          = render partial: "structures/similar_profile", locals: { structure: structure }

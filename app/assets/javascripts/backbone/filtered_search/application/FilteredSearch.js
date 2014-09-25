@@ -38,7 +38,7 @@ FilteredSearch.addInitializer(function(options) {
         }
     });
 
-    if ( !structures.server_api['address_name'] ) { structures.server_api['address_name'] = 'Paris' }
+    if ( !structures.server_api['address_name'] ) { structures.server_api['address_name'] = 'Paris' }
     structures.bootstrap();
 
     /* set up the layouts */

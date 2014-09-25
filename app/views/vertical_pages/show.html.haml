@@ -5,7 +5,7 @@
   - if @vertical_page.title.present?
     = @vertical_page.caption
   - else
-    Tous les cours de #{@subject.name.downcase} | CoursAvenue
+    Tous les cours de #{@subject.name.downcase} à Paris, Marseille, Lyon, Toulouse, Nice, Nantes, Bordeaux, Lille | CoursAvenue
 
 - slug = @subject.root.slug
 - if @vertical_page.image.present?
@@ -60,7 +60,7 @@
 - if @subject.depth == 0
   .home-screen-promotion-wrapper
     .main-container.main-container--medium.soft--ends
-      %h2.soft--bottom.f-weight-300 Plus de disciplines
+      %h2.soft--bottom.f-weight-300 #{@subject.name} : plus de disciplines
       = render partial: 'vertical_pages/subjects', locals: { subjects: @subject.children }
 
 - unless @subject.depth == 2

@@ -83,12 +83,15 @@ class StructureSearch
   end
 
   def self.retrieve_location params
-    if (params[:lat].blank? or params[:lng].blank?) and params[:zip_codes].blank?
+    if params[:city_id].present? and (city = City.where(slug: params[:city_id]).first)
+      params[:lat] = city.latitude
+      params[:lng] = city.longitude
+    elsif (params[:lat].blank? or params[:lng].blank?) and params[:zip_codes].blank?
       params[:lat] = 48.8592
       params[:lng] = 2.3417
     end
 
-    [params[:lat], params[:lng]]
+    return [params[:lat], params[:lng]]
   end
 
   def self.format_bbox_params params

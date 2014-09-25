@@ -47,15 +47,24 @@ CoursAvenue::Application.configure do
 
   # Use a different cache store in production
   # config.cache_store = :mem_cache_store
-  config.cache_store = :dalli_store
+  config.cache_store = :dalli_store,
+                      (ENV["MEMCACHIER_SERVERS"] || "").split(","),
+                      {:username => ENV["MEMCACHIER_USERNAME"],
+                       :password => ENV["MEMCACHIER_PASSWORD"],
+                       :failover => true,
+                       :socket_timeout => 1.5,
+                       :socket_failure_delay => 0.2
+                      }
+
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
-  config.action_controller.asset_host = "https://#{ENV['FOG_DIRECTORY']}.s3.amazonaws.com"
+  # config.action_controller.asset_host = "#{ENV['FOG_DIRECTORY']}.s3.amazonaws.com"
+  # config.action_controller.asset_host = "cdn%d.coursavenue.com"
+  config.action_controller.asset_host = "dqggv9zcmarb3.cloudfront.net"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
   config.assets.precompile += %w( email.css )
-  config.assets.precompile += %w( application.pro.js modernizr.js )
-  config.assets.precompile += Ckeditor.assets
+  config.assets.precompile += %w( application.pro.js modernizr.js ckeditor/config.js )
 
   # Enable threaded mode
   # config.threadsafe!
@@ -81,7 +90,10 @@ CoursAvenue::Application.configure do
       bucket:            ENV['AWS_BUCKET'],
       access_key_id:     ENV['AWS_ACCESS_KEY_ID'],
       secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
-    }
+    },
+    url: ':s3_alias_url',
+    s3_host_alias: 'd3mloml2d643nt.cloudfront.net',
+    path: ":class/:attachment/:id_partition/:style/:filename"
   }
 
   # ------------ Mailer configuration

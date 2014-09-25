@@ -66,9 +66,9 @@ class ApplicationController < ActionController::Base
   # Create a RoutingError exception when the route is not matched.
   #
   # @return ActionController::RoutingError
-  def routing_error
-    raise ActionController::RoutingError.new(params[:path])
-  end
+  # def routing_error
+    # raise ActionController::RoutingError.new(params[:path])
+  # end
 
   #
   # Tell wether the page should use:

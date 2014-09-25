@@ -7,4 +7,5 @@ Disallow: /etablissements/*/contact_form
 Disallow: /password/new
 Disallow: /verification/new
 Disallow: /professeurs/*
+Disallow: */contact_form‎
 Sitemap: https://www.coursavenue.com/sitemap.xml.gz

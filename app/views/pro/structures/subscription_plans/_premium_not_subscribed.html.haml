@@ -17,27 +17,46 @@
           = submit_tag "Réactiver mon #{last_subscription_plan.next_plan_type_description.downcase}", class: 'btn btn--yellow soft--sides'
 
         %hr.push--ends
-    .soft--sides
-      %h2 Passez au Premium pour recruter plus d'élèves
-      %p
-        %strong.delta Choisissez votre abonnement :
-      .two-thirds.center-block
-        = render 'pro/shared/choose_premium_boxes'
-      %p
-        %strong Le saviez-vous ?
-        Vous pouvez annuler votre compte Premium à tout moment, abonnement sans contrat ni commissions.
+    .soft--sides.text--center
+      %h2.flush Passez au Premium pour recruter plus d'élèves
 
-    %hr.push--bottom.flush--top
-    .soft--sides
-      = render 'pro/shared/premium_graph'
-      .soft--top
-        = render 'pro/shared/premium_1_2_3'
+      = render 'pro/shared/choose_premium_boxes'
+
     %hr.push--ends
     .soft--sides
       %h2.text--center.f-weight-300 Ils ont déjà souscrit au Premium
       = render 'pro/shared/they_already_subscribed'
     %hr.push--top.flush--bottom
     = render 'pro/shared/premium_testimonies'
+
+    .soft--sides.text--center.soft--top
+      %h2.text--center.f-weight-300 Questions fréquentes
+      .grid
+        .grid__item.one-third>
+          %h5 Existe-t-il un engagement minimum ou des pénalités de résiliation ?
+          %p Non. Vous pouvez basculer d'un abonnement Premium à l'autre (Solo, Ecole ou Master) n'importe quand. Nous ne prenons aucun frais de résiliation ni d'engagement minimum.
+        .grid__item.one-third>
+          %h5 Proposez-vous des abonnements à la journée ou peut-on payer pour chaque nouvel élève ?
+          %p Malheureusement non. Étant donné que tous nos abonnements sont facturés sur une base mensuelle sans frais de contrat ni de résiliation, vous pouvez utiliser le profil Premium ponctuellement. A tout moment, vous pouvez l'interrompre ou souscrire de nouveau.
+        .grid__item.one-third>
+          %h5 Comment les profils Premium sont mis en avant sur CoursAvenue ?
+          %p Les profils Premium sont les les plus complets, c'est pourquoi ils apparaissent en 1er sur le moteur de recherche CoursAvenue. Cependant, le classement évolue régulièrement de manière à ce que tout le monde bénéficie du trafic.
+      .grid
+        .grid__item.one-third>
+          %h5 A quoi ressemblent vos campagnes Facebook ?
+          %p Chaque jour, nous pilotons et personnalisons des milliers de campagnes Facebook. Nous les modifions et les optimisons de manière à vous apporter une visibilité maximale. Pour conserver une cohérence visuelle, nous privilégions vos photos de profil. Cliquez ici pour visualiser l'exemple d'une campagne.
+        .grid__item.one-third>
+          %h5 Comment a-t-on accès aux factures ?
+          %p Une fois votre profil passé en Premium, retrouvez toutes vos factures dans la rubrique "Premium".
+        .grid__item.one-third>
+          %h5 Comment les profils Premium sont mis en avant sur CoursAvenue ?
+          %p Les profils Premium sont les les plus complets, c'est pourquoi ils apparaissent en 1er sur le moteur de recherche CoursAvenue. Cependant, le classement évolue chaque jour de manière à ce que tout le monde bénéficie du trafic.régulièrement de manière à ce que tout le monde bénéficie du trafic.
+
+    %hr.push--bottom.flush--top
+    .soft--sides
+      = render 'pro/shared/premium_graph'
+      .soft--top
+        = render 'pro/shared/premium_1_2_3'
 
     %hr.push--bottom#ten-features
     .soft--sides

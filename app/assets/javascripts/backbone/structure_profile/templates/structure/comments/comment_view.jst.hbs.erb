@@ -13,10 +13,12 @@
                 {{#if title}}
                   <h6 class="quoted inline-block push-half--bottom" itemprop='summary' content="{{title}}">{{{ hide_contacts title }}}</h6>
                   {{#if course_name}}
-                    <i itemprop="itemreviewed" class="v-middle">— {{course_name}}</i>
+                    <h4 class="flush f-weight-normal inherit-font-size inline-block">
+                        <i itemprop="itemreviewed" class="v-middle">— {{course_name}}</i>
+                    </h4>
                   {{/if}}
                 {{/if}}
-                <div itemprop="description">
+                <div itemprop="reviewBody">
                   {{{ simple_format_hide_contacts content }}}
                 </div>
                 <p class="text--right flush">
@@ -27,7 +29,7 @@
                 {{#if reply}}
                     <hr class="push-half--ends message__appendix--top">
                     <p><strong>{{structure_name}} a répondu à cet avis :</strong></p>
-                    <div itemprop="reviewBody" data-behavior="read-more" class="read-more" style="max-height: none;">
+                    <div data-behavior="read-more" class="read-more" style="max-height: none;">
                         {{{ simple_format_hide_contacts reply.content }}}
                     </div>
                 {{/if}}
