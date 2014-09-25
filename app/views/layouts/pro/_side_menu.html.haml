@@ -1,7 +1,7 @@
 - content_for :side_menu do
   %ul
-    - cache 'pro/side_menu/v1' do
-      - if current_pro_admin and current_pro_admin.super_admin?
+    - if current_pro_admin and current_pro_admin.super_admin?
+      - cache 'pro/side_menu/v1' do
         = pro_side_menu_link 'dashboard'            , pro_dashboard_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)             , current: current_tab, icon: 'fa fa-dashboard'
         = pro_side_menu_link 'sleepers'             , sleepings_pro_structures_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)  , current: current_tab, icon: 'fa fa-moon-o'
         = pro_side_menu_link 'activity'             , pro_conversations_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)         , current: current_tab, icon: 'fa fa-pulse'
