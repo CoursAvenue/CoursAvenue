@@ -15,6 +15,10 @@ module CoursAvenue
     S3_BUCKET       = AMAZON_S3.buckets[ENV['AWS_BUCKET']]
     FACEBOOK_APP_ID = 589759807705512
 
+    config.action_dispatch.default_headers = {
+      'Access-Control-Allow-Origin' => '*',
+      'Access-Control-Request-Method' => '*'
+    }
     config.middleware.insert_before ActionDispatch::Static, Rack::SslEnforcer, ignore: /.*widget_ext.*/ if Rails.env.production?
 
     # S3 = AWS::S3.new(
