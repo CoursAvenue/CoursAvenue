@@ -67,7 +67,7 @@
     %div
 .main-container.main-container--medium.soft-half--bottom.relative{ style: "height: 500px;" }
   - if params[:inscription].present?
-    .green-box.soft.text--center
+    .green-box.soft.text--center.push--top.white
       %h3 Félicitations ! Vous êtes bien enregistré : partagez-le sur Facebook.
       .text--center.push-half--bottom
         = link_to 'Partager sur Facebook', "http://www.facebook.com/sharer.php?s=100&p[url]=#{pass_decouverte_url(utm_campaign: params[:utm_campaign], referrer: 'facebook', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)}", class: 'btn btn--facebook', onclick: "ga('send', 'event', 'Pass Découverte', 'shared', 'facebook');", target: :_blank
@@ -393,10 +393,6 @@
         top: 0px;
         left: 0px;
         z-index: 0;
-    }
-    .cb-slideshow:after {
-        content: '';
-        background: transparent url(../images/pattern.png) repeat top left;
     }
     .cb-slideshow li span {
         width: 100%;

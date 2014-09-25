@@ -40,6 +40,7 @@ module HasSubjects
         subjects_array << "#{subject.name}:#{subject.slug}"
       end
       self.update_column :subjects_string, subjects_array.join(';')
+      self.update_column :updated_at, Time.now
     end
 
     def update_parent_subjects_string
@@ -48,6 +49,7 @@ module HasSubjects
         subjects_array << "#{subject.name}:#{subject.slug}"
       end
       self.update_column :parent_subjects_string, subjects_array.join(';')
+      self.update_column :updated_at, Time.now
     end
   end
 end

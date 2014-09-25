@@ -17,4 +17,6 @@
   .panel__body.soft
     %h2.f-weight-300 Derniers avis
     %ul.comment-list
-      = render partial: '/comments/comment', collection: @comments, locals: {with_link: true}
+      - @comments.each do |review|
+        - cache [review, 'pro/comments/index'] do
+          = render partial: '/comments/comment', locals: { with_link: true, comment: review }
