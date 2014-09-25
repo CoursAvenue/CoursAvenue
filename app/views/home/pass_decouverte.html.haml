@@ -119,7 +119,7 @@
         .grid__item.one-third.palm-one-whole.text--center>
           .center-block.text--center.alpha 2
           .gamma.push-half--bottom.f-weight-300 Choisissez vos cours
-          %p.epsilon Sur CoursAvenue.com, visualisez tous les cours sur une carte géographique (plus de 3 000 !), choisissez les séances de votre choix en fonction des avis et des créneaux, puis réservez gratuitement auprès de chaque partenaire
+          %p.epsilon Sur CoursAvenue.com, visualisez tous les cours sur une carte géographique (plus de 3 000 négociés pour vous !), choisissez les séances de votre choix, puis réservez gratuitement auprès de chaque partenaire
         .grid__item.one-third.palm-one-whole.text--center>
           .center-block.text--center.alpha 3
           .gamma.push-half--bottom.f-weight-300 Suivez vos cours !
@@ -153,37 +153,7 @@
             %li Salsa cubaine
             %li Danse indienne Bollywood
             %li . . .
-            -# %li Street jazz
-            -# %li Jazz
-            -# %li Danse de société
-            -# %li Comédie musicale Bollywood
-            -# %li Danse Africaine de Côte d'ivoire, Mali et Guinée
-            -# %li Pole Dance
-            -# %li Danse Contemporaine
-            -# %li Cours de danse : chorégraphie de Chorus Line
-            -# %li Danse afro-caribéenne
-            -# %li Atelier d'initiation à la danse orientale
-            -# %li Danse Afro Jazz
-            -# %li Danse Butô (Danse contemporaine japonaise)
-            -# %li Street Fit
-            -# %li Danse arabian fitness
-            -# %li Salsa Colombienne
-            -# %li Atelier en toute liberté (chant, danse, jeu d'acteur)
-            -# %li Atelier Danse Orientale
-            -# %li MasterClass Afroglow dance
-            -# %li Atelier d'initiation à la bachata
-            -# %li Découvrez le WECANDANCE
-            -# %li Cours de Hip-hop, Jazz, chorégraphie
-            -# %li Cours de salsa : maîtrisez les techniques de guidage
-            -# %li Eveil danse
-            -# %li Initiation de pas de danse congolaise
-            -# %li Danse orientale
-            -# %li Tango Argentin
-            -# %li Initiation au hip-hop
-            -# %li Initiation à la danse arabe (Egypte, Maroc, Algérie, Tunisie)
-            -# %li Salsa
-            -# %li Reunion d'information/Présentation de l'association
-            -# %li Stage Lindy Hop
+
         .grid__item.one-third>
           %h4
             = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/theatre-scene.png", height: 20
@@ -230,26 +200,6 @@
             %li Wutao
             %li Shiatsu
             %li . . .
-            -# %li Foot Massage
-            -# %li Yoga - Cours découverte
-            -# %li Cous de yoga
-            -# %li Cours d'initiation individuel  à la sophrologie
-            -# %li Atelier de Flamenco tout niveaux
-            -# %li Qi Gong et Tai Chi Chuan
-            -# %li Cours de Qi Gong
-            -# %li Cours de Gyrotonic avec Paula
-            -# %li Cours de sophrologie avec Pauline
-            -# %li Atelier d'écriture créative
-            -# %li Cours de Stretching / Rélaxation avec Romina
-            -# %li Cours de Gyrokinesis avec Anna
-            -# %li Cours de Gyrotonic avec Lars
-            -# %li Séance de yoga prénatal
-            -# %li Séance de Yoga du Cachemire
-            -# %li Hatha Yoga
-            -# %li Atelier de Yoga
-            -# %li Sophro-Relaxation \"Bulle Détente & Sérénité\"
-            -# %li Cours de Hatha Yoga avec Corina
-            -# %li Cours de Hatha Yoga avec Perrine
       .grid
         .grid__item.one-third>
           %h4
@@ -380,9 +330,9 @@
 
         .grid__item.one-quarter.palm-one-whole.soft--left>
           %ul.no-bullet-list.line-height-1-7
-            %li= link_to 'En savoir plus'  , pages_what_is_it_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: "Comment ça marche ?"
-            %li= link_to "Page d'accueil CoursAvenue", root_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: "Page d'accueil CoursAvenue"
-            %li= link_to 'Moteur de recherche CoursAvenue', root_search_page_without_subject_url('paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Aide'
+            %li= link_to 'En savoir plus', pages_what_is_it_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: "Comment ça marche ?", target: :_blank
+            %li= link_to "Page d'accueil CoursAvenue", root_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: "Page d'accueil CoursAvenue", target: :_blank
+            %li= link_to 'Moteur de recherche CoursAvenue', root_search_page_without_subject_url('paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Aide', target: :_blank
 
   :css
     .cb-slideshow,
