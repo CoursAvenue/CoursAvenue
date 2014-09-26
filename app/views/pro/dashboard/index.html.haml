@@ -36,20 +36,25 @@
   %table.table--striped.table--data.text--center
     %thead
       %tr
-        %th.text--center Pass 9
-        %th.text--center Pass 19
-        %th.text--center Pass 29
-        %th.text--center Pass 39
+        %th.text--center Prix
+        %th.text--center Conversion
+        %th.text--center Emails
     %tbody
       %tr
+        %td.text--center 9€
         %td.text--center= pass_9.count
-        %td.text--center= pass_19.count
-        %td.text--center= pass_29.count
-        %td.text--center= pass_39.count
-      %tr
         %td.text--center= pass_9.map(&:email).join('; ')
+      %tr
+        %td.text--center 19€
+        %td.text--center= pass_19.count
         %td.text--center= pass_19.map(&:email).join('; ')
+      %tr
+        %td.text--center 29€
+        %td.text--center= pass_29.count
         %td.text--center= pass_29.map(&:email).join('; ')
+      %tr
+        %td.text--center 39€
+        %td.text--center= pass_39.count
         %td.text--center= pass_39.map(&:email).join('; ')
 
   %hr.push--ends
