@@ -5,7 +5,7 @@
   .panel__body.soft--ends.relative
     .soft--sides{ data: { behavior: 'wizard-helper', content: t('statistics.wizard.infos') } }
       .relative.soft.premium-box.text--center.push--bottom
-        = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 70, width: 70, style: 'width: 70px; height: 70px;'
+        = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/premium-ribbon.png', class: 'north west absolute on-top', height: 70, width: 70, style: 'width: 70px; height: 70px;'
         = render partial: 'pro/structures/premium_select', locals: { title: 'suivre toutes les statistiques de votre profil CoursAvenue ?', label_text: "Statistiques du nombre de consultations et d'actions :", select_collection: ['Visibles', 'Non visibles'] }
 
       .grid.push--bottom
