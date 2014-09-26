@@ -28,6 +28,30 @@
           %div et #{CommentNotification.where( CommentNotification.arel_table[:created_at].gt(Date.today - 7.days) ).count} les 7 derniers jours
 
 
+  - pass_9  = Email.where(Email.arel_table[:email_type].matches('pass-decouverte_9').and(Email.arel_table[:email].not_eq(nil)))
+  - pass_19 = Email.where(Email.arel_table[:email_type].matches('pass-decouverte_19').and(Email.arel_table[:email].not_eq(nil)))
+  - pass_29 = Email.where(Email.arel_table[:email_type].matches('pass-decouverte_29').and(Email.arel_table[:email].not_eq(nil)))
+  - pass_39 = Email.where(Email.arel_table[:email_type].matches('pass-decouverte_39').and(Email.arel_table[:email].not_eq(nil)))
+  %hr.push--ends
+  %table.table--striped.table--data.text--center
+    %thead
+      %tr
+        %th.text--center Pass 9
+        %th.text--center Pass 19
+        %th.text--center Pass 29
+        %th.text--center Pass 39
+    %tbody
+      %tr
+        %td.text--center= pass_9.count
+        %td.text--center= pass_19.count
+        %td.text--center= pass_29.count
+        %td.text--center= pass_39.count
+      %tr
+        %td.text--center= pass_9.map(&:email).join('; ')
+        %td.text--center= pass_19.map(&:email).join('; ')
+        %td.text--center= pass_29.map(&:email).join('; ')
+        %td.text--center= pass_39.map(&:email).join('; ')
+
   %hr.push--ends
   .soft--sides
     .text--center
