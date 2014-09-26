@@ -3,12 +3,15 @@
   .panel__header.soft.text--center.bordered--bottom-on-stick{ style: 'height: 80px;', data: { behavior: 'sticky', offset_top: 45, z: 500, old_width: 'true' } }
     .grid
       .grid__item.two-twelfths.v-middle>
-        %h4.flush Ajouter un :
-      .grid__item.ten-twelfths.v-middle.text--center>
-        = link_to 'Cours collectif', new_pro_structure_course_path(@structure, type: 'Course::Lesson'), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false', action: 'new_course', course_type: 'lesson', lock_overlay: true }
-        = link_to 'Cours particulier', new_pro_structure_course_path(@structure, type: 'Course::Private'), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false', action: 'new_course', course_type: 'private', lock_overlay: true }
+        %h4.flush Ajouter un&nbsp;:
+      .grid__item.ten-twelfths.v-middle.text--center.nowrap>
+        = link_to 'Cours collectif', new_pro_structure_course_path(@structure, type: 'Course::Lesson'), class: 'btn btn--green btn--large soft--sides fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false', action: 'new_course', course_type: 'lesson', lock_overlay: true }
+        = link_to 'Cours particulier', new_pro_structure_course_path(@structure, type: 'Course::Private'), class: 'btn btn--green btn--large soft--sides fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false', action: 'new_course', course_type: 'private', lock_overlay: true }
 
   .panel__body{ data: { behavior: 'wizard-helper', content: t('pro.structures.courses.wizard.regular') } }
+    .panel.panel--red#all-courses-are-not-published{ class: (@courses.regulars.detect{|c| !c.can_be_published? } ? '' : 'hidden')}
+      .panel__header.soft
+        %h4.flush Attention, certains de vos cours ne sont pas visible sur votre profil
     #lessons_header.soft.bg-white.bordered--bottom-on-stick{ data: { behavior: 'sticky', offset_top: 125, old_width: 'true', z: 300 } }
       %h3.flush Cours collectifs
     .soft--sides
@@ -38,14 +41,4 @@
         - @courses.privates.each_with_index do |course, index|
           = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure, price_groups: price_groups }
 
-= content_for :scripts do
-  :javascript
-    $(function() {
-        $('body').on('change', 'select[data-type=price-group]', function(event) {
-            if (this.value == 'new') {
-                $(this).closest('.panel').find('.define-price-group').click()
-            } else {
-                $(this).closest('form').submit();
-            }
-        });
-    });
+= render 'course_bottom_scripts'

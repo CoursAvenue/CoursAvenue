@@ -4,6 +4,11 @@
     = link_to 'Ajouter un stage / atelier', new_pro_structure_course_path(@structure, type: 'Course::Training'), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false', action: 'new_course', course_type: 'training', lock_overlay: true }
 
   .panel__body.soft--ends
+    - if @courses.trainings.detect{|c| !c.can_be_published? }
+      .panel.panel--red
+        .panel__header.soft
+          %h4.flush Attention, certains de vos cours ne sont pas visible sur votre profil
+
     .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.courses.wizard.trainings') } }
       %h3 Planning de vos stages & ateliers
       %p{ class: (@courses.trainings.empty? ? '' : 'hidden'), data: { empty: 'training' } }
@@ -16,14 +21,4 @@
         - @courses.trainings.each_with_index do |course, index|
           = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure, price_groups: price_groups }
 
-= content_for :scripts do
-  :javascript
-    $(function() {
-        $('body').on('change', 'select[data-type=price-group]', function(event) {
-            if (this.value == 'new') {
-                $(this).closest('.panel').find('.define-price-group').click()
-            } else {
-                $(this).closest('form').submit();
-            }
-        });
-    });
+= render 'course_bottom_scripts'

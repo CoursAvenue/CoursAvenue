@@ -1,8 +1,8 @@
 - price_groups = structure.price_groups.where(course_type: (course.is_training? ? 'training' : 'regular')) if price_groups.nil?
 
-.push--bottom{ id: "course-#{course.id}"}
-  .panel{ class: ((!course.can_be_published? or course.expired?) ? 'panel--blue' : '')}
-    .visuallyhidden= link_to 'Définir les tarifs', new_pro_structure_price_group_path(@structure, course_type: (course.is_training? ? 'training' : 'regular'), name: course.name, course_id: course.id), class: 'define-price-group fancybox.ajax', data: { behavior: 'modal', width: '1000', top_ratio: 0.2, padding: '0', close_click: 'false' }
+.push--bottom{ id: "course-#{course.id}", data: { 'course-id' => course.id } }
+  .panel{ class: ((!course.can_be_published? or course.expired?) ? 'panel--red' : '')}
+    .visuallyhidden= link_to 'Définir les tarifs', new_pro_structure_price_group_path(@structure, course_type: (course.is_training? ? 'training' : 'regular'), name: course.name, course_id: course.id), class: 'fancybox.ajax', data: { type: 'course-price-group-creation', behavior: 'modal', width: '1000', top_ratio: 0.2, padding: '0', close_click: 'false' }
     - if course.expired?
       .panel__header.soft-half.f-weight-bold.nowrap
         - if course.is_training?
@@ -60,7 +60,8 @@
           %span Tarifs appliqués :
           - new_price_group = Struct.new(:id, :name)
           = simple_form_for [:pro, structure, course], url: pro_structure_course_path(structure, course), as: :course, remote: true, html: { id: "course-form-#{course.id}", class: 'inline-block' } do |f|
-            = f.input :price_group_id, as: :select, collection: price_groups + [new_price_group.new('new', 'Nouvelle grille tarifaire' )], label: false, input_html: { style: 'max-width: 16em;', data: { type: 'price-group' } }, wrapper_html: {  class: 'flush v-middle inline-block' }, include_blank: 'Sélectionnez la grille tarifaire'
+            = f.input :price_group_id, as: :select, collection: price_groups + [new_price_group.new('new', 'Nouvelle grille tarifaire' )], label: false, input_html: { id: "course-price-group-select-#{course.id}", style: 'max-width: 16em;', data: { type: 'price-group' } }, wrapper_html: {  class: 'flush v-middle inline-block' }, include_blank: 'Sélectionnez la grille tarifaire'
+          = link_to 'Voir la grille', '#', data: { type: 'edit-current-price-group', el: "#course-price-group-select-#{course.id}" }
 
       - if course.is_private?
         - if course.teaches_at_home? and course.home_place and course.place
