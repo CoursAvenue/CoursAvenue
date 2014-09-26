@@ -92,7 +92,7 @@ CoursAvenue::Application.configure do
       secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
     },
     url: ':s3_alias_url',
-    s3_host_alias: 'd3mloml2d643nt.cloudfront.net',
+    s3_host_alias: ENV['PAPERCLIP_S3_HOST_ALIAS'],
     path: ":class/:attachment/:id_partition/:style/:filename"
   }
 
