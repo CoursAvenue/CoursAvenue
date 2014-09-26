@@ -204,7 +204,7 @@ class Course < ActiveRecord::Base
     integer :structure_id
   end
 
-  handle_asynchronously :solr_index
+  handle_asynchronously :solr_index unless Rails.env.test?
 
   def audiences
     self.plannings.map(&:audience_ids).flatten.uniq.map{ |audience_id| Audience.find(audience_id) }
@@ -415,6 +415,6 @@ class Course < ActiveRecord::Base
   end
 
   def reindex_plannings
-    self.plannings.index
+    self.plannings.map{ |p| p.delay.index }
   end
 end

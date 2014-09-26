@@ -50,6 +50,7 @@ class Location < ActiveRecord::Base
     string :name
     string :street
   end
+  handle_asynchronously :solr_index unless Rails.env.test?
 
   def to_gmap_json
     { lng: self.longitude, lat: self.latitude }

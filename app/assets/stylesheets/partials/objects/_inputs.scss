@@ -139,6 +139,13 @@ textarea:focus, input:focus, select:focus {
 }
 
 select {
+    &.select--error {
+        background-color: $red;
+        color     : white;
+        &:hover {
+            background-color: lighten($red, 10%);
+        }
+    }
     -webkit-appearance  : none;
     -moz-appearance     : none;
     appearance          : none;
