@@ -2,10 +2,13 @@
 
 .panel
   .panel__header.soft--ends.bordered--bottom-on-stick{ style: 'height: 85px;', data: { behavior: 'sticky', offset_top: 45, z: 500, old_width: 'true' } }
-    .grid.soft--sides
-      .grid__item.three-tenths>
-        %h4.flush Ajouter une grille tarifaire pour les :
-      .grid__item.seven-tenths.text--center.nowrap>
+    .flexbox.soft--sides
+      .flexbox__item.soft-half--right>
+        %h4.flush
+          Ajouter une grille
+          %br
+          tarifaire pour les :
+      .flexbox__item.text--center.nowrap>
         = link_to 'Cours réguliers', new_pro_structure_price_group_path(@structure, course_type: 'regular'), class: 'soft--sides btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '1000', top_ratio: 0.2, padding: '0', close_click: 'false', lock_overlay: true }
         = link_to 'Stages / Ateliers', new_pro_structure_price_group_path(@structure, course_type: 'training'), class: 'soft--sides push--left btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '1000', top_ratio: 0.2,  padding: '0', close_click: 'false', lock_overlay: true }
   .panel__body.soft--bottom{ data: { behavior: 'wizard-helper', content: t('price_group.wizard.premium_offers') } }
