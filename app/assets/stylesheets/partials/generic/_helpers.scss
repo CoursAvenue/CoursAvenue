@@ -322,3 +322,4 @@
         @include transform(scale(1.05, 1.05));
     }
 }
+.sticky.bordered--bottom-on-stick    { border-bottom : 1px solid $gray-smooth; }

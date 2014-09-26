@@ -11,7 +11,6 @@ FilteredSearch.module('Views.StructuresCollection.Structure', function(Module, A
         initialize: function initialize (options) {
             _.bindAll(this, 'initializeAddToFavoriteLinks');
             this.$el.data('url', options.model.get('data_url'));
-            this.$el.data('query-url', options.model.get('query_url'));
             this.model.on('user:signed:in', this.initializeAddToFavoriteLinks);
             /* the structure view needs to know how it is being filtered */
             if (options.search_term) {

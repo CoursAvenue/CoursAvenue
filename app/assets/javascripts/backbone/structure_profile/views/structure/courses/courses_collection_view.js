@@ -64,14 +64,8 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         * and the data_url which the structure gave us
         * */
         serializeData: function serializeData () {
-            var plannings_count   = this.collection.reduce(function (memo, model) {
-                    memo += model.get("plannings").length;
-                    return memo;
-                }, 0);
             return {
                 courses_count     : this.collection.length,
-                plannings_count   : plannings_count,
-                total_not_filtered: (this.collection.total_not_filtered || 0) - plannings_count,
                 data_url          : this.data_url,
                 about             : this.about,
                 about_genre       : this.about_genre,
