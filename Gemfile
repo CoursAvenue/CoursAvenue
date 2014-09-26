@@ -131,7 +131,7 @@ gem 'paranoia'                  , '~>2.0'
 # Helps having a clean ruby sitemap
 gem 'sitemap_generator'         , '~>4.2.0'
 # Mailchimp API
-# gem 'gibbon'                    , '~>1.0.4'
+gem 'gibbon'                    , '~>1.1.3'
 
 # Transform external CSS stylesheets into inline CSS for emails
 gem 'roadie'                    , '~>3.0.0'
@@ -183,7 +183,7 @@ gem 'axlsx'                     , '~> 2.0.1'
 gem 'rack-utf8_sanitizer'       , '~> 1.1.0'
 
 # Use ckeditor for post body
-# gem 'ckeditor'                  , '~> 4.1.0'
+gem 'ckeditor'                  , '~> 4.1.0'
 
 group :production, :staging do
   gem 'execjs'                  , '~>2.0.2'
@@ -204,6 +204,8 @@ group :test do
 end
 
 group :development do
+  # Guard::Pow automatically manage Pow applications restart
+  gem 'guard-pow', require: false
   # Removes useless logging in dev.
   gem 'fontcustom'
   gem 'brakeman'                , '~>2.3.1'

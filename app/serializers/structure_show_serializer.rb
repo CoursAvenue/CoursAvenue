@@ -3,7 +3,7 @@ class StructureShowSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
 
   attributes :id, :name, :slug, :rating, :street, :zip_code, :description, :description_short,
-             :logo_thumb_url, :data_url, :query_url, :query_params, :courses, :courses_count,
+             :logo_thumb_url, :data_url, :query_params, :courses, :courses_count,
              :has_courses, :plannings_count, :has_plannings, :about, :about_bis, :about_genre,
              :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range,
              :has_free_trial_course, :teaches_at_home, :audience, :funding_types, :gives_group_courses,
@@ -126,12 +126,6 @@ class StructureShowSerializer < ActiveModel::Serializer
     end
   end
 
-  # this is for the href attributes on the filtered search page,
-  # so that they can point at a structure url with the params
-  def query_url
-    data_url + "?" + @options[:query_string]
-  end
-
   def query_params
     @options[:query]
   end
@@ -158,19 +152,19 @@ class StructureShowSerializer < ActiveModel::Serializer
   def given_course_types
     types = []
     if object.gives_individual_courses
-      types << 'cours individuels'
+      types << 'Cours individuels'
     end
     if object.teaches_at_home and object.places.homes.any?
       if object.places.homes.first.radius.present?
-        types << "cours individuels à domicile (#{object.places.homes.first.city.name.capitalize} dans un rayon de #{object.places.homes.first.radius})"
+        types << "Cours individuels à domicile (#{object.places.homes.first.city.name.capitalize} dans un rayon de #{object.places.homes.first.radius}km)"
       else
-        types << "cours individuels à domicile"
+        types << "Cours individuels à domicile"
       end
     end
     if object.gives_group_courses
-      types << 'cours collectifs'
+      types << 'Cours collectifs'
     end
-    types.join(', ').capitalize
+    types.join('. ')
   end
 
   def given_funding_type

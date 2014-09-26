@@ -22,6 +22,8 @@ module ConversationsHelper
 
   # Tells wether or not the admin has responded to the message
   #
+  # @param Mailboxer::Conversation
+  #
   # @return Boolean
   def conversation_waiting_for_reply? conversation
     if conversation.mailboxer_label_id == Mailboxer::Label::INFORMATION.id
@@ -31,6 +33,29 @@ module ConversationsHelper
       end
     end
     return false
+  end
+
+  # Wether or not the message is a duplicate from a previous message from the same user.
+  #
+  # @param user The user sending the message
+  # @param message The message to check.
+  # @param interval=2.day the interval within the message is considered as duplicate.
+  #
+  # @return Boolean
+  def duplicate_message?(user, message, interval=2.day)
+    conversations = user.mailbox.sentbox
+
+    messages = []
+    conversations.each do |conversation|
+      messages += conversation.messages.where(created_at: (Time.now - interval)..Time.now)
+    end
+
+    duplicate = messages.find do |original|
+      original.body == message[:body] &&
+        original.conversation.mailboxer_extra_info_ids == message[:extra_info_ids].join(',')
+    end
+
+    return duplicate.present?
   end
 
 end

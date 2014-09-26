@@ -1,0 +1,38 @@
+= link_to 'Hidden price group link', '#', class: 'visuallyhidden fancybox.ajax', data: { behavior: 'modal', width: '1000', top_ratio: 0.2, padding: '0', close_click: 'false', lock_overlay: true }, id: 'edit-price-group-link'
+= link_to 'Hidden empty price group link', '#empty-price-group-popup', class: 'visuallyhidden', data: { behavior: 'modal', width: '600', padding: '0' }, id: 'empty-price-group-link'
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('body').on('click', '[data-type=edit-current-price-group]', function(event) {
+            var new_href,
+                value = $($(this).data('el')).val();
+            window.current_course_id = $(this).closest('[data-course-id]').data('course-id');
+            if (value.length > 0 && value != 'new') {
+                new_href = Routes.edit_pro_structure_price_group_path(#{@structure.id}, value, { course_id: window.current_course_id });
+                $('#edit-price-group-link').attr('href', new_href).click();
+            } else {
+                $('#empty-price-group-link').click();
+            }
+            return false;
+        });
+        $('body').on('change', 'select[data-type=price-group]', function(event) {
+            if (this.value == 'new') {
+                $(this).closest('.panel').find('[data-type=course-price-group-creation]').click()
+            } else {
+                $(this).closest('form').submit();
+            }
+        });
+    });
+
+#empty-price-group-popup.hidden
+  .panel.soft
+    .panel__body
+      %h4 Affectez ou créez une grille tarifaire avant de pouvoir la visualiser.
+    .grid
+      .grid__item.one-half>
+        %a.btn.btn--gray.btn--full{ onclick: '$.fancybox.close()' } Revenir au planning
+      .grid__item.one-half>
+        = link_to ''
+        %a.btn.btn--green.btn--full{ onclick: "$('#course-' + window.current_course_id + ' [data-type=course-price-group-creation]').click();" }
+          Créer une grille tarifaire

@@ -1,7 +1,7 @@
 # encoding: utf-8
 CoursAvenue::Application.routes.draw do
 
-  # mount Ckeditor::Engine => '/ckeditor'
+  mount Ckeditor::Engine => '/ckeditor'
   # ---------------------------------------------
   # ----------------------------------------- PRO
   # ---------------------------------------------
@@ -342,6 +342,7 @@ CoursAvenue::Application.routes.draw do
 
   resources  :users, only: [:edit, :show, :update], path: 'eleves' do
     collection do
+      get :unsubscribed
       get :invite_entourage_to_jpo_page , path: 'inviter-mes-amis'
       get 'unsubscribe/:signature' => 'users#unsubscribe', as: 'unsubscribe'
       get 'activez-votre-compte'   => 'users#waiting_for_activation', as: 'waiting_for_activation'
@@ -405,6 +406,7 @@ CoursAvenue::Application.routes.draw do
     end
     collection do
       post :recommendation
+      get :search
     end
     resources :statistics, only: [:create]                                    , controller: 'structures/statistics'
     resources :messages  , only: [:create]                                    , controller: 'structures/messages'
@@ -449,17 +451,16 @@ CoursAvenue::Application.routes.draw do
   end
 
   resources :subjects, only: [] do
+    collection do
+    end
+  end
+  resources :subjects, only: [:index] do
     member do
       get :depth_2
     end
     collection do
       get :descendants
-    end
-  end
-  resources :subjects, only: [:index], path: 'cours' do
-    collection do
-      get :tree
-      get :tree_2
+      get :search
     end
     resources :structures, only: [:index], path: 'etablissements'
     # resources :places, only: [:index], path: 'etablissements'
@@ -498,6 +499,7 @@ CoursAvenue::Application.routes.draw do
   # ----------------------------------------- Static pages
   # ------------------------------------------------------
   # Pages
+  get 'mon-compte'                    => 'home#redirect_to_account'
   get 'pourquoi-le-bon-cours',        to: 'redirect#why_coursavenue'
   get 'portes-ouvertes-cours-loisirs' => 'pages#jpo',                  as: 'pages_jpo'
   get 'comment-ca-marche'             => 'pages#what_is_it',           as: 'pages_what_is_it'
@@ -531,6 +533,8 @@ CoursAvenue::Application.routes.draw do
   post '/mandrill-webhook' => 'mandrill_webhook#create'
   get  '/mandrill-webhook' => 'mandrill_webhook#index'
   root :to => 'home#index'
+  get 'pass-decouverte' => 'home#pass_decouverte', as: :pass_decouverte
+
 
   ########### Search pages ###########
   # Must be at the end not to stop other routes
@@ -540,5 +544,5 @@ CoursAvenue::Application.routes.draw do
   ########### Search pages ###########
 
   # Needed to catch 404 requests in ApplicationController
-  match "*path", to: "application#routing_error", via: :get
+  # match "*path", to: "application#routing_error", via: :get
 end

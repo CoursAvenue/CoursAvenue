@@ -9,7 +9,6 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
         },
 
         resetCollection: function resetCollection(response) {
-            this.total_not_filtered = response.meta.total_not_filtered
             this.reset(response.courses);
         },
 

@@ -29,7 +29,7 @@ class PaymentNotification < ActiveRecord::Base
 
     if self.payment_succeeded?
       # Email for admin
-      SuperAdminMailer.delay.go_premium(self.structure, self.structure.subscription_plan.plan_type)
+      SuperAdminMailer.delay.go_premium(self.structure, self.structure.subscription_plan.plan_type) unless self.is_a_renewal?
     else
       Bugsnag.notify(RuntimeError.new("Payment refused"), params)
       SuperAdminMailer.delay.go_premium_fail(self.structure, params)

@@ -1,8 +1,21 @@
 <% if @price_group.errors.empty? %>
-    $('#price-group-<%= @price_group.id %>').replaceWith('<%= escape_javascript(render partial: "pro/structures/price_groups/price_group", locals: { price_group: @price_group }) %>')
-    GLOBAL.flash("Grille tarifaire enregistrée", 'success');
-    $.fancybox.close();
-    $('#price-group-<%= @price_group.id %>').yellowFade({ delay: 400 });
+    <% if @course %>
+        var $element = $("#course-<%= @course.id %>").replaceWith('<%= escape_javascript(render partial: "pro/structures/courses/live_form", locals: { course: @course, structure: @structure }) %>')
+        GLOBAL.flash("Grille tarifaire enregistrée", 'success');
+        $.fancybox.close();
+        $element.yellowFade({ delay: 400 });
+    <% else %>
+      $('#price-group-<%= @price_group.id %>').replaceWith('<%= escape_javascript(render partial: "pro/structures/price_groups/price_group", locals: { price_group: @price_group }) %>')
+      GLOBAL.flash("Grille tarifaire enregistrée", 'success');
+      $.fancybox.close();
+      $('#price-group-<%= @price_group.id %>').yellowFade({ delay: 400 });
+    <% end %>
 <% else %>
     $.fancybox("<%= escape_javascript(render partial: 'pro/structures/price_groups/form') %>", { width: 1100, maxWidth: 1100, padding: 0 });
+<% end %>
+
+<% if @structure.has_premium_prices %>
+  $('#price-group-premium-ribbon').show();
+<% else %>
+  $('#price-group-premium-ribbon').hide();
 <% end %>

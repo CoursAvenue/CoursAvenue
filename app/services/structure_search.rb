@@ -99,32 +99,36 @@ class StructureSearch
     params[:bbox_ne] = params[:bbox_ne].split(',') if params[:bbox_ne].is_a? String
   end
 
-  def self.similar_profile structure, limit=4, _params={}
+  def self.similar_profile structure, limit=4, _params={}, force_use_root_subjects=false
     # Choose parent subjects that are used if the profile has courses
-    used_root_subjects = []
+    used_subjects = []
     if structure.is_sleeping?
       structure.initialize_sleeping_attributes
-      used_root_subjects = root_subjects_from_string(structure).uniq
+      used_subjects = child_subjects_from_string(structure).uniq
     elsif structure.courses.any?
-      used_root_subjects = structure.courses.map(&:subjects).flatten.map(&:root).uniq
+      used_subjects = structure.courses.map(&:subjects).flatten.uniq
     else
-      used_root_subjects = structure.subjects.at_depth(0).uniq
+      used_subjects = structure.subjects.at_depth(2).uniq
     end
-
+    used_subjects = used_subjects.map(&:root).uniq if force_use_root_subjects
     @structures = [] # The structures we will return at the ed
     7.times do |index|
       @structures << StructureSearch.search({lat: structure.latitude,
                                              lng: structure.longitude,
-                                             without_id: structure.id,
+                                             without_ids: [structure.id],
                                              # Radius will increment from 2.7 to > 1000
                                              radius: Math.exp(index),
                                              sort: 'premium',
                                              has_logo: true,
                                              per_page: limit,
-                                             subject_id: (used_root_subjects.any? ? used_root_subjects.map(&:slug) : nil)
+                                             subject_id: (used_subjects.any? ? used_subjects.map(&:slug) : nil)
                                           }.merge(_params)).results
       @structures = @structures.flatten.uniq
       break if @structures.length >= limit
+    end
+    # Re call the method but forcing to use root subjects for the rest of the structures
+    if @structures.length < limit
+      @structures = @structures + similar_profile(structure, limit - @structures.length, _params.merge(without_ids: [structure.id] + @structures.map(&:id)), true)
     end
     @structures = @structures.sort{ |a, b| (a.search_score.present? ? a.search_score.to_i : 0) <=> (b.search_score.present? ? b.search_score.to_i : 0) }.reverse
     return @structures[0..(limit - 1)]

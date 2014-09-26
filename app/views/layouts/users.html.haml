@@ -1,8 +1,5 @@
 = content_for :header do
-  - if on_jpo_pages?
-    = render 'shared/headers/jpo'
-  - else
-    = render 'shared/headers/header'
+  = render 'shared/headers/header'
 
 = content_for :content do
   .main-container{ class: controller_path }

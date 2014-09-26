@@ -14,6 +14,7 @@ class Pro::Structures::ConversationsController < ApplicationController
     @conversation = @admin.mailbox.conversations.find(params[:id])
     @conversation.update_column :treated_by_phone, true
     @conversation.update_column :treated_at, Time.now
+    @conversation.update_column :updated_at, Time.now
     @structure.delay.compute_response_time
     @structure.delay.compute_response_rate
     respond_to do |format|

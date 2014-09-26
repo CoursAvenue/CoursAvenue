@@ -6,18 +6,19 @@
         %li
           %div{ data: { type: "google-maps" } }>
       - medias.each_with_index do |media, index|
-        %li.relative.bg-contain
-          %a.rslides_nav.rslides_nav--icon{ rel: 'slideshow', href: media.url, class: (media.video? ? 'visible' : ''), data: { behavior: "fancy" } }
-            - if media.video?
-              %i.fa.fa-youtube-play
-            - else
-              %i.fa.fa-eye
-          .one-whole.media__item.media__item--slides>
-            %a.block.break-all{ href: media.url, title: media.caption, data: { behavior: "fancy" } }
-              = media.thumbnail_url_html
-              %i.fa.fa-expand
-          - if media.caption.present?
-            %p.one-whole.absolute.south.soft-half.flush.white.media-caption.f-weight-bold= media.caption
+        - cache ['structure_top1', media] do
+          %li.relative.bg-contain
+            %a.rslides_nav.rslides_nav--icon{ rel: 'slideshow', href: media.url, class: (media.video? ? 'visible' : ''), data: { behavior: "fancy" } }
+              - if media.video?
+                %i.fa.fa-youtube-play
+              - else
+                %i.fa.fa-eye
+            .one-whole.media__item.media__item--slides>
+              %a.block.break-all{ href: media.url, title: media.caption, data: { behavior: "fancy" } }
+                = media.thumbnail_url_html
+                %i.fa.fa-expand
+            - if media.caption.present?
+              %p.one-whole.absolute.south.soft-half.flush.white.media-caption.f-weight-bold= media.caption
   .thumbnails-container.relative
     %a.thumbnails-container__nav.prev.pointer{ data: { 'slide-prev' => true } }
       %i.delta.fa-chevron-left.v-middle.gray-light
@@ -28,9 +29,10 @@
             %a.pointer.media-photo.media-slideshow#map-thumbnail
               = image_tag 'icons/google-maps-thumb.jpg', height: 70, width: 70
         - medias.each do |media|
-          %li.rslides-thumbnail
-            %a.pointer.media-photo
-              %img{ src: media.thumbnail_url, height: 70, width: 70, alt: (@structure ? subjects_name_from_string(@structure.subjects_string) : '') }
+          - cache ['structure_top2', media] do
+            %li.rslides-thumbnail
+              %a.pointer.media-photo
+                %img{ src: media.thumbnail_url, height: 70, width: 70, alt: (@structure ? subjects_name_from_string(@structure.subjects_string) : '') }
     %a.thumbnails-container__nav.next.pointer{ data: { 'slide-next' => true } }
       %i.delta.fa-chevron-right.v-middle.gray-light
   %a.absolute.north.east.push--right.push--top.on-under-top.heart-link{ href: '#', data: { behavior: 'add-to-favorite', toggle: 'tooltip', added_title: 'Retirer de mes favoris', not_added_title: 'Ajouter à mes favoris', placement: 'left' } }

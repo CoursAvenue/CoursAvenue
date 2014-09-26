@@ -24,6 +24,17 @@
         border-top: none;
     }
 }
+.panel--red {
+    border: none;
+    .panel__header {
+        background-color: $red;
+        color           : white;
+    }
+    .panel__body {
+        border    : 2px solid $red;
+        border-top: none;
+    }
+}
 .panel--yellow {
     border: none;
     .panel__header {

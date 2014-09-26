@@ -9,8 +9,8 @@
         = link_to 'Cours réguliers', new_pro_structure_price_group_path(@structure, course_type: 'regular'), class: 'soft--sides btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '1000', top_ratio: 0.2, padding: '0', close_click: 'false', lock_overlay: true }
         = link_to 'Stages / Ateliers', new_pro_structure_price_group_path(@structure, course_type: 'training'), class: 'soft--sides push--left btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '1000', top_ratio: 0.2,  padding: '0', close_click: 'false', lock_overlay: true }
   .panel__body.soft--bottom{ data: { behavior: 'wizard-helper', content: t('price_group.wizard.premium_offers') } }
-    .relative.premium-box.text--center.soft--sides.soft-half--ends
-      = image_tag 'icons/premium-ribbon.png', class: 'north west absolute', height: 70, width: 70, style: 'width: 70px; height: 70px; z-index: 100'
+    #price-group-premium-ribbon.relative.premium-box.text--center.soft--sides.soft-half--ends{ class: (@structure.has_premium_prices ? '' : 'hidden')}
+      = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/premium-ribbon.png', class: 'north west absolute', height: 70, width: 70, style: 'width: 70px; height: 70px; z-index: 100'
       = render partial: 'pro/structures/premium_select', locals: { title: 'afficher vos offres découvertes et promotionnelles sur votre profil ?', label_text: 'Statut de vos offres découvertes et promotionnelles :' }
       %p.blue-darker.flush--bottom.text--center
         %i Recrutez encore plus d'élèves en affichant vos cours d'essai gratuits et tarifs spéciaux de vos tarifs ci-dessous.

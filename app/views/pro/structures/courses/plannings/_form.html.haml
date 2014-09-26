@@ -76,6 +76,7 @@
           .text--center= f.submit 'Enregistrer et revenir à mon planning', class: 'btn-as-link', data: { disable_with: 'Enregistrement en cours...' }
 
 :javascript
+    $('#planning_place_id').focus();
     if ($('[name="planning[audience_ids][]"]').length > 0) {
         $('[name="planning[audience_ids][]"]').change(function(event) {
             if (event.target.value == '1') {

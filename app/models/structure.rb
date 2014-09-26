@@ -637,8 +637,8 @@ class Structure < ActiveRecord::Base
     self.course_names              = self.courses.map(&:name).uniq.join(', ')
     self.highlighted_comment_title = (self.highlighted_comment ? self.highlighted_comment.title : comments.accepted.order('created_at DESC').first.try(:title))
     # Store level and audiences ids as coma separated string values: "1,3,5"
-    self.level_ids                = self.plannings.collect(&:level_ids).flatten.sort.uniq.join(',')
-    self.audience_ids             = self.plannings.collect(&:audience_ids).flatten.sort.uniq.join(',')
+    self.level_ids                = (self.plannings.collect(&:level_ids) + self.courses.privates.collect(&:level_ids)).flatten.uniq.sort.join(',')
+    self.audience_ids             = (self.plannings.collect(&:audience_ids) + self.courses.privates.collect(&:audience_ids)).flatten.uniq.sort.join(',')
     self.set_min_and_max_price
     compute_response_rate
     # update_jpo_meta_datas
@@ -1237,7 +1237,7 @@ class Structure < ActiveRecord::Base
   # @return nil
   def no_contacts_in_name
     return nil if self.name.nil?
-    if self.name.match(/((?:[-a-z0-9]+\.)+[a-z]{2,4})(?: |\Z|,)/i)
+    if self.name.match(/((?:[-a-z0-9]+\.)+[a-z]{2,4})(?: |\Z|,)/i) or self.name.match(/ point com( |$)/i)
       self.errors.add :name, "Le nom ne peut pas contenir votre site internet"
     end
     nil

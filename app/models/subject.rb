@@ -40,6 +40,10 @@ class Subject < ActiveRecord::Base
                     :styles => { super_wide: "825x250#", wide: "600x375#", small: '250x200#', thumb: "200x200#" }
   validates_attachment_content_type :image, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 
+  searchable do
+    text :name
+  end
+
   # Tells wether the given subject is a descendant of self by checking its ancestry string
   # @param  subject [type] [description]
   #

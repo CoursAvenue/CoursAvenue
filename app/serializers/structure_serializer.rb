@@ -2,7 +2,7 @@ class StructureSerializer < ActiveModel::Serializer
   include StructuresHelper
   include ActionView::Helpers::TextHelper
 
-  attributes :id, :name, :slug, :comments_count, :logo_thumb_url, :logo_large_url, :data_url, :query_url, :query_params,
+  attributes :id, :name, :slug, :comments_count, :logo_thumb_url, :logo_large_url, :data_url, :query_params,
              :structure_type, :highlighted_comment_title, :premium, :promotion_title, :cities,
              :regular_courses_plannings_count, :training_courses_plannings_count
 
@@ -84,22 +84,8 @@ class StructureSerializer < ActiveModel::Serializer
     end
   end
 
-  # this is for the href attributes on the filtered search page,
-  # so that they can point at a structure url with the params
-  def query_url
-    data_url + "?" + (@options[:query_string] || '')
-  end
-
   def query_params
-    if @options[:jpo]
-      (@options[:query] || {}).merge({
-        course_types: ['open_course'],
-        start_date:   '05/04/2014',
-        end_date:     '06/04/2014'
-      })
-    else
-      @options[:query]
-    end
+    @options[:query]
   end
 
   def tag_names

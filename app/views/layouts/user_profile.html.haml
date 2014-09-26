@@ -4,7 +4,7 @@
 = content_for :content do
   - if @user
     = yield :user_top_menu
-    .main-container.soft--ends{class: controller_path}
+    .main-container.soft--ends{ class: controller_path }
       .flexbox
         .flexbox__item.one-fifth.v-top.soft-half--left>
           .white-box.text--center.soft.push--bottom
@@ -40,6 +40,9 @@
 
         .flexbox__item.four-fifths.v-top.soft-half--left>
           = content_for?(:users_content) ? yield(:users_content) : yield
+  - else
+    .main-container.soft--ends{ class: controller_path }
+      = yield
 
   = render 'shared/footer'
 

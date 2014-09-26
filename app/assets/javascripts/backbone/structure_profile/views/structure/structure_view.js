@@ -7,14 +7,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         template: Module.templateDirname() + 'structure_view',
 
         ui: {
-            '$loader'           : '[data-loader]',
-            '$summary_container': '[data-summary-container]'
-        },
-
-        events: {
-            'breadcrumbs:clear'                    : 'broadenSearch',
-            'filter:removed'                       : 'removeSummary',
-            'filter:popstate'                      : 'narrowSearch',
+            '$loader'           : '[data-loader]'
         },
 
         initialize: function initialize () {
@@ -24,7 +17,6 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             $('body').on('click', '[data-behavior=add-to-favorite]', this.addOrRemoveFromFavorite);
             this.initializeAddToFavoriteLinks();
 
-            this.summary_views = [];
             var $structure_profile_menu = $('#structure-profile-menu');
             this.menu_scrolled_down = false;
             $(window).scroll(function() {
@@ -50,11 +42,6 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
                 });
                 return false;
             }.bind(this));
-        },
-
-        removeSummary: function removeSummary () {
-            $('[data-type="filter-breadcrumbs"]').slideUp();
-            this.broadenSearch();
         },
 
         addOrRemoveFromFavorite: function addOrRemoveFromFavorite () {
@@ -101,61 +88,6 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             this.asyncLoadSection('teachers');
         },
 
-        /* broadenSearch
-         * ----------------------
-         *
-         * without arguments, this function causes the model to fetch its
-         * courses and places with no params. If given an argument that has
-         * key/value pairs, params matching the values will be removed.
-         * So if an object like,
-         *
-         *   { behavior="tooltip", target="audience_ids", type="clear" }
-         *
-         * the params "tooltop", "audience_ids", and "clear" will be removed.
-         *
-         * TODO This is not very precise, though. What are all those extra k/v pairs?
-         *  */
-        broadenSearch: function broadenSearch (data) {
-            var params = this.model.get("query_params");
-
-            if (data === undefined) {
-                params = {};
-            } else {
-                _.each(data, function (value, key) {
-                    if (_.has(params, value)) {
-                        delete params[value];
-                    }
-                });
-            }
-
-            this.model.set("query_params", params);
-
-            this.updateModelWithRelation("courses");
-            this.updateModelWithRelation("trainings");
-            this.updateModelWithRelation("places");
-        },
-
-        /* narrowSearch
-         * ------------
-         *
-         * This function refetches the course and places relations with
-         * the full url query.
-         *  */
-        narrowSearch: function narrowSearch () {
-            // need to parse the search... blech
-            var params = CoursAvenue.Models.PaginatedCollection.prototype.makeOptionsFromSearch.call(this, window.location.search);
-
-            this.model.set("query_params", params);
-
-            this.updateModelWithRelation("courses").then(function () {
-                this.ui.$summary_container.slideDown();
-                _.invoke(this.summary_views, 'enableRemoveFilterButton');
-            }.bind(this));
-
-            this.updateModelWithRelation("trainings");
-            this.updateModelWithRelation("places");
-        },
-
         /*
          * Fetch associated relation passing it the query_params
          */
@@ -188,19 +120,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             this.showLoader(resource_name);
             this.updateModelWithRelation(resource_name)
                 .then(function (collection) {
-                    var summary_view;
-                    if (resource_name === "courses") {
-                        summary_view = new StructureProfile.Views.Structure.Courses.CoursesSummaryView(view.serializeData());
-                        this.summary_views.push(summary_view);
-                        this.showWidget(summary_view, { events: { 'courses:collection:reset': 'rerender' }});
-                    } else if (resource_name === "trainings") {
-                        summary_view = new StructureProfile.Views.Structure.Trainings.TrainingsSummaryView(view.serializeData());
-                        this.summary_views.push(summary_view);
-                        this.showWidget(summary_view, { events: { 'trainings:collection:reset': 'rerender' }});
-                    }
-
                     this.showWidget(view);
-
                 }.bind(this))
                 .always(function() { this.hideLoader(resource_name) }.bind(this));
         },

@@ -61,7 +61,7 @@ class UsersController < InheritedResources::Base
       user.update_attribute :email_promo_opt_in, false
       user.update_attribute :email_newsletter_opt_in, false
       user.update_attribute :email_passions_opt_in, false
-      redirect_to root_url, notice: 'Vous avez bien été desinscrit de la liste.'
+      redirect_to unsubscribed_users_url
     else
       redirect_to root_url, notice: 'Lien invalide.'
     end

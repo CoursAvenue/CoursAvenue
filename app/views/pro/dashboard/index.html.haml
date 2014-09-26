@@ -28,6 +28,35 @@
           %div et #{CommentNotification.where( CommentNotification.arel_table[:created_at].gt(Date.today - 7.days) ).count} les 7 derniers jours
 
 
+  - pass_9  = Email.where(Email.arel_table[:email_type].matches('pass-decouverte_9').and(Email.arel_table[:email].not_eq('')))
+  - pass_19 = Email.where(Email.arel_table[:email_type].matches('pass-decouverte_19').and(Email.arel_table[:email].not_eq('')))
+  - pass_29 = Email.where(Email.arel_table[:email_type].matches('pass-decouverte_29').and(Email.arel_table[:email].not_eq('')))
+  - pass_39 = Email.where(Email.arel_table[:email_type].matches('pass-decouverte_39').and(Email.arel_table[:email].not_eq('')))
+  %hr.push--ends
+  %table.table--striped.table--data.text--center
+    %thead
+      %tr
+        %th.text--center Prix
+        %th.text--center Conversion
+        %th.text--center Emails
+    %tbody
+      %tr
+        %td.text--center 9€
+        %td.text--center= pass_9.count
+        %td.text--center= pass_9.map(&:email).join('; ')
+      %tr
+        %td.text--center 19€
+        %td.text--center= pass_19.count
+        %td.text--center= pass_19.map(&:email).join('; ')
+      %tr
+        %td.text--center 29€
+        %td.text--center= pass_29.count
+        %td.text--center= pass_29.map(&:email).join('; ')
+      %tr
+        %td.text--center 39€
+        %td.text--center= pass_39.count
+        %td.text--center= pass_39.map(&:email).join('; ')
+
   %hr.push--ends
   .soft--sides
     .text--center
@@ -51,96 +80,84 @@
         = Admin.normal.count
         profs
 
-  %hr.push--ends
-  .soft--sides
-    %h3
-      %i.fa.fa-envelope-o
-      Demande d'infos
-    .text--center
-      .gamma
-        = Mailboxer::Conversation.where( subject: I18n.t(Mailboxer::Label::INFORMATION.name) ).count
-        Messages
-      #messages
-  %hr.push--ends
-    #admins2
+  - if params[:more].present?
+    %hr.push--ends
+    .soft--sides
+      %h3
+        %i.fa.fa-envelope-o
+        Demande d'infos
+      .text--center
+        .gamma
+          = Mailboxer::Conversation.where( subject: I18n.t(Mailboxer::Label::INFORMATION.name) ).count
+          Messages
+        #messages
 
-  %hr.push--ends
-  .soft--sides
-    %h3
-      %i.fa.fa-map-marker
-      Professeurs enregistrés / Avis laissés - progression (cumulé)
-    .text--center
-      .gamma
-        = Admin.normal.count
-        profs
-        \/
-        = Comment::Review.count
-        avis
-      #admins-progression
+    %hr.push--ends
+    .soft--sides
+      %h3
+        %i.fa.fa-group
+        Élèves notifiés pour avis
+      .text--center
+        .gamma
+          = User.count
+          élèves
+        #students
 
-  %hr.push--ends
-  .soft--sides
-    %h3
-      %i.fa.fa-group
-      Élèves notifiés pour avis
-    .text--center
-      .gamma
-        = User.count
-        élèves
-      #students
+    %hr.push--ends
+    .soft--sides
+      %h3
+        %i.fa.fa-youtube-play
+        Photos & Vidéos
+      .text--center
+        .gamma
+          = Media::Video.count
+          Vidéos /
+          = Media::Image.count
+          Photos
+        #medias
 
-  - if params[:with_subjects]
-    %h3
-      %i.fa.fa-map-marker
-      Nombre d'établissements par disciplines (dont le prof est enregistré)
-    .text--center
-      #subjects
-  - else
-    %p.text--center= link_to 'Voir la répartition par discipline',  pro_dashboard_path(with_subjects: true), class: 'btn btn--blue'
+  .text--center
+    = link_to 'Voir plus de stat', pro_dashboard_path(more: true), class: 'btn btn--blue push-half--sides'
+    = link_to 'Mots clés', pro_keywords_path, class: 'btn btn--blue push-half--sides'
+    = link_to 'Mots clés tapé par les utilisateurs', pro_search_term_logs_path, class: 'btn btn--blue push-half--sides'
 
-
-  %hr.push--ends
-  .soft--sides
-    %h3
-      %i.fa.fa-youtube-play
-      Photos & Vidéos
-    .text--center
-      .gamma
-        = Media::Video.count
-        Vidéos /
-        = Media::Image.count
-        Photos
-      #medias
-
-  %hr.push--ends
-  .soft--sides
-    %h3
-      %i.fa.fa-list
-      Cours en ligne
-    .text--center
-      .gamma
-        = Course.active.count
-        cours en ligne
-      #courses
-
-
-    .text--center= link_to 'Mots clés', pro_keywords_path, class: 'btn btn--blue'
-    .text--center= link_to 'Mots clés tapé par les utilisateurs', pro_search_term_logs_path, class: 'btn btn--blue'
+- if params[:more].present?
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          new Highcharts.Chart({
+              chart: { renderTo: 'students', type: 'column' },
+              title: { text: null },
+              xAxis: { categories: #{@students.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
+              yAxis: { title: { text: ''}},
+              series: [{ data: #{@students.map{|date, count| (count > 10000 ? 100 : count)}} }]
+          });
+          new Highcharts.Chart({
+              chart: { renderTo: 'medias', type: 'column' },
+              title: { text: null },
+              xAxis: { categories: #{@medias_dates.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
+              yAxis: { title: { text: ''}},
+              series: [
+                { data: #{@videos.sort.map{|date, count| count}},
+                  name: 'Vidéos'
+                 },
+                { data: #{@images.sort.map{|date, count| (count > 1200 ? 10 : count)}},
+                  name: 'Photos'
+                }
+              ]
+          });
+          new Highcharts.Chart({
+              chart: { renderTo: 'messages', type: 'column' },
+              title: { text: null },
+              xAxis: { categories: #{@messages.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
+              yAxis: { title: { text: ''}},
+              series: [{ data: #{@messages.map{|date, count| count}} }]
+          });
+      });
 
 = content_for :scripts do
   :javascript
     $(function() {
-        new Highcharts.Chart({
-            chart: { renderTo: 'admins2', type: 'column' },
-            title: { text: null },
-            xAxis: { categories: ['0', '1-4', '5-10', '+ de 10'] },
-            yAxis: { title: { text: ''}},
-            series: [
-              { data: #{@admins2.map{|count| count}},
-                name: 'Profs inscrits'
-               }
-            ]
-        });
         new Highcharts.Chart({
             chart: { renderTo: 'admins', type: 'column' },
             title: { text: null },
@@ -155,27 +172,7 @@
               }
             ]
         });
-        new Highcharts.Chart({
-            chart: { renderTo: 'admins-progression'},
-            title: { text: null },
-            xAxis: { categories: #{@admins_progression.map{|date, count| l((date), format: :short)}} },
-            yAxis: { title: { text: ''}},
-            series: [
-              { data: #{@admins_progression.map{|date, count| count}},
-                name: 'Profs inscrits'
-               },
-              { data: #{@comments_progression.map{|date, count| count}},
-                name: 'Avis'
-              }
-            ]
-        });
-        new Highcharts.Chart({
-            chart: { renderTo: 'students', type: 'column' },
-            title: { text: null },
-            xAxis: { categories: #{@students.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
-            yAxis: { title: { text: ''}},
-            series: [{ data: #{@students.map{|date, count| (count > 10000 ? 100 : count)}} }]
-        });
+
         new Highcharts.Chart({
             chart: { renderTo: 'messages-months', type: 'column' },
             title: { text: "Actions / mois" },
@@ -219,45 +216,5 @@
               { name: "Demande d'infos", data: #{@messages_per_months.map{|date, count| count}} }
             ]
         });
-        new Highcharts.Chart({
-            chart: { renderTo: 'messages', type: 'column' },
-            title: { text: null },
-            xAxis: { categories: #{@messages.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
-            yAxis: { title: { text: ''}},
-            series: [{ data: #{@messages.map{|date, count| count}} }]
-        });
-        new Highcharts.Chart({
-            chart: { renderTo: 'medias', type: 'column' },
-            title: { text: null },
-            xAxis: { categories: #{@medias_dates.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
-            yAxis: { title: { text: ''}},
-            series: [
-              { data: #{@videos.sort.map{|date, count| count}},
-                name: 'Vidéos'
-               },
-              { data: #{@images.sort.map{|date, count| (count > 1200 ? 10 : count)}},
-                name: 'Photos'
-              }
-            ]
-        });
-        new Highcharts.Chart({
-            chart: { renderTo: 'courses', type: 'column' },
-            title: { text: null },
-            xAxis: { categories: #{@courses.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
-            yAxis: { title: { text: ''}},
-            series: [{ data: #{@courses.map{|date, count| count}} }]
-        });
     });
 
-- if params[:with_subjects].present?
-  = content_for :scripts do
-    :javascript
-      $(function() {
-        new Highcharts.Chart({
-            chart: { renderTo: 'subjects', type: 'column' },
-            title: { text: null },
-            xAxis: { categories: #{@structures.map{|subject_name, count| subject_name}} },
-            yAxis: { title: { text: ''}},
-            series: [{ data: #{@structures.map{|subject_name, count| count}} }]
-        });
-    });

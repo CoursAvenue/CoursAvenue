@@ -15,14 +15,15 @@
   .panel__body.soft--bottom
     - if @medias.any?
       .premium-box.soft.rounded.text--center.relative
-        = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 80, width: 80, style: 'width: 80px; height: 80px;'
+        = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/premium-ribbon.png', class: 'north west absolute on-top', height: 80, width: 80, style: 'width: 80px; height: 80px;'
         = render partial: 'pro/structures/premium_select', locals: { title: "afficher plus de photos / vidéos à tous les utilisateurs CoursAvenue ?", subtitle: "Souscrivez au profil Premium et affichez toutes vos photos / vidéos pour monter dans les résultats.", label_text: "Afficher plus de photos / vidéos sur mon profil :", select_collection: ['Actif', 'Non actif'] }
 
       %p.soft-half--top.soft--sides.flush#first-photo-helper.visibility-hidden
         %strong Votre première photo / vidéo figure dans les résultats de recherche !
       - @medias.each_with_index do |media, index|
         .soft-half.inline-block.one-third>
-          = render partial: 'pro/structures/medias/media', locals: { media: media, index: index, structure: @structure }
+          - cache [media, 'pro/structures/medias/index'] do
+            = render partial: 'pro/structures/medias/media', locals: { media: media, index: index, structure: @structure }
 
 = content_for :scripts do
   :javascript

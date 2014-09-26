@@ -104,10 +104,11 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
             });
         },
 
-        showPopupMessageDidntSend: function showPopupMessageDidntSend () {
+        showPopupMessageDidntSend: function showPopupMessageDidntSend (xhr) {
+              var response = JSON.parse(xhr.responseText);
               $.magnificPopup.open({
                     items: {
-                        src: $(),
+                        src: $(response.popup_to_show),
                         type: 'inline'
                     }
               });
