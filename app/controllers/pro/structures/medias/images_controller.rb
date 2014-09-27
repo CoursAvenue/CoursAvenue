@@ -12,11 +12,11 @@ class Pro::Structures::Medias::ImagesController < Pro::ProController
   def create
     params[:media_image][:url].split(',').each do |s3_filepicker_url|
       filepicker_url, s3_path = s3_filepicker_url.split(';')
-      url                     = CoursAvenue::Application::S3_BUCKET.objects[s3_path].public_url.to_s
-      image                   = Media::Image.new url: url, filepicker_url: filepicker_url, mediable: @structure
-
-      image.image             = URI.parse(url)
-      image.save
+      url               = CoursAvenue::Application::S3_BUCKET.objects[s3_path].public_url.to_s
+      media_image       = Media::Image.new url: url, filepicker_url: filepicker_url, mediable: @structure
+      # media_image.image = URI.parse(url)
+      media_image.image = open(filepicker_url)
+      media_image.save
     end
     respond_to do |format|
       format.html { redirect_to pro_structure_medias_path(@structure), notice: 'Vos images ont bien été ajoutées !' }

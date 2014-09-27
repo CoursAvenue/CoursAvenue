@@ -112,17 +112,7 @@ class Structure < ActiveRecord::Base
                               :has_free_trial_course, :has_promotion, :gives_non_professional_courses, :gives_professional_courses,
                               :is_sleeping, :sleeping_email_opt_in, :promo_code_sent
 
-  has_attached_file :logo,
-                    styles: {
-                      original: { geometry: '600x600#', processors: [:cropper_square] },
-                      large: '450x450',
-                      thumb: { geometry: '200x200#', processors: [:cropper] },
-                      small_thumb: { geometry: '60x60#', processors: [:cropper] }
-                    },
-                    convert_options: { original: '-interlace Plane', large: '-interlace Plane', thumb: '-interlace Plane', small_thumb: '-interlace Plane' }
-
-  validates_attachment_content_type :logo, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
-  # process_in_background :logo, only_process: [:original]
+  mount_uploader :logo, StructureLogoUploader
 
   has_attached_file :sleeping_logo,
                     styles: {
@@ -153,7 +143,6 @@ class Structure < ActiveRecord::Base
   before_save   :strip_name
   before_save   :sanatize_description
   before_save   :encode_uris
-  before_save   :reset_cropping_attributes, if: :logo_has_changed?
 
   after_save    :geocode_if_needs_to
   after_save    :subscribe_to_crm
@@ -1128,10 +1117,6 @@ class Structure < ActiveRecord::Base
   # @return name
   def strip_name
     self.name = self.name.strip if self.name
-  end
-
-  def logo_has_changed?
-    self.logo.dirty?
   end
 
   def reset_cropping_attributes

@@ -17,7 +17,7 @@
             .jcrop-holder {
               border: 1px solid #CCC;
             }
-          = image_tag @structure.logo.url(:large), id: 'cropbox'
+          = image_tag @structure.logo.url(:large), id: 'cropbox', width: 450, height: 450
           - [:crop_x, :crop_y, :crop_width].each do |attribute|
             = f.input attribute, input_html: {id: attribute}, as: :hidden
         .grid__item.one-third.v-middle.text--center>

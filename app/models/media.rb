@@ -72,6 +72,8 @@ class Media < ActiveRecord::Base
     end
   end
 
+  handle_asynchronously :solr_index unless Rails.env.test?
+
   def url_html(options={})
     read_attribute(:url_html).html_safe
   end
@@ -96,6 +98,6 @@ class Media < ActiveRecord::Base
 
   # Reindex structure because we keep track of its media count
   def index_structure
-    self.mediable.try(:index)
+    self.mediable.delay.index if self.mediable
   end
 end

@@ -254,7 +254,6 @@ France
     end
     respond_to do |format|
       if @structure.update_attributes(params[:structure])
-        @structure.logo.reprocess! if @structure.logo.present? && has_cropping_attributes?
         format.html { redirect_to (params[:return_to] || edit_pro_structure_path(@structure)), notice: 'Vos informations ont bien été mises à jour.' }
         format.js
         format.json do
@@ -402,11 +401,6 @@ France
     else
       'admin'
     end
-  end
-
-  # Check if need to reprocess logo
-  def has_cropping_attributes?
-    params[:structure][:crop_width].present? || params[:structure][:crop_x].present? || params[:structure][:crop_y].present?
   end
 
   def retrieve_home_places

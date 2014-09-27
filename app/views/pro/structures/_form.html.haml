@@ -12,8 +12,8 @@
             #logo-progress.progress.hidden.push-half--bottom{ data: { progress: true } }
               .bar
             - if @structure.logo?
-              .push-half--bottom.bordered{style: "height: 200px; width: 200px; display: inline-block; line-height: 196px;"}<
-                = image_tag @structure.logo.url(:thumb), class: 'v-middle inline-block', style: 'max-height: 100%;'
+              .push-half--bottom.bordered{ style: "height: 200px; width: 200px; display: inline-block; line-height: 196px;" }<
+                = image_tag @structure.logo.url(:thumb), class: 'v-middle inline-block', style: 'max-height: 100%;', width: 197, height: 197
               .visuallyhidden= structure_form.input :delete_logo, as: :boolean, label: false
             - else
               .push-half--bottom.bordered{style: "height: 200px; width: 200px; display: inline-block; line-height: 196px; display: none;"}
