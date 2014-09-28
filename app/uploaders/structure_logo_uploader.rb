@@ -46,11 +46,11 @@ class StructureLogoUploader < CarrierWave::Uploader::Base
   # @return Hash
   def crop_thumb
     ratio = 600 / 200
-    return { x: model.crop_x / ratio, y: model.crop_y / ratio, width: model.crop_width / ratio, height: model.crop_width / ratio, crop: :crop }
+    return { x: model.crop_x / ratio, y: model.crop_y / ratio, width: (model.crop_width || 600) / ratio, height: (model.crop_width || 600) / ratio, crop: :crop }
   end
 
   def crop_small_thumb
     ratio = 600 / 60
-    return { x: model.crop_x / ratio, y: model.crop_y / ratio, width: model.crop_width / ratio, height: model.crop_width / ratio, crop: :crop }
+    return { x: model.crop_x / ratio, y: model.crop_y / ratio, width: (model.crop_width || 600) / ratio, height: (model.crop_width || 600) / ratio, crop: :crop }
   end
 end
