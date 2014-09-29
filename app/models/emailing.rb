@@ -77,10 +77,13 @@ class Emailing < ActiveRecord::Base
     "#{structure.comments.count} avis"
   end
 
-  # TODO: TBD
+  # The lowest price of a lesson by this structure."
   #
   # @return a String.
   def metadata_prices(structure)
+    lowest_price = Structure.first.prices.min{ |a, b| a.amount <=> b.amount }.amount
+
+    "À partir de #{amount} €"
   end
 
   # The city of the structure.
