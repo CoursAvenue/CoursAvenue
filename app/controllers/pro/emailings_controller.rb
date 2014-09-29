@@ -9,6 +9,7 @@ class Pro::EmailingsController < Pro::ProController
 
   def new
     @emailing = Emailing.new
+    3.times { @emailing.emailing_sections.build }
   end
 
   def show
