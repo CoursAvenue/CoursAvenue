@@ -8,11 +8,10 @@ Emailing.addInitializer(function(options) {
 
     var bootstrap = window.coursavenue.bootstrap;
 
-    var EmailingSection                   = new Emailing.Models.EmailingSectionsCollection(bootstrap.models, bootstrap.options);
+    var emailing_section_collection       = new Emailing.Models.EmailingSectionsCollection(bootstrap.models, bootstrap.options);
     var emailing_sections_collection_view = new Emailing.Views.EmailingSectionsCollection.EmailingSectionsCollectionView({
-        collection: EmailingSection,
-        events: {
-        }
+        collection: emailing_section_collection,
+        events: {}
     });
 
 
