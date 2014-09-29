@@ -5,14 +5,19 @@ class EmailingSectionBridge < ActiveRecord::Base
   belongs_to :structure
   belongs_to :emailing_section
 
-  # Get the Media associated with this bridge.
+  # Get the URL of the Media associated with this bridge.
   #
-  # @return the Paperclip::Attachment of the media or nil.
-  def media
+  # @return the String or nil
+  def media_url
     if self.is_logo
-      Structure.where(id: self.structure).first.logo
+      self.structure.first.logo.url
     else
-      Media.where(id: self.media_id).first.image
+      media = Media.where(id: self.media_id).first
+      if media.type == 'Media::Video'
+        media.thumbnail_url
+      else
+        media.image.url
+      end
     end
   end
 end
