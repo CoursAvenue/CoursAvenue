@@ -28,10 +28,3 @@
                 Supprimer
 
   = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement"}
-
-= content_for :scripts do
-  = javascript_include_tag '//cdn.ckeditor.com/4.4.4/standard/ckeditor.js'
-  :javascript
-      $(document).ready(function() {
-          CKEDITOR.replace('emailing[body]');
-      });
