@@ -29,7 +29,7 @@
           Se désabonner
     %hr
 
-    %div#emailings
+    #emailings-region{ data: { type: 'emailings-root' } }
 
     -# - @emailing.emailing_sections.each do |section|
     -#   %div.grid--full
@@ -50,5 +50,5 @@
       window.coursavenue = window.coursavenue || {};
       window.coursavenue.bootstrap = {
         id: #{ @emailing.id },
-        models: {}
+        models: #{ @emailing.emailing_sections.to_json }
       };
