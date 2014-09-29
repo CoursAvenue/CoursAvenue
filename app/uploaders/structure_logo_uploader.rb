@@ -1,6 +1,5 @@
 # encoding: utf-8
 class StructureLogoUploader < CarrierWave::Uploader::Base
-
   include Cloudinary::CarrierWave
   include CarrierWave::Compatibility::Paperclip
 
@@ -32,11 +31,11 @@ class StructureLogoUploader < CarrierWave::Uploader::Base
     process :crop_small_thumb
   end
 
-  # Add a white list of extensions which are allowed to be uploaded.
-  # For images you might use something like this:
-  def extension_white_list
-    %w(jpg jpeg gif png)
-  end
+  # We don't add white list extension because we want to be able to add images from urls
+  # that does not have extension, eg: http://filepicker.io/api/file/X8iSrLQESv27CTIXXHU1
+  # def extension_white_list
+  #   %w(jpg jpeg gif png)
+  # end
 
   private
 

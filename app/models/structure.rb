@@ -64,7 +64,7 @@ class Structure < ActiveRecord::Base
   has_many :admins                   , dependent: :destroy
   has_many :subscription_plans       , dependent: :destroy
 
-  attr_reader :delete_logo
+  attr_reader :delete_logo, :logo_filepicker_url
   serialize :sleeping_attributes # See `create_sleeping_attributes` method for more info
   attr_accessible :structure_type, :street, :zip_code, :city_id,
                   :place_ids, :name, :info, :registration_info,
@@ -1224,5 +1224,4 @@ class Structure < ActiveRecord::Base
     end
     nil
   end
-
 end
