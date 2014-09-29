@@ -49,6 +49,7 @@
   :javascript
       window.coursavenue = window.coursavenue || {};
       window.coursavenue.bootstrap = {
-        id: #{ @emailing.id },
-        models: #{ @emailing.emailing_sections.to_json( include: { :emailing_section_bridges => { methods: :media_url } } ) }
+          id: #{ @emailing.id },
+          models: #{ @emailing.emailing_sections.to_json( include: { :emailing_section_bridges => { methods: :media_url } } ) }
+          // TODO: Find a way to pass the structures with the models, the same way we're passing emailing_section_bridges.
       };
