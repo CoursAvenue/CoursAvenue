@@ -10,11 +10,8 @@ class Pro::Structures::Medias::ImagesController < Pro::ProController
   end
 
   def create
-    params[:media_image][:url].split(',').each do |s3_filepicker_url|
-      filepicker_url, s3_path = s3_filepicker_url.split(';')
-      url               = CoursAvenue::Application::S3_BUCKET.objects[s3_path].public_url.to_s
-      media_image       = Media::Image.new url: url, filepicker_url: filepicker_url, mediable: @structure
-      # media_image.image = URI.parse(url)
+    params[:media_image][:url].split(',').each do |filepicker_url|
+      media_image       = Media::Image.new filepicker_url: filepicker_url, mediable: @structure
       media_image.image = open(filepicker_url)
       media_image.save
     end
