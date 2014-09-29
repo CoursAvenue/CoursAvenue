@@ -162,6 +162,13 @@ class Structure < ActiveRecord::Base
   after_save    :subscribe_to_crm
 
   ######################################################################
+  # Scopes                                                             #
+  ######################################################################
+  scope :with_logo           , -> { where.not( logo_file_name: nil ) }
+  scope :with_media          , -> { joins(:medias).uniq }
+  scope :with_logo_and_media , -> { with_logo.with_medias }
+
+  ######################################################################
   # Solr                                                               #
   ######################################################################
   searchable do
