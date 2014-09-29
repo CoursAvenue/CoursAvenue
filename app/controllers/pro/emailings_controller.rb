@@ -20,7 +20,7 @@ class Pro::EmailingsController < Pro::ProController
 
     respond_to do |format|
       if @emailing.save
-        format.html { redirect_to pro_emailing_path, notice: 'Bien enregistré' }
+        format.html { redirect_to pro_emailings_path, notice: 'Bien enregistré' }
       else
         format.html { render action: :edit }
       end
@@ -39,7 +39,7 @@ class Pro::EmailingsController < Pro::ProController
 
     respond_to do |format|
       if @emailing.update_attributes params[:emailing]
-        format.html { redirect_to pro_emailing_path, notice: 'Bien enregistré' }
+        format.html { redirect_to pro_emailings_path, notice: 'Bien enregistré' }
       else
         format.html { render action: :edit }
       end
@@ -47,7 +47,7 @@ class Pro::EmailingsController < Pro::ProController
   end
 
   def destroy
-    @emailing = Emailing.new params[:id]
+    @emailing = Emailing.find params[:id]
 
     respond_to do |format|
       if @emailing.destroy

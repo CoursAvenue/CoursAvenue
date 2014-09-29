@@ -14,7 +14,7 @@
         %div{ class: (!section.persisted? ? 'hidden' : ''), data: { el: true, hidden: !section.persisted? } }
           = section_form.input :title, label: 'Titre de la section', placeholder: 'Ex. : Cours de Yoga à Paris'
           = section_form.input :link, label: 'Lien de la section', placeholder: 'Ex. : https://www.coursavenue.com/yoga-bien-etre-sante--paris'
-          = section_form.input :link_name, label: 'Titre du lien de la section', placeholder: 'Voir tout les cours de Yoga à Paris'
+          = section_form.input :link_name, label: 'Titre du lien de la section', placeholder: 'Voir tous les cours de Yoga à Paris'
           = section_form.association :structures, as: :select, collection: Structure.all, input_html: { data: { behavior: 'chosen' } }, placeholder: 'Choisir une structure', label_method: :name
 
           .input
