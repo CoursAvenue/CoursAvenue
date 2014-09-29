@@ -113,7 +113,7 @@ class Structure < ActiveRecord::Base
                               :is_sleeping, :sleeping_email_opt_in, :promo_code_sent
 
   mount_uploader :c_logo, StructureLogoUploader
-  mount_uploader :sleeping_logo, StructureLogoUploader
+  mount_uploader :c_sleeping_logo, StructureLogoUploader
 
   has_attached_file :logo,
                     styles: {
