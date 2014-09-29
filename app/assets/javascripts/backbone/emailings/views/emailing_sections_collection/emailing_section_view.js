@@ -1,10 +1,8 @@
-
-/* just a basic marionette view */
 Emailing.module('Views.EmailingSectionsCollection', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.EmailingSectionView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'emailing_section_view',
-        tagName: 'li',
+        tagName: 'div',
         className: 'emailing-section',
         itemViewContainer: '[data-type=container]',
         attributes: {
