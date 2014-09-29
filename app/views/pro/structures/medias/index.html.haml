@@ -10,7 +10,7 @@
         = simple_form_for [:pro, @structure, @image], url: pro_structure_images_path(@structure), html: { id: 'image-form' } do |f|
           = f.error_notification
           .text--center
-            = f.filepicker_field :url, multiple: true, button_text: 'Ajouter une photo', button_class: 'btn btn--green btn--full btn--large fa', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false, drag_text: 'Ou glissez vos photos ici', drag_class: 'filepicker__dropzone push-half--top', store_location: 'S3', store_path: @image.s3_media_path, store_access: 'public'
+            = f.filepicker_field :url, multiple: true, button_text: 'Ajouter une photo', button_class: 'btn btn--green btn--full btn--large fa', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false, store_location: 'S3', store_path: @image.s3_media_path, store_access: 'public'
             = f.input :thumbnail_url, as: :hidden
   .panel__body.soft--bottom
     - if @medias.any?
