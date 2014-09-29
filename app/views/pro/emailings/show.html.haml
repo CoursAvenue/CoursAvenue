@@ -50,5 +50,5 @@
       window.coursavenue = window.coursavenue || {};
       window.coursavenue.bootstrap = {
         id: #{ @emailing.id },
-        models: #{ @emailing.emailing_sections.to_json }
+        models: #{ @emailing.emailing_sections.to_json( include: { :emailing_section_bridges => { methods: :media_url } } ) }
       };
