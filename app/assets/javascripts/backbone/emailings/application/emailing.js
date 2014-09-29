@@ -19,8 +19,6 @@ Emailing.addInitializer(function(options) {
     });
 
 
-    EmailingSection.bootstrap();
-
     var layout           = new Emailing.Views.EmailingSectionsLayout();
 
     /* code to demonstrate initializing some submodules to be added to the layout here */
@@ -49,7 +47,9 @@ Emailing.addInitializer(function(options) {
     //    selector: '[data-type=something-weird]'
     //});
 
+    Emailing.mainRegion.show(layout);
     layout.master.show(emailing_sections_collection_view); // shouldn't be "results" should be app specific
+    debugger
 });
 
 $(document).ready(function() {

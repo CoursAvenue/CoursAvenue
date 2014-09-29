@@ -6,4 +6,4 @@
 //= require ./filtered_search/manifest
 //= require ./user_management/manifest
 //
-//= require ./emailing/manifest
+//= require ./emailings/manifest
