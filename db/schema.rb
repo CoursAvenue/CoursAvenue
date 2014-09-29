@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140924150327) do
+ActiveRecord::Schema.define(version: 20140929094008) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -293,6 +293,7 @@ ActiveRecord::Schema.define(version: 20140924150327) do
     t.integer "emailing_section_id"
     t.integer "structure_id"
     t.integer "media_id"
+    t.boolean "is_logo"
   end
 
   add_index "emailing_section_bridges", ["emailing_section_id", "structure_id"], name: "comments_subjects_index", using: :btree
@@ -892,9 +893,9 @@ ActiveRecord::Schema.define(version: 20140924150327) do
     t.date     "card_validity_date"
     t.integer  "promotion_code_id"
     t.datetime "last_renewal_failed_at"
+    t.hstore   "bo_meta_data"
     t.string   "paypal_token"
     t.string   "paypal_payer_id"
-    t.hstore   "bo_meta_data"
     t.string   "paypal_recurring_profile_token"
   end
 
