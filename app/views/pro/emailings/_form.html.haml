@@ -9,13 +9,13 @@
 
   %div{ data: { behavior: 'show-more-on-demand' } }
     - @emailing.emailing_sections.each_with_index do |section, i|
-      %hr
       = f.simple_fields_for :emailing_sections, section, child_index: i do |section_form|
         %div{ class: (!section.persisted? ? 'hidden' : ''), data: { el: true, hidden: !section.persisted? } }
+          %hr
           = section_form.input :title, label: 'Titre de la section', placeholder: 'Ex. : Cours de Yoga à Paris'
           = section_form.input :link, label: 'Lien de la section', placeholder: 'Ex. : https://www.coursavenue.com/yoga-bien-etre-sante--paris'
           = section_form.input :link_name, label: 'Titre du lien de la section', placeholder: 'Voir tous les cours de Yoga à Paris'
-          = section_form.association :structures, as: :select, collection: Structure.all, input_html: { data: { behavior: 'chosen' } }, placeholder: 'Choisir une structure', label_method: :name
+          = section_form.association :structures, as: :select, collection: Structure.with_logo_and_media, input_html: { data: { behavior: 'chosen' } }, placeholder: 'Choisir une structure', label_method: :name
 
           .input
             .control-label>
