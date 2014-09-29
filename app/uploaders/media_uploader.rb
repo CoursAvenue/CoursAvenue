@@ -1,7 +1,6 @@
 # encoding: utf-8
 class MediaUploader < CarrierWave::Uploader::Base
   include Cloudinary::CarrierWave
-  include CarrierWave::Compatibility::Paperclip
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
   # def default_url

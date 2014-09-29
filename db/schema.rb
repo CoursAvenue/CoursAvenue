@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140927165629) do
+ActiveRecord::Schema.define(version: 20140929165014) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -470,11 +470,12 @@ ActiveRecord::Schema.define(version: 20140927165629) do
     t.boolean  "cover",                 default: false
     t.boolean  "star"
     t.string   "vertical_page_caption"
-    t.string   "image"
+    t.string   "image_file_name"
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
     t.boolean  "image_processing"
+    t.string   "c_image"
   end
 
   add_index "medias", ["format"], name: "index_medias_on_format", using: :btree
@@ -785,7 +786,7 @@ ActiveRecord::Schema.define(version: 20140927165629) do
     t.text     "facebook_url"
     t.boolean  "no_facebook"
     t.boolean  "no_website"
-    t.string   "logo"
+    t.string   "logo_file_name"
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
     t.datetime "logo_updated_at"
@@ -813,6 +814,8 @@ ActiveRecord::Schema.define(version: 20140927165629) do
     t.text     "sleeping_attributes"
     t.boolean  "logo_processing"
     t.string   "delivery_email_status"
+    t.string   "c_logo"
+    t.string   "c_sleeping_logo"
   end
 
   add_index "structures", ["slug"], name: "index_structures_on_slug", unique: true, using: :btree
