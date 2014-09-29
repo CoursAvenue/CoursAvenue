@@ -17,4 +17,3 @@ Emailing.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
     });
 });
-

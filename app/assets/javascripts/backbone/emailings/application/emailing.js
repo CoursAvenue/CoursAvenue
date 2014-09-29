@@ -14,9 +14,7 @@ Emailing.addInitializer(function(options) {
         events: {}
     });
 
-
     var layout           = new Emailing.Views.EmailingSectionsLayout();
-
 
     Emailing.mainRegion.show(layout);
     layout.master.show(emailing_sections_collection_view);
