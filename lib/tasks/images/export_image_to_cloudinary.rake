@@ -27,12 +27,12 @@ namespace :images do
         bar.increment!
         next unless structure.logo.present?
         begin
-          image.c_logo = open(structure.logo.url)
-          image.save
+          structure.c_logo = open(structure.logo.url)
+          structure.save
         rescue Exception => exception
           puts exception.message
           exception.backtrace.each { |line| puts line }
-          puts "Url not working: #{image.mediable.slug} / #{image.url}"
+          puts "Url not working: #{structure.slug} / #{structure.logo.url}"
         end
       end
     end
