@@ -49,14 +49,14 @@ class StructureLogoUploader < CarrierWave::Uploader::Base
 
   def crop_thumb
     transformations = []
-    transformations << { x: model.crop_x, y: model.crop_y, width: model.crop_width, height: model.crop_width, crop: :crop }
+    transformations << { x: model.crop_x, y: model.crop_y, width: model.crop_width.to_i, height: model.crop_width.to_i, crop: :crop }
     transformations << { width: 200, height: 200, crop: :fill }
     { transformation: transformations }
   end
 
   def crop_small_thumb
     transformations = []
-    transformations << { x: model.crop_x, y: model.crop_y, width: model.crop_width, height: model.crop_width, crop: :crop }
+    transformations << { x: model.crop_x, y: model.crop_y, width: model.crop_width.to_i, height: model.crop_width.to_i, crop: :crop }
     transformations << { width: 60, height: 60, crop: :fill }
     { transformation: transformations }
   end
