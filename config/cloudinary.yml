@@ -1,28 +1,28 @@
 ---
 development:
-  cloud_name: hghigws4f
-  api_key: '778172823218431'
-  api_secret: CdFFtjkU0rCB9u38VbU6wvcaXBM
+  cloud_name: ENV['CLOUDINARY_CLOUD_NAME']
+  api_key: ENV['CLOUDINARY_API_KEY']
+  api_secret: ENV['CLOUDINARY_SECRET']
   enhance_image_tag: true
   static_image_support: false
 
 test:
-  cloud_name: hghigws4f
-  api_key: '778172823218431'
-  api_secret: CdFFtjkU0rCB9u38VbU6wvcaXBM
+  cloud_name: ENV['CLOUDINARY_CLOUD_NAME']
+  api_key: ENV['CLOUDINARY_API_KEY']
+  api_secret: ENV['CLOUDINARY_SECRET']
   enhance_image_tag: true
   static_image_support: false
 
 staging:
-  cloud_name: hghigws4f
-  api_key: '778172823218431'
-  api_secret: CdFFtjkU0rCB9u38VbU6wvcaXBM
+  cloud_name: ENV['CLOUDINARY_CLOUD_NAME']
+  api_key: ENV['CLOUDINARY_API_KEY']
+  api_secret: ENV['CLOUDINARY_SECRET']
   enhance_image_tag: true
   static_image_support: true
 
 production:
-  cloud_name: hghigws4f
-  api_key: '778172823218431'
-  api_secret: CdFFtjkU0rCB9u38VbU6wvcaXBM
+  cloud_name: ENV['CLOUDINARY_CLOUD_NAME']
+  api_key: ENV['CLOUDINARY_API_KEY']
+  api_secret: ENV['CLOUDINARY_SECRET']
   enhance_image_tag: true
   static_image_support: true

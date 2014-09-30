@@ -51,7 +51,9 @@ class Media::Image < Media
   end
 
   def url
-    if self.image.present?
+    if self.c_image.present?
+      self.c_image.url(:original)
+    elsif self.image.present?
       self.image.url(:original)
     else
       self.read_attribute(:url)
@@ -59,7 +61,9 @@ class Media::Image < Media
   end
 
   def thumbnail_url
-    if self.image.present?
+    if self.c_image.present?
+      self.c_image.url(:thumbnail)
+    elsif self.image.present?
       self.image.url(:thumbnail)
     else
       self.read_attribute(:url)
@@ -91,8 +95,8 @@ class Media::Image < Media
   end
 
   def migrate_image_to_cloudinary
-    if self.image.present? and !self.c_image.present?
-      cloudinary_uploaded_file = Cloudinary::Uploader.upload(self.image.url)
+    if self.url.present? and !self.c_image.present?
+      cloudinary_uploaded_file = Cloudinary::Uploader.upload(self.url)
       self.update_column :c_image, "v#{cloudinary_uploaded_file['version']}/#{cloudinary_uploaded_file['public_id']}.#{cloudinary_uploaded_file['format']}"
     end
   end

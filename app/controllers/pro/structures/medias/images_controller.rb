@@ -13,7 +13,7 @@ class Pro::Structures::Medias::ImagesController < Pro::ProController
     params[:media_image][:url].split(',').each do |filepicker_url|
       media_image              = Media::Image.new filepicker_url: filepicker_url, mediable: @structure
       cloudinary_uploaded_file = Cloudinary::Uploader.upload(filepicker_url)
-      media_image.send :write_attribute, :image, "v#{cloudinary_uploaded_file['version']}/#{cloudinary_uploaded_file['public_id']}.#{cloudinary_uploaded_file['format']}"
+      media_image.send :write_attribute, :c_image, "v#{cloudinary_uploaded_file['version']}/#{cloudinary_uploaded_file['public_id']}.#{cloudinary_uploaded_file['format']}"
       media_image.save
     end
     respond_to do |format|
