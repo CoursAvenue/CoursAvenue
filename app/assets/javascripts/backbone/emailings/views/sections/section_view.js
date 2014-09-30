@@ -5,7 +5,7 @@ Emailing.module('Views.Sections', function(Module, App, Backbone, Marionette, $,
         tagName: 'table',
         className: 'emailing-section',
         itemViewContainer: '[data-type=bridges]',
-        itemView: Module.Bridges.BridgesCollectionView,
+        itemView: Module.Bridges.BridgeView,
 
         attributes: {
             'data-behavior': 'emailing-section'
