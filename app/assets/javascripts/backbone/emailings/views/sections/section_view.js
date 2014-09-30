@@ -2,7 +2,7 @@ Emailing.module('Views.Sections', function(Module, App, Backbone, Marionette, $,
 
     Module.SectionView = Backbone.Marionette.CompositeView.extend({
         template: Module.templateDirname() + 'section_view',
-        tagName: 'div',
+        tagName: 'table',
         className: 'emailing-section',
         itemViewContainer: '[data-type=bridges]',
         itemView: Module.Bridges.BridgesCollectionView,
@@ -10,9 +10,9 @@ Emailing.module('Views.Sections', function(Module, App, Backbone, Marionette, $,
         attributes: {
             'data-behavior': 'emailing-section'
         },
+
         initialize: function initialize () {
         },
-
 
     });
 });
