@@ -1125,11 +1125,11 @@ class Structure < ActiveRecord::Base
   # TODO delete this methid
   def migrate_logo_to_cloudinary
     return unless self.logo.present?
-    self.c_logo = open(self.logo.url)
-    self.save
+    cloudinary_uploaded_file = Cloudinary::Uploader.upload(self.logo.url)
+    self.update_column :c_logo, "v#{cloudinary_uploaded_file['version']}/#{cloudinary_uploaded_file['public_id']}.#{cloudinary_uploaded_file['format']}"
     return unless self.sleeping_logo.present?
-    self.c_sleeping_logo = open(self.sleeping_logo.url)
-    self.save
+    cloudinary_uploaded_file = Cloudinary::Uploader.upload(self.sleeping_logo.url)
+    self.update_column :c_sleeping_logo, "v#{cloudinary_uploaded_file['version']}/#{cloudinary_uploaded_file['public_id']}.#{cloudinary_uploaded_file['format']}"
   end
 
   private

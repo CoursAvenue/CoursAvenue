@@ -91,8 +91,9 @@ class Media::Image < Media
   end
 
   def migrate_image_to_cloudinary
-    self.c_image = open(self.url)
-    self.save
+    return unless self.image.present?
+    cloudinary_uploaded_file = Cloudinary::Uploader.upload(self.image.url)
+    self.update_column :c_image, "v#{cloudinary_uploaded_file['version']}/#{cloudinary_uploaded_file['public_id']}.#{cloudinary_uploaded_file['format']}"
   end
 
   private
