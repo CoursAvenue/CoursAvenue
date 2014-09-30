@@ -90,12 +90,17 @@ class Media::Image < Media
     self.image.reprocess! :thumbnail_cropped
   end
 
+  def migrate_image_to_cloudinary
+    self.c_image = open(self.url)
+    self.save
+  end
+
   private
 
   ######################################################################
   # Callbacs                                                           #
   ######################################################################
   def make_cover_if_first
-    self.cover = true if self.mediable.medias.images.empty?
+    self.cover = true if self.mediable and self.mediable.medias.images.empty?
   end
 end

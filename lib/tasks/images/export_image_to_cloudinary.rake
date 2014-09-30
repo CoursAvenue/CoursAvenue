@@ -10,14 +10,7 @@ namespace :images do
       bar    = ProgressBar.new Media::Image.count
       Media::Image.find_each do |image|
         bar.increment!
-        begin
-          image.c_image = open(image.url)
-          image.save
-        rescue Exception => exception
-          puts exception.message
-          exception.backtrace.each { |line| puts line }
-          puts "Url not working: #{image.mediable.slug} / #{image.url}"
-        end
+        image.migrate_image_to_cloudinary
       end
     end
 
@@ -25,15 +18,7 @@ namespace :images do
       bar    = ProgressBar.new Structure.count
       Structure.find_each do |structure|
         bar.increment!
-        next unless structure.logo.present?
-        begin
-          structure.c_logo = open(structure.logo.url)
-          structure.save
-        rescue Exception => exception
-          puts exception.message
-          exception.backtrace.each { |line| puts line }
-          puts "Url not working: #{structure.slug} / #{structure.logo.url}"
-        end
+        structure.migrate_logo_to_cloudinary
       end
     end
   end

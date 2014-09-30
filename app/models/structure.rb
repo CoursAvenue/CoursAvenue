@@ -1122,6 +1122,16 @@ class Structure < ActiveRecord::Base
     end
   end
 
+  # TODO delete this methid
+  def migrate_logo_to_cloudinary
+    return unless self.logo.present?
+    self.c_logo = open(self.logo.url)
+    self.save
+    return unless self.sleeping_logo.present?
+    self.c_sleeping_logo = open(self.sleeping_logo.url)
+    self.save
+  end
+
   private
 
   # Strip name if exists to prevent from name starting by a space
