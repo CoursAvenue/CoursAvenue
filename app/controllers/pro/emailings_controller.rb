@@ -14,6 +14,7 @@ class Pro::EmailingsController < Pro::ProController
 
   def show
     @emailing = Emailing.find params[:id]
+    @sections = ActiveModel::ArraySerializer.new(@emailing.emailing_sections, each_serializer: EmailingSectionSerializer)
   end
 
   def create
