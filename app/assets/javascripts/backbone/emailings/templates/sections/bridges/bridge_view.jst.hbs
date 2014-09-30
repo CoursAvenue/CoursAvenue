@@ -7,6 +7,10 @@
 <!-- We can then change using a list of images. -->
 <img data-current="true" src="{{ media_url }}">
 
+{{#each images}}
+  <img class='hidden' data-current="false" src="{{ this.url }}">
+{{/each}}
+
 <a class='pointer' data-slide-next>
   <i class='delta fa-chevron-right v-middle gray-light'></i>
 </a>
