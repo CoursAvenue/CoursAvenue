@@ -16,11 +16,11 @@ class MediaUploader < CarrierWave::Uploader::Base
 
   # Create different versions of your uploaded files:
   version :original do
-    process resize_to_fit: [1000]
+    cloudinary_transformation :transformation => [{  width: 1000, height: 1000, crop: :limit }]
   end
 
   version :thumbnail do
-    process resize_to_fit: [500]
+    cloudinary_transformation :transformation => [{  width: 500, height: 500, crop: :limit }]
     process quality: 70
   end
 
