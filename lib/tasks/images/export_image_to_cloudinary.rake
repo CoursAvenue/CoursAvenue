@@ -10,7 +10,7 @@ namespace :images do
       bar    = ProgressBar.new Media::Image.count
       Media::Image.find_each do |image|
         bar.increment!
-        image.migrate_image_to_cloudinary
+        image.delay.migrate_image_to_cloudinary
       end
     end
 
@@ -18,7 +18,7 @@ namespace :images do
       bar    = ProgressBar.new Structure.count
       Structure.find_each do |structure|
         bar.increment!
-        structure.migrate_logo_to_cloudinary
+        structure.delay.migrate_logo_to_cloudinary
       end
     end
   end

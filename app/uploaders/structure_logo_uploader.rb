@@ -10,23 +10,24 @@ class StructureLogoUploader < CarrierWave::Uploader::Base
   #   "/images/fallback/" + [version_name, "default.png"].compact.join('_')
   # end
 
+  cloudinary_transformation :transformation => [{  width: 600, height: 600, crop: :pad }]
+  process convert: "jpg"
+
   # Create different versions of your uploaded files:
   version :original do
     process resize_to_fit: [600, 600]
   end
 
   version :large do
-    cloudinary_transformation :transformation => [{  width: 450, height: 450, crop: :pad }]
-    # process resize_to_fit: [450, 450]
+    # cloudinary_transformation :transformation => [{  width: 450, height: 450, crop: :pad }]
+    process resize_to_fit: [450, 450]
   end
 
   version :thumb do
-    cloudinary_transformation :transformation => [{  width: 200, height: 200, crop: :pad }]
     process :crop_thumb
   end
 
   version :small_thumb do
-    cloudinary_transformation :transformation => [{  width: 60, height: 60, crop: :pad }]
     process :crop_small_thumb
   end
 
@@ -42,13 +43,21 @@ class StructureLogoUploader < CarrierWave::Uploader::Base
   # That's why we use a ratio
   #
   # @return Hash
+  def fill_thumb
+    return { width: 200, height: 200, crop: :fill }
+  end
+
   def crop_thumb
-    ratio = 600 / 200
-    return { x: model.crop_x / ratio, y: model.crop_y / ratio, width: (model.crop_width || 600) / ratio, height: (model.crop_width || 600) / ratio, crop: :crop }
+    transformations = []
+    transformations << { x: model.crop_x, y: model.crop_y, width: model.crop_width, height: model.crop_width, crop: :crop }
+    transformations << { width: 200, height: 200, crop: :fill }
+    { transformation: transformations }
   end
 
   def crop_small_thumb
-    ratio = 600 / 60
-    return { x: model.crop_x / ratio, y: model.crop_y / ratio, width: (model.crop_width || 600) / ratio, height: (model.crop_width || 600) / ratio, crop: :crop }
+    transformations = []
+    transformations << { x: model.crop_x, y: model.crop_y, width: model.crop_width, height: model.crop_width, crop: :crop }
+    transformations << { width: 60, height: 60, crop: :fill }
+    { transformation: transformations }
   end
 end
