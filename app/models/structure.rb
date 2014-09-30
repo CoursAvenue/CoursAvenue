@@ -72,7 +72,7 @@ class Structure < ActiveRecord::Base
                   :contact_email,
                   :description, :subject_ids, :active, # active: for tests profile, eg. L'atelier de Nima, etc.
                   :has_validated_conditions,
-                  :validated_by, :logo, :sleeping_logo,
+                  :validated_by, :logo, :sleeping_logo, :remote_logo_url,
                   :funding_type_ids,
                   :crop_x, :crop_y, :crop_width,
                   :rating, :comments_count,
@@ -112,28 +112,8 @@ class Structure < ActiveRecord::Base
                               :has_free_trial_course, :has_promotion, :gives_non_professional_courses, :gives_professional_courses,
                               :is_sleeping, :sleeping_email_opt_in, :promo_code_sent
 
-  mount_uploader :c_logo, StructureLogoUploader
-  mount_uploader :c_sleeping_logo, StructureLogoUploader
-
-  has_attached_file :logo,
-                    styles: {
-                      original: { geometry: '600x600#', processors: [:cropper_square] },
-                      large: '450x450',
-                      thumb: { geometry: '200x200#', processors: [:cropper] },
-                      small_thumb: { geometry: '60x60#', processors: [:cropper] }
-                    },
-                    convert_options: { original: '-interlace Plane', large: '-interlace Plane', thumb: '-interlace Plane', small_thumb: '-interlace Plane' }
-
-  validates_attachment_content_type :logo, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
-  # process_in_background :logo, only_process: [:original]
-  has_attached_file :sleeping_logo,
-                    styles: {
-                      original: { geometry: '600x600#', processors: [:cropper_square] },
-                      large: '450x450',
-                      thumb: { geometry: '200x200#', processors: [:cropper] } }
-
-  validates_attachment_content_type :sleeping_logo, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
-  process_in_background :sleeping_logo
+  mount_uploader :logo, StructureLogoUploader
+  mount_uploader :sleeping_logo, StructureLogoUploader
 
   ######################################################################
   # Validations                                                        #
@@ -1119,18 +1099,6 @@ class Structure < ActiveRecord::Base
       plannings.map(&:place).compact.map(&:city).flatten.group_by{ |city| city }.values.max_by(&:size).first
     else
       ([city] + places.map(&:city)).group_by{ |city| city }.values.max_by(&:size).first
-    end
-  end
-
-  # TODO delete this methid
-  def migrate_logo_to_cloudinary
-    if self.logo.present? and !self.c_logo.present?
-      cloudinary_uploaded_file = Cloudinary::Uploader.upload(self.logo.url)
-      self.update_column :c_logo, "v#{cloudinary_uploaded_file['version']}/#{cloudinary_uploaded_file['public_id']}.#{cloudinary_uploaded_file['format']}"
-    end
-    if self.sleeping_logo.present? and !self.c_sleeping_logo.present?
-      cloudinary_uploaded_file = Cloudinary::Uploader.upload(self.sleeping_logo.url)
-      self.update_column :c_sleeping_logo, "v#{cloudinary_uploaded_file['version']}/#{cloudinary_uploaded_file['public_id']}.#{cloudinary_uploaded_file['format']}"
     end
   end
 

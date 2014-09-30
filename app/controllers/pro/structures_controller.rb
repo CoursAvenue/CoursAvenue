@@ -254,8 +254,7 @@ France
     end
     # Update logo if logo_filepicker_url is present
     if params[:structure][:logo_filepicker_url].present?
-      cloudinary_uploaded_file = Cloudinary::Uploader.upload(params[:structure][:logo_filepicker_url])
-      @structure.send :write_attribute, :c_logo, "v#{cloudinary_uploaded_file['version']}/#{cloudinary_uploaded_file['public_id']}.#{cloudinary_uploaded_file['format']}"
+      @structure.remote_logo_url = params[:structure][:logo_filepicker_url]
     end
 
     respond_to do |format|
