@@ -1,5 +1,5 @@
 class EmailingSectionBridgeSerializer < ActiveModel::Serializer
-  attributes :media_id, :media_url, :images
+  attributes :id, :media_id, :media_url, :images
 
   # Simplify the images to return.
   #
