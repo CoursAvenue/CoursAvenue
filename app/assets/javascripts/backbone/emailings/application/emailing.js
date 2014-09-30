@@ -8,16 +8,16 @@ Emailing.addInitializer(function(options) {
 
     var bootstrap = window.coursavenue.bootstrap;
 
-    var emailing_section_collection       = new Emailing.Models.EmailingSectionsCollection(bootstrap.models, bootstrap.options);
-    var emailing_sections_collection_view = new Emailing.Views.EmailingSectionsCollection.EmailingSectionsCollectionView({
-        collection: emailing_section_collection,
+    var section_collection       = new Emailing.Models.SectionsCollection(bootstrap.models, bootstrap.options);
+    var sections_collection_view = new Emailing.Views.Sections.SectionsCollectionView({
+        collection: section_collection,
         events: {}
     });
 
     var layout           = new Emailing.Views.EmailingSectionsLayout();
 
     Emailing.mainRegion.show(layout);
-    layout.master.show(emailing_sections_collection_view);
+    layout.master.show(sections_collection_view);
 });
 
 $(document).ready(function() {

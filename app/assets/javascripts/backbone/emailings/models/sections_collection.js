@@ -1,6 +1,6 @@
 Emailing.module('Models', function(Module, App, Backbone, Marionette, $, _) {
-    Module.EmailingSectionsCollection = Backbone.Collection.extend({
-        model: Module.EmailingSection,
+    Module.SectionsCollection = Backbone.Collection.extend({
+        model: Module.Section,
 
         url: function () {
             var id = window.coursavenue.bootstrap.id;
