@@ -64,7 +64,7 @@ class Structure < ActiveRecord::Base
   has_many :admins                   , dependent: :destroy
   has_many :subscription_plans       , dependent: :destroy
 
-  attr_reader :delete_logo
+  attr_reader :delete_logo, :logo_filepicker_url
   serialize :sleeping_attributes # See `create_sleeping_attributes` method for more info
   attr_accessible :structure_type, :street, :zip_code, :city_id,
                   :place_ids, :name, :info, :registration_info,
@@ -112,6 +112,9 @@ class Structure < ActiveRecord::Base
                               :has_free_trial_course, :has_promotion, :gives_non_professional_courses, :gives_professional_courses,
                               :is_sleeping, :sleeping_email_opt_in, :promo_code_sent
 
+  mount_uploader :c_logo, StructureLogoUploader
+  mount_uploader :c_sleeping_logo, StructureLogoUploader
+
   has_attached_file :logo,
                     styles: {
                       original: { geometry: '600x600#', processors: [:cropper_square] },
@@ -123,7 +126,6 @@ class Structure < ActiveRecord::Base
 
   validates_attachment_content_type :logo, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
   # process_in_background :logo, only_process: [:original]
-
   has_attached_file :sleeping_logo,
                     styles: {
                       original: { geometry: '600x600#', processors: [:cropper_square] },
@@ -153,7 +155,6 @@ class Structure < ActiveRecord::Base
   before_save   :strip_name
   before_save   :sanatize_description
   before_save   :encode_uris
-  before_save   :reset_cropping_attributes, if: :logo_has_changed?
 
   after_save    :geocode_if_needs_to
   after_save    :subscribe_to_crm
@@ -1121,6 +1122,18 @@ class Structure < ActiveRecord::Base
     end
   end
 
+  # TODO delete this methid
+  def migrate_logo_to_cloudinary
+    if self.logo.present? and !self.c_logo.present?
+      cloudinary_uploaded_file = Cloudinary::Uploader.upload(self.logo.url)
+      self.update_column :c_logo, "v#{cloudinary_uploaded_file['version']}/#{cloudinary_uploaded_file['public_id']}.#{cloudinary_uploaded_file['format']}"
+    end
+    if self.sleeping_logo.present? and !self.c_sleeping_logo.present?
+      cloudinary_uploaded_file = Cloudinary::Uploader.upload(self.sleeping_logo.url)
+      self.update_column :c_sleeping_logo, "v#{cloudinary_uploaded_file['version']}/#{cloudinary_uploaded_file['public_id']}.#{cloudinary_uploaded_file['format']}"
+    end
+  end
+
   private
 
   # Strip name if exists to prevent from name starting by a space
@@ -1128,10 +1141,6 @@ class Structure < ActiveRecord::Base
   # @return name
   def strip_name
     self.name = self.name.strip if self.name
-  end
-
-  def logo_has_changed?
-    self.logo.dirty?
   end
 
   def reset_cropping_attributes
@@ -1239,5 +1248,4 @@ class Structure < ActiveRecord::Base
     end
     nil
   end
-
 end

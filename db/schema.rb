@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140924150327) do
+ActiveRecord::Schema.define(version: 20140929165014) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -289,6 +289,37 @@ ActiveRecord::Schema.define(version: 20140924150327) do
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
+  create_table "emailing_section_bridges", force: true do |t|
+    t.integer "emailing_section_id"
+    t.integer "structure_id"
+    t.integer "media_id"
+  end
+
+  add_index "emailing_section_bridges", ["emailing_section_id", "structure_id"], name: "comments_subjects_index", using: :btree
+
+  create_table "emailing_sections", force: true do |t|
+    t.string   "title"
+    t.integer  "emailing_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "link"
+    t.string   "link_name"
+  end
+
+  create_table "emailings", force: true do |t|
+    t.string   "title"
+    t.text     "body"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "header_image_file_name"
+    t.string   "header_image_content_type"
+    t.integer  "header_image_file_size"
+    t.datetime "header_image_updated_at"
+    t.string   "section_metadata_one"
+    t.string   "section_metadata_two"
+    t.string   "section_metadata_three"
+  end
+
   create_table "emails", force: true do |t|
     t.string   "email"
     t.string   "email_type"
@@ -444,6 +475,7 @@ ActiveRecord::Schema.define(version: 20140924150327) do
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
     t.boolean  "image_processing"
+    t.string   "c_image"
   end
 
   add_index "medias", ["format"], name: "index_medias_on_format", using: :btree
@@ -782,6 +814,8 @@ ActiveRecord::Schema.define(version: 20140924150327) do
     t.text     "sleeping_attributes"
     t.boolean  "logo_processing"
     t.string   "delivery_email_status"
+    t.string   "c_logo"
+    t.string   "c_sleeping_logo"
   end
 
   add_index "structures", ["slug"], name: "index_structures_on_slug", unique: true, using: :btree
@@ -861,9 +895,9 @@ ActiveRecord::Schema.define(version: 20140924150327) do
     t.date     "card_validity_date"
     t.integer  "promotion_code_id"
     t.datetime "last_renewal_failed_at"
-    t.hstore   "bo_meta_data"
     t.string   "paypal_token"
     t.string   "paypal_payer_id"
+    t.hstore   "bo_meta_data"
     t.string   "paypal_recurring_profile_token"
   end
 

@@ -246,20 +246,23 @@ France
     @structure = Structure.friendly.find params[:id]
     @admin     = @structure.main_contact
     if params[:structure] && params[:structure].delete(:delete_logo) == '1'
-      @structure.logo.clear
+      @structure.remove_logo!
     end
 
     if params[:structure] && params[:structure][:subject_descendants_ids].present?
       params[:structure][:subject_ids] = params[:structure][:subject_ids] + params[:structure].delete(:subject_descendants_ids)
     end
+    # Update logo if logo_filepicker_url is present
+    if params[:structure][:logo_filepicker_url].present?
+      cloudinary_uploaded_file = Cloudinary::Uploader.upload(params[:structure][:logo_filepicker_url])
+      @structure.send :write_attribute, :c_logo, "v#{cloudinary_uploaded_file['version']}/#{cloudinary_uploaded_file['public_id']}.#{cloudinary_uploaded_file['format']}"
+      # @structure.logo = open(params[:structure][:logo_filepicker_url])
+    end
+
     respond_to do |format|
       if @structure.update_attributes(params[:structure])
-        @structure.logo.reprocess! if @structure.logo.present? && has_cropping_attributes?
         format.html { redirect_to (params[:return_to] || edit_pro_structure_path(@structure)), notice: 'Vos informations ont bien été mises à jour.' }
         format.js
-        format.json do
-          render json: { logo: { path: @structure.logo.url(:large) } }
-        end
       else
         retrieve_home_places
         format.js
@@ -402,11 +405,6 @@ France
     else
       'admin'
     end
-  end
-
-  # Check if need to reprocess logo
-  def has_cropping_attributes?
-    params[:structure][:crop_width].present? || params[:structure][:crop_x].present? || params[:structure][:crop_y].present?
   end
 
   def retrieve_home_places

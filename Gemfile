@@ -68,6 +68,9 @@ gem 'daemons'                   , '~>1.1.9'
 # Needed for hirefire to handle to access to jobs count
 gem 'hirefire-resource'
 
+gem 'carrierwave'               , '~>0.10.0'
+gem 'cloudinary'                , '~>1.0.77'
+
 # Handle paperclip in background
 gem 'delayed_paperclip'         , '~>2.8.0'
 # Show progress bars in scripts

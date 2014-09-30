@@ -2,11 +2,13 @@ class Media::Image < Media
   require 'open-uri'
   require 'aws'
 
+  mount_uploader :c_image, MediaUploader
+
   has_attached_file :image,
-                    styles: {
-                      original: '1000x',
-                      thumbnail: '500x',
-                      thumbnail_cropped: '450x300#'
+                   styles: {
+                     original: '1000x',
+                     thumbnail: '500x',
+                     thumbnail_cropped: '450x300#'
                     },
                     convert_options: { original: '-interlace Plane', thumbnail: '-interlace Plane', thumbnail_cropped: '-interlace Plane' }
 
@@ -17,8 +19,6 @@ class Media::Image < Media
   # Callbacs                                                           #
   ######################################################################
   before_create :make_cover_if_first
-  # after_create :save_thumbnail_url_to_s3
-  # after_destroy :remove_file_from_s3
 
   def video?
     false
@@ -51,7 +51,9 @@ class Media::Image < Media
   end
 
   def url
-    if self.image.present?
+    if self.c_image.present?
+      self.c_image.url(:original)
+    elsif self.image.present?
       self.image.url(:original)
     else
       self.read_attribute(:url)
@@ -59,7 +61,9 @@ class Media::Image < Media
   end
 
   def thumbnail_url
-    if self.image.present?
+    if self.c_image.present?
+      self.c_image.url(:thumbnail)
+    elsif self.image.present?
       self.image.url(:thumbnail)
     else
       self.read_attribute(:url)
@@ -90,12 +94,19 @@ class Media::Image < Media
     self.image.reprocess! :thumbnail_cropped
   end
 
+  def migrate_image_to_cloudinary
+    if self.url.present? and !self.c_image.present?
+      cloudinary_uploaded_file = Cloudinary::Uploader.upload(self.url)
+      self.update_column :c_image, "v#{cloudinary_uploaded_file['version']}/#{cloudinary_uploaded_file['public_id']}.#{cloudinary_uploaded_file['format']}"
+    end
+  end
+
   private
 
   ######################################################################
   # Callbacs                                                           #
   ######################################################################
   def make_cover_if_first
-    self.cover = true if self.mediable.medias.images.empty?
+    self.cover = true if self.mediable and self.mediable.medias.images.empty?
   end
 end
