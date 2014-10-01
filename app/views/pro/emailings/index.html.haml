@@ -12,7 +12,7 @@
       %tbody
         - @emailings.each do |emailing|
           %tr
-            %td= emailing.title
+            %td= link_to emailing.title, pro_emailing_path(emailing)
             %td
               = link_to 'Éditer', edit_pro_emailing_path(emailing)
               \/

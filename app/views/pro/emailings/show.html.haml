@@ -15,7 +15,8 @@
 
     = image_tag '/assets/logos/logo.png', class: 'center-block'
     = image_tag @emailing.header_image.url, class: 'very-soft'
-    %p= @emailing.body.html_safe
+    - @emailing.body.split("\r\n\r\n").each do |paragraph|
+      %p= paragraph
 
     %hr
     %div.text--center.grid--full
@@ -25,7 +26,7 @@
           Rechercher un Cours
 
       .grid__item.one-third>
-        = link_to '' do
+        = link_to mon_compte_path do
           %i.fa.fa-key
           Votre compte
 
