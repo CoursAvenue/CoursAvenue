@@ -5,9 +5,7 @@
     %h3.flush Newsletter
 
   .panel_body.soft
-    = link_to preview_pro_emailing_path(@emailing), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: '700', padding: 0 }  do
-      %i.fa.fa-download
-      Previsualiser la Newsletter
+    = link_to 'preview', preview_pro_emailing_path(@emailing), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: '700', padding: 0 }
 
     %hr
 
