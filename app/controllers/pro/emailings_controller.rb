@@ -65,6 +65,13 @@ class Pro::EmailingsController < Pro::ProController
     @email = preview_email
   end
 
+  def send_preview
+    @emailing = Emailing.find params[:id]
+    UserMailer.emailing(@emailing).deliver
+
+    redirect_to pro_emailing_path(@emailing), notice: 'La previsualisation a bien été envoyée'
+  end
+
   private
 
   # Create a preview of the email with inline styles thanks to Roadie.

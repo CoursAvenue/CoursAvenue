@@ -5,7 +5,8 @@
     %h3.flush Newsletter
 
   .panel_body.soft
-    = link_to 'preview', preview_pro_emailing_path(@emailing), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: '700', padding: 0 }
+    = link_to 'Previsualiser la Newsletter', preview_pro_emailing_path(@emailing), class: 'btn btn--green push-half--right fancybox.ajax', data: { behavior: 'modal', width: '700', padding: 0 }
+    = link_to 'Envoyer la newsletter', send_preview_pro_emailing_path(@emailing), class: 'btn btn--green push-half--right'
 
     %hr
 
