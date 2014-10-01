@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141001092842) do
+ActiveRecord::Schema.define(version: 20141001123346) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -209,29 +209,20 @@ ActiveRecord::Schema.define(version: 20141001092842) do
     t.string   "name"
     t.string   "frequency"
     t.text     "description"
-    t.boolean  "is_promoted",                default: false
-    t.boolean  "has_online_payment",         default: false
+    t.boolean  "is_promoted",                 default: false
     t.text     "info"
-    t.text     "registration_date"
     t.boolean  "is_individual"
-    t.boolean  "is_for_handicaped"
-    t.text     "trial_lesson_info"
-    t.text     "price_details"
-    t.text     "conditions"
-    t.text     "partner_rib_info"
-    t.boolean  "audition_mandatory"
-    t.text     "refund_condition"
     t.boolean  "cant_be_joined_during_year"
     t.integer  "structure_id"
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
     t.string   "slug"
     t.integer  "place_id"
     t.integer  "nb_participants_max"
     t.date     "start_date"
     t.date     "end_date"
     t.integer  "room_id"
-    t.boolean  "active",                     default: false
+    t.boolean  "active",                      default: false
     t.time     "deleted_at"
     t.decimal  "rating"
     t.text     "subjects_string"
@@ -244,13 +235,14 @@ ActiveRecord::Schema.define(version: 20141001092842) do
     t.integer  "nb_participants_min"
     t.text     "ca_follow_up"
     t.float    "common_price"
-    t.boolean  "ok_nico",                    default: false
+    t.boolean  "ok_nico",                     default: false
     t.integer  "price_group_id"
     t.string   "audience_ids"
     t.string   "level_ids"
     t.integer  "min_age_for_kid"
     t.integer  "max_age_for_kid"
-    t.boolean  "on_appointment",             default: false
+    t.boolean  "on_appointment",              default: false
+    t.boolean  "available_in_discovery_pass"
   end
 
   add_index "courses", ["active"], name: "index_courses_on_active", using: :btree
@@ -304,6 +296,38 @@ ActiveRecord::Schema.define(version: 20141001092842) do
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "emailing_section_bridges", force: true do |t|
+    t.integer "emailing_section_id"
+    t.integer "structure_id"
+    t.integer "media_id"
+    t.boolean "is_logo"
+  end
+
+  add_index "emailing_section_bridges", ["emailing_section_id", "structure_id"], name: "comments_subjects_index", using: :btree
+
+  create_table "emailing_sections", force: true do |t|
+    t.string   "title"
+    t.integer  "emailing_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "link"
+    t.string   "link_name"
+  end
+
+  create_table "emailings", force: true do |t|
+    t.string   "title"
+    t.text     "body"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "header_image_file_name"
+    t.string   "header_image_content_type"
+    t.integer  "header_image_file_size"
+    t.datetime "header_image_updated_at"
+    t.string   "section_metadata_one"
+    t.string   "section_metadata_two"
+    t.string   "section_metadata_three"
   end
 
   create_table "emails", force: true do |t|
@@ -593,8 +617,8 @@ ActiveRecord::Schema.define(version: 20141001092842) do
     t.integer  "max_age_for_kid"
     t.integer  "min_age_for_kid"
     t.integer  "course_id"
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
     t.integer  "room_id"
     t.integer  "teacher_id"
     t.integer  "nb_participants_max"
@@ -604,8 +628,9 @@ ActiveRecord::Schema.define(version: 20141001092842) do
     t.time     "deleted_at"
     t.integer  "place_id"
     t.integer  "structure_id"
-    t.boolean  "visible",               default: true
-    t.boolean  "is_in_foreign_country", default: false
+    t.boolean  "visible",                     default: true
+    t.boolean  "is_in_foreign_country",       default: false
+    t.boolean  "available_in_discovery_pass"
   end
 
   add_index "plannings", ["audience_ids"], name: "index_plannings_on_audience_ids", using: :btree
@@ -806,6 +831,7 @@ ActiveRecord::Schema.define(version: 20141001092842) do
     t.string   "logo"
     t.string   "sleeping_logo"
     t.string   "remote_logo_url"
+    t.string   "discovery_pass_policy"
   end
 
   add_index "structures", ["slug"], name: "index_structures_on_slug", unique: true, using: :btree
@@ -889,7 +915,6 @@ ActiveRecord::Schema.define(version: 20141001092842) do
     t.string   "paypal_payer_id"
     t.hstore   "bo_meta_data"
     t.string   "paypal_recurring_profile_token"
-    t.string   "next_plan_type"
   end
 
   create_table "taggings", force: true do |t|

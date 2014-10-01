@@ -73,6 +73,12 @@
                             trainings_pro_structure_courses_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
                             trainings_options_link
 
+      - if @structure.parisian? and @structure.courses.any?
+        = pro_side_menu_link 'discovery_pass',
+                              discovery_pass_pro_structure_courses_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
+                              current: current_tab,
+                              icon: 'fa fa-ticket'
+
       - to_complete_step_nb += 1 if @structure.price_groups.empty?
       = pro_side_menu_link 'price_groups',
                             pro_structure_price_groups_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),

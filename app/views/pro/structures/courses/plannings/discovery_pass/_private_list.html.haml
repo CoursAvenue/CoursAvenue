@@ -1,0 +1,15 @@
+- if course.on_appointment?
+  %p
+    %i Pas de créneau précis, uniquement sur demande.
+- else
+  %table.table--striped.table--data
+    %thead
+      %tr
+        %th.one-twelfth
+        %th Jour
+        %th Créneau horaire
+        %th.text--center
+          %i.fa.fa-info
+    %tbody
+      - course.plannings.ordered_by_day.each do |planning|
+        = render partial: 'pro/structures/courses/plannings/discovery_pass/private_row', locals: { planning: planning, course: course }

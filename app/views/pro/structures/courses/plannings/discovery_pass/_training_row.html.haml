@@ -1,0 +1,29 @@
+- course    ||= planning.course
+- structure ||= course.structure
+%tr{ id: "planning-#{planning.id}" }
+  %td.text--center
+    = simple_form_for [:pro, @structure, course, planning], url: pro_structure_course_planning_path(@structure, course, planning), remote: true, html: { data: { behavior: 'live-form' } } do |f|
+      = f.input :available_in_discovery_pass, label: false, input_html: { id: "available_in_discovery_pass_#{course.id}_#{planning.id}" }
+  %td.nowrap
+    %label{ for: "available_in_discovery_pass_#{course.id}_#{planning.id}" }
+      = training_dates planning
+  %td.nowrap
+    %label{ for: "available_in_discovery_pass_#{course.id}_#{planning.id}" }
+      = readable_time_slot planning.start_time, planning.end_time
+  %td
+    %label{ for: "available_in_discovery_pass_#{course.id}_#{planning.id}" }
+      = join_levels_text planning
+  %td
+    %label{ for: "available_in_discovery_pass_#{course.id}_#{planning.id}" }
+      = join_audiences planning
+  %td
+    %label{ for: "available_in_discovery_pass_#{course.id}_#{planning.id}" }
+      - if planning.is_in_foreign_country
+        Séjour à l'étranger
+      - elsif planning.place
+        = planning.place.name
+
+  %td.text--center
+    %label{ for: "available_in_discovery_pass_#{course.id}_#{planning.id}" }
+      - if planning.info.present?
+        %i.fa.fa-info{ data: { behavior: 'tooltip', 'original-title' => planning.info } }

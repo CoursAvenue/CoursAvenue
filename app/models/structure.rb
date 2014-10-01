@@ -13,11 +13,12 @@ class Structure < ActiveRecord::Base
 
   extend FriendlyId
 
-  STRUCTURE_STATUS = %w(SA SAS SASU EURL SARL)
-  STRUCTURE_TYPES  = ['structures.company',
-                      'structures.independant',
-                      'structures.association',
-                      'structures.other']
+  STRUCTURE_STATUS      = %w(SA SAS SASU EURL SARL)
+  DISCOVERY_PASS_POLICY = %w(1_trial 2_trials 3_trials)
+  STRUCTURE_TYPES       = ['structures.company',
+                          'structures.independant',
+                          'structures.association',
+                          'structures.other']
 
   WIDGET_STATUS    = ['installed', 'remind_me', 'dont_want', 'need_help']
 
@@ -86,7 +87,7 @@ class Structure < ActiveRecord::Base
                   :highlighted_comment_id,
                   :deletion_reasons, :deletion_reasons_text,
                   :phone_numbers_attributes, :places_attributes, :other_emails, :last_geocode_try,
-                  :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason, :sleeping_attributes, :order_recipient, :delivery_email_status
+                  :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason, :sleeping_attributes, :order_recipient, :delivery_email_status, :discovery_pass_policy
 
   accepts_nested_attributes_for :places,
                                  reject_if: :reject_places,

@@ -19,11 +19,15 @@ class Pro::Structures::CoursesController < Pro::ProController
   end
 
   def regular
-    @courses   = @structure.courses.without_open_courses.order('name ASC')
+    @courses = @structure.courses.without_open_courses.order('name ASC')
   end
 
   def trainings
-    @courses   = @structure.courses.without_open_courses.order('name ASC')
+    @courses = @structure.courses.without_open_courses.order('name ASC')
+  end
+
+  def discovery_pass
+    @courses = @structure.courses.without_open_courses.order('name ASC')
   end
 
   def activate_ok_nico

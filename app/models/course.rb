@@ -27,6 +27,7 @@ class Course < ActiveRecord::Base
   before_save :sanatize_description
   after_save  :update_plannings_dates_if_needs_to
   after_save  :reindex_plannings unless Rails.env.test?
+  after_save  :update_plannings_available_in_discovery_pass
 
   ######################################################################
   # Scopes                                                             #
@@ -48,27 +49,15 @@ class Course < ActiveRecord::Base
   validates :name, length: { maximum: 255 }
 
   attr_accessible :name, :type, :description,
-                  :active,
-                  :info,
-                  :rating,
-                  :is_promoted,
-                  :price_details,
-                  :has_online_payment,
-                  :homepage_image,
-                  :frequency,
-                  :registration_date,
-                  :is_individual, :is_for_handicaped,
-                  :trial_lesson_info, # Info prix
-                  :conditions,
-                  :partner_rib_info,
-                  :audition_mandatory,
-                  :refund_condition,
+                  :active, :info, :is_promoted,
+                  :frequency, :is_individual,
                   :cant_be_joined_during_year,
                   :nb_participants,
                   :no_class_during_holidays,
                   :start_date, :end_date,
-                  :subject_ids, :level_ids, :audience_ids, :place_id, :active,
-                  :price_group_id, :on_appointment
+                  :subject_ids, :level_ids, :audience_ids, :place_id,
+                  :price_group_id, :on_appointment,
+                  :available_in_discovery_pass
 
   # ------------------------------------------------------------------------------------ Search attributes
   searchable do
@@ -186,7 +175,6 @@ class Course < ActiveRecord::Base
 
     double :approximate_price_per_course
 
-    double :rating
     integer :nb_comments do
       comments.count
     end
@@ -194,7 +182,6 @@ class Course < ActiveRecord::Base
     boolean :active
 
     boolean :is_promoted
-    boolean :has_online_payment
     boolean :has_promotion
 
     boolean :has_package_price
@@ -416,5 +403,17 @@ class Course < ActiveRecord::Base
 
   def reindex_plannings
     self.plannings.map{ |p| p.delay.index }
+  end
+
+  # If the user sets the `available_in_discovery_pass` flag to true or false on the course itself,
+  # we change all the plannings flag
+  #
+  # @return nil
+  def update_plannings_available_in_discovery_pass
+    if self.available_in_discovery_pass_changed?
+      self.plannings.update_all available_in_discovery_pass: self.available_in_discovery_pass
+      self.plannings.map{ |p| p.delay.index }
+    end
+    nil
   end
 end

@@ -57,6 +57,8 @@ class Planning < ActiveRecord::Base
   before_save :set_structure_if_blank
   before_save :update_start_and_end_date
 
+  after_save :update_course_available_in_discovery_pass
+
   ######################################################################
   # Validations                                                        #
   ######################################################################
@@ -71,13 +73,9 @@ class Planning < ActiveRecord::Base
                   :end_time,   # Format: Time.parse("2000-01-01 #{value} UTC")
                   :week_day, # 0: Dimanche, 1: Lundi, as per I18n.t('date.day_names')
                   :class_during_holidays,
-                  :nb_participants_max,
-                  :promotion,
-                  :info,
-                  :min_age_for_kid, :max_age_for_kid,
-                  :teacher,
-                  :teacher_id, :level_ids, :audience_ids, :place_id,
-                  :is_in_foreign_country,
+                  :nb_participants_max, :promotion, :info,
+                  :min_age_for_kid, :max_age_for_kid, :teacher, :teacher_id, :level_ids, :audience_ids, :place_id, :is_in_foreign_country,
+                  :available_in_discovery_pass,
                   :visible # True by default, will be false only for plannings of
                            # private courses that are on demand
 
@@ -483,5 +481,16 @@ class Planning < ActiveRecord::Base
         errors.add(:end_date, 'Le cours ne peut pas être dans le passé.')
       end
     end
+  end
+
+  # If the user sets the `available_in_discovery_pass` on a course where its flag is set to false
+  # we set it to true
+  #
+  # @return nil
+  def update_course_available_in_discovery_pass
+    if self.available_in_discovery_pass_changed? and self.available_in_discovery_pass == true and self.course.available_in_discovery_pass == false
+      self.course.update_column :available_in_discovery_pass, true
+    end
+    nil
   end
 end

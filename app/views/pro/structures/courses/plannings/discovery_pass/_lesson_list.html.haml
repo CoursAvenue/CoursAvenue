@@ -1,0 +1,14 @@
+%table.table--striped.table--data
+  %thead
+    %tr
+      %th.one-twelfth
+      %th.one-twelfth Jour
+      %th.two-twelfths Horaires
+      %th.three-twelfths Niveau
+      %th.two-twelfths Public
+      %th.two-twelfths Lieu
+      %th.text--center
+        %i.fa.fa-info
+  %tbody
+    - course.plannings.ordered_by_day.each do |planning|
+      = render partial: 'pro/structures/courses/plannings/discovery_pass/lesson_row', locals: { planning: planning, course: course }
