@@ -10,5 +10,5 @@
       %th.text--center
         %i.fa.fa-info
   %tbody
-    - course.plannings.ordered_by_day.each do |planning|
+    - course.plannings.future.ordered_by_day.each do |planning|
       = render partial: 'pro/structures/courses/plannings/discovery_pass/training_row', locals: { planning: planning, course: course }

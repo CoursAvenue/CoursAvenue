@@ -60,9 +60,9 @@
 
         - else
           .soft-half--top.soft-half--bottom{ style: 'padding-left: 40px;'}
-            = image_tag 'icons/arrow-black.png', width: 50, height: 30, class: 'v-top'
+            = image_tag 'icons/arrow-blue.png', width: 50, height: 30, class: 'v-top'
             %strong.relative.v-top.epsilon{ style: 'top: -5px; '}
-              %i Cochez pour inclure dans le Pass Découverte
+              %i.blue Cochez pour inclure dans le Pass Découverte
           - @courses.lessons.each_with_index do |course, index|
             = render partial: 'pro/structures/courses/discovery_course', locals: { course: course, structure: @structure }
     %hr.push--top.flush--bottom
@@ -78,9 +78,9 @@
               Ajouter un cours particulier
         - else
           .soft-half--top.soft-half--bottom{ style: 'padding-left: 40px;'}
-            = image_tag 'icons/arrow-black.png', width: 50, height: 30, class: 'v-top'
+            = image_tag 'icons/arrow-blue.png', width: 50, height: 30, class: 'v-top'
             %strong.relative.v-top.epsilon{ style: 'top: -5px; '}
-              %i Cochez pour inclure dans le Pass Découverte
+              %i.blue Cochez pour inclure dans le Pass Découverte
           - @courses.privates.each_with_index do |course, index|
             = render partial: 'pro/structures/courses/discovery_course', locals: { course: course, structure: @structure }
     %hr.push--top.flush--bottom
@@ -96,8 +96,8 @@
               Ajouter un stage / atelier
         - else
           .soft-half--top.soft-half--bottom{ style: 'padding-left: 40px;'}
-            = image_tag 'icons/arrow-black.png', width: 50, height: 30, class: 'v-top'
+            = image_tag 'icons/arrow-blue.png', width: 50, height: 30, class: 'v-top'
             %strong.relative.v-top.epsilon{ style: 'top: -5px; '}
-              %i Cochez pour inclure dans le Pass Découverte
+              %i.blue Cochez pour inclure dans le Pass Découverte
           - @courses.trainings.each_with_index do |course, index|
             = render partial: 'pro/structures/courses/discovery_course', locals: { course: course, structure: @structure }
