@@ -376,7 +376,11 @@ CoursAvenue::Application.routes.draw do
         get   :add_invited_friends
       end
     end
-    resources :discovery_passes, only: [:index, :new], path: 'pass-decouverte', controller: 'users/discovery_passes'
+    resources :discovery_passes, only: [:index, :new], path: 'pass-decouverte', controller: 'users/discovery_passes' do
+      collection do
+        get :payment_confirmation, path: 'confirmation-paiement'
+      end
+    end
   end
   resources :emails, only: [:create]
 

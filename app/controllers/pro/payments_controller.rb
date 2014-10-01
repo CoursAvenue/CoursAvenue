@@ -41,7 +41,7 @@ class Pro::PaymentsController < Pro::ProController
     @payer_type = 'be2bill'
     if params[:EXTRADATA]['product_type'] and params[:EXTRADATA]['product_type'] == 'discovery_pass'
       @user = User.find params[:CLIENTIDENT]
-      render 'pro/payments/confirmations/discovery_pass', layout: 'user_profile'
+      redirect_to payment_confirmation_user_discovery_passes_url(@user, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, EXECCODE: params['EXECCODE'])
     else
       @structure = Structure.find params[:CLIENTIDENT]
       @premium_type = params[:EXTRADATA]['plan_type']
