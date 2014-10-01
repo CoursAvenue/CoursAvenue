@@ -10,11 +10,11 @@ class Pro::PaymentsController < Pro::ProController
     # The placeholder can be call for teacher (Premium accounts) OR users (Discovery pass)
     if params[:EXTRADATA]['product_type'] and params[:EXTRADATA]['product_type'] == 'discovery_pass'
       @user = User.find params[:CLIENTIDENT]
-      render template: 'be2bill_placeholders/discovery_pass', layout: 'user_profile'
+      render 'pro/payments/be2bill_placeholders/discovery_pass', layout: 'user_profile'
     else
       params[:premium_type] = params[:EXTRADATA]['plan_type']
       @structure = Structure.find params[:CLIENTIDENT]
-      render template: 'be2bill_placeholders/premium_account', layout: 'admin'
+      render 'pro/payments/be2bill_placeholders/premium_account', layout: 'admin'
     end
   end
 
@@ -41,11 +41,11 @@ class Pro::PaymentsController < Pro::ProController
     @payer_type = 'be2bill'
     if params[:EXTRADATA]['product_type'] and params[:EXTRADATA]['product_type'] == 'discovery_pass'
       @user = User.find params[:CLIENTIDENT]
-      render template: 'confirmations/discovery_pass', layout: 'user_profile'
+      render 'pro/payments/confirmations/discovery_pass', layout: 'user_profile'
     else
       @structure = Structure.find params[:CLIENTIDENT]
       @premium_type = params[:EXTRADATA]['plan_type']
-      render template: 'confirmations/premium_account', layout: 'admin'
+      render 'pro/payments/confirmations/premium_account', layout: 'admin'
     end
   end
 
