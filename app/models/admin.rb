@@ -83,7 +83,7 @@ class ::Admin < ActiveRecord::Base
   end
 
   def avatar
-    self.structure.logo(:thumb)
+    self.structure.logo.url(:thumb)
   end
 
   def avatar_url(format=:thumb)
