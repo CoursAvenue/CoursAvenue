@@ -7,6 +7,7 @@
   .panel_body.soft
     = link_to 'Previsualiser la Newsletter', preview_pro_emailing_path(@emailing), class: 'btn btn--green push-half--right fancybox.ajax', data: { behavior: 'modal', width: '700', padding: 0 }
     = link_to 'Envoyer la newsletter', send_preview_pro_emailing_path(@emailing), class: 'btn btn--green push-half--right'
+    = link_to 'Copier le code', code_pro_emailing_path(@emailing), class: 'btn btn--green push-half--right fancybox.ajax', data: { behavior: 'modal', width: '700', padding: 0 }
 
     %hr
 

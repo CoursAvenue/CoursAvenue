@@ -1,6 +1,7 @@
 # encoding: utf-8
 class Pro::EmailingsController < Pro::ProController
   before_action :authenticate_pro_super_admin!
+  before_action :set_preview, only: [:preview, :code]
   layout 'admin'
 
   def index
@@ -61,10 +62,9 @@ class Pro::EmailingsController < Pro::ProController
   end
 
   def preview
-    @emailing = Emailing.find params[:id]
-    @email = preview_email
+  end
 
-    render layout: false
+  def code
   end
 
   def send_preview
@@ -75,6 +75,13 @@ class Pro::EmailingsController < Pro::ProController
   end
 
   private
+
+  def set_preview
+    @emailing = Emailing.find params[:id]
+    @email = preview_email
+
+    render layout: false
+  end
 
   # Create a preview of the email with inline styles thanks to Roadie.
   #

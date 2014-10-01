@@ -100,6 +100,7 @@ CoursAvenue::Application.routes.draw do
         resources :bridges, only: [:update]
         member do
           get :preview
+          get :code
           get :send_preview, path: 'send'
         end
       end
