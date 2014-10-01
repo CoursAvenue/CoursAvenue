@@ -6,7 +6,7 @@ Emailing.module('Models', function(Module, App, Backbone, Marionette, $, _) {
 
         url: function url () {
             var id = window.coursavenue.bootstrap.id;
-            return Routes.bridge_update_pro_emailing_path(id)
+            return Routes.pro_bridges_update(id)
         },
     });
 });
