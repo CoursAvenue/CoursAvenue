@@ -7,6 +7,7 @@ class UserSearch
     @search = Sunspot.search(User) do
       fulltext params[:name]                         if params[:name].present?
 
+      with :active, params[:active] if params.has_key? :active
       with(:subject_ids).any_of params[:subject_ids] if params[:subject_ids].present?
 
       order_by :created_at, :desc

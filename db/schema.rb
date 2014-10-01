@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140929094008) do
+ActiveRecord::Schema.define(version: 20140930142807) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -459,8 +459,8 @@ ActiveRecord::Schema.define(version: 20140929094008) do
     t.text     "caption"
     t.integer  "mediable_id"
     t.string   "mediable_type"
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.time     "deleted_at"
     t.string   "format"
     t.string   "provider_id"
@@ -468,14 +468,16 @@ ActiveRecord::Schema.define(version: 20140929094008) do
     t.text     "thumbnail_url"
     t.string   "type"
     t.string   "filepicker_url"
-    t.boolean  "cover",                 default: false
+    t.boolean  "cover",                  default: false
     t.boolean  "star"
     t.string   "vertical_page_caption"
-    t.string   "image_file_name"
-    t.string   "image_content_type"
-    t.integer  "image_file_size"
-    t.datetime "image_updated_at"
+    t.string   "old_image_file_name"
+    t.string   "old_image_content_type"
+    t.integer  "old_image_file_size"
+    t.datetime "old_image_updated_at"
     t.boolean  "image_processing"
+    t.string   "image"
+    t.string   "remote_image_url"
   end
 
   add_index "medias", ["format"], name: "index_medias_on_format", using: :btree
@@ -765,15 +767,15 @@ ActiveRecord::Schema.define(version: 20140929094008) do
     t.string   "contact_phone"
     t.string   "contact_mobile_phone"
     t.string   "contact_email"
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
     t.string   "slug"
     t.string   "street"
     t.string   "zip_code"
     t.text     "description"
     t.integer  "city_id"
-    t.boolean  "active",                     default: false
-    t.boolean  "has_validated_conditions",   default: false
+    t.boolean  "active",                         default: false
+    t.boolean  "has_validated_conditions",       default: false
     t.integer  "validated_by"
     t.time     "deleted_at"
     t.float    "latitude"
@@ -782,17 +784,17 @@ ActiveRecord::Schema.define(version: 20140929094008) do
     t.text     "subjects_string"
     t.text     "parent_subjects_string"
     t.decimal  "rating"
-    t.integer  "comments_count",             default: 0
+    t.integer  "comments_count",                 default: 0
     t.text     "facebook_url"
     t.boolean  "no_facebook"
     t.boolean  "no_website"
-    t.string   "logo_file_name"
-    t.string   "logo_content_type"
-    t.integer  "logo_file_size"
-    t.datetime "logo_updated_at"
-    t.integer  "crop_x",                     default: 0
-    t.integer  "crop_y",                     default: 0
-    t.integer  "crop_width",                 default: 500
+    t.string   "old_logo_file_name"
+    t.string   "old_logo_content_type"
+    t.integer  "old_logo_file_size"
+    t.datetime "old_logo_updated_at"
+    t.integer  "crop_x",                         default: 0
+    t.integer  "crop_y",                         default: 0
+    t.integer  "crop_width",                     default: 500
     t.boolean  "has_only_one_place"
     t.string   "email_status"
     t.datetime "last_email_sent_at"
@@ -800,20 +802,23 @@ ActiveRecord::Schema.define(version: 20140929094008) do
     t.string   "funding_type_ids"
     t.string   "widget_status"
     t.string   "sticker_status"
-    t.boolean  "teaches_at_home",            default: false
+    t.boolean  "teaches_at_home",                default: false
     t.text     "widget_url"
     t.integer  "teaches_at_home_radius"
     t.hstore   "meta_data"
     t.integer  "highlighted_comment_id"
-    t.string   "pricing_plan",               default: "free"
+    t.string   "pricing_plan",                   default: "free"
     t.datetime "last_geocode_try"
-    t.string   "sleeping_logo_file_name"
-    t.string   "sleeping_logo_content_type"
-    t.integer  "sleeping_logo_file_size"
-    t.datetime "sleeping_logo_updated_at"
+    t.string   "old_sleeping_logo_file_name"
+    t.string   "old_sleeping_logo_content_type"
+    t.integer  "old_sleeping_logo_file_size"
+    t.datetime "old_sleeping_logo_updated_at"
     t.text     "sleeping_attributes"
     t.boolean  "logo_processing"
     t.string   "delivery_email_status"
+    t.string   "logo"
+    t.string   "sleeping_logo"
+    t.string   "remote_logo_url"
   end
 
   add_index "structures", ["slug"], name: "index_structures_on_slug", unique: true, using: :btree
@@ -893,9 +898,9 @@ ActiveRecord::Schema.define(version: 20140929094008) do
     t.date     "card_validity_date"
     t.integer  "promotion_code_id"
     t.datetime "last_renewal_failed_at"
-    t.hstore   "bo_meta_data"
     t.string   "paypal_token"
     t.string   "paypal_payer_id"
+    t.hstore   "bo_meta_data"
     t.string   "paypal_recurring_profile_token"
   end
 

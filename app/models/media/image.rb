@@ -2,23 +2,12 @@ class Media::Image < Media
   require 'open-uri'
   require 'aws'
 
-  has_attached_file :image,
-                    styles: {
-                      original: '1000x',
-                      thumbnail: '500x',
-                      thumbnail_cropped: '450x300#'
-                    },
-                    convert_options: { original: '-interlace Plane', thumbnail: '-interlace Plane', thumbnail_cropped: '-interlace Plane' }
-
-  # validates_attachment_content_type :image, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
-  do_not_validate_attachment_file_type :image
+  mount_uploader :image, MediaUploader
 
   ######################################################################
   # Callbacs                                                           #
   ######################################################################
   before_create :make_cover_if_first
-  # after_create :save_thumbnail_url_to_s3
-  # after_destroy :remove_file_from_s3
 
   def video?
     false
@@ -96,6 +85,6 @@ class Media::Image < Media
   # Callbacs                                                           #
   ######################################################################
   def make_cover_if_first
-    self.cover = true if self.mediable.medias.images.empty?
+    self.cover = true if self.mediable and self.mediable.medias.images.empty?
   end
 end

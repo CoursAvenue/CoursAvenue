@@ -9,7 +9,7 @@ CoursAvenue::Application.configure do
 
   # Full error reports are disabled and caching is turned on
   config.consider_all_requests_local       = false
-  config.action_controller.perform_caching = false
+  config.action_controller.perform_caching = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this)
   config.serve_static_assets  = true
@@ -35,7 +35,7 @@ CoursAvenue::Application.configure do
   # config.force_ssl = true
 
   # See everything in the log (default is :info)
-  config.log_level = :info
+  config.log_level = :warn
 
   # Prepend all log lines with the following tags
   # config.log_tags = [ :subdomain, :uuid ]
@@ -79,7 +79,7 @@ CoursAvenue::Application.configure do
       secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
     },
     url: ':s3_alias_url',
-    s3_host_alias: 'd3e88xatz22clz.cloudfront.net',
+    s3_host_alias: ENV['PAPERCLIP_S3_HOST_ALIAS'], #'d3e88xatz22clz.cloudfront.net',
     path: ":class/:attachment/:id_partition/:style/:filename"
   }
 
@@ -101,6 +101,7 @@ CoursAvenue::Application.configure do
   ActionMailer::Base.register_interceptor(DevelopmentMailInterceptor)
 
   config.eager_load = false
+  config.active_record.migration_error = :page_load
 
   PayPal::Recurring.configure do |config|
     config.sandbox   = true

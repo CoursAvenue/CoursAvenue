@@ -17,11 +17,11 @@
             .jcrop-holder {
               border: 1px solid #CCC;
             }
-          = image_tag @structure.logo.url(:large), id: 'cropbox'
+          = image_tag @structure.logo.url(:large), id: 'cropbox', width: 450, height: 450
           - [:crop_x, :crop_y, :crop_width].each do |attribute|
             = f.input attribute, input_html: {id: attribute}, as: :hidden
         .grid__item.one-third.v-middle.text--center>
-          .bordered.center-block{style: "width:150px; height:150px; overflow:hidden"}
+          .bordered.center-block{ style: "width:150px; height:150px; overflow:hidden" }
             = image_tag @structure.logo.url(:large), id: "preview", style: 'max-width: none;'
       .push--top
         = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }

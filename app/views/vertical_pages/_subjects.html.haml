@@ -3,12 +3,12 @@
   - subjects.each do |subject|
     - subject.vertical_pages.each do |vertical_page|
       .inline-block.one-quarter.very-soft>
-        - cache [vertical_page, 'vertical_page/show/subjects/v1'] do
-          - if vertical_page.image.present?
-            - image = vertical_page.image.url(:thumb)
-          - else
-            - image = subject_image(subject)
-          .relative.bg-cover{style: "background-image: url('#{image}'); height: 150px; "}>
+        - if vertical_page.image.present?
+          - image = vertical_page.image.url(:thumb)
+        - else
+          - image = subject_image(subject)
+        .relative.bg-cover{style: "background-image: url('#{image}'); height: 150px; "}>
+          - cache [subject, vertical_page, 'vertical_page/show/subjects/v1'] do
             = link_to vertical_page_path(subject.root, vertical_page), class: 'block show-on-hover__wrapper show-on-hover__wrapper--black-curtain', title: "Cours de #{subject.name}" do
               .home-screen-gallery__title.text--center
                 %h6.f-weight-normal.delta.push-half--bottom= vertical_page.name

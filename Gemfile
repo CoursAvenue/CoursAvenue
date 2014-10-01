@@ -16,8 +16,8 @@ gem 'rack-ssl-enforcer',    '~> 0.2.7'
 
 # Webserver
 # gem 'unicorn'
-# gem 'puma'
-gem 'passenger'
+gem 'puma'
+# gem 'passenger'
 
 # Database
 gem 'pg'
@@ -67,6 +67,9 @@ gem 'delayed_job_active_record' , '~>4.0.1'
 gem 'daemons'                   , '~>1.1.9'
 # Needed for hirefire to handle to access to jobs count
 gem 'hirefire-resource'
+
+gem 'carrierwave'               , '~>0.10.0'
+gem 'cloudinary'                , '~>1.0.77'
 
 # Handle paperclip in background
 gem 'delayed_paperclip'         , '~>2.8.0'
