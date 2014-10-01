@@ -1,0 +1,60 @@
+- content_for :email_title do
+  %title= @emailing.title
+
+- content_for :under_content_no_box do
+  %table.promo-table{ border: '0', cellpadding: '0', cellspacing: '0', width: '600' }
+    %tr
+      %td.content-block
+        = image_tag @emailing.header_image.url, alt: "", width: 600, height: 244
+
+- content_for :under_content_no_box do
+  %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600' }
+    %tr{ valign: 'top' }
+      %td.soft.v-middle.content-block{ width: 600 }
+        - @emailing.body.split("\r\n\r\n").each do |paragraph|
+          .p.hard--bottom= paragraph
+
+- content_for :under_content_no_box_2 do
+  %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
+    %tr{ valign: 'top' }
+      %td.content-block{ width: '33%', style: 'padding-bottom: 0' }
+        = link_to '/paris' do
+          = image_tag "http://coursavenue-public.s3.amazonaws.com/newsletters/global/icon_search.png", height: 14
+          Rechercher un Cours
+      %td.content-block{ width: '33%', style: 'padding-bottom: 0' }
+        = link_to mon_compte_path do
+          = image_tag "http://coursavenue-public.s3.amazonaws.com/newsletters/global/icon_key.png", height: 14
+          Votre Compte
+      %td.content-block{ width: '33%', style: 'padding-bottom: 0' }
+        = link_to '' do
+          = image_tag "http://coursavenue-public.s3.amazonaws.com/newsletters/global/icon_sad.png", height: 14
+          Se désabonner
+
+- content_for :under_content_no_box_3 do
+  - @emailing.emailing_sections.each do |section|
+    %hr
+    %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600' }
+      %tr{ valign: 'top' }
+        %td.soft--top.content-block{ colspan: '3', width: '600', style: 'padding-bottom: 0' }
+          .title.text--center= section.title
+
+      %tr{ valign: 'top' }
+        %td.soft.content-block{ colspan: '3', width: '600', style: 'padding-bottom: 0' }
+          %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
+            %tr{ valign: 'top' }
+              - section.structures.each do |structure|
+                %td.content-block{ width: '33%', style: 'padding-bottom: 0' }
+                  = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN) do
+                    .text--center
+                      - media = section.media_with_structure(structure)
+                      - if media.nil?
+                        = image_tag structure.logo.url(:thumb), width: 180, height: 110
+                      - elsif media.media_url.present?
+                        = image_tag media.media_url, width: 180, height: 110
+                      - @emailing.section_metadata.each do |action|
+                        %br
+                        = truncate @emailing.call_action(action, structure), length: 22
+
+      %tr{ valign: 'top' }
+        %td.content-block{ colspan: '3', width: '600', style: 'padding-bottom: 0' }
+          .p.soft--left= link_to section.link_name, section.link
