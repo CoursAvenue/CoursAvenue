@@ -60,4 +60,22 @@ class Pro::EmailingsController < Pro::ProController
     end
   end
 
+  def preview
+    @emailing = Emailing.find params[:id]
+    @email = preview_email
+  end
+
+  private
+
+  # Create a preview of the email with inline styles thanks to Roadie.
+  #
+  # @return a String
+  def preview_email
+    email = UserMailer.emailing(@emailing)
+    mail_inliner = Roadie::Rails::MailInliner.new(email, Rails.application.config.roadie)
+    mail = mail_inliner.execute
+
+    mail.html_part.decoded
+  end
+
 end

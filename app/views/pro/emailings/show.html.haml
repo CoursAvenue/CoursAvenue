@@ -4,7 +4,13 @@
   .panel__header.soft.text--center
     %h3.flush Newsletter
 
-  .panel__body.soft
+  .panel_body.soft
+    = link_to preview_pro_emailing_path(@emailing), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: '700', padding: 0 }  do
+      %i.fa.fa-download
+      Previsualiser la Newsletter
+
+    %hr
+
     %p= @emailing.title
 
     = image_tag '/assets/logos/logo.png', class: 'center-block'

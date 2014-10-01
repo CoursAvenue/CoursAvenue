@@ -6,8 +6,8 @@ class Emailing < ActiveRecord::Base
 
   SECTION_METADATA = [
     { title: 'Nom'          , action: :metadata_name },
-    { title: "Nombre d'avis", action: :metadata_comment_count }, # TODO: => comments.count
-    { title: 'À partir de'  , action: :metadata_prices },        # TODO: => prices. ???
+    { title: "Nombre d'avis", action: :metadata_comment_count },
+    { title: 'À partir de'  , action: :metadata_prices },
     { title: 'Villes'       , action: :metadata_cities }
   ]
 
@@ -89,7 +89,7 @@ class Emailing < ActiveRecord::Base
   def metadata_prices(structure)
     lowest_price = Structure.first.prices.min{ |a, b| a.amount <=> b.amount }.amount
 
-    "À partir de #{amount} €"
+    "À partir de #{lowest_price} €"
   end
 
   # The city of the structure.
