@@ -193,14 +193,14 @@ class DiscoveryPass < ActiveRecord::Base
   # Tells wether the pass is still valid
   #
   # @return Boolean
-  def valid?
+  def active?
     self.expires_at >= Date.today
   end
 
   private
 
   def inform_user_of_success
-    AdminMailer.delay.your_premium_account_has_been_activated(self)
+    # AdminMailer.delay.your_premium_account_has_been_activated(self)
   end
 
 end

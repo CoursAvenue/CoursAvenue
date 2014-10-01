@@ -61,16 +61,20 @@ class PaymentNotification < ActiveRecord::Base
 
   # Send email when be2bill hits transaction notifications
   def notify_user
-    SuperAdminMailer.delay.be2bill_transaction_notifications(self.structure, params)
-
-    if self.payment_succeeded?
-      # Email for admin
-      SuperAdminMailer.delay.go_premium(self.structure, self.structure.subscription_plan.plan_type) unless self.is_a_renewal?
+    if for_discovery_pass?
+      # TODO
+      # Notify everyone
     else
-      Bugsnag.notify(RuntimeError.new("Payment refused"), params)
-      SuperAdminMailer.delay.go_premium_fail(self.structure, params)
-      if self.is_a_renewal?
-        AdminMailer.delay.subscription_renewal_failed(self.structure)
+      SuperAdminMailer.delay.be2bill_transaction_notifications(self.structure, params)
+      if self.payment_succeeded?
+        # Email for admin
+        SuperAdminMailer.delay.go_premium(self.structure, self.structure.subscription_plan.plan_type) unless self.is_a_renewal?
+      else
+        Bugsnag.notify(RuntimeError.new("Payment refused"), params)
+        SuperAdminMailer.delay.go_premium_fail(self.structure, params)
+        if self.is_a_renewal?
+          AdminMailer.delay.subscription_renewal_failed(self.structure)
+        end
       end
     end
   end
