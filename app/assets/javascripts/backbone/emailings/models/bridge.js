@@ -1,7 +1,11 @@
 Emailing.module('Models', function(Module, App, Backbone, Marionette, $, _) {
     Module.Bridge = Backbone.Model.extend({
         initialize: function initialize () {
-            this.on('change', this.save);
+            this.on('change', this.modelChanged );
+        },
+
+        modelChanged: function modelChanged () {
+            this.save();
         },
 
         url: function url () {

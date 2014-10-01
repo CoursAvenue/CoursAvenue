@@ -40,11 +40,10 @@ Emailing.module('Views.Sections.Bridges', function(Module, App, Backbone, Marion
         },
 
         setCurrentImage: function setCurrentImage (image) {
-          if (image) {
-              console.log(image);
-              this.model.set( { media_url: image.url, media_id: image.id } );
-          }
-          // AJAX request changing the image.
+            if (image) {
+                console.log(image);
+                this.model.set( { media_url: image.url, media_id: image.id } );
+            }
         },
     });
 });
