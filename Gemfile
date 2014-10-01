@@ -186,7 +186,7 @@ gem 'axlsx'                     , '~> 2.0.1'
 gem 'rack-utf8_sanitizer'       , '~> 1.1.0'
 
 # Use ckeditor for post body
-gem 'ckeditor'                  , '~> 4.1.0', git: 'git://github.com/nim1989/ckeditor.git'
+gem 'ckeditor'                  , '~> 4.1.0'#, git: 'git://github.com/nim1989/ckeditor.git'
 
 group :production, :staging do
   gem 'execjs'                  , '~>2.0.2'
