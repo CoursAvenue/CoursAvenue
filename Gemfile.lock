@@ -8,6 +8,14 @@ GIT
       sprockets (<= 2.11.0)
 
 GIT
+  remote: git://github.com/nim1989/ckeditor.git
+  revision: c90bbbf70877ef0635c5bf3ef8651393821cef28
+  specs:
+    ckeditor (4.1.0)
+      mime-types
+      orm_adapter (~> 0.5.0)
+
+GIT
   remote: git://github.com/rails/activerecord-session_store.git
   revision: e879bf087eb684452aaddb734efa20b95588b141
   specs:
@@ -135,9 +143,6 @@ GEM
     certified (0.1.2)
     chronic (0.10.2)
     chunky_png (1.3.1)
-    ckeditor (4.1.0)
-      mime-types
-      orm_adapter (~> 0.5.0)
     climate_control (0.0.3)
       activesupport (>= 3.0)
     cloudinary (1.0.77)
@@ -604,7 +609,7 @@ DEPENDENCIES
   capybara (~> 2.2.1)
   carrierwave (~> 0.10.0)
   certified (~> 0.1.1)
-  ckeditor (~> 4.1.0)
+  ckeditor (~> 4.1.0)!
   cloudinary (~> 1.0.77)
   compass (~> 0.12.2)
   compass-inuit (~> 5.0.2)
