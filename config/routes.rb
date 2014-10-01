@@ -97,9 +97,9 @@ CoursAvenue::Application.routes.draw do
 
       resources :emailings do
         member do
-          get :sections
           post :bridge_update, path: 'bridge'
           put :bridge_update, path: 'bridge'
+          resources :sections, only: [:index]
         end
       end
 

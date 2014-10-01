@@ -4,7 +4,7 @@ Emailing.module('Models', function(Module, App, Backbone, Marionette, $, _) {
 
         url: function () {
             var id = window.coursavenue.bootstrap.id;
-            return Routes.sections_pro_emailing_path(id);
+            return Routes.pro_sections_path(id);
         },
 
         parse: function (data) {
