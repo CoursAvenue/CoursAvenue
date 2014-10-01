@@ -44,7 +44,13 @@ class Emailing < ActiveRecord::Base
   #
   # @return a Boolean
   def reject_section(attributes)
-    attributes[:title].blank?
+    blank = attributes[:title].blank?
+
+    if blank
+      attributes.merge!({:_destroy => 1})
+    end
+
+    blank
   end
 
   # Puts the three section_metadata in a Array.
