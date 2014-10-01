@@ -96,10 +96,8 @@ CoursAvenue::Application.routes.draw do
       end
 
       resources :emailings do
-        member do
-          resources :sections, only: [:index]
-          resources :bridges, only: [:update]
-        end
+        resources :sections, only: [:index]
+        resources :bridges, only: [:update]
       end
 
 
