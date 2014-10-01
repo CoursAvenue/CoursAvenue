@@ -526,7 +526,6 @@ class Structure < ActiveRecord::Base
 
   def ratio_from_original_from_large
     600.0 / 450.0
-    # self.logo_geometry(:original).width / self.logo_geometry(style).width
   end
 
   def crop_width
