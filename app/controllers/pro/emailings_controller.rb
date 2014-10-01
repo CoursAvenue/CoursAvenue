@@ -63,6 +63,8 @@ class Pro::EmailingsController < Pro::ProController
   def preview
     @emailing = Emailing.find params[:id]
     @email = preview_email
+
+    render layout: false
   end
 
   def send_preview

@@ -81,7 +81,7 @@ class UserMailer < ActionMailer::Base
 
   def emailing(emailing, to='contact@coursavenue.com')
     @emailing = emailing
-    mail to: to, subject: 'Coucou'
+    mail to: to, subject: '[Newsletter] Previsualisation'
   end
 
   def monthly_newsletter(user)
