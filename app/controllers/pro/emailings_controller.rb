@@ -74,7 +74,7 @@ class Pro::EmailingsController < Pro::ProController
 
     respond_to do |format|
       if @bridge.update_attributes params
-        format.json { render nothing:true }
+        format.json { render nothing: true }
       else
         format.json { render json: { errors: @bridge.errors }, status: 422 }
       end

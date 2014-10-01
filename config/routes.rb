@@ -99,6 +99,7 @@ CoursAvenue::Application.routes.draw do
         member do
           get :sections
           post :bridge_update, path: 'bridge'
+          put :bridge_update, path: 'bridge'
         end
       end
 
