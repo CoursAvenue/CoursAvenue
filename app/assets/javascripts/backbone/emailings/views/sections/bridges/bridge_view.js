@@ -4,7 +4,6 @@ Emailing.module('Views.Sections.Bridges', function(Module, App, Backbone, Marion
 
         tagName: 'td',
         attributes: {
-            'colspan': '3',
             'width': '33%'
         },
 

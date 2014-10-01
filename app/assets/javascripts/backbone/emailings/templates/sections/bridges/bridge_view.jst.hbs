@@ -1,12 +1,21 @@
-<a class='pointer' data-slide-prev>
-  <i class='delta fa-chevron-left v-middle gray-light'></i>
-</a>
+<div class='text--center'>
+  <a class='pointer' data-slide-prev>
+    <i class='delta fa-chevron-left v-middle gray-light'></i>
+  </a>
 
-<!-- The images we can chose from. -->
-<!-- By default we choose the first image or the logo. -->
-<!-- We can then change using a list of images. -->
-<img src="{{ media_url }}" data-id="{{ media_id }}">
+  <!-- The images we can chose from. -->
+  <!-- By default we choose the first image or the logo. -->
+  <!-- We can then change using a list of images. -->
+  <img src="{{ media_url }}" data-id="{{ media_id }}" width="180" height="180">
 
-<a class='pointer' data-slide-next>
-  <i class='delta fa-chevron-right v-middle gray-light'></i>
-</a>
+  <a class='pointer' data-slide-next>
+    <i class='delta fa-chevron-right v-middle gray-light'></i>
+  </a>
+</div>
+<div class='p'>
+  <strong>{{ structure.metadata_1 }}</strong>
+  <br>
+  {{ structure.metadata_2 }}
+  <br>
+  {{ structure.metadata_3 }}
+</div>
