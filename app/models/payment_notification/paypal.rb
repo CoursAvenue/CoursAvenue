@@ -11,7 +11,11 @@ class PaymentNotification::Paypal < PaymentNotification
 
   private
 
-  def finalize_payment
+  def finalize_payment_for_discovery_pass
+    nil
+  end
+
+  def finalize_payment_for_premium_account
     return if self.structure.premium?
     response = request_first_paypal_payment
     if response.approved? and response.completed?

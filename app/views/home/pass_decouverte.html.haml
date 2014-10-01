@@ -1,15 +1,3 @@
-- case (params[:utm_campaign] || '').last
-- when 'a'
-  - @price = 9
-- when 'b'
-  - @price = 19
-- when 'c'
-  - @price = 29
-- when 'd'
-  - @price = 39
-- else
-  - @price = 9
-
 = content_for :head do
   %meta{ name: "robots", content: "noindex, nofollow" }
 
@@ -40,7 +28,7 @@
     }
     })();
     window._fbq = window._fbq || [];
-    window._fbq.push(['track', '6017039707227', {'value':'#{@price}.00','currency':'EUR'}]);
+    window._fbq.push(['track', '6017039707227', {'value':'19.00','currency':'EUR'}]);
     </script>
     <noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/tr?ev=6017039707227&amp;cd[value]=0.00&amp;cd[currency]=EUR&amp;noscript=1" /></noscript>
 
@@ -82,7 +70,7 @@
             = link_to 'Obtenir mon Pass', '#first-popup', class: 'btn btn--green btn--large btn--full hard--sides', data: { behavior: 'modal', width: 400, padding: 0 }, onclick: "ga('send', 'event', 'Pass Découverte', 'Clicked on popup');"
       .grid__item.six-tenths>
         = link_to '#first-popup', class: 'block', data: { behavior: 'modal', width: 400, padding: 0 }, onclick: "ga('send', 'event', 'Pass Découverte', 'Clicked on popup');", style: 'margin-left: -50px; margin-top: -20px;' do
-          = image_tag "https://coursavenue-public.s3.amazonaws.com/pass/pass_#{@price}.png", height: 250, width: 250
+          = image_tag "https://coursavenue-public.s3.amazonaws.com/pass/pass_19.png", height: 250, width: 250
       .home-screen-comment.visuallyhidden--palm.soft-black-text-shadow.south.soft--bottom
         .grid.epsilon
           .grid__item.two-twelfths.v-middle.text--center>
@@ -104,7 +92,7 @@
         %strong Réservez-moi un Pass Découverte
       = simple_form_for Email.new do |f|
         = f.input :email, input_html: { class: 'input--large one-whole', placeholder: 'Votre e-mail' }, label: false
-        = f.input :email_type, as: :hidden, input_html: { value: "pass-decouverte_#{@price}" }
+        = f.input :email_type, as: :hidden, input_html: { value: "pass-decouverte_19" }
         %input{ type: 'hidden', name: 'utm_campaign', value: params[:utm_campaign] }
         = f.submit 'Réserver mon Pass', class: 'btn btn--green btn--large btn--full', data: { disable_with: 'Validation en cours...' }
 

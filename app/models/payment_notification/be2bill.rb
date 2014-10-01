@@ -11,7 +11,32 @@ class PaymentNotification::Be2bill < PaymentNotification
 
   private
 
-  def finalize_payment
+  def finalize_payment_for_discovery_pass
+    params['EXTRADATA'] = JSON.parse(params['EXTRADATA'])
+
+    if payment_succeeded?
+      if is_a_renewal?
+        discovery_pass = self.user.discovery_pass
+        discovery_pass.extend_be2bill_subscription(params)
+      else
+        discovery_pass_params = { credit_card_number: params['CARDCODE'],
+                                  be2bill_alias:      params['ALIAS'],
+                                  card_validity_date: (params['CARDVALIDITYDATE'] ? Date.strptime(params['CARDVALIDITYDATE'], '%m-%y') : nil),
+                                  promotion_code_id:  (params['EXTRADATA'].present? ? params['EXTRADATA']['promotion_code_id'] : nil),
+                                  client_ip:          params['CLIENT_IP']
+                                }
+        discovery_pass = self.user.discovery_passes.create(discovery_pass_params)
+      end
+    else
+      if params['EXTRADATA']['renew'].present?
+        discovery_pass = self.user.discovery_pass
+        discovery_pass.last_renewal_failed_at = Date.today
+        discovery_pass.save
+      end
+    end
+  end
+
+  def finalize_payment_for_premium_account
     params['EXTRADATA'] = JSON.parse(params['EXTRADATA'])
 
     if payment_succeeded?
@@ -40,5 +65,4 @@ class PaymentNotification::Be2bill < PaymentNotification
       end
     end
   end
-
 end

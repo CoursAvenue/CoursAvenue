@@ -1,0 +1,10 @@
+= user_menu_currently_at 'discovery_pass'
+
+%h1 Pass découvrte
+%h2 19€
+= image_tag "https://coursavenue-public.s3.amazonaws.com/pass/pass_19.png", height: 250, width: 250
+
+= form_tag ENV['BE2BILL_URL'] do
+  - @be2bill_params.each do |key, value|
+    = hidden_field_tag key.to_sym, value
+  = submit_tag 'Payer', class: 'btn btn--green btn--large btn--full', data: { disable_with: 'Veuillez patienter...' }

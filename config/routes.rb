@@ -292,8 +292,8 @@ CoursAvenue::Application.routes.draw do
           end
         end
       end
-      resources :visitors             , only: [:index, :show]
-      resources :users                , only: [:index] do
+      resources :visitors, only: [:index, :show]
+      resources :users, only: [:index] do
         member do
           patch :activate
         end
@@ -375,6 +375,7 @@ CoursAvenue::Application.routes.draw do
         get   :add_invited_friends
       end
     end
+    resources :discovery_passes, only: [:index, :new], path: 'pass-decouverte', controller: 'users/discovery_passes'
   end
   resources :emails, only: [:create]
 

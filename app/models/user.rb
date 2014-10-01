@@ -55,6 +55,8 @@ class User < ActiveRecord::Base
   has_many :cities, through: :lived_places
   has_many :followings
 
+  has_many :discovery_passes
+
   has_and_belongs_to_many :subjects
   has_and_belongs_to_many :invited_participations, class_name: 'Participation'
 
@@ -482,6 +484,15 @@ class User < ActiveRecord::Base
       break if @structures.length >= limit
     end
     return @structures[0..(limit - 1)]
+  end
+
+
+  # Return current (last) discovery_pass
+  #
+  # @return DiscoveryPass or nil if there is no current DiscoveryPass
+  def discovery_pass
+    discovery_pass = self.discovery_passes.order('created_at DESC').first
+    return discovery_pass
   end
 
   private

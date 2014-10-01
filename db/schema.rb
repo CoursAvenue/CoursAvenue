@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140930142807) do
+ActiveRecord::Schema.define(version: 20141001092842) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -289,36 +289,21 @@ ActiveRecord::Schema.define(version: 20140930142807) do
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
-  create_table "emailing_section_bridges", force: true do |t|
-    t.integer "emailing_section_id"
-    t.integer "structure_id"
-    t.integer "media_id"
-    t.boolean "is_logo"
-  end
-
-  add_index "emailing_section_bridges", ["emailing_section_id", "structure_id"], name: "comments_subjects_index", using: :btree
-
-  create_table "emailing_sections", force: true do |t|
-    t.string   "title"
-    t.integer  "emailing_id"
+  create_table "discovery_passes", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "promotion_code_id"
+    t.date     "expires_at"
+    t.date     "renewed_at"
+    t.datetime "last_renewal_failed_at"
+    t.boolean  "recurrent"
+    t.datetime "canceled_at"
+    t.string   "credit_card_number"
+    t.string   "be2bill_alias"
+    t.string   "client_ip"
+    t.string   "card_validity_date"
+    t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "link"
-    t.string   "link_name"
-  end
-
-  create_table "emailings", force: true do |t|
-    t.string   "title"
-    t.text     "body"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "header_image_file_name"
-    t.string   "header_image_content_type"
-    t.integer  "header_image_file_size"
-    t.datetime "header_image_updated_at"
-    t.string   "section_metadata_one"
-    t.string   "section_metadata_two"
-    t.string   "section_metadata_three"
   end
 
   create_table "emails", force: true do |t|
@@ -551,6 +536,8 @@ ActiveRecord::Schema.define(version: 20140930142807) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "type"
+    t.integer  "user_id"
+    t.string   "product_type"
   end
 
   create_table "phone_numbers", force: true do |t|
@@ -902,6 +889,7 @@ ActiveRecord::Schema.define(version: 20140930142807) do
     t.string   "paypal_payer_id"
     t.hstore   "bo_meta_data"
     t.string   "paypal_recurring_profile_token"
+    t.string   "next_plan_type"
   end
 
   create_table "taggings", force: true do |t|
