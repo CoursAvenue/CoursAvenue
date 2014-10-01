@@ -130,7 +130,7 @@ describe SubscriptionPlan do
 
   describe '#renew!' do
     it 'runs renew renew_with_be2bill!' do
-      subscription_plan = SubscriptionPlan.new
+      subscription_plan = SubscriptionPlan.new structure: structure
       subscription_plan.stub(:payed_through_be2bill?) { true }
       subscription_plan.stub(:payed_through_paypal?) { false }
       subscription_plan.stub(:renew_with_be2bill!) { 'HEY!' }
@@ -138,7 +138,7 @@ describe SubscriptionPlan do
     end
 
     it 'does not run renew renew_with_be2bill!' do
-      subscription_plan = SubscriptionPlan.new
+      subscription_plan = SubscriptionPlan.new structure: structure
       subscription_plan.stub(:payed_through_be2bill?) { false }
       subscription_plan.stub(:payed_through_paypal?) { true }
       subscription_plan.stub(:renew_with_be2bill!) { 'HEY!' }
@@ -148,7 +148,7 @@ describe SubscriptionPlan do
 
   describe '#payed_through_be2bill?' do
     it 'returns monthly' do
-      subscription_plan = SubscriptionPlan.new
+      subscription_plan = SubscriptionPlan.new structure: structure
       subscription_plan.stub(:be2bill_alias) { 'lorem' }
       expect(subscription_plan.payed_through_be2bill?).to be_truthy
       expect(subscription_plan.payed_through_paypal?).to be_falsy
@@ -157,7 +157,7 @@ describe SubscriptionPlan do
 
   describe '#payed_through_paypal?' do
     it 'returns monthly' do
-      subscription_plan = SubscriptionPlan.new
+      subscription_plan = SubscriptionPlan.new structure: structure
       subscription_plan.stub(:paypal_payer_id) { 'lorem' }
       expect(subscription_plan.payed_through_paypal?).to be_truthy
       expect(subscription_plan.payed_through_be2bill?).to be_falsy

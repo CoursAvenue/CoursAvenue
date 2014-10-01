@@ -131,13 +131,13 @@ class StructureSerializer < ActiveModel::Serializer
     PlanningSearch.search({ structure_id: object.id,
                             is_published: true,
                             course_types: ['lesson', 'private'],
-                            visible: true }.merge(@options[:query])).total
+                            visible: true }.merge(@options[:query] || {})).total
   end
 
   def training_courses_plannings_count
     PlanningSearch.search({ structure_id: object.id,
                             is_published: true,
                             course_types: ['training'],
-                            visible: true }.merge(@options[:query])).total
+                            visible: true }.merge(@options[:query] || {})).total
   end
 end
