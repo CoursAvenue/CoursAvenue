@@ -898,9 +898,9 @@ ActiveRecord::Schema.define(version: 20140930142807) do
     t.date     "card_validity_date"
     t.integer  "promotion_code_id"
     t.datetime "last_renewal_failed_at"
+    t.hstore   "bo_meta_data"
     t.string   "paypal_token"
     t.string   "paypal_payer_id"
-    t.hstore   "bo_meta_data"
     t.string   "paypal_recurring_profile_token"
   end
 

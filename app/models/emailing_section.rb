@@ -6,7 +6,7 @@ class EmailingSection < ActiveRecord::Base
 
   attr_accessible :title, :link, :link_name, :structures, :structure_ids
 
-  belongs_to :emailing, polymorphic: true
+  belongs_to :emailing
 
   has_many :emailing_section_bridges
   has_many :structures, through: :emailing_section_bridges
