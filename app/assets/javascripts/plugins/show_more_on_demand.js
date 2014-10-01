@@ -68,6 +68,7 @@
             $wrapping_el.find('select').each(function() {
                 if ($(this).find('option[value=""]').length == 1) {
                     $(this).val('');
+                    $(this).removeAttr('value');
                 } else {
                     $(this).val($(this).find('option').first().val());
                 }
