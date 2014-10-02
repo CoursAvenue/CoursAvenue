@@ -28,6 +28,19 @@
           %div et #{CommentNotification.where( CommentNotification.arel_table[:created_at].gt(Date.today - 7.days) ).count} les 7 derniers jours
 
 
+  %hr.push--ends
+  %h3.text--center Pass découverte
+  .grid
+    .grid__item.one-third.text--center>
+      %h3.flush= Structure.where.not(discovery_pass_policy: nil).count
+      %h6 profs
+    .grid__item.one-third.text--center>
+      %h3.flush= Course.where.not(available_in_discovery_pass: nil).count
+      %h6 cours
+    .grid__item.one-third.text--center>
+      %h3.flush= Planning.where.not(available_in_discovery_pass: nil).count
+      %h6 créneaux
+
   - pass_9  = Email.where(Email.arel_table[:email_type].matches('pass-decouverte_9').and(Email.arel_table[:email].not_eq('')))
   - pass_19 = Email.where(Email.arel_table[:email_type].matches('pass-decouverte_19').and(Email.arel_table[:email].not_eq('')))
   - pass_29 = Email.where(Email.arel_table[:email_type].matches('pass-decouverte_29').and(Email.arel_table[:email].not_eq('')))
