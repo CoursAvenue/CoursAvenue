@@ -1,4 +1,4 @@
-<% if @course.plannings.length == 0 %>
+<% if @course.plannings.future.length == 0 %>
     $("#course-<%= @course.id %>").replaceWith('<%= escape_javascript(render partial: "pro/structures/courses/live_form", locals: { course: @course, structure: @structure }) %>')
     $('#course-<%= @course.id %>').yellowFade();
 <% else %>

@@ -353,7 +353,7 @@ class Course < ActiveRecord::Base
   end
 
   def can_be_published?
-    plannings.any? and price_group.present?
+    plannings.future.any? and price_group.present?
   end
 
   def expired?
