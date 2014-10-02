@@ -6,7 +6,25 @@ class Users::DiscoveryPassesController < Pro::ProController
 
   layout 'user_profile'
 
-  def index
+  # GET eleves/:user_id/pass-decouverte/:id
+  def show
+    @discovery_pass = @user.discovery_passes.find params[:id]
+  end
+
+  # GET eleves/:user_id/pass-decouverte/:id/ask_for_cancellation
+  def ask_for_cancellation
+    @discovery_pass = @user.discovery_passes.find params[:id]
+    render layout: false
+  end
+
+  # PATCH eleves/:user_id/pass-decouverte/:id/confirm_cancellation
+  def cancel
+    @discovery_pass = @user.discovery_passes.find params[:id]
+    @discovery_pass.update_attributes params[:discovery_pass]
+    @discovery_pass.cancel!
+    respond_to do |format|
+      format.html { redirect_to user_discovery_pass_path(@user, @discovery_pass) }
+    end
   end
 
   # GET etablissements/:structure_id/abonnements/new
@@ -33,4 +51,9 @@ class Users::DiscoveryPassesController < Pro::ProController
     @be2bill_params['HASH'] = DiscoveryPass.hash_be2bill_params @be2bill_params
   end
 
+  protected
+
+  def layout_locals
+    { hide_menu: true }
+  end
 end

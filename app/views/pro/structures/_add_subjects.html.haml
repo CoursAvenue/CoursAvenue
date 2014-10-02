@@ -4,9 +4,9 @@
 #content.hidden
   %h4.text--center Gérez vos disciplines
   = simple_form_for [:pro, @structure], html: { autocomplete: 'off', id: 'structure-form' }, remote: params[:return_to_action].present? do |f|
-    %input{type: 'hidden', name: 'return_to', value: return_to}
+    %input{ type: 'hidden', name: 'return_to', value: return_to }
     - if params[:return_to_action].present?
-      %input{type: 'hidden', name: 'return_to_action', value: params[:return_to_action]}
+      %input{ type: 'hidden', name: 'return_to_action', value: params[:return_to_action] }
     %div{ data: { behavior: 'parent-descendant-subjects', 'parent-select' => '#parent-subjects', 'descendant-select' => '#subject-descendants-select', 'descendant-select-wrapper' => '#descendants-subjects'}}
       = f.association :subjects, as: :select, collection: Subject.roots.order('name ASC'), input_html: { class: 'input--large', style: 'width: 74%;', id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true }, label: 'Disciplines générales pratiquées ', label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush--bottom' }, label_html: { class: 'label--large' }
 

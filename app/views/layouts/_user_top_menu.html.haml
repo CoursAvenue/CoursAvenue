@@ -1,12 +1,12 @@
 - content_for :user_top_menu do
-  .darkgray-box.flexbox.print--hidden{ data: { behavior: 'sticky', z: 1000 } }
+  .darkgray-box.flexbox.print--hidden.relative.on-top-of-the-world{ data: { behavior: 'sticky', z: 1000 } }
     .main-container.user-top-menu
       = user_top_menu_link 'dashboard', dashboard_user_path(@user)    , current: current_tab
       = user_top_menu_link 'infos', edit_user_path(@user)    , current: current_tab
+      - if @user.parisian?
+        = user_top_menu_link 'discovery_pass', (@user.discovery_pass ? user_participation_requests_path(@user) : new_user_discovery_pass_path(@user)), current: current_tab
       = user_top_menu_link 'passions', user_passions_path(@user), current: current_tab
       = user_top_menu_link 'favorites',   user_followings_path(@user), current: current_tab
       = user_top_menu_link 'inbox', user_conversations_path(@user), current: current_tab
       = user_top_menu_link 'reviews',   user_comments_path(@user), current: current_tab
       = user_top_menu_link 'share',  new_user_invited_user_path(@user), current: current_tab
-      - if current_pro_admin and current_pro_admin.super_admin?
-        = user_top_menu_link 'discovery_pass',  user_discovery_passes_path(@user), current: current_tab

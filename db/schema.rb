@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141002075635) do
+ActiveRecord::Schema.define(version: 20141002163123) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -296,6 +296,7 @@ ActiveRecord::Schema.define(version: 20141002075635) do
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.hstore   "meta_data"
   end
 
   create_table "emailing_section_bridges", force: true do |t|
@@ -522,6 +523,7 @@ ActiveRecord::Schema.define(version: 20141002075635) do
     t.time     "end_time"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "last_modified_by"
   end
 
   create_table "participations", force: true do |t|

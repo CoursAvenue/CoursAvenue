@@ -1,0 +1,26 @@
+= user_menu_currently_at 'discovery_pass'
+
+.flexbox
+  .flexbox__item.one-fifth.v-top.soft-half--left>
+    = render partial: 'side_menu', locals: { current: 'subscriptions' }
+  .flexbox__item.four-fifths.v-top.soft-half--left>
+    .panel
+      .panel__header.soft
+        %h3.flush Votre abonnement
+      .panel__body.soft--ends
+        .soft--sides
+          %h4 État de votre abonnement
+          %p
+            Votre abonnement au Pass Découverte sera automatiquement renouvelé le #{l(@discovery_pass.expires_at)} et nous prélèverons 19€ tous les mois, sauf si vous l'annulez avant cette date. Vous pouvez annuler votre abonnement à tout moment en accédant à l'espace « Gestion de votre abonnement ».
+          -# %p
+          -#   %strong Bon plan :
+          -#   pour obtenir jusqu'à 2 mois de Pass Découverte GRATUITS,                               !
+          -#   = link_to 'parrainez vos amis'
+        %hr.push--ends
+        .soft--sides
+          %h4 Gestion de votre abonnement
+          %p
+            - if @discovery_pass.canceled?
+              = link_to 'Réactiver mon abonnement', '#reactivate-subscription',  data: { behavior: 'modal', width: '600', padding: 0 }, class: 'btn btn--green'
+            - else
+              = link_to 'Résilier mon abonnement', ask_for_cancellation_user_discovery_pass_path(@user, @discovery_pass), class: 'red fancybox.ajax',  data: { behavior: 'modal', width: '600', padding: 0 }

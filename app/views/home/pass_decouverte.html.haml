@@ -66,7 +66,7 @@
         .push-half--bottom.very-soft.hard--sides
           .white-box.soft.black
             %h3 Essayez autant de cours de loisirs que vous voulez !
-            %p.epsilon Valable 1 mois et renouvelable, le Pass Découverte vous permet de suivre autant de cours d'essais que vous le souhaitez à Paris chez plus de 1 000 professeurs, écoles et associations.
+            %p.epsilon Valable 1 mois et renouvelable, le Pass Découverte vous permet de suivre autant de cours d'essais que vous le souhaitez à Paris chez plus de #{Structure.where.not(discovery_pass_policy: nil).count.round(-2)} professeurs, écoles et associations.
             = link_to 'Obtenir mon Pass', '#first-popup', class: 'btn btn--green btn--large btn--full hard--sides', data: { behavior: 'modal', width: 400, padding: 0 }, onclick: "ga('send', 'event', 'Pass Découverte', 'Clicked on popup');"
       .grid__item.six-tenths>
         = link_to '#first-popup', class: 'block', data: { behavior: 'modal', width: 400, padding: 0 }, onclick: "ga('send', 'event', 'Pass Découverte', 'Clicked on popup');", style: 'margin-left: -50px; margin-top: -20px;' do
@@ -79,8 +79,6 @@
           .grid__item.ten-twelfths.v-middle>
             %span.quoted.epsilon.quoted--large<
               %i Grâce au Pass, j'ai découvert au pied de mon immeuble un super cours d'écriture créative. Sans parler des cours de poterie, danse orientale, et même de sophrologie !
-            %br
-            — Il y a 2h
 
 #first-popup.hidden
   .panel

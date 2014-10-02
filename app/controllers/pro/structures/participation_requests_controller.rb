@@ -22,7 +22,7 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     @participation_request = @structure.participation_requests.find(params[:id])
     @participation_request.accept!(params[:participation_request][:message][:body], 'Structure')
     respond_to do |format|
-      format.html { redirect_to pro_structure_conversations_path(@structure), notice: 'Votre message a bien été envoyé' }
+      format.html { redirect_to pro_structure_conversation_path(@structure, @participation_request.conversation), notice: 'Votre message a bien été envoyé' }
     end
   end
 
@@ -31,7 +31,7 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     @participation_request = @structure.participation_requests.find(params[:id])
     @participation_request.modify_date!(params[:participation_request][:message][:body], params[:participation_request], 'Structure')
     respond_to do |format|
-      format.html { redirect_to pro_structure_conversations_path(@structure), notice: 'Votre message a bien été envoyé' }
+      format.html { redirect_to pro_structure_conversation_path(@structure, @participation_request.conversation), notice: 'Votre message a bien été envoyé' }
     end
   end
 
@@ -40,7 +40,7 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     @participation_request = @structure.participation_requests.find(params[:id])
     @participation_request.decline!(params[:participation_request][:message][:body], 'Structure')
     respond_to do |format|
-      format.html { redirect_to pro_structure_conversations_path(@structure), notice: 'Votre message a bien été envoyé' }
+      format.html { redirect_to pro_structure_conversation_path(@structure, @participation_request.conversation), notice: 'Votre message a bien été envoyé' }
     end
   end
 

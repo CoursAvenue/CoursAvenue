@@ -384,12 +384,18 @@ CoursAvenue::Application.routes.draw do
         get   :add_invited_friends
       end
     end
-    resources :discovery_passes, only: [:index, :new], path: 'pass-decouverte', controller: 'users/discovery_passes' do
+    resources :discovery_passes, only: [:show, :new], path: 'pass-decouverte', controller: 'users/discovery_passes' do
       collection do
         get :payment_confirmation, path: 'confirmation-paiement'
+        get :account
+        get :invites
+      end
+      member do
+        get   :ask_for_cancellation
+        patch :cancel
       end
     end
-    resources :participation_requests, only: [:edit], controller: 'users/participation_requests' do
+    resources :participation_requests, only: [:index, :edit], controller: 'users/participation_requests', path: 'mes-inscriptions' do
       member do
         get   :decline_form
         patch :accept

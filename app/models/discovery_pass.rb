@@ -1,4 +1,5 @@
 class DiscoveryPass < ActiveRecord::Base
+  include Concerns::HstoreHelper
   acts_as_paranoid
 
   PRICE = 19 # €
@@ -15,7 +16,12 @@ class DiscoveryPass < ActiveRecord::Base
   belongs_to :promotion_code
 
   attr_accessible :expires_at, :renewed_at, :last_renewal_failed_at, :recurrent, :canceled_at,
-                  :credit_card_number, :be2bill_alias, :client_ip, :card_validity_date, :promotion_code_id
+                  :credit_card_number, :be2bill_alias, :client_ip, :card_validity_date, :promotion_code_id,
+                  :cancelation_reason_text, :cancelation_reason_i_dont_want_to_try_more_courses, :cancelation_reason_i_found_a_course
+
+  store_accessor :meta_data, :cancelation_reason_text, :cancelation_reason_i_dont_want_to_try_more_courses, :cancelation_reason_i_found_a_course
+
+  define_boolean_accessor_for :meta_data, :cancelation_reason_text, :cancelation_reason_i_dont_want_to_try_more_courses, :cancelation_reason_i_found_a_course
 
   #
   # Generates a unique Order ID for a given user
@@ -66,17 +72,17 @@ class DiscoveryPass < ActiveRecord::Base
     params_for_hash = {
       'ALIAS'           => self.be2bill_alias,
       'ALIASMODE'       => 'subscription',
-      'CLIENTIDENT'     => self.structure.id,
-      'CLIENTEMAIL'     => self.structure.main_contact.email,
+      'CLIENTIDENT'     => self.user.id,
+      'CLIENTEMAIL'     => self.user.email,
       'AMOUNT'          => self.next_amount_for_be2bill,
-      'DESCRIPTION'     => "Renouvellement :  #{self.plan_type}",
+      'DESCRIPTION'     => "Renouvellement :  Pass découverte",
       'IDENTIFIER'      => ENV['BE2BILL_LOGIN'],
       'OPERATIONTYPE'   => 'payment',
-      'ORDERID'         => Order.next_order_id_for(self.structure),
+      'ORDERID'         => self.next_order_id_for_user(self.user),
       'VERSION'         => '2.0',
       'CLIENTUSERAGENT' => 'Mozilla/5.0 (Windows NT 6.1; WOW64)',
       'CLIENTIP'        => self.client_ip,
-      'EXTRADATA'       => extra_data.to_json
+      'EXTRADATA'       => extra_data.merge({ product_type: 'discovery_pass'}).to_json
     }
     params = {}
     params['params[HASH]'] = DiscoveryPass.hash_be2bill_params params_for_hash
@@ -93,7 +99,6 @@ class DiscoveryPass < ActiveRecord::Base
     else
       params['res_body'] = res.body
       Bugsnag.notify(RuntimeError.new("Renewal failed on HTTP call"), params)
-      AdminMailer.delay.go_premium_fail(self.structure, params)
       return false
     end
   end
@@ -173,9 +178,6 @@ class DiscoveryPass < ActiveRecord::Base
   def cancel!
     self.canceled_at = Time.now
     self.save
-    self.structure.index
-    AdminMailer.delay.subscription_has_been_canceled(self)
-    SuperAdminMailer.delay.someone_canceled_his_subscription(self)
     return self
   end
 

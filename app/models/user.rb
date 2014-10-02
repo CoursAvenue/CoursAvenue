@@ -496,6 +496,13 @@ class User < ActiveRecord::Base
     return discovery_pass
   end
 
+  # Tells if the user is based in Paris and around
+  #
+  # @return Boolean
+  def parisian?
+    return self.zip_code.starts_with? '75','77','78','91','92','93','94','95'
+  end
+
   private
 
   def random_string

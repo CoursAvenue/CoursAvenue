@@ -5,7 +5,12 @@ class Users::ParticipationRequestsController < ApplicationController
   before_action :authenticate_user!
   load_and_authorize_resource :user
 
-  # GET eleves/:user_id/participation_request/:id/edit
+  # GET eleves/:user_id/participation_request/
+  def index
+    @participation_requests = @user.participation_requests
+  end
+
+ # GET eleves/:user_id/participation_request/:id/edit
   def edit
     @participation_request = @user.participation_requests.find(params[:id])
     render layout: false
@@ -22,7 +27,7 @@ class Users::ParticipationRequestsController < ApplicationController
     @participation_request = @user.participation_requests.find(params[:id])
     @participation_request.accept!(params[:participation_request][:message][:body], 'User')
     respond_to do |format|
-      format.html { redirect_to user_conversations_path(@user), notice: 'Votre message a bien été envoyé' }
+      format.html { redirect_to (params[:return_to] || user_conversation_path(@user, @participation_request.conversation)), notice: 'Votre message a bien été envoyé' }
     end
   end
 
@@ -31,7 +36,7 @@ class Users::ParticipationRequestsController < ApplicationController
     @participation_request = @user.participation_requests.find(params[:id])
     @participation_request.modify_date!(params[:participation_request][:message][:body], params[:participation_request], 'User')
     respond_to do |format|
-      format.html { redirect_to user_conversations_path(@user), notice: 'Votre message a bien été envoyé' }
+      format.html { redirect_to (params[:return_to] || user_conversation_path(@user, @participation_request.conversation)), notice: 'Votre message a bien été envoyé' }
     end
   end
 
@@ -40,8 +45,13 @@ class Users::ParticipationRequestsController < ApplicationController
     @participation_request = @user.participation_requests.find(params[:id])
     @participation_request.decline!(params[:participation_request][:message][:body], 'User')
     respond_to do |format|
-      format.html { redirect_to user_conversations_path(@user), notice: 'Votre message a bien été envoyé' }
+      format.html { redirect_to (params[:return_to] || user_conversation_path(@user, @participation_request.conversation)), notice: 'Votre message a bien été envoyé' }
     end
   end
 
+  protected
+
+  def layout_locals
+    { hide_menu: true }
+  end
 end
