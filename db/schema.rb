@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141001123346) do
+ActiveRecord::Schema.define(version: 20141002075635) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -426,6 +426,7 @@ ActiveRecord::Schema.define(version: 20141001123346) do
     t.datetime "flagged_at"
     t.string   "mailboxer_extra_info_ids"
     t.string   "mailboxer_course_ids"
+    t.integer  "participation_request_id"
   end
 
   create_table "mailboxer_notifications", force: true do |t|
@@ -508,6 +509,19 @@ ActiveRecord::Schema.define(version: 20141001123346) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "promotion_code_id"
+  end
+
+  create_table "participation_requests", force: true do |t|
+    t.integer  "mailboxer_conversation_id"
+    t.integer  "planning_id"
+    t.integer  "user_id"
+    t.integer  "structure_id"
+    t.string   "state"
+    t.date     "date"
+    t.time     "start_time"
+    t.time     "end_time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "participations", force: true do |t|

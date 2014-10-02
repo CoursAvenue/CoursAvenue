@@ -88,7 +88,7 @@
       %h3.flush Ateliers / Stages
     .soft--sides
       .block-list
-        - if @courses.trainings.empty?
+        - if @courses.trainings.empty? or !@courses.trainings.detect{ |training| training.plannings.future.any? }
           %p
             Vous n'avez pas de stage ni d'atelier.
             = link_to trainings_pro_structure_courses_path(@structure, type: 'Course::Lesson') do
@@ -100,4 +100,5 @@
             %strong.relative.v-top.epsilon{ style: 'top: -5px; '}
               %i.blue Cochez pour inclure dans le Pass Découverte
           - @courses.trainings.each_with_index do |course, index|
-            = render partial: 'pro/structures/courses/discovery_course', locals: { course: course, structure: @structure }
+            - if course.plannings.future.any?
+              = render partial: 'pro/structures/courses/discovery_course', locals: { course: course, structure: @structure }

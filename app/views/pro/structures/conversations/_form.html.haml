@@ -1,6 +1,6 @@
 .grid--full.push-half--bottom.message
   .grid__item.two-twelfths.v-top.v-top>
-    = image_tag @admin.avatar, class: 'message__avatar block center-block bordered rounded--circle'
+    = image_tag @structure.logo.url(:thumb), class: 'message__avatar block center-block bordered rounded--circle'
   .grid__item.ten-twelfths.message__body.message__appendix.soft-half.gray-box>
     = simple_form_for [:pro, @structure, @conversation], url: pro_structure_conversation_path(@structure, @conversation), as: :conversation, remote: @is_xhr do |f|
       = f.error_notification

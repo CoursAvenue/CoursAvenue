@@ -1,14 +1,37 @@
 # encoding: utf-8
 module ConversationsHelper
 
+  # Take out extra infos from a conversation
+  # @param conversation
+  #
+  # @return Array of extra_infos, eg: ['inscription', 'be_called']
+  def conversation_participation_request(conversation)
+    if conversation.mailboxer_label_id == Mailboxer::Label::DISCOVERYPASSREQUEST.id
+      ParticipationRequest.where(mailboxer_conversation_id: conversation.id).first
+    end
+  end
+
+  # Take out extra infos from a conversation
+  # @param conversation
+  #
+  # @return Array of extra_infos, eg: ['inscription', 'be_called']
   def conversation_extra_infos(conversation)
     extra_infos = Mailboxer::ExtraInfo.find(conversation.mailboxer_extra_info_ids.split(',')) if conversation.mailboxer_extra_info_ids.present?
   end
 
+  # Take out courses associated to a conversation
+  # @param conversation
+  # @param structure
+  #
+  # @return Array of Courses
   def conversation_courses(conversation, structure)
     courses = structure.courses.find(conversation.mailboxer_course_ids.split(',')) if conversation.mailboxer_course_ids.present?
   end
 
+  # Take out the label of the conversation
+  # @param conversation
+  #
+  # @return String as HTML
   def conversation_label(conversation, options={})
     label = Mailboxer::Label.find(conversation.mailboxer_label_id)
     content_tag :span, class: "lbl--chip lbl lbl--#{label.color} #{options[:class]}" do

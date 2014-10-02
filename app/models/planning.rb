@@ -82,10 +82,11 @@ class Planning < ActiveRecord::Base
   ######################################################################
   # Scopes                                                             #
   ######################################################################
-  scope :future,         -> { where( Planning.arel_table[:end_date].gt(Date.today) ) }
-  scope :past,           -> { where( Planning.arel_table[:end_date].lteq(Date.today) ) }
-  scope :ordered_by_day, -> { order('week_day=0, week_day ASC, start_date ASC, start_time ASC') }
-  scope :visible,        -> { where(visible: true) }
+  scope :future,                      -> { where( Planning.arel_table[:end_date].gt(Date.today) ) }
+  scope :past,                        -> { where( Planning.arel_table[:end_date].lteq(Date.today) ) }
+  scope :ordered_by_day,              -> { order('week_day=0, week_day ASC, start_date ASC, start_time ASC') }
+  scope :visible,                     -> { where(visible: true) }
+  scope :available_in_discovery_pass, -> { where(available_in_discovery_pass: true) }
 
   ######################################################################
   # Solr                                                               #
@@ -104,6 +105,7 @@ class Planning < ActiveRecord::Base
     end
 
     boolean :visible
+    boolean :available_in_discovery_pass
     boolean :is_published do
       self.course.is_published?
     end

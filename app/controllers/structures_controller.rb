@@ -9,56 +9,9 @@ class StructuresController < ApplicationController
 
   layout :choose_layout
 
-  def show
-    @structure = Structure.friendly.find params[:id]
-    if @structure.is_sleeping?
-      @structure.initialize_sleeping_attributes
-    end
-    @structure_decorator = @structure.decorate
-
-    if params.has_key?(:bbox_ne) and params.has_key?(:bbox_sw)
-      @place_ids = @structure.places_in_bounding_box(params[:bbox_sw], params[:bbox_ne]).map(&:id)
-    elsif params.has_key?(:lat) and params.has_key?(:lng)
-      if params[:radius]
-        @place_ids = @structure.places_around(params[:lat], params[:lng], params[:radius].to_i).map(&:id)
-      else
-        @place_ids = @structure.places_around(params[:lat], params[:lng]).map(&:id)
-      end
-    else
-      @place_ids = @structure.places.map(&:id)
-    end
-    @header_promotion_title_for_structure = header_promotion_title_for_structure(@structure)
-    @city      = @structure.city
-    @medias    = (@structure.premium? ? @structure.medias.cover_first.videos_first : @structure.medias.cover_first.videos_first.limit(Media::FREE_PROFIL_LIMIT))
-    @medias    = [] if @structure.is_sleeping?
-
-    @comments = @structure.comments.accepted.page(1).per(5)
-    @model = StructureShowSerializer.new(@structure, {
-      structure:          @structure,
-      unlimited_comments: false,
-      query:              get_filters_params,
-      place_ids:          @place_ids
-    })
-    @is_sleeping = @structure.is_sleeping
-  end
-
-  def jpo
-    @structure = Structure.friendly.find params[:id]
-    respond_to do |format|
-      format.html { redirect_to structure_path(@structure), status: 301 }
-    end
-  end
-
-  def search
-    @structures = StructureSearch.search(params).results
-    respond_to do |format|
-      format.json do
-        render json: @structures, each_serializer: StructureTypeaheadSerializer
-      end
-    end
-
-  end
-
+  # GET /paris
+  # GET /danse--paris
+  # GET /danse/danse-orientale--paris
   def index
     if params[:root_subject_id].present? and params[:subject_id].blank?
       params[:subject_id] = params[:root_subject_id]
@@ -103,6 +56,68 @@ class StructuresController < ApplicationController
         cookies[:structure_search_path] = request.fullpath
       end
     end
+  end
+
+  # GET /etablissements/:id/pass-decouverte
+  def discovery_pass
+    @structure = Structure.friendly.find params[:id]
+    @structure_decorator                  = @structure.decorate
+    @place_ids                            = @structure.places.map(&:id)
+    @header_promotion_title_for_structure = header_promotion_title_for_structure(@structure)
+    @city                                 = @structure.city
+    @medias                               = (@structure.premium? ? @structure.medias.cover_first.videos_first : @structure.medias.cover_first.videos_first.limit(Media::FREE_PROFIL_LIMIT))
+
+    @model = StructureShowSerializer.new(@structure, {
+      structure:          @structure,
+      unlimited_comments: false,
+      query:              { discovery_pass: true }, # Those params are passed to the backbone app
+      place_ids:          @place_ids
+    })
+  end
+
+  # GET /etablissements/:id
+  def show
+    @structure = Structure.friendly.find params[:id]
+    if @structure.is_sleeping?
+      @structure.initialize_sleeping_attributes
+    end
+    @structure_decorator                  = @structure.decorate
+    @place_ids                            = @structure.places.map(&:id)
+    @header_promotion_title_for_structure = header_promotion_title_for_structure(@structure)
+    @city                                 = @structure.city
+    if @structure.is_sleeping?
+      @medias = []
+    else
+      @medias = (@structure.premium? ? @structure.medias.cover_first.videos_first : @structure.medias.cover_first.videos_first.limit(Media::FREE_PROFIL_LIMIT))
+    end
+
+    @model = StructureShowSerializer.new(@structure, {
+      structure:          @structure,
+      unlimited_comments: false,
+      query:              get_filters_params,
+      place_ids:          @place_ids
+    })
+    @is_sleeping = @structure.is_sleeping
+  end
+
+  # GET /etablissements/:id/portes-ouvertes-cours-loisirs
+  def jpo
+    @structure = Structure.friendly.find params[:id]
+    respond_to do |format|
+      format.html { redirect_to structure_path(@structure), status: 301 }
+    end
+  end
+
+  # Used for search on typeahead dropdown
+  # GET /etablissements/:id/search.json
+  def search
+    @structures = StructureSearch.search(params).results
+    respond_to do |format|
+      format.json do
+        render json: @structures, each_serializer: StructureTypeaheadSerializer
+      end
+    end
+
   end
 
   # POST structure/:id/add_to_favorite

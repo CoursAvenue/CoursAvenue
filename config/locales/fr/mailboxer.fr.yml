@@ -10,6 +10,7 @@ fr:
       information: Demande d'information
       comment: Avis déposé
       conversation: Conversation
+      discovery_pass_request: Pass découverte
     extra_info:
       inscription: Inscription
       planning_info: Infos planning

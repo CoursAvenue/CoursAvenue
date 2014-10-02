@@ -38,7 +38,8 @@ class Pro::Structures::ConversationsController < ApplicationController
   def show
     @conversation = @admin.mailbox.conversations.find(params[:id])
     @conversation.mark_as_read(@admin)
-    @message      = @conversation.messages.build
+    @message               = @conversation.messages.build
+    @participation_request = conversation_participation_request(@conversation)
     @is_xhr = request.xhr?
     respond_to do |format|
       if request.xhr?

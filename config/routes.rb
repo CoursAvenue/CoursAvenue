@@ -292,6 +292,14 @@ CoursAvenue::Application.routes.draw do
             get :ca_communication, path: 'communication-coursavenue'
           end
         end
+        resources :participation_requests, only: [:edit], controller: 'structures/participation_requests' do
+          member do
+            get   :decline_form
+            patch :accept
+            patch :modify_date
+            patch :decline
+          end
+        end
       end
       resources :visitors, only: [:index, :show]
       resources :users, only: [:index] do
@@ -381,6 +389,14 @@ CoursAvenue::Application.routes.draw do
         get :payment_confirmation, path: 'confirmation-paiement'
       end
     end
+    resources :participation_requests, only: [:edit], controller: 'users/participation_requests' do
+      member do
+        get   :decline_form
+        patch :accept
+        patch :modify_date
+        patch :decline
+      end
+    end
   end
   resources :emails, only: [:create]
 
@@ -399,6 +415,7 @@ CoursAvenue::Application.routes.draw do
 
   resources :structures, only: [:show, :index], path: 'etablissements', controller: 'structures' do
     member do
+      get  :discovery_pass, path: 'pass-decouverte'
       get  :jpo, path: 'portes-ouvertes-cours-loisirs'
       post :add_to_favorite
       post :remove_from_favorite
@@ -407,15 +424,16 @@ CoursAvenue::Application.routes.draw do
       post :recommendation
       get :search
     end
-    resources :statistics, only: [:create]                                    , controller: 'structures/statistics'
-    resources :messages  , only: [:create]                                    , controller: 'structures/messages'
-    resources :places    , only: [:index]                                     , controller: 'structures/places'
-    resources :courses   , only: [:show, :index]                              , controller: 'structures/courses'    , path: 'cours'
-    resources :comments  , only: [:new]                                       , controller: 'structures/comments'   , path: 'recommendations'
-    resources :comments  , only: [:new]                                       , controller: 'structures/comments'   , path: 'recommandations'
-    resources :comments  , only: [:create, :new, :show, :index]               , controller: 'structures/comments'   , path: 'avis'
-    resources :teachers  , only: [:index]                                     , controller: 'structures/teachers'
-    resources :medias    , only: [:index]                                     , controller: 'structures/medias'
+    resources :participation_requests, only: [:create]                                    , controller: 'structures/participation_requests'
+    resources :statistics            , only: [:create]                                    , controller: 'structures/statistics'
+    resources :messages              , only: [:create]                                    , controller: 'structures/messages'
+    resources :places                , only: [:index]                                     , controller: 'structures/places'
+    resources :courses               , only: [:show, :index]                              , controller: 'structures/courses'    , path: 'cours'
+    resources :comments              , only: [:new]                                       , controller: 'structures/comments'   , path: 'recommendations'
+    resources :comments              , only: [:new]                                       , controller: 'structures/comments'   , path: 'recommandations'
+    resources :comments              , only: [:create, :new, :show, :index]               , controller: 'structures/comments'   , path: 'avis'
+    resources :teachers              , only: [:index]                                     , controller: 'structures/teachers'
+    resources :medias                , only: [:index]                                     , controller: 'structures/medias'
   end
 
   resources :courses, only: [:index], path: 'cours' do
