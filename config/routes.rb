@@ -17,6 +17,7 @@ CoursAvenue::Application.routes.draw do
       get 'pourquoi-etre-recommande'            => 'home#why_be_recommended', as: 'pages_why_be_recommended'
       get 'livre-d-or'                          => 'home#widget',             as: 'pages_widget'
       get 'questions-les-plus-frequentes'       => 'home#questions',          as: 'pages_questions'
+      get 'pass-decouverte'                     => 'home#discovery_pass',     as: 'pages_discovery_pass'
       get 'offre-et-tarifs'                     => 'home#price',              as: 'pages_price'
       get 'nos-convictions'                     => 'home#convictions',        as: 'pages_convictions'
       get 'presse'                              => redirect('presse', subdomain: 'www', status: 301)
