@@ -71,7 +71,8 @@ class StructuresController < ApplicationController
       structure:          @structure,
       unlimited_comments: false,
       query:              { discovery_pass: true }, # Those params are passed to the backbone app
-      place_ids:          @place_ids
+      place_ids:          @place_ids,
+      discovery_pass:     true
     })
   end
 

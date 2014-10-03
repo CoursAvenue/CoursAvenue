@@ -8,7 +8,7 @@ StructureProfileDiscoveryPass.module('Views.ParticipationRequests', function(Mod
         events: {
             'submit form'                       : 'submitForm',
             'change @ui.$course_select'         : 'showAssociatedPlannings',
-            'change @ui.$planning_select_input ': 'updateDatePicker',
+            'change @ui.$planning_select_input' : 'updateDatePicker'
         },
 
         ui: {
@@ -21,7 +21,7 @@ StructureProfileDiscoveryPass.module('Views.ParticipationRequests', function(Mod
 
         initialize: function initialize (options) {
             this.structure = options.structure;
-            this.model = new StructureProfileDiscoveryPass.Models.Message(options.model || {});
+            this.model = new StructureProfileDiscoveryPass.Models.ParticipationRequest(options.model || {});
             Backbone.Validation.bind(this);
             _.bindAll(this, 'showPopupMessageDidntSend');
         },
@@ -32,7 +32,10 @@ StructureProfileDiscoveryPass.module('Views.ParticipationRequests', function(Mod
         populateRequest: function populateRequest (event) {
             this.model.set({
                 structure_id  : this.structure.get('id'),
-                body          : this.$('[name=body]').val(),
+                date          : this.$('[name=date]').val(),
+                message: {
+                    body: this.$('[name="message[body]"]').val()
+                },
                 user: {
                     phone_number: this.$('[name="user[phone_number]"]').val()
                 }
@@ -132,10 +135,8 @@ StructureProfileDiscoveryPass.module('Views.ParticipationRequests', function(Mod
             if (! this.model.get('course_id')) { return; }
             this.ui.$planning_select_input.empty();
             _.each(this.getCurrentCoursePlannings(), function(planning, index) {
-                // Select the first planning by default
-                if (!planning_id && index == 0) { this.model.set('planning_id', planning.id); }
                 var option = $('<option>').attr('value', planning.id).text(planning.date + ' ' + planning.time_slot);
-                if (planning.id == planning_id) {
+                if (planning.id == planning_id || (!planning_id && index == 0)) {
                     option.attr('selected', true);
                 }
                 this.ui.$planning_select_input.append(option);
@@ -147,7 +148,8 @@ StructureProfileDiscoveryPass.module('Views.ParticipationRequests', function(Mod
          * Set the datepicker to the next possible date
          */
         updateDatePicker: function updateDatePicker () {
-            if (! this.model.get('planning_id')) { return; }
+            this.model.set('planning_id', parseInt(this.ui.$planning_select_input.val()));
+            // if (!this.model.get('planning_id')) { return; }
             this.ui.$datepicker_input.datepicker('update', this.getCurrentPlanning().next_date);
             // Disable days of week
             var days_of_week = [0,1,2,3,4,5,6];
@@ -179,8 +181,8 @@ StructureProfileDiscoveryPass.module('Views.ParticipationRequests', function(Mod
          */
         saveMessage: function saveMessage () {
             this.$('.input_field_error').remove();
-            this.model.sync({
-                success: function success (response) {
+            this.model.save(null, {
+                success: function success (model, response) {
                     // We disable the submit button
                     this.$('form').trigger('ajax:complete.rails');
                     $.magnificPopup.open({
@@ -194,13 +196,13 @@ StructureProfileDiscoveryPass.module('Views.ParticipationRequests', function(Mod
             });
         },
 
-        showPopupMessageDidntSend: function showPopupMessageDidntSend (xhr) {
+        showPopupMessageDidntSend: function showPopupMessageDidntSend (model, response) {
+              this.$('form').trigger('ajax:complete.rails');
               // TODO
-              debugger
-              var response = JSON.parse(xhr.responseText);
+              var popup_to_show = JSON.parse(response.responseText).popup_to_show;
               $.magnificPopup.open({
                     items: {
-                        src: $(response.popup_to_show),
+                        src: $(popup_to_show),
                         type: 'inline'
                     }
               });
@@ -208,14 +210,9 @@ StructureProfileDiscoveryPass.module('Views.ParticipationRequests', function(Mod
 
         serializeData: function serializeData () {
             var data = this.model.toJSON();
-            var prefilled_body = 'Bonjour,\n\n' +
-                                 "Je souhaiterais m'inscrire pour une séance d'essai. " +
-                                 "Pouvez-vous me confirmer le jour et le créneau, et m'envoyer toute information utile (tenue exigée, digicode, adresse, etc.) ?\n\n" +
-                                 'Merci et à très bientôt !';
             if (this.errors) { _.extend(data, { errors: this.errors }); }
             _.extend(data, {
-                structure: this.structure.toJSON(),
-                prefilled_body: prefilled_body
+                structure: this.structure.toJSON()
             });
             return data;
         }

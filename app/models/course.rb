@@ -32,14 +32,15 @@ class Course < ActiveRecord::Base
   ######################################################################
   # Scopes                                                             #
   ######################################################################
-  scope :active,                 -> { where( active: true ) }
-  scope :disabled,               -> { where( active: false ) }
-  scope :lessons,                -> { where( type: "Course::Lesson" ) }
-  scope :trainings,              -> { where( type: "Course::Training" ) }
-  scope :privates,               -> { where( type: "Course::Private" ) }
-  scope :regulars,               -> { where(arel_table[:type].eq('Course::Private').or(arel_table[:type].eq('Course::Lesson')) ) }
-  scope :without_open_courses,   -> { where.not( type: 'Course::Open' ) }
-  scope :open_courses,           -> { where( type: 'Course::Open' ) }
+  scope :active,                      -> { where( active: true ) }
+  scope :disabled,                    -> { where( active: false ) }
+  scope :lessons,                     -> { where( type: "Course::Lesson" ) }
+  scope :trainings,                   -> { where( type: "Course::Training" ) }
+  scope :privates,                    -> { where( type: "Course::Private" ) }
+  scope :regulars,                    -> { where(arel_table[:type].eq('Course::Private').or(arel_table[:type].eq('Course::Lesson')) ) }
+  scope :without_open_courses,        -> { where.not( type: 'Course::Open' ) }
+  scope :open_courses,                -> { where( type: 'Course::Open' ) }
+  scope :available_in_discovery_pass, -> { where.not( available_in_discovery_pass: nil ) }
 
   ######################################################################
   # Validations                                                        #

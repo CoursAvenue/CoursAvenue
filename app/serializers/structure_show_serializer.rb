@@ -206,11 +206,19 @@ class StructureShowSerializer < ActiveModel::Serializer
   end
 
   def trainings_courses
-    object.courses.trainings.select(&:is_published?)
+    if options[:discovery_pass]
+      object.courses.available_in_discovery_pass.trainings.reject{ |c| c.plannings.future.empty? }
+    else
+      object.courses.trainings.select(&:is_published?)
+    end
   end
 
   def lessons_and_privates
-    object.courses.lessons.select(&:is_published?) + object.courses.privates.select(&:is_published?)
+    if options[:discovery_pass]
+      object.courses.available_in_discovery_pass.lessons.reject{ |c| c.plannings.future.empty? } + object.courses.available_in_discovery_pass.privates.reject{ |c| c.plannings.future.empty? }
+    else
+      object.courses.lessons.select(&:is_published?) + object.courses.privates.select(&:is_published?)
+    end
   end
 
 end

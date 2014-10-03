@@ -1,0 +1,20 @@
+.panel.center-block{ style: 'width: 700px;'}
+  .panel__header.soft
+    %h3.flush
+      Vous avez déjà envoyé une demande de réservation à ce professeur
+  .panel__body.soft
+    - if current_user
+      %p.epsilon
+        Allez dans la rubrique
+        = link_to '« Pass Découverte »', user_participation_requests_path(current_user)
+        de votre profil pour consulter vos dernieres réservations
+      %hr
+    %h4 Mais ne vous arrêtez pas et contactez d'autres profils !
+    %p.epsilon
+      Les élèves qui ont réservé ce cours ont également découvert :
+    %div{ style: 'height: 20em; overflow-y: scroll; overflow-x: hidden;'}
+      - PlanningSearch.search({ limit: 12, discovery_pass: true }, group: :structure_id_str).group(:structure_id_str).groups.each do |planning_group|
+        - structure = planning_group.results.first.try(:structure)
+        - next if @structure == structure or structure.medias.empty?
+        .inline-block.one-half.very-soft.relative>
+          = render partial: "structures/similar_profile", locals: { structure: structure, show_promotion: false }

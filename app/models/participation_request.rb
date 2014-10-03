@@ -23,6 +23,33 @@ class ParticipationRequest < ActiveRecord::Base
   # Validation                                                         #
   ######################################################################
   validates :date, presence: true
+  validate :request_is_not_duplicate
+
+  def request_is_not_duplicate
+    self.user.participation_requests.where(ParticipationRequest.arel_table[:created_at].gt(Date.today - 1.week).and(
+                                           ParticipationRequest.arel_table[:planning_id].not_eq(self.planning_id))).empty?
+  end
+
+  #
+  # Create a ParticipationRequest if everything is correct, and if it is, it also create a conversation
+  #
+  # @return ParticipationRequest
+  def self.create_and_send_message(request_attributes, message_body, user, structure)
+    participation_request           = ParticipationRequest.new request_attributes
+    participation_request.user      = user
+    participation_request.structure = structure
+    if participation_request.valid?
+      # Create and send conversation
+      structure.create_or_update_user_profile_for_user(user, UserProfile::DEFAULT_TAGS[:discovery_pass])
+      recipients                         = structure.main_contact
+      receipt                            = user.send_message_with_label(recipients, message_body, I18n.t(Mailboxer::Label::DISCOVERYPASSREQUEST.name), Mailboxer::Label::DISCOVERYPASSREQUEST.id)
+      conversation                       = receipt.conversation
+      participation_request.conversation = conversation
+      participation_request.save
+      conversation.update_column :participation_request_id, participation_request.id
+    end
+    participation_request
+  end
 
   # @return Boolean is the request accepted?
   def accepted?
@@ -79,8 +106,10 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return nil
   def set_default_attributes
-    self.state           = 'pending'
+    self.state            = 'pending'
     self.last_modified_by = 'User'
+    self.start_time       = self.planning.start_time if self.start_time.nil?
+    self.end_time         = self.planning.end_time   if self.end_time.nil?
     nil
   end
 

@@ -73,6 +73,10 @@
                                   { data: #{@follow_actions.sort.map{|date, count| count}},
                                     name: 'Favori',
                                     stack: 'Actions'
+                                  },
+                                  { data: #{@request_actions.sort.map{|date, count| count}},
+                                    name: 'Pass Découverte',
+                                    stack: 'Actions'
                                   }
                                 ]
 - else

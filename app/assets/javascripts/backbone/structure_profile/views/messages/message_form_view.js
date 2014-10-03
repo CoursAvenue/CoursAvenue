@@ -109,6 +109,7 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
         },
 
         showPopupMessageDidntSend: function showPopupMessageDidntSend (xhr) {
+              this.$('form').trigger('ajax:beforeSend.rails');
               var response = JSON.parse(xhr.responseText);
               $.magnificPopup.open({
                     items: {

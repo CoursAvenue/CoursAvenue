@@ -4,12 +4,12 @@
     </h5>
 </div>
 <div class="panel__body soft">
-    {{#if user.last_message_sent}}
-        <div class="green"><i class="fa fa-check"></i> <strong>Dernier message envoyé le {{user.last_message_sent}}</strong></div>
+    {{#if participation_request.user.last_message_sent}}
+        <div class="green"><i class="fa fa-check"></i> <strong>Dernier message envoyé le {{participation_request.user.last_message_sent}}</strong></div>
         <hr class="push--ends">
     {{/if}}
     <article class="tab-pane active hard">
-        <form action="{{url}}">
+        <form action="{{participation_request.url}}">
             <div class="grid--full">
             <div class="soft-half--bottom">
                 <select name="course_id" class="input--large one-whole" >
@@ -37,7 +37,7 @@
                         <option>Quelle séance souhaitez-vous ?</option>
                     </select>
                 </div>
-                {{#if selected_planning}}{{#if errors.planning_id}}
+                {{#if participation_request.planning_id}}{{#if errors.planning_id}}
                     <div class="input_field_error red f-weight-bold text--right">{{errors.planning_id}}</div>
                 {{/if}}{{/if}}
                 <div class="text--center flexbox soft-half--top" data-element="datepicker-wrapper" style="display: none">
@@ -59,7 +59,7 @@
                 {{/if}}
             </div>
             <div class="input flush--top push-half--bottom">
-                <textarea name="body" id="" cols="30" rows="12" class="one-whole input--large" style='height: 185px;' data-behavior='autoresize'>{{#unless errors.body}}{{#if body}}{{ body }}{{else}}{{ prefilled_body }}{{/if}}{{/unless}}</textarea>
+                <textarea name="message[body]" id="" cols="30" rows="12" class="one-whole input--large" style='height: 185px;' data-behavior='autoresize'>{{#unless errors.body}}{{ participation_request.message.body }}{{/unless}}</textarea>
             </div>
             {{#if errors.body}}
                 <div class="input_field_error red f-weight-bold text--right">{{errors.body}}</div>
