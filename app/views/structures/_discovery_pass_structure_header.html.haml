@@ -2,18 +2,13 @@
   .main-container.soft--sides.soft-half--ends.relative
     .flush
       %h1.inline.v-middle{ itemprop: 'name' }= @structure.name
-      - if @structure.premium? and @header_promotion_title_for_structure.present?
-        = link_to '#cours-reguliers', data: { behavior: 'scroll-to', offset_top: '-55' }, class: 'muted-link inline v-middle' do
-          .lbl.lbl--yellow.nowrap.v-middle.push-half--left{ data: { toggle: 'popover', content: @structure_decorator.promotion_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
-            %i.fa-star
-            = @header_promotion_title_for_structure
 
     .grid
       .grid__item.eight-twelfths.v-top>
         .push-half--top
           - if @structure.structure_type.present?
             .milli.inline-block.structure__header-icon.semi-muted.v-top
-              = link_to '#presentation', class: "muted-link flexbox #{@structure.is_sleeping? ? 'cursor-default' : ''}", data: { behavior: 'scroll-to', offset_top: '-55' } do
+              = link_to '#presentation', class: "muted-link flexbox", data: { behavior: 'scroll-to', offset_top: '-55' } do
                 %i.fa-3x.fa-house.flexbox__item
                 .flexbox__item.soft-half--left.soft--right
                   - t(@structure.structure_type).split(' ').each_with_index do |splitted_structure_type, index|
@@ -21,23 +16,23 @@
                       %br
                     = splitted_structure_type
           - if @structure.gives_group_courses or @structure.gives_individual_courses.blank?
-            .milli.inline-block.structure__header-icon.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.group_courses_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
-              = link_to '#cours-reguliers', class: "muted-link flexbox #{@structure.is_sleeping? ? 'cursor-default' : ''}", data: { behavior: 'scroll-to', offset_top: '-55' } do
+            .milli.inline-block.structure__header-icon.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.group_courses_popover(discovery_pass: true), trigger: 'hover', html: 'true', placement: 'bottom' } }
+              = link_to '#cours-reguliers', class: "muted-link flexbox", data: { behavior: 'scroll-to', offset_top: '-55' } do
                 %i.fa-3x.fa-group.flexbox__item
                 .flexbox__item.soft-half--left.soft--right
-                  - collectif_courses_nb = (@structure.courses.trainings + @structure.courses.lessons).select(&:is_published?).length
+                  - collectif_courses_nb = (@structure.courses.available_in_discovery_pass.trainings + @structure.courses.available_in_discovery_pass.lessons).select(&:is_published?).length
                   - if collectif_courses_nb > 0
                     #{collectif_courses_nb} cours
                   - else
                     Cours
                   %br
                   = "collectif".pluralize(collectif_courses_nb)
-          - if @structure.gives_individual_courses
-            .milli.structure__header-icon.inline-block.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.individual_courses_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
-              = link_to '#cours-reguliers', class: "muted-link flexbox #{@structure.is_sleeping? ? 'cursor-default' : ''}", data: { behavior: 'scroll-to', offset_top: '-55' } do
+          - privates_courses_length = @structure.courses.available_in_discovery_pass.privates.select(&:is_published?).length
+          - if @structure.gives_individual_courses and privates_courses_length > 0
+            .milli.structure__header-icon.inline-block.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.individual_courses_popover(discovery_pass: true), trigger: 'hover', html: 'true', placement: 'bottom' } }
+              = link_to '#cours-reguliers', class: "muted-link flexbox", data: { behavior: 'scroll-to', offset_top: '-55' } do
                 %i.fa-3x.fa-user.flexbox__item
                 .flexbox__item.soft-half--left.soft--right
-                  - privates_courses_length = @structure.courses.privates.select(&:is_published?).length
                   - if privates_courses_length > 0
                     #{privates_courses_length} cours
                   - else
@@ -45,14 +40,14 @@
                   %br
                   = "particulier".pluralize(privates_courses_length)
           .milli.structure__header-icon.inline-block.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.subjects_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
-            = link_to '#disciplines', class: "muted-link flexbox #{@structure.is_sleeping? ? 'cursor-default' : ''}", data: { behavior: 'scroll-to', offset_top: '-55' } do
+            = link_to '#disciplines', class: "muted-link flexbox", data: { behavior: 'scroll-to', offset_top: '-55' } do
               %i.fa-3x.fa-tag.flexbox__item
               .flexbox__item.soft-half--left.soft--right
                 = @structure_decorator.subjects_at_depth_2_count
                 = "disciplines".pluralize @structure_decorator.subjects_at_depth_2_count
 
           .milli.inline-block.structure__header-icon.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.places_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
-            = link_to '#', onclick: "$('#map-thumbnail').click();", class: "muted-link flexbox #{@structure.is_sleeping? ? 'cursor-default' : ''}" do
+            = link_to '#', onclick: "$('#map-thumbnail').click();", class: "muted-link flexbox" do
               %i.fa-3x.fa-map-marker.flexbox__item
               .flexbox__item.soft-half--left.soft--right
                 = @structure_decorator.places_count
@@ -91,22 +86,14 @@
             .flexbox__item.one-twelfth.nowrap.soft-half--right
               %strong= truncate @structure.name, lenght: 25
             .flexbox__item
-              - unless @is_sleeping
-                %ul.nav.flush.v-middle.inline-block.v-middle
-                  %li.soft-half--sides= link_to 'Lieux & photos', '#lieux-photos', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
-                  %li.soft-half--sides= link_to 'Présentation', '#presentation', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
-                  %li.soft-half--sides= link_to 'Cours réguliers', '#cours-reguliers', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
-                  %li.soft-half--sides= link_to 'Stages & ateliers', '#stages-ateliers', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
-                  %li.soft-half--sides= link_to 'Avis', '#avis', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
-                - if @structure.premium? and @header_promotion_title_for_structure.present?
-                  = link_to '#cours-reguliers', data: { behavior: 'scroll-to', offset_top: '-55' }, class: 'muted-link' do
-                    .lbl.lbl--yellow.nowrap.push--left.v-middle
-                      %i.fa-star
-                      = @header_promotion_title_for_structure
+              %ul.nav.flush.v-middle.inline-block.v-middle
+                %li.soft-half--sides= link_to 'Lieux & photos', '#lieux-photos', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
+                %li.soft-half--sides= link_to 'Présentation', '#presentation', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
+                %li.soft-half--sides= link_to 'Planning des cours', '#cours-reguliers', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
+                %li.soft-half--sides= link_to 'Avis', '#avis', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
         .flexbox__item.v-middle.nowrap.text--right>
           %a.contact-button.btn.btn--green.nowrap{ data: { behavior: 'show-contact-panel' } }
-            Contacter
-            = I18n.t("structures.structure_type_contact.#{(@structure.structure_type.present? ? @structure.structure_type : 'structures.other')}")
+            Réserver mon cours d'essai
 
 = content_for :scripts do
   :javascript

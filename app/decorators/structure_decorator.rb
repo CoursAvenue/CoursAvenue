@@ -86,15 +86,15 @@ class StructureDecorator < Draper::Decorator
     output
   end
 
-  def group_courses_popover
-    courses = object.courses.lessons.select(&:is_published?)
+  def group_courses_popover(options={})
+    courses = (options[:discovery_pass].present? ? object.courses.available_in_discovery_pass.lessons.reject{ |c| c.plannings.future.empty? } : object.courses.lessons.select(&:is_published?))
     output  = ''
     output  << "<div><strong>#{courses.length} #{'cours collectif'.pluralize(courses.length)} :</strong></div>" if courses.any?
     list_item_start = (courses.length > 1 ? '- ' : '')
     courses.each do |course|
       output << "<div>#{list_item_start}#{course.name}</div>"
     end
-    trainings = object.courses.trainings.select(&:is_published?)
+    trainings = (options[:discovery_pass].present? ? object.courses.available_in_discovery_pass.trainings.reject{ |c| c.plannings.future.empty? } : object.courses.trainings.select(&:is_published?))
     list_item_start = (trainings.length > 1 ? '- ' : '')
     output  << "<div class='#{courses.any? ? 'push-half--top' : ''}'><strong>#{trainings.length} #{'stage'.pluralize(trainings.length)} :</strong></div>" if trainings.any?
     trainings.each do |training|
@@ -103,8 +103,8 @@ class StructureDecorator < Draper::Decorator
     output
   end
 
-  def individual_courses_popover
-    courses = object.courses.privates.select(&:is_published?)
+  def individual_courses_popover(options={})
+    courses = (options[:discovery_pass].present? ? object.courses.available_in_discovery_pass.privates.reject{ |c| c.plannings.future.empty? } : object.courses.privates.select(&:is_published?))
     output  = "<div><strong>#{courses.length} #{'cours particulier'.pluralize(courses.length)} :</strong></div>" if courses.any?
     list_item_start = (courses.length > 1 ? '- ' : '')
     courses.each do |course|

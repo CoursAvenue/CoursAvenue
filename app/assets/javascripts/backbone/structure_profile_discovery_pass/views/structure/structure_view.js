@@ -7,6 +7,12 @@ StructureProfileDiscoveryPass.module('Views.Structure', function(Module, App, Ba
 
         findCollectionViewForResource: function findCollectionViewForResource (resources) {
             return Module[_.capitalize(resources)][_.capitalize(resources) + 'CollectionView'];
+        },
+
+        initializeContactLink: function initializeContactLink () {
+            $('body').on('click', '[data-behavior=show-contact-panel]', function() {
+                this.trigger('planning:register', {});
+            }.bind(this));
         }
 
     });

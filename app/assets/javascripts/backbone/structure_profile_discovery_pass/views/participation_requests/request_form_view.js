@@ -56,7 +56,7 @@ StructureProfileDiscoveryPass.module('Views.ParticipationRequests', function(Mod
             this.model.set('planning_id', planning_data.id);
             this.selectCourse(planning_data.course_id);
             this.populatePlannings(planning_data.id);
-            var message_form_view = new Module.MessageFormView( { structure: this.structure, model: this.model } ).render();
+            var message_form_view = new Module.RequestFormView( { structure: this.structure, model: this.model.toJSON().participation_request } ).render();
             $.magnificPopup.open({
                   items: {
                       src: $(message_form_view.$el),

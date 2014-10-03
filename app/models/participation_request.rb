@@ -25,11 +25,6 @@ class ParticipationRequest < ActiveRecord::Base
   validates :date, presence: true
   validate :request_is_not_duplicate
 
-  def request_is_not_duplicate
-    self.user.participation_requests.where(ParticipationRequest.arel_table[:created_at].gt(Date.today - 1.week).and(
-                                           ParticipationRequest.arel_table[:planning_id].not_eq(self.planning_id))).empty?
-  end
-
   #
   # Create a ParticipationRequest if everything is correct, and if it is, it also create a conversation
   #
@@ -113,4 +108,15 @@ class ParticipationRequest < ActiveRecord::Base
     nil
   end
 
+
+  # Check if the request is duplicate or not
+  #
+  # @return Boolean
+  def request_is_not_duplicate
+    if self.user.participation_requests.where(ParticipationRequest.arel_table[:created_at].gt(Date.today - 1.week).and(ParticipationRequest.arel_table[:planning_id].eq(self.planning_id))).any?
+      self.errors[:base] << "duplicate"
+      return false
+    end
+    true
+  end
 end

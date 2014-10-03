@@ -17,7 +17,7 @@ class Structures::ParticipationRequestsController < ApplicationController
 
     respond_to do |format|
       if @participation_request.persisted?
-        Metric.action(structure.id, current_user, cookies[:fingerprint], request.ip, 'participation_request')
+        Metric.action(@structure.id, current_user, cookies[:fingerprint], request.ip, 'participation_request')
         format.json { render json: { succes: true, popup_to_show: render_to_string(partial: 'structures/participation_requests/request_sent', formats: [:html]) } }
         format.html { redirect_to user_conversation_path(@user, @conversation) }
       else

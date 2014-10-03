@@ -51,7 +51,7 @@
     = render 'users/waiting_for_activation_text'
 
 %div{ itemscope: true, itemtype: "http://schema.org/Place" }
-  = render partial: 'structures/structure_header', locals: { structure: @structure, show_promotion: false }
+  = render partial: 'structures/discovery_pass_structure_header', locals: { structure: @structure, show_promotion: false, discovery_pass: true }
   .soft--sides
     .grid
       .grid__item.eight-twelfths.soft-half--right>
