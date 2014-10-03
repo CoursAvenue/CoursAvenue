@@ -11,7 +11,7 @@ StructureProfile.addInitializer(function(options) {
         structure_view = new StructureProfile.Views.Structure.StructureView({
             model: structure
         }),
-        google_maps_view, sticky_google_maps_view, filter_breadcrumbs, places_collection, places_list_view, comments_collection_view;
+        google_maps_view, sticky_google_maps_view, places_collection, places_list_view, comments_collection_view;
 
     places_collection = structure.get('places');
     message_form_view = new StructureProfile.Views.Messages.MessageFormView( { structure: structure } );
@@ -33,35 +33,6 @@ StructureProfile.addInitializer(function(options) {
     comments_collection_view = new StructureProfile.Views.Structure.Comments.CommentsCollectionView({
         collection: structure.get('comments'),
         about     :  structure.get('about')
-    });
-
-    filter_breadcrumbs = new FilteredSearch.Views.StructuresCollection.Filters.FilterBreadcrumbs.FilterBreadcrumbsView({
-        template: StructureProfile.Views.Structure.templateDirname() + 'filter_breadcrumbs_view',
-        fancy_breadcrumb_names: {
-            'search_term'         : 'Mot clé',
-            'subject_id'          : 'Discipline',
-            'address_name'        : 'Lieux',
-            'lat'                 : 'Lieux',
-            'lng'                 : 'Lieux',
-            'bbox_sw'             : 'Lieux',
-            'bbox_ne'             : 'Lieux',
-            'week_days'           : 'Date',
-            'audience_ids'        : 'Public',
-            'level_ids'           : 'Niveaux',
-            'min_age_for_kids'    : 'Audience',
-            'max_price'           : 'Prix',
-            'min_price'           : 'Prix',
-            'price_type'          : 'Prix',
-            'max_age_for_kids'    : 'Audience',
-            'trial_course_amount' : 'Cours d\'essai',
-            'course_types'        : 'Type de Cours',
-            'week_days'           : 'Date',
-            'discount_types'      : 'Tarifs réduits',
-            'start_date'          : 'Date',
-            'end_date'            : 'Date',
-            'start_hour'          : 'Date',
-            'end_hour'            : 'Date',
-        }
     });
 
     layout.render();
@@ -89,13 +60,6 @@ StructureProfile.addInitializer(function(options) {
             'place:mouse:leave'        : 'unexciteMarkers',
             'places:collection:updated': 'recenterMap',
             'map:marker:click'         : 'showInfoWindow'
-        }
-    });
-
-    layout.showWidget(filter_breadcrumbs, {
-        events: {
-            'filter:breadcrumbs:add'  :  'addBreadCrumbs',
-            'filter:breadcrumb:remove':  'removeBreadCrumb'
         }
     });
 

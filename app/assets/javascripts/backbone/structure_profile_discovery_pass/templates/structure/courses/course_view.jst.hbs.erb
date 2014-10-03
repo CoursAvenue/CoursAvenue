@@ -1,0 +1,120 @@
+<div class="bordered--bottom-on-stick soft--ends bg-white relative" id="course-{{id}}" data-type="course-view-title">
+  <h2 class="v-middle flush inline-block delta">{{ name }}</h3>
+</div>
+<div class="flexbox push--bottom">
+    <div class="flexbox__item v-top one-quarter">
+        <strong class="gray-light">Description</strong>
+    </div>
+    <div class="flexbox__item v-top three-quarters">
+        {{#if description}}
+            {{#ifCond description '!=' description_short}}
+            <div id="course-{{id}}-description-short" class="gray last-p-push-half--bottom">
+                {{{ simple_format_hide_contacts description_short }}}
+            </div>
+            <a href="#" data-behavior="show-long-version" data-short-version="#course-{{id}}-description-short" data-long-version="#course-{{id}}-description-long">
+            + Plus
+            </a>
+            <div id="course-{{id}}-description-long" class="gray hidden" itemprop="description">
+                {{{ simple_format_hide_contacts description }}}
+            </div>
+            {{else}}
+            <div class="gray" itemprop="description">
+                {{{ simple_format_hide_contacts description }}}
+            </div>
+            {{/ifCond}}
+        {{else}}
+            <div class="gray" itemprop="description">
+                Pas de description
+            </div>
+        {{/if}}
+    </div>
+</div>
+{{#if on_appointment}}
+    {{#if course_location}}
+      <div class="flexbox push--bottom">
+          <div class="flexbox__item v-top one-quarter">
+              <strong class="gray-light text--right">Lieux</strong>
+          </div>
+          <div class="flexbox__item v-top three-quarters">
+              {{{ course_location }}}
+          </div>
+      </div>
+    {{/if}}
+{{/if}}
+<div class="flexbox push--bottom">
+    <div class="flexbox__item v-top one-quarter">
+        <strong class="gray-light">Détails</strong>
+    </div>
+    <div class="flexbox__item v-top three-quarters">
+        <div><!--
+         -->{{#each details}}<!--
+          --><div class="inline-block one-half v-middle push-half--bottom soft-half--right {{#ifCond @index '>' 1}}course-{{../../id}}-details-long hidden{{/ifCond}}">
+                <div class="flexbox">
+                    <div class="flexbox__item v-middle two-twelfths text--center">
+                        <i class="fa {{this.icon}} v-middle" title="{{this.alt}}"></i>
+                    </div>
+                    <div class="flexbox__item v-middle ten-twelfths">
+                        {{this.text}}
+                    </div>
+                </div>
+            </div><!--
+         -->{{#ifCond @index '==' 2}}<!--
+             --><a href="#" data-behavior="show-long-version" data-long-version=".course-{{../../id}}-details-long">
+                    + Plus
+                </a><!--
+         -->{{/ifCond}}<!--
+         -->{{/each}}<!--
+      --></div>
+    </div>
+</div>
+<div class="flexbox push--bottom">
+    <div class="flexbox__item v-top one-quarter">
+        <strong class="gray-light">Planning</strong>
+    </div>
+    <div class="flexbox__item v-top three-quarters">
+        {{#if on_appointment}}
+          Cours particuliers sur demande. <a href="#" data-behavior="show-contact-panel" data-course-id="{{id}}" data-plannings-info="true">Contacter {{ about }}</a> pour prendre un rendez-vous.
+        {{/if}}
+        <table class="table--striped table--data table--data-small {{#if on_appointment}}hidden{{/if}}">
+            <thead class="gray-light">
+                <tr>
+                    <th class="one-tenths">Jour</th>
+                    <th class="two-tenths text--center">Horaires</th>
+                    <th class="two-tenths">Niveau</th>
+                    <th class="two-tenths">Public</th>
+                    <th class="three-tenths">Lieu</th>
+                    <th><i class="fa fa-info"></i></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-type="plannings-container"></tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="flexbox push--bottom">
+    <div class="flexbox__item v-top one-quarter">
+        <strong class="gray-light">Disciplines concernées</strong>
+    </div>
+    <div class="flexbox__item v-top three-quarters">
+        <div>
+            {{#each subjects}}
+            <div class="push-half--bottom {{#ifCond @index '>' 0}}course-{{../../id}}-subjects-long hidden{{/ifCond}}">
+                <img src="{{this.icon}}" alt="Disciplines pratiquées : {{this.icon}}" height="16" class="v-middle">
+                <strong>{{this.root_name}} : </strong>{{this.child_names}}
+            </div>
+            {{#ifCond @index '==' 1}}
+                <div>
+                    <a href="#" data-behavior="show-long-version" data-long-version=".course-{{../../id}}-subjects-long">
+                    + Plus
+                    </a>
+                </div>
+            {{/ifCond}}
+            {{/each}}
+        </div>
+    </div>
+</div>
+{{#unless is_last}}
+<hr class="push--top flush--bottom">
+{{/unless}}

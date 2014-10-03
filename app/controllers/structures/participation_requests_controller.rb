@@ -9,7 +9,7 @@ class Structures::ParticipationRequestsController < ApplicationController
   def create
     @structure             = Structure.find params[:structure_id]
     @participation_request = ParticipationRequest.create params[:participation_request]
-    end
+    LOL?
   end
 
 end

@@ -24,6 +24,7 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
             }
             setTimeout(GLOBAL.chosen_initializer, 5)
         },
+
         events: {
             'submit form'                             : 'submitForm',
             'click [data-behavior=show-phone-numbers]': 'showPhoneNumbers'
@@ -33,6 +34,9 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
             this.$('.phone_number').slideToggle();
         },
 
+        /*
+         * Set attributes on message model for validations
+         */
         populateMessage: function populateMessage (event) {
             this.model.set({
                 structure_id  : this.structure.get('id'),

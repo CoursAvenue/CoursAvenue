@@ -1,0 +1,72 @@
+<div class="panel__header soft-half--ends soft--sides">
+    <h5 class="flush">
+      Réservez votre séance Découverte
+    </h5>
+</div>
+<div class="panel__body soft">
+    {{#if user.last_message_sent}}
+        <div class="green"><i class="fa fa-check"></i> <strong>Dernier message envoyé le {{user.last_message_sent}}</strong></div>
+        <hr class="push--ends">
+    {{/if}}
+    <article class="tab-pane active hard">
+        <form action="{{url}}">
+            <div class="grid--full">
+            <div class="soft-half--bottom">
+                <select name="course_id" class="input--large one-whole" >
+                    <option>Quel cours vous intéresse ?</option>
+                    {{#if structure.lessons_and_privates}}
+                        <optgroup label="Cours réguliers">
+                            {{#each structure.lessons_and_privates}}
+                                <option data-collection-type="courses" value="{{this.id}}" {{#ifIncludeString ../course_ids this.id}}selected{{/ifIncludeString}}>{{this.name}}</option>
+                            {{/each}}
+                        </optgroup>
+                    {{/if}}
+                    {{#if structure.trainings_courses}}
+                        <optgroup label="Stages & Ateliers">
+                          {{#each structure.trainings_courses}}
+                              <option data-collection-type="trainings" value="{{this.id}}" {{#ifIncludeString ../course_ids this.id}}selected{{/ifIncludeString}}>{{this.name}}</option>
+                          {{/each}}
+                        </optgroup>
+                    {{/if}}
+                </select>
+                {{#if errors.course_id}}
+                    <div class="input_field_error red f-weight-bold text--right">{{errors.course_id}}</div>
+                {{/if}}
+                <div class="soft-half--top" data-element="planning-select-wrapper" style="display: none">
+                    <select name="planning_id" class="input--large one-whole">
+                        <option>Quelle séance souhaitez-vous ?</option>
+                    </select>
+                </div>
+                {{#if selected_planning}}{{#if errors.planning_id}}
+                    <div class="input_field_error red f-weight-bold text--right">{{errors.planning_id}}</div>
+                {{/if}}{{/if}}
+                <div class="text--center flexbox soft-half--top" data-element="datepicker-wrapper" style="display: none">
+                  <label class="nowrap flexbox__item soft-half--right" for="request-date">Choisissez votre jour : </label>
+                  <div class="flexbox__item one-whole text--left">
+                    <input type="text" data-behavior="datepicker" name="date" id="request-date" class="datepicker-input">
+                  </div>
+                </div>
+            </div>
+            <div class="one-whole v-middle push-half--bottom" class="one-whole">
+                <div class="input-addon">
+                    <div class="input-prefix">
+                        <i class="fa fa-phone-o"></i>
+                    </div>
+                    <input type="text" class="input--large one-whole hard--right" name='user[phone_number]' type='text' placeholder='Votre téléphone (confidentiel)' value="{{#if user.phone_number}}{{ user.phone_number }}{{/if}}" data-toggle="popover" data-content="Nous vous recommandons de laisser votre numéro de portable : si la séance est annulée ou modifiée, un SMS pourra vous être envoyé." data-trigger="hover" data-placement="left">
+                </div>
+                {{#if errors.user.phone_number}}
+                    <div class="input_field_error red f-weight-bold text--right">{{errors.user.phone_number}}</div>
+                {{/if}}
+            </div>
+            <div class="input flush--top push-half--bottom">
+                <textarea name="body" id="" cols="30" rows="12" class="one-whole input--large" style='height: 185px;' data-behavior='autoresize'>{{#unless errors.body}}{{#if body}}{{ body }}{{else}}{{ prefilled_body }}{{/if}}{{/unless}}</textarea>
+            </div>
+            {{#if errors.body}}
+                <div class="input_field_error red f-weight-bold text--right">{{errors.body}}</div>
+            {{/if}}
+            <button type="submit" class="btn btn--green btn--full" data-disable-with="Message en cours d'envoi...">
+                Envoyer ma demande de réservation
+            </button>
+        </form>
+    </article>
+</div>

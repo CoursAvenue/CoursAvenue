@@ -51,13 +51,13 @@
     = render 'users/waiting_for_activation_text'
 
 %div{ itemscope: true, itemtype: "http://schema.org/Place" }
-  = render partial: 'structures/structure_header', locals: { structure: @structure }
+  = render partial: 'structures/structure_header', locals: { structure: @structure, show_promotion: false }
   .soft--sides
     .grid
       .grid__item.eight-twelfths.soft-half--right>
         = render partial: 'structures/map_and_gallery', locals: { medias: @medias }
 
-        #structure-profile-discovery-pass{ data: { type: 'structure-profile-root' } }
+        #structure-profile-discovery-pass{ data: { type: 'structure-profile-discovery-pass-root' } }
           #structure-region
           %div{ data: { type: "comments-collection" } }
       .grid__item.four-twelfths>
@@ -124,14 +124,7 @@
                               .media-photo{ itemprop: 'image', content: structure.logo.url }
                                 = image_tag structure.logo.url(:thumb)
                             .grid__item.v-top.four-fifths.soft-half--left.opacity-hidden-on-hover__wrapper>
-                              .nowrap
-                                - if structure.premium? and header_promotion_title_for_structure(structure).present?
-                                  %h6.inline-block.push-half--bottom= truncate(structure.name, length: 18)
-                                  .lbl.lbl--small.lbl--yellow
-                                    %i.fa.fa-star
-                                    = header_promotion_title_for_structure(structure)
-                                - else
-                                  %h6.inline-block.push-half--bottom= truncate(structure.name, length: 30)
+                              %h6.inline-block.push-half--bottom= truncate(structure.name, length: 30)
                               %div
                                 %i= truncate(structure.places.map(&:city).map(&:name).uniq.join(', '), length: 40)
                               .btn.btn--small.btn--blue.btn--full.opacity-hidden-on-hover__child Voir le profil

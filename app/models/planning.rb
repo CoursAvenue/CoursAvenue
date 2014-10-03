@@ -362,6 +362,24 @@ class Planning < ActiveRecord::Base
     participations.not_canceled.waiting_list.map(&:size).reduce(&:+) || 0
   end
 
+  #
+  # Return the next date depending on the week_day if it is a lesson
+  #
+  # @return Date
+  def next_date
+    if course.is_training?
+      self.start_date
+    else
+      # See http://stackoverflow.com/a/7621385/900301
+      today = Date.today
+      if week_day > today.wday
+        today + (week_day - today.wday)
+      else
+        (today + (7 - today.wday)).next_day(week_day)
+      end
+    end
+  end
+
   private
 
   # Return the scoped price for a given type.
