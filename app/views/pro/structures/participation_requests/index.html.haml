@@ -1,0 +1,37 @@
+= side_menu_currently_at 'discovery_pass'
+
+.panel
+  = render partial: 'pro/structures/courses/discovery_pass_tabs', locals: { current: 'monitoring' }
+  .panel__body.soft--ends
+    .soft--sides
+      %h3.flush Mes inscriptions
+    %table.table--data.table--striped
+      %thead
+        %tr
+          %th Status
+          %th Adresse
+          %th Cours
+          %th Jour et horaires
+          %th Options
+      %tbody
+        - @participation_requests.each do |participation_request|
+          %tr
+            %td.nowrap{ class: participation_request_color(participation_request) }
+              = participation_request_icon(participation_request)
+              = t "participation_request.state.#{participation_request.state}"
+            %td
+              - place = participation_request.planning.place
+              = place.address
+              - if place.info.present? or place.private_info.present?
+                %a.btn.btn--small{ data: { toggle: 'popover', content: t('places.infos', info: place.info, private_info: place.private_info), html: 'true', placement: 'top', trigger: 'hover' } }
+                  Infos
+            %td
+              = "#{participation_request.course.name} (#{join_levels(participation_request.planning.levels)}, #{join_audiences(participation_request.planning)})"
+            %td
+              = "#{l(participation_request.date, format: :semi_short)} à #{l(participation_request.start_time, format: :short)}"
+            %td
+              = link_to 'Proposer un autre créneau', edit_pro_structure_participation_request_path(@structure, participation_request), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+              %br
+              = link_to "Annuler l'inscription", decline_form_pro_structure_participation_request_path(@structure, participation_request), class: 'red nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+              %br
+              = link_to 'Historique des messages', pro_structure_conversation_path(@structure, participation_request.conversation)

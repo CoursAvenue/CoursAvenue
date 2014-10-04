@@ -1,0 +1,7 @@
+%ul.tabs.panel__header
+  %li{ class: current == 'courses' ? 'active' : '' }
+    = link_to discovery_pass_pro_structure_courses_path(@structure) do
+      Cours inclus
+  %li{ class: current == 'monitoring' ? 'active' : '' }
+    = link_to pro_structure_participation_requests_path(@structure) do
+      Suivi des inscriptions

@@ -293,7 +293,7 @@ CoursAvenue::Application.routes.draw do
             get :ca_communication, path: 'communication-coursavenue'
           end
         end
-        resources :participation_requests, only: [:edit], controller: 'structures/participation_requests' do
+        resources :participation_requests, only: [:edit, :index], controller: 'structures/participation_requests', path: 'pass-decouverte-suivi' do
           member do
             get   :decline_form
             patch :accept

@@ -5,6 +5,11 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
 
   layout 'admin'
 
+  # GET pro/etablissements/:structure_id/pass-decouverte-suivi
+  def index
+    @participation_requests = @structure.participation_requests
+  end
+
   # GET pro/etablissements/:structure_id/participation_request/:id/edit
   def edit
     @participation_request = @structure.participation_requests.find(params[:id])
