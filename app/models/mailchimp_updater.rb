@@ -23,7 +23,7 @@ class MailchimpUpdater
 
   def self.update_structure(structure)
     Gibbon::API.lists.subscribe({id: '79f30bcce9',
-                                 email: { email: user.email},
+                                 email: { email: structure.main_contact.email},
                                  merge_vars: {
                                    :FAME      => structure.name,
                                    :PARISIAN  => (structure.parisian? ? 'Oui' : 'Non'),
