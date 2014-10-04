@@ -25,7 +25,7 @@ class MailchimpUpdater
     Gibbon::API.lists.subscribe({id: '79f30bcce9',
                                  email: { email: structure.main_contact.email},
                                  merge_vars: {
-                                   :FAME      => structure.name,
+                                   :NAME      => structure.name,
                                    :PARISIAN  => (structure.parisian? ? 'Oui' : 'Non'),
                                    :JPO       => (structure.courses.open_courses.any? ? 'Oui' : 'Non'),
                                    :SLEEPING  => (structure.is_sleeping? ? 'Oui' : 'Non'),
