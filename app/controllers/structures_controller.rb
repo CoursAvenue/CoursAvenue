@@ -58,6 +58,53 @@ class StructuresController < ApplicationController
     end
   end
 
+  # GET /etablissements/pass-decouverte
+  def discovery_pass_search
+    if params[:root_subject_id].present? and params[:subject_id].blank?
+      params[:subject_id] = params[:root_subject_id]
+    end
+    @app_slug = "discovery-pass-search"
+    @subject = filter_by_subject?
+
+    # We remove bbox parameters if user is on mobile since we don't show the map
+    if mobile_device?
+      params.delete :bbox_ne
+      params.delete :bbox_sw
+    end
+
+    params[:address_name] ||= 'Paris, France' unless request.xhr?
+    params[:page]         ||= 1
+    params[:per_page]      = 18
+
+    if params_has_planning_filters?
+      @structures, @places, @total = search_plannings
+    else
+      @structures, @total = search_structures
+    end
+    @latlng = retrieve_location
+    @models = jasonify @structures
+
+    log_search
+
+    respond_to do |format|
+      format.json do
+        render json: @structures,
+               root: 'structures',
+               place_ids: @places,
+               query: params,
+               each_serializer: StructureDiscoveryPassSearchSerializer,
+               meta: { total: @total, location: @latlng }
+      end
+
+      # 'query' is the current query string, which allows us to direct users to
+      # a filtered version of the structures show action
+      format.html do
+        @models = jasonify @structures, place_ids: @places, query: params, serializer: StructureDiscoveryPassSearchSerializer
+        cookies[:structure_search_path] = request.fullpath
+      end
+    end
+  end
+
   # GET /etablissements/:id/pass-decouverte
   def discovery_pass
     @structure = Structure.friendly.find params[:id]
@@ -148,7 +195,7 @@ class StructuresController < ApplicationController
   private
 
   def choose_layout
-    if action_name == 'index'
+    if action_name == 'index' or action_name == 'discovery_pass_search'
       'search'
     else
       'users'

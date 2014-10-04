@@ -293,6 +293,10 @@ class Structure < ActiveRecord::Base
 
     integer :funding_type_ids, multiple: true
 
+    boolean :available_in_discovery_pass do
+      self.plannings.where(available_in_discovery_pass: true).any?
+    end
+
     boolean :premium
 
     boolean :has_premium_prices

@@ -66,7 +66,3 @@
   :javascript
     window.coursavenue.bootstrap.options.server_api.root_subject_id = "#{ params[:root_subject_id] }";
 
-- content_for :scripts do
-  - if Rails.env.production?
-    :javascript
-      ga('send', 'event', 'search', 'view');

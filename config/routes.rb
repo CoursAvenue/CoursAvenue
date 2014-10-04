@@ -430,6 +430,7 @@ CoursAvenue::Application.routes.draw do
     collection do
       post :recommendation
       get :search
+      get :discovery_pass_search, path: 'pass-decouverte'
     end
     resources :participation_requests, only: [:create]                                    , controller: 'structures/participation_requests'
     resources :statistics            , only: [:create]                                    , controller: 'structures/statistics'

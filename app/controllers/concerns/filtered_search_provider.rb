@@ -89,9 +89,9 @@ module FilteredSearchProvider
   def jasonify(structures, options={})
     # we splat the structures to ensure that a single
     # structure is treated as an array <3 Ruby
-    #
+    options[:serializer] ||=StructureSerializer
     [*structures].map do |structure|
-      StructureSerializer.new(structure, { root: false }.merge(options))
+      options[:serializer].new(structure, { root: false }.merge(options))
     end
   end
 
