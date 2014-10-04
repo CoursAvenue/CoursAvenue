@@ -562,7 +562,7 @@ class User < ActiveRecord::Base
   end
 
   def subscribe_to_mailchimp
-    MailchimpUpdater.delay.update(self)
+    MailchimpUpdater.delay.update_user(self)
   end
 
 end
