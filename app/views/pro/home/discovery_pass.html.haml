@@ -10,7 +10,7 @@
         .soft--top.white.soft-black-text-shadow
           %p.gamma.line-height-1-5.push-half--bottom
             %strong.quoted<
-              Comme beaucoup je propose des cours d'essai gratuits, mais j'ai souvent du mal à les remplir. Avec le Pass Découverte, j'ai enfin un flux régulier de nouveaux élèves.
+              Comme beaucoup je propose des cours d'essai gratuits, mais j'ai du mal à les remplir. Avec le Pass Découverte, j'ai enfin un flux régulier de nouveaux élèves.
           %p.f-style-italic.f-weight-600
             Stéphanie, Professeur de danses latines à Paris
         .soft.push.flush--top.hard--top
@@ -18,11 +18,14 @@
             Trouvez de nouveaux élèves
           .soft--right.f-weight-600
             Le Pass Découverte est un moyen efficace de recruter de nouveaux élèves grâce à vos cours d'essai gratuits. Pour vous, être partenaire du Pass est gratuit ; pour les élèves, il est à 19€ par mois, ce qui vous garantit un public intéressé et susceptible de s'inscrire à l'année.
+          %br
           - if current_pro_admin and current_pro_admin.structure
-            = link_to 'Faire partie du Pass Découverte', discovery_pass_pro_structure_courses_path(@structure), class: 'btn btn--green btn--large'
+            = link_to 'Faire partie du Pass Découverte', discovery_pass_pro_structure_courses_path(@structure), class: 'btn btn--green btn--bigger'
           - else
-            = link_to 'Faire partie du Pass Découverte', new_pro_admin_session_path, class: 'btn btn--green btn--large'
-
+            - session['pro_admin_return_to'] = discovery_pass_pro_structure_courses_path('__STRUCTURE_ID__')
+            = link_to 'Faire partie du Pass Découverte', new_pro_admin_session_path, class: 'btn btn--green btn--bigger fancybox.ajax', data: { behavior: 'modal', width: '700', padding: 0 }
+          %div.f-weight-600
+            %i Gratuit et sans engagement
 
 .main-container.soft
   %h2.text--center.f-weight-300 Être partenaire du Pass Découverte c'est :
@@ -79,7 +82,7 @@
       - if current_pro_admin and current_pro_admin.structure
         = link_to 'Faire partie du Pass Découverte', discovery_pass_pro_structure_courses_path(@structure), class: 'btn btn--green'
       - else
-        = link_to 'Faire partie du Pass Découverte', new_pro_admin_session_path, class: 'btn btn--green'
+        = link_to 'Faire partie du Pass Découverte', new_pro_admin_session_path, class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: '700', padding: 0 }
 
 
 .home-screen-promotion-wrapper
@@ -109,20 +112,25 @@
   %h2.push--ends.text--center.f-weight-300 Questions fréquentes
   .grid.push--bottom
     .grid__item.one-third>
-      %h4 En tant que professionnel, dois-je payer pour faire partie du Pass Découverte ?
+      %h5 En tant que professionnel, dois-je payer pour faire partie du Pass Découverte ?
+    .grid__item.two-thirds
       .read-more{ data: { behavior: 'read-more', height: 90 } }
         %p.epsilon
           Non, c'est totalement gratuit et sans engagement. En contrepartie, nous vous demandons d'accueillir chaque élève qui souhaite venir assister à l'un de vos cours d'essai. Si vous annulez ou refusez trop de demandes de réservation, nous vous contactons pour en comprendre les raisons et savoir si nous conservons vos cours dans le Pass.
+  .grid.push--bottom
     .grid__item.one-third>
-      %h4 Pourquoi avoir lancé ce Pass Découverte ?
+      %h5 Pourquoi avoir lancé ce Pass Découverte ?
+    .grid__item.two-thirds
       .read-more{ data: { behavior: 'read-more', height: 90 } }
         %p.epsilon
           Chaque Français comprend l'intérêt des cours de loisirs : ils participent au bonheur et à une vie créative, artistique et pleinement épanouie. Mais combien d'entre eux pratiquent régulièrement des cours de théâtre, de dessin ou encore de danse ? Très peu. La raison ? Aux yeux de beaucoup, l'acte de s'inscrire à un cours reste une démarche trop contraignante et intimidante. Contrairement à une réservation au restaurant qui n'engage à rien (sauf commander un plat), l'inscription à une séance implique de rejoindre un groupe existant, de s'adapter au cours et d'y contribuer personnellement.
         %p.epsilon
           C'est pourquoi le Pass Découverte est selon nous la meilleure solution pour rapprocher les Français des cours de loisirs : l'élève paie en amont (même un faible montant), ce qui l'incite à passer en prospection active et à aller à la rencontre des cours qu'il n'aurait jamais oser découvrir. Et pour vous, le Pass vous permet de rencontrer des élèves vraiment intéressés par votre discipline et prêts à en faire une pratique régulière.
 
+  .grid.push--bottom
     .grid__item.one-third>
-      %h4 Les cours d'essai gratuits ne m'ont finalement jamais apporté d'élèves réguliers et le taux d'absentéisme est élevé. Comment allez-vous éviter cela ?
+      %h5 Les cours d'essai gratuits ne m'ont finalement jamais apporté d'élèves réguliers et le taux d'absentéisme est élevé. Comment allez-vous éviter cela ?
+    .grid__item.two-thirds.grid__item.one-third>
       .read-more{ data: { behavior: 'read-more', height: 90 } }
         %p.epsilon
           Nous connaissons bien le principe des cours d'essai. Selon nous, il faut à tout prix éviter :
@@ -136,44 +144,54 @@
           %li Pour les élèves, le Pass est payant : même si le montant reste faible (19€ par mois), nous sortons du cadre du 100% gratuit, ce qui permet d'écarter les abus et le "papillonnage" ;
           %li Nous avons mis en place un système de pénalité qui permet d'éviter tout absentéisme : dès qu'un élève inscrit ne se présente pas à son cours, nous lui désactivons le Pass.
 
-  .grid.push--ends
+
+  .grid.push--bottom
     .grid__item.one-third>
-      %h4 Je souhaite proposer certains créneaux pour une période précise, comment faire ?
+      %h5 Je souhaite proposer certains créneaux pour une période précise, comment faire ?
+    .grid__item.two-thirds
       .read-more{ data: { behavior: 'read-more', height: 90 } }
         %p.epsilon
           Aucun problème, c'est vous qui décidez ! Connectez-vous à votre profil, cliquez sur la rubrique "Pass Découverte", et choisissez les créneaux que vous souhaitez proposer en cours d'essai. Et dès que vous ne souhaitez plus en faire partie, c'est le même principe : décochez les cours pour les retirer du Pass.
+  .grid.push--bottom
     .grid__item.one-third>
-      %h4 Pourquoi les élèves doivent-ils payer leur Pass ?
+      %h5 Pourquoi les élèves doivent-ils payer leur Pass ?
+    .grid__item.two-thirds
       .read-more{ data: { behavior: 'read-more', height: 90 } }
         %p.epsilon
           Notre objectif est de vous apporter un public qualifié susceptible de devenir des élèves réguliers. C'est pourquoi pour les élèves, le Pass est payant (19€ par mois) : nous évitons ainsi la gratuité et vous rencontrez de vrais élèves à fidéliser. Selon nous, c'est la seule solution pour éviter un public qui profiterait du système, enclin au "papillonnage" et non intéressé à une pratique régulière.
         %p.epsilon
           C'est pourquoi le Pass Découverte est selon nous la meilleure solution pour rapprocher les Français des cours de loisirs : l'élève paie en amont (même un faible montant), ce qui l'incite à passer en prospection active et à aller à la rencontre des cours qu'il n'aurait jamais oser découvrir. Et pour vous, le Pass vous permet de rencontrer des élèves vraiment intéressés par votre discipline et prêts à en faire une pratique régulière.
 
+  .grid.push--bottom
     .grid__item.one-third>
-      %h4 Comment se passe la réservation ? Comment éviter tout risque de débordement ?
+      %h5 Comment se passe la réservation ? Comment éviter tout risque de débordement ?
+    .grid__item.two-thirds
       .read-more{ data: { behavior: 'read-more', height: 90 } }
         %p.epsilon
           C'est vous qui gérez vos réservations : dès qu'un élève souhaite s'inscrire à l'un de vos cours d'essai, vous recevez un e-mail vous indiquant la séance et le jour de son choix. A vous de lui confirmer alors le créneau ou de lui proposer une autre date en fonction de votre taux de remplissage. L'inscription ne passe en statut "confirmé" qu'après vous être mis d'accord. A tout moment, vous pouvez annuler une séance, la reporter, ou retirer vos cours du Pass s'ils deviennent tous complets.
 
-  .grid
+  .grid.push--bottom
     .grid__item.one-third>
-      %h4 Quelles villes sont concernées par le Pass Découverte ?
+      %h5 Quelles villes sont concernées par le Pass Découverte ?
+    .grid__item.two-thirds
       %p.epsilon
         Pour l'instant, le Pass Découverte concerne uniquement Paris. Au vu des demandes grandissantes de la part des élèves et des professionnels des loisirs, nous allons rapidement l'étendre à d'autres villes !
+  .grid.push--bottom
     .grid__item.one-third>
-      %h4 Mes cours suivent une progression tout au long de l'année, je peux donc difficilement les proposer à l'essai. Comment faire ?
+      %h5 Mes cours suivent une progression tout au long de l'année, je peux donc difficilement les proposer à l'essai. Comment faire ?
+    .grid__item.two-thirds
       .read-more{ data: { behavior: 'read-more', height: 90 } }
         %p.epsilon
           C'est effectivement le cas de certaines disciplines, comme les cours de théâtre. Mais d'un autre côté, refuser d'accueillir de nouvelles personnes tout au long de l'année, c'est prendre le risque de ne pas rencontrer d'élèves potentiels à fidéliser pour d'éventuels ateliers ou stages, et de ne pas pouvoir se constituer un "vivier", nécessaire le jour où vous voudrez ouvrir d'autres créneaux ou remplacer d'éventuels départs.
         %p.epsilon
           C'est pourquoi nous vous conseillons de toujours proposer vos cours à l'essai, mais en précisant bien aux élèves intéressés qu'ils ne pourront malheureusement pas participer activement au cours pour éviter de perturber la progression générale du groupe. Le simple fait d'ouvrir vos portes pour assister à une séance sera très apprécié : c'est déjà une très bonne manière pour pouvoir comprendre l'esprit et la valeur pédagogique de vos cours.
 
+  .grid.push--bottom
     .grid__item.one-third>
-      %h4 Existe-t-il une date butoir pour proposer mes cours dans le cadre du Pass ?
+      %h5 Existe-t-il une date butoir pour proposer mes cours dans le cadre du Pass ?
+    .grid__item.two-thirds
       .read-more{ data: { behavior: 'read-more', height: 90 } }
         %p.epsilon
           Non, il n'y a pas d'échéance particulière. Mais ne pas proposer vos cours d'essai maintenant, c'est prendre le risque de passer à côté d'élèves potentiels : plus tôt vous proposez vos cours, plus vous profiterez des avantages du Pass. Cela ne vous prendra que quelques minutes, n'attendez pas pour vous connecter et proposer vos cours !
-
 
 = render 'shared/live_chat'
