@@ -66,34 +66,11 @@ class StructureDiscoveryPassSearchSerializer < ActiveModel::Serializer
       host      = 'staging.coursavenue.com'
       subdomain = 'staging'
     end
-    if @options[:jpo]
-      jpo_structure_url(object, subdomain: subdomain, host: host, only_path: host.nil?)
-    else
-      structure_url(object, subdomain: subdomain, host: host, only_path: host.nil?)
-    end
+    discovery_pass_structure_url(object, subdomain: subdomain, host: host, only_path: host.nil?)
   end
 
   def query_params
     @options[:query]
-  end
-
-  def tag_names
-    if @options[:jpo]
-      object.open_course_subjects
-    else
-      tags = []
-      tags << object.parent_subjects_string.split(';').collect do |subject_string|
-        subject_string.split(':')[0]
-      end
-      tags << object.subjects_string.split(';').collect do |subject_string|
-        subject_string.split(':')[0]
-      end
-      if object.course_names.present?
-        "#{tags.flatten.uniq.join(', ')}, #{object.course_names}"
-      else
-        tags.flatten.uniq.join(', ')
-      end
-    end
   end
 
   def cities
