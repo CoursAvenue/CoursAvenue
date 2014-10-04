@@ -28,7 +28,8 @@ class MailchimpUpdater
                                    :FAME      => structure.name,
                                    :PARISIAN  => (structure.parisian? ? 'Oui' : 'Non'),
                                    :JPO       => (structure.courses.open_courses.any? ? 'Oui' : 'Non'),
-                                   :SLEEPING  => (structure.is_sleeping? ? 'Oui' : 'Non')
+                                   :SLEEPING  => (structure.is_sleeping? ? 'Oui' : 'Non'),
+                                   :SLUG      => structure.slug
                                  },
                                    double_optin: false,
                                    update_existing: true
