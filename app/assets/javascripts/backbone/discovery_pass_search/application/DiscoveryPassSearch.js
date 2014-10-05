@@ -1,7 +1,7 @@
 /* DiscoveryPassSearch extends FilteredSearch
  *
  * This is an experiment to see if a deep copy of an app will work */
-DiscoveryPassSearch = FilteredSearch.rebrand('discovery-pass-search', Routes.open_courses_path().replace('/', ''));
+DiscoveryPassSearch = FilteredSearch.rebrand('discovery-pass-search', Routes.discovery_pass_search_structures_path().replace('/', ''));
 
 DiscoveryPassSearch.addRegions({
     mainRegion: '#' + DiscoveryPassSearch.slug
