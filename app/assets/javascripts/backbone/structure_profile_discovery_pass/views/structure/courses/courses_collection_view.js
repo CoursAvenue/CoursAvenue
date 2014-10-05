@@ -8,6 +8,12 @@ StructureProfileDiscoveryPass.module('Views.Structure.Courses', function(Module,
         onItemviewRegister: function onItemviewRegistration (view, data) {
             this.trigger("planning:register", data);
         },
+        onAfterShow: function onAfterShow () {
+            // Remove all the panel if we don't have any courses to show
+            if (this.collection.length == 0) {
+                this.$el.closest('.panel').remove();
+            }
+        }
     });
 
 }, undefined);
