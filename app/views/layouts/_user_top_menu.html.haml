@@ -3,7 +3,7 @@
     .main-container.user-top-menu
       = user_top_menu_link 'dashboard', dashboard_user_path(@user)    , current: current_tab
       = user_top_menu_link 'infos', edit_user_path(@user)    , current: current_tab
-      - if @user.parisian?
+      - if current_pro_admin and current_pro_admin.super_admin? # @user.parisian?
         = user_top_menu_link 'discovery_pass', (@user.discovery_pass ? user_participation_requests_path(@user) : new_user_discovery_pass_path(@user)), current: current_tab
       = user_top_menu_link 'passions', user_passions_path(@user), current: current_tab
       = user_top_menu_link 'favorites',   user_followings_path(@user), current: current_tab
