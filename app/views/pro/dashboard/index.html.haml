@@ -57,13 +57,13 @@
   %h5.text--center # Politique
   .grid
     .grid__item.one-third.text--center>
-      %h3.flush= Structure.where.not(discovery_pass_policy: '1_trial').count
+      %h3.flush= Structure.where(discovery_pass_policy: '1_trial').count
       %h6 1 cours
     .grid__item.one-third.text--center>
-      %h3.flush= Structure.where.not(discovery_pass_policy: '2_trials').count
+      %h3.flush= Structure.where(discovery_pass_policy: '2_trials').count
       %h6 2 cours
     .grid__item.one-third.text--center>
-      %h3.flush= Structure.where.not(discovery_pass_policy: '3_trials').count
+      %h3.flush= Structure.where(discovery_pass_policy: '3_trials').count
       %h6 3 cours
 
   - pass_9  = Email.where(Email.arel_table[:email_type].matches('pass-decouverte_9').and(Email.arel_table[:email].not_eq('')))

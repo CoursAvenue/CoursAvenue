@@ -77,11 +77,8 @@ class StructuresController < ApplicationController
     params[:page]         ||= 1
     params[:per_page]      = 18
 
-    if params_has_planning_filters?
-      @structures, @places, @total = search_plannings
-    else
-      @structures, @total = search_structures
-    end
+    # Always search on plannings
+    @structures, @places, @total = search_plannings
     @latlng = retrieve_location
     @models = jasonify @structures
 

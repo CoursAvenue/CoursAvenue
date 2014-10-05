@@ -3,7 +3,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
     var ACTIVE_CLASS = 'btn--blue-green subject-active';
 
     Module.SubjectsCollectionView = Backbone.Marionette.ItemView.extend({
-        template: Module.templateDirname() + 'subjects_filter_view',
+        template: Module.templateDirname() + 'subjects_collection_view',
 
         itemView: Module.SubjectChildrenView,
         itemViewContainer: '[data-type="subject-children-view"]',
