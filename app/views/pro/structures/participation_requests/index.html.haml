@@ -9,7 +9,7 @@
       %thead
         %tr
           %th Status
-          %th Adresse
+          %th Lieu
           %th Cours
           %th Jour et horaires
           %th Options
@@ -21,12 +21,13 @@
               = t "participation_request.state.#{participation_request.state}"
             %td
               - place = participation_request.planning.place
-              = place.address
+              = place.name
               - if place.info.present? or place.private_info.present?
-                %a.btn.btn--small{ data: { toggle: 'popover', content: t('places.infos', info: place.info, private_info: place.private_info), html: 'true', placement: 'top', trigger: 'hover' } }
-                  Infos
+                %i.fa.fa-info{ data: { toggle: 'popover', content: t('places.infos', info: place.info, private_info: place.private_info), html: 'true', placement: 'top', trigger: 'hover' } }
             %td
-              = "#{participation_request.course.name} (#{join_levels(participation_request.planning.levels)}, #{join_audiences(participation_request.planning)})"
+              - course = participation_request.course
+              = course.name
+              %i.fa.fa-info{ data: { toggle: 'popover', content: "<strong>Niveau :</strong> #{join_levels(participation_request.planning.levels)}<br><strong>Public :</strong> #{join_audiences(participation_request.planning)}<br><strong>Disciplines :</strong> #{course.subjects.uniq.map(&:name).join(', ')}", html: 'true', placement: 'top', trigger: 'hover' } }
             %td
               = "#{l(participation_request.date, format: :semi_short)} à #{l(participation_request.start_time, format: :short)}"
             %td

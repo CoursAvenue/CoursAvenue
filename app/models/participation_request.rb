@@ -23,7 +23,7 @@ class ParticipationRequest < ActiveRecord::Base
   # Validation                                                         #
   ######################################################################
   validates :date, presence: true
-  validate :request_is_not_duplicate
+  validate :request_is_not_duplicate, on: [:create]
 
   #
   # Create a ParticipationRequest if everything is correct, and if it is, it also create a conversation
