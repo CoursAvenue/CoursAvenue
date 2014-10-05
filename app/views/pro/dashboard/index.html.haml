@@ -54,7 +54,7 @@
         .grid__item.three-quarters>
           .progress
             .bar.text--left.soft--left{ style: "width: #{value * 100 / max_value}%"}= value
-  %h5.text--center # Politique
+  %h5.text--center # de cours d'essai offert
   .grid
     .grid__item.one-third.text--center>
       %h3.flush= Structure.where(discovery_pass_policy: '1_trial').count

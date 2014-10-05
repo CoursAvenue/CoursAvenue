@@ -53,11 +53,11 @@
               .input-container>
                 %div
                   = f.input :cant_be_joined_during_year, label: false, wrapper_html: { class: 'inline-block v-middle' }, input_html: { class: 'input--large' }
-                  %label.inline-block.v-middle.label--large{ for: 'course_cant_be_joined_during_year' }= Course.human_attribute_name :cant_be_joined_during_year
+                  %label.inline-block.v-middle.label--large{ for: 'course_cant_be_joined_during_year' }= t('courses.attributes.cant_be_joined_during_year')
 
                 %div
                   = f.input :no_class_during_holidays, label: false, wrapper_html: { class: 'inline-block v-middle' }, input_html: { class: 'input--large' }
-                  %label.inline-block.v-middle.label--large{ for: 'course_no_class_during_holidays' }= Course.human_attribute_name :no_class_during_holidays
+                  %label.inline-block.v-middle.label--large{ for: 'course_no_class_during_holidays' }= t('courses.attributes.no_class_during_holidays')
 
         .soft--sides
           .input
@@ -72,7 +72,7 @@
                 - home_place = @structure.places.homes.first
                 %div
                   = f.input :teaches_at_home, input_html: { class: 'input--large', disabled: home_place.nil? }, label: false, wrapper_html: { class: 'inline-block v-middle' }
-                  = f.label :teaches_at_home, class: "label--large inline-block v-middle width-auto hard #{home_place.nil? ? 'gray-light' : ''}"
+                  = f.label :teaches_at_home, t('courses.attributes.teaches_at_home'), class: "label--large inline-block v-middle width-auto hard #{home_place.nil? ? 'gray-light' : ''}"
                   - if home_place
                     .inline-block.v-middle.soft-half--left
                       %i.blue Dans un rayon de #{home_place.radius}km autour de #{home_place.city.try(:name)}.
@@ -100,7 +100,8 @@
             = f.input :on_appointment, as: :select, collection: [["Cours particuliers selon des créneaux précis", false], ["Pas de créneau précis, uniquement sur demande", true]], label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, label: 'Disponibilités', include_blank: false
 
 
-            = f.input :level_ids, as: :check_boxes, collection: Level.all, label_method: lambda {|level| t(level.name)}, label: t('planning.levels'), wrapper_html: { data: { behavior: 'checkbox-list' } }, label_html: { class: 'label--large v-middle' }, input_html: { class: 'input--large' }
+            .nowrap
+              = f.input :level_ids, as: :check_boxes, collection: Level.all, label_method: lambda {|level| t(level.name)}, label: t('planning.levels'), wrapper_html: { data: { behavior: 'checkbox-list' } }, label_html: { class: 'label--large v-middle' }, input_html: { class: 'input--large' }
 
             = f.input :audience_ids, as: :check_boxes, collection: Audience.all, label_method: lambda {|audience| t(audience.name)}, label: t('planning.audiences'), input_html: { class: 'input--large' }, label_html: { class: 'label--large v-middle' }
 
