@@ -44,7 +44,7 @@
   - subjects_count = {}
   - max_value = 0
   - Subject.stars.each do |subject|
-    - structure_count = StructureSearch.search(subject_id: subject.slug, discovery_pass: true, per_page: 1000).total
+    - structure_count = PlanningSearch.search(subject_id: subject.slug, discovery_pass: true, per_page: 1000).total
     - subjects_count[subject.name] = structure_count
     - max_value = structure_count if structure_count > max_value
   .soft--sides
