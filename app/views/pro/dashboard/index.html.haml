@@ -40,6 +40,31 @@
     .grid__item.one-third.text--center>
       %h3.flush= Planning.where.not(available_in_discovery_pass: nil).count
       %h6 créneaux
+  %h5.text--center Répartition / disciplines
+  - subjects_count = {}
+  - max_value = 0
+  - Subject.stars.each do |subject|
+    - structure_count = StructureSearch.search(subject_id: subject.slug, discovery_pass: true, per_page: 1000).total
+    - subjects_count[subject.name] = structure_count
+    - max_value = structure_count if structure_count > max_value
+  .soft--sides
+    - subjects_count.each do |key, value|
+      .grid.push-half--bottom
+        .grid__item.one-quarter>= key
+        .grid__item.three-quarters>
+          .progress
+            .bar.text--left.soft--left{ style: "width: #{value * 100 / max_value}%"}= value
+  %h5.text--center # Politique
+  .grid
+    .grid__item.one-third.text--center>
+      %h3.flush= Structure.where.not(discovery_pass_policy: '1_trial').count
+      %h6 1 cours
+    .grid__item.one-third.text--center>
+      %h3.flush= Structure.where.not(discovery_pass_policy: '2_trials').count
+      %h6 2 cours
+    .grid__item.one-third.text--center>
+      %h3.flush= Structure.where.not(discovery_pass_policy: '3_trials').count
+      %h6 3 cours
 
   - pass_9  = Email.where(Email.arel_table[:email_type].matches('pass-decouverte_9').and(Email.arel_table[:email].not_eq('')))
   - pass_19 = Email.where(Email.arel_table[:email_type].matches('pass-decouverte_19').and(Email.arel_table[:email].not_eq('')))
