@@ -91,7 +91,7 @@ class Emailing < ActiveRecord::Base
   #
   # @return a String.
   def metadata_prices(structure)
-    lowest_price = Structure.first.prices.min{ |a, b| a.amount <=> b.amount }.amount
+    lowest_price = structure.prices.min{ |a, b| a.amount <=> b.amount }.amount
 
     "À partir de #{lowest_price} €"
   end
