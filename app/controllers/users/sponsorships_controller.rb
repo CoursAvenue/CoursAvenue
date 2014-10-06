@@ -13,4 +13,10 @@ class Users::SponsorshipsController < Pro::ProController
   # GET eleves/:user_id/parrainaged/new
   def new
   end
+
+  protected
+
+  def layout_locals
+    { hide_menu: true }
+  end
 end
