@@ -5,7 +5,7 @@ class Pro::EmailingsController < Pro::ProController
   layout 'admin'
 
   def index
-    @emailings = Emailing.all
+    @emailings = Emailing.all.sort
   end
 
   def new
