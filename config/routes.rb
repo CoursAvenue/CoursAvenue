@@ -396,7 +396,7 @@ CoursAvenue::Application.routes.draw do
         patch :reactivate
       end
     end
-    resources :sponsorships, only: [:index, :new], controller: 'users/sponsorships', path: 'mes-parrainages'
+    resources :sponsorships, only: [:index, :new, :create], controller: 'users/sponsorships', path: 'mes-parrainages'
     resources :participation_requests, only: [:index, :edit], controller: 'users/participation_requests', path: 'mes-inscriptions' do
       member do
         get   :decline_form

@@ -25,7 +25,7 @@
             Entrez les emails de vos amis et envoyez-leur votre parrainage :
 
           .gray-box.soft.relative
-            = simple_form_for @user do |f|
+            = simple_form_for [@user, @user.sponsorships.build] do |f|
               .grid.push-half--bottom
                 .grid__item.two-twelfths.text--right>
                   %h4 À
