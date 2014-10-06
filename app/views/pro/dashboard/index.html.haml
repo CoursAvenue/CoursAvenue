@@ -32,13 +32,13 @@
   %h3.text--center Pass découverte
   .grid
     .grid__item.one-third.text--center>
-      %h3.flush= Structure.where.not(discovery_pass_policy: nil).count
+      %h3.flush= Structure.where(Structure.arel_table[:discovery_pass_policy].matches('%_trial%')).count
       %h6 profs
     .grid__item.one-third.text--center>
-      %h3.flush= Course.where.not(available_in_discovery_pass: nil).count
+      %h3.flush= Course.available_in_discovery_pass.count
       %h6 cours
     .grid__item.one-third.text--center>
-      %h3.flush= Planning.where.not(available_in_discovery_pass: nil).count
+      %h3.flush= Planning.available_in_discovery_pass.count
       %h6 créneaux
   %h5.text--center Répartition / disciplines
   - subjects_count = {}
