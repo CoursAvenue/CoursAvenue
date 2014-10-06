@@ -101,33 +101,27 @@
           %div{ data: { type: 'sticky-map-container' }}>
             .push--bottom{ data: { type: 'sticky-map' }}>
             %a.push--bottom.contact-button.btn--full.btn.btn--green{ data: { behavior: 'show-contact-panel' } }
-              Contacter
-              = I18n.t("structures.structure_type_contact.#{(@structure.structure_type.present? ? @structure.structure_type : 'structures.other')}")
+              Réserver mon cours d'essai
 
-            - unless @structure.premium?
-              .panel.push--bottom
-                .panel__header.soft-half--ends.soft--sides
-                  %h5.flush Profils similaires
-                .panel__body.soft-half--ends{ style: 'height: 300px; overflow-y: scroll;' }
-                  - if params[:lat] and params[:lng]
-                    - _params = { lat: params[:lat], lng: params[:lng] }
-                  - else
-                    - _params = {}
-                  - @structure.similar_profiles(21, _params).each_with_index do |structure, index|
-                    - unless index == 0
-                      %hr.push-half--ends
-                    - cache ['similar_profiles', structure] do
-                      %div{ style: 'height: 70px;' }
-                        = link_to structure_path(structure), class: 'soft-half--sides block muted-link' do
-                          .grid--full{ data: { similar_profile: true, structure_id: structure.id } }
-                            .grid__item.v-top.one-fifth>
-                              .media-photo{ itemprop: 'image', content: structure.logo.url }
-                                = image_tag structure.logo.url(:thumb)
-                            .grid__item.v-top.four-fifths.soft-half--left.opacity-hidden-on-hover__wrapper>
-                              %h6.inline-block.push-half--bottom= truncate(structure.name, length: 30)
-                              %div
-                                %i= truncate(structure.places.map(&:city).map(&:name).uniq.join(', '), length: 40)
-                              .btn.btn--small.btn--blue.btn--full.opacity-hidden-on-hover__child Voir le profil
+            .panel.push--bottom
+              .panel__header.soft-half--ends.soft--sides
+                %h5.flush Profils similaires
+              .panel__body.soft-half--ends{ style: 'height: 300px; overflow-y: scroll;' }
+                - @structure.similar_profiles(21, { discovery_pass: true }).each_with_index do |structure, index|
+                  - unless index == 0
+                    %hr.push-half--ends
+                  - cache ['similar_profiles', structure] do
+                    %div{ style: 'height: 70px;' }
+                      = link_to discovery_pass_structure_path(structure), class: 'soft-half--sides block muted-link' do
+                        .grid--full{ data: { similar_profile: true, structure_id: structure.id } }
+                          .grid__item.v-top.one-fifth>
+                            .media-photo{ itemprop: 'image', content: structure.logo.url }
+                              = image_tag structure.logo.url(:thumb)
+                          .grid__item.v-top.four-fifths.soft-half--left.opacity-hidden-on-hover__wrapper>
+                            %h6.inline-block.push-half--bottom= truncate(structure.name, length: 30)
+                            %div
+                              %i= truncate(structure.places.map(&:city).map(&:name).uniq.join(', '), length: 40)
+                            .btn.btn--small.btn--blue.btn--full.opacity-hidden-on-hover__child Voir le profil
 
 = content_for :scripts do
   :javascript

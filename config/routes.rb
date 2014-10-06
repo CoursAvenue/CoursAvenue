@@ -394,6 +394,7 @@ CoursAvenue::Application.routes.draw do
       member do
         get   :ask_for_cancellation
         patch :cancel
+        patch :reactivate
       end
     end
     resources :participation_requests, only: [:index, :edit], controller: 'users/participation_requests', path: 'mes-inscriptions' do

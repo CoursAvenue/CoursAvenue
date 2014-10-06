@@ -27,6 +27,15 @@ class Users::DiscoveryPassesController < Pro::ProController
     end
   end
 
+  # PATCH eleves/:user_id/pass-decouverte/:id/reactivate
+  def reactivate
+    @discovery_pass = @user.discovery_passes.find params[:id]
+    @discovery_pass.update_attributes canceled_at: false
+    respond_to do |format|
+      format.html { redirect_to user_discovery_pass_path(@user, @discovery_pass) }
+    end
+  end
+
   # GET etablissements/:structure_id/abonnements/new
   def new
     # @structure.send_promo_code! unless @structure.promo_code_sent?

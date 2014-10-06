@@ -21,7 +21,7 @@ class DiscoveryPass < ActiveRecord::Base
 
   store_accessor :meta_data, :cancelation_reason_text, :cancelation_reason_i_dont_want_to_try_more_courses, :cancelation_reason_i_found_a_course
 
-  define_boolean_accessor_for :meta_data, :cancelation_reason_text, :cancelation_reason_i_dont_want_to_try_more_courses, :cancelation_reason_i_found_a_course
+  define_boolean_accessor_for :meta_data, :cancelation_reason_i_dont_want_to_try_more_courses, :cancelation_reason_i_found_a_course
 
   #
   # Generates a unique Order ID for a given user

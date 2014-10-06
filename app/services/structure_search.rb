@@ -129,7 +129,7 @@ class StructureSearch
       break if @structures.length >= limit
     end
     # Re call the method but forcing to use root subjects for the rest of the structures
-    if @structures.length < limit
+    if @structures.length < limit and !force_use_root_subjects
       @structures = @structures + similar_profile(structure, limit - @structures.length, _params.merge(without_ids: [structure.id] + @structures.map(&:id)), true)
     end
     @structures = @structures.sort{ |a, b| (a.search_score.present? ? a.search_score.to_i : 0) <=> (b.search_score.present? ? b.search_score.to_i : 0) }.reverse
