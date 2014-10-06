@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141002163123) do
+ActiveRecord::Schema.define(version: 20141006100147) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -518,12 +518,12 @@ ActiveRecord::Schema.define(version: 20141002163123) do
     t.integer  "user_id"
     t.integer  "structure_id"
     t.string   "state"
+    t.string   "last_modified_by"
     t.date     "date"
     t.time     "start_time"
     t.time     "end_time"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "last_modified_by"
   end
 
   create_table "participations", force: true do |t|
@@ -765,6 +765,14 @@ ActiveRecord::Schema.define(version: 20141002163123) do
   add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", unique: true, using: :btree
   add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at", using: :btree
 
+  create_table "sponsored_users", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "invited_user"
+    t.boolean  "registered"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "statistics", force: true do |t|
     t.integer  "structure_id"
     t.string   "action_type"
@@ -927,9 +935,9 @@ ActiveRecord::Schema.define(version: 20141002163123) do
     t.date     "card_validity_date"
     t.integer  "promotion_code_id"
     t.datetime "last_renewal_failed_at"
+    t.hstore   "bo_meta_data"
     t.string   "paypal_token"
     t.string   "paypal_payer_id"
-    t.hstore   "bo_meta_data"
     t.string   "paypal_recurring_profile_token"
   end
 

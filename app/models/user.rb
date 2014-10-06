@@ -57,6 +57,7 @@ class User < ActiveRecord::Base
 
   has_many :discovery_passes
   has_many :participation_requests
+  has_many :sponsored_users
 
   has_and_belongs_to_many :subjects
   has_and_belongs_to_many :invited_participations, class_name: 'Participation'
