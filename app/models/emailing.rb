@@ -64,7 +64,11 @@ class Emailing < ActiveRecord::Base
   #
   # @return a String
   def call_action(action, structure)
-    self.send(action, structure)
+    if action.present? and structure.present?
+      self.send(action, structure)
+    else
+      nil
+    end
   end
 
   private
