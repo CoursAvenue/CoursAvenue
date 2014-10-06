@@ -7,8 +7,14 @@
   .panel_body.soft
     .text--center.margin-bottom
       = link_to 'Previsualiser la Newsletter', preview_pro_emailing_path(@emailing), class: 'btn btn--green push-half--right fancybox.ajax', data: { behavior: 'modal', width: '700', padding: 0 }
-      = link_to 'Envoyer la previsualisation', send_preview_pro_emailing_path(@emailing), class: 'btn btn--green push-half--right'
+      %a{ class: 'btn btn--green push-half--right', href: 'javascript:void(0)', data: { behavior: 'show' } }
+        Envoyer la previsualisation
       = link_to 'Copier le code', code_pro_emailing_path(@emailing), class: 'btn btn--green push-half--right fancybox.ajax', data: { behavior: 'modal', width: '700', padding: 0 }
+
+    .hidden.text--center.margin-bottom{ data: { behavior: 'hidden' } }
+      %form{ action: send_preview_pro_emailing_path(@emailing), method: 'GET' }
+        %input.input--large{ name: 'to', type: 'email', placeholder: 'contact@coursavenue.com' }
+        %input{ type: 'submit', class: 'btn btn--green', data: { disable_with: "En cours d'envoi" } }
 
     %hr
 
@@ -46,3 +52,9 @@
           id: #{ @emailing.id },
           models: #{ @sections.to_json }
       };
+
+      $(document).ready(function() {
+          $('[data-behavior=show]').click(function() {
+              $('[data-behavior=hidden]').slideDown();
+          });
+      });
