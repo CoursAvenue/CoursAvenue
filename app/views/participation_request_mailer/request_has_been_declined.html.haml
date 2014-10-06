@@ -1,0 +1,29 @@
+- content_for :email_title do
+  Vous venez de refuser à #{@user.name} son inscription au cours d'essai "#{@participation_request.course.name}".
+
+.p
+  Bonjour,
+.p
+  Vous venez de refuser à #{@user.name} son inscription au cours d'essai "#{@participation_request.course.name}". Nous venons de lui envoyer un e-mail pour le prévenir.
+.p
+  Si vous êtes dans l'incapacité de recevoir de nouveaux élèves à vos séances d'essai, retirez dès maintenant vos cours du Pass Découverte en décochant la case en face de chaque créneau :
+.p.action
+  = link_to "Mettre à jour mes cours du Pass Découverte", discovery_pass_pro_structure_courses_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
+.p
+  En cas d'annulation, de changement d'horaire ou si vous souhaitez tout simplement envoyer une information supplémentaire à l'élève, envoyez-lui un message depuis votre onglet "Messagerie" :
+
+= render 'shared/mailers/footer'
+
+
+- content_for :under_content_gray do
+  .title
+    = link_to "Foire aux questions", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+  .p.soft-half--bottom.bordered--bottom
+    = link_to "Que faire après avoir reçu une demande d'information d'un élève potentiel ?", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+  .p.soft-half--ends.bordered--bottom
+    = link_to "Que faire s'il ne s'agit pas d'une véritable demande d'information ?", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+  .p.soft-half--ends.bordered--bottom
+    = link_to "Que se passe-t-il si je laisse expirer une demande d'information ?", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+  .p.soft-half--ends
+    = link_to "Comment faire pour recevoir encore plus de demandes d'information ?", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+

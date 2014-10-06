@@ -18,12 +18,18 @@ class ParticipationRequest < ActiveRecord::Base
   # Callbacks                                                          #
   ######################################################################
   before_create :set_default_attributes
+  after_create :send_email_to_teacher
 
   ######################################################################
   # Validation                                                         #
   ######################################################################
   validates :date, presence: true
   validate :request_is_not_duplicate, on: [:create]
+
+  ######################################################################
+  # Scopes                                                             #
+  ######################################################################
+  scope :accepted, -> { where( state: 'accepted') }
 
   #
   # Create a ParticipationRequest if everything is correct, and if it is, it also create a conversation
@@ -70,6 +76,7 @@ class ParticipationRequest < ActiveRecord::Base
     self.state = 'accepted'
     self.structure.main_contact.reply_to_conversation(self.conversation, message) if message.present?
     self.save
+    ParticipationRequestMailer.delay.request_has_been_accepted(self)
   end
 
   # Modify request and inform user about it
@@ -118,5 +125,9 @@ class ParticipationRequest < ActiveRecord::Base
       return false
     end
     true
+  end
+
+  def send_email_to_teacher
+    ParticipationRequestMailer.delay.you_received_a_request(self)
   end
 end
