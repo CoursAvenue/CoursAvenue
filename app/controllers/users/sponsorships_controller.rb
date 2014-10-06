@@ -1,11 +1,16 @@
 class Users::SponsorshipsController < Pro::ProController
-  before_action :authenticate_user!
-  load_and_authorize_resource :user, find_by: :slug
 
   layout 'user_profile'
 
-  # GET eleves/:user_id/pass-decouverte/parrainages
+  before_action :authenticate_user!
+  load_and_authorize_resource :user
+
+  # GET eleves/:user_id/parrainages
   def index
     @sponsorships = @user.sponsorships
+  end
+
+  # GET eleves/:user_id/parrainaged/new
+  def new
   end
 end

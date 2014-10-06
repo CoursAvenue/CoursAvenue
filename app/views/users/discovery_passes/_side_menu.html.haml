@@ -2,9 +2,9 @@
   %li
     = link_to user_participation_requests_path(@user, @user.discovery_pass), { class: current == 'subscriptions' ? 'active' : '' } do
       Mes inscriptions
-  -# %li
-  -#   = link_to invites_user_discovery_passes_path(@user, @user.discovery_pass), { class: current == 'invites' ? 'active' : '' } do
-  -#     Mes parrainages
+  %li
+    = link_to user_sponsorships_path(@user), { class: current == 'sponsorships' ? 'active' : '' } do
+      Mes parrainages
   %li
     = link_to user_discovery_pass_path(@user, @user.discovery_pass), { class: current == 'my-account' ? 'active' : '' } do
       Mon compte
