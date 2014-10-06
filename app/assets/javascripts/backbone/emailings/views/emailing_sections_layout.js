@@ -7,13 +7,6 @@ Emailing.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         regions: {
             master: "#emailing-sections",
-        },
-
-        onShow: function() {
-            if (App.$loader) {
-                App.$loader().fadeOut('slow');
-            }
-        },
-
+        }
     });
 });

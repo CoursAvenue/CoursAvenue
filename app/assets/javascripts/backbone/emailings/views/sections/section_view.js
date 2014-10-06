@@ -9,10 +9,6 @@ Emailing.module('Views.Sections', function(Module, App, Backbone, Marionette, $,
 
         attributes: {
             'data-behavior': 'emailing-section'
-        },
-
-        initialize: function initialize () {
-        },
-
+        }
     });
 });
