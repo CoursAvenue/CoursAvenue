@@ -389,7 +389,7 @@ CoursAvenue::Application.routes.draw do
       collection do
         get :payment_confirmation, path: 'confirmation-paiement'
         get :account
-        get :invites
+        resources :sponsorships, only: [:index], path: 'parrainage', controller: 'users/sponsorships'
       end
       member do
         get   :ask_for_cancellation
