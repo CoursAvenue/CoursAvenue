@@ -1,5 +1,8 @@
 -# According to: http://stackoverflow.com/questions/11616697/how-to-use-og-meta-tag-for-facebook-share
 
+- if Rails.env.staging?
+  %meta{ name: 'robots', content: 'noindex, nofollow' }
+
 %meta{ 'http-equiv' => 'Content-Type', content: 'text/html; charset=utf-8' }
 - if @is_responsive or should_be_responsive?
   %meta{ name: 'viewport',               content: 'width=device-width, initial-scale=1.0'  }
