@@ -1,4 +1,4 @@
-class SponsoredUser < ActiveRecord::Base
+class Sponsorship < ActiveRecord::Base
   ######################################################################
   # Relations                                                          #
   ######################################################################
