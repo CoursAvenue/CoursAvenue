@@ -32,25 +32,6 @@ fr:
         description: Décrivez en quoi consiste votre cours sans parler de tarif ni de planning
 
   courses:
-    attributes:
-      description: Description
-      name: Nom
-      teacher: Professeur
-      max_age_for_kid: Age max
-      min_age_for_kid: Age min
-      is_individual: "Individuel / Particulier"
-      frequency: Fréquence
-      room: Salle de cours principale
-      price_details: "Autres tarifs / Informations"
-      place: Lieu
-      info: Infos pratiques
-      image: "Image du cours"
-      cant_be_joined_during_year: Pas d'inscription en cours d'année
-      no_class_during_holidays: Pas de cours pendant les vacances scolaires
-      subjects: Étiquettes disciplines
-      teaches_at_home: Je me déplace à domicile
-      common_price: Tarif habituellement appliqué
-      on_appointment: "Pas de créneau précis, uniquement sur demande."
     training:
       day_schedule: "%{day} à %{start_time} (%{duration})"
     frequencies:

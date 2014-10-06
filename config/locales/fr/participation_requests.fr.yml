@@ -2,7 +2,6 @@ fr:
   activerecord:
     models:
       participation_request: Demande d'info Pass Découverte
-    attributes:
   participation_request:
     state:
       accepted: Confirmé
