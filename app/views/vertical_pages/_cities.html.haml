@@ -28,13 +28,14 @@
     .flexbox.very-soft
       .flexbox__item.soft-half--right
         .input-with-icon.v-middle
-          %input.one-whole.input--large#address-picker.soft-half--left{ size: 25, placeholder:'Ville / CP / Adresse', type:'text', autocomplete: 'off', name:'address_name', data: { behavior:'address-picker', lng:'#address-lng',lat: '#address-lat', city: '#address-city' , radius: '#address-radius' , zoom: '#address-zoom' } }
+          %input.one-whole.input--large#address-picker.soft-half--left{ size: 25, placeholder:'Ville / CP / Adresse', type:'text', autocomplete: 'off', name:'address_name', data: { behavior:'address-picker', lng: '#vp-address-lng', lat: '#vp-address-lat', city: '#vp-address-city', address_name: '#vp-address-name', radius: '#vp-address-radius', zoom: '#vp-address-zoom' } }
           %i.fa.fa-map-marker.delta
-        %input#address-lat{ type: 'hidden', value: '48.8592', name: 'lat' }
-        %input#address-lng{ type: 'hidden', value: '2.3417', name: 'lng' }
-        %input#address-city{ type: 'hidden', value: 'Paris', name: 'address_name' }
-        %input#address-radius{ type: 'hidden', value: 'Paris', name: 'radius' }
-        %input#address-zoom{ type: 'hidden', value: 'Paris', name: 'zoom' }
+        %input#vp-address-lat{ type: 'hidden', value: '48.8592', name: 'lat' }
+        %input#vp-address-lng{ type: 'hidden', value: '2.3417', name: 'lng' }
+        %input#vp-address-city{ type: 'hidden', value: 'Paris', name: 'city' }
+        %input#vp-address-name{ type: 'hidden', value: 'Paris', name: 'address_name' }
+        %input#vp-address-radius{ type: 'hidden', value: 'Paris', name: 'radius' }
+        %input#vp-address-zoom{ type: 'hidden', value: 'Paris', name: 'zoom' }
 
       %button.flexbox__item.v-middle.nowrap.btn.btn--blue.btn--full.input--large{ type: 'submit', id: 'submit_search_form' }
         %i.fa.fa-search
@@ -44,7 +45,7 @@
   :javascript
     $(function () {
         $('#city-form').submit(function() {
-            var city_name = $('#address-city').val().split(',')[0].toLowerCase();
+            var city_name = $('#vp-address-city').val().replace(/[^A-Za-z]/g, '-').toLowerCase();
             $('#city-form').attr('action', $('#city-form').attr('action').replace('__city__', city_name));
         });
     });
