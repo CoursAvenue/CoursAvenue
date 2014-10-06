@@ -28,6 +28,7 @@ DiscoveryPassSearch.addInitializer(function(options) {
             'filter:search_term'    : 'filterQuery',
             'filter:location'       : 'filterQuery',
             'map:marker:click'      : 'findItemView',
+            'filter:date'           : 'filterQuery',
             'structures:updated'    : 'structuresUpdated'
         }
     });
@@ -79,7 +80,7 @@ DiscoveryPassSearch.addInitializer(function(options) {
     keyword_filter             = new FiltersModule.KeywordFilterView({});
     subjects_collection_filter = new FiltersModule.Subjects.SubjectsCollectionView({ collection: subjects });
     location_filter            = new FiltersModule.LocationFilterView({});
-
+    date_filter                = new FiltersModule.DateFilterView({});
     /* advanced filters */
     /* we pass in a dictionary defining what we want the titles of the breadcrumbs
      * to be*/
@@ -132,6 +133,7 @@ DiscoveryPassSearch.addInitializer(function(options) {
 
     layout.showWidget(subjects_collection_filter);
     layout.showWidget(location_filter);
+    layout.showWidget(date_filter,           { events: { 'breadcrumbs:clear:date':            'clear'} });
     layout.showWidget(results_summary);
 
     layout.showWidget(keyword_filter,        { events: { 'breadcrumbs:clear:search_term':     'clear'} });
