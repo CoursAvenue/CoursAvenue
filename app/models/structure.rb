@@ -657,10 +657,9 @@ class Structure < ActiveRecord::Base
 
   # Tells if the structure is based in Paris and around
   #
+  # TODO: use cache?
   # @return Boolean
   def parisian?
-    is_parisian = self.zip_code.starts_with? '75','77','78','91','92','93','94','95'
-    return true if is_parisian
     return self.places.map(&:parisian?).include? true
   end
 
