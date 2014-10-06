@@ -12,6 +12,8 @@ class Users::SponsorshipsController < Pro::ProController
 
   # GET eleves/:user_id/parrainaged/new
   def new
+    # @discount = @user.discount
+    @discount = 0
   end
 
   protected
