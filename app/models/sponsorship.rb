@@ -1,4 +1,7 @@
 class Sponsorship < ActiveRecord::Base
+
+  attr_accessible :sponsored_user
+
   ######################################################################
   # Relations                                                          #
   ######################################################################
@@ -6,11 +9,11 @@ class Sponsorship < ActiveRecord::Base
   belongs_to :user
 
   # The sponsored user (received the invitation).
-  has_one :sponsored_user, class_name: 'User'
+  has_one :sponsored_user, class_name: 'User', foreign_key: 'sponsorship_id'
 
   ######################################################################
   # Validations                                                        #
   ######################################################################
-  validate :user, presence: true
-  validate :sponsored_user, presence: true
+  validates :user, presence: true
+  validates :sponsored_user, presence: true
 end
