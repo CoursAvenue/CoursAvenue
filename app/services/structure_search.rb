@@ -85,7 +85,7 @@ class StructureSearch
   end
 
   def self.retrieve_location params
-    if params[:city_id].present? and (city = City.where(slug: params[:city_id]).first)
+    if params[:lat].blank? and params[:lng].blank? and params[:city_id].present? and (city = City.where(slug: params[:city_id]).first)
       params[:lat] = city.latitude
       params[:lng] = city.longitude
     elsif (params[:lat].blank? or params[:lng].blank?) and params[:zip_codes].blank?

@@ -69,6 +69,7 @@
               %i.blue Cochez pour inclure dans le Pass Découverte
           - @courses.lessons.each_with_index do |course, index|
             = render partial: 'pro/structures/courses/discovery_course', locals: { course: course, structure: @structure }
+          .text--center= link_to 'Enregistrer', discovery_pass_pro_structure_courses_path(@structure), class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours' }
     %hr.push--top.flush--bottom
     .bg-white.soft.bg-white.bordered--bottom-on-stick.relative{ data: { behavior: 'sticky', offset_top: 45, old_width: 'true', pushed: '#lessons-header', z: 400 } }
       %h3.flush Cours particuliers
@@ -87,6 +88,7 @@
               %i.blue Cochez pour inclure dans le Pass Découverte
           - @courses.privates.each_with_index do |course, index|
             = render partial: 'pro/structures/courses/discovery_course', locals: { course: course, structure: @structure }
+          .text--center= link_to 'Enregistrer', discovery_pass_pro_structure_courses_path(@structure), class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours' }
     %hr.push--top.flush--bottom
     .bg-white.soft.bg-white.bordered--bottom-on-stick.relative{ data: { behavior: 'sticky', offset_top: 45, old_width: 'true', pushed: '#private-list', z: 400 } }
       %h3.flush Ateliers / Stages
@@ -106,3 +108,4 @@
           - @courses.trainings.each_with_index do |course, index|
             - if course.plannings.future.any?
               = render partial: 'pro/structures/courses/discovery_course', locals: { course: course, structure: @structure }
+          .text--center= link_to 'Enregistrer', discovery_pass_pro_structure_courses_path(@structure), class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours' }
