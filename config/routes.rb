@@ -390,7 +390,6 @@ CoursAvenue::Application.routes.draw do
       collection do
         get :payment_confirmation, path: 'confirmation-paiement'
         get :account
-        resources :sponsorships, only: [:index], path: 'parrainage', controller: 'users/sponsorships'
       end
       member do
         get   :ask_for_cancellation
@@ -398,6 +397,7 @@ CoursAvenue::Application.routes.draw do
         patch :reactivate
       end
     end
+    resources :sponsorships, only: [:index, :new, :create], controller: 'users/sponsorships', path: 'mes-parrainages'
     resources :participation_requests, only: [:index, :edit], controller: 'users/participation_requests', path: 'mes-inscriptions' do
       member do
         get   :cancel_form
