@@ -16,6 +16,7 @@ class Sponsorship < ActiveRecord::Base
   ######################################################################
   validates :user, presence: true
   validates :sponsored_user, presence: true
+  validates :promo_code, presence: true
 
   ######################################################################
   # Callbacks                                                          #
