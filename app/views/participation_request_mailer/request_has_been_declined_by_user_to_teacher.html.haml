@@ -1,10 +1,10 @@
 - content_for :email_title do
-  Malheureusement, #{@user.name} vient d'annuler son inscription au cours d'essai "#{@course.name}"
+  Malheureusement, #{@user.name} vient de refuser son inscription au cours d'essai "#{@course.name}"
 
 .p
   Bonjour,
 .p
-  Malheureusement, #{@user.name} vient d'annuler son inscription au cours d'essai "#{@course.name}" qui était prévu le
+  Malheureusement, #{@user.name} vient de refuser son inscription au cours d'essai "#{@course.name}" qui était prévu le
   %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}."
   Si vous souhaitez lui envoyer un message, notamment pour lui proposer de venir à un autre cours, envoyez-lui un message depuis votre onglet "Suvi des inscriptions" :
 
