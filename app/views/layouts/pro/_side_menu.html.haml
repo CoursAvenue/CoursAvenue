@@ -74,6 +74,7 @@
                             trainings_options_link
 
       - if @structure.parisian?
+        - to_complete_step_nb += 1 if @structure.plannings.available_in_discovery_pass.any?
         = pro_side_menu_link 'discovery_pass',
                               discovery_pass_pro_structure_courses_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
                               current: current_tab,

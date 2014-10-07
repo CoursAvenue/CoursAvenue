@@ -11,6 +11,9 @@ class PaymentNotification::Be2bill < PaymentNotification
 
   private
 
+  # Purchased has been done by Be2Bill, let's check the response and deal with it
+  #
+  # @return nil
   def finalize_payment_for_discovery_pass
     params['EXTRADATA'] = JSON.parse(params['EXTRADATA']) unless params['EXTRADATA'].is_a? Hash
 
@@ -22,11 +25,14 @@ class PaymentNotification::Be2bill < PaymentNotification
         discovery_pass_params = { credit_card_number: params['CARDCODE'],
                                   be2bill_alias:      params['ALIAS'],
                                   card_validity_date: (params['CARDVALIDITYDATE'] ? Date.strptime(params['CARDVALIDITYDATE'], '%m-%y') : nil),
-                                  promotion_code_id:  (params['EXTRADATA'].present? ? params['EXTRADATA']['promotion_code_id'] : nil),
                                   client_ip:          params['CLIENT_IP']
                                 }
         discovery_pass = self.user.discovery_passes.create(discovery_pass_params)
       end
+      self.user.orders.create(amount: discovery_pass.amount,
+                              order_id: params['ORDERID'],
+                              discovery_pass: discovery_pass)
+
     else
       if params['EXTRADATA']['renew'].present?
         discovery_pass = self.user.discovery_pass

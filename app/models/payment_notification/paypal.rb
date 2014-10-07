@@ -64,7 +64,7 @@ class PaymentNotification::Paypal < PaymentNotification
         :frequency   => 1,
         :token       => params['token'],
         :period      => params['plan_type'].to_sym,
-        :reference   => Order.next_order_id_for(self.structure),
+        :reference   => Order::SubscriptionPlan.next_order_id_for(self.structure),
         :payer_id    => params['PayerID'],
         :start_at    => Time.now + SubscriptionPlan::PLAN_TYPE_DURATION[params['plan_type']].months,
         :failed      => 1,

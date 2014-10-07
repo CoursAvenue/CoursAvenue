@@ -57,7 +57,7 @@ class SubscriptionPlan < ActiveRecord::Base
   ######################################################################
   # Relations                                                          #
   ######################################################################
-  has_many :orders
+  has_many :orders, -> { where(type: 'Order::SubscriptionPlan') }
   belongs_to :structure
   belongs_to :promotion_code
 
@@ -158,7 +158,7 @@ class SubscriptionPlan < ActiveRecord::Base
       'DESCRIPTION'     => "Renouvellement :  #{self.plan_type}",
       'IDENTIFIER'      => ENV['BE2BILL_LOGIN'],
       'OPERATIONTYPE'   => 'payment',
-      'ORDERID'         => Order.next_order_id_for(self.structure),
+      'ORDERID'         => Order::SubscriptionPlan.next_order_id_for(self.structure),
       'VERSION'         => '2.0',
       'CLIENTUSERAGENT' => 'Mozilla/5.0 (Windows NT 6.1; WOW64)',
       'CLIENTIP'        => self.client_ip,

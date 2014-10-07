@@ -30,7 +30,7 @@ class DiscoveryPass < ActiveRecord::Base
   # @return String: Unique string
   def self.next_order_id_for_user user
     order_number = user.discovery_passes.count + 1
-    "FR#{Date.today.year}#{user.id}#{order_number}"
+    "FR#{Date.today.year}_#{user.id}#{order_number}"
   end
 
   def self.hash_be2bill_params params
@@ -113,6 +113,7 @@ class DiscoveryPass < ActiveRecord::Base
     self.be2bill_alias      = params['ALIAS'] if params['ALIAS'].present?
     self.card_validity_date = (params['CARDVALIDITYDATE'] ? Date.strptime(params['CARDVALIDITYDATE'], '%m-%y') : nil)
     self.extend_subscription_expires_date
+    DiscoveryPassMailer.delay.your_pass_renewed(self)
   end
 
   # Extend the duration of the subscription by changing its expires_at date.
@@ -178,6 +179,7 @@ class DiscoveryPass < ActiveRecord::Base
   def cancel!
     self.canceled_at = Time.now
     self.save
+    DiscoveryPassMailer.delay.you_deactivated_your_pass(self)
     return self
   end
 
@@ -202,7 +204,7 @@ class DiscoveryPass < ActiveRecord::Base
   private
 
   def inform_user_of_success
-    # AdminMailer.delay.your_premium_account_has_been_activated(self)
+    DiscoveryPassMailer.delay.your_discovery_pass_is_active(self)
   end
 
 end
