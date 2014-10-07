@@ -18,7 +18,7 @@ class DiscoveryPass < ActiveRecord::Base
   ######################################################################
   # Scope                                                              #
   ######################################################################
-  scope :not_canceled,    -> { where (canceled_at: nil) }
+  scope :not_canceled,            -> { where(canceled_at: nil) }
   scope :expires_in_five_days,    -> { where( arel_table[:expires_at].gt(Date.today + 4.days).and(
                                               arel_table[:expires_at].lteq(Date.today + 5.days)) ) }
 
