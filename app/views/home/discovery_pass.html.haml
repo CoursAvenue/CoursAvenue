@@ -67,10 +67,10 @@
           .white-box.soft.black
             %h3 Essayez autant de cours de loisirs que vous voulez !
             %p.epsilon Valable 1 mois et renouvelable, le Pass Découverte vous permet de suivre autant de cours d'essais que vous le souhaitez à Paris chez plus de #{Structure.where.not(discovery_pass_policy: nil).count.round(-2)} professeurs, écoles et associations.
-            = link_to 'Obtenir mon Pass', '#first-popup', class: 'btn btn--green btn--large btn--full hard--sides', data: { behavior: 'modal', width: 400, padding: 0 }, onclick: "ga('send', 'event', 'Pass Découverte', 'Clicked on popup');"
+            = link_to 'Obtenir mon Pass', '#', class: 'btn btn--green btn--large btn--full hard--sides', data: { behavior: 'sign-in' }
       .grid__item.six-tenths>
-        = link_to '#first-popup', class: 'block', data: { behavior: 'modal', width: 400, padding: 0 }, onclick: "ga('send', 'event', 'Pass Découverte', 'Clicked on popup');", style: 'margin-left: -50px; margin-top: -20px;' do
-          = image_tag "https://coursavenue-public.s3.amazonaws.com/pass/pass_19.png", height: 250, width: 250
+        = link_to '#', class: 'block', data: { behavior: 'sign-in' }, style: 'margin-left: -50px; margin-top: -20px;' do
+          = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/discovery_pass/badge.png", height: 250, width: 250
       .home-screen-comment.visuallyhidden--palm.soft-black-text-shadow.south.soft--bottom
         .grid.epsilon
           .grid__item.two-twelfths.v-middle.text--center>
@@ -79,21 +79,6 @@
           .grid__item.ten-twelfths.v-middle>
             %span.quoted.epsilon.quoted--large<
               %i Grâce au Pass, j'ai découvert au pied de mon immeuble un super cours d'écriture créative. Sans parler des cours de poterie, danse orientale, et même de sophrologie !
-
-#first-popup.hidden
-  .panel
-    .panel__header.soft
-      %h3.flush Laissez-nous vos coordonnées
-    .panel__body.soft
-      %p.epsilon Le Pass Découverte sera lancé le 15 octobre et réservé aux 500 premiers inscrits. Laissez votre adresse mail pour en bénéficier en avant première !
-      %p.epsilon.push-half--bottom
-        %strong Réservez-moi un Pass Découverte
-      = simple_form_for Email.new do |f|
-        = f.input :email, input_html: { class: 'input--large one-whole', placeholder: 'Votre e-mail' }, label: false
-        = f.input :email_type, as: :hidden, input_html: { value: "pass-decouverte_19" }
-        %input{ type: 'hidden', name: 'utm_campaign', value: params[:utm_campaign] }
-        = f.submit 'Réserver mon Pass', class: 'btn btn--green btn--large btn--full', data: { disable_with: 'Validation en cours...' }
-
 
 .bg-site-background.relative
   .home-screen-promotion-wrapper
@@ -298,7 +283,7 @@
             %p.epsilon Votre pass est valable 1 mois et renouvelable autant de fois que vous le souhaitez. Satisfaction garantie.
 
     .text--center.push--bottom.soft--bottom
-      = link_to 'Obtenir mon Pass', '#first-popup', class: 'btn btn--green btn--large', data: { behavior: 'modal', width: 400, padding: 0 }, onclick: "ga('send', 'event', 'Pass Découverte', 'Clicked on popup');"
+      = link_to 'Obtenir mon Pass', '#', class: 'btn btn--green btn--large', data: { behavior: 'sign-in' }
 
   .main-container.main-container--medium.soft--top
     .text--center.push--ends
@@ -535,3 +520,15 @@
     .no-cssanimations .cb-slideshow li span{
       opacity: 1;
     }
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('[data-behavior=sign-in]').click(function() {
+            CoursAvenue.signUp({
+                success: function() {
+                    window.location.href = Routes.new_user_discovery_pass_path(CoursAvenue.currentUser().get('slug') );
+                }
+            })
+        });
+    })

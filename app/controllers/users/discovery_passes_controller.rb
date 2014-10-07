@@ -44,7 +44,7 @@ class Users::DiscoveryPassesController < Pro::ProController
 
     @be2bill_description = "Pass découverte"
 
-    @order_id = DiscoveryPass.next_order_id_for_user(@user)
+    @order_id = Order::Pass.next_order_id_for(@user)
     @be2bill_params = {
       'AMOUNT'        => @discovery_pass.amount_for_be2bill,
       'CLIENTIDENT'   => @user.id,

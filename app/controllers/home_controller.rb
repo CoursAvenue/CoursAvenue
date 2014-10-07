@@ -19,7 +19,10 @@ class HomeController < ApplicationController
     @last_comment     = Comment::Review.accepted.last
   end
 
-  def pass_decouverte
+  def discovery_pass
+    if current_user
+      redirect_to new_user_discovery_pass_path(current_user)
+    end
   end
 
   private
