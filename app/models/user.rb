@@ -25,7 +25,8 @@ class User < ActiveRecord::Base
                   :birthdate, :phone_number, :zip_code, :city_id, :passion_zip_code, :passion_city_id, :passions_attributes, :description,
                   :email_opt_in, :sms_opt_in, :email_promo_opt_in, :email_newsletter_opt_in, :email_passions_opt_in,
                   :email_status, :last_email_sent_at, :last_email_sent_status,
-                  :lived_places_attributes, :delivery_email_status
+                  :lived_places_attributes, :delivery_email_status,
+                  :sponsorships, :sponsorship_slug
 
   # To store hashes into hstore
   store_accessor :meta_data, :after_sign_up_url, :have_seen_first_jpo_popup
@@ -90,6 +91,7 @@ class User < ActiveRecord::Base
   after_save  :associate_city_from_zip_code, if: -> { zip_code.present? and city.nil? }
   after_save  :update_email_status
   before_save :downcase_email
+  before_save :set_sponsorship_slug
 
   ######################################################################
   # Validations                                                        #
@@ -562,6 +564,13 @@ class User < ActiveRecord::Base
       MailboxerMessageMailer.delay.new_message_email_to_admin(message, recipient)
     end
     nil
+  end
+
+  # Set the sponsorship slug to the User slug by default.
+  #
+  # @return nothing
+  def set_sponsorship_slug
+    self.sponsorship_slug = self.slug unless self.sponsorship_slug.present?
   end
 
   def subscribe_to_mailchimp
