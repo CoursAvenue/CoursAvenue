@@ -9,7 +9,7 @@ class Sponsorship < ActiveRecord::Base
   belongs_to :user
 
   # The sponsored user (received the invitation).
-  has_one :sponsored_user, class_name: 'User', foreign_key: 'sponsorship_id'
+  belongs_to :sponsored_user, class_name: 'User'
 
   ######################################################################
   # Validations                                                        #
