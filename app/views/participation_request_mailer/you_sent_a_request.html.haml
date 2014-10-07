@@ -1,0 +1,30 @@
+- content_for :email_title do
+  Votre demande d'inscription au cours "#{@participation_request.course.name}" vient d'être transmise à "#{@structure.name}".
+
+.p
+  Bonjour,
+
+.p
+  Votre demande d'inscription au cours "#{@participation_request.course.name}" le
+  %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}"
+  vient d'être transmise à "#{@structure.name}" qui a 48h pour la confirmer. Dès que votre inscription est validée, un e-mail vous sera envoyé. A tout moment, vous pouvez consulter l'état de vos demandes d'inscription en vous connectant à votre profil :
+
+.p.action
+  = link_to "Voir l'état de mes inscriptions", user_participation_requests_path(@user, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green'
+
+.p
+  Continuer à réserver tous les cours qui vous intéressent ! Chaque jour, nous ajoutons de nouveaux cours à notre catalogue :
+
+.p.action
+  = link_to "M'inscrire à d'autres cours", discovery_pass_search_structures_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn'
+
+.p
+  Nous vous souhaitons de très belles découvertes !
+
+= render 'shared/mailers/footer'
+
+- content_for :under_content do
+  = render partial: 'participation_request_mailer/shared/participation_recap', locals: { participation_request: @participation_request }
+
+- content_for :under_content_gray do
+  = render 'participation_request_mailer/shared/user_faq'

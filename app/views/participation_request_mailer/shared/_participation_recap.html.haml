@@ -1,0 +1,34 @@
+%table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
+  %tr{ valign: 'top' }
+    %td.v-middle.content-block{ colspan: 3 }
+      .title Récapitulatif de la demande d'inscription
+  %tr{ valign: 'top' }
+    %td.v-middle.content-block{ width: '15%' }
+      = link_to structure_url(participation_request.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank', class: 'block' do
+        = image_tag participation_request.structure.logo.url(:thumb), class: 'block', height: 60, width: 60, alt: "Logo de #{participation_request.structure.name}"
+    %td.v-middle.content-block{ width: '25%' }
+      .p
+        %strong Élève
+        %br
+        %strong Cours d'essai
+        %br
+        %strong Statut
+        %br
+        %strong Jour et créneau
+        - if @participation_request.planning.place
+          %br
+          %strong Lieu
+    %td.v-middle.content-block{ width: '60%' }
+      .p
+        = participation_request.user.name
+        - if participation_request.user.phone_number
+          = "(#{participation_request.user.phone_number})"
+        %br
+        = participation_request.course.name
+        %br
+        = I18n.t("participation_request.state.#{participation_request.state}")
+        %br
+        = "#{l(participation_request.date, format: :semi_short)} de #{l(participation_request.start_time, format: :short)} à #{l(participation_request.end_time, format: :short)}"
+        - if @participation_request.planning.place
+          %br
+          = participation_request.planning.place.try(:name)

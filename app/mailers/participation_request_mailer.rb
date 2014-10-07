@@ -44,79 +44,56 @@ class ParticipationRequestMailer < ActionMailer::Base
          subject: "Dernier rappel - Confirmez l'inscription - #{@user.name}"
   end
 
-  def request_has_been_accepted(participation_request)
-    @participation_request = participation_request
-    @structure             = participation_request.structure
-    @admin                 = participation_request.structure.main_contact
-    @user                  = participation_request.user
-    @conversation          = participation_request.conversation
-
-    if participation_request.last_modified_by == 'Structure'
-      mail to: @admin.email, subject: "Inscription acceptée - #{@user.name}",
-           template: 'request_has_been_accepted_by_teacher_to_teacher'
-      mail to: @admin.email, subject: "Inscription acceptée - #{@structure.name}",
-           template: 'request_has_been_accepted_by_teacher_to_user'
-    elsif participation_request.last_modified_by == 'User'
-      mail to: @admin.email, subject: "Inscription acceptée - #{@user.name}",
-           template: 'request_has_been_accepted_by_user_to_teacher'
-    end
+  ######################################################################
+  # Request has been accepted                                          #
+  ######################################################################
+  def request_has_been_accepted_by_user_to_teacher(participation_request, message=nil)
+    retrieve_participation_request_variables(participation_request)
+    @message = message if message
+    mail to: @admin.email, subject: "Inscription acceptée - #{@user.name}"
   end
 
-  def request_has_been_modified(participation_request)
-    @participation_request = participation_request
-    @structure             = participation_request.structure
-    @admin                 = participation_request.structure.main_contact
-    @user                  = participation_request.user
-    @conversation          = participation_request.conversation
-    if participation_request.last_modified_by == 'Structure'
-      mail to: @admin.email, subject: "Inscription modifiée - #{@user.name}",
-           template: 'request_has_been_modified_by_teacher_to_teacher'
-      mail to: @admin.email, subject: "Nouvelle proposition de créneau - #{@structure.name}",
-           template: 'request_has_been_modified_by_teacher_to_user'
-    elsif participation_request.last_modified_by == 'User'
-      mail to: @admin.email, subject: "Confirmez l'inscription - #{@user.name}",
-           template: 'request_has_been_modified_by_user_to_teacher'
-      mail to: @admin.email, subject: "Confirmez l'inscription - #{@user.name}",
-           template: 'request_has_been_modified_by_user_to_user'
-    end
+  def request_has_been_accepted_by_teacher_to_user(participation_request, message=nil)
+    retrieve_participation_request_variables(participation_request)
+    @upcoming_participation_requests = participation_request.user.participation_requests.upcoming.reject{ |pr| pr == participation_request }
+    @message = message if message
+    mail to: @user.email, subject: "Inscription acceptée - #{@structure.name}"
   end
 
-  def request_has_been_declined(participation_request)
-    @participation_request = participation_request
-    @structure             = participation_request.structure
-    @admin                 = participation_request.structure.main_contact
-    @user                  = participation_request.user
-    @conversation          = participation_request.conversation
-    if participation_request.last_modified_by == 'Structure'
-      # mail to: @admin.email, subject: "Inscription refusée - #{@structure.name}",
-      #      template: 'request_has_been_declined_by_teacher_to_user'
-      mail to: @admin.email, subject: "Inscription refusée - #{@user.name}",
-           template: 'request_has_been_declined_by_teacher_to_teacher'
-    elsif participation_request.last_modified_by == 'User'
-      # mail to: @admin.email, subject: "Inscription refusée - #{@user.name}",
-      #      template: 'request_has_been_declined_by_user_to_user'
-      # mail to: @admin.email, subject: "Inscription refusée - #{@user.name}",
-      #      template: 'request_has_been_declined_by_user_to_teacher'
-    end
+  ######################################################################
+  # Request has been modified                                          #
+  ######################################################################
+  def request_has_been_modified_by_user_to_teacher(participation_request)
+    retrieve_participation_request_variables(participation_request)
+    mail to: @admin.email, subject: "Nouvelle proposition de créneau - #{@user.name}"
   end
 
-  def request_has_been_canceled(participation_request)
-    @participation_request = participation_request
-    @structure             = participation_request.structure
-    @admin                 = participation_request.structure.main_contact
-    @user                  = participation_request.user
-    @conversation          = participation_request.conversation
-    if participation_request.last_modified_by == 'Structure'
-      mail to: @admin.email, subject: "Inscription refusée - #{@structure.name}",
-           template: 'request_has_been_canceled_by_teacher_to_user'
-      mail to: @admin.email, subject: "Inscription refusée - #{@user.name}",
-           template: 'request_has_been_canceled_by_teacher_to_teacher'
-    elsif participation_request.last_modified_by == 'User'
-      mail to: @admin.email, subject: "Inscription refusée - #{@user.name}",
-           template: 'request_has_been_canceled_by_user_to_user'
-      mail to: @admin.email, subject: "Inscription refusée - #{@user.name}",
-           template: 'request_has_been_canceled_by_user_to_teacher'
-    end
+  def request_has_been_modified_by_teacher_to_user(participation_request, message)
+    retrieve_participation_request_variables(participation_request)
+    @message = message
+    mail to: @user.email, subject: "Nouvelle proposition de créneau - #{@structure.name}"
+  end
+
+  ######################################################################
+  # Request has been declinded                                         #
+  ######################################################################
+  def request_has_been_declined_by_teacher_to_user(participation_request)
+    mail to: @usser.email, subject: "Inscription refusé - #{@structure.name}",
+  end
+
+  def request_has_been_declined_by_user_to_teacher(participation_request)
+    mail to: @admin.email, subject: "Inscription refusé - #{@user.name}",
+  end
+
+  ######################################################################
+  # Request has been canceled                                          #
+  ######################################################################
+  def request_has_been_canceled_by_teacher_to_user(participation_request)
+    mail to: @usser.email, subject: "Inscription annulé - #{@structure.name}",
+  end
+
+  def request_has_been_canceled_by_user_to_teacher(participation_request)
+    mail to: @admin.email, subject: "Inscription annulé - #{@user.name}",
   end
 
   def recap_for_teacher(structure, participation_requests)
@@ -125,5 +102,17 @@ class ParticipationRequestMailer < ActionMailer::Base
     @admin                  = @structure.main_contact
     @nb_users               = @participation_requests.map(&:user).uniq.count
     mail to: @admin.email, subject: "Pour mémoire - Inscriptions pour demain"
+  end
+
+  private
+
+  def retrieve_participation_request_variables(participation_request)
+    @participation_request = participation_request
+    @course                = @participation_request.course
+    @place                 = @participation_request.planning.place
+    @structure             = participation_request.structure
+    @admin                 = participation_request.structure.main_contact
+    @user                  = participation_request.user
+    @conversation          = participation_request.conversation
   end
 end

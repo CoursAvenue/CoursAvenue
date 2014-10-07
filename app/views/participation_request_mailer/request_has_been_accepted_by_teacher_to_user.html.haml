@@ -1,0 +1,64 @@
+- content_for :email_title do
+  #{@structure.name} vient d'accepter votre demande d'inscription au cours d'essai suivant :
+
+.title
+  Félicitations !
+
+.p
+  #{@structure.name} vient d'accepter votre demande d'inscription au cours d'essai suivant :
+
+%table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
+  %tr{ valign: 'top' }
+    %td.v-middle.content-block.text--center{ width: '15%' }
+      = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank', class: 'block' do
+        = image_tag @structure.logo.url(:thumb), class: 'block', height: 60, width: 60, alt: "Logo de #{@structure.name}"
+      .p= @structure.name
+    %td.v-middle.content-block{ width: '25%' }
+      .p
+        %strong Cours d'essai
+        %br
+        %strong Jour et créneau
+        - if @participation_request.planning.place
+          %br
+          %strong Lieu
+          %br
+          %strong Indications supplémentaires
+    %td.v-middle.content-block{ width: '60%' }
+      .p
+        = @participation_request.course.name
+        %br
+        = "#{l(@participation_request.date, format: :semi_short)} de #{l(@participation_request.start_time, format: :short)} à #{l(@participation_request.end_time, format: :short)}"
+        - if @participation_request.planning.place
+          %br
+          - place = @participation_request.planning.place
+          %br
+          = place.name
+          - if place.info.present?
+            = place.info
+          - if place.private_info.present?
+            %br
+            = place.private_info
+
+- if @message
+  .soft--top
+    = render partial: 'mailboxer_message_mailer/message_to_user', locals: { message: @message, structure: @structure, show_phone_number: false }
+
+.p
+  En cas d'annulation, de modification ou si vous souhaitez tout simplement envoyer un message à #{@structure.name}, connectez-vous :
+.p.action
+  = link_to "Voir mes inscriptions", user_participation_requests_url(@user, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green'
+.p
+  Nous vous souhaitons une très belle séance !
+.p
+  Nous vous souhaitons de très belles découvertes !
+
+= render 'shared/mailers/footer'
+
+- if @upcoming_participation_requests.any?
+  - content_for :under_content do
+    .title Vos séances à venir
+    - if @upcoming_participation_requests.each do |upcoming_participation_request|
+      = render partial: 'participation_request_mailer/shared/user_participation_recap', locals: { participation_request: participation_request }
+
+- content_for :under_content_gray do
+  = render 'participation_request_mailer/shared/user_faq'
