@@ -514,6 +514,8 @@ class User < ActiveRecord::Base
     if read_attribute(:sponsorship_slug).nil?
       self.sponsorship_slug = self.slug
       write_attribute(:sponsorship_slug, self.slug)
+      self.save
+
       self.slug
     else
       read_attribute(:sponsorship_slug)
