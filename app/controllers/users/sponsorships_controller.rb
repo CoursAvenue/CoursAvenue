@@ -33,7 +33,7 @@ class Users::SponsorshipsController < Pro::ProController
     end
 
     respond_to do |format|
-      format.html { redirect_to params[:redirect_to] || user_sponsorships_path(@user), notice: (params[:emails].present? ? 'Vos amis ont bien été invités.' : nil) }
+      format.html { redirect_to user_sponsorships_path(@user), notice: (params[:emails].present? ? 'Vos amis ont bien été invités.' : nil) }
     end
   end
 
