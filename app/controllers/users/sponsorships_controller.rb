@@ -24,10 +24,11 @@ class Users::SponsorshipsController < Pro::ProController
 
     emails.each do |_email|
       if (user = User.where(User.arel_table[:email].matches(_email)).first).nil?
-        user             = User.new(email: _email)
+        user = User.new(email: _email)
         user.save(validate: false)
-        @user.sponsorships.create(sponsored_user: user)
-        UserMailer.delay.sponsor_user(@user, _email, text)
+        sponsorship = @user.sponsorships.create(sponsored_user: user)
+
+        UserMailer.delay.sponsor_user(@user, _email, sponsorship.promo_code, text)
       end
     end
 

@@ -142,11 +142,14 @@ class UserMailer < ActionMailer::Base
 
   # Send an email with a sponsorship email.
   #
-  # @param user — The sponsor
-  # @param sponsor_user — The email of the user sponsored
-  def sponsor_user(user, sponsored_email, text)
+  # @param user — The sponsor.
+  # @param sponsor_user — The email of the user sponsored.
+  # @param promo_code — The Sponsorship's promo_code.
+  # @param text — The text of the email.
+  def sponsor_user(user, sponsored_email, promo_code, text)
     @user = user
     @text = text
+    @promo_code = promo_code
     mail to: sponsored_email, subject: "[Sponsor] #{@user.name}"
   end
 
