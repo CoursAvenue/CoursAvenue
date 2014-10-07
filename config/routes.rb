@@ -409,6 +409,7 @@ CoursAvenue::Application.routes.draw do
       end
     end
   end
+  resources :sponsorships, only: [:show], path: 'obtenir-mon-passe-decouverte'
   resources :emails, only: [:create]
 
   resources :visitors, only: [:create, :update, :index]

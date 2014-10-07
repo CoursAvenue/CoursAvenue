@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141007135010) do
+ActiveRecord::Schema.define(version: 20141007095942) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -768,7 +768,7 @@ ActiveRecord::Schema.define(version: 20141007135010) do
   create_table "sponsorships", force: true do |t|
     t.integer  "user_id"
     t.integer  "sponsored_user_id"
-    t.boolean  "registered"
+    t.boolean  "registered",        default: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "promo_code"
@@ -1060,6 +1060,7 @@ ActiveRecord::Schema.define(version: 20141007135010) do
     t.string   "passion_zip_code"
     t.string   "delivery_email_status"
     t.integer  "sponsorship_id"
+    t.string   "sponsorship_slug"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

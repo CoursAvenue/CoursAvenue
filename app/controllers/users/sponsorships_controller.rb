@@ -28,12 +28,12 @@ class Users::SponsorshipsController < Pro::ProController
         user.save(validate: false)
         sponsorship = @user.sponsorships.create(sponsored_user: user)
 
-        UserMailer.delay.sponsor_user(@user, _email, sponsorship.promo_code, text)
+        UserMailer.delay.sponsor_user(@user, _email, sponsorship_path(sponsorship.promo_code), text)
       end
     end
 
     respond_to do |format|
-      format.html { redirect_to params[:redirect_to] || user_sponsorships_path(@user), notice: (params[:emails].present? ? 'Vos amis ont bien été invités.' : nil) }
+      format.html { redirect_to user_sponsorships_path(@user), notice: (params[:emails].present? ? 'Vos amis ont bien été invités.' : nil) }
     end
   end
 

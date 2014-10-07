@@ -25,7 +25,8 @@ class User < ActiveRecord::Base
                   :birthdate, :phone_number, :zip_code, :city_id, :passion_zip_code, :passion_city_id, :passions_attributes, :description,
                   :email_opt_in, :sms_opt_in, :email_promo_opt_in, :email_newsletter_opt_in, :email_passions_opt_in,
                   :email_status, :last_email_sent_at, :last_email_sent_status,
-                  :lived_places_attributes, :delivery_email_status
+                  :lived_places_attributes, :delivery_email_status,
+                  :sponsorships, :sponsorship_slug
 
   # To store hashes into hstore
   store_accessor :meta_data, :after_sign_up_url, :have_seen_first_jpo_popup
@@ -505,6 +506,21 @@ class User < ActiveRecord::Base
   # @return Boolean
   def parisian?
     return self.zip_code.starts_with? '75','77','78','91','92','93','94','95'
+  end
+
+  # Retuns the sponsorship slug or the slug if it is not defined
+  #
+  # @return String
+  def sponsorship_slug
+    if read_attribute(:sponsorship_slug).nil?
+      self.sponsorship_slug = self.slug
+      write_attribute(:sponsorship_slug, self.slug)
+      self.save
+
+      self.slug
+    else
+      read_attribute(:sponsorship_slug)
+    end
   end
 
   private

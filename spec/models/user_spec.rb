@@ -77,6 +77,21 @@ describe User do
     end
   end
 
+  describe '#subscription_slug' do
+    let (:user) { FactoryGirl.create(:user) }
+
+    it 'returns the user slug by default' do
+      expect(user.sponsorship_slug).to equal(user.slug)
+    end
+
+    it 'returns the user defined slug when defined' do
+      slug = 'my-new-slug'
+      user.sponsorship_slug = slug
+
+      expect(user.sponsorship_slug).to equal(slug)
+    end
+  end
+
   # describe '#update_email_status' do
   #   let(:user) { FactoryGirl.create(:user) }
 
