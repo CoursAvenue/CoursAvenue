@@ -25,6 +25,12 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     if @user.persisted?
       flash[:notice] = I18n.t 'devise.omniauth_callbacks.success', kind: 'Facebook'
+
+      # Update oauth token and expires at
+      auth = request.env['omniauth.auth']
+      @user.oauth_token        = auth.credentials.token
+      @user.oauth_expires_at   = Time.at(auth.credentials.expires_at)
+
       # redirect_to root_path, :event => :authentication, :current_user => @user
       # sign_in_and_redirect @user, event: :authentication
       sign_in(Devise::Mapping.find_scope!(@user), @user, event: :authentication)
