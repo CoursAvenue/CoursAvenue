@@ -8,11 +8,11 @@ class Pro::UsersController < Pro::ProController
 
   def index
     if params[:with_comments]
-      @users = UserSearch.search(active: true, has_comments: true, page: params[:page]).results
+      @users = UserSearch.search(active: true, has_comments: true, page: params[:page], name: params[:name]).results
     elsif params[:inactive]
-      @users = UserSearch.search(active: true, has_confirmed: false, page: params[:page]).results
+      @users = UserSearch.search(active: true, has_confirmed: false, page: params[:page], name: params[:name]).results
     else
-      @users = UserSearch.search(active: true, page: params[:page]).results
+      @users = UserSearch.search(active: true, page: params[:page], name: params[:name]).results
     end
     @users_per_hour = { 0 => 0, 1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0, 6 => 0, 7 => 0, 8 => 0, 9 => 0, 10 => 0, 11 => 0, 12 => 0, 13 => 0, 14 => 0, 15 => 0, 16 => 0, 17 => 0, 18 => 0, 19 => 0, 20 => 0, 21 => 0, 22 => 0, 23 => 0 }
     User.active.find_each do |user|
@@ -30,6 +30,7 @@ class Pro::UsersController < Pro::ProController
 
     respond_to do |format|
       format.html
+      format.json { render json: @users }
       format.csv { render text: User.order('created_at DESC').limit(params[:limit] || 300).offset(params[:offset] || 0).to_csv }
     end
   end
