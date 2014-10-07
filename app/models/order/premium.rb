@@ -1,4 +1,4 @@
-class Order::SubscriptionPlan < Order
+class Order::Premium < Order
 
   ######################################################################
   # Relations                                                          #

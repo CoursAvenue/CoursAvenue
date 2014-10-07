@@ -1,4 +1,4 @@
-class Order::DiscoveryPass < Order
+class Order::Pass < Order
 
   ######################################################################
   # Relations                                                          #
