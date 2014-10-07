@@ -63,7 +63,8 @@ class ParticipationRequestMailer < ActionMailer::Base
   ######################################################################
   # Request has been modified                                          #
   ######################################################################
-  def request_has_been_modified_by_user_to_teacher(participation_request)
+  def request_has_been_modified_by_user_to_teacher(participation_request, message)
+    @message = message
     retrieve_participation_request_variables(participation_request)
     mail to: @admin.email, subject: "Nouvelle proposition de créneau - #{@user.name}"
   end
@@ -77,23 +78,31 @@ class ParticipationRequestMailer < ActionMailer::Base
   ######################################################################
   # Request has been declinded                                         #
   ######################################################################
-  def request_has_been_declined_by_teacher_to_user(participation_request)
-    mail to: @usser.email, subject: "Inscription refusé - #{@structure.name}",
+  def request_has_been_declined_by_teacher_to_user(participation_request, message)
+    retrieve_participation_request_variables(participation_request)
+    @message = message
+    mail to: @usser.email, subject: "Inscription refusé - #{@structure.name}"
   end
 
-  def request_has_been_declined_by_user_to_teacher(participation_request)
-    mail to: @admin.email, subject: "Inscription refusé - #{@user.name}",
+  def request_has_been_declined_by_user_to_teacher(participation_request, message)
+    retrieve_participation_request_variables(participation_request)
+    @message = message
+    mail to: @admin.email, subject: "Inscription refusé - #{@user.name}"
   end
 
   ######################################################################
   # Request has been canceled                                          #
   ######################################################################
-  def request_has_been_canceled_by_teacher_to_user(participation_request)
-    mail to: @usser.email, subject: "Inscription annulé - #{@structure.name}",
+  def request_has_been_canceled_by_teacher_to_user(participation_request, message)
+    retrieve_participation_request_variables(participation_request)
+    @message = message
+    mail to: @usser.email, subject: "Inscription annulé - #{@structure.name}"
   end
 
-  def request_has_been_canceled_by_user_to_teacher(participation_request)
-    mail to: @admin.email, subject: "Inscription annulé - #{@user.name}",
+  def request_has_been_canceled_by_user_to_teacher(participation_request,  message)
+    retrieve_participation_request_variables(participation_request)
+    @message = message
+    mail to: @admin.email, subject: "Inscription annulé - #{@user.name}"
   end
 
   def recap_for_teacher(structure, participation_requests)

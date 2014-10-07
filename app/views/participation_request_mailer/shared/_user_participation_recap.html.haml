@@ -3,31 +3,42 @@
     %td.v-middle.content-block{ colspan: 3 }
       .title Récapitulatif de la demande d'inscription
   %tr{ valign: 'top' }
-    %td.v-middle.content-block{ width: '15%' }
-      = link_to structure_url(participation_request.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank', class: 'block' do
-        = image_tag participation_request.structure.logo.url(:thumb), class: 'block', height: 60, width: 60, alt: "Logo de #{participation_request.structure.name}"
+    %td.v-middle.content-block{ width: '20%', rowspan: (participation_request.planning.place ? 5 : 4) }
+      = link_to discovery_pass_structure_url(participation_request.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank', class: 'block' do
+        = image_tag participation_request.structure.logo.url(:thumb), class: 'block', height: 90, width: 90, alt: "Logo de #{participation_request.structure.name}"
     %td.v-middle.content-block{ width: '25%' }
-      .p
+      .p.hard
         %strong Profil
-        %br
-        %strong Cours d'essai
-        %br
-        %strong Statut
-        %br
-        %strong Jour et créneau
-        - if @participation_request.planning.place
-          %br
-          %strong Lieu
-    %td.v-middle.content-block{ width: '60%' }
-      .p
+    %td.v-middle.content-block{ width: '55%' }
+      .p.hard
         = participation_request.structure.name
-        = "(#{participation_request.structure.phone_numbers.map(&:number).join(', ')})"
-        %br
+        - if participation_request.structure.phone_numbers.any?
+          = "(#{participation_request.structure.phone_numbers.map(&:number).join(', ')})"
+  %tr{ valign: 'top' }
+    %td.v-middle.content-block{ width: '25%' }
+      .p.hard
+        %strong Cours d'essai
+    %td.v-middle.content-block{ width: '55%' }
+      .p.hard
         = participation_request.course.name
-        %br
+  %tr{ valign: 'top' }
+    %td.v-middle.content-block{ width: '25%' }
+      .p.hard
+        %strong Statut
+    %td.v-middle.content-block{ width: '55%' }
+      .p.hard
         = I18n.t("participation_request.state.#{participation_request.state}")
-        %br
+  %tr{ valign: 'top' }
+    %td.v-middle.content-block{ width: '25%' }
+      .p.hard
+        %strong Jour et créneau
+    %td.v-middle.content-block{ width: '55%' }
+      .p.hard
         = "#{l(participation_request.date, format: :semi_short)} de #{l(participation_request.start_time, format: :short)} à #{l(participation_request.end_time, format: :short)}"
-        - if @participation_request.planning.place
-          %br
-          = participation_request.planning.place.try(:name)
+  - if participation_request.planning.place
+    %tr{ valign: 'top' }
+      %td.v-middle.content-block{ width: '25%' }
+        .p.hard
+          %strong Lieu
+      %td.v-middle.content-block{ width: '55%' }
+        .p.hard= participation_request.planning.place.try(:name)

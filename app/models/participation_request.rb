@@ -21,7 +21,6 @@ class ParticipationRequest < ActiveRecord::Base
   ######################################################################
   before_create :set_default_attributes
   after_create :send_email_to_teacher
-  after_create :send_email_to_user
 
   ######################################################################
   # Validation                                                         #
@@ -114,9 +113,9 @@ class ParticipationRequest < ActiveRecord::Base
     message = reply_to_conversation(message_body, last_modified_by)
     self.save
     if self.last_modified_by == 'Structure'
-      ParticipationRequestMailer.delay.request_has_been_declined_by_teacher_to_user(self)
+      ParticipationRequestMailer.delay.request_has_been_declined_by_teacher_to_user(self, message)
     elsif self.last_modified_by == 'User'
-      ParticipationRequestMailer.delay.request_has_been_declined_by_user_to_teacher(self)
+      ParticipationRequestMailer.delay.request_has_been_declined_by_user_to_teacher(self, message)
     end
   end
 
@@ -130,9 +129,9 @@ class ParticipationRequest < ActiveRecord::Base
     message    = reply_to_conversation(message_body, last_modified_by)
     self.save
     if self.last_modified_by == 'Structure'
-      ParticipationRequestMailer.delay.request_has_been_canceled_by_teacher_to_user(self)
+      ParticipationRequestMailer.delay.request_has_been_canceled_by_teacher_to_user(self, message)
     elsif self.last_modified_by == 'User'
-      ParticipationRequestMailer.delay.request_has_been_canceled_by_user_to_teacher(self)
+      ParticipationRequestMailer.delay.request_has_been_canceled_by_user_to_teacher(self, message)
     end
   end
 
@@ -166,14 +165,6 @@ class ParticipationRequest < ActiveRecord::Base
   # @return nil
   def send_email_to_teacher
     ParticipationRequestMailer.delay.you_received_a_request(self)
-    nil
-  end
-
-  # When a request is created we alert the user by email
-  #
-  # @return nil
-  def send_email_to_user
-    ParticipationRequestMailer.delay.you_sent_a_request(self)
     nil
   end
 

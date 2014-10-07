@@ -8,6 +8,8 @@
         %span.v-middle Félicitations ! Votre compte Pass découverte est maintenant actif.
       %h5.text--center
         Découvrez dès à présent les cours à découvrir autour de chez vous.
+      .text--center
+        = link_to "Découvrir tous les cours d'essai", discovery_pass_search_structures_path class: 'btn btn--green btn--large'
     - else
       %h2.text--center.push-half--bottom
         Une erreur est survenue lors du paiement :
