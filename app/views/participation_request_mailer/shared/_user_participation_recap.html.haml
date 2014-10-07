@@ -1,7 +1,9 @@
+- show_header = true if show_header.nil?
 %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
-  %tr{ valign: 'top' }
-    %td.v-middle.content-block{ colspan: 3 }
-      .title Récapitulatif de la demande d'inscription
+  - if show_header
+    %tr{ valign: 'top' }
+      %td.v-middle.content-block{ colspan: 3 }
+        .title Récapitulatif de la demande d'inscription
   %tr{ valign: 'top' }
     %td.v-middle.content-block{ width: '20%', rowspan: (participation_request.planning.place ? 5 : 4) }
       = link_to discovery_pass_structure_url(participation_request.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank', class: 'block' do

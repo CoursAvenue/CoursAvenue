@@ -12,7 +12,6 @@
     %td.v-top.content-block.text--center{ width: '20%' }
       = link_to discovery_pass_structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank', class: 'block' do
         = image_tag @structure.logo.url(:thumb), class: 'block', height: 90, width: 90, alt: "Logo de #{@structure.name}"
-      .p= @structure.name
     %td.v-top.content-block{ width: '80%' }
       .p
         \- Nom du cours :
@@ -53,7 +52,7 @@
   - content_for :under_content do
     .title Vos séances à venir
     - @upcoming_participation_requests.each do |upcoming_participation_request|
-      = render partial: 'participation_request_mailer/shared/user_participation_recap', locals: { participation_request: upcoming_participation_request }
+      = render partial: 'participation_request_mailer/shared/user_participation_recap', locals: { participation_request: upcoming_participation_request, show_header: false }
 
 - content_for :under_content_gray do
   = render 'participation_request_mailer/shared/user_faq'

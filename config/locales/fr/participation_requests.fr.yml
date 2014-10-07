@@ -6,30 +6,36 @@ fr:
     state:
       accepted: Confirmé
       pending: En attente de confirmation
-      declined: Annulé
+      declined: Refusé
+      canceled: Annulé
       long_description:
         accepted_html: "<strong>Inscription confirmée</strong> pour l'élève <strong>%{user_name}</strong> au cours d'essai du <strong>%{date}</strong> (%{course_name})"
         pending_html: <strong>Inscription en attente de confirmation</strong>
-        declined_html: "<strong>Inscription annulée</strong> pour l'élève <strong>%{user_name}</strong> au cours d'essai %{course_name}"
+        declined_html: "<strong>Inscription refusée</strong> pour l'élève <strong>%{user_name}</strong> au cours d'essai %{course_name}"
+        canceled_html: "<strong>Inscription annulée</strong> pour l'élève <strong>%{user_name}</strong> au cours d'essai %{course_name}"
       to_structure:
         last_modified_by_structure:
           long_description:
             accepted_html: "<strong>Inscription confirmée</strong> pour l'élève <strong>%{user_name}</strong> au cours d'essai du <strong>%{date}</strong> (%{course_name})"
             pending_html: "<strong>Inscription en attente de confirmation</strong> : l'élève <strong>%{user_name}</strong> doit valider sa présence au cours d'essai du <strong>%{date}</strong> (%{course_name})"
-            declined_html: "<strong>Inscription annulée</strong> pour l'élève <strong>%{user_name}</strong> au cours d'essai %{course_name}"
+            canceled_html: "<strong>Inscription annulée</strong> pour l'élève <strong>%{user_name}</strong> au cours d'essai %{course_name}"
+            declined_html: "<strong>Inscription refusée</strong> pour l'élève <strong>%{user_name}</strong> au cours d'essai %{course_name}"
         last_modified_by_user:
           long_description:
             accepted_html: "<strong>Inscription confirmée</strong> pour l'élève <strong>%{user_name}</strong> au cours d'essai du <strong>%{date}</strong> (%{course_name})"
             pending_html: <strong>Inscription en attente de confirmation</strong>
-            declined_html: "<strong>Inscription annulée</strong> par l'élève <strong>%{user_name}</strong> au cours d'essai %{course_name}"
+            canceled_html: "<strong>Inscription annulée</strong> par l'élève <strong>%{user_name}</strong> au cours d'essai %{course_name}"
+            declined_html: "<strong>Inscription refusée</strong> par l'élève <strong>%{user_name}</strong> au cours d'essai %{course_name}"
       to_user:
         last_modified_by_structure:
           long_description:
             accepted_html: "<strong>Inscription confirmée</strong> par <strong>%{structure_name}</strong> qui vous attend pour un cours d'essai le <strong>%{date}</strong> (%{course_name})"
             pending_html: "<strong>Inscription en attente de confirmation</strong>"
-            declined_html: "<strong>Inscription annulée</strong> par <strong>%{structure_name}</strong>"
+            canceled_html: "<strong>Inscription annulée</strong> par <strong>%{structure_name}</strong>"
+            declined_html: "<strong>Inscription refusée</strong> par <strong>%{structure_name}</strong>"
         last_modified_by_user:
           long_description:
             accepted_html: "<strong>Inscription confirmée</strong>"
             pending_html: "<strong>Inscription en attente de confirmation : %{structure_name}</strong> doit valider votre demande de cours d'essai du <strong>%{date}</strong> (%{course_name})"
-            declined_html: "<strong>Inscription annulée</strong> au cours d'essai %{course_name}"
+            canceled_html: "<strong>Inscription annulée</strong> au cours d'essai %{course_name}"
+            declined_html: "<strong>Inscription refusée</strong> au cours d'essai %{course_name}"
