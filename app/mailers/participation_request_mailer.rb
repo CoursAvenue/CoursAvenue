@@ -81,7 +81,7 @@ class ParticipationRequestMailer < ActionMailer::Base
   def request_has_been_declined_by_teacher_to_user(participation_request, message)
     retrieve_participation_request_variables(participation_request)
     @message = message
-    mail to: @usser.email, subject: "Inscription refusé - #{@structure.name}"
+    mail to: @user.email, subject: "Inscription refusé - #{@structure.name}"
   end
 
   def request_has_been_declined_by_user_to_teacher(participation_request, message)
@@ -96,7 +96,7 @@ class ParticipationRequestMailer < ActionMailer::Base
   def request_has_been_canceled_by_teacher_to_user(participation_request, message)
     retrieve_participation_request_variables(participation_request)
     @message = message
-    mail to: @usser.email, subject: "Inscription annulé - #{@structure.name}"
+    mail to: @user.email, subject: "Inscription annulé - #{@structure.name}"
   end
 
   def request_has_been_canceled_by_user_to_teacher(participation_request,  message)
