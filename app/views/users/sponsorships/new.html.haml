@@ -49,20 +49,22 @@
             %h4
               Amis Facebook
           .gray-box.soft.relative
-            - facebook_user = FbGraph::User.me(current_user.oauth_token)
-            .grid--full
-              - facebook_user.friends.each do |facebook_friend|
-                .inline-block.one-sixth.very-soft.text--center>
-                  = image_tag "http://graph.facebook.com/#{facebook_friend.identifier}/picture?height=75&width=75&type=square", class: 'block rounded--circle center-block', width: 75, height: 75
-                  .very-soft= facebook_friend.name
-                  = link_to 'Parrainer', share_sponsorship_request_to_facebook_friend_url(@user, facebook_friend.identifier), class: 'btn', data: { behavior: 'send-message-on-facebook' }
+            - begin
+              - facebook_user = FbGraph::User.me(current_user.oauth_token)
+              .grid--full
+                - facebook_user.friends.each do |facebook_friend|
+                  .inline-block.one-sixth.very-soft.text--center>
+                    = image_tag "http://graph.facebook.com/#{facebook_friend.identifier}/picture?height=75&width=75&type=square", class: 'block rounded--circle center-block', width: 75, height: 75
+                    .very-soft= facebook_friend.name
+                    = link_to 'Parrainer', share_sponsorship_request_to_facebook_friend_url(@user, facebook_friend.identifier), class: 'btn', data: { behavior: 'send-message-on-facebook' }
 
-            - content_for :scripts do
-              :javascript
-                $(function() {
-                      $('[data-behavior=send-message-on-facebook]').click(function() {
-                          window.open(this.href, 'Partager', "width=1000,height=600");
-                          ga('send', 'event', 'Share on Facebook to friend', 'share');
-                          return false;
-                      });
-                });
+              - content_for :scripts do
+                :javascript
+                  $(function() {
+                        $('[data-behavior=send-message-on-facebook]').click(function() {
+                            window.open(this.href, 'Partager', "width=1000,height=600");
+                            ga('send', 'event', 'Share on Facebook to friend', 'share');
+                            return false;
+                        });
+                  });
+            - rescue
