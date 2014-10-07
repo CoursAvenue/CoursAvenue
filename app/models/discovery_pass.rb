@@ -14,10 +14,9 @@ class DiscoveryPass < ActiveRecord::Base
   # Relations                                                          #
   ######################################################################
   belongs_to :user
-  belongs_to :promotion_code
 
-  attr_accessible :expires_at, :renewed_at, :last_renewal_failed_at, :recurrent, :canceled_at,
-                  :credit_card_number, :be2bill_alias, :client_ip, :card_validity_date, :promotion_code_id,
+  attr_accessible :expires_at, :renewed_at, :last_renewal_failed_at, :canceled_at,
+                  :credit_card_number, :be2bill_alias, :client_ip, :card_validity_date,
                   :cancelation_reason_text, :cancelation_reason_i_dont_want_to_try_more_courses, :cancelation_reason_i_found_a_course
 
   store_accessor :meta_data, :cancelation_reason_text, :cancelation_reason_i_dont_want_to_try_more_courses, :cancelation_reason_i_found_a_course
@@ -107,7 +106,7 @@ class DiscoveryPass < ActiveRecord::Base
   def extend_subscription_expires_date
     AdminMailer.delay.subscription_has_been_renewed(self)
     self.renewed_at = Date.today
-    self.expires_at = Date.today + PLAN_TYPE_DURATION[plan_type.to_s].months
+    self.expires_at = Date.today + 1.month
     self.save
   end
 
@@ -116,11 +115,7 @@ class DiscoveryPass < ActiveRecord::Base
   #
   # @return Integer
   def amount
-    if self.promotion_code and self.promotion_code.still_apply? and self.plan_type == self.promotion_code.plan_type
-      PRICE - self.promotion_code.promo_amount
-    else
-      PRICE
-    end
+    PRICE
   end
 
   # See amount
@@ -130,17 +125,11 @@ class DiscoveryPass < ActiveRecord::Base
     self.amount * 100
   end
 
-  # As we can have a special offer for 6 months for instance, we don't want it to continue
-  # So we this special offer has a next plan type which is the next plan that the user will subscribe to.
-  # That's why we have a 'next_amount'
-  #
+
+  # TODO: check with sponsorships
   # @return Integer next amount to pay
   def next_amount
-    if self.promotion_code and self.promotion_code.still_apply?
-      PRICE - self.promotion_code.promo_amount
-    else
-      PRICE
-    end
+    PRICE
   end
 
   # See next_amount
@@ -148,10 +137,6 @@ class DiscoveryPass < ActiveRecord::Base
   # @return Integer next amount to pay, Be2bill formatted
   def next_amount_for_be2bill
     self.next_amount * 100
-  end
-
-  def frequency
-    PLAN_TYPE_FREQUENCY[self.plan_type]
   end
 
   def canceled?
@@ -174,8 +159,6 @@ class DiscoveryPass < ActiveRecord::Base
   def reactivate!
     self.canceled_at = nil
     self.save
-    AdminMailer.delay.subscription_has_been_reactivated(self)
-    SuperAdminMailer.delay.someone_reactivated_his_subscription(self)
     return self
   end
 
@@ -194,6 +177,5 @@ class DiscoveryPass < ActiveRecord::Base
 
   def set_expires_at
     expires_at ||= 1.month.from_now
-    renewed_at ||= 1.month.from_now
   end
 end
