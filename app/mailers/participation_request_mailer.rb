@@ -51,7 +51,15 @@ class ParticipationRequestMailer < ActionMailer::Base
     @user                  = participation_request.user
     @conversation          = participation_request.conversation
 
-    mail to: @admin.email, subject: "Inscription acceptée - #{@user.name}"
+    if participation_request.last_modified_by == 'Structure'
+      mail to: @admin.email, subject: "Inscription acceptée - #{@user.name}",
+           template: 'request_has_been_accepted_by_teacher_to_teacher'
+      mail to: @admin.email, subject: "Inscription acceptée - #{@structure.name}",
+           template: 'request_has_been_accepted_by_teacher_to_user'
+    elsif participation_request.last_modified_by == 'User'
+      mail to: @admin.email, subject: "Inscription acceptée - #{@user.name}",
+           template: 'request_has_been_accepted_by_user_to_teacher'
+    end
   end
 
   def request_has_been_modified(participation_request)
@@ -63,9 +71,13 @@ class ParticipationRequestMailer < ActionMailer::Base
     if participation_request.last_modified_by == 'Structure'
       mail to: @admin.email, subject: "Inscription modifiée - #{@user.name}",
            template: 'request_has_been_modified_by_teacher_to_teacher'
+      mail to: @admin.email, subject: "Nouvelle proposition de créneau - #{@structure.name}",
+           template: 'request_has_been_modified_by_teacher_to_user'
     elsif participation_request.last_modified_by == 'User'
       mail to: @admin.email, subject: "Confirmez l'inscription - #{@user.name}",
            template: 'request_has_been_modified_by_user_to_teacher'
+      mail to: @admin.email, subject: "Confirmez l'inscription - #{@user.name}",
+           template: 'request_has_been_modified_by_user_to_user'
     end
   end
 
@@ -75,7 +87,43 @@ class ParticipationRequestMailer < ActionMailer::Base
     @admin                 = participation_request.structure.main_contact
     @user                  = participation_request.user
     @conversation          = participation_request.conversation
+    if participation_request.last_modified_by == 'Structure'
+      # mail to: @admin.email, subject: "Inscription refusée - #{@structure.name}",
+      #      template: 'request_has_been_declined_by_teacher_to_user'
+      mail to: @admin.email, subject: "Inscription refusée - #{@user.name}",
+           template: 'request_has_been_declined_by_teacher_to_teacher'
+    elsif participation_request.last_modified_by == 'User'
+      # mail to: @admin.email, subject: "Inscription refusée - #{@user.name}",
+      #      template: 'request_has_been_declined_by_user_to_user'
+      # mail to: @admin.email, subject: "Inscription refusée - #{@user.name}",
+      #      template: 'request_has_been_declined_by_user_to_teacher'
+    end
+  end
 
-    mail to: @admin.email, subject: "Inscription refusée - #{@user.name}"
+  def request_has_been_canceled(participation_request)
+    @participation_request = participation_request
+    @structure             = participation_request.structure
+    @admin                 = participation_request.structure.main_contact
+    @user                  = participation_request.user
+    @conversation          = participation_request.conversation
+    if participation_request.last_modified_by == 'Structure'
+      mail to: @admin.email, subject: "Inscription refusée - #{@structure.name}",
+           template: 'request_has_been_canceled_by_teacher_to_user'
+      mail to: @admin.email, subject: "Inscription refusée - #{@user.name}",
+           template: 'request_has_been_canceled_by_teacher_to_teacher'
+    elsif participation_request.last_modified_by == 'User'
+      mail to: @admin.email, subject: "Inscription refusée - #{@user.name}",
+           template: 'request_has_been_canceled_by_user_to_user'
+      mail to: @admin.email, subject: "Inscription refusée - #{@user.name}",
+           template: 'request_has_been_canceled_by_user_to_teacher'
+    end
+  end
+
+  def recap_for_teacher(structure, participation_requests)
+    @participation_requests = participation_requests
+    @structure              = @participation_requests.first.structure
+    @admin                  = @structure.main_contact
+    @nb_users               = @participation_requests.map(&:user).uniq.count
+    mail to: @admin.email, subject: "Pour mémoire - Inscriptions pour demain"
   end
 end

@@ -3,13 +3,16 @@
 .panel
   = render partial: 'pro/structures/courses/discovery_pass_tabs', locals: { current: 'courses' }
   .panel__body.soft--ends.relative
-    %h3.text--center.flush Pass Découverte
-    .absolute.north.east.soft
-      = link_to pro_pages_discovery_pass_path, target: :_blank do
-        %i.fa.fa-info
-        En savoir plus
     .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.courses.wizard.discovery_pass.step_1') } }
-      .text--center.delta.push--bottom.line-height-1-7 Félicitations ! Vos cours sont éligibles pour le Pass Découverte CoursAvenue. 2 étapes suffisent pour proposer vos cours d'essai dans la cadre de ce Pass :
+      %h3.flush Pass Découverte
+      .absolute.north.east.soft
+        = link_to discovery_pass_structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank, class: 'btn btn--small push-half--right' do
+          %i.fa.fa-info
+          Voir mon profil public pass decouverte
+        = link_to pro_pages_discovery_pass_path, target: :_blank do
+          %i.fa.fa-info
+          En savoir plus
+      .delta.push--bottom.line-height-1-7 Félicitations ! Vos cours sont éligibles pour le Pass Découverte CoursAvenue. 2 étapes suffisent pour proposer vos cours d'essai dans la cadre de ce Pass :
 
       %h4 Etape 1 : définissez le nombre de cours d'essai par personne
 

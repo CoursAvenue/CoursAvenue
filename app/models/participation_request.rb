@@ -1,6 +1,8 @@
 class ParticipationRequest < ActiveRecord::Base
 
-  STATE = %w(accepted pending declined)
+  # Declined: when the user decline the proposition made by the other user
+  # Canceled: when the teacher cancel after having changed hours or accepted
+  STATE = %w(accepted pending declined canceled)
 
   attr_accessible :state, :date, :start_time, :end_time, :mailboxer_conversation_id, :planning_id, :last_modified_by
 
@@ -89,17 +91,31 @@ class ParticipationRequest < ActiveRecord::Base
     self.structure.main_contact.reply_to_conversation(self.conversation, message) if message.present?
     self.state = 'pending'
     self.save
+    ParticipationRequestMailer.delay.request_has_been_modified(self)
   end
 
-  # [accept! description]
+  # Decline proposition made by user
   # @param message [type] [description]
   #
   # @return Boolean
   def decline!(message, last_modified_by='Structure')
     self.last_modified_by = last_modified_by
     self.state = 'declined'
-    self.structure.main_contact.reply_to_conversation(self.conversation, message)
+    self.structure.main_contact.reply_to_conversation(self.conversation, message) if message.present?
     self.save
+    ParticipationRequestMailer.delay.request_has_been_declined(self)
+  end
+
+  # Cancel a proposition
+  # @param message [type] [description]
+  #
+  # @return Boolean
+  def cancel!(message, last_modified_by='Structure')
+    self.last_modified_by = last_modified_by
+    self.state = 'canceled'
+    self.structure.main_contact.reply_to_conversation(self.conversation, message) if message.present?
+    self.save
+    ParticipationRequestMailer.delay.request_has_been_canceled(self)
   end
 
   private
@@ -127,7 +143,11 @@ class ParticipationRequest < ActiveRecord::Base
     true
   end
 
+  # When a request is created (always by user), we alert the teacher
+  #
+  # @return nil
   def send_email_to_teacher
     ParticipationRequestMailer.delay.you_received_a_request(self)
+    nil
   end
 end

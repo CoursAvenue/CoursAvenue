@@ -50,7 +50,7 @@
           %br
           = "#{l(@participation_request.date, format: :semi_short)} de #{l(@participation_request.start_time, format: :short)} à #{l(@participation_request.end_time, format: :short)}"
           %br
-          = @participation_request.planning.place.name
+          = @participation_request.planning.place.try(:name)
 
 
 - content_for :under_content_gray do

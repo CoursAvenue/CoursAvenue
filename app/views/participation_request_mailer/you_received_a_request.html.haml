@@ -7,7 +7,10 @@
 .p
   #{@user.name} souhaiterait assister à une séance d'essai le
   %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}"
-  pour votre cours "#{@participation_request.course.name}" au #{@participation_request.planning.place.address} (#{@participation_request.planning.place.name}). Connectez-vous à votre profil
+  pour votre cours "#{@participation_request.course.name}"
+  - if @participation_request.planning.place
+    au #{@participation_request.planning.place.address} (#{@participation_request.planning.place.name}).
+  Connectez-vous à votre profil
   - if @participation_request.date <= 2.days.from_now
     %strong= "avant le #{I18n.l(@participation_request.date, format: :semi_short)}"
   - else
@@ -55,7 +58,7 @@
           %br
           = "#{l(@participation_request.date, format: :semi_short)} de #{l(@participation_request.start_time, format: :short)} à #{l(@participation_request.end_time, format: :short)}"
           %br
-          = @participation_request.planning.place.name
+          = @participation_request.planning.place.try(:name)
 
 
 - content_for :under_content_gray do

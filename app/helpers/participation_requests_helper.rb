@@ -15,7 +15,7 @@ module ParticipationRequestsHelper
     end
     output << join_levels_text(participation_request.planning)
     output << "(#{join_audiences(participation_request.planning)}), "
-    output << participation_request.planning.place.name
+    output << participation_request.planning.place.name if participation_request.planning.place
     output.html_safe
   end
 

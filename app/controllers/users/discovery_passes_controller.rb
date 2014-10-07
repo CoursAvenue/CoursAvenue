@@ -63,6 +63,8 @@ class Users::DiscoveryPassesController < Pro::ProController
   protected
 
   def layout_locals
-    { hide_menu: true }
+    locals = { hide_menu: true }
+    locals[:top_menu_header_class] = 'relative on-top' if action_name == 'new'
+    locals
   end
 end

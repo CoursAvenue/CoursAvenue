@@ -295,10 +295,11 @@ CoursAvenue::Application.routes.draw do
         end
         resources :participation_requests, only: [:edit, :index], controller: 'structures/participation_requests', path: 'pass-decouverte-suivi' do
           member do
-            get   :decline_form
+            get   :cancel_form
             patch :accept
             patch :modify_date
             patch :decline
+            patch :cancel
           end
         end
       end
@@ -399,10 +400,11 @@ CoursAvenue::Application.routes.draw do
     end
     resources :participation_requests, only: [:index, :edit], controller: 'users/participation_requests', path: 'mes-inscriptions' do
       member do
-        get   :decline_form
+        get   :cancel_form
         patch :accept
         patch :modify_date
         patch :decline
+        patch :cancel
       end
     end
   end

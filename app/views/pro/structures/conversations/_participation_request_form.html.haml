@@ -9,9 +9,8 @@
 
       #submit-buttons
         .flexbox
-          - if @participation_request.pending? and @participation_request.last_modified_by == 'User'
-            .flexbox__item>
-              = link_to 'Accepter et envoyer', '#', class: 'btn--full btn btn--green', data: { disable_with: "Message en cours d'envoi" }, id: 'accept-request'
+          .flexbox__item>
+            = link_to 'Accepter et envoyer', '#', class: 'btn--full btn btn--green', data: { disable_with: "Message en cours d'envoi" }, id: 'accept-request'
           .flexbox__item.soft-half--sides>
             = link_to 'Proposer un autre créneau', '#', class: 'nowrap btn--full btn btn--orange', id: 'show-change-date'
           .flexbox__item>
