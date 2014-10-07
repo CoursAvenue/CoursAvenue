@@ -9,9 +9,8 @@ module UsersHelper
   #
   # @return The Send Dialog URL String.
   def share_sponsorship_request_to_facebook_friend_url(user, friend_id)
-    link = user.sponsorship_slug
-    redirect_uri = user.sponsorship_slug
-    URI.encode("http://www.facebook.com/dialog/send?app_id=#{CoursAvenue::Application::FACEBOOK_APP_ID}&link=#{link}&redirect_uri=#{redirect_uri}&to=#{friend_id}")
+    link = URI.encode(sponsorship_path(user.sponsorship_slug))
+    URI.encode("http://www.facebook.com/dialog/send?app_id=#{CoursAvenue::Application::FACEBOOK_APP_ID}&link=#{link}&redirect_uri=#{link}&to=#{friend_id}")
   end
 
   def facebook_friends user

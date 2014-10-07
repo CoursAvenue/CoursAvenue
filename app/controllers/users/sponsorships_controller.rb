@@ -28,7 +28,7 @@ class Users::SponsorshipsController < Pro::ProController
         user.save(validate: false)
         sponsorship = @user.sponsorships.create(sponsored_user: user)
 
-        UserMailer.delay.sponsor_user(@user, _email, sponsorship.promo_code, text)
+        UserMailer.delay.sponsor_user(@user, _email, sponsorship_path(sponsorship.promo_code), text)
       end
     end
 
