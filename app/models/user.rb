@@ -91,7 +91,6 @@ class User < ActiveRecord::Base
   after_save  :associate_city_from_zip_code, if: -> { zip_code.present? and city.nil? }
   after_save  :update_email_status
   before_save :downcase_email
-  before_save :set_sponsorship_slug
 
   ######################################################################
   # Validations                                                        #
@@ -576,13 +575,6 @@ class User < ActiveRecord::Base
       MailboxerMessageMailer.delay.new_message_email_to_admin(message, recipient)
     end
     nil
-  end
-
-  # Set the sponsorship slug to the User slug by default.
-  #
-  # @return nothing
-  def set_sponsorship_slug
-    self.sponsorship_slug = self.slug unless self.sponsorship_slug.present?
   end
 
   def subscribe_to_mailchimp
