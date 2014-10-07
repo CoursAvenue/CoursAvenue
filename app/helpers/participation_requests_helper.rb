@@ -5,17 +5,17 @@ module ParticipationRequestsHelper
     output = ''
     output << content_tag(:strong) do
       o = participation_request.course.name
-      if participation_request.course.is_lesson?
-        o << "le #{week_day_for(participation_request.planning).downcase} "
+      if participation_request.course.is_training?
+        o << "#{planning_date_for(participation_request.planning).downcase} "
       else
-        o << "le #{planning_date_for(participation_request.planning).downcase} "
+        o << "le #{week_day_for(participation_request.planning).downcase} "
       end
       o
       o << "#{planning_time_for(participation_request.planning, false)}. "
     end
     output << join_levels_text(participation_request.planning)
     output << "(#{join_audiences(participation_request.planning)}), "
-    output << participation_request.planning.place.name
+    output << participation_request.planning.place.name if participation_request.planning.place
     output.html_safe
   end
 

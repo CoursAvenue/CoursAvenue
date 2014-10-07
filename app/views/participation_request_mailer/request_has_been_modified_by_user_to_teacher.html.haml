@@ -7,7 +7,10 @@
 .p
   #{@user.name} souhaite venir à un autre créneau et vous demande de venir assister le
   %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}"
-  pour votre cours "#{@participation_request.course.name}" au #{@participation_request.planning.place.address} (#{@participation_request.planning.place.name}). Connectez-vous à votre profil
+  au cours d'essai "#{@participation_request.course.name}"
+  - if @place
+    au #{@place.address} (#{@place.name}).
+  Connectez-vous à votre profil
   - if @participation_request.date <= 2.days.from_now
     %strong= "avant le #{I18n.l(@participation_request.date, format: :semi_short)}"
   - else
@@ -17,8 +20,8 @@
 .p.action
   = link_to "Accepter / Proposer un autre créneau / Refuser", pro_structure_conversation_url(@admin.structure, @conversation, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
 
-= render partial: 'mailboxer_message_mailer/message_to_admin', locals: { message: @message, user: @user, show_phone_number: false }
-
+- if @message
+  = render partial: 'mailboxer_message_mailer/message_to_admin', locals: { message: @message, user: @user, show_phone_number: false }
 
 %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
   %tr{ valign: 'top' }
@@ -36,39 +39,7 @@
   = render 'shared/mailers/footer'
 
 - content_for :under_content do
-  %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
-    %tr{ valign: 'top' }
-      %td.v-middle.content-block{ colspan: 3 }
-        .title Récapitulatif de la demande d'inscription
-    %tr{ valign: 'top' }
-      %td.v-middle.content-block{ width: '15%' }
-        = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank', class: 'block' do
-          = image_tag @structure.logo.url(:thumb), class: 'block', height: 60, width: 60, alt: "Logo de #{@structure.name}"
-      %td.v-middle.content-block{ width: '25%' }
-        .p
-          %strong Cours d'essai
-          %br
-          %strong Jour et créneau
-          %br
-          %strong Lieu
-      %td.v-middle.content-block{ width: '60%' }
-        .p
-          = @participation_request.course.name
-          %br
-          = "#{l(@participation_request.date, format: :semi_short)} de #{l(@participation_request.start_time, format: :short)} à #{l(@participation_request.end_time, format: :short)}"
-          %br
-          = @participation_request.planning.place.name
-
+  = render partial: 'participation_request_mailer/shared/participation_recap', locals: { participation_request: @participation_request }
 
 - content_for :under_content_gray do
-  .title
-    = link_to "Foire aux questions", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
-  .p.soft-half--bottom.bordered--bottom
-    = link_to "Que faire après avoir reçu une demande d'information d'un élève potentiel ?", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
-  .p.soft-half--ends.bordered--bottom
-    = link_to "Que faire s'il ne s'agit pas d'une véritable demande d'information ?", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
-  .p.soft-half--ends.bordered--bottom
-    = link_to "Que se passe-t-il si je laisse expirer une demande d'information ?", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
-  .p.soft-half--ends
-    = link_to "Comment faire pour recevoir encore plus de demandes d'information ?", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
-
+  = render 'participation_request_mailer/shared/teacher_faq'

@@ -46,5 +46,17 @@ namespace :scheduler do
         end
       end
     end
+
+    # Send email to admin if he has a user request not answered that is 2 days old
+    # $ rake scheduler:admins:remind_for_participation_requests_2
+    desc 'Send email to admins who have user requests not answered'
+    task :recap => :environment do |t, args|
+      participation_requests = ParticipationRequest.accepted.where( ParticipationRequest.arel_table[:date].gteq(Date.tomorrow).and(
+                                                                    ParticipationRequest.arel_table[:date].lt(Date.tomorrow + 1.day)) )
+      # Group request
+      participation_requests.group_by(&:structure).each do |structure, participation_requests|
+        ParticipationRequestMailer.delay.recap_for_teacher(structure, participation_requests)
+      end
+    end
   end
 end

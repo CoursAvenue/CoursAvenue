@@ -51,7 +51,7 @@ class Structure < ActiveRecord::Base
 
   has_many :price_groups              , dependent: :destroy
   has_many :prices                    , through: :price_groups
-  has_many :orders
+  has_many :orders                    , -> { where type: 'Order::SubscriptionPlan'}
   has_many :participation_requests
 
   define_has_many_for :funding_type

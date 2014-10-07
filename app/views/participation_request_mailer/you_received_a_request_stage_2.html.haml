@@ -20,29 +20,7 @@
   = render 'shared/mailers/footer'
 
 - content_for :under_content do
-  %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
-    %tr{ valign: 'top' }
-      %td.v-middle.content-block{ colspan: 3 }
-        .title Récapitulatif de la demande d'inscription
-    %tr{ valign: 'top' }
-      %td.v-middle.content-block{ width: '15%' }
-        = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank', class: 'block' do
-          = image_tag @structure.logo.url(:thumb), class: 'block', height: 60, width: 60, alt: "Logo de #{@structure.name}"
-      %td.v-middle.content-block{ width: '25%' }
-        .p
-          %strong Cours d'essai
-          %br
-          %strong Jour et créneau
-          %br
-          %strong Lieu
-      %td.v-middle.content-block{ width: '60%' }
-        .p
-          = @participation_request.course.name
-          %br
-          = "#{l(@participation_request.date, format: :semi_short)} de #{l(@participation_request.start_time, format: :short)} à #{l(@participation_request.end_time, format: :short)}"
-          %br
-          = @participation_request.planning.place.name
-
+  = render partial: 'participation_request_mailer/shared/participation_recap', locals: { participation_request: @participation_request }
 
 - content_for :under_content_gray do
   .title

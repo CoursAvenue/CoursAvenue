@@ -6,7 +6,7 @@ describe Order do
 
   describe '#next_order_id_for' do
     it 'increments order_id' do
-      order_id = Order.next_order_id_for(structure)
+      order_id = Order::SubscriptionPlan.next_order_id_for(structure)
       expect(order_id).to eq "FR#{Date.today.year}#{structure.id}#{structure.orders.count + 1}"
     end
   end

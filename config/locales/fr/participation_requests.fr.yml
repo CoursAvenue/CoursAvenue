@@ -5,7 +5,7 @@ fr:
   participation_request:
     state:
       accepted: Confirmé
-      pending: En attente
+      pending: En attente de confirmation
       declined: Annulé
       long_description:
         accepted_html: "<strong>Inscription confirmée</strong> pour l'élève <strong>%{user_name}</strong> au cours d'essai du <strong>%{date}</strong> (%{course_name})"

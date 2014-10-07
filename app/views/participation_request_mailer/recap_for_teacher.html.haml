@@ -1,0 +1,40 @@
+- content_for :email_title do
+  Voici un récapitulatif de vos inscriptions pour demain.
+
+.p
+  Bonjour,
+
+.p
+  Voici un récapitulatif de vos inscriptions pour demain. Vous recevrez #{pluralize @nb_users, 'élève'}
+
+- @participation_requests.group_by(&:course).each do |course, groupped_participation_requests|
+  - # If there is multiple request on same course but different time
+  - if groupped_participation_requests.group_by(&:start_time).length > 1
+    .p
+      %strong= course.name
+      - groupped_participation_requests.group_by(&:start_time).each do |start_time, groupped_groupped_participation_requests|
+        %br
+        %strong= "À #{l(start_time, format: :short)} :"
+        - groupped_groupped_participation_requests.each do |participation_request|
+          %br
+          = "- #{participation_request.user.name}"
+  - else
+    .p
+      %strong= "#{course.name} (#{l(groupped_participation_requests.first.start_time, format: :short)})"
+      - groupped_participation_requests.each do |participation_request|
+        %br
+        = "- #{participation_request.user.name}"
+
+.p
+  - if @nb_users > 1
+    Pour toute annulation, avertissez votre élève dès maintenant :
+  - else
+    Pour toute annulation, avertissez vos élèves dès maintenant :
+
+.p.action
+  = link_to 'Modifier ou annuler mes inscriptions', pro_structure_participation_requests_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn'
+
+.p
+  Très bon cours !
+
+= render 'shared/mailers/footer'

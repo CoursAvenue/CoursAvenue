@@ -23,20 +23,20 @@
           - if conversation_request_count > 0
             .push-half--left.lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::DISCOVERYPASSREQUEST.color}"}= conversation_request_count
             %strong Pass Découverte
-      .grid
-        .grid__item.one-third>
-          %select#conversation_label{ name: 'conversation_label_id' }
-            %option{ value: '' } Tous les messages
-            %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::INFORMATION.id), value: Mailboxer::Label::INFORMATION.id } Demandes d'informations (#{conversation_information_count})
-            %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::COMMENT.id), value: Mailboxer::Label::COMMENT.id } Avis déposés (#{conversation_comment_count})
-            %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::CONVERSATION.id), value: Mailboxer::Label::CONVERSATION.id } Conversations (#{conversation_conversation_count})
-            - if conversation_request_count > 0
-              %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::DISCOVERYPASSREQUEST.id), value: Mailboxer::Label::DISCOVERYPASSREQUEST.id } Pass Découverte (#{conversation_request_count})
-        .grid__item.two-thirds.text--center>
-          = paginate @conversations, window: 1, outer_window: 3
-      - @conversations.each do |conversation|
-        - cache [conversation, 'pro/structures/conversation/index'] do
-          = render partial: 'pro/conversations/conversation', locals: { conversation: conversation }
+        .grid
+          .grid__item.one-third>
+            %select#conversation_label{ name: 'conversation_label_id' }
+              %option{ value: '' } Tous les messages
+              %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::INFORMATION.id), value: Mailboxer::Label::INFORMATION.id } Demandes d'informations (#{conversation_information_count})
+              %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::COMMENT.id), value: Mailboxer::Label::COMMENT.id } Avis déposés (#{conversation_comment_count})
+              %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::CONVERSATION.id), value: Mailboxer::Label::CONVERSATION.id } Conversations (#{conversation_conversation_count})
+              - if conversation_request_count > 0
+                %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::DISCOVERYPASSREQUEST.id), value: Mailboxer::Label::DISCOVERYPASSREQUEST.id } Pass Découverte (#{conversation_request_count})
+          .grid__item.two-thirds.text--center>
+            = paginate @conversations, window: 1, outer_window: 3
+        - @conversations.each do |conversation|
+          - cache [conversation, 'pro/structures/conversation/index'] do
+            = render partial: 'pro/conversations/conversation', locals: { conversation: conversation }
 
 
     .text--center.push--top= paginate @conversations, window: 1, outer_window: 3

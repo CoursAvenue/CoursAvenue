@@ -1,0 +1,40 @@
+- content_for :email_title do
+  Suite à votre modification de créneau, #{@user.name} vient de confirmer sa présence au cours d'essai "#{@course.name}"
+
+.p
+  Bonjour,
+
+.p
+  Suite à votre modification de créneau, #{@user.name} vient de confirmer sa présence au cours d'essai "#{@course.name}" le
+  %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}"
+  - if @place
+    au #{@place.address} (#{@place.name}).
+  En cas d'annulation, de changement d'horaire ou si vous souhaitez tout simplement lui envoyer une information supplémentaire, envoyez-lui un message depuis votre onglet "Suvi des inscriptions" :
+
+.p.action
+  = link_to "Visualiser mes inscriptions", pro_structure_participation_requests_path(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
+
+- if @message
+  = render partial: 'mailboxer_message_mailer/message_to_admin', locals: { message: @message, user: @user, show_phone_number: false }
+
+
+%table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
+  %tr{ valign: 'top' }
+    %td.v-middle.content-block{ width: 475 }
+      .p.soft-half--top
+        Pour assurer la meilleure qualité de service, plus vous répondez vite, plus votre profil montera dans les résultats de recherche. Sans réponse de votre part dans les
+        %strong 2&nbsp;prochains jours,
+        la demande d'information de
+        = @user.name
+        sera expirée.
+    %td.text--center.v-middle.soft--top.content-block{ width: 125 }
+      = image_tag 'emails_logo/48hours.png', width: 60, height: 95, alt: 'Vous avez 48 heures'
+
+.soft-half--top
+  = render 'shared/mailers/footer'
+
+- content_for :under_content do
+  = render partial: 'participation_request_mailer/shared/participation_recap', locals: { participation_request: @participation_request }
+
+- content_for :under_content_gray do
+  = render 'participation_request_mailer/shared/teacher_faq'

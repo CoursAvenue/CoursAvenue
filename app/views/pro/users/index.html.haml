@@ -2,6 +2,10 @@
 
 .panel
   = render partial: 'pro/shared/dashboard_tabs', locals: { current: 'users' }
+
+  .push-half
+    %input.input--large.one-whole#search-input{ type: 'text', placeholder: 'Cherchez un élève' }
+
   .panel__body.soft--ends
     .text--center
       .gamma
@@ -60,6 +64,10 @@
 
     .text--center.push-half--ends= paginate @users, window: 1, outer_window: 3
 
+%script#user-item-template{:type => 'text/x-handlebars-template'}
+  %div{ style: 'font-size: 13px;' }
+    {{name}} ({{email}})
+
 = content_for :scripts do
   :javascript
     $(function() {
@@ -77,5 +85,26 @@
             xAxis: { categories: #{@users_cumul.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
             yAxis: { title: { text: ''}},
             series: [{ data: #{@users_cumul.map{|date, count| (count > 10000 ? 100 : count)}} }]
+        });
+        var template = Handlebars.compile($('#user-item-template').html());
+        var engine   = new Bloodhound({
+          datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.num); },
+          queryTokenizer: Bloodhound.tokenizers.whitespace,
+          remote: Routes.pro_users_path({format: 'json'}) + '?name=%QUERY'
+        });
+        engine.initialize();
+        $('#search-input').typeahead({
+            highlight : true
+          }, [
+          {
+            templates: {
+                suggestion: template
+            },
+            limit: 10,
+            source: engine.ttAdapter()
+          }
+        ]);
+        $('#search-input').on('typeahead:selected', function(event, data){
+            window.open('https://www.coursavenue.com/eleves/' + data.slug);
         });
     });

@@ -16,8 +16,8 @@ class Users::ParticipationRequestsController < ApplicationController
     render layout: false
   end
 
-  # GET eleves/:user_id/participation_request/:id/decline_form
-  def decline_form
+  # GET eleves/:user_id/participation_request/:id/cancel_form
+  def cancel_form
     @participation_request = @user.participation_requests.find(params[:id])
     render layout: false
   end

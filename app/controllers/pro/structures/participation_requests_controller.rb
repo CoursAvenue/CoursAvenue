@@ -16,8 +16,8 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     render layout: false
   end
 
-  # GET pro/etablissements/:structure_id/participation_request/:id/decline_form
-  def decline_form
+  # GET pro/etablissements/:structure_id/participation_request/:id/cancel_form
+  def cancel_form
     @participation_request = @structure.participation_requests.find(params[:id])
     render layout: false
   end
@@ -44,6 +44,15 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
   def decline
     @participation_request = @structure.participation_requests.find(params[:id])
     @participation_request.decline!(params[:participation_request][:message][:body], 'Structure')
+    respond_to do |format|
+      format.html { redirect_to pro_structure_conversation_path(@structure, @participation_request.conversation), notice: 'Votre message a bien été envoyé' }
+    end
+  end
+
+  # PUT pro/etablissements/:structure_id/participation_request/:id/cancel
+  def cancel
+    @participation_request = @structure.participation_requests.find(params[:id])
+    @participation_request.cancel!(params[:participation_request][:message][:body], 'Structure')
     respond_to do |format|
       format.html { redirect_to pro_structure_conversation_path(@structure, @participation_request.conversation), notice: 'Votre message a bien été envoyé' }
     end

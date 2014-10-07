@@ -37,15 +37,17 @@
             // Check if the element has already been initialized before doing the stuff
             if (this.$element.hasClass('tt-hint')) { return; }
             var geocoder;
-            this.input_lat    = $(this.$element.data('lat'));
-            this.input_lng    = $(this.$element.data('lng'));
-            this.input_city   = $(this.$element.data('city'));
-            this.input_radius = $(this.$element.data('radius'));
-            this.input_zoom   = $(this.$element.data('zoom'));
+            this.input_lat          = $(this.$element.data('lat'));
+            this.input_lng          = $(this.$element.data('lng'));
+            this.input_city         = $(this.$element.data('city'));
+            this.input_address_name = $(this.$element.data('address-name'));
+            this.input_radius       = $(this.$element.data('radius'));
+            this.input_zoom         = $(this.$element.data('zoom'));
             geocoder            = new google.maps.Geocoder();
             this.$element.on('typeahead:selected', function(event, data) {
                 this.input_lat.val(data.lat);
                 this.input_lng.val(data.lng);
+                this.input_address_name.val(data.address_name);
                 this.input_city.val(data.city);
                 this.input_radius.val(data.radius);
                 this.input_radius.val(data.radius);
@@ -63,14 +65,7 @@
                         this.latest_results = parsedResponse.results;
                         // query = query + ' France';
                         return _.map(parsedResponse.results, function (result) {
-                            var city, arrAddress = result.address_components;
-                            // iterate through address_component array to keep only locality type
-                            $.each(arrAddress, function (i, address_component) {
-                                if (address_component.types[0] == "locality") {// locality type
-                                    city = address_component.long_name;
-                                    return false; // break the loop
-                                }
-                            });
+                            var city = this.getCityFromAddress(result.address_components);
                             return {
                                 city        : city,
                                 lat         : result.geometry.location.lat,
@@ -87,9 +82,11 @@
             // Select first of latest results when blurring the input
             this.$element.blur(function() {
                 if (this.latest_results.length > 0) {
+                    var city = this.getCityFromAddress(this.latest_results[0].address_components);
+                    this.input_city.val(city);
                     this.input_lat.val(this.latest_results[0].geometry.location.lat);
                     this.input_lng.val(this.latest_results[0].geometry.location.lng);
-                    this.input_city.val(this.latest_results[0].formatted_address);
+                    this.input_address_name.val(this.latest_results[0].formatted_address);
                     this.input_radius.val(this.getRadiusFromType(this.latest_results[0].types[0]));
                     this.input_zoom.val(this.getZoomFromType(this.latest_results[0].types[0]));
                     this.$element.typeahead('val', this.latest_results[0].formatted_address);
@@ -126,6 +123,17 @@
               case 'locality'      : return 12;
               default              : return 12;
             }
+        },
+        getCityFromAddress: function getCityFromAddress (arrAddress) {
+            // iterate through address_component array to keep only locality type
+            var city;
+            $.each(arrAddress, function (i, address_component) {
+                if (address_component.types[0] == "locality") {// locality type
+                    city = address_component.long_name;
+                    return false; // break the loop
+                }
+            });
+            return city;
         }
     };
 

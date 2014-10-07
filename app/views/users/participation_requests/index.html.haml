@@ -24,10 +24,11 @@
                   = t "participation_request.state.#{participation_request.state}"
                 %td
                   - place = participation_request.planning.place
-                  = place.address
-                  - if place.info.present? or place.private_info.present?
-                    %a.btn.btn--small{ data: { toggle: 'popover', content: t('places.infos', info: place.info, private_info: place.private_info), html: 'true', placement: 'top', trigger: 'hover' } }
-                      Infos
+                  - if place
+                    = place.address
+                    - if place.info.present? or place.private_info.present?
+                      %a.btn.btn--small{ data: { toggle: 'popover', content: t('places.infos', info: place.info, private_info: place.private_info), html: 'true', placement: 'top', trigger: 'hover' } }
+                        Infos
                 %td
                   = link_to participation_request.structure.name, structure_path(participation_request.structure), target: :_blank
                 %td
@@ -35,6 +36,6 @@
                 %td
                   = link_to 'Proposer un autre créneau', edit_user_participation_request_path(@user, participation_request, return_to: user_participation_requests_path(@user)), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
                   %br
-                  = link_to "Annuler l'inscription", decline_form_user_participation_request_path(@user, participation_request, return_to: user_participation_requests_path(@user)), class: 'red nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+                  = link_to "Annuler l'inscription", cancel_form_user_participation_request_path(@user, participation_request, return_to: user_participation_requests_path(@user)), class: 'red nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
                   %br
                   = link_to 'Historique des messages', user_conversation_path(@user, participation_request.conversation)

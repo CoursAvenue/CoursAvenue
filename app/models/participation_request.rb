@@ -1,6 +1,8 @@
 class ParticipationRequest < ActiveRecord::Base
 
-  STATE = %w(accepted pending declined)
+  # Declined: when the user decline the proposition made by the other user
+  # Canceled: when the teacher cancel after having changed hours or accepted
+  STATE = %w(accepted pending declined canceled)
 
   attr_accessible :state, :date, :start_time, :end_time, :mailboxer_conversation_id, :planning_id, :last_modified_by
 
@@ -19,6 +21,7 @@ class ParticipationRequest < ActiveRecord::Base
   ######################################################################
   before_create :set_default_attributes
   after_create :send_email_to_teacher
+  after_create :send_email_to_user
 
   ######################################################################
   # Validation                                                         #
@@ -30,6 +33,7 @@ class ParticipationRequest < ActiveRecord::Base
   # Scopes                                                             #
   ######################################################################
   scope :accepted, -> { where( state: 'accepted') }
+  scope :upcoming, -> { where( arel_table[:date].gt(Date.today) }
 
   #
   # Create a ParticipationRequest if everything is correct, and if it is, it also create a conversation
@@ -71,35 +75,65 @@ class ParticipationRequest < ActiveRecord::Base
   # @param message String
   #
   # @return Boolean
-  def accept!(message, last_modified_by='Structure')
+  def accept!(message_body, last_modified_by='Structure')
     self.last_modified_by = last_modified_by
     self.state = 'accepted'
-    self.structure.main_contact.reply_to_conversation(self.conversation, message) if message.present?
+    message = reply_to_conversation(message_body, last_modified_by)
     self.save
-    ParticipationRequestMailer.delay.request_has_been_accepted(self)
+    if self.last_modified_by == 'Structure'
+      ParticipationRequestMailer.delay.request_has_been_accepted_by_teacher_to_user(self, message)
+    elsif self.last_modified_by == 'User'
+      ParticipationRequestMailer.delay.request_has_been_accepted_by_user_to_teacher(self, message)
+    end
   end
 
   # Modify request and inform user about it
   # @param message String
   #
   # @return Boolean
-  def modify_date!(message, new_params, last_modified_by='Structure')
+  def modify_date!(message_body, new_params, last_modified_by='Structure')
     self.last_modified_by = last_modified_by
     self.update_attributes new_params
-    self.structure.main_contact.reply_to_conversation(self.conversation, message) if message.present?
+    message = reply_to_conversation(message_body, last_modified_by)
     self.state = 'pending'
     self.save
+    if self.last_modified_by == 'Structure'
+      ParticipationRequestMailer.delay.request_has_been_modified_by_teacher_to_user(self, message)
+    elsif self.last_modified_by == 'User'
+      ParticipationRequestMailer.delay.request_has_been_modified_by_user_to_teacher(self, message)
+    end
   end
 
-  # [accept! description]
+  # Decline proposition made by user
   # @param message [type] [description]
   #
   # @return Boolean
-  def decline!(message, last_modified_by='Structure')
+  def decline!(message_body, last_modified_by='Structure')
     self.last_modified_by = last_modified_by
     self.state = 'declined'
-    self.structure.main_contact.reply_to_conversation(self.conversation, message)
+    message = reply_to_conversation(message_body, last_modified_by)
     self.save
+    if self.last_modified_by == 'Structure'
+      ParticipationRequestMailer.delay.request_has_been_declined_by_teacher_to_user(self)
+    elsif self.last_modified_by == 'User'
+      ParticipationRequestMailer.delay.request_has_been_declined_by_user_to_teacher(self)
+    end
+  end
+
+  # Cancel a proposition
+  # @param message [type] [description]
+  #
+  # @return Boolean
+  def cancel!(message, last_modified_by='Structure')
+    self.last_modified_by = last_modified_by
+    self.state = 'canceled'
+    message    = reply_to_conversation(message_body, last_modified_by)
+    self.save
+    if self.last_modified_by == 'Structure'
+      ParticipationRequestMailer.delay.request_has_been_canceled_by_teacher_to_user(self)
+    elsif self.last_modified_by == 'User'
+      ParticipationRequestMailer.delay.request_has_been_canceled_by_user_to_teacher(self)
+    end
   end
 
   private
@@ -127,7 +161,30 @@ class ParticipationRequest < ActiveRecord::Base
     true
   end
 
+  # When a request is created (always by user), we alert the teacher
+  #
+  # @return nil
   def send_email_to_teacher
     ParticipationRequestMailer.delay.you_received_a_request(self)
+    nil
+  end
+
+  # When a request is created we alert the user by email
+  #
+  # @return nil
+  def send_email_to_user
+    ParticipationRequestMailer.delay.you_sent_a_request(self)
+    nil
+  end
+
+  def reply_to_conversation(message_body, last_modified_by)
+    if message_body.present?
+      if last_modified_by == 'Structure'
+        receipt = self.structure.main_contact.reply_to_conversation(self.conversation, message_body)
+      else
+        receipt = self.user.reply_to_conversation(self.conversation, message_body)
+      end
+      message = receipt.message
+    end
   end
 end
