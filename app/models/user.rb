@@ -508,6 +508,18 @@ class User < ActiveRecord::Base
     return self.zip_code.starts_with? '75','77','78','91','92','93','94','95'
   end
 
+  # Retuns the sponsorship slug or the slug if it is not defined
+  #
+  # @return String
+  def sponsorship_slug
+    if read_attribute(:sponsorship_slug).nil?
+      self.slug
+      self.sponsorship_slug = self.slug
+    else
+      self.sponsorship_slug
+    end
+  end
+
   private
 
   def random_string
