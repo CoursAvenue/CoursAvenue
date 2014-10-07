@@ -512,10 +512,11 @@ class User < ActiveRecord::Base
   # @return String
   def sponsorship_slug
     if read_attribute(:sponsorship_slug).nil?
-      self.slug
       self.sponsorship_slug = self.slug
+      write_attribute(:sponsorship_slug, self.slug)
+      self.slug
     else
-      self.sponsorship_slug
+      read_attribute(:sponsorship_slug)
     end
   end
 
