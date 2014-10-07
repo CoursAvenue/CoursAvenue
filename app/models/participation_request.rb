@@ -32,6 +32,7 @@ class ParticipationRequest < ActiveRecord::Base
   # Scopes                                                             #
   ######################################################################
   scope :accepted, -> { where( state: 'accepted') }
+  scope :pending,  -> { where( state: 'pending') }
   scope :upcoming, -> { where( arel_table[:date].gt(Date.today)) }
 
   #

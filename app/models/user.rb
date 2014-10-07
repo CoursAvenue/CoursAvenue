@@ -57,7 +57,7 @@ class User < ActiveRecord::Base
   has_many :followings
 
   has_many :discovery_passes
-  has_many :orders, -> { where(type: 'Order::Pass') }
+  has_many :orders, class_name: 'Order::Pass'
   has_many :participation_requests
   has_many :sponsorships
 
@@ -521,6 +521,14 @@ class User < ActiveRecord::Base
     else
       read_attribute(:sponsorship_slug)
     end
+  end
+
+  # Tells wether the user left a review on a specific Structure
+  # @param structure
+  #
+  # @return Boolean
+  def has_left_a_review_on?(structure)
+    self.comments.where(commentable_id: structure.id, commentable_type: 'Structure').any?
   end
 
   private

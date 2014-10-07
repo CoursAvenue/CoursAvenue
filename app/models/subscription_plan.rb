@@ -57,7 +57,7 @@ class SubscriptionPlan < ActiveRecord::Base
   ######################################################################
   # Relations                                                          #
   ######################################################################
-  has_many :orders, -> { where(type: 'Order::Premium') }
+  has_many :orders, class_name: 'Order::Premium'
   belongs_to :structure
   belongs_to :promotion_code
 
