@@ -12,8 +12,6 @@ class Order::Premium < Order
   ######################################################################
   after_create :increment_promotion_code_nb
 
-  attr_accessible :type, :order_id, :amount, :structure, :subscription_plan, :promotion_code_id
-
   validates :structure, :subscription_plan, presence: true
 
   def self.next_order_id_for(structure)

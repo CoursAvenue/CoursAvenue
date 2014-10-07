@@ -20,7 +20,7 @@
                     ma photo
               %h3.text--center.push-half--ends= @user.full_name
               .push-half--ends
-                = link_to "Modifier le profil", dashboard_user_path(@user)
+                = link_to "Modifier mon profil", dashboard_user_path(@user)
               %div
                 = link_to 'Partager', "https://www.facebook.com/sharer/sharer.php?u=https://www.coursavenue.com", class: 'btn btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'User / Share on Facebook', 'click', 'From dashboard page')"
 
