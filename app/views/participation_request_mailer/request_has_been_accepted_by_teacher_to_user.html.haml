@@ -53,6 +53,7 @@
     .title Vos séances à venir
     - @upcoming_participation_requests.each do |upcoming_participation_request|
       = render partial: 'participation_request_mailer/shared/user_participation_recap', locals: { participation_request: upcoming_participation_request, show_header: false }
+      %hr
 
 - content_for :under_content_gray do
   = render 'participation_request_mailer/shared/user_faq'
