@@ -386,6 +386,7 @@ CoursAvenue::Application.routes.draw do
         get   :add_invited_friends
       end
     end
+    resources :orders, only: [:index, :show], controller: 'users/orders', path: 'mes-factures'
     resources :discovery_passes, only: [:show, :new], path: 'pass-decouverte', controller: 'users/discovery_passes' do
       collection do
         get :payment_confirmation, path: 'confirmation-paiement'

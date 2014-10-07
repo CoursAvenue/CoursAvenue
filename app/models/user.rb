@@ -56,6 +56,7 @@ class User < ActiveRecord::Base
   has_many :followings
 
   has_many :discovery_passes
+  has_many :orders, -> { where(type: 'Order::Pass') }
   has_many :participation_requests
   has_many :sponsorships
 

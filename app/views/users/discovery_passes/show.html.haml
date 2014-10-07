@@ -18,6 +18,11 @@
           -#   = link_to 'parrainez vos amis'
         %hr.push--ends
         .soft--sides
+          %h4 Historique des factures
+          %p
+            = link_to "Voir l'historique des factures.", user_orders_path(@user)
+        %hr.push--ends
+        .soft--sides
           %h4 Gestion de votre abonnement
           %p
             - if @discovery_pass.canceled?

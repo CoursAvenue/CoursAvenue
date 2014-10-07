@@ -33,7 +33,7 @@ class ParticipationRequest < ActiveRecord::Base
   # Scopes                                                             #
   ######################################################################
   scope :accepted, -> { where( state: 'accepted') }
-  scope :upcoming, -> { where( arel_table[:date].gt(Date.today) }
+  scope :upcoming, -> { where( arel_table[:date].gt(Date.today)) }
 
   #
   # Create a ParticipationRequest if everything is correct, and if it is, it also create a conversation
