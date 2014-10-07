@@ -8,6 +8,7 @@ class DiscoveryPass < ActiveRecord::Base
   # Callbacks                                                          #
   ######################################################################
   after_create :inform_user_of_success
+  before_create :set_expires_at
 
   ######################################################################
   # Relations                                                          #
@@ -22,16 +23,6 @@ class DiscoveryPass < ActiveRecord::Base
   store_accessor :meta_data, :cancelation_reason_text, :cancelation_reason_i_dont_want_to_try_more_courses, :cancelation_reason_i_found_a_course
 
   define_boolean_accessor_for :meta_data, :cancelation_reason_i_dont_want_to_try_more_courses, :cancelation_reason_i_found_a_course
-
-  #
-  # Generates a unique Order ID for a given user
-  # @param user [type] [description]
-  #
-  # @return String: Unique string
-  def self.next_order_id_for_user user
-    order_number = user.discovery_passes.count + 1
-    "FR#{Date.today.year}_#{user.id}#{order_number}"
-  end
 
   def self.hash_be2bill_params params
     require 'digest'
@@ -62,13 +53,7 @@ class DiscoveryPass < ActiveRecord::Base
     return if self.canceled?
     require 'net/http'
 
-    extra_data = { renew: true, plan_type: self.plan_type }
-    # Passes promotion code only if the promotion code still applies on the renew
-    if self.promotion_code and self.promotion_code.still_apply?
-      extra_data[:promotion_code_id] = self.promotion_code_id
-    else
-      extra_data[:promotion_code_id] = nil
-    end
+    extra_data = { renew: true }
     params_for_hash = {
       'ALIAS'           => self.be2bill_alias,
       'ALIASMODE'       => 'subscription',
@@ -78,7 +63,7 @@ class DiscoveryPass < ActiveRecord::Base
       'DESCRIPTION'     => "Renouvellement :  Pass découverte",
       'IDENTIFIER'      => ENV['BE2BILL_LOGIN'],
       'OPERATIONTYPE'   => 'payment',
-      'ORDERID'         => self.next_order_id_for_user(self.user),
+      'ORDERID'         => Order::Pass.next_order_id_for(self.user),
       'VERSION'         => '2.0',
       'CLIENTUSERAGENT' => 'Mozilla/5.0 (Windows NT 6.1; WOW64)',
       'CLIENTIP'        => self.client_ip,
@@ -207,4 +192,8 @@ class DiscoveryPass < ActiveRecord::Base
     DiscoveryPassMailer.delay.your_discovery_pass_is_active(self)
   end
 
+  def set_expires_at
+    expires_at ||= 1.month.from_now
+    renewed_at ||= 1.month.from_now
+  end
 end

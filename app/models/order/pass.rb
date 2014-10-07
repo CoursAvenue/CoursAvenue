@@ -9,8 +9,14 @@ class Order::Pass < Order
   # Callbacks                                                          #
   ######################################################################
 
-  def self.next_order_id_for(structure)
-    order_number = structure.orders.count + 1
-    "FR#{Date.today.year}#{structure.id}#{order_number}"
+  #
+  # Generates a unique Order ID for a given user
+  # @param user
+  #
+  # @return String: Unique string
+  def self.next_order_id_for user
+    order_number = user.orders.count + 1
+    "FR#{Date.today.year}_#{user.id}#{order_number}"
   end
+
 end
