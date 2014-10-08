@@ -102,7 +102,7 @@ describe User do
   # end
 
   context :sponsorship do
-    describe '#update_sponsorship' do
+    describe '#update_sponsorship_status' do
       let (:user)           { FactoryGirl.create(:user) }
       let (:sponsored_user) {
         user = FactoryGirl.build(:user_redux)
