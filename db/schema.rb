@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141008153311) do
+ActiveRecord::Schema.define(version: 20141008160020) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -296,7 +296,7 @@ ActiveRecord::Schema.define(version: 20141008153311) do
     t.datetime "updated_at"
     t.hstore   "meta_data"
     t.integer  "sponsorship_id"
-    t.integer  "remaining_credit",       default: 38
+    t.float    "remaining_credit",       default: 38.0
   end
 
   create_table "emailing_section_bridges", force: true do |t|
@@ -527,7 +527,6 @@ ActiveRecord::Schema.define(version: 20141008153311) do
     t.time     "end_time"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "last_modified_by"
     t.integer  "course_id"
   end
 
