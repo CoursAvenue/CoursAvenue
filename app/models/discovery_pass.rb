@@ -133,23 +133,25 @@ class DiscoveryPass < ActiveRecord::Base
 
   # See amount
   #
-  # @return Integer next amount to pay, Be2bill formatted
+  # @return Integer the next amount to pay, Be2bill formatted
   def amount_for_be2bill
     self.amount * 100
   end
 
 
   # The amount to pay at the next renewal, taking sponsorships into account.
+  # We also need to make sure the User can only have two months for free.
   #
-  # @return Integer next amount to pay
+  # @return Integer the next amount to pay
   def next_amount
+    return PRICE if self.remaining_credit == 0
+
     amount = PRICE
     sponsorships = self.user.sponsorships.where(state: "bought")
 
     sponsorships.each do |sponsorship|
       if (amount - Sponsorship::USER_WHO_SPONSORED_CREDIT) > 0
-        amount -= Sponsorship::USER_WHO_HAVE_BEEN_SPONSORED_CREDIT
-        sponsorship.update_state
+        amount -= Sponsorship::USER_WHO_SPONSORED_CREDIT
       else
         break
       end
