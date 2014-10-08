@@ -16,7 +16,6 @@ class PaymentNotification::Be2bill < PaymentNotification
   # @return nil
   def finalize_payment_for_discovery_pass
     params['EXTRADATA'] = JSON.parse(params['EXTRADATA']) unless params['EXTRADATA'].is_a? Hash
-
     if payment_succeeded?
       if is_a_renewal?
         discovery_pass = self.user.discovery_pass
@@ -27,6 +26,9 @@ class PaymentNotification::Be2bill < PaymentNotification
                                   card_validity_date: (params['CARDVALIDITYDATE'] ? Date.strptime(params['CARDVALIDITYDATE'], '%m-%y') : nil),
                                   client_ip:          params['CLIENT_IP']
                                 }
+        if params['EXTRADATA']['sponsorship_id'].present? and (sponsorship = Sponsorship.where(id: params['EXTRADATA'][:sponsorship_id]).first)
+          discovery_pass_params[:sponsorship] = sponsorship
+        end
         discovery_pass = self.user.discovery_passes.create(discovery_pass_params)
       end
       self.user.orders.create(amount: discovery_pass.amount,

@@ -58,7 +58,7 @@ class Users::DiscoveryPassesController < Pro::ProController
       'OPERATIONTYPE' => 'payment',
       'ORDERID'       => @order_id,
       'VERSION'       => '2.0',
-      'EXTRADATA'     => extra_data.merge({ promotion_code_id: @promotion_code.try(:id), product_type: 'discovery_pass'}).to_json
+      'EXTRADATA'     => extra_data.merge({ sponsorship_id: @discovery_pass.sponsorship.try(:id), product_type: 'discovery_pass'}).to_json
     }
     @be2bill_params['HASH'] = DiscoveryPass.hash_be2bill_params @be2bill_params
   end

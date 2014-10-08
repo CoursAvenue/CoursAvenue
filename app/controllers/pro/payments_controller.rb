@@ -35,6 +35,7 @@ class Pro::PaymentsController < Pro::ProController
   end
 
   # GET /paiement/be2bill_confirmation
+  # Page on which user is redirected after BE2BILL payment
   # Payment confirmation page called by Be2bill
   # Redirect to payment confirmation in order to removes all the parameters from the URL
   def be2bill_confirmation
