@@ -24,12 +24,16 @@ describe DiscoveryPass, :type => :model do
         expect(sponsorship.state).to eq "bought"
       end
 
-      it "updates the sponsor's credit" do
-        expect { sponsored_user.discovery_passes.create }.to change { sponsor.sponsorship_credit }.by(Sponsorship::USER_WHO_SPONSORED_CREDIT)
+      it "updates the sponsor's next amount" do
+        sponsor.discovery_passes.create
+
+        expect { sponsored_user.discovery_passes.create }.to change { sponsor.discovery_passes.first.next_amount }.by(- Sponsorship::USER_WHO_SPONSORED_CREDIT)
       end
 
       it "updates the sponsored user's credit" do
-        expect { sponsored_user.discovery_passes.create }.to change { sponsored_user.sponsorship_credit }.by(Sponsorship::USER_WHO_HAVE_BEEN_SPONSORED_CREDIT)
+        pass = sponsored_user.discovery_passes.create
+
+        expect { pass.sponsorship = sponsorship }.to change { pass.amount }.by(- Sponsorship::USER_WHO_HAVE_BEEN_SPONSORED_CREDIT)
       end
     end
   end
