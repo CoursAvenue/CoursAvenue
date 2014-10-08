@@ -125,7 +125,7 @@ class DiscoveryPass < ActiveRecord::Base
   # @return Integer
   def amount
     if sponsorship
-      PRICE - sponsorship.credit
+      PRICE - sponsorship.credit_for_sponsored_user
     else
       PRICE
     end
@@ -139,10 +139,23 @@ class DiscoveryPass < ActiveRecord::Base
   end
 
 
-  # TODO: check with sponsorships
+  # The amount to pay at the next renewal, taking sponsorships into account.
+  #
   # @return Integer next amount to pay
   def next_amount
-    PRICE
+    amount = PRICE
+    sponsorships = self.user.sponsorships.where(state: "bought")
+
+    sponsorships.each do |sponsorship|
+      if (amount - Sponsorship::USER_WHO_SPONSORED_CREDIT) > 0
+        amount -= Sponsorship::USER_WHO_HAVE_BEEN_SPONSORED_CREDIT
+        sponsorship.update_state
+      else
+        break
+      end
+    end
+
+    amount
   end
 
   # See next_amount

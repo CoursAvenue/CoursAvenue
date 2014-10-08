@@ -35,15 +35,18 @@ class Sponsorship < ActiveRecord::Base
   before_validation :set_promo_code
 
 
-  # Update the register status of the sponsored user.
+  # Update the status of the sponsorship.
   #
   # @return self
   def update_state
-    if self.sponsored_user.discovery_pass
+    if self.state == "bought"
+      self.state = "redeemed"
+    elsif self.sponsored_user.discovery_pass
       self.state = "bought"
     else
       self.state = "registered"
     end
+
     self.save
   end
 

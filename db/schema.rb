@@ -520,6 +520,7 @@ ActiveRecord::Schema.define(version: 20141008131405) do
     t.integer  "user_id"
     t.integer  "structure_id"
     t.string   "state"
+    t.string   "last_modified_by"
     t.date     "date"
     t.time     "start_time"
     t.time     "end_time"
@@ -939,9 +940,9 @@ ActiveRecord::Schema.define(version: 20141008131405) do
     t.date     "card_validity_date"
     t.integer  "promotion_code_id"
     t.datetime "last_renewal_failed_at"
+    t.hstore   "bo_meta_data"
     t.string   "paypal_token"
     t.string   "paypal_payer_id"
-    t.hstore   "bo_meta_data"
     t.string   "paypal_recurring_profile_token"
   end
 
