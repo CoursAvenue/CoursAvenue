@@ -12,7 +12,7 @@
       .p
         = "Grâce à #{@user.name}, bénéficiez de l'offre parrainage et obtenez votre Pass Découverte pour #{pass_price}€ au lieu de #{DiscoveryPass::PRICE}€ :"
       .p.action
-        = link_to "Obtenir mon Pass à #{pass_price}", @promo_code_url, class: 'btn btn--green'
+        = link_to "Obtenir mon Pass à #{pass_price}€", @promo_code_url, class: 'btn btn--green'
       .p Valable 1 mois et renouvelable, le Pass Découverte vous permet de suivre autant de cours d'essais que vous le souhaitez à Paris chez plus de 300 professeurs, écoles et associations.
 
 - if @text.present?
