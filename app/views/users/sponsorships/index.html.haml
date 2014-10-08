@@ -8,3 +8,16 @@
       = render partial: 'users/sponsorships/tabs', locals: { current: 'index' }
       .panel__header.soft
         %h3.flush Mes parrainages
+      .panel__body.soft
+        %table.table--data.table--striped
+          %thead
+            %tr
+              %th Amis
+              %th Statut
+              %th Gain
+          %tbody
+            - @sponsorships.each do |sponsorship|
+              %tr
+                %th= sponsorship.sponsored_user.email
+                %th= sponsorship.registered ? 'Gain' : 'En attente'
+                %th
