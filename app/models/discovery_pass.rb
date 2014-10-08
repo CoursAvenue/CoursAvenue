@@ -173,7 +173,7 @@ class DiscoveryPass < ActiveRecord::Base
     sponsorships = self.user.sponsorships.where(state: "bought")
 
     sponsorships.each do |sponsorship|
-      if credit > 0
+      if (credit - Sponsorship::USER_WHO_SPONSORED_CREDIT) > 0
         credit -= Sponsorship::USER_WHO_SPONSORED_CREDIT
       else
         break
