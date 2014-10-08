@@ -4,8 +4,8 @@ class Sponsorship < ActiveRecord::Base
   # Constants                                                          #
   ######################################################################
 
-  SPONSOR_CREDIT = 9 # €
-  SPONSORED_CREDIT = 9 # €
+  USER_WHO_HAVE_BEEN_SPONSORED_CREDIT   = 9 # €
+  USER_WHO_SPONSORED_CREDIT             = 9 # €
 
   ######################################################################
   # `attr` macros                                                      #
@@ -38,9 +38,27 @@ class Sponsorship < ActiveRecord::Base
   # Update the register status of the sponsored user.
   #
   # @return self
-  def update_registration_status
-    self.state = "registered"
+  def update_state
+    if self.sponsored_user.discovery_pass
+      self.state = "bought"
+    else
+      self.state = "registered"
+    end
     self.save
+  end
+
+  # How much a user gain to be sponsored
+  #
+  # @return Integer
+  def credit_for_sponsored_user
+    USER_WHO_HAVE_BEEN_SPONSORED_CREDIT
+  end
+
+  # How much a user gain to be sponsored
+  #
+  # @return Integer
+  def credit_for_sponsorer
+    USER_WHO_SPONSORED_CREDIT
   end
 
   private

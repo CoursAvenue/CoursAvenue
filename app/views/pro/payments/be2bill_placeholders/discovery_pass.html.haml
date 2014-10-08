@@ -1,6 +1,8 @@
 = user_menu_currently_at 'discovery_pass'
 
 .panel
+  .panel__header.soft
+    = render partial: 'users/discovery_passes/breadcrumb', locals: { current: 'recap' }
   .panel__body.soft.hard--bottom
     - if params[:AMOUNT] and params[:AMOUNT].to_i
       %p.text--right.epsilon

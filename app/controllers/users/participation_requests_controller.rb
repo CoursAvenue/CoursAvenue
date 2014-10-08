@@ -8,7 +8,7 @@ class Users::ParticipationRequestsController < ApplicationController
   # GET eleves/:user_id/participation_request/
   def index
     if !current_user.discovery_pass
-      redirect_to new_user_discovery_pass_path(current_user)
+      redirect_to user_discovery_passes_path(current_user)
     end
     @participation_requests = @user.participation_requests
   end

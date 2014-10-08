@@ -4,10 +4,9 @@ class SponsorshipsController < ApplicationController
   def show
     @sponsor = User.where(sponsorship_slug: params[:id]).first
     @sponsorship = nil
-
     if @sponsor.nil?
       @sponsorship = Sponsorship.where(promo_code: params[:id]).first
-      @sponsor = @sponsorship.user if @sponsorship.present?
+      @sponsor     = @sponsorship.user if @sponsorship.present?
     end
 
   end

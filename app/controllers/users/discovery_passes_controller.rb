@@ -36,15 +36,15 @@ class Users::DiscoveryPassesController < Pro::ProController
     end
   end
 
-  # GET etablissements/:structure_id/abonnements/new
+  # GET etablissements/:structure_id/abonnements/checkout
   def new
-    if current_user.discovery_pass
-      redirect_to user_participation_requests_path(current_user)
-    end
-    # @structure.send_promo_code! unless @structure.promo_code_sent?
     extra_data = {}
     @discovery_pass = @user.discovery_passes.build
-
+    if params[:promo_code] and (sponsor = Sponsorship.where(promo_code: params[:promo_code]).first)
+      @discovery_pass.sponsorship = sponsor
+    elsif @user.sponsors.any?
+      @discovery_pass.sponsorship = @user.sponsors.first
+    end
     @be2bill_description = "Pass découverte"
 
     @order_id = Order::Pass.next_order_id_for(@user)
@@ -63,11 +63,18 @@ class Users::DiscoveryPassesController < Pro::ProController
     @be2bill_params['HASH'] = DiscoveryPass.hash_be2bill_params @be2bill_params
   end
 
+  # GET etablissements/:structure_id/abonnements/new
+  def index
+    if current_user.discovery_pass
+      redirect_to user_participation_requests_path(current_user)
+    end
+  end
+
   protected
 
   def layout_locals
     locals = { hide_menu: true }
-    locals[:top_menu_header_class] = 'relative on-top' if action_name == 'new'
+    locals[:top_menu_header_class] = 'relative on-top' if action_name == 'index'
     locals
   end
 end

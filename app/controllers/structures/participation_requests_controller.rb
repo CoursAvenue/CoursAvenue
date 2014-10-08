@@ -7,7 +7,7 @@ class Structures::ParticipationRequestsController < ApplicationController
   # For an example of a message controller see:
   # https://github.com/ging/social_stream/blob/master/base/app/controllers/messages_controller.rb
   def create
-    @structure             = Structure.find params[:structure_id]
+    @structure = Structure.find params[:structure_id]
 
     if params[:participation_request][:user] and params[:participation_request][:user][:phone_number].present? and params[:participation_request][:user][:phone_number].length < 30
       current_user.phone_number = params[:participation_request][:user][:phone_number]

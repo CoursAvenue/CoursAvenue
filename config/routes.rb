@@ -387,7 +387,7 @@ CoursAvenue::Application.routes.draw do
       end
     end
     resources :orders, only: [:index, :show], controller: 'users/orders', path: 'mes-factures'
-    resources :discovery_passes, only: [:show, :new], path: 'pass-decouverte', controller: 'users/discovery_passes' do
+    resources :discovery_passes, only: [:index, :show, :new], path: 'pass-decouverte', controller: 'users/discovery_passes' do
       collection do
         get :payment_confirmation, path: 'confirmation-paiement'
         get :account
@@ -409,7 +409,7 @@ CoursAvenue::Application.routes.draw do
       end
     end
   end
-  resources :sponsorships, only: [:show], path: 'obtenir-mon-passe-decouverte'
+  resources :sponsorships, only: [:show], path: 'obtenir-mon-pass-decouverte'
   resources :emails, only: [:create]
 
   resources :visitors, only: [:create, :update, :index]

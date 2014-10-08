@@ -1,0 +1,12 @@
+fr:
+  activerecord:
+    models:
+      sponsorship: Parrainage
+    attributes:
+      sponsorship:
+        state: Status
+  sponsorships:
+    state:
+      pending: En attente
+      registered: Inscrit
+      bought: À acheté le Pass

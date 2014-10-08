@@ -59,9 +59,11 @@ class User < ActiveRecord::Base
   has_many :discovery_passes
   has_many :orders, class_name: 'Order::Pass'
   has_many :participation_requests
-  has_many :sponsorships
 
-  has_many :sponsorship, class_name: 'Sponsorship', foreign_key: 'sponsored_user_id'
+  # I have sponsored many users
+  has_many :sponsorships
+  # Other users had sponsored me
+  has_many :sponsors, class_name: 'Sponsorship', foreign_key: 'sponsored_user_id'
 
   has_and_belongs_to_many :subjects
   has_and_belongs_to_many :invited_participations, class_name: 'Participation'
@@ -598,9 +600,9 @@ class User < ActiveRecord::Base
   #
   # @return nil
   def update_sponsorship_status
-    if self.sponsorship.any?
-      self.sponsorship.each do |sponsorship|
-        sponsorship.update_registration_status
+    if self.sponsors.any?
+      self.sponsors.each do |sponsorship|
+        sponsorship.update_state
       end
     end
     nil

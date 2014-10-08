@@ -7,6 +7,7 @@ class DiscoveryPass < ActiveRecord::Base
   ######################################################################
   # Callbacks                                                          #
   ######################################################################
+  after_create :change_sponsorship_state
   after_create :inform_user_of_success
   before_create :set_expires_at
 
@@ -14,6 +15,7 @@ class DiscoveryPass < ActiveRecord::Base
   # Relations                                                          #
   ######################################################################
   belongs_to :user
+  belongs_to :sponsorship
 
   ######################################################################
   # Scope                                                              #
@@ -22,7 +24,7 @@ class DiscoveryPass < ActiveRecord::Base
   scope :expires_in_five_days,    -> { where( arel_table[:expires_at].gt(Date.today + 4.days).and(
                                               arel_table[:expires_at].lteq(Date.today + 5.days)) ) }
 
-  attr_accessible :expires_at, :renewed_at, :last_renewal_failed_at, :canceled_at,
+  attr_accessible :expires_at, :renewed_at, :last_renewal_failed_at, :canceled_at, :sponsorship,
                   :credit_card_number, :be2bill_alias, :client_ip, :card_validity_date,
                   :cancelation_reason_text, :cancelation_reason_i_dont_want_to_try_more_courses, :cancelation_reason_i_found_a_course
 
@@ -122,7 +124,11 @@ class DiscoveryPass < ActiveRecord::Base
   #
   # @return Integer
   def amount
-    PRICE
+    if sponsorship
+      PRICE - sponsorship.credit
+    else
+      PRICE
+    end
   end
 
   # See amount
@@ -182,7 +188,16 @@ class DiscoveryPass < ActiveRecord::Base
     DiscoveryPassMailer.delay.your_discovery_pass_is_active(self)
   end
 
+  # Set default expires at
   def set_expires_at
     self.expires_at ||= 1.month.from_now
+  end
+
+  # Update status of all Sponsorship attached to user that just bought the pass
+  #
+  # @return nil
+  def change_sponsorship_state
+    Sponsorship.where(sponsored_user_id: self.user.id).map(&:update_state)
+    nil
   end
 end
