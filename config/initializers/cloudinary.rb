@@ -4,4 +4,5 @@ Cloudinary.config do |config|
   config.api_key       = ENV['CLOUDINARY_API_KEY']
   config.api_secret    = ENV['CLOUDINARY_SECRET']
   config.secure        = true
+  config.sign_url      = true
 end
