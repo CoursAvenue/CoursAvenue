@@ -60,7 +60,7 @@ class StructuresController < ApplicationController
 
   # GET /etablissements/pass-decouverte
   def discovery_pass_search
-    redirect_to root_path if !current_user or (current_user and !current_user.discovery_pass)
+    redirect_to discovery_pass_path if !current_user or (current_user and !current_user.discovery_pass)
     params[:discovery_pass] = true
     if params[:root_subject_id].present? and params[:subject_id].blank?
       params[:subject_id] = params[:root_subject_id]
@@ -106,7 +106,7 @@ class StructuresController < ApplicationController
 
   # GET /etablissements/:id/pass-decouverte
   def discovery_pass
-    redirect_to root_path if !current_user or (current_user and !current_user.discovery_pass)
+    redirect_to discovery_pass_path if !current_user or (current_user and !current_user.discovery_pass)
     @structure = Structure.friendly.find params[:id]
     @structure_decorator                  = @structure.decorate
     @place_ids                            = @structure.places.map(&:id)
