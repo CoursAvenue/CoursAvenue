@@ -100,4 +100,23 @@ describe User do
   #     expect(user.email_status).to eq 'passions_incomplete'
   #   end
   # end
+
+  context :sponsorship do
+    describe '#update_sponsorship' do
+      let (:user)           { FactoryGirl.create(:user) }
+      let (:sponsored_user) {
+        user = FactoryGirl.build(:user_redux)
+        user.save(validate: false)
+        user
+      }
+      let (:sponsorship)    { user.sponsorships.create(sponsored_user: sponsored_user) }
+
+      it 'should update the sponsorship on confirmation' do
+        sponsored_user.confirm!
+
+        expect(sponsorship.registered).to be true
+      end
+
+    end
+  end
 end

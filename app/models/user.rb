@@ -61,7 +61,7 @@ class User < ActiveRecord::Base
   has_many :participation_requests
   has_many :sponsorships
 
-  belongs_to :sponsorship, class_name: 'Sponsorship', foreign_key: 'sponsored_user_id'
+  has_many :sponsorship, class_name: 'Sponsorship', foreign_key: 'sponsored_user_id'
 
   has_and_belongs_to_many :subjects
   has_and_belongs_to_many :invited_participations, class_name: 'Participation'
