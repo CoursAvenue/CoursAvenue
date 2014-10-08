@@ -102,8 +102,10 @@ class DiscoveryPass < ActiveRecord::Base
   # @return Boolean, saved or not
   def extend_be2bill_subscription(params)
     extra_data               = JSON.parse(params['EXTRADATA'])
-    self.remaining_credit    = extra_data["remaining_credit"].to_d if extra_data["remaining_credit"].present?
+    remaining_credit         = extra_data["remaining_credit"].to_d if extra_data["remaining_credit"].present?
+    redeem_sponsorships(self.remaining_credit, remaining_credit)
 
+    self.remaining_credit    = remaining_credit
     self.credit_card_number  = params['CARDCODE'] if params['ALIAS'].present?
     # Update be2bill_alias if the renew is done by the user because his card hasexpired
     self.be2bill_alias       = params['ALIAS'] if params['ALIAS'].present?
@@ -237,6 +239,24 @@ class DiscoveryPass < ActiveRecord::Base
   # @return nil
   def change_sponsorship_state
     Sponsorship.where(sponsored_user_id: self.user.id).map(&:update_state)
+    nil
+  end
+
+  # Update the status of the redeemed (credit has been used) sponsorships.
+  #
+  # We start be getting the number of sponsorships that have been redeemed by
+  # calculating the difference between remaining_credit and the previous
+  # remaining_credit and then deviding it by the one sponsorship promotion.
+  #
+  # @return nil
+  def redeem_sponsorships(old_remaining_credit, new_remaining_credit)
+    if new_remaining_credit.present?
+      count = ((old_remaining_credit - new_remaining_credit) / Sponsorship::USER_WHO_SPONSORED_CREDIT).to_i
+      sponsorships = self.user.sponsorships.where(state: "bought").take(count)
+
+      sponsorships.map &:update_state
+
+    end
     nil
   end
 end
