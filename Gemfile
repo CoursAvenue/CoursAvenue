@@ -151,7 +151,7 @@ gem 'handlebars_assets'         , '~>0.15', git: 'git://github.com/variousauthor
 gem 'draper'                    , '~>1.3.1'
 # allows sharing of handlebars templates
 gem 'sht_rails'
-gem 'sass-rails'                , '~>4.0.1'
+gem 'sass-rails'                , '~>4.0.3'
 gem 'haml'                      , '~>4.0.3'
 gem 'uglifier'                  , '>= 1.0.3'
 gem 'js-routes'                 , '~>0.9.8'
