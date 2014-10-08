@@ -67,6 +67,14 @@ class Users::DiscoveryPassesController < Pro::ProController
   def index
     if current_user.discovery_pass
       redirect_to user_participation_requests_path(current_user)
+    else
+      render template: 'home/discovery_pass'
+    end
+  end
+
+  def payment_confirmation
+    if params['EXECCODE'] == '0000'
+      redirect_to discovery_pass_search_structures_url(welcome: true)
     end
   end
 
@@ -75,6 +83,8 @@ class Users::DiscoveryPassesController < Pro::ProController
   def layout_locals
     locals = { hide_menu: true }
     locals[:top_menu_header_class] = 'relative on-top' if action_name == 'index'
+    locals[:top_menu_header_class] = 'hidden' if action_name == 'new'
+    locals[:hide_top_menu_search] = true
     locals
   end
 end

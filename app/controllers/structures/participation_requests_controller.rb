@@ -13,6 +13,12 @@ class Structures::ParticipationRequestsController < ApplicationController
       current_user.phone_number = params[:participation_request][:user][:phone_number]
       current_user.save
     end
+    if params[:participation_request][:planning_id].blank? and params[:participation_request][:start_hour] and params[:participation_request][:start_min]
+      # Be careful to add 0 at the end to remove local time.
+      params[:participation_request][:start_time] = Time.new(2000, 1, 1, params[:participation_request][:start_hour].to_i, params[:participation_request][:start_min].to_i, 0, 0)
+      params[:participation_request].delete(:start_hour)
+      params[:participation_request].delete(:start_min)
+    end
     @participation_request = ParticipationRequest.create_and_send_message params[:participation_request], params[:participation_request][:message][:body], current_user, @structure
 
     respond_to do |format|

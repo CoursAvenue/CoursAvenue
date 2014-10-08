@@ -20,8 +20,8 @@
         \- Date :
         %strong= "#{l(@participation_request.date, format: :semi_short)} de #{l(@participation_request.start_time, format: :short)} à #{l(@participation_request.end_time, format: :short)}"
         %br
-        - if @participation_request.planning.place
-          - place = @participation_request.planning.place
+        - if @participation_request.place
+          - place = @participation_request.place
           \- Lieu
           %strong= "#{place.name} (#{place.address})"
           - if place.info.present? or place.private_info.present?

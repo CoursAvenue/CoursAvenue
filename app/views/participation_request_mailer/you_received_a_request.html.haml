@@ -8,8 +8,8 @@
   #{@user.name} souhaiterait assister à une séance d'essai le
   %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}"
   pour votre cours "#{@participation_request.course.name}"
-  - if @participation_request.planning.place
-    au #{@participation_request.planning.place.address} (#{@participation_request.planning.place.name}).
+  - if @participation_request.place
+    au #{@participation_request.place.address} (#{@participation_request.place.name}).
   Connectez-vous à votre profil
   - if @participation_request.date <= 2.days.from_now
     %strong= "avant le #{I18n.l(@participation_request.date, format: :semi_short)}"

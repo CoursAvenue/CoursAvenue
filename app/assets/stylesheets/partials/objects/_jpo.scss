@@ -3,7 +3,7 @@
 /* -----------------------------*/
 .jpo-banner-warpper {
     background-color: #d15630;
-    background-image: url('jpo_2014/orange_home_page_background.png');
+    background-image: image-url('jpo_2014/orange_home_page_background.png');
     background-repeat: repeat;
     @include background-size('1px 1px');
     @include media-query(palm) {
@@ -12,7 +12,7 @@
     }
 }
     .jpo-banner {
-        background-image : url('jpo_2014/home_page_background.png');
+        background-image : image-url('jpo_2014/home_page_background.png');
         height           : 361px;
         max-width        : 1400px;
         margin           : auto;
@@ -50,7 +50,7 @@
             }
         }
         .jpo-fanion {
-            background-image: url('jpo_2014/fanion.png');
+            background-image: image-url('jpo_2014/fanion.png');
             height          : 151px;
             width           : 466px;
             color           : white;
@@ -94,7 +94,7 @@
             right            : 100px;
             top              : 5px;
             -webkit-filter: drop-shadow(7px 11px 14px rgba(0,0,0,0.3));
-            filter: url("data:image/svg+xml;utf8,<svg height='0' xmlns='http://www.w3.org/2000/svg'><filter id='drop-shadow'><feGaussianBlur in='SourceAlpha' stdDeviation='4'/><feOffset dx='7' dy='11' result='offsetblur'/><feFlood flood-color='rgba(0,0,0,0.3)'/><feComposite in2='offsetblur' operator='in'/><feMerge><feMergeNode/><feMergeNode in='SourceGraphic'/></feMerge></filter></svg>#drop-shadow");
+            filter: image-url("data:image/svg+xml;utf8,<svg height='0' xmlns='http://www.w3.org/2000/svg'><filter id='drop-shadow'><feGaussianBlur in='SourceAlpha' stdDeviation='4'/><feOffset dx='7' dy='11' result='offsetblur'/><feFlood flood-color='rgba(0,0,0,0.3)'/><feComposite in2='offsetblur' operator='in'/><feMerge><feMergeNode/><feMergeNode in='SourceGraphic'/></feMerge></filter></svg>#drop-shadow");
             -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=7, OffY=11, Color='#777')";
             filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=7, OffY=11, Color='#777')";
             @media only screen and (max-width: 1223px) and (min-width: 1023px) {
@@ -149,7 +149,7 @@
 /* POPUP                        */
 /* -----------------------------*/
 .jpo-popup{
-    background-image: url('jpo_2014/popup_background.png');
+    background-image: image-url('jpo_2014/popup_background.png');
     background-repeat: no-repeat;
     @include background-size('100% 100%');
     @include border-radius($brand-round);
@@ -158,7 +158,7 @@
         @include transform(rotate(-5.5deg));
     }
     .popup-jpo-sticker {
-        background-image : url('jpo_2014/sticker.png');
+        background-image : image-url('jpo_2014/sticker.png');
         background-repeat: no-repeat;
         width            : 130px;
         height           : 130px;
@@ -174,7 +174,7 @@
         bottom: -25px;
     }
     .popup-jpo-fanion {
-        background-image: url('jpo_2014/popup_fanion.png');
+        background-image: image-url('jpo_2014/popup_fanion.png');
         height          : 150px;
         width           : 580px;
         color           : white;

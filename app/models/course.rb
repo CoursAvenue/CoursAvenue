@@ -412,7 +412,9 @@ class Course < ActiveRecord::Base
   # @return nil
   def update_plannings_available_in_discovery_pass
     if self.available_in_discovery_pass_changed?
-      self.plannings.update_all available_in_discovery_pass: self.available_in_discovery_pass
+      self.plannings.each do |planning|
+        planning.update_column :available_in_discovery_pass, self.available_in_discovery_pass
+      end
       self.plannings.map{ |p| p.delay.index }
     end
     nil

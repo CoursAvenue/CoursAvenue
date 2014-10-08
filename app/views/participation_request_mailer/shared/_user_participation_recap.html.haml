@@ -5,7 +5,7 @@
       %td.v-middle.content-block{ colspan: 3 }
         .title Récapitulatif de la demande d'inscription
   %tr{ valign: 'top' }
-    %td.v-middle.content-block{ width: '20%', rowspan: (participation_request.planning.place ? 5 : 4) }
+    %td.v-middle.content-block{ width: '20%', rowspan: (participation_request.place ? 5 : 4) }
       = link_to discovery_pass_structure_url(participation_request.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank', class: 'block' do
         = image_tag participation_request.structure.logo.url(:thumb), class: 'block', height: 90, width: 90, alt: "Logo de #{participation_request.structure.name}"
     %td.v-middle.content-block{ width: '25%' }
@@ -37,10 +37,10 @@
     %td.v-middle.content-block{ width: '55%' }
       .p.hard
         = "#{l(participation_request.date, format: :semi_short)} de #{l(participation_request.start_time, format: :short)} à #{l(participation_request.end_time, format: :short)}"
-  - if participation_request.planning.place
+  - if participation_request.place
     %tr{ valign: 'top' }
       %td.v-middle.content-block{ width: '25%' }
         .p.hard
           %strong Lieu
       %td.v-middle.content-block{ width: '55%' }
-        .p.hard= participation_request.planning.place.try(:name)
+        .p.hard= participation_request.place.try(:name)

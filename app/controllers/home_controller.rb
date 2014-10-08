@@ -12,16 +12,13 @@ class HomeController < ApplicationController
   end
 
   def index
-    # For search
-    @audiences        = Audience.all
-    @levels           = Level.all
     @comments         = Comment::Review.accepted.order('created_at DESC').limit(3).offset(1)
     @last_comment     = Comment::Review.accepted.last
   end
 
   def discovery_pass
     if current_user
-      redirect_to new_user_discovery_pass_path(current_user)
+      redirect_to user_discovery_passes_path(current_user)
     end
   end
 
@@ -33,5 +30,11 @@ class HomeController < ApplicationController
     else
       'pages'
     end
+  end
+
+  def layout_locals
+    locals = { }
+    locals[:hide_top_menu_search] = true if action_name == 'discovery_pass' or action_name == 'index'
+    locals
   end
 end

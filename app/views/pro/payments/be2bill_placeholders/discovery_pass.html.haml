@@ -2,16 +2,37 @@
 
 .panel
   .panel__header.soft
-    = render partial: 'users/discovery_passes/breadcrumb', locals: { current: 'recap' }
+    = render partial: 'users/discovery_passes/breadcrumb', locals: { current: 'payment' }
   .panel__body.soft.hard--bottom
-    - if params[:AMOUNT] and params[:AMOUNT].to_i
-      %p.text--right.epsilon
-        %strong
-          Total à payer :
-          = "#{params[:AMOUNT].to_i / 100}€"
-    .text--center.push-half--bottom
-      = image_tag 'logos/be2bill/logo_cb.png', class: 'soft-half--sides', height: 35, style: 'height: 35px;'
-      = image_tag 'logos/be2bill/logo_mastercard.png', class: 'soft-half--sides', height: 35, style: 'height: 35px;'
-      = image_tag 'logos/be2bill/logo_verified_by_visa.png', class: 'soft-half--sides', height: 35, style: 'height: 35px;'
-    \%PLACEHOLDER%
+    .delta.push--bottom
+      Titulaire du pass :
+      %strong #{@user.name}
+    %h4 Informations de paiement
+    .grid
+      .grid__item.two-thirds.v-top>
+        .text--center.push-half--bottom
+          = image_tag 'logos/be2bill/logo_cb.png', class: 'soft-half--sides', height: 35, style: 'height: 35px;'
+          = image_tag 'logos/be2bill/logo_mastercard.png', class: 'soft-half--sides', height: 35, style: 'height: 35px;'
+          = image_tag 'logos/be2bill/logo_verified_by_visa.png', class: 'soft-half--sides', height: 35, style: 'height: 35px;'
+        \%PLACEHOLDER%
+      .grid__item.one-third.v-top>
+        .panel
+          .panel__header.soft-half
+            %h4.flush Résumé de votre Pass Découverte
+          .panel__body.soft-half
+            %p
+              Chaque mois, participez à autant de séances d'essai que vous le souhaitez parmi les 800 cours de loisirs négociés spécialement pour vous auprès de nos 200 partenaires parisiens. Votre Pass se renouvelle automatiquement et vous pouvez l'interrompre à tout moment.
+
+            %p
+              Inclus plus de 800 cours de loisirs à essayer chaque mois auprès de nos 200 partenaires parisiens. Votre Pass se renouvelle automatiquement et vous pouvez l'interrompre à tout moment.
+              - if params[:AMOUNT] and params[:AMOUNT].to_i
+                %i.fa.fa-info{ data: { toggle: 'popover', html: true, content: "Vous serez prélevé de #{params[:AMOUNT].to_i / 100}€ chaque mois jusqu'à la résiliation de votre abonnement." } }
+
+            - if params[:AMOUNT] and params[:AMOUNT].to_i
+              %hr
+              .grid.epsilon
+                .grid__item.one-half>
+                  %strong TOTAL
+                .grid__item.one-half.text--right>
+                  %strong #{params[:AMOUNT].to_i / 100}€ / mois
 

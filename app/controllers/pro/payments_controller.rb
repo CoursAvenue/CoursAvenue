@@ -69,4 +69,10 @@ class Pro::PaymentsController < Pro::ProController
     params[:EXTRADATA] = JSON.parse(params[:EXTRADATA])
   end
 
+  def layout_locals
+    locals = { hide_menu: true }
+    locals[:top_menu_header_class] = 'hidden'
+    locals[:hide_top_menu_search] = true
+    locals
+  end
 end

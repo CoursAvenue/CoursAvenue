@@ -16,7 +16,9 @@ StructureProfileDiscoveryPass.module('Views.ParticipationRequests', function(Mod
             '$planning_select_wrapper' : '[data-element=planning-select-wrapper]',
             '$planning_select_input'   : '[data-element=planning-select-wrapper] select',
             '$datepicker_wrapper'      : '[data-element=datepicker-wrapper]',
-            '$datepicker_input'        : '[data-element=datepicker-wrapper] input'
+            '$datepicker_input'        : '[data-element=datepicker-wrapper] input',
+            '$start_hour_select_input' : '[data-element=start-hour-select]',
+            '$time_wrapper'            : '[data-element="time-wrapper"]'
         },
 
         initialize: function initialize (options) {
@@ -26,6 +28,11 @@ StructureProfileDiscoveryPass.module('Views.ParticipationRequests', function(Mod
             _.bindAll(this, 'showPopupMessageDidntSend');
         },
 
+        initializeStartHourSelect: function initializeStartHourSelect () {
+            _.each(['06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23'], function(value) {
+                this.ui.$start_hour_select_input.append($('<option>').attr('value', parseInt(value)).text(value));
+            }.bind(this));
+        },
         /*
          * Set attributes on message model for validations
          */
@@ -33,6 +40,8 @@ StructureProfileDiscoveryPass.module('Views.ParticipationRequests', function(Mod
             this.model.set({
                 structure_id  : this.structure.get('id'),
                 date          : this.$('[name=date]').val(),
+                start_hour    : this.$('[name=start-hour]').val(),
+                start_min     : this.$('[name=start-min]').val(),
                 message: {
                     body: this.$('[name="message[body]"]').val()
                 },
@@ -67,6 +76,7 @@ StructureProfileDiscoveryPass.module('Views.ParticipationRequests', function(Mod
         },
 
         onRender: function onRender () {
+            this.initializeStartHourSelect();
             var datepicker_options = {
                 format: GLOBAL.DATE_FORMAT,
                 weekStart: 1,
@@ -119,7 +129,13 @@ StructureProfileDiscoveryPass.module('Views.ParticipationRequests', function(Mod
         selectCourse: function selectCourse (course_id) {
             this.ui.$course_select.find('option').removeAttr('selected');
             this.ui.$course_select.find('option[value=' + course_id + ']').attr('selected', true);
-            this.ui.$planning_select_wrapper.slideDown();
+            if (this.getCurrentCoursePlannings().length > 0) {
+                this.ui.$planning_select_wrapper.slideDown();
+                this.ui.$time_wrapper.hide();
+            } else {
+                this.ui.$time_wrapper.show();
+                this.ui.$planning_select_wrapper.slideUp();
+            }
             this.populatePlannings();
             if (this.model.get('course_collection_type') == 'courses') {
                 this.ui.$datepicker_wrapper.slideDown();
@@ -149,6 +165,11 @@ StructureProfileDiscoveryPass.module('Views.ParticipationRequests', function(Mod
          */
         updateDatePicker: function updateDatePicker () {
             this.model.set('planning_id', parseInt(this.ui.$planning_select_input.val()));
+            if (!this.getCurrentPlanning()) {
+                this.ui.$datepicker_input.datepicker('update', new Date());
+                this.ui.$datepicker_input.datepicker('setDaysOfWeekDisabled', []);
+                return;
+            }
             // if (!this.model.get('planning_id')) { return; }
             this.ui.$datepicker_input.datepicker('update', this.getCurrentPlanning().next_date);
             // Disable days of week

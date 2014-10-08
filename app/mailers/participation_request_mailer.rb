@@ -141,7 +141,7 @@ class ParticipationRequestMailer < ActionMailer::Base
   def retrieve_participation_request_variables(participation_request)
     @participation_request = participation_request
     @course                = @participation_request.course
-    @place                 = @participation_request.planning.place
+    @place                 = @participation_request.place
     @structure             = participation_request.structure
     @admin                 = participation_request.structure.main_contact
     @user                  = participation_request.user

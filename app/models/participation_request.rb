@@ -4,13 +4,14 @@ class ParticipationRequest < ActiveRecord::Base
   # Canceled: when the teacher cancel after having changed hours or accepted
   STATE = %w(accepted pending declined canceled)
 
-  attr_accessible :state, :date, :start_time, :end_time, :mailboxer_conversation_id, :planning_id, :last_modified_by
+  attr_accessible :state, :date, :start_time, :end_time, :mailboxer_conversation_id, :planning_id, :last_modified_by, :course_id
 
   ######################################################################
   # Relations                                                          #
   ######################################################################
   belongs_to :conversation, class_name: 'Mailboxer::Conversation', foreign_key: 'mailboxer_conversation_id'
   belongs_to :planning
+  belongs_to :course
   belongs_to :user
   belongs_to :structure
 
@@ -139,8 +140,20 @@ class ParticipationRequest < ActiveRecord::Base
     end
   end
 
-  def course
-    planning.course
+  def place
+    if self.planning
+      self.planning.place
+    else
+      self.course.place
+    end
+  end
+
+  def levels
+    if self.planning
+      self.planning.levels
+    else
+      self.course.levels
+    end
   end
 
   private
@@ -151,8 +164,9 @@ class ParticipationRequest < ActiveRecord::Base
   def set_default_attributes
     self.state            = 'pending'
     self.last_modified_by = 'User'
-    self.start_time       = self.planning.start_time if self.start_time.nil?
-    self.end_time         = self.planning.end_time   if self.end_time.nil?
+    self.start_time       = self.planning.start_time if self.planning and self.start_time.nil?
+    self.end_time         = self.planning.end_time   if self.planning and self.end_time.nil?
+    self.end_time         = self.start_time + 1.hour if self.start_time and self.end_time.nil?
     nil
   end
 

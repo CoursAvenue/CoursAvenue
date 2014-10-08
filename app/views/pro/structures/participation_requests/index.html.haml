@@ -22,7 +22,7 @@
               = t "participation_request.state.#{participation_request.state}"
             %td= participation_request.user.name
             %td
-              - place = participation_request.planning.place
+              - place = participation_request.place
               - if place
                 = place.name
                 - if place.info.present? or place.private_info.present?
@@ -30,7 +30,7 @@
             %td
               - course = participation_request.course
               = course.name
-              %i.fa.fa-info{ data: { toggle: 'popover', content: "<strong>Niveau :</strong> #{join_levels(participation_request.planning.levels)}<br><strong>Public :</strong> #{join_audiences(participation_request.planning)}<br><strong>Disciplines :</strong> #{course.subjects.uniq.map(&:name).join(', ')}", html: 'true', placement: 'top', trigger: 'hover' } }
+              %i.fa.fa-info{ data: { toggle: 'popover', content: "<strong>Niveau :</strong> #{join_levels(participation_request.levels)}<br><strong>Public :</strong> #{join_audiences(participation_request.planning || participation_request.course)}<br><strong>Disciplines :</strong> #{course.subjects.uniq.map(&:name).join(', ')}", html: 'true', placement: 'top', trigger: 'hover' } }
             %td
               = "#{l(participation_request.date, format: :semi_short)} à #{l(participation_request.start_time, format: :short)}"
             %td

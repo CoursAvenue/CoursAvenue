@@ -17,10 +17,6 @@ StructureProfileDiscoveryPass.module('Models', function(Module, App, Backbone, M
                 required: true,
                 msg: 'Vous devez sélectionner un cours'
             },
-            planning_id: {
-                required: true,
-                msg: 'Vous devez sélectionner un créneau'
-            },
             'user.phone_number': {
                 maxLength: 20,
                 msg: 'Mauvais format'
