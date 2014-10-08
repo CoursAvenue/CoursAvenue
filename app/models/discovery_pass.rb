@@ -160,6 +160,26 @@ class DiscoveryPass < ActiveRecord::Base
     amount
   end
 
+  # The remaining credit that will be at our disposal at the next renew.
+  #
+  # @return Integer the next remaining credit
+  def next_remaining_credit
+    return 0 if self.remaining_credit == 0
+
+    credit = self.remaining_credit
+    sponsorships = self.user.sponsorships.where(state: "bought")
+
+    sponsorships.each do |sponsorship|
+      if credit > 0
+        credit -= Sponsorship::USER_WHO_SPONSORED_CREDIT
+      else
+        break
+      end
+    end
+
+    credit.to_d
+  end
+
   # See next_amount
   #
   # @return Integer next amount to pay, Be2bill formatted
