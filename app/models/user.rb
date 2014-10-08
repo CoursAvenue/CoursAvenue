@@ -368,6 +368,7 @@ class User < ActiveRecord::Base
     super
     check_if_was_invited
     send_welcome_email
+    update_sponsorship_status
     nil
   end
 
@@ -591,6 +592,18 @@ class User < ActiveRecord::Base
 
   def subscribe_to_mailchimp
     MailchimpUpdater.delay.update_user(self)
+  end
+
+  # Set the user as registered in the sponsorships the user belongs to.
+  #
+  # @return nil
+  def update_sponsorship_status
+    if self.sponsorship.any?
+      self.sponsorship.each do |sponsorship|
+        sponsorship.update_register_status
+      end
+    end
+    nil
   end
 
 end

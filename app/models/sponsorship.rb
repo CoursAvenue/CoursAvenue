@@ -23,6 +23,15 @@ class Sponsorship < ActiveRecord::Base
   ######################################################################
   before_validation :set_promo_code
 
+
+  # Update the register status of the sponsored user.
+  #
+  # @return self
+  def update_register_status
+    self.registered = true
+    self.save
+  end
+
   private
 
   # Generates a unique promo code for the sponsorship.
