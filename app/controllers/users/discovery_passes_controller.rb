@@ -38,6 +38,9 @@ class Users::DiscoveryPassesController < Pro::ProController
 
   # GET etablissements/:structure_id/abonnements/new
   def new
+    if current_user.discovery_pass
+      redirect_to user_participation_requests_path(current_user)
+    end
     # @structure.send_promo_code! unless @structure.promo_code_sent?
     extra_data = {}
     @discovery_pass = @user.discovery_passes.build

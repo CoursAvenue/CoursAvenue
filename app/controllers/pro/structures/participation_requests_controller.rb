@@ -25,9 +25,10 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
   # PUT pro/etablissements/:structure_id/participation_request/:id/accept
   def accept
     @participation_request = @structure.participation_requests.find(params[:id])
-    @participation_request.accept!(params[:participation_request][:message][:body], 'Structure')
+    message_body = params[:participation_request][:message][:body] if params[:participation_request] and params[:participation_request][:message]
+    @participation_request.accept!(message_body, 'Structure')
     respond_to do |format|
-      format.html { redirect_to pro_structure_conversation_path(@structure, @participation_request.conversation), notice: 'Votre message a bien été envoyé' }
+      format.html { redirect_to pro_structure_conversation_path(@structure, @participation_request.conversation), notice: 'La participation a bien été accepté' }
     end
   end
 
@@ -36,7 +37,7 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     @participation_request = @structure.participation_requests.find(params[:id])
     @participation_request.modify_date!(params[:participation_request][:message][:body], params[:participation_request], 'Structure')
     respond_to do |format|
-      format.html { redirect_to pro_structure_conversation_path(@structure, @participation_request.conversation), notice: 'Votre message a bien été envoyé' }
+      format.html { redirect_to pro_structure_conversation_path(@structure, @participation_request.conversation), notice: 'Le changement a bien été pris en compte' }
     end
   end
 
@@ -45,7 +46,7 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     @participation_request = @structure.participation_requests.find(params[:id])
     @participation_request.decline!(params[:participation_request][:message][:body], 'Structure')
     respond_to do |format|
-      format.html { redirect_to pro_structure_conversation_path(@structure, @participation_request.conversation), notice: 'Votre message a bien été envoyé' }
+      format.html { redirect_to pro_structure_conversation_path(@structure, @participation_request.conversation), notice: 'Le refus a bien été envoyé' }
     end
   end
 
@@ -54,7 +55,7 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     @participation_request = @structure.participation_requests.find(params[:id])
     @participation_request.cancel!(params[:participation_request][:message][:body], 'Structure')
     respond_to do |format|
-      format.html { redirect_to pro_structure_conversation_path(@structure, @participation_request.conversation), notice: 'Votre message a bien été envoyé' }
+      format.html { redirect_to pro_structure_conversation_path(@structure, @participation_request.conversation), notice: "L'annulation a bien été pris en compte" }
     end
   end
 
