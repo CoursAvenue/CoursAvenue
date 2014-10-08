@@ -199,7 +199,7 @@ class DiscoveryPass < ActiveRecord::Base
 
   def inform_user_of_success
     DiscoveryPassMailer.delay.your_discovery_pass_is_active(self)
-    DiscoveryPassMailer.delay.your_sponsorship_is_active(self)
+    # DiscoveryPassMailer.delay.your_sponsorship_is_active(self)
   end
 
   # Set default expires at
