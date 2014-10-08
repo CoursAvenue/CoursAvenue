@@ -1,13 +1,15 @@
 .page.soft
-  %h2 J'ai oublié mon mot de passe
+  .panel
+    .panel__header.soft
+      %h4.flush J'ai oublié mon mot de passe
+    .panel__body.soft
+      = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+        = f.error_notification
 
-  = simple_form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f|
-    = f.error_notification
+        .form-inputs
+          = f.input :email, required: true, autofocus: true
 
-    .form-inputs
-      = f.input :email, :required => true, :autofocus => true
-
-    .form-actions
-      = f.button :submit, "Envoyer un nouveau mot de passe", class: 'btn btn--green'
-    .form-actions
-      = render "users/devise/shared/links"
+        .form-actions
+          = f.button :submit, "Envoyer un nouveau mot de passe", class: 'btn btn--green'
+        .form-actions
+          = render "users/devise/shared/links"
