@@ -3,14 +3,21 @@ require 'spec_helper'
 describe DiscoveryPass, :type => :model do
   context :sponsorship do
     describe '#apply_sponsorship_promo' do
-      let (:user)           { FactoryGirl.create(:user) }
-      let (:sponsored_user) { FactoryGirl.create(:user) }
-      let (:sponsorship)    { user.sponsorships.create(sponsored_user: sponsored_user) }
+      let (:sponsor)        { FactoryGirl.create(:user) }
+      let (:sponsored_user) {
+        user = FactoryGirl.build(:user_redux)
+        user.save(validate: false)
+        user
+      }
+      let (:sponsorship)    { sponsor.sponsorships.create(sponsored_user: sponsored_user) }
+
+      before(:each) do
+        sponsored_user.confirm!
+        sponsorship.reload
+      end
 
       # TODO: I shouldn't have to reload the sponsoship twice.
       it 'applies the sponsorship promo' do
-        sponsored_user.confirm!
-        sponsorship.reload
         sponsored_user.discovery_passes.create
         sponsorship.reload
 
@@ -18,11 +25,11 @@ describe DiscoveryPass, :type => :model do
       end
 
       it "updates the sponsor's credit" do
-        expect { sponsored_user.discovery_passes.create }.to change { user.sponsorship_credit }.by(Sponsorship::SPONSOR_CREDIT)
+        expect { sponsored_user.discovery_passes.create }.to change { sponsor.sponsorship_credit }.by(Sponsorship::USER_WHO_SPONSORED_CREDIT)
       end
 
       it "updates the sponsored user's credit" do
-        expect { sponsored_user.discovery_passes.create }.to change { sponsored_user.sponsorship_credit }.by(Sponsorship::SPONSORED_CREDIT)
+        expect { sponsored_user.discovery_passes.create }.to change { sponsored_user.sponsorship_credit }.by(Sponsorship::USER_WHO_HAVE_BEEN_SPONSORED_CREDIT)
       end
     end
   end
