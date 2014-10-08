@@ -183,6 +183,6 @@ class DiscoveryPass < ActiveRecord::Base
   end
 
   def set_expires_at
-    expires_at ||= 1.month.from_now
+    self.expires_at ||= 1.month.from_now
   end
 end
