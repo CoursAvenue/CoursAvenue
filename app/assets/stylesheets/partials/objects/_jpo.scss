@@ -63,7 +63,7 @@
             }
             .jpo-fanion__text {
                 top        : 30px;
-                left       : 90px;
+                left       : 80px;
                 line-height: 1.4;
                 color      : white;
                 font-size  : 24px;
@@ -93,6 +93,7 @@
             z-index          : 100;
             right            : 100px;
             top              : 5px;
+            margin-top       : -50px;
             -webkit-filter: drop-shadow(7px 11px 14px rgba(0,0,0,0.3));
             filter: image-url("data:image/svg+xml;utf8,<svg height='0' xmlns='http://www.w3.org/2000/svg'><filter id='drop-shadow'><feGaussianBlur in='SourceAlpha' stdDeviation='4'/><feOffset dx='7' dy='11' result='offsetblur'/><feFlood flood-color='rgba(0,0,0,0.3)'/><feComposite in2='offsetblur' operator='in'/><feMerge><feMergeNode/><feMergeNode in='SourceGraphic'/></feMerge></filter></svg>#drop-shadow");
             -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=7, OffY=11, Color='#777')";

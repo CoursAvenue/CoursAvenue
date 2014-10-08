@@ -8,6 +8,6 @@ class SponsorshipsController < ApplicationController
       @sponsorship = Sponsorship.where(promo_code: params[:id]).first
       @sponsor     = @sponsorship.user if @sponsorship.present?
     end
-
+    render 'home/discovery_pass'
   end
 end
