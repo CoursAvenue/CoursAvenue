@@ -115,7 +115,7 @@ describe User do
         sponsored_user.confirm!
 
         sponsorship.reload
-        expect(sponsorship.status).to eq("registered")
+        expect(sponsorship.state).to eq("registered")
       end
 
     end
