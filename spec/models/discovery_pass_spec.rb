@@ -7,10 +7,14 @@ describe DiscoveryPass, :type => :model do
       let (:sponsored_user) { FactoryGirl.create(:user) }
       let (:sponsorship)    { user.sponsorships.create(sponsored_user: sponsored_user) }
 
+      # TODO: I shouldn't have to reload the sponsoship twice.
       it 'applies the sponsorship promo' do
+        sponsored_user.confirm!
+        sponsorship.reload
         sponsored_user.discovery_passes.create
+        sponsorship.reload
 
-        expect(sponsorship.promo_code_used).to be true
+        expect(sponsorship.state).to eq "bought"
       end
 
       it "updates the sponsor's credit" do

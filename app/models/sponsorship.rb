@@ -44,6 +44,7 @@ class Sponsorship < ActiveRecord::Base
     else
       self.state = "registered"
     end
+
     self.save
   end
 
