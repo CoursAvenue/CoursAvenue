@@ -109,11 +109,12 @@ describe User do
         user.save(validate: false)
         user
       }
-      let (:sponsorship)    { user.sponsorships.create(sponsored_user: sponsored_user) }
 
       it 'should update the sponsorship on confirmation' do
+        sponsorship = user.sponsorships.create(sponsored_user: sponsored_user)
         sponsored_user.confirm!
 
+        sponsorship.reload
         expect(sponsorship.registered).to be true
       end
 
