@@ -125,7 +125,7 @@ class DiscoveryPass < ActiveRecord::Base
   # @return Integer
   def amount
     if sponsorship
-      PRICE - sponsorship.credit
+      PRICE - sponsorship.credit_for_sponsored_user
     else
       PRICE
     end
