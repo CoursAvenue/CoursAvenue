@@ -12,7 +12,7 @@
     %td.v-middle.content-block{ width: '55%' }
       .p.hard
         = participation_request.user.name
-        - if participation_request.user.phone_number
+        - if participation_request.accepted? and participation_request.user.phone_number
           = "(#{participation_request.user.phone_number})"
   %tr{ valign: 'top' }
     %td.v-middle.content-block{ width: '25%' }

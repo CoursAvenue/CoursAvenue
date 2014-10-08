@@ -14,7 +14,7 @@
           = f.error_notification
           .input.flush--top{ data: { behavior: 'time-range', 'start-time-wrapper' => '#start-time-wrapper', 'end-time-wrapper' => '#end-time-wrapper' } }
             %span.v-middle.nowrap Nouveau créneau :
-            = f.input :date, as: :string, label: false, input_html: { value: l(@participation_request.date), class: 'one-whole', data: { behavior: 'datepicker' } }, wrapper_html: { class: 'datepicker-input flush hard' }
+            = f.input :date, as: :string, label: false, input_html: { value: l(@participation_request.date), class: 'one-whole', data: { behavior: 'datepicker', only_week_day: @participation_request.planning.try(:week_day) } }, wrapper_html: { class: 'datepicker-input flush hard' }
             %span.v-middle de
             = f.input :start_time, label: false, wrapper_html: { class: 'flush hard v-middle', id: 'start-time-wrapper' }, as: :time, minute_step: 15
             %span.v-middle à
@@ -27,3 +27,4 @@
               %a.btn.btn--full{ href: '#', onclick: '$.fancybox.close();' } Annuler
             .grid__item.eight-tenths>
               = f.submit 'Envoyer la nouvelle proposition de date', class: 'nowrap btn--full btn btn--green', data: { disable_with: 'Envoi en cours...' }
+

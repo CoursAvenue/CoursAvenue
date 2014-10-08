@@ -31,7 +31,7 @@ class Users::ParticipationRequestsController < ApplicationController
     message_body = params[:participation_request][:message][:body] if params[:participation_request] and params[:participation_request][:message]
     @participation_request.accept!(message_body, 'User')
     respond_to do |format|
-      format.html { redirect_to (params[:return_to] || user_conversation_path(@user, @participation_request.conversation)), notice: 'La participation a bien été accepté' }
+      format.html { redirect_to (params[:return_to] || user_conversation_path(@user, @participation_request.conversation)), notice: "Votre confirmation vient d'être envoyée" }
     end
   end
 

@@ -5,48 +5,42 @@
   .panel__body.soft--ends
     .soft--sides
       %h3 Mes inscriptions
-    - if @participation_requests.empty?
-      %p.soft--sides
-        Vous n'avez pas encore d'inscrit à vos cours d'essai dans le cadre du Pass Découverte.
-        Pour proposer plus de créneaux,
-        = link_to 'cliquer ici.', discovery_pass_pro_structure_courses_path(@structure)
-    - else
-      %table.table--data.table--striped
-        %thead
+    %table.table--data.table--striped
+      %thead
+        %tr
+          %th Status
+          %th Nom de l'élève
+          %th Lieu
+          %th Cours
+          %th Jour et horaires
+          %th Options
+      %tbody
+        - @participation_requests.each do |participation_request|
           %tr
-            %th Status
-            %th Nom de l'élève
-            %th Lieu
-            %th Cours
-            %th Jour et horaires
-            %th Options
-        %tbody
-          - @participation_requests.each do |participation_request|
-            %tr
-              %td.nowrap{ class: participation_request_color(participation_request) }
-                = participation_request_icon(participation_request)
-                = t "participation_request.state.#{participation_request.state}"
-              %td= participation_request.user.name
-              %td
-                - place = participation_request.place
-                - if place
-                  = place.name
-                  - if place.info.present? or place.private_info.present?
-                    %i.fa.fa-info{ data: { toggle: 'popover', content: t('places.infos', info: place.info, private_info: place.private_info), html: 'true', placement: 'top', trigger: 'hover' } }
-              %td
-                - course = participation_request.course
-                = course.name
-                %i.fa.fa-info{ data: { toggle: 'popover', content: "<strong>Niveau :</strong> #{join_levels(participation_request.levels)}<br><strong>Public :</strong> #{join_audiences(participation_request.planning || participation_request.course)}<br><strong>Disciplines :</strong> #{course.subjects.uniq.map(&:name).join(', ')}", html: 'true', placement: 'top', trigger: 'hover' } }
-              %td
-                = "#{l(participation_request.date, format: :semi_short)} à #{l(participation_request.start_time, format: :short)}"
-              %td
-                - if !participation_request.canceled? and !participation_request.declined?
-                  - if participation_request.pending? and participation_request.last_modified_by == 'User'
-                    = link_to "Accepter l'inscription", accept_pro_structure_participation_request_path(@structure, participation_request), method: :patch, class: 'green nowrap'
-                    %br
-                  = link_to 'Proposer un autre créneau', edit_pro_structure_participation_request_path(@structure, participation_request), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+            %td.nowrap{ class: participation_request_color(participation_request) }
+              = participation_request_icon(participation_request)
+              = t "participation_request.state.#{participation_request.state}"
+            %td= participation_request.user.name
+            %td
+              - place = participation_request.place
+              - if place
+                = place.name
+                - if place.info.present? or place.private_info.present?
+                  %i.fa.fa-info{ data: { toggle: 'popover', content: t('places.infos', info: place.info, private_info: place.private_info), html: 'true', placement: 'top', trigger: 'hover' } }
+            %td
+              - course = participation_request.course
+              = course.name
+              %i.fa.fa-info{ data: { toggle: 'popover', content: "<strong>Niveau :</strong> #{join_levels(participation_request.levels)}<br><strong>Public :</strong> #{join_audiences(participation_request.planning || participation_request.course)}<br><strong>Disciplines :</strong> #{course.subjects.uniq.map(&:name).join(', ')}", html: 'true', placement: 'top', trigger: 'hover' } }
+            %td
+              = "#{l(participation_request.date, format: :semi_short)} à #{l(participation_request.start_time, format: :short)}"
+            %td
+              - if !participation_request.canceled? and !participation_request.declined?
+                - if participation_request.pending? and participation_request.last_modified_by == 'User'
+                  = link_to "Accepter l'inscription", accept_pro_structure_participation_request_path(@structure, participation_request), method: :patch, class: 'green nowrap'
                   %br
-                = link_to 'Historique des messages', pro_structure_conversation_path(@structure, participation_request.conversation)
-                - if !participation_request.canceled? and !participation_request.declined?
-                  %br
-                  = link_to "Annuler l'inscription", cancel_form_pro_structure_participation_request_path(@structure, participation_request), class: 'red nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+                = link_to 'Proposer un autre créneau', edit_pro_structure_participation_request_path(@structure, participation_request), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+                %br
+              = link_to 'Historique des messages', pro_structure_conversation_path(@structure, participation_request.conversation)
+              - if !participation_request.canceled? and !participation_request.declined?
+                %br
+                = link_to "Annuler l'inscription", cancel_form_pro_structure_participation_request_path(@structure, participation_request), class: 'red nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }

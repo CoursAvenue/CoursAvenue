@@ -34,7 +34,7 @@ module ParticipationRequestsHelper
       'orange'
     elsif participation_request.accepted?
       'green'
-    elsif participation_request.declined?
+    elsif participation_request.declined? or participation_request.canceled?
       'red'
     end
   end
@@ -44,7 +44,7 @@ module ParticipationRequestsHelper
       content_tag(:i, nil, class: 'fa fa-clock')
     elsif participation_request.accepted?
       content_tag(:i, nil, class: 'fa fa-check')
-    elsif participation_request.declined?
+    elsif participation_request.declined? or participation_request.canceled?
       content_tag(:i, nil, class: 'fa fa-times')
     end
   end
@@ -68,7 +68,7 @@ module ParticipationRequestsHelper
       else
         t("participation_request.state.long_description.#{participation_request.state}_html", structure_name: participation_request.structure.name, user_name: participation_request.user.name, date: date, course_name: participation_request.course.name )
       end
-    elsif participation_request.declined?
+    elsif participation_request.declined? or participation_request.canceled?
       if participation_request.last_modified_by
         t("participation_request.state.to_#{resource_name}.last_modified_by_#{participation_request.last_modified_by.downcase}.long_description.#{participation_request.state}_html", structure_name: participation_request.structure.name, user_name: participation_request.user.name, course_name: participation_request.course.name )
       else

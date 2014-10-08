@@ -1,16 +1,16 @@
 - content_for :email_title do
-  Vous venez de proposer un nouveau créneau à #{@structure.name}
+  Inscription refusée de #{@structure.name}
 
 .p
   Bonjour #{@user.first_name},
 
 .p
   Malheureusement, #{@structure.name} vient de refuser votre demande d'inscription au cours d'essai "#{@course.name}" du
-  %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}"
-  Si vous souhaitez lui demander de venir à un autre cours, envoyez-lui un message depuis votre onglet "Suivi des inscriptions" :
+  %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}."
+  Si vous souhaitez suivre une autre séance auprès de ce partenaire, accédez à son profil pour vous inscrire de nouveau :
 
 .p.action
-  = link_to "Visualiser mes inscriptions", user_participation_requests_url(@user, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green'
+  = link_to "M'inscrire à une autre séance", discovery_pass_structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green'
 
 - if @message
   .soft--bottom

@@ -44,14 +44,6 @@
                 = link_to 'Proposer un autre créneau', edit_user_participation_request_path(@user, @participation_request), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
                 %br
                 = link_to "Annuler l'inscription", cancel_form_user_participation_request_path(@user, @participation_request), class: 'red nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
-          - if @participation_request.pending? and @participation_request.last_modified_by == 'Structure'
-            %p.epsilon.white-box.bordered.soft.push-half--top.flush--bottom
-              Validez dès maintenant la nouvelle proposition de date de
-              %strong= @participation_request.structure.name
-              qui vous invite à un cours d'essai le
-              %strong #{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}
-              pour le cours
-              %strong= @participation_request.course.name
 
       .push--top
         - if @participation_request.pending? and @participation_request.last_modified_by == 'Structure'

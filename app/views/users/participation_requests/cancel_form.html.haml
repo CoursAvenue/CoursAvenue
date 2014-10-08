@@ -10,7 +10,7 @@
       .grid__item.two-twelfths.v-top.v-top>
         = image_tag @user.avatar_url(:thumb), class: 'message__avatar block center-block bordered rounded--circle'
       .grid__item.ten-twelfths.message__body.message__appendix.soft-half.gray-box>
-        = simple_form_for [@user, @participation_request], url: decline_user_participation_request_path(@user, @participation_request), html: { id: 'participation-request-form' } do |f|
+        = simple_form_for [@user, @participation_request], url: cancel_user_participation_request_path(@user, @participation_request), html: { id: 'participation-request-form' } do |f|
           - if params[:return_to].present?
             %input{ type: 'hidden', value: params[:return_to], name: 'return_to' }
           = f.error_notification

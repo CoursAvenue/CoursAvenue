@@ -28,7 +28,7 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     message_body = params[:participation_request][:message][:body] if params[:participation_request] and params[:participation_request][:message]
     @participation_request.accept!(message_body, 'Structure')
     respond_to do |format|
-      format.html { redirect_to pro_structure_conversation_path(@structure, @participation_request.conversation), notice: 'La participation a bien été accepté' }
+      format.html { redirect_to pro_structure_conversation_path(@structure, @participation_request.conversation), notice: "Votre confirmation vient d'être envoyée" }
     end
   end
 

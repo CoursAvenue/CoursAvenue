@@ -70,6 +70,12 @@ $(function() {
                 datepicker_options.startDate = $(this).data('start-date');
             }
             $(this).datepicker(datepicker_options);
+            if ($(this).data('only-week-day')) {
+                var days_of_week = [0,1,2,3,4,5,6];
+                days_of_week.splice(days_of_week.indexOf($(this).data('only-week-day')), 1);
+                $(this).datepicker('setDaysOfWeekDisabled', days_of_week);
+            }
+
         });
     };
     GLOBAL.initialize_callbacks.push(datepicker_initializer);

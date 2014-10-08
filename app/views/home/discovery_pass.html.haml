@@ -499,6 +499,7 @@
         $(function() {
             $('[data-behavior=sign-in]').click(function() {
                 CoursAvenue.signUp({
+                    title: 'Etape 1 : créez vote compte',
                     success: function() {
                         window.location.href = Routes.new_user_discovery_pass_path(CoursAvenue.currentUser().get('slug') );
                     }

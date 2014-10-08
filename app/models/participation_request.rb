@@ -128,7 +128,7 @@ class ParticipationRequest < ActiveRecord::Base
   # @param message [type] [description]
   #
   # @return Boolean
-  def cancel!(message, last_modified_by='Structure')
+  def cancel!(message_body, last_modified_by='Structure')
     self.last_modified_by = last_modified_by
     self.state = 'canceled'
     message    = reply_to_conversation(message_body, last_modified_by)
