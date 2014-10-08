@@ -33,7 +33,7 @@ describe DiscoveryPass, :type => :model do
       it "updates the sponsor's remaining credit" do
         sponsor.discovery_passes.create
 
-        expect { sponsored_user.discovery_passes.create }.to change { sponsor.discovery_passes.first.remaining_credit }.by(- Sponsorship::USER_WHO_SPONSORED_CREDIT)
+        expect { sponsored_user.discovery_passes.create }.to change { sponsor.discovery_passes.last.next_remaining_credit }.by(- Sponsorship::USER_WHO_SPONSORED_CREDIT)
       end
 
       it "updates the sponsored user's credit" do

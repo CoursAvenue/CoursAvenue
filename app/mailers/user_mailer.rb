@@ -140,7 +140,7 @@ class UserMailer < ActionMailer::Base
     mail to: @user.email, subject: "Plus que 4 jours avant les Portes Ouvertes : n’attendez pas pour vous inscrire"
   end
 
-  # Send an email with a sponsorship email.
+  # Send an email with a sponsorship link.
   #
   # @param user — The sponsor.
   # @param sponsor_user — The email of the user sponsored.

@@ -61,7 +61,7 @@ class DiscoveryPass < ActiveRecord::Base
     return if self.canceled?
     require 'net/http'
 
-    extra_data = { renew: true }
+    extra_data = { renew: true, remaining_credit: self.next_remaining_credit }
     params_for_hash = {
       'ALIAS'           => self.be2bill_alias,
       'ALIASMODE'       => 'subscription',
@@ -101,10 +101,15 @@ class DiscoveryPass < ActiveRecord::Base
   #
   # @return Boolean, saved or not
   def extend_be2bill_subscription(params)
-    self.credit_card_number = params['CARDCODE'] if params['ALIAS'].present?
+    extra_data               = JSON.parse(params['EXTRADATA'])
+    remaining_credit         = extra_data["remaining_credit"].to_d if extra_data["remaining_credit"].present?
+    redeem_sponsorships(self.remaining_credit, remaining_credit)
+
+    self.remaining_credit    = remaining_credit
+    self.credit_card_number  = params['CARDCODE'] if params['ALIAS'].present?
     # Update be2bill_alias if the renew is done by the user because his card hasexpired
-    self.be2bill_alias      = params['ALIAS'] if params['ALIAS'].present?
-    self.card_validity_date = (params['CARDVALIDITYDATE'] ? Date.strptime(params['CARDVALIDITYDATE'], '%m-%y') : nil)
+    self.be2bill_alias       = params['ALIAS'] if params['ALIAS'].present?
+    self.card_validity_date  = (params['CARDVALIDITYDATE'] ? Date.strptime(params['CARDVALIDITYDATE'], '%m-%y') : nil)
     self.extend_subscription_expires_date
     DiscoveryPassMailer.delay.your_pass_renewed(self)
   end
@@ -133,29 +138,51 @@ class DiscoveryPass < ActiveRecord::Base
 
   # See amount
   #
-  # @return Integer next amount to pay, Be2bill formatted
+  # @return Integer the next amount to pay, Be2bill formatted
   def amount_for_be2bill
     self.amount * 100
   end
 
 
   # The amount to pay at the next renewal, taking sponsorships into account.
+  # We also need to make sure the User can only have two months for free.
   #
-  # @return Integer next amount to pay
+  # @return Integer the next amount to pay
   def next_amount
+    return PRICE if self.remaining_credit == 0
+
     amount = PRICE
     sponsorships = self.user.sponsorships.where(state: "bought")
 
     sponsorships.each do |sponsorship|
       if (amount - Sponsorship::USER_WHO_SPONSORED_CREDIT) > 0
-        amount -= Sponsorship::USER_WHO_HAVE_BEEN_SPONSORED_CREDIT
-        sponsorship.update_state
+        amount -= Sponsorship::USER_WHO_SPONSORED_CREDIT
       else
         break
       end
     end
 
     amount
+  end
+
+  # The remaining credit that will be at our disposal at the next renew.
+  #
+  # @return Integer the next remaining credit
+  def next_remaining_credit
+    return 0 if self.remaining_credit == 0
+
+    credit = self.remaining_credit
+    sponsorships = self.user.sponsorships.where(state: "bought")
+
+    sponsorships.each do |sponsorship|
+      if (credit - Sponsorship::USER_WHO_SPONSORED_CREDIT) > 0
+        credit -= Sponsorship::USER_WHO_SPONSORED_CREDIT
+      else
+        break
+      end
+    end
+
+    credit.to_d
   end
 
   # See next_amount
@@ -212,6 +239,24 @@ class DiscoveryPass < ActiveRecord::Base
   # @return nil
   def change_sponsorship_state
     Sponsorship.where(sponsored_user_id: self.user.id).map(&:update_state)
+    nil
+  end
+
+  # Update the status of the redeemed (credit has been used) sponsorships.
+  #
+  # We start be getting the number of sponsorships that have been redeemed by
+  # calculating the difference between remaining_credit and the previous
+  # remaining_credit and then deviding it by the one sponsorship promotion.
+  #
+  # @return nil
+  def redeem_sponsorships(old_remaining_credit, new_remaining_credit)
+    if new_remaining_credit.present?
+      count = ((old_remaining_credit - new_remaining_credit) / Sponsorship::USER_WHO_SPONSORED_CREDIT).to_i
+      sponsorships = self.user.sponsorships.where(state: "bought").take(count)
+
+      sponsorships.map &:update_state
+
+    end
     nil
   end
 end
