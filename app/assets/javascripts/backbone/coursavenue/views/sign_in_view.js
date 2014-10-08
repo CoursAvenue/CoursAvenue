@@ -88,7 +88,10 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         serializeData: function serializeData () {
-            return _.extend(this.options, this.model.toJSON());
+            var params = { forget_password_path: Routes.new_user_password_path() }
+            _.extend(params, this.options);
+            _.extend(params, this.model.toJSON());
+            return params;
         }
     });
 });
