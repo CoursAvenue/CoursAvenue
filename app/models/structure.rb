@@ -66,6 +66,11 @@ class Structure < ActiveRecord::Base
   has_many :admins                   , dependent: :destroy
   has_many :subscription_plans       , dependent: :destroy
 
+  ######################################################################
+  # Scope                                                              #
+  ######################################################################
+  scope :available_in_discovery_pass, -> { where(arel_table[:discovery_pass_policy].matches('%_trial%') ) }
+
   attr_reader :delete_logo, :logo_filepicker_url
   serialize :sleeping_attributes # See `create_sleeping_attributes` method for more info
   attr_accessible :structure_type, :street, :zip_code, :city_id,

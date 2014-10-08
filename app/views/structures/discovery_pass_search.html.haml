@@ -66,3 +66,17 @@
   :javascript
     window.coursavenue.bootstrap.options.server_api.root_subject_id = "#{ params[:root_subject_id] }";
 
+- if params[:welcome]
+  - cache 'welcome_to_discovery_pass' do
+    .panel.hidden#welcome-pass
+      .panel__header.soft
+        %h4.flush
+          %i.fa.fa-check.green
+          Pass activé
+      .panel__body.soft.text--center.epsilon
+        Profitez dès maintenant de votre Pass Découverte : parcourez, choisissez puis inscrivez-vous aux cours de loisirs qui vous intéressent le plus. Nous vous souhaitons de belles découvertes !
+    = content_for :scripts do
+      :javascript
+        $(function() {
+            $.fancybox.open($('#welcome-pass'), { width: 400, maxWidth: 400, padding: 0});
+        });

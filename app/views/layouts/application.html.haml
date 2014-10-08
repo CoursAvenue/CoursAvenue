@@ -57,6 +57,9 @@
           CoursAvenue.addInitializer(function(options){
               this.setCurrentUser(#{current_user_as_json});
           });
+    - if layout_locals[:on_pass_pages]
+      :javascript
+        window.on_discovery_pass_pages = true;
     - if @structure and @structure.is_sleeping
       :javascript
           window.on_sleeping_page = true;

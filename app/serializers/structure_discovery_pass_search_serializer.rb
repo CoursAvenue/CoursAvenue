@@ -3,7 +3,7 @@ class StructureDiscoveryPassSearchSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
 
   attributes :id, :name, :slug, :comments_count, :logo_thumb_url, :logo_large_url, :data_url, :query_params,
-             :structure_type, :highlighted_comment_title, :subjects, :discovery_pass_policy, :discovery_pass_policy_popover
+             :structure_type, :highlighted_comment_title, :subjects
 
   has_many :places,            serializer: PlaceSerializer
   has_many :comments,          serializer: ShortSerializer
@@ -77,11 +77,4 @@ class StructureDiscoveryPassSearchSerializer < ActiveModel::Serializer
     object.courses.available_in_discovery_pass.map(&:subjects).flatten.uniq.map(&:name).join(', ')
   end
 
-  def discovery_pass_policy
-    I18n.t('discovery_pass.policy', count: (object.discovery_pass_policy || '1_').split('_').first)
-  end
-
-  def discovery_pass_policy_popover
-    I18n.t('discovery_pass.policy_popover', count: (object.discovery_pass_policy || '1_').split('_').first)
-  end
 end

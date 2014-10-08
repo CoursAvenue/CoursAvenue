@@ -32,24 +32,25 @@
         .text--center.push-half--bottom
           = link_to 'Partager sur Facebook', "http://www.facebook.com/sharer.php?s=100&p[url]=#{pass_decouverte_url(utm_campaign: params[:utm_campaign], referrer: 'facebook', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)}", class: 'btn btn--facebook', onclick: "ga('send', 'event', 'Pass Découverte', 'shared', 'facebook');", target: :_blank
     - else
-      .grid--full.push--top.soft--top
-        .grid__item.four-tenths.soft--right>
+      .text--center
+        .inline-block.four-tenths.soft--right>
           .push-half--bottom.very-soft.hard--sides
             .white-box.soft.black
               %h3 Essayez autant de cours de loisirs que vous voulez !
-              %p.epsilon Valable 1 mois et renouvelable, le Pass Découverte vous permet de suivre autant de cours d'essais que vous le souhaitez à Paris chez plus de #{Structure.where.not(discovery_pass_policy: nil).count.round(-2)} professeurs, écoles et associations.
+              %p.epsilon
+                Chaque mois, participez à autant de séances d'essai que vous le souhaitez parmi les #{Course.available_in_discovery_pass.count.round(-2)} cours de loisirs négociés spécialement pour vous à Paris auprès de plus de #{Structure.available_in_discovery_pass.count.round(-2)} professeurs, associations et écoles.
               = link_to 'Obtenir mon Pass', (current_user ? new_user_discovery_pass_path(current_user) : '#'), class: 'btn btn--green btn--large btn--full hard--sides', data: { behavior: 'sign-in' }
-        .grid__item.six-tenths>
-          = link_to (current_user ? new_user_discovery_pass_path(current_user) : '#'), class: 'block', data: { behavior: 'sign-in' }, style: 'margin-left: -50px; margin-top: -20px;' do
+        .inline-block
+          = link_to (current_user ? new_user_discovery_pass_path(current_user) : '#'), class: 'block', data: { behavior: 'sign-in' }, style: 'margin-left: -50px;' do
             = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/discovery_pass/badge.png", height: 250, width: 250
-        .home-screen-comment.visuallyhidden--palm.soft-black-text-shadow.south.soft--bottom
-          .grid.epsilon
-            .grid__item.two-twelfths.v-middle.text--center>
-              = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/anonymous.jpg', class: 'block white-circle'
-              Cécilia
-            .grid__item.ten-twelfths.v-middle>
-              %span.quoted.epsilon.quoted--large<
-                %i Grâce au Pass, j'ai découvert au pied de mon immeuble un super cours d'écriture créative. Sans parler des cours de poterie, danse orientale, et même de sophrologie !
+      .home-screen-comment.visuallyhidden--palm.soft-black-text-shadow.south.soft--bottom
+        .grid.epsilon
+          .grid__item.two-twelfths.v-middle.text--center>
+            = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/anonymous.jpg', class: 'block white-circle'
+            Cécilia
+          .grid__item.ten-twelfths.v-middle>
+            %span.quoted.epsilon.quoted--large<
+              %i Grâce au Pass, j'ai découvert au pied de mon immeuble un super cours d'écriture créative. Sans parler des cours de poterie, danse orientale, et même de sophrologie !
 
   .bg-site-background.relative
     .home-screen-promotion-wrapper
@@ -58,20 +59,20 @@
           .grid__item.one-third.palm-one-whole.text--center>
             .center-block.text--center.alpha 1
             .gamma.push-half--bottom.f-weight-300 Achetez votre Pass
-            %p.epsilon Payez directement en ligne par carte bleue : votre Pass est valable 1 mois et est renouvelable autant de fois que vous le souhaitez
+            %p.epsilon Payez directement en ligne par carte bleue : votre Pass est valable 1 mois et est renouvelable autant de fois que vous le souhaitez jusqu'à découvrir vos nouvelles passions
           .grid__item.one-third.palm-one-whole.text--center>
             .center-block.text--center.alpha 2
             .gamma.push-half--bottom.f-weight-300 Choisissez vos cours
-            %p.epsilon Sur CoursAvenue.com, visualisez tous les cours sur une carte géographique (plus de 3 000 négociés pour vous !), choisissez les séances de votre choix, puis réservez gratuitement auprès de chaque partenaire
+            %p.epsilon Visualisez toutes les séances sur une carte géographique, choisissez celles de votre choix, puis réservez gratuitement auprès de chaque partenaire
           .grid__item.one-third.palm-one-whole.text--center>
             .center-block.text--center.alpha 3
             .gamma.push-half--bottom.f-weight-300 Suivez vos cours !
-            %p.epsilon Notez bien le créneau et l'adresse pour ne pas oublier chaque réservation. Vous pouvez participer une seule fois à chacun des cours de votre Pass : si un cours vous a particulièrement plu, libre à vous ensuite d'acheter un carnet ou un abonnement !
+            %p.epsilon Pour chaque séance, vous avez le droit d'y revenir jusqu'à 3 fois : si un cours vous a particulièrement plu, libre à vous ensuite d'y revenir en vous inscrivant directement auprès du partenaire
 
     .main-container.main-container--medium.soft
       .push--sides
         %h2.push-half--bottom.text--center.f-weight-300 Inclus dans votre Pass Découverte
-        %h4.soft--bottom.text--center.f-weight-300 Voici une sélection de cours inclus dans votre Pass
+        %h4.soft--bottom.text--center.f-weight-300 Sélection de cours inclus dans votre Pass
         .grid
           .grid__item.one-third>
             %h4
@@ -240,7 +241,7 @@
               = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/abundance.png', width: 70
             .grid__item.three-twelfths.palm-one-whole>
               %h4.push-half--bottom Un choix unique
-              %p.epsilon C'est la 1ère fois qu'un Pass vous permet d'essayer autant de cours de loisirs : plus de 3 000 séances vous sont proposées, un chiffre qui augmente chaque jour.
+              %p.epsilon C'est la 1ère fois qu'un Pass vous permet d'essayer autant de cours de loisirs : plus de #{Planning.available_in_discovery_pass.count.round(-2)} séances vous sont proposées, un chiffre qui augmente chaque jour.
             .grid__item.one-twelfth.palm-one-whole.text--right.palm-text--center.soft--right.v-middle>
               = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/free.png', width: 70
             .grid__item.three-twelfths.palm-one-whole>
@@ -258,7 +259,7 @@
 
     .main-container.main-container--medium.soft--top
       .text--center.push--ends
-        %h2.soft-half--bottom.text--center.f-weight-300 Où que vous soyez à Paris
+        %h2.soft-half--bottom.text--center.f-weight-300 Plus de #{Structure.available_in_discovery_pass.count.round(-2)} lieux à découvrir à Paris et sa région
         = image_tag 'https://coursavenue-public.s3.amazonaws.com/pass/map-paris-pass.jpg'
 
     %footer.main-footer.relative.print--hidden#coursavenue-footer

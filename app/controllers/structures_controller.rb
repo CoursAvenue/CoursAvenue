@@ -192,6 +192,15 @@ class StructuresController < ApplicationController
     end
   end
 
+  protected
+
+  def layout_locals
+    locals = { }
+    locals[:top_menu_search_url] = discovery_pass_search_structures_path if action_name == 'discovery_pass_search'
+    locals[:on_pass_pages]       = true if action_name == 'discovery_pass_search' or action_name == 'discovery_pass'
+    locals
+  end
+
   private
 
   def choose_layout
