@@ -61,7 +61,7 @@ class DiscoveryPass < ActiveRecord::Base
     return if self.canceled?
     require 'net/http'
 
-    extra_data = { renew: true }
+    extra_data = { renew: true, remaining_credit: self.next_remaining_credit }
     params_for_hash = {
       'ALIAS'           => self.be2bill_alias,
       'ALIASMODE'       => 'subscription',
@@ -101,10 +101,13 @@ class DiscoveryPass < ActiveRecord::Base
   #
   # @return Boolean, saved or not
   def extend_be2bill_subscription(params)
-    self.credit_card_number = params['CARDCODE'] if params['ALIAS'].present?
+    extra_data               = JSON.parse(params['EXTRADATA'])
+    self.remaining_credit    = extra_data["remaining_credit"].to_d if extra_data["remaining_credit"].present?
+
+    self.credit_card_number  = params['CARDCODE'] if params['ALIAS'].present?
     # Update be2bill_alias if the renew is done by the user because his card hasexpired
-    self.be2bill_alias      = params['ALIAS'] if params['ALIAS'].present?
-    self.card_validity_date = (params['CARDVALIDITYDATE'] ? Date.strptime(params['CARDVALIDITYDATE'], '%m-%y') : nil)
+    self.be2bill_alias       = params['ALIAS'] if params['ALIAS'].present?
+    self.card_validity_date  = (params['CARDVALIDITYDATE'] ? Date.strptime(params['CARDVALIDITYDATE'], '%m-%y') : nil)
     self.extend_subscription_expires_date
     DiscoveryPassMailer.delay.your_pass_renewed(self)
   end
