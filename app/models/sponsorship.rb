@@ -5,7 +5,7 @@ class Sponsorship < ActiveRecord::Base
   ######################################################################
 
   USER_WHO_HAVE_BEEN_SPONSORED_CREDIT   = 9 # €
-  USER_WHO_SPONSORED_CREDIT             = 9 # €
+  USER_WHO_SPONSORED_CREDIT             = 3.80 # €
 
   ######################################################################
   # `attr` macros                                                      #
