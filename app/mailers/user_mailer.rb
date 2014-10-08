@@ -147,8 +147,8 @@ class UserMailer < ActionMailer::Base
   # @param promo_code_url — The Sponsorship's promo code url
   # @param text — The text of the email.
   def sponsor_user(user, sponsored_email, promo_code_url, text)
-    @user = user
-    @text = text
+    @user           = user
+    @text           = text
     @promo_code_url = promo_code_url
     mail to: sponsored_email, subject: "[Sponsor] #{@user.name}"
   end
