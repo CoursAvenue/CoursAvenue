@@ -33,4 +33,11 @@ class DiscoveryPassMailer < ActionMailer::Base
     @user           = discovery_pass.user
     mail to: @user.email, subject: "Renouvellement de votre Pass Découverte"
   end
+
+  def your_sponsorship_is_active(discovery_pass)
+    @discovery_pass = discovery_pass
+    @sponsored_user = discovery_pass.user
+    @sponsor        = discovery_pass.sponsorship.user
+    mail to: @sponsor.email, subject: "Votre Parrainage a été prit en compte"
+  end
 end
