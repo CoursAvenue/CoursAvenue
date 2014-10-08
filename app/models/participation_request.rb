@@ -14,8 +14,6 @@ class ParticipationRequest < ActiveRecord::Base
   belongs_to :user
   belongs_to :structure
 
-  has_one :course, through: :planning
-
   ######################################################################
   # Callbacks                                                          #
   ######################################################################
@@ -64,6 +62,11 @@ class ParticipationRequest < ActiveRecord::Base
   # @return Boolean is the request declined?
   def declined?
     self.state == 'declined'
+  end
+
+  # @return Boolean is the request declined?
+  def canceled?
+    self.state == 'canceled'
   end
 
   # @return Boolean is the request pending?
@@ -136,6 +139,10 @@ class ParticipationRequest < ActiveRecord::Base
     end
   end
 
+  def course
+    planning.course
+  end
+
   private
 
   # Set state to pending by default when creating
@@ -154,7 +161,7 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return Boolean
   def request_is_not_duplicate
-    if self.user.participation_requests.where(ParticipationRequest.arel_table[:created_at].gt(Date.today - 1.week).and(ParticipationRequest.arel_table[:planning_id].eq(self.planning_id))).any?
+    if self.user.participation_requests.accepted.where(ParticipationRequest.arel_table[:created_at].gt(Date.today - 1.week).and(ParticipationRequest.arel_table[:planning_id].eq(self.planning_id))).any?
       self.errors[:base] << "duplicate"
       return false
     end
@@ -171,6 +178,8 @@ class ParticipationRequest < ActiveRecord::Base
 
   def reply_to_conversation(message_body, last_modified_by)
     if message_body.present?
+      self.conversation.lock_email_notification_once = true
+      self.conversation.save
       if last_modified_by == 'Structure'
         receipt = self.structure.main_contact.reply_to_conversation(self.conversation, message_body)
       else

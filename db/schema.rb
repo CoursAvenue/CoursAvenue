@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141008100327) do
+ActiveRecord::Schema.define(version: 20141008103929) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -416,17 +416,18 @@ ActiveRecord::Schema.define(version: 20141008100327) do
   end
 
   create_table "mailboxer_conversations", force: true do |t|
-    t.string   "subject",                  default: ""
-    t.datetime "created_at",                               null: false
-    t.datetime "updated_at",                               null: false
+    t.string   "subject",                      default: ""
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
     t.integer  "mailboxer_label_id"
-    t.boolean  "treated_by_phone",         default: false
+    t.boolean  "treated_by_phone",             default: false
     t.datetime "treated_at"
     t.string   "flagged"
     t.datetime "flagged_at"
     t.string   "mailboxer_extra_info_ids"
     t.string   "mailboxer_course_ids"
     t.integer  "participation_request_id"
+    t.boolean  "lock_email_notification_once", default: false
   end
 
   create_table "mailboxer_notifications", force: true do |t|
