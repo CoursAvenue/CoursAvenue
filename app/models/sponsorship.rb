@@ -38,8 +38,8 @@ class Sponsorship < ActiveRecord::Base
   # Update the register status of the sponsored user.
   #
   # @return self
-  def update_register_status
-    self.registered = true
+  def update_registration_status
+    self.state = "registered"
     self.save
   end
 

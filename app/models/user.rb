@@ -600,7 +600,7 @@ class User < ActiveRecord::Base
   def update_sponsorship_status
     if self.sponsorship.any?
       self.sponsorship.each do |sponsorship|
-        sponsorship.update_register_status
+        sponsorship.update_registration_status
       end
     end
     nil
