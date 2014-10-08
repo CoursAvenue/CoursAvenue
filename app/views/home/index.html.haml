@@ -2,8 +2,21 @@
   CoursAvenue | Les élèves vous guident vers les meilleurs cours
 
 = render 'home_screen'
+
+.blue-box#pass-box{ style: 'display: none;' }
+  .main-container.main-container--medium.soft
+    .grid
+      .grid__item.one-third.v-middle>
+        = link_to (current_user ? new_user_discovery_pass_path(current_user) : discovery_pass_path), class: 'block', data: { behavior: 'sign-in' } do
+          = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/discovery_pass/badge.png", height: 200, width: 200
+      .grid__item.two-thirds.v-middle>
+        %h3 Essayez autant de cours de loisirs que vous voulez !
+        %p.epsilon Valable 1 mois et renouvelable, le Pass Découverte vous permet de suivre autant de cours d'essais que vous le souhaitez à Paris chez plus de #{Structure.where.not(discovery_pass_policy: nil).count.round(-2)} professeurs, écoles et associations.
+        = link_to 'Obtenir mon Pass', (current_user ? new_user_discovery_pass_path(current_user) : discovery_pass_path), class: 'btn btn--green btn--large btn--full hard--sides', data: { behavior: 'sign-in' }
+
 .home-screen-promotion-wrapper
   = render 'guide'
+
 
 %section.main-container.main-container--medium.home-screen-promotion.soft.push--ends
   .grid--full
@@ -90,3 +103,11 @@
         - cache comment do
           = render partial: 'comments/home_comment', locals: { comment: comment, truncate_length: 500 }
       .soft--right.text--right= link_to 'Voir tous les cours de sports & arts martiaux', root_search_page_path('sports-arts-martiaux', 'paris'), title: 'Cours de Sports & Arts martiaux à Paris'
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        setTimeout(function(){
+            $('#pass-box').slideDown('slow');
+        }, 1000);
+    })
