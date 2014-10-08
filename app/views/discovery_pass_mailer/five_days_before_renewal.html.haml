@@ -5,15 +5,16 @@
   Bonjour #{@user.first_name}
 
 .p
-  Votre résiliation au Pass Découverte vient d'être prise en compte. Vous avez
-  %strong= "jusqu'au #{I18n.l(@discovery_pass.expires_at)}"
+  Nous vous informons que votre Pass Découverte sera renouvelé dans 5 jours : le
+  %strong= I18n.l(@discovery_pass.expires_at)
+  nous vous prélèverons 19€, ce qui vous permettra de continuer à vous inscrire et découvrir tous les cours de loisirs autour de vous :
   pour réserver vos cours d'essai :
 
 .p.action
   = link_to "Réserver plus de cours", discovery_pass_search_structures_url, class: 'btn btn--green'
 
 .p
-  Une fois que votre Pass arrive à échéance, vous ne pourrez malheureusement plus bénéficier des cours d'essai. Si vous changez d'avis, vous pouvez de nouveau souscrire au Pass ou annuler votre résiliation depuis votre compte, rubrique "Pass Découverte" :
+  Si vous souhaitez gérer ou résilier votre abonnement, accédez à votre compte, rubrique "Pass Découverte" :
 
 .p.action
   = link_to "Gérer mon abonnement", user_discovery_pass_url(@user, @user.discovery_pass, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green'
@@ -23,3 +24,4 @@
 
 - content_for :under_content_gray do
   = render 'participation_request_mailer/shared/user_faq'
+

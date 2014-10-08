@@ -22,6 +22,12 @@ class DiscoveryPassMailer < ActionMailer::Base
     mail to: @user.email, subject: "Résiliation de votre Pass Découverte"
   end
 
+  def five_days_before_renewal(discovery_pass)
+    @discovery_pass = discovery_pass
+    @user           = discovery_pass.user
+    mail to: @user.email, subject: "Renouvellement de votre Pass Découverte"
+  end
+
   def your_pass_renewed(discovery_pass)
     @discovery_pass = discovery_pass
     @user           = discovery_pass.user

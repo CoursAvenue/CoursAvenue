@@ -563,7 +563,7 @@ CoursAvenue::Application.routes.draw do
   post '/mandrill-webhook' => 'mandrill_webhook#create'
   get  '/mandrill-webhook' => 'mandrill_webhook#index'
   root :to => 'home#index'
-  get 'pass-decouverte' => 'home#pass_decouverte', as: :pass_decouverte
+  get 'pass-decouverte' => 'home#discovery_pass', as: :discovery_pass
 
 
   ########### Search pages ###########

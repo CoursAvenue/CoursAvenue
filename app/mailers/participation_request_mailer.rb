@@ -75,6 +75,16 @@ class ParticipationRequestMailer < ActionMailer::Base
     mail to: @user.email, subject: "Nouvelle proposition de créneau - #{@structure.name}"
   end
 
+  def request_has_been_modified_by_teacher_to_user_stage_1(participation_request)
+    retrieve_participation_request_variables(participation_request)
+    mail to: @user.email, subject: "Rappel - Confirmez votre inscription - #{@structure.name}"
+  end
+
+  def request_has_been_modified_by_teacher_to_user_stage_2(participation_request)
+    retrieve_participation_request_variables(participation_request)
+    mail to: @user.email, subject: "Dernier rappel - Confirmation d'inscription - #{@structure.name}"
+  end
+
   ######################################################################
   # Request has been declinded                                         #
   ######################################################################
@@ -111,6 +121,19 @@ class ParticipationRequestMailer < ActionMailer::Base
     @admin                  = @structure.main_contact
     @nb_users               = @participation_requests.map(&:user).uniq.count
     mail to: @admin.email, subject: "Pour mémoire - Inscriptions pour demain"
+  end
+
+  ######################################################################
+  # After the course                                                   #
+  ######################################################################
+  def how_was_the_trial(participation_request)
+    retrieve_participation_request_variables(participation_request)
+    mail to: @user.email, subject: "Qu'en avez-vous pensé ?"
+  end
+
+  def how_was_the_trial_stage_1(participation_request)
+    retrieve_participation_request_variables(participation_request)
+    mail to: @user.email, subject: "Pensez à laisser votre témoignage sur #{@structure.name}"
   end
 
   private
