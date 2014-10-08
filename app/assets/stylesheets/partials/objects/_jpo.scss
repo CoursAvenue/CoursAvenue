@@ -3,7 +3,7 @@
 /* -----------------------------*/
 .jpo-banner-warpper {
     background-color: #d15630;
-    background-image: asset-url('jpo_2014/orange_home_page_background.png');
+    background-image: url('jpo_2014/orange_home_page_background.png');
     background-repeat: repeat;
     @include background-size('1px 1px');
     @include media-query(palm) {
@@ -12,7 +12,7 @@
     }
 }
     .jpo-banner {
-        background-image : asset-url('jpo_2014/home_page_background.png');
+        background-image : url('jpo_2014/home_page_background.png');
         height           : 361px;
         max-width        : 1400px;
         margin           : auto;
@@ -50,7 +50,7 @@
             }
         }
         .jpo-fanion {
-            background-image: asset-url('jpo_2014/fanion.png');
+            background-image: url('jpo_2014/fanion.png');
             height          : 151px;
             width           : 466px;
             color           : white;
@@ -77,7 +77,6 @@
             }
         }
         .jpo-call-to-actions {
-            margin-top : -16px;
             margin-left: 135px;
             @include media-query(palm) {
                 margin-top : 20px;
@@ -150,7 +149,7 @@
 /* POPUP                        */
 /* -----------------------------*/
 .jpo-popup{
-    background-image: asset-url('jpo_2014/popup_background.png');
+    background-image: url('jpo_2014/popup_background.png');
     background-repeat: no-repeat;
     @include background-size('100% 100%');
     @include border-radius($brand-round);
@@ -159,7 +158,7 @@
         @include transform(rotate(-5.5deg));
     }
     .popup-jpo-sticker {
-        background-image : asset-url('jpo_2014/sticker.png');
+        background-image : url('jpo_2014/sticker.png');
         background-repeat: no-repeat;
         width            : 130px;
         height           : 130px;
@@ -175,7 +174,7 @@
         bottom: -25px;
     }
     .popup-jpo-fanion {
-        background-image: asset-url('jpo_2014/popup_fanion.png');
+        background-image: url('jpo_2014/popup_fanion.png');
         height          : 150px;
         width           : 580px;
         color           : white;

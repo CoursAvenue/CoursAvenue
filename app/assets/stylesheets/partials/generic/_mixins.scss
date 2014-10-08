@@ -5,7 +5,7 @@
 }
 
 @mixin background-image-retina($image, $image_2x) {
-  background-image: image-url($image);
+  background-image: url($image);
   // If we have a retina image then add styles for it too
     @media
     only screen and (-webkit-min-device-pixel-ratio: 2),
@@ -16,7 +16,7 @@
     only screen and (                min-resolution: 192dpi),
     only screen and (                min-resolution: 2dppx) {
       // @include background-size(image-width($image) auto);
-      background-image: image-url($image_2x);
+      background-image: url($image_2x);
     }
 }
 @mixin user-select($args){

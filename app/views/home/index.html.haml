@@ -3,16 +3,26 @@
 
 = render 'home_screen'
 
-.blue-box#pass-box{ style: 'display: none;' }
-  .main-container.main-container--medium.soft
-    .grid
-      .grid__item.one-third.v-middle>
-        = link_to (current_user ? new_user_discovery_pass_path(current_user) : discovery_pass_path), class: 'block', data: { behavior: 'sign-in' } do
-          = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/discovery_pass/badge.png", height: 200, width: 200
-      .grid__item.two-thirds.v-middle>
-        %h3 Essayez autant de cours de loisirs que vous voulez !
-        %p.epsilon Valable 1 mois et renouvelable, le Pass Découverte vous permet de suivre autant de cours d'essais que vous le souhaitez à Paris chez plus de #{Structure.where.not(discovery_pass_policy: nil).count.round(-2)} professeurs, écoles et associations.
-        = link_to 'Obtenir mon Pass', (current_user ? new_user_discovery_pass_path(current_user) : discovery_pass_path), class: 'btn btn--green btn--large btn--full hard--sides', data: { behavior: 'sign-in' }
+.jpo-banner-warpper>
+  .jpo-banner.soft.relative>
+    .main-container.soft--top>
+      .jpo-popup-rotation.soft--left.white.alpha.f-weight-bold.soft--bottom{ style: 'margin-left: 100px; '} Pass Découverte
+      .jpo-fanion.relative>
+        %p.flush.jpo-fanion__text.f-style-italic.text--center.absolute>
+          %span.f-weight-300 Essayez autant
+          %br
+          de
+          %span.f-weight-600 cours de loisirs
+          %br
+          %span.f-weight-300 que vous voulez !
+      .text--center.relative.jpo-call-to-actions.inline-block
+        = link_to (current_user ? user_discovery_passes_path(current_user) : discovery_pass_path), class: 'btn btn--yellow btn--bigger soft-half--ends soft--sides' do
+          Obtenir mon Pass Découverte
+        .text--center
+          = link_to (current_user ? user_discovery_passes_path(current_user) : discovery_pass_path), class: 'white' do
+            En savoir plus
+      .jpo-map.absolute
+  .jpo-frise>
 
 .home-screen-promotion-wrapper
   = render 'guide'

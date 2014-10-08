@@ -5,7 +5,7 @@
   Bonjour #{@user.first_name},
 
 .p
-  Malheureusement, #{@structure.name vient de refuser votre demande d'inscription au cours d'essai "#{@course.name}" du
+  Malheureusement, #{@structure.name} vient de refuser votre demande d'inscription au cours d'essai "#{@course.name}" du
   %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}"
   Si vous souhaitez lui demander de venir à un autre cours, envoyez-lui un message depuis votre onglet "Suivi des inscriptions" :
 
