@@ -55,6 +55,9 @@ CoursAvenue::Application.routes.draw do
         resources :medias, controller: 'portraits/medias'
       end
 
+      resources :discovery_passes, only: [:index]
+      resources :participation_requests, only: [:index]
+      resources :sponsorships, only: [:index]
       resources :payment_notifications, only: [:index, :show]
       resources :blog_articles, controller: 'blog/articles', path: 'blog'
       resources :press_articles

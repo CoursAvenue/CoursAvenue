@@ -163,6 +163,7 @@ fr:
         contact: Contact
         courses: Cours réguliers
         crm: Répertoire
+        pro_dashboard: Tableau de bord
         dashboard: Tableau de bord
         invitations: Invitations
         jpo: Portes Ouvertes
@@ -175,6 +176,7 @@ fr:
         premium: Premium
         presentation: Présentation
         price_groups: Tarifs
+        pro_discovery_pass: Pass Découverte
         discovery_pass: Pass Découverte
         share: Parrainer
         statistics: Statistiques

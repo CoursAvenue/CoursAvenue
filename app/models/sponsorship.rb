@@ -34,6 +34,10 @@ class Sponsorship < ActiveRecord::Base
   ######################################################################
   before_validation :set_promo_code
 
+  ######################################################################
+  # Callbacks                                                          #
+  ######################################################################
+  scope :succeeded, -> { where(arel_table[:state].eq('bought').or(arel_table[:state].eq('redeemed'))) }
 
   # Update the status of the sponsorship.
   #

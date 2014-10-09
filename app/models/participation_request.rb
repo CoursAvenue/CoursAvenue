@@ -30,9 +30,10 @@ class ParticipationRequest < ActiveRecord::Base
   ######################################################################
   # Scopes                                                             #
   ######################################################################
-  scope :accepted, -> { where( state: 'accepted') }
-  scope :pending,  -> { where( state: 'pending') }
-  scope :upcoming, -> { where( arel_table[:date].gt(Date.today)) }
+  scope :accepted,             -> { where( state: 'accepted') }
+  scope :pending,              -> { where( state: 'pending') }
+  scope :upcoming,             -> { where( arel_table[:date].gt(Date.today)) }
+  scope :canceled_or_declined, -> { where( arel_table[:state].eq('canceled').or(arel_table[:state].eq('declined'))) }
 
   #
   # Create a ParticipationRequest if everything is correct, and if it is, it also create a conversation

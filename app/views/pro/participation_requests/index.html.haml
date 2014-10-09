@@ -1,0 +1,29 @@
+= side_menu_currently_at 'pro_discovery_pass'
+.panel
+  = render partial: 'pro/shared/discovery_passes_tabs', locals: { current: "participation_requests_#{params[:state]}" }
+  .panel__body.soft
+    .text--center.push-half--ends= paginate @participation_requests, window: 1, outer_window: 3
+    %table.table--striped.table--data
+      %thead
+        %tr
+          %th Date 1ere demande d'inscription
+          %th Nombre d'heures entre la 1ère demande d'inscription et la confirmation
+          %th Nom de l'élève
+          %th Nom du prof
+          %th Contacté
+          %th Commentaires
+      %tbody
+        - @participation_requests.each do |participation_request|
+          %tr
+            %td= l(local_time(participation_request.created_at))
+            %td TODO
+            %td= link_to participation_request.user.name, user_url(participation_request.user, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+            %td= link_to participation_request.structure.name, pro_structure_path(participation_request.structure)
+            %td
+              TODO
+              -# Permettre de cocher / décocher la case et que ça enregistre tout seul.
+            %td
+              TODO
+              -# Champ texte qui s'enregistre tout seul quand on écrit
+
+    .text--center.push-half--ends= paginate @participation_requests, window: 1, outer_window: 3
