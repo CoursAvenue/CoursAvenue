@@ -29,44 +29,7 @@
         {{/if}}
     </div>
 </div>
-{{#if on_appointment}}
-    {{#if course_location}}
-      <div class="flexbox push--bottom">
-          <div class="flexbox__item v-top one-quarter">
-              <strong class="gray-light text--right">Lieux</strong>
-          </div>
-          <div class="flexbox__item v-top three-quarters">
-              {{{ course_location }}}
-          </div>
-      </div>
-    {{/if}}
-{{/if}}
-<div class="flexbox push--bottom">
-    <div class="flexbox__item v-top one-quarter">
-        <strong class="gray-light">Détails</strong>
-    </div>
-    <div class="flexbox__item v-top three-quarters">
-        <div><!--
-         -->{{#each details}}<!--
-          --><div class="inline-block one-half v-middle push-half--bottom soft-half--right {{#ifCond @index '>' 1}}course-{{../../id}}-details-long hidden{{/ifCond}}">
-                <div class="flexbox">
-                    <div class="flexbox__item v-middle two-twelfths text--center">
-                        <i class="fa {{this.icon}} v-middle" title="{{this.alt}}"></i>
-                    </div>
-                    <div class="flexbox__item v-middle ten-twelfths">
-                        {{this.text}}
-                    </div>
-                </div>
-            </div><!--
-         -->{{#ifCond @index '==' 2}}<!--
-             --><a href="#" data-behavior="show-long-version" data-long-version=".course-{{../../id}}-details-long">
-                    + Plus
-                </a><!--
-         -->{{/ifCond}}<!--
-         -->{{/each}}<!--
-      --></div>
-    </div>
-</div>
+
 <div class="flexbox push--bottom">
     <div class="flexbox__item v-top one-quarter">
         <strong class="gray-light">Planning</strong>
@@ -91,7 +54,6 @@
         </table>
     </div>
 </div>
-
 
 <div class="flexbox push--bottom">
     <div class="flexbox__item v-top one-quarter">

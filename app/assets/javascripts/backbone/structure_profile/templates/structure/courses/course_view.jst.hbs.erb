@@ -49,6 +49,29 @@
 {{/if}}
 <div class="flexbox push--bottom">
     <div class="flexbox__item v-top one-quarter">
+        <strong class="gray-light">Planning</strong>
+    </div>
+    <div class="flexbox__item v-top three-quarters">
+        {{#if on_appointment}}
+          Cours particuliers sur demande. <a href="#" data-behavior="show-contact-panel" data-course-id="{{id}}" data-plannings-info="true">Contacter {{ about }}</a> pour prendre un rendez-vous.
+        {{/if}}
+        <table class="table--striped table--data table--data-small {{#if on_appointment}}hidden{{/if}}">
+            <thead class="gray-light">
+                <tr>
+                    <th class="one-tenths">Jour</th>
+                    <th class="two-tenths text--center">Horaires</th>
+                    <th class="two-tenths">Niveau</th>
+                    <th class="two-tenths">Public</th>
+                    <th class="three-tenths">Lieu</th>
+                    <th><i class="fa fa-info"></i></th>
+                </tr>
+            </thead>
+            <tbody data-type="plannings-container"></tbody>
+        </table>
+    </div>
+</div>
+<div class="flexbox push--bottom">
+    <div class="flexbox__item v-top one-quarter">
         <strong class="gray-light">Détails</strong>
     </div>
     <div class="flexbox__item v-top three-quarters">
@@ -71,29 +94,6 @@
          -->{{/ifCond}}<!--
          -->{{/each}}<!--
       --></div>
-    </div>
-</div>
-<div class="flexbox push--bottom">
-    <div class="flexbox__item v-top one-quarter">
-        <strong class="gray-light">Planning</strong>
-    </div>
-    <div class="flexbox__item v-top three-quarters">
-        {{#if on_appointment}}
-          Cours particuliers sur demande. <a href="#" data-behavior="show-contact-panel" data-course-id="{{id}}" data-plannings-info="true">Contacter {{ about }}</a> pour prendre un rendez-vous.
-        {{/if}}
-        <table class="table--striped table--data table--data-small {{#if on_appointment}}hidden{{/if}}">
-            <thead class="gray-light">
-                <tr>
-                    <th class="one-tenths">Jour</th>
-                    <th class="two-tenths text--center">Horaires</th>
-                    <th class="two-tenths">Niveau</th>
-                    <th class="two-tenths">Public</th>
-                    <th class="three-tenths">Lieu</th>
-                    <th><i class="fa fa-info"></i></th>
-                </tr>
-            </thead>
-            <tbody data-type="plannings-container"></tbody>
-        </table>
     </div>
 </div>
 
