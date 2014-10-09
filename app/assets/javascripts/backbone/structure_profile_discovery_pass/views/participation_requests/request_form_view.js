@@ -64,7 +64,7 @@ StructureProfileDiscoveryPass.module('Views.ParticipationRequests', function(Mod
             this.model.set('course_id', planning_data.course_id);
             this.model.set('planning_id', planning_data.id);
             this.selectCourse(planning_data.course_id);
-            this.populatePlannings(planning_data.id);
+            this.populatePlannings();
             var message_form_view = new Module.RequestFormView( { structure: this.structure, model: this.model.toJSON().participation_request } ).render();
             $.magnificPopup.open({
                   items: {
@@ -147,8 +147,9 @@ StructureProfileDiscoveryPass.module('Views.ParticipationRequests', function(Mod
         /*
          * Add plannings option to planning select regarding the selected course
          */
-        populatePlannings: function populatePlannings (planning_id) {
+        populatePlannings: function populatePlannings () {
             if (! this.model.get('course_id')) { return; }
+            var planning_id = this.model.get('planning_id');
             this.ui.$planning_select_input.empty();
             _.each(this.getCurrentCoursePlannings(), function(planning, index) {
                 var option = $('<option>').attr('value', planning.id).text(planning.date + ' ' + planning.time_slot);
