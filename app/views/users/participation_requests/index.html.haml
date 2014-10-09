@@ -17,6 +17,7 @@
             %thead
               %tr
                 %th Status
+                %th Cours
                 %th Adresse
                 %th Professeur
                 %th Jour et horaires
@@ -27,6 +28,10 @@
                   %td{ class: participation_request_color(participation_request) }
                     = participation_request_icon(participation_request)
                     = t "participation_request.state.#{participation_request.state}"
+                  %td
+                    - course = participation_request.course
+                    = course.name
+                    %i.fa.fa-info{ data: { toggle: 'popover', content: "<strong>Niveau :</strong> #{join_levels(participation_request.levels)}<br><strong>Public :</strong> #{join_audiences(participation_request.planning || participation_request.course)}<br><strong>Disciplines :</strong> #{course.subjects.uniq.map(&:name).join(', ')}", html: 'true', placement: 'top', trigger: 'hover' } }
                   %td
                     - place = participation_request.place
                     - if place
