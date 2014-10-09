@@ -128,7 +128,7 @@ class Structure < ActiveRecord::Base
   validates :name, presence: true
   validate  :subject_parent_and_children
   validates :name, :website, :facebook_url, length: { maximum: 255 }
-  validates :website, :facebook_url, :widget_url, url: true
+  # validates :website, :facebook_url, :widget_url, url: true
   validate  :no_contacts_in_name
 
   ######################################################################
