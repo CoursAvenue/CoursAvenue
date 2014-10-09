@@ -16,7 +16,7 @@
     only screen and (                min-resolution: 192dpi),
     only screen and (                min-resolution: 2dppx) {
       // @include background-size(image-width($image) auto);
-      background-image: url($image_2x);
+      background-image: image-url($image_2x);
     }
 }
 @mixin user-select($args){
