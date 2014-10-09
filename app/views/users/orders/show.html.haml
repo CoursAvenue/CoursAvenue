@@ -25,6 +25,6 @@
                 Paypal
               - else
                 Carte bancaire
-            %td= "#{('%.2f' % order.amount).gsub('.', ',')}€"
+            %td= number_to_currency order.amount
             %td= order.public_order_id
             %td= link_to 'Afficher', pro_structure_order_path(@structure, order)

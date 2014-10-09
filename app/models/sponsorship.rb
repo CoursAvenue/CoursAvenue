@@ -4,7 +4,7 @@ class Sponsorship < ActiveRecord::Base
   # Constants                                                          #
   ######################################################################
 
-  USER_WHO_HAVE_BEEN_SPONSORED_CREDIT   = 9.5 # €
+  USER_WHO_HAVE_BEEN_SPONSORED_CREDIT   = 10 # €
   USER_WHO_SPONSORED_CREDIT             = 3.80 # €
 
   ######################################################################

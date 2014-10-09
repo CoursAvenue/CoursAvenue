@@ -17,7 +17,7 @@
             %p Pour chaque personne parrainée souscrivant au Pass, vous recevrez 20% de réduction immédiate sur votre prochain mois et votre ami bénéficiera d'une réduction de 50% sur son 1er mois.
             %h4
               Vous disposez de
-              %span.green= "#{('%.2f' % @discount).gsub('.', ',').gsub(',00', '')}€"
+              %span.green= number_to_currency(@discount)
               de crédit parrainage à dépenser sur votre prochain mois.
 
         .soft--sides

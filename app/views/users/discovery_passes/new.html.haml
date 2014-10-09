@@ -17,10 +17,10 @@
         - if @discovery_pass.sponsorship
           %tr
             %td Parrainage
-            %td= "-#{@discovery_pass.sponsorship.credit_for_sponsored_user}€"
+            %td= "-#{number_to_currency(@discovery_pass.sponsorship.credit_for_sponsored_user)}"
         %tr.text--right
           %th Total TTC
-          %td= "#{@discovery_pass.amount}€"
+          %td= number_to_currency(@discovery_pass.amount)
 
         - if !@discovery_pass.sponsorship
           %tr.no-stripe

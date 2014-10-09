@@ -23,6 +23,6 @@
                 %td Pass découverte
                 %td= l(order.created_at, format: :date_short)
                 %td Carte bancaire
-                %td= "#{('%.2f' % order.amount).gsub('.', ',')}€"
+                %td= number_to_currency order.amount
                 %td= order.order_id
                 %td= link_to 'Afficher', user_order_path(@user, order)

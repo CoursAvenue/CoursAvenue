@@ -35,7 +35,7 @@
       -  if @sponsorship
         .text--center
           .white-box.push--top.soft.inline-block
-            %h4.flush= "Obtenez votre Pass Découverte à 10€ au lieu de 10€ grâce à #{@sponsor.name}"
+            %h4.flush= "Obtenez votre Pass Découverte à #{number_to_currency(DiscoveryPass::PRICE - Sponsorship::USER_WHO_HAVE_BEEN_SPONSORED_CREDIT)} au lieu de #{DiscoveryPass::PRICE}€ grâce à #{@sponsor.name}"
       .text--center
         .inline-block.four-tenths.soft--right>
           .push-half--bottom.very-soft.hard--sides

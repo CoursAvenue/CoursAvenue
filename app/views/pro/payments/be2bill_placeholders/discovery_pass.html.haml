@@ -21,7 +21,7 @@
             %h4.flush Résumé de votre Pass Découverte
           .panel__body.soft-half
             %p
-              Chaque mois, participez à autant de séances d'essai que vous le souhaitez parmi les 800 cours de loisirs négociés spécialement pour vous auprès de nos 200 partenaires parisiens. Votre Pass se renouvelle automatiquement et vous pouvez l'interrompre à tout moment.
+              Chaque mois, participez à autant de séances d'essai que vous le souhaitez parmi les #{Course.available_in_discovery_pass.count.round(-2)} cours de loisirs négociés spécialement pour vous auprès de nos #{Structure.available_in_discovery_pass.count.round(-2)} partenaires parisiens. Votre Pass se renouvelle automatiquement et vous pouvez l'interrompre à tout moment.
 
             %p
               Inclus plus de 800 cours de loisirs à essayer chaque mois auprès de nos 200 partenaires parisiens. Votre Pass se renouvelle automatiquement et vous pouvez l'interrompre à tout moment.
