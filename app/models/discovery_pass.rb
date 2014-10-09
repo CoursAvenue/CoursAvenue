@@ -190,7 +190,7 @@ class DiscoveryPass < ActiveRecord::Base
   #
   # @return Integer next amount to pay, Be2bill formatted
   def next_amount_for_be2bill
-    self.next_amount * 100
+    (self.next_amount * 100).to_i
   end
 
   def canceled?
