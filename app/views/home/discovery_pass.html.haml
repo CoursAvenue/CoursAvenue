@@ -43,9 +43,9 @@
               %h3 Essayez autant de cours de loisirs que vous voulez !
               %p.epsilon
                 Chaque mois, participez à autant de séances d'essai que vous le souhaitez parmi les #{Course.available_in_discovery_pass.count.round(-2)} cours de loisirs négociés spécialement pour vous à Paris auprès de plus de #{Structure.available_in_discovery_pass.count.round(-2)} professeurs, associations et écoles.
-              = link_to 'Obtenir mon Pass', (current_user ? new_user_discovery_pass_path(current_user, promo_code: @sponsorship.promo_code) : '#'), class: 'btn btn--green btn--large btn--full hard--sides', data: { behavior: 'sign-in' }
+              = link_to 'Obtenir mon Pass', (current_user ? new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)) : '#'), class: 'btn btn--green btn--large btn--full hard--sides', data: { behavior: 'sign-in' }
         .inline-block
-          = link_to (current_user ? new_user_discovery_pass_path(current_user, promo_code: @sponsorship.promo_code) : '#'), class: 'block', data: { behavior: 'sign-in' }, style: 'margin-left: -50px;' do
+          = link_to (current_user ? new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)) : '#'), class: 'block', data: { behavior: 'sign-in' }, style: 'margin-left: -50px;' do
             -  if @sponsorship
               = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/discovery_pass/badge_with_promo.png", height: 250, width: 250
             - else
@@ -262,7 +262,7 @@
               %p.epsilon Votre pass est valable 1 mois et renouvelable autant de fois que vous le souhaitez. Satisfaction garantie.
 
       .text--center.push--bottom.soft--bottom
-        = link_to 'Obtenir mon Pass', (current_user ? new_user_discovery_pass_path(current_user, promo_code: @sponsorship.promo_code) : '#'), class: 'btn btn--green btn--large', data: { behavior: 'sign-in' }
+        = link_to 'Obtenir mon Pass', (current_user ? new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)) : '#'), class: 'btn btn--green btn--large', data: { behavior: 'sign-in' }
 
     .main-container.main-container--medium.soft--top
       .text--center.push--ends
