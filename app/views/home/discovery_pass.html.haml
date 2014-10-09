@@ -508,7 +508,7 @@
                 CoursAvenue.signUp({
                     title: 'Etape 1 : créez vote compte',
                     success: function() {
-                        window.location.href = Routes.new_user_discovery_pass_path(CoursAvenue.currentUser().get('slug'), promo_code: #{@sponsorship.try(:promo_code)} );
+                        window.location.href = Routes.new_user_discovery_pass_path(CoursAvenue.currentUser().get('slug'), { promo_code: #{(@sponsorship ? @sponsorship.promo_code : "''")} } );
                     }
                 })
             });
