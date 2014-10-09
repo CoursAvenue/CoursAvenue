@@ -38,6 +38,15 @@ class Sponsorship < ActiveRecord::Base
   # Callbacks                                                          #
   ######################################################################
   scope :succeeded, -> { where(arel_table[:state].eq('bought').or(arel_table[:state].eq('redeemed'))) }
+  scope :bought,    -> { where(state: 'bought') }
+
+  # Compute the credit amount that the user that have sponsored people have
+  # @param user User who have sponsors
+  #
+  # @return Double amount of credit to use for next month
+  def self.discount_amount_for_sponsorer(user)
+    user.sponsorships.bought.count * Sponsorship::USER_WHO_SPONSORED_CREDIT
+  end
 
   # Update the status of the sponsorship.
   #

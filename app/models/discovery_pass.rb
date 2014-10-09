@@ -153,7 +153,7 @@ class DiscoveryPass < ActiveRecord::Base
     return PRICE if self.remaining_credit == 0
 
     amount = PRICE
-    sponsorships = self.user.sponsorships.where(state: "bought")
+    sponsorships = self.user.sponsorships.bought
 
     sponsorships.each do |sponsorship|
       if (amount - Sponsorship::USER_WHO_SPONSORED_CREDIT) > 0

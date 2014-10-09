@@ -2,7 +2,7 @@
 
 .flexbox
   .flexbox__item.one-fifth.v-top.soft-half--left>
-    = render partial: 'users/discovery_passes/side_menu', locals: { current: 'subscriptions' }
+    = render partial: 'users/discovery_passes/side_menu', locals: { current: 'sponsorships' }
   .flexbox__item.four-fifths.v-top.soft-half--left>
     .panel
       = render partial: 'users/sponsorships/tabs', locals: { current: 'new' }
@@ -17,7 +17,7 @@
             %p Pour chaque personne parrainée souscrivant au Pass, vous recevrez 20% de réduction immédiate sur votre prochain mois et votre ami bénéficiera d'une réduction de 50% sur son 1er mois.
             %h4
               Vous disposez de
-              %span.green= "#{@discount}€"
+              %span.green= "#{('%.2f' % @discount).gsub('.', ',').gsub(',00', '')}€"
               de crédit parrainage à dépenser sur votre prochain mois.
 
         .soft--sides

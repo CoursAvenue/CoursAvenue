@@ -135,6 +135,10 @@ class CourseSerializer < ActiveModel::Serializer
 
   def details
     _details = []
+    if teaches_at_home
+      _details << { text: 'Se déplace à domicile',
+                    icon: 'delta fa fa-house' }
+    end
     if on_appointment
       _details << { text: 'Pas de créneau précis, uniquement sur demande',
                     icon: 'delta fa fa-phone-o' }
@@ -145,10 +149,6 @@ class CourseSerializer < ActiveModel::Serializer
     else
       _details << { text: 'Cours collectif',
                     icon: 'fa-2x fa-group' }
-    end
-    if teaches_at_home
-      _details << { text: 'Se déplace à domicile',
-                    icon: 'delta fa fa-house' }
     end
     if is_lesson
       _details << { text: "#{frequency} du #{start_date} au #{end_date}",
