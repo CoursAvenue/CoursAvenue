@@ -502,14 +502,27 @@
 
   - unless current_user
     = content_for :scripts do
-      :javascript
-        $(function() {
-            $('[data-behavior=sign-in]').click(function() {
-                CoursAvenue.signUp({
-                    title: 'Etape 1 : créez vote compte',
-                    success: function() {
-                        window.location.href = Routes.new_user_discovery_pass_path(CoursAvenue.currentUser().get('slug'), { promo_code: #{(@sponsorship ? @sponsorship.promo_code : "''")} } );
-                    }
-                })
-            });
-        })
+      - if @sponsorship
+        :javascript
+          $(function() {
+              $('[data-behavior=sign-in]').click(function() {
+                  CoursAvenue.signUp({
+                      title: 'Etape 1 : créez vote compte',
+                      success: function() {
+                          window.location.href = Routes.new_user_discovery_pass_path(CoursAvenue.currentUser().get('slug'), { promo_code: '#{(@sponsorship ? @sponsorship.promo_code : '')}' } );
+                      }
+                  })
+              });
+          })
+      - else
+        :javascript
+          $(function() {
+              $('[data-behavior=sign-in]').click(function() {
+                  CoursAvenue.signUp({
+                      title: 'Etape 1 : créez vote compte',
+                      success: function() {
+                          window.location.href = Routes.new_user_discovery_pass_path(CoursAvenue.currentUser().get('slug'));
+                      }
+                  })
+              });
+          })

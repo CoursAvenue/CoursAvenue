@@ -41,19 +41,19 @@
                     Cours
                   %br
                   = "particulier".pluralize(privates_courses_length)
-          .milli.structure__header-icon.inline-block.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.subjects_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
+          .milli.structure__header-icon.inline-block.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.courses_subjects_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
             = link_to '#disciplines', class: "muted-link flexbox", data: { behavior: 'scroll-to', offset_top: '-55' } do
               %i.fa-3x.fa-tag.flexbox__item
               .flexbox__item.soft-half--left.soft--right
-                = @structure_decorator.subjects_at_depth_2_count
-                = "disciplines".pluralize @structure_decorator.subjects_at_depth_2_count
+                = @structure_decorator.courses_subjects_at_depth_2_count
+                = "disciplines".pluralize @structure_decorator.courses_subjects_at_depth_2_count
 
           .milli.inline-block.structure__header-icon.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.places_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
             = link_to '#', onclick: "$('#map-thumbnail').click();", class: "muted-link flexbox" do
               %i.fa-3x.fa-map-marker.flexbox__item
               .flexbox__item.soft-half--left.soft--right
-                = @structure_decorator.places_count
-                = "lieu#{@structure.places.count > 1 ? 'x' : ''}"
+                = @structure_decorator.discovery_pass_places_count
+                = "lieu#{@structure_decorator.discovery_pass_places_count > 1 ? 'x' : ''}"
           - if @structure.comments_count > 0
             .milli.inline-block.structure__header-icon.inline-block.semi-muted.v-top{ itemscope: true, itemtype: "http://data-vocabulary.org/Review-aggregate" }
               %meta{ itemprop: 'itemreviewed', content: structure.name }
