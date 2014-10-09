@@ -147,7 +147,7 @@ class CourseSerializer < ActiveModel::Serializer
                     icon: 'fa-2x fa-group' }
     end
     if teaches_at_home
-      _details << { text: 'Peut se déplacer à domicile',
+      _details << { text: 'Se déplace à domicile',
                     icon: 'delta fa fa-house' }
     end
     if is_lesson

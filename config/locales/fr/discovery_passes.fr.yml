@@ -9,4 +9,4 @@ fr:
 
   discovery_pass:
     policy: "%{count} cours d'essai"
-    policy_popover: "Ce profil vous offre %{count} cours d'essai. Réservez dès maintenant !"
+    policy_popover: "Ce profil vous offre %{count} cours d'essai. Réservez la séance de votre choix !"
