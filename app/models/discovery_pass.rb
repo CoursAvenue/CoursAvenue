@@ -102,7 +102,7 @@ class DiscoveryPass < ActiveRecord::Base
   #
   # @return Boolean, saved or not
   def extend_be2bill_subscription(params)
-    extra_data               = JSON.parse(params['EXTRADATA'])
+    extra_data               = params['EXTRADATA']
     remaining_credit         = extra_data["remaining_credit"].to_d if extra_data["remaining_credit"].present?
     redeem_sponsorships(self.remaining_credit, remaining_credit)
 

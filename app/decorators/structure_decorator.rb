@@ -14,6 +14,10 @@ class StructureDecorator < Draper::Decorator
     output.html_safe
   end
 
+  def courses_subjects_at_depth_2_count
+    object.courses.available_in_discovery_pass.map(&:subjects).flatten.uniq.count
+  end
+
   def subjects_at_depth_2_count
     if object.is_sleeping?
       object.subjects_string.split(';').map{|subject_string__subject_slug| Subject.find(subject_string__subject_slug.split(':').last) }.select{ |subj| subj.depth == 2 }.length
@@ -22,12 +26,43 @@ class StructureDecorator < Draper::Decorator
     end
   end
 
+  def discovery_pass_places_count
+    # TODO
+    object.places.count
+  end
+
   def places_count
     if object.is_sleeping?
       object.sleeping_attributes[:places].length
     else
       object.places.count
     end
+  end
+
+  def courses_subjects_popover
+    _subjects = []
+    subjects_at_depth_0 = object.courses.map(&:subjects).flatten.map(&:root).uniq
+    subjects_at_depth_2 = object.courses.map(&:subjects).flatten.uniq
+    subjects_at_depth_0.uniq.each do |root_subject|
+      subjects_at_depth_2 = object.subjects.at_depth(2)
+      _child_subjects = subjects_at_depth_2.uniq.sort_by(&:name).select{ |subject|  subject.ancestry.start_with?(root_subject.id.to_s) }
+      _subjects << {
+        root_name: root_subject.name,
+        child_names: _child_subjects.map(&:name),
+        child_length: _child_subjects.length
+      }
+    end
+
+    output = ''
+    _subjects.sort{ |a, b| b[:child_length] <=> a[:child_length] }.each_with_index do |subject_hash, index|
+      output << "<div class='#{index > 0 ? 'push-half--top' : ''}'><strong>#{subject_hash[:root_name]} #{subject_hash[:child_names].length > 0 ? ' :' : ''}</strong>"
+      list_item_start = (subject_hash[:child_names].length > 1 ? '- ' : '')
+      subject_hash[:child_names].each do |child_name|
+        output << "<br>#{list_item_start}#{child_name}"
+      end
+      output << "</div>"
+    end
+    output.html_safe
   end
 
   def subjects_popover
