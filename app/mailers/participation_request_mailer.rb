@@ -12,34 +12,22 @@ class ParticipationRequestMailer < ActionMailer::Base
   # For Participation Requests                                         #
   ######################################################################
   def you_received_a_request(participation_request)
-    @participation_request = participation_request
-    @structure             = participation_request.structure
-    @admin                 = participation_request.structure.main_contact
-    @user                  = participation_request.user
-    @message               = participation_request.conversation.messages.first
-    @conversation          = participation_request.conversation
+    @message = participation_request.conversation.messages.first
+    retrieve_participation_request_variables(participation_request)
     mail to: @admin.email,
          subject: "Demande d'inscription à un cours d'essai - #{@user.name}"
   end
 
   def you_received_a_request_stage_1(participation_request)
-    @participation_request = participation_request
-    @structure             = participation_request.structure
-    @admin                 = participation_request.structure.main_contact
-    @user                  = participation_request.user
-    @message               = participation_request.conversation.messages.first
-    @conversation          = participation_request.conversation
+    @message = participation_request.conversation.messages.first
+    retrieve_participation_request_variables(participation_request)
     mail to: @admin.email,
          subject: "Rappel - Confirmez l'inscription - #{@user.name}"
   end
 
   def you_received_a_request_stage_2(participation_request)
-    @participation_request = participation_request
-    @structure             = participation_request.structure
-    @admin                 = participation_request.structure.main_contact
-    @user                  = participation_request.user
-    @message               = participation_request.conversation.messages.first
-    @conversation          = participation_request.conversation
+    @message = participation_request.conversation.messages.first
+    retrieve_participation_request_variables(participation_request)
     mail to: @admin.email,
          subject: "Dernier rappel - Confirmez l'inscription - #{@user.name}"
   end
@@ -126,6 +114,11 @@ class ParticipationRequestMailer < ActionMailer::Base
   ######################################################################
   # After the course                                                   #
   ######################################################################
+  def how_was_the_student(participation_request)
+    # retrieve_participation_request_variables(participation_request)
+    # mail to: @user.email, subject: "Qu'en avez-vous pensé ?"
+  end
+
   def how_was_the_trial(participation_request)
     retrieve_participation_request_variables(participation_request)
     mail to: @user.email, subject: "Qu'en avez-vous pensé ?"

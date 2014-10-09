@@ -24,7 +24,7 @@ class Structure < ActiveRecord::Base
 
   friendly_id :slug_candidates, use: [:slugged, :finders]
 
-  geocoded_by :geocoder_address
+  geocoded_by :geocoder_address unless Rails.env.test?
 
   ######################################################################
   # Relations                                                          #
@@ -137,13 +137,13 @@ class Structure < ActiveRecord::Base
   before_create :set_active_to_true
 
   after_create  :set_default_place_attributes
-  after_create  :geocode
+  after_create  :geocode  unless Rails.env.test?
 
   before_save   :strip_name
   before_save   :sanatize_description
   before_save   :encode_uris
 
-  after_save    :geocode_if_needs_to
+  after_save    :geocode_if_needs_to  unless Rails.env.test?
   after_save    :subscribe_to_crm
 
   ######################################################################

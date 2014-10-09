@@ -4,7 +4,7 @@ class Place < ActiveRecord::Base
 
   include ActsAsGeolocalizable
 
-  geocoded_by      :geocoder_address
+  geocoded_by :geocoder_address unless Rails.env.test?
 
   ######################################################################
   # Relations                                                          #
@@ -19,7 +19,7 @@ class Place < ActiveRecord::Base
   # Callbacks                                                          #
   ######################################################################
   after_save :reindex_structure_and_places
-  after_save :geocode_if_needs_to
+  after_save :geocode_if_needs_to unless Rails.env.test?
 
   ######################################################################
   # Scopes                                                             #

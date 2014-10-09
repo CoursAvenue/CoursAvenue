@@ -25,7 +25,7 @@ class DiscoveryPass < ActiveRecord::Base
   scope :expires_in_five_days,    -> { where( arel_table[:expires_at].gt(Date.today + 4.days).and(
                                               arel_table[:expires_at].lteq(Date.today + 5.days)) ) }
 
-  attr_accessible :expires_at, :renewed_at, :last_renewal_failed_at, :canceled_at, :sponsorship,
+  attr_accessible :user, :expires_at, :renewed_at, :last_renewal_failed_at, :canceled_at, :sponsorship,
                   :credit_card_number, :be2bill_alias, :client_ip, :card_validity_date,
                   :cancelation_reason_text, :cancelation_reason_i_dont_want_to_try_more_courses, :cancelation_reason_i_found_a_course
 

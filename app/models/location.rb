@@ -5,8 +5,8 @@ class Location < ActiveRecord::Base
 
   include ActsAsGeolocalizable
 
-  geocoded_by      :geocoder_address
-  after_save       :geocode_if_needs_to
+  geocoded_by :geocoder_address unless Rails.env.test?
+  after_save  :geocode_if_needs_to
 
   belongs_to :city
 
