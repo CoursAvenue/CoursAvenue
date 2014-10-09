@@ -4,7 +4,7 @@ class Sponsorship < ActiveRecord::Base
   # Constants                                                          #
   ######################################################################
 
-  USER_WHO_HAVE_BEEN_SPONSORED_CREDIT   = 9 # €
+  USER_WHO_HAVE_BEEN_SPONSORED_CREDIT   = 9.5 # €
   USER_WHO_SPONSORED_CREDIT             = 3.80 # €
 
   ######################################################################
@@ -74,7 +74,19 @@ class Sponsorship < ActiveRecord::Base
   #
   # @return Integer
   def credit_for_sponsorer
-    USER_WHO_SPONSORED_CREDIT
+    if succeeded
+      USER_WHO_SPONSORED_CREDIT
+    else
+      0
+    end
+  end
+
+  #
+  # Tells wether the sponsorship has been accomplished
+  #
+  # @return [type] [description]
+  def succeeded
+    (state == 'bought' or state == 'redeemed')
   end
 
   private
