@@ -492,10 +492,15 @@
 
   - unless current_user
     = content_for :scripts do
+      :javascript
+        $(function() {
+            ga('send', 'event', 'PassDecouverte', 'Landed');
+        });
       - if @sponsorship
         :javascript
           $(function() {
               $('[data-behavior=sign-in]').click(function() {
+                  ga('send', 'event', 'PassDecouverte', 'Landing page click', 'code promo');
                   CoursAvenue.signUp({
                       title: 'Etape 1 : créez vote compte',
                       show_confirm_email_popup: false,
@@ -509,6 +514,7 @@
         :javascript
           $(function() {
               $('[data-behavior=sign-in]').click(function() {
+                  ga('send', 'event', 'PassDecouverte', 'Landing page click');
                   CoursAvenue.signUp({
                       title: 'Etape 1 : créez vote compte',
                       show_confirm_email_popup: false,

@@ -25,10 +25,10 @@ class Users::SponsorshipsController < Pro::ProController
       if (user = User.where(User.arel_table[:email].matches(_email)).first).nil?
         user = User.new(email: _email)
         user.save(validate: false)
-        sponsorship = @user.sponsorships.create(sponsored_user: user)
-
-        UserMailer.delay.sponsor_user(@user, _email, sponsorship_url(sponsorship.promo_code, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), text)
       end
+      sponsorship = @user.sponsorships.create(sponsored_user: user)
+
+      UserMailer.delay.sponsor_user(@user, _email, sponsorship_url(sponsorship.promo_code, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), text)
     end
 
     respond_to do |format|

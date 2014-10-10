@@ -80,6 +80,7 @@
 = content_for :scripts do
   :javascript
     $(function() {
+      ga('send', 'event', 'PassDecouverte', 'Step 1 : Achat du Pass');
       $('#i-have-promo-code').click(function(){
           $(this).hide();
           $('.promo-hidden').show();
