@@ -3,8 +3,7 @@ class StructureSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
 
   attributes :id, :name, :slug, :comments_count, :logo_thumb_url, :logo_large_url, :data_url, :query_params,
-             :structure_type, :highlighted_comment_title, :premium, :promotion_title, :cities,
-             :regular_courses_plannings_count, :training_courses_plannings_count, :cover_media
+             :structure_type, :highlighted_comment_title, :premium, :promotion_title, :cities, :cover_media
 
   has_many :places,            serializer: PlaceSerializer
   has_many :comments,          serializer: ShortSerializer
@@ -108,17 +107,4 @@ class StructureSerializer < ActiveModel::Serializer
     object.places.map(&:city).map(&:name).uniq.join(', ')
   end
 
-  def regular_courses_plannings_count
-    PlanningSearch.search({ structure_id: object.id,
-                            is_published: true,
-                            course_types: ['lesson', 'private'],
-                            visible: true }.merge(@options[:query] || {})).total
-  end
-
-  def training_courses_plannings_count
-    PlanningSearch.search({ structure_id: object.id,
-                            is_published: true,
-                            course_types: ['training'],
-                            visible: true }.merge(@options[:query] || {})).total
-  end
 end
