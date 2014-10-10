@@ -1,6 +1,7 @@
 # encoding: utf-8
 class ApplicationController < ActionController::Base
   protect_from_forgery
+  caches_page :robots
 
   layout 'users'
 
@@ -100,6 +101,12 @@ class ApplicationController < ActionController::Base
     unless current_pro_admin && current_pro_admin.super_admin?
       redirect_to root_path, alert: "Vous n'avez pas le droit !"
     end
+  end
+
+  def robots
+    robot_type = ENV["DISABLE_ROBOTS"] == "true" ? "staging" : "production"
+    robots = File.read(Rails.root + "config/robots/robots.#{robot_type}.txt")
+    render text: robots, layout: false, content_type: "text/plain"
   end
 
   protected

@@ -40,6 +40,8 @@ GEM
       rack-test (~> 0.6.2)
     actionpack-action_caching (1.0.0)
       actionpack (>= 4.0.0.beta, < 5.0)
+    actionpack-page_caching (1.0.2)
+      actionpack (>= 4.0.0, < 5)
     actionview (4.1.6)
       activesupport (= 4.1.6)
       builder (~> 3.1)
@@ -582,6 +584,7 @@ PLATFORMS
 
 DEPENDENCIES
   actionpack-action_caching (~> 1.0.0)
+  actionpack-page_caching
   active_hash (~> 1.2.0)
   active_model_serializers (~> 0.8.1)
   activerecord-session_store!

@@ -2,6 +2,7 @@
 CoursAvenue::Application.routes.draw do
 
   mount Ckeditor::Engine => '/ckeditor'
+  get '/robots.txt' => 'home#robots'
   # ---------------------------------------------
   # ----------------------------------------- PRO
   # ---------------------------------------------
@@ -567,7 +568,6 @@ CoursAvenue::Application.routes.draw do
   get  '/mandrill-webhook' => 'mandrill_webhook#index'
   root :to => 'home#index'
   get 'pass-decouverte' => 'home#discovery_pass', as: :discovery_pass
-
 
   ########### Search pages ###########
   # Must be at the end not to stop other routes
