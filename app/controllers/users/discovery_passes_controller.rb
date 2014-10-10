@@ -38,6 +38,9 @@ class Users::DiscoveryPassesController < Pro::ProController
 
   # GET etablissements/:structure_id/abonnements/checkout
   def new
+    if @user.discovery_pass and @user.discovery_pass.active?
+      redirect_to user_participation_requests_path(@user), notice: 'Vous avez déjà un Pass Découverte'
+    end
     @user.interested_in_discovery_pass = true
     @user.save
     extra_data = {}
