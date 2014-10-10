@@ -113,7 +113,7 @@ StructureProfileDiscoveryPass.module('Views.ParticipationRequests', function(Mod
          * Return all the plannings of the currently selected course
          */
         getCurrentCoursePlannings: function getCurrentCoursePlannings () {
-            return this.getCurrentCourse().get('plannings');
+            return (this.getCurrentCourse() ? this.getCurrentCourse().get('plannings') : []);
         },
 
         /*

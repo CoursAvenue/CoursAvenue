@@ -67,15 +67,28 @@
                 var new_action;
                 var city = this.city_input.val() || $.cookie('city') || 'paris';
                 city = city.replace(/[^A-Za-z]/g, '-').toLowerCase();
-                if (this.selected_subject && this.selected_subject.depth == 0) {
-                    new_action = Routes.root_search_page_path(this.selected_subject.slug, city);
-                    this.subjects_input.removeAttr('name'); // Remove name attribute to prevent word ending in the keywords filter
-                } else if (this.selected_subject) {
-                    new_action = Routes.search_page_path(this.selected_subject.root, this.selected_subject.slug, city);
-                    this.subjects_input.removeAttr('name'); // Remove name attribute to prevent word ending in the keywords filter
+                if (window.on_discovery_pass_pages) {
+                    if (this.selected_subject && this.selected_subject.depth == 0) {
+                        new_action = Routes.discovery_pass_search_structures_path({ root_subject_id: this.selected_subject.slug, lat: this.$element.find('[name=lat]').val(), lng: this.$element.find('[name=lng]').val()});
+                        this.subjects_input.removeAttr('name'); // Remove name attribute to prevent word ending in the keywords filter
+                    } else if (this.selected_subject) {
+                        new_action = Routes.discovery_pass_search_structures_path({ root_subject_id: this.selected_subject.root, subject_id: this.selected_subject.slug, lat: this.$element.find('[name=lat]').val(), lng: this.$element.find('[name=lng]').val()});
+                        this.subjects_input.removeAttr('name'); // Remove name attribute to prevent word ending in the keywords filter
+                    } else {
+                        this.subjects_input.attr('name', 'name');
+                        new_action = Routes.discovery_pass_search_structures_path({ lat: this.$element.find('[name=lat]').val(), lng: this.$element.find('[name=lng]').val()});
+                    }
                 } else {
-                    this.subjects_input.attr('name', 'name');
-                    new_action = Routes.root_search_page_without_subject_path(city);
+                    if (this.selected_subject && this.selected_subject.depth == 0) {
+                        new_action = Routes.root_search_page_path(this.selected_subject.slug, city);
+                        this.subjects_input.removeAttr('name'); // Remove name attribute to prevent word ending in the keywords filter
+                    } else if (this.selected_subject) {
+                        new_action = Routes.search_page_path(this.selected_subject.root, this.selected_subject.slug, city);
+                        this.subjects_input.removeAttr('name'); // Remove name attribute to prevent word ending in the keywords filter
+                    } else {
+                        this.subjects_input.attr('name', 'name');
+                        new_action = Routes.root_search_page_without_subject_path(city);
+                    }
                 }
                 this.$element.attr('action', new_action)
 
