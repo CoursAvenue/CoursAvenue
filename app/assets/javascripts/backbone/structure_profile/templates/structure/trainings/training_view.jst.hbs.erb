@@ -7,10 +7,10 @@
   {{/if}}
 </div>
 <div class="flexbox push--bottom">
-    <div class="flexbox__item v-top one-quarter">
+    <div class="flexbox__item v-top one-fifth">
         <strong class="gray-light">Description</strong>
     </div>
-    <div class="flexbox__item v-top three-quarters">
+    <div class="flexbox__item v-top four-fifths">
         {{#if description}}
             {{#ifCond description '!=' description_short}}
             <div id="course-{{id}}-description-short" class="gray last-p-push-half--bottom">
@@ -35,10 +35,10 @@
     </div>
 </div>
 <div class="flexbox push--bottom">
-    <div class="flexbox__item v-top one-quarter">
+    <div class="flexbox__item v-top one-fifth">
         <strong class="gray-light">Planning</strong>
     </div>
-    <div class="flexbox__item v-top three-quarters">
+    <div class="flexbox__item v-top four-fifths">
         <table class="table--striped table--data table--data-small {{#if on_appointment}}hidden{{/if}}">
             <thead class="gray-light">
                 <tr>
@@ -56,10 +56,10 @@
 </div>
 
 <div class="flexbox push--bottom" id="course-{{id}}-tarifs">
-    <div class="flexbox__item v-top one-quarter">
+    <div class="flexbox__item v-top one-fifth">
         <strong class="gray-light v-middle">Tarifs</strong>
     </div>
-    <div class="flexbox__item v-top three-quarters">
+    <div class="flexbox__item v-top four-fifths">
         {{#unless has_price_group}}
           {{capitalize about}} n'a pas mis à jour ses tarifs : <a href="#" data-behavior="show-contact-panel">contactez-{{about_genre}}</a>.
         {{/unless}}
@@ -131,10 +131,10 @@
 </div>
 
 <div class="flexbox push--bottom">
-    <div class="flexbox__item v-top one-quarter">
-        <strong class="gray-light">Disciplines concernées</strong>
+    <div class="flexbox__item v-top one-fifth">
+        <strong class="gray-light">Disciplines</strong>
     </div>
-    <div class="flexbox__item v-top three-quarters">
+    <div class="flexbox__item v-top four-fifths">
         <div>
             {{#each subjects}}
             <div class="push-half--bottom {{#ifCond @index '>' 0}}course-{{../../id}}-subjects-long hidden{{/ifCond}}">

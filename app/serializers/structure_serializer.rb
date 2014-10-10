@@ -4,7 +4,7 @@ class StructureSerializer < ActiveModel::Serializer
 
   attributes :id, :name, :slug, :comments_count, :logo_thumb_url, :logo_large_url, :data_url, :query_params,
              :structure_type, :highlighted_comment_title, :premium, :promotion_title, :cities,
-             :regular_courses_plannings_count, :training_courses_plannings_count
+             :regular_courses_plannings_count, :training_courses_plannings_count, :cover_media
 
   has_many :places,            serializer: PlaceSerializer
   has_many :comments,          serializer: ShortSerializer
@@ -17,6 +17,10 @@ class StructureSerializer < ActiveModel::Serializer
 
   def preloaded_medias
     object.medias.cover_first.videos_first.limit((object.premium? ? 20 : Media::FREE_PROFIL_LIMIT))
+  end
+
+  def cover_media
+    MediaSerializer.new preloaded_medias.first
   end
 
   def comments

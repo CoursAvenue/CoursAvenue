@@ -3,7 +3,7 @@ class StructureDiscoveryPassSearchSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
 
   attributes :id, :name, :slug, :comments_count, :logo_thumb_url, :logo_large_url, :data_url, :query_params,
-             :structure_type, :highlighted_comment_title, :subjects
+             :structure_type, :highlighted_comment_title, :subjects, :cover_media
 
   has_many :places,            serializer: PlaceSerializer
   has_many :comments,          serializer: ShortSerializer
@@ -16,6 +16,10 @@ class StructureDiscoveryPassSearchSerializer < ActiveModel::Serializer
 
   def preloaded_medias
     object.medias.cover_first.videos_first.limit(20)
+  end
+
+  def cover_media
+    MediaSerializer.new preloaded_medias.first
   end
 
   def comments
