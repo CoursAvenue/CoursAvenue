@@ -1,13 +1,14 @@
 class StructureDecorator < Draper::Decorator
 
-  def places_popover
+  def places_popover(place_ids=nil)
     output = ''
     if object.is_sleeping?
       object.sleeping_attributes[:places].each do |place|
         output << "<div class='push-half--bottom'><strong>#{place['name']}</strong><br>#{place['street']}, #{City.find(place['city_id']).name}</div>"
       end
     else
-      object.places.each do |place|
+      places = (place_ids ? place_ids.map{|place_id| Place.find(place_id)} : object.places)
+      places.each do |place|
         output << "<div class='push-half--bottom'><strong>#{place.name}</strong><br>#{place.street}, #{place.city.name}</div>"
       end
     end
@@ -24,11 +25,6 @@ class StructureDecorator < Draper::Decorator
     else
       object.subjects.at_depth(2).count
     end
-  end
-
-  def discovery_pass_places_count
-    # TODO
-    object.places.count
   end
 
   def places_count

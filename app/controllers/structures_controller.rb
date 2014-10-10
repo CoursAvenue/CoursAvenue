@@ -4,6 +4,7 @@ class StructuresController < ApplicationController
   include StructuresHelper
 
   skip_before_filter :verify_authenticity_token, only: [:add_to_favorite, :remove_from_favorite]
+  before_filter :protect_discovery_pass_access, only: [:discovery_pass_search, :discovery_pass]
 
   respond_to :json
 
@@ -60,7 +61,6 @@ class StructuresController < ApplicationController
 
   # GET /etablissements/pass-decouverte
   def discovery_pass_search
-    redirect_to discovery_pass_path if !current_user or (current_user and !current_user.discovery_pass)
     params[:discovery_pass] = true
     if params[:root_subject_id].present? and params[:subject_id].blank?
       params[:subject_id] = params[:root_subject_id]
@@ -106,13 +106,18 @@ class StructuresController < ApplicationController
 
   # GET /etablissements/:id/pass-decouverte
   def discovery_pass
-    redirect_to discovery_pass_path if !current_user or (current_user and !current_user.discovery_pass)
     @structure = Structure.friendly.find params[:id]
     @structure_decorator                  = @structure.decorate
-    @place_ids                            = @structure.places.map(&:id)
     @header_promotion_title_for_structure = header_promotion_title_for_structure(@structure)
     @city                                 = @structure.city
     @medias                               = (@structure.premium? ? @structure.medias.cover_first.videos_first : @structure.medias.cover_first.videos_first.limit(Media::FREE_PROFIL_LIMIT))
+
+    @place_ids = []
+    place_search = PlanningSearch.search({ structure_id: @structure.id, discovery_pass: true }, group: :place_id_str)
+    place_search.group(:place_id_str).groups.each do |place_group|
+      @place_ids << place_group.results.first.try(:place_id)
+    end
+    @place_ids.compact!
 
     @model = StructureShowSerializer.new(@structure, {
       structure:          @structure,
@@ -225,5 +230,11 @@ class StructuresController < ApplicationController
     SearchTermLog.create(name: "FILTRE: Dates")         if params[:week_days].present? or params[:start_date].present? or params[:end_date].present? or params[:start_hour].present? or params[:end_hour].present?
     SearchTermLog.create(name: "FILTRE: Promo")         if params[:discount_types].present?
     SearchTermLog.create(name: "FILTRE: Cours d'essai") if params[:trial_course_amount].present?
+  end
+
+  def protect_discovery_pass_access
+    if !current_user or (current_user and !current_user.discovery_pass and !current_user.super_user)
+      redirect_to discovery_pass_path
+    end
   end
 end
