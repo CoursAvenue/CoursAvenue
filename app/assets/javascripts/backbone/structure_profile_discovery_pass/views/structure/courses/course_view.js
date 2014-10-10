@@ -6,7 +6,7 @@ StructureProfileDiscoveryPass.module('Views.Structure.Courses', function(Module,
         itemView: Module.Plannings.PlanningView,
 
         events: {
-            "click [data-behavior=register]": 'registerToCourse'
+            "click [data-behavior=register-to-course]": 'registerToCourse'
         },
 
         onItemviewRegister: function onItemviewRegister (view, data) {

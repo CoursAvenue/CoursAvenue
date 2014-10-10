@@ -86,10 +86,14 @@ StructureProfileDiscoveryPass.module('Views.ParticipationRequests', function(Mod
                 startDate: new Date()
             };
             this.ui.$datepicker_input.datepicker(datepicker_options);
-            if (this.model.get('course_id')) { this.selectCourse(this.model.get('course_id')); }
-            if (this.model.get('planning_id')) { this.populatePlannings(this.model.get('planning_id')); }
+            if (this.model.get('course_id')) { this.selectCourse(); }
+            if (this.model.get('planning_id')) { this.selectPlanning(); }
         },
 
+        selectPlanning: function selectPlanning () {
+            this.ui.$planning_select_input.find('option').removeProp('selected');
+            this.ui.$planning_select_input.find('option[value=' + this.model.get('planning_id') + ']').prop('selected', true);
+        },
         /*
          * When a user select a course in the select box, we show the associated plannings
          */
@@ -99,7 +103,7 @@ StructureProfileDiscoveryPass.module('Views.ParticipationRequests', function(Mod
             this.model.set('course_collection_type', this.ui.$course_select.find('option:selected').data('collection-type'));
             this.selected_course                 = this.structure.get(this.selected_course_collection_type).findWhere({ id: course_id });
             this.model.set('course_id', course_id);
-            this.selectCourse(course_id);
+            this.selectCourse();
         },
 
         /*
@@ -126,9 +130,9 @@ StructureProfileDiscoveryPass.module('Views.ParticipationRequests', function(Mod
         /*
          * Select course in select
          */
-        selectCourse: function selectCourse (course_id) {
+        selectCourse: function selectCourse () {
             this.ui.$course_select.find('option').removeAttr('selected');
-            this.ui.$course_select.find('option[value=' + course_id + ']').attr('selected', true);
+            this.ui.$course_select.find('option[value=' + this.model.get('course_id') + ']').attr('selected', true);
             if (this.getCurrentCoursePlannings().length > 0) {
                 this.ui.$planning_select_wrapper.slideDown();
                 this.ui.$time_wrapper.hide();

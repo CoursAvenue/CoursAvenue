@@ -38,6 +38,8 @@ class Users::DiscoveryPassesController < Pro::ProController
 
   # GET etablissements/:structure_id/abonnements/checkout
   def new
+    @user.interested_in_discovery_pass = true
+    @user.save
     extra_data = {}
     @discovery_pass = @user.discovery_passes.build
     if params[:promo_code] and (sponsor = Sponsorship.where(promo_code: params[:promo_code]).first)
