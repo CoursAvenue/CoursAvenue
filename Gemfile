@@ -22,6 +22,7 @@ gem 'puma'
 # Database
 gem 'pg'
 
+gem 'actionpack-page_caching'
 # Lets you access the version of the deploy on Heroku
 # Mainly used for caching: see:  config/bust_http_cache.rb
 gem 'heroku-api'
