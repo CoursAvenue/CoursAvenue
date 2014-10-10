@@ -26,44 +26,38 @@
       %div
 
   .main-container.main-container--medium.soft-half--bottom.relative{ style: "height: 500px;" }
-    - if params[:inscription].present?
-      .green-box.soft.text--center.push--top.white
-        %h3 Félicitations ! Vous êtes bien enregistré : partagez-le sur Facebook.
-        .text--center.push-half--bottom
-          = link_to 'Partager sur Facebook', "http://www.facebook.com/sharer.php?s=100&p[url]=#{pass_decouverte_url(utm_campaign: params[:utm_campaign], referrer: 'facebook', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)}", class: 'btn btn--facebook', onclick: "ga('send', 'event', 'Pass Découverte', 'shared', 'facebook');", target: :_blank
-    - else
-      -  if @sponsorship
-        .text--center
-          .white-box.push--top.soft.inline-block
-            .beta.flush
-              Félicitations ! Grâce à
-              %strong.blue= "#{@sponsor.name},"
-              obtenez votre Pass Découverte pour
-              %strong.blue= number_to_currency(DiscoveryPass::PRICE - Sponsorship::USER_WHO_HAVE_BEEN_SPONSORED_CREDIT).gsub(/\,00/, "")
-              au lieu de
-              %strong.blue= "#{DiscoveryPass::PRICE}€"
+    -  if @sponsorship
+      .text--center
+        .white-box.push--top.soft.inline-block
+          .beta.flush
+            Félicitations ! Grâce à
+            %strong.blue= "#{@sponsor.name},"
+            obtenez votre Pass Découverte pour
+            %strong.blue= number_to_currency(DiscoveryPass::PRICE - Sponsorship::USER_WHO_HAVE_BEEN_SPONSORED_CREDIT).gsub(/\,00/, "")
+            au lieu de
+            %strong.blue= "#{DiscoveryPass::PRICE}€"
 
-      .inline-block.four-tenths.soft--right.text--center>
-        .push-half--bottom.very-soft.hard--sides
-          .white-box.soft.black
-            %h3 Essayez autant de cours de loisirs que vous voulez !
-            %p.epsilon
-              Chaque mois, participez à autant de séances d'essai que vous le souhaitez parmi les #{Planning.available_in_discovery_pass.count.round(-2)} cours de loisirs négociés spécialement pour vous à Paris auprès de plus de #{Structure.available_in_discovery_pass.count.round(-2)} professeurs, associations et écoles.
-            = link_to 'Obtenir mon Pass', (current_user ? new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)) : '#'), class: 'btn btn--green btn--large btn--full hard--sides', data: { behavior: 'sign-in' }
-      .inline-block
-        = link_to (current_user ? new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)) : '#'), class: 'block', data: { behavior: 'sign-in' }, style: 'margin-left: -50px;' do
-          -  if @sponsorship
-            = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/discovery_pass/badge_with_promo.png", height: 250, width: 250
-          - else
-            = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/discovery_pass/badge.png", height: 250, width: 250
-      .home-screen-comment.visuallyhidden--palm.soft-black-text-shadow.south.soft--bottom
-        .grid.epsilon
-          .grid__item.two-twelfths.v-middle.text--center>
-            = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/anonymous.jpg', class: 'block white-circle'
-            Cécilia
-          .grid__item.ten-twelfths.v-middle>
-            %span.quoted.epsilon.quoted--large<
-              %i Grâce au Pass, j'ai découvert au pied de mon immeuble un super cours d'écriture créative. Sans parler des cours de poterie, danse orientale, et même de sophrologie !
+    .inline-block.four-tenths.soft--right.text--center>
+      .push-half--bottom.very-soft.hard--sides
+        .white-box.soft.black
+          %h3 Essayez autant de cours de loisirs que vous voulez !
+          %p.epsilon
+            Chaque mois, participez à autant de séances d'essai que vous le souhaitez parmi les #{Planning.available_in_discovery_pass.count.round(-2)} cours de loisirs négociés spécialement pour vous à Paris auprès de plus de #{Structure.available_in_discovery_pass.count.round(-2)} professeurs, associations et écoles.
+          = link_to 'Obtenir mon Pass', (current_user ? new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)) : '#'), class: 'btn btn--green btn--large btn--full hard--sides', data: { behavior: 'sign-in' }
+    .inline-block
+      = link_to (current_user ? new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)) : '#'), class: 'block', data: { behavior: 'sign-in' }, style: 'margin-left: -50px;' do
+        -  if @sponsorship
+          = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/discovery_pass/badge_with_promo.png", height: 250, width: 250
+        - else
+          = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/discovery_pass/badge.png", height: 250, width: 250
+    .home-screen-comment.visuallyhidden--palm.soft-black-text-shadow.south.soft--bottom
+      .grid.epsilon
+        .grid__item.two-twelfths.v-middle.text--center>
+          = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/anonymous.jpg', class: 'block white-circle'
+          Cécilia
+        .grid__item.ten-twelfths.v-middle>
+          %span.quoted.epsilon.quoted--large<
+            %i Grâce au Pass, j'ai découvert au pied de mon immeuble un super cours d'écriture créative. Sans parler des cours de poterie, danse orientale, et même de sophrologie !
 
   .bg-site-background.relative
     .home-screen-promotion-wrapper
@@ -490,17 +484,18 @@
         opacity: 1;
       }
 
-  - unless current_user
+  - if Rails.env.production?
     = content_for :scripts do
       :javascript
         $(function() {
             ga('send', 'event', 'PassDecouverte', 'Landed');
         });
+  - unless current_user
+    = content_for :scripts do
       - if @sponsorship
         :javascript
           $(function() {
               $('[data-behavior=sign-in]').click(function() {
-                  ga('send', 'event', 'PassDecouverte', 'Landing page click', 'code promo');
                   CoursAvenue.signUp({
                       title: 'Etape 1 : créez vote compte',
                       show_confirm_email_popup: false,
@@ -508,13 +503,13 @@
                           window.location.href = Routes.new_user_discovery_pass_path(CoursAvenue.currentUser().get('slug'), { promo_code: '#{(@sponsorship ? @sponsorship.promo_code : '')}' } );
                       }
                   })
+                  ga('send', 'event', 'PassDecouverte', 'Landing page click', 'code promo');
               });
           })
       - else
         :javascript
           $(function() {
               $('[data-behavior=sign-in]').click(function() {
-                  ga('send', 'event', 'PassDecouverte', 'Landing page click');
                   CoursAvenue.signUp({
                       title: 'Etape 1 : créez vote compte',
                       show_confirm_email_popup: false,
@@ -522,5 +517,6 @@
                           window.location.href = Routes.new_user_discovery_pass_path(CoursAvenue.currentUser().get('slug'));
                       }
                   })
+                  ga('send', 'event', 'PassDecouverte', 'Landing page click');
               });
           })
