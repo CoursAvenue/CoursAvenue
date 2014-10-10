@@ -64,6 +64,7 @@ class PaymentNotification < ActiveRecord::Base
     if for_discovery_pass?
       # TODO
       # Notify everyone
+      SuperAdminMailer.delay.pass_sold(self.user)
     else
       if self.payment_succeeded?
         # Email for admin
