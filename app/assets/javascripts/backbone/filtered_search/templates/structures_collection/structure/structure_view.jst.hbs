@@ -41,15 +41,6 @@
             {{ truncate cities 50 }}
         </div>
         <div>
-            <div class="soft--right">
-                {{#ifCond regular_courses_plannings_count '>' 0 }}
-                    Cours réguliers ({{regular_courses_plannings_count}} {{ pluralize regular_courses_plannings_count 'créneau' 'créneaux' }})
-                {{/ifCond}}
-                {{#ifCond regular_courses_plannings_count '>' 0 }}{{#ifCond training_courses_plannings_count '>' 0 }}・{{/ifCond}}{{/ifCond}}
-                {{#ifCond training_courses_plannings_count '>' 0 }}
-                    Stages & ateliers ({{training_courses_plannings_count}} {{ pluralize training_courses_plannings_count 'date' 'dates' }})
-                {{/ifCond}}
-            </div>
             <div>
                 <strong>
                     <i class="fa fa-comment"></i> {{ comments_count }} avis
