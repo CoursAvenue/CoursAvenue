@@ -233,8 +233,10 @@ class StructuresController < ApplicationController
   end
 
   def protect_discovery_pass_access
-    if !current_user or (current_user and !current_user.discovery_pass and !current_user.super_user)
-      redirect_to discovery_pass_path
-    end
+    # Current_pro admin can see
+    return if current_pro_admin
+    # Users with pass can see
+    return if current_user and current_user.discovery_pass and current_user.discovery_pass.active?
+    redirect_to discovery_pass_path
   end
 end
