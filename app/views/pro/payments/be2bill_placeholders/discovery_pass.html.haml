@@ -7,6 +7,10 @@
     .delta.push--bottom
       Titulaire du pass :
       %strong #{@user.name}
+    - if params[:AMOUNT] and params[:AMOUNT].to_i
+      .delta.push--bottom
+        Prix :
+        %strong #{params[:AMOUNT].to_i / 100}€ TTC
     .grid
       .grid__item.two-thirds.v-top>
         .text--center.push-half--bottom
@@ -14,21 +18,3 @@
           = image_tag 'logos/be2bill/logo_mastercard.png', class: 'soft-half--sides', height: 35, style: 'height: 35px;'
           = image_tag 'logos/be2bill/logo_verified_by_visa.png', class: 'soft-half--sides', height: 35, style: 'height: 35px;'
         \%PLACEHOLDER%
-      .grid__item.one-third.v-top>
-        .panel
-          .panel__header.soft-half
-            %h4.flush Résumé de votre Achat
-          .panel__body.soft-half
-            %p
-              Chaque mois, participez à autant de séances d'essai que vous le souhaitez parmi les #{Course.available_in_discovery_pass.count.round(-2)} cours de loisirs négociés spécialement pour vous auprès de nos #{Structure.available_in_discovery_pass.count.round(-2)} partenaires parisiens. Votre Pass se renouvelle automatiquement et vous pouvez l'interrompre à tout moment.
-              - if params[:AMOUNT] and params[:AMOUNT].to_i
-                %i.fa.fa-info{ data: { toggle: 'popover', html: true, content: "Vous serez prélevé de #{params[:AMOUNT].to_i / 100}€ chaque mois jusqu'à la résiliation de votre abonnement." } }
-
-            - if params[:AMOUNT] and params[:AMOUNT].to_i
-              %hr
-              .grid.epsilon
-                .grid__item.one-half>
-                  %strong TOTAL
-                .grid__item.one-half.text--right>
-                  %strong #{params[:AMOUNT].to_i / 100}€ / mois
-
