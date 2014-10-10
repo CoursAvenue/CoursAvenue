@@ -22,7 +22,11 @@ class Users::SessionsController < Devise::SessionsController
     session['user_return_to'] = request.referrer
     @is_xhr = request.xhr?
     respond_to do |format|
-      format.html { render layout: !request.xhr? }
+      if request.xhr?
+        format.html { render layout: false }
+      else
+        format.html { redirect_to root_path(anchor: 'connexion') }
+      end
     end
   end
 end

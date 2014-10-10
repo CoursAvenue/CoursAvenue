@@ -6,7 +6,8 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         className: 'panel center-block',
 
         options: {
-            width: 280
+            width: 280,
+            show_confirm_email_popup: true
         },
 
         initialize: function initialize (options) {
@@ -89,7 +90,11 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                     }.bind(this),
                     success: function success (response) {
                         CoursAvenue.setCurrentUser(response);
-                        this.showRegistrationConfirmedPopup()
+                        if (this.options.show_confirm_email_popup) {
+                            this.showRegistrationConfirmedPopup()
+                        } else {
+                            this.options.success();
+                        }
                         // Pixel to track registration convertion with Facebook
                         if (window._fbq) { window._fbq.push(['track', '6016889463627', {}]); }
                     }.bind(this)

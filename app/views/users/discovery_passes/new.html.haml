@@ -4,38 +4,73 @@
   .panel__header.soft
     = render partial: 'users/discovery_passes/breadcrumb', locals: { current: 'recap' }
   .panel__body.soft
-    %table.epsilon.table--striped
-      %thead
-        %tr
-          %th.one-half Offre
-          %th.one-half Montant
-      %tbody
-        %tr
-          %td Pass Découverte
-          %td
-            19€ / mois
-        - if @discovery_pass.sponsorship
-          %tr
-            %td Offre parrainage
-            %td= "-#{number_to_currency(@discovery_pass.sponsorship.credit_for_sponsored_user).gsub(/\,00/, "")} (valable pour le 1er mois)"
-        %tr.text--right
-          %th Total TTC
-          %td= number_to_currency(@discovery_pass.amount).gsub(/\,00/, "")
+    .grid
+      .grid__item.two-thirds>
+        %table.epsilon.table--striped
+          %thead
+            %tr
+              %th.one-half Offre
+              %th.one-half Montant
+          %tbody
+            %tr
+              %td Pass Découverte
+              %td
+                19€ / mois
+            - if @discovery_pass.sponsorship
+              %tr
+                %td Offre parrainage
+                %td= "-#{number_to_currency(@discovery_pass.sponsorship.credit_for_sponsored_user).gsub(/\,00/, "")} (valable pour le 1er mois)"
+            %tr.text--right
+              %th Total TTC
+              %td= number_to_currency(@discovery_pass.amount).gsub(/\,00/, "")
 
-        - if !@discovery_pass.sponsorship
-          %tr.no-stripe
-            %td
-            %td
-              = form_for @user, method: :get, url: new_user_discovery_pass_path(@user) do
-                .hidden.promo-hidden
-                  %input#promo-code{ name: 'promo_code', placeholder: 'CODE'}
-                  %input.btn.btn--green{ type: 'submit', value: 'OK' }
-                %a.pointer.milli#i-have-promo-code Entrer un code promotionnel
+            - if !@discovery_pass.sponsorship
+              %tr.no-stripe
+                %td
+                %td
+                  = form_for @user, method: :get, url: new_user_discovery_pass_path(@user) do
+                    .hidden.promo-hidden
+                      %input#promo-code{ name: 'promo_code', placeholder: 'CODE'}
+                      %input.btn.btn--green{ type: 'submit', value: 'OK' }
+                    %a.pointer.milli#i-have-promo-code Entrer un code promotionnel
 
-    = form_tag ENV['BE2BILL_URL'] do
-      - @be2bill_params.each do |key, value|
-        = hidden_field_tag key.to_sym, value
-      = submit_tag 'Payer', class: 'btn btn--green btn--large btn--full hard--sides', data: { disable_with: 'Veuillez patienter...' }
+      .grid__item.one-third>
+        .panel
+          .panel__header.soft-half
+            %h4.flush Résumé de votre Achat
+          .panel__body.soft-half
+            %p
+              Chaque mois, participez à autant de séances d'essai que vous le souhaitez parmi les #{Course.available_in_discovery_pass.count.round(-2)} cours de loisirs négociés spécialement pour vous auprès de nos #{Structure.available_in_discovery_pass.count.round(-2)} partenaires parisiens. Votre Pass se renouvelle automatiquement et vous pouvez l'interrompre à tout moment.
+              %i.fa.fa-info{ data: { toggle: 'popover', html: true, content: "Vous serez prélevé de #{number_to_currency(@discovery_pass.amount).gsub(/\,00/, "")}€ chaque mois jusqu'à la résiliation de votre abonnement." } }
+
+              %ul.no-bullet-list
+                %li
+                  %i.fa.fa-check.green
+                  Pass
+                  %strong nominatif
+                  valable 1 mois
+                %li
+                  %i.fa.fa-check.green
+                  Inclut
+                  #{Course.available_in_discovery_pass.count.round(-2)}
+                  cours à tester à
+                  %strong Paris et sa région
+                %li
+                  %i.fa.fa-check.green
+                  %strong Renouvelable
+                  à l'infini, résiliable à tout moment
+              %hr
+              .grid.epsilon
+                .grid__item.one-half>
+                  %strong TOTAL
+                .grid__item.one-half.text--right>
+                  %strong= "#{number_to_currency(@discovery_pass.amount).gsub(/\,00/, "")} / mois"
+
+    .push--top
+      = form_tag ENV['BE2BILL_URL'] do
+        - @be2bill_params.each do |key, value|
+          = hidden_field_tag key.to_sym, value
+        = submit_tag 'Payer', class: 'btn btn--green btn--large btn--full hard--sides', data: { disable_with: 'Veuillez patienter...' }
 
 = content_for :scripts do
   :javascript
@@ -45,3 +80,17 @@
           $('.promo-hidden').show();
       });
     })
+
+- if @user.zip_code.present? and !@user.zip_code.starts_with?('75')
+  .panel.hidden#not-in-paris
+    .panel__header.soft
+      %h4.flush Êtes-vous à Paris ?
+    .panel__body.soft.epsilon
+      %strong Attention !
+      Actuellement, le Pass concerne exclusivement Paris et ses alentours. Or, selon votre code postal, vous vous situez dans une autre région. Si vous souhaitez un Pass en dehors de cette zone,
+      = link_to 'contactez-nous.', pages_contact_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          $.fancybox.open($('#not-in-paris'), { width: 400, maxWidth: 400, padding: 0});
+      });

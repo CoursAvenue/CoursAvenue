@@ -498,6 +498,7 @@
               $('[data-behavior=sign-in]').click(function() {
                   CoursAvenue.signUp({
                       title: 'Etape 1 : créez vote compte',
+                      show_confirm_email_popup: false,
                       success: function() {
                           window.location.href = Routes.new_user_discovery_pass_path(CoursAvenue.currentUser().get('slug'), { promo_code: '#{(@sponsorship ? @sponsorship.promo_code : '')}' } );
                       }
@@ -510,6 +511,7 @@
               $('[data-behavior=sign-in]').click(function() {
                   CoursAvenue.signUp({
                       title: 'Etape 1 : créez vote compte',
+                      show_confirm_email_popup: false,
                       success: function() {
                           window.location.href = Routes.new_user_discovery_pass_path(CoursAvenue.currentUser().get('slug'));
                       }
