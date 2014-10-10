@@ -17,6 +17,7 @@ class CommentSearch
 
       with :has_title, params[:has_title]              if params[:has_title]
       with :has_avatar, params[:has_avatar]            if params[:has_avatar]
+      with :accepted, true
 
       # --------------- Subjects
 
