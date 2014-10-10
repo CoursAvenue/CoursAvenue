@@ -9,7 +9,7 @@
         %h3.flush Mes inscriptions
       .panel__body.soft
         - if @participation_requests.empty?
-          %h4 Vous n'avez encore aucune inscription
+          %h4 Vous n'avez encore aucune inscription :
           .text--center
             = link_to "Réserver mes cours d'essai", discovery_pass_search_structures_path, class: 'btn btn--green btn--large'
         - else
