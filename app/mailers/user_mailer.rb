@@ -150,7 +150,7 @@ class UserMailer < ActionMailer::Base
     @user           = user
     @text           = text
     @promo_code_url = promo_code_url
-    mail to: sponsored_email, subject: "Vous avez été parrainé à un Pass Découverte"
+    mail to: sponsored_email, subject: "#{@user.name} vous invite au Pass Découverte"
   end
 
   private
