@@ -13,9 +13,9 @@
         = image_tag @user.avatar_url, alt: @user.name, width: 100, height: 100
     %td.v-top.content-block{ width: '470' }
       .p
-        = "Grâce à #{@user.name}, bénéficiez de l'offre parrainage et obtenez votre Pass Découverte pour #{number_to_currency(pass_price)} au lieu de #{DiscoveryPass::PRICE}€ :"
+        = "Grâce à #{@user.name}, bénéficiez de l'offre parrainage et obtenez votre Pass Découverte pour #{number_to_currency(pass_price).gsub(/\,00/, "")} au lieu de #{DiscoveryPass::PRICE}€ :"
       .p.action
-        = link_to "Obtenir mon Pass à #{number_to_currency(pass_price)}", @promo_code_url, class: 'btn btn--green'
+        = link_to "Obtenir mon Pass à #{number_to_currency(pass_price).gsub(/\,00/, "")}", @promo_code_url, class: 'btn btn--green'
       .p Valable 1 mois et renouvelable, le Pass Découverte vous permet de suivre autant de cours d'essais que vous le souhaitez à Paris chez plus de 300 professeurs, écoles et associations.
 
 - if @text.present?

@@ -30,16 +30,17 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         serializeData: function serializeData () {
             var data = {
-                logged_in          : this.model.isLogged(),
-                on_sleeping_page   : window.on_sleeping_page,
-                take_control_url   : window.take_control_url,
-                pages_faq_users_url: Routes.pages_faq_users_path(),
+                logged_in              : this.model.isLogged(),
+                on_sleeping_page       : window.on_sleeping_page,
+                take_control_url       : window.take_control_url,
+                pages_faq_users_url    : Routes.pages_faq_users_path(),
                 on_discovery_pass_pages: window.on_discovery_pass_pages
             }
             if (this.model.isLogged()) {
                 _.extend(data, {
                     dashboard_user_path               : Routes.dashboard_user_path({ id: this.model.get('slug') }),
                     edit_user_path                    : Routes.edit_user_path({ id: this.model.get('slug') }),
+                    new_user_sponsorship_path         : Routes.new_user_sponsorship_path({ id: this.model.get('slug') }),
                     user_participation_requests_path  : Routes.user_participation_requests_path({ id: this.model.get('slug') }),
                     new_user_sponsorship_path         : Routes.new_user_sponsorship_path({ id: this.model.get('slug') }),
                     user_comments_path                : Routes.user_comments_path({ id: this.model.get('slug') }),

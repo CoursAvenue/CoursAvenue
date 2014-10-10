@@ -11,11 +11,11 @@ class StructureDiscoveryPassSearchSerializer < ActiveModel::Serializer
   has_many :preloaded_medias,  serializer: MediaSerializer
 
   def medias
-    object.medias.cover_first.videos_first.limit((object.premium? ? 20 : Media::FREE_PROFIL_LIMIT))
+    object.medias.cover_first.videos_first.limit(20)
   end
 
   def preloaded_medias
-    object.medias.cover_first.videos_first.limit((object.premium? ? 20 : Media::FREE_PROFIL_LIMIT))
+    object.medias.cover_first.videos_first.limit(20)
   end
 
   def comments

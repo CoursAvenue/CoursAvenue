@@ -22,4 +22,4 @@
                 %tr
                   %td= sponsorship.sponsored_user.email
                   %td= t("sponsorships.state.#{sponsorship.state}")
-                  %td= number_to_currency(sponsorship.credit_for_sponsorer)
+                  %td= number_to_currency(sponsorship.credit_for_sponsorer).gsub(',00', '')

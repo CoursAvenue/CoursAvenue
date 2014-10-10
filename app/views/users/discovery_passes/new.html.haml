@@ -16,11 +16,11 @@
             19€ / mois
         - if @discovery_pass.sponsorship
           %tr
-            %td Parrainage
-            %td= "-#{number_to_currency(@discovery_pass.sponsorship.credit_for_sponsored_user)}"
+            %td Offre parrainage
+            %td= "-#{number_to_currency(@discovery_pass.sponsorship.credit_for_sponsored_user).gsub(/\,00/, "")} (valable pour le 1er mois)"
         %tr.text--right
           %th Total TTC
-          %td= number_to_currency(@discovery_pass.amount)
+          %td= number_to_currency(@discovery_pass.amount).gsub(/\,00/, "")
 
         - if !@discovery_pass.sponsorship
           %tr.no-stripe

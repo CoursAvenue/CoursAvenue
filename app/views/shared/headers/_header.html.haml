@@ -3,7 +3,7 @@
 %header.header.print--hidden
   .very-soft.soft-half--sides.flexbox{class: [medium ? 'main-container--medium' : '', expanded ? '' : 'main-container']}
     .flexbox__item.palm-one-whole.v-middle>
-      = link_to '', root_path, class: 'v-middle coursavenue-header-logo', title: 'CoursAvenue | Tous les cours autour de vous'
+      = link_to '', root_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'v-middle coursavenue-header-logo', title: 'CoursAvenue | Tous les cours autour de vous'
 
       - unless layout_locals[:hide_top_menu_search]
         = form_tag (layout_locals[:top_menu_search_url] || root_search_page_without_subject_path('paris')), class: 'inline-block v-middle push--left', method: :get, authenticity_token: false, data: { behavior: 'coursavenue-search' } do
@@ -13,10 +13,11 @@
           %input#h-search-address-lng{ type: 'hidden', name: 'lng', value: cookies[:lng] || '2.3417' }
           %input#h-search-address-city{ type: 'hidden', name: 'address_name', value: cookies[:city] || 'Paris' }
 
-    %nav.text--right.flexbox__item.v-middle.nowrap.visuallyhidden--palm.print--hidden>
-      #user-nav.inline-block.v-middle
-      - if current_pro_admin
-        = render partial: 'shared/headers/admin_nav'
+    - unless layout_locals[:hide_user_nav]
+      %nav.text--right.flexbox__item.v-middle.nowrap.visuallyhidden--palm.print--hidden>
+        #user-nav.inline-block.v-middle
+        - if current_pro_admin
+          = render partial: 'shared/headers/admin_nav'
 
 = content_for :scripts do
   :javascript

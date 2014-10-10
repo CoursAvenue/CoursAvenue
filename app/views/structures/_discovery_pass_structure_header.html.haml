@@ -29,7 +29,7 @@
                     Cours
                   %br
                   = "collectif".pluralize(collectif_courses_nb)
-          - privates_courses_length = @structure.courses.available_in_discovery_pass.privates.select(&:is_published?).length
+          - privates_courses_length = @structure.courses.available_in_discovery_pass.privates.length
           - if @structure.gives_individual_courses and privates_courses_length > 0
             .milli.structure__header-icon.inline-block.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.individual_courses_popover(discovery_pass: true), trigger: 'hover', html: 'true', placement: 'bottom' } }
               = link_to '#cours-reguliers', class: "muted-link flexbox", data: { behavior: 'scroll-to', offset_top: '-55' } do

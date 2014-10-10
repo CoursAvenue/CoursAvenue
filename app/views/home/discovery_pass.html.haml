@@ -35,21 +35,27 @@
       -  if @sponsorship
         .text--center
           .white-box.push--top.soft.inline-block
-            %h4.flush= "Obtenez votre Pass Découverte à #{number_to_currency(DiscoveryPass::PRICE - Sponsorship::USER_WHO_HAVE_BEEN_SPONSORED_CREDIT)} au lieu de #{DiscoveryPass::PRICE}€ grâce à #{@sponsor.name}"
-      .text--center
-        .inline-block.four-tenths.soft--right>
-          .push-half--bottom.very-soft.hard--sides
-            .white-box.soft.black
-              %h3 Essayez autant de cours de loisirs que vous voulez !
-              %p.epsilon
-                Chaque mois, participez à autant de séances d'essai que vous le souhaitez parmi les #{Course.available_in_discovery_pass.count.round(-2)} cours de loisirs négociés spécialement pour vous à Paris auprès de plus de #{Structure.available_in_discovery_pass.count.round(-2)} professeurs, associations et écoles.
-              = link_to 'Obtenir mon Pass', (current_user ? new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)) : '#'), class: 'btn btn--green btn--large btn--full hard--sides', data: { behavior: 'sign-in' }
-        .inline-block
-          = link_to (current_user ? new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)) : '#'), class: 'block', data: { behavior: 'sign-in' }, style: 'margin-left: -50px;' do
-            -  if @sponsorship
-              = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/discovery_pass/badge_with_promo.png", height: 250, width: 250
-            - else
-              = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/discovery_pass/badge.png", height: 250, width: 250
+            .beta.flush
+              Félicitations ! Grâce à
+              %strong.blue= "#{@sponsor.name},"
+              obtenez votre Pass Découverte pour
+              %strong.blue= number_to_currency(DiscoveryPass::PRICE - Sponsorship::USER_WHO_HAVE_BEEN_SPONSORED_CREDIT).gsub(/\,00/, "")
+              au lieu de
+              %strong.blue= "#{DiscoveryPass::PRICE}€"
+
+      .inline-block.four-tenths.soft--right.text--center>
+        .push-half--bottom.very-soft.hard--sides
+          .white-box.soft.black
+            %h3 Essayez autant de cours de loisirs que vous voulez !
+            %p.epsilon
+              Chaque mois, participez à autant de séances d'essai que vous le souhaitez parmi les #{Course.available_in_discovery_pass.count.round(-2)} cours de loisirs négociés spécialement pour vous à Paris auprès de plus de #{Structure.available_in_discovery_pass.count.round(-2)} professeurs, associations et écoles.
+            = link_to 'Obtenir mon Pass', (current_user ? new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)) : '#'), class: 'btn btn--green btn--large btn--full hard--sides', data: { behavior: 'sign-in' }
+      .inline-block
+        = link_to (current_user ? new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)) : '#'), class: 'block', data: { behavior: 'sign-in' }, style: 'margin-left: -50px;' do
+          -  if @sponsorship
+            = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/discovery_pass/badge_with_promo.png", height: 250, width: 250
+          - else
+            = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/discovery_pass/badge.png", height: 250, width: 250
       .home-screen-comment.visuallyhidden--palm.soft-black-text-shadow.south.soft--bottom
         .grid.epsilon
           .grid__item.two-twelfths.v-middle.text--center>
@@ -66,7 +72,7 @@
           .grid__item.one-third.palm-one-whole.text--center>
             .center-block.text--center.alpha 1
             .gamma.push-half--bottom.f-weight-300 Achetez votre Pass
-            %p.epsilon Payez directement en ligne par carte bleue : votre Pass est valable 1 mois et est renouvelable autant de fois que vous le souhaitez jusqu'à découvrir vos nouvelles passions
+            %p.epsilon Payez directement en ligne par carte bleue : votre Pass est valable 1 mois et renouvelable autant de fois que vous le souhaitez jusqu'à découvrir vos nouvelles passions
           .grid__item.one-third.palm-one-whole.text--center>
             .center-block.text--center.alpha 2
             .gamma.push-half--bottom.f-weight-300 Choisissez vos cours
@@ -265,25 +271,9 @@
         = link_to 'Obtenir mon Pass', (current_user ? new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)) : '#'), class: 'btn btn--green btn--large', data: { behavior: 'sign-in' }
 
     .main-container.main-container--medium.soft--top
-      .text--center.push--ends
+      .text--center.soft--ends
         %h2.soft-half--bottom.text--center.f-weight-300 Plus de #{Structure.available_in_discovery_pass.count.round(-2)} lieux à découvrir à Paris et sa région
         = image_tag 'https://coursavenue-public.s3.amazonaws.com/pass/map-paris-pass.jpg'
-
-    %footer.main-footer.relative.print--hidden#coursavenue-footer
-      .main-container.soft.palm-text--center
-        .grid
-          .grid__item.one-quarter.palm-one-whole>
-            %p.push-half--bottom
-              %strong À propos
-            %p
-              = link_to 'CoursAvenue ', root_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: "Comment ça marche ?"
-              est le premier moteur de recherche de cours de loisirs qui permet de relier chacun de nous aux meilleurs professeurs, associations et écoles qui nous entourent.
-
-          .grid__item.one-quarter.palm-one-whole.soft--left>
-            %ul.no-bullet-list.line-height-1-7
-              %li= link_to 'En savoir plus', pages_what_is_it_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: "Comment ça marche ?", target: :_blank
-              %li= link_to "Page d'accueil CoursAvenue", root_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: "Page d'accueil CoursAvenue", target: :_blank
-              %li= link_to 'Moteur de recherche CoursAvenue', root_search_page_without_subject_url('paris', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Aide', target: :_blank
 
     :css
       .cb-slideshow,

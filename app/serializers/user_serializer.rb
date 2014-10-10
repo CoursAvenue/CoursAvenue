@@ -1,7 +1,7 @@
 class UserSerializer < ActiveModel::Serializer
   include ApplicationHelper
 
-  attributes :id, :email, :name, :first_name, :last_name, :avatar_url, :slug, :favorite_structure_ids, :last_message_sent
+  attributes :id, :email, :name, :first_name, :last_name, :avatar_url, :slug, :favorite_structure_ids, :last_message_sent, :has_discovery_pass
 
   def favorite_structure_ids
     object.followings.map(&:structure_id)
@@ -20,4 +20,7 @@ class UserSerializer < ActiveModel::Serializer
     end
   end
 
+  def has_discovery_pass
+    object.discovery_pass.present?
+  end
 end

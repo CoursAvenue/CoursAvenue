@@ -7,7 +7,6 @@
     .delta.push--bottom
       Titulaire du pass :
       %strong #{@user.name}
-    %h4 Informations de paiement
     .grid
       .grid__item.two-thirds.v-top>
         .text--center.push-half--bottom
@@ -18,13 +17,10 @@
       .grid__item.one-third.v-top>
         .panel
           .panel__header.soft-half
-            %h4.flush Résumé de votre Pass Découverte
+            %h4.flush Résumé de votre Achat
           .panel__body.soft-half
             %p
               Chaque mois, participez à autant de séances d'essai que vous le souhaitez parmi les #{Course.available_in_discovery_pass.count.round(-2)} cours de loisirs négociés spécialement pour vous auprès de nos #{Structure.available_in_discovery_pass.count.round(-2)} partenaires parisiens. Votre Pass se renouvelle automatiquement et vous pouvez l'interrompre à tout moment.
-
-            %p
-              Inclus plus de 800 cours de loisirs à essayer chaque mois auprès de nos 200 partenaires parisiens. Votre Pass se renouvelle automatiquement et vous pouvez l'interrompre à tout moment.
               - if params[:AMOUNT] and params[:AMOUNT].to_i
                 %i.fa.fa-info{ data: { toggle: 'popover', html: true, content: "Vous serez prélevé de #{params[:AMOUNT].to_i / 100}€ chaque mois jusqu'à la résiliation de votre abonnement." } }
 

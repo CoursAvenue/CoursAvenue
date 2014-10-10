@@ -16,6 +16,6 @@
             %td= user.name
             %td= sponsorships.count
             %td= sponsorships.count
-            %td= "#{user.sponsorships.count * user.sponsorships.first.credit_for_sponsorer}€"
+            %td= "#{(user.sponsorships.count * user.sponsorships.first.credit_for_sponsorer)}€"
 
     .text--center.push-half--ends= paginate @sponsorships, window: 1, outer_window: 3
