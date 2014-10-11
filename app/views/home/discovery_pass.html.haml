@@ -544,6 +544,14 @@
                 'landed_on_discovery_page': true
             });
         });
+  - if Rails.env.production? and params[:utm_source] == 'facebook'
+    = content_for :scripts do
+      :javascript
+        $(function() {
+            mixpanel.people.set({
+                'from_facebook_ad': true
+            });
+        });
 
 - content_for :scripts do
   :javascript
