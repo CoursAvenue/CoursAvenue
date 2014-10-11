@@ -92,7 +92,7 @@
               %strong= truncate @structure.name, lenght: 25
             .flexbox__item
               - unless @is_sleeping
-                %ul.nav.flush.v-middle.inline-block.v-middle
+                %ul.nav.flush.v-middle.inline-block
                   %li.soft-half--sides= link_to 'Lieux & photos', '#lieux-photos', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
                   %li.soft-half--sides= link_to 'Présentation', '#presentation', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
                   %li.soft-half--sides= link_to 'Cours réguliers', '#cours-reguliers', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }

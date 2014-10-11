@@ -51,11 +51,26 @@
       = render 'layouts/social_sdks'
     :javascript
       if (!$.cookie('fingerprint')) { $.cookie('fingerprint', new Fingerprint().get()); }
+    - if Rails.env.production?
+      :javascript
+        mixpanel.identify($.cookie('fingerprint'));
     %script{ src: "//d2wy8f7a9ursnm.cloudfront.net/bugsnag-2.min.js", "data-apikey" => "95a4635b1c13221f4232852f7badc00a" }
     - if current_user
       :javascript
           CoursAvenue.addInitializer(function(options){
               this.setCurrentUser(#{current_user_as_json});
+          });
+    - if current_user and Rails.env.production?
+      :javascript
+          CoursAvenue.addInitializer(function(options){
+              if (CoursAvenue.currentUser()) {
+                  mixpanel.people.set({
+                      "$email": CoursAvenue.currentUser().get('email')
+                      "$created": CoursAvenue.currentUser().get('created_at'),
+                      "name": CoursAvenue.currentUser().get('name'),
+                      "gender": CoursAvenue.currentUser().get('gender')
+                  });
+              }
           });
     - if layout_locals[:on_pass_pages]
       :javascript
