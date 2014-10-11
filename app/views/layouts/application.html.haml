@@ -69,6 +69,9 @@
                   mixpanel.people.set({
                       "$email": CoursAvenue.currentUser().get('email')
                       "$created": CoursAvenue.currentUser().get('created_at'),
+                      "$first_name": CoursAvenue.currentUser().get('first_name'),
+                      "$last_name": CoursAvenue.currentUser().get('last_name'),
+                      "$name": CoursAvenue.currentUser().get('name'),
                       "name": CoursAvenue.currentUser().get('name'),
                       "gender": CoursAvenue.currentUser().get('gender')
                   });
