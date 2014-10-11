@@ -1,3 +1,20 @@
+#structure-profile-menu.one-whole.west.fixed.on-top-of-the-world{ style: 'top: -100px;' }
+  .bg-site-background.soft-half--ends.bordered--bottom
+    .main-container.main-container--medium.soft--sides
+      .flexbox.one-whole
+        .flexbox__item.ten-twelfths.top-page-menu>
+          %ul.nav.flush.epsilon
+            %li.soft-half--sides
+              = link_to "Qu'est-ce que c'est", '#what-is-it', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
+            %li.soft-half--sides
+              = link_to "Inclus dans le Pass", '#courses', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
+            %li.soft-half--sides
+              = link_to "Les avantages", '#advantages', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
+            %li.soft-half--sides
+              = link_to "Les lieux", '#places', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
+        .flexbox__item.text--right.two-twelfths>
+          = link_to 'Obtenir mon Pass', (current_user ? new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)) : '#'), class: 'btn btn--green btn--full', data: { behavior: 'sign-in' }
+
 = content_for :title do
   CoursAvenue | Pass Découverte
 
@@ -59,7 +76,7 @@
           %span.quoted.epsilon.quoted--large<
             %i Grâce au Pass, j'ai découvert au pied de mon immeuble un super cours d'écriture créative. Sans parler des cours de poterie, danse orientale, et même de sophrologie !
 
-  .bg-site-background.relative
+  .bg-site-background.relative#what-is-it
     .home-screen-promotion-wrapper
       .main-container.soft
         .grid
@@ -76,7 +93,7 @@
             .gamma.push-half--bottom.f-weight-300 Suivez vos cours !
             %p.epsilon Pour chaque séance, vous avez le droit d'y revenir jusqu'à 3 fois : si un cours vous a particulièrement plu, libre à vous ensuite d'y revenir en vous inscrivant directement auprès du partenaire
 
-    .main-container.main-container--medium.soft
+    .main-container.main-container--medium.soft#courses
       .push--sides
         %h2.push-half--bottom.text--center.f-weight-300 Inclus dans votre Pass Découverte
         %h4.soft--bottom.text--center.f-weight-300 Sélection de cours inclus dans votre Pass
@@ -239,7 +256,7 @@
               %li Atelier de Vélo avec technique Alexander
               %li . . .
 
-    .home-screen-promotion-wrapper
+    .home-screen-promotion-wrapper#advantages
       .main-container.soft
         .push--sides.soft--ends
           %h2.soft--bottom.text--center.f-weight-300 Les avantages du Pass CoursAvenue
@@ -264,7 +281,7 @@
       .text--center.push--bottom.soft--bottom
         = link_to 'Obtenir mon Pass', (current_user ? new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)) : '#'), class: 'btn btn--green btn--large', data: { behavior: 'sign-in' }
 
-    .main-container.main-container--medium.soft--top
+    .main-container.main-container--medium.soft--top#places
       .text--center.soft--ends
         %h2.soft-half--bottom.text--center.f-weight-300 Plus de #{Structure.available_in_discovery_pass.count.round(-2)} lieux à découvrir à Paris et sa région
         = image_tag 'https://coursavenue-public.s3.amazonaws.com/pass/map-paris-pass.jpg'
@@ -484,12 +501,6 @@
         opacity: 1;
       }
 
-  - if Rails.env.production?
-    = content_for :scripts do
-      :javascript
-        $(function() {
-            ga('send', 'event', 'PassDecouverte', 'Landed');
-        });
   - unless current_user
     = content_for :scripts do
       - if @sponsorship
@@ -503,7 +514,6 @@
                           window.location.href = Routes.new_user_discovery_pass_path(CoursAvenue.currentUser().get('slug'), { promo_code: '#{(@sponsorship ? @sponsorship.promo_code : '')}' } );
                       }
                   })
-                  ga('send', 'event', 'PassDecouverte', 'Landing page click', 'code promo');
               });
           })
       - else
@@ -517,6 +527,37 @@
                           window.location.href = Routes.new_user_discovery_pass_path(CoursAvenue.currentUser().get('slug'));
                       }
                   })
-                  ga('send', 'event', 'PassDecouverte', 'Landing page click');
               });
           })
+  - if Rails.env.production?
+    = content_for :scripts do
+      :javascript
+        $(function() {
+            $('[data-behavior=sign-in]').click(function() {
+                ga('send', 'event', 'PassDecouverte', 'Landing page click', 'code promo');
+                mixpanel.track("Clicked to get Pass", { "PromoCode": "#{@sponsorship.promo_code}" });
+            });
+        });
+        $(function() {
+            ga('send', 'event', 'PassDecouverte', 'Landed');
+            mixpanel.people.set({
+                'landed_on_discovery_page': true
+            });
+        });
+
+- content_for :scripts do
+  :javascript
+      $(function() {
+          var $structure_profile_menu = $('#structure-profile-menu');
+          var menu_scrolled_down = false;
+          $(window).scroll(function() {
+              if (!menu_scrolled_down && $(window).scrollTop() > 180 && parseInt($structure_profile_menu.css('top')) != 0 ) {
+                  $structure_profile_menu.animate({ 'top': '0' });
+                  menu_scrolled_down = true;
+              } else if ($(window).scrollTop() < 180 && parseInt($structure_profile_menu.css('top')) == 0 ) {
+                  $structure_profile_menu.animate({ 'top': '-100px' });
+                  menu_scrolled_down = false;
+              }
+          });
+          $('body').addClass('relative').scrollspy({ target: '#structure-profile-menu .top-page-menu', offset: 85 })
+      });
