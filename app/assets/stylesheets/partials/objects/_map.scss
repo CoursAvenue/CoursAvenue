@@ -4,11 +4,12 @@
     width         : 100%;
     @include border-radius(2px);
     @include box-sizing(border-box);
+}
+.gm-style, .map_container {
     img {
        max-width: none;
     }
 }
-
 .google-map {
     width     : 100%;
     min-height: 20em;

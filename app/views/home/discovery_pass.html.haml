@@ -569,7 +569,7 @@
     - next if place.nil?
     - marker.lat place.latitude
     - marker.lng place.longitude
-    - marker.infowindow place_group.results.map(&:course).map(&:name).join(', ')
+    - marker.infowindow "<ul class='flush'><li>#{place_group.results.map(&:course).map(&:name).join('</li><li>')}</li></ul>"
 
 = content_for :scripts do
   :javascript
