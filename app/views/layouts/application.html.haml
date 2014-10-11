@@ -84,3 +84,11 @@
     :javascript
       Bugsnag.releaseStage = '#{Rails.env}';
       Bugsnag.notifyReleaseStages = ["staging", "production"]
+
+    - if Rails.env.production?
+      = content_for :scripts do
+        :javascript
+          $(function() {
+              mixpanel.track_links("#home-page-link", "Clicked logo", { "referrer": document.referrer });
+              mixpanel.track_links("#help-menu a", "Clicked help menu", { "referrer": document.referrer });
+          });
