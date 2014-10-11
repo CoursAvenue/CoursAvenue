@@ -67,7 +67,7 @@
           CoursAvenue.addInitializer(function(options){
               if (CoursAvenue.currentUser()) {
                   mixpanel.people.set({
-                      "$email": CoursAvenue.currentUser().get('email')
+                      "$email": CoursAvenue.currentUser().get('email'),
                       "$created": CoursAvenue.currentUser().get('created_at'),
                       "$first_name": CoursAvenue.currentUser().get('first_name'),
                       "$last_name": CoursAvenue.currentUser().get('last_name'),
