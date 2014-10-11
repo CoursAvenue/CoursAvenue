@@ -115,7 +115,7 @@ class StructuresController < ApplicationController
     @place_ids = []
     place_search = PlanningSearch.search({ structure_id: @structure.id, discovery_pass: true }, group: :place_id_str)
     place_search.group(:place_id_str).groups.each do |place_group|
-      @place_ids << place_group.results.first.try(:place_id)
+      @place_ids << place_group.value
     end
     @place_ids.compact!
 

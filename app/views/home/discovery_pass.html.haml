@@ -282,9 +282,9 @@
         = link_to 'Obtenir mon Pass', (current_user ? new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)) : '#'), class: 'btn btn--green btn--large', data: { behavior: 'sign-in' }
 
     .main-container.main-container--medium.soft--top#places
-      .text--center.soft--ends
-        %h2.soft-half--bottom.text--center.f-weight-300 Plus de #{Structure.available_in_discovery_pass.count.round(-2)} lieux à découvrir à Paris et sa région
-        = image_tag 'https://coursavenue-public.s3.amazonaws.com/pass/map-paris-pass.jpg'
+      .text--center.soft--top
+        %h2.text--center.f-weight-300 Plus de #{Structure.available_in_discovery_pass.count.round(-2)} lieux à découvrir à Paris et sa région
+    #map-courses.one-whole{ style: 'height: 600px;'}
 
     :css
       .cb-slideshow,
@@ -535,7 +535,7 @@
         $(function() {
             $('[data-behavior=sign-in]').click(function() {
                 ga('send', 'event', 'PassDecouverte', 'Landing page click', 'code promo');
-		mixpanel.track("Clicked to get Pass", { "PromoCode": "#{@sponsorship.try(:promo_code)}" });
+                mixpanel.track("Clicked to get Pass", { "PromoCode": "#{@sponsorship.try(:promo_code)}" });
             });
         });
         $(function() {
@@ -561,3 +561,21 @@
           });
           $('body').addClass('relative').scrollspy({ target: '#structure-profile-menu .top-page-menu', offset: 85 })
       });
+
+- cache 'pass/map/11/10/2014' do
+  - @places = PlanningSearch.search({ discovery_pass: true, per_page: 1000 }, { group: :place_id_str}).group(:place_id_str).groups
+  - @course_locations = Gmaps4rails.build_markers(@places) do |place_group, marker|
+    - place = Place.find_by_id place_group.value
+    - next if place.nil?
+    - marker.lat place.latitude
+    - marker.lng place.longitude
+    - marker.infowindow place_group.results.map(&:course).map(&:name).join(', ')
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        google_map_handler = Gmaps.build('Google');
+        google_map_handler.buildMap({ provider: { scrollwheel: false, center: new google.maps.LatLng (48.8592, 2.3417), zoom: 12}, internal: { id: 'map-courses' }}, function() {
+            markers = google_map_handler.addMarkers(#{@course_locations.to_json});
+        });
+    });
