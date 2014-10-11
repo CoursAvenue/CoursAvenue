@@ -169,3 +169,10 @@
           var body_message = $('#contact-message-body').val();
           $.cookie('user_contact_message', body_message);
       });
+
+- if Rails.env.production?
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          mixpanel.track("Landed on Structure page", { "structure_slug": "#{@structure.slug}", "structure_name": "#{@structure.name}" });
+      });

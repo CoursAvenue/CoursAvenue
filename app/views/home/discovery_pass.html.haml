@@ -5,7 +5,7 @@
         .flexbox__item.ten-twelfths.top-page-menu>
           %ul.nav.flush.epsilon
             %li.soft-half--sides
-              = link_to "Qu'est-ce que c'est", '#what-is-it', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
+              = link_to "Comment ça marche ?", '#what-is-it', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
             %li.soft-half--sides
               = link_to "Inclus dans le Pass", '#courses', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
             %li.soft-half--sides
@@ -537,8 +537,6 @@
                 ga('send', 'event', 'PassDecouverte', 'Landing page click', 'code promo');
                 mixpanel.track("Clicked to get Pass", { "PromoCode": "#{@sponsorship.try(:promo_code)}" });
             });
-        });
-        $(function() {
             ga('send', 'event', 'PassDecouverte', 'Landed');
             mixpanel.people.set({
                 'landed_on_discovery_page': true
@@ -585,5 +583,8 @@
         google_map_handler = Gmaps.build('Google');
         google_map_handler.buildMap({ provider: { scrollwheel: false, center: new google.maps.LatLng (48.8592, 2.3417), zoom: 12}, internal: { id: 'map-courses' }}, function() {
             markers = google_map_handler.addMarkers(#{@course_locations.to_json});
+        });
+        google.maps.event.addListenerOnce(google_map_handler.getMap(), 'center_changed', function() {
+            mixpanel.track("DiscoveryPass / Moved google map");
         });
     });
