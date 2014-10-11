@@ -9,8 +9,9 @@ class StructureDecorator < Draper::Decorator
     else
       # Use find_by_id to prevent from exception when place is not find.
       # In this case: http://www.coursavenue.dev/etablissements/voix-et-voie/pass-decouverte place wasn't found...
-      places = (place_ids ? place_ids.map{|place_id| Place.find_by_id(place_id)} : object.places).compact
+      places = (place_ids ? place_ids.map{|place_id| Place.find_by_id(place_id)} : object.places)
       places.each do |place|
+        next if place.nil?
         output << "<div class='push-half--bottom'><strong>#{place.name}</strong><br>#{place.street}, #{place.city.name}</div>"
       end
     end
