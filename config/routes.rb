@@ -336,6 +336,11 @@ CoursAvenue::Application.routes.draw do
       get 'tag/:tag', to: 'blog/articles#tags', as: :tags
     end
   end
+  resources :discovery_passes, only:[:index, :create], path: 'pass-decouverte' do
+    collection do
+      get :create_account, path: 'creez-un-compte'
+    end
+  end
   devise_for :users, controllers: {
                       omniauth_callbacks: 'users/omniauth_callbacks',
                       sessions: 'users/sessions',
@@ -567,7 +572,6 @@ CoursAvenue::Application.routes.draw do
   post '/mandrill-webhook' => 'mandrill_webhook#create'
   get  '/mandrill-webhook' => 'mandrill_webhook#index'
   root :to => 'home#index'
-  get 'pass-decouverte' => 'home#discovery_pass', as: :discovery_pass
 
   ########### Search pages ###########
   # Must be at the end not to stop other routes

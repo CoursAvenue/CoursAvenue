@@ -237,6 +237,6 @@ class StructuresController < ApplicationController
     return if current_pro_admin
     # Users with pass can see
     return if current_user and current_user.discovery_pass and current_user.discovery_pass.active?
-    redirect_to discovery_pass_path
+    redirect_to discovery_passes_path
   end
 end

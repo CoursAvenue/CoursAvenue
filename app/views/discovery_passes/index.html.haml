@@ -13,7 +13,10 @@
             %li.soft-half--sides
               = link_to "Les lieux", '#places', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
         .flexbox__item.text--right.two-twelfths>
-          = link_to 'Obtenir mon Pass', (current_user ? new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)) : '#'), class: 'btn btn--green btn--full', data: { behavior: 'sign-in' }
+          - if current_user
+            = link_to 'Obtenir mon Pass', new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)), class: 'btn btn--green btn--full', data: { behavior: 'scroll-to', offset_top: '-55' }
+          - else
+            = link_to 'Obtenir mon Pass', '#top-form', class: 'btn btn--green btn--full', data: { behavior: 'scroll-to', offset_top: '-55' }
 
 = content_for :title do
   CoursAvenue | Pass Découverte
@@ -54,19 +57,24 @@
             au lieu de
             %strong.blue= "#{DiscoveryPass::PRICE}€"
 
-    .inline-block.four-tenths.soft--right.text--center>
+    .inline-block.four-tenths.soft--right.text--center#top-form>
       .push-half--bottom.very-soft.hard--sides
         .white-box.soft.black
           %h3 Essayez autant de cours de loisirs que vous voulez !
           %p.epsilon
             Chaque mois, participez à autant de séances d'essai que vous le souhaitez parmi les #{Planning.available_in_discovery_pass.count.round(-2)} cours de loisirs négociés spécialement pour vous à Paris auprès de plus de #{Structure.available_in_discovery_pass.count.round(-2)} professeurs, associations et écoles.
-          = link_to 'Obtenir mon Pass', (current_user ? new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)) : '#'), class: 'btn btn--green btn--large btn--full hard--sides', data: { behavior: 'sign-in' }
+          - if current_user
+            = link_to 'Obtenir mon Pass', new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)), class: 'btn btn--green btn--large btn--full hard--sides'
+          - else
+            = simple_form_for User.new, url: discovery_passes_path(promo_code: @sponsorship.try(:promo_code)), method: :post do |f|
+              = f.input :email, input_html: { class: 'one-whole input--large', placeholder: 'E-mail' }, label: false
+              = f.submit 'Obtenir mon Pass', class: 'btn btn--bigger btn--green btn--full'
+
     .inline-block
-      = link_to (current_user ? new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)) : '#'), class: 'block', data: { behavior: 'sign-in' }, style: 'margin-left: -50px;' do
-        -  if @sponsorship
-          = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/discovery_pass/badge_with_promo.png", height: 250, width: 250
-        - else
-          = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/discovery_pass/badge.png", height: 250, width: 250
+      - if @sponsorship
+        = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/discovery_pass/badge_with_promo.png", height: 250, width: 250
+      - else
+        = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/discovery_pass/badge.png", height: 250, width: 250
     .home-screen-comment.visuallyhidden--palm.soft-black-text-shadow.south.soft--bottom
       .grid.epsilon
         .grid__item.two-twelfths.v-middle.text--center>
@@ -279,7 +287,11 @@
               %p.epsilon Votre pass est valable 1 mois et renouvelable autant de fois que vous le souhaitez. Satisfaction garantie.
 
       .text--center.push--bottom.soft--bottom
-        = link_to 'Obtenir mon Pass', (current_user ? new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)) : '#'), class: 'btn btn--green btn--large', data: { behavior: 'sign-in' }
+        - if current_user
+          = link_to 'Obtenir mon Pass', new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)), class: 'btn btn--green btn--bigger soft--sides', data: { behavior: 'scroll-to', offset_top: '-55' }
+        - else
+          = link_to 'Obtenir mon Pass', '#top-form', class: 'btn btn--green btn--bigger soft--sides', data: { behavior: 'scroll-to', offset_top: '-55' }
+
 
     .main-container.main-container--medium.soft--top#places
       .text--center.soft--top

@@ -73,7 +73,7 @@ class Users::DiscoveryPassesController < Pro::ProController
     if current_user.discovery_pass
       redirect_to user_participation_requests_path(current_user)
     else
-      render template: 'home/discovery_pass'
+      render template: 'discovery_passes/index'
     end
   end
 

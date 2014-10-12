@@ -16,12 +16,6 @@ class HomeController < ApplicationController
     @last_comment     = Comment::Review.accepted.last
   end
 
-  def discovery_pass
-    if current_user
-      redirect_to user_discovery_passes_path(current_user)
-    end
-  end
-
   private
 
   def get_layout
