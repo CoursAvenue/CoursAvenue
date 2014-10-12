@@ -57,6 +57,10 @@ class Course::Private < Course
     plannings.any? and price_group.present?
   end
 
+  def places
+    [self.place]
+  end
+
   private
 
   #

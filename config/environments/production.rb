@@ -63,7 +63,7 @@ CoursAvenue::Application.configure do
   config.action_controller.asset_host = "dqggv9zcmarb3.cloudfront.net"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  config.assets.precompile += %w( email.css )
+  config.assets.precompile += %w( email.css discovery_pass.css )
   config.assets.precompile += %w( application.pro.js modernizr.js ckeditor/config.js )
 
   # Enable threaded mode
