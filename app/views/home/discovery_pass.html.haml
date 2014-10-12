@@ -568,7 +568,7 @@
           $('body').addClass('relative').scrollspy({ target: '#structure-profile-menu .top-page-menu', offset: 85 })
       });
 
-- cache 'pass/map/11/10/2014' do
+- cache 'pass/map/12/10/2014' do
   - @places = PlanningSearch.search({ discovery_pass: true, per_page: 1000 }, { group: :place_id_str}).group(:place_id_str).groups
   - @course_locations = Gmaps4rails.build_markers(@places) do |place_group, marker|
     - place = Place.find_by_id place_group.value
