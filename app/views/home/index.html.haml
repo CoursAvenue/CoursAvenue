@@ -20,10 +20,10 @@
           = link_to discovery_pass_search_structures_path, class: 'btn btn--yellow btn--bigger soft-half--ends soft--sides' do
             Réserver mes cours d'essai
         - else
-          = link_to (current_user ? user_discovery_passes_path(current_user) : discovery_passes_path), class: 'btn btn--yellow btn--bigger soft-half--ends soft--sides' do
+          = link_to (current_user ? user_discovery_passes_path(current_user) : discovery_passes_path), class: 'btn btn--yellow btn--bigger soft-half--ends soft--sides mixpanel-tracker', data: { info: 'Homepage - Obtenir mon pass'} do
             Obtenir mon Pass Découverte
         .text--center
-          = link_to (current_user ? user_discovery_passes_path(current_user) : discovery_passes_path), class: 'white' do
+          = link_to (current_user ? user_discovery_passes_path(current_user) : discovery_passes_path), class: 'white mixpanel-tracker', data: { info: 'Homepage - en savoir plus'} do
             En savoir plus
       .jpo-map.absolute
   .jpo-frise>

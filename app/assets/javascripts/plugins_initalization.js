@@ -126,7 +126,7 @@ $(function() {
         }
     });
     if (typeof(mixpanel) != 'undefined') {
-        mixpanel.track_links("[data-track-link]", "Clicked on a link", function(el) {
+        mixpanel.track_links(".mixpanel-tracker", "Clicked on a link", function(el) {
             return {
               text: $(el).text(),
               info: $(el).data('info'),

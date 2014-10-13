@@ -109,16 +109,16 @@
       %h4.text--center
         Vous n'avez pas encore votre Pass ?
       .text--center
-        = link_to create_account_discovery_passes_path, class: 'btn btn--yellow btn--bigger soft-half--ends soft--sides', data: { 'track-link' => true, info: 'From discovery_passes_path'} do
+        = link_to create_account_discovery_passes_path, class: 'btn btn--yellow btn--bigger soft-half--ends soft--sides mixpanel-tracker', data: { info: 'From discovery_passes_path'} do
           Obtenir mon Pass Découverte
         %br
-        = link_to discovery_passes_path, class: 'white', data: { 'track-link' => true, info: 'From discovery_passes_path'} do
+        = link_to discovery_passes_path, class: 'white mixpanel-tracker', data: { info: 'From discovery_passes_path'} do
           En savoir plus
       %hr.hr--orange.push--ends
       .text--center
         %h6 Vous avez déjà votre Pass ?
         .text--center
-          %a.btn.btn--small.white{ href: '#', data: { behavior: "sign-in", 'track-link' => true, info: 'Connexion from discovery_pass_search page'} } Connexion
+          %a.btn.btn--small.white.mixpanel-tracker{ href: '#', data: { behavior: "sign-in", info: 'Connexion from discovery_pass_search page'} } Connexion
 
 
   = content_for :scripts do

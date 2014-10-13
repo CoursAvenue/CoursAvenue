@@ -6,13 +6,13 @@
         .flexbox__item.seven-twelfths.top-page-menu>
           %ul.nav.flush.epsilon
             %li.soft-half--sides
-              = link_to "Inscription", '#top', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55', 'track-link' => true, info: 'Discovery Page landing' }
+              = link_to "Inscription", '#top', class: 'muted-link orange mixpanel-tracker', data: { behavior: 'scroll-to', offset_top: '-55', info: 'Discovery Page landing' }
             %li.soft-half--sides
-              = link_to "Cours inclus dans le Pass", '#courses', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55', 'track-link' => true, info: 'Discovery Page landing' }
+              = link_to "Cours inclus dans le Pass", '#courses', class: 'muted-link orange mixpanel-tracker', data: { behavior: 'scroll-to', offset_top: '-55', info: 'Discovery Page landing' }
             %li.soft-half--sides
-              = link_to "Avantages", '#advantages', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55', 'track-link' => true, info: 'Discovery Page landing' }
+              = link_to "Avantages", '#advantages', class: 'muted-link orange mixpanel-tracker', data: { behavior: 'scroll-to', offset_top: '-55', info: 'Discovery Page landing' }
             -# %li.soft-half--sides
-            -#   = link_to "Questions fréquentes", '#faq', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55', 'track-link' => true, info: 'Discovery Page landing' }
+            -#   = link_to "Questions fréquentes", '#faq', class: 'muted-link orange mixpanel-tracker', data: { behavior: 'scroll-to', offset_top: '-55', info: 'Discovery Page landing' }
         .flexbox__item.text--right.five-twelfths>
           - if current_user
             = link_to 'Obtenir mon Pass', new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)), class: 'btn btn--yellow', data: { behavior: 'scroll-to', offset_top: '-55', type: 'get-pass', info: 'connected: header' }
@@ -145,21 +145,21 @@
     .main-container.main-container--medium#subjects-tabs
       .grid--full
         .grid__item.one-third.very-soft.hard--bottom>
-          %a.block{ href: "#danse", data: { toggle: 'tab', 'track-link' => true, info: 'Clicked on subject : Danse' } }
+          %a.mixpanel-tracker.block{ href: "#danse", data: { toggle: 'tab', info: 'Clicked on subject : Danse' } }
             .text--center.btn--blue.subject-active.white.btn.subject-btn.one-whole.hard--sides
               .subject_icon.subject_icon__danse
               .f-size-13
                 %br
                 Danse
         .grid__item.one-third.very-soft.hard--bottom>
-          %a.block{ href: "#theatre-scene", data: { toggle: 'tab', 'track-link' => true, info: 'Clicked on subject : Théâtre & Scène' } }
+          %a.mixpanel-tracker.block{ href: "#theatre-scene", data: { toggle: 'tab', info: 'Clicked on subject : Théâtre & Scène' } }
             .text--center.btn.subject-btn.one-whole.hard--sides
               .subject_icon.subject_icon__theatre-scene
               .f-size-13
                 %br
                 Théâtre & Scène
         .grid__item.one-third.very-soft.hard--bottom>
-          %a.block{ href: "#yoga-bien-etre-sante", data: { toggle: 'tab', 'track-link' => true, info: 'Clicked on subject : Yoga, Bien-être & Santé' } }
+          %a.mixpanel-tracker.block{ href: "#yoga-bien-etre-sante", data: { toggle: 'tab', info: 'Clicked on subject : Yoga, Bien-être & Santé' } }
             .text--center.btn.subject-btn.one-whole.hard--sides
               .subject_icon.subject_icon__yoga-bien-etre-sante
               .f-size-13
@@ -167,21 +167,21 @@
                 Yoga, Bien-être & Santé
       .grid--full
         .grid__item.one-third.very-soft.hard--bottom>
-          %a.block{ href: "#musique-chant", data: { toggle: 'tab', 'track-link' => true, info: 'Clicked on subject : Musique & Chant' } }
+          %a.mixpanel-tracker.block{ href: "#musique-chant", data: { toggle: 'tab', info: 'Clicked on subject : Musique & Chant' } }
             .text--center.btn.subject-btn.one-whole.hard--sides
               .subject_icon.subject_icon__musique-chant
               .f-size-13
                 %br
                 Musique & Chant
         .grid__item.one-third.very-soft.hard--bottom>
-          %a.block{ href: "#dessin-peinture-arts-plastiques", data: { toggle: 'tab', 'track-link' => true, info: 'Clicked on subject : Dessin, Peinture & Arts' } }
+          %a.mixpanel-tracker.block{ href: "#dessin-peinture-arts-plastiques", data: { toggle: 'tab', info: 'Clicked on subject : Dessin, Peinture & Arts' } }
             .text--center.btn.subject-btn.one-whole.hard--sides
               .subject_icon.subject_icon__dessin-peinture-arts-plastiques
               .f-size-13
                 %br
                 Dessin, Peinture & Arts
         .grid__item.one-third.very-soft.hard--bottom>
-          %a.block{ href: "#sports-arts-martiaux", data: { toggle: 'tab', 'track-link' => true, info: 'Clicked on subject : Sports & Arts martiaux' } }
+          %a.mixpanel-tracker.block{ href: "#sports-arts-martiaux", data: { toggle: 'tab', info: 'Clicked on subject : Sports & Arts martiaux' } }
             .text--center.btn.subject-btn.one-whole.hard--sides
               .subject_icon.subject_icon__sports-arts-martiaux
               .f-size-13
