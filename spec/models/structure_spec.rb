@@ -274,4 +274,32 @@ describe Structure do
       end
     end
   end
+
+  context 'sleeping' do
+    describe 'create_sleeping_attributes' do
+
+      it 'creates a new structure' do
+        expect { structure.create_sleeping_attributes }.to change { Structure.count }.by(1)
+      end
+
+      it "doesn't create two new structures" do
+        structure.create_sleeping_attributes
+
+        expect { structure.create_sleeping_attributes }.to_not change { Structure.count }
+      end
+
+      it 'associates the new structure with the current structure' do
+        structure.create_sleeping_attributes
+
+        expect(structure.sleeping_structure).to_not be_nil
+      end
+
+      it 'makes the new structure inactive' do
+        structure.create_sleeping_attributes
+
+        expect (structure.sleeping_structure.active?).to be false
+      end
+
+    end
+  end
 end
