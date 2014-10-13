@@ -187,18 +187,18 @@
               .f-size-13
                 %br
                 Sports & Arts martiaux
-      - cache 'discovery_pass/subjects/v2' do
-        - %w(danse theatre-scene yoga-bien-etre-sante musique-chant dessin-peinture-arts-plastiques sports-arts-martiaux).each_with_index do |subject_slug, index|
-          - @courses = CourseSearch.search({ types: ['lesson'], discovery_pass: true, per_page: 15, subject_id: subject_slug }).results
-          .tab-pane{ id: subject_slug, class: (index == 0 ? 'active' : '') }
-            %table.table--data.table--striped
-              %thead
-                %tr
-                  %th.one-third Nom du cours
-                  %th.one-third Disciplines
-                  %th.one-third Planning
-              %tbody
-                - @courses.each_with_index do |course, course_index|
+      - %w(danse theatre-scene yoga-bien-etre-sante musique-chant dessin-peinture-arts-plastiques sports-arts-martiaux).each_with_index do |subject_slug, index|
+        - @courses = CourseSearch.search({ types: ['lesson'], discovery_pass: true, per_page: 15, subject_id: subject_slug }).results
+        .tab-pane{ id: subject_slug, class: (index == 0 ? 'active' : '') }
+          %table.table--data.table--striped
+            %thead
+              %tr
+                %th.one-third Nom du cours
+                %th.one-third Disciplines
+                %th.one-third Planning
+            %tbody
+              - @courses.each_with_index do |course, course_index|
+                - cache [course, 'discovery_pass/subjects/v3'] do
                   %tr
                     %td= "#{course.name}"
                     %td= truncate(course.subjects.map(&:name).join(', '), length: 55)
