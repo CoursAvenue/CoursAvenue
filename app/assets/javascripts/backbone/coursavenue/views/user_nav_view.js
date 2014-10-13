@@ -34,7 +34,8 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 on_sleeping_page       : window.on_sleeping_page,
                 take_control_url       : window.take_control_url,
                 pages_faq_users_url    : Routes.pages_faq_users_path(),
-                on_discovery_pass_pages: window.on_discovery_pass_pages
+                on_discovery_pass_pages: window.on_discovery_pass_pages,
+                discovery_passes_url   : Routes.discovery_passes_path()
             }
             if (this.model.isLogged()) {
                 _.extend(data, {
@@ -48,7 +49,8 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                     user_followings_path              : Routes.user_followings_path({ id: this.model.get('slug') }),
                     user_conversations_path           : Routes.user_conversations_path({ id: this.model.get('slug') }),
                     new_user_invited_user_path        : Routes.new_user_invited_user_path({ id: this.model.get('slug') }),
-                    destroy_user_session_path         : Routes.destroy_user_session_path()
+                    destroy_user_session_path         : Routes.destroy_user_session_path(),
+                    discovery_passes_url              : Routes.new_user_discovery_pass_path(this.model.get('slug'))
                 });
             } else {
                 _.extend(data, {

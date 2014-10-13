@@ -103,6 +103,11 @@
         {{#ifPresent structure.website structure.phone_numbers}}
           <hr class="push-half--ends">
         {{/ifPresent}}
+        {{#if structure.has_discovery_pass_courses}}
+            <a href="{{ discovery_passes_url }}" class="btn btn--yellow btn--full push-half--bottom" data-toggle='popover' data-content="Obtenez votre Pass Découverte pour essayer les cours de cette association et 1300 autres séances négociées rien que pour vous." data-trigger='hover' data-placement='bottom' data-track-link data-info="Structure page : Réserver mon cours d'essai">
+              Réserver mon cours d'essai
+            </a>
+        {{/if}}
         {{#if structure.phone_numbers}}
             <a href="javascript:void(0)" class="btn btn--green btn--full" data-behavior="show-phone-numbers" data-action="log-action" data-action-info="telephone">
                 <i class="fa fa-phone v-middle"></i>

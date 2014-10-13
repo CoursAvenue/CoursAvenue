@@ -16,28 +16,47 @@ module CoursesHelper
   #   Case lesson:              Mardi, Jeudi, Vendredi.
   #   Case training: Lundi 23 novembre, Mardi 24 novembre, ...
   def plannings_to_come course, plannings
-    if course.is_lesson?
-      order_by = 'week_day ASC, start_time ASC'
-    else
+    if course.is_training?
       order_by = 'start_date ASC, start_time ASC'
+    else
+      order_by = 'week_day ASC, start_time ASC'
     end
     plannings = course.plannings.order(order_by)
 
     plannings_count = plannings.count
     if plannings_count > 0
-      content_tag :span do
-        string_output = ''
-        if course.is_lesson?
-          string_output << join_week_days(plannings, class: 'inline').downcase
-        else
-          string_output << plannings[0..3].collect{|p| training_dates(p)}.join(', ').downcase
-          if plannings_count > 3
-            string_output << ', ...'
+      today_week_day    = Date.today.wday
+      tomorrow_week_day = Date.tomorrow.wday
+      string_output = ''
+      if course.is_lesson?
+        week_days = plannings.map do |planning|
+          week_day = planning.week_day
+          if week_day == today_week_day
+            if planning.start_time.hour > 18
+              "Ce soir"
+            elsif planning.start_time.hour > 12
+              "Cet après-midi"
+            else
+              "Ce matin"
+            end
+          elsif week_day == tomorrow_week_day
+            'Demain'
+          elsif week_day == 0 or week_day == 6
+            'Ce week-end'
+          else
+            t('date.day_names')[week_day]
           end
         end
-        string_output.html_safe
+        string_output << week_days.uniq.join(', ')
+      else
+        string_output << plannings[0..3].collect{|p| training_dates(p)}.uniq.join(', ')
+        if plannings_count > 3
+          string_output << ', ...'
+        end
       end
+      string_output.html_safe
     end
+    string_output.capitalize
   end
 
   def join_teachers(course)

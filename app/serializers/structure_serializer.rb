@@ -92,15 +92,15 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def promotion_title
-    if object.premium?
-      if object.has_free_trial_course? and object.has_promotion?
-        "Essai gratuit & promotions"
-      elsif object.has_promotion?
-        "Promotions"
-      elsif object.has_free_trial_course?
-        "Essai gratuit"
-      end
-    end
+    # if object.premium?
+    #   if object.has_free_trial_course? and object.has_promotion?
+    #     "Essai gratuit & promotions"
+    #   elsif object.has_promotion?
+    #     "Promotions"
+    #   elsif object.has_free_trial_course?
+    #     "Essai gratuit"
+    #   end
+    # end
   end
 
   def cities

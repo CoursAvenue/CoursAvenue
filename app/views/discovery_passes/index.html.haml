@@ -6,21 +6,21 @@
         .flexbox__item.seven-twelfths.top-page-menu>
           %ul.nav.flush.epsilon
             %li.soft-half--sides
-              = link_to "Comment ça marche ?", '#what-is-it', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
+              = link_to "Inscription", '#what-is-it', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
             %li.soft-half--sides
-              = link_to "Inclus dans le Pass", '#courses', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
+              = link_to "Cours inclus dans le Pass", '#courses', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
             %li.soft-half--sides
-              = link_to "Les avantages", '#advantages', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
-            %li.soft-half--sides
-              = link_to "Les lieux", '#places', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
+              = link_to "Avantages", '#advantages', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
+            -# %li.soft-half--sides
+            -#   = link_to "Questions fréquentes", '#faq', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
         .flexbox__item.text--right.five-twelfths>
           - if current_user
-            = link_to 'Obtenir mon Pass', new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)), class: 'btn btn--green', data: { behavior: 'scroll-to', offset_top: '-55', type: 'get-pass', info: 'connected: header' }
+            = link_to 'Obtenir mon Pass', new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)), class: 'btn btn--yellow', data: { behavior: 'scroll-to', offset_top: '-55', type: 'get-pass', info: 'connected: header' }
           - else
             = simple_form_for User.new, url: discovery_passes_path(promo_code: @sponsorship.try(:promo_code)), method: :post do |f|
               .flexbox
                 .flexbox__item= f.input :email, input_html: { class: 'one-whole input--large', placeholder: 'E-mail' }, label: false, wrapper_html: { class: 'flush' }
-                .flexbox__item= f.submit 'Obtenir mon Pass', class: 'btn btn--bigger btn--green', data: { type: 'get-pass', info: 'header' }
+                .flexbox__item= f.submit 'Obtenir mon Pass', class: 'btn btn--bigger btn--yellow', data: { type: 'get-pass', info: 'header' }
 
 = content_for :title do
   CoursAvenue | Pass Découverte
@@ -71,22 +71,27 @@
           %ul.no-bullet-list.text--left
             %li.epsilon
               %i.fa.fa-check.green.gamma
-              Plus de 1300 séances négociées pour vous
+              Plus de
+              %strong 1300 séances
+              négociées pour vous
             %li.epsilon
               %i.fa.fa-check.green.gamma
-              Pour tous publics, tous niveaux
+              Pour
+              %strong tous publics,
+              tous niveaux
             %li.epsilon
               %i.fa.fa-check.green.gamma
-              Valable 1 mois, renouvelable
+              Valable 1 mois,
+              %strong renouvelable
           - if current_user
-            = link_to 'Obtenir mon Pass', new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)), class: 'btn btn--green btn--large btn--full hard--sides', data: { type: 'get-pass', info: 'connected: main' }
+            = link_to 'Obtenir mon Pass', new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)), class: 'btn btn--yellow btn--large btn--full hard--sides', data: { type: 'get-pass', info: 'connected: main' }
           - else
             = simple_form_for User.new, url: discovery_passes_path(promo_code: @sponsorship.try(:promo_code)), method: :post do |f|
               = f.input :email, input_html: { class: 'one-whole input--large', placeholder: 'E-mail' }, label: false
               - if params[:error]
                 %p.input_field_error.red.text--right
                   Veuillez rentrer un e-mail valide.
-              = f.submit 'Obtenir mon Pass', class: 'btn btn--bigger btn--green btn--full', data: { type: 'get-pass', info: 'main' }
+              = f.submit 'Obtenir mon Pass', class: 'btn btn--bigger btn--yellow btn--full', data: { type: 'get-pass', info: 'main' }
 
     .inline-block.v-top
       - if @sponsorship
@@ -116,7 +121,7 @@
             %p.epsilon Visualisez les séances sur une carte géographique puis réservez celles de votre choix
           .grid__item.one-third.palm-one-whole.text--center>
             .center-block.text--center.alpha 3
-            .gamma.push-half--bottom.f-weight-300 Suivez vos cours !
+            .gamma.push-half--bottom.f-weight-300 Suivez vos cours
             %p.epsilon Pour chaque séance, vous avez le droit d'y revenir jusqu'à 3 fois !
 
     .main-container.soft#courses
@@ -124,15 +129,15 @@
       - @places = PlanningSearch.search({ discovery_pass: true, per_page: 1000 }, { group: :place_id_str}).group(:place_id_str).groups
       - @course_locations = Gmaps4rails.build_markers(@places) do |place_group, marker|
         - place = Place.find_by_id place_group.value
-        - next if place.nil?
+        - next if place.nil? or place_group.results.first.nil?
         - marker.lat place.latitude
         - marker.lng place.longitude
-        - marker.infowindow "#{place_group.results.map(&:course).map(&:name)}"
+        - marker.infowindow place_group.results.first.course.name
 
     #map-courses.one-whole{ style: 'height: 600px;'}
     .home-screen-promotion-wrapper.soft--ends
       .text--center
-        = link_to 'Voir les cours inclus', root_search_page_without_subject_path('paris'), class: 'btn btn--large', data: { behavior: 'see-all-courses', info: 'second' }
+        = link_to 'Voir les cours inclus', root_search_page_without_subject_path('paris'), class: 'btn btn--bigger btn--green', data: { behavior: 'see-all-courses', info: 'second' }
     .main-container.soft#courses
       .push--sides
         %h2.push-half--bottom.text--center.f-weight-300 Sélection de cours inclus dans le Pass
@@ -182,27 +187,24 @@
               .f-size-13
                 %br
                 Sports & Arts martiaux
-      - cache 'discovery_pass/subjects/v1' do
+      - cache 'discovery_pass/subjects/v2' do
         - %w(danse theatre-scene yoga-bien-etre-sante musique-chant dessin-peinture-arts-plastiques sports-arts-martiaux).each_with_index do |subject_slug, index|
           - @courses = CourseSearch.search({ discovery_pass: true, per_page: 15, subject_id: subject_slug }).results
           .tab-pane{ id: subject_slug, class: (index == 0 ? 'active' : '') }
             %table.table--data.table--striped
               %thead
                 %tr
-                  %th.four-twelfths Nom du cours
-                  %th.three-twelfths Discipline
-                  %th.three-twelfths Planning
-                  %th.two-twelfths Villes
+                  %th.one-third Nom du cours
+                  %th.one-third Disciplines
+                  %th.one-third Planning
               %tbody
                 - @courses.each_with_index do |course, course_index|
                   %tr
                     %td= "#{course.name}"
                     %td= truncate(course.subjects.map(&:name).join(', '), length: 55)
-                    %td
-                      = plannings_to_come(course, course.plannings.available_in_discovery_pass)
-                    %td= course.places.map(&:city).uniq.map(&:name).join(', ')
+                    %td= plannings_to_come(course, course.plannings.available_in_discovery_pass.visible)
     .text--center.soft--ends
-      = link_to 'Voir les cours inclus', root_search_page_without_subject_path('paris'), class: 'btn btn--large', data: { behavior: 'see-all-courses', info: 'third' }
+      = link_to 'Voir les cours inclus', root_search_page_without_subject_path('paris'), class: 'btn btn--bigger btn--green', data: { behavior: 'see-all-courses', info: 'third' }
 
     .home-screen-promotion-wrapper#advantages
       .main-container.soft
@@ -213,7 +215,7 @@
               = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/abundance.png', width: 70
             .grid__item.three-twelfths.palm-one-whole>
               %h4.push-half--bottom Un choix unique
-              %p.epsilon C'est la 1ère fois qu'un Pass vous permet d'essayer autant de cours de loisirs : plus de #{Planning.available_in_discovery_pass.count.round(-2)} séances vous sont proposées, un chiffre qui augmente chaque jour.
+              %p.epsilon C'est la 1ère fois qu'un Pass vous permet d'essayer autant de cours de loisirs : il inclut + de 1300 séances, un chiffre qui augmente chaque jour.
             .grid__item.one-twelfth.palm-one-whole.text--right.palm-text--center.soft--right.v-middle>
               = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/free.png', width: 70
             .grid__item.three-twelfths.palm-one-whole>
@@ -228,9 +230,9 @@
 
       .text--center.push--bottom.soft--bottom
         - if current_user
-          = link_to 'Obtenir mon Pass', new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)), class: 'btn btn--green btn--bigger soft--sides', data: { behavior: 'scroll-to', offset_top: '-55', type: 'get-pass', info: 'connected: header' }
+          = link_to 'Obtenir mon Pass', new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)), class: 'btn btn--yellow btn--bigger soft--sides', data: { behavior: 'scroll-to', offset_top: '-55', type: 'get-pass', info: 'connected: header' }
         - else
-          = link_to 'Obtenir mon Pass', '#top-form', class: 'btn btn--green btn--bigger soft--sides', data: { behavior: 'scroll-to', offset_top: '-55', type: 'get-pass', info: 'bottom' }
+          = link_to 'Obtenir mon Pass', '#top-form', class: 'btn btn--yellow btn--bigger soft--sides', data: { behavior: 'scroll-to', offset_top: '-55', type: 'get-pass', info: 'bottom' }
 
   - if Rails.env.production?
     = content_for :scripts do

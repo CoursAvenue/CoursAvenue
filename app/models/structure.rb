@@ -299,7 +299,7 @@ class Structure < ActiveRecord::Base
     integer :funding_type_ids, multiple: true
 
     boolean :available_in_discovery_pass do
-      self.plannings.where(available_in_discovery_pass: true).any?
+      self.plannings.available_in_discovery_pass.any?
     end
 
     boolean :premium
@@ -1109,6 +1109,10 @@ class Structure < ActiveRecord::Base
     else
       ([city] + places.map(&:city)).group_by{ |city| city }.values.max_by(&:size).first
     end
+  end
+
+  def has_discovery_pass_courses?
+    self.plannings.available_in_discovery_pass.any?
   end
 
   private

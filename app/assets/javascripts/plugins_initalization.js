@@ -125,4 +125,12 @@ $(function() {
             return false;
         }
     });
+    if (typeof(mixpanel) != 'undefined') {
+        mixpanel.track_links("[data-track-link]", "Clicked tracker", function(el) {
+            return {
+              text: $(el).text(),
+              info: $(el).data('info')
+            }
+        });
+    }
 });

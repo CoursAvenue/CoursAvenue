@@ -1,7 +1,25 @@
 {{#if logged_in}}
-    {{#if has_discovery_pass}}{{#if on_discovery_pass_pages}}
-        <a href="{{ new_user_sponsorship_path }}" class="btn btn--small btn--green f-weight-bold push-half--right"> 2 mois de Pass offert</a>
-    {{/if}}{{/if}}
+    {{#if has_discovery_pass}}
+        {{#if on_discovery_pass_pages}}
+            <a href="{{ new_user_sponsorship_path }}" class="btn btn--small btn--green f-weight-bold push-half--right"> 2 mois de Pass offert</a>
+        {{/if}}
+    {{/if}}
+    <div class="inline-block soft--right">
+        <div class="drop-down__wrapper grid__item width-auto v-middle hard--left" data-behavior='drop-down' data-el='> .drop-down__el' data-position='right'>
+            <a href="{{ discovery_passes_url }}" class="btn btn--yellow" data-track-link data-info="Pass Decouverte header link">Pass Découverte</a>
+            <ul class="drop-down__el text--left">
+                <li class="nowrap">
+                    <a href="{{ discovery_passes_url }}" data-track-link data-info="Pass Decouverte header link">Accédez aux cours</a>
+                </li>
+                <li class="nowrap">
+                    <a href="{{ discovery_passes_url }}" data-track-link data-info="Pass Decouverte header link">Obtenir mon pass</a>
+                </li>
+                <li class="nowrap">
+                    <a href="{{ discovery_passes_url }}" data-track-link data-info="Pass Decouverte header link">En savoir plus</a>
+                </li>
+            </ul>
+        </div>
+    </div>
     <div class="drop-down__wrapper grid__item width-auto v-middle hard--left" data-behavior='drop-down' data-el='> .drop-down__el' data-position='right'>
         <a href="{{dashboard_user_path}}">
             {{#if avatar_url}}
@@ -67,10 +85,10 @@
     </div>
 {{else}}
 <div class="inline-block">
-    <div class="inline-block drop-down__wrapper soft--right">
+    <div class="inline-block soft--right">
         <a href="#" data-behavior="sign-up">Inscription</a>
     </div>
-    <div class="inline-block drop-down__wrapper soft--right">
+    <div class="inline-block soft--right">
         <a href="#" data-behavior="sign-in">Connexion</a>
     </div>
     <div class="inline-block soft-half--sides drop-down__wrapper" data-behavior='drop-down' data-el='> .drop-down__el' data-position='right'>
@@ -107,6 +125,22 @@
       </ul>
     </div>
 
+    <div class="inline-block soft--left">
+        <div class="drop-down__wrapper grid__item width-auto v-middle hard--left" data-behavior='drop-down' data-el='> .drop-down__el' data-position='right'>
+            <a href="{{ discovery_passes_url }}" class="btn btn--yellow" data-track-link data-info="Pass Decouverte header link">Pass Découverte</a>
+            <ul class="drop-down__el text--left">
+                <li class="nowrap">
+                    <a href="{{ discovery_passes_url }}" data-track-link data-info="Pass Decouverte header link">Accédez aux cours</a>
+                </li>
+                <li class="nowrap">
+                    <a href="{{ discovery_passes_url }}" data-track-link data-info="Pass Decouverte header link">Obtenir mon pass</a>
+                </li>
+                <li class="nowrap">
+                    <a href="{{ discovery_passes_url }}" data-track-link data-info="Pass Decouverte header link">En savoir plus</a>
+                </li>
+            </ul>
+        </div>
+    </div>
     <div class="inline-block soft--left">
         {{#if on_sleeping_page}}
             <a href="{{ take_control_url }}" class="btn btn--orange">Gérer ce profil</a>

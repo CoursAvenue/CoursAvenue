@@ -13,10 +13,6 @@ hr {
     border-bottom: 1px inset $beige-darker;
 }
 
-hr.hr--blue {
-    border-color: #0688BE;
-}
-
-hr.hr--white {
-    border-color: #EEE;
-}
+hr.hr--blue   { border-color: #0688BE; }
+hr.hr--white  { border-color: #EEE; }
+hr.hr--orange { border-color: lighten($orange, 5%); }

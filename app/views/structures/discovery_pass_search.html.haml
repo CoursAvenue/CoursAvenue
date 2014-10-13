@@ -100,3 +100,57 @@
       window._fbq.push(['track', '6017039707227', {'value':'19.00','currency':'EUR'}]);
       </script>
       <noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/tr?ev=6017039707227&amp;cd[value]=0.00&amp;cd[currency]=EUR&amp;noscript=1" /></noscript>
+
+- if !current_user or (current_user and !current_user.discovery_pass)
+  #sign-in-to-see.hidden.orange-box
+    .jpo-frise
+    .soft.white.text--center
+      %h1.flush Pass Découverte
+      %h4.text--center
+        Vous n'avez pas encore votre Pass ?
+      .text--center
+        = link_to create_account_discovery_passes_path, class: 'btn btn--yellow btn--bigger soft-half--ends soft--sides' do
+          Obtenir mon Pass Découverte
+        %br
+        = link_to discovery_passes_path, class: 'white' do
+          En savoir plus
+      %hr.hr--orange.push--ends
+      .text--center
+        %h6 Vous avez déjà votre Pass ?
+        .text--center
+          %a.btn.btn--small.white{ href: '#', data: { behavior: "sign-in" } } Connexion
+
+
+  = content_for :scripts do
+    :javascript
+      $(function() {;
+          $('[data-behavior=sign-in]').click(function() {
+              CoursAvenue.signIn({
+                  success: function() {
+                      window.location.reload()
+                  }
+              });
+          })
+          $.fancybox($('#sign-in-to-see'), {
+                  topRatio    : 0.3,
+                  openSpeed   : 300,
+                  maxWidth    : 830,
+                  maxHeight   : 450,
+                  fitToView   : false,
+                  width       : 830,
+                  height      : 289,
+                  autoSize    : false,
+                  autoResize  : false,
+                  padding     : 0,
+                  closeBtn    : false,
+                  keys        : {
+                      close: []
+                  },
+                  helpers     : {
+                      overlay : {
+                        closeClick: false
+                      }
+                  }
+            });
+      });
+
