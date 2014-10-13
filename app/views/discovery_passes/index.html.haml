@@ -6,7 +6,7 @@
         .flexbox__item.seven-twelfths.top-page-menu>
           %ul.nav.flush.epsilon
             %li.soft-half--sides
-              = link_to "Inscription", '#what-is-it', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55', 'track-link' => true, info: 'Discovery Page landing' }
+              = link_to "Inscription", '#top', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55', 'track-link' => true, info: 'Discovery Page landing' }
             %li.soft-half--sides
               = link_to "Cours inclus dans le Pass", '#courses', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55', 'track-link' => true, info: 'Discovery Page landing' }
             %li.soft-half--sides
@@ -49,7 +49,7 @@
       %span
       %div
 
-  .main-container.main-container--medium.soft-half--bottom.relative{ style: "height: 500px;" }
+  #top.main-container.main-container--medium.soft-half--bottom.relative{ style: "height: 500px;" }
     -  if @sponsorship
       .text--center
         .white-box.push--top.soft.inline-block
@@ -90,7 +90,7 @@
               = f.input :email, input_html: { class: 'one-whole input--large', placeholder: 'E-mail' }, label: false
               - if params[:error]
                 %p.input_field_error.red.text--right
-                  Veuillez rentrer un e-mail valide.
+                  Veuillez renseigner un e-mail valide.
               = f.submit 'Obtenir mon Pass', class: 'btn btn--bigger btn--yellow btn--full', data: { type: 'get-pass', info: 'main' }
 
     .inline-block.v-top
