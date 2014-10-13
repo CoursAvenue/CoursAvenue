@@ -299,7 +299,35 @@ describe Structure do
 
         expect(structure.duplicated_structure.active).to be false
       end
+    end
 
+    describe 'wake_up!' do
+      let(:duplicated_structure) { structure.duplicate_structure }
+
+      it 'wakes the duplicated structure' do
+        structure.wake_up!
+
+        expect(duplicated_structure.is_sleeping).to be false
+      end
+
+      it 'activates the duplicated structure' do
+        structure.wake_up!
+
+        expect(duplicated_structure.active).to be true
+      end
+
+      it 'deactivates itself' do
+        structure.wake_up!
+
+        expect(structure.is_sleeping).to be true
+      end
+
+      it 'puts itself to sleep' do
+        structure.wake_up!
+
+        expect(structure.active).to be fa;se
+      end
     end
   end
+
 end
