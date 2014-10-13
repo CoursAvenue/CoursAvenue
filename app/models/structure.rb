@@ -66,8 +66,8 @@ class Structure < ActiveRecord::Base
   has_many :admins                   , dependent: :destroy
   has_many :subscription_plans       , dependent: :destroy
 
-  has_one :sleeping_structure, class_name: 'Structure', foreign_key: :sleeping_structure_id
-  belongs_to :awake_structure, class_name: 'Structure', foreign_key: :sleeping_structure_id
+  has_one :duplicated_structure, class_name: 'Structure', foreign_key: :sleeping_structure_id
+  belongs_to :original_structure, class_name: 'Structure', foreign_key: :sleeping_structure_id
 
   ######################################################################
   # Scope                                                              #
@@ -96,7 +96,8 @@ class Structure < ActiveRecord::Base
                   :highlighted_comment_id,
                   :deletion_reasons, :deletion_reasons_text,
                   :phone_numbers_attributes, :places_attributes, :other_emails, :last_geocode_try,
-                  :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason, :sleeping_attributes, :order_recipient, :delivery_email_status, :discovery_pass_policy
+                  :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason, :sleeping_attributes, :order_recipient, :delivery_email_status, :discovery_pass_policy,
+                  :duplicated_structure
 
   accepts_nested_attributes_for :places,
                                  reject_if: :reject_places,
@@ -1112,6 +1113,29 @@ class Structure < ActiveRecord::Base
     else
       ([city] + places.map(&:city)).group_by{ |city| city }.values.max_by(&:size).first
     end
+  end
+
+  # Duplicate Structure into a new structure that will be hidden.
+  #
+  # @return a new Structure
+  def duplicate_structure
+    unless self.duplicated_structure.present?
+      duplicated_structure               = self.dup
+
+      duplicated_structure.phone_numbers = self.phone_numbers
+      duplicated_structure.places        = self.places
+      duplicated_structure.subjects      = self.subjects
+      duplicated_structure.subjects      = self.subjects
+
+      duplicated_structure.active        = false
+      duplicated_structure.is_sleeping   = true
+
+      duplicated_structure.save
+      self.duplicated_structure          = duplicated_structure
+      self.save
+    end
+
+    self.duplicated_structure
   end
 
   private
