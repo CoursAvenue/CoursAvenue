@@ -269,7 +269,7 @@
                 'from_facebook_ad': true
             });
         });
-  - if Rails.env.production? and params[:utm_source].end_with? '__Newsletter'
+  - if Rails.env.production? and params[:utm_campaign].end_with? '__Newsletter'
     = content_for :scripts do
       :javascript
         $(function() {
