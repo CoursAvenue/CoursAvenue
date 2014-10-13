@@ -270,6 +270,14 @@
                 'from_facebook_ad': true
             });
         });
+  - if Rails.env.production? and params[:utm_source].end_with? '__Newsletter'
+    = content_for :scripts do
+      :javascript
+        $(function() {
+            mixpanel.people.set({
+                'from_newsletter': true
+            });
+        });
 
 = content_for :scripts do
   :javascript
