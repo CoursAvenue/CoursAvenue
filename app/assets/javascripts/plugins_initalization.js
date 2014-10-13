@@ -126,10 +126,12 @@ $(function() {
         }
     });
     if (typeof(mixpanel) != 'undefined') {
-        mixpanel.track_links("[data-track-link]", "Clicked tracker", function(el) {
+        mixpanel.track_links("[data-track-link]", "Clicked on a link", function(el) {
             return {
               text: $(el).text(),
-              info: $(el).data('info')
+              info: $(el).data('info'),
+              url: document.URL,
+              path: window.location.pathname
             }
         });
     }
