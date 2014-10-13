@@ -1,4 +1,4 @@
-.panel
+.panel.push--ends
   .panel__header.soft
     = render partial: 'users/discovery_passes/breadcrumb', locals: { current: 'inscription' }
   .panel__body.soft
@@ -9,7 +9,7 @@
             %h4.flush.text--center Inscription
           .panel__body.soft
             .text--center
-              = link_to "S'inscrire avec Facebook", user_omniauth_authorize_path('facebook'), class: 'btn btn--facebook ', id: 'facebook_button'
+              = link_to "S'inscrire avec Facebook", '#', class: 'btn btn--facebook', id: 'facebook-login'
               %div
                 %i
                   Nous ne publierons rien sans votre permission
@@ -34,3 +34,15 @@
               Déjà membre CoursAvenue ?
               = link_to "Connexion", new_user_session_path, data: { behavior: 'modal', title: 'Connexion', width: 600, padding: 0 }, class: 'fancybox.ajax', id: 'connection'
 
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('#facebook-login').click(function() {
+            CoursAvenue.loginWithFacebook({
+                success: function() {
+                    window.location.href = Routes.new_user_discovery_pass_path(CoursAvenue.currentUser().get('slug'), { promo_code: '#{params[:promo_code]}' })
+                }
+            });
+        });
+    });

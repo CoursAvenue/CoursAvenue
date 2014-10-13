@@ -15,27 +15,18 @@ module CoursesHelper
   # Returns
   #   Case lesson:              Mardi, Jeudi, Vendredi.
   #   Case training: Lundi 23 novembre, Mardi 24 novembre, ...
-  def plannings_to_come course, params
-    _start_date = Date.parse(params[:start_date]) if params[:start_date].present?
-    _end_date   = Date.parse(params[:end_date])   if params[:end_date].present?
-    # = pluralize course.plannings.future.count, 'séance'
-
+  def plannings_to_come course, plannings
     if course.is_lesson?
       order_by = 'week_day ASC, start_time ASC'
     else
       order_by = 'start_date ASC, start_time ASC'
     end
-    plannings = course.plannings.order(order_by).where( Planning.arel_table[:start_time].lteq(_end_date).and(
-                                                        Planning.arel_table[:end_date].gteq(_start_date)) )
+    plannings = course.plannings.order(order_by)
 
-    if params[:week_days].present?
-      plannings = plannings.reject{|p| !params[:week_days].include?(p.week_day.to_s) }
-    end
     plannings_count = plannings.count
     if plannings_count > 0
       content_tag :span do
-        string_output = pluralize plannings_count, 'séance'
-        string_output << ' : '
+        string_output = ''
         if course.is_lesson?
           string_output << join_week_days(plannings, class: 'inline').downcase
         else

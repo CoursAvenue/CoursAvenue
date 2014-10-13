@@ -1,7 +1,7 @@
 # encoding: utf-8
 class DiscoveryPassesController < Pro::ProController
 
-  layout 'user_profile'
+  layout 'discovery_pass'
 
   def index
     if current_user
@@ -9,13 +9,27 @@ class DiscoveryPassesController < Pro::ProController
     end
   end
 
+  def test_b
+    if current_user
+      redirect_to user_discovery_passes_path(current_user)
+    end
+  end
+
+  def test_c
+    if current_user
+      redirect_to user_discovery_passes_path(current_user)
+    end
+  end
+
   def create
-    if params[:user][:email].present?
+    if params[:user][:email].blank? or !params[:user][:email].include?('@')
+      redirect_to discovery_passes_path(email: params[:user][:email], promo_code: params[:promo_code], error: 'email')
+    else
       user = User.create_or_find_from_email(params[:user][:email])
       user.interested_in_discovery_pass = true
       user.save(validate: false)
+      redirect_to create_account_discovery_passes_path(email: params[:user][:email], promo_code: params[:promo_code])
     end
-    redirect_to create_account_discovery_passes_path(email: params[:user][:email], promo_code: params[:promo_code])
   end
 
   def create_account

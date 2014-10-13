@@ -94,4 +94,5 @@
           $(function() {
               mixpanel.track_links("#home-page-link", "Clicked logo", { "referrer": document.referrer });
               mixpanel.track_links("#help-menu a", "Clicked help menu", { "referrer": document.referrer });
+              mixpanel.track('URL : ' + window.location.pathname, { url: document.URL, path: window.location.pathname });
           });

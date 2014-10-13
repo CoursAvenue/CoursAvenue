@@ -3,7 +3,7 @@
   .bg-site-background.soft-half--ends.bordered--bottom
     .main-container.main-container--medium.soft--sides
       .flexbox.one-whole
-        .flexbox__item.ten-twelfths.top-page-menu>
+        .flexbox__item.seven-twelfths.top-page-menu>
           %ul.nav.flush.epsilon
             %li.soft-half--sides
               = link_to "Comment ça marche ?", '#what-is-it', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
@@ -13,11 +13,14 @@
               = link_to "Les avantages", '#advantages', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
             %li.soft-half--sides
               = link_to "Les lieux", '#places', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
-        .flexbox__item.text--right.two-twelfths>
+        .flexbox__item.text--right.five-twelfths>
           - if current_user
-            = link_to 'Obtenir mon Pass', new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)), class: 'btn btn--green btn--full', data: { behavior: 'scroll-to', offset_top: '-55' }
+            = link_to 'Obtenir mon Pass', new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)), class: 'btn btn--green', data: { behavior: 'scroll-to', offset_top: '-55', type: 'get-pass', info: 'connected: header' }
           - else
-            = link_to 'Obtenir mon Pass', '#top-form', class: 'btn btn--green btn--full', data: { behavior: 'scroll-to', offset_top: '-55' }
+            = simple_form_for User.new, url: discovery_passes_path(promo_code: @sponsorship.try(:promo_code)), method: :post do |f|
+              .flexbox
+                .flexbox__item= f.input :email, input_html: { class: 'one-whole input--large', placeholder: 'E-mail' }, label: false, wrapper_html: { class: 'flush' }
+                .flexbox__item= f.submit 'Obtenir mon Pass', class: 'btn btn--bigger btn--green', data: { type: 'get-pass', info: 'header' }
 
 = content_for :title do
   CoursAvenue | Pass Découverte
@@ -61,17 +64,31 @@
     .inline-block.four-tenths.soft--right.text--center#top-form>
       .push-half--bottom.very-soft.hard--sides
         .white-box.soft.black
-          %h3 Essayez autant de cours de loisirs que vous voulez !
-          %p.epsilon
-            Chaque mois, participez à autant de séances d'essai que vous le souhaitez parmi les #{Planning.available_in_discovery_pass.count.round(-2)} cours de loisirs négociés spécialement pour vous à Paris auprès de plus de #{Structure.available_in_discovery_pass.count.round(-2)} professeurs, associations et écoles.
+          -# %h3 Essayez autant de cours de loisirs que vous voulez !
+          %h3 Essayez les meilleurs cours de loisirs de votre ville.
+          -# %p.epsilon
+          -#   Chaque mois, participez à autant de séances d'essai que vous le souhaitez parmi les #{Planning.available_in_discovery_pass.count.round(-2)} cours de loisirs négociés spécialement pour vous à Paris auprès de plus de #{Structure.available_in_discovery_pass.count.round(-2)} professeurs, associations et écoles.
+          %ul.no-bullet-list.text--left
+            %li.epsilon
+              %i.fa.fa-check.green.gamma
+              Plus de 1300 séances négociées pour vous
+            %li.epsilon
+              %i.fa.fa-check.green.gamma
+              Pour tous publics, tous niveaux
+            %li.epsilon
+              %i.fa.fa-check.green.gamma
+              Valable 1 mois, renouvelable
           - if current_user
-            = link_to 'Obtenir mon Pass', new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)), class: 'btn btn--green btn--large btn--full hard--sides'
+            = link_to 'Obtenir mon Pass', new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)), class: 'btn btn--green btn--large btn--full hard--sides', data: { type: 'get-pass', info: 'connected: main' }
           - else
             = simple_form_for User.new, url: discovery_passes_path(promo_code: @sponsorship.try(:promo_code)), method: :post do |f|
               = f.input :email, input_html: { class: 'one-whole input--large', placeholder: 'E-mail' }, label: false
-              = f.submit 'Obtenir mon Pass', class: 'btn btn--bigger btn--green btn--full'
+              - if params[:error]
+                %p.input_field_error.red.text--right
+                  Veuillez rentrer un e-mail valide.
+              = f.submit 'Obtenir mon Pass', class: 'btn btn--bigger btn--green btn--full', data: { type: 'get-pass', info: 'main' }
 
-    .inline-block
+    .inline-block.v-top
       - if @sponsorship
         = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/discovery_pass/badge_with_promo.png", height: 250, width: 250
       - else
@@ -92,237 +109,100 @@
           .grid__item.one-third.palm-one-whole.text--center>
             .center-block.text--center.alpha 1
             .gamma.push-half--bottom.f-weight-300 Achetez votre Pass
-            %p.epsilon Payez directement en ligne par carte bleue : votre Pass est valable 1 mois et renouvelable autant de fois que vous le souhaitez jusqu'à découvrir vos nouvelles passions
+            %p.epsilon Payez en ligne par carte bleue : votre Pass est nominatif, valable 1 mois et renouvelable à l'infini
           .grid__item.one-third.palm-one-whole.text--center>
             .center-block.text--center.alpha 2
             .gamma.push-half--bottom.f-weight-300 Choisissez vos cours
-            %p.epsilon Visualisez toutes les séances sur une carte géographique, choisissez celles de votre choix, puis réservez gratuitement auprès de chaque partenaire
+            %p.epsilon Visualisez les séances sur une carte géographique puis réservez celles de votre choix
           .grid__item.one-third.palm-one-whole.text--center>
             .center-block.text--center.alpha 3
             .gamma.push-half--bottom.f-weight-300 Suivez vos cours !
-            %p.epsilon Pour chaque séance, vous avez le droit d'y revenir jusqu'à 3 fois : si un cours vous a particulièrement plu, libre à vous ensuite d'y revenir en vous inscrivant directement auprès du partenaire
+            %p.epsilon Pour chaque séance, vous avez le droit d'y revenir jusqu'à 3 fois !
 
-    .main-container.main-container--medium.soft#courses
+    .main-container.soft#courses
+      %h2.flush.text--center.f-weight-300 Plus de #{Structure.available_in_discovery_pass.count.round(-2)} lieux à découvrir à Paris et sa région
+      - @places = PlanningSearch.search({ discovery_pass: true, per_page: 1000 }, { group: :place_id_str}).group(:place_id_str).groups
+      - @course_locations = Gmaps4rails.build_markers(@places) do |place_group, marker|
+        - place = Place.find_by_id place_group.value
+        - next if place.nil?
+        - marker.lat place.latitude
+        - marker.lng place.longitude
+        - marker.infowindow "#{place_group.results.map(&:course).map(&:name)}"
+
+    #map-courses.one-whole{ style: 'height: 600px;'}
+    .home-screen-promotion-wrapper.soft--ends
+      .text--center
+        = link_to 'Voir les cours inclus', root_search_page_without_subject_path('paris'), class: 'btn btn--large', data: { behavior: 'see-all-courses', info: 'second' }
+    .main-container.soft#courses
       .push--sides
-        %h2.push-half--bottom.text--center.f-weight-300 Inclus dans votre Pass Découverte
-        - if params[:with_map].present?
-          %h4.soft--bottom.text--center.f-weight-300 Des dizaines de cours à deux pas de chez vous
-          .flexbox.one-whole
-            .flexbox__item.v-top.one-quarter>
-              %ul.block-list.text--right.tabs--link.epsilon.line-height-1-7.paris-tabs
-                %li.active
-                  %a.nowrap.muted-link.orange{ href: '#paris-1', data: { toggle: 'tab' } } 1er arrondissement
-                %li
-                  %a.nowrap.muted-link.orange{ href: '#paris-2', data: { toggle: 'tab' } } 2nd arrondissement
-                %li
-                  %a.nowrap.15uted-link.orange{ href: '#paris-3', data: { toggle: 'tab' } } 3e arrondissement
-                %li
-                  %a.nowrap.m16ted-link.orange{ href: '#paris-4', data: { toggle: 'tab' } } 4e arrondissement
-                %li
-                  %a.nowrap.muted-link.orange{ href: '#paris-5', data: { toggle: 'tab' } } 5e arrondissement
-                %li
-                  %a.nowrap.muted-link.orange{ href: '#paris-6', data: { toggle: 'tab' } } 6e arrondissement
-                %li
-                  %a.nowrap.muted-link.orange{ href: '#paris-7', data: { toggle: 'tab' } } 7e arrondissement
-                %li
-                  %a.nowrap.muted-link.orange{ href: '#paris-8', data: { toggle: 'tab' } } 8e arrondissement
-                %li
-                  %a.nowrap.muted-link.orange{ href: '#paris-9', data: { toggle: 'tab' } } 9e arrondissement
-                %li
-                  %a.nowrap.muted-link.orange{ href: '#paris-10', data: { toggle: 'tab' } } 10e arrondissement
-                %li
-                  %a.nowrap.muted-link.orange{ href: '#paris-11', data: { toggle: 'tab' } } 11e arrondissement
-                %li
-                  %a.nowrap.muted-link.orange{ href: '#paris-12', data: { toggle: 'tab' } } 12e arrondissement
-                %li
-                  %a.nowrap.muted-link.orange{ href: '#paris-13', data: { toggle: 'tab' } } 13e arrondissement
-                %li
-                  %a.nowrap.muted-link.orange{ href: '#paris-14', data: { toggle: 'tab' } } 14e arrondissement
-                %li
-                  %a.nowrap.muted-link.orange{ href: '#paris-15', data: { toggle: 'tab' } } 15e arrondissement
-                %li
-                  %a.nowrap.muted-link.orange{ href: '#paris-16', data: { toggle: 'tab' } } 16e arrondissement
-                %li
-                  %a.nowrap.muted-link.orange{ href: '#paris-17', data: { toggle: 'tab' } } 17e arrondissement
-                %li
-                  %a.nowrap.muted-link.orange{ href: '#paris-18', data: { toggle: 'tab' } } 18e arrondissement
-                %li
-                  %a.nowrap.muted-link.orange{ href: '#paris-19', data: { toggle: 'tab' } } 19e arrondissement
-                %li
-                  %a.nowrap.muted-link.orange{ href: '#paris-20', data: { toggle: 'tab' } } 20e arrondissement
-            .flexbox__item.v-top.tab-content.soft--left>
-              - (1..20).each do |paris_index|
-                .tab-pane.soft-half--top{ id: "paris-#{paris_index}", class: (paris_index == 1 ? 'active' : '') }
-                  - @courses = CourseSearch.search({ discovery_pass: true, per_page: 1000, zip_codes: ["750#{paris_index < 10 ? '0' : ''}#{paris_index}"] }).results
-                  %ul.no-bullet-list.epsilon.line-height-1-7
-                    - @courses.each_with_index do |course, course_index|
-                      %li{ class: (course_index > 30 ? 'hidden' : '')}
-                        = "#{course.name} (#{pluralize course.plannings.available_in_discovery_pass.count, 'séance'})"
-                      - if course_index == 31
-                        %li
-                          = link_to 'javascript:void(0);', onclick: "$('#paris-#{paris_index} .hidden').show(); $(this).parent().remove()" do
-                            %i.fa.fa-plus
-                            Plus
-
-        %h4.soft--bottom.text--center.f-weight-300 Sélection de cours inclus dans votre Pass
-        .grid
-          .grid__item.one-third>
-            %h4
-              = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/danse.png", height: 20
-              Danse
-            %ul.no-bullet-list.epsilon.line-height-1-7
-              %li Hip Hop
-              %li Pilates
-              %li Lindy hop
-              %li Zumba
-              %li Claquettes
-              %li Rock
-              %li Danse country
-              %li Hip-hop
-              %li Danse Orientale
-              %li Moderne Jazz
-              %li Danse orientale classique
-              %li Danse africaine moderne
-              %li Danse blues
-              %li Milonga et Valse argentine
-              %li Tango argentin
-              %li Salsa cubaine
-              %li Danse indienne Bollywood
-              %li . . .
-
-          .grid__item.one-third>
-            %h4
-              = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/theatre-scene.png", height: 20
-              Théâtre & Scène
-            %ul.no-bullet-list.epsilon.line-height-1-7
-              %li Comédie musicale
-              %li Atelier de trapèze
-              %li Théâtre
-              %li Comédien de doublage
-              %li Art dramatique
-              %li Coaching pour acteurs
-              %li Jeu d'acteur
-              %li Développement personnel par la voix
-              %li Théâtre pour enfants
-              %li Improvisation théâtrale
-              %li Théâtre en mouvement
-              %li L'acteur face à la caméra
-              %li Écriture théâtrale
-              %li Théâtre de rue
-              %li Pantins & marionnettes
-              %li Art dramatique
-              %li Mime
-              %li . . .
-          .grid__item.one-third>
-            %h4
-              = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/yoga-bien-etre-sante.png", height: 20
-              Yoga, Bien-être & Santé
-            %ul.no-bullet-list.epsilon.line-height-1-7
-              %li Yoga
-              %li Bikram Yoga
-              %li Yoga-Iyengar
-              %li Méditation
-              %li Réflexologie
-              %li Stretching Anti Stress
-              %li Massage Traditionnel Thaï
-              %li Qi Gong
-              %li Tai Chi
-              %li Stretching Postural
-              %li Atelier équilibre et marche
-              %li Technique Alexander
-              %li Sophrologie
-              %li Hatha yoga
-              %li Coaching & développement personnel
-              %li Wutao
-              %li Shiatsu
-              %li . . .
-        .grid
-          .grid__item.one-third>
-            %h4
-              = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/dessin-peinture-arts-plastiques.png", height: 20
-              Dessin, Peinture & Arts
-            %ul.no-bullet-list.epsilon.line-height-1-7
-              %li Gravure
-              %li Peinture et volume
-              %li Dessin
-              %li Sculpture modelage
-              %li Portrait
-              %li Peinture à l'huile
-              %li Patines décoratives sur bois
-              %li Couture
-              %li Reproduction de personnages et portraits
-              %li Atelier d'écriture
-              %li Céramique et de sculpture
-              %li Arts plastiques
-              %li Dessin d'observation
-              %li Modelage-sculpture
-              %li Fresque collective
-              %li Sellerie
-              %li Maroquinerie
-              %li Bande dessinée
-              %li Découverte de la Mode
-              %li Cours de nu, modèle vivant
-              %li Manga
-              %li Animation 2D
-              %li Stylisme
-              %li . . .
-          .grid__item.one-third>
-            %h4
-              = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/musique-chant.png", height: 20
-              Musique & Chant
-            %ul.no-bullet-list.epsilon.line-height-1-7
-              %li Eveil musical
-              %li Chant collectif
-              %li Ecriture de scénario
-              %li Ingénieur du son
-              %li Chorale
-              %li Réeducation vocale
-              %li Voix lyrique et variété.
-              %li Atelier découverte instrumentale
-              %li Guitare et basse
-              %li Batterie
-              %li Chant
-              %li Piano
-              %li Musique & chant
-              %li Approche de la basse
-              %li Composition de musique de film
-              %li Chant moderne
-              %li Perfectionnement de la guitare
-              %li Chorale
-              %li Musique persane
-              %li Techniques vocales et coaching vocal
-              %li Chant et interprétation
-              %li Chant gospel
-              %li Chant moderne : jazz, chansons, rock etc...
-              %li . . .
-          .grid__item.one-third>
-            %h4
-              = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/sports-arts-martiaux.png", height: 20
-              Sports & Arts martiaux
-            %ul.no-bullet-list.epsilon.line-height-1-7
-              %li Arts Martiaux Japonais adultes armes
-              %li Taekwondo
-              %li Kung fu
-              %li Cours de self-défense
-              %li Judo enfants
-              %li Stretching Anti Stress
-              %li Initiation à la Capoeira
-              %li Cours de Bolly Aerobic (Fitness Bollywood)
-              %li Initiation au Kung Fu Wushu
-              %li Cardio Trainning et apprentissage coup de pied sur cible
-              %li Karaté
-              %li Baby Karaté
-              %li Kobudo enfants adultes
-              %li Cours de combat
-              %li Kung Fu
-              %li Arts martiaux japonais
-              %li Golf à Paris
-              %li Art martial Olympique d'origine Coréenne
-              %li Pilates
-              %li Karaté au féminin
-              %li Capoeira
-              %li Atelier de Vélo avec technique Alexander
-              %li . . .
+        %h2.push-half--bottom.text--center.f-weight-300 Sélection de cours inclus dans le Pass
+        %h4.text--center.f-weight-300 Cliquez sur chaque discipline pour l'aperçu
+    .main-container.main-container--medium#subjects-tabs
+      .grid--full
+        .grid__item.one-third.very-soft.hard--bottom>
+          %a.block{ href: "#danse", data: { toggle: 'tab' } }
+            .text--center.btn--blue.subject-active.white.btn.subject-btn.one-whole.hard--sides
+              .subject_icon.subject_icon__danse
+              .f-size-13
+                %br
+                Danse
+        .grid__item.one-third.very-soft.hard--bottom>
+          %a.block{ href: "#theatre-scene", data: { toggle: 'tab' } }
+            .text--center.btn.subject-btn.one-whole.hard--sides
+              .subject_icon.subject_icon__theatre-scene
+              .f-size-13
+                %br
+                Théâtre & Scène
+        .grid__item.one-third.very-soft.hard--bottom>
+          %a.block{ href: "#yoga-bien-etre-sante", data: { toggle: 'tab' } }
+            .text--center.btn.subject-btn.one-whole.hard--sides
+              .subject_icon.subject_icon__yoga-bien-etre-sante
+              .f-size-13
+                %br
+                Yoga, Bien-être & Santé
+      .grid--full
+        .grid__item.one-third.very-soft.hard--bottom>
+          %a.block{ href: "#musique-chant", data: { toggle: 'tab' } }
+            .text--center.btn.subject-btn.one-whole.hard--sides
+              .subject_icon.subject_icon__musique-chant
+              .f-size-13
+                %br
+                Musique & Chant
+        .grid__item.one-third.very-soft.hard--bottom>
+          %a.block{ href: "#dessin-peinture-arts-plastiques", data: { toggle: 'tab' } }
+            .text--center.btn.subject-btn.one-whole.hard--sides
+              .subject_icon.subject_icon__dessin-peinture-arts-plastiques
+              .f-size-13
+                %br
+                Dessin, Peinture & Arts
+        .grid__item.one-third.very-soft.hard--bottom>
+          %a.block{ href: "#sports-arts-martiaux", data: { toggle: 'tab' } }
+            .text--center.btn.subject-btn.one-whole.hard--sides
+              .subject_icon.subject_icon__sports-arts-martiaux
+              .f-size-13
+                %br
+                Sports & Arts martiaux
+      - cache 'discovery_pass/subjects/v1' do
+        - %w(danse theatre-scene yoga-bien-etre-sante musique-chant dessin-peinture-arts-plastiques sports-arts-martiaux).each_with_index do |subject_slug, index|
+          - @courses = CourseSearch.search({ discovery_pass: true, per_page: 15, subject_id: subject_slug }).results
+          .tab-pane{ id: subject_slug, class: (index == 0 ? 'active' : '') }
+            %table.table--data.table--striped
+              %thead
+                %tr
+                  %th.four-twelfths Nom du cours
+                  %th.three-twelfths Discipline
+                  %th.three-twelfths Planning
+                  %th.two-twelfths Villes
+              %tbody
+                - @courses.each_with_index do |course, course_index|
+                  %tr
+                    %td= "#{course.name}"
+                    %td= truncate(course.subjects.map(&:name).join(', '), length: 55)
+                    %td
+                      = plannings_to_come(course, course.plannings.available_in_discovery_pass)
+                    %td= course.places.map(&:city).uniq.map(&:name).join(', ')
+    .text--center.soft--ends
+      = link_to 'Voir les cours inclus', root_search_page_without_subject_path('paris'), class: 'btn btn--large', data: { behavior: 'see-all-courses', info: 'third' }
 
     .home-screen-promotion-wrapper#advantages
       .main-container.soft
@@ -348,57 +228,30 @@
 
       .text--center.push--bottom.soft--bottom
         - if current_user
-          = link_to 'Obtenir mon Pass', new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)), class: 'btn btn--green btn--bigger soft--sides', data: { behavior: 'scroll-to', offset_top: '-55' }
+          = link_to 'Obtenir mon Pass', new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)), class: 'btn btn--green btn--bigger soft--sides', data: { behavior: 'scroll-to', offset_top: '-55', type: 'get-pass', info: 'connected: header' }
         - else
-          = link_to 'Obtenir mon Pass', '#top-form', class: 'btn btn--green btn--bigger soft--sides', data: { behavior: 'scroll-to', offset_top: '-55' }
+          = link_to 'Obtenir mon Pass', '#top-form', class: 'btn btn--green btn--bigger soft--sides', data: { behavior: 'scroll-to', offset_top: '-55', type: 'get-pass', info: 'bottom' }
 
-
-    .main-container.main-container--medium.soft--top#places
-      .text--center.soft--top
-        %h2.text--center.f-weight-300 Plus de #{Structure.available_in_discovery_pass.count.round(-2)} lieux à découvrir à Paris et sa région
-    #map-courses.one-whole{ style: 'height: 600px;'}
-
-  - unless current_user
-    = content_for :scripts do
-      - if @sponsorship
-        :javascript
-          $(function() {
-              $('[data-behavior=sign-in]').click(function() {
-                  CoursAvenue.signUp({
-                      title: 'Etape 1 : créez vote compte',
-                      show_confirm_email_popup: false,
-                      success: function() {
-                          window.location.href = Routes.new_user_discovery_pass_path(CoursAvenue.currentUser().get('slug'), { promo_code: '#{(@sponsorship ? @sponsorship.promo_code : '')}' } );
-                      }
-                  })
-              });
-          })
-      - else
-        :javascript
-          $(function() {
-              $('[data-behavior=sign-in]').click(function() {
-                  CoursAvenue.signUp({
-                      title: 'Etape 1 : créez vote compte',
-                      show_confirm_email_popup: false,
-                      success: function() {
-                          window.location.href = Routes.new_user_discovery_pass_path(CoursAvenue.currentUser().get('slug'));
-                      }
-                  })
-              });
-          })
   - if Rails.env.production?
     = content_for :scripts do
       :javascript
         $(function() {
-            $('[data-behavior=sign-in]').click(function() {
+            $('[data-type=get-pass]').click(function() {
                 ga('send', 'event', 'PassDecouverte', 'Landing page click', 'code promo');
-                mixpanel.track("Clicked to get Pass", { "PromoCode": "#{@sponsorship.try(:promo_code)}" });
+                mixpanel.track("Clicked to get Pass", { "Info": $(this).data('info'), "PromoCode": "#{@sponsorship.try(:promo_code)}" });
+            });
+            $('[data-behavior=see-all-courses]').click(function() {
+                ga('send', 'event', 'PassDecouverte', 'Landing page click', 'code promo');
+                mixpanel.track("Clicked to see all courses", { "Info": $(this).data('info') });
             });
             ga('send', 'event', 'PassDecouverte', 'Landed');
+            mixpanel.track("Landed on discovery page");
             mixpanel.people.set({
-                'landed_on_discovery_page': true
+                'landed_on_discovery_page': true,
+                'test': 'A'
             });
         });
+
   - if Rails.env.production? and params[:utm_source] == 'facebook'
     = content_for :scripts do
       :javascript
@@ -408,37 +261,29 @@
             });
         });
 
-- content_for :scripts do
-  :javascript
-      $(function() {
-          var $structure_profile_menu = $('#structure-profile-menu');
-          var menu_scrolled_down = false;
-          $(window).scroll(function() {
-              if (!menu_scrolled_down && $(window).scrollTop() > 180 && parseInt($structure_profile_menu.css('top')) != 0 ) {
-                  $structure_profile_menu.animate({ 'top': '0' });
-                  menu_scrolled_down = true;
-              } else if ($(window).scrollTop() < 180 && parseInt($structure_profile_menu.css('top')) == 0 ) {
-                  $structure_profile_menu.animate({ 'top': '-100px' });
-                  menu_scrolled_down = false;
-              }
-          });
-          $('body').addClass('relative').scrollspy({ target: '#structure-profile-menu .top-page-menu', offset: 85 })
-      });
-
-- cache 'pass/map/12/10/2014' do
-  - @places = PlanningSearch.search({ discovery_pass: true, per_page: 1000 }, { group: :place_id_str}).group(:place_id_str).groups
-  - @course_locations = Gmaps4rails.build_markers(@places) do |place_group, marker|
-    - place = Place.find_by_id place_group.value
-    - next if place.nil?
-    - marker.lat place.latitude
-    - marker.lng place.longitude
-    - marker.infowindow "<ul class='flush'><li>#{place_group.results.map(&:course).map(&:name).join('</li><li>')}</li></ul>"
-
 = content_for :scripts do
   :javascript
     $(function() {
-        $('.paris-tabs li').mouseenter(function() {
-            $(this).find('a').click();
+        // ----------- Initialize header
+        var $structure_profile_menu = $('#structure-profile-menu');
+        var menu_scrolled_down = false;
+        $(window).scroll(function() {
+            if (!menu_scrolled_down && $(window).scrollTop() > 180 && parseInt($structure_profile_menu.css('top')) != 0 ) {
+                $structure_profile_menu.animate({ 'top': '0' });
+                menu_scrolled_down = true;
+            } else if ($(window).scrollTop() < 180 && parseInt($structure_profile_menu.css('top')) == 0 ) {
+                $structure_profile_menu.animate({ 'top': '-100px' });
+                menu_scrolled_down = false;
+            }
+        });
+        $('body').addClass('relative').scrollspy({ target: '#structure-profile-menu .top-page-menu', offset: 85 })
+        // ----------- end
+        $('#questions-frequentes').click(function() {
+            mixpanel.track("Questions fréquentes");
+        });
+        $('#subjects-tabs .subject-btn').click(function() {
+            $('#subjects-tabs .subject-btn').removeClass('btn--blue white subject-active')
+            $(this).addClass('btn--blue white subject-active');
         });
         google_map_handler = Gmaps.build('Google');
         google_map_handler.buildMap({ provider: { scrollwheel: false, center: new google.maps.LatLng (48.8592, 2.3417), zoom: 12}, internal: { id: 'map-courses' }}, function() {
@@ -448,3 +293,10 @@
             mixpanel.track("DiscoveryPass / Moved google map");
         });
     });
+
+- if params[:error]
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          GLOBAL.flash('Veuillez renseigner un e-mail valide.')
+      });
