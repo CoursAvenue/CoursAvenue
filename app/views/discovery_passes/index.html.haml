@@ -189,7 +189,7 @@
                 Sports & Arts martiaux
       - cache 'discovery_pass/subjects/v2' do
         - %w(danse theatre-scene yoga-bien-etre-sante musique-chant dessin-peinture-arts-plastiques sports-arts-martiaux).each_with_index do |subject_slug, index|
-          - @courses = CourseSearch.search({ discovery_pass: true, per_page: 15, subject_id: subject_slug }).results
+          - @courses = CourseSearch.search({ types: ['lesson'], discovery_pass: true, per_page: 15, subject_id: subject_slug }).results
           .tab-pane{ id: subject_slug, class: (index == 0 ? 'active' : '') }
             %table.table--data.table--striped
               %thead

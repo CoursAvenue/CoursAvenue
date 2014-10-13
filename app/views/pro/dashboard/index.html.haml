@@ -79,6 +79,10 @@
         %th.text--center Emails
     %tbody
       %tr
+        %td.text--center
+        %td.text--center
+        %td.text--center= User.where("meta_data -> 'interested_in_discovery_pass' LIKE '%true%'").map(&:email).join(', ')
+      %tr
         %td.text--center 9€
         %td.text--center= pass_9.count
         %td.text--center= pass_9.map(&:email).join('; ')
