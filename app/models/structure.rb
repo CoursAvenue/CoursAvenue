@@ -1076,7 +1076,6 @@ class Structure < ActiveRecord::Base
     end
   end
 
-
   # If admin wanted to go premium, we send promo_code the day later only if
   # the structure is still not premium
   #
@@ -1124,7 +1123,6 @@ class Structure < ActiveRecord::Base
 
       duplicated_structure.phone_numbers = self.phone_numbers
       duplicated_structure.places        = self.places
-      duplicated_structure.subjects      = self.subjects
       duplicated_structure.subjects      = self.subjects
 
       duplicated_structure.active        = false
