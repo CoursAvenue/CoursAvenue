@@ -302,7 +302,17 @@ describe Structure do
     end
 
     describe 'wake_up!' do
+      let(:structure)            { FactoryGirl.create(:sleeping_structure) }
+      let(:admin)                { FactoryGirl.create(:admin) }
       let(:duplicated_structure) { structure.duplicate_structure }
+
+      before(:each) do
+        admin.structure = duplicated_structure
+        duplicated_structure.admins << admin
+
+        admin.save
+        duplicated_structure.save
+      end
 
       it 'wakes the duplicated structure' do
         structure.wake_up!
@@ -325,7 +335,7 @@ describe Structure do
       it 'puts itself to sleep' do
         structure.wake_up!
 
-        expect(structure.active).to be fa;se
+        expect(structure.active).to be false
       end
     end
   end
