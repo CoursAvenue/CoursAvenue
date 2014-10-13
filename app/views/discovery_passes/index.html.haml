@@ -255,7 +255,6 @@
                 mixpanel.track("Clicked to see all courses", { "Info": $(this).data('info') });
             });
             ga('send', 'event', 'PassDecouverte', 'Landed');
-            mixpanel.track("Landed on discovery page");
             mixpanel.people.set({
                 'landed_on_discovery_page': true,
                 'test': 'A'
@@ -310,7 +309,12 @@
         google.maps.event.addListenerOnce(google_map_handler.getMap(), 'center_changed', function() {
             mixpanel.track("DiscoveryPass / Moved google map");
         });
-        mixpanel.track_forms('[discovery-pass-form]', 'Submitted landing page form', { "referrer": document.referrer })
+        mixpanel.track_forms('[discovery-pass-form]', 'Submitted landing page form', function(form_element) {
+            return {
+                referrer: document.referrer,
+                keyword: $(form_element).find('[name="user[email]"]').val()
+            }
+        })
     });
 
 - if params[:error]
