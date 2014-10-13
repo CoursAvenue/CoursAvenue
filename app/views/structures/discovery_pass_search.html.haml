@@ -105,20 +105,20 @@
   #sign-in-to-see.hidden.orange-box
     .jpo-frise
     .soft.white.text--center
-      %h1.flush Pass Découverte
+      %h1.flush Essayez plus de 1 300 cours de loisirs.
       %h4.text--center
-        Vous n'avez pas encore votre Pass ?
+        Vous n'avez pas encore votre Pass Découverte ?
       .text--center
         = link_to create_account_discovery_passes_path, class: 'btn btn--yellow btn--bigger soft-half--ends soft--sides mixpanel-tracker', data: { info: 'From discovery_passes_path'} do
           Obtenir mon Pass Découverte
         %br
-        = link_to discovery_passes_path, class: 'white mixpanel-tracker', data: { info: 'From discovery_passes_path'} do
+        = link_to discovery_passes_path, class: 'white mixpanel-tracker f-weight-500', data: { info: 'From discovery_passes_path'} do
           En savoir plus
       %hr.hr--orange.push--ends
       .text--center
-        %h6 Vous avez déjà votre Pass ?
-        .text--center
-          %a.btn.btn--small.white.mixpanel-tracker{ href: '#', data: { behavior: "sign-in", info: 'Connexion from discovery_pass_search page'} } Connexion
+        .epsilon.f-weight-500
+          Vous avez déjà votre Pass ?
+          %a.white.f-decoration-underlined.mixpanel-tracker{ href: '#', data: { behavior: "sign-in", info: 'Connexion from discovery_pass_search page'} } Me connecter
 
 
   = content_for :scripts do
@@ -138,7 +138,7 @@
                   maxHeight   : 450,
                   fitToView   : false,
                   width       : 830,
-                  height      : 289,
+                  height      : 240,
                   autoSize    : false,
                   autoResize  : false,
                   padding     : 0,

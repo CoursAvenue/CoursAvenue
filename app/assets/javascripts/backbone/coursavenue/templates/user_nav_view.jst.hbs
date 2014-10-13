@@ -3,7 +3,7 @@
         {{#if on_discovery_pass_pages}}
             <a href="{{ new_user_sponsorship_path }}" class="btn btn--small btn--green f-weight-bold push-half--right"> 2 mois de Pass offert</a>
         {{/if}}
-    {{/if}}
+    {{else}}
     <div class="inline-block soft--right">
         <div class="drop-down__wrapper grid__item width-auto v-middle hard--left" data-behavior='drop-down' data-el='> .drop-down__el' data-position='right'>
             <a href="{{ discovery_passes_url }}" class="btn btn--yellow mixpanel-tracker" data-info="Pass Decouverte header link">Pass Découverte</a>
@@ -20,6 +20,7 @@
             </ul>
         </div>
     </div>
+    {{/if}}
     <div class="drop-down__wrapper grid__item width-auto v-middle hard--left" data-behavior='drop-down' data-el='> .drop-down__el' data-position='right'>
         <a href="{{dashboard_user_path}}">
             {{#if avatar_url}}
