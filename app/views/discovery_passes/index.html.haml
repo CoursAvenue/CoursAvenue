@@ -19,7 +19,7 @@
           - else
             = simple_form_for User.new, url: discovery_passes_path(promo_code: @sponsorship.try(:promo_code)), method: :post, data: { behavior: 'discovery-pass-form' } do |f|
               .flexbox
-                .flexbox__item= f.input :email, input_html: { class: 'one-whole input--bigger', placeholder: 'E-mail' }, label: false, wrapper_html: { class: 'flush' }
+                .flexbox__item= f.input :email, input_html: { class: 'one-whole input--large', placeholder: 'E-mail' }, label: false, wrapper_html: { class: 'flush' }
                 .flexbox__item= f.submit 'Obtenir mon Pass', class: 'btn btn--bigger btn--yellow', data: { type: 'get-pass', info: 'header' }
 
 = content_for :title do
@@ -234,6 +234,14 @@
         - else
           = link_to 'Obtenir mon Pass', '#top-form', class: 'btn btn--yellow btn--bigger soft--sides', data: { behavior: 'scroll-to', offset_top: '-55', type: 'get-pass', info: 'bottom' }
 
+  - if Rails.env.production? and params[:email].present?
+    = content_for :scripts do
+      :javascript
+        $(function() {
+            mixpanel.people.set({
+                '$email': '#{params[:email]}'
+            });
+        });
   - if Rails.env.production?
     = content_for :scripts do
       :javascript
