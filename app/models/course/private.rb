@@ -58,7 +58,7 @@ class Course::Private < Course
   end
 
   def places
-    [self.place]
+    [self.place].compact
   end
 
   private

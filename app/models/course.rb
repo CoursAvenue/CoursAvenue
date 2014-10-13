@@ -121,6 +121,10 @@ class Course < ActiveRecord::Base
       end
     end
 
+    string :zip_codes, multiple: true do
+      self.places.uniq.map(&:zip_code)
+    end
+
     integer :audience_ids, multiple: true do
       self.audiences.map(&:id)
     end
@@ -146,6 +150,8 @@ class Course < ActiveRecord::Base
     time :end_time, multiple: true do
       plannings.map(&:end_time).uniq.compact
     end
+
+    boolean :available_in_discovery_pass
 
     boolean :has_description do
       self.description.present?

@@ -105,6 +105,65 @@
     .main-container.main-container--medium.soft#courses
       .push--sides
         %h2.push-half--bottom.text--center.f-weight-300 Inclus dans votre Pass Découverte
+        - if params[:with_map].present?
+          %h4.soft--bottom.text--center.f-weight-300 Des dizaines de cours à deux pas de chez vous
+          .flexbox.one-whole
+            .flexbox__item.v-top.one-quarter>
+              %ul.block-list.text--right.tabs--link.epsilon.line-height-1-7.paris-tabs
+                %li.active
+                  %a.nowrap.muted-link.orange{ href: '#paris-1', data: { toggle: 'tab' } } 1er arrondissement
+                %li
+                  %a.nowrap.muted-link.orange{ href: '#paris-2', data: { toggle: 'tab' } } 2nd arrondissement
+                %li
+                  %a.nowrap.15uted-link.orange{ href: '#paris-3', data: { toggle: 'tab' } } 3e arrondissement
+                %li
+                  %a.nowrap.m16ted-link.orange{ href: '#paris-4', data: { toggle: 'tab' } } 4e arrondissement
+                %li
+                  %a.nowrap.muted-link.orange{ href: '#paris-5', data: { toggle: 'tab' } } 5e arrondissement
+                %li
+                  %a.nowrap.muted-link.orange{ href: '#paris-6', data: { toggle: 'tab' } } 6e arrondissement
+                %li
+                  %a.nowrap.muted-link.orange{ href: '#paris-7', data: { toggle: 'tab' } } 7e arrondissement
+                %li
+                  %a.nowrap.muted-link.orange{ href: '#paris-8', data: { toggle: 'tab' } } 8e arrondissement
+                %li
+                  %a.nowrap.muted-link.orange{ href: '#paris-9', data: { toggle: 'tab' } } 9e arrondissement
+                %li
+                  %a.nowrap.muted-link.orange{ href: '#paris-10', data: { toggle: 'tab' } } 10e arrondissement
+                %li
+                  %a.nowrap.muted-link.orange{ href: '#paris-11', data: { toggle: 'tab' } } 11e arrondissement
+                %li
+                  %a.nowrap.muted-link.orange{ href: '#paris-12', data: { toggle: 'tab' } } 12e arrondissement
+                %li
+                  %a.nowrap.muted-link.orange{ href: '#paris-13', data: { toggle: 'tab' } } 13e arrondissement
+                %li
+                  %a.nowrap.muted-link.orange{ href: '#paris-14', data: { toggle: 'tab' } } 14e arrondissement
+                %li
+                  %a.nowrap.muted-link.orange{ href: '#paris-15', data: { toggle: 'tab' } } 15e arrondissement
+                %li
+                  %a.nowrap.muted-link.orange{ href: '#paris-16', data: { toggle: 'tab' } } 16e arrondissement
+                %li
+                  %a.nowrap.muted-link.orange{ href: '#paris-17', data: { toggle: 'tab' } } 17e arrondissement
+                %li
+                  %a.nowrap.muted-link.orange{ href: '#paris-18', data: { toggle: 'tab' } } 18e arrondissement
+                %li
+                  %a.nowrap.muted-link.orange{ href: '#paris-19', data: { toggle: 'tab' } } 19e arrondissement
+                %li
+                  %a.nowrap.muted-link.orange{ href: '#paris-20', data: { toggle: 'tab' } } 20e arrondissement
+            .flexbox__item.v-top.tab-content.soft--left>
+              - (1..20).each do |paris_index|
+                .tab-pane.soft-half--top{ id: "paris-#{paris_index}", class: (paris_index == 1 ? 'active' : '') }
+                  - @courses = CourseSearch.search({ discovery_pass: true, per_page: 1000, zip_codes: ["750#{paris_index < 10 ? '0' : ''}#{paris_index}"] }).results
+                  %ul.no-bullet-list.epsilon.line-height-1-7
+                    - @courses.each_with_index do |course, course_index|
+                      %li{ class: (course_index > 30 ? 'hidden' : '')}
+                        = "#{course.name} (#{pluralize course.plannings.available_in_discovery_pass.count, 'séance'})"
+                      - if course_index == 31
+                        %li
+                          = link_to 'javascript:void(0);', onclick: "$('#paris-#{paris_index} .hidden').show(); $(this).parent().remove()" do
+                            %i.fa.fa-plus
+                            Plus
+
         %h4.soft--bottom.text--center.f-weight-300 Sélection de cours inclus dans votre Pass
         .grid
           .grid__item.one-third>
@@ -378,6 +437,9 @@
 = content_for :scripts do
   :javascript
     $(function() {
+        $('.paris-tabs li').mouseenter(function() {
+            $(this).find('a').click();
+        });
         google_map_handler = Gmaps.build('Google');
         google_map_handler.buildMap({ provider: { scrollwheel: false, center: new google.maps.LatLng (48.8592, 2.3417), zoom: 12}, internal: { id: 'map-courses' }}, function() {
             markers = google_map_handler.addMarkers(#{@course_locations.to_json});

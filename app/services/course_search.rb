@@ -6,12 +6,12 @@ class CourseSearch
     # params[:start_date] = I18n.l(Date.today) if params[:start_date].blank?
     @search = Sunspot.search(Course) do
       fulltext                              params[:name]                                           if params[:name].present?
-      keywords                              [ params[:search_term] ]                                    if params[:search_term].present?
+      keywords                              [ params[:search_term] ]                                if params[:search_term].present?
 
       facet :has_free_trial_lesson
 
       with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 7, bbox: true)
-
+      with(:zip_codes).any_of                 params[:zip_codes]                                    if params[:zip_codes].present?
       # --------------- Subjects
       if params[:subject_slugs].present?
         with(:subject_slugs).any_of           params[:subject_slugs]
@@ -19,6 +19,7 @@ class CourseSearch
         with(:subject_slugs).any_of           [params[:subject_id]]                                 if params[:subject_id]
       end
 
+      with :available_in_discovery_pass,    true                                                    if params[:discovery_pass].present?
       with :has_description,                params[:has_description]                                if params[:has_description]
       with :structure_id,                   params[:structure_id].to_i                              if params[:structure_id]
       with(:type).any_of                    params[:types]                                          if params[:types].present?
