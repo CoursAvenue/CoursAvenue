@@ -66,6 +66,9 @@ class Structure < ActiveRecord::Base
   has_many :admins                   , dependent: :destroy
   has_many :subscription_plans       , dependent: :destroy
 
+  has_one :sleeping_structure, class_name: 'Structure', foreign_key: :sleeping_structure_id
+  belongs_to :awake_structure, class_name: 'Structure', foreign_key: :sleeping_structure_id
+
   ######################################################################
   # Scope                                                              #
   ######################################################################
