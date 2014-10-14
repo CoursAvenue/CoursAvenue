@@ -2,6 +2,7 @@ class StructureDecorator < Draper::Decorator
 
   def places_popover(place_ids=nil)
     output = ''
+    # TODO Remove
     if object.is_sleeping?
       object.sleeping_attributes[:places].each do |place|
         output << "<div class='push-half--bottom'><strong>#{place['name']}</strong><br>#{place['street']}, #{City.find(place['city_id']).name}</div>"
@@ -23,6 +24,7 @@ class StructureDecorator < Draper::Decorator
   end
 
   def subjects_at_depth_2_count
+    # TODO: Remove
     if object.is_sleeping?
       object.subjects_string.split(';').map{|subject_string__subject_slug| Subject.find(subject_string__subject_slug.split(':').last) }.select{ |subj| subj.depth == 2 }.length
     else
@@ -31,6 +33,7 @@ class StructureDecorator < Draper::Decorator
   end
 
   def places_count
+    # TODO: Remove
     if object.is_sleeping?
       object.sleeping_attributes[:places].length
     else
@@ -66,6 +69,7 @@ class StructureDecorator < Draper::Decorator
 
   def subjects_popover
     _subjects = []
+    # TODO: Remove
     is_sleeping = object.is_sleeping?
     if is_sleeping
       subjects_at_depth_0 = object.parent_subjects_string.split(';').map{|subject_string__subject_slug| Subject.find(subject_string__subject_slug.split(':').last) }
