@@ -7,6 +7,9 @@ class DiscoveryPassesController < Pro::ProController
     if current_user
       redirect_to user_discovery_passes_path(current_user)
     end
+    if cookies[:discovery_pass_danse_test]
+      redirect_to get_danse_discovery_passes_path
+    end
   end
 
   def get_danse
