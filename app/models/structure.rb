@@ -1125,6 +1125,9 @@ class Structure < ActiveRecord::Base
 
   # Duplicate Structure into a new structure that will be hidden.
   #
+  # We save twice because the callback `set_active_to_true` sets the attribute
+  # no matter what.
+  #
   # @return a new Structure
   def duplicate_structure
     unless self.duplicated_structure.present?
@@ -1134,10 +1137,13 @@ class Structure < ActiveRecord::Base
       duplicated_structure.places        = self.places { |p| p.dup }
       duplicated_structure.subjects      = self.subjects { |s| s.dup }
 
-      duplicated_structure.active        = false
       duplicated_structure.is_sleeping   = true
 
       duplicated_structure.save
+      duplicated_structure.active        = false
+
+      duplicated_structure.save
+
       self.duplicated_structure          = duplicated_structure
       self.save
     end
