@@ -30,10 +30,7 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def places
-    # TODO Remove?
-    if object.is_sleeping?
-      object.sleeping_attributes[:places].map{ |place_attributes| Place.new place_attributes }
-    elsif @options[:place_ids].present?
+    if @options[:place_ids].present?
       place_ids = @options[:place_ids]
       object.places.where( Place.arel_table[:id].eq_any(place_ids) )
     elsif @options[:query] and @options[:query][:lat] and @options[:query][:lng]
@@ -56,21 +53,11 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def logo_thumb_url
-    # TODO Remove?
-    if object.is_sleeping?
-      object.sleeping_logo.url(:thumb)
-    else
-      object.logo.url(:thumb)
-    end
+    object.logo.url(:thumb)
   end
 
   def logo_large_url
-    # TODO Remove?
-    if object.is_sleeping?
-      object.sleeping_logo.url(:large)
-    else
-      object.logo.url(:large)
-    end
+    object.logo.url(:large)
   end
 
   def data_url

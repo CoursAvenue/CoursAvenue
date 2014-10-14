@@ -131,21 +131,13 @@ class StructuresController < ApplicationController
   # GET /etablissements/:id
   def show
     @structure = Structure.friendly.find params[:id]
-    # TODO: remove
-    if @structure.is_sleeping?
-      @structure.initialize_sleeping_attributes
-    end
+
     @structure_decorator                  = @structure.decorate
     @place_ids                            = @structure.places.map(&:id)
     @header_promotion_title_for_structure = header_promotion_title_for_structure(@structure)
     @city                                 = @structure.city
-    # TODO Remove
-    if @structure.is_sleeping?
-      @medias = []
-    else
-      @medias = (@structure.premium? ? @structure.medias.cover_first.videos_first : @structure.medias.cover_first.videos_first.limit(Media::FREE_PROFIL_LIMIT))
-    end
 
+    @medias = (@structure.premium? ? @structure.medias.cover_first.videos_first : @structure.medias.cover_first.videos_first.limit(Media::FREE_PROFIL_LIMIT))
     @model = StructureShowSerializer.new(@structure, {
       structure:          @structure,
       unlimited_comments: false,
