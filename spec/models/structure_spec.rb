@@ -325,6 +325,8 @@ describe Structure do
 
         admin.save
         structure.save
+
+        sleeping_structure.reload
       end
 
       it 'wakes itself' do
