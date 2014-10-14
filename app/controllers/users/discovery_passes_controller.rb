@@ -73,7 +73,7 @@ class Users::DiscoveryPassesController < Pro::ProController
     if current_user.discovery_pass
       redirect_to user_participation_requests_path(current_user)
     else
-      render template: 'discovery_passes/index'
+      render template: 'discovery_passes/index', layout: 'user_profile'
     end
   end
 
@@ -87,9 +87,10 @@ class Users::DiscoveryPassesController < Pro::ProController
 
   def layout_locals
     locals = { hide_menu: true }
+    # locals[:hide_menu]             = true
     locals[:top_menu_header_class] = 'relative on-top' if action_name == 'index'
-    locals[:top_menu_header_class] = 'hidden' if action_name == 'new'
-    locals[:hide_top_menu_search] = true
+    locals[:top_menu_header_class] = 'hidden'          if action_name == 'new'
+    locals[:hide_top_menu_search]  = true
     locals
   end
 end

@@ -1,3 +1,6 @@
+- if @user
+  = user_menu_currently_at 'discovery_pass'
+
 = stylesheet_link_tag "discovery_pass", media: 'all'
 #structure-profile-menu.one-whole.west.fixed.on-top-of-the-world{ style: 'top: -100px;' }
   .bg-site-background.soft-half--ends.bordered--bottom
@@ -25,7 +28,7 @@
 = content_for :title do
   CoursAvenue | Pass Découverte
 
-= content_for :above_container do
+= content_for (@user ? :under_container : :above_container) do
   %ul.cb-slideshow.no-bullet-list
     %li
       %span
