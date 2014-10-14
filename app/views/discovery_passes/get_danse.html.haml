@@ -1,7 +1,6 @@
 - if @user
   = user_menu_currently_at 'discovery_pass'
 
-= stylesheet_link_tag "discovery_pass", media: 'all'
 #structure-profile-menu.one-whole.west.fixed.on-top-of-the-world{ style: 'top: -100px;' }
   .bg-site-background.soft-half--ends.bordered--bottom
     .main-container.main-container--medium.soft--sides
@@ -18,100 +17,79 @@
             -#   = link_to "Questions fréquentes", '#faq', class: 'muted-link orange mixpanel-tracker', data: { behavior: 'scroll-to', offset_top: '-55', info: 'Discovery Page landing' }
         .flexbox__item.text--right.five-twelfths>
           - if current_user
-            = link_to 'Obtenir mon Pass', new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)), class: 'btn btn--yellow', data: { behavior: 'scroll-to', offset_top: '-55', type: 'get-pass', info: 'connected: header' }
+            = link_to 'Obtenir mon Pass', new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)), class: 'btn btn--yellow mixpanel-tracker', data: { behavior: 'scroll-to', offset_top: '-55', info: 'connected: header' }
           - else
             = simple_form_for User.new, url: discovery_passes_path(promo_code: @sponsorship.try(:promo_code)), method: :post, data: { behavior: 'discovery-pass-form' } do |f|
               .flexbox
                 .flexbox__item= f.input :email, input_html: { class: 'one-whole input--large', placeholder: 'E-mail' }, label: false, wrapper_html: { class: 'flush' }
-                .flexbox__item= f.submit 'Obtenir mon Pass', class: 'btn btn--bigger btn--yellow', data: { type: 'get-pass', info: 'header' }
+                .flexbox__item= f.submit 'Obtenir mon Pass', class: 'btn btn--bigger btn--yellow mixpanel-tracker', data: { info: 'header' }
 
 = content_for :title do
   CoursAvenue | Pass Découverte
 
 = content_for (@user ? :under_container : :above_container) do
-  %ul.cb-slideshow.no-bullet-list
-    %li
-      %span
-      %div
-    %li
-      %span
-      %div
-    %li
-      %span
-      %div
-    %li
-      %span
-      %div
-    %li
-      %span
-      %div
-    %li
-      %span
-      %div
-    %li
-      %span
-      %div
+  - url = "https://coursavenue-public.s3.amazonaws.com/public_assets/home_backgrounds/danse.jpg"
+  #top.soft-half--bottom.relative{ style: "height: 500px; background-image: url(#{url})", 'data-stellar-background-ratio' => '0.6' }
+    .main-container.main-container--medium
+      -  if @sponsorship
+        .text--center
+          .white-box.push--top.soft.inline-block
+            .beta.flush
+              Félicitations ! Grâce à
+              %strong.blue= "#{@sponsor.name},"
+              obtenez votre Pass Découverte pour
+              %strong.blue= number_to_currency(DiscoveryPass::PRICE - Sponsorship::USER_WHO_HAVE_BEEN_SPONSORED_CREDIT).gsub(/\,00/, "")
+              au lieu de
+              %strong.blue= "#{DiscoveryPass::PRICE}€"
 
-  #top.main-container.main-container--medium.soft-half--bottom.relative{ style: "height: 500px;" }
-    -  if @sponsorship
-      .text--center
-        .white-box.push--top.soft.inline-block
-          .beta.flush
-            Félicitations ! Grâce à
-            %strong.blue= "#{@sponsor.name},"
-            obtenez votre Pass Découverte pour
-            %strong.blue= number_to_currency(DiscoveryPass::PRICE - Sponsorship::USER_WHO_HAVE_BEEN_SPONSORED_CREDIT).gsub(/\,00/, "")
-            au lieu de
-            %strong.blue= "#{DiscoveryPass::PRICE}€"
+      .inline-block.four-tenths.soft--right#top-form>
+        .push-half--bottom.very-soft.hard--sides
+          .white-box.soft.black
+            -# %h3 Essayez autant de cours de loisirs que vous voulez !
+            .gamma.line-height-1-5.text--center
+              Testez les
+              %strong meilleurs cours de danse
+              de Paris
+            -# %p.epsilon
+            -#   Chaque mois, participez à autant de séances d'essai que vous le souhaitez parmi les #{Planning.available_in_discovery_pass.count.round(-2)} cours de loisirs négociés spécialement pour vous à Paris auprès de plus de #{Structure.available_in_discovery_pass.count.round(-2)} professeurs, associations et écoles.
+            %ul.no-bullet-list
+              %li.epsilon
+                %i.fa.fa-check.green.gamma
+                Plus de
+                %strong 620 séances
+                d'essai
+              %li.epsilon
+                %i.fa.fa-check.green.gamma
+                Pour
+                %strong tous publics,
+                tous niveaux
+              %li.epsilon
+                %i.fa.fa-check.green.gamma
+                Nominatif et
+                %strong valable 30 jours
+            - if current_user
+              = link_to 'Obtenir mon Pass', new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)), class: 'btn btn--yellow btn--large btn--full hard--sides mixpanel-tracker', data: { info: 'connected: main' }
+            - else
+              = simple_form_for User.new, url: discovery_passes_path(promo_code: @sponsorship.try(:promo_code)), method: :post, data: { behavior: 'discovery-pass-form' } do |f|
+                = f.input :email, input_html: { class: 'one-whole input--large', placeholder: 'E-mail' }, label: false
+                - if params[:error]
+                  %p.input_field_error.red.text--right
+                    Veuillez renseigner un e-mail valide.
+                = f.submit 'Obtenir mon Pass', class: 'btn btn--bigger btn--yellow btn--full mixpanel-tracker', data: { info: 'main' }
 
-    .inline-block.four-tenths.soft--right#top-form>
-      .push-half--bottom.very-soft.hard--sides
-        .white-box.soft.black
-          -# %h3 Essayez autant de cours de loisirs que vous voulez !
-          .gamma.line-height-1-5.text--center
-            Testez les
-            %strong meilleurs cours de danse
-            de Paris
-          -# %p.epsilon
-          -#   Chaque mois, participez à autant de séances d'essai que vous le souhaitez parmi les #{Planning.available_in_discovery_pass.count.round(-2)} cours de loisirs négociés spécialement pour vous à Paris auprès de plus de #{Structure.available_in_discovery_pass.count.round(-2)} professeurs, associations et écoles.
-          %ul.no-bullet-list
-            %li.epsilon
-              %i.fa.fa-check.green.gamma
-              Plus de
-              %strong 620 séances
-              d'essai
-            %li.epsilon
-              %i.fa.fa-check.green.gamma
-              Pour
-              %strong tous publics,
-              tous niveaux
-            %li.epsilon
-              %i.fa.fa-check.green.gamma
-              Nominatif et
-              %strong valable 30 jours
-          - if current_user
-            = link_to 'Obtenir mon Pass', new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)), class: 'btn btn--yellow btn--large btn--full hard--sides', data: { type: 'get-pass', info: 'connected: main' }
-          - else
-            = simple_form_for User.new, url: discovery_passes_path(promo_code: @sponsorship.try(:promo_code)), method: :post, data: { behavior: 'discovery-pass-form' } do |f|
-              = f.input :email, input_html: { class: 'one-whole input--large', placeholder: 'E-mail' }, label: false
-              - if params[:error]
-                %p.input_field_error.red.text--right
-                  Veuillez renseigner un e-mail valide.
-              = f.submit 'Obtenir mon Pass', class: 'btn btn--bigger btn--yellow btn--full', data: { type: 'get-pass', info: 'main' }
-
-    .inline-block.v-top
-      - if @sponsorship
-        = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/discovery_pass/badge_with_promo.png", height: 250, width: 250
-      - else
-        = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/discovery_pass/badge.png", height: 250, width: 250
-    .home-screen-comment.visuallyhidden--palm.soft-black-text-shadow.south.soft--bottom
-      .grid.epsilon
-        .grid__item.two-twelfths.v-middle.text--center>
-          = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/anonymous.jpg', class: 'block white-circle'
-          Cécilia
-        .grid__item.ten-twelfths.v-middle>
-          %span.quoted.epsilon.quoted--large<
-            %i Grâce au Pass, j'ai pu tester plusieurs styles de danse : flamenco, zumba, modern jazz... finalement, je vais m'inscrire à l'année à un cours de danse orientale.
+      .inline-block.v-top
+        - if @sponsorship
+          = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/discovery_pass/badge_with_promo.png", height: 250, width: 250
+        - else
+          = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/discovery_pass/badge.png", height: 250, width: 250
+      .home-screen-comment.visuallyhidden--palm.soft-black-text-shadow.south.soft--bottom
+        .grid.epsilon
+          .grid__item.two-twelfths.v-middle.text--center>
+            = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/anonymous.jpg', class: 'block white-circle'
+            Cécilia
+          .grid__item.ten-twelfths.v-middle>
+            %span.quoted.epsilon.quoted--large<
+              %i Grâce au Pass, j'ai pu tester plusieurs styles de danse : flamenco, zumba, modern jazz... finalement, je vais m'inscrire à l'année à un cours de danse orientale.
 
   .bg-site-background.relative#what-is-it
     .home-screen-promotion-wrapper
@@ -175,60 +153,53 @@
               %li Flamenco
 
     .text--center.soft--ends
-      = link_to 'Voir les cours sur la carte', discovery_pass_search_structures_path, class: 'btn btn--bigger btn--green', data: { behavior: 'see-all-courses', info: 'third' }
+      = link_to 'Voir les cours sur une carte géographique', discovery_pass_search_structures_path, class: 'btn btn--bigger btn--green mixpanel-tracker', data: { info: 'Discovery Pass landing Danse'}
 
     .home-screen-promotion-wrapper#advantages
       .main-container.soft
         .push--sides.soft--ends
           %h2.soft--bottom.text--center.f-weight-300 Les avantages du Pass Découverte
-          .grid--full
-            .grid__item.one-twelfth.palm-one-whole.text--right.palm-text--center.soft--right.v-middle>
-              = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/abundance.png', width: 70
-            .grid__item.three-twelfths.palm-one-whole>
-              %h4.push-half--bottom Un choix unique
-              %p.epsilon C'est la 1ère fois qu'un Pass vous permet d'essayer autant de cours de loisirs : il inclut + de 1 300 séances, un chiffre qui augmente chaque jour.
-            .grid__item.one-twelfth.palm-one-whole.text--right.palm-text--center.soft--right.v-middle>
-              = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/free.png', width: 70
-            .grid__item.three-twelfths.palm-one-whole>
-              %h4.push-half--bottom Réservation gratuite
-              %p.epsilon
-                Réservez chaque séance d'essai en prenant directement contact avec le professeur, l'association ou l'école de votre choix.
-            .grid__item.one-twelfth.palm-one-whole.text--right.palm-text--center.soft--right.v-middle>
-              = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/rocket.png', width: 70
-            .grid__item.three-twelfths.palm-one-whole>
-              %h4.push-half--bottom En toute liberté
-              %p.epsilon Votre pass est valable 30 jours. Satisfaction garantie.
+          .grid
+            .grid__item.one-third>
+              .delta.line-height-1-7 Qu'est-ce que le Pass Découverte ?
+            .grid__item.two-thirds>
+              %p.epsilon.line-height-1-5
+                Vous voulez vous mettre à la danse mais vous ne savez pas quels cours essayer ? Vous souhaitez tester différents styles de danse avant de vous lancer ? Vous vous êtes toujours promis d'essayer la danse, mais vous n'avez jamais eu le temps de le faire ? Le Pass Découverte va vous plaire ! Pour seulement 19€, testez pendant 30 jours plus de 620 séances d'essai rien qu'à Paris dans tous les styles de danse : zumba, rock, danse classique, contemporaine, flamenco, danse orientale... Chaque réservation se fait directement en ligne, vous n'aurez plus besoin de vous inscrire par téléphone.
+          .grid
+            .grid__item.one-third>
+              .delta.line-height-1-7 Pourquoi avoir créé ce Pass ?
+            .grid__item.two-thirds>
+              %p.epsilon.line-height-1-5
+                Pour être heureux, nous savons que notre vie doit être créative, sportive et artistique. La danse fait partie de ces loisirs qui peuvent nous aider dans cet objectif. Or, combien sommes-nous à pratiquer régulièrement la danse ? Très peu. Pourquoi ? Car ce n'est finalement pas évident de franchir le pas et partir à la découverte des meilleurs cours de danse de sa ville. Se renseigner, rechercher, contacter... on finit finalement par abandonner. C'est pour cela que nous avons créé le Pass Découverte : pour partir à la découverte des meilleurs cours de danse qui nous entourent et s'ouvrir à de nouvelles passions.
+          .grid
+            .grid__item.one-third>
+              .delta.line-height-1-7 Quels sont les cours inclus dans la Pass Découverte ?
+            .grid__item.two-thirds>
+              %p.epsilon.line-height-1-5
+                Plus de 620 séances d'essai sont proposées dans le Pass Découverte, vous pouvez voir le détail sur
+                = link_to 'le moteur de recherche dédié au Pass Découverte.', discovery_pass_search_structures_path, target: :_blank, class: 'mixpanel-tracker', data: { info: 'Discovery Pass landing Danse'}
+                Derrière ce chiffre, ce sont plus de 200 professeurs, associations et écoles sélectionnées pour vous offrir le meilleur choix de cours de danse à Paris. Pour eux, c'est la meilleure manière de proposer des cours d'essai dans un cadre respectueux : ils savent qu'en ouvrant leurs cours aux détenteurs du Pass, ils recevront un public intéressé et curieux d'en connaître davantage sur leurs cours. Certains vous proposeront même de revenir jusqu'à 3 fois sans frais supplémentaire. Enfin, pour nos partenaires, c'est aussi une manière simple de gérer leurs cours d'essai : la mise en relation est simplifiée, chaque inscription se fait en ligne et vous convenez très rapidement du jour et du créneau qui vous conviennent.
+          .grid
+            .grid__item.one-third>
+              .delta.line-height-1-7 Comment fonctionne le Pass ?
+            .grid__item.two-thirds>
+              %p.epsilon.line-height-1-5
+                Le Pass Découverte vous permet de réserver vos séances d'essai auprès de chaque professeur, association et école inclus dans le Pass. Vous aurez accès à toutes les informations pour faire votre choix : styles de danse enseignés, créneaux horaires, lieux, avis des autres élèves… Une fois votre Pass acheté, vous avez 30 jours pour vous inscrire à autant de séances que vous le souhaitez : vous pouvez tester chaque cours au moins une fois, certains vous proposeront d'y revenir jusqu'à 3 fois sans frais supplémentaire. Chaque inscription se fait directement en ligne : après avoir sélectionné la séance, vous proposez le jour qui vous convient pour que le professeur confirme votre participation. Au bout des 30 jours, si vous souhaitez continuer et tester d'autres cours de danse (nous en rajoutons chaque jour !), vous aurez la possibilité de renouveler votre abonnement.
 
       .text--center.push--bottom.soft--bottom
         - if current_user
-          = link_to 'Obtenir mon Pass', new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)), class: 'btn btn--yellow btn--bigger soft--sides', data: { behavior: 'scroll-to', offset_top: '-55', type: 'get-pass', info: 'connected: header' }
+          = link_to 'Obtenir mon Pass', new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)), class: 'btn btn--yellow btn--bigger soft--sides mixpanel-tracker', data: { behavior: 'scroll-to', offset_top: '-55', info: 'connected: header' }
         - else
-          = link_to 'Obtenir mon Pass', '#top-form', class: 'btn btn--yellow btn--bigger soft--sides', data: { behavior: 'scroll-to', offset_top: '-55', type: 'get-pass', info: 'bottom' }
+          = link_to 'Obtenir mon Pass', '#top-form', class: 'btn btn--yellow btn--bigger soft--sides mixpanel-tracker', data: { behavior: 'scroll-to', offset_top: '-55', info: 'bottom' }
 
-  - if Rails.env.production? and params[:email].present?
-    = content_for :scripts do
-      :javascript
-        $(function() {
-            mixpanel.people.set({
-                '$email': '#{params[:email]}'
-            });
-        });
   - if Rails.env.production?
     = content_for :scripts do
       :javascript
         $(function() {
-            $('[data-type=get-pass]').click(function() {
-                ga('send', 'event', 'PassDecouverte', 'Landing page click', 'code promo');
-                mixpanel.track("Clicked to get Pass", { "Info": $(this).data('info'), "PromoCode": "#{@sponsorship.try(:promo_code)}" });
-            });
-            $('[data-behavior=see-all-courses]').click(function() {
-                ga('send', 'event', 'PassDecouverte', 'Landing page click', 'code promo');
-                mixpanel.track("Clicked to see all courses", { "Info": $(this).data('info') });
-            });
             ga('send', 'event', 'PassDecouverte', 'Landed');
             mixpanel.people.set({
                 'landed_on_discovery_page': true,
-                'test': 'A'
+                'test_vertical': 'Danse'
             });
         });
 
@@ -238,14 +209,6 @@
         $(function() {
             mixpanel.people.set({
                 'from_facebook_ad': true
-            });
-        });
-  - if Rails.env.production? and params[:utm_campaign] and params[:utm_campaign].end_with? '__Newsletter'
-    = content_for :scripts do
-      :javascript
-        $(function() {
-            mixpanel.people.set({
-                'from_newsletter': true
             });
         });
 
