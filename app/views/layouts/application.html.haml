@@ -53,17 +53,16 @@
       = render 'layouts/social_sdks'
     :javascript
       if (!$.cookie('fingerprint')) { $.cookie('fingerprint', new Fingerprint().get()); }
-    - if Rails.env.production?
-      :javascript
-        mixpanel.identify($.cookie('fingerprint'));
     %script{ src: "//d2wy8f7a9ursnm.cloudfront.net/bugsnag-2.min.js", "data-apikey" => "95a4635b1c13221f4232852f7badc00a" }
     - if current_user
       :javascript
           CoursAvenue.addInitializer(function(options){
               this.setCurrentUser(#{current_user_as_json});
           });
-    - if current_user and Rails.env.production?
+    - if Rails.env.production? and request.subdomain == 'www'
       :javascript
+          mixpanel.identify($.cookie('fingerprint'));
+          mixpanel.track('Visited: ' + window.location.pathname, { url: document.URL, path: window.location.pathname });
           CoursAvenue.addInitializer(function(options){
               if (CoursAvenue.currentUser()) {
                   mixpanel.people.set({
@@ -87,9 +86,3 @@
     :javascript
       Bugsnag.releaseStage = '#{Rails.env}';
       Bugsnag.notifyReleaseStages = ["staging", "production"]
-
-    - if Rails.env.production?
-      :javascript
-        $(function() {
-            mixpanel.track('Visited: ' + window.location.pathname, { url: document.URL, path: window.location.pathname });
-        });
