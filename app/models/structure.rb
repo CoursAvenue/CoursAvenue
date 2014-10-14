@@ -1018,6 +1018,7 @@ class Structure < ActiveRecord::Base
     if self.duplicated_structure.present?
       self.is_sleeping = true
       self.active = false
+      self.save
       saved = self.duplicated_structure.wake_up!
     else
       self.is_sleeping = false
