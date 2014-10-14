@@ -66,8 +66,11 @@ class Structure < ActiveRecord::Base
   has_many :admins                   , dependent: :destroy
   has_many :subscription_plans       , dependent: :destroy
 
-  has_one :duplicated_structure, class_name: 'Structure', foreign_key: :sleeping_structure_id
-  belongs_to :original_structure, class_name: 'Structure', foreign_key: :sleeping_structure_id
+  # The structure that is not modified when an admin takes control.
+  has_one :sleeping_structure, class_name: 'Structure', foreign_key: :sleeping_structure_id
+
+  # The structure that is editable by the admin.
+  belongs_to :controled_structure, class_name: 'Structure', foreign_key: :sleeping_structure_id
 
   ######################################################################
   # Scope                                                              #
@@ -98,7 +101,7 @@ class Structure < ActiveRecord::Base
                   :deletion_reasons, :deletion_reasons_text,
                   :phone_numbers_attributes, :places_attributes, :other_emails, :last_geocode_try,
                   :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason, :sleeping_attributes, :order_recipient, :delivery_email_status, :discovery_pass_policy,
-                  :duplicated_structure
+                  :sleeping_structure
 
   accepts_nested_attributes_for :places,
                                  reject_if: :reject_places,
@@ -1016,11 +1019,11 @@ class Structure < ActiveRecord::Base
   #
   # @return Boolean saved or not
   def wake_up!
-    if self.duplicated_structure.present?
+    if self.sleeping_structure.present?
       self.is_sleeping = true
       self.active = false
       self.save
-      saved = self.duplicated_structure.wake_up!
+      saved = self.sleeping_structure.wake_up!
     else
       self.is_sleeping = false
       self.active = true
@@ -1035,7 +1038,7 @@ class Structure < ActiveRecord::Base
   # that CoursAvenue team has validated his profile.
   #
   # @return Boolean saved or not
-  # TODO: Use duplicated_structure
+  # TODO: Use sleeping_structure
   def return_to_sleeping_mode!
     initialize_sleeping_attributes
     self.places        = self.sleeping_attributes[:places].map{ |places_attributes| Place.create(places_attributes) }
@@ -1127,30 +1130,23 @@ class Structure < ActiveRecord::Base
 
   # Duplicate Structure into a new structure that will be hidden.
   #
-  # We save twice because the callback `set_active_to_true` sets the attribute
-  # no matter what.
-  #
   # @return a new Structure
   def duplicate_structure
-    unless self.duplicated_structure.present?
-      duplicated_structure               = self.dup
+    unless self.sleeping_structure.present?
+      sleeping_structure               = self.dup
 
-      duplicated_structure.phone_numbers = self.phone_numbers.map { |n| n.dup }
-      duplicated_structure.places        = self.places { |p| p.dup }
-      duplicated_structure.subjects      = self.subjects { |s| s.dup }
+      sleeping_structure.phone_numbers = self.phone_numbers.map { |n| n.dup }
+      sleeping_structure.places        = self.places { |p| p.dup }
+      sleeping_structure.subjects      = self.subjects { |s| s.dup }
 
-      duplicated_structure.is_sleeping   = true
+      sleeping_structure.is_sleeping   = true
+      sleeping_structure.save
 
-      duplicated_structure.save
-      duplicated_structure.active        = false
-
-      duplicated_structure.save
-
-      self.duplicated_structure          = duplicated_structure
+      self.sleeping_structure          = sleeping_structure
       self.save
     end
 
-    self.duplicated_structure
+    self.sleeping_structure
   end
 
   private
