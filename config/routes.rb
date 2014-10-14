@@ -339,8 +339,7 @@ CoursAvenue::Application.routes.draw do
   resources :discovery_passes, only:[:index, :create], path: 'pass-decouverte' do
     collection do
       get :create_account, path: 'creez-un-compte'
-      get :get_danse, path: 'danse'
-      get :get_danse_shuffle, path: 'dansez'
+      get :get_danse, path: 'dansez'
     end
   end
   devise_for :users, controllers: {

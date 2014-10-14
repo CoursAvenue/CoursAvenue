@@ -86,7 +86,7 @@
     </div>
 {{else}}
 <div class="inline-block">
-    {{#if comes_from_discovery_pass_landing}}
+    {{#ifCond on_discovery_pass_pages '&&' comes_from_discovery_pass_landing}}
         <div class="inline-block soft--left">
             <div class="drop-down__wrapper grid__item width-auto v-middle hard--left" data-behavior='drop-down' data-el='> .drop-down__el' data-position='right'>
                 <a href="{{ discovery_passes_url }}" class="btn btn--yellow" data-info="Pass Decouverte header link">Pass Découverte</a>
@@ -167,6 +167,6 @@
                 <a href="{{ inscription_pro_structures_url }}" class="btn btn--orange">Publiez vos cours</a>
             {{/if}}
         </div>
-    {{/if}}
+    {{/ifCond}}
 </div>
 {{/if}}
