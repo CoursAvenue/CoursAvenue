@@ -1146,6 +1146,7 @@ class Structure < ActiveRecord::Base
 
       sleeping_structure.is_sleeping   = true
       sleeping_structure.save
+      sleeping_structure.delay.index
 
       self.sleeping_structure          = sleeping_structure
       self.active = false
