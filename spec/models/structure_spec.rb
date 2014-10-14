@@ -320,11 +320,11 @@ describe Structure do
       let(:sleeping_structure)   { structure.duplicate_structure }
 
       before(:each) do
-        admin.structure = sleeping_structure
-        sleeping_structure.admins << admin
+        admin.structure = structure
+        structure.admins << admin
 
         admin.save
-        sleeping_structure.save
+        structure.save
       end
 
       it 'wakes itself' do
