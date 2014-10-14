@@ -120,7 +120,11 @@ class Planning < ActiveRecord::Base
     end
 
     string :place_id_str do
-      place_id.to_s
+      if self.place_id
+        self.place_id.to_s
+      elsif self.course.place_id
+        self.course.place_id.to_s
+      end
     end
 
     integer :structure_id do

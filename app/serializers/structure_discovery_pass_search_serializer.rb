@@ -32,7 +32,12 @@ class StructureDiscoveryPassSearchSerializer < ActiveModel::Serializer
   def places
     if @options[:place_ids].present?
       place_ids = @options[:place_ids]
-      object.places.where( Place.arel_table[:id].eq_any(place_ids) )
+      _places = object.places.where( Place.arel_table[:id].eq_any(place_ids) )
+      if _places.empty?
+        object.places
+      else
+        _places
+      end
     elsif @options[:query] and @options[:query][:lat] and @options[:query][:lng]
       object.places_around @options[:query][:lat].to_f, @options[:query][:lng].to_f, (@options[:query][:radius] || 5)
     else

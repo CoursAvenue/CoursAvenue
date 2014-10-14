@@ -161,3 +161,34 @@
           var body_message = $('#contact-message-body').val();
           $.cookie('user_contact_message', body_message);
       });
+
+#sign-in-to-see.hidden.orange-box
+  .jpo-frise
+  .soft.white.text--center
+    %h1.flush Essayez plus de 1 300 cours de loisirs.
+    %h4.text--center
+      Vous n'avez pas encore votre Pass Découverte ?
+    .text--center
+      = link_to create_account_discovery_passes_path, class: 'btn btn--yellow btn--bigger soft-half--ends soft--sides mixpanel-tracker', data: { info: 'From discovery_passes_path'} do
+        Obtenir mon Pass Découverte
+      %br
+      = link_to discovery_passes_path, class: 'white mixpanel-tracker f-weight-500', data: { info: 'From discovery_passes_path'} do
+        En savoir plus
+    %hr.hr--orange.push--ends
+    .text--center
+      .epsilon.f-weight-500
+        Vous avez déjà votre Pass ?
+        %a.white.f-decoration-underlined.mixpanel-tracker{ href: '#', data: { behavior: "sign-in", info: 'Connexion from discovery_pass_search page'} } Me connecter
+
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('[data-behavior=sign-in]').click(function() {
+            CoursAvenue.signIn({
+                success: function() {
+                    window.location.reload()
+                }
+            });
+        })
+    });

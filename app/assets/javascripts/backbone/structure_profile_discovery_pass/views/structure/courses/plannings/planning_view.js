@@ -10,7 +10,22 @@ StructureProfileDiscoveryPass.module('Views.Structure.Courses.Plannings', functi
         },
 
         showRegistrationForm: function showRegistrationForm (argument) {
-            this.trigger('register', this.model.toJSON());
+            if ($.cookie('discovery_pass_danse_test')) {
+                  $.fancybox($('#sign-in-to-see'), {
+                          topRatio    : 0.3,
+                          openSpeed   : 300,
+                          maxWidth    : 830,
+                          maxHeight   : 450,
+                          fitToView   : false,
+                          width       : 830,
+                          height      : 240,
+                          autoSize    : false,
+                          autoResize  : false,
+                          padding     : 0
+                });
+            } else {
+                this.trigger('register', this.model.toJSON());
+            }
         }
     });
 
