@@ -278,6 +278,8 @@ describe Structure do
   context 'sleeping' do
     describe 'duplicate_structure' do
 
+      let(:structure)            { FactoryGirl.create(:sleeping_structure) }
+
       # We start the spec by reloading the spec so it is created at that moment
       # and not when we access it for the first time in the assertion.
       it 'creates a new structure' do
@@ -293,9 +295,10 @@ describe Structure do
       end
 
       it 'associates the new structure with the current structure' do
-        structure.duplicate_structure
+        duplicated_structure = structure.duplicate_structure
 
-        expect(structure.duplicated_structure).to_not be_nil
+        expect(duplicated_structure).to_not be_nil
+        expect(duplicated_structure.original_structure).to eq structure
       end
 
       it 'makes the new structure inactive' do
