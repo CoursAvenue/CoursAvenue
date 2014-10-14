@@ -18,16 +18,15 @@ class Pro::Admins::RegistrationsController < Devise::RegistrationsController
   end
 
   def create
-    structure = Structure.find params[:admin][:structure_id]
+    @structure = Structure.find params[:admin][:structure_id]
 
-    @structure = structure.duplicate_structure
-    params[:admin][:structure_id] = @structure.id
+    @structure.delay.duplicate_structure
 
-    if structure.admins.length == 0
+    if @structure.admins.length == 0
       @admin     = Admin.new params[:admin]
     end
     respond_to do |format|
-      if structure.admins.length > 0
+      if @structure.admins.length > 0
         SuperAdminMailer.delay.someone_tried_to_take_control_of_existing_structure(@structure, params[:admin][:email])
         format.html { redirect_to someone_already_took_control_pro_structure_path(@structure) }
       elsif @admin.save
