@@ -1130,9 +1130,9 @@ class Structure < ActiveRecord::Base
     unless self.duplicated_structure.present?
       duplicated_structure               = self.dup
 
-      duplicated_structure.phone_numbers = self.phone_numbers
-      duplicated_structure.places        = self.places
-      duplicated_structure.subjects      = self.subjects
+      duplicated_structure.phone_numbers = self.phone_numbers.map { |n| n.dup }
+      duplicated_structure.places        = self.places { |p| p.dup }
+      duplicated_structure.subjects      = self.subjects { |s| s.dup }
 
       duplicated_structure.active        = false
       duplicated_structure.is_sleeping   = true
