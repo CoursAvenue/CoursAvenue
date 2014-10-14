@@ -278,7 +278,11 @@ describe Structure do
   context 'sleeping' do
     describe 'duplicate_structure' do
 
+      # We start the spec by reloading the spec so it is created at that moment
+      # and not when we access it for the first time in the assertion.
       it 'creates a new structure' do
+        structure.reload
+
         expect { structure.duplicate_structure }.to change { Structure.count }.by(1)
       end
 
