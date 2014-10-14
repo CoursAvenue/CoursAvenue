@@ -64,19 +64,22 @@
             au lieu de
             %strong.blue= "#{DiscoveryPass::PRICE}€"
 
-    .inline-block.four-tenths.soft--right.text--center#top-form>
+    .inline-block.four-tenths.soft--right#top-form>
       .push-half--bottom.very-soft.hard--sides
         .white-box.soft.black
           -# %h3 Essayez autant de cours de loisirs que vous voulez !
-          %h3 Essayez les meilleurs cours de loisirs de votre ville.
+          .gamma.line-height-1-5.text--center
+            Testez les
+            %strong meilleurs cours de danse
+            de Paris
           -# %p.epsilon
           -#   Chaque mois, participez à autant de séances d'essai que vous le souhaitez parmi les #{Planning.available_in_discovery_pass.count.round(-2)} cours de loisirs négociés spécialement pour vous à Paris auprès de plus de #{Structure.available_in_discovery_pass.count.round(-2)} professeurs, associations et écoles.
-          %ul.no-bullet-list.text--left
+          %ul.no-bullet-list
             %li.epsilon
               %i.fa.fa-check.green.gamma
               Plus de
-              %strong 1 300 séances
-              négociées pour vous
+              %strong 620 séances
+              d'essai
             %li.epsilon
               %i.fa.fa-check.green.gamma
               Pour
@@ -84,8 +87,8 @@
               tous niveaux
             %li.epsilon
               %i.fa.fa-check.green.gamma
-              Valable 1 mois,
-              %strong renouvelable
+              Nominatif et
+              %strong valable 30 jours
           - if current_user
             = link_to 'Obtenir mon Pass', new_user_discovery_pass_path(current_user, promo_code: @sponsorship.try(:promo_code)), class: 'btn btn--yellow btn--large btn--full hard--sides', data: { type: 'get-pass', info: 'connected: main' }
           - else
@@ -108,7 +111,7 @@
           Cécilia
         .grid__item.ten-twelfths.v-middle>
           %span.quoted.epsilon.quoted--large<
-            %i Grâce au Pass, j'ai découvert au pied de mon immeuble un super cours d'écriture créative. Sans parler des cours de poterie, danse orientale, et même de sophrologie !
+            %i Grâce au Pass, j'ai pu tester plusieurs styles de danse : flamenco, zumba, modern jazz... finalement, je vais m'inscrire à l'année à un cours de danse orientale.
 
   .bg-site-background.relative#what-is-it
     .home-screen-promotion-wrapper
@@ -117,7 +120,7 @@
           .grid__item.one-third.palm-one-whole.text--center>
             .center-block.text--center.alpha 1
             .gamma.push-half--bottom.f-weight-300 Achetez votre Pass
-            %p.epsilon Payez en ligne par carte bleue : votre Pass est nominatif, valable 1 mois et renouvelable à l'infini
+            %p.epsilon Payez en ligne par carte bleue : votre Pass est nominatif, nominatif et valable 30 jours
           .grid__item.one-third.palm-one-whole.text--center>
             .center-block.text--center.alpha 2
             .gamma.push-half--bottom.f-weight-300 Choisissez vos cours
@@ -127,45 +130,57 @@
             .gamma.push-half--bottom.f-weight-300 Suivez vos cours
             %p.epsilon Pour chaque séance, vous avez le droit d'y revenir jusqu'à 3 fois !
 
-    .main-container.soft#courses
-      %h2.flush.text--center.f-weight-300 Plus de #{Structure.available_in_discovery_pass.count.round(-2)} lieux à découvrir à Paris et sa région
-      - @places = PlanningSearch.search({ discovery_pass: true, per_page: 1000 }, { group: :place_id_str}).group(:place_id_str).groups
-      - @course_locations = Gmaps4rails.build_markers(@places) do |place_group, marker|
-        - place = Place.find_by_id place_group.value
-        - next if place.nil? or place_group.results.first.nil?
-        - marker.lat place.latitude
-        - marker.lng place.longitude
-        - marker.infowindow place_group.results.first.course.name
-
-    #map-courses.one-whole{ style: 'height: 600px;'}
-    .home-screen-promotion-wrapper.soft--ends
-      .text--center
-        = link_to 'Voir les cours inclus', discovery_pass_search_structures_path, class: 'btn btn--bigger btn--green', data: { behavior: 'see-all-courses', info: 'second' }
-    .main-container.soft#courses
+    .main-container.main-container--medium.soft#courses
       .push--sides
-        %h2.push-half--bottom.text--center.f-weight-300 Sélection de cours inclus dans le Pass
-        %h4.text--center.f-weight-300 Cliquez sur chaque discipline pour l'aperçu
-        - @courses = CourseSearch.search({ types: ['lesson'], discovery_pass: true, per_page: 15, subject_id: 'danse' }).results
-        %table.table--data.table--striped
-          %thead
-            %tr
-              %th.one-third Nom du cours
-              %th.one-third Disciplines
-              %th.one-third Planning
-          %tbody
-            - @courses.each_with_index do |course, course_index|
-              - cache [course, 'discovery_pass/subjects/v3'] do
-                %tr
-                  %td= "#{course.name}"
-                  %td= truncate(course.subjects.map(&:name).join(', '), length: 55)
-                  %td= plannings_to_come(course, course.plannings.available_in_discovery_pass.visible)
+        %h2.flush.text--center.f-weight-300 Envie d'apprendre à danser ?
+        %h4.text--center.f-weight-normal
+          Le Pass Découverte vous permet de réserver jusqu'à 3 séances d'essai auprès des
+          %br
+          meilleurs associations, écoles et professeurs de danse de Paris
+        .grid.soft--top.center-block{ style: 'max-width: 700px;'}
+          .grid__item.one-half>
+            %ul.line-height-1-7.f-size-16.no-bullet-list
+              %li Tango Argentin & Milonga
+              %li Danse classique
+              %li Danse orientale & Bollywood
+              %li Danse indienne
+              %li Blues Dance
+              %li Zumba
+              %li Modern jazz
+              %li Danses traditionnelles
+              %li Danses de salon
+              %li Street Dance
+              %li Rock
+              %li Danse Egyptienne
+              %li Danse Butô
+              %li Danse Afro-brésilienne
+              %li Danses Africaines
+
+          .grid__item.one-half>
+            %ul.line-height-1-7.f-size-16.no-bullet-list
+              %li Danses avec percussionnistes
+              %li Pompom Girl
+              %li Disco
+              %li Danses de couple
+              %li Salsa
+              %li Valse
+              %li Jazz
+              %li Salsa cubaine
+              %li Country
+              %li Danse contemporaine
+              %li Hip Hop
+              %li Street jazz & Dancehall
+              %li Danse Sénégalaise
+              %li Barre au sol classique
+              %li Flamenco
+
     .text--center.soft--ends
-      = link_to 'Voir les cours inclus', discovery_pass_search_structures_path, class: 'btn btn--bigger btn--green', data: { behavior: 'see-all-courses', info: 'third' }
+      = link_to 'Voir les cours sur la carte', discovery_pass_search_structures_path, class: 'btn btn--bigger btn--green', data: { behavior: 'see-all-courses', info: 'third' }
 
     .home-screen-promotion-wrapper#advantages
       .main-container.soft
         .push--sides.soft--ends
-          %h2.soft--bottom.text--center.f-weight-300 Les avantages du Pass CoursAvenue
+          %h2.soft--bottom.text--center.f-weight-300 Les avantages du Pass Découverte
           .grid--full
             .grid__item.one-twelfth.palm-one-whole.text--right.palm-text--center.soft--right.v-middle>
               = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/abundance.png', width: 70
@@ -182,7 +197,7 @@
               = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/rocket.png', width: 70
             .grid__item.three-twelfths.palm-one-whole>
               %h4.push-half--bottom En toute liberté
-              %p.epsilon Votre pass est valable 1 mois et renouvelable autant de fois que vous le souhaitez. Satisfaction garantie.
+              %p.epsilon Votre pass est valable 30 jours. Satisfaction garantie.
 
       .text--center.push--bottom.soft--bottom
         - if current_user
@@ -257,13 +272,6 @@
         $('#subjects-tabs .subject-btn').click(function() {
             $('#subjects-tabs .subject-btn').removeClass('btn--blue white subject-active')
             $(this).addClass('btn--blue white subject-active');
-        });
-        google_map_handler = Gmaps.build('Google');
-        google_map_handler.buildMap({ provider: { scrollwheel: false, center: new google.maps.LatLng (48.8592, 2.3417), zoom: 12}, internal: { id: 'map-courses' }}, function() {
-            markers = google_map_handler.addMarkers(#{@course_locations.to_json});
-        });
-        google.maps.event.addListenerOnce(google_map_handler.getMap(), 'center_changed', function() {
-            mixpanel.track("DiscoveryPass / Moved google map");
         });
         mixpanel.track_forms('[discovery-pass-form]', 'Submitted landing page form', function(form_element) {
             return {
