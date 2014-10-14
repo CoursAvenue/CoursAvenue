@@ -20,7 +20,11 @@ class DiscoveryPassesController < Pro::ProController
 
   def create
     if params[:user][:email].blank? or !params[:user][:email].include?('@')
-      redirect_to discovery_passes_path(email: params[:user][:email], promo_code: params[:promo_code], error: 'email')
+      if cookies[:discovery_pass_danse_test]
+        redirect_to get_danse_discovery_passes_path(email: params[:user][:email], promo_code: params[:promo_code], error: 'email')
+      else
+        redirect_to discovery_passes_path(email: params[:user][:email], promo_code: params[:promo_code], error: 'email')
+      end
     else
       user = User.create_or_find_from_email(params[:user][:email])
       user.interested_in_discovery_pass = true
