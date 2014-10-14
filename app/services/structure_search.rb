@@ -57,7 +57,12 @@ class StructureSearch
       with :is_sleeping,  params[:is_sleeping]                                      if params.has_key? :is_sleeping
       with :sleeping_email_opt_in,  params[:sleeping_email_opt_in]                  if params.has_key? :sleeping_email_opt_in
       with :has_admin,    params[:has_admin]                                        if params.has_key? :has_admin
-      with :active, true
+
+      if params.has_key? :active
+        with :active, params[:active]
+      else
+        with :active, true
+      end
 
       with :has_logo,                params[:has_logo]                              if params[:has_logo].present?
 
