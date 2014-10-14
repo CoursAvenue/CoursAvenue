@@ -116,8 +116,9 @@
         %div
           %div{ data: { type: 'sticky-map-container' }}>
             .push--bottom{ data: { type: 'sticky-map' }}>
-            %a.push--bottom.contact-button.btn--full.btn.btn--green{ data: { behavior: 'show-contact-panel' } }
-              Réserver mon cours d'essai
+            - if current_user and current_user.discovery_pass
+              %a.push--bottom.contact-button.btn--full.btn.btn--green{ data: { behavior: 'show-contact-panel' } }
+                Réserver mon cours d'essai
 
             .panel.push--bottom
               .panel__header.soft-half--ends.soft--sides
