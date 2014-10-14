@@ -18,6 +18,12 @@ class DiscoveryPassesController < Pro::ProController
     end
   end
 
+  def get_danse_shuffle
+    if current_user
+      redirect_to user_discovery_passes_path(current_user)
+    end
+  end
+
   def create
     if params[:user][:email].blank? or !params[:user][:email].include?('@')
       if cookies[:discovery_pass_danse_test]

@@ -115,13 +115,6 @@ class StructuresController < ApplicationController
     @city                                 = @structure.city
     @medias                               = (@structure.premium? ? @structure.medias.cover_first.videos_first : @structure.medias.cover_first.videos_first.limit(Media::FREE_PROFIL_LIMIT))
 
-    @place_ids = []
-    place_search = PlanningSearch.search({ structure_id: @structure.id, discovery_pass: true }, group: :place_id_str)
-    place_search.group(:place_id_str).groups.each do |place_group|
-      @place_ids << place_group.value
-    end
-    @place_ids.compact!
-
     @model = StructureShowSerializer.new(@structure, {
       structure:          @structure,
       unlimited_comments: false,

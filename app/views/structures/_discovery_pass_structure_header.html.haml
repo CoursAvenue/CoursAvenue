@@ -48,12 +48,12 @@
                 = @structure_decorator.courses_subjects_at_depth_2_count
                 = "disciplines".pluralize @structure_decorator.courses_subjects_at_depth_2_count
 
-          .milli.inline-block.structure__header-icon.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.places_popover(@place_ids), trigger: 'hover', html: 'true', placement: 'bottom' } }
+          .milli.inline-block.structure__header-icon.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.places_popover(@structure.discovery_pass_places), trigger: 'hover', html: 'true', placement: 'bottom' } }
             = link_to '#', onclick: "$('#map-thumbnail').click();", class: "muted-link flexbox" do
               %i.fa-3x.fa-map-marker.flexbox__item
               .flexbox__item.soft-half--left.soft--right
-                = @place_ids.count
-                = "lieu#{@place_ids.count > 1 ? 'x' : ''}"
+                = @structure.discovery_pass_places.count
+                = "lieu#{@structure.discovery_pass_places.count > 1 ? 'x' : ''}"
           - if @structure.comments_count > 0
             .milli.inline-block.structure__header-icon.inline-block.semi-muted.v-top{ itemscope: true, itemtype: "http://data-vocabulary.org/Review-aggregate" }
               %meta{ itemprop: 'itemreviewed', content: structure.name }
