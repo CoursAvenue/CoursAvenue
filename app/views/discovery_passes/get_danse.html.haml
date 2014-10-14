@@ -209,6 +209,10 @@
   :javascript
     $(function() {
         // ----------- Initialize header
+        $('form').submit(function() {
+            ga('send', 'event', 'PassDecouverte', 'Landing page click', 'code promo');
+            mixpanel.track("Clicked to get Pass", { "Info": $(this).data('info'), "PromoCode": "#{@sponsorship.try(:promo_code)}" });
+        });
         var $structure_profile_menu = $('#structure-profile-menu');
         var menu_scrolled_down = false;
         $(window).scroll(function() {
