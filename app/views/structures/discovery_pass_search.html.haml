@@ -80,9 +80,10 @@
           $.fancybox.open($('#welcome-pass'), { width: 400, maxWidth: 400, padding: 0});
       });
   - if Rails.env.production?
-    = content_for :scripts do
-      :javascript
-        mixpanel.people.track_charge(#{@user.discovery_pass.amount});
+    - if current_user
+      = content_for :scripts do
+        :javascript
+          mixpanel.people.track_charge(#{current_user.discovery_pass.amount});
     = content_for :head do
       <!-- Facebook Conversion Code for Pass découverte checkout -->
       <script>(function() {
