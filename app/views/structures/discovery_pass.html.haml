@@ -61,7 +61,23 @@
           #structure-region
           %div{ data: { type: "comments-collection" } }
       .grid__item.four-twelfths>
-        %div{ data: { type: 'contact-form' } }
+        - if current_user and current_user.discovery_pass
+          %div{ data: { type: 'contact-form' } }
+        - else
+          .orange-box.push--bottom>
+            .soft.white.epsilon.text--center
+              %h3 Réserver mon cours d'essai
+              - if @structure.has_discovery_pass_courses?
+                %strong= @structure.dominant_root_subject.name
+                \: envie de vous lancer&nbsp;? Essayez les cours de
+                = t("structures.structure_type_contact.#{@structure.structure_type}")
+                et
+                %strong 1 300 autres séances.
+              - else
+              \: envie de vous lancer ? Essayez plus de 1 300 cours sélectionnés rien que pour vous.
+              %br
+              %br
+              = link_to 'Obtenir mon Pass Découverte', discovery_passes_path, class: 'btn btn--yellow'
         - if @structure.response_rate or @structure.response_time or (@structure.main_contact and @structure.main_contact.current_sign_in_at)
           .panel.push--bottom
             .panel__body.soft.epsilon

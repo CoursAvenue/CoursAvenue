@@ -4,7 +4,7 @@ class StructuresController < ApplicationController
   include StructuresHelper
 
   skip_before_filter :verify_authenticity_token, only: [:add_to_favorite, :remove_from_favorite]
-  before_filter :protect_discovery_pass_access, only: [:discovery_pass]
+  # before_filter :protect_discovery_pass_access, only: [:discovery_pass]
 
   respond_to :json
 

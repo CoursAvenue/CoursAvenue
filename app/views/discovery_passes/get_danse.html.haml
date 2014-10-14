@@ -67,6 +67,7 @@
     .inline-block.four-tenths.soft--right.text--center#top-form>
       .push-half--bottom.very-soft.hard--sides
         .white-box.soft.black
+          -# %h3 Essayez autant de cours de loisirs que vous voulez !
           %h3 Essayez les meilleurs cours de loisirs de votre ville.
           -# %p.epsilon
           -#   Chaque mois, participez à autant de séances d'essai que vous le souhaitez parmi les #{Planning.available_in_discovery_pass.count.round(-2)} cours de loisirs négociés spécialement pour vous à Paris auprès de plus de #{Structure.available_in_discovery_pass.count.round(-2)} professeurs, associations et écoles.
@@ -142,69 +143,22 @@
         = link_to 'Voir les cours inclus', discovery_pass_search_structures_path, class: 'btn btn--bigger btn--green', data: { behavior: 'see-all-courses', info: 'second' }
     .main-container.soft#courses
       .push--sides
-        %h2.push-half--bottom.text--center.f-weight-300 Sélection de cours de danse inclus dans le Pass
+        %h2.push-half--bottom.text--center.f-weight-300 Sélection de cours inclus dans le Pass
         %h4.text--center.f-weight-300 Cliquez sur chaque discipline pour l'aperçu
-    .main-container.main-container--medium#subjects-tabs
-      .grid--full
-        .grid__item.one-third.very-soft.hard--bottom>
-          %a.mixpanel-tracker.block{ href: "#danse", data: { toggle: 'tab', info: 'Clicked on subject : Danse' } }
-            .text--center.btn--blue.subject-active.white.btn.subject-btn.one-whole.hard--sides
-              .subject_icon.subject_icon__danse
-              .f-size-13
-                %br
-                Danse
-        .grid__item.one-third.very-soft.hard--bottom>
-          %a.mixpanel-tracker.block{ href: "#theatre-scene", data: { toggle: 'tab', info: 'Clicked on subject : Théâtre & Scène' } }
-            .text--center.btn.subject-btn.one-whole.hard--sides
-              .subject_icon.subject_icon__theatre-scene
-              .f-size-13
-                %br
-                Théâtre & Scène
-        .grid__item.one-third.very-soft.hard--bottom>
-          %a.mixpanel-tracker.block{ href: "#yoga-bien-etre-sante", data: { toggle: 'tab', info: 'Clicked on subject : Yoga, Bien-être & Santé' } }
-            .text--center.btn.subject-btn.one-whole.hard--sides
-              .subject_icon.subject_icon__yoga-bien-etre-sante
-              .f-size-13
-                %br
-                Yoga, Bien-être & Santé
-      .grid--full
-        .grid__item.one-third.very-soft.hard--bottom>
-          %a.mixpanel-tracker.block{ href: "#musique-chant", data: { toggle: 'tab', info: 'Clicked on subject : Musique & Chant' } }
-            .text--center.btn.subject-btn.one-whole.hard--sides
-              .subject_icon.subject_icon__musique-chant
-              .f-size-13
-                %br
-                Musique & Chant
-        .grid__item.one-third.very-soft.hard--bottom>
-          %a.mixpanel-tracker.block{ href: "#dessin-peinture-arts-plastiques", data: { toggle: 'tab', info: 'Clicked on subject : Dessin, Peinture & Arts' } }
-            .text--center.btn.subject-btn.one-whole.hard--sides
-              .subject_icon.subject_icon__dessin-peinture-arts-plastiques
-              .f-size-13
-                %br
-                Dessin, Peinture & Arts
-        .grid__item.one-third.very-soft.hard--bottom>
-          %a.mixpanel-tracker.block{ href: "#sports-arts-martiaux", data: { toggle: 'tab', info: 'Clicked on subject : Sports & Arts martiaux' } }
-            .text--center.btn.subject-btn.one-whole.hard--sides
-              .subject_icon.subject_icon__sports-arts-martiaux
-              .f-size-13
-                %br
-                Sports & Arts martiaux
-      - %w(danse theatre-scene yoga-bien-etre-sante musique-chant dessin-peinture-arts-plastiques sports-arts-martiaux).each_with_index do |subject_slug, index|
-        - @courses = CourseSearch.search({ types: ['lesson'], discovery_pass: true, per_page: 15, subject_id: subject_slug }).results
-        .tab-pane{ id: subject_slug, class: (index == 0 ? 'active' : '') }
-          %table.table--data.table--striped
-            %thead
-              %tr
-                %th.one-third Nom du cours
-                %th.one-third Disciplines
-                %th.one-third Planning
-            %tbody
-              - @courses.each_with_index do |course, course_index|
-                - cache [course, 'discovery_pass/subjects/v3'] do
-                  %tr
-                    %td= "#{course.name}"
-                    %td= truncate(course.subjects.map(&:name).join(', '), length: 55)
-                    %td= plannings_to_come(course, course.plannings.available_in_discovery_pass.visible)
+        - @courses = CourseSearch.search({ types: ['lesson'], discovery_pass: true, per_page: 15, subject_id: 'danse' }).results
+        %table.table--data.table--striped
+          %thead
+            %tr
+              %th.one-third Nom du cours
+              %th.one-third Disciplines
+              %th.one-third Planning
+          %tbody
+            - @courses.each_with_index do |course, course_index|
+              - cache [course, 'discovery_pass/subjects/v3'] do
+                %tr
+                  %td= "#{course.name}"
+                  %td= truncate(course.subjects.map(&:name).join(', '), length: 55)
+                  %td= plannings_to_come(course, course.plannings.available_in_discovery_pass.visible)
     .text--center.soft--ends
       = link_to 'Voir les cours inclus', discovery_pass_search_structures_path, class: 'btn btn--bigger btn--green', data: { behavior: 'see-all-courses', info: 'third' }
 

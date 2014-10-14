@@ -9,13 +9,7 @@ class DiscoveryPassesController < Pro::ProController
     end
   end
 
-  def test_b
-    if current_user
-      redirect_to user_discovery_passes_path(current_user)
-    end
-  end
-
-  def test_c
+  def get_danse
     if current_user
       redirect_to user_discovery_passes_path(current_user)
     end

@@ -2,7 +2,7 @@
   .main-container.soft--sides.soft-half--ends.relative
     .flush
       %h1.inline.v-middle{ itemprop: 'name' }= @structure.name
-      - if @structure.has_discovery_pass_courses?
+      - if @structure.parisian? and @structure.has_discovery_pass_courses?
         - popover_content = t("structures.structure_type_contact.#{@structure.structure_type}").capitalize
         - popover_content << " fait partie du Pass Découverte : demandez-le pour essayer plus de 1 300 cours !"
         = link_to discovery_passes_path, class: 'muted-link inline v-middle' do
@@ -106,7 +106,7 @@
                   %li.soft-half--sides= link_to 'Cours réguliers', '#cours-reguliers', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
                   %li.soft-half--sides= link_to 'Stages & ateliers', '#stages-ateliers', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
                   %li.soft-half--sides= link_to 'Avis', '#avis', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
-              - if @structure.has_discovery_pass_courses?
+              - if @structure.parisian? and @structure.has_discovery_pass_courses?
                 - popover_content = t("structures.structure_type_contact.#{@structure.structure_type}").capitalize
                 - popover_content << " fait partie du Pass Découverte : demandez-le pour essayer plus de 1 300 cours !"
                 = link_to discovery_passes_path, class: 'muted-link inline v-middle' do
