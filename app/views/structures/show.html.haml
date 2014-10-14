@@ -67,15 +67,21 @@
         - if @structure.parisian?
           .orange-box>
             .soft.white.epsilon.text--center
-              %h3 Réserver mon cours d'essai
-              %strong= @structure.dominant_root_subject.name
-              - if @structure.has_discovery_pass_courses?
-                \: envie de vous lancer&nbsp;? Essayez les cours de
-                = t("structures.structure_type_contact.#{@structure.structure_type}")
-                et
-                %strong 1 300 autres séances.
+              - if cookies[:discovery_pass_danse_test]
+                %h3 Testez tous les styles de Danse !
+                Obtenez votre Pass Découverte pour suivre un cours de danse avec ce professeur et
+                %strong réserver 620 autres
+                séances d'essai.
               - else
-                \: envie de vous lancer ? Essayez plus de 1 300 cours sélectionnés rien que pour vous.
+                %h3 Réserver mon cours d'essai
+                %strong= @structure.dominant_root_subject.name
+                - if @structure.has_discovery_pass_courses?
+                  \: envie de vous lancer&nbsp;? Essayez les cours de
+                  = t("structures.structure_type_contact.#{@structure.structure_type}")
+                  et
+                  %strong 1 300 autres séances.
+                - else
+                  \: envie de vous lancer ? Essayez plus de 1 300 cours sélectionnés rien que pour vous.
               %br
               %br
               = link_to 'Obtenir mon Pass Découverte', discovery_passes_path, class: 'btn btn--yellow'
