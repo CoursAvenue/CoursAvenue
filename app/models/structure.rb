@@ -78,8 +78,6 @@ class Structure < ActiveRecord::Base
   scope :available_in_discovery_pass, -> { where(arel_table[:discovery_pass_policy].matches('%_trial%') ) }
 
   attr_reader :delete_logo, :logo_filepicker_url
-  # TODO: Remove
-  serialize :sleeping_attributes # See `create_sleeping_attributes` method for more info
   attr_accessible :structure_type, :street, :zip_code, :city_id,
                   :place_ids, :name, :info, :registration_info,
                   :website, :facebook_url,
@@ -100,7 +98,7 @@ class Structure < ActiveRecord::Base
                   :highlighted_comment_id,
                   :deletion_reasons, :deletion_reasons_text,
                   :phone_numbers_attributes, :places_attributes, :other_emails, :last_geocode_try,
-                  :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason, :sleeping_attributes, :order_recipient, :delivery_email_status, :discovery_pass_policy,
+                  :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason, :order_recipient, :delivery_email_status, :discovery_pass_policy,
                   :sleeping_structure
 
   accepts_nested_attributes_for :places,
@@ -128,7 +126,6 @@ class Structure < ActiveRecord::Base
                               :is_sleeping, :sleeping_email_opt_in, :promo_code_sent
 
   mount_uploader :logo, StructureLogoUploader
-  mount_uploader :sleeping_logo, StructureLogoUploader # TODO: Remove
 
   ######################################################################
   # Validations                                                        #
