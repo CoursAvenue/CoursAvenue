@@ -22,7 +22,7 @@
             = simple_form_for User.new, url: discovery_passes_path(promo_code: @sponsorship.try(:promo_code)), method: :post, data: { behavior: 'discovery-pass-form' } do |f|
               .flexbox
                 .flexbox__item= f.input :email, input_html: { class: 'one-whole input--large', placeholder: 'E-mail' }, label: false, wrapper_html: { class: 'flush' }
-                .flexbox__item= f.submit 'Obtenir mon Pass', class: 'btn btn--bigger btn--yellow mixpanel-tracker', data: { info: 'header' }
+                .flexbox__item= f.submit 'Obtenir mon Pass', class: 'btn btn--bigger btn--yellow', data: { info: 'header' }
 
 = content_for :title do
   CoursAvenue | Pass Découverte
@@ -75,7 +75,7 @@
                 - if params[:error]
                   %p.input_field_error.red.text--right
                     Veuillez renseigner un e-mail valide.
-                = f.submit 'Obtenir mon Pass', class: 'btn btn--bigger btn--yellow btn--full mixpanel-tracker', data: { info: 'main' }
+                = f.submit 'Obtenir mon Pass', class: 'btn btn--bigger btn--yellow btn--full', data: { info: 'main' }
 
       .inline-block.v-top
         - if @sponsorship
