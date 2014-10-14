@@ -1035,19 +1035,27 @@ class Structure < ActiveRecord::Base
   # that CoursAvenue team has validated his profile.
   #
   # @return Boolean saved or not
-  # TODO: Use sleeping_structure
   def return_to_sleeping_mode!
-    initialize_sleeping_attributes
-    self.places        = self.sleeping_attributes[:places].map{ |places_attributes| Place.create(places_attributes) }
-    self.phone_numbers = self.sleeping_attributes[:phone_numbers].map{ |places_attributes| PhoneNumber.create(places_attributes) }
-    self.subjects      = root_subjects_from_string(self) + child_subjects_from_string(self)
-    self.logo          = self.sleeping_logo
+    # initialize_sleeping_attributes
+
+    self.phone_numbers.map(&:destroy)
+    self.sleeping_structure.phone_numbers.each do |phone|
+      self.phone_numbers.create(number: phone.number, phone_type: phone.phone_type)
+    end
+
+    self.places        = self.sleeping_structure.places.map(&:dup)
+    self.subjects      = root_subjects_from_string(self.sleeping_structure) + child_subjects_from_string(self.sleeping_structure)
+    self.logo          = self.sleeping_structure.logo
+
     self.teachers.map(&:destroy)
     self.courses.map(&:destroy)
     self.price_groups.map(&:destroy)
     self.medias.map(&:destroy)
     AdminMailer.delay.you_dont_have_control_of_your_account(self, self.main_contact.email)
     self.main_contact.delete
+
+    self.sleeping_structure.destroy
+
     self.save
   end
 
@@ -1132,14 +1140,19 @@ class Structure < ActiveRecord::Base
     unless self.sleeping_structure.present?
       sleeping_structure               = self.dup
 
-      sleeping_structure.phone_numbers = self.phone_numbers.map { |n| n.dup }
-      sleeping_structure.places        = self.places { |p| p.dup }
-      sleeping_structure.subjects      = self.subjects { |s| s.dup }
+      self.phone_numbers.each do |phone|
+        sleeping_structure.phone_numbers.create(number: phone.number, phone_type: phone.phone_type)
+      end
+
+      sleeping_structure.places        = self.places.map(&:dup)
+      sleeping_structure.subjects      = root_subjects_from_string(self) + child_subjects_from_string(self)
 
       sleeping_structure.is_sleeping   = true
       sleeping_structure.save
 
       self.sleeping_structure          = sleeping_structure
+      self.active = false
+
       self.save
     end
 
