@@ -104,6 +104,7 @@ class StructureSearch
   def self.similar_profile structure, limit=4, _params={}, force_use_root_subjects=false
     # Choose parent subjects that are used if the profile has courses
     used_subjects = []
+    # TODO: remove
     if structure.is_sleeping?
       structure.initialize_sleeping_attributes
       used_subjects = child_subjects_from_string(structure).uniq

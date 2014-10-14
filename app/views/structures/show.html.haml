@@ -127,6 +127,7 @@
                           .grid--full{ data: { similar_profile: true, structure_id: structure.id } }
                             .grid__item.v-top.one-fifth>
                               .media-photo{ itemprop: 'image', content: structure.logo.url }
+                                - # TODO: Remove
                                 - if structure.is_sleeping?
                                   = image_tag structure.sleeping_logo.url(:thumb)
                                 - else

@@ -75,6 +75,7 @@ class Structure < ActiveRecord::Base
   scope :available_in_discovery_pass, -> { where(arel_table[:discovery_pass_policy].matches('%_trial%') ) }
 
   attr_reader :delete_logo, :logo_filepicker_url
+  # TODO: Remove
   serialize :sleeping_attributes # See `create_sleeping_attributes` method for more info
   attr_accessible :structure_type, :street, :zip_code, :city_id,
                   :place_ids, :name, :info, :registration_info,
@@ -124,7 +125,7 @@ class Structure < ActiveRecord::Base
                               :is_sleeping, :sleeping_email_opt_in, :promo_code_sent
 
   mount_uploader :logo, StructureLogoUploader
-  mount_uploader :sleeping_logo, StructureLogoUploader
+  mount_uploader :sleeping_logo, StructureLogoUploader # TODO: Remove
 
   ######################################################################
   # Validations                                                        #
@@ -1034,6 +1035,7 @@ class Structure < ActiveRecord::Base
   # that CoursAvenue team has validated his profile.
   #
   # @return Boolean saved or not
+  # TODO: Use duplicated_structure
   def return_to_sleeping_mode!
     initialize_sleeping_attributes
     self.places        = self.sleeping_attributes[:places].map{ |places_attributes| Place.create(places_attributes) }

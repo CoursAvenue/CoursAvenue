@@ -131,6 +131,7 @@ class StructuresController < ApplicationController
   # GET /etablissements/:id
   def show
     @structure = Structure.friendly.find params[:id]
+    # TODO: remove
     if @structure.is_sleeping?
       @structure.initialize_sleeping_attributes
     end
@@ -138,6 +139,7 @@ class StructuresController < ApplicationController
     @place_ids                            = @structure.places.map(&:id)
     @header_promotion_title_for_structure = header_promotion_title_for_structure(@structure)
     @city                                 = @structure.city
+    # TODO Remove
     if @structure.is_sleeping?
       @medias = []
     else
