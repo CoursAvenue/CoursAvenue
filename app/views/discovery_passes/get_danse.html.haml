@@ -29,9 +29,9 @@
 
 = content_for (@user ? :under_container : :above_container) do
   - url = "https://coursavenue-public.s3.amazonaws.com/public_assets/home_backgrounds/danse.jpg"
-  #top.soft-half--bottom.relative{ style: "height: 500px; background-image: url(#{url})", 'data-stellar-background-ratio' => '0.6' }
-    .main-container.main-container--medium
-      -  if @sponsorship
+  #top.soft-half--bottom{ style: "background-image: url(#{url})", 'data-stellar-background-ratio' => '0.6' }
+    .main-container.main-container--medium.relative{ style: "height: 500px" }
+      - if @sponsorship
         .text--center
           .white-box.push--top.soft.inline-block
             .beta.flush
