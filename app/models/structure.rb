@@ -1012,23 +1012,20 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  # Disables this structure and activate the duplicated Structure.
-  # For the duplicated structure:
-  #  Set is_sleeping to false and sends an email to the teacher to tell him
-  #  that CoursAvenue team has validated his profile.
+  # Disables the sleeping structure and activates the current structure.
   #
   # @return Boolean saved or not
   def wake_up!
     if self.sleeping_structure.present?
-      self.is_sleeping = true
-      self.active = false
-      self.save
-      saved = self.sleeping_structure.wake_up!
-    else
       self.is_sleeping = false
       self.active = true
       saved = self.save
+      self.sleeping_structure.wake_up!
       AdminMailer.delay.you_have_control_of_your_account(self)
+    else
+      self.is_sleeping = true
+      self.active = false
+      saved = self.save
     end
     saved
   end
