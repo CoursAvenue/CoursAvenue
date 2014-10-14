@@ -295,54 +295,60 @@ describe Structure do
       end
 
       it 'associates the new structure with the current structure' do
-        duplicated_structure = structure.duplicate_structure
+        sleeping_structure = structure.duplicate_structure
 
-        expect(duplicated_structure).to_not be_nil
-        expect(duplicated_structure.original_structure).to eq structure
+        expect(sleeping_structure).to_not be_nil
+        expect(sleeping_structure.controled_structure).to eq structure
       end
 
-      it 'makes the new structure inactive' do
+      it 'makes the current structure inactive' do
         structure.duplicate_structure
 
-        expect(structure.duplicated_structure.active).to be false
+        expect(structure.active).to be false
+      end
+
+      it 'makes the new structure active' do
+        structure.duplicate_structure
+
+        expect(structure.sleeping_structure.active).to be true
       end
     end
 
     describe 'wake_up!' do
       let(:structure)            { FactoryGirl.create(:sleeping_structure) }
       let(:admin)                { FactoryGirl.create(:admin) }
-      let(:duplicated_structure) { structure.duplicate_structure }
+      let(:sleeping_structure)   { structure.duplicate_structure }
 
       before(:each) do
-        admin.structure = duplicated_structure
-        duplicated_structure.admins << admin
+        admin.structure = sleeping_structure
+        sleeping_structure.admins << admin
 
         admin.save
-        duplicated_structure.save
+        sleeping_structure.save
       end
 
-      it 'wakes the duplicated structure' do
+      it 'wakes itself' do
         structure.wake_up!
 
-        expect(duplicated_structure.is_sleeping).to be false
+        expect(structure.is_sleeping).to be false
       end
 
-      it 'activates the duplicated structure' do
+      it 'activates itself' do
         structure.wake_up!
 
-        expect(duplicated_structure.active).to be true
+        expect(structure.active).to be true
       end
 
-      it 'deactivates itself' do
+      it 'deactivates the duplicated structure' do
         structure.wake_up!
 
-        expect(structure.is_sleeping).to be true
+        expect(sleeping_structure.is_sleeping).to be true
       end
 
-      it 'puts itself to sleep' do
+      it 'puts the duplicated structure to sleep' do
         structure.wake_up!
 
-        expect(structure.active).to be false
+        expect(sleeping_structure.active).to be false
       end
     end
   end
