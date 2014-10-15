@@ -48,6 +48,7 @@ CoursAvenue::Application.configure do
   # Use a different cache store in production
   # config.cache_store = :mem_cache_store
   config.cache_store = :dalli_store
+  config.identity_cache_store = :dalli_store
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
   config.action_controller.asset_host = "https://#{ENV['FOG_DIRECTORY']}.s3.amazonaws.com"
