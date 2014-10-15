@@ -18,7 +18,7 @@
             %li.soft-half--sides
               = link_to "Avantages", '#avantages', class: 'muted-link orange mixpanel-tracker', data: { behavior: 'scroll-to', offset_top: '-55', info: 'Discovery Page landing' }
         .flexbox__item.text--right.five-twelfths>
-          = link_to 'Obtenir mon pass', '#waiting-list', class: 'mixpanel-tracker btn btn--green btn--bigger', data: { behavior: 'modal', padding: 0, width: 350, info: 'With price' }
+          = link_to 'Obtenir mon pass', 'javascript:void(0)', class: 'mixpanel-tracker btn btn--green btn--bigger', data: { behavior: 'show-popup', info: 'With price' }
 
 = content_for :title do
   CoursAvenue | Pass Découverte
@@ -73,7 +73,7 @@
           %h3 Testez autant de cours de loisirs que vous voulez !
           %p.epsilon
             Valable 30 jours et renouvelable, le Pass Découverte vous permet de suivre 1 300 séances d'essai négociées spécialement pour vous : Sophrologie, Impro, Yoga, Golf, Danse... Pour une vie créative, artistique, sportive !
-          = link_to 'Obtenir mon pass', '#waiting-list', class: 'mixpanel-tracker btn btn--green btn--full btn--bigger', data: { behavior: 'modal', padding: 0, width: 350, info: 'With price' }
+          = link_to 'Obtenir mon pass', 'javascript:void(0)', class: 'mixpanel-tracker btn btn--green btn--full btn--bigger', data: { behavior: 'show-popup', info: 'With price' }
 
 
     .inline-block.v-top
@@ -338,7 +338,7 @@
               %p.epsilon Votre pass est valable 1 mois et renouvelable autant de fois que vous le souhaitez. Satisfaction garantie.
 
       .center-block.text--center.push--bottom.soft--bottom{ style: 'width: 350px;' }
-        = link_to 'Obtenir mon pass', '#waiting-list', class: 'mixpanel-tracker btn btn--green btn--bigger', data: { behavior: 'modal', padding: 0, width: 350, info: 'With price' }
+        = link_to 'Obtenir mon pass', 'javascript:void(0)', class: 'mixpanel-tracker btn btn--green btn--bigger', data: { behavior: 'show-popup', info: 'With price' }
 
     .main-container.soft
       .grid
@@ -432,3 +432,26 @@
               'test_name': 'With price'
           });
       });
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('[data-behavior=show-popup]').click(function() {
+              $.fancybox($('#waiting-list'), {
+                  topRatio    : 0.3,
+                  openSpeed   : 300,
+                  maxWidth    : 350,
+                  height      : 'auto',
+                  fitToView   : false,
+                  width       : 350,
+                  autoSize    : false,
+                  autoResize  : false,
+                  padding     : 0,
+                  helpers : {
+                      overlay: {
+                          locked: false
+                      }
+                  }
+            });
+        });
+    });
