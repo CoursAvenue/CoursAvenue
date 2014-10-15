@@ -24,7 +24,7 @@ class StructureDecorator < Draper::Decorator
 
   def subjects_at_depth_2_count
     if object.is_sleeping?
-      object.subjects_string.split(';').map{|subject_string__subject_slug| Subject.find(subject_string__subject_slug.split(':').last) }.select{ |subj| subj.depth == 2 }.length
+      object.subjects_string.split(';').map{|subject_string__subject_slug| Subject.fetch_by_id_or_slug(subject_string__subject_slug.split(':').last) }.select{ |subj| subj.depth == 2 }.length
     else
       object.subjects.at_depth(2).count
     end
@@ -68,13 +68,13 @@ class StructureDecorator < Draper::Decorator
     _subjects = []
     is_sleeping = object.is_sleeping?
     if is_sleeping
-      subjects_at_depth_0 = object.parent_subjects_string.split(';').map{|subject_string__subject_slug| Subject.find(subject_string__subject_slug.split(':').last) }
+      subjects_at_depth_0 = object.parent_subjects_string.split(';').map{|subject_string__subject_slug| Subject.fetch_by_id_or_slug(subject_string__subject_slug.split(':').last) }
     else
       subjects_at_depth_0 = object.subjects.at_depth(0)
     end
     subjects_at_depth_0.uniq.each do |root_subject|
       if is_sleeping
-        child_subjects = object.subjects_string.split(';').map{|subject_string__subject_slug| Subject.find(subject_string__subject_slug.split(':').last) }.select{ |subj| subj.depth == 2 }
+        child_subjects = object.subjects_string.split(';').map{|subject_string__subject_slug| Subject.fetch_by_id_or_slug(subject_string__subject_slug.split(':').last) }.select{ |subj| subj.depth == 2 }
       else
         child_subjects = object.subjects.at_depth(2)
       end

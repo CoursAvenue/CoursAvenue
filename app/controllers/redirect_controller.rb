@@ -2,18 +2,18 @@ class RedirectController < ApplicationController
   include SubjectHelper
 
   def vertical_page
-    @subject = Subject.find params[:id]
+    @subject = Subject.fetch_by_id_or_slug params[:id]
     redirect_to root_search_page_path(@subject.root, 'paris'), status: 301
   end
 
   def vertical_page_city
-    @subject = Subject.find params[:subject_id]
+    @subject = Subject.fetch_by_id_or_slug params[:subject_id]
     @city    = City.find params[:id]
     redirect_to root_search_page_path(@subject.root, @city), status: 301
   end
 
   def vertical_page_subject_city
-    @subject = Subject.find params[:subject_id]
+    @subject = Subject.fetch_by_id_or_slug params[:subject_id]
     @city    = City.find params[:id]
     redirect_to root_search_page_path(@subject.root, @city), status: 301
   end

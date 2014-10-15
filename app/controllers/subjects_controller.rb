@@ -12,7 +12,7 @@ class SubjectsController < ApplicationController
   end
 
   def show
-    @subject = Subject.find params[:id]
+    @subject = Subject.fetch_by_id_or_slug params[:id]
     if @subject.vertical_pages.any?
       redirect_to vertical_page_path(@subject.root, @subject.vertical_pages.first), status: 301
     elsif @subject.parent and @subject.parent.vertical_pages.any?
@@ -38,7 +38,7 @@ class SubjectsController < ApplicationController
       @subjects   = Subject.roots_not_stars
       return_json = ActiveModel::ArraySerializer.new(@subjects, each_serializer: SubjectSerializer)
     else
-      @subject = Subject.friendly.find params[:id]
+      @subject = Subject.friendly.fetch_by_id_or_slug params[:id]
       return_json = SubjectSerializer.new(@subject)
     end
     respond_to do |format|
