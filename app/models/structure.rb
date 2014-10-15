@@ -1125,6 +1125,17 @@ class Structure < ActiveRecord::Base
     self.plannings.available_in_discovery_pass.any?
   end
 
+  # Fetch the Structure in cache by looking up its id or slug
+  #
+  # @return a Structure
+  def self.fetch_by_id_or_slug(param)
+    if param.to_s.match(/\D/)
+      self.fetch_by_slug(param)
+    else
+      self.fetch(param)
+    end
+  end
+
   private
 
   # Strip name if exists to prevent from name starting by a space
