@@ -67,10 +67,11 @@ describe StructuresController, type: :controller do
       post :add_to_favorite, id: structure.id
       expect(structure.followings.count).to eq followings_count + 1
     end
+
     it 'creates a new Statistic action' do
-      actions_count = structure.statistics.actions.count
+      actions_count = structure.metrics.actions.count
       post :add_to_favorite, id: structure.id
-      expect(structure.statistics.actions.count).to eq actions_count + 1
+      expect(structure.metrics.actions.count).to eq actions_count + 1
     end
   end
 end
