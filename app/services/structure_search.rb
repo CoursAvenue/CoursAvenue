@@ -57,7 +57,12 @@ class StructureSearch
       with :is_sleeping,  params[:is_sleeping]                                      if params.has_key? :is_sleeping
       with :sleeping_email_opt_in,  params[:sleeping_email_opt_in]                  if params.has_key? :sleeping_email_opt_in
       with :has_admin,    params[:has_admin]                                        if params.has_key? :has_admin
-      with :active, true
+
+      if params.has_key? :active
+        with :active, params[:active]
+      else
+        with :active, true
+      end
 
       with :has_logo,                params[:has_logo]                              if params[:has_logo].present?
 
@@ -104,10 +109,7 @@ class StructureSearch
   def self.similar_profile structure, limit=4, _params={}, force_use_root_subjects=false
     # Choose parent subjects that are used if the profile has courses
     used_subjects = []
-    if structure.is_sleeping?
-      structure.initialize_sleeping_attributes
-      used_subjects = child_subjects_from_string(structure).uniq
-    elsif structure.courses.any?
+    if structure.courses.any?
       used_subjects = structure.courses.map(&:subjects).flatten.uniq
     else
       used_subjects = structure.subjects.at_depth(2).uniq

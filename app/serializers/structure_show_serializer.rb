@@ -32,9 +32,7 @@ class StructureShowSerializer < ActiveModel::Serializer
   end
 
   def places
-    if object.is_sleeping?
-      object.sleeping_attributes[:places].map{ |place_attributes| Place.new place_attributes }
-    elsif @options[:place_ids].present?
+    if @options[:place_ids].present?
       place_ids = @options[:place_ids]
       object.places.where( Place.arel_table[:id].eq_any(place_ids) )
     else
@@ -194,11 +192,7 @@ class StructureShowSerializer < ActiveModel::Serializer
   end
 
   def phone_numbers
-    if object.is_sleeping?
-      object.sleeping_attributes[:phone_numbers].map{ |phone_number| readable_phone_number(phone_number['number']) }.uniq
-    else
-      object.phone_numbers.map{ |phone_number| readable_phone_number(phone_number.number) }.uniq
-    end
+    object.phone_numbers.map{ |phone_number| readable_phone_number(phone_number.number) }.uniq
   end
 
   def has_published_courses

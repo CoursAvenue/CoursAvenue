@@ -66,13 +66,18 @@ class Structure < ActiveRecord::Base
   has_many :admins                   , dependent: :destroy
   has_many :subscription_plans       , dependent: :destroy
 
+  # The structure that is not modified when an admin takes control.
+  has_one :sleeping_structure, class_name: 'Structure', foreign_key: :sleeping_structure_id
+
+  # The structure that is editable by the admin.
+  belongs_to :controled_structure, class_name: 'Structure', foreign_key: :sleeping_structure_id
+
   ######################################################################
   # Scope                                                              #
   ######################################################################
   scope :available_in_discovery_pass, -> { where(arel_table[:discovery_pass_policy].matches('%_trial%') ) }
 
   attr_reader :delete_logo, :logo_filepicker_url
-  serialize :sleeping_attributes # See `create_sleeping_attributes` method for more info
   attr_accessible :structure_type, :street, :zip_code, :city_id,
                   :place_ids, :name, :info, :registration_info,
                   :website, :facebook_url,
@@ -93,8 +98,8 @@ class Structure < ActiveRecord::Base
                   :highlighted_comment_id,
                   :deletion_reasons, :deletion_reasons_text,
                   :phone_numbers_attributes, :places_attributes, :other_emails, :last_geocode_try,
-                  :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason, :sleeping_attributes, :order_recipient, :delivery_email_status,
-                  :discovery_pass_policy, :discovery_pass_place_ids
+                  :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason, :order_recipient, :delivery_email_status,
+                  :discovery_pass_policy, :discovery_pass_place_ids, :sleeping_structure
 
   accepts_nested_attributes_for :places,
                                  reject_if: :reject_places,
@@ -121,7 +126,6 @@ class Structure < ActiveRecord::Base
                               :is_sleeping, :sleeping_email_opt_in, :promo_code_sent
 
   mount_uploader :logo, StructureLogoUploader
-  mount_uploader :sleeping_logo, StructureLogoUploader
 
   ######################################################################
   # Validations                                                        #
@@ -1011,15 +1015,21 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  #
-  # Set is_sleeping to false and sends an email to the teacher to tell him
-  # that CoursAvenue team has validated his profile.
+  # Disables the sleeping structure and activates the current structure.
   #
   # @return Boolean saved or not
   def wake_up!
-    self.is_sleeping = false
-    saved = self.save
-    AdminMailer.delay.you_have_control_of_your_account(self)
+    if self.sleeping_structure.present?
+      self.is_sleeping = false
+      self.active = true
+      saved = self.save
+      self.sleeping_structure.wake_up!
+      AdminMailer.delay.you_have_control_of_your_account(self)
+    else
+      self.is_sleeping = true
+      self.active = false
+      saved = self.save
+    end
     saved
   end
 
@@ -1029,17 +1039,26 @@ class Structure < ActiveRecord::Base
   #
   # @return Boolean saved or not
   def return_to_sleeping_mode!
-    initialize_sleeping_attributes
-    self.places        = self.sleeping_attributes[:places].map{ |places_attributes| Place.create(places_attributes) }
-    self.phone_numbers = self.sleeping_attributes[:phone_numbers].map{ |places_attributes| PhoneNumber.create(places_attributes) }
-    self.subjects      = root_subjects_from_string(self) + child_subjects_from_string(self)
-    self.logo          = self.sleeping_logo
+    # initialize_sleeping_attributes
+
+    self.phone_numbers.map(&:destroy)
+    self.sleeping_structure.phone_numbers.each do |phone|
+      self.phone_numbers.create(number: phone.number, phone_type: phone.phone_type)
+    end
+
+    self.places        = self.sleeping_structure.places.map(&:dup)
+    self.subjects      = root_subjects_from_string(self.sleeping_structure) + child_subjects_from_string(self.sleeping_structure)
+    self.logo          = self.sleeping_structure.logo
+
     self.teachers.map(&:destroy)
     self.courses.map(&:destroy)
     self.price_groups.map(&:destroy)
     self.medias.map(&:destroy)
     AdminMailer.delay.you_dont_have_control_of_your_account(self, self.main_contact.email)
     self.main_contact.delete
+
+    self.sleeping_structure.destroy
+
     self.save
   end
 
@@ -1079,7 +1098,6 @@ class Structure < ActiveRecord::Base
     end
   end
 
-
   # If admin wanted to go premium, we send promo_code the day later only if
   # the structure is still not premium
   #
@@ -1115,6 +1133,33 @@ class Structure < ActiveRecord::Base
     else
       ([city] + places.map(&:city)).group_by{ |city| city }.values.max_by(&:size).first
     end
+  end
+
+  # Duplicate Structure into a new structure that will be hidden.
+  #
+  # @return a new Structure
+  def duplicate_structure
+    unless self.sleeping_structure.present?
+      sleeping_structure               = self.dup
+
+      self.phone_numbers.each do |phone|
+        sleeping_structure.phone_numbers.create(number: phone.number, phone_type: phone.phone_type)
+      end
+
+      sleeping_structure.places        = self.places.map(&:dup)
+      sleeping_structure.subjects      = root_subjects_from_string(self) + child_subjects_from_string(self)
+
+      sleeping_structure.is_sleeping   = true
+      sleeping_structure.save
+      sleeping_structure.delay.index
+
+      self.sleeping_structure          = sleeping_structure
+      self.active = false
+
+      self.save
+    end
+
+    self.sleeping_structure
   end
 
   def has_discovery_pass_courses?
