@@ -82,7 +82,7 @@
       %tr
         %td.text--center
         %td.text--center= interested_in_discovery_pass_users.count
-        %td.text--center= interested_in_discovery_pass_users.map(&:email).join(', ')
+        %td.text--center= interested_in_discovery_pass_users.map{ |u| u.test_name.present? ? "#{u.email} (#{u.test_name})" : u.email }.join(', ')
       %tr
         %td.text--center 9€
         %td.text--center= pass_9.count

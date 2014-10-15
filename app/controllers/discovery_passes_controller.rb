@@ -18,9 +18,23 @@ class DiscoveryPassesController < Pro::ProController
     end
   end
 
+  def test_a
+    if current_user
+      redirect_to user_discovery_passes_path(current_user)
+    end
+  end
+
+  def test_b
+    if current_user
+      redirect_to user_discovery_passes_path(current_user)
+    end
+  end
+
   def create
     if params[:user][:email].blank? or !params[:user][:email].include?('@')
-      if cookies[:discovery_pass_danse_test]
+      if params[:waiting_list].present?
+        redirect_to request.referrer, notice: "Vous êtes bien inscrit sur la liste d'attente"
+      elsif cookies[:discovery_pass_danse_test]
         redirect_to get_danse_discovery_passes_path(email: params[:user][:email], promo_code: params[:promo_code], error: 'email')
       else
         redirect_to discovery_passes_path(email: params[:user][:email], promo_code: params[:promo_code], error: 'email')
@@ -28,8 +42,13 @@ class DiscoveryPassesController < Pro::ProController
     else
       user = User.create_or_find_from_email(params[:user][:email])
       user.interested_in_discovery_pass = true
+      user.test_name                    = params[:user][:test_name]
       user.save(validate: false)
-      redirect_to create_account_discovery_passes_path(email: params[:user][:email], promo_code: params[:promo_code])
+      if params[:waiting_list].present?
+        redirect_to request.referrer, notice: "Vous êtes bien inscrit sur la liste d'attente"
+      else
+        redirect_to create_account_discovery_passes_path(email: params[:user][:email], promo_code: params[:promo_code])
+      end
     end
   end
 

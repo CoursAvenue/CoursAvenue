@@ -199,3 +199,10 @@
             });
         })
     });
+
+- if Rails.env.production?
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          mixpanel.track("Landed on Structure Discovery page", { "structure_slug": "#{@structure.slug}", "structure_name": "#{@structure.name}" });
+      });

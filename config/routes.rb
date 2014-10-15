@@ -340,6 +340,8 @@ CoursAvenue::Application.routes.draw do
     collection do
       get :create_account, path: 'creez-un-compte'
       get :get_danse, path: 'dansez'
+      get :test_a, path: 'tous-vos-loisirs'
+      get :test_b, path: 'loisirs'
     end
   end
   devise_for :users, controllers: {
