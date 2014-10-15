@@ -158,7 +158,7 @@ class Structure < ActiveRecord::Base
 
     integer :search_score_danse do
       compute_search_score if search_score.blank?
-      if self.courses.without_open_courses.map(&:subjects).flatten.map(&:root).uniq.map(&:slug).include? 'danse'
+      if self.courses.without_open_courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'danse'
         self.search_score.to_i + 20
       else
         self.search_score
@@ -166,7 +166,7 @@ class Structure < ActiveRecord::Base
     end
     integer :search_score_theatre_scene do
       compute_search_score if search_score.blank?
-      if self.courses.without_open_courses.map(&:subjects).flatten.map(&:root).uniq.map(&:slug).include? 'theatre-scene'
+      if self.courses.without_open_courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'theatre-scene'
         self.search_score.to_i + 20
       else
         self.search_score
@@ -174,7 +174,7 @@ class Structure < ActiveRecord::Base
     end
     integer :search_score_yoga_bien_etre_sante do
       compute_search_score if search_score.blank?
-      if self.courses.without_open_courses.map(&:subjects).flatten.map(&:root).uniq.map(&:slug).include? 'yoga-sante-bien_etre'
+      if self.courses.without_open_courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'yoga-sante-bien_etre'
         self.search_score.to_i + 20
       else
         self.search_score
@@ -182,7 +182,7 @@ class Structure < ActiveRecord::Base
     end
     integer :search_score_musique_chant do
       compute_search_score if search_score.blank?
-      if self.courses.without_open_courses.map(&:subjects).flatten.map(&:root).uniq.map(&:slug).include? 'musique-chant'
+      if self.courses.without_open_courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'musique-chant'
         self.search_score.to_i + 20
       else
         self.search_score
@@ -190,7 +190,7 @@ class Structure < ActiveRecord::Base
     end
     integer :search_score_deco_mode_bricolage do
       compute_search_score if search_score.blank?
-      if self.courses.without_open_courses.map(&:subjects).flatten.map(&:root).uniq.map(&:slug).include? 'deco-mode-bricolage'
+      if self.courses.without_open_courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'deco-mode-bricolage'
         self.search_score.to_i + 20
       else
         self.search_score
@@ -198,7 +198,7 @@ class Structure < ActiveRecord::Base
     end
     integer :search_score_dessin_peinture_arts_plastiques do
       compute_search_score if search_score.blank?
-      if self.courses.without_open_courses.map(&:subjects).flatten.map(&:root).uniq.map(&:slug).include? 'dessin-peinture-arts'
+      if self.courses.without_open_courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'dessin-peinture-arts'
         self.search_score.to_i + 20
       else
         self.search_score
@@ -206,7 +206,7 @@ class Structure < ActiveRecord::Base
     end
     integer :search_score_sports_arts_martiaux do
       compute_search_score if search_score.blank?
-      if self.courses.without_open_courses.map(&:subjects).flatten.map(&:root).uniq.map(&:slug).include? 'sports-arts-martiaux'
+      if self.courses.without_open_courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'sports-arts-martiaux'
         self.search_score.to_i + 20
       else
         self.search_score
@@ -214,7 +214,7 @@ class Structure < ActiveRecord::Base
     end
     integer :search_score_cuisine_vins do
       compute_search_score if search_score.blank?
-      if self.courses.without_open_courses.map(&:subjects).flatten.map(&:root).uniq.map(&:slug).include? 'cuisine-vins'
+      if self.courses.without_open_courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'cuisine-vins'
         self.search_score.to_i + 20
       else
         self.search_score
@@ -222,7 +222,7 @@ class Structure < ActiveRecord::Base
     end
     integer :search_score_photo_video do
       compute_search_score if search_score.blank?
-      if self.courses.without_open_courses.map(&:subjects).flatten.map(&:root).uniq.map(&:slug).include? 'photo-video'
+      if self.courses.without_open_courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'photo-video'
         self.search_score.to_i + 20
       else
         self.search_score
@@ -230,7 +230,7 @@ class Structure < ActiveRecord::Base
     end
     integer :search_score_other do
       compute_search_score if search_score.blank?
-      if self.courses.without_open_courses.map(&:subjects).flatten.map(&:root).uniq.map(&:slug).include? 'other'
+      if self.courses.without_open_courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'other'
         self.search_score.to_i + 20
       else
         self.search_score
@@ -645,11 +645,11 @@ class Structure < ActiveRecord::Base
   handle_asynchronously :update_meta_datas
 
   def update_jpo_meta_datas
-    self.open_course_plannings_nb = self.courses.active.open_courses.map(&:plannings).flatten.length
+    self.open_course_plannings_nb = self.courses.active.open_courses.flat_map(&:plannings).length
     self.open_course_nb           = self.courses.active.open_courses.count
     self.open_course_names        = self.courses.active.open_courses.map(&:name).uniq.join(', ')
-    self.open_course_subjects     = self.courses.active.open_courses.map(&:subjects).flatten.map(&:name).uniq.join(', ')
-    self.open_courses_open_places = self.courses.active.open_courses.map(&:plannings).flatten.map(&:places_left).reduce(&:+)
+    self.open_course_subjects     = self.courses.active.open_courses.flat_map(&:subjects).map(&:name).uniq.join(', ')
+    self.open_courses_open_places = self.courses.active.open_courses.flat_map(&:plannings).map(&:places_left).reduce(&:+)
     self.save(validate: false)
   end
 
@@ -1103,7 +1103,7 @@ class Structure < ActiveRecord::Base
   # @return Subject at depth 0
   def dominant_root_subject
     if courses.active.any?
-      _subjects = courses.active.map{ |c| c.subjects }.flatten
+      _subjects = courses.active.flat_map{ |c| c.subjects }.uniq
       _subjects.group_by{ |subject| subject.root }.values.max_by(&:size).first.root
     else
       subjects.at_depth(2).group_by{ |subject| subject.root }.values.max_by(&:size).first.root
@@ -1115,7 +1115,7 @@ class Structure < ActiveRecord::Base
   # @return City
   def dominant_city
     if plannings.any?
-      plannings.map(&:place).compact.map(&:city).flatten.group_by{ |city| city }.values.max_by(&:size).first
+      plannings.map(&:place).compact.flat_map(&:city).group_by{ |city| city }.values.max_by(&:size).first
     else
       ([city] + places.map(&:city)).group_by{ |city| city }.values.max_by(&:size).first
     end
