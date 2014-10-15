@@ -243,4 +243,5 @@ gem 'actionpack-action_caching', '~>1.0.0'
 gem 'mongoid'                  , '~>4.0.0'
 
 # ActiveRecord Caching
-gem 'identity_cache', '~> 0.2.2'
+gem 'identity_cache'           , '~> 0.2.2'
+gem 'cityhash'                 , '~> 0.8.1'
