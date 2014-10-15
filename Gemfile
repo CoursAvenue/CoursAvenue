@@ -241,3 +241,6 @@ gem 'actionpack-action_caching', '~>1.0.0'
 
 # Use mongoid for statistics
 gem 'mongoid'                  , '~>4.0.0'
+
+# ActiveRecord Caching
+gem 'identity_cache', '~> 0.2.2'
