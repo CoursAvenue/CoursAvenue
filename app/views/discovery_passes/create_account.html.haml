@@ -47,3 +47,17 @@
             });
         });
     });
+
+- if Rails.env.production?
+  - if cookies[:discovery_pass_danse_test]
+    = content_for :scripts do
+      :javascript
+        $(function() {
+            mixpanel.track("Email déposé : Test danse");
+        });
+  - else
+    = content_for :scripts do
+      :javascript
+        $(function() {
+            mixpanel.track("Email déposé : général");
+        });

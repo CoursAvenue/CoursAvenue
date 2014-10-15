@@ -429,6 +429,14 @@
           });
       });
 
+
+- if Rails.env.production? and notice
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          mixpanel.track("Email déposé : without price");
+      });
+
 = content_for :scripts do
   :javascript
     $(function() {

@@ -410,6 +410,7 @@
                         });
                     }
                     mixpanel.people.set({ became_member_for_pass: true });
+                    mixpanel.track("Email déposé : Become a member");
                     window.location.pathname = Routes.root_search_page_without_subject_path('paris');
                 }
             })
