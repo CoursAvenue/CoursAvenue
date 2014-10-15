@@ -354,7 +354,10 @@ class Structure < ActiveRecord::Base
   # Caching                                                            #
   ######################################################################
 
-  cache_has_many :subjects
+  cache_has_many :subjects, inverse_name: :structures
+
+  # Also cache by slug, since we often access a structure by its slug with FriendlyId.
+  cache_index :slug
 
   ######################################################################
   # Email reminder                                                     #
