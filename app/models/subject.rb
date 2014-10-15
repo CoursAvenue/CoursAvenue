@@ -25,6 +25,7 @@ class Subject < ActiveRecord::Base
   ######################################################################
 
   cache_has_many :structures, inverse_name: :subjects
+  cache_index :slug, unique: true
 
   ######################################################################
   # Validations                                                        #
