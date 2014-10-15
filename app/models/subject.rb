@@ -1,5 +1,6 @@
 class Subject < ActiveRecord::Base
   include IdentityCache
+  include Concerns::IdentityCacheFetchHelper
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]

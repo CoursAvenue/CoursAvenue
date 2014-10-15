@@ -3,6 +3,7 @@ class Structure < ActiveRecord::Base
   include Concerns::HstoreHelper
   include Concerns::ActiveHashHelper
   include Concerns::HasDeliveryStatus
+  include Concerns::IdentityCacheFetchHelper
   include StructuresHelper
   include HasSubjects
   include ActsAsCommentable
@@ -1123,17 +1124,6 @@ class Structure < ActiveRecord::Base
 
   def has_discovery_pass_courses?
     self.plannings.available_in_discovery_pass.any?
-  end
-
-  # Fetch the Structure in cache by looking up its id or slug
-  #
-  # @return a Structure
-  def self.fetch_by_id_or_slug(param)
-    if param.to_s.match(/\D/)
-      self.fetch_by_slug(param)
-    else
-      self.fetch(param)
-    end
   end
 
   private
