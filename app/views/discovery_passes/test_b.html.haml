@@ -59,17 +59,25 @@
             au lieu de
             %strong.blue= "#{DiscoveryPass::PRICE}€"
 
+    - if notice
+      .text--center
+        .inline-block.soft--right.text--center.center-block>
+          .push-half--bottom.very-soft.hard--sides
+            .green-box.soft.white
+              %h3.flush= notice
+
+
     .inline-block.four-tenths.soft--right.text--center>
       .push-half--bottom.very-soft.hard--sides
         .white-box.soft.black
           %h3 Testez autant de cours de loisirs que vous voulez !
           %p.epsilon
-            Chaque mois, participez à autant de séances d'essai que vous le souhaitez parmi les #{Planning.available_in_discovery_pass.count.round(-2)} cours de loisirs négociés spécialement pour vous à Paris auprès de plus de #{Structure.available_in_discovery_pass.count.round(-2)} professeurs, associations et écoles.
+            Valable 30 jours et renouvelable, le Pass Découverte vous permet de suivre 1 300 séances d'essai négociées spécialement pour vous : Sophrologie, Impro, Yoga, Golf, Danse... Pour une vie créative, artistique, sportive !
           = link_to 'Obtenir mon pass', '#waiting-list', class: 'mixpanel-tracker btn btn--green btn--full btn--bigger', data: { behavior: 'modal', padding: 0, width: 350, info: 'With price' }
 
 
     .inline-block.v-top
-      = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/discovery_pass/badge.png", height: 250, width: 250
+      = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/discovery_pass/badge.png", height: 250, width: 250, style: 'margin-left: -35px;'
     .home-screen-comment.visuallyhidden--palm.soft-black-text-shadow.south.soft--bottom
       .grid.epsilon
         .grid__item.two-twelfths.v-middle.text--center>
@@ -85,24 +93,23 @@
         .push--sides.soft--ends
           %h2.soft--bottom.text--center.f-weight-300 Le Pass Découverte en bref
           .grid
-            .grid__item.one-half.palm-one-whole>
-              .f-weight-600.f-size-20.line-height-1-7 30 jours pour essayer autant de cours que vous voulez
-              %p.epsilon.line-height-1-5 Vous pouvez tester différents styles de danse et différentes écoles. Pendant les 30 jours de la durée de votre Pass, vous pouvez danser tous les jours si le coeur vous en dit !
+            .grid__item.one-half.palm-one-whole.text--center>
+              .f-weight-600.f-size-20.line-height-1-7 Essayez tous les loisirs que vous voulez
+              %p.epsilon.line-height-1-5 Sophrologie, Yoga, Impro, Danse Butô, Krav Maga, Ecriture créative, Dessin au musée du Louvre... Le Pass Découverte vous permet d'essayer ces disciplines en toute simplicité. Pour une vie créative, sportive, artistique !
 
-            .grid__item.one-half.palm-one-whole>
-              .f-weight-600.f-size-20.line-height-1-7 Plus de 1 300 classes d'essai à Paris chaque semaine
+            .grid__item.one-half.palm-one-whole.text--center>
+              .f-weight-600.f-size-20.line-height-1-7 Chaque semaine à Paris, plus de 1 300 séances d'essai
               %p.epsilon.line-height-1-5
-                Trouvez les cours qui vous intéressent sur notre
-                = link_to 'moteur de recherche.', discovery_pass_search_structures_path(root_subject_id: 'danse'), class: 'mixpanel-tracker', data: { info: 'Discovery Pass landing Danse'}
+                La liste des cours est longue et ne cesse d'augmenter ! Chaque jour, notre équipe repère les meilleurs cours de Paris et négocie pour vous des séances collectives mais aussi des cours individuels à domicile ou chez le professeur.
 
           .grid
-            .grid__item.one-half.palm-one-whole>
-              .f-weight-600.f-size-20.line-height-1-7 Les écoles font découvrir leurs cours à de nouveaux élèves
-              %p.epsilon.line-height-1-5 Il y a plus de #{Structure.available_in_discovery_pass.count.round(-2)} écoles, associations et professeurs indépendants à Paris partenaires du Pass Découverte de CoursAvenue.
+            .grid__item.one-half.palm-one-whole.text--center>
+              .f-weight-600.f-size-20.line-height-1-7 Le Pass vous accompagne pendant 30 jours
+              %p.epsilon.line-height-1-5 En plus du moteur de recherche qui vous permet de réserver n'importe quel cours, vous pourrez renseigner vos disciplines préférées : ainsi, nous vous enverrons chaque semaine le planning détaillé des séances à venir selon vos envies.
 
-            .grid__item.one-half.palm-one-whole>
-              .f-weight-600.f-size-20.line-height-1-7 Les règles sont simples
-              %p.epsilon.line-height-1-5 Chaque professeur propose de 1 à 3 cours d'essai : c'est indiqué clairement sur la page du cours. Une fois que vous avez acheté votre Pass, vous pouvez directement réserver votre séance sur la page du cours. Soyez responsable : si vous ne vous présentez pas à un cours réservé, votre Pass risque d'être suspendu !
+            .grid__item.one-half.palm-one-whole.text--center>
+              .f-weight-600.f-size-20.line-height-1-7 Revenez jusqu'à 3 fois chez chacun des 200 partenaires du Pass
+              %p.epsilon.line-height-1-5 Chaque professeur, association ou école partenaire du Pass vous ouvre les portes de leurs cours : certains proposent même d'y revenir jusqu'à 3 fois ! Pour vous inscrire, c'est très simple : tout se fait en ligne grâce à vos identifiants.
 
     -# .main-container.main-container--medium.soft#courses
     -#   %h2.push-half--bottom.text--center.f-weight-300 Laissez vous guidez vers les meilleurs cours
@@ -150,8 +157,7 @@
 
     .main-container.main-container--medium.soft#courses
       .push--sides
-        %h2.push-half--bottom.text--center.f-weight-300 Inclus dans votre Pass Découverte
-        %h4.soft--bottom.text--center.f-weight-300 Sélection de cours inclus dans votre Pass
+        %h2.push--bottom.text--center.f-weight-300.soft--bottom Inclus dans votre Pass Découverte
         .grid
           .grid__item.one-third>
             %h4
@@ -319,7 +325,7 @@
               = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/abundance.png', width: 70
             .grid__item.three-twelfths.palm-one-whole>
               %h4.push-half--bottom Un choix unique
-              %p.epsilon C'est la 1ère fois qu'un Pass vous permet d'essayer autant de cours de loisirs : plus de #{Planning.available_in_discovery_pass.count.round(-2)} séances vous sont proposées, un chiffre qui augmente chaque jour.
+              %p.epsilon C'est la 1ère fois qu'un Pass vous permet d'essayer autant de cours de loisirs : plus de 1 3000 séances vous sont proposées, un chiffre qui augmente chaque jour.
             .grid__item.one-twelfth.palm-one-whole.text--right.palm-text--center.soft--right.v-middle>
               = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/free.png', width: 70
             .grid__item.three-twelfths.palm-one-whole>
@@ -340,20 +346,20 @@
         .grid__item.one-third.palm-one-whole.text--center>
           .center-block.text--center.alpha 1
           .gamma.push-half--bottom.f-weight-300 Achetez votre Pass
-          %p.epsilon Payez directement en ligne par carte bleue : votre Pass est valable 1 mois et renouvelable autant de fois que vous le souhaitez jusqu'à découvrir vos nouvelles passions
+          %p.epsilon Payez en ligne par carte bleue : votre Pass est nominatif et valable 30 jours
         .grid__item.one-third.palm-one-whole.text--center>
           .center-block.text--center.alpha 2
           .gamma.push-half--bottom.f-weight-300 Choisissez vos cours
-          %p.epsilon Visualisez toutes les séances sur une carte géographique, choisissez celles de votre choix, puis réservez gratuitement auprès de chaque partenaire
+          %p.epsilon Visualisez les séances sur une carte géographique puis réservez celles de votre choix
         .grid__item.one-third.palm-one-whole.text--center>
           .center-block.text--center.alpha 3
-          .gamma.push-half--bottom.f-weight-300 Suivez vos cours !
-          %p.epsilon Pour chaque séance, vous avez le droit d'y revenir jusqu'à 3 fois : si un cours vous a particulièrement plu, libre à vous ensuite d'y revenir en vous inscrivant directement auprès du partenaire
+          .gamma.push-half--bottom.f-weight-300 Suivez vos cours
+          %p.epsilon Pour chaque séance, vous avez le droit d'y revenir jusqu'à 3 fois !
 
     .home-screen-promotion-wrapper
       .main-container.main-container--medium.soft--top#places
         .text--center.soft--top
-          %h2.text--center.f-weight-300 Plus de #{Structure.available_in_discovery_pass.count.round(-2)} lieux à découvrir à Paris et sa région
+          %h2.text--center.f-weight-300 Plus de 500 lieux à découvrir à Paris et sa région
     #map-courses.one-whole{ style: 'height: 600px;'}
 
 
@@ -410,10 +416,20 @@
 .hidden#waiting-list
   .panel
     .panel__header.soft
-      %h4.flush Laissez-nous votre e-mail
+      %h4.flush Inscrivez-vous sur notre liste
     .panel__body.soft
-      %p.epsilon Nous vous enverrons au plus vite un e-mail pour vous confirmer la disponibilité du Pass Découverte. Ainsi, vous êtes sûr de pouvoir en bénéficier dans les meilleures conditions et réserver tous les cours d'essai qui vous intéressent.
+      %p.epsilon Pour vous permettre de profiter du Pass Découverte dans les meilleures conditions, laissez-nous votre e-mail pour vous inscrire sur notre liste : nous vous préviendrons dès que le Pass devient disponible pour vous.
       = simple_form_for User.new, url: discovery_passes_path(waiting_list: true, promo_code: @sponsorship.try(:promo_code)), method: :post, data: { behavior: 'discovery-pass-form' } do |f|
         = f.input :test_name, as: :hidden, input_html: { value: 'With price' }
         = f.input :email, input_html: { class: 'one-whole input--large', placeholder: 'E-mail' }, label: false
-        = f.submit "Envoyer ma demande", class: 'btn btn--bigger btn--green btn--full', data: { disable_with: 'Envoi en cours' }
+        = f.submit "M'inscrire sur la liste", class: 'btn btn--bigger btn--green btn--full', data: { disable_with: 'Envoi en cours' }
+
+- if Rails.env.production?
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          mixpanel.people.set({
+              'landed_on_discovery_page': true,
+              'test_name': 'With price'
+          });
+      });

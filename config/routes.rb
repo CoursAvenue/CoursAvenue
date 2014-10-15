@@ -342,6 +342,7 @@ CoursAvenue::Application.routes.draw do
       get :get_danse, path: 'dansez'
       get :test_a, path: 'tous-vos-loisirs'
       get :test_b, path: 'loisirs'
+      get :test_c, path: 'inscription'
     end
   end
   devise_for :users, controllers: {

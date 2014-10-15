@@ -18,7 +18,7 @@
             %li.soft-half--sides
               = link_to "Avantages", '#avantages', class: 'muted-link orange mixpanel-tracker', data: { behavior: 'scroll-to', offset_top: '-55', info: 'Discovery Page landing' }
         .flexbox__item.text--right.five-twelfths>
-          = link_to 'Obtenir mon pass', '#waiting-list', class: 'mixpanel-tracker btn btn--green btn--bigger', data: { behavior: 'modal', padding: 0, width: 350, info: 'Without price'}
+          = link_to 'Devenir membre', '#waiting-list', class: 'mixpanel-tracker btn btn--green btn--bigger', data: { behavior: 'sign-up', info: 'Become member'}
 
 = content_for :title do
   CoursAvenue | Pass Découverte
@@ -59,20 +59,13 @@
             au lieu de
             %strong.blue= "#{DiscoveryPass::PRICE}€"
 
-    - if notice
-      .text--center
-        .inline-block.soft--right.text--center.center-block>
-          .push-half--bottom.very-soft.hard--sides
-            .green-box.soft.white
-              %h3.flush= notice
-
     .inline-block.four-tenths.soft--right.text--center>
       .push-half--bottom.very-soft.hard--sides
         .white-box.soft.black
           %h3 Testez autant de cours de loisirs que vous voulez !
           %p.epsilon
             Valable 30 jours et renouvelable, le Pass Découverte vous permet de suivre 1 300 séances d'essai négociées spécialement pour vous : Sophrologie, Impro, Yoga, Golf, Danse... Pour une vie créative, artistique, sportive !
-          = link_to 'Obtenir mon pass', '#waiting-list', class: 'mixpanel-tracker btn btn--green btn--full btn--bigger', data: { behavior: 'modal', padding: 0, width: 350, info: 'Without price'}
+          = link_to 'Devenir membre', '#waiting-list', class: 'mixpanel-tracker btn btn--green btn--full btn--bigger', data: {  behavior: 'sign-up', info: 'Become member'}
 
 
     .home-screen-comment.visuallyhidden--palm.soft-black-text-shadow.south.soft--bottom
@@ -83,7 +76,6 @@
         .grid__item.ten-twelfths.v-middle>
           %span.quoted.epsilon.quoted--large<
             %i Grâce au Pass, j'ai découvert au pied de mon immeuble un super cours d'écriture créative. Sans parler des cours de poterie, danse orientale, et même de sophrologie !
-
   .bg-site-background.relative#en-bref
     .home-screen-promotion-wrapper
       .main-container
@@ -107,6 +99,7 @@
             .grid__item.one-half.palm-one-whole.text--center>
               .f-weight-600.f-size-20.line-height-1-7 Revenez jusqu'à 3 fois chez chacun des 200 partenaires du Pass
               %p.epsilon.line-height-1-5 Chaque professeur, association ou école partenaire du Pass vous ouvre les portes de leurs cours : certains proposent même d'y revenir jusqu'à 3 fois ! Pour vous inscrire, c'est très simple : tout se fait en ligne grâce à vos identifiants.
+
 
     -# .main-container.main-container--medium.soft#courses
     -#   %h2.push-half--bottom.text--center.f-weight-300 Laissez vous guidez vers les meilleurs cours
@@ -336,7 +329,7 @@
               %p.epsilon Votre pass est valable 1 mois et renouvelable autant de fois que vous le souhaitez. Satisfaction garantie.
 
       .center-block.text--center.push--bottom.soft--bottom{ style: 'width: 350px;' }
-        = link_to 'Obtenir mon pass', '#waiting-list', class: 'mixpanel-tracker btn btn--green btn--bigger', data: { behavior: 'modal', padding: 0, width: 350, info: 'Without price'}
+        = link_to 'Devenir membre', '#waiting-list', class: 'mixpanel-tracker btn btn--green btn--bigger', data: { behavior: 'sign-up', info: 'Become member'}
 
     .main-container.soft
       .grid
@@ -403,6 +396,25 @@
 = content_for :scripts do
   :javascript
     $(function() {
+        $('[data-behavior="sign-up"]').click(function() {
+            CoursAvenue.signUp({
+                success: function() {
+                    if (CoursAvenue.currentUser()) {
+                        mixpanel.people.set({
+                            "$email": CoursAvenue.currentUser().get('email'),
+                            "$created": CoursAvenue.currentUser().get('created_at'),
+                            "$first_name": CoursAvenue.currentUser().get('first_name'),
+                            "$last_name": CoursAvenue.currentUser().get('last_name'),
+                            "$name": CoursAvenue.currentUser().get('name'),
+                            "name": CoursAvenue.currentUser().get('name'),
+                            "gender": CoursAvenue.currentUser().get('gender')
+                        });
+                    }
+                    mixpanel.people.set({ became_member_for_pass: true });
+                    window.location.pathname = Routes.root_search_page_without_subject_path('paris');
+                }
+            })
+        });
         google_map_handler = Gmaps.build('Google');
         google_map_handler.buildMap({ provider: { scrollwheel: false, center: new google.maps.LatLng (48.8592, 2.3417), zoom: 12}, internal: { id: 'map-courses' }}, function() {
             markers = google_map_handler.addMarkers(#{@course_locations.to_json});
@@ -414,9 +426,9 @@
     .panel__header.soft
       %h4.flush Inscrivez-vous sur notre liste
     .panel__body.soft
-      %p.epsilon Pour vous permettre de profiter du Pass Découverte dans les meilleures conditions, laissez-nous votre e-mail pour vous inscrire sur notre liste : nous vous préviendrons dès que le Pass devient disponible pour vous.
+      %p.epsilon Pour vous permette de profiter du Pass Découverte dans les meilleures conditions, laissez-nous votre e-mail pour être sur notre liste : nous vous préviendrons dès que le Pass devient disponible pour vous.
       = simple_form_for User.new, url: discovery_passes_path(waiting_list: true, promo_code: @sponsorship.try(:promo_code)), method: :post, data: { behavior: 'discovery-pass-form' } do |f|
-        = f.input :test_name, as: :hidden, input_html: { value: 'Without price' }
+        = f.input :test_name, as: :hidden, input_html: { value: 'Become member' }
         = f.input :email, input_html: { class: 'one-whole input--large', placeholder: 'E-mail' }, label: false
         = f.submit "M'inscrire sur la liste", class: 'btn btn--bigger btn--green btn--full', data: { disable_with: 'Envoi en cours' }
 
@@ -426,6 +438,6 @@
       $(function() {
           mixpanel.people.set({
               'landed_on_discovery_page': true,
-              'test_name': 'Without price'
+              'test_name': 'Become member'
           });
       });

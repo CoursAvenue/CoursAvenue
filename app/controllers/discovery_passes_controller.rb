@@ -33,7 +33,7 @@ class DiscoveryPassesController < Pro::ProController
   def create
     if params[:user][:email].blank? or !params[:user][:email].include?('@')
       if params[:waiting_list].present?
-        redirect_to request.referrer, notice: "Vous êtes bien inscrit sur la liste d'attente"
+        redirect_to request.referrer, alert: 'Vous devez renseigner un e-mail valide'
       elsif cookies[:discovery_pass_danse_test]
         redirect_to get_danse_discovery_passes_path(email: params[:user][:email], promo_code: params[:promo_code], error: 'email')
       else
@@ -45,7 +45,7 @@ class DiscoveryPassesController < Pro::ProController
       user.test_name                    = params[:user][:test_name]
       user.save(validate: false)
       if params[:waiting_list].present?
-        redirect_to request.referrer, notice: "Vous êtes bien inscrit sur la liste d'attente"
+        redirect_to request.referrer, notice: "Félicitations ! Nous venons de vous inscrire sur notre liste d'attente. Dès que le Pass devient disponible, nous vous préviendrons pas e-mail."
       else
         redirect_to create_account_discovery_passes_path(email: params[:user][:email], promo_code: params[:promo_code])
       end
