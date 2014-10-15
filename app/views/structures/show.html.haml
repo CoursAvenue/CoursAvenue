@@ -77,7 +77,7 @@
                 %strong= @structure.dominant_root_subject.name
                 - if @structure.has_discovery_pass_courses?
                   \: envie de vous lancer&nbsp;? Essayez les cours de
-                  = t("structures.structure_type_contact.#{@structure.structure_type}")
+                  = t("structures.structure_type_contact.#{(@structure.structure_type.present? ? @structure.structure_type : 'other')}")
                   et
                   %strong 1 300 autres séances.
                 - else

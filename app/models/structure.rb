@@ -1111,7 +1111,7 @@ class Structure < ActiveRecord::Base
   # @return City
   def dominant_city
     if plannings.any?
-      plannings.map(&:place).compact.map(&:city).flatten.group_by{ |city| city }.values.max_by(&:size).first
+      plannings.map(&:place).compact.map(&:city).flatten.group_by{ |city| city }.values.max_by(&:size).try(:first)
     else
       ([city] + places.map(&:city)).group_by{ |city| city }.values.max_by(&:size).first
     end
