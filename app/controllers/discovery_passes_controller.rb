@@ -7,6 +7,21 @@ class DiscoveryPassesController < Pro::ProController
     if current_user
       redirect_to user_discovery_passes_path(current_user)
     end
+    if cookies[:discovery_pass_danse_test]
+      redirect_to get_danse_discovery_passes_path
+    end
+  end
+
+  def get_danse
+    if current_user
+      redirect_to user_discovery_passes_path(current_user)
+    end
+  end
+
+  def test_a
+    if current_user
+      redirect_to user_discovery_passes_path(current_user)
+    end
   end
 
   def test_b
@@ -15,20 +30,25 @@ class DiscoveryPassesController < Pro::ProController
     end
   end
 
-  def test_c
-    if current_user
-      redirect_to user_discovery_passes_path(current_user)
-    end
-  end
-
   def create
     if params[:user][:email].blank? or !params[:user][:email].include?('@')
-      redirect_to discovery_passes_path(email: params[:user][:email], promo_code: params[:promo_code], error: 'email')
+      if params[:waiting_list].present?
+        redirect_to request.referrer, alert: 'Vous devez renseigner un e-mail valide'
+      elsif cookies[:discovery_pass_danse_test]
+        redirect_to get_danse_discovery_passes_path(email: params[:user][:email], promo_code: params[:promo_code], error: 'email')
+      else
+        redirect_to discovery_passes_path(email: params[:user][:email], promo_code: params[:promo_code], error: 'email')
+      end
     else
       user = User.create_or_find_from_email(params[:user][:email])
       user.interested_in_discovery_pass = true
+      user.test_name                    = params[:user][:test_name]
       user.save(validate: false)
-      redirect_to create_account_discovery_passes_path(email: params[:user][:email], promo_code: params[:promo_code])
+      if params[:waiting_list].present?
+        redirect_to request.referrer, notice: "Félicitations ! Nous venons de vous inscrire sur notre liste d'attente. Dès que le Pass devient disponible, nous vous préviendrons pas e-mail."
+      else
+        redirect_to create_account_discovery_passes_path(email: params[:user][:email], promo_code: params[:promo_code])
+      end
     end
   end
 

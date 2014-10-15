@@ -1,0 +1,442 @@
+- if @user
+  = user_menu_currently_at 'discovery_pass'
+
+= stylesheet_link_tag "discovery_pass", media: 'all'
+
+#structure-profile-menu.one-whole.west.fixed.on-top-of-the-world{ style: 'top: -100px;' }
+  .bg-site-background.soft-half--ends.bordered--bottom
+    .main-container.main-container--medium.soft--sides
+      .flexbox.one-whole
+        .flexbox__item.seven-twelfths.top-page-menu>
+          %ul.nav.flush.epsilon
+            %li.soft-half--sides
+              = link_to "Inscription", '#top', class: 'muted-link orange mixpanel-tracker', data: { behavior: 'scroll-to', offset_top: '-55', info: 'Discovery Page landing' }
+            %li.soft-half--sides
+              = link_to "En bref", '#en-bref', class: 'muted-link orange mixpanel-tracker', data: { behavior: 'scroll-to', offset_top: '-55', info: 'Discovery Page landing' }
+            %li.soft-half--sides
+              = link_to "Cours inclus dans le Pass", '#courses', class: 'muted-link orange mixpanel-tracker', data: { behavior: 'scroll-to', offset_top: '-55', info: 'Discovery Page landing' }
+            %li.soft-half--sides
+              = link_to "Avantages", '#avantages', class: 'muted-link orange mixpanel-tracker', data: { behavior: 'scroll-to', offset_top: '-55', info: 'Discovery Page landing' }
+        .flexbox__item.text--right.five-twelfths>
+          = link_to 'Devenir membre', '#waiting-list', class: 'mixpanel-tracker btn btn--green btn--bigger', data: { behavior: 'sign-up', info: 'Become member'}
+
+= content_for :title do
+  CoursAvenue | Pass Découverte
+
+= content_for :above_container do
+  %ul.cb-slideshow.no-bullet-list
+    %li
+      %span
+      %div
+    %li
+      %span
+      %div
+    %li
+      %span
+      %div
+    %li
+      %span
+      %div
+    %li
+      %span
+      %div
+    %li
+      %span
+      %div
+    %li
+      %span
+      %div
+
+  #top.main-container.main-container--medium.soft-half--bottom.relative{ style: "height: 500px;" }
+    -  if @sponsorship
+      .text--center
+        .white-box.push--top.soft.inline-block
+          .beta.flush
+            Félicitations ! Grâce à
+            %strong.blue= "#{@sponsor.name},"
+            obtenez votre Pass Découverte pour
+            %strong.blue= number_to_currency(DiscoveryPass::PRICE - Sponsorship::USER_WHO_HAVE_BEEN_SPONSORED_CREDIT).gsub(/\,00/, "")
+            au lieu de
+            %strong.blue= "#{DiscoveryPass::PRICE}€"
+
+    .inline-block.four-tenths.soft--right.text--center>
+      .push-half--bottom.very-soft.hard--sides
+        .white-box.soft.black
+          %h3 Testez autant de cours de loisirs que vous voulez !
+          %p.epsilon
+            Valable 30 jours et renouvelable, le Pass Découverte vous permet de suivre 1 300 séances d'essai négociées spécialement pour vous : Sophrologie, Impro, Yoga, Golf, Danse... Pour une vie créative, artistique, sportive !
+          = link_to 'Devenir membre', '#waiting-list', class: 'mixpanel-tracker btn btn--green btn--full btn--bigger', data: {  behavior: 'sign-up', info: 'Become member'}
+
+
+    .home-screen-comment.visuallyhidden--palm.soft-black-text-shadow.south.soft--bottom
+      .grid.epsilon
+        .grid__item.two-twelfths.v-middle.text--center>
+          = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/anonymous.jpg', class: 'block white-circle'
+          Cécilia
+        .grid__item.ten-twelfths.v-middle>
+          %span.quoted.epsilon.quoted--large<
+            %i Grâce au Pass, j'ai découvert au pied de mon immeuble un super cours d'écriture créative. Sans parler des cours de poterie, danse orientale, et même de sophrologie !
+  .bg-site-background.relative#en-bref
+    .home-screen-promotion-wrapper
+      .main-container
+        .push--sides.soft--ends
+          %h2.soft--bottom.text--center.f-weight-300 Le Pass Découverte en bref
+          .grid
+            .grid__item.one-half.palm-one-whole.text--center>
+              .f-weight-600.f-size-20.line-height-1-7 Essayez tous les loisirs que vous voulez
+              %p.epsilon.line-height-1-5 Sophrologie, Yoga, Impro, Danse Butô, Krav Maga, Ecriture créative, Dessin au musée du Louvre... Le Pass Découverte vous permet d'essayer ces disciplines en toute simplicité. Pour une vie créative, sportive, artistique !
+
+            .grid__item.one-half.palm-one-whole.text--center>
+              .f-weight-600.f-size-20.line-height-1-7 Chaque semaine à Paris, plus de 1 300 séances d'essai
+              %p.epsilon.line-height-1-5
+                La liste des cours est longue et ne cesse d'augmenter ! Chaque jour, notre équipe repère les meilleurs cours de Paris et négocie pour vous des séances collectives mais aussi des cours individuels à domicile ou chez le professeur.
+
+          .grid
+            .grid__item.one-half.palm-one-whole.text--center>
+              .f-weight-600.f-size-20.line-height-1-7 Le Pass vous accompagne pendant 30 jours
+              %p.epsilon.line-height-1-5 En plus du moteur de recherche qui vous permet de réserver n'importe quel cours, renseignez vos disciplines préférées : ainsi, nous vous enverrons chaque semaine le planning détaillé des séances à venir selon vos envies.
+
+            .grid__item.one-half.palm-one-whole.text--center>
+              .f-weight-600.f-size-20.line-height-1-7 Revenez jusqu'à 3 fois chez les 200 partenaires du Pass
+              %p.epsilon.line-height-1-5 Chaque professeur, association ou école partenaire du Pass vous ouvre les portes de leurs cours : certains proposent même d'y revenir jusqu'à 3 fois ! Pour vous inscrire, c'est très simple : tout se fait en ligne grâce à vos identifiants.
+
+
+    -# .main-container.main-container--medium.soft#courses
+    -#   %h2.push-half--bottom.text--center.f-weight-300 Laissez vous guidez vers les meilleurs cours
+    -#   %h4.soft--bottom.text--center.f-weight-300 Votre planning de la semaine
+    -#   %table.table--striped.epsilon
+    -#     %thead
+    -#       %tr
+    -#         %th
+    -#         %th.text--center.one-eighth Lundi
+    -#         %th.text--center.one-eighth Mardi
+    -#         %th.text--center.one-eighth Mercredi
+    -#         %th.text--center.one-eighth Jeudi
+    -#         %th.text--center.one-eighth Vendredi
+    -#         %th.text--center.one-eighth Samedi
+    -#         %th.text--center.one-eighth Dimanche
+    -#     %tbody
+    -#       %tr
+    -#         %th.bordered--right.text--right Matin
+    -#         %td.bordered--right.text--center Yoga
+    -#         %td.bordered--right.text--center Pilates
+    -#         %td.bordered--right.text--center
+    -#         %td.bordered--right.text--center Musique persane
+    -#         %td.bordered--right.text--center
+    -#         %td.bordered--right.text--center Atelier de trapèze
+    -#         %td.bordered--right.text--center
+    -#       %tr
+    -#         %th.bordered--right.text--right Midi
+    -#         %td.bordered--right.text--center
+    -#         %td.bordered--right.text--center
+    -#         %td.bordered--right.text--center Sophrologie
+    -#         %td.bordered--right.text--center
+    -#         %td.bordered--right.text--center
+    -#         %td.bordered--right.text--center Tai Chi
+    -#         %td.bordered--right.text--center
+    -#       %tr
+    -#         %th.bordered--right.text--right Soir
+    -#         %td.bordered--right.text--center
+    -#         %td.bordered--right.text--center
+    -#         %td.bordered--right.text--center Shiatsu
+    -#         %td.bordered--right.text--center
+    -#         %td.bordered--right.text--center Karaté
+    -#         %td.bordered--right.text--center
+    -#         %td.bordered--right.text--center Danse Orientale
+
+    .main-container.main-container--medium.soft#courses
+      .push--sides
+        %h2.push--bottom.text--center.f-weight-300.soft--bottom Inclus dans votre Pass Découverte
+        .grid
+          .grid__item.one-third>
+            %h4
+              = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/danse.png", height: 20
+              Danse
+            %ul.no-bullet-list.epsilon.line-height-1-7
+              %li Hip Hop
+              %li Pilates
+              %li Lindy hop
+              %li Zumba
+              %li Claquettes
+              %li Rock
+              %li Danse country
+              %li Hip-hop
+              %li Danse Orientale
+              %li Moderne Jazz
+              %li Danse orientale classique
+              %li Danse africaine moderne
+              %li Danse blues
+              %li Milonga et Valse argentine
+              %li Tango argentin
+              %li Salsa cubaine
+              %li Danse indienne Bollywood
+              %li . . .
+
+          .grid__item.one-third>
+            %h4
+              = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/theatre-scene.png", height: 20
+              Théâtre & Scène
+            %ul.no-bullet-list.epsilon.line-height-1-7
+              %li Comédie musicale
+              %li Atelier de trapèze
+              %li Théâtre
+              %li Comédien de doublage
+              %li Art dramatique
+              %li Coaching pour acteurs
+              %li Jeu d'acteur
+              %li Développement personnel par la voix
+              %li Théâtre pour enfants
+              %li Improvisation théâtrale
+              %li Théâtre en mouvement
+              %li L'acteur face à la caméra
+              %li Écriture théâtrale
+              %li Théâtre de rue
+              %li Pantins & marionnettes
+              %li Art dramatique
+              %li Mime
+              %li . . .
+          .grid__item.one-third>
+            %h4
+              = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/yoga-bien-etre-sante.png", height: 20
+              Yoga, Bien-être & Santé
+            %ul.no-bullet-list.epsilon.line-height-1-7
+              %li Yoga
+              %li Bikram Yoga
+              %li Yoga-Iyengar
+              %li Méditation
+              %li Réflexologie
+              %li Stretching Anti Stress
+              %li Massage Traditionnel Thaï
+              %li Qi Gong
+              %li Tai Chi
+              %li Stretching Postural
+              %li Atelier équilibre et marche
+              %li Technique Alexander
+              %li Sophrologie
+              %li Hatha yoga
+              %li Coaching & développement personnel
+              %li Wutao
+              %li Shiatsu
+              %li . . .
+        .grid
+          .grid__item.one-third>
+            %h4
+              = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/dessin-peinture-arts-plastiques.png", height: 20
+              Dessin, Peinture & Arts
+            %ul.no-bullet-list.epsilon.line-height-1-7
+              %li Gravure
+              %li Peinture et volume
+              %li Dessin
+              %li Sculpture modelage
+              %li Portrait
+              %li Peinture à l'huile
+              %li Patines décoratives sur bois
+              %li Couture
+              %li Reproduction de personnages et portraits
+              %li Atelier d'écriture
+              %li Céramique et de sculpture
+              %li Arts plastiques
+              %li Dessin d'observation
+              %li Modelage-sculpture
+              %li Fresque collective
+              %li Sellerie
+              %li Maroquinerie
+              %li Bande dessinée
+              %li Découverte de la Mode
+              %li Cours de nu, modèle vivant
+              %li Manga
+              %li Animation 2D
+              %li Stylisme
+              %li . . .
+          .grid__item.one-third>
+            %h4
+              = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/musique-chant.png", height: 20
+              Musique & Chant
+            %ul.no-bullet-list.epsilon.line-height-1-7
+              %li Eveil musical
+              %li Chant collectif
+              %li Ecriture de scénario
+              %li Ingénieur du son
+              %li Chorale
+              %li Réeducation vocale
+              %li Voix lyrique et variété.
+              %li Atelier découverte instrumentale
+              %li Guitare et basse
+              %li Batterie
+              %li Chant
+              %li Piano
+              %li Musique & chant
+              %li Approche de la basse
+              %li Composition de musique de film
+              %li Chant moderne
+              %li Perfectionnement de la guitare
+              %li Chorale
+              %li Musique persane
+              %li Techniques vocales et coaching vocal
+              %li Chant et interprétation
+              %li Chant gospel
+              %li Chant moderne : jazz, chansons, rock etc...
+              %li . . .
+          .grid__item.one-third>
+            %h4
+              = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/sports-arts-martiaux.png", height: 20
+              Sports & Arts martiaux
+            %ul.no-bullet-list.epsilon.line-height-1-7
+              %li Arts Martiaux Japonais adultes armes
+              %li Taekwondo
+              %li Kung fu
+              %li Cours de self-défense
+              %li Judo enfants
+              %li Stretching Anti Stress
+              %li Initiation à la Capoeira
+              %li Cours de Bolly Aerobic (Fitness Bollywood)
+              %li Initiation au Kung Fu Wushu
+              %li Cardio Trainning et apprentissage coup de pied sur cible
+              %li Karaté
+              %li Baby Karaté
+              %li Kobudo enfants adultes
+              %li Cours de combat
+              %li Kung Fu
+              %li Arts martiaux japonais
+              %li Golf à Paris
+              %li Art martial Olympique d'origine Coréenne
+              %li Pilates
+              %li Karaté au féminin
+              %li Capoeira
+              %li . . .
+
+    .home-screen-promotion-wrapper#en-bref
+      .main-container.soft#avantages
+        .push--sides.soft--ends
+          %h2.soft--bottom.text--center.f-weight-300 Les avantages du Pass CoursAvenue
+          .grid--full
+            .grid__item.one-twelfth.palm-one-whole.text--right.palm-text--center.soft--right.v-middle>
+              = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/abundance.png', width: 70
+            .grid__item.three-twelfths.palm-one-whole>
+              %h4.push-half--bottom Un choix unique
+              %p.epsilon C'est la 1ère fois qu'un Pass vous permet d'essayer autant de cours de loisirs : plus de 1 300 séances vous sont proposées, un chiffre qui augmente chaque jour.
+            .grid__item.one-twelfth.palm-one-whole.text--right.palm-text--center.soft--right.v-middle>
+              = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/free.png', width: 70
+            .grid__item.three-twelfths.palm-one-whole>
+              %h4.push-half--bottom Réservation gratuite
+              %p.epsilon
+                Réservez chaque séance d'essai en prenant directement contact avec le professeur, l'association ou l'école de votre choix.
+            .grid__item.one-twelfth.palm-one-whole.text--right.palm-text--center.soft--right.v-middle>
+              = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/rocket.png', width: 70
+            .grid__item.three-twelfths.palm-one-whole>
+              %h4.push-half--bottom En toute liberté
+              %p.epsilon Votre pass est valable 1 mois et renouvelable autant de fois que vous le souhaitez. Satisfaction garantie.
+
+      .center-block.text--center.push--bottom.soft--bottom{ style: 'width: 350px;' }
+        = link_to 'Devenir membre', '#waiting-list', class: 'mixpanel-tracker btn btn--green btn--bigger', data: { behavior: 'sign-up', info: 'Become member'}
+
+    .main-container.soft
+      .grid
+        .grid__item.one-third.palm-one-whole.text--center>
+          .center-block.text--center.alpha 1
+          .gamma.push-half--bottom.f-weight-300 Achetez votre Pass
+          %p.epsilon Payez en ligne par carte bleue : votre Pass est nominatif et valable 30 jours
+        .grid__item.one-third.palm-one-whole.text--center>
+          .center-block.text--center.alpha 2
+          .gamma.push-half--bottom.f-weight-300 Choisissez vos cours
+          %p.epsilon Visualisez les séances sur une carte géographique puis réservez celles de votre choix
+        .grid__item.one-third.palm-one-whole.text--center>
+          .center-block.text--center.alpha 3
+          .gamma.push-half--bottom.f-weight-300 Suivez vos cours
+          %p.epsilon Pour chaque séance, vous avez le droit d'y revenir jusqu'à 3 fois !
+    .home-screen-promotion-wrapper
+      .main-container.main-container--medium.soft--top#places
+        .text--center.soft--top
+          %h2.text--center.f-weight-300 Plus de 500 lieux à découvrir à Paris et sa région
+    #map-courses.one-whole{ style: 'height: 600px;'}
+
+
+  - if Rails.env.production?
+    = content_for :scripts do
+      :javascript
+        $(function() {
+            $('[data-behavior=sign-in]').click(function() {
+                ga('send', 'event', 'PassDecouverte', 'Landing page click', 'code promo');
+                mixpanel.track("Clicked to get Pass", { "PromoCode": "#{@sponsorship.try(:promo_code)}" });
+            });
+        });
+        $(function() {
+            ga('send', 'event', 'PassDecouverte', 'Landed');
+            mixpanel.people.set({
+                'landed_on_discovery_page': true
+            });
+        });
+
+- content_for :scripts do
+  :javascript
+      $(function() {
+          var $structure_profile_menu = $('#structure-profile-menu');
+          var menu_scrolled_down = false;
+          $(window).scroll(function() {
+              if (!menu_scrolled_down && $(window).scrollTop() > 180 && parseInt($structure_profile_menu.css('top')) != 0 ) {
+                  $structure_profile_menu.animate({ 'top': '0' });
+                  menu_scrolled_down = true;
+              } else if ($(window).scrollTop() < 180 && parseInt($structure_profile_menu.css('top')) == 0 ) {
+                  $structure_profile_menu.animate({ 'top': '-100px' });
+                  menu_scrolled_down = false;
+              }
+          });
+          $('body').addClass('relative').scrollspy({ target: '#structure-profile-menu .top-page-menu', offset: 85 })
+      });
+
+- @places = PlanningSearch.search({ discovery_pass: true, per_page: 1000 }, { group: :place_id_str}).group(:place_id_str).groups
+- @course_locations = Gmaps4rails.build_markers(@places) do |place_group, marker|
+  - place = Place.find_by_id place_group.value
+  - next if place.nil?
+  - marker.lat place.latitude
+  - marker.lng place.longitude
+  - marker.infowindow place_group.results.map(&:course).map(&:name).join(', ')
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('[data-behavior="sign-up"]').click(function() {
+            CoursAvenue.signUp({
+                success: function() {
+                    if (CoursAvenue.currentUser()) {
+                        mixpanel.people.set({
+                            "$email": CoursAvenue.currentUser().get('email'),
+                            "$created": CoursAvenue.currentUser().get('created_at'),
+                            "$first_name": CoursAvenue.currentUser().get('first_name'),
+                            "$last_name": CoursAvenue.currentUser().get('last_name'),
+                            "$name": CoursAvenue.currentUser().get('name'),
+                            "name": CoursAvenue.currentUser().get('name'),
+                            "gender": CoursAvenue.currentUser().get('gender')
+                        });
+                    }
+                    mixpanel.people.set({ became_member_for_pass: true });
+                    window.location.pathname = Routes.root_search_page_without_subject_path('paris');
+                }
+            })
+        });
+        google_map_handler = Gmaps.build('Google');
+        google_map_handler.buildMap({ provider: { scrollwheel: false, center: new google.maps.LatLng (48.8592, 2.3417), zoom: 12}, internal: { id: 'map-courses' }}, function() {
+            markers = google_map_handler.addMarkers(#{@course_locations.to_json});
+        });
+    });
+
+.hidden#waiting-list
+  .panel
+    .panel__header.soft
+      %h4.flush Inscrivez-vous sur notre liste
+    .panel__body.soft
+      %p.epsilon Pour vous permette de profiter du Pass Découverte dans les meilleures conditions, laissez-nous votre e-mail pour être sur notre liste : nous vous préviendrons dès que le Pass devient disponible pour vous.
+      = simple_form_for User.new, url: discovery_passes_path(waiting_list: true, promo_code: @sponsorship.try(:promo_code)), method: :post, data: { behavior: 'discovery-pass-form' } do |f|
+        = f.input :test_name, as: :hidden, input_html: { value: 'Become member' }
+        = f.input :email, input_html: { class: 'one-whole input--large', placeholder: 'E-mail' }, label: false
+        = f.submit "M'inscrire sur la liste", class: 'btn btn--bigger btn--green btn--full', data: { disable_with: 'Envoi en cours' }
+
+- if Rails.env.production?
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          mixpanel.people.set({
+              'landed_on_discovery_page': true,
+              'test_name': 'Become member'
+          });
+      });

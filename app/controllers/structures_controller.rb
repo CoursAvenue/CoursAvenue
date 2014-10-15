@@ -4,8 +4,9 @@ class StructuresController < ApplicationController
   include StructuresHelper
 
   skip_before_filter :verify_authenticity_token, only: [:add_to_favorite, :remove_from_favorite]
-  before_filter :protect_discovery_pass_access, only: [:discovery_pass]
+
   before_filter :set_current_structure, except: [:index, :discovery_pass_search, :search]
+  before_filter :protect_discovery_pass_access, only: [:discovery_pass]
 
   respond_to :json
 
@@ -62,6 +63,9 @@ class StructuresController < ApplicationController
 
   # GET /etablissements/pass-decouverte
   def discovery_pass_search
+    if cookies[:discovery_pass_danse_test]
+      params[:root_subject_id] = 'danse'
+    end
     params[:discovery_pass] = true
     if params[:root_subject_id].present? and params[:subject_id].blank?
       params[:subject_id] = params[:root_subject_id]
@@ -112,18 +116,11 @@ class StructuresController < ApplicationController
     @city                                 = @structure.city
     @medias                               = (@structure.premium? ? @structure.medias.cover_first.videos_first : @structure.medias.cover_first.videos_first.limit(Media::FREE_PROFIL_LIMIT))
 
-    @place_ids = []
-    place_search = PlanningSearch.search({ structure_id: @structure.id, discovery_pass: true }, group: :place_id_str)
-    place_search.group(:place_id_str).groups.each do |place_group|
-      @place_ids << place_group.value
-    end
-    @place_ids.compact!
-
     @model = StructureShowSerializer.new(@structure, {
       structure:          @structure,
       unlimited_comments: false,
       query:              { discovery_pass: true }, # Those params are passed to the backbone app
-      place_ids:          @place_ids,
+      place_ids:          @structure.discovery_pass_places.map(&:id),
       discovery_pass:     true
     })
   end

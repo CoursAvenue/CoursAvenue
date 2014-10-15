@@ -33,14 +33,7 @@ class StructureDiscoveryPassSearchSerializer < ActiveModel::Serializer
   end
 
   def places
-    if @options[:place_ids].present?
-      place_ids = @options[:place_ids]
-      object.places.where( Place.arel_table[:id].eq_any(place_ids) )
-    elsif @options[:query] and @options[:query][:lat] and @options[:query][:lng]
-      object.places_around @options[:query][:lat].to_f, @options[:query][:lng].to_f, (@options[:query][:radius] || 5)
-    else
-      object.places
-    end
+    object.discovery_pass_places
   end
 
   def highlighted_comment_title

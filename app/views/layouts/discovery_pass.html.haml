@@ -5,7 +5,7 @@
         = link_to '', root_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'v-middle coursavenue-header-logo mixpanel-tracker', title: 'CoursAvenue | Tous les cours autour de vous', data: { info: 'header' }
 
       %nav.text--right.flexbox__item.v-middle.nowrap.visuallyhidden--palm.print--hidden>
-        = link_to 'Questions fréquentes', pages_faq_users_path, class: 'btn btn--small', id: 'questions-frequentes'
+        = link_to "Questions fréquentes", '#en-bref', class: 'btn btn--small mixpanel-tracker', data: { behavior: 'scroll-to', offset_top: '-55', info: 'Discovery Page landing' }
 
 = content_for :content do
   .main-container

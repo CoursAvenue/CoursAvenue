@@ -64,19 +64,27 @@
             #structure-region
           %div{ data: { type: "comments-collection" } }
       .grid__item.four-twelfths>
-        .orange-box>
-          .soft.white.epsilon.text--center
-            %strong= @structure.dominant_root_subject.name
-            - if @structure.has_discovery_pass_courses?
-              \: envie de vous lancer&nbsp;? Essayez les cours de
-              = t("structures.structure_type_contact.#{@structure.structure_type}")
-              et
-              %strong 1 300 autres séances.
-            - else
-              \: envie de vous lancer ? Essayez plus de 1 300 cours sélectionnés rien que pour vous.
-            %br
-            %br
-            = link_to 'Obtenir mon Pass Découverte', discovery_passes_path, class: 'btn btn--yellow'
+        - if @structure.parisian?
+          .orange-box>
+            .soft.white.epsilon.text--center
+              - if cookies[:discovery_pass_danse_test]
+                %h3 Testez tous les styles de Danse !
+                Obtenez votre Pass Découverte pour suivre un cours de danse avec ce professeur et
+                %strong réserver 620 autres
+                séances d'essai.
+              - else
+                %h3 Réserver mon cours d'essai
+                %strong= @structure.dominant_root_subject.name
+                - if @structure.has_discovery_pass_courses?
+                  \: envie de vous lancer&nbsp;? Essayez les cours de
+                  = t("structures.structure_type_contact.#{(@structure.structure_type.present? ? @structure.structure_type : 'other')}")
+                  et
+                  %strong 1 300 autres séances.
+                - else
+                  \: envie de vous lancer ? Essayez plus de 1 300 cours sélectionnés rien que pour vous.
+              %br
+              %br
+              = link_to 'Obtenir mon Pass Découverte', create_account_discovery_passes_path, class: 'btn btn--yellow mixpanel-tracker', data: { info: 'From profile page'}
         .jpo-frise.push--bottom>
         %div{ data: { type: 'contact-form' } }
         - unless @is_sleeping

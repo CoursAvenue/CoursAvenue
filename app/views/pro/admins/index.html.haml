@@ -37,6 +37,7 @@
           %th
       %tbody
         - @admins.each do |admin|
+          - next if admin.structure.nil?
           %tr
             %td
               = link_to admin.email, edit_pro_structure_admin_path(admin.structure, admin)

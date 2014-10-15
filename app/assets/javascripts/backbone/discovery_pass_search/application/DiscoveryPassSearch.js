@@ -124,17 +124,21 @@ DiscoveryPassSearch.addInitializer(function(options) {
      * explicit so that the order of the 'showWidget' calls doesn't
      * matter */
 
-    layout.showWidget(filter_breadcrumbs, {
-        events: {
-            'filter:breadcrumb:add':     'addBreadCrumb',
-            'filter:breadcrumb:remove':  'removeBreadCrumb'
-        }
-    });
+    if (!$.cookie('discovery_pass_danse_test')) {
+        layout.showWidget(filter_breadcrumbs, {
+            events: {
+                'filter:breadcrumb:add':     'addBreadCrumb',
+                'filter:breadcrumb:remove':  'removeBreadCrumb'
+            }
+        });
+    }
 
     layout.showWidget(subjects_collection_filter);
     layout.showWidget(location_filter);
     layout.showWidget(date_filter,           { events: { 'breadcrumbs:clear:date':            'clear'} });
-    layout.showWidget(results_summary);
+    if (!$.cookie('discovery_pass_danse_test')) {
+        layout.showWidget(results_summary);
+    }
 
     layout.showWidget(keyword_filter,        { events: { 'breadcrumbs:clear:search_term':     'clear'} });
     layout.showWidget(audience_filter,       { events: { 'breadcrumbs:clear:audience':        'clear'} });
@@ -152,6 +156,10 @@ DiscoveryPassSearch.addInitializer(function(options) {
 
     if (GLOBAL.is_mobile) {
         $('[data-type="location-filter"]').appendTo($('#mobile-location-filter'));
+    }
+    if ($.cookie('discovery_pass_danse_test')) {
+        $('[data-type="subjects-collection"]').addClass('flush');
+        $('[data-behavior="sticky"]').remove();
     }
 });
 

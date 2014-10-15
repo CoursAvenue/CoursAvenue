@@ -4,7 +4,7 @@ module Concerns
     extend ActiveSupport::Concern
 
     # Adding this to be able to specify a label_name when sending a message.
-    def send_message_with_label(recipients, msg_body, subject, mailboxer_label_id=Mailboxer::Label::CONVERSATION.id, sanitize_text=true, attachment=nil, message_timestamp = Time.now)
+    def send_message_with_label(recipients, msg_body, subject, mailboxer_label_id=3, sanitize_text=true, attachment=nil, message_timestamp = Time.now)
       subject = "(Sans objet)" if subject.blank?
       receipt = self.send_message(recipients, msg_body, subject, sanitize_text, attachment, message_timestamp)
 
@@ -15,7 +15,7 @@ module Concerns
       return receipt
     end
 
-    def send_message_with_extras(recipients, msg_body, subject, mailboxer_label_id=Mailboxer::Label::CONVERSATION.id, extra_info_ids=[], course_ids=[], sanitize_text=true, attachment=nil, message_timestamp = Time.now)
+    def send_message_with_extras(recipients, msg_body, subject, mailboxer_label_id=3, extra_info_ids=[], course_ids=[], sanitize_text=true, attachment=nil, message_timestamp = Time.now)
       subject = "(Sans objet)" if subject.blank?
       receipt = self.send_message(recipients, msg_body, subject, sanitize_text, attachment, message_timestamp)
 

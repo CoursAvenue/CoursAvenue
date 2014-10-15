@@ -1,3 +1,6 @@
+- if @user
+  = user_menu_currently_at 'discovery_pass'
+
 = stylesheet_link_tag "discovery_pass", media: 'all'
 #structure-profile-menu.one-whole.west.fixed.on-top-of-the-world{ style: 'top: -100px;' }
   .bg-site-background.soft-half--ends.bordered--bottom
@@ -25,7 +28,7 @@
 = content_for :title do
   CoursAvenue | Pass Découverte
 
-= content_for :above_container do
+= content_for (@user ? :under_container : :above_container) do
   %ul.cb-slideshow.no-bullet-list
     %li
       %span
@@ -64,7 +67,6 @@
     .inline-block.four-tenths.soft--right.text--center#top-form>
       .push-half--bottom.very-soft.hard--sides
         .white-box.soft.black
-          -# %h3 Essayez autant de cours de loisirs que vous voulez !
           %h3 Essayez les meilleurs cours de loisirs de votre ville.
           -# %p.epsilon
           -#   Chaque mois, participez à autant de séances d'essai que vous le souhaitez parmi les #{Planning.available_in_discovery_pass.count.round(-2)} cours de loisirs négociés spécialement pour vous à Paris auprès de plus de #{Structure.available_in_discovery_pass.count.round(-2)} professeurs, associations et écoles.
@@ -137,10 +139,10 @@
     #map-courses.one-whole{ style: 'height: 600px;'}
     .home-screen-promotion-wrapper.soft--ends
       .text--center
-        = link_to 'Voir les cours inclus', root_search_page_without_subject_path('paris'), class: 'btn btn--bigger btn--green', data: { behavior: 'see-all-courses', info: 'second' }
+        = link_to 'Voir les cours inclus', discovery_pass_search_structures_path, class: 'btn btn--bigger btn--green', data: { behavior: 'see-all-courses', info: 'second' }
     .main-container.soft#courses
       .push--sides
-        %h2.push-half--bottom.text--center.f-weight-300 Sélection de cours inclus dans le Pass
+        %h2.push-half--bottom.text--center.f-weight-300 Sélection de cours de danse inclus dans le Pass
         %h4.text--center.f-weight-300 Cliquez sur chaque discipline pour l'aperçu
     .main-container.main-container--medium#subjects-tabs
       .grid--full
@@ -204,7 +206,7 @@
                     %td= truncate(course.subjects.map(&:name).join(', '), length: 55)
                     %td= plannings_to_come(course, course.plannings.available_in_discovery_pass.visible)
     .text--center.soft--ends
-      = link_to 'Voir les cours inclus', root_search_page_without_subject_path('paris'), class: 'btn btn--bigger btn--green', data: { behavior: 'see-all-courses', info: 'third' }
+      = link_to 'Voir les cours inclus', discovery_pass_search_structures_path, class: 'btn btn--bigger btn--green', data: { behavior: 'see-all-courses', info: 'third' }
 
     .home-screen-promotion-wrapper#advantages
       .main-container.soft

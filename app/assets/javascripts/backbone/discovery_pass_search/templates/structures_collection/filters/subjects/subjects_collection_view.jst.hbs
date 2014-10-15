@@ -1,3 +1,13 @@
+{{#if discovery_pass_danse_test}}
+<div class="bg-cover text--center soft--ends" data-stellar-background-ratio="0.6" style="background-image: url(https://coursavenue-public.s3.amazonaws.com/public_assets/discovery_pass/bg.jpg); background-position: 0% -102.4px;">
+    <div class="white alpha soft-black-text-shadow line-height-1-5 text--center">
+      Testez tous les styles de <strong>Danse</strong> !
+    </div>
+    <div class="white gamma soft-black-text-shadow line-height-1-5 text--center f-weight-500">
+      Grâce au Pass Découverte, testez plus de <strong>620 séances d'essai</strong> à Paris
+    </div>
+</div>
+{{ else }}
 <div class="grid--full" id="subjects-filter-view">
     <div class="grid--full">
         <div class="grid__item one-third very-soft hard--bottom">
@@ -56,3 +66,4 @@
         <div data-type="subject-children-view"></div>
     </div>
 </div>
+{{/if}}
