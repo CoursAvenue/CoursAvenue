@@ -8,6 +8,7 @@ class Structure < ActiveRecord::Base
   include ActsAsCommentable
   include ActsAsGeolocalizable
   include ConversationsHelper
+  include IdentityCache
   acts_as_paranoid
   acts_as_tagger
 
@@ -348,6 +349,12 @@ class Structure < ActiveRecord::Base
   end
 
   handle_asynchronously :solr_index unless Rails.env.test?
+
+  ######################################################################
+  # Caching                                                            #
+  ######################################################################
+
+  cache_has_many :subjects
 
   ######################################################################
   # Email reminder                                                     #
