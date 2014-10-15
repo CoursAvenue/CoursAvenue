@@ -34,10 +34,10 @@ class Planning < ActiveRecord::Base
   ######################################################################
   # Relations                                                          #
   ######################################################################
-  belongs_to :course
-  belongs_to :teacher
-  belongs_to :place
-  belongs_to :structure
+  belongs_to :course    , touch: true
+  belongs_to :teacher   , touch: true
+  belongs_to :place     , touch: true
+  belongs_to :structure , touch: true
 
   has_many :prices,         through: :course
   has_many :reservations,   as: :reservable

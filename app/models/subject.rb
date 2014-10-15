@@ -1,4 +1,6 @@
 class Subject < ActiveRecord::Base
+  include IdentityCache
+  include Concerns::IdentityCacheFetchHelper
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
@@ -17,6 +19,13 @@ class Subject < ActiveRecord::Base
   has_many :vertical_pages
   has_many :passions
   has_many :city_subject_infos
+
+  ######################################################################
+  # Caching                                                            #
+  ######################################################################
+
+  cache_has_many :structures, inverse_name: :subjects
+  cache_index :slug, unique: true
 
   ######################################################################
   # Validations                                                        #

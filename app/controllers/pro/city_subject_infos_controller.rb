@@ -5,7 +5,7 @@ class Pro::CitySubjectInfosController < Pro::ProController
 
   def new
     @city       = City.find params[:city_id]
-    @subject    = Subject.find params[:subject_id]
+    @subject    = Subject.fetch_by_id_or_slug params[:subject_id]
     _city_id    = @city.id
     _subject_id = @subject.id
     if (@city_subject_info = CitySubjectInfo.where( CitySubjectInfo.arel_table[:city_id].eq(_city_id).and(
@@ -16,7 +16,7 @@ class Pro::CitySubjectInfosController < Pro::ProController
 
   def create
     @city       = City.find params[:city_subject_info][:city_id]
-    @subject    = Subject.find params[:city_subject_info][:subject_id]
+    @subject    = Subject.fetch_by_id_or_slug params[:city_subject_info][:subject_id]
     _city_id    = @city.id
     _subject_id = @subject.id
     if (@city_subject_info = CitySubjectInfo.where( CitySubjectInfo.arel_table[:city_id].eq(_city_id).and(

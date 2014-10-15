@@ -8,7 +8,7 @@ class PriceGroup < ActiveRecord::Base
   has_many :courses
   has_many :prices
 
-  belongs_to :structure
+  belongs_to :structure, touch: true
 
   attr_accessible :structure, :name, :course_type, :details,
                   :prices_attributes, :premium_visible
@@ -28,6 +28,7 @@ class PriceGroup < ActiveRecord::Base
   # Callbacks                                                          #
   ######################################################################
   after_initialize :default_name
+  after_save :touch_relations
 
   ######################################################################
   # Scopes                                                             #
@@ -112,4 +113,8 @@ class PriceGroup < ActiveRecord::Base
     return (!exists and price_has_to_be_rejected)
   end
 
+  def touch_relations
+    self.courses.map(&:touch)
+    self.prices.map(&:touch)
+  end
 end

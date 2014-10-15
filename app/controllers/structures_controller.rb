@@ -4,7 +4,9 @@ class StructuresController < ApplicationController
   include StructuresHelper
 
   skip_before_filter :verify_authenticity_token, only: [:add_to_favorite, :remove_from_favorite]
-  # before_filter :protect_discovery_pass_access, only: [:discovery_pass]
+
+  before_filter :set_current_structure, except: [:index, :discovery_pass_search, :search]
+  before_filter :protect_discovery_pass_access, only: [:discovery_pass]
 
   respond_to :json
 
@@ -109,7 +111,6 @@ class StructuresController < ApplicationController
 
   # GET /etablissements/:id/pass-decouverte
   def discovery_pass
-    @structure = Structure.friendly.find params[:id]
     @structure_decorator                  = @structure.decorate
     @header_promotion_title_for_structure = header_promotion_title_for_structure(@structure)
     @city                                 = @structure.city
@@ -126,7 +127,7 @@ class StructuresController < ApplicationController
 
   # GET /etablissements/:id
   def show
-    @structure = Structure.friendly.find params[:id]
+    @structure = Structure.fetch_by_id_or_slug params[:id]
 
     @structure_decorator                  = @structure.decorate
     @place_ids                            = @structure.places.map(&:id)
@@ -145,7 +146,6 @@ class StructuresController < ApplicationController
 
   # GET /etablissements/:id/portes-ouvertes-cours-loisirs
   def jpo
-    @structure = Structure.friendly.find params[:id]
     respond_to do |format|
       format.html { redirect_to structure_path(@structure), status: 301 }
     end
@@ -166,7 +166,6 @@ class StructuresController < ApplicationController
   # POST structure/:id/add_to_favorite
   # Create a following for the structure and the current_user
   def add_to_favorite
-    @structure = Structure.friendly.find params[:id]
     @structure.followings.create(user: current_user)
     AdminMailer.delay.user_is_now_following_you(@structure, current_user)
     Metric.action(@structure.id, current_user, cookies[:fingerprint], request.ip, 'follow')
@@ -179,7 +178,6 @@ class StructuresController < ApplicationController
   # POST structure/:id/remove_from_favorite
   # Destroy the existing following between the structure and the current_user
   def remove_from_favorite
-    @structure = Structure.friendly.find params[:id]
     @structure.followings.where(user_id: current_user.id).first.try(:destroy)
     respond_to do |format|
       format.html { redirect_to user_followings_path(current_user), notice: "#{@structure.name} n'est plus dans vos favoris"}
@@ -228,5 +226,13 @@ class StructuresController < ApplicationController
     # Users with pass can see
     return if current_user and current_user.discovery_pass and current_user.discovery_pass.active?
     redirect_to discovery_passes_path
+  end
+
+  # Private: Set the current structure for the relevant routes
+  # by fetching by its id or its slug.
+  #
+  # @return Structure
+  def set_current_structure
+    @structure = Structure.fetch_by_id_or_slug(params[:id])
   end
 end

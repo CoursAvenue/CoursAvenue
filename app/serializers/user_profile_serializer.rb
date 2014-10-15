@@ -1,5 +1,8 @@
 class UserProfileSerializer < ActiveModel::Serializer
 
+  cached
+  delegate :cache_key, to: :object
+
   has_many :tags
 
   attributes :id, :email, :first_name, :last_name, :birthdate, :notes,
