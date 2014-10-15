@@ -1103,10 +1103,10 @@ class Structure < ActiveRecord::Base
   # @return Subject at depth 0
   def dominant_root_subject
     if courses.active.any?
-      _subjects = courses.active.flat_map{ |c| c.subjects }.uniq
-      _subjects.group_by{ |subject| subject.root }.values.max_by(&:size).first.root
+      _subjects = courses.active.flat_map(&:subjects).uniq
+      _subjects.group_by(&:root).values.max_by(&:size).first.root
     else
-      subjects.at_depth(2).group_by{ |subject| subject.root }.values.max_by(&:size).first.root
+      subjects.at_depth(2).group_by(&:root).values.max_by(&:size).first.root
     end
   end
 
@@ -1115,9 +1115,9 @@ class Structure < ActiveRecord::Base
   # @return City
   def dominant_city
     if plannings.any?
-      plannings.map(&:place).compact.flat_map(&:city).group_by{ |city| city }.values.max_by(&:size).first
+      plannings.map(&:place).compact.flat_map(&:city).group_by(&:city).values.max_by(&:size).first
     else
-      ([city] + places.map(&:city)).group_by{ |city| city }.values.max_by(&:size).first
+      ([city] + places.map(&:city)).group_by(&:city).values.max_by(&:size).first
     end
   end
 
