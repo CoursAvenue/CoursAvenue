@@ -1,6 +1,9 @@
 class SubjectSerializer < ActiveModel::Serializer
   attributes :id, :name, :slug, :children
 
+  cached
+  delegate :cache_key, to: :object
+
   def children
     object.children.order('name ASC').map do |first_child|
       first_child_json = {

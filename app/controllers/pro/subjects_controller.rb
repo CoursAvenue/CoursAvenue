@@ -86,12 +86,14 @@ class Pro::SubjectsController < Pro::ProController
   #     Cuisine - ...:
   #           - ...
   def descendants
-    @descendants = get_descendants params
+    @descendants = Rails.cache.fetch "Pro::SubjectsController#descendants::#{params[:ids]}" do
+       get_descendants(params).to_json
+    end
     respond_to do |format|
       if params[:callback]
-        format.js { render json: { descendants: @descendants.to_json }, callback: params[:callback] }
+        format.js { render json: { descendants: @descendants }, callback: params[:callback] }
       else
-        format.json { render json: @descendants.to_json }
+        format.json { render json: @descendants }
       end
     end
   end

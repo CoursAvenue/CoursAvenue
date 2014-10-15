@@ -35,10 +35,14 @@ class SubjectsController < ApplicationController
   # GET on member
   def depth_2
     if params[:id] == 'other'
-      @subjects   = Subject.roots_not_stars
+      @subjects = Rails.cache.fetch "SubjectsController#depth_2::other" do
+         Subject.roots_not_stars
+      end
       return_json = ActiveModel::ArraySerializer.new(@subjects, each_serializer: SubjectSerializer)
     else
-      @subject = Subject.friendly.fetch_by_id_or_slug params[:id]
+      @subject = Rails.cache.fetch "SubjectsController#depth_2::#{params[:id]}" do
+         Subject.friendly.fetch_by_id_or_slug params[:id]
+      end
       return_json = SubjectSerializer.new(@subject)
     end
     respond_to do |format|

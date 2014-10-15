@@ -2,6 +2,9 @@ class StructureShowSerializer < ActiveModel::Serializer
   include StructuresHelper
   include ActionView::Helpers::TextHelper
 
+  cached
+  delegate :cache_key, to: :object
+
   attributes :id, :name, :slug, :rating, :street, :zip_code, :description, :description_short,
              :logo_thumb_url, :data_url, :query_params, :courses, :courses_count,
              :has_courses, :plannings_count, :has_plannings, :about, :about_bis, :about_genre,

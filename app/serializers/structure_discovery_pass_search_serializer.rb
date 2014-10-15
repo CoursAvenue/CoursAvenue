@@ -2,6 +2,9 @@ class StructureDiscoveryPassSearchSerializer < ActiveModel::Serializer
   include StructuresHelper
   include ActionView::Helpers::TextHelper
 
+  cached
+  delegate :cache_key, to: :object
+
   attributes :id, :name, :slug, :comments_count, :logo_thumb_url, :logo_large_url, :data_url, :query_params,
              :structure_type, :highlighted_comment_title, :subjects, :cover_media
 

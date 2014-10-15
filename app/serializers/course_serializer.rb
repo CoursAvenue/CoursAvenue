@@ -4,6 +4,9 @@ class CourseSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::NumberHelper
 
+  cached
+  delegate :cache_key, to: :object
+
   attributes :id, :name, :description, :description_short, :type, :start_date, :end_date, :min_price_amount, :min_price_libelle, :data_url, :subjects,
              :has_free_trial_lesson, :event_type, :best_price, :is_individual, :search_term, :is_lesson, :frequency,
              :cant_be_joined_during_year, :no_class_during_holidays, :teaches_at_home, :teaches_at_home_radius,
