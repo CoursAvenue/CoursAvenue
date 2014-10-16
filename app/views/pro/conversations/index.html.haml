@@ -9,5 +9,6 @@
       - structure = conversation.recipients.select{|r| r.is_a? Admin}.first.try(:structure)
       - next if structure.nil?
       = link_to pro_structure_conversation_path(structure, conversation), class: 'muted-link' do
-        = render partial: 'conversations/conversation', locals: { conversation: conversation }
+        - cache [conversation, 'pro/conversations'] do
+          = render partial: 'conversations/conversation', locals: { conversation: conversation }
     .text--center.push-half--ends= paginate @conversations, window: 1, outer_window: 3
