@@ -5,3 +5,4 @@ spec
 features
 doc
 public
+app/assets/images/icons/svg/*
