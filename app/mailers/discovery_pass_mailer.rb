@@ -40,4 +40,22 @@ class DiscoveryPassMailer < ActionMailer::Base
     @sponsor        = discovery_pass.sponsorship.user
     mail to: @sponsor.email, subject: "Votre Parrainage a été prit en compte"
   end
+
+  def you_are_on_the_list(user)
+    @user = user
+    mail to: user.email, subject: "Félicitations ! Vous êtes sur la liste pour le Pass Découverte"
+  end
+
+  def you_can_have_it(user)
+    @user = user
+    mail to: user.email, subject: "L'attente est terminée ! Obtenez votre Pass Découverte maintenant"
+  end
+  handle_asynchronously :you_can_have_it, :run_at => Proc.new { Date.tomorrow + 9.hours }
+
+  def reminder(user, nb=1)
+    @user = user
+    mail to: user.email,
+         subject: "Votre Parrainage a été prit en compte",
+         template: "reminder_#{nb}"
+  end
 end

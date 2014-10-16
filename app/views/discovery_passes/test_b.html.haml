@@ -48,17 +48,6 @@
       %div
 
   #top.main-container.main-container--medium.soft-half--bottom.relative{ style: "height: 500px;" }
-    -  if @sponsorship
-      .text--center
-        .white-box.push--top.soft.inline-block
-          .beta.flush
-            Félicitations ! Grâce à
-            %strong.blue= "#{@sponsor.name},"
-            obtenez votre Pass Découverte pour
-            %strong.blue= number_to_currency(DiscoveryPass::PRICE - Sponsorship::USER_WHO_HAVE_BEEN_SPONSORED_CREDIT).gsub(/\,00/, "")
-            au lieu de
-            %strong.blue= "#{DiscoveryPass::PRICE}€"
-
     - if notice
       .text--center
         .inline-block.soft--right.text--center.center-block>
@@ -368,7 +357,7 @@
         $(function() {
             $('[data-behavior=sign-in]').click(function() {
                 ga('send', 'event', 'PassDecouverte', 'Landing page click', 'code promo');
-                mixpanel.track("Clicked to get Pass", { "PromoCode": "#{@sponsorship.try(:promo_code)}" });
+                mixpanel.track("Clicked to get Pass");
             });
         });
         $(function() {
@@ -418,7 +407,7 @@
       %h4.flush Inscrivez-vous sur notre liste
     .panel__body.soft
       %p.epsilon Pour vous permettre de profiter du Pass Découverte dans les meilleures conditions, laissez-nous votre e-mail pour vous inscrire sur notre liste : nous vous préviendrons dès que le Pass devient disponible pour vous.
-      = simple_form_for User.new, url: discovery_passes_path(waiting_list: true, promo_code: @sponsorship.try(:promo_code)), method: :post, data: { behavior: 'discovery-pass-form' } do |f|
+      = simple_form_for User.new, url: discovery_passes_path(waiting_list: true), method: :post, data: { behavior: 'discovery-pass-form' } do |f|
         = f.input :test_name, as: :hidden, input_html: { value: 'With price' }
         = f.input :email, input_html: { class: 'one-whole input--large', placeholder: 'E-mail' }, label: false
         = f.submit "M'inscrire sur la liste", class: 'btn btn--bigger btn--green btn--full', data: { disable_with: 'Envoi en cours' }

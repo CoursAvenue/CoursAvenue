@@ -3,6 +3,7 @@ class DiscoveryPassesController < Pro::ProController
 
   layout 'discovery_pass'
 
+  # GET /pass-decouverte
   def index
     if current_user
       redirect_to user_discovery_passes_path(current_user)
@@ -12,18 +13,26 @@ class DiscoveryPassesController < Pro::ProController
     end
   end
 
+  # Vertical danse page
+  # GET /pass-decouverte/dansez
   def get_danse
     if current_user
       redirect_to user_discovery_passes_path(current_user)
     end
   end
 
+  # To be deleted
+  # GET /pass-decouverte/tous-vos-loisirs
   def test_a
     if current_user
       redirect_to user_discovery_passes_path(current_user)
+    else
+      redirect_to discovery_passes_path
     end
   end
 
+  # GET /pass-decouverte/loisirs
+  # Test with the price
   def test_b
     if current_user
       redirect_to user_discovery_passes_path(current_user)
@@ -44,11 +53,9 @@ class DiscoveryPassesController < Pro::ProController
       user.interested_in_discovery_pass = true
       user.test_name                    = params[:user][:test_name]
       user.save(validate: false)
-      if params[:waiting_list].present?
-        redirect_to request.referrer, notice: "Félicitations ! Nous venons de vous inscrire sur notre liste d'attente. Dès que le Pass devient disponible, nous vous préviendrons pas e-mail."
-      else
-        redirect_to create_account_discovery_passes_path(email: params[:user][:email], promo_code: params[:promo_code])
-      end
+      DiscoveryPassMailer.delay.you_are_on_the_list(user)
+      DiscoveryPassMailer.you_can_have_it(user)
+      redirect_to request.referrer, notice: "Félicitations ! Nous venons de vous inscrire sur notre liste d'attente. Dès que le Pass devient disponible, nous vous préviendrons pas e-mail."
     end
   end
 
