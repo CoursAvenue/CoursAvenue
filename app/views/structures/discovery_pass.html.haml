@@ -83,7 +83,7 @@
                   \: envie de vous lancer ? Essayez plus de 1 300 cours sélectionnés rien que pour vous.
               %br
               %br
-              = link_to 'Obtenir mon Pass Découverte', create_account_discovery_passes_path, class: 'btn btn--yellow mixpanel-tracker', data: { info: 'From Discovery profile page'}
+              = link_to 'Obtenir mon Pass Découverte', discovery_passes_path, class: 'btn btn--yellow mixpanel-tracker', data: { info: 'From Discovery profile page'}
         - if @structure.response_rate or @structure.response_time or (@structure.main_contact and @structure.main_contact.current_sign_in_at)
           .panel.push--bottom
             .panel__body.soft.epsilon
