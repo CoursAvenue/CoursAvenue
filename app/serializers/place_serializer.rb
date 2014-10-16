@@ -1,6 +1,9 @@
 class PlaceSerializer < ActiveModel::Serializer
   attributes :id, :longitude, :latitude, :name, :street, :zip_code, :address
 
+  cached
+  delegate :cache_key, to: :object
+
   def address
     if object.is_home?
       object.street

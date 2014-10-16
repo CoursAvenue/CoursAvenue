@@ -13,7 +13,7 @@ module SubjectSeeker
   #           - ...
   def get_descendants(params)
     @subjects = params[:ids].split(',').map do |id|
-      Subject.friendly.find(*id)
+      Subject.fetch_by_id_or_slug(*id)
     end
     @descendants = []
     @subjects.each do |parent_subject|

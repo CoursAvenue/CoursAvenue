@@ -2,18 +2,12 @@ class StructureDecorator < Draper::Decorator
 
   def places_popover(places=nil)
     output = ''
-    if object.is_sleeping?
-      object.sleeping_attributes[:places].each do |place|
-        output << "<div class='push-half--bottom'><strong>#{place['name']}</strong><br>#{place['street']}, #{City.find(place['city_id']).name}</div>"
-      end
-    else
-      # Use find_by_id to prevent from exception when place is not find.
-      # In this case: http://www.coursavenue.dev/etablissements/voix-et-voie/pass-decouverte place wasn't found...
-      places ||= object.places
-      places.each do |place|
-        next if place.nil?
-        output << "<div class='push-half--bottom'><strong>#{place.name}</strong><br>#{place.street}, #{place.city.name}</div>"
-      end
+    # Use find_by_id to prevent from exception when place is not find.
+    # In this case: http://www.coursavenue.dev/etablissements/voix-et-voie/pass-decouverte place wasn't found...
+    places ||= object.places
+    places.each do |place|
+      next if place.nil?
+      output << "<div class='push-half--bottom'><strong>#{place.name}</strong><br>#{place.street}, #{place.city.name}</div>"
     end
     output.html_safe
   end
@@ -23,19 +17,11 @@ class StructureDecorator < Draper::Decorator
   end
 
   def subjects_at_depth_2_count
-    if object.is_sleeping?
-      object.subjects_string.split(';').map{|subject_string__subject_slug| Subject.find(subject_string__subject_slug.split(':').last) }.select{ |subj| subj.depth == 2 }.length
-    else
-      object.subjects.at_depth(2).count
-    end
+    object.subjects.at_depth(2).count
   end
 
   def places_count
-    if object.is_sleeping?
-      object.sleeping_attributes[:places].length
-    else
-      object.places.count
-    end
+    object.places.count
   end
 
   def courses_subjects_popover
@@ -66,18 +52,9 @@ class StructureDecorator < Draper::Decorator
 
   def subjects_popover
     _subjects = []
-    is_sleeping = object.is_sleeping?
-    if is_sleeping
-      subjects_at_depth_0 = object.parent_subjects_string.split(';').map{|subject_string__subject_slug| Subject.find(subject_string__subject_slug.split(':').last) }
-    else
-      subjects_at_depth_0 = object.subjects.at_depth(0)
-    end
+    subjects_at_depth_0 = object.subjects.at_depth(0)
     subjects_at_depth_0.uniq.each do |root_subject|
-      if is_sleeping
-        child_subjects = object.subjects_string.split(';').map{|subject_string__subject_slug| Subject.find(subject_string__subject_slug.split(':').last) }.select{ |subj| subj.depth == 2 }
-      else
-        child_subjects = object.subjects.at_depth(2)
-      end
+      child_subjects = object.subjects.at_depth(2)
       _child_subjects = child_subjects.uniq.sort_by(&:name).select{ |subject|  subject.ancestry.start_with?(root_subject.id.to_s) }
       _subjects << {
         root_name: root_subject.name,

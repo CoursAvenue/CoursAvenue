@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141008163114) do
+ActiveRecord::Schema.define(version: 20141013131555) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -829,6 +829,7 @@ ActiveRecord::Schema.define(version: 20141008163114) do
     t.string   "sleeping_logo"
     t.string   "remote_logo_url"
     t.string   "discovery_pass_policy"
+    t.integer  "sleeping_structure_id"
   end
 
   add_index "structures", ["slug"], name: "index_structures_on_slug", unique: true, using: :btree

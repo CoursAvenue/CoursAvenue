@@ -1,6 +1,9 @@
 class UserSerializer < ActiveModel::Serializer
   include ApplicationHelper
 
+  cached
+  delegate :cache_key, to: :object
+
   attributes :id, :email, :name, :first_name, :last_name, :avatar_url, :slug, :favorite_structure_ids, :last_message_sent,
              :has_discovery_pass, :created_at, :gender
 

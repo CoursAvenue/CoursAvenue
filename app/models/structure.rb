@@ -3,11 +3,13 @@ class Structure < ActiveRecord::Base
   include Concerns::HstoreHelper
   include Concerns::ActiveHashHelper
   include Concerns::HasDeliveryStatus
+  include Concerns::IdentityCacheFetchHelper
   include StructuresHelper
   include HasSubjects
   include ActsAsCommentable
   include ActsAsGeolocalizable
   include ConversationsHelper
+  include IdentityCache
   acts_as_paranoid
   acts_as_tagger
 
@@ -66,13 +68,18 @@ class Structure < ActiveRecord::Base
   has_many :admins                   , dependent: :destroy
   has_many :subscription_plans       , dependent: :destroy
 
+  # The structure that is not modified when an admin takes control.
+  has_one :sleeping_structure, class_name: 'Structure', foreign_key: :sleeping_structure_id
+
+  # The structure that is editable by the admin.
+  belongs_to :controled_structure, class_name: 'Structure', foreign_key: :sleeping_structure_id
+
   ######################################################################
   # Scope                                                              #
   ######################################################################
   scope :available_in_discovery_pass, -> { where(arel_table[:discovery_pass_policy].matches('%_trial%') ) }
 
   attr_reader :delete_logo, :logo_filepicker_url
-  serialize :sleeping_attributes # See `create_sleeping_attributes` method for more info
   attr_accessible :structure_type, :street, :zip_code, :city_id,
                   :place_ids, :name, :info, :registration_info,
                   :website, :facebook_url,
@@ -93,8 +100,8 @@ class Structure < ActiveRecord::Base
                   :highlighted_comment_id,
                   :deletion_reasons, :deletion_reasons_text,
                   :phone_numbers_attributes, :places_attributes, :other_emails, :last_geocode_try,
-                  :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason, :sleeping_attributes, :order_recipient, :delivery_email_status,
-                  :discovery_pass_policy, :discovery_pass_place_ids
+                  :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason, :order_recipient, :delivery_email_status,
+                  :discovery_pass_policy, :discovery_pass_place_ids, :sleeping_structure
 
   accepts_nested_attributes_for :places,
                                  reject_if: :reject_places,
@@ -121,7 +128,6 @@ class Structure < ActiveRecord::Base
                               :is_sleeping, :sleeping_email_opt_in, :promo_code_sent
 
   mount_uploader :logo, StructureLogoUploader
-  mount_uploader :sleeping_logo, StructureLogoUploader
 
   ######################################################################
   # Validations                                                        #
@@ -158,7 +164,7 @@ class Structure < ActiveRecord::Base
 
     integer :search_score_danse do
       compute_search_score if search_score.blank?
-      if self.courses.without_open_courses.map(&:subjects).flatten.map(&:root).uniq.map(&:slug).include? 'danse'
+      if self.courses.without_open_courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'danse'
         self.search_score.to_i + 20
       else
         self.search_score
@@ -166,7 +172,7 @@ class Structure < ActiveRecord::Base
     end
     integer :search_score_theatre_scene do
       compute_search_score if search_score.blank?
-      if self.courses.without_open_courses.map(&:subjects).flatten.map(&:root).uniq.map(&:slug).include? 'theatre-scene'
+      if self.courses.without_open_courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'theatre-scene'
         self.search_score.to_i + 20
       else
         self.search_score
@@ -174,7 +180,7 @@ class Structure < ActiveRecord::Base
     end
     integer :search_score_yoga_bien_etre_sante do
       compute_search_score if search_score.blank?
-      if self.courses.without_open_courses.map(&:subjects).flatten.map(&:root).uniq.map(&:slug).include? 'yoga-sante-bien_etre'
+      if self.courses.without_open_courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'yoga-sante-bien_etre'
         self.search_score.to_i + 20
       else
         self.search_score
@@ -182,7 +188,7 @@ class Structure < ActiveRecord::Base
     end
     integer :search_score_musique_chant do
       compute_search_score if search_score.blank?
-      if self.courses.without_open_courses.map(&:subjects).flatten.map(&:root).uniq.map(&:slug).include? 'musique-chant'
+      if self.courses.without_open_courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'musique-chant'
         self.search_score.to_i + 20
       else
         self.search_score
@@ -190,7 +196,7 @@ class Structure < ActiveRecord::Base
     end
     integer :search_score_deco_mode_bricolage do
       compute_search_score if search_score.blank?
-      if self.courses.without_open_courses.map(&:subjects).flatten.map(&:root).uniq.map(&:slug).include? 'deco-mode-bricolage'
+      if self.courses.without_open_courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'deco-mode-bricolage'
         self.search_score.to_i + 20
       else
         self.search_score
@@ -198,7 +204,7 @@ class Structure < ActiveRecord::Base
     end
     integer :search_score_dessin_peinture_arts_plastiques do
       compute_search_score if search_score.blank?
-      if self.courses.without_open_courses.map(&:subjects).flatten.map(&:root).uniq.map(&:slug).include? 'dessin-peinture-arts'
+      if self.courses.without_open_courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'dessin-peinture-arts'
         self.search_score.to_i + 20
       else
         self.search_score
@@ -206,7 +212,7 @@ class Structure < ActiveRecord::Base
     end
     integer :search_score_sports_arts_martiaux do
       compute_search_score if search_score.blank?
-      if self.courses.without_open_courses.map(&:subjects).flatten.map(&:root).uniq.map(&:slug).include? 'sports-arts-martiaux'
+      if self.courses.without_open_courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'sports-arts-martiaux'
         self.search_score.to_i + 20
       else
         self.search_score
@@ -214,7 +220,7 @@ class Structure < ActiveRecord::Base
     end
     integer :search_score_cuisine_vins do
       compute_search_score if search_score.blank?
-      if self.courses.without_open_courses.map(&:subjects).flatten.map(&:root).uniq.map(&:slug).include? 'cuisine-vins'
+      if self.courses.without_open_courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'cuisine-vins'
         self.search_score.to_i + 20
       else
         self.search_score
@@ -222,7 +228,7 @@ class Structure < ActiveRecord::Base
     end
     integer :search_score_photo_video do
       compute_search_score if search_score.blank?
-      if self.courses.without_open_courses.map(&:subjects).flatten.map(&:root).uniq.map(&:slug).include? 'photo-video'
+      if self.courses.without_open_courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'photo-video'
         self.search_score.to_i + 20
       else
         self.search_score
@@ -230,7 +236,7 @@ class Structure < ActiveRecord::Base
     end
     integer :search_score_other do
       compute_search_score if search_score.blank?
-      if self.courses.without_open_courses.map(&:subjects).flatten.map(&:root).uniq.map(&:slug).include? 'other'
+      if self.courses.without_open_courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'other'
         self.search_score.to_i + 20
       else
         self.search_score
@@ -349,6 +355,15 @@ class Structure < ActiveRecord::Base
   end
 
   handle_asynchronously :solr_index unless Rails.env.test?
+
+  ######################################################################
+  # Caching                                                            #
+  ######################################################################
+
+  cache_has_many :subjects, inverse_name: :structures
+
+  # Also cache by slug, since we often access a structure by its slug with FriendlyId.
+  cache_index :slug, unique: true
 
   ######################################################################
   # Email reminder                                                     #
@@ -642,11 +657,11 @@ class Structure < ActiveRecord::Base
   end
 
   def update_jpo_meta_datas
-    self.open_course_plannings_nb = self.courses.active.open_courses.map(&:plannings).flatten.length
+    self.open_course_plannings_nb = self.courses.active.open_courses.flat_map(&:plannings).length
     self.open_course_nb           = self.courses.active.open_courses.count
     self.open_course_names        = self.courses.active.open_courses.map(&:name).uniq.join(', ')
-    self.open_course_subjects     = self.courses.active.open_courses.map(&:subjects).flatten.map(&:name).uniq.join(', ')
-    self.open_courses_open_places = self.courses.active.open_courses.map(&:plannings).flatten.map(&:places_left).reduce(&:+)
+    self.open_course_subjects     = self.courses.active.open_courses.flat_map(&:subjects).map(&:name).uniq.join(', ')
+    self.open_courses_open_places = self.courses.active.open_courses.flat_map(&:plannings).map(&:places_left).reduce(&:+)
     self.save(validate: false)
   end
 
@@ -1011,15 +1026,21 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  #
-  # Set is_sleeping to false and sends an email to the teacher to tell him
-  # that CoursAvenue team has validated his profile.
+  # Disables the sleeping structure and activates the current structure.
   #
   # @return Boolean saved or not
   def wake_up!
-    self.is_sleeping = false
-    saved = self.save
-    AdminMailer.delay.you_have_control_of_your_account(self)
+    if self.sleeping_structure.present?
+      self.is_sleeping = false
+      self.active = true
+      saved = self.save
+      self.sleeping_structure.wake_up!
+      AdminMailer.delay.you_have_control_of_your_account(self)
+    else
+      self.is_sleeping = true
+      self.active = false
+      saved = self.save
+    end
     saved
   end
 
@@ -1029,17 +1050,26 @@ class Structure < ActiveRecord::Base
   #
   # @return Boolean saved or not
   def return_to_sleeping_mode!
-    initialize_sleeping_attributes
-    self.places        = self.sleeping_attributes[:places].map{ |places_attributes| Place.create(places_attributes) }
-    self.phone_numbers = self.sleeping_attributes[:phone_numbers].map{ |places_attributes| PhoneNumber.create(places_attributes) }
-    self.subjects      = root_subjects_from_string(self) + child_subjects_from_string(self)
-    self.logo          = self.sleeping_logo
+    # initialize_sleeping_attributes
+
+    self.phone_numbers.map(&:destroy)
+    self.sleeping_structure.phone_numbers.each do |phone|
+      self.phone_numbers.create(number: phone.number, phone_type: phone.phone_type)
+    end
+
+    self.places        = self.sleeping_structure.places.map(&:dup)
+    self.subjects      = root_subjects_from_string(self.sleeping_structure) + child_subjects_from_string(self.sleeping_structure)
+    self.logo          = self.sleeping_structure.logo
+
     self.teachers.map(&:destroy)
     self.courses.map(&:destroy)
     self.price_groups.map(&:destroy)
     self.medias.map(&:destroy)
     AdminMailer.delay.you_dont_have_control_of_your_account(self, self.main_contact.email)
     self.main_contact.delete
+
+    self.sleeping_structure.destroy
+
     self.save
   end
 
@@ -1079,7 +1109,6 @@ class Structure < ActiveRecord::Base
     end
   end
 
-
   # If admin wanted to go premium, we send promo_code the day later only if
   # the structure is still not premium
   #
@@ -1099,10 +1128,10 @@ class Structure < ActiveRecord::Base
   #
   # @return Subject at depth 0
   def dominant_root_subject
-    if courses.active.any? and (_subjects = courses.active.map{ |c| c.subjects }.flatten).any?
+    if courses.active.any? and (_subjects = courses.active.flat_map{ |c| c.subjects }).any?
       _subjects.group_by{ |subject| subject.root }.values.max_by(&:size).first.root
     else
-      subjects.at_depth(2).group_by{ |subject| subject.root }.values.max_by(&:size).first.root
+      subjects.at_depth(2).group_by(&:root).values.max_by(&:size).first.root
     end
   end
 
@@ -1111,10 +1140,37 @@ class Structure < ActiveRecord::Base
   # @return City
   def dominant_city
     if plannings.any?
-      plannings.map(&:place).compact.map(&:city).flatten.group_by{ |city| city }.values.max_by(&:size).try(:first)
+      plannings.map(&:place).compact.flat_map(&:city).group_by{ |city| city }.values.max_by(&:size).try(:first)
     else
-      ([city] + places.map(&:city)).group_by{ |city| city }.values.max_by(&:size).first
+      ([city] + places.map(&:city)).group_by(&:city).values.max_by(&:size).first
     end
+  end
+
+  # Duplicate Structure into a new structure that will be hidden.
+  #
+  # @return a new Structure
+  def duplicate_structure
+    unless self.sleeping_structure.present?
+      sleeping_structure               = self.dup
+
+      self.phone_numbers.each do |phone|
+        sleeping_structure.phone_numbers.create(number: phone.number, phone_type: phone.phone_type)
+      end
+
+      sleeping_structure.places        = self.places.map(&:dup)
+      sleeping_structure.subjects      = root_subjects_from_string(self) + child_subjects_from_string(self)
+
+      sleeping_structure.is_sleeping   = true
+      sleeping_structure.save
+      sleeping_structure.delay.index
+
+      self.sleeping_structure          = sleeping_structure
+      self.active = false
+
+      self.save
+    end
+
+    self.sleeping_structure
   end
 
   def has_discovery_pass_courses?

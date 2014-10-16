@@ -6,7 +6,7 @@ class Price < ActiveRecord::Base
   ######################################################################
   # Relations                                                          #
   ######################################################################
-  belongs_to :price_group
+  belongs_to :price_group, touch: true
   has_one  :structure, through: :price_group
   has_many :courses, through: :price_group
 

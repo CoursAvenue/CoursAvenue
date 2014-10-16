@@ -1,9 +1,9 @@
 - cache "home_subjects_guide_#{ENV["ETAG_VERSION_ID"]}" do
-  - arts    = Subject.find('dessin-peinture-arts-plastiques')
-  - dance   = Subject.find('danse')
-  - theatre = Subject.find('theatre-scene')
-  - music   = Subject.find('musique-chant')
-  - yoga    = Subject.find('yoga-bien-etre-sante')
+  - arts    = Subject.fetch_by_id_or_slug('dessin-peinture-arts-plastiques')
+  - dance   = Subject.fetch_by_id_or_slug('danse')
+  - theatre = Subject.fetch_by_id_or_slug('theatre-scene')
+  - music   = Subject.fetch_by_id_or_slug('musique-chant')
+  - yoga    = Subject.fetch_by_id_or_slug('yoga-bien-etre-sante')
   .beta.push--bottom.soft--bottom.f-weight-300 Toutes vos passions
   .relative{ style: 'height: 600px;'}
     .absolute.bg-cover.west.north{style: "background-image: url('#{dance.image.url(:small)}'); width: 49.5%; height: 200px;" }>
