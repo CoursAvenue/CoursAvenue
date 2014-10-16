@@ -653,7 +653,7 @@ class Structure < ActiveRecord::Base
 
   def discovery_pass_places
     return self.places if self.discovery_pass_place_ids.nil?
-    self.places.find(self.discovery_pass_place_ids.split(','))
+    self.places.where(Place.arel_table[:id].eq_any(self.discovery_pass_place_ids.split(',')))
   end
 
   def update_jpo_meta_datas
