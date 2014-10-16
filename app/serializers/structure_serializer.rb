@@ -22,7 +22,7 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def cover_media
-    MediaSerializer.new preloaded_medias.first
+    MediaSerializer.new(preloaded_medias.first) if preloaded_medias.first
   end
 
   def comments
