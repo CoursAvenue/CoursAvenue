@@ -447,6 +447,13 @@
           mixpanel.track("Email déposé : without price");
       });
 
+- if Rails.env.production? and buy_now
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          mixpanel.people.set({ 'landed_on_buy_page': true });
+      });
+
 = content_for :scripts do
   :javascript
     $(function() {
@@ -469,3 +476,5 @@
             });
         });
     });
+
+= render 'shared/live_chat'
