@@ -60,11 +60,14 @@
       %p.push-half--bottom
         %strong Suivez-nous
       %p
-        = link_to 'Facebook', 'https://www.facebook.com/CoursAvenue', class: 'push-half--right', target: :_blank, rel: :nofollow, data: { info: 'Footer' }, class: 'mixpanel-tracker'
-        = link_to 'Twitter', 'http://twitter.com/CoursAvenue', class: 'push-half--right', target: :_blank, rel: :nofollow, data: { info: 'Footer' }, class: 'mixpanel-tracker'
+        = link_to 'Facebook', 'https://www.facebook.com/CoursAvenue', target: :_blank, rel: :nofollow, data: { info: 'Footer' }, class: 'mixpanel-tracker push-half--right'
+        = link_to 'Twitter', 'http://twitter.com/CoursAvenue', target: :_blank, rel: :nofollow, data: { info: 'Footer' }, class: 'mixpanel-tracker push-half--right'
         = link_to 'Instagram', 'https://instagram.com/coursavenue', target: :_blank, rel: :nofollow, data: { info: 'Footer' }, class: 'mixpanel-tracker'
       %p.push-half--bottom.gray-very-light
         © CoursAvenue
+
+      %a{ href: "https://mixpanel.com/f/partner" }
+        %img{ src: "//cdn.mxpnl.com/site_media/images/partner/badge_light.png", alt: "Mobile Analytics"}
 
   - if @structure and @structure.city
     - cache [@structure, 'footer'] do
