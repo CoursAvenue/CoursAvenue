@@ -50,7 +50,7 @@ class DiscoveryPassMailer < ActionMailer::Base
     @user = user
     mail to: user.email, subject: "L'attente est terminée ! Obtenez votre Pass Découverte maintenant"
   end
-  handle_asynchronously :you_can_have_it, :run_at => Proc.new { Date.tomorrow + 9.hours }
+  # handle_asynchronously :you_can_have_it, :run_at => Proc.new { Date.tomorrow + 9.hours }
 
   def reminder(user, nb=1)
     @user = user

@@ -18,7 +18,10 @@
             %li.soft-half--sides
               = link_to "Avantages", '#avantages', class: 'muted-link orange mixpanel-tracker', data: { behavior: 'scroll-to', offset_top: '-55', info: 'Discovery Page landing' }
         .flexbox__item.text--right.five-twelfths>
-          = link_to 'Obtenir mon pass', 'javascript:void(0)', class: 'mixpanel-tracker btn btn--green btn--bigger', data: { behavior: 'show-popup', info: 'Without price' }
+          - if buy_now
+            = link_to 'Acheter mon pass', create_account_discovery_passes_path, class: 'mixpanel-tracker btn btn--green btn--bigger', data: { info: 'Without price' }
+          - else
+            = link_to 'Obtenir mon pass', 'javascript:void(0)', class: 'mixpanel-tracker btn btn--green btn--bigger', data: { behavior: 'show-popup', info: 'Without price' }
 
 = content_for :title do
   CoursAvenue | Pass Découverte
@@ -69,10 +72,13 @@
     .inline-block.four-tenths.soft--right.text--center>
       .push-half--bottom.very-soft.hard--sides
         .white-box.soft.black
-          %h3 Testez autant de cours de loisirs que vous voulez !
+          %h3 Découvrez autant de cours de loisirs que vous voulez !
           %p.epsilon
             Valable 30 jours et renouvelable, le Pass Découverte vous permet de suivre 1 300 séances d'essai négociées spécialement pour vous : Sophrologie, Impro, Yoga, Golf, Danse... Pour une vie créative, artistique, sportive !
-          = link_to 'Obtenir mon pass', 'javascript:void(0)', class: 'mixpanel-tracker btn btn--green btn--full btn--bigger', data: { behavior: 'show-popup', info: 'Without price' }
+          - if buy_now
+            = link_to 'Acheter mon pass', create_account_discovery_passes_path, class: 'mixpanel-tracker btn btn--green btn--full btn--bigger', data: { info: 'Without price' }
+          - else
+            = link_to 'Obtenir mon pass', 'javascript:void(0)', class: 'mixpanel-tracker btn btn--green btn--full btn--bigger', data: { behavior: 'show-popup', info: 'Without price' }
 
     .home-screen-comment.visuallyhidden--palm.soft-black-text-shadow.south.soft--bottom
       .grid.epsilon
@@ -314,7 +320,7 @@
     .home-screen-promotion-wrapper#avantages
       .main-container.soft
         .push--sides.soft--ends
-          %h2.soft--bottom.text--center.f-weight-300 Les avantages du Pass CoursAvenue
+          %h2.soft--bottom.text--center.f-weight-300 Les avantages du Pass Découverte
           .grid--full
             .grid__item.one-twelfth.palm-one-whole.text--right.palm-text--center.soft--right.v-middle>
               = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/abundance.png', width: 70
@@ -334,7 +340,10 @@
               %p.epsilon Votre pass est valable 1 mois et renouvelable autant de fois que vous le souhaitez. Satisfaction garantie.
 
       .center-block.text--center.push--bottom.soft--bottom{ style: 'width: 350px;' }
-        = link_to 'Obtenir mon pass', 'javascript:void(0)', class: 'mixpanel-tracker btn btn--green btn--bigger', data: { behavior: 'show-popup', info: 'Without price' }
+        - if buy_now
+          = link_to 'Acheter mon pass', create_account_discovery_passes_path, class: 'mixpanel-tracker btn btn--green btn--bigger', data: { info: 'Without price' }
+        - else
+          = link_to 'Obtenir mon pass', 'javascript:void(0)', class: 'mixpanel-tracker btn btn--green btn--bigger', data: { behavior: 'show-popup', info: 'Without price' }
 
     .main-container.soft
       .grid

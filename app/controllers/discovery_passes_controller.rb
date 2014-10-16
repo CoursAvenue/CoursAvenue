@@ -13,6 +13,10 @@ class DiscoveryPassesController < Pro::ProController
     end
   end
 
+  def buy_now
+    render template: 'discovery_passes/index', locals: { buy_now: true }
+  end
+
   # Vertical danse page
   # GET /pass-decouverte/dansez
   def get_danse

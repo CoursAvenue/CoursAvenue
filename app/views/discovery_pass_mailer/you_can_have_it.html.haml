@@ -1,7 +1,7 @@
 - content_for :email_title do
   Un Pass est réservé pour vous pendant 48h
 
-.title.text--center
+.title.title--large.text--center
   Vous Avez 48 Heures pour Réclamer votre Pass Découverte !
 
 .p
@@ -14,7 +14,7 @@
   Cliquez sur le lien ci-dessous pour l'obtenir :
 
 .p
-  = link_to 'CLIQUEZ ICI POUR OBTENIR VOTRE PASS DECOUVERTE', create_account_discovery_passes_path
+  = link_to 'CLIQUEZ ICI POUR OBTENIR VOTRE PASS DECOUVERTE', buy_now_discovery_passes_path, class: 'f-weight-bold'
   et partir à la rencontre des meilleurs cours de loisirs de Paris.
 
 .p

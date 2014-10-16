@@ -35,7 +35,7 @@
         sera expirée.
       = render 'shared/mailers/footer'
     %td.text--center.v-middle.content-block{ width: 125 }
-      = image_tag 'emails_logo/48hours.png', width: 75, height: 120, alt: 'Vous avez 48 heures'
+      = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/emails_logo/48hours.png', width: 75, height: 120, alt: 'Vous avez 48 heures'
 
 - content_for :under_content do
   = render partial: 'participation_request_mailer/shared/participation_recap', locals: { participation_request: @participation_request }
