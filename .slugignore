@@ -1,0 +1,7 @@
+*.psd
+*.pdf
+test
+spec
+features
+doc
+app/assets/images/icons/svg/*
