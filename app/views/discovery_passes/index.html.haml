@@ -20,7 +20,7 @@
               = link_to "Avantages", '#avantages', class: 'muted-link orange mixpanel-tracker', data: { behavior: 'scroll-to', offset_top: '-55', info: 'Discovery Page landing' }
         .flexbox__item.text--right.five-twelfths>
           - if buy_now
-            = link_to 'Acheter mon pass', create_account_discovery_passes_path, class: 'mixpanel-tracker btn btn--green btn--bigger', data: { info: 'Without price' }
+            = link_to 'Obtenir mon pass', create_account_discovery_passes_path, class: 'mixpanel-tracker btn btn--green btn--bigger', data: { info: 'Without price' }
           - else
             = link_to 'Obtenir mon pass', 'javascript:void(0)', class: 'mixpanel-tracker btn btn--green btn--bigger', data: { behavior: 'show-popup', info: 'Without price' }
 
@@ -77,7 +77,7 @@
           %p.epsilon
             Valable 30 jours et renouvelable, le Pass Découverte vous permet de suivre 1 300 séances d'essai négociées spécialement pour vous : Sophrologie, Impro, Yoga, Golf, Danse... Pour une vie créative, artistique, sportive !
           - if buy_now
-            = link_to 'Acheter mon pass', create_account_discovery_passes_path, class: 'mixpanel-tracker btn btn--green btn--full btn--bigger', data: { info: 'Without price' }
+            = link_to 'Obtenir mon pass', create_account_discovery_passes_path, class: 'mixpanel-tracker btn btn--green btn--full btn--bigger', data: { info: 'Without price' }
           - else
             = link_to 'Obtenir mon pass', 'javascript:void(0)', class: 'mixpanel-tracker btn btn--green btn--full btn--bigger', data: { behavior: 'show-popup', info: 'Without price' }
 
@@ -342,7 +342,7 @@
 
       .center-block.text--center.push--bottom.soft--bottom{ style: 'width: 350px;' }
         - if buy_now
-          = link_to 'Acheter mon pass', create_account_discovery_passes_path, class: 'mixpanel-tracker btn btn--green btn--bigger', data: { info: 'Without price' }
+          = link_to 'Obtenir mon pass', create_account_discovery_passes_path, class: 'mixpanel-tracker btn btn--green btn--bigger', data: { info: 'Without price' }
         - else
           = link_to 'Obtenir mon pass', 'javascript:void(0)', class: 'mixpanel-tracker btn btn--green btn--bigger', data: { behavior: 'show-popup', info: 'Without price' }
 
