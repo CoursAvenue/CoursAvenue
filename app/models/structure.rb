@@ -86,7 +86,7 @@ class Structure < ActiveRecord::Base
                   :contact_email,
                   :description, :subject_ids, :active, # active: for tests profile, eg. L'atelier de Nima, etc.
                   :has_validated_conditions,
-                  :validated_by, :logo, :sleeping_logo, :remote_logo_url,
+                  :validated_by, :logo, :remote_logo_url,
                   :funding_type_ids,
                   :crop_x, :crop_y, :crop_width,
                   :rating, :comments_count,

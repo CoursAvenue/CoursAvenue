@@ -3,8 +3,8 @@
     .epsilon.f-weight-bold
       Cet établissement n'a pas encore activé son profil
   .panel__body.soft
-    - if @structure.sleeping_logo.present?
-      .media-photo.float--right.push--left= image_tag @structure.sleeping_logo.url(:thumb), class: 'block', height: 200, width: 200
+    - if @structure.logo.present?
+      .media-photo.float--right.push--left= image_tag @structure.logo.url(:thumb), class: 'block', height: 200, width: 200
     .gamma.f-weight-bold S'agit-il de votre profil ?
     %p Prenez gratuitement le contrôle de votre profil CoursAvenue pour :
     %ul
