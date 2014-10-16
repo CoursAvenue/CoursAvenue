@@ -62,3 +62,13 @@
         });
 
 = render 'shared/live_chat'
+
+- if Rails.env.production?
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          mixpanel.track("Landed on 'Inscription'");
+          mixpanel.people.set({
+              'pass_step_1': true
+          });
+      });
