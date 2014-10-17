@@ -82,7 +82,7 @@
         %th.text--center Emails
     %tbody
       - interested_in_discovery_pass_users = User.where("meta_data -> 'interested_in_discovery_pass' LIKE '%true%'")
-      - interested_in_discovery_pass_users.sort_by(&:created_at).group_by{|u| u.created_at.to_date }.each do |date, users|
+      - interested_in_discovery_pass_users.sort_by(&:updated_at).group_by{|u| u.created_at.to_date }.each do |date, users|
         %tr
           %td.text--center= l(date, format: :long)
           %td.text--center= users.count
