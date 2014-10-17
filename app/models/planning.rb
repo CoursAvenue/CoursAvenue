@@ -512,7 +512,7 @@ class Planning < ActiveRecord::Base
   #
   # @return nil
   def update_course_available_in_discovery_pass
-    if self.available_in_discovery_pass_changed? and self.available_in_discovery_pass == true and self.course.available_in_discovery_pass == false
+    if self.available_in_discovery_pass_changed? and self.available_in_discovery_pass == true and self.course.available_in_discovery_pass.blank?
       self.course.update_column :available_in_discovery_pass, true
     end
     nil

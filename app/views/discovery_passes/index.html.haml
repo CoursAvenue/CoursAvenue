@@ -177,7 +177,10 @@
     .panel__body.soft
       %p.epsilon Pour vous permettre de profiter du Pass Découverte dans les meilleures conditions, laissez-nous votre e-mail pour vous inscrire sur notre liste : nous vous préviendrons dès que le Pass devient disponible pour vous.
       = simple_form_for User.new, url: discovery_passes_path(waiting_list: true, promo_code: @sponsorship.try(:promo_code)), method: :post, data: { behavior: 'discovery-pass-form' } do |f|
-        = f.input :test_name, as: :hidden, input_html: { value: 'Without price' }
+        - if Rails.env.production? and params[:from_newsletter].present?
+          = f.input :test_name, as: :hidden, input_html: { value: 'Newsletter' }
+        - else
+          = f.input :test_name, as: :hidden, input_html: { value: 'Without price' }
         = f.input :email, input_html: { class: 'one-whole input--large', placeholder: 'E-mail' }, label: false
         = f.submit "M'inscrire sur la liste", class: 'btn btn--bigger btn--green btn--full', data: { disable_with: 'Envoi en cours' }
 
