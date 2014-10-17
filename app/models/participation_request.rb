@@ -41,7 +41,7 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return ParticipationRequest
   def self.create_and_send_message(request_attributes, message_body, user, structure)
-    participation_request           = ParticipationRequest.new request_attributes
+    participation_request           = ParticipationRequest.new date: request_attributes[:date], start_time: request_attributes[:start_time], planning_id: request_attributes[:planning_id]
     participation_request.user      = user
     participation_request.structure = structure
     if participation_request.valid?
