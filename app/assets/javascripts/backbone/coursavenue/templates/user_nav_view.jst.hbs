@@ -86,87 +86,68 @@
     </div>
 {{else}}
 <div class="inline-block">
-    {{#ifCond on_discovery_pass_pages '&&' comes_from_discovery_pass_landing}}
-        <div class="inline-block soft--left">
-            <div class="drop-down__wrapper grid__item width-auto v-middle hard--left" data-behavior='drop-down' data-el='> .drop-down__el' data-position='right'>
-                <a href="{{ discovery_passes_url }}" class="btn btn--yellow" data-info="Pass Decouverte header link">Pass Découverte</a>
-                <ul class="drop-down__el text--left">
-                    <li class="nowrap">
-                        <a href="{{ discovery_pass_search_structures_url }}" class="mixpanel-tracker" data-info="Pass Decouverte header link">Accéder / M'inscrire aux cours</a>
-                    </li>
-                    <li class="nowrap">
-                        <a href="{{ discovery_passes_url }}" class="mixpanel-tracker" data-info="Pass Decouverte header link">Obtenir mon pass</a>
-                    </li>
-                    <li class="nowrap">
-                        <a href="{{ discovery_passes_url }}" class="mixpanel-tracker" data-info="Pass Decouverte header link">En savoir plus</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    {{else}}
-        <div class="inline-block soft--right">
-            <a href="#" data-behavior="sign-up">Inscription</a>
-        </div>
-        <div class="inline-block soft--right">
-            <a href="#" data-behavior="sign-in">Connexion</a>
-        </div>
-        <div class="inline-block soft--right drop-down__wrapper" data-behavior='drop-down' data-el='> .drop-down__el' data-position='right'>
-          <a href="{{ pages_faq_users_url }}" target='_blank' target='_blank' class="mixpanel-tracker" data-info="header-dropdown-menu">
-            Aide
-            <i class="fa fa-caret-down"></i>
-          </a>
-          <ul class="drop-down__el text--left on-top">
-            <li class="nowrap">
-                <a href="{{ pages_faq_users_url }}#about-creating-profile" target='_blank' class="mixpanel-tracker" data-info="header-dropdown-menu">
-                    Comment trouver puis s'inscrire à un cours de loisir ?
-                </a>
-            </li>
-            <li class="nowrap">
-                <a href="{{ pages_faq_users_url }}#about-creating-profile" target='_blank' class="mixpanel-tracker" data-info="header-dropdown-menu">
-                    Comment contacter un professeur, une association ou une école ?
-                </a>
-            </li>
-            <li class="nowrap">
-                <a href="{{ pages_faq_users_url }}#about-creating-profile" target='_blank' class="mixpanel-tracker" data-info="header-dropdown-menu">
-                    Je n'ai pas reçu mon mail d'activation : comment faire ?
-                </a>
-            </li>
-            <li class="nowrap">
-                <a href="{{ pages_faq_users_url }}#about-creating-profile" target='_blank' class="mixpanel-tracker" data-info="header-dropdown-menu">
-                    Pourquoi créer un compte élève ?
-                </a>
-            </li>
-            <li class="nowrap">
-                <a href="{{ pages_faq_users_url }}#about-creating-profile" target='_blank' class="mixpanel-tracker" data-info="header-dropdown-menu">
-                    Comment déposer une recommandation ?
-                </a>
-            </li>
-          </ul>
-        </div>
+    <div class="inline-block soft--right">
+        <a href="#" data-behavior="sign-up">Inscription</a>
+    </div>
+    <div class="inline-block soft--right">
+        <a href="#" data-behavior="sign-in">Connexion</a>
+    </div>
+    <div class="inline-block soft--right drop-down__wrapper" data-behavior='drop-down' data-el='> .drop-down__el' data-position='right'>
+      <a href="{{ pages_faq_users_url }}" target='_blank' target='_blank' class="mixpanel-tracker" data-info="header-dropdown-menu">
+        Aide
+        <i class="fa fa-caret-down"></i>
+      </a>
+      <ul class="drop-down__el text--left on-top">
+        <li class="nowrap">
+            <a href="{{ pages_faq_users_url }}#about-creating-profile" target='_blank' class="mixpanel-tracker" data-info="header-dropdown-menu">
+                Comment trouver puis s'inscrire à un cours de loisir ?
+            </a>
+        </li>
+        <li class="nowrap">
+            <a href="{{ pages_faq_users_url }}#about-creating-profile" target='_blank' class="mixpanel-tracker" data-info="header-dropdown-menu">
+                Comment contacter un professeur, une association ou une école ?
+            </a>
+        </li>
+        <li class="nowrap">
+            <a href="{{ pages_faq_users_url }}#about-creating-profile" target='_blank' class="mixpanel-tracker" data-info="header-dropdown-menu">
+                Je n'ai pas reçu mon mail d'activation : comment faire ?
+            </a>
+        </li>
+        <li class="nowrap">
+            <a href="{{ pages_faq_users_url }}#about-creating-profile" target='_blank' class="mixpanel-tracker" data-info="header-dropdown-menu">
+                Pourquoi créer un compte élève ?
+            </a>
+        </li>
+        <li class="nowrap">
+            <a href="{{ pages_faq_users_url }}#about-creating-profile" target='_blank' class="mixpanel-tracker" data-info="header-dropdown-menu">
+                Comment déposer une recommandation ?
+            </a>
+        </li>
+      </ul>
+    </div>
 
-        <div class="inline-block soft--left">
-            <div class="drop-down__wrapper grid__item width-auto v-middle hard--left" data-behavior='drop-down' data-el='> .drop-down__el' data-position='right'>
-                <a href="{{ discovery_passes_url }}" class="btn btn--yellow" data-info="Pass Decouverte header link">Pass Découverte</a>
-                <ul class="drop-down__el text--left">
-                    <li class="nowrap">
-                        <a href="{{ discovery_pass_search_structures_url }}" class="mixpanel-tracker" data-info="Pass Decouverte header link">Accéder / M'inscrire aux cours</a>
-                    </li>
-                    <li class="nowrap">
-                        <a href="{{ discovery_passes_url }}" class="mixpanel-tracker" data-info="Pass Decouverte header link">Obtenir mon pass</a>
-                    </li>
-                    <li class="nowrap">
-                        <a href="{{ discovery_passes_url }}" class="mixpanel-tracker" data-info="Pass Decouverte header link">En savoir plus</a>
-                    </li>
-                </ul>
-            </div>
+    <div class="inline-block soft--left">
+        <div class="drop-down__wrapper grid__item width-auto v-middle hard--left" data-behavior='drop-down' data-el='> .drop-down__el' data-position='right'>
+            <a href="{{ discovery_passes_url }}" class="btn btn--yellow" data-info="Pass Decouverte header link">Pass Découverte</a>
+            <ul class="drop-down__el text--left">
+                <li class="nowrap">
+                    <a href="{{ discovery_pass_search_structures_url }}" class="mixpanel-tracker" data-info="Pass Decouverte header link">Accéder / M'inscrire aux cours</a>
+                </li>
+                <li class="nowrap">
+                    <a href="{{ discovery_passes_url }}" class="mixpanel-tracker" data-info="Pass Decouverte header link">Obtenir mon pass</a>
+                </li>
+                <li class="nowrap">
+                    <a href="{{ discovery_passes_url }}" class="mixpanel-tracker" data-info="Pass Decouverte header link">En savoir plus</a>
+                </li>
+            </ul>
         </div>
-        <div class="inline-block soft--left">
-            {{#if on_sleeping_page}}
-                <a href="{{ take_control_url }}" class="btn btn--orange">Gérer ce profil</a>
-            {{else}}
-                <a href="{{ inscription_pro_structures_url }}" class="btn btn--orange">Publiez vos cours</a>
-            {{/if}}
-        </div>
-    {{/ifCond}}
+    </div>
+    <div class="inline-block soft--left">
+        {{#if on_sleeping_page}}
+            <a href="{{ take_control_url }}" class="btn btn--orange">Gérer ce profil</a>
+        {{else}}
+            <a href="{{ inscription_pro_structures_url }}" class="btn btn--orange">Publiez vos cours</a>
+        {{/if}}
+    </div>
 </div>
 {{/if}}

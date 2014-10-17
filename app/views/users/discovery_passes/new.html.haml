@@ -5,7 +5,7 @@
     = render partial: 'users/discovery_passes/breadcrumb', locals: { current: 'recap' }
   .panel__body.soft
     .grid
-      .grid__item.two-thirds>
+      .grid__item.two-thirds.palm-one-whole>
         .panel{ style: 'height: 300px; '}
           .panel__header.soft-half
             %h4.flush Achat du Pass
@@ -44,7 +44,7 @@
                 - @be2bill_params.each do |key, value|
                   = hidden_field_tag key.to_sym, value
                 = submit_tag 'Payer', class: 'btn btn--green btn--large btn--full hard--sides', data: { disable_with: 'Veuillez patienter...' }
-      .grid__item.one-third>
+      .grid__item.one-third.palm-one-whole>
         .panel{ style: 'height: 300px; '}
           .panel__header.soft-half
             %h4.flush Résumé de votre Achat
@@ -52,31 +52,31 @@
             %p
               Chaque mois, participez à autant de séances d'essai que vous le souhaitez parmi les #{Planning.available_in_discovery_pass.count.round(-2)} cours de loisirs négociés spécialement pour vous auprès de nos #{Structure.available_in_discovery_pass.count.round(-2)} partenaires parisiens. Vous pouvez renouveller votre Pass autant de fois que vous le souhaitez.
 
-              %ul.no-bullet-list
-                %li.flexbox
-                  .flexbox__item.soft-half--right.v-middle
-                    %i.fa.fa-check.green.delta
-                  .flexbox__item.v-middle.one-whole
-                    Pass nominatif <strong>valable 30 jours</strong>, renouvelable
-                %li.flexbox
-                  .flexbox__item.soft-half--right.v-middle
-                    %i.fa.fa-check.green.delta
-                  .flexbox__item.v-middle.one-whole
-                    %strong 1 300 cours
-                    à découvrir à Paris et sa région
-                    Paris et sa région
-                %li.flexbox
-                  .flexbox__item.soft-half--right.v-middle
-                    %i.fa.fa-check.green.delta
-                  .flexbox__item.v-middle.one-whole
-                    %strong Jusqu'à 3 séances
-                    offertes chez chaque partenaire
-              %hr
-              .grid.epsilon
-                .grid__item.one-half>
-                  %strong TOTAL
-                .grid__item.one-half.text--right>
-                  %strong= "#{number_to_currency(@discovery_pass.amount).gsub(/\,00/, "")}"
+            %ul.no-bullet-list
+              %li.flexbox
+                .flexbox__item.soft-half--right.v-middle
+                  %i.fa.fa-check.green.delta
+                .flexbox__item.v-middle.one-whole
+                  Pass nominatif <strong>valable 30 jours</strong>, renouvelable
+              %li.flexbox
+                .flexbox__item.soft-half--right.v-middle
+                  %i.fa.fa-check.green.delta
+                .flexbox__item.v-middle.one-whole
+                  %strong 1 300 cours
+                  à découvrir à Paris et sa région
+                  Paris et sa région
+              %li.flexbox
+                .flexbox__item.soft-half--right.v-middle
+                  %i.fa.fa-check.green.delta
+                .flexbox__item.v-middle.one-whole
+                  %strong Jusqu'à 3 séances
+                  offertes chez chaque partenaire
+            %hr
+            .grid.epsilon
+              .grid__item.one-half>
+                %strong TOTAL
+              .grid__item.one-half.text--right>
+                %strong= "#{number_to_currency(@discovery_pass.amount).gsub(/\,00/, "")}"
 
 
 = content_for :scripts do
@@ -112,6 +112,6 @@
       $(function() {
           mixpanel.track("Landed on 'Achat du Pass'");
           mixpanel.people.set({
-              'pass_step_2': true
+              pass_step_2: true
           });
       });

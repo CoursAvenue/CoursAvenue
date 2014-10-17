@@ -3,7 +3,7 @@
     = render partial: 'users/discovery_passes/breadcrumb', locals: { current: 'inscription' }
   .panel__body.soft
     .grid
-      .grid__item.one-third.center-block>
+      .grid__item.center-block{ style: 'max-width: 400px;'}>
         .panel
           .panel__header.soft-half
             %h4.flush.text--center Inscription
@@ -48,18 +48,11 @@
     });
 
 - if Rails.env.production?
-  - if cookies[:discovery_pass_danse_test]
-    = content_for :scripts do
-      :javascript
-        $(function() {
-            mixpanel.track("Email déposé : Test danse");
-        });
-  - else
-    = content_for :scripts do
-      :javascript
-        $(function() {
-            mixpanel.track("Email déposé : général");
-        });
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          mixpanel.track("Email déposé : général");
+      });
 
 = render 'shared/live_chat'
 
@@ -69,6 +62,6 @@
       $(function() {
           mixpanel.track("Landed on 'Inscription'");
           mixpanel.people.set({
-              'pass_step_1': true
+              pass_step_1: true
           });
       });

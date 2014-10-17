@@ -70,7 +70,7 @@
             .green-box.soft.white
               %h3.flush= notice
 
-    .inline-block.four-tenths.soft--right.text--center>
+    .inline-block.four-tenths.palm-one-whole.lap-six-tenths.soft--right.text--center>
       .push-half--bottom.very-soft.hard--sides
         .white-box.soft.black
           %h3 Découvrez autant de cours de loisirs que vous voulez !
@@ -94,34 +94,14 @@
     .home-screen-promotion-wrapper#en-bref
       .main-container
         .push--sides.soft--ends
-          = render 'en_bref'
+          = render 'discovery_passes/en_bref'
 
     .main-container.main-container--medium.soft#courses
       .push--sides
-        = render 'included_in_pass'
+        = render 'discovery_passes/included_in_pass'
 
     .home-screen-promotion-wrapper#avantages
-      .main-container.soft
-        .push--sides.soft--ends
-          %h2.soft--bottom.text--center.f-weight-300 Les avantages du Pass Découverte
-          .grid--full
-            .grid__item.one-twelfth.palm-one-whole.text--right.palm-text--center.soft--right.v-middle>
-              = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/abundance.png', width: 70
-            .grid__item.three-twelfths.palm-one-whole>
-              %h4.push-half--bottom Un choix unique
-              %p.epsilon C'est la 1ère fois qu'un Pass vous permet d'essayer autant de cours de loisirs : plus de 1 3000 séances vous sont proposées, un chiffre qui augmente chaque jour.
-            .grid__item.one-twelfth.palm-one-whole.text--right.palm-text--center.soft--right.v-middle>
-              = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/free.png', width: 70
-            .grid__item.three-twelfths.palm-one-whole>
-              %h4.push-half--bottom Réservation gratuite
-              %p.epsilon
-                Réservez chaque séance d'essai en prenant directement contact avec le professeur, l'association ou l'école de votre choix.
-            .grid__item.one-twelfth.palm-one-whole.text--right.palm-text--center.soft--right.v-middle>
-              = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/rocket.png', width: 70
-            .grid__item.three-twelfths.palm-one-whole>
-              %h4.push-half--bottom En toute liberté
-              %p.epsilon Votre pass est valable 1 mois et renouvelable autant de fois que vous le souhaitez. Satisfaction garantie.
-
+      = render 'discovery_passes/advantages'
       .center-block.text--center.push--bottom.soft--bottom{ style: 'width: 350px;' }
         - if buy_now
           = link_to 'Obtenir mon pass', create_account_discovery_passes_path, class: 'mixpanel-tracker btn btn--green btn--bigger', data: { info: 'Without price' }
@@ -129,19 +109,7 @@
           = link_to 'Obtenir mon pass', 'javascript:void(0)', class: 'mixpanel-tracker btn btn--green btn--bigger', data: { behavior: 'show-popup', info: 'Without price' }
 
     .main-container.soft
-      .grid
-        .grid__item.one-third.palm-one-whole.text--center>
-          .center-block.text--center.alpha 1
-          .gamma.push-half--bottom.f-weight-300 Achetez votre Pass
-          %p.epsilon Payez en ligne par carte bleue : votre Pass est nominatif et valable 30 jours
-        .grid__item.one-third.palm-one-whole.text--center>
-          .center-block.text--center.alpha 2
-          .gamma.push-half--bottom.f-weight-300 Choisissez vos cours
-          %p.epsilon Visualisez les séances sur une carte géographique puis réservez celles de votre choix
-        .grid__item.one-third.palm-one-whole.text--center>
-          .center-block.text--center.alpha 3
-          .gamma.push-half--bottom.f-weight-300 Suivez vos cours
-          %p.epsilon Pour chaque séance, vous avez le droit d'y revenir jusqu'à 3 fois !
+      = render 'discovery_passes/triptik'
 
     .home-screen-promotion-wrapper
       .main-container.main-container--medium.soft--top#places
@@ -220,6 +188,14 @@
               'landed_on_discovery_page': true,
               'test_name': 'Without price'
           });
+      });
+
+- if Rails.env.production? and params[:from_newsletter].present?
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          mixpanel.track("Landed from Newsletter");
+          mixpanel.people.set({ from_newsletter: true });
       });
 
 - if Rails.env.production? and notice

@@ -51,8 +51,7 @@
     = yield :layout_scripts
     - cache 'social_sdks_2' do
       = render 'layouts/social_sdks'
-    - if current_user and current_user.discovery_pass
-      - cookies.delete :discovery_pass_danse_test
+
     :javascript
       if (!$.cookie('fingerprint')) { $.cookie('fingerprint', new Fingerprint().get()); }
     %script{ src: "//d2wy8f7a9ursnm.cloudfront.net/bugsnag-2.min.js", "data-apikey" => "95a4635b1c13221f4232852f7badc00a" }

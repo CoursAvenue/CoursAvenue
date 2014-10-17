@@ -6,7 +6,7 @@ class StructuresController < ApplicationController
   skip_before_filter :verify_authenticity_token, only: [:add_to_favorite, :remove_from_favorite]
 
   before_filter :set_current_structure, except: [:index, :discovery_pass_search, :search]
-  # before_filter :protect_discovery_pass_access, only: [:discovery_pass]
+  before_filter :protect_discovery_pass_access, only: [:discovery_pass, :discovery_pass_search]
 
   respond_to :json
 
@@ -63,9 +63,6 @@ class StructuresController < ApplicationController
 
   # GET /etablissements/pass-decouverte
   def discovery_pass_search
-    if cookies[:discovery_pass_danse_test].present?
-      params[:root_subject_id] = 'danse'
-    end
     params[:discovery_pass] = true
     if params[:root_subject_id].present? and params[:subject_id].blank?
       params[:subject_id] = params[:root_subject_id]

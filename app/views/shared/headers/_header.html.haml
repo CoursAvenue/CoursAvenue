@@ -3,11 +3,7 @@
 %header.header.print--hidden
   .very-soft.soft-half--sides.flexbox{class: [medium ? 'main-container--medium' : '', expanded ? '' : 'main-container']}
     .flexbox__item.palm-one-whole.v-middle>
-      - if cookies[:discovery_pass_danse_test]
-        = link_to '', get_danse_discovery_passes_path(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'v-middle coursavenue-header-logo mixpanel-tracker', title: 'CoursAvenue | Tous les cours autour de vous', data: { info: 'header' }
-      - else
-        = link_to '', root_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'v-middle coursavenue-header-logo mixpanel-tracker', title: 'CoursAvenue | Tous les cours autour de vous', data: { info: 'header' }
-
+      = link_to '', root_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'v-middle coursavenue-header-logo mixpanel-tracker', title: 'CoursAvenue | Tous les cours autour de vous', data: { info: 'header' }
       - unless layout_locals[:hide_top_menu_search]
         = form_tag (layout_locals[:top_menu_search_url] || root_search_page_without_subject_path('paris')), class: 'inline-block v-middle push--left', method: :get, authenticity_token: false, data: { behavior: 'coursavenue-search' } do
           .v-middle.header-search

@@ -1,5 +1,3 @@
-- cookies[:discovery_pass_danse_test] = true
-
 - if @user
   = user_menu_currently_at 'discovery_pass'
 
@@ -32,16 +30,13 @@
               .green-box.soft.white
                 %h3.flush= notice
 
-      .inline-block.soft--right#top-form{ style: 'width: 330px;' }>
+      .inline-block.soft--right#top-form.four-tenths.palm-one-whole.lap-six-tenths{ style: 'max-width: 330px;' }>
         .push-half--bottom.very-soft.hard--sides
           .white-box.soft.black
-            -# %h3 Essayez autant de cours de loisirs que vous voulez !
             .gamma.line-height-1-5.text--center
               Testez les
               %strong meilleurs cours de danse
               de Paris
-            -# %p.epsilon
-            -#   Chaque mois, participez à autant de séances d'essai que vous le souhaitez parmi les #{Planning.available_in_discovery_pass.count.round(-2)} cours de loisirs négociés spécialement pour vous à Paris auprès de plus de #{Structure.available_in_discovery_pass.count.round(-2)} professeurs, associations et écoles.
             %ul.no-bullet-list
               %li.epsilon
                 %i.fa.fa-check.green.gamma
@@ -59,8 +54,6 @@
                 %strong valable 30 jours
             = link_to 'Obtenir mon pass', 'javascript:void(0)', class: 'mixpanel-tracker btn btn--full btn--green btn--bigger', data: { behavior: 'show-popup', info: 'Danse' }
 
-      .inline-block.v-top
-        = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/discovery_pass/badge.png", height: 250, width: 250
       .home-screen-comment.visuallyhidden--palm.soft-black-text-shadow.south.soft--bottom
         .grid.epsilon
           .grid__item.two-twelfths.v-middle.text--center>
@@ -73,26 +66,25 @@
     .home-screen-promotion-wrapper#en-bref
       .main-container
         .push--sides.soft--ends
-          %h2.soft--bottom.text--center.f-weight-300 le Pass Découverte en bref
+          %h2.soft--bottom.text--center.f-weight-300 Le Pass Découverte en bref
           .grid
-            .grid__item.one-half.palm-one-whole>
-              .f-weight-600.f-size-20.line-height-1-7 30 jours pour essayer autant de cours que vous voulez
-              %p.epsilon.line-height-1-5 Vous pouvez tester différents styles de danse et différentes écoles. Pendant les 30 jours de la durée de votre Pass, vous pouvez danser tous les jours si le coeur vous en dit !
+            .grid__item.one-half.palm-one-whole.text--center>
+              .f-weight-600.f-size-20.line-height-1-7 Essayez tous les loisirs que vous voulez
+              %p.epsilon.line-height-1-5 Tango, Zumba, Modern jazz, Salsa, Hip Hop, Valse, Flamenco... Le Pass Découverte vous permet d'essayer ces danses en toute simplicité. Pour une vie créative, sportive, artistique !
 
-            .grid__item.one-half.palm-one-whole>
-              .f-weight-600.f-size-20.line-height-1-7 Plus de 600 classes d'essai à Paris chaque semaine
+            .grid__item.one-half.palm-one-whole.text--center>
+              .f-weight-600.f-size-20.line-height-1-7 Chaque semaine à Paris, plus de 600 séances
               %p.epsilon.line-height-1-5
-                Trouvez les cours qui vous intéressent sur notre
-                = link_to 'moteur de recherche.', discovery_pass_search_structures_path(root_subject_id: 'danse'), class: 'mixpanel-tracker', data: { info: 'Discovery Pass landing Danse'}
+                La liste des cours est longue et ne cesse d'augmenter ! Chaque jour, notre équipe repère les meilleurs cours de Paris et négocie pour vous des séances collectives mais aussi des cours individuels à domicile ou chez le professeur.
 
           .grid
-            .grid__item.one-half.palm-one-whole>
-              .f-weight-600.f-size-20.line-height-1-7 Les écoles font découvrir leurs cours à de nouveaux élèves
-              %p.epsilon.line-height-1-5 Il y a plus de 200 écoles, associations et professeurs indépendants à Paris partenaires du Pass Découverte de CoursAvenue.
+            .grid__item.one-half.palm-one-whole.text--center>
+              .f-weight-600.f-size-20.line-height-1-7 Le Pass vous accompagne pendant 30 jours
+              %p.epsilon.line-height-1-5 En plus du moteur de recherche qui vous permet de réserver n'importe quel cours, renseignez vos disciplines préférées : ainsi, nous vous enverrons chaque semaine le planning détaillé des séances à venir selon vos envies.
 
-            .grid__item.one-half.palm-one-whole>
-              .f-weight-600.f-size-20.line-height-1-7 Les règles sont simples
-              %p.epsilon.line-height-1-5 Chaque professeur propose de 1 à 3 cours d'essai : c'est indiqué clairement sur la page du cours. Une fois que vous avez acheté votre Pass, vous pouvez directement réserver votre séance sur la page du cours.
+            .grid__item.one-half.palm-one-whole.text--center>
+              .f-weight-600.f-size-20.line-height-1-7 Revenez jusqu'à 3 fois chez les 200 partenaires du Pass
+              %p.epsilon.line-height-1-5 Chaque professeur, association ou école partenaire du Pass vous ouvre les portes de leurs cours : vous pouvez assister à une séance au minimum, certains vous proposent même d'y revenir jusqu'à 3 fois !
 
     .main-container.main-container--medium.soft#courses
       .push--sides
@@ -101,8 +93,8 @@
           Le Pass Découverte vous permet de réserver jusqu'à 3 séances d'essai auprès des
           %br
           meilleurs associations, écoles et professeurs de danse de Paris
-        .grid.soft--top.center-block{ style: 'max-width: 700px;'}
-          .grid__item.one-half>
+        .soft--top.center-block{ style: 'max-width: 700px;'}
+          .inline-block.one-half.palm-one-whole.palm-text--center>
             %ul.line-height-1-7.f-size-16.no-bullet-list
               %li Tango Argentin & Milonga
               %li Danse classique
@@ -120,7 +112,7 @@
               %li Danse Afro-brésilienne
               %li Danses Africaines
 
-          .grid__item.one-half>
+          .inline-block.one-half.palm-one-whole.palm-text--center>
             %ul.line-height-1-7.f-size-16.no-bullet-list
               %li Danses avec percussionnistes
               %li Pompom Girl
@@ -137,9 +129,6 @@
               %li Danse Sénégalaise
               %li Barre au sol classique
               %li Flamenco
-
-    .text--center.soft--ends
-      = link_to 'Voir les cours sur une carte géographique', discovery_pass_search_structures_path(root_subject_id: 'danse'), class: 'btn btn--bigger btn--green mixpanel-tracker', data: { info: 'Discovery Pass landing Danse'}
 
     .home-screen-promotion-wrapper
       .main-container.soft

@@ -36,8 +36,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 pages_faq_users_url                  : Routes.pages_faq_users_path(),
                 on_discovery_pass_pages              : window.on_discovery_pass_pages,
                 discovery_passes_url                 : Routes.discovery_passes_path(),
-                discovery_pass_search_structures_url : Routes.discovery_pass_search_structures_path(),
-                comes_from_discovery_pass_landing    : $.cookie('discovery_pass_danse_test')
+                discovery_pass_search_structures_url : Routes.discovery_pass_search_structures_path()
             }
             if (this.model.isLogged()) {
                 _.extend(data, {
