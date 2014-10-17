@@ -1,7 +1,7 @@
 {
   "checksum": {
-    "previous": "4afc7364ba5b78d42e3687b78c179fe4b3ca4a9769a232e738bfa5c728859fdc",
-    "current": "4afc7364ba5b78d42e3687b78c179fe4b3ca4a9769a232e738bfa5c728859fdc"
+    "previous": "3ec0f95283a4760b47f44e8eb29aea2e6a4d899d6b971455ccee8bd192efa66b",
+    "current": "3ec0f95283a4760b47f44e8eb29aea2e6a4d899d6b971455ccee8bd192efa66b"
   },
   "fonts": [
     "app/assets/fonts/GlyphAvenue.ttf",
@@ -179,7 +179,7 @@
       "source": "app/assets/images/icons/svg/list.svg"
     },
     "lock": {
-      "codepoint": 61803,
+      "codepoint": 61851,
       "source": "app/assets/images/icons/svg/lock.svg"
     },
     "map-marker": {
