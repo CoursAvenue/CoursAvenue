@@ -13,7 +13,8 @@ class MailchimpUpdater
                                    :EMAILSTAT  => user.delivery_email_status,
                                    :ID         => user.id,
                                    :GROUP      => user.id.modulo(6),
-                                   :SLEEPING   => (user.active? ? 'Oui' : 'Non')
+                                   :SLEEPING   => (user.active? ? 'Oui' : 'Non'),
+                                   :HAS_PASS   => (user.discovery_pass ? 'Oui' : 'Non')
                                  },
                                    double_optin: false,
                                    update_existing: true
