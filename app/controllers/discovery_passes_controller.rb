@@ -57,7 +57,7 @@ class DiscoveryPassesController < Pro::ProController
       user.test_name                    = params[:user][:test_name]
       user.save(validate: false)
       DiscoveryPassMailer.delay.you_are_on_the_list(user)
-      DiscoveryPassMailer.you_can_have_it(user)
+      # DiscoveryPassMailer.you_can_have_it(user)
       redirect_to request.referrer, notice: "Félicitations ! Nous venons de vous inscrire sur notre liste d'attente. Dès que le Pass devient disponible, nous vous préviendrons pas e-mail."
     end
   end

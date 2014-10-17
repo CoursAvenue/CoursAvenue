@@ -1,0 +1,73 @@
+- content_for :email_title do
+  Félicitations ! Vous êtes sur la liste pour le Pass Découverte
+
+= content_for :under_content_no_box do
+  %table{ width: 600 }
+    %tbody
+      %tr
+        %td.text--right{ width: '40%', style: 'font-size: 100px;'}
+          12
+        %td.text--left{ width: '60%', style: 'font-size: 35px;'}
+          Nouveaux
+          %br
+          Partenaires
+      %tr
+        %td.text--center{ colspan: '2' }
+          Des cours exceptionnels rien que pour vous
+      %tr
+        %td.text--center{ colspan: '2' }
+          .p.action.soft-half--top.soft--bottom
+            = link_to 'Obtenir mon Pass Découverte', buy_now_discovery_passes_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'f-weight-bold', target: :_blank, class: 'btn btn--green'
+
+  %table{ border: '0', cellpadding: '0', cellspacing: '0', width: '600', style: 'margin: auto;' }
+    %tbody
+      %tr
+        %td.text--center{ width: '300', style: 'padding-left: 10px; padding-top: 10px;' }
+          = link_to buy_now_discovery_passes_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block' do
+            = image_tag 'http://coursavenue-public.s3.amazonaws.com/newsletters/PassDecouverte/retargetting/image1.jpg', alt: 'Yoga Adultes et Enfants dès 3 ans — Paris 19 et 20', height: 200, width: 300, class: 'block'
+        %td.text--center{ width: '300', style: 'padding-left: 10px; padding-top: 10px; padding-right: 10px;' }
+          = link_to buy_now_discovery_passes_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block' do
+            = image_tag 'http://coursavenue-public.s3.amazonaws.com/newsletters/PassDecouverte/retargetting/image2.jpg', alt: 'Confiance en soi & Gestion du stress — À domicile et à Paris 14', height: 200, width: 300, class: 'block'
+      %tr
+        %td.text--center{ width: '300', style: 'padding-left: 10px; padding-top: 10px;' }
+          = link_to buy_now_discovery_passes_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block' do
+            = image_tag 'http://coursavenue-public.s3.amazonaws.com/newsletters/PassDecouverte/retargetting/image3.jpg', alt: 'Canne de combat & de défense — Paris 5 et Paris 12', height: 200, width: 300, class: 'block'
+        %td.text--center{ width: '300', style: 'padding-left: 10px; padding-top: 10px; padding-right: 10px;' }
+          = link_to buy_now_discovery_passes_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block' do
+            = image_tag 'http://coursavenue-public.s3.amazonaws.com/newsletters/PassDecouverte/retargetting/image4.jpg', alt: 'Wutao créatif — Paris 13', height: 200, width: 300, class: 'block'
+      %tr
+        %td.text--center{ width: '300', style: 'padding-left: 10px; padding-top: 10px;' }
+          = link_to buy_now_discovery_passes_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block' do
+            = image_tag 'http://coursavenue-public.s3.amazonaws.com/newsletters/PassDecouverte/retargetting/image5.jpg', alt: 'Dessin & Peinture — Musée du Louvre et Paris 14', height: 200, width: 300, class: 'block'
+        %td.text--center{ width: '300', style: 'padding-left: 10px; padding-top: 10px; padding-right: 10px;' }
+          = link_to buy_now_discovery_passes_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block' do
+            = image_tag 'http://coursavenue-public.s3.amazonaws.com/newsletters/PassDecouverte/retargetting/image6.jpg', alt: 'Improvisation dès 12 ans — Paris 2 et Paris 11', height: 200, width: 300, class: 'block'
+      %tr
+        %td.text--center{ colspan: 2 }
+          .p.action.soft
+            = link_to 'Obtenir mon Pass Découverte', buy_now_discovery_passes_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'f-weight-bold', target: :_blank, class: 'btn btn--green'
+      %tr
+        %td.text--center{ width: '300', style: 'padding-left: 10px; padding-top: 10px;' }
+          = link_to buy_now_discovery_passes_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block' do
+            = image_tag 'http://coursavenue-public.s3.amazonaws.com/newsletters/PassDecouverte/retargetting/image7.jpg', alt: 'Marqueterie — A domicile & Paris 14', height: 200, width: 300, class: 'block'
+        %td.text--center{ width: '300', style: 'padding-left: 10px; padding-top: 10px; padding-right: 10px;' }
+          = link_to buy_now_discovery_passes_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block' do
+            = image_tag 'http://coursavenue-public.s3.amazonaws.com/newsletters/PassDecouverte/retargetting/image8.jpg', alt: 'Ecriture créative — Paris 18', height: 200, width: 300, class: 'block'
+      %tr
+        %td.text--center{ width: '300', style: 'padding-left: 10px; padding-top: 10px;' }
+          = link_to buy_now_discovery_passes_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block' do
+            = image_tag 'http://coursavenue-public.s3.amazonaws.com/newsletters/PassDecouverte/retargetting/image9.jpg', alt: 'Zen yoga stretching, Qi gong & Tai Chi Chuan — Paris 20', height: 200, width: 300, class: 'block'
+        %td.text--center{ width: '300', style: 'padding-left: 10px; padding-top: 10px; padding-right: 10px;' }
+          = link_to buy_now_discovery_passes_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block' do
+            = image_tag 'http://coursavenue-public.s3.amazonaws.com/newsletters/PassDecouverte/retargetting/image10.jpg', alt: 'Danse Afro-brésilienne — A domicile & Paris 19', height: 200, width: 300, class: 'block'
+      %tr
+        %td.text--center{ width: '300', style: 'padding-left: 10px; padding-top: 10px;' }
+          = link_to buy_now_discovery_passes_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block' do
+            = image_tag 'http://coursavenue-public.s3.amazonaws.com/newsletters/PassDecouverte/retargetting/image11.jpg', alt: 'Sumo — Paris 2', height: 200, width: 300, class: 'block'
+        %td.text--center{ width: '300', style: 'padding-left: 10px; padding-top: 10px; padding-right: 10px;' }
+          = link_to buy_now_discovery_passes_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block' do
+            = image_tag 'http://coursavenue-public.s3.amazonaws.com/newsletters/PassDecouverte/retargetting/image12.jpg', alt: 'Chant & Comédie musicale — Paris 10 & Paris 18', height: 200, width: 300, class: 'block'
+      %tr
+        %td.text--center{ colspan: 2 }
+          .p.action.soft
+            = link_to 'Obtenir mon Pass Découverte', buy_now_discovery_passes_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'f-weight-bold', target: :_blank, class: 'btn btn--green'

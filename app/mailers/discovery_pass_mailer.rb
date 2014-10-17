@@ -50,12 +50,12 @@ class DiscoveryPassMailer < ActionMailer::Base
     @user = user
     mail to: user.email, subject: "L'attente est terminée ! Obtenez votre Pass Découverte maintenant"
   end
-  # handle_asynchronously :you_can_have_it, :run_at => Proc.new { Date.tomorrow + 9.hours }
+  handle_asynchronously :you_can_have_it, :run_at => Proc.new { Date.tomorrow + 9.hours }
 
   def reminder(user, nb=1)
     @user = user
     mail to: user.email,
-         subject: "Votre Parrainage a été prit en compte",
-         template: "reminder_#{nb}"
+         subject: "Pass Découverte : 12 Nouveaux Partenaires Exceptionnels (ou RAPPEL : Votre invitation au Pass Découverte expire ce soir !)",
+         template_name: "reminder_#{nb}"
   end
 end
