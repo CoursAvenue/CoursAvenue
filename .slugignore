@@ -4,6 +4,5 @@ test
 spec
 features
 doc
-public
 app/assets/images/icons/svg/*
 public/assets/ckeditor/*
