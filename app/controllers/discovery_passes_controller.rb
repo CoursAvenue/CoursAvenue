@@ -51,6 +51,7 @@ class DiscoveryPassesController < Pro::ProController
       user = User.create_or_find_from_email(params[:user][:email])
       user.interested_in_discovery_pass = true
       user.test_name                    = params[:user][:test_name]
+      user.interested_at                = Date.today
       user.save(validate: false)
       DiscoveryPassMailer.delay.you_are_on_the_list(user)
       # DiscoveryPassMailer.you_can_have_it(user)

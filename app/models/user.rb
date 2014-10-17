@@ -26,10 +26,10 @@ class User < ActiveRecord::Base
                   :email_opt_in, :sms_opt_in, :email_promo_opt_in, :email_newsletter_opt_in, :email_passions_opt_in,
                   :email_status, :last_email_sent_at, :last_email_sent_status,
                   :lived_places_attributes, :delivery_email_status,
-                  :sponsorships, :sponsorship_slug, :interested_in_discovery_pass, :test_name
+                  :sponsorships, :sponsorship_slug, :interested_in_discovery_pass, :test_name, :interested_at
 
   # To store hashes into hstore
-  store_accessor :meta_data, :after_sign_up_url, :have_seen_first_jpo_popup, :interested_in_discovery_pass, :test_name
+  store_accessor :meta_data, :after_sign_up_url, :have_seen_first_jpo_popup, :interested_in_discovery_pass, :test_name, :interested_at
 
   define_boolean_accessor_for :meta_data, :have_seen_first_jpo_popup
 
