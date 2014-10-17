@@ -146,7 +146,7 @@ class ParticipationRequest < ActiveRecord::Base
     if self.planning
       self.planning.place
     else
-      self.course.place
+      self.course.try(:place)
     end
   end
 
