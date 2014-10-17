@@ -23,7 +23,7 @@
           - if buy_now
             = link_to 'Obtenir mon pass', create_account_discovery_passes_path, class: 'mixpanel-tracker btn btn--green btn--bigger', data: { info: 'Without price' }
           - else
-            = link_to 'Obtenir mon pass', 'javascript:void(0)', class: 'mixpanel-tracker btn btn--green btn--bigger', data: { behavior: 'show-popup', info: 'Without price' }
+            = link_to 'Obtenir mon pass', 'javascript:void(0)', class: 'mixpanel-tracker palm-text--center palm-one-whole btn btn--green btn--bigger', data: { behavior: 'show-popup', info: 'Without price' }
 
 = content_for :title do
   CoursAvenue | Pass Découverte

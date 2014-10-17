@@ -8,7 +8,7 @@
   .bg-site-background.soft-half--ends.bordered--bottom
     .main-container.main-container--medium.soft--sides
       .flexbox.one-whole
-        .flexbox__item.seven-twelfths.top-page-menu>
+        .flexbox__item.seven-twelfths.top-page-menu.visuallyhidden--palm>
           %ul.nav.flush.epsilon
             %li.soft-half--sides
               = link_to "Inscription", '#top', class: 'muted-link orange mixpanel-tracker', data: { behavior: 'scroll-to', offset_top: '-55', info: 'Discovery Page landing' }
@@ -18,8 +18,8 @@
               = link_to "Cours inclus dans le Pass", '#courses', class: 'muted-link orange mixpanel-tracker', data: { behavior: 'scroll-to', offset_top: '-55', info: 'Discovery Page landing' }
             %li.soft-half--sides
               = link_to "Avantages", '#avantages', class: 'muted-link orange mixpanel-tracker', data: { behavior: 'scroll-to', offset_top: '-55', info: 'Discovery Page landing' }
-        .flexbox__item.text--right.five-twelfths>
-          = link_to 'Obtenir mon pass', 'javascript:void(0)', class: 'mixpanel-tracker btn btn--green btn--bigger', data: { behavior: 'show-popup', info: 'With price' }
+        .flexbox__item.text--right.five-twelfths.palm-one-whole>
+          = link_to 'Obtenir mon pass', 'javascript:void(0)', class: 'mixpanel-tracker btn btn--green btn--bigger palm-text--center palm-one-whole', data: { behavior: 'show-popup', info: 'With price' }
 
 = content_for :title do
   CoursAvenue | Pass Découverte
