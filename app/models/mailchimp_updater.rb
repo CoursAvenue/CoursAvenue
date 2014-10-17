@@ -1,7 +1,6 @@
 class MailchimpUpdater
 
   def self.update_user(user)
-    next if user.should_send_email?
     Gibbon::API.lists.subscribe({id: '34fb5a48e8',
                                  email: { email: user.email},
                                  merge_vars: {
