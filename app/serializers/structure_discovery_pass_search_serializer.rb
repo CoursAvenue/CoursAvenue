@@ -37,7 +37,7 @@ class StructureDiscoveryPassSearchSerializer < ActiveModel::Serializer
   end
 
   def highlighted_comment_title
-    truncate((object.highlighted_comment_title || object.comments.last.title), length: 60) if object.comments_count > 0
+    truncate((object.highlighted_comment.try(:title) || object.comments.last.title), length: 60) if object.comments_count > 0
   end
 
   def structure_type

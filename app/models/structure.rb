@@ -639,7 +639,6 @@ class Structure < ActiveRecord::Base
     self.has_promotion            = self.courses.detect(&:has_promotion?).present?
     self.has_free_trial_course    = self.courses.detect(&:has_free_trial_lesson?).present?
     self.course_names              = self.courses.map(&:name).uniq.join(', ')
-    self.highlighted_comment_title = (self.highlighted_comment ? self.highlighted_comment.title : comments.accepted.order('created_at DESC').first.try(:title))
     # Store level and audiences ids as coma separated string values: "1,3,5"
     self.level_ids                = (self.plannings.collect(&:level_ids) + self.courses.privates.collect(&:level_ids)).flatten.uniq.sort.join(',')
     self.audience_ids             = (self.plannings.collect(&:audience_ids) + self.courses.privates.collect(&:audience_ids)).flatten.uniq.sort.join(',')

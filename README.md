@@ -93,8 +93,13 @@ RAILS_ENV=test rake sunspot:solr:start
 # DB
 
 ## Recovering a dump
-    killall ruby; dropdb -h localhost -U postgres coursavenue_development; createdb -h localhost -O postgres -U postgres coursavenue_development && psql coursavenue_development -c 'create extension hstore;' -U postgres && pg_restore --host localhost --port 5432 --username "postgres" --dbname "coursavenue_development" --role "ud9c2iqn1hpp2g" --no-password  --verbose "/Users/Nima/Downloads/a266.dump"
+    killall ruby; \
+    dropdb -h localhost -U postgres coursavenue_development; \
+    createdb -h localhost -O postgres -U postgres coursavenue_development && \
+    psql coursavenue_development -c 'create extension hstore;' -U postgres && \
+    pg_restore --host localhost --port 5432 --username "postgres" --dbname "coursavenue_development" --role "ud9c2iqn1hpp2g" --no-password  --verbose "/Users/Nima/Downloads/a266.dump"
 
+    pg_restore --host localhost --port 5432 --dbname "coursavenue_development" --role "ud9c2iqn1hpp2g" --verbose /Users/Nima/Downloads/a532.dump -U postgres
 ## Make a dump
     pg_dump --host localhost --port 5432 --username "postgres" --dbname "coursavenue_development" -f 20_fev.tar --format=t
 
