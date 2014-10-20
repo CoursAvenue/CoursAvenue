@@ -59,11 +59,14 @@ class CrmSync
   end
 
   def self.create_sleeping_contact(structure)
+    return if structure.contact_email.blank?
     email_addresses = [ { address: structure.contact_email.downcase } ]
     person = Highrise::Person.where(email: structure.contact_email.downcase).first
     return if person
-    structure.other_emails.each do |email|
-      email_addresses << [ { address: email.downcase } ]
+    if structure.other_emails
+      structure.other_emails.each do |email|
+        email_addresses << [ { address: email.downcase } ]
+      end
     end
     person = Highrise::Person.new(name: structure.name,
                                   contact_data: { email_addresses: email_addresses })
@@ -74,3 +77,4 @@ class CrmSync
     end
   end
 end
+
