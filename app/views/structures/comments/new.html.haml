@@ -1,3 +1,6 @@
+- content_for :head do
+  %meta{ name: 'robots', content: 'noindex, nofollow' }
+
 - default_fake_message = []
 - if @participation_request
   - default_fake_message << "Bonjour,\nJ'ai vraiment apprécié ma séance découverte et je souhaiterais éventuellement m'inscrire à des cours réguliers. Serait-il possible de connaître les tarifs ? N'hésitez pas à m'envoyer toutes les informations, et m'informer également de vos stages à venir. \nMerci pour tout !"

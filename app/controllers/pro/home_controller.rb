@@ -17,7 +17,7 @@ class Pro::HomeController < Pro::ProController
   def widget
     @structures = Structure.where( Structure.arel_table[:widget_status].eq('installed').and(
                                    Structure.arel_table[:widget_url].not_eq('')).and(
-                                   Structure.arel_table[:widget_url].not_eq(nil)) ).limit(100)
+                                   Structure.arel_table[:widget_url].not_eq(nil)) ).limit(60)
   end
 
   def price
