@@ -13,9 +13,10 @@ StructureProfile.addInitializer(function(options) {
         }),
         google_maps_view, sticky_google_maps_view, places_collection, places_list_view, comments_collection_view;
 
-    places_collection = structure.get('places');
-    message_form_view = new StructureProfile.Views.Messages.MessageFormView( { structure: structure } );
-    google_maps_view  = new StructureProfile.Views.Map.GoogleMapsView({
+    places_collection          = structure.get('places');
+    message_form_view          = new StructureProfile.Views.Messages.MessageFormView( { structure: structure } );
+    participation_request_view = new StructureProfile.Views.ParticipationRequests.RequestFormView( { structure: structure } );
+    google_maps_view           = new StructureProfile.Views.Map.GoogleMapsView({
         collection:         places_collection,
         infoBoxViewOptions: { infoBoxClearance: new google.maps.Size(0, 0) },
         mapOptions:         { scrollwheel: false },
@@ -37,9 +38,13 @@ StructureProfile.addInitializer(function(options) {
 
     layout.render();
 
-    layout.showWidget(message_form_view, {
-        selector: '[data-type=contact-form]'
+    layout.showWidget(participation_request_view, {
+        selector: '[data-type=contact-form]',
+        events: {
+            'planning:register' : 'showRegistrationForm'
+        }
     });
+
     layout.showWidget(sticky_google_maps_view, {
         selector: '[data-type=sticky-map]',
         events: {

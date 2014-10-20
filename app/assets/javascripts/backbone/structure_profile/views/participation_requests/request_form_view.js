@@ -1,4 +1,4 @@
-StructureProfileDiscoveryPass.module('Views.ParticipationRequests', function(Module, App, Backbone, Marionette, $, _, undefined) {
+StructureProfile.module('Views.ParticipationRequests', function(Module, App, Backbone, Marionette, $, _, undefined) {
 
     Module.RequestFormView = Marionette.CompositeView.extend({
         template: Module.templateDirname() + 'request_form_view',
@@ -23,7 +23,7 @@ StructureProfileDiscoveryPass.module('Views.ParticipationRequests', function(Mod
 
         initialize: function initialize (options) {
             this.structure = options.structure;
-            this.model = new StructureProfileDiscoveryPass.Models.ParticipationRequest(options.model || {});
+            this.model = new StructureProfile.Models.ParticipationRequest(options.model || {});
             Backbone.Validation.bind(this);
             _.bindAll(this, 'showPopupMessageDidntSend');
         },
@@ -190,8 +190,20 @@ StructureProfileDiscoveryPass.module('Views.ParticipationRequests', function(Mod
         submitForm: function submitForm () {
             this.populateRequest();
             if (this.model.isValid(true)) {
-                this.$('form').trigger('ajax:beforeSend.rails');
-                this.saveMessage();
+                if (CoursAvenue.currentUser().isLogged()) {
+                    this.$('form').trigger('ajax:beforeSend.rails');
+                    this.saveMessage();
+                } else {
+                    CoursAvenue.signUp({
+                        title: 'Enregistrez-vous pour envoyer votre message',
+                        // Passing the user in order to keep the email and more if we need.
+                        user: this.model.get('user'),
+                        success: function success (response) {
+                            this.saveMessage();
+                        }.bind(this),
+                        dismiss: this.showPopupMessageDidntSend
+                    });
+                }
             } else {
                 this.errors = this.model.validate();
                 if (this.errors['user.phone_number']) {
@@ -217,6 +229,7 @@ StructureProfileDiscoveryPass.module('Views.ParticipationRequests', function(Mod
                               type: 'inline'
                           }
                     });
+                    if (CoursAvenue.is_production()) { mixpanel.track("Dismissed request form view"); }
                 }.bind(this),
                 error: this.showPopupMessageDidntSend
             });
@@ -224,7 +237,6 @@ StructureProfileDiscoveryPass.module('Views.ParticipationRequests', function(Mod
 
         showPopupMessageDidntSend: function showPopupMessageDidntSend (model, response) {
               this.$('form').trigger('ajax:complete.rails');
-              // TODO
               var popup_to_show = JSON.parse(response.responseText).popup_to_show;
               $.magnificPopup.open({
                     items: {

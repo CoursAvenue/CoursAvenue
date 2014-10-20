@@ -1,5 +1,5 @@
 /* just a basic backbone model */
-StructureProfileDiscoveryPass.module('Models', function(Module, App, Backbone, Marionette, $, _) {
+StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.ParticipationRequest = Backbone.Model.extend({
         // We override the toJSON function to have all the params grouped into

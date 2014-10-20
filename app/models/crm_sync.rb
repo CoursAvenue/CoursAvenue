@@ -45,7 +45,6 @@ class CrmSync
                                   contact_data: {
                                     email_addresses: [ { address: admin.email.downcase } ]
                                   })
-    puts "Creating #{admin.email.downcase} from #{structure.name}"
     if person.save
       self.update(structure)
     else

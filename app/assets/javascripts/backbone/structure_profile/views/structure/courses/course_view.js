@@ -36,7 +36,16 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
 
         onItemviewMouseleave: function onItemviewMouseleave (view, data) {
             this.trigger("mouseleave", data);
-        }
+        },
+
+        onItemviewRegister: function onItemviewRegister (view, data) {
+            this.trigger("register", data);
+        },
+
+        registerToCourse: function registerToCourse (view, data) {
+            this.trigger("register", { course_id: this.model.get('id') });
+        },
+
     });
 
 }, undefined);
