@@ -399,6 +399,9 @@ GEM
     pg (0.17.1)
     powerpack (0.0.9)
     pr_geohash (1.0.0)
+    prerender_rails (1.1.1)
+      activesupport
+      rack
     progress_bar (1.0.3)
       highline (~> 1.6.1)
       options (~> 2.3.0)
@@ -669,6 +672,7 @@ DEPENDENCIES
   passenger
   paypal-recurring (~> 1.1.0)
   pg
+  prerender_rails
   progress_bar (~> 1.0.3)
   protected_attributes (~> 1.0.8)
   pry-rails
