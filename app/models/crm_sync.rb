@@ -68,7 +68,7 @@ class CrmSync
     email_addresses = [ { address: structure.contact_email.downcase } ]
     person = Highrise::Person.where(email: structure.contact_email.downcase).first
     if structure.other_emails
-      structure.other_emails.each do |email|
+      structure.other_emails.split(';').each do |email|
         email_addresses << [ { address: email.downcase } ]
       end
     end
