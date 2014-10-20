@@ -78,6 +78,7 @@ class Structure < ActiveRecord::Base
   # Scope                                                              #
   ######################################################################
   scope :available_in_discovery_pass, -> { where(arel_table[:discovery_pass_policy].matches('%_trial%') ) }
+  scope :sleeping                   , -> { where("meta_data -> 'is_sleeping' = 'true'") }
 
   attr_reader :delete_logo, :logo_filepicker_url
   attr_accessible :structure_type, :street, :zip_code, :city_id,
