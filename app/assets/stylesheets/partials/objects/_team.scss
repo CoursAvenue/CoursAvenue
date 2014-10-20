@@ -38,7 +38,7 @@
     width : 170px;
     @include background-size((170px * 2 ) 400px);
     @include background-image-retina('https://coursavenue-public.s3.amazonaws.com/public_assets/pages/equipe/thanh.png', 'https://coursavenue-public.s3.amazonaws.com/public_assets/pages/equipe/thanh@2x.png');
-    &:hover { background-position: -179px 0px; }
+    &:hover { background-position: -174px 0px; }
 }
 .team__boris {
     height: 400px;
@@ -52,7 +52,7 @@
     width : 160px;
     @include background-size((160px * 2 ) 400px);
     @include background-image-retina('https://coursavenue-public.s3.amazonaws.com/public_assets/pages/equipe/nabil.png', 'https://coursavenue-public.s3.amazonaws.com/public_assets/pages/equipe/nabil@2x.png');
-    &:hover { background-position: -183px 0px; }
+    &:hover { background-position: -171px 0px; }
 }
 .team__offre {
     height: 400px;
