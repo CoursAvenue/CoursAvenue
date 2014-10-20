@@ -25,6 +25,26 @@ $ git push staging feature_branch:master
 \# ~/.powconfig
 `export PATH=$(rbenv root)/shims:$(rbenv root)/bin:$PATH`
 
+### Prerender
+
+#### In prerender app:
+
+```shell
+# In another folder:
+git clone git@github.com:CoursAvenue/coursavenue-prerender.git
+cd coursavenue-prerender
+npm install # install dependecies, including PhantomJS
+
+node server # or foreman start -p 3000
+```
+
+#### In Coursavenue App
+
+```shell
+echo "PRERENDER_SERVICE_URL: 'http://localhost:3000'" >> .env
+touch ~/.pow/restart.txt
+```
+
 ## Dependencies / Gems
 
 ### For Will_paginate
@@ -34,7 +54,7 @@ A custom renderer has been created in lib/
 Inuit.css
 Compass for mixins
 
-### Icon webfonts 
+### Icon webfonts
 We use FontAwesome and Fontcustom to generate own icon font
 Command to regenerate fonts:
 `bundle exec fontcustom compile app/assets/images/icons/svg/`
