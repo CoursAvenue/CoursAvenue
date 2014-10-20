@@ -41,11 +41,32 @@ class CrmSync
 
   def self.create_contact(structure)
     admin          = structure.main_contact
+    if admin.nil?
+      CrmSync.create_sleeping_contact(structure)
+    else
+      person = Highrise::Person.where(email: admin.email.downcase).first
+      return if person
+      person = Highrise::Person.new(name: structure.name,
+                                    contact_data: {
+                                      email_addresses: [ { address: admin.email.downcase } ]
+                                    })
+      if person.save
+        self.update(structure)
+      else
+        puts person.errors.full_messages
+      end
+    end
+  end
+
+  def self.create_sleeping_contact(structure)
+    email_addresses = [ { address: structure.contact_email.downcase } ]
+    person = Highrise::Person.where(email: structure.contact_email.downcase).first
+    return if person
+    structure.other_emails.each do |email|
+      email_addresses << [ { address: email.downcase } ]
+    end
     person = Highrise::Person.new(name: structure.name,
-                                  contact_data: {
-                                    email_addresses: [ { address: admin.email.downcase } ]
-                                  })
-    puts "Creating #{admin.email.downcase} from #{structure.name}"
+                                  contact_data: { email_addresses: email_addresses })
     if person.save
       self.update(structure)
     else
