@@ -19,13 +19,13 @@ class CrmSync
     person.set_field_value('Premium ?'                      , ( structure.premium? ? 'Oui' : 'Non' ))
     person.set_field_value('Stats : # d’affichages'         , structure.impression_count(1000))
     person.set_field_value('Stats : # de vues'              , structure.view_count(1000))
-    person.set_field_value('Stats : # de demandes d’info'   , admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).count)
+    person.set_field_value('Stats : # de demandes d’info'   , admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).count) if admin
     person.set_field_value("Stats : # d'actions"            , structure.action_count(1000))
-    person.set_field_value('# de discussions'               , admin.mailbox.conversations.count)
+    person.set_field_value('# de discussions'               , admin.mailbox.conversations.count) if admin
     person.set_field_value("# avis"                         , structure.comments_count)
     person.set_field_value('# de cours actifs'              , structure.courses.select(&:is_published?).length)
     person.set_field_value('# de photos/vidéos'             , structure.medias.count)
-    person.set_field_value('Dernière connexion à son profil', I18n.l(admin.last_sign_in_at, format: :date)) if admin.last_sign_in_at.present?
+    person.set_field_value('Dernière connexion à son profil', I18n.l(admin.last_sign_in_at, format: :date)) if admin and admin.last_sign_in_at.present?
     person.set_field_value('ID'                             , "https://coursavenue1.highrisehq.com/people/#{person.id}")
     person.set_field_value('JPO'                            , structure.courses.open_courses.count)
     person.set_field_value('Pass Decouverte Policy'         , structure.discovery_pass_policy)
@@ -67,24 +67,19 @@ class CrmSync
     return if structure.contact_email.blank?
     email_addresses = [ { address: structure.contact_email.downcase } ]
     person = Highrise::Person.where(email: structure.contact_email.downcase).first
-    return if person
     if structure.other_emails
       structure.other_emails.each do |email|
         email_addresses << [ { address: email.downcase } ]
       end
     end
-    person = Highrise::Person.new(name: structure.name,
-                                  contact_data: { email_addresses: email_addresses })
+    if person.nil?
+      person = Highrise::Person.new(name: structure.name,
+                                    contact_data: { email_addresses: email_addresses })
+    end
     if person.save
       self.update(structure)
     else
       puts person.errors.full_messages
     end
-  end
-end
-
-Structure.find_each do |structure|
-  if structure.is_sleeping?
-    CrmSync.delay.update(structure)
   end
 end
