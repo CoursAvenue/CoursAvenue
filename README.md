@@ -41,7 +41,8 @@ node server # or foreman start -p 3000
 #### In Coursavenue App
 
 ```shell
-echo "PRERENDER_SERVICE_URL: 'http://localhost:3000'" >> .env
+echo "PRERENDER_SERVICE_URL: 'http://prerender.dev'" >> .env
+echo 3000 > ~/.pow/prerender
 touch ~/.pow/restart.txt
 ```
 
