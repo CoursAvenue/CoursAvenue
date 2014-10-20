@@ -4,10 +4,15 @@ class CrmSync
 
   def self.update(structure)
     admin          = structure.main_contact
+    return if admin.nil? and structure.contact_email.nil?
     places_address = [{ street: structure.street, zip: structure.zip_code, location: 'Work', city: structure.city.name }]
     places_address += structure.places.map{ |place| { street: place.street, zip: place.zip_code, location: 'Work', city: place.city.name }}
 
-    person = Highrise::Person.where(email: admin.email.downcase).first
+    if admin
+      person = Highrise::Person.where(email: admin.email.downcase).first
+    else
+      person = Highrise::Person.where(email: admin.contact_email.downcase).first
+    end
     return if person.nil?
     person.set_field_value('Disciplines 1'                  , structure.subjects.at_depth(0).uniq.map(&:name).join('; '))
     person.set_field_value('Disciplines 3'                  , structure.subjects.at_depth(2).uniq.map(&:name).join('; '))
