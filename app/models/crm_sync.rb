@@ -11,7 +11,7 @@ class CrmSync
     if admin
       person = Highrise::Person.where(email: admin.email.downcase).first
     else
-      person = Highrise::Person.where(email: admin.contact_email.downcase).first
+      person = Highrise::Person.where(email: structure.contact_email.downcase).first
     end
     return if person.nil?
     person.set_field_value('Disciplines 1'                  , structure.subjects.at_depth(0).uniq.map(&:name).join('; '))
@@ -83,3 +83,8 @@ class CrmSync
   end
 end
 
+Structure.find_each do |structure|
+  if structure.is_sleeping?
+    CrmSync.delay.update(structure)
+  end
+end
