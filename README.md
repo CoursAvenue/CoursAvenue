@@ -54,6 +54,10 @@ heroku config:set PRERENDER_SERVICE_URL="http://coursavenue-prerender.herokuapp.
 hk set PRERENDER_SERVICE_URL='http://prerender.dev'
 ```
 
+### Testing
+* Set the browser user agent to `Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)` and the visit the page, or
+* Visit the page adding `?_escaped_fragment_=` to the page URL.
+
 ## Dependencies / Gems
 
 ### For Will_paginate
