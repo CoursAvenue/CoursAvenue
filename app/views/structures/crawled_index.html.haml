@@ -18,10 +18,12 @@
       %h2= title
       %ul
         - @structures.each do |structure|
-          %li= link_to @structure.name, structure_path(@structure)
+          %li
+            %h3= link_to structure.name, structure_path(structure)
+            %p= structure.description.html_safe if structure.description.present?
 
     - if @comments.present?
       .grid__item.palm-one-whole>
-        %h3= "#{@subject.name} : Sélection d'avis"
+        %h3= "#{title} : Sélection d'avis"
         - @comments.each do |comment|
           = render partial: 'comments/home_comment', locals: { comment: comment, truncate_length: 500 }
