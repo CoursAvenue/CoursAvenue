@@ -19,7 +19,9 @@
       %ul
         - @structures.each do |structure|
           %li= link_to @structure.name, structure_path(@structure)
-    .grid__item.palm-one-whole>
-      %h3= "#{@subject.name} : Sélection d'avis"
-      - @comments.each do |comment|
-        = render partial: 'comments/home_comment', locals: { comment: comment, truncate_length: 500 }
+
+    - if @comments.present?
+      .grid__item.palm-one-whole>
+        %h3= "#{@subject.name} : Sélection d'avis"
+        - @comments.each do |comment|
+          = render partial: 'comments/home_comment', locals: { comment: comment, truncate_length: 500 }
