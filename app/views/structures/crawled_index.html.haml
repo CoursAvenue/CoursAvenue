@@ -1,0 +1,25 @@
+= content_for :head do
+  %meta{ name: 'fragment', content: '!' }
+
+- title = ''
+= content_for :title do
+  - params[:city] = params[:address_name] if params[:address_name].present? and params[:city].blank?
+  - if @subject
+    - title = "#{(params[:subject_id].present? ? "Établissements de #{@subject.name.downcase}" : 'Établissements')} #{(params[:name].present? ? "correspondant à : « #{params[:name]} »" : (params[:city].present? ? "à #{params[:city]}" : 'à Paris'))}"
+  - elsif params[:city].present?
+    - title = "Tous les cours à #{params[:city]}"
+  - else
+    - title = "Tous les cours à Paris"
+  = title
+
+%section.main-container.main-container--medium.home-screen-promotion.soft.push--ends
+  .grid--full
+    .grid__item.palm-one-whole>
+      %h2= title
+      %ul
+        - @structures.each do |structure|
+          %li= link_to @structure.name, structure_path(@structure)
+    .grid__item.palm-one-whole>
+      %h3= "#{@subject.name} : Sélection d'avis"
+      - @comments.each do |comment|
+        = render partial: 'comments/home_comment', locals: { comment: comment, truncate_length: 500 }
