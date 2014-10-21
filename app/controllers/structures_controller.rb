@@ -43,6 +43,11 @@ class StructuresController < ApplicationController
 
     log_search
 
+    user_agent = request.env['HTTP_USER_AGENT']
+    if robot?(user_agent)
+      crawled_index
+    end
+
     respond_to do |format|
       format.json do
         render json: @structures,
@@ -231,5 +236,16 @@ class StructuresController < ApplicationController
   def set_current_structure
     @structure = Structure.fetch_by_id_or_slug(params[:id])
     raise ActiveRecord::RecordNotFound.new(params) if @structure.nil?
+  end
+
+  def crawled_index
+    @comments = @subject.comments.take(10).uniq
+    respond_to do |format|
+      format.html do
+        render template: 'structures/crawled_index',
+          locals: { subject: @subject, structures: @structures },
+          layout: 'pages'
+      end
+    end
   end
 end
