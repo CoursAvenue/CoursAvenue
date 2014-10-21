@@ -251,6 +251,8 @@ class StructuresController < ApplicationController
     end
     @comments = @comments.uniq.take(10)
 
+    @structures = @structures.reject!(&:is_sleeping)
+
     respond_to do |format|
       format.html do
         render template: 'structures/crawled_index',
