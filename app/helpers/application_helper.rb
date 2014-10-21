@@ -47,4 +47,13 @@ module ApplicationHelper
       AdminSerializer.new(current_pro_admin).to_json
     end
   end
+
+  # Public: Checks if the user agent is one of a scrapper | robot
+  #
+  # @return Boolean
+  def robot?(user_agent)
+    matches = [/\(.*https?:\/\/.*\)/, /Twitterbot\/1.0/, /Prerender/]
+
+    matches.any? { |robot| user_agent.match(robot) }
+  end
 end

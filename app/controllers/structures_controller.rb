@@ -2,6 +2,7 @@
 class StructuresController < ApplicationController
   include FilteredSearchProvider
   include StructuresHelper
+  include ApplicationHelper
 
   skip_before_filter :verify_authenticity_token, only: [:add_to_favorite, :remove_from_favorite]
 
