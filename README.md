@@ -46,6 +46,14 @@ echo 3000 > ~/.pow/prerender
 touch ~/.pow/restart.txt
 ```
 
+### In Production / Staging
+
+```shell
+heroku config:set PRERENDER_SERVICE_URL="http://coursavenue-prerender.herokuapp.com/"
+# OR
+hk set PRERENDER_SERVICE_URL='http://prerender.dev'
+```
+
 ## Dependencies / Gems
 
 ### For Will_paginate
