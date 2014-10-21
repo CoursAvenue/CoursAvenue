@@ -10,13 +10,16 @@
     - title = "Tous les cours à #{params[:city]}"
   - else
     - title = "Tous les cours à Paris"
-  = title
+  = "#{title} | CoursAvenue"
+
+-# = content_for :meta_description do
 
 %section.main-container.main-container--medium.home-screen-promotion.soft.push--ends
   .grid--full
     .grid__item.palm-one-whole>
       %h2= title
       %ul
+        -# Structure rating ?
         - @structures.each do |structure|
           %li
             %h3= link_to structure.name, structure_path(structure)

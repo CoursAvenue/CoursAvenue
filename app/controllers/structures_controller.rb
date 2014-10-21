@@ -250,7 +250,6 @@ class StructuresController < ApplicationController
       @comments = []
     end
     @comments = @comments.uniq.take(10)
-
     @structures = @structures.reject!(&:is_sleeping)
 
     respond_to do |format|
