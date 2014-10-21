@@ -238,8 +238,19 @@ class StructuresController < ApplicationController
     raise ActiveRecord::RecordNotFound.new(params) if @structure.nil?
   end
 
+  # Private:
+  #
+  # @return
   def crawled_index
-    @comments = @subject.comments.take(10).uniq if @subject.present?
+    if @subject.present?
+      @comments = @subject.comments
+    elsif @structures.any?
+      @comments = @structures.first.city.structures.flat_map(&:comments)
+    else
+      @comments = []
+    end
+    @comments = @comments.uniq.take(10)
+
     respond_to do |format|
       format.html do
         render template: 'structures/crawled_index',
