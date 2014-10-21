@@ -239,7 +239,7 @@ class StructuresController < ApplicationController
   end
 
   def crawled_index
-    @comments = @subject.comments.take(10).uniq if @subject.comments.present?
+    @comments = @subject.comments.take(10).uniq if @subject.present?
     respond_to do |format|
       format.html do
         render template: 'structures/crawled_index',
