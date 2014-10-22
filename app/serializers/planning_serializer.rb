@@ -6,7 +6,8 @@ class PlanningSerializer < ActiveModel::Serializer
   delegate :cache_key, to: :object
 
   attributes :id, :date, :duration, :time_slot, :levels, :audiences, :place_id, :places_left, :more_than_ten_places,
-             :common_price, :course_id, :info, :address, :address_with_info, :address_name, :activity_name, :home_place_id, :next_date, :week_day
+             :common_price, :course_id, :info, :address, :address_with_info, :address_name, :activity_name, :home_place_id,
+             :next_date, :week_day, :is_open_for_trial
 
   def home_place_id
     if object.course.is_private? and object.course.teaches_at_home?

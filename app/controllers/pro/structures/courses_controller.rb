@@ -26,7 +26,7 @@ class Pro::Structures::CoursesController < Pro::ProController
     @courses = @structure.courses.without_open_courses.order('name ASC')
   end
 
-  def discovery_pass
+  def trial_courses
     @courses = @structure.courses.without_open_courses.order('name ASC')
   end
 

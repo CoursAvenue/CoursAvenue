@@ -76,7 +76,7 @@
       - if @structure.parisian?
         - to_complete_step_nb += 1 if @structure.plannings.is_open_for_trial.any?
         = pro_side_menu_link 'trial_courses',
-                              discovery_pass_pro_structure_courses_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
+                              trial_courses_pro_structure_courses_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
                               current: current_tab,
                               icon: 'fa fa-ticket',
                               completed: @structure.plannings.is_open_for_trial.any?

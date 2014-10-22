@@ -1,4 +1,11 @@
-<td>{{ date }}</td>
+<td>
+    {{#if is_open_for_trial}}
+    <div class="absolute" style="margin-left: -120px;">
+        <div class="lbl lbl--yellow nowrap v-middle push-half--left"><i class="fa fa-ticket"></i> Essai gratuit</div>
+    </div>
+    {{/if}}
+    {{ date }}
+</td>
 <td class="nowrap text--center">{{ time_slot }}</td>
 <td>{{ levels }}</td>
 <td>
@@ -17,5 +24,5 @@
     {{/if}}
 </td>
 <td>
-    <a data-behavior="register" class="btn btn--small btn--green">M'inscrire</a>
+    <a data-behavior="register" class="btn btn--small btn--{{#if is_open_for_trial}}yellow{{else}}green{{/if}}">M'inscrire</a>
 </td>

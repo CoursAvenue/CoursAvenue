@@ -275,7 +275,7 @@ CoursAvenue::Application.routes.draw do
           collection do
             get :trainings, path: 'stages'
             get :regular, path: 'reguliers'
-            get :discovery_pass, path: 'pass-decouverte'
+            get :trial_courses, path: 'cours-d-essai'
           end
           member do
             get  :ask_for_deletion

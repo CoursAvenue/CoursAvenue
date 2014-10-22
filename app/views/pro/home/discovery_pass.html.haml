@@ -20,9 +20,9 @@
             Le Pass Découverte est un moyen efficace de recruter de nouveaux élèves grâce à vos cours d'essai gratuits. Pour vous, être partenaire du Pass est gratuit ; pour les élèves, il est à 19€ par mois, ce qui vous garantit un public intéressé et susceptible de s'inscrire à l'année.
           %br
           - if current_pro_admin and current_pro_admin.structure
-            = link_to 'Faire partie du Pass Découverte', discovery_pass_pro_structure_courses_path(current_pro_admin.structure), class: 'btn btn--green btn--bigger'
+            = link_to 'Faire partie du Pass Découverte', trial_courses_pro_structure_courses_path(current_pro_admin.structure), class: 'btn btn--green btn--bigger'
           - else
-            - session['pro_admin_return_to'] = discovery_pass_pro_structure_courses_path('__STRUCTURE_ID__')
+            - session['pro_admin_return_to'] = trial_courses_pro_structure_courses_path('__STRUCTURE_ID__')
             = link_to 'Faire partie du Pass Découverte', new_pro_admin_session_path, class: 'btn btn--green btn--bigger fancybox.ajax', data: { behavior: 'modal', width: '700', padding: 0 }
           %div.f-weight-600
             %i Gratuit et sans engagement
@@ -80,7 +80,7 @@
           %strong Les élèves intéressés par vos cours s'inscrivent directement auprès de vous : c'est vous qui décidez du créneau et du jour qui vous conviennent.
     .text--center
       - if current_pro_admin and current_pro_admin.structure
-        = link_to 'Faire partie du Pass Découverte', discovery_pass_pro_structure_courses_path(current_pro_admin.structure), class: 'btn btn--green'
+        = link_to 'Faire partie du Pass Découverte', trial_courses_pro_structure_courses_path(current_pro_admin.structure), class: 'btn btn--green'
       - else
         = link_to 'Faire partie du Pass Découverte', new_pro_admin_session_path, class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: '700', padding: 0 }
 
