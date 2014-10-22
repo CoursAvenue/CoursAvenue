@@ -267,7 +267,7 @@ class StructuresController < ApplicationController
   def show_google
     respond_to do |format|
       format.html do
-        render template: 'structures/show_google', layout: 'users'
+        render template: 'structures/show', layout: 'users'
       end
     end
   end
