@@ -45,7 +45,7 @@ class StructuresController < ApplicationController
 
     user_agent = request.env['HTTP_USER_AGENT']
     if robot?(user_agent)
-      crawled_index
+      index_google
     end
 
     respond_to do |format|
@@ -143,6 +143,11 @@ class StructuresController < ApplicationController
       place_ids:          @place_ids
     })
     @is_sleeping = @structure.is_sleeping
+
+    user_agent = request.env['HTTP_USER_AGENT']
+    if robot?(user_agent)
+      show_google
+    end
   end
 
   # GET /etablissements/:id/portes-ouvertes-cours-loisirs
@@ -238,9 +243,10 @@ class StructuresController < ApplicationController
     raise ActiveRecord::RecordNotFound.new(params) if @structure.nil?
   end
 
-  # Private:
-  #
-  # @return
+  ######################################################################
+  # Crawled routes                                                     #
+  ######################################################################
+
   def index_google
     if @subject.present?
       @comments = @subject.comments
@@ -253,9 +259,15 @@ class StructuresController < ApplicationController
 
     respond_to do |format|
       format.html do
-        render template: 'structures/index_google',
-          locals: { subject: @subject, structures: @structures },
-          layout: 'pages'
+        render template: 'structures/index_google', layout: 'pages'
+      end
+    end
+  end
+
+  def show_google
+    respond_to do |format|
+      format.html do
+        render template: 'structures/show_google', layout: 'users'
       end
     end
   end
