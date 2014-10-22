@@ -106,27 +106,10 @@ class StructuresController < ApplicationController
     end
   end
 
-  # GET /etablissements/:id/pass-decouverte
-  def discovery_pass
-    @structure_decorator                  = @structure.decorate
-    @header_promotion_title_for_structure = header_promotion_title_for_structure(@structure)
-    @city                                 = @structure.city
-    @medias                               = (@structure.premium? ? @structure.medias.cover_first.videos_first : @structure.medias.cover_first.videos_first.limit(Media::FREE_PROFIL_LIMIT))
-
-    @model = StructureShowSerializer.new(@structure, {
-      structure:          @structure,
-      unlimited_comments: false,
-      query:              { discovery_pass: true }, # Those params are passed to the backbone app
-      place_ids:          @structure.discovery_pass_places.map(&:id),
-      discovery_pass:     true
-    })
-  end
-
   # GET /etablissements/:id
   def show
     @structure_decorator                  = @structure.decorate
     @place_ids                            = @structure.places.map(&:id)
-    @header_promotion_title_for_structure = header_promotion_title_for_structure(@structure)
     @city                                 = @structure.city
 
     @medias = (@structure.premium? ? @structure.medias.cover_first.videos_first : @structure.medias.cover_first.videos_first.limit(Media::FREE_PROFIL_LIMIT))

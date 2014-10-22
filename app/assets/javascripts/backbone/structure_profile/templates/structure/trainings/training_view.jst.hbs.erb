@@ -8,6 +8,30 @@
 </div>
 <div class="flexbox push--bottom">
     <div class="flexbox__item v-top one-fifth">
+        <strong class="gray-light">Planning</strong>
+    </div>
+    <div class="flexbox__item v-top four-fifths">
+        <table class="table--striped table--data table--data-small {{#if on_appointment}}hidden{{/if}}">
+            <thead class="gray-light">
+                <tr>
+                    <th class="four-twelfths">Dates</th>
+                    <th class="two-twelfths text--center">Horaires</th>
+                    <th class="two-twelfths">Niveau</th>
+                    <th class="two-twelfths">Public</th>
+                    <th class="two-twelfths">Lieu</th>
+                    <th><i class="fa fa-info"></i></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-type="plannings-container"></tbody>
+        </table>
+    </div>
+</div>
+<div>
+  <a href="#" data-behavior="show-long-version" data-long-version=".course-{{id}}-know-more">En savoir plus <i class="fa fa-caret-down"></i></a>
+</div>
+<div class="flexbox push--bottom  course-{{id}}-know-more hidden">
+    <div class="flexbox__item v-top one-fifth">
         <strong class="gray-light">Description</strong>
     </div>
     <div class="flexbox__item v-top four-fifths">
@@ -34,29 +58,7 @@
         {{/if}}
     </div>
 </div>
-<div class="flexbox push--bottom">
-    <div class="flexbox__item v-top one-fifth">
-        <strong class="gray-light">Planning</strong>
-    </div>
-    <div class="flexbox__item v-top four-fifths">
-        <table class="table--striped table--data table--data-small {{#if on_appointment}}hidden{{/if}}">
-            <thead class="gray-light">
-                <tr>
-                    <th class="four-twelfths">Dates</th>
-                    <th class="two-twelfths text--center">Horaires</th>
-                    <th class="two-twelfths">Niveau</th>
-                    <th class="two-twelfths">Public</th>
-                    <th class="two-twelfths">Lieu</th>
-                    <th><i class="fa fa-info"></i></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody data-type="plannings-container"></tbody>
-        </table>
-    </div>
-</div>
-
-<div class="flexbox push--bottom" id="course-{{id}}-tarifs">
+<div class="flexbox push--bottom course-{{id}}-know-more hidden" id="course-{{id}}-tarifs">
     <div class="flexbox__item v-top one-fifth">
         <strong class="gray-light v-middle">Tarifs</strong>
     </div>
@@ -131,7 +133,7 @@
     </div>
 </div>
 
-<div class="flexbox push--bottom">
+<div class="flexbox push--bottom course-{{id}}-know-more hidden">
     <div class="flexbox__item v-top one-fifth">
         <strong class="gray-light">Disciplines</strong>
     </div>

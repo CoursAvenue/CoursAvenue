@@ -7,34 +7,6 @@
     <div class="lbl visibility-hidden">&nbsp;</div>
   {{/if}}
 </div>
-<div class="flexbox push--bottom">
-    <div class="flexbox__item v-top one-fifth">
-        <strong class="gray-light">Description</strong>
-    </div>
-    <div class="flexbox__item v-top four-fifths">
-        {{#if description}}
-            {{#ifCond description '!=' description_short}}
-            <div id="course-{{id}}-description-short" class="gray last-p-push-half--bottom">
-                {{{ simple_format_hide_contacts description_short }}}
-            </div>
-            <a href="#" data-behavior="show-long-version" data-short-version="#course-{{id}}-description-short" data-long-version="#course-{{id}}-description-long">
-            + Plus
-            </a>
-            <div id="course-{{id}}-description-long" class="gray hidden" itemprop="description">
-                {{{ simple_format_hide_contacts description }}}
-            </div>
-            {{else}}
-            <div class="gray" itemprop="description">
-                {{{ simple_format_hide_contacts description }}}
-            </div>
-            {{/ifCond}}
-        {{else}}
-            <div class="gray" itemprop="description">
-                Pas de description
-            </div>
-        {{/if}}
-    </div>
-</div>
 {{#if on_appointment}}
     {{#if course_location}}
       <div class="flexbox push--bottom">
@@ -71,7 +43,38 @@
         </table>
     </div>
 </div>
-<div class="flexbox push--bottom">
+<div>
+  <a href="#" data-behavior="show-long-version" data-long-version=".course-{{id}}-know-more">En savoir plus <i class="fa fa-caret-down"></i></a>
+</div>
+<div class="flexbox push--bottom course-{{id}}-know-more hidden">
+    <div class="flexbox__item v-top one-fifth">
+        <strong class="gray-light">Description</strong>
+    </div>
+    <div class="flexbox__item v-top four-fifths">
+        {{#if description}}
+            {{#ifCond description '!=' description_short}}
+            <div id="course-{{id}}-description-short" class="gray last-p-push-half--bottom">
+                {{{ simple_format_hide_contacts description_short }}}
+            </div>
+            <a href="#" data-behavior="show-long-version" data-short-version="#course-{{id}}-description-short" data-long-version="#course-{{id}}-description-long">
+            + Plus
+            </a>
+            <div id="course-{{id}}-description-long" class="gray hidden" itemprop="description">
+                {{{ simple_format_hide_contacts description }}}
+            </div>
+            {{else}}
+            <div class="gray" itemprop="description">
+                {{{ simple_format_hide_contacts description }}}
+            </div>
+            {{/ifCond}}
+        {{else}}
+            <div class="gray" itemprop="description">
+                Pas de description
+            </div>
+        {{/if}}
+    </div>
+</div>
+<div class="flexbox push--bottom course-{{id}}-know-more hidden">
     <div class="flexbox__item v-top one-fifth">
         <strong class="gray-light">Détails</strong>
     </div>
@@ -98,7 +101,7 @@
     </div>
 </div>
 
-<div class="flexbox push--bottom" id="course-{{id}}-tarifs">
+<div class="flexbox push--bottom course-{{id}}-know-more hidden" id="course-{{id}}-tarifs">
     <div class="flexbox__item v-top one-fifth">
         <strong class="gray-light v-middle">Tarifs</strong>
     </div>
@@ -176,7 +179,7 @@
     </div>
 </div>
 
-<div class="flexbox push--bottom">
+<div class="flexbox push--bottom course-{{id}}-know-more hidden">
     <div class="flexbox__item v-top one-fifth">
         <strong class="gray-light">Disciplines</strong>
     </div>
