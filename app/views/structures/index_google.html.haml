@@ -38,7 +38,8 @@
         %hr
         %article.grid
           .grid__item.one-quarter>
-            = image_tag structure.logo.url(:thumb), name: "#{title} | #{structure.name}", alt: "#{title} | #{structure.name}"
+            - if structure.logo.present?
+              = image_tag structure.logo.url(:thumb), name: "#{title} | #{structure.name}", alt: "#{title} | #{structure.name}", with: 200, height: 200
           .grid__item.three-quarters>
             %h2= link_to structure.name, structure_path(structure)
             %p= structure.description.html_safe if structure.description.present?
