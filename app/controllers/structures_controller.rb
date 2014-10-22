@@ -245,7 +245,7 @@ class StructuresController < ApplicationController
     if @subject.present?
       @comments = @subject.comments
     elsif @structures.any?
-      @comments = @structures.first.city.structures.flat_map(&:comments)
+      @comments = @structures.flat_map(&:comments)
     else
       @comments = []
     end
