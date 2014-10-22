@@ -81,12 +81,6 @@ CoursAvenue::Application.configure do
   # Add prerender middlewer only if the sevice URL is defined and reachable
 
   if ENV['PRERENDER_SERVICE_URL'].present?
-    url = URI.parse(ENV['PRERENDER_SERVICE_URL'])
-    req = Net::HTTP.new(url.host, url.port)
-    res = req.request_head(url.path)
-
-    if res.code == "200" or res.code == "302"
-      config.middleware.use Rack::Prerender, prerender_service_url: ENV['PRERENDER_SERVICE_URL']
-    end
+    config.middleware.use Rack::Prerender, prerender_service_url: ENV['PRERENDER_SERVICE_URL']
   end
 end

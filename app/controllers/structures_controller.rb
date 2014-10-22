@@ -6,7 +6,7 @@ class StructuresController < ApplicationController
 
   skip_before_filter :verify_authenticity_token, only: [:add_to_favorite, :remove_from_favorite]
 
-  before_filter :set_current_structure, except: [:index, :discovery_pass_search, :search, :crawled_index]
+  before_filter :set_current_structure, except: [:index, :discovery_pass_search, :search, :index_google]
   before_filter :protect_discovery_pass_access, only: [:discovery_pass, :discovery_pass_search]
 
   respond_to :json
@@ -241,7 +241,7 @@ class StructuresController < ApplicationController
   # Private:
   #
   # @return
-  def crawled_index
+  def index_google
     if @subject.present?
       @comments = @subject.comments
     elsif @structures.any?
@@ -253,7 +253,7 @@ class StructuresController < ApplicationController
 
     respond_to do |format|
       format.html do
-        render template: 'structures/crawled_index',
+        render template: 'structures/index_google',
           locals: { subject: @subject, structures: @structures },
           layout: 'pages'
       end
