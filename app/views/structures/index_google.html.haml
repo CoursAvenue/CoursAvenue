@@ -28,6 +28,10 @@
         %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
           = link_to root_search_page_path(params[:root_subject_id], params[:city_id]), itemprop: 'url' do
             %span{ itemprop: 'title' }= @subject.root.name
+      - if @subject.depth == 2
+        %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+          = link_to search_page_path(@subject.root.slug, @subject.parent.slug, params[:city_id]), itemprop: 'url' do
+            %span{ itemprop: 'title' }= @subject.parent.name
       %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
         %span{ itemprop: 'title' }= @subject.name
 
