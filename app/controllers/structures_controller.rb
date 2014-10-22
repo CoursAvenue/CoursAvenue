@@ -6,7 +6,7 @@ class StructuresController < ApplicationController
 
   skip_before_filter :verify_authenticity_token, only: [:add_to_favorite, :remove_from_favorite]
 
-  before_filter :set_current_structure, except: [:index, :discovery_pass_search, :search]
+  before_filter :set_current_structure, except: [:index, :discovery_pass_search, :search, :crawled_index]
   before_filter :protect_discovery_pass_access, only: [:discovery_pass, :discovery_pass_search]
 
   respond_to :json
@@ -250,7 +250,6 @@ class StructuresController < ApplicationController
       @comments = []
     end
     @comments = @comments.uniq.take(10)
-    @structures = @structures.reject!(&:is_sleeping)
 
     respond_to do |format|
       format.html do
