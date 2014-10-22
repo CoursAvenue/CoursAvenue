@@ -71,27 +71,27 @@
   - pass_29 = Email.where(Email.arel_table[:email_type].matches('pass-decouverte_29').and(Email.arel_table[:email].not_eq('')))
   - pass_39 = Email.where(Email.arel_table[:email_type].matches('pass-decouverte_39').and(Email.arel_table[:email].not_eq('')))
   %hr.push--ends
-  %table.table--striped.table--data.text--center
-    %thead
-      %tr
-        %th.text--center Prix
-        %th.text--center Total
-        %th.text--center Emails
-        %th.text--center Emails
-        %th.text--center Emails
-        %th.text--center Emails
-    %tbody
-      - interested_in_discovery_pass_users = User.where("meta_data -> 'interested_in_discovery_pass' LIKE '%true%'")
-      - interested_in_discovery_pass_users.sort_by(&:interested_at).group_by{|u| u.interested_at.to_date }.each do |date, users|
-        %tr
-          %td.text--center= l(date, format: :long)
-          %td.text--center= users.count
-          - users.group_by(&:test_name).each do |group_name, users|
-            %td
-              %strong= users.length
-              - if group_name.present?
-                %strong= "#{group_name} :"
-              = users.map(&:email).join(', ')
+  -#  %table.table--striped.table--data.text--center
+  -#    %thead
+  -#      %tr
+  -#        %th.text--center Prix
+  -#        %th.text--center Total
+  -#        %th.text--center Emails
+  -#        %th.text--center Emails
+  -#        %th.text--center Emails
+  -#        %th.text--center Emails
+  -#    %tbody
+  -#      - interested_in_discovery_pass_users = User.where("meta_data -> 'interested_in_discovery_pass' LIKE '%true%'")
+  -#      - interested_in_discovery_pass_users.sort_by(&:interested_at).group_by{|u| u.interested_at.to_date }.each do |date, users|
+  -#        %tr
+  -#          %td.text--center= l(date, format: :long)
+  -#          %td.text--center= users.count
+  -#          - users.group_by(&:test_name).each do |group_name, users|
+  -#            %td
+  -#              %strong= users.length
+  -#              - if group_name.present?
+  -#                %strong= "#{group_name} :"
+  -#              = users.map(&:email).join(', ')
 
   %table.table--striped.table--data.text--center
     %thead
