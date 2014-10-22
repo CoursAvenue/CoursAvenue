@@ -14,15 +14,15 @@
         - conversation_conversation_count = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::CONVERSATION.id).count
         - conversation_request_count      = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::DISCOVERYPASSREQUEST.id).count
         .push--bottom.text--center
+          - if conversation_request_count > 0
+            .push-half--left.lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::DISCOVERYPASSREQUEST.color}"}= conversation_request_count
+            %strong Inscription
           .lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::INFORMATION.color}"}= conversation_information_count
-          %strong Demande d'information
+          %strong Demande d'nformation
           .push-half--left.lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::COMMENT.color}"}= conversation_comment_count
           %strong Avis déposé
           .push-half--left.lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::CONVERSATION.color}"}= conversation_conversation_count
           %strong Conversation
-          - if conversation_request_count > 0
-            .push-half--left.lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::DISCOVERYPASSREQUEST.color}"}= conversation_request_count
-            %strong Pass Découverte
         .grid
           .grid__item.one-third>
             %select#conversation_label{ name: 'conversation_label_id' }

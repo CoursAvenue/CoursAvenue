@@ -1,4 +1,4 @@
-= side_menu_currently_at 'discovery_pass'
+= side_menu_currently_at 'trial_courses'
 
 .panel
   = render partial: 'pro/structures/courses/discovery_pass_tabs', locals: { current: 'courses' }
@@ -28,28 +28,28 @@
             %strong % de conversion en élèves réguliers (statistiques)
         .grid.epsilon.push-half-bottom
           .grid__item.text--right.two-tenths>
-            %input.inline-block.v-middle#discovery_pass_policy_1_trial{ type: 'radio', value: '1_trial', name: 'structure[discovery_pass_policy]', checked: @structure.discovery_pass_policy == '1_trial'}
+            %input.inline-block.v-middle#trial_courses_policy_1_trial{ type: 'radio', value: '1_trial', name: 'structure[trial_courses_policy]', checked: @structure.trial_courses_policy == '1_trial'}
           .grid__item.four-tenths>
-            %label.inline-block.v-middle{ for: 'discovery_pass_policy_1_trial' }= t('structures.discovery_pass_policy.1_trial')
+            %label.inline-block.v-middle{ for: 'trial_courses_policy_1_trial' }= t('structures.trial_courses_policy.1_trial')
           .grid__item.four-tenths>
             %p
-              %label.inline-block.v-middle{ for: 'discovery_pass_policy_1_trial' }= t('structures.discovery_pass_policy.1_trial_advantage_html')
+              %label.inline-block.v-middle{ for: 'trial_courses_policy_1_trial' }= t('structures.trial_courses_policy.1_trial_advantage_html')
         .grid.epsilon.push-half-bottom
           .grid__item.text--right.two-tenths>
-            %input.inline-block.v-middle#discovery_pass_policy_2_trials{ type: 'radio', value: '2_trials', name: 'structure[discovery_pass_policy]', checked: @structure.discovery_pass_policy == '2_trials'}
+            %input.inline-block.v-middle#trial_courses_policy_2_trials{ type: 'radio', value: '2_trials', name: 'structure[trial_courses_policy]', checked: @structure.trial_courses_policy == '2_trials'}
           .grid__item.four-tenths>
-            %label.inline-block.v-middle{ for: 'discovery_pass_policy_2_trials' }= t('structures.discovery_pass_policy.2_trials')
+            %label.inline-block.v-middle{ for: 'trial_courses_policy_2_trials' }= t('structures.trial_courses_policy.2_trials')
           .grid__item.four-tenths>
             %p
-              %label.inline-block.v-middle{ for: 'discovery_pass_policy_2_trials' }= t('structures.discovery_pass_policy.2_trials_advantage_html')
+              %label.inline-block.v-middle{ for: 'trial_courses_policy_2_trials' }= t('structures.trial_courses_policy.2_trials_advantage_html')
         .grid.epsilon.push-half-bottom
           .grid__item.text--right.two-tenths>
-            %input.inline-block.v-middle#discovery_pass_policy_3_trials{ type: 'radio', value: '3_trials', name: 'structure[discovery_pass_policy]', checked: @structure.discovery_pass_policy == '3_trials'}
+            %input.inline-block.v-middle#trial_courses_policy_3_trials{ type: 'radio', value: '3_trials', name: 'structure[trial_courses_policy]', checked: @structure.trial_courses_policy == '3_trials'}
           .grid__item.four-tenths>
-            %label.inline-block.v-middle{ for: 'discovery_pass_policy_3_trials' }= t('structures.discovery_pass_policy.3_trials')
+            %label.inline-block.v-middle{ for: 'trial_courses_policy_3_trials' }= t('structures.trial_courses_policy.3_trials')
           .grid__item.four-tenths>
             %p
-              %label.inline-block.v-middle{ for: 'discovery_pass_policy_3_trials' }= t('structures.discovery_pass_policy.3_trials_advantage_html')
+              %label.inline-block.v-middle{ for: 'trial_courses_policy_3_trials' }= t('structures.trial_courses_policy.3_trials_advantage_html')
 
     %hr.push--ends
     .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.courses.wizard.discovery_pass.step_2') } }

@@ -74,7 +74,7 @@ class StructureDiscoveryPassSearchSerializer < ActiveModel::Serializer
   end
 
   def subjects
-    object.courses.available_in_discovery_pass.map(&:subjects).flatten.uniq.map(&:name).join(', ')
+    object.courses.is_open_for_trial.map(&:subjects).flatten.uniq.map(&:name).join(', ')
   end
 
 end

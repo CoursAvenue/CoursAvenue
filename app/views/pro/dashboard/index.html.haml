@@ -32,13 +32,13 @@
   %h3.text--center Pass découverte
   .grid
     .grid__item.one-third.text--center>
-      %h3.flush= Structure.where(Structure.arel_table[:discovery_pass_policy].matches('%_trial%')).count
+      %h3.flush= Structure.where(Structure.arel_table[:trial_courses_policy].matches('%_trial%')).count
       %h6 profs
     .grid__item.one-third.text--center>
-      %h3.flush= Course.available_in_discovery_pass.count
+      %h3.flush= Course.is_open_for_trial.count
       %h6 cours
     .grid__item.one-third.text--center>
-      %h3.flush= Planning.available_in_discovery_pass.count
+      %h3.flush= Planning.is_open_for_trial.count
       %h6 créneaux
   %h5.text--center Répartition / disciplines
   - subjects_count = {}
@@ -57,13 +57,13 @@
   %h5.text--center # de cours d'essai offert
   .grid
     .grid__item.one-third.text--center>
-      %h3.flush= Structure.where(discovery_pass_policy: '1_trial').count
+      %h3.flush= Structure.where(trial_courses_policy: '1_trial').count
       %h6 1 cours
     .grid__item.one-third.text--center>
-      %h3.flush= Structure.where(discovery_pass_policy: '2_trials').count
+      %h3.flush= Structure.where(trial_courses_policy: '2_trials').count
       %h6 2 cours
     .grid__item.one-third.text--center>
-      %h3.flush= Structure.where(discovery_pass_policy: '3_trials').count
+      %h3.flush= Structure.where(trial_courses_policy: '3_trials').count
       %h6 3 cours
 
   - pass_9  = Email.where(Email.arel_table[:email_type].matches('pass-decouverte_9').and(Email.arel_table[:email].not_eq('')))

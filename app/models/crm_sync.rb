@@ -28,8 +28,8 @@ class CrmSync
     person.set_field_value('Dernière connexion à son profil', I18n.l(admin.last_sign_in_at, format: :date)) if admin and admin.last_sign_in_at.present?
     person.set_field_value('ID'                             , "https://coursavenue1.highrisehq.com/people/#{person.id}")
     person.set_field_value('JPO'                            , structure.courses.open_courses.count)
-    person.set_field_value('Pass Decouverte Policy'         , structure.discovery_pass_policy)
-    person.set_field_value('Pass Decouverte'                , structure.plannings.available_in_discovery_pass.count)
+    person.set_field_value('Pass Decouverte Policy'         , structure.trial_courses_policy)
+    person.set_field_value('Pass Decouverte'                , structure.plannings.is_open_for_trial.count)
     web_addresses = [{ url: Rails.application.routes.url_helpers.structure_url(structure, subdomain: 'www', host: 'coursavenue.com'), location: 'Work' },
                     { url: Rails.application.routes.url_helpers.pro_structure_url(structure, subdomain: 'pro', host: 'coursavenue.com'), location: 'Work' },
                     { url: structure.website, location: 'Work' }]

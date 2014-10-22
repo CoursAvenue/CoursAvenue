@@ -27,7 +27,7 @@ class Course < ActiveRecord::Base
   before_save :sanatize_description
   after_save  :update_plannings_dates_if_needs_to
   after_save  :reindex_plannings unless Rails.env.test?
-  after_save  :update_plannings_available_in_discovery_pass
+  after_save  :update_plannings_open_for_trial
 
   ######################################################################
   # Scopes                                                             #
@@ -40,7 +40,7 @@ class Course < ActiveRecord::Base
   scope :regulars,                    -> { where(arel_table[:type].eq('Course::Private').or(arel_table[:type].eq('Course::Lesson')) ) }
   scope :without_open_courses,        -> { where.not( type: 'Course::Open' ) }
   scope :open_courses,                -> { where( type: 'Course::Open' ) }
-  scope :available_in_discovery_pass, -> { where.not( available_in_discovery_pass: nil ) }
+  scope :open_for_trial, -> { where.not( open_for_trial: nil ) }
 
   ######################################################################
   # Validations                                                        #
@@ -58,7 +58,7 @@ class Course < ActiveRecord::Base
                   :start_date, :end_date,
                   :subject_ids, :level_ids, :audience_ids, :place_id,
                   :price_group_id, :on_appointment,
-                  :available_in_discovery_pass
+                  :open_for_trial
 
   # ------------------------------------------------------------------------------------ Search attributes
   searchable do
@@ -151,7 +151,7 @@ class Course < ActiveRecord::Base
       plannings.map(&:end_time).uniq.compact
     end
 
-    boolean :available_in_discovery_pass
+    boolean :open_for_trial
 
     boolean :has_description do
       self.description.present?
@@ -412,14 +412,14 @@ class Course < ActiveRecord::Base
     self.plannings.map{ |p| p.delay.index }
   end
 
-  # If the user sets the `available_in_discovery_pass` flag to true or false on the course itself,
+  # If the user sets the `open_for_trial` flag to true or false on the course itself,
   # we change all the plannings flag
   #
   # @return nil
-  def update_plannings_available_in_discovery_pass
-    if self.available_in_discovery_pass_changed?
+  def update_plannings_open_for_trial
+    if self.open_for_trial_changed?
       self.plannings.each do |planning|
-        planning.update_column :available_in_discovery_pass, self.available_in_discovery_pass
+        planning.update_column :open_for_trial, self.open_for_trial
       end
       self.plannings.map{ |p| p.delay.index }
     end

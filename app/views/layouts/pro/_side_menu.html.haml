@@ -2,7 +2,7 @@
   %ul
     - if current_pro_admin and current_pro_admin.super_admin?
       = pro_side_menu_link 'pro_dashboard'        , pro_dashboard_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)             , current: current_tab, icon: 'fa fa-dashboard'
-      = pro_side_menu_link 'pro_discovery_pass'   , pro_discovery_passes_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)     , current: current_tab, icon: 'fa fa-ticket'
+      = pro_side_menu_link 'pro_trial_courses'    , pro_discovery_passes_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)     , current: current_tab, icon: 'fa fa-ticket'
       = pro_side_menu_link 'sleepers'             , sleepings_pro_structures_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)  , current: current_tab, icon: 'fa fa-moon-o'
       = pro_side_menu_link 'activity'             , pro_conversations_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)         , current: current_tab, icon: 'fa fa-pulse'
       = pro_side_menu_link 'subscription_plans'   , pro_subscription_plans_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)    , current: current_tab, icon: 'fa fa-credit-card'
@@ -74,12 +74,12 @@
                             trainings_options_link
 
       - if @structure.parisian?
-        - to_complete_step_nb += 1 if @structure.plannings.available_in_discovery_pass.any?
-        = pro_side_menu_link 'discovery_pass',
+        - to_complete_step_nb += 1 if @structure.plannings.is_open_for_trial.any?
+        = pro_side_menu_link 'trial_courses',
                               discovery_pass_pro_structure_courses_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
                               current: current_tab,
                               icon: 'fa fa-ticket',
-                              completed: @structure.plannings.available_in_discovery_pass.any?
+                              completed: @structure.plannings.is_open_for_trial.any?
 
       - to_complete_step_nb += 1 if @structure.price_groups.empty?
       = pro_side_menu_link 'price_groups',

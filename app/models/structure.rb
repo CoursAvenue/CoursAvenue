@@ -16,7 +16,7 @@ class Structure < ActiveRecord::Base
   extend FriendlyId
 
   STRUCTURE_STATUS      = %w(SA SAS SASU EURL SARL)
-  DISCOVERY_PASS_POLICY = %w(1_trial 2_trials 3_trials)
+  TRIAL_COURSES_POLICY  = %w(1_trial 2_trials 3_trials)
   STRUCTURE_TYPES       = ['structures.company',
                           'structures.independant',
                           'structures.association',
@@ -77,7 +77,7 @@ class Structure < ActiveRecord::Base
   ######################################################################
   # Scope                                                              #
   ######################################################################
-  scope :available_in_discovery_pass, -> { where(arel_table[:discovery_pass_policy].matches('%_trial%') ) }
+  scope :is_open_for_trial, -> { where(arel_table[:trial_courses_policy].matches('%_trial%') ) }
   scope :sleeping                   , -> { where("meta_data -> 'is_sleeping' = 'true'") }
 
   attr_reader :delete_logo, :logo_filepicker_url
@@ -102,7 +102,7 @@ class Structure < ActiveRecord::Base
                   :deletion_reasons, :deletion_reasons_text,
                   :phone_numbers_attributes, :places_attributes, :other_emails, :last_geocode_try,
                   :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason, :order_recipient, :delivery_email_status,
-                  :discovery_pass_policy, :discovery_pass_place_ids, :sleeping_structure
+                  :trial_courses_policy, :discovery_pass_place_ids, :sleeping_structure
 
   accepts_nested_attributes_for :places,
                                  reject_if: :reject_places,
@@ -306,8 +306,8 @@ class Structure < ActiveRecord::Base
 
     integer :funding_type_ids, multiple: true
 
-    boolean :available_in_discovery_pass do
-      self.plannings.available_in_discovery_pass.any?
+    boolean :is_open_for_trial do
+      self.plannings.is_open_for_trial.any?
     end
 
     boolean :premium
@@ -644,7 +644,7 @@ class Structure < ActiveRecord::Base
     self.level_ids                = (self.plannings.collect(&:level_ids) + self.courses.privates.collect(&:level_ids)).flatten.uniq.sort.join(',')
     self.audience_ids             = (self.plannings.collect(&:audience_ids) + self.courses.privates.collect(&:audience_ids)).flatten.uniq.sort.join(',')
     self.set_min_and_max_price
-    self.discovery_pass_place_ids = (self.plannings.available_in_discovery_pass.map(&:place) + self.courses.available_in_discovery_pass.map(&:places)).compact.flatten.uniq.map(&:id).join(',')
+    self.discovery_pass_place_ids = (self.plannings.is_open_for_trial.map(&:place) + self.courses.is_open_for_trial.map(&:places)).compact.flatten.uniq.map(&:id).join(',')
     compute_response_rate
     # update_jpo_meta_datas
     self.save(validate: false)
@@ -1173,8 +1173,8 @@ class Structure < ActiveRecord::Base
     self.sleeping_structure
   end
 
-  def has_discovery_pass_courses?
-    self.plannings.available_in_discovery_pass.any?
+  def has_trial_courses?
+    self.plannings.is_open_for_trial.any?
   end
 
   private

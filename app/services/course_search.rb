@@ -19,7 +19,7 @@ class CourseSearch
         with(:subject_slugs).any_of           [params[:subject_id]]                                 if params[:subject_id]
       end
 
-      with :available_in_discovery_pass,    true                                                    if params[:discovery_pass].present?
+      with :is_open_for_trial,              true                                                    if params[:is_open_for_trial].present?
       with :has_description,                params[:has_description]                                if params[:has_description]
       with :structure_id,                   params[:structure_id].to_i                              if params[:structure_id]
       with(:type).any_of                    params[:types]                                          if params[:types].present?

@@ -2,9 +2,9 @@
   .main-container.soft--sides.soft-half--ends.relative
     .flush
       %h1.inline.v-middle{ itemprop: 'name' }= @structure.name
-      .lbl.lbl--yellow.nowrap.v-middle.push-half--left{ data: { toggle: 'popover', content: t('discovery_pass.policy_popover', count: (@structure.discovery_pass_policy || '1_').split('_').first), trigger: 'hover', html: 'true', placement: 'bottom' } }
+      .lbl.lbl--yellow.nowrap.v-middle.push-half--left{ data: { toggle: 'popover', content: t('discovery_pass.policy_popover', count: (@structure.trial_courses_policy || '1_').split('_').first), trigger: 'hover', html: 'true', placement: 'bottom' } }
         %i.fa-star
-        = t('discovery_pass.policy', count: (@structure.discovery_pass_policy || '1_').split('_').first)
+        = t('discovery_pass.policy', count: (@structure.trial_courses_policy || '1_').split('_').first)
     .grid
       .grid__item.eight-twelfths.v-top>
         .push-half--top

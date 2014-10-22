@@ -89,7 +89,7 @@
   .main-container.main-container--medium.soft
     %h2.flush.text--center.f-weight-300 Ils font déjà partie du Pass
     %h5.f-weight-300.text--center Le Pass réunit déjà plus de 300 associations, écoles et professeurs rien qu'à Paris
-    - Structure.where.not(discovery_pass_policy: nil).limit(9).each do |structure|
+    - Structure.where.not(trial_courses_policy: nil).limit(9).each do |structure|
       .inline-block.one-third.palm-one-whole.lap-one-half>
         - cache [structure, 'pro/home/discovery_pass'] do
           .grid.push--bottom

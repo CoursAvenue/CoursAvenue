@@ -205,7 +205,7 @@ class StructureShowSerializer < ActiveModel::Serializer
   def trainings_courses
     if options[:discovery_pass]
       # Take only if there are plannings
-      object.plannings.future.available_in_discovery_pass.group_by(&:course).select {|course| course.is_training? }.map(&:first)
+      object.plannings.future.is_open_for_trial.group_by(&:course).select {|course| course.is_training? }.map(&:first)
     else
       object.courses.trainings.select(&:is_published?)
     end
@@ -214,7 +214,7 @@ class StructureShowSerializer < ActiveModel::Serializer
   def lessons_and_privates
     if options[:discovery_pass]
       # Take only if there are plannings
-      object.plannings.available_in_discovery_pass.group_by(&:course).select {|course| course.is_lesson? or course.is_private? }.map(&:first)
+      object.plannings.is_open_for_trial.group_by(&:course).select {|course| course.is_lesson? or course.is_private? }.map(&:first)
     else
       object.courses.lessons.select(&:is_published?) + object.courses.privates.select(&:is_published?)
     end

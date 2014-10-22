@@ -104,7 +104,7 @@ fr:
         association: de l'association
         independant: du professeur
         other: du profil
-    discovery_pass_policy:
+    trial_courses_policy:
       1_trial: 1 seul cours d'essai par personne
       1_trial_advantage_html: <strong>20%</strong> des élèves (1 élève sur 5)
       2_trials: 2 cours d'essai par personne
@@ -176,8 +176,8 @@ fr:
         premium: Premium
         presentation: Présentation
         price_groups: Tarifs
-        pro_discovery_pass: Pass Découverte
-        discovery_pass: Pass Découverte
+        pro_trial_courses: Pass Découverte
+        trial_courses: Essais gratuits
         share: Parrainer
         statistics: Statistiques
         sleepers: Profils dormants
