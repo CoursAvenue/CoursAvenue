@@ -118,4 +118,9 @@ CoursAvenue::Application.configure do
     config.password  = ENV['PAYPAL_TEST_PASSWORD']
     config.signature = ENV['PAYPAL_TEST_SIGNATURE']
   end
+
+  # Add prerender middlewer only if the sevice URL is defined
+  if ENV['PRERENDER_SERVICE_URL'].present?
+    config.middleware.use Rack::Prerender, prerender_service_url: ENV['PRERENDER_SERVICE_URL']
+  end
 end

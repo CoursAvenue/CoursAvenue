@@ -1,0 +1,12 @@
+class PrerenderRenewer
+
+  #
+  # Renew cache of url given on Prerender
+  # @param url to renew
+  def initialize(url)
+    puts ENV['PRERENDER_SERVICE_URL'] + url
+    uri = URI(ENV['PRERENDER_SERVICE_URL'] + url)
+    res = Net::HTTP.post_form(uri, '_escaped_fragment_' => '')
+  end
+
+end
