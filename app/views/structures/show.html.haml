@@ -1,3 +1,11 @@
+= content_for :scripts do
+  :javascript
+    $(function() {
+        setTimeout(function() {
+            $(document.body).prepend('apzodjad')
+        }, 100);
+    });
+
 = content_for :head do
   %link{ rel: 'canonical', href: request.path }
 
@@ -28,23 +36,21 @@
     - else
       = "#{@structure.name} à #{@city.name}"
 
-.visuallyhidden#lieux-photos
-  .inline-block
-    - if cookies[:structure_search_path]
-      = link_to cookies[:structure_search_path] do
-        %i.orange ←
-        = t('.back_to_results')
-    - else
-      = link_to structures_path do
-        %i.orange ←
-        = t('.see_arrounding_structures')
-  .inline-block.push-half--sides
-    |
-  .inline-block.push-half--bottom
-    %ol.nav.breadcrumb.flush{ itemprop: 'breadcrumb' }
-      %li
-        = link_to "Tous les établissement", structures_path
-      %li= @structure.name
+- cache [@structure, 'structure/show/breadcrumb'] do
+  .main-container.visuallyhidden
+    %ol.nav.breadcrumb.epsilon
+      %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+        = link_to root_search_page_without_subject_path(@city.id), itemprop: 'url' do
+          %span{ itemprop: 'title' }
+            = @city.name
+      %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+        - root_subject = @structure.dominant_root_subject
+        = link_to root_search_page_path(root_subject, @city), itemprop: 'url' do
+          %span{ itemprop: 'title' }
+            = root_subject.name
+      %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+        %span{ itemprop: 'title' }
+          = @structure.name
 
 - if !current_user and params[:waiting_for_activation]
   .blue-box.islet.text--center.push--ends

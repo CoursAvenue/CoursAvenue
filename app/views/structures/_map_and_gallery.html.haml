@@ -90,7 +90,7 @@
                 }
             }
         });
-        if ($('.rslides__custom-pager li a').length > 1) { $('.rslides__custom-pager li a')[1].click(); }
+        if ($('.rslides__custom-pager li a').length > 1 && $('.rslides__custom-pager li a')[1].click) { $('.rslides__custom-pager li a')[1].click(); }
         // Set the height of the slides
         var media_height = $('#media-grid').height();
         $('.galery-rslides li').css('height', media_height);

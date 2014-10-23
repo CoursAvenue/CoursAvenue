@@ -29,20 +29,20 @@
     - else
       = "#{@structure.name} à #{@city.name}"
 
-.main-container.main-container--medium.soft--ends
-  %ol.nav.breadcrumb.epsilon
-    %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-      = link_to root_search_page_without_subject_path(@city.id), itemprop: 'url' do
+- cache [@structure, 'structure/show/breadcrumb'] do
+  .main-container.main-container--medium.soft--ends
+    %ol.nav.breadcrumb.epsilon
+      %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+        = link_to root_search_page_without_subject_path(@city.id), itemprop: 'url' do
+          %span{ itemprop: 'title' }
+            = @city.name
+      %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+        = link_to root_search_page_path(@structure.dominant_root_subject, @city), itemprop: 'url' do
+          %span{ itemprop: 'title' }
+            = root_subject.name
+      %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
         %span{ itemprop: 'title' }
-          = @city.name
-    %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-      - root_subject = @structure.dominant_root_subject
-      = link_to city_subject_path(@city, root_subject), itemprop: 'url' do
-        %span{ itemprop: 'title' }
-          = root_subject.name
-    %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-      %span{ itemprop: 'title' }
-        = @structure.name
+          = @structure.name
 
 .visuallyhidden#lieux-photos
   .inline-block

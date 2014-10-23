@@ -143,11 +143,6 @@ class StructuresController < ApplicationController
       place_ids:          @place_ids
     })
     @is_sleeping = @structure.is_sleeping
-
-    user_agent = request.env['HTTP_USER_AGENT']
-    if robot?(user_agent)
-      show_google
-    end
   end
 
   # GET /etablissements/:id/portes-ouvertes-cours-loisirs
@@ -260,14 +255,6 @@ class StructuresController < ApplicationController
     respond_to do |format|
       format.html do
         render template: 'structures/index_google', layout: 'pages'
-      end
-    end
-  end
-
-  def show_google
-    respond_to do |format|
-      format.html do
-        render template: 'structures/show_google', layout: 'users'
       end
     end
   end
