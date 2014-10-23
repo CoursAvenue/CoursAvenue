@@ -29,12 +29,10 @@ namespace :scheduler do
           end
         end
       end
-      URLS.each do |url|
-        if Rails.env.production?
-          PrerenderRenewer.delay(queue: 'prerender').new(url)
-        else
-          PrerenderRenewer.new(url)
-        end
+      if Rails.env.production?
+        PrerenderRenewer.delay(queue: 'prerender').new(URLS)
+      else
+        PrerenderRenewer.new(URLS)
       end
     end
   end
