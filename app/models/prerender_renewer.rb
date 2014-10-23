@@ -7,7 +7,7 @@ class PrerenderRenewer
     if url.is_a? Array
       url.each do |u|
         renew_url(u)
-        sleep 1
+        sleep 5
       end
     else
       renew_url(url)
@@ -19,5 +19,4 @@ class PrerenderRenewer
     uri = URI(ENV['PRERENDER_SERVICE_URL'] + url)
     res = Net::HTTP.post_form(uri, '_escaped_fragment_' => '')
   end
-
 end
