@@ -11,7 +11,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         },
 
         initialize: function initialize () {
-            _.bindAll(this, 'asyncLoadSection', 'hideLoader', 'addOrRemoveFromFavorite', 'initializeAddToFavoriteLinks');
+            _.bindAll(this, 'addOrRemoveFromFavorite', 'initializeAddToFavoriteLinks');
 
             // Initialize it here because the button is not on structure_view
             $('body').on('click', '[data-behavior=add-to-favorite]', this.addOrRemoveFromFavorite);
@@ -76,27 +76,12 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         },
 
         onRender: function onRender () {
-            this.asyncLoadSection('courses');
-            this.asyncLoadSection('trainings');
-            this.asyncLoadSection('teachers');
+            this.renderRelation('courses');
+            this.renderRelation('trainings');
+            this.renderRelation('teachers');
         },
 
-        /*
-         * Fetch associated relation passing it the query_params
-         */
-        updateModelWithRelation: function updateModelWithRelation (relation) {
-            var fetch = this.model.get(relation).fetch({ data: this.model.get("query_params") });
-
-            if (fetch !== undefined) {
-                fetch.then(function (response) {
-                    this.model.get(relation).trigger('fetch:done', response);
-                }.bind(this));
-            }
-
-            return fetch || new $.Deferred().reject();
-        },
-
-        asyncLoadSection: function asyncLoadSection (resource_name) {
+        renderRelation: function renderRelation (resource_name) {
             var ViewClass, view, model, fetch;
 
             ViewClass = this.findCollectionViewForResource(resource_name);
@@ -104,27 +89,11 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             // Only fetch when there is no data
             view = new ViewClass({
                 collection : this.model.get(resource_name),
-                data_url   : this.model.get("data_url"),
                 about      : this.model.get('about'),
                 about_genre: this.model.get('about_genre')
             });
 
-            // always fetch, since we don't know whether we have resource_name or just ids
-            this.showLoader(resource_name);
-            this.updateModelWithRelation(resource_name)
-                .then(function (collection) {
-                    this.showWidget(view);
-                }.bind(this))
-                .always(function() { this.hideLoader(resource_name) }.bind(this));
-        },
-
-        showLoader: function showLoader (resources_name) {
-            $('#tab-' + resources_name).append(this.ui.$loader);
-            this.$('[data-' + resources_name + '-loader]').show();
-        },
-
-        hideLoader: function hideLoader (resources_name) {
-            this.$('[data-' + resources_name + '-loader]').hide();
+            this.showWidget(view);
         },
 
         /*

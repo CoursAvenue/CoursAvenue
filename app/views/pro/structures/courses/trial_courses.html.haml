@@ -2,13 +2,9 @@
 
 .panel
   = render partial: 'pro/structures/courses/trial_courses_tabs', locals: { current: 'courses' }
-  .panel__body.soft--ends.relative
+  .panel__body.soft--ends
     .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.courses.wizard.discovery_pass.step_1') } }
       %h3.flush Pass Découverte
-      .absolute.north.east.soft
-        = link_to pro_pages_discovery_pass_path, target: :_blank do
-          %i.fa.fa-info
-          En savoir plus
       .delta.push--bottom.line-height-1-7 Félicitations ! Vos cours sont éligibles pour le Pass Découverte CoursAvenue. 2 étapes suffisent pour proposer vos cours d'essai dans la cadre de ce Pass :
 
       %h4

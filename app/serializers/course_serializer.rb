@@ -7,7 +7,7 @@ class CourseSerializer < ActiveModel::Serializer
   cached
   delegate :cache_key, to: :object
 
-  attributes :id, :name, :description, :description_short, :type, :start_date, :end_date, :min_price_amount, :min_price_libelle, :data_url, :subjects,
+  attributes :id, :name, :description, :description_short, :type, :min_price_amount, :min_price_libelle, :data_url, :subjects,
              :has_free_trial_lesson, :event_type, :best_price, :is_individual, :search_term, :is_lesson, :frequency,
              :cant_be_joined_during_year, :no_class_during_holidays, :teaches_at_home, :teaches_at_home_radius,
              :has_premium_prices, :premium, :on_appointment, :course_location, :min_age_for_kid, :max_age_for_kid,
@@ -60,14 +60,6 @@ class CourseSerializer < ActiveModel::Serializer
 
   def is_lesson
     object.is_lesson?
-  end
-
-  def start_date
-    I18n.l(object.start_date, format: :semi_short) if object.start_date
-  end
-
-  def end_date
-    I18n.l(object.end_date, format: :semi_short) if object.end_date
   end
 
   def data_url
@@ -154,7 +146,7 @@ class CourseSerializer < ActiveModel::Serializer
                     icon: 'fa-2x fa-group' }
     end
     if is_lesson
-      _details << { text: "#{frequency} du #{start_date} au #{end_date}",
+      _details << { text: frequency,
                     icon: 'delta fa fa-calendar' }
     end
     if object.is_lesson? and cant_be_joined_during_year

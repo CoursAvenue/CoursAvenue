@@ -1,7 +1,5 @@
 class Course::Lesson < Course
 
-  validates :start_date, :end_date, presence: true
-
   ######################################################################
   # Validations                                                        #
   ######################################################################
@@ -28,8 +26,7 @@ class Course::Lesson < Course
   end
 
   def expired?
-    return true if end_date.nil?
-    end_date < Date.today
+    return false
   end
 
   private

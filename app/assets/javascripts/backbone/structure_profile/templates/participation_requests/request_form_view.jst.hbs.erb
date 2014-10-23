@@ -14,16 +14,16 @@
             <div class="soft-half--bottom">
                 <select name="course_id" class="input--large one-whole" >
                     <option>Quel cours vous intéresse ?</option>
-                    {{#if structure.lessons_and_privates}}
+                    {{#if structure.courses}}
                         <optgroup label="Cours réguliers">
-                            {{#each structure.lessons_and_privates}}
+                            {{#each structure.courses}}
                                 <option data-collection-type="courses" value="{{this.id}}" {{#ifIncludeString ../course_ids this.id}}selected{{/ifIncludeString}}>{{this.name}}</option>
                             {{/each}}
                         </optgroup>
                     {{/if}}
-                    {{#if structure.trainings_courses}}
+                    {{#if structure.trainings}}
                         <optgroup label="Stages & Ateliers">
-                          {{#each structure.trainings_courses}}
+                          {{#each structure.trainings}}
                               <option data-collection-type="trainings" value="{{this.id}}" {{#ifIncludeString ../course_ids this.id}}selected{{/ifIncludeString}}>{{this.name}}</option>
                           {{/each}}
                         </optgroup>

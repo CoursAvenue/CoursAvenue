@@ -249,8 +249,11 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
         serializeData: function serializeData () {
             var data = this.model.toJSON();
             if (this.errors) { _.extend(data, { errors: this.errors }); }
+            var structure_json       = this.structure.toJSON();
+            structure_json.courses   = this.structure.get('courses').toJSON();
+            structure_json.trainings = this.structure.get('trainings').toJSON();
             _.extend(data, {
-                structure: this.structure.toJSON()
+                structure: structure_json
             });
             return data;
         }

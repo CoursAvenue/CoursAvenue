@@ -48,7 +48,7 @@ class ParticipationRequest < ActiveRecord::Base
       # Create and send conversation
       structure.create_or_update_user_profile_for_user(user, UserProfile::DEFAULT_TAGS[:discovery_pass])
       recipients                         = structure.main_contact
-      receipt                            = user.send_message_with_label(recipients, message_body, I18n.t(Mailboxer::Label::DISCOVERYPASSREQUEST.name), Mailboxer::Label::DISCOVERYPASSREQUEST.id)
+      receipt                            = user.send_message_with_label(recipients, message_body, I18n.t(Mailboxer::Label::REQUEST.name), Mailboxer::Label::REQUEST.id)
       conversation                       = receipt.conversation
       participation_request.conversation = conversation
       participation_request.save

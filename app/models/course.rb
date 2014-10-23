@@ -417,7 +417,7 @@ class Course < ActiveRecord::Base
   #
   # @return nil
   def update_plannings_open_for_trial
-    if self.open_for_trial_changed?
+    if self.is_open_for_trial_changed?
       self.plannings.each do |planning|
         planning.update_column :open_for_trial, self.open_for_trial
       end

@@ -12,11 +12,10 @@
         - conversation_information_count  = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).count
         - conversation_comment_count      = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::COMMENT.id).count
         - conversation_conversation_count = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::CONVERSATION.id).count
-        - conversation_request_count      = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::DISCOVERYPASSREQUEST.id).count
+        - conversation_request_count      = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::REQUEST.id).count
         .push--bottom.text--center
-          - if conversation_request_count > 0
-            .push-half--left.lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::DISCOVERYPASSREQUEST.color}"}= conversation_request_count
-            %strong Inscription
+          .push-half--left.lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::REQUEST.color}"}= conversation_request_count
+          %strong Inscription
           .lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::INFORMATION.color}"}= conversation_information_count
           %strong Demande d'nformation
           .push-half--left.lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::COMMENT.color}"}= conversation_comment_count
@@ -31,7 +30,7 @@
               %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::COMMENT.id), value: Mailboxer::Label::COMMENT.id } Avis déposés (#{conversation_comment_count})
               %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::CONVERSATION.id), value: Mailboxer::Label::CONVERSATION.id } Conversations (#{conversation_conversation_count})
               - if conversation_request_count > 0
-                %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::DISCOVERYPASSREQUEST.id), value: Mailboxer::Label::DISCOVERYPASSREQUEST.id } Pass Découverte (#{conversation_request_count})
+                %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::REQUEST.id), value: Mailboxer::Label::REQUEST.id } Pass Découverte (#{conversation_request_count})
           .grid__item.two-thirds.text--center>
             = paginate @conversations, window: 1, outer_window: 3
         - @conversations.each do |conversation|

@@ -1,10 +1,10 @@
 - last_message = conversation.messages.last
 
 - recipients = conversation.recipients.reject{|recipient| recipient == @admin }
-
+- participation_request = conversation_participation_request(conversation)
 .bordered--top.push-half--top.soft-half--top
-  - if conversation_waiting_for_reply?(conversation)
-    .grid--full.blue-box.soft-half--sides.very-soft.rounded--none.border-none
+  - if participation_request and participation_request.pending?
+    .grid--full.red-box.soft-half--sides.very-soft.rounded--none.border-none
       .grid__item.v-middle.three-twelfths>
         %strong.epsilon En attente de réponse
       .grid__item.v-middle.nine-twelfths.text--right>
@@ -39,7 +39,7 @@
                 et #{pluralize(recipients.length - 1, 'autre')}
               %br
             %span.milli= "le #{l(last_message.created_at.to_date, format: :short)}"
-            - if participation_request = conversation_participation_request(conversation)
+            - if participation_request
               = participation_request_state_html(participation_request)
     .grid__item.soft-half--left.v-middle{ style: 'width: 65%' }>
       %p.flush

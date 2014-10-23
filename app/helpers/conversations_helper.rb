@@ -6,7 +6,7 @@ module ConversationsHelper
   #
   # @return Array of extra_infos, eg: ['inscription', 'be_called']
   def conversation_participation_request(conversation)
-    if conversation.mailboxer_label_id == Mailboxer::Label::DISCOVERYPASSREQUEST.id
+    if conversation.mailboxer_label_id == Mailboxer::Label::REQUEST.id
       ParticipationRequest.where(mailboxer_conversation_id: conversation.id).first
     end
   end
