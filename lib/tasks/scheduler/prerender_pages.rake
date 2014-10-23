@@ -11,6 +11,7 @@ namespace :scheduler do
     task :regenerate_urls => :environment do
       include Rails.application.routes.url_helpers
       Rails.application.routes.default_url_options[:host] = 'coursavenue.com'
+      Rails.application.routes.default_url_options[:protocol] = Rails.env.production? ? 'https' : 'http'
       CITIES = ['paris']
       URLS = []
       CITIES.each do |city|
