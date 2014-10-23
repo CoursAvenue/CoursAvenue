@@ -1,3 +1,4 @@
+# encoding: utf-8
 class PrerenderRenewer
 
   # Renew cache of url given on Prerender
