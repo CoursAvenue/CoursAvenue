@@ -7,7 +7,7 @@
         .grid__item.eleven-twelfths.v-middle>
           %h5.flush
             %label{ for: "is_open_for_trial_#{course.id}" }= course.name
-    %div{ id: "course_#{course.id}_plannings" }= render partial: "pro/structures/courses/plannings/discovery_pass/#{course.underscore_name}_list", locals: { course: course, structure: structure }
+    %div{ id: "course_#{course.id}_plannings" }= render partial: "pro/structures/courses/plannings/#{course.underscore_name}_list", locals: { course: course, structure: structure }
 
 = content_for :scripts do
   :javascript

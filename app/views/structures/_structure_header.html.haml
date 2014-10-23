@@ -4,8 +4,8 @@
       .flush
         %h1.inline.v-middle{ itemprop: 'name' }= @structure.name
         - if @structure.has_trial_courses?
-          %a{ data: { behavior: 'show-contact-panel' } }
-            .lbl.lbl--yellow.nowrap.v-middle.push-half--left
+          %a.muted-link.pointer{ data: { behavior: 'show-contact-panel' } }
+            .lbl.lbl--yellow.nowrap.v-middle.push-half--left{ data: { toggle: 'popover', content: @structure_decorator.trial_courses_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
               %i.fa.fa-ticket
               Essai gratuit
 
@@ -108,8 +108,8 @@
                     %li.soft-half--sides= link_to 'Stages & ateliers', '#stages-ateliers', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
                     %li.soft-half--sides= link_to 'Avis', '#avis', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
                 - if @structure.has_trial_courses?
-                  %a{ data: { behavior: 'show-contact-panel' } }
-                    .lbl.lbl--yellow.nowrap.v-middle.push-half--left
+                  %a.muted-link.pointer{ data: { behavior: 'show-contact-panel' } }
+                    .lbl.lbl--yellow.nowrap.v-middle.push-half--left{ data: { toggle: 'popover', content: @structure_decorator.trial_courses_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
                       %i.fa.fa-ticket
                       Essai gratuit
                 - if @structure.premium? and @structure.has_promotion?

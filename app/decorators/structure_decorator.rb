@@ -97,6 +97,24 @@ class StructureDecorator < Draper::Decorator
     output
   end
 
+  def trial_courses_popover
+    courses = object.courses.open_for_trial.lessons.select{ |course| course.is_published? and course.has_promotion? }
+    courses = courses + object.courses.open_for_trial.privates.select{ |course| course.is_published? and course.has_promotion? }
+    output  = ''
+    output  << "<div><strong>#{courses.length} #{'cours régulier'.pluralize(courses.length)} :</strong></div>" if courses.any?
+    list_item_start = (courses.length > 1 ? '- ' : '')
+    courses.each do |course|
+      output << "<div>#{list_item_start}#{course.name}</div>"
+    end
+    trainings = object.courses.open_for_trial.trainings.select{ |course| course.is_published? and course.has_promotion? }
+    output  << "<div class='push-half--top'><strong>#{trainings.length} #{'stage'.pluralize(trainings.length)} :</strong></div>" if trainings.any?
+    list_item_start = (trainings.length > 1 ? '- ' : '')
+    trainings.each do |training|
+      output << "<div>#{list_item_start}#{training.name}</div>"
+    end
+    output
+  end
+
   def group_courses_popover(options={})
     courses = (options[:discovery_pass].present? ? object.courses.trial_courses.lessons.reject{ |c| c.plannings.future.empty? } : object.courses.lessons.select(&:is_published?))
     output  = ''

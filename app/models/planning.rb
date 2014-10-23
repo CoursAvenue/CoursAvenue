@@ -57,8 +57,6 @@ class Planning < ActiveRecord::Base
   before_save :set_structure_if_blank
   before_save :update_start_and_end_date
 
-  after_save :update_course_is_open_for_trial
-
   ######################################################################
   # Validations                                                        #
   ######################################################################
@@ -75,7 +73,6 @@ class Planning < ActiveRecord::Base
                   :class_during_holidays,
                   :nb_participants_max, :promotion, :info,
                   :min_age_for_kid, :max_age_for_kid, :teacher, :teacher_id, :level_ids, :audience_ids, :place_id, :is_in_foreign_country,
-                  :is_open_for_trial,
                   :visible # True by default, will be false only for plannings of
                            # private courses that are on demand
 
@@ -86,7 +83,6 @@ class Planning < ActiveRecord::Base
   scope :past,                        -> { where( Planning.arel_table[:end_date].lteq(Date.today) ) }
   scope :ordered_by_day,              -> { order('week_day=0, week_day ASC, start_date ASC, start_time ASC') }
   scope :visible,                     -> { where(visible: true) }
-  scope :is_open_for_trial, -> { where(is_open_for_trial: true) }
 
   ######################################################################
   # Solr                                                               #
@@ -105,7 +101,11 @@ class Planning < ActiveRecord::Base
     end
 
     boolean :visible
-    boolean :is_open_for_trial
+
+    boolean :is_open_for_trial do
+      course.is_open_for_trial
+    end
+
     boolean :is_published do
       self.course.is_published?
     end
@@ -507,14 +507,4 @@ class Planning < ActiveRecord::Base
     end
   end
 
-  # If the user sets the `is_open_for_trial` on a course where its flag is set to false
-  # we set it to true
-  #
-  # @return nil
-  def update_course_is_open_for_trial
-    if self.is_open_for_trial_changed? and self.is_open_for_trial == true and self.course.is_open_for_trial.blank?
-      self.course.update_column :is_open_for_trial, true
-    end
-    nil
-  end
 end

@@ -19,7 +19,6 @@ class Structures::CoursesController < ApplicationController
       @courses << CourseSerializer.new(course, {
         root: false,
         structure: @structure,
-        search_term: params[:search_term],
         plannings: plannings.select(&:visible)
       })
     end

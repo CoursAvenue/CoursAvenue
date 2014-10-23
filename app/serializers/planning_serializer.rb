@@ -2,12 +2,9 @@ class PlanningSerializer < ActiveModel::Serializer
   include PlanningsHelper
   include PricesHelper
 
-  cached
-  delegate :cache_key, to: :object
-
-  attributes :id, :date, :duration, :time_slot, :levels, :audiences, :place_id, :places_left, :more_than_ten_places,
-             :common_price, :course_id, :info, :address, :address_with_info, :address_name, :activity_name, :home_place_id,
-             :next_date, :week_day, :is_open_for_trial
+  attributes :id, :date, :duration, :time_slot, :levels, :audiences, :place_id,
+             :course_id, :info, :address, :address_with_info, :address_name, :home_place_id,
+             :next_date, :week_day
 
   def home_place_id
     if object.course.is_private? and object.course.teaches_at_home?
@@ -60,17 +57,6 @@ class PlanningSerializer < ActiveModel::Serializer
     places.map(&:name).join(', ')
   end
 
-  def activity_name
-    if object.course.is_training?
-      case object.length
-      when 1
-        "Atelier"
-      else
-        "Stage de #{object.length} jours"
-      end
-    end
-  end
-
   def date
     if object.course.is_lesson? or object.course.is_private?
       week_day_for(object)
@@ -99,18 +85,6 @@ class PlanningSerializer < ActiveModel::Serializer
     else
       join_audiences(object)
     end
-  end
-
-  def places_left
-    object.places_left if @options[:jpo]
-  end
-
-  def more_than_ten_places
-    object.places_left > 10 if @options[:jpo]
-  end
-
-  def common_price
-    readable_amount(object.course.common_price) if object.course.common_price
   end
 
   def next_date

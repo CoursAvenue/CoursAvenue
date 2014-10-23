@@ -307,7 +307,7 @@ class Structure < ActiveRecord::Base
     integer :funding_type_ids, multiple: true
 
     boolean :is_open_for_trial do
-      self.plannings.is_open_for_trial.any?
+      self.courses.open_for_trial.any?
     end
 
     boolean :premium
@@ -644,7 +644,7 @@ class Structure < ActiveRecord::Base
     self.level_ids                = (self.plannings.collect(&:level_ids) + self.courses.privates.collect(&:level_ids)).flatten.uniq.sort.join(',')
     self.audience_ids             = (self.plannings.collect(&:audience_ids) + self.courses.privates.collect(&:audience_ids)).flatten.uniq.sort.join(',')
     self.set_min_and_max_price
-    self.discovery_pass_place_ids = (self.plannings.is_open_for_trial.map(&:place) + self.courses.is_open_for_trial.map(&:places)).compact.flatten.uniq.map(&:id).join(',')
+    self.discovery_pass_place_ids = (self.courses.open_for_trial.map(&:place) + self.courses.open_for_trial.map(&:places)).compact.flatten.uniq.map(&:id).join(',')
     compute_response_rate
     # update_jpo_meta_datas
     self.save(validate: false)
@@ -1183,7 +1183,7 @@ class Structure < ActiveRecord::Base
   end
 
   def has_trial_courses?
-    self.plannings.is_open_for_trial.any?
+    self.courses.open_for_trial.any?
   end
 
   private

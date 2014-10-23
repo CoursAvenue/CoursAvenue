@@ -26,7 +26,7 @@ class PlanningSearch
       end
 
       all_of do
-        with :is_open_for_trial,                true                                          if params[:discovery_pass].present?
+        with :is_open_for_trial,                          true                                          if params[:is_open_for_trial].present?
         with :visible,                                    params[:visible]                              if params[:visible].present?
         with :is_published,                               params[:is_published]                         if params[:is_published].present?
 

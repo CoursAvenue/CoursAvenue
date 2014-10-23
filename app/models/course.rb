@@ -40,7 +40,7 @@ class Course < ActiveRecord::Base
   scope :regulars,                    -> { where(arel_table[:type].eq('Course::Private').or(arel_table[:type].eq('Course::Lesson')) ) }
   scope :without_open_courses,        -> { where.not( type: 'Course::Open' ) }
   scope :open_courses,                -> { where( type: 'Course::Open' ) }
-  scope :open_for_trial, -> { where.not( open_for_trial: nil ) }
+  scope :open_for_trial,              -> { where( is_open_for_trial: true ) }
 
   ######################################################################
   # Validations                                                        #

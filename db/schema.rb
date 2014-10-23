@@ -299,38 +299,6 @@ ActiveRecord::Schema.define(version: 20141022090449) do
     t.decimal  "remaining_credit",       default: 38.0
   end
 
-  create_table "emailing_section_bridges", force: true do |t|
-    t.integer "emailing_section_id"
-    t.integer "structure_id"
-    t.integer "media_id"
-    t.boolean "is_logo"
-  end
-
-  add_index "emailing_section_bridges", ["emailing_section_id", "structure_id"], name: "comments_subjects_index", using: :btree
-
-  create_table "emailing_sections", force: true do |t|
-    t.string   "title"
-    t.integer  "emailing_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "link"
-    t.string   "link_name"
-  end
-
-  create_table "emailings", force: true do |t|
-    t.string   "title"
-    t.text     "body"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "header_image_file_name"
-    t.string   "header_image_content_type"
-    t.integer  "header_image_file_size"
-    t.datetime "header_image_updated_at"
-    t.string   "section_metadata_one"
-    t.string   "section_metadata_two"
-    t.string   "section_metadata_three"
-  end
-
   create_table "emails", force: true do |t|
     t.string   "email"
     t.string   "email_type"
@@ -650,7 +618,6 @@ ActiveRecord::Schema.define(version: 20141022090449) do
     t.integer  "structure_id"
     t.boolean  "visible",               default: true
     t.boolean  "is_in_foreign_country", default: false
-    t.boolean  "is_open_for_trial"
   end
 
   add_index "plannings", ["audience_ids"], name: "index_plannings_on_audience_ids", using: :btree

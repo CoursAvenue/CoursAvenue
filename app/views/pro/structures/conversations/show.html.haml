@@ -1,6 +1,6 @@
 = side_menu_currently_at 'messages'
 - recipients = @conversation.recipients.reject{|recipient| recipient == @admin }
-
+- participation_request = conversation_participation_request(@conversation)
 .panel
   .panel__header.soft
     %ol.nav.flush.breadcrumb{ itemprop: 'breadcrumb' }
@@ -23,12 +23,14 @@
 
     - user = @conversation.recipients.detect{ |recipient| recipient.is_a? User }
     - if user.phone_number.present?
-      .grid.epsilon
-        .grid__item.two-twelfths.v-middle.text--right>
-          %strong.flush
-            Téléphone
-        .grid__item.ten-twelfths.soft-half--left.v-middle>
-          %strong= readable_phone_number user.phone_number
+      - # If it is a request, show phone number only if request is accepted
+      - if !participation_request or participation_request and participation_request.accepted?
+        .grid.epsilon
+          .grid__item.two-twelfths.v-middle.text--right>
+            %strong.flush
+              Téléphone
+          .grid__item.ten-twelfths.soft-half--left.v-middle>
+            %strong= readable_phone_number user.phone_number
     - if conversation_courses(@conversation, @structure).present?
       .grid
         .grid__item.two-twelfths.v-middle.text--right>

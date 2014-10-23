@@ -8,17 +8,20 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
         events: {
             'submit form'                       : 'submitForm',
             'change @ui.$course_select'         : 'showAssociatedPlannings',
-            'change @ui.$planning_select_input' : 'updateDatePicker'
+            'change @ui.$planning_select_input' : 'updateDatePicker',
+            'change [name=request_type]'        : 'toggleRequestType'
         },
 
         ui: {
-            '$course_select'           : 'select[name=course_id]',
-            '$planning_select_wrapper' : '[data-element=planning-select-wrapper]',
-            '$planning_select_input'   : '[data-element=planning-select-wrapper] select',
-            '$datepicker_wrapper'      : '[data-element=datepicker-wrapper]',
-            '$datepicker_input'        : '[data-element=datepicker-wrapper] input',
-            '$start_hour_select_input' : '[data-element=start-hour-select]',
-            '$time_wrapper'            : '[data-element="time-wrapper"]'
+            '$course_select'                   : 'select[name=course_id]',
+            '$planning_select_wrapper'         : '[data-element=planning-select-wrapper]',
+            '$planning_select_input'           : '[data-element=planning-select-wrapper] select',
+            '$datepicker_wrapper'              : '[data-element=datepicker-wrapper]',
+            '$datepicker_input'                : '[data-element=datepicker-wrapper] input',
+            '$start_hour_select_input'         : '[data-element=start-hour-select]',
+            '$time_wrapper'                    : '[data-element="time-wrapper"]',
+            '$booking_request_type_wrapper'    : '[data-type=booking-request-type-wrapper]',
+            '$information_request_type_wrapper': '[data-type=information-request-type-wrapper]'
         },
 
         initialize: function initialize (options) {
@@ -26,6 +29,13 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             this.model = new StructureProfile.Models.ParticipationRequest(options.model || {});
             Backbone.Validation.bind(this);
             _.bindAll(this, 'showPopupMessageDidntSend');
+        },
+
+        toggleRequestType: function toggleRequestType (event) {
+            debugger
+            // if (event)
+            this.ui.$information_request_type_wrapper.hide();
+            this.ui.$booking_request_type_wrapper.show();
         },
 
         initializeStartHourSelect: function initializeStartHourSelect () {
