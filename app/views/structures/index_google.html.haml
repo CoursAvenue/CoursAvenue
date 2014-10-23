@@ -2,7 +2,7 @@
   %meta{ name: 'fragment', content: '!' }
 
 - if @subject
-  - title = "Cours gratuit de #{@subject.name} à #{params[:city_id]}"
+  - title = "Cours gratuit de #{@subject.name} à #{params[:city_id].try(:capitalize)}"
 - else
   - title = "Cours gratuit de Danse, Théâtre, Musique, Yoga... à #{params[:city_id].try(:capitalize) || 'Paris'} "
 
@@ -81,8 +81,8 @@
         - @comments.each do |comment|
           - if @subject
             %div
-              %strong= "(#{@subject.name} : #{comment.subjects.map(&:name).join(', ')})"
+              %strong= "(#{@subject.name} : #{comment.subjects.uniq.map(&:name).join(', ')})"
           - else
             %div
-              %strong= "(#{comment.subjects.map(&:name).join(', ')})"
+              %strong= "(#{comment.subjects.uniq.map(&:name).join(', ')})"
           = render partial: 'comments/home_comment', locals: { comment: comment, truncate_length: 500 }
