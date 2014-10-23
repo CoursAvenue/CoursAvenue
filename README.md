@@ -25,6 +25,41 @@ $ git push staging feature_branch:master
 \# ~/.powconfig
 `export PATH=$(rbenv root)/shims:$(rbenv root)/bin:$PATH`
 
+### Prerender
+
+#### In prerender app:
+
+```shell
+# In another folder:
+git clone git@github.com:CoursAvenue/coursavenue-prerender.git
+cd coursavenue-prerender
+npm install # install dependecies, including PhantomJS
+
+node server # or foreman start -p 3000
+```
+
+#### In Coursavenue App
+
+```shell
+echo "PRERENDER_SERVICE_URL: 'http://prerender.dev'" >> .env
+echo 3000 > ~/.pow/prerender
+touch ~/.pow/restart.txt
+```
+
+### In Production / Staging
+
+```shell
+heroku config:set PRERENDER_SERVICE_URL="http://coursavenue-prerender.herokuapp.com/"
+# OR
+hk set PRERENDER_SERVICE_URL='http://prerender.dev'
+```
+
+And finally add the task `rake scheduler:ping` to the scheduler, running every xx minutes.
+
+### Testing
+* Set the browser user agent to `Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)` and the visit the page, or
+* Visit the page adding `?_escaped_fragment_=` to the page URL.
+
 ## Dependencies / Gems
 
 ### For Will_paginate
@@ -34,7 +69,7 @@ A custom renderer has been created in lib/
 Inuit.css
 Compass for mixins
 
-### Icon webfonts 
+### Icon webfonts
 We use FontAwesome and Fontcustom to generate own icon font
 Command to regenerate fonts:
 `bundle exec fontcustom compile app/assets/images/icons/svg/`

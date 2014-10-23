@@ -2,10 +2,11 @@
 class StructuresController < ApplicationController
   include FilteredSearchProvider
   include StructuresHelper
+  include ApplicationHelper
 
   skip_before_filter :verify_authenticity_token, only: [:add_to_favorite, :remove_from_favorite]
 
-  before_filter :set_current_structure, except: [:index, :discovery_pass_search, :search]
+  before_filter :set_current_structure, except: [:index, :discovery_pass_search, :search, :index_google]
   before_filter :protect_discovery_pass_access, only: [:discovery_pass, :discovery_pass_search]
 
   respond_to :json
@@ -41,6 +42,10 @@ class StructuresController < ApplicationController
     @models = jasonify @structures
 
     log_search
+
+    if robot?(request.env['HTTP_USER_AGENT'])
+      index_google
+    end
 
     respond_to do |format|
       format.json do
@@ -213,5 +218,26 @@ class StructuresController < ApplicationController
   def set_current_structure
     @structure = Structure.fetch_by_id_or_slug(params[:id])
     raise ActiveRecord::RecordNotFound.new(params) if @structure.nil?
+  end
+
+  ######################################################################
+  # Crawled routes                                                     #
+  ######################################################################
+
+  def index_google
+    if @subject.present?
+      @comments = @subject.comments
+    elsif @structures.any?
+      @comments = @structures.flat_map(&:comments)
+    else
+      @comments = []
+    end
+    @comments = @comments.uniq.take(10)
+
+    respond_to do |format|
+      format.html do
+        render template: 'structures/index_google', layout: 'pages'
+      end
+    end
   end
 end

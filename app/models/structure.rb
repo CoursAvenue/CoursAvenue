@@ -1135,6 +1135,15 @@ class Structure < ActiveRecord::Base
     end
   end
 
+  # @return
+  def dominant_child_subject
+    if courses.active.any? and (_subjects = courses.active.flat_map{ |c| c.subjects }).any?
+      _subjects.group_by(&:name).values.max_by(&:size).first
+    else
+      subjects.at_depth(2).group_by(&:root).values.max_by(&:size).first
+    end
+  end
+
   # Return the most used city
   #
   # @return City

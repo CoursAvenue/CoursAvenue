@@ -10,7 +10,7 @@ class City < ActiveRecord::Base
   has_many :users, through: :lived_places
 
   has_many :places
-  has_many :structures, through: :structures
+  has_many :structures, through: :places
   has_many :courses   , through: :structures
   has_many :city_subject_infos
 

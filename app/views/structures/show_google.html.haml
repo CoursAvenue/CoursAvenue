@@ -1,5 +1,6 @@
 = content_for :head do
   %link{ rel: 'canonical', href: request.path }
+  %meta{ name: 'fragment', content: '!' }
 
 - if params[:c].present?
   - shared_comment = @structure.comments.find(params[:c])
@@ -29,20 +30,37 @@
       = "#{@structure.name} à #{@city.name}"
 
 - cache [@structure, 'structure/show/breadcrumb'] do
-  .main-container.visuallyhidden
+  .main-container.main-container--medium.soft--ends
     %ol.nav.breadcrumb.epsilon
       %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
         = link_to root_search_page_without_subject_path(@city.id), itemprop: 'url' do
           %span{ itemprop: 'title' }
             = @city.name
       %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-        - root_subject = @structure.dominant_root_subject
-        = link_to root_search_page_path(root_subject, @city), itemprop: 'url' do
+        = link_to root_search_page_path(@structure.dominant_root_subject, @city), itemprop: 'url' do
           %span{ itemprop: 'title' }
             = root_subject.name
       %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
         %span{ itemprop: 'title' }
           = @structure.name
+
+.visuallyhidden#lieux-photos
+  .inline-block
+    - if cookies[:structure_search_path]
+      = link_to cookies[:structure_search_path] do
+        %i.orange ←
+        = t('.back_to_results')
+    - else
+      = link_to structures_path do
+        %i.orange ←
+        = t('.see_arrounding_structures')
+  .inline-block.push-half--sides
+    |
+  .inline-block.push-half--bottom
+    %ol.nav.breadcrumb.flush{ itemprop: 'breadcrumb' }
+      %li
+        = link_to "Tous les établissement", structures_path
+      %li= @structure.name
 
 - if !current_user and params[:waiting_for_activation]
   .blue-box.islet.text--center.push--ends
@@ -62,6 +80,22 @@
             #structure-region
           %div{ data: { type: "comments-collection" } }
       .grid__item.four-twelfths>
+        - if @structure.parisian?
+          .orange-box>
+            .soft.white.epsilon.text--center
+              %h3 Réserver mon cours d'essai
+              %strong= @structure.dominant_root_subject.name
+              - if @structure.has_discovery_pass_courses?
+                \: envie de vous lancer&nbsp;? Essayez les cours de
+                = t("structures.structure_type_contact.#{(@structure.structure_type.present? ? @structure.structure_type : 'other')}")
+                et
+                %strong 1&nbsp;300 autres séances.
+              - else
+                \: envie de vous lancer ? Essayez plus de 1 300 cours sélectionnés rien que pour vous.
+              %br
+              %br
+              = link_to 'Obtenir mon Pass Découverte', discovery_passes_path, class: 'btn btn--yellow mixpanel-tracker', data: { info: 'From profile page'}
+        .jpo-frise.push--bottom>
         %div{ data: { type: 'contact-form' } }
         - unless @is_sleeping
           - if @structure.response_rate or @structure.response_time or (@structure.main_contact and @structure.main_contact.current_sign_in_at)
@@ -138,43 +172,3 @@
                               %div
                                 %i= truncate(structure.places.map(&:city).map(&:name).uniq.join(', '), length: 40)
                               .btn.btn--small.btn--blue.btn--full.opacity-hidden-on-hover__child Voir le profil
-
-- if Rails.env.production?
-  = render 'tracking_pixels'
-
-= content_for :scripts do
-  :javascript
-    (function () {
-      window.coursavenue = window.coursavenue || {};
-      window.coursavenue.bootstrap = {
-          current_pro_admin: #{(current_pro_admin ? true : false)},
-          structure: #{ @model.to_json },
-          meta: {
-              total_comments: #{ @structure.comments.accepted.count },
-              structure_id  : #{ @structure.id }
-          }
-      };
-    }());
-
-
-- unless current_user
-  = content_for :scripts do
-    :javascript
-      $(function() {
-          var body_message = $('#contact-message-body').val();
-          $.cookie('user_contact_message', body_message);
-      });
-
-- if Rails.env.production?
-  = content_for :scripts do
-    :javascript
-      $(function() {
-          mixpanel.track("Landed on Structure page", { "structure_slug": "#{@structure.slug}", "structure_name": "#{@structure.name}" });
-      });
-
-- if robot?(request.env['HTTP_USER_AGENT'])
-  = content_for :scripts do
-    :javascript
-      $(function() {
-          $('[data-behavior="show-long-version"]').click();
-      });
