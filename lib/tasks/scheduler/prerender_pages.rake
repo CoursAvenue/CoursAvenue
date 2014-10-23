@@ -10,28 +10,30 @@ namespace :scheduler do
     desc 'Prerender pages and save them to S3'
     task :regenerate_urls => :environment do
       include Rails.application.routes.url_helpers
-      Rails.application.routes.default_url_options[:host] = (Rails.env.production? ? 'coursavenue.com' : 'staging.coursavenue.com')
+      Rails.application.routes.default_url_options[:host] = 'coursavenue.com'
       CITIES = ['paris']
       URLS = []
       CITIES.each do |city|
-        URLS << root_search_page_without_subject_url(city, subdomain: 'www')
+        URLS << root_search_page_without_subject_url(city, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
       end
       Structure.find_each do |structure|
-        URLS << structure_url(structure, subdomain: 'www')
+        URLS << structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
       end
       Subject.find_each do |subject|
         CITIES.each do |city|
           if subject.is_root?
-            URLS << root_search_page_url(subject, city, subdomain: 'www')
+            URLS << root_search_page_url(subject, city, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
           else
-            URLS << search_page_url(subject.root, subject, city, subdomain: 'www')
+            URLS << search_page_url(subject.root, subject, city, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
           end
         end
       end
       URLS.each do |url|
-        puts ENV['PRERENDER_SERVICE_URL'] + url
-        uri = URI(ENV['PRERENDER_SERVICE_URL'] + url)
-        res = Net::HTTP.post_form(uri, '_escaped_fragment_' => '')
+        if Rails.env.production?
+          PrerenderRenewer.delay.new(url)
+        else
+          PrerenderRenewer.new(url)
+        end
       end
     end
   end
