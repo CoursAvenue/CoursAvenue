@@ -43,8 +43,7 @@ class StructuresController < ApplicationController
 
     log_search
 
-    user_agent = request.env['HTTP_USER_AGENT']
-    if robot?(user_agent)
+    if robot?(request.env['HTTP_USER_AGENT'])
       index_google
     end
 
