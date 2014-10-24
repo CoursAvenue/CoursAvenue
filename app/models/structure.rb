@@ -10,6 +10,8 @@ class Structure < ActiveRecord::Base
   include ActsAsGeolocalizable
   include ConversationsHelper
   include IdentityCache
+  include Rails.application.routes.url_helpers
+
   acts_as_paranoid
   acts_as_tagger
 
@@ -153,6 +155,7 @@ class Structure < ActiveRecord::Base
 
   after_save    :geocode_if_needs_to  unless Rails.env.test?
   after_save    :subscribe_to_crm
+  after_touch   :regenerate_cached_profile_page
 
   ######################################################################
   # Solr                                                               #
@@ -1299,5 +1302,9 @@ class Structure < ActiveRecord::Base
       self.errors.add :name, "Le nom ne peut pas contenir votre site internet"
     end
     nil
+  end
+
+  def regenerate_cached_profile_page
+    PrerenderRenewer.delay.new(structure_url(self, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, host: 'coursavenue.com'))
   end
 end
