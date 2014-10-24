@@ -226,9 +226,9 @@ class StructuresController < ApplicationController
 
   def index_google
     if @subject.present?
-      @comments = @subject.comments
+      @comments = @subject.comments.order('created_at DESC')
     elsif @structures.any?
-      @comments = @structures.flat_map(&:comments)
+      @comments = @structures.flat_map(&:comments).sort_by(&:created_at).reverse
     else
       @comments = []
     end
