@@ -15,7 +15,7 @@
       %h2.f-weight-300 Communiqués de presse
       - @press_releases.each do |press_release|
         %h4.push-half--bottom.f-weight-300
-          = link_to @press_release.title, press_release_path(press_release), class: 'muted-link'
+          = link_to press_release.title, press_release_path(press_release), class: 'muted-link'
         .grid.push--bottom
           .grid__item.one-half>
             %strong= "Publié le #{l(press_release.published_at, format: :date_with_year)}"

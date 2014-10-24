@@ -5,7 +5,7 @@
 
   .input.input-daterange.input-group{ data: { behavior: 'datepicker' } }
     %label.label--large.required.control-label{ for: 'published_date' } Date de publication
-    %input.input-sm.input--large.datepicker-input#published_date{ type: 'text', value: (@press_release.published_at.nil? ? '' : l(@press_release.published_at.to_date)), name: 'blog_article[published_at]' }
+    %input.input-sm.input--large.datepicker-input#published_date{ type: 'text', value: (@press_release.published_at.nil? ? '' : l(@press_release.published_at.to_date)), name: 'press_release[published_at]' }
 
   = f.input :title, label: false, input_html: { class: 'input--large one-whole' }
   = f.input :description, label: false, input_html: { class: 'input--large one-whole' }
