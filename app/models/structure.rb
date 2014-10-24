@@ -1131,7 +1131,7 @@ class Structure < ActiveRecord::Base
     if courses.active.any? and (_subjects = courses.active.flat_map{ |c| c.subjects }).any?
       _subjects.group_by{ |subject| subject.root }.values.max_by(&:size).first.root
     else
-      subjects.at_depth(2).group_by(&:root).values.max_by(&:size).first.root
+      subjects.at_depth(2).group_by(&:root).values.max_by(&:size).try(:first).try(:root)
     end
   end
 
