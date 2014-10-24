@@ -1,14 +1,4 @@
 {{#if logged_in}}
-    <div class="inline-block soft--right">
-        <div class="drop-down__wrapper grid__item width-auto v-middle hard--left" data-behavior='drop-down' data-el='> .drop-down__el' data-position='right'>
-            <a href="{{ discovery_passes_url }}" class="btn btn--yellow mixpanel-tracker" data-info="Pass Decouverte header link">Pass Découverte</a>
-            <ul class="drop-down__el text--left">
-                <li class="nowrap">
-                    <a href="{{ discovery_pass_search_structures_url }}" class="mixpanel-tracker" data-info="Pass Decouverte header link">Accéder / M'inscrire aux cours</a>
-                </li>
-            </ul>
-        </div>
-    </div>
     <div class="drop-down__wrapper grid__item width-auto v-middle hard--left" data-behavior='drop-down' data-el='> .drop-down__el' data-position='right'>
         <a href="{{dashboard_user_path}}">
             {{#if avatar_url}}
@@ -103,9 +93,6 @@
       </ul>
     </div>
 
-    <div class="inline-block soft--left">
-        <a class="pointer btn btn--yellow" data-info="Pass Decouverte header link" data-behavior="sign-up">Essai gratuit</a>
-    </div>
     <div class="inline-block soft--left">
         {{#if on_sleeping_page}}
             <a href="{{ take_control_url }}" class="btn btn--orange">Gérer ce profil</a>

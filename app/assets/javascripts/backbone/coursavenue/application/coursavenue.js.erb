@@ -1,6 +1,12 @@
 CoursAvenue = new Backbone.Marionette.Application({
     slug: 'coursavenue',
 
+    events: {
+      'click': 'lal'
+    },
+    lal: function lal (argument) {
+      debugger
+    },
     is_production: function is_production () {
         return this.env == 'production';
     },

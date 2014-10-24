@@ -1,3 +1,5 @@
+= render 'shared/orange_banner'
+
 = content_for :head do
   %link{ rel: 'canonical', href: request.path }
 
@@ -35,11 +37,12 @@
         = link_to root_search_page_without_subject_path(@city.id), itemprop: 'url' do
           %span{ itemprop: 'title' }
             = @city.name
-      %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-        - root_subject = @structure.dominant_root_subject
-        = link_to root_search_page_path(root_subject, @city), itemprop: 'url' do
-          %span{ itemprop: 'title' }
-            = root_subject.name
+      - root_subject = @structure.dominant_root_subject
+      - if root_subject
+        %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+          = link_to root_search_page_path(root_subject, @city), itemprop: 'url' do
+            %span{ itemprop: 'title' }
+              = root_subject.name
       %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
         %span{ itemprop: 'title' }
           = @structure.name

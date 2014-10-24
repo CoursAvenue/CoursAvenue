@@ -5,11 +5,9 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         initialize: function initialize () {
             this.model.on('change', this.render);
-        },
-
-        events: {
-            'click [data-behavior=sign-up]': 'signUp',
-            'click [data-behavior=sign-in]': 'signIn'
+            _.bindAll(this, 'signUp', 'signIn');
+            $('body').on('click', '[data-behavior=sign-up]', this.signUp);
+            $('body').on('click', '[data-behavior=sign-in]', this.signIn);
         },
 
         signIn: function signIn (event, options) {
@@ -33,9 +31,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 logged_in                            : this.model.isLogged(),
                 on_sleeping_page                     : window.on_sleeping_page,
                 take_control_url                     : window.take_control_url,
-                pages_faq_users_url                  : Routes.pages_faq_users_path(),
-                on_discovery_pass_pages              : window.on_discovery_pass_pages,
-                discovery_passes_url                 : Routes.discovery_passes_path()
+                pages_faq_users_url                  : Routes.pages_faq_users_path()
             }
             if (this.model.isLogged()) {
                 _.extend(data, {
