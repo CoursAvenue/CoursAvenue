@@ -16,5 +16,3 @@
         - next if @structure == structure or structure.medias.empty?
         .inline-block.one-half.very-soft.relative>
           = render partial: "structures/similar_profile", locals: { structure: structure, show_promotion: false }
-    %p.epsilon.text--center.push--top.flush--bottom
-      = link_to 'Revenir au moteur de recherche', discovery_pass_search_structures_path, class: 'btn btn--green'

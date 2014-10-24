@@ -14,7 +14,7 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
                 msg: 'Vous devez remplir un message'
             },
             course_id: function course_id () {
-                if (this.get('request_type') == 'booking') {
+                if (this.get('request_type') == 'booking' && !this.get('course_id')) {
                     return 'Vous devez sélectionner un cours';
                 }
             },

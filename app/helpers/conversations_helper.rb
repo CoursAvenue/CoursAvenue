@@ -54,7 +54,10 @@ module ConversationsHelper
       if senders.length == 1 and !conversation.treated_by_phone
         return true
       end
+    elsif conversation.mailboxer_label_id == Mailboxer::Label::REQUEST.id
+      return conversation_participation_request(conversation).pending?
     end
+
     return false
   end
 

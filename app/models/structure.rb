@@ -912,7 +912,7 @@ class Structure < ActiveRecord::Base
   # @return Mailboxer::Conversation
   def unanswered_information_message
     return [] if mailbox.nil?
-    mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).select do |conversation|
+    mailbox.conversations.where(Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id])).select do |conversation|
       conversation_waiting_for_reply?(conversation)
     end
   end

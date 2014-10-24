@@ -6,8 +6,7 @@ class StructuresController < ApplicationController
 
   skip_before_filter :verify_authenticity_token, only: [:add_to_favorite, :remove_from_favorite]
 
-  before_filter :set_current_structure, except: [:index, :discovery_pass_search, :search, :index_google]
-  before_filter :protect_discovery_pass_access, only: [:discovery_pass, :discovery_pass_search]
+  before_filter :set_current_structure, except: [:index, :search, :index_google]
 
   respond_to :json
 
@@ -61,51 +60,6 @@ class StructuresController < ApplicationController
       # a filtered version of the structures show action
       format.html do
         @models = jasonify @structures, place_ids: @places, query: params
-        cookies[:structure_search_path] = request.fullpath
-      end
-    end
-  end
-
-  # GET /etablissements/pass-decouverte
-  def discovery_pass_search
-    params[:discovery_pass] = true
-    if params[:root_subject_id].present? and params[:subject_id].blank?
-      params[:subject_id] = params[:root_subject_id]
-    end
-    @app_slug = "discovery-pass-search"
-    @subject = filter_by_subject?
-
-    # We remove bbox parameters if user is on mobile since we don't show the map
-    if mobile_device?
-      params.delete :bbox_ne
-      params.delete :bbox_sw
-    end
-
-    params[:address_name] ||= 'Paris, France' unless request.xhr?
-    params[:page]         ||= 1
-    params[:per_page]      = 18
-
-    # Always search on plannings
-    @structures, @places, @total = search_plannings
-    @latlng = retrieve_location
-    @models = jasonify @structures
-
-    log_search
-
-    respond_to do |format|
-      format.json do
-        render json: @structures,
-               root: 'structures',
-               place_ids: @places,
-               query: params,
-               each_serializer: StructureDiscoveryPassSearchSerializer,
-               meta: { total: @total, location: @latlng }
-      end
-
-      # 'query' is the current query string, which allows us to direct users to
-      # a filtered version of the structures show action
-      format.html do
-        @models = jasonify @structures, place_ids: @places, query: params, serializer: StructureDiscoveryPassSearchSerializer
         cookies[:structure_search_path] = request.fullpath
       end
     end
@@ -170,19 +124,10 @@ class StructuresController < ApplicationController
     end
   end
 
-  protected
-
-  def layout_locals
-    locals = { }
-    locals[:top_menu_search_url] = discovery_pass_search_structures_path if action_name == 'discovery_pass_search'
-    locals[:on_pass_pages]       = true if action_name == 'discovery_pass_search' or action_name == 'discovery_pass'
-    locals
-  end
-
   private
 
   def choose_layout
-    if action_name == 'index' or action_name == 'discovery_pass_search'
+    if action_name == 'index'
       'search'
     else
       'users'
@@ -205,13 +150,6 @@ class StructuresController < ApplicationController
     SearchTermLog.create(name: "FILTRE: Cours d'essai") if params[:trial_course_amount].present?
   end
 
-  def protect_discovery_pass_access
-    # Current_pro admin can see
-    return if current_pro_admin
-    # Users with pass can see
-    return if current_user and current_user.discovery_pass and current_user.discovery_pass.active?
-    redirect_to discovery_passes_path
-  end
 
   # Private: Set the current structure for the relevant routes
   # by fetching by its id or its slug.

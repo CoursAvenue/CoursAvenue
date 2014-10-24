@@ -7,7 +7,7 @@
       = f.fields_for :message, @message, class: 'message__body message__appendix' do |message_form|
         = message_form.input :body, input_html: { placeholder: 'Ajouter un message personnel ici', style: 'height: 100px', class: 'input--large one-whole', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
       = f.submit 'Répondre', class: 'btn btn--green', data: { disable_with: "Message en cours d'envoi" }
-      - if conversation_waiting_for_reply? @conversation
+      - if @conversation.mailboxer_label_id == Mailboxer::Label::INFORMATION.id and conversation_waiting_for_reply? @conversation
         = succeed ' ' do
           = link_to 'Demande traitée par téléphone', treat_by_phone_pro_structure_conversation_path(@structure, @conversation), class: 'btn btn--green', method: :patch
         = succeed ' ' do

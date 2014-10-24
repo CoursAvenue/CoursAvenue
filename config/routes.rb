@@ -298,7 +298,7 @@ CoursAvenue::Application.routes.draw do
             get :ca_communication, path: 'communication-coursavenue'
           end
         end
-        resources :participation_requests, only: [:edit, :index], controller: 'structures/participation_requests', path: 'pass-decouverte-suivi' do
+        resources :participation_requests, only: [:edit, :index], controller: 'structures/participation_requests', path: 'suivi-inscriptions' do
           member do
             get   :cancel_form
             patch :accept
@@ -403,17 +403,6 @@ CoursAvenue::Application.routes.draw do
       end
     end
     resources :orders, only: [:index, :show], controller: 'users/orders', path: 'mes-factures'
-    resources :discovery_passes, only: [:index, :show, :new], path: 'pass-decouverte', controller: 'users/discovery_passes' do
-      collection do
-        get :payment_confirmation, path: 'confirmation-paiement'
-        get :account
-      end
-      member do
-        get   :ask_for_cancellation
-        patch :cancel
-        patch :reactivate
-      end
-    end
     resources :sponsorships, only: [:index, :new, :create], controller: 'users/sponsorships', path: 'mes-parrainages'
     resources :participation_requests, only: [:index, :edit], controller: 'users/participation_requests', path: 'mes-inscriptions' do
       member do
@@ -450,7 +439,6 @@ CoursAvenue::Application.routes.draw do
     collection do
       post :recommendation
       get :search
-      get :discovery_pass_search, path: 'pass-decouverte'
     end
     resources :participation_requests, only: [:create]                                    , controller: 'structures/participation_requests'
     resources :statistics            , only: [:create]                                    , controller: 'structures/statistics'

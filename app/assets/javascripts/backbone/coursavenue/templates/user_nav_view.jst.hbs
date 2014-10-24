@@ -67,9 +67,6 @@
 {{else}}
 <div class="inline-block">
     <div class="inline-block soft--right">
-        <a href="#" data-behavior="sign-up">Inscription</a>
-    </div>
-    <div class="inline-block soft--right">
         <a href="#" data-behavior="sign-in">Connexion</a>
     </div>
     <div class="inline-block soft--right drop-down__wrapper" data-behavior='drop-down' data-el='> .drop-down__el' data-position='right'>
@@ -107,20 +104,7 @@
     </div>
 
     <div class="inline-block soft--left">
-        <div class="drop-down__wrapper grid__item width-auto v-middle hard--left" data-behavior='drop-down' data-el='> .drop-down__el' data-position='right'>
-            <a href="{{ discovery_passes_url }}" class="btn btn--yellow" data-info="Pass Decouverte header link">Pass Découverte</a>
-            <ul class="drop-down__el text--left">
-                <li class="nowrap">
-                    <a href="{{ discovery_pass_search_structures_url }}" class="mixpanel-tracker" data-info="Pass Decouverte header link">Accéder / M'inscrire aux cours</a>
-                </li>
-                <li class="nowrap">
-                    <a href="{{ discovery_passes_url }}" class="mixpanel-tracker" data-info="Pass Decouverte header link">Obtenir mon pass</a>
-                </li>
-                <li class="nowrap">
-                    <a href="{{ discovery_passes_url }}" class="mixpanel-tracker" data-info="Pass Decouverte header link">En savoir plus</a>
-                </li>
-            </ul>
-        </div>
+        <a class="pointer btn btn--yellow" data-info="Pass Decouverte header link" data-behavior="sign-up">Essai gratuit</a>
     </div>
     <div class="inline-block soft--left">
         {{#if on_sleeping_page}}
