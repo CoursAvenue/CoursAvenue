@@ -32,7 +32,7 @@ class PrerenderRenewer
       file.content_length < 50
     end
     corrupted_files.map do |file|
-      renew_url file.public_url.to_s.split('amazonaws.com/').last.gsub('%3A', ':')
+      PrerenderRenewer.new file.public_url.to_s.split('amazonaws.com/').last.gsub('%3A', ':')
       sleep 5
     end
   end
