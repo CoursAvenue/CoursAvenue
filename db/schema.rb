@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141013131555) do
+ActiveRecord::Schema.define(version: 20141024095917) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -209,20 +209,20 @@ ActiveRecord::Schema.define(version: 20141013131555) do
     t.string   "name"
     t.string   "frequency"
     t.text     "description"
-    t.boolean  "is_promoted",                 default: false
+    t.boolean  "is_promoted",                default: false
     t.text     "info"
     t.boolean  "is_individual"
     t.boolean  "cant_be_joined_during_year"
     t.integer  "structure_id"
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
     t.string   "slug"
     t.integer  "place_id"
     t.integer  "nb_participants_max"
     t.date     "start_date"
     t.date     "end_date"
     t.integer  "room_id"
-    t.boolean  "active",                      default: false
+    t.boolean  "active",                     default: false
     t.time     "deleted_at"
     t.decimal  "rating"
     t.text     "subjects_string"
@@ -235,14 +235,14 @@ ActiveRecord::Schema.define(version: 20141013131555) do
     t.integer  "nb_participants_min"
     t.text     "ca_follow_up"
     t.float    "common_price"
-    t.boolean  "ok_nico",                     default: false
+    t.boolean  "ok_nico",                    default: false
     t.integer  "price_group_id"
     t.string   "audience_ids"
     t.string   "level_ids"
     t.integer  "min_age_for_kid"
     t.integer  "max_age_for_kid"
-    t.boolean  "on_appointment",              default: false
-    t.boolean  "available_in_discovery_pass"
+    t.boolean  "on_appointment",             default: false
+    t.boolean  "is_open_for_trial"
   end
 
   add_index "courses", ["active"], name: "index_courses_on_active", using: :btree
@@ -605,8 +605,8 @@ ActiveRecord::Schema.define(version: 20141013131555) do
     t.integer  "max_age_for_kid"
     t.integer  "min_age_for_kid"
     t.integer  "course_id"
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
     t.integer  "room_id"
     t.integer  "teacher_id"
     t.integer  "nb_participants_max"
@@ -616,9 +616,8 @@ ActiveRecord::Schema.define(version: 20141013131555) do
     t.time     "deleted_at"
     t.integer  "place_id"
     t.integer  "structure_id"
-    t.boolean  "visible",                     default: true
-    t.boolean  "is_in_foreign_country",       default: false
-    t.boolean  "available_in_discovery_pass"
+    t.boolean  "visible",               default: true
+    t.boolean  "is_in_foreign_country", default: false
   end
 
   add_index "plannings", ["audience_ids"], name: "index_plannings_on_audience_ids", using: :btree
@@ -657,6 +656,18 @@ ActiveRecord::Schema.define(version: 20141013131555) do
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
     t.datetime "logo_updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "press_releases", force: true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.string   "slug"
+    t.text     "content"
+    t.boolean  "published"
+    t.datetime "published_at"
+    t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -828,7 +839,7 @@ ActiveRecord::Schema.define(version: 20141013131555) do
     t.string   "logo"
     t.string   "sleeping_logo"
     t.string   "remote_logo_url"
-    t.string   "discovery_pass_policy"
+    t.string   "trial_courses_policy"
     t.integer  "sleeping_structure_id"
   end
 

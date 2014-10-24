@@ -440,7 +440,6 @@ CoursAvenue::Application.routes.draw do
 
   resources :structures, only: [:show, :index], path: 'etablissements', controller: 'structures' do
     member do
-      get  :discovery_pass, path: 'pass-decouverte'
       get  :jpo, path: 'portes-ouvertes-cours-loisirs'
       post :add_to_favorite
       post :remove_from_favorite
