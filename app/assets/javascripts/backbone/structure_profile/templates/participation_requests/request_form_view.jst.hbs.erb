@@ -5,12 +5,12 @@
 </div>
 <div class="panel__body soft">
   <div class="text--center push-half--bottom">
-    <label class="active inline-block epsilon" data-behavior="toggle-type" data-type="booking" for="request_type_booking">
+    <label class="orange btn-as-link f-weight-bold inline-block epsilon" data-behavior="toggle-type" data-type="booking" for="request_type_booking">
       Réservation
       <input type="checkbox" value="booking" class="hidden" name="request_type" id="request_type_booking">
     </label>
     |
-    <label class="inline-block epsilon" data-behavior="toggle-type" data-type="information" for="request_type_information">
+    <label class="orange btn-as-link inline-block epsilon" data-behavior="toggle-type" data-type="information" for="request_type_information">
       Information
       <input type="checkbox" value="information" class="hidden" name="request_type" id="request_type_information">
     </label>
@@ -22,9 +22,6 @@
     <article class="tab-pane active hard">
         <form action="{{participation_request.url}}">
             <div class="grid--full">
-            <div class="soft-half--bottom" data-type="information-request-type-wrapper hidden">
-              lala
-            </div>
             <div class="soft-half--bottom" data-type="booking-request-type-wrapper">
                 <select name="course_id" class="input--large one-whole" >
                     <option>Quel cours vous intéresse ?</option>
@@ -94,5 +91,32 @@
                 Envoyer ma demande de réservation
             </button>
         </form>
+        <div class="hidden" data-type="information-request-type-wrapper">
+            <hr>
+            {{#if structure.phone_numbers}}
+                <a href="javascript:void(0)" class="btn btn--green btn--full" data-behavior="show-phone-numbers" data-action="log-action" data-action-info="telephone">
+                    <i class="fa fa-phone v-middle"></i>
+                    <span class="v-middle">Téléphone</span>
+                </a>
+                <div class="phone_number hidden">
+                    <div class="soft--top text--center">
+                        {{#each structure.phone_numbers}}
+                            {{#ifCond @index '>' 0}}<br>{{/ifCond}}
+                            <strong class="epsilon v-middle" itemprop="telephone">{{this}}</strong>
+                            {{#if structure.premium }}
+                                <i class="soft-half--left v-middle fa fa-check-circle green"></i>
+                                <i class="v-middle green milli">vérifié</i>
+                            {{/if}}
+                        {{/each}}
+                    </div>
+                </div>
+            {{/if}}
+
+            {{#if structure.premium }}{{#if structure.website }}
+              <a href="{{ structure.website }}" class="btn btn--green btn--full push-half--top" target="_blank" data-action="log-action" data-action-info="website">
+                <i class="fa fa-globe v-middle"></i> <span class="v-middle">Site internet</span>
+              </a>
+            {{/if}}{{/if}}
+        </div>
     </article>
 </div>

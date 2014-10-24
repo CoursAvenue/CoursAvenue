@@ -119,9 +119,15 @@
          */
         initializeEngines: function initializeEngines () {
             this.subject_engine   = new Bloodhound({
-                datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.num); },
+                datumTokenizer: function datumTokenizer (d) { return Bloodhound.tokenizers.whitespace(d.num); },
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
-                remote: Routes.search_subjects_path({format: 'json'}) + '?name=%QUERY'
+                remote: {
+                    replace: function replace (url, query ) {
+                        query = query.replace(GLOBAL.EXCLUDED_SEARCH_WORDS, '');
+                        return Routes.search_subjects_path({format: 'json', name: query});
+                    },
+                    url: Routes.search_subjects_path({format: 'json', name: '%QUERY'})
+                }
             });
             this.structure_engine   = new Bloodhound({
                 datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.num); },

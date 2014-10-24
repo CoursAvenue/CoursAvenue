@@ -5,7 +5,9 @@ class SubjectsController < ApplicationController
   respond_to :json
 
   def search
-    @subjects = SubjectSearch.search(name: params[:name]).results
+    @subjects = Rails.cache.fetch "SubjectsController#search/#{params[:name]}" do
+      SubjectSearch.search(name: params[:name]).results
+    end
     respond_to do |format|
       format.json { render json: @subjects, each_serializer: SubjectSearchSerializer }
     end

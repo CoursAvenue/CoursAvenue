@@ -5,6 +5,3 @@
   %li
     = link_to new_user_sponsorship_path(@user), { class: current == 'sponsorships' ? 'active' : '' } do
       Mes parrainages
-  %li
-    = link_to user_discovery_pass_path(@user, @user.discovery_pass), { class: current == 'my-account' ? 'active' : '' } do
-      Mon compte

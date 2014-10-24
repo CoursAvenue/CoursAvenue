@@ -21,7 +21,8 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             '$start_hour_select_input'         : '[data-element=start-hour-select]',
             '$time_wrapper'                    : '[data-element="time-wrapper"]',
             '$booking_request_type_wrapper'    : '[data-type=booking-request-type-wrapper]',
-            '$information_request_type_wrapper': '[data-type=information-request-type-wrapper]'
+            '$information_request_type_wrapper': '[data-type=information-request-type-wrapper]',
+            '$request_type_inputs'             : '[data-behavior=toggle-type]'
         },
 
         initialize: function initialize (options) {
@@ -32,10 +33,15 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
         },
 
         toggleRequestType: function toggleRequestType (event) {
-            debugger
-            // if (event)
-            this.ui.$information_request_type_wrapper.hide();
-            this.ui.$booking_request_type_wrapper.show();
+            this.ui.$request_type_inputs.removeClass('f-weight-bold');
+            this.$('[data-type="' + event.currentTarget.value + '"]').addClass('f-weight-bold');
+            if (event.currentTarget.value == 'booking') {
+                this.ui.$information_request_type_wrapper.hide();
+                this.ui.$booking_request_type_wrapper.show();
+            } else {
+                this.ui.$information_request_type_wrapper.show();
+                this.ui.$booking_request_type_wrapper.hide();
+            }
         },
 
         initializeStartHourSelect: function initializeStartHourSelect () {

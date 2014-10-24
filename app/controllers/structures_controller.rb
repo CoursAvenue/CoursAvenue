@@ -137,7 +137,9 @@ class StructuresController < ApplicationController
   # Used for search on typeahead dropdown
   # GET /etablissements/:id/search.json
   def search
-    @structures = StructureSearch.search(params).results
+    @structures = Rails.cache.fetch "StructuresController#search/#{params[:name]}" do
+      StructureSearch.search(params).results
+    end
     respond_to do |format|
       format.json do
         render json: @structures, each_serializer: StructureTypeaheadSerializer
