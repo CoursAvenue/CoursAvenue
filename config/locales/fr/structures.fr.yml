@@ -107,10 +107,13 @@ fr:
     trial_courses_policy:
       1_trial: 1 seul cours d'essai par personne
       1_trial_advantage_html: <strong>20%</strong> des élèves (1 élève sur 5)
+      1_trial_nb: 1 essai
       2_trials: 2 cours d'essai par personne
       2_trials_advantage_html: <strong>40%</strong> des élèves (plus d'1 élève sur 3)
+      2_trials_nb: 2 essais
       3_trials: 3 cours d'essai par personne
       3_trials_advantage_html: <strong>60%</strong> des élèves (plus d'1 élève sur 2)
+      3_trials_nb: 3 essais
 
 
   pro:

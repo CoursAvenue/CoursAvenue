@@ -24,7 +24,7 @@
     - user = @conversation.recipients.detect{ |recipient| recipient.is_a? User }
     - if user.phone_number.present?
       - # If it is a request, show phone number only if request is accepted
-      - if !participation_request or participation_request and participation_request.accepted?
+      - if !participation_request or (participation_request and participation_request.accepted?)
         .grid.epsilon
           .grid__item.two-twelfths.v-middle.text--right>
             %strong.flush

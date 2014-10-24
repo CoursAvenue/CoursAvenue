@@ -367,6 +367,12 @@ class Course < ActiveRecord::Base
     false
   end
 
+  #
+  # Tell to the teacher wether the course is published
+  # DO NOT USE IN FRONT END: because we lie to the teacher telling him that he
+  # HAS to specify a price group but we still show it
+  #
+  # @return Boolean
   def is_published?
     return (!expired? and can_be_published?)
   end

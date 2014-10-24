@@ -35,6 +35,8 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
 
         toggleRequestType: function toggleRequestType (event) {
             this.ui.$request_type_labels.removeClass('f-weight-bold');
+            this.ui.$request_type_labels.find('i').addClass('visibility-hidden');
+            this.ui.$request_type_labels.filter('[data-type="' + this.ui.$request_type_inputs.filter(':checked').val() + '"]').find('i').removeClass('visibility-hidden');
             this.$('[data-type="' + this.ui.$request_type_inputs.filter(':checked').val() + '"]').addClass('f-weight-bold');
             this.ui.$request_type_inputs.find(':selected').val()
             if (this.ui.$request_type_inputs.filter(':checked').val() == 'booking') {

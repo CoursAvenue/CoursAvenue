@@ -2,35 +2,49 @@ class StructureShowSerializer < ActiveModel::Serializer
   include StructuresHelper
   include ActionView::Helpers::TextHelper
 
-  cached
-  delegate :cache_key, to: :object
+  # cached
+  # delegate :cache_key, to: :object
 
-  attributes :id, :name, :slug, :description, :description_short,
-             :logo_thumb_url, :courses, :trainings,
+  attributes :id, :name, :slug, :description, :description_short, :trial_courses_policy,
+             :logo_thumb_url, :courses, :trainings, :courses_without_open_for_trials,
+             :trainings_without_open_for_trials, :courses_open_for_trial,
              :has_courses, :about, :about_bis, :about_genre,
              :audience, :gives_group_courses,
              :gives_individual_courses, :structure_type, :given_course_types,
              :given_funding_type, :places_count, :comments, :subjects, :has_teachers, :has_only_one_more_info,
              :phone_numbers, :is_sleeping, :website, :premium, :has_trial_courses
 
-  has_many :comments, serializer: CommentSerializer
-  has_many :places  , serializer: PlaceSerializer
-  has_many :teachers, serializer: TeacherSerializer
+  has_many :comments                          , serializer: CommentSerializer
+  has_many :places                            , serializer: PlaceSerializer
+  has_many :teachers                          , serializer: TeacherSerializer
+  has_many :courses                           , serializer: CourseSerializer
+  has_many :trainings                         , serializer: CourseSerializer
+  has_many :courses_open_for_trial            , serializer: CourseSerializer
+  has_many :courses_without_open_for_trials   , serializer: CourseSerializer
+  has_many :trainings_without_open_for_trials , serializer: CourseSerializer
 
   def comments
     object.comments.accepted.limit(5)
   end
 
+  def courses_open_for_trial
+    object.courses.open_for_trial
+  end
+
   def courses
-    (object.courses.lessons.select(&:is_published?) + object.courses.privates.select(&:is_published?)).map do |course|
-      CourseSerializer.new(course, structure: object)
-    end
+    (object.courses.lessons.select{ |c| c.plannings.future.any? } + object.courses.privates.select{ |c| c.plannings.future.any? })
   end
 
   def trainings
-    object.courses.trainings.select(&:is_published?).map do |course|
-      CourseSerializer.new(course, structure: object)
-    end
+    object.courses.trainings.select{ |c| c.plannings.future.any? }
+  end
+
+  def courses_without_open_for_trials
+    courses - courses_open_for_trial
+  end
+
+  def trainings_without_open_for_trials
+    trainings - courses_open_for_trial
   end
 
   def places_count
@@ -135,5 +149,9 @@ class StructureShowSerializer < ActiveModel::Serializer
 
   def has_trial_courses
     object.has_trial_courses?
+  end
+
+  def trial_courses_policy
+    I18n.t("structures.trial_courses_policy.#{object.trial_courses_policy}_nb")
   end
 end

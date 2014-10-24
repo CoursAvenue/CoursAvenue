@@ -9,15 +9,14 @@
     - conversation_request_count      = @user.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::REQUEST.id).count
 
     .push--bottom
-      .v-middle.lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::INFORMATION.color}"}= conversation_information_count
+      .v-middle.lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::REQUEST.color}"}= conversation_request_count
+      %strong.v-middle Inscriptions
+      .v-middle.push-half--left.lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::INFORMATION.color}"}= conversation_information_count
       %strong.v-middle Demandes d'informations
       .v-middle.push-half--left.lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::COMMENT.color}"}= conversation_comment_count
       %strong.v-middle Avis déposés
       .v-middle.push-half--left.lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::CONVERSATION.color}"}= conversation_conversation_count
       %strong.v-middle Conversations
-      - if @user.discovery_pass
-        .v-middle.push-half--left.lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::REQUEST.color}"}= conversation_request_count
-        %strong.v-middle Pass Découverte
     - unless cookies[:understood__user_conversation_message]
       %p.alert.alert--info#conversation-info
         Envoyez des messages personnels aux professeurs, associations ou écoles que vous avez ajoutés en favori ou qui vous ont déjà sollicité(e) pour déposer votre avis.
@@ -35,7 +34,7 @@
           %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::COMMENT.id), value: Mailboxer::Label::COMMENT.id } Avis déposés (#{conversation_comment_count})
           %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::CONVERSATION.id), value: Mailboxer::Label::CONVERSATION.id } Conversations (#{conversation_conversation_count})
           - if conversation_request_count > 0
-            %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::REQUEST.id), value: Mailboxer::Label::REQUEST.id } Pass Découverte (#{conversation_request_count})
+            %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::REQUEST.id), value: Mailboxer::Label::REQUEST.id } Inscription (#{conversation_request_count})
       .grid__item.two-thirds.text--center>
         = paginate @conversations, window: 1, outer_window: 3
 
