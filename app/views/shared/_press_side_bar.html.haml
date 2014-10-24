@@ -1,0 +1,31 @@
+.white-box.soft.push--bottom
+  %i.fa.fa-phone.float--right.gray-light.gamma.line-height-1
+  %h3.epsilon.push-half--bottom
+    Votre contact presse
+  %p.flush
+    %strong Nicolas Lagarde
+    %br
+    nicolas (at) coursavenue (point) com
+    %br
+    zéro neuf 82 24 27 74
+    %br
+    zéro six 07 94 54 52
+.white-box.soft.push--bottom
+  %i.fa.fa-download.float--right.gray-light.gamma.line-height-1
+  %h3.epsilon.push-half--bottom
+    Téléchargement
+  %p.flush
+    = link_to 'Dossier de presse', 'https://coursavenue-public.s3.amazonaws.com/presse/CoursAvenue_DossierPresse_Nov14.pdf'
+    %br
+    = link_to 'Logos', 'https://coursavenue-public.s3.amazonaws.com/presse/Presse_Logos_CoursAvenue.zip'
+    %br
+    = link_to 'Visuels du service', 'https://coursavenue-public.s3.amazonaws.com/presse/Visuels_CoursAvenue.zip'
+.white-box.soft.push--bottom
+  %i.fa.fa-info.float--right.gray-light.gamma.line-height-1
+  %h3.epsilon.push-half--bottom
+    En savoir plus
+  %p.flush
+    = link_to 'Espace élèves', pages_what_is_it_path, target: :_blank
+    %br
+    = link_to 'Espace professionnels (professeurs, associations, écoles)', root_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), target: :_blank
+
