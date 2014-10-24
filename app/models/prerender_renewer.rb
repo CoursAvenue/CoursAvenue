@@ -31,9 +31,9 @@ class PrerenderRenewer
     corrupted_files = s3.buckets["coursavenue-prerender"].objects.select do |file|
       file.content_length < 50
     end
-    corrupted_files.map do |file|
-      PrerenderRenewer.new file.public_url.to_s.split('amazonaws.com/').last.gsub('%3A', ':')
-      sleep 5
+    corrupted_files = corrupted_files.map do |file|
+      file.public_url.to_s.split('amazonaws.com/').last.gsub('%3A', ':')
     end
+    PrerenderRenewer.delay.new corrupted_files
   end
 end
