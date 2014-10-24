@@ -7,12 +7,12 @@
   <div class="text--center push-half--bottom">
     <label class="orange btn-as-link f-weight-bold inline-block epsilon" data-behavior="toggle-type" data-type="booking" for="request_type_booking">
       Réservation
-      <input type="checkbox" value="booking" class="hidden" name="request_type" id="request_type_booking">
+      <input type="radio" value="booking" class="hidden" name="request_type" checked id="request_type_booking">
     </label>
     |
     <label class="orange btn-as-link inline-block epsilon" data-behavior="toggle-type" data-type="information" for="request_type_information">
       Information
-      <input type="checkbox" value="information" class="hidden" name="request_type" id="request_type_information">
+      <input type="radio" value="information" class="hidden" name="request_type" id="request_type_information">
     </label>
   </div>
     {{#if participation_request.user.last_message_sent}}

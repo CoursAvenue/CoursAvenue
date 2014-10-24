@@ -13,9 +13,10 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
                 required: true,
                 msg: 'Vous devez remplir un message'
             },
-            course_id: {
-                required: true,
-                msg: 'Vous devez sélectionner un cours'
+            course_id: function course_id () {
+                if (this.get('request_type') == 'booking') {
+                    return 'Vous devez sélectionner un cours';
+                }
             },
             'user.phone_number': {
                 maxLength: 20,

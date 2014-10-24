@@ -16,14 +16,14 @@
           %br
           %span.f-weight-300 que vous voulez !
       .text--center.relative.jpo-call-to-actions.inline-block
-        - if current_user and current_user.discovery_pass and current_user.discovery_pass.active?
-          = link_to root_search_page_without_subject('paris'), class: 'btn btn--yellow btn--bigger soft-half--ends soft--sides' do
+        - if current_user
+          = link_to root_search_page_without_subject_path('paris'), class: 'btn btn--yellow btn--bigger soft-half--ends soft--sides' do
             Réserver mes cours d'essai
         - else
-          = link_to (current_user ? user_discovery_passes_path(current_user) : discovery_passes_path), class: 'btn btn--yellow btn--bigger soft-half--ends soft--sides mixpanel-tracker', data: { info: 'Homepage'} do
+          = link_to '#', class: 'btn btn--yellow btn--bigger soft-half--ends soft--sides mixpanel-tracker', data: { info: 'Homepage' }, onclick: "$('[data-behavior=sign-up]').click()" do
             Devenir membre
         .text--center
-          = link_to (current_user ? user_discovery_passes_path(current_user) : discovery_passes_path), class: 'white mixpanel-tracker', data: { info: 'Homepage'} do
+          = link_to pages_what_is_it_path, class: 'white mixpanel-tracker', data: { info: 'Homepage'} do
             En savoir plus
       .jpo-map.absolute
   .jpo-frise>

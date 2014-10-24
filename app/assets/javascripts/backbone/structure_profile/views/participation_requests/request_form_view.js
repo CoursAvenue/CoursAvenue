@@ -22,7 +22,8 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             '$time_wrapper'                    : '[data-element="time-wrapper"]',
             '$booking_request_type_wrapper'    : '[data-type=booking-request-type-wrapper]',
             '$information_request_type_wrapper': '[data-type=information-request-type-wrapper]',
-            '$request_type_inputs'             : '[data-behavior=toggle-type]'
+            '$request_type_labels'             : '[data-behavior=toggle-type]',
+            '$request_type_inputs'             : '[data-behavior=toggle-type] input'
         },
 
         initialize: function initialize (options) {
@@ -33,9 +34,10 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
         },
 
         toggleRequestType: function toggleRequestType (event) {
-            this.ui.$request_type_inputs.removeClass('f-weight-bold');
-            this.$('[data-type="' + event.currentTarget.value + '"]').addClass('f-weight-bold');
-            if (event.currentTarget.value == 'booking') {
+            this.ui.$request_type_labels.removeClass('f-weight-bold');
+            this.$('[data-type="' + this.ui.$request_type_inputs.filter(':checked').val() + '"]').addClass('f-weight-bold');
+            this.ui.$request_type_inputs.find(':selected').val()
+            if (this.ui.$request_type_inputs.filter(':checked').val() == 'booking') {
                 this.ui.$information_request_type_wrapper.hide();
                 this.ui.$booking_request_type_wrapper.show();
             } else {
@@ -54,6 +56,7 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
          */
         populateRequest: function populateRequest (event) {
             this.model.set({
+                request_type  : this.ui.$request_type_inputs.filter(':checked').val(),
                 structure_id  : this.structure.get('id'),
                 date          : this.$('[name=date]').val(),
                 start_hour    : this.$('[name=start-hour]').val(),
