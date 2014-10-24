@@ -112,7 +112,6 @@ class DiscoveryPass < ActiveRecord::Base
     self.be2bill_alias       = params['ALIAS'] if params['ALIAS'].present?
     self.card_validity_date  = (params['CARDVALIDITYDATE'] ? Date.strptime(params['CARDVALIDITYDATE'], '%m-%y') : nil)
     self.extend_subscription_expires_date
-    DiscoveryPassMailer.delay.your_pass_renewed(self)
   end
 
   # Extend the duration of the subscription by changing its expires_at date.
@@ -203,7 +202,6 @@ class DiscoveryPass < ActiveRecord::Base
   def cancel!
     self.canceled_at = Time.now
     self.save
-    DiscoveryPassMailer.delay.you_deactivated_your_pass(self)
     return self
   end
 
@@ -226,8 +224,6 @@ class DiscoveryPass < ActiveRecord::Base
   private
 
   def inform_user_of_success
-    DiscoveryPassMailer.delay.your_discovery_pass_is_active(self)
-    # DiscoveryPassMailer.delay.your_sponsorship_is_active(self)
   end
 
   # Set default expires at

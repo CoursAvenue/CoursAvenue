@@ -36,6 +36,10 @@ class Blog::Article < ActiveRecord::Base
     end
   end
 
+  def similar_articles(limit=2)
+    Blog::Article.take(limit)
+  end
+
   private
 
   def set_published_at

@@ -153,9 +153,9 @@ class Structure < ActiveRecord::Base
   before_save   :sanatize_description
   before_save   :encode_uris
 
-  after_save    :geocode_if_needs_to  unless Rails.env.test?
-  after_save    :subscribe_to_crm
-  after_touch   :regenerate_cached_profile_page
+  after_save    :geocode_if_needs_to            unless Rails.env.test?
+  after_save    :subscribe_to_crm               if Rails.env.production?
+  after_touch   :regenerate_cached_profile_page if Rails.env.production?
 
   ######################################################################
   # Solr                                                               #
