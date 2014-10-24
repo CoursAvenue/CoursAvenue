@@ -1,0 +1,24 @@
+= content_for :title do
+  = @press_release.title
+= content_for :meta_description do
+  = @press_release.description
+
+.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/home_background5.jpg'})" }
+  .main-container.main-container--medium.soft
+    .alpha.flush.f-weight-bold
+      = link_to 'Communiqué de presse', pages_press_path, class: 'muted-link'
+
+.main-container.main-container--medium.soft
+  .grid
+    .grid__item.seven-tenths>
+      %p
+        = link_to '← Retour', pages_press_path
+      %h1.blog-article__title= @press_release.title
+      %div
+        %strong= "Publié le #{l(@press_release.published_at, format: :date_with_year)}"
+      .push--top.blog-article__content{ itemprop: 'text' }
+        = @press_release.content.html_safe
+      .text--center
+        = link_to 'Télécharger le dossier de presse', 'https://coursavenue-public.s3.amazonaws.com/presse/CoursAvenue_DossierPresse_Nov14.pdf', class: 'btn btn--green btn--bigger'
+    .grid__item.three-tenths>
+      = render 'shared/press_side_bar'

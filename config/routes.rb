@@ -61,6 +61,7 @@ CoursAvenue::Application.routes.draw do
       resources :sponsorships, only: [:index]
       resources :payment_notifications, only: [:index, :show]
       resources :blog_articles, controller: 'blog/articles', path: 'blog'
+      resources :press_releases, path: 'communiques-de-presse'
       resources :press_articles
       resources :metrics, only: [] do
         collection do
@@ -331,6 +332,8 @@ CoursAvenue::Application.routes.draw do
   # ---------------------------------------------
   # ----------------------------------------- WWW
   # ---------------------------------------------
+
+  resources :press_releases, path: 'communiques-de-presse', only: [:show]
   resources :blog_articles, controller: 'blog/articles', path: 'blog' do
     collection do
       get 'tag/:tag', to: 'blog/articles#tags', as: :tags

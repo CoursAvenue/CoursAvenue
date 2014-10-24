@@ -25,4 +25,8 @@ class PagesController < ApplicationController
       end
     end
   end
+
+  def press
+    @press_releases = PressRelease.published
+  end
 end
