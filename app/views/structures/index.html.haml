@@ -21,9 +21,9 @@
 
 :javascript
   window.coursavenue  = window.coursavenue || {};
-  var subjects        = #{ Subject.stars.to_json };
+  var subjects        = #{ ActiveModel::ArraySerializer.new(Subject.stars, each_serializer: SubjectSerializer).to_json };
   // Adding other subject to the collection because it's a fake object
-  subjects.push( { name: 'Autres', slug: 'other'} );
+  subjects.push( { name: 'Autres', slug: 'other' } );
 
   window.coursavenue.bootstrap = {
       current_pro_admin: #{(current_pro_admin ? true : false)},
