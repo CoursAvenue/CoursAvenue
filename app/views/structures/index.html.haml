@@ -4,25 +4,19 @@
   %link{ rel: 'canonical', href: request.path }
 
 - if @subject
-  - title = "Cours gratuit de #{@subject.name} à #{params[:city_id].try(:capitalize)}"
+  - title = "#{@subject.name} à #{params[:city_id].try(:capitalize)}"
 - else
-  - title = "Cours gratuit de Danse, Théâtre, Musique, Yoga... à #{params[:city_id].try(:capitalize) || 'Paris'} "
+  - title = "Danse, Théâtre, Musique, Yoga... à #{params[:city_id].try(:capitalize) || 'Paris'} "
 
 = content_for :title do
-  = "#{title} | CoursAvenue"
-
+  = "#{title} : #{@total} établissements avec #{number_with_delimiter @total_comments} avis | CoursAvenue"
 
 = content_for :meta_description do
-  - if @subject
-    Cours gratuit de #{@subject.name} à #{params[:city_id].try(:capitalize)}. #{@subject.name} : testez gratuitement des centaines de cours gratuit autour de chez vous.
-  - else
-    Cours gratuit de Danse, Théâtre & Scène, Musique & Chant, Yoga, Bien-être & Sante, Dessin, Peinture & Arts, Sports & Arts martiaux à #{params[:city_id].try(:capitalize) || 'Paris'}
+  #{title} : profitez des cours d'essai gratuits, consultez #{number_with_delimiter @total_comments} d'élèves, #{number_with_delimiter @total_medias} photos et vidéos, les meilleures professeurs sur CoursAvenue
 
-= render partial: 'noscript_index', locals: { title: @title }
+- if robot?(request.env['HTTP_USER_AGENT'])
+  = render partial: 'google_more_infos', locals: { title: title }
 
--# .filtered-search-loader.text--center.island{ :data => { :type => "app-loader" }}
--#   = image_tag 'logos/logo@2x.png', class: 'center-block', height: 50, alt: 'CoursAvenue'
--#   = image_tag 'gifs/loading-indicator.gif', class: 'center-block', height: 10,  alt: 'Chargement'
 .filtered-search{ :data => { :type => "#{ @app_slug }-root" }, id: "#{ @app_slug }"}
 
 :javascript
