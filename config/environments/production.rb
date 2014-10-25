@@ -127,4 +127,5 @@ CoursAvenue::Application.configure do
     config.signature = ENV['PAYPAL_SIGNATURE']
   end
 
+  config.middleware.use Rack::Prerender, prerender_service_url: ENV['PRERENDER_SERVICE_URL']
 end

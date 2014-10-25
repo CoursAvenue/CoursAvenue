@@ -6,17 +6,17 @@ class PrerenderRenewer
   def initialize(url)
     if url.is_a? Array
       url.each do |u|
-        renew_url(u)
+        PrerenderRenewer.renew_url(u)
         sleep 5
       end
       self.check_sanity
     else
-      renew_url(url)
+      PrerenderRenewer.renew_url(url)
     end
   end
 
   # Make a post request to Prerender service url to cache it
-  def renew_url(url)
+  def self.renew_url(url)
     puts ENV['PRERENDER_SERVICE_URL'] + url
     uri = URI(ENV['PRERENDER_SERVICE_URL'] + url)
     res = Net::HTTP.post_form(uri, '_escaped_fragment_' => '')
@@ -32,8 +32,9 @@ class PrerenderRenewer
       file.content_length < 50
     end
     corrupted_files = corrupted_files.map do |file|
-      file.public_url.to_s.split('amazonaws.com/').last.gsub('%3A', ':')
+      file_url = file.public_url.to_s.split('amazonaws.com/').last.gsub('%3A', ':')
+      PrerenderRenewer.renew_url file_url
+      sleep 5
     end
-    PrerenderRenewer.delay.new corrupted_files
   end
 end
