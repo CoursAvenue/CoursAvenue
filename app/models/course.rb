@@ -27,7 +27,7 @@ class Course < ActiveRecord::Base
   before_save :sanatize_description
   after_save  :update_plannings_dates_if_needs_to
   after_save  :reindex_plannings unless Rails.env.test?
-  after_save  :update_plannings_open_for_trial
+  before_save :update_open_for_trial
 
   ######################################################################
   # Scopes                                                             #
@@ -58,7 +58,7 @@ class Course < ActiveRecord::Base
                   :start_date, :end_date,
                   :subject_ids, :level_ids, :audience_ids, :place_id,
                   :price_group_id, :on_appointment,
-                  :open_for_trial
+                  :is_open_for_trial
 
   # ------------------------------------------------------------------------------------ Search attributes
   searchable do
@@ -422,12 +422,11 @@ class Course < ActiveRecord::Base
   # we change all the plannings flag
   #
   # @return nil
-  def update_plannings_open_for_trial
-    if self.is_open_for_trial_changed?
-      self.plannings.each do |planning|
-        planning.update_column :open_for_trial, self.open_for_trial
+  def update_open_for_trial
+    if self.price_group_id_changed?
+      if self.price_group.has_free_trial? and is_open_for_trial == false
+        self.is_open_for_trial = true
       end
-      self.plannings.map{ |p| p.delay.index }
     end
     nil
   end

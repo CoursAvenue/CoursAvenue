@@ -29,6 +29,7 @@ class PriceGroup < ActiveRecord::Base
   ######################################################################
   after_initialize :default_name
   after_save :touch_relations
+  before_save :update_course_open_for_trial
 
   ######################################################################
   # Scopes                                                             #
@@ -85,7 +86,23 @@ class PriceGroup < ActiveRecord::Base
     offers
   end
 
+  # Tells if a free trial is defined in the price group
+  #
+  # @return Boolean
+  def has_free_trial?
+    return (trial and trial.free?)
+  end
+
   private
+
+  def update_course_open_for_trial
+    if has_free_trial?
+      self.courses.each do |course|
+        course.is_open_for_trial = true
+        course.save
+      end
+    end
+  end
 
   def at_least_one_price
     if prices.empty?

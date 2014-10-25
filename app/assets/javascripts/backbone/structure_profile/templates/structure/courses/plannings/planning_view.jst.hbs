@@ -1,4 +1,4 @@
-<td>
+<td style="min-width: 120px;">
     {{#if is_open_for_trial}}
     <div class="absolute" style="margin-left: -120px;">
         <div class="yellow--dark nowrap v-middle push-half--left"><i class="fa fa-ticket"></i> Essai gratuit</div>
@@ -11,7 +11,7 @@
 <td>
     {{ audiences }}
 </td>
-<td>
+<td style="min-width: 80px;">
     {{#if address_name }}
         <div class="gray milli" data-toggle="popover" data-html="true" data-trigger="hover" data-content="{{ hide_contacts_and_escape address_with_info }}">{{address_name}}</div>
     {{/if}}

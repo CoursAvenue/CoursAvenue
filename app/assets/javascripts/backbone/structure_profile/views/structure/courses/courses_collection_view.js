@@ -30,6 +30,10 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             this.trigger("course:mouse:leave", data);
         },
 
+        onItemviewRegister: function onItemviewRegister (view, data) {
+            this.trigger("planning:register", data);
+        },
+
         /*
          * Filter-breadcrumbs are rendered and hidden in the page.
          * We just move them in the course tab
