@@ -1,8 +1,5 @@
 = render 'shared/orange_banner'
 
-= content_for :head do
-  %link{ rel: 'canonical', href: request.path }
-
 - if params[:c].present?
   - shared_comment = @structure.comments.find(params[:c])
 
@@ -34,7 +31,7 @@
   .main-container.visuallyhidden
     %ol.nav.breadcrumb.epsilon
       %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-        = link_to root_search_page_without_subject_path(@city.id), itemprop: 'url' do
+        = link_to root_search_page_without_subject_path(@city), itemprop: 'url' do
           %span{ itemprop: 'title' }
             = @city.name
       - root_subject = @structure.dominant_root_subject

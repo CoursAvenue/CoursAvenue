@@ -1,8 +1,5 @@
 - @is_responsive = true
 
-= content_for :head do
-  %link{ rel: 'canonical', href: request.path }
-
 - if @subject
   - title = "#{@subject.name} à #{params[:city_id].try(:capitalize)}"
 - else

@@ -1,11 +1,8 @@
 = content_for :title do
-  #{(@vertical_page.name.present? ? @vertical_page.name : @subject.name.downcase)} à Paris, Marseille, Lyon, Toulouse, Nice, Nantes, Bordeaux, Lille
+  #{(@vertical_page.name.present? ? @vertical_page.name : @subject.name)} près de chez vous | CoursAvenue
 
 = content_for :meta_description do
-  - if @vertical_page.title.present?
-    = @vertical_page.caption
-  - else
-    Tous les cours de #{@subject.name.downcase} à Paris, Marseille, Lyon, Toulouse, Nice, Nantes, Bordeaux, Lille | CoursAvenue
+  #{(@vertical_page.name.present? ? @vertical_page.name : @subject.name)} près de chez vous : essayez grâce à des cours d'essai gratuits et découvrez les milliers d'avis d'élèves, photos et vidéos
 
 - slug = @subject.root.slug
 - if @vertical_page.image.present?

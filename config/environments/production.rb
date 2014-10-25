@@ -101,16 +101,7 @@ CoursAvenue::Application.configure do
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
   config.action_mailer.default_url_options = { host: 'coursavenue.com' }
-  config.action_mailer.asset_host = 'https://www.coursavenue.com'
-
-  # config.action_mailer.smtp_settings = {
-  #   address:          "in.mailjet.com",
-  #   port:             '587',
-  #   user_name:        ENV["MAILJET_USERNAME"],
-  #   password:         ENV["MAILJET_PASSWORD"],
-  #   domain:           'coursavenue.com',
-  #   authentication:   :plain
-  # }
+  config.action_mailer.asset_host          = 'https://www.coursavenue.com'
 
   config.action_mailer.smtp_settings = {
     address:          'smtp.mandrillapp.com',
