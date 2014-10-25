@@ -13,7 +13,7 @@
     |
     <label class="orange btn-as-link inline-block epsilon" data-behavior="toggle-type" data-type="information" for="request_type_information">
       Information
-      <i class="visibility-hidden relative fa fa-caret-down" style="right: 50px; top: 11px;"></i>
+      <i class="visibility-hidden relative fa fa-caret-down" style="right: 53px; top: 11px;"></i>
       <input type="radio" value="information" class="hidden" name="request_type" id="request_type_information">
     </label>
   </div>
@@ -97,7 +97,12 @@
                 <div class="input_field_error red f-weight-bold text--right">{{errors.body}}</div>
             {{/if}}
             <button type="submit" class="btn btn--green btn--full" data-disable-with="Message en cours d'envoi...">
-                Envoyer ma demande de réservation
+                <divdata-type="booking-request-type-wrapper">
+                  Envoyer ma demande de réservation
+                </div>
+                <div class="hidden" data-type="information-request-type-wrapper">
+                  Envoyer ma demande d'information
+                </div>
             </button>
         </form>
         <div class="hidden" data-type="information-request-type-wrapper">
