@@ -1,0 +1,75 @@
+= cache "structures/index/#{request.path}" do
+  %noscript
+    %section.main-container.main-container--medium.relative
+      -########################### Breadcrumbs
+      %ol.nav.breadcrumb.epsilon
+        %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+          = link_to root_search_page_without_subject_path(params[:city_id]), itemprop: 'url' do
+            %span{ itemprop: 'title' }= params[:city_id].try(:capitalize) || 'Paris'
+        - if @subject
+          - if @subject.depth > 0
+            %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+              = link_to root_search_page_path(params[:root_subject_id], params[:city_id]), itemprop: 'url' do
+                %span{ itemprop: 'title' }= @subject.root.name
+          - if @subject.depth == 2
+            %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+              = link_to search_page_path(@subject.root.slug, @subject.parent.slug, params[:city_id]), itemprop: 'url' do
+                %span{ itemprop: 'title' }= @subject.parent.name
+          %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+            %span{ itemprop: 'title' }= @subject.name
+
+      %h1= title
+      .grid--full
+        .grid__item.palm-one-whole>
+          - @structures.each do |structure|
+            %hr
+            %article.grid
+              .grid__item.one-quarter>
+                - if structure.logo.present?
+                  = image_tag structure.logo.url(:thumb), name: "#{title} | #{structure.name}", alt: "#{title} | #{structure.name}", with: 200, height: 200
+              .grid__item.three-quarters>
+                %h2= link_to structure.name, structure_path(structure)
+                %p= structure.description.html_safe if structure.description.present?
+                - if @subject
+                  %h3= "#{@subject.name} : #{structure.courses.flat_map(&:subjects).uniq.map(&:name).join(', ')}"
+                - else
+                  %h3= structure.courses.flat_map(&:subjects).uniq.map(&:name).join(', ')
+                %div= structure.courses.map(&:name).join(', ')
+                %footer
+                  - if structure.comments_count > 0
+                    .milli.inline-block.structure__header-icon.inline-block.semi-muted.v-top{ itemscope: true, itemtype: "http://data-vocabulary.org/Review-aggregate" }
+                      %meta{ itemprop: 'itemreviewed', content: structure.name }
+                      %meta{ itemprop: 'rating', content: structure.rating || 5 }
+                      %meta{ itemprop: 'photo', content: structure.logo.url(:original) }
+                      %meta{ itemprop: 'votes', content: structure.comments_count }
+                      %meta{ itemprop: 'best', content: '5' }
+                      %meta{ itemprop: 'street-address', content: structure.street }
+                      %meta{ itemprop: 'postal-code', content: structure.zip_code }
+                      - if @city
+                        %meta{ itemprop: 'locality', content: @city.name }
+                      %span{ itemprop: 'count' }
+                        = structure.comments_count
+                      avis
+                  - structure.places.each do |place|
+                    %div
+                      %meta{ itemprop: 'street-address', content: place.address }
+                      %meta{ itemprop: 'postal-code', content: place.zip_code }
+                      = "#{place.city.name} #{place.address}"
+        - if @subject.present?
+          - @comments = @subject.comments.order('created_at DESC')
+        - elsif @structures.any?
+          - @comments = @structures.flat_map(&:comments).sort_by(&:created_at).reverse
+        - else
+          - @comments = []
+        - @comments = @comments.uniq.take(10)
+        - if @comments.present?
+          .grid__item.palm-one-whole>
+            %h2= "#{title} : sélection d'avis"
+            - @comments.each do |comment|
+              - if @subject
+                %div
+                  %strong= "(#{@subject.name} : #{comment.subjects.uniq.map(&:name).join(', ')})"
+              - else
+                %div
+                  %strong= "(#{comment.subjects.uniq.map(&:name).join(', ')})"
+              = render partial: 'comments/home_comment', locals: { comment: comment, truncate_length: 500 }

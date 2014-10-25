@@ -3,35 +3,22 @@
 = content_for :head do
   %link{ rel: 'canonical', href: request.path }
 
+- if @subject
+  - title = "Cours gratuit de #{@subject.name} à #{params[:city_id].try(:capitalize)}"
+- else
+  - title = "Cours gratuit de Danse, Théâtre, Musique, Yoga... à #{params[:city_id].try(:capitalize) || 'Paris'} "
+
 = content_for :title do
-  - params[:city] = params[:address_name] if params[:address_name].present? and params[:city].blank?
-  - if @subject
-    = "#{(params[:subject_id].present? ? "Établissements de #{@subject.name.downcase}" : 'Établissements')} #{(params[:name].present? ? "correspondant à : « #{params[:name]} »" : (params[:city].present? ? "à #{params[:city]}" : 'à Paris'))}"
-  - elsif params[:city].present?
-    = "Tous les cours à #{params[:city]}"
-  - else
-    = "Tous les cours à Paris"
+  = "#{title} | CoursAvenue"
 
 
-%ol.visuallyhidden.nav.breadcrumb.epsilon.push-half--top.push-half--bottom{itemprop: 'breadcrumb'}
-  %li= link_to 'Tous les établissements', structures_path(name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
+= content_for :meta_description do
   - if @subject
-    - if @subject.parent
-      %li= link_to @subject.parent.name, subject_structures_path(@subject.parent, name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
-    %li= link_to @subject.name, subject_structures_path(@subject, name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
-  - if params[:name]
-    %li= params[:name]
-%h1.text--center.delta.flush.lbl.lbl--blue.visuallyhidden
-  - if @subject
-    Établissements de #{@subject.name.downcase}
+    Cours gratuit de #{@subject.name} à #{params[:city_id].try(:capitalize)}. #{@subject.name} : testez gratuitement des centaines de cours gratuit autour de chez vous.
   - else
-    Établissements
-  - if params[:name].present?
-    correspondant à : « #{params[:name]} »
-  - elsif params[:city].present?
-    = "à #{params[:city]}"
-  - else
-    à Paris
+    Cours gratuit de Danse, Théâtre & Scène, Musique & Chant, Yoga, Bien-être & Sante, Dessin, Peinture & Arts, Sports & Arts martiaux à #{params[:city_id].try(:capitalize) || 'Paris'}
+
+= render partial: 'noscript_index', locals: { title: @title }
 
 -# .filtered-search-loader.text--center.island{ :data => { :type => "app-loader" }}
 -#   = image_tag 'logos/logo@2x.png', class: 'center-block', height: 50, alt: 'CoursAvenue'
