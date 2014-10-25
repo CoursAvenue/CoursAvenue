@@ -1,6 +1,3 @@
-= content_for :head do
-  %link{ rel: 'canonical', href: request.path }
-
 - if params[:c].present?
   - shared_comment = @structure.comments.find(params[:c])
 
