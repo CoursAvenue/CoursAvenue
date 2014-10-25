@@ -26,25 +26,26 @@
           %th
       %tbody
         - @subjects.each do |subject|
-          %tr{data: { subject: { id: subject.id } } }
-            %td= subject.root.name
-            %td
-              - if subject.depth == 1
-                = subject.name
-              - elsif subject.depth == 2
-                = subject.parent.name
-            %td
-              - if subject.depth == 2
-                = subject.name
-            %td.complet-0
-            %td.complet-1
-            %td.complet-2
+          - cache [subject, 'pro/subjects/all'] do
+            %tr{ data: { subject: { id: subject.id } } }
+              %td= subject.root.name
+              %td
+                - if subject.depth == 1
+                  = subject.name
+                - elsif subject.depth == 2
+                  = subject.parent.name
+              %td
+                - if subject.depth == 2
+                  = subject.name
+              %td.complet-0
+              %td.complet-1
+              %td.complet-2
 
-            %td.nowrap
-              = link_to 'Editer', edit_name_pro_subject_path(subject), data: {behavior: 'modal', width: '780'}, class: 'fancybox.ajax'
-              - if subject.depth == 1
-                \/
-                = link_to 'Ajouter un enfant', new_pro_subject_path(parent_id: subject.id), data: {behavior: 'modal', width: '780'}, class: 'fancybox.ajax'
+              %td.nowrap
+                = link_to 'Editer', edit_name_pro_subject_path(subject), data: {behavior: 'modal', width: '780'}, class: 'fancybox.ajax'
+                - if subject.depth == 1
+                  \/
+                  = link_to 'Ajouter un enfant', new_pro_subject_path(parent_id: subject.id), data: {behavior: 'modal', width: '780'}, class: 'fancybox.ajax'
 
 = content_for :scripts do
   :javascript

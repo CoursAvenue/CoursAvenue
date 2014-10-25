@@ -35,7 +35,7 @@
       %h3.flush= Structure.where(Structure.arel_table[:trial_courses_policy].matches('%_trial%')).count
       %h6 profs
     .grid__item.one-third.text--center>
-      %h3.flush= Course.is_open_for_trial.count
+      %h3.flush= Course.open_for_trial.count
       %h6 cours
     .grid__item.one-third.text--center>
       %h3.flush

@@ -29,19 +29,20 @@
         %p.blue.push-half--bottom
           %i Validez les avis si ce sont bien vos élèves. Une fois validé, l'avis sera visible sur votre profil public.
         - @pending_comments.each do |comment|
-          .grid.push-half--bottom
-            .grid__item.three-quarters.v-middle>
-              %p.flush
-                %b= comment.author_name
-                = "(#{comment.email})"
-            .grid__item.one-quarter.v-middle.text--right.nowrap>
-              = succeed ' ' do
-                = link_to accept_pro_structure_comment_path(@structure, comment), class: 'btn btn--small btn--green', method: :patch do
-                  %i.fa.fa-check
-                  Valider
-              = link_to decline_pro_structure_comment_path(@structure, comment), class: 'btn btn--small btn--red', method: :patch do
-                %i.fa.fa-times
-                Rejeter
+          - cache [comment, 'pro/structure/comments/index/pending'] do
+            .grid.push-half--bottom
+              .grid__item.three-quarters.v-middle>
+                %p.flush
+                  %b= comment.author_name
+                  = "(#{comment.email})"
+              .grid__item.one-quarter.v-middle.text--right.nowrap>
+                = succeed ' ' do
+                  = link_to accept_pro_structure_comment_path(@structure, comment), class: 'btn btn--small btn--green', method: :patch do
+                    %i.fa.fa-check
+                    Valider
+                = link_to decline_pro_structure_comment_path(@structure, comment), class: 'btn btn--small btn--red', method: :patch do
+                  %i.fa.fa-times
+                  Rejeter
         %hr.push-half--ends
 
       %h4.push-half--bottom Avis validés

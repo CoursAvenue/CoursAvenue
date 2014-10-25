@@ -916,7 +916,10 @@ class Structure < ActiveRecord::Base
   def unanswered_information_message
     return [] if mailbox.nil?
     mailbox.conversations.where(Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id])).select do |conversation|
-      conversation_waiting_for_reply?(conversation)
+      conversation_waiting_for_reply = Rails.cache.fetch [conversation, "structure/unanswered_information_message/conversation_waiting_for_reply"] do
+        conversation_waiting_for_reply?(conversation)
+      end
+      conversation_waiting_for_reply
     end
   end
 

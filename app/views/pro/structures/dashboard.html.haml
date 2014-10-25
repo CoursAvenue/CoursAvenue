@@ -16,122 +16,125 @@
     .soft--sides
       .grid
         .grid__item.one-half.bordered--right{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.dashboard.profile_completion')} }>
-          %h4.push-half--bottom Votre profil est complété à #{@profile_percentage}%
-          .text--center.progress.push-half--bottom{style: "width: 280px;"}
-            - if @profile_percentage == 0
-              #{@profile_percentage}%
-            - else
-              #profile-progress-bar.bar.bar-success{style: "width: 0%;"}
+          - cache "pro/structures/dashboard/completion/#{@profile_percentage}" do
+            %h4.push-half--bottom Votre profil est complété à #{@profile_percentage}%
+            .text--center.progress.push-half--bottom{style: "width: 280px;"}
+              - if @profile_percentage == 0
                 #{@profile_percentage}%
-          %ul.no-bullet-list
-            %li
-              %i.fa.fa-check-square-o
-              %span.line-through--gray Créer mon profil
-            %li
-              - if @structure.profile_completed?
-                %i.fa.fa-check-square-o
-                %span.line-through--gray Compléter mes informations générales et ajouter un logo
               - else
-                = link_to edit_pro_structure_path(@structure), class: 'profile-task-uncomplete' do
-                  %i.fa.fa-square-o
-                  Compléter mes informations générales et ajouter un logo
-            %li
-              - if @structure.comments.any?
+                #profile-progress-bar.bar.bar-success{style: "width: 0%;"}
+                  #{@profile_percentage}%
+            %ul.no-bullet-list
+              %li
                 %i.fa.fa-check-square-o
-                %span.line-through--gray Demander des recommandations à mes élèves
-              - else
-                = link_to recommendations_pro_structure_path(@structure), class: 'profile-task-uncomplete' do
-                  %i.fa.fa-square-o
-                  Demander des recommandations à mes élèves
-            %li
-              - if @structure.medias.any?
-                %i.fa.fa-check-square-o
-                %span.line-through--gray Mettre en ligne les photos et vidéos de mes cours
-              - else
-                = link_to pro_structure_medias_path(@structure), class: 'profile-task-uncomplete' do
-                  %i.fa.fa-square-o
-                  Mettre en ligne les photos et vidéos de mes cours
-            %li
-              - unless @structure.courses.without_open_courses.detect(&:is_published?).nil?
-                %i.fa.fa-check-square-o
-                %span.line-through--gray Renseigner mes cours et mon planning
-              - else
-                = link_to pro_structure_courses_path(@structure), class: 'profile-task-uncomplete' do
-                  %i.fa.fa-square-o
-                  Renseigner mes cours et mon planning
+                %span.line-through--gray Créer mon profil
+              %li
+                - if @structure.profile_completed?
+                  %i.fa.fa-check-square-o
+                  %span.line-through--gray Compléter mes informations générales et ajouter un logo
+                - else
+                  = link_to edit_pro_structure_path(@structure), class: 'profile-task-uncomplete' do
+                    %i.fa.fa-square-o
+                    Compléter mes informations générales et ajouter un logo
+              %li
+                - if @structure.comments.any?
+                  %i.fa.fa-check-square-o
+                  %span.line-through--gray Demander des recommandations à mes élèves
+                - else
+                  = link_to recommendations_pro_structure_path(@structure), class: 'profile-task-uncomplete' do
+                    %i.fa.fa-square-o
+                    Demander des recommandations à mes élèves
+              %li
+                - if @structure.medias.any?
+                  %i.fa.fa-check-square-o
+                  %span.line-through--gray Mettre en ligne les photos et vidéos de mes cours
+                - else
+                  = link_to pro_structure_medias_path(@structure), class: 'profile-task-uncomplete' do
+                    %i.fa.fa-square-o
+                    Mettre en ligne les photos et vidéos de mes cours
+              %li
+                - unless @structure.courses.without_open_courses.detect(&:is_published?).nil?
+                  %i.fa.fa-check-square-o
+                  %span.line-through--gray Renseigner mes cours et mon planning
+                - else
+                  = link_to pro_structure_courses_path(@structure), class: 'profile-task-uncomplete' do
+                    %i.fa.fa-square-o
+                    Renseigner mes cours et mon planning
         .grid__item.one-half{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.dashboard.recommendations')} }>
-          .soft--right
-            %h4.push-half--bottom Vos recommandations et récompenses
-            %table#progress-comments.push-half--right.flush--bottom
-              %tbody
-                %tr{style: 'background: #e7e1da;'}
-                  - @structure.comments.accepted.limit(15).order('created_at ASC').each do |comment|
-                    %td.text--center.hard{style: "width: 6.6%;"}
-                      .hidden.bg-green{ data: { toggle: 'popover', html: 'true', placement: 'bottom', content: "<div style='font-size: 12px;'>#{comment.author_name} le #{I18n.l(comment.created_at, format: :date)}<br><br>#{comment.content.html_safe}<div>", trigger: 'hover' } }
-                        %a{href: 'javascript:void(0)'}
-                          %i.fa.fa-comment.white
-                  - if @structure.comments.accepted.count < 15
-                    - (15 -@structure.comments.accepted.count).times do |index|
+          - cache "pro/structures/dashboard/comments_completion/#{@structure.comments.accepted.count}" do
+            .soft--right
+              %h4.push-half--bottom Vos recommandations et récompenses
+              %table#progress-comments.push-half--right.flush--bottom
+                %tbody
+                  %tr{style: 'background: #e7e1da;'}
+                    - @structure.comments.accepted.limit(15).order('created_at ASC').each do |comment|
                       %td.text--center.hard{style: "width: 6.6%;"}
-                        &nbsp;
-            %table.push-half--right
-              %thead
-                %tr
-                  - 15.times do |index|
-                    %th.text--center.hard{style: "width: 6.6%;"}
+                        .hidden.bg-green{ data: { toggle: 'popover', html: 'true', placement: 'bottom', content: "<div style='font-size: 12px;'>#{comment.author_name} le #{I18n.l(comment.created_at, format: :date)}<br><br>#{comment.content.html_safe}<div>", trigger: 'hover' } }
+                          %a{href: 'javascript:void(0)'}
+                            %i.fa.fa-comment.white
+                    - if @structure.comments.accepted.count < 15
+                      - (15 -@structure.comments.accepted.count).times do |index|
+                        %td.text--center.hard{style: "width: 6.6%;"}
+                          &nbsp;
+              %table.push-half--right
+                %thead
+                  %tr
+                    - 15.times do |index|
+                      %th.text--center.hard{style: "width: 6.6%;"}
 
-              %tbody
-                %tr
-                  %td.v-top.text--center.hard{ colspan: 9 }
-                    %i.fa.fa-arrow-up
-                    %br
-                    %span.nowrap À partir du 5<sup>e</sup> avis :
-                    %br
-                    - if @structure.comments_count > 4
-                      = link_to widget_pro_structure_path(@structure), class: 'btn btn--blue nowrap text--center' do
-                        Installer mon
-                        %br
-                        livre d'or
-                    - else
-                      %a.btn.btn--small.text--center{ href: '#livre-dor-explanation', data: { behavior: 'modal', width: 500, padding: 0 } } OBTENEZ VOTRE LIVRE D'OR
-                  %td.text--right.v-top.hard{ colspan: 6 }
-                    %i.fa.fa-arrow-up
-                    %br
-                    %span.nowrap À partir de 15 avis et +
-                    %br
-                    - if @structure.comments_count > 14
-                      = link_to new_pro_structure_sticker_demand_path(@structure), class: 'btn btn--blue text--center nowrap' do
-                        Recevoir mes
-                        %br
-                        autocollants
-                    - else
-                      %a.btn.btn--small.text--center{ href: '#sticker-explanation', data: { behavior: 'modal', width: 500, padding: 0 } } OBTENEZ VOS AUTOCOLLANTS
+                %tbody
+                  %tr
+                    %td.v-top.text--center.hard{ colspan: 9 }
+                      %i.fa.fa-arrow-up
+                      %br
+                      %span.nowrap À partir du 5<sup>e</sup> avis :
+                      %br
+                      - if @structure.comments_count > 4
+                        = link_to widget_pro_structure_path(@structure), class: 'btn btn--blue nowrap text--center' do
+                          Installer mon
+                          %br
+                          livre d'or
+                      - else
+                        %a.btn.btn--small.text--center{ href: '#livre-dor-explanation', data: { behavior: 'modal', width: 500, padding: 0 } } OBTENEZ VOTRE LIVRE D'OR
+                    %td.text--right.v-top.hard{ colspan: 6 }
+                      %i.fa.fa-arrow-up
+                      %br
+                      %span.nowrap À partir de 15 avis et +
+                      %br
+                      - if @structure.comments_count > 14
+                        = link_to new_pro_structure_sticker_demand_path(@structure), class: 'btn btn--blue text--center nowrap' do
+                          Recevoir mes
+                          %br
+                          autocollants
+                      - else
+                        %a.btn.btn--small.text--center{ href: '#sticker-explanation', data: { behavior: 'modal', width: 500, padding: 0 } } OBTENEZ VOS AUTOCOLLANTS
 
-    #livre-dor-explanation.hidden
-      .panel
-        .panel__header.soft
-          %h4.flush Vous n'avez pas encore accès à votre livre d'or
-        .panel__body.soft
-          %p
-            %strong Au-delà de 5 avis, nous vous offrons votre livre d'or interactif
-            qui vous permet d'afficher toutes les recommandations de vos élèves directement sur votre propre site Internet ou blog, mais aussi sur tous les autres supports de communication (flyers, affiches, signature de vos emails, etc.).
-          %p
-            Le bouche à oreille restant le 1er facteur d'inscription à un cours, nos partenaires qui affichent publiquement les témoignages de leurs élèves sont ceux qui ont le plus fort taux d'inscription et de fidélisation.
-          .text--center.push--bottom= link_to "Exemples de livres d'Or.", pro_pages_widget_path, target: '_blank', rel: 'nofollow'
-          %p.text--center
-            = link_to "Obtenir plus de recommandations", recommendations_pro_structure_path(@structure), class: 'btn btn--green'
+    - cache 'pro/structures/dashboard/hidden-popups' do
+      #livre-dor-explanation.hidden
+        .panel
+          .panel__header.soft
+            %h4.flush Vous n'avez pas encore accès à votre livre d'or
+          .panel__body.soft
+            %p
+              %strong Au-delà de 5 avis, nous vous offrons votre livre d'or interactif
+              qui vous permet d'afficher toutes les recommandations de vos élèves directement sur votre propre site Internet ou blog, mais aussi sur tous les autres supports de communication (flyers, affiches, signature de vos emails, etc.).
+            %p
+              Le bouche à oreille restant le 1er facteur d'inscription à un cours, nos partenaires qui affichent publiquement les témoignages de leurs élèves sont ceux qui ont le plus fort taux d'inscription et de fidélisation.
+            .text--center.push--bottom= link_to "Exemples de livres d'Or.", pro_pages_widget_path, target: '_blank', rel: 'nofollow'
+            %p.text--center
+              = link_to "Obtenir plus de recommandations", recommendations_pro_structure_path(@structure), class: 'btn btn--green'
 
-    #sticker-explanation.hidden
-      .panel
-        .panel__header.soft
-          %h4.flush Vous n'avez pas encore accès à votre autocollant
-        .panel__body.soft
-          %p
-            %strong Au-delà de 15 avis, nous vous offrons l'autocollant "Recommandé par les élèves sur CoursAvenue"
-            à afficher sur vos lieux de cours : cela signifie que vos cours sont appréciés d'une large partie de vos élèves et que le bouche à oreille participe à votre développement.
+      #sticker-explanation.hidden
+        .panel
+          .panel__header.soft
+            %h4.flush Vous n'avez pas encore accès à votre autocollant
+          .panel__body.soft
+            %p
+              %strong Au-delà de 15 avis, nous vous offrons l'autocollant "Recommandé par les élèves sur CoursAvenue"
+              à afficher sur vos lieux de cours : cela signifie que vos cours sont appréciés d'une large partie de vos élèves et que le bouche à oreille participe à votre développement.
 
-          %p.text--center
-            = link_to "Obtenir plus de recommandations", recommendations_pro_structure_path(@structure), class: 'btn btn--green'
+            %p.text--center
+              = link_to "Obtenir plus de recommandations", recommendations_pro_structure_path(@structure), class: 'btn btn--green'
 
     %hr.push--ends
     .soft--sides
@@ -159,7 +162,7 @@
               %i.fa.fa-list
               Cours & Stages
             %p
-              %span.beta{class: (@structure.courses.without_open_courses.active.count > 0 ? 'green' : 'red')}= @structure.courses.without_open_courses.active.count
+              %span.beta{class: (@structure.courses.without_open_courses.count > 0 ? 'green' : 'red')}= @structure.courses.without_open_courses.count
               %br
               = link_to 'Ajouter des cours / stages', pro_structure_courses_path(@structure), onclick: "ga('send', 'event', 'Dashboard', 'click', 'Ajouter des cours')", class: 'btn btn--blue btn--small'
         .grid__item.one-third>
@@ -189,7 +192,9 @@
           %i.fa.fa-comment
           Mes derniers avis
         %ul.comment-list
-          = render partial: 'comments/comment', collection: @comments[0..2], locals: { structure: @structure, with_reply: true }
+          - @comments[0..2].each do |comment|
+            - cache [comment, 'pro/structure/dashboard/comments'] do
+              = render partial: 'comments/comment', locals: { comment: comment, structure: @structure, with_reply: true }
           - if @comments.length > 3
             %p.text--center= link_to 'Voir mes autres avis', pro_structure_comments_path(@structure)
 
@@ -200,7 +205,7 @@
           %i.fa.fa-list
           Mes cours & stages
 
-        - if @courses.active.lessons.any?
+        - if @courses.lessons.any?
           %h5 Cours réguliers
           %table.table--striped
             %thead
@@ -209,16 +214,17 @@
                 %th.one-half Créneaux
             %tbody
               - @courses.active.lessons.each do |course|
-                %tr
-                  %td= course.name
-                  %td
-                    - if course.plannings.count > 1
-                      = "#{course.plannings.count} créneaux"
-                    - else
-                      1 créneau
-                    = "(#{course.plannings.ordered_by_day.map{ |planning| week_day_for(planning).downcase }.uniq.join(', ')})"
+                - cache [course, 'pro/structure/dashboard/courses/lesson'] do
+                  %tr
+                    %td= course.name
+                    %td
+                      - if course.plannings.count > 1
+                        = "#{course.plannings.count} créneaux"
+                      - else
+                        1 créneau
+                      = "(#{course.plannings.ordered_by_day.map{ |planning| week_day_for(planning).downcase }.uniq.join(', ')})"
 
-        - if @courses.active.trainings.any?
+        - if @courses.trainings.any?
           %h5 Stages
           %table.table--striped
             %thead
@@ -227,14 +233,15 @@
                 %th.one-half Créneaux
             %tbody
               - @courses.active.trainings.each do |course|
-                %tr
-                  %td= course.name
-                  %td
-                    - if course.plannings.count > 1
-                      = "#{course.plannings.count} créneaux"
-                    - else
-                      1 créneau
-                    = "(#{course.plannings.ordered_by_day.map{ |planning| l(planning.start_date) }.join(', ')})"
+                - cache [course, 'pro/structure/dashboard/courses/trainings'] do
+                  %tr
+                    %td= course.name
+                    %td
+                      - if course.plannings.count > 1
+                        = "#{course.plannings.count} créneaux"
+                      - else
+                        1 créneau
+                      = "(#{course.plannings.ordered_by_day.map{ |planning| l(planning.start_date) }.join(', ')})"
 
         - if @courses.privates.any?
           %h5 Cours particuliers
@@ -245,14 +252,15 @@
                 %th.one-half Créneaux
             %tbody
               - @courses.privates.each do |course|
-                %tr
-                  %td= course.name
-                  %td
-                    - if course.plannings.count > 1
-                      = "#{course.plannings.count} créneaux"
-                    - else
-                      1 créneau
-                    = "(#{course.plannings.map{ |planning| week_day_for(planning).downcase }.uniq.join(', ')})"
+                - cache [course, 'pro/structure/dashboard/courses/privates'] do
+                  %tr
+                    %td= course.name
+                    %td
+                      - if course.plannings.count > 1
+                        = "#{course.plannings.count} créneaux"
+                      - else
+                        1 créneau
+                      = "(#{course.plannings.map{ |planning| week_day_for(planning).downcase }.uniq.join(', ')})"
         %p.text--center
           = succeed ' ' do
             = link_to 'Ajouter un cours', regular_pro_structure_courses_path(@structure), class: 'btn btn--blue'
@@ -266,7 +274,8 @@
           Mes photos & vidéos
         - @medias.each_with_index do |media, index|
           .soft-half.inline-block.one-third.v-top>
-            = render partial: 'pro/structures/medias/media', locals: { media: media, index: index, show: true }
+            - cache [index, 'pro/structure/dashboard/medias'] do
+              = render partial: 'pro/structures/medias/media', locals: { media: media, index: index, show: true }
 
         %p.text--center= link_to 'Ajouter une photo / vidéo', pro_structure_medias_path(@structure), class: 'btn btn--blue'
 
