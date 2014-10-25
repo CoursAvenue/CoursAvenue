@@ -84,6 +84,7 @@
             this.subjects_input.on('typeahead:selected', function(event, data) {
                 if (data.type == 'structure') {
                     window.location.href = data.url;
+                    return;
                 } else {
                     this.selected_subject = data;
                 }
