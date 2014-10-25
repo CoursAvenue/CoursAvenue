@@ -22,6 +22,6 @@
             %td= discovery_pass.user.participation_requests.count
             %td= discovery_pass.user.participation_requests.accepted.count
             %td= discovery_pass.user.participation_requests.pending.count
-            %td= l(local_time(discovery_pass.user.last_sign_in_at))
+            %td= l(local_time(discovery_pass.user.current_sign_in_at))
 
     .text--center.push-half--ends= paginate @discovery_passes, window: 1, outer_window: 3
