@@ -43,9 +43,9 @@ class StructuresController < ApplicationController
 
     log_search
 
-    if robot?(request.env['HTTP_USER_AGENT'])
-      index_google
-    end
+    # if robot?(request.env['HTTP_USER_AGENT'])
+    #   index_google
+    # end
 
     respond_to do |format|
       format.json do
