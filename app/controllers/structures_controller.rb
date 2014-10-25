@@ -6,7 +6,7 @@ class StructuresController < ApplicationController
 
   skip_before_filter :verify_authenticity_token, only: [:add_to_favorite, :remove_from_favorite]
 
-  before_filter :set_current_structure, except: [:index, :search, :index_google]
+  before_filter :set_current_structure, except: [:index, :search]
 
   respond_to :json
 
@@ -42,25 +42,33 @@ class StructuresController < ApplicationController
 
     log_search
 
-    if robot?(request.env['HTTP_USER_AGENT'])
-      index_google
+    # We expire the cache every 100 new comments
+    @total_comments = Rails.cache.fetch "structures/index/total_comments/#{params[:subject_id]}/#{Comment::Review.count.round(-2)}" do
+      if params[:subject_id]
+        CommentSearch.search(subject_slug: params[:subject_id]).total.round(-2)
+      else
+        Comment::Review.count.round(-2)
+      end
     end
-
+    # We expire the cache every 100 new comments
+    @total_medias = Rails.cache.fetch "structures/index/total_medias/#{params[:subject_id]}/#{Comment::Review.count.round(-2)}" do
+      if params[:subject_id]
+        MediaSearch.search(subject_slug: params[:subject_id]).total.round(-2)
+      else
+        Media.count.round(-2)
+      end
+    end
     respond_to do |format|
+      format.html do
+        @models = jasonify @structures, place_ids: @places
+        cookies[:structure_search_path] = request.fullpath
+      end
       format.json do
         render json: @structures,
                root: 'structures',
                place_ids: @places,
-               query: params,
                each_serializer: StructureSerializer,
                meta: { total: @total, location: @latlng }
-      end
-
-      # 'query' is the current query string, which allows us to direct users to
-      # a filtered version of the structures show action
-      format.html do
-        @models = jasonify @structures, place_ids: @places, query: params
-        cookies[:structure_search_path] = request.fullpath
       end
     end
   end
@@ -158,26 +166,5 @@ class StructuresController < ApplicationController
   def set_current_structure
     @structure = Structure.fetch_by_id_or_slug(params[:id])
     raise ActiveRecord::RecordNotFound.new(params) if @structure.nil?
-  end
-
-  ######################################################################
-  # Crawled routes                                                     #
-  ######################################################################
-
-  def index_google
-    if @subject.present?
-      @comments = @subject.comments.order('created_at DESC')
-    elsif @structures.any?
-      @comments = @structures.flat_map(&:comments).sort_by(&:created_at).reverse
-    else
-      @comments = []
-    end
-    @comments = @comments.uniq.take(10)
-
-    respond_to do |format|
-      format.html do
-        render template: 'structures/index_google', layout: 'pages'
-      end
-    end
   end
 end

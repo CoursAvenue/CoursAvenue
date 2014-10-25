@@ -3,39 +3,20 @@
 = content_for :head do
   %link{ rel: 'canonical', href: request.path }
 
+- if @subject
+  - title = "#{@subject.name} à #{params[:city_id].try(:capitalize)}"
+- else
+  - title = "Danse, Théâtre, Musique, Yoga... à #{params[:city_id].try(:capitalize) || 'Paris'} "
+
 = content_for :title do
-  - params[:city] = params[:address_name] if params[:address_name].present? and params[:city].blank?
-  - if @subject
-    = "#{(params[:subject_id].present? ? "Établissements de #{@subject.name.downcase}" : 'Établissements')} #{(params[:name].present? ? "correspondant à : « #{params[:name]} »" : (params[:city].present? ? "à #{params[:city]}" : 'à Paris'))}"
-  - elsif params[:city].present?
-    = "Tous les cours à #{params[:city]}"
-  - else
-    = "Tous les cours à Paris"
+  = "#{title} : #{@total} établissements avec #{number_with_delimiter @total_comments} avis | CoursAvenue"
 
+= content_for :meta_description do
+  #{title} : profitez des cours d'essai gratuits, consultez #{number_with_delimiter @total_comments} d'élèves, #{number_with_delimiter @total_medias} photos et vidéos, les meilleures professeurs sur CoursAvenue
 
-%ol.visuallyhidden.nav.breadcrumb.epsilon.push-half--top.push-half--bottom{itemprop: 'breadcrumb'}
-  %li= link_to 'Tous les établissements', structures_path(name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
-  - if @subject
-    - if @subject.parent
-      %li= link_to @subject.parent.name, subject_structures_path(@subject.parent, name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
-    %li= link_to @subject.name, subject_structures_path(@subject, name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
-  - if params[:name]
-    %li= params[:name]
-%h1.text--center.delta.flush.lbl.lbl--blue.visuallyhidden
-  - if @subject
-    Établissements de #{@subject.name.downcase}
-  - else
-    Établissements
-  - if params[:name].present?
-    correspondant à : « #{params[:name]} »
-  - elsif params[:city].present?
-    = "à #{params[:city]}"
-  - else
-    à Paris
+- if robot?(request.env['HTTP_USER_AGENT'])
+  = render partial: 'google_more_infos', locals: { title: title }
 
-.filtered-search-loader.text--center.island{ :data => { :type => "app-loader" }}
-  = image_tag 'logos/logo@2x.png', class: 'center-block', height: 50, alt: 'CoursAvenue'
-  = image_tag 'gifs/loading-indicator.gif', class: 'center-block', height: 10,  alt: 'Chargement'
 .filtered-search{ :data => { :type => "#{ @app_slug }-root" }, id: "#{ @app_slug }"}
 
 :javascript
