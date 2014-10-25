@@ -142,7 +142,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                 end_date             : (data.server_api.end_date             ? data.server_api.end_date                             : ''),
                 start_hour           : (data.server_api.start_hour           ? data.server_api.start_hour                           : ''),
                 end_hour             : (data.server_api.end_hour             ? data.server_api.end_hour                             : ''),
-                trial_course_amount  : (data.server_api.trial_course_amount  ? data.server_api.trial_course_amount                  : '')
+                is_open_for_trial    : (data.server_api.is_open_for_trial    ? data.server_api.is_open_for_trial                    : '')
             });
 
             this.trigger('structures:updated:maps');
