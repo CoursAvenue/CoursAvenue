@@ -17,7 +17,7 @@ class StructuresController < ApplicationController
   # GET /danse--paris
   # GET /danse/danse-orientale--paris
   def index
-    @city = City.find(params[:city_id])
+    @city = City.find(params[:city_id]) if params[:city_id]
     if params[:root_subject_id].present? and params[:subject_id].blank?
       params[:subject_id] = params[:root_subject_id]
     end
