@@ -104,7 +104,7 @@ class Structure < ActiveRecord::Base
                   :deletion_reasons, :deletion_reasons_text,
                   :phone_numbers_attributes, :places_attributes, :other_emails, :last_geocode_try,
                   :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason, :order_recipient, :delivery_email_status,
-                  :trial_courses_policy, :discovery_pass_place_ids, :sleeping_structure
+                  :trial_courses_policy, :sleeping_structure
 
   accepts_nested_attributes_for :places,
                                  reject_if: :reject_places,
@@ -123,7 +123,7 @@ class Structure < ActiveRecord::Base
                              :open_courses_open_places, :open_course_nb, :jpo_email_status, :open_course_plannings_nb,
                              :response_rate, :response_time, :gives_non_professional_courses, :gives_professional_courses,
                              :deletion_reasons, :deletion_reasons_text, :other_emails, :search_score, :search_score_updated_at,
-                             :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason, :promo_code_sent, :order_recipient, :discovery_pass_place_ids
+                             :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason, :promo_code_sent, :order_recipient
 
 
   define_boolean_accessor_for :meta_data, :has_promotion, :gives_group_courses, :gives_individual_courses,
@@ -647,17 +647,12 @@ class Structure < ActiveRecord::Base
     self.level_ids                = (self.plannings.collect(&:level_ids) + self.courses.privates.collect(&:level_ids)).flatten.uniq.sort.join(',')
     self.audience_ids             = (self.plannings.collect(&:audience_ids) + self.courses.privates.collect(&:audience_ids)).flatten.uniq.sort.join(',')
     self.set_min_and_max_price
-    self.discovery_pass_place_ids = (self.courses.open_for_trial.map(&:place) + self.courses.open_for_trial.map(&:places)).compact.flatten.uniq.map(&:id).join(',')
     compute_response_rate
     # update_jpo_meta_datas
     self.save(validate: false)
   end
   handle_asynchronously :update_meta_datas
 
-  def discovery_pass_places
-    return self.places if self.discovery_pass_place_ids.nil?
-    self.places.where(Place.arel_table[:id].eq_any(self.discovery_pass_place_ids.split(',')))
-  end
 
   def update_jpo_meta_datas
     self.open_course_plannings_nb = self.courses.active.open_courses.flat_map(&:plannings).length
