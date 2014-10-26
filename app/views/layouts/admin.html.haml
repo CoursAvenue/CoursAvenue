@@ -84,7 +84,7 @@
                 %li
                   %a.not-hoverable.f-weight-normal= "#{@structure.comments.pending.count} recommandations en attente de validation"
               - @structure.comments.pending.each do |comment|
-                - cache [pending_comment, 'pro/structures/layout/pending_comment'] do
+                - cache [comment, 'pro/structures/layout/pending_comment'] do
                   %li
                     = link_to pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'grid--full' do
                       .grid__item.two-twelfths.v-middle>
