@@ -1,9 +1,9 @@
 - @is_responsive = true
 
 - if @subject
-  - title = "#{@subject.name} à #{params[:city_id].try(:capitalize)}"
+  - title = "#{@subject.name} à #{@city.name}"
 - else
-  - title = "Danse, Théâtre, Musique, Yoga... à #{params[:city_id].try(:capitalize) || 'Paris'} "
+  - title = "Danse, Théâtre, Musique, Yoga... à #{@city.name || 'Paris'} "
 
 = content_for :title do
   = "#{title} : #{number_with_delimiter @total.round(-2)} établissements avec #{number_with_delimiter @total_comments} avis | CoursAvenue"
