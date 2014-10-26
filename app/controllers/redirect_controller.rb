@@ -3,7 +3,11 @@ class RedirectController < ApplicationController
 
   def vertical_page
     @subject = Subject.fetch_by_id_or_slug params[:id]
-    redirect_to root_search_page_path(@subject.root, 'paris'), status: 301
+    if @subject
+      redirect_to root_search_page_path(@subject.root, 'paris'), status: 301
+    else
+      redirect_to vertical_pages_path, status: 301
+    end
   end
 
   def vertical_page_city
