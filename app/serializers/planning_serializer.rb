@@ -13,7 +13,7 @@ class PlanningSerializer < ActiveModel::Serializer
   end
 
   def place_id
-    place.id
+    place.id if place
   end
 
   def address
