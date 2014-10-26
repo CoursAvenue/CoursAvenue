@@ -76,12 +76,14 @@
             this.sticky_home   = -1; // TODO this is still a magic number
             this.old_classes   = this.$element.attr("class");
             this.old_top       = this.$element.offset().top;
-            if (this.options.pushed) {
-                this.$pusher_el    = $(this.options.pushed);
-                this.pusher_height = this.$pusher_el.outerHeight();
-            }
             $(this.options.scrollContainer).scroll(this.onScroll.bind(this));
             this.calculateElementTop();
+            setTimeout(function() {
+                if (this.options.pushed) {
+                    this.$pusher_el    = $(this.options.pushed);
+                    this.pusher_height = this.$pusher_el.outerHeight();
+                }
+            }.bind(this));
         },
 
         calculateElementTop: function calculateElementTop () {

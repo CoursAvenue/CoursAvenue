@@ -55,7 +55,7 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             offset             = $('#structure-profile-menu').outerHeight();
             stop_at_wrapper_el   = this.$el.closest('.panel').attr('id');
             course_view_titles.each(function(index, el) {
-                var data = { offsetTop: offset, oldWidth: true, stopAtWrapperEl: '#' + stop_at_wrapper_el, updateOnScroll: true }
+                var data = { offsetTop: offset, oldWidth: true, stopAtWrapperEl: '#' + stop_at_wrapper_el, updateOnScroll: true };
                 if (index > 0) { data.pushed = '#' + course_view_titles[index - 1].id; }
                 $(el).sticky(data);
             });
