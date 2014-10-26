@@ -151,7 +151,7 @@ class Course < ActiveRecord::Base
       plannings.map(&:end_time).uniq.compact
     end
 
-    boolean :open_for_trial
+    boolean :is_open_for_trial
 
     boolean :has_description do
       self.description.present?
