@@ -39,7 +39,8 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         ui: {
             '$show_email_section_link': '[data-behavior=sign-up-with-email]',
             '$email_section'          : '[data-type=email-section]',
-            '$facebook_login_button'  : '[data-behavior=facebook-login]'
+            '$facebook_login_button'  : '[data-behavior=facebook-login]',
+            '$data_loader'            : '[data-loader]'
         },
 
         signIn: function signIn () {
@@ -48,9 +49,11 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         loginWithFacebook: function loginWithFacebook () {
             this.ui.$facebook_login_button.text('Inscription en cours...');
+            this.ui.$data_loader.removeClass('hidden');
             CoursAvenue.loginWithFacebook({
                 success: this.options.success,
                 dismiss: function() {
+                    this.ui.$data_loader.addClass('hidden');
                     this.ui.$facebook_login_button.text('Inscription avec Facebook');
                     this.options.dismiss();
                 }.bind(this)

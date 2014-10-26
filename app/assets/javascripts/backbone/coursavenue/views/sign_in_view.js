@@ -40,15 +40,18 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         ui: {
-            '$facebook_login_button'  : '[data-behavior=facebook-login]'
+            '$facebook_login_button'  : '[data-behavior=facebook-login]',
+            '$data_loader'            : '[data-loader]'
         },
 
 
         loginWithFacebook: function loginWithFacebook () {
             this.ui.$facebook_login_button.text('Connexion en cours...');
+            this.ui.$data_loader.removeClass('hidden');
             CoursAvenue.loginWithFacebook({
                 success: this.options.success,
                 dismiss: function() {
+                    this.ui.$data_loader.addClass('hidden');
                     this.ui.$facebook_login_button.text('Connexion avec Facebook');
                     this.options.dismiss();
                 }.bind(this)
