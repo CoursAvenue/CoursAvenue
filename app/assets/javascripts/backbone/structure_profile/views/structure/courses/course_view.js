@@ -46,6 +46,10 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             this.trigger("register", { course_id: this.model.get('id') });
         },
 
+        itemViewOptions: function itemViewOptions (model, index) {
+            return { course: this.model.toJSON() };
+        }
+
     });
 
 }, undefined);

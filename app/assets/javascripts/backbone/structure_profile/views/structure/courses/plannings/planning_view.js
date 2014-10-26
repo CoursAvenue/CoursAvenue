@@ -11,6 +11,15 @@ StructureProfile.module('Views.Structure.Courses.Plannings', function(Module, Ap
             'click [data-behavior=register]': 'showRegistrationForm'
         },
 
+        initialize: function initialize (options) {
+            this.course = options.course;
+        },
+
+        onRender: function onRender (argument) {
+          this.$el.attr('itemscope', true);
+          this.$el.attr('itemtype', 'http://data-vocabulary.org/Event');
+        },
+
         showRegistrationForm: function showRegistrationForm (argument) {
             this.trigger('register', this.model.toJSON());
         },
@@ -29,6 +38,12 @@ StructureProfile.module('Views.Structure.Courses.Plannings', function(Module, Ap
                 this.trigger("mouseleave", { place_id: this.model.get("home_place_id") });
             }
             this.trigger("mouseleave", { place_id: this.model.get("place_id") });
+        },
+
+        serializeData: function serializeData () {
+            var attributes = this.model.toJSON();
+            _.extend(attributes, { course: this.course });
+            return attributes;
         }
     });
 
