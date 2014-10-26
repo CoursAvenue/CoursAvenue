@@ -10,7 +10,7 @@
 %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
   %tr{ valign: 'top' }
     %td.v-top.content-block.text--center{ width: '20%' }
-      = link_to discovery_pass_structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank', class: 'block' do
+      = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank', class: 'block' do
         = image_tag @structure.logo.url(:thumb), class: 'block', height: 90, width: 90, alt: "Logo de #{@structure.name}"
     %td.v-top.content-block{ width: '80%' }
       .p

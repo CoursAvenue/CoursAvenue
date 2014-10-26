@@ -4,7 +4,7 @@
       .title Récapitulatif de la demande d'inscription
   %tr{ valign: 'top' }
     %td.v-middle.content-block{ width: '20%', rowspan: (participation_request.place ? 5 : 4) }
-      = link_to discovery_pass_structure_url(participation_request.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank', class: 'block' do
+      = link_to structure_url(participation_request.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank', class: 'block' do
         = image_tag participation_request.structure.logo.url(:thumb), class: 'block', height: 90, width: 90, alt: "Logo de #{participation_request.structure.name}"
     %td.v-middle.content-block{ width: '25%' }
       .p.hard

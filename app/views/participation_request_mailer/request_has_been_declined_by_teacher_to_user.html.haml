@@ -10,7 +10,7 @@
   Si vous souhaitez suivre une autre séance auprès de ce partenaire, accédez à son profil pour vous inscrire de nouveau :
 
 .p.action
-  = link_to "M'inscrire à une autre séance", discovery_pass_structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green'
+  = link_to "M'inscrire à une autre séance", structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green'
 
 - if @message
   .soft--bottom

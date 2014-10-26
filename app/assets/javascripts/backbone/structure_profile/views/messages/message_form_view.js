@@ -124,7 +124,6 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
             if (this.errors) { _.extend(data, { errors: this.errors }); }
             _.extend(data, {
                 structure: this.structure.toJSON(),
-                discovery_passes_url: Routes.discovery_passes_path(),
                 prefilled_body: "Bonjour,\n\nJe souhaiterais venir pour une première séance. Pouvez-vous m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt"
             });
             return data;
