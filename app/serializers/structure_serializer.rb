@@ -88,4 +88,7 @@ class StructureSerializer < ActiveModel::Serializer
     object.places.map(&:city).map(&:name).uniq.join(', ')
   end
 
+  def is_open_for_trial
+    object.is_open_for_trial?
+  end
 end
