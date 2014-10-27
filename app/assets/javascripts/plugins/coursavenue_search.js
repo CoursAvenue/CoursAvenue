@@ -7,9 +7,9 @@
     // Create the defaults once
     var pluginName = "subjectsStructuresPicker",
         defaults = {
-          subjects_header_template: '<div class="text--center very-soft bordered--bottom"><strong>Disciplines</strong></div>',
+          subjects_header_template: '<div class="text--center soft-half bordered--bottom"><strong>Disciplines</strong></div>',
           subjects_template:  "<div>{{ name }}</div>",
-          structure_header_template: '<div class="text--center very-soft bordered--bottom"><strong>Professeurs, associations et écoles</strong></div>',
+          structure_header_template: '<div class="text--center soft-half bordered--bottom"><strong>Professeurs, associations et écoles</strong></div>',
           structure_template: '<a class="flexbox" href="{{ url }}"><div class="flexbox__item text--left" style="width: 40px"><img class="rounded--circle" src="{{logo_url}}" height="30" width="30"></div><div class="flexbox__item">{{name}}</div></a>'
         };
 
@@ -43,6 +43,7 @@
             if (this.$element.hasClass('tt-hint')) { return; }
             this.initializeEngines();
             this.initializeTemplates();
+            var that = this;
             this.subjects_input.typeahead({
                 highlight : true,
                 minLength: 1,
@@ -51,14 +52,18 @@
                 displayKey: 'name',
                 templates: {
                     header: this.subjects_header_template,
-                    suggestion: this.subjects_template
+                    suggestion: function suggestion (data) {
+                        return that.subjects_template(data);
+                    }
                 },
                 source: this.subject_engine.ttAdapter()
             }, {
                 displayKey: 'name',
                 templates: {
                     header: this.structure_header_template,
-                    suggestion: this.structure_template
+                    suggestion: function suggestion (data) {
+                        return that.structure_template(data);
+                    }
                 },
                 source: this.structure_engine.ttAdapter()
             });
@@ -110,17 +115,25 @@
                 datumTokenizer: function datumTokenizer (d) { return Bloodhound.tokenizers.whitespace(d.num); },
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
                 remote: {
-                    replace: function replace (url, query ) {
+                    replace: function replace (url, query) {
                         query = query.replace(GLOBAL.EXCLUDED_SEARCH_WORDS, '');
-                        return Routes.search_subjects_path({format: 'json', name: query});
+                        return Routes.typeahead_structures_path({ format: 'json', name: query });
                     },
-                    url: Routes.search_subjects_path({format: 'json', name: '%QUERY'})
+                    filter: function filter(parsed_response) {
+                        return _.reject(parsed_response, function(data) { data.type != 'subject' });
+                    },
+                    url: Routes.typeahead_structures_path({ format: 'json', name: '%QUERY' })
                 }
             });
             this.structure_engine   = new Bloodhound({
                 datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.num); },
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
-                remote: Routes.search_structures_path({format: 'json'}) + '?name=%QUERY'
+                remote: {
+                    url: Routes.typeahead_structures_path({ format: 'json' }) + '?name=%QUERY',
+                    filter: function filter(parsed_response) {
+                        return _.reject(parsed_response, function(data) { data.type != 'structure' });
+                    }
+                }
             });
             this.subject_engine.initialize();
             this.structure_engine.initialize();

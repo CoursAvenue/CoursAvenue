@@ -6,7 +6,7 @@ class StructuresController < ApplicationController
 
   skip_before_filter :verify_authenticity_token, only: [:add_to_favorite, :remove_from_favorite]
 
-  before_filter :set_current_structure, except: [:index, :search]
+  before_filter :set_current_structure, except: [:index, :search, :typeahead]
 
   respond_to :json
 
@@ -103,7 +103,7 @@ class StructuresController < ApplicationController
   end
 
   # Used for search on typeahead dropdown
-  # GET /etablissements/:id/search.json
+  # GET /etablissements/search.json
   def search
     @structures = Rails.cache.fetch "StructuresController#search/#{params[:name]}" do
       StructureSearch.search(params).results
@@ -113,7 +113,27 @@ class StructuresController < ApplicationController
         render json: @structures, each_serializer: StructureTypeaheadSerializer
       end
     end
+  end
 
+  # Used for search on typeahead dropdown
+  # GET /etablissements/typeahead.json
+  def typeahead
+    @subjects = Rails.cache.fetch "SubjectsController#search/#{params[:name]}" do
+      SubjectSearch.search(name: params[:name]).results.map{ || }
+    end
+    @structures = StructureSearch.search(params).results
+    json_data = (@subjects + @structures).map do |data|
+      if data.is_a? Structure
+        StructureTypeaheadSerializer.new data
+      else
+        SubjectSearchSerializer.new data
+      end
+    end
+    respond_to do |format|
+      format.json do
+        render json: json_data
+      end
+    end
   end
 
   # POST structure/:id/add_to_favorite

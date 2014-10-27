@@ -339,15 +339,7 @@ CoursAvenue::Application.routes.draw do
       get 'tag/:tag', to: 'blog/articles#tags', as: :tags
     end
   end
-  resources :discovery_passes, only:[:index, :create], path: 'pass-decouverte' do
-    collection do
-      get :buy_now, path: 'obtenir'
-      get :create_account, path: 'creez-un-compte'
-      get :get_danse, path: 'dansez'
-      get :test_a, path: 'tous-vos-loisirs'
-      get :test_b, path: 'loisirs'
-    end
-  end
+
   devise_for :users, controllers: {
                       omniauth_callbacks: 'users/omniauth_callbacks',
                       sessions: 'users/sessions',
@@ -439,6 +431,7 @@ CoursAvenue::Application.routes.draw do
     collection do
       post :recommendation
       get :search
+      get :typeahead
     end
     resources :participation_requests, only: [:create]                                    , controller: 'structures/participation_requests'
     resources :statistics            , only: [:create]                                    , controller: 'structures/statistics'
@@ -560,6 +553,7 @@ CoursAvenue::Application.routes.draw do
   get 'pages/jobs'                          => redirect('jobs'                          , status: 301)
   get 'pages/mentions-legales-partenaires'  => redirect('mentions-legales-partenaires'  , status: 301)
   get 'pages/conditions-generale-de-vente'  => redirect('conditions-generale-de-vente'  , status: 301)
+  get 'pass-decouverte'                     => redirect('comment-ca-marche'             , status: 301)
 
   post 'contact/' => 'pages#send_message'
 
