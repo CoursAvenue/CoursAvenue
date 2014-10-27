@@ -5,7 +5,7 @@ class UserSerializer < ActiveModel::Serializer
   delegate :cache_key, to: :object
 
   attributes :id, :email, :name, :first_name, :last_name, :avatar_url, :slug, :favorite_structure_ids, :last_message_sent,
-             :has_discovery_pass, :created_at, :gender
+             :has_discovery_pass, :created_at, :gender, :just_signed_up
 
   def favorite_structure_ids
     object.followings.map(&:structure_id)
@@ -26,5 +26,9 @@ class UserSerializer < ActiveModel::Serializer
 
   def has_discovery_pass
     object.discovery_pass.present?
+  end
+
+  def just_signed_up
+    return (object.created_at > Date.today.beginning_of_day)
   end
 end

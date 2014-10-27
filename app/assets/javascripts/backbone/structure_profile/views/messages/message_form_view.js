@@ -91,7 +91,7 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
             this.$('.input_field_error').remove();
             this.model.sync({
                 success: function success (response) {
-                    if (CoursAvenue.is_production()) {
+                    if (CoursAvenue.isProduction()) {
                         window._fbq.push(['track', '6016785958627', { 'value':'0.00','currency':'EUR' }]);
                         ga('send', 'event', 'Action', 'message');
                         goog_report_conversion();

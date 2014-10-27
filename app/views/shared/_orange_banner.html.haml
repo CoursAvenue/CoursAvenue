@@ -2,13 +2,23 @@
   .orange-box.hidden#join-the-community
     .soft-half.white.text--center.epsilon
       %strong Accédez à des offres exclusives en rejoignant la communauté CoursAvenue :
-      = link_to 'Rejoindre gratuitement', '#', data: { behavior: 'sign-up' }, class: 'btn btn--yellow btn--small'
+      = link_to 'Rejoindre gratuitement', '#', data: { behavior: 'sign-up' }, class: 'btn btn--yellow btn--small', id: 'orange-box-join-for-free'
       = link_to '#', class: 'white float--right', data: { behavior: 'closer', el: '#join-the-community' } do
         %i.fa.fa-times
+
+= content_for :scripts do
+  :javascript
+      $(function() {
+          setTimeout(function() {
+              $('#join-the-community').slideDown();
+          }, 3000);
+      })
+
+- if Rails.env.production?
   = content_for :scripts do
     :javascript
         $(function() {
-            setTimeout(function() {
-                $('#join-the-community').slideDown();
-            }, 3000)
+            $('#orange-box-join-for-free').click(function() {
+                mixpanel.track("Structures/show: clicks on orange_header/join_for_free button", { "structure_slug": "#{@structure.slug}", "structure_name": "#{@structure.name}" });
+            });
         })

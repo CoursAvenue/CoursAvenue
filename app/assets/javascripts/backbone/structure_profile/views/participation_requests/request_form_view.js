@@ -250,7 +250,7 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
                               type: 'inline'
                           }
                     });
-                    if (CoursAvenue.is_production()) { mixpanel.track("Dismissed request form view"); }
+                    if (CoursAvenue.isProduction()) { mixpanel.track("Dismissed request form view"); }
                 }.bind(this),
                 error: this.showPopupMessageDidntSend
             });

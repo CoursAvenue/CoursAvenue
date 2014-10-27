@@ -107,20 +107,16 @@ class PlanningSerializer < ActiveModel::Serializer
     city.longitude if city
   end
 
-  def next_date
-    object.next_date
-  end
-
   def start_date_datetime
     start_time      = object.start_time
-    next_start_time = DateTime.new(next_date.year, next_date.month, next_date.day, start_time.hour, start_time.min)
+    next_start_time = DateTime.new(object.next_date.year, object.next_date.month, object.next_date.day, start_time.hour, start_time.min)
     # −06:00 is the french Timezone in ISO format
     I18n.l(next_start_time, format: :iso_date_8601).gsub(/Z$/, '') + '−06:00'
   end
 
   def end_date_datetime
     end_time      = object.end_time
-    next_end_time = DateTime.new(next_date.year, next_date.month, next_date.day, end_time.hour, end_time.min)
+    next_end_time = DateTime.new(object.next_date.year, object.next_date.month, object.next_date.day, end_time.hour, end_time.min)
     # −06:00 is the french Timezone in ISO format
     I18n.l(next_end_time, format: :iso_date_8601).gsub(/Z$/, '') + '−06:00'
   end
