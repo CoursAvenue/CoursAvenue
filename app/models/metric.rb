@@ -25,7 +25,7 @@ class Metric
   scope :views,                -> { where( action_type: 'view') }
   scope :actions,              -> { where( action_type: 'action') }
   scope :structure_go_premium, -> { where( action_type: /structure_go_premium_/) }
-  scope :in_the_last_day,      -> { where( created_at: (Time.now - 1.day)..Time.now) }
+  scope :in_the_current_day,   -> { where( created_at: Time.now.beginning_of_day..Time.now.end_of_day) }
 
   ######################################################################
   # Creation and migration methods                                     #
@@ -100,7 +100,7 @@ class Metric
   def self.create_action(action_name, structure_id, user, fingerprint, ip_address, infos=nil)
     data = { action_type: action_name, structure_id: structure_id, user_fingerprint: fingerprint, ip_address: ip_address, infos: infos}
 
-    if Metric.where(data).in_the_last_day.empty?
+    if Metric.where(data).in_the_current_day.empty?
       metric = Metric.create(data)
     else
       metric = Metric.where(data).last
