@@ -201,6 +201,17 @@ class Metric
       ip_address:       self.ip_address }
   end
 
+  # Identify the Metric using all the available informations except its dates.
+  #
+  # @return a Hash
+  def identify_with_all_informations
+      { structure_id:     self.structure_id,
+        action_type:      self.action_type,
+        user_fingerprint: self.user_fingerprint,
+        infos:            self.infos,
+        ip_address:       self.ip_address }
+  end
+
   def self.generic_interval_count(type, interval, infos=nil)
     count = Metric.send(type).where(created_at: interval).asc(:created_at)
 
@@ -241,4 +252,14 @@ class Metric
     Structure.find(self.structure_id)
   end
 
+  # Get all the duplicated metrics in a day scope.
+  #
+  # @return an array of the duplicated Metrics.
+  def self.duplicated(date=Date.current)
+    metrics = Metric.where(created_at: date.beginning_of_day..date.end_of_day).group_by(&:identify_with_all_informations)
+    duplicates = metrics.select { |key, value| value.length > 1 }.values
+    duplicates.each &:shift
+
+    duplicates.flatten
+  end
 end
