@@ -6,6 +6,7 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
         className: 'panel center-block push--bottom',
 
         events: {
+            'click'                             : 'trackEvent',
             'submit form'                       : 'submitForm',
             'change @ui.$course_select'         : 'showAssociatedPlannings',
             'change @ui.$planning_select_input' : 'updateDatePicker',
@@ -204,11 +205,17 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             this.ui.$datepicker_input.datepicker('setDaysOfWeekDisabled', days_of_week);
         },
 
+        trackEvent: function trackEvent () {
+            if (CoursAvenue.isProduction()) {
+              mixpanel.track('Structures/show: interacts with the form');
+            }
+        },
         /*
          * Called when the form is submitted.
          * If user is connected, will post the message, else, will ask to login first.
          */
         submitForm: function submitForm () {
+            if (CoursAvenue.isProduction()) { mixpanel.track('Structures/show: submit form'); }
             this.populateRequest();
             if (this.model.isValid(true)) {
                 if (CoursAvenue.currentUser().isLogged()) {
