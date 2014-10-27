@@ -27,7 +27,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             if (root_subject) {
                 this.updateSubjectGrandChildren(root_subject, this.showSubjectBreadcrumb, data)
             }
-
         },
 
         ui: {
