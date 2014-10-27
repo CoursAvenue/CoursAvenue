@@ -118,8 +118,8 @@ class StructuresController < ApplicationController
   # Used for search on typeahead dropdown
   # GET /etablissements/typeahead.json
   def typeahead
-    @subjects = Rails.cache.fetch "SubjectsController#search/#{params[:name]}" do
-      SubjectSearch.search(name: params[:name]).results.map{ || }
+    @subjects = Rails.cache.fetch "structures/search/#{params[:name]}" do
+      SubjectSearch.search(name: params[:name]).results
     end
     @structures = StructureSearch.search(params).results
     json_data = (@subjects + @structures).map do |data|

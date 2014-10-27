@@ -120,7 +120,7 @@
                         return Routes.typeahead_structures_path({ format: 'json', name: query });
                     },
                     filter: function filter(parsed_response) {
-                        return _.reject(parsed_response, function(data) { data.type != 'subject' });
+                        return _.reject(parsed_response, function(data) { return data.type != 'subject' });
                     },
                     url: Routes.typeahead_structures_path({ format: 'json', name: '%QUERY' })
                 }
@@ -131,7 +131,7 @@
                 remote: {
                     url: Routes.typeahead_structures_path({ format: 'json' }) + '?name=%QUERY',
                     filter: function filter(parsed_response) {
-                        return _.reject(parsed_response, function(data) { data.type != 'structure' });
+                        return _.reject(parsed_response, function(data) { return data.type != 'structure' });
                     }
                 }
             });
