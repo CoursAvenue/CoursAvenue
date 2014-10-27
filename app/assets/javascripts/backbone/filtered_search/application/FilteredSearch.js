@@ -144,7 +144,7 @@ FilteredSearch.addInitializer(function(options) {
         }
     });
 
-    layout.showWidget(subjects_collection_filter);
+    layout.showWidget(subjects_collection_filter, { events: { 'structures:updated:filter': 'setup' }});
     layout.showWidget(location_filter);
     layout.showWidget(results_summary);
 

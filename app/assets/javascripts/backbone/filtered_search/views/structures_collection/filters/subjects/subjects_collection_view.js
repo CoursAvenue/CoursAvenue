@@ -23,6 +23,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             this.current_subject_slug           = data.subject_id
             this.menu_item.current_subject_slug = data.subject_id;
             var root_subject = this.collection.where({slug: data.root_subject_id})[0];
+            this.showSubjectBreadcrumb(data);
             if (root_subject) {
                 this.updateSubjectGrandChildren(root_subject, this.showSubjectBreadcrumb, data)
             }
