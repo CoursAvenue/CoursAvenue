@@ -14,7 +14,7 @@
 
     .text--center
       .gamma
-        Cumulé
+        Cumulé : #{((@users_cumul[Date.today] - @users_cumul[Date.today - 1.month]).to_f / @users_cumul[Date.today - 1.month].to_f * 100).round(1)}% de croissance sur le mois
       #users-cumul
 
     .text--center.push--ends
