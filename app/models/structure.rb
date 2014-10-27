@@ -1187,6 +1187,10 @@ class Structure < ActiveRecord::Base
     self.courses.open_for_trial.any?
   end
 
+  def is_open_for_trial?
+    self.courses.open_for_trial.any?
+  end
+
   private
 
   # Strip name if exists to prevent from name starting by a space

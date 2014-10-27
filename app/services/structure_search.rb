@@ -20,7 +20,7 @@ class StructureSearch
       facet :subject_ids
       fulltext params[:name]                                                           if params[:name].present?
 
-      with :is_open_for_trial,           true                                          if params[:discovery_pass].present?
+      with :is_open_for_trial,           true                                          if params[:is_open_for_trial].present?
 
       without :id, params[:without_id]                                                 if params[:without_id].present?
       without(:id).any_of params[:without_ids]                                         if params[:without_ids].present?

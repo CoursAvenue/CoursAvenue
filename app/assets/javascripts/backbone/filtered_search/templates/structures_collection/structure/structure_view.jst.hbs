@@ -23,9 +23,14 @@
         </ul>
         <div rel="slideshow-{{mediable_id}}" class="rslides_nav one-whole text--center">Voir le profil</div>
     </div>
-    {{#if promotion_title}}
+    {{#if has_promotion}}
         <div class="north west absolute push on-under-top">
-            <div class="inline-block lbl lbl--yellow milli v-middle"><i class="fa fa-star"></i> {{promotion_title }}</div>
+            <div class="inline-block lbl lbl--yellow milli v-middle"><i class="fa fa-star"></i> Promotions</div>
+        </div>
+    {{/if}}
+    {{#if is_open_for_trial}}
+        <div class="north west absolute push on-under-top">
+            <div class="inline-block lbl lbl--yellow milli v-middle"><i class="fa fa-ticket"></i> Essai gratuit</div>
         </div>
     {{/if}}
     <div href="#" class="orange north east absolute push on-under-top heart-link" data-behavior='add-to-favorite' data-toggle='tooltip' data-added-title='Retirer de mes favoris' data-not-added-title='Ajouter à mes favoris' data-placement='left'>

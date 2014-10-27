@@ -6,7 +6,7 @@ class StructureSerializer < ActiveModel::Serializer
   delegate :cache_key, to: :object
 
   attributes :id, :name, :slug, :comments_count, :logo_thumb_url, :logo_large_url, :data_url, :query_params,
-             :structure_type, :highlighted_comment_title, :premium, :promotion_title, :cities, :cover_media
+             :structure_type, :highlighted_comment_title, :premium, :has_promotion, :is_open_for_trial, :cities, :cover_media
 
   has_many :places,            serializer: PlaceSerializer
   has_many :comments,          serializer: ShortSerializer
@@ -82,18 +82,6 @@ class StructureSerializer < ActiveModel::Serializer
 
   def premium
     object.premium?
-  end
-
-  def promotion_title
-    # if object.premium?
-    #   if object.has_free_trial_course? and object.has_promotion?
-    #     "Essai gratuit & promotions"
-    #   elsif object.has_promotion?
-    #     "Promotions"
-    #   elsif object.has_free_trial_course?
-    #     "Essai gratuit"
-    #   end
-    # end
   end
 
   def cities
