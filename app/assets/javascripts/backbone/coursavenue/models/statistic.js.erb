@@ -10,7 +10,7 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
          */
         logStat: function logStat (structure_id, action_type, params) {
             params = params || {};
-            if (<%= Statistic::ACTION_TYPES %>.indexOf(action_type) === -1) {
+            if (<%= Metric::ACTION_TYPES %>.indexOf(action_type) === -1) {
                 throw new TypeError("Action type does not exist");
             }
             $.ajax({
