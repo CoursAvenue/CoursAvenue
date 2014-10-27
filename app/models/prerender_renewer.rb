@@ -24,17 +24,25 @@ class PrerenderRenewer
 
   # Check cached files on S3 by looking there content_length.
   # If they are corupted retry to cache them
-  #
-  # @return [type] [description]
   def self.check_sanity
     s3 = AWS::S3.new
     corrupted_files = s3.buckets["coursavenue-prerender"].objects.select do |file|
-      file.content_length < 50
+      !PrerenderRenewer.is_valid?(file)
     end
     corrupted_files = corrupted_files.map do |file|
       file_url = file.public_url.to_s.split('amazonaws.com/').last.gsub('%3A', ':')
       PrerenderRenewer.renew_url file_url
       sleep 5
     end
+  end
+
+  def self.is_valid?(file_or_url)
+    if file_or_url.is_a? String
+      s3 = AWS::S3.new
+      file = s3.buckets["coursavenue-prerender"].objects[file_or_url]
+    else
+      file = file_or_url
+    end
+    file.content_length > 50
   end
 end

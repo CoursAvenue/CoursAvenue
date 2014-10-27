@@ -29,7 +29,7 @@
                     <option>Quel cours vous intéresse ?</option>
                     {{#if structure.courses_open_for_trial}}
                         <optgroup label="Cours avec essai gratuit ({{structure.trial_courses_policy}})">
-                            {{#each structure.courses}}
+                            {{#each structure.courses_open_for_trial}}
                                 <option data-collection-type="courses" value="{{this.id}}" {{#ifIncludeString ../course_ids this.id}}selected{{/ifIncludeString}}>{{this.name}}</option>
                             {{/each}}
                         </optgroup>
