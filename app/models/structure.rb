@@ -1169,7 +1169,7 @@ class Structure < ActiveRecord::Base
       sleeping_structure               = self.dup
 
       self.phone_numbers.each do |phone|
-        sleeping_structure.phone_numbers.create(number: phone.number, phone_type: phone.phone_type)
+        sleeping_structure.phone_numbers.build(number: phone.number, phone_type: phone.phone_type)
       end
 
       sleeping_structure.places        = self.places.map(&:dup)
