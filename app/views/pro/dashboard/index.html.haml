@@ -29,48 +29,50 @@
 
 
   %hr.push--ends
-  %h3.text--center Pass découverte
-  .grid
-    .grid__item.one-third.text--center>
-      %h3.flush= Structure.where(Structure.arel_table[:trial_courses_policy].matches('%_trial%')).count
-      %h6 profs
-    .grid__item.one-third.text--center>
-      %h3.flush= Course.open_for_trial.count
-      %h6 cours
-    .grid__item.one-third.text--center>
-      %h3.flush
-      %h6 créneaux
-  %h5.text--center Répartition / disciplines
-  - subjects_count = {}
-  - max_value = 1
-  - Subject.stars.each do |subject|
-    - structure_count = PlanningSearch.search(subject_id: subject.slug, discovery_pass: true, per_page: 1000).total
-    - subjects_count[subject.name] = structure_count
-    - max_value = structure_count if structure_count > max_value
-  .soft--sides
-    - subjects_count.each do |key, value|
-      .grid.push-half--bottom
-        .grid__item.one-quarter>= key
-        .grid__item.three-quarters>
-          .progress
-            .bar.text--left.soft--left{ style: "width: #{value * 100 / max_value}%"}= value
-  %h5.text--center # de cours d'essai offert
-  .grid
-    .grid__item.one-third.text--center>
-      %h3.flush= Structure.where(trial_courses_policy: '1_trial').count
-      %h6 1 cours
-    .grid__item.one-third.text--center>
-      %h3.flush= Structure.where(trial_courses_policy: '2_trials').count
-      %h6 2 cours
-    .grid__item.one-third.text--center>
-      %h3.flush= Structure.where(trial_courses_policy: '3_trials').count
-      %h6 3 cours
+  %h3.text--center Cours d'essai
+  - cache ['pro/structures/trial_courses/#{Course.open_for_trial.count}'] do
+    .grid
+      .grid__item.one-third.text--center>
+        %h3.flush= Course.open_for_trial.group_by(&:structure_id).count
+        %h6 profs
+      .grid__item.one-third.text--center>
+        %h3.flush= Course.open_for_trial.count
+        %h6 cours
+      .grid__item.one-third.text--center>
+        %h3.flush= Course.open_for_trial.flat_map(&:plannings).count
+        %h6 créneaux
+    %h5.text--center Répartition / disciplines
+    - subjects_count = {}
+    - max_value = 1
+    - Subject.stars.each do |subject|
+      - structure_count = PlanningSearch.search(subject_id: subject.slug, discovery_pass: true, per_page: 1000).total
+      - subjects_count[subject.name] = structure_count
+      - max_value = structure_count if structure_count > max_value
+    .soft--sides
+      - subjects_count.each do |key, value|
+        .grid.push-half--bottom
+          .grid__item.one-quarter>= key
+          .grid__item.three-quarters>
+            .progress
+              .bar.text--left.soft--left{ style: "width: #{value * 100 / max_value}%"}= value
+    %h5.text--center # de cours d'essai offert
+    .grid
+      .grid__item.one-third.text--center>
+        - trial_courses_policy = Course.open_for_trial.map(&:structure).uniq.group_by(&:trial_courses_policy)
+        %h3.flush= trial_courses_policy['1_trial'].count
+        %h6 1 cours
+      .grid__item.one-third.text--center>
+        %h3.flush= trial_courses_policy['2_trials'].count
+        %h6 2 cours
+      .grid__item.one-third.text--center>
+        %h3.flush= trial_courses_policy['3_trials'].count
+        %h6 3 cours
 
-  - pass_9  = Email.where(Email.arel_table[:email_type].matches('pass-decouverte_9').and(Email.arel_table[:email].not_eq('')))
-  - pass_19 = Email.where(Email.arel_table[:email_type].matches('pass-decouverte_19').and(Email.arel_table[:email].not_eq('')))
-  - pass_29 = Email.where(Email.arel_table[:email_type].matches('pass-decouverte_29').and(Email.arel_table[:email].not_eq('')))
-  - pass_39 = Email.where(Email.arel_table[:email_type].matches('pass-decouverte_39').and(Email.arel_table[:email].not_eq('')))
-  %hr.push--ends
+  -# - pass_9  = Email.where(Email.arel_table[:email_type].matches('pass-decouverte_9').and(Email.arel_table[:email].not_eq('')))
+  -# - pass_19 = Email.where(Email.arel_table[:email_type].matches('pass-decouverte_19').and(Email.arel_table[:email].not_eq('')))
+  -# - pass_29 = Email.where(Email.arel_table[:email_type].matches('pass-decouverte_29').and(Email.arel_table[:email].not_eq('')))
+  -# - pass_39 = Email.where(Email.arel_table[:email_type].matches('pass-decouverte_39').and(Email.arel_table[:email].not_eq('')))
+  -# %hr.push--ends
   -#  %table.table--striped.table--data.text--center
   -#    %thead
   -#      %tr
@@ -93,29 +95,29 @@
   -#                %strong= "#{group_name} :"
   -#              = users.map(&:email).join(', ')
 
-  %table.table--striped.table--data.text--center
-    %thead
-      %tr
-        %th.text--center Prix
-        %th.text--center Conversion
-        %th.text--center Emails
-    %tbody
-      %tr
-        %td.text--center 9€
-        %td.text--center= pass_9.count
-        %td.text--center= pass_9.map(&:email).join('; ')
-      %tr
-        %td.text--center 19€
-        %td.text--center= pass_19.count
-        %td.text--center= pass_19.map(&:email).join('; ')
-      %tr
-        %td.text--center 29€
-        %td.text--center= pass_29.count
-        %td.text--center= pass_29.map(&:email).join('; ')
-      %tr
-        %td.text--center 39€
-        %td.text--center= pass_39.count
-        %td.text--center= pass_39.map(&:email).join('; ')
+  -# %table.table--striped.table--data.text--center
+  -#   %thead
+  -#     %tr
+  -#       %th.text--center Prix
+  -#       %th.text--center Conversion
+  -#       %th.text--center Emails
+  -#   %tbody
+  -#     %tr
+  -#       %td.text--center 9€
+  -#       %td.text--center= pass_9.count
+  -#       %td.text--center= pass_9.map(&:email).join('; ')
+  -#     %tr
+  -#       %td.text--center 19€
+  -#       %td.text--center= pass_19.count
+  -#       %td.text--center= pass_19.map(&:email).join('; ')
+  -#     %tr
+  -#       %td.text--center 29€
+  -#       %td.text--center= pass_29.count
+  -#       %td.text--center= pass_29.map(&:email).join('; ')
+  -#     %tr
+  -#       %td.text--center 39€
+  -#       %td.text--center= pass_39.count
+  -#       %td.text--center= pass_39.map(&:email).join('; ')
 
   %hr.push--ends
   .soft--sides
