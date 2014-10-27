@@ -14,13 +14,15 @@
   - if shared_comment
     = "«#{shared_comment.title}» par #{shared_comment.author_name}"
   - else
-    = "#{@structure.name} | CoursAvenue"
+    - cache [@structure, 'structure/show/title'] do
+      #{@structure.name} #{(@structure.is_open_for_trial? ? '| Essais GRATUITS' : '')} #{(@structure.has_promotion? ? '| PROMOTIONS' : '')} | CoursAvenue
 
 = content_for :meta_description do
   - if shared_comment
     = truncate(shared_comment.content, length: 300)
   - elsif @structure.description.present?
-    = truncate(@structure.description_for_meta, length: 155)
+    - cache [@structure, 'structure/show/meta_descriptionl'] do
+      #{@structure.is_open_for_trial? ? 'Essais GRATUIT :' : ''} #{@structure.has_promotion? ? 'PROMOTIONS' : ''} #{@structure.courses.map(&:name).uniq.join(', ')} | #{truncate(@structure.description_for_meta, length: 155)}
   - else
     - if @structure.parent_subjects_string.present?
       = "#{@structure.name} à #{@city.name}. #{subjects_name_from_string(@structure.parent_subjects_string)} ! à #{@city.name}"

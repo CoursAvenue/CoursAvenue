@@ -6,7 +6,7 @@
   - title = "Danse, Théâtre, Musique, Yoga... à #{@city.name || 'Paris'} "
 
 = content_for :title do
-  = "#{title} : #{number_with_delimiter @total.round(-2)} établissements avec #{number_with_delimiter @total_comments} avis | CoursAvenue"
+  = "#{title} : essais gratuits et plus de #{number_with_delimiter @total_comments} avis | CoursAvenue"
 
 = content_for :meta_description do
   #{title} : profitez des cours d'essai gratuits, consultez #{number_with_delimiter @total_comments} avis d'élèves, #{number_with_delimiter @total_medias} photos et vidéos, les meilleures professeurs sur CoursAvenue
