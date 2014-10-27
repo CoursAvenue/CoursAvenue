@@ -171,7 +171,7 @@
   = content_for :scripts do
     :javascript
       $(function() {
-          mixpanel.track("Landed on Structure page", { "structure_slug": "#{@structure.slug}", "structure_name": "#{@structure.name}" });
+          mixpanel.track("Structures/show: landing", { "structure_slug": "#{@structure.slug}", "structure_name": "#{@structure.name}" });
       });
 
 - if robot?(request.env['HTTP_USER_AGENT'])

@@ -96,7 +96,7 @@ $(document).ready(function() {
                     infos = $(this).data('action-info');
                 }
                 CoursAvenue.statistic.logStat(window.coursavenue.bootstrap.structure.id, 'action', { infos: infos });
-                if (CoursAvenue.is_production()) {
+                if (CoursAvenue.isProduction()) {
                     window._fbq.push(['track', '6016785958627', {'value':'0.00','currency':'EUR'}]);
                     ga('send', 'event', 'Action', infos);
                     goog_report_conversion();

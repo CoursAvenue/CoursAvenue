@@ -6,8 +6,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         className: 'panel center-block',
 
         options: {
-            width: 280,
-            show_confirm_email_popup: true
+            width: 280
         },
 
         initialize: function initialize (options) {
@@ -16,6 +15,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this.options.success = this.options.success || $.magnificPopup.close;
             this.options.success = _.wrap(this.options.success, function(func) {
                 CoursAvenue.trigger('user:signed:in');
+                CoursAvenue.trigger('user:signed:up');
                 func();
             });
             this.$el.css('width', this.options.width + 'px');
@@ -98,11 +98,8 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                     }.bind(this),
                     success: function success (response) {
                         CoursAvenue.setCurrentUser(response);
-                        if (this.options.show_confirm_email_popup) {
-                            this.showRegistrationConfirmedPopup()
-                        } else {
-                            this.options.success();
-                        }
+                        if (CoursAvenue.isProduction()) { mixpanel.track("User registered", { info: 'Standard' }) }
+                        this.showRegistrationConfirmedPopup()
                         // Pixel to track registration convertion with Facebook
                         if (window._fbq) { window._fbq.push(['track', '6016889463627', {}]); }
                     }.bind(this)
