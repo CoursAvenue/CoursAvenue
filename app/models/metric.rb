@@ -234,6 +234,9 @@ class Metric
   # Relations                                                          #
   ######################################################################
 
+  # Get the structure associated with this metric.
+  #
+  # @return a Structure
   def structure
     Structure.find(self.structure_id)
   end
