@@ -5,7 +5,7 @@
 
   %div{ data: { behavior: 'show-more-on-demand' } }
     - @section.questions.each_with_index do |question, i|
-      = f.simple_fields_for :faq_questions, question, child_index: i do |question_form|
+      = f.simple_fields_for :questions, question, child_index: i do |question_form|
         %div{ class: (!question.persisted? ? 'hidden': ''), data: { el: true, hidden: !question.persisted? } }
           = question_form.input :question, label: 'Question', placeholder: 'Un profil CoursAvenue, pour quoi faire?'
           = question_form.input :answer, label: 'Réponse', placeholder: 'Créez gratuitement votre profil CoursAvenue pour...'
