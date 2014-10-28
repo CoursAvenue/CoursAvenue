@@ -25,7 +25,7 @@ class Structures::ParticipationRequestsController < ApplicationController
     if duplicate_message?(current_user, params[:participation_request][:message])
       @conversation = nil
     else
-      @receipt      = current_user.send_message_with_extras(@recipients, params[:participation_request][:message][:body], I18n.t(Mailboxer::Label::INFORMATION.name), Mailboxer::Label::INFORMATION.id, params[:participation_request][:message][:extra_info_ids], params[:participation_request][:message][:course_ids])
+      @receipt      = current_user.send_message_with_extras(@recipients, params[:participation_request][:message][:body], I18n.t(Mailboxer::Label::INFORMATION.id), Mailboxer::Label::INFORMATION.id, params[:participation_request][:message][:extra_info_ids], params[:participation_request][:message][:course_ids])
       @conversation = @receipt.conversation
     end
     respond_to do |format|

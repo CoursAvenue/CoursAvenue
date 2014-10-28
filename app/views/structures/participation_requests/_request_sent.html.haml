@@ -11,7 +11,7 @@
     %p.epsilon
       Les élèves qui ont réservé ce cours ont également découvert :
     %div{ style: 'height: 20em; overflow-y: scroll; overflow-x: hidden;'}
-      - PlanningSearch.search({ limit: 12, discovery_pass: true }, group: :structure_id_str).group(:structure_id_str).groups.each do |planning_group|
+      - PlanningSearch.search({ limit: 12, is_open_for_trial: true }, group: :structure_id_str).group(:structure_id_str).groups.each do |planning_group|
         - structure = planning_group.results.first.try(:structure)
         - next if @structure == structure or structure.medias.empty?
         .inline-block.one-half.very-soft.relative>

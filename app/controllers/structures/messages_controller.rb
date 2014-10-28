@@ -20,7 +20,7 @@ class Structures::MessagesController < ApplicationController
       if duplicate_message?(@user, params[:message])
         @conversation = nil
       else
-        @receipt      = @user.send_message_with_extras(@recipients, params[:message][:body], I18n.t(Mailboxer::Label::INFORMATION.name), Mailboxer::Label::INFORMATION.id, params[:message][:extra_info_ids], params[:message][:course_ids])
+        @receipt      = @user.send_message_with_extras(@recipients, params[:message][:body], I18n.t(Mailboxer::Label::INFORMATION.id), Mailboxer::Label::INFORMATION.id, params[:message][:extra_info_ids], params[:message][:course_ids])
         @conversation = @receipt.conversation
       end
     end
