@@ -22,7 +22,7 @@ class Structures::ParticipationRequestsController < ApplicationController
 
   def send_message
     @recipients   = @structure.main_contact
-    if duplicate_message?(current_user, params[:participation_request][:message])
+    if duplicate_message?(current_user, params[:participation_request][:message], @structure)
       @conversation = nil
     else
       @receipt      = current_user.send_message_with_extras(@recipients, params[:participation_request][:message][:body], I18n.t(Mailboxer::Label::INFORMATION.name), Mailboxer::Label::INFORMATION.id, params[:participation_request][:message][:extra_info_ids], params[:participation_request][:message][:course_ids])
