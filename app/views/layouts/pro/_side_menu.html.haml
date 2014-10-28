@@ -9,6 +9,7 @@
       = pro_side_menu_link 'pages'                 , pro_blog_articles_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)         , current: current_tab, icon: 'fa fa-book'
       = pro_side_menu_link 'invitations'          , pro_invited_users_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)         , current: current_tab, icon: 'fa fa-group'
       = pro_side_menu_link 'subjects'             , all_pro_subjects_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)          , current: current_tab, icon: 'fa fa-chevron-down'
+      = pro_side_menu_link 'emailings'            , pro_emailings_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)             , current: current_tab, icon: 'fa fa-send'
       %li &nbsp;
 
     - if @structure

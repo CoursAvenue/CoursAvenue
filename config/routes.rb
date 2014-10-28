@@ -101,6 +101,17 @@ CoursAvenue::Application.routes.draw do
         end
       end
 
+      resources :emailings do
+        resources :sections, only: [:index]
+        resources :bridges, only: [:update]
+        member do
+          get :preview
+          get :code
+          get :send_preview, path: 'send'
+        end
+      end
+
+
       resources :reservations, only: [:index]
       resources :invited_users, only: [:index]
       resources :sticker_demands, only: [:index]

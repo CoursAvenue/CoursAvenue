@@ -1,0 +1,1 @@
+//= require ./bridge_view

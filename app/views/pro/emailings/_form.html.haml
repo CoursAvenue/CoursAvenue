@@ -1,0 +1,31 @@
+= simple_form_for [:pro, @emailing] do |f|
+  = f.input :title, label: 'Titre de la Newsletter', placeholder: 'Ex. : Cours près de chez vous', input_html: { class: 'input--large'}, label_html: { class: 'label--large' }
+  = f.input :header_image, input_html: { class: 'input--large'}, label: 'Image', label_html: { class: 'label--large' }
+  = f.input :alt, label: "Titre de l'image", placeholder: 'Ex. : '
+  = f.input :body, label: 'Contenu', input_html: { class: 'one-whole input--large' }
+
+  = f.input :section_metadata_one, as: :select, collection: Emailing::SECTION_METADATA, input_html: { data: { behavior: 'chosen' } }, label: 'Texte 1 à afficher sous la section', label_method: lambda { |section| section[:title] } , value_method: lambda { |section| section[:action] }
+  = f.input :section_metadata_two, as: :select, collection: Emailing::SECTION_METADATA, input_html: { data: { behavior: 'chosen' } }, label: 'Texte 2 à afficher sous la section', label_method: lambda { |section| section[:title] } , value_method: lambda { |section| section[:action] }
+  = f.input :section_metadata_three, as: :select, collection: Emailing::SECTION_METADATA, input_html: { data: { behavior: 'chosen' } }, label: 'Texte 3 à afficher sous la section', label_method: lambda { |section| section[:title] } , value_method: lambda { |section| section[:action] }
+
+  %div{ data: { behavior: 'show-more-on-demand' } }
+    - @emailing.emailing_sections.each_with_index do |section, i|
+      = f.simple_fields_for :emailing_sections, section, child_index: i do |section_form|
+        %div{ class: (!section.persisted? ? 'hidden' : ''), data: { el: true, hidden: !section.persisted? } }
+          %hr
+          = section_form.input :title, label: 'Titre de la section', placeholder: 'Ex. : Cours de Yoga à Paris'
+          = section_form.input :link, label: 'Lien de la section', placeholder: 'Ex. : https://www.coursavenue.com/yoga-bien-etre-sante--paris'
+          = section_form.input :link_name, label: 'Titre du lien de la section', placeholder: 'Voir tous les cours de Yoga à Paris'
+          = section_form.association :structures, as: :select, collection: Structure.with_logo_and_media, input_html: { data: { behavior: 'chosen' } }, placeholder: 'Choisir une structure', label_method: :name
+
+          .input
+            .control-label>
+            .input-container>
+              %a{ href: 'javascript:void(0)', data: { trigger: true } }>
+                %i.fa.fa-plus
+                Ajouter une section
+              %a.pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
+                %i.fa.fa-trash-o
+                Supprimer
+
+  = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement"}

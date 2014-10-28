@@ -79,6 +79,11 @@ class UserMailer < ActionMailer::Base
     mail to: @user.email, subject: "Alternatives à #{structure.name}"
   end
 
+  def emailing(emailing, to='contact@coursavenue.com')
+    @emailing = emailing
+    mail to: to, subject: '[Newsletter] Previsualisation'
+  end
+
   def monthly_newsletter(user)
     @user       = user
     @city       = user.city || City.find('paris')
