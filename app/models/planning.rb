@@ -447,10 +447,10 @@ class Planning < ActiveRecord::Base
   # Set end date if not defined
   def set_end_date
     if end_date.blank? or end_date < Date.today
-      if !course.try(:is_training?)
-        self.end_date = self.course.end_date
-      else
+      if course.try(:is_training?)
         self.end_date = self.start_date
+      else
+        self.end_date = 100.years.from_now
       end
     end
   end
@@ -464,8 +464,8 @@ class Planning < ActiveRecord::Base
     when 'Course::Open'
       self.end_date = start_date
     when 'Course::Lesson'
-      self.start_date = course.start_date if self.start_date != course.start_date
-      self.end_date   = course.end_date   if self.end_date   != course.end_date
+      self.start_date = 1.year.ago
+      self.end_date   = 100.years.from_now
     end
   end
 

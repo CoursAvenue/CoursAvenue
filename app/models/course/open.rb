@@ -32,14 +32,6 @@ class Course::Open < Course
     'open_course'
   end
 
-  # Just the end_date, in the case of a workshop, we have to check on all the
-  # plannings
-  #
-  # @return Date
-  def latest_end_date
-    self.end_date
-  end
-
   def other_event_type?
     event_type == 'other'
   end

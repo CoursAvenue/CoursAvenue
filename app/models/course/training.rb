@@ -24,10 +24,6 @@ class Course::Training < Course
     self.class.underscore_name
   end
 
-  def latest_end_date
-    self.plannings.order('end_date DESC').first.try(:end_date)
-  end
-
   def expired?
     return true if plannings.empty?
     (plannings.map(&:end_date).compact.sort.last || Date.yesterday) < Date.today
