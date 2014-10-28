@@ -1,0 +1,33 @@
+- url = @section.persisted? ? pro_faq_path : pro_faqs_path
+
+= simple_form_for [:pro, @section], url: url do |f|
+  = f.input :title, label: 'Titre de la section', placeholder: 'Guide de démarage', input_html: { class: 'input--large' }
+
+  %div{ data: { behavior: 'show-more-on-demand' } }
+    - @section.questions.each_with_index do |question, i|
+      = f.simple_fields_for :faq_questions, question, child_index: i do |question_form|
+        %div{ class: (!question.persisted? ? 'hidden': ''), data: { el: true, hidden: !question.persisted? } }
+          = question_form.input :question, label: 'Question', placeholder: 'Un profil CoursAvenue, pour quoi faire?'
+          = question_form.input :answer, label: 'Réponse', placeholder: 'Créez gratuitement votre profil CoursAvenue pour...'
+
+          .input
+            .control-label>
+            .input-container>
+              %a{ href: 'javascript:void(0)', data: { trigger: true } }>
+                %i.fa.fa-plus
+                Ajouter une section
+              %a.pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
+                %i.fa.fa-trash-o
+                Supprimer
+
+  = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement"}
+
+-# = content_for :scripts do
+-#   = javascript_include_tag '//cdn.ckeditor.com/4.4.4/standard/ckeditor.js'
+-#   :javascript
+-#       $(document).ready(function() {
+-#           CKEDITOR.replace('faq_section[faq_questions][answer]', {
+-#               customConfig: '#{asset_path('ckeditor/config.js')}'
+-#           });
+-#       });
+-#

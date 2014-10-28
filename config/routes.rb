@@ -63,6 +63,7 @@ CoursAvenue::Application.routes.draw do
       resources :blog_articles, controller: 'blog/articles', path: 'blog'
       resources :press_releases, path: 'communiques-de-presse'
       resources :press_articles
+      resources :faqs
       resources :metrics, only: [] do
         collection do
           get :comments
