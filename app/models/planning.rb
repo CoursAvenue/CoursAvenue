@@ -271,7 +271,7 @@ class Planning < ActiveRecord::Base
     end
   end
 
-  handle_asynchronously :solr_index unless Rails.env.test?
+  handle_asynchronously :solr_index, queue: 'index' unless Rails.env.test?
 
   # Return week day of start date if the course associated to the planning
   # is not a lesson

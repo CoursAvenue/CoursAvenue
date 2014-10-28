@@ -357,7 +357,7 @@ class Structure < ActiveRecord::Base
 
   end
 
-  handle_asynchronously :solr_index unless Rails.env.test?
+  handle_asynchronously :solr_index, queue: 'index' unless Rails.env.test?
 
   ######################################################################
   # Caching                                                            #
