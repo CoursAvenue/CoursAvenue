@@ -262,4 +262,35 @@ class Metric
 
     duplicates.flatten
   end
+
+  def self.MR_duplicated(date=Date.current)
+    map = %Q{
+      function() {
+        var identifier = {
+          structure_id: this.structure_id,
+          action_type:  this.action_type,
+          fingerprint:  this.user_fingerprint,
+          infos:        this.infos,
+          ip_address:   this.ip_address
+        };
+        emit(identifier, { id: this._id });
+      }
+    }
+
+    reduce = %Q{
+      function(key, values) {
+        var result = { ids: [] };
+        values.forEach(function(value) {
+          result.ids.push(value.id);
+        });
+        return result;
+      }
+    }
+
+    metrics = Metric.where(created_at: date.beginning_of_day..date.end_of_day).map_reduce(map, reduce).out(inline: true)
+    ids = metrics.to_a.map { |record| record['value']['ids'] }.compact
+    ids.each &:shift
+
+    ids.flatten.map { |id| Metric.find(id) }
+  end
 end
