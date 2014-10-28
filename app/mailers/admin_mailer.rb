@@ -232,19 +232,13 @@ class AdminMailer < ActionMailer::Base
          subject: "Votre profil n'affiche plus de cours"
   end
 
-  def take_control_of_your_account(structure)
+  def take_control_of_your_account(structure, email=nil)
     return if !structure.should_send_email?
     return if structure.contact_email.blank?
     return if !structure.sleeping_email_opt_in
     return if structure.main_contact.present?
     @structure = structure
-    mail to: structure.contact_email, subject: "★ Recrutez de nouveaux élèves sur Internet"
-    if @structure.other_emails.present?
-      @structure.other_emails.split(';').each do |email|
-        next if email == structure.contact_email
-        mail to: email, subject: "★ Recrutez de nouveaux élèves sur Internet"
-      end
-    end
+    mail to: (email || structure.contact_email), subject: "★ Recrutez gratuitement de nouveaux élèves sur Internet"
   end
 
   def you_have_control_of_your_account(structure)
