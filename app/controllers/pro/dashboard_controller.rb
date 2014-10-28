@@ -20,7 +20,7 @@ class Pro::DashboardController < Pro::ProController
     (Date.new(2014, 1)..Date.today + 1.month).select {|d| d.day == 1}.map {|d| d - 1}.drop(1).each do |last_day_of_month|
       conv_count = Rails.cache.fetch "pro/dashboard/conv_count/#{((last_day_of_month.beginning_of_month)..last_day_of_month).to_s}" do
         Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:created_at].in(((last_day_of_month.beginning_of_month)..last_day_of_month)).and(
-                                      Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq(Mailboxer::Label::INFORMATION.id)) ).count
+                                      Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id])) ).count
       end
       @messages_per_months[I18n.t('date.month_names')[last_day_of_month.month]] = conv_count
       # Because we didn't have data before then
@@ -56,7 +56,7 @@ class Pro::DashboardController < Pro::ProController
       end
     end
     @messages = Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:created_at].gt(Date.today - 2.months).and(
-                                              Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq(Mailboxer::Label::INFORMATION.id)) )
+                                              Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id])) )
                                        .order('DATE(created_at) ASC').group('DATE(created_at)').count
   end
 end

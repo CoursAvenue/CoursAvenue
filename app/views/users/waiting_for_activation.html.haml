@@ -1,2 +1,10 @@
 .text--center.white-box.island.push--top
   = render 'waiting_for_activation_text'
+
+- if Rails.env.production?
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          mixpanel.track("Teacher registerd");
+      });
+

@@ -174,6 +174,13 @@
           mixpanel.track("Structures/show: landing", { "structure_slug": "#{@structure.slug}", "structure_name": "#{@structure.name}" });
       });
 
+- if Rails.env.production? and params[:utm_campaign] == 'take_control'
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          mixpanel.track("Structures/show: landing_from_email", { "structure_slug": "#{@structure.slug}", "structure_name": "#{@structure.name}" });
+      });
+
 - if robot?(request.env['HTTP_USER_AGENT'])
   = content_for :scripts do
     :javascript

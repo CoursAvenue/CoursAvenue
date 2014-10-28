@@ -335,11 +335,7 @@ class Structure < ActiveRecord::Base
     end
 
     boolean :is_sleeping do
-      if self.is_sleeping.blank?
-        false
-      else
-        true
-      end
+      self.is_sleeping.present?
     end
 
     boolean :sleeping_email_opt_in
@@ -1030,17 +1026,11 @@ class Structure < ActiveRecord::Base
   #
   # @return Boolean saved or not
   def wake_up!
-    if self.sleeping_structure.present?
-      self.is_sleeping = false
-      self.active = true
-      saved = self.save
-      self.sleeping_structure.wake_up!
-      AdminMailer.delay.you_have_control_of_your_account(self)
-    else
-      self.is_sleeping = true
-      self.active = false
-      saved = self.save
-    end
+    self.is_sleeping = false
+    self.active      = true
+    saved            = self.save
+    self.sleeping_structure.destroy if self.sleeping_structure
+    AdminMailer.delay.you_have_control_of_your_account(self)
     saved
   end
 
