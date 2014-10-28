@@ -32,7 +32,7 @@ class StructureShowSerializer < ActiveModel::Serializer
   end
 
   def courses
-    object.courses.regulars.order('is_open_for_trial').select{ |c| c.plannings.future.any? }
+    object.courses.regulars.order('is_open_for_trial').select{ |c| c.plannings.any? }
   end
 
   def trainings

@@ -32,4 +32,8 @@ class Course::Training < Course
     return true if plannings.empty?
     (plannings.map(&:end_date).compact.sort.last || Date.yesterday) < Date.today
   end
+
+  def can_be_published?
+    plannings.future.any? and price_group.present?
+  end
 end

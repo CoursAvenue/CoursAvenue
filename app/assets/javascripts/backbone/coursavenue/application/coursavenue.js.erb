@@ -55,7 +55,7 @@ CoursAvenue = new Backbone.Marionette.Application({
                     },
                     success: function success (response) {
                         if (CoursAvenue.isProduction() && response.just_signed_up) {
-                            mixpanel.track("User registered", { info: 'Facebook' })
+                            mixpanel.track("User registered", { info: 'Facebook' });
                         }
                         // Pixel to track registration convertion with Facebook
                         if (window._fbq) { window._fbq.push(['track', '6016889463627', {}]); }
