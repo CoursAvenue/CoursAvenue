@@ -65,6 +65,9 @@ class Structure < ActiveRecord::Base
   has_many :user_profile_imports
   has_many :users, through: :user_profiles
 
+  has_many :emailing_section_bridges
+  has_many :emailing_sections, through: :emailing_section_bridge
+
   has_many :places                   , dependent: :destroy
   has_many :admins                   , dependent: :destroy
   has_many :subscription_plans       , dependent: :destroy
@@ -155,6 +158,14 @@ class Structure < ActiveRecord::Base
   after_save    :geocode_if_needs_to            unless Rails.env.test?
   after_save    :subscribe_to_crm               if Rails.env.production?
   after_touch   :regenerate_cached_profile_page if Rails.env.production?
+
+  ######################################################################
+  # Scopes                                                             #
+  ######################################################################
+
+  scope :with_logo           , -> { where.not( logo: nil ) }
+  scope :with_media          , -> { joins(:medias).uniq }
+  scope :with_logo_and_media , -> { with_logo.with_media }
 
   ######################################################################
   # Solr                                                               #

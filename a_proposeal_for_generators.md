@@ -22,7 +22,7 @@ process.
 
 creates the following directory structure,
 
-````
+```
 backbone/my_app
 backbone/my_app/models
 backbone/my_app/models/widget.js
@@ -41,14 +41,14 @@ backbone/my_app/templates/widgets_collection/widget/
 backbone/my_app/templates/widgets_collection/widget/widget_view.jst.hbs
 backbone/my_app/applications
 backbone/my_app/applications/MyApp.js
-````
+```
 
 by invoking other generators. Each directory will have a manifest file,
 which will specify load time dependencies between modules.
 
 The MyApp.js file will contain the following boilerplate code:
 
-````
+```javascript
 MyApp = new Backbone.Marionette.Application({ slug: 'my-app', });
 
 MyApp.addRegions({
@@ -115,7 +115,7 @@ $(document).ready(function() {
     }
 
 });
-````
+```
 
 ### Layout
 
@@ -146,26 +146,26 @@ we want to run:
 This will create `/backbone/my_app/models/special_widget.js`, which will
 begin with,
 
-````
+```javascript
 MyApp.module('Models', function(Models, App, Backbone, Marionette, $, _) {
     Models.SpecialWidget = Backbone.Model.extend({
         // your implementation here
     });
 });
 
-````
+```
 
 The generator `coursavenue:collection` would be similar, but would result
 in a file containing,
 
-````
+```javascript
 MyApp.module('Models', function(Models, App, Backbone, Marionette, $, _) {
     Models.SpecialWidgetsCollection = Backbone.Collection.extend({
         model: SpecialWidget
         // your implementation here
     });
 });
-````
+```
 
 And the corresponding model would be created if it didn't already exist (by
 an invocation).
@@ -184,7 +184,7 @@ This would create `backbone/my_app/views/space/ship/widget/widget_view.js` and,
 `backbone/my_app/templates/space/ship/widget/widget_view.jst.hbs` would be created
 as well.
 
-````
+```javascript
 FilteredSearch.module('Views.Space.Ship.Widget', function(Module, App, Backbone, Marionette, $, _) {
     Module.WidgetView = Backbone.Marionette.ItemView.extend({
         template: App.templateDirname() + 'widget_view',
@@ -192,7 +192,7 @@ FilteredSearch.module('Views.Space.Ship.Widget', function(Module, App, Backbone,
         // your implementation here
     });
 });
-````
+```
 
 Collection views and composite views are naturally more complicated. In the
 case of a collection view, a user will invoke:
