@@ -30,7 +30,7 @@
 
   %hr.push--ends
   %h3.text--center Cours d'essai
-  - cache ['pro/structures/trial_courses/#{Course.open_for_trial.count}'] do
+  - cache ["pro/structures/trial_courses/#{Course.open_for_trial.count}"] do
     .grid
       .grid__item.one-third.text--center>
         %h3.flush= Course.open_for_trial.group_by(&:structure_id).count
