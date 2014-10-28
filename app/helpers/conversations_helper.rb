@@ -63,13 +63,14 @@ module ConversationsHelper
 
   # Wether or not the message is a duplicate from a previous message from the same user.
   #
-  # @param user The user sending the message
+  # @param user The user sending the message.
   # @param message The message to check.
+  # @param structure The Structure related to the message.
   # @param interval=2.day the interval within the message is considered as duplicate.
   #
   # @return Boolean
-  def duplicate_message?(user, message, interval=2.day)
-    return false
+  def duplicate_message?(user, message, structure, interval=2.day)
+    recipient = structure.main_contact
     conversations = user.mailbox.sentbox.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id)
 
     messages = []
@@ -78,7 +79,7 @@ module ConversationsHelper
     end
 
     duplicate = messages.find do |original|
-      original.body == message[:body]
+      original.body == message[:body] && recipient.in?(original.recipients)
     end
 
     return duplicate.present?
