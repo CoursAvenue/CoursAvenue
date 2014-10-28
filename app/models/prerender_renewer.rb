@@ -9,7 +9,7 @@ class PrerenderRenewer
         PrerenderRenewer.renew_url(u)
         sleep 5
       end
-      self.check_sanity
+      PrerenderRenewer.check_sanity
     else
       PrerenderRenewer.renew_url(url)
     end

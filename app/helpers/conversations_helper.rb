@@ -69,6 +69,7 @@ module ConversationsHelper
   #
   # @return Boolean
   def duplicate_message?(user, message, interval=2.day)
+    return false
     conversations = user.mailbox.sentbox.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id)
 
     messages = []
@@ -77,12 +78,7 @@ module ConversationsHelper
     end
 
     duplicate = messages.find do |original|
-      if message[:extra_info_ids]
-        original.body == message[:body] &&
-          original.conversation.mailboxer_extra_info_ids == message[:extra_info_ids].join(',')
-      else
-        original.body == message[:body]
-      end
+      original.body == message[:body]
     end
 
     return duplicate.present?
