@@ -13,6 +13,9 @@ class Pro::FaqsController < Pro::ProController
 
   def edit
     @section = ::Faq::Section.find params[:id]
+
+    count = 10 - @section.questions.count
+    count.times { @section.questions.build }
   end
 
   def show
@@ -21,11 +24,12 @@ class Pro::FaqsController < Pro::ProController
 
   def create
     @section = ::Faq::Section.new params[:faq_section]
+
     respond_to do |format|
       if @section.save
         format.html { redirect_to pro_faqs_path }
       else
-        format.html { render action: :new }
+        format.html { render action: :edit }
       end
     end
   end
