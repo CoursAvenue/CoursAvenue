@@ -1,6 +1,7 @@
 = simple_form_for [:pro, @emailing] do |f|
   = f.input :title, label: 'Titre de la Newsletter', placeholder: 'Ex. : Cours près de chez vous', input_html: { class: 'input--large'}, label_html: { class: 'label--large' }
   = f.input :header_image, input_html: { class: 'input--large'}, label: 'Image', label_html: { class: 'label--large' }
+  = f.input :alt, label: "Titre de l'image", placeholder: 'Ex. : '
   = f.input :body, label: 'Contenu', input_html: { class: 'one-whole input--large' }
 
   = f.input :section_metadata_one, as: :select, collection: Emailing::SECTION_METADATA, input_html: { data: { behavior: 'chosen' } }, label: 'Texte 1 à afficher sous la section', label_method: lambda { |section| section[:title] } , value_method: lambda { |section| section[:action] }

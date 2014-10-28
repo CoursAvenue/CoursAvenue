@@ -21,7 +21,7 @@
     %p= @emailing.title
 
     = image_tag '/assets/logos/logo.png', class: 'center-block'
-    = image_tag @emailing.header_image.url, class: 'very-soft' if @emailing.header_image.present?
+    = image_tag @emailing.header_image.url, class: 'very-soft', alt: @emailing.alt if @emailing.header_image.present?
     - @emailing.body.split("\r\n\r\n").each do |paragraph|
       %p= paragraph
 

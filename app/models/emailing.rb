@@ -15,7 +15,7 @@ class Emailing < ActiveRecord::Base
   # Macros                                                             #
   ######################################################################
 
-  attr_accessible :title, :body, :header_image, :section_metadata_one,
+  attr_accessible :title, :body, :header_image, :alt, :section_metadata_one,
                   :section_metadata_two, :section_metadata_three,
                   :emailing_sections, :emailing_sections_attributes
 
@@ -111,5 +111,4 @@ class Emailing < ActiveRecord::Base
       section.set_media
     end
   end
-
 end
