@@ -1,0 +1,51 @@
+= user_menu_currently_at 'inscriptions'
+.panel
+  .panel__header.soft
+    %h3.flush Mes inscriptions
+  .panel__body.soft
+    - if @participation_requests.empty?
+      %h4 Vous n'avez encore aucune inscription :
+      .text--center
+        = link_to "Réserver mes cours d'essai", root_search_page_without_subject_path('paris'), class: 'btn btn--green btn--large'
+    - else
+      %table.table--data.table--striped
+        %thead
+          %tr
+            %th Status
+            %th Cours
+            %th Adresse
+            %th Professeur
+            %th Jour et horaires
+            %th Options
+        %tbody
+          - @participation_requests.each do |participation_request|
+            %tr
+              %td{ class: participation_request_color(participation_request) }
+                = participation_request_icon(participation_request)
+                = t "participation_request.state.#{participation_request.state}"
+              %td
+                - course = participation_request.course
+                = course.name
+                %i.fa.fa-info{ data: { toggle: 'popover', content: "<strong>Niveau :</strong> #{join_levels(participation_request.levels)}<br><strong>Public :</strong> #{join_audiences(participation_request.planning || participation_request.course)}<br><strong>Disciplines :</strong> #{course.subjects.uniq.map(&:name).join(', ')}", html: 'true', placement: 'top', trigger: 'hover' } }
+              %td
+                - place = participation_request.place
+                - if place
+                  = place.address
+                  - if place.info.present? or place.private_info.present?
+                    %a.btn.btn--small{ data: { toggle: 'popover', content: t('places.infos', info: place.info, private_info: place.private_info), html: 'true', placement: 'top', trigger: 'hover' } }
+                      Infos
+              %td
+                = link_to participation_request.structure.name, structure_path(participation_request.structure), target: :_blank
+              %td
+                = "#{l(participation_request.date, format: :semi_short)} à #{l(participation_request.start_time, format: :short)}"
+              %td
+                - if !participation_request.canceled? and !participation_request.declined?
+                  - if participation_request.pending? and participation_request.last_modified_by == 'Structure'
+                    = link_to "Accepter le nouveau créneau", accept_user_participation_request_path(@user, participation_request), method: :patch, class: 'green nowrap'
+                    %br
+                  = link_to 'Proposer un autre créneau', edit_user_participation_request_path(@user, participation_request, return_to: user_participation_requests_path(@user)), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+                  %br
+                = link_to 'Historique des messages', user_conversation_path(@user, participation_request.conversation)
+                - if !participation_request.canceled? and !participation_request.declined?
+                  %br
+                  = link_to "Annuler l'inscription", cancel_form_user_participation_request_path(@user, participation_request, return_to: user_participation_requests_path(@user)), class: 'red nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }

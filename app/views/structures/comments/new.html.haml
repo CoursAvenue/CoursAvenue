@@ -1,18 +1,24 @@
+- content_for :head do
+  %meta{ name: 'robots', content: 'noindex, nofollow' }
+
 - default_fake_message = []
-- default_fake_message << "Salut !\nJe viens de déposer ma recommandation, j'espère qu'elle te plaira.\nMerci pour tout, à très bientôt !"
-- default_fake_message << "Bonjour,\nJ’ai déposé mon témoignage avec grand plaisir, ça fait toujours du bien de partager de si belles expériences.\nA très vite !"
-- default_fake_message << "Salut,\nMerci beaucoup d’avoir pensé à moi pour témoigner sur tes cours que je recommande toujours aussi vivement !\nA très vite."
-- default_fake_message << "Salut\nSuperbe idée que de témoigner sur tes cours qui m’apportent toujours autant.\nA très bientôt !"
-- default_fake_message << "Hello,\nMon avis vient d’être posté sur ton profil, bien content de participer au bouche à oreille.\nMerci, à bientôt !"
-- default_fake_message << "Salut,\nRavi d’avoir pu poster ma recommandation sur tes cours qui valent la peine d’être connus.\nA + !"
-- default_fake_message << "Salut,\nMa recommandation est déposée, j’espère qu’elle t’aidera à développer encore plus de cours.\nÀ très vite !"
-- default_fake_message << "Hello,\nVoici mon avis positif à propos de tes cours, à très bientôt dans une prochaine séance !"
-- default_fake_message << "Salut,\nSuite à ta demande de recommandation, voici mon avis à propos de tes cours, toujours au top.\nA bientôt !"
-- default_fake_message << "Salut,\nC’était très facile de rédiger mon avis positif à propos de tes cours ! Merci encore et à très bientôt."
-- default_fake_message << "Hello,\nVoici mon témoignage sur tes cours, j’ai déjà hâte de venir à la prochaine séance !"
-- default_fake_message << "Bonjour,\nJ'ai déposé mon avis qui est bien sûr très positif.\nBises et à très bientôt !"
-- default_fake_message << "Salut !\nJ'espère que mon avis te plaira.\nÀ très vite !"
-- default_fake_message << "Salut !\nVoilà, j'ai déposé mon avis.\nMerci d'avoir pensé à moi, à bientôt !"
+- if @participation_request
+  - default_fake_message << "Bonjour,\nJ'ai vraiment apprécié ma séance découverte et je souhaiterais éventuellement m'inscrire à des cours réguliers. Serait-il possible de connaître les tarifs ? N'hésitez pas à m'envoyer toutes les informations, et m'informer également de vos stages à venir. \nMerci pour tout !"
+- else
+  - default_fake_message << "Salut !\nJe viens de déposer ma recommandation, j'espère qu'elle te plaira.\nMerci pour tout, à très bientôt !"
+  - default_fake_message << "Bonjour,\nJ’ai déposé mon témoignage avec grand plaisir, ça fait toujours du bien de partager de si belles expériences.\nA très vite !"
+  - default_fake_message << "Salut,\nMerci beaucoup d’avoir pensé à moi pour témoigner sur tes cours que je recommande toujours aussi vivement !\nA très vite."
+  - default_fake_message << "Salut\nSuperbe idée que de témoigner sur tes cours qui m’apportent toujours autant.\nA très bientôt !"
+  - default_fake_message << "Hello,\nMon avis vient d’être posté sur ton profil, bien content de participer au bouche à oreille.\nMerci, à bientôt !"
+  - default_fake_message << "Salut,\nRavi d’avoir pu poster ma recommandation sur tes cours qui valent la peine d’être connus.\nA + !"
+  - default_fake_message << "Salut,\nMa recommandation est déposée, j’espère qu’elle t’aidera à développer encore plus de cours.\nÀ très vite !"
+  - default_fake_message << "Hello,\nVoici mon avis positif à propos de tes cours, à très bientôt dans une prochaine séance !"
+  - default_fake_message << "Salut,\nSuite à ta demande de recommandation, voici mon avis à propos de tes cours, toujours au top.\nA bientôt !"
+  - default_fake_message << "Salut,\nC’était très facile de rédiger mon avis positif à propos de tes cours ! Merci encore et à très bientôt."
+  - default_fake_message << "Hello,\nVoici mon témoignage sur tes cours, j’ai déjà hâte de venir à la prochaine séance !"
+  - default_fake_message << "Bonjour,\nJ'ai déposé mon avis qui est bien sûr très positif.\nBises et à très bientôt !"
+  - default_fake_message << "Salut !\nJ'espère que mon avis te plaira.\nÀ très vite !"
+  - default_fake_message << "Salut !\nVoilà, j'ai déposé mon avis.\nMerci d'avoir pensé à moi, à bientôt !"
 
 = content_for :title do
   Donnez votre avis sur #{@structure.name}
@@ -31,8 +37,11 @@
         %h1.flush
           Rédigez votre avis
         .delta.line-height-1-7
-          à propos de
-          = link_to @structure.name, structure_path(@structure), class: 'semi-muted-link', target: :_blank
+          - if @participation_request
+            à propos du cours "#{@participation_request.course.name}" de #{@structure.name}
+          - else
+            à propos de
+            = link_to @structure.name, structure_path(@structure), class: 'semi-muted-link', target: :_blank
         .epsilon Votre expérience est précieuse !
 
 .main-container.soft--ends
@@ -68,10 +77,16 @@
               - if @comment.errors[:rating].any?
                 %p.input_field_error.red
                   Vous devez choisir une humeur
-          = f.input :course_name, label_html: { class: 'label--large v-top' }, wrapper_html: { class: 'flush--bottom' }, placeholder: 'Ex. : Stage de danse jazz new style pour ado du jeudi soir', input_html: { class: 'input--large' }
+          - if @participation_request
+            = f.input :course_name, as: :hidden, input_html: { value: @participation_request.course.name }
+          - else
+            = f.input :course_name, label_html: { class: 'label--large v-top' }, wrapper_html: { class: 'flush--bottom' }, placeholder: 'Ex. : Stage de danse jazz new style pour ado du jeudi soir', input_html: { class: 'input--large' }
           = f.input :title, label_html: { class: 'v-top label--large' }, wrapper_html: {class: 'flush--bottom'}, placeholder: "Ex. : Un professeur toujours à l'écoute", input_html: { class: 'input--large' }
 
-          = f.association :subjects, as: :select, collection: @structure.subjects.at_depth(2).uniq, multiple: true, input_html: { class: 'input--large multiple-select', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' } }, label_html: { class: 'label--large'}
+          - if @participation_request
+            = f.association :subjects, as: :hidden, input_html: { value: @participation_request.course.subjects.map(&:id) }
+          - else
+            = f.association :subjects, as: :select, collection: @structure.subjects.at_depth(2).uniq, multiple: true, input_html: { class: 'input--large multiple-select', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' } }, label_html: { class: 'label--large'}
 
           .input.flush--bottom<
             = f.label :content, class: 'v-top label--large'
@@ -95,10 +110,10 @@
               %strong Message personnel
           .input
             %label.label--large.control-label.text> Objet
-            = text_field_tag :subject, params[:subject], placeholder: "Ex. : Merci d'avoir pensé à moi !", class: 'input--large'
+            = text_field_tag :subject, params[:subject], placeholder: (@participation_request ? 'Ex. : Merci pour la séance découverte' : "Ex. : Merci d'avoir pensé à moi !"), class: 'input--large'
           .input
             %label.label--large.control-label.text> Message
-            = text_area_tag :private_message, (params[:private_message] || default_fake_message.sample), class: 'text', style: 'height: 100px', data: { behavior: 'autoresize' }, class: 'input--large'
+            = text_area_tag :private_message, (params[:private_message] || default_fake_message.sample), class: 'text', style: 'height: 130px', data: { behavior: 'autoresize' }, class: 'input--large'
           .text--center
             = f.submit 'Publier mon avis', class: 'btn btn--large btn--green btn--full', data: { disable_with: "En cours de publication..." }
 

@@ -15,6 +15,7 @@ module CoursAvenue
     S3_BUCKET       = AMAZON_S3.buckets[ENV['AWS_BUCKET']]
     FACEBOOK_APP_ID = 589759807705512
 
+    config.action_controller.page_cache_directory = "#{Rails.root.to_s}/public/deploy"
     config.action_dispatch.default_headers = {
       'Access-Control-Allow-Origin' => '*',
       'Access-Control-Request-Method' => '*'

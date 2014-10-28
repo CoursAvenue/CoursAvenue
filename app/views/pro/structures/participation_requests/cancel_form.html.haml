@@ -1,0 +1,18 @@
+- prefilled_message = "Bonjour #{@participation_request.user.first_name},\n\r\n\rMalheureusement, je suis dans l'obligation d'annuler votre séance d'essai.\n\r\n\rJe vous prie de bien vouloir m'excuser et vous remercie d'avance pour votre compréhension,\n\r\n\r#{@participation_request.structure.name}"
+
+.panel
+  .panel__header.soft
+    %h4.flush
+      Annuler l'inscription de
+      = @participation_request.user.first_name
+  .panel__body.soft
+    .grid--full.push-half--bottom.message
+      .grid__item.two-twelfths.v-top.v-top>
+        = image_tag @structure.logo.url(:thumb), class: 'message__avatar block center-block bordered rounded--circle'
+      .grid__item.ten-twelfths.message__body.message__appendix.soft-half.gray-box>
+        = simple_form_for [:pro, @structure, @participation_request], url: cancel_pro_structure_participation_request_path(@structure, @participation_request), html: { id: 'participation-request-form' } do |f|
+          = f.error_notification
+          = f.fields_for :message, @message, class: 'message__body message__appendix' do |message_form|
+            = message_form.input :body, input_html: { value: prefilled_message, placeholder: 'Ajouter un message personnel ici', style: 'height: 100px', class: 'input--large one-whole', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
+
+          = f.submit 'Envoyer mon annulation de réservation', class: 'nowrap btn--full btn btn--green', data: { disable_with: 'Envoi en cours...' }

@@ -1,0 +1,19 @@
+- content_for :email_title do
+  Nous espérons que votre cours "#{@course.name}" vous a plu !
+
+.p
+  Bonjour #{@user.first_name},
+
+.p
+  Nous espérons que votre cours "#{@course.name}" vous a plu ! Pensez à laisser votre commentaire sur #{@structure.name}, vous aiderez ainsi tous ceux qui, comme vous, souhaitent découvrir ce cours. Vous pourrez également rédiger un message privé qui vous permet d'indiquer au professeur si vous comptez revenir pour une pratique régulière ou à d'éventuels stages :
+
+.p.action
+  = link_to "Laisser un commentaire", new_structure_comment_url(@structure, participation_request_id: @participation_request.id, email: @email, utm_source: 'email', utm_campaign: 'recommandation_pass', utm_medium: 'stage_1'), class: 'btn btn--green'
+
+.p
+  Merci pour votre contribution,
+
+= render 'shared/mailers/footer'
+
+- content_for :under_content_gray do
+  = render 'participation_request_mailer/shared/user_faq'

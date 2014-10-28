@@ -94,6 +94,9 @@ class Comment::Review < Comment
     end
 
     time :created_at
+    boolean :accepted do
+      self.accepted?
+    end
   end
 
   def recover!

@@ -12,14 +12,8 @@ class HomeController < ApplicationController
   end
 
   def index
-    # For search
-    @audiences        = Audience.all
-    @levels           = Level.all
     @comments         = Comment::Review.accepted.order('created_at DESC').limit(3).offset(1)
     @last_comment     = Comment::Review.accepted.last
-  end
-
-  def pass_decouverte
   end
 
   private
@@ -30,5 +24,11 @@ class HomeController < ApplicationController
     else
       'pages'
     end
+  end
+
+  def layout_locals
+    locals = { }
+    locals[:hide_top_menu_search] = true if action_name == 'discovery_pass' or action_name == 'index'
+    locals
   end
 end

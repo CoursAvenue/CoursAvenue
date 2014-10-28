@@ -23,7 +23,7 @@ class Users::MessagesController < ApplicationController
 
   def create
     @recipients   = Structure.find(params[:message][:recipients]).main_contact if params[:message].has_key? :recipients
-    @receipt      = @user.send_message_with_label(@recipients, params[:message][:body], params[:message][:subject], 'conversation') if @recipients
+    @receipt      = @user.send_message_with_label(@recipients, params[:message][:body], params[:message][:subject], Mailboxer::Label::INFORMATION.id) if @recipients
     @conversation = @receipt.conversation if @receipt
     respond_to do |format|
       if @conversation and @conversation.persisted?

@@ -1,4 +1,6 @@
 class Users::ConversationsController < ApplicationController
+  include ConversationsHelper
+
   # For an example of a conversation controller see:
   # https://github.com/ging/social_stream/blob/master/base/app/controllers/conversations_controller.rb
   before_action :authenticate_user!
@@ -7,16 +9,22 @@ class Users::ConversationsController < ApplicationController
   layout 'user_profile'
 
   def show
-    @user         = User.find(params[:user_id])
-    @conversation = @user.mailbox.conversations.find(params[:id])
-    @message      = @conversation.messages.build
+    @user                  = User.find(params[:user_id])
+    @conversation          = @user.mailbox.conversations.find(params[:id])
+    @message               = @conversation.messages.build
+    @participation_request = conversation_participation_request(@conversation)
     respond_to do |format|
       format.html
     end
   end
 
   def index
-    @conversations = @user.mailbox.conversations
+    if params[:conversation_label_id].present?
+      @conversations = @user.mailbox.conversations.where(mailboxer_label_id: params[:conversation_label_id])
+    else
+      @conversations = @user.mailbox.conversations
+    end
+    @conversations = Kaminari.paginate_array(@conversations).page(params[:page] || 1).per(15)
   end
 
   def new

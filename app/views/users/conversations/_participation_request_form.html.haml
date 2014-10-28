@@ -1,0 +1,57 @@
+.grid--full.push-half--bottom.message
+  .grid__item.two-twelfths.v-top.v-top>
+    = image_tag @user.avatar_url(:thumb), class: 'message__avatar block center-block bordered rounded--circle'
+  .grid__item.ten-twelfths.message__body.message__appendix.soft-half.gray-box>
+    = simple_form_for [@user, @participation_request], url: accept_user_participation_request_path(@user, @participation_request), html: { id: 'participation-request-form' } do |f|
+      = f.error_notification
+      = f.fields_for :message, @message, class: 'message__body message__appendix' do |message_form|
+        = message_form.input :body, input_html: { placeholder: 'Ajouter un message personnel ici', style: 'height: 100px', class: 'input--large one-whole', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
+
+      #submit-buttons
+        .flexbox
+          - if @participation_request.pending? and @participation_request.last_modified_by == 'Structure'
+            .flexbox__item>
+              = link_to 'Accepter et envoyer', '#', class: 'btn--full btn btn--green', data: { disable_with: "Message en cours d'envoi" }, id: 'accept-request'
+          .flexbox__item.soft-half--sides>
+            = link_to 'Proposer un autre créneau', '#', class: 'nowrap btn--full btn btn--orange', id: 'show-change-date'
+          .flexbox__item>
+            = link_to 'Refuser la demande', '#', class: 'btn--full btn btn--red', data: { disable_with: "Message en cours d'envoi" }, id: 'decline-request'
+
+      #change-date.hidden
+        .input.flush{ data: { behavior: 'time-range', 'start-time-wrapper' => '#start-time-wrapper', 'end-time-wrapper' => '#end-time-wrapper' } }
+          %span.v-middle.nowrap Proposez un autre créneau :
+          = f.input :date, as: :string, label: false, input_html: { value: l(@participation_request.date), class: 'one-whole', data: { behavior: 'datepicker', only_week_day: @participation_request.planning.try(:week_day) } }, wrapper_html: { class: 'datepicker-input flush' }
+          %span.v-middle de
+          = f.input :start_time, label: false, wrapper_html: { class: 'hard v-middle', id: 'start-time-wrapper' }, as: :time, minute_step: 15
+          %span.v-middle à
+          = f.input :end_time, label: false, wrapper_html: { class: 'hard v-middle', id: 'end-time-wrapper' }, as: :time, minute_step: 15
+        .flexbox
+          .flexbox__item.soft-half--right
+            = link_to 'Annuler', '#', class: 'btn', id: 'cancel-date-change'
+          .flexbox__item.one-whole
+            = link_to 'Envoyer ma nouvelle proposition de date', '#', class: 'btn btn--green', data: { disable_with: "Message en cours d'envoi" }, id: 'modify-request'
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('#cancel-date-change').click(function() {
+            $('#change-date').slideUp();
+            $('#submit-buttons').slideDown();
+        });
+        $('#show-change-date').click(function() {
+            $('#change-date').slideDown();
+            $('#submit-buttons').slideUp();
+        });
+        $('#accept-request').click(function() {
+            $('#participation-request-form').attr('action', Routes.accept_user_participation_request_path(#{@user.id}, #{@participation_request.id}));
+            $('#participation-request-form').submit();
+        });
+        $('#modify-request').click(function() {
+            $('#participation-request-form').attr('action', Routes.modify_date_user_participation_request_path(#{@user.id}, #{@participation_request.id}));
+            $('#participation-request-form').submit();
+        });
+        $('#decline-request').click(function() {
+            $('#participation-request-form').attr('action', Routes.decline_user_participation_request_path(#{@user.id}, #{@participation_request.id}));
+            $('#participation-request-form').submit();
+        });
+    });

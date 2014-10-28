@@ -1,6 +1,6 @@
 <% if @planning.persisted? %>
     <% # If this is the first planning, rerender the whole course   %>
-    <% if @course.plannings.length == 1 %>
+    <% if (@course.is_training? and @course.plannings.future.length == 1) or @course.plannings.length == 1 %>
         $("#course-<%= @course.id %>").replaceWith('<%= escape_javascript(render partial: "pro/structures/courses/live_form", locals: { course: @course, structure: @structure }) %>')
         $('#course-<%= @course.id %>').yellowFade({ delay: 400 });
     <% else %>

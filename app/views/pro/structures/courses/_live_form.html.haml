@@ -9,15 +9,6 @@
           %span.v-middle.epsilon Stage / atelier non visible car sans date à venir :
           = link_to 'Ajouter une date', new_pro_structure_course_planning_path(structure, course), class: 'btn btn--small v-middle fancybox.ajax nowrap', data: { behavior: 'modal', width: '800', padding: '0' }
 
-        - elsif course.is_lesson?
-          %span.v-middle.epsilon Les dates pour ce cours ne sont plus à jour, actualisez les jours de début et de fin :
-          = simple_form_for [:pro, structure, course], url: pro_structure_course_path(structure, course), as: :course, remote: true, html: { class: 'inline-block', data: { behavior: 'live-form', live_form_attribute: false } } do |f|
-            .inline-block.v-middle.input.input-daterange.input-group.flush{ data: { behavior: 'datepicker' } }>
-              = f.input :start_date, as: :string, label: false, input_html: { style: 'margin-right: 5px', class: 'datepicker-input datepicker-input--small', value: (course.start_date.present? ? l(course.start_date) : l(Date.parse('15/09/2014'))) }, wrapper_html: { class: 'flush inline-block v-middle' }
-              %span.v-middle -&nbsp;
-              - next_june = Date.parse("28 June #{Date.today.year + 1}")
-              = f.input :end_date, as: :string, label: false, input_html: { class: 'datepicker-input datepicker-input--small', value: (course.end_date.present? ? l(course.end_date) : '') }, wrapper_html: { class: 'flush inline-block v-middle' }
-
     - elsif !course.can_be_published?
       .panel__header.soft-half.f-weight-bold.nowrap
         %span.v-middle.epsilon Complétez ces informations pour rendre le cours visible :
@@ -35,15 +26,9 @@
           .flexbox
             .flexbox__item>
               %h5.flush--bottom.inline-block.v-middle.push-half--right{ data: { toggle: 'popover', title: course.name, content: "<p class='flush'><strong>Description</strong></p>#{truncate_html(simple_format(course.description), length: 1000)}", html: 'true', trigger: 'hover' } }
-                = truncate course.name, length: (course.is_lesson? ? 20 : 80)
+                = truncate course.name, length: (course.is_lesson? ? 50 : 80)
               - if course.is_lesson?
                 = f.input :frequency, as: :select, collection: Course::COURSE_FREQUENCIES, label_method: lambda {|course_frequency| t(course_frequency)}, default: Course::COURSE_FREQUENCIES.first, label: false, wrapper_html: { class: 'flush inline-block v-middle' }
-                %span.soft-half--sides.v-middle> du
-                .inline-block.v-middle.input.input-daterange.input-group.flush{ data: { behavior: 'datepicker' } }>
-                  = f.input :start_date, as: :string, label: false, input_html: { style: 'margin-right: 5px', class: 'datepicker-input datepicker-input--small', value: (course.start_date.present? ? l(course.start_date) : l(Date.parse('15/09/2014'))) }, wrapper_html: { class: 'flush inline-block v-middle' }
-                  %span.v-middle -&nbsp;
-                  - next_june = Date.parse("28 June #{Date.today.year + 1}")
-                  = f.input :end_date, as: :string, label: false, input_html: { class: 'datepicker-input datepicker-input--small', value: (course.end_date.present? ? l(course.end_date) : '') }, wrapper_html: { class: 'flush inline-block v-middle' }
             .flexbox__item.text--right.nowrap>
               = link_to edit_pro_structure_course_path(structure, course), class: 'v-middle fancybox.ajax nowrap', data: { behavior: 'modal', width: '750', padding: '0', course_id: course.id, action: 'edit', lock_overlay: true } do
                 %i.fa.fa-pencil

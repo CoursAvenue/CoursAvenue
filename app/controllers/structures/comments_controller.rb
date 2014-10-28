@@ -16,7 +16,10 @@ class Structures::CommentsController < ApplicationController
   end
 
   def new
-    @structure   = Structure.friendly.find(params[:structure_id])
+    @structure = Structure.friendly.find(params[:structure_id])
+    if params[:participation_request_id]
+      @participation_request = @structure.participation_requests.find(params[:participation_request_id])
+    end
     @comment     = @structure.comments.build
     @comments    = @structure.comments.accepted.reject(&:new_record?)[0..3]
   end
@@ -88,7 +91,7 @@ class Structures::CommentsController < ApplicationController
     @receipt      = @comment.user.send_message_with_label(@recipient,
                                                           params[:private_message],
                                                           (params[:subject].present? ? params[:subject] : 'Message personnel suite à ma recommandation'),
-                                                          'comment')
+                                                          Mailboxer::Label::COMMENT.id)
     @conversation = @receipt.conversation
     @comment.associated_message_id = @conversation.messages.first.id
   end

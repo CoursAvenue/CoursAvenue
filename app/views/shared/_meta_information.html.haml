@@ -1,4 +1,8 @@
 -# According to: http://stackoverflow.com/questions/11616697/how-to-use-og-meta-tag-for-facebook-share
+%meta{ name: 'fragment', content: "!" }
+
+- if Rails.env.staging?
+  %meta{ name: 'robots', content: 'noindex, nofollow' }
 
 %meta{ 'http-equiv' => 'Content-Type', content: 'text/html; charset=utf-8' }
 - if @is_responsive or should_be_responsive?
@@ -36,9 +40,9 @@
   %meta{ property: 'og:description', content: "#{yield :meta_description}" }
   %meta{ name: 'twitter:description', content: "#{yield :meta_description}" }
 - else
-  %meta{ name: "description", content: "Le 1er moteur de recherche de cours basé sur les recommandations des élèves." }
-  %meta{ property: 'og:description', content: "Le 1er moteur de recherche de cours basé sur les recommandations des élèves." }
-  %meta{ property: 'twitter:description', content: "Le 1er moteur de recherche de cours basé sur les recommandations des élèves." }
+  %meta{ name: "description", content: "CoursAvenue est le premier moteur de recherche de cours de loisirs qui permet de relier chacun de nous aux meilleurs professeurs, associations et écoles qui nous entourent" }
+  %meta{ property: 'og:description', content: "CoursAvenue est le premier moteur de recherche de cours de loisirs qui permet de relier chacun de nous aux meilleurs professeurs, associations et écoles qui nous entourent" }
+  %meta{ property: 'twitter:description', content: "CoursAvenue est le premier moteur de recherche de cours de loisirs qui permet de relier chacun de nous aux meilleurs professeurs, associations et écoles qui nous entourent" }
 
 - #----------------------- Image
 

@@ -53,6 +53,14 @@ class Course::Private < Course
     true
   end
 
+  def can_be_published?
+    plannings.any? and price_group.present?
+  end
+
+  def places
+    [self.place].compact
+  end
+
   private
 
   #

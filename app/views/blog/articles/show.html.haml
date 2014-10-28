@@ -36,6 +36,18 @@
       = @article.content.html_safe
     .visuallyhidden= link_to "Lien vers l'article", blog_article_url(@article), itemprop: 'url'
 
+  %hr.push--ends
+  %h4 Articles similaires
+  .grid
+    - @article.similar_articles.each do |article|
+      .grid__item.one-half.text--center>
+        .relative.bg-cover{style: "background-image: url('#{article.cover_image.url(:default)}'); height: 120px; "}>
+          = link_to blog_article_path(article), class: 'block show-on-hover__wrapper show-on-hover__wrapper--black-curtain', title: article.title do
+            .home-screen-gallery__title.text--center
+              %h3.f-weight-normal.flush.delta.soft-half--top.soft-half--sides= article.title
+              .show-on-hover__child.milli
+                Lire l'article
+
   #disqus_thread
   :javascript
     var disqus_shortname = 'coursavenue';

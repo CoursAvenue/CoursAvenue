@@ -15,8 +15,9 @@ class CommentSearch
         with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 7, bbox: (params.has_key?(:bbox) ? params[:bbox] : true))
       end
 
-      with :has_title, params[:has_title]              if params[:has_title]
+      with :has_title , params[:has_title]              if params[:has_title]
       with :has_avatar, params[:has_avatar]            if params[:has_avatar]
+      with :accepted, true
 
       # --------------- Subjects
 

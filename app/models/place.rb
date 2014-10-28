@@ -4,22 +4,23 @@ class Place < ActiveRecord::Base
 
   include ActsAsGeolocalizable
 
-  geocoded_by      :geocoder_address
+  geocoded_by :geocoder_address unless Rails.env.test?
 
   ######################################################################
   # Relations                                                          #
   ######################################################################
   belongs_to :city
-  belongs_to :structure
+  belongs_to :structure, touch: true
 
   has_many :contacts, as: :contactable, dependent: :destroy
   has_many :plannings, dependent: :destroy
-
   ######################################################################
   # Callbacks                                                          #
   ######################################################################
   after_save :reindex_structure_and_places
-  after_save :geocode_if_needs_to
+  after_save :geocode_if_needs_to unless Rails.env.test?
+  after_save :touch_relations
+  after_destroy :update_structure_meta_datas
 
   ######################################################################
   # Scopes                                                             #
@@ -76,4 +77,11 @@ class Place < ActiveRecord::Base
     self.plannings.map{ |planning| planning.delay.index }
   end
 
+  def touch_relations
+    self.plannings.map(&:touch)
+  end
+
+  def update_structure_meta_datas
+    self.structure.update_meta_datas
+  end
 end

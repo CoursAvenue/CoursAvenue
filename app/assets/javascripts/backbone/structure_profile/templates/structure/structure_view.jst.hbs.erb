@@ -39,79 +39,84 @@
                         <a class="pointer" data-behavior="show-contact-panel" data-info-planning="true" href="#">contactez-{{about_genre}}.</a
                     </div>
                     {{/if}}
-                </div>
-                <hr class="push--ends flexbox">
-                <div class="flexbox" id="disciplines">
-                    <div class="flexbox__item v-top one-quarter">
-                        <strong class="gray-light">Disciplines enseignées</strong>
-                    </div>
-                    <div class="flexbox__item v-top three-quarters">
-                        {{#each subjects}}
-                        <div class="push-half--bottom {{#ifCond @index '>' 1}}description-more-long hidden{{/ifCond}}">
-                            <h3 class="f-weight-normal inline-block inherit-font-size">
-                              <img src="{{this.icon}}" alt="Disciplines pratiquées : {{this.icon}}" height="16" class="v-middle">
-                              <strong>{{this.root_name}} : </strong>{{this.child_names}}
-                            </h3>
-                        </div>
-                        {{/each}}
-                    </div>
-                </div>
-                <div>
-                    <hr class="push--bottom push-half--top">
-                    <div class="flexbox">
-                        <div class="flexbox__item v-top one-quarter">
-                            <strong class="gray-light">Plus d'infos</strong>
-                        </div>
-                        <div class="flexbox__item v-top three-quarters">
-                            <table class="table--data table--striped table--striped-reversed bordered push-half--bottom">
-                                <tbody>
-                                    {{#if given_funding_type}}
-                                    <tr>
-                                        <td class="one-third">Financements acceptés</td>
-                                        <td class="two-thirds"><strong>{{given_funding_type}}</strong></td>
-                                    </tr>
-                                    {{/if}}
-                                    {{#if audience}}
-                                    <tr class="{{#if given_funding_type}}description-more-info-long hidden{{/if}}">
-                                        <td class="one-third">Public</td>
-                                        <td class="two-thirds"><strong>{{audience}}</strong></td>
-                                    </tr>
-                                    {{/if}}
-                                    {{#if structure_type}}
-                                    <tr class="{{#if given_funding_type}}description-more-info-long hidden{{/if}}{{#if audience}}description-more-info-long hidden{{/if}}">
-                                        <td class="one-third">Type de structure</td>
-                                        <td class="two-thirds"><strong>{{structure_type}}</strong></td>
-                                    </tr>
-                                    {{/if}}
-                                    {{#if given_course_types}}
-                                    <tr class="{{#unless has_only_one_more_info}}description-more-info-long hidden{{/unless}}">
-                                        <td class="one-third">Cours proposés</td>
-                                        <td class="two-thirds"><strong>{{given_course_types}}</strong></td>
-                                    </tr>
-                                    {{/if}}
-                                </tbody>
-                            </table>
-                            {{#unless has_only_one_more_info}}{{#if given_course_types}}
-                            <div>
-                                <a href="#" data-behavior="show-long-version" data-long-version=".description-more-info-long">
-                                + Plus
-                                </a>
+                    <a href="#" data-behavior="show-long-version" data-long-version=".show-more-description-more-info-long">
+                    En savoir plus <i class="fa fa-caret-down"></i>
+                    </a>
+                    <div class="show-more-description-more-info-long hidden">
+                        <hr class="push--ends flexbox">
+                        <div class="flexbox" id="disciplines">
+                            <div class="flexbox__item v-top one-quarter">
+                                <strong class="gray-light">Disciplines enseignées</strong>
                             </div>
-                            {{/if}}{{/unless}}
+                            <div class="flexbox__item v-top three-quarters">
+                                {{#each subjects}}
+                                <div class="push-half--bottom {{#ifCond @index '>' 1}}description-more-long hidden{{/ifCond}}">
+                                    <h3 class="f-weight-normal inline-block inherit-font-size">
+                                      <img src="{{this.icon}}" alt="Disciplines pratiquées : {{this.icon}}" height="16" class="v-middle">
+                                      <strong>{{this.root_name}} : </strong>{{this.child_names}}
+                                    </h3>
+                                </div>
+                                {{/each}}
+                            </div>
                         </div>
+                        <div>
+                            <hr class="push--bottom push-half--top">
+                            <div class="flexbox">
+                                <div class="flexbox__item v-top one-quarter">
+                                    <strong class="gray-light">Plus d'infos</strong>
+                                </div>
+                                <div class="flexbox__item v-top three-quarters">
+                                    <table class="table--data table--striped table--striped-reversed bordered push-half--bottom">
+                                        <tbody>
+                                            {{#if given_funding_type}}
+                                            <tr>
+                                                <td class="one-third">Financements acceptés</td>
+                                                <td class="two-thirds"><strong>{{given_funding_type}}</strong></td>
+                                            </tr>
+                                            {{/if}}
+                                            {{#if audience}}
+                                            <tr class="{{#if given_funding_type}}description-more-info-long hidden{{/if}}">
+                                                <td class="one-third">Public</td>
+                                                <td class="two-thirds"><strong>{{audience}}</strong></td>
+                                            </tr>
+                                            {{/if}}
+                                            {{#if structure_type}}
+                                            <tr class="{{#if given_funding_type}}description-more-info-long hidden{{/if}}{{#if audience}}description-more-info-long hidden{{/if}}">
+                                                <td class="one-third">Type de structure</td>
+                                                <td class="two-thirds"><strong>{{structure_type}}</strong></td>
+                                            </tr>
+                                            {{/if}}
+                                            {{#if given_course_types}}
+                                            <tr class="{{#unless has_only_one_more_info}}description-more-info-long hidden{{/unless}}">
+                                                <td class="one-third">Cours proposés</td>
+                                                <td class="two-thirds"><strong>{{given_course_types}}</strong></td>
+                                            </tr>
+                                            {{/if}}
+                                        </tbody>
+                                    </table>
+                                    {{#unless has_only_one_more_info}}{{#if given_course_types}}
+                                    <div>
+                                        <a href="#" data-behavior="show-long-version" data-long-version=".description-more-info-long">
+                                        + Plus
+                                        </a>
+                                    </div>
+                                    {{/if}}{{/unless}}
+                                </div>
+                            </div>
+                        </div>
+                        {{#if has_teachers}}
+                        <hr class="push--ends">
+                        <div class="flexbox">
+                            <div class="flexbox__item v-top one-quarter">
+                                <strong class="gray-light">Professeurs</strong>
+                            </div>
+                            <div data-type="teachers-collection" class="flexbox__item v-top three-quarters">
+                                <img src="<%= asset_path 'gifs/loading-indicator.gif' %>"/ class="center-block push--ends" height="10" data-teachers-loader style="display: none;">
+                            </div>
+                        </div>
+                        {{/if}}
                     </div>
                 </div>
-                {{#if has_teachers}}
-                <hr class="push--ends">
-                <div class="flexbox">
-                    <div class="flexbox__item v-top one-quarter">
-                        <strong class="gray-light">Professeurs</strong>
-                    </div>
-                    <div data-type="teachers-collection" class="flexbox__item v-top three-quarters">
-                        <img src="<%= asset_path 'gifs/loading-indicator.gif' %>"/ class="center-block push--ends" height="10" data-teachers-loader style="display: none;">
-                    </div>
-                </div>
-                {{/if}}
             </div>
         </article>
     </div>

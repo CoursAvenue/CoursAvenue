@@ -36,6 +36,12 @@ class Blog::Article < ActiveRecord::Base
     end
   end
 
+  # Return similar articles
+  def similar_articles(limit=2)
+    articles = Blog::Article.published.tagged_with(self.tags).take(2)
+    articles + Blog::Article.order('RANDOM()').take(limit - articles.length)
+  end
+
   private
 
   def set_published_at

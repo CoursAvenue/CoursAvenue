@@ -8,6 +8,11 @@ class SuperAdminMailer < ActionMailer::Base
   default from: 'CoursAvenue <hello@coursavenue.com>'
   default to:   'contact@coursavenue.com'
 
+  def pass_sold(user)
+    @user = user
+    mail subject: "Pass vendu"
+  end
+
   ######################################################################
   # For premium users                                                  #
   ######################################################################

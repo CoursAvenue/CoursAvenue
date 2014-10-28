@@ -5,11 +5,9 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         initialize: function initialize () {
             this.model.on('change', this.render);
-        },
-
-        events: {
-            'click [data-behavior=sign-up]': 'signUp',
-            'click [data-behavior=sign-in]': 'signIn'
+            _.bindAll(this, 'signUp', 'signIn');
+            $('body').on('click', '[data-behavior=sign-up]', this.signUp);
+            $('body').on('click', '[data-behavior=sign-in]', this.signIn);
         },
 
         signIn: function signIn (event, options) {
@@ -30,21 +28,24 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         serializeData: function serializeData () {
             var data = {
-                logged_in          : this.model.isLogged(),
-                on_sleeping_page   : window.on_sleeping_page,
-                take_control_url   : window.take_control_url,
-                pages_faq_users_url: Routes.pages_faq_users_path()
+                logged_in                            : this.model.isLogged(),
+                on_sleeping_page                     : window.on_sleeping_page,
+                take_control_url                     : window.take_control_url,
+                pages_faq_users_url                  : Routes.pages_faq_users_path()
             }
             if (this.model.isLogged()) {
                 _.extend(data, {
-                    dashboard_user_path       : Routes.dashboard_user_path({ id: this.model.get('slug') }),
-                    edit_user_path            : Routes.edit_user_path({ id: this.model.get('slug') }),
-                    user_comments_path        : Routes.user_comments_path({ id: this.model.get('slug') }),
-                    user_passions_path        : Routes.user_passions_path({ id: this.model.get('slug') }),
-                    user_followings_path      : Routes.user_followings_path({ id: this.model.get('slug') }),
-                    user_conversations_path   : Routes.user_conversations_path({ id: this.model.get('slug') }),
-                    new_user_invited_user_path: Routes.new_user_invited_user_path({ id: this.model.get('slug') }),
-                    destroy_user_session_path : Routes.destroy_user_session_path()
+                    dashboard_user_path               : Routes.dashboard_user_path({ id: this.model.get('slug') }),
+                    edit_user_path                    : Routes.edit_user_path({ id: this.model.get('slug') }),
+                    new_user_sponsorship_path         : Routes.new_user_sponsorship_path({ id: this.model.get('slug') }),
+                    user_participation_requests_path  : Routes.user_participation_requests_path({ id: this.model.get('slug') }),
+                    new_user_sponsorship_path         : Routes.new_user_sponsorship_path({ id: this.model.get('slug') }),
+                    user_comments_path                : Routes.user_comments_path({ id: this.model.get('slug') }),
+                    user_passions_path                : Routes.user_passions_path({ id: this.model.get('slug') }),
+                    user_followings_path              : Routes.user_followings_path({ id: this.model.get('slug') }),
+                    user_conversations_path           : Routes.user_conversations_path({ id: this.model.get('slug') }),
+                    new_user_invited_user_path        : Routes.new_user_invited_user_path({ id: this.model.get('slug') }),
+                    destroy_user_session_path         : Routes.destroy_user_session_path()
                 });
             } else {
                 _.extend(data, {

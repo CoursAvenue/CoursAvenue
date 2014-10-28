@@ -17,10 +17,10 @@ class Structures::MessagesController < ApplicationController
       end
       @structure.create_or_update_user_profile_for_user(@user, UserProfile::DEFAULT_TAGS[:contacts])
       @recipients   = @structure.main_contact
-      if duplicate_message?(@user, params[:message])
+      if duplicate_message?(@user, params[:message], @structure)
         @conversation = nil
       else
-        @receipt      = @user.send_message_with_extras(@recipients, params[:message][:body], I18n.t(Mailboxer::Label::INFORMATION.name), 'information', params[:message][:extra_info_ids], params[:message][:course_ids])
+        @receipt      = @user.send_message_with_extras(@recipients, params[:message][:body], I18n.t(Mailboxer::Label::INFORMATION.id), Mailboxer::Label::INFORMATION.id, params[:message][:extra_info_ids], params[:message][:course_ids])
         @conversation = @receipt.conversation
       end
     end

@@ -28,7 +28,7 @@
         sera expirée. Si vous avez déjà répondu directement par téléphone ou s'il ne s'agit pas d'une véritable demande,
         = link_to 'signalez-le.', flag_pro_structure_conversation_url(@structure, @conversation, flag: 'from_email', subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
     %td.text--center.v-middle.content-block{ width: 125 }
-      = image_tag 'emails_logo/48hours.png', width: 75, height: 120, alt: 'Vous avez 48 heures'
+      = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/emails_logo/48hours.png', width: 75, height: 120, alt: 'Vous avez 48 heures'
 
 = render 'shared/mailers/footer'
 

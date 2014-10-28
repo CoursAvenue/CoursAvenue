@@ -20,6 +20,8 @@ class StructureSearch
       facet :subject_ids
       fulltext params[:name]                                                           if params[:name].present?
 
+      with :is_open_for_trial,           true                                          if params[:is_open_for_trial].present?
+
       without :id, params[:without_id]                                                 if params[:without_id].present?
       without(:id).any_of params[:without_ids]                                         if params[:without_ids].present?
 
@@ -55,7 +57,12 @@ class StructureSearch
       with :is_sleeping,  params[:is_sleeping]                                      if params.has_key? :is_sleeping
       with :sleeping_email_opt_in,  params[:sleeping_email_opt_in]                  if params.has_key? :sleeping_email_opt_in
       with :has_admin,    params[:has_admin]                                        if params.has_key? :has_admin
-      with :active, true
+
+      if params.has_key? :active
+        with :active, params[:active]
+      else
+        with :active, true
+      end
 
       with :has_logo,                params[:has_logo]                              if params[:has_logo].present?
 
@@ -83,7 +90,7 @@ class StructureSearch
   end
 
   def self.retrieve_location params
-    if params[:city_id].present? and (city = City.where(slug: params[:city_id]).first)
+    if params[:lat].blank? and params[:lng].blank? and params[:city_id].present? and (city = City.where(slug: params[:city_id]).first)
       params[:lat] = city.latitude
       params[:lng] = city.longitude
     elsif (params[:lat].blank? or params[:lng].blank?) and params[:zip_codes].blank?
@@ -102,10 +109,7 @@ class StructureSearch
   def self.similar_profile structure, limit=4, _params={}, force_use_root_subjects=false
     # Choose parent subjects that are used if the profile has courses
     used_subjects = []
-    if structure.is_sleeping?
-      structure.initialize_sleeping_attributes
-      used_subjects = child_subjects_from_string(structure).uniq
-    elsif structure.courses.any?
+    if structure.courses.any?
       used_subjects = structure.courses.map(&:subjects).flatten.uniq
     else
       used_subjects = structure.subjects.at_depth(2).uniq
@@ -127,7 +131,7 @@ class StructureSearch
       break if @structures.length >= limit
     end
     # Re call the method but forcing to use root subjects for the rest of the structures
-    if @structures.length < limit
+    if @structures.length < limit and !force_use_root_subjects
       @structures = @structures + similar_profile(structure, limit - @structures.length, _params.merge(without_ids: [structure.id] + @structures.map(&:id)), true)
     end
     @structures = @structures.sort{ |a, b| (a.search_score.present? ? a.search_score.to_i : 0) <=> (b.search_score.present? ? b.search_score.to_i : 0) }.reverse

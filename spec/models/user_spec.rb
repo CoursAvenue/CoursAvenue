@@ -77,6 +77,21 @@ describe User do
     end
   end
 
+  describe '#subscription_slug' do
+    let (:user) { FactoryGirl.create(:user) }
+
+    it 'returns the user slug by default' do
+      expect(user.sponsorship_slug).to equal(user.slug)
+    end
+
+    it 'returns the user defined slug when defined' do
+      slug = 'my-new-slug'
+      user.sponsorship_slug = slug
+
+      expect(user.sponsorship_slug).to equal(slug)
+    end
+  end
+
   # describe '#update_email_status' do
   #   let(:user) { FactoryGirl.create(:user) }
 
@@ -85,4 +100,24 @@ describe User do
   #     expect(user.email_status).to eq 'passions_incomplete'
   #   end
   # end
+
+  context :sponsorship do
+    describe '#update_sponsorship_status' do
+      let (:user)           { FactoryGirl.create(:user) }
+      let (:sponsored_user) {
+        user = FactoryGirl.build(:user_redux)
+        user.save(validate: false)
+        user
+      }
+
+      it 'should update the sponsorship on confirmation' do
+        sponsorship = user.sponsorships.create(sponsored_user: sponsored_user)
+        sponsored_user.confirm!
+
+        sponsorship.reload
+        expect(sponsorship.state).to eq("registered")
+      end
+
+    end
+  end
 end

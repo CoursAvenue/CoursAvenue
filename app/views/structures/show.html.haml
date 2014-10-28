@@ -1,5 +1,4 @@
-= content_for :head do
-  %link{ rel: 'canonical', href: request.path }
+= render 'shared/orange_banner'
 
 - if params[:c].present?
   - shared_comment = @structure.comments.find(params[:c])
@@ -15,36 +14,37 @@
   - if shared_comment
     = "«#{shared_comment.title}» par #{shared_comment.author_name}"
   - else
-    = "#{@structure.name} | CoursAvenue"
+    - cache [@structure, 'structure/show/title'] do
+      #{@structure.name} #{(@structure.is_open_for_trial? ? '| Essais GRATUITS' : '')} #{(@structure.has_promotion? ? '| PROMOTIONS' : '')} | CoursAvenue
 
 = content_for :meta_description do
   - if shared_comment
     = truncate(shared_comment.content, length: 300)
   - elsif @structure.description.present?
-    = truncate("#{@structure.description_for_meta} à #{@city.name}", length: 155)
+    - cache [@structure, 'structure/show/meta_descriptionl'] do
+      #{@structure.is_open_for_trial? ? 'Essais GRATUIT :' : ''} #{@structure.has_promotion? ? 'PROMOTIONS' : ''} #{@structure.courses.map(&:name).uniq.join(', ')} | #{truncate(@structure.description_for_meta, length: 155)}
   - else
     - if @structure.parent_subjects_string.present?
       = "#{@structure.name} à #{@city.name}. #{subjects_name_from_string(@structure.parent_subjects_string)} ! à #{@city.name}"
     - else
       = "#{@structure.name} à #{@city.name}"
 
-.visuallyhidden#lieux-photos
-  .inline-block
-    - if cookies[:structure_search_path]
-      = link_to cookies[:structure_search_path] do
-        %i.orange ←
-        = t('.back_to_results')
-    - else
-      = link_to structures_path do
-        %i.orange ←
-        = t('.see_arrounding_structures')
-  .inline-block.push-half--sides
-    |
-  .inline-block.push-half--bottom
-    %ol.nav.breadcrumb.flush{itemprop: 'breadcrumb'}
-      %li
-        = link_to "Tous les établissement", structures_path
-      %li= @structure.name
+- cache [@structure, 'structure/show/breadcrumb'] do
+  .main-container.visuallyhidden
+    %ol.nav.breadcrumb.epsilon
+      %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+        = link_to root_search_page_without_subject_path(@city), itemprop: 'url' do
+          %span{ itemprop: 'title' }
+            = @city.name
+      - dominant_root_subject = @structure.dominant_root_subject
+      - if dominant_root_subject
+        %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+          = link_to root_search_page_path(dominant_root_subject, @city), itemprop: 'url' do
+            %span{ itemprop: 'title' }
+              = dominant_root_subject.name
+      %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+        %span{ itemprop: 'title' }
+          = @structure.name
 
 - if !current_user and params[:waiting_for_activation]
   .blue-box.islet.text--center.push--ends
@@ -127,10 +127,7 @@
                           .grid--full{ data: { similar_profile: true, structure_id: structure.id } }
                             .grid__item.v-top.one-fifth>
                               .media-photo{ itemprop: 'image', content: structure.logo.url }
-                                - if structure.is_sleeping?
-                                  = image_tag structure.sleeping_logo.url(:thumb)
-                                - else
-                                  = image_tag structure.logo.url(:thumb)
+                                = image_tag structure.logo.url(:thumb)
                             .grid__item.v-top.four-fifths.soft-half--left.opacity-hidden-on-hover__wrapper>
                               .nowrap
                                 - if structure.premium? and header_promotion_title_for_structure(structure).present?
@@ -168,4 +165,18 @@
       $(function() {
           var body_message = $('#contact-message-body').val();
           $.cookie('user_contact_message', body_message);
+      });
+
+- if Rails.env.production?
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          mixpanel.track("Structures/show: landing", { "structure_slug": "#{@structure.slug}", "structure_name": "#{@structure.name}" });
+      });
+
+- if robot?(request.env['HTTP_USER_AGENT'])
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          $('[data-behavior="show-long-version"]').click();
       });

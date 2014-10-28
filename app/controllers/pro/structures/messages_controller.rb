@@ -29,7 +29,7 @@ class Pro::Structures::MessagesController < ApplicationController
     params[:message][:recipients].reject(&:blank?) if params[:message][:recipients].is_a? Array
     @recipients   = @structure.user_profiles.find(params[:message][:recipients]) if params[:message].has_key? :recipients
     @recipients   = (@recipients.is_a?(Array) ? @recipients.map(&:user) : @recipients.user)
-    @receipt      = @admin.send_message_with_label(@recipients, params[:message][:body], params[:message][:subject], 'conversation') if @recipients and @recipients.present? and params[:message][:body].present?
+    @receipt      = @admin.send_message_with_label(@recipients, params[:message][:body], params[:message][:subject], Mailboxer::Label::CONVERSATION.id) if @recipients and @recipients.present? and params[:message][:body].present?
     @conversation = @receipt.conversation if @receipt
     respond_to do |format|
       if @conversation and @conversation.persisted?

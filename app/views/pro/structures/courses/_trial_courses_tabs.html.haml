@@ -1,0 +1,8 @@
+%ul.tabs.panel__header
+  - if @structure.participation_requests.any?
+    %li{ class: current == 'monitoring' ? 'active' : '' }
+      = link_to pro_structure_participation_requests_path(@structure) do
+        Suivi des inscriptions
+  %li{ class: current == 'courses' ? 'active' : '' }
+    = link_to trial_courses_pro_structure_courses_path(@structure) do
+      Cours inclus

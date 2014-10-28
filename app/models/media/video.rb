@@ -43,6 +43,14 @@ class Media::Video < Media
     read_attribute(:url_html).html_safe
   end
 
+  def thumbnail_url
+    read_attribute(:thumbnail_url).gsub(/^http:/, 'https:') if read_attribute(:thumbnail_url)
+  end
+
+  def url
+    read_attribute(:url).gsub(/^http:/, 'https:') if read_attribute(:url)
+  end
+
   private
 
   def update_thumbnail

@@ -1,6 +1,6 @@
 /*
 *   Usage:
-*       %p.read-more{data: {behavior: 'read-more', height: 100}}
+*       %p.read-more{ data: { behavior: 'read-more', height: 100 } }
 *         your long text
 *   Options:
 *       Height: integer

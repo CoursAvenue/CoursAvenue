@@ -1,0 +1,19 @@
+- content_for :email_title do
+  Malheureusement, #{@user.name} vient d'annuler son inscription au cours d'essai "#{@course.name}"
+
+.p
+  Bonjour #{@user.first_name},
+
+.p
+  Il y a quelques jours, vous avez découvert le cours "#{@course.name}" avec #{@structure.name}. Qu'en avez-vous pensé ? Laissez votre commentaire dès maintenant, votre expérience est précieuse. Vous pourrez également rédiger un message privé qui vous permet d'indiquer au professeur si vous comptez revenir pour une pratique régulière ou à d'éventuels stages :
+
+.p.action
+  = link_to "Laisser un commentaire", new_structure_comment_url(@structure, participation_request_id: @participation_request.id, email: @email, utm_source: 'email', utm_campaign: 'recommandation_pass', utm_medium: 'stage_1'), class: 'btn btn--green'
+
+.p
+  Merci pour votre contribution,
+
+= render 'shared/mailers/footer'
+
+- content_for :under_content_gray do
+  = render 'participation_request_mailer/shared/user_faq'

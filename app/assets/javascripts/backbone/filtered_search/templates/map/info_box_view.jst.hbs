@@ -1,10 +1,14 @@
 <div data-type="closer" class="infobox__close">
-    <i class="fa fa-close"></i>
+    <i class="fa fa-times"></i>
 </div>
 
 <div class="media-photo">
-    <a href="{{ data_url }}" class="block one-whole">
-        <img src="{{ logo_thumb_url }}" class="block one-whole" height="186" width="186">
+    <a href="{{ data_url }}" class="block one-whole relative on-top">
+        {{#if cover_media}}
+            <div class="bg-cover" style="background-image: url('{{cover_media.thumbnail_url}}'); height:186px; width:186px;"></div>
+        {{else}}
+            <img src="{{ logo_thumb_url }}" class="block one-whole" height="186" width="186">
+        {{/if}}
     </a>
 </div>
 <div class="very-soft">

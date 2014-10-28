@@ -72,7 +72,7 @@ class Media < ActiveRecord::Base
     end
   end
 
-  handle_asynchronously :solr_index unless Rails.env.test?
+  handle_asynchronously :solr_index, queue: 'index' unless Rails.env.test?
 
   def url_html(options={})
     read_attribute(:url_html).html_safe

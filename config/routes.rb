@@ -2,6 +2,7 @@
 CoursAvenue::Application.routes.draw do
 
   mount Ckeditor::Engine => '/ckeditor'
+  get '/robots.txt' => 'home#robots'
   # ---------------------------------------------
   # ----------------------------------------- PRO
   # ---------------------------------------------
@@ -17,6 +18,7 @@ CoursAvenue::Application.routes.draw do
       get 'pourquoi-etre-recommande'            => 'home#why_be_recommended', as: 'pages_why_be_recommended'
       get 'livre-d-or'                          => 'home#widget',             as: 'pages_widget'
       get 'questions-les-plus-frequentes'       => 'home#questions',          as: 'pages_questions'
+      get 'pass-decouverte'                     => 'home#discovery_pass',     as: 'pages_discovery_pass'
       get 'offre-et-tarifs'                     => 'home#price',              as: 'pages_price'
       get 'nos-convictions'                     => 'home#convictions',        as: 'pages_convictions'
       get 'presse'                              => redirect('presse', subdomain: 'www', status: 301)
@@ -54,8 +56,12 @@ CoursAvenue::Application.routes.draw do
         resources :medias, controller: 'portraits/medias'
       end
 
+      resources :discovery_passes, only: [:index]
+      resources :participation_requests, only: [:index]
+      resources :sponsorships, only: [:index]
       resources :payment_notifications, only: [:index, :show]
       resources :blog_articles, controller: 'blog/articles', path: 'blog'
+      resources :press_releases, path: 'communiques-de-presse'
       resources :press_articles
       resources :metrics, only: [] do
         collection do
@@ -281,6 +287,7 @@ CoursAvenue::Application.routes.draw do
           collection do
             get :trainings, path: 'stages'
             get :regular, path: 'reguliers'
+            get :trial_courses, path: 'essais'
           end
           member do
             get  :ask_for_deletion
@@ -302,9 +309,18 @@ CoursAvenue::Application.routes.draw do
             get :ca_communication, path: 'communication-coursavenue'
           end
         end
+        resources :participation_requests, only: [:edit, :index], controller: 'structures/participation_requests', path: 'suivi-inscriptions' do
+          member do
+            get   :cancel_form
+            patch :accept
+            patch :modify_date
+            patch :decline
+            patch :cancel
+          end
+        end
       end
-      resources :visitors             , only: [:index, :show]
-      resources :users                , only: [:index] do
+      resources :visitors, only: [:index, :show]
+      resources :users, only: [:index] do
         member do
           patch :activate
         end
@@ -327,11 +343,14 @@ CoursAvenue::Application.routes.draw do
   # ---------------------------------------------
   # ----------------------------------------- WWW
   # ---------------------------------------------
+
+  resources :press_releases, path: 'communiques-de-presse', only: [:show]
   resources :blog_articles, controller: 'blog/articles', path: 'blog' do
     collection do
       get 'tag/:tag', to: 'blog/articles#tags', as: :tags
     end
   end
+
   devise_for :users, controllers: {
                       omniauth_callbacks: 'users/omniauth_callbacks',
                       sessions: 'users/sessions',
@@ -386,7 +405,19 @@ CoursAvenue::Application.routes.draw do
         get   :add_invited_friends
       end
     end
+    resources :orders, only: [:index, :show], controller: 'users/orders', path: 'mes-factures'
+    resources :sponsorships, only: [:index, :new, :create], controller: 'users/sponsorships', path: 'mes-parrainages'
+    resources :participation_requests, only: [:index, :edit], controller: 'users/participation_requests', path: 'mes-inscriptions' do
+      member do
+        get   :cancel_form
+        patch :accept
+        patch :modify_date
+        patch :decline
+        patch :cancel
+      end
+    end
   end
+  resources :sponsorships, only: [:show], path: 'obtenir-mon-pass-decouverte'
   resources :emails, only: [:create]
 
   resources :visitors, only: [:create, :update, :index]
@@ -411,16 +442,18 @@ CoursAvenue::Application.routes.draw do
     collection do
       post :recommendation
       get :search
+      get :typeahead
     end
-    resources :statistics, only: [:create]                                    , controller: 'structures/statistics'
-    resources :messages  , only: [:create]                                    , controller: 'structures/messages'
-    resources :places    , only: [:index]                                     , controller: 'structures/places'
-    resources :courses   , only: [:show, :index]                              , controller: 'structures/courses'    , path: 'cours'
-    resources :comments  , only: [:new]                                       , controller: 'structures/comments'   , path: 'recommendations'
-    resources :comments  , only: [:new]                                       , controller: 'structures/comments'   , path: 'recommandations'
-    resources :comments  , only: [:create, :new, :show, :index]               , controller: 'structures/comments'   , path: 'avis'
-    resources :teachers  , only: [:index]                                     , controller: 'structures/teachers'
-    resources :medias    , only: [:index]                                     , controller: 'structures/medias'
+    resources :participation_requests, only: [:create]                                    , controller: 'structures/participation_requests'
+    resources :statistics            , only: [:create]                                    , controller: 'structures/statistics'
+    resources :messages              , only: [:create]                                    , controller: 'structures/messages'
+    resources :places                , only: [:index]                                     , controller: 'structures/places'
+    resources :courses               , only: [:show, :index]                              , controller: 'structures/courses'    , path: 'cours'
+    resources :comments              , only: [:new]                                       , controller: 'structures/comments'   , path: 'recommendations'
+    resources :comments              , only: [:new]                                       , controller: 'structures/comments'   , path: 'recommandations'
+    resources :comments              , only: [:create, :new, :show, :index]               , controller: 'structures/comments'   , path: 'avis'
+    resources :teachers              , only: [:index]                                     , controller: 'structures/teachers'
+    resources :medias                , only: [:index]                                     , controller: 'structures/medias'
   end
 
   resources :courses, only: [:index], path: 'cours' do
@@ -531,14 +564,13 @@ CoursAvenue::Application.routes.draw do
   get 'pages/jobs'                          => redirect('jobs'                          , status: 301)
   get 'pages/mentions-legales-partenaires'  => redirect('mentions-legales-partenaires'  , status: 301)
   get 'pages/conditions-generale-de-vente'  => redirect('conditions-generale-de-vente'  , status: 301)
+  get 'pass-decouverte'                     => redirect('comment-ca-marche'             , status: 301)
 
   post 'contact/' => 'pages#send_message'
 
   post '/mandrill-webhook' => 'mandrill_webhook#create'
   get  '/mandrill-webhook' => 'mandrill_webhook#index'
   root :to => 'home#index'
-  get 'pass-decouverte' => 'home#pass_decouverte', as: :pass_decouverte
-
 
   ########### Search pages ###########
   # Must be at the end not to stop other routes

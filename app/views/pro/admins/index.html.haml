@@ -1,4 +1,4 @@
-= side_menu_currently_at 'dashboard'
+= side_menu_currently_at 'pro_dashboard'
 
 .panel
   = render partial: 'pro/shared/dashboard_tabs', locals: { current: 'admins' }
@@ -6,7 +6,7 @@
     %h3 Liste des admins
 
     .push-half--bottom
-      %input.input--large.one-whole#search-input{type: 'text', placeholder: 'Cherchez un établissement'}
+      %input.input--large.one-whole#search-input{ type: 'text', placeholder: 'Cherchez un établissement' }
 
     .push-half--bottom= paginate @admins, window: 2, outer_window: 1
 
@@ -37,39 +37,41 @@
           %th
       %tbody
         - @admins.each do |admin|
-          %tr
-            %td
-              = link_to admin.email, edit_pro_structure_admin_path(admin.structure, admin)
-            %td
-              - if admin.structure
-                = link_to dashboard_pro_structure_path(admin.structure) do
-                  - if admin.structure.logo?
-                    = image_tag admin.structure.logo.url(:thumb), height: 15
-                  = admin.structure.name
-            %td
-              - if admin.structure
-                = join_parent_subjects_text admin.structure
-            %td.nowrap{data: {value: (admin.structure ? admin.structure.rating : 0)}}
-              - if admin.structure
-                = admin.structure.comments_count
+          - next if admin.structure.nil?
+          - cache [admin.structure, admin, 'pro/admins/index'] do
+            %tr
+              %td
+                = link_to admin.email, edit_pro_structure_admin_path(admin.structure, admin)
+              %td
+                - if admin.structure
+                  = link_to dashboard_pro_structure_path(admin.structure) do
+                    - if admin.structure.logo?
+                      = image_tag admin.structure.logo.url(:thumb), height: 15
+                    = admin.structure.name
+              %td
+                - if admin.structure
+                  = join_parent_subjects_text admin.structure
+              %td.nowrap{data: {value: (admin.structure ? admin.structure.rating : 0)}}
+                - if admin.structure
+                  = admin.structure.comments_count
 
-            %td{data: {value: admin.created_at}}
-              = l(admin.created_at, format: :date_short)
-            %td.hidden{data: {value: admin.current_sign_in_at}}
-              = l(admin.current_sign_in_at) if admin.current_sign_in_at
-            %td.text--right.nowrap
-              - if admin.confirmed?
-                .switch-button.on
-                  Actif
-              - else
-                = link_to 'Inactif', confirm_pro_admin_path(admin), class: 'switch-button off', method: :patch
-              &nbsp;
-              = link_to edit_pro_admin_path(admin), title: 'Modifier', class: 'btn btn--warning' do
-                %i.fa.fa-pencil
-              &nbsp;
-              - if admin.structure
-                = link_to pro_structure_path(admin.structure), method: :delete, title: 'Supprimer', class: 'btn btn--red', data: {confirm: 'Êtes-vous sur de supprimer cet admin et TOUS ses cours ?'} do
-                  %i.fa.fa-trash-o
+              %td{data: {value: admin.created_at}}
+                = l(admin.created_at, format: :date_short)
+              %td.hidden{data: {value: admin.current_sign_in_at}}
+                = l(admin.current_sign_in_at) if admin.current_sign_in_at
+              %td.text--right.nowrap
+                - if admin.confirmed?
+                  .switch-button.on
+                    Actif
+                - else
+                  = link_to 'Inactif', confirm_pro_admin_path(admin), class: 'switch-button off', method: :patch
+                &nbsp;
+                = link_to edit_pro_admin_path(admin), title: 'Modifier', class: 'btn btn--warning' do
+                  %i.fa.fa-pencil
+                &nbsp;
+                - if admin.structure
+                  = link_to pro_structure_path(admin.structure), method: :delete, title: 'Supprimer', class: 'btn btn--red', data: {confirm: 'Êtes-vous sur de supprimer cet admin et TOUS ses cours ?'} do
+                    %i.fa.fa-trash-o
     .push-half--bottom= paginate @admins, window: 2, outer_window: 1
     %script#structure-item-template{:type => 'text/x-handlebars-template'}
       %div{style: 'font-size: 13px;'}

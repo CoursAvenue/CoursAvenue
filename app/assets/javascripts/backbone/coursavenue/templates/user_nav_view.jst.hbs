@@ -18,44 +18,37 @@
         </a>
         <ul class="drop-down__el text--left">
             <li class="nowrap">
-                <a href="{{ edit_user_path }}">
-                    {{!-- <i class="fa fa-user"></i> --}}
-                    Mes infos
+                <a href="{{ dashboard_user_path }}">
+                    Tableau de bord
+                </a>
+            </li>
+            <li class="nowrap">
+                <a href="{{ user_participation_requests_path }}">
+                    Mes inscriptions
+                </a>
+            </li>
+            <li class="nowrap">
+                <a href="{{ user_conversations_path }}">
+                    Mes messages
                 </a>
             </li>
             <li class="nowrap">
                 <a href="{{ user_passions_path }}">
-                    {{!-- <i class="fa fa-comment"></i> --}}
                     Mes passions
                 </a>
             </li>
             <li class="nowrap">
                 <a href="{{ user_followings_path }}">
-                    {{!-- <i class="fa fa-comment"></i> --}}
-                    Favoris
-                </a>
-            </li>
-            <li class="nowrap">
-                <a href="{{ user_conversations_path }}">
-                    {{!-- <i class="fa fa-envelope-o"></i> --}}
-                    Boîte de réception
-                </a>
-            </li>
-            <li class="nowrap">
-                <a href="{{ user_comments_path }}">
-                    {{!-- <i class="fa fa-comment"></i> --}}
-                    Mes avis
+                    Mes favoris
                 </a>
             </li>
             <li class="nowrap">
                 <a href="{{ new_user_invited_user_path }}">
-                    {{!-- <i class="fa fa-comment"></i> --}}
                     Partager
                 </a>
             </li>
             <li class="nowrap">
               <a href="{{ destroy_user_session_path }}" data-method="delete">
-                {{!-- <i class="fa fa-sign-out"></i> --}}
                 Se déconnecter
               </a>
             </li>
@@ -63,40 +56,40 @@
     </div>
 {{else}}
 <div class="inline-block">
-    <div class="inline-block drop-down__wrapper soft--right">
+    <div class="inline-block soft--right">
         <a href="#" data-behavior="sign-up">Inscription</a>
     </div>
-    <div class="inline-block drop-down__wrapper soft--right">
+    <div class="inline-block soft--right">
         <a href="#" data-behavior="sign-in">Connexion</a>
     </div>
-    <div class="inline-block soft-half--sides drop-down__wrapper" data-behavior='drop-down' data-el='> .drop-down__el' data-position='right'>
-      <a href="{{ pages_faq_users_url }}" target='_blank'>
+    <div class="inline-block soft--right drop-down__wrapper" data-behavior='drop-down' data-el='> .drop-down__el' data-position='right'>
+      <a href="{{ pages_faq_users_url }}" target='_blank' target='_blank' class="mixpanel-tracker" data-info="header-dropdown-menu">
         Aide
         <i class="fa fa-caret-down"></i>
       </a>
       <ul class="drop-down__el text--left on-top">
         <li class="nowrap">
-            <a href="{{ pages_faq_users_url }}#about-creating-profile" target='_blank'>
+            <a href="{{ pages_faq_users_url }}#about-creating-profile" target='_blank' class="mixpanel-tracker" data-info="header-dropdown-menu">
                 Comment trouver puis s'inscrire à un cours de loisir ?
             </a>
         </li>
         <li class="nowrap">
-            <a href="{{ pages_faq_users_url }}#about-creating-profile" target='_blank'>
+            <a href="{{ pages_faq_users_url }}#about-creating-profile" target='_blank' class="mixpanel-tracker" data-info="header-dropdown-menu">
                 Comment contacter un professeur, une association ou une école ?
             </a>
         </li>
         <li class="nowrap">
-            <a href="{{ pages_faq_users_url }}#about-creating-profile" target='_blank'>
+            <a href="{{ pages_faq_users_url }}#about-creating-profile" target='_blank' class="mixpanel-tracker" data-info="header-dropdown-menu">
                 Je n'ai pas reçu mon mail d'activation : comment faire ?
             </a>
         </li>
         <li class="nowrap">
-            <a href="{{ pages_faq_users_url }}#about-creating-profile" target='_blank'>
+            <a href="{{ pages_faq_users_url }}#about-creating-profile" target='_blank' class="mixpanel-tracker" data-info="header-dropdown-menu">
                 Pourquoi créer un compte élève ?
             </a>
         </li>
         <li class="nowrap">
-            <a href="{{ pages_faq_users_url }}#about-creating-profile" target='_blank'>
+            <a href="{{ pages_faq_users_url }}#about-creating-profile" target='_blank' class="mixpanel-tracker" data-info="header-dropdown-menu">
                 Comment déposer une recommandation ?
             </a>
         </li>

@@ -1,7 +1,7 @@
 CoursAvenue = new Backbone.Marionette.Application({
     slug: 'coursavenue',
 
-    is_production: function is_production () {
+    isProduction: function isProduction () {
         return this.env == 'production';
     },
 
@@ -54,6 +54,9 @@ CoursAvenue = new Backbone.Marionette.Application({
                         if (options.error) { options.error(); }
                     },
                     success: function success (response) {
+                        if (CoursAvenue.isProduction() && response.just_signed_up) {
+                            mixpanel.track("User registered", { info: 'Facebook' });
+                        }
                         // Pixel to track registration convertion with Facebook
                         if (window._fbq) { window._fbq.push(['track', '6016889463627', {}]); }
                         this.setCurrentUser(response);
@@ -73,7 +76,7 @@ CoursAvenue = new Backbone.Marionette.Application({
               // The person is not logged into Facebook, so we're not sure if
               // they are logged into this app or not.
             }
-        }.bind(this), { scope: 'public_profile,email,user_location,user_birthday,user_activities'});
+        }.bind(this), { scope: 'public_profile,email,user_location,user_birthday,user_activities,user_friends'});
     }
 });
 

@@ -1,16 +1,16 @@
 - content_for :side_menu do
   %ul
     - if current_pro_admin and current_pro_admin.super_admin?
-      - cache 'pro/side_menu/v1' do
-        = pro_side_menu_link 'dashboard'            , pro_dashboard_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)             , current: current_tab, icon: 'fa fa-dashboard'
-        = pro_side_menu_link 'sleepers'             , sleepings_pro_structures_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)  , current: current_tab, icon: 'fa fa-moon-o'
-        = pro_side_menu_link 'activity'             , pro_conversations_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)         , current: current_tab, icon: 'fa fa-pulse'
-        = pro_side_menu_link 'subscription_plans'   , pro_subscription_plans_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)    , current: current_tab, icon: 'fa fa-credit-card'
-        = pro_side_menu_link 'pages'                 , pro_blog_articles_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)         , current: current_tab, icon: 'fa fa-book'
-        = pro_side_menu_link 'invitations'          , pro_invited_users_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)         , current: current_tab, icon: 'fa fa-group'
-        = pro_side_menu_link 'subjects'             , all_pro_subjects_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)          , current: current_tab, icon: 'fa fa-chevron-down'
-        = pro_side_menu_link 'emailings'            , pro_emailings_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)          , current: current_tab, icon: 'fa fa-send'
-        %li &nbsp;
+      = pro_side_menu_link 'pro_dashboard'        , pro_dashboard_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)             , current: current_tab, icon: 'fa fa-dashboard'
+      = pro_side_menu_link 'pro_trial_courses'    , pro_discovery_passes_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)     , current: current_tab, icon: 'fa fa-ticket'
+      = pro_side_menu_link 'sleepers'             , sleepings_pro_structures_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)  , current: current_tab, icon: 'fa fa-moon-o'
+      = pro_side_menu_link 'activity'             , pro_conversations_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)         , current: current_tab, icon: 'fa fa-pulse'
+      = pro_side_menu_link 'subscription_plans'   , pro_subscription_plans_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)    , current: current_tab, icon: 'fa fa-credit-card'
+      = pro_side_menu_link 'pages'                 , pro_blog_articles_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)         , current: current_tab, icon: 'fa fa-book'
+      = pro_side_menu_link 'invitations'          , pro_invited_users_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)         , current: current_tab, icon: 'fa fa-group'
+      = pro_side_menu_link 'subjects'             , all_pro_subjects_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)          , current: current_tab, icon: 'fa fa-chevron-down'
+      = pro_side_menu_link 'emailings'            , pro_emailings_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)             , current: current_tab, icon: 'fa fa-send'
+      %li &nbsp;
 
     - if @structure
       - to_complete_step_nb = 0
@@ -73,6 +73,14 @@
       = pro_side_menu_link 'trainings',
                             trainings_pro_structure_courses_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
                             trainings_options_link
+
+      - if @structure.parisian?
+        - to_complete_step_nb += 1 if @structure.courses.open_for_trial.any?
+        = pro_side_menu_link 'trial_courses',
+                              trial_courses_pro_structure_courses_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
+                              current: current_tab,
+                              icon: 'fa fa-ticket',
+                              completed: @structure.courses.open_for_trial.any?
 
       - to_complete_step_nb += 1 if @structure.price_groups.empty?
       = pro_side_menu_link 'price_groups',

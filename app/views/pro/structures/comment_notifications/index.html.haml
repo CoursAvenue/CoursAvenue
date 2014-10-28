@@ -1,7 +1,7 @@
 = side_menu_currently_at 'comments'
 
 .panel
-  = render partial: 'pro/structures/comments_tabs', locals: {current: 'comment_notification'}
+  = render partial: 'pro/structures/comments_tabs', locals: { current: 'comment_notification' }
   .panel__body.soft--ends
     .text--center.push-half--bottom= paginate @comment_notifications, window: 1, outer_window: 3
 

@@ -35,14 +35,26 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         events: {
             'click [data-behavior=sign-up]'       : 'signUp',
-            'click [data-behavior=facebook-login]': 'loginWithFacebook',
+            'click @ui.$facebook_login_button'    : 'loginWithFacebook',
             'submit form[data-behavior=user-form]': 'signIn'
         },
 
+        ui: {
+            '$facebook_login_button'  : '[data-behavior=facebook-login]',
+            '$data_loader'            : '[data-loader]'
+        },
+
+
         loginWithFacebook: function loginWithFacebook () {
+            this.ui.$facebook_login_button.text('Connexion en cours...');
+            this.ui.$data_loader.removeClass('hidden');
             CoursAvenue.loginWithFacebook({
                 success: this.options.success,
-                dismiss: this.options.dismiss
+                dismiss: function() {
+                    this.ui.$data_loader.addClass('hidden');
+                    this.ui.$facebook_login_button.text('Connexion avec Facebook');
+                    this.options.dismiss();
+                }.bind(this)
             });
         },
 
@@ -88,7 +100,10 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         serializeData: function serializeData () {
-            return _.extend(this.options, this.model.toJSON());
+            var params = { forget_password_path: Routes.new_user_password_path() }
+            _.extend(params, this.options);
+            _.extend(params, this.model.toJSON());
+            return params;
         }
     });
 });

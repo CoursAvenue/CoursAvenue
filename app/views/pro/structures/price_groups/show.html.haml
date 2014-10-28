@@ -30,14 +30,14 @@
           - @trial = @price_group.trial
           - if @trial
             %tr
-              %td.premium-box Cours d'essai
-              %td.premium-box.text--center
+              %td Cours d'essai
+              %td.text--center
                 - if @trial.free?
                   Gratuit
                 - else
                   = @trial.amount
-              %td.premium-box
-              %td.premium-box
+              %td
+              %td
 
           - @price_group.premium_offers.each do |price|
             %tr.premium-box

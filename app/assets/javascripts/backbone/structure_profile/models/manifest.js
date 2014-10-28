@@ -5,3 +5,4 @@
 //= require ./courses_collection
 //= require ./message
 //= require ./structure
+//= require ./participation_request

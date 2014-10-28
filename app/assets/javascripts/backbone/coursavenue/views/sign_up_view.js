@@ -15,6 +15,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this.options.success = this.options.success || $.magnificPopup.close;
             this.options.success = _.wrap(this.options.success, function(func) {
                 CoursAvenue.trigger('user:signed:in');
+                CoursAvenue.trigger('user:signed:up');
                 func();
             });
             this.$el.css('width', this.options.width + 'px');
@@ -31,13 +32,15 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         events: {
             'click [data-behavior=sign-in]'       : 'signIn',
             'click @ui.$show_email_section_link'  : 'showEmailSection',
-            'click [data-behavior=facebook-login]': 'loginWithFacebook',
+            'click @ui.$facebook_login_button'    : 'loginWithFacebook',
             'submit form'                         : 'signUp'
         },
 
         ui: {
             '$show_email_section_link': '[data-behavior=sign-up-with-email]',
-            '$email_section'          : '[data-type=email-section]'
+            '$email_section'          : '[data-type=email-section]',
+            '$facebook_login_button'  : '[data-behavior=facebook-login]',
+            '$data_loader'            : '[data-loader]'
         },
 
         signIn: function signIn () {
@@ -45,9 +48,15 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         loginWithFacebook: function loginWithFacebook () {
+            this.ui.$facebook_login_button.text('Inscription en cours...');
+            this.ui.$data_loader.removeClass('hidden');
             CoursAvenue.loginWithFacebook({
                 success: this.options.success,
-                dismiss: this.options.dismiss
+                dismiss: function() {
+                    this.ui.$data_loader.addClass('hidden');
+                    this.ui.$facebook_login_button.text('Inscription avec Facebook');
+                    this.options.dismiss();
+                }.bind(this)
             });
         },
 
@@ -89,6 +98,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                     }.bind(this),
                     success: function success (response) {
                         CoursAvenue.setCurrentUser(response);
+                        if (CoursAvenue.isProduction()) { mixpanel.track("User registered", { info: 'Standard' }) }
                         this.showRegistrationConfirmedPopup()
                         // Pixel to track registration convertion with Facebook
                         if (window._fbq) { window._fbq.push(['track', '6016889463627', {}]); }

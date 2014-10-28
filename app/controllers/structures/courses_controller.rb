@@ -6,7 +6,6 @@ class Structures::CoursesController < ApplicationController
     @structure            = Structure.find params[:structure_id]
     params[:structure_id] = @structure.id
     params[:per_page]     = 1000 # Show all the plannings
-    params[:is_published] = true # Show all the plannings
     @planning_search      = PlanningSearch.search(params)
     @plannings            = @planning_search.results
     @courses              = []
@@ -20,7 +19,6 @@ class Structures::CoursesController < ApplicationController
       @courses << CourseSerializer.new(course, {
         root: false,
         structure: @structure,
-        search_term: params[:search_term],
         plannings: plannings.select(&:visible)
       })
     end

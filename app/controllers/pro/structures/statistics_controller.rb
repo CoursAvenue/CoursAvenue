@@ -12,7 +12,7 @@ class Pro::Structures::StatisticsController < Pro::ProController
     @empty_hash_of_days = {}
     (15.days.ago.to_date..Date.today).each { |date| @empty_hash_of_days[date] = 0 }
 
-    @impressions, @views, @phone_actions, @website_actions, @message_actions, @follow_actions = (1..6).map { @empty_hash_of_days.dup }
+    @impressions, @views, @phone_actions, @website_actions, @message_actions, @follow_actions, @request_actions = (1..7).map { @empty_hash_of_days.dup }
     @impressions_total_count, @views_total_count, @actions_total_count = 0, 0, 0
     # Selecting all stats from 15 days ago
     # Ordering them by creation date
@@ -50,6 +50,10 @@ class Pro::Structures::StatisticsController < Pro::ProController
     actions["follow"]            .group_by { |metric| metric.created_at.to_date }
                                  .map{ |date, metrics| { created_at: date, user_count: metrics.uniq(&:identify).length } }
                                  .each{ |stat| @follow_actions[stat[:created_at]] = stat[:user_count]; @actions_total_count += stat[:user_count] } if actions["follow"].present?
+
+    actions["participation_request"].group_by { |metric| metric.created_at.to_date }
+                                    .map{ |date, metrics| { created_at: date, user_count: metrics.uniq(&:identify).length } }
+                                    .each{ |stat| @request_actions[stat[:created_at]] = stat[:user_count]; @actions_total_count += stat[:user_count] } if actions["participation_request"].present?
 
   end
 end

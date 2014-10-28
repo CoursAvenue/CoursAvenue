@@ -145,6 +145,19 @@ class UserMailer < ActionMailer::Base
     mail to: @user.email, subject: "Plus que 4 jours avant les Portes Ouvertes : n’attendez pas pour vous inscrire"
   end
 
+  # Send an email with a sponsorship link.
+  #
+  # @param user — The sponsor.
+  # @param sponsor_user — The email of the user sponsored.
+  # @param promo_code_url — The Sponsorship's promo code url
+  # @param text — The text of the email.
+  def sponsor_user(user, sponsored_email, promo_code_url, text)
+    @user           = user
+    @text           = text
+    @promo_code_url = promo_code_url
+    mail to: sponsored_email, subject: "#{@user.name} vous invite au Pass Découverte"
+  end
+
   private
 
   def get_comment_notification_template(comment_notification)

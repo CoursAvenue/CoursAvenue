@@ -5,8 +5,8 @@ class Location < ActiveRecord::Base
 
   include ActsAsGeolocalizable
 
-  geocoded_by      :geocoder_address
-  after_save       :geocode_if_needs_to
+  geocoded_by :geocoder_address unless Rails.env.test?
+  after_save  :geocode_if_needs_to
 
   belongs_to :city
 
@@ -50,7 +50,7 @@ class Location < ActiveRecord::Base
     string :name
     string :street
   end
-  handle_asynchronously :solr_index unless Rails.env.test?
+  handle_asynchronously :solr_index, queue: 'index' unless Rails.env.test?
 
   def to_gmap_json
     { lng: self.longitude, lat: self.latitude }

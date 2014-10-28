@@ -175,7 +175,7 @@ fr:
       strip_insignificant_zeros: false
     currency:
       format:
-        format: "%n %u"
+        format: "%n%u"
         unit: "€"
         separator: ","
         delimiter: " "

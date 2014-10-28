@@ -2,10 +2,11 @@
     {{#if show_admin_form}}
         <img src="<%= asset_path 'texts/student_teacher_connexion.png' %>" height="55" class='block center-block'>
     {{else}}
-        <h4 class="flush">{{#if title }}{{ title }} {{else}}Connectez-vous{{/if}}</h4>
+        <h4 class="text--center flush">{{#if title }}{{ title }}{{else}}Connectez-vous{{/if}}</h4>
     {{/if}}
 </div>
 <div class="soft panel__body">
+    <img src="<%= asset_path 'gifs/loading-indicator.gif' %>"/ class="center-block push-half--bottom hidden" height="10" data-loader>
     {{#if show_admin_form}}
         <div class="grid">
             <div class="grid__item one-half">
@@ -39,6 +40,9 @@
                 <button class="btn btn--green one-whole" type="submit" data-disable-with="Connexion en cours...">Se connecter</button>
             </form>
 
+            <div class="push-half--top milli">
+                <a href="{{ forget_password_path }}">Mot de passe perdu</a>
+            </div>
             <div class="push-half--top milli">
                 Vous n'avez pas de compte CoursAvenue ? <a href="#" data-behavior="sign-up">Inscription</a>
             </div>

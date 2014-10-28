@@ -50,6 +50,7 @@
 .white              { color: white; }
 .black              { color: $text-black; }
 .yellow             { color: $yellow; }
+.yellow--dark       { color: darken($yellow, 8%); }
 .red                { color: $red; }
 .green              { color: $green-success; }
 .blue               { color: $blue-green !important; }
@@ -95,6 +96,7 @@
 .bordered--top       { border-top    : 1px solid $gray-smooth; }
 .bordered            { border        : 1px solid $gray-smooth; }
 .bordered--blue      { border        : 1px solid $blue; }
+.bordered--red       { border        : 1px solid $red; }
 .border-none         { border        : none !important; }
 .border-none--sides  { border-left   : none !important; border-right: none !important; }
 .border-none--bottom { border-bottom : none !important; }

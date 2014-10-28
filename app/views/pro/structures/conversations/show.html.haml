@@ -1,6 +1,6 @@
 = side_menu_currently_at 'messages'
 - recipients = @conversation.recipients.reject{|recipient| recipient == @admin }
-
+- participation_request = conversation_participation_request(@conversation)
 .panel
   .panel__header.soft
     %ol.nav.flush.breadcrumb{ itemprop: 'breadcrumb' }
@@ -23,12 +23,14 @@
 
     - user = @conversation.recipients.detect{ |recipient| recipient.is_a? User }
     - if user.phone_number.present?
-      .grid.epsilon
-        .grid__item.two-twelfths.v-middle.text--right>
-          %strong.flush
-            Téléphone
-        .grid__item.ten-twelfths.soft-half--left.v-middle>
-          %strong= readable_phone_number user.phone_number
+      - # If it is a request, show phone number only if request is accepted
+      - if !participation_request or (participation_request and participation_request.accepted?)
+        .grid.epsilon
+          .grid__item.two-twelfths.v-middle.text--right>
+            %strong.flush
+              Téléphone
+          .grid__item.ten-twelfths.soft-half--left.v-middle>
+            %strong= readable_phone_number user.phone_number
     - if conversation_courses(@conversation, @structure).present?
       .grid
         .grid__item.two-twelfths.v-middle.text--right>
@@ -36,7 +38,36 @@
         .grid__item.ten-twelfths.soft-half--left.v-middle>
           = conversation_courses(@conversation, @structure).map(&:name).join(', ')
 
-    .push--top
-      = render 'pro/structures/conversations/form'
+    - if @participation_request
+      .grid.epsilon
+        .grid__item.two-twelfths.v-middle.text--right>
+          %strong.flush.nowrap
+            Cours concerné
+        .grid__item.ten-twelfths.soft-half--left.v-middle>
+          = participation_request_course_description(@participation_request)
+      .grid.push-half--top
+        .grid__item.two-twelfths.v-middle.text--right>
+        .grid__item.ten-twelfths.soft-half--left.v-middle>
+          .flexbox
+            .flexbox__item.v-middle{ class: (@participation_request.pending? ? 'one-whole' : 'three-quarters') }>
+              .soft-half.white{ class: "#{participation_request_color(@participation_request)}-box" }
+                .flexbox
+                  .flexbox__item.delta.v-middle.soft-half--right{ style: 'width: 1em;' }>
+                    = participation_request_icon(@participation_request)
+                  .flexbox__items.epsilon.v-middle.one-whole>
+                    = participation_request_long_description(@participation_request, 'structure')
+            - if @participation_request.accepted? or (@participation_request.pending? and @participation_request.last_modified_by == 'Structure')
+              .flexbox__item.v-middle.one-quarter.soft-half--left#modify-links>
+                = link_to 'Proposer un autre créneau', edit_pro_structure_participation_request_path(@structure, @participation_request), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+                %br
+                = link_to "Annuler l'inscription", cancel_form_pro_structure_participation_request_path(@structure, @participation_request), class: 'red nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+
+      .push--top
+        - if @participation_request.pending? and @participation_request.last_modified_by == 'User'
+          = render 'pro/structures/conversations/participation_request_form'
+        - else
+          = render 'pro/structures/conversations/form'
+    - else
+      .push--top= render 'pro/structures/conversations/form'
 
     = render partial: 'messages/message', collection: @conversation.messages.order('created_at DESC').reject(&:new_record?)

@@ -25,6 +25,7 @@ class Metric
   scope :views,                -> { where( action_type: 'view') }
   scope :actions,              -> { where( action_type: 'action') }
   scope :structure_go_premium, -> { where( action_type: /structure_go_premium_/) }
+  scope :in_the_current_day,   -> { where( created_at: Time.now.beginning_of_day..Time.now.end_of_day) }
 
   ######################################################################
   # Creation and migration methods                                     #
@@ -63,7 +64,7 @@ class Metric
   #
   # @return Metric
   def self.print(structure_id, user, fingerprint, ip_address, infos=nil)
-    Metric.create(action_type: 'impression', structure_id: structure_id, user_fingerprint: fingerprint, ip_address: ip_address)
+    Metric.create_action('impression', structure_id, user, fingerprint, ip_address, infos)
   end
 
   # Creates a statistic when a structure has been viewed (#show action)
@@ -74,7 +75,7 @@ class Metric
   #
   # @return Metric
   def self.view(structure_id, user, fingerprint, ip_address, infos=nil)
-    Metric.create(action_type: 'view', structure_id: structure_id, user_fingerprint: fingerprint, ip_address: ip_address)
+    Metric.create_action('view', structure_id, user, fingerprint, ip_address, infos)
   end
 
   # Creates a statistic when there has been an action on a structure (eg. contact etc.)
@@ -85,7 +86,7 @@ class Metric
   #
   # @return Metric
   def self.action(structure_id, user, fingerprint, ip_address, infos=nil)
-    Metric.create(action_type: 'action', structure_id: structure_id, user_fingerprint: fingerprint, ip_address: ip_address, infos: infos )
+    Metric.create_action('action', structure_id, user, fingerprint, ip_address, infos)
   end
 
   # Creates a statistic regarding the action name
@@ -97,15 +98,15 @@ class Metric
   #
   # @return Metric
   def self.create_action(action_name, structure_id, user, fingerprint, ip_address, infos=nil)
-    case action_name
-    when 'impression'
-      stat = Metric.print(structure_id, user, fingerprint, ip_address, infos)
-    when 'action'
-      stat = Metric.action(structure_id, user, fingerprint, ip_address, infos)
-    when 'view'
-      stat = Metric.view(structure_id, user, fingerprint, ip_address, infos)
+    data = { action_type: action_name, structure_id: structure_id, user_fingerprint: fingerprint, ip_address: ip_address, infos: infos}
+
+    if Metric.where(data).in_the_current_day.empty?
+      metric = Metric.create(data)
+    else
+      metric = Metric.where(data).last
     end
-    return stat
+
+    metric
   end
 
   ######################################################################
@@ -200,6 +201,17 @@ class Metric
       ip_address:       self.ip_address }
   end
 
+  # Identify the Metric using all the available informations except its dates.
+  #
+  # @return a Hash
+  def identify_with_all_informations
+      { structure_id:     self.structure_id,
+        action_type:      self.action_type,
+        user_fingerprint: self.user_fingerprint,
+        infos:            self.infos,
+        ip_address:       self.ip_address }
+  end
+
   def self.generic_interval_count(type, interval, infos=nil)
     count = Metric.send(type).where(created_at: interval).asc(:created_at)
 
@@ -229,4 +241,56 @@ class Metric
                  .reduce(&:+) || 0
   end
 
+  ######################################################################
+  # Relations                                                          #
+  ######################################################################
+
+  # Get the structure associated with this metric.
+  #
+  # @return a Structure
+  def structure
+    Structure.find(self.structure_id)
+  end
+
+  # Get all the duplicated metrics in a day scope.
+  #
+  # @return an array of the duplicated Metrics.
+  def self.duplicated(date=Date.current)
+    metrics = Metric.where(created_at: date.beginning_of_day..date.end_of_day).group_by(&:identify_with_all_informations)
+    duplicates = metrics.select { |key, value| value.length > 1 }.values
+    duplicates.each &:shift
+
+    duplicates.flatten
+  end
+
+  def self.MR_duplicated(date=Date.current)
+    map = %Q{
+      function() {
+        var identifier = {
+          structure_id: this.structure_id,
+          action_type:  this.action_type,
+          fingerprint:  this.user_fingerprint,
+          infos:        this.infos,
+          ip_address:   this.ip_address
+        };
+        emit(identifier, { id: this._id });
+      }
+    }
+
+    reduce = %Q{
+      function(key, values) {
+        var result = { ids: [] };
+        values.forEach(function(value) {
+          result.ids.push(value.id);
+        });
+        return result;
+      }
+    }
+
+    metrics = Metric.where(created_at: date.beginning_of_day..date.end_of_day).map_reduce(map, reduce).out(inline: true)
+    ids = metrics.to_a.map { |record| record['value']['ids'] }.compact
+    ids.each &:shift
+
+    ids.flatten.map { |id| Metric.find(id) }
+  end
 end

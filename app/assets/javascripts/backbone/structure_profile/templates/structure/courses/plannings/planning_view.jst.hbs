@@ -1,13 +1,30 @@
-<td>{{ date }}</td>
-<td class="no-wrap text--center">{{ time_slot }}</td>
+<td style="min-width: 120px;">
+    <meta itemprop="summary" content="{{course.name}}">
+    {{#if is_open_for_trial}}
+    <div class="absolute" style="margin-left: -120px;">
+        <div class="yellow--dark nowrap v-middle push-half--left"><i class="fa fa-ticket"></i> Essai gratuit</div>
+    </div>
+    {{/if}}
+    {{ date }}
+</td>
+<td class="nowrap text--center">
+    <time itemprop="startDate" datetime="{{start_date_datetime}}">{{ time_slot }}</time>
+    <time itemprop="endDate" datetime="{{end_date_datetime}}"></time>
+</td>
 <td>{{ levels }}</td>
 <td>
     {{ audiences }}
 </td>
-<td>
+<td style="min-width: 80px;" itemprop="location" itemscope itemtype="http://data-vocabulary.org/Organization">
     {{#if address_name }}
-        <div class="gray milli" data-toggle="popover" data-html="true" data-trigger="hover" data-content="{{ hide_contacts_and_escape address_with_info }}">{{address_name}}</div>
-    {{/if}}
+        <div itemprop="name" class="gray milli" data-toggle="popover" data-html="true" data-trigger="hover" data-content="{{ hide_contacts_and_escape address_with_info }}">{{address_name}}</div>{{!--
+     --}}<span itemprop="address" itemscope itemtype="http://data-vocabulary.org/Address">{{!--
+         --}}<meta itemprop="street-address" content="{{address}}">
+         </span>{{!--
+      --}}<span itemprop="geo" itemscope itemtype="http://data-vocabulary.org/Geo">{{!--
+        --}}<meta itemprop="latitude" content="{{address_lat}}"><meta itemprop="longitude" content="{{address_lng}}">{{!--
+     --}}</span>{{!--
+ --}}{{/if}}
 </td>
 <td>
     {{#if info}}
@@ -15,4 +32,7 @@
         <i class='fa fa-info'></i>
     </div>
     {{/if}}
+</td>
+<td>
+    <a data-behavior="register" class="btn btn--small btn--green">M'inscrire</a>
 </td>

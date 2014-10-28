@@ -3,7 +3,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
     var ACTIVE_CLASS = 'btn--blue-green subject-active';
 
     Module.SubjectsCollectionView = Backbone.Marionette.ItemView.extend({
-        template: Module.templateDirname() + 'subjects_filter_view',
+        template: Module.templateDirname() + 'subjects_collection_view',
 
         itemView: Module.SubjectChildrenView,
         itemViewContainer: '[data-type="subject-children-view"]',
@@ -23,10 +23,10 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             this.current_subject_slug           = data.subject_id
             this.menu_item.current_subject_slug = data.subject_id;
             var root_subject = this.collection.where({slug: data.root_subject_id})[0];
+            this.showSubjectBreadcrumb(data);
             if (root_subject) {
                 this.updateSubjectGrandChildren(root_subject, this.showSubjectBreadcrumb, data)
             }
-
         },
 
         ui: {
@@ -159,7 +159,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             if (document.body.offsetWidth - $currentTarget.offset().left < this.ui.$menu.width()) {
                 this.ui.$menu.css({right: 0, left: 'auto'});
             } else {
-                var offset_left = $currentTarget.offset().left - $('[data-value="dessin-peinture-arts-plastiques"]').first().closest('[data-type=subjects-filter]').offset().left + 1;
+                var offset_left = $currentTarget.offset().left - $('[data-value="dessin-peinture-arts-plastiques"]').first().closest('[data-type=subjects-collection]').offset().left + 1;
                 this.ui.$menu.css({left: offset_left, right: 'auto'});
             }
         },

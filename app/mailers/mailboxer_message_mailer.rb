@@ -12,6 +12,12 @@ class MailboxerMessageMailer < ActionMailer::Base
   # It calls new_message_email if notifing a new message and reply_message_email
   # when indicating a reply to an already created conversation.
   def send_email(message, receiver)
+    conversation = message.conversation
+    if conversation.lock_email_notification_once == true
+      conversation.lock_email_notification_once = false
+      conversation.save
+      return
+    end
     if receiver.is_a? User
       send_email_to_user(message, receiver)
     else
@@ -50,6 +56,7 @@ class MailboxerMessageMailer < ActionMailer::Base
     # Don't send email if message is new AND the label is comment because we show
     # this message in new comment email
     return if message.conversation.mailboxer_label_id == Mailboxer::Label::COMMENT.id
+    return if message.conversation.mailboxer_label_id == Mailboxer::Label::REQUEST.id
     @message      = message
     @conversation = message.conversation
     @admin        = receiver

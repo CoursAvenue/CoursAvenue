@@ -1,0 +1,29 @@
+- pass_price = DiscoveryPass::PRICE - Sponsorship::USER_WHO_HAVE_BEEN_SPONSORED_CREDIT
+
+- content_for :email_title do
+  #{@user.name} vous invite au Pass Découverte
+
+.title
+  Félicitations !
+
+%table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
+  %tr{ valign: 'top' }
+    - if @user.avatar.present?
+      %td.soft-half--sides.v-top.content-block{ width: '130' }
+        = image_tag @user.avatar_url, alt: @user.name, width: 100, height: 100
+    %td.v-top.content-block{ width: '470' }
+      .p
+        = "Grâce à #{@user.name}, bénéficiez de l'offre parrainage et obtenez votre Pass Découverte pour #{number_to_currency(pass_price).gsub(/\,00/, "")} au lieu de #{DiscoveryPass::PRICE}€ :"
+      .p.action
+        = link_to "Obtenir mon Pass à #{number_to_currency(pass_price).gsub(/\,00/, "")}", @promo_code_url, class: 'btn btn--green'
+      .p Valable 1 mois et renouvelable, le Pass Découverte vous permet de suivre autant de cours d'essais que vous le souhaitez à Paris chez plus de 300 professeurs, écoles et associations.
+
+- if @text.present?
+  .gray-box.soft-half
+    %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
+      %tr{ valign: 'top' }
+        %td.soft-half--left.v-top.content-block{ width: 475 }
+          = @text.html_safe
+
+.soft-half--top
+  = render 'shared/mailers/footer'

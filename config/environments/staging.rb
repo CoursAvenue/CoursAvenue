@@ -1,8 +1,10 @@
 CoursAvenue::Application.configure do
+
   # config.session_store :cookie_store, key: '_CoursAvenue_session', :domain => 'coursavenue.com'
   # Settings specified here will take precedence over those in config/application.rb
-
   CoursAvenue::Application.config.session_store :active_record_store, key: '_CoursAvenue_session_ar', domain: 'coursavenue.com'
+  # Settings specified here will take precedence over those in config/application.rb
+
   # Code is not reloaded between requests
 
   config.cache_classes = true
@@ -32,7 +34,7 @@ CoursAvenue::Application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for nginx
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # config.force_ssl = true
+  config.force_ssl = false
 
   # See everything in the log (default is :info)
   config.log_level = :warn
@@ -45,15 +47,22 @@ CoursAvenue::Application.configure do
 
   # Use a different cache store in production
   # config.cache_store = :mem_cache_store
-  config.cache_store = :dalli_store
+  config.cache_store = :dalli_store, (ENV["MEMCACHIER_SERVERS"] || "").split(","),
+                      { username:             ENV["MEMCACHIER_USERNAME"],
+                        password:             ENV["MEMCACHIER_PASSWORD"],
+                        failover:             true,
+                        socket_timeout:       1.5,
+                        socket_failure_delay: 0.2
+                      }
+  config.identity_cache_store = :dalli_store
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
-  # config.action_controller.asset_host = "https://#{ENV['FOG_DIRECTORY']}.s3.amazonaws.com"
+  config.action_controller.asset_host = "https://#{ENV['FOG_DIRECTORY']}.s3.amazonaws.com"
   # config.action_controller.asset_host = "cdn%d.coursavenue.com"
-  config.action_controller.asset_host = "d1eu1s8jeg2hfj.cloudfront.net"
+  # config.action_controller.asset_host = "d1eu1s8jeg2hfj.cloudfront.net"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  config.assets.precompile += %w( email.css)
+  config.assets.precompile += %w( email.css discovery_pass.css )
   config.assets.precompile += %w( application.pro.js modernizr.js )
 
   # Enable threaded mode
@@ -77,10 +86,10 @@ CoursAvenue::Application.configure do
       bucket:            ENV['AWS_BUCKET'],
       access_key_id:     ENV['AWS_ACCESS_KEY_ID'],
       secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
-    },
-    url: ':s3_alias_url',
-    s3_host_alias: ENV['PAPERCLIP_S3_HOST_ALIAS'], #'d3e88xatz22clz.cloudfront.net',
-    path: ":class/:attachment/:id_partition/:style/:filename"
+    }#,
+    # url: ':s3_alias_url',
+    # s3_host_alias: ENV['PAPERCLIP_S3_HOST_ALIAS'], #'d3e88xatz22clz.cloudfront.net',
+    # path: ":class/:attachment/:id_partition/:style/:filename"
   }
 
   # ------------ Mailer configuration
@@ -108,5 +117,10 @@ CoursAvenue::Application.configure do
     config.username  = ENV['PAYPAL_TEST_LOGIN']
     config.password  = ENV['PAYPAL_TEST_PASSWORD']
     config.signature = ENV['PAYPAL_TEST_SIGNATURE']
+  end
+
+  # Add prerender middlewer only if the sevice URL is defined
+  if ENV['PRERENDER_SERVICE_URL'].present?
+    config.middleware.use Rack::Prerender, prerender_service_url: ENV['PRERENDER_SERVICE_URL']
   end
 end

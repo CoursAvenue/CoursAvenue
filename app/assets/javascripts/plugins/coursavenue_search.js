@@ -7,9 +7,9 @@
     // Create the defaults once
     var pluginName = "subjectsStructuresPicker",
         defaults = {
-          subjects_header_template: '<div class="text--center very-soft bordered--bottom"><strong>Disciplines</strong></div>',
+          subjects_header_template: '<div class="text--center soft-half bordered--bottom"><strong>Disciplines</strong></div>',
           subjects_template:  "<div>{{ name }}</div>",
-          structure_header_template: '<div class="text--center very-soft bordered--bottom"><strong>Professeurs, associations et écoles</strong></div>',
+          structure_header_template: '<div class="text--center soft-half bordered--bottom"><strong>Professeurs, associations et écoles</strong></div>',
           structure_template: '<a class="flexbox" href="{{ url }}"><div class="flexbox__item text--left" style="width: 40px"><img class="rounded--circle" src="{{logo_url}}" height="30" width="30"></div><div class="flexbox__item">{{name}}</div></a>'
         };
 
@@ -38,10 +38,12 @@
             // Check if the element has already been initialized before doing the stuff
             this.subjects_input = this.$element.find('[data-type=subjects]');
             this.address_input  = this.$element.find('[data-type=address]');
+            this.city_input     = this.$element.find('[name=city]')
             if (this.address_input.length > 0) { this.address_input.addressPicker(); }
             if (this.$element.hasClass('tt-hint')) { return; }
             this.initializeEngines();
             this.initializeTemplates();
+            var that = this;
             this.subjects_input.typeahead({
                 highlight : true,
                 minLength: 1,
@@ -50,29 +52,35 @@
                 displayKey: 'name',
                 templates: {
                     header: this.subjects_header_template,
-                    suggestion: this.subjects_template
+                    suggestion: function suggestion (data) {
+                        return that.subjects_template(data);
+                    }
                 },
                 source: this.subject_engine.ttAdapter()
             }, {
                 displayKey: 'name',
                 templates: {
                     header: this.structure_header_template,
-                    suggestion: this.structure_template
+                    suggestion: function suggestion (data) {
+                        return that.structure_template(data);
+                    }
                 },
                 source: this.structure_engine.ttAdapter()
             });
 
             this.$element.submit(function(event, data) {
                 var new_action;
+                var city = this.city_input.val() || $.cookie('city') || 'paris';
+                city = city.replace(/[^A-Za-z]/g, '-').toLowerCase();
                 if (this.selected_subject && this.selected_subject.depth == 0) {
-                    new_action = Routes.root_search_page_path(this.selected_subject.slug, ($.cookie('city') || 'paris'));
+                    new_action = Routes.root_search_page_path(this.selected_subject.slug, city);
                     this.subjects_input.removeAttr('name'); // Remove name attribute to prevent word ending in the keywords filter
                 } else if (this.selected_subject) {
-                    new_action = Routes.search_page_path(this.selected_subject.root, this.selected_subject.slug, ($.cookie('city') || 'paris'));
+                    new_action = Routes.search_page_path(this.selected_subject.root, this.selected_subject.slug, city);
                     this.subjects_input.removeAttr('name'); // Remove name attribute to prevent word ending in the keywords filter
                 } else {
-                  this.subjects_input.attr('name', 'name');
-                    new_action = Routes.root_search_page_without_subject_path($.cookie('city') || 'paris');
+                    this.subjects_input.attr('name', 'name');
+                    new_action = Routes.root_search_page_without_subject_path(city);
                 }
                 this.$element.attr('action', new_action)
 
@@ -81,6 +89,7 @@
             this.subjects_input.on('typeahead:selected', function(event, data) {
                 if (data.type == 'structure') {
                     window.location.href = data.url;
+                    return;
                 } else {
                     this.selected_subject = data;
                 }
@@ -103,14 +112,28 @@
          */
         initializeEngines: function initializeEngines () {
             this.subject_engine   = new Bloodhound({
-                datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.num); },
+                datumTokenizer: function datumTokenizer (d) { return Bloodhound.tokenizers.whitespace(d.num); },
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
-                remote: Routes.search_subjects_path({format: 'json'}) + '?name=%QUERY'
+                remote: {
+                    replace: function replace (url, query) {
+                        query = query.replace(GLOBAL.EXCLUDED_SEARCH_WORDS, '');
+                        return Routes.typeahead_structures_path({ format: 'json', name: query });
+                    },
+                    filter: function filter(parsed_response) {
+                        return _.reject(parsed_response, function(data) { return data.type != 'subject' });
+                    },
+                    url: Routes.typeahead_structures_path({ format: 'json', name: '%QUERY' })
+                }
             });
             this.structure_engine   = new Bloodhound({
                 datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.num); },
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
-                remote: Routes.search_structures_path({format: 'json'}) + '?name=%QUERY'
+                remote: {
+                    url: Routes.typeahead_structures_path({ format: 'json' }) + '?name=%QUERY',
+                    filter: function filter(parsed_response) {
+                        return _.reject(parsed_response, function(data) { return data.type != 'structure' });
+                    }
+                }
             });
             this.subject_engine.initialize();
             this.structure_engine.initialize();

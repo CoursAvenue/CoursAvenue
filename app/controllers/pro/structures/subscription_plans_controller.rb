@@ -38,7 +38,7 @@ class Pro::Structures::SubscriptionPlansController < Pro::ProController
 
     @be2bill_description = "Abonnement Premium CoursAvenue"
 
-    @order_id = Order.next_order_id_for @structure
+    @order_id = Order::Premium.next_order_id_for @structure
     @be2bill_params = {
       'AMOUNT'        => @subscription_plan.amount_for_be2bill,
       'CLIENTIDENT'   => @structure.id,

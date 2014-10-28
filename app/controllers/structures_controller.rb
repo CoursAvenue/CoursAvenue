@@ -2,64 +2,26 @@
 class StructuresController < ApplicationController
   include FilteredSearchProvider
   include StructuresHelper
+  include ApplicationHelper
 
   skip_before_filter :verify_authenticity_token, only: [:add_to_favorite, :remove_from_favorite]
+
+  before_filter :set_current_structure, except: [:index, :search, :typeahead]
 
   respond_to :json
 
   layout :choose_layout
 
-  def show
-    @structure = Structure.friendly.find params[:id]
-    if @structure.is_sleeping?
-      @structure.initialize_sleeping_attributes
-    end
-    @structure_decorator = @structure.decorate
-
-    if params.has_key?(:bbox_ne) and params.has_key?(:bbox_sw)
-      @place_ids = @structure.places_in_bounding_box(params[:bbox_sw], params[:bbox_ne]).map(&:id)
-    elsif params.has_key?(:lat) and params.has_key?(:lng)
-      if params[:radius]
-        @place_ids = @structure.places_around(params[:lat], params[:lng], params[:radius].to_i).map(&:id)
-      else
-        @place_ids = @structure.places_around(params[:lat], params[:lng]).map(&:id)
-      end
-    else
-      @place_ids = @structure.places.map(&:id)
-    end
-    @header_promotion_title_for_structure = header_promotion_title_for_structure(@structure)
-    @city      = @structure.city
-    @medias    = (@structure.premium? ? @structure.medias.cover_first.videos_first : @structure.medias.cover_first.videos_first.limit(Media::FREE_PROFIL_LIMIT))
-    @medias    = [] if @structure.is_sleeping?
-
-    @comments = @structure.comments.accepted.page(1).per(5)
-    @model = StructureShowSerializer.new(@structure, {
-      structure:          @structure,
-      unlimited_comments: false,
-      query:              get_filters_params,
-      place_ids:          @place_ids
-    })
-    @is_sleeping = @structure.is_sleeping
-  end
-
-  def jpo
-    @structure = Structure.friendly.find params[:id]
-    respond_to do |format|
-      format.html { redirect_to structure_path(@structure), status: 301 }
-    end
-  end
-
-  def search
-    @structures = StructureSearch.search(params).results
-    respond_to do |format|
-      format.json do
-        render json: @structures, each_serializer: StructureTypeaheadSerializer
-      end
-    end
-
-  end
-
+  # GET /etablissements
+  # GET /paris
+  # GET /danse--paris
+  # GET /danse/danse-orientale--paris
   def index
+    if params[:city_id]
+      @city = City.find(params[:city_id])
+    else
+      @city = City.find('paris')
+    end
     if params[:root_subject_id].present? and params[:subject_id].blank?
       params[:subject_id] = params[:root_subject_id]
     end
@@ -86,21 +48,90 @@ class StructuresController < ApplicationController
 
     log_search
 
+    # We expire the cache every 100 new comments
+    @total_comments = Rails.cache.fetch "structures/index/total_comments/#{params[:subject_id]}/#{Comment::Review.count.round(-2)}" do
+      if params[:subject_id]
+        CommentSearch.search(subject_slug: params[:subject_id]).total
+      else
+        Comment::Review.count
+      end
+    end
+    # We expire the cache every 100 new comments
+    @total_medias = Rails.cache.fetch "structures/index/total_medias/#{params[:subject_id]}/#{Comment::Review.count}" do
+      if params[:subject_id]
+        MediaSearch.search(subject_slug: params[:subject_id]).total
+      else
+        Media.count
+      end
+    end
     respond_to do |format|
+      format.html do
+        @models = jasonify @structures, place_ids: @places
+        cookies[:structure_search_path] = request.fullpath
+      end
       format.json do
         render json: @structures,
                root: 'structures',
                place_ids: @places,
-               query: params,
                each_serializer: StructureSerializer,
                meta: { total: @total, location: @latlng }
       end
+    end
+  end
 
-      # 'query' is the current query string, which allows us to direct users to
-      # a filtered version of the structures show action
-      format.html do
-        @models = jasonify @structures, place_ids: @places, query: params
-        cookies[:structure_search_path] = request.fullpath
+  # GET /etablissements/:id
+  def show
+    @structure_decorator                  = @structure.decorate
+    @place_ids                            = @structure.places.map(&:id)
+    @city                                 = @structure.city
+
+    @medias = (@structure.premium? ? @structure.medias.cover_first.videos_first : @structure.medias.cover_first.videos_first.limit(Media::FREE_PROFIL_LIMIT))
+    @model = StructureShowSerializer.new(@structure, {
+      structure:          @structure,
+      unlimited_comments: false,
+      query:              get_filters_params,
+      place_ids:          @place_ids
+    })
+    @is_sleeping = @structure.is_sleeping
+  end
+
+  # GET /etablissements/:id/portes-ouvertes-cours-loisirs
+  def jpo
+    respond_to do |format|
+      format.html { redirect_to structure_path(@structure), status: 301 }
+    end
+  end
+
+  # Used for search on typeahead dropdown
+  # GET /etablissements/search.json
+  def search
+    @structures = Rails.cache.fetch "StructuresController#search/#{params[:name]}" do
+      StructureSearch.search(params).results
+    end
+    respond_to do |format|
+      format.json do
+        render json: @structures, each_serializer: StructureTypeaheadSerializer
+      end
+    end
+  end
+
+  # Used for search on typeahead dropdown
+  # GET /etablissements/typeahead.json
+  def typeahead
+    @subjects = Rails.cache.fetch "structures/search/#{params[:name]}" do
+      SubjectSearch.search(name: params[:name]).results
+    end
+    @structures = StructureSearch.search(params).results
+    json_data = (@subjects + @structures).map do |data|
+      if data.is_a? Structure
+        StructureTypeaheadSerializer.new data
+      else
+        SubjectSearchSerializer.new data
+      end
+    end
+    respond_to do |format|
+      format.json do
+        render json: json_data
       end
     end
   end
@@ -108,7 +139,6 @@ class StructuresController < ApplicationController
   # POST structure/:id/add_to_favorite
   # Create a following for the structure and the current_user
   def add_to_favorite
-    @structure = Structure.friendly.find params[:id]
     @structure.followings.create(user: current_user)
     AdminMailer.delay.user_is_now_following_you(@structure, current_user)
     Metric.action(@structure.id, current_user, cookies[:fingerprint], request.ip, 'follow')
@@ -121,7 +151,6 @@ class StructuresController < ApplicationController
   # POST structure/:id/remove_from_favorite
   # Destroy the existing following between the structure and the current_user
   def remove_from_favorite
-    @structure = Structure.friendly.find params[:id]
     @structure.followings.where(user_id: current_user.id).first.try(:destroy)
     respond_to do |format|
       format.html { redirect_to user_followings_path(current_user), notice: "#{@structure.name} n'est plus dans vos favoris"}
@@ -153,5 +182,15 @@ class StructuresController < ApplicationController
     SearchTermLog.create(name: "FILTRE: Dates")         if params[:week_days].present? or params[:start_date].present? or params[:end_date].present? or params[:start_hour].present? or params[:end_hour].present?
     SearchTermLog.create(name: "FILTRE: Promo")         if params[:discount_types].present?
     SearchTermLog.create(name: "FILTRE: Cours d'essai") if params[:trial_course_amount].present?
+  end
+
+
+  # Private: Set the current structure for the relevant routes
+  # by fetching by its id or its slug.
+  #
+  # @return Structure
+  def set_current_structure
+    @structure = Structure.fetch_by_id_or_slug(params[:id])
+    raise ActiveRecord::RecordNotFound.new(params) if @structure.nil?
   end
 end

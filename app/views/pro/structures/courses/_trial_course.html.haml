@@ -1,0 +1,25 @@
+.panel.push--bottom
+  .panel__body.soft-half
+    = simple_form_for [:pro, @structure, course], url: pro_structure_course_path(@structure, course), as: :course, remote: true, html: { data: { behavior: 'live-form' } } do |f|
+      .grid--full
+        .grid__item.text--center.one-twelfth.v-middle>
+          = f.input :is_open_for_trial, label: false, input_html: { id: "is_open_for_trial_#{course.id}" }
+        .grid__item.eleven-twelfths.v-middle>
+          %h5.flush
+            %label{ for: "is_open_for_trial_#{course.id}" }= course.name
+    %div{ id: "course_#{course.id}_plannings" }= render partial: "pro/structures/courses/plannings/#{course.underscore_name}_list", locals: { course: course, structure: structure }
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $("#is_open_for_trial_#{course.id}").change(function() {
+            $("#course_#{course.id}_plannings input[name='planning[is_open_for_trial]']").prop('checked', this.checked);
+        })
+        $("#course_#{course.id}_plannings input[name='planning[is_open_for_trial]']").change(function() {
+            if (this.checked == true && !$("#is_open_for_trial_#{course.id}").is(':checked')) {
+                $("#is_open_for_trial_#{course.id}").prop('checked', true);
+            } else if (this.checked == false && !$("#course_#{course.id}_plannings input[name='planning[is_open_for_trial]']").is(':checked'))  {
+                $("#is_open_for_trial_#{course.id}").prop('checked', false);
+            }
+        });
+    });

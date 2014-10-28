@@ -6,40 +6,43 @@
     = yield :user_top_menu
     .main-container.soft--ends{ class: controller_path }
       .flexbox
-        .flexbox__item.one-fifth.v-top.soft-half--left>
-          .white-box.text--center.soft.push--bottom
-            - if @user.has_avatar?
-              = link_to edit_user_path(@user) do
-                = image_tag @user.avatar_url(:thumb), class: 'block'
-            - else
-              .text--center
-                = link_to edit_user_path(@user), style: 'width: 100%; height: 200px; background-color: #555; padding-top: 60px;', class: 'block white delta line-height-1-7 v-middle' do
-                  Ajouter
-                  %br
-                  ma photo
-            %h3.text--center.push-half--ends= @user.full_name
-            .push-half--ends
-              = link_to "Modifier le profil", dashboard_user_path(@user)
-            %div
-              = link_to 'Partager', "https://www.facebook.com/sharer/sharer.php?u=https://www.coursavenue.com", class: 'btn btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'User / Share on Facebook', 'click', 'From dashboard page')"
+        - if !layout_locals[:hide_menu]
+          .flexbox__item.one-fifth.v-top.soft-half--left>
+            .white-box.text--center.soft.push--bottom
+              - if @user.has_avatar?
+                = link_to edit_user_path(@user) do
+                  = image_tag @user.avatar_url(:thumb), class: 'block'
+              - else
+                .text--center
+                  = link_to edit_user_path(@user), style: 'width: 100%; height: 200px; background-color: #555; padding-top: 60px;', class: 'block white delta line-height-1-7 v-middle' do
+                    Ajouter
+                    %br
+                    ma photo
+              %h3.text--center.push-half--ends= @user.full_name
+              .push-half--ends
+                = link_to "Modifier mon profil", dashboard_user_path(@user)
+              %div
+                = link_to 'Partager', "https://www.facebook.com/sharer/sharer.php?u=https://www.coursavenue.com", class: 'btn btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'User / Share on Facebook', 'click', 'From dashboard page')"
 
-          = link_to new_user_invited_user_path(@user), class: 'btn btn--full push--bottom', onclick: "ga('send', 'event', 'Share with friends', 'click')" do
-            Inviter mes amis
-          .bg-cover{ style: "background-image: url(#{asset_path('users/passions_bg.jpg')}); height: 300px;" }
-            .relative.one-whole.height-whole
-              %a.soft.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: user_passions_path(@user) }>
-                .text--center.lbl.lbl--yellow.one-whole
-                  Cours d'essai gratuits
-                  %br
-                  et bons plans
-                .home-screen-gallery__title.home-screen-gallery__title--bigger.text--center.f-weight-600
-                  Vos passions à
-                  %br
-                  petits prix
-                  .milli.show-on-hover__child Mettre à jour mes passions
+            = link_to new_user_invited_user_path(@user), class: 'btn btn--full push--bottom', onclick: "ga('send', 'event', 'Share with friends', 'click')" do
+              Inviter mes amis
+            .bg-cover{ style: "background-image: url(#{asset_path('users/passions_bg.jpg')}); height: 300px;" }
+              .relative.one-whole.height-whole
+                %a.soft.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: user_passions_path(@user) }>
+                  .text--center.lbl.lbl--yellow.one-whole
+                    Cours d'essai gratuits
+                    %br
+                    et bons plans
+                  .home-screen-gallery__title.home-screen-gallery__title--bigger.text--center.f-weight-600
+                    Vos passions à
+                    %br
+                    petits prix
+                    .milli.show-on-hover__child Mettre à jour mes passions
 
         .flexbox__item.four-fifths.v-top.soft-half--left>
           = content_for?(:users_content) ? yield(:users_content) : yield
+    - if content_for?(:under_container)
+      = yield(:under_container)
   - else
     .main-container.soft--ends{ class: controller_path }
       = yield

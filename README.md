@@ -25,6 +25,41 @@ $ git push staging feature_branch:master
 \# ~/.powconfig
 `export PATH=$(rbenv root)/shims:$(rbenv root)/bin:$PATH`
 
+### Prerender
+
+#### In prerender app:
+
+```shell
+# In another folder:
+git clone git@github.com:CoursAvenue/coursavenue-prerender.git
+cd coursavenue-prerender
+npm install # install dependecies, including PhantomJS
+
+node server # or foreman start -p 3000
+```
+
+#### In Coursavenue App
+
+```shell
+echo "PRERENDER_SERVICE_URL: 'http://prerender.dev'" >> .env
+echo 3000 > ~/.pow/prerender
+touch ~/.pow/restart.txt
+```
+
+### In Production / Staging
+
+```shell
+heroku config:set PRERENDER_SERVICE_URL="http://coursavenue-prerender.herokuapp.com/"
+# OR
+hk set PRERENDER_SERVICE_URL='http://prerender.dev'
+```
+
+And finally add the task `rake scheduler:ping` to the scheduler, running every xx minutes.
+
+### Testing
+* Set the browser user agent to `Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)` and the visit the page, or
+* Visit the page adding `?_escaped_fragment_=` to the page URL.
+
 ## Dependencies / Gems
 
 ### For Will_paginate
@@ -34,7 +69,7 @@ A custom renderer has been created in lib/
 Inuit.css
 Compass for mixins
 
-### Icon webfonts 
+### Icon webfonts
 We use FontAwesome and Fontcustom to generate own icon font
 Command to regenerate fonts:
 `bundle exec fontcustom compile app/assets/images/icons/svg/`
@@ -93,8 +128,13 @@ RAILS_ENV=test rake sunspot:solr:start
 # DB
 
 ## Recovering a dump
-    killall ruby; dropdb -h localhost -U postgres coursavenue_development; createdb -h localhost -O postgres -U postgres coursavenue_development && psql coursavenue_development -c 'create extension hstore;' -U postgres && pg_restore --host localhost --port 5432 --username "postgres" --dbname "coursavenue_development" --role "ud9c2iqn1hpp2g" --no-password  --verbose "/Users/Nima/Downloads/a266.dump"
+    killall ruby; \
+    dropdb -h localhost -U postgres coursavenue_development; \
+    createdb -h localhost -O postgres -U postgres coursavenue_development && \
+    psql coursavenue_development -c 'create extension hstore;' -U postgres && \
+    pg_restore --host localhost --port 5432 --username "postgres" --dbname "coursavenue_development" --role "ud9c2iqn1hpp2g" --no-password  --verbose "/Users/Nima/Downloads/a266.dump"
 
+    pg_restore --host localhost --port 5432 --dbname "coursavenue_development" --role "ud9c2iqn1hpp2g" --verbose /Users/Nima/Downloads/a532.dump -U postgres
 ## Make a dump
     pg_dump --host localhost --port 5432 --username "postgres" --dbname "coursavenue_development" -f 20_fev.tar --format=t
 

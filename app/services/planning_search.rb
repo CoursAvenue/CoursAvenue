@@ -26,6 +26,7 @@ class PlanningSearch
       end
 
       all_of do
+        with :is_open_for_trial,                          true                                          if params[:is_open_for_trial].present?
         with :visible,                                    params[:visible]                              if params[:visible].present?
         with :is_published,                               params[:is_published]                         if params[:is_published].present?
 
@@ -102,14 +103,4 @@ class PlanningSearch
 
     @search
   end
-
-  # def self.retrieve_location params
-  #   if params[:lat].blank? or params[:lng].blank?
-  #     params[:address_name] = 'Paris'
-  #     params[:lat]          = 48.8592
-  #     params[:lng]          = 2.3417
-  #   end
-
-  #   [params[:lat], params[:lng]]
-  # end
 end

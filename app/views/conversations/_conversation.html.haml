@@ -1,21 +1,24 @@
 - last_message = conversation.messages.last
 
-- recipients = conversation.recipients.reject{|recipient| recipient == ((@admin || current_pro_admin) || (@user || current_user)) }
+- recipients = conversation.recipients.reject{|recipient| recipient == @user }
 
 .grid--full.bordered--top.push-half--top.soft-half--top
   .grid__item.v-top.v-middle{ style: 'width: 30%' }>
     .grid--full
       .grid__item.one-quarter.v-middle>
         - if recipients.first
-          = image_tag recipients.first.avatar_url(:thumb), class: 'block bordered'
+          = image_tag recipients.first.avatar_url(:thumb), class: 'block bordered rounded--circle'
       .grid__item.three-quarters.soft-half--left.v-middle>
         %p.flush
           = truncate((recipients.first.name || recipients.first.email), length: 18)
           - if recipients.length > 1
-            %span.nowrap.milli{title: recipients.map(&:name).join(', '), data: { behavior: 'tooltip' }}
+            %span.nowrap.milli{ title: recipients.map(&:name).join(', '), data: { behavior: 'tooltip' } }
               et #{pluralize(recipients.length - 1, 'autre')}
             %br
           %span.milli= "le #{l(last_message.created_at.to_date, format: :short)}"
+          - if participation_request = conversation_participation_request(conversation)
+            = participation_request_state_html(participation_request)
+
   .grid__item.soft-half--left.v-middle{ style: 'width: 65%' }>
     %p.flush
       %strong= conversation.subject

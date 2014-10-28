@@ -24,6 +24,7 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
             }
             setTimeout(GLOBAL.chosen_initializer, 5)
         },
+
         events: {
             'submit form'                             : 'submitForm',
             'click [data-behavior=show-phone-numbers]': 'showPhoneNumbers'
@@ -33,6 +34,9 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
             this.$('.phone_number').slideToggle();
         },
 
+        /*
+         * Set attributes on message model for validations
+         */
         populateMessage: function populateMessage (event) {
             this.model.set({
                 structure_id  : this.structure.get('id'),
@@ -87,7 +91,7 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
             this.$('.input_field_error').remove();
             this.model.sync({
                 success: function success (response) {
-                    if (CoursAvenue.is_production()) {
+                    if (CoursAvenue.isProduction()) {
                         window._fbq.push(['track', '6016785958627', { 'value':'0.00','currency':'EUR' }]);
                         ga('send', 'event', 'Action', 'message');
                         goog_report_conversion();
@@ -105,6 +109,7 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
         },
 
         showPopupMessageDidntSend: function showPopupMessageDidntSend (xhr) {
+              this.$('form').trigger('ajax:beforeSend.rails');
               var response = JSON.parse(xhr.responseText);
               $.magnificPopup.open({
                     items: {

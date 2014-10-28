@@ -143,6 +143,7 @@
       $(function() {
           $('#show-contact-form').click(function(){
               $('#contact-form').slideDown();
+              $.scrollTo($('#contact-form'), { duration: 500 } );
               return false;
           });
           $('#contact-subject-select').change(function() {

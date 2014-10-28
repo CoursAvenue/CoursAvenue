@@ -11,7 +11,7 @@ class PaymentNotification::Paypal < PaymentNotification
 
   private
 
-  def finalize_payment
+  def finalize_payment_for_premium_account
     return if self.structure.premium?
     response = request_first_paypal_payment
     if response.approved? and response.completed?
@@ -60,7 +60,7 @@ class PaymentNotification::Paypal < PaymentNotification
         :frequency   => 1,
         :token       => params['token'],
         :period      => params['plan_type'].to_sym,
-        :reference   => Order.next_order_id_for(self.structure),
+        :reference   => Order::Premium.next_order_id_for(self.structure),
         :payer_id    => params['PayerID'],
         :start_at    => Time.now + SubscriptionPlan::PLAN_TYPE_DURATION[params['plan_type']].months,
         :failed      => 1,

@@ -2,6 +2,9 @@ class StructureTypeaheadSerializer < ActiveModel::Serializer
 
   attributes :type, :name, :slug, :url, :logo_url
 
+  cached
+  delegate :cache_key, to: :object
+
   def type
     'structure'
   end

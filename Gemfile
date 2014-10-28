@@ -1,7 +1,7 @@
 # encoding: utf-8
 source 'https://rubygems.org'
 
-ruby '2.1.2'
+ruby '2.1.3'
 
 gem 'rails', '4.1.6'
 
@@ -16,12 +16,13 @@ gem 'rack-ssl-enforcer',    '~> 0.2.7'
 
 # Webserver
 # gem 'unicorn'
-gem 'puma'
-# gem 'passenger'
+# gem 'puma'
+gem 'passenger'
 
 # Database
 gem 'pg'
 
+gem 'actionpack-page_caching'
 # Lets you access the version of the deploy on Heroku
 # Mainly used for caching: see:  config/bust_http_cache.rb
 gem 'heroku-api'
@@ -151,7 +152,7 @@ gem 'handlebars_assets'         , '~>0.15', git: 'git://github.com/variousauthor
 gem 'draper'                    , '~>1.3.1'
 # allows sharing of handlebars templates
 gem 'sht_rails'
-gem 'sass-rails'                , '~>4.0.1'
+gem 'sass-rails'                , '~>4.0.3'
 gem 'haml'                      , '~>4.0.3'
 gem 'uglifier'                  , '>= 1.0.3'
 gem 'js-routes'                 , '~>0.9.8'
@@ -186,7 +187,7 @@ gem 'axlsx'                     , '~> 2.0.1'
 gem 'rack-utf8_sanitizer'       , '~> 1.1.0'
 
 # Use ckeditor for post body
-gem 'ckeditor'                  , '~> 4.1.0'
+gem 'ckeditor'                  , '~> 4.1.0'#, git: 'git://github.com/nim1989/ckeditor.git'
 
 group :production, :staging do
   gem 'execjs'                  , '~>2.0.2'
@@ -240,3 +241,10 @@ gem 'actionpack-action_caching', '~>1.0.0'
 
 # Use mongoid for statistics
 gem 'mongoid'                  , '~>4.0.0'
+
+# ActiveRecord Caching
+gem 'identity_cache'           , '~> 0.2.2'
+gem 'cityhash'                 , '~> 0.8.1'
+
+# JS heavy pages pre-rendering
+gem 'prerender_rails'

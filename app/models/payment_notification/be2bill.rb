@@ -11,8 +11,8 @@ class PaymentNotification::Be2bill < PaymentNotification
 
   private
 
-  def finalize_payment
-    params['EXTRADATA'] = JSON.parse(params['EXTRADATA'])
+  def finalize_payment_for_premium_account
+    params['EXTRADATA'] = JSON.parse(params['EXTRADATA']) unless params['EXTRADATA'].is_a? Hash
 
     if payment_succeeded?
       if is_a_renewal?
@@ -40,5 +40,4 @@ class PaymentNotification::Be2bill < PaymentNotification
       end
     end
   end
-
 end

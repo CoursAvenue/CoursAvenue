@@ -25,10 +25,11 @@ class User < ActiveRecord::Base
                   :birthdate, :phone_number, :zip_code, :city_id, :passion_zip_code, :passion_city_id, :passions_attributes, :description,
                   :email_opt_in, :sms_opt_in, :email_promo_opt_in, :email_newsletter_opt_in, :email_passions_opt_in,
                   :email_status, :last_email_sent_at, :last_email_sent_status,
-                  :lived_places_attributes, :delivery_email_status
+                  :lived_places_attributes, :delivery_email_status,
+                  :sponsorships, :sponsorship_slug, :interested_in_discovery_pass, :test_name, :interested_at
 
   # To store hashes into hstore
-  store_accessor :meta_data, :after_sign_up_url, :have_seen_first_jpo_popup
+  store_accessor :meta_data, :after_sign_up_url, :have_seen_first_jpo_popup, :interested_in_discovery_pass, :test_name, :interested_at
 
   define_boolean_accessor_for :meta_data, :have_seen_first_jpo_popup
 
@@ -55,6 +56,15 @@ class User < ActiveRecord::Base
   has_many :cities, through: :lived_places
   has_many :followings
 
+  has_many :discovery_passes
+  has_many :orders, class_name: 'Order::Pass'
+  has_many :participation_requests
+
+  # I have sponsored many users
+  has_many :sponsorships
+  # Other users had sponsored me
+  has_many :sponsors, class_name: 'Sponsorship', foreign_key: 'sponsored_user_id'
+
   has_and_belongs_to_many :subjects
   has_and_belongs_to_many :invited_participations, class_name: 'Participation'
 
@@ -73,7 +83,7 @@ class User < ActiveRecord::Base
   # Callbacks                                                          #
   ######################################################################
   after_create :associate_all_comments
-  after_save   :subscribe_to_mailchimp
+  after_save   :subscribe_to_mailchimp if Rails.env.production?
 
   # Called from Registration Controller when user registers for first time
   def after_registration
@@ -288,7 +298,7 @@ class User < ActiveRecord::Base
   end
 
   def full_name
-    "#{first_name.try(:capitalize)} #{last_name.try(:upcase)}"
+    "#{first_name.try(:capitalize)} #{last_name}"
   end
 
   def name_with_email
@@ -360,6 +370,7 @@ class User < ActiveRecord::Base
     super
     check_if_was_invited
     send_welcome_email
+    update_sponsorship_status
     nil
   end
 
@@ -484,6 +495,45 @@ class User < ActiveRecord::Base
     return @structures[0..(limit - 1)]
   end
 
+
+  # Return current (last) discovery_pass
+  #
+  # @return DiscoveryPass or nil if there is no current DiscoveryPass
+  def discovery_pass
+    discovery_pass = self.discovery_passes.order('created_at DESC').first
+    return discovery_pass
+  end
+
+  # Tells if the user is based in Paris and around
+  #
+  # @return Boolean
+  def parisian?
+    return self.zip_code.starts_with? '75','77','78','91','92','93','94','95'
+  end
+
+  # Retuns the sponsorship slug or the slug if it is not defined
+  #
+  # @return String
+  def sponsorship_slug
+    if read_attribute(:sponsorship_slug).nil?
+      self.sponsorship_slug = self.slug
+      write_attribute(:sponsorship_slug, self.slug)
+      self.save
+
+      self.slug
+    else
+      read_attribute(:sponsorship_slug)
+    end
+  end
+
+  # Tells wether the user left a review on a specific Structure
+  # @param structure
+  #
+  # @return Boolean
+  def has_left_a_review_on?(structure)
+    self.comments.where(commentable_id: structure.id, commentable_type: 'Structure').any?
+  end
+
   private
 
   def random_string
@@ -543,7 +593,19 @@ class User < ActiveRecord::Base
   end
 
   def subscribe_to_mailchimp
-    MailchimpUpdater.delay.update(self)
+    MailchimpUpdater.delay.update_user(self)
+  end
+
+  # Set the user as registered in the sponsorships the user belongs to.
+  #
+  # @return nil
+  def update_sponsorship_status
+    if self.sponsors.any?
+      self.sponsors.each do |sponsorship|
+        sponsorship.update_state
+      end
+    end
+    nil
   end
 
 end

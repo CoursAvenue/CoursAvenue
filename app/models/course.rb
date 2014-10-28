@@ -27,18 +27,20 @@ class Course < ActiveRecord::Base
   before_save :sanatize_description
   after_save  :update_plannings_dates_if_needs_to
   after_save  :reindex_plannings unless Rails.env.test?
+  before_save :update_open_for_trial
 
   ######################################################################
   # Scopes                                                             #
   ######################################################################
-  scope :active,                 -> { where( active: true ) }
-  scope :disabled,               -> { where( active: false ) }
-  scope :lessons,                -> { where( type: "Course::Lesson" ) }
-  scope :trainings,              -> { where( type: "Course::Training" ) }
-  scope :privates,               -> { where( type: "Course::Private" ) }
-  scope :regulars,               -> { where(arel_table[:type].eq('Course::Private').or(arel_table[:type].eq('Course::Lesson')) ) }
-  scope :without_open_courses,   -> { where.not( type: 'Course::Open' ) }
-  scope :open_courses,           -> { where( type: 'Course::Open' ) }
+  scope :active,                      -> { where( active: true ) }
+  scope :disabled,                    -> { where( active: false ) }
+  scope :lessons,                     -> { where( type: "Course::Lesson" ) }
+  scope :trainings,                   -> { where( type: "Course::Training" ) }
+  scope :privates,                    -> { where( type: "Course::Private" ) }
+  scope :regulars,                    -> { where(arel_table[:type].eq('Course::Private').or(arel_table[:type].eq('Course::Lesson')) ) }
+  scope :without_open_courses,        -> { where.not( type: 'Course::Open' ) }
+  scope :open_courses,                -> { where( type: 'Course::Open' ) }
+  scope :open_for_trial,              -> { where( is_open_for_trial: true ) }
 
   ######################################################################
   # Validations                                                        #
@@ -48,27 +50,15 @@ class Course < ActiveRecord::Base
   validates :name, length: { maximum: 255 }
 
   attr_accessible :name, :type, :description,
-                  :active,
-                  :info,
-                  :rating,
-                  :is_promoted,
-                  :price_details,
-                  :has_online_payment,
-                  :homepage_image,
-                  :frequency,
-                  :registration_date,
-                  :is_individual, :is_for_handicaped,
-                  :trial_lesson_info, # Info prix
-                  :conditions,
-                  :partner_rib_info,
-                  :audition_mandatory,
-                  :refund_condition,
+                  :active, :info, :is_promoted,
+                  :frequency, :is_individual,
                   :cant_be_joined_during_year,
                   :nb_participants,
                   :no_class_during_holidays,
                   :start_date, :end_date,
-                  :subject_ids, :level_ids, :audience_ids, :place_id, :active,
-                  :price_group_id, :on_appointment
+                  :subject_ids, :level_ids, :audience_ids, :place_id,
+                  :price_group_id, :on_appointment,
+                  :is_open_for_trial
 
   # ------------------------------------------------------------------------------------ Search attributes
   searchable do
@@ -131,6 +121,10 @@ class Course < ActiveRecord::Base
       end
     end
 
+    string :zip_codes, multiple: true do
+      self.places.uniq.map(&:zip_code)
+    end
+
     integer :audience_ids, multiple: true do
       self.audiences.map(&:id)
     end
@@ -156,6 +150,8 @@ class Course < ActiveRecord::Base
     time :end_time, multiple: true do
       plannings.map(&:end_time).uniq.compact
     end
+
+    boolean :is_open_for_trial
 
     boolean :has_description do
       self.description.present?
@@ -186,7 +182,6 @@ class Course < ActiveRecord::Base
 
     double :approximate_price_per_course
 
-    double :rating
     integer :nb_comments do
       comments.count
     end
@@ -194,7 +189,6 @@ class Course < ActiveRecord::Base
     boolean :active
 
     boolean :is_promoted
-    boolean :has_online_payment
     boolean :has_promotion
 
     boolean :has_package_price
@@ -204,7 +198,7 @@ class Course < ActiveRecord::Base
     integer :structure_id
   end
 
-  handle_asynchronously :solr_index unless Rails.env.test?
+  handle_asynchronously :solr_index, queue: 'index' unless Rails.env.test?
 
   def audiences
     self.plannings.map(&:audience_ids).flatten.uniq.map{ |audience_id| Audience.find(audience_id) }
@@ -373,6 +367,12 @@ class Course < ActiveRecord::Base
     false
   end
 
+  #
+  # Tell to the teacher wether the course is published
+  # DO NOT USE IN FRONT END: because we lie to the teacher telling him that he
+  # HAS to specify a price group but we still show it
+  #
+  # @return Boolean
   def is_published?
     return (!expired? and can_be_published?)
   end
@@ -416,5 +416,18 @@ class Course < ActiveRecord::Base
 
   def reindex_plannings
     self.plannings.map{ |p| p.delay.index }
+  end
+
+  # If the user sets the `open_for_trial` flag to true or false on the course itself,
+  # we change all the plannings flag
+  #
+  # @return nil
+  def update_open_for_trial
+    if self.price_group_id_changed?
+      if self.price_group.has_free_trial? and is_open_for_trial == false
+        self.is_open_for_trial = true
+      end
+    end
+    nil
   end
 end

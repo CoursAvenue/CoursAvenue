@@ -19,6 +19,9 @@ class Pro::Admins::RegistrationsController < Devise::RegistrationsController
 
   def create
     @structure = Structure.find params[:admin][:structure_id]
+
+    @structure.delay.duplicate_structure
+
     if @structure.admins.length == 0
       @admin     = Admin.new params[:admin]
     end

@@ -1,0 +1,26 @@
+= cache "structures/index/header_map_infos/#{request.path}" do
+  #map-header-informations.hidden.text--center{ style: 'height: auto;' }
+    %h1.f-weight-300.flush= title
+    -########################### Breadcrumbs
+    %ol.nav.breadcrumb.epsilon
+      %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+        = link_to root_search_page_without_subject_path(@city), itemprop: 'url' do
+          %span{ itemprop: 'title' }= params[:city_id].try(:capitalize) || 'Paris'
+      - if @subject
+        - if @subject.depth > 0
+          %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+            = link_to root_search_page_path(params[:root_subject_id], params[:city_id]), itemprop: 'url' do
+              %span{ itemprop: 'title' }= @subject.root.name
+        - if @subject.depth == 2
+          %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+            = link_to search_page_path(@subject.root.slug, @subject.parent.slug, params[:city_id]), itemprop: 'url' do
+              %span{ itemprop: 'title' }= @subject.parent.name
+        %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+          %span{ itemprop: 'title' }= @subject.name
+    %h2.f-weight-300= "#{title} : #{number_with_delimiter @total} établissements avec #{number_with_delimiter @total_comments} avis"
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('#widgets-container').prepend($('#map-header-informations').removeClass('hidden'));
+    })

@@ -2,8 +2,34 @@
   CoursAvenue | Les élèves vous guident vers les meilleurs cours
 
 = render 'home_screen'
+
+.jpo-banner-warpper>
+  .jpo-banner.soft.relative>
+    .main-container.soft--top>
+      .jpo-fanion.relative.push--top>
+        %p.flush.jpo-fanion__text.f-style-italic.text--center.absolute>
+          %span.f-weight-300 Essayez autant
+          %br
+          de
+          %span.f-weight-600 cours de loisirs
+          %br
+          %span.f-weight-300 que vous voulez !
+      .text--center.relative.jpo-call-to-actions.inline-block
+        - if current_user
+          = link_to root_search_page_without_subject_path('paris'), class: 'btn btn--yellow btn--bigger soft-half--ends soft--sides' do
+            Réserver mes cours d'essai
+        - else
+          = link_to '#', class: 'btn btn--yellow btn--bigger soft-half--ends soft--sides mixpanel-tracker', data: { info: 'Homepage' }, onclick: "$('[data-behavior=sign-up]').click()" do
+            Devenir membre
+        .text--center
+          = link_to pages_what_is_it_path, class: 'white mixpanel-tracker', data: { info: 'Homepage'} do
+            En savoir plus
+      .jpo-map.absolute
+  .jpo-frise>
+
 .home-screen-promotion-wrapper
   = render 'guide'
+
 
 %section.main-container.main-container--medium.home-screen-promotion.soft.push--ends
   .grid--full
@@ -50,14 +76,14 @@
       - danse_comments.each do |comment|
         - cache comment do
           = render partial: 'comments/home_comment', locals: { comment: comment, truncate_length: 500 }
-        .soft--right.text--right= link_to 'Voir tous les cours de danse', root_search_page_path('danse', 'paris'), title: 'Cours de Danse à Paris'
+      .soft--right.text--right= link_to 'Voir tous les cours de danse', root_search_page_path('danse', 'paris'), title: 'Cours de Danse à Paris'
     .grid__item.palm-one-whole.one-half.palm-one-whole.lap-one-whole>
       - theater_comments = CommentSearch.search(per_page: 3, has_title: true, subject_slug: 'theatre-scene').results
       %h2.push--bottom.soft--bottom.f-weight-300 Cours de théâtre & scène
       - theater_comments.each do |comment|
         - cache comment do
           = render partial: 'comments/home_comment', locals: { comment: comment, truncate_length: 500 }
-        .soft--right.text--right= link_to 'Voir tous les cours de théâtre & scène', root_search_page_path('theatre-scene', 'paris'), title: 'Cours de Théâtre & Scène à Paris'
+      .soft--right.text--right= link_to 'Voir tous les cours de théâtre & scène', root_search_page_path('theatre-scene', 'paris'), title: 'Cours de Théâtre & Scène à Paris'
   %hr.push--ends
   .grid--full
     .grid__item.palm-one-whole.one-half.palm-one-whole.lap-one-whole>
@@ -66,7 +92,7 @@
       - music_comments.each do |comment|
         - cache comment do
           = render partial: 'comments/home_comment', locals: { comment: comment, truncate_length: 500 }
-        .soft--right.text--right= link_to 'Voir tous les cours de yoga, bien-être & santé', root_search_page_path('yoga-bien-etre-sante', 'paris'), title: 'Cours de Yoga, Bien-être & Santé à Paris'
+      .soft--right.text--right= link_to 'Voir tous les cours de yoga, bien-être & santé', root_search_page_path('yoga-bien-etre-sante', 'paris'), title: 'Cours de Yoga, Bien-être & Santé à Paris'
     .grid__item.palm-one-whole.one-half.palm-one-whole.lap-one-whole>
       - yoga_comments = CommentSearch.search(per_page: 3, has_title: true, subject_slug: 'yoga-bien-etre-sante').results
       %h2.push--bottom.soft--bottom.f-weight-300 Cours de yoga, bien-être & sante
@@ -90,3 +116,11 @@
         - cache comment do
           = render partial: 'comments/home_comment', locals: { comment: comment, truncate_length: 500 }
       .soft--right.text--right= link_to 'Voir tous les cours de sports & arts martiaux', root_search_page_path('sports-arts-martiaux', 'paris'), title: 'Cours de Sports & Arts martiaux à Paris'
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        setTimeout(function(){
+            $('#pass-box').slideDown('slow');
+        }, 1000);
+    })

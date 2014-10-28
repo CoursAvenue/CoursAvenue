@@ -1,11 +1,11 @@
 module StructuresHelper
 
   def root_subjects_from_string(structure)
-    structure.parent_subjects_string.split(';').map{|subject_string__subject_slug| Subject.find(subject_string__subject_slug.split(':').last) }
+    structure.parent_subjects_string.split(';').map{|subject_string__subject_slug| Subject.fetch_by_id_or_slug(subject_string__subject_slug.split(':').last) }
   end
 
   def child_subjects_from_string(structure)
-    structure.subjects_string.split(';').map{|subject_string__subject_slug| Subject.find(subject_string__subject_slug.split(':').last) }.select{ |subj| subj.depth == 2 }
+    structure.subjects_string.split(';').map{|subject_string__subject_slug| Subject.fetch_by_id_or_slug(subject_string__subject_slug.split(':').last) }.select{ |subj| subj.depth == 2 }
   end
 
   def header_promotion_title_for_structure(structure)
