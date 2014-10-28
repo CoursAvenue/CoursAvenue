@@ -198,7 +198,7 @@ class Course < ActiveRecord::Base
     integer :structure_id
   end
 
-  handle_asynchronously :solr_index unless Rails.env.test?
+  handle_asynchronously :solr_index, queue: 'index' unless Rails.env.test?
 
   def audiences
     self.plannings.map(&:audience_ids).flatten.uniq.map{ |audience_id| Audience.find(audience_id) }

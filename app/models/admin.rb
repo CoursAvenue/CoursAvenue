@@ -76,7 +76,7 @@ class ::Admin < ActiveRecord::Base
     end
     boolean :super_admin
   end
-  handle_asynchronously :solr_index
+  handle_asynchronously :solr_index, queue: 'index' unless Rails.env.test?
 
   def mailboxer_email(object)
     self.email

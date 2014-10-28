@@ -67,6 +67,7 @@ class CrmSync
     return if structure.contact_email.blank?
     email_addresses = [ { address: structure.contact_email.downcase } ]
     person = Highrise::Person.where(email: structure.contact_email.downcase).first
+    person.tag!("Dormant")
     if structure.other_emails
       structure.other_emails.split(';').each do |email|
         email_addresses << { address: email.downcase }
