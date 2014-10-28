@@ -67,7 +67,6 @@ class CrmSync
     return if structure.contact_email.blank?
     email_addresses = [ { address: structure.contact_email.downcase } ]
     person = Highrise::Person.where(email: structure.contact_email.downcase).first
-    person.tag!("Dormant")
     if structure.other_emails
       structure.other_emails.split(';').each do |email|
         email_addresses << { address: email.downcase }
@@ -78,6 +77,7 @@ class CrmSync
                                     contact_data: { email_addresses: email_addresses })
     end
     if person.save
+      person.tag!("Dormant")
       self.update(structure)
     else
       puts person.errors.full_messages
