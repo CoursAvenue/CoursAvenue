@@ -6,6 +6,7 @@
 
   .panel_body.soft
     .text--center.margin-bottom
+      = link_to 'Editer', edit_pro_emailing_path(@emailing), class: 'btn btn--green push-half--right'
       = link_to 'Previsualiser la Newsletter', preview_pro_emailing_path(@emailing), class: 'btn btn--green push-half--right fancybox.ajax', data: { behavior: 'modal', width: '700', padding: 0 }
       %a{ class: 'btn btn--green push-half--right', href: 'javascript:void(0)', data: { behavior: 'show' } }
         Envoyer la previsualisation
