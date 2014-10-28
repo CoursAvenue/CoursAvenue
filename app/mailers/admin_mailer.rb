@@ -238,11 +238,11 @@ class AdminMailer < ActionMailer::Base
     return if !structure.sleeping_email_opt_in
     return if structure.main_contact.present?
     @structure = structure
-    mail to: structure.contact_email, subject: "Prenez le contrôle de votre profil"
+    mail to: structure.contact_email, subject: "Recrutez de nouveaux élèves sur Internet"
     if @structure.other_emails.present?
       @structure.other_emails.split(';').each do |email|
         next if email == structure.contact_email
-        mail to: email, subject: "Prenez le contrôle de votre profil"
+        mail to: email, subject: "Recrutez de nouveaux élèves sur Internet"
       end
     end
   end
