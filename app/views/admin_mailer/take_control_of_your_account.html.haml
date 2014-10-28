@@ -37,8 +37,8 @@
               - else
                 = image_tag media.thumbnail_url, width: 180, height: 110
             .p.soft-half--sides
-              - if similar_profile.courses.detect(&:is_published?)
-                %strong= truncate similar_profile.courses.select(&:is_published?).map(&:subjects).flatten.uniq.map(&:name).map(&:capitalize).join(', '), length: 24
+              - if similar_profile.courses.any?
+                %strong= truncate similar_profile.courses.map(&:subjects).flatten.uniq.map(&:name).map(&:capitalize).join(', '), length: 24
               - else
                 %strong= truncate similar_profile.courses.active.map(&:subjects).flatten.uniq.map(&:name).map(&:capitalize).join(', '), length: 24
               %br
