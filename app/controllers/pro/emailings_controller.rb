@@ -92,7 +92,7 @@ class Pro::EmailingsController < Pro::ProController
     mail_inliner = Roadie::Rails::MailInliner.new(email, Rails.application.config.roadie)
     mail = mail_inliner.execute
 
-    mail.html_part.decoded
+    mail.html_part.decoded.gsub /http:\/\/coursavenue.com\/UNSUB_PLACEHOLDER/, '*|UNSUB|*'
   end
 
 end
