@@ -11,6 +11,8 @@
         = render 'layouts/pro_g_analytics'
       - else
         = render 'layouts/g_analytics'
+      = render 'layouts/mixpanel'
+
       = yield :after_ga
     = yield :head
     = favicon_link_tag 'favicon.png'
