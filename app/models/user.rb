@@ -152,6 +152,11 @@ class User < ActiveRecord::Base
     # TODO: Check if it works
     # ((provider == auth.provider) & (uid == auth.uid)) | (email == auth.info.email)}.first_or_initialize.tap do |user|
     where((User.arel_table[:provider].eq(auth.provider).and(User.arel_table[:uid].eq(auth.uid))).or(User.arel_table[:email].eq(auth.info.email))).first_or_initialize.tap do |user|
+      # If the user was not active, set its created at
+      if !user.active?
+        user.created_at = Time.now
+      end
+
       user.provider           = auth.provider
       user.uid                = auth.uid
       user.oauth_token        = auth.credentials.token
@@ -178,7 +183,6 @@ class User < ActiveRecord::Base
 
       user.confirmed_at         = Time.now
       user.confirmation_sent_at = Time.now
-
       user.save
     end
   end
@@ -244,7 +248,7 @@ class User < ActiveRecord::Base
     if type == 'large'
       self.read_attribute(:fb_avatar).gsub(/^http:/, 'https:').split("?")[0] << "?width=200&height=200" unless self.read_attribute(:fb_avatar).nil?
     else
-      self.read_attribute(:fb_avatar).gsub(/^http:/, 'https:').split("=")[0] << "=#{type}" unless self.read_attribute(:fb_avatar).nil?
+      self.read_attribute(:fb_avatar).gsub(/^http:/, 'https:').split("=")[0] << "?width=100&height=100" unless self.read_attribute(:fb_avatar).nil?
     end
   end
 
