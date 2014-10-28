@@ -4,5 +4,5 @@ class Faq::Question < ActiveRecord::Base
   validates :question, presence: true
   validates :answer  , presence: true
 
-  has_one :faq_section
+  has_one :section, class_name: 'Faq::Section'
 end
