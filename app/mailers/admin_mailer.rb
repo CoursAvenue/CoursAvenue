@@ -238,7 +238,9 @@ class AdminMailer < ActionMailer::Base
     return if !structure.sleeping_email_opt_in
     return if structure.main_contact.present?
     @structure = structure
-    mail to: (email || structure.contact_email), subject: "★ Recrutez gratuitement de nouveaux élèves sur Internet"
+    mail to: (email || structure.contact_email),
+         subject: "★ Recrutez gratuitement de nouveaux élèves sur Internet",
+         from: 'CoursAvenue <info@coursavenue.com>'
   end
 
   def you_have_control_of_your_account(structure)
