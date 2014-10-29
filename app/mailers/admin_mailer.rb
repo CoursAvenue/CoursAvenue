@@ -180,6 +180,7 @@ class AdminMailer < ActionMailer::Base
 
   def remind_for_pending_comments(structure)
     @structure  = structure
+    return if @structure.main_contact.nil?
     mail to: @structure.main_contact.email,
          subject: "Vous avez #{@structure.comments.pending.count} avis en attente de validation"
   end
