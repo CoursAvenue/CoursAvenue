@@ -1,12 +1,12 @@
 = simple_form_for [:pro, @emailing] do |f|
   = f.input :title, label: 'Titre de la Newsletter', placeholder: 'Ex. : Cours près de chez vous', input_html: { class: 'input--large'}, label_html: { class: 'label--large' }
-  = f.input :header_image, input_html: { class: 'input--large'}, label: 'Image', label_html: { class: 'label--large' }
-  = f.input :alt, label: "Titre de l'image", placeholder: 'Ex. : '
+  = f.input :header_image, input_html: { class: 'v-middle'}, label: 'Image', label_html: { class: 'label--large v-middle' }
+  = f.input :alt, label: "ALT de l'image", placeholder: "Texte qui apparaîtra si l'image n'est pas chargé"
   = f.input :body, label: 'Contenu', input_html: { class: 'one-whole input--large' }
 
-  = f.input :section_metadata_one, as: :select, collection: Emailing::SECTION_METADATA, input_html: { data: { behavior: 'chosen' } }, label: 'Texte 1 à afficher sous la section', label_method: lambda { |section| section[:title] } , value_method: lambda { |section| section[:action] }
-  = f.input :section_metadata_two, as: :select, collection: Emailing::SECTION_METADATA, input_html: { data: { behavior: 'chosen' } }, label: 'Texte 2 à afficher sous la section', label_method: lambda { |section| section[:title] } , value_method: lambda { |section| section[:action] }
-  = f.input :section_metadata_three, as: :select, collection: Emailing::SECTION_METADATA, input_html: { data: { behavior: 'chosen' } }, label: 'Texte 3 à afficher sous la section', label_method: lambda { |section| section[:title] } , value_method: lambda { |section| section[:action] }
+  = f.input :section_metadata_one, as: :select, collection: Emailing::SECTION_METADATA, label: 'Texte 1 à afficher sous la section', label_method: lambda { |section| section[:title] } , value_method: lambda { |section| section[:action] }
+  = f.input :section_metadata_two, as: :select, collection: Emailing::SECTION_METADATA, label: 'Texte 2 à afficher sous la section', label_method: lambda { |section| section[:title] } , value_method: lambda { |section| section[:action] }
+  = f.input :section_metadata_three, as: :select, collection: Emailing::SECTION_METADATA, label: 'Texte 3 à afficher sous la section', label_method: lambda { |section| section[:title] } , value_method: lambda { |section| section[:action] }
 
   %div{ data: { behavior: 'show-more-on-demand' } }
     - @emailing.emailing_sections.each_with_index do |section, i|
@@ -29,3 +29,33 @@
                 Supprimer
 
   = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement"}
+
+= content_for :scripts do
+  = javascript_include_tag '//cdn.ckeditor.com/4.4.4/standard/ckeditor.js'
+
+  :css
+    #cke_1_contents { height: auto!important; }
+  :javascript
+      $(document).ready(function() {
+          CKEDITOR.replace('emailing[body]', {
+              customConfig: '#{asset_path('ckeditor/config.js')}'
+          });
+      });
+      // Prevent the backspace key from navigating back.
+      $(document).unbind('keydown').bind('keydown', function (event) {
+          var doPrevent = false;
+          if (event.keyCode === 8) {
+              var d = event.srcElement || event.target;
+              if ((d.tagName.toUpperCase() === 'INPUT' && (d.type.toUpperCase() === 'TEXT' || d.type.toUpperCase() === 'PASSWORD' || d.type.toUpperCase() === 'FILE' || d.type.toUpperCase() === 'EMAIL' ))
+                   || d.tagName.toUpperCase() === 'TEXTAREA') {
+                  doPrevent = d.readOnly || d.disabled;
+              }
+              else {
+                  doPrevent = true;
+              }
+          }
+
+          if (doPrevent) {
+              event.preventDefault();
+          }
+      });

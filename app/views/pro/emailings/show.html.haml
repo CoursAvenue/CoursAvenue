@@ -19,32 +19,22 @@
 
     %hr
 
-    %p= @emailing.title
+    .gray-box
+      .soft-half--ends.gray.milli.text--center= @emailing.title
+      %div.white-box.center-block.bordered{ style: 'width: 600px;'}
+        = image_tag asset_path('logos/logo.png'), class: 'center-block push-half--ends'
+        = image_tag @emailing.header_image.url, class: 'very-soft', alt: @emailing.alt if @emailing.header_image.present?
+        .soft
+          = @emailing.body.html_safe
 
-    = image_tag asset_path('/assets/logos/logo.png'), class: 'center-block'
-    = image_tag @emailing.header_image.url, class: 'very-soft', alt: @emailing.alt if @emailing.header_image.present?
-    - @emailing.body.split("\r\n\r\n").each do |paragraph|
-      %p= paragraph
-
-    %hr
-    %div.text--center.grid--full
-      .grid__item.one-third>
-        = link_to '/search' do
-          %i.fa.fa-search
-          Rechercher un Cours
-
-      .grid__item.one-third>
-        = link_to mon_compte_path do
-          %i.fa.fa-key
-          Votre compte
-
-      .grid__item.one-third>
-        = link_to '' do
-          %i.fa
-          Se désabonner
-    %hr
-
-    #emailings-region{ data: { type: 'emailings-root' } }
+        #emailings-region{ data: { type: 'emailings-root' } }
+        .grid
+          .grid__item.one-third.text--center>
+            = link_to 'Recherchez un cours', ''
+          .grid__item.one-third.text--center>
+            = link_to 'Votre compte', ''
+          .grid__item.one-third.text--center>
+            = link_to 'Se désabonner', ''
 
 - content_for :scripts do
   :javascript

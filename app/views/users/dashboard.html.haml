@@ -28,7 +28,7 @@
                     %i.fa.fa-square-o
                     Compléter mes informations générales
               %li
-                - if @user.passions.any?
+                - if @user.subjects.any?
                   %i.fa.fa-check-square-o
                   %span.line-through--gray Mettre à jour mes passions
                 - else

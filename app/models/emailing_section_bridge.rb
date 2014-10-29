@@ -10,13 +10,14 @@ class EmailingSectionBridge < ActiveRecord::Base
   # @return the String or nil
   def media_url
     if self.is_logo?
-      self.structure.first.logo.url
+      self.structure.first.logo.url(:thumbnail_email_cropped)
     else
       media = Media.where(id: self.media_id).first
+      return if media.nil?
       if media.type == 'Media::Video'
         media.thumbnail_url
       else
-        media.image.url
+        media.image.url(:thumbnail_email_cropped)
       end
     end
   end

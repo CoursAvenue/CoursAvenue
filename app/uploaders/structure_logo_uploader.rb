@@ -28,6 +28,10 @@ class StructureLogoUploader < CarrierWave::Uploader::Base
     process :crop_small_thumb
   end
 
+  version :thumbnail_email_cropped do
+    process :crop_email
+  end
+
   # We don't add white list extension because we want to be able to add images from urls
   # that does not have extension, eg: http://filepicker.io/api/file/X8iSrLQESv27CTIXXHU1
   # def extension_white_list
@@ -57,6 +61,14 @@ class StructureLogoUploader < CarrierWave::Uploader::Base
     crop_width      = (model.crop_width.to_i == 0 ? 600 : model.crop_width.to_i)
     transformations << { x: model.crop_x, y: model.crop_y, width: crop_width, height: crop_width, crop: :crop }
     transformations << { width: 60, height: 60, crop: :fill }
+    { transformation: transformations }
+  end
+
+  def crop_email
+    transformations = []
+    crop_width      = (model.crop_width.to_i == 0 ? 600 : model.crop_width.to_i)
+    transformations << { x: model.crop_x, y: model.crop_y, width: crop_width, height: crop_width, crop: :crop }
+    transformations << { width: 300, height: 220, crop: :fill }
     { transformation: transformations }
   end
 end

@@ -7,6 +7,7 @@ class Emailing < ActiveRecord::Base
   SECTION_METADATA = [
     { title: 'Nom'          , action: :metadata_name },
     { title: "Nombre d'avis", action: :metadata_comment_count },
+    { title: "Avis"         , action: :metadata_comment_title },
     { title: 'À partir de'  , action: :metadata_prices },
     { title: 'Villes'       , action: :metadata_cities }
   ]
@@ -85,6 +86,13 @@ class Emailing < ActiveRecord::Base
   # @return a String.
   def metadata_comment_count(structure)
     "#{structure.comments.count} avis"
+  end
+
+  # The number of comments of the structure.
+  #
+  # @return a String.
+  def metadata_comment_title(structure)
+    "#{structure.comments.last.title} (#{structure.comments_count} avis)"
   end
 
   # The lowest price of a lesson by this structure."

@@ -25,4 +25,9 @@ class MediaUploader < CarrierWave::Uploader::Base
     process resize_to_fit: [450, 300]
     process quality: 70
   end
+
+  version :thumbnail_email_cropped do
+    cloudinary_transformation :transformation => [{  width: 300, height: 220, crop: :fill }]
+    process quality: 70
+  end
 end
