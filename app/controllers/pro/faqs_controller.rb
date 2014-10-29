@@ -13,7 +13,7 @@ class Pro::FaqsController < Pro::ProController
     if params[:type]
       @section = ::Faq::Section.new type: 'Faq::Section::User'
     else
-      @section = Faq::Section::Pro.new
+      @section = ::Faq::Section.new type: 'Faq::Section::Pro'
     end
 
     10.times { @section.questions.build }

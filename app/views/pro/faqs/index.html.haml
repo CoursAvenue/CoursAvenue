@@ -5,7 +5,7 @@
   .panel__body
     .soft.text--center
       = link_to 'Nouvelle section', new_pro_faq_path(type: 'pro'), class: 'btn btn--large btn--green'
-      = link_to 'Voir la FAQ Prof', preview_pro_faqs_path(type: 'pro'), class: 'btn btn--large btn--green'
+      = link_to 'Voir la FAQ Prof', preview_pro_faqs_path(type: 'pro'), class: 'btn btn--large btn--green', target: :_blank
     %table.table--data.table--striped
       %thead
         %tr
@@ -25,7 +25,7 @@
     %hr
     .soft.text--center
       = link_to 'Nouvelle section', new_pro_faq_path(type: 'user'), class: 'btn btn--large btn--green'
-      = link_to 'Voir la FAQ Eleve', preview_pro_faqs_path(type: 'user'), class: 'btn btn--large btn--green'
+      = link_to 'Voir la FAQ Eleve', preview_pro_faqs_path(type: 'user'), class: 'btn btn--large btn--green', target: :_blank
     %table.table--data.table--striped
       %thead
         %tr

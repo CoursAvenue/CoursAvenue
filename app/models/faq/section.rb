@@ -35,6 +35,8 @@ class Faq::Section < ActiveRecord::Base
   # Methods                                                            #
   ######################################################################
 
+  private
+
   # Check if we should reject the Faq::Question.
   # We reject if the question is blank.
   #
@@ -49,4 +51,5 @@ class Faq::Section < ActiveRecord::Base
 
     (blank and !exists)
   end
+
 end
