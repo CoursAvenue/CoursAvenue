@@ -2,10 +2,18 @@ class Faq::Section < ActiveRecord::Base
   extend FriendlyId
   acts_as_paranoid
 
+  ######################################################################
+  # Constants                                                          #
+  ######################################################################
+
   TYPES = [
     { title: 'Utilisateur', type: 'Faq::Section::User' },
     { title: 'Prof'       , type: 'Faq::Section::Pro' }
   ]
+
+  ######################################################################
+  # Macros                                                             #
+  ######################################################################
 
   friendly_id :title, use: [:slugged, :finders]
   attr_accessible :title, :slug, :position, :questions, :questions_attributes
@@ -15,9 +23,17 @@ class Faq::Section < ActiveRecord::Base
 
   validates :title, presence: true
 
+  ######################################################################
+  # Scopes                                                             #
+  ######################################################################
+
   default_scope   { order('position') }
   scope :user, -> { where(type: 'Faq::Section::User') }
   scope :pro,  -> { where(type: 'Faq::Section::Pro') }
+
+  ######################################################################
+  # Methods                                                            #
+  ######################################################################
 
   # Check if we should reject the Faq::Question.
   # We reject if the question is blank.
