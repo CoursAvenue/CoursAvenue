@@ -1,5 +1,5 @@
 class EmailingSectionBridgeSerializer < ActiveModel::Serializer
-  attributes :id, :media_id, :media_url, :images, :structure, :subjects
+  attributes :id, :media_id, :media_url, :images, :structure, :subjects, :subject_id, :subject_name
 
   # Get the relevant information about a Structure instead of sending the
   # full object.
