@@ -26,7 +26,7 @@
       .text--center.push--bottom
         = link_to 'Nouveau message', new_user_message_path(@user), class: 'btn btn--green btn--large'
 
-    .grid
+    .grid.push-half--bottom
       .grid__item.one-third>
         %select#conversation_label{ name: 'conversation_label_id' }
           %option{ value: '' } Tous les messages
@@ -42,7 +42,7 @@
       = link_to user_conversation_path(@user, conversation), class: 'muted-link' do
         = render partial: 'conversations/conversation', locals: { conversation: conversation }
     - if @conversations.empty?
-      %p.white-box.soft-half
+      %p
         Vous n'avez pas de conversation en cours
 
 
