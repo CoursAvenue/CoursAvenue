@@ -8,7 +8,12 @@ class Pro::FaqsController < Pro::ProController
   end
 
   def new
-    @section = ::Faq::Section.new
+    if params[:type]
+      @section = ::Faq::Section.new type: 'Faq::Section::User'
+    else
+      @section = Faq::Section::Pro.new
+    end
+
     10.times { @section.questions.build }
   end
 
@@ -19,8 +24,8 @@ class Pro::FaqsController < Pro::ProController
     count.times { @section.questions.build }
   end
 
-  def show
-    @section = ::Faq::Section.find params[:id]
+  def preview
+    @sections = params[:type] == 'user' ? ::Faq::Section.user : ::Faq::Section.pro
   end
 
   def create
