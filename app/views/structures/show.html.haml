@@ -109,16 +109,12 @@
                 Contacter
                 = I18n.t("structures.structure_type_contact.#{(@structure.structure_type.present? ? @structure.structure_type : 'structures.other')}")
 
-            - unless @structure.premium?
+            - if @similar_profiles
               .panel.push--bottom
                 .panel__header.soft-half--ends.soft--sides
                   %h5.flush Profils similaires
                 .panel__body.soft-half--ends{ style: (@is_sleeping ? '' : 'height: 300px; overflow-y: scroll;') }
-                  - if params[:lat] and params[:lng]
-                    - _params = { lat: params[:lat], lng: params[:lng] }
-                  - else
-                    - _params = {}
-                  - @structure.similar_profiles(21, _params).each_with_index do |structure, index|
+                  - @similar_profiles.each_with_index do |structure, index|
                     - unless index == 0
                       %hr.push-half--ends
                     - cache ['similar_profiles', structure] do

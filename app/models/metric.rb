@@ -57,14 +57,20 @@ class Metric
   end
 
   # Creates a statistic when a structure appears in the results of a search
-  # @param structure_id Integer Structure id that appeared in the search
+  # @param structure_id Integer Structure id that appeared in the search OR an array of ids
   # @param user User who searched for it
   # @param fingerprint String, Fingerprint (hash) generated client side to identify a unique user
   # @param infos=nil String, more info on the stat
   #
   # @return Metric
   def self.print(structure_id, user, fingerprint, ip_address, infos=nil)
-    Metric.create_action('impression', structure_id, user, fingerprint, ip_address, infos)
+    if structure_id.is_a? Array
+      structure_id.each do |s_id|
+        Metric.print(s_id, user, fingerprint, ip_address, infos)
+      end
+    else
+      Metric.create_action('impression', structure_id, user, fingerprint, ip_address, infos)
+    end
   end
 
   # Creates a statistic when a structure has been viewed (#show action)

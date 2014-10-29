@@ -102,30 +102,6 @@ $(document).ready(function() {
                     goog_report_conversion();
                 }
             });
-
-            $.ajax({
-                type: "POST",
-                dataType: 'js',
-                url: Routes.structure_statistics_path(window.coursavenue.bootstrap.structure.id),
-                data: {
-                    action_type: 'view',
-                    fingerprint: $.cookie('fingerprint')
-                }
-            });
-            var similar_profile_structure_ids = [];
-            $('[data-similar-profile]').map(function(index, element) {
-                similar_profile_structure_ids.push($(element).data('structure-id'));
-            });
-            $.ajax({
-                type: "POST",
-                dataType: 'js',
-                url: Routes.statistics_path(),
-                data: {
-                    action_type: 'impression',
-                    fingerprint: $.cookie('fingerprint'),
-                    structure_ids: similar_profile_structure_ids
-                }
-            });
         }
     }
 });
