@@ -13,12 +13,13 @@ class Faq::Section < ActiveRecord::Base
   #
   # @return a Boolean.
   def reject_question(attributes)
+    exists = attributes[:id].present?
     blank = attributes[:question].blank?
 
-    if blank
-      attributes.merge!({:_destroy => 1 })
+    if blank and exists
+      attributes.merge!({:_destroy => 1})
     end
 
-    blank
+    (blank and !exists)
   end
 end
