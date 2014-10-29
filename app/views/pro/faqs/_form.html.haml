@@ -8,7 +8,7 @@
       = f.simple_fields_for :questions, question, child_index: i do |question_form|
         %div{ class: (!question.persisted? ? 'hidden': ''), data: { el: true, hidden: !question.persisted? } }
           = question_form.input :question, label: 'Question', placeholder: 'Un profil CoursAvenue, pour quoi faire?'
-          = question_form.input :answer, label: 'Réponse', placeholder: 'Créez gratuitement votre profil CoursAvenue pour...'
+          = question_form.input :answer, label: false, placeholder: 'Créez gratuitement votre profil CoursAvenue pour...'
 
           .input
             .control-label>
@@ -22,12 +22,12 @@
 
   = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement"}
 
--# = content_for :scripts do
--#   = javascript_include_tag '//cdn.ckeditor.com/4.4.4/standard/ckeditor.js'
--#   :javascript
--#       $(document).ready(function() {
--#           CKEDITOR.replace('faq_section[faq_questions][answer]', {
--#               customConfig: '#{asset_path('ckeditor/config.js')}'
--#           });
--#       });
--#
+= content_for :scripts do
+  = javascript_include_tag '//cdn.ckeditor.com/4.4.4/standard/ckeditor.js'
+  :javascript
+      $(document).ready(function() {
+          CKEDITOR.replaceAll();
+          // CKEDITOR.replace('faq_section[faq_questions][answer]', {
+              // customConfig: '#{asset_path('ckeditor/config.js')}'
+          // });
+      });
