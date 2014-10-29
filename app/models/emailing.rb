@@ -45,13 +45,14 @@ class Emailing < ActiveRecord::Base
   #
   # @return a Boolean
   def reject_section(attributes)
+    exists = attributes[:id].present?
     blank = attributes[:title].blank?
 
-    if blank
+    if blank and exists
       attributes.merge!({:_destroy => 1})
     end
 
-    blank
+    (blank and !exists)
   end
 
   # Puts the three section_metadata in a Array.
