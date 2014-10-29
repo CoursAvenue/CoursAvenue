@@ -19,6 +19,8 @@ class EmailingSection < ActiveRecord::Base
   # Methods                                                            #
   ######################################################################
 
+  # TODO: Move all the `set_*` methods in one. (`set_attributes` ?)
+
   # Set the media by default if it isn't already set.
   #
   # If the Structure doesn't have any media, we store its id and add a flag showing
@@ -64,6 +66,12 @@ class EmailingSection < ActiveRecord::Base
         bridge.save
       end
     end
+  end
+
+  # Set the review by default if it isn't already set.
+  #
+  # @return nothing
+  def set_review
   end
 
   private
