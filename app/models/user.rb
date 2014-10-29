@@ -151,6 +151,7 @@ class User < ActiveRecord::Base
     # Check if the user already exists
     # TODO: Check if it works
     # ((provider == auth.provider) & (uid == auth.uid)) | (email == auth.info.email)}.first_or_initialize.tap do |user|
+    Bugsnag.notify(RuntimeError.new("Facebook login - User"), { 'omniauth.auth' => auth, provider: auth.provider, provider2: auth[:provider], provider3: auth['provider'] })
     where((User.arel_table[:provider].eq(auth.provider).and(User.arel_table[:uid].eq(auth.uid))).or(User.arel_table[:email].eq(auth.info.email))).first_or_initialize.tap do |user|
       # If the user was not active, set its created at
       if !user.active?

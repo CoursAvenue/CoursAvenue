@@ -21,7 +21,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     # You need to implement the method below in your model (e.g. app/models/user.rb)
     # @user = User.find_for_facebook_oauth(request.env["omniauth.auth"], current_user)
     # If refers to a user (ex: when user is not registered and receive a message from a teacher)
-    Bugsnag.notify(RuntimeError.new("Facebook login"), { 'omniauth.auth' => request.env['omniauth.auth'] })
     @user = User.from_omniauth(request.env['omniauth.auth'])
 
     if @user.persisted?
