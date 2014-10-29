@@ -1,7 +1,9 @@
 class Faq::Section < ActiveRecord::Base
+  extend FriendlyId
   acts_as_paranoid
 
-  attr_accessible :title, :questions, :questions_attributes
+  friendly_id :title, use: [:slugged, :finders]
+  attr_accessible :title, :slug, :questions, :questions_attributes
 
   has_many :questions, class_name: 'Faq::Question', foreign_key: 'faq_section_id', dependent: :destroy
   accepts_nested_attributes_for :questions, reject_if: :reject_question, allow_destroy: true
