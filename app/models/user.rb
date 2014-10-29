@@ -183,9 +183,7 @@ class User < ActiveRecord::Base
 
       user.confirmed_at         = Time.now
       user.confirmation_sent_at = Time.now
-      saved = user.save
-      Bugsnag.notify(RuntimeError.new("Facebook login -- User"), { auth: { user_saved: saved, user_errors: user.errors,user_id: user.id, user_name: user.name, user_email: user.email, 'omniauth.auth' => auth } } )
-      true
+      user.save
     end
   end
 
