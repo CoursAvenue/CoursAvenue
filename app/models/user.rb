@@ -162,11 +162,11 @@ class User < ActiveRecord::Base
       user.oauth_token        = auth.credentials.token
       user.oauth_expires_at   = Time.at(auth.credentials.expires_at)
 
-      user.first_name         = auth.info.first_name        if user.first_name.nil?
-      user.last_name          = auth.info.last_name         if user.last_name.nil?
-      user.email              = auth.info.email             if user.email.nil?
-      user.fb_avatar          = auth.info.image             if user.fb_avatar.nil?
-      user.password           = Devise.friendly_token[0,20] if user.password.nil?
+      user.first_name         = auth.info.first_name        if user.first_name.blank?
+      user.last_name          = auth.info.last_name         if user.last_name.blank?
+      user.email              = auth.info.email             if user.email.blank?
+      user.fb_avatar          = auth.info.image             if user.fb_avatar.blank?
+      user.password           = Devise.friendly_token[0,20] if user.password.blank?
 
       if user.city.nil? and auth.info.location
         city = City.where(City.arel_table[:name].matches(auth.info.location.split(',').first)).first
@@ -183,7 +183,9 @@ class User < ActiveRecord::Base
 
       user.confirmed_at         = Time.now
       user.confirmation_sent_at = Time.now
-      user.save
+      saved = user.save
+      Bugsnag.notify(RuntimeError.new("Facebook login -- User"), { auth: { user_saved: saved, user_errors: user.errors,user_id: user.id, user_name: user.name, user_email: user.email, 'omniauth.auth' => auth } } )
+      true
     end
   end
 
