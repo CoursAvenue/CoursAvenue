@@ -1,7 +1,8 @@
 - url = @section.persisted? ? pro_faq_path : pro_faqs_path
-
+- position_collection = (1..Faq::Section.count).to_a
 = simple_form_for [:pro, @section], url: url do |f|
   = f.input :title, label: 'Titre de la section', placeholder: 'Guide de démarage', input_html: { class: 'input--large' }
+  = f.input :position, label: 'Position de la section', as: :select, collection: position_collection, input_html: { class: 'input--large' }
 
   %div{ data: { behavior: 'show-more-on-demand' } }
     - @section.questions.each_with_index do |question, i|
