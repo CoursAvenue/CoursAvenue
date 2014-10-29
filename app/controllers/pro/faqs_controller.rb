@@ -3,7 +3,8 @@ class Pro::FaqsController < Pro::ProController
   before_action :authenticate_pro_super_admin!
 
   def index
-    @sections = ::Faq::Section.all
+    @sections_pro  = ::Faq::Section.pro
+    @sections_user = ::Faq::Section.user
   end
 
   def new

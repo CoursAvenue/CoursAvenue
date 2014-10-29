@@ -5,19 +5,35 @@
   .panel__body
     .soft.text--center
       = link_to 'Nouvelle section', new_pro_faq_path, class: 'btn btn--large btn--green'
+      = link_to 'Voir la FAQ', pro_pages_questions_bis_path, class: 'btn btn--large btn--green'
     %table.table--data.table--striped
       %thead
         %tr
+          %th Position
           %th.one-half Nom
           %th
       %tbody
-      - @sections.each do |section|
+      - @sections_pro.each do |section|
         %tr
+          %td= section.position if section.position.present?
           %td= section.title
           %td.nowrap
             = link_to 'Modifier', edit_pro_faq_path(section), class: 'orange'
             \/
             = link_to 'Supprimer', pro_faq_path(section), method: :delete, data: { confirm: "Êtes-vous sûr de vouloir supprimer cette section d'FAQ ?" }, class: 'red'
-            \/
-            -# = link_to 'Voir', faq_url(press_release, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank
 
+    %table.table--data.table--striped
+      %thead
+        %tr
+          %th Position
+          %th.one-half Nom
+          %th
+      %tbody
+      - @sections_user.each do |section|
+        %tr
+          %td= section.position if section.position.present?
+          %td= section.title
+          %td.nowrap
+            = link_to 'Modifier', edit_pro_faq_path(section), class: 'orange'
+            \/
+            = link_to 'Supprimer', pro_faq_path(section), method: :delete, data: { confirm: "Êtes-vous sûr de vouloir supprimer cette section d'FAQ ?" }, class: 'red'

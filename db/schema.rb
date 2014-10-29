@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141029120732) do
+ActiveRecord::Schema.define(version: 20141029135342) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -355,6 +355,7 @@ ActiveRecord::Schema.define(version: 20141029120732) do
     t.datetime "deleted_at"
     t.string   "slug"
     t.integer  "position"
+    t.string   "type"
   end
 
   create_table "followings", force: true do |t|
