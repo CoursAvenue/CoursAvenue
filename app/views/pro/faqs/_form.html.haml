@@ -12,7 +12,7 @@
       = f.simple_fields_for :questions, question, child_index: i do |question_form|
         %div{ class: (!question.persisted? ? 'hidden': ''), data: { el: true, hidden: !question.persisted? } }
           = question_form.input :question, label: 'Question', placeholder: 'Un profil CoursAvenue, pour quoi faire?'
-          = question_form.input :answer, label: false, placeholder: 'Créez gratuitement votre profil CoursAvenue pour...'
+          = question_form.input :answer, label: false, placeholder: 'Créez gratuitement votre profil CoursAvenue pour...', input_html: { class: 'one-whole' }
 
           .input
             .control-label>
@@ -32,3 +32,6 @@
       $(document).ready(function() {
           CKEDITOR.replaceAll();
       });
+
+:css
+  #cke_faq_section_questions_attributes_1_answer, #cke_faq_section_questions_attributes_2_answer, #cke_faq_section_questions_attributes_3_answer, #cke_faq_section_questions_attributes_4_answer, #cke_faq_section_questions_attributes_5_answer, #cke_faq_section_questions_attributes_6_answer, #cke_faq_section_questions_attributes_7_answer, #cke_faq_section_questions_attributes_8_answer, #cke_faq_section_questions_attributes_9_answer, #cke_faq_section_questions_attributes_10_answer, #cke_faq_section_questions_attributes_11_answer, #cke_faq_section_questions_attributes_12_answer, #cke_faq_section_questions_attributes_13_answer { width: 100% !important; }
