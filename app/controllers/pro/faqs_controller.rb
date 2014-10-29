@@ -2,6 +2,8 @@
 class Pro::FaqsController < Pro::ProController
   before_action :authenticate_pro_super_admin!
 
+  layout :resolve_layout
+
   def index
     @sections_pro  = ::Faq::Section.pro
     @sections_user = ::Faq::Section.user
@@ -57,5 +59,11 @@ class Pro::FaqsController < Pro::ProController
     respond_to do |format|
       format.html { redirect_to pro_faqs_path, notice: 'Supprimé !' }
     end
+  end
+
+  private
+
+  def resolve_layout
+    action_name == 'preview' ? 'admin_pages' : 'admin'
   end
 end

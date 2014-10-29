@@ -1,0 +1,313 @@
+.home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/home_background7.jpg'})", 'data-stellar-background-ratio' => '0.6' }
+  .main-container.soft
+    %h1.flush Questions les plus fréquentes
+
+.main-container.soft--ends
+  .grid
+    .grid__item.four-twelfths.soft--right>
+      %nav.white-box.side-menu.one-whole
+        %ul
+          - @sections.each_with_index do |section, index|
+            %li.omega.orange{ class: index == 0 ? 'active' : ''}
+              = link_to section.title, "##{section.slug}", class: 'side-menu-link', data: { toggle: 'tab' }
+
+    .grid__item.eight-twelfths.white-box.soft>
+      - @sections.each_with_index do |section, index|
+        %div.hide.tab-pane{ id: section.slug, class: index == 0 ? 'active' : '' }
+          - section.questions.each do |sub_section|
+            %h5.blue.toggleable-header{ data: { behavior: 'toggleable', el:'+ div' } }
+              = sub_section.question
+              %i.fa.fa-caret-left
+            %div.hide.soft--sides
+              = sub_section.answer.html_safe
+
+      -# %div.hide#guide-de-demarrage.tab-pane.active
+      -#   %h5.blue.toggleable-header{ data: { behavior: 'toggleable', el:'+ div' } }
+      -#     Un profil CoursAvenue, pour quoi faire ?
+      -#     %i.fa.fa-caret-left
+      -#   %div.hide.soft--sides
+      -#     %p.flush
+      -#       Créez gratuitement votre profil CoursAvenue pour :
+      -#     %ul
+      -#       %li Être présent dans notre moteur de recherche de cours géolocalisé CoursAvenue.com qui attire chaque jour encore plus de visiteurs ;
+      -#       %li Ne plus garder les compliments de vos élèves rien que pour vous ! Faites marcher le bouche à oreille (de loin le meilleur moyen de communication) ;
+      -#       %li Vous constituer votre propre livre d’or interactif que vous afficherez sur votre propre site Internet, votre blog, votre page Facebook, et même dans vos salles de cours. 3 Internautes sur 4 disent consulter les avis sur Internet avant de réserver un cours… aidez-les dans leur recherche !
+      -#
+      -#   %h5.blue.toggleable-header{ data: { behavior: 'toggleable', el:'+ div' } }
+      -#     En quoi consiste un profil CoursAvenue ?
+      -#     %i.fa.fa-caret-left
+      -#   %div.hide.soft--sides
+      -#     %p.flush Votre profil CoursAvenue permet d’informer les Internautes sur :
+      -#     %ul
+      -#       %li Les disciplines que vous proposez (danse, théâtre, clown, cuisine, etc.) ;
+      -#       %li Tous les lieux dans lesquels vous dispensez vos cours ;
+      -#       %li Votre planning de cours et de stages à venir ;
+      -#       %li Vos tarifs (carnets, abonnements annuels, etc.) et promotions éventuelles (cours d’essai offert, tarifs étudiants) ;
+      -#       %li Vos professeurs et leur parcours ;
+      -#       %li Votre contenu médias (vos photos et vidéos) qui donnent envie de rejoindre vos cours ;
+      -#       %li La qualité de vos cours grâce aux recommandations de vos élèves mises en avant sur CoursAvenue et sur votre propre site Internet (si vous le souhaitez).
+      -#
+      -#     %p Important : c’est vous-même qui gérez toutes ces informations quand vous le souhaitez, 24h/24, 7j/7 en vous connectant simplement grâce à vos identifiants. A chaque fois que vous mettez à jour une information, celle-ci est aussitôt modifiée en temps réel sur votre profil public CoursAvenue.
+      -#
+      -#
+      -#   %h5.blue.toggleable-header{ data: { behavior: 'toggleable', el:'+ div' } }
+      -#     Qui peut créer son profil ?
+      -#     %i.fa.fa-caret-left
+      -#
+      -#   %div.hide.soft--sides
+      -#     %p.flush CoursAvenue est le 1er moteur de recherche de cours basé sur les recommandations des élèves. Pour créer son profil, il faut être soit :
+      -#     %ul
+      -#       %li Un professeur indépendant ;
+      -#       %li Une association ;
+      -#       %li Une structure privée (école, centre de formation, etc.) ;
+      -#       %li Toute autre structure réglementée dispensant des cours.
+      -#
+      -#     %p Les cours présents sur CoursAvenue relèvent de plusieurs catégories et peuvent être :
+      -#     %ul
+      -#       %li Collectifs ou particuliers ;
+      -#       %li Dispensés dans des lieux publics ou privés, en extérieur ou à domicile ;
+      -#       %li Réguliers à l’année ou ponctuels, comme des cours-ateliers ou des stages.
+      -#
+      -#     %p Les disciplines concernées relèvent surtout des loisirs, mais vous pouvez également référencer des cours scolaires ou professionnels.
+      -#
+      -#   %h5.blue.toggleable-header{ data: { behavior: 'toggleable', el:'+ div' } }
+      -#     Est-ce vraiment gratuit ?
+      -#     %i.fa.fa-caret-left
+      -#   %div.hide.soft--sides
+      -#     %p Oui, la création de votre profil CoursAvenue comprenant les recommandations de vos élèves est totalement gratuite, sans engagement de durée et sans frais cachés. Les personnes intéressées par vos cours peuvent ensuite vous contacter librement.
+      -#
+      -#
+      -#   %h5.blue.toggleable-header{ data: { behavior: 'toggleable', el:'+ div' } }
+      -#     Comment vous rémunérez-vous ?
+      -#     %i.fa.fa-caret-left
+      -#   %div.hide.soft--sides
+      -#     %p
+      -#       En plus d’être présent gratuitement sur CoursAvenue, nous vous proposons des outils spécifiques au développement de votre activité : en les utilisant, vous augmenterez votre taux de fidélisation et d’inscription de 10% minimum. Si ce n’est pas le cas, nous vous remboursons.
+      -#     %p.flush
+      -#       Pour 39€ / mois vous aurez accès à tous nos outils :
+      -#     %ul
+      -#       %li Affichez clairement votre planning de cours sur votre site web ou blob (géolocalisation de vos cours, tarifs et plannings optimisés pour augmenter le taux d’inscription à vos cours) ;
+      -#       %li Autorisez la réservation en ligne avec ou sans carte bleue (chaque Internaute peut s’inscrire 24h/24, et vous recevez les acomptes directement sur votre compte bancaire) ;
+      -#       %li Invitez vos élèves à rejoindre vos cours ou vos stages ;
+      -#       %li Gérez vos inscriptions en ligne ;
+      -#       %li Communiquez efficacement (outil d’envoi de newsletters optimisé et ciblé par catégorie d’élèves).
+      -#
+      -#     %p Vous souhaitez accélérer votre développement grâce à nos outils ? Laissez-nous votre email et nous vous offrons 1 mois d’essai gratuit dès leur lancement.
+      -#
+      -#     %p
+      -#       Retrouvez le détail de nos offres sur pro.coursavenue.com,
+      -#       = link_to 'rubrique « Offres & Tarifs ».', pro_pages_price_path
+      -#
+      -#   %h5.blue.toggleable-header{ data: { behavior: 'toggleable', el:'+ div' } }
+      -#     J’ai reçu un email me disant que mes cours ont été recommandés par un élève sur CoursAvenue : pouvez-vous m’en dire plus ? De quel élève s’agit-il ?
+      -#     %i.fa.fa-caret-left
+      -#
+      -#   %div.hide.soft--sides
+      -#     %p.flush Nous sommes tous les jours en relation avec des élèves qui nous conseillent de contacter leur professeur, association ou école pour mettre en avant la qualité de leurs cours. Si cet email vous a été envoyé, c’est parce que :
+      -#     %ul
+      -#       %li Soit une personne nous a conseillé vos cours lors de nos différentes rencontres (que ce soit dans les forums d’associations, dans les mairies, à la sortie d’une école, lors d’un festival, etc.) et nous avons retrouvé votre contact pour vous proposer de vous inscrire gratuitement sur CoursAvenue ;
+      -#       %li Soit un Internaute a cliqué sur le bouton « Recommander un professeur / une école » situé en haut de la page d'accueil de notre site coursavenue.com et a renseigné votre contact email, ou le simple lien de votre site Internet ou blog. Très souvent, l’Internaute n’indique pas ses coordonnées personnelles, et nous supposons alors qu’il s’agit d’un de vos élèves.
+      -#
+      -#   %h5.blue.toggleable-header{ data: { behavior: 'toggleable', el:'+ div' } }
+      -#     Mais qui est derrière CoursAvenue ?
+      -#     %i.fa.fa-caret-left
+      -#   %div.hide.soft--sides
+      -#     %p Nous sommes une équipe aux profils complémentaires (développeurs web et chargés de développement) prête à se plier en 4 pour satisfaire les besoins de tous, et participer au développement des cours en France. Nos bureaux sont à Paris, métro Gare de Lyon : envoyez-nous un mail et passez nous voir !
+      -#
+      -# %div.hide.soft--sides#creer-son-profil.tab-pane
+      -#   %p Pour créer son profil CoursAvenue, c’est simple, gratuit, sans engagement, et rapide. Publiez votre profil en suivant les 3 étapes suivantes :
+      -#   %h5.blue.toggleable-header{ data: { behavior: 'toggleable', el:'+ div' } }
+      -#     ETAPE 1 : S’INSCRIRE
+      -#     %i.fa.fa-caret-left
+      -#   %div.hide.soft--sides
+      -#     %p La création d'un profil sur CoursAvenue est totalement gratuite. Cliquez sur le bouton vert « Créer mon profil » en haut à droite de chaque page du site. Vous accédez alors à l’espace « CoursAvenuePro » dédié à nos partenaires (professeurs indépendants, associations et écoles). Cliquez ensuite sur le bouton vert de la page d’accueil « S’inscrire gratuitement » et accédez à un rapide formulaire où vous entrerez vos premières informations que vous pourrez modifier par la suite.
+      -#
+      -#   %h5.blue.toggleable-header{ data: { behavior: 'toggleable', el:'+ div' } }
+      -#     ETAPE 2 : ACTIVER MON COMPTE
+      -#     %i.fa.fa-caret-left
+      -#   %div.hide.soft--sides
+      -#     %p Vous allez ensuite créer votre compte qui donnera accès à votre profil : saisissez votre email et un mot de passe, puis activez votre compte en cliquant sur le lien de l’email qui vous a été automatiquement envoyé. Une fois connecté et pour pouvoir publier correctement votre profil sur CoursAvenue, il est nécessaire d’avoir un minimum d’informations que vous allez rapidement compléter dans la rubrique « Mes infos » (bouton de gauche) :
+      -#     %ul
+      -#       %li Logo et image
+      -#       %li Informations générales (description de votre structure et de votre offre de cours, disciplines enseignées)
+      -#       %li Lieux (pour que tous les lieux où vous enseignez soient présents dans notre moteur de recherche géolocalisé)
+      -#
+      -#   %h5.blue.toggleable-header{ data: { behavior: 'toggleable', el:'+ div' } }
+      -#     ETAPE 3 : OBTENIR DES RECOMMANDATIONS
+      -#     %i.fa.fa-caret-left
+      -#   %div.hide.soft--sides
+      -#     %p Même sur Internet, le 1er facteur de réservation d’un cours reste le bouche à oreille. C’est pour cette raison que notre moteur de recherche est basé sur les recommandations des élèves : plus vos élèves parlent de vous et témoignent sur vos cours, plus vous apparaîtrez dans les 1ers résultats de notre moteur de recherche.
+      -#
+      -#     %p Demandez à vos élèves de déposer leur recommandation et témoignage. Pour cela, nous vous offrons plusieurs moyens que vous trouverez dans la rubrique « Mes avis », onglet « Demander des recommandations » :
+      -#     %ul
+      -#       %li Envoyez-leurs une demande grâce à notre outil dédié qui a l’avantage de leur envoyer un email incluant votre logo et un bouton actif leur permettant de rapidement déposer leur avis. Vous pourrez également suivre dans l’onglet « Demandes envoyées » tous vos élèves qui ont déposé leur avis et les relancer le cas échéant
+      -#       %li En un clic, demandez à vos fans Facebook de déposer leur avis
+      -#       %li Déposez directement le lien pour déposer un avis sur votre propre site Internet ou blog, mais également via tous vos moyens de communication (signature d’emails, affiches à mettre dans vos cours, etc.)
+      -#
+      -#     %p Nos partenaires qui affichent publiquement les témoignages de leurs élèves sont ceux qui ont le plus fort taux d'inscription et de fidélisation.
+      -#
+      -#
+      -# %div.hide.soft--sides#tout-savoir-sur-les-avis.tab-pane
+      -#   %h5.blue.toggleable-header{ data: { behavior: 'toggleable', el:'+ div' } }
+      -#     Quel est l'intérêt d'avoir des avis ?
+      -#     %i.fa.fa-caret-left
+      -#   %div.hide.soft--sides
+      -#     %p.flush Il existe plusieurs raisons d’avoir des avis sur CoursAvenue, en voici les principales :
+      -#     %ul
+      -#       %li Vous répondez à un réel besoin : 3 élèves sur 4 disent consulter les avis sur Internet avant de réserver un cours ;
+      -#       %li Vous rendez enfin publics les compliments de vos élèves et vous vous constituez un véritable livre d’or interactif, à mettre également en avant sur votre propre site Internet ou votre blog (votre livre d’or provient alors d’un site extérieur, d’un tiers de confiance !) ;
+      -#       %li Vous gagnez en visibilité et optimisez votre référencement Google.
+      -#
+      -#     %p Nos partenaires qui affichent publiquement les témoignages de leurs élèves sont ceux qui ont le plus fort taux d'inscription et de fidélisation.
+      -#
+      -#   %h5.blue.toggleable-header{ data: { behavior: 'toggleable', el:'+ div' } }
+      -#     Est-ce que je peux gérer mes avis, notamment les avis négatifs ?
+      -#     %i.fa.fa-caret-left
+      -#   %div.hide.soft--sides
+      -#     %p Oui, vous pouvez gérer vos avis depuis votre profil CoursAvenue, rubrique « Mes avis ». Si l’avis ne respecte pas notre code de déontologie (avis objectif, ne visant pas une personne en particulier, témoignage constructif dont l’objectif est d’aider à mieux comprendre un cours) vous pourrez nous envoyer une demande de suppression.
+      -#
+      -#     %p Mais rassurez-vous : ce sont plus des témoignages et recommandations que des avis. Un cours ne peut pas être assimilé à une chambre d’hôtel ou à un restaurant, le rapport à l’humain est plus fort et l’expérience plus subjective : c’est pour cette raison que nous avons décidé de ne pas mettre de note aux avis. Concrètement, l’utilité de chaque témoignage est de mieux renseigner le prochain élève qui ne vous connaît pas. Lisez les avis déjà postés sur CoursAvenue, ils sont tous très descriptifs et positifs, et ils sont là pour défendre la qualité de vos cours !
+      -#
+      -#
+      -#   %h5.blue.toggleable-header{ data: { behavior: 'toggleable', el:'+ div' } }
+      -#     Est-ce que n’importe qui peut déposer un avis ?
+      -#     %i.fa.fa-caret-left
+      -#   %div.hide.soft--sides
+      -#     %p.flush Non, n’importe qui ne peut pas déposer son avis : ce sont uniquement vos élèves qui peuvent le faire. Voici les 2 méthodes pour pouvoir déposer un avis sur votre profil :
+      -#
+      -#     %ul
+      -#       %li Soit vous avez vous-même envoyé votre demande de recommandation à vos élèves après avoir renseigné leur email grâce à notre outil dédié, partagé sur Facebook, ou envoyé vous-même le message depuis votre propre boîte mail : la demande est alors destinée à vos élèves, et à personne d’autre ;
+      -#       %li Soit un Internaute dépose son avis librement sur votre profil public CoursAvenue : dans ce cas, nous vous envoyons un email automatique qui vous demandera de valider l’identité de l’Internaute. S’il s’agit bien d’un de vos élèves, son avis sera publié ; dans le cas contraire, nous ne le publierons pas.
+      -#
+      -#   %h5.blue.toggleable-header{ data: { behavior: 'toggleable', el:'+ div' } }
+      -#     Comment savoir qu’un avis a été déposé ?
+      -#     %i.fa.fa-caret-left
+      -#
+      -#   %div.hide.soft--sides
+      -#     %p Chaque fois qu'un élève poste son avis, vous en êtes notifié par email. Vous pouvez alors le visualiser en vous connectant sur votre profil CoursAvenue.
+      -#
+      -#   %h5.blue.toggleable-header{ data: { behavior: 'toggleable', el:'+ div' } }
+      -#     Peut-on remercier les élèves qui m’ont déposé un avis ?
+      -#     %i.fa.fa-caret-left
+      -#   %div.hide.soft--sides
+      -#     %p Oui, vous pourrez remercier chaque élève ayant posté un avis depuis votre profil CoursAvenue, rubrique « Mes avis », bouton bleu « Répondre à l’élève ».
+      -#
+      -#   %h5.blue.toggleable-header{ data: { behavior: 'toggleable', el:'+ div' } }
+      -#     Je souhaiterais mettre en avant mes avis sur mon propre site web, ou mon propre blog : est-ce possible ?
+      -#     %i.fa.fa-caret-left
+      -#   %div.hide.soft--sides
+      -#     %p Vous avez raison de vouloir mettre en avant vos avis : nos partenaires qui affichent publiquement les témoignages de leurs élèves sont ceux qui ont le plus fort taux d'inscription et de fidélisation.
+      -#     %p.flush La réponse à la question est donc tout naturellement « oui » : une fois que vous avez reçu 5 recommandations, nous vous offrons votre livre d'or qui vous permet d'afficher tous les témoignages de vos élèves directement sur votre propre site Internet ou blog. Le bouche à oreille restant le 1er facteur d'inscription à un cours, vous gagnerez ainsi la confiance des Internautes qui visitent vos pages Internet :
+      -#     %ul
+      -#       %li Connectez-vous à votre profil
+      -#       %li Ouvrez la rubrique "Communiquer"
+      -#       %li Cliquez sur l'onglet "Livre d’or"
+      -#     %p
+      -#       Ainsi, les recommandations de vos élèves seront visibles de tous vos Internautes et mis à jour en temps réel. C’est véritablement un gage de crédibilité que nous vous offrons et qui vous permettra de gagner la confiance de vos nouveaux élèves.
+      -#     %p Dans cette même rubrique, d'autres outils de communication vous sont également offerts pour mettre en avant vos avis sur tous les supports de communication : flyers, cartes de visite, affiches, signature de vos emails, etc.
+      -#     %p Continuez à développer le bouche à oreille sur CoursAvenue : au delà de 15 recommandations, nous vous envoyons un autocollant "Recommandé sur CoursAvenue", signe de confiance et de fidélité de vos élèves.
+      -#
+      -#
+      -# %div.hide.soft--sides#se-connecter-a-son-profil.tab-pane
+      -#   %h5.blue.toggleable-header{ data: { behavior: 'toggleable', el:'+ div' } }
+      -#     J’ai déjà un compte CoursAvenue, mais je n’arrive plus à me connecter : comment faire ?
+      -#     %i.fa.fa-caret-left
+      -#
+      -#   %div.hide.soft--sides
+      -#     %p Si vous êtes sur CoursAvenue.com, cliquez sur le bouton en haut à droite : vous êtes alors redirigé vers CoursAvenuePro (pro.coursavenue.com), nos pages dédiées à nos partenaires. Sur la page d’accueil pro.coursavenue.com, sous le bouton « S’inscrire gratuitement », cliquez sur « Je suis déjà inscrit, me connecter » : renseignez alors votre email et votre mot de passe, puis cliquez sur « Se connecter ».
+      -#
+      -#   %h5.blue.toggleable-header{ data: { behavior: 'toggleable', el:'+ div' } }
+      -#     J’ai perdu mon mot de passe, ou alors il ne fonctionne plus : comment faire ?
+      -#     %i.fa.fa-caret-left
+      -#   %div.hide.soft--sides
+      -#     %p.flush Voici les étapes à suivre pour réinitialiser votre mot de passe :
+      -#
+      -#     %ul
+      -#       %li
+      -#         Cliquez sur ce lien suivant :
+      -#         = link_to 'connexion à mon profil ;', new_pro_admin_session_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+      -#       %li Cliquez sur le lien en gris "J'ai oublié mon mot de passe", juste au dessous du bouton vert ;
+      -#       %li Entrez l’email de votre compte et cliquez sur le bouton vert "Envoyer un nouveau mot de passe" ;
+      -#       %li Un email vous est automatiquement envoyé (si vous ne le recevez pas dans les 5min, vérifiez dans vos spams de votre boîte mail) : cliquez sur le bouton "Changer mon mot de passe" ;
+      -#       %li Une fois sur la page Internet "Changez votre mot de passe", renseignez votre nouveau mot de passe dans les deux champs ;
+      -#       %li Cliquez sur le bouton vert "Valider", et accédez de nouveau à votre profil CoursAvenue.
+      -#
+      -#     %p Mémorisez bien votre nouveau mot de passe qui vous servira à vous connecter.
+      -#
+      -# %div.hide.soft--sides#fonctionnement.tab-pane
+      -#   %h5.blue.toggleable-header{ data: { behavior: 'toggleable', el:'+ div' } }
+      -#     Comment savoir qu’un élève m’a trouvé sur CoursAvenue ? Comment en suis-je notifié ?
+      -#     %i.fa.fa-caret-left
+      -#   %div.hide.soft--sides
+      -#     %p Aujourd’hui, un Internaute qui visualise votre profil ou vos cours sur CoursAvenue et qui souhaite vous contacter clique sur « Coordonnées de réservation ». Il vous contactera alors librement, soit par téléphone soit par email selon les informations que vous aurez renseignées dans votre profil CoursAvenue (section « Mes infos », « Lieux », mettre à jour ce lieu puis « Contact pour la réservation »).
+      -#     %p Nous allons prochainement mettre en place un outil qui permettra à n’importe quel Internaute de vous envoyer un message via CoursAvenue, et qui facilitera le suivi de vos échanges.
+      -#
+      -#   %h5.blue.toggleable-header{ data: { behavior: 'toggleable', el:'+ div' } }
+      -#     Comment apparaître en 1ère position dans votre moteur de recherche ?
+      -#     %i.fa.fa-caret-left
+      -#   %div.hide.soft--sides
+      -#     %p C’est très simple : plus vous avez des avis, plus vous serez visible et vous apparaîtrez dans les 1er résultats de notre moteur de recherche géolocalisé. La raison de ce classement est simple : les recommandations par le bouche à oreille représentent le premier facteur de réservation d’un cours. Nos Internautes aussi recherchent en priorité les appréciations des élèves pour comprendre en quoi chaque cours est exceptionnel. Une fois qu’ils sont renseignés et qu’ils comprennent vraiment ce qu’ils vont y trouver, ils vous contactent !
+      -#
+      -#
+      -# %div.hide.soft--sides#inviter-d-autres-professeurs.tab-pane
+      -#   %h5.blue.toggleable-header{ data: { behavior: 'toggleable', el:'+ div' } }
+      -#     Je connais d’autres professeurs, associations ou écoles qui seraient intéressés par CoursAvenue : comment les inviter ?
+      -#     %i.fa.fa-caret-left
+      -#
+      -#   %div.hide.soft--sides
+      -#     %p Tout d’abord, merci ! Plusieurs de nos partenaires nous ont déjà demandé comment inviter leurs amis professeurs avec lesquels ils partagent les mêmes lieux par exemple, ou tout simplement une association qu’ils apprécient mais qui a du mal à se faire connaître. Les professeurs à parrainer peuvent offrir tout type de cours, toutes disciplines (dessin, théâtre, natation… peu importe !).
+      -#
+      -#     %p Nous avons donc développé un outil très simple qui vous permet d’envoyer autant d’invitations personnalisées que vous le souhaitez : une fois connecté à votre profil, cliquez sur le bouton « Parrainer », entrez les emails des personnes à inviter, personnalisez le message et… c’est envoyé !
+      -#
+      -#
+      -# %div.hide.soft--sides#autres-questions.tab-pane
+      -#   %h5.blue.toggleable-header{ data: { behavior: 'toggleable', el:'+ div' } }
+      -#     Est-ce que votre site ne risque pas d'avoir un impact négatif sur mon propre site (en termes de visibilité et de trafic) ?
+      -#     %i.fa.fa-caret-left
+      -#   %div.hide.soft--sides
+      -#     %p Non, au contraire : plus il y a de trafic sur CoursAvenue, plus vos propres pages seront visitées. Les Internautes qui visitent CoursAvenue sont ceux qui recherchent des avis et des cours autour d’eux, et sont différents de vos Internautes qui vont sur votre site par le bouche à oreille ou grâce à votre bonne position sur les moteurs de recherche. Avoir un profil sur CoursAvenue, c’est donc multiplier vos chances d’être visible de tous les publics.
+      -#
+      -#   %h5.blue.toggleable-header{ data: { behavior: 'toggleable', el:'+ div' } }
+      -#     Quel est l'intérêt d'avoir des avis sur CoursAvenue ?
+      -#     %i.fa.fa-caret-left
+      -#   %div.hide.soft--sides
+      -#     %p Il existe plusieurs raisons d’avoir des avis sur CoursAvenue, en voici les principales :
+      -#     %ul
+      -#       %li Vous répondez à un réel besoin : 3 élèves sur 4 disent consulter les avis sur Internet avant de réserver un cours ;
+      -#       %li Vous rendez enfin publics les compliments de vos élèves et vous vous constituez un véritable livre d’or interactif, à mettre également en avant sur votre propre site Internet ou votre blog (votre livre d’or provient alors d’un site extérieur, d’un tiers de confiance !) ;
+      -#       %li Vous gagnez en visibilité et optimisez votre référencement Google.
+      -#
+      -#   %h5.blue.toggleable-header{ data: { behavior: 'toggleable', el:'+ div' } }
+      -#     Pourquoi s’inscrire sur CoursAvenue ?
+      -#     %i.fa.fa-caret-left
+      -#
+      -#   %div.hide.soft--sides
+      -#     %p CoursAvenue est le premier moteur de recherche de cours basé sur les recommandations des élèves. Avoir un profil CoursAvenue (gratuit et sans engagement) vous permettra d'être visible de nos internautes, mais également des comités d'entreprises qui veulent mieux informer leurs employés sur les cours à prendre autour de leur lieu de travail (tendance en forte croissance). Grâce aux avis, vous aurez également un meilleur résultat dans le référencement Google qui les met en avant (contenu unique et pertinent, actualisé, et venant de plusieurs sources).
+      -#
+      -#   %h5.blue.toggleable-header{ data: { behavior: 'toggleable', el:'+ div' } }
+      -#     Pourquoi vos partenaires (professeurs, écoles et associations) sont satisfaits de CoursAvenue ?
+      -#     %i.fa.fa-caret-left
+      -#   %div.hide.soft--sides
+      -#     %p D'une part, CoursAvenue leur offre la possibilité de solliciter leurs élèves pour avoir leurs avis, ce qui leur permet d’apprendre beaucoup sur leurs points forts et leurs pistes d'amélioration.
+      -#
+      -#     %p Créer du lien direct prof-élèves après le cours est très important, et les élèves apprécient énormément pouvoir s’exprimer sur vos cours. Essayez, vous allez être agréablement surpris !
+      -#
+      -#     %p D’autre part, ils peuvent partager ces témoignages sur CoursAvenue mais également sur leur propre site web (confiance pour les élèves qui ne connaissent pas bien leurs cours, nouveau moyen qui remplace le bouche à oreille). Nos partenaires qui affichent publiquement les témoignages de leurs élèves sont ceux qui ont le plus fort taux d'inscription et de fidélisation.
+      -#
+      -#     %p
+      -#       Enfin, et tout simplement, ils sont ravis de gagner de nouveaux élèves grâce au 1er moteur de recherche de cours géolocalisé, gratuit et sans engagement. Les autres avantages sont également expliqués sur
+      -#       = link_to 'la page présentation.', pro_pages_presentation_path
+      -#
+      -#   %p
+      -#     Si vous avez une question qui ne figure pas dans cette liste, envoyez-nous un mail à contact@coursavenue.com, nous nous ferons un plaisir de vous aider !
+  .delta.push--top.text--center
+    Vous ne trouvez pas la réponse à votre question ?
+    = link_to 'Contactez-nous', pages_contact_path
+
+= content_for :scripts do
+  :javascript
+      $(function() {
+          if (window.location.hash.length > 0 && window.location.hash != '#_=_') {
+              $('[href=' + window.location.hash + ']').tab('show');
+          }
+      });
