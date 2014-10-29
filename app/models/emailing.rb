@@ -5,11 +5,12 @@ class Emailing < ActiveRecord::Base
   ######################################################################
 
   SECTION_METADATA = [
-    { title: 'Nom'          , action: :metadata_name },
-    { title: "Nombre d'avis", action: :metadata_comment_count },
-    { title: "Avis"         , action: :metadata_comment_title },
-    { title: 'À partir de'  , action: :metadata_prices },
-    { title: 'Villes'       , action: :metadata_cities }
+    { title: 'Nom'           , action: :metadata_name },
+    { title: "Nombre d'avis" , action: :metadata_comment_count },
+    { title: "Avis"          , action: :metadata_comment_title },
+    { title: 'À partir de'   , action: :metadata_prices },
+    { title: 'Villes'        , action: :metadata_cities },
+    { title: 'Discipline'    , action: :metadata_subject }
   ]
 
   ######################################################################
@@ -110,6 +111,13 @@ class Emailing < ActiveRecord::Base
   # @return a String.
   def metadata_cities(structure)
     structure.city.name
+  end
+
+  # The first subject of the structure.
+  #
+  # @return a String.
+  def metadata_subject(structure)
+    structure.subjects.first.name
   end
 
   # Set the media before saving if it isn't already set.

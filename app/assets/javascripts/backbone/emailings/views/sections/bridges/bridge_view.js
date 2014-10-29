@@ -28,8 +28,8 @@ Emailing.module('Views.Sections.Bridges', function(Module, App, Backbone, Marion
         },
 
         slidePrev: function slideNext () {
-            var images = this.model.get('images');
-            var current   = _.find(images, function(image) {
+            var images  = this.model.get('images');
+            var current = _.find(images, function(image) {
                 return (image.id == this.model.get('media_id'));
             }.bind(this));
 

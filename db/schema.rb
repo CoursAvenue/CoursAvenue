@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141029135342) do
+ActiveRecord::Schema.define(version: 20141029163619) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -304,6 +304,8 @@ ActiveRecord::Schema.define(version: 20141029135342) do
     t.integer "structure_id"
     t.integer "media_id"
     t.boolean "is_logo"
+    t.integer "subject_id"
+    t.string  "subject_name"
   end
 
   add_index "emailing_section_bridges", ["emailing_section_id", "structure_id"], name: "comments_subjects_index", using: :btree

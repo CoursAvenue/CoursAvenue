@@ -1,6 +1,6 @@
 class EmailingSectionBridge < ActiveRecord::Base
 
-  attr_accessible :media_id
+  attr_accessible :media_id, :subject_id
 
   belongs_to :structure
   belongs_to :emailing_section

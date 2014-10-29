@@ -1,5 +1,5 @@
 class EmailingSectionBridgeSerializer < ActiveModel::Serializer
-  attributes :id, :media_id, :media_url, :images, :structure
+  attributes :id, :media_id, :media_url, :images, :structure, :subjects
 
   # Get the relevant information about a Structure instead of sending the
   # full object.
@@ -27,6 +27,15 @@ class EmailingSectionBridgeSerializer < ActiveModel::Serializer
       else
         { id: media.id, url: media.image.url(:thumbnail_email_cropped) }
       end
+    end
+  end
+
+  # Simplify the subjects to return.
+  #
+  # @return an Array of Hashes containing some images attributes.
+  def subjects
+    object.structure.subjects.map do |subject|
+      { id: subject.id, name: subject.name }
     end
   end
 end
