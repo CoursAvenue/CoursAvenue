@@ -29,4 +29,8 @@ class PagesController < ApplicationController
   def press
     @press_releases = PressRelease.published
   end
+
+  def faq_users
+    @sections = ::Faq::Section.user
+  end
 end
