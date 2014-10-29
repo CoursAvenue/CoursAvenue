@@ -109,7 +109,7 @@ gem 'cancancan'                 , '~>1.9.2'
 # For authentication
 gem 'devise'                    , '~>3.2.4'
 # For facebook connect or more
-gem 'omniauth-facebook'         , '~>1.6.0'
+gem 'omniauth-facebook'         , '~>2.0.0'
 gem 'omniauth'                  , '~>1.2.2'
 # A full-stack Facebook Graph API wrapper in Ruby.
 gem 'fb_graph'                  , '~>2.7.10'
