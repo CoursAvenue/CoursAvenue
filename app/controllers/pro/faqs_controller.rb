@@ -28,6 +28,8 @@ class Pro::FaqsController < Pro::ProController
 
   def preview
     @sections = params[:type] == 'user' ? ::Faq::Section.user : ::Faq::Section.pro
+
+    render template: 'pages/faq_users'
   end
 
   def create
