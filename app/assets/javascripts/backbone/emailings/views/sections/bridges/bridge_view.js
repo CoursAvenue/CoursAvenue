@@ -25,7 +25,6 @@ Emailing.module('Views.Sections.Bridges', function(Module, App, Backbone, Marion
             }.bind(this));
 
             var next = images[images.indexOf(current) + 1];
-
             this.setCurrentImage(next);
         },
 
@@ -36,7 +35,6 @@ Emailing.module('Views.Sections.Bridges', function(Module, App, Backbone, Marion
             }.bind(this));
 
             var prev = images[images.indexOf(current) - 1];
-
             this.setCurrentImage(prev);
         },
 
