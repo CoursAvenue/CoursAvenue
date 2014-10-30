@@ -62,6 +62,10 @@
                                     name: 'Téléphone',
                                     stack: 'Actions'
                                   },
+                                  { data: #{@facebook_actions.sort.map{|date, count| count}},
+                                    name: 'Facebook like',
+                                    stack: 'Actions'
+                                  },
                                   { data: #{@website_actions.sort.map{|date, count| count}},
                                     name: 'Site internet',
                                     stack: 'Actions'

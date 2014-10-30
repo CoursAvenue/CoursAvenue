@@ -87,6 +87,14 @@ $(document).ready(function() {
     /* we only want the current app on the search page */
     if (StructureProfile.detectRoot()) {
         StructureProfile.start({});
+        $(document).on('facebook:initialized', function() {
+            FB.Event.subscribe('edge.create', function(page_url) {
+                if (page_url != 'https://www.facebook.com/CoursAvenue') {
+                    CoursAvenue.statistic.logStat(window.coursavenue.bootstrap.structure.id, 'action', { infos: 'facebook' });
+                }
+            });
+        });
+
         // Create view for current structure only if not a current admin
         // Create impressions for similar profiles
         if (!window.coursavenue.bootstrap.current_pro_admin) {
@@ -100,30 +108,6 @@ $(document).ready(function() {
                     window._fbq.push(['track', '6016785958627', {'value':'0.00','currency':'EUR'}]);
                     ga('send', 'event', 'Action', infos);
                     goog_report_conversion();
-                }
-            });
-
-            $.ajax({
-                type: "POST",
-                dataType: 'js',
-                url: Routes.structure_statistics_path(window.coursavenue.bootstrap.structure.id),
-                data: {
-                    action_type: 'view',
-                    fingerprint: $.cookie('fingerprint')
-                }
-            });
-            var similar_profile_structure_ids = [];
-            $('[data-similar-profile]').map(function(index, element) {
-                similar_profile_structure_ids.push($(element).data('structure-id'));
-            });
-            $.ajax({
-                type: "POST",
-                dataType: 'js',
-                url: Routes.statistics_path(),
-                data: {
-                    action_type: 'impression',
-                    fingerprint: $.cookie('fingerprint'),
-                    structure_ids: similar_profile_structure_ids
                 }
             });
         }
