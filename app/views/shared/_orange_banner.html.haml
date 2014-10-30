@@ -1,10 +1,14 @@
 = content_for :above_container do
   .orange-box.hidden#join-the-community
     .soft-half.white.text--center.epsilon
-      %strong Accédez à des offres exclusives en rejoignant la communauté CoursAvenue :
-      = link_to 'Rejoindre gratuitement', '#', data: { behavior: 'sign-up' }, class: 'btn btn--yellow btn--small', id: 'orange-box-join-for-free'
+      - if ! current_user
+        %strong Accédez à des offres exclusives en rejoignant la communauté CoursAvenue :
+        = link_to 'Rejoindre gratuitement', '#', data: { behavior: 'sign-up' }, class: 'btn btn--yellow btn--small', id: 'orange-box-join-for-free'
+      - else
+        %strong Accédez à des offres exclusives en nous suivant sur Facebook :
       = link_to '#', class: 'white float--right', data: { behavior: 'closer', el: '#join-the-community' } do
         %i.fa.fa-times
+      .v-middle.fb-like{ data: { href: 'https://www.facebook.com/CoursAvenue', layout: 'button_count', action: 'like', 'show-faces' => 'false', share: "false" } }
 
 = content_for :scripts do
   :javascript
@@ -22,3 +26,15 @@
                 mixpanel.track("Structures/show: clicks on orange_header/join_for_free button", { "structure_slug": "#{@structure.slug}", "structure_name": "#{@structure.name}" });
             });
         })
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $(document).on('facebook:initialized', function() {
+            FB.Event.subscribe('edge.create', function(page_url) {
+                if (page_url == 'https://www.facebook.com/CoursAvenue') {
+                    mixpanel.track("Structures/show: like CoursAvenue Facebook Page", { "structure_slug": "#{@structure.slug}", "structure_name": "#{@structure.name}" });
+                }
+            });
+        });
+    });

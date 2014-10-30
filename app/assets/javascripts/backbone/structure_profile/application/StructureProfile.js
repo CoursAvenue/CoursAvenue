@@ -87,6 +87,14 @@ $(document).ready(function() {
     /* we only want the current app on the search page */
     if (StructureProfile.detectRoot()) {
         StructureProfile.start({});
+        $(document).on('facebook:initialized', function() {
+            FB.Event.subscribe('edge.create', function(page_url) {
+                if (page_url != 'https://www.facebook.com/CoursAvenue') {
+                    CoursAvenue.statistic.logStat(window.coursavenue.bootstrap.structure.id, 'action', { infos: 'facebook' });
+                }
+            });
+        });
+
         // Create view for current structure only if not a current admin
         // Create impressions for similar profiles
         if (!window.coursavenue.bootstrap.current_pro_admin) {

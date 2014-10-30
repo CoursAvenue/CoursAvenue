@@ -51,8 +51,7 @@
 
     = yield :scripts
     = yield :layout_scripts
-    - cache 'social_sdks_2' do
-      = render 'layouts/social_sdks'
+    = render 'layouts/social_sdks'
 
     :javascript
       if (!$.cookie('fingerprint')) { $.cookie('fingerprint', new Fingerprint().get()); }

@@ -85,8 +85,8 @@ class StructuresController < ApplicationController
     @place_ids                            = @structure.places.map(&:id)
     @city                                 = @structure.city
 
-    Metric.delay.view(@structure.id, current_user, cookies[:fingerprint], request.ip)
-    unless @structure.premium?
+    Metric.delay.view(@structure.id, current_user, cookies[:fingerprint], request.ip) unless current_pro_admin
+    if !current_pro_admin and !@structure.premium?
       _params = ((params[:lat].present? and params[:lng].present?) ? { lat: params[:lat], lng: params[:lng] } : {})
       @similar_profiles = @structure.similar_profiles(21, _params)
       Metric.delay.print(@similar_profiles.map(&:id), current_user, cookies[:fingerprint], request.ip)
