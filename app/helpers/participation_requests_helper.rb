@@ -76,4 +76,30 @@ module ParticipationRequestsHelper
       end
     end
   end
+
+  def add_to_calendar(participation_request)
+    structure  = participation_request.structure
+    course     = participation_request.course
+    place      = participation_request.place
+    place_info = "Infos sur le lieu : #{place.info} #{place.private_info}".gsub(/\r\n/, ' ') if place.info.present? or place.private_info.present?
+    # Date format
+    #  <span class="_end">11-05-2012 11:38:46</span>
+    link = <<-eos
+    <a href="#{user_participation_requests_path(current_user)}" title="Ajouter à mon calendrier" class="addthisevent" onclick="ga('send', 'event', 'JPO / Add to calendar', 'click')">
+        Ajouter à mon calendrier
+        <span class="_start">#{l(participation_request.date)} #{l(participation_request.start_time, format: :default_only_time)}</span>
+        <span class="_end">#{l(participation_request.date)} #{l(participation_request.end_time, format: :default_only_time)}</span>
+        <span class="_zonecode">40</span>
+        <span class="_summary">#{course.try(:name)}</span>
+        <span class="_description">#{place_info}</span>
+        <span class="_location">#{place.address}</span>
+        <span class="_organizer">CoursAvenue en collaboration avec #{structure.name}</span>
+        <span class="_organizer_email">#{structure.main_contact.email}</span>
+        <span class="_all_day_event">false</span>
+        <span class="_date_format">DD/MM/YYYY</span>
+    </a>
+    eos
+    link.html_safe
+  end
+
 end
