@@ -22,7 +22,6 @@
           %span.visuallyhidden{ itemprop: "addressRegion" }= @structure.city.region_name
         - if @structure.logo.present?
           %img.visuallyhidden{ itemprop: "logo", src: @structure.logo.url }
-          %span.visuallyhidden{ itemprop: "telephone" }= @structure.phone_numbers.first.number
         - if @structure.phone_numbers.any?
           %span.visuallyhidden{ itemprop: "telephone" }= @structure.phone_numbers.first.number
         - if @structure.website.present?
