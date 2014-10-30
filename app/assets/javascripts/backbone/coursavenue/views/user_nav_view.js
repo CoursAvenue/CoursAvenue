@@ -15,8 +15,12 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             CoursAvenue.signIn(options);
         },
 
-        signUp: function signUp () {
-            CoursAvenue.signUp();
+        signUp: function signUp (event) {
+            if ($(event.currentTarget).data('title')) {
+                CoursAvenue.signUp({ title: $(event.currentTarget).data('title') });
+            } else {
+                CoursAvenue.signUp();
+            }
         },
 
         onRender: function onRender () {

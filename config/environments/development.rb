@@ -13,7 +13,7 @@ CoursAvenue::Application.configure do
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
   # This is added for IdentityCache.
-  config.action_controller.perform_caching = true
+  config.action_controller.perform_caching = false
 
   config.cache_store = :dalli_store
   config.identity_cache_store = :dalli_store

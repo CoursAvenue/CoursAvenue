@@ -1,8 +1,8 @@
 # encoding: utf-8
 class PlanningSearch
-
+  ROOT_SUBJECT_ID_SUPPORTED = %w(danse theatre-scene yoga-bien-etre-sante musique-chant deco-mode-bricolage dessin-peinture-arts-plastiques sports-arts-martiaux cuisine-vins photo-video other)
   def self.search params, options= {}
-    params[:sort] ||= 'rating_desc'
+    params[:sort] ||= 'rating-desc'
     # retrieve_location params
 
     # Encode name in UTF8 as it can be submitted by the user and can be bad
@@ -94,7 +94,11 @@ class PlanningSearch
         with(:structure_type).any_of                       params[:structure_types]                     if params[:structure_types].present?
       end
       order_by :has_logo, :desc
-      order_by :search_score, :desc
+      if params[:root_subject_id].present? and ROOT_SUBJECT_ID_SUPPORTED.include?(params[:root_subject_id])
+        order_by "search_score_#{params[:root_subject_id]}".underscore.to_sym, :desc
+      else
+        order_by :search_score, :desc
+      end
       order_by :action_count, :asc
       order_by :view_count, :asc
 

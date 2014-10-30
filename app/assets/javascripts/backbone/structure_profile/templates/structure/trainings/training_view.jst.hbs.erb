@@ -1,17 +1,22 @@
 <div class="bordered--bottom-on-stick soft--ends bg-white relative" id="course-{{id}}" data-type="course-view-title">
-  <h3 class="v-middle flush inline-block delta">{{ name }}</h3>
-  {{#if promotion_title}}
-    <a href="#course-{{id}}-tarifs" class="v-middle lbl lbl--yellow muted-link push-half--left" data-behavior='scroll-to' data-offset-top='-115'><i class="fa-star"></i> {{ promotion_title }}</a>
+  <h2 class="v-middle flush inline-block delta">{{ name }}</h3>
+  {{#if is_open_for_trial}}
+    <a href="#" class="v-middle lbl lbl--yellow muted-link push-half--left" data-toggle="popover" data-content="{{trial_courses_policy_popover}}" data-trigger="hover" data-behavior='show-contact-panel' data-course-id="{{id}}"><i class="fa-ticket"></i> Essai gratuit</a>
+  {{/if}}
+  {{#if has_promotion}}
+    <a href="#course-{{id}}-tarifs" class="v-middle lbl lbl--yellow muted-link push-half--left" data-behavior='scroll-to' data-offset-top='-115'><i class="fa-star"></i> Promotions</a>
   {{else}}
-    <div class="lbl visibility-hidden"></div>
+    {{! Here to keep same height if there is no promo. If not here, iPhone effect will be buggy }}
+    <div class="lbl visibility-hidden">&nbsp;</div>
   {{/if}}
 </div>
+
 <div class="flexbox push--bottom">
     <div class="flexbox__item v-top one-fifth">
         <strong class="gray-light">Planning</strong>
     </div>
     <div class="flexbox__item v-top four-fifths">
-        <table class="table--striped table--data table--data-small {{#if on_appointment}}hidden{{/if}}">
+        <table class="push-half--bottom table--striped table--data table--data-small {{#if on_appointment}}hidden{{/if}}">
             <thead class="gray-light">
                 <tr>
                     <th class="four-twelfths">Dates</th>
@@ -25,10 +30,10 @@
             </thead>
             <tbody data-type="plannings-container"></tbody>
         </table>
+        <div>
+          <a href="#" data-behavior="show-long-version" data-long-version=".course-{{id}}-know-more">En savoir plus <i class="fa fa-caret-down"></i></a>
+        </div>
     </div>
-</div>
-<div>
-  <a href="#" data-behavior="show-long-version" data-long-version=".course-{{id}}-know-more">En savoir plus <i class="fa fa-caret-down"></i></a>
 </div>
 <div class="flexbox push--bottom  course-{{id}}-know-more hidden">
     <div class="flexbox__item v-top one-fifth">

@@ -10,7 +10,8 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             'submit form'                       : 'submitForm',
             'change @ui.$course_select'         : 'showAssociatedPlannings',
             'change @ui.$planning_select_input' : 'updateDatePicker',
-            'change [name=request_type]'        : 'toggleRequestType'
+            'change [name=request_type]'        : 'toggleRequestType',
+            'click [data-behavior=show-phone-numbers]': 'showPhoneNumbers'
         },
 
         ui: {
@@ -32,6 +33,10 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             this.model = new StructureProfile.Models.ParticipationRequest(options.model || {});
             Backbone.Validation.bind(this);
             _.bindAll(this, 'showPopupMessageDidntSend');
+        },
+
+        showPhoneNumbers: function showPhoneNumbers () {
+            this.$('.phone_number').slideToggle();
         },
 
         toggleRequestType: function toggleRequestType (event) {

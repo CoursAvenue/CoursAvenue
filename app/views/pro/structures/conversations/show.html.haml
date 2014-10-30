@@ -24,13 +24,15 @@
     - user = @conversation.recipients.detect{ |recipient| recipient.is_a? User }
     - if user.phone_number.present?
       - # If it is a request, show phone number only if request is accepted
-      - if !participation_request or (participation_request and participation_request.accepted?)
-        .grid.epsilon
-          .grid__item.two-twelfths.v-middle.text--right>
-            %strong.flush
-              Téléphone
-          .grid__item.ten-twelfths.soft-half--left.v-middle>
+      .grid.epsilon.push-half--bottom
+        .grid__item.two-twelfths.v-middle.text--right.v-middle>
+          %strong.flush
+            Téléphone
+        .grid__item.ten-twelfths.soft-half--left.v-middle>
+          - if !participation_request or (participation_request and participation_request.accepted?)
             %strong= readable_phone_number user.phone_number
+          - else
+            %i Le téléphone de l'élève s'affichera une fois l'inscription confirmée
     - if conversation_courses(@conversation, @structure).present?
       .grid
         .grid__item.two-twelfths.v-middle.text--right>

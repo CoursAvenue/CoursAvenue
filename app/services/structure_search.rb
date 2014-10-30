@@ -1,6 +1,6 @@
 class StructureSearch
   extend StructuresHelper
-  ROOT_SUBJECT_ID_SUPPORTED = %w(danse theatre_scene yoga_bien_etre_sante musique_chant deco_mode_bricolage dessin_peinture_arts_plastiques sports_arts_martiaux cuisine_vins photo_video other)
+  ROOT_SUBJECT_ID_SUPPORTED = %w(danse theatre-scene yoga-bien-etre-sante musique-chant deco-mode-bricolage dessin-peinture-arts-plastiques sports-arts-martiaux cuisine-vins photo-video other)
 
   # params: params
   #     name:          fulltext
