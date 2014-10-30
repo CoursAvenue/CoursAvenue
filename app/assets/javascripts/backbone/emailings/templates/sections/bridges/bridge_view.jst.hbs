@@ -1,33 +1,30 @@
 <div class='text--center'>
-  <div>
-    <a class='pointer' data-slide-prev>
-      <i class='delta fa-chevron-left v-middle gray-light'></i>
+  <div class="rslides-wrapper">
+    <a class='pointer rslides_nav rslides1_nav prev' data-slide-prev>
+      <i class='fa-2x soft-black-text-shadow fa-chevron-left'></i>
     </a>
 
-    <img src="{{ media_url }}" data-id="{{ media_id }}" width="300" height="220">
+    <img src="{{ media_url }}" data-id="{{ media_id }}" width="280" height="210">
 
-    <a class='pointer' data-slide-next>
-      <i class='delta fa-chevron-right v-middle gray-light'></i>
+    <a class='pointer rslides_nav rslides1_nav next' data-slide-next>
+      <i class='fa-2x soft-black-text-shadow fa-chevron-right'></i>
     </a>
   </div>
 
+</div>
+<div class='p text--center'>
   <div>
     <a class='pointer' data-subj-prev>
-      <i class='delta fa-chevron-left v-middle gray-light'></i>
+      <i class='fa-chevron-left v-middle gray-light'></i>
     </a>
 
     <span data-subject-id="{{ subject_id }}"> {{ subject_name }}</span>
 
     <a class='pointer' data-subj-next>
-      <i class='delta fa-chevron-right v-middle gray-light'></i>
+      <i class='fa-chevron-right v-middle gray-light'></i>
     </a>
   </div>
-
-</div>
-<div class='p'>
   <strong>{{ structure.metadata_1 }}</strong>
   <br>
   {{ structure.metadata_2 }}
-  <br>
-  {{ structure.metadata_3 }}
 </div>

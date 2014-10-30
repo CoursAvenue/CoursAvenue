@@ -7,7 +7,7 @@ class Emailing < ActiveRecord::Base
   SECTION_METADATA = [
     { title: 'Nom'           , action: :metadata_name },
     { title: "Nombre d'avis" , action: :metadata_comment_count },
-    { title: "Avis"          , action: :metadata_comment_title },
+    { title: "Titre avis"    , action: :metadata_comment_title },
     { title: 'À partir de'   , action: :metadata_prices },
     { title: 'Villes'        , action: :metadata_cities },
     { title: 'Discipline'    , action: :metadata_subject }
@@ -17,7 +17,7 @@ class Emailing < ActiveRecord::Base
   # Macros                                                             #
   ######################################################################
 
-  attr_accessible :title, :body, :header_image, :alt, :section_metadata_one,
+  attr_accessible :title, :body, :header_image, :header_url, :alt, :section_metadata_one,
                   :section_metadata_two, :section_metadata_three,
                   :emailing_sections, :emailing_sections_attributes
 
@@ -48,7 +48,7 @@ class Emailing < ActiveRecord::Base
   # @return a Boolean
   def reject_section(attributes)
     exists = attributes[:id].present?
-    blank = attributes[:title].blank?
+    blank  = (attributes[:title].blank? and attributes[:link].blank? and attributes[:structure_ids].reject(&:blank?).empty?)
 
     if blank and exists
       attributes.merge!({:_destroy => 1})
@@ -95,7 +95,7 @@ class Emailing < ActiveRecord::Base
   #
   # @return a String.
   def metadata_comment_title(structure)
-    "#{structure.comments.last.title} (#{structure.comments_count} avis)"
+    "#{(structure.highlighted_comment || structure.comments.last).title} (#{structure.comments_count} avis)"
   end
 
   # The lowest price of a lesson by this structure."

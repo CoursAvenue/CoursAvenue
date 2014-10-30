@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141029175317) do
+ActiveRecord::Schema.define(version: 20141030091123) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -335,6 +335,7 @@ ActiveRecord::Schema.define(version: 20141029175317) do
     t.string   "section_metadata_two"
     t.string   "section_metadata_three"
     t.string   "alt"
+    t.string   "header_url"
   end
 
   create_table "emails", force: true do |t|

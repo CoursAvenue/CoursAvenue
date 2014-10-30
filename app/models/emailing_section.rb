@@ -13,8 +13,6 @@ class EmailingSection < ActiveRecord::Base
 
   accepts_nested_attributes_for :structures
 
-  validates :title, presence: true
-
   ######################################################################
   # Methods                                                            #
   ######################################################################
@@ -74,7 +72,6 @@ class EmailingSection < ActiveRecord::Base
   def set_review
   end
 
-  private
 
   # Get the EmailingSectionBridges associated with a structure
   #
