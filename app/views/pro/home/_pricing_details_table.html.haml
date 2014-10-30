@@ -36,7 +36,6 @@
               %i Soit 440€ en un prélèvement unique
               %br
               %strong.green.delta 12 mois pour le prix de 10
-
             - if @structure
               = link_to 'Commencer', new_pro_structure_subscription_plan_path(@structure, premium_type: 'yearly'), class: 'btn btn--yellow btn--full'
             - else
@@ -45,7 +44,6 @@
             .delta 44€ TTC / mois
             %p
               %i Facturation mensuelle
-              %br
               %strong.gamma &nbsp;
             - if @structure
               = link_to 'Commencer', new_pro_structure_subscription_plan_path(@structure, premium_type: 'monthly'), class: 'btn btn--yellow btn--full'

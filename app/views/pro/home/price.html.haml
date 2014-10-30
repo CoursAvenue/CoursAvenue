@@ -1,7 +1,10 @@
 = content_for :title do
-  Optimisez votre visibilité, augmentez votre taux d'inscription et de fidélisation
+  Pro.CoursAvenue.com - Offres & Tarifs
 
-- cache 'pro/pricing/V1' do
+= content_for :meta_description do
+  Optimisez votre visibilité, augmentez votre taux d'inscription et de fidélisation. Trafic supplémentaire ciblé et rentabilité.
+
+- cache 'pro/pricing/V2' do
   .home-screen-promotion-wrapper.soft--sides.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/home_background.jpg'})", 'data-stellar-background-ratio' => '0.6' }
     .main-container.main-container--medium
       %header.grid
@@ -49,7 +52,7 @@
           %i Gratuit et sans engagement
       .grid__item.one-half.palm-one-whole.soft--sides>
         %p
-          %i Abonnement annuel (39€ / mois) ou mensuel (44€ / mois)
+          %i Abonnement annuel (36€ / mois) ou mensuel (44€ / mois)
 
   .home-screen-promotion-wrapper
     .main-container.main-container--medium.soft

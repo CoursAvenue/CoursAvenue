@@ -78,6 +78,10 @@ fr:
     other: Autre
     board: Autre
     independant: Professeur indépendant
+    company_for_meta_description: École
+    association_for_meta_description: Association
+    other_for_meta_description: ''
+    independant_for_meta_description: Professeur
     show:
       see_arrounding_structures: Voir les établissements à proximité
       back_to_results: Retour aux résultats

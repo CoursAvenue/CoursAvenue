@@ -48,22 +48,8 @@ class StructuresController < ApplicationController
 
     log_search
 
-    # We expire the cache every 100 new comments
-    @total_comments = Rails.cache.fetch "structures/index/total_comments/#{params[:subject_id]}/#{Comment::Review.count.round(-2)}" do
-      if params[:subject_id]
-        CommentSearch.search(subject_slug: params[:subject_id]).total
-      else
-        Comment::Review.count
-      end
-    end
-    # We expire the cache every 100 new comments
-    @total_medias = Rails.cache.fetch "structures/index/total_medias/#{params[:subject_id]}/#{Comment::Review.count}" do
-      if params[:subject_id]
-        MediaSearch.search(subject_slug: params[:subject_id]).total
-      else
-        Media.count
-      end
-    end
+    @total_comments = Comment::Review.count
+    @total_medias   = Media.count
     respond_to do |format|
       format.html do
         @models = jasonify @structures, place_ids: @places

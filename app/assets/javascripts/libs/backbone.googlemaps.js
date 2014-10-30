@@ -237,7 +237,7 @@
         position: this.model.getLatLng(),
         map: this.map,
         title: this.model.title,
-        animation: google.maps.Animation.DROP,
+        // animation: google.maps.Animation.DROP,
         visible: false										// hide, until render
       }, this.overlayOptions));
 
@@ -348,7 +348,7 @@
         map: this.map,
         content: "",
         title: this.model.title,
-        animation: google.maps.Animation.DROP, // this doesn't seem to work with rich markers?
+        // animation: google.maps.Animation.DROP, // this doesn't seem to work with rich markers?
         visible: false										// hide, until render
       }, this.overlayOptions));
 
