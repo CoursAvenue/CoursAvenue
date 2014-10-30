@@ -1,6 +1,7 @@
 class Subject < ActiveRecord::Base
   include IdentityCache
   include Concerns::IdentityCacheFetchHelper
+  include AlgoliaSearch
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
@@ -51,6 +52,20 @@ class Subject < ActiveRecord::Base
 
   searchable do
     text :name
+  end
+
+  algoliasearch do
+    attribute :name, :slug
+    add_attribute :type do
+      'subject'
+    end
+    add_attribute :parent do
+      self.parent.slug unless self.depth == 0
+    end
+
+    add_attribute :root do
+      self.root.slug unless self.depth == 0
+    end
   end
 
   # Tells wether the given subject is a descendant of self by checking its ancestry string

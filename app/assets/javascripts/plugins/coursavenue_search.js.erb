@@ -44,10 +44,12 @@
             this.initializeEngines();
             this.initializeTemplates();
             var that = this;
+            var client = new AlgoliaSearch('<%= ENV['ALGOLIA_APPLICATION_ID'] %>', '<%= ENV['ALGOLIA_SEARCH_API_KEY'] %>');
             this.subjects_input.typeahead({
                 highlight : true,
                 minLength: 1,
-                autoselect: true
+                autoselect: true,
+                limit: 10
             }, {
                 displayKey: 'name',
                 templates: {
@@ -56,7 +58,8 @@
                         return that.subjects_template(data);
                     }
                 },
-                source: this.subject_engine.ttAdapter()
+                // source: this.subject_engine.ttAdapter()
+                source: client.initIndex('<%= Subject.index_name %>').ttAdapter({ hitsPerPage: 7 })
             }, {
                 displayKey: 'name',
                 templates: {
@@ -65,7 +68,8 @@
                         return that.structure_template(data);
                     }
                 },
-                source: this.structure_engine.ttAdapter()
+                // source: this.structure_engine.ttAdapter()
+                source: client.initIndex('<%= Structure.index_name %>').ttAdapter({ hitsPerPage: 7 })
             });
 
             this.$element.submit(function(event, data) {
@@ -94,9 +98,9 @@
                     this.selected_subject = data;
                 }
                 // Automatically submit form if there is just the subject input
-                if (this.address_input.length == 0) {
-                    this.$element.submit();
-                }
+                // if (this.address_input.length == 0) {
+                this.$element.submit();
+                // }
             }.bind(this));
             if (this.address_input.length == 0) {
                 this.subjects_input.keydown(function(event) {

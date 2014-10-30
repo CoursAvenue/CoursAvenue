@@ -11,6 +11,7 @@ class Structure < ActiveRecord::Base
   include ConversationsHelper
   include IdentityCache
   include Rails.application.routes.url_helpers
+  include AlgoliaSearch
 
   acts_as_paranoid
   acts_as_tagger
@@ -166,6 +167,23 @@ class Structure < ActiveRecord::Base
   scope :with_logo           , -> { where.not( logo: nil ) }
   scope :with_media          , -> { joins(:medias).uniq }
   scope :with_logo_and_media , -> { with_logo.with_media }
+
+  ######################################################################
+  # Algolia                                                            #
+  ######################################################################
+  algoliasearch do
+    attribute :name, :slug
+    add_attribute :type do
+      'structure'
+    end
+    add_attribute :url do
+      structure_path(self, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+    end
+
+    add_attribute :logo_url do
+      self.logo.url(:small_thumb)
+    end
+  end
 
   ######################################################################
   # Solr                                                               #
@@ -361,7 +379,6 @@ class Structure < ActiveRecord::Base
     end
 
     double :jpo_score
-
   end
 
   handle_asynchronously :solr_index, queue: 'index' unless Rails.env.test?

@@ -18,6 +18,7 @@ gem 'rack-ssl-enforcer',    '~> 0.2.7'
 # gem 'unicorn'
 # gem 'puma'
 gem 'passenger'
+gem 'algoliasearch-rails'
 
 # Database
 gem 'pg'
