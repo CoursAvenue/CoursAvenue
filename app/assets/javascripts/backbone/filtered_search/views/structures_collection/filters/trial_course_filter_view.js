@@ -1,6 +1,6 @@
 FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App, Backbone, Marionette, $, _) {
 
-   var SHOW_TEXT = "Voir tous les cours d'essai gratuits";
+   var SHOW_TEXT = "Voir uniquement les cours d'essai gratuits";
    var HIDE_TEXT = "Cacher tous les cours d'essai gratuits";
 
     Module.TrialCourseFilterView = Backbone.Marionette.ItemView.extend({

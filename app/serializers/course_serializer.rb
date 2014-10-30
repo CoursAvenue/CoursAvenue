@@ -8,7 +8,7 @@ class CourseSerializer < ActiveModel::Serializer
              :is_individual, :is_lesson, :frequency, :premium, :on_appointment,
              :course_location, :min_age_for_kid, :max_age_for_kid, :audiences,
              :levels, :details, :prices, :premium_prices, :has_price_group,
-             :is_open_for_trial, :has_promotion
+             :is_open_for_trial, :has_promotion, :trial_courses_policy_popover
 
   has_many :plannings,      serializer: PlanningSerializer
   has_many :prices,         serializer: PriceSerializer
@@ -139,6 +139,10 @@ class CourseSerializer < ActiveModel::Serializer
 
   def has_price_group
     object.price_group.present?
+  end
+
+  def trial_courses_policy_popover
+    I18n.t("structures.trial_courses_policy.#{object.structure.trial_courses_policy}_nb_given")
   end
 
 end

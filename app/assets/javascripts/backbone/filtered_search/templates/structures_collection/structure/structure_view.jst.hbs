@@ -25,12 +25,12 @@
     </div>
     {{#if has_promotion}}
         <div class="north west absolute push on-under-top">
-            <div class="inline-block lbl lbl--yellow milli v-middle"><i class="fa fa-star"></i> Promotions</div>
+            <div class="inline-block lbl lbl--gray-light milli v-middle"><i class="fa fa-star"></i> Promotions</div>
         </div>
     {{/if}}
     {{#if is_open_for_trial}}
         <div class="north west absolute push on-under-top">
-            <div class="inline-block lbl lbl--yellow milli v-middle"><i class="fa fa-ticket"></i> Essai gratuit</div>
+            <div class="inline-block lbl lbl--yellow milli v-middle"><i class="fa fa-ticket"></i> {{ trial_courses_policy }}</div>
         </div>
     {{/if}}
     <div href="#" class="orange north east absolute push on-under-top heart-link" data-behavior='add-to-favorite' data-toggle='tooltip' data-added-title='Retirer de mes favoris' data-not-added-title='Ajouter à mes favoris' data-placement='left'>
@@ -41,16 +41,15 @@
         <h4 class="flush v-top">
             {{ truncate name 29 }}
         </h4>
-        <div style="padding-right: 60px;">
-            {{#if structure_type}}{{ structure_type }} ・ {{/if}}
-            {{ truncate cities 50 }}
+        <div style="padding-right: 60px;" class="text-ellipsis">
+            {{ subjects }}
         </div>
         <div>
-            <div>
+            <div class="text-ellipsis">
                 <strong>
                     <i class="fa fa-comment"></i> {{ comments_count }} avis
                     {{#if highlighted_comment_title}}
-                    ・ <i class="quoted milli">{{{truncate highlighted_comment_title 38}}}</i>
+                    ・ <i class="quoted milli">{{{ highlighted_comment_title }}}</i>
                     {{/if}}
                 </strong>
             </div>

@@ -1,3 +1,25 @@
+{{#if structure.is_sleeping}}
+  {{#if structure.phone_numbers}}
+    {{#if structure.phone_numbers}}
+    <a href="javascript:void(0)" class="btn btn--green btn--full" data-behavior="show-phone-numbers">
+        <i class="fa fa-phone v-middle"></i>
+        <span class="v-middle">Contacter</span>
+    </a>
+    <div class="phone_number hidden white-box">
+        <div class="soft text--center">
+            {{#each structure.phone_numbers}}
+                {{#ifCond @index '>' 0}}<br>{{/ifCond}}
+                <strong class="epsilon v-middle" itemprop="telephone">{{this}}</strong>
+                {{#if structure.premium }}
+                    <i class="soft-half--left v-middle fa fa-check-circle green"></i>
+                    <i class="v-middle green milli">vérifié</i>
+                {{/if}}
+            {{/each}}
+        </div>
+    </div>
+    {{/if}}
+  {{/if}}
+{{else}}
 <div class="panel__header soft-half--ends soft--sides">
     <h5 class="flush">
       Contacter {{structure.about}}
@@ -7,7 +29,7 @@
   <div class="text--center push-half--bottom">
     <label class="orange btn-as-link f-weight-bold inline-block epsilon" data-behavior="toggle-type" data-type="booking" for="request_type_booking">
       <i class="relative fa fa-caret-down" style="left: 54px; top: 11px;"></i>
-      Réservation
+      Inscription
       <input type="radio" value="booking" class="hidden" name="request_type" checked id="request_type_booking">
     </label>
     |
@@ -35,7 +57,7 @@
                         </optgroup>
                     {{/if}}
                     {{#if structure.courses_without_open_for_trials}}
-                        <optgroup label="Cours réguliers">
+                        <optgroup label="Cours réguliers sans essai gratuit">
                             {{#each structure.courses_without_open_for_trials}}
                                 <option data-collection-type="courses" value="{{this.id}}" {{#ifIncludeString ../course_ids this.id}}selected{{/ifIncludeString}}>{{this.name}}</option>
                             {{/each}}
@@ -98,7 +120,7 @@
             {{/if}}
             <button type="submit" class="btn btn--green btn--full" data-disable-with="Message en cours d'envoi...">
                 <div data-type="booking-request-type-wrapper">
-                  Envoyer ma demande de réservation
+                  Envoyer ma demande d'inscription
                 </div>
                 <div class="hidden" data-type="information-request-type-wrapper">
                   Envoyer ma demande d'information
@@ -134,3 +156,4 @@
         </div>
     </article>
 </div>
+{{/if}}

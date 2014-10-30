@@ -1,23 +1,6 @@
 = render 'shared/orange_banner'
 = render 'meta_information'
 
-- cache [@structure, 'structure/show/breadcrumb'] do
-  .main-container.visuallyhidden
-    %ol.nav.breadcrumb.epsilon
-      %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-        = link_to root_search_page_without_subject_path(@city), itemprop: 'url' do
-          %span{ itemprop: 'title' }
-            = @city.name
-      - dominant_root_subject = @structure.dominant_root_subject
-      - if dominant_root_subject
-        %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-          = link_to root_search_page_path(dominant_root_subject, @city), itemprop: 'url' do
-            %span{ itemprop: 'title' }
-              = dominant_root_subject.name
-      %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-        %span{ itemprop: 'title' }
-          = @structure.name
-
 - if !current_user and params[:waiting_for_activation]
   .blue-box.islet.text--center.push--ends
     = render 'users/waiting_for_activation_text'
