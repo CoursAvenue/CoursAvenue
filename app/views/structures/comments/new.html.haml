@@ -3,7 +3,7 @@
 
 - default_fake_message = []
 - if @participation_request
-  - default_fake_message << "Bonjour,\nJ'ai vraiment apprécié ma séance découverte et je souhaiterais éventuellement m'inscrire à des cours réguliers. Serait-il possible de connaître les tarifs ? N'hésitez pas à m'envoyer toutes les informations, et m'informer également de vos stages à venir. \nMerci pour tout !"
+  - default_fake_message << "Bonjour,\nJ'ai vraiment apprécié ma séance d'essai et je souhaiterais éventuellement m'inscrire à des cours réguliers. N'hésitez pas à m'envoyer toutes les informations, et m'informer également de vos stages à venir. \nMerci pour tout !"
 - else
   - default_fake_message << "Salut !\nJe viens de déposer ma recommandation, j'espère qu'elle te plaira.\nMerci pour tout, à très bientôt !"
   - default_fake_message << "Bonjour,\nJ’ai déposé mon témoignage avec grand plaisir, ça fait toujours du bien de partager de si belles expériences.\nA très vite !"
@@ -51,6 +51,8 @@
         = simple_form_for @comment, url: structure_comments_path(@structure), as: :comment, data: { recover: "comment" } do |f|
           = f.hidden_field :commentable_type
           = f.hidden_field :commentable_id
+          - if @participation_request
+            = f.hidden_field :certified, value: true
 
           .input
             %div.control-label
@@ -84,7 +86,8 @@
           = f.input :title, label_html: { class: 'v-top label--large' }, wrapper_html: {class: 'flush--bottom'}, placeholder: "Ex. : Un professeur toujours à l'écoute", input_html: { class: 'input--large' }
 
           - if @participation_request
-            = f.association :subjects, as: :hidden, input_html: { value: @participation_request.course.subjects.map(&:id) }
+            .visuallyhidden
+              = f.association :subjects, as: :select, collection: @structure.subjects.at_depth(2).uniq, multiple: true, input_html: { class: 'input--large multiple-select', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' } }, label_html: { class: 'label--large'}, selected: @participation_request.course.subjects.map(&:id)
           - else
             = f.association :subjects, as: :select, collection: @structure.subjects.at_depth(2).uniq, multiple: true, input_html: { class: 'input--large multiple-select', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' } }, label_html: { class: 'label--large'}
 

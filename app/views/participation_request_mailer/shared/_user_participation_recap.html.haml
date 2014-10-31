@@ -13,7 +13,8 @@
         %strong Profil
     %td.v-middle.content-block{ width: '55%' }
       .p.hard
-        = participation_request.structure.name
+        = link_to structure_url(participation_request.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank' do
+          = participation_request.structure.name
         - if participation_request.accepted? and participation_request.structure.phone_numbers.any?
           = "(#{participation_request.structure.phone_numbers.map(&:number).join(', ')})"
   %tr{ valign: 'top' }
@@ -43,4 +44,7 @@
         .p.hard
           %strong Lieu
       %td.v-middle.content-block{ width: '55%' }
-        .p.hard= participation_request.place.try(:name)
+        .p.hard
+          = link_to URI.encode("https://maps.google.com/?q=#{participation_request.place.address}") do
+            = participation_request.place.address
+          = "(#{participation_request.place.try(:name)})"

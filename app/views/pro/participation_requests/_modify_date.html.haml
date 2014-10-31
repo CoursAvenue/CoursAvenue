@@ -41,13 +41,16 @@
     planning_select.change(function() {
         var selected_planning_id = planning_select.val();
         var selected_planning = _.find(plannings, function(planning) { return planning.id == parseInt(selected_planning_id) });
-        datepicker.datepicker('update', selected_planning.next_date);
+        // Update date, only if it is not the same week date
         // Disable days of week
         var days_of_week = [0,1,2,3,4,5,6];
         days_of_week.splice(days_of_week.indexOf(selected_planning.week_day), 1);
         datepicker.datepicker('setDaysOfWeekDisabled', days_of_week);
         $('#address-name').text(selected_planning.address_name);
         $('#address-name').data('content', selected_planning.address_with_info);
+        currently_selected_date = datepicker.datepicker('getDate');
+        if (currently_selected_date.getDay() != selected_planning.week_day) {
+            datepicker.datepicker('update', selected_planning.next_date);
+        }
     });
     planning_select.change();
-

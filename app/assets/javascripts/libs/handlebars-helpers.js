@@ -161,7 +161,7 @@ Handlebars.registerHelper("hide_contacts", function (text, options) {
 
 // Ex. of usage: {{ hide_contacts description }}
 Handlebars.registerHelper("hide_contacts_and_escape", function (text, options) {
-    return GLOBAL.hideContactsInfo(text).replace(/(['"])/g, '\\$1');
+    return GLOBAL.hideContactsInfo(text).replace(/"/g, '\\$1');
 });
 
 // Ex. of usage: {{ simple_format_hide_contacts description }}

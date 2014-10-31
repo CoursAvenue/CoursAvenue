@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141029135342) do
+ActiveRecord::Schema.define(version: 20141031134222) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -180,6 +180,7 @@ ActiveRecord::Schema.define(version: 20141029135342) do
     t.string   "deletion_reason"
     t.string   "type"
     t.integer  "associated_message_id"
+    t.boolean  "certified"
   end
 
   add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree
@@ -304,6 +305,11 @@ ActiveRecord::Schema.define(version: 20141029135342) do
     t.integer "structure_id"
     t.integer "media_id"
     t.boolean "is_logo"
+    t.integer "subject_id"
+    t.string  "subject_name"
+    t.integer "review_id"
+    t.string  "review_text"
+    t.boolean "review_custom"
   end
 
   add_index "emailing_section_bridges", ["emailing_section_id", "structure_id"], name: "comments_subjects_index", using: :btree
@@ -330,6 +336,7 @@ ActiveRecord::Schema.define(version: 20141029135342) do
     t.string   "section_metadata_two"
     t.string   "section_metadata_three"
     t.string   "alt"
+    t.string   "header_url"
   end
 
   create_table "emails", force: true do |t|

@@ -3,6 +3,7 @@
 
 .p
   Bonjour,
+
 .p
   Malheureusement, #{@user.name} vient de refuser son inscription au cours d'essai "#{@course.name}" qui était prévu le
   %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}."
@@ -16,6 +17,9 @@
 
 .soft-half--top
   = render 'shared/mailers/footer'
+
+- content_for :under_content do
+  = render partial: 'participation_request_mailer/shared/participation_recap', locals: { participation_request: @participation_request }
 
 - content_for :under_content_gray do
   = render 'participation_request_mailer/shared/teacher_faq'
