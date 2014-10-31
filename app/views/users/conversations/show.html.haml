@@ -17,17 +17,34 @@
         %h5.flush= @conversation.subject
     .grid
       .grid__item.two-twelfths.v-middle.text--right>
-        %p À
+        %p.flush À
       .grid__item.ten-twelfths.soft-half--left.v-middle>
-        %p= recipients.map(&:name).join(', ')
+        %h5.flush= recipients.map(&:name).join(', ')
 
     - if @participation_request
+      .grid.push-half--ends
+        .grid__item.two-twelfths.v-middle.text--right>
+        .grid__item.ten-twelfths.soft-half--left.v-middle>
+          .flexbox
+            .flexbox__item.v-middle{ class: (@participation_request.pending? ? 'one-whole' : 'three-quarters') }>
+              .soft-half.white{ class: "#{participation_request_color(@participation_request)}-box" }
+                .flexbox
+                  .flexbox__item.delta.v-middle.soft-half--right{ style: 'width: 1em;' }>
+                    = participation_request_icon(@participation_request)
+                  .flexbox__items.epsilon.v-middle.one-whole>
+                    = participation_request_long_description(@participation_request, 'user')
+            - if @participation_request.accepted? or (@participation_request.pending? and @participation_request.last_modified_by == 'User')
+              .flexbox__item.v-middle.one-quarter.soft-half--left#modify-links>
+                = link_to 'Proposer un autre créneau', edit_user_participation_request_path(@user, @participation_request), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+                %br
+                = link_to "Annuler l'inscription", cancel_form_user_participation_request_path(@user, @participation_request), class: 'red nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+
       .grid.epsilon
         .grid__item.two-twelfths.v-top.text--right>
           %strong.flush
             Récapitulatif
         .grid__item.ten-twelfths.soft-half--left.v-top>
-          %ul.no-bullet-list
+          %ul.no-bullet-list.flush
             %li
               %strong Nom du cours :
               = @participation_request.course.name
@@ -45,23 +62,6 @@
                 - if @participation_request.place.private_info.present?
                   %br
                   = @participation_request.place.private_info
-
-      .grid.push-half--top
-        .grid__item.two-twelfths.v-middle.text--right>
-        .grid__item.ten-twelfths.soft-half--left.v-middle>
-          .flexbox
-            .flexbox__item.v-middle{ class: (@participation_request.pending? ? 'one-whole' : 'three-quarters') }>
-              .soft-half.white{ class: "#{participation_request_color(@participation_request)}-box" }
-                .flexbox
-                  .flexbox__item.delta.v-middle.soft-half--right{ style: 'width: 1em;' }>
-                    = participation_request_icon(@participation_request)
-                  .flexbox__items.epsilon.v-middle.one-whole>
-                    = participation_request_long_description(@participation_request, 'user')
-            - if @participation_request.accepted? or (@participation_request.pending? and @participation_request.last_modified_by == 'User')
-              .flexbox__item.v-middle.one-quarter.soft-half--left#modify-links>
-                = link_to 'Proposer un autre créneau', edit_user_participation_request_path(@user, @participation_request), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
-                %br
-                = link_to "Annuler l'inscription", cancel_form_user_participation_request_path(@user, @participation_request), class: 'red nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
 
       .push--top
         - if @participation_request.pending? and @participation_request.last_modified_by == 'Structure'

@@ -74,13 +74,12 @@
                             trainings_pro_structure_courses_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
                             trainings_options_link
 
-      - if @structure.parisian?
-        - to_complete_step_nb += 1 if @structure.courses.open_for_trial.any?
-        = pro_side_menu_link 'trial_courses',
-                              trial_courses_pro_structure_courses_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
-                              current: current_tab,
-                              icon: 'fa fa-ticket',
-                              completed: @structure.courses.open_for_trial.any?
+      - to_complete_step_nb += 1 if @structure.courses.open_for_trial.any?
+      = pro_side_menu_link 'trial_courses',
+                            trial_courses_pro_structure_courses_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
+                            current: current_tab,
+                            icon: 'fa fa-ticket',
+                            completed: @structure.courses.open_for_trial.any?
 
       - to_complete_step_nb += 1 if @structure.price_groups.empty?
       = pro_side_menu_link 'price_groups',
