@@ -100,6 +100,11 @@
                             pro_structure_conversations_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
                             current: current_tab,
                             icon: 'fa fa-envelope-o'
+
+      = pro_side_menu_link 'inscriptions',
+                            pro_structure_participation_requests_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
+                            current: current_tab,
+                            icon: 'fa fa-group'
       - if current_pro_admin
         = pro_side_menu_link 'crm',
                               pro_structure_user_profiles_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN) ,
