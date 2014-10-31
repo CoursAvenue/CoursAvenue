@@ -84,7 +84,6 @@ module ParticipationRequestsHelper
     place_info = "Infos sur le lieu : #{place.info} #{place.private_info}".gsub(/\r\n/, ' ') if place.info.present? or place.private_info.present?
     # Date format
     #  <span class="_end">11-05-2012 11:38:46</span>
-    # Ajouter à mon calendrier
     link = <<-eos
     <a href="#{user_participation_requests_path(current_user)}" title="Ajouter à mon calendrier" class="addthisevent">
         <div class="date">
