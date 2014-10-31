@@ -111,6 +111,12 @@ class ParticipationRequestMailer < ActionMailer::Base
     mail to: @admin.email, subject: "Pour mémoire - Inscriptions pour demain"
   end
 
+  def recap_for_user(user, participation_requests)
+    @participation_requests = participation_requests
+    @user                   = user
+    mail to: @user.email, subject: "Pour mémoire - Planning de demain"
+  end
+
   ######################################################################
   # After the course                                                   #
   ######################################################################
