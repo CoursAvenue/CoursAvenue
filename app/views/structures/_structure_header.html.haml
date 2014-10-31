@@ -2,7 +2,7 @@
   .main-container.soft--sides.soft-half--ends.relative{ itemscope: true, itemtype: "http://schema.org/Organization" }
     - cache [@structure, 'structure/show/breadcrumb'] do
       .main-container
-        %ol.nav.breadcrumb.epsilon
+        %ol.nav.breadcrumb.epsilon.flush
           %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
             = link_to root_search_page_without_subject_path(@city), itemprop: 'url' do
               %span{ itemprop: 'title' }
