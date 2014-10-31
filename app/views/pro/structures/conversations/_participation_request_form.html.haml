@@ -12,7 +12,7 @@
           .flexbox__item>
             = link_to 'Accepter et envoyer', '#', class: 'btn--full btn btn--green', data: { disable_with: "Message en cours d'envoi" }, id: 'accept-request'
           .flexbox__item.soft-half--sides>
-            = link_to 'Proposer un autre créneau', edit_structure_participation_request_path(@structure, @participation_request), class: 'btn btn--orange btn--full fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+            = link_to 'Proposer un autre créneau', edit_pro_structure_participation_request_path(@structure, @participation_request), class: 'btn btn--orange btn--full fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
           .flexbox__item>
             = link_to 'Refuser la demande', '#', class: 'btn--full btn btn--red', data: { disable_with: "Message en cours d'envoi" }, id: 'decline-request'
 
