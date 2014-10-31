@@ -59,17 +59,7 @@ class CourseSerializer < ActiveModel::Serializer
 
   def course_location
     return '' unless object.is_private?
-    string = ""
-    if object.teaches_at_home? and object.home_place
-      string << "Au domicile de l'élève (rayon de #{object.home_place.radius}km autour de #{object.home_place.city.name})"
-    end
-    if object.teaches_at_home? and object.home_place and object.place
-      string << "<br>"
-    end
-    if object.place
-      string << "#{object.place.name}, #{object.place.address}"
-    end
-    string
+    readable_private_course_location(object)
   end
 
   def levels

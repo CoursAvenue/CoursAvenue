@@ -25,7 +25,8 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             '$booking_request_type_wrapper'    : '[data-type=booking-request-type-wrapper]',
             '$information_request_type_wrapper': '[data-type=information-request-type-wrapper]',
             '$request_type_labels'             : '[data-behavior=toggle-type]',
-            '$request_type_inputs'             : '[data-behavior=toggle-type] input'
+            '$request_type_inputs'             : '[data-behavior=toggle-type] input',
+            '$address_info'                    : '[data-element="address-info"]'
         },
 
         initialize: function initialize (options) {
@@ -163,9 +164,11 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             if (this.getCurrentCoursePlannings().length > 0) {
                 this.ui.$planning_select_wrapper.slideDown();
                 this.ui.$time_wrapper.hide();
+            // If it's a private course without
             } else {
                 this.ui.$time_wrapper.show();
                 this.ui.$planning_select_wrapper.slideUp();
+                this.ui.$address_info.text(this.getCurrentCourse().get('course_location'));
             }
             this.populatePlannings();
             if (this.model.get('course_collection_type') == 'courses') {
@@ -208,6 +211,7 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             var days_of_week = [0,1,2,3,4,5,6];
             days_of_week.splice(days_of_week.indexOf(this.getCurrentPlanning().week_day), 1);
             this.ui.$datepicker_input.datepicker('setDaysOfWeekDisabled', days_of_week);
+            this.ui.$address_info.text(this.getCurrentPlanning().address_name);
         },
 
         trackEvent: function trackEvent () {
