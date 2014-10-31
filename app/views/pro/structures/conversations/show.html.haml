@@ -42,11 +42,29 @@
 
     - if @participation_request
       .grid.epsilon
-        .grid__item.two-twelfths.v-middle.text--right>
-          %strong.flush.nowrap
-            Cours concerné
-        .grid__item.ten-twelfths.soft-half--left.v-middle>
-          = participation_request_course_description(@participation_request)
+        .grid__item.two-twelfths.v-top.text--right>
+          %strong.flush
+            Récapitulatif
+          .milli.blue Infos transmises à l'élève
+        .grid__item.ten-twelfths.soft-half--left.v-top>
+          %ul.no-bullet-list
+            %li
+              %strong Nom du cours :
+              = @participation_request.course.name
+            %li
+              %strong Jour et créneau :
+              #{l(@participation_request.date, format: :semi_long)} : #{l(@participation_request.start_time, format: :short)} à #{l(@participation_request.end_time, format: :short)}.
+            %li
+              %strong Lieu :
+              = @participation_request.place.name
+            - if @participation_request.place.info.present? or @participation_request.place.private_info.present?
+              %li
+                %strong Infos pratiques :
+                %br
+                = @participation_request.place.info
+                - if @participation_request.place.private_info.present?
+                  %br
+                  = @participation_request.place.private_info
       .grid.push-half--top
         .grid__item.two-twelfths.v-middle.text--right>
         .grid__item.ten-twelfths.soft-half--left.v-middle>
