@@ -26,6 +26,10 @@
     </h5>
 </div>
 <div class="panel__body soft">
+  {{#if last_message_sent_at}}
+      <div class="green"><i class="fa fa-check"></i> <strong>Dernier message envoyé le {{last_message_sent_at}}</strong></div>
+      <hr class="push--ends">
+  {{/if}}
   <div class="text--center push--bottom">
     <label class="orange btn-as-link f-weight-bold inline-block epsilon" data-behavior="toggle-type" data-type="booking" for="request_type_booking">
       <i class="relative fa fa-caret-down" style="left: 54px; top: 16px;"></i>
@@ -39,10 +43,6 @@
       <input type="radio" value="information" class="hidden" name="request_type" id="request_type_information">
     </label>
   </div>
-    {{#if participation_request.user.last_message_sent}}
-        <div class="green"><i class="fa fa-check"></i> <strong>Dernier message envoyé le {{participation_request.user.last_message_sent}}</strong></div>
-        <hr class="push--ends">
-    {{/if}}
     <article class="tab-pane active hard">
         <form action="{{participation_request.url}}">
             <div class="grid--full">

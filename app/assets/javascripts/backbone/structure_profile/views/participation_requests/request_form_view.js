@@ -289,8 +289,13 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             var structure_json       = this.structure.toJSON();
             structure_json.courses   = this.structure.get('courses').toJSON();
             structure_json.trainings = this.structure.get('trainings').toJSON();
+            if (CoursAvenue.currentUser().get('last_messages_sent')) {
+                _.extend(data, {
+                    last_message_sent_at: CoursAvenue.currentUser().get('last_messages_sent')[structure_json.id]
+                });
+            }
             _.extend(data, {
-                structure: structure_json
+                structure: structure_json,
             });
             return data;
         }

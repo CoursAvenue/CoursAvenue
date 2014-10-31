@@ -64,6 +64,7 @@ class Comment::Review < Comment
       end
     end
 
+    boolean :certified
     boolean :has_title do
       self.title.present?
     end

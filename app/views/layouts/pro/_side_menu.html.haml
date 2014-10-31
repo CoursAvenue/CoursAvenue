@@ -74,7 +74,7 @@
                             trainings_pro_structure_courses_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
                             trainings_options_link
 
-      - to_complete_step_nb += 1 if @structure.courses.open_for_trial.any?
+      - to_complete_step_nb += 1 if @structure.courses.open_for_trial.empty?
       = pro_side_menu_link 'trial_courses',
                             trial_courses_pro_structure_courses_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
                             current: current_tab,

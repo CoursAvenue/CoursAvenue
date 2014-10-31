@@ -38,6 +38,8 @@
     %td.v-middle.content-block{ width: '55%' }
       .p.hard
         = "#{l(participation_request.date, format: :semi_short)} de #{l(participation_request.start_time, format: :short)} à #{l(participation_request.end_time, format: :short)}"
+        %br
+        = link_to 'Ajouter à mon calendrier', user_participation_requests_url(participation_request.user, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
   - if participation_request.place
     %tr{ valign: 'top' }
       %td.v-middle.content-block{ width: '25%' }

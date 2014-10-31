@@ -75,7 +75,7 @@ class Structures::CommentsController < ApplicationController
       end
       if @comment.save
         cookies[:delete_cookies] = true
-        format.html { redirect_to structure_comment_path(@structure, @comment), notice: "Merci d'avoir laissé votre avis !" }
+        format.html { redirect_to pages_what_is_it_path, notice: "Merci d'avoir laissé votre avis !" }
       else
         @comments     = @structure.comments.accepted.reject(&:new_record?)[0..5]
         flash[:alert] = "L'avis n'a pas pu être posté. Assurez-vous d'avoir bien rempli tous les champs."
