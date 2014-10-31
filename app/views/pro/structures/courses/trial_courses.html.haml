@@ -114,3 +114,12 @@
             - if course.plannings.future.any?
               = render partial: 'pro/structures/courses/trial_course', locals: { course: course, structure: @structure }
           .text--center= link_to 'Enregistrer', trial_courses_pro_structure_courses_path(@structure), class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours' }
+= content_for :scripts do
+  :javascript
+      $(function() {
+          $('#trial_courses_policy_0_trial').change(function() {
+              if ($('#trial_courses_policy_0_trial').is(':checked')) {
+                  $('[name="course[is_open_for_trial]"]:checked').attr('checked', false);
+              }
+          })
+      });

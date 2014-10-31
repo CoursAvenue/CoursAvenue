@@ -155,6 +155,7 @@ class Structure < ActiveRecord::Base
   before_save   :sanatize_description
   before_save   :encode_uris
 
+  after_save    :update_open_for_trial_courses_if_neesds
   after_save    :geocode_if_needs_to            unless Rails.env.test?
   after_save    :subscribe_to_crm               if Rails.env.production?
   after_touch   :regenerate_cached_profile_page if Rails.env.production?
@@ -1308,5 +1309,16 @@ class Structure < ActiveRecord::Base
 
   def regenerate_cached_profile_page
     PrerenderRenewer.delay.new(structure_url(self, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, host: 'coursavenue.com'))
+  end
+
+  #
+  # Set is_open_for_trial to false if trial_courses_policy changed and is set to nil
+  #
+  # @return nil
+  def update_open_for_trial_courses_if_neesds
+    if self.trial_courses_policy_changed? and self.trial_courses_policy.blank?
+      self.courses.open_for_trial.map{ |c| c.is_open_for_trial = false; c.save }
+    end
+    nil
   end
 end
