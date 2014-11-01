@@ -1,47 +1,54 @@
 = side_menu_currently_at 'trial_courses'
 
 .panel
-  = render partial: 'pro/structures/courses/trial_courses_tabs', locals: { current: 'courses' }
+  .panel__header.soft
+    %h3.flush Cours d'essai gratuits
   .panel__body.soft--ends
     .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.courses.wizard.discovery_pass.step_1') } }
-      %h3.flush Pass Découverte
-      .delta.push--bottom.line-height-1-7 Félicitations ! Vos cours sont éligibles pour le Pass Découverte CoursAvenue. 2 étapes suffisent pour proposer vos cours d'essai dans la cadre de ce Pass :
+      .delta.push--bottom.line-height-1-7
+        Choisissez les cours que vous souhaitez proposer en cours d'essai gratuits. Pour vous, c'est le moyen le plus efficace pour recruter de nouveaux élèves à fidéliser pour vos cours réguliers et vos stages à venir.
+        = link_to pages_free_trial_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--small', target: :_blank do
+          %i.fa.fa-info
+          En savoir plus
 
       %h4
         %span.blue Etape 1 :
         définissez le nombre de cours d'essai par personne
 
-      %p Nous avons remarqué qu'en proposant plus d'un cours par personne, les chances de convertir les élèves qui viennent essayer vos cours en élèves réguliers (souscription à un abonnement annuel ou à un carnet de plusieurs cours) augmentent considérablement. Choisissez le nombre de cours d'essai par personne que vous souhaitez offrir dans le cadre du Pass Découverte :
-
       = simple_form_for [:pro, @structure], remote: true, data: { behavior: 'live-form' } do |f|
-        .grid.epsilon.push-half--bottom
+        .grid.epsilon.push--bottom
           .grid__item.text--center.six-tenths>
             %strong Nombre de cours d'essai par personne
           .grid__item.text--center.four-tenths>
             %strong % de conversion en élèves réguliers (statistiques)
-        .grid.epsilon.push-half-bottom
+        .grid.epsilon.push--bottom
+          .grid__item.text--right.two-tenths>
+            %input.inline-block.v-middle#trial_courses_policy_0_trial{ type: 'radio', value: '', name: 'structure[trial_courses_policy]', checked: @structure.trial_courses_policy.blank? }
+          .grid__item.four-tenths>
+            %label.inline-block.v-middle{ for: 'trial_courses_policy_0_trial' } Je n'offre pas de cours d'essai
+        .grid.epsilon.push--bottom
           .grid__item.text--right.two-tenths>
             %input.inline-block.v-middle#trial_courses_policy_1_trial{ type: 'radio', value: '1_trial', name: 'structure[trial_courses_policy]', checked: @structure.trial_courses_policy == '1_trial'}
           .grid__item.four-tenths>
             %label.inline-block.v-middle{ for: 'trial_courses_policy_1_trial' }= t('structures.trial_courses_policy.1_trial')
           .grid__item.four-tenths>
-            %p
+            %p.flush
               %label.inline-block.v-middle{ for: 'trial_courses_policy_1_trial' }= t('structures.trial_courses_policy.1_trial_advantage_html')
-        .grid.epsilon.push-half-bottom
+        .grid.epsilon.push--bottom
           .grid__item.text--right.two-tenths>
             %input.inline-block.v-middle#trial_courses_policy_2_trials{ type: 'radio', value: '2_trials', name: 'structure[trial_courses_policy]', checked: @structure.trial_courses_policy == '2_trials'}
           .grid__item.four-tenths>
             %label.inline-block.v-middle{ for: 'trial_courses_policy_2_trials' }= t('structures.trial_courses_policy.2_trials')
           .grid__item.four-tenths>
-            %p
+            %p.flush
               %label.inline-block.v-middle{ for: 'trial_courses_policy_2_trials' }= t('structures.trial_courses_policy.2_trials_advantage_html')
-        .grid.epsilon.push-half-bottom
+        .grid.epsilon.push--bottom
           .grid__item.text--right.two-tenths>
             %input.inline-block.v-middle#trial_courses_policy_3_trials{ type: 'radio', value: '3_trials', name: 'structure[trial_courses_policy]', checked: @structure.trial_courses_policy == '3_trials'}
           .grid__item.four-tenths>
             %label.inline-block.v-middle{ for: 'trial_courses_policy_3_trials' }= t('structures.trial_courses_policy.3_trials')
           .grid__item.four-tenths>
-            %p
+            %p.flush
               %label.inline-block.v-middle{ for: 'trial_courses_policy_3_trials' }= t('structures.trial_courses_policy.3_trials_advantage_html')
 
     %hr.push--ends
@@ -49,8 +56,6 @@
       %h4
         %span.blue Etape 2 :
         choisissez les séances que vous souhaitez offrir en cours d'essai
-      %p Pour proposer tous les créneaux d'un même cours, cochez la case au niveau du nom du cours. Pour proposer certaines séances uniquement, cochez les cases au niveau des créneaux :
-
     #lessons-header.soft.bg-white.bordered--bottom-on-stick{ data: { behavior: 'sticky', offset_top: 45, old_width: 'true', z: 300 } }
       %h3.flush Cours collectifs
     .soft--sides
@@ -109,3 +114,12 @@
             - if course.plannings.future.any?
               = render partial: 'pro/structures/courses/trial_course', locals: { course: course, structure: @structure }
           .text--center= link_to 'Enregistrer', trial_courses_pro_structure_courses_path(@structure), class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours' }
+= content_for :scripts do
+  :javascript
+      $(function() {
+          $('#trial_courses_policy_0_trial').change(function() {
+              if ($('#trial_courses_policy_0_trial').is(':checked')) {
+                  $('[name="course[is_open_for_trial]"]:checked').attr('checked', false);
+              }
+          })
+      });

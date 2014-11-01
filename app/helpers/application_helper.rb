@@ -37,7 +37,7 @@ module ApplicationHelper
   end
 
   def current_user_as_json
-    UserSerializer.new(current_user, { structure: @structure }).to_json
+    UserSerializer.new(current_user).to_json
   end
 
   def current_pro_admin_as_json

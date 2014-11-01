@@ -1,5 +1,5 @@
 = user_menu_currently_at 'inscriptions'
-= javascript_include_tag "https://addthisevent.com/libs/1.5.8/ate.min.js"
+= render 'shared/include_addthisevent'
 
 .panel
   .panel__header.soft
@@ -13,17 +13,17 @@
       %table.table--data.table--striped
         %thead
           %tr
-            %th Status
+            %th Statut
             %th Cours
             %th Adresse
             %th Professeur
             %th Jour et horaires
             %th Options
-            %th
+            %th Ajouter à votre calendrier
         %tbody
           - @participation_requests.each do |participation_request|
             %tr
-              %td{ class: participation_request_color(participation_request) }
+              %td.nowrap{ class: participation_request_color(participation_request) }
                 = participation_request_icon(participation_request)
                 = t "participation_request.state.#{participation_request.state}"
               %td
@@ -52,5 +52,5 @@
                 - if !participation_request.canceled? and !participation_request.declined?
                   %br
                   = link_to "Annuler l'inscription", cancel_form_user_participation_request_path(@user, participation_request, return_to: user_participation_requests_path(@user)), class: 'red nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
-              %td
+              %td.nowrap
                 = add_to_calendar(participation_request)

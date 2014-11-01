@@ -9,6 +9,9 @@
 /**
  * Striped tables
  */
+.table-row-alternate-color{
+    background-color: lighten($alternative-background, 3%);
+}
 .table--striped{
     thead {
         tr {

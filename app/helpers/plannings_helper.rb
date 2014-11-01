@@ -6,6 +6,16 @@ module PlanningsHelper
     number_to_currency(course.price)
   end
 
+  def readable_planning(planning)
+    if planning.course.is_lesson? or planning.course.is_private?
+      week_day_for(planning)
+    else
+      _date = "#{planning_date_for(planning)}".capitalize
+      _date << " (#{planning.length} jours)" if planning.length > 1
+      _date
+    end
+  end
+
   def planning_date_for(planning)
     if planning.end_date and planning.start_date != planning.end_date
       "Du #{I18n.l(planning.start_date, format: :semi_long)} au #{I18n.l(planning.end_date, format: :semi_long)}"

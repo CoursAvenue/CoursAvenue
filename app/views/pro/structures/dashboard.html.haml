@@ -61,7 +61,7 @@
                     %i.fa.fa-square-o
                     Renseigner mes cours et mon planning
         .grid__item.one-half{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.dashboard.recommendations')} }>
-          - cache "pro/structures/dashboard/comments_completion/#{@structure.comments.accepted.count}" do
+          - cache [@structure, "pro/structures/dashboard/comments_completion/#{@structure.comments.accepted.count}"] do
             .soft--right
               %h4.push-half--bottom Vos recommandations et récompenses
               %table#progress-comments.push-half--right.flush--bottom
@@ -274,7 +274,7 @@
           Mes photos & vidéos
         - @medias.each_with_index do |media, index|
           .soft-half.inline-block.one-third.v-top>
-            - cache [index, 'pro/structure/dashboard/medias'] do
+            - cache [media, 'pro/structure/dashboard/medias'] do
               = render partial: 'pro/structures/medias/media', locals: { media: media, index: index, show: true }
 
         %p.text--center= link_to 'Ajouter une photo / vidéo', pro_structure_medias_path(@structure), class: 'btn btn--blue'

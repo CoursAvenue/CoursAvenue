@@ -18,5 +18,8 @@
 .soft-half--top
   = render 'shared/mailers/footer'
 
+- content_for :under_content do
+  = render partial: 'participation_request_mailer/shared/participation_recap', locals: { participation_request: @participation_request }
+
 - content_for :under_content_gray do
   = render 'participation_request_mailer/shared/teacher_faq'

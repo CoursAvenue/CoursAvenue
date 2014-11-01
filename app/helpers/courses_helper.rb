@@ -91,4 +91,18 @@ module CoursesHelper
       end.join(', ').html_safe
     end
   end
+
+  def readable_private_course_location(course)
+    string = ""
+    if course.teaches_at_home? and course.home_place
+      string << "Au domicile de l'élève (rayon de #{course.home_place.radius}km autour de #{course.home_place.city.name})"
+    end
+    if course.teaches_at_home? and course.home_place and course.place
+      string << "<br>"
+    end
+    if course.place
+      string << "#{course.place.name}, #{course.place.address}"
+    end
+    string
+  end
 end

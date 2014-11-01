@@ -1,0 +1,13 @@
+- content_for :scripts do
+  = javascript_include_tag "https://addthisevent.com/libs/1.5.8/ate.min.js"
+  :javascript
+    addthisevent.settings({
+        mouse     : false,
+        css       : false,
+        ical      : { show: true, text: "Calendrier Apple" },
+        google    : { show: true, text: "Calendrier Google" },
+        outlook   : { show: true, text: "Calendrier Outlook" },
+        yahoo     : { show: true, text: "Calendrier Yahoo" },
+        dropdown  : { order:"ical,google,outlook,yahoo,facebook" },
+        callback  : ""
+    });

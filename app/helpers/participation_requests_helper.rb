@@ -85,12 +85,24 @@ module ParticipationRequestsHelper
     # Date format
     #  <span class="_end">11-05-2012 11:38:46</span>
     link = <<-eos
-    <a href="#{user_participation_requests_path(current_user)}" title="Ajouter à mon calendrier" class="addthisevent" onclick="ga('send', 'event', 'JPO / Add to calendar', 'click')">
-        Ajouter à mon calendrier
+    <a href="#{user_participation_requests_path(current_user)}" title="Ajouter à mon calendrier" class="addthisevent">
+        <div class="date">
+          <span class="mon">#{t('date.abbr_month_names')[participation_request.date.month].upcase.gsub('.', '')}</span>
+          <span class="day">#{participation_request.date.day}</span>
+          <div class="bdr1"></div>
+          <div class="bdr2"></div>
+        </div>
+        <div class="desc">
+          <p>
+            <strong class="hed">#{truncate course.name, length: 24}</strong>
+            <span class="des">Lieu : #{truncate place.address, length: 28}<br />Date : #{l(participation_request.date, format: :semi_short)} à #{l(participation_request.start_time, format: :short)}</span>
+          </p>
+        </div>
+
         <span class="_start">#{l(participation_request.date)} #{l(participation_request.start_time, format: :default_only_time)}</span>
         <span class="_end">#{l(participation_request.date)} #{l(participation_request.end_time, format: :default_only_time)}</span>
         <span class="_zonecode">40</span>
-        <span class="_summary">#{course.try(:name)}</span>
+        <span class="_summary">#{course.name}</span>
         <span class="_description">#{place_info}</span>
         <span class="_location">#{place.address}</span>
         <span class="_organizer">CoursAvenue en collaboration avec #{structure.name}</span>

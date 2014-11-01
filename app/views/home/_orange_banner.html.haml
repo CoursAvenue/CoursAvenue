@@ -11,14 +11,10 @@
           %br
           %span.f-weight-300 que vous voulez !
       .text--center.relative.jpo-call-to-actions.inline-block
-        - if current_user
-          = link_to root_search_page_without_subject_path('paris'), class: 'btn btn--yellow btn--bigger soft-half--ends soft--sides' do
-            Réserver mes cours d'essai
-        - else
-          = link_to '#', class: 'btn btn--yellow btn--bigger soft-half--ends soft--sides mixpanel-tracker', data: { info: 'Homepage' }, onclick: "$('[data-behavior=sign-up]').click()" do
-            Voir les cours gratuits
+        = link_to root_search_page_without_subject_path('paris'), class: 'btn btn--yellow btn--bigger soft-half--ends soft--sides' do
+          Voir les cours gratuits
         .text--center
-          = link_to pages_what_is_it_path, class: 'white mixpanel-tracker', data: { info: 'Homepage'} do
+          = link_to pages_free_trial_path, class: 'white mixpanel-tracker', data: { info: 'Homepage'} do
             En savoir plus
       .jpo-map.absolute
   .jpo-frise>

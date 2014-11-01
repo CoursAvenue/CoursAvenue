@@ -2,45 +2,51 @@
 %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
   - if show_header
     %tr{ valign: 'top' }
-      %td.v-middle.content-block{ colspan: 3 }
+      %td.v-top.content-block{ colspan: 3, style: 'padding: 3px;'}
         .title Récapitulatif de la demande d'inscription
   %tr{ valign: 'top' }
-    %td.v-middle.content-block{ width: '20%', rowspan: (participation_request.place ? 5 : 4) }
+    %td.v-top.content-block{ width: '20%', rowspan: (participation_request.place ? 5 : 4), style: 'padding: 3px;'}
       = link_to structure_url(participation_request.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank', class: 'block' do
-        = image_tag participation_request.structure.logo.url(:thumb), class: 'block', height: 90, width: 90, alt: "Logo de #{participation_request.structure.name}"
-    %td.v-middle.content-block{ width: '25%' }
+        = image_tag participation_request.structure.logo.url(:thumb), class: 'block', height: 100, width: 100, alt: "Logo de #{participation_request.structure.name}"
+    %td.v-top.content-block{ width: '25%', style: 'padding: 3px;'}
       .p.hard
         %strong Profil
-    %td.v-middle.content-block{ width: '55%' }
+    %td.v-top.content-block{ width: '55%', style: 'padding: 3px;'}
       .p.hard
-        = participation_request.structure.name
+        = link_to structure_url(participation_request.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank' do
+          = participation_request.structure.name
         - if participation_request.accepted? and participation_request.structure.phone_numbers.any?
           = "(#{participation_request.structure.phone_numbers.map(&:number).join(', ')})"
-  %tr{ valign: 'top' }
-    %td.v-middle.content-block{ width: '25%' }
+  %tr.table-row-alternate-color{ valign: 'top' }
+    %td.v-top.content-block{ width: '25%', style: 'padding: 3px;'}
       .p.hard
         %strong Cours d'essai
-    %td.v-middle.content-block{ width: '55%' }
+    %td.v-top.content-block{ width: '55%', style: 'padding: 3px;'}
       .p.hard
         = participation_request.course.name
   %tr{ valign: 'top' }
-    %td.v-middle.content-block{ width: '25%' }
+    %td.v-top.content-block{ width: '25%', style: 'padding: 3px;'}
       .p.hard
         %strong Statut
-    %td.v-middle.content-block{ width: '55%' }
+    %td.v-top.content-block{ width: '55%', style: 'padding: 3px;'}
       .p.hard
         = I18n.t("participation_request.state.#{participation_request.state}")
-  %tr{ valign: 'top' }
-    %td.v-middle.content-block{ width: '25%' }
+  %tr.table-row-alternate-color{ valign: 'top' }
+    %td.v-top.content-block{ width: '25%', style: 'padding: 3px;'}
       .p.hard
         %strong Jour et créneau
-    %td.v-middle.content-block{ width: '55%' }
+    %td.v-top.content-block{ width: '55%', style: 'padding: 3px;'}
       .p.hard
         = "#{l(participation_request.date, format: :semi_short)} de #{l(participation_request.start_time, format: :short)} à #{l(participation_request.end_time, format: :short)}"
+        %br
+        = link_to 'Ajouter à mon calendrier', user_participation_requests_url(participation_request.user, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
   - if participation_request.place
     %tr{ valign: 'top' }
-      %td.v-middle.content-block{ width: '25%' }
+      %td.v-top.content-block{ width: '25%', style: 'padding: 3px;'}
         .p.hard
           %strong Lieu
-      %td.v-middle.content-block{ width: '55%' }
-        .p.hard= participation_request.place.try(:name)
+      %td.v-top.content-block{ width: '55%', style: 'padding: 3px;'}
+        .p.hard
+          = link_to URI.encode("https://maps.google.com/?q=#{participation_request.place.address}") do
+            = participation_request.place.address
+          = "(#{participation_request.place.try(:name)})"

@@ -19,8 +19,9 @@ class ParticipationRequest < ActiveRecord::Base
   ######################################################################
   # Callbacks                                                          #
   ######################################################################
+  before_save   :update_times
   before_create :set_default_attributes
-  after_create :send_email_to_teacher
+  after_create  :send_email_to_teacher
 
   ######################################################################
   # Validation                                                         #
@@ -41,7 +42,8 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return ParticipationRequest
   def self.create_and_send_message(request_attributes, message_body, user, structure)
-    participation_request           = ParticipationRequest.new date: request_attributes[:date], start_time: request_attributes[:start_time], planning_id: request_attributes[:planning_id]
+    message_body = StringHelper.replace_contact_infos(message_body)
+    participation_request           = ParticipationRequest.new date: request_attributes[:date], start_time: request_attributes[:start_time], planning_id: request_attributes[:planning_id], course_id: request_attributes[:course_id]
     participation_request.user      = user
     participation_request.structure = structure
     if participation_request.valid?
@@ -82,6 +84,7 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return Boolean
   def accept!(message_body, last_modified_by='Structure')
+    message_body = StringHelper.replace_contact_infos(message_body)
     self.last_modified_by = last_modified_by
     self.state = 'accepted'
     message = reply_to_conversation(message_body, last_modified_by)
@@ -98,6 +101,7 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return Boolean
   def modify_date!(message_body, new_params, last_modified_by='Structure')
+    message_body = StringHelper.replace_contact_infos(message_body)
     self.last_modified_by = last_modified_by
     self.update_attributes new_params
     message = reply_to_conversation(message_body, last_modified_by)
@@ -115,6 +119,7 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return Boolean
   def decline!(message_body, last_modified_by='Structure')
+    message_body = StringHelper.replace_contact_infos(message_body)
     self.last_modified_by = last_modified_by
     self.state = 'declined'
     message = reply_to_conversation(message_body, last_modified_by)
@@ -131,6 +136,7 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return Boolean
   def cancel!(message_body, last_modified_by='Structure')
+    message_body = StringHelper.replace_contact_infos(message_body)
     self.last_modified_by = last_modified_by
     self.state = 'canceled'
     message    = reply_to_conversation(message_body, last_modified_by)
@@ -169,7 +175,19 @@ class ParticipationRequest < ActiveRecord::Base
     self.start_time       ||= self.planning.start_time if self.planning and self.start_time.nil?
     self.end_time         ||= self.planning.end_time   if self.planning
     self.end_time         ||= self.start_time + 1.hour if self.start_time
-    self.course           ||= self.planning.course if self.planning
+    self.course           ||= self.planning.course     if self.planning
+    nil
+  end
+
+  # Update start and end_time if planning changed
+  #
+  # @return nil
+  def update_times
+    if self.planning_id_changed?
+      self.start_time = self.planning.start_time if self.planning
+      self.end_time   = self.planning.end_time   if self.planning
+      self.end_time   = self.start_time + 1.hour if self.start_time
+    end
     nil
   end
 
@@ -194,6 +212,7 @@ class ParticipationRequest < ActiveRecord::Base
   end
 
   def reply_to_conversation(message_body, last_modified_by)
+    message_body = StringHelper.replace_contact_infos(message_body)
     if message_body.present?
       self.conversation.lock_email_notification_once = true
       self.conversation.save
@@ -205,4 +224,5 @@ class ParticipationRequest < ActiveRecord::Base
       message = receipt.message
     end
   end
+
 end

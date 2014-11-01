@@ -158,7 +158,7 @@
                 this.fixIt();
             } else if ( this.fixed && this.scroll_top < (this.sticky_home - this.options.offsetTop)) {
                 this.unFixIt();
-            } else {
+            } else if (this.$pusher_el) {
                 this.$pusher_el.css('margin-top', 0);
             }
         },

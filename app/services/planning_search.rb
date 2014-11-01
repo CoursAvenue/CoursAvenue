@@ -94,11 +94,7 @@ class PlanningSearch
         with(:structure_type).any_of                       params[:structure_types]                     if params[:structure_types].present?
       end
       order_by :has_logo, :desc
-      if params[:root_subject_id].present? and ROOT_SUBJECT_ID_SUPPORTED.include?(params[:root_subject_id])
-        order_by "search_score_#{params[:root_subject_id]}".underscore.to_sym, :desc
-      else
-        order_by :search_score, :desc
-      end
+      order_by :search_score, :desc
       order_by :action_count, :asc
       order_by :view_count, :asc
 

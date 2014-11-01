@@ -2,7 +2,7 @@ class Comment::Review < Comment
   MIN_NB_WORD_CONTENT  = 20
 
   attr_accessible :author_name, :email, :rating, :title, :course_name, :deletion_reason, :subjects, :subject_ids,
-                  :associated_message_id
+                  :associated_message_id, :certified
 
   # A comment has a status which can be one of the following:
   #   - pending
@@ -64,6 +64,7 @@ class Comment::Review < Comment
       end
     end
 
+    boolean :certified
     boolean :has_title do
       self.title.present?
     end
