@@ -173,7 +173,7 @@ class Structure < ActiveRecord::Base
   # Algolia                                                            #
   ######################################################################
   algoliasearch do
-    attribute :name, :slug
+    attribute :name, :slug, :search_score
     add_attribute :type do
       'structure'
     end
@@ -184,6 +184,7 @@ class Structure < ActiveRecord::Base
     add_attribute :logo_url do
       self.logo.url(:small_thumb)
     end
+    customRanking ['desc(search_score)']
   end
 
   ######################################################################
