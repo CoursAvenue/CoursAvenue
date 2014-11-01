@@ -45,13 +45,13 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         nextPage: function (e) {
-            var page = Math.min(this.collection.currentPage + 1, this.collection.totalPages);
+            var page = Math.min((parseInt(this.collection.currentPage, 10) + 1), this.collection.totalPages);
 
             return this.changePage(page);
         },
 
         prevPage: function (e) {
-            var page = Math.max(this.collection.currentPage - 1, 1);
+            var page = Math.max((parseInt(this.collection.currentPage, 10) - 1), 1);
 
             return this.changePage(page);
         },
