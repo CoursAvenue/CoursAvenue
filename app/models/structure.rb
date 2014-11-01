@@ -193,6 +193,7 @@ class Structure < ActiveRecord::Base
       self.logo.url(:small_thumb)
     end
     customRanking ['desc(search_score)', 'desc(is_sleeping)']
+    ranking ['search_score']
   end
 
   ######################################################################
