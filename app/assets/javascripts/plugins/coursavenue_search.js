@@ -94,9 +94,9 @@
                     this.selected_subject = data;
                 }
                 // Automatically submit form if there is just the subject input
-                if (this.address_input.length == 0) {
-                    this.$element.submit();
-                }
+                // if (this.address_input.length == 0) {
+                this.$element.submit();
+                // }
             }.bind(this));
             if (this.address_input.length == 0) {
                 this.subjects_input.keydown(function(event) {
