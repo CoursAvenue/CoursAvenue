@@ -66,7 +66,7 @@ Emailing.module('Views.Sections.Bridges', function(Module, App, Backbone, Marion
         reviewCustom : function reviewCustom () {
           var id = this.model.get('review_id');
           var text = $('input[data-review-custom=' + id + ']').val();
-          var review = { id: this.model.get('review_id'), title: text, custom: true };
+          var review = { id: this.model.get('review_id'), text: text, custom: true };
 
           this.setCurrentReview(review);
         }.debounce(500),
@@ -85,7 +85,7 @@ Emailing.module('Views.Sections.Bridges', function(Module, App, Backbone, Marion
 
         setCurrentReview : function setCurrentReview(review) {
           if (review) {
-            this.model.set( { review_text: review.title, review_id: review.id, review_custom: review.custom } );
+            this.model.set( { review_text: review.text, review_id: review.id, review_custom: review.custom } );
           }
         },
     });
