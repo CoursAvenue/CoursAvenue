@@ -104,15 +104,21 @@ class Metric
   #
   # @return Metric
   def self.create_action(action_name, structure_id, user, fingerprint, ip_address, infos=nil)
-    data = { action_type: action_name, structure_id: structure_id, user_fingerprint: fingerprint, ip_address: ip_address, infos: infos}
-
-    if Metric.where(data).in_the_current_day.empty?
-      metric = Metric.create(data)
+    if structure_id.is_a? Array
+      structure_id.each do |_structure_id|
+        Metric.create_action(action_name, _structure_id, user, fingerprint, ip_address, infos=nil)
+      end
     else
-      metric = Metric.where(data).last
-    end
+      data = { action_type: action_name, structure_id: structure_id, user_fingerprint: fingerprint, ip_address: ip_address, infos: infos }
 
-    metric
+      if Metric.where(data).in_the_current_day.empty?
+        metric = Metric.create(data)
+      else
+        metric = Metric.where(data).last
+      end
+
+      metric
+    end
   end
 
   ######################################################################
