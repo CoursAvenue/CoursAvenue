@@ -71,20 +71,21 @@
             %li
               %strong Jour et créneau :
               #{l(@participation_request.date, format: :semi_long)} : #{l(@participation_request.start_time, format: :short)} à #{l(@participation_request.end_time, format: :short)}.
-            %li
-              %strong Lieu :
-              = @participation_request.place.name
-            %li
-              %strong Infos pratiques :
-              %br
-              = @participation_request.place.info
-              - if @participation_request.place.private_info.present?
+            - if @participation_request.place
+              %li
+                %strong Lieu :
+                = @participation_request.place.name
+              %li
+                %strong Infos pratiques :
                 %br
-                = @participation_request.place.private_info
-              %br
-              = link_to edit_pro_structure_place_path(@structure, @participation_request.place, return_to_action: 'window.location.reload()'), class: 'milli fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 } do
-                %i.fa.fa-pencil
-                Modifier les infos pratiques
+                = @participation_request.place.info
+                - if @participation_request.place.private_info.present?
+                  %br
+                  = @participation_request.place.private_info
+                %br
+                = link_to edit_pro_structure_place_path(@structure, @participation_request.place, return_to_action: 'window.location.reload()'), class: 'milli fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 } do
+                  %i.fa.fa-pencil
+                  Modifier les infos pratiques
 
       .push--top
         - if @participation_request.pending? and @participation_request.last_modified_by == 'User'
