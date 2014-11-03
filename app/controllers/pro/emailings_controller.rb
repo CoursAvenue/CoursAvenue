@@ -69,7 +69,7 @@ class Pro::EmailingsController < Pro::ProController
 
   def send_preview
     @emailing = Emailing.find params[:id]
-    to = params[:to].present? ? params[:to] : nil
+    to = params[:to].present? ? params[:to] : 'contact@coursavenue.com'
 
     UserMailer.emailing(@emailing, to).deliver
     redirect_to pro_emailing_path(@emailing), notice: 'La previsualisation a bien été envoyée'
