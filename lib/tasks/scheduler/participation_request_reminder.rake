@@ -81,7 +81,7 @@ namespace :scheduler do
     # $ rake scheduler:participation_requests:recap_for_user
     desc 'Send a recap email to user who have requests tomorrow'
     task :recap_for_user => :environment do |t, args|
-      participation_requests = ParticipationRequest.accepted.where( ParticipationRequest.arel_table[:date].gteq(Date.tomorrow))
+      participation_requests = ParticipationRequest.accepted.where( ParticipationRequest.arel_table[:date].eq(Date.tomorrow))
       # Group request per user
       participation_requests.group_by(&:user).each do |user, participation_requests|
         ParticipationRequestMailer.delay.recap_for_user(user, participation_requests)
