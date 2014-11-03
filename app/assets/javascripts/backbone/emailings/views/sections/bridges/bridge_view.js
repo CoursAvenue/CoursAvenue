@@ -19,46 +19,37 @@ Emailing.module('Views.Sections.Bridges', function(Module, App, Backbone, Marion
             _.bindAll(this, 'setCurrentImage', 'setCurrentSubject');
         },
 
-        /*
+        /* Change current to the next or previous element of collection.
+         *
          * @param collectionName - The name of the collection in our model (ex. images, subjects)
          * @param collectionId   - The name of the id attribute of our collection in our model (ex. media_id, subject_id)
          * @param collectionSet  - The function setting the our new value. (ex. setCurrentImage, setCurrentSubject)
-         * TODO: Refactor `collection*` functions into one by passing a flag to know if next or prev.
+         * @param next           - Whether we are fetching the next one or the previous one.
          */
-        collectionNext: function collectionNext (collectionName, collectionId, collectionSet) {
+        collectionNext: function collectionNext (collectionName, collectionId, collectionSet, next) {
             var collection = this.model.get(collectionName);
             var current    = _.find(collection, function(collectionItem) {
                 return (collectionItem.id == this.model.get(collectionId));
             }.bind(this));
-
-            var next = collection[collection.indexOf(current) + 1];
-            collectionSet(next);
-        },
-
-        collectionPrev: function collectionPrev () {
-            var collection = this.model.get(collectionName);
-            var current    = _.find(collection, function(collectionItem) {
-                return (collectionItem.id == this.model.get(collectionId));
-            }.bind(this));
-
-            var next = collection[collection.indexOf(current) - 1];
+            var index = next ? collection.indexOf(current) + 1 : collection.indexOf(current) - 1
+            var next = collection[index];
             collectionSet(next);
         },
 
         slideNext: function slideNext (event) {
-            this.collectionNext('images', 'media_id', this.setCurrentImage);
+            this.collectionNext('images', 'media_id', this.setCurrentImage, true);
         },
 
         slidePrev: function slideNext () {
-            this.collectionPrev('images', 'media_id', this.setCurrentImage);
+            this.collectionNext('images', 'media_id', this.setCurrentImage, false);
         },
 
         subjectNext : function subjectNext () {
-            this.collectionNext('subjects', 'subject_id', this.setCurrentSubject);
+            this.collectionNext('subjects', 'subject_id', this.setCurrentSubject, true);
         },
 
         subjectPrev : function subjectPrev () {
-            this.collectionPrev('subjects', 'subject_id', this.setCurrentSubject);
+            this.collectionNext('subjects', 'subject_id', this.setCurrentSubject, false);
         },
 
         setCurrentImage: function setCurrentImage (image) {
