@@ -13,6 +13,25 @@
 
 </div>
 <div class='p text--center'>
+  <strong>{{ structure.metadata_1 }}</strong>
+  <br>
+
+  <div>
+    {{ reviews.length }} avis —
+    <br>
+    <a class='pointer' data-review-prev>
+      <i class='fa-chevron-left v-middle gray-light'></i>
+    </a>
+
+    <span data-review-id="{{ review_id }}">
+      <input type='text' value="{{ review_text }}" data-review-custom="{{ review_id }}"></input>
+    </span>
+
+    <a class='pointer' data-review-next>
+      <i class='fa-chevron-right v-middle gray-light'></i>
+    </a>
+  </div>
+
   <div>
     <a class='pointer' data-subj-prev>
       <i class='fa-chevron-left v-middle gray-light'></i>
@@ -24,21 +43,5 @@
       <i class='fa-chevron-right v-middle gray-light'></i>
     </a>
   </div>
-
-  <div>
-    <a class='pointer' data-review-prev>
-      <i class='fa-chevron-left v-middle gray-light'></i>
-    </a>
-
-    <span data-review-id="{{ review_id }}">{{ reviews.length }} avis —
-      <input type='text' value="{{ review_text }}" data-review-custom="{{ review_id }}"></input>
-    </span>
-
-    <a class='pointer' data-review-next>
-      <i class='fa-chevron-right v-middle gray-light'></i>
-    </a>
-  </div>
-  <strong>{{ structure.metadata_1 }}</strong>
-  <br>
   {{ structure.metadata_2 }}
 </div>
