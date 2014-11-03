@@ -17,13 +17,21 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
         },
 
         previousQuery: function() {
-            var previous_page_nb = parseInt(this.paginator_ui.currentPage, 10) - 1;
-            return window.location.pathname + '?page=' + previous_page_nb;
+            var previous_page_nb = parseInt(this.currentPage, 10) - 1;
+            if (previous_page_nb > 0) {
+                return window.location.pathname + '?page=' + previous_page_nb;
+            } else {
+                return null;
+            }
         },
 
         nextQuery: function() {
-            var next_page_nb = parseInt(this.paginator_ui.currentPage, 10) + 1;
-            return window.location.pathname + '?page=' + next_page_nb;
+            var next_page_nb = parseInt(this.currentPage, 10) + 1;
+            if (next_page_nb <= this.paginator_ui.totalPages) {
+                return window.location.pathname + '?page=' + next_page_nb;
+            } else {
+                return null;
+            }
         },
 
         currentQuery: function() {
