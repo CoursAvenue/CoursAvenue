@@ -5,7 +5,7 @@
   = f.input :alt, label: "ALT de l'image", placeholder: "Texte qui apparaîtra si l'image n'est pas chargé", label_html: { class: 'label--large v-middle' }, input_html: { class: 'input--large v-middle' }
   = f.input :body, label: false, input_html: { class: 'one-whole input--large' }
 
-  = f.input :section_metadata_one, as: :select, collection: Emailing::SECTION_METADATA, label: 'Texte 1 à afficher sous la section', label_method: lambda { |section| section[:title] } , value_method: lambda { |section| section[:action] }, selected: (@emailing.section_metadata_one || 'metadata_comment_title')
+  = f.input :section_metadata_one, as: :select, collection: Emailing::SECTION_METADATA, label: 'Texte 1 à afficher sous la section', label_method: lambda { |section| section[:title] } , value_method: lambda { |section| section[:action] }, selected: (@emailing.section_metadata_one || 'metadata_name')
   = f.input :section_metadata_two, as: :select, collection: Emailing::SECTION_METADATA, label: 'Texte 2 à afficher sous la section', label_method: lambda { |section| section[:title] } , value_method: lambda { |section| section[:action] }, selected: (@emailing.section_metadata_two || 'metadata_cities')
   -# = f.input :section_metadata_three, as: :select, collection: Emailing::SECTION_METADATA, label: 'Texte 3 à afficher sous la section', label_method: lambda { |section| section[:title] } , value_method: lambda { |section| section[:action] }, selected: (@emailing.section_metadata_three || 'metadata_cities')
 

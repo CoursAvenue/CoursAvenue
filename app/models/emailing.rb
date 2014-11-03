@@ -6,8 +6,8 @@ class Emailing < ActiveRecord::Base
 
   SECTION_METADATA = [
     { title: 'Nom'           , action: :metadata_name },
-    { title: "Nombre d'avis" , action: :metadata_comment_count },
-    { title: "Titre avis"    , action: :metadata_comment_title },
+    # { title: "Nombre d'avis" , action: :metadata_comment_count },
+    # { title: "Titre avis"    , action: :metadata_comment_title },
     { title: 'À partir de'   , action: :metadata_prices },
     { title: 'Villes'        , action: :metadata_cities },
     { title: 'Discipline'    , action: :metadata_subject }
