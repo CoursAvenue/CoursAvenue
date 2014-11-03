@@ -66,7 +66,8 @@ Emailing.module('Views.Sections.Bridges', function(Module, App, Backbone, Marion
         reviewCustom : function reviewCustom () {
           var text = $('input[data-review-custom]').val();
           var review = { id: this.model.get('review_id'), title: text, custom: true };
-          console.log(review);
+
+          this.setCurrentReview(review);
         }.debounce(500),
 
         setCurrentImage: function setCurrentImage (image) {
