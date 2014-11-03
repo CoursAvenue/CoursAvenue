@@ -45,7 +45,7 @@ class EmailingSectionBridgeSerializer < ActiveModel::Serializer
   #
   # @return an Array of reviews attributes.
   def reviews
-    object.structure.comments do |review|
+    object.structure.comments.map do |review|
       { id: review.id, text: review.title, custom: false }
     end
   end
