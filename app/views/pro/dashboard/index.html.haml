@@ -26,9 +26,9 @@
             les 7 derniers jours
       .grid__item.one-quarter>
         .soft-half.text--center
-          %h3.flush= "#{CommentNotification.count} élèves"
-          %h6.flush dont #{CommentNotification.where( CommentNotification.arel_table[:created_at].gt(Date.today) ).count} aujourd'hui
-          %div et #{CommentNotification.where( CommentNotification.arel_table[:created_at].gt(Date.today - 7.days) ).count} les 7 derniers jours
+          %h3.flush= "#{User.active.count} élèves"
+          %h6.flush dont #{User.where( User.arel_table[:created_at].gt(Date.today) ).count} aujourd'hui
+          %div et #{User.where( User.arel_table[:created_at].gt(Date.today - 7.days) ).count} les 7 derniers jours
 
 
   %hr.push--ends

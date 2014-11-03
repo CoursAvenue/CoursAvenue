@@ -52,17 +52,18 @@
             %li
               %strong Jour et créneau :
               #{l(@participation_request.date, format: :semi_long)} : #{l(@participation_request.start_time, format: :short)} à #{l(@participation_request.end_time, format: :short)}.
-            %li
-              %strong Lieu :
-              = @participation_request.place.name
-            - if @participation_request.place.info.present? or @participation_request.place.private_info.present?
+            - if @participation_request.place
               %li
-                %strong Infos pratiques :
-                %br
-                = @participation_request.place.info
-                - if @participation_request.place.private_info.present?
+                %strong Lieu :
+                = @participation_request.place.name
+              - if @participation_request.place.info.present? or @participation_request.place.private_info.present?
+                %li
+                  %strong Infos pratiques :
                   %br
-                  = @participation_request.place.private_info
+                  = @participation_request.place.info
+                  - if @participation_request.place.private_info.present?
+                    %br
+                    = @participation_request.place.private_info
       .grid.epsilon
         .grid__item.two-twelfths.v-top.text--right>
           %strong.flush

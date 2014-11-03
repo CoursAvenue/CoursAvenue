@@ -174,6 +174,14 @@ class Structure < ActiveRecord::Base
   ######################################################################
   algoliasearch do
     attribute :name, :slug
+    add_attribute :search_score do
+      self.search_score.try(:to_i)
+    end
+
+    add_attribute :is_sleeping do
+      self.is_sleeping?
+    end
+
     add_attribute :type do
       'structure'
     end
@@ -184,6 +192,7 @@ class Structure < ActiveRecord::Base
     add_attribute :logo_url do
       self.logo.url(:small_thumb)
     end
+    customRanking ['desc(search_score)', 'desc(is_sleeping)']
   end
 
   ######################################################################

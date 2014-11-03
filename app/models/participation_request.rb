@@ -34,7 +34,8 @@ class ParticipationRequest < ActiveRecord::Base
   ######################################################################
   scope :accepted,             -> { where( state: 'accepted') }
   scope :pending,              -> { where( state: 'pending') }
-  scope :upcoming,             -> { where( arel_table[:date].gt(Date.today)) }
+  scope :upcoming,             -> { where( arel_table[:date].gteq(Date.today)) }
+  scope :past,                 -> { where( arel_table[:date].lt(Date.today)) }
   scope :canceled_or_declined, -> { where( arel_table[:state].eq('canceled').or(arel_table[:state].eq('declined'))) }
 
   #
