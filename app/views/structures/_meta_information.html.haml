@@ -1,0 +1,36 @@
+-# If params[:c] is present, it means a teacher wants to share on Facebook and
+-# wants to link to profile page but wants to have comment info as meta data
+- if params[:c].present?
+  - shared_comment = @structure.comments.find(params[:c])
+
+- if shared_comment and shared_comment.user and shared_comment.user.has_avatar?
+  = content_for :meta_image do
+    = shared_comment.user.avatar_url
+- elsif @structure.logo.present?
+  = content_for :meta_image do
+    = @structure.logo.url(:thumb)
+
+- if shared_comment
+  = content_for :title do
+    = "«#{shared_comment.title}» par #{shared_comment.author_name}"
+  = content_for :meta_description do
+    = truncate(shared_comment.content, length: 300)
+- else
+  = content_for :title do
+    -# Ex: YOGA SATTVA PARIS - Essai GRATUIT - CoursAvenue.com
+    - cache [@structure, 'structure/show/meta/title'] do
+      - if @structure.is_open_for_trial?
+        #{@structure.name} - Essais GRATUIT - CoursAvenue.com
+      - elsif @structure.has_promotion?
+        #{@structure.name} - PROMOTIONS - CoursAvenue.com
+      - else
+        #{@structure.name} - CoursAvenue.com
+
+  = content_for :meta_description do
+    -# Ex: Professeur Yoga Sattva Paris à Paris : Cours d'Essai Gratuits & Promotions.
+    -#     Réservez gratuitement et consultez les 30 avis, notés 5 sur 5 sur CoursAvenue.
+    - cache [@structure, 'structure/show/meta/description'] do
+      - infos = []
+      - infos << "Cours d'Essai Gratuits" if @structure.is_open_for_trial?
+      - infos << "Promotions" if @structure.has_promotion?
+      #{t("#{@structure.structure_type}_for_meta_description")} #{@structure.name} à #{@structure.city.try(:name)} : #{infos.any? ? "#{infos.join(' & ')}." : ''} Réservez gratuitement et consultez les #{@structure.comments_count} avis, notés 5 sur 5 sur CoursAvenue.

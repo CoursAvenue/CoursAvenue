@@ -1,8 +1,8 @@
 # encoding: utf-8
 class PlanningSearch
-
+  ROOT_SUBJECT_ID_SUPPORTED = %w(danse theatre-scene yoga-bien-etre-sante musique-chant deco-mode-bricolage dessin-peinture-arts-plastiques sports-arts-martiaux cuisine-vins photo-video other)
   def self.search params, options= {}
-    params[:sort] ||= 'rating_desc'
+    params[:sort] ||= 'rating-desc'
     # retrieve_location params
 
     # Encode name in UTF8 as it can be submitted by the user and can be bad

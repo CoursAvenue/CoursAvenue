@@ -57,7 +57,7 @@ $(function() {
         });
         return false;
     });
-    var datepicker_initializer = function() {
+    GLOBAL.datepicker_initializer = function() {
         $('[data-behavior=datepicker]').each(function() {
             var datepicker_options = {
                 format: GLOBAL.DATE_FORMAT,
@@ -78,7 +78,7 @@ $(function() {
 
         });
     };
-    GLOBAL.initialize_callbacks.push(datepicker_initializer);
+    GLOBAL.initialize_callbacks.push(GLOBAL.datepicker_initializer);
 
     GLOBAL.chosen_initializer = function() {
         // -------------------------- Chosen

@@ -18,31 +18,37 @@
 
 - #----------------------- TITLE
 - if content_for? :title
-  %title<
-    = yield :title
-  %meta{ property: "og:title", content: yield(:title) }
-  %meta{ name: 'twitter:title', content: yield(:title) }
+  %title= yield(:title).try(:squish)
+  %meta{ property: "og:title", content: yield(:title).try(:squish) }
+  %meta{ name: 'twitter:title', content: yield(:title).try(:squish) }
+- elsif request.subdomain == 'pro'
+  %title Pro.CoursAvenue.com - Recrutez gratuitement de nouveaux élèves
+  %meta{ property: "og:title", content: "Pro.CoursAvenue.com - Recrutez gratuitement de nouveaux élèves" }
+  %meta{ name: 'twitter:title', content: "Pro.CoursAvenue.com - Recrutez gratuitement de nouveaux élèves" }
 - else
   - if @city
-    %meta{ property: "og:title", content: "Tous les cours à #{@city.name} | CoursAvenue.com" }
-    %title<
-      = "Tous les cours à #{@city.name} | CoursAvenue.com"
-    %meta{ name: 'twitter:title', content: "Tous les cours à #{@city.name} | CoursAvenue.com" }
+    %title CoursAvenue.com - Les meilleurs cours de loisirs de #{@city.name}
+    %meta{ property: "og:title", content: "CoursAvenue.com - Les meilleurs cours de loisirs de #{@city.name}" }
+    %meta{ name: 'twitter:title', content: "CoursAvenue.com - Les meilleurs cours de loisirs de #{@city.name}" }
   - else
-    %title<
-      Tous les cours autour de vous | CoursAvenue.com
-    %meta{ property: "og:title", content: "Tous les cours autour de vous | CoursAvenue.com" }
-    %meta{ name: 'twitter:title', content: "Tous les cours autour de vous | CoursAvenue.com" }
+    %title CoursAvenue.com - Les meilleurs cours de loisirs de votre ville
+    %meta{ property: "og:title", content: "CoursAvenue.com - Les meilleurs cours de loisirs de votre ville" }
+    %meta{ name: 'twitter:title', content: "CoursAvenue.com - Les meilleurs cours de loisirs de votre ville" }
 
 - #----------------------- Description
 - if content_for? :meta_description
-  %meta{ name: 'description', content: "#{yield :meta_description}" }
-  %meta{ property: 'og:description', content: "#{yield :meta_description}" }
-  %meta{ name: 'twitter:description', content: "#{yield :meta_description}" }
+  %meta{ name: 'description', content: "#{yield(:meta_description).try(:squish)}" }
+  %meta{ property: 'og:description', content: "#{yield(:meta_description).try(:squish)}" }
+  %meta{ name: 'twitter:description', content: "#{yield(:meta_description).try(:squish)}" }
 - else
-  %meta{ name: "description", content: "CoursAvenue est le premier moteur de recherche de cours de loisirs qui permet de relier chacun de nous aux meilleurs professeurs, associations et écoles qui nous entourent" }
-  %meta{ property: 'og:description', content: "CoursAvenue est le premier moteur de recherche de cours de loisirs qui permet de relier chacun de nous aux meilleurs professeurs, associations et écoles qui nous entourent" }
-  %meta{ property: 'twitter:description', content: "CoursAvenue est le premier moteur de recherche de cours de loisirs qui permet de relier chacun de nous aux meilleurs professeurs, associations et écoles qui nous entourent" }
+  - if request.subdomain == 'pro'
+    %meta{ name: "description", content: "Découvrez Pro.CoursAveunue, pour référencer vos cours et recruter gratuitement de nouveaux élèves ! Gérez votre profil · Fidélisez de nouveaux élèves · Boostez votre activité”" }
+    %meta{ property: 'og:description', content: "Découvrez Pro.CoursAveunue, pour référencer vos cours et recruter gratuitement de nouveaux élèves ! Gérez votre profil · Fidélisez de nouveaux élèves · Boostez votre activité”" }
+    %meta{ property: 'twitter:description', content: "Découvrez Pro.CoursAveunue, pour référencer vos cours et recruter gratuitement de nouveaux élèves ! Gérez votre profil · Fidélisez de nouveaux élèves · Boostez votre activité”" }
+  - else
+    %meta{ name: "description", content: "Avec CoursAvenue.com : choisissez et inscrivez-vous gratuitement aux meilleurs cours de loisirs de votre ville. Profitez des cours d'essai gratuits et des promotions." }
+    %meta{ property: 'og:description', content: "Avec CoursAvenue.com : choisissez et inscrivez-vous gratuitement aux meilleurs cours de loisirs de votre ville. Profitez des cours d'essai gratuits et des promotions." }
+    %meta{ property: 'twitter:description', content: "Avec CoursAvenue.com : choisissez et inscrivez-vous gratuitement aux meilleurs cours de loisirs de votre ville. Profitez des cours d'essai gratuits et des promotions." }
 
 - #----------------------- Image
 

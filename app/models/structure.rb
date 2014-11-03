@@ -11,6 +11,7 @@ class Structure < ActiveRecord::Base
   include ConversationsHelper
   include IdentityCache
   include Rails.application.routes.url_helpers
+  include AlgoliaSearch
 
   acts_as_paranoid
   acts_as_tagger
@@ -155,6 +156,7 @@ class Structure < ActiveRecord::Base
   before_save   :sanatize_description
   before_save   :encode_uris
 
+  after_save    :update_open_for_trial_courses_if_neesds
   after_save    :geocode_if_needs_to            unless Rails.env.test?
   after_save    :subscribe_to_crm               if Rails.env.production?
   after_touch   :regenerate_cached_profile_page if Rails.env.production?
@@ -166,6 +168,23 @@ class Structure < ActiveRecord::Base
   scope :with_logo           , -> { where.not( logo: nil ) }
   scope :with_media          , -> { joins(:medias).uniq }
   scope :with_logo_and_media , -> { with_logo.with_media }
+
+  ######################################################################
+  # Algolia                                                            #
+  ######################################################################
+  algoliasearch do
+    attribute :name, :slug
+    add_attribute :type do
+      'structure'
+    end
+    add_attribute :url do
+      structure_path(self, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+    end
+
+    add_attribute :logo_url do
+      self.logo.url(:small_thumb)
+    end
+  end
 
   ######################################################################
   # Solr                                                               #
@@ -361,7 +380,6 @@ class Structure < ActiveRecord::Base
     end
 
     double :jpo_score
-
   end
 
   handle_asynchronously :solr_index, queue: 'index' unless Rails.env.test?
@@ -1308,5 +1326,16 @@ class Structure < ActiveRecord::Base
 
   def regenerate_cached_profile_page
     PrerenderRenewer.delay.new(structure_url(self, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, host: 'coursavenue.com'))
+  end
+
+  #
+  # Set is_open_for_trial to false if trial_courses_policy changed and is set to nil
+  #
+  # @return nil
+  def update_open_for_trial_courses_if_neesds
+    if self.trial_courses_policy_changed? and self.trial_courses_policy.blank?
+      self.courses.open_for_trial.map{ |c| c.is_open_for_trial = false; c.save }
+    end
+    nil
   end
 end

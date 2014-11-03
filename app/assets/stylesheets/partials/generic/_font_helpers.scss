@@ -65,3 +65,8 @@
 
 .no-text-shadow    { @include text-shadow(none); }
 .no-text-transform { text-transform: none; }
+.text-ellipsis {
+    text-overflow: ellipsis;
+    white-space  : nowrap;
+    overflow     : hidden;
+}

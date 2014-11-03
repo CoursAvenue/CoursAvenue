@@ -5,8 +5,10 @@ class StructureSerializer < ActiveModel::Serializer
   cached
   delegate :cache_key, to: :object
 
-  attributes :id, :name, :slug, :comments_count, :logo_thumb_url, :logo_large_url, :data_url, :query_params,
-             :structure_type, :highlighted_comment_title, :premium, :has_promotion, :is_open_for_trial, :cities, :cover_media
+  attributes :id, :name, :slug, :comments_count, :logo_thumb_url, :logo_large_url,
+              :data_url, :query_params, :structure_type, :highlighted_comment_title,
+              :premium, :has_promotion, :is_open_for_trial, :cities, :cover_media, :subjects,
+              :trial_courses_policy
 
   has_many :places,            serializer: PlaceSerializer
   has_many :comments,          serializer: ShortSerializer
@@ -90,5 +92,13 @@ class StructureSerializer < ActiveModel::Serializer
 
   def is_open_for_trial
     object.is_open_for_trial?
+  end
+
+  def subjects
+    object.courses.flat_map(&:subjects).uniq.map(&:name).join(', ')
+  end
+
+  def trial_courses_policy
+    I18n.t("structures.trial_courses_policy.#{object.trial_courses_policy}_nb")
   end
 end

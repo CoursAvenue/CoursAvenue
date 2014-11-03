@@ -25,6 +25,7 @@ CoursAvenue::Application.routes.draw do
       get 'portes-ouvertes-cours-loisirs'       => 'home#jpo',                as: 'pages_jpo'
       get 'journees-portes-ouvertes'            => redirect('pages/portes-ouvertes-cours-loisirs', status: 301)
       get '/dashboard'                          => 'dashboard#index',         as: 'dashboard'
+      get 'cours-d-essai-gratuits'              => 'home#free_trial',         as: 'pages_free_trial'
 
       # Redirect old pages
       get 'pages/offre-speciale-premiers-partenaires' => redirect('offre-speciale-premiers-partenaires', status: 301)
@@ -554,6 +555,7 @@ CoursAvenue::Application.routes.draw do
   get 'jobs'                          => 'pages#jobs'
   get 'mentions-legales-partenaires'  => 'pages#mentions_partners',    as: 'pages_mentions_partners'
   get 'conditions-generale-de-vente'  => 'pages#terms_and_conditions', as: 'pages_terms_and_conditions'
+  get 'cours-d-essai-gratuits'        => 'pages#free_trial',           as: 'pages_free_trial'
 
   # Redirect old pages
   get 'pages/pourquoi-le-bon-cours'         => redirect('pourquoi-le-bon-cours'         , status: 301)

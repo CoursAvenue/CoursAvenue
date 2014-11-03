@@ -81,22 +81,22 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
         },
 
         /* cancel an animation in progress */
-        calm: function () {
+        calm: function calm () {
             this.$el.finish();
         },
 
         /* a marker that should be continuously excited is peacocking */
-        startPeacocking: function () {
+        startPeacocking: function startPeacocking () {
             this.is_peacocking = true;
             this.bounce();
         },
 
-        stopPeacocking: function () {
+        stopPeacocking: function stopPeacocking () {
             this.is_peacocking = false;
             this.$el.finish();
         },
 
-        bounceOnce: function () {
+        bounceOnce: function bounceOnce () {
             var self = this,
                 old_top = parseInt(this.$el.css('top'), 10),
                 crest = old_top - 30;
@@ -106,7 +106,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             });
         },
 
-        bounce: function () {
+        bounce: function bounce () {
             if (! this.is_peacocking) {
                 return;
             }

@@ -51,7 +51,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                            z: 1200,
                            oldWidth: true,
                            onStick: function() {
-                              $sticky.css('top', '50px');
+                              $sticky.css({ top: '50px', paddingTop: '8px' }).addClass('bg-white');
                            } });
         },
         /* forward events with only the necessary data */

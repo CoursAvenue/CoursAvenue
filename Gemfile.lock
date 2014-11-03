@@ -72,6 +72,12 @@ GEM
     acts-as-taggable-on (3.0.2)
       rails (>= 3, < 5)
     addressable (2.3.6)
+    algoliasearch (1.2.13)
+      httpclient (~> 2.3)
+      json (>= 1.5.1)
+    algoliasearch-rails (1.11.8)
+      algoliasearch (>= 1.2.12)
+      json (>= 1.5.1)
     ancestry (2.0.0)
       activerecord (>= 3.0.0)
     ar_transaction_changes (1.0.0)
@@ -602,6 +608,7 @@ DEPENDENCIES
   activerecord-session_store!
   activesupport-json_encoder (~> 1.1.0)
   acts-as-taggable-on (~> 3.0.1)
+  algoliasearch-rails
   ancestry (~> 2.0.0)
   asset_sync (~> 1.0.0)
   auto_html (~> 1.6.2)

@@ -99,6 +99,8 @@ class StructureDecorator < Draper::Decorator
   def trial_courses_popover
     courses = object.courses.open_for_trial.regulars
     output  = ''
+    header_policy = I18n.t("structures.trial_courses_policy.#{object.trial_courses_policy}_nb_given")
+    output  << "<div class='push-half--bottom'><strong>#{header_policy}</strong></div>"
     output  << "<div><strong>#{courses.length} #{'cours régulier'.pluralize(courses.length)} :</strong></div>" if courses.any?
     list_item_start = (courses.length > 1 ? '- ' : '')
     courses.each do |course|

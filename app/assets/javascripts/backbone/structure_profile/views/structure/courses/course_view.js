@@ -10,6 +10,9 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         modelEvents: {
             'change': 'updatePlannings'
         },
+        events: {
+          'click [data-behavior=register-to-course]': 'registerToCourse'
+        },
 
         initialize: function(options) {
             this.model.set('is_last', options.is_last);

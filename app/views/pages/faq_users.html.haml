@@ -1,6 +1,20 @@
+= content_for :title do
+  - if request.subdomain == 'pro'
+    Pro.CoursAvenue.com - Questions les plus fréquentes
+  - else
+    CoursAvenue.com - Questions les plus fréquentes
+= content_for :meta_description do
+  - if request.subdomain == 'pro'
+    Pourquoi référencer vos cours ? Comment gérer votre profil ? En quoi consiste CoursAvenue ? Trouvez les réponses à toutes vos questions.
+  - else
+    Qu'est-ce que CoursAvenue.com ? Quels cours trouve-t-on sur CoursAvenue ? Quels sont les points forts de CoursAvenue ? Trouvez les réponses à toutes vos questions.
+
 .home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/home_background7.jpg'})", 'data-stellar-background-ratio' => '0.6' }
   .main-container.soft
-    %h1.flush Questions les plus fréquentes
+    %h1.flush
+      - if request.subdomain == 'pro'
+        Pro.CoursAvenue.Com -
+      Questions les plus fréquentes
 
 .main-container.soft--ends
   .grid
@@ -8,18 +22,20 @@
       %nav.white-box.side-menu.one-whole
         %ul
           - @sections.each_with_index do |section, index|
-            %li.omega.orange{ class: index == 0 ? 'active' : ''}
-              = link_to section.title, "##{section.slug}", class: 'side-menu-link', data: { toggle: 'tab' }
+            - cache [section, 'faq/sidebar'] do
+              %li.omega.orange{ class: index == 0 ? 'active' : ''}
+                = link_to section.title, "##{section.slug}", class: 'side-menu-link', data: { toggle: 'tab' }
 
     .grid__item.eight-twelfths.white-box.soft>
       - @sections.each_with_index do |section, index|
         %div.hide.tab-pane{ id: section.slug, class: index == 0 ? 'active' : '' }
           - section.questions.each do |sub_section|
-            %h5.blue.toggleable-header{ data: { behavior: 'toggleable', el:'+ div' } }
-              = sub_section.question
-              %i.fa.fa-caret-left
-            %div.hide.soft--sides
-              = sub_section.answer.html_safe
+            - cache [sub_section, 'faq/sub_section'] do
+              %h5.blue.toggleable-header{ data: { behavior: 'toggleable', el:'+ div' } }
+                = sub_section.question
+                %i.fa.fa-caret-left
+              %div.hide.soft--sides
+                = sub_section.answer.html_safe
 
   .delta.push--top.text--center
     Vous ne trouvez pas la réponse à votre question ?

@@ -1,56 +1,11 @@
 = render 'shared/orange_banner'
-
-- if params[:c].present?
-  - shared_comment = @structure.comments.find(params[:c])
-
-- if shared_comment and shared_comment.user and shared_comment.user.has_avatar?
-  = content_for :meta_image do
-    = shared_comment.user.avatar_url
-- elsif @structure.logo.present?
-  = content_for :meta_image do
-    = @structure.logo.url(:thumb)
-
-= content_for :title do
-  - if shared_comment
-    = "«#{shared_comment.title}» par #{shared_comment.author_name}"
-  - else
-    - cache [@structure, 'structure/show/title'] do
-      #{@structure.name} #{(@structure.is_open_for_trial? ? '| Essais GRATUITS' : '')} #{(@structure.has_promotion? ? '| PROMOTIONS' : '')} | CoursAvenue
-
-= content_for :meta_description do
-  - if shared_comment
-    = truncate(shared_comment.content, length: 300)
-  - elsif @structure.description.present?
-    - cache [@structure, 'structure/show/meta_descriptionl'] do
-      #{@structure.is_open_for_trial? ? 'Essais GRATUIT :' : ''} #{@structure.has_promotion? ? 'PROMOTIONS' : ''} #{@structure.courses.map(&:name).uniq.join(', ')} | #{truncate(@structure.description_for_meta, length: 155)}
-  - else
-    - if @structure.parent_subjects_string.present?
-      = "#{@structure.name} à #{@city.name}. #{subjects_name_from_string(@structure.parent_subjects_string)} ! à #{@city.name}"
-    - else
-      = "#{@structure.name} à #{@city.name}"
-
-- cache [@structure, 'structure/show/breadcrumb'] do
-  .main-container.visuallyhidden
-    %ol.nav.breadcrumb.epsilon
-      %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-        = link_to root_search_page_without_subject_path(@city), itemprop: 'url' do
-          %span{ itemprop: 'title' }
-            = @city.name
-      - dominant_root_subject = @structure.dominant_root_subject
-      - if dominant_root_subject
-        %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-          = link_to root_search_page_path(dominant_root_subject, @city), itemprop: 'url' do
-            %span{ itemprop: 'title' }
-              = dominant_root_subject.name
-      %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-        %span{ itemprop: 'title' }
-          = @structure.name
+= render 'meta_information'
 
 - if !current_user and params[:waiting_for_activation]
   .blue-box.islet.text--center.push--ends
     = render 'users/waiting_for_activation_text'
 
-%div{ itemscope: true, itemtype: "http://schema.org/Place" }
+%div
   = render partial: 'structures/structure_header', locals: { structure: @structure }
   .soft--sides
     .grid

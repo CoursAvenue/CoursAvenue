@@ -67,13 +67,24 @@ namespace :scheduler do
     end
 
     # Send a recap email to admin who have requests tomorrow
-    # $ rake scheduler:participation_requests:recap
-    desc 'Send email to admins who have user requests not answered'
+    # $ rake scheduler:participation_requests:recap_for_teacher
+    desc 'Send a recap email to admin who have requests tomorrow'
     task :recap_for_teacher => :environment do |t, args|
       participation_requests = ParticipationRequest.accepted.where( ParticipationRequest.arel_table[:date].eq(Date.tomorrow))
       # Group request
       participation_requests.group_by(&:structure).each do |structure, participation_requests|
         ParticipationRequestMailer.delay.recap_for_teacher(structure, participation_requests)
+      end
+    end
+
+    # Send a recap email to users who have requests tomorrow
+    # $ rake scheduler:participation_requests:recap_for_user
+    desc 'Send a recap email to user who have requests tomorrow'
+    task :recap_for_user => :environment do |t, args|
+      participation_requests = ParticipationRequest.accepted.where( ParticipationRequest.arel_table[:date].gteq(Date.tomorrow))
+      # Group request per user
+      participation_requests.group_by(&:user).each do |user, participation_requests|
+        ParticipationRequestMailer.delay.recap_for_user(user, participation_requests)
       end
     end
 
@@ -107,5 +118,18 @@ namespace :scheduler do
       end
     end
 
+    # Send email to users that had been to courses
+    # $ rake scheduler:participation_requests:how_was_the_trial_stage_2
+    desc 'Send email to users who took a trial course and did not leave a comment after five day'
+    task :how_was_the_trial_stage_2 => :environment do |t, args|
+      participation_requests = ParticipationRequest.accepted.where( ParticipationRequest.arel_table[:date].eq(10.days.from_now) )
+
+      # Group request
+      participation_requests.each do |participation_request|
+        if !participation_request.user.has_left_a_review_on? participation_request.structure
+          ParticipationRequestMailer.delay.how_was_the_trial_stage_1(participation_request)
+        end
+      end
+    end
   end
 end

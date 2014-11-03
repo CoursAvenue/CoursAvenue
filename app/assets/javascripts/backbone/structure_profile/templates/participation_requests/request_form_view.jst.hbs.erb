@@ -1,26 +1,48 @@
+{{#if structure.is_sleeping}}
+  {{#if structure.phone_numbers}}
+    {{#if structure.phone_numbers}}
+    <a href="javascript:void(0)" class="btn btn--green btn--full" data-behavior="show-phone-numbers">
+        <i class="fa fa-phone v-middle"></i>
+        <span class="v-middle">Contacter</span>
+    </a>
+    <div class="phone_number hidden white-box">
+        <div class="soft text--center">
+            {{#each structure.phone_numbers}}
+                {{#ifCond @index '>' 0}}<br>{{/ifCond}}
+                <strong class="epsilon v-middle" itemprop="telephone">{{this}}</strong>
+                {{#if structure.premium }}
+                    <i class="soft-half--left v-middle fa fa-check-circle green"></i>
+                    <i class="v-middle green milli">vérifié</i>
+                {{/if}}
+            {{/each}}
+        </div>
+    </div>
+    {{/if}}
+  {{/if}}
+{{else}}
 <div class="panel__header soft-half--ends soft--sides">
     <h5 class="flush">
       Contacter {{structure.about}}
     </h5>
 </div>
 <div class="panel__body soft">
-  <div class="text--center push-half--bottom">
+  {{#if last_message_sent_at}}
+      <div class="green"><i class="fa fa-check"></i> <strong>Dernier message envoyé le {{last_message_sent_at}}</strong></div>
+      <hr class="push--ends">
+  {{/if}}
+  <div class="text--center push--bottom">
     <label class="orange btn-as-link f-weight-bold inline-block epsilon" data-behavior="toggle-type" data-type="booking" for="request_type_booking">
-      <i class="relative fa fa-caret-down" style="left: 54px; top: 11px;"></i>
-      Réservation
+      <i class="relative fa fa-caret-down" style="left: 54px; top: 16px;"></i>
+      Inscription
       <input type="radio" value="booking" class="hidden" name="request_type" checked id="request_type_booking">
     </label>
     |
     <label class="orange btn-as-link inline-block epsilon" data-behavior="toggle-type" data-type="information" for="request_type_information">
       Information
-      <i class="visibility-hidden relative fa fa-caret-down" style="right: 53px; top: 11px;"></i>
+      <i class="visibility-hidden relative fa fa-caret-down" style="right: 53px; top: 16px;"></i>
       <input type="radio" value="information" class="hidden" name="request_type" id="request_type_information">
     </label>
   </div>
-    {{#if participation_request.user.last_message_sent}}
-        <div class="green"><i class="fa fa-check"></i> <strong>Dernier message envoyé le {{participation_request.user.last_message_sent}}</strong></div>
-        <hr class="push--ends">
-    {{/if}}
     <article class="tab-pane active hard">
         <form action="{{participation_request.url}}">
             <div class="grid--full">
@@ -35,7 +57,7 @@
                         </optgroup>
                     {{/if}}
                     {{#if structure.courses_without_open_for_trials}}
-                        <optgroup label="Cours réguliers">
+                        <optgroup label="Cours réguliers sans essai gratuit">
                             {{#each structure.courses_without_open_for_trials}}
                                 <option data-collection-type="courses" value="{{this.id}}" {{#ifIncludeString ../course_ids this.id}}selected{{/ifIncludeString}}>{{this.name}}</option>
                             {{/each}}
@@ -60,21 +82,28 @@
                 {{#if participation_request.planning_id}}{{#if errors.planning_id}}
                     <div class="input_field_error red f-weight-bold text--right">{{errors.planning_id}}</div>
                 {{/if}}{{/if}}
-                <div class="text--center flexbox soft-half--top" data-element="datepicker-wrapper" style="display: none">
-                  <label class="label--large nowrap flexbox__item soft-half--right one-twelfth" for="request-date">Votre jour : </label>
-                  <div class="flexbox__item text--left">
-                    <input type="text" data-behavior="datepicker" name="date" id="request-date" class="datepicker-input input--large">
+                <div class="soft-half--top" data-element="datepicker-wrapper" style="display: none">
+                  <div class="push-half--bottom" data-element="address-info-wrapper">
+                    <i>
+                      Lieu : <span data-element="address-info"></span>
+                    </i>
                   </div>
-                  <div class="flexbox__item text--left nowrap">
-                    <div data-element="time-wrapper">
-                      <select class="input--large" name="start-hour" data-element="start-hour-select"></select>
-                      <label class="label--large inline-block">h</label>
-                      <select class="input--large" name="start-min" data-element="start-minute-select">
-                        <option value="00">00</option>
-                        <option value="15">15</option>
-                        <option value="30">30</option>
-                        <option value="45">45</option>
-                      </select>
+                  <div class="flexbox text--center">
+                    <label class="label--large nowrap flexbox__item soft-half--right one-twelfth" for="request-date">Votre jour : </label>
+                    <div class="flexbox__item text--left">
+                      <input type="text" data-behavior="datepicker" name="date" id="request-date" class="datepicker-input input--large">
+                    </div>
+                    <div class="flexbox__item text--left nowrap">
+                      <div data-element="time-wrapper">
+                        <select class="input--large" name="start-hour" data-element="start-hour-select"></select>
+                        <label class="label--large inline-block">h</label>
+                        <select class="input--large" name="start-min" data-element="start-minute-select">
+                          <option value="00">00</option>
+                          <option value="15">15</option>
+                          <option value="30">30</option>
+                          <option value="45">45</option>
+                        </select>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -97,12 +126,12 @@
                 <div class="input_field_error red f-weight-bold text--right">{{errors.body}}</div>
             {{/if}}
             <button type="submit" class="btn btn--green btn--full" data-disable-with="Message en cours d'envoi...">
-                <div data-type="booking-request-type-wrapper">
-                  Envoyer ma demande de réservation
-                </div>
-                <div class="hidden" data-type="information-request-type-wrapper">
+                <span data-type="booking-request-type-wrapper">
+                  Envoyer ma demande d'inscription
+                </span>
+                <span class="hidden" data-type="information-request-type-wrapper">
                   Envoyer ma demande d'information
-                </div>
+                </span>
             </button>
         </form>
         <div class="hidden" data-type="information-request-type-wrapper">
@@ -134,3 +163,4 @@
         </div>
     </article>
 </div>
+{{/if}}

@@ -1,14 +1,14 @@
-= side_menu_currently_at 'trial_courses'
+= side_menu_currently_at 'inscriptions'
 
 .panel
-  = render partial: 'pro/structures/courses/trial_courses_tabs', locals: { current: 'monitoring' }
+  .panel__header.soft
+    %h3.flush Mes inscriptions
   .panel__body.soft--ends
-    .soft--sides
-      %h3 Mes inscriptions
     %table.table--data.table--striped
       %thead
         %tr
           %th Statut
+          %th Inscription
           %th Nom de l'élève
           %th Lieu
           %th Cours
@@ -16,10 +16,21 @@
           %th Options
       %tbody
         - @participation_requests.each do |participation_request|
-          %tr
-            %td.nowrap{ class: participation_request_color(participation_request) }
+          %tr{ style: ((participation_request.pending? and participation_request.last_modified_by == 'User') ? 'border: 4px solid #e2493c' : '') }
+            %td{ class: participation_request_color(participation_request) }
               = participation_request_icon(participation_request)
-              = t "participation_request.state.#{participation_request.state}"
+              - if participation_request.pending? and participation_request.last_modified_by == 'User'
+                Confirmez la demande d'inscription au plus vite
+              - else
+                = t "participation_request.state.#{participation_request.state}"
+            %td
+              - if participation_request.course.is_open_for_trial?
+                Essai gratuit
+              - elsif participation_request.course.is_training?
+                Stage / atelier
+              - else
+                1ère séance
+
             %td= participation_request.user.name
             %td
               - place = participation_request.place

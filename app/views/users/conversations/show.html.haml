@@ -1,4 +1,5 @@
 = user_menu_currently_at 'inbox'
+= render 'shared/include_addthisevent'
 
 .panel
   .panel__header.soft
@@ -17,18 +18,12 @@
         %h5.flush= @conversation.subject
     .grid
       .grid__item.two-twelfths.v-middle.text--right>
-        %p À
+        %p.flush À
       .grid__item.ten-twelfths.soft-half--left.v-middle>
-        %p= recipients.map(&:name).join(', ')
+        %h5.flush= recipients.map(&:name).join(', ')
 
     - if @participation_request
-      .grid.epsilon
-        .grid__item.two-twelfths.v-middle.text--right>
-          %strong.flush.nowrap
-            Cours concerné
-        .grid__item.ten-twelfths.soft-half--left.v-middle>
-          = participation_request_course_description(@participation_request)
-      .grid.push-half--top
+      .grid.push-half--ends
         .grid__item.two-twelfths.v-middle.text--right>
         .grid__item.ten-twelfths.soft-half--left.v-middle>
           .flexbox
@@ -45,6 +40,35 @@
                 %br
                 = link_to "Annuler l'inscription", cancel_form_user_participation_request_path(@user, @participation_request), class: 'red nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
 
+      .grid.epsilon.push-half--bottom
+        .grid__item.two-twelfths.v-top.text--right>
+          %strong.flush
+            Récapitulatif
+        .grid__item.ten-twelfths.soft-half--left.v-top>
+          %ul.no-bullet-list.flush
+            %li
+              %strong Nom du cours :
+              = @participation_request.course.name
+            %li
+              %strong Jour et créneau :
+              #{l(@participation_request.date, format: :semi_long)} : #{l(@participation_request.start_time, format: :short)} à #{l(@participation_request.end_time, format: :short)}.
+            %li
+              %strong Lieu :
+              = @participation_request.place.name
+            - if @participation_request.place.info.present? or @participation_request.place.private_info.present?
+              %li
+                %strong Infos pratiques :
+                %br
+                = @participation_request.place.info
+                - if @participation_request.place.private_info.present?
+                  %br
+                  = @participation_request.place.private_info
+      .grid.epsilon
+        .grid__item.two-twelfths.v-top.text--right>
+          %strong.flush
+            Ajouter au calendrier
+        .grid__item.ten-twelfths.soft-half--left.v-top>
+          = add_to_calendar(@participation_request)
       .push--top
         - if @participation_request.pending? and @participation_request.last_modified_by == 'Structure'
           = render 'users/conversations/participation_request_form'

@@ -111,6 +111,12 @@ class ParticipationRequestMailer < ActionMailer::Base
     mail to: @admin.email, subject: "Pour mémoire - Inscriptions pour demain"
   end
 
+  def recap_for_user(user, participation_requests)
+    @participation_requests = participation_requests
+    @user                   = user
+    mail to: @user.email, subject: "Pour mémoire - Planning de demain"
+  end
+
   ######################################################################
   # After the course                                                   #
   ######################################################################
@@ -127,6 +133,13 @@ class ParticipationRequestMailer < ActionMailer::Base
   def how_was_the_trial_stage_1(participation_request)
     retrieve_participation_request_variables(participation_request)
     mail to: @user.email, subject: "Pensez à laisser votre témoignage sur #{@structure.name}"
+  end
+
+  def how_was_the_trial_stage_2(participation_request)
+    retrieve_participation_request_variables(participation_request)
+    mail to: @user.email,
+         subject: "Pensez à laisser votre témoignage sur #{@structure.name}",
+         template_name: 'how_was_the_trial_stage_1'
   end
 
   private

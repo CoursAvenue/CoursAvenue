@@ -113,7 +113,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             this.ui.$subjects_breadcrumb.show();
             if (_.isEmpty(data.subject_id)) { this.ui.$subjects_breadcrumb.hide(); return; }
             current_model = this.collection.where({slug: data.root_subject_id || data.subject_id})[0];
-
+            if (!current_model) { return; }
             this.ui.$subjects_breadcrumb.append($(this.breadcrumb_template(_.extend(current_model.toJSON(), {depth: '0'}))));
 
             // Return if selected subject is root or subject_id is nil

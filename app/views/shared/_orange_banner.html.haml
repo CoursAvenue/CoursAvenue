@@ -2,10 +2,10 @@
   .orange-box.hidden#join-the-community
     .soft-half.white.text--center.epsilon
       - if ! current_user
-        %strong Accédez à des offres exclusives en rejoignant la communauté CoursAvenue :
-        = link_to 'Rejoindre gratuitement', '#', data: { behavior: 'sign-up' }, class: 'btn btn--yellow btn--small', id: 'orange-box-join-for-free'
+        %strong Recevez nos offres exclusives, promotions et invitations :
+        = link_to 'Bons plans & Promotions', '#', data: { behavior: 'sign-up', title: 'Inscrivez-vous pour recevoir nos bons plans & promotions' }, class: 'btn btn--yellow btn--small', id: 'orange-box-join-for-free'
       - else
-        %strong Accédez à des offres exclusives en nous suivant sur Facebook :
+        %strong Recevez nos offres exclusives, promotions et invitations en nous suivant sur Facebook :
       = link_to '#', class: 'white float--right', data: { behavior: 'closer', el: '#join-the-community' } do
         %i.fa.fa-times
       .v-middle.fb-like{ data: { href: 'https://www.facebook.com/CoursAvenue', layout: 'button_count', action: 'like', 'show-faces' => 'false', share: "false" } }

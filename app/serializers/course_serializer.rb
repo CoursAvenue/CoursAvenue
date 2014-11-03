@@ -8,7 +8,7 @@ class CourseSerializer < ActiveModel::Serializer
              :is_individual, :is_lesson, :frequency, :premium, :on_appointment,
              :course_location, :min_age_for_kid, :max_age_for_kid, :audiences,
              :levels, :details, :prices, :premium_prices, :has_price_group,
-             :is_open_for_trial, :has_promotion
+             :is_open_for_trial, :has_promotion, :trial_courses_policy_popover
 
   has_many :plannings,      serializer: PlanningSerializer
   has_many :prices,         serializer: PriceSerializer
@@ -59,17 +59,7 @@ class CourseSerializer < ActiveModel::Serializer
 
   def course_location
     return '' unless object.is_private?
-    string = ""
-    if object.teaches_at_home? and object.home_place
-      string << "Au domicile de l'élève (rayon de #{object.home_place.radius}km autour de #{object.home_place.city.name})"
-    end
-    if object.teaches_at_home? and object.home_place and object.place
-      string << "<br>"
-    end
-    if object.place
-      string << "#{object.place.name}, #{object.place.address}"
-    end
-    string
+    readable_private_course_location(object)
   end
 
   def levels
@@ -139,6 +129,10 @@ class CourseSerializer < ActiveModel::Serializer
 
   def has_price_group
     object.price_group.present?
+  end
+
+  def trial_courses_policy_popover
+    I18n.t("structures.trial_courses_policy.#{object.structure.trial_courses_policy}_nb_given")
   end
 
 end

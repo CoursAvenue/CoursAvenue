@@ -65,6 +65,8 @@ class Pro::Structures::ConversationsController < ApplicationController
   end
 
   def update
+    params[:conversation][:message][:body] = StringHelper.replace_contact_infos(params[:conversation][:message][:body]) unless params[:conversation][:message][:body].blank?
+
     @conversation    = @admin.mailbox.conversations.find params[:id]
     @admin.reply_to_conversation(@conversation, params[:conversation][:message][:body]) unless params[:conversation][:message][:body].blank?
     respond_to do |format|

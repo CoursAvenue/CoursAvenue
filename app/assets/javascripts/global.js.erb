@@ -3,7 +3,7 @@ GLOBAL.initialize_callbacks  = [];
 GLOBAL.IMAGE_TYPE_REGEX      = /(\.|\/)(gif|jpe?g|png|bmp)$/i;
 GLOBAL.MAX_IMAGE_SIZE        = 5000000; // 5mo
 GLOBAL.DATE_FORMAT           = 'dd/mm/yyyy';
-GLOBAL.EXCLUDED_SEARCH_WORDS = /(cours de)|(cours d')|(atelier de)|(atelier d)/;
+GLOBAL.EXCLUDED_SEARCH_WORDS = /(cours de)|(cours d')|(atelier de)|(atelier d)|(stage de)|(stage d')|(activité)|(séance)/;
 GLOBAL.isImageValid = function(file) {
   return file.type.match(GLOBAL.IMAGE_TYPE_REGEX) && file.size < GLOBAL.MAX_IMAGE_SIZE
 }

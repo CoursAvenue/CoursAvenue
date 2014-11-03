@@ -1,5 +1,5 @@
 - content_for :email_title do
-  Félicitations ! Vous avez reçu une demande d'information de #{@user.name}.
+  Il y a 2 jours, #{@user.name} vous a envoyé une demande d'inscription au cours d'essai.
 
 .p
   Bonjour,
@@ -13,7 +13,8 @@
   = link_to "Accepter / Proposer un autre créneau / Refuser", pro_structure_conversation_url(@admin.structure, @conversation, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
 
 - if @message
-  = render partial: 'mailboxer_message_mailer/message_to_admin', locals: { message: @message, user: @user, show_phone_number: false }
+  .soft--bottom
+    = render partial: 'mailboxer_message_mailer/message_to_admin', locals: { message: @message, user: @user, show_phone_number: false }
 
 .p En répondant maintenant, votre profil remontera dans le moteur de recherche et vous continuerez à recevoir des demandes d'inscription.
 
@@ -25,13 +26,13 @@
 
 - content_for :under_content_gray do
   .title
-    = link_to "Foire aux questions", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+    = link_to "Foire aux questions", pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
   .p.soft-half--bottom.bordered--bottom
-    = link_to "Que faire après avoir reçu une demande d'information d'un élève potentiel ?", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+    = link_to "Que faire après avoir reçu une demande d'information d'un élève potentiel ?", pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
   .p.soft-half--ends.bordered--bottom
-    = link_to "Que faire s'il ne s'agit pas d'une véritable demande d'information ?", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+    = link_to "Que faire s'il ne s'agit pas d'une véritable demande d'information ?", pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
   .p.soft-half--ends.bordered--bottom
-    = link_to "Que se passe-t-il si je laisse expirer une demande d'information ?", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+    = link_to "Que se passe-t-il si je laisse expirer une demande d'information ?", pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
   .p.soft-half--ends
-    = link_to "Comment faire pour recevoir encore plus de demandes d'information ?", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+    = link_to "Comment faire pour recevoir encore plus de demandes d'information ?", pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
 
