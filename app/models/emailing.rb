@@ -37,6 +37,7 @@ class Emailing < ActiveRecord::Base
 
   after_save :set_media
   after_save :set_subject
+  after_save :set_review
 
   ######################################################################
   # Methods                                                            #

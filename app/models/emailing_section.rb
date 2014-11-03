@@ -70,8 +70,18 @@ class EmailingSection < ActiveRecord::Base
   #
   # @return nothing
   def set_review
-  end
+    self.structure.each do |structure|
+      bridge = bridge_with_structure(structure)
+      review = structure.comments.first
 
+      if bridge.review_id.nil?
+        bridge.review_id = review.id
+        bridge.review_text = review.text
+        bridge.review_custom = false
+        bridge.save
+      end
+    end
+  end
 
   # Get the EmailingSectionBridges associated with a structure
   #
