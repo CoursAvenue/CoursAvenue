@@ -12,8 +12,6 @@
     %tr{ valign: 'top' }
       %td.soft.v-middle.content-block{ width: 600 }
         = @emailing.body.html_safe
-        -# .split("\r\n\r\n").each do |paragraph|
-        -#   .p.hard--bottom= paragraph
 
 - content_for :under_content_no_box_2 do
   - @emailing.emailing_sections.each do |section|
@@ -50,17 +48,18 @@
           .p.soft--left= link_to section.link_name, section.link
 
 - content_for :under_content_no_box_3 do
-  %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
+  %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600' }
     %tr{ valign: 'top' }
-      %td.content-block{ width: '33%', style: 'padding-bottom: 0' }
+      %td.text--center.content-block{ width: '33%', style: 'padding-bottom: 0' }
         = link_to '/paris' do
           = image_tag "http://coursavenue-public.s3.amazonaws.com/newsletters/global/icon_search.png", height: 14
           Rechercher un Cours
-      %td.content-block{ width: '33%', style: 'padding-bottom: 0' }
+      %td.text--center.content-block{ width: '33%', style: 'padding-bottom: 0' }
         = link_to mon_compte_path do
           = image_tag "http://coursavenue-public.s3.amazonaws.com/newsletters/global/icon_key.png", height: 14
           Votre Compte
-      %td.content-block{ width: '33%', style: 'padding-bottom: 0' }
+      %td.text--center.content-block{ width: '33%', style: 'padding-bottom: 0' }
         = link_to 'UNSUB_PLACEHOLDER' do
           = image_tag "http://coursavenue-public.s3.amazonaws.com/newsletters/global/icon_sad.png", height: 14
           Se désabonner
+  %br
