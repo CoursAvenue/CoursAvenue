@@ -8,15 +8,17 @@ Emailing.module('Views.Sections.Bridges', function(Module, App, Backbone, Marion
         },
 
         events: {
-            'click [data-slide-next]': 'slideNext',
-            'click [data-slide-prev]': 'slidePrev',
-            'click [data-subj-next]' : 'subjectNext',
-            'click [data-subj-prev]' : 'subjectPrev'
+            'click [data-slide-next]'  : 'slideNext',
+            'click [data-slide-prev]'  : 'slidePrev',
+            'click [data-review-next]' : 'reviewNext',
+            'click [data-review-prev]' : 'reviewPrev',
+            'click [data-subj-next]'   : 'subjectNext',
+            'click [data-subj-prev]'   : 'subjectPrev'
         },
 
         initialize: function initialize () {
             this.model.on('change', this.render);
-            _.bindAll(this, 'setCurrentImage', 'setCurrentSubject');
+            _.bindAll(this, 'setCurrentImage', 'setCurrentSubject', 'setCurrentReview');
         },
 
         /* Change current to the next or previous element of collection.
@@ -52,6 +54,17 @@ Emailing.module('Views.Sections.Bridges', function(Module, App, Backbone, Marion
             this.collectionNext('subjects', 'subject_id', this.setCurrentSubject, false);
         },
 
+        reviewNext : function reviewNext () {
+          this.collectionNext('reviews', 'review_id', this.setCurrentReview, true);
+        },
+
+        reviewPrev : function reviewPrev () {
+          this.collectionNext('reviews', 'review_id', this.setCurrentReview, false);
+        },
+
+        reviewCustom : function reviewCustom () {
+        },
+
         setCurrentImage: function setCurrentImage (image) {
             if (image) {
                 this.model.set( { media_url: image.url, media_id: image.id } );
@@ -62,7 +75,13 @@ Emailing.module('Views.Sections.Bridges', function(Module, App, Backbone, Marion
           if (subject) {
             this.model.set( { subject_name: subject.name, subject_id: subject.id } );
           }
-        }
+        },
+
+        setCurrentReview : function setCurrentReview(review) {
+          if (review) {
+            this.model.set( { review_text: review.title, review_id: review.id } );
+          }
+        },
     });
 });
 

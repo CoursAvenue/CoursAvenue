@@ -6,7 +6,7 @@
 
     <img src="{{ media_url }}" data-id="{{ media_id }}" width="280" height="210">
 
-    <a class='pointer rslides_nav rslides1_nav next' data-slide-next>
+   <a class='pointer rslides_nav rslides1_nav next' data-slide-next>
       <i class='fa-2x soft-black-text-shadow fa-chevron-right'></i>
     </a>
   </div>
@@ -21,6 +21,18 @@
     <span data-subject-id="{{ subject_id }}"> {{ subject_name }}</span>
 
     <a class='pointer' data-subj-next>
+      <i class='fa-chevron-right v-middle gray-light'></i>
+    </a>
+  </div>
+
+  <div>
+    <a class='pointer' data-review-prev>
+      <i class='fa-chevron-left v-middle gray-light'></i>
+    </a>
+
+    <span data-review-id="{{ review_id }}">{{ reviews.length }} avis — "{{ review_text }}"</span>
+
+    <a class='pointer' data-review-next>
       <i class='fa-chevron-right v-middle gray-light'></i>
     </a>
   </div>
