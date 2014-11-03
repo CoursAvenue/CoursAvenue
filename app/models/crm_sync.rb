@@ -17,10 +17,10 @@ class CrmSync
     person.set_field_value('Disciplines 1'                  , structure.subjects.at_depth(0).uniq.map(&:name).join('; '))
     person.set_field_value('Disciplines 3'                  , structure.subjects.at_depth(2).uniq.map(&:name).join('; '))
     person.set_field_value('Premium ?'                      , ( structure.premium? ? 'Oui' : 'Non' ))
-    person.set_field_value('Stats : # d’affichages'         , structure.impression_count(1000))
-    person.set_field_value('Stats : # de vues'              , structure.view_count(1000))
-    person.set_field_value('Stats : # de demandes d’info'   , admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).count) if admin
-    person.set_field_value("Stats : # d'actions"            , structure.action_count(1000))
+    # person.set_field_value('Stats : # d’affichages'         , structure.impression_count(1000))
+    # person.set_field_value('Stats : # de vues'              , structure.view_count(1000))
+    # person.set_field_value('Stats : # de demandes d’info'   , admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).count) if admin
+    # person.set_field_value("Stats : # d'actions"            , structure.action_count(1000))
     person.set_field_value('# de discussions'               , admin.mailbox.conversations.count) if admin
     person.set_field_value("# avis"                         , structure.comments_count)
     person.set_field_value('# de cours actifs'              , structure.courses.select(&:is_published?).length)
