@@ -1,6 +1,6 @@
 class EmailingSectionBridge < ActiveRecord::Base
 
-  attr_accessible :media_id, :is_logo,
+  attr_accessible :media_id, :media_url, :is_logo,
                   :subject_id, :subject_name,
                   :review_id, :review_text, :review_custom
 
