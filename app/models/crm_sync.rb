@@ -74,8 +74,7 @@ class CrmSync
       end
     end
     if person.nil?
-      person = Highrise::Person.new(name: structure.name,
-                                    contact_data: { email_addresses: email_addresses })
+      person = Highrise::Person.new(name: structure.name, contact_data: { email_addresses: email_addresses.uniq })
     end
     if person.save
       person.tag!("Dormant")
