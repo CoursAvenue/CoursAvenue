@@ -8,17 +8,18 @@ Emailing.module('Views.Sections.Bridges', function(Module, App, Backbone, Marion
         },
 
         events: {
-            'click [data-slide-next]'  : 'slideNext',
-            'click [data-slide-prev]'  : 'slidePrev',
-            'click [data-review-next]' : 'reviewNext',
-            'click [data-review-prev]' : 'reviewPrev',
-            'click [data-subj-next]'   : 'subjectNext',
-            'click [data-subj-prev]'   : 'subjectPrev'
+            'click [data-slide-next]'     : 'slideNext',
+            'click [data-slide-prev]'     : 'slidePrev',
+            'click [data-subj-next]'      : 'subjectNext',
+            'click [data-subj-prev]'      : 'subjectPrev',
+            'click [data-review-next]'    : 'reviewNext',
+            'click [data-review-prev]'    : 'reviewPrev',
+            'keyup [data-review-custom]'  : 'reviewCustom'
         },
 
         initialize: function initialize () {
             this.model.on('change', this.render);
-            _.bindAll(this, 'setCurrentImage', 'setCurrentSubject', 'setCurrentReview');
+            _.bindAll(this, 'setCurrentImage', 'setCurrentSubject', 'setCurrentReview', 'reviewCustom');
         },
 
         /* Change current to the next or previous element of collection.
@@ -63,7 +64,10 @@ Emailing.module('Views.Sections.Bridges', function(Module, App, Backbone, Marion
         },
 
         reviewCustom : function reviewCustom () {
-        },
+          var text = $('input[data-review-custom]').val();
+          var review = { id: this.model.get('review_id'), title: text, custom: true };
+          console.log(review);
+        }.debounce(500),
 
         setCurrentImage: function setCurrentImage (image) {
             if (image) {
@@ -79,7 +83,7 @@ Emailing.module('Views.Sections.Bridges', function(Module, App, Backbone, Marion
 
         setCurrentReview : function setCurrentReview(review) {
           if (review) {
-            this.model.set( { review_text: review.title, review_id: review.id } );
+            this.model.set( { review_text: review.title, review_id: review.id, review_custom: review.custom } );
           }
         },
     });
