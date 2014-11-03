@@ -30,7 +30,7 @@ class CrmSync
     person.set_field_value('JPO'                            , structure.courses.open_courses.count)
     person.set_field_value('Pass Decouverte Policy'         , structure.trial_courses_policy)
     person.set_field_value('Pass Decouverte'                , structure.courses.open_for_trial.count)
-    person.set_field_value('Funnel'                         , funnel_state(structure))
+    person.set_field_value('Funnel'                         , CrmSync.funnel_state(structure))
     web_addresses = [{ url: Rails.application.routes.url_helpers.structure_url(structure, subdomain: 'www', host: 'coursavenue.com'), location: 'Work' },
                     { url: Rails.application.routes.url_helpers.pro_structure_url(structure, subdomain: 'pro', host: 'coursavenue.com'), location: 'Work' },
                     { url: structure.website, location: 'Work' }]
@@ -85,9 +85,7 @@ class CrmSync
     end
   end
 
-  private
-
-  def funnel_state(structure)
+  def self.funnel_state(structure)
     if structure.is_sleeping?
       "Dormant"
     elsif structure.premium?
