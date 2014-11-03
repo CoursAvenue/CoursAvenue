@@ -20,7 +20,7 @@
         = render partial: '/comments/comment', collection: @comments.accepted, locals: { with_link: true }
     - else
       %p
-        Vous n'avez écris aucun avis.
+        Vous n'avez écrit aucun avis.
         %br
         Vous avez pris des cours mais ils ne sont pas référencés ?
         = link_to 'Faites-le nous savoir !', pages_contact_path, onclick: "ga('send', 'event', 'Connait un professeur', 'click', '#{@user.email}')"

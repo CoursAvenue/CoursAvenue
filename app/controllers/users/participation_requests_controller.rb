@@ -7,7 +7,8 @@ class Users::ParticipationRequestsController < ApplicationController
 
   # GET eleves/:user_id/participation_request/
   def index
-    @participation_requests = @user.participation_requests
+    @past_participation_requests    = (@user.participation_requests.canceled_or_declined + @user.participation_requests.past).uniq.sort_by(&:date).reverse
+    @current_participation_requests = (@user.participation_requests.upcoming.accepted + @user.participation_requests.upcoming.pending).sort_by(&:date)
   end
 
  # GET eleves/:user_id/participation_request/:id/edit

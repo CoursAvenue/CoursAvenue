@@ -1,56 +1,55 @@
 = user_menu_currently_at 'inscriptions'
 = render 'shared/include_addthisevent'
 
-.panel
-  .panel__header.soft
-    %h3.flush Mes inscriptions
-  .panel__body.soft
-    - if @participation_requests.empty?
-      %h4 Vous n'avez encore aucune inscription :
-      .text--center
-        = link_to "Réserver mes cours d'essai", root_search_page_without_subject_path('paris'), class: 'btn btn--green btn--large'
-    - else
-      %table.table--data.table--striped
-        %thead
-          %tr
-            %th Statut
-            %th Cours
-            %th Adresse
-            %th Professeur
-            %th Jour et horaires
-            %th Options
-            %th Ajouter à votre calendrier
-        %tbody
-          - @participation_requests.each do |participation_request|
-            %tr
-              %td.nowrap{ class: participation_request_color(participation_request) }
-                = participation_request_icon(participation_request)
-                = t "participation_request.state.#{participation_request.state}"
-              %td
-                - course = participation_request.course
-                = course.name
-                %i.fa.fa-info{ data: { toggle: 'popover', content: "<strong>Niveau :</strong> #{join_levels(participation_request.levels)}<br><strong>Public :</strong> #{join_audiences(participation_request.planning || participation_request.course)}<br><strong>Disciplines :</strong> #{course.subjects.uniq.map(&:name).join(', ')}", html: 'true', placement: 'top', trigger: 'hover' } }
-              %td
-                - place = participation_request.place
-                - if place
-                  = place.address
-                  - if place.info.present? or place.private_info.present?
-                    %a.btn.btn--small{ data: { toggle: 'popover', content: t('places.infos', info: place.info, private_info: place.private_info), html: 'true', placement: 'top', trigger: 'hover' } }
-                      Infos
-              %td
-                = link_to participation_request.structure.name, structure_path(participation_request.structure), target: :_blank
-              %td
-                = "#{l(participation_request.date, format: :semi_short)} à #{l(participation_request.start_time, format: :short)}"
-              %td
-                - if !participation_request.canceled? and !participation_request.declined?
-                  - if participation_request.pending? and participation_request.last_modified_by == 'Structure'
-                    = link_to "Accepter le nouveau créneau", accept_user_participation_request_path(@user, participation_request), method: :patch, class: 'green nowrap'
-                    %br
-                  = link_to 'Proposer un autre créneau', edit_user_participation_request_path(@user, participation_request, return_to: user_participation_requests_path(@user)), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
-                  %br
-                = link_to 'Historique des messages', user_conversation_path(@user, participation_request.conversation)
-                - if !participation_request.canceled? and !participation_request.declined?
-                  %br
-                  = link_to "Annuler l'inscription", cancel_form_user_participation_request_path(@user, participation_request, return_to: user_participation_requests_path(@user)), class: 'red nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
-              %td.nowrap
-                = add_to_calendar(participation_request)
+.flexbox
+  .flexbox__item.soft-half--right.v-top.one-sixth>
+    %div
+      .soft
+        %h3.flush &nbsp;
+    %ul.tabs--link.no-bullet-list.epsilon.line-height-2
+      %li.active
+        %a{ href: '#mes-inscriptions', data: { toggle: 'tab' } } Mes inscriptions
+      %li
+        %a{ href: '#inscriptions-precedentes', data: { toggle: 'tab' } } Inscriptions précédentes
+  .flexbox__item.v-top.five-sixths>
+    .panel
+      .panel__header.soft
+        %h3.flush Mes inscriptions
+      .panel__body.soft
+        .tab-content
+          .tab-pane.active#mes-inscriptions
+            - if @current_participation_requests.any?
+              %table.table--data.table--striped
+                %thead
+                  %tr
+                    %th Statut
+                    %th Cours
+                    %th Adresse
+                    %th Professeur
+                    %th Jour et horaires
+                    %th Options
+                    %th Ajouter à votre calendrier
+                %tbody
+                  - @current_participation_requests.each do |participation_request|
+                    = render participation_request
+            - else
+              %p Vous n'avez pas d'inscription en cours.
+              = link_to "Réserver mes cours d'essai", root_search_page_without_subject_path('paris'), class: 'btn btn--green'
+
+          .tab-pane#inscriptions-precedentes
+            - if @past_participation_requests.any?
+              %table.table--data.table--striped
+                %thead
+                  %tr
+                    %th Statut
+                    %th Cours
+                    %th Adresse
+                    %th Professeur
+                    %th Jour et horaires
+                    %th Options
+                %tbody
+                  - @past_participation_requests.each do |participation_request|
+                    = render partial: 'participation_request', locals: { participation_request: participation_request, calendar: false }
+            - else
+              %p Vous n'avez pas d'inscription passé.
+              = link_to "Réserver mes cours d'essai", root_search_page_without_subject_path('paris'), class: 'btn btn--green'

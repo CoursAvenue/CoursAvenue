@@ -81,7 +81,7 @@ module ParticipationRequestsHelper
     structure  = participation_request.structure
     course     = participation_request.course
     place      = participation_request.place
-    place_info = "Infos sur le lieu : #{place.info} #{place.private_info}".gsub(/\r\n/, ' ') if place.info.present? or place.private_info.present?
+    place_info = "Infos sur le lieu : #{place.info} #{place.private_info}".gsub(/\r\n/, ' ') if place and (place.info.present? or place.private_info.present?)
     # Date format
     #  <span class="_end">11-05-2012 11:38:46</span>
     link = <<-eos
@@ -95,7 +95,7 @@ module ParticipationRequestsHelper
         <div class="desc">
           <p>
             <strong class="hed">#{truncate course.name, length: 24}</strong>
-            <span class="des">Lieu : #{truncate place.address, length: 28}<br />Date : #{l(participation_request.date, format: :semi_short)} à #{l(participation_request.start_time, format: :short)}</span>
+            <span class="des">Lieu : #{truncate place.try(:address), length: 28}<br />Date : #{l(participation_request.date, format: :semi_short)} à #{l(participation_request.start_time, format: :short)}</span>
           </p>
         </div>
 
@@ -104,7 +104,7 @@ module ParticipationRequestsHelper
         <span class="_zonecode">40</span>
         <span class="_summary">#{course.name}</span>
         <span class="_description">#{place_info}</span>
-        <span class="_location">#{place.address}</span>
+        <span class="_location">#{place.try(:address)}</span>
         <span class="_organizer">CoursAvenue en collaboration avec #{structure.name}</span>
         <span class="_organizer_email">#{structure.main_contact.email}</span>
         <span class="_all_day_event">false</span>
