@@ -8,7 +8,7 @@ namespace :metric do
 
     (start_date..end_date).each do |date|
       Metric.duplicated(date).each do |metric|
-        metric.delay.destroy
+        metric.delay(queue: 'metric').destroy
       end
     end
   end
