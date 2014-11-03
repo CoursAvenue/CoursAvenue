@@ -35,9 +35,7 @@ class Emailing < ActiveRecord::Base
   validates :body, presence: true
   validates_attachment_content_type :header_image, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 
-  after_save :set_media
-  after_save :set_subject
-  after_save :set_review
+  after_save :set_defaults
 
   ######################################################################
   # Methods                                                            #
@@ -125,18 +123,9 @@ class Emailing < ActiveRecord::Base
   # Set the media before saving if it isn't already set.
   #
   # @return nothing
-  def set_media
+  def set_defaults
     self.emailing_sections.each do |section|
-      section.set_media
-    end
-  end
-
-  # Set the subject name before saving if it isn't already.
-  #
-  # @return nothing.
-  def set_subject
-    self.emailing_sections.each do |section|
-      section.set_subject
+      section.set_defaults
     end
   end
 end

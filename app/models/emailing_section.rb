@@ -17,72 +17,6 @@ class EmailingSection < ActiveRecord::Base
   # Methods                                                            #
   ######################################################################
 
-  # TODO: Move all the `set_*` methods in one. (`set_attributes` ?)
-
-  # Set the media by default if it isn't already set.
-  #
-  # If the Structure doesn't have any media, we store its id and add a flag showing
-  # that we use the logo instead.
-  #
-  # @return nothing
-  def set_media
-    self.structures.each do |structure|
-      bridge = bridge_with_structure(structure)
-
-      if structure.medias.any?
-        is_logo = false
-        media = structure.medias.first.id
-      else
-        is_logo = true
-        media = structure.id
-      end
-
-      if bridge.nil?
-        self.emailing_section_bridges.create(structure_id: structure.id,
-                                                 media_id: media,
-                                                  is_logo: is_logo)
-      elsif bridge.media_id.nil?
-        bridge.media_id = media
-        bridge.is_logo = is_logo
-        bridge.save
-      end
-    end
-  end
-
-  # Set the subject by default if it isn't already set.
-  #
-  # @return nothing.
-  def set_subject
-    self.structures.each do |structure|
-      bridge = bridge_with_structure(structure)
-
-      subject = structure.subjects.first
-
-      if bridge.subject_id.nil?
-        bridge.subject_id = subject.id
-        bridge.subject_name = subject.name
-        bridge.save
-      end
-    end
-  end
-
-  # Set the review by default if it isn't already set.
-  #
-  # @return nothing
-  def set_review
-    self.structure.each do |structure|
-      bridge = bridge_with_structure(structure)
-      review = structure.comments.first
-
-      if bridge.review_id.nil?
-        bridge.review_id = review.id
-        bridge.review_text = review.text
-        bridge.review_custom = false
-        bridge.save
-      end
-    end
-  end
-
   # Get the EmailingSectionBridges associated with a structure
   #
   # @param The associated Structure
@@ -92,4 +26,63 @@ class EmailingSection < ActiveRecord::Base
     self.emailing_section_bridges.where(structure_id: structure.id).first
   end
 
+  # Set the media, subject and reviews by default.
+  #
+  # @return nothing
+  def set_defaults
+    self.structures.each do |structure|
+      bridge = bridge_with_structure(structure) || self.emailing_section_bridges.create()
+      set_media(bridge, structure)   if bridge.media_id.nil?
+      set_review(bridge, structure)  if bridge.review_id.nil?
+      set_subject(bridge, structure) if bridge.subject_id.nil?
+    end
+  end
+
+  private
+
+  # Set the media by default if it isn't already set.
+  #
+  # If the Structure doesn't have any media, we store its id and add a flag showing
+  # that we use the logo instead.
+  #
+  # @return nothing
+  def set_media(bridge, structure)
+    if structure.medias.any?
+      is_logo = false
+      media = structure.medias.first.id
+    else
+      is_logo = true
+      media = structure.id
+    end
+
+    bridge.media_id = media
+    bridge.is_logo = is_logo
+    bridge.save
+  end
+
+  # Set the subject by default if it isn't already set.
+  #
+  # @param bridge    — The bridge to set the default subject.
+  # @param structure — The structure from which the default values are set.
+  #
+  # @return nothing.
+  def set_subject(bridge, structure)
+    subject = structure.subjects.first
+
+    bridge.subject_id = subject.id
+    bridge.subject_name = subject.name
+    bridge.save
+  end
+
+  # Set the review by default if it isn't already set.
+  #
+  # @return nothing
+  def set_review(bridge, structure)
+    review = structure.comments.first
+
+    bridge.review_id = review.id
+    bridge.review_text = review.text
+    bridge.review_custom = false
+    bridge.save
+  end
 end
