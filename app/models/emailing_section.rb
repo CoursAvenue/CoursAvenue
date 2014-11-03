@@ -81,7 +81,7 @@ class EmailingSection < ActiveRecord::Base
     review = structure.comments.first
 
     bridge.review_id = review.id
-    bridge.review_text = review.text
+    bridge.review_text = review.title
     bridge.review_custom = false
     bridge.save
   end
