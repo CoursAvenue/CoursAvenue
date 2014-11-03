@@ -106,11 +106,19 @@ class Emailing < ActiveRecord::Base
     "À partir de #{lowest_price} €"
   end
 
-  # The city of the structure.
+  # Where the courses of the structure are taking place.
   #
   # @return a String.
   def metadata_cities(structure)
-    structure.city.name
+    place = []
+    courses = structure.courses
+
+    place << 'A domicile' if courses.where(type: 'Course::Private').any?
+    if (public_courses = courses.where.not(type: 'Course::Private')).any?
+      place += public_courses.flat_map(&:places).flat_map(&:city).uniq.map(&:name).sort
+    end
+
+    place.first(3).to_sentence
   end
 
   # The first subject of the structure.
