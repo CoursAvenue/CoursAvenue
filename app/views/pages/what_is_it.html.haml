@@ -137,3 +137,9 @@
               pauseControls: true    // Boolean: Pause when hovering controls, true or false
           });
       });
+- if Rails.env.production?
+  = content_for :scripts do
+    :javascript
+        $(function() {
+            mixpanel.track("Home/what_is_it: landing");
+        });
