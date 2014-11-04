@@ -28,8 +28,8 @@ class MediaUploader < CarrierWave::Uploader::Base
 
   version :thumbnail_email_cropped do
     cloudinary_transformation :transformation => [
-        { overlay: "m-inscrire-gratuitement", width: 350, x: 31, y: 105 },
-        { width: 300, height: 220, crop: :fill }
+        { width: 300, height: 220, crop: :fill },
+        { overlay: "m-inscrire-gratuitement", width: 230, height: 31, gravity: :south_east, y: 20 }
       ]
 
     process quality: 70
