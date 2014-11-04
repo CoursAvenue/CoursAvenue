@@ -13,7 +13,7 @@
                     <i class="gray-light">Logo {{about_bis}}</i>
                 </div>
                 {{/if}}
-                <div class="push-half--bottom">
+                <div class="push-half--bottom" {{#if logo_thumb_url}}style="min-height: 200px"{{/if}}>
                     {{#if description}}
                       {{#ifCond description '!=' description_short}}
                       <div id="description-short" class="gray last-p-push-half--bottom">

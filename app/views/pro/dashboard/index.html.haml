@@ -27,8 +27,8 @@
       .grid__item.one-quarter>
         .soft-half.text--center
           %h3.flush= "#{number_with_delimiter User.active.count} élèves"
-          %h6.flush dont #{number_with_delimiter User.where( User.arel_table[:created_at].gt(Date.today) ).count} aujourd'hui
-          %div et #{number_with_delimiter User.where( User.arel_table[:created_at].gt(7.days.ago) ).count} les 7 derniers jours
+          %h6.flush dont #{number_with_delimiter User.active.where( User.arel_table[:created_at].gt(Date.today) ).count} aujourd'hui
+          %div et #{number_with_delimiter User.active.where( User.arel_table[:created_at].gt(7.days.ago) ).count} les 7 derniers jours
     .grid
       .grid__item.center-block>
         .soft-half.text--center
