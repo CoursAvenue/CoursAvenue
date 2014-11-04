@@ -4,7 +4,7 @@
       - if !current_user and !cookies[:signed_up_for_newsletter]
         %strong Recevez nos offres exclusives, promotions et invitations :
         = simple_form_for User.new, html: { class: 'inline-block v-middle', id: 'newsletter-form' }, remote: true do |f|
-          = f.input :email, label: false, input_html: { placeholder: 'Ex. follow@me.com', class: 'one-whole' }, wrapper_html: { class: 'flush inline-block v-middle' }
+          = f.input :email, label: false, input_html: { placeholder: 'Ex. patrick@gmail.com', class: 'one-whole' }, wrapper_html: { class: 'flush inline-block v-middle' }
           = f.submit "Recevoir les Bons plans & Promotions", class: 'btn btn--yellow'
         -# = link_to 'Bons plans & Promotions', '#', data: { behavior: 'sign-up', title: 'Inscrivez-vous pour recevoir nos bons plans & promotions' }, class: 'btn btn--yellow btn--small', id: 'orange-box-join-for-free'
       - else
