@@ -23,7 +23,7 @@
       .soft-half--ends.gray.milli.text--center= @emailing.title
       %div.white-box.center-block.bordered{ style: 'width: 600px;'}
         = image_tag asset_path('logos/logo.png'), class: 'center-block push-half--ends'
-        = image_tag @emailing.header_image.url, class: 'very-soft', alt: @emailing.alt if @emailing.header_image.present?
+        = image_tag @emailing.header_image.url, class: 'very-soft', alt: @emailing.header_image_alt if @emailing.header_image.present?
         .soft
           = @emailing.body.html_safe
         - if @emailing.call_to_action_text.present? and @emailing.call_to_action_url.present?
@@ -31,13 +31,6 @@
             = link_to @emailing.call_to_action_text, URI.encode(@emailing.call_to_action_url), class: 'btn btn--green'
 
         #emailings-region{ data: { type: 'emailings-root' } }
-        .grid
-          .grid__item.one-third.text--center>
-            = link_to 'Recherchez un cours', ''
-          .grid__item.one-third.text--center>
-            = link_to 'Votre compte', ''
-          .grid__item.one-third.text--center>
-            = link_to 'Se désabonner', ''
 
 - content_for :scripts do
   :javascript

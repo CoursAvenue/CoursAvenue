@@ -1,5 +1,7 @@
 class Order::Premium < Order
 
+  attr_accessible :type, :order_id, :amount, :structure, :subscription_plan, :promotion_code_id
+
   ######################################################################
   # Relations                                                          #
   ######################################################################
