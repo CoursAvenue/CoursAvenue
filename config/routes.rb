@@ -369,7 +369,7 @@ CoursAvenue::Application.routes.draw do
                       confirmation: 'verification'
                     }
 
-  resources  :users, only: [:edit, :show, :update], path: 'eleves' do
+  resources  :users, only: [:create, :edit, :show, :update], path: 'eleves' do
     collection do
       get :unsubscribed
       get :invite_entourage_to_jpo_page , path: 'inviter-mes-amis'
