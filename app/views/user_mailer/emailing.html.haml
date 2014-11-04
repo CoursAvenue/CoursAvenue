@@ -41,8 +41,9 @@
                       - else media_url
                         = image_tag media_url, width: 280, height: 210, alt: "Cours de #{bridge.subject_name}"
                       .title.hard= bridge.subject_name
-                      .p.hard
-                        %i= "\"#{bridge.review_text}\" (#{structure.comments.count} avis)"
+                      .p
+                        - if bridge.review_text.present?
+                          %i= "\"#{bridge.review_text}\" (#{structure.comments.count} avis)"
                         %br
                         = @emailing.call_action(@emailing.section_metadata_two, structure)
 
