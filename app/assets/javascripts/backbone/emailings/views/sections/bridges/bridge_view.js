@@ -34,9 +34,11 @@ Emailing.module('Views.Sections.Bridges', function(Module, App, Backbone, Marion
             var current    = _.find(collection, function(collectionItem) {
                 return (collectionItem.id == this.model.get(collectionId));
             }.bind(this));
-            var index = next ? collection.indexOf(current) + 1 : collection.indexOf(current) - 1
-            var next = collection[index];
-            collectionSet(next);
+            if (collection) {
+                var index = next ? collection.indexOf(current) + 1 : collection.indexOf(current) - 1
+                var next = collection[index];
+                collectionSet(next);
+            }
         },
 
         slideNext: function slideNext (event) {
@@ -56,19 +58,19 @@ Emailing.module('Views.Sections.Bridges', function(Module, App, Backbone, Marion
         },
 
         reviewNext : function reviewNext () {
-          this.collectionNext('reviews', 'review_id', this.setCurrentReview, true);
+            this.collectionNext('reviews', 'review_id', this.setCurrentReview, true);
         },
 
         reviewPrev : function reviewPrev () {
-          this.collectionNext('reviews', 'review_id', this.setCurrentReview, false);
+            this.collectionNext('reviews', 'review_id', this.setCurrentReview, false);
         },
 
         reviewCustom : function reviewCustom () {
-          var id = this.model.get('review_id');
-          var text = $('input[data-review-custom=' + id + ']').val();
-          var review = { id: this.model.get('review_id'), text: text, custom: true };
+            var id = this.model.get('review_id');
+            var text = $('input[data-review-custom=' + id + ']').val();
+            var review = { id: this.model.get('review_id'), text: text, custom: true };
 
-          this.setCurrentReview(review);
+            this.setCurrentReview(review);
         }.debounce(500),
 
         setCurrentImage: function setCurrentImage (image) {
