@@ -45,8 +45,6 @@
                         %i= "\"#{bridge.review_text}\" (#{structure.comments.count} avis)"
                         %br
                         = @emailing.call_action(@emailing.section_metadata_two, structure)
-                      .p
-                        %a{ href: '#' } M'inscrire gratuitement
 
       - if section.link_name.present? and section.link.present?
         %tr{ valign: 'top' }
