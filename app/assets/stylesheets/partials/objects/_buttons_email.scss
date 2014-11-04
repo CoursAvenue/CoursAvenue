@@ -1,28 +1,17 @@
 /*------------------------------------*\
     $Buttons
 \*------------------------------------*/
-.btn a:hover{
-    text-decoration:none;
-}
-
 .btn.btn--large {
-  font-size: 20px;
-  padding  : 0.6em 2.5em;
+    font-size: 20px;
+    padding  : 0.6em 2.5em;
 }
 
 .btn.btn--bigger{
-  font-size: 15px;
+    font-size: 15px;
 }
 
 .btn.btn--small {
     padding: 0.5em;
-}
-
-/* TODO this should go in a file for user_management styles */
-.additional-actions {
-  position    : absolute;
-  right       : 0px;
-  z-index     : -1; // TODO this should be a variable
 }
 
 .btn.btn--plus {
@@ -35,51 +24,30 @@
     font-weight     : bold;
     padding         : 0.8em;
     font-size       : 12px;
-    @include border-radius($brand-round);
     border          : 1px solid #DEDEDE;
-    background-color: #fefefe;
-    color           : #555;
-    &:active, &:hover {
-        background-color: #f2f2f2;
-    }
+    background-color: #fefefe !important;
+    color           : #555555 !important;
+    // @include border-radius($brand-round);
 }
 
 // Danger and error appear as red
 // Success appears as green
 .btn--green {
     text-transform: uppercase;
-    background-color: $btn--green;
+    background-color: $btn--green !important;
     border          : none;
-    color           : white;
-    &:hover, &:active {
-        background-color: lighten($btn--green, 5%);
-    }
-    &.disabled, &[disabled] {
-        cursor: default;
-        background-color: lighten($btn--green, 15%);
-    }
+    color           : #FFFFFF !important;
 }
 .btn--blue {
     text-transform  : uppercase;
-    background-color: $btn--blue;
+    background-color: $btn--blue !important;
     border          : none;
-    color           : white;
-    &:hover, &:active {
-        background-color: lighten($btn--blue, 5%);
-    }
-    &.disabled, &[disabled] {
-        cursor: default;
-        background-color: lighten($btn--blue, 15%);
-    }
+    color           : #FFFFFF !important;
 }
 
 .btn--yellow {
     text-transform  : uppercase;
-    color           : darken($yellow, 35%);
-    background-color: $yellow;
+    color           : darken($yellow, 35%) !important;
+    background-color: $yellow !important;
     border          : none;
-    &:hover, &:active {
-        color           : darken($yellow, 35%);
-        background-color: lighten($yellow, 5%);
-    }
 }

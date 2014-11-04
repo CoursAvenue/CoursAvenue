@@ -26,15 +26,15 @@
 @import "partials/generic/font_helpers";
 
 div {
-    color: #333;
+    color: #333333!important;;
 }
 .white-box{
-    border: 1px solid #DBDBDB !important;
+    border: 1px solid #DBDBDB!important;;
     @include border-radius(4px);
 }
 
 .coursavenue-email-body {
-    width                   : 100% !important;
+    width                   : 100%!important;;
     background              : #f8f8f8;
     -webkit-font-smoothing  : antialiased;
     -webkit-text-size-adjust: none;
@@ -47,17 +47,17 @@ div {
     .email-title {
         padding-top: 10px;
         font-size  : 12px;
-        color      : #AAA;
+        color      : #AAAAAA!important;;
         a {
             text-decoration: underline;
             background     : none;
-            color          : #AAA;
+            color          : #AAAAAA!important;;
             padding        : 0;
             border         : none;
         }
     }
     p.logo-subtitle {
-        color            : #333;
+        color            : #333333!important;;
         font-size        : 12px;
         line-height      : 19px;
         font-family      : 'Helvetica Neue',Helvetica,Arial,sans-serif;
@@ -68,9 +68,9 @@ div {
         font-weight      : normal;
     }
     .title {
-        line-height      : 19px;
         font-size        : 16px;
-        color            : #333 !important;
+        line-height      : 25px;
+        color            : #333!important;;
         font-family      : 'Helvetica Neue',Helvetica,Arial,sans-serif;
         margin-top       : 0;
         padding-bottom    : 1em;
@@ -93,7 +93,7 @@ div {
             padding-bottom: 5px;
         }
         p, ul, .p {
-            color            : #333;
+            color            : #333333!important;;
             font-size        : 14px;
             line-height      : 19px;
             font-family      : 'Helvetica Neue',Helvetica,Arial,sans-serif;
@@ -104,20 +104,19 @@ div {
             }
         }
         a {
-            // color: #006cdb;
-            &.btn {
-                color: black;
-            }
-            &.btn.btn--blue, &.btn.btn--green {
-                color: white;
-            }
-            &.btn.btn--yellow {
-                color: darken($yellow, 35%);
-            }
-            &.muted-link {
-                color: inherit;
-            }
             text-decoration: none;
+        }
+        a.btn {
+            color: black!important;;
+        }
+        a.btn.btn--blue, a.btn.btn--green {
+            color: white!important;;
+        }
+        a.btn.btn--yellow {
+            color: darken($yellow, 35%)!important;;
+        }
+        a.muted-link {
+            color: inherit!important;;
         }
     }
     .under-content {
@@ -129,7 +128,7 @@ div {
     }
     .footer {
         div {
-            color            : #959595;
+            color            : #959595!important;;
             font-size        : 12px;
             line-height      : 19px;
             font-family      : 'Helvetica Neue',Helvetica,Arial,sans-serif;
@@ -138,8 +137,11 @@ div {
             font-weight      : normal;
         }
         a {
-            color          : darken($beige, 40%);
+            color          : darken($beige, 40%)!important;;
             text-decoration: underline;
         }
     }
 
+.fix-class {
+  overflow-x: inherit;
+}

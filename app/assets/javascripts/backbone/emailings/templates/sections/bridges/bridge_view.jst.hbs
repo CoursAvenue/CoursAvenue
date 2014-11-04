@@ -13,8 +13,18 @@
 
 </div>
 <div class='p text--center'>
-  <strong>{{ structure.metadata_1 }}</strong>
-  <br>
+
+  <div>
+    <a class='pointer' data-subj-prev>
+      <i class='fa-chevron-left v-middle gray-light'></i>
+    </a>
+
+    <strong class="epsilon" data-subject-id="{{ subject_id }}"> {{ subject_name }}</strong class="epsilon">
+
+    <a class='pointer' data-subj-next>
+      <i class='fa-chevron-right v-middle gray-light'></i>
+    </a>
+  </div>
 
   <div>
     {{ reviews.length }} avis —
@@ -22,9 +32,8 @@
     <a class='pointer' data-review-prev>
       <i class='fa-chevron-left v-middle gray-light'></i>
     </a>
-
     <span data-review-id="{{ review_id }}">
-      <input type='text' value="{{ review_text }}" data-review-custom="{{ review_id }}"></input>
+      <input type='text' value="{{ review_text }}" data-review-custom="{{ review_id }}" class="very-soft" style="width: 230px"></input>
     </span>
 
     <a class='pointer' data-review-next>
@@ -32,16 +41,5 @@
     </a>
   </div>
 
-  <div>
-    <a class='pointer' data-subj-prev>
-      <i class='fa-chevron-left v-middle gray-light'></i>
-    </a>
-
-    <span data-subject-id="{{ subject_id }}"> {{ subject_name }}</span>
-
-    <a class='pointer' data-subj-next>
-      <i class='fa-chevron-right v-middle gray-light'></i>
-    </a>
-  </div>
   {{ structure.metadata_2 }}
 </div>

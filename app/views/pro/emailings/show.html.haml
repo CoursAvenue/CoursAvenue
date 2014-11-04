@@ -7,7 +7,7 @@
   .panel_body.soft
     .text--center.margin-bottom
       = link_to 'Editer', edit_pro_emailing_path(@emailing), class: 'btn btn--green push-half--right'
-      = link_to 'Previsualiser la Newsletter', preview_pro_emailing_path(@emailing), class: 'btn btn--green push-half--right fancybox.ajax', data: { behavior: 'modal', width: '670', padding: 0 }
+      = link_to 'Prévisualiser la Newsletter', preview_pro_emailing_path(@emailing), class: 'btn btn--green push-half--right fancybox.ajax', data: { behavior: 'modal', width: '800', padding: 0 }
       %a{ class: 'btn btn--green push-half--right', href: 'javascript:void(0)', data: { behavior: 'show' } }
         Envoyer la previsualisation
       = link_to 'Copier le code', code_pro_emailing_path(@emailing), class: 'btn btn--green push-half--right fancybox.ajax', data: { behavior: 'modal', width: '700', padding: 0 }
@@ -15,7 +15,7 @@
     .hidden.text--center.margin-bottom{ data: { behavior: 'hidden' } }
       %form{ action: send_preview_pro_emailing_path(@emailing), method: 'GET' }
         %input.input--large{ name: 'to', type: 'email', placeholder: 'contact@coursavenue.com' }
-        %input{ type: 'submit', class: 'btn btn--green', data: { disable_with: "En cours d'envoi" } }
+        %input{ type: 'submit', value: 'Envoyer', class: 'btn btn--green', data: { disable_with: "En cours d'envoi" } }
 
     %hr
 
@@ -26,6 +26,9 @@
         = image_tag @emailing.header_image.url, class: 'very-soft', alt: @emailing.alt if @emailing.header_image.present?
         .soft
           = @emailing.body.html_safe
+        - if @emailing.call_to_action_text.present? and @emailing.call_to_action_url.present?
+          .text--center
+            = link_to @emailing.call_to_action_text, URI.encode(@emailing.call_to_action_url), class: 'btn btn--green'
 
         #emailings-region{ data: { type: 'emailings-root' } }
         .grid

@@ -19,7 +19,7 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   width: 100%;
-  border: 1px solid #aaa;
+  border: 1px solid #AAAAAA;
   border-top: 0;
   background: #fff;
   box-shadow: 0 4px 5px rgba(0, 0, 0, 0.15);
@@ -39,7 +39,7 @@
   overflow: hidden;
   padding: 0 0 0 8px;
   height: 23px;
-  border: 1px solid #aaa;
+  border: 1px solid #AAAAAA;
   border-radius: 5px;
   background-color: #fff;
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #ffffff), color-stop(50%, #f6f6f6), color-stop(52%, #eeeeee), color-stop(100%, #f4f4f4));
@@ -113,7 +113,7 @@
   width: 100%;
   height: auto;
   outline: 0;
-  border: 1px solid #aaa;
+  border: 1px solid #AAAAAA;
   background: white image-url('libs/chosen-sprite.png') no-repeat 100% -20px;
   background: image-url('libs/chosen-sprite.png') no-repeat 100% -20px, -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(1%, #eeeeee), color-stop(15%, #ffffff));
   background: image-url('libs/chosen-sprite.png') no-repeat 100% -20px, -webkit-linear-gradient(#eeeeee 1%, #ffffff 15%);
@@ -226,7 +226,7 @@
   border       : 0 !important;
   background   : transparent !important;
   box-shadow   : none;
-  color        : #AAA;
+  color        : #AAAAAA;
   font-weight  : 300;
   font-size    : 100%;
   font-family  : sans-serif;
@@ -241,7 +241,7 @@
   position: relative;
   margin: 3px 0 3px 5px;
   padding: 3px 20px 3px 5px;
-  border: 1px solid #aaa;
+  border: 1px solid #AAAAAA;
   border-radius: 3px;
   background-color: #e4e4e4;
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #f4f4f4), color-stop(50%, #f0f0f0), color-stop(52%, #e8e8e8), color-stop(100%, #eeeeee));
@@ -251,7 +251,7 @@
   background-image: linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
   background-clip: padding-box;
   box-shadow: 0 0 2px white inset, 0 1px 0 rgba(0, 0, 0, 0.05);
-  color: #333;
+  color: #333333;
   line-height: 13px;
   cursor: default;
 }
@@ -302,7 +302,7 @@
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 .chosen-container-active.chosen-with-drop .chosen-single {
-  border: 1px solid #aaa;
+  border: 1px solid #AAAAAA;
   -moz-border-radius-bottomright: 0;
   border-bottom-right-radius: 0;
   -moz-border-radius-bottomleft: 0;

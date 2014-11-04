@@ -1,16 +1,16 @@
 // Grays
 // -------------------------
-$black:                          #000 !default;
+$black:                          #000000 !default;
 $text-black:                     #393C3D !default;
 $gray-darkerer:                  #181818 !default;
-$gray-darker:                    #222 !default;
-$gray-dark:                      #333 !default;
-$gray:                           #555 !default;
+$gray-darker:                    #222222 !default;
+$gray-dark:                      #333333 !default;
+$gray:                           #555555 !default;
 $gray-muted:                     #959595!default;
-$gray-light:                     #999 !default;
+$gray-light:                     #999999 !default;
 $gray-smooth:                    #DBDBDB !default;
-$gray-lighter:                   #eee !default;
-$white:                          #fff !default;
+$gray-lighter:                   #eeeeee !default;
+$white:                          #ffffff !default;
 
 $light-grey:                     #f1f1f1 !default;
 $dark-white:                     #FBFBFB !default;
@@ -70,7 +70,7 @@ $site-background-color:  $beige-dark;
 
 // Links
 // -------------------------
-$link-color:             #08c !default;
+$link-color:             #0088cc !default;
 $link-colorHover:        darken($link-color, 15%) !default;
 $hover-list-element:     lighten($brand-color, 30%);
 

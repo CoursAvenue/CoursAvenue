@@ -9,7 +9,7 @@ input[type="search"] {
     @include box-sizing(border-box);
 }
 input[disabled], [type="text"][disabled], [type="password"][disabled], [type="search"][disabled], [type="email"][disabled], [type="url"][disabled], [type="tel"][disabled], textarea[disabled] {
-    color     : #888;
+    color     : #888888;
     background: #EEE;
 }
 input[type=search] {

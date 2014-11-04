@@ -5,7 +5,7 @@
         = image_tag @structure.logo.url(:thumb)
       - else
         %p.text--center
-          = link_to '', edit_pro_structure_path(@structure), style: 'width: 100px; height: 100px; background-color: #555; padding-top: 28px; color: white; display: block;', class: 'fa fa-picture-o fa-3x rounded'
+          = link_to '', edit_pro_structure_path(@structure), style: 'width: 100px; height: 100px; background-color: #555555; padding-top: 28px; color: white; display: block;', class: 'fa fa-picture-o fa-3x rounded'
     .grid__item.five-tenths.bordered--right.soft-half--right>
       %h5= @structure.name
       - if @structure.description.present?

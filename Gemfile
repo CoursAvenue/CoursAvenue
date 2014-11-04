@@ -139,8 +139,8 @@ gem 'sitemap_generator'         , '~>4.2.0'
 gem 'gibbon'                    , '~>1.1.3'
 
 # Transform external CSS stylesheets into inline CSS for emails
-gem 'roadie'                    , '~>3.0.0'
-gem 'roadie-rails'              , '~>1.0.2'
+gem 'roadie'                    , '~>3.0.1'
+gem 'roadie-rails'              , '~>1.0.3'
 
 # Includes Backbone Marionette
 # gem 'marionette-rails'          , '~>2.0.3'

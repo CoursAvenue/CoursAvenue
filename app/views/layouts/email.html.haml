@@ -2,7 +2,7 @@
 %html{ lang: 'fr' }
   %head
     %meta{ content: 'text/html; charset=utf-8', 'httpequiv' => 'Content-Type' }/
-    %link{  rel:'stylesheet', href: '/email.css' }
+    %link{  rel:'stylesheet', href: 'email.css' }
     - if content_for? :title
       %title= yield :title
     - elsif @_message and @_message.subject
@@ -115,22 +115,19 @@
                     © CoursAvenue
                   %div
                     Suivez-nous :
-                    = link_to 'Facebook', 'https://www.facebook.com/CoursAvenue', class: 'push-half--right'
-                    = link_to 'Twitter', 'https://twitter.com/CoursAvenue', class: 'push-half--right'
-                    = link_to 'Instagram', 'https://instagram.com/coursavenue'
+                    = link_to 'Facebook', 'https://www.facebook.com/CoursAvenue', class: 'soft-half--right'
+                    = link_to 'Twitter', 'https://twitter.com/CoursAvenue', class: 'soft-half--right'
+                    = link_to 'Instagram', 'https://instagram.com/coursavenue', class: 'fix-class'
                   %div
                     Envoyé avec ♥ depuis le siège de CoursAvenue
                   - if content_for? :footer
                     = yield :footer
                   - elsif @structure and @structure.main_contact
                     .text--center
-                      = link_to 'Préférences e-mail', edit_pro_structure_admin_url(@structure, @structure.main_contact, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+                      = link_to 'Préférences e-mail', edit_pro_structure_admin_url(@structure, @structure.main_contact, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'fix-class'
                   - elsif @user
                     %div
                       - if @user.active?
-                        = link_to 'Préférences e-mail.', notifications_user_url(@user, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+                        = link_to 'Préférences e-mail.', notifications_user_url(@user, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'fix-class'
                       - else
-                        = link_to 'Me désinscrire de la liste.', unsubscribe_users_url(@user.access_token, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
-                  - else
-                    %div
-                      Vous recevez cet email car vous êtes inscrit sur CoursAvenue, le 1er moteur de recherche de cours en France.
+                        = link_to 'Me désinscrire de la liste.', unsubscribe_users_url(@user.access_token, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'fix-class'
