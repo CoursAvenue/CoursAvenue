@@ -5,30 +5,36 @@
     .grid
       .grid__item.one-quarter.bordered--right>
         .soft-half.text--center
-          %h3.flush= "#{Admin.normal.count} profs"
-          %h6.flush dont #{Admin.where( Admin.arel_table[:created_at].gt(Date.today) ).count} aujourd'hui
-          %div et #{Admin.where( Admin.arel_table[:created_at].gt(Date.today - 7.days) ).count} les 7 derniers jours
+          %h3.flush= "#{number_with_delimiter Admin.normal.count} profs"
+          %h6.flush dont #{number_with_delimiter Admin.where( Admin.arel_table[:created_at].gt(Date.today) ).count} aujourd'hui
+          %div et #{number_with_delimiter Admin.where( Admin.arel_table[:created_at].gt(7.days.ago) ).count} les 7 derniers jours
       .grid__item.one-quarter.bordered--right>
         .soft-half.text--center
-          %h3.flush= "#{Comment::Review.count} avis"
-          %h6.flush dont #{Comment::Review.where( Comment::Review.arel_table[:created_at].gt(Date.today) ).count} aujourd'hui
-          %div et #{Comment::Review.where( Comment::Review.arel_table[:created_at].gt(Date.today - 7.days) ).count} les 7 derniers jours
+          %h3.flush= "#{number_with_delimiter Comment::Review.count} avis"
+          %h6.flush dont #{number_with_delimiter Comment::Review.where( Comment::Review.arel_table[:created_at].gt(Date.today) ).count} aujourd'hui
+          %div et #{number_with_delimiter Comment::Review.where( Comment::Review.arel_table[:created_at].gt(7.days.ago) ).count} les 7 derniers jours
       .grid__item.one-quarter.bordered--right>
         .soft-half.text--center
-          %h3.flush= "#{Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id])).count} mess"
+          %h3.flush= "#{number_with_delimiter Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id])).count} mess"
           %h6.flush
             dont
             = Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id]).and(Mailboxer::Conversation.arel_table[:created_at].gt(Date.today)) ).count
             aujourd'hui
           %div
             et
-            = Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id]).and(Mailboxer::Conversation.arel_table[:created_at].gt(Date.today - 7.days)) ).count
+            = Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id]).and(Mailboxer::Conversation.arel_table[:created_at].gt(7.days.ago)) ).count
             les 7 derniers jours
       .grid__item.one-quarter>
         .soft-half.text--center
-          %h3.flush= "#{User.active.count} élèves"
-          %h6.flush dont #{User.where( User.arel_table[:created_at].gt(Date.today) ).count} aujourd'hui
-          %div et #{User.where( User.arel_table[:created_at].gt(Date.today - 7.days) ).count} les 7 derniers jours
+          %h3.flush= "#{number_with_delimiter User.active.count} élèves"
+          %h6.flush dont #{number_with_delimiter User.where( User.arel_table[:created_at].gt(Date.today) ).count} aujourd'hui
+          %div et #{number_with_delimiter User.where( User.arel_table[:created_at].gt(7.days.ago) ).count} les 7 derniers jours
+    .grid
+      .grid__item.center-block>
+        .soft-half.text--center
+          %h3.flush= "Base email exploitable : #{number_with_delimiter User.where(delivery_email_status: nil).count}"
+          %h6.flush dont #{number_with_delimiter User.where(User.arel_table[:created_at].gt(Date.today).and(User.arel_table[:delivery_email_status].eq(nil))).count} aujourd'hui
+          %div et #{number_with_delimiter User.where(User.arel_table[:created_at].gt(7.days.ago).and(User.arel_table[:delivery_email_status].eq(nil))).count} les 7 derniers jours
 
 
   %hr.push--ends

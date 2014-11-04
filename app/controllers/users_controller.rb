@@ -4,8 +4,19 @@ class UsersController < InheritedResources::Base
 
   actions :show, :update
 
-  before_action :authenticate_user!, except: [:unsubscribe, :waiting_for_activation, :invite_entourage_to_jpo_page, :invite_entourage_to_jpo, :welcome]
-  load_and_authorize_resource :user, find_by: :slug, except: [:unsubscribe, :waiting_for_activation, :invite_entourage_to_jpo_page, :invite_entourage_to_jpo, :welcome]
+  before_action :authenticate_user!, except: [:unsubscribe, :waiting_for_activation, :invite_entourage_to_jpo_page, :invite_entourage_to_jpo, :welcome, :create]
+  load_and_authorize_resource :user, find_by: :slug, except: [:unsubscribe, :waiting_for_activation, :invite_entourage_to_jpo_page, :invite_entourage_to_jpo, :welcome, :create]
+
+  def create
+    user = User.new email: params[:user][:email]
+    user.valid? # Validate to trigger errors
+    if user.errors[:email].blank? # check if email is valid
+      user.save(validate: false)
+    end
+    respond_to do |format|
+      format.js { render nothing: true }
+    end
+  end
 
   # params[:structure] : structure_slug
   # method: GET
