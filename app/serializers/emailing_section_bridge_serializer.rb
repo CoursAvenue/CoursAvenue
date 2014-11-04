@@ -47,6 +47,6 @@ class EmailingSectionBridgeSerializer < ActiveModel::Serializer
   def reviews
     object.structure.comments.map do |review|
       { id: review.id, text: review.title, custom: false }
-    end.select! { |comment| comment[:text].present? }
+    end.select { |comment| comment[:text].present? }
   end
 end
