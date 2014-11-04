@@ -69,9 +69,11 @@ class EmailingSection < ActiveRecord::Base
   def set_subject(bridge, structure)
     subject = structure.subjects.first
 
-    bridge.subject_id = subject.id
-    bridge.subject_name = subject.name
-    bridge.save
+    if subject.present?
+      bridge.subject_id = subject.id
+      bridge.subject_name = subject.name
+      bridge.save
+    end
   end
 
   # Set the review by default if it isn't already set.
@@ -80,9 +82,11 @@ class EmailingSection < ActiveRecord::Base
   def set_review(bridge, structure)
     review = structure.comments.first
 
-    bridge.review_id = review.id
-    bridge.review_text = review.title
-    bridge.review_custom = false
-    bridge.save
+    if review.present?
+      bridge.review_id = review.id
+      bridge.review_text = review.title
+      bridge.review_custom = false
+      bridge.save
+    end
   end
 end
