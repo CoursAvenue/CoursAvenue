@@ -2,6 +2,7 @@
 CoursAvenue::Application.routes.draw do
 
   mount Ckeditor::Engine => '/ckeditor'
+  mount_griddler
   get '/robots.txt' => 'home#robots'
   # ---------------------------------------------
   # ----------------------------------------- PRO
