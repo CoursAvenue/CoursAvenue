@@ -249,3 +249,7 @@ gem 'cityhash'                 , '~> 0.8.1'
 
 # JS heavy pages pre-rendering
 gem 'prerender_rails'
+
+# Email reception
+gem 'griddler'         , '~> 1.1.0'
+gem 'griddler-mandrill', '~> 1.0.1'
