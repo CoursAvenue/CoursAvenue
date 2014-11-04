@@ -159,8 +159,8 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
          * Select course in select
          */
         selectCourse: function selectCourse () {
-            this.ui.$course_select.find('option').removeAttr('selected');
-            this.ui.$course_select.find('option[value=' + this.model.get('course_id') + ']').attr('selected', true);
+            this.ui.$course_select.find('option').removeProp('selected');
+            this.ui.$course_select.find('option[value=' + this.model.get('course_id') + ']').prop('selected', true);
             if (this.getCurrentCoursePlannings().length > 0) {
                 this.ui.$planning_select_wrapper.slideDown();
                 this.ui.$time_wrapper.hide();
