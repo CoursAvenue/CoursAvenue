@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141104104937) do
+ActiveRecord::Schema.define(version: 20141104143202) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -335,7 +335,7 @@ ActiveRecord::Schema.define(version: 20141104104937) do
     t.string   "section_metadata_one"
     t.string   "section_metadata_two"
     t.string   "section_metadata_three"
-    t.string   "alt"
+    t.string   "header_image_alt"
     t.string   "header_url"
     t.string   "call_to_action_text"
     t.string   "call_to_action_url"
