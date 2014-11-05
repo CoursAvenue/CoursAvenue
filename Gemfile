@@ -13,12 +13,14 @@ gem 'filepicker-rails'
 gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
 
 gem 'rack-ssl-enforcer',    '~> 0.2.7'
+gem 'lograge'
 
 # Webserver
 # gem 'unicorn'
 # gem 'puma'
 gem 'passenger'
 gem 'algoliasearch-rails'
+gem 'google-api-client'
 
 # Database
 gem 'pg'
@@ -71,7 +73,7 @@ gem 'daemons'                   , '~>1.1.9'
 gem 'hirefire-resource'
 
 gem 'carrierwave'               , '~>0.10.0'
-gem 'cloudinary'                , '~>1.0.77'
+gem 'cloudinary'                , '~>1.0.78'
 
 # Handle paperclip in background
 gem 'delayed_paperclip'         , '~>2.8.0'

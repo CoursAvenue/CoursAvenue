@@ -45,7 +45,7 @@
                         - if bridge.review_text.present?
                           %i= "\"#{bridge.review_text}\" (#{structure.comments.count} avis)"
                         %br
-                        = @emailing.call_action(@emailing.section_metadata_two, structure)
+                        = bridge.city_text
 
       - if section.link_name.present? and section.link.present?
         %tr{ valign: 'top' }
