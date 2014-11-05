@@ -49,7 +49,8 @@ class MailboxerMessageMailer < ActionMailer::Base
 
     mail to: @user.email,
          subject: t('mailboxer.message_mailer.subject_new', sender: @structure.name),
-         template_name: 'new_message_email_to_user'
+         template_name: 'new_message_email_to_user',
+         reply_to: generate_reply_to('user')
   end
 
   def new_message_email_to_admin(message, receiver)
@@ -65,11 +66,13 @@ class MailboxerMessageMailer < ActionMailer::Base
     if @conversation.mailboxer_label_id == Mailboxer::Label::INFORMATION.id
       mail to: @admin.email,
            subject: t('mailboxer.message_mailer.information_subject_new', sender: @user.name),
-           template_name: 'new_information_message_email_to_admin'
+           template_name: 'new_information_message_email_to_admin',
+           reply_to: generate_reply_to('admin')
     else
       mail to: @admin.email,
            subject: t('mailboxer.message_mailer.subject_new', sender: @user.name),
-           template_name: 'new_message_email_to_admin'
+           template_name: 'new_message_email_to_admin',
+           reply_to: generate_reply_to('admin')
     end
   end
 
@@ -82,7 +85,8 @@ class MailboxerMessageMailer < ActionMailer::Base
     return if @structure.nil?
     mail to: @user.email,
          subject: t('mailboxer.message_mailer.subject_reply', sender: @structure.name),
-         template_name: 'reply_message_email_to_user'
+         template_name: 'reply_message_email_to_user',
+         reply_to: generate_reply_to('user')
   end
 
   def reply_message_email_to_admin(message, receiver)
@@ -91,6 +95,21 @@ class MailboxerMessageMailer < ActionMailer::Base
     @user      = message.sender
     mail to: @admin.email,
          subject: t('mailboxer.message_mailer.subject_reply', sender: @user.name),
-         template_name: 'reply_message_email_to_admin'
+         template_name: 'reply_message_email_to_admin',
+         reply_to: generate_reply_to('admin')
+  end
+
+  private
+
+  def generate_reply_to(sender_type = 'admin')
+    reply_token = ReplyToken.create(reply_type: 'conversation')
+    reply_token.data = {
+      sender_type:    sender_type,
+      sender_id:      sender_type == 'admin' ? @admin.id : @user.id,
+      conversatin_id: @conversation.id
+    }
+    reply_token.save
+
+    return "CoursAvenue <#{reply_token.token}@reply.coursavenue.com>"
   end
 end
