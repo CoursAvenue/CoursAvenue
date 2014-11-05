@@ -12,6 +12,7 @@ Emailing.module('Views.Sections.Bridges', function(Module, App, Backbone, Marion
             'click [data-slide-prev]'     : 'slidePrev',
             'click [data-subj-next]'      : 'subjectNext',
             'click [data-subj-prev]'      : 'subjectPrev',
+            'keyup [data-subject-custom]' : 'subjectCustom'
             'click [data-review-next]'    : 'reviewNext',
             'click [data-review-prev]'    : 'reviewPrev',
             'keyup [data-review-custom]'  : 'reviewCustom'
@@ -55,6 +56,14 @@ Emailing.module('Views.Sections.Bridges', function(Module, App, Backbone, Marion
 
         subjectPrev : function subjectPrev () {
             this.collectionNext('subjects', 'subject_id', this.setCurrentSubject, false);
+        },
+
+        subjectCustom : function subjectCustom () {
+          var id = this.model.get('subject_id');
+          var text = $('input[data-subject-custom=' + id + ']').val();
+          var subject = { id: id, name: text };
+
+          this.setCurrentSubject(subject);
         },
 
         reviewNext : function reviewNext () {
