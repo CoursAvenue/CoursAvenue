@@ -9,12 +9,14 @@
   .panel__body.soft--ends
     .text--center
       .gamma
-        #{User.active.count} élèves
+        #{User.active.count} élèves / #{Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([1,4])).count} messages
       #users
 
     .text--center
       .gamma
-        Cumulé : #{((@users_cumul[Date.today] - @users_cumul[Date.today - 1.month]).to_f / @users_cumul[Date.today - 1.month].to_f * 100).round(1)}% de croissance sur le mois
+        Croissance élèves : #{((@users_cumul[Date.today] - @users_cumul[Date.today - 1.month]).to_f / @users_cumul[Date.today - 1.month].to_f * 100).round(1)}%
+        %br
+        Croissance messages : #{((@messages_cumul[Date.today] - @messages_cumul[Date.today - 1.month]).to_f / @messages_cumul[Date.today - 1.month].to_f * 100).round(1)}%
       #users-cumul
 
     .text--center.push--ends
@@ -76,15 +78,30 @@
             chart: { renderTo: 'users', type: 'spline' },
             title: { text: null },
             xAxis: { categories: #{@users_graph.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
-            yAxis: { title: { text: ''}},
-            series: [{ data: #{@users_graph.map{|date, count| (count > 10000 ? 100 : count)}} }]
+            yAxis: { title: { text: ''}, min: 0 },
+            series: [{ data: #{@users_graph.map{|date, count| count}},
+                       type: 'column',
+                       name: 'Élèves'
+                      }, {
+                       data: #{@messages_graph.map{|date, count| count}},
+                       type: 'column',
+                       name: 'Messages'
+                     }]
         });
         new Highcharts.Chart({
             chart: { renderTo: 'users-cumul', type: 'spline' },
             title: { text: null },
             xAxis: { categories: #{@users_cumul.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
-            yAxis: { title: { text: ''}},
-            series: [{ data: #{@users_cumul.map{|date, count| (count > 10000 ? 100 : count)}} }]
+            yAxis: [{ title: { text: ''}}, { title: { text: ''}}],
+            series: [{
+                      data: #{@users_cumul.map{|date, count| count}},
+                      name: 'Élèves',
+                      yAxis: 0
+                    }, {
+                      data: #{@messages_cumul.map{|date, count| count}},
+                      name: 'Messages',
+                      yAxis: 1
+                    }]
         });
         var template = Handlebars.compile($('#user-item-template').html());
         var engine   = new Bloodhound({

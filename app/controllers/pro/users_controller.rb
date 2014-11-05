@@ -19,13 +19,23 @@ class Pro::UsersController < Pro::ProController
       @users_per_hour[user.created_at.hour] += 1
     end
 
-    @users_graph = User.where(User.arel_table[:created_at].gt(2.months.ago) ).active
+    mc_arel = Mailboxer::Conversation.arel_table
+    @messages_graph = Mailboxer::Conversation.where(mc_arel[:created_at].gt(1.months.ago).and(
+                                                    mc_arel[:mailboxer_label_id].eq_any([1,4])))
+                                                   .order("DATE(created_at) ASC").group("DATE(created_at)").count
+    @users_graph = User.where(User.arel_table[:created_at].gt(1.months.ago) ).active
                        .order("DATE(created_at) ASC").group("DATE(created_at)").count
+
 
     dates = (1.month.ago.to_date..Date.today).step
     @users_cumul = {}
     dates.each do |date|
       @users_cumul[date] = User.active.where(User.arel_table[:created_at].lt(date + 1.day)).count
+    end
+
+    @messages_cumul = {}
+    dates.each do |date|
+      @messages_cumul[date] = Mailboxer::Conversation.where(mc_arel[:mailboxer_label_id].eq_any([1,4]).and(mc_arel[:created_at].lt(date + 1.day))).count
     end
 
     respond_to do |format|
