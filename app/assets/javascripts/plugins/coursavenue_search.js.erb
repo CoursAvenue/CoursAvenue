@@ -80,7 +80,7 @@
                     new_action = Routes.root_search_page_path(this.selected_subject.slug, city);
                     this.subjects_input.removeAttr('name'); // Remove name attribute to prevent word ending in the keywords filter
                 } else if (this.selected_subject) {
-                    new_action = Routes.search_page_path(this.selected_subject.root, this.selected_subject.slug, city);
+                    new_action = Routes.search_page_path((this.selected_subject.root || this.selected_subject.slug), this.selected_subject.slug, city);
                     this.subjects_input.removeAttr('name'); // Remove name attribute to prevent word ending in the keywords filter
                 } else {
                     this.subjects_input.attr('name', 'name');
