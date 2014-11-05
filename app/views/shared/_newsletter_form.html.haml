@@ -1,0 +1,37 @@
+- if !cookies[:participated_contest]
+  .border-color-white.bordered--thick.bordered.black-box-shadow.rounded.orange-box.white.soft.fixed.south.on-top.push#win-courses.text--center{ style: 'right: -1000px;' }
+    = link_to '#', class: 'white float--right relative', style: 'right: -13px; top: -13px;', data: { behavior: 'close-win-course' } do
+      %i.fa.fa-times.delta
+    .alpha.line-height-1-5.nowrap Gagnez un an de cours gratuits
+    .beta.line-height-1-7 Salsa, dessin, yoga, et plein d'autres !
+    = simple_form_for User.new, html: { id: 'contest-form' }, remote: true do |f|
+      = f.input :email, label: false, input_html: { placeholder: 'Ex. patrick@gmail.com', class: 'input--large one-whole' }, wrapper_html: { class: 'flush inline-block v-middle' }
+      = f.submit "Participer", class: 'btn btn--yellow'
+    %div.epsilon.push--top
+      Augmentez vos chances en nous suivant sur Facebook
+      .fb-like{ data: { href: 'https://www.facebook.com/CoursAvenue', layout: 'button_count', action: 'like', 'show-faces' => 'false', share: "false" } }
+
+  = content_for :scripts do
+    :javascript
+        $(function() {
+            $('[data-behavior=close-win-course]').click(function() {
+                $('#win-courses').animate({ right: '-1000px' }, 400, 'easeOutExpo');
+            });
+            $('#contest-form').submit(function() {
+                $('#win-courses').animate({ right: '-1000px' }, 400, 'easeOutExpo');
+                $.cookie('participated_contest', true);
+                GLOBAL.flash('Votre inscription a bien été prise en compte.', 'success');
+            });
+            setTimeout(function() {
+                $('#win-courses').animate({ right: 0 }, 400, 'easeOutExpo');
+            }, 5000);
+        })
+
+- if Rails.env.production?
+  = content_for :scripts do
+    :javascript
+        $(function() {
+            $('#contest-form').submit(function() {
+                mixpanel.track("submit_email_for_contest");
+            });
+        })
