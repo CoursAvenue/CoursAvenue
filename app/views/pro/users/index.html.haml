@@ -49,11 +49,10 @@
             %td
               = link_to 'Profil', user_url(user, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank
             %td{data: {value: user.confirmed_at}}
-              - if user.confirmed_at
-                = l(user.confirmed_at, format: :date).capitalize
-              - else
+              - if !user.confirmed?
                 = link_to 'Activer le compte', activate_pro_user_path(user), method: :patch, class: 'btn btn--small btn--blue'
                 %br
+              - else
                 = l(user.created_at, format: :date).capitalize
             %td.text--center{data: {value: (user.provider == 'facebook' ? 'f' : '')}}
               - if user.provider == 'facebook'
