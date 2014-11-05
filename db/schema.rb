@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141031134222) do
+ActiveRecord::Schema.define(version: 20141105093117) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -776,6 +776,16 @@ ActiveRecord::Schema.define(version: 20141031134222) do
     t.datetime "updated_at"
     t.date     "apply_until"
   end
+
+  create_table "reply_tokens", force: true do |t|
+    t.string   "token"
+    t.string   "reply_type"
+    t.hstore   "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "reply_tokens", ["token"], name: "index_reply_tokens_on_token", unique: true, using: :btree
 
   create_table "reservation_loggers", force: true do |t|
     t.integer  "course_id"
