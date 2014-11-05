@@ -179,6 +179,6 @@ class ParticipationRequestMailer < ActionMailer::Base
     }
     reply_token.save
 
-    return "#{reply_token.token}@reply.coursavenue.com"
+    return "CoursAvenue <#{reply_token.token}@reply.coursavenue.com>"
   end
 end
