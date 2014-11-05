@@ -39,8 +39,22 @@ class EmailProcessor
     end
 
     message = @email.body
+
+    # Here we have several possible cases:
+    # * The admin replies to and accepts a request. (case 01)
+    # * The user replies to and accepts a request with new details (hours, place, etc)
     if reply_token.sender_type == 'admin'
-      pr.accept!(message, 'Structure')
+      if pr.last_modified_by == 'User' and pr.pending? # (case 01)
+        pr.accept!(message, 'Structure')
+      else
+        pr.structure.main_contact.reply_to_conversation(pr.conversation, message)
+      end
+    elsif reply_token.sender_type == 'user'
+      if pr.last_modified_by == 'Admin' and pr.pending? # case 02
+        pr.accept!(message, 'User')
+      else
+        pr.user.reply_to_conversation(pr.conversation, message)
+      end
     end
   end
 
