@@ -35,7 +35,7 @@ class EmailProcessor
     if reply_token.sender_type.downcase == 'admin'
       sender = Admin.find reply_token.sender_id.to_i
     else
-      sender = User.find reply_token.sender_id.to_i
+      sender = User.find  reply_token.sender_id.to_i
     end
 
     message = @email.body
@@ -59,5 +59,15 @@ class EmailProcessor
   end
 
   def process_conversation(reply_token)
+    conversation = Mailboxer::Conversation.find reply_token.conversation_id.to_i
+
+    if reply_token.sender_type == 'admin'
+      sender = Admin.find reply_token.sender_id.to_i
+    else
+      sender = User.find  reply_token.sender_id.to_i
+    end
+
+    reply = @email.body
+    sender.reply_to_conversation(conversation, reply)
   end
 end
