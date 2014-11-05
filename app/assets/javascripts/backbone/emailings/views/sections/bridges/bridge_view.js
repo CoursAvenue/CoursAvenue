@@ -2,10 +2,7 @@ Emailing.module('Views.Sections.Bridges', function(Module, App, Backbone, Marion
     Module.BridgeView = Backbone.Marionette.CompositeView.extend({
         template: Module.templateDirname() + 'bridge_view',
 
-        tagName: 'td',
-        attributes: {
-            'width': '50%'
-        },
+        tagName: 'div',
 
         events: {
             'click [data-slide-next]'     : 'slideNext',

@@ -2,8 +2,8 @@ Emailing.module('Views.Sections', function(Module, App, Backbone, Marionette, $,
 
     Module.SectionView = Backbone.Marionette.CompositeView.extend({
         template: Module.templateDirname() + 'section_view',
-        tagName: 'table',
-        className: 'emailing-section',
+        tagName: 'div',
+        className: 'emailing-section one-half inline-block push-half--bottom',
         itemViewContainer: '[data-type=bridges]',
         itemView: Module.Bridges.BridgeView,
 

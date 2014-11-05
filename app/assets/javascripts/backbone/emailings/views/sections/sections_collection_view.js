@@ -6,7 +6,6 @@ Emailing.module('Views.Sections', function(Module, App, Backbone, Marionette, $,
         template: Module.templateDirname() + 'sections_collection_view',
         itemView: Module.SectionView,
         itemViewContainer: '[data-type=container]',
-        tagName: 'tbody',
 
         itemViewOptions: function itemViewOptions (model, index) {
             return {
