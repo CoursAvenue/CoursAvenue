@@ -17,9 +17,10 @@ class Emailing < ActiveRecord::Base
   # Macros                                                             #
   ######################################################################
 
-  attr_accessible :title, :body, :header_image, :header_url, :alt, :section_metadata_one,
+  attr_accessible :title, :body, :header_image, :header_url, :header_image_alt, :section_metadata_one,
                   :section_metadata_two, :section_metadata_three,
-                  :emailing_sections, :emailing_sections_attributes
+                  :emailing_sections, :emailing_sections_attributes,
+                  :call_to_action_text, :call_to_action_url
 
   has_attached_file :header_image,
                     styles: { large: '600x' },

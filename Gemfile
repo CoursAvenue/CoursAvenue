@@ -13,12 +13,14 @@ gem 'filepicker-rails'
 gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
 
 gem 'rack-ssl-enforcer',    '~> 0.2.7'
+gem 'lograge'
 
 # Webserver
 # gem 'unicorn'
 # gem 'puma'
 gem 'passenger'
 gem 'algoliasearch-rails'
+gem 'google-api-client'
 
 # Database
 gem 'pg'
@@ -71,7 +73,7 @@ gem 'daemons'                   , '~>1.1.9'
 gem 'hirefire-resource'
 
 gem 'carrierwave'               , '~>0.10.0'
-gem 'cloudinary'                , '~>1.0.77'
+gem 'cloudinary'                , '~>1.0.78'
 
 # Handle paperclip in background
 gem 'delayed_paperclip'         , '~>2.8.0'
@@ -139,8 +141,8 @@ gem 'sitemap_generator'         , '~>4.2.0'
 gem 'gibbon'                    , '~>1.1.3'
 
 # Transform external CSS stylesheets into inline CSS for emails
-gem 'roadie'                    , '~>3.0.0'
-gem 'roadie-rails'              , '~>1.0.2'
+gem 'roadie'                    , '~>3.0.1'
+gem 'roadie-rails'              , '~>1.0.3'
 
 # Includes Backbone Marionette
 # gem 'marionette-rails'          , '~>2.0.3'

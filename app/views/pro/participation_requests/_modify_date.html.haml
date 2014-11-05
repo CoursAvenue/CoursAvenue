@@ -41,6 +41,7 @@
     planning_select.change(function() {
         var selected_planning_id = planning_select.val();
         var selected_planning = _.find(plannings, function(planning) { return planning.id == parseInt(selected_planning_id) });
+        if (!selected_planning) { return; }
         // Update date, only if it is not the same week date
         // Disable days of week
         var days_of_week = [0,1,2,3,4,5,6];

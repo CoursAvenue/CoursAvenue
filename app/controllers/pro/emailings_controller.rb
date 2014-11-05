@@ -54,9 +54,9 @@ class Pro::EmailingsController < Pro::ProController
 
     respond_to do |format|
       if @emailing.destroy
-        format.html { redirect_to pro_emailing_path, notice: 'Supprimé' }
+        format.html { redirect_to pro_emailings_path, notice: 'Supprimé' }
       else
-        format.html { redirect_to pro_emailing_path, notice: 'Il y eu un problème' }
+        format.html { redirect_to pro_emailings_path, notice: 'Il y eu un problème' }
       end
     end
   end

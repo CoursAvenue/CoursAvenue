@@ -19,13 +19,6 @@
     padding: 0.5em;
 }
 
-/* TODO this should go in a file for user_management styles */
-.additional-actions {
-  position    : absolute;
-  right       : 0px;
-  z-index     : -1; // TODO this should be a variable
-}
-
 .btn.btn--plus {
     font-size: 16px;
     padding  : 5px 8px;
@@ -40,7 +33,7 @@
     @include border-radius($brand-round);
     border          : 1px solid #DEDEDE;
     background-color: #fefefe;
-    color           : #555;
+    color           : #555555;
     @include text-shadow(0 1px 0 white);
     &[type=submit] {
         font-weight: 400;
@@ -55,13 +48,13 @@
 
 .btn.disabled, .btn:disabled, .btn[disabled]{
     background-color: #F3F3F3;
-    color           : #888;
+    color           : #888888;
     cursor          : default;
 }
 
 .btn--gray {
     text-transform  : uppercase;
-    color           : #555;
+    color           : #555555;
     border-color    : #D5D5D5;
     background-color: #f2f2f2;
     &:active, &:hover {
