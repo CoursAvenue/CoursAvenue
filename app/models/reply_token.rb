@@ -1,7 +1,9 @@
 class ReplyToken < ActiveRecord::Base
+  extend FriendlyId
   ######################################################################
   # Macros                                                             #
   ######################################################################
+  friendly_id :token, use: [:finders]
   store_accessor :data, :sender_id, :sender_type,
                         :conversation_id, :participation_request_id
 

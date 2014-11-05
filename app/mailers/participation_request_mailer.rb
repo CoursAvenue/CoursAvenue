@@ -15,21 +15,24 @@ class ParticipationRequestMailer < ActionMailer::Base
     @message = participation_request.conversation.messages.first
     retrieve_participation_request_variables(participation_request)
     mail to: @admin.email,
-         subject: "Demande d'inscription à un cours d'essai - #{@user.name}"
+         subject: "Demande d'inscription à un cours d'essai - #{@user.name}",
+         reply_to: generate_reply_to('admin')
   end
 
   def you_received_a_request_stage_1(participation_request)
     @message = participation_request.conversation.messages.first
     retrieve_participation_request_variables(participation_request)
     mail to: @admin.email,
-         subject: "Rappel - Confirmez l'inscription - #{@user.name}"
+         subject: "Rappel - Confirmez l'inscription - #{@user.name}",
+         reply_to: generate_reply_to('admin')
   end
 
   def you_received_a_request_stage_2(participation_request)
     @message = participation_request.conversation.messages.first
     retrieve_participation_request_variables(participation_request)
     mail to: @admin.email,
-         subject: "Dernier rappel - Confirmez l'inscription - #{@user.name}"
+         subject: "Dernier rappel - Confirmez l'inscription - #{@user.name}",
+         reply_to: generate_reply_to('admin')
   end
 
   ######################################################################
@@ -152,5 +155,20 @@ class ParticipationRequestMailer < ActionMailer::Base
     @admin                 = participation_request.structure.main_contact
     @user                  = participation_request.user
     @conversation          = participation_request.conversation
+  end
+
+  # Generate the reply_to address using ReplyTokens.
+  #
+  # @return a String
+  def generate_reply_to(sender_type = 'admin')
+    reply_token = ReplyToken.create(reply_type: 'participation_request')
+    reply_token.data = {
+      sender_type:              sender_type,
+      sender_id:                sender_type == 'admin' ? @admin.id : @user.id,
+      participation_request_id: @participation_request.id
+    }
+    reply_token.save
+
+    return "#{reply_token.token}@reply.coursavenue.com"
   end
 end
