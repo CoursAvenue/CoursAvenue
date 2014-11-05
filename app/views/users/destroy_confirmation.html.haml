@@ -1,0 +1,10 @@
+.panel
+  .panel__header.soft
+    %h4.flush Êtes vous sûr de vouloir supprimer votre compte ?
+  .panel__body.soft
+    .grid
+      .grid__item.one-half>
+        %a.btn.btn--full{ onclick: '$.fancybox.close();' } Annuler
+      .grid__item.one-half>
+        = simple_form_for @user, method: :delete do |f|
+          = f.submit 'Supprimer mon compte', class: 'btn btn--red btn--full'

@@ -369,7 +369,7 @@ CoursAvenue::Application.routes.draw do
                       confirmation: 'verification'
                     }
 
-  resources  :users, only: [:create, :edit, :show, :update], path: 'eleves' do
+  resources  :users, only: [:destroy, :create, :edit, :show, :update], path: 'eleves' do
     collection do
       get :unsubscribed
       get :invite_entourage_to_jpo_page , path: 'inviter-mes-amis'
@@ -378,7 +378,8 @@ CoursAvenue::Application.routes.draw do
       get :welcome
     end
     member do
-      get  :edit_private_infos, path: 'mon-compte'
+      get    :destroy_confirmation
+      get    :edit_private_infos, path: 'mon-compte'
       patch  :update_password
       patch  :update_passions
       get  :wizard

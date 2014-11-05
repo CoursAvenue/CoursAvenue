@@ -144,6 +144,17 @@ class UsersController < InheritedResources::Base
     end
   end
 
+  def destroy_confirmation
+    render layout: false
+  end
+
+  def destroy
+    @user.destroy
+    respond_to do |format|
+      format.html { redirect_to root_path(notice: 'Vous allez nous manquer...') }
+    end
+  end
+
   private
 
   def get_layout
@@ -182,8 +193,6 @@ class UsersController < InheritedResources::Base
     end
   end
 
-  private
-
   # Merge subject_descendants_ids into subject_ids
   # Turns: {
   #   subject_ids              => [12]
@@ -202,4 +211,5 @@ class UsersController < InheritedResources::Base
       end
     end
   end
+
 end
