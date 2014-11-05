@@ -275,5 +275,8 @@ class AdminMailer < ActionMailer::Base
       sender_id:       sender_type == 'admin' ? @admin.id : @user.id,
       conversation_id: @conversation.id
     }
+    reply_token.save
+
+    return "CoursAvenue <#{reply_token.token}@reply.coursavenue.com>"
   end
 end
