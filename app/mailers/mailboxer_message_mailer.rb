@@ -104,9 +104,9 @@ class MailboxerMessageMailer < ActionMailer::Base
   def generate_reply_to(sender_type = 'admin')
     reply_token = ReplyToken.create(reply_type: 'conversation')
     reply_token.data = {
-      sender_type:    sender_type,
-      sender_id:      sender_type == 'admin' ? @admin.id : @user.id,
-      conversatin_id: @conversation.id
+      sender_type:     sender_type,
+      sender_id:       sender_type == 'admin' ? @admin.id : @user.id,
+      conversation_id: @conversation.id
     }
     reply_token.save
 
