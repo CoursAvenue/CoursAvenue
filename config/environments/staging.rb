@@ -7,6 +7,8 @@ CoursAvenue::Application.configure do
 
   # Code is not reloaded between requests
 
+  config.lograge.enabled = true
+
   config.cache_classes = true
 
   # Full error reports are disabled and caching is turned on
