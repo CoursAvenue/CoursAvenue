@@ -17,6 +17,6 @@ class Pro::BridgesController < Pro::ProController
   private
 
   def bridge_params
-    params.require(:bridge).permit(:media_id, :subject_id, :subject_name, :review_id, :review_text, :review_custom)
+    params.require(:bridge).permit(:media_id, :subject_id, :subject_name, :review_id, :review_text, :review_custom, :city_text)
   end
 end

@@ -35,6 +35,7 @@ class EmailingSection < ActiveRecord::Base
       set_media(bridge, structure)   if bridge.media_id.nil?
       set_review(bridge, structure)  if bridge.review_id.nil?
       set_subject(bridge, structure) if bridge.subject_id.nil?
+      set_city(bridge, structure)    if bridge.city_text.nil?
     end
   end
 
@@ -88,5 +89,13 @@ class EmailingSection < ActiveRecord::Base
       bridge.review_custom = false
       bridge.save
     end
+  end
+
+  # Set the city name by default if it isn't already set.
+  #
+  # @return nothing.
+  def set_city(bridge, structure)
+    bridge.city_text = self.emailing.call_action(:metadata_cities, structure)
+    bridge.save
   end
 end
