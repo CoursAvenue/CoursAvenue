@@ -12,11 +12,18 @@ Emailing.module('Views.Sections.Bridges', function(Module, App, Backbone, Marion
             'click [data-slide-prev]'     : 'slidePrev',
             'click [data-subj-next]'      : 'subjectNext',
             'click [data-subj-prev]'      : 'subjectPrev',
-            'keyup [data-subject-custom]' : 'subjectCustom'
+            'keyup [data-subject-custom]' : 'subjectCustom',
             'click [data-review-next]'    : 'reviewNext',
             'click [data-review-prev]'    : 'reviewPrev',
-            'keyup [data-review-custom]'  : 'reviewCustom'
+            'keyup [data-review-custom]'  : 'reviewCustom',
+            'keyup [data-city-custom]'    : 'cityCustom'
         },
+
+        cityCustom: function cityCustom () {
+            var id = this.model.get('id');
+            var city = $('input[data-city-custom=' + id + ']').val();
+            this.model.set('city_text', city);
+        }.debounce(500),
 
         initialize: function initialize () {
             this.model.on('change', this.render);
