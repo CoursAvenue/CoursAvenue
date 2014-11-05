@@ -76,13 +76,13 @@
         new Highcharts.Chart({
             chart: { renderTo: 'users', type: 'spline' },
             title: { text: null },
-            xAxis: { categories: #{@users_graph.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
+            xAxis: { categories: #{@dates.map{|date| l(Date.parse(date.to_s), format: :short)}} },
             yAxis: { title: { text: ''}, min: 0 },
-            series: [{ data: #{@users_graph.map{|date, count| count}},
+            series: [{ data: #{@users_graph.sort_by{|date, count| date}.map{|date, count| count}},
                        type: 'column',
                        name: 'Élèves'
                       }, {
-                       data: #{@messages_graph.map{|date, count| count}},
+                       data: #{@messages_graph.sort_by{|date, count| date}.map{|date, count| count}},
                        type: 'column',
                        name: 'Messages'
                      }]
@@ -90,14 +90,14 @@
         new Highcharts.Chart({
             chart: { renderTo: 'users-cumul', type: 'spline' },
             title: { text: null },
-            xAxis: { categories: #{@users_cumul.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
+            xAxis: { categories: #{@dates.map{|date| l(Date.parse(date.to_s), format: :short)}} },
             yAxis: [{ title: { text: ''}}, { title: { text: ''}}],
             series: [{
-                      data: #{@users_cumul.map{|date, count| count}},
+                      data: #{@users_cumul.sort_by{|date, count| date}.map{|date, count| count}},
                       name: 'Élèves',
                       yAxis: 0
                     }, {
-                      data: #{@messages_cumul.map{|date, count| count}},
+                      data: #{@messages_cumul.sort_by{|date, count| date}.map{|date, count| count}},
                       name: 'Messages',
                       yAxis: 1
                     }]
