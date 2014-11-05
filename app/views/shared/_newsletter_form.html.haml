@@ -15,10 +15,10 @@
     :javascript
         $(function() {
             $('[data-behavior=close-win-course]').click(function() {
-                $('#win-courses').animate({ right: '-1000px' }, 400, 'easeOutExpo');
+                $('#win-courses').animate({ right: '-1000px' }, 400, 'easeInExpo');
             });
             $('#contest-form').submit(function() {
-                $('#win-courses').animate({ right: '-1000px' }, 400, 'easeOutExpo');
+                $('#win-courses').animate({ right: '-1000px' }, 400, 'easeInExpo');
                 $.cookie('participated_contest', true);
                 GLOBAL.flash('Votre inscription a bien été prise en compte.', 'success');
             });
