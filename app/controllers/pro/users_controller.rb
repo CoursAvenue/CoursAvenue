@@ -30,6 +30,8 @@ class Pro::UsersController < Pro::ProController
     dates = (1.month.ago.to_date..Date.today).step
     @users_cumul = {}
     dates.each do |date|
+      @users_graph[date]    ||= 0
+      @messages_graph[date] ||= 0
       @users_cumul[date] = User.active.where(User.arel_table[:created_at].lt(date + 1.day)).count
     end
 

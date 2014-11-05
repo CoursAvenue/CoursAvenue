@@ -57,7 +57,7 @@
                 %strong Lieu :
                 = @participation_request.place.name
                 = link_to URI.encode("https://maps.google.com/?q=#{@participation_request.place.address}"), target: :_blank do
-                  = "#{(@participation_request.place.address)}"
+                  = "(#{@participation_request.place.address})"
               - if @participation_request.place.info.present? or @participation_request.place.private_info.present?
                 %li
                   %strong Infos pratiques :
