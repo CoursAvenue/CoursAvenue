@@ -9,13 +9,7 @@ class EmailProcessor
   # to other methods: ex: participation_request -> process_participation_request
   # @return nothing
   def process
-    Bugsnag.notify(RuntimeError.new("EmailProcessor#process"), {
-      email_data: {
-        json: @email.to_json,
-        to: @email.to.first[:token],
-        body: @email.body
-      }
-    })
+    return image_process if @email.to.first[:token] == 'images'
 
     token = ReplyToken.find @email.to.first[:token]
 
@@ -28,6 +22,17 @@ class EmailProcessor
   end
 
   private
+
+  def image_process
+    Bugsnag.notify(RuntimeError.new("EmailProcessor#process"), {
+      email_data: {
+        json: @email.to_json,
+        to: @email.to.first[:token],
+        body: @email.body,
+        images: @email.attachments.to_json
+      }
+    })
+  end
 
   def process_participation_request(reply_token)
     pr = ParticipationRequest.find reply_token.participation_request_id.to_i
