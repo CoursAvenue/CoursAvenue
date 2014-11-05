@@ -74,11 +74,12 @@
             - if @participation_request.place
               %li
                 %strong Lieu :
-                = @participation_request.place.name
+                = "#{@participation_request.place.name} (#{@participation_request.place.address})"
               %li
                 %strong Infos pratiques :
-                %br
-                = @participation_request.place.info
+                - if @participation_request.place.info.present?
+                  %br
+                  = @participation_request.place.info
                 - if @participation_request.place.private_info.present?
                   %br
                   = @participation_request.place.private_info

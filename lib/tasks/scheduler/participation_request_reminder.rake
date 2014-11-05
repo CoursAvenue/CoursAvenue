@@ -108,7 +108,7 @@ namespace :scheduler do
     # $ rake scheduler:participation_requests:how_was_the_trial_stage_1
     desc 'Send email to users who took a trial course and did not leave a comment after five day'
     task :how_was_the_trial_stage_1 => :environment do |t, args|
-      participation_requests = ParticipationRequest.accepted.where( ParticipationRequest.arel_table[:date].eq(5.days.from_now) )
+      participation_requests = ParticipationRequest.accepted.where( ParticipationRequest.arel_table[:date].eq(5.days.ago) )
 
       # Group request
       participation_requests.each do |participation_request|
@@ -122,7 +122,7 @@ namespace :scheduler do
     # $ rake scheduler:participation_requests:how_was_the_trial_stage_2
     desc 'Send email to users who took a trial course and did not leave a comment after five day'
     task :how_was_the_trial_stage_2 => :environment do |t, args|
-      participation_requests = ParticipationRequest.accepted.where( ParticipationRequest.arel_table[:date].eq(10.days.from_now) )
+      participation_requests = ParticipationRequest.accepted.where( ParticipationRequest.arel_table[:date].eq(10.days.ago) )
 
       # Group request
       participation_requests.each do |participation_request|

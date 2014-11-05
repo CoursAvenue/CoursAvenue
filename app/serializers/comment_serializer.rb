@@ -6,7 +6,7 @@ class CommentSerializer < ActiveModel::Serializer
   delegate :cache_key, to: :object
 
   attributes :id, :content, :title, :author_name, :course_name, :created_at, :rating,
-             :distance_of_time, :comment_url, :avatar_url, :created_at_iso
+             :distance_of_time, :comment_url, :avatar_url, :created_at_iso, :certified
 
   has_one :reply, serializer: CommentReplySerializer
 
