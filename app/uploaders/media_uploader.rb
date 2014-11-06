@@ -36,7 +36,7 @@ class MediaUploader < CarrierWave::Uploader::Base
   def thumbnail_email_cropped
     transformations = []
     transformations << { width: 300, height: 220, crop: :fill }
-    if model.mediable.has_open_course_plannings?
+    if model.mediable.is_open_for_trial?
       transformations << { overlay: "essai-gratuit", width: 184, height: 35, gravity: :south_east, y: 20 }
     elsif model.mediable.has_promotion?
       transformations << { overlay: "promotion", width: 167, height: 35, gravity: :south_east, y: 20 }
