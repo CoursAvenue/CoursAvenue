@@ -3,7 +3,7 @@
         <div class="grid__item two-twelfths text--center">
             <div class="relative inline-block">
                 {{#if certified}}
-                  <img height="20" width="20" src="<%= asset_path('icons/certified-badge.png') %>" alt="Élève CoursAvenue" class="absolute north east" data-toggle="popover" data-trigger="hover" data-content="Élève CoursAvenue">
+                  <img height="20" width="20" src="<%= asset_path('icons/certified-badge.png') %>" alt="Cet élève a réservé son cours sur CoursAvenue" class="absolute north east" data-toggle="popover" data-trigger="hover" data-content="Cet élève a réservé son cours sur CoursAvenue">
                 {{/if}}
                 {{#if avatar_url}}
                   <img height="60" width="60" src="{{ avatar_url }}" alt="Photo de {{ author_name }}" class="bordered rounded--circle center-block push-half--bottom">
