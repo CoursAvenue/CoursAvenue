@@ -1,11 +1,16 @@
 <article class="push--bottom" itemscope itemtype="http://data-vocabulary.org/Review">
     <div class="grid--full">
         <div class="grid__item two-twelfths text--center">
-            {{#if avatar_url}}
-              <img height="60" width="60" src="{{ avatar_url }}" alt="Photo de {{ author_name }}" class="bordered rounded--circle center-block push-half--bottom">
-            {{else}}
-              <img height="60" width="60" src="<%= asset_path('icons/avatar.png') %>" alt="Photo de {{ author_name }}" class="bordered rounded--circle center-block push-half--bottom">
-            {{/if}}
+            <div class="relative inline-block">
+                {{#if certified}}
+                  <img height="20" width="20" src="<%= asset_path('icons/certified-badge.png') %>" alt="Élève CoursAvenue" class="absolute north east" data-toggle="popover" data-trigger="hover" data-content="Élève CoursAvenue">
+                {{/if}}
+                {{#if avatar_url}}
+                  <img height="60" width="60" src="{{ avatar_url }}" alt="Photo de {{ author_name }}" class="bordered rounded--circle center-block push-half--bottom">
+                {{else}}
+                  <img height="60" width="60" src="<%= asset_path('icons/avatar.png') %>" alt="Photo de {{ author_name }}" class="bordered rounded--circle center-block push-half--bottom">
+                {{/if}}
+            </div>
             <div class="text--center"><strong itemprop="reviewer">{{ author_name }}</strong></div>
         </div>{{!--
     --}}<div class="grid__item ten-twelfths">
