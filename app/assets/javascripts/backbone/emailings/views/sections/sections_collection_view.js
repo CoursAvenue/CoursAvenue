@@ -12,8 +12,7 @@ Emailing.module('Views.Sections', function(Module, App, Backbone, Marionette, $,
                 model:      model,
                 collection: model.get('bridges')
             };
-        },
-
+        }
     });
 });
 

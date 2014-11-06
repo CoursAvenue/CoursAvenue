@@ -16,15 +16,9 @@ Emailing.module('Views.Sections.Bridges', function(Module, App, Backbone, Marion
             'keyup [data-city-custom]'    : 'cityCustom'
         },
 
-        cityCustom: function cityCustom () {
-            var id = this.model.get('id');
-            var city = $('input[data-city-custom=' + id + ']').val();
-            this.model.set('city_text', city);
-        }.debounce(500),
-
         initialize: function initialize () {
-            this.model.on('change', this.render);
-            _.bindAll(this, 'setCurrentImage', 'setCurrentSubject', 'setCurrentReview', 'reviewCustom');
+            _.bindAll(this, 'setCurrentImage', 'setCurrentSubject', 'setCurrentReview', 'reviewCustom', 'collectionNext', 'showSavingIndicator');
+            this.model.on('change', this.showSavingIndicator);
         },
 
         /* Change current to the next or previous element of collection.
@@ -35,22 +29,30 @@ Emailing.module('Views.Sections.Bridges', function(Module, App, Backbone, Marion
          * @param next           - Whether we are fetching the next one or the previous one.
          */
         collectionNext: function collectionNext (collectionName, collectionId, collectionSet, next) {
-            var collection = this.model.get(collectionName);
-            var current    = _.find(collection, function(collectionItem) {
+            var collection, current, index;
+            collection = this.model.get(collectionName);
+            current    = _.find(collection, function(collectionItem) {
                 return (collectionItem.id == this.model.get(collectionId));
             }.bind(this));
             if (collection) {
-                var index = next ? collection.indexOf(current) + 1 : collection.indexOf(current) - 1
-                var next = collection[index];
-                collectionSet(next);
+                // Circle the indexes
+                if (!next && collection.indexOf(current) == 0) {
+                    index = collection.length - 1; // If going backward and is currently first, set to last
+                } else if (next && collection.indexOf(current) == (collection.length - 1)) {
+                    index = 0;// If going forward and is currently last, set to first
+                } else {
+                    index = (next ? (collection.indexOf(current) + 1) : (collection.indexOf(current) - 1));
+                }
+                collectionSet(collection[index]);
+                this.render();
             }
         },
 
-        slideNext: function slideNext (event) {
+        slideNext: function slideNext () {
             this.collectionNext('images', 'media_id', this.setCurrentImage, true);
         },
 
-        slidePrev: function slideNext () {
+        slidePrev: function slidePrev () {
             this.collectionNext('images', 'media_id', this.setCurrentImage, false);
         },
 
@@ -68,7 +70,7 @@ Emailing.module('Views.Sections.Bridges', function(Module, App, Backbone, Marion
           var subject = { id: id, name: text };
 
           this.setCurrentSubject(subject);
-        },
+        }.debounce(500),
 
         reviewNext : function reviewNext () {
             this.collectionNext('reviews', 'review_id', this.setCurrentReview, true);
@@ -89,20 +91,35 @@ Emailing.module('Views.Sections.Bridges', function(Module, App, Backbone, Marion
         setCurrentImage: function setCurrentImage (image) {
             if (image) {
                 this.model.set( { media_url: image.url, media_id: image.id } );
+                // this.ui.$carousel_image.attr('src', image.url).data('id', image.id);
             }
         },
 
         setCurrentSubject : function setCurrentSubject(subject) {
-          if (subject) {
-            this.model.set( { subject_name: subject.name, subject_id: subject.id } );
-          }
+            if (subject) {
+              this.model.set( { subject_name: subject.name, subject_id: subject.id } );
+            }
         },
 
         setCurrentReview : function setCurrentReview(review) {
-          if (review) {
-            this.model.set( { review_text: review.text, review_id: review.id, review_custom: review.custom } );
-          }
+            if (review) {
+              this.model.set( { review_text: review.text, review_id: review.id, review_custom: review.custom } );
+            }
         },
+
+        cityCustom: function cityCustom () {
+            var id = this.model.get('id');
+            var city = $('input[data-city-custom=' + id + ']').val();
+            this.model.set('city_text', city);
+        }.debounce(500),
+
+        showSavingIndicator: function showSavingIndicator () {
+            $('[data-el=saving-indicator]').fadeIn();
+            setTimeout(function() {
+                $('[data-el=saving-indicator]').fadeOut();
+            }.bind(this), 1000);
+        }
+
     });
 });
 
