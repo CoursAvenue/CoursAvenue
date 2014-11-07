@@ -211,12 +211,14 @@ class AdminMailer < ActionMailer::Base
   end
 
   def incomplete_profile(structure)
+    return if structure.is_sleeping?
     @structure  = structure
     mail to: structure.main_contact.email,
          subject: 'Votre profil 7 fois plus visible'
   end
 
   def planning_outdated(structure)
+    return if structure.is_sleeping?
     @structure        = structure
     @similar_profiles = @structure.similar_profiles(2, { has_admin: true })
     mail to: structure.main_contact.email,
