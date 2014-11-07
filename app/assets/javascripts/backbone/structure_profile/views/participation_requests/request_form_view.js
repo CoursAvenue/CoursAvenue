@@ -168,7 +168,9 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             } else {
                 this.ui.$time_wrapper.show();
                 this.ui.$planning_select_wrapper.slideUp();
-                this.ui.$address_info.text(this.getCurrentCourse().get('course_location'));
+                if (this.getCurrentCourse()) {
+                    this.ui.$address_info.text(this.getCurrentCourse().get('course_location'));
+                }
             }
             this.populatePlannings();
             if (this.model.get('course_collection_type') == 'courses') {
