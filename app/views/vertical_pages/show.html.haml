@@ -17,7 +17,7 @@
 - else
   - bg = asset_path(subject_image(@subject))
 
-.bg-cover{ style: "background-image: url('#{bg}')", 'data-stellar-background-ratio' => '0.6' }
+.bg-fixed.bg-cover{ style: "background-image: url('#{bg}')" }
   .main-container.main-container--medium.soft--ends
     %h1.white.soft-black-text-shadow= @vertical_page.name
     - if @vertical_page.caption

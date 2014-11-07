@@ -1,10 +1,14 @@
+.bg-transparent {
+    background: transparent;
+}
 .bg-contain, .bg-cover {
-    background-position: center;
-    background-repeat: no-repeat;
+    background-position  : center;
+    background-repeat    : no-repeat;
     &[data-stellar-background-ratio] {
         background-position: top;
     }
 }
+.bg-fixed { background-attachment: fixed; }
 .bg-cover   { @include background-size(cover); }
 .bg-contain { @include background-size(contain); }
 
