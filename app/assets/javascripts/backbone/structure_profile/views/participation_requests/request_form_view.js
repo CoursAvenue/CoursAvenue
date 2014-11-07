@@ -91,7 +91,7 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             }
             this.model.set('course_id', planning_data.course_id);
             this.model.set('planning_id', planning_data.id);
-            this.selectCourse(planning_data.course_id);
+            this.selectCourse();
             this.populatePlannings();
             var message_form_view = new Module.RequestFormView( { structure: this.structure, model: this.model.toJSON().participation_request } ).render();
             $.magnificPopup.open({
@@ -159,8 +159,8 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
          * Select course in select
          */
         selectCourse: function selectCourse () {
-            this.ui.$course_select.find('option').removeProp('selected');
-            this.ui.$course_select.find('option[value=' + this.model.get('course_id') + ']').prop('selected', true);
+            this.ui.$course_select.find('option').removeProp('selected').removeAttr('selected');
+            this.ui.$course_select.find('option[value=' + this.model.get('course_id') + ']').prop('selected', true).attr('selected', true);
             if (this.getCurrentCoursePlannings().length > 0) {
                 this.ui.$planning_select_wrapper.slideDown();
                 this.ui.$time_wrapper.hide();
