@@ -1,7 +1,7 @@
-= side_menu_currently_at 'pages'
+= side_menu_currently_at 'pro_dashboard'
 
 .panel
-  = render partial: 'pro/shared/pages_tabs', locals: { current: 'faqs' }
+  = render partial: 'pro/shared/dashboard_tabs', locals: { current: 'flyers' }
   .panel__body
     %table.table--data.table--striped
       %thead
@@ -12,7 +12,7 @@
       %tbody
       - @flyers.each do |flyer|
         %tr
-          %td= flyer.created_at
+          %td= I18n.l(flyer.created_at, format: :date)
           %td= link_to 'Image', pro_flyer_path(flyer), data: { behavior: 'modal', width: '800', padding: 0 }
           %td.nowrap
             %input{ type: 'checkbox' }
