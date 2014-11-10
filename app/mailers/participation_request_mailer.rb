@@ -5,6 +5,7 @@ class ParticipationRequestMailer < ActionMailer::Base
 
   layout 'email'
   helper :structures
+  helper :email_actions
 
   default from: 'CoursAvenue <hello@coursavenue.com>'
 
@@ -171,14 +172,15 @@ class ParticipationRequestMailer < ActionMailer::Base
   #
   # @return a String
   def generate_reply_to(sender_type = 'admin')
-    reply_token = ReplyToken.create(reply_type: 'participation_request')
-    reply_token.data = {
+    @reply_token = ReplyToken.create(reply_type: 'participation_request')
+    @reply_token.data = {
       sender_type:              sender_type,
       sender_id:                sender_type == 'admin' ? @admin.id : @user.id,
-      participation_request_id: @participation_request.id
+      participation_request_id: @participation_request.id,
+      gmail_action_name:        "Confirmer l'inscription"
     }
-    reply_token.save
+    @reply_token.save
 
-    return "CoursAvenue <#{reply_token.token}@#{CoursAvenue::Application::MANDRILL_REPLY_TO_DOMAIN}>"
+    return "CoursAvenue <#{@reply_token.token}@#{CoursAvenue::Application::MANDRILL_REPLY_TO_DOMAIN}>"
   end
 end

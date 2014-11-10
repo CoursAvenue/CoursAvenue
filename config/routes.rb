@@ -472,6 +472,7 @@ CoursAvenue::Application.routes.draw do
   end
 
   resources :keywords, only: [:index]
+  resources :reply_token, only: [:show]
 
   ########### Vertical pages ###########
   get 'cours/:id'                                  , to: 'vertical_pages#show_root', as: :root_vertical_page

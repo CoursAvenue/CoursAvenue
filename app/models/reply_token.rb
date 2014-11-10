@@ -1,11 +1,19 @@
 class ReplyToken < ActiveRecord::Base
   extend FriendlyId
+
+  ######################################################################
+  # Constants                                                          #
+  ######################################################################
+
+  REPLY_TYPES = %w(participation_request conversation)
+
   ######################################################################
   # Macros                                                             #
   ######################################################################
   friendly_id :token, use: [:finders]
   store_accessor :data, :sender_id, :sender_type,
-                        :conversation_id, :participation_request_id
+                        :conversation_id, :participation_request_id,
+                        :gmail_action_name
 
   attr_accessible :token, :reply_type, :data
   ######################################################################
@@ -17,6 +25,17 @@ class ReplyToken < ActiveRecord::Base
   # Callbacks                                                          #
   ######################################################################
   before_create :create_token
+
+  ######################################################################
+  # Methods                                                            #
+  ######################################################################
+  # Public: Sets the ReplyToken as used.
+  #
+  # @return self.
+  def use!
+    self.used = true
+    self.save
+  end
 
   private
 
@@ -33,4 +52,5 @@ class ReplyToken < ActiveRecord::Base
     end
     nil
   end
+
 end

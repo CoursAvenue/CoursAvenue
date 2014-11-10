@@ -1,6 +1,10 @@
 - content_for :email_title do
   Félicitations ! Vous avez reçu une demande d'information de #{@user.name}.
 
+- content_for :email_action do
+  - if @reply_token.persisted?
+    = confirm_action(@reply_token)
+
 .title
   Félicitations !
 

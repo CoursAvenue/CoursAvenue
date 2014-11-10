@@ -20,6 +20,8 @@ class EmailProcessor
     when 'conversation'
       process_conversation(token)
     end
+
+    token.use!
   end
 
   private
