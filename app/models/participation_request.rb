@@ -80,6 +80,15 @@ class ParticipationRequest < ActiveRecord::Base
     self.state == 'pending'
   end
 
+  #
+  # Tells if the resource type is waiting for an answer
+  # @param resource_type='Structure' [type] [description]
+  #
+  # @return [type] [description]
+  def pending_for?(resource_type='Structure')
+    (self.state == 'pending' and self.last_modified_by != resource_type)
+  end
+
   # Accept request and send a message to user.
   # @param message String
   #

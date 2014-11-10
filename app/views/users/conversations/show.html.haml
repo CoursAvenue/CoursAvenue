@@ -45,28 +45,8 @@
           %strong.flush
             Récapitulatif
         .grid__item.ten-twelfths.soft-half--left.v-top>
-          %ul.no-bullet-list.flush
-            %li
-              %strong Nom du cours :
-              = @participation_request.course.name
-            %li
-              %strong Jour et créneau :
-              #{l(@participation_request.date, format: :semi_long)} : #{l(@participation_request.start_time, format: :short)} à #{l(@participation_request.end_time, format: :short)}.
-            - if @participation_request.place
-              %li
-                %strong Lieu :
-                = @participation_request.place.name
-                = link_to URI.encode("https://maps.google.com/?q=#{@participation_request.place.address}"), target: :_blank do
-                  = "(#{@participation_request.place.address})"
-              - if @participation_request.place.info.present? or @participation_request.place.private_info.present?
-                %li
-                  %strong Infos pratiques :
-                  - if @participation_request.place.info.present?
-                    %br
-                    = @participation_request.place.info
-                  - if @participation_request.place.private_info.present?
-                    %br
-                    = @participation_request.place.private_info
+          = render partial: 'users/participation_requests/recap', locals: { participation_request: @participation_request }
+
       .grid.epsilon
         .grid__item.two-twelfths.v-top.text--right>
           %strong.flush
