@@ -13,7 +13,7 @@
       - @flyers.each do |flyer|
         %tr
           %td= flyer.created_at
-          %td= link_to 'Image', pro_flyer_path(flyer), class: 'fancybox.ajax', data: { behavior: 'modal', width: '800', padding: 0 }
+          %td= link_to 'Image', flyer.image.url, data: { behavior: 'fancy', width: '800', height: '600', padding: 0 }
           %td.nowrap
             = simple_form_for [:pro, flyer], remote: true do |f|
               = f.input :treated, label: false, input_html: { data: { behavior: 'update' } }
