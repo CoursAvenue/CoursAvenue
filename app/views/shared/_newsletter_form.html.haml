@@ -1,4 +1,4 @@
-- if !current_user and !cookies[:subscribed_to_newsletter]
+- if !current_user and !cookies[:subscribed_to_newsletter] and !cookies[:have_seen_home_page_newsletter_popup]
   .hidden#subscribed-to-newsletter
     .bg-cover.center-block.border-color-white.bordered--thick.bordered.black-box-shadow.rounded.soft--top.on-top{ style: "width: 750px; background-image: url(#{asset_path('users/passions_bg.jpg')}); "}
       %div.soft--bottom.push--bottom
@@ -28,12 +28,13 @@
                   },
                   callbacks: {
                       close: function () {
-                          $.cookie('subscribed_to_newsletter', true);
+                          $.cookie('have_seen_home_page_newsletter_popup', true);
                       }
                  }
             });
             $('.newsletter-form').submit(function() {
                 $.cookie('subscribed_to_newsletter', true);
+                $.cookie('have_seen_home_page_newsletter_popup', true);
                 $.magnificPopup.close()
             });
         });
