@@ -1,5 +1,12 @@
 class ReplyToken < ActiveRecord::Base
   extend FriendlyId
+
+  ######################################################################
+  # Constants                                                          #
+  ######################################################################
+
+  REPLY_TYPES = %w(participation_request conversation)
+
   ######################################################################
   # Macros                                                             #
   ######################################################################
@@ -19,6 +26,17 @@ class ReplyToken < ActiveRecord::Base
   ######################################################################
   before_create :create_token
 
+  ######################################################################
+  # Methods                                                            #
+  ######################################################################
+  # Public: Sets the ReplyToken as used.
+  #
+  # @return self.
+  def use!
+    self.used = true
+    self.save
+  end
+
   private
 
   # Creates an unique token.
@@ -34,4 +52,5 @@ class ReplyToken < ActiveRecord::Base
     end
     nil
   end
+
 end

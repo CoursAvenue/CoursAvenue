@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141110091032) do
+ActiveRecord::Schema.define(version: 20141110161709) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -793,6 +793,7 @@ ActiveRecord::Schema.define(version: 20141110091032) do
     t.hstore   "data"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "used",       default: false
   end
 
   add_index "reply_tokens", ["token"], name: "index_reply_tokens_on_token", unique: true, using: :btree
