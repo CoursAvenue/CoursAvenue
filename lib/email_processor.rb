@@ -9,6 +9,7 @@ class EmailProcessor
   # to other methods: ex: participation_request -> process_participation_request
   # @return nothing
   def process
+    return 'OK' if !@email.to.first[:token]
     return process_image if @email.to.first[:token] == 'flyers'
 
     token = ReplyToken.find @email.to.first[:token]
