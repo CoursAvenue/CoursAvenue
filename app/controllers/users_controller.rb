@@ -7,12 +7,15 @@ class UsersController < InheritedResources::Base
   before_action :authenticate_user!, except: [:unsubscribe, :waiting_for_activation, :invite_entourage_to_jpo_page, :invite_entourage_to_jpo, :welcome, :create]
   load_and_authorize_resource :user, find_by: :slug, except: [:unsubscribe, :waiting_for_activation, :invite_entourage_to_jpo_page, :invite_entourage_to_jpo, :welcome, :create]
 
+  # Create from newsletter
+  # GET /users
   def create
-    user = User.new email: params[:user][:email]
+    user = User.new email: params[:user][:email], zip_code: params[:user][:zip_code], sign_up_at: Time.now
     user.valid? # Validate to trigger errors
     if user.errors[:email].blank? # check if email is valid
       user.save(validate: false)
     end
+    params[:user][:subscription_from] == 'newsletter' if user.persisted? and UserMailer.delay.subscribed_to_newsletter(user)
     respond_to do |format|
       format.js { render nothing: true }
     end

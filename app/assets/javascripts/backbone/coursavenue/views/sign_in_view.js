@@ -50,7 +50,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this.ui.$data_loader.removeClass('hidden');
             CoursAvenue.loginWithFacebook({
                 success: this.options.success,
-                dismiss: function() {
+                dismiss: function dismiss () {
                     this.ui.$data_loader.addClass('hidden');
                     this.ui.$facebook_login_button.text('Connexion avec Facebook');
                     this.options.dismiss();
