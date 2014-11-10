@@ -6,11 +6,6 @@ class Pro::FlyersController < Pro::ProController
     @flyers = Flyer.all
   end
 
-  def show
-    @flyer = Flyer.find params[:id]
-    render layout: false
-  end
-
   def update
     @flyer = Flyer.find params[:id]
 

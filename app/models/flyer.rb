@@ -11,6 +11,7 @@ class Flyer < ActiveRecord::Base
   # Scopes                                                             #
   ######################################################################
 
+  default_scope           { order('created_at DESC') }
   scope :treated,      -> { where(treated: true) }
   scope :not_treated,  -> { where(treated: false) }
 end
