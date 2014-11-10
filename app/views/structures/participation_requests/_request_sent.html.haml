@@ -7,6 +7,9 @@
         %h3.flush Demande d'inscription envoyée
         %h5.flush Vous recevrez un message dès que #{@structure.name} valide votre inscription.
   .panel__body.soft
+    %h4
+      Retrouvez vos demandes d'inscriptions dans
+      = link_to "votre espace perso.", user_participation_requests_path(current_user)
     %h5 Ne vous arrêtez pas et contactez d'autres profils !
     %p.epsilon
       Les élèves qui ont réservé ce cours ont également découvert :
