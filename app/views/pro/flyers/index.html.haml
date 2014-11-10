@@ -1,0 +1,18 @@
+= side_menu_currently_at 'pages'
+
+.panel
+  = render partial: 'pro/shared/pages_tabs', locals: { current: 'faqs' }
+  .panel__body
+    %table.table--data.table--striped
+      %thead
+        %tr
+          %th Date
+          %th.one-half Image
+          %th Traité
+      %tbody
+      - @flyers.each do |flyer|
+        %tr
+          %td= flyer.created_at
+          %td= link_to 'Image', pro_flyer_path(flyer), data: { behavior: 'modal', width: '800', padding: 0 }
+          %td.nowrap
+            %input{ type: 'checkbox' }
