@@ -63,9 +63,10 @@ Emailing.module('Views.Sections.Bridges', function(Module, App, Backbone, Marion
         },
 
         subjectCustom : function subjectCustom () {
-          var id = this.model.get('subject_id');
-          var text = $('input[data-subject-custom=' + id + ']').val();
-          var subject = { id: id, name: text };
+          var id         = this.model.get('id');
+          var subject_id = this.model.get('subject_id');
+          var text       = $('input[data-subject-custom=' + subject_id + '][data-bridge-id=' + id + ']').val();
+          var subject    = { id: subject_id, name: text };
 
           this.setCurrentSubject(subject);
         },
