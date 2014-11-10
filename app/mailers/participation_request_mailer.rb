@@ -5,6 +5,7 @@ class ParticipationRequestMailer < ActionMailer::Base
 
   layout 'email'
   helper :structures
+  helper :email_actions
 
   default from: 'CoursAvenue <hello@coursavenue.com>'
 
