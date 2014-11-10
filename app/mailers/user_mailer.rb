@@ -9,6 +9,12 @@ class UserMailer < ActionMailer::Base
 
   default from: "\"L'équipe CoursAvenue\" <contact@coursavenue.com>"
 
+  # Monday email to push the user to fill passions
+  def subscribed_to_newsletter(user)
+    @user    = user
+    mail to: @user.email, subject: "Votre inscription à la newsletter de CoursAvenue.com"
+  end
+
   ######################################################################
   # Email reminder                                                     #
   ######################################################################

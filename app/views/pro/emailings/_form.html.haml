@@ -23,10 +23,7 @@
       = f.simple_fields_for :emailing_sections, section, child_index: i do |section_form|
         %div{ class: (!section.persisted? ? 'hidden' : ''), data: { el: true, hidden: !section.persisted? } }
           %hr
-          = section_form.input :title, label: 'Titre de la section', placeholder: 'Ex. : Cours de Yoga à Paris', input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
-          = section_form.input :link, label: 'Lien de la section', placeholder: 'Ex. : https://www.coursavenue.com/yoga-bien-etre-sante--paris', input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
-          = section_form.input :link_name, label: 'Titre du lien de la section', placeholder: 'Voir tous les cours de Yoga à Paris', input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
-          = section_form.association :structures, as: :select, collection: Structure.with_logo_and_media, input_html: { class: 'input--large', data: { behavior: 'chosen' } }, placeholder: 'Choisir une structure', label_method: :name, label_html: { class: 'one-whole label--large' }
+          = section_form.association :structures, as: :select, collection: Structure.with_logo_and_media, input_html: { class: 'input--large', multiple: false, data: { behavior: 'chosen' } }, placeholder: 'Choisir une structure', label_method: :name, label_html: { class: 'one-whole label--large' }
           .text--right
             %a.pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
               %i.fa.fa-trash-o

@@ -14,7 +14,7 @@
         .text--center
           = render partial: 'shared/home_page_search_form', locals: { form_class: 'inline-block', wrapper_class: '' }
 
-  .bg-cover{ style: "background-image: url(#{asset_path 'https://coursavenue-public.s3.amazonaws.com/public_assets/home_backgrounds/dessin-peinture-arts-plastiques.jpg'}); min-height: 430px;", 'data-stellar-background-ratio' => "0.5" }
+  .bg-fixed.bg-cover{ style: "background-image: url(#{asset_path 'https://coursavenue-public.s3.amazonaws.com/public_assets/home_backgrounds/dessin-peinture-arts-plastiques.jpg'}); min-height: 430px;" }
     .main-container.main-container--medium.soft--ends
       %h2.text--center.push--bottom.soft--ends.soft-black-text-shadow.white Plus de #{Comment::Review.count.round(-3)} élèves recommandent leurs cours
       %ul.comments.no-bullet-list

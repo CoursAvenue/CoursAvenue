@@ -9,12 +9,14 @@
   .panel__body.soft--ends
     .text--center
       .gamma
-        #{User.active.count} élèves
+        #{User.active.count} élèves / #{Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([1,4])).count} messages
       #users
 
     .text--center
       .gamma
-        Cumulé : #{((@users_cumul[Date.today] - @users_cumul[Date.today - 1.month]).to_f / @users_cumul[Date.today - 1.month].to_f * 100).round(1)}% de croissance sur le mois
+        Croissance élèves : #{((@users_cumul[Date.today] - @users_cumul[Date.today - 1.month]).to_f / @users_cumul[Date.today - 1.month].to_f * 100).round(1)}%
+        %br
+        Croissance messages : #{((@messages_cumul[Date.today] - @messages_cumul[Date.today - 1.month]).to_f / @messages_cumul[Date.today - 1.month].to_f * 100).round(1)}%
       #users-cumul
 
     .text--center.push--ends
@@ -47,17 +49,16 @@
             %td
               = link_to 'Profil', user_url(user, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank
             %td{data: {value: user.confirmed_at}}
-              - if user.confirmed_at
-                = l(user.confirmed_at, format: :date).capitalize
-              - else
+              - if !user.confirmed?
                 = link_to 'Activer le compte', activate_pro_user_path(user), method: :patch, class: 'btn btn--small btn--blue'
                 %br
-                = l(user.created_at, format: :date).capitalize
+              - else
+                = l(user.sign_up_at, format: :date).capitalize
             %td.text--center{data: {value: (user.provider == 'facebook' ? 'f' : '')}}
               - if user.provider == 'facebook'
                 %i.fa.fa-check
             - if params[:with_comments]
-              %td{data: {value: user.created_at}}
+              %td{ data: { value: user.sign_up_at } }
                 - comment = user.comments.last
                 - if comment
                   = link_to "Voir l'avis", structure_url(comment.structure, anchor: "recommandation-#{comment.id}", subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
@@ -75,16 +76,31 @@
         new Highcharts.Chart({
             chart: { renderTo: 'users', type: 'spline' },
             title: { text: null },
-            xAxis: { categories: #{@users_graph.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
-            yAxis: { title: { text: ''}},
-            series: [{ data: #{@users_graph.map{|date, count| (count > 10000 ? 100 : count)}} }]
+            xAxis: { categories: #{@dates.map{|date| l(Date.parse(date.to_s), format: :short)}} },
+            yAxis: { title: { text: ''}, min: 0 },
+            series: [{ data: #{@users_graph.sort_by{|date, count| date}.map{|date, count| count}},
+                       type: 'column',
+                       name: 'Élèves'
+                      }, {
+                       data: #{@messages_graph.sort_by{|date, count| date}.map{|date, count| count}},
+                       type: 'column',
+                       name: 'Messages'
+                     }]
         });
         new Highcharts.Chart({
             chart: { renderTo: 'users-cumul', type: 'spline' },
             title: { text: null },
-            xAxis: { categories: #{@users_cumul.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
-            yAxis: { title: { text: ''}},
-            series: [{ data: #{@users_cumul.map{|date, count| (count > 10000 ? 100 : count)}} }]
+            xAxis: { categories: #{@dates.map{|date| l(Date.parse(date.to_s), format: :short)}} },
+            yAxis: [{ title: { text: ''}}, { title: { text: ''}}],
+            series: [{
+                      data: #{@users_cumul.sort_by{|date, count| date}.map{|date, count| count}},
+                      name: 'Élèves',
+                      yAxis: 0
+                    }, {
+                      data: #{@messages_cumul.sort_by{|date, count| date}.map{|date, count| count}},
+                      name: 'Messages',
+                      yAxis: 1
+                    }]
         });
         var template = Handlebars.compile($('#user-item-template').html());
         var engine   = new Bloodhound({

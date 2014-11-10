@@ -98,7 +98,10 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                     }.bind(this),
                     success: function success (response) {
                         CoursAvenue.setCurrentUser(response);
-                        if (CoursAvenue.isProduction()) { mixpanel.track("User registered", { info: 'Standard' }) }
+                        if (CoursAvenue.isProduction()) {
+                            mixpanel.track("User registered", { info: 'Standard' });
+                            ga('send', 'event', 'Action', 'User registered');
+                        }
                         this.showRegistrationConfirmedPopup()
                         // Pixel to track registration convertion with Facebook
                         if (window._fbq) { window._fbq.push(['track', '6016889463627', {}]); }

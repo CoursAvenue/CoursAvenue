@@ -6,7 +6,7 @@
 
 - slug = Subject.roots.sample.slug
 - bg = asset_path "https://coursavenue-public.s3.amazonaws.com/public_assets/home_backgrounds/#{slug}.jpg"
-.bg-cover{style: "background-image: url('#{bg}')", 'data-stellar-background-ratio' => '0.6'}
+.bg-fixed.bg-cover{style: "background-image: url('#{bg}')" }
   .main-container.main-container--medium.soft--ends
     %h1.white.soft-black-text-shadow
       Guide des disciplines

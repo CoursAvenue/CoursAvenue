@@ -41,7 +41,7 @@ class Structure < ActiveRecord::Base
   has_many :invited_students          , -> { where(type: 'InvitedUser::Student') }, class_name: 'InvitedUser', foreign_key: :referrer_id, dependent: :destroy
   has_many :medias                    , as: :mediable
   has_many :phone_numbers             , as: :callable
-  has_many :comments                  , -> { order('created_at DESC') }, as: :commentable, dependent: :destroy, class_name: 'Comment::Review'
+  has_many :comments                  , -> { order('certified ASC, created_at DESC') }, as: :commentable, dependent: :destroy, class_name: 'Comment::Review'
   has_many :teachers                  , dependent: :destroy
   has_many :courses                   , dependent: :destroy
   has_many :plannings                 , through: :courses
@@ -412,7 +412,7 @@ class Structure < ActiveRecord::Base
   #
   # @return nil
   def send_reminder
-    return unless self.main_contact.present?
+    return if self.main_contact.nil? or self.is_sleeping?
     if self.main_contact.monday_email_opt_in?
       if self.update_email_status.present?
         self.update_column :last_email_sent_at, Time.now
@@ -1066,10 +1066,11 @@ class Structure < ActiveRecord::Base
   def wake_up!
     self.is_sleeping = false
     self.active      = true
-    saved            = self.save
+    self.save(validate: false)
+    self.delay.index
     self.sleeping_structure.destroy if self.sleeping_structure
     AdminMailer.delay.you_have_control_of_your_account(self)
-    saved
+    true
   end
 
   #

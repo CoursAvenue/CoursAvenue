@@ -13,3 +13,7 @@
       = f.input :password, autocomplete: "off", label: 'Nouveau mot de passe'
       = f.input :password_confirmation, label: 'Confirmation'
       = f.button :submit, "Mettre à jour", class: 'btn btn--full btn--green'
+
+    %hr.push--ends
+    %h4 Supprimer mon compte
+    %p= link_to 'Supprimer mon compte', destroy_confirmation_user_path(@user), class: 'fancybox.ajax red', data: { behavior: 'modal', padding: 0, width: 500 }

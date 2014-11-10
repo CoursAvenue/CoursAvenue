@@ -25,7 +25,6 @@
       - if @structure.medias.empty?
         %li Mettez en ligne vos photos et vidéos
 
-
 - content_for :under_content_2 do
   - @similar_profiles = @structure.similar_profiles(2, { nb_courses: 1 })
   %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }

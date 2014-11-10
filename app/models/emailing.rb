@@ -48,7 +48,7 @@ class Emailing < ActiveRecord::Base
   # @return a Boolean
   def reject_section(attributes)
     exists = attributes[:id].present?
-    blank  = (attributes[:title].blank? and attributes[:link].blank? and attributes[:structure_ids].reject(&:blank?).empty?)
+    blank  = (attributes[:title].blank? and attributes[:link].blank? and attributes[:structure_ids].blank?)
 
     if blank and exists
       attributes.merge!({:_destroy => 1})

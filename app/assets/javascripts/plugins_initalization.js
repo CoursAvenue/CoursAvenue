@@ -112,9 +112,6 @@ $(function() {
         $(this).sticky(this.dataset);
     });
 
-    // $.stellar({ horizontalScrolling: false });
-    $.stellar({ horizontalScrolling: false, verticalOffset: -200 });
-
     $('body').on('click', '[data-behavior=scroll-to]', function(event) {
         if ($(this).data('wrapper')) {
             $($(this).data('wrapper')).scrollTo($(this.hash), { duration: 500, offset: { top: $(this).data('offset-top') || 0 } });

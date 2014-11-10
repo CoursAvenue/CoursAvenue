@@ -1,15 +1,16 @@
 = content_for :above_container do
-  .orange-box.hidden#join-the-community
+  .orange-box.hidden#subscribe-to-coursavenue-newsletter
     .soft-half.white.text--center.epsilon
-      - if !current_user and !cookies[:signed_up_for_newsletter]
+      - if !current_user and !cookies[:subscribed_to_newsletter]
         %strong Recevez nos offres exclusives, promotions et invitations :
         = simple_form_for User.new, html: { class: 'inline-block v-middle', id: 'newsletter-form' }, remote: true do |f|
-          = f.input :email, label: false, input_html: { placeholder: 'Ex. patrick@gmail.com', class: 'one-whole' }, wrapper_html: { class: 'flush inline-block v-middle' }
+          = f.input :subscription_from, as: :hidden, value: 'newsletter'
+          = f.input :email, label: false, input_html: { placeholder: 'Adresse e-mail', class: 'one-whole' }, wrapper_html: { class: 'flush inline-block v-middle' }
+          = f.input :zip_code, label: false, input_html: { placeholder: 'Code postal', class: 'one-whole' }, wrapper_html: { class: 'flush inline-block v-middle', style: 'width: 110px;' }
           = f.submit "Recevoir les Bons plans & Promotions", class: 'btn btn--yellow'
-        -# = link_to 'Bons plans & Promotions', '#', data: { behavior: 'sign-up', title: 'Inscrivez-vous pour recevoir nos bons plans & promotions' }, class: 'btn btn--yellow btn--small', id: 'orange-box-join-for-free'
       - else
         %strong Recevez nos offres exclusives, promotions et invitations en nous suivant sur Facebook :
-      = link_to '#', class: 'white float--right', data: { behavior: 'closer', el: '#join-the-community' } do
+      = link_to '#', class: 'white float--right', data: { behavior: 'closer', el: '#subscribe-to-coursavenue-newsletter' } do
         %i.fa.fa-times
       .v-middle.fb-like{ data: { href: 'https://www.facebook.com/CoursAvenue', layout: 'button_count', action: 'like', 'show-faces' => 'false', share: "false" } }
 
@@ -17,12 +18,16 @@
   :javascript
       $(function() {
           $('#newsletter-form').submit(function() {
-              $('#join-the-community').slideUp();
-              $.cookie('signed_up_for_newsletter', true);
-              GLOBAL.flash('Votre inscription a bien été prise en compte.', 'success');
+              if (!$(this).find('input[name="user[email]"]').val().match(/@/)) {
+                  GLOBAL.flash('Vous devez saisir une vraie adresse email.');
+              } else {
+                  $('#subscribe-to-coursavenue-newsletter').slideUp();
+                  $.cookie('subscribed_to_newsletter', true);
+                  GLOBAL.flash('Votre inscription a bien été prise en compte.', 'success');
+              }
           });
           setTimeout(function() {
-              $('#join-the-community').slideDown();
+              $('#subscribe-to-coursavenue-newsletter').slideDown();
           }, 3000);
       })
 

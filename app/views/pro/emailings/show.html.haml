@@ -5,17 +5,18 @@
     %h3.flush Newsletter
 
   .panel_body.soft
-    .text--center.margin-bottom
+    .bordered--bottom-on-stick.bg-white.soft-half--ends.text--center{ data: { behavior: 'sticky', z: 500, old_width: 'true' } }
       = link_to 'Editer', edit_pro_emailing_path(@emailing), class: 'btn btn--green push-half--right'
       = link_to 'Prévisualiser la Newsletter', preview_pro_emailing_path(@emailing), class: 'btn btn--green push-half--right fancybox.ajax', data: { behavior: 'modal', width: '800', padding: 0 }
       %a{ class: 'btn btn--green push-half--right', href: 'javascript:void(0)', data: { behavior: 'show' } }
         Envoyer la previsualisation
       = link_to 'Copier le code', code_pro_emailing_path(@emailing), class: 'btn btn--green push-half--right fancybox.ajax', data: { behavior: 'modal', width: '700', padding: 0 }
 
-    .hidden.text--center.margin-bottom{ data: { behavior: 'hidden' } }
-      %form{ action: send_preview_pro_emailing_path(@emailing), method: 'GET' }
-        %input.input--large{ name: 'to', type: 'email', placeholder: 'contact@coursavenue.com' }
-        %input{ type: 'submit', value: 'Envoyer', class: 'btn btn--green', data: { disable_with: "En cours d'envoi" } }
+      .hidden.text--center.push-half--ends{ data: { behavior: 'hidden' } }
+        %form{ action: send_preview_pro_emailing_path(@emailing), method: 'GET' }
+          %label.inline-block.label--large.soft-half--right Envoyer un test à
+          %input.input--large{ name: 'to', type: 'email', placeholder: 'contact@coursavenue.com' }
+          %input{ type: 'submit', value: 'Envoyer', class: 'btn btn--green', data: { disable_with: "En cours d'envoi" } }
 
     %hr
 
@@ -27,7 +28,7 @@
         .soft
           = @emailing.body.html_safe
         - if @emailing.call_to_action_text.present? and @emailing.call_to_action_url.present?
-          .text--center
+          .text--center.push-half--bottom
             = link_to @emailing.call_to_action_text, URI.encode(@emailing.call_to_action_url), class: 'btn btn--green'
 
         #emailings-region{ data: { type: 'emailings-root' } }
@@ -42,6 +43,6 @@
 
       $(document).ready(function() {
           $('[data-behavior=show]').click(function() {
-              $('[data-behavior=hidden]').slideDown();
+              $('[data-behavior=hidden]').slideToggle();
           });
       });

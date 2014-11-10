@@ -10,7 +10,7 @@ class Pro::EmailingsController < Pro::ProController
 
   def new
     @emailing = Emailing.new
-    3.times { @emailing.emailing_sections.build }
+    16.times { @emailing.emailing_sections.build }
   end
 
   def show
@@ -33,7 +33,7 @@ class Pro::EmailingsController < Pro::ProController
   def edit
     @emailing = Emailing.find params[:id]
 
-    count = 3 - @emailing.emailing_sections.count
+    count = 16 - @emailing.emailing_sections.count
     count.times { @emailing.emailing_sections.build  }
   end
 

@@ -1,0 +1,40 @@
+- if !current_user and !cookies[:subscribed_to_newsletter] and !cookies[:have_seen_home_page_newsletter_popup]
+  .hidden#subscribed-to-newsletter
+    .bg-cover.center-block.border-color-white.bordered--thick.bordered.black-box-shadow.rounded.soft--top.on-top{ style: "width: 750px; background-image: url(#{asset_path('users/passions_bg.jpg')}); "}
+      %div.soft--bottom.push--bottom
+        = image_tag 'logos/logo@2x.png', height: 50, class: 'block center-block'
+        .text--center.white.soft-black-text-shadow.epsilon Pour une vie créative, artistique, sportive
+
+      .bg-white-faded.soft--ends.push--ends{ style: 'padding-left: 150px;' }
+        .beta.line-height-1-5.nowrap PAS ENCORE MEMBRE ?
+        .delta.line-height-1-7 Avantages, offres privilégiés, promotions, cours gratuits, et d'autres surprises !
+      %div{ style: 'padding-left: 150px;' }
+        = simple_form_for User.new, html: { class: 'newsletter-form' }, remote: true do |f|
+          = f.input :subscription_from, as: :hidden, value: 'newsletter'
+          = f.input :email, label: false, input_html: { placeholder: 'Adresse e-mail', class: 'input--large one-whole' }, wrapper_html: { class: 'flush inline-block v-middle' }
+          = f.input :zip_code, label: false, input_html: { placeholder: 'Code postal', class: 'input--large one-whole' }, wrapper_html: { class: 'flush inline-block v-middle', style: 'width: 110px;' }
+          = f.submit "Je m'inscris !", class: 'btn btn--yellow'
+
+      %p.white.soft-black-text-shadow.flush--bottom.push--top.soft--top.milli.soft-half--bottom.text--center
+        %i Nous ne communiquerons pas votre email à des tiers et vous pouvez vous désinscrire à tout moment.
+
+  = content_for :scripts do
+    :javascript
+        $(function() {
+            $.magnificPopup.open({
+                  items: {
+                      src: $('#subscribed-to-newsletter').html(),
+                      type: 'inline'
+                  },
+                  callbacks: {
+                      close: function () {
+                          $.cookie('have_seen_home_page_newsletter_popup', true);
+                      }
+                 }
+            });
+            $('.newsletter-form').submit(function() {
+                $.cookie('subscribed_to_newsletter', true);
+                $.cookie('have_seen_home_page_newsletter_popup', true);
+                $.magnificPopup.close()
+            });
+        });
