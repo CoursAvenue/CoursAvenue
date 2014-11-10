@@ -14,7 +14,7 @@ class Pro::DashboardController < Pro::ProController
     @admins.each { |date, count| @admins_hash[date.to_s] = count }
     @comments_hash  = hash_of_days.merge(@comments_hash) # .reject{|key, value| value == 0}
     @admins_hash    = hash_of_days.merge(@admins_hash)   # .reject{|key, value| value == 0}
-    @users          = User.order("DATE_TRUNC('week', created_at) ASC").group("DATE_TRUNC('week', created_at)").count
+    @users          = User.order("DATE_TRUNC('week', sign_up_at) ASC").group("DATE_TRUNC('week', sign_up_at)").count
 
     @messages_per_months, @actions_phone_per_months, @actions_website_per_months = {}, {}, {}
     current_month = Date.today.month
@@ -61,7 +61,7 @@ class Pro::DashboardController < Pro::ProController
     end
 
     if params[:more].present?
-      @students   = User.where( User.arel_table[:created_at].gt(Date.today - 2.month) ).order('DATE(created_at) ASC').group('DATE(created_at)').count
+      @students   = User.where( User.arel_table[:sign_up_at].gt(Date.today - 2.month) ).order('DATE(sign_up_at) ASC').group('DATE(sign_up_at)').count
       @videos     = Media::Video.where( Media::Video.arel_table[:created_at].gt(Date.today - 1.month) ).order('DATE(created_at) ASC').group('DATE(created_at)').count
       @images     = Media::Image.where( Media::Image.arel_table[:created_at].gt(Date.today - 1.month) ).order('DATE(created_at) ASC').group('DATE(created_at)').count
       @medias_dates = (@videos.map(&:first) + @images.map(&:first)).uniq.sort

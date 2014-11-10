@@ -53,12 +53,12 @@
                 = link_to 'Activer le compte', activate_pro_user_path(user), method: :patch, class: 'btn btn--small btn--blue'
                 %br
               - else
-                = l(user.created_at, format: :date).capitalize
+                = l(user.sign_up_at, format: :date).capitalize
             %td.text--center{data: {value: (user.provider == 'facebook' ? 'f' : '')}}
               - if user.provider == 'facebook'
                 %i.fa.fa-check
             - if params[:with_comments]
-              %td{data: {value: user.created_at}}
+              %td{ data: { value: user.sign_up_at } }
                 - comment = user.comments.last
                 - if comment
                   = link_to "Voir l'avis", structure_url(comment.structure, anchor: "recommandation-#{comment.id}", subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)

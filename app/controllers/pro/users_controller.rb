@@ -19,8 +19,8 @@ class Pro::UsersController < Pro::ProController
     @messages_graph = Mailboxer::Conversation.where(mc_arel[:created_at].gt(1.months.ago).and(
                                                     mc_arel[:mailboxer_label_id].eq_any([1,4])))
                                                    .order("DATE(created_at) ASC").group("DATE(created_at)").count
-    @users_graph = User.where(User.arel_table[:created_at].gt(1.months.ago) ).active
-                       .order("DATE(created_at) ASC").group("DATE(created_at)").count
+    @users_graph = User.where(User.arel_table[:sign_up_at].gt(1.months.ago) ).active
+                       .order("DATE(sign_up_at) ASC").group("DATE(sign_up_at)").count
 
 
     @dates = (1.month.ago.to_date..Date.today).step
@@ -28,7 +28,7 @@ class Pro::UsersController < Pro::ProController
     @dates.each do |date|
       @users_graph[date]    ||= 0
       @messages_graph[date] ||= 0
-      @users_cumul[date] = User.active.where(User.arel_table[:created_at].lt(date + 1.day)).count
+      @users_cumul[date] = User.active.where(User.arel_table[:sign_up_at].lt(date + 1.day)).count
     end
 
     @messages_cumul = {}
@@ -39,7 +39,7 @@ class Pro::UsersController < Pro::ProController
     respond_to do |format|
       format.html
       format.json { render json: @users }
-      format.csv { render text: User.order('created_at DESC').limit(params[:limit] || 300).offset(params[:offset] || 0).to_csv }
+      format.csv { render text: User.order('sign_up_at DESC').limit(params[:limit] || 300).offset(params[:offset] || 0).to_csv }
     end
   end
 
