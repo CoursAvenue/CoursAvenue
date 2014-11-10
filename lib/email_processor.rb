@@ -9,6 +9,12 @@ class EmailProcessor
   # to other methods: ex: participation_request -> process_participation_request
   # @return nothing
   def process
+    Bugsnag.notify(RuntimeError.new("EmailProcessor#process"), {
+      email_data: {
+        json: @email.to_json,
+        token: @email.to.first[:token],
+      }
+    })
     return 'OK' if @email.to.first[:token].blank?
     return process_image if @email.to.first[:token] == 'flyers'
 
