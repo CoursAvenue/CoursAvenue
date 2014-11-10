@@ -175,7 +175,8 @@ class ParticipationRequestMailer < ActionMailer::Base
     reply_token.data = {
       sender_type:              sender_type,
       sender_id:                sender_type == 'admin' ? @admin.id : @user.id,
-      participation_request_id: @participation_request.id
+      participation_request_id: @participation_request.id,
+      gmail_action_name:        "Confirmer l'inscription"
     }
     reply_token.save
 

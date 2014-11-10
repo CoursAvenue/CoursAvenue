@@ -5,7 +5,8 @@ class ReplyToken < ActiveRecord::Base
   ######################################################################
   friendly_id :token, use: [:finders]
   store_accessor :data, :sender_id, :sender_type,
-                        :conversation_id, :participation_request_id
+                        :conversation_id, :participation_request_id,
+                        :gmail_action_name
 
   attr_accessible :token, :reply_type, :data
   ######################################################################
