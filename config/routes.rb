@@ -66,7 +66,7 @@ CoursAvenue::Application.routes.draw do
       resources :blog_articles, controller: 'blog/articles', path: 'blog'
       resources :press_releases, path: 'communiques-de-presse'
       resources :press_articles
-      resources :flyers, only: [:index, :show]
+      resources :flyers, only: [:index, :show, :update]
       resources :faqs do
         collection do
           get :preview
