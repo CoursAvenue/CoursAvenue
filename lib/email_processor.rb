@@ -9,7 +9,7 @@ class EmailProcessor
   # to other methods: ex: participation_request -> process_participation_request
   # @return nothing
   def process
-    return image_process if @email.to.first[:token] == 'images'
+    return process_image if @email.to.first[:token] == 'images'
 
     token = ReplyToken.find @email.to.first[:token]
 
@@ -23,7 +23,8 @@ class EmailProcessor
 
   private
 
-  def image_process
+  # Process images received via the special email address `images@reply.coursavenue.com`.
+  def process_image
     Bugsnag.notify(RuntimeError.new("EmailProcessor#process"), {
       email_data: {
         json: @email.to_json,
@@ -32,6 +33,11 @@ class EmailProcessor
         images: @email.attachments.to_json
       }
     })
+
+    return if @email.attachments.empty?
+    @email.attachments.each do |image|
+      flyer = Flyer.create(treated: false, image: image)
+    end
   end
 
   def process_participation_request(reply_token)
