@@ -279,6 +279,6 @@ class AdminMailer < ActionMailer::Base
     }
     reply_token.save
 
-    return "CoursAvenue <#{reply_token.token}@reply.coursavenue.com>"
+    return "CoursAvenue <#{reply_token.token}@#{CoursAvenue::Application::MANDRILL_REPLY_TO_DOMAIN}"
   end
 end
