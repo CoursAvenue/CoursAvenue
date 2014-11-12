@@ -206,7 +206,9 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return Boolean
   def request_is_not_duplicate
-    if self.user.participation_requests.accepted.where(ParticipationRequest.arel_table[:created_at].gt(Date.today - 1.week).and(ParticipationRequest.arel_table[:planning_id].eq(self.planning_id))).any?
+    if self.user.participation_requests.where(ParticipationRequest.arel_table[:created_at].gt(Date.today - 1.week)
+                                                 .and(ParticipationRequest.arel_table[:planning_id].eq(self.planning_id))
+                                                 .and(ParticipationRequest.arel_table[:date].eq(self.date))).any?
       self.errors[:base] << "duplicate"
       return false
     end
