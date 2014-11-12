@@ -616,4 +616,13 @@ class User < ActiveRecord::Base
     nil
   end
 
+  # Check if the user gave his/her phone number.
+  #
+  # @return a Boolean
+  def uses_mobile?
+    number = self.phone_number.dup
+
+    PhoneNumber::MOBILE_PREFIXES.any? { |prefix| number.starts_with?(prefix) }
+  end
+
 end
