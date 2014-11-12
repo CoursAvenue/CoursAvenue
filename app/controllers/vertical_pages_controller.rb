@@ -16,7 +16,21 @@ class VerticalPagesController < ApplicationController
   end
 
   def show
-    @vertical_page = VerticalPage.find(params[:id])
+    @total_comments = Comment::Review.count
+    @total_medias   = Media.count
+    @vertical_page  = VerticalPage.find(params[:id])
+    if @vertical_page.slug != params[:id]
+      redirect_to vertical_page_path(@vertical_page.subject.root, @vertical_page), status: 301
+    end
+    @subject       = @vertical_page.subject
+    @ancestors     = @subject.ancestors
+  end
+
+  def show_with_city
+    @total_comments = Comment::Review.count
+    @total_medias   = Media.count
+    @city           = City.find(params[:city_id])
+    @vertical_page  = VerticalPage.find(params[:id])
     if @vertical_page.slug != params[:id]
       redirect_to vertical_page_path(@vertical_page.subject.root, @vertical_page), status: 301
     end

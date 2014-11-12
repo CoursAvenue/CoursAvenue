@@ -39,27 +39,56 @@
         %span{ itemprop: 'title' }
           = @vertical_page.name
 
-  = render partial: 'vertical_pages/cities'
-  .blog-article__content.push--top
-    - if @vertical_page.content.present?
-      %hr.push--top
-      %h2
-        = @vertical_page.title
-      = @vertical_page.content.html_safe
-    - else
-      - if [@subject.good_to_know, @subject.needed_meterial, @subject.tips].reject(&:blank?).any?
-        %hr.push--top
-      - if @subject.good_to_know.present?
-        %h3 Bon à savoir / Qu'est-ce que c'est ?
-        %p= @subject.good_to_know
-      - if @subject.needed_meterial.present?
-        %h3 Les bienfaits
-        %p= @subject.needed_meterial
-      - if @subject.tips.present?
-        %h3 Matériel à prévoir
-        %p= @subject.tips
-  - if @vertical_page.medias.any?
-    = render partial: 'structures/map_and_gallery', locals: { medias: @vertical_page.medias, without_map: true }
+  .grid
+    .grid__item.six-tenths>
+      = render partial: 'vertical_pages/cities'
+      .blog-article__content.push--top
+        - if @vertical_page.content.present?
+          %hr.push--top
+          %h2
+            = @vertical_page.title
+          = @vertical_page.content.html_safe
+        - else
+          - if [@subject.good_to_know, @subject.needed_meterial, @subject.tips].reject(&:blank?).any?
+            %hr.push--top
+          - if @subject.good_to_know.present?
+            %h3 Bon à savoir / Qu'est-ce que c'est ?
+            %p= @subject.good_to_know
+          - if @subject.needed_meterial.present?
+            %h3 Les bienfaits
+            %p= @subject.needed_meterial
+          - if @subject.tips.present?
+            %h3 Matériel à prévoir
+            %p= @subject.tips
+      - if @vertical_page.medias.any?
+        = render partial: 'structures/map_and_gallery', locals: { medias: @vertical_page.medias, without_map: true }
+
+      %h3= "Les lieux les plus recherchés"
+      .grid
+        - @cities.in_groups_of(4, false).each do |cities_group|
+          .grid__item.one-half>
+            %ul.block-list
+              - cities_group.each do |city|
+                %li.hard.epsilon= link_to city.name, vertical_page_with_city_path(@subject.root, @vertical_page, city), class: 'block soft-half'
+    .grid__item.four-tenths>
+      .panel
+        %ul.nav.tabs.panel__header
+          %li.active
+            %a{ href: '#side-panel-1', data: { toggle: 'tab' } } Choisis pour vous
+          %li
+            %a{ href: '#side-panel-2', data: { toggle: 'tab' } } Cours d'essai gratuits
+        .panel__body.soft--ends.soft-half--sides.tab-content
+          - without_structure_ids = []
+          - trial_structures = StructureSearch.search(order_by: 'is_open_for_trial', subject_id: @vertical_page.subject.slug, per_page: 8).results
+          .tab-pane#side-panel-2
+            - trial_structures.each_with_index do |structure, index|
+              - without_structure_ids << structure.id
+              = render partial: 'vertical_pages/structure', locals: { structure: structure }
+          - other_structures = StructureSearch.search(subject_id: @vertical_page.subject.slug, per_page: 8, without_ids: without_structure_ids).results
+          .tab-pane#side-panel-1.active
+            - other_structures.each_with_index do |structure, index|
+              = render partial: 'vertical_pages/structure', locals: { structure: structure }
+          .text--right= link_to "Voir tous les cours de #{@vertical_page.name.downcase}", search_page_path(@subject.root, @subject, 'paris'), class: 'epsilon'
 
 - if @subject.depth == 0
   .home-screen-promotion-wrapper

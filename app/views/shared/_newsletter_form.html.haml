@@ -10,7 +10,7 @@
         .delta.line-height-1-7 Cours d'essai gratuits et promotions près de chez vous !
       %div{ style: 'padding-left: 150px;' }
         = simple_form_for User.new, html: { class: 'newsletter-form' }, remote: true do |f|
-          = f.input :subscription_from, as: :hidden, value: 'newsletter'
+          = f.input :subscription_from, as: :hidden, input_html: { value: 'newsletter' }
           = f.input :email, label: false, input_html: { placeholder: 'Adresse e-mail', class: 'input--large one-whole' }, wrapper_html: { class: 'flush inline-block v-middle' }
           = f.input :zip_code, label: false, input_html: { placeholder: 'Code postal', class: 'input--large one-whole' }, wrapper_html: { class: 'flush inline-block v-middle', style: 'width: 110px;' }
           = f.submit "Je m'inscris !", class: 'btn btn--yellow'
