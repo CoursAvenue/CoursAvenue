@@ -218,6 +218,26 @@ class User < ActiveRecord::Base
     end
   end
 
+  # Sends a reminder of classes on the following day.
+  #
+  # Returns a Boolean, whether the sms was sent or not.
+  def send_sms_reminder
+    if self.phone_number and self.sms_opt_in? and uses_mobile?
+      courses = self.participation_requests.where(date: Date.tomorrow, state: 'accepted')
+      return false if courses.empty?
+
+      message = "Rappel: Vous avez #{courses.length} cours demain et "
+      if courses.length > 1
+        message += "le premier commence à "
+      else
+        message += "il commence à "
+      end
+      message += "#{I18n.l(courses.first.start_time, format: :short)}."
+
+      self.delay.send_sms(message, formatted_number)
+    end
+  end
+
   # Update the email status regarding info completion
   def update_email_status
     email_status = nil
