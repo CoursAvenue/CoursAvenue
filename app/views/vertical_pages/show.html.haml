@@ -69,8 +69,13 @@
           .grid__item.one-half>
             %ul.block-list
               - cities_group.each do |city|
-                %li.hard.epsilon= link_to city.name, vertical_page_with_city_path(@subject.root, @vertical_page, city), class: 'block soft-half'
+                - if @subject.is_root?
+                  %li.hard.epsilon= link_to city.name, root_vertical_page_with_city_path(@vertical_page, city), class: 'block soft-half'
+                - else
+                  %li.hard.epsilon= link_to city.name, vertical_page_with_city_path(@subject.root, @vertical_page, city), class: 'block soft-half'
+
     .grid__item.four-tenths>
+      %h3 #{@vertical_page.name} : sélection
       .panel
         %ul.nav.tabs.panel__header
           %li.active

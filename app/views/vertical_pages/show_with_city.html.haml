@@ -28,10 +28,9 @@
       %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
         = link_to vertical_page_path(ancestor.root, ancestor.vertical_pages.first), itemprop: 'url' do
           %span{ itemprop: 'title' }= ancestor.vertical_pages.first.name
-    - if @ancestors.any?
-      %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-        = link_to vertical_page_path(@subject.root, @vertical_page), itemprop: 'url' do
-          %span{ itemprop: 'title' }= @vertical_page.name
+    %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+      = link_to vertical_page_path(@subject.root, @vertical_page), itemprop: 'url' do
+        %span{ itemprop: 'title' }= @vertical_page.name
     %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
       %span{ itemprop: 'title' }= @city.name
 
@@ -44,7 +43,7 @@
           = link_to search_page_path(@subject.root, @subject, @city), class: 'block muted-link' do
             .text--right.bg-cover.one-whole.height-150{ style: "background-image: url('#{bg_thumb}')" }
               = image_tag 'banners/decouvrir.png', height: 30, class: 'push--top'
-          %h2.gamma= link_to "Essai gratuits #{@city.name}", search_page_path(@subject.root, @subject, @city), class: 'semi-muted-link'
+          %h2.gamma= link_to "Essai gratuits à #{@city.name}", search_page_path(@subject.root, @subject, @city), class: 'semi-muted-link'
         .grid__item.one-half>
           = link_to search_page_path(@subject.root, @subject, @city), class: 'block muted-link' do
             .text--right.bg-cover.one-whole.height-150{ style: "background-image: url('#{bg_thumb_2}')" }
@@ -95,7 +94,10 @@
           .grid__item.one-half>
             %ul.block-list
               - cities_group.each do |city|
-                %li.hard.epsilon= link_to city.name, vertical_page_with_city_path(@subject.root, @vertical_page, city), class: 'block soft-half'
+                - if @subject.is_root?
+                  %li.hard.epsilon= link_to city.name, root_vertical_page_with_city_path(@vertical_page, city), class: 'block soft-half'
+                - else
+                  %li.hard.epsilon= link_to city.name, vertical_page_with_city_path(@subject.root, @vertical_page, city), class: 'block soft-half'
     .grid__item.four-tenths>
       %h3 #{@vertical_page.name} : sélection à #{@city.name}
       .panel
@@ -123,13 +125,13 @@
 - if @subject.depth == 0
   .home-screen-promotion-wrapper
     .main-container.main-container--medium.soft--ends
-      %h2.soft--bottom.f-weight-300 #{@subject.name} : plus de disciplines
+      %h2.soft--bottom.f-weight-300 #{@subject.name} : plus de disciplines à #{@city.name}
       = render partial: 'vertical_pages/subjects', locals: { subjects: @subject.children }
 
 - unless @subject.depth == 2
   .soft--ends{ class: (@subject.depth == 0 ? '' : 'home-screen-promotion-wrapper') }
     .main-container.main-container--medium
-      %h2.soft--bottom.f-weight-300 #{@subject.name} : tous les styles
+      %h2.soft--bottom.f-weight-300 #{@subject.name} : tous les styles à #{@city.name}
       = render partial: 'vertical_pages/subjects', locals: { subjects: @subject.descendants.at_depth(2) }
 
 %div{ class: (@subject.depth == 0 || @subject.depth == 2 ? 'home-screen-promotion-wrapper' : '') }
