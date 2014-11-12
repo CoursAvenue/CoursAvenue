@@ -623,11 +623,11 @@ class User < ActiveRecord::Base
   def formatted_number
     number = self.phone_number.dup
     number.gsub! ' ', ''
-    if phone.starts_with? '06', '07'
+    if number.starts_with? '06', '07'
       number.gsub! /^0/, '0033'
     end
 
-    if phone.starts_with? '+33'
+    if number.starts_with? '+33'
       number.gsub! '+33', '0033'
     end
 
