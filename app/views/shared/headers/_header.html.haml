@@ -7,7 +7,7 @@
       - unless layout_locals[:hide_top_menu_search]
         = form_tag root_search_page_without_subject_path('paris'), class: 'inline-block v-middle push--left', method: :get, authenticity_token: false, data: { behavior: 'coursavenue-search' } do
           .v-middle.header-search
-            %input.one-whole#header-location-form-address-picker.soft-half--left{ size: 25, placeholder:'Que recherchez-vous ?', type:'text', autocomplete: 'off', name:'name', value: '' , data: { type:  'subjects' }}
+            %input.one-whole.soft-half--left{ size: 25, placeholder:'Que recherchez-vous ?', type:'text', autocomplete: 'off', name:'name', value: '' , data: { type:  'subjects' }}
           %input#h-search-address-lat{ type: 'hidden', name: 'lat', value: cookies[:lat] || '48.8592' }
           %input#h-search-address-lng{ type: 'hidden', name: 'lng', value: cookies[:lng] || '2.3417' }
           %input#h-search-address-city{ type: 'hidden', name: 'address_name', value: cookies[:city] || 'Paris' }
@@ -25,10 +25,4 @@
         if (window.location.hash == '#connection') {
             $('#connection').click();
         }
-        $('#header-location-form').submit(function() {
-            return ($('#h-search-address-lat').val().length > 0);
-        });
-        $('#header-location-form-address-picker').on('typeahead:selected', function(event, data) {
-            $('#header-location-form').submit();
-        });
     });

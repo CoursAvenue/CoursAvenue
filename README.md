@@ -171,4 +171,4 @@ Reinvoke all jobs :
 
 # Ex of `where` with hstore
 
-`User.where("meta_data -> 'subscription_from' LIKE 'newsletter'")
+`User.where("meta_data -> 'subscription_from' LIKE 'newsletter'")`

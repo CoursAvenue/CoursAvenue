@@ -56,6 +56,9 @@ SitemapGenerator::Sitemap.create do
       add root_vertical_page_path(vertical_page), priority: 0.5, changefreq: 'weekly'
     else
       add vertical_page_path(vertical_page.subject.root, vertical_page), priority: 0.5, changefreq: 'weekly'
+      %w(paris marseille lyon toulouse nice nantes bordeaux lille).each do |city_slug|
+        add vertical_page_with_city_path(vertical_page.subject.root, vertical_page, city_slug), priority: 0.5, changefreq: 'weekly'
+      end
     end
   end
 
