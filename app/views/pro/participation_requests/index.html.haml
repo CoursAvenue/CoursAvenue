@@ -2,6 +2,20 @@
 .panel
   = render partial: 'pro/shared/discovery_passes_tabs', locals: { current: "participation_requests_#{params[:state]}" }
   .panel__body.soft
+    %h3 Répartition par région
+    .push--bottom
+      - pr_counts = {}
+      - max_value = 0
+      - ParticipationRequest.all.group_by{ |pr| (pr.place || pr.structure.places.first).city.region_name }.each do |region_name, prs|
+        - pr_counts[region_name] = prs.length
+        - max_value = prs.length if prs.length > max_value
+      - pr_counts.each do |key, value|
+        .grid.push-half--bottom
+          .grid__item.one-quarter.text--right>= key
+          .grid__item.three-quarters>
+            .progress
+              .bar.text--left.soft--left{ style: "width: #{value * 100 / max_value}%"}= value
+
     .text--center.push-half--ends= paginate @participation_requests, window: 1, outer_window: 3
     %table.table--striped.table--data
       %thead
