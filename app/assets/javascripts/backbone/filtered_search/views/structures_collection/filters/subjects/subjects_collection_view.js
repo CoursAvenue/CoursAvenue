@@ -73,6 +73,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
          * for the relevant subject.
          */
         announce: function announce (event) {
+            $.cookie('understood_how_subjects_worked', true);
             this.hideMenu();
             if (event) {
                 var subject_slug = event.currentTarget.dataset.value;

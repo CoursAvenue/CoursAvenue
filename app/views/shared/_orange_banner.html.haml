@@ -4,7 +4,7 @@
       - if !current_user and !cookies[:subscribed_to_newsletter]
         %strong Recevez nos offres exclusives, promotions et invitations :
         = simple_form_for User.new, html: { class: 'inline-block v-middle', id: 'newsletter-form' }, remote: true do |f|
-          = f.input :subscription_from, as: :hidden, value: 'newsletter'
+          = f.input :subscription_from, as: :hidden, input_html: { value: 'newsletter' }
           = f.input :email, label: false, input_html: { placeholder: 'Adresse e-mail', class: 'one-whole' }, wrapper_html: { class: 'flush inline-block v-middle' }
           = f.input :zip_code, label: false, input_html: { placeholder: 'Code postal', class: 'one-whole' }, wrapper_html: { class: 'flush inline-block v-middle', style: 'width: 110px;' }
           = f.submit "Recevoir les Bons plans & Promotions", class: 'btn btn--yellow'

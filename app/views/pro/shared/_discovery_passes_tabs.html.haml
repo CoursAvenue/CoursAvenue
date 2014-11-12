@@ -1,6 +1,4 @@
 %ul.panel__header.tabs>
-  %li{ class: current == 'discovery_passes' ? 'active' : '' }
-    = link_to 'Suivi Pass actif', pro_discovery_passes_path
   %li{ class: current == 'participation_requests_pending' ? 'active' : '' }
     = link_to 'Inscrpts en attente', pro_participation_requests_path(state: 'pending')
   %li{ class: current == 'participation_requests_canceled' ? 'active' : '' }
