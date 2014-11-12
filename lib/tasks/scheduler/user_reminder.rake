@@ -55,5 +55,15 @@ namespace :scheduler do
         end
       end
     end
+
+    # Send a SMS to remind user of his/her class the following day.
+    # $ rake scheduler:users:send_sms_reminder
+    desc 'Send sms to users to remind them of their classes'
+    task :send_sms_reminder => :environment do |t, args|
+      users = ParticipationRequest.tomorrow.map(&:user).uniq
+      users.each do |user|
+        user.send_sms_reminder
+      end
+    end
   end
 end
