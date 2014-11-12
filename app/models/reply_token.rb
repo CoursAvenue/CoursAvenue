@@ -68,9 +68,7 @@ class ReplyToken < ActiveRecord::Base
         random_token = SecureRandom.urlsafe_base64
         break random_token unless ReplyToken.exists?(token: random_token)
       end
-      self.save
     end
-    nil
   end
 
 end
