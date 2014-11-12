@@ -46,7 +46,7 @@ echo 3000 > ~/.pow/prerender
 touch ~/.pow/restart.txt
 ```
 
-### In Production / Staging
+#### In Production / Staging
 
 ```shell
 heroku config:set PRERENDER_SERVICE_URL="http://coursavenue-prerender.herokuapp.com/"
@@ -56,9 +56,29 @@ hk set PRERENDER_SERVICE_URL='http://prerender.dev'
 
 And finally add the task `rake scheduler:ping` to the scheduler, running every xx minutes.
 
-### Testing
-* Set the browser user agent to `Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)` and the visit the page, or
+#### Testing
+* Set the browser user agent to `Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)` and visit the page, or
 * Visit the page adding `?_escaped_fragment_=` to the page URL.
+
+### SMS with Nexmo
+
+Add to the environment the Nexmo [API key and secret](https://dashboard.nexmo.com/private/settings):
+
+#### In Local app
+
+```sh
+echo 'NEXMO_API_KEY: xxxxxxxxxxxxxxxxxxxx'
+echo 'NEXMO_API_SECRET: xxxxxxxxxxxxxxxxxxxx' 
+```
+
+
+#### In Production / Staging apps
+
+```sh
+heroku config:set NEXMO_API_KEY=xxxxxxxxxxxxxxxxxxxx NEXMO_API_SECRET=xxxxxxxxxxxxxxxxxxxx
+# OR
+hk set NEXMO_API_KEY=xxxxxxxxxxxxxxxxxxxx NEXMO_API_SECRET=xxxxxxxxxxxxxxxxxxxx
+```
 
 ## Dependencies / Gems
 

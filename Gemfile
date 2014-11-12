@@ -251,3 +251,6 @@ gem 'cityhash'                 , '~> 0.8.1'
 
 # JS heavy pages pre-rendering
 gem 'prerender_rails'
+
+# Send (and receive) SMS
+gem 'nexmo', '~> 2.0.0'
