@@ -9,7 +9,7 @@ module Concerns
       # @param recipient_number - The PhoneNumber of the person who will receive the message.
       #
       # @return a boolean, whether the message was sent or not.
-      def self.send_sms(message, recipient_number)
+      def send_sms(message, recipient_number)
         client = Nexmo::Client.new
 
         client.send_message(from: 'CoursAvenue', to: recipient_number, text: message)

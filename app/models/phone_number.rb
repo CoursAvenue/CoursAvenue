@@ -15,5 +15,4 @@ class PhoneNumber < ActiveRecord::Base
   def mobile?
     number = MOBILE_PREFIXES.any? { |prefix| self.number.starts_with?(prefix) }
   end
-
 end
