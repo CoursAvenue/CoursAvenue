@@ -41,14 +41,14 @@
       .grid
         .grid__item.one-half>
           = link_to search_page_path(@subject.root, @subject, @city), class: 'block muted-link' do
-            .text--right.bg-cover.one-whole.height-150{ style: "background-image: url('#{bg_thumb}')" }
-              = image_tag 'banners/decouvrir.png', height: 30, class: 'push--top'
-          %h2.gamma= link_to "Essai gratuits à #{@city.name}", search_page_path(@subject.root, @subject, @city), class: 'semi-muted-link'
+            .relative.text--right.bg-cover.one-whole.height-150{ style: "background-image: url('#{bg_thumb}')" }
+              = image_tag 'banners/decouvrir.png', height: 30, class: 'push--bottom absolute south east'
+          %h2.delta.line-height-1-7= link_to "Essai gratuits à #{@city.name}", search_page_path(@subject.root, @subject, @city), class: 'semi-muted-link'
         .grid__item.one-half>
           = link_to search_page_path(@subject.root, @subject, @city), class: 'block muted-link' do
-            .text--right.bg-cover.one-whole.height-150{ style: "background-image: url('#{bg_thumb_2}')" }
-              = image_tag 'banners/decouvrir.png', height: 30, class: 'push--top'
-          %h2.gamma= link_to "Promotions à #{@city.name}", search_page_path(@subject.root, @subject, @city), class: 'semi-muted-link'
+            .relative.text--right.bg-cover.one-whole.height-150{ style: "background-image: url('#{bg_thumb_2}')" }
+              = image_tag 'banners/decouvrir.png', height: 30, class: 'push--bottom absolute south east'
+          %h2.delta.line-height-1-7= link_to "Promotions à #{@city.name}", search_page_path(@subject.root, @subject, @city), class: 'semi-muted-link'
 
       %hr
       = form_tag '', method: :get, authenticity_token: false, data: { behavior: 'coursavenue-search' }, id: 'vp-city-form' do
@@ -103,19 +103,19 @@
       .panel
         %ul.nav.tabs.panel__header
           %li.active
-            %a{ href: '#side-panel-1', data: { toggle: 'tab' } } Choisis pour vous
+            %a{ href: '#choisis-pour-vous', data: { toggle: 'tab' } } Choisis pour vous
           %li
-            %a{ href: '#side-panel-2', data: { toggle: 'tab' } } Cours d'essai gratuits
+            %a{ href: '#essai-gratuits', data: { toggle: 'tab' } } Cours d'essai gratuits
         .panel__body.soft--ends.soft-half--sides.tab-content
           - without_structure_ids = []
           - trial_structures = StructureSearch.search(radius: 500, lat: @city.latitude, lng: @city.longitude, order_by: 'is_open_for_trial', subject_id: @vertical_page.subject.slug, per_page: 8).results
-          .tab-pane#side-panel-2
+          .tab-pane#essai-gratuits
             - trial_structures.each_with_index do |structure, index|
               - without_structure_ids << structure.id
               - cache [structure, 'vertical_pages/show'] do
                 = render partial: 'vertical_pages/structure', locals: { structure: structure }
           - other_structures = StructureSearch.search(radius: 500, lat: @city.latitude, lng: @city.longitude, subject_id: @vertical_page.subject.slug, per_page: 8, without_ids: without_structure_ids).results
-          .tab-pane#side-panel-1.active
+          .tab-pane#choisis-pour-vous.active
             - other_structures.each_with_index do |structure, index|
               - cache [structure, 'vertical_pages/show'] do
                 = render partial: 'vertical_pages/structure', locals: { structure: structure }

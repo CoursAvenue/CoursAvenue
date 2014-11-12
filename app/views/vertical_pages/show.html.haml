@@ -42,6 +42,21 @@
   .grid
     .grid__item.six-tenths>
       = render partial: 'vertical_pages/cities'
+      - bg_thumb   = @vertical_page.image.url(:thumb)
+      - bg_thumb_2 = @subject.root.vertical_pages.first.image.url(:thumb)
+      %hr.push--ends
+      .grid
+        .grid__item.one-half>
+          = link_to search_page_path(@subject.root, @subject, 'paris'), class: 'block muted-link' do
+            .relative.text--right.bg-cover.one-whole.height-150{ style: "background-image: url('#{bg_thumb}')" }
+              = image_tag 'banners/decouvrir.png', height: 30, class: 'push--bottom absolute south east'
+          %h2.delta.line-height-1-7= link_to "Essai gratuits", search_page_path(@subject.root, @subject, 'paris'), class: 'semi-muted-link'
+        .grid__item.one-half>
+          = link_to search_page_path(@subject.root, @subject, 'paris'), class: 'block muted-link' do
+            .relative.text--right.bg-cover.one-whole.height-150{ style: "background-image: url('#{bg_thumb_2}')" }
+              = image_tag 'banners/decouvrir.png', height: 30, class: 'push--bottom absolute south east'
+          %h2.delta.line-height-1-7= link_to "Promotions", search_page_path(@subject.root, @subject, 'paris'), class: 'semi-muted-link'
+      %hr.push--ends
       .blog-article__content.push--top
         - if @vertical_page.content.present?
           %hr.push--top
