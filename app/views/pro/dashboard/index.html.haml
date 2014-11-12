@@ -60,7 +60,7 @@
     .soft--sides
       - subjects_count.each do |key, value|
         .grid.push-half--bottom
-          .grid__item.one-quarter>= key
+          .grid__item.one-quarter.text--right>= key
           .grid__item.three-quarters>
             .progress
               .bar.text--left.soft--left{ style: "width: #{value * 100 / max_value}%"}= value

@@ -168,3 +168,7 @@ Restart mysql
 
 Reinvoke all jobs :
 `Delayed::Job.where.not(last_error: nil).each{ |dj| dj.run_at = Time.now; dj.attempts = 0; dj.save! }`
+
+# Ex of `where` with hstore
+
+`User.where("meta_data -> 'subscription_from' LIKE 'newsletter'")
