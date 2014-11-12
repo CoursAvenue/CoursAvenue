@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   include Concerns::HstoreHelper
   include Concerns::HasDeliveryStatus
   include Concerns::MessagableWithLabel
+  include Concerns::SMSSender
   include ActsAsUnsubscribable
   include Rails.application.routes.url_helpers
 
@@ -622,7 +623,7 @@ class User < ActiveRecord::Base
   def formatted_number
     number = self.phone_number.dup
     number.gsub! ' ', ''
-    if ['06', '07'].any? { |prefix| phone.starts_with?(prefix) }
+    if phone.starts_with? '06', '07'
       number.gsub! /^0/, '0033'
     end
 

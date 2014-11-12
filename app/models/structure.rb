@@ -4,6 +4,7 @@ class Structure < ActiveRecord::Base
   include Concerns::ActiveHashHelper
   include Concerns::HasDeliveryStatus
   include Concerns::IdentityCacheFetchHelper
+  include Concerns::SMSSender
   include StructuresHelper
   include HasSubjects
   include ActsAsCommentable
