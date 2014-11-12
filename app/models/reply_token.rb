@@ -29,6 +29,22 @@ class ReplyToken < ActiveRecord::Base
   ######################################################################
   # Methods                                                            #
   ######################################################################
+
+  # Public: Check if the ReplyToken is still valid.
+  # Only applies for Participation Requests.
+  #
+  # A ReplyToken is still valid if:
+  # * The Participation Request conversation is still active.
+  # * The Participation Request is still in the future.
+  # * It hasn't been used yet.
+  #
+  # @return a boolean.
+  def still_valid?
+    return false if self.reply_type == 'conversation'
+
+    self.used
+  end
+
   # Public: Sets the ReplyToken as used.
   #
   # @return self.
