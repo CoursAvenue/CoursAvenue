@@ -37,6 +37,7 @@ class ParticipationRequest < ActiveRecord::Base
   scope :upcoming,             -> { where( arel_table[:date].gteq(Date.today)) }
   scope :past,                 -> { where( arel_table[:date].lt(Date.today)) }
   scope :canceled_or_declined, -> { where( arel_table[:state].eq('canceled').or(arel_table[:state].eq('declined'))) }
+  scope :tomorrow,             -> { where( state: 'accepted', date: Date.tomorrow ) }
 
   #
   # Create a ParticipationRequest if everything is correct, and if it is, it also create a conversation
