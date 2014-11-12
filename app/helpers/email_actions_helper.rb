@@ -15,7 +15,7 @@ module EmailActionsHelper
     }
 
     content_tag :script, type: 'application/ld+json' do
-      helper_data.to_json.html_safe
+      JSON.pretty_generate(helper_data).html_safe
     end
   end
 end

@@ -10,6 +10,9 @@
     - else
       %title Email de CoursAvenue
 
+    - if content_for? :email_action
+      = yield :email_action
+
   %body.coursavenue-email-body{ leftmargin: '0', marginheight: '0', marginwidth: '0', topmargin: '0' }
     %table.coursavenue-email-body{ border: '0', cellpadding: '0', cellspacing: '0', width: '100%', style: 'margin: auto;' }
       %tr.coursavenue-email-body
@@ -131,6 +134,3 @@
                         = link_to 'Préférences e-mail.', notifications_user_url(@user, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'fix-class'
                       - else
                         = link_to 'Me désinscrire de la liste.', unsubscribe_users_url(@user.access_token, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'fix-class'
-
-            - if content_for? :email_action
-              = yield :email_action
