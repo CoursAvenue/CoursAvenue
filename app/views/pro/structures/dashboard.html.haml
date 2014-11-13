@@ -213,7 +213,7 @@
                 %th.one-half Nom
                 %th.one-half Créneaux
             %tbody
-              - @courses.active.lessons.each do |course|
+              - @courses.lessons.each do |course|
                 - cache [course, 'pro/structure/dashboard/courses/lesson'] do
                   %tr
                     %td= course.name
@@ -232,7 +232,7 @@
                 %th.one-half Nom
                 %th.one-half Créneaux
             %tbody
-              - @courses.active.trainings.each do |course|
+              - @courses.trainings.each do |course|
                 - cache [course, 'pro/structure/dashboard/courses/trainings'] do
                   %tr
                     %td= course.name
