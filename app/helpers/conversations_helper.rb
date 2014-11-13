@@ -48,14 +48,15 @@ module ConversationsHelper
   # @param Mailboxer::Conversation
   #
   # @return Boolean
-  def conversation_waiting_for_reply? conversation
+  def conversation_waiting_for_reply? conversation, by='Structure'
     if conversation.mailboxer_label_id == Mailboxer::Label::INFORMATION.id
       senders = conversation.messages.map(&:sender).compact.uniq
       if senders.length == 1 and !conversation.treated_by_phone
         return true
       end
     elsif conversation.mailboxer_label_id == Mailboxer::Label::REQUEST.id
-      return conversation_participation_request(conversation).pending?
+      participation_request = conversation_participation_request(conversation)
+      return (participation_request.pending? and participation_request.last_modified_by != by)
     end
 
     return false
