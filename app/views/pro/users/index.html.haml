@@ -53,7 +53,7 @@
                 = link_to 'Activer le compte', activate_pro_user_path(user), method: :patch, class: 'btn btn--small btn--blue'
                 %br
               - else
-                = l(user.sign_up_at || user.created_at), format: :date).capitalize
+                = l((user.sign_up_at || user.created_at), format: :date).capitalize
             %td.text--center{data: {value: (user.provider == 'facebook' ? 'f' : '')}}
               - if user.provider == 'facebook'
                 %i.fa.fa-check
