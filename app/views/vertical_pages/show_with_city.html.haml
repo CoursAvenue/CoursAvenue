@@ -37,7 +37,10 @@
   .grid
     .grid__item.six-tenths.soft--right>
       - bg_thumb   = @vertical_page.image.url(:thumb)
-      - bg_thumb_2 = @subject.root.vertical_pages.first.image.url(:thumb)
+      - if @subject.root.vertical_pages.any?
+        - bg_thumb_2 = @subject.root.vertical_pages.first.image.url(:thumb)
+      - else
+        - bg_thumb_2 = bg_thumb
       .grid
         .grid__item.one-half>
           = link_to search_page_path(@subject.root, @subject, @city), class: 'block muted-link' do
