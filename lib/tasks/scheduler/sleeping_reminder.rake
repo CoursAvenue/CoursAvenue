@@ -6,10 +6,11 @@ namespace :scheduler do
   namespace :sleepings do
 
     # Structure without logo neither description
+    # Email sent every 10 days
     # $ rake scheduler:sleepings:take_control
-    # Email sent on monday
     desc 'Send email to sleepings structure for them to take control'
     task :take_control => :environment do |t, args|
+      return if Date.today.yday % 10 != 0
       Structure.where(active: true).each do |structure|
         next if !structure.is_sleeping
         AdminMailer.delay.take_control_of_your_account(structure)
