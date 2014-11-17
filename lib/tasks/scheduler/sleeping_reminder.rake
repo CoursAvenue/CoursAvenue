@@ -26,8 +26,8 @@ namespace :scheduler do
     # $ rake scheduler:sleepings:wake_up
     desc 'Wake up activated sleeping structures'
     task :wake_up => :environment do |t, args|
-      structures_to_wake_up = Structure.where(Structure.arel_table[:created_at].gt(1.month.ago).and(Structure.arel_table[:active].eq(false))).select do |s|
-        s.admins.any? and s.admins.first.confirmed?
+      structures_to_wake_up = Structure.where(Structure.arel_table[:active].eq(false)).select do |structure|
+        (structure.created_at > 2.days.ago and structure.admins.any? and structure.admins.first.confirmed?)
       end
       structures_to_wake_up.map(&:wake_up!)
     end
