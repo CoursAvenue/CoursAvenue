@@ -90,6 +90,7 @@ class Structures::CommentsController < ApplicationController
   def create_from_email
     @structure = Structure.friendly.find(params[:structure_id])
     @comment   = @structure.comments.build params[:comment]
+    mixpanel_tracker.track('Avis: from_mail', { structure_slug: @structure.slug, structure_name: @structure.name })
 
     # If current user exists, affect it to the comment
     if current_user
@@ -115,10 +116,11 @@ class Structures::CommentsController < ApplicationController
       if @comment.save
         format.html { redirect_to add_private_message_structure_comment_path(@structure, @comment),
                       notice: "Merci d'avoir laissé votre avis !" }
+        mixpanel_tracker.track('Avis: saved', { user: @user.id, comment: @comment.id })
       else
         @comments     = @structure.comments.accepted.reject(&:new_record?)[0..5]
         flash[:alert] = "L'avis n'a pas pu être posté. Assurez-vous d'avoir bien rempli tous les champs."
-        format.html { render 'structures/comments/new' }
+        format.html { render 'structures/comments/new', notice: "Merci d'avoir laissé votre avis !" }
       end
     end
   end
