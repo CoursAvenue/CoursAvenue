@@ -5,7 +5,7 @@ class UserMailer < ActionMailer::Base
 
   layout 'email'
 
-  helper :prices, :comments, :structures
+  helper :prices, :comments, :structures, :mailer
 
   default from: "\"L'équipe CoursAvenue\" <contact@coursavenue.com>"
 
@@ -119,6 +119,7 @@ class UserMailer < ActionMailer::Base
     @email      = comment_notification.user.email
     @user       = comment_notification.user
     @email_text = comment_notification.text
+    @comment    = @structure.comments.build
     mail to: @email, subject: get_comment_notification_subject(comment_notification), template_name: get_comment_notification_template(comment_notification)
   end
 

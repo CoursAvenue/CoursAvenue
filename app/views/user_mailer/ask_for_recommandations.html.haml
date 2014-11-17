@@ -20,6 +20,62 @@
     %br
     = @structure.name
 
+- content_for :under_content_no_box do
+  %hr
+  %table.under-content{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', style: 'margin: auto;', width: 600, style: 'width: 600px;' }
+    %tr
+      %td.soft.content-block{ width: 600, style: 'width: 600px;' }
+        = simple_form_for @comment, url: create_from_email_structure_comments_url(@structure), as: :comment, method: 'get' do |f|
+          %table{ width: '100%', style: 'width: 600px;' }
+            %tbody
+              %tr
+                %td{ colspan: 4 }
+                  .title Déposer mon avis depuis l'email
+                  = f.hidden_field :commentable_type
+                  = f.hidden_field :commentable_id
+                  = f.hidden_field :certified, value: true
+              %tr
+                %td.v-middle.text--right.soft-half--right{ width: '25%'}
+                  .p.hard--bottom Qu'avez-vous pensé du cours ?
+                %td.v-middle
+                  %label.p.hard--bottom{ class: (@comment.rating == 5 ? 'active' : '') }>
+                    Super !
+                    %input.v-middle{ type: 'radio', name: 'comment[rating]', value: 5, checked: @comment.rating == 5 }
+                %td.v-middle
+                  %label.p.hard--bottom{ class: (@comment.rating == 3 ? 'active' : '') }>
+                    Neutre
+                    %input.v-middle{ type: 'radio', name: 'comment[rating]', value: 3, checked: @comment.rating == 3 }
+                %td.v-middle
+                  %label.p.hard--bottom{ class: (@comment.rating == 1 ? 'active' : '') }>
+                    Pas terrible
+                    %input.v-middle{ type: 'radio', name: 'comment[rating]', value: 1, checked: @comment.rating == 1 }
+              %tr
+                %td.v-top.text--right.soft-half--right{ width: '25%'}
+                  .p.hard--bottom.soft--top Nom du cours suivi
+                %td.soft-half--ends.soft-half--right.v-top{ colspan: 3 }
+                  = f.input :course_name, label: false, wrapper_html: { class: 'flush' }, input_html: { placeholder: 'Ex. : Stage de danse jazz new style pour ado du jeudi soir', class: 'input--large one-whole flush' }
+                  .f-size-13.f-style-italic{ style: 'padding-top: 3px;' } Ex. : Stage de danse jazz new style pour ado du jeudi soir
+              %tr
+                %td.v-top.text--right.soft-half--right{ width: '25%'}
+                  .p.hard--bottom.soft--top Titre de votre avis
+                %td.soft-half--ends.soft-half--right.v-top{ colspan: 3 }
+                  = f.input :title, label: false, wrapper_html: { class: 'flush' }, input_html: { placeholder: "Ex. : Un professeur toujours à l'écoute", class: 'input--large one-whole flush' }
+                  .f-size-13.f-style-italic{ style: 'padding-top: 3px;' } Ex. : Un professeur toujours à l'écoute
+              %tr
+                %td.v-top.text--right.soft-half--right{ width: '25%'}
+                  .p.hard--bottom.soft--top Votre avis
+                %td.soft-half--ends.soft-half--right.v-top{ colspan: 3 }
+                  = f.input :content, label: false, input_html: { style: 'height: 150px;', class: 'input--large one-whole flush' }, wrapper_html: { class: 'flush' }, required: true
+              %tr
+                %td.v-top.text--right.soft-half--right{ width: '25%'}
+                  .p.hard--bottom.soft--top Votre nom
+                %td.v-top.soft-half--right{ colspan: 3 }
+                  = f.input :author_name, label: false, required: true, input_html: { placeholder: 'Ex. : Stéphanie P.', class: 'input--large one-whole flush' },wrapper_html: { class: 'flush' }
+                  .f-size-13.f-style-italic{ style: 'padding-top: 3px;' } Ex. : Stéphanie P.
+              %tr
+                %td.soft--top.text--right{ colspan: 4 }
+                  = f.submit 'Publier mon avis', class: 'btn btn--green btn--full'
+
 = content_for :footer do
   .p
     Vous recevez cet email car #{@structure.name} est inscrit sur CoursAvenue et vous demande de lui rédiger une recommandation sur ses cours.
