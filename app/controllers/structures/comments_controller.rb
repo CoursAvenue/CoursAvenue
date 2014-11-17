@@ -87,6 +87,55 @@ class Structures::CommentsController < ApplicationController
     end
   end
 
+  def create_from_email
+    @structure = Structure.friendly.find(params[:structure_id])
+    @comment   = @structure.comments.build params[:comment]
+
+    # If current user exists, affect it to the comment
+    if current_user
+      @comment.author_name = current_user.name
+      @comment.email       = current_user.email
+      @user                = current_user
+    else
+      user_email = params[:comment][:email].try(:downcase)
+      # If the user does not exists
+      unless (@user = User.where(email: user_email).first)
+        @user = User.new email: user_email, first_name: params[:comment][:author_name]
+      end
+      @user.update_attribute(:first_name, params[:comment][:author_name]) if params[:comment][:author_name].present?
+    end
+    if @comment.subjects.any?
+      @user.subjects << @comment.subjects
+    else
+      @user.subjects << @comment.structure.subjects
+    end
+    @user.save
+    @comment.user = @user
+    respond_to do |format|
+      if @comment.save
+        format.html { redirect_to add_private_message_structure_comment_path(@structure, @comment),
+                      notice: "Merci d'avoir laissé votre avis !" }
+      else
+        @comments     = @structure.comments.accepted.reject(&:new_record?)[0..5]
+        flash[:alert] = "L'avis n'a pas pu être posté. Assurez-vous d'avoir bien rempli tous les champs."
+        format.html { render 'structures/comments/new' }
+      end
+    end
+  end
+
+  def add_private_message
+    @structure = Structure.friendly.find(params[:structure_id])
+    @comment   = Comment.find params[:id]
+    @comments  = @structure.comments.accepted.reject(&:new_record?)[0..3]
+  end
+
+  def update
+    @comment = Comment.find params[:id]
+    if params[:private_message].present? and @comment.associated_message.nil?
+      create_private_message
+    end
+  end
+
   private
 
   def create_private_message

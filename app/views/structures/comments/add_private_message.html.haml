@@ -1,0 +1,41 @@
+- content_for :head do
+  %meta{ name: 'robots', content: 'noindex, nofollow' }
+
+= content_for :title do
+  Donnez votre avis sur #{@structure.name}
+
+= content_for :meta_description do
+  Donnez votre avis sur #{@structure.name}
+
+.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/home_background.jpg'})" }
+  .main-container.main-container--medium.soft
+    .grid
+      - if @structure.logo.present?
+        .grid__item.one-eighth>
+          = link_to structure_path(@structure), class: 'muted-link', target: :_blank do
+            = image_tag @structure.logo.url(:thumb)
+      %header.grid__item.seven-eighths>
+        %h1.flush
+          Rédigez votre avis
+        .delta.line-height-1-7
+          - if @participation_request
+            à propos du cours "#{@participation_request.course.name}" de #{@structure.name}
+          - else
+            à propos de
+            = link_to @structure.name, structure_path(@structure), class: 'semi-muted-link', target: :_blank
+        .epsilon Votre expérience est précieuse !
+
+.main-container.soft--ends
+  .grid
+    .grid__item.two-thirds>
+      .two-thrids.center-block
+        = simple_form_for @comment, url: structure_comments_path(@structure), as: :comment, data: { recover: "comment" } do |f|
+          = render 'private_message'
+          .text--center
+            = f.submit 'Publier mon avis', class: 'btn btn--large btn--green btn--full', data: { disable_with: "En cours de publication..." }
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('#comment_content').textareaResizer();
+    });

@@ -460,6 +460,14 @@ CoursAvenue::Application.routes.draw do
     resources :comments              , only: [:new]                                       , controller: 'structures/comments'   , path: 'recommendations'
     resources :comments              , only: [:new]                                       , controller: 'structures/comments'   , path: 'recommandations'
     resources :comments              , only: [:create, :new, :show, :index]               , controller: 'structures/comments'   , path: 'avis'
+    resources :comments                                                                   , controller: 'structures/comments' do
+      collection do
+        get :create_from_email
+      end
+      member do
+        get :add_private_message
+      end
+    end
     resources :teachers              , only: [:index]                                     , controller: 'structures/teachers'
     resources :medias                , only: [:index]                                     , controller: 'structures/medias'
   end
