@@ -251,3 +251,6 @@ gem 'cityhash'                 , '~> 0.8.1'
 
 # JS heavy pages pre-rendering
 gem 'prerender_rails'
+
+# Track envents starting in the App
+gem 'mixpanel-ruby'

@@ -370,6 +370,7 @@ GEM
     mime-types (2.3)
     mini_portile (0.6.0)
     minitest (5.4.1)
+    mixpanel-ruby (1.6.0)
     mongoid (4.0.0)
       activemodel (~> 4.0)
       moped (~> 2.0.0)
@@ -700,6 +701,7 @@ DEPENDENCIES
   marionette-rails (~> 1.4.1)
   memcachier
   meta_request (~> 0.3.0)
+  mixpanel-ruby
   mongoid (~> 4.0.0)
   newrelic_rpm (~> 3.6.8.164)
   omniauth (~> 1.2.2)
