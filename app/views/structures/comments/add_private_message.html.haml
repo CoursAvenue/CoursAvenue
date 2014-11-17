@@ -26,9 +26,14 @@
         .epsilon Votre expérience est précieuse !
 
 .main-container.soft--ends
-  .grid
+  .grid.text--center
     .grid__item.two-thirds>
       .two-thrids.center-block
+        %h2
+          Merci d'avoir laissé votre avis !
+        %h5.inline
+          Pour aider votre professeur à s’améliorer, vous pouvez aussi lui laisser un message privé optionnel ci-dessous.
+
         = simple_form_for @comment, url: structure_comments_path(@structure), as: :comment, data: { recover: "comment" } do |f|
           = render 'private_message'
           .text--center
