@@ -7,7 +7,7 @@
 
       .bg-white-faded.soft--ends.push--ends{ style: 'padding-left: 150px;' }
         .beta.line-height-1-5.nowrap PAS ENCORE MEMBRE ?
-        .delta.line-height-1-7 Avantages, offres privilégiés, promotions, cours gratuits, et d'autres surprises !
+        .delta.line-height-1-7 Cours d'essai gratuits et promotions près de chez vous !
       %div{ style: 'padding-left: 150px;' }
         = simple_form_for User.new, html: { class: 'newsletter-form' }, remote: true do |f|
           = f.input :subscription_from, as: :hidden, input_html: { value: 'newsletter' }

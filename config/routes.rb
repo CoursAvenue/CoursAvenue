@@ -471,6 +471,7 @@ CoursAvenue::Application.routes.draw do
   resources :keywords, only: [:index]
 
   ########### Vertical pages ###########
+  get 'cours/:id--:city_id'                        , to: 'vertical_pages#show_with_city', as: :root_vertical_page_with_city
   get 'cours/:id'                                  , to: 'vertical_pages#show_root', as: :root_vertical_page
   get 'cours/:root_subject_id/:id'                 , to: 'vertical_pages#show', as: :vertical_page
   get 'cours/:root_subject_id/:id/:city_id'        , to: 'vertical_pages#show_with_city', as: :vertical_page_with_city

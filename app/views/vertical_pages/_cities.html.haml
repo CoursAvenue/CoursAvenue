@@ -1,7 +1,7 @@
 - cache [@vertical_page, 'vertical_page/show/cities/v1'] do
-  %h2.f-weight-300
-    Trouvez
-    %strong.f-weight-300 #{(@vertical_page.sidebar_title.present? ? @vertical_page.sidebar_title : @subject.name.downcase) }
+  %h2
+    Essayez gratuitement
+    %strong #{(@vertical_page.sidebar_title.present? ? @vertical_page.sidebar_title : @subject.name.downcase) }
     près de chez vous
 
   - @cities.each do |city|
