@@ -109,7 +109,11 @@ class ApplicationController < ActionController::Base
   end
 
   def mixpanel_tracker
-    @tracker ||= Mixpanel::Tracker.new(ENV['MIXPANEL_PROJECT_TOKEN'])
+    if Rails.env.production?
+      @tracker ||= Mixpanel::Tracker.new(ENV['MIXPANEL_PROJECT_TOKEN'])
+    else
+      @tracker ||= FakeMixpanel::Tracker.new
+    end
   end
 
   protected

@@ -20,8 +20,10 @@ class Structures::CommentsController < ApplicationController
     if params[:participation_request_id]
       @participation_request = @structure.participation_requests.find(params[:participation_request_id])
     end
-    @comment     = @structure.comments.build
-    @comments    = @structure.comments.accepted.reject(&:new_record?)[0..3]
+    @comment        = @structure.comments.build
+    @comments       = @structure.comments.accepted.reject(&:new_record?)[0..3]
+
+    mixpanel_tracker.track("Avis: #{params[:utm_campaign]}", { etape: params[:utm_medium], structure_slug: @structure.slug, structure_name: @structure.name } )
   end
 
   def show
@@ -75,6 +77,7 @@ class Structures::CommentsController < ApplicationController
       end
       if @comment.save
         cookies[:delete_cookies] = true
+        mixpanel_tracker.track("Avis: saved", { user: @user.id, comment: @comment.id })
         format.html { redirect_to pages_what_is_it_path, notice: "Merci d'avoir laissé votre avis !" }
       else
         @comments     = @structure.comments.accepted.reject(&:new_record?)[0..5]
