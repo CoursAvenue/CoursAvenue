@@ -108,6 +108,10 @@ class ApplicationController < ActionController::Base
     render text: robots, layout: false, content_type: "text/plain"
   end
 
+  def mixpanel_tracker
+    @tracker ||= Mixpanel::Tracker.new(ENV['MIXPANEL_PROJECT_TOKEN'])
+  end
+
   protected
 
   def layout_locals
