@@ -19,7 +19,7 @@ gem 'lograge'
 # gem 'unicorn'
 # gem 'puma'
 gem 'passenger'
-gem 'algoliasearch-rails'
+gem 'algoliasearch-rails', '~>1.11.9'
 gem 'google-api-client'
 
 # Database

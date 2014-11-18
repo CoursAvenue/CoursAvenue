@@ -26,8 +26,8 @@
           %tr
             %td
               = link_to structure.name, dashboard_pro_structure_path(structure)
-            %td{data: {value: structure.created_at}}
-              = l(structure.created_at.to_date)
+            %td
+              = l(structure.main_contact.created_at.to_date)
             %td
               - if structure.main_contact and structure.main_contact.confirmed?
                 %i.fa.fa-check.green
@@ -48,8 +48,3 @@
                 = link_to 'Valider', wake_up_pro_structure_path(structure), method: :patch, class: 'btn btn--small btn--green'
                 = link_to 'Rollback', return_to_sleeping_mode_pro_structure_path(structure), method: :patch, class: 'btn btn--small btn--red', data: { confirm: 'Êtes-vous sûr de vouloir rollback cette structure ?' }
     .text--center.push-half--ends= paginate @structures, window: 1, outer_window: 3
-= content_for :scripts do
-  :javascript
-    $(function() {
-        $('#dataTable').tablesorter();
-    });
