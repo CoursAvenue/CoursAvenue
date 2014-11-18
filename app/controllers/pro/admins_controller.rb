@@ -99,6 +99,8 @@ class ::Pro::AdminsController < InheritedResources::Base
       # Sign Admin in using Devise.
       sign_in(Devise::Mapping.find_scope!(@admin), @admin, event: :authentication)
       respond_with @admin, after_omni_auth_sign_in_path_for(@admin)
+    else
+      redirect_to auth_failure_pro_admins_path
     end
   end
 
