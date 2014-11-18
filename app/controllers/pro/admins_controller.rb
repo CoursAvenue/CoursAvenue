@@ -1,6 +1,6 @@
 # encoding: utf-8
 class ::Pro::AdminsController < InheritedResources::Base
-  before_action :authenticate_pro_admin!, except: [:waiting_for_activation]
+  before_action :authenticate_pro_admin!, except: [:waiting_for_activation, :facebook_auth_callback, :facebook_auth_failure]
   load_and_authorize_resource :admin, except: [:waiting_for_activation, :show], find_by: :slug
 
   layout 'admin'
@@ -82,4 +82,34 @@ class ::Pro::AdminsController < InheritedResources::Base
       end
     end
   end
+
+  def facebook_auth_callback
+    structure = Structure.where(id: params[:structure_id]).first
+    auth      = request.env['omniauth.auth']
+
+    @admin    = Admin.from_omniauth(auth, structure)
+
+    if @admin and @admin.persisted?
+      flash[:notice] = I18n.t 'devise.omniauth_callbacks.success', kind: 'Facebook'
+
+      # Update oauth.
+      @admin.oauth_token      = auth.credentials.token
+      @admin.oauth_expires_at = Time.at(auth.credentials.expires_at)
+
+      # Sign Admin in using Devise.
+      sign_in(Devise::Mapping.find_scope!(@admin), @admin, event: :authentication)
+      respond_with @admin, after_omni_auth_sign_in_path_for(@admin)
+    end
+  end
+
+  def facebook_auth_failure
+    redirect_to pro_premium_path, flash: { error: I18n.t 'devise.omniauth_callbacks.failure', kind: 'Facebook' }
+  end
+
+  private
+
+  def after_omni_auth_sign_in_path_for(admin)
+    dashboard_pro_structure_path(admin.structure)
+  end
+
 end

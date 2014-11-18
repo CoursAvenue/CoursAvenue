@@ -337,6 +337,9 @@ CoursAvenue::Application.routes.draw do
       resources :admins do
         collection do
           get :waiting_for_activation, path: 'activez-votre-compte'
+
+          get '/auth/callback',        to: 'admin#facebook_auth_callback'
+          get '/auth/failure',         to: 'admin#facebook_auth_failure'
         end
         member do
           patch 'confirm'

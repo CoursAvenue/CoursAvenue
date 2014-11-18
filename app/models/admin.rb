@@ -100,10 +100,13 @@ class ::Admin < ActiveRecord::Base
 
   # Create a new Admin from Facebook
   #
-  # @param auth - The data from Facebook
+  # @param auth      - The data from Facebook
+  # @param structure - The admin's structure
   #
   # @return Admin
-  def self.from_omniauth(auth)
+  def self.from_omniauth(auth, structure)
+    # return nil unless structure.present?
+
     where((Admin.arel_table[:provider].eq(auth.provider).and(Admin.arel_table[:uid].eq(auth.uid))).or(Admin.arel_table[:email].eq(auth.info.email))).first_or_initialize.tap do |admin|
       admin.provider         = auth.provider
       admin.uid              = auth.uid
