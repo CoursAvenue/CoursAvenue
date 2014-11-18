@@ -129,6 +129,7 @@ class UserMailer < ActionMailer::Base
     @structure = comment_notification.structure
     @email     = comment_notification.user.email
     @user      = comment_notification.user
+    @comment   = @structure.comments.build
     mail to: @email, subject: get_comment_notification_subject(comment_notification), template_name: get_comment_notification_template(comment_notification)
   end
 
@@ -137,6 +138,7 @@ class UserMailer < ActionMailer::Base
     @structure = comment_notification.structure
     @email     = comment_notification.user.email
     @user      = comment_notification.user
+    @comment   = @structure.comments.build
     mail to: @email, subject: get_comment_notification_subject(comment_notification), template_name: get_comment_notification_template(comment_notification)
   end
 
@@ -145,6 +147,7 @@ class UserMailer < ActionMailer::Base
     @structure = comment_notification.structure
     @email     = comment_notification.user.email
     @user      = comment_notification.user
+    @comment   = @structure.comments.build
     mail to: @email, subject: get_comment_notification_subject(comment_notification), template_name: get_comment_notification_template(comment_notification)
   end
 
