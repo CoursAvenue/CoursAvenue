@@ -27,7 +27,7 @@ namespace :scheduler do
     desc 'Wake up activated sleeping structures'
     task :wake_up => :environment do |t, args|
       structures_to_wake_up = Structure.where(Structure.arel_table[:active].eq(false)).select do |structure|
-        (structure.created_at > 2.days.ago and structure.admins.any? and structure.admins.first.confirmed?)
+        (structure.admins.any? and structure.admins.first.confirmed? and structure.admins.first.created_at > 2.days.ago)
       end
       structures_to_wake_up.map(&:wake_up!)
     end
