@@ -14,7 +14,8 @@ class ::Admin < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable,
-         :recoverable, :rememberable, :trackable, :validatable, :registerable, :confirmable
+         :recoverable, :rememberable, :trackable, :validatable, :registerable, :confirmable,
+         :omniauthable, :omniauth_providers => [:facebook]
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email,
@@ -95,6 +96,26 @@ class ::Admin < ActiveRecord::Base
       structure.name
     else
       read_attribute(:name)
+    end
+  end
+
+  # Create a new Admin from Facebook
+  #
+  # @param auth - The data from Facebook
+  #
+  # @return Admin
+  def self.from_omniauth(auth)
+    where((Admin.arel_table[:provider].eq(auth.provider).and(Admin.arel_table[:uid].eq(auth.uid))).or(Admin.arel_table[:email].eq(auth.info.email))).first_or_initialize.tap do |admin|
+      admin.provider         = auth.provider
+      admin.uid              = auth.uid
+      admin.oauth_token      = auth.credentials.token
+      admin.oauth_expires_at = Time.at(auth.credentials.expires_at)
+
+      admin.email = auth.info.email if admin.email.blank?
+      # admin.structure =
+      admin.password           = Devise.friendly_token[0,20] if admin.password.blank?
+
+      admin.save
     end
   end
 
