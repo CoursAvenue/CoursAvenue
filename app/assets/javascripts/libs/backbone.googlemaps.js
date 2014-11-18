@@ -345,29 +345,12 @@
       // Instantiate marker, with user defined properties
       this.gOverlay = new RichMarker(_.extend({
         position: this.model.getLatLng(),
-        map: this.map,
-        content: "",
-        title: this.model.title,
+        map     : this.map,
+        content : "",
+        title   : this.model.title,
         // animation: google.maps.Animation.DROP, // this doesn't seem to work with rich markers?
         visible: false										// hide, until render
       }, this.overlayOptions));
-
-      // override onAdd to run an animation
-      var _onAdd = this.gOverlay.onAdd.bind(this.gOverlay);
-
-      // wrap the original google maps onAdd function so that it
-      // pulls the markers offscreen and then drops them back on
-      // MAGIC number -40 here is based on the css styles used to
-      // line the marker up with the infobox
-      this.gOverlay.onAdd = _.wrap(_onAdd, function (func) {
-
-          func();
-          // this.a comes from the minified googly code since we are
-          // in the context of a minified googly object
-          $(this.a).find(".map-marker-image").css({ top: "-500px" });
-          $(this.a).find(".map-marker-image").animate({ top: "-43px" }, 700, "easeOutBounce");
-
-      }.bind(this.gOverlay));
     }
   });
 
