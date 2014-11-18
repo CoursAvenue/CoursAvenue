@@ -105,7 +105,7 @@ class ::Pro::AdminsController < InheritedResources::Base
   end
 
   def facebook_auth_failure
-    redirect_to pro_premium_path, flash: { error: I18n.t 'devise.omniauth_callbacks.failure', kind: 'Facebook' }
+    redirect_to pro_premium_path, flash: { error: I18n.t('devise.omniauth_callbacks.failure', kind: 'Facebook') }
   end
 
   private
