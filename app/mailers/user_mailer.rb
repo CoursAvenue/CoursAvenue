@@ -2,10 +2,11 @@
 class UserMailer < ActionMailer::Base
   include ::ActionMailerWithTextPart
   include Roadie::Rails::Automatic
+  include ::Concerns::FormMailer
 
   layout 'email'
 
-  helper :prices, :comments, :structures, :mailer
+  helper :prices, :comments, :structures
 
   default from: "\"L'équipe CoursAvenue\" <contact@coursavenue.com>"
 
