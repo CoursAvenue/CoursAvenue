@@ -10,6 +10,7 @@
                 = f.hidden_field :commentable_type
                 = f.hidden_field :commentable_id
                 = f.hidden_field :certified, value: true
+                = f.hidden_field :email, value: @participation_request.present? ? @participation_request.user.email : ''
             %tr
               %td.v-middle.text--right.soft-half--right{ width: '25%'}
                 .p.hard--bottom Qu'avez-vous pensé du cours ?
