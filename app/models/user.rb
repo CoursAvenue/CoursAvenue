@@ -15,8 +15,7 @@ class User < ActiveRecord::Base
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :confirmable,
-         :omniauth_providers => [:facebook]
+         :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
 
   # Setup accessible (or protected) attributes for your model

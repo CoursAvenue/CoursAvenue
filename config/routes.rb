@@ -361,7 +361,6 @@ CoursAvenue::Application.routes.draw do
   end
 
   devise_for :users, controllers: {
-                      omniauth_callbacks: 'users/omniauth_callbacks',
                       sessions: 'users/sessions',
                       registrations: 'users/registrations',
                       confirmations: 'users/confirmations',
