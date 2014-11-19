@@ -169,6 +169,7 @@ class ParticipationRequestMailer < ActionMailer::Base
   end
 
   # Generate the reply_to address using ReplyTokens.
+  # Replies will be handled by EmailProcessor
   #
   # @return a String
   def generate_reply_to(sender_type = 'admin')

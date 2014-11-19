@@ -12,6 +12,7 @@ class EmailProcessor
     return 'OK' if @email.to.first[:token] == 'example'
     return process_image if @email.to.first[:token] == 'flyers'
 
+    # TODO Add mixpanel tracker to track how many people reply by email.
     token = ReplyToken.find @email.to.first[:token]
 
     case token.reply_type
