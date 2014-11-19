@@ -51,10 +51,11 @@ class Comment::Review < Comment
   ######################################################################
   # Scopes                                                             #
   ######################################################################
-  scope :ordered,              -> { order('created_at DESC') }
-  scope :pending,              -> { where(status: 'pending') }
-  scope :accepted,             -> { where(status: 'accepted') }
-  scope :waiting_for_deletion, -> { where(status: 'waiting_for_deletion') }
+  scope :ordered                  , -> { order('created_at DESC') }
+  scope :pending                  , -> { where(status: 'pending') }
+  scope :accepted                 , -> { where(status: 'accepted') }
+  scope :waiting_for_deletion     , -> { where(status: 'waiting_for_deletion') }
+  scope :certified                , -> { where(certified: true) }
 
   # ------------------------------------------------------------------------------------ Search attributes
   searchable do
