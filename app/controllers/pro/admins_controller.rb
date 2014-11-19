@@ -1,7 +1,7 @@
 # encoding: utf-8
 class ::Pro::AdminsController < InheritedResources::Base
   before_action :authenticate_pro_admin!, except: [:waiting_for_activation, :facebook_auth_callback, :facebook_auth_failure]
-  load_and_authorize_resource :admin, except: [:waiting_for_activation, :show], find_by: :slug
+  load_and_authorize_resource :admin, except: [:waiting_for_activation, :show, :facebook_auth_callback, :facebook_auth_failure], find_by: :slug
 
   layout 'admin'
 
@@ -84,7 +84,7 @@ class ::Pro::AdminsController < InheritedResources::Base
   end
 
   def facebook_auth_callback
-    structure = Structure.where(id: params[:structure_id]).first
+    structure = Structure.where(slug: params[:structure_id]).first
     auth      = request.env['omniauth.auth']
 
     @admin    = Admin.from_omniauth(auth, structure)
