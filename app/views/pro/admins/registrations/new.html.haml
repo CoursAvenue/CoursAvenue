@@ -12,6 +12,11 @@
     .panel__body.soft--ends
       .soft--sides
         %h4.text--center Dernière étape : choisissez vos identifiants pour gérer votre profil
+        .text--center
+          = link_to "S'inscrire avec Facebook", "#", data: { behavior: 'facebook-login' }, class: 'btn btn--facebook'
+        .or
+          %span
+            ou
         = simple_form_for [:pro, @admin], url: pro_admin_registration_path, html: { autocomplete: 'off', class: 'half-form'} do |f|
           = f.error_notification
           = f.input :email, required: true, autofocus: true, label: t('.email'), wrapper_html: { class: 'flush--bottom' }, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
@@ -20,3 +25,21 @@
 
           .text--center
             = f.button :submit, 'Valider',  class: 'btn--green btn--large', data: { disable_with: 'Enregistrement en cours...' }
+
+- content_for :scripts do
+  :javascript
+    $('[data-behavior=facebook-login]').click(function() {
+      var loginOptions = {
+          callbackRoute: Routes.pro_auth_facebook_callback_path({ structure_id: "#{params[:structure_id]}" }),
+          success: function success () {
+            // Redirect to good page.
+              alert('success');
+          },
+          dismiss: function dismiss () {
+            // Redirect to error page with flash.
+              alert('success');
+          }
+        };
+
+        CoursAvenue.loginWithFacebook(loginOptions);
+    });
