@@ -1,0 +1,25 @@
+= side_menu_currently_at 'pro_dashboard'
+
+.panel
+  = render partial: 'pro/shared/dashboard_tabs', locals: { current: 'flyers' }
+  .panel__body
+    %table.table--data.table--striped
+      %thead
+        %tr
+          %th Date
+          %th.one-half Image
+          %th Traité
+      %tbody
+      - @flyers.each do |flyer|
+        %tr
+          %td= flyer.created_at
+          %td= link_to 'Image', flyer.image.url, data: { behavior: 'fancy', width: '800', height: '600', padding: 0 }
+          %td.nowrap
+            = simple_form_for [:pro, flyer], remote: true do |f|
+              = f.input :treated, label: false, input_html: { data: { behavior: 'update' } }
+
+- content_for :scripts do
+  :javascript
+    $('[data-behavior=update]').change(function() {
+        $(this).closest('form').submit();
+    });

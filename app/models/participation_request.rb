@@ -70,7 +70,7 @@ class ParticipationRequest < ActiveRecord::Base
     self.state == 'declined'
   end
 
-  # @return Boolean is the request declined?
+  # @return Boolean is the request canceled?
   def canceled?
     self.state == 'canceled'
   end

@@ -79,12 +79,6 @@ class Structure < ActiveRecord::Base
   # The structure that is editable by the admin.
   belongs_to :controled_structure, class_name: 'Structure', foreign_key: :sleeping_structure_id
 
-  ######################################################################
-  # Scope                                                              #
-  ######################################################################
-  scope :is_open_for_trial, -> { where(arel_table[:trial_courses_policy].matches('%_trial%') ) }
-  scope :sleeping                   , -> { where("meta_data -> 'is_sleeping' = 'true'") }
-
   attr_reader :delete_logo, :logo_filepicker_url
   attr_accessible :structure_type, :street, :zip_code, :city_id,
                   :place_ids, :name, :info, :registration_info,
@@ -165,6 +159,8 @@ class Structure < ActiveRecord::Base
   # Scopes                                                             #
   ######################################################################
 
+  scope :is_open_for_trial   , -> { where(arel_table[:trial_courses_policy].matches('%_trial%') ) }
+  scope :sleeping            , -> { where("meta_data -> 'is_sleeping' = 'true'") }
   scope :with_logo           , -> { where.not( logo: nil ) }
   scope :with_media          , -> { joins(:medias).uniq }
   scope :with_logo_and_media , -> { with_logo.with_media }

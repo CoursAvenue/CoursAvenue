@@ -19,7 +19,7 @@ gem 'lograge'
 # gem 'unicorn'
 # gem 'puma'
 gem 'passenger'
-gem 'algoliasearch-rails'
+gem 'algoliasearch-rails', '~>1.11.9'
 gem 'google-api-client'
 
 # Database
@@ -254,3 +254,7 @@ gem 'prerender_rails'
 
 # Track envents starting in the App
 gem 'mixpanel-ruby'
+
+# Email reception
+gem 'griddler'         , '~> 1.1.0'
+gem 'griddler-mandrill', '~> 1.0.1'
