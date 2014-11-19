@@ -114,10 +114,11 @@ class ::Admin < ActiveRecord::Base
       admin.oauth_expires_at = Time.at(auth.credentials.expires_at)
 
       admin.email            = auth.info.email if admin.email.blank?
-      # admin.structure =
       admin.password         = Devise.friendly_token[0,20] if admin.password.blank?
 
       admin.structure        = structure
+
+      admin.confirm
 
       admin.save
     end
