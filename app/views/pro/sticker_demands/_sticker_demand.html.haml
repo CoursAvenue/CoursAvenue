@@ -1,0 +1,14 @@
+%tr
+  %td= link_to sticker_demand.structure.name, pro_structure_path(sticker_demand.structure)
+  %td= sticker_demand.round_number
+  %td= sticker_demand.square_number
+  %td= sticker_demand.address
+  %td= l(sticker_demand.created_at, format: :date)
+  %td.text--right
+    - if sticker_demand.sent?
+      Envoyé le
+      = l(sticker_demand.sent_at, format: :date)
+    - else
+      = link_to update_sent_pro_structure_sticker_demand_path(sticker_demand.structure, sticker_demand), method: :put, class: 'btn btn--green btn--small nowrap' do
+        %i.fa.fa-envelope
+        Envoyer
