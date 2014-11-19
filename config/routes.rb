@@ -460,17 +460,17 @@ CoursAvenue::Application.routes.draw do
     resources :messages              , only: [:create]                                    , controller: 'structures/messages'
     resources :places                , only: [:index]                                     , controller: 'structures/places'
     resources :courses               , only: [:show, :index]                              , controller: 'structures/courses'    , path: 'cours'
-    resources :comments              , only: [:new]                                       , controller: 'structures/comments'   , path: 'recommendations'
-    resources :comments              , only: [:new]                                       , controller: 'structures/comments'   , path: 'recommandations'
-    resources :comments              , only: [:create, :new, :show, :index]               , controller: 'structures/comments'   , path: 'avis'
-    resources :comments                                                                   , controller: 'structures/comments' do
+    resources :comments              , only: [:create, :new, :show, :index, :update]      , controller: 'structures/comments'   , path: 'avis' do
       collection do
         get :create_from_email
       end
       member do
-        get :add_private_message
+        get :add_private_message, path: 'envoyer-un-message-prive'
       end
     end
+    # Here for old 404
+    resources :comments              , only: [:new]                                       , controller: 'structures/comments'   , path: 'recommendations'
+    resources :comments              , only: [:new]                                       , controller: 'structures/comments'   , path: 'recommandations'
     resources :teachers              , only: [:index]                                     , controller: 'structures/teachers'
     resources :medias                , only: [:index]                                     , controller: 'structures/medias'
   end

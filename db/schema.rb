@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141110161709) do
+ActiveRecord::Schema.define(version: 20141119165324) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -181,6 +181,7 @@ ActiveRecord::Schema.define(version: 20141110161709) do
     t.string   "type"
     t.integer  "associated_message_id"
     t.boolean  "certified"
+    t.string   "slug"
   end
 
   add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree

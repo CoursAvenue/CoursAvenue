@@ -29,7 +29,9 @@
   .grid
     .grid__item.two-thirds>
       .two-thrids.center-block
-        = simple_form_for @comment, url: structure_comments_path(@structure), as: :comment, data: { recover: "comment" } do |f|
+        = simple_form_for @comment, url: structure_comments_path(@structure), as: :comment do |f|
+          - if @participation_request
+            %input{ type: 'hidden', value: @participation_request.id, name: 'participation_request_id'}
           = f.hidden_field :commentable_type
           = f.hidden_field :commentable_id
           - if @participation_request

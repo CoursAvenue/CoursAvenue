@@ -26,18 +26,17 @@
         .epsilon Votre expérience est précieuse !
 
 .main-container.soft--ends
-  .grid.text--center
-    .grid__item.two-thirds>
-      .two-thrids.center-block
-        %h2
-          Merci d'avoir laissé votre avis !
-        %h5.inline
-          Pour aider votre professeur à s’améliorer, vous pouvez aussi lui laisser un message privé optionnel ci-dessous.
+  .center-block{ style: 'max-width: 800px; '}>
+    .two-thrids
+      %h2.text--center
+        Merci d'avoir laissé votre avis !
+      %h5.text--center
+        Envoyez un message privé en plus de votre avis publique, votre professeur appréciera.
 
-        = simple_form_for @comment, url: structure_comments_path(@structure), as: :comment, data: { recover: "comment" } do |f|
-          = render 'private_message'
-          .text--center
-            = f.submit 'Publier mon avis', class: 'btn btn--large btn--green btn--full', data: { disable_with: "En cours de publication..." }
+      = simple_form_for @comment, url: structure_comment_path(@structure, @comment), as: :comment do |f|
+        = render 'private_message'
+        .text--center
+          = f.submit 'Envoyer mon message', class: 'btn btn--large btn--green btn--full', data: { disable_with: "Envoi en cours..." }
 
 = content_for :scripts do
   :javascript

@@ -208,3 +208,8 @@ input[type="radio"] {
         background-color: $blue-green
     }
 }
+
+.input--hidden {
+    border : none !important;
+    padding: 0 !important;
+}
