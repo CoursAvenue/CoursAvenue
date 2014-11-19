@@ -91,6 +91,7 @@ CoursAvenue = new Backbone.Marionette.Application({
         }.bind(this), { scope: 'public_profile,email,user_location,user_birthday,user_relationships,user_activities,user_friends'});
     },
 
+    // TODO: Refactor this when the user login is done.
     loginWithFacebookPro: function loginWithFacebookPro (options) {
       FB.login(function(response) {
         if (response.status === 'connected') {
@@ -103,7 +104,6 @@ CoursAvenue = new Backbone.Marionette.Application({
             },
             success: function success (response) {
               // If ID is not set, then the user did not connect
-              console.log(response);
               if (!response.id) {
                 if (options.error) {
                   options.error();

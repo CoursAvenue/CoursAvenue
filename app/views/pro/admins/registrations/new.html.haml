@@ -13,7 +13,8 @@
       .soft--sides
         %h4.text--center Dernière étape : choisissez vos identifiants pour gérer votre profil
         .text--center
-          = link_to "S'inscrire avec Facebook", "#", data: { behavior: 'facebook-login' }, class: 'btn btn--facebook'
+          %a{ data: { behavior: 'facebook-login' }, class: 'btn btn--facebook' }
+            S'inscrire avec Facebook
         .or
           %span
             ou
