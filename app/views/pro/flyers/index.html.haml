@@ -6,15 +6,17 @@
     %table.table--data.table--striped
       %thead
         %tr
-          %th Date
           %th.one-half Image
-          %th Traité
+          %th Date
+          %th.text--center Traité
       %tbody
       - @flyers.each do |flyer|
         %tr
-          %td= flyer.created_at
-          %td= link_to 'Image', flyer.image.url, data: { behavior: 'fancy', width: '800', height: '600', padding: 0 }
-          %td.nowrap
+          %td
+            = link_to flyer.image.url, data: { behavior: 'fancy', width: '800', height: '600', padding: 0 } do
+              = image_tag flyer.image.url, height: 50
+          %td= l(flyer.created_at.to_date)
+          %td.nowrap.text--center
             = simple_form_for [:pro, flyer], remote: true do |f|
               = f.input :treated, label: false, input_html: { data: { behavior: 'update' } }
 
