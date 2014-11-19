@@ -118,7 +118,7 @@ class ::Admin < ActiveRecord::Base
 
       admin.structure        = structure
 
-      admin.confirm
+      admin.confirm!
 
       admin.save
     end

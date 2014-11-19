@@ -98,9 +98,13 @@ class ::Pro::AdminsController < InheritedResources::Base
 
       # Sign Admin in using Devise.
       sign_in(Devise::Mapping.find_scope!(@admin), @admin, event: :authentication)
-      respond_with @admin, after_omni_auth_sign_in_path_for(@admin)
+
+      respond_to do |format|
+        format.json { render json: { id: @admin.id, structure_id: @admin.structure.id, redirect_url: after_omni_auth_sign_in_path_for(@admin) } }
+        format.html { redirect_to dashboard_pro_structure_path(structure) }
+      end
     else
-      redirect_to auth_failure_pro_admins_path
+      respond_with pro_auth_failure_path
     end
   end
 
@@ -111,7 +115,7 @@ class ::Pro::AdminsController < InheritedResources::Base
   private
 
   def after_omni_auth_sign_in_path_for(admin)
-    dashboard_pro_structure_path(admin.structure)
+    session['admin_return_to'] || dashboard_pro_structure_path(admin.structure)
   end
 
 end

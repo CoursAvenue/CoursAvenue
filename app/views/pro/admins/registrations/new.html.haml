@@ -30,16 +30,13 @@
   :javascript
     $('[data-behavior=facebook-login]').click(function() {
       var loginOptions = {
-          callbackRoute: Routes.pro_auth_facebook_callback_path({ structure_id: "#{params[:structure_id]}" }),
-          success: function success () {
-            // Redirect to good page.
-              alert('success');
-          },
-          dismiss: function dismiss () {
-            // Redirect to error page with flash.
-              alert('success');
-          }
+            callbackRoute: Routes.pro_auth_facebook_callback_path({ structure_id: "#{params[:structure_id]}" }),
+            success: function success (response) {
+                window.location = response.redirect_url
+            },
+            error: {
+            }
         };
 
-        CoursAvenue.loginWithFacebook(loginOptions);
+        CoursAvenue.loginWithFacebookPro(loginOptions);
     });
