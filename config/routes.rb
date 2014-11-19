@@ -378,6 +378,9 @@ CoursAvenue::Application.routes.draw do
       get 'unsubscribe/:signature' => 'users#unsubscribe', as: 'unsubscribe'
       get 'activez-votre-compte'   => 'users#waiting_for_activation', as: 'waiting_for_activation'
       get :welcome
+
+      get '/auth/callback',        to: 'users#facebook_auth_callback'
+      get '/auth/failure',         to: 'users#facebook_auth_failure'
     end
     member do
       get    :destroy_confirmation
