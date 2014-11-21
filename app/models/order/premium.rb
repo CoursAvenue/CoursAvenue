@@ -27,7 +27,11 @@ class Order::Premium < Order
   end
 
   def amount_without_promo
-    read_attribute(:amount) + self.promotion_code.promo_amount
+    if self.promotion_code
+      read_attribute(:amount) + self.promotion_code.promo_amount
+    else
+      read_attribute(:amount)
+    end
   end
 
   private
