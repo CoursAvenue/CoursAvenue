@@ -1,4 +1,6 @@
-= render 'shared/newsletter_form'
+= content_for :head do
+  %link{ rel: 'canonical', href: structure_url(@structure) }
+
 = render 'shared/orange_banner'
 = render 'meta_information'
 

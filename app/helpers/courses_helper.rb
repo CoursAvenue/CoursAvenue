@@ -98,7 +98,7 @@ module CoursesHelper
       string << "Au domicile de l'élève (rayon de #{course.home_place.radius}km autour de #{course.home_place.city.name})"
     end
     if course.teaches_at_home? and course.home_place and course.place
-      string << "<br>"
+      string << " / "
     end
     if course.place
       string << "#{course.place.name}, #{course.place.address}"

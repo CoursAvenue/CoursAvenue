@@ -5,7 +5,7 @@
     = simple_form_for [:pro, @structure, @participation_request], url: accept_pro_structure_participation_request_path(@structure, @participation_request), html: { id: 'participation-request-form' } do |f|
       = f.error_notification
       = f.fields_for :message, @message, class: 'message__body message__appendix' do |message_form|
-        = message_form.input :body, input_html: { placeholder: 'Ajouter un message personnel ici', style: 'height: 100px', class: 'input--large one-whole', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
+        = message_form.input :body, input_html: { placeholder: "Ajoutez votre message personnel ici sans information de contact ni de lien vers votre site Internet : votre téléphone sera envoyé automatiquement à l'élève une fois l'inscription validée.", style: 'height: 100px', class: 'input--large one-whole', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
 
       #submit-buttons
         .flexbox

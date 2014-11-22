@@ -5,16 +5,23 @@
       Alertes
     .gray-box
       - @structure.unanswered_information_message.each_with_index do |conversation, index|
+        - participation_request = conversation_participation_request(conversation)
         - if index > 0
           %hr.push-half--ends
         .soft.grid--full
           .grid__item.two-twelfths.soft-half--right>
             .lbl{ class: "lbl--#{Mailboxer::Label::INFORMATION.color}"}
-              Demande d'information
+              - if participation_request
+                Demande d'inscription
+              - else
+                Demande d'information
           .grid__item.ten-twelfths>
             %p
               %strong Félicitations !
-              Vous avez reçu une demande d'information de
+              - if participation_request
+                Vous avez reçu une demande d'inscription de
+              - else
+                Vous avez reçu une demande d'information de
               %strong= "#{conversation.messages.first.sender.name}."
               Plus vous répondez rapidement (de préférence sous 48h), plus vous avez de chances que cet élève s'inscrive à vos cours.
 

@@ -70,7 +70,7 @@ class ParticipationRequest < ActiveRecord::Base
     self.state == 'declined'
   end
 
-  # @return Boolean is the request declined?
+  # @return Boolean is the request canceled?
   def canceled?
     self.state == 'canceled'
   end
@@ -78,6 +78,15 @@ class ParticipationRequest < ActiveRecord::Base
   # @return Boolean is the request pending?
   def pending?
     self.state == 'pending'
+  end
+
+  #
+  # Tells if the resource type is waiting for an answer
+  # @param resource_type='Structure' [type] [description]
+  #
+  # @return [type] [description]
+  def pending_for?(resource_type='Structure')
+    (self.state == 'pending' and self.last_modified_by != resource_type)
   end
 
   # Accept request and send a message to user.
@@ -197,7 +206,9 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return Boolean
   def request_is_not_duplicate
-    if self.user.participation_requests.accepted.where(ParticipationRequest.arel_table[:created_at].gt(Date.today - 1.week).and(ParticipationRequest.arel_table[:planning_id].eq(self.planning_id))).any?
+    if self.user.participation_requests.where(ParticipationRequest.arel_table[:created_at].gt(Date.today - 1.week)
+                                                 .and(ParticipationRequest.arel_table[:planning_id].eq(self.planning_id))
+                                                 .and(ParticipationRequest.arel_table[:date].eq(self.date))).any?
       self.errors[:base] << "duplicate"
       return false
     end

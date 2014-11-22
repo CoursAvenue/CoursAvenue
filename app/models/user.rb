@@ -25,11 +25,15 @@ class User < ActiveRecord::Base
                   :birthdate, :phone_number, :zip_code, :city_id, :passion_zip_code, :passion_city_id, :passions_attributes, :description,
                   :email_opt_in, :sms_opt_in, :email_promo_opt_in, :email_newsletter_opt_in, :email_passions_opt_in,
                   :email_status, :last_email_sent_at, :last_email_sent_status,
-                  :lived_places_attributes, :delivery_email_status,
-                  :sponsorships, :sponsorship_slug, :interested_in_discovery_pass, :test_name, :interested_at
+                  :lived_places_attributes, :delivery_email_status, :sign_up_at,
+                  :sponsorships, :sponsorship_slug, :interested_in_discovery_pass,
+                  :test_name, :interested_at,
+                  :subscription_from
 
   # To store hashes into hstore
-  store_accessor :meta_data, :after_sign_up_url, :have_seen_first_jpo_popup, :interested_in_discovery_pass, :test_name, :interested_at
+  store_accessor :meta_data, :after_sign_up_url, :have_seen_first_jpo_popup,
+                             :interested_in_discovery_pass, :test_name, :interested_at,
+                             :subscription_from
 
   define_boolean_accessor_for :meta_data, :have_seen_first_jpo_popup
 
@@ -154,7 +158,7 @@ class User < ActiveRecord::Base
     where((User.arel_table[:provider].eq(auth.provider).and(User.arel_table[:uid].eq(auth.uid))).or(User.arel_table[:email].eq(auth.info.email))).first_or_initialize.tap do |user|
       # If the user was not active, set its created at
       if !user.active?
-        user.created_at = Time.now
+        user.sign_up_at = Time.now
       end
 
       user.provider           = auth.provider

@@ -27,8 +27,8 @@
       .grid__item.one-quarter>
         .soft-half.text--center
           %h3.flush= "#{number_with_delimiter User.active.count} élèves"
-          %h6.flush dont #{number_with_delimiter User.active.where( User.arel_table[:created_at].gt(Date.today) ).count} aujourd'hui
-          %div et #{number_with_delimiter User.active.where( User.arel_table[:created_at].gt(7.days.ago) ).count} les 7 derniers jours
+          %h6.flush dont #{number_with_delimiter User.active.where( User.arel_table[:sign_up_at].gt(Date.today) ).count} aujourd'hui
+          %div et #{number_with_delimiter User.active.where( User.arel_table[:sign_up_at].gt(7.days.ago) ).count} les 7 derniers jours
     .grid
       .grid__item.center-block>
         .soft-half.text--center
@@ -60,7 +60,7 @@
     .soft--sides
       - subjects_count.each do |key, value|
         .grid.push-half--bottom
-          .grid__item.one-quarter>= key
+          .grid__item.one-quarter.text--right>= key
           .grid__item.three-quarters>
             .progress
               .bar.text--left.soft--left{ style: "width: #{value * 100 / max_value}%"}= value

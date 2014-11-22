@@ -25,7 +25,7 @@
               - else
                 %span#address-name{ data: { toggle: 'popover', html: 'true', content: '', trigger: 'hover' } }
           = f.fields_for :message, @message, class: 'message__body message__appendix' do |message_form|
-            = message_form.input :body, input_html: { placeholder: 'Ajouter un message personnel ici', style: 'height: 100px', class: 'input--large one-whole', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
+            = message_form.input :body, input_html: { placeholder: "Ajoutez votre message personnel ici sans information de contact ni de lien vers votre site Internet : votre téléphone sera envoyé automatiquement à l'élève une fois l'inscription validée.", style: 'height: 100px', class: 'input--large one-whole', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
 
           .grid
             .grid__item.two-tenths>

@@ -54,8 +54,19 @@ CoursAvenue = new Backbone.Marionette.Application({
                         if (options.error) { options.error(); }
                     },
                     success: function success (response) {
+                        // If ID is not set, then the user did not connect
+                        if (!response.id) {
+                            if (options.error) {
+                                options.error();
+                            } else {
+                                GLOBAL.flash("Nous n'avons pas pu vous connecter. Assurez-vous d'être bien connecté à Facebook et réessayez.")
+                                $.magnificPopup.close();
+                            }
+                            return;
+                        }
                         if (CoursAvenue.isProduction() && response.just_signed_up) {
                             mixpanel.track("User registered", { info: 'Facebook' });
+                            ga('send', 'event', 'Action', 'User registered');
                         }
                         // Pixel to track registration convertion with Facebook
                         if (window._fbq) { window._fbq.push(['track', '6016889463627', {}]); }

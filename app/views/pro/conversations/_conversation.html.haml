@@ -3,7 +3,7 @@
 - recipients = conversation.recipients.reject{|recipient| recipient == @admin }
 - participation_request = conversation_participation_request(conversation)
 .bordered--top.push-half--top.soft-half--top
-  - if participation_request and participation_request.pending?
+  - if participation_request and participation_request.pending_for? 'Structure'
     .grid--full.red-box.soft-half--sides.very-soft.rounded--none.border-none.white
       .grid__item.v-middle.three-twelfths>
         %strong.epsilon En attente de réponse
@@ -23,7 +23,7 @@
               %li.nowrap
                 = link_to 'Autres', flag_pro_structure_conversation_path(@structure, conversation, flag: 'Autres'), method: :patch, class: 'muted-link'
 
-  = link_to pro_structure_conversation_path(@structure, conversation), class: "muted-link block grid--full #{(participation_request and participation_request.pending? ? 'bordered--red bordered-none--top bordered--larger' : '')}" do
+  = link_to pro_structure_conversation_path(@structure, conversation), class: "muted-link block grid--full #{(participation_request and participation_request.pending_for?('Structure') ? 'bordered--red bordered-none--top bordered--larger' : '')}" do
     .grid__item.v-top.v-middle{ style: 'width: 30%' }>
       .grid--full
         .grid__item.one-quarter.v-middle>

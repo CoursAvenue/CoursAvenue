@@ -8,6 +8,7 @@ Bundler.require(:default, Rails.env)
 module CoursAvenue
   class Application < Rails::Application
 
+    CoursAvenue::Application::MANDRILL_REPLY_TO_DOMAIN = Rails.env.staging? ? 'reply-staging.coursavenue.com' : 'reply.coursavenue.com'
     CoursAvenue::Application::WWW_SUBDOMAIN = Rails.env.staging? ? 'staging' : 'www'
     CoursAvenue::Application::PRO_SUBDOMAIN = Rails.env.staging? ? 'pro.staging' : 'pro'
 
