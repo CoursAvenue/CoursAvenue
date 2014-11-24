@@ -31,7 +31,8 @@
                 window.location = response.redirect_url
             },
             error: function error (response) {
-                console.log(response);
+                var message = $.parseJSON(response.responseText).message;
+                GLOBAL.flash(message);
             }
         };
 
