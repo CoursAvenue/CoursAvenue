@@ -104,12 +104,19 @@ class ::Pro::AdminsController < InheritedResources::Base
         format.html { redirect_to dashboard_pro_structure_path(structure) }
       end
     else
-      respond_with pro_auth_failure_path, status: 422
+      respond_to do |format|
+        format.json { render json: { message: "Nous n'avons pas pu vous connecter. Assurez-vous d'être bien connecté à Facebook et réessayez." }, status: 422 }
+        format.html { redirect_to pro_auth_failure_path }
+      end
     end
   end
 
   def facebook_auth_failure
-    redirect_to pro_premium_path, flash: { error: I18n.t('devise.omniauth_callbacks.failure', kind: 'Facebook') }
+    message = I18n.t('devise.omniauth_callbacks.failure', kind: 'Facebook')
+    respond_to do |format|
+      format.json { render json: { message: message }, status: 422 }
+      format.html { redirect_to pro_premium_path, flash: { message: message } }
+    end
   end
 
   private
