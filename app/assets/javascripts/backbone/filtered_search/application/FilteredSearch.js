@@ -122,7 +122,7 @@ FilteredSearch.addInitializer(function(options) {
     * for setup */
     layout.showWidget(google_maps_view, {
         events: {
-            'paginator:updating':                'hideInfoWindow retireMarkers',
+            'paginator:updating':                'hideInfoWindow',
             'structures:itemview:highlighted':   'exciteMarkers',
             'structures:itemview:unhighlighted': 'exciteMarkers',
             'map:update:zoom':                   'updateZoom',

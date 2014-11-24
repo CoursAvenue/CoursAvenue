@@ -2,6 +2,8 @@
 CoursAvenue::Application.routes.draw do
 
   mount Ckeditor::Engine => '/ckeditor'
+  mount_griddler
+  get "/email_processor", to: proc { [200, {}, ["OK"]] }, as: "mandrill_head_test_request"
   get '/robots.txt' => 'home#robots'
   # ---------------------------------------------
   # ----------------------------------------- PRO
@@ -64,6 +66,7 @@ CoursAvenue::Application.routes.draw do
       resources :blog_articles, controller: 'blog/articles', path: 'blog'
       resources :press_releases, path: 'communiques-de-presse'
       resources :press_articles
+      resources :flyers, only: [:index, :update]
       resources :faqs do
         collection do
           get :preview
@@ -469,6 +472,7 @@ CoursAvenue::Application.routes.draw do
   end
 
   resources :keywords, only: [:index]
+  resources :reply_token, only: [:show]
 
   ########### Vertical pages ###########
   get 'cours/:id--:city_id'                        , to: 'vertical_pages#show_with_city', as: :root_vertical_page_with_city
