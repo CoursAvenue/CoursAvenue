@@ -15,6 +15,9 @@ CoursAvenue = new Backbone.Marionette.Application({
 
     setCurrentUser: function setCurrentUser (user_attributes) {
         this.user.set(user_attributes);
+        if (user_attributes.redirect_url) {
+            window.location = user_attributes.redirect_url;
+        }
     },
 
     currentUser: function currentUser () {
