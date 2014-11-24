@@ -1,7 +1,7 @@
 # encoding: utf-8
 source 'https://rubygems.org'
 
-ruby '2.1.3'
+ruby '2.1.5'
 
 gem 'rails', '4.1.6'
 
@@ -251,3 +251,7 @@ gem 'cityhash'                 , '~> 0.8.1'
 
 # JS heavy pages pre-rendering
 gem 'prerender_rails'
+
+# Email reception
+gem 'griddler'         , '~> 1.1.0'
+gem 'griddler-mandrill', '~> 1.0.1'

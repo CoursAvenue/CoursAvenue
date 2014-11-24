@@ -49,7 +49,7 @@ class Pro::Structures::SubscriptionPlansController < Pro::ProController
       'OPERATIONTYPE' => 'payment',
       'ORDERID'       => @order_id,
       'VERSION'       => '2.0',
-      'EXTRADATA'     => extra_data.merge({ promotion_code_id: @promotion_code.try(:id), plan_type: @subscription_plan.plan_type }).to_json
+      'EXTRADATA'     => extra_data.merge({ promotion_code_id: @subscription_plan.promotion_code.try(:id), plan_type: @subscription_plan.plan_type }).to_json
     }
     @be2bill_params['HASH'] = SubscriptionPlan.hash_be2bill_params @be2bill_params
   end

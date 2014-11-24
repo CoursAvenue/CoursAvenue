@@ -26,7 +26,12 @@
 = content_for :meta_description do
   Donnez votre avis sur #{@structure.name}
 
-.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/home_background.jpg'})" }
+- if @structure.dominant_root_subject
+  - url = "https://coursavenue-public.s3.amazonaws.com/public_assets/home_backgrounds/#{@structure.dominant_root_subject.slug}.jpg"
+- else
+  - url = "https://coursavenue-public.s3.amazonaws.com/public_assets/pro/home_background#{[2,3,4,5,6,7].sample}.jpg"
+
+.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{url})" }
   .main-container.main-container--medium.soft
     .grid
       - if @structure.logo.present?
