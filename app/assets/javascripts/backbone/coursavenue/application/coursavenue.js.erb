@@ -72,7 +72,7 @@ CoursAvenue = new Backbone.Marionette.Application({
                         if (window._fbq && !options.pro) { window._fbq.push(['track', '6016889463627', {}]); }
                         this.setCurrentUser(response);
                         if (options.success) {
-                            options.success();
+                            options.success(response);
                         } else {
                             $.magnificPopup.close();
                         }
