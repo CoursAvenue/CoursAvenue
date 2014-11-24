@@ -51,13 +51,13 @@ CoursAvenue = new Backbone.Marionette.Application({
                     type: 'GET',
                     dataType: 'json',
                     error: function error (response) {
-                        if (options.error) { options.error(); }
+                        if (options.error) { options.error(response); }
                     },
                     success: function success (response) {
                         // If ID is not set, then the user did not connect
                         if (!response.id) {
                             if (options.error) {
-                                options.error();
+                                options.error(response);
                             } else {
                                 GLOBAL.flash("Nous n'avons pas pu vous connecter. Assurez-vous d'être bien connecté à Facebook et réessayez.")
                                 $.magnificPopup.close();
