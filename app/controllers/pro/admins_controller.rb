@@ -114,6 +114,7 @@ class ::Pro::AdminsController < InheritedResources::Base
 
   private
 
+  # TODO: Redirect to `edit_pro_structure_admin_path` on first connection.
   def after_omni_auth_sign_in_path_for(admin)
     session['admin_return_to'] || dashboard_pro_structure_path(admin.structure)
   end
