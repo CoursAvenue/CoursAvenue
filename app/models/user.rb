@@ -232,7 +232,8 @@ class User < ActiveRecord::Base
       else
         message += "il commence à "
       end
-      message += "#{I18n.l(courses.first.start_time, format: :short)}."
+      message += "#{I18n.l(courses.first.start_time, format: :short)}. "
+      message += 'CoursAvenue vous souhaite une très belle séance ! Pour l’annuler, connectez-vous ("Mes inscriptions").'
 
       self.delay.send_sms(message, formatted_number)
     end
