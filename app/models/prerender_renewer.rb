@@ -20,6 +20,9 @@ class PrerenderRenewer
     puts ENV['PRERENDER_SERVICE_URL'] + url
     uri = URI(ENV['PRERENDER_SERVICE_URL'] + url)
     res = Net::HTTP.post_form(uri, '_escaped_fragment_' => '')
+    # s3 = AWS::S3.new
+    # file = s3.buckets["coursavenue-prerender"].objects[file_or_url]
+    # file.delete
   end
 
   # Check cached files on S3 by looking there content_length.
