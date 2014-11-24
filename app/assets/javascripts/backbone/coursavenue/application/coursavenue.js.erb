@@ -70,7 +70,11 @@ CoursAvenue = new Backbone.Marionette.Application({
                         }
                         // Pixel to track registration convertion with Facebook
                         if (window._fbq && !options.pro) { window._fbq.push(['track', '6016889463627', {}]); }
-                        this.setCurrentUser(response);
+                        if (options.pro) {
+                          this.setCurrentAdmin(response);
+                        } else {
+                          this.setCurrentUser(response);
+                        }
                         if (options.success) {
                             options.success(response);
                         } else {
