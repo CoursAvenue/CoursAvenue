@@ -21,3 +21,20 @@
         = f.button :submit, "Se connecter", class: 'btn--green btn--full', data: { disable_with: 'Connexion en cours...' }
         .push-half--top
           = render "pro/admins/shared/links"
+
+- content_for :scripts do
+  :javascript
+    $('[data-behavior=facebook-login]').click(function() {
+      var loginOptions = {
+            // callbackRoute: Routes.pro_auth_facebook_callback_path({ structure_id: "#{params[:structure_id]}" }),
+            callbackRoute: Routes.new_pro_admin_session_path(),
+            success: function success (response) {
+                window.location = response.redirect_url
+            },
+            error: function error (response) {
+                console.log(response);
+            }
+        };
+
+        CoursAvenue.loginWithFacebookPro(loginOptions);
+    });
