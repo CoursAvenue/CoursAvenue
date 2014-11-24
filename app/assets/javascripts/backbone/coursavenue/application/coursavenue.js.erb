@@ -64,12 +64,12 @@ CoursAvenue = new Backbone.Marionette.Application({
                             }
                             return;
                         }
-                        if (CoursAvenue.isProduction() && response.just_signed_up) {
+                        if (CoursAvenue.isProduction() && response.just_signed_up && !options.pro) {
                             mixpanel.track("User registered", { info: 'Facebook' });
                             ga('send', 'event', 'Action', 'User registered');
                         }
                         // Pixel to track registration convertion with Facebook
-                        if (window._fbq) { window._fbq.push(['track', '6016889463627', {}]); }
+                        if (window._fbq && !options.pro) { window._fbq.push(['track', '6016889463627', {}]); }
                         this.setCurrentUser(response);
                         if (options.success) {
                             options.success();
