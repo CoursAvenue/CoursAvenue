@@ -47,8 +47,7 @@ CoursAvenue = new Backbone.Marionette.Application({
         FB.login(function(response) {
             if (response.status === 'connected') {
                 $.ajax({
-                    // url: Routes.user_omniauth_callback_path({ action: 'facebook' }),
-                    url: options.callbackRoute,
+                    url: options.callbackRoute || Routes.auth_facebook_callback_path(),
                     type: 'GET',
                     dataType: 'json',
                     error: function error (response) {
