@@ -104,7 +104,7 @@ class ::Pro::AdminsController < InheritedResources::Base
         format.html { redirect_to dashboard_pro_structure_path(structure) }
       end
     else
-      respond_with pro_auth_failure_path
+      respond_with pro_auth_failure_path, status: 422
     end
   end
 
