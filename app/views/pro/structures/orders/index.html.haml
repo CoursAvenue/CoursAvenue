@@ -16,7 +16,7 @@
           %th # Facture
           %th
       %tbody
-        - @orders.each do |order|
+        - @orders.order('created_at ASC').each do |order|
           %tr
             %td Premium
             %td= l(order.created_at, format: :date_short)
