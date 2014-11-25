@@ -128,6 +128,13 @@ class ::Admin < ActiveRecord::Base
     admin
   end
 
+  # Check if the current Admin has been created from Facebook.
+  #
+  # @return Boolean
+  def from_facebook?
+    self.provider == 'facebook' and self.oauth_token.present?
+  end
+
   private
 
   def subscribe_to_crm
