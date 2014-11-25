@@ -1,0 +1,16 @@
+#id.panel
+  .panel__body
+    %table.table--data.table--striped
+      %thead
+        %tr
+          %th
+          %th email
+      %tbody
+        - @contacts.each do |contact|
+          %tr
+            %td
+              %input{ type: 'checkbox', name: contact[:email] }
+            %td= contact[:email]
+
+- content_for :scripts do
+  :javascript
