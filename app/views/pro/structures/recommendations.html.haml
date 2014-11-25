@@ -10,6 +10,8 @@
       %h4#email-reco
         Envoyez un e-mail à vos élèves
         %i= link_to '(voir les 5 avantages de cette méthode la + utilisée)', '#most-used-method', data: { behavior: 'modal', width: 550, padding: 0 }
+      .text--center.push-half--bottom
+	= link_to 'Importer les contacts de Gmail', '#', class: 'btn btn--blue btn--large', id: 'import-from-gmail'
 
       .gray-box.soft.relative
         = simple_form_for [:pro, @structure, @structure.comment_notifications.build] do |f|
@@ -135,4 +137,14 @@
                 maxWidth: 600
             });
         });
+
+	$('#import-from-gmail').click(function(e) {
+	    e.preventDefault();
+	    var w = 600;
+	    var h = 450;
+	    var left = (screen.width / 2) - (w/2);
+	    var top = (screen.height / 2) - (h/2);
+
+	    win = window.open('/contacts/gmail', 'null', 'width=600,height=450,toolbar=no,scrollbars=no,location=no,resizable=no,top=' + top + ',left=' + left);
+	});
     });
