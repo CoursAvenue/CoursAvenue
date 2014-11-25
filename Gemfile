@@ -255,3 +255,6 @@ gem 'prerender_rails'
 # Email reception
 gem 'griddler'         , '~> 1.1.0'
 gem 'griddler-mandrill', '~> 1.0.1'
+
+# Contact importing
+gem 'omnicontacts', '~> 0.3.5'
