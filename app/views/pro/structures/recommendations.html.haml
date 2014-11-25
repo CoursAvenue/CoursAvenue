@@ -140,11 +140,12 @@
 
 	$('#import-from-gmail').click(function(e) {
 	    e.preventDefault();
-	    var w = 600;
-	    var h = 450;
-	    var left = (screen.width / 2) - (w/2);
-	    var top = (screen.height / 2) - (h/2);
+	    var height = 450;
+	    var width  = 600;
 
-	    win = window.open('/contacts/gmail', 'null', 'width=600,height=450,toolbar=no,scrollbars=no,location=no,resizable=no,top=' + top + ',left=' + left);
+	    var left   = (screen.width / 2) - (width / 2);
+	    var top    = (screen.height / 2) - (height / 2);
+
+	    win = window.open('/contacts/gmail', 'null', 'width=' + width + ',height=' + height + ',toolbar=no,scrollbars=no,location=no,resizable=no,top=' + top + ',left=' + left);
 	});
     });
