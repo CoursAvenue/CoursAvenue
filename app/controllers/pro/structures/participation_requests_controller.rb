@@ -10,7 +10,8 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     @participation_requests = @structure.participation_requests
     # Select participation request that have the right label id (some could have been flagged as inapropriate
     # and therefore have a different label_id)
-    @participation_requests = @participation_requests.select{ |pr| pr.conversation.mailboxer_label_id == Mailboxer::Label::REQUEST.id }
+    @upcoming_participation_requests = @participation_requests.order('date ASC').upcoming.select{ |pr| pr.conversation.mailboxer_label_id == Mailboxer::Label::REQUEST.id }
+    @past_participation_requests     = @participation_requests.order('date DESC').past.select{ |pr| pr.conversation.mailboxer_label_id == Mailboxer::Label::REQUEST.id }
   end
 
   # GET pro/etablissements/:structure_id/participation_request/:id/edit
