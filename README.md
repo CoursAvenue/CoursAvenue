@@ -186,7 +186,10 @@ $ rspec spec
     pg_dump --host localhost --port 5432 --username "postgres" --dbname "coursavenue_development" -f 20_fev.tar --format=t
 
 ## Restore staging
-PGPASSWORD=QP2Qnt2tBGS06FFE58w0RM5j_0 pg_restore --verbose --clean --no-acl --no-owner -h ec2-79-125-105-227.eu-west-1.compute.amazonaws.com -U flqgmxztwjmjvs -d db7jnmndbshr32 -p 5432 XXX.tar
+
+```shell
+$ PGPASSWORD=QP2Qnt2tBGS06FFE58w0RM5j_0 pg_restore --verbose --clean --no-acl --no-owner -h ec2-79-125-105-227.eu-west-1.compute.amazonaws.com -U flqgmxztwjmjvs -d db7jnmndbshr32 -p 5432 XXX.tar
+```
 
 # Maintenance
 
