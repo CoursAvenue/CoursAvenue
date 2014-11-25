@@ -13,7 +13,7 @@
   Répondez-lui dès maintenant pour que votre inscription soit prise en compte :
 
 .p.action
-  = link_to "Accepter / Proposer un autre créneau / Refuser", user_conversation_url(@user, @conversation, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green'
+  = link_to "Accepter / Proposer un autre créneau / Refuser", user_participation_request_url(@user, @participation_request, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green'
 
 = render 'shared/mailers/footer'
 

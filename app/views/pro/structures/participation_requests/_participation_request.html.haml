@@ -1,8 +1,8 @@
 %tr{ style: ((participation_request.pending? and participation_request.last_modified_by == 'User') ? 'border: 4px solid #e2493c' : '') }
-  %td{ class: participation_request_color(participation_request) }
+  %td.nowrap{ class: participation_request_color(participation_request) }
     - if participation_request.pending? and participation_request.last_modified_by == 'User'
       %span.has-tooltip{ data: { toggle: 'popover', content: "Confirmez la demande d'inscription au plus vite", html: 'true', placement: 'top', trigger: 'hover' } }
-      En attente
+        En attente
     - else
       = t("participation_request.state.#{participation_request.state}")
   %td

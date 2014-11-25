@@ -11,7 +11,7 @@
   Pour continuer à recevoir de nouveaux élèves, nous vous conseillons de répondre maintenant :
 
 .p.action
-  = link_to "Accepter / Proposer un autre créneau / Refuser", pro_structure_conversation_url(@admin.structure, @conversation, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
+  = link_to "Accepter / Proposer un autre créneau / Refuser", pro_structure_participation_request_url(@admin.structure, @participation_request, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
 
 - if @message
   .soft--bottom

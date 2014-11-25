@@ -11,7 +11,7 @@
   \: répondez-lui dès maintenant avant qu'elle n'expire. Grâce à votre réactivité, votre profil remontera dans le moteur de recherche :
 
 .p.action
-  = link_to "Accepter / Proposer un autre créneau / Refuser", pro_structure_conversation_url(@admin.structure, @conversation, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
+  = link_to "Accepter / Proposer un autre créneau / Refuser", pro_structure_participation_request_url(@admin.structure, @participation_request, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
 
 - if @message
   = render partial: 'mailboxer_message_mailer/message_to_admin', locals: { message: @message, user: @user, show_phone_number: false }
