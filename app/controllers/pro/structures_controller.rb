@@ -229,8 +229,27 @@ France
 
   def edit_contact
     @structure = Structure.friendly.find(params[:id])
-    5.times { @structure.phone_numbers.build }
     @admin     = @structure.main_contact
+
+    5.times { @structure.phone_numbers.build }
+
+    if @admin.from_facebook? and @admin.oauth_expires_at > Time.current
+      user            = FbGraph::User.me(@admin.oauth_token).fetch
+      @facebook_pages = user.accounts.map { |page| [ page.name, page.link ] }
+
+      if @structure.facebook_url.present?
+        if ! @facebook_pages.any? { |page| page[1] == @structure.facebook_url }
+          @facebook_pages << [ 'Autre', @structure.facebook_url ]
+        else
+          @facebook_pages << [ 'Autre', 'other' ]
+        end
+      else
+        @facebook_pages << [ 'Autre', 'other' ]
+      end
+
+    else
+      @facebook_pages = []
+    end
   end
 
   def new
