@@ -237,12 +237,8 @@ France
       user            = FbGraph::User.me(@admin.oauth_token).fetch
       @facebook_pages = user.accounts.map { |page| [ page.name, page.link ] }
 
-      if @structure.facebook_url.present?
-        if ! @facebook_pages.any? { |page| page[1] == @structure.facebook_url }
-          @facebook_pages << [ 'Autre', @structure.facebook_url ]
-        else
-          @facebook_pages << [ 'Autre', 'other' ]
-        end
+      if @structure.facebook_url.present? and ! @facebook_pages.any? { |page| page[1] == @structure.facebook_url }
+        @facebook_pages << [ 'Autre', @structure.facebook_url ]
       else
         @facebook_pages << [ 'Autre', 'other' ]
       end
