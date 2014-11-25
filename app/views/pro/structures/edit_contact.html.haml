@@ -48,9 +48,9 @@
 
 - content_for :scripts do
   :javascript
-      function removeNames () {
-          $('#facebook_select').attr('name', '');
-          $('#facebook_text_input').attr('name', '');
+      var removeNames = function() {
+          $('#facebook_select').removeAttr('name');
+          $('#facebook_text_input').removeAttr('name');
       }
 
       $(document).ready(function() {
