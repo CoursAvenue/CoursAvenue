@@ -25,3 +25,23 @@
 .addthisevent_dropdown .frs       {position:absolute;top:3px;cursor:pointer;right:10px;padding-left:10px;font-style:normal;font-weight:normal;text-align:right;z-index:101;line-height:110%;background:#fff;text-decoration:none;font-size:10px;color:#cacaca;}
 .addthisevent_dropdown .frs:hover     {color:#6d84b4;}
 .addthisevent               {visibility:hidden;}
+
+
+// Can't call that addthisevent--small because addthisevent would be stripped out
+.calendar--small {
+    &.addthisevent-drop {
+        width: auto;
+    }
+}
+
+.calendar--plain {
+    &.addthisevent-drop {
+        width      : auto;
+        background : none;
+        border     : none;
+        color      : $brand-color !important;
+        font-size  : inherit;
+        font-family: inherit;
+        @include box-shadow(none);
+    }
+}

@@ -17,10 +17,10 @@ class Users::ParticipationRequestsController < ApplicationController
     render layout: false
   end
 
-  # GET eleves/:user_id/participation_request/:id/recap
-  def recap
+  # GET eleves/:user_id/participation_request/:id
+  def show
     @participation_request = @user.participation_requests.find(params[:id])
-    render layout: false
+    @structure             = @participation_request.structure
   end
 
   # GET eleves/:user_id/participation_request/:id/cancel_form

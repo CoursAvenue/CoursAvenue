@@ -1,0 +1,49 @@
+%table.table--striped
+  %tr
+    %th Statut
+    %td
+      - if participation_request.pending?
+        - if participation_request.last_modified_by == 'Structure'
+          En attente : confirmez votre inscription
+        - else
+          En attente de validation du professeur
+      - else
+        = t("participation_request.state.#{participation_request.state}")
+
+    %td.text--right
+      = link_to "Accepter le nouveau créneau", accept_user_participation_request_path(@user, participation_request), method: :patch, class: 'btn btn--green btn--small nowrap'
+  %tr
+    %th Nom du cours
+    %td= participation_request.course.name
+    %td.text--right= link_to 'Voir les autres cours', structure_path(participation_request.structure), target: :_blank
+  %tr
+    %th Nom #{t("structures.structure_type_contact_bis.#{(participation_request.structure.present? ? participation_request.structure.structure_type : 'structures.other')}")}
+    %td= link_to participation_request.structure.name, structure_path(participation_request.structure), target: :_blank, class: 'muted-link'
+    %td.text--right= link_to 'Voir le profil', structure_path(participation_request.structure), target: :_blank
+  %tr
+    %th Jour et créneau
+    %td #{l(participation_request.date, format: :semi_long).capitalize} : #{l(participation_request.start_time, format: :short)} à #{l(participation_request.end_time, format: :short)}.
+    %td.text--right= add_to_calendar_plain_text(participation_request)
+  - if participation_request.place
+    %tr
+      %th Lieu
+      %td
+        = "#{participation_request.place.name}, #{participation_request.place.address}"
+      %td.text--right= link_to 'Voir sur GoogleMaps', URI.encode("https://maps.google.com/?q=#{participation_request.place.address}"), target: :_blank
+    - if [participation_request.place.info, participation_request.place.private_info].reject(&:blank?).any?
+      %tr
+        %th Infos pratiques
+        %td
+          - if participation_request.place.info.present?
+            = participation_request.place.info
+          - if participation_request.accepted? and participation_request.place.private_info.present?
+            = participation_request.place.private_info
+        %td
+    %tr
+      %th Téléphone(s)
+      %td
+        - if participation_request.accepted?
+          = participation_request.structure.phone_numbers.map(&:number).join(', ')
+        - else
+          %i Le numéro de téléphone sera affiché une fois l'inscription accepté
+      %td

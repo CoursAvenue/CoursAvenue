@@ -417,9 +417,8 @@ CoursAvenue::Application.routes.draw do
     end
     resources :orders, only: [:index, :show], controller: 'users/orders', path: 'mes-factures'
     resources :sponsorships, only: [:index, :new, :create], controller: 'users/sponsorships', path: 'mes-parrainages'
-    resources :participation_requests, only: [:index, :edit], controller: 'users/participation_requests', path: 'mes-inscriptions' do
+    resources :participation_requests, only: [:index, :edit, :show], controller: 'users/participation_requests', path: 'mes-inscriptions' do
       member do
-        get   :recap
         get   :cancel_form
         patch :accept
         patch :modify_date
