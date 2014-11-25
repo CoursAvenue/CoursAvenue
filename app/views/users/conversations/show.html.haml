@@ -41,23 +41,16 @@
                 = link_to "Annuler l'inscription", cancel_form_user_participation_request_path(@user, @participation_request), class: 'red nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
 
       .grid.epsilon.push-half--bottom
-        .grid__item.two-twelfths.v-top.text--right>
-          %strong.flush
-            Récapitulatif
+        .grid__item.two-twelfths.v-top.text--right.soft-half--top>
+          %strong Récapitulatif
         .grid__item.ten-twelfths.soft-half--left.v-top>
-          = render partial: 'users/participation_requests/table_recap', locals: { participation_request: @participation_request }
+          .milli= render partial: 'users/participation_requests/table_recap', locals: { participation_request: @participation_request }
 
-      .grid.epsilon
-        .grid__item.two-twelfths.v-top.text--right>
-          %strong.flush
-            Ajouter au calendrier
-        .grid__item.ten-twelfths.soft-half--left.v-top>
-          = add_to_calendar(@participation_request)
       .push--top
         - if @participation_request.pending? and @participation_request.last_modified_by == 'Structure'
-          = render 'users/conversations/participation_request_form'
+          = render partial: 'users/conversations/participation_request_form', locals: { participation_request: participation_request }
         - else
-          = render 'users/conversations/form'
+          = render partial: 'users/conversations/form', locals: { conversation: @conversation }
     - else
       = render 'users/conversations/form'
 

@@ -1,0 +1,32 @@
+= side_menu_currently_at 'inscriptions'
+
+.panel
+  .panel__header.soft
+    %ol.nav.flush.breadcrumb{ itemprop: 'breadcrumb' }
+      %li.gamma.f-weight-500= link_to 'Mes inscriptions', pro_structure_participation_requests_path(@structure)
+      %li.gamma.f-weight-500.flush Inscription de #{@user.name}
+  .panel__body.soft--ends
+    = render partial: 'pro/structures/participation_requests/table_recap', locals: { participation_request: @participation_request }
+
+  .panel__header.soft.bordered--top
+    %h4.flush À propos de l'élève
+  .panel__body.soft
+    .grid
+      .grid__item.three-twelfths>
+        = image_tag @user.avatar_url(:thumb), class: 'center-block push-half--bottom'
+        %p.delta.push-half--bottom
+          <strong>#{@user.name}</strong>, #{@user.city.try(:name)}
+        %p.epsilon.push-half--bottom
+          Membre depuis le #{l(@user.sign_up_at.to_date, format: :long)}
+        - if @user.age
+          %p.epsilon.push-half--bottom
+            = "#{@user.age} ans"
+
+      .grid__item.nine-twelfths>
+        %h4 Historique des messages
+        - if @participation_request.pending? and @participation_request.last_modified_by == 'Structure'
+          = render partial: 'pro/structures/conversations/participation_request_form', locals: { participation_request: @participation_request, return_to: pro_structure_participation_request_path(@structure, @participation_request) }
+        - else
+          = render partial: 'pro/structures/conversations/form', locals: { conversation: @participation_request.conversation, return_to: pro_structure_participation_request_path(@structure, @participation_request) }
+        = render partial: 'messages/message', collection: @participation_request.conversation.messages.order('created_at DESC').reject(&:new_record?)
+

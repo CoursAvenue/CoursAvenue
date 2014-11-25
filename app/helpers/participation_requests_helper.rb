@@ -106,7 +106,7 @@ module ParticipationRequestsHelper
         <span class="_description">#{place_info}</span>
         <span class="_location">#{place.try(:address)}</span>
         <span class="_organizer">CoursAvenue en collaboration avec #{structure.name}</span>
-        <span class="_organizer_email">#{structure.main_contact.email}</span>
+        <span class="_organizer_email">contact@coursavenue.com</span>
         <span class="_all_day_event">false</span>
         <span class="_date_format">DD/MM/YYYY</span>
     </a>
@@ -134,7 +134,7 @@ module ParticipationRequestsHelper
         <span class="_description">#{place_info}</span>
         <span class="_location">#{place.try(:address)}</span>
         <span class="_organizer">CoursAvenue en collaboration avec #{structure.name}</span>
-        <span class="_organizer_email">#{structure.main_contact.email}</span>
+        <span class="_organizer_email">contact@coursavenue.com</span>
         <span class="_all_day_event">false</span>
         <span class="_date_format">DD/MM/YYYY</span>
     </a>
@@ -159,7 +159,7 @@ module ParticipationRequestsHelper
         <span class="_description">#{place_info}</span>
         <span class="_location">#{place.try(:address)}</span>
         <span class="_organizer">CoursAvenue en collaboration avec #{structure.name}</span>
-        <span class="_organizer_email">#{structure.main_contact.email}</span>
+        <span class="_organizer_email">contact@coursavenue.com</span>
         <span class="_all_day_event">false</span>
         <span class="_date_format">DD/MM/YYYY</span>
     </a>

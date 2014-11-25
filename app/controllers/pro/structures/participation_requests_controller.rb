@@ -19,6 +19,12 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     render layout: false
   end
 
+  # GET pro/etablissements/:structure_id/participation_request/:id
+  def show
+    @participation_request = @structure.participation_requests.find(params[:id])
+    @user                  = @participation_request.user
+  end
+
   # GET pro/etablissements/:structure_id/participation_request/:id/cancel_form
   def cancel_form
     @participation_request = @structure.participation_requests.find(params[:id])

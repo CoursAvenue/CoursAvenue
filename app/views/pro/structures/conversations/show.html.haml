@@ -9,30 +9,19 @@
   .panel__body.soft
     .grid
       .grid__item.two-twelfths.v-middle.text--right>
-        %p.flush Objet
+        %p.epsilon.flush Objet
       .grid__item.ten-twelfths.soft-half--left.v-middle>
-        %h5.flush
+        %p.epsilon.flush
           = @conversation.subject
           - if conversation_extra_infos(@conversation).present?
             = "(#{conversation_extra_infos(@conversation).map{ |extra_info| t("#{extra_info.name}_small") }.join(', ')})"
     .grid
       .grid__item.two-twelfths.v-middle.text--right>
-        %p.flush À
+        %p.epsilon.flush À
       .grid__item.ten-twelfths.soft-half--left.v-middle>
-        %h5.flush= recipients.map(&:name).join(', ')
+        %p.epsilon.flush= recipients.map(&:name).join(', ')
 
     - user = @conversation.recipients.detect{ |recipient| recipient.is_a? User }
-    - if user.phone_number.present?
-      - # If it is a request, show phone number only if request is accepted
-      .grid.epsilon.push-half--bottom
-        .grid__item.two-twelfths.v-middle.text--right.v-middle>
-          %strong.flush
-            Téléphone
-        .grid__item.ten-twelfths.soft-half--left.v-middle>
-          - if !participation_request or (participation_request and participation_request.accepted?)
-            %strong= readable_phone_number user.phone_number
-          - else
-            %i Le téléphone de l'élève s'affichera une fois l'inscription confirmée
     - if conversation_courses(@conversation, @structure).present?
       .grid
         .grid__item.two-twelfths.v-middle.text--right>
@@ -63,40 +52,15 @@
           %strong.flush
             Récapitulatif
           .milli.blue Infos transmises à l'élève
-        .grid__item.ten-twelfths.soft-half--left.v-top>
-          %ul.no-bullet-list.flush
-            %li
-              %strong Nom du cours :
-              = @participation_request.course.name
-            %li
-              %strong Jour et créneau :
-              #{l(@participation_request.date, format: :semi_long)} : #{l(@participation_request.start_time, format: :short)} à #{l(@participation_request.end_time, format: :short)}.
-            - if @participation_request.place
-              %li
-                %strong Lieu :
-                = "#{@participation_request.place.name}, #{@participation_request.place.address}"
-              - if [@participation_request.place.info, @participation_request.place.private_info].reject(&:blank?).any?
-                %li
-                  %strong Infos pratiques :
-                  = [@participation_request.place.info, @participation_request.place.private_info].reject(&:blank?).join(' ')
-                  = link_to edit_pro_structure_place_path(@structure, @participation_request.place, return_to_action: 'window.location.reload()'), class: 'milli fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 } do
-                    %i.fa.fa-pencil
-                    Modifier
-              %li
-                %strong Téléphone(s) :
-                = @participation_request.structure.phone_numbers.map(&:number).join(', ')
-                = link_to edit_contact_pro_structure_path(@structure), class: 'milli', target: :_blank do
-                  %i.fa.fa-pencil
-                  Modifier
-                %br
-                %i.milli.blue (Les numéros de téléphones et infos pratiques privées seront transmises à l'élève une fois l'inscription confirmée)
+        .grid__item.ten-twelfths.v-top.text--right>
+          .milli= render partial: 'pro/structures/participation_requests/table_recap', locals: { participation_request: @participation_request }
 
       .push--top
         - if @participation_request.pending? and @participation_request.last_modified_by == 'User'
-          = render 'pro/structures/conversations/participation_request_form'
+          = render partial: 'pro/structures/conversations/participation_request_form', locals: { participation_request: @participation_request }
         - else
-          = render 'pro/structures/conversations/form'
+          = render partial: 'pro/structures/conversations/form', locals: { conversation: @conversation }
     - else
-      .push--top= render 'pro/structures/conversations/form'
+      .push--top= render partial: 'pro/structures/conversations/form', locals: { conversation: @conversation }
 
     = render partial: 'messages/message', collection: @conversation.messages.order('created_at DESC').reject(&:new_record?)

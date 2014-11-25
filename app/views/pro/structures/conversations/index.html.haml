@@ -34,7 +34,6 @@
           .grid__item.two-thirds.text--center>
             = paginate @conversations, window: 1, outer_window: 3
         - @conversations.each do |conversation|
-          -# cache [conversation, 'pro/structures/conversation/index'] do
           = render partial: 'pro/conversations/conversation', locals: { conversation: conversation }
 
 

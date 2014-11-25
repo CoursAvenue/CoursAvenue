@@ -15,24 +15,17 @@
     .panel.push--bottom
       .panel__header.soft
         %h3.flush Demande de réservation
-      .panel__body.soft
-        .milli= render partial: 'users/participation_requests/table_recap', locals: { participation_request: @participation_request }
-        .text--center
-          .grid
-            .grid__item.one-half.text--center.v-middle>
-              %strong.block.v-middle Ajouter à mon calendrier
-              = add_to_calendar(@participation_request)
-            .grid__item.one-half.text--center.v-middle>
-              = link_to 'Historique des messages', user_conversation_path(@user, @participation_request.conversation), class: 'btn'
+      .panel__body.soft--ends
+        = render partial: 'users/participation_requests/table_recap', locals: { participation_request: @participation_request }
 
     .panel.push--bottom
       .panel__header.soft
         %h3.flush Historique des messages
       .panel__body.soft
         - if @participation_request.pending? and @participation_request.last_modified_by == 'Structure'
-          = render 'users/conversations/participation_request_form'
+          = render partial: 'users/conversations/participation_request_form', locals: { return_to: user_participation_request_path(@user, @participation_request), participation_request: @participation_request }
         - else
-          = render 'users/conversations/form'
+          = render partial: 'users/conversations/form', locals: { return_to: user_participation_request_path(@user, @participation_request), conversation: @participation_request.conversation}
         = render partial: 'messages/message', collection: @participation_request.conversation.messages.order('created_at DESC').reject(&:new_record?)
 
     .panel

@@ -40,7 +40,7 @@ class Users::ConversationsController < ApplicationController
       if params[:conversation][:message][:body].blank?
         format.html { redirect_to user_conversation_path(@user, @conversation), alert: 'Vous ne pouvez pas envoyer de message vide' }
       else
-        format.html { redirect_to user_conversation_path(@user, @conversation), notice: 'Message envoyé' }
+        format.html { redirect_to (params[:return_to].present? ? params[:return_to] : user_conversation_path(@user, @conversation)), notice: 'Message envoyé' }
       end
     end
   end

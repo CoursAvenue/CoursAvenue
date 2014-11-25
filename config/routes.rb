@@ -318,7 +318,7 @@ CoursAvenue::Application.routes.draw do
             get :ca_communication, path: 'communication-coursavenue'
           end
         end
-        resources :participation_requests, only: [:edit, :index], controller: 'structures/participation_requests', path: 'suivi-inscriptions' do
+        resources :participation_requests, only: [:edit, :index, :show], controller: 'structures/participation_requests', path: 'suivi-inscriptions' do
           member do
             get   :cancel_form
             patch :accept

@@ -1,10 +1,13 @@
+- return_to = nil if return_to.nil?
 .grid--full.push-half--bottom.message
   .grid__item.two-twelfths.v-top.v-top>
     = image_tag @structure.logo.url(:thumb), class: 'message__avatar block center-block bordered rounded--circle'
   .grid__item.ten-twelfths.message__body.message__appendix.soft-half.gray-box>
-    = simple_form_for [:pro, @structure, @participation_request], url: accept_pro_structure_participation_request_path(@structure, @participation_request), html: { id: 'participation-request-form' } do |f|
+    = simple_form_for [:pro, @structure, participation_request], url: accept_pro_structure_participation_request_path(@structure, participation_request), html: { id: 'participation-request-form' } do |f|
+      - if return_to
+        %input{ name: 'return_to', value: return_to, type: 'hidden' }
       = f.error_notification
-      = f.fields_for :message, @message, class: 'message__body message__appendix' do |message_form|
+      = f.fields_for :message, participation_request.conversation.messages.build, class: 'message__body message__appendix' do |message_form|
         = message_form.input :body, input_html: { placeholder: "Ajoutez votre message personnel ici sans information de contact ni de lien vers votre site Internet : votre téléphone sera envoyé automatiquement à l'élève une fois l'inscription validée.", style: 'height: 100px', class: 'input--large one-whole', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
 
       #submit-buttons
@@ -12,7 +15,7 @@
           .flexbox__item>
             = link_to 'Accepter et envoyer', '#', class: 'btn--full btn btn--green', data: { disable_with: "Message en cours d'envoi" }, id: 'accept-request'
           .flexbox__item.soft-half--sides>
-            = link_to 'Proposer un autre créneau', edit_pro_structure_participation_request_path(@structure, @participation_request), class: 'btn btn--orange btn--full fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+            = link_to 'Proposer un autre créneau', edit_pro_structure_participation_request_path(@structure, participation_request), class: 'btn btn--orange btn--full fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
           .flexbox__item>
             = link_to 'Refuser la demande', '#', class: 'btn--full btn btn--red', data: { disable_with: "Message en cours d'envoi" }, id: 'decline-request'
 
@@ -23,15 +26,15 @@
             $('#submit-buttons').slideDown();
         });
         $('#accept-request').click(function() {
-            $('#participation-request-form').attr('action', Routes.accept_pro_structure_participation_request_path(#{@structure.id}, #{@participation_request.id}));
+            $('#participation-request-form').attr('action', Routes.accept_pro_structure_participation_request_path(#{@structure.id}, #{participation_request.id}));
             $('#participation-request-form').submit();
         });
         $('#modify-request').click(function() {
-            $('#participation-request-form').attr('action', Routes.modify_date_pro_structure_participation_request_path(#{@structure.id}, #{@participation_request.id}));
+            $('#participation-request-form').attr('action', Routes.modify_date_pro_structure_participation_request_path(#{@structure.id}, #{participation_request.id}));
             $('#participation-request-form').submit();
         });
         $('#decline-request').click(function() {
-            $('#participation-request-form').attr('action', Routes.decline_pro_structure_participation_request_path(#{@structure.id}, #{@participation_request.id}));
+            $('#participation-request-form').attr('action', Routes.decline_pro_structure_participation_request_path(#{@structure.id}, #{participation_request.id}));
             $('#participation-request-form').submit();
         });
     });

@@ -1,15 +1,18 @@
+- return_to = nil if return_to.nil?
 .grid--full.push-half--bottom.message
   .grid__item.two-twelfths.v-top.v-top>
     = image_tag @structure.logo.url(:thumb), class: 'message__avatar block center-block bordered rounded--circle'
   .grid__item.ten-twelfths.message__body.message__appendix.soft-half.gray-box>
-    = simple_form_for [:pro, @structure, @conversation], url: pro_structure_conversation_path(@structure, @conversation), as: :conversation, remote: @is_xhr do |f|
+    = simple_form_for [:pro, @structure, conversation], url: pro_structure_conversation_path(@structure, conversation), as: :conversation, remote: @is_xhr do |f|
+      - if return_to
+        %input{ name: 'return_to', value: return_to, type: 'hidden' }
       = f.error_notification
-      = f.fields_for :message, @message, class: 'message__body message__appendix' do |message_form|
+      = f.fields_for :message, conversation.messages.build, class: 'message__body message__appendix' do |message_form|
         = message_form.input :body, input_html: { placeholder: 'Ajouter un message personnel ici', style: 'height: 100px', class: 'input--large one-whole', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
       = f.submit 'Répondre', class: 'btn btn--green', data: { disable_with: "Message en cours d'envoi" }
-      - if @conversation.mailboxer_label_id == Mailboxer::Label::INFORMATION.id and conversation_waiting_for_reply? @conversation
+      - if conversation.mailboxer_label_id == Mailboxer::Label::INFORMATION.id and conversation_waiting_for_reply? conversation
         = succeed ' ' do
-          = link_to 'Demande traitée par téléphone', treat_by_phone_pro_structure_conversation_path(@structure, @conversation), class: 'btn btn--green', method: :patch
+          = link_to 'Demande traitée par téléphone', treat_by_phone_pro_structure_conversation_path(@structure, conversation), class: 'btn btn--green', method: :patch
         = succeed ' ' do
           .inline-block.drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'left' } }
             %a.btn
@@ -17,8 +20,8 @@
               Signaler
             %ul.drop-down__el.text--left
               %li.nowrap
-                = link_to 'Fausse demande', flag_pro_structure_conversation_path(@structure, @conversation, flag: 'Fausse demande'), method: :patch
+                = link_to 'Fausse demande', flag_pro_structure_conversation_path(@structure, conversation, flag: 'Fausse demande'), method: :patch
               %li.nowrap
-                = link_to 'Contenu inapproprié / offensant', flag_pro_structure_conversation_path(@structure, @conversation, flag: 'Contenu inapproprié / offensant'), method: :patch
+                = link_to 'Contenu inapproprié / offensant', flag_pro_structure_conversation_path(@structure, conversation, flag: 'Contenu inapproprié / offensant'), method: :patch
               %li.nowrap
-                = link_to 'Autres', flag_pro_structure_conversation_path(@structure, @conversation, flag: 'Autres'), method: :patch
+                = link_to 'Autres', flag_pro_structure_conversation_path(@structure, conversation, flag: 'Autres'), method: :patch

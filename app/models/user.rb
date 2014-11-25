@@ -542,6 +542,14 @@ class User < ActiveRecord::Base
     self.comments.where(commentable_id: structure.id, commentable_type: 'Structure').any?
   end
 
+  def age
+    if self.birthdate
+      age = Date.today.year - self.birthdate.year
+      age -= 1 if Date.today < self.birthdate + age.years # for days before birthdate
+      age
+    end
+  end
+
   private
 
   def random_string

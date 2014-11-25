@@ -1,0 +1,64 @@
+%table.table--striped
+  %tbody
+    %tr
+      %th Statut
+      %td
+        %strong{ class: participation_request_color(participation_request) }
+          - if participation_request.pending? and participation_request.last_modified_by == 'User'
+            En attente : confirmez la demande d'inscription au plus vite
+          - else
+            = t("participation_request.state.#{participation_request.state}")
+      %td.text--right.nowrap
+        - if participation_request.pending? and participation_request.last_modified_by == 'User'
+          %li.nowrap= link_to "Accepter l'inscription", accept_pro_structure_participation_request_path(participation_request.structure, participation_request), method: :patch, class: 'btn btn--green btn--small nowrap'
+
+    %tr
+      %th.nowrap Nom de l'élève
+      %td.one-whole= participation_request.user.name
+      %td.text--right.nowrap
+    %tr
+      %th.nowrap Téléphone de l'élève
+      %td.one-whole
+        - if participation_request.accepted?
+          = participation_request.user.phone_number
+        - else
+          %i Le numéro de téléphone sera affiché une fois l'inscription accepté
+      %td.text--right
+
+    %tr
+      %th.nowrap Nom du cours
+      %td.one-whole
+        - course = participation_request.course
+        %span.has-tooltip{ data: { toggle: 'popover', content: "<strong>Niveau :</strong> #{join_levels(participation_request.levels)}<br><strong>Public :</strong> #{join_audiences(participation_request.planning || participation_request.course)}<br><strong>Disciplines :</strong> #{course.subjects.uniq.map(&:name).join(', ')}", html: 'true', placement: 'top', trigger: 'hover' } }= course.name
+
+      %td.text--right.nowrap
+    %tr
+      %th.nowrap Jour et créneau
+      %td.one-whole #{l(participation_request.date, format: :semi_long).capitalize} : #{l(participation_request.start_time, format: :short)} à #{l(participation_request.end_time, format: :short)}.
+      %td.text--right.nowrap
+        - if participation_request.accepted? or (participation_request.pending? and participation_request.last_modified_by == 'Structure')
+          .flexbox__item.v-middle.one-quarter.soft-half--left#modify-links>
+            = link_to 'Proposer un autre créneau', edit_pro_structure_participation_request_path(participation_request.structure, participation_request), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+    - if participation_request.place
+      %tr
+        %th.nowrap Lieu
+        %td.one-whole= "#{participation_request.place.name}, #{participation_request.place.address}"
+        %td.text--right= link_to 'Voir sur GoogleMaps', URI.encode("https://maps.google.com/?q=#{participation_request.place.address}"), target: :_blank
+      - if [participation_request.place.info, participation_request.place.private_info].reject(&:blank?).any?
+        %tr
+          %th.nowrap Infos pratiques
+          %td.one-whole= [participation_request.place.info, participation_request.place.private_info].reject(&:blank?).join(' ')
+          %td.text--right.nowrap
+            = link_to edit_pro_structure_place_path(participation_request.structure, participation_request.place, return_to_action: 'window.location.reload()'), class: 'milli fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 } do
+              %i.fa.fa-pencil
+              Modifier
+    %tr
+      %th.nowrap Votre téléphone
+      %td.one-whole
+        = participation_request.structure.phone_numbers.map(&:number).join(', ')
+        %br
+        %i.milli.blue (Les numéros de téléphones et infos pratiques privées seront transmises à l'élève une fois l'inscription confirmée)
+      %td.text--right.nowrap
+        = link_to edit_contact_pro_structure_path(participation_request.structure), class: 'milli', target: :_blank do
+          %i.fa.fa-pencil
+          Modifier
