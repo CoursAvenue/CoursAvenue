@@ -283,3 +283,6 @@ gem 'oboe-heroku', '~>0.9.16.1'
 # PDF generation for orders
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
+
+# Contact importing
+gem 'omnicontacts', '~> 0.3.5'
