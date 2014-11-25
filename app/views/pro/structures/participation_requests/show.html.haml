@@ -2,6 +2,11 @@
 
 .panel
   .panel__header.soft
+    - if @participation_request.pending? and @participation_request.last_modified_by == 'User' and @participation_request.created_at > 2.days.ago
+      .float--right.nowrap.orange.soft-half--top
+        %i.fa.fa-clock-o.delta
+        %strong.delta Reçu il y a
+        %strong.delta#expires-in
     %ol.nav.flush.breadcrumb{ itemprop: 'breadcrumb' }
       %li.gamma.f-weight-500= link_to 'Mes inscriptions', pro_structure_participation_requests_path(@structure)
       %li.gamma.f-weight-500.flush Inscription de #{@user.name}
@@ -29,4 +34,20 @@
         - else
           = render partial: 'pro/structures/conversations/form', locals: { conversation: @participation_request.conversation, return_to: pro_structure_participation_request_path(@structure, @participation_request) }
         = render partial: 'messages/message', collection: @participation_request.conversation.messages.order('created_at DESC').reject(&:new_record?)
+
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+      var date            = Date.parse("#{l(local_time(@participation_request.created_at), format: :js )}");
+      var $countdown_div = $('#expires-in');
+      countdown(date,
+          function(ts) {
+              var hours   = ("0" + ts.hours).slice(-2);
+              var minutes = ("0" + ts.minutes).slice(-2);
+              var seconds = ("0" + ts.seconds).slice(-2);
+              $countdown_div.text((ts.days > 0 ? ts.days + ' jours et ' : '') + hours + ':' + minutes + ':' + seconds);
+          },
+          countdown.DAYS|countdown.HOURS|countdown.MINUTES|countdown.SECONDS);
+    });
 
