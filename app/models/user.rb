@@ -226,11 +226,11 @@ class User < ActiveRecord::Base
       courses = self.participation_requests.where(date: Date.tomorrow, state: 'accepted')
       return false if courses.empty?
 
-      message = "Rappel: Vous avez #{courses.length} cours demain et "
+      message = "Rappel: Vous avez #{courses.length} cours demain "
       if courses.length > 1
-        message += "le premier commence à "
+        message += "et le premier commence à "
       else
-        message += "il commence à "
+        message += "qui commence à "
       end
       message += "#{I18n.l(courses.first.start_time, format: :short)}. "
       message += 'CoursAvenue vous souhaite une très belle séance ! Pour l’annuler, connectez-vous ("Mes inscriptions").'
