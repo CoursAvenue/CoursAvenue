@@ -4,10 +4,10 @@ class Pro::ContactsController < Pro::ProController
   end
 
   def failure
-    error_message = ""
+    @error_message = "Erreur: Veuillez rééssayer."
     respond_to do |format|
-      format.json { render json: { message: error_message }, status: 422 }
-      format.html { redirect_to recommendations_pro_structure_path, flash: { message: message } }
+      format.json { render json: { message: @error_message }, status: 422 }
+      format.html { render }
     end
   end
 end
