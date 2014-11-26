@@ -224,6 +224,13 @@ class ParticipationRequest < ActiveRecord::Base
     nil
   end
 
+  # When a request is created (always by user), we alert the teacher via sms
+  #
+  # @return nil
+  def send_sms_to_teacher
+    self.structure.main_contact.notify_new_participation_request_via_sms(self)
+  end
+
   def reply_to_conversation(message_body, last_modified_by)
     message_body = StringHelper.replace_contact_infos(message_body)
     if message_body.present?

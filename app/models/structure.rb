@@ -476,6 +476,28 @@ class Structure < ActiveRecord::Base
     end
   end
 
+  # Sends a SMS to contact number.
+  #
+  # @param pr — The Participation Request
+  #
+  # @return a Boolean, whether the sms was sent or not.
+  def notify_new_participation_request_via_sms(pr)
+    number = self.principal_phone_number
+
+    if number and self.sms_opt_in? and uses_mobile?(number.number)
+      first   = (self.participation_request.where(user: pr.user).count == 1)
+
+      message = "Bonne nouvelle ! "
+      message += "#{ pr.user.name } souhaite venir à une "
+      message += "1ère " if first
+      message += "séance le "
+      message += "#{ I18n.l(pr.date, format: :short) } à #{ I18n.l(pr.start_time, format: :short) }."
+      message += " Connectez-vous à votre profil pour lui répondre directement."
+
+      self.delay.send_sms(message, formatted_number(number))
+    end
+  end
+
   # Check wether a place is in a given bounding box
   # @param  south_west Array [latitude, longitude]
   # @param  north_east Array [latitude, longitude]

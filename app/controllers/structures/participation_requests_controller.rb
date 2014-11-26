@@ -59,6 +59,7 @@ class Structures::ParticipationRequestsController < ApplicationController
     respond_to do |format|
       if @participation_request.persisted?
         Metric.action(@structure.id, current_user, cookies[:fingerprint], request.ip, 'participation_request')
+        @participation_request.send_sms_to_teacher
         format.json { render json: { succes: true, popup_to_show: render_to_string(partial: 'structures/participation_requests/request_sent', formats: [:html]) } }
         format.html { redirect_to user_conversation_path(current_user, @conversation) }
       else
