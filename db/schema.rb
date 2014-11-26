@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141110161709) do
+ActiveRecord::Schema.define(version: 20141118130604) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,10 @@ ActiveRecord::Schema.define(version: 20141110161709) do
     t.boolean  "email_opt_in",                      default: true
     t.hstore   "email_opt_in_status"
     t.string   "delivery_email_status"
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "oauth_token"
+    t.datetime "oauth_expires_at"
   end
 
   add_index "admins", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
