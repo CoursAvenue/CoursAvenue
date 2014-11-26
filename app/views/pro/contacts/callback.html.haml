@@ -12,5 +12,27 @@
               %input{ type: 'checkbox', name: contact[:email] }
             %td= contact[:email]
 
+    = link_to 'Importer', '#', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }, id: 'select-emails'
+
 - content_for :scripts do
   :javascript
+
+    // TODO: Rename link #id.
+    $('#select-emails').click(function(e) {
+        e.preventDefault();
+
+        // TODO: Get all emails in comma separated string.
+        var emailList = $('input:checked').map(function(i, elem) { return (elem.name); });
+        var emails    = [].join.call(emailList, ', ');
+        var contents  = $('textarea[name=emails]', opener.window.document).val();
+
+        if (contents == '') {
+            contents = emails;
+        } else {
+            contents += ', ' + emails;
+        }
+
+        $('textarea[name=emails]', opener.window.document).val(contents);
+        opener.window.GLOBAL.flash('Contact importés avec succés.', 'notice');
+        window.close();
+    });
