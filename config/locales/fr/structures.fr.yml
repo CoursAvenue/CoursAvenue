@@ -39,6 +39,7 @@ fr:
         gives_group_courses: Collectifs
         gives_individual_courses: Particuliers
         highlighted_comment_id: 'Accroche de votre profil :'
+        sms_opt_in: "CoursAvenue m'envoie un SMS lorsqu'un élève s'inscrit à un cours."
 
   simple_form:
     placeholders:

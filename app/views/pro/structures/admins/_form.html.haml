@@ -40,6 +40,7 @@
           %strong.label--large Envoyez-moi des SMS quand :
         .grid__item.two-thirds>
           .checkbox-at-left
-            = f.input :sms_opt_in, as: :boolean, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+            = f.simple_fields_for :structure, @structure do |structure_form|
+              = structure_form.input :sms_opt_in, as: :boolean, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
 
     = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }

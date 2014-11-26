@@ -25,7 +25,7 @@ class ::Admin < ActiveRecord::Base
                   :email_opt_in,
                   :student_action_email_opt_in, :newsletter_email_opt_in,
                   :monday_email_opt_in, :jpo_email_opt_in, :stats_email, :delivery_email_status,
-                  :sms_opt_in
+                  :sms_opt_in, :structure_attributes
 
   store_accessor :email_opt_in_status, :student_action_email_opt_in, :newsletter_email_opt_in,
                                        :monday_email_opt_in, :jpo_email_opt_in, :stats_email
@@ -37,6 +37,7 @@ class ::Admin < ActiveRecord::Base
   # Relations                                                          #
   ######################################################################
   belongs_to :structure
+  accepts_nested_attributes_for :structure
 
   ######################################################################
   # Validations                                                        #
