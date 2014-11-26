@@ -35,9 +35,12 @@
             success: function success (response) {
                 window.location = response.redirect_url
             },
-            error: {
-            }
+            error: function error (response) {
+                var message = $.parseJSON(response.responseText).message;
+                GLOBAL.flash(message);
+            },
+            pro: true
         };
 
-        CoursAvenue.loginWithFacebookPro(loginOptions);
+        CoursAvenue.loginWithFacebook(loginOptions);
     });
