@@ -1,9 +1,9 @@
 .panel
   .panel__header.soft
-    %h4.flush Connectez-vous à votre espace pro
+    %h4.flush Connexion à votre espace pro
   .panel__body.soft
     .text--center
-      %a{ data: { behavior: 'facebook-login' }, class: 'btn btn--facebook', id: 'facebook_button' }
+      %a{ data: { behavior: 'facebook-login', disable_with: 'Connexion en cours...' }, class: 'btn btn--facebook', id: 'facebook_button' }
         Connexion avec Facebook
     .or
       %span.f-weight-600
@@ -11,14 +11,18 @@
 
     = simple_form_for(Admin.new, as: :pro_admin, url: pro_admin_session_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)) do |f|
       .form-inputs
-        = f.input :email, required: false, autofocus: true, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
-        = f.input :password, required: false, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
-        = f.input :remember_me, as: :boolean, input_html: { class: 'flush--top input--large' }, label_html: { class: 'label--large' }
+        .input-addon.push-half--bottom
+          .input-prefix.epsilon @
+          = f.input :email, required: false, autofocus: true, input_html: { class: 'one-whole input--large', placeholder: 'E-mail' }, label: false
+        .input-addon.push-half--bottom
+          .input-prefix.epsilon
+            .fa.fa-lock
+          = f.input :password, required: false, input_html: { class: 'one-whole input--large', placeholder: 'Mot de passe' }, label: false
+        = f.input :remember_me, as: :hidden, input_html: { value: true }
 
-      .form-actions.one-whole
-        = f.button :submit, "Se connecter", class: 'btn--green btn--full', data: { disable_with: 'Connexion en cours...' }
-        .push-half--top
-          = render "pro/admins/shared/links"
+      = f.button :submit, "Se connecter", class: 'btn--green btn--full', data: { disable_with: 'Connexion en cours...' }
+      .push-half--top
+        = render "pro/admins/shared/links"
 
 :javascript
   $('[data-behavior=facebook-login]').click(function() {

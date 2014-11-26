@@ -1,12 +1,12 @@
 - @is_responsive = true
 .bg-fixed.home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/home_background7.jpg'})" }
-  .main-container.soft
+  .main-container.main-container--medium.soft
     %h1.flush= t('.log_in')
 
-.main-container.soft
+.main-container.main-container--medium.soft
   .white-box.soft
     .text--center
-      %a{ data: { behavior: 'facebook-login' }, class: 'btn btn--facebook' }
+      %a{ data: { behavior: 'facebook-login', disable_with: 'Connexion en cours...' }, class: 'btn btn--facebook' }
         Connexion avec Facebook
     .or
       %span
