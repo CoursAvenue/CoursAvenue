@@ -1217,6 +1217,8 @@ class Structure < ActiveRecord::Base
   end
 
   # The principal phone number of this structure or the first one.
+  #
+  # @return The principal PhoneNumber or the first one, or nil otherwise.
   def principal_phone_number
     self.phone_numbers.where(principal: true).first || self.phone_numbers.first
   end
