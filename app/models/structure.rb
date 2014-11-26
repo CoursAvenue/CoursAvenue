@@ -903,7 +903,7 @@ class Structure < ActiveRecord::Base
   #
   # @return Comment
   def highlighted_comment
-    self.comments.find(highlighted_comment_id) if highlighted_comment_id
+    Comment::Review.find(highlighted_comment_id) if highlighted_comment_id
   end
 
   #

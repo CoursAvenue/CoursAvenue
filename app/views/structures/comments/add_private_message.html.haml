@@ -16,23 +16,13 @@
             = image_tag @structure.logo.url(:thumb)
       %header.grid__item.seven-eighths>
         %h1.flush
-          Rédigez votre avis
-        .delta.line-height-1-7
-          - if @participation_request
-            à propos du cours "#{@participation_request.course.name}" de #{@structure.name}
-          - else
-            à propos de
-            = link_to @structure.name, structure_path(@structure), class: 'semi-muted-link', target: :_blank
-        .epsilon Votre expérience est précieuse !
+          Merci d'avoir laissé votre avis !
+        %h4.flush.line-height-1-7
+          Envoyez un message privé en plus de votre avis publique, votre professeur appréciera.
 
 .main-container.soft--ends
   .center-block{ style: 'max-width: 800px; '}>
     .two-thrids
-      %h2.text--center
-        Merci d'avoir laissé votre avis !
-      %h5.text--center
-        Envoyez un message privé en plus de votre avis publique, votre professeur appréciera.
-
       = simple_form_for @comment, url: structure_comment_path(@structure, @comment), as: :comment do |f|
         = render 'private_message'
         .text--center

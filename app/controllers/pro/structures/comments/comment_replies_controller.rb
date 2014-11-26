@@ -57,7 +57,7 @@ class Pro::Structures::Comments::CommentRepliesController < Pro::ProController
   private
 
   def load_comment
-    @comment = @structure.comments.find params[:comment_id]
+    @comment = Comment::Review.find params[:comment_id]
   end
 
 end

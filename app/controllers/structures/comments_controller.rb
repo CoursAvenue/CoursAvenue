@@ -28,7 +28,7 @@ class Structures::CommentsController < ApplicationController
 
   def show
     @structure    = Structure.friendly.find(params[:structure_id])
-    @comment      = @structure.comments.find(params[:id])
+    @comment      = Comment::Review.find(params[:id])
     @user         = @comment.user
     @structure_search = StructureSearch.search({ lat: @structure.latitude,
                                                  lng: @structure.longitude,
@@ -49,8 +49,8 @@ class Structures::CommentsController < ApplicationController
 
   def create
     # In case the validation fails, we want to have the `@participation_request`
-    @participation_request = ParticipationRequest.find(params[:participation_request_id]) if params[:participation_request_id].present?
     @structure = Structure.friendly.find(params[:structure_id])
+    @participation_request = @structure.participation_request.find(params[:participation_request_id]) if params[:participation_request_id].present?
     @comment   = @structure.comments.build params[:comment]
 
     @user = create_user(params[:comment])
@@ -77,9 +77,9 @@ class Structures::CommentsController < ApplicationController
     params.each do |name, value|
       comment_params[name.split('comment_').last] = value if name.starts_with? 'comment_'
     end
-    # In case the validation fails, we want to have the `@participation_request`
-    @participation_request = ParticipationRequest.find(params[:participation_request_id]) if params[:participation_request_id].present?
     @structure = Structure.friendly.find(params[:structure_id])
+    # In case the validation fails, we want to have the `@participation_request`
+    @participation_request = @structure.participation_requests.find(params[:participation_request_id]) if params[:participation_request_id].present?
     subject_ids = comment_params.delete(:subject_ids)
     @comment   = @structure.comments.build comment_params
     @comment.subjects = Subject.find subject_ids.split(',') if subject_ids

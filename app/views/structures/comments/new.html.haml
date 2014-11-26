@@ -90,6 +90,7 @@
           - unless current_user
             = f.input :author_name, label_html: { class: 'v-middle label--large' }, required: true, placeholder: 'Ex. : Stéphanie P.', input_html: { class: 'input--large' }
 
+          %hr.push--top
           = render partial: 'private_message', locals: { f: f }
           .text--center
             = f.submit 'Publier mon avis', class: 'btn btn--large btn--green btn--full', data: { disable_with: "En cours de publication..." }
