@@ -229,8 +229,8 @@ France
 
   def edit_contact
     @structure = Structure.friendly.find(params[:id])
-    5.times { @structure.phone_numbers.build }
     @admin     = @structure.main_contact
+    (5 - @structure.phone_numbers.count).times { @structure.phone_numbers.build }
   end
 
   def new
