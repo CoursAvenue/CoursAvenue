@@ -1216,6 +1216,11 @@ class Structure < ActiveRecord::Base
     self.courses.open_for_trial.any?
   end
 
+  # The principal phone number of this structure or the first one.
+  def principal_phone_number
+    self.phone_numbers.where(principal: true).first || self.phone_numbers.first
+  end
+
   private
 
   # Strip name if exists to prevent from name starting by a space
