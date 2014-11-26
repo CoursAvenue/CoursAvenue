@@ -40,11 +40,11 @@
                       ?
                     %h4 Choisissez vos identifiants pour gérer votre profil :
 
-                .text--center
-                  %a.btn.btn--bigger.btn--facebook{ data: { behavior: 'facebook-login' } }
-                    S'inscrire avec Facebook
-                .text--center.push-half--top
-                  %strong.epsilon> OU
+                -# .text--center
+                -#   %a.btn.btn--bigger.btn--facebook{ data: { behavior: 'facebook-login', disable_with: "Inscription en cours..." } }
+                -#     S'inscrire avec Facebook
+                -# .text--center.push-half--top
+                -#   %strong.epsilon> OU
                 = simple_form_for [:pro, @admin], url: pro_admin_registration_path, html: { autocomplete: 'off', class: 'half-form'} do |f|
                   = f.error_notification
                   .grid
@@ -185,3 +185,4 @@
       $(function() {
           mixpanel.track("Structures/show: landed on take control page", { "structure_slug": "#{@structure.slug}", "structure_name": "#{@structure.name}" });
       });
+
