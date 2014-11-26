@@ -2,6 +2,8 @@
 CoursAvenue::Application.routes.draw do
 
   mount Ckeditor::Engine => '/ckeditor'
+  mount_griddler
+  get "/email_processor", to: proc { [200, {}, ["OK"]] }, as: "mandrill_head_test_request"
   get '/robots.txt' => 'home#robots'
   # ---------------------------------------------
   # ----------------------------------------- PRO
@@ -64,6 +66,7 @@ CoursAvenue::Application.routes.draw do
       resources :blog_articles, controller: 'blog/articles', path: 'blog'
       resources :press_releases, path: 'communiques-de-presse'
       resources :press_articles
+      resources :flyers, only: [:index, :update]
       resources :faqs do
         collection do
           get :preview
@@ -462,9 +465,17 @@ CoursAvenue::Application.routes.draw do
     resources :messages              , only: [:create]                                    , controller: 'structures/messages'
     resources :places                , only: [:index]                                     , controller: 'structures/places'
     resources :courses               , only: [:show, :index]                              , controller: 'structures/courses'    , path: 'cours'
+    resources :comments              , only: [:create, :new, :show, :index, :update]      , controller: 'structures/comments'   , path: 'avis' do
+      collection do
+        get :create_from_email
+      end
+      member do
+        get :add_private_message, path: 'envoyer-un-message-prive'
+      end
+    end
+    # Here for old 404
     resources :comments              , only: [:new]                                       , controller: 'structures/comments'   , path: 'recommendations'
     resources :comments              , only: [:new]                                       , controller: 'structures/comments'   , path: 'recommandations'
-    resources :comments              , only: [:create, :new, :show, :index]               , controller: 'structures/comments'   , path: 'avis'
     resources :teachers              , only: [:index]                                     , controller: 'structures/teachers'
     resources :medias                , only: [:index]                                     , controller: 'structures/medias'
   end
@@ -474,6 +485,7 @@ CoursAvenue::Application.routes.draw do
   end
 
   resources :keywords, only: [:index]
+  resources :reply_token, only: [:show]
 
   ########### Vertical pages ###########
   get 'cours/:id--:city_id'                        , to: 'vertical_pages#show_with_city', as: :root_vertical_page_with_city

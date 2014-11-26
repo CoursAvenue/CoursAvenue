@@ -26,13 +26,13 @@
 
       - if @pending_comments.any?
         %h4.flush Avis en attente de validation
-        %p.blue.push-half--bottom
+        %p.blue.push-half--bottom.f-weight-bold
           %i Validez les avis si ce sont bien vos élèves. Une fois validé, l'avis sera visible sur votre profil public.
         - @pending_comments.each do |comment|
           - cache [comment, 'pro/structure/comments/index/pending'] do
             .grid.push-half--bottom
               .grid__item.three-quarters.v-middle>
-                %p.flush
+                %p.flush.epsilon
                   %b= comment.author_name
                   = "(#{comment.email})"
               .grid__item.one-quarter.v-middle.text--right.nowrap>

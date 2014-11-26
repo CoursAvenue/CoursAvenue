@@ -1,32 +1,18 @@
 - content_for :head do
   %meta{ name: 'robots', content: 'noindex, nofollow' }
 
-- default_fake_message = []
-- if @participation_request
-  - default_fake_message << "Bonjour,\nJ'ai vraiment apprécié ma séance d'essai et je souhaiterais éventuellement m'inscrire à des cours réguliers. N'hésitez pas à m'envoyer toutes les informations, et m'informer également de vos stages à venir. \nMerci pour tout !"
-- else
-  - default_fake_message << "Salut !\nJe viens de déposer ma recommandation, j'espère qu'elle te plaira.\nMerci pour tout, à très bientôt !"
-  - default_fake_message << "Bonjour,\nJ’ai déposé mon témoignage avec grand plaisir, ça fait toujours du bien de partager de si belles expériences.\nA très vite !"
-  - default_fake_message << "Salut,\nMerci beaucoup d’avoir pensé à moi pour témoigner sur tes cours que je recommande toujours aussi vivement !\nA très vite."
-  - default_fake_message << "Salut\nSuperbe idée que de témoigner sur tes cours qui m’apportent toujours autant.\nA très bientôt !"
-  - default_fake_message << "Hello,\nMon avis vient d’être posté sur ton profil, bien content de participer au bouche à oreille.\nMerci, à bientôt !"
-  - default_fake_message << "Salut,\nRavi d’avoir pu poster ma recommandation sur tes cours qui valent la peine d’être connus.\nA + !"
-  - default_fake_message << "Salut,\nMa recommandation est déposée, j’espère qu’elle t’aidera à développer encore plus de cours.\nÀ très vite !"
-  - default_fake_message << "Hello,\nVoici mon avis positif à propos de tes cours, à très bientôt dans une prochaine séance !"
-  - default_fake_message << "Salut,\nSuite à ta demande de recommandation, voici mon avis à propos de tes cours, toujours au top.\nA bientôt !"
-  - default_fake_message << "Salut,\nC’était très facile de rédiger mon avis positif à propos de tes cours ! Merci encore et à très bientôt."
-  - default_fake_message << "Hello,\nVoici mon témoignage sur tes cours, j’ai déjà hâte de venir à la prochaine séance !"
-  - default_fake_message << "Bonjour,\nJ'ai déposé mon avis qui est bien sûr très positif.\nBises et à très bientôt !"
-  - default_fake_message << "Salut !\nJ'espère que mon avis te plaira.\nÀ très vite !"
-  - default_fake_message << "Salut !\nVoilà, j'ai déposé mon avis.\nMerci d'avoir pensé à moi, à bientôt !"
-
 = content_for :title do
   Donnez votre avis sur #{@structure.name}
 
 = content_for :meta_description do
   Donnez votre avis sur #{@structure.name}
 
-.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/home_background.jpg'})" }
+- if @structure.dominant_root_subject
+  - url = "https://coursavenue-public.s3.amazonaws.com/public_assets/home_backgrounds/#{@structure.dominant_root_subject.slug}.jpg"
+- else
+  - url = "https://coursavenue-public.s3.amazonaws.com/public_assets/pro/home_background#{[2,3,4,5,6,7].sample}.jpg"
+
+.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{url})" }
   .main-container.main-container--medium.soft
     .grid
       - if @structure.logo.present?
@@ -48,7 +34,9 @@
   .grid
     .grid__item.two-thirds>
       .two-thrids.center-block
-        = simple_form_for @comment, url: structure_comments_path(@structure), as: :comment, data: { recover: "comment" } do |f|
+        = simple_form_for @comment, url: structure_comments_path(@structure), as: :comment do |f|
+          - if @participation_request
+            %input{ type: 'hidden', value: @participation_request.id, name: 'participation_request_id'}
           = f.hidden_field :commentable_type
           = f.hidden_field :commentable_id
           - if @participation_request
@@ -101,25 +89,9 @@
             = link_to 'Astuces pour un avis utile', 'javascript:void(0)', data: { behavior: 'toggleable', el: '#comment_tricks'}
           - unless current_user
             = f.input :author_name, label_html: { class: 'v-middle label--large' }, required: true, placeholder: 'Ex. : Stéphanie P.', input_html: { class: 'input--large' }
+
           %hr.push--top
-          .input
-            %div.control-label
-              .lbl.lbl--gray
-                %i.fa.fa-lock.soft-half--right
-                Privé
-            %h5.inline
-              Informations visibles uniquement par votre professeur
-          - unless current_user
-            = f.input :email, label_html: { class: 'v-top label--large' }, required: true, placeholder: "Votre email ne sera visible que par votre professeur", input_html: { value: (params[:comment].present? ? params[:comment][:email] : params[:email]), class: 'input--large' }
-          .input.push-half--bottom
-            %label.control-label.text>
-              %strong Message personnel
-          .input
-            %label.label--large.control-label.text> Objet
-            = text_field_tag :subject, params[:subject], placeholder: (@participation_request ? 'Ex. : Merci pour la séance découverte' : "Ex. : Merci d'avoir pensé à moi !"), class: 'input--large'
-          .input
-            %label.label--large.control-label.text> Message
-            = text_area_tag :private_message, (params[:private_message] || default_fake_message.sample), class: 'text', style: 'height: 130px', data: { behavior: 'autoresize' }, class: 'input--large'
+          = render partial: 'private_message', locals: { f: f }
           .text--center
             = f.submit 'Publier mon avis', class: 'btn btn--large btn--green btn--full', data: { disable_with: "En cours de publication..." }
 

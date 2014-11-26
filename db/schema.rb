@@ -11,12 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141118130604) do
+ActiveRecord::Schema.define(version: 20141119165324) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
-  enable_extension "pg_stat_statements"
 
   create_table "admins", force: true do |t|
     t.string   "email",                             default: "",    null: false
@@ -185,6 +184,7 @@ ActiveRecord::Schema.define(version: 20141118130604) do
     t.string   "type"
     t.integer  "associated_message_id"
     t.boolean  "certified"
+    t.string   "slug"
   end
 
   add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree

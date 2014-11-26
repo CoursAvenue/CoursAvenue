@@ -26,16 +26,12 @@ class Order::Premium < Order
     "FR#{Date.today.year}#{structure.id}#{order_number}"
   end
 
-  def amount
-    if self.promotion_code
-      self.amount_without_promo - self.promotion_code.promo_amount
-    else
-      self.amount_without_promo
-    end
-  end
-
   def amount_without_promo
-    read_attribute(:amount)
+    if self.promotion_code
+      read_attribute(:amount) + self.promotion_code.promo_amount
+    else
+      read_attribute(:amount)
+    end
   end
 
   private

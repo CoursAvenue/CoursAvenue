@@ -101,7 +101,8 @@ class AdminMailer < ActionMailer::Base
     @structure    = admin.structure
     @user         = conversation.recipients.select{|recipient| recipient.is_a? User }.first
     mail to: @admin.email,
-         subject: "Rappel : demande d'information - #{@user.name}"
+         subject: "Rappel : demande d'information - #{@user.name}",
+         reply_to: generate_reply_to('admin')
   end
 
   def message_information_reminder_2(conversation, admin)
@@ -111,7 +112,8 @@ class AdminMailer < ActionMailer::Base
     @structure    = admin.structure
     @user         = conversation.recipients.select{|recipient| recipient.is_a? User }.first
     mail to: @admin.email,
-         subject: "Rappel : demande d'information - #{@user.name}"
+         subject: "Rappel : demande d'information - #{@user.name}",
+         reply_to: generate_reply_to('admin')
   end
 
   ######################################################################
@@ -264,5 +266,19 @@ class AdminMailer < ActionMailer::Base
     @structure = structure
     mail to: @structure.main_contact.email,
          subject: "Votre profil vient d'être supprimé"
+  end
+
+  private
+
+  def generate_reply_to(sender_type = 'admin')
+    reply_token      = ReplyToken.create(reply_type: 'conversation')
+    reply_token.data = {
+      sender_type:     sender_type,
+      sender_id:       sender_type == 'admin' ? @admin.id : @user.id,
+      conversation_id: @conversation.id
+    }
+    reply_token.save
+
+    return "CoursAvenue <#{reply_token.token}@#{CoursAvenue::Application::MANDRILL_REPLY_TO_DOMAIN}"
   end
 end

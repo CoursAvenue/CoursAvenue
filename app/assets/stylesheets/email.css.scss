@@ -8,9 +8,11 @@
 @import "compass/css3/box-sizing";
 @import "compass/css3/transition";
 @import "compass/css3/images";
+@import "partials/generic/mixins";
 
 
 @import "defaults";
+@import "widths";
 @import "colors";
 @import "compass-inuit/generic/mixins";
 @import "compass-inuit/generic/helper";
@@ -22,6 +24,8 @@
 @import "partials/objects/boxes";
 @import "partials/objects/buttons_email";
 @import "partials/objects/tables";
+@import "partials/objects/forms";
+@import "partials/objects/inputs_email";
 @import "partials/generic/helpers";
 @import "partials/generic/font_helpers";
 

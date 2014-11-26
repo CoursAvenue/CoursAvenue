@@ -58,7 +58,11 @@ class Course::Private < Course
   end
 
   def places
-    [self.place].compact
+    if teaches_at_home
+      [self.home_place, self.place].compact
+    else
+      [self.place].compact
+    end
   end
 
   private

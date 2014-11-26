@@ -21,13 +21,15 @@
           %th Promo
           %th.text--right Prix
       %tbody
-        - @orders.each do |order|
+        - SubscriptionPlan.where(SubscriptionPlan.arel_table[:expires_at].gt(Date.today)).each do |subscription_plan|
           %tr
-            %td= SubscriptionPlan::PLAN_TYPE_DESCRIPTION[order.subscription_plan.plan_type]
-            %td= link_to order.structure.name, pro_structure_path(order.structure)
-            %td= l(order.subscription_plan.expires_at)
-            %td= order.promotion_code.try(:code_id)
-            %td.text--right= "#{order.amount}€"
+            %td= SubscriptionPlan::PLAN_TYPE_DESCRIPTION[subscription_plan.plan_type]
+            %td= link_to subscription_plan.structure.name, pro_structure_path(subscription_plan.structure)
+            %td= l(subscription_plan.expires_at)
+            %td= subscription_plan.promotion_code.try(:code_id)
+            %td.text--right
+              - if subscription_plan.orders.any?
+                = "#{subscription_plan.orders.last.amount}€"
 
 = content_for :scripts do
   :javascript
