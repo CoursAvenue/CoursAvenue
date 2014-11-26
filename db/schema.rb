@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141126134315) do
+ActiveRecord::Schema.define(version: 20141126143145) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -916,6 +916,7 @@ ActiveRecord::Schema.define(version: 20141126134315) do
     t.string   "remote_logo_url"
     t.string   "trial_courses_policy"
     t.integer  "sleeping_structure_id"
+    t.boolean  "sms_opt_in",                     default: false
   end
 
   add_index "structures", ["slug"], name: "index_structures_on_slug", unique: true, using: :btree

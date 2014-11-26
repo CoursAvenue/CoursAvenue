@@ -102,7 +102,8 @@ class Structure < ActiveRecord::Base
                   :deletion_reasons, :deletion_reasons_text,
                   :phone_numbers_attributes, :places_attributes, :other_emails, :last_geocode_try,
                   :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason, :order_recipient, :delivery_email_status,
-                  :trial_courses_policy, :sleeping_structure
+                  :trial_courses_policy, :sleeping_structure,
+                  :sms_opt_in
 
   accepts_nested_attributes_for :places,
                                  reject_if: :reject_places,
