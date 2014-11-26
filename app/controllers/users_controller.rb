@@ -174,18 +174,15 @@ class UsersController < InheritedResources::Base
       redirect_url = after_omni_auth_sign_in_path_for(@user)
       respond_to do |format|
         format.html { redirect_to redirect_url }
-        format.json { render json: @user.as_json.merge("redirect_url" => redirect_url) }
+        format.json { render json: UserSerializer.new(@user).to_json }
       end
     else
       session['devise.facebook_data'] = request.env['omniauth.auth']
-      redirect_url = new_user_registration_url
 
       respond_to do |format|
         format.html { redirect_to redirect_url }
-        format.json { render json: { redirect_url: redirect_url } }
+        format.json { render json: { redirect_url: root_path(anchor: 'connexion') } }
       end
-      # respond_with @user, location: new_user_registration_url
-      # redirect_to new_user_registration_url
     end
   end
 

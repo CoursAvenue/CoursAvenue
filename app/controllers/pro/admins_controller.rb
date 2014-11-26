@@ -125,7 +125,7 @@ class ::Pro::AdminsController < InheritedResources::Base
     if admin.sign_in_count == 1
       edit_pro_structure_path(admin.structure)
     else
-      session['admin_return_to'] || dashboard_pro_structure_path(admin.structure)
+      session['pro_admin_return_to'] || dashboard_pro_structure_path(admin.structure)
     end
   end
 

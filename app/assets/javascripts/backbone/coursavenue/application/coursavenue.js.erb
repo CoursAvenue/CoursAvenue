@@ -1,4 +1,8 @@
 CoursAvenue = new Backbone.Marionette.Application({
+
+    FACEBOOK_SCOPE: 'public_profile,email,user_location,user_birthday,user_relationships,user_activities,user_friends',
+    PRO_FACEBOOK_SCOPE: 'public_profile,email,user_location,user_birthday,user_relationships,user_activities,user_friends,manage_pages',
+
     slug: 'coursavenue',
 
     isProduction: function isProduction () {
@@ -15,9 +19,6 @@ CoursAvenue = new Backbone.Marionette.Application({
 
     setCurrentUser: function setCurrentUser (user_attributes) {
         this.user.set(user_attributes);
-        if (user_attributes.redirect_url) {
-            window.location = user_attributes.redirect_url;
-        }
     },
 
     currentUser: function currentUser () {
@@ -67,7 +68,8 @@ CoursAvenue = new Backbone.Marionette.Application({
                             }
                             return;
                         }
-                        if (CoursAvenue.isProduction() && response.just_signed_up && !options.pro) {
+                        // Check if just signed up or not
+                        if (CoursAvenue.isProduction() && !options.pro && moment(response.created_at).isSame(Date.now(), 'hour')) {
                             mixpanel.track("User registered", { info: 'Facebook' });
                             ga('send', 'event', 'Action', 'User registered');
                         }
@@ -94,7 +96,7 @@ CoursAvenue = new Backbone.Marionette.Application({
               // The person is not logged into Facebook, so we're not sure if
               // they are logged into this app or not.
             }
-        }.bind(this), { scope: 'public_profile,email,user_location,user_birthday,user_relationships,user_activities,user_friends,manage_pages' });
+        }.bind(this), { scope: (options.pro ? this.PRO_FACEBOOK_SCOPE : this.FACEBOOK_SCOPE) });
     },
 });
 
