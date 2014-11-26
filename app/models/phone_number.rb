@@ -22,7 +22,7 @@ class PhoneNumber < ActiveRecord::Base
   validates :number,    uniqueness: { scope: :callable_id }
 
   # This allows us to have a validation based on uniqueness, but only if the
-  # field is true.
+  # boolean field is true.
   validates :principal, uniqueness: { scope: :callable_id }, if: :principal
 
   ######################################################################
