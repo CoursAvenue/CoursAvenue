@@ -220,7 +220,7 @@ class User < ActiveRecord::Base
 
   # Sends a reminder of classes on the following day.
   #
-  # Returns a Boolean, whether the sms was sent or not.
+  # @return a Boolean, whether the sms was sent or not.
   def send_sms_reminder
     if self.phone_number and self.sms_opt_in? and uses_mobile?
       courses = self.participation_requests.where(date: Date.tomorrow, state: 'accepted')
