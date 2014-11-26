@@ -2,7 +2,7 @@ class PhoneNumber < ActiveRecord::Base
 
   MOBILE_PREFIXES = ['+336', '+337', '00336', '00337', '06', '07']
 
-  attr_accessible :number, :phone_type
+  attr_accessible :number, :phone_type, :principal
 
   belongs_to :callable, polymorphic: true, touch: true
 
