@@ -17,11 +17,9 @@
 - content_for :scripts do
   :javascript
 
-    // TODO: Rename link #id.
     $('#select-emails').click(function(e) {
         e.preventDefault();
 
-        // TODO: Get all emails in comma separated string.
         var emailList = $('input:checked').map(function(i, elem) { return (elem.name); });
         var emails    = [].join.call(emailList, ', ');
         var contents  = $('textarea[name=emails]', opener.window.document).val();
