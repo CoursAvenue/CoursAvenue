@@ -19,6 +19,7 @@ fr:
         monday_email_opt_in: "CoursAvenue m'informe de l'activité de mon profil."
         student_action_email_opt_in: "Un élève a fait une action sur mon profil (nouvelle recommandation, nouveau message, demande d'inscription à mes cours)."
         jpo_email_opt_in: "Un élève s'inscrit ou se désinscrit d'un de mes ateliers."
+        sms_opt_in: "CoursAvenue m'envoie un SMS lorsqu'un utilisateur s'inscrit à un cours."
 
   civility:
     male: Monsieur

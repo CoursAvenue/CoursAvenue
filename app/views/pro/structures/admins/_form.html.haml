@@ -20,7 +20,7 @@
   .soft--sides
     %h5
       %i.fa.fa-envelope-o
-      Mes notifications mails
+      Mes notifications
 
     %input{type: 'hidden', name: 'return_to', value: notifications_pro_structure_admin_url(@structure, @structure.main_contact, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)}
     .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.admins.wizard.notifications') } }
@@ -34,5 +34,12 @@
             = f.input :monday_email_opt_in, as: :boolean, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
           .checkbox-at-left
             = f.input :stats_email, as: :boolean, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+
+      .grid
+        .grid__item.one-third>
+          %strong.label--large Envoyez-moi des SMS quand :
+        .grid__item.two-thirds>
+          .checkbox-at-left
+            = f.input :sms_opt_in, as: :boolean, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
 
     = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
