@@ -637,28 +637,4 @@ class User < ActiveRecord::Base
     end
     nil
   end
-
-  # Format the user's phone number so a message can be sent to it.
-  #
-  # @return The formated phone number as a String.
-  def formatted_number
-    number = self.phone_number.dup
-    number.gsub! ' ', ''
-
-    if number.starts_with? '06', '07', '+33'
-      number.gsub! /^0|\+33/, '0033'
-    end
-
-    number
-  end
-
-  # Check if the user gave his/her phone number.
-  #
-  # @return a Boolean
-  def uses_mobile?
-    number = self.phone_number.dup
-
-    PhoneNumber::MOBILE_PREFIXES.any? { |prefix| number.starts_with?(prefix) }
-  end
-
 end
