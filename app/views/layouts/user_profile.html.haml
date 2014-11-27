@@ -26,7 +26,7 @@
 
             = link_to new_user_invited_user_path(@user), class: 'btn btn--full push--bottom', onclick: "ga('send', 'event', 'Share with friends', 'click')" do
               Inviter mes amis
-            .bg-cover{ style: "background-image: url(#{asset_path('users/passions_bg.jpg')}); height: 300px;" }
+            .bg-cover{ style: "background-image: url(#{asset_path('users/passions_bg--small.jpg')}); height: 300px;" }
               .relative.one-whole.height-whole
                 %a.soft.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: user_passions_path(@user) }>
                   .text--center.lbl.lbl--yellow.one-whole

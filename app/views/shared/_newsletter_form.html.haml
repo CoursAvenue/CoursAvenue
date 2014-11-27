@@ -2,7 +2,7 @@
   .hidden#subscribed-to-newsletter
     .bg-cover.center-block.border-color-white.bordered--thick.bordered.black-box-shadow.rounded.soft--top.on-top{ style: "width: 750px; background-image: url(#{asset_path('users/passions_bg.jpg')}); "}
       %div.soft--bottom.push--bottom
-        = image_tag 'logos/logo@2x.png', height: 50, class: 'block center-block'
+        = image_tag 'logos/logo.png', height: 50, class: 'block center-block', data: { src2x: asset_path('logos/logo@2x.png') }
         .text--center.white.soft-black-text-shadow.epsilon Pour une vie créative, artistique, sportive
 
       .bg-white-faded.soft--ends.push--ends{ style: 'padding-left: 150px;' }
