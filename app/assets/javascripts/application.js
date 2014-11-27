@@ -37,6 +37,7 @@
 //= require libs/bootstrap/bootstrap.scrollspy
 //= require libs/bootstrap/datepicker-locales/bootstrap.datepicker.fr
 //= require libs/moment
+//= require libs/retina
 
 // ---------------------------------- jQuery plugins
 // See boilerplate and pattern:
