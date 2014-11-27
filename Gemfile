@@ -265,3 +265,6 @@ group :development do
   # Must be loaded after mongo
   gem 'bullet'                , '~>4.14.0'
 end
+
+# For Traceview in Heroku
+gem 'oboe-heroku'
