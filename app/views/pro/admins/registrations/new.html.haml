@@ -13,7 +13,7 @@
       .soft--sides
         %h4.text--center Dernière étape : choisissez vos identifiants pour gérer votre profil
         .text--center
-          %a{ data: { behavior: 'facebook-login' }, class: 'btn btn--facebook' }
+          %a.btn.btn--facebook{ data: { behavior: 'facebook-login', structure_id: params[:structure_id], disable_with: "Inscription en cours..." } }
             S'inscrire avec Facebook
         .or
           %span
@@ -26,21 +26,3 @@
 
           .text--center
             = f.button :submit, 'Valider',  class: 'btn--green btn--large', data: { disable_with: 'Enregistrement en cours...' }
-
-- content_for :scripts do
-  :javascript
-    $('[data-behavior=facebook-login]').click(function() {
-      var loginOptions = {
-            callbackRoute: Routes.pro_auth_facebook_callback_path({ structure_id: "#{params[:structure_id]}" }),
-            success: function success (response) {
-                window.location = response.redirect_url
-            },
-            error: function error (response) {
-                var message = $.parseJSON(response.responseText).message;
-                GLOBAL.flash(message);
-            },
-            pro: true
-        };
-
-        CoursAvenue.loginWithFacebook(loginOptions);
-    });

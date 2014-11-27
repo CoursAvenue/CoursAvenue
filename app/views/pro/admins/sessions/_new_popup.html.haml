@@ -3,7 +3,7 @@
     %h4.flush Connexion à votre espace pro
   .panel__body.soft
     .text--center
-      %a{ data: { behavior: 'facebook-login', disable_with: 'Connexion en cours...' }, class: 'btn btn--facebook', id: 'facebook_button' }
+      %a.btn.btn--facebook{ data: { behavior: 'facebook-login', disable_with: 'Connexion en cours...' } }
         Connexion avec Facebook
     .or
       %span.f-weight-600
@@ -23,20 +23,3 @@
       = f.button :submit, "Se connecter", class: 'btn--green btn--full', data: { disable_with: 'Connexion en cours...' }
       .push-half--top
         = render "pro/admins/shared/links"
-
-:javascript
-  $('[data-behavior=facebook-login]').click(function() {
-    var loginOptions = {
-          callbackRoute: Routes.pro_auth_facebook_callback_path(),
-          success: function success (response) {
-              window.location = response.redirect_url
-          },
-          error: function error (response) {
-              var message = $.parseJSON(response.responseText).message;
-              GLOBAL.flash(message);
-          },
-          pro: true
-      };
-
-      CoursAvenue.loginWithFacebook(loginOptions);
-  });

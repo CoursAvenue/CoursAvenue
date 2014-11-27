@@ -40,11 +40,11 @@
                       ?
                     %h4 Choisissez vos identifiants pour gérer votre profil :
 
-                -# .text--center
-                -#   %a.btn.btn--bigger.btn--facebook{ data: { behavior: 'facebook-login', disable_with: "Inscription en cours..." } }
-                -#     S'inscrire avec Facebook
-                -# .text--center.push-half--top
-                -#   %strong.epsilon> OU
+                .text--center
+                  %a.btn.btn--bigger.btn--facebook{ data: { behavior: 'facebook-login', disable_with: "Inscription en cours...", structure_id: params[:structure_id] } }
+                    S'inscrire avec Facebook
+                .text--center.push-half--top
+                  %strong.epsilon> OU
                 = simple_form_for [:pro, @admin], url: pro_admin_registration_path, html: { autocomplete: 'off', class: 'half-form'} do |f|
                   = f.error_notification
                   .grid

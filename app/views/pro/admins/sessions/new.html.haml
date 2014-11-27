@@ -22,20 +22,3 @@
         .push-half--top
           = render "pro/admins/shared/links"
 
-- content_for :scripts do
-  :javascript
-    $('[data-behavior=facebook-login]').click(function() {
-      var loginOptions = {
-            callbackRoute: Routes.pro_auth_facebook_callback_path(),
-            success: function success (response) {
-                window.location = response.redirect_url
-            },
-            error: function error (response) {
-                var message = $.parseJSON(response.responseText).message;
-                GLOBAL.flash(message);
-            },
-            pro: true
-        };
-
-        CoursAvenue.loginWithFacebook(loginOptions);
-    });

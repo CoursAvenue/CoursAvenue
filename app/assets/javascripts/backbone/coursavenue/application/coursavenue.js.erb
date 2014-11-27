@@ -48,13 +48,18 @@ CoursAvenue = new Backbone.Marionette.Application({
     },
 
     loginWithFacebook: function loginWithFacebook (options) {
+        if (location.hostname.split('.')[0] == 'pro') { options.pro = options.pro || true }
+        var callback_params = (options.structureId ? { structure_id: options.structureId } : {})
         FB.login(function(response) {
             if (response.status === 'connected') {
                 $.ajax({
-                    url: options.callbackRoute || Routes.auth_facebook_callback_path(),
+                    url: (options.pro ? Routes.pro_auth_facebook_callback_path(callback_params) : Routes.auth_facebook_callback_path(callback_params)),
                     type: 'GET',
                     dataType: 'json',
                     error: function error (response) {
+                        if (response.responseText && $.parseJSON(response.responseText) && $.parseJSON(response.responseText).redirect_url) {
+                            window.location = $.parseJSON(response.responseText).redirect_url;
+                        }
                         if (options.error) { options.error(response); }
                     },
                     success: function success (response) {
@@ -76,14 +81,17 @@ CoursAvenue = new Backbone.Marionette.Application({
                         // Pixel to track registration convertion with Facebook
                         if (window._fbq && !options.pro) { window._fbq.push(['track', '6016889463627', {}]); }
                         if (options.pro) {
-                          this.setCurrentAdmin(response);
+                            this.setCurrentAdmin(response);
                         } else {
-                          this.setCurrentUser(response);
+                            this.setCurrentUser(response);
                         }
                         if (options.success) {
                             options.success(response);
                         } else {
                             $.magnificPopup.close();
+                        }
+                        if (response.redirect_url) {
+                            window.location = response.redirect_url;
                         }
                     }.bind(this)
                 });
@@ -114,4 +122,7 @@ CoursAvenue.addInitializer(function(options){
 $(function() {
     CoursAvenue.start({});
     CoursAvenue.userNav.show(new CoursAvenue.Views.UserNavView({ model: CoursAvenue.currentUser() }));
+    $('body').on('click', '[data-behavior=facebook-login]', function(event) {
+        CoursAvenue.loginWithFacebook($(this).data());
+    });
 });

@@ -233,7 +233,7 @@ France
 
     5.times { @structure.phone_numbers.build }
 
-    if @admin.from_facebook? and @admin.oauth_expires_at > Time.current
+    if @admin and @admin.from_facebook? and @admin.oauth_expires_at > Time.current
       user            = FbGraph::User.me(@admin.oauth_token).fetch
       @facebook_pages = user.accounts.map { |page| [ page.name, page.link ] }
 

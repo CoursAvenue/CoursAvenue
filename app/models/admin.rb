@@ -106,6 +106,7 @@ class ::Admin < ActiveRecord::Base
   # @return Admin
   def self.from_omniauth(auth, structure)
     admin = Admin.where(provider: auth.provider, uid: auth.uid).first || Admin.where(email: auth.info.email).first
+    return nil if admin.nil? and structure.nil?
 
     if admin.nil?
       admin                  = Admin.new

@@ -105,7 +105,7 @@ class ::Pro::AdminsController < InheritedResources::Base
       end
     else
       respond_to do |format|
-        format.json { render json: { message: "Nous n'avons pas pu vous connecter. Assurez-vous d'être bien connecté à Facebook et réessayez." }, status: 422 }
+        format.json { render json: { redirect_url: inscription_pro_structures_path, message: "Nous n'avons pas pu vous connecter. Assurez-vous d'être bien connecté à Facebook et réessayez." }, status: 422 }
         format.html { redirect_to pro_auth_failure_path }
       end
     end
