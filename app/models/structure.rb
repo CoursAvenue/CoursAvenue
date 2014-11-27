@@ -879,8 +879,13 @@ class Structure < ActiveRecord::Base
   #
   # @return Boolean
   def premium
-    return false if self.subscription_plan.nil?
-    return self.subscription_plan.active?
+    return Rails.cache.fetch ['Structure#premium', self] do
+      if self.subscription_plan_id.present?
+        false
+      else
+        self.subscription_plan.active?
+      end
+    end
   end
 
   # Alias for premium
@@ -1153,10 +1158,13 @@ class Structure < ActiveRecord::Base
   #
   # @return Subject at depth 0
   def dominant_root_subject
-    if courses.active.any? and (_subjects = courses.active.flat_map{ |c| c.subjects }).any?
-      _subjects.group_by{ |subject| subject.root }.values.max_by(&:size).first.root
-    else
-      subjects.at_depth(2).group_by(&:root).values.max_by(&:size).try(:first).try(:root)
+    Rails.cache.fetch ["Structure#dominant_root_subject", self] do
+      active_courses = self.courses(:include => [:subjects]).active
+      if active_courses.any? and (_subjects = active_courses.flat_map{ |c| c.subjects }).any?
+        _subjects.group_by{ |subject| subject.root }.values.max_by(&:size).first.root
+      else
+        subjects.at_depth(2).group_by(&:root).values.max_by(&:size).try(:first).try(:root)
+      end
     end
   end
 

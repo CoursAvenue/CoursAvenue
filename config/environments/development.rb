@@ -6,7 +6,7 @@ CoursAvenue::Application.configure do
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
-  config.cache_classes = false
+  config.cache_classes = true
 
   config.eager_load = false
 
@@ -15,8 +15,8 @@ CoursAvenue::Application.configure do
   # This is added for IdentityCache.
   config.action_controller.perform_caching = false
 
-  config.cache_store = :dalli_store
-  config.identity_cache_store = :dalli_store
+  # config.cache_store = :dalli_store
+  # config.identity_cache_store = :dalli_store
 
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = true

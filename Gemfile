@@ -211,6 +211,8 @@ group :test do
 end
 
 group :development do
+  # Speed up slow Rails development mode
+  gem 'rails-dev-boost', :git => 'git://github.com/thedarkone/rails-dev-boost.git'
   # Guard::Pow automatically manage Pow applications restart
   gem 'guard-pow', require: false
   # Removes useless logging in dev.
@@ -258,3 +260,8 @@ gem 'mixpanel-ruby'
 # Email reception
 gem 'griddler'         , '~> 1.1.0'
 gem 'griddler-mandrill', '~> 1.0.1'
+
+group :development do
+  # Must be loaded after mongo
+  gem 'bullet'                , '~>4.14.0'
+end

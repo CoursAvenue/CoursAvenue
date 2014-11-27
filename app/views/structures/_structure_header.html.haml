@@ -67,7 +67,7 @@
                 = link_to '#cours-reguliers', class: "muted-link flexbox #{@structure.is_sleeping? ? 'cursor-default' : ''}", data: { behavior: 'scroll-to', offset_top: '-55' } do
                   %i.fa-3x.fa-group.flexbox__item
                   .flexbox__item.soft-half--left.soft--right
-                    - collectif_courses_nb = (@structure.courses.trainings + @structure.courses.lessons).select(&:is_published?).length
+                    - collectif_courses_nb = @structure.courses.collective.count
                     - if collectif_courses_nb > 0
                       #{collectif_courses_nb} cours
                     - else
@@ -79,7 +79,7 @@
                 = link_to '#cours-reguliers', class: "muted-link flexbox #{@structure.is_sleeping? ? 'cursor-default' : ''}", data: { behavior: 'scroll-to', offset_top: '-55' } do
                   %i.fa-3x.fa-user.flexbox__item
                   .flexbox__item.soft-half--left.soft--right
-                    - privates_courses_length = @structure.courses.privates.select(&:is_published?).length
+                    - privates_courses_length = @structure.courses.privates.count
                     - if privates_courses_length > 0
                       #{privates_courses_length} cours
                     - else

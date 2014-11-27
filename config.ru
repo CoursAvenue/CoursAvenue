@@ -19,4 +19,3 @@ use Rack::Cors do
 end
 
 run CoursAvenue::Application
-

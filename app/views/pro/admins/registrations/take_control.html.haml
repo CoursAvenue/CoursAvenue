@@ -1,3 +1,6 @@
+- content_for :head do
+  %meta{ name: 'robots', content: 'noindex, nofollow' }
+
 = content_for :title do
   Vous travaillez pour #{@structure.name} ? Prenez le contrôle de votre profil.
 
