@@ -1159,7 +1159,7 @@ class Structure < ActiveRecord::Base
   # @return Subject at depth 0
   def dominant_root_subject
     Rails.cache.fetch ["Structure#dominant_root_subject", self] do
-      active_courses = self.courses(:include => [:subjects]).active
+      active_courses = self.courses.includes(:subjects).active
       if active_courses.any? and (_subjects = active_courses.flat_map{ |c| c.subjects }).any?
         _subjects.group_by{ |subject| subject.root }.values.max_by(&:size).first.root
       else

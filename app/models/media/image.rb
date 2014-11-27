@@ -47,13 +47,6 @@ class Media::Image < Media
     end
   end
 
-  def thumbnail_url
-    if self.image.present?
-      self.image.url(:thumbnail)
-    else
-      self.read_attribute(:url)
-    end
-  end
   # Path of the media path on S3
   #
   # @return String path of the S3 media

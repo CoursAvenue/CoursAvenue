@@ -1,5 +1,8 @@
 class Media::Video < Media
   require 'net/http'
+
+  mount_uploader :image, MediaUploader
+
   # pattern is the regex to match the url
   # key is the regex match key to get the id
   FILTER_REGEX = {
@@ -29,9 +32,9 @@ class Media::Video < Media
   ######################################################################
   # Callbacks                                                          #
   ######################################################################
-  before_save :fix_url
-  after_save :update_provider
-  after_save :update_thumbnail
+  before_save  :fix_url
+  after_create :update_provider
+  after_create :update_thumbnail
 
   auto_html_for :url do
     youtube(width: 400, height: 250)
@@ -41,10 +44,6 @@ class Media::Video < Media
 
   def url_html(options={})
     read_attribute(:url_html).html_safe
-  end
-
-  def thumbnail_url
-    read_attribute(:thumbnail_url).gsub(/^http:/, 'https:') if read_attribute(:thumbnail_url)
   end
 
   def url
@@ -65,6 +64,8 @@ class Media::Video < Media
       else
         thumbnail_url = FILTER_REGEX[self.provider_name][:video_thumbnail].gsub('__ID__', self.provider_id)
       end
+      self.remote_image_url = thumbnail_url.gsub(/^http:/, 'https:')
+      self.save
       self.update_column(:thumbnail_url, thumbnail_url)
     end
   end

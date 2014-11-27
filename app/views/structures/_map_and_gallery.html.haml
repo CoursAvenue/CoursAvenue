@@ -27,12 +27,11 @@
         - unless without_map
           %li.rslides-thumbnail
             %a.pointer.media-photo.media-slideshow#map-thumbnail
-              = image_tag 'icons/google-maps-thumb.jpg', height: 70, width: 70
+              = image_tag 'icons/google-maps-thumb.jpg', height: 70, width: 70, data: { src2x: asset_path('icons/google-maps-thumb@2x.jpg') }
         - medias.each do |media|
           - cache ['structure_top2', media] do
             %li.rslides-thumbnail
-              %a.pointer.media-photo
-                %img{ src: media.thumbnail_url, height: 70, width: 70, alt: (@structure ? subjects_name_from_string(@structure.subjects_string) : '') }
+              %a.pointer.media-photo.bg-cover{ href: '#', title: (@structure ? subjects_name_from_string(@structure.subjects_string) : ''), style: "height: 70px; width: 70px; background-image: url('#{media.small_thumbnail_url}')" }
     %a.thumbnails-container__nav.next.pointer{ data: { 'slide-next' => true } }
       %i.delta.fa-chevron-right.v-middle.gray-light
   %a.absolute.north.east.push--right.push--top.on-under-top.heart-link{ href: '#', data: { behavior: 'add-to-favorite', toggle: 'tooltip', added_title: 'Retirer de mes favoris', not_added_title: 'Ajouter à mes favoris', placement: 'left' } }
