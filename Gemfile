@@ -197,6 +197,8 @@ group :production, :staging do
   gem 'rails_12factor'          , '~> 0.0.2'
   # Sync assets to S3 and CloudFront
   gem 'asset_sync'              , '~>1.0.0'
+  # Enable gzip compression on heroku, but don't compress images
+  gem 'heroku-deflater'         , '~>0.5.3'
 end
 
 group :test do
