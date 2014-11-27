@@ -1220,7 +1220,9 @@ class Structure < ActiveRecord::Base
   end
 
   def is_open_for_trial?
-    self.courses.open_for_trial.any?
+    return Rails.cache.fetch ['Structure#is_open_for_trial?', self] do
+      self.courses.open_for_trial.any?
+    end
   end
 
   private
