@@ -334,6 +334,7 @@ GEM
       activeresource (>= 3.2.13)
     hike (1.2.3)
     hirefire-resource (0.3.4)
+    htmlcompressor (0.1.2)
     htmlentities (4.3.2)
     httparty (0.13.1)
       json (~> 1.8)
@@ -732,6 +733,7 @@ DEPENDENCIES
   heroku_rails_deflate (~> 1.0.3)
   highrise
   hirefire-resource
+  htmlcompressor (~> 0.1.2)
   i18n_alchemy (~> 0.2.1)
   identity_cache (~> 0.2.2)
   image_optim (~> 0.19.1)

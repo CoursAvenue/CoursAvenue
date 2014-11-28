@@ -201,6 +201,7 @@ group :production, :staging do
   # Enable gzip compression on heroku, but don't compress images
   gem 'heroku_rails_deflate'      , '~>1.0.3'
   gem 'sprockets-image_compressor', '~>0.3.0'
+  gem 'htmlcompressor'            , '~>0.1.2'
 end
 
 group :test do
