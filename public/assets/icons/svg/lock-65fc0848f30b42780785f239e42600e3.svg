@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" width="32px" height="42px" viewBox="0 0 32 42" version="1.1">
-    <title>lock</title>
-    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
-    <defs/>
-    <g id="Editor" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <path d="M18,30.4648713 C19.1956028,29.7732525 20,28.4805648 20,27 C20,24.7908609 18.2091391,23 16,23 C13.7908609,23 12,24.7908609 12,27 C12,28.4805648 12.8043972,29.7732525 14,30.4648713 L14,34 C14,34 14.0061384,36.0000005 16.0030692,36 C18,36 18,34 18,34 L18,30.4648713 Z M2.00174332,15 C0.89621101,15 0,15.8983383 0,17.0073299 L0,39.9926701 C0,41.1012878 0.889261723,42 2.00174332,42 L29.9982567,42 C31.103789,42 32,41.1016617 32,39.9926701 L32,17.0073299 C32,15.8987122 31.1107383,15 29.9982567,15 L2.00174332,15 Z M2,17 L2,40 L30,40 L30,17 L2,17 Z M16,0 C5,1.05697059e-06 5,10 5,10 L5,14 L7,14.0412946 L7,10 C7,10 7,2.00000087 16,2 C25,2 25,10 25,10 L25,13.9449405 L27,14 L27,10 C27,10 27,0 16,0 Z M16,0" id="lock" fill="#000000" sketch:type="MSShapeGroup"/>
-    </g>
-</svg>
