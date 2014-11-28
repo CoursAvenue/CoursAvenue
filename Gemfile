@@ -241,8 +241,8 @@ group :development, :test do
   gem 'byebug'
   # Permits to travel in the past
   gem 'delorean'
-  gem 'dotenv-rails'
 end
+gem 'dotenv-rails'
 
 gem 'rmagick', '~>2.13.3', require: 'RMagick'
 
