@@ -9,16 +9,3 @@
         color: $gray-light;
     }
 }
-
-ul.alternate-color {
-    li:nth-of-type(odd){
-        background-color: $alternative-background;
-    }
-}
-
-.selectable-list {
-    li:hover {
-        background-color: $alternative-background;
-        cursor          : pointer;
-    }
-}
