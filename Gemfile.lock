@@ -325,10 +325,6 @@ GEM
     heroku-api (0.3.19)
       excon (~> 0.38)
       multi_json (~> 1.8)
-    heroku_rails_deflate (1.0.3)
-      actionpack (>= 3.2.13)
-      activesupport (>= 3.2.13)
-      rack (>= 1.4.5)
     highline (1.6.21)
     highrise (3.2.1)
       activeresource (>= 3.2.13)
@@ -506,6 +502,7 @@ GEM
     rack-timeout (0.0.4)
     rack-utf8_sanitizer (1.1.0)
       rack (~> 1.0)
+    rack-zippy (1.2.1)
     rails (4.1.8)
       actionmailer (= 4.1.8)
       actionpack (= 4.1.8)
@@ -518,7 +515,7 @@ GEM
       sprockets-rails (~> 2.0)
     rails-observers (0.1.2)
       activemodel (~> 4.0)
-    rails_12factor (0.0.2)
+    rails_12factor (0.0.3)
       rails_serve_static_assets
       rails_stdout_logging
     rails_serve_static_assets (0.0.2)
@@ -730,7 +727,6 @@ DEPENDENCIES
   haml (~> 4.0.3)
   handlebars_assets (~> 0.15)!
   heroku-api
-  heroku_rails_deflate (~> 1.0.3)
   highrise
   hirefire-resource
   htmlcompressor (~> 0.1.2)
@@ -770,10 +766,11 @@ DEPENDENCIES
   rack-ssl-enforcer (~> 0.2.7)
   rack-timeout (~> 0.0.4)
   rack-utf8_sanitizer (~> 1.1.0)
+  rack-zippy
   rails (= 4.1.8)
   rails-dev-boost!
   rails-observers (~> 0.1.2)
-  rails_12factor (~> 0.0.2)
+  rails_12factor (~> 0.0.3)
   rmagick (~> 2.13.3)
   roadie (~> 3.0.1)
   roadie-rails (~> 1.0.3)

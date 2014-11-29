@@ -195,11 +195,12 @@ gem 'ckeditor'                  , '~> 4.1.0'#, git: 'git://github.com/nim1989/ck
 
 group :production, :staging do
   gem 'execjs'                    , '~>2.0.2'
-  gem 'rails_12factor'            , '~> 0.0.2'
+  gem 'rails_12factor'            , '~> 0.0.3'
   # Sync assets to S3 and CloudFront
   gem 'asset_sync'                , '~>1.0.0'
   # Enable gzip compression on heroku, but don't compress images
-  gem 'heroku_rails_deflate'      , '~>1.0.3'
+  # gem 'heroku_rails_deflate'      , '~>1.0.3'
+  gem 'rack-zippy'
   gem 'sprockets-image_compressor', '~>0.3.0'
   gem 'htmlcompressor'            , '~>0.1.2'
 end
