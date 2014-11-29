@@ -54,7 +54,7 @@ class Subject < ActiveRecord::Base
     text :name
   end
 
-  algoliasearch do
+  algoliasearch per_environment: true do
     attribute :name, :slug
     add_attribute :type do
       'subject'
@@ -66,7 +66,7 @@ class Subject < ActiveRecord::Base
     add_attribute :root do
       self.root.slug unless self.depth == 0
     end
-  end if Rails.env.production?
+  end
 
   # Tells wether the given subject is a descendant of self by checking its ancestry string
   # @param  subject [type] [description]

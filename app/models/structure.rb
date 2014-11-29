@@ -168,7 +168,7 @@ class Structure < ActiveRecord::Base
   ######################################################################
   # Algolia                                                            #
   ######################################################################
-  algoliasearch do
+  algoliasearch per_environment: true do
     attribute :name, :slug
     add_attribute :search_score do
       self.search_score.try(:to_i)
@@ -189,7 +189,7 @@ class Structure < ActiveRecord::Base
       self.logo.url(:small_thumb)
     end
     customRanking ['desc(search_score)', 'desc(is_sleeping)']
-  end if Rails.env.production?
+  end
 
   ######################################################################
   # Solr                                                               #
