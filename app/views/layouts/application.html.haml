@@ -38,10 +38,7 @@
     = yield :above_container
     = content_for?(:content) ? yield(:content) : yield
 
-    - if request.subdomain == 'pro' or request.subdomain == 'pro.staging'
-      = javascript_include_tag 'application.pro'
-    - else
-      = javascript_include_tag 'application'
+    = javascript_include_tag 'application'
 
     -#= javascript_include_tag '//maps.googleapis.com/maps/api/js?sensor=false'
     = javascript_include_tag '//cdn.jsdelivr.net/algoliasearch/latest/algoliasearch.min.js'

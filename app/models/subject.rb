@@ -66,7 +66,7 @@ class Subject < ActiveRecord::Base
     add_attribute :root do
       self.root.slug unless self.depth == 0
     end
-  end
+  end if Rails.env.production?
 
   # Tells wether the given subject is a descendant of self by checking its ancestry string
   # @param  subject [type] [description]

@@ -203,6 +203,8 @@ group :production, :staging do
   gem 'rack-zippy'
   gem 'sprockets-image_compressor', '~>0.3.0'
   gem 'htmlcompressor'            , '~>0.1.2'
+  gem 'image_optim'               , '~>0.19.1'
+  gem 'image_optim_pack'          , '~>0.2.0.20141122'
 end
 
 group :test do
@@ -274,6 +276,3 @@ end
 
 # For Traceview in Heroku
 gem 'oboe-heroku', '~>0.9.16.1'
-
-gem 'image_optim', '~>0.19.1'
-gem 'image_optim_pack', '~>0.2.0.20141122'

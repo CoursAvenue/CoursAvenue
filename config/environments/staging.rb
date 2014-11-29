@@ -96,7 +96,7 @@ CoursAvenue::Application.configure do
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
   config.assets.precompile += %w( email.css discovery_pass.css )
-  config.assets.precompile += %w( application.pro.js modernizr.js )
+  config.assets.precompile += %w( modernizr.js ckeditor/config.js )
 
   # Enable threaded mode
   # config.threadsafe!

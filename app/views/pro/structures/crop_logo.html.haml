@@ -1,3 +1,5 @@
+= javascript_include_tag 'libs/jquery.Jcrop.js'
+
 %div{class: @is_xhr ? '' : 'panel'}
   - unless @is_xhr
     = side_menu_currently_at 'presentation'
@@ -15,7 +17,7 @@
         .grid__item.two-thirds.v-middle.text--center>
           :css
             .jcrop-holder {
-              border: 1px solid #CCC;
+                border: 1px solid #CCC;
             }
           = image_tag @structure.logo.url(:large), id: 'cropbox', width: 450, height: 450
           - [:crop_x, :crop_y, :crop_width].each do |attribute|
