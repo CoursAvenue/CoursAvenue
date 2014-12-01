@@ -13,6 +13,22 @@ class Order < ActiveRecord::Base
   ######################################################################
   validates :order_id, uniqueness: { scope: :type }
 
+  # The relative path of the invoice in the S3 bucket.
+  #
+  # @return a String, the path.
+  def invoice_path
+    "orders/order_#{ self.id }.pdf"
+  end
+
+  # The URL of the invoice in the S3 bucket.
+  #
+  # @return a String the URL.
+  def S3_invoice_path
+    file = CoursAvenue::Application::S3_BUCKET.objects["#{ invoice_path }"]
+
+    file.url_for(:read).to_s
+  end
+
   private
 
   # Export an order and upload it to S3.
