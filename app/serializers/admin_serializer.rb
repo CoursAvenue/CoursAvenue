@@ -1,5 +1,5 @@
 class AdminSerializer < ActiveModel::Serializer
-  attributes :premium
+  attributes :id, :structure_id, :premium
 
   def premium
     if object.structure

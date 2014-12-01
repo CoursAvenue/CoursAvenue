@@ -1,11 +1,10 @@
 class StructureDecorator < Draper::Decorator
 
-  def places_popover(places=nil)
+  def places_popover()
     output = ''
     # Use find_by_id to prevent from exception when place is not find.
     # In this case: http://www.coursavenue.dev/etablissements/voix-et-voie/pass-decouverte place wasn't found...
-    places ||= object.places
-    places.each do |place|
+    object.places.includes(:city).each do |place|
       next if place.nil?
       output << "<div class='push-half--bottom'><strong>#{place.name}</strong><br>#{place.street}, #{place.city.name}</div>"
     end
@@ -80,14 +79,14 @@ class StructureDecorator < Draper::Decorator
   end
 
   def promotion_popover
-    courses = object.courses.regulars.select{ |course| course.has_promotion? }
+    courses = object.courses.includes(price_group: [:prices]).regulars.select{ |course| course.has_promotion? }
     output  = ''
     output  << "<div><strong>#{courses.length} #{'cours régulier'.pluralize(courses.length)} :</strong></div>" if courses.any?
     list_item_start = (courses.length > 1 ? '- ' : '')
     courses.each do |course|
       output << "<div>#{list_item_start}#{course.name}</div>"
     end
-    trainings = object.courses.trainings.select{ |course| course.has_promotion? }
+    trainings = object.courses.includes(price_group: [:prices]).trainings.select{ |course| course.has_promotion? }
     output  << "<div class='push-half--top'><strong>#{trainings.length} #{'stage'.pluralize(trainings.length)} :</strong></div>" if trainings.any?
     list_item_start = (trainings.length > 1 ? '- ' : '')
     trainings.each do |training|

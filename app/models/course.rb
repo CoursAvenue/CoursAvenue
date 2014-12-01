@@ -38,6 +38,7 @@ class Course < ActiveRecord::Base
   scope :trainings,                   -> { where( type: "Course::Training" ) }
   scope :privates,                    -> { where( type: "Course::Private" ) }
   scope :regulars,                    -> { where(arel_table[:type].eq('Course::Private').or(arel_table[:type].eq('Course::Lesson')) ) }
+  scope :collective,                  -> { where(arel_table[:type].eq('Course::Lesson').or(arel_table[:type].eq('Course::Training')) ) }
   scope :without_open_courses,        -> { where.not( type: 'Course::Open' ) }
   scope :open_courses,                -> { where( type: 'Course::Open' ) }
   scope :open_for_trial,              -> { where( is_open_for_trial: true ) }
@@ -355,8 +356,13 @@ class Course < ActiveRecord::Base
   end
 
   def has_premium_prices?
-    return false if price_group.nil?
-    price_group.has_premium_prices?
+    return Rails.cache.fetch ['Course#has_premium_prices?', self] do
+      if price_group.nil?
+        false
+      else
+        price_group.has_premium_prices?
+      end
+    end
   end
 
   def can_be_published?

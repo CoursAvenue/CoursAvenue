@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   layout 'users'
 
-  helper_method :should_be_responsive?, :mobile_device?, :layout_locals
+  helper_method :mobile_device?, :layout_locals
 
   before_filter :update_sanitized_params, if: :devise_controller?
 
@@ -71,16 +71,6 @@ class ApplicationController < ActionController::Base
     # raise ActionController::RoutingError.new(params[:path])
   # end
 
-  #
-  # Tell wether the page should use:
-  # %meta{name: 'viewport', content: 'width=device-width, initial-scale=1.0' }
-  #
-  # @return Boolean
-  def should_be_responsive?
-    return_value = controller_name == 'home' && action_name == 'index'# && request.subdomain == 'www'
-    return return_value
-  end
-
   # Check wether the devise is mobile or not
   #
   # @return [type] [description]
@@ -106,6 +96,14 @@ class ApplicationController < ActionController::Base
   def robots
     robots = File.read(Rails.root + "config/robots/robots.#{Rails.env}.txt")
     render text: robots, layout: false, content_type: "text/plain"
+  end
+
+  def mixpanel_tracker
+    if Rails.env.production?
+      @tracker ||= Mixpanel::Tracker.new(ENV['MIXPANEL_PROJECT_TOKEN'])
+    else
+      @tracker ||= FakeMixpanel::Tracker.new
+    end
   end
 
   protected

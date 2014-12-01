@@ -210,6 +210,13 @@
     }
 }
 
+.btn--facebook.btn--bigger {
+    padding: 0 0.5em;
+    &:before {
+        font-size: 40px;
+    }
+}
+
 .btn--twitter {
     @extend .btn--social;
     padding         : 0.4em;

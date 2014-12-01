@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 
 ruby '2.1.5'
 
-gem 'rails', '4.1.6'
+gem 'rails', '4.1.8'
 
 gem 'rack-attack',  '~>3.0.0'
 gem 'rack-timeout', '~> 0.0.4'
@@ -73,6 +73,7 @@ gem 'daemons'                   , '~>1.1.9'
 gem 'hirefire-resource'
 
 gem 'carrierwave'               , '~>0.10.0'
+gem 'carrierwave-imageoptimizer', '~>1.2.1'
 gem 'cloudinary'                , '~>1.0.78'
 
 # Handle paperclip in background
@@ -193,16 +194,23 @@ gem 'rack-utf8_sanitizer'       , '~> 1.1.0'
 gem 'ckeditor'                  , '~> 4.1.0'#, git: 'git://github.com/nim1989/ckeditor.git'
 
 group :production, :staging do
-  gem 'execjs'                  , '~>2.0.2'
-  gem 'rails_12factor'          , '~> 0.0.2'
+  gem 'execjs'                    , '~>2.0.2'
+  gem 'rails_12factor'            , '~> 0.0.3'
   # Sync assets to S3 and CloudFront
-  gem 'asset_sync'              , '~>1.0.0'
+  gem 'asset_sync'                , '~>1.0.0'
+  # Enable gzip compression on heroku, but don't compress images
+  # gem 'heroku_rails_deflate'      , '~>1.0.3'
+  gem 'rack-zippy'
+  gem 'sprockets-image_compressor', '~>0.3.0'
+  gem 'htmlcompressor'            , '~>0.1.2'
+  gem 'image_optim'               , '~>0.19.1'
+  gem 'image_optim_pack'          , '~>0.2.0.20141122'
 end
 
 group :test do
   gem 'factory_girl_rails'      , '~>4.4.1'
   gem 'rspec-rails'             , '~>3.1.0'
-  gem 'rspec-instafail'         , '~>0.2.5'
+  # gem 'rspec-instafail'         , '~>0.2.5'
   gem 'faker'                   , '~>1.2.0'
   gem 'simplecov'               , '~>0.9.0'
   # gem 'sunspot_test'
@@ -211,6 +219,8 @@ group :test do
 end
 
 group :development do
+  # Speed up slow Rails development mode
+  gem 'rails-dev-boost', :git => 'git://github.com/thedarkone/rails-dev-boost.git'
   # Guard::Pow automatically manage Pow applications restart
   gem 'guard-pow', require: false
   # Removes useless logging in dev.
@@ -234,8 +244,8 @@ group :development, :test do
   gem 'byebug'
   # Permits to travel in the past
   gem 'delorean'
-  gem 'dotenv-rails'
 end
+gem 'dotenv-rails'
 
 gem 'rmagick', '~>2.13.3', require: 'RMagick'
 
@@ -252,6 +262,17 @@ gem 'cityhash'                 , '~> 0.8.1'
 # JS heavy pages pre-rendering
 gem 'prerender_rails'
 
+# Track envents starting in the App
+gem 'mixpanel-ruby'
+
 # Email reception
 gem 'griddler'         , '~> 1.1.0'
 gem 'griddler-mandrill', '~> 1.0.1'
+
+group :development do
+  # Must be loaded after mongo
+  gem 'bullet'                , '~>4.14.0'
+end
+
+# For Traceview in Heroku
+gem 'oboe-heroku', '~>0.9.16.1'

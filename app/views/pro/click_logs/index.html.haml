@@ -21,6 +21,8 @@
             %td= count
 
 = content_for :scripts do
+  = javascript_include_tag 'libs/highcharts/highcharts'
+  = javascript_include_tag 'libs/highcharts/modules/exporting'
   :javascript
     $(function() {
         $('#dataTable').tablesorter();

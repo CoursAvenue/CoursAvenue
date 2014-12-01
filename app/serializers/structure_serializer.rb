@@ -87,7 +87,7 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def cities
-    object.places.map(&:city).map(&:name).uniq.join(', ')
+    object.places(include: :city).map(&:city).map(&:name).uniq.join(', ')
   end
 
   def is_open_for_trial
@@ -95,7 +95,7 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def subjects
-    object.courses.flat_map(&:subjects).uniq.map(&:name).join(', ')
+    object.courses(include: :subjects).flat_map(&:subjects).uniq.map(&:name).join(', ')
   end
 
   def trial_courses_policy

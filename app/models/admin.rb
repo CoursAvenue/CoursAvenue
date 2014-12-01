@@ -98,6 +98,44 @@ class ::Admin < ActiveRecord::Base
     end
   end
 
+  # Create a new Admin from Facebook
+  #
+  # @param auth      - The data from Facebook
+  # @param structure - The admin's structure
+  #
+  # @return Admin
+  def self.from_omniauth(auth, structure)
+    admin = Admin.where(provider: auth.provider, uid: auth.uid).first || Admin.where(email: auth.info.email).first
+    return nil if admin.nil? and structure.nil?
+
+    if admin.nil?
+      admin                  = Admin.new
+
+      admin.provider         = auth.provider
+      admin.uid              = auth.uid
+      admin.oauth_token      = auth.credentials.token
+      admin.oauth_expires_at = Time.at(auth.credentials.expires_at)
+
+      admin.email            = auth.info.email
+      admin.password         = Devise.friendly_token[0, 20] if admin.password.blank?
+
+      admin.structure        = structure
+
+      admin.confirm!
+
+      admin.save
+    end
+
+    admin
+  end
+
+  # Check if the current Admin has been created from Facebook.
+  #
+  # @return Boolean
+  def from_facebook?
+    self.provider == 'facebook' and self.oauth_token.present?
+  end
+
   private
 
   def subscribe_to_crm

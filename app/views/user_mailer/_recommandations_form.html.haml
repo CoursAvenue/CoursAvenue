@@ -1,0 +1,67 @@
+%table.under-content{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', style: 'margin: auto;', width: 600, style: 'width: 600px;' }
+  %tr
+    %td.soft.content-block{ width: 600, style: 'width: 600px;' }
+      = simple_form_for @comment, url: create_from_email_structure_comments_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), as: :comment, method: 'get' do |f|
+        %table{ width: '100%', style: 'width: 600px;' }
+          %tbody
+            %tr
+              %td{ colspan: 4 }
+                .title Écrire mon avis depuis l'email
+                - if @participation_request
+                  %input.input--hidden{ type: 'hidden', value: @participation_request.id, name: 'participation_request_id'}
+                = f.hidden_field :commentable_type, name: 'comment_commentable_type', class: 'input--hidden'
+                = f.hidden_field :commentable_id, name: 'comment_commentable_id', class: 'input--hidden'
+                = f.hidden_field :email, value: self.message.to.first, class: 'input--hidden'
+                - if @participation_request
+                  = f.hidden_field :certified, value: true, name: 'comment_certified', class: 'input--hidden'
+                  = f.hidden_field :course_name, value: @participation_request.course.name, name: 'comment_course_name', class: 'input--hidden'
+                  = f.hidden_field :author_name, value: @participation_request.user.name, name: 'comment_author_name', class: 'input--hidden'
+                  = f.hidden_field :subject_ids, value: @participation_request.course.subjects.map(&:id).join(','), name: 'comment_subject_ids', class: 'input--hidden'
+
+            %tr
+              %td.v-middle.text--right.soft-half--right{ width: '26%'}
+                .p.hard--bottom Vous êtes globalement
+              %td.v-middle
+                %label.p.hard--bottom{ class: (@comment.rating == 5 ? 'active' : '') }>
+                  = image_tag 'icons/face-happy.png', alt: 'Super content', title: 'Super content', height: 25, width: 25, class: 'soft-half--right v-middle'
+                  %input.v-middle{ type: 'radio', name: 'comment_rating', value: 5, checked: @comment.rating == 5 }
+              %td.v-middle
+                %label.p.hard--bottom{ class: (@comment.rating == 3 ? 'active' : '') }>
+                  = image_tag 'icons/face-neutral.png', alt: 'Neutre', title: 'Neutre', height: 25, width: 25, class: 'soft-half--right v-middle'
+                  %input.v-middle{ type: 'radio', name: 'comment_rating', value: 3, checked: @comment.rating == 3 }
+              %td.v-middle
+                %label.p.hard--bottom{ class: (@comment.rating == 1 ? 'active' : '') }>
+                  = image_tag 'icons/face-sad.png', alt: 'Pas content', title: 'Pas content', height: 25, width: 25, class: 'soft-half--right v-middle'
+                  %input.v-middle{ type: 'radio', name: 'comment_rating', value: 1, checked: @comment.rating == 1 }
+
+            - unless @participation_request.present?
+              %tr
+                %td.v-top.text--right.soft-half--right{ width: '26%' }
+                  .p.hard--bottom.soft--top Nom du cours suivi
+                %td.soft-half--ends.soft-half--right.v-top{ colspan: 3 }
+                  = f.input :course_name, label: false, wrapper_html: { class: 'flush' }, input_html: { name: 'comment_course_name', placeholder: 'Ex. : Stage de danse jazz new style pour ado du jeudi soir', class: 'input--large one-whole flush' }
+                  .f-size-13.f-style-italic{ style: 'padding-top: 3px;' } Ex. : Stage de danse jazz new style pour ado du jeudi soir
+            %tr
+              %td.v-top.text--right.soft-half--right{ width: '26%'}
+                .p.hard--bottom.soft--top Titre de votre avis
+              %td.soft-half--ends.soft-half--right.v-top{ colspan: 3 }
+                = f.input :title, label: false, wrapper_html: { class: 'flush' }, input_html: { name: 'comment_title', placeholder: "Ex. : Un professeur toujours à l'écoute", class: 'input--large one-whole flush' }
+                .f-size-13.f-style-italic{ style: 'padding-top: 3px;' } Ex. : Un professeur toujours à l'écoute
+            %tr
+              %td.v-top.text--right.soft-half--right{ width: '26%'}
+                .p.hard--bottom.soft--top Votre avis
+              %td.soft-half--ends.soft-half--right.v-top{ colspan: 3 }
+                = f.input :content, label: false, input_html: { name: 'comment_content', style: 'height: 150px;', class: 'input--large one-whole flush' }, wrapper_html: { class: 'flush' }, required: true
+                .f-size-13.f-style-italic{ style: 'padding-top: 3px;' } 20 mots minimum
+
+            - unless @participation_request.present?
+              %tr
+                %td.v-top.text--right.soft-half--right{ width: '26%' }
+                  .p.hard--bottom.soft-half--top Votre nom
+                %td.v-top.soft-half--right{ colspan: 3 }
+                  = f.input :author_name, label: false, required: true, input_html: { name: 'comment_author_name', placeholder: 'Ex. : Stéphanie P.', class: 'input--large one-whole flush' }, wrapper_html: { class: 'flush' }
+                  .f-size-13.f-style-italic{ style: 'padding-top: 3px;' } Ex. : Stéphanie P.
+            %tr
+              %td.soft--top.text--right{ colspan: 4 }
+                %button{ type: 'submit', class: 'btn btn--green btn--full' } Publier mon avis
+

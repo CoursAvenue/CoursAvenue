@@ -26,29 +26,6 @@
             padding         : 0 !important;
         }
     }
-        .video-strip {
-            z-index                   : 200;
-            width                     : 200px;
-            left                      : 50%;
-            margin-left               : -100px;
-            border-bottom-right-radius: 50px;
-            border-bottom-left-radius : 50px;
-            background-color          : rgba(0, 0, 0, 0.2);
-        }
-        .jpo-banner-logo {
-            @include background-image-retina('jpo_2014/logo_1_line.png', 'jpo_2014/logo_1_line@2x.png');
-            @include background-size(100%);
-            background-repeat : no-repeat;
-            width      : 331px;
-            height     : 100px;
-            margin-left: 100px;
-            @include media-query(palm) {
-                margin-left: 0;
-                width      : 100%;
-                max-width  : 300px;
-                margin     : auto;
-            }
-        }
         .jpo-fanion {
             background-image: image-url('jpo_2014/fanion.png');
             height          : 151px;
@@ -118,26 +95,6 @@
                 position   : static;
             }
         }
-        .jpo-bubble {
-            z-index: 200;
-            right  : 200px;
-            top    : 190px;
-            width  : 180px;
-            height : 153px;
-            @include background-image-retina('jpo_2014/bubble_text.png', 'jpo_2014/bubble_text@2x.png');
-            @include background-size(100%);
-            @media only screen and (max-width: 1223px) and (min-width: 1023px) {
-                right  : 20px;
-            }
-            @include media-query(lap) {
-                right  : 20px;
-            }
-            @include media-query(palm) {
-                top         : 550px;
-                right       : 50%;
-                margin-right: -90px;
-            }
-        }
 
 .jpo-frise {
     @include background-image-retina('jpo_2014/frise.png', 'jpo_2014/frise@2x.png');
@@ -147,55 +104,3 @@
 }
 
 
-/* -----------------------------*/
-/* POPUP                        */
-/* -----------------------------*/
-.jpo-popup{
-    background-image: image-url('jpo_2014/popup_background.png');
-    background-repeat: no-repeat;
-    @include background-size('100% 100%');
-    @include border-radius($brand-round);
-}
-    .jpo-popup-rotation {
-        @include transform(rotate(-5.5deg));
-    }
-    .popup-jpo-sticker {
-        background-image : image-url('jpo_2014/sticker.png');
-        background-repeat: no-repeat;
-        width            : 130px;
-        height           : 130px;
-        top              : 4px;
-        left             : 400px;
-        @include background-size('130px 130px');
-    }
-
-    .popup-photos {
-        top: -75px;
-    }
-    .popup-jpo-arrow {
-        bottom: -25px;
-    }
-    .popup-jpo-fanion {
-        background-image: image-url('jpo_2014/popup_fanion.png');
-        height          : 150px;
-        width           : 580px;
-        color           : white;
-        margin-top      : 50px;
-        margin-left     : -52px;
-        @include background-size('580px 150px');
-        .popup-jpo-fanion__text {
-            top        : 42px;
-            left       : 100px;
-            line-height: 1.4;
-            color      : white;
-            font-size  : 30px;
-        }
-    }
-    .jpo-popup-tick-marks {
-        margin-left: 50px;
-        margin-top : -30px;
-        line-height: 2;
-    }
-    .popup-jpo-logo {
-        margin-top: 20px;
-    }

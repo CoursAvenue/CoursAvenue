@@ -3,6 +3,6 @@
     .grid__item.one-half.palm-one-half>
       = link_to root_path, class: 'logo', target: '_blank' do
         - if request.subdomain == 'pro'
-          = image_tag 'logos/logo-pro@2x.png', width: 200, alt: 'Tous les cours et stages autour de vous | CoursAvenue.com'
+          = image_tag 'logos/logo-pro.png', width: 200, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo-pro@2x.png') }
         - else
-          = image_tag 'logos/logo@2x.png', width: 200, alt: 'Tous les cours et stages autour de vous | CoursAvenue.com'
+          = image_tag 'logos/logo.png', width: 200, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }

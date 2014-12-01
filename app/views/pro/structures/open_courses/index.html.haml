@@ -57,8 +57,7 @@
         = "(#{course.event_type})"
       - if course.info.present?
         .v-middle.push-half--left.btn.btn--small{ data: { html: 'true', toggle: 'popover', content: "<p><strong>Infos pratiques</strong><br>#{course.info}</p>", 'original-title' => '', trigger: 'hover', placement: 'right' } }
-          %i.lbc-icon-info
-            i
+          %i.fa.fa-info
           Infos pratiques
       %p.gray.milli
         %i.fa.fa-tags

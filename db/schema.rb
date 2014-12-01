@@ -11,12 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141110161709) do
+ActiveRecord::Schema.define(version: 20141119165324) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
-  enable_extension "pg_stat_statements"
 
   create_table "admins", force: true do |t|
     t.string   "email",                             default: "",    null: false
@@ -51,6 +50,10 @@ ActiveRecord::Schema.define(version: 20141110161709) do
     t.boolean  "email_opt_in",                      default: true
     t.hstore   "email_opt_in_status"
     t.string   "delivery_email_status"
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "oauth_token"
+    t.datetime "oauth_expires_at"
   end
 
   add_index "admins", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
@@ -181,6 +184,7 @@ ActiveRecord::Schema.define(version: 20141110161709) do
     t.string   "type"
     t.integer  "associated_message_id"
     t.boolean  "certified"
+    t.string   "slug"
   end
 
   add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree

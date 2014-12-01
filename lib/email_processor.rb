@@ -22,6 +22,8 @@ class EmailProcessor
       process_conversation(token)
     end
 
+    track_reply(token)
+
     token.use!
   end
 
@@ -29,15 +31,6 @@ class EmailProcessor
 
   # Process images received via the special email address `images@reply.coursavenue.com`.
   def process_image
-    Bugsnag.notify(RuntimeError.new("EmailProcessor#process"), {
-      email_data: {
-        json: @email.to_json,
-        to: @email.to.first[:token],
-        body: @email.body,
-        images: @email.attachments.to_json
-      }
-    })
-
     return if @email.attachments.empty?
     @email.attachments.each do |image|
       flyer = Flyer.create(treated: false, image: image)
@@ -84,5 +77,12 @@ class EmailProcessor
 
     reply = @email.body
     sender.reply_to_conversation(conversation, reply)
+  end
+
+  def track_reply(reply_token)
+    if Rails.env.production?
+      @mixpanel_tracker = Mixpanel::Tracker.new(ENV['MIXPANEL_PROJECT_TOKEN'])
+      @mixpanel_tracker.track("Replied to conversation", { reply_type: reply_token.reply_type, sender_type: reply_token.sender_type, sender_id: reply_token.sender_id } )
+    end
   end
 end

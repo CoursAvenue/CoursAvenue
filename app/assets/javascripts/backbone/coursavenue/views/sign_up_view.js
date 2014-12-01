@@ -32,7 +32,6 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         events: {
             'click [data-behavior=sign-in]'       : 'signIn',
             'click @ui.$show_email_section_link'  : 'showEmailSection',
-            'click @ui.$facebook_login_button'    : 'loginWithFacebook',
             'submit form'                         : 'signUp'
         },
 
@@ -45,19 +44,6 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         signIn: function signIn () {
             new Module.SignInView(this.options);
-        },
-
-        loginWithFacebook: function loginWithFacebook () {
-            this.ui.$facebook_login_button.text('Inscription en cours...');
-            this.ui.$data_loader.removeClass('hidden');
-            CoursAvenue.loginWithFacebook({
-                success: this.options.success,
-                dismiss: function() {
-                    this.ui.$data_loader.addClass('hidden');
-                    this.ui.$facebook_login_button.text('Inscription avec Facebook');
-                    this.options.dismiss();
-                }.bind(this)
-            });
         },
 
         showEmailSection: function showEmailSection () {

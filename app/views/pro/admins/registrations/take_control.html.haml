@@ -1,3 +1,6 @@
+- content_for :head do
+  %meta{ name: 'robots', content: 'noindex, nofollow' }
+
 = content_for :title do
   Vous travaillez pour #{@structure.name} ? Prenez le contrôle de votre profil.
 
@@ -40,6 +43,11 @@
                       ?
                     %h4 Choisissez vos identifiants pour gérer votre profil :
 
+                .text--center
+                  %a.btn.btn--bigger.btn--facebook{ data: { behavior: 'facebook-login', disable_with: "Inscription en cours...", structure_id: params[:structure_id] } }
+                    S'inscrire avec Facebook
+                .text--center.push-half--top
+                  %strong.epsilon> OU
                 = simple_form_for [:pro, @admin], url: pro_admin_registration_path, html: { autocomplete: 'off', class: 'half-form'} do |f|
                   = f.error_notification
                   .grid
@@ -57,7 +65,7 @@
                     .grid__item.one-fifth.text--right.v-middle>
                       &nbsp;
                     .grid__item.four-fifths.v-middle>
-                      = f.button :submit, 'Gérer ce profil',  class: 'btn--green btn--large', data: { disable_with: 'Veuillez patienter...' }
+                      = f.button :submit, 'Gérer ce profil',  class: 'one-half btn--green btn--bigger', data: { disable_with: 'Veuillez patienter...' }
                       %br
                       %i.epsilon Gratuit et sans engagement
 
@@ -180,3 +188,4 @@
       $(function() {
           mixpanel.track("Structures/show: landed on take control page", { "structure_slug": "#{@structure.slug}", "structure_name": "#{@structure.name}" });
       });
+

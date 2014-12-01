@@ -23,7 +23,7 @@
 = simple_form_for [:pro, @structure, @course], url: url, as: :course, html: {id: 'course-form'} do |f|
   = f.error_notification
 
-  %h5.form-header-group.flush--bottom
+  %h5.flush--bottom
     %i.fa.fa-info
     Informations générales
   .form-white-box
@@ -55,12 +55,12 @@
             Précisez :
             %input#event_type_description_hidden.push--left{ name: 'course[event_type_description]', type: 'text', size: '50', value: @course.event_type_description}
 
-  %h5.form-header-group.flush--bottom.soft--top Description
+  %h5.flush--bottom.soft--top Description
   .relative= image_tag 'texts/jpo-more-infos.png', height: 85, style: 'right: 0; bottom: -21px;', class: 'absolute'
   .form-white-box
     = f.input :description, as: :text, placeholder: "Expliquez en quoi consiste l'événement, de manière à ce que l’élève comprenne bien ce qu’il y apprendra, pour éviter toute confusion. Plus de détails vous donnez, mieux c’est !", input_html: { id: 'open-course-description', data: { behavior: 'text-counter', 'average-words-nb' => 20, 'good-words-nb' => 70, 'bad-text' => 'Votre description doit comporter au moins 20 mots. Nos Partenaires qui ont le plus de succès ont plus de 100 mots', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}}, wrapper_html: {class: 'flush--top one-whole'}
 
-  %h5.form-header-group.flush--bottom.soft--top
+  %h5.flush--bottom.soft--top
     Informations supplémentaires
   .form-white-box
     .input

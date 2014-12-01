@@ -94,6 +94,26 @@ class Media < ActiveRecord::Base
     end
   end
 
+  def thumbnail_url
+    if self.image.present?
+      self.image.url(:thumbnail)
+    elsif self.video?
+      self.read_attribute(:thumbnail_url)
+    else
+      self.read_attribute(:url)
+    end
+  end
+
+  def small_thumbnail_url
+    if self.image.present?
+      self.image.url(:small_thumbnail)
+    elsif self.video?
+      self.read_attribute(:thumbnail_url)
+    else
+      self.read_attribute(:url)
+    end
+  end
+
   private
 
   # Reindex structure because we keep track of its media count
