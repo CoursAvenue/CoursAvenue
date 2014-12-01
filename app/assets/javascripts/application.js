@@ -13,16 +13,23 @@
 //= require libs/chosen.jquery
 //= require libs/jquery.cookie
 //= require libs/typeahead
+//= require libs/jquery.fileupload/vendor/jquery.ui.widget
+//= require libs/jquery.fileupload/jquery.iframe-transport
+//= require libs/jquery.fileupload/jquery.fileupload
+//= require libs/jquery.fileupload/jquery.fileupload-process
+//= require libs/jquery.fileupload/jquery.fileupload-validate
+//= require libs/jquery.fileupload/jquery.fileupload-image
 //= require libs/jquery.scrollTo
 //= require libs/jquery.nouislider
-//= require libs/jquery.lazyload
 //= require libs/responsiveslides
 //= require libs/jquery.placeholder
 
 //= require libs/jquery.magnific-popup
+//= require libs/jquery.lazyload
 //= require libs/fancybox/jquery.fancybox
 
 //= require libs/fingerprint
+//= require libs/countdown
 
 //= require_tree ./libs/fancybox/helpers/
 
@@ -46,8 +53,10 @@
 // - https://github.com/jquery-boilerplate/jquery-boilerplate
 //= require_tree ./plugins/
 
+//= require libs/markerclusterer.js
+//= require libs/richmarker.js
+//= require libs/infobox.js
 //= require gmaps/google
-
 //= require ./plugins_initalization
 
 // ---------------------------------- Backbone
@@ -70,3 +79,28 @@ $.magnificPopup.defaults.callbacks = {
 //delay removal by X to allow out-animation
 $.magnificPopup.defaults.removalDelay = 500;
 
+(function($) {
+  $.fn.yellowFade = function(options) {
+    options = options || {};
+    $(this).each(function () {
+        var fadeIt;
+        options.delay = options.delay || 0;
+        var $this = $(this);
+        var el    = $this;
+        fadeIt = function () {
+            $("<div/>")
+                .width(el.outerWidth())
+                .height(el.outerHeight())
+                .css({
+                    "position"        : "absolute",
+                    "left"            : el.offset().left,
+                    "top"             : el.offset().top,
+                    "background-color": "#ffff99",
+                    "opacity"         : ".7",
+                    "z-index"         : "9999999"
+                }).appendTo('body').fadeOut(1000).queue(function () { $(this).remove(); });
+        }
+        _.delay(fadeIt, options.delay);
+    });
+  }
+})(jQuery);

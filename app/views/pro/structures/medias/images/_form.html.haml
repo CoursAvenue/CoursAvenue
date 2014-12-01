@@ -1,13 +1,14 @@
 = simple_form_for [:pro, @structure, @image], url: pro_structure_images_path(@structure), remote: true, html: { id: 'image-form' } do |f|
   = f.error_notification
   .text--center
-    = f.filepicker_field :url, multiple: true, button_text: 'Choisir mes photos', button_class: 'btn btn--blue btn--large', services: 'COMPUTER,FACEBOOK,DROPBOX,BOX,FLICKR,PICASA,INSTAGRAM,URL', dragdrop: true, drag_text: 'Ou glissez vos photos ici', drag_class: 'filepicker__dropzone push-half--top', store_location: 'S3', store_path: @image.s3_media_path, store_access: 'public'
+    = f.filepicker_field :url, multiple: true, button_text: 'Choisir mes photos', button_class: 'btn btn--blue btn--large', services: 'COMPUTER,FACEBOOK,DROPBOX,BOX,FLICKR,PICASA,INSTAGRAM,URL', store_location: 'S3', store_path: @image.s3_media_path, store_access: 'public'
     = f.input :thumbnail_url, as: :hidden
   %h4#preview-title.hidden.push-half--ends Aperçu
   #preview
   .text--center= link_to 'Retour à la galerie', pro_structure_medias_path(@structure)
 
 = content_for :scripts do
+  = render 'shared/libs/filepicker_scripts'
   :javascript
     $(function() {
         var convertImages;

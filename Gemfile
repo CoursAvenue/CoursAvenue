@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 
 ruby '2.1.5'
 
-gem 'rails', '4.1.6'
+gem 'rails', '4.1.8'
 
 gem 'rack-attack',  '~>3.0.0'
 gem 'rack-timeout', '~> 0.0.4'
@@ -73,6 +73,7 @@ gem 'daemons'                   , '~>1.1.9'
 gem 'hirefire-resource'
 
 gem 'carrierwave'               , '~>0.10.0'
+gem 'carrierwave-imageoptimizer', '~>1.2.1'
 gem 'cloudinary'                , '~>1.0.78'
 
 # Handle paperclip in background
@@ -193,12 +194,17 @@ gem 'rack-utf8_sanitizer'       , '~> 1.1.0'
 gem 'ckeditor'                  , '~> 4.1.0'#, git: 'git://github.com/nim1989/ckeditor.git'
 
 group :production, :staging do
-  gem 'execjs'                  , '~>2.0.2'
-  gem 'rails_12factor'          , '~> 0.0.2'
+  gem 'execjs'                    , '~>2.0.2'
+  gem 'rails_12factor'            , '~> 0.0.3'
   # Sync assets to S3 and CloudFront
-  gem 'asset_sync'              , '~>1.0.0'
+  gem 'asset_sync'                , '~>1.0.0'
   # Enable gzip compression on heroku, but don't compress images
-  gem 'heroku-deflater'         , '~>0.5.3'
+  # gem 'heroku_rails_deflate'      , '~>1.0.3'
+  gem 'rack-zippy'
+  gem 'sprockets-image_compressor', '~>0.3.0'
+  gem 'htmlcompressor'            , '~>0.1.2'
+  gem 'image_optim'               , '~>0.19.1'
+  gem 'image_optim_pack'          , '~>0.2.0.20141122'
 end
 
 group :test do
@@ -238,8 +244,8 @@ group :development, :test do
   gem 'byebug'
   # Permits to travel in the past
   gem 'delorean'
-  gem 'dotenv-rails'
 end
+gem 'dotenv-rails'
 
 gem 'rmagick', '~>2.13.3', require: 'RMagick'
 
@@ -269,4 +275,4 @@ group :development do
 end
 
 # For Traceview in Heroku
-gem 'oboe-heroku'
+gem 'oboe-heroku', '~>0.9.16.1'

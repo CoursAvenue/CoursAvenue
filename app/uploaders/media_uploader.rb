@@ -1,5 +1,6 @@
 # encoding: utf-8
 class MediaUploader < CarrierWave::Uploader::Base
+  include CarrierWave::ImageOptimizer
   include Cloudinary::CarrierWave
 
   process convert: "jpg"

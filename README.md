@@ -219,3 +219,7 @@ Reinvoke all jobs :
 # Ex of `where` with hstore
 
 `User.where("meta_data -> 'subscription_from' LIKE 'newsletter'")`
+
+
+For CarrierWave ImageOptimizer
+brew install optipng jpegoptim

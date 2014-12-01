@@ -20,19 +20,19 @@
         .grid__item.v-middle.two-thirds>
           .btn-group{ data: { toggle: 'buttons' } }
             %label.text--center.soft-half.btn.button{ style: 'height: 95px; width: 150px;', class: (@structure.structure_type == 'structures.independant' ? 'active' : '')}>
-              = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/icon-structure-type-independant.png', height: 40, width: 31, class: 'v-middle'
+              = image_tag 'icons/icon-structure-type-independant.png', height: 40, width: 31, class: 'v-middle'
               .soft-half--ends Professeur indépendant
               %input{ type: 'radio', name: 'structure[structure_type]', value: 'structures.independant', checked: @structure.structure_type == 'structures.independant' }
             %label.text--center.soft-half.btn.button{ style: 'height: 95px; width: 150px;', class: (@structure.structure_type == 'structures.association' ? 'active' : '')}>
-              = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/icon-structure-type-association.png', height: 50, width: 84, class: 'v-middle'
+              = image_tag 'icons/icon-structure-type-association.png', height: 50, width: 84, class: 'v-middle'
               .soft-half--ends Association
               %input{ type: 'radio', name: 'structure[structure_type]', value: 'structures.association', checked: @structure.structure_type == 'structures.association' }
             %label.text--center.soft-half.btn.button{ style: 'height: 95px; width: 150px;', class: (@structure.structure_type == 'structures.company' ? 'active' : '')}>
-              = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/icon-structure-type-school.png', height: 50, width: 64, class: 'v-middle'
+              = image_tag 'icons/icon-structure-type-school.png', height: 50, width: 64, class: 'v-middle'
               .soft-half--ends École privée
               %input{ type: 'radio', name: 'structure[structure_type]', value: 'structures.company', checked: @structure.structure_type == 'structures.company' }
             %label.text--center.soft-half.btn.button{ style: 'height: 95px; width: 150px;', class: (@structure.structure_type == 'structures.other' ? 'active' : '')}>
-              = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/icon-structure-type-other.png', width: 70, height: 50, class: 'v-middle', style: 'padding-top: 25px; padding-bottom: 8px;'
+              = image_tag 'icons/icon-structure-type-other.png', width: 70, height: 50, class: 'v-middle', style: 'padding-top: 25px; padding-bottom: 8px;'
               .soft-half--ends Autres
               %input{ type: 'radio', name: 'structure[structure_type]', value: 'structures.other', checked: @structure.structure_type == 'structures.other' }
 

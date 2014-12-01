@@ -168,7 +168,7 @@ class Structure < ActiveRecord::Base
   ######################################################################
   # Algolia                                                            #
   ######################################################################
-  algoliasearch do
+  algoliasearch per_environment: true do
     attribute :name, :slug
     add_attribute :search_score do
       self.search_score.try(:to_i)

@@ -54,7 +54,7 @@ class Subject < ActiveRecord::Base
     text :name
   end
 
-  algoliasearch do
+  algoliasearch per_environment: true do
     attribute :name, :slug
     add_attribute :type do
       'subject'

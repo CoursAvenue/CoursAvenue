@@ -19,7 +19,9 @@ class CommentSerializer < ActiveModel::Serializer
   end
 
   def avatar_url
-    object.user.try(:avatar_url)
+    if object.user
+      object.user.avatar_url(:small_thumb)
+    end
   end
 
   def created_at_iso

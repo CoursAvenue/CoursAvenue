@@ -9,9 +9,6 @@
     width: 100% !important;
 }
 
-.inline-form {
-    display: inline;
-}
 .checkbox-at-left {
     &:before, &:after {
         display    : table;
@@ -115,24 +112,10 @@
             }
         }
     }
-    .inline-inputs {
-        .control-label {
-            width  : auto;
-            padding: 0 0.5em;
-        }
-        input[type="submit"] {
-            margin-left: 1em;
-        }
-    }
-        .control-label {
-            text-align    : right;
-            padding-right : 1em;
-        }
-    .form-header-group {
-        border-bottom: solid 1px $gray-smooth;
-        // text-align   : right;
-        width        : $left-form-margin;
-    }
+      .control-label {
+          text-align    : right;
+          padding-right : 1em;
+      }
     .label--header{
         font-weight: bold;
         width      : auto;
@@ -142,15 +125,6 @@
     }
     textarea.text {
         height: 5em;
-        &.textarea--small {
-            height: 3.5em;
-        }
-        &.textarea-description--tall {
-            height: 30em;
-        }
-        &.textarea-description {
-            height: 20em;
-        }
     }
     .required {
         abbr {
@@ -184,7 +158,6 @@
         }
     }
     .input.boolean {
-        @extend .cf;
         label {
             float: left;
         }
@@ -219,7 +192,6 @@
         padding-left: $label-width / 1.4;
         @include multiple-media-query(palm, lap) { padding-left: 0; };
     }
-    .form-header-group { width       : $label-width / 1.4; }
     .input {
         .control-label {
             width: $label-width / 1.4;
