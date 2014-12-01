@@ -19,7 +19,7 @@ class Pro::Structures::OrdersController <  Pro::ProController
 
     respond_to do |format|
       format.html { redirect_to pro_structure_order_path(@structure, @order) }
-      format.pdf  { render pdf: 'export', disposition: 'attachment', layout: 'pdf.html' }
+      format.pdf  { render pdf: @order.public_order_id, disposition: 'attachment', layout: 'pdf.html' }
     end
   end
 end
