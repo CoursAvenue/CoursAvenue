@@ -11,11 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141119165324) do
+ActiveRecord::Schema.define(version: 20141126143145) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
+  enable_extension "pg_stat_statements"
 
   create_table "admins", force: true do |t|
     t.string   "email",                             default: "",    null: false
@@ -54,6 +55,7 @@ ActiveRecord::Schema.define(version: 20141119165324) do
     t.string   "uid"
     t.string   "oauth_token"
     t.datetime "oauth_expires_at"
+    t.boolean  "sms_opt_in",                        default: true
   end
 
   add_index "admins", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
@@ -632,6 +634,7 @@ ActiveRecord::Schema.define(version: 20141119165324) do
     t.string   "callable_type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "principal",     default: false
   end
 
   add_index "phone_numbers", ["callable_id"], name: "index_phone_numbers_on_callable_id", using: :btree
@@ -914,6 +917,7 @@ ActiveRecord::Schema.define(version: 20141119165324) do
     t.string   "remote_logo_url"
     t.string   "trial_courses_policy"
     t.integer  "sleeping_structure_id"
+    t.boolean  "sms_opt_in",                     default: false
   end
 
   add_index "structures", ["slug"], name: "index_structures_on_slug", unique: true, using: :btree
