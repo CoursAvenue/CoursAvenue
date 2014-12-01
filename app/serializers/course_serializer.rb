@@ -42,7 +42,7 @@ class CourseSerializer < ActiveModel::Serializer
       _subjects << {
         root_name: root_subject.name,
         child_names: child_subjects.map(&:name).join(', '),
-        icon: "https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/#{root_subject.slug}.png",
+        icon: ActionController::Base.helpers.asset_path("icons/subjects/#{root_subject.slug}.png"),
         child_length: child_subjects.length
       }
     end

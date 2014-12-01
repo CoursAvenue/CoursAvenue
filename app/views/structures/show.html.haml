@@ -95,9 +95,6 @@
                                 %i= truncate(structure.places.map(&:city).map(&:name).uniq.join(', '), length: 40)
                               .btn.btn--small.btn--blue.btn--full.opacity-hidden-on-hover__child Voir le profil
 
-- if Rails.env.production?
-  = render 'tracking_pixels'
-
 = content_for :scripts do
   :javascript
     (function () {
