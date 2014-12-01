@@ -52,6 +52,9 @@
 // - https://github.com/jquery-boilerplate/jquery-boilerplate
 //= require_tree ./plugins/
 
+//= require libs/markerclusterer.js
+//= require libs/richmarker.js
+//= require libs/infobox.js
 //= require gmaps/google
 //= require ./plugins_initalization
 
