@@ -25,6 +25,7 @@
 //= require libs/jquery.placeholder
 
 //= require libs/jquery.magnific-popup
+//= require libs/jquery.lazyload
 //= require libs/fancybox/jquery.fancybox
 
 //= require libs/fingerprint
