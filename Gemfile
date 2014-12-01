@@ -270,3 +270,7 @@ end
 
 # For Traceview in Heroku
 gem 'oboe-heroku'
+
+# PDF generation for orders
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
