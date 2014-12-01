@@ -29,6 +29,10 @@ class StructureLogoUploader < CarrierWave::Uploader::Base
     process :crop_small_thumb
   end
 
+  version :small_thumb_85 do
+    process :crop_small_thumb_85
+  end
+
   version :thumbnail_email_cropped do
     process :crop_email
   end
@@ -62,6 +66,14 @@ class StructureLogoUploader < CarrierWave::Uploader::Base
     crop_width      = (model.crop_width.to_i == 0 ? 600 : model.crop_width.to_i)
     transformations << { x: model.crop_x, y: model.crop_y, width: crop_width, height: crop_width, crop: :crop }
     transformations << { width: 60, height: 60, crop: :fill }
+    { transformation: transformations }
+  end
+
+  def crop_small_thumb_85
+    transformations = []
+    crop_width      = (model.crop_width.to_i == 0 ? 600 : model.crop_width.to_i)
+    transformations << { x: model.crop_x, y: model.crop_y, width: crop_width, height: crop_width, crop: :crop }
+    transformations << { width: 85, height: 85, crop: :fill }
     { transformation: transformations }
   end
 

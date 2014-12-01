@@ -26,4 +26,4 @@
         %i= truncate(subject_roots_ordered(structure).map(&:name).join(', '), length: 40)
     .grid__item.v-top.one-fifth>
       .relative{ style: 'top: -45px', itemprop: 'image', content: structure.logo.url }
-        = image_tag structure.logo.url(:thumb), class: 'bordered rounded--circle'
+        = image_tag structure.logo.url(:small_thumb), class: 'bordered rounded--circle', width: 60, height: 60
