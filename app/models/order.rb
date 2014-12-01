@@ -36,10 +36,9 @@ class Order < ActiveRecord::Base
     @order       = self
     @structure   = self.structure
 
-    file    = CoursAvenue::Application::S3_BUCKET.objects["#{ invoice_path }"]
+    file    = CoursAvenue::Application::S3_BUCKET.objects[ invoice_path ]
     invoice = ApplicationController.new.render_to_string('pro/structures/orders/export.pdf.haml',
-                                                         pdf:    "#{ invoice_path }",
-                                                         layout: 'pdf.html.haml',
+                                                         layout: 'layouts/pdf.html.haml',
                                                          locals: { :@order => @order, :@structure => @structure } )
     pdf = WickedPdf.new.pdf_from_string(invoice)
     file.write(pdf)
