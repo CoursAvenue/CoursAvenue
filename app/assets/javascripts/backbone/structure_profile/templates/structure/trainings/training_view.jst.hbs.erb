@@ -86,7 +86,7 @@
                 {{#each premium_prices}}
                     <tr>
                         <td class="nowrap">
-                            <img src="https://coursavenue-public.s3.amazonaws.com/public_assets/icons/icon-star-yellow-full-bordered.png" height="14" class="v-middle" data-toggle="tooltip" data-title="{{this.libelle_type}}">
+                            <img src="<%= asset_path '/icons/icon-star-yellow-full-bordered.png' %>" height="14" class="v-middle" data-toggle="tooltip" data-title="{{this.libelle_type}}">
                             <span class="v-middle">
                             {{#if this.discount}} {{ this.libelle_type }} {{else}} {{ this.libelle }} {{/if}}
                             </span>

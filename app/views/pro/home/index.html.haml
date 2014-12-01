@@ -81,7 +81,7 @@
           .grid.push--bottom
             .grid__item.one-quarter.epsilon.v-middle>
               = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block muted-link media-photo', target: :_blank do
-                = image_tag structure.logo.url(:thumb), class: 'block'
+                = image_tag '', class: 'block', data: { behavior: 'lazy-load', original: structure.logo.url(:thumb) }
             .grid__item.three-quarters.v-middle>
               = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank, class: 'muted-link block' do
                 %p.flush.epsilon
@@ -105,7 +105,7 @@
             .flexbox.push--bottom
               .flexbox__item.soft--left.v-top.text--center>
                 = link_to structure_url(review.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block media-photo', target: :_blank, class: 'muted-link' do
-                  = image_tag review.user.avatar_url(:thumb), class: 'block rounded--circle', width: 60
+                  = image_tag '', class: 'block rounded--circle', width: 60, data: { behavior: 'lazy-load', original: review.user.avatar_url(:thumb) }
                 .milli.soft-half--top
                   = review.author_name
               .flexbox__item.soft--sides.v-top>
