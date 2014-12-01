@@ -29,8 +29,6 @@ class Order < ActiveRecord::Base
     file.url_for(:read).to_s
   end
 
-  private
-
   # Export an order and upload it to S3.
   #
   # @return The URL of the exported order.
