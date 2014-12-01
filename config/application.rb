@@ -8,13 +8,12 @@ Bundler.require(:default, Rails.env)
 module CoursAvenue
   class Application < Rails::Application
 
-    CoursAvenue::Application::MANDRILL_REPLY_TO_DOMAIN = Rails.env.staging? ? 'reply-staging.coursavenue.com' : 'reply.coursavenue.com'
-    CoursAvenue::Application::WWW_SUBDOMAIN = Rails.env.staging? ? 'staging' : 'www'
-    CoursAvenue::Application::PRO_SUBDOMAIN = Rails.env.staging? ? 'pro.staging' : 'pro'
-
-    AMAZON_S3       = AWS::S3.new(access_key_id: ENV['AWS_ACCESS_KEY_ID'], secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'])
-    S3_BUCKET       = AMAZON_S3.buckets[ENV['AWS_BUCKET']]
-    FACEBOOK_APP_ID = 589759807705512
+    MANDRILL_REPLY_TO_DOMAIN = Rails.env.staging? ? 'reply-staging.coursavenue.com' : 'reply.coursavenue.com'
+    WWW_SUBDOMAIN            = Rails.env.staging? ? 'staging' : 'www'
+    PRO_SUBDOMAIN            = Rails.env.staging? ? 'pro.staging' : 'pro'
+    AMAZON_S3                = AWS::S3.new(access_key_id: ENV['AWS_ACCESS_KEY_ID'], secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'])
+    S3_BUCKET                = AMAZON_S3.buckets[ENV['AWS_BUCKET']]
+    FACEBOOK_APP_ID          = 589759807705512
 
     config.action_controller.page_cache_directory = "#{Rails.root.to_s}/public/deploy"
     config.action_dispatch.default_headers = {
