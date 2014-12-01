@@ -12,3 +12,4 @@
 
     .text--center.print--hidden
       = link_to 'Imprimer', 'javascript:window.print()', class: 'btn btn--green soft--sides'
+      = link_to 'Télécharger', export_pro_structure_order_path(@structure, @order, { format: :pdf } ), class: 'btn btn--green soft--sides'
