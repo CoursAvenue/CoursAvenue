@@ -244,7 +244,7 @@ class User < ActiveRecord::Base
 
   # Type in: small square large normal
   def fb_avatar(format=:normal)
-    if type == :normal
+    if format == :normal
       self.read_attribute(:fb_avatar).gsub(/^http:/, 'https:').split("?")[0] << "?width=200&height=200" unless self.read_attribute(:fb_avatar).nil?
     elsif :thumb
       self.read_attribute(:fb_avatar).gsub(/^http:/, 'https:').split("?")[0] << "?width=50&height=50" unless self.read_attribute(:fb_avatar).nil?
