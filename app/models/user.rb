@@ -237,9 +237,9 @@ class User < ActiveRecord::Base
       self.avatar.url(format)
     elsif self.fb_avatar
       if format == :thumb
-        self.fb_avatar('large')
-      else
         self.fb_avatar
+      else
+        self.fb_avatar('large')
       end
     else
       self.avatar
@@ -251,7 +251,7 @@ class User < ActiveRecord::Base
     if type == 'large'
       self.read_attribute(:fb_avatar).gsub(/^http:/, 'https:').split("?")[0] << "?width=200&height=200" unless self.read_attribute(:fb_avatar).nil?
     else
-      self.read_attribute(:fb_avatar).gsub(/^http:/, 'https:').split("=")[0] << "?width=100&height=100" unless self.read_attribute(:fb_avatar).nil?
+      self.read_attribute(:fb_avatar).gsub(/^http:/, 'https:').split("?")[0] << "?width=50&height=50" unless self.read_attribute(:fb_avatar).nil?
     end
   end
 
