@@ -3,8 +3,6 @@
   %head
     %meta{ charset: 'utf-8' }
     %link{ href: 'https://fonts.googleapis.com/css?family=Raleway:500,400,300,600,700', rel: 'stylesheet', type: 'text/css' }
-    = wicked_pdf_javascript_include_tag "modernizr" # MUST BE In the Head and before CSS
     = wicked_pdf_stylesheet_link_tag "application", media: 'all'
   %body
     = yield
-    = wicked_pdf_javascript_include_tag 'application.pro'

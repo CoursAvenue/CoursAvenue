@@ -15,6 +15,7 @@
 /log/*
 /tmp
 /public/system/*
+/public/assets/*
 /solr/*
 /coverage
 .sass-cache

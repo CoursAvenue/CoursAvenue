@@ -25,11 +25,7 @@ class Media::Image < Media
   #
   # @return String html of the image
   def url_html(options={})
-    if options[:lazy]
-      "<img data-original='#{self.thumbnail_url}' title='#{self.caption}'/>".html_safe
-    else
-      "<img src='#{self.url}' title='#{self.caption}'/>".html_safe
-    end
+    "<img src='#{self.url}' title='#{self.caption}'/>".html_safe
   end
 
   # Returns file name based on url

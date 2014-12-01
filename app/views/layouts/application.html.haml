@@ -38,17 +38,9 @@
     = yield :above_container
     = content_for?(:content) ? yield(:content) : yield
 
-    - if request.subdomain == 'pro' or request.subdomain == 'pro.staging'
-      = javascript_include_tag 'application.pro'
-    - else
-      = javascript_include_tag 'application'
-
-    -#= javascript_include_tag '//maps.googleapis.com/maps/api/js?sensor=false'
-    = javascript_include_tag '//cdn.jsdelivr.net/algoliasearch/latest/algoliasearch.min.js'
     = javascript_include_tag '//maps.google.com/maps/api/js?v=3.13&sensor=false&libraries=geometry'
-    = javascript_include_tag '//google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.0.14/src/markerclusterer_packed.js'
-    = javascript_include_tag '//google-maps-utility-library-v3.googlecode.com/svn/trunk/richmarker/src/richmarker-compiled.js'
-    = javascript_include_tag '//google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox_packed.js'
+    = javascript_include_tag 'application'
+    = javascript_include_tag '//cdn.jsdelivr.net/algoliasearch/latest/algoliasearch.min.js'
 
     = yield :scripts
     = yield :layout_scripts
@@ -86,18 +78,3 @@
     :javascript
       Bugsnag.releaseStage = '#{Rails.env}';
       Bugsnag.notifyReleaseStages = ["staging", "production"]
-    - if Rails.env.production?
-      <!-- KISSmetrics tracking snippet -->
-      <script type="text/javascript">var _kmq = _kmq || [];
-      var _kmk = _kmk || 'b314d567faa918c06dce24e92c90f5d4e0bf85e1';
-      function _kms(u){
-      setTimeout(function(){
-      var d = document, f = d.getElementsByTagName('script')[0],
-      s = d.createElement('script');
-      s.type = 'text/javascript'; s.async = true; s.src = u;
-      f.parentNode.insertBefore(s, f);
-      }, 1);
-      }
-      _kms('//i.kissmetrics.com/i.js');
-      _kms('//doug1izaerwt3.cloudfront.net/' + _kmk + '.1.js');
-      </script>
