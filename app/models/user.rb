@@ -236,22 +236,22 @@ class User < ActiveRecord::Base
     if self.avatar.exists?
       self.avatar.url(format)
     elsif self.fb_avatar
-      if format == :thumb
-        self.fb_avatar
-      else
-        self.fb_avatar('large')
-      end
+      self.fb_avatar(format)
     else
       self.avatar
     end
   end
 
   # Type in: small square large normal
-  def fb_avatar(type='square')
-    if type == 'large'
+  def fb_avatar(format=:normal)
+    if type == :normal
       self.read_attribute(:fb_avatar).gsub(/^http:/, 'https:').split("?")[0] << "?width=200&height=200" unless self.read_attribute(:fb_avatar).nil?
-    else
+    elsif :thumb
       self.read_attribute(:fb_avatar).gsub(/^http:/, 'https:').split("?")[0] << "?width=50&height=50" unless self.read_attribute(:fb_avatar).nil?
+    elsif :small_thumb
+      self.read_attribute(:fb_avatar).gsub(/^http:/, 'https:').split("?")[0] << "?width=30&height=30" unless self.read_attribute(:fb_avatar).nil?
+    else
+      self.read_attribute(:fb_avatar).gsub(/^http:/, 'https:').split("?")[0] << "?width=100&height=100" unless self.read_attribute(:fb_avatar).nil?
     end
   end
 
