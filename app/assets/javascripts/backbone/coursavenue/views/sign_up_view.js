@@ -30,6 +30,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         events: {
+            'click @ui.$facebook_login_button'    : 'loginWithFacebook',
             'click [data-behavior=sign-in]'       : 'signIn',
             'click @ui.$show_email_section_link'  : 'showEmailSection',
             'submit form'                         : 'signUp'
@@ -38,8 +39,15 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         ui: {
             '$show_email_section_link': '[data-behavior=sign-up-with-email]',
             '$email_section'          : '[data-type=email-section]',
-            '$facebook_login_button'  : '[data-behavior=facebook-login]',
+            '$facebook_login_button'  : '[data-action=facebook-login]',
             '$data_loader'            : '[data-loader]'
+        },
+
+        /*
+         * We have to keep this action in this model to ensure to pass this.options attributes
+         */
+        loginWithFacebook: function loginWithFacebook () {
+            CoursAvenue.loginWithFacebook(this.options);
         },
 
         signIn: function signIn () {
