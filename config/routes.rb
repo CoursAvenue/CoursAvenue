@@ -190,7 +190,11 @@ CoursAvenue::Application.routes.draw do
           get :inscription, to: :new
         end
         devise_for :admins, controllers: { registrations: 'pro/admins/registrations'}, path: '/', path_names: { registration: 'rejoindre-coursavenue-pro', sign_up: '/' }
-        resources :orders, only: [:index, :show], controller: 'structures/orders', path: 'mes-factures'
+        resources :orders, only: [:index, :show], controller: 'structures/orders', path: 'mes-factures' do
+          member do
+            get 'export'
+          end
+        end
         resources :subscription_plans, only: [:new, :index, :destroy], controller: 'structures/subscription_plans', path: 'abonnements' do
           collection do
             get :choose_premium, path: 'choisir-un-abonnement'
