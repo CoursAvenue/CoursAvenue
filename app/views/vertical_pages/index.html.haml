@@ -5,8 +5,8 @@
   Retrouvez un guide pour toutes les disciplines des cours de loisirs
 
 - slug = Subject.roots.sample.slug
-- bg = asset_path "https://coursavenue-public.s3.amazonaws.com/public_assets/home_backgrounds/#{slug}.jpg"
-.bg-fixed.bg-cover{style: "background-image: url('#{bg}')" }
+- bg = asset_path("home_backgrounds/#{slug}.jpg")
+.bg-fixed.bg-cover{ style: "background-image: url('#{bg}')" }
   .main-container.main-container--medium.soft--ends
     %h1.white.soft-black-text-shadow
       Guide des disciplines
