@@ -19,13 +19,16 @@ describe Planning do
         subject.start_date = Date.yesterday
         subject.course     = course
         subject.send :set_end_date
+
         expect(subject.end_date).to eq Date.yesterday
       end
-      it 'sets end_date same as course if present' do
+
+      it 'sets end_date to 100 years from now' do
         course         = Course::Lesson.new end_date: Date.yesterday
         subject.course = course
         subject.send :set_end_date
-        expect(subject.end_date).to eq Date.yesterday
+
+        expect(subject.end_date).to eq Date.current + 100.days
       end
     end
 

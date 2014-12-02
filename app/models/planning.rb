@@ -450,7 +450,7 @@ class Planning < ActiveRecord::Base
       if course.try(:is_training?)
         self.end_date = self.start_date
       else
-        self.end_date = 100.years.from_now
+        self.end_date = Date.current + 100.days
       end
     end
   end
