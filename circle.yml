@@ -1,3 +1,7 @@
+machine:
+  ruby:
+    version: 2.1.5
+
 database:
   post:
     - cp -R /opt/solr-4.3.1 $HOME/solr
