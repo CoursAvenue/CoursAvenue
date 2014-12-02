@@ -76,7 +76,7 @@ class SubscriptionPlanExport < ActiveRecord::Base
       buffer.write(stream.read(bytes))
     end
 
-    self.url = file.url_for(:read, expires: 100.years.to_i ).to_s
+    self.url = file.url_for(:read, expires: 10.years.from_now).to_s
     self.save
     SuperAdminMailer.subscription_plan_export_uploaded_to_s3(self).deliver
   end

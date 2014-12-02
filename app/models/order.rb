@@ -24,9 +24,9 @@ class Order < ActiveRecord::Base
   #
   # @return a String the URL.
   def S3_invoice_path
-    file = CoursAvenue::Application::S3_BUCKET.objects["#{ invoice_path }"]
+    file = CoursAvenue::Application::S3_BUCKET.objects[ invoice_path ]
 
-    file.url_for(:read, { expires: 100.years }).to_s
+    file.url_for(:read, expires: 10.years.from_now).to_s
   end
 
   # Export an order and upload it to S3.
@@ -42,7 +42,7 @@ class Order < ActiveRecord::Base
                                                          locals: { :@order => @order, :@structure => @structure } )
     pdf = WickedPdf.new.pdf_from_string(invoice)
     file.write(pdf)
-    file.url_for(:read, { expires: 100.years }).to_s
+    file.url_for(:read, expires: 10.years.from_now).to_s
   end
   handle_asynchronously :upload_invoice
 
