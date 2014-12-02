@@ -28,7 +28,7 @@ describe Planning do
         subject.course = course
         subject.send :set_end_date
 
-        expect(subject.end_date).to eq Date.current + 100.years
+        expect(subject.end_date).to eq 100.years.from_now.to_date
       end
     end
 
@@ -46,8 +46,8 @@ describe Planning do
         course         = Course::Lesson.new start_date: Date.yesterday, end_date: Date.tomorrow
         subject.course = course
         subject.send :update_start_and_end_date
-        expect(subject.start_date).to eq Date.yesterday
-        expect(subject.end_date).to eq Date.tomorrow
+        expect(subject.start_date).to eq 1.year.ago.to_date
+        expect(subject.end_date).to eq 100.years.from_now.to_date
       end
 
       it 'sets start and end_date even if defined' do
@@ -56,8 +56,8 @@ describe Planning do
         subject.start_date = Date.yesterday - 1.day
         subject.end_date   = Date.tomorrow + 1.day
         subject.send :update_start_and_end_date
-        expect(subject.start_date).to eq Date.yesterday
-        expect(subject.end_date).to eq Date.tomorrow
+        expect(subject.start_date).to eq 1.year.ago.to_date
+        expect(subject.end_date).to eq 100.years.from_now.to_date
       end
     end
   end
