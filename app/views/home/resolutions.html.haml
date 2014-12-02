@@ -1,43 +1,48 @@
 = image_tag 'logos/logo.png', width: 250, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'north west absolute push on-top'
 
-%div.flexbox.one-whole.relative.white.full-screen-item.bg-cover{ style: 'background-image: url("https://unsplash.imgix.net/photo-1415356838286-df6fd593e8b3?q=75&fm=jpg&s=12266b84058b7e5acc8f8b83c432d7b8")'}
-  .push--top.soft--top.flexbox__item.one-whole
-    .v-middle
-      %h1.soft--top.f-weight-300.text--center Et vous ? Quels seront vos résolutions 2015 ?
-
-      %h2.f-weight-300.text--center En 2015...
-      .grid
-        .grid__item.one-third>
-          %h3.text--center.f-weight-300.text--center
-            %a.white#arts{ href: '#' } Je développe mon côté artistique !
-        .grid__item.one-third>
-          %h3.text--center.f-weight-300.text--center
-            %a.white#creats{ href: '#' } Je développe mon côté créatif !
-        .grid__item.one-third>
-          %h3.text--center.f-weight-300.text--center
-            %a.white#sport{ href: '#' } Je me met sport !
-
+.ff-kameron
+  %div.flexbox.one-whole.relative.white.full-screen-item.bg-cover{ style: 'background-image: url("https://unsplash.imgix.net/photo-1415356838286-df6fd593e8b3?q=75&fm=jpg&s=12266b84058b7e5acc8f8b83c432d7b8")'}
+    .push--top.soft--top.flexbox__item.one-whole
+      .v-middle
+        %h1.soft--top.text--center.flush{ style: 'font-size: 60px;'}
+          En 2015 je développe
+          %span.ff-pacifico ma créativité !
+        %h2.text--center
+          Et vous ? Quels seront vos résolutions 2015 ?
         .text--center
-          %a.btn--yellow.btn.btn--enormous{ href: '#question-1', data: { behavior: 'scroll-to' } } Commencer
+          %a.btn--yellow.btn.btn--enormous{ href: '#question-1', data: { behavior: 'scroll-to' } } Faire le test
 
-%div.flexbox.one-whole#question-1.full-screen-item.bg-cover{ style: 'background-image: url("https://ununsplash.imgix.net/photo-1415045384817-2f9cf7f2ed79?q=75&fm=jpg&s=a0d8ebf44a449c7855ca4128e914a7c5")'}
-  .push--top.soft--top.flexbox__item.one-whole
-    .v-middle
-      .grid
-        %label.grid__item.one-third{ for: 'question_1_value_1', style: 'background-image: url("https://unsplash.imgix.net/photo-1414542563971-94513793d046?fit=crop&fm=jpg&h=700&q=75&w=1050"); height: 300px;', data: { behavior: 'scroll-to', el: '#question-2' } }>
-          %input#question_1_value_1.visuallyhidden{ type: 'radio', name: 'resolutions_questions[1]', value: 'whatever' }
-        %label.grid__item.one-third{ style: 'background-image: url("https://unsplash.imgix.net/photo-1414542563971-94513793d046?fit=crop&fm=jpg&h=700&q=75&w=1050"); height: 300px;', data: { behavior: 'scroll-to', el: '#question-2' } }>
-          %input.visuallyhidden{ type: 'radio', name: 'resolutions_questions[1]', value: 'whatever' }
-        %label.grid__item.one-third{ style: 'background-image: url("https://unsplash.imgix.net/photo-1414542563971-94513793d046?fit=crop&fm=jpg&h=700&q=75&w=1050"); height: 300px;', data: { behavior: 'scroll-to', el: '#question-2' } }>
-          %input.visuallyhidden{ type: 'radio', name: 'resolutions_questions[1]', value: 'whatever' }
+  %div.flexbox.one-whole#question-1.full-screen-item.bg-cover{ style: 'background-image: url("https://ununsplash.imgix.net/photo-1415045384817-2f9cf7f2ed79?q=75&fm=jpg&s=a0d8ebf44a449c7855ca4128e914a7c5")'}
+    .push--top.soft--top.flexbox__item.one-whole
+      .v-middle
+        %h2.flush.alpha.text--center.white.orange-box.soft Vous êtes d'âme...?
+        .flexbox
+          %label.bg-cover.relative.text--center.white.flexbox__item.one-third{ for: 'question_1_value_1', style: 'background-image: url("https://gp1.wac.edgecastcdn.net/806614/photos/photos.500px.net/82717483/8617350ae146cd8a708992d245d8ec5d96a348f4/2048.jpg"); height: 300px;', data: { behavior: 'scroll-to', el: '#question-2' } }>
+            .black-curtain.north.west.one-whole.absolute
+            %h4.alpha.relative.inline-block.flush Sexy
+            %input#question_1_value_1.visuallyhidden{ type: 'radio', name: 'resolutions_questions[1]', value: 'whatever' }
+          %label.bg-cover.relative.text--center.white.flexbox__item.one-third{ style: 'background-image: url("https://gp1.wac.edgecastcdn.net/806614/photos/photos.500px.net/10819147/00060a54ffe81a46d1ebe0ea7157110cc60df878/2048.jpg"); height: 300px;', data: { behavior: 'scroll-to', el: '#question-2' } }>
+            .black-curtain.north.west.one-whole.absolute
+            %h4.alpha.relative.inline-block.flush Artiste
+            %input.visuallyhidden{ type: 'radio', name: 'resolutions_questions[1]', value: 'whatever' }
+          %label.bg-cover.relative.text--center.white.flexbox__item.one-third{ style: 'background-image: url("https://gp1.wac.edgecastcdn.net/806614/photos/photos.500px.net/8852240/6a071deed4ae17778ab140119c8e44e19b0b1b2e/2048.jpg"); height: 300px;', data: { behavior: 'scroll-to', el: '#question-2' } }>
+            .black-curtain.north.west.one-whole.absolute
+            %h4.alpha.relative.inline-block.flush Cascadeur
+            %input.visuallyhidden{ type: 'radio', name: 'resolutions_questions[1]', value: 'whatever' }
 
-      .grid
-        %label.grid__item.one-third{ style: 'background-image: url("https://unsplash.imgix.net/photo-1414542563971-94513793d046?fit=crop&fm=jpg&h=700&q=75&w=1050"); height: 300px;', data: { behavior: 'scroll-to', el: '#question-2' } }>
-          %input.visuallyhidden{ type: 'radio', name: 'resolutions_questions[1]', value: 'whatever' }
-        %label.grid__item.one-third{ style: 'background-image: url("https://unsplash.imgix.net/photo-1414542563971-94513793d046?fit=crop&fm=jpg&h=700&q=75&w=1050"); height: 300px;', data: { behavior: 'scroll-to', el: '#question-2' } }>
-          %input.visuallyhidden{ type: 'radio', name: 'resolutions_questions[1]', value: 'whatever' }
-        %label.grid__item.one-third{ style: 'background-image: url("https://unsplash.imgix.net/photo-1414542563971-94513793d046?fit=crop&fm=jpg&h=700&q=75&w=1050"); height: 300px;', data: { behavior: 'scroll-to', el: '#question-2' } }>
-          %input.visuallyhidden{ type: 'radio', name: 'resolutions_questions[1]', value: 'whatever' }
+  %div#question-2.block.full-screen-item.bg-cover{ style: 'background-image: url("https://unsplash.imgix.net/uploads/14128853230824cc16f3e/c38fccbd?fit=crop&fm=jpg&h=700&q=75&w=1050")'}
+    %h1.white Lalala
 
-%div#question-2.block.full-screen-item.bg-cover{ style: 'background-image: url("https://unsplash.imgix.net/uploads/14128853230824cc16f3e/c38fccbd?fit=crop&fm=jpg&h=700&q=75&w=1050")'}
-  %h1.white Lalala
+:javascript
+  WebFontConfig = {
+    google: { families: [ 'Pacifico::latin', 'Kameron::latin' ] }
+  };
+  (function() {
+    var wf = document.createElement('script');
+    wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+      '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+  })(); </script>

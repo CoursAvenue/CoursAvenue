@@ -335,3 +335,12 @@
     height: 150px;
 }
 .full-screen-item { height: 100vh; }
+
+.black-curtain {
+    @include transition(background 150ms linear);
+    background: rgba(0,0,0,.5);
+    height    : 100%;
+    &:hover {
+        background: rgba(0,0,0,.1);
+    }
+}
