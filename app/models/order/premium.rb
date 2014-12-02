@@ -34,6 +34,10 @@ class Order::Premium < Order
     end
   end
 
+  def invoice_path
+    "orders/#{ self.order_id }.pdf"
+  end
+
   private
 
   # Increment promotion code usage_nb

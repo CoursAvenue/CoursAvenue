@@ -3,7 +3,7 @@
   .grid__item.three-tenths>
     %div
       %strong Facture n° #{@order.public_order_id}
-    %div Date : #{l(@order.created_at)}
+    %div Date : #{l(@order.created_at.to_date)}
     %div
       Moyen de paiement :
       - if @order.subscription_plan.payed_through_paypal?
