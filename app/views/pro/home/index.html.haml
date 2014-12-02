@@ -4,8 +4,8 @@
 = content_for :meta_description do
   CoursAvenue permet à chaque professeur, association, ou école de gagner facilement en visibilité pour recruter de nouveaux élèves. L'inscription est gratuite. Faites partie d'une communauté en pleine expansion passionnée par les cours de loisirs.
 
-- profiles = [{ name: "Emilie, Professeur de yoga chez Yoga Sattva Paris", slug: 'yoga-sattva-paris', bg: 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/home_background.jpg', image_name: 'emilie', quote: "Communiquer sur Internet me prenait trop de temps, <br> je m'éparpillais sans résultat. Avec CoursAvenue, c'est intuitif et efficace, en accord avec mes valeurs.", image_width: 350, profile_style: '58', medium: true }]
-- profiles << { name: "Alain Pons, formateur en photographie à Clermont-Ferrand", slug: 'alain-pons-photographe', bg: 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/home_background_alain.jpg', image_name: 'alain', quote: "Gérer ma présence sur Internet relève du quotidien. Grâce à CoursAvenue, c'est devenu simple et je peux enfin me consacrer à la qualité de mes cours.", image_width: 450, profile_style: '62' }
+- profiles = [{ name: "Emilie, Professeur de yoga chez Yoga Sattva Paris", slug: 'yoga-sattva-paris', bg: asset_path('pro/home_background.jpg'), image_name: 'emilie', quote: "Communiquer sur Internet me prenait trop de temps, <br> je m'éparpillais sans résultat. Avec CoursAvenue, c'est intuitif et efficace, en accord avec mes valeurs.", image_width: 350, profile_style: '58', medium: true }]
+- profiles << { name: "Alain Pons, formateur en photographie à Clermont-Ferrand", slug: 'alain-pons-photographe', bg: asset_path('pro/home_background_alain.jpg'), image_name: 'alain', quote: "Gérer ma présence sur Internet relève du quotidien. Grâce à CoursAvenue, c'est devenu simple et je peux enfin me consacrer à la qualité de mes cours.", image_width: 450, profile_style: '62' }
 
 - if cookies[:have_seen_alain]
   - selected_profile = profiles.first
@@ -46,7 +46,7 @@
       = render partial: 'pro/shared/free_profile_advantages', locals: { show_all: true }
 
 - cache 'pro/home_index_1_2_3_V1' do
-  .bg-fixed.bg-cover{ style: "background-image: url(#{asset_path 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/home_background6.jpg'})"}
+  .bg-fixed.bg-cover{ style: "background-image: url(#{asset_path 'pro/home_background6.jpg'})"}
     .main-container.main-container--medium.soft--ends
       %h2.text--center.push--bottom.soft--ends.soft-black-text-shadow.white Simple et rapide
       .grid
