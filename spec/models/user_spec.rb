@@ -34,7 +34,7 @@ describe User do
 
     let(:new_user) { FactoryGirl.create(:user) }
     let(:old_user) { FactoryGirl.create(:user) }
-    let(:other_user) { FactoryGirl.create(:user) }
+    let(:admin)    { FactoryGirl.create(:admin) }
 
     it 'deletes the old user' do
       new_user.merge(old_user)
@@ -56,10 +56,10 @@ describe User do
     end
 
     it 'merges the messages' do
-      receipt      = other_user.send_message(old_user, 'lala', 'lili')
+      receipt      = admin.send_message(old_user, 'lala', 'lili')
       conversation = receipt.conversation
       new_user.merge(old_user)
-      new_user.mailbox.conversations.should include conversation
+      expect(new_user.mailbox.conversations).to include(conversation)
     end
   end
 
