@@ -28,7 +28,7 @@ describe Planning do
         subject.course = course
         subject.send :set_end_date
 
-        expect(subject.end_date).to eq Date.current + 100.days
+        expect(subject.end_date).to eq Date.current + 100.years
       end
     end
 
