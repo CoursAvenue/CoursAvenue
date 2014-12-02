@@ -275,11 +275,7 @@ group :development do
 end
 
 # For Traceview in Heroku
-<<<<<<< HEAD
-gem 'oboe-heroku'
-=======
 gem 'oboe-heroku', '~>0.9.16.1'
->>>>>>> 9b97983f7647cf9376c924829f338ddd7201ae8e
 
 # PDF generation for orders
 gem 'wicked_pdf'
