@@ -1,8 +1,8 @@
 .push-half--bottom.inline-block.very-soft.relative.filtered_search__structure-item.one-whole
   = link_to structure_path(structure), class: "muted-link opacity-hidden-on-hover__wrapper grid--full" do
-    .grid__item.one-fifth.v-middle>
+    .grid__item.one-fifth.v-middle.visuallyhidden--palm>
       = image_tag structure.logo.url(:thumb), alt: structure.name, class: 'block rounded--circle'
-    .grid__item.four-fifths.relative.v-middle.soft-half--left>
+    .grid__item.four-fifths.relative.v-middle.soft-half--left.palm-one-whole>
       .text-ellipsis.delta.f-weight-bold.line-height-1-5.flush.v-top= structure.name
       .text-ellipsis{ style: "padding-right: 60px;" }
         %strong.f-weight-normal= @vertical_page.name

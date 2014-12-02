@@ -38,7 +38,8 @@ class User < ActiveRecord::Base
 
 
   has_attached_file :avatar,
-                    styles: { wide: '800x800#', normal: '450x', thumb: '200x200#', small: '100x100#', mini: '40x40#' }
+                    styles: { wide: '800x800#', normal: '450x', thumb: '200x200#', small: '100x100#', mini: '40x40#' },
+                    processors: [:thumbnail, :paperclip_optimizer]
 
   validates_attachment_content_type :avatar, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 

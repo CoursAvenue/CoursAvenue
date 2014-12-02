@@ -1,3 +1,5 @@
+- @is_responsive = true
+
 = render 'shared/newsletter_form'
 
 = render 'home_screen'
@@ -12,7 +14,7 @@
     .grid__item.palm-one-whole.one-half>
       .beta.push--bottom.soft--bottom.f-weight-300 Derniers avis des élèves
       - @comments.each do |comment|
-        - cache comment do
+        - cache ['home_comment', comment] do
           = render partial: 'comments/home_comment', locals: { comment: comment }
     .grid__item.palm-one-whole.one-half.soft--left{style: 'min-height: 35em;'}
       = render 'subject_guides'
@@ -30,7 +32,7 @@
                 .flexbox__item.v-top.two-twelfths
                   - if article.cover_image.present?
                     = link_to blog_article_path(article), class: 'muted-link push-half--bottom block' do
-                      = image_tag article.cover_image.url(:very_small), class: 'block blog-article__image', alt: article.title, title: article.title
+                      = image_tag '', class: 'block blog-article__image', alt: article.title, title: article.title, data: { behavior: 'lazy-load', original: article.cover_image.url(:very_small) }
                 .flexbox__item.v-top.ten-twelfths.soft--left
                   %h3.delta.flush
                     = link_to article.title, blog_article_path(article), class: 'muted-link'
@@ -50,15 +52,15 @@
       %h2.push--bottom.soft--bottom.f-weight-300 Cours de danse
       - danse_comments = CommentSearch.search(per_page: 3, has_title: true, subject_slug: 'danse').results
       - danse_comments.each do |comment|
-        - cache comment do
-          = render partial: 'comments/home_comment', locals: { comment: comment, truncate_length: 500 }
+        - cache ['home_comment', comment] do
+          = render partial: 'comments/home_comment', locals: { comment: comment, truncate_length: 500, lazy: true }
       .soft--right.text--right= link_to 'Voir tous les cours de danse', root_search_page_path('danse', 'paris'), title: 'Cours de Danse à Paris'
     .grid__item.palm-one-whole.one-half.palm-one-whole.lap-one-whole>
       - theater_comments = CommentSearch.search(per_page: 3, has_title: true, subject_slug: 'theatre-scene').results
       %h2.push--bottom.soft--bottom.f-weight-300 Cours de théâtre & scène
       - theater_comments.each do |comment|
-        - cache comment do
-          = render partial: 'comments/home_comment', locals: { comment: comment, truncate_length: 500 }
+        - cache ['home_comment', comment] do
+          = render partial: 'comments/home_comment', locals: { comment: comment, truncate_length: 500, lazy: true }
       .soft--right.text--right= link_to 'Voir tous les cours de théâtre & scène', root_search_page_path('theatre-scene', 'paris'), title: 'Cours de Théâtre & Scène à Paris'
   %hr.push--ends
   .grid--full
@@ -66,15 +68,15 @@
       %h2.push--bottom.soft--bottom.f-weight-300 Cours de musique & chant
       - music_comments = CommentSearch.search(per_page: 3, has_title: true, subject_slug: 'musique-chant').results
       - music_comments.each do |comment|
-        - cache comment do
-          = render partial: 'comments/home_comment', locals: { comment: comment, truncate_length: 500 }
+        - cache ['home_comment', comment] do
+          = render partial: 'comments/home_comment', locals: { comment: comment, truncate_length: 500, lazy: true }
       .soft--right.text--right= link_to 'Voir tous les cours de yoga, bien-être & santé', root_search_page_path('yoga-bien-etre-sante', 'paris'), title: 'Cours de Yoga, Bien-être & Santé à Paris'
     .grid__item.palm-one-whole.one-half.palm-one-whole.lap-one-whole>
       - yoga_comments = CommentSearch.search(per_page: 3, has_title: true, subject_slug: 'yoga-bien-etre-sante').results
       %h2.push--bottom.soft--bottom.f-weight-300 Cours de yoga, bien-être & sante
       - yoga_comments.each do |comment|
-        - cache comment do
-          = render partial: 'comments/home_comment', locals: { comment: comment, truncate_length: 500 }
+        - cache ['home_comment', comment] do
+          = render partial: 'comments/home_comment', locals: { comment: comment, truncate_length: 500, lazy: true }
       .soft--right.text--right= link_to 'Voir tous les cours de musique & chant', root_search_page_path('musique-chant', 'paris'), title: 'Cours de Musique & Chant à Paris'
   %hr.push--ends
   .grid--full
@@ -82,15 +84,15 @@
       - painting_comments = CommentSearch.search(per_page: 3, has_title: true, subject_slug: 'dessin-peinture-arts-plastiques').results
       %h2.push--bottom.soft--bottom.f-weight-300 Cours de dessin, peinture & arts
       - painting_comments.each do |comment|
-        - cache comment do
-          = render partial: 'comments/home_comment', locals: { comment: comment, truncate_length: 500 }
+        - cache ['home_comment', comment] do
+          = render partial: 'comments/home_comment', locals: { comment: comment, truncate_length: 500, lazy: true }
       .soft--right.text--right= link_to 'Voir tous les cours de dessin, peinture & arts', root_search_page_path('dessin-peinture-arts-plastiques', 'paris'), title: 'Cours de Dessin, Peinture & Arts à Paris'
     .grid__item.palm-one-whole.one-half.palm-one-whole.lap-one-whole>
       - sports_comments = CommentSearch.search(per_page: 3, has_title: true, subject_slug: 'sports-arts-martiaux').results
       %h2.push--bottom.soft--bottom.f-weight-300 Cours de sports & arts martiaux
       - sports_comments.each do |comment|
-        - cache comment do
-          = render partial: 'comments/home_comment', locals: { comment: comment, truncate_length: 500 }
+        - cache ['home_comment', comment] do
+          = render partial: 'comments/home_comment', locals: { comment: comment, truncate_length: 500, lazy: true }
       .soft--right.text--right= link_to 'Voir tous les cours de sports & arts martiaux', root_search_page_path('sports-arts-martiaux', 'paris'), title: 'Cours de Sports & Arts martiaux à Paris'
 
 = content_for :scripts do

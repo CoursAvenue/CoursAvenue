@@ -1,3 +1,4 @@
+- @is_reponsive = true
 - @title = "#{@vertical_page.name} à #{@city.name}"
 - @total = Planning.count
 = content_for :title do
@@ -35,7 +36,7 @@
       %span{ itemprop: 'title' }= @city.name
 
   .grid
-    .grid__item.six-tenths.soft--right>
+    .grid__item.six-tenths.soft--right.palm-one-whole>
       - bg_thumb   = @vertical_page.image.url(:thumb)
       - if @subject.root.vertical_pages.any?
         - bg_thumb_2 = @subject.root.vertical_pages.first.image.url(:thumb)
@@ -101,7 +102,7 @@
                   %li.hard.epsilon= link_to city.name, root_vertical_page_with_city_path(@vertical_page, city), class: 'block soft-half'
                 - else
                   %li.hard.epsilon= link_to city.name, vertical_page_with_city_path(@subject.root, @vertical_page, city), class: 'block soft-half'
-    .grid__item.four-tenths>
+    .grid__item.four-tenths.palm-one-whole>
       %h3 #{@vertical_page.name} : sélection à #{@city.name}
       .panel
         %ul.nav.tabs.panel__header
@@ -146,12 +147,12 @@
           .grid__item.one-half.palm-one-whole.lap-one-half>
             - cache [review, 'vertical_page/show'] do
               .flexbox.push--bottom
-                .flexbox__item.soft--left.v-top.text--center>
+                .flexbox__item.soft--left.v-top.text--center.visuallyhidden--palm>
                   = link_to structure_url(review.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block media-photo', target: :_blank, class: 'muted-link' do
                     = image_tag (review.user || User.active.with_avatar.sample).avatar_url(:thumb), class: 'block rounded--circle', width: 60
                   .milli.soft-half--top
                     = review.author_name
-                .flexbox__item.soft--sides.v-top>
+                .flexbox__item.soft--sides.v-top.palm-one-whole>
                   .message__body.soft-half.message__appendix.gray-box
                     %p.epsilon.push-half--bottom.quoted
                       %strong= review.title

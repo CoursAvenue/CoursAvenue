@@ -4,8 +4,8 @@
 = content_for :title do
   Vous travaillez pour #{@structure.name} ? Prenez le contrôle de votre profil.
 
-- profiles = [{ name: "Valérie, Co-dirigeante de l'atelier St Germain des Arts à Paris", slug: 'st-germain-des-arts', bg: 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/home_background5-shadowed.jpg', profile_name: 'valerie', image_name: 'valerie', quote: "Avec mon compte gratuit CoursAvenue, j'ai pu améliorer le profil de notre atelier d'arts plastiques et compléter le planning de nos cours. Enfin un site rapide, intuitif et simple d'utilisation.", image_width: 470, image_profile_width: 375, profile_bottom: 185, image_style: 'margin-left: 0px;'}]
-- profiles << { name: "Alain Pons, formateur en photographie à Clermont-Ferrand", slug: 'alain-pons-photographe', bg: 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/home_background_alain.jpg', profile_name: 'alain', image_name: 'alain-2', quote: "En prenant le contrôle de mon profil, j'ai reçu les premières recommandations de mes élèves. J'ai alors gagné en visibilité sur CoursAvenue et sur Internet en général", image_width: 300, image_profile_width: 375, profile_bottom: 230 }
+- profiles = [{ name: "Valérie, Co-dirigeante de l'atelier St Germain des Arts à Paris", slug: 'st-germain-des-arts', bg: asset_path('pro/home_background5-shadowed.jpg'), profile_name: 'valerie', image_name: 'valerie', quote: "Avec mon compte gratuit CoursAvenue, j'ai pu améliorer le profil de notre atelier d'arts plastiques et compléter le planning de nos cours. Enfin un site rapide, intuitif et simple d'utilisation.", image_width: 470, image_profile_width: 375, profile_bottom: 185, image_style: 'margin-left: 0px;'}]
+- profiles << { name: "Alain Pons, formateur en photographie à Clermont-Ferrand", slug: 'alain-pons-photographe', bg: asset_path('pro/home_background_alain.jpg'), profile_name: 'alain', image_name: 'alain-2', quote: "En prenant le contrôle de mon profil, j'ai reçu les premières recommandations de mes élèves. J'ai alors gagné en visibilité sur CoursAvenue et sur Internet en général", image_width: 300, image_profile_width: 375, profile_bottom: 230 }
 
 - selected_profile = profiles.sample
 - # In order not to see alain in pro home page
@@ -101,7 +101,7 @@
   %h2.text--center.push--bottom.soft--ends.f-weight-300 Les avantages du profil CoursAvenue
   = render partial: 'pro/shared/free_profile_advantages', locals: { show_all: true }
 
-.bg-fixed.bg-cover{ style: "background-image: url(#{asset_path 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/home_background6.jpg'})" }
+.bg-fixed.bg-cover{ style: "background-image: url(#{asset_path 'pro/home_background6.jpg'})" }
   .main-container.main-container--medium.soft--ends
     %h2.text--center.push--bottom.soft--ends.soft-black-text-shadow.white Simple et rapide
     .grid

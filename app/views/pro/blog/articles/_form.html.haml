@@ -14,15 +14,11 @@
         = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small push-half--bottom', data: { trigger: true } do
           %i.fa.fa-picture-o
           Modifier
-        %br
-        %a.btn.btn--small.btn--red#delete-logo{href: 'javascript:void(0)'}
-          %i.fa.fa-trash-o.soft--sides-half--right
-          Supprimer
     - else
       = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', data: { trigger: true } do
         %i.fa.fa-picture-o
         Choisir l'image de l'article
-    .visuallyhidden= f.input :cover_image, label: false, input_html: {id: 'logo-input'}
+    .visuallyhidden= f.input :cover_image, label: false, input_html: { id: 'logo-input' }
 
   = f.input :published, input_html: { class: 'input--large one-whole' }, wrapper_html: { class: 'flush' }, label: 'Article publié', label_html: { class: 'label--large' }
 

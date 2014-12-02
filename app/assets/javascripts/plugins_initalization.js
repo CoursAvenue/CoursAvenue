@@ -138,4 +138,5 @@ $(function() {
             });
         }
     }, 500);
+    $('[data-behavior="lazy-load"]').lazyload();
 });

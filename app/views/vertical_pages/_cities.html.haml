@@ -5,7 +5,7 @@
     près de chez vous
 
   - @cities.each do |city|
-    .inline-block.very-soft.hard--bottom.one-quarter>
+    .inline-block.very-soft.hard--bottom.one-quarter.palm-one-half>
       .relative.bg-cover{style: "background-image: url('#{city.image.url(:small)}'); height: 120px; "}>
         - if @subject.is_root?
           - url = root_search_page_path(@subject, city)
