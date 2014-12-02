@@ -315,16 +315,11 @@ describe Structure do
         expect(structure.active).to be true
       end
 
-      it 'deactivates the duplicated structure' do
+      it 'destroys the sleeping structure' do
         structure.wake_up!
 
-        expect(sleeping_structure.is_sleeping).to be true
-      end
-
-      it 'puts the duplicated structure to sleep' do
-        structure.wake_up!
-
-        expect(sleeping_structure.active).to be false
+        structure.reload
+        expect(structure.sleeping_structure).to be nil
       end
     end
   end
