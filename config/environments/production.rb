@@ -96,9 +96,9 @@ CoursAvenue::Application.configure do
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
   config.assets.precompile += %w( email.css discovery_pass.css )
-  config.assets.precompile += %w( modernizr.js ckeditor/config.js libs/jquery.Jcrop )
-  config.assets.precompile += %w( libs/highcharts/highcharts libs/highcharts/modules/exporting )
-  config.assets.precompile += %w( libs/filepicker )
+  config.assets.precompile += %w( modernizr.js ckeditor/config.js libs/jquery.Jcrop.js )
+  config.assets.precompile += %w( libs/highcharts/highcharts.js libs/highcharts/modules/exporting.js )
+  config.assets.precompile += %w( libs/filepicker.js )
 
   # Enable threaded mode
   # config.threadsafe!
