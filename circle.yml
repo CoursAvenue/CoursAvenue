@@ -1,0 +1,5 @@
+database:
+  override:
+    - cp config/database.ci.yml config/database.yml
+    - cp config/mongoid.ci.yml config/mongoid.yml
+    - bundle exec rake db:create db:schema:load
