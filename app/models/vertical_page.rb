@@ -19,7 +19,8 @@ class VerticalPage < ActiveRecord::Base
 
   has_attached_file :image,
                     styles: { thumb: '250x200#', large: '1600x500#' },
-                    convert_options: { thumb: '-interlace Plane', large: '-interlace Plane' }
+                    convert_options: { thumb: '-interlace Plane', large: '-interlace Plane' },
+                    processors: [:paperclip_optimizer]
 
   validates_attachment_content_type :image, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 

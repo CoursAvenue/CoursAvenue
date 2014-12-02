@@ -4,7 +4,9 @@ class PressArticle < ActiveRecord::Base
 
   has_attached_file :logo,
                     styles: { original: '300x' },
-                    convert_options: { original: '-interlace Plane' }
+                    convert_options: { original: '-interlace Plane' },
+                    processors: [:paperclip_optimizer]
+
   validates_attachment_content_type :logo, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 
   default_scope -> { order('published_at DESC') }

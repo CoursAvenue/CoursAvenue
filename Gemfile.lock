@@ -452,6 +452,9 @@ GEM
       activesupport (>= 3.0.0)
       cocaine (~> 0.5.3)
       mime-types
+    paperclip-optimizer (2.0.0.beta.2)
+      image_optim (~> 0.19.0)
+      paperclip (>= 3.4)
     paranoia (2.0.2)
       activerecord (~> 4.0)
     parser (2.1.9)
@@ -751,6 +754,7 @@ DEPENDENCIES
   omniauth (~> 1.2.2)
   omniauth-facebook (~> 2.0.0)
   paperclip (~> 4.1.1)
+  paperclip-optimizer (= 2.0.0.beta.2)
   paranoia (~> 2.0)
   passenger
   paypal-recurring (~> 1.1.0)

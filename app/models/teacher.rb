@@ -13,7 +13,8 @@ class Teacher < ActiveRecord::Base
 
   has_attached_file :image,
                      styles: { normal: '150x' },
-                     default_url: ActionController::Base.helpers.asset_path('avatars/original/missing.png')
+                     default_url: ActionController::Base.helpers.asset_path('avatars/original/missing.png'),
+                     processors: [:paperclip_optimizer]
 
   validates_attachment_content_type :image, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 
