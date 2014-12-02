@@ -1,4 +1,5 @@
-%tr{ style: ((participation_request.pending? and participation_request.last_modified_by == 'User') ? 'border: 4px solid #e2493c' : '') }
+- show_warning = true if show_warning.nil?
+%tr{ class: ((show_warning and participation_request.pending? and participation_request.last_modified_by == 'User') ? 'bordered bordered--larger bordered--red' : '') }
   %td.nowrap{ class: participation_request_color(participation_request) }
     - if participation_request.pending? and participation_request.last_modified_by == 'User'
       %span.has-tooltip{ data: { toggle: 'popover', content: "Confirmez la demande d'inscription au plus vite", html: 'true', placement: 'top', trigger: 'hover' } }
@@ -36,8 +37,17 @@
       %ul.drop-down__el.text--left
         - if !participation_request.canceled? and !participation_request.declined?
           - if participation_request.pending? and participation_request.last_modified_by == 'User'
-            %li.nowrap= link_to "Accepter l'inscription", accept_pro_structure_participation_request_path(participation_request.structure, participation_request), method: :patch, class: 'green nowrap'
+            %li.nowrap
+              = link_to accept_pro_structure_participation_request_path(participation_request.structure, participation_request), method: :patch, class: 'green nowrap' do
+                %i.fa.fa-check
+                Accepter l'inscription
 
-          %li.nowrap= link_to 'Proposer un autre créneau', edit_pro_structure_participation_request_path(participation_request.structure, participation_request), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+          %li.nowrap
+            = link_to edit_pro_structure_participation_request_path(participation_request.structure, participation_request), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 } do
+              %i.fa.fa-clock
+              Proposer un autre créneau
         - if !participation_request.canceled? and !participation_request.declined?
-          %li.nowrap= link_to "Annuler l'inscription", cancel_form_pro_structure_participation_request_path(participation_request.structure, participation_request), class: 'red nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+          %li.nowrap
+            = link_to cancel_form_pro_structure_participation_request_path(participation_request.structure, participation_request), class: 'red nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 } do
+              %i.fa.fa-times
+              Annuler l'inscription

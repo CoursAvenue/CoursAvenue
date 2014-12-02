@@ -28,4 +28,4 @@
           %th Options
       %tbody
         - @past_participation_requests.each do |participation_request|
-          = render participation_request
+          = render partial: 'participation_request', locals: { participation_request: participation_request, show_warning: false }

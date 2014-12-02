@@ -55,12 +55,12 @@
 .black              { color: $text-black; }
 .yellow             { color: $yellow; }
 .yellow--dark       { color: darken($yellow, 8%); }
-.red                { color: $red; }
-.green              { color: $green-success; }
+.red                { color: $red !important; }
+.green              { color: $green-success !important; }
 .blue               { color: $blue-green !important; }
 .blue-darker        { color: darken($blue-green, 10%) !important; }
 .fb-blue            { color: $facebook-blue; }
-.orange             { color: $orange; }
+.orange             { color: $orange !important; }
 .brand              { color: $orange !important; }
 .gray-light         { color: $gray-light; }
 .gray               { color: $gray; }
