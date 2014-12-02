@@ -14,9 +14,9 @@ describe Plannings::ParticipationsController do
     it 'saves the participation' do
       post :create, planning_id: planning.id, participation: { invited_friends: {} }
 
-      expect(response).to have_http_status(:success)
-      expect (assigns(:participation)).to be_persisted
-      expect ((assigns(:planning)).participations.count).to eq(1)
+      expect(response).to have_http_status(302)
+      expect(assigns(:participation)).to be_persisted
+      expect((assigns(:planning)).participations.count).to eq(1)
     end
   end
 end
