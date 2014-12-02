@@ -4,7 +4,10 @@ require 'spec_helper'
 describe StructuresController, type: :controller do
 
   def required_keys
-    %w(id name slug comments_count rating street zip_code logo_thumb_url data_url places)
+    %w(id name slug comments_count logo_thumb_url logo_large_url data_url
+      query_params structure_type highlighted_comment_title premium has_promotion
+      is_open_for_trial cities cover_media subjects trial_courses_policy places
+      comments medias preloaded_medias)
   end
 
   describe 'show' do
@@ -26,10 +29,10 @@ describe StructuresController, type: :controller do
 
     it "renders structures with the json required by filtered search" do
       get :index, format: :json, lat: 48.8592, lng: 2.3417
-      response.should be_success
+      expect(response).to have_http_status(:success)
       result = JSON.parse(StructureSerializer.new(@structure, { root: false }).to_json)
 
-      result.keys.should include(*required_keys) # splat ^o^//
+      expect(result.keys).to include(*required_keys)
     end
 
     it "includes 'meta' in the rendered json" do
