@@ -200,7 +200,8 @@ group :production, :staging do
   gem 'asset_sync'                , '~>1.0.0'
   # Enable gzip compression on heroku, but don't compress images
   # gem 'heroku_rails_deflate'      , '~>1.0.3'
-  gem 'rack-zippy'
+  # gem 'rack-zippy'
+  gem 'heroku-deflater'
   gem 'sprockets-image_compressor', '~>0.3.0'
   gem 'htmlcompressor'            , '~>0.1.2'
   gem 'image_optim'               , '~>0.19.1'
