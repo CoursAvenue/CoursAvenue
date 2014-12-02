@@ -6,10 +6,10 @@ CoursAvenue::Application.load_tasks
 context "scheduler:participation_requests" do
 
   context 'For Admins' do
-    let (:accepted_participation_request)  { FactoryGirl.create(:participation_request, :accepted_state) }
+    let (:accepted_participation_request)   { FactoryGirl.create(:participation_request, :accepted_state) }
     let (:accepted_participation_request_2) { FactoryGirl.create(:participation_request, :accepted_state) }
-    let (:pending_participation_request)   { FactoryGirl.create(:participation_request, :pending_state) }
-    let (:pending_participation_request_2) { FactoryGirl.create(:participation_request, :pending_state) }
+    let (:pending_participation_request)    { FactoryGirl.create(:participation_request, :pending_state) }
+    let (:pending_participation_request_2)  { FactoryGirl.create(:participation_request, :pending_state) }
 
     describe "remind_admin_for_participation_requests_1" do
       it "sends an email for pending request the day after" do
