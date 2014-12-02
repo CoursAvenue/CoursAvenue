@@ -197,18 +197,6 @@ describe Structure do
     end
   end
 
-  describe '#reset_cropping_attributes' do
-    it 'sets to 0 attributes' do
-      subject.crop_width = 1
-      subject.crop_x     = 1
-      subject.crop_y     = 1
-      subject.send :reset_cropping_attributes
-      expect(subject.crop_width).to eq 0
-      expect(subject.crop_x).to     eq 0
-      expect(subject.crop_y).to     eq 0
-    end
-  end
-
   context 'validations' do
     describe '#no_contacts_in_name' do
       it 'has errors on name' do
