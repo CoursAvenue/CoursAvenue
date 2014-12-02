@@ -29,10 +29,6 @@ class Order::Premium < Order
     end
   end
 
-  def invoice_path
-    "orders/#{ self.public_order_id }.pdf"
-  end
-
   def order_template
     'pro/structures/orders/export.pdf.haml'
   end

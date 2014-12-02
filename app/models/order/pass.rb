@@ -4,5 +4,4 @@ class Order::Pass < Order
   def order_template
     'users/orders/export.pdf.haml'
   end
-
 end

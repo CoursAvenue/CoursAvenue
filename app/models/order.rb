@@ -27,7 +27,7 @@ class Order < ActiveRecord::Base
   #
   # @return a String, the path.
   def invoice_path
-    "orders/order_#{ self.id }.pdf"
+    "orders/#{ self.public_order_id }.pdf"
   end
 
   # The URL of the invoice in the S3 bucket.
