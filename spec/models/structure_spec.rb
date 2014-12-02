@@ -6,7 +6,7 @@ describe Structure do
   let(:structure) { FactoryGirl.create(:structure) }
 
   it {should be_valid}
-  it {structure.active.should be true}
+  it { expect(structure.active).to be_true}
 
   context 'contact' do
     it 'returns admin contact' do
@@ -14,9 +14,9 @@ describe Structure do
       admin.structure_id = structure.id
       structure.admins << admin
 
-      structure.contact_email.should == admin.email
-      structure.contact_name.should  == admin.name
-      structure.main_contact.should  == admin
+      expect(structure.contact_email).to eq(admin.email)
+      expect(structure.contact_name).to eq(admin.name)
+      expect(structure.main_contact).to eq(admin)
     end
   end
 
@@ -24,7 +24,7 @@ describe Structure do
     it 'activates' do
       structure.active = false
       structure.activate!
-      structure.active.should be(true)
+      expect(structure.active).to be_true
     end
   end
 
@@ -34,8 +34,8 @@ describe Structure do
       courses = structure.courses
       structure.active = true
       structure.disable!
-      structure.active.should be(false)
-      courses.each{ |c| c.active.should be(false) }
+      expect(structure.active).to be_false
+      courses.each{ |c| expect(c.active).to be_false }
     end
   end
 
@@ -43,35 +43,35 @@ describe Structure do
     it 'destroys everything' do
       places = structure.places
       structure.destroy
-      structure.destroyed?.should be(true)
-      places.each{ |p| p.destroyed?.should be(true) }
+      expect(structure.destroyed?).to be_true
+      places.each{ |p| expect(p.destroyed?).to be_true }
     end
   end
 
   context 'address' do
     it 'includes street' do
-      structure.address.should include structure.street
+      expect(structure.address).to include(structure.street)
     end
     it 'includes city' do
-      structure.address.should include structure.city.name
+      expect(structure.address).to include(structure.city.name)
     end
   end
 
   context 'comments' do
     it 'retrieves course comments' do
       comment = structure.comments.create FactoryGirl.attributes_for(:comment_review)
-      structure.comments.should include comment
+      expect(structure.comments).to include(comment)
     end
   end
 
   it 'updates comments_count' do
     @structure = FactoryGirl.create(:structure)
     FactoryGirl.create(:accepted_comment, commentable_id: @structure.id, commentable_type: 'Structure')
-    @structure.reload.comments_count.should eq 1
+    expect(@structure.reload.comments_count).to eq(1)
     FactoryGirl.create(:accepted_comment, commentable_id: @structure.id, commentable_type: 'Structure')
-    @structure.reload.comments_count.should eq 2
+    expect(@structure.reload.comments_count).to eq(2)
     FactoryGirl.create(:accepted_comment, commentable_id: @structure.id, commentable_type: 'Structure')
-    @structure.reload.comments_count.should eq 3
+    expect(@structure.reload.comments_count).to eq(3)
   end
 
   context 'tagging' do

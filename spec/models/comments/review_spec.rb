@@ -8,14 +8,14 @@ describe Comment::Review do
       it 'removes the first and last quotes if there are in the title' do
         comment = FactoryGirl.build(:comment_review, title: '"Title with quotes"')
         comment.save
-        comment.title.should eq "Title with quotes"
+        expect(comment.title).to eq "Title with quotes"
       end
     end
 
     context :structure do
       let(:comment) { FactoryGirl.create(:comment_review) }
       it 'returns the structure' do
-        comment.structure.should be comment.commentable
+        expect(comment.structure).to be comment.commentable
       end
     end
 
@@ -24,7 +24,7 @@ describe Comment::Review do
       it 'creates a user' do
         comment.user = nil
         comment.save
-        comment.user.should_not be_nil
+        expect(comment.user).to_not be_nil
       end
     end
 
@@ -44,14 +44,14 @@ describe Comment::Review do
       context :user_passions do
         it 'creates a passion for the user' do
           comment.save
-          comment.user.passions.should_not be_empty
+          expect(comment.user.passions).to_not be_empty
         end
       end
 
       context :user_structure do
         it 'creates a passion for the user' do
           comment.save
-          comment.user.structures.should include comment.structure
+          expect(comment.user.structures).to include(comment.structure)
         end
       end
 
@@ -102,7 +102,7 @@ describe Comment::Review do
         user     = comment_notification.user
         _comment = FactoryGirl.build(:comment_review, author_name: user.name, email: user.email, commentable: comment_notification.structure, user: user)
         _comment.save
-        comment_notification.reload.status.should eq 'completed'
+        expect(comment_notification.reload.status).to eq 'completed'
       end
     end
   end

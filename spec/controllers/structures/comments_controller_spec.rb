@@ -26,8 +26,9 @@ describe Structures::CommentsController do
                       content:           'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,',
                       email:             'random@test.com'
                     }
-      response.should be_redirect
-      assigns(:comment).should be_persisted
+
+      expect(response).to have_http_status(302)
+      expect(assigns(:comment)).to be_persisted
     end
 
     it 'creates a user' do
@@ -42,8 +43,8 @@ describe Structures::CommentsController do
                       content:           'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,',
                       email:             'random@test.com'
                     }
-      response.should be_redirect
-      assigns(:comment).should be_persisted
+      expect(response).to have_http_status(302)
+      expect(assigns(:comment)).to be_persisted
     end
 
     context 'I change my email address' do
@@ -62,8 +63,8 @@ describe Structures::CommentsController do
                         email:             'random@test.com'
                       },
                       default_email: user.email
-        response.should be_redirect
-        assigns(:comment).user.email.should eq 'random@test.com'
+        expect(response).to have_http_status(302)
+        expect(assigns(:comment).user.email).to eq 'random@test.com'
       end
     end
     context 'I add a private message' do
@@ -81,8 +82,8 @@ describe Structures::CommentsController do
                         email:             'random@test.com'
                       },
                       private_message: 'lorem'
-        response.should be_redirect
-        assigns(:conversation).should be_persisted
+        expect(response).to have_http_status(302)
+        expect(assigns(:conversation)).to be_persisted
       end
     end
   end
