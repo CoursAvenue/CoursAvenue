@@ -180,7 +180,7 @@ $ rspec spec
     pg_restore --host localhost --port 5432 --username "postgres" --dbname "coursavenue_development" --role "udrhnkjoqg1jmn" --no-password  --verbose "/Users/Nima/Downloads/a569.dump"
 
     pg_restore --host localhost --port 5432 --dbname "coursavenue_development" --role "udrhnkjoqg1jmn" --verbose /Users/Nima/Downloads/a532.dump -U postgres
-    
+
 ## Make a dump
 
     pg_dump --host localhost --port 5432 --username "postgres" --dbname "coursavenue_development" -f 20_fev.tar --format=t
