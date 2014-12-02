@@ -27,7 +27,7 @@
           %p.epsilon.push-half--bottom
             = "#{@user.age} ans"
 
-      .grid__item.nine-twelfths>
+      .grid__item.nine-twelfths.bordered--left>
         %h4 Historique des messages
         - if @participation_request.pending? and @participation_request.last_modified_by == 'Structure'
           = render partial: 'pro/structures/conversations/participation_request_form', locals: { participation_request: @participation_request, return_to: pro_structure_participation_request_path(@structure, @participation_request) }
