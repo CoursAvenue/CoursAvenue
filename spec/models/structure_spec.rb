@@ -6,7 +6,7 @@ describe Structure do
   let(:structure) { FactoryGirl.create(:structure) }
 
   it {should be_valid}
-  it { expect(structure.active).to be_true}
+  it { expect(structure.active).to be true}
 
   context 'contact' do
     it 'returns admin contact' do
@@ -24,7 +24,7 @@ describe Structure do
     it 'activates' do
       structure.active = false
       structure.activate!
-      expect(structure.active).to be_true
+      expect(structure.active).to be true
     end
   end
 
@@ -34,8 +34,8 @@ describe Structure do
       courses = structure.courses
       structure.active = true
       structure.disable!
-      expect(structure.active).to be_false
-      courses.each{ |c| expect(c.active).to be_false }
+      expect(structure.active).to be false
+      courses.each{ |c| expect(c.active).to be false }
     end
   end
 
@@ -43,8 +43,8 @@ describe Structure do
     it 'destroys everything' do
       places = structure.places
       structure.destroy
-      expect(structure.destroyed?).to be_true
-      places.each{ |p| expect(p.destroyed?).to be_true }
+      expect(structure.destroyed?).to be true
+      places.each{ |p| expect(p.destroyed?).to be true }
     end
   end
 
@@ -71,7 +71,7 @@ describe Structure do
     FactoryGirl.create(:accepted_comment, commentable_id: @structure.id, commentable_type: 'Structure')
     expect(@structure.reload.comments_count).to eq(2)
     FactoryGirl.create(:accepted_comment, commentable_id: @structure.id, commentable_type: 'Structure')
-    expect(@structure.reload.comments_count).to eq(3)
+    expect(@structure.reload.comments_count).to eq 3
   end
 
   context 'tagging' do
