@@ -37,11 +37,12 @@ describe StructuresController, type: :controller do
 
     it "includes 'meta' in the rendered json" do
       get :index, format: :json, lat: 48.8592, lng: 2.3417
-      response.should be_success
+      expect(response).to have_http_status(:success)
 
       result = JSON.parse(response.body)
-      result.keys.should include('meta')
-      assigns(:total).should eq(result['meta']['total'])
+      expect(result.keys).to include('meta')
+
+      expect(assigns(:total)).to eq(result['meta']['total'])
     end
 
     it "correctly finds the subject if subject_id is provided" do
@@ -65,9 +66,11 @@ describe StructuresController, type: :controller do
     end
 
     let(:structure) { FactoryGirl.create(:structure_with_admin) }
+
     it 'creates a new following' do
       followings_count = structure.followings.count
       post :add_to_favorite, id: structure.id
+
       expect(structure.followings.count).to eq followings_count + 1
     end
     it 'creates a new Statistic action' do
