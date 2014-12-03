@@ -1,44 +1,44 @@
-= image_tag 'logos/logo.png', width: 250, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'north west absolute push on-top'
+#fullpage.ff-kameron
+  %div.section.relative.one-whole.relative.white.full-screen-item.bg-cover{ style: 'background-image: url("https://unsplash.imgix.net/uploads/1412231250505b65c703c/1fa14fb0?q=75&fm=jpg&s=931e873f8535cc28a25ed64fd54bbbb8")'}
+    = image_tag 'logos/logo.png', width: 250, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'north west absolute push on-top'
+    .flexbox.full-screen-item
+      .black-curtain.north.west.one-whole.absolute
+      .push--top.soft--top.one-whole.flexbox__item
+        .v-middle.relative
+          %h1.soft--top.text--center.flush{ style: 'font-size: 60px;'}
+            En 2015 je développe
+            %span.ff-pacifico ma créativité !
+          %h2.text--center
+            Et vous ? Quels seront vos résolutions 2015 ?
+          .text--center
+            %a.btn--yellow.btn.btn--enormous{ href: '#', data: { behavior: 'move-section-down' } } Faire le test
 
-.ff-kameron
-  %div.relative.flexbox.one-whole.relative.white.full-screen-item.bg-cover{ style: 'background-image: url("https://unsplash.imgix.net/uploads/1412231250505b65c703c/1fa14fb0?q=75&fm=jpg&s=931e873f8535cc28a25ed64fd54bbbb8")'}
-    .black-curtain.north.west.one-whole.absolute
-    .push--top.soft--top.flexbox__item.one-whole
-      .v-middle.relative
-        %h1.soft--top.text--center.flush{ style: 'font-size: 60px;'}
-          En 2015 je développe
-          %span.ff-pacifico ma créativité !
-        %h2.text--center
-          Et vous ? Quels seront vos résolutions 2015 ?
-        .text--center
-          %a.btn--yellow.btn.btn--enormous{ href: '#question-1', data: { behavior: 'scroll-to' } } Faire le test
-
-  %div.flexbox.one-whole#question-1.full-screen-item.bg-cover{ style: 'background-image: url("https://ununsplash.imgix.net/photo-1415045384817-2f9cf7f2ed79?q=75&fm=jpg&s=a0d8ebf44a449c7855ca4128e914a7c5")'}
-    .push--top.soft--top.flexbox__item.one-whole
+  %div.section.one-whole.full-screen-item.bg-cover{ style: 'background-image: url("https://ununsplash.imgix.net/photo-1415045384817-2f9cf7f2ed79?q=75&fm=jpg&s=a0d8ebf44a449c7855ca4128e914a7c5")'}
+    .push--top.soft--top.one-whole
       .v-middle
         = image_tag 'logos/logo.png', width: 250, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'push'
         %h2.flush.alpha.text--center.white.orange-box.soft Vous êtes d'âme...?
         .flexbox
-          %label.bg-cover.relative.text--center.white.flexbox__item.one-third{ for: 'question_1_value_1', style: 'background-image: url("https://gp1.wac.edgecastcdn.net/806614/photos/photos.500px.net/82717483/8617350ae146cd8a708992d245d8ec5d96a348f4/2048.jpg"); height: 40vh;', data: { behavior: 'scroll-to', el: '#question-2' } }>
+          %label.bg-cover.relative.text--center.white.flexbox__item.one-third{ for: 'question_1_value_1', style: 'background-image: url("https://gp1.wac.edgecastcdn.net/806614/photos/photos.500px.net/82717483/8617350ae146cd8a708992d245d8ec5d96a348f4/2048.jpg"); height: 40vh;', }>
             .black-curtain.black-curtain__fading-on-hover.north.west.one-whole.absolute
             %h4.alpha.relative.inline-block.flush Sexy
-            %input#question_1_value_1.visuallyhidden{ type: 'radio', name: 'resolutions_questions[1]', value: 'whatever' }
-          %label.bg-cover.relative.text--center.white.flexbox__item.one-third{ style: 'background-image: url("https://gp1.wac.edgecastcdn.net/806614/photos/photos.500px.net/10819147/00060a54ffe81a46d1ebe0ea7157110cc60df878/2048.jpg"); height: 40vh;', data: { behavior: 'scroll-to', el: '#question-2' } }>
+            %input#question_1_value_1.visuallyhidden{ type: 'radio', name: 'resolutions_questions[1]', value: 'whatever2', data: { behavior: 'move-section-down' } }
+          %label.bg-cover.relative.text--center.white.flexbox__item.one-third{ style: 'background-image: url("https://gp1.wac.edgecastcdn.net/806614/photos/photos.500px.net/10819147/00060a54ffe81a46d1ebe0ea7157110cc60df878/2048.jpg"); height: 40vh;'}>
             .black-curtain.black-curtain__fading-on-hover.north.west.one-whole.absolute
             %h4.alpha.relative.inline-block.flush Artiste
-            %input.visuallyhidden{ type: 'radio', name: 'resolutions_questions[1]', value: 'whatever' }
-          %label.bg-cover.relative.text--center.white.flexbox__item.one-third{ style: 'background-image: url("https://unsplash.imgix.net/uploads/14128853230824cc16f3e/c38fccbd?fit=crop&fm=jpg&h=700&q=75&w=1050"); height: 40vh;', data: { behavior: 'scroll-to', el: '#question-2' } }>
+            %input.visuallyhidden{ type: 'radio', name: 'resolutions_questions[1]', value: 'whatever3', data: { behavior: 'move-section-down' } }
+          %label.bg-cover.relative.text--center.white.flexbox__item.one-third{ style: 'background-image: url("https://unsplash.imgix.net/uploads/14128853230824cc16f3e/c38fccbd?fit=crop&fm=jpg&h=700&q=75&w=1050"); height: 40vh;' }>
             .black-curtain.black-curtain__fading-on-hover.north.west.one-whole.absolute
             %h4.alpha.relative.inline-block.flush Cascadeur
-            %input.visuallyhidden{ type: 'radio', name: 'resolutions_questions[1]', value: 'whatever' }
+            %input.visuallyhidden{ type: 'radio', name: 'resolutions_questions[1]', value: 'whatever4', data: { behavior: 'move-section-down' } }
 
-  %div.flexbox.one-whole#question-2.full-screen-item.bg-cover{ style: 'background-image: url("https://ununsplash.imgix.net/photo-1415045384817-2f9cf7f2ed79?q=75&fm=jpg&s=a0d8ebf44a449c7855ca4128e914a7c5")'}
-    .push--top.soft--top.flexbox__item.one-whole
+  %div.section.one-whole.full-screen-item.bg-cover{ style: 'background-image: url("https://ununsplash.imgix.net/photo-1415045384817-2f9cf7f2ed79?q=75&fm=jpg&s=a0d8ebf44a449c7855ca4128e914a7c5")'}
+    .push--top.soft--top.one-whole
       .v-middle.text--center
-        %a.btn--yellow.btn.btn--enormous{ href: '#question-3', data: { behavior: 'scroll-to' } } Faire le test
+        %a.btn--yellow.btn.btn--enormous{ href: '#', data: { behavior: 'move-section-down' } } Faire le test
 
-  %div.flexbox.one-whole#question-3.full-screen-item.bg-cover{ style: 'background-image: url("https://ununsplash.imgix.net/photo-1415045384817-2f9cf7f2ed79?q=75&fm=jpg&s=a0d8ebf44a449c7855ca4128e914a7c5")'}
-    .push--top.soft--top.flexbox__item.one-whole
+  %div.section.one-whole.full-screen-item.bg-cover{ style: 'background-image: url("https://ununsplash.imgix.net/photo-1415045384817-2f9cf7f2ed79?q=75&fm=jpg&s=a0d8ebf44a449c7855ca4128e914a7c5")'}
+    .push--top.soft--top.one-whole
       .v-middle
         %h2.alpha.text--center.white.orange-box.soft JE SUIS FAIT POUR VIVRE DANS LE :
         .text--center
@@ -54,19 +54,21 @@
             = f.input :subscription_from, as: :hidden, input_html: { value: 'newsletter' }
             = f.input :email, label: false, input_html: { placeholder: 'Adresse e-mail', class: 'input--large one-whole' }, wrapper_html: { class: 'flush inline-block v-middle' }
             = f.input :zip_code, label: false, input_html: { placeholder: 'Code postal', class: 'input--large one-whole' }, wrapper_html: { class: 'flush inline-block v-middle', style: 'width: 110px;' }
-            = f.submit "Je m'inscris !", class: 'btn btn--yellow'
+            = f.submit "Je m'inscris !", class: 'btn btn--yellow btn--large'
 
 
-:javascript
-  WebFontConfig = {
-    google: { families: [ 'Pacifico::latin', 'Kameron::latin' ] }
-  };
-  (function() {
-    var wf = document.createElement('script');
-    wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
-      '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
-    wf.type = 'text/javascript';
-    wf.async = 'true';
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(wf, s);
-  })(); </script>
+= content_for :right_after_head do
+  %link{ href: 'https://fonts.googleapis.com/css?family=Pacifico', rel: 'stylesheet', type: 'text/css' }
+  %link{ href: 'https://fonts.googleapis.com/css?family=Kameron', rel: 'stylesheet', type: 'text/css' }
+
+= content_for :scripts do
+  = javascript_include_tag 'libs/jquery.fullPage' # MUST BE In the Head and before CSS
+  = stylesheet_link_tag 'libs/jquery.fullPage', media: 'all'
+
+  :javascript
+    $(function() {
+        $('#fullpage').fullpage();
+        $('[data-behavior="move-section-down"]').click(function() {
+            $.fn.fullpage.moveSectionDown();
+        })
+    });

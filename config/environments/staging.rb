@@ -99,6 +99,7 @@ CoursAvenue::Application.configure do
   config.assets.precompile += %w( modernizr.js ckeditor/config.js libs/jquery.Jcrop.js )
   config.assets.precompile += %w( libs/highcharts/highcharts.js libs/highcharts/modules/exporting.js )
   config.assets.precompile += %w( libs/filepicker.js )
+  config.assets.precompile += %w( libs/jquery.fullPage.js libs/jquery.fullPage.css )
 
   # Enable threaded mode
   # config.threadsafe!
