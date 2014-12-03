@@ -340,7 +340,7 @@
     @include transition(background 150ms linear);
     background: rgba(0,0,0,.5);
     height    : 100%;
-    &:hover {
+    &.black-curtain__fading-on-hover:hover {
         background: rgba(0,0,0,.1);
     }
 }

@@ -16,23 +16,46 @@
   %div.flexbox.one-whole#question-1.full-screen-item.bg-cover{ style: 'background-image: url("https://ununsplash.imgix.net/photo-1415045384817-2f9cf7f2ed79?q=75&fm=jpg&s=a0d8ebf44a449c7855ca4128e914a7c5")'}
     .push--top.soft--top.flexbox__item.one-whole
       .v-middle
+        = image_tag 'logos/logo.png', width: 250, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'push'
         %h2.flush.alpha.text--center.white.orange-box.soft Vous êtes d'âme...?
         .flexbox
-          %label.bg-cover.relative.text--center.white.flexbox__item.one-third{ for: 'question_1_value_1', style: 'background-image: url("https://gp1.wac.edgecastcdn.net/806614/photos/photos.500px.net/82717483/8617350ae146cd8a708992d245d8ec5d96a348f4/2048.jpg"); height: 300px;', data: { behavior: 'scroll-to', el: '#question-2' } }>
-            .black-curtain.north.west.one-whole.absolute
+          %label.bg-cover.relative.text--center.white.flexbox__item.one-third{ for: 'question_1_value_1', style: 'background-image: url("https://gp1.wac.edgecastcdn.net/806614/photos/photos.500px.net/82717483/8617350ae146cd8a708992d245d8ec5d96a348f4/2048.jpg"); height: 40vh;', data: { behavior: 'scroll-to', el: '#question-2' } }>
+            .black-curtain.black-curtain__fading-on-hover.north.west.one-whole.absolute
             %h4.alpha.relative.inline-block.flush Sexy
             %input#question_1_value_1.visuallyhidden{ type: 'radio', name: 'resolutions_questions[1]', value: 'whatever' }
-          %label.bg-cover.relative.text--center.white.flexbox__item.one-third{ style: 'background-image: url("https://gp1.wac.edgecastcdn.net/806614/photos/photos.500px.net/10819147/00060a54ffe81a46d1ebe0ea7157110cc60df878/2048.jpg"); height: 300px;', data: { behavior: 'scroll-to', el: '#question-2' } }>
-            .black-curtain.north.west.one-whole.absolute
+          %label.bg-cover.relative.text--center.white.flexbox__item.one-third{ style: 'background-image: url("https://gp1.wac.edgecastcdn.net/806614/photos/photos.500px.net/10819147/00060a54ffe81a46d1ebe0ea7157110cc60df878/2048.jpg"); height: 40vh;', data: { behavior: 'scroll-to', el: '#question-2' } }>
+            .black-curtain.black-curtain__fading-on-hover.north.west.one-whole.absolute
             %h4.alpha.relative.inline-block.flush Artiste
             %input.visuallyhidden{ type: 'radio', name: 'resolutions_questions[1]', value: 'whatever' }
-          %label.bg-cover.relative.text--center.white.flexbox__item.one-third{ style: 'background-image: url("https://gp1.wac.edgecastcdn.net/806614/photos/photos.500px.net/8852240/6a071deed4ae17778ab140119c8e44e19b0b1b2e/2048.jpg"); height: 300px;', data: { behavior: 'scroll-to', el: '#question-2' } }>
-            .black-curtain.north.west.one-whole.absolute
+          %label.bg-cover.relative.text--center.white.flexbox__item.one-third{ style: 'background-image: url("https://unsplash.imgix.net/uploads/14128853230824cc16f3e/c38fccbd?fit=crop&fm=jpg&h=700&q=75&w=1050"); height: 40vh;', data: { behavior: 'scroll-to', el: '#question-2' } }>
+            .black-curtain.black-curtain__fading-on-hover.north.west.one-whole.absolute
             %h4.alpha.relative.inline-block.flush Cascadeur
             %input.visuallyhidden{ type: 'radio', name: 'resolutions_questions[1]', value: 'whatever' }
 
-  %div#question-2.block.full-screen-item.bg-cover{ style: 'background-image: url("https://unsplash.imgix.net/uploads/14128853230824cc16f3e/c38fccbd?fit=crop&fm=jpg&h=700&q=75&w=1050")'}
-    %h1.white Lalala
+  %div.flexbox.one-whole#question-2.full-screen-item.bg-cover{ style: 'background-image: url("https://ununsplash.imgix.net/photo-1415045384817-2f9cf7f2ed79?q=75&fm=jpg&s=a0d8ebf44a449c7855ca4128e914a7c5")'}
+    .push--top.soft--top.flexbox__item.one-whole
+      .v-middle.text--center
+        %a.btn--yellow.btn.btn--enormous{ href: '#question-3', data: { behavior: 'scroll-to' } } Faire le test
+
+  %div.flexbox.one-whole#question-3.full-screen-item.bg-cover{ style: 'background-image: url("https://ununsplash.imgix.net/photo-1415045384817-2f9cf7f2ed79?q=75&fm=jpg&s=a0d8ebf44a449c7855ca4128e914a7c5")'}
+    .push--top.soft--top.flexbox__item.one-whole
+      .v-middle
+        %h2.alpha.text--center.white.orange-box.soft JE SUIS FAIT POUR VIVRE DANS LE :
+        .text--center
+          %a.btn--yellow.btn.btn--enormous
+            %i.fa.fa-facebook
+            Facebook
+          %a.btn--yellow.btn.btn--enormous
+            %i.fa.fa-twitter
+            Twitter
+        .text--center.orange-box.soft.push--top
+          %h2.white Inscrivez-vous à notre newsletter !
+          = simple_form_for User.new, html: { class: 'newsletter-form' }, remote: true do |f|
+            = f.input :subscription_from, as: :hidden, input_html: { value: 'newsletter' }
+            = f.input :email, label: false, input_html: { placeholder: 'Adresse e-mail', class: 'input--large one-whole' }, wrapper_html: { class: 'flush inline-block v-middle' }
+            = f.input :zip_code, label: false, input_html: { placeholder: 'Code postal', class: 'input--large one-whole' }, wrapper_html: { class: 'flush inline-block v-middle', style: 'width: 110px;' }
+            = f.submit "Je m'inscris !", class: 'btn btn--yellow'
+
 
 :javascript
   WebFontConfig = {
