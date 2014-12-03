@@ -141,7 +141,7 @@ $ heroku run rake sunspot:reindex
 $ git branch -D branch_name
 
 # Remove remote branch
-$ git push origin --delete branch_name
+$ git push origin :branch_name
 ```
 
 ### Cities
