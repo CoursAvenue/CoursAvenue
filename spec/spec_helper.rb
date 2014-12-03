@@ -1,6 +1,8 @@
 # Must be before everything
-require 'simplecov'
-SimpleCov.start
+if !ENV['CI']
+  require 'simplecov'
+  SimpleCov.start
+end
 
 require 'rubygems'
 
