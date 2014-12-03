@@ -49,7 +49,7 @@ class Subject < ActiveRecord::Base
 
   has_attached_file :image,
                     :styles => { super_wide: "825x250#", wide: "600x375#", small: '250x200#', thumb: "200x200#" },
-                    processors: [:paperclip_optimizer]
+                    processors: [:thumbnail, :paperclip_optimizer]
 
   validates_attachment_content_type :image, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 

@@ -325,6 +325,8 @@ GEM
     heroku-api (0.3.19)
       excon (~> 0.38)
       multi_json (~> 1.8)
+    heroku-deflater (0.5.3)
+      rack (>= 1.4.5)
     highline (1.6.21)
     highrise (3.2.1)
       activeresource (>= 3.2.13)
@@ -505,7 +507,6 @@ GEM
     rack-timeout (0.0.4)
     rack-utf8_sanitizer (1.1.0)
       rack (~> 1.0)
-    rack-zippy (1.2.1)
     rails (4.1.8)
       actionmailer (= 4.1.8)
       actionpack (= 4.1.8)
@@ -733,6 +734,7 @@ DEPENDENCIES
   haml (~> 4.0.3)
   handlebars_assets (~> 0.15)!
   heroku-api
+  heroku-deflater
   highrise
   hirefire-resource
   htmlcompressor (~> 0.1.2)
@@ -773,7 +775,6 @@ DEPENDENCIES
   rack-ssl-enforcer (~> 0.2.7)
   rack-timeout (~> 0.0.4)
   rack-utf8_sanitizer (~> 1.1.0)
-  rack-zippy
   rails (= 4.1.8)
   rails-dev-boost!
   rails-observers (~> 0.1.2)

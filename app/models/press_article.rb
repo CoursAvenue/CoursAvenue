@@ -5,7 +5,7 @@ class PressArticle < ActiveRecord::Base
   has_attached_file :logo,
                     styles: { original: '300x' },
                     convert_options: { original: '-interlace Plane' },
-                    processors: [:paperclip_optimizer]
+                    processors: [:thumbnail, :paperclip_optimizer]
 
   validates_attachment_content_type :logo, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 

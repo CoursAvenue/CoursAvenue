@@ -25,7 +25,7 @@ class Emailing < ActiveRecord::Base
   has_attached_file :header_image,
                     styles: { large: '600x' },
                     convert_options: { large: '-interlace Plane' },
-                    processors: [:paperclip_optimizer]
+                    processors: [:thumbnail, :paperclip_optimizer]
 
   has_many :emailing_sections
 

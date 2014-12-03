@@ -36,7 +36,7 @@
     :javascript
         $(function() {
             $('#newsletter-form').submit(function() {
-                mixpanel.track("Structures/show: submit_email_for_newsletter", { "structure_slug": "#{@structure.slug}", "structure_name": "#{@structure.name}" });
+                mixpanel.track("Structures/show: submit_email_for_newsletter", { "structure_slug": "#{@structure.slug}", "structure_name": "#{escape_javascript(@structure.name)}" });
             });
         })
 
@@ -46,7 +46,7 @@
         $(document).on('facebook:initialized', function() {
             FB.Event.subscribe('edge.create', function(page_url) {
                 if (page_url == 'https://www.facebook.com/CoursAvenue') {
-                    mixpanel.track("Structures/show: like CoursAvenue Facebook Page", { "structure_slug": "#{@structure.slug}", "structure_name": "#{@structure.name}" });
+                    mixpanel.track("Structures/show: like CoursAvenue Facebook Page", { "structure_slug": "#{@structure.slug}", "structure_name": "#{escape_javascript(@structure.name)}" });
                 }
             });
         });
