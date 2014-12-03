@@ -34,7 +34,4 @@ CoursAvenue::Application.configure do
   ActionMailer::Base.register_interceptor(DevelopmentMailInterceptor)
 
   Faker::Config.locale = :fr
-
-  # Use the NullStore to ensure nothing is ever cached.
-  config.cache_store = :null_store
 end
