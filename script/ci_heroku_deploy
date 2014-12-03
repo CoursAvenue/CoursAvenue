@@ -11,7 +11,11 @@ git fetch heroku
 REQUIRES_MIGRATION=$(git diff HEAD heroku/master --name-only -- db | wc -l)
 
 # Deploy the code. (This might take a while, up to 30 minutes.)
-git push heroku $CIRCLE_SHA1:master
+if [[ $APP_NAME == "staging" ]]; then
+  git push heroku $CIRCLE_SHA1:master -f
+else
+  git push heroku $CIRCLE_SHA1:master
+fi
 
 # Run migrations if needed.
 if [ $REQUIRES_MIGRATION -gt 0 ]; then
