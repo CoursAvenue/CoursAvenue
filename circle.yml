@@ -8,8 +8,7 @@ deployment:
   staging:
     branch: circle-ci-fixes
     commands:
-      - git push git@heroku.com:coursavenue-staging.git $CIRCLE_SHA1:master -f
-      - heroku run rake db:migrate --app coursavenue-staging
+      - ./script/ci_heroku_deploy coursavenue-staging
           timeout: 1800
 
 database:

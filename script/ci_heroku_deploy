@@ -1,0 +1,17 @@
+#!/bin/bash -e
+APP_NAME=$1
+
+# Fetch the last commits on the remote.
+git remote add heroku git@heroku.com:$APP_NAME.git
+git fetch heroku
+
+# Check if the deploy requires a migration.
+REQUIRES_MIGRATION=$(git diff HEAD heroku/master --name-only -- db | wc -l)
+
+# Deploy the code. (This might take a while, up to 30 minutes.)
+git push heroku $CIRCLE_SHA1:master
+
+# Run migrations if needed.
+if [ $REQUIRES_MIGRATION -gt 0 ]; then
+  heroku run rake db:migrate -a $APP_NAME
+fi
