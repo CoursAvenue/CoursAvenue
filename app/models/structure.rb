@@ -879,12 +879,10 @@ class Structure < ActiveRecord::Base
   #
   # @return Boolean
   def premium
-    return Rails.cache.fetch ['Structure#premium', self] do
-      if self.subscription_plan.nil?
-        false
-      else
-        self.subscription_plan.active?
-      end
+    if self.subscription_plan.nil?
+      false
+    else
+      self.subscription_plan.active?
     end
   end
 
