@@ -132,8 +132,8 @@ context "scheduler:participation_requests" do
 
     describe 'how_was_the_trial_stage_1' do
       it 'sends an email 5 days after the trial ONLY if the user did not left a comment' do
-        accepted_participation_request.date   = 5.days.from_now; accepted_participation_request.save
-        accepted_participation_request_2.date = 2.days.from_now; accepted_participation_request_2.save
+        accepted_participation_request.date   = 5.days.ago; accepted_participation_request.save
+        accepted_participation_request_2.date = 2.days.ago; accepted_participation_request_2.save
         pending_participation_request.date    = Date.yesterday; pending_participation_request.save
         expect {
           Rake::Task['scheduler:participation_requests:how_was_the_trial_stage_1'].invoke
