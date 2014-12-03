@@ -11,6 +11,7 @@ git fetch heroku
 REQUIRES_MIGRATION=$(git diff HEAD heroku/master --name-only -- db | wc -l)
 
 # Deploy the code. (This might take a while, up to 30 minutes.)
+echo "[CIRCLECI_DEPLOY] Deploying code."
 if [[ $APP_NAME == "coursavenue-staging" ]]; then
   git push heroku $CIRCLE_SHA1:master -f
 else
@@ -19,5 +20,6 @@ fi
 
 # Run migrations if needed.
 if [ $REQUIRES_MIGRATION -gt 0 ]; then
+  echo "[CIRCLECI_DEPLOY] Running migration."
   heroku run rake db:migrate -a $APP_NAME
 fi
