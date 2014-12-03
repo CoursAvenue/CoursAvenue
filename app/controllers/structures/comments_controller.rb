@@ -49,9 +49,9 @@ class Structures::CommentsController < ApplicationController
 
   def create
     # In case the validation fails, we want to have the `@participation_request`
-    @structure = Structure.friendly.find(params[:structure_id])
-    @participation_request = @structure.participation_request.find(params[:participation_request_id]) if params[:participation_request_id].present?
-    @comment   = @structure.comments.build params[:comment]
+    @structure             = Structure.friendly.find(params[:structure_id])
+    @participation_request = @structure.participation_requests.find(params[:participation_request_id]) if params[:participation_request_id].present?
+    @comment               = @structure.comments.build params[:comment]
 
     @user = create_user(params[:comment])
 
