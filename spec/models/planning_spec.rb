@@ -67,7 +67,7 @@ describe Planning do
       it 'has error on start_date if in past' do
         course = Course::Training.new
         subject.course = course
-        subject.stub(:start_date) { nil }
+        allow(subject).to receive_messages(:start_date => nil)
         subject.valid?
         expect(subject.errors.messages).to include :start_date
       end
@@ -77,7 +77,7 @@ describe Planning do
       it 'has error on end_date if in past' do
         course = Course::Training.new
         subject.course = course
-        subject.stub(:end_date) { Date.yesterday }
+        allow(subject).to receive_messages(:end_date => Date.yesterday)
         subject.valid?
         expect(subject.errors.messages).to include :end_date
       end
@@ -87,8 +87,8 @@ describe Planning do
       it 'has error if place is not defined and not in foreign country' do
         course = Course::Training.new
         subject.course = course
-        subject.stub(:place_id) { nil }
-        subject.stub(:is_in_foreign_country) { false }
+        allow(subject).to receive_messages(:place_id => nil)
+        allow(subject).to receive_messages(:is_in_foreign_country => false)
         subject.valid?
         expect(subject.errors.messages).to include :place_id
       end
@@ -96,8 +96,8 @@ describe Planning do
       it 'has no error if place is not defined but in foreign country' do
         course = Course::Training.new
         subject.course = course
-        subject.stub(:place_id) { nil }
-        subject.stub(:is_in_foreign_country) { true }
+        allow(subject).to receive_messages(:place_id => nil)
+        allow(subject).to receive_messages(:is_in_foreign_country => true)
         subject.valid?
         expect(subject.errors.messages).not_to include :place_id
       end

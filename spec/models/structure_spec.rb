@@ -151,22 +151,22 @@ describe Structure do
 
   describe '#profile_completed' do
     it 'has no logo' do
-      structure.stub(:profile_completed?) { false }
+      allow(structure).to receive_messages(:profile_completed? => false)
       structure.update_email_status
       expect(structure.email_status).to eq 'incomplete_profile'
     end
 
     context 'logo_stubbed' do
       def stub_logo(structure)
-        structure.stub(:logo_file_name) { 'lala' }
-        structure.stub(:logo_content_type) { 'type/jpg' }
-        structure.stub(:logo_file_size) { 12412 }
-        structure.stub(:logo_updated_at) { Time.now }
+        allow(structure).to receive_messages(:logo_file_name => 'lala')
+        allow(structure).to receive_messages(:logo_content_type => 'type/jpg')
+        allow(structure).to receive_messages(:logo_file_size => 12412)
+        allow(structure).to receive_messages(:logo_updated_at => Time.now)
       end
 
       it 'is incomplete_profile' do
         stub_logo(structure)
-        structure.stub(:profile_completed?) { false }
+        allow(structure).to receive_messages(:profile_completed? => false)
         structure.update_email_status
         expect(structure.email_status).to eq 'incomplete_profile'
       end
@@ -176,7 +176,7 @@ describe Structure do
   describe '#highlighted_comment' do
     it 'returns highlighted_comment' do
       comment = structure.comments.create FactoryGirl.attributes_for(:comment_review)
-      subject.stub(:highlighted_comment_id) { comment.id }
+      allow(subject).to receive_messages(:highlighted_comment_id => comment.id)
       expect(subject.highlighted_comment_id).to be comment.id
     end
   end
