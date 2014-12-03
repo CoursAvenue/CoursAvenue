@@ -4,6 +4,14 @@ machine:
   ruby:
     version: 2.1.5
 
+deployment:
+  staging:
+    branch: /*/
+    heroku:
+      commands:
+        - git push git@heroku.com:coursavenue-staging $CIRCLE_SHA1:master -f
+        - heroku run rake db:migrate --app coursavenue-staging
+
 database:
   post:
     - cp -R /opt/solr-4.3.1 $HOME/solr
