@@ -6,7 +6,7 @@ machine:
 
 deployment:
   staging:
-    branch: /*/
+    branch: *
     commands:
       - git push git@heroku.com:coursavenue-staging $CIRCLE_SHA1:master -f
       - heroku run rake db:migrate --app coursavenue-staging
