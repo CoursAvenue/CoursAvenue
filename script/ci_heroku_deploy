@@ -1,4 +1,6 @@
 #!/bin/bash -e
+# https://gist.github.com/aliou/80f4a7977a29109d0ebc
+
 APP_NAME=$1
 
 # Fetch the last commits on the remote.

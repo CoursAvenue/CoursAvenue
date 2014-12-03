@@ -8,7 +8,7 @@ deployment:
   staging:
     branch: circle-ci-fixes
     commands:
-      - ./script/ci_heroku_deploy coursavenue-staging
+      - ./script/ci_heroku_deploy coursavenue-staging:
           timeout: 1800
 
 database:
