@@ -8,7 +8,7 @@ deployment:
   staging:
     branch: circle-ci-fixes
     commands:
-      - git push git@heroku.com:coursavenue-staging $CIRCLE_SHA1:master -f
+      - git push git@heroku.com:coursavenue-staging.git $CIRCLE_SHA1:master -f
       - heroku run rake db:migrate --app coursavenue-staging
 
 database:
