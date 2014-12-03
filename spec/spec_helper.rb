@@ -1,7 +1,7 @@
 # Must be before everything
 if !ENV['CI']
   require 'simplecov'
-  SimpleCov.start
+  SimpleCov.start 'rails'
 end
 
 require 'rubygems'
