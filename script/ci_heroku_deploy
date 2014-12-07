@@ -1,5 +1,7 @@
 #!/bin/bash -e
 # https://gist.github.com/aliou/80f4a7977a29109d0ebc
+# TODO: Store app_name (coursavenue, coursavenue-staging) in env.
+# TODO: Store staging deploy term (staging:deploy) in env.
 
 APP_NAME=$1
 
