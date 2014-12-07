@@ -124,8 +124,8 @@ class Structure < ActiveRecord::Base
 
 
   define_boolean_accessor_for :meta_data, :has_promotion, :gives_group_courses, :gives_individual_courses,
-                              :has_free_trial_course, :has_promotion, :gives_non_professional_courses, :gives_professional_courses,
-                              :is_sleeping, :sleeping_email_opt_in, :promo_code_sent
+                                          :has_free_trial_course, :has_promotion, :gives_non_professional_courses,
+                                          :gives_professional_courses, :is_sleeping, :sleeping_email_opt_in, :promo_code_sent
 
   mount_uploader :logo, StructureLogoUploader
 

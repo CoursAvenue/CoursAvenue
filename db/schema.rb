@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141119165324) do
+ActiveRecord::Schema.define(version: 20141207160953) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 20141119165324) do
   add_index "admins", ["invitation_token"], name: "index_admin_users_on_invitation_token", using: :btree
   add_index "admins", ["invited_by_id"], name: "index_admin_users_on_invited_by_id", using: :btree
   add_index "admins", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
+  add_index "admins", ["structure_id"], name: "index_admins_on_structure_id", using: :btree
 
   create_table "blog_articles", force: true do |t|
     t.string   "title"
@@ -189,6 +190,7 @@ ActiveRecord::Schema.define(version: 20141119165324) do
 
   add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree
   add_index "comments", ["commentable_type"], name: "index_comments_on_commentable_type", using: :btree
+  add_index "comments", ["status"], name: "index_comments_on_status", using: :btree
 
   create_table "comments_subjects", id: false, force: true do |t|
     t.integer "comment_id"
@@ -248,11 +250,14 @@ ActiveRecord::Schema.define(version: 20141119165324) do
     t.integer  "max_age_for_kid"
     t.boolean  "on_appointment",             default: false
     t.boolean  "is_open_for_trial"
+    t.boolean  "has_promotion"
   end
 
   add_index "courses", ["active"], name: "index_courses_on_active", using: :btree
+  add_index "courses", ["is_open_for_trial"], name: "index_courses_on_is_open_for_trial", using: :btree
   add_index "courses", ["place_id"], name: "index_courses_on_place_id", using: :btree
   add_index "courses", ["slug"], name: "index_courses_on_slug", unique: true, using: :btree
+  add_index "courses", ["structure_id", "is_open_for_trial"], name: "index_courses_on_structure_id_and_is_open_for_trial", using: :btree
   add_index "courses", ["structure_id"], name: "index_courses_on_structure_id", using: :btree
   add_index "courses", ["type"], name: "index_courses_on_type", using: :btree
 
@@ -657,7 +662,7 @@ ActiveRecord::Schema.define(version: 20141119165324) do
     t.datetime "last_geocode_try"
   end
 
-  add_index "places", ["location_id", "structure_id"], name: "index_places_on_location_id_and_structure_id", using: :btree
+  add_index "places", ["structure_id"], name: "index_places_on_structure_id", using: :btree
 
   create_table "places_users", id: false, force: true do |t|
     t.integer "place_id"
