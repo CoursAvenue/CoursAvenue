@@ -11,9 +11,6 @@
 = content_for :meta_description do
   #{title} : #{number_with_delimiter @total} Cours d'Essai GRATUITS & Promotions - CoursAvenue.com. Consultez #{number_with_delimiter @total_comments} avis d'élèves, #{number_with_delimiter @total_medias} photos. Inscrivez-vous gratuitement sur CoursAvenue.com
 
-- if robot?(request.env['HTTP_USER_AGENT'])
-  = render partial: 'google_more_infos', locals: { title: title }
-
 .filtered-search{ :data => { :type => "#{ @app_slug }-root" }, id: "#{ @app_slug }"}
 
 :javascript

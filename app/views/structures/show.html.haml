@@ -131,10 +131,3 @@
       $(function() {
           mixpanel.track("Structures/show: landing_from_email", { "structure_slug": "#{@structure.slug}", "structure_name": "#{escape_javascript(@structure.name)}" });
       });
-
-- if robot?(request.env['HTTP_USER_AGENT'])
-  = content_for :scripts do
-    :javascript
-      $(function() {
-          $('[data-behavior="show-long-version"]').click();
-      });
