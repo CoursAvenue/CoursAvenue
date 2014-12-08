@@ -50,7 +50,6 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        $('#dataTable').tablesorter();
         $('#load').click(function() {
             var zip_code = $('#zip_code').val();
             $('[data-subject-id]').each(function(index, element) {
