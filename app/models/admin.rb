@@ -136,6 +136,13 @@ class ::Admin < ActiveRecord::Base
     self.provider == 'facebook' and self.oauth_token.present?
   end
 
+  # The Facebook pages administrated by the Admin.
+  #
+  # @return an Array of Array of [ page_name, URL ]
+  def facebook_pages
+    return [] unless from_facebook?
+  end
+
   private
 
   def subscribe_to_crm
