@@ -9,6 +9,16 @@ APP_NAME=$1
 git remote add heroku git@heroku.com:$APP_NAME.git
 git fetch heroku
 
+# Check if the deploy is necessary.
+#
+# The deploy is necessary when:
+# - We push a branch with the term 'staging:deploy' somewhere in the commits, or
+# - We push the branch master in production.
+STAGING_DEPLOY=$(git log heroku/master..HEAD | grep 'staging:deploy' | wc -l)
+if [[ $APP_NAME == "coursavenue-staging" ]] && [ $STAGING_DEPLOY -eq 0 ]; then
+  exit
+fi
+
 # Check if the deploy requires a migration.
 REQUIRES_MIGRATION=$(git diff HEAD heroku/master --name-only -- db | wc -l)
 
