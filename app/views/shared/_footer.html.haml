@@ -69,12 +69,3 @@
 
       %a.visuallyhidden{ href: "https://mixpanel.com/f/partner" }
         %img{ src: "//cdn.mxpnl.com/site_media/images/partner/badge_light.png", alt: "Mobile Analytics"}
-
-  - if @structure and @structure.city
-    - cache [@structure, 'footer'] do
-      .main-container.text--center.visuallyhidden
-        - @structure.subjects.uniq.each_with_index do |subject, index|
-          - if subject.depth == 0
-            = link_to "#{subject.name} à #{@structure.city.name}", root_search_page_path(subject.root, @structure.city), class: 'semi-muted-link', target: :_blank
-          - else
-            = link_to "#{subject.name} à #{@structure.city.name}", search_page_path(subject.root, subject, @structure.city), class: 'semi-muted-link', target: :_blank

@@ -28,7 +28,7 @@ class PriceGroup < ActiveRecord::Base
   # Callbacks                                                          #
   ######################################################################
   after_initialize :default_name
-  after_save :touch_relations
+  after_save  :touch_relations
   before_save :update_course_open_for_trial
 
   ######################################################################
@@ -130,6 +130,9 @@ class PriceGroup < ActiveRecord::Base
     return (!exists and price_has_to_be_rejected)
   end
 
+  # To trigger after touch callbacks
+  #
+  # @return [type] [description]
   def touch_relations
     self.courses.map(&:touch)
     self.prices.map(&:touch)
