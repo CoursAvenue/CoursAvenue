@@ -12,7 +12,7 @@ describe UserMailer do
     end
 
     it 'renders the body' do
-      expect(mail.body.encoded).to include(user.name)
+      expect(mail.html_part.body.encoded).to include(user.name)
     end
   end
 
