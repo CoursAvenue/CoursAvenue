@@ -44,8 +44,8 @@ describe Structures::CommentsController do
                       content:           'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,',
                       email:             'random@test.com'
                     }
-      response.should be_redirect
-      assigns(:comment).should be_persisted
+      expect(response).to have_http_status(302)
+      expect(assigns(:comment)).to be_persisted
     end
 
     it 'creates a user' do
