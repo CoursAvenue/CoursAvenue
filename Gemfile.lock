@@ -85,7 +85,7 @@ GEM
     algoliasearch-rails (1.11.9)
       algoliasearch (>= 1.2.14)
       json (>= 1.5.1)
-    ancestry (2.0.0)
+    ancestry (2.1.0)
       activerecord (>= 3.0.0)
     ar_transaction_changes (1.0.0)
       activerecord (>= 3.0, < 5.0)
@@ -697,7 +697,7 @@ DEPENDENCIES
   activesupport-json_encoder (~> 1.1.0)
   acts-as-taggable-on (~> 3.0.1)
   algoliasearch-rails (~> 1.11.9)
-  ancestry (~> 2.0.0)
+  ancestry (~> 2.1.0)
   asset_sync (~> 1.0.0)
   auto_html (~> 1.6.2)
   awesome_print
