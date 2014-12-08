@@ -14,7 +14,7 @@ git fetch heroku
 # The deploy is necessary when:
 # - We push a branch with the term 'staging:deploy' somewhere in the commits, or
 # - We push the branch master in production.
-STAGING_DEPLOY=$(git log heroku/master..HEAD | grep 'staging:deploy' | wc -l)
+STAGING_DEPLOY=$(git log heroku/master..HEAD | grep 'deploy' | wc -l)
 if [[ $APP_NAME == "coursavenue-staging" ]] && [ $STAGING_DEPLOY -eq 0 ]; then
   exit
 fi
