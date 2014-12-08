@@ -19,6 +19,7 @@ FactoryGirl.define do
     factory :admin_from_facebook do
       oauth_token Faker::Internet.password
       oauth_expires_at 10.years.from_now
+      provider 'facebook'
 
       factory :admin_from_facebook_with_page do
         facebook_url 'http:://facebok.com/coursavenue'
