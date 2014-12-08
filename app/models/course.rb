@@ -4,7 +4,9 @@ class Course < ActiveRecord::Base
 
   include HasSubjects
 
-  COURSE_FREQUENCIES = ['courses.frequencies.every_week', 'courses.frequencies.every_two_weeks', 'courses.frequencies.every_month']
+  COURSE_FREQUENCIES = ['courses.frequencies.every_week',
+                        'courses.frequencies.every_two_weeks',
+                        'courses.frequencies.every_month']
 
   # ------------------------------------------------------------------------------------ Model attributes and settings
   extend FriendlyId

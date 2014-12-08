@@ -6,8 +6,8 @@ describe StructuresController, type: :controller do
   def required_keys
     %w(id name slug comments_count logo_thumb_url logo_large_url data_url
       query_params structure_type highlighted_comment_title premium has_promotion
-      is_open_for_trial cities cover_media subjects trial_courses_policy places
-      comments medias preloaded_medias)
+      is_open_for_trial cover_media subjects trial_courses_policy places
+      preloaded_medias)
   end
 
   describe 'show' do
