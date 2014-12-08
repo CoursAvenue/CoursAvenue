@@ -2,15 +2,15 @@
   .panel__body
     %table.table--data.table--striped
       %thead
-	%tr
-	  %th
-	  %th email
+        %tr
+          %th
+          %th email
       %tbody
-	- @contacts.each do |contact|
-	  %tr
-	    %td
-	      %input{ type: 'checkbox', name: contact[:email] }
-	    %td= contact[:email]
+        - @contacts.each do |contact|
+          %tr
+            %td
+              %input{ type: 'checkbox', name: contact[:email] }
+            %td= contact[:email]
 
     = link_to 'Importer', '#', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }, id: 'select-emails'
 
@@ -18,19 +18,19 @@
   :javascript
 
     $('#select-emails').click(function(e) {
-	e.preventDefault();
+        e.preventDefault();
 
-	var emailList = $('input:checked').map(function(i, elem) { return (elem.name); });
-	var emails    = [].join.call(emailList, ', ');
-	var contents  = $('textarea[name=emails]', opener.window.document).val();
+        var emailList = $('input:checked').map(function(i, elem) { return (elem.name); });
+        var emails    = [].join.call(emailList, ', ');
+        var contents  = $('textarea[name=emails]', opener.window.document).val();
 
-	if (contents == '') {
-	    contents = emails;
-	} else {
-	    contents += ', ' + emails;
-	}
+        if (contents == '') {
+            contents = emails;
+        } else {
+            contents += ', ' + emails;
+        }
 
-	$('textarea[name=emails]', opener.window.document).val(contents);
-	opener.window.GLOBAL.flash('Contact importés avec succés.', 'notice');
-	window.close();
+        $('textarea[name=emails]', opener.window.document).val(contents);
+        opener.window.GLOBAL.flash('Contact importés avec succés.', 'notice');
+        window.close();
     });

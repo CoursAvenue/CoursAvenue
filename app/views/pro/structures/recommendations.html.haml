@@ -11,7 +11,7 @@
         Envoyez un e-mail à vos élèves
         %i= link_to '(voir les 5 avantages de cette méthode la + utilisée)', '#most-used-method', data: { behavior: 'modal', width: 550, padding: 0 }
       .text--center.push-half--bottom
-	= link_to 'Importer les contacts de Gmail', '#', class: 'btn btn--blue btn--large', id: 'import-from-gmail'
+        = link_to 'Importer les contacts de Gmail', '#', class: 'btn btn--blue btn--large', id: 'import-from-gmail'
 
       .gray-box.soft.relative
         = simple_form_for [:pro, @structure, @structure.comment_notifications.build] do |f|
@@ -138,14 +138,14 @@
             });
         });
 
-	$('#import-from-gmail').click(function(e) {
-	    e.preventDefault();
-	    var height = 450;
-	    var width  = 600;
+        $('#import-from-gmail').click(function(e) {
+            e.preventDefault();
+            var height = 450;
+            var width  = 600;
 
-	    var left   = (screen.width / 2) - (width / 2);
-	    var top    = (screen.height / 2) - (height / 2);
+            var left   = (screen.width / 2) - (width / 2);
+            var top    = (screen.height / 2) - (height / 2);
 
-	    win = window.open('/contacts/gmail', 'null', 'width=' + width + ',height=' + height + ',toolbar=no,scrollbars=no,location=no,resizable=no,top=' + top + ',left=' + left);
-	});
+            win = window.open('/contacts/gmail', 'null', 'width=' + width + ',height=' + height + ',toolbar=no,scrollbars=no,location=no,resizable=no,top=' + top + ',left=' + left);
+        });
     });
