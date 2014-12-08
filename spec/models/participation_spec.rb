@@ -97,7 +97,7 @@ describe Participation do
 
   describe '#canceled?' do
     it 'returns true' do
-      subject.stub(:canceled_at) { Time.now }
+      subject.canceled_at = Time.now
       expect(subject.canceled?).to be(true)
     end
 
