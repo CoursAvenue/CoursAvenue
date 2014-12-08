@@ -220,6 +220,7 @@ group :test do
 end
 
 group :development do
+  gem 'rails_best_practices'
   gem 'ruby-prof'
   # Speed up slow Rails development mode
   gem 'rails-dev-boost', :git => 'git://github.com/thedarkone/rails-dev-boost.git'

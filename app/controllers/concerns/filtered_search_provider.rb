@@ -35,13 +35,6 @@ module FilteredSearchProvider
     (params.keys & PLANNING_FILTERED_KEYS).any?
   end
 
-  # Tells if the search filters includes planning filters AND filters like lat, lng etc..
-  #
-  # @return boolean
-  def params_has_filtered_search_filters?
-    (params.keys & FILTERED_SEARCH_KEYS).any?
-  end
-
   # Return all parameters that are used for search
   #
   # @return Hash
