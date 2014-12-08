@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe Pro::Structures::CommentNotificationsController do
   let(:admin) { FactoryGirl.create(:admin) }
