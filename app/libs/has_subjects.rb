@@ -31,6 +31,7 @@ module HasSubjects
     end
 
     def update_course_subjects_string
+      return unless self.respond_to?(:courses)
       subjects_array = []
       self.courses.flat_map(&:subjects).uniq.each do |subject|
         subjects_array << "#{subject.name}:#{subject.slug}"
