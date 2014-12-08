@@ -232,17 +232,8 @@ France
     @admin     = @structure.main_contact
 
     5.times { @structure.phone_numbers.build }
-
-    if @admin and @admin.from_facebook? and @admin.oauth_expires_at > Time.current
-      user            = FbGraph::User.me(@admin.oauth_token).fetch
-      @facebook_pages = user.accounts.map { |page| [ page.name, page.link ] }
-
-      if @structure.facebook_url.present? and ! @facebook_pages.any? { |page| page[1] == @structure.facebook_url }
-        @facebook_pages << [ 'Autre', @structure.facebook_url ]
-      else
-        @facebook_pages << [ 'Autre', 'other' ]
-      end
-
+    if @admin.from_facebook?
+      @facebook_pages = facebook_pages
     else
       @facebook_pages = []
     end
@@ -428,5 +419,25 @@ France
     if @home_places.empty?
       @home_places << @structure.places.homes.build
     end
+  end
+
+  # Get the selectable Facebook pages
+  #
+  # This method adds the structure's facebook_url if it is not part of the
+  # pages managed by the admin.
+  #
+  # @return an Array of Array of [ page_name, URL ]
+  def facebook_pages
+    pages = @admin.facebook_pages
+
+    if @structure.facebook_url?
+      if pages.map(&:second).include?(@structure.facebook_url?)
+        pages << [ 'Autre', @structure.facebook_url ]
+      else
+        pages << [ 'Autre', 'other' ]
+      end
+    end
+
+    pages
   end
 end
