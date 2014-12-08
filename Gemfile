@@ -87,7 +87,7 @@ gem 'paperclip'                 , '~>4.1.1'
 # gem 'squeel'                    , '~>1.1.1'
 
 # For having models acting like trees
-gem 'ancestry'                  , '~>2.0.0'
+gem 'ancestry'                  , '~>2.1.0'
 
 # Nice helper to use google maps
 gem 'gmaps4rails'               , '~>2.1.2'
@@ -220,6 +220,7 @@ group :test do
 end
 
 group :development do
+  gem 'rails_best_practices'
   gem 'ruby-prof'
   # Speed up slow Rails development mode
   gem 'rails-dev-boost', :git => 'git://github.com/thedarkone/rails-dev-boost.git'
