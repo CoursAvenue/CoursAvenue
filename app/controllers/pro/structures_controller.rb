@@ -232,6 +232,7 @@ France
     @admin     = @structure.main_contact
 
     5.times { @structure.phone_numbers.build }
+
     if @admin.from_facebook?
       @facebook_pages = facebook_pages
     else

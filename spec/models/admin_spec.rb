@@ -13,7 +13,17 @@ describe Admin do
   end
 
   context :facebook do
-    class Fb_User < Struct.new(:accounts); end
+    class Accounts < Struct.new(:name, :link); end
+
+    class Fb_User
+      def fetch
+        self
+      end
+
+      def accounts
+        [ Accounts.new('CA', 'http://facebook.com/CoursAvenue') ]
+      end
+    end
 
     describe 'Connection with Facebook' do
       describe '#facebook_pages' do
@@ -30,8 +40,7 @@ describe Admin do
             let(:admin) { FactoryGirl.build(:admin_from_facebook) }
 
             it 'should return the pages administrated by the admin' do
-              allow(FbGraph::User).to receive(:fetch)
-                .and_return(Fb_User.new(['CA', 'http://facebook.com/CoursAvenue']))
+              allow(FbGraph::User).to receive(:me).and_return(Fb_User.new)
 
               expect(admin.facebook_pages).not_to be_empty
             end
