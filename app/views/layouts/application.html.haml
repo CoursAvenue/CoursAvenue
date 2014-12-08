@@ -16,8 +16,8 @@
       = yield :after_ga
     = yield :head
     = favicon_link_tag 'favicon.png'
-    = javascript_include_tag "modernizr" # MUST BE In the Head and before CSS
-    = stylesheet_link_tag "application", media: 'all'
+    = javascript_include_tag 'modernizr' # MUST BE In the Head and before CSS
+    = stylesheet_link_tag 'application', media: 'all'
     = csrf_meta_tags unless response.cache_control[:public]
     :javascript
       window.GLOBAL = window.GLOBAL || {};
@@ -41,6 +41,7 @@
     = javascript_include_tag '//maps.google.com/maps/api/js?v=3.13&sensor=false&libraries=geometry'
     = javascript_include_tag 'application'
     = javascript_include_tag '//cdn.jsdelivr.net/algoliasearch/latest/algoliasearch.min.js'
+    = javascript_include_tag '//d2wy8f7a9ursnm.cloudfront.net/bugsnag-2.min.js', 'data-apikey' => '95a4635b1c13221f4232852f7badc00a'
 
     = yield :scripts
     = yield :layout_scripts
@@ -48,7 +49,6 @@
 
     :javascript
       if (!$.cookie('fingerprint')) { $.cookie('fingerprint', new Fingerprint().get()); }
-    %script{ src: "//d2wy8f7a9ursnm.cloudfront.net/bugsnag-2.min.js", "data-apikey" => "95a4635b1c13221f4232852f7badc00a" }
     - if current_user
       :javascript
           CoursAvenue.addInitializer(function(options){
@@ -76,5 +76,5 @@
           window.on_sleeping_page = true;
           window.take_control_url = "#{new_pro_admin_structure_registration_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)}";
     :javascript
-      Bugsnag.releaseStage = '#{Rails.env}';
-      Bugsnag.notifyReleaseStages = ["staging", "production"]
+        Bugsnag.releaseStage = '#{Rails.env}';
+        Bugsnag.notifyReleaseStages = ["staging", "production"]

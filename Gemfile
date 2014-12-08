@@ -200,11 +200,13 @@ group :production, :staging do
   gem 'asset_sync'                , '~>1.0.0'
   # Enable gzip compression on heroku, but don't compress images
   # gem 'heroku_rails_deflate'      , '~>1.0.3'
-  gem 'rack-zippy'
+  # gem 'rack-zippy'
+  gem 'heroku-deflater'
   gem 'sprockets-image_compressor', '~>0.3.0'
   gem 'htmlcompressor'            , '~>0.1.2'
   gem 'image_optim'               , '~>0.19.1'
   gem 'image_optim_pack'          , '~>0.2.0.20141122'
+  gem 'paperclip-optimizer'       , '2.0.0.beta.2'
 end
 
 group :test do
@@ -276,3 +278,7 @@ end
 
 # For Traceview in Heroku
 gem 'oboe-heroku', '~>0.9.16.1'
+
+# PDF generation for orders
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'

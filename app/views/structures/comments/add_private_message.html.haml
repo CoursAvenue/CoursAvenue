@@ -7,7 +7,7 @@
 = content_for :meta_description do
   Donnez votre avis sur #{@structure.name}
 
-.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/home_background.jpg'})" }
+.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background.jpg'})" }
   .main-container.main-container--medium.soft
     .grid
       - if @structure.logo.present?

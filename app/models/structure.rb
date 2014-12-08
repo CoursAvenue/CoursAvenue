@@ -1184,7 +1184,7 @@ class Structure < ActiveRecord::Base
     if plannings.any?
       plannings.map(&:place).compact.flat_map(&:city).group_by{ |city| city }.values.max_by(&:size).try(:first)
     else
-      ([city] + places.map(&:city)).group_by(&:city).values.max_by(&:size).first
+      ([city] + places.map(&:city)).group_by{ |c| c }.values.max_by(&:size).first
     end
   end
 

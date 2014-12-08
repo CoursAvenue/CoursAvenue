@@ -223,3 +223,9 @@ Reinvoke all jobs :
 
 For CarrierWave ImageOptimizer
 brew install optipng jpegoptim
+
+## Weird bug
+
+    undefined method `dependency_digest' for #<Sprockets::StaticAsset:0x007f9c521cb290>
+
+rake tmp:cache:clear

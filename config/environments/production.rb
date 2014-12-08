@@ -30,26 +30,26 @@ CoursAvenue::Application.configure do
   config.assets.js_compressor  = uglifier
   config.assets.css_compressor = :sass
 
-  config.middleware.use HtmlCompressor::Rack, { compress_css: true,
-                                                compress_javascript: true,
-                                                css_compressor: Sass,
-                                                enabled: true,
-                                                javascript_compressor: uglifier,
-                                                preserve_line_breaks: false,
-                                                remove_comments: true,
-                                                remove_form_attributes: false,
-                                                remove_http_protocol: false,
-                                                remove_https_protocol: false,
-                                                remove_input_attributes: true,
-                                                remove_intertag_spaces: false,
-                                                remove_javascript_protocol: true,
-                                                remove_link_attributes: true,
-                                                remove_multi_spaces: true,
-                                                remove_quotes: true,
-                                                remove_script_attributes: true,
-                                                remove_style_attributes: true,
-                                                simple_boolean_attributes: true,
-                                                simple_doctype: false }
+  # config.middleware.use HtmlCompressor::Rack, { compress_css: true,
+  #                                               compress_javascript: true,
+  #                                               css_compressor: Sass,
+  #                                               enabled: true,
+  #                                               javascript_compressor: uglifier,
+  #                                               preserve_line_breaks: false,
+  #                                               remove_comments: true,
+  #                                               remove_form_attributes: false,
+  #                                               remove_http_protocol: false,
+  #                                               remove_https_protocol: false,
+  #                                               remove_input_attributes: true,
+  #                                               remove_intertag_spaces: false,
+  #                                               remove_javascript_protocol: true,
+  #                                               remove_link_attributes: true,
+  #                                               remove_multi_spaces: true,
+  #                                               remove_quotes: true,
+  #                                               remove_script_attributes: true,
+  #                                               remove_style_attributes: true,
+  #                                               simple_boolean_attributes: true,
+  #                                               simple_doctype: false }
 
   # Don't fallback to assets pipeline if a precompiled asset is missed
   config.assets.compile = true
@@ -96,9 +96,10 @@ CoursAvenue::Application.configure do
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
   config.assets.precompile += %w( email.css discovery_pass.css )
-  config.assets.precompile += %w( modernizr.js ckeditor/config.js libs/jquery.Jcrop )
-  config.assets.precompile += %w( libs/highcharts/highcharts libs/highcharts/modules/exporting )
-  config.assets.precompile += %w( libs/filepicker )
+  config.assets.precompile += %w( modernizr.js ckeditor/config.js libs/jquery.Jcrop.js )
+  config.assets.precompile += %w( libs/highcharts/highcharts.js libs/highcharts/modules/exporting.js )
+  config.assets.precompile += %w( libs/filepicker.js )
+  config.assets.precompile += %w( libs/jquery.fullPage.js libs/jquery.fullPage.css )
 
   # Enable threaded mode
   # config.threadsafe!

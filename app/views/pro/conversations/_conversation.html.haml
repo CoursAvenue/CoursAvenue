@@ -31,7 +31,8 @@
             = image_tag recipients.first.avatar_url(:thumb), class: 'block bordered rounded--circle'
         .grid__item.three-quarters.soft-half--left.v-middle>
           %p.flush
-            = truncate((recipients.first.name || recipients.first.email), length: 18)
+            - if recipients.first
+              = truncate((recipients.first.name || recipients.first.email), length: 18)
             - if recipients.length > 1
               %span.nowrap.milli{ title: recipients.map(&:name).join(', '), data: { behavior: 'tooltip' } }
                 et #{pluralize(recipients.length - 1, 'autre')}

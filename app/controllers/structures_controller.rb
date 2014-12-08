@@ -1,8 +1,13 @@
 # encoding: utf-8
+require 'new_relic/agent/method_tracer'
 class StructuresController < ApplicationController
   include FilteredSearchProvider
   include StructuresHelper
   include ApplicationHelper
+  include ::NewRelic::Agent::MethodTracer
+
+  add_method_tracer :show, 'StructureController/show'
+  add_method_tracer :index, 'StructureController/index'
 
   skip_before_filter :verify_authenticity_token, only: [:add_to_favorite, :remove_from_favorite]
 

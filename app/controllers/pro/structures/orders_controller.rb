@@ -12,4 +12,14 @@ class Pro::Structures::OrdersController <  Pro::ProController
     @structure = Structure.friendly.find params[:structure_id]
     @order     = @structure.orders.find params[:id]
   end
+
+  def export
+    @structure = Structure.friendly.find params[:structure_id]
+    @order     = @structure.orders.find params[:id]
+
+    respond_to do |format|
+      format.html { redirect_to pro_structure_order_path(@structure, @order) }
+      format.pdf  { render pdf: @order.public_order_id, disposition: 'attachment', layout: 'pdf.html' }
+    end
+  end
 end

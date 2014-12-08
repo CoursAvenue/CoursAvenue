@@ -88,6 +88,7 @@ class AdminMailer < ActionMailer::Base
   end
 
   def user_is_now_following_you(structure, user)
+    return if structure.main_contact.nil?
     @structure        = structure
     @user             = user
     @similar_profiles = @structure.similar_profiles(2)

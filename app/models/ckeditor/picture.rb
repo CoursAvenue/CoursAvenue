@@ -3,7 +3,8 @@ class Ckeditor::Picture < Ckeditor::Asset
                     url: "/ckeditor_assets/pictures/:id/:style_:basename.:extension",
                     path: ":rails_root/public/ckeditor_assets/pictures/:id/:style_:basename.:extension",
                     styles: { content: '800>', thumb: '118x100#' },
-                    convert_options: { content: '-interlace Plane', thumb: '-interlace Plane' }
+                    convert_options: { content: '-interlace Plane', thumb: '-interlace Plane' },
+                    processors: [:thumbnail, :paperclip_optimizer]
 
   validates_attachment_presence :data
   validates_attachment_size :data, :less_than => 2.megabytes
