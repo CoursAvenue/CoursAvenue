@@ -17,5 +17,10 @@ FactoryGirl.define do
     password                'zpdajdpzaojdxd'
     password_confirmation   'zpdajdpzaojdxd'
 
+    factory :admin_from_facebook do
+      oauth_token Faker::Internet.password
+      oauth_expires_at 10.years.from_now
+    end
+
   end
 end
