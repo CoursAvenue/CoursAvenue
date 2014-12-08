@@ -4,7 +4,7 @@ require 'spec_helper'
 describe Admin do
   subject { admin }
   context :admin do
-    let(:admin) { FactoryGirl.create(:admin) }
+    let(:admin) { FactoryGirl.build(:admin) }
 
     it { should be_valid }
     it 'should not be super_admin' do
@@ -13,11 +13,13 @@ describe Admin do
   end
 
   context :facebook do
+    class Fb_User < Struct.new(:accounts); end
+
     describe 'Connection with Facebook' do
       describe '#facebook_pages' do
 
         context 'not connected from Facebook' do
-          let(:admin) { FactoryGirl.create(:admin) }
+          let(:admin) { FactoryGirl.build(:admin) }
           it 'should return nothing' do
             expect(admin.facebook_pages).to be_empty
           end
