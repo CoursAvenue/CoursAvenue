@@ -15,8 +15,8 @@ class HomeController < ApplicationController
   end
 
   def index
-    @comments         = Comment::Review.includes(:commentable).accepted.order('created_at DESC').limit(3).offset(1)
-    @last_comment     = Comment::Review.includes(:commentable).accepted.last
+    @comments     = Comment::Review.ordered.accepted.includes(:commentable).limit(4)
+    @last_comment = @comments.to_a.shift
   end
 
   private

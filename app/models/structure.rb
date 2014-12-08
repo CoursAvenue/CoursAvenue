@@ -94,7 +94,8 @@ class Structure < ActiveRecord::Base
                   :email_status, :last_email_sent_at, :last_email_sent_status,
                   :widget_status, :widget_url, :sticker_status,
                   :teaches_at_home, :teaches_at_home_radius, # in KM
-                  :subjects_string, :parent_subjects_string, # "Name of the subject,slug-of-the-subject;Name,slug"
+                  # "Name of the subject,slug-of-the-subject;Name,slug"
+                  :subjects_string, :parent_subjects_string, :course_subjects_string,
                   :gives_group_courses, :gives_individual_courses,
                   :gives_non_professional_courses, :gives_professional_courses,
                   :highlighted_comment_id,
@@ -1220,6 +1221,14 @@ class Structure < ActiveRecord::Base
   def is_open_for_trial?
     return Rails.cache.fetch ['Structure#is_open_for_trial?', self] do
       self.courses.open_for_trial.any?
+    end
+  end
+
+  # TODO: Delete, method used for a migration
+  def self.update_course_subjects_string
+    Structure.find_each do |structure|
+      structure.delay.update_course_subjects_string
+      structure.delay.update_parent_subjects_string
     end
   end
 

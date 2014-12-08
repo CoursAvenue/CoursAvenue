@@ -11,7 +11,6 @@ class StructureSerializer < ActiveModel::Serializer
               :trial_courses_policy
 
   has_many :places,            serializer: PlaceSerializer
-  has_many :comments,          serializer: ShortSerializer
   has_many :medias,            serializer: ShortSerializer
   has_many :preloaded_medias,  serializer: MediaSerializer
 
@@ -25,13 +24,6 @@ class StructureSerializer < ActiveModel::Serializer
 
   def cover_media
     MediaSerializer.new(preloaded_medias.first) if preloaded_medias.first
-  end
-
-  def comments
-    result = object.comments.accepted
-    result = result.limit(5) unless options.key? :unlimited_comments
-
-    return result
   end
 
   def places
@@ -95,7 +87,7 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def subjects
-    object.courses(include: :subjects).flat_map(&:subjects).uniq.map(&:name).join(', ')
+    join_structure_course_subjects_text(object)
   end
 
   def trial_courses_policy

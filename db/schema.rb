@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141207160953) do
+ActiveRecord::Schema.define(version: 20141207172800) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -191,6 +191,7 @@ ActiveRecord::Schema.define(version: 20141207160953) do
   add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree
   add_index "comments", ["commentable_type"], name: "index_comments_on_commentable_type", using: :btree
   add_index "comments", ["status"], name: "index_comments_on_status", using: :btree
+  add_index "comments", ["type", "status"], name: "index_comments_on_type_and_status", using: :btree
 
   create_table "comments_subjects", id: false, force: true do |t|
     t.integer "comment_id"
@@ -539,6 +540,7 @@ ActiveRecord::Schema.define(version: 20141207160953) do
   end
 
   add_index "medias", ["format"], name: "index_medias_on_format", using: :btree
+  add_index "medias", ["mediable_id", "mediable_type"], name: "index_medias_on_mediable_id_and_mediable_type", using: :btree
   add_index "medias", ["mediable_id"], name: "index_medias_on_mediable_id", using: :btree
   add_index "medias", ["mediable_type"], name: "index_medias_on_mediable_type", using: :btree
 
@@ -639,6 +641,7 @@ ActiveRecord::Schema.define(version: 20141207160953) do
     t.datetime "updated_at"
   end
 
+  add_index "phone_numbers", ["callable_id", "callable_type"], name: "index_phone_numbers_on_callable_id_and_callable_type", using: :btree
   add_index "phone_numbers", ["callable_id"], name: "index_phone_numbers_on_callable_id", using: :btree
   add_index "phone_numbers", ["callable_type"], name: "index_phone_numbers_on_callable_type", using: :btree
 
@@ -919,6 +922,7 @@ ActiveRecord::Schema.define(version: 20141207160953) do
     t.string   "remote_logo_url"
     t.string   "trial_courses_policy"
     t.integer  "sleeping_structure_id"
+    t.text     "course_subjects_string"
   end
 
   add_index "structures", ["slug"], name: "index_structures_on_slug", unique: true, using: :btree
@@ -1003,6 +1007,8 @@ ActiveRecord::Schema.define(version: 20141207160953) do
     t.string   "paypal_payer_id"
     t.string   "paypal_recurring_profile_token"
   end
+
+  add_index "subscription_plans", ["structure_id"], name: "index_subscription_plans_on_structure_id", using: :btree
 
   create_table "taggings", force: true do |t|
     t.integer  "tag_id"
