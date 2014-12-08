@@ -142,6 +142,10 @@ $ git branch -D branch_name
 
 # Remove remote branch
 $ git push origin :branch_name
+
+# Remove remote refs from local
+$ git gc --prune=now
+$ git remote prune origin
 ```
 
 ### Cities
