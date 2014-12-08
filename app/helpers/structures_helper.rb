@@ -42,49 +42,22 @@ module StructuresHelper
     end
   end
 
-  # @return Child subjects in <span class="lbl lbl--small">
-  def join_child_subjects(structure)
-    structure.subjects_string.split(';').collect do |subject_string|
-      subject_name, subject_slug = subject_string.split(':')
-      content_tag :span, class: 'lbl lbl--small', style: 'margin-bottom: 2px;' do
-        subject_name
-      end
-    end.uniq.join(' ').html_safe
-  end
-
-  # @return Root subjects in <span class="lbl lbl--small">
-  def join_parent_subjects(structure)
-    structure.parent_subjects_string.split(';').collect do |subject_string|
-      subject_name, subject_slug = subject_string.split(':')
-      content_tag :span, class: 'lbl lbl--small', style: 'margin-bottom: 2px;' do
-        subject_name
-      end
-    end.uniq.join(' ').html_safe
-  end
-
   # Use subject string stored in structure
   # @return Child subjects as text
   def join_child_subjects_text(structure)
-    structure.subjects_string.split(';').collect do |subject_string|
-      subject_name, subject_slug = subject_string.split(':')
-      subject_name
-    end.uniq.join(', ').html_safe
+    structure.subjects_name_as_string(:subjects_string).join(', ')
   end
 
   # Use subject string stored in structure
   # @return Parent subjects as text
   def join_parent_subjects_text(structure)
-    structure.parent_subjects_string.split(';').collect do |subject_string|
-      subject_string.split(':')[0]
-    end.uniq.join(', ').html_safe
+    structure.subjects_name_as_string(:parent_subjects_string).join(', ')
   end
 
   # Use subject string stored in structure
   # @return Course subjects as text
   def join_structure_course_subjects_text(structure)
-    structure.course_subjects_string.split(';').collect do |subject_string|
-      subject_string.split(':')[0]
-    end.uniq.join(', ').html_safe
+    structure.subjects_name_as_string(:course_subjects_string).join(', ')
   end
 
   def readable_phone_number phone_number

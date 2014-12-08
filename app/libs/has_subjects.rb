@@ -56,5 +56,16 @@ module HasSubjects
       self.update_column :updated_at, Time.now
     end
   end
+
+  # Return an array of subject's name regarding the key passed.
+  # By default return parents subjects
+  #
+  # @return Array of String
+  def subjects_name_as_string(key=:parent_subjects_string)
+    self.send(key).split(';').collect do |subject_string|
+      subject_name, subject_slug = subject_string.split(':')
+      subject_name
+    end
+  end
 end
 
