@@ -16,11 +16,11 @@ database:
     - bundle exec rake db:create db:schema:load
 
 deployment:
-  # production:
-  #   branch: master
-  #   commands:
-  #     - ./script/ci_heroku_deploy coursavenue:
-  #         timeout: 1800
+  production:
+    branch: master
+    commands:
+      - ./script/ci_heroku_deploy coursavenue:
+          timeout: 1800
   staging:
     branch: circle-ci-fixes
     commands:
