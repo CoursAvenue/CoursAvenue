@@ -1199,21 +1199,6 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  # TODO: Delete, method used for a migration
-  def self.update_course_subjects_string
-    Structure.find_each do |structure|
-      structure.delay.update_course_subjects_string
-      structure.delay.update_parent_subjects_string
-    end
-  end
-
-  # TODO: Delete, method used for a migration
-  def self.update_premium_attribute
-    Structure.find_each do |structure|
-      structure.send :set_premium
-    end
-  end
-
   private
 
   def set_premium
