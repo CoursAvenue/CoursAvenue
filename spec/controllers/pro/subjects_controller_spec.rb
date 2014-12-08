@@ -1,6 +1,9 @@
 require "spec_helper"
 
 describe Pro::SubjectsController do
+  before do
+    Rails.cache.clear
+  end
 
   # let(:parent_subject)   { FactoryGirl(:subject) }
   let(:subject_children) { FactoryGirl.create(:subject_children) }

@@ -8,7 +8,7 @@ describe Admin do
 
     it {should be_valid}
     it 'should not be super_admin' do
-      admin.super_admin.should == false
+      expect(admin.super_admin).to be false
     end
   end
 end

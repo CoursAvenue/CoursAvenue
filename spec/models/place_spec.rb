@@ -8,8 +8,8 @@ describe Place do
 
   it { should be_valid }
 
-  it { place.to_gmap_json[:lat].should eq place.latitude }
-  it { place.to_gmap_json[:lng].should eq place.longitude }
+  it { expect(place.to_gmap_json[:lat]).to eq(place.latitude) }
+  it { expect(place.to_gmap_json[:lng]).to eq(place.longitude) }
 
   context 'destroy' do
     it 'destroys associate plannings' do

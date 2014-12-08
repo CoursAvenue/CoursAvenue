@@ -34,35 +34,35 @@ describe CommentNotification do
       describe '#resend_recommendation_stage_1' do
         it 'should be notified' do
           UsersReminder.resend_recommendation_stage_1
-          comment_notification_stage_1.reload.status.should eq 'resend_stage_1'
+          expect(comment_notification_stage_1.reload.status).to eq 'resend_stage_1'
         end
       end
       describe '#resend_recommendation_stage_2' do
         context 'right after' do
           it 'should not be notified' do
             UsersReminder.resend_recommendation_stage_2
-            comment_notification_stage_1.reload.status.should eq 'resend_stage_1'
+          expect(comment_notification_stage_1.reload.status).to eq 'resend_stage_1'
           end
         end
         context '4 day after' do
           it 'should not be notified' do
             time_travel_to Date.today + 4.days
             UsersReminder.resend_recommendation_stage_2
-            comment_notification_stage_1.reload.status.should eq 'resend_stage_1'
+            expect(comment_notification_stage_1.reload.status).to eq 'resend_stage_1'
             back_to_the_present
           end
         end
         context '6 day after' do
           it 'should not be notified' do
             UsersReminder.resend_recommendation_stage_2
-            comment_notification_stage_1.reload.status.should eq 'resend_stage_1'
+            expect(comment_notification_stage_1.reload.status).to eq 'resend_stage_1'
           end
         end
       end
       describe '#resend_recommendation_stage_3' do
         it 'should not be notified' do
           UsersReminder.resend_recommendation_stage_3
-          comment_notification_stage_1.reload.status.should eq 'resend_stage_1'
+          expect(comment_notification_stage_1.reload.status).to eq 'resend_stage_1'
         end
       end
     end
@@ -75,27 +75,27 @@ describe CommentNotification do
       describe '#resend_recommendation_stage_1' do
         it 'should be notified' do
           UsersReminder.resend_recommendation_stage_1
-          comment_notification_stage_2.reload.status.should eq 'resend_stage_2'
+          expect(comment_notification_stage_2.reload.status).to eq 'resend_stage_2'
         end
       end
       describe '#resend_recommendation_stage_2' do
         it 'should not be notified' do
           UsersReminder.resend_recommendation_stage_2
-          comment_notification_stage_2.reload.status.should eq 'resend_stage_2'
+          expect(comment_notification_stage_2.reload.status).to eq 'resend_stage_2'
         end
       end
       describe '#resend_recommendation_stage_3' do
         context 'right after' do
           it 'should not be notified' do
             UsersReminder.resend_recommendation_stage_3
-            comment_notification_stage_2.reload.status.should eq 'resend_stage_2'
+            expect(comment_notification_stage_2.reload.status).to eq 'resend_stage_2'
           end
         end
         context '5 day after last email sent' do
           it 'should not be notified' do
             time_travel_to Date.today + 5.days
             UsersReminder.resend_recommendation_stage_3
-            comment_notification_stage_2.reload.status.should eq 'resend_stage_3'
+            expect(comment_notification_stage_2.reload.status).to eq 'resend_stage_3'
             back_to_the_present
           end
         end

@@ -1,6 +1,8 @@
 # Must be before everything
-require 'simplecov'
-SimpleCov.start
+if !ENV['CI']
+  require 'simplecov'
+  SimpleCov.start 'rails'
+end
 
 require 'rubygems'
 
@@ -62,4 +64,5 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   # config.order = "random"
+  config.raise_errors_for_deprecations!
 end

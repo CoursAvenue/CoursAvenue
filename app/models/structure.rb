@@ -1234,12 +1234,6 @@ class Structure < ActiveRecord::Base
     self.name = self.name.strip if self.name
   end
 
-  def reset_cropping_attributes
-    self.crop_width = 0 # not nil, because it'll fail when reprocessing image.
-    self.crop_x     = 0
-    self.crop_y     = 0
-  end
-
   def slug_candidates
     [
       :name,
