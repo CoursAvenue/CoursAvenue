@@ -6,13 +6,13 @@ describe UserMailer do
     let(:mail) { UserMailer.welcome(user) }
 
     it 'renders the headers' do
-      mail.subject.should eq('Bienvenue sur CoursAvenue.com')
-      mail.to.should eq([user.email])
-      mail.from.should eq(['contact@coursavenue.com'])
+      expect(mail.subject).to eq('Bienvenue sur CoursAvenue.com')
+      expect(mail.to).to eq([user.email])
+      expect(mail.from).to eq(['contact@coursavenue.com'])
     end
 
     it 'renders the body' do
-      mail.body.encoded.should match(user.name)
+      expect(mail.html_part.body.encoded).to include(user.name)
     end
   end
 

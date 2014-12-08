@@ -18,7 +18,7 @@ describe PlacesController do
     end
 
     context 'when resource is found' do
-      it { response.status.should eq 200 }
+      it { expect(response).to have_http_status(:success) }
     end
   end
 

@@ -141,7 +141,11 @@ $ heroku run rake sunspot:reindex
 $ git branch -D branch_name
 
 # Remove remote branch
-$ git push origin --delete branch_name
+$ git push origin :branch_name
+
+# Remove remote refs from local
+$ git gc --prune=now
+$ git remote prune origin
 ```
 
 ### Cities
@@ -180,7 +184,7 @@ $ rspec spec
     pg_restore --host localhost --port 5432 --username "postgres" --dbname "coursavenue_development" --role "udrhnkjoqg1jmn" --no-password  --verbose "/Users/Nima/Downloads/a569.dump"
 
     pg_restore --host localhost --port 5432 --dbname "coursavenue_development" --role "udrhnkjoqg1jmn" --verbose /Users/Nima/Downloads/a532.dump -U postgres
-    
+
 ## Make a dump
 
     pg_dump --host localhost --port 5432 --username "postgres" --dbname "coursavenue_development" -f 20_fev.tar --format=t
@@ -223,3 +227,9 @@ Reinvoke all jobs :
 
 For CarrierWave ImageOptimizer
 brew install optipng jpegoptim
+
+## Weird bug
+
+    undefined method `dependency_digest' for #<Sprockets::StaticAsset:0x007f9c521cb290>
+
+rake tmp:cache:clear

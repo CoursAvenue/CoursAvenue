@@ -162,7 +162,7 @@ class DiscoveryPass < ActiveRecord::Base
       end
     end
 
-    amount
+    amount.to_d
   end
 
   # The remaining credit that will be at our disposal at the next renew.

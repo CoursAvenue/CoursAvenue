@@ -6,10 +6,10 @@ CoursAvenue::Application.load_tasks
 context "scheduler:participation_requests" do
 
   context 'For Admins' do
-    let (:accepted_participation_request)  { FactoryGirl.create(:participation_request, :accepted_state) }
+    let (:accepted_participation_request)   { FactoryGirl.create(:participation_request, :accepted_state) }
     let (:accepted_participation_request_2) { FactoryGirl.create(:participation_request, :accepted_state) }
-    let (:pending_participation_request)   { FactoryGirl.create(:participation_request, :pending_state) }
-    let (:pending_participation_request_2) { FactoryGirl.create(:participation_request, :pending_state) }
+    let (:pending_participation_request)    { FactoryGirl.create(:participation_request, :pending_state) }
+    let (:pending_participation_request_2)  { FactoryGirl.create(:participation_request, :pending_state) }
 
     describe "remind_admin_for_participation_requests_1" do
       it "sends an email for pending request the day after" do
@@ -67,16 +67,16 @@ context "scheduler:participation_requests" do
       end
     end
 
-    describe 'how_was_the_student' do
-      it 'sends an email day after the trial' do
-        accepted_participation_request.date   = Date.yesterday; accepted_participation_request.save
-        accepted_participation_request_2.date = 2.days.from_now; accepted_participation_request_2.save
-        pending_participation_request.date    = Date.yesterday; pending_participation_request.save
-        expect {
-          Rake::Task['scheduler:participation_requests:how_was_the_student'].invoke
-        }.to change { ActionMailer::Base.deliveries.count }.by(1)
-      end
-    end
+  #   describe 'how_was_the_student' do
+  #     it 'sends an email day after the trial' do
+  #       accepted_participation_request.date   = Date.yesterday; accepted_participation_request.save
+  #       accepted_participation_request_2.date = 2.days.from_now; accepted_participation_request_2.save
+  #       pending_participation_request.date    = Date.yesterday; pending_participation_request.save
+  #       expect {
+  #         Rake::Task['scheduler:participation_requests:how_was_the_student'].invoke
+  #       }.to change { ActionMailer::Base.deliveries.count }.by(1)
+  #     end
+  #   end
   end
 
   context 'For Users' do
@@ -132,8 +132,8 @@ context "scheduler:participation_requests" do
 
     describe 'how_was_the_trial_stage_1' do
       it 'sends an email 5 days after the trial ONLY if the user did not left a comment' do
-        accepted_participation_request.date   = 5.days.from_now; accepted_participation_request.save
-        accepted_participation_request_2.date = 2.days.from_now; accepted_participation_request_2.save
+        accepted_participation_request.date   = 5.days.ago; accepted_participation_request.save
+        accepted_participation_request_2.date = 2.days.ago; accepted_participation_request_2.save
         pending_participation_request.date    = Date.yesterday; pending_participation_request.save
         expect {
           Rake::Task['scheduler:participation_requests:how_was_the_trial_stage_1'].invoke
