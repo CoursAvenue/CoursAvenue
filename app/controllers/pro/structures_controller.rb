@@ -432,8 +432,8 @@ France
     pages = @admin.facebook_pages
 
     if @structure.facebook_url?
-      if pages.map(&:second).include?(@structure.facebook_url?)
-        pages << [ 'Autre', @structure.facebook_url ]
+      if pages.map(&:second).include?(@structure.facebook_url)
+        pages << [ 'Autre', @structure.facebook_url ] unless pages.empty?
       else
         pages << [ 'Autre', 'other' ]
       end
