@@ -22,7 +22,7 @@ deployment:
       - ./script/ci_heroku_deploy coursavenue:
           timeout: 1800
   staging:
-    branch: /^master/
+    branch: /^(master)/
     commands:
       - ./script/ci_heroku_deploy coursavenue-staging:
           timeout: 1800
