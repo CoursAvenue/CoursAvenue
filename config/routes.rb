@@ -568,6 +568,8 @@ CoursAvenue::Application.routes.draw do
   # ----------------------------------------- Static pages
   # ------------------------------------------------------
   # Pages
+  get 'oooh-yeah'                    => 'home#resolutions',          as: 'home_resolutions'
+
   get 'mon-compte'                    => 'home#redirect_to_account'
   get 'pourquoi-le-bon-cours',        to: 'redirect#why_coursavenue'
   get 'portes-ouvertes-cours-loisirs' => 'pages#jpo',                  as: 'pages_jpo'

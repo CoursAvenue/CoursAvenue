@@ -31,6 +31,23 @@ describe Structures::CommentsController do
       expect(assigns(:comment)).to be_persisted
     end
 
+    it 'creates a comment with a participation request' do
+      post :create, structure_id: structure.id,
+                    participation_request_id: FactoryGirl.create(:participation_request, structure: structure).id,
+                    comment: {
+                      rating:           4,
+                      commentable_type: 'Structure',
+                      commentable_id:    structure.id,
+                      author_name:       'Author name',
+                      title:             'Title',
+                      course_name:       'Course name',
+                      content:           'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,',
+                      email:             'random@test.com'
+                    }
+      response.should be_redirect
+      assigns(:comment).should be_persisted
+    end
+
     it 'creates a user' do
       post :create, structure_id: structure.id,
                     comment: {
