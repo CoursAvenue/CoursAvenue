@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Structure < ActiveRecord::Base
-    include Concerns::HstoreHelper
+  include Concerns::HstoreHelper
   include Concerns::ActiveHashHelper
   include Concerns::HasDeliveryStatus
   include Concerns::IdentityCacheFetchHelper
