@@ -38,7 +38,6 @@ class Participation < ActiveRecord::Base
   before_validation  :check_size
   before_save  :set_default_participation_for
 
-  after_save   :update_jpo_meta_datas
   after_save   :index_planning
 
   before_save  :set_waiting_list, unless: :canceled?
@@ -230,14 +229,6 @@ class Participation < ActiveRecord::Base
     else
       self.participation_for ||= 'participations.for.kids_and_adults'
     end
-  end
-
-  # Update meta datas related to JPOs on the associated structure
-  #
-  # @return nil
-  def update_jpo_meta_datas
-    self.structure.update_jpo_meta_datas
-    nil
   end
 
   # Update index related planning

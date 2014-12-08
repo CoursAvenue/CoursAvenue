@@ -7,23 +7,18 @@ class StructureSerializer < ActiveModel::Serializer
 
   attributes :id, :name, :slug, :comments_count, :logo_thumb_url, :logo_large_url,
               :data_url, :query_params, :structure_type, :highlighted_comment_title,
-              :premium, :has_promotion, :is_open_for_trial, :cities, :cover_media, :subjects,
+              :premium, :has_promotion, :is_open_for_trial, :cover_media, :subjects,
               :trial_courses_policy
 
   has_many :places,            serializer: PlaceSerializer
-  has_many :medias,            serializer: ShortSerializer
   has_many :preloaded_medias,  serializer: MediaSerializer
 
-  def medias
-    object.medias.cover_first.videos_first.limit((object.premium? ? 20 : Media::FREE_PROFIL_LIMIT))
-  end
-
   def preloaded_medias
-    object.medias.cover_first.videos_first.limit((object.premium? ? 20 : Media::FREE_PROFIL_LIMIT))
+    object.medias.cover_first.videos_first.limit((premium ? 20 : Media::FREE_PROFIL_LIMIT))
   end
 
   def cover_media
-    MediaSerializer.new(preloaded_medias.first) if preloaded_medias.first
+    MediaSerializer.new(preloaded_medias.first) if preloaded_medias.any?
   end
 
   def places
@@ -38,7 +33,7 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def highlighted_comment_title
-    truncate(object.highlighted_comment.try(:title), length: 60) if object.comments_count > 0 and object.premium?
+    truncate(object.highlighted_comment.try(:title), length: 60) if object.comments_count > 0 and premium
   end
 
   def structure_type
@@ -76,10 +71,6 @@ class StructureSerializer < ActiveModel::Serializer
 
   def premium
     object.premium?
-  end
-
-  def cities
-    object.places(include: :city).map(&:city).map(&:name).uniq.join(', ')
   end
 
   def is_open_for_trial

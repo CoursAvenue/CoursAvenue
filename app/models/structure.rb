@@ -102,7 +102,7 @@ class Structure < ActiveRecord::Base
                   :deletion_reasons, :deletion_reasons_text,
                   :phone_numbers_attributes, :places_attributes, :other_emails, :last_geocode_try,
                   :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason, :order_recipient, :delivery_email_status,
-                  :trial_courses_policy, :sleeping_structure
+                  :trial_courses_policy, :sleeping_structure, :premium
 
   accepts_nested_attributes_for :places,
                                  reject_if: :reject_places,
@@ -155,6 +155,8 @@ class Structure < ActiveRecord::Base
   after_save    :geocode_if_needs_to            unless Rails.env.test?
   after_save    :subscribe_to_crm               if Rails.env.production?
   after_touch   :regenerate_cached_profile_page if Rails.env.production?
+  after_touch   :set_premium
+  after_touch   :update_meta_datas
 
   ######################################################################
   # Scopes                                                             #
@@ -678,20 +680,9 @@ class Structure < ActiveRecord::Base
     self.audience_ids             = (self.plannings.collect(&:audience_ids) + self.courses.privates.collect(&:audience_ids)).flatten.uniq.sort.join(',')
     self.set_min_and_max_price
     compute_response_rate
-    # update_jpo_meta_datas
     self.save(validate: false)
   end
   handle_asynchronously :update_meta_datas
-
-
-  def update_jpo_meta_datas
-    self.open_course_plannings_nb = self.courses.active.open_courses.flat_map(&:plannings).length
-    self.open_course_nb           = self.courses.active.open_courses.count
-    self.open_course_names        = self.courses.active.open_courses.map(&:name).uniq.join(', ')
-    self.open_course_subjects     = self.courses.active.open_courses.flat_map(&:subjects).map(&:name).uniq.join(', ')
-    self.open_courses_open_places = self.courses.active.open_courses.flat_map(&:plannings).map(&:places_left).reduce(&:+)
-    self.save(validate: false)
-  end
 
   def set_min_and_max_price
     best_price           = prices.where(Price.arel_table[:type].not_eq('Price::Registration').and(Price.arel_table[:amount].gt(0))).order('amount ASC').first
@@ -874,22 +865,6 @@ class Structure < ActiveRecord::Base
   def subscription_plan
     subscription_plan = self.subscription_plans.order('created_at DESC').first
     return subscription_plan
-  end
-
-  # Tells wether or not the structure is premium
-  #
-  # @return Boolean
-  def premium
-    if self.subscription_plan.nil?
-      false
-    else
-      self.subscription_plan.active?
-    end
-  end
-
-  # Alias for premium
-  def premium?
-    self.premium
   end
 
   #
@@ -1232,7 +1207,22 @@ class Structure < ActiveRecord::Base
     end
   end
 
+  # TODO: Delete, method used for a migration
+  def self.update_premium_attribute
+    Structure.find_each do |structure|
+      structure.send :set_premium
+    end
+  end
+
   private
+
+  def set_premium
+    if self.subscription_plan.nil?
+      self.update_column :premium, false
+    else
+      self.update_column :premium, self.subscription_plan.active?
+    end
+  end
 
   # Strip name if exists to prevent from name starting by a space
   #

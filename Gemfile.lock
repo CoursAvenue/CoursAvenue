@@ -778,7 +778,6 @@ DEPENDENCIES
   rack-utf8_sanitizer (~> 1.1.0)
   rails (= 4.1.8)
   rails-dev-boost!
-  rails-observers (~> 0.1.2)
   rails_12factor (~> 0.0.3)
   rmagick (~> 2.13.3)
   roadie (~> 3.0.1)
