@@ -102,7 +102,7 @@ class Structure < ActiveRecord::Base
                   :deletion_reasons, :deletion_reasons_text,
                   :phone_numbers_attributes, :places_attributes, :other_emails, :last_geocode_try,
                   :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason, :order_recipient, :delivery_email_status,
-                  :trial_courses_policy, :sleeping_structure, :premium
+                  :trial_courses_policy, :sleeping_structure, :premium, :cities_text
 
   accepts_nested_attributes_for :places,
                                  reject_if: :reject_places,
@@ -157,6 +157,7 @@ class Structure < ActiveRecord::Base
   after_touch   :regenerate_cached_profile_page if Rails.env.production?
   after_touch   :set_premium
   after_touch   :update_meta_datas
+  after_touch   :update_cities_text
 
   ######################################################################
   # Scopes                                                             #
@@ -1208,6 +1209,11 @@ class Structure < ActiveRecord::Base
   end
 
   private
+
+  def update_cities_text
+    self.update_column :cities_text, self.places.map(&:city).map(&:name).uniq.join(', ')
+  end
+  handle_asynchronously :update_cities_text
 
   def set_premium
     if self.subscription_plan.nil?
