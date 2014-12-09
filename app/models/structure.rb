@@ -414,8 +414,8 @@ class Structure < ActiveRecord::Base
     return if self.main_contact.nil? or self.is_sleeping?
     if self.main_contact.monday_email_opt_in?
       if self.update_email_status.present?
-        self.update_column :last_email_sent_at, Time.now
-        self.update_column :last_email_sent_status, self.email_status
+        update_column :last_email_sent_at, Time.now
+        update_column :last_email_sent_status, email_status
         AdminMailer.delay.send(self.email_status.to_sym, self)
       end
     end
@@ -463,7 +463,7 @@ class Structure < ActiveRecord::Base
     else
       email_status = nil
     end
-    self.update_column :email_status, email_status
+    update_column :email_status, email_status
     return email_status
   end
 
@@ -490,10 +490,10 @@ class Structure < ActiveRecord::Base
   end
 
   def update_comments_count
-    if self.comments.accepted.count != self.comments_count
-      self.update_column :comments_count, self.comments.accepted.count
-      self.update_column :updated_at, Time.now
-      self.index
+    if comments.accepted.count != comments_count
+      update_column :comments_count, comments.accepted.count
+      update_column :updated_at, Time.now
+      index
     end
   end
 
@@ -522,7 +522,7 @@ class Structure < ActiveRecord::Base
   end
 
   def has_admin?
-    self.main_contact and self.main_contact.persisted?
+    main_contact and main_contact.persisted?
   end
 
   def main_contact
@@ -530,7 +530,7 @@ class Structure < ActiveRecord::Base
   end
 
   def address
-    "#{self.street}, #{self.city.name}"
+    "#{street}, #{city.name}"
   end
 
   def parent_subjects
@@ -538,13 +538,13 @@ class Structure < ActiveRecord::Base
   end
 
   def contact_name
-    if self.admins.any?
-      self.admins.first.name
+    if admins.any?
+      admins.first.name
     end
   end
 
   def description_for_meta
-    self.description.gsub(/\r\n\r\n/, ' ').html_safe if self.description
+    description.gsub(/\r\n\r\n/, ' ').html_safe if description
   end
 
   def independant?
@@ -553,14 +553,14 @@ class Structure < ActiveRecord::Base
 
   def activate!
     self.active = true
-    self.save
-    self.places.each { |place| place.index }
+    save
+    places.each { |place| place.index }
   end
 
   def disable!
     self.active = false
-    self.save
-    self.courses.each do |course|
+    save
+    courses.each do |course|
       course.active = false
       course.save
     end
@@ -609,14 +609,14 @@ class Structure < ActiveRecord::Base
   end
 
   def has_pending_comments?
-    self.comments.pending.count > 0
+    comments.pending.count > 0
   end
 
   # Tell if the profile is complete
   #
   # @return Boolean
   def profile_completed?
-    self.logo? and self.description.present?
+    logo? and description.present?
   end
 
   def has_installed_widget?
@@ -630,10 +630,10 @@ class Structure < ActiveRecord::Base
   #
   # @return Media
   def side_cover_image
-    if self.medias.videos.any?
-      self.medias.images.cover.first
+    if medias.videos.any?
+      medias.images.cover.first
     else
-      self.medias.images.reject{|image| image.cover? }.first
+      medias.images.reject{|image| image.cover? }.first
     end
   end
 
@@ -641,13 +641,13 @@ class Structure < ActiveRecord::Base
   #
   # @return Media
   def cover_image
-    self.medias.images.cover.first || self.medias.images.first
+    medias.images.cover.first || medias.images.first
   end
 
   # Simulating relations
   def audiences
     return [] unless audience_ids.present?
-    self.audience_ids.map{ |audience_id| Audience.find(audience_id) }
+    audience_ids.map{ |audience_id| Audience.find(audience_id) }
   end
 
   def audience_ids
@@ -657,7 +657,7 @@ class Structure < ActiveRecord::Base
 
   def levels
     return [] unless level_ids.present?
-    self.level_ids.map{ |level_id| Level.find(level_id) }
+    level_ids.map{ |level_id| Level.find(level_id) }
   end
 
   def level_ids
@@ -669,18 +669,18 @@ class Structure < ActiveRecord::Base
   # Meta data update                                                   #
   ######################################################################
   def update_meta_datas
-    self.plannings_count          = self.plannings.visible.future.count
-    self.gives_group_courses      = self.courses.select{|course| !course.is_individual? }.any?
-    self.gives_individual_courses = self.courses.select(&:is_individual?).any?
-    self.has_promotion            = self.courses.detect(&:has_promotion?).present?
-    self.has_free_trial_course    = self.courses.detect(&:has_free_trial_lesson?).present?
-    self.course_names              = self.courses.map(&:name).uniq.join(', ')
+    self.plannings_count          = plannings.visible.future.count
+    self.gives_group_courses      = courses.select{|course| !course.is_individual? }.any?
+    self.gives_individual_courses = courses.select(&:is_individual?).any?
+    self.has_promotion            = courses.detect(&:has_promotion?).present?
+    self.has_free_trial_course    = courses.detect(&:has_free_trial_lesson?).present?
+    self.course_names             = courses.map(&:name).uniq.join(', ')
     # Store level and audiences ids as coma separated string values: "1,3,5"
-    self.level_ids                = (self.plannings.collect(&:level_ids) + self.courses.privates.collect(&:level_ids)).flatten.uniq.sort.join(',')
-    self.audience_ids             = (self.plannings.collect(&:audience_ids) + self.courses.privates.collect(&:audience_ids)).flatten.uniq.sort.join(',')
-    self.set_min_and_max_price
+    self.level_ids                = (plannings.collect(&:level_ids) + courses.privates.collect(&:level_ids)).flatten.uniq.sort.join(',')
+    self.audience_ids             = (plannings.collect(&:audience_ids) + courses.privates.collect(&:audience_ids)).flatten.uniq.sort.join(',')
+    set_min_and_max_price
     compute_response_rate
-    self.save(validate: false)
+    save(validate: false)
   end
   handle_asynchronously :update_meta_datas
 
@@ -706,7 +706,7 @@ class Structure < ActiveRecord::Base
   # TODO: use cache?
   # @return Boolean
   def parisian?
-    return self.places.map(&:parisian?).include? true
+    return places.map(&:parisian?).include? true
   end
 
 
@@ -714,7 +714,7 @@ class Structure < ActiveRecord::Base
   #
   # @return Boolean
   def has_open_course_plannings?
-    self.courses.open_courses.each do |course|
+    courses.open_courses.each do |course|
       return true if course.plannings.any?
     end
     return false
@@ -734,14 +734,14 @@ class Structure < ActiveRecord::Base
 
     tag_list = user_profile.tags.map(&:name)
     tag_list = tag_list + tags
-    self.tag(user_profile, with: tag_list.uniq.join(','), on: :tags)
+    tag(user_profile, with: tag_list.uniq.join(','), on: :tags)
     user_profile.delay.index # If we index right away, it won't index the last tags added...
   end
 
   def create_tag tag_name
-    tag     = self.owned_tags.build name: tag_name
+    tag     = owned_tags.build name: tag_name
     tag.save
-    tagging = self.owned_taggings.build
+    tagging = owned_taggings.build
     tagging.context = 'tags'
     tagging.tag     =  tag
     return tagging.save
@@ -755,18 +755,18 @@ class Structure < ActiveRecord::Base
   #
   # @return nil
   def create_or_update_user_profile_for_user(user, tag=nil)
-    user_profile = self.user_profiles.where(email: user.email).first_or_create
+    user_profile = user_profiles.where(email: user.email).first_or_create
     user_profile.first_name = user.first_name   if user_profile.first_name.nil?
     user_profile.last_name  = user.last_name    if user_profile.last_name.nil?
     user_profile.phone      = user.phone_number if user_profile.phone.nil?
-    self.add_tags_on(user_profile, tag) if tag
+    add_tags_on(user_profile, tag) if tag
   end
 
   # Total nb JPO places given by the structure
   #
   # @return Integer nb_place
   def total_jpo_places
-    self.courses.open_courses.map do |course|
+    courses.open_courses.map do |course|
       course.nb_participants_max * course.plannings.count
     end.reduce(&:+)
   end
@@ -775,7 +775,7 @@ class Structure < ActiveRecord::Base
   #
   # @return Integer nb_place
   def total_jpo_places_left
-    self.courses.open_courses.map do |course|
+    courses.open_courses.map do |course|
       course.plannings.map(&:places_left).reduce(&:+) || 0
     end.reduce(&:+)
   end
@@ -802,7 +802,7 @@ class Structure < ActiveRecord::Base
     number_of_conversations = conversations.length
     if number_of_conversations == 0
       self.response_rate = nil
-      self.save
+      save
       return nil
     else
       # Select conversations that have :
@@ -817,8 +817,8 @@ class Structure < ActiveRecord::Base
         end
       end
       self.response_rate = ((number_of_conversations_with_answers.to_f / number_of_conversations.to_f) * 100).round
-      self.save
-      return self.response_rate
+      save
+      return response_rate
     end
   end
 
@@ -830,7 +830,7 @@ class Structure < ActiveRecord::Base
     conversations      = main_contact.mailbox.conversations.where(subject: I18n.t(Mailboxer::Label::INFORMATION.name))
     if conversations.length == 0
       self.response_time = nil
-      self.save
+      save
       return nil
     else
       # Select conversations that have :
@@ -854,8 +854,8 @@ class Structure < ActiveRecord::Base
         delta_hours << delta if delta
       end
       self.response_time = (delta_hours.reduce(&:+).to_f / (delta_hours.length.to_f)).round if delta_hours.any?
-      self.save
-      return self.response_time
+      save
+      return response_time
     end
   end
 
@@ -863,7 +863,7 @@ class Structure < ActiveRecord::Base
   #
   # @return SubscriptionPlan or nil if there is no current SubscriptionPlan
   def subscription_plan
-    subscription_plan = self.subscription_plans.order('created_at DESC').first
+    subscription_plan = subscription_plans.order('created_at DESC').first
     return subscription_plan
   end
 
@@ -892,7 +892,7 @@ class Structure < ActiveRecord::Base
   # @return Boolean if saved or not
   def highlight_comment! comment
     self.highlighted_comment_id = comment.id
-    self.save
+    save
   end
 
   # Return wether the structure has any premium prices
@@ -930,7 +930,7 @@ class Structure < ActiveRecord::Base
   #
   # @return The Metric
   def metrics
-    Metric.where(structure_id: self.id)
+    Metric.where(structure_id: id)
   end
 
   #
@@ -977,60 +977,60 @@ class Structure < ActiveRecord::Base
   # @return Integer
   def compute_search_score(force=false) # TODO when do we have to compute score ?
     # Return already stored search score if it has been computed recently
-    if !force and self.search_score.present? and self.search_score_updated_at.present? and Date.parse(self.search_score_updated_at.to_s) > Date.yesterday
-      return self.search_score
+    if !force and search_score.present? and search_score_updated_at.present? and Date.parse(search_score_updated_at.to_s) > Date.yesterday
+      return search_score
     else
       score = 0
       ## Medias
-      if self.premium? and self.medias.count > 1
+      if premium? and medias.count > 1
         score += (2 * SEARCH_SCORE_COEF[:medias])
-      elsif (!self.premium? and self.medias.count > 1) or self.medias.count == 1
+      elsif (!premium? and medias.count > 1) or medias.count == 1
         score += (1 * SEARCH_SCORE_COEF[:medias])
       end
       ## Plannings
-      if self.courses.detect(&:is_published?)
-        if self.courses.select(&:is_published?).detect(&:price_group)
+      if courses.detect(&:is_published?)
+        if courses.select(&:is_published?).detect(&:price_group)
           score += (2 * SEARCH_SCORE_COEF[:plannings])
         else
           score += (1 * SEARCH_SCORE_COEF[:plannings])
         end
       end
       ## Ratings
-      if self.comments_count > 15
+      if comments_count > 15
         score += (3 * SEARCH_SCORE_COEF[:ratings])
-      elsif self.comments_count > 5
+      elsif comments_count > 5
         score += (2 * SEARCH_SCORE_COEF[:ratings])
-      elsif self.comments_count > 0
+      elsif comments_count > 0
         score += (1 * SEARCH_SCORE_COEF[:ratings])
       end
       ## Logo
-      if self.logo.present?
+      if logo.present?
         score += (1 * SEARCH_SCORE_COEF[:logo])
       end
       ## External_links
-      if self.premium? and (self.facebook_url.present? or self.website.present?)
+      if premium? and (facebook_url.present? or website.present?)
         score += (1 * SEARCH_SCORE_COEF[:external_links])
       end
       ## Response_rate
-      if self.response_rate.nil? or self.response_rate.to_i >= 80
+      if response_rate.nil? or response_rate.to_i >= 80
         score += (2 * SEARCH_SCORE_COEF[:response_rate])
-      elsif self.response_rate and self.response_rate.to_i >= 50
+      elsif response_rate and response_rate.to_i >= 50
         score += (1 * SEARCH_SCORE_COEF[:response_rate])
       end
       ## Response_time
-      if self.response_time.nil? or self.response_time.to_i < 24
+      if response_time.nil? or response_time.to_i < 24
         score += (2 * SEARCH_SCORE_COEF[:response_time])
-      elsif self.response_time and self.response_time.to_i < 120
+      elsif response_time and response_time.to_i < 120
         score += (1 * SEARCH_SCORE_COEF[:response_time])
       end
       ## Promotions
-      if self.premium? and self.prices.select{|p| p.promo_amount.present?}.any?
+      if premium? and prices.select{|p| p.promo_amount.present?}.any?
         score += (2 * SEARCH_SCORE_COEF[:promotions])
       end
 
       self.search_score            = score
       self.search_score_updated_at = Time.now
-      self.save(validate: false)
+      save(validate: false)
       return score
     end
   end
@@ -1041,9 +1041,9 @@ class Structure < ActiveRecord::Base
   def wake_up!
     self.is_sleeping = false
     self.active      = true
-    self.save(validate: false)
-    self.delay.index
-    self.sleeping_structure.destroy if self.sleeping_structure
+    save(validate: false)
+    delay.index
+    sleeping_structure.destroy if sleeping_structure
     AdminMailer.delay.you_have_control_of_your_account(self)
     true
   end
@@ -1054,63 +1054,26 @@ class Structure < ActiveRecord::Base
   #
   # @return Boolean saved or not
   def return_to_sleeping_mode!
-    # initialize_sleeping_attributes
 
-    self.phone_numbers.map(&:destroy)
-    self.sleeping_structure.phone_numbers.each do |phone|
-      self.phone_numbers.create(number: phone.number, phone_type: phone.phone_type)
+    phone_numbers.map(&:destroy)
+    sleeping_structure.phone_numbers.each do |phone|
+      phone_numbers.create(number: phone.number, phone_type: phone.phone_type)
     end
 
-    self.places        = self.sleeping_structure.places.map(&:dup)
-    self.subjects      = root_subjects_from_string(self.sleeping_structure) + child_subjects_from_string(self.sleeping_structure)
-    self.logo          = self.sleeping_structure.logo
+    self.places        = sleeping_structure.places.map(&:dup)
+    self.subjects      = root_subjects_from_string(sleeping_structure) + child_subjects_from_string(sleeping_structure)
+    self.logo          = sleeping_structure.logo
 
-    self.teachers.map(&:destroy)
-    self.courses.map(&:destroy)
-    self.price_groups.map(&:destroy)
-    self.medias.map(&:destroy)
-    AdminMailer.delay.you_dont_have_control_of_your_account(self, self.main_contact.email)
-    self.main_contact.delete
+    teachers.map(&:destroy)
+    courses.map(&:destroy)
+    price_groups.map(&:destroy)
+    medias.map(&:destroy)
+    AdminMailer.delay.you_dont_have_control_of_your_account(self, main_contact.email)
+    main_contact.delete
 
-    self.sleeping_structure.destroy
+    sleeping_structure.destroy
 
-    self.save
-  end
-
-  # Put sleeping attributes to self.attributes for show purpose
-  def initialize_sleeping_attributes
-    return if self.sleeping_attributes.nil?
-    # Make sure to not trash `sleeping_attributes attribute.
-    _sleeping_attributes     = self.sleeping_attributes
-    self.attributes          = self.sleeping_attributes
-    self.sleeping_attributes = _sleeping_attributes
-  end
-
-  # A sleeping profile is a non activated (with no admin) profile
-  # All attribute that is imported when creating this profile is serialized and stored
-  # in the `sleeping attributes` column which takes embed phone_numbers and places
-  # Return Boolean if saved or not
-  def create_sleeping_attributes
-    _sleeping_attributes = self.attributes
-    _sleeping_attributes[:phone_numbers] = self.phone_numbers.map(&:attributes)
-    _sleeping_attributes[:places]        = self.places.map(&:attributes)
-    self.sleeping_attributes             = _sleeping_attributes
-    self.save
-  end
-
-  # It is used mainly when the profile is sleeping and we want to show its
-  # information on www.CoursAveoue
-  #
-  # @return a hash with the sleeping attributes of the profile
-  def sleeping_attributes
-    if read_attribute(:sleeping_attributes).nil?
-      _sleeping_attributes = self.attributes
-      _sleeping_attributes[:phone_numbers] = self.phone_numbers.map(&:attributes)
-      _sleeping_attributes[:places]        = self.places.map(&:attributes)
-      _sleeping_attributes
-    else
-      read_attribute(:sleeping_attributes)
-    end
+    save
   end
 
   # If admin wanted to go premium, we send promo_code the day later only if
@@ -1119,11 +1082,11 @@ class Structure < ActiveRecord::Base
   # @return Boolean
   def send_promo_code!
     return if self.premium? or self.promo_code_sent?
-    annual_promo_code  = PromotionCode.create(name: "-10% sur l'abonnement annuel", code_id: "GOPREMIUMANNUEL_#{self.id}", promo_amount: 47, plan_type: 'yearly', expires_at: Date.tomorrow ,max_usage_nb: 1, apply_until: Date.tomorrow)
-    monthyl_promo_code = PromotionCode.create(name: "-20% sur le 1er mois d'abonnement", code_id: "GOPREMIUM_#{self.id}", promo_amount: 9, plan_type: 'monthly', expires_at: Date.tomorrow ,max_usage_nb: 1, apply_until: Date.tomorrow)
+    annual_promo_code  = PromotionCode.create(name: "-10% sur l'abonnement annuel", code_id: "GOPREMIUMANNUEL_#{id}", promo_amount: 47, plan_type: 'yearly', expires_at: Date.tomorrow ,max_usage_nb: 1, apply_until: Date.tomorrow)
+    monthyl_promo_code = PromotionCode.create(name: "-20% sur le 1er mois d'abonnement", code_id: "GOPREMIUM_#{id}", promo_amount: 9, plan_type: 'monthly', expires_at: Date.tomorrow ,max_usage_nb: 1, apply_until: Date.tomorrow)
     AdminMailer.delay.premium_follow_up_with_promo_code(self, monthyl_promo_code, annual_promo_code)
     self.promo_code_sent = true
-    self.save(validate: false)
+    save(validate: false)
     true
   end
   handle_asynchronously :send_promo_code!, :run_at => Proc.new { Date.tomorrow + 9.hours }
@@ -1133,7 +1096,7 @@ class Structure < ActiveRecord::Base
   # @return Subject at depth 0
   def dominant_root_subject
     Rails.cache.fetch ["Structure#dominant_root_subject", self] do
-      active_courses = self.courses.includes(:subjects).active
+      active_courses = courses.includes(:subjects).active
       if active_courses.any? and (_subjects = active_courses.flat_map{ |c| c.subjects }).any?
         _subjects.group_by{ |subject| subject.root }.values.max_by(&:size).first.root
       else
@@ -1166,14 +1129,14 @@ class Structure < ActiveRecord::Base
   #
   # @return a new Structure
   def duplicate_structure
-    unless self.sleeping_structure.present?
-      sleeping_structure               = self.dup
+    unless sleeping_structure.present?
+      sleeping_structure = dup
 
-      self.phone_numbers.each do |phone|
+      phone_numbers.each do |phone|
         sleeping_structure.phone_numbers.build(number: phone.number, phone_type: phone.phone_type)
       end
 
-      sleeping_structure.places        = self.places.map(&:dup)
+      sleeping_structure.places        = places.map(&:dup)
       sleeping_structure.subjects      = root_subjects_from_string(self) + child_subjects_from_string(self)
 
       sleeping_structure.is_sleeping   = true
@@ -1183,37 +1146,29 @@ class Structure < ActiveRecord::Base
       self.sleeping_structure          = sleeping_structure
       self.active = false
 
-      self.save
+      save
     end
 
-    self.sleeping_structure
+    sleeping_structure
   end
 
   def has_trial_courses?
-    self.courses.open_for_trial.any?
+    courses.open_for_trial.any?
   end
 
   def is_open_for_trial?
     return Rails.cache.fetch ['Structure#is_open_for_trial?', self] do
-      self.courses.open_for_trial.any?
+      courses.open_for_trial.any?
     end
-  end
-
-  def self.update_course_subjects_string
-    Structure.find_each(&:update_course_subjects_string)
-  end
-
-  def self.update_premium_attribute
-    Structure.find_each{|s| s.delay.send(:set_premium) }
   end
 
   private
 
   def set_premium
-    if self.subscription_plan.nil?
-      self.update_column :premium, false
+    if subscription_plan.nil?
+      update_column :premium, false
     else
-      self.update_column :premium, self.subscription_plan.active?
+      update_column :premium, subscription_plan.active?
     end
   end
 
@@ -1221,7 +1176,7 @@ class Structure < ActiveRecord::Base
   #
   # @return name
   def strip_name
-    self.name = self.name.strip if self.name
+    self.name = name.strip if name
   end
 
   def slug_candidates
@@ -1238,14 +1193,14 @@ class Structure < ActiveRecord::Base
   end
 
   def subscribe_to_crm
-    CrmSync.update(self) if self.main_contact and Rails.env.production?
+    CrmSync.update(self) if main_contact and Rails.env.production?
   end
   handle_asynchronously :subscribe_to_crm
 
   def encode_uris
-    self.website      = URI.encode(URI.decode(self.website))      if website.present? and website_changed?
-    self.facebook_url = URI.encode(URI.decode(self.facebook_url)) if facebook_url.present? and facebook_url_changed?
-    self.widget_url   = URI.encode(URI.decode(self.widget_url))   if widget_url.present? and widget_url_changed?
+    self.website      = URI.encode(URI.decode(website))      if website.present? and website_changed?
+    self.facebook_url = URI.encode(URI.decode(facebook_url)) if facebook_url.present? and facebook_url_changed?
+    self.widget_url   = URI.encode(URI.decode(widget_url))   if widget_url.present? and widget_url_changed?
   end
 
   def should_generate_new_friendly_id?
@@ -1258,10 +1213,10 @@ class Structure < ActiveRecord::Base
   # @return errors
   def subject_parent_and_children
     # Not using scope because subject are not saved in tests and that can fail
-    if self.subjects.select{|subject| subject.depth == 0}.empty?
+    if subjects.select{|subject| subject.depth == 0}.empty?
       errors.add(:subjects,          "Vous devez sélectionner au moins une discipline")
     end
-    if self.subjects.select{|subject| subject.depth == 2}.empty?
+    if subjects.select{|subject| subject.depth == 2}.empty?
       errors.add(:children_subjects, "Vous devez sélectionner au moins une sous discipline")
     end
   end
@@ -1270,13 +1225,13 @@ class Structure < ActiveRecord::Base
   def geocode_if_needs_to
     # Don't try to geocode if it has failed less than 5 seconds earlier.
     # It might be because of Google query limit
-    return nil if self.last_geocode_try and (Time.now - self.last_geocode_try) < 5 # 5 seconds
+    return nil if last_geocode_try and (Time.now - last_geocode_try) < 5 # 5 seconds
     if latitude.nil? or longitude.nil?
-      self.update_column :last_geocode_try, Time.now
-      self.geocode
+      update_column :last_geocode_try, Time.now
+      geocode
       # Save only if lat and lng have been set.
       # Prevent from infinite trying to save
-      self.save(validate: false) if latitude.present? and longitude.present?
+      save(validate: false) if latitude.present? and longitude.present?
     end
   end
 
@@ -1284,7 +1239,7 @@ class Structure < ActiveRecord::Base
   #
   # @return nil
   def sanatize_description
-    self.description = StringHelper.sanatize(self.description) if self.description.present?
+    self.description = StringHelper.sanatize(description) if description.present?
     nil
   end
 
@@ -1294,14 +1249,14 @@ class Structure < ActiveRecord::Base
   # @return nil
   def set_default_place_attributes
     place = places.first
-    self.update_column :street,   place.street   if place
-    self.update_column :zip_code, place.zip_code if place
-    self.update_column :city_id,  place.city.id  if place
+    update_column :street,   place.street   if place
+    update_column :zip_code, place.zip_code if place
+    update_column :city_id,  place.city.id  if place
     nil
   end
 
   def reject_places attributes
-    self.persisted? and attributes[:zip_code].blank?
+    persisted? and attributes[:zip_code].blank?
   end
 
   def reject_phone_number attributes
@@ -1317,9 +1272,9 @@ class Structure < ActiveRecord::Base
   #
   # @return nil
   def no_contacts_in_name
-    return nil if self.name.nil?
-    if self.name.match(/((?:[-a-z0-9]+\.)+[a-z]{2,4})(?: |\Z|,)/i) or self.name.match(/ point com( |$)/i)
-      self.errors.add :name, "Le nom ne peut pas contenir votre site internet"
+    return nil if name.nil?
+    if name.match(/((?:[-a-z0-9]+\.)+[a-z]{2,4})(?: |\Z|,)/i) or name.match(/ point com( |$)/i)
+      errors.add :name, "Le nom ne peut pas contenir votre site internet"
     end
     nil
   end
@@ -1333,8 +1288,8 @@ class Structure < ActiveRecord::Base
   #
   # @return nil
   def update_open_for_trial_courses_if_neesds
-    if self.trial_courses_policy_changed? and self.trial_courses_policy.blank?
-      self.courses.open_for_trial.map{ |c| c.is_open_for_trial = false; c.save }
+    if trial_courses_policy_changed? and trial_courses_policy.blank?
+      courses.open_for_trial.map{ |c| c.is_open_for_trial = false; c.save }
     end
     nil
   end
