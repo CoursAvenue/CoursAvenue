@@ -1199,6 +1199,14 @@ class Structure < ActiveRecord::Base
     end
   end
 
+  def self.update_course_subjects_string
+    Structure.find_each(&:update_course_subjects_string)
+  end
+
+  def self.update_premium_attribute
+    Structure.find_each{|s| s.delay.send(:set_premium) }
+  end
+
   private
 
   def set_premium
