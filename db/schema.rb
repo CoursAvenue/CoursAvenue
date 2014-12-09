@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141208162828) do
+ActiveRecord::Schema.define(version: 20141209170021) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -699,6 +699,9 @@ ActiveRecord::Schema.define(version: 20141208162828) do
     t.integer  "structure_id"
     t.boolean  "visible",               default: true
     t.boolean  "is_in_foreign_country", default: false
+    t.string   "address"
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
   add_index "plannings", ["audience_ids"], name: "index_plannings_on_audience_ids", using: :btree
@@ -926,6 +929,7 @@ ActiveRecord::Schema.define(version: 20141208162828) do
     t.integer  "sleeping_structure_id"
     t.text     "course_subjects_string"
     t.boolean  "premium"
+    t.string   "cities_text"
   end
 
   add_index "structures", ["slug"], name: "index_structures_on_slug", unique: true, using: :btree
