@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe "structures/comments/new.html.haml" do
   let(:structure) { FactoryGirl.create(:structure) }

@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe Pro::CitiesController do
   context 'not connected' do

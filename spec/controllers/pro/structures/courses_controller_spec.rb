@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe Pro::Structures::CoursesController do
   let(:admin) { FactoryGirl.create(:admin) }
