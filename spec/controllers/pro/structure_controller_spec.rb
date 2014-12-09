@@ -118,8 +118,9 @@ describe Pro::StructuresController do
     # end
 
     describe "GET #index" do
-      it 'is forbidden' do
-        expect { get :index }.to raise_error(CanCan::AccessDenied)
+      it "'s forbidden" do
+        get :index
+        expect(response).to be_redirect
       end
     end
 
