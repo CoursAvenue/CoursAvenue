@@ -1,5 +1,5 @@
 ruby:
   enabled: true
-  config: config/hound.yml
+  config_file: config/hound.yml
 java_script:
   enabled: true
