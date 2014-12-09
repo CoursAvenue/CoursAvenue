@@ -6,6 +6,7 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
         template: Module.templateDirname() + 'comments_collection_view',
         itemViewContainer: '[data-type=container]',
 
+
         initialize: function initialize (options) {
             this.about = options.about;
             this.pagination_bottom = new CoursAvenue.Views.PaginationToolView({});
@@ -17,6 +18,10 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
         onRender: function onRender () {
             this.$('[data-type="bottom-pagination-tool"]').append(this.pagination_bottom.el);
             this.$('[data-behavior="lazy-load"]').lazyload();
+            if (this.collection.length == 0) {
+                this.$('[data-empty-comments]').removeClass('hidden')
+                this.$('[data-not-empty-comments]').hide();
+            }
         },
 
         announcePaginatorUpdated: function announcePaginatorUpdated () {

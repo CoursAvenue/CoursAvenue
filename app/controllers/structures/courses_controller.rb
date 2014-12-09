@@ -13,7 +13,7 @@ class Structures::CoursesController < ApplicationController
     @courses.each do |course|
       @json_courses << CourseSerializer.new(course, {
         root: false,
-	structure: @structure
+        structure: @structure
       })
     end
     respond_to do |format|

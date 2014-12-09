@@ -3,15 +3,12 @@
         <div class="flush delta line-height-1-7 f-weight-bold">Avis</div>
     </div>
     <div class="panel__body soft">
-        {{#if has_comments}}
-            <p class="text--center">
-              <a href="{{ new_comments_path }}" target="_blank" rel="nofollow">Déposer mon avis</a>
-            </p>
-        {{else}}
-          <div data-empty-comments>
-            {{ capitalize about }} n'a encore aucun avis : <a href="{{ new_comments_path }}" target="_blank" rel="nofollow">déposer mon avis</a>.
-          </div>
-        {{/if}}
+        <p class="text--center" data-not-empty-comments>
+          <a href="{{ new_comments_path }}" target="_blank" rel="nofollow">Déposer mon avis</a>
+        </p>
+        <div data-empty-comments class="hidden">
+          {{ capitalize about }} n'a encore aucun avis : <a href="{{ new_comments_path }}" target="_blank" rel="nofollow">déposer mon avis</a>.
+        </div>
         <article class="tab-pane active hard {{#unless has_comments}}hidden{{/unless}}" data-type="container">
         </article>
         <div class="push--bottom {{#unless has_comments}}hidden{{/unless}}" data-type="bottom-pagination-tool"></div>
