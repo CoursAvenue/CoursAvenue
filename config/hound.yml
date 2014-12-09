@@ -1,0 +1,8 @@
+# All options: https://github.com/bbatsov/rubocop/blob/master/config/enabled.yml
+# Default option values: https://github.com/thoughtbot/hound/blob/master/config/style_guides/ruby.yml
+
+Style/AndOr:
+  Enabled: false
+
+Style/StringLiterals:
+  Enabled: false

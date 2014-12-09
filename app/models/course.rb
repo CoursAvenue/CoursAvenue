@@ -46,6 +46,7 @@ class Course < ActiveRecord::Base
   scope :without_open_courses,        -> { where.not( type: 'Course::Open' ) }
   scope :open_courses,                -> { where( type: 'Course::Open' ) }
   scope :open_for_trial,              -> { where( is_open_for_trial: true ) }
+  scope :not_open_for_trial,          -> { where( arel_table[:is_open_for_trial].eq(false).or(arel_table[:is_open_for_trial].eq(nil)) ) }
 
   ######################################################################
   # Validations                                                        #
