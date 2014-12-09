@@ -416,8 +416,8 @@ class Structure < ActiveRecord::Base
     return if self.main_contact.nil? or self.is_sleeping?
     if self.main_contact.monday_email_opt_in?
       if self.update_email_status.present?
-        self.update_column :last_email_sent_at, Time.now
-        self.update_column :last_email_sent_status, self.email_status
+        update_column :last_email_sent_at, Time.now
+        update_column :last_email_sent_status, self.email_status
         AdminMailer.delay.send(self.email_status.to_sym, self)
       end
     end
@@ -465,7 +465,7 @@ class Structure < ActiveRecord::Base
     else
       email_status = nil
     end
-    self.update_column :email_status, email_status
+    update_column :email_status, email_status
     return email_status
   end
 
@@ -493,8 +493,8 @@ class Structure < ActiveRecord::Base
 
   def update_comments_count
     if self.comments.accepted.count != self.comments_count
-      self.update_column :comments_count, self.comments.accepted.count
-      self.update_column :updated_at, Time.now
+      update_column :comments_count, self.comments.accepted.count
+      update_column :updated_at, Time.now
       self.index
     end
   end
@@ -1212,15 +1212,15 @@ class Structure < ActiveRecord::Base
   private
 
   def update_cities_text
-    self.update_column :cities_text, places.map(&:city).map(&:name).uniq.join(', ')
+    update_column :cities_text, places.map(&:city).map(&:name).uniq.join(', ')
   end
   handle_asynchronously :update_cities_text
 
   def set_premium
     if self.subscription_plan.nil?
-      self.update_column :premium, false
+      update_column :premium, false
     else
-      self.update_column :premium, self.subscription_plan.active?
+      update_column :premium, self.subscription_plan.active?
     end
   end
 
@@ -1279,7 +1279,7 @@ class Structure < ActiveRecord::Base
     # It might be because of Google query limit
     return nil if self.last_geocode_try and (Time.now - self.last_geocode_try) < 5 # 5 seconds
     if latitude.nil? or longitude.nil?
-      self.update_column :last_geocode_try, Time.now
+      update_column :last_geocode_try, Time.now
       self.geocode
       # Save only if lat and lng have been set.
       # Prevent from infinite trying to save
@@ -1301,9 +1301,9 @@ class Structure < ActiveRecord::Base
   # @return nil
   def set_default_place_attributes
     place = places.first
-    self.update_column :street,   place.street   if place
-    self.update_column :zip_code, place.zip_code if place
-    self.update_column :city_id,  place.city.id  if place
+    update_column :street,   place.street   if place
+    update_column :zip_code, place.zip_code if place
+    update_column :city_id,  place.city.id  if place
     nil
   end
 
