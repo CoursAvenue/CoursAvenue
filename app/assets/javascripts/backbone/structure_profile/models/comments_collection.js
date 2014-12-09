@@ -3,30 +3,30 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
 
     Module.CommentsCollection = CoursAvenue.Models.PaginatedCollection.extend({
 
-	state: {
-	    firstPage:   1,
-	    perPage:     5,
-	    totalPages:  0,
-	    grandTotal:  0,
-	    radius:      2 // determines the behaviour of the ellipsis
-	},
+        state: {
+            firstPage:   1,
+            perPage:     5,
+            totalPages:  0,
+            grandTotal:  0,
+            radius:      2 // determines the behaviour of the ellipsis
+        },
 
-	url: function url () {
-	    return Routes.structure_comments_path(this.options.structure_id)
+        url: function url () {
+            return Routes.structure_comments_path(this.options.structure_id)
         },
 
         initialize: function initialize (models, options) {
-	    this.url              = Routes.structure_comments_path(options.structure_id)
-	    this.currentPage      = 1; // Always start at first page.
-	    this.queryParams      = this.queryParams || {};
-	    this.state.grandTotal = options.total_comments;
-	    this.state.totalPages = Math.ceil(this.state.grandTotal / this.state.perPage);
-	    this.getPage(1);
+            this.url              = Routes.structure_comments_path(options.structure_id)
+            this.currentPage      = 1; // Always start at first page.
+            this.queryParams      = this.queryParams || {};
+            this.state.grandTotal = options.total_comments;
+            this.state.totalPages = Math.ceil(this.state.grandTotal / this.state.perPage);
+            this.getPage(1);
         },
 
-	parse: function parse (response) {
+        parse: function parse (response) {
             this.grandTotal = response.meta.total;
-	    this.totalPages = Math.ceil(response.meta.total / this.state.perPage);
+            this.totalPages = Math.ceil(response.meta.total / this.state.perPage);
 
             return response.comments;
         }

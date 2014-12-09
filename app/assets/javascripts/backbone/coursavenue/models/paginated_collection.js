@@ -4,11 +4,11 @@
 CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
     Models.PaginatedCollection = Backbone.PageableCollection.extend({
 
-	initialize: function initialize () {
-	    this.queryParams = {};
+        initialize: function initialize () {
+            this.queryParams = {};
         },
 
-	state: {
+        state: {
             firstPage:   1,
             perPage:     15,
             totalPages:  0,
@@ -16,23 +16,23 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
             radius:      2 // determines the behaviour of the ellipsis
         },
 
-	isLastPage: function isLastPage () {
-	    return (this.state.currentPage == this.state.totalPages);
+        isLastPage: function isLastPage () {
+            return (this.state.currentPage == this.state.totalPages);
         },
 
-	isFirstPage: function isFirstPage () {
-	    return (this.state.firstPage == this.state.currentPage);
+        isFirstPage: function isFirstPage () {
+            return (this.state.firstPage == this.state.currentPage);
         },
 
-	currentQuery: function currentQuery () {
-	    return this.pageQuery(this.state.currentPage);
+        currentQuery: function currentQuery () {
+            return this.pageQuery(this.state.currentPage);
         },
 
-	pageQuery: function pageQuery (page) {
-            return this.url.resource + this.getQuery({ 'page': page });
+        pageQuery: function pageQuery (page) {
+                return this.url.resource + this.getQuery({ 'page': page });
         },
 
-	setQuery: function setQuery (options) {
+        setQuery: function setQuery (options) {
             /* setQuery stringifies all incoming options */
 
             var self = this;
@@ -52,26 +52,26 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
             if (options.lat || options.lng) {
                 this.unsetQuery(['bbox_ne[]', 'bbox_sw[]']);
             }
-	    _.extend(this.queryParams, options);
+            _.extend(this.queryParams, options);
         },
 
         /* remove the given keys from the query */
-	unsetQuery: function unsetQuery (keys) {
-	    this.queryParams = _.omit(this.queryParams, keys);
+        unsetQuery: function unsetQuery (keys) {
+            this.queryParams = _.omit(this.queryParams, keys);
         },
 
-	/* get URI query string from the queryParams values merged with opts */
+        /* get URI query string from the queryParams values merged with opts */
         /* This method is called by the collection for a relation on the model,
         * when fetching that relation if params are required. For example,
         *
         * Structure has many courses. If we filter Structures, and then want courses,
         * we will want to filter courses in the same manner. The CoursesCollection will
         * call getQuery on its `this.structure.collection` reference. */
-	getQuery: function getQuery (options) {
+        getQuery: function getQuery (options) {
             var self = this;
-	    var params = _.extend(_.clone(this.queryParams || {}), options);
+            var params = _.extend(_.clone(this.queryParams || {}), options);
 
-	    // some of the queryParams params might be functions, in which case execute them
+            // some of the queryParams params might be functions, in which case execute them
             return _.reduce(_.pairs(params), function (memo, pair) {
                 var key   = pair[0];
                 var value = pair[1];
@@ -93,7 +93,7 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
             }, "?").slice(0, -1); // damn trailing character!
         },
 
-	makeOptionsFromSearch: function makeOptionsFromSearch (search) {
+        makeOptionsFromSearch: function makeOptionsFromSearch (search) {
             if (search.length < 1) { return {} };
 
             var data = search.substring(1).split("&"); // assume no values have & in them

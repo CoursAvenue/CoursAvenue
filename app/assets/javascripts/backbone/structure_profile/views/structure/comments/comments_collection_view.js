@@ -6,7 +6,7 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
         template: Module.templateDirname() + 'comments_collection_view',
         itemViewContainer: '[data-type=container]',
 
-	initialize: function initialize (options) {
+        initialize: function initialize (options) {
             this.about = options.about;
             this.pagination_bottom = new CoursAvenue.Views.PaginationToolView({});
             this.pagination_bottom.on('pagination:next', this.nextPage.bind(this));
@@ -21,13 +21,13 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
 
         announcePaginatorUpdated: function announcePaginatorUpdated () {
             var data = {
-		current_page:        this.collection.state.currentPage,
+                current_page:        this.collection.state.currentPage,
                 queryOptions:       '',
-		last_page:           this.collection.state.totalPages,
+                last_page:           this.collection.state.totalPages,
                 radius:              3,
                 query_strings:       '',
-		is_last_page:        this.collection.isLastPage(),
-		is_first_page:       this.collection.isFirstPage(),
+                is_last_page:        this.collection.isLastPage(),
+                is_first_page:       this.collection.isFirstPage(),
             };
             this.pagination_bottom.reset(data);
         },
@@ -42,7 +42,7 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
             return {
                 new_comments_path: Routes.new_structure_comment_path(this.collection.structure.get('slug')),
                 about            : this.about,
-		has_comments     : this.collection.structure.get('has_comments')
+                has_comments     : this.collection.structure.get('has_comments')
             }
         }
     });

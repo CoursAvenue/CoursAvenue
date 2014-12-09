@@ -5,7 +5,7 @@ UserManagement.module('Views.UserProfilesCollection.Filters', function(Module, A
         template: Module.templateDirname() + 'keyword_filter_view',
         className: '',
 
-	initialize: function initialize () {
+        initialize: function initialize () {
             this.announce = _.debounce(this.announce, 500);
         },
 
@@ -19,7 +19,7 @@ UserManagement.module('Views.UserProfilesCollection.Filters', function(Module, A
             'keydown input':            'announce'
         },
 
-	announce: function announce (event, data) {
+        announce: function announce (event, data) {
             name = (data ? data.name : event.currentTarget.value);
             // Prevent from launching the search if the name is same than previous one
             if (name != this.previous_searched_name) {
@@ -28,13 +28,13 @@ UserManagement.module('Views.UserProfilesCollection.Filters', function(Module, A
             }
         },
 
-	populateInput: function populateInput (name) {
+        populateInput: function populateInput (name) {
             this.ui.$search_input.attr('value', name);
             this.previous_searched_name = name;
         },
 
         // Clears all the given filters
-	clear: function clear () {
+        clear: function clear () {
             this.previous_searched_name = null;
             this.ui.$search_input.val('');
             this.announce();

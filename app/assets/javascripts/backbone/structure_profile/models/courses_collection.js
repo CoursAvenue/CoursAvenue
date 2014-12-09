@@ -5,21 +5,21 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
         model: Backbone.Model.extend(),
         comparator: 'type',
 
-	initialize: function initialize(collection, bootstrap_meta) {
-	    this.structure_id = bootstrap_meta.structure_id;
-	    this.fetch({
-		success: function(courses_collection, response) {
-		    courses_collection.reset(response.courses)
-		}
-	    });
+        initialize: function initialize(collection, bootstrap_meta) {
+            this.structure_id = bootstrap_meta.structure_id;
+            this.fetch({
+                success: function(courses_collection, response) {
+                    courses_collection.reset(response.courses)
+                }
+            });
         },
 
         url: function url () {
-	    var route_details = {
+            var route_details = {
                     format: 'json',
-		    id: this.structure_id
+                    id: this.structure_id
                 };
-	    return Routes.structure_courses_path(route_details, { course_type: 'regulars' });
+            return Routes.structure_courses_path(route_details, { course_type: 'regulars' });
         }
     });
 });
