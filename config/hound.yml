@@ -5,4 +5,4 @@ Style/AndOr:
   Enabled: false
 
 Style/StringLiterals:
-  EnforcedStyle: single_quotes
+  Enabled: false
