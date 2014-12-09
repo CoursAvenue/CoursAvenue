@@ -136,6 +136,16 @@ class ::Admin < ActiveRecord::Base
     self.provider == 'facebook' and self.oauth_token.present?
   end
 
+  # The Facebook pages administrated by the Admin.
+  #
+  # @return an Array of Array of [ page_name, URL ]
+  def facebook_pages
+    return [] unless from_facebook? and oauth_expires_at > Time.current
+
+    user = FbGraph::User.me(self.oauth_token).fetch
+    user.accounts.map { |page| [page.name, page.link] }
+  end
+
   private
 
   def subscribe_to_crm

@@ -11,7 +11,7 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'capybara/rspec'
-# require 'sunspot_test/rspec'
+require 'sunspot_test/rspec'
 
 # require 'rspec/autorun'
 # Requires supporting ruby files with custom matchers and macros, etc,
@@ -26,17 +26,6 @@ RSpec.configure do |config|
 
   config.include Devise::TestHelpers, :type => :controller
   config.include Delorean
-
-  $original_sunspot_session = Sunspot.session
-  config.before do
-    Sunspot.session = Sunspot::Rails::StubSessionProxy.new($original_sunspot_session)
-  end
-
-  config.before :each, :solr => true do
-    Sunspot::Rails::Tester.start_original_sunspot_session
-    Sunspot.session = $original_sunspot_session
-    Sunspot.remove_all!
-  end
 
   # ## Mock Frameworkf
   #
