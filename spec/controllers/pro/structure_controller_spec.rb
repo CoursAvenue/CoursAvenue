@@ -118,7 +118,7 @@ describe Pro::StructuresController do
     # end
 
     describe "GET #index" do
-      it "'s forbidden" do
+      it 'is forbidden' do
         get :index
         expect(response).to be_redirect
       end
