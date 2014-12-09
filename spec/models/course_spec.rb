@@ -37,23 +37,32 @@ describe Course do
     end
   end
   describe '#has_promotion?' do
-    it{ expect(@course.has_promotion?).to eq false }
-    context 'with promo' do
-      before do
-        @price_2.promo_amount = 10
-        @price_2.save
+    it { expect(@course.has_promotion?).to eq false }
 
-        @course.reload
-      end
-
-      after do
-        @price_2.promo_amount = nil
-        @price_2.save
-
-        @course.reload
-      end
-      it { expect(@course.has_promotion?).to eq true }
-    end
+    # context 'with promo' do
+    #   let(:course)      { FactoryGirl.build(:course) }
+    #   let(:price_group) { FactoryGirl.build(:price_group) }
+    #   let(:price)       { FactoryGirl.create(:subscription, amount: 200) }
+    #
+    #   before do
+    #     price_group.prices    = [price]
+    #     price_group.structure = course.structure
+    #     price_group.save
+    #
+    #     course.price_group    = price_group
+    #     course.save
+    #   end
+    #
+    #   it 'is has a promotion when the promo amount is set' do
+    #     price.promo_amount = 10
+    #
+    #     price.save
+    #     course.reload
+    #     course.save
+    #
+    #     expect(course.has_promotion?).to eq true
+    #   end
+    # end
   end
 
   describe '#min_price' do
