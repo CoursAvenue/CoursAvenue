@@ -101,8 +101,9 @@ class Structure < ActiveRecord::Base
                   :highlighted_comment_id,
                   :deletion_reasons, :deletion_reasons_text,
                   :phone_numbers_attributes, :places_attributes, :other_emails, :last_geocode_try,
-                  :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason, :order_recipient, :delivery_email_status,
-                  :trial_courses_policy, :sleeping_structure, :premium, :cities_text
+                  :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason,
+                  :order_recipient, :delivery_email_status, :trial_courses_policy,
+                  :sleeping_structure, :premium, :cities_text
 
   accepts_nested_attributes_for :places,
                                  reject_if: :reject_places,
@@ -1211,7 +1212,7 @@ class Structure < ActiveRecord::Base
   private
 
   def update_cities_text
-    self.update_column :cities_text, self.places.map(&:city).map(&:name).uniq.join(', ')
+    self.update_column :cities_text, places.map(&:city).map(&:name).uniq.join(', ')
   end
   handle_asynchronously :update_cities_text
 
