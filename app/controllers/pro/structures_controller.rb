@@ -427,15 +427,15 @@ France
   # This method adds the structure's facebook_url if it is not part of the
   # pages managed by the admin.
   #
-  # @return an Array of Array of [ page_name, URL ]
+  # @return an Array of Array of [page_name, URL]
   def facebook_pages
     pages = @admin.facebook_pages
 
     if @structure.facebook_url?
       if pages.map(&:second).include?(@structure.facebook_url)
-        pages << [ 'Autre', @structure.facebook_url ] unless pages.empty?
+        pages << ['Autre', @structure.facebook_url] unless pages.empty?
       else
-        pages << [ 'Autre', 'other' ]
+        pages << ['Autre', 'other']
       end
     end
 
