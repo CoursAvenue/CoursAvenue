@@ -1,5 +1,5 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-ENV["RAILS_ENV"] ||= 'test'
+ENV['RAILS_ENV'] ||= 'test'
 require 'rails_helper'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
@@ -29,7 +29,7 @@ RSpec.configure do |config|
   # `post` in specs under `spec/controllers`.
   config.infer_spec_type_from_file_location!
 
-  config.include Devise::TestHelpers, :type => :controller
+  config.include Devise::TestHelpers, type: :controller
   config.include Delorean
 
   $original_sunspot_session = Sunspot.session
@@ -37,7 +37,7 @@ RSpec.configure do |config|
     Sunspot.session = Sunspot::Rails::StubSessionProxy.new($original_sunspot_session)
   end
 
-  config.before :each, :solr => true do
+  config.before :each, solr: true do
     Sunspot::Rails::Tester.start_original_sunspot_session
     Sunspot.session = $original_sunspot_session
     Sunspot.remove_all!

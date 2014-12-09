@@ -142,7 +142,7 @@ class ::Admin < ActiveRecord::Base
   def facebook_pages
     return [] unless from_facebook? and oauth_expires_at > Time.current
 
-    user = FbGraph::User.me(self.oauth_token).fetch
+    user = FbGraph::User.me(oauth_token).fetch
     user.accounts.map { |page| [page.name, page.link] }
   end
 
