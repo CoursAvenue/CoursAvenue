@@ -18,10 +18,6 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
         onRender: function onRender () {
             this.$('[data-type="bottom-pagination-tool"]').append(this.pagination_bottom.el);
             this.$('[data-behavior="lazy-load"]').lazyload();
-            if (this.collection.length == 0) {
-                this.$('[data-empty-comments]').removeClass('hidden')
-                this.$('[data-not-empty-comments]').hide();
-            }
         },
 
         announcePaginatorUpdated: function announcePaginatorUpdated () {
@@ -35,6 +31,10 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
                 is_first_page:       this.collection.isFirstPage(),
             };
             this.pagination_bottom.reset(data);
+            if (this.collection.state.grandTotal == 0) {
+                this.$('[data-empty-comments]').removeClass('hidden');
+                this.$('[data-not-empty-comments]').hide();
+            }
         },
 
         itemViewOptions: function itemViewOptions () {
