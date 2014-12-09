@@ -209,7 +209,7 @@ group :production, :staging do
 end
 
 group :test do
-  gem 'rspec',              '~>3.1.0'
+  gem 'rspec',              '~> 3.1.0'
   gem 'factory_girl_rails', '~> 4.5.0'
   gem 'rspec-core',         '~> 3.1.7'
   gem 'rspec-rails',        '~> 3.1.0'
@@ -217,8 +217,8 @@ group :test do
   gem 'simplecov',          '~> 0.9.1'
   gem 'database_cleaner',   '~> 1.2.0'
   gem 'capybara',           '~> 2.2.1'
-  gem 'sunspot_test',       '~>0.4.0'
-  gem 'rspec-instafail',    '~>0.2.5'
+  gem 'sunspot_test',       '~> 0.4.0'
+  gem 'rspec-instafail',    '~> 0.2.5'
 end
 
 group :development do
