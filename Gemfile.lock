@@ -807,6 +807,7 @@ DEPENDENCIES
   roadie (~> 3.0.1)
   roadie-rails (~> 1.0.3)
   roo (~> 1.13.2)
+  rspec (~> 3.1.0)
   rspec-instafail (~> 0.2.5)
   rspec-rails (~> 3.1.0)
   rubocop (~> 0.18.1)
