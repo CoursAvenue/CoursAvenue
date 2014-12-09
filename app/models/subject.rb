@@ -6,7 +6,7 @@ class Subject < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
 
-  acts_as_tree cache_depth: true
+  acts_as_tree cache_depth: true, touch: true
 
   ######################################################################
   # Relations                                                          #

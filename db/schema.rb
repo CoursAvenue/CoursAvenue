@@ -11,11 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141119165324) do
+ActiveRecord::Schema.define(version: 20141208112938) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
+  enable_extension "pg_stat_statements"
 
   create_table "admins", force: true do |t|
     t.string   "email",                             default: "",    null: false
@@ -54,12 +55,14 @@ ActiveRecord::Schema.define(version: 20141119165324) do
     t.string   "uid"
     t.string   "oauth_token"
     t.datetime "oauth_expires_at"
+    t.boolean  "sms_opt_in",                        default: true
   end
 
   add_index "admins", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
   add_index "admins", ["invitation_token"], name: "index_admin_users_on_invitation_token", using: :btree
   add_index "admins", ["invited_by_id"], name: "index_admin_users_on_invited_by_id", using: :btree
   add_index "admins", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
+  add_index "admins", ["structure_id"], name: "index_admins_on_structure_id", using: :btree
 
   create_table "blog_articles", force: true do |t|
     t.string   "title"
@@ -189,6 +192,8 @@ ActiveRecord::Schema.define(version: 20141119165324) do
 
   add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree
   add_index "comments", ["commentable_type"], name: "index_comments_on_commentable_type", using: :btree
+  add_index "comments", ["status"], name: "index_comments_on_status", using: :btree
+  add_index "comments", ["type", "status"], name: "index_comments_on_type_and_status", using: :btree
 
   create_table "comments_subjects", id: false, force: true do |t|
     t.integer "comment_id"
@@ -248,11 +253,14 @@ ActiveRecord::Schema.define(version: 20141119165324) do
     t.integer  "max_age_for_kid"
     t.boolean  "on_appointment",             default: false
     t.boolean  "is_open_for_trial"
+    t.boolean  "has_promotion"
   end
 
   add_index "courses", ["active"], name: "index_courses_on_active", using: :btree
+  add_index "courses", ["is_open_for_trial"], name: "index_courses_on_is_open_for_trial", using: :btree
   add_index "courses", ["place_id"], name: "index_courses_on_place_id", using: :btree
   add_index "courses", ["slug"], name: "index_courses_on_slug", unique: true, using: :btree
+  add_index "courses", ["structure_id", "is_open_for_trial"], name: "index_courses_on_structure_id_and_is_open_for_trial", using: :btree
   add_index "courses", ["structure_id"], name: "index_courses_on_structure_id", using: :btree
   add_index "courses", ["type"], name: "index_courses_on_type", using: :btree
 
@@ -534,6 +542,7 @@ ActiveRecord::Schema.define(version: 20141119165324) do
   end
 
   add_index "medias", ["format"], name: "index_medias_on_format", using: :btree
+  add_index "medias", ["mediable_id", "mediable_type"], name: "index_medias_on_mediable_id_and_mediable_type", using: :btree
   add_index "medias", ["mediable_id"], name: "index_medias_on_mediable_id", using: :btree
   add_index "medias", ["mediable_type"], name: "index_medias_on_mediable_type", using: :btree
 
@@ -632,8 +641,10 @@ ActiveRecord::Schema.define(version: 20141119165324) do
     t.string   "callable_type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "principal",     default: false
   end
 
+  add_index "phone_numbers", ["callable_id", "callable_type"], name: "index_phone_numbers_on_callable_id_and_callable_type", using: :btree
   add_index "phone_numbers", ["callable_id"], name: "index_phone_numbers_on_callable_id", using: :btree
   add_index "phone_numbers", ["callable_type"], name: "index_phone_numbers_on_callable_type", using: :btree
 
@@ -657,7 +668,7 @@ ActiveRecord::Schema.define(version: 20141119165324) do
     t.datetime "last_geocode_try"
   end
 
-  add_index "places", ["location_id", "structure_id"], name: "index_places_on_location_id_and_structure_id", using: :btree
+  add_index "places", ["structure_id"], name: "index_places_on_structure_id", using: :btree
 
   create_table "places_users", id: false, force: true do |t|
     t.integer "place_id"
@@ -694,6 +705,7 @@ ActiveRecord::Schema.define(version: 20141119165324) do
   end
 
   add_index "plannings", ["audience_ids"], name: "index_plannings_on_audience_ids", using: :btree
+  add_index "plannings", ["course_id"], name: "index_plannings_on_course_id", using: :btree
   add_index "plannings", ["level_ids"], name: "index_plannings_on_level_ids", using: :btree
   add_index "plannings", ["week_day"], name: "index_plannings_on_week_day", using: :btree
 
@@ -914,6 +926,9 @@ ActiveRecord::Schema.define(version: 20141119165324) do
     t.string   "remote_logo_url"
     t.string   "trial_courses_policy"
     t.integer  "sleeping_structure_id"
+    t.boolean  "sms_opt_in",                     default: false
+    t.text     "course_subjects_string"
+    t.boolean  "premium"
   end
 
   add_index "structures", ["slug"], name: "index_structures_on_slug", unique: true, using: :btree
@@ -998,6 +1013,8 @@ ActiveRecord::Schema.define(version: 20141119165324) do
     t.string   "paypal_payer_id"
     t.string   "paypal_recurring_profile_token"
   end
+
+  add_index "subscription_plans", ["structure_id"], name: "index_subscription_plans_on_structure_id", using: :btree
 
   create_table "taggings", force: true do |t|
     t.integer  "tag_id"

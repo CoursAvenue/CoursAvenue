@@ -41,10 +41,6 @@ class Pro::PaymentsController < Pro::ProController
     render template: 'confirmations/premium_account', layout: 'admin'
   end
 
-  def paypal_notifications
-    Bugsnag.notify(RuntimeError.new("Paypal notification"), params)
-  end
-
   private
 
   def parse_extra_data

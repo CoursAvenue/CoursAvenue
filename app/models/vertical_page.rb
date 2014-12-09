@@ -7,7 +7,7 @@ class VerticalPage < ActiveRecord::Base
   ######################################################################
   # Relations                                                          #
   ######################################################################
-  belongs_to :subject
+  belongs_to :subject, touch: true
   has_many :medias, as: :mediable
 
   attr_accessible :name, :caption, :title, :content, :keywords, :subject_id, :image, :medias_attributes, :sidebar_title,

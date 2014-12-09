@@ -14,8 +14,8 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
 ActionMailer::Base.register_interceptor(DevelopmentMailInterceptor)
-
 RSpec.configure do |config|
+
   # Immediately run the worker jobs.
   Delayed::Worker.delay_jobs = false
 
