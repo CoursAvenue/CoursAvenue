@@ -3,26 +3,30 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
 
     Module.CommentsCollection = CoursAvenue.Models.PaginatedCollection.extend({
 
-        url: {
-            data_type: '.json',
-            basename: ''
+	state: {
+	    firstPage:   1,
+	    perPage:     5,
+	    totalPages:  0,
+	    grandTotal:  0,
+	    radius:      2 // determines the behaviour of the ellipsis
+	},
+
+	url: function url () {
+	    return Routes.structure_comments_path(this.options.structure_id)
         },
 
         initialize: function initialize (models, options) {
-            this.url.resource             = Routes.structure_comments_path(options.structure_id);
-            this.currentPage              = 1; // Always start at first page.
-            this.server_api               = this.server_api || {};
-            this.server_api.page = function () { return this.currentPage; }.bind(this);
-            this.paginator_ui.currentPage = this.server_api.page();
-            this.paginator_ui.perPage     = 5;
-            this.paginator_ui.grandTotal  = (models.length === 0) ? 0 : options.total_comments;
-            this.paginator_ui.totalPages  = Math.ceil(this.paginator_ui.grandTotal / this.paginator_ui.perPage);
-            this.totalPages               = this.paginator_ui.totalPages;
+	    this.url              = Routes.structure_comments_path(options.structure_id)
+	    this.currentPage      = 1; // Always start at first page.
+	    this.queryParams      = this.queryParams || {};
+	    this.state.grandTotal = options.total_comments;
+	    this.state.totalPages = Math.ceil(this.state.grandTotal / this.state.perPage);
+	    this.getPage(1);
         },
 
-        parse: function(response) {
+	parse: function parse (response) {
             this.grandTotal = response.meta.total;
-            this.totalPages = Math.ceil(response.meta.total / this.paginator_ui.perPage);
+	    this.totalPages = Math.ceil(response.meta.total / this.state.perPage);
 
             return response.comments;
         }

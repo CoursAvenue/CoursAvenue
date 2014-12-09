@@ -1,3 +1,4 @@
+var toto;
 /* just a basic backbone model */
 StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $, _) {
 
@@ -6,15 +7,16 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
         initialize: function initialize(bootstrap, bootstrap_meta) {
             var relations = ['places', 'courses', 'trainings', 'comments', 'teachers'],
                 self = this;
+	    toto = this;
             bootstrap_meta = bootstrap_meta || {};
             // Creating relations
             // relation will be "places", "courses", etc.
             // And will be transformed in PlacesCollection
             _.map(relations, function(relation) {
-                var collection = new Module[_.capitalize(relation) + 'Collection'](bootstrap[relation], bootstrap_meta);
-                collection.structure = self;
-                self.set(relation, collection);
-            });
+		var collection       = new Module[_.capitalize(relation) + 'Collection'](bootstrap[relation], bootstrap_meta);
+		collection.structure = this;
+		this.set(relation, collection);
+	    }, this);
         }
     });
 });

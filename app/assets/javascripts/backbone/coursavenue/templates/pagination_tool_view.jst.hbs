@@ -1,8 +1,8 @@
 <ul class="pagination">
     {{#if buttons }}
     {{!-- make a previous button --}}
-    <li class="btn {{#unless previous_page_query}}disabled{{/unless}}">
-        <a {{#if previous_page_query}}rel="prev" href="{{ previous_page_query }}"{{/if}}><i class="fa-chevron-left"></i></a>
+    <li class="btn {{#if is_first_page}}disabled{{/if}}">
+	<a {{#unless is_first_page}}rel="prev" {{/unless}}><i class="fa-chevron-left"></i></a>
     </li>
     {{#each buttons}}
     <li class="btn {{#if active}}btn--active current{{/if}} {{#if disabled}}disabled{{/if}}">
@@ -11,8 +11,8 @@
     {{/each}}
     </li>
     {{!-- make a next button --}}
-    <li class="btn" {{#unless next_page_query}}disabled{{/unless}}>
-        <a {{#if next_page_query}}rel="next" href="{{ next_page_query }}"{{/if}}><i class="fa-chevron-right"></i></a>
+    <li class="btn" {{#if is_last_page}}disabled{{/if}}>
+	<a {{#unless is_last_page}}rel="next"{{/unless}}><i class="fa-chevron-right"></i></a>
     </li>
     {{/if}}
 </ul>

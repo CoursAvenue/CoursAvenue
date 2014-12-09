@@ -93,56 +93,57 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
 
         /* override inherited method */
         announcePaginatorUpdated: function announcePaginatorUpdated () {
-            var data         = this.collection;
-            var first_result = (data.currentPage - 1) * data.perPage + 1;
+	    var state         = this.collection.state;
+	    var queryParams   = this.collection.queryParams;
+	    var first_result = (state.currentPage - 1) * state.perPage + 1;
 
-            this.trigger('structures:updated', data.map(function(structure) {return structure.get('id')}));
+	    this.trigger('structures:updated', this.collection.map(function(structure) { return structure.get('id') } ));
 
             /* announce the pagination statistics for the current page */
             this.trigger('structures:updated:pagination', {
-                current_page:        data.currentPage,
-                radius:              data.radius,
-                last_page:           data.totalPages,
-                query_strings:       this.buildPageQueriesForRange(data.totalPages),
-                previous_page_query: this.collection.previousQuery(),
-                next_page_query:     this.collection.nextQuery()
+		current_page:        state.currentPage,
+		radius:              state.radius,
+		last_page:           state.totalPages,
+		query_strings:       this.buildPageQueriesForRange(state.totalPages),
+		is_last_page:        this.collection.isLastPage(),
+		is_first_page:       this.collection.isFirstPage(),
             });
 
             /* announce the summary of the result set */
             this.trigger('structures:updated:summary', {
                 first: first_result,
-                last: Math.min(first_result + data.perPage - 1, data.grandTotal),
-                total: data.grandTotal
+		last: Math.min(first_result + state.perPage - 1, state.grandTotal),
+		total: state.grandTotal
             });
 
             this.trigger('structures:updated:query', { query: this.collection.getQuery().replace('?', '') }); // Removing the first '?' character
             /* announce the filters used in the current result set */
             this.trigger('map:update:zoom', {
-                zoom: (data.server_api.zoom ? data.server_api.zoom : 12),
+		zoom: (queryParams.zoom ? queryParams.zoom : 12),
             });
             this.trigger('structures:updated:filter', {
-                address_name         : (data.server_api.address_name         ? data.server_api.address_name                         : ''),
-                name                 : (data.server_api.name                 ? data.server_api.name                                 : ''),
-                subject_id           : (data.server_api.subject_id           ? data.server_api.subject_id                           : ''),
-                root_subject_id      : (data.server_api.root_subject_id      ? data.server_api.root_subject_id                      : ''),
-                parent_subject_id    : (data.server_api.parent_subject_id    ? data.server_api.parent_subject_id                    : ''),
-                level_ids            : (data.server_api['level_ids[]']       ? _.ensureArray(data.server_api['level_ids[]'])        : ''),
-                audience_ids         : (data.server_api['audience_ids[]']    ? _.ensureArray(data.server_api['audience_ids[]'])     : ''),
-                course_types         : (data.server_api['course_types[]']    ? _.ensureArray(data.server_api['course_types[]'])     : ''),
-                min_age_for_kids     : (data.server_api.min_age_for_kids     ? data.server_api.min_age_for_kids                     : ''),
-                max_age_for_kids     : (data.server_api.max_age_for_kids     ? data.server_api.max_age_for_kids                     : ''),
-                price_type           : (data.server_api.price_type           ? data.server_api.price_type                           : ''),
-                max_price            : (data.server_api.max_price            ? data.server_api.max_price                            : ''),
-                min_price            : (data.server_api.min_price            ? data.server_api.min_price                            : ''),
-                structure_types      : (data.server_api['structure_types[]'] ? _.ensureArray(data.server_api['structure_types[]'])  : ''),
-                funding_type_ids     : (data.server_api['funding_type_ids[]']? _.ensureArray(data.server_api['funding_type_ids[]']) : ''),
-                discount_types       : (data.server_api['discount_types[]']  ? _.ensureArray(data.server_api['discount_types[]'])   : ''),
-                week_days            : (data.server_api['week_days[]']       ? _.ensureArray(data.server_api['week_days[]'])        : ''),
-                start_date           : (data.server_api.start_date           ? data.server_api.start_date                           : ''),
-                end_date             : (data.server_api.end_date             ? data.server_api.end_date                             : ''),
-                start_hour           : (data.server_api.start_hour           ? data.server_api.start_hour                           : ''),
-                end_hour             : (data.server_api.end_hour             ? data.server_api.end_hour                             : ''),
-                is_open_for_trial    : (data.server_api.is_open_for_trial    ? data.server_api.is_open_for_trial                    : '')
+		address_name         : (queryParams.address_name         ? queryParams.address_name                         : ''),
+		name                 : (queryParams.name                 ? queryParams.name                                 : ''),
+		subject_id           : (queryParams.subject_id           ? queryParams.subject_id                           : ''),
+		root_subject_id      : (queryParams.root_subject_id      ? queryParams.root_subject_id                      : ''),
+		parent_subject_id    : (queryParams.parent_subject_id    ? queryParams.parent_subject_id                    : ''),
+		level_ids            : (queryParams['level_ids[]']       ? _.ensureArray(queryParams['level_ids[]'])        : ''),
+		audience_ids         : (queryParams['audience_ids[]']    ? _.ensureArray(queryParams['audience_ids[]'])     : ''),
+		course_types         : (queryParams['course_types[]']    ? _.ensureArray(queryParams['course_types[]'])     : ''),
+		min_age_for_kids     : (queryParams.min_age_for_kids     ? queryParams.min_age_for_kids                     : ''),
+		max_age_for_kids     : (queryParams.max_age_for_kids     ? queryParams.max_age_for_kids                     : ''),
+		price_type           : (queryParams.price_type           ? queryParams.price_type                           : ''),
+		max_price            : (queryParams.max_price            ? queryParams.max_price                            : ''),
+		min_price            : (queryParams.min_price            ? queryParams.min_price                            : ''),
+		structure_types      : (queryParams['structure_types[]'] ? _.ensureArray(queryParams['structure_types[]'])  : ''),
+		funding_type_ids     : (queryParams['funding_type_ids[]']? _.ensureArray(queryParams['funding_type_ids[]']) : ''),
+		discount_types       : (queryParams['discount_types[]']  ? _.ensureArray(queryParams['discount_types[]'])   : ''),
+		week_days            : (queryParams['week_days[]']       ? _.ensureArray(queryParams['week_days[]'])        : ''),
+		start_date           : (queryParams.start_date           ? queryParams.start_date                           : ''),
+		end_date             : (queryParams.end_date             ? queryParams.end_date                             : ''),
+		start_hour           : (queryParams.start_hour           ? queryParams.start_hour                           : ''),
+		end_hour             : (queryParams.end_hour             ? queryParams.end_hour                             : ''),
+		is_open_for_trial    : (queryParams.is_open_for_trial    ? queryParams.is_open_for_trial                    : '')
             });
 
             this.trigger('structures:updated:maps');
@@ -190,8 +191,8 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
         },
 
         itemViewOptions: function itemViewOptions () {
-            var subject_name = $('[data-value="' + decodeURIComponent(this.collection.server_api.subject_id) + '"]').first().text().trim();
-            var search_term = this.collection.server_api.name || "";
+	    var subject_name = $('[data-value="' + decodeURIComponent(this.collection.queryParams.subject_id) + '"]').first().text().trim();
+	    var search_term = this.collection.queryParams.name || "";
 
             return {
                 search_term: decodeURIComponent(search_term),

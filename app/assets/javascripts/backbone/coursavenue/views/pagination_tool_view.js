@@ -4,7 +4,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         template: Module.templateDirname() + 'pagination_tool_view',
 
         /* data to describe the pagination tool */
-        reset: function (data) {
+	reset: function reset (data) {
             data.current_page = parseInt(data.current_page, 10);
 
             data.buttons = this.buildPaginationButtons(data);
@@ -13,7 +13,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this.render();
         },
 
-        serializeData: function () {
+	serializeData: function serializeData () {
             return this.current_pagination_data;
         },
 
@@ -25,21 +25,21 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             'click .pagination li.btn a[rel=page]': 'page',
         },
 
-        next: function (e) {
+	next: function next (e) {
             e.preventDefault();
             this.trigger('pagination:next', e);
 
             return false;
         },
 
-        prev: function (e) {
+	prev: function prev (e) {
             e.preventDefault();
             this.trigger('pagination:prev', e);
 
             return false;
         },
 
-        page: function (e) {
+	page: function page (e) {
             e.preventDefault();
             this.trigger('pagination:page', e);
 
@@ -49,7 +49,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         /* we want to show buttons for the first and last pages, and the
          * pages in a radius around the current page. So we will skip pages
          * that don't meet that criteria */
-        canSkipPage: function (page, data) {
+	canSkipPage: function canSkipPage (page, data) {
             var last_page     = data.last_page,
                 out_of_bounds = (data.current_page - data.radius > page || page > data.current_page + data.radius),
                 bookend       = (page == 1 || page == last_page);
@@ -58,7 +58,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         /* the query_strings are built in the paginated collection view */
-        buildPaginationButtons: function (data) {
+	buildPaginationButtons: function buildPaginationButtons (data) {
             var skipped = false,
                 buttons = [];
 

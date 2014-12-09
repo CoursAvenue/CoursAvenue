@@ -2,11 +2,11 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.AccordionView = Backbone.Marionette.CompositeView.extend({
 
-        initialize: function () {
+	initialize: function initialize () {
             this.currently_selected_cid = [];
         },
 
-        onItemviewAccordionClose: function (view, model_cid) {
+	onItemviewAccordionClose: function onItemviewAccordionClose (view, model_cid) {
             var index = this.currently_selected_cid.indexOf(model_cid);
             if (index > -1) {
                 this.currently_selected_cid.splice(index, 1);
@@ -14,7 +14,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         /* function that is called in order to clear the currently active accordion */
-        onItemviewAccordionOpen: function(view, model_cid) {
+	onItemviewAccordionOpen: function onItemviewAccordionOpen(view, model_cid) {
             /*
             if (this.currently_selected_cid) {
                 var child_view = this.children.findByModelCid(this.currently_selected_cid);
@@ -29,7 +29,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         /* we don't use this, but we could */
-        accordionCloseAll: function () {
+	accordionCloseAll: function accordionCloseAll () {
             var self = this;
 
             _.each(_.clone(this.currently_selected_cid), function(cid) {
