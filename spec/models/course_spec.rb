@@ -39,7 +39,7 @@ describe Course do
   describe '#has_promotion?' do
     it{ expect(@course.has_promotion?).to eq false }
     context 'with promo' do
-      before { @price_2.promo_amount = 10; @price_2.save }
+      before { @price_2.update_column(:promo_amount, 10) }
       after  { @price_2.update_column(:promo_amount, nil) }
       it { expect(@course.has_promotion?).to eq true }
     end
