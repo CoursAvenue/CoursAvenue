@@ -214,7 +214,7 @@ group :test do
   # gem 'rspec-instafail'         , '~>0.2.5'
   gem 'faker'                   , '~>1.2.0'
   gem 'simplecov'               , '~>0.9.0'
-  # gem 'sunspot_test'
+  gem 'sunspot_test'            , '~>0.4.0'
   gem 'database_cleaner'        , '~>1.2.0'
   gem 'capybara'                , '~>2.2.1'
 end
