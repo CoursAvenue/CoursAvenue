@@ -20,15 +20,13 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
     *
     *  Other classes would expose similar semantics, but implement their behaviour differently
     * */
-    // Module.MarkerView = Backbone.GoogleMaps.RichMarkerView.extend({
-    Module.MarkerView = Backbone.GoogleMaps.MarkerView.extend({
+    Module.MarkerView = Backbone.GoogleMaps.RichMarkerView.extend({
         template: '',
 
         // constructor: function (options) {
         initialize: function initialize (options) {
             // Merging options
             this.options = (options || {});
-            //Backbone.GoogleMaps.RichMarkerView.prototype.constructor.apply(this, arguments);
             /* TODO this setup should be done in the constructor, in the library, in another repo far, far away */
             this.$el = $(Marionette.Renderer.render(CoursAvenue.Views.Map.GoogleMap.templateDirname() + 'marker_view'));
             this.overlayOptions.content = this.$el[0];

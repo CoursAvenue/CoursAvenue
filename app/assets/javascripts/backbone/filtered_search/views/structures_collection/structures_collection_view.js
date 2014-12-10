@@ -71,7 +71,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
         },
 
 
-        findItemView: function findItemView (data) {
+        findChildView: function findChildView (data) {
             /* find the first place that has any locations that match the given lat/lng */
             var position = data.model.getLatLng();
 
