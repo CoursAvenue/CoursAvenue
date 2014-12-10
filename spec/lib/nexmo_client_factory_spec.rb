@@ -12,7 +12,9 @@ describe NexmoClientFactory, '' do
   it 'returns a real client in production env' do
     real_client = Nexmo::Client
 
-    expect(NexmoClientFactory.client).to be_a(real_client)
+    switch_to_prod_env do
+      expect(NexmoClientFactory.client).to be_a(real_client)
+    end
   end
 
   def switch_to_prod_env
