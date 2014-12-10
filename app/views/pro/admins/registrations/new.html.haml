@@ -1,7 +1,7 @@
 = content_for :title do
   Félicitations, votre profil vient d'être créé !
 
-.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background.jpg'})", 'data-stellar-background-ratio' => '0.6' }
+.bg-fixed.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background.jpg'})" }
   .main-container.soft
     %header
       %h1.flush
@@ -12,6 +12,12 @@
     .panel__body.soft--ends
       .soft--sides
         %h4.text--center Dernière étape : choisissez vos identifiants pour gérer votre profil
+        .text--center
+          %a.btn.btn--facebook{ data: { behavior: 'facebook-login', structure_id: params[:structure_id], disable_with: "Inscription en cours..." } }
+            S'inscrire avec Facebook
+        .or
+          %span
+            ou
         = simple_form_for [:pro, @admin], url: pro_admin_registration_path, html: { autocomplete: 'off', class: 'half-form'} do |f|
           = f.error_notification
           = f.input :email, required: true, autofocus: true, label: t('.email'), wrapper_html: { class: 'flush--bottom' }, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }

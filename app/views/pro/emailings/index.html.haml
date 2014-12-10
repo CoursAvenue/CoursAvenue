@@ -1,0 +1,23 @@
+= side_menu_currently_at 'emailings'
+
+.panel
+  .panel__body.soft
+    .soft.text--center
+      = link_to 'Nouvelle newsletter', new_pro_emailing_path, class: 'btn btn--green btn--large'
+    %table.table--data.table--striped#dataTable
+      %thead
+        %tr
+          %th Titre
+          %th Actions
+      %tbody
+        - @emailings.each do |emailing|
+          %tr
+            %td= link_to emailing.title, pro_emailing_path(emailing)
+            %td
+              = link_to 'Éditer', edit_pro_emailing_path(emailing)
+              \/
+              = link_to 'Previsualiser', preview_pro_emailing_path(emailing), data: { behavior: 'modal', width: '700', padding: 0 }, class: 'fancybox.ajax'
+              \/
+              = link_to 'Copier le code', code_pro_emailing_path(emailing), data: { behavior: 'modal', width: '700', padding: 0 }, class: 'fancybox.ajax'
+              \/
+              = link_to 'Supprimer', pro_emailing_path(emailing), class: 'red', method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette newsletter?' }

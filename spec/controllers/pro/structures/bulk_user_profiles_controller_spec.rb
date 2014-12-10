@@ -1,7 +1,8 @@
 # -*- encoding : utf-8 -*-
-require 'spec_helper'
+require 'rails_helper'
 
 describe Pro::Structures::BulkUserProfileJobsController do
+  include Devise::TestHelpers
   let(:admin) { FactoryGirl.create(:admin) }
 
   before do
@@ -12,7 +13,7 @@ describe Pro::Structures::BulkUserProfileJobsController do
   end
 
   # TODO Fix thoses test or write other tests and refactor BulkUserProfileJobsController
-  describe :create do
+  describe 'create' do
     # let(:structure) { FactoryGirl.create(:structure_with_user_profiles) }
 
     # let(:ids)       { structure.user_profiles.map(&:id) }
@@ -39,7 +40,7 @@ describe Pro::Structures::BulkUserProfileJobsController do
     # end
   end
 
-  # describe :destroy do
+  # describe 'destroy' do
   #   let(:structure) { FactoryGirl.create(:structure_with_user_profiles) }
 
   #   let(:ids)       { structure.user_profiles.map(&:id) }

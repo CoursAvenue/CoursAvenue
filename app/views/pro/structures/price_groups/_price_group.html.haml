@@ -67,11 +67,8 @@
 
           - @trial = price_group.trial
           - if @trial
-            %tr.premium-bordered-box
-              %td
-                = link_to premium_modal_pro_structure_path(@structure), data: { behavior: 'modal', padding: 0, width: 900 }, class: 'premium-modal fancybox.ajax' do
-                  %i.fa.fa-star.yellow{ data: { behavior: 'tooltip', title: "Ne s'affiche que pour les profils Premium : cliquez pour en savoir plus." } }
-                Cours d'essai
+            %tr
+              %td Cours d'essai
               %td.text--center
                 - if @trial.free?
                   Gratuit

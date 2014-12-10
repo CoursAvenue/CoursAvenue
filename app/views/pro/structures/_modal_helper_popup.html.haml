@@ -1,4 +1,4 @@
-#side-menu-helper-modal.hidden.white.bg-cover{ style: "background-image: url(#{asset_path('pro/complete-your-profile-bg.jpg')});", 'data-stellar-background-ratio' => '0.6'}
+#side-menu-helper-modal.hidden.white.bg-cover{ style: "background-image: url(#{asset_path('https://coursavenue-public.s3.amazonaws.com/public_assets/pro/complete-your-profile-bg.jpg')});" }
   .soft
     %h1.flush.soft-black-text-shadow.text--center Complétez votre profil
     %p.line-height-1-5.delta.f-weight-bold.soft-black-text-shadow.text--center.push--bottom.soft--bottom
@@ -35,6 +35,12 @@
         = link_to trainings_pro_structure_courses_path(@structure), class: 'semi-muted-link' do
           %i.fa.fa-plus.orange
           %span.soft-black-text-shadow Mettre à jour le planning de mes stages
+    - if @structure.courses.open_for_trial.empty?
+      .line-height-1-5.delta.f-weight-bold.soft--left{ data: { behavior: 'side-menu-todo', url: pro_structure_price_groups_path(@structure), name: 'Mettre à jour mes tarifs' } }
+        = link_to trial_courses_pro_structure_courses_path(@structure), class: 'semi-muted-link' do
+          %i.fa.fa-plus.orange
+          %span.soft-black-text-shadow Proposer des cours d'essai gratuits pour mes cours réguliers
+
     - if @structure.price_groups.empty?
       .line-height-1-5.delta.f-weight-bold.soft--left{ data: { behavior: 'side-menu-todo', url: pro_structure_price_groups_path(@structure), name: 'Mettre à jour mes tarifs' } }
         = link_to pro_structure_price_groups_path(@structure), class: 'semi-muted-link' do

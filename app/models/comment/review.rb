@@ -1,8 +1,11 @@
 class Comment::Review < Comment
+
   MIN_NB_WORD_CONTENT  = 20
 
+  friendly_id :unique_token, use: [:slugged, :finders]
+
   attr_accessible :author_name, :email, :rating, :title, :course_name, :deletion_reason, :subjects, :subject_ids,
-                  :associated_message_id
+                  :associated_message_id, :certified
 
   # A comment has a status which can be one of the following:
   #   - pending
@@ -23,6 +26,7 @@ class Comment::Review < Comment
   ######################################################################
   validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i }
   validates :email, :author_name, :course_name, :title, presence: true
+  validates :rating, presence: true, on: :create
   validate  :doesnt_exist_yet, on: :create
   validate  :content_length, on: :create
 
@@ -50,10 +54,11 @@ class Comment::Review < Comment
   ######################################################################
   # Scopes                                                             #
   ######################################################################
-  scope :ordered,              -> { order('created_at DESC') }
-  scope :pending,              -> { where(status: 'pending') }
-  scope :accepted,             -> { where(status: 'accepted') }
-  scope :waiting_for_deletion, -> { where(status: 'waiting_for_deletion') }
+  scope :ordered                  , -> { order('created_at DESC') }
+  scope :pending                  , -> { where(status: 'pending') }
+  scope :accepted                 , -> { where(status: 'accepted') }
+  scope :waiting_for_deletion     , -> { where(status: 'waiting_for_deletion') }
+  scope :certified                , -> { where(certified: true) }
 
   # ------------------------------------------------------------------------------------ Search attributes
   searchable do
@@ -63,6 +68,7 @@ class Comment::Review < Comment
       end
     end
 
+    boolean :certified
     boolean :has_title do
       self.title.present?
     end
@@ -82,6 +88,19 @@ class Comment::Review < Comment
         subject_slugs << subject.root.slug if subject.root
       end
       subject_slugs.uniq
+    end
+
+    string :subject_slug do
+      if self.subjects.any?
+        self.subjects.first.slug
+      else
+        self.structure.dominant_root_subject.slug
+      end
+    end
+
+    time :created_at
+    boolean :accepted do
+      self.accepted?
     end
   end
 
@@ -111,7 +130,7 @@ class Comment::Review < Comment
     self.status          = :waiting_for_deletion
     self.deletion_reason = deletion_reason if deletion_reason
     self.save
-    AdminMailer.delay.ask_for_deletion(self)
+    SuperAdminMailer.delay.ask_for_deletion(self)
   end
 
   def waiting_for_deletion?
@@ -159,8 +178,10 @@ class Comment::Review < Comment
       _email        = self.email
       user          = User.where( email: _email ).first
       _user_id      = user.id if user
-      if _user_id and CommentNotification.where( CommentNotification.arel_table[:structure_id].eq(_structure_id).and(
-                                                 CommentNotification.arel_table[:user_id].eq(_user_id))).count > 0
+      # ACCEPT Comment ONLY IF:
+      # The user has been previously invited by the teacher
+      user_comment_notification_count = CommentNotification.where( CommentNotification.arel_table[:structure_id].eq(_structure_id).and(CommentNotification.arel_table[:user_id].eq(_user_id))).count
+      if _user_id and user_comment_notification_count > 0
         self.status = 'accepted'
       end
     end
@@ -174,7 +195,7 @@ class Comment::Review < Comment
   private
 
   def content_length
-    if content.split.size < MIN_NB_WORD_CONTENT
+    if content and content.split.size < MIN_NB_WORD_CONTENT
       self.errors.add :content, I18n.t('comments.errors.content_too_small', count: MIN_NB_WORD_CONTENT)
     end
   end
@@ -218,7 +239,8 @@ class Comment::Review < Comment
     end
   end
 
-  # Add errors if the user has already commented the commentable
+  # Add errors if the user has already commented the commentable AND it's less
+  # than a year old
   #
   # @return nil
   def doesnt_exist_yet
@@ -226,7 +248,7 @@ class Comment::Review < Comment
     _email        = self.email
     if Comment::Review.where( Comment::Review.arel_table[:commentable_id].eq(_structure_id).and(
                       Comment::Review.arel_table[:email].eq(_email).and(
-                      Comment::Review.arel_table[:created_at].gt(2.months.ago))) ).any?
+                      Comment::Review.arel_table[:created_at].gt(1.year.ago))) ).any?
       self.errors.add :email, I18n.t('comments.errors.already_posted')
     end
   end

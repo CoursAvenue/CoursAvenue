@@ -1,9 +1,10 @@
-= side_menu_currently_at 'blog'
+= side_menu_currently_at 'pages'
 
 .panel
-  .panel__header.soft.text--center
-    = link_to 'Nouvel article', new_pro_blog_article_path, class: 'btn btn--large btn--green'
+  = render partial: 'pro/shared/pages_tabs', locals: { current: 'blog' }
   .panel__body
+    .soft.text--center
+      = link_to 'Nouvel article', new_pro_blog_article_path, class: 'btn btn--large btn--green'
     %table.table--data.table--striped
       %thead
         %tr
@@ -15,21 +16,22 @@
           %th
       %tbody
       - @articles.each do |article|
-        %tr
-          %td= article.title
-          %td
-            %div{ data: { toggle: 'popover', content: article.description, trigger: 'hover', position: 'top' } }
-              .btn Desc
-          %td
-            = l(article.published_at, format: :date_with_year) if article.published_at
-          %td
-            = article.tags.map(&:name).join(', ')
-          %td.text--center
-            - if article.published?
-              %i.fa.fa-check.green
-          %td.nowrap
-            = link_to 'Modifier', edit_pro_blog_article_path(article), class: 'orange'
-            \/
-            = link_to 'Supprimer', pro_blog_article_path(article), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette article ?' }, class: 'red'
-            \/
-            = link_to 'Voir', blog_article_url(article, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank
+        - cache [article, 'pro/blog_articles/index'] do
+          %tr
+            %td= article.title
+            %td
+              %div{ data: { toggle: 'popover', content: article.description, trigger: 'hover', position: 'top' } }
+                .btn Desc
+            %td
+              = l(article.published_at, format: :date_with_year) if article.published_at
+            %td
+              = article.tags.map(&:name).join(', ')
+            %td.text--center
+              - if article.published?
+                %i.fa.fa-check.green
+            %td.nowrap
+              = link_to 'Modifier', edit_pro_blog_article_path(article), class: 'orange'
+              \/
+              = link_to 'Supprimer', pro_blog_article_path(article), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette article ?' }, class: 'red'
+              \/
+              = link_to 'Voir', blog_article_url(article, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank

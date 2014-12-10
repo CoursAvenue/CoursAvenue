@@ -16,30 +16,30 @@ FilteredSearch.addInitializer(function(options) {
     structures_view = new FilteredSearch.Views.StructuresCollection.StructuresCollectionView({
         collection: structures,
         events: {
-            'pagination:next':         'nextPage',
-            'pagination:prev':         'prevPage',
-            'pagination:page':         'goToPage',
-            'filter:summary':          'filterQuery',
-            'map:bounds':              'filterQuery',
-            'filter:subject':          'filterQuery',
-            'filter:level':            'filterQuery',
-            'filter:audience':         'filterQuery',
-            'filter:course_type':      'filterQuery',
-            'filter:discount':         'filterQuery',
-            'filter:date':             'filterQuery',
-            'filter:price':            'filterQuery',
-            'filter:structure_type':   'filterQuery',
-            'filter:payment_method':   'filterQuery',
-            'filter:search_term':      'filterQuery',
-            'filter:location':         'filterQuery',
-            'filter:trial_course':     'filterQuery',
-            'map:marker:click':        'findItemView',
-            'structures:updated':      'structuresUpdated'
+            'pagination:next'       : 'nextPage',
+            'pagination:prev'       : 'prevPage',
+            'pagination:page'       : 'goToPage',
+            'filter:summary'        : 'filterQuery',
+            'map:bounds'            : 'filterQuery',
+            'filter:subject'        : 'filterQuery',
+            'filter:level'          : 'filterQuery',
+            'filter:audience'       : 'filterQuery',
+            'filter:course_type'    : 'filterQuery',
+            'filter:discount'       : 'filterQuery',
+            'filter:date'           : 'filterQuery',
+            'filter:price'          : 'filterQuery',
+            'filter:structure_type' : 'filterQuery',
+            'filter:payment_method' : 'filterQuery',
+            'filter:search_term'    : 'filterQuery',
+            'filter:location'       : 'filterQuery',
+            'filter:trial_course'   : 'filterQuery',
+            'map:marker:click'      : 'findItemView',
+            'structures:updated'    : 'structuresUpdated'
         }
     });
 
-    if ( !structures.server_api['address_name'] ) { structures.server_api['address_name'] = 'Paris' }
-    structures.bootstrap();
+    if ( !structures.queryParams['address_name'] ) { structures.queryParams['address_name'] = 'Paris' }
+    //structures.bootstrap();
 
     /* set up the layouts */
     layout = new FilteredSearch.Views.SearchWidgetsLayout();
@@ -122,13 +122,14 @@ FilteredSearch.addInitializer(function(options) {
     * for setup */
     layout.showWidget(google_maps_view, {
         events: {
-            'paginator:updating'                : 'hideInfoWindow retireMarkers',
-            'structures:childview:highlighted'  : 'exciteMarkers',
-            'structures:childview:unhighlighted': 'exciteMarkers',
-            'map:update:zoom'                   : 'updateZoom',
-            'filter:update:map'                 : 'centerMap',
-            'structures:childview:found'        : 'setMarkerViewAndshowInfoWindow',
-            'structures:childview:peacock'      : 'togglePeacockingMarkers'
+            'structures:updated'               : 'render',
+            'paginator:updating'               : 'hideInfoWindow',
+            'structures:itemview:highlighted'  : 'exciteMarkers',
+            'structures:itemview:unhighlighted': 'exciteMarkers',
+            'map:update:zoom'                  : 'updateZoom',
+            'filter:update:map'                : 'centerMap',
+            'structures:itemview:found'        : 'setMarkerViewAndshowInfoWindow',
+            'structures:itemview:peacock'      : 'togglePeacockingMarkers'
         }
     });
 
@@ -144,7 +145,7 @@ FilteredSearch.addInitializer(function(options) {
         }
     });
 
-    layout.showWidget(subjects_collection_filter);
+    layout.showWidget(subjects_collection_filter, { events: { 'structures:updated:filter': 'setup' }});
     layout.showWidget(location_filter);
     layout.showWidget(results_summary);
 
@@ -169,7 +170,6 @@ FilteredSearch.addInitializer(function(options) {
 
     layout.master.show(structures_view);
     GLOBAL.chosen_initializer();
-    $('[data-toggle=popover]').popover();
 
     if (GLOBAL.is_mobile) {
         $('[data-type="location-filter"]').appendTo($('#mobile-location-filter'));

@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-require 'spec_helper'
+require 'rails_helper'
 
 describe InvitedUser do
 
@@ -10,7 +10,7 @@ describe InvitedUser do
   context '#inform_proposer' do
     it 'updates the registered attribute' do
       invited_user.inform_proposer
-      expect(invited_user.registered).to be_true
+      expect(invited_user.registered).to be(true)
     end
     it 'sends an email in queue' do
       expect {

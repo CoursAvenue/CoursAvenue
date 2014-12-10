@@ -4,12 +4,11 @@ class CourseSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::NumberHelper
 
-  attributes :id, :name, :description, :description_short, :type, :start_date, :end_date, :min_price_amount, :min_price_libelle, :data_url, :subjects,
-             :has_free_trial_lesson, :event_type, :best_price, :is_individual, :search_term, :is_lesson, :frequency,
-             :cant_be_joined_during_year, :no_class_during_holidays, :teaches_at_home, :teaches_at_home_radius,
-             :has_premium_prices, :premium, :on_appointment, :course_location, :min_age_for_kid, :max_age_for_kid,
-             :audiences, :levels, :details, :prices, :premium_prices, :promotion_title, :has_price_group
-
+  attributes :id, :name, :description, :description_short, :type, :subjects,
+             :is_individual, :is_lesson, :frequency, :premium, :on_appointment,
+             :course_location, :min_age_for_kid, :max_age_for_kid, :audiences,
+             :levels, :details, :prices, :premium_prices, :has_price_group,
+             :is_open_for_trial, :has_promotion, :trial_courses_policy_popover
 
   has_many :plannings,      serializer: PlanningSerializer
   has_many :prices,         serializer: PriceSerializer
@@ -20,35 +19,11 @@ class CourseSerializer < ActiveModel::Serializer
   end
 
   def description_short
-    truncate(object.description, :length => 170, :separator => ' ') if object.description
-  end
-
-  def has_free_trial_lesson
-    object.has_free_trial_lesson?
+    truncate(object.description, :length => 170, :separator => ' ') if object.description.present?
   end
 
   def is_individual
     object.is_individual?
-  end
-
-  def teaches_at_home
-    object.teaches_at_home?
-  end
-
-  def teaches_at_home_radius
-    object.structure.teaches_at_home_radius
-  end
-
-  def best_price
-    not object.best_price.nil?
-  end
-
-  def min_price_amount
-    number_to_currency(object.best_price.try(:amount)) if object.best_price
-  end
-
-  def min_price_libelle
-    object.best_price.localized_libelle.downcase if object.best_price
   end
 
   def type
@@ -57,18 +32,6 @@ class CourseSerializer < ActiveModel::Serializer
 
   def is_lesson
     object.is_lesson?
-  end
-
-  def start_date
-    I18n.l(object.start_date, format: :semi_short) if object.start_date
-  end
-
-  def end_date
-    I18n.l(object.end_date, format: :semi_short) if object.end_date
-  end
-
-  def data_url
-    structure_course_path((@options[:structure] || object.structure), object)
   end
 
   # TODO improve with subject_strings ?
@@ -86,24 +49,8 @@ class CourseSerializer < ActiveModel::Serializer
     _subjects.sort{ |a, b| b[:child_length] <=> a[:child_length] }
   end
 
-  def event_type
-    if object.other_event_type?
-      object.event_type_description
-    else
-      object.event_type
-    end
-  end
-
-  def search_term
-    @options[:search_term] if @options[:search_term].present?
-  end
-
   def frequency
     I18n.t(object.frequency) if object.frequency.present?
-  end
-
-  def has_premium_prices
-    object.has_premium_prices?
   end
 
   def premium
@@ -112,17 +59,7 @@ class CourseSerializer < ActiveModel::Serializer
 
   def course_location
     return '' unless object.is_private?
-    string = ""
-    if object.teaches_at_home? and object.home_place
-      string << "Au domicile de l'élève (rayon de #{object.home_place.radius}km autour de #{object.home_place.city.name})"
-    end
-    if object.teaches_at_home? and object.home_place and object.place
-      string << "<br>"
-    end
-    if object.place
-      string << "#{object.place.name}, #{object.place.address}"
-    end
-    string
+    readable_private_course_location(object)
   end
 
   def levels
@@ -135,33 +72,33 @@ class CourseSerializer < ActiveModel::Serializer
 
   def details
     _details = []
-    if on_appointment
+    if object.teaches_at_home?
+      _details << { text: 'Se déplace à domicile',
+                    icon: 'delta fa fa-house' }
+    end
+    if object.on_appointment?
       _details << { text: 'Pas de créneau précis, uniquement sur demande',
                     icon: 'delta fa fa-phone-o' }
     end
-    if is_individual
+    if object.is_individual?
       _details << { text: 'Cours particulier',
                     icon: 'delta fa fa-user' }
     else
       _details << { text: 'Cours collectif',
                     icon: 'fa-2x fa-group' }
     end
-    if teaches_at_home
-      _details << { text: 'Peut se déplacer à domicile',
-                    icon: 'delta fa fa-house' }
-    end
-    if is_lesson
-      _details << { text: "#{frequency} du #{start_date} au #{end_date}",
+    if object.is_lesson?
+      _details << { text: frequency,
                     icon: 'delta fa fa-calendar' }
     end
-    if object.is_lesson? and cant_be_joined_during_year
+    if object.is_lesson? and object.cant_be_joined_during_year?
       _details << { text: "Pas d'inscription en cours d'année",
                     icon: 'delta fa fa-forbidden' }
     elsif object.is_lesson?
       _details << { text: "Inscriptions tout au long de l'année",
                     icon: 'delta fa fa-repeat' }
     end
-    if no_class_during_holidays
+    if object.no_class_during_holidays
       _details << { text: "Pas de cours pendant les vacances scolaires",
                     icon: 'delta fa fa-forbidden' }
     end
@@ -194,15 +131,8 @@ class CourseSerializer < ActiveModel::Serializer
     object.price_group.present?
   end
 
-  def promotion_title
-    if object.structure.premium? and object.price_group
-      if object.has_free_trial_lesson? and object.has_promotion?
-        "Essai gratuit & promotions"
-      elsif object.has_promotion?
-        "Promotions"
-      elsif object.has_free_trial_lesson?
-        "Essai gratuit"
-      end
-    end
+  def trial_courses_policy_popover
+    I18n.t("structures.trial_courses_policy.#{object.structure.trial_courses_policy}_nb_given")
   end
+
 end

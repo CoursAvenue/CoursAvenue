@@ -1,11 +1,12 @@
 class User < ActiveRecord::Base
 
   include Concerns::HstoreHelper
+  include Concerns::HasDeliveryStatus
+  include Concerns::MessagableWithLabel
   include ActsAsUnsubscribable
   include Rails.application.routes.url_helpers
 
   acts_as_messageable
-  include Concerns::MessagableWithLabel
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
@@ -14,26 +15,31 @@ class User < ActiveRecord::Base
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :confirmable,
-         :omniauth_providers => [:facebook]
+         :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid, :oauth_token, :oauth_expires_at,
                   :name, :first_name, :last_name, :gender, :fb_avatar, :location, :avatar,
-                  :birthdate, :phone_number, :zip_code, :city_id, :passions_attributes, :description,
+                  :birthdate, :phone_number, :zip_code, :city_id, :passion_zip_code, :passion_city_id, :passions_attributes, :description,
                   :email_opt_in, :sms_opt_in, :email_promo_opt_in, :email_newsletter_opt_in, :email_passions_opt_in,
                   :email_status, :last_email_sent_at, :last_email_sent_status,
-                  :lived_places_attributes
+                  :lived_places_attributes, :delivery_email_status, :sign_up_at,
+                  :sponsorships, :sponsorship_slug, :interested_in_discovery_pass,
+                  :test_name, :interested_at,
+                  :subscription_from
 
   # To store hashes into hstore
-  store_accessor :meta_data, :after_sign_up_url, :have_seen_first_jpo_popup
+  store_accessor :meta_data, :after_sign_up_url, :have_seen_first_jpo_popup,
+                             :interested_in_discovery_pass, :test_name, :interested_at,
+                             :subscription_from
 
   define_boolean_accessor_for :meta_data, :have_seen_first_jpo_popup
 
 
   has_attached_file :avatar,
-                    styles: { wide: '800x800#', normal: '450x', thumb: '200x200#', small: '100x100#', mini: '40x40#' }
+                    styles: { wide: '800x800#', normal: '450x', thumb: '200x200#', small: '100x100#', mini: '40x40#' },
+                    processors: [:thumbnail, :paperclip_optimizer]
 
   validates_attachment_content_type :avatar, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 
@@ -54,10 +60,20 @@ class User < ActiveRecord::Base
   has_many :cities, through: :lived_places
   has_many :followings
 
+  has_many :discovery_passes
+  has_many :orders, class_name: 'Order::Pass'
+  has_many :participation_requests
+
+  # I have sponsored many users
+  has_many :sponsorships
+  # Other users had sponsored me
+  has_many :sponsors, class_name: 'Sponsorship', foreign_key: 'sponsored_user_id'
+
   has_and_belongs_to_many :subjects
   has_and_belongs_to_many :invited_participations, class_name: 'Participation'
 
   belongs_to :city
+  belongs_to :passion_city, class_name: 'City'
 
   accepts_nested_attributes_for :passions,
                                  reject_if: lambda {|attributes| attributes['subject_id'].blank? },
@@ -71,6 +87,7 @@ class User < ActiveRecord::Base
   # Callbacks                                                          #
   ######################################################################
   after_create :associate_all_comments
+  after_save   :subscribe_to_mailchimp if Rails.env.production?
 
   # Called from Registration Controller when user registers for first time
   def after_registration
@@ -93,6 +110,41 @@ class User < ActiveRecord::Base
   ######################################################################
   scope :active,   -> { where.not(encrypted_password: '') }
   scope :inactive, -> { where( User.arel_table[:encrypted_password].eq('').or(User.arel_table[:encrypted_password] == nil)) }
+  scope :with_avatar, -> { where.not(avatar_file_name: nil) }
+
+
+  searchable do
+    text :first_name
+    text :last_name
+    text :full_name
+    text :email
+
+    string :email
+    boolean :active do
+      self.active?
+    end
+
+    # Here we store event the subject at depth 2 for pro admin dashboard purpose.
+    integer :subject_ids, multiple: true do
+      subject_ids = []
+      self.subjects.uniq.each do |subject|
+        subject_ids << subject.id
+        subject_ids << subject.parent.id if subject.parent
+        subject_ids << subject.root.id if subject.root
+      end
+      subject_ids.compact.uniq
+    end
+
+    boolean :has_comments do
+      comments.any?
+    end
+
+    boolean :has_confirmed do
+      confirmed?
+    end
+    time :created_at
+
+  end
 
   # Creates a user from Facebook
   #
@@ -104,18 +156,23 @@ class User < ActiveRecord::Base
     # TODO: Check if it works
     # ((provider == auth.provider) & (uid == auth.uid)) | (email == auth.info.email)}.first_or_initialize.tap do |user|
     where((User.arel_table[:provider].eq(auth.provider).and(User.arel_table[:uid].eq(auth.uid))).or(User.arel_table[:email].eq(auth.info.email))).first_or_initialize.tap do |user|
+      # If the user was not active, set its created at
+      if !user.active?
+        user.sign_up_at = Time.now
+      end
+
       user.provider           = auth.provider
       user.uid                = auth.uid
       user.oauth_token        = auth.credentials.token
       user.oauth_expires_at   = Time.at(auth.credentials.expires_at)
 
-      user.first_name         = auth.info.first_name
-      user.last_name          = auth.info.last_name
-      user.email              = auth.info.email
-      user.fb_avatar          = auth.info.image
-      user.password           = Devise.friendly_token[0,20]
+      user.first_name         = auth.info.first_name        if user.first_name.blank?
+      user.last_name          = auth.info.last_name         if user.last_name.blank?
+      user.email              = auth.info.email             if user.email.blank?
+      user.fb_avatar          = auth.info.image             if user.fb_avatar.blank?
+      user.password           = Devise.friendly_token[0,20] if user.password.blank?
 
-      if auth.info.location
+      if user.city.nil? and auth.info.location
         city = City.where(City.arel_table[:name].matches(auth.info.location.split(',').first)).first
         if city
           user.city     = city
@@ -130,7 +187,6 @@ class User < ActiveRecord::Base
 
       user.confirmed_at         = Time.now
       user.confirmation_sent_at = Time.now
-
       user.save
     end
   end
@@ -181,22 +237,22 @@ class User < ActiveRecord::Base
     if self.avatar.exists?
       self.avatar.url(format)
     elsif self.fb_avatar
-      if format == :thumb
-        self.fb_avatar('large')
-      else
-        self.fb_avatar
-      end
+      self.fb_avatar(format)
     else
       self.avatar
     end
   end
 
   # Type in: small square large normal
-  def fb_avatar(type='square')
-    if type == 'large'
+  def fb_avatar(format=:normal)
+    if format == :normal
       self.read_attribute(:fb_avatar).gsub(/^http:/, 'https:').split("?")[0] << "?width=200&height=200" unless self.read_attribute(:fb_avatar).nil?
+    elsif :thumb
+      self.read_attribute(:fb_avatar).gsub(/^http:/, 'https:').split("?")[0] << "?width=50&height=50" unless self.read_attribute(:fb_avatar).nil?
+    elsif :small_thumb
+      self.read_attribute(:fb_avatar).gsub(/^http:/, 'https:').split("?")[0] << "?width=30&height=30" unless self.read_attribute(:fb_avatar).nil?
     else
-      self.read_attribute(:fb_avatar).gsub(/^http:/, 'https:').split("=")[0] << "=#{type}" unless self.read_attribute(:fb_avatar).nil?
+      self.read_attribute(:fb_avatar).gsub(/^http:/, 'https:').split("?")[0] << "?width=100&height=100" unless self.read_attribute(:fb_avatar).nil?
     end
   end
 
@@ -250,7 +306,7 @@ class User < ActiveRecord::Base
   end
 
   def full_name
-    "#{first_name.try(:capitalize)} #{last_name.try(:upcase)}"
+    "#{first_name.try(:capitalize)} #{last_name}"
   end
 
   def name_with_email
@@ -264,27 +320,33 @@ class User < ActiveRecord::Base
   # Returns the completion percentage of the user
   def profile_completion
     percentage = 0
-    percentage += 20 if self.full_name.present?
-    percentage += 20 if self.has_avatar?
-    percentage += 20 if self.city
-    percentage += 20 if self.gender and self.birthdate
-    percentage += 20 if self.passions.any?
+    percentage += 25 if self.full_name.present?
+    percentage += 25 if self.has_avatar? and self.city
+    percentage += 25 if self.subjects.any?
+    percentage += 25 if self.followings.any?
     percentage
+  end
+
+  # Params for structures_path regarding the data we have on the user
+  #
+  # @return Hash
+  def around_courses_params
+    if self.city
+      if self.passions.any?
+        { lat: self.city.latitude, lng: self.city.longitude, subject_slugs: self.passions.map(&:subjects).compact.flatten.map(&:slug) }
+      else
+        { lat: self.city.latitude, lng: self.city.longitude }
+      end
+    else
+      {}
+    end
   end
 
   # A url to the /structures page of courses that correspond to user's passion
   #
   # @return string the url
   def around_courses_url
-    if self.city
-      if self.passions.any?
-        structures_path(lat: self.city.latitude, lng: self.city.longitude, subject_slugs: self.passions.map(&:subjects).compact.flatten.map(&:slug))
-      else
-        structures_path(lat: self.city.latitude, lng: self.city.longitude)
-      end
-    else
-      structures_path
-    end
+    structures_path(around_courses_params)
   end
 
   def around_courses_search
@@ -316,6 +378,7 @@ class User < ActiveRecord::Base
     super
     check_if_was_invited
     send_welcome_email
+    update_sponsorship_status
     nil
   end
 
@@ -405,6 +468,80 @@ class User < ActiveRecord::Base
     self.followings.map(&:structure_id).include? structure.id
   end
 
+  def city
+    if read_attribute(:city_id)
+      City.find(read_attribute(:city_id))
+    elsif structures.any?
+      cities = structures.map(&:city) + structures.map(&:places).flatten.map(&:city)
+      cities.group_by{ |city| city }.values.max_by(&:size).first
+    else
+      nil
+    end
+  end
+
+  # Give structures around the user not filtered on subjects
+  # @param limit=3   Integer # of structures that should be returned
+  # @param params={} Hash    eventualparams for the search
+  #
+  # @return Array of Structure
+  def around_structures_all_subjects(limit=3, _params={}, radius_start=0)
+    @city = city || City.find('paris')
+
+    @structures = [] # The structures we will return at the ed
+    (radius_start..7).each do |index|
+      @structures << StructureSearch.search({lat: @city.latitude,
+                                            lng: @city.longitude,
+                                            # Radius will increment from 2.7 to > 1000
+                                            radius: Math.exp(index),
+                                            sort: 'premium',
+                                            has_logo: true,
+                                            per_page: limit
+                                          }.merge(_params)).results
+      @structures = @structures.flatten.uniq
+      break if @structures.length >= limit
+    end
+    return @structures[0..(limit - 1)]
+  end
+
+
+  # Return current (last) discovery_pass
+  #
+  # @return DiscoveryPass or nil if there is no current DiscoveryPass
+  def discovery_pass
+    discovery_pass = self.discovery_passes.order('created_at DESC').first
+    return discovery_pass
+  end
+
+  # Tells if the user is based in Paris and around
+  #
+  # @return Boolean
+  def parisian?
+    return self.zip_code.starts_with? '75','77','78','91','92','93','94','95'
+  end
+
+  # Retuns the sponsorship slug or the slug if it is not defined
+  #
+  # @return String
+  def sponsorship_slug
+    if read_attribute(:sponsorship_slug).nil?
+      self.sponsorship_slug = self.slug
+      write_attribute(:sponsorship_slug, self.slug)
+      self.save
+
+      self.slug
+    else
+      read_attribute(:sponsorship_slug)
+    end
+  end
+
+  # Tells wether the user left a review on a specific Structure
+  # @param structure
+  #
+  # @return Boolean
+  def has_left_a_review_on?(structure)
+    self.comments.where(commentable_id: structure.id, commentable_type: 'Structure').any?
+  end
+
   private
 
   def random_string
@@ -462,4 +599,21 @@ class User < ActiveRecord::Base
     end
     nil
   end
+
+  def subscribe_to_mailchimp
+    MailchimpUpdater.delay.update_user(self)
+  end
+
+  # Set the user as registered in the sponsorships the user belongs to.
+  #
+  # @return nil
+  def update_sponsorship_status
+    if self.sponsors.any?
+      self.sponsors.each do |sponsorship|
+        sponsorship.update_state
+      end
+    end
+    nil
+  end
+
 end

@@ -1,8 +1,8 @@
 # encoding: utf-8
 class PlanningSearch
-
+  ROOT_SUBJECT_ID_SUPPORTED = %w(danse theatre-scene yoga-bien-etre-sante musique-chant deco-mode-bricolage dessin-peinture-arts-plastiques sports-arts-martiaux cuisine-vins photo-video other)
   def self.search params, options= {}
-    params[:sort] ||= 'rating_desc'
+    params[:sort] ||= 'rating-desc'
     # retrieve_location params
 
     # Encode name in UTF8 as it can be submitted by the user and can be bad
@@ -26,7 +26,9 @@ class PlanningSearch
       end
 
       all_of do
+        with :is_open_for_trial,                          true                                          if params[:is_open_for_trial].present?
         with :visible,                                    params[:visible]                              if params[:visible].present?
+        with :is_published,                               params[:is_published]                         if params[:is_published].present?
 
         with(:start_hour).greater_than_or_equal_to        params[:start_hour].to_i                      if params[:start_hour].present?
         with(:end_hour).less_than_or_equal_to             params[:end_hour].to_i                        if params[:end_hour].present?
@@ -91,8 +93,9 @@ class PlanningSearch
 
         with(:structure_type).any_of                       params[:structure_types]                     if params[:structure_types].present?
       end
-
+      order_by :has_logo, :desc
       order_by :search_score, :desc
+      order_by :action_count, :asc
       order_by :view_count, :asc
 
       paginate page: (params[:page] ? params[:page] : 1), per_page: (params[:per_page] || 15)
@@ -100,14 +103,4 @@ class PlanningSearch
 
     @search
   end
-
-  # def self.retrieve_location params
-  #   if params[:lat].blank? or params[:lng].blank?
-  #     params[:address_name] = 'Paris'
-  #     params[:lat]          = 48.8592
-  #     params[:lng]          = 2.3417
-  #   end
-
-  #   [params[:lat], params[:lng]]
-  # end
 end

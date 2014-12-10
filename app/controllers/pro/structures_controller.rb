@@ -1,23 +1,54 @@
 # encoding: utf-8
 class Pro::StructuresController < Pro::ProController
-  before_action :authenticate_pro_admin!, except: [:new, :create, :widget_ext, :best, :payment_confirmation_be2_bill]
-  load_and_authorize_resource :structure, except: [:new, :create, :widget_ext, :best, :payment_confirmation_be2_bill], find_by: :slug
+  before_action :authenticate_pro_admin!, except: [:new, :create, :widget_ext, :best, :payment_confirmation_be2_bill, :dont_want_to_take_control_of_my_sleeping_account, :someone_already_took_control]
+  load_and_authorize_resource :structure, except: [:new, :create, :widget_ext, :best, :payment_confirmation_be2_bill, :dont_want_to_take_control_of_my_sleeping_account, :someone_already_took_control], find_by: :slug
 
   layout :get_layout
 
   respond_to :json
 
-  # GET collection
-  def sleepings
-    @structures = StructureSearch.search({ is_sleeping: true, has_admin: true}).results
+
+  # GET etablissements/:id/quelqu-un-a-deja-le-control
+  # When somebody try to register to a structure that already has an admin
+  def someone_already_took_control
+    @structure = Structure.find params[:id]
   end
 
-  # PUT member
+  # GET etablissements/:id/dont_want_to_take_control_of_my_sleeping_account
+  # No login required
+  def dont_want_to_take_control_of_my_sleeping_account
+    @structure = Structure.find params[:id]
+    @structure.sleeping_email_opt_in = false
+    @structure.sleeping_email_opt_out_reason = params[:reason]
+    @structure.save
+    @structure.index
+    redirect_to root_path, notice: 'Vous avez bien été désabonné'
+  end
+
+  # GET collection
+  def sleepings
+    params[:opt_in] ||= 'true'
+    if params[:opt_in] == 'true'
+      @structures = StructureSearch.search({ is_sleeping: true, has_admin: true, page: params[:page], radius: 10000, active: false }).results
+    else
+      @structures = StructureSearch.search({ is_sleeping: true, sleeping_email_opt_in: false, page: params[:page], radius: 10000 }).results
+    end
+  end
+
+  # PUT etablissements/:id/wake_up
   # Changed is_sleeping from true to false
   def wake_up
     @structure = Structure.find params[:id]
     @structure.wake_up!
-    redirect_to pro_structure_path(@structure), notice: 'Le profil est réveillé !'
+    redirect_to request.referrer, notice: 'Le profil est réveillé !'
+  end
+
+  # PUT etablissements/:id/return_to_sleeping_mode
+  # Rollback to sleeping attributes
+  def return_to_sleeping_mode
+    @structure = Structure.find params[:id]
+    @structure.return_to_sleeping_mode!
+    redirect_to pro_structure_path(@structure), notice: 'Rollback du profil effectué !'
   end
 
   # GET member
@@ -185,10 +216,28 @@ class Pro::StructuresController < Pro::ProController
     retrieve_home_places
   end
 
+  def edit_order_recipient
+    @structure = Structure.friendly.find(params[:id])
+    @default_text =  <<-eos
+#{@structure.name}
+#{@structure.street}
+#{@structure.zip_code} #{@structure.city.name}
+France
+    eos
+    render layout: false
+  end
+
   def edit_contact
     @structure = Structure.friendly.find(params[:id])
-    5.times { @structure.phone_numbers.build }
     @admin     = @structure.main_contact
+
+    5.times { @structure.phone_numbers.build }
+
+    if @admin.from_facebook?
+      @facebook_pages = facebook_pages
+    else
+      @facebook_pages = []
+    end
   end
 
   def new
@@ -204,24 +253,21 @@ class Pro::StructuresController < Pro::ProController
     @structure = Structure.friendly.find params[:id]
     @admin     = @structure.main_contact
     if params[:structure] && params[:structure].delete(:delete_logo) == '1'
-      @structure.logo.clear
+      @structure.remove_logo!
     end
 
     if params[:structure] && params[:structure][:subject_descendants_ids].present?
       params[:structure][:subject_ids] = params[:structure][:subject_ids] + params[:structure].delete(:subject_descendants_ids)
     end
+    # Update logo if logo_filepicker_url is present
+    if params[:structure][:logo_filepicker_url].present?
+      @structure.remote_logo_url = params[:structure][:logo_filepicker_url]
+    end
+
     respond_to do |format|
       if @structure.update_attributes(params[:structure])
-        @structure.logo.reprocess! if @structure.logo.present? && has_cropping_attributes?
-        if !request.xhr? && params[:structure][:logo].present?
-          format.html { redirect_to (crop_logo_pro_structure_path(@structure)), notice: 'Vos informations ont bien été mises à jour.' }
-        else
-          format.html { redirect_to (params[:return_to] || edit_pro_structure_path(@structure)), notice: 'Vos informations ont bien été mises à jour.' }
-          format.js
-          format.json do
-            render json: { logo: { path: @structure.logo.url(:large) } }
-          end
-        end
+        format.html { redirect_to (params[:return_to] || edit_pro_structure_path(@structure)), notice: 'Vos informations ont bien été mises à jour.' }
+        format.js
       else
         retrieve_home_places
         format.js
@@ -271,7 +317,6 @@ class Pro::StructuresController < Pro::ProController
 
   def update_and_delete
     @structure.update_attributes(params[:structure])
-    AdminMailer.delay.is_about_to_delete(@structure)
     respond_to do |format|
       format.js
     end
@@ -279,7 +324,8 @@ class Pro::StructuresController < Pro::ProController
 
   def destroy
     @structure = Structure.friendly.find params[:id]
-    AdminMailer.delay.has_destroyed(@structure)
+    SuperAdminMailer.delay.has_destroyed(@structure)
+    AdminMailer.delay.structure_has_been_destroy(@structure)
     respond_to do |format|
       if @structure.destroy
         if current_pro_admin.super_admin?
@@ -301,74 +347,30 @@ class Pro::StructuresController < Pro::ProController
   end
 
   # GET member
-  def premium
-    Statistic.create(structure_id: @structure.id, action_type: "structure_go_premium_premium_page", infos: request.referrer)
-  end
-
-  # GET member
   def choose_premium
   end
 
-  # GET member
-  def go_premium
-    @subscription_plan = SubscriptionPlan.new plan_type: params[:premium_type]
-    if params[:promo_code]
-      if (promotion_code = PromotionCode.where(code_id: params[:promo_code]).first) and promotion_code.still_valid?(@subscription_plan)
-        @promotion_code = promotion_code
-      else
-        flash[:error] = "Le code promo : #{params[:promo_code]} n'est pas valide"
-      end
-    end
-    if @promotion_code
-      @amount = @subscription_plan.amount_for_be2bill - @promotion_code.promo_amount_for_be2bill
-    else
-      @amount = @subscription_plan.amount_for_be2bill
-    end
-
-    AdminMailer.delay.wants_to_go_premium(@structure, @subscription_plan.plan_type)
-    if @structure.premium?
-      redirect_to premium_pro_structure_path(@structure)
-    end
-    @be2bill_description = "Abonnement Premium CoursAvenue"
-
-    @order_id = Order.next_order_id_for @structure
-    @be2bill_params = {
-      'AMOUNT'        => @amount,
-      'CLIENTIDENT'   => @structure.id,
-      'CLIENTEMAIL'   => @structure.main_contact.email,
-      'CREATEALIAS'   => 'yes',
-      'DESCRIPTION'   => @be2bill_description,
-      'IDENTIFIER'    => ENV['BE2BILL_LOGIN'],
-      'OPERATIONTYPE' => 'payment',
-      'ORDERID'       => @order_id,
-      'VERSION'       => '2.0',
-      'EXTRADATA'     => { promotion_code_id: @promotion_code.try(:id), plan_type: @subscription_plan.plan_type }.to_json
-    }
-    @be2bill_params['HASH'] = SubscriptionPlan.hash_be2bill_params @be2bill_params
-  end
-
-  # GET Payment confirmation page called by Be2bill
-  # Redirect to payment confirmation in order to removes all the parameters from the URL
-  def payment_confirmation_be2bill
-    @structure         = Structure.find params[:CLIENTIDENT]
-    params[:EXTRADATA] = JSON.parse(params[:EXTRADATA])
-    @premium_type = params[:EXTRADATA]['plan_type']
+  # Get etablissements/:id/premium
+  def premium
+    redirect_to pro_structure_subscription_plans_path(@structure), status: 301
   end
 
   # GET member
   def premium_modal
     suffix_acton_type = request.referrer.split('new').first.split('?').first.split('/').last
-    Statistic.create(structure_id: @structure.id, action_type: "structure_go_premium_#{suffix_acton_type}", infos: request.referrer)
+    Metric.create(structure_id: @structure.id, action_type: "structure_go_premium_#{suffix_acton_type}", infos: request.referrer)
     if request.xhr?
       render layout: false
     end
   end
 
-  # GET member
+  # GET structure/:id/signature
+  # Static page that show example of email signature for teachers
   def signature
   end
 
-  # GET member
+  # GET structure/:id/logo
+  # Static page where teacher can download CoursAvenue logos for their communications
   def logo
   end
 
@@ -403,16 +405,11 @@ class Pro::StructuresController < Pro::ProController
   end
 
   def get_layout
-    if action_name == 'new' || action_name == 'create'
+    if action_name == 'new' || action_name == 'create' || action_name == 'someone_already_took_control'
       'admin_pages'
     else
       'admin'
     end
-  end
-
-  # Check if need to reprocess logo
-  def has_cropping_attributes?
-    params[:structure][:crop_width].present? || params[:structure][:crop_x].present? || params[:structure][:crop_y].present?
   end
 
   def retrieve_home_places
@@ -423,5 +420,25 @@ class Pro::StructuresController < Pro::ProController
     if @home_places.empty?
       @home_places << @structure.places.homes.build
     end
+  end
+
+  # Get the selectable Facebook pages
+  #
+  # This method adds the structure's facebook_url if it is not part of the
+  # pages managed by the admin.
+  #
+  # @return an Array of Array of [page_name, URL]
+  def facebook_pages
+    pages = @admin.facebook_pages
+
+    if @structure.facebook_url?
+      if pages.map(&:second).include?(@structure.facebook_url)
+        pages << ['Autre', 'other']
+      else
+        pages << ['Autre', @structure.facebook_url] unless pages.empty?
+      end
+    end
+
+    pages
   end
 end

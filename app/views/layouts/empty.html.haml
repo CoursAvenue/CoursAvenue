@@ -1,8 +1,9 @@
 = content_for :header do
-  - if request.subdomain == 'pro'
-    = render 'shared/empty_pro_header'
-  - else
-    = render 'shared/empty_header'
+  - if !layout_locals[:hide_header]
+    - if request.subdomain == 'pro'
+      = render 'shared/empty_pro_header'
+    - else
+      = render 'shared/empty_header'
 
 = content_for :content do
   = yield

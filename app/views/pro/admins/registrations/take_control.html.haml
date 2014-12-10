@@ -1,21 +1,24 @@
+- content_for :head do
+  %meta{ name: 'robots', content: 'noindex, nofollow' }
+
 = content_for :title do
   Vous travaillez pour #{@structure.name} ? Prenez le contrôle de votre profil.
 
-- profiles = [{ name: "Valérie, Co-dirigeante de l'atelier St Germain des Arts à Paris", slug: 'st-germain-des-arts', bg: 'pro/home_background5-shadowed.jpg', profile_name: 'valerie', image_name: 'valerie', quote: "Avec mon compte gratuit CoursAvenue, j'ai pu améliorer le profil de notre atelier d'arts plastiques et compléter le planning de nos cours. Enfin un site rapide, intuitif et simple d'utilisation.", image_width: 470, image_profile_width: 375, profile_bottom: 185, image_style: 'margin-left: 0px;'}]
-- profiles << { name: "Alain Pons, formateur en photographie à Clermont-Ferrand", slug: 'alain-pons-photographe', bg: 'pro/home_background_alain.jpg', profile_name: 'alain', image_name: 'alain-2', quote: "En prenant le contrôle de mon profil, j'ai reçu les premières recommandations de mes élèves. J'ai alors gagné en visibilité sur CoursAvenue et sur Internet en général", image_width: 300, image_profile_width: 375, profile_bottom: 230 }
+- profiles = [{ name: "Valérie, Co-dirigeante de l'atelier St Germain des Arts à Paris", slug: 'st-germain-des-arts', bg: asset_path('pro/home_background5-shadowed.jpg'), profile_name: 'valerie', image_name: 'valerie', quote: "Avec mon compte gratuit CoursAvenue, j'ai pu améliorer le profil de notre atelier d'arts plastiques et compléter le planning de nos cours. Enfin un site rapide, intuitif et simple d'utilisation.", image_width: 470, image_profile_width: 375, profile_bottom: 185, image_style: 'margin-left: 0px;'}]
+- profiles << { name: "Alain Pons, formateur en photographie à Clermont-Ferrand", slug: 'alain-pons-photographe', bg: asset_path('pro/home_background_alain.jpg'), profile_name: 'alain', image_name: 'alain-2', quote: "En prenant le contrôle de mon profil, j'ai reçu les premières recommandations de mes élèves. J'ai alors gagné en visibilité sur CoursAvenue et sur Internet en général", image_width: 300, image_profile_width: 375, profile_bottom: 230 }
 
 - selected_profile = profiles.sample
 - # In order not to see alain in pro home page
 - if selected_profile[:slug] == 'alain-pons-photographe'
   - cookies[:have_seen_alain] = true
 
-.relative.soft--sides.bg-cover{ style: "background-image: url(#{asset_path(selected_profile[:bg])})", 'data-stellar-background-ratio' => '0.6' }
+.relative.soft--sides.bg-cover{ style: "background-image: url(#{asset_path(selected_profile[:bg])})" }
   .main-container
     %header.grid--full
       .grid__item.four-twelfths.v-bottom.soft--top.relative.visuallyhidden--palm>
         = link_to structure_url(selected_profile[:slug], subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'absolute block', target: :_blank, id: 'valerie-profile', style: 'bottom: -230px' do
-          = image_tag "pro/testimonies/#{selected_profile[:profile_name]}-profile-small.jpg", class: 'block', width: selected_profile[:image_profile_width]
-        = image_tag "pro/testimonies/#{selected_profile[:image_name]}-detour.png", class: 'rounded block', width: selected_profile[:image_width], style: "margin-left: auto; #{selected_profile[:image_style]}"
+          = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/pro/testimonies/#{selected_profile[:profile_name]}-profile-small.jpg", class: 'block', width: selected_profile[:image_profile_width]
+        = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/pro/testimonies/#{selected_profile[:image_name]}-detour.png", class: 'rounded block', width: selected_profile[:image_width], style: "margin-left: auto; #{selected_profile[:image_style]}"
       .grid__item.eight-twelfths.v-bottom.soft--top.palm-one-whole.relative>
         .center-block#gerer-ce-profil
           %div{ style: 'margin-left: -30px;' }
@@ -31,12 +34,20 @@
                 .grid--full
                   - if @structure.logo.present?
                     .grid__item.one-fifth.v-top.text--right.soft--left>
-                      = image_tag @structure.logo.url(:thumb), width: 85
+                      = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block', target: :_blank do
+                        = image_tag @structure.logo.url(:thumb), width: 85
                   .grid__item.v-top.soft--left{ class: (@structure.logo.present? ? 'four-fifths' : 'one-whole')}>
                     %h3.flush
-                      Travaillez-vous pour "#{@structure.name}" ?
+                      Travaillez-vous pour
+                      = link_to "\"#{@structure.name}\"", structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'semi-muted-link', target: :_blank
+                      ?
                     %h4 Choisissez vos identifiants pour gérer votre profil :
 
+                .text--center
+                  %a.btn.btn--bigger.btn--facebook{ data: { behavior: 'facebook-login', disable_with: "Inscription en cours...", structure_id: params[:structure_id] } }
+                    S'inscrire avec Facebook
+                .text--center.push-half--top
+                  %strong.epsilon> OU
                 = simple_form_for [:pro, @admin], url: pro_admin_registration_path, html: { autocomplete: 'off', class: 'half-form'} do |f|
                   = f.error_notification
                   .grid
@@ -54,7 +65,7 @@
                     .grid__item.one-fifth.text--right.v-middle>
                       &nbsp;
                     .grid__item.four-fifths.v-middle>
-                      = f.button :submit, 'Gérer ce profil',  class: 'btn--green btn--large', data: { disable_with: 'Veuillez patienter...' }
+                      = f.button :submit, 'Gérer ce profil',  class: 'one-half btn--green btn--bigger', data: { disable_with: 'Veuillez patienter...' }
                       %br
                       %i.epsilon Gratuit et sans engagement
 
@@ -90,7 +101,7 @@
   %h2.text--center.push--bottom.soft--ends.f-weight-300 Les avantages du profil CoursAvenue
   = render partial: 'pro/shared/free_profile_advantages', locals: { show_all: true }
 
-.bg-cover{ style: "background-image: url(#{asset_path 'pro/home_background6.jpg'})", 'data-stellar-background-ratio' => '0.6' }
+.bg-fixed.bg-cover{ style: "background-image: url(#{asset_path 'pro/home_background6.jpg'})" }
   .main-container.main-container--medium.soft--ends
     %h2.text--center.push--bottom.soft--ends.soft-black-text-shadow.white Simple et rapide
     .grid
@@ -170,4 +181,11 @@
             $(this).animate({ bottom: '-230px' }, 600, 'easeOutExpo');
         });
     });
+
+- if Rails.env.production?
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          mixpanel.track("Structures/show: landed on take control page", { "structure_slug": "#{@structure.slug}", "structure_name": "#{escape_javascript(@structure.name)}" });
+      });
 

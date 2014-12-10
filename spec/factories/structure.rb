@@ -43,5 +43,12 @@ FactoryGirl.define do
         structure.index
       end
     end
+    factory :sleeping_structure do
+      after(:build) do |structure|
+        structure.is_sleeping = true
+        structure.active      = true
+        structure.admins      = []
+      end
+    end
   end
 end

@@ -1,9 +1,10 @@
 = side_menu_currently_at 'invitations'
 
 .panel
-  .panel__header.soft
-    %h3.flush Invitations
+  = render partial: 'pro/shared/invitation_tabs', locals: { current: 'invited_users' }
   .panel__body.soft--ends
+    %h2.soft--sides.f-weight-300 Demande de recommandations
+    .text--center.push-half--ends= paginate @invited_users, window: 1, outer_window: 3
     %table.table--striped.table--data
       %thead
         %tr
@@ -15,26 +16,28 @@
           %th Date
       %tbody
         - @invited_users.each do |invited_user|
-          %tr
-            %td.nowrap
-              - if invited_user.referrer_type == 'User'
-                Élève
-                (#{invited_user.referrer.email})
-              - else
-                Prof
-                (#{invited_user.referrer.contact_email})
-            %td.nowrap
-              - if invited_user.type == 'InvitedUser::Student'
-                Élève
-              - else
-                Prof
-              (#{invited_user.email})
+          - cache [invited_user, 'pro/invited_users/index'] do
+            %tr
+              %td.nowrap
+                - if invited_user.referrer_type == 'User'
+                  Élève
+                  (#{invited_user.referrer.email})
+                - else
+                  Prof
+                  (#{invited_user.referrer.contact_email})
+              %td.nowrap
+                - if invited_user.type == 'InvitedUser::Student'
+                  Élève
+                - else
+                  Prof
+                (#{invited_user.email})
 
-            %td= invited_user.invitation_for
-            %td
-              - if invited_user.registered?
-                %i.fa.fa-check
-            %td
-              - if invited_user.user and Participation.where(user_id: invited_user.user.id).any?
-                %i.fa.fa-check
-            %td= l(invited_user.created_at, format: :date)
+              %td= invited_user.invitation_for
+              %td
+                - if invited_user.registered?
+                  %i.fa.fa-check
+              %td
+                - if invited_user.user and Participation.where(user_id: invited_user.user.id).any?
+                  %i.fa.fa-check
+              %td= l(invited_user.created_at, format: :date)
+    .text--center.push-half--ends= paginate @invited_users, window: 1, outer_window: 3

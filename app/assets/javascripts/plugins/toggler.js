@@ -67,7 +67,6 @@
                     this.caret_icon.removeClass('icon-caret-down').addClass('icon-caret-left');
                 }
                 is_hidden = !is_hidden;
-                $('.stickem').resize();
             }.bind(this));
         }
     };

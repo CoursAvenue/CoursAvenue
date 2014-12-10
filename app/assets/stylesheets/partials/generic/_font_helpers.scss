@@ -1,5 +1,7 @@
 // --------------------- Family
 .ff-open-sans { font-family: "Open Sans"; }
+.ff-pacifico  { font-family: "Pacifico"; }
+.ff-kameron    { font-family: "Kameron"; }
 
 // --------------------- Weights
 .f-weight-100    { font-weight: 100; }
@@ -24,6 +26,8 @@
 
 // --------------------- Size
 .inherit-font-size { font-size  : inherit; }
+.f-size-20 { font-size: 20px; }
+.f-size-16 { font-size: 16px; }
 .f-size-14 { font-size: 14px; }
 .f-size-13 { font-size: 13px; }
 .f-size-12 { font-size: 12px; }
@@ -63,3 +67,8 @@
 
 .no-text-shadow    { @include text-shadow(none); }
 .no-text-transform { text-transform: none; }
+.text-ellipsis {
+    text-overflow: ellipsis;
+    white-space  : nowrap;
+    overflow     : hidden;
+}

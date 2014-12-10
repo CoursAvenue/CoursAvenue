@@ -4,24 +4,22 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
     Module.TrainingsCollection = Backbone.Collection.extend({
         model: Backbone.Model.extend(),
 
-        initialize: function initialize() {
-            this.on('fetch:done', this.resetCollection.bind(this));
+        initialize: function initialize(collection, bootstrap_meta) {
+            this.structure_id = bootstrap_meta.structure_id;
+            this.structure_id = bootstrap_meta.structure_id;
+            this.fetch({
+                success: function(trainings_collection, response) {
+                    trainings_collection.reset(response.courses)
+                }
+            });
         },
 
-        resetCollection: function resetCollection(response) {
-            this.total_not_filtered = response.meta.total_not_filtered
-            this.reset(response.courses);
-        },
-
-        url: function() {
-            var structure_id  = this.structure.get('id'),
-                query_params  = this.structure.get("query_params"),
-                route_details = {
+        url: function url () {
+            var route_details = {
                     format: 'json',
-                    id: structure_id
+                    id: this.structure_id
                 };
-            _.extend(query_params, { course_types: ['training']})
-            return Routes.structure_courses_path(route_details, query_params);
+            return Routes.structure_courses_path(route_details, { course_type: 'trainings' });
         }
     });
 });

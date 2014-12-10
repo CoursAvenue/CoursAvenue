@@ -1,17 +1,18 @@
 class UserAbility
   include CanCan::Ability
 
-  def initialize(current_user)
-    if current_user
-      if current_user.super_user
+  def initialize(user)
+    if user
+      if user.super_user?
         can :manage, :all
       else
-        can :manage, current_user
-        can :manage, current_user.participations
-        can :manage, current_user.comment_notifications
-        can :manage, current_user.passions
-        can :manage, current_user.comments
-        can :manage, current_user.invited_users
+        can :manage, user
+        can :manage, user.participations
+        can :manage, user.comment_notifications
+        can :manage, user.passions
+        can :manage, user.comments
+        can :manage, user.invited_users
+        can :manage, user.mailbox.conversations
       end
     end
     # Define abilities for the passed in user here. For example:

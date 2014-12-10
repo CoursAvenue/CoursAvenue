@@ -2,17 +2,17 @@
 - structure = media.mediable  if structure.nil?
 .media__item.one-whole.relative{ class: ( index > 2 ? 'premium-box premium-box--bordered' : 'gray-box') }
   - if index == 0
-    = image_tag 'icons/first-ribbon.png', class: 'north west absolute on-top', height: 80, width: 80, style: 'width: 80px; height: 80px;'
+    = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/first-ribbon.png', class: 'north west absolute on-top', height: 80, width: 80, style: 'width: 80px; height: 80px;'
   - elsif index > 2
-    = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 80, width: 80, style: 'width: 80px; height: 80px; top: -3px !important; left: -3px !important;'
-  %a.bg-cover.break-all.soft-half.hard--bottom.block.show-on-hover-wrapper.relative{href: media.url, title: media.caption, style: "height: 200px; background-image: url(#{media.thumbnail_url})", data: { behavior: 'fancy' } }
+    = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/premium-ribbon.png', class: 'north west absolute on-top', height: 80, width: 80, style: 'width: 80px; height: 80px; top: -3px !important; left: -3px !important;'
+  %a.bg-cover.break-all.soft-half.hard--bottom.block.show-on-hover-wrapper.relative{ href: media.url, title: media.caption, style: "height: 200px; background-image: url(\"#{media.thumbnail_url}\")", data: { behavior: 'fancy' } }
     .show-on-hover.absolute.absolute--center.text--center
       - if media.video?
         %i.fa.fa-youtube-play.fa-4x.white
       - else
         %i.fa.fa-eye.fa-4x.white
   .soft-half
-    - if show
+    - if show and media.caption.present?
       %p.flush= media.caption
     - else
       = simple_form_for [:pro, @structure, media], url: pro_structure_media_path(@structure, media), remote: true, as: :media, html: { data: { behavior: 'live-form' } } do |f|

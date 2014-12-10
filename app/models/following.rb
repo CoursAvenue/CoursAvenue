@@ -12,9 +12,6 @@ class Following < ActiveRecord::Base
   private
 
   def affect_tag_to_user_profile
-    user_profile = UserProfile.where(UserProfile.arel_table[:structure_id].eq(self.structure.id).and(
-                      UserProfile.arel_table[:user_id].eq(self.user.id))).first
-    return if user_profile.nil?
-    user_profile.add_tags(UserProfile::DEFAULT_TAGS[:following])
+    structure.create_or_update_user_profile_for_user(user, UserProfile::DEFAULT_TAGS[:following])
   end
 end

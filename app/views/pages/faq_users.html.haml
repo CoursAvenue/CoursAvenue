@@ -1,125 +1,50 @@
-.home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background5.jpg'})", 'data-stellar-background-ratio' => '0.6' }
+= content_for :title do
+  - if request.subdomain == 'pro'
+    Pro.CoursAvenue.com - Questions les plus fréquentes
+  - else
+    CoursAvenue.com - Questions les plus fréquentes
+= content_for :meta_description do
+  - if request.subdomain == 'pro'
+    Pourquoi référencer vos cours ? Comment gérer votre profil ? En quoi consiste CoursAvenue ? Trouvez les réponses à toutes vos questions.
+  - else
+    Qu'est-ce que CoursAvenue.com ? Quels cours trouve-t-on sur CoursAvenue ? Quels sont les points forts de CoursAvenue ? Trouvez les réponses à toutes vos questions.
+
+.bg-fixed.home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background7.jpg'})" }
   .main-container.soft
-    %h1.flush Foire aux questions
+    %h1.flush
+      - if request.subdomain == 'pro'
+        Pro.CoursAvenue.Com -
+      Questions les plus fréquentes
 
-.main-container.soft
+.main-container.soft--ends
   .grid
-    .grid__item.one-third>
-      %h4.zeta Qu’est-ce que CoursAvenue
-    .grid__item.two-thirds
-      %p CoursAvenue est un service de réservation de cours, stages et formations en ligne gratuit. Notre promesse : vous proposer du choix, des offres promotionnelles et un service ultra fiable pour trouver, comparer et réserver un cours en ligne, dans toute la France. Nous sommes une équipe française basée à Paris.
+    .grid__item.four-twelfths.soft--right>
+      %nav.white-box.side-menu.one-whole
+        %ul
+          - @sections.each_with_index do |section, index|
+            - cache [section, 'faq/sidebar'] do
+              %li.omega.orange{ class: index == 0 ? 'active' : ''}
+                = link_to section.title, "##{section.slug}", class: 'side-menu-link', data: { toggle: 'tab' }
 
-  %h2.delta.brand Sur les professeurs et les structures d’enseignement : qu'est-ce que l'on trouve sur ce site ?
+    .grid__item.eight-twelfths.white-box.soft>
+      - @sections.each_with_index do |section, index|
+        %div.hide.tab-pane{ id: section.slug, class: index == 0 ? 'active' : '' }
+          - section.questions.each do |sub_section|
+            - cache [sub_section, 'faq/sub_section'] do
+              %h5.blue.toggleable-header{ data: { behavior: 'toggleable', el:'+ div' } }
+                = sub_section.question
+                %i.fa.fa-caret-left
+              %div.hide.soft--sides
+                = sub_section.answer.html_safe
 
-  .grid
-    .grid__item.one-third>
-      %h4.zeta Quels cours trouve-t-on sur CoursAvenue ?
-    .grid__item.two-thirds
-      %p Sur CoursAvenue, vous retrouvez une offre variée de plus 5 000 cours de qualité. Pour qu'un cours puisse être référencé sur notre site, 3 conditions sont imposées : le cours doit être dispensé par un professionnel, il doit avoir des horaires précis et un lieu validé. Des cours de loisirs aux cours professionnels et qualifiants, le choix est large : cours de cuisine mets & vins, cours de photographie sur IPhone, cours d'expression orale... Cadre, ambiance, service et bien entendu qualité du cours sont au rendez-vous pour se défouler tous les lundis soir, se reconvertir à une autre profession, ou tout simplement initier son petit de 12 mois aux arts créatifs.
+  .delta.push--top.text--center
+    Vous ne trouvez pas la réponse à votre question ?
+    = link_to 'Contactez-nous', pages_contact_path
 
-  .grid
-    .grid__item.one-third>
-      %h4.zeta Comment sont-ils sélectionnés ?
-    .grid__item.two-thirds
-      %p Afin de garantir une offre variée et de qualité, les structures d’enseignement sélectionnées doivent remplir deux critères principaux : être des professionnels, et être des étalissements de qualité. L’offre peut donc aller du professeur indépendant aux grandes écoles renommées.
-
-  %h2.delta.brand Sur la réservation en ligne : pas de stress !
-
-  .grid
-    .grid__item.one-third>
-      %h4.zeta Comment être sûr que je puisse bien assister à la séance de mon choix ?
-    .grid__item.two-thirds
-      %p Si vous souhaitez assister à un cours, cliquez sur le bouton correspondant (présent sur la fiche cours). Nous vous envoyons alors un email vous indiquant toutes les coordonnées sur professeur ou de l'école afin d'effectuer votre réservation. De son côté, l’établissement été averti automatiquement de votre demande réservation, un email comportant vos coordonnées lui est envoyé.
-
-
-  .grid
-    .grid__item.one-third>
-      %h4.zeta Dois-je indiquer que j'ai trouvé le cours sur CoursAvenue lorsque je contact l'établissement pour ma réservation ?
-    .grid__item.two-thirds
-      %p Oui : afin de bénéficier des offres exclusives CoursAvenue, précisez bien que vous avez trouvé leur cours sur notre site.
-
-
-  .grid
-    .grid__item.one-third>
-      %h4.zeta Je n'ai pas reçu mon mail indiquant les coordonnées de l'établissement. Que faire ?
-    .grid__item.two-thirds
-      %p Vous avez appuyé sur le bouton "Assister à ce cours", vous vous êtes enregistré et vous n'avez toujours rien reçu ? Si votre adresse email est bien correcte, pensez à vérifier dans le dossier SPAM/Courrier indésirable de votre boîte mail. Afin de mieux recevoir nos mails, pensez à ajouter l'adresse contact@coursavenue.com dans votre carnet d'adresses ou dans votre liste d'expéditeurs autorisés. Sinon, déconnectez-vous de votre compte utilisateur et refaites les étapes.
-
-  %h2.delta.brand Sur les promotions :
-
-  .grid
-    .grid__item.one-third>
-      %h4.zeta Qui décide du prix et des promotions ?
-    .grid__item.two-thirds
-      %p Ce sont nos Partenaires qui décident eux-mêmes du prix de leurs cours et des promotions. C’est d’ailleurs eux aussi qui choisissent tout le reste : la discipline, le jour, la durée et le nombre de participants.
-
-  .grid
-    .grid__item.one-third>
-      %h4.zeta -30% sur le cours : comment est-ce possible ?
-    .grid__item.two-thirds
-      %p -70% sur un vêtement pendant les soldes, un voyage acheté sur Internet à moitié prix, ou une réduction sur une séance de massage, c'est très courant. Avec CoursAvenue, c'est le même principe ! Nous vous permettons de bénéficier de réductions que nous négocions directement auprès des structures d’enseignement. Tout le monde y gagne !
-
-  .grid
-    .grid__item.one-third>
-      %h4.zeta Tous les cours sur CoursAvenue sont-ils en promotion ?
-    .grid__item.two-thirds
-      %p Regardez si la mention « Promo » figure sur la photo et la fiche du cours.
-
-
-  .grid
-    .grid__item.one-third>
-      %h4.zeta Tous les cours en promotion sur CoursAvenue sont-ils à -50% ?
-    .grid__item.two-thirds
-      %p Non. Nous vous proposons la meilleure offre possible sur une sélection de cours : des -50% bien sûr, mais aussi des -20%, des séances exclusives CoursAvenue et bien d'autres occasions pour réveiller vos talents !
-
-  .grid
-    .grid__item.one-third>
-      %h4.zeta Pour un même et seul cours, la promotion est-elle valable sur toutes les formules ?
-    .grid__item.two-thirds
-      %p Cela dépend. La promotion peut concerner une ou toutes les formules proposées. Par exemple, pour un même cours, vous pouvez bénéficier de -30% sur le forfait trimestriel, alors que le ticket à la séance pourra ne pas être proposé en promotion. Pour connaître le détail exact de la promotion, cliquez sur le cours concerné depuis la page « Recherche », puis dirigez-vous sur l’onglet « Prix ».
-
-  .grid
-    .grid__item.one-third>
-      %h4.zeta Comment bénéficier de la promotion ?
-    .grid__item.two-thirds
-      %p Pour bénéficier d'une promotion, il suffit de l'indiquer à l'établissement lors de votre réservation.
-
-  .grid
-    .grid__item.one-third>
-      %h4.zeta Dois-je prévenir que je viens de CoursAvenue pour obtenir la promotion ? Dois-je réclamer la promotion ?
-    .grid__item.two-thirds
-      %p Oui ! Au moment de la réservation, dites que vous avez trouvé l'offre promotionnelle sur CoursAvenue.
-
-
-  .grid
-    .grid__item.one-third>
-      %h4.zeta Les élèves bénéficiant d'une promotion reçoivent-ils le même service que les autres ?
-    .grid__item.two-thirds
-      %p Oui. Par défaut tous les clients reçoivent le même service et suivent le même cours. Il est même probable que les clients CoursAvenue reçoivent un traitement « privilégié » puisque ces derniers peuvent donner leur avis et avoir une vraie influence sur le choix d'autres internautes. La plupart des professeurs sont donc extrêmement vigilants : pas de mauvaise surprise !
-
-  %h2.delta.brand Sur les avis :
-
-  .grid
-    .grid__item.one-third>
-      %h4.zeta N'importe qui peut-il déposer un avis sur CoursAvenue ?
-    .grid__item.two-thirds
-      %p Non. Seuls les internautes ayant réservé par CoursAvenue peuvent déposer un avis. Un gage de crédibilité sur les commentaires et les notes déposés sur CoursAvenue.com !
-
-  .grid
-    .grid__item.one-third>
-      %h4.zeta Comment déposer un avis ?
-    .grid__item.two-thirds
-      %p Après votre cours, déposez votre avis et partagez votre expérience directement sur la page concernant la séance suivie.
-
-  .grid
-    .grid__item.one-third>
-      %h4.zeta Toutes les notes sont-elles publiées ?
-    .grid__item.two-thirds
-      %p Oui à partir du moment où la réservation a été honorée. Si vous avez laissé un commentaire, celui-ci est alors relu par nos équipes avant publication.
-
-
-  .grid
-    .grid__item.one-third>
-      %h4.zeta Pourquoi mon commentaire écrit n'est-il pas publié ?
-    .grid__item.two-thirds
-      %p Si la note est automatiquement publiée, CoursAvenue se réserve le droit de ne pas publier votre commentaire écrit, notamment dans le cadre de propos injurieux ou non conformes aux Mentions Légales du site. Priorité aux avis constructifs ! Cependant, votre avis, même non publié, est automatiquement remonté au professeur concerné afin de l'informer.
+= content_for :scripts do
+  :javascript
+      $(function() {
+          if (window.location.hash.length > 0 && window.location.hash != '#_=_') {
+              $('[href=' + window.location.hash + ']').tab('show');
+          }
+      });

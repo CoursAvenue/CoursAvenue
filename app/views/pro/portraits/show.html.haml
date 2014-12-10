@@ -1,27 +1,27 @@
-.home-screen-promotion-wrapper.soft
-  .main-container
+- cache [@portrait, 'pro/portrait/show_V2'] do
+  .bg-fixed.bg-cover.home-screen-promotion-wrapper.soft{ style: "background-image: url(#{@portrait.medias.order('caption DESC').limit(1).offset(0).first.url});" }
+    .main-container.main-container--medium.white.soft-black-text-shadow
+      %h1= @portrait.title
+      %h3.quoted.line-height-1-7= @portrait.quote
+      %p.epsilon
+        %strong= @portrait.quote_name
+
+  .main-container.main-container--medium.soft--ends
     .grid
-      .grid__item.two-thirds.v-middle>
-        %h1.f-weight-300= @portrait.title
-        %h3.quoted.line-height-1-7.f-weight-300= @portrait.quote
-        %p.epsilon= @portrait.quote_name
-      .grid__item.one-third.v-middle>
-        = image_tag @images.first.thumbnail_url, class: 'block'
+      .grid__item.two-thirds>
+        .blog-article__content
+          .blue-box.soft.push--bottom
+            %p.epsilon.white
+              %strong= @portrait.top_line_about
+            %p.flush.white= @portrait.top_line
 
-.main-container.soft--ends
-  .grid
-    .grid__item.two-thirds>
-      .blog-article__content
-        .bg-cover.soft.soft-black-text-shadow.relative{ style: "background-image: url(#{@portrait.medias.order('caption DESC').limit(1).offset(0).first.url}); height: 400px;" }>
-          .absolute.south
-            %p.epsilon.white= @portrait.top_line_about
-            %p.white= @portrait.top_line
+          = @portrait.content.html_safe
 
-        = @portrait.content.html_safe
+          .blue-box.soft.push--bottom
+            %p.epsilon.white
+              %strong À retenir
+            %p.flush.white= @portrait.bottom_line
 
-        .bg-cover.soft.soft-black-text-shadow.relative{ style: "background-image: url(#{@portrait.medias.order('caption DESC').limit(1).offset(1).first.url}); height: 400px;" }>
-          %p.white.absolute.south= @portrait.bottom_line
-
-    .grid__item.one-third>
-      - @images.offset(7).limit(6).each do |image|
-        .bg-cover{ style: "background-image: url(#{image.thumbnail_url}); height: 400px;" }>
+      .grid__item.one-third>
+        - @images.offset(7).limit(6).each do |image|
+          .bg-cover{ style: "background-image: url(#{image.thumbnail_url}); height: 400px;" }>

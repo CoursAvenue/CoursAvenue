@@ -1,5 +1,5 @@
 - if current_user.invited_users.any?
-  %ul.tabs.push--bottom
+  %ul.tabs.panel__header
     %li{class: (current == 'new' ? 'active' : '')}
       = link_to new_user_invited_user_path(current_user) do
         %i.fa.fa-bullhorn

@@ -1,14 +1,14 @@
-= side_menu_currently_at 'last_messages'
+= side_menu_currently_at 'activity'
 
 .panel
-  %ul.tabs.panel__header
-    %li{ class: params[:info].present? ? '' : 'active' }
-      = link_to "Tous les messages", pro_conversations_path()
-    %li{ class: params[:info].present? ? 'active' : '' }
-      = link_to "Demandes d'infos", pro_conversations_path(info: true)
+  = render partial: 'pro/shared/activity_tabs', locals: { current: params[:info] ? 'info_messages' : 'all_messages' }
 
   .panel__body.soft
+    .text--center.push-half--ends= paginate @conversations, window: 1, outer_window: 3
     - @conversations.each do |conversation|
-      - structure = conversation.recipients.select{|r| r.is_a? Admin}.first.structure
+      - structure = conversation.recipients.select{|r| r.is_a? Admin}.first.try(:structure)
+      - next if structure.nil?
       = link_to pro_structure_conversation_path(structure, conversation), class: 'muted-link' do
-        = render partial: 'conversations/conversation', locals: { conversation: conversation }
+        - cache [conversation, 'pro/conversations'] do
+          = render partial: 'conversations/conversation', locals: { conversation: conversation }
+    .text--center.push-half--ends= paginate @conversations, window: 1, outer_window: 3

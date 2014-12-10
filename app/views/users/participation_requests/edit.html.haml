@@ -1,0 +1,1 @@
+= render partial: 'pro/participation_requests/modify_date', locals: { logo_url: @participation_request.structure.logo.url(:thumb), name: @participation_request.structure.name, simple_form_array: [@user, @participation_request], simple_form_url: modify_date_user_participation_request_path(@user, @participation_request) }

@@ -4,3 +4,5 @@
 //= require ./data_mining/manifest
 //
 //= require ./user_management/manifest
+//
+//= require ./emailings/manifest

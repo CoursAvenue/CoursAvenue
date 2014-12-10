@@ -6,13 +6,13 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
         template: Module.templateDirname() + 'comments_collection_view',
         childViewContainer: '[data-type=container]',
 
-        initialize: function(options) {
+
+        initialize: function initialize (options) {
             this.about = options.about;
             this.pagination_bottom = new CoursAvenue.Views.PaginationToolView({});
             this.pagination_bottom.on('pagination:next', this.nextPage.bind(this));
             this.pagination_bottom.on('pagination:prev', this.prevPage.bind(this));
             this.pagination_bottom.on('pagination:page', this.goToPage.bind(this));
-            this.announcePaginatorUpdated();
         },
 
         onRender: function onRender () {
@@ -20,17 +20,20 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
         },
 
         announcePaginatorUpdated: function announcePaginatorUpdated () {
-            if (this.collection.paginator_ui) { this.collection.paginator_ui.currentPage = this.collection.currentPage; }
             var data = {
-                current_page:        this.collection.paginator_ui.currentPage,
+                current_page:        this.collection.state.currentPage,
                 queryOptions:       '',
-                last_page:           this.collection.paginator_ui.totalPages,
+                last_page:           this.collection.state.totalPages,
                 radius:              3,
                 query_strings:       '',
-                previous_page_query: this.collection.previousQuery(),
-                next_page_query:     this.collection.nextQuery()
+                is_last_page:        this.collection.isLastPage(),
+                is_first_page:       this.collection.isFirstPage(),
             };
             this.pagination_bottom.reset(data);
+            if (this.collection.state.grandTotal == 0) {
+                this.$('[data-empty-comments]').removeClass('hidden');
+                this.$('[data-not-empty-comments]').hide();
+            }
         },
 
         childViewOptions: function childViewOptions () {
@@ -43,7 +46,7 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
             return {
                 new_comments_path: Routes.new_structure_comment_path(this.collection.structure.get('slug')),
                 about            : this.about,
-                has_comments     : this.collection.length > 0
+                has_comments     : this.collection.structure.get('has_comments')
             }
         }
     });

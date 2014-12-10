@@ -12,7 +12,9 @@ class Blog::Article < ActiveRecord::Base
   has_and_belongs_to_many :subjects
 
   has_attached_file :cover_image,
-                    styles: { default: '750x', small: '250x200#'}
+                    styles: { default: '750x', small: '250x200#', very_small: '150x120#' },
+                    convert_options: { default: '-interlace Plane', small: '-interlace Plane', very_small: '-interlace Plane' },
+                    processors: [:thumbnail, :paperclip_optimizer]
 
   validates_attachment_content_type :cover_image, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 
@@ -33,6 +35,13 @@ class Blog::Article < ActiveRecord::Base
     else
       read_attribute(:published_at)
     end
+  end
+
+  # Return similar articles
+  def similar_articles(limit = 2)
+    articles = Blog::Article.published.tagged_with(self.tags).take(limit)
+    articles += Blog::Article.order('RANDOM()').take(limit - articles.length + 1)
+    articles.reject { |article| article.id == self.id }.uniq.take(limit)
   end
 
   private

@@ -1,0 +1,27 @@
+CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
+    Models.Statistic = Backbone.Model.extend({
+
+        /*
+         * structure_id - id of the structure
+         * action_type  - Type of action, must be included in Statistic::ACTION_TYPES
+         * params       - optional hash of params
+         *
+         * Save Statistic to server with POST request
+         */
+        logStat: function logStat (structure_id, action_type, params) {
+            params = params || {};
+            if (<%= Metric::ACTION_TYPES %>.indexOf(action_type) === -1) {
+                throw new TypeError("Action type does not exist");
+            }
+            $.ajax({
+                type: "POST",
+                dataType: 'js',
+                url: Routes.structure_statistics_path(structure_id),
+                data: _.extend({
+                    action_type: action_type,
+                    fingerprint: $.cookie('fingerprint'),
+                }, params)
+            });
+        },
+    });
+});

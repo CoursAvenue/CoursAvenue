@@ -1,0 +1,11 @@
+- content_for :user_top_menu do
+  .darkgray-box.flexbox.print--hidden{ class: layout_locals[:top_menu_header_class], data: { behavior: 'sticky', z: 1000 } }
+    .main-container.user-top-menu
+      = user_top_menu_link 'dashboard'     , dashboard_user_path(@user)              , current: current_tab
+      = user_top_menu_link 'infos'         , edit_user_path(@user)                   , current: current_tab
+      = user_top_menu_link 'inscriptions'  , user_participation_requests_path(@user) , current: current_tab
+      = user_top_menu_link 'passions'      , user_passions_path(@user)               , current: current_tab
+      = user_top_menu_link 'favorites'     , user_followings_path(@user)             , current: current_tab
+      = user_top_menu_link 'inbox'         , user_conversations_path(@user)          , current: current_tab
+      = user_top_menu_link 'reviews'       , user_comments_path(@user)               , current: current_tab
+      = user_top_menu_link 'share'         , new_user_invited_user_path(@user)       , current: current_tab

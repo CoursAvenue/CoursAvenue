@@ -1,7 +1,8 @@
 # -*- encoding : utf-8 -*-
-require 'spec_helper'
+require 'rails_helper'
 
 describe Pro::Structures::ParticipationsController do
+  include Devise::TestHelpers
 
   let(:admin) { FactoryGirl.create(:admin) }
 
@@ -9,7 +10,7 @@ describe Pro::Structures::ParticipationsController do
     sign_in admin
   end
 
-  describe :index do
+  describe 'index' do
     it 'returns 200' do
       get :index, structure_id: admin.structure.slug
       expect(response).to be_success

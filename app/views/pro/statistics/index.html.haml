@@ -1,7 +1,7 @@
-= side_menu_currently_at 'statistics'
+= side_menu_currently_at 'pro_dashboard'
+
 .panel
-  .panel__header.soft
-    %h3.flush Statistiques
+  = render partial: 'pro/shared/dashboard_tabs', locals: { current: 'statistics' }
   .panel__body.soft
     %table.table--data.table--striped
       %thead
@@ -9,7 +9,7 @@
           %th URL
           %th #
       %tbody
-        - Statistic.structure_go_premium.group_by(&:action_type).each do |url, statistics|
+        - Metric.structure_go_premium.group_by(&:action_type).each do |url, statistics|
           %tr
             %td= url
             %td= statistics.count
@@ -37,6 +37,8 @@
     #statistics
 
 = content_for :scripts do
+  = javascript_include_tag 'libs/highcharts/highcharts'
+  = javascript_include_tag 'libs/highcharts/modules/exporting'
   :javascript
     $(function() {
         var statistic_chart = new Highcharts.Chart({

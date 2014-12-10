@@ -1,7 +1,7 @@
 {
   "checksum": {
-    "previous": "a3b29501156f5a38d9e0709b26f4bd8754eb2d29b38faad19f1d2eaa933ea37d",
-    "current": "a3b29501156f5a38d9e0709b26f4bd8754eb2d29b38faad19f1d2eaa933ea37d"
+    "previous": "3ec0f95283a4760b47f44e8eb29aea2e6a4d899d6b971455ccee8bd192efa66b",
+    "current": "3ec0f95283a4760b47f44e8eb29aea2e6a4d899d6b971455ccee8bd192efa66b"
   },
   "fonts": [
     "app/assets/fonts/GlyphAvenue.ttf",
@@ -11,103 +11,119 @@
   ],
   "glyphs": {
     "audiences": {
-      "codepoint": 61714,
+      "codepoint": 61844,
       "source": "app/assets/images/icons/svg/audiences.svg"
     },
     "audiences-old": {
-      "codepoint": 61794,
+      "codepoint": 61845,
       "source": "app/assets/images/icons/svg/audiences-old.svg"
     },
     "bar-chart-o": {
-      "codepoint": 61765,
+      "codepoint": 61846,
       "source": "app/assets/images/icons/svg/bar-chart-o.svg"
     },
     "bars": {
-      "codepoint": 61734,
+      "codepoint": 61840,
       "source": "app/assets/images/icons/svg/bars.svg"
     },
     "book": {
-      "codepoint": 61762,
+      "codepoint": 61841,
       "source": "app/assets/images/icons/svg/book.svg"
     },
     "bullhorn": {
-      "codepoint": 61743,
+      "codepoint": 61842,
       "source": "app/assets/images/icons/svg/bullhorn.svg"
     },
     "calendar": {
-      "codepoint": 61715,
+      "codepoint": 61843,
       "source": "app/assets/images/icons/svg/calendar.svg"
     },
     "check": {
-      "codepoint": 61749,
+      "codepoint": 61836,
       "source": "app/assets/images/icons/svg/check.svg"
     },
     "chevron-down": {
-      "codepoint": 61716,
+      "codepoint": 61837,
       "source": "app/assets/images/icons/svg/chevron-down.svg"
     },
     "chevron-left": {
-      "codepoint": 61739,
+      "codepoint": 61838,
       "source": "app/assets/images/icons/svg/chevron-left.svg"
     },
     "chevron-right": {
-      "codepoint": 61718,
+      "codepoint": 61839,
       "source": "app/assets/images/icons/svg/chevron-right.svg"
     },
     "chevron-up": {
-      "codepoint": 61719,
+      "codepoint": 61833,
       "source": "app/assets/images/icons/svg/chevron-up.svg"
     },
     "circle-o": {
-      "codepoint": 61786,
+      "codepoint": 61834,
       "source": "app/assets/images/icons/svg/circle-o.svg"
     },
     "clock": {
-      "codepoint": 61720,
+      "codepoint": 61835,
       "source": "app/assets/images/icons/svg/clock.svg"
     },
     "close": {
-      "codepoint": 61772,
+      "codepoint": 61830,
       "source": "app/assets/images/icons/svg/close.svg"
     },
     "cogs": {
-      "codepoint": 61759,
+      "codepoint": 61831,
       "source": "app/assets/images/icons/svg/cogs.svg"
     },
     "comment": {
-      "codepoint": 61801,
+      "codepoint": 61832,
       "source": "app/assets/images/icons/svg/comment.svg"
     },
     "contact": {
-      "codepoint": 61744,
+      "codepoint": 61826,
       "source": "app/assets/images/icons/svg/contact.svg"
     },
     "credit-card": {
-      "codepoint": 61755,
+      "codepoint": 61827,
       "source": "app/assets/images/icons/svg/credit-card.svg"
     },
     "dashboard": {
-      "codepoint": 61751,
+      "codepoint": 61828,
       "source": "app/assets/images/icons/svg/dashboard.svg"
     },
     "dot-circle-o": {
-      "codepoint": 61788,
+      "codepoint": 61829,
       "source": "app/assets/images/icons/svg/dot-circle-o.svg"
     },
+    "download": {
+      "codepoint": 61818,
+      "source": "app/assets/images/icons/svg/download.svg"
+    },
     "envelope-o": {
-      "codepoint": 61737,
+      "codepoint": 61819,
       "source": "app/assets/images/icons/svg/envelope-o.svg"
     },
     "eur": {
-      "codepoint": 61753,
+      "codepoint": 61820,
       "source": "app/assets/images/icons/svg/eur.svg"
     },
     "eye": {
-      "codepoint": 61735,
+      "codepoint": 61821,
       "source": "app/assets/images/icons/svg/eye.svg"
     },
+    "face-happy": {
+      "codepoint": 61822,
+      "source": "app/assets/images/icons/svg/face-happy.svg"
+    },
+    "face-neutral": {
+      "codepoint": 61823,
+      "source": "app/assets/images/icons/svg/face-neutral.svg"
+    },
+    "face-sad": {
+      "codepoint": 61824,
+      "source": "app/assets/images/icons/svg/face-sad.svg"
+    },
     "facebook": {
-      "codepoint": 61792,
+      "codepoint": 61825,
       "source": "app/assets/images/icons/svg/facebook.svg"
     },
     "flag": {
@@ -163,7 +179,7 @@
       "source": "app/assets/images/icons/svg/list.svg"
     },
     "lock": {
-      "codepoint": 61803,
+      "codepoint": 61851,
       "source": "app/assets/images/icons/svg/lock.svg"
     },
     "map-marker": {
@@ -185,6 +201,10 @@
     "plus": {
       "codepoint": 61760,
       "source": "app/assets/images/icons/svg/plus.svg"
+    },
+    "pulse": {
+      "codepoint": 61817,
+      "source": "app/assets/images/icons/svg/pulse.svg"
     },
     "repeat": {
       "codepoint": 61733,
@@ -221,6 +241,14 @@
     "thumb-tack": {
       "codepoint": 61769,
       "source": "app/assets/images/icons/svg/thumb-tack.svg"
+    },
+    "ticket": {
+      "codepoint": 61847,
+      "source": "app/assets/images/icons/svg/ticket.svg"
+    },
+    "times": {
+      "codepoint": 61805,
+      "source": "app/assets/images/icons/svg/times.svg"
     },
     "trash-o": {
       "codepoint": 61775,

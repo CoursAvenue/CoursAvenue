@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-require 'spec_helper'
+require 'rails_helper'
 
 describe Structure::Wizard do
   let (:structure) { FactoryGirl.build(:structure) }
@@ -9,14 +9,14 @@ describe Structure::Wizard do
     context :empty do
       it 'is not completed' do
         structure.description = ''
-        expect(description_wizard.completed?.call(structure)).to be_false
+        expect(description_wizard.completed?.call(structure)).to be(false)
       end
     end
 
     context :filled do
       it 'is completed' do
         structure.description = 'lorem azdojaz pdojazd paozjd apzodjzap dojazpdoja zdpoazj p'
-        expect(description_wizard.completed?.call(structure)).to be_true
+        expect(description_wizard.completed?.call(structure)).to be(true)
       end
     end
   end
@@ -26,14 +26,14 @@ describe Structure::Wizard do
   #   context :empty do
   #     it 'is not completed' do
   #       structure.logo = ''
-  #       expect(logo_wizard.completed?.call(structure)).to be_false
+  #       expect(logo_wizard.completed?.call(structure)).to be(false)
   #     end
   #   end
 
   #   context :filled do
   #     it 'is completed' do
   #       structure.logo = 'lorem azdojaz pdojazd paozjd apzodjzap dojazpdoja zdpoazj p'
-  #       expect(logo_wizard.completed?.call(structure)).to be_true
+  #       expect(logo_wizard.completed?.call(structure)).to be(true)
   #     end
   #   end
   # end
@@ -44,14 +44,14 @@ describe Structure::Wizard do
   #     it 'is not completed' do
   #       structure.contact_phone = ''
   #       structure.contact_mobile_phone = ''
-  #       expect(coordonates_wizard.completed?.call(structure)).to be_false
+  #       expect(coordonates_wizard.completed?.call(structure)).to be(false)
   #     end
   #   end
 
   #   context :filled do
   #     it 'is completed' do
   #       structure.contact_phone = '02 14 01 41 32'
-  #       expect(coordonates_wizard.completed?.call(structure)).to be_true
+  #       expect(coordonates_wizard.completed?.call(structure)).to be(true)
   #     end
   #   end
   # end
@@ -61,7 +61,7 @@ describe Structure::Wizard do
     context :has_only_one_place? do
       it 'is completed' do
         structure.has_only_one_place = true
-        expect(places_wizard.completed?.call(structure)).to be_true
+        expect(places_wizard.completed?.call(structure)).to be(true)
       end
     end
 
@@ -70,14 +70,14 @@ describe Structure::Wizard do
         structure.save
         structure.places << FactoryGirl.create(:place)
         structure.places << FactoryGirl.create(:place)
-        expect(places_wizard.completed?.call(structure)).to be_true
+        expect(places_wizard.completed?.call(structure)).to be(true)
       end
     end
 
     context :has_one_place_but_has_only_one_place_is_not_filled do
       it 'is not completed' do
         structure.has_only_one_place = false
-        expect(places_wizard.completed?.call(structure)).to be_false
+        expect(places_wizard.completed?.call(structure)).to be(false)
       end
     end
   end
@@ -87,20 +87,20 @@ describe Structure::Wizard do
 
     context :has_no_recommandations do
       it 'is not completed' do
-        expect(recommendations_wizard.completed?.call(structure)).to be_false
+        expect(recommendations_wizard.completed?.call(structure)).to be(false)
       end
     end
 
     context :has_comments_notifications do
       it 'is completed' do
         structure.comment_notifications.build
-        expect(recommendations_wizard.completed?.call(structure)).to be_true
+        expect(recommendations_wizard.completed?.call(structure)).to be(true)
       end
     end
     context :has_at_least_one_recommandation do
       it 'is completed' do
         structure.comments.build
-        expect(recommendations_wizard.completed?.call(structure)).to be_true
+        expect(recommendations_wizard.completed?.call(structure)).to be(true)
       end
     end
   end
@@ -110,7 +110,7 @@ describe Structure::Wizard do
 
     context :has_less_than_five_recommandations do
       it 'is completed' do
-        expect(widget_status_wizard.completed?.call(structure)).to be_true
+        expect(widget_status_wizard.completed?.call(structure)).to be(true)
       end
     end
     context :has_more_than_five_recommandations do
@@ -118,14 +118,14 @@ describe Structure::Wizard do
         it 'is not completed' do
           structure.widget_status = nil
           structure.comments_count = 6
-          expect(widget_status_wizard.completed?.call(structure)).to be_false
+          expect(widget_status_wizard.completed?.call(structure)).to be(false)
         end
       end
       context 'widget_status is defined' do
         it 'is not completed' do
           structure.widget_status = Structure::WIDGET_STATUS.last
           structure.comments_count = 6
-          expect(widget_status_wizard.completed?.call(structure)).to be_true
+          expect(widget_status_wizard.completed?.call(structure)).to be(true)
         end
       end
     end
@@ -136,7 +136,7 @@ describe Structure::Wizard do
 
     context :has_less_than_five_recommandations do
       it 'is completed' do
-        expect(widget_url_wizard.completed?.call(structure)).to be_true
+        expect(widget_url_wizard.completed?.call(structure)).to be(true)
       end
     end
     context :has_more_than_five_recommandations do
@@ -145,7 +145,7 @@ describe Structure::Wizard do
           structure.comments_count = 6
           structure.widget_status = 'installed'
           structure.widget_url = nil
-          expect(widget_url_wizard.completed?.call(structure)).to be_false
+          expect(widget_url_wizard.completed?.call(structure)).to be(false)
         end
       end
       context 'widget_status is defined' do
@@ -153,7 +153,7 @@ describe Structure::Wizard do
           structure.widget_status = 'installed'
           structure.widget_url = 'http://lazdlaz.com'
           structure.comments_count = 6
-          expect(widget_url_wizard.completed?.call(structure)).to be_true
+          expect(widget_url_wizard.completed?.call(structure)).to be(true)
         end
       end
     end

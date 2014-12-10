@@ -19,6 +19,7 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
 
         collectionReset: function collectionReset () {
             this.trigger('courses:collection:reset', this.serializeData());
+            if (this.collection.length == 0) { this.$('[data-empty-courses]').removeClass('hidden') }
             _.delay(this.iPhonizeCourseTitles, 500);
         },
 
@@ -28,6 +29,10 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
 
         onChildviewMouseleave: function onChildviewMouseleave (view, data) {
             this.trigger("course:mouse:leave", data);
+        },
+
+        onItemviewRegister: function onItemviewRegister (view, data) {
+            this.trigger("planning:register", data);
         },
 
         /*
@@ -47,12 +52,11 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         iPhonizeCourseTitles: function iPhonizeCourseTitles () {
             var course_view_titles, offset, stop_at;
             this.$('[data-behavior=read-more]').readMore();
-            this.$('[data-toggle=popover]').popover();
             course_view_titles = this.$('[data-type="course-view-title"]');
             offset             = $('#structure-profile-menu').outerHeight();
-            stop_at_el         = this.$el.closest('.panel').attr('id');
+            stop_at_wrapper_el   = this.$el.closest('.panel').attr('id');
             course_view_titles.each(function(index, el) {
-                var data = { offsetTop: offset, oldWidth: true, stopAtEl: '#' + stop_at_el, updateOnScroll: true }
+                var data = { offsetTop: offset, oldWidth: true, stopAtWrapperEl: '#' + stop_at_wrapper_el, updateOnScroll: true };
                 if (index > 0) { data.pushed = '#' + course_view_titles[index - 1].id; }
                 $(el).sticky(data);
             });
@@ -65,18 +69,11 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         * and the data_url which the structure gave us
         * */
         serializeData: function serializeData () {
-            var plannings_count   = this.collection.reduce(function (memo, model) {
-                    memo += model.get("plannings").length;
-                    return memo;
-                }, 0);
             return {
                 courses_count     : this.collection.length,
-                plannings_count   : plannings_count,
-                total_not_filtered: (this.collection.total_not_filtered || 0) - plannings_count,
                 data_url          : this.data_url,
                 about             : this.about,
-                about_genre       : this.about_genre,
-                has_courses       : (this.collection.length > 0)
+                about_genre       : this.about_genre
             };
         },
 

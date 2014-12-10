@@ -2,46 +2,52 @@ class SubscriptionPlan < ActiveRecord::Base
   acts_as_paranoid
   include Concerns::HstoreHelper
 
-  PLAN_TYPE = %w(monthly yearly three_months)
-
-  NEXT_PLAN_TYPE = {
-    'monthly'      => 'monthly',
-    'three_months' => 'monthly',
-    'yearly'       => 'yearly'
-  }
+  PLAN_TYPE = %w(monthly yearly monthly_school yearly_school monthly_master yearly_master)
 
   PLAN_TYPE_PRICES = {
-    'monthly'      => 44, # €
-    'three_months' => 69, # €
-    'yearly'       => 468 # €
+    'monthly'             => 44,   # €
+    'yearly'              => 440,  # €
+    'monthly_school'      => 144,  # €
+    'yearly_school'       => 1440, # €
+    'monthly_master'      => 244,  # €
+    'yearly_master'       => 2440  # €
   }
   PLAN_TYPE_FREQUENCY = {
-    'monthly'      => 'tous les mois',
-    'three_months' => 'tous les 3 mois',
-    'yearly'       => 'tous les ans'
+    'monthly'         => 'tous les mois',
+    'yearly'          => 'tous les ans',
+    'monthly_school'  => 'tous les mois',
+    'yearly_school'   => 'tous les ans',
+    'monthly_master'  => 'tous les mois',
+    'yearly_master'   => 'tous les ans'
   }
   PLAN_TYPE_DESCRIPTION = {
-    'monthly'      => 'Abonnement mensuel',
-    'three_months' => 'Abonnement pour 3 mois',
-    'yearly'       => 'Abonnement annuel'
+    'monthly'         => 'Abonnement mensuel Solo',
+    'yearly'          => 'Abonnement annuel Solo',
+    'monthly_school'  => 'Abonnement mensuel École',
+    'yearly_school'   => 'Abonnement annuel École',
+    'monthly_master'  => 'Abonnement mensuel Master',
+    'yearly_master'   => 'Abonnement annuel Master'
   }
   PLAN_TYPE_DURATION = {
-    'monthly'      => 1, # month
-    'three_months' => 3, # months
-    'yearly'       => 12 # months
+    'monthly'         => 1, # month
+    'yearly'          => 12, # months
+    'monthly_school'  => 1,
+    'yearly_school'   => 12,
+    'monthly_master'  => 1,
+    'yearly_master'   => 12
   }
 
   ######################################################################
   # Scopes                                                             #
   ######################################################################
-  scope :yearly,                  -> { where( plan_type: 'yearly') }
-  scope :not_monthly,             -> { where.not( plan_type: 'monthly') }
-  scope :monthly,                 -> { where( plan_type: 'monthly') }
-  scope :expires_in_fifteen_days, -> { where( arel_table[:expires_at].gteq(Date.today - 15.days).and(
-                                              arel_table[:expires_at].lt(Date.today - 14.days)) ) }
+  scope :yearly,                  -> { where( arel_table[:plan_type].matches('yearly%')) }
+  scope :not_monthly,             -> { where.not( arel_table[:plan_type].matches('monthly%')) }
+  scope :monthly,                 -> { where( arel_table[:plan_type].matches('monthly%')) }
+  scope :expires_in_fifteen_days, -> { where( arel_table[:expires_at].gt(Date.today + 14.days).and(
+                                              arel_table[:expires_at].lteq(Date.today + 15.days)) ) }
 
-  scope :expires_in_five_days,    -> { where( arel_table[:expires_at].gteq(Date.today - 5.days).and(
-                                              arel_table[:expires_at].lt(Date.today - 4.days)) ) }
+  scope :expires_in_five_days,    -> { where( arel_table[:expires_at].gt(Date.today + 4.days).and(
+                                              arel_table[:expires_at].lteq(Date.today + 5.days)) ) }
   ######################################################################
   # Callbacks                                                          #
   ######################################################################
@@ -51,42 +57,37 @@ class SubscriptionPlan < ActiveRecord::Base
   ######################################################################
   # Relations                                                          #
   ######################################################################
-  has_many :orders
-  belongs_to :structure
+  has_many :orders, class_name: 'Order::Premium'
+  belongs_to :structure, touch: true
   belongs_to :promotion_code
 
-  attr_accessible :plan_type, :expires_at, :renewed_at, :recurrent, :structure, :canceled_at,
+  attr_accessible :plan_type, :expires_at, :renewed_at, :last_renewal_failed_at, :recurrent, :structure, :canceled_at,
                   :credit_card_number, :be2bill_alias, :client_ip, :card_validity_date, :promotion_code_id,
                   :cancelation_reason_dont_want_more_students, :cancelation_reason_stopping_activity,
                   :cancelation_reason_didnt_have_return_on_investment, :cancelation_reason_too_hard_to_use,
-                  :cancelation_reason_not_satisfied_of_coursavenue_users, :cancelation_reason_other, :cancelation_reason_text
+                  :cancelation_reason_not_satisfied_of_coursavenue_users, :cancelation_reason_other, :cancelation_reason_text,
+                  :facebook_active, :adwords_active, :bo_comments, :paypal_token, :paypal_payer_id, :paypal_recurring_profile_token
 
-  store_accessor :meta_data, :cancelation_reason_dont_want_more_students, :cancelation_reason_stopping_activity,
-                             :cancelation_reason_didnt_have_return_on_investment, :cancelation_reason_too_hard_to_use,
-                             :cancelation_reason_not_satisfied_of_coursavenue_users, :cancelation_reason_other,
-                             :cancelation_reason_text
+  store_accessor :meta_data,   :cancelation_reason_dont_want_more_students, :cancelation_reason_stopping_activity,
+                               :cancelation_reason_didnt_have_return_on_investment, :cancelation_reason_too_hard_to_use,
+                               :cancelation_reason_not_satisfied_of_coursavenue_users, :cancelation_reason_other,
+                               :cancelation_reason_text
 
-  define_boolean_accessor_for :meta_data, :cancelation_reason_dont_want_more_students, :cancelation_reason_stopping_activity,
-                             :cancelation_reason_didnt_have_return_on_investment, :cancelation_reason_too_hard_to_use,
-                             :cancelation_reason_not_satisfied_of_coursavenue_users, :cancelation_reason_other
+  store_accessor :bo_meta_data, :facebook_active, :adwords_active, :bo_comments
 
-  # Create a plan associated to the given structure with a monthly subscription plan
+  define_boolean_accessor_for  :meta_data,    :cancelation_reason_dont_want_more_students, :cancelation_reason_stopping_activity,
+                                              :cancelation_reason_didnt_have_return_on_investment, :cancelation_reason_too_hard_to_use,
+                                              :cancelation_reason_not_satisfied_of_coursavenue_users, :cancelation_reason_other
+
+  define_boolean_accessor_for  :bo_meta_data, :facebook_active, :adwords_active
+
+  # Create a plan associated to the given structure with a subscription plan
   #
   # @return SubscriptionPlan
   def self.subscribe! plan_type, structure, params={}
-    if params[:EXTRADATA].present?
-      promotion_code_id = params[:EXTRADATA]['promotion_code_id']
-    else
-      promotion_code_id = nil
-    end
     subscription_plan = structure.subscription_plans.create({ plan_type: plan_type.to_s,
                                                               expires_at: Date.today + PLAN_TYPE_DURATION[plan_type.to_s].months,
-                                                              credit_card_number: params[:CARDCODE],
-                                                              recurrent: true,
-                                                              be2bill_alias: params[:ALIAS],
-                                                              card_validity_date: (params[:CARDVALIDITYDATE] ? Date.strptime(params[:CARDVALIDITYDATE], '%m-%y') : nil),
-                                                              promotion_code_id: promotion_code_id,
-                                                              client_ip: params[:CLIENT_IP]})
+                                                              recurrent: true }.merge(params))
     structure.compute_search_score(true)
     structure.index
     return subscription_plan
@@ -105,10 +106,39 @@ class SubscriptionPlan < ActiveRecord::Base
     sha256.hexdigest
   end
 
-  # Renew subscription by calling Be2bill API.
+  #
+  # Tells wether the subscription plan was payed with Be2Bill
+  #
+  # @return Boolean
+  def payed_through_be2bill?
+    self.be2bill_alias.present?
+  end
+
+  #
+  # Tells wether the subscription plan was payed with Paypal
+  #
+  # @return Boolean
+  def payed_through_paypal?
+    self.paypal_payer_id.present?
+  end
+
   #
   # @return Boolean
   def renew!
+    return if self.canceled?
+    if payed_through_be2bill?
+      return renew_with_be2bill!
+    else
+      self.extend_subscription_expires_date
+    end
+    return true
+  end
+
+  #
+  # Renew subscription by calling Be2bill API.
+  #
+  # @return Boolean, wether if succeeded or failed
+  def renew_with_be2bill!
     return if self.canceled?
     require 'net/http'
 
@@ -125,10 +155,10 @@ class SubscriptionPlan < ActiveRecord::Base
       'CLIENTIDENT'     => self.structure.id,
       'CLIENTEMAIL'     => self.structure.main_contact.email,
       'AMOUNT'          => self.next_amount_for_be2bill,
-      'DESCRIPTION'     => "Renouvellement :  #{NEXT_PLAN_TYPE[self.plan_type]}",
+      'DESCRIPTION'     => "Renouvellement :  #{self.plan_type}",
       'IDENTIFIER'      => ENV['BE2BILL_LOGIN'],
       'OPERATIONTYPE'   => 'payment',
-      'ORDERID'         => Order.next_order_id_for(self.structure),
+      'ORDERID'         => Order::Premium.next_order_id_for(self.structure),
       'VERSION'         => '2.0',
       'CLIENTUSERAGENT' => 'Mozilla/5.0 (Windows NT 6.1; WOW64)',
       'CLIENTIP'        => self.client_ip,
@@ -143,22 +173,50 @@ class SubscriptionPlan < ActiveRecord::Base
     params['method']          = 'payment'
 
     res = Net::HTTP.post_form URI(ENV['BE2BILL_REST_URL']), params
-    puts res.body if res.is_a?(Net::HTTPSuccess)
+    puts res.body # For debugging purpose
     if res.is_a?(Net::HTTPSuccess)
-      AdminMailer.delay.subscription_has_been_renewed(self)
-      self.renewed_at = Date.today
-      self.expires_at = Date.today + PLAN_TYPE_DURATION[plan_type.to_s].months
-      self.save
       return true
     else
+      params['res_body'] = res.body
+      Bugsnag.notify(RuntimeError.new("Renewal failed on HTTP call"), params)
+      AdminMailer.delay.go_premium_fail(self.structure, params)
       return false
     end
   end
 
-  # Description of the plan in months
+  # Extend the current subscription
+  # Executed by Be2bill notification callback if the renwal has been successful
+  #
+  # @return Boolean, saved or not
+  def extend_be2bill_subscription(params)
+    self.credit_card_number = params['CARDCODE'] if params['ALIAS'].present?
+    # Update be2bill_alias if the renew is done by the user because his card hasexpired
+    self.be2bill_alias      = params['ALIAS'] if params['ALIAS'].present?
+    self.card_validity_date = (params['CARDVALIDITYDATE'] ? Date.strptime(params['CARDVALIDITYDATE'], '%m-%y') : nil)
+    self.extend_subscription_expires_date
+  end
+
+  # Extend the duration of the subscription by changing its expires_at date.
+  #
+  # @return nil
+  def extend_subscription_expires_date
+    AdminMailer.delay.subscription_has_been_renewed(self)
+    self.renewed_at = Date.today
+    self.expires_at = Date.today + PLAN_TYPE_DURATION[plan_type.to_s].months
+    self.save
+  end
+
+  # Description of the plan
   #
   # @return Integer
   def description
+    PLAN_TYPE_DESCRIPTION[self.plan_type]
+  end
+
+  # Description of the next plan
+  #
+  # @return Integer
+  def next_plan_type_description
     PLAN_TYPE_DESCRIPTION[self.plan_type]
   end
 
@@ -170,10 +228,15 @@ class SubscriptionPlan < ActiveRecord::Base
   end
 
   # Amount of the current subscription plan
+  # Will return the amount with the promo applied if there is one.
   #
   # @return Integer
   def amount
-    PLAN_TYPE_PRICES[self.plan_type]
+    if self.promotion_code and self.promotion_code.still_apply? and self.plan_type == self.promotion_code.plan_type
+      PLAN_TYPE_PRICES[self.plan_type] - self.promotion_code.promo_amount
+    else
+      PLAN_TYPE_PRICES[self.plan_type]
+    end
   end
 
   # See amount
@@ -197,9 +260,9 @@ class SubscriptionPlan < ActiveRecord::Base
   # @return Integer next amount to pay
   def next_amount
     if self.promotion_code and self.promotion_code.still_apply?
-      PLAN_TYPE_PRICES[NEXT_PLAN_TYPE[self.plan_type]] - self.promotion_code.promo_amount
+      PLAN_TYPE_PRICES[self.plan_type] - self.promotion_code.promo_amount
     else
-      PLAN_TYPE_PRICES[NEXT_PLAN_TYPE[self.plan_type]]
+      PLAN_TYPE_PRICES[self.plan_type]
     end
   end
 
@@ -211,7 +274,7 @@ class SubscriptionPlan < ActiveRecord::Base
   end
 
   def frequency
-    PLAN_TYPE_FREQUENCY[NEXT_PLAN_TYPE[self.plan_type]]
+    PLAN_TYPE_FREQUENCY[self.plan_type]
   end
 
   def canceled?
@@ -225,8 +288,15 @@ class SubscriptionPlan < ActiveRecord::Base
     self.canceled_at = Time.now
     self.save
     self.structure.index
+    cancel_paypal_subscription if payed_through_paypal?
     AdminMailer.delay.subscription_has_been_canceled(self)
+    SuperAdminMailer.delay.someone_canceled_his_subscription(self)
     return self
+  end
+
+  def cancel_paypal_subscription
+    paypal_recurring = PayPal::Recurring.new(profile_id: self.paypal_recurring_profile_token)
+    paypal_recurring.suspend
   end
 
   # Reactivate subscription plan by removing canceled_at
@@ -236,9 +306,23 @@ class SubscriptionPlan < ActiveRecord::Base
     self.canceled_at = nil
     self.save
     self.structure.index
+    reactivate_paypal_subscription if payed_through_paypal?
+    AdminMailer.delay.subscription_has_been_reactivated(self)
+    SuperAdminMailer.delay.someone_reactivated_his_subscription(self)
     return self
   end
 
+  def reactivate_paypal_subscription
+    paypal_recurring = PayPal::Recurring.new(profile_id: self.paypal_recurring_profile_token)
+    paypal_recurring.reactivate
+  end
+
+  #
+  # Tells wether the structure is still premium, if the subscription plan is still working.
+  # We do not check the canceled_at because the user can cancel his subscription during his subscription
+  # but he will still be premium until the end of the subscription
+  #
+  # @return Boolean
   def active?
     self.expires_at >= Date.today
   end

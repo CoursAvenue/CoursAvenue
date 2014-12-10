@@ -1,4 +1,4 @@
-.home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background7.jpg'})", 'data-stellar-background-ratio' => '0.6' }
+.bg-fixed.home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background7.jpg'})" }
   .main-container.soft
     %h1.flush Questions les plus fréquentes
 
@@ -86,7 +86,7 @@
           %p
             En plus d’être présent gratuitement sur CoursAvenue, nous vous proposons des outils spécifiques au développement de votre activité : en les utilisant, vous augmenterez votre taux de fidélisation et d’inscription de 10% minimum. Si ce n’est pas le cas, nous vous remboursons.
           %p.flush
-            Pour 39€ / mois vous aurez accès à tous nos outils :
+            Pour 36€ / mois vous aurez accès à tous nos outils :
           %ul
             %li Affichez clairement votre planning de cours sur votre site web ou blob (géolocalisation de vos cours, tarifs et plannings optimisés pour augmenter le taux d’inscription à vos cours) ;
             %li Autorisez la réservation en ligne avec ou sans carte bleue (chaque Internaute peut s’inscrire 24h/24, et vous recevez les acomptes directement sur votre compte bancaire) ;
@@ -225,7 +225,9 @@
           %p.flush Voici les étapes à suivre pour réinitialiser votre mot de passe :
 
           %ul
-            %li Cliquez sur ce lien suivant : http://pro.coursavenue.com/connexion ;
+            %li
+              Cliquez sur ce lien suivant :
+              = link_to 'connexion à mon profil ;', new_pro_admin_session_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
             %li Cliquez sur le lien en gris "J'ai oublié mon mot de passe", juste au dessous du bouton vert ;
             %li Entrez l’email de votre compte et cliquez sur le bouton vert "Envoyer un nouveau mot de passe" ;
             %li Un email vous est automatiquement envoyé (si vous ne le recevez pas dans les 5min, vérifiez dans vos spams de votre boîte mail) : cliquez sur le bouton "Changer mon mot de passe" ;

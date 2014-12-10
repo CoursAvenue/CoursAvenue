@@ -1,3 +1,6 @@
+- content_for :email_title do
+  C'est votre dernier jour pour recommander #{@structure.name}
+
 - content_for :logo do
   = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank' do
     = image_tag @structure.logo.url(:thumb), style: 'width: 125px; height: 125px;', class: 'block'
@@ -6,15 +9,19 @@
   .title
     C'est votre dernier jour pour recommander #{@structure.name}
 
-.p Bonjour !
+  .p Bonjour !
 
-.p
-  #{@structure.name} vous a récemment demandé votre avis sur son profil public CoursAvenue : c'est votre dernier jour pour déposer votre recommandation. C'est simple, très rapide, et #{@structure.name} vous en remerciera !
+  .p
+    #{@structure.name} vous a récemment demandé votre avis sur son profil public CoursAvenue : c'est votre dernier jour pour déposer votre recommandation. C'est simple, très rapide, et #{@structure.name} vous en remerciera !
 
-.p.action
-  = link_to 'Déposer ma recommandation', new_structure_comment_url(@structure, email: @email, utm_source: 'email', utm_campaign: 'recommandation', utm_medium: 'stage_3'), class: 'btn btn--green'
+  .p.action
+    = link_to 'Déposer ma recommandation', new_structure_comment_url(@structure, email: @email, utm_source: 'email', utm_campaign: 'recommandation', utm_medium: 'stage_3'), class: 'btn btn--green'
 
-= render 'shared/mailers/footer'
+  - content_for :under_content_no_box do
+    %hr
+    = render 'recommandations_form'
+
+  = render 'shared/mailers/footer'
 
 = content_for :footer do
   .p

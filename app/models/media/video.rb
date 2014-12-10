@@ -1,5 +1,8 @@
 class Media::Video < Media
   require 'net/http'
+
+  mount_uploader :image, MediaUploader
+
   # pattern is the regex to match the url
   # key is the regex match key to get the id
   FILTER_REGEX = {
@@ -16,7 +19,7 @@ class Media::Video < Media
     'vimeo' => {
       pattern: /https?:\/\/(www.)?vimeo\.com\/([A-Za-z0-9._%-]*)((\?|#)\S+)?/,
       key: 2,
-      video_thumbnail: 'https://vimeo.com/api/v2/video/__ID__.json'
+      video_thumbnail: 'http://vimeo.com/api/v2/video/__ID__.json'
     }
   }
 
@@ -24,12 +27,14 @@ class Media::Video < Media
   # Validations                                                        #
   ######################################################################
   validates :url, url: true
+  validates :url, presence: true
+
   ######################################################################
   # Callbacks                                                          #
   ######################################################################
-  before_save :fix_url
-  after_save :update_provider
-  after_save :update_thumbnail
+  before_save  :fix_url
+  after_create :update_provider
+  after_create :update_thumbnail
 
   auto_html_for :url do
     youtube(width: 400, height: 250)
@@ -41,6 +46,10 @@ class Media::Video < Media
     read_attribute(:url_html).html_safe
   end
 
+  def url
+    read_attribute(:url).gsub(/^http:/, 'https:') if read_attribute(:url)
+  end
+
   private
 
   def update_thumbnail
@@ -48,13 +57,15 @@ class Media::Video < Media
       if self.provider_name == 'vimeo'
         url = URI.parse(FILTER_REGEX[self.provider_name][:video_thumbnail].gsub('__ID__', self.provider_id))
         req = Net::HTTP::Get.new(url.path)
-        res = Net::HTTP.start(url.host, url.port) {|http|
+        res = Net::HTTP.start(url.host, url.port) do |http|
           http.request(req)
-        }
+        end
         thumbnail_url = JSON.parse(res.body).first['thumbnail_large']
       else
         thumbnail_url = FILTER_REGEX[self.provider_name][:video_thumbnail].gsub('__ID__', self.provider_id)
       end
+      self.remote_image_url = thumbnail_url.gsub(/^http:/, 'https:')
+      self.save
       self.update_column(:thumbnail_url, thumbnail_url)
     end
   end

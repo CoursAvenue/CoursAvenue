@@ -1,7 +1,0 @@
-.text--center
-  %h4.push--top Aucune séance trouvée pour ces critères
-
-  - if @subject
-    = link_to 'Chercher par établissement', subject_structures_path(@subject, name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'btn btn--large btn--green', onclick: "ga('send', 'event', 'Chercher par établissement', 'click')"
-  - else
-    = link_to 'Chercher par établissement', structures_path(name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'btn btn--large btn--green', onclick: "ga('send', 'event', 'Chercher par établissement', 'click')"

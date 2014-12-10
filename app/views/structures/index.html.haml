@@ -1,70 +1,47 @@
 - @is_responsive = true
 
-= content_for :head do
-  - if @subject
-    %link{rel: 'canonical', href: subject_structures_url(@subject)}
-  - else
-    %link{rel: 'canonical', href: structures_url}
+- if @subject
+  - title = "#{@subject.name} à #{@city.name}"
+- else
+  - title = "Danse, Théâtre, Musique, Yoga... à #{@city.name || 'Paris'} "
 
 = content_for :title do
-  - if @subject
-    = "#{(params[:subject_id].present? ? "Établissements de #{@subject.name.downcase}" : 'Établissements')} #{(params[:name].present? ? "correspondant à : « #{params[:name]} »" : (params[:city].present? ? "à #{params[:city]}" : 'à Paris'))}"
-  - else
-    = "Établissements #{(params[:name].present? ? "correspondant à : « #{params[:name]} »" : (params[:city].present? ? "à #{params[:city]}" : 'à Paris'))}"
+  = "#{title} : #{number_with_delimiter @total} Cours d'Essai GRATUITS & Promotions - CoursAvenue.com"
 
+= content_for :meta_description do
+  #{title} : #{number_with_delimiter @total} Cours d'Essai GRATUITS & Promotions - CoursAvenue.com. Consultez #{number_with_delimiter @total_comments} avis d'élèves, #{number_with_delimiter @total_medias} photos. Inscrivez-vous gratuitement sur CoursAvenue.com
 
-%ol.visuallyhidden.nav.breadcrumb.epsilon.push-half--top.push-half--bottom{itemprop: 'breadcrumb'}
-  %li= link_to 'Tous les établissements', structures_path(name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
-  - if @subject
-    - if @subject.parent
-      %li= link_to @subject.parent.name, subject_structures_path(@subject.parent, name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
-    %li= link_to @subject.name, subject_structures_path(@subject, name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
-  - if params[:name]
-    %li= params[:name]
-%h1.text--center.delta.flush.lbl.lbl--blue.visuallyhidden
-  - if @subject
-    Établissements de #{@subject.name.downcase}
-  - else
-    Établissements
-  - if params[:name].present?
-    correspondant à : « #{params[:name]} »
-  - elsif params[:city].present?
-    = "à #{params[:city]}"
-  - else
-    à Paris
-
-.filtered-search-loader.text--center.island{ :data => { :type => "app-loader" }}
-  = image_tag 'logos/logo@2x.png', class: 'center-block', height: 50, alt: 'CoursAvenue'
-  = image_tag 'gifs/loading-indicator.gif', class: 'center-block', height: 10,  alt: 'Chargement'
 .filtered-search{ :data => { :type => "#{ @app_slug }-root" }, id: "#{ @app_slug }"}
 
 :javascript
   window.coursavenue  = window.coursavenue || {};
-  var subjects        = #{ Subject.stars.to_json };
+  var subjects        = #{ ActiveModel::ArraySerializer.new(Subject.stars, each_serializer: SubjectSerializer).to_json };
   // Adding other subject to the collection because it's a fake object
-  subjects.push( { name: 'Autres', slug: 'other'} );
+  subjects.push( { name: 'Autres', slug: 'other' } );
 
   window.coursavenue.bootstrap = {
       current_pro_admin: #{(current_pro_admin ? true : false)},
       options: {
           total: #{ @total },
-          latlng: #{ @latlng }
+          latlng: #{ @latlng },
+          queryParams: {}
       },
       models: #{ @models.to_json },
       subjects: subjects,
       discount_types: #{ Price::Discount::TYPES.to_json }
   };
 
-- content_for :scripts do
+- if params[:root_subject_id] != params[:subject_id]
   :javascript
-      $(function() {
-          setTimeout(function() {
-              $('#not-on-jpo-box').animate({top: '0'});
-          }, 1500);
-          if ($('#understood').length > 0) {
-              $('#understood').click(function() {
-                  $('#not-on-jpo-box').animate({top: '-200px'});
-                  $.cookie('understood_jpo_2014', true);
-              });
-          }
-      })
+    window.coursavenue.bootstrap.options.queryParams.subject_id = "#{ params[:subject_id] }";
+- if @subject and @subject.depth == 2
+  :javascript
+    window.coursavenue.bootstrap.options.queryParams.parent_subject_id = "#{ @subject.parent.slug }";
+- if params[:root_subject_id].present?
+  :javascript
+    window.coursavenue.bootstrap.options.queryParams.root_subject_id = "#{ params[:root_subject_id] }";
+
+- content_for :scripts do
+  - if Rails.env.production?
+    :javascript
+      ga('send', 'event', 'search', 'view');

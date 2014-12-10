@@ -2,11 +2,18 @@
   %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
     %tr{ valign: 'top' }
       %td.text--center.v-top.content-block{ width: 125 }
-        = image_tag structure.logo.url(:thumb), class: 'message__avatar rounded--circle bordered', width: 50, height: 50, alt: "Logo de #{structure.name}"
+        = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block' do
+          = image_tag structure.logo.url(:thumb), class: 'message__avatar rounded--circle bordered', width: 50, height: 50, alt: "Logo de #{structure.name}"
         .p.text--center.milli
           %strong= structure.name
           %br
           = "#{l(message.created_at.to_date, format: :short)} à #{l(message.created_at, format: :short)}"
 
       %td.soft-half--left.v-top.content-block{ width: 475 }
+        .p
+          %strong
+            = message.conversation.subject
+            - if conversation_extra_infos(message.conversation).present?
+              = "(#{conversation_extra_infos(message.conversation).map{ |extra_info| t("#{extra_info.name}_small") }.join(', ')})"
+
         .p= message.body

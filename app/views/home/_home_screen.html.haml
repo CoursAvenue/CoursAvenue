@@ -3,47 +3,49 @@
     - slug = @last_comment.subjects.first.root.slug
   - else
     - slug = @last_comment.structure.subjects.at_depth(0).first.slug
-  - url = asset_path "home_backgrounds/#{slug}.jpg"
+  - url = asset_path("home_backgrounds/#{slug}.jpg")
 - else
-  - url = asset_path "pro/home_background#{[2,3,4,5,6,7].sample}.jpg"
-.home-screen.soft--top.white.bg-cover{ style: "background-image: url(#{url})", 'data-stellar-background-ratio' => '0.6' }
+  - url = asset_path("pro/home_background#{[2,3,4,5,6,7].sample}.jpg")
+.bg-fixed.home-screen.soft--top.white.bg-cover{ style: "background-image: url(#{url})" }
   .main-container.main-container--medium.soft-half--bottom
-    %h1.soft--top.soft-black-text-shadow.flush
+    %h1.palm-text--center.soft--top.soft-black-text-shadow.flush
       Trouvez votre cours de loisir idéal.
-    %h4.push--bottom.soft-black-text-shadow
+    %h4.palm-text--center.push--bottom.soft-black-text-shadow
       Parmi plus de 10 000 cours recommandés par les élèves.
     .push--bottom.soft--bottom
       = render 'shared/home_page_search_form'
 
-    .relative.bg-cover{ style: "background-image: url('#{asset_path('home-page/video_thumbnail.jpg')}'); width: 150px; height: 75px;" }>
+    .relative.bg-cover.visuallyhidden--palm{ style: "background-image: url('#{asset_path('home-page/video_thumbnail.jpg')}'); width: 150px; height: 75px;" }>
       = link_to 'https://www.youtube.com/watch?v=-hq0sxFEcOw', class: 'block show-on-hover__wrapper show-on-hover__wrapper--black-curtain', data: { behavior: 'fancy', height: 560, width: 1000 } do
         .home-screen-gallery__title.text--center
           %i.fa-youtube-play.alpha
           .show-on-hover__child.milli Voir la vidéo
-    .push-half--bottom.very-soft.hard--sides
+    .push-half--bottom.very-soft.hard--sides.visuallyhidden--palm
       = link_to 'javascript:void(0);', data: { behavior: 'toggleable', el: '#comment-ca-marche' }, style: 'width: 150px;', class: 'text--center inline-block semi-muted-link soft-black-text-shadow' do
         Comment ça marche
         %i.fa.fa-caret-down
 
   - if @last_comment
-    .home-screen-comment.visuallyhidden--palm.soft-black-text-shadow
-      .grid
-        .grid__item.two-twelfths.v-middle>
-          = link_to structure_path(@last_comment.structure), class: 'muted-link block' do
-            = image_tag @last_comment.structure.logo.url(:thumb), class: 'block white-circle'
-        .grid__item.ten-twelfths.v-middle>
-          .quoted.epsilon.quoted--large<
-            = link_to @last_comment.title, structure_path(@last_comment.structure), class: 'muted-link'
-          %p.flush
-            = link_to structure_path(@last_comment.structure), class: 'muted-link' do
-              = truncate(@last_comment.content, length: 50)
-          .milli
-            = link_to "Avis rédigé par #{@last_comment.author_name} il y a #{distance_of_time_in_words_to_now(@last_comment.created_at)}", structure_path(@last_comment.structure), class: 'muted-link'
-          %strong
-            = truncate(@last_comment.course_name.capitalize, length: 65)
+    - cache @last_comment do
+      .home-screen-comment.visuallyhidden--palm.soft-black-text-shadow
+        .grid
+          .grid__item.two-twelfths.v-middle>
+            = link_to structure_path(@last_comment.structure), class: 'muted-link block' do
+              = image_tag @last_comment.structure.logo.url(:small_thumb), class: 'block white-circle'
+          .grid__item.ten-twelfths.v-middle>
+            .quoted.epsilon.quoted--large<
+              = link_to @last_comment.title, structure_path(@last_comment.structure), class: 'muted-link'
+            %p.flush
+              = link_to structure_path(@last_comment.structure), class: 'muted-link' do
+                = truncate(@last_comment.content, length: 50)
+            .milli
+              = link_to "Avis rédigé par #{@last_comment.author_name} il y a #{distance_of_time_in_words_to_now(@last_comment.created_at)}", structure_path(@last_comment.structure), class: 'muted-link'
+            %strong
+              = truncate(@last_comment.course_name.capitalize, length: 65)
 
-.main-container.main-container--medium.hidden#comment-ca-marche
-  .soft.push
-    = render 'how_it_works'
-    .text--center.epsilon
-      = link_to 'En savoir plus', pages_what_is_it_path
+- cache "how_it_works_#{ENV["ETAG_VERSION_ID"]}" do
+  .main-container.main-container--medium.hidden#comment-ca-marche
+    .soft.push
+      = render 'how_it_works'
+      .text--center.epsilon
+        = link_to 'En savoir plus', pages_what_is_it_path

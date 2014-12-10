@@ -7,7 +7,8 @@ module CommentsHelper
   def share_comment_url(comment, provider = :facebook)
     case provider
     when :facebook
-      URI.encode("http://www.facebook.com/sharer.php?s=100&p[title]=\"#{comment.title}\" par #{comment.author_name}&p[url]=#{structure_comment_url(comment)}&p[summary]=#{truncate(comment.content, length: 200)}")
+      # Add c parameter to pass id of the comment in the URL and have specific og:title and description
+      URI.encode("http://www.facebook.com/sharer.php?s=100&p[url]=#{structure_url(comment.structure, c: comment.id, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)}")
     when :twitter
       URI.encode("https://twitter.com/intent/tweet?text=\"#{comment.title}\" par #{comment.author_name}&via=CoursAvenue&url=#{structure_comment_url(comment)}")
     end
@@ -28,6 +29,16 @@ module CommentsHelper
       structure_url(comment.commentable, { subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, anchor: "recommandation-#{comment.id}" }.merge(options))
     elsif comment.commentable
       structure_course_url comment.commentable.structure, comment.commentable, { subdomain: CoursAvenue::Application::WWW_SUBDOMAIN }.merge(options)
+    end
+  end
+
+  def icon_rating(comment, class_name='')
+    if comment.rating.nil? or comment.rating > 3
+      content_tag(:i, '', class: "fa fa-face-happy #{class_name}")
+    elsif comment.rating > 1
+      content_tag(:i, '', class: "fa fa-face-neutral #{class_name}")
+    else
+      content_tag(:i, '', class: "fa fa-face-sad #{class_name}")
     end
   end
 end

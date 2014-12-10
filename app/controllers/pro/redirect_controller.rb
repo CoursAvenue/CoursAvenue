@@ -3,7 +3,7 @@ class Pro::RedirectController < ApplicationController
   def structures_premium
     @admin = Admin.where(email: params[:email]).first
     if @admin
-      redirect_to premium_pro_structure_url(@admin.structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+      redirect_to pro_structure_subscription_plans_url(@admin.structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
     else
       redirect_to new_pro_admin_session_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
     end

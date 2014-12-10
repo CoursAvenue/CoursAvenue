@@ -1,75 +1,120 @@
 #structure-header.one-whole.west.push-half--bottom
-  .main-container.soft--sides.soft-half--ends.relative
-    %h1.flush.v-middle.inline-block{ itemprop: 'name' }= @structure.name
-    - if @structure.premium? and @header_promotion_title_for_structure.present?
-      = link_to '#cours-reguliers', data: { behavior: 'scroll-to', offset_top: '-55' }, class: 'muted-link' do
-        .lbl.lbl--yellow.nowrap.v-middle.push-half--left{ data: { toggle: 'popover', content: @structure_decorator.promotion_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
-          %i.fa-star
-          = @header_promotion_title_for_structure
+  .main-container.soft--sides.soft-half--ends.relative{ itemscope: true, itemtype: "http://schema.org/Organization" }
+    - cache [@structure, 'structure/show/breadcrumb'] do
+      .main-container
+        %ol.nav.breadcrumb.epsilon.flush
+          %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+            = link_to root_search_page_without_subject_path(@city), itemprop: 'url' do
+              %span{ itemprop: 'title' }
+                = "Tous les cours à #{@city.name}"
+          - dominant_root_subject = @structure.dominant_root_subject
+          - if dominant_root_subject
+            %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+              = link_to root_search_page_path(dominant_root_subject, @city), itemprop: 'url' do
+                %span{ itemprop: 'title' }
+                  = dominant_root_subject.name
+          %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+            %span{ itemprop: 'title' }
+              = @structure.name
+    - cache [@structure, 'structure/show/header_labels_2'] do
+      .flush
+        %h1.inline.v-middle{ itemprop: 'name' }= @structure.name
+
+        - if @structure.has_trial_courses?
+          %a.v-middle.muted-link.pointer{ data: { behavior: 'show-contact-panel' } }
+            .lbl.lbl--yellow.nowrap.v-middle.push-half--left{ data: { toggle: 'popover', content: @structure_decorator.trial_courses_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
+              %i.fa.fa-ticket
+              = t("structures.trial_courses_policy.#{@structure.trial_courses_policy}_nb")
+
+        - if @structure.premium? and @structure.has_promotion?
+          = link_to '#cours-reguliers', data: { behavior: 'scroll-to', offset_top: '-55' }, class: 'muted-link inline v-middle' do
+            .lbl.lbl--yellow.nowrap.v-middle.push-half--left{ data: { toggle: 'popover', content: @structure_decorator.promotion_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
+              %i.fa-star
+              Promotions
+        -# Rich snippets for organization: https://support.google.com/webmasters/answer/146861
+        .visuallyhidden{ itemprop: "address", itemscope: true, itemtype: "http://schema.org/PostalAddress" }
+          %span.visuallyhidden{ itemprop: "streetAddress" }= @structure.street
+          %span.visuallyhidden{ itemprop: "addressLocality" }= @structure.city.name
+          %span.visuallyhidden{ itemprop: "addressRegion" }= @structure.city.region_name
+        - if @structure.phone_numbers.any?
+          %span.visuallyhidden{ itemprop: "telephone" }= @structure.phone_numbers.first.number
+        - if @structure.website.present?
+          %a.visuallyhidden{ href: @structure.website, itemprop: "url"} http://pizza.example.com
+        %div{ itemprop: "location" }
+          %span{ itemscope: true, itemtype: "http://schema.org/Place" }
+            %div{ itemprop: "geo" }
+              %span{ itemscope: true, itemtype: "http://schema.org/GeoCoordinates" }
+                %span{ property: "latitude", content:"#{@structure.latitude}" }
+                %span{ property: "longitude", content: "#{@structure.longitude}" }
 
     .grid
       .grid__item.eight-twelfths.v-top>
         .push-half--top
-          - if @structure.structure_type.present?
-            .milli.inline-block.structure__header-icon.semi-muted.v-top
-              = link_to '#presentation', class: 'muted-link flexbox', data: { behavior: 'scroll-to', offset_top: '-55' } do
-                %i.fa-3x.fa-house.flexbox__item
+          - cache [@structure, "structures_header"] do
+            - if @structure.structure_type.present?
+              .milli.inline-block.structure__header-icon.semi-muted.v-top
+                = link_to '#presentation', class: "muted-link flexbox #{@structure.is_sleeping? ? 'cursor-default' : ''}", data: { behavior: 'scroll-to', offset_top: '-55' } do
+                  %i.fa-3x.fa-house.flexbox__item
+                  .flexbox__item.soft-half--left.soft--right
+                    - t(@structure.structure_type).split(' ').each_with_index do |splitted_structure_type, index|
+                      - if index == 1
+                        %br
+                      = splitted_structure_type
+            - if @structure.gives_group_courses or @structure.gives_individual_courses.blank?
+              .milli.inline-block.structure__header-icon.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.group_courses_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
+                = link_to '#cours-reguliers', class: "muted-link flexbox #{@structure.is_sleeping? ? 'cursor-default' : ''}", data: { behavior: 'scroll-to', offset_top: '-55' } do
+                  %i.fa-3x.fa-group.flexbox__item
+                  .flexbox__item.soft-half--left.soft--right
+                    - collectif_courses_nb = @structure.courses.collective.count
+                    - if collectif_courses_nb > 0
+                      #{collectif_courses_nb} cours
+                    - else
+                      Cours
+                    %br
+                    = "collectif".pluralize(collectif_courses_nb)
+            - if @structure.gives_individual_courses
+              .milli.structure__header-icon.inline-block.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.individual_courses_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
+                = link_to '#cours-reguliers', class: "muted-link flexbox #{@structure.is_sleeping? ? 'cursor-default' : ''}", data: { behavior: 'scroll-to', offset_top: '-55' } do
+                  %i.fa-3x.fa-user.flexbox__item
+                  .flexbox__item.soft-half--left.soft--right
+                    - privates_courses_length = @structure.courses.privates.count
+                    - if privates_courses_length > 0
+                      #{privates_courses_length} cours
+                    - else
+                      Cours
+                    %br
+                    = "particulier".pluralize(privates_courses_length)
+            .milli.structure__header-icon.inline-block.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.subjects_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
+              = link_to '#disciplines', class: "muted-link flexbox #{@structure.is_sleeping? ? 'cursor-default' : ''}", data: { behavior: 'scroll-to', offset_top: '-55' } do
+                %i.fa-3x.fa-tag.flexbox__item
                 .flexbox__item.soft-half--left.soft--right
-                  - t(@structure.structure_type).split(' ').each_with_index do |splitted_structure_type, index|
-                    - if index == 1
-                      %br
-                    = splitted_structure_type
-          - if @structure.gives_group_courses or @structure.gives_individual_courses.blank?
-            .milli.inline-block.structure__header-icon.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.group_courses_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
-              = link_to '#cours-reguliers', class: 'muted-link flexbox', data: { behavior: 'scroll-to', offset_top: '-55' } do
-                %i.fa-3x.fa-group.flexbox__item
-                .flexbox__item.soft-half--left.soft--right
-                  - collectif_courses_nb = (@structure.courses.trainings + @structure.courses.lessons).select(&:is_published?).length
-                  - if collectif_courses_nb > 0
-                    #{collectif_courses_nb} cours
-                  - else
-                    Cours
-                  %br
-                  collectifs
-          - if @structure.gives_individual_courses
-            .milli.structure__header-icon.inline-block.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.individual_courses_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
-              = link_to '#cours-reguliers', class: 'muted-link flexbox', data: { behavior: 'scroll-to', offset_top: '-55' } do
-                %i.fa-3x.fa-user.flexbox__item
-                .flexbox__item.soft-half--left.soft--right
-                  #{@structure.courses.privates.select(&:is_published?).length} cours
-                  %br
-                  particuliers
-          .milli.structure__header-icon.inline-block.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.subjects_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
-            = link_to '#disciplines', class: 'muted-link flexbox', data: { behavior: 'scroll-to', offset_top: '-55' } do
-              %i.fa-3x.fa-tag.flexbox__item
-              .flexbox__item.soft-half--left.soft--right
-                = @structure.subjects.at_depth(2).count
-                = "disciplines".pluralize @structure.subjects.at_depth(2)
+                  = @structure_decorator.subjects_at_depth_2_count
+                  = "disciplines".pluralize @structure_decorator.subjects_at_depth_2_count
 
-          .milli.inline-block.structure__header-icon.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.places_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
-            = link_to '#', onclick: "$('#map-thumbnail').click();", class: 'muted-link flexbox' do
-              %i.fa-3x.fa-map-marker.flexbox__item
-              .flexbox__item.soft-half--left.soft--right
-                = @structure.places.count
-                = "lieu#{@structure.places.count > 1 ? 'x' : ''}"
-          - if @structure.comments_count > 0
-            .milli.inline-block.structure__header-icon.inline-block.semi-muted.v-top
-              %div{ href: '#avis', itemprop: "aggregateRating", itemscope: true, itemtype: "http://schema.org/AggregateRating" }
-                .visuallyhidden{ itemprop: "ratingValue" } 5
-                .visuallyhidden{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
-                  %meta{property: 'v:rating', itemprop: 'rating', content: 5}
-                  %meta{itemprop: 'count', content: structure.comments_count}
-                  %meta{itemprop: 'itemreviewed', content: structure.name}
-                  %meta{itemprop: 'name', content: structure.name}
-                  %meta{itemprop: 'street-address', content: structure.street}
-                  %meta{itemprop: 'postal-code', content: structure.zip_code}
-                  - if @city
-                    %meta{itemprop: 'locality', content: @city.name}
-              = link_to '#avis', class: 'flexbox muted-link f-weight-normal', data: { behavior: 'scroll-to', offset_top: '-55' } do
-                %i.fa-3x.fa-comment.flexbox__item
+            .milli.inline-block.structure__header-icon.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.places_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
+              = link_to '#', onclick: "$('#map-thumbnail').click();", class: "muted-link flexbox #{@structure.is_sleeping? ? 'cursor-default' : ''}" do
+                %i.fa-3x.fa-map-marker.flexbox__item
                 .flexbox__item.soft-half--left.soft--right
-                  = @structure.comments_count
-                  avis
+                  = @structure_decorator.places_count
+                  = "lieu#{@structure.places.count > 1 ? 'x' : ''}"
+
+            - if @structure.comments_count > 0
+              .milli.inline-block.structure__header-icon.inline-block.semi-muted.v-top{ itemscope: true, itemtype: "http://data-vocabulary.org/Review-aggregate" }
+                %meta{ itemprop: 'itemreviewed', content: structure.name }
+                %meta{ itemprop: 'rating', content: structure.rating || 5 }
+                %meta{ itemprop: 'photo', content: structure.logo.url(:original) }
+                %meta{ itemprop: 'votes', content: structure.comments_count }
+                %meta{ itemprop: 'best', content: '5' }
+                %meta{ itemprop: 'street-address', content: structure.street }
+                %meta{ itemprop: 'postal-code', content: structure.zip_code }
+                - if @city
+                  %meta{ itemprop: 'locality', content: @city.name }
+                = link_to '#avis', class: 'flexbox muted-link f-weight-normal', data: { behavior: 'scroll-to', offset_top: '-55' } do
+                  %i.fa-3x.fa-comment.flexbox__item
+                  .flexbox__item.soft-half--left.soft--right
+                    %span{ itemprop: 'count' }
+                      = @structure.comments_count
+                    avis
       .grid__item.four-twelfths.v-bottom>
         %a.v-middle{ href: "https://twitter.com/share", class: "twitter-share-button", data: { text: "J'adore \"#{@structure.name}\" @CoursAvenue #{structure_url(@structure)}", lang: "fr", count: 'none'}} Tweet
 
@@ -79,30 +124,36 @@
           .v-middle.fb-like{ data: { href: structure_url(@structure), layout: 'button', action: 'recommend', 'show-faces' => 'false', share: "false" } }
 
 #structure-profile-menu.one-whole.west.fixed.on-top-of-the-world{ style: 'top: -100px;' }
-  .bg-site-background.soft-half--ends.bordered--bottom
-    .main-container.soft--sides
-      .flexbox
-        .flexbox__item.v-middle.nowrap>
-          .flexbox.top-page-menu
-            .flexbox__item.one-twelfth.nowrap.soft-half--right
-              %strong= truncate @structure.name, lenght: 25
-            .flexbox__item
-              - unless @is_sleeping
-                %ul.nav.flush.v-middle.inline-block.v-middle
-                  %li.soft-half--sides= link_to 'Lieux & photos', '#lieux-photos', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
-                  %li.soft-half--sides= link_to 'Présentation', '#presentation', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
-                  %li.soft-half--sides= link_to 'Cours réguliers', '#cours-reguliers', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
-                  %li.soft-half--sides= link_to 'Stages & ateliers', '#stages-ateliers', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
-                  %li.soft-half--sides= link_to 'Avis', '#avis', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
-                - if @structure.premium? and @header_promotion_title_for_structure.present?
-                  = link_to '#cours-reguliers', data: { behavior: 'scroll-to', offset_top: '-55' }, class: 'muted-link' do
-                    .lbl.lbl--yellow.nowrap.push--left.v-middle
+  - cache [@structure, 'structure/show/sticker_header'] do
+    .bg-site-background.soft-half--ends.bordered--bottom
+      .main-container.soft--sides
+        .flexbox
+          .flexbox__item.v-middle.nowrap>
+            .flexbox.top-page-menu
+              .flexbox__item.one-twelfth.nowrap.soft-half--right
+                %strong= truncate @structure.name, lenght: 25
+              .flexbox__item
+                - unless @is_sleeping
+                  %ul.nav.flush.v-middle.inline-block
+                    %li.soft-half--sides= link_to 'Lieux & photos', '#lieux-photos', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
+                    %li.soft-half--sides= link_to 'Présentation', '#presentation', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
+                    %li.soft-half--sides= link_to 'Cours réguliers', '#cours-reguliers', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
+                    %li.soft-half--sides= link_to 'Stages & ateliers', '#stages-ateliers', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
+                    %li.soft-half--sides= link_to 'Avis', '#avis', class: 'muted-link orange', data: { behavior: 'scroll-to', offset_top: '-55' }
+                - if @structure.has_trial_courses?
+                  %a.v-middle.muted-link.pointer{ data: { behavior: 'show-contact-panel' } }
+                    .lbl.lbl--yellow.nowrap.v-middle.push-half--left{ data: { toggle: 'popover', content: @structure_decorator.trial_courses_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
+                      %i.fa.fa-ticket
+                      = t("structures.trial_courses_policy.#{@structure.trial_courses_policy}_nb")
+                - if @structure.premium? and @structure.has_promotion?
+                  = link_to '#cours-reguliers', data: { behavior: 'scroll-to', offset_top: '-55' }, class: 'muted-link inline v-middle' do
+                    .lbl.lbl--yellow.nowrap.v-middle.push-half--left{ data: { toggle: 'popover', content: @structure_decorator.promotion_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
                       %i.fa-star
-                      = @header_promotion_title_for_structure
-        .flexbox__item.v-middle.nowrap.text--right>
-          %a.contact-button.btn.btn--green.nowrap{ data: { behavior: 'show-contact-panel' } }
-            Contacter
-            = I18n.t("structures.structure_type_contact.#{(@structure.structure_type.present? ? @structure.structure_type : 'structures.other')}")
+                      Promotions
+          .flexbox__item.v-middle.nowrap.text--right>
+            %a.contact-button.btn.btn--green.nowrap{ data: { behavior: 'show-contact-panel' } }
+              Contacter
+              = I18n.t("structures.structure_type_contact.#{(@structure.structure_type.present? ? @structure.structure_type : 'structures.other')}")
 
 = content_for :scripts do
   :javascript

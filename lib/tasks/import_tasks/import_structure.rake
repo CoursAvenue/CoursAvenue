@@ -20,6 +20,14 @@ namespace :import do
       }
   end
 
+  # Use rake import:notify_sleeping
+  desc 'Import structures'
+  task :notify_sleeping, [:filename] => :environment do |t, args|
+    Structure.where("meta_data -> 'is_sleeping' = 'true'").each do |s|
+      AdminMailer.delay.take_control_of_your_account(s)
+    end
+  end
+
   # Use rake import:vertical_pages_images
   desc 'Import structures'
   task :vertical_pages_images, [:filename] => :environment do |t, args|
@@ -33,7 +41,9 @@ namespace :import do
         next
       end
       bar.increment!
+      next if row[1].blank?
       vertical = VerticalPage.where(VerticalPage.arel_table[:name].matches("%#{row[1]}%")).first
+      next if vertical.image.present?
       if vertical.nil?
         puts "--------------------------------------------------------------------------------"
         puts "--------------------------------------------------------------------------------#{row[1]}"
@@ -48,7 +58,15 @@ namespace :import do
           vertical.image = url
           vertical.save
         else
-          puts vertical.name
+          url = URI.parse("http://coursavenue-public.s3.amazonaws.com/vertical_pages/#{row[0]}.JPG")
+          req = Net::HTTP.new(url.host, url.port)
+          res = req.request_head(url.path)
+          if res.code == '200'
+            vertical.image = url
+            vertical.save
+          else
+            puts "#{vertical.name} / http://coursavenue-public.s3.amazonaws.com/vertical_pages/#{row[0]}.jpeg"
+          end
         end
       rescue Exception => exception
       end
@@ -95,8 +113,10 @@ namespace :import do
   desc 'Import structures'
   task :structures, [:filename] => :environment do |t, args|
     first = true
-    # url = 'http://coursavenue-public.s3.amazonaws.com/import_dormants/Midi-Pyrenees.csv'
-    url = 'http://coursavenue-public.s3.amazonaws.com/import_dormants/Alpes-Maritimes.csv'
+    # url_key = 'Rhone'
+    # url_key = 'BoucheDuRhone'
+    url_key = 'IDF'
+    url = "http://coursavenue-public.s3.amazonaws.com/import_dormants/#{url_key}.csv"
     file = open(url)
     bar = ProgressBar.new file.readlines.size
     CSV.foreach(file, { col_sep: ";" }) do |row|
@@ -156,21 +176,29 @@ namespace :import do
                                    places_attributes: places_attributes,
                                    contact_email: attributes[:emails].first,
                                    is_sleeping: true,
-                                   other_emails: attributes[:emails][0..-1].join(';'))
+                                   sleeping_email_opt_in: true,
+                                   # Check validity of emails
+                                   other_emails: (attributes[:emails][1..-1] || []).join(';')
+                                   )
       unless structure.persisted?
+        structure.create_sleeping_attributes
         puts "#{attributes[:key]} : #{attributes[:name]}\n#{structure.errors.full_messages.to_sentence}\n\n"
       else
-        begin
-          url = URI.parse("http://coursavenue-public.s3.amazonaws.com/import_dormants/Logos_Alpes-Maritimes/#{attributes[:key]}.png")
-          # url = URI.parse("http://coursavenue-public.s3.amazonaws.com/import_dormants/Logos_MidiPyrenees/#{attributes[:key]}.png")
-          req = Net::HTTP.new(url.host, url.port)
-          res = req.request_head(url.path)
-          if res.code == '200'
-            structure.logo = url
-            structure.save
+        file_extensions = ['png', 'PNG']
+        file_extensions.each do |file_extension|
+          begin
+            url = URI.parse("http://coursavenue-public.s3.amazonaws.com/import_dormants/Logos_#{url_key}/#{attributes[:key]}.png")
+            req = Net::HTTP.new(url.host, url.port)
+            res = req.request_head(url.path)
+            if res.code == '200'
+              structure.logo          = url
+              structure.sleeping_logo = url
+              structure.save
+              structure.logo.reprocess!
+              next
+            end
+          rescue Exception => exception
           end
-        rescue Exception => exception
-          Bugsnag.notify(exception)
         end
       end
     end

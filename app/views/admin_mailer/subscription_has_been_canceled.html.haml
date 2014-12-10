@@ -4,9 +4,6 @@
 - content_for :logo do
   = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank' do
     = image_tag @structure.logo.url(:thumb), class: 'block', height: 100, width: 100, alt: "Logo de #{@structure.name}"
-  %div.yellow.text--center{ style: 'padding-top: 2px;' }
-    = image_tag 'icons/icon-star-full--yellow.png', height: 15, widht: 15, class: 'v-middle', style: 'padding-right: 2px;'
-    %span.v-middle Premium
 
 - content_for :promo do
   .p

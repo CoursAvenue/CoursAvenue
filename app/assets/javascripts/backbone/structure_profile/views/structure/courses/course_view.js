@@ -10,6 +10,9 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         modelEvents: {
             'change': 'updatePlannings'
         },
+        events: {
+          'click [data-behavior=register-to-course]': 'registerToCourse'
+        },
 
         initialize: function(options) {
             this.model.set('is_last', options.is_last);
@@ -38,9 +41,18 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             this.trigger("mouseleave", data);
         },
 
-        onAfterShow: function onAfterShow () {
-            this.$('[data-toggle=popover]').popover();
+        onItemviewRegister: function onItemviewRegister (view, data) {
+            this.trigger("register", data);
         },
+
+        registerToCourse: function registerToCourse (view, data) {
+            this.trigger("register", { course_id: this.model.get('id') });
+        },
+
+        itemViewOptions: function itemViewOptions (model, index) {
+            return { course: this.model.toJSON() };
+        }
+
     });
 
 }, undefined);

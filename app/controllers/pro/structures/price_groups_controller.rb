@@ -62,6 +62,7 @@ class Pro::Structures::PriceGroupsController < Pro::ProController
 
   def update
     @price_group = @structure.price_groups.find params[:id]
+    @course      = @structure.courses.find(params[:course_id]) if params[:course_id].present?
     respond_to do |format|
       if @price_group.localized.update_attributes params[:price_group]
         format.html { redirect_to pro_structure_price_groups_path(@structure) }

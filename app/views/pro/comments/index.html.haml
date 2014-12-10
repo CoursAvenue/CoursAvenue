@@ -1,21 +1,22 @@
-= side_menu_currently_at 'last_comments'
+= side_menu_currently_at 'activity'
+
 .panel
+  = render partial: 'pro/shared/activity_tabs', locals: { current: 'comments' }
   - if @waiting_for_deletion_comments.any?
-    .panel__header.soft
-      %h3.flush Avis en attente de suppression
     .panel__body.soft
+      %h2.f-weight-300 Avis en attente de suppression
       %ul.comment-list
         = render partial: '/comments/comment', collection: @waiting_for_deletion_comments, locals: {with_link: true}
 
   - if @waiting_for_validation_comments.any?
-    .panel__header.soft
-      %h3.flush Avis en attente de validation
     .panel__body.soft
+      %h2.f-weight-300 Avis en attente de validation
       %ul.comment-list
         = render partial: '/comments/comment', collection: @waiting_for_validation_comments, locals: {with_link: true}
 
-  .panel__header.soft
-    %h3.flush Derniers avis
   .panel__body.soft
+    %h2.f-weight-300 Derniers avis
     %ul.comment-list
-      = render partial: '/comments/comment', collection: @comments, locals: {with_link: true}
+      - @comments.each do |review|
+        - cache [review, 'pro/comments/index'] do
+          = render partial: '/comments/comment', locals: { with_link: true, comment: review }

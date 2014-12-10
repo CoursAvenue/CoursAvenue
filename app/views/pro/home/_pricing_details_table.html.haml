@@ -1,3 +1,10 @@
+.text--center
+  %ul.nav.tabs--link.inline-block.flush.btn-group
+    %li>
+      %a.btn.rounded-right--none{ href: '.monthly-details', data: { toggle: 'tab' } } Mensuel
+    %li.active>
+      %a.btn.rounded-left--none{ href: '.yearly-annual', data: { toggle: 'tab' } } Annuel
+
 %table.table--data.table--striped.table--white.push--top{ style: 'max-width: 850px;', data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.go_premium')} }
   %thead
     %tr.border-none--bottom
@@ -7,13 +14,11 @@
         %p.beta.push-half--bottom.soft--top.blue
           %i.fa.fa-leaf
           Basic
-        %ul.nav.tabs--link.inline-block
-          %li.active &nbsp;
         .delta Gratuit
         %p
           %i &nbsp;
           %br
-          %strong.gamma &nbsp;
+          %strong.delta &nbsp;
         - if @structure
           %p
             %span.gray Votre compte actuel
@@ -23,34 +28,25 @@
         %p.beta.push-half--bottom.soft--top.yellow
           %i.fa.fa-star
           Premium
-        %ul.nav.tabs--link.inline-block
-          %li.active
-            %a{ href: '.price-annual', data: { toggle: 'tab' } } 12 mois
-          %span.gray= '|'
-          %li
-            %a{ href: '.price-mensual', data: { toggle: 'tab' } } 1 mois
 
         .tab-content
-          .tab-pane.hard.price-annual.active
-            .delta 39€ TTC / mois
+          .tab-pane.hard.yearly-annual.active
+            .delta 36€ TTC / mois
             %p
-              %i Soit 468€ en un prélèvement unique
+              %i Soit 440€ en un prélèvement unique
               %br
-              %strong.green.gamma -11%
-              %span.delta.green de réduction
-
+              %strong.green.delta 12 mois pour le prix de 10
             - if @structure
-              = link_to 'Commencer', go_premium_pro_structure_path(@structure, premium_type: 'yearly'), class: 'btn btn--yellow btn--full'
+              = link_to 'Commencer', new_pro_structure_subscription_plan_path(@structure, premium_type: 'yearly'), class: 'btn btn--yellow btn--full'
             - else
               = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--yellow btn--full'
-          .tab-pane.hard.price-mensual
+          .tab-pane.hard.monthly-details
             .delta 44€ TTC / mois
             %p
               %i Facturation mensuelle
-              %br
               %strong.gamma &nbsp;
             - if @structure
-              = link_to 'Commencer', go_premium_pro_structure_path(@structure, premium_type: 'monthly'), class: 'btn btn--yellow btn--full'
+              = link_to 'Commencer', new_pro_structure_subscription_plan_path(@structure, premium_type: 'monthly'), class: 'btn btn--yellow btn--full'
             - else
               = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--yellow btn--full'
 
@@ -67,9 +63,9 @@
           %br
           %span.milli
             Bénéficiez pleinement de toutes les actions de communication que notre équipe pilote au quotidien (
-            = image_tag 'pro/logo-adword.png', height: 18, class: 'v-middle'
+            = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/logo-adword.png', height: 18, class: 'v-middle'
             ,
-            = image_tag 'pro/logo-facebook.png', height: 20, class: 'v-middle'
+            = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/logo-facebook.png', height: 20, class: 'v-middle'
             , newsletters...) : votre trafic augmente, il devient plus qualifié et vous recrutez plus d'élèves
       %td.bordered--right.text--center
       %td.bordered--right.text--center
@@ -193,10 +189,10 @@
           = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--yellow btn--full'
       %td.bordered--right.text--center.soft-half
         - if @structure
-          .tab-pane.hard.price-annual.active
-            = link_to 'Commencer', go_premium_pro_structure_path(@structure, premium_type: 'yearly'), class: 'btn btn--yellow btn--full'
-          .tab-pane.hard.price-mensual
-            = link_to 'Commencer', go_premium_pro_structure_path(@structure, premium_type: 'monthly'), class: 'btn btn--yellow btn--full'
+          .tab-pane.hard.yearly-annual.active
+            = link_to 'Commencer', new_pro_structure_subscription_plan_path(@structure, premium_type: 'yearly'), class: 'btn btn--yellow btn--full'
+          .tab-pane.hard.monthly-details
+            = link_to 'Commencer', new_pro_structure_subscription_plan_path(@structure, premium_type: 'monthly'), class: 'btn btn--yellow btn--full'
         - else
           = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--yellow btn--full'
     %tr

@@ -1,0 +1,5 @@
+ruby:
+  enabled: true
+  config_file: config/hound.yml
+java_script:
+  enabled: true

@@ -1,7 +1,5 @@
 /*
-    Usage:
-    .flash{data: {behavior: 'flash'}}
-      message
+    Usage: TODO
 */
 ;(function ( $, window, document, undefined ) {
 
@@ -29,18 +27,19 @@
 
     Plugin.prototype = {
 
-        init: function() {
+        init: function init () {
             this.default_height       = this.$element.css('height') || '50px';
             this.default_scrollheight = parseInt(this.default_height);
             this.attachEvents();
             this.resize();
         },
 
-        attachEvents: function() {
+        attachEvents: function attachEvents () {
             this.$element.keyup(this.resize.bind(this));
+            this.$element.on('autoresize:update', this.resize.bind(this));
         },
 
-        resize: function(event) {
+        resize: function resize (event) {
             var new_height = Math.max(this.element.scrollHeight, this.default_scrollheight) + "px";
             if (new_height !== this.element.style.height) {
                 this.element.style.height = ""; /* Reset the height*/

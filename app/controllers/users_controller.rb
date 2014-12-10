@@ -4,8 +4,22 @@ class UsersController < InheritedResources::Base
 
   actions :show, :update
 
-  before_action :authenticate_user!, except: [:unsubscribe, :waiting_for_activation, :invite_entourage_to_jpo_page, :invite_entourage_to_jpo, :welcome]
-  load_and_authorize_resource :user, find_by: :slug, except: [:unsubscribe, :waiting_for_activation, :invite_entourage_to_jpo_page, :invite_entourage_to_jpo, :welcome]
+  before_action :authenticate_user!, except: [:unsubscribe, :waiting_for_activation, :invite_entourage_to_jpo_page, :invite_entourage_to_jpo, :welcome, :create, :facebook_auth_callback, :facebook_auth_failure]
+  load_and_authorize_resource :user, find_by: :slug, except: [:unsubscribe, :waiting_for_activation, :invite_entourage_to_jpo_page, :invite_entourage_to_jpo, :welcome, :create, :facebook_auth_callback, :facebook_auth_failure]
+
+  # Create from newsletter
+  # GET /users
+  def create
+    user = User.new email: params[:user][:email], zip_code: params[:user][:zip_code], sign_up_at: Time.now, subscription_from: params[:user][:subscription_from]
+    user.valid? # Validate to trigger errors
+    if user.errors[:email].blank? # check if email is valid
+      user.save(validate: false)
+    end
+    params[:user][:subscription_from] == 'newsletter' if user.persisted? and UserMailer.delay.subscribed_to_newsletter(user)
+    respond_to do |format|
+      format.js { render nothing: true }
+    end
+  end
 
   # params[:structure] : structure_slug
   # method: GET
@@ -33,6 +47,7 @@ class UsersController < InheritedResources::Base
 
   def show
     @user = User.find(params[:id])
+    redirect_to edit_user_path(@user)
   end
 
   def edit_private_infos
@@ -57,7 +72,10 @@ class UsersController < InheritedResources::Base
   def unsubscribe
     if user = User.read_access_token(params[:signature])
       user.update_attribute :email_opt_in, false
-      redirect_to root_url, notice: 'Vous avez bien été desinscrit de la liste.'
+      user.update_attribute :email_promo_opt_in, false
+      user.update_attribute :email_newsletter_opt_in, false
+      user.update_attribute :email_passions_opt_in, false
+      redirect_to unsubscribed_users_url
     else
       redirect_to root_url, notice: 'Lien invalide.'
     end
@@ -121,9 +139,55 @@ class UsersController < InheritedResources::Base
   end
 
   def update
+    if params[:user] && params[:user][:subject_descendants_ids].present?
+      params[:user][:subject_ids] = params[:user][:subject_ids] + params[:user].delete(:subject_descendants_ids)
+    end
     update! do |format|
       format.html { redirect_to (params[:return_to] || edit_user_path(@user)), notice: 'Votre profil a bien été mis à jour.' }
     end
+  end
+
+  def destroy_confirmation
+    render layout: false
+  end
+
+  def destroy
+    @user.destroy
+    respond_to do |format|
+      format.html { redirect_to root_path(notice: 'Vous allez nous manquer...') }
+    end
+  end
+
+  def facebook_auth_callback
+    @user = User.from_omniauth(request.env['omniauth.auth'])
+
+    if @user.persisted?
+      flash[:notice] = I18n.t 'devise.omniauth_callbacks.success', kind: 'Facebook'
+
+      # Update oauth token and expires at
+      auth = request.env['omniauth.auth']
+      @user.oauth_token        = auth.credentials.token
+      @user.oauth_expires_at   = Time.at(auth.credentials.expires_at)
+
+      sign_in(Devise::Mapping.find_scope!(@user), @user, event: :authentication)
+
+      redirect_url = after_omni_auth_sign_in_path_for(@user)
+      respond_to do |format|
+        format.html { redirect_to redirect_url }
+        format.json { render json: UserSerializer.new(@user).to_json }
+      end
+    else
+      session['devise.facebook_data'] = request.env['omniauth.auth']
+
+      respond_to do |format|
+        format.html { redirect_to redirect_url }
+        format.json { render json: { redirect_url: root_path(anchor: 'connexion') } }
+      end
+    end
+  end
+
+  def facebook_auth_failure
+    redirect_to new_user_session_path, flash: { error: I18n.t('devise.omniauth_callbacks.failure', kind: 'Facebook') }
   end
 
   private
@@ -164,8 +228,6 @@ class UsersController < InheritedResources::Base
     end
   end
 
-  private
-
   # Merge subject_descendants_ids into subject_ids
   # Turns: {
   #   subject_ids              => [12]
@@ -182,6 +244,15 @@ class UsersController < InheritedResources::Base
       params[:user][:passions_attributes].each do |index, passions_attributes|
         passions_attributes[:subject_ids] = passions_attributes[:subject_ids] + passions_attributes[:subject_descendants_ids] if passions_attributes[:subject_descendants_ids]
       end
+    end
+  end
+
+  def after_omni_auth_sign_in_path_for(user)
+    session[:after_sign_up_url] = user.after_sign_up_url || session['user_return_to'] || dashboard_user_path(user)
+    if user.sign_in_count == 1
+      welcome_users_path
+    else
+      session[:after_sign_up_url]
     end
   end
 end

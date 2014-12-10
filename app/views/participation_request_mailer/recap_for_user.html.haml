@@ -1,0 +1,36 @@
+- content_for :email_title do
+  Voici un récapitulatif de vos inscriptions pour demain.
+
+.p
+  Bonjour #{@user.name},
+
+.p
+  Nous sommes ravis de savoir que demain, vous allez découvrir de nouveaux cours. Pour que tout se passe sans problème, assurez-vous d'avoir toutes les informations avec vous&nbsp;:
+  %br
+  \- Vérifiez bien le récapitulatif de vos inscriptions ci-dessous ;
+  %br
+  \- Imprimez et emportez votre récapitulatif, y compris l'adresse de l'organisateur et son numéro de téléphone ;
+  %br
+  \- Si vous souhaitez annuler ou modifier votre inscription, accédez à vos inscriptions dès maintenant :
+
+.p.action
+  = link_to 'Récapitulatif de mes inscriptions', user_participation_requests_url(@user, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
+.p
+  Profitez-bien de votre atelier et très belle découverte !
+
+.p
+  Très bon cours !
+
+- content_for :under_content do
+  %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
+    %tr{ valign: 'top' }
+      %td.v-middle.content-block
+        .title Vos séances à venir :
+  - @participation_requests.each_with_index do |participation_request, index|
+    - if index > 0
+      %br
+      %hr
+      %br
+    = render partial: 'participation_request_mailer/shared/user_participation_recap', locals: { participation_request: participation_request, show_header: false }
+
+= render 'shared/mailers/footer'

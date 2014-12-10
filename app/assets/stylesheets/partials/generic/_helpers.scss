@@ -1,26 +1,14 @@
-// http://css-tricks.com/almanac/properties/f/filter/
-// blur()
-// brightness()
-// contrast()
-// url()
-// drop-shadow()
-// grayscale()
-// hue-rotate()
-// invert()
-// opacity()
-// sepia()
-
-.bg-blured {
-  -webkit-filter: blur(5px);
-          filter: blur(5px);
+.bg-transparent {
+    background: transparent;
 }
 .bg-contain, .bg-cover {
-    background-position: center;
-    background-repeat: no-repeat;
+    background-position  : center;
+    background-repeat    : no-repeat;
     &[data-stellar-background-ratio] {
         background-position: top;
     }
 }
+.bg-fixed { background-attachment: fixed; }
 .bg-cover   { @include background-size(cover); }
 .bg-contain { @include background-size(contain); }
 
@@ -66,6 +54,7 @@
 .white              { color: white; }
 .black              { color: $text-black; }
 .yellow             { color: $yellow; }
+.yellow--dark       { color: darken($yellow, 8%); }
 .red                { color: $red; }
 .green              { color: $green-success; }
 .blue               { color: $blue-green !important; }
@@ -93,14 +82,16 @@
     margin-bottom: 0.5em;
 }
 // Rounded
-.rounded--none    { @include border-radius(0!important); }
-.rounded-top--none{ @include border-top-radius(0!important); }
-.rounded          { @include border-radius($brand-round); }
-.rounded--top     { @include border-top-radius($brand-round); }
-.rounded--bottom  { @include border-bottom-radius($brand-round); }
-.rounded--double  { @include border-radius($brand-round * 2); }
-.rounded--thick   { @include border-radius(1em !important); }
-.rounded--circle  { @include border-radius(100% !important); }
+.rounded--none      { @include border-radius(0!important); }
+.rounded-left--none { @include border-left-radius(0!important); }
+.rounded-right--none { @include border-right-radius(0!important); }
+.rounded-top--none  { @include border-top-radius(0!important); }
+.rounded            { @include border-radius($brand-round); }
+.rounded--top       { @include border-top-radius($brand-round); }
+.rounded--bottom    { @include border-bottom-radius($brand-round); }
+.rounded--double    { @include border-radius($brand-round * 2); }
+.rounded--thick     { @include border-radius(1em !important); }
+.rounded--circle    { @include border-radius(100% !important); }
 
 // Border
 .bordered--right     { border-right  : 1px solid $gray-smooth; }
@@ -109,6 +100,7 @@
 .bordered--top       { border-top    : 1px solid $gray-smooth; }
 .bordered            { border        : 1px solid $gray-smooth; }
 .bordered--blue      { border        : 1px solid $blue; }
+.bordered--red       { border        : 1px solid $red; }
 .border-none         { border        : none !important; }
 .border-none--sides  { border-left   : none !important; border-right: none !important; }
 .border-none--bottom { border-bottom : none !important; }
@@ -161,7 +153,9 @@
 .thin              { font-weight: 300; }
 .very-soft         { padding: 5px; }
 
-.pointer    { cursor: pointer !important; }
+.pointer        { cursor: pointer !important; }
+.cursor-default { cursor: default !important; }
+.cursor-help    { cursor: help !important; }
 
 .ie-blocker {
     position   : fixed;
@@ -194,6 +188,7 @@
 }
 .z-index-1 { z-index: 1; }
 .z-index-3 { z-index: 3; }
+.black-box-shadow { @include box-shadow(0px 0px 31px #555555); }
 .white-text-shadow { @include text-shadow(0 0 2px #FFF, 0 0 12px #FFF, 0 0 22px #FFF, 0 0 42px #FFF, 0 0 92px #FFF); }
 .black-text-shadow { @include text-shadow(0 0 2px #000, 0 0 12px #000, 0 0 22px #000, 0 0 42px #000, 0 0 92px #000); }
 .soft-black-text-shadow { @include text-shadow(0px 0px 2px #444, 0px 0px 15px #444); }
@@ -326,5 +321,26 @@
 .last-p-flush {
     p:last-child {
         margin-bottom: 0;
+    }
+}
+.zoom-on-hover {
+    @include transition(all 100ms ease-in-out);
+    &:hover {
+        @include transform(scale(1.05, 1.05));
+    }
+}
+.sticky.bordered--bottom-on-stick    { border-bottom : 1px solid $gray-smooth; }
+
+.height-150 {
+    height: 150px;
+}
+.full-screen-item { height: 100vh; }
+
+.black-curtain {
+    @include transition(background 150ms linear);
+    background: rgba(0,0,0,.5);
+    height    : 100%;
+    &.black-curtain__fading-on-hover:hover {
+        background: rgba(0,0,0,.1);
     }
 }

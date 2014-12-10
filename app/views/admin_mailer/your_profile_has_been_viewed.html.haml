@@ -15,28 +15,12 @@
           Passez au
           %strong Premium
           pour gagner en visibilité et recruter plus d'élèves :
-      %td.v-middle.text--center.content-block{ width: 125, background: asset_path('emails_logo/premium/blue_bubble.png'), style: "background-size: 100% 100%;"}
+      %td.v-middle.text--center.content-block{ width: 125, background: 'https://coursavenue-public.s3.amazonaws.com/public_assets/emails_logo/premium/blue_bubble.png', style: "background-size: 100% 100%;"}
         .alpha.white= @impressions_count || 4
         .white{ style: 'font-size: 12px;' } Affichages
     %tr{ valign: 'top' }
       %td.text--center.v-middle.content-block{ colspan: 3}
-        = link_to 'Passer au premium', premium_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN, utm_source: 'email', utm_campaign: 'your_profile_has_been_viewed', utm_medium: "#{@impressions_count} impressions"), class: 'btn btn--yellow', style: 'padding-left: 25px; padding-right: 25px;'
-
-- content_for :under_content_2 do
-  %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
-    %tr{ valign: 'top' }
-      %td.v-middle.content-block{ colspan: 2 }
-        .title Plus que 4 jours pour l'offre Premium à -50% sans engagement
-    %tr{ valign: 'top' }
-      %td.v-middle.content-block{ width: 450 }
-        .p Passez au profil Premium maintenant et profitez du tarif spécial de 22€/mois au lieu de 44€ jusqu'à la fin de l'année (offre sans engagement, vous pouvez arrêter quand vous voulez). Valable jusqu'à fin juillet avec le code promo SPECIALETE :
-      %td.text--center.v-middle.content-block.text--center{ width: 150 }
-        = image_tag 'emails_logo/premium/50percents.png', height: 100, width: 100, alt: "-50% pendant jusqu'à la fin de l'année"
-    %tr{ valign: 'top' }
-      %td.content-block{ colspan: 2 }
-        .action
-          = link_to "J'en profite", pro_pages_july_offer_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--yellow', style: 'padding-left: 30px; padding-right: 30px;'
-
+        = link_to 'Passer au premium', pro_structure_subscription_plans_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN, utm_source: 'email', utm_campaign: 'your_profile_has_been_viewed', utm_medium: "#{@impressions_count} impressions"), class: 'btn btn--yellow', style: 'padding-left: 25px; padding-right: 25px;'
 
 - content_for :under_content_3 do
   = render partial: 'admin_mailer/they_are_premium', locals: { show_consultation: true, view_count: @view_count}

@@ -1,10 +1,11 @@
 # encoding: utf-8
 class ApplicationController < ActionController::Base
   protect_from_forgery
+  caches_page :robots
 
   layout 'users'
 
-  helper_method :should_be_responsive?, :mobile_device?
+  helper_method :mobile_device?, :layout_locals
 
   before_filter :update_sanitized_params, if: :devise_controller?
 
@@ -38,7 +39,7 @@ class ApplicationController < ActionController::Base
     if request.subdomain == 'pro'
       redirect_to new_pro_admin_session_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), alert: I18n.t('devise.failure.unauthenticated')
     else
-      redirect_to new_user_session_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), alert: I18n.t('devise.failure.unauthenticated')
+      redirect_to root_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), alert: I18n.t('devise.failure.unauthenticated')
     end
   end
 
@@ -63,15 +64,12 @@ class ApplicationController < ActionController::Base
     render template: 'errors/internal_server_error', status: :not_found
   end
 
+  # Create a RoutingError exception when the route is not matched.
   #
-  # Tell wether the page should use:
-  # %meta{name: 'viewport', content: 'width=device-width, initial-scale=1.0' }
-  #
-  # @return Boolean
-  def should_be_responsive?
-    return_value = controller_name == 'home' && action_name == 'index'# && request.subdomain == 'www'
-    return return_value
-  end
+  # @return ActionController::RoutingError
+  # def routing_error
+    # raise ActionController::RoutingError.new(params[:path])
+  # end
 
   # Check wether the devise is mobile or not
   #
@@ -93,6 +91,25 @@ class ApplicationController < ActionController::Base
     unless current_pro_admin && current_pro_admin.super_admin?
       redirect_to root_path, alert: "Vous n'avez pas le droit !"
     end
+  end
+
+  def robots
+    robots = File.read(Rails.root + "config/robots/robots.#{Rails.env}.txt")
+    render text: robots, layout: false, content_type: "text/plain"
+  end
+
+  def mixpanel_tracker
+    if Rails.env.production?
+      @tracker ||= Mixpanel::Tracker.new(ENV['MIXPANEL_PROJECT_TOKEN'])
+    else
+      @tracker ||= FakeMixpanel::Tracker.new
+    end
+  end
+
+  protected
+
+  def layout_locals
+    {}
   end
 
   private

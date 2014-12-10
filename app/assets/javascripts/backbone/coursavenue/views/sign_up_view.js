@@ -5,10 +5,20 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         after_sign_up_popup_template: Module.templateDirname() + 'after_sign_up_popup',
         className: 'panel center-block',
 
+        options: {
+            width: 280
+        },
+
         initialize: function initialize (options) {
             this.model = CoursAvenue.currentUser();
-            this.options = options;
-            this.$el.css('width', '280px');
+            _.extend(this.options, options || {});
+            this.options.success = this.options.success || $.magnificPopup.close;
+            this.options.success = _.wrap(this.options.success, function(func) {
+                CoursAvenue.trigger('user:signed:in');
+                CoursAvenue.trigger('user:signed:up');
+                func();
+            });
+            this.$el.css('width', this.options.width + 'px');
             $.magnificPopup.open({
                   items: {
                       src: this.$el,
@@ -22,24 +32,26 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         events: {
             'click [data-behavior=sign-in]'       : 'signIn',
             'click @ui.$show_email_section_link'  : 'showEmailSection',
-            'click [data-behavior=facebook-login]': 'loginWithFacebook',
+            'click @ui.$facebook_login_button'    : 'loginWithFacebook',
             'submit form'                         : 'signUp'
         },
 
         ui: {
             '$show_email_section_link': '[data-behavior=sign-up-with-email]',
-            '$email_section'          : '[data-type=email-section]'
+            '$email_section'          : '[data-type=email-section]',
+            '$facebook_login_button'  : '[data-behavior=login-with-facebook]',
+            '$data_loader'            : '[data-loader]'
+        },
+
+        /*
+         * We have to keep this action in this model to ensure to pass this.options attributes
+         */
+        loginWithFacebook: function loginWithFacebook () {
+            CoursAvenue.loginWithFacebook(this.options);
         },
 
         signIn: function signIn () {
             new Module.SignInView(this.options);
-        },
-
-        loginWithFacebook: function loginWithFacebook () {
-            CoursAvenue.loginWithFacebook({
-                success: this.options.success,
-                dismiss: this.options.dismiss
-            });
         },
 
         showEmailSection: function showEmailSection () {
@@ -58,6 +70,9 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             if (this.model.isValid(true)) {
                 this.$('form').trigger('ajax:beforeSend.rails');
                 $.ajax({
+                    beforeSend: function beforeSend (xhr) {
+                        xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
+                    },
                     url: Routes.user_registration_path(),
                     type: 'POST',
                     dataType: 'json',
@@ -77,7 +92,13 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                     }.bind(this),
                     success: function success (response) {
                         CoursAvenue.setCurrentUser(response);
+                        if (CoursAvenue.isProduction()) {
+                            mixpanel.track("User registered", { info: 'Standard' });
+                            ga('send', 'event', 'Action', 'User registered');
+                        }
                         this.showRegistrationConfirmedPopup()
+                        // Pixel to track registration convertion with Facebook
+                        if (window._fbq) { window._fbq.push(['track', '6016889463627', {}]); }
                     }.bind(this)
                 });
             } else {
@@ -108,6 +129,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         serializeData: function serializeData () {
             var data = {};
+            _.extend(data, this.options);
             _.extend(data, { pages_mentions_partners_path: Routes.pages_mentions_partners_path() });
             _.extend(data, this.model.toJSON());
             if (this.errors) { _.extend(data, { errors: this.errors }); }

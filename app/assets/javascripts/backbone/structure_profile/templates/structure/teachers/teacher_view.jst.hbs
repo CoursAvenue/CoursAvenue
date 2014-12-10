@@ -1,11 +1,11 @@
 <div class="grid--full push--bottom">
     <div class="grid__item two-tenths">
         <div class="media-photo">
-            <img src='{{ image }}' class='block' />
+            <img data-behavior="lazy-load" data-original='{{ image }}' class='block' />
         </div>
     </div>{{!--
  --}}<div class="grid__item eight-tenths soft--left">
-        <div><strong>{{ name }}</strong></div>
+        <h6 class="flush">{{ name }}</h6>
         {{#if description}}
             {{#ifCond description '!=' description_short}}
             <div id="teacher-{{id}}-description-short" class="gray last-p-flush">

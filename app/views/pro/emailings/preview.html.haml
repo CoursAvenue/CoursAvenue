@@ -1,0 +1,7 @@
+%iframe#iframe{ height: 800, width: 800 }
+#email-content.hidden= @email.html_safe
+:javascript
+  var iframe = document.getElementById('iframe'),
+      iframedoc = iframe.contentDocument || iframe.contentWindow.document;
+  iframedoc.body.innerHTML = $('#email-content').html();
+  $(iframedoc.body).css('margin', '0');

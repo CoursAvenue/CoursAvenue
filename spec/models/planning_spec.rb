@@ -1,29 +1,34 @@
 # -*- encoding : utf-8 -*-
-require 'spec_helper'
+require 'rails_helper'
 
 describe Planning do
 
-  context :initialization do
+  subject { Planning.new }
+
+  context 'initialization' do
     it 'has default values' do
-      subject.audiences.should include Audience::ADULT
-      subject.levels.should    include Level::ALL
+      expect(subject.audiences).to include Audience::ADULT
+      expect(subject.levels).to    include Level::ALL
     end
   end
 
-  context :callbacks do
+  context 'callbacks' do
     describe '#set end_date' do
       it 'sets end_date same as start_date if training' do
         course             = Course::Training.new
         subject.start_date = Date.yesterday
         subject.course     = course
         subject.send :set_end_date
+
         expect(subject.end_date).to eq Date.yesterday
       end
-      it 'sets end_date same as course if present' do
+
+      it 'sets end_date to 100 years from now' do
         course         = Course::Lesson.new end_date: Date.yesterday
         subject.course = course
         subject.send :set_end_date
-        expect(subject.end_date).to eq Date.yesterday
+
+        expect(subject.end_date).to eq 100.years.from_now.to_date
       end
     end
 
@@ -41,8 +46,8 @@ describe Planning do
         course         = Course::Lesson.new start_date: Date.yesterday, end_date: Date.tomorrow
         subject.course = course
         subject.send :update_start_and_end_date
-        expect(subject.start_date).to eq Date.yesterday
-        expect(subject.end_date).to eq Date.tomorrow
+        expect(subject.start_date).to eq 1.year.ago.to_date
+        expect(subject.end_date).to eq 100.years.from_now.to_date
       end
 
       it 'sets start and end_date even if defined' do
@@ -51,18 +56,18 @@ describe Planning do
         subject.start_date = Date.yesterday - 1.day
         subject.end_date   = Date.tomorrow + 1.day
         subject.send :update_start_and_end_date
-        expect(subject.start_date).to eq Date.yesterday
-        expect(subject.end_date).to eq Date.tomorrow
+        expect(subject.start_date).to eq 1.year.ago.to_date
+        expect(subject.end_date).to eq 100.years.from_now.to_date
       end
     end
   end
 
-  context :validations do
+  context 'validations' do
     describe '#presence_of_start_date' do
       it 'has error on start_date if in past' do
         course = Course::Training.new
         subject.course = course
-        subject.stub(:start_date) { nil }
+        allow(subject).to receive_messages(:start_date => nil)
         subject.valid?
         expect(subject.errors.messages).to include :start_date
       end
@@ -72,7 +77,7 @@ describe Planning do
       it 'has error on end_date if in past' do
         course = Course::Training.new
         subject.course = course
-        subject.stub(:end_date) { Date.yesterday }
+        allow(subject).to receive_messages(:end_date => Date.yesterday)
         subject.valid?
         expect(subject.errors.messages).to include :end_date
       end
@@ -82,8 +87,8 @@ describe Planning do
       it 'has error if place is not defined and not in foreign country' do
         course = Course::Training.new
         subject.course = course
-        subject.stub(:place_id) { nil }
-        subject.stub(:is_in_foreign_country) { false }
+        allow(subject).to receive_messages(:place_id => nil)
+        allow(subject).to receive_messages(:is_in_foreign_country => false)
         subject.valid?
         expect(subject.errors.messages).to include :place_id
       end
@@ -91,17 +96,17 @@ describe Planning do
       it 'has no error if place is not defined but in foreign country' do
         course = Course::Training.new
         subject.course = course
-        subject.stub(:place_id) { nil }
-        subject.stub(:is_in_foreign_country) { true }
+        allow(subject).to receive_messages(:place_id => nil)
+        allow(subject).to receive_messages(:is_in_foreign_country => true)
         subject.valid?
         expect(subject.errors.messages).not_to include :place_id
       end
     end
-    context :training do
+    context 'training' do
       it 'needs a start_date' do
         course          = Course::Training.new
         subject.course = course
-        expect(subject.valid?).to be_false
+        expect(subject.valid?).to be(false)
         expect(subject.errors.messages).to include :start_date
       end
     end
@@ -118,55 +123,55 @@ describe Planning do
     end
   end
 
-  context :audiences do
+  context 'audiences' do
     describe '#audience_ids' do
       it 'returns array if nil' do
         subject.audience_ids = nil
-        subject.audience_ids.should eq []
+        expect(subject.audience_ids).to eq []
       end
       it 'returns an array' do
-        subject.audience_ids.class.should be Array
+        expect(subject.audience_ids.class).to be Array
       end
 
       it 'has adult by default' do
-        subject.audience_ids.should include Audience::ADULT.id
+        expect(subject.audience_ids).to include Audience::ADULT.id
       end
     end
     describe '#audience_ids=' do
       it 'can affects by equals' do
         subject.audience_ids = [Audience::KID.id]
-        subject.audience_ids.should include Audience::KID.id
+        expect(subject.audience_ids).to include Audience::KID.id
       end
     end
     describe '#audiences=' do
       it 'can affects by equals' do
         subject.audiences = [Audience::KID]
-        subject.audiences.should include Audience::KID
+        expect(subject.audiences).to include Audience::KID
       end
     end
   end
 
-  context :levels do
+  context 'levels' do
     describe '#level_ids' do
       it 'returns array if nil' do
         subject.level_ids = nil
-        subject.level_ids.should eq []
+        expect(subject.level_ids).to eq []
       end
 
       it 'returns an array' do
-        subject.level_ids.class.should be Array
+        expect(subject.level_ids.class).to be Array
       end
     end
     describe '#level_ids=' do
       it 'can affects by equals' do
         subject.level_ids = [Level::BEGINNER.id]
-        subject.level_ids.should include Level::BEGINNER.id
+        expect(subject.level_ids).to include Level::BEGINNER.id
       end
     end
     describe '#levels=' do
       it 'can affects by equals' do
         subject.levels = [Level::BEGINNER]
-        subject.levels.should include Level::BEGINNER
+        expect(subject.levels).to include Level::BEGINNER
       end
     end
   end
@@ -215,22 +220,22 @@ describe Planning do
     end
   end
 
-  context :participations do
-    let(:user) { FactoryGirl.create(:user) }
+  # context 'participations' do
+  #   let(:user) { FactoryGirl.create(:user) }
 
-    describe '#waiting_list' do
-      it 'shows no one' do
-        subject.nb_participants_max = 1
-        subject.participations.build
-        expect(subject.waiting_list).to be_empty
-      end
-    end
-    describe '#places_left' do
-      it 'returns number of participations left open' do
-        planning = FactoryGirl.create(:planning, nb_participants_max: 10)
-        Participation.create(waiting_list: true, user: user, planning: planning)
-        expect(planning.places_left).to eq 9
-      end
-    end
-  end
+  #   describe '#waiting_list' do
+  #     it 'shows no one' do
+  #       subject.nb_participants_max = 1
+  #       subject.participations.build
+  #       expect(subject.waiting_list).to be_empty
+  #     end
+  #   end
+  #   describe '#places_left' do
+  #     it 'returns number of participations left open' do
+  #       planning = FactoryGirl.create(:planning, nb_participants_max: 10)
+  #       Participation.create(waiting_list: true, user: user, planning: planning)
+  #       expect(planning.places_left).to eq 9
+  #     end
+  #   end
+  # end
 end

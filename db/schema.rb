@@ -11,12 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140805084056) do
+ActiveRecord::Schema.define(version: 20141209170021) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
-  enable_extension "pg_stat_statements"
 
   create_table "admins", force: true do |t|
     t.string   "email",                             default: "",    null: false
@@ -50,12 +49,18 @@ ActiveRecord::Schema.define(version: 20140805084056) do
     t.time     "deleted_at"
     t.boolean  "email_opt_in",                      default: true
     t.hstore   "email_opt_in_status"
+    t.string   "delivery_email_status"
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "oauth_token"
+    t.datetime "oauth_expires_at"
   end
 
   add_index "admins", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
   add_index "admins", ["invitation_token"], name: "index_admin_users_on_invitation_token", using: :btree
   add_index "admins", ["invited_by_id"], name: "index_admin_users_on_invited_by_id", using: :btree
   add_index "admins", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
+  add_index "admins", ["structure_id"], name: "index_admins_on_structure_id", using: :btree
 
   create_table "blog_articles", force: true do |t|
     t.string   "title"
@@ -179,10 +184,14 @@ ActiveRecord::Schema.define(version: 20140805084056) do
     t.string   "deletion_reason"
     t.string   "type"
     t.integer  "associated_message_id"
+    t.boolean  "certified"
+    t.string   "slug"
   end
 
   add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree
   add_index "comments", ["commentable_type"], name: "index_comments_on_commentable_type", using: :btree
+  add_index "comments", ["status"], name: "index_comments_on_status", using: :btree
+  add_index "comments", ["type", "status"], name: "index_comments_on_type_and_status", using: :btree
 
   create_table "comments_subjects", id: false, force: true do |t|
     t.integer "comment_id"
@@ -209,17 +218,8 @@ ActiveRecord::Schema.define(version: 20140805084056) do
     t.string   "frequency"
     t.text     "description"
     t.boolean  "is_promoted",                default: false
-    t.boolean  "has_online_payment",         default: false
     t.text     "info"
-    t.text     "registration_date"
     t.boolean  "is_individual"
-    t.boolean  "is_for_handicaped"
-    t.text     "trial_lesson_info"
-    t.text     "price_details"
-    t.text     "conditions"
-    t.text     "partner_rib_info"
-    t.boolean  "audition_mandatory"
-    t.text     "refund_condition"
     t.boolean  "cant_be_joined_during_year"
     t.integer  "structure_id"
     t.datetime "created_at",                                 null: false
@@ -250,11 +250,15 @@ ActiveRecord::Schema.define(version: 20140805084056) do
     t.integer  "min_age_for_kid"
     t.integer  "max_age_for_kid"
     t.boolean  "on_appointment",             default: false
+    t.boolean  "is_open_for_trial"
+    t.boolean  "has_promotion"
   end
 
   add_index "courses", ["active"], name: "index_courses_on_active", using: :btree
+  add_index "courses", ["is_open_for_trial"], name: "index_courses_on_is_open_for_trial", using: :btree
   add_index "courses", ["place_id"], name: "index_courses_on_place_id", using: :btree
   add_index "courses", ["slug"], name: "index_courses_on_slug", unique: true, using: :btree
+  add_index "courses", ["structure_id", "is_open_for_trial"], name: "index_courses_on_structure_id_and_is_open_for_trial", using: :btree
   add_index "courses", ["structure_id"], name: "index_courses_on_structure_id", using: :btree
   add_index "courses", ["type"], name: "index_courses_on_type", using: :btree
 
@@ -288,11 +292,97 @@ ActiveRecord::Schema.define(version: 20140805084056) do
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
+  create_table "discovery_passes", force: true do |t|
+    t.integer  "user_id"
+    t.date     "expires_at"
+    t.date     "renewed_at"
+    t.datetime "last_renewal_failed_at"
+    t.datetime "canceled_at"
+    t.string   "credit_card_number"
+    t.string   "be2bill_alias"
+    t.string   "client_ip"
+    t.string   "card_validity_date"
+    t.datetime "deleted_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.hstore   "meta_data"
+    t.integer  "sponsorship_id"
+    t.decimal  "remaining_credit",       default: 38.0
+  end
+
+  create_table "emailing_section_bridges", force: true do |t|
+    t.integer "emailing_section_id"
+    t.integer "structure_id"
+    t.integer "media_id"
+    t.boolean "is_logo"
+    t.integer "subject_id"
+    t.string  "subject_name"
+    t.integer "review_id"
+    t.string  "review_text"
+    t.boolean "review_custom"
+    t.string  "city_text"
+  end
+
+  add_index "emailing_section_bridges", ["emailing_section_id", "structure_id"], name: "comments_subjects_index", using: :btree
+
+  create_table "emailing_sections", force: true do |t|
+    t.string   "title"
+    t.integer  "emailing_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "link"
+    t.string   "link_name"
+  end
+
+  create_table "emailings", force: true do |t|
+    t.string   "title"
+    t.text     "body"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "header_image_file_name"
+    t.string   "header_image_content_type"
+    t.integer  "header_image_file_size"
+    t.datetime "header_image_updated_at"
+    t.string   "section_metadata_one"
+    t.string   "section_metadata_two"
+    t.string   "section_metadata_three"
+    t.string   "header_image_alt"
+    t.string   "header_url"
+    t.string   "call_to_action_text"
+    t.string   "call_to_action_url"
+  end
+
   create_table "emails", force: true do |t|
     t.string   "email"
     t.string   "email_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "faq_questions", force: true do |t|
+    t.integer  "faq_section_id"
+    t.string   "question"
+    t.text     "answer"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "deleted_at"
+  end
+
+  create_table "faq_sections", force: true do |t|
+    t.string   "title"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "deleted_at"
+    t.string   "slug"
+    t.integer  "position"
+    t.string   "type"
+  end
+
+  create_table "flyers", force: true do |t|
+    t.boolean  "treated"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "image"
   end
 
   create_table "followings", force: true do |t|
@@ -374,16 +464,18 @@ ActiveRecord::Schema.define(version: 20140805084056) do
   end
 
   create_table "mailboxer_conversations", force: true do |t|
-    t.string   "subject",                  default: ""
-    t.datetime "created_at",                               null: false
-    t.datetime "updated_at",                               null: false
+    t.string   "subject",                      default: ""
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
     t.integer  "mailboxer_label_id"
-    t.boolean  "treated_by_phone",         default: false
+    t.boolean  "treated_by_phone",             default: false
     t.datetime "treated_at"
     t.string   "flagged"
     t.datetime "flagged_at"
     t.string   "mailboxer_extra_info_ids"
     t.string   "mailboxer_course_ids"
+    t.integer  "participation_request_id"
+    t.boolean  "lock_email_notification_once", default: false
   end
 
   create_table "mailboxer_notifications", force: true do |t|
@@ -423,11 +515,11 @@ ActiveRecord::Schema.define(version: 20140805084056) do
   create_table "medias", force: true do |t|
     t.text     "url"
     t.text     "url_html"
-    t.string   "caption"
+    t.text     "caption"
     t.integer  "mediable_id"
     t.string   "mediable_type"
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.time     "deleted_at"
     t.string   "format"
     t.string   "provider_id"
@@ -435,12 +527,20 @@ ActiveRecord::Schema.define(version: 20140805084056) do
     t.text     "thumbnail_url"
     t.string   "type"
     t.string   "filepicker_url"
-    t.boolean  "cover",                 default: false
+    t.boolean  "cover",                  default: false
     t.boolean  "star"
     t.string   "vertical_page_caption"
+    t.string   "old_image_file_name"
+    t.string   "old_image_content_type"
+    t.integer  "old_image_file_size"
+    t.datetime "old_image_updated_at"
+    t.boolean  "image_processing"
+    t.string   "image"
+    t.string   "remote_image_url"
   end
 
   add_index "medias", ["format"], name: "index_medias_on_format", using: :btree
+  add_index "medias", ["mediable_id", "mediable_type"], name: "index_medias_on_mediable_id_and_mediable_type", using: :btree
   add_index "medias", ["mediable_id"], name: "index_medias_on_mediable_id", using: :btree
   add_index "medias", ["mediable_type"], name: "index_medias_on_mediable_type", using: :btree
 
@@ -459,6 +559,23 @@ ActiveRecord::Schema.define(version: 20140805084056) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "promotion_code_id"
+    t.string   "type"
+    t.integer  "user_id"
+  end
+
+  create_table "participation_requests", force: true do |t|
+    t.integer  "mailboxer_conversation_id"
+    t.integer  "planning_id"
+    t.integer  "user_id"
+    t.integer  "structure_id"
+    t.string   "state"
+    t.string   "last_modified_by"
+    t.date     "date"
+    t.time     "start_time"
+    t.time     "end_time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "course_id"
   end
 
   create_table "participations", force: true do |t|
@@ -504,6 +621,17 @@ ActiveRecord::Schema.define(version: 20140805084056) do
 
   add_index "passions_subjects", ["passion_id", "subject_id"], name: "index_passions_subjects_on_passion_id_and_subject_id", using: :btree
 
+  create_table "payment_notifications", force: true do |t|
+    t.text     "params"
+    t.integer  "structure_id"
+    t.string   "order_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "type"
+    t.integer  "user_id"
+    t.string   "product_type"
+  end
+
   create_table "phone_numbers", force: true do |t|
     t.string   "number"
     t.string   "phone_type"
@@ -513,6 +641,7 @@ ActiveRecord::Schema.define(version: 20140805084056) do
     t.datetime "updated_at"
   end
 
+  add_index "phone_numbers", ["callable_id", "callable_type"], name: "index_phone_numbers_on_callable_id_and_callable_type", using: :btree
   add_index "phone_numbers", ["callable_id"], name: "index_phone_numbers_on_callable_id", using: :btree
   add_index "phone_numbers", ["callable_type"], name: "index_phone_numbers_on_callable_type", using: :btree
 
@@ -536,7 +665,7 @@ ActiveRecord::Schema.define(version: 20140805084056) do
     t.datetime "last_geocode_try"
   end
 
-  add_index "places", ["location_id", "structure_id"], name: "index_places_on_location_id_and_structure_id", using: :btree
+  add_index "places", ["structure_id"], name: "index_places_on_structure_id", using: :btree
 
   create_table "places_users", id: false, force: true do |t|
     t.integer "place_id"
@@ -570,9 +699,13 @@ ActiveRecord::Schema.define(version: 20140805084056) do
     t.integer  "structure_id"
     t.boolean  "visible",               default: true
     t.boolean  "is_in_foreign_country", default: false
+    t.string   "address"
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
   add_index "plannings", ["audience_ids"], name: "index_plannings_on_audience_ids", using: :btree
+  add_index "plannings", ["course_id"], name: "index_plannings_on_course_id", using: :btree
   add_index "plannings", ["level_ids"], name: "index_plannings_on_level_ids", using: :btree
   add_index "plannings", ["week_day"], name: "index_plannings_on_week_day", using: :btree
 
@@ -595,6 +728,31 @@ ActiveRecord::Schema.define(version: 20140805084056) do
     t.text     "bottom_line"
     t.string   "slug"
     t.boolean  "visible"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "press_articles", force: true do |t|
+    t.string   "title"
+    t.text     "url"
+    t.text     "description"
+    t.date     "published_at"
+    t.string   "logo_file_name"
+    t.string   "logo_content_type"
+    t.integer  "logo_file_size"
+    t.datetime "logo_updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "press_releases", force: true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.string   "slug"
+    t.text     "content"
+    t.boolean  "published"
+    t.datetime "published_at"
+    t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -628,6 +786,7 @@ ActiveRecord::Schema.define(version: 20140805084056) do
     t.string   "promo_amount_type"
   end
 
+  add_index "prices", ["price_group_id"], name: "index_prices_on_price_group_id", using: :btree
   add_index "prices", ["type"], name: "index_prices_on_type", using: :btree
 
   create_table "promotion_codes", force: true do |t|
@@ -644,6 +803,17 @@ ActiveRecord::Schema.define(version: 20140805084056) do
     t.datetime "updated_at"
     t.date     "apply_until"
   end
+
+  create_table "reply_tokens", force: true do |t|
+    t.string   "token"
+    t.string   "reply_type"
+    t.hstore   "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "used",       default: false
+  end
+
+  add_index "reply_tokens", ["token"], name: "index_reply_tokens_on_token", unique: true, using: :btree
 
   create_table "reservation_loggers", force: true do |t|
     t.integer  "course_id"
@@ -675,15 +845,13 @@ ActiveRecord::Schema.define(version: 20140805084056) do
   add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", unique: true, using: :btree
   add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at", using: :btree
 
-  create_table "statistics", force: true do |t|
-    t.integer  "structure_id"
-    t.string   "action_type"
-    t.string   "user_fingerprint"
-    t.text     "infos"
-    t.time     "deleted_at"
+  create_table "sponsorships", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "sponsored_user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "ip_address"
+    t.string   "promo_code"
+    t.string   "state",             default: "pending"
   end
 
   create_table "sticker_demands", force: true do |t|
@@ -705,15 +873,15 @@ ActiveRecord::Schema.define(version: 20140805084056) do
     t.string   "contact_phone"
     t.string   "contact_mobile_phone"
     t.string   "contact_email"
-    t.datetime "created_at",                                null: false
-    t.datetime "updated_at",                                null: false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
     t.string   "slug"
     t.string   "street"
     t.string   "zip_code"
     t.text     "description"
     t.integer  "city_id"
-    t.boolean  "active",                   default: false
-    t.boolean  "has_validated_conditions", default: false
+    t.boolean  "active",                         default: false
+    t.boolean  "has_validated_conditions",       default: false
     t.integer  "validated_by"
     t.time     "deleted_at"
     t.float    "latitude"
@@ -722,17 +890,17 @@ ActiveRecord::Schema.define(version: 20140805084056) do
     t.text     "subjects_string"
     t.text     "parent_subjects_string"
     t.decimal  "rating"
-    t.integer  "comments_count",           default: 0
+    t.integer  "comments_count",                 default: 0
     t.text     "facebook_url"
     t.boolean  "no_facebook"
     t.boolean  "no_website"
-    t.string   "logo_file_name"
-    t.string   "logo_content_type"
-    t.integer  "logo_file_size"
-    t.datetime "logo_updated_at"
-    t.integer  "crop_x",                   default: 0
-    t.integer  "crop_y",                   default: 0
-    t.integer  "crop_width",               default: 500
+    t.string   "old_logo_file_name"
+    t.string   "old_logo_content_type"
+    t.integer  "old_logo_file_size"
+    t.datetime "old_logo_updated_at"
+    t.integer  "crop_x",                         default: 0
+    t.integer  "crop_y",                         default: 0
+    t.integer  "crop_width",                     default: 500
     t.boolean  "has_only_one_place"
     t.string   "email_status"
     t.datetime "last_email_sent_at"
@@ -740,13 +908,28 @@ ActiveRecord::Schema.define(version: 20140805084056) do
     t.string   "funding_type_ids"
     t.string   "widget_status"
     t.string   "sticker_status"
-    t.boolean  "teaches_at_home",          default: false
+    t.boolean  "teaches_at_home",                default: false
     t.text     "widget_url"
     t.integer  "teaches_at_home_radius"
     t.hstore   "meta_data"
     t.integer  "highlighted_comment_id"
-    t.string   "pricing_plan",             default: "free"
+    t.string   "pricing_plan",                   default: "free"
     t.datetime "last_geocode_try"
+    t.string   "old_sleeping_logo_file_name"
+    t.string   "old_sleeping_logo_content_type"
+    t.integer  "old_sleeping_logo_file_size"
+    t.datetime "old_sleeping_logo_updated_at"
+    t.text     "sleeping_attributes"
+    t.boolean  "logo_processing"
+    t.string   "delivery_email_status"
+    t.string   "logo"
+    t.string   "sleeping_logo"
+    t.string   "remote_logo_url"
+    t.string   "trial_courses_policy"
+    t.integer  "sleeping_structure_id"
+    t.text     "course_subjects_string"
+    t.boolean  "premium"
+    t.string   "cities_text"
   end
 
   add_index "structures", ["slug"], name: "index_structures_on_slug", unique: true, using: :btree
@@ -803,12 +986,18 @@ ActiveRecord::Schema.define(version: 20140805084056) do
 
   add_index "subjects_users", ["user_id", "subject_id"], name: "index_subjects_users_on_user_id_and_subject_id", using: :btree
 
+  create_table "subscription_plan_exports", force: true do |t|
+    t.string   "url"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "subscription_plans", force: true do |t|
     t.string   "plan_type"
     t.string   "credit_card_number"
     t.string   "be2bill_alias"
     t.string   "client_ip"
-    t.boolean  "recurrent",          default: true
+    t.boolean  "recurrent",                      default: true
     t.date     "expires_at"
     t.date     "renewed_at"
     t.datetime "canceled_at"
@@ -819,7 +1008,14 @@ ActiveRecord::Schema.define(version: 20140805084056) do
     t.datetime "updated_at"
     t.date     "card_validity_date"
     t.integer  "promotion_code_id"
+    t.datetime "last_renewal_failed_at"
+    t.hstore   "bo_meta_data"
+    t.string   "paypal_token"
+    t.string   "paypal_payer_id"
+    t.string   "paypal_recurring_profile_token"
   end
+
+  add_index "subscription_plans", ["structure_id"], name: "index_subscription_plans_on_structure_id", using: :btree
 
   create_table "taggings", force: true do |t|
     t.integer  "tag_id"
@@ -852,6 +1048,8 @@ ActiveRecord::Schema.define(version: 20140805084056) do
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
   end
+
+  add_index "teachers", ["structure_id"], name: "index_teachers_on_structure_id", using: :btree
 
   create_table "unfinished_resources", force: true do |t|
     t.hstore   "fields"
@@ -935,6 +1133,12 @@ ActiveRecord::Schema.define(version: 20140805084056) do
     t.string   "last_email_sent_at"
     t.string   "last_email_sent_status"
     t.boolean  "super_user",              default: false
+    t.integer  "passion_city_id"
+    t.string   "passion_zip_code"
+    t.string   "delivery_email_status"
+    t.integer  "sponsorship_id"
+    t.string   "sponsorship_slug"
+    t.datetime "sign_up_at"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

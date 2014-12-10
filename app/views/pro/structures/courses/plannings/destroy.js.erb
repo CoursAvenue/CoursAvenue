@@ -1,4 +1,4 @@
-<% if @course.plannings.length == 0 %>
+<% if (@course.is_training? and @course.plannings.future.length == 0) or @course.plannings.length == 0 %>
     $("#course-<%= @course.id %>").replaceWith('<%= escape_javascript(render partial: "pro/structures/courses/live_form", locals: { course: @course, structure: @structure }) %>')
     $('#course-<%= @course.id %>').yellowFade();
 <% else %>
@@ -6,3 +6,17 @@
     GLOBAL.flash("Créneau supprimé", 'success');
 <% end %>
 
+<%-# Show big red sign %>
+<% if @course.is_training? %>
+  <% if @structure.courses.trainings.detect{|c| !c.can_be_published? } %>
+    $('#all-courses-are-not-published').slideDown();
+  <% else %>
+    $('#all-courses-are-not-published').slideUp();
+  <% end %>
+<% else %>
+  <% if @structure.courses.regulars.detect{|c| !c.can_be_published? } %>
+    $('#all-courses-are-not-published').slideDown();
+  <% else %>
+    $('#all-courses-are-not-published').slideUp();
+  <% end %>
+<% end %>

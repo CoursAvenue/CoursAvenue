@@ -3,7 +3,7 @@ class ::Admin < ActiveRecord::Base
   acts_as_messageable
   include Concerns::HstoreHelper
   include Concerns::MessagableWithLabel
-
+  include Concerns::HasDeliveryStatus
   include ActsAsUnsubscribable
 
   CIVILITY = [
@@ -24,7 +24,7 @@ class ::Admin < ActiveRecord::Base
                   :structure_id,
                   :email_opt_in,
                   :student_action_email_opt_in, :newsletter_email_opt_in,
-                  :monday_email_opt_in, :jpo_email_opt_in, :stats_email
+                  :monday_email_opt_in, :jpo_email_opt_in, :stats_email, :delivery_email_status
 
   store_accessor :email_opt_in_status, :student_action_email_opt_in, :newsletter_email_opt_in,
                                        :monday_email_opt_in, :jpo_email_opt_in, :stats_email
@@ -47,7 +47,7 @@ class ::Admin < ActiveRecord::Base
   ######################################################################
   after_create :check_if_was_invited
   after_create :set_email_opt_ins
-  after_save   :subscribe_to_nutshell
+  after_create :subscribe_to_crm
   before_save  :downcase_email
 
   ######################################################################
@@ -76,14 +76,14 @@ class ::Admin < ActiveRecord::Base
     end
     boolean :super_admin
   end
-  handle_asynchronously :solr_index
+  handle_asynchronously :solr_index, queue: 'index' unless Rails.env.test?
 
   def mailboxer_email(object)
     self.email
   end
 
   def avatar
-    self.structure.logo(:thumb)
+    self.structure.logo.url(:thumb)
   end
 
   def avatar_url(format=:thumb)
@@ -91,17 +91,65 @@ class ::Admin < ActiveRecord::Base
   end
 
   def name
-    if read_attribute(:name).blank? and self.structure
+    if self.structure
       structure.name
     else
       read_attribute(:name)
     end
   end
 
+  # Create a new Admin from Facebook
+  #
+  # @param auth      - The data from Facebook
+  # @param structure - The admin's structure
+  #
+  # @return Admin
+  def self.from_omniauth(auth, structure)
+    admin = Admin.where(provider: auth.provider, uid: auth.uid).first || Admin.where(email: auth.info.email).first
+    return nil if admin.nil? and structure.nil?
+
+    if admin.nil?
+      admin                  = Admin.new
+
+      admin.provider         = auth.provider
+      admin.uid              = auth.uid
+      admin.oauth_token      = auth.credentials.token
+      admin.oauth_expires_at = Time.at(auth.credentials.expires_at)
+
+      admin.email            = auth.info.email
+      admin.password         = Devise.friendly_token[0, 20] if admin.password.blank?
+
+      admin.structure        = structure
+
+      admin.confirm!
+
+      admin.save
+    end
+
+    admin
+  end
+
+  # Check if the current Admin has been created from Facebook.
+  #
+  # @return Boolean
+  def from_facebook?
+    self.provider == 'facebook' and self.oauth_token.present?
+  end
+
+  # The Facebook pages administrated by the Admin.
+  #
+  # @return an Array of Array of [ page_name, URL ]
+  def facebook_pages
+    return [] unless from_facebook? and oauth_expires_at > Time.current
+
+    user = FbGraph::User.me(oauth_token).fetch
+    user.accounts.map { |page| [page.name, page.link] }
+  end
+
   private
 
-  def subscribe_to_nutshell
-    self.structure.send(:subscribe_to_nutshell) if self.structure and Rails.env.production?
+  def subscribe_to_crm
+    CrmSync.delay.create_contact(self.structure) if self.structure and Rails.env.production?
   end
 
   def check_if_was_invited

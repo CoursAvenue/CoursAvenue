@@ -22,6 +22,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       build_resource(sign_up_params)
     else
       self.resource = @user
+      @user.update_column :sign_up_at, Time.now
       resource.update_attributes params[:user]
     end
     resource.after_sign_up_url = session['user_return_to'] || params[:user_return_to]

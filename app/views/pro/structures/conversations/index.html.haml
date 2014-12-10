@@ -4,40 +4,53 @@
     - if @structure.users.any?
       = link_to 'Nouveau message', new_pro_structure_message_path(@structure), class: 'btn btn--green btn--large'
     - else
-      = link_to 'Nouveau message', '#no_users', class: 'btn btn--green btn--large', data: { behavior: 'modal' }
+      = link_to 'Nouveau message', '#no_users', class: 'btn btn--green btn--large', data: { behavior: 'modal', width: 600, padding: 0 }
 
   .panel__body.soft
     %div{ data: { behavior: 'wizard-helper', content: t('messages.wizard.index') } }
-      - conversation_information_count  = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).count
-      - conversation_comment_count      = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::COMMENT.id).count
-      - conversation_conversation_count = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::CONVERSATION.id).count
-      .grid.push--bottom
-        .grid__item.one-third.v-middle>
-          %select#conversation_label{ name: 'conversation_label_id' }
-            %option{ value: '' } Tous les messages
-            %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::INFORMATION.id), value: Mailboxer::Label::INFORMATION.id } Demandes d'informations (#{conversation_information_count})
-            %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::COMMENT.id), value: Mailboxer::Label::COMMENT.id } Avis déposés (#{conversation_comment_count})
-            %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::CONVERSATION.id), value: Mailboxer::Label::CONVERSATION.id } Conversations (#{conversation_conversation_count})
-        .grid__item.two-thirds.v-middle>
+      - if @conversations.any?
+        - conversation_information_count  = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).count
+        - conversation_comment_count      = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::COMMENT.id).count
+        - conversation_conversation_count = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::CONVERSATION.id).count
+        - conversation_request_count      = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::REQUEST.id).count
+        .push--bottom.text--center
+          .push-half--left.lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::REQUEST.color}"}= conversation_request_count
+          %strong Inscription
           .lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::INFORMATION.color}"}= conversation_information_count
-          %strong Demande d'information
+          %strong Demande d'nformation
           .push-half--left.lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::COMMENT.color}"}= conversation_comment_count
           %strong Avis déposé
           .push-half--left.lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::CONVERSATION.color}"}= conversation_conversation_count
           %strong Conversation
-      .text--center= paginate @conversations, window: 1, outer_window: 3
-      - @conversations.each do |conversation|
-        = render partial: 'pro/conversations/conversation', locals: { conversation: conversation }
+        .grid
+          .grid__item.one-third>
+            %select#conversation_label{ name: 'conversation_label_id' }
+              %option{ value: '' } Tous les messages
+              %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::INFORMATION.id), value: Mailboxer::Label::INFORMATION.id } Demandes d'informations (#{conversation_information_count})
+              %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::COMMENT.id), value: Mailboxer::Label::COMMENT.id } Avis déposés (#{conversation_comment_count})
+              %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::CONVERSATION.id), value: Mailboxer::Label::CONVERSATION.id } Conversations (#{conversation_conversation_count})
+              - if conversation_request_count > 0
+                %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::REQUEST.id), value: Mailboxer::Label::REQUEST.id } Pass Découverte (#{conversation_request_count})
+          .grid__item.two-thirds.text--center>
+            = paginate @conversations, window: 1, outer_window: 3
+        - @conversations.each do |conversation|
+          -# cache [conversation, 'pro/structures/conversation/index'] do
+          = render partial: 'pro/conversations/conversation', locals: { conversation: conversation }
+
 
     .text--center.push--top= paginate @conversations, window: 1, outer_window: 3
 
 - if @structure.users.empty?
   #no_users.hidden
-    %p Cet outil de conversation vous permettra d'envoyer des messages privés à vos élèves : nos partenaires qui partagent des informations régulièrement avec leurs élèves sont ceux qui ont un plus fort taux de fidélité et le meilleur bouche à oreille.
+    .panel
+      .panel__header.soft
+        %h3.flush Vous ne pouvez pas encore envoyer de message
+      .panel__body.soft
+        %p Cet outil de conversation vous permettra d'envoyer des messages privés à vos élèves : nos partenaires qui partagent des informations régulièrement avec leurs élèves sont ceux qui ont un plus fort taux de fidélité et le meilleur bouche à oreille.
 
-    %p Pour pouvoir envoyer votre premier message, vous devez d'abord avoir reçu des recommandations ou avoir utilisé notre outil de demande automatique dans lequel vous avez renseigné les emails de vos élèves.
-    .text--center
-      = link_to "Obtenir des avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue'
+        %p Pour pouvoir envoyer votre premier message, vous devez d'abord avoir reçu des recommandations ou avoir utilisé notre outil de demande automatique dans lequel vous avez renseigné les emails de vos élèves.
+        .text--center
+          = link_to "Obtenir des avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue'
 
 = content_for :scripts do
   :javascript

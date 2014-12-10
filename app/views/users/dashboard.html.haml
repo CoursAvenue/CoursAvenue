@@ -1,5 +1,4 @@
-= user_menu_currently_at 'Mon tableau de bord'
-
+= user_menu_currently_at 'dashboard'
 - if @wizard
   = render 'wizard'
 .panel
@@ -21,44 +20,36 @@
                 %i.fa.fa-check-square-o
                 %span.line-through--gray Créer mon profil
               %li
-                - if @user.has_avatar?
+                - if @user.has_avatar? and @user.city
                   %i.fa.fa-check-square-o
-                  %span.line-through--gray Ajouter ma photo
+                  %span.line-through--gray Compléter mes informations générales
                 - else
                   = link_to edit_user_path(@user), class: 'profile-task-uncomplete' do
                     %i.fa.fa-square-o
-                    Ajouter ma photo
+                    Compléter mes informations générales
               %li
-                - if @user.city
+                - if @user.subjects.any?
                   %i.fa.fa-check-square-o
-                  %span.line-through--gray Renseigner ma ville
-                - else
-                  = link_to edit_user_path(@user), class: 'profile-task-uncomplete' do
-                    %i.fa.fa-square-o
-                    Renseigner ma ville
-              %li
-                - if @user.gender and @user.birthdate
-                  %i.fa.fa-check-square-o
-                  %span.line-through--gray Compléter mes informations générales et ajouter un logo
-                - else
-                  = link_to edit_user_path(@user), class: 'profile-task-uncomplete' do
-                    %i.fa.fa-square-o
-                    Compléter mes informations générales et ajouter un logo
-              %li
-                - if @user.passions.any?
-                  %i.fa.fa-check-square-o
-                  %span.line-through--gray Renseigner mes passions
+                  %span.line-through--gray Mettre à jour mes passions
                 - else
                   = link_to user_passions_path(@user), class: 'profile-task-uncomplete' do
                     %i.fa.fa-square-o
-                    Renseigner mes passions
+                    Mettre à jour mes passions
+              %li
+                - if @user.followings.any?
+                  %i.fa.fa-check-square-o
+                  %span.line-through--gray Ajouter mes favoris
+                - else
+                  = link_to user_passions_path(@user), class: 'profile-task-uncomplete' do
+                    %i.fa.fa-square-o
+                    Ajouter mes favoris
         .grid__item.one-half>
           %h4.push-half--bottom.soft-half--left.soft-half--top
             Tous les cours autour de chez vous
           #map.google-map.google-map--small.push-half--ends
           - if @user.city
             .text--center.push-half--bottom
-              = link_to 'Voir les cours autour de chez moi', @user.around_courses_url, class: 'btn btn--blue btn--small'
+              = link_to 'Voir les cours autour de chez moi', @user.around_courses_url, class: 'btn btn--blue btn--small', target: :_blank
           - else
             .text--center.push-half--bottom
               = link_to 'Renseignez ma ville', edit_user_path(@user), class: 'btn btn--blue btn--small'
@@ -70,7 +61,7 @@
         = link_to user_conversation_path(@user, conversation), class: 'muted-link' do
           = render partial: 'conversations/conversation', locals: {conversation: conversation}
       - if @conversations.empty?
-        %p.white-box.soft-half
+        %p
           Vous n'avez pas envoyer de message.
       - if @user.structures.any?
         .text--center.push--bottom
@@ -83,7 +74,7 @@
         %ul.comment-list
           = render partial: '/comments/comment', collection: @user.comments.accepted, locals: { with_link: true }
       - else
-        %p.white-box.soft-half
+        %p
           Vous n'avez déposé aucun avis.
         .text--center.push--bottom
           = link_to "Trouvez un cours", @user.around_courses_url, class: 'btn btn--blue'

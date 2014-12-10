@@ -1,19 +1,29 @@
+- show_promotion = true if show_promotion.nil?
 = link_to structure_path(structure), class: 'muted-link opacity-hidden-on-hover__wrapper block' do
-  .push-half--bottom.one-whole.bg-cover{ style: "background-image: url(#{structure.medias.cover_first.first.thumbnail_url}); height: 200px;"}
+  - if structure.medias.any?
+    - image_url = structure.medias.cover_first.first.thumbnail_url
+  - else
+    - image_url = structure.logo.url(:large)
+  .push-half--bottom.one-whole.bg-cover{ style: "background-image: url(#{image_url}); height: 200px;"}
     .show-on-hover__wrapper.show-on-hover__wrapper--black-curtain
-      - if structure.premium? and header_promotion_title_for_structure(structure).present?
+      - if show_promotion
         .north.west.absolute
-          .lbl.lbl--yellow.push--left.push--top
-            %i.fa.fa-star
-            = header_promotion_title_for_structure(structure)
+          - if structure.is_open_for_trial?
+            .lbl.lbl--yellow.push--left.push--top
+              %i.fa.fa-ticket
+              Essai gratuit
+          - if structure.premium? and structure.has_promotion?
+            .lbl.lbl--yellow.push--left.push--top
+              %i.fa.fa-star
+              Promotions
       .absolute.text--center.one-whole{ style: 'top: 90px;' }
         .gamma.white.opacity-hidden-on-hover__child Voir le profil
   .grid--full{ data: { similar_profile: true, structure_id: structure.id } }
     .grid__item.v-top.four-fifths.soft-half--left>
-      %h6.inline-block.push-half--bottom= truncate(structure.name, length: 36)
-      %div= truncate(structure.places.map(&:city).map(&:name).uniq.join(', '), length: 40)
+      %h6.inline-block.flush= truncate(structure.name, length: 36)
+      %div= truncate(structure.cities_text, length: 40)
       %div
-        %i= truncate(subject_roots_ordered(structure).map(&:name).join(', '), length: 40)
+        %i= truncate(join_parent_subjects_text(structure), length: 40)
     .grid__item.v-top.one-fifth>
       .relative{ style: 'top: -45px', itemprop: 'image', content: structure.logo.url }
         = image_tag structure.logo.url(:thumb), class: 'bordered rounded--circle'

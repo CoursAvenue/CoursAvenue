@@ -15,7 +15,6 @@ FactoryGirl.define do
     name                        Faker::Lorem.sentence(4)
     description                 Faker::Lorem.sentence(10)
     info                        Faker::Lorem.sentence(4)
-    price_details               'Lorem ipsum dolor bla bla bla'
     cant_be_joined_during_year   false
 
     factory :lesson, class: 'Course::Lesson' do

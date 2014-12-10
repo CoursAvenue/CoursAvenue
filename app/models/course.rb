@@ -4,7 +4,9 @@ class Course < ActiveRecord::Base
 
   include HasSubjects
 
-  COURSE_FREQUENCIES = ['courses.frequencies.every_week', 'courses.frequencies.every_two_weeks', 'courses.frequencies.every_month']
+  COURSE_FREQUENCIES = ['courses.frequencies.every_week',
+                        'courses.frequencies.every_two_weeks',
+                        'courses.frequencies.every_month']
 
   # ------------------------------------------------------------------------------------ Model attributes and settings
   extend FriendlyId
@@ -26,19 +28,25 @@ class Course < ActiveRecord::Base
 
   before_save :sanatize_description
   after_save  :update_plannings_dates_if_needs_to
-  after_save  :reindex_plannings
+  after_save  :reindex_plannings unless Rails.env.test?
+  before_save :update_open_for_trial
+  after_save  :set_has_promotion
+  after_touch :set_has_promotion
 
   ######################################################################
   # Scopes                                                             #
   ######################################################################
-  scope :active,                 -> { where( active: true ) }
-  scope :disabled,               -> { where( active: false ) }
-  scope :lessons,                -> { where( type: "Course::Lesson" ) }
-  scope :trainings,              -> { where( type: "Course::Training" ) }
-  scope :privates,               -> { where( type: "Course::Private" ) }
-  scope :regulars,               -> { where(arel_table[:type].eq('Course::Private').or(arel_table[:type].eq('Course::Lesson')) ) }
-  scope :without_open_courses,   -> { where.not( type: 'Course::Open' ) }
-  scope :open_courses,           -> { where( type: 'Course::Open' ) }
+  scope :active,                      -> { where( active: true ) }
+  scope :disabled,                    -> { where( active: false ) }
+  scope :lessons,                     -> { where( type: "Course::Lesson" ) }
+  scope :trainings,                   -> { where( type: "Course::Training" ) }
+  scope :privates,                    -> { where( type: "Course::Private" ) }
+  scope :regulars,                    -> { where(arel_table[:type].eq('Course::Private').or(arel_table[:type].eq('Course::Lesson')) ) }
+  scope :collective,                  -> { where(arel_table[:type].eq('Course::Lesson').or(arel_table[:type].eq('Course::Training')) ) }
+  scope :without_open_courses,        -> { where.not( type: 'Course::Open' ) }
+  scope :open_courses,                -> { where( type: 'Course::Open' ) }
+  scope :open_for_trial,              -> { where( is_open_for_trial: true ) }
+  scope :not_open_for_trial,          -> { where( arel_table[:is_open_for_trial].eq(false).or(arel_table[:is_open_for_trial].eq(nil)) ) }
 
   ######################################################################
   # Validations                                                        #
@@ -48,27 +56,15 @@ class Course < ActiveRecord::Base
   validates :name, length: { maximum: 255 }
 
   attr_accessible :name, :type, :description,
-                  :active,
-                  :info,
-                  :rating,
-                  :is_promoted,
-                  :price_details,
-                  :has_online_payment,
-                  :homepage_image,
-                  :frequency,
-                  :registration_date,
-                  :is_individual, :is_for_handicaped,
-                  :trial_lesson_info, # Info prix
-                  :conditions,
-                  :partner_rib_info,
-                  :audition_mandatory,
-                  :refund_condition,
+                  :active, :info, :is_promoted,
+                  :frequency, :is_individual,
                   :cant_be_joined_during_year,
                   :nb_participants,
                   :no_class_during_holidays,
                   :start_date, :end_date,
-                  :subject_ids, :level_ids, :audience_ids, :place_id, :active,
-                  :price_group_id, :on_appointment
+                  :subject_ids, :level_ids, :audience_ids, :place_id,
+                  :price_group_id, :on_appointment,
+                  :is_open_for_trial, :has_promotion
 
   # ------------------------------------------------------------------------------------ Search attributes
   searchable do
@@ -131,6 +127,10 @@ class Course < ActiveRecord::Base
       end
     end
 
+    string :zip_codes, multiple: true do
+      self.places.uniq.map(&:zip_code)
+    end
+
     integer :audience_ids, multiple: true do
       self.audiences.map(&:id)
     end
@@ -156,6 +156,8 @@ class Course < ActiveRecord::Base
     time :end_time, multiple: true do
       plannings.map(&:end_time).uniq.compact
     end
+
+    boolean :is_open_for_trial
 
     boolean :has_description do
       self.description.present?
@@ -186,7 +188,6 @@ class Course < ActiveRecord::Base
 
     double :approximate_price_per_course
 
-    double :rating
     integer :nb_comments do
       comments.count
     end
@@ -194,7 +195,6 @@ class Course < ActiveRecord::Base
     boolean :active
 
     boolean :is_promoted
-    boolean :has_online_payment
     boolean :has_promotion
 
     boolean :has_package_price
@@ -204,7 +204,7 @@ class Course < ActiveRecord::Base
     integer :structure_id
   end
 
-  handle_asynchronously :solr_index
+  handle_asynchronously :solr_index, queue: 'index' unless Rails.env.test?
 
   def audiences
     self.plannings.map(&:audience_ids).flatten.uniq.map{ |audience_id| Audience.find(audience_id) }
@@ -212,18 +212,6 @@ class Course < ActiveRecord::Base
 
   def levels
     self.plannings.map(&:level_ids).flatten.uniq.map{ |level_id| Level.find(level_id) }
-  end
-
-  def has_promotion
-    return has_promotion?
-  end
-
-  # Wether it has promotions or not. A Promotion include Premium offsers AND Discounts
-  #
-  # @return Boolean
-  def has_promotion?
-    return false if self.prices.empty?
-    !(self.prices.order('promo_amount ASC NULLS LAST').first.promo_amount).nil?
   end
 
   def has_package_price
@@ -361,8 +349,13 @@ class Course < ActiveRecord::Base
   end
 
   def has_premium_prices?
-    return false if price_group.nil?
-    price_group.has_premium_prices?
+    return Rails.cache.fetch ['Course#has_premium_prices?', self] do
+      if price_group.nil?
+        false
+      else
+        price_group.has_premium_prices?
+      end
+    end
   end
 
   def can_be_published?
@@ -373,11 +366,30 @@ class Course < ActiveRecord::Base
     false
   end
 
+  #
+  # Tell to the teacher wether the course is published
+  # DO NOT USE IN FRONT END: because we lie to the teacher telling him that he
+  # HAS to specify a price group but we still show it
+  #
+  # @return Boolean
   def is_published?
     return (!expired? and can_be_published?)
   end
 
   private
+
+  # Set `has_promotion` attribute. Wether it has promotions or not.
+  # A Promotion include Premium offsers AND Discounts
+  #
+  # @return nil
+  def set_has_promotion
+    if self.prices.empty?
+      self.update_column :has_promotion, false
+    else
+      self.update_column :has_promotion, !(self.prices.order('promo_amount ASC NULLS LAST').first.promo_amount).nil?
+    end
+    nil
+  end
 
   # Attributes used to create the slug for Friendly ID
   #
@@ -415,6 +427,19 @@ class Course < ActiveRecord::Base
   end
 
   def reindex_plannings
-    self.plannings.index
+    self.plannings.map{ |p| p.delay.index }
+  end
+
+  # If the user sets the `open_for_trial` flag to true or false on the course itself,
+  # we change all the plannings flag
+  #
+  # @return nil
+  def update_open_for_trial
+    if self.price_group_id_changed? and self.price_group
+      if self.price_group.has_free_trial? and is_open_for_trial == false
+        self.is_open_for_trial = true
+      end
+    end
+    nil
   end
 end

@@ -11,7 +11,7 @@
     font-style: italic;
 }
 .tt-dropdown-menu {
-    min-width: 220px;
+    min-width: 300px;
     margin-top: 2px;
     // padding: 5px 0;
     z-index:  10000000 !important;
@@ -32,8 +32,8 @@
     }
     > div {
         border-top : 1px solid #CCC;
-        margin-top : 0.5em;
-        padding-top: 0.5em;
+        margin-top : 0;
+        padding-top: 0;
     }
 }
 
@@ -53,6 +53,7 @@
     cursor          : pointer;
     background-color: $blue-green;
     font-weight     : 600;
+    a { color: #fff; }
 }
 
 .tt-suggestion.tt-is-under-cursor a {

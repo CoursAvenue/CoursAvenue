@@ -1,0 +1,23 @@
+- content_for :email_title do
+  Votre profil Premium est de nouveau activé.
+
+- content_for :logo do
+  = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank' do
+    = image_tag @structure.logo.url(:thumb), class: 'block', height: 100, width: 100, alt: "Logo de #{@structure.name}"
+  %div.yellow.text--center{ style: 'padding-top: 2px;' }
+    = image_tag 'icons/icon-star-full--yellow.png', height: 15, widht: 15, class: 'v-middle', style: 'padding-right: 2px;'
+    %span.v-middle Premium
+
+- content_for :promo do
+  .title Félicitations !
+  .p
+    Votre profil Premium est de nouveau activé. Connectez-vous pour compléter votre profil :
+  .p.action
+    = link_to 'Accéder à mon profil Premium', dashboard_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
+  .p
+    En priorité, nous vous recommandons de mettre à jour le planning de vos cours et stages, de proposer les offres découvertes de votre choix (essai gratuit, promotions, etc.) et d'afficher toutes vos photos et vidéos.
+
+  = render 'shared/mailers/footer'
+
+= content_for :under_content_gray do
+  = render 'admin_mailer/premium/faq'

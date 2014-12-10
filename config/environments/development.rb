@@ -12,7 +12,11 @@ CoursAvenue::Application.configure do
 
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
+  # This is added for IdentityCache.
   config.action_controller.perform_caching = false
+
+  # config.cache_store = :dalli_store
+  # config.identity_cache_store = :dalli_store
 
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = true
@@ -30,11 +34,14 @@ CoursAvenue::Application.configure do
     :enable_starttls_auto => true
   }
   # config.action_mailer.smtp_settings = {
-  #   :address => "smtp.mandrillapp.com",
-  #   :port => 587,
-  #   :user_name => 'app9696879@heroku.com',
-  #   :password  => 'Qf5ITuqN9LXZez-tUC_JWg'
+  #   address:          'smtp.mandrillapp.com',
+  #   port:             '587',
+  #   user_name:        ENV["MANDRILL_USERNAME"],
+  #   password:         ENV["MANDRILL_PASSWORD"],
+  #   domain:           'coursavenue.com',
+  #   authentication:   :plain
   # }
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
@@ -64,4 +71,16 @@ CoursAvenue::Application.configure do
   #   }
   # }
 
+  PayPal::Recurring.configure do |config|
+    config.sandbox   = true
+    config.username  = ENV['PAYPAL_TEST_LOGIN']
+    config.password  = ENV['PAYPAL_TEST_PASSWORD']
+    config.signature = ENV['PAYPAL_TEST_SIGNATURE']
+  end
+
+  # Add prerender middlewer only if the sevice URL is defined and reachable
+
+  # if ENV['PRERENDER_SERVICE_URL'].present?
+  #   config.middleware.use Rack::Prerender, prerender_service_url: ENV['PRERENDER_SERVICE_URL']
+  # end
 end

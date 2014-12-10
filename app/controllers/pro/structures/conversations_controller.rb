@@ -14,6 +14,7 @@ class Pro::Structures::ConversationsController < ApplicationController
     @conversation = @admin.mailbox.conversations.find(params[:id])
     @conversation.update_column :treated_by_phone, true
     @conversation.update_column :treated_at, Time.now
+    @conversation.update_column :updated_at, Time.now
     @structure.delay.compute_response_time
     @structure.delay.compute_response_rate
     respond_to do |format|
@@ -37,7 +38,16 @@ class Pro::Structures::ConversationsController < ApplicationController
   def show
     @conversation = @admin.mailbox.conversations.find(params[:id])
     @conversation.mark_as_read(@admin)
-    @message      = @conversation.messages.build
+    @message               = @conversation.messages.build
+    @participation_request = conversation_participation_request(@conversation)
+    @is_xhr = request.xhr?
+    respond_to do |format|
+      if request.xhr?
+        format.html { render layout: false }
+      else
+        format.html
+      end
+    end
   end
 
   def index
@@ -55,13 +65,17 @@ class Pro::Structures::ConversationsController < ApplicationController
   end
 
   def update
+    params[:conversation][:message][:body] = StringHelper.replace_contact_infos(params[:conversation][:message][:body]) unless params[:conversation][:message][:body].blank?
+
     @conversation    = @admin.mailbox.conversations.find params[:id]
     @admin.reply_to_conversation(@conversation, params[:conversation][:message][:body]) unless params[:conversation][:message][:body].blank?
     respond_to do |format|
       if params[:conversation][:message][:body].blank?
         format.html { redirect_to pro_structure_conversation_path(@structure, @conversation), error: 'Vous devez mettre un text pour répondre' }
+        format.js
       else
         format.html { redirect_to pro_structure_conversation_path(@structure, @conversation) }
+        format.js
       end
     end
   end

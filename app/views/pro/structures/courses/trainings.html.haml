@@ -3,8 +3,12 @@
   .panel__header.soft.text--center.bordered--bottom-on-stick{ data: { behavior: 'sticky', offset_top: 45, old_width: 'true' } }
     = link_to 'Ajouter un stage / atelier', new_pro_structure_course_path(@structure, type: 'Course::Training'), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false', action: 'new_course', course_type: 'training', lock_overlay: true }
 
-  .panel__body.soft--ends
-    .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.courses.wizard.trainings') } }
+  .panel__body
+    .panel.panel--red#all-courses-are-not-published{ class: (@courses.trainings.detect{|c| !c.can_be_published? } ? '' : 'hidden')}
+      .panel__header.soft
+        %h4.flush.text--center Attention, certains de vos ateliers ne sont pas visibles sur votre profil
+
+    .soft{ data: { behavior: 'wizard-helper', content: t('pro.structures.courses.wizard.trainings') } }
       %h3 Planning de vos stages & ateliers
       %p{ class: (@courses.trainings.empty? ? '' : 'hidden'), data: { empty: 'training' } }
         Vous n'avez pas de stage ni d'atelier.
@@ -16,10 +20,4 @@
         - @courses.trainings.each_with_index do |course, index|
           = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure, price_groups: price_groups }
 
-= content_for :scripts do
-  :javascript
-    $(function() {
-        $('body').on('change', 'select[data-type=price-group]', function(event) {
-            $(this).closest('form').submit();
-        });
-    });
+= render 'course_bottom_scripts'

@@ -17,14 +17,15 @@
     var pluginName = "sticky",
         defaults = {
             scrollContainer: window,
-            offsetTop : 0,
-            z         : 1300,
-            oldWidth  : false,
-            oldHeight : true,
-            onStick   : $.noop,
-            onUnStick : $.noop,
-            stopAtEl : null,
-            updateOnScroll: false
+            offsetTop      : 0,
+            z              : 1300,
+            oldWidth       : false,
+            oldHeight      : true,
+            onStick        : $.noop,
+            onUnStick      : $.noop,
+            stopAtEl       : null, // '#coursavenue-footer',
+            stopAtWrapperEl: null, // '#coursavenue-footer',
+            updateOnScroll : false
         };
 
     // The actual plugin constructor
@@ -75,12 +76,14 @@
             this.sticky_home   = -1; // TODO this is still a magic number
             this.old_classes   = this.$element.attr("class");
             this.old_top       = this.$element.offset().top;
-            if (this.options.pushed) {
-                this.$pusher_el    = $(this.options.pushed);
-                this.pusher_height = this.$pusher_el.outerHeight();
-            }
             $(this.options.scrollContainer).scroll(this.onScroll.bind(this));
             this.calculateElementTop();
+            setTimeout(function() {
+                if (this.options.pushed) {
+                    this.$pusher_el    = $(this.options.pushed);
+                    this.pusher_height = this.$pusher_el.outerHeight();
+                }
+            }.bind(this));
         },
 
         calculateElementTop: function calculateElementTop () {
@@ -92,20 +95,23 @@
             if (this.options.updateOnScroll) { this.calculateElementTop(); }
             this.scroll_top  = $(this.options.scrollContainer).scrollTop();
             this.fixed       = this.$element.hasClass("sticky");
-            if (this.options.stopAtHeight && this.scroll_top > this.options.stopAtHeight ) {
-              this.unFixit();
+
+            if (this.options.stopAtWrapperHeight && this.scroll_top > this.options.stopAtWrapperHeight ) {
+                this.unFixIt();
+            } else if (this.options.stopAtHeight && (this.scroll_top + this.$element.height() > this.options.stopAtHeight)) {
+                this.$element.css('top', -(this.scroll_top + this.$element.height() - this.options.stopAtHeight));
             } else if (this.options.pushed) {
                 this.fixAndPush();
             } else if ( !this.fixed && this.scroll_top >= (this.element_top - this.options.offsetTop) ) {
                 this.fixIt();
             // we have now scrolled back up, and are replacing the element
             } else if ( this.fixed && this.scroll_top < (this.sticky_home - this.options.offsetTop)) {
-                this.unFixit();
+                this.unFixIt();
             }
         },
-        unFixit: function unFixit () {
+        unFixIt: function unFixIt () {
             this.$element.css('top', 0);
-            this.$element.parent().find("[data-placeholder]").remove();
+            this.$element.parent().find("[data-sticky-placeholder]").remove();
             this.$element.removeClass("sticky");
             this.$element.addClass(this.old_classes);
             this.$element.css({ width: "", margin: "" });
@@ -115,9 +121,10 @@
 
         fixIt: function fixIt () {
             this.calculateStopAtHeight()
+            this.calculateStopAtWrapperHeight()
             var $placeholder = this.husk(this.$element)
                 .css({ visibility: "hidden" })
-                .attr("data-placeholder", "")
+                .attr("data-sticky-placeholder", "")
                 .attr("data-behavior", "");
             // we have scrolled past the element
             var old_top   = this.$element.offset().top;
@@ -150,8 +157,8 @@
             } else if ( !this.fixed && this.scroll_top >= (this.element_top - this.options.offsetTop) ) {
                 this.fixIt();
             } else if ( this.fixed && this.scroll_top < (this.sticky_home - this.options.offsetTop)) {
-                this.unFixit();
-            } else {
+                this.unFixIt();
+            } else if (this.$pusher_el) {
                 this.$pusher_el.css('margin-top', 0);
             }
         },
@@ -162,9 +169,16 @@
          * changed and the height of the page neither
          */
         calculateStopAtHeight: function calculateStopAtHeight () {
-            if (this.options.stopAtHeight || this.options.stopAtEl == null) { return; }
-            this.options.stopAtHeight = $(this.options.stopAtEl).height() + $(this.options.stopAtEl).offset().top;
-            this.options.stopAtHeight = this.options.stopAtHeight - this.options.offsetTop - this.$element.outerHeight();
+            if (this.options.stopAtEl == null) { return; }
+            if (!this.$stopAtEl) { this.$stopAtEl = $(this.options.stopAtEl) }
+            this.options.stopAtHeight = this.$stopAtEl.offset().top;
+        },
+
+        calculateStopAtWrapperHeight: function calculateStopAtWrapperHeight () {
+            if (this.options.stopAtWrapperEl == null) { return; }
+            if (!this.$stopAtWrapperEl) { this.$stopAtWrapperEl = $(this.options.stopAtWrapperEl) }
+            this.options.stopAtWrapperHeight = $(this.options.stopAtWrapperEl).height() + $(this.options.stopAtWrapperEl).offset().top;
+            this.options.stopAtWrapperHeight = this.options.stopAtWrapperHeight - this.options.offsetTop - this.$element.outerHeight();
         }
     };
 

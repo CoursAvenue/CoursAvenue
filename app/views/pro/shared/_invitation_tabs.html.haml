@@ -1,0 +1,6 @@
+%ul.tabs.panel__header
+  %li{ class: current == 'invited_users' ? 'active' : '' }
+    = link_to "Invitations élèves", pro_invited_users_path
+  %li{ class: current == 'comment_notifications' ? 'active' : '' }
+    = link_to "Demande de recommandations", pro_comment_notifications_path
+

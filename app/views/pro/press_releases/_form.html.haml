@@ -1,0 +1,43 @@
+= simple_form_for [:pro, @press_release] do |f|
+  .text--center.push--bottom{ data: { behavior: 'image-input' } }
+
+  = f.input :published, input_html: { class: 'input--large one-whole' }, wrapper_html: { class: 'flush' }, label: 'CP publié', label_html: { class: 'label--large' }
+
+  .input.input-daterange.input-group{ data: { behavior: 'datepicker' } }
+    %label.label--large.required.control-label{ for: 'published_date' } Date de publication
+    %input.input-sm.input--large.datepicker-input#published_date{ type: 'text', value: (@press_release.published_at.nil? ? '' : l(@press_release.published_at.to_date)), name: 'press_release[published_at]' }
+
+  = f.input :title, label: false, input_html: { class: 'input--large one-whole' }
+  = f.input :description, label: false, input_html: { class: 'input--large one-whole' }
+
+  = f.input :content, label: false, input_html: { class: 'one-whole' }
+
+  = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours...' }
+
+= content_for :scripts do
+  = javascript_include_tag '//cdn.ckeditor.com/4.4.4/standard/ckeditor.js'
+
+  :javascript
+      $(document).ready(function() {
+          CKEDITOR.replace('press_release[content]', {
+              customConfig: '#{asset_path('ckeditor/config.js')}'
+          });
+      });
+      // Prevent the backspace key from navigating back.
+      $(document).unbind('keydown').bind('keydown', function (event) {
+          var doPrevent = false;
+          if (event.keyCode === 8) {
+              var d = event.srcElement || event.target;
+              if ((d.tagName.toUpperCase() === 'INPUT' && (d.type.toUpperCase() === 'TEXT' || d.type.toUpperCase() === 'PASSWORD' || d.type.toUpperCase() === 'FILE' || d.type.toUpperCase() === 'EMAIL' ))
+                   || d.tagName.toUpperCase() === 'TEXTAREA') {
+                  doPrevent = d.readOnly || d.disabled;
+              }
+              else {
+                  doPrevent = true;
+              }
+          }
+
+          if (doPrevent) {
+              event.preventDefault();
+          }
+      });

@@ -1,0 +1,27 @@
+- content_for :email_title do
+  Il y a un an, vous avez rédigé votre témoignage sur #{@structure.name}
+
+.p.text--center
+  = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/emails_logo/1_year_cupcake.png', width: 165, height: 275
+
+.p
+  Cela fait déjà un an que vous avez rédigé votre avis sur CoursAvenue à propos de #{@structure.name}. Votre avis a été très utile pour notre communauté d'élèves qui grandit chaque jour. Si vous souhaitez vous exprimer de nouveau pour ce même profil, vous pouvez désormais déposer un nouvel avis. Nous avons pensé que vous apprécieriez ce petit rappel et nous espérons que vos cours vous plaisent toujours autant !
+
+%table.gray-box{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600' }
+  %tr{ valign: 'top' }
+    %td.content-block.soft-half{ width: '100', style: 'padding-bottom: 0' }
+      = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank' do
+        = image_tag @structure.logo.url(:thumb), class: 'block', height: 100, width: 100, alt: "Logo de #{@structure.name}"
+    %td.content-block.soft-half{ width: '500', style: 'padding-bottom: 0' }
+      - if @comment.title.present?
+        .p
+          %strong= @comment.title
+      .p= @comment.content
+      .p
+        = link_to 'Consultez votre avis ou déposez-en un nouveau', structure_url(@structure)
+
+- content_for :under_content do
+  = render partial: 'user_mailer/develop_passions', locals: { user: @user }
+
+- content_for :under_content_2 do
+  = render 'user_mailer/footer_info'

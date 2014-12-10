@@ -1,5 +1,5 @@
 !!!
-%html.no-js{ lang: 'fr', 'xmlns:og' => "http://opengraphprotocol.org/schema", 'xmlns:fb' => "http://www.facebook.com/2008/fbml" }
+%html.no-js{ lang: 'fr', prefix: 'og:http://opengraphprotocol.org/schema fb:http://www.facebook.com/2008/fbml' }
   %head
     %link{ href: 'https://fonts.googleapis.com/css?family=Raleway:500,400,300,600,700', rel: 'stylesheet', type: 'text/css' }
     = yield :right_after_head
@@ -11,15 +11,17 @@
         = render 'layouts/pro_g_analytics'
       - else
         = render 'layouts/g_analytics'
+      = render 'layouts/mixpanel'
+
       = yield :after_ga
     = yield :head
     = favicon_link_tag 'favicon.png'
-    = javascript_include_tag "modernizr" # MUST BE In the Head and before CSS
-    = stylesheet_link_tag "application", media: 'all'
+    = javascript_include_tag 'modernizr' # MUST BE In the Head and before CSS
+    = stylesheet_link_tag 'application', media: 'all'
     = csrf_meta_tags unless response.cache_control[:public]
-  :javascript
-    window.GLOBAL = window.GLOBAL || {};
-    GLOBAL.is_mobile = #{mobile_device?};
+    :javascript
+      window.GLOBAL = window.GLOBAL || {};
+      GLOBAL.is_mobile = #{mobile_device?};
 
   %body{ style: (Rails.env.development? ? 'border-top: 5px solid yellow;' : '') }
     - unless response.cache_control[:public]
@@ -36,28 +38,43 @@
     = yield :above_container
     = content_for?(:content) ? yield(:content) : yield
 
-    - if request.subdomain == 'pro' or request.subdomain == 'pro.staging'
-      = javascript_include_tag 'application.pro'
-    - else
-      = javascript_include_tag 'application'
-
-    = javascript_include_tag '//maps.googleapis.com/maps/api/js?sensor=false'
-    - javascript_include_tag '//google-maps-utility-library-v3.googlecode.com/svn/trunk/richmarker/src/richmarker-compiled.js'
-    = javascript_include_tag 'richmarker.js'
-    = javascript_include_tag '//google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox_packed.js'
+    = javascript_include_tag '//maps.google.com/maps/api/js?v=3.13&sensor=false&libraries=geometry'
+    = javascript_include_tag 'application'
+    = javascript_include_tag '//cdn.jsdelivr.net/algoliasearch/latest/algoliasearch.min.js'
+    = javascript_include_tag '//d2wy8f7a9ursnm.cloudfront.net/bugsnag-2.min.js', 'data-apikey' => '95a4635b1c13221f4232852f7badc00a'
 
     = yield :scripts
     = yield :layout_scripts
-    - cache 'social_sdks' do
-      = render 'layouts/social_sdks'
+    = render 'layouts/social_sdks'
+
     :javascript
       if (!$.cookie('fingerprint')) { $.cookie('fingerprint', new Fingerprint().get()); }
-    %script{ src: "//d2wy8f7a9ursnm.cloudfront.net/bugsnag-2.min.js", "data-apikey" => "95a4635b1c13221f4232852f7badc00a" }
     - if current_user
       :javascript
           CoursAvenue.addInitializer(function(options){
               this.setCurrentUser(#{current_user_as_json});
           });
+    - if Rails.env.production? and request.subdomain == 'www'
+      :javascript
+          mixpanel.identify($.cookie('fingerprint'));
+          mixpanel.track('Visited: ' + window.location.pathname, { url: document.URL, path: window.location.pathname });
+          CoursAvenue.addInitializer(function(options){
+              if (CoursAvenue.currentUser()) {
+                  mixpanel.people.set({
+                      "$email": CoursAvenue.currentUser().get('email'),
+                      "$created": CoursAvenue.currentUser().get('created_at'),
+                      "$first_name": CoursAvenue.currentUser().get('first_name'),
+                      "$last_name": CoursAvenue.currentUser().get('last_name'),
+                      "$name": CoursAvenue.currentUser().get('name'),
+                      "name": CoursAvenue.currentUser().get('name'),
+                      "gender": CoursAvenue.currentUser().get('gender')
+                  });
+              }
+          });
+    - if @structure and @structure.is_sleeping
+      :javascript
+          window.on_sleeping_page = true;
+          window.take_control_url = "#{new_pro_admin_structure_registration_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)}";
     :javascript
-      Bugsnag.releaseStage = '#{Rails.env}';
-      Bugsnag.notifyReleaseStages = ["staging", "production"]
+        Bugsnag.releaseStage = '#{Rails.env}';
+        Bugsnag.notifyReleaseStages = ["staging", "production"]

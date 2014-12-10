@@ -1,16 +1,45 @@
 <div class="bordered--bottom-on-stick soft--ends bg-white relative" id="course-{{id}}" data-type="course-view-title">
-  <h3 class="v-middle flush inline-block delta">{{ name }}</h3>
-  {{#if promotion_title}}
-    <a href="#course-{{id}}-tarifs" class="v-middle lbl lbl--yellow muted-link push-half--left" data-behavior='scroll-to' data-offset-top='-115'><i class="fa-star"></i> {{ promotion_title }}</a>
+  <h2 class="v-middle flush inline-block delta">{{ name }}</h3>
+  {{#if is_open_for_trial}}
+    <a href="#" class="v-middle lbl lbl--yellow muted-link push-half--left" data-toggle="popover" data-content="{{trial_courses_policy_popover}}" data-trigger="hover" data-behavior='show-contact-panel' data-course-id="{{id}}"><i class="fa-ticket"></i> Essai gratuit</a>
+  {{/if}}
+  {{#if has_promotion}}
+    <a href="#course-{{id}}-tarifs" class="v-middle lbl lbl--yellow muted-link push-half--left" data-behavior='scroll-to' data-offset-top='-115'><i class="fa-star"></i> Promotions</a>
   {{else}}
-    <div class="lbl visibility-hidden"></div>
+    {{! Here to keep same height if there is no promo. If not here, iPhone effect will be buggy }}
+    <div class="lbl visibility-hidden">&nbsp;</div>
   {{/if}}
 </div>
+
 <div class="flexbox push--bottom">
-    <div class="flexbox__item v-top one-quarter">
+    <div class="flexbox__item v-top one-fifth">
+        <strong class="gray-light">Planning</strong>
+    </div>
+    <div class="flexbox__item v-top four-fifths">
+        <table class="push-half--bottom table--striped table--data table--data-small {{#if on_appointment}}hidden{{/if}}">
+            <thead class="gray-light">
+                <tr>
+                    <th class="four-twelfths">Dates</th>
+                    <th class="two-twelfths text--center">Horaires</th>
+                    <th class="two-twelfths">Niveau</th>
+                    <th class="two-twelfths">Public</th>
+                    <th class="two-twelfths">Lieu</th>
+                    <th><i class="fa fa-info"></i></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-type="plannings-container"></tbody>
+        </table>
+        <div>
+          <a href="#" data-behavior="show-long-version" data-long-version=".course-{{id}}-know-more">En savoir plus <i class="fa fa-caret-down"></i></a>
+        </div>
+    </div>
+</div>
+<div class="flexbox push--bottom  course-{{id}}-know-more hidden">
+    <div class="flexbox__item v-top one-fifth">
         <strong class="gray-light">Description</strong>
     </div>
-    <div class="flexbox__item v-top three-quarters">
+    <div class="flexbox__item v-top four-fifths">
         {{#if description}}
             {{#ifCond description '!=' description_short}}
             <div id="course-{{id}}-description-short" class="gray last-p-push-half--bottom">
@@ -34,32 +63,11 @@
         {{/if}}
     </div>
 </div>
-<div class="flexbox push--bottom">
-    <div class="flexbox__item v-top one-quarter">
-        <strong class="gray-light">Planning</strong>
-    </div>
-    <div class="flexbox__item v-top three-quarters">
-        <table class="table--striped table--data table--data-small {{#if on_appointment}}hidden{{/if}}">
-            <thead class="gray-light">
-                <tr>
-                    <th class="four-twelfths">Dates</th>
-                    <th class="two-twelfths text--center">Horaires</th>
-                    <th class="two-twelfths">Niveau</th>
-                    <th class="two-twelfths">Public</th>
-                    <th class="two-twelfths">Lieu</th>
-                    <th><i class="fa fa-info"></i></th>
-                </tr>
-            </thead>
-            <tbody data-type="plannings-container"></tbody>
-        </table>
-    </div>
-</div>
-
-<div class="flexbox push--bottom" id="course-{{id}}-tarifs">
-    <div class="flexbox__item v-top one-quarter">
+<div class="flexbox push--bottom course-{{id}}-know-more hidden" id="course-{{id}}-tarifs">
+    <div class="flexbox__item v-top one-fifth">
         <strong class="gray-light v-middle">Tarifs</strong>
     </div>
-    <div class="flexbox__item v-top three-quarters">
+    <div class="flexbox__item v-top four-fifths">
         {{#unless has_price_group}}
           {{capitalize about}} n'a pas mis à jour ses tarifs : <a href="#" data-behavior="show-contact-panel">contactez-{{about_genre}}</a>.
         {{/unless}}
@@ -78,7 +86,7 @@
                 {{#each premium_prices}}
                     <tr>
                         <td class="nowrap">
-                            <img src="<%= asset_path('icons/icon-star-yellow-full-bordered.png') %>" height="14" class="v-middle" data-toggle="tooltip" data-title="{{this.libelle_type}}">
+                            <img src="<%= asset_path '/icons/icon-star-yellow-full-bordered.png' %>" height="14" class="v-middle" data-toggle="tooltip" data-title="{{this.libelle_type}}">
                             <span class="v-middle">
                             {{#if this.discount}} {{ this.libelle_type }} {{else}} {{ this.libelle }} {{/if}}
                             </span>
@@ -108,7 +116,7 @@
                         <td>
                             {{this.libelle}}
                         </td>
-                        <td class="text--center {{#if this.promo_amount}}line-through{{/if}}">
+                        <td class="text--center {{#if ../premium}}{{#if this.promo_amount}}line-through{{/if}}{{/if}}">
                             {{#if this.is_free}}
                               <strong class="green">Gratuit{{#if this.is_registration}}e{{/if}}</strong>
                             {{else}}
@@ -130,11 +138,11 @@
     </div>
 </div>
 
-<div class="flexbox push--bottom">
-    <div class="flexbox__item v-top one-quarter">
-        <strong class="gray-light">Disciplines concernées</strong>
+<div class="flexbox push--bottom course-{{id}}-know-more hidden">
+    <div class="flexbox__item v-top one-fifth">
+        <strong class="gray-light">Disciplines</strong>
     </div>
-    <div class="flexbox__item v-top three-quarters">
+    <div class="flexbox__item v-top four-fifths">
         <div>
             {{#each subjects}}
             <div class="push-half--bottom {{#ifCond @index '>' 0}}course-{{../../id}}-subjects-long hidden{{/ifCond}}">

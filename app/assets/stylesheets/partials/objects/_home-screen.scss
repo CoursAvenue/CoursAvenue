@@ -1,33 +1,16 @@
-.home-screen-gallery {
-}
-    .home-screen-gallery__link {
-        padding: 5px 5px 5px 0;
-        > a {
-            @include background-size(cover);
-            background-position: center;
-            height             : 120px;
-            @include border-radius($brand-round);
-        }
+.home-screen-gallery__title {
+    color      : #FFF;
+    position   : absolute;
+    top        : 50%;
+    left       : 50%;
+    width      : 100%;
+    margin-left: -50%;
+    margin-top : -1em;
+    font-size  : 1.5em;
+    @include text-shadow(0 0 5px $gray, 0 0 10px $gray-dark, 0 0 20px $gray-darker);
+    &.home-screen-gallery__title--bigger {
+        font-size  : 2em;
     }
-    .home-screen-gallery__link-paris     > a { @include background-image-retina('home-page/search_categories/paris.jpg', 'home-page/search_categories/paris@2x.jpg'); }
-    .home-screen-gallery__link-trial     > a { @include background-image-retina('home-page/search_categories/trial_courses.jpg', 'home-page/search_categories/trial_courses@2x.jpg'); }
-    .home-screen-gallery__link-kids      > a { @include background-image-retina('home-page/search_categories/kid_class.jpg', 'home-page/search_categories/kid_class@2x.jpg'); }
-    .home-screen-gallery__link-weekend   > a { @include background-image-retina('home-page/search_categories/weekend.jpg', 'home-page/search_categories/weekend@2x.jpg'); }
-    .home-screen-gallery__link-night     > a { @include background-image-retina('home-page/search_categories/night_class.jpg', 'home-page/search_categories/night_class@2x.jpg'); }
-    .home-screen-gallery__title {
-        color      : #FFF;
-        position   : absolute;
-        top        : 50%;
-        left       : 50%;
-        width      : 100%;
-        margin-left: -50%;
-        margin-top : -1em;
-        font-size  : 1.5em;
-        @include text-shadow(0 0 5px $gray, 0 0 10px $gray-dark, 0 0 20px $gray-darker);
-    }
-.home-screen__item {
-    position: relative;
-    z-index : 1;
 }
 
 .home-screen-comment {
@@ -54,10 +37,6 @@
         z-index         : 5;
     }
 
-.home-screen-promotion-wrapper--blue {
-    color           : white;
-    background-color: $blue-green;
-}
 
 .home-screen-promotion-wrapper {
     background-color: $homescreen-background;
@@ -69,7 +48,4 @@
     .home-screen-promotion {
         @include media-query(palm) { text-align: center; }
         @include media-query(lap)  { text-align: center; }
-        .course-block {
-            margin-bottom: 1em;
-        }
     }

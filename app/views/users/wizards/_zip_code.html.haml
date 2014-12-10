@@ -2,6 +2,6 @@
   %h4
     Où habitez-vous ? Mieux vous connaître, c'est mieux vous servir !
   .input.flush--top.city-autocomplete-wrapper
-    = f.label :zip_code, label: Location.human_attribute_name(:zip_code)
+    = f.label :zip_code, label: Place.human_attribute_name(:zip_code)
     = f.input :zip_code, placeholder: 'Ex. : 75008', input_html: { data: {behavior: 'city-autocomplete', el: '#user_city_id'} }, label: false, wrapper_html: { class: 'flush' }
     = f.input :city_id, collection: [@user.city], label: false, selected: @user.city, wrapper_html: { class: 'flush--top' }

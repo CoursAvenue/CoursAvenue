@@ -12,11 +12,10 @@ fr:
         teacher: Professeur
         max_age_for_kid: Age max
         min_age_for_kid: Age min
-        is_individual: Individuel / Particulier
-        is_for_handicaped: Pour handicapés
+        is_individual: "Individuel / Particulier"
         frequency: Fréquence
         room: Salle de cours principale
-        price_details: 'Autres tarifs / Informations'
+        price_details: "Autres tarifs / Informations"
         place: Lieu
         info: Infos pratiques
         image: "Image du cours"
@@ -84,7 +83,6 @@ fr:
         back_to_structure: Retour à l'établissement
         back_to_results: Retour aux résultats
         see_arrounding_courses: Voir les cours à proximité
-
   pro:
     structures:
       courses:
@@ -97,7 +95,6 @@ fr:
           info: Accroche / Libellé du cours
           description: Description du cours
           cant_be_joined_during_year: Ne peut être rejoint en cours d'année
-          is_for_handicaped: Cours accessible aux handicapés
           name: Nom du cours
           frequency: Fréquence des cours
         wizard:
@@ -118,5 +115,16 @@ fr:
             sur votre profil public. Une fois toutes ces informations complétées, ils apparaitront automatiquement.</p>
             <p><strong> Important :</strong> si un même cours possède plusieurs lieux, plusieurs niveaux, pour des publics
             différents, renseignez-le à chaque créneau, mais n'ajoutez pas de nouveau cours.</p>
-
-
+          discovery_pass:
+            step_1: >
+              <p><strong>Optimisez vos chances de les convertir en élèves réguliers</strong></p>
+              <p>Les cours d'essai représentent le meilleur moyen de rencontrer de nouveaux élèves intéressés par vos cours. Nous avons remarqué qu'en proposant
+              plus d'un cours par personne, les chances de convertir les élèves qui viennent essayer vos cours en élèves réguliers (souscription à un abonnement annuel ou à un
+              carnet de plusieurs cours) augmentent considérablement. Voici les statistiques moyennes constatées :</p>
+              <ul><li><strong>20%</strong> des élèves (1 élève sur 5) qui assistent à *1 cours d'essai* deviennent ensuite des élèves réguliers ;
+              <li><strong>40%</strong> des élèves (plus d'1 élève sur 3) qui assistent à *2 cours d'essai* deviennent ensuite des élèves réguliers ;
+              <li><strong>60%</strong> des élèves (plus d'1 élève sur 2) qui assistent à *3 cours d'essai* deviennent ensuite des élèves réguliers.</ul>
+              <p>C'est pour cette raison que pour chacun de vos cours d'essai, vous pouvez choisir d'offrir 1, 2 ou 3 cours d'essai par personne.</p>
+            step_2: >
+              <p><strong>Choisissez vos cours d'essai</strong></p>
+              <p>C'est très simple : cochez chaque case située à gauche d'un cours que vous souhaitez proposer en cours d'essai gratuit. A tout moment, vous pouvez décider de les retirer : il vous suffit alors de décocher chaque case.</p>

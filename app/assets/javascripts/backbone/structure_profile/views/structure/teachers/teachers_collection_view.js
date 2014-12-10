@@ -33,6 +33,7 @@ StructureProfile.module('Views.Structure.Teachers', function(Module, App, Backbo
             } else {
                 this.$('[data-empty-teachers]').hide();
             }
+            this.$('[data-behavior="lazy-load"]').lazyload();
         },
         childViewOptions: function childViewOptions (model, index) {
             return { index: index };

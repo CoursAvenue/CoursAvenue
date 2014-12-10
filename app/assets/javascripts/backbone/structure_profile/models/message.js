@@ -3,16 +3,24 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
 
     Module.Message = Backbone.Model.extend({
 
-        // Validates the form
-        // Might want to use https://github.com/powmedia/backbone-forms at some point
-        // Return Boolean, wether it's valid or not
-        valid: function validate () {
-            errors = {};
-            if (!this.get('body') || this.get('body').length == 0) {
-                errors['body'] = 'Doit être rempli'
+        validation: {
+            body: {
+                required: true,
+                msg: 'Doit être rempli'
+            },
+            'user.phone_number': {
+                maxLength: 20,
+                msg: 'Mauvais format'
             }
-            this.set('errors', errors);
-            return _.isEmpty(errors);
+        },
+
+        initialize: function initialize () {
+            if ($.cookie('last_sent_message')) {
+                this.set(JSON.parse($.cookie('last_sent_message')));
+            }
+            if (CoursAvenue.currentUser()) {
+                this.set('user', CoursAvenue.currentUser().toJSON());
+            }
         },
 
         url: function url () {
@@ -21,6 +29,9 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
 
         sync: function sync (options) {
             $.ajax({
+                beforeSend: function beforeSend (xhr) {
+                    xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
+                },
                 url: this.url(),
                 type: 'POST',
                 dataType: 'json',

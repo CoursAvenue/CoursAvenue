@@ -46,10 +46,25 @@ Handlebars.registerHelper('highlight', function(text, highlight_word, length) {
 
 
 
+// usage: {{#ifPresent valueA valueB}}/*...*/{{/ifPresent}}
 Handlebars.registerHelper('ifPresent', function (v1, v2, options) {
     return (!_.isEmpty(v1) || !_.isEmpty(v2)) ? options.fn(this) : options.inverse(this);
 });
 
+
+// usage: {{#ifInclude array '4'}}{{/ifInclude}}
+Handlebars.registerHelper('ifInclude', function (array, value, options) {
+    if (!array || !value) { return options.inverse(this); }
+    return (array.indexOf(value) != -1 ? options.fn(this) : options.inverse(this));
+});
+
+// usage: {{#ifIncludeString array '4'}}{{/ifIncludeString}}
+Handlebars.registerHelper('ifIncludeString', function (array, value, options) {
+    if (!array || !value) { return options.inverse(this); }
+    return (array.indexOf(value.toString()) != -1 ? options.fn(this) : options.inverse(this));
+});
+
+// usage: {{#ifCond a '==' b'}}/*...*/{{/ifCond}}
 Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
 
     switch (operator) {
@@ -146,7 +161,7 @@ Handlebars.registerHelper("hide_contacts", function (text, options) {
 
 // Ex. of usage: {{ hide_contacts description }}
 Handlebars.registerHelper("hide_contacts_and_escape", function (text, options) {
-    return GLOBAL.hideContactsInfo(text).replace(/(['"])/g, '\\$1');
+    return GLOBAL.hideContactsInfo(text).replace(/"/g, '\\$1');
 });
 
 // Ex. of usage: {{ simple_format_hide_contacts description }}

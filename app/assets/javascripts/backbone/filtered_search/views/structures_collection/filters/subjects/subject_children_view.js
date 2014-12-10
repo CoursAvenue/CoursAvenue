@@ -42,6 +42,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
         },
 
         announceSubject: function announceSubject (event) {
+            $.cookie('understood_how_subjects_worked', true);
             var $currentTarget = $(event.currentTarget);
             // If already activated, deactivate
             if ($currentTarget.hasClass(ACTIVE_CLASS)) {

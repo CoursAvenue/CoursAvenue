@@ -49,6 +49,22 @@ class Course::Private < Course
     false
   end
 
+  def is_individual?
+    true
+  end
+
+  def can_be_published?
+    plannings.any? and price_group.present?
+  end
+
+  def places
+    if teaches_at_home
+      [self.home_place, self.place].compact
+    else
+      [self.place].compact
+    end
+  end
+
   private
 
   #

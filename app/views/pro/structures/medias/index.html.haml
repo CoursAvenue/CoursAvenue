@@ -10,21 +10,22 @@
         = simple_form_for [:pro, @structure, @image], url: pro_structure_images_path(@structure), html: { id: 'image-form' } do |f|
           = f.error_notification
           .text--center
-            = f.filepicker_field :url, multiple: true, button_text: 'Ajouter une photo', button_class: 'btn btn--green btn--full btn--large fa', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false, drag_text: 'Ou glissez vos photos ici', drag_class: 'filepicker__dropzone push-half--top', store_location: 'S3', store_path: @image.s3_media_path, store_access: 'public'
-            = f.input :thumbnail_url, as: :hidden
+            = f.filepicker_field :url, multiple: true, button_text: 'Ajouter une photo', button_class: 'btn btn--green btn--full btn--large fa', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false
   .panel__body.soft--bottom
     - if @medias.any?
       .premium-box.soft.rounded.text--center.relative
-        = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 80, width: 80, style: 'width: 80px; height: 80px;'
+        = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/premium-ribbon.png', class: 'north west absolute on-top', height: 80, width: 80, style: 'width: 80px; height: 80px;'
         = render partial: 'pro/structures/premium_select', locals: { title: "afficher plus de photos / vidéos à tous les utilisateurs CoursAvenue ?", subtitle: "Souscrivez au profil Premium et affichez toutes vos photos / vidéos pour monter dans les résultats.", label_text: "Afficher plus de photos / vidéos sur mon profil :", select_collection: ['Actif', 'Non actif'] }
 
       %p.soft-half--top.soft--sides.flush#first-photo-helper.visibility-hidden
         %strong Votre première photo / vidéo figure dans les résultats de recherche !
       - @medias.each_with_index do |media, index|
         .soft-half.inline-block.one-third>
-          = render partial: 'pro/structures/medias/media', locals: { media: media, index: index, structure: @structure }
+          - cache [media, 'pro/structures/medias/index'] do
+            = render partial: 'pro/structures/medias/media', locals: { media: media, index: index, structure: @structure }
 
 = content_for :scripts do
+  = render 'shared/libs/filepicker_scripts'
   :javascript
     $(function() {
         $('.media__item').first().hover(function() {
@@ -38,8 +39,8 @@
             var $preview = $('#preview').empty();
             var image_string = [];
             _.each(event.originalEvent.fpfiles, function(file) {
-                image_string.push(file.url + ';' + file.key);
-                $preview.append($('<img>', {src: file.url, style: 'height: 100px;', class: 'push-half--right'}));
+                image_string.push(file.url);
+                $preview.append($('<img>', { src: file.url, style: 'height: 100px;', class: 'push-half--right' }));
             });
             $(this).val(image_string.join(','));
             $('#image-form').submit();

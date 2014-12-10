@@ -14,20 +14,23 @@
 //= require libs/chosen.jquery
 //= require libs/jquery.cookie
 //= require libs/typeahead
+//= require libs/jquery.fileupload/vendor/jquery.ui.widget
+//= require libs/jquery.fileupload/jquery.iframe-transport
+//= require libs/jquery.fileupload/jquery.fileupload
+//= require libs/jquery.fileupload/jquery.fileupload-process
+//= require libs/jquery.fileupload/jquery.fileupload-validate
+//= require libs/jquery.fileupload/jquery.fileupload-image
 //= require libs/jquery.scrollTo
 //= require libs/jquery.nouislider
-//= require libs/jquery.stickem
-//= require libs/jquery.masonry
-//= require libs/jquery.lazyload
 //= require libs/responsiveslides
-//= require libs/add_this_event
 //= require libs/jquery.placeholder
-//= require libs/stellar
 
 //= require libs/jquery.magnific-popup
+//= require libs/jquery.lazyload
 //= require libs/fancybox/jquery.fancybox
 
 //= require libs/fingerprint
+//= require libs/countdown
 
 //= require_tree ./libs/fancybox/helpers/
 
@@ -41,6 +44,8 @@
 //= require libs/bootstrap/bootstrap.button
 //= require libs/bootstrap/bootstrap.scrollspy
 //= require libs/bootstrap/datepicker-locales/bootstrap.datepicker.fr
+//= require libs/moment
+//= require libs/retina
 
 // ---------------------------------- jQuery plugins
 // See boilerplate and pattern:
@@ -48,29 +53,11 @@
 // - https://github.com/jquery-boilerplate/jquery-patterns/
 // - https://github.com/jquery-boilerplate/jquery-boilerplate
 //= require_tree ./plugins/
-// require plugins/address_picker
-// require plugins/checkbox_list
-// require plugins/city_autocomplete
-// require plugins/closer
-// require plugins/drop_down
-// require plugins/dropped_options
-// require plugins/flash
-// require plugins/highlight
-// require plugins/input_updaters
-// require plugins/read_more
-// require plugins/text_counter
-// require plugins/textarea_resizer
-// require plugins/toggler
-// require plugins/time_range
-// require plugins/image_input
-// require plugins/show_more_on_demand
-// require plugins/jquery-sticky.js
-// require plugins/parent_descendant_subjects
-// require plugins/wizard_helper
 
-//= require libs/markerclusterer
+//= require libs/markerclusterer.js
+//= require libs/richmarker.js
+//= require libs/infobox.js
 //= require gmaps/google
-
 //= require ./plugins_initalization
 
 // ---------------------------------- Backbone
@@ -83,12 +70,6 @@
 //= require libs/backbone.poller.js
 //= require backbone/cours_avenue
 
-$.ajaxSetup({
-    beforeSend: function(xhr) {
-        xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
-    }
-});
-
 // Default magnificpopup style
 // http://codepen.io/dimsemenov/pen/GAIkt
 $.magnificPopup.defaults.callbacks = {
@@ -99,3 +80,28 @@ $.magnificPopup.defaults.callbacks = {
 //delay removal by X to allow out-animation
 $.magnificPopup.defaults.removalDelay = 500;
 
+(function($) {
+  $.fn.yellowFade = function(options) {
+    options = options || {};
+    $(this).each(function () {
+        var fadeIt;
+        options.delay = options.delay || 0;
+        var $this = $(this);
+        var el    = $this;
+        fadeIt = function () {
+            $("<div/>")
+                .width(el.outerWidth())
+                .height(el.outerHeight())
+                .css({
+                    "position"        : "absolute",
+                    "left"            : el.offset().left,
+                    "top"             : el.offset().top,
+                    "background-color": "#ffff99",
+                    "opacity"         : ".7",
+                    "z-index"         : "9999999"
+                }).appendTo('body').fadeOut(1000).queue(function () { $(this).remove(); });
+        }
+        _.delay(fadeIt, options.delay);
+    });
+  }
+})(jQuery);

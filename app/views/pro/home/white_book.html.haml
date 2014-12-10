@@ -4,7 +4,7 @@
 = pro_menu_currently_at 'Recommandations'
 
 - content_for :above_container do
-  .home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background2.jpg'})" }
+  .bg-fixed.home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background2.jpg'})" }
     .main-container.main-container--medium.soft
       %h1.flush Livres Blancs
       %h5.flush Accédez à nos études destinées à aider les professionnels des loisirs
@@ -18,7 +18,7 @@
     .grid
       .grid__item.one-third.text--center
         %h1.f-weight-100 Avis des internautes
-        = image_tag 'emails_logo/white_book.png', alt: 'CoursAvenue', height: 130, width: 100, style: '-ms-interpolation-mode:bicubic;', class: 'center-block push-half--bottom'
+        = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/emails_logo/white_book.png', alt: 'CoursAvenue', height: 130, width: 100, style: '-ms-interpolation-mode:bicubic;', class: 'center-block push-half--bottom'
         = link_to 'Télécharger gratuitement', 'https://s3-eu-west-1.amazonaws.com/coursavenue-public/livres-blancs/Livre_Blanc_avis_CoursAvenue_RMars2014.pdf', class: 'btn btn--green', target: :_blank
 
       .grid__item.two-thirds>

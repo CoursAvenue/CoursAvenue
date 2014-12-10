@@ -14,23 +14,18 @@ class Pro::HomeController < Pro::ProController
   def white_book
   end
 
-  def presentation
-  end
-
   def widget
     @structures = Structure.where( Structure.arel_table[:widget_status].eq('installed').and(
                                    Structure.arel_table[:widget_url].not_eq('')).and(
-                                   Structure.arel_table[:widget_url].not_eq(nil)) ).limit(100)
+                                   Structure.arel_table[:widget_url].not_eq(nil)) ).limit(60)
   end
 
   def price
     @email = ::Email.new
   end
 
-  def press
-  end
-
   def jpo
+    redirect_to root_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), status: 301
   end
 
   def july_offer
@@ -39,5 +34,11 @@ class Pro::HomeController < Pro::ProController
 
   def convictions
     redirect_to pro_pages_why_be_recommended_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), status: 301
+  end
+
+  def questions
+    @sections = ::Faq::Section.pro
+
+    render template: 'pages/faq_users'
   end
 end

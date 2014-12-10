@@ -5,24 +5,45 @@ StructureProfile.module('Views.Structure.Courses.Plannings', function(Module, Ap
         tagName: 'tr',
         template: Module.templateDirname() + 'planning_view',
 
-        onRender: function onRender () {
-            this.$('[data-toggle=popover]').popover();
-            this.$('[data-toggle=tooltip]').tooltip();
-        },
-
         events: {
-            'mouseenter': 'announceEnter',
-            'mouseleave': 'announceLeave'
+            'mouseenter'                    : 'announceEnter',
+            'mouseleave'                    : 'announceLeave',
+            'click [data-behavior=register]': 'showRegistrationForm'
         },
 
-        announceEnter: function (e) {
+        initialize: function initialize (options) {
+            this.course = options.course;
+        },
+
+        onRender: function onRender (argument) {
+          this.$el.attr('itemscope', true);
+          this.$el.attr('itemtype', 'http://data-vocabulary.org/Event');
+        },
+
+        showRegistrationForm: function showRegistrationForm (argument) {
+            this.trigger('register', this.model.toJSON());
+        },
+
+        announceEnter: function announceEnter (e) {
             $(e.currentTarget).addClass("active");
+            if (this.model.get('home_place_id')) {
+                this.trigger("mouseenter", { place_id: this.model.get("home_place_id") });
+            }
             this.trigger("mouseenter", { place_id: this.model.get("place_id") });
         },
 
-        announceLeave: function (e) {
+        announceLeave: function announceLeave (e) {
             $(e.currentTarget).removeClass("active");
+            if (this.model.get('home_place_id')) {
+                this.trigger("mouseleave", { place_id: this.model.get("home_place_id") });
+            }
             this.trigger("mouseleave", { place_id: this.model.get("place_id") });
+        },
+
+        serializeData: function serializeData () {
+            var attributes = this.model.toJSON();
+            _.extend(attributes, { course: this.course });
+            return attributes;
         }
     });
 

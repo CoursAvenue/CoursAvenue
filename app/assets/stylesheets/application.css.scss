@@ -22,7 +22,6 @@
 @import "partials/inuit";
 @import "colors";
 
-
 /**
 * Theme objects
 * Overrides of Inuit.css
@@ -31,84 +30,59 @@
 @import "partials/base/lists";
 
 @import "partials/generic/headings";
-@import "partials/generic/images";
 @import "partials/generic/mixins";
 @import "partials/generic/grid";
 @import "partials/generic/helpers";
 @import "partials/generic/font_helpers";
 
-@import "partials/objects/icons";
-@import "partials/objects/badges";
+
+@import "partials/objects/alerts";
 @import "partials/objects/block-list";
+@import "partials/objects/blog";
+@import "partials/objects/boxes";
+@import "partials/objects/breadcrumbs";
 @import "partials/objects/buttons";
-@import "partials/objects/structure-item";
-@import "partials/objects/course";
+@import "partials/objects/closer";
+@import "partials/objects/comments";
+@import "partials/objects/crm-table";
 @import "partials/objects/datepicker-input";
-@import "partials/objects/dropped-options";
+@import "partials/objects/drop-down";
 @import "partials/objects/emphasis";
+@import "partials/objects/filtered_search";
+@import "partials/objects/flashs";
 @import "partials/objects/footer";
+@import "partials/objects/forms";
 @import "partials/objects/header";
 @import "partials/objects/home-screen";
-@import "partials/objects/input-range";
+@import "partials/objects/icons";
+@import "partials/objects/infobox";
 @import "partials/objects/inputs";
+@import "partials/objects/jpo";
 @import "partials/objects/labels";
+@import "partials/objects/lists";
+@import "partials/objects/loading-indicator";
 @import "partials/objects/main-container";
-@import "partials/objects/menu";
-@import "partials/objects/pagination";
-@import "partials/objects/search";
-@import "partials/objects/selectable";
-@import "partials/objects/slideshow";
-@import "partials/objects/summary";
-@import "partials/objects/tables";
-@import "partials/objects/tabs";
-@import "partials/objects/time-slots";
-@import "partials/objects/footer";
 @import "partials/objects/map";
 @import "partials/objects/markers";
-@import "partials/objects/alerts";
-@import "partials/objects/paragraphs";
-@import "partials/objects/lists";
-@import "partials/objects/flashs";
-@import "partials/objects/forms";
-@import "partials/objects/share_buttons";
-@import "partials/objects/crm-table";
-@import "partials/objects/jpo";
-
-@import "partials/objects/address-list";
-@import "partials/objects/course-info";
-@import "partials/objects/planning";
-@import "partials/objects/similar-course";
-@import "partials/objects/subject-link";
-@import "partials/objects/pages";
-@import "partials/objects/picture-frame";
-@import "partials/objects/toggler";
-@import "partials/objects/alerts";
-@import "partials/objects/sliders";
-@import "partials/objects/image_quote";
-@import "partials/objects/breadcrumbs";
-@import "partials/objects/boxes";
-@import "partials/objects/rating";
-@import "partials/objects/comments";
-@import "partials/objects/switch-button";
-@import "partials/objects/drop-down";
 @import "partials/objects/media";
-@import "partials/objects/progress-bar";
-@import "partials/objects/closer";
-@import "partials/objects/blog";
-@import "partials/objects/read_more";
-@import "partials/objects/stickem";
+@import "partials/objects/menu";
 @import "partials/objects/message";
-@import "partials/objects/filtered_search";
-@import "partials/objects/loading-indicator";
-@import "partials/objects/infobox";
-@import "partials/objects/filepicker";
-@import "partials/objects/tags";
-@import "partials/objects/faux_column";
-@import "partials/objects/chart";
-@import "partials/objects/wizard";
-@import "partials/objects/team";
-@import "partials/objects/draggable";
+@import "partials/objects/pagination";
 @import "partials/objects/panel";
+@import "partials/objects/progress-bar";
+@import "partials/objects/read_more";
+@import "partials/objects/search";
+@import "partials/objects/share_buttons";
+@import "partials/objects/sliders";
+@import "partials/objects/slideshow";
+@import "partials/objects/structure-item";
+@import "partials/objects/subject-link";
+@import "partials/objects/tables";
+@import "partials/objects/tabs";
+@import "partials/objects/tags";
+@import "partials/objects/team";
+@import "partials/objects/toggler";
+@import "partials/objects/wizard";
 
 @import "libs/autocomplete";
 @import "libs/simplemodal";
@@ -155,4 +129,9 @@ html, pre {
 
 #___plus_0 {
   vertical-align: middle !important;
+}
+
+// For seo purpose?
+@media print {
+  .lala { display: none; }
 }

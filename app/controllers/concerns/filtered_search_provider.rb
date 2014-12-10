@@ -35,13 +35,6 @@ module FilteredSearchProvider
     (params.keys & PLANNING_FILTERED_KEYS).any?
   end
 
-  # Tells if the search filters includes planning filters AND filters like lat, lng etc..
-  #
-  # @return boolean
-  def params_has_filtered_search_filters?
-    (params.keys & FILTERED_SEARCH_KEYS).any?
-  end
-
   # Return all parameters that are used for search
   #
   # @return Hash
@@ -59,10 +52,12 @@ module FilteredSearchProvider
     structures   = []
     places       = []
     place_search.group(:place_id_str).groups.each do |place_group|
-      places << place_group.results.first.try(:place_id)
+      places << place_group.value
+      # places << place_group.results.first.try(:place_id)
     end
-    search.group(:structure_id_str).groups.each do |planning_group|
-      structures << planning_group.results.first.try(:structure)
+    search.group(:structure_id_str).groups.each do |structure_group|
+      structures << Structure.find(structure_group.value)
+      # structures << structure_group.results.first.try(:structure)
     end
     places = places.uniq
     total  = search.group(:structure_id_str).total
@@ -89,9 +84,9 @@ module FilteredSearchProvider
   def jasonify(structures, options={})
     # we splat the structures to ensure that a single
     # structure is treated as an array <3 Ruby
-    #
+    options[:serializer] ||=StructureSerializer
     [*structures].map do |structure|
-      StructureSerializer.new(structure, { root: false }.merge(options))
+      options[:serializer].new(structure, { root: false }.merge(options))
     end
   end
 

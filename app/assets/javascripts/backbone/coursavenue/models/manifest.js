@@ -3,3 +3,5 @@
 //= require ./paginated_collection
 //= require ./structure
 //= require ./user
+//= require ./admin
+//= require ./statistic

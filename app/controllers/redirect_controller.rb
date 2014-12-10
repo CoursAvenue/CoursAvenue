@@ -2,20 +2,24 @@ class RedirectController < ApplicationController
   include SubjectHelper
 
   def vertical_page
-    @subject = Subject.find params[:id]
-    redirect_to vertical_page_url(@subject), status: 301
+    @subject = Subject.fetch_by_id_or_slug params[:id]
+    if @subject
+      redirect_to root_search_page_path(@subject.root, 'paris'), status: 301
+    else
+      redirect_to vertical_pages_path, status: 301
+    end
   end
 
   def vertical_page_city
-    @subject = Subject.find params[:subject_id]
+    @subject = Subject.fetch_by_id_or_slug params[:subject_id]
     @city    = City.find params[:id]
-    redirect_to vertical_page_url(@subject.slug), status: 301
+    redirect_to root_search_page_path(@subject.root, @city), status: 301
   end
 
   def vertical_page_subject_city
-    @subject = Subject.find params[:subject_id]
+    @subject = Subject.fetch_by_id_or_slug params[:subject_id]
     @city    = City.find params[:id]
-    redirect_to vertical_page_url(@subject.slug), status: 301
+    redirect_to root_search_page_path(@subject.root, @city), status: 301
   end
 
   def why_coursavenue
@@ -23,7 +27,7 @@ class RedirectController < ApplicationController
   end
 
   def blog
-    redirect_to 'http://www.coursavenue.com/blog', status: 301
+    redirect_to 'https://www.coursavenue.com/blog', status: 301
   end
 
   def structures_new

@@ -17,7 +17,7 @@ class Pro::SubjectsController < Pro::ProController
   end
 
   def completion
-    subject   = Subject.find params[:id]
+    subject   = Subject.fetch_by_id_or_slug params[:id]
     zippy     = (params[:zip_code].present? ? params[:zip_code] : '75000')
     zip_codes = City.where( City.arel_table[:zip_code].matches("#{zippy}%") ).map(&:zip_code).reject{|zip| zip.include?('CEDEX')}.uniq
     respond_to do |format|
@@ -32,7 +32,7 @@ class Pro::SubjectsController < Pro::ProController
   end
 
   def new
-    @parent  = Subject.find params[:parent_id]
+    @parent  = Subject.fetch_by_id_or_slug params[:parent_id]
     @subject = @parent.children.build
     respond_to do |format|
       format.html { render layout: false }
@@ -86,12 +86,14 @@ class Pro::SubjectsController < Pro::ProController
   #     Cuisine - ...:
   #           - ...
   def descendants
-    @descendants = get_descendants params
+    @descendants = Rails.cache.fetch "Pro::SubjectsController#descendants::#{params[:ids]}" do
+       get_descendants(params).to_json
+    end
     respond_to do |format|
       if params[:callback]
-        format.js { render json: { descendants: @descendants.to_json }, callback: params[:callback] }
+        format.js { render json: { descendants: @descendants }, callback: params[:callback] }
       else
-        format.json { render json: @descendants.to_json }
+        format.json { render json: @descendants }
       end
     end
   end

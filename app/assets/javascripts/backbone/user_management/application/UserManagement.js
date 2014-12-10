@@ -34,8 +34,6 @@ UserManagement.addInitializer(function(options) {
         }
     });
 
-    user_profiles.bootstrap();
-
     layout = new UserManagement.Views.UserProfilesLayout();
 
 

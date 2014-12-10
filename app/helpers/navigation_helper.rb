@@ -1,18 +1,11 @@
 # encoding: utf-8
 module NavigationHelper
 
-  def user_side_menu_link(title, url, options = {})
+  def user_top_menu_link(title, url, options = {})
     current_tab = options.delete(:current)
-    options[:class] ||= ''
+    options[:class] ||= 'inline-block'
     options[:class] << ((current_tab == title) ? ' active' : '')
-    if options[:icon].present?
-      title = "<i class='#{options[:icon]}'></i>&nbsp;#{title}".html_safe
-    end
-    if current_user
-      content_tag(:li, link_to(title, url, class: 'side-menu-link'), options)
-    else
-      content_tag(:li, link_to(title, 'javascript:void(0);', data: {behavior: 'connection'}, class: 'fancybox.ajax side-menu-link'), options)
-    end
+    content_tag(:div, link_to(I18n.t('users.menu.' + title), url, class: 'inline-block muted-link soft-half epsilon line-height-1-7 white f-weight-600'), options)
   end
 
   def pro_side_menu_link(title, url, options = {})
@@ -48,6 +41,6 @@ module NavigationHelper
   end
 
   def user_menu_currently_at(tab)
-    render partial: 'layouts/user_side_menu', locals: { current_tab: tab }
+    render partial: 'layouts/user_top_menu', locals: { current_tab: tab }
   end
 end

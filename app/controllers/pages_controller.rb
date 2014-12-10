@@ -7,6 +7,10 @@ class PagesController < ApplicationController
     redirect_to pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), status: 301
   end
 
+  def jpo
+    redirect_to root_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), status: 301
+  end
+
   def send_message
     @errors = []
     @errors << :name    if params[:name].blank?
@@ -20,5 +24,13 @@ class PagesController < ApplicationController
         format.html { redirect_to pages_contact_path, notice: "Votre message a bien été transmis à l'équipe CoursAvenue !" }
       end
     end
+  end
+
+  def press
+    @press_releases = PressRelease.published
+  end
+
+  def faq_users
+    @sections = ::Faq::Section.user
   end
 end

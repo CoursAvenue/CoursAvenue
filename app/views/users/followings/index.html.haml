@@ -1,17 +1,14 @@
-= user_menu_currently_at 'Mes favoris'
+= user_menu_currently_at 'favorites'
 
 .panel
-  .panel__header.soft
-    %h4.flush Mes favoris
   .panel__body.soft
-    - if current_user.followings.any?
-      - current_user.followings.each do |following|
-        = link_to structure_path(following.structure) do
-          .grid--full
-            .grid__item.two-twelfths>
-              = image_tag following.structure.logo.url(:thumb)
-            .grid__item.ten-twelfths>
-              = following.structure.name
+    %h3 Mes favoris
+    - if @user.followings.any?
+      - @user.followings.each do |following|
+        - structure = following.structure
+        .inline-block.one-half.very-soft.relative>
+          = render partial: "structures/similar_profile", locals: { structure: structure }
+          %i.fa.fa-heart.north.east.absolute.push.fa-4x.orange
     - else
       %p
         Vous n'avez aucun favoris.

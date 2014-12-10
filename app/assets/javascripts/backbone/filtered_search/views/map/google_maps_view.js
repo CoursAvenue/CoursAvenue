@@ -6,7 +6,7 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
         infoBoxView:         Module.InfoBoxView,
 
         /* override addchild to add one marker for each place on the model */
-        addChild: function(childModel, html) {
+        addChild: function addChild (childModel, html) {
             var places = childModel.getRelation('places').related.models;
 
             _.each(places, function (place) {
@@ -42,17 +42,12 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
         },
 
         /* lifecycle */
-        onRender: function() {
+        onRender: function onRender () {
             this.$loader = this.$('[data-type=loader]');
         },
 
-        retireMarkers: function(data) {
-            // this.$el.find('.map-marker-image').addClass('map-marker-image--small');
-            this.$el.find('.map-marker-image').remove();
-        },
-
         /* a set of markers should be made to stand out */
-        exciteMarkers: function(data) {
+        exciteMarkers: function exciteMarkers (data) {
             var self = this;
 
             var keys = data.map(function(model) {
@@ -75,7 +70,7 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
             });
         },
 
-        togglePeacockingMarkers: function (data) {
+        togglePeacockingMarkers: function togglePeacockingMarkers (data) {
             var self = this;
 
             _.each(data.keys, function (key) {
@@ -91,7 +86,7 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
             });
         },
 
-        setMarkerViewAndshowInfoWindow: function (options) {
+        setMarkerViewAndshowInfoWindow: function setMarkerViewAndshowInfoWindow (options) {
             var structure = options.structure_view.model;
             structure.set('current_location', options.location_view.model.toJSON());
             this.showInfoWindow({ model: structure });

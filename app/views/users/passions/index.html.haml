@@ -1,128 +1,28 @@
-= user_menu_currently_at 'Mes offres & passions'
+= user_menu_currently_at 'passions'
 
 .panel
-  = render partial: 'users/passions/tabs', locals: { current: 'passions' }
+  .soft.bg-cover{ style: "background-image: url(#{asset_path('users/passions_bg.jpg')});" }
+    .relative.one-whole.height-whole.push
+      %h1.push.white.text--center.soft-black-text-shadow Quelles sont vos passions ?
   .panel__body.soft
-    %p.alert.alert--info
-      En renseignant vos lieux et vos passions, recevez les offres exclusives de nos partenaires directement depuis l'onglet "Mes offres" ou via vos "Messages" CoursAvenue : cours d'essai gratuits, promotions, invitations à des soirées ou à des spectacles...Toutes ces informations sont confidentielles et ne seront jamais publiques.
+    %p.text--center.delta.push--bottom.line-height-1-7
+      Sélectionnez toutes les disciplines qui vous passionnnent
+      %br
+      pour recevoir des cours d'essai gratuits ou des offres exclusives près de chez vous :
 
-
-    %h4.inline-block.push-half--bottom
-      Renseignez vos lieux
-    %i.fa.fa-question-circle.pointer.delta{data: {toggle: 'popover', html: 'true', content: "<p>Renseignez les villes où vous souhaiteriez découvrir de nouveaux cours. Dans chaque ville, saisissez le rayon géographique dans lequel vous êtes prêt(e) à vous déplacer pour suivre un cours.</p><p>Ces informations de géolocalisation sont très importantes : elles nous permettent de mieux cibler vos envies pour vous proposer des cours d'essai gratuits, des promotions exclusives et des invitations à tous types d'événements situés à proximité de votre lieu d'habitation ou de votre lieu de travail, et en lien avec vos passions. Vous pourrez gérer vos paramètres de notifications (type d'information et fréquence de nos e-mails) depuis l'onglet «Notifications».<p>", trigger: 'hover', placement: 'right'}}
-    .lbl.lbl--gray.lbl--small.push-half--left
-      %i.fa.fa-lock
-      Privé
-
-    %p.blue Listez les villes où vous souhaitez suivre des cours ou découvrir de nouvelles passions.
-
-    = simple_form_for current_user, url: update_passions_user_path(current_user), html: { method: :patch } do |f|
-      %div{data: {behavior: 'show-more-on-demand'}}
-        - @lived_places.each_with_index do |lived_place, i|
-          %div{data: {el: true, hidden: !lived_place.persisted?}}
-            = f.simple_fields_for :lived_places, lived_place, child_index: i do |lived_place_form|
-              .input.flush--top.city-autocomplete-wrapper
-                = lived_place_form.label :zip_code, label: LivedPlace.human_attribute_name(:zip_code)
-                = lived_place_form.input :zip_code, placeholder: 'Ex. : 75008', input_html: { data: {behavior: 'city-autocomplete', el: "#lived_place_city_id_#{i}"} }, label: false, wrapper_html: { class: 'flush--top' }
-                = lived_place_form.input :city_id, collection: [lived_place.city], label: false, selected: lived_place.city, wrapper_html: { class: 'flush--top' }, input_html: { id: "lived_place_city_id_#{i}" }
-                = lived_place_form.label :radius, 'dans un rayon de'
-                = lived_place_form.input :radius, label: false, wrapper_html: { class: 'flush', style: 'width: 4em' }, input_html: { value: (lived_place.radius || '5'), style: 'width: 100%' }
-                km
-                - if lived_place.persisted?
-                  = link_to 'Supprimer', user_lived_place_path(current_user, lived_place), method: :delete, class: 'push-half--left'
-
-        .grid
-          .grid__item.one-quarter>
-          .grid__item.three-quarters>
-            %p.blue.flush
-              %i Renseignez la ville et le rayon géographique (en km) dans lequel vous êtes prêt(e) à vous déplacer pour vous rendre à un cours.
-            %a{href: 'javascript:void(0)', data: {trigger: true}}
-              %i.fa.fa-plus
-              Ajouter un lieu
-
-
-      %h4.inline-block.push-half--bottom
-        Renseignez vos passions
-      %i.fa.fa-question-circle.pointer.delta{data: {toggle: 'popover', html: 'true', content: "<p>Renseignez toutes les disciplines que vous souhaitez découvrir ou redécouvrir : yoga, dessin, oenologie, art floral, zumba... il y en a plus de 500 ! Sélectionnez vos passions, indiquez les raisons qui vous motivent.</p><p>Ces informations nous permettent de mieux cibler vos envies pour vous proposer des cours d'essai gratuits, des promotions exclusives et des invitations à tous types d'événements situés à proximité de vous et en lien avec vos passions. Vous pourrez gérer vos paramètres de notifications (type d'information et fréquence de nos e-mails) depuis l'onglet «Notifications».</p>", trigger: 'hover', placement: 'right'}}
-      .lbl.lbl--gray.lbl--small.push-half--left
-        %i.fa.fa-lock
-        Privé
-
-      .gray-box.soft
-        %input{type: 'hidden', name: 'return_to', value: user_passions_path(current_user)}
-        %h5 Quelles sont les disciplines que vous pratiquez déjà ?
-        %div{data: {behavior: 'show-more-on-demand'}}
-          - @practiced_passions.each_with_index do |practiced_passion, i|
-            %div{data: {el: true, hidden: !practiced_passion.persisted?}}
-              = f.simple_fields_for :passions, practiced_passion, child_index: i do |practiced_passion_form|
-                = practiced_passion_form.input :practiced, as: :hidden, value: true
-                %div{data: {behavior: 'parent-descendant-subjects', 'parent-select' => '[data-el=parent-subjects]', 'descendant-select' => '[data-el=subject-descendants-select]', 'descendant-select-wrapper' => '[data-el=descendants-subjects]'}}
-                  = practiced_passion_form.association :subjects, as: :select, collection: Subject.roots.order('name ASC'), input_html: {style: 'width: 74%;', data: {el: 'parent-subjects', behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true}, label: 'Disciplines générales ', label_method: lambda{|subj| subj.name }, wrapper_html: {class: 'flush--bottom'}
-                  %div{ data: { el: 'descendants-subjects' } }
-                    .input{title: 'Sélectionnez plusieurs disciplines en maintenant la touche CTRL ou CMD enfoncée.', data: {behavior: 'tooltip'}}>
-                      %label.control-label> Sous disciplines
-                      %select{name: "user[passions_attributes][#{i}][subject_descendants_ids][]", style: 'width: 74%;', multiple: true, data: {el: 'subject-descendants-select', behavior: 'chosen', placeholder: 'Tapez ou sélectionnez une ou plusieurs disciplines', selected: practiced_passion.subjects.children.map(&:id).join(',')}}>
-
-                = practiced_passion_form.input :passion_for_ids, as: :select, collection: PassionFor.all, label_method: lambda {|passion_for| t(passion_for.name)}, label: "C'est pour :", wrapper_html: { class: 'flush--bottom' }, input_html: { multiple: true, data: { behavior: 'chosen' } }
-
-                = practiced_passion_form.input :level_ids, as: :select, collection: Level.all, label_method: lambda {|level| t(level.name)}, label: 'Quel est le niveau recherché ?', input_html: { multiple: true, data: { behavior: 'chosen' } }
-
-                = practiced_passion_form.input :passion_time_slot_ids, as: :select, collection: PassionTimeSlot.all, label_method: lambda {|time_slot| t(time_slot.name)}, label: 'Quand souhaitez-vous pratiquer ?', wrapper_html: { class: 'flush--bottom' }, input_html: { multiple: true, data: { behavior: 'chosen'} }
-
-                = practiced_passion_form.input :passion_frequency_ids, as: :select, collection: PassionFrequency.all, label_method: lambda {|frequency| t(frequency.name)}, label: 'A quelle fréquence ?', wrapper_html: { class: 'flush--bottom' }, input_html: { multiple: true, data: { behavior: 'chosen'} }
-
-                = practiced_passion_form.input :passion_reason_ids, as: :select, collection: PassionReason.all, label_method: lambda {|reason| t(reason.name)}, label: 'Pour quelles raisons ?', input_html: { style: 'width: 100%', multiple: true, data: { behavior: 'chosen' }}, wrapper_html: { class: 'flush--bottom' }
-
-                = practiced_passion_form.input :info, label: 'Précisez toute autre information utile :', placeholder: "Renseignez ici les informations utiles qui permettront à chaque professeur, association ou école de bien cibler vos envies. Ex. : «je veux me lancer dans une pratique régulière du yoga pour 2 raisons : me déstresser après une journée de travail, et gagner en souplesse.»"
-
-                - if practiced_passion.persisted?
-                  = link_to 'Supprimer cette passion', user_passion_path(@user, practiced_passion), method: :delete, class: 'push-half--left'
-                %hr.push-half--ends
-          .grid
-            .grid__item.one-quarter>
-            .grid__item.three-quarters>
-              %a{href: 'javascript:void(0)', data: {trigger: true}}
-                %i.fa.fa-plus
-                Ajouter un groupe de passions
-
-      .gray-box.soft
-        %h5 Quelles sont les disciplines que vous aimeriez pratiquer ?
-        %div{data: {behavior: 'show-more-on-demand'}}
-          - @wanted_passions.each_with_index do |wanted_passion, i|
-            - i += 100
-            %div{data: {el: true, hidden: !wanted_passion.persisted?}}
-              = f.simple_fields_for :passions, wanted_passion, child_index: i do |wanted_passion_form|
-                = wanted_passion_form.input :practiced, as: :hidden, value: false
-                %div{ data: {behavior: 'subject-chooser', target: "[data-el=subject_child]"} }>
-
-                %div{data: {behavior: 'parent-descendant-subjects', 'parent-select' => '[data-el=parent-subjects]', 'descendant-select' => '[data-el=subject-descendants-select]', 'descendant-select-wrapper' => '[data-el=descendants-subjects]'}}
-                  = wanted_passion_form.association :subjects, as: :select, collection: Subject.roots.order('name ASC'), input_html: {style: 'width: 74%;', data: {el: 'parent-subjects', behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true}, label: 'Disciplines générales ', label_method: lambda{|subj| subj.name }, wrapper_html: {class: 'flush--bottom'}
-                  %div{ data: { el: 'descendants-subjects' } }
-                    .input{title: 'Sélectionnez plusieurs disciplines en maintenant la touche CTRL ou CMD enfoncée.', data: {behavior: 'tooltip'}}>
-                      %label.control-label> Sous disciplines
-                      %select{name: "user[passions_attributes][#{i}][subject_descendants_ids][]", style: 'width: 74%;', multiple: true, data: {el: 'subject-descendants-select', behavior: 'chosen', placeholder: 'Tapez ou sélectionnez une ou plusieurs disciplines', selected:   wanted_passion.subjects.children.map(&:id).join(',')}}>
-
-                  = wanted_passion_form.input :passion_for_ids, as: :select, collection: PassionFor.all, label_method: lambda {|passion_for| t(passion_for.name)}, label: "Qui la pratique ?", wrapper_html: { class: 'flush--bottom' }, input_html: { multiple: true, data: { behavior: 'chosen' } }
-
-                  = wanted_passion_form.input :level_ids, as: :select, collection: Level.all, label_method: lambda {|level| t(level.name)}, label: "A quel niveau ?", wrapper_html: { class: 'flush--bottom' }, input_html: { multiple: true, data: { behavior: 'chosen' } }
-
-                  = wanted_passion_form.input :passion_frequency_ids, as: :select, collection: PassionFrequency.all, label_method: lambda {|frequency| t(frequency.name)}, label: 'A quelle fréquence ?', input_html: { multiple: true, data: { behavior: 'chosen'} }, wrapper_html: { class: 'flush--bottom' }
-
-                  = wanted_passion_form.input :passion_expectation_ids, as: :select, collection: PassionExpectation.all, label_method: lambda {|expectation| t(expectation.name)}, label: 'Que désirez-vous concernant cette discipline ?', wrapper_html: { class: 'flush--bottom' }, input_html: { multiple: true, data: { behavior: 'chosen'} }
-
-                  = wanted_passion_form.input :passion_time_slot_ids, as: :select, collection: PassionTimeSlot.all, label_method: lambda {|time_slot| t(time_slot.name)}, label: 'Quand souhaitez-vous pratiquer ?', wrapper_html: { class: 'flush--bottom' }, input_html: { multiple: true, data: { behavior: 'chosen'} }
-
-                  = wanted_passion_form.input :info, label: 'Précisez toute autre information utile :', placeholder: "Renseignez ici toutes les informations utiles qui permettront à chaque professeur, association ou école de bien cibler vos envies. Ex. : «Depuis 4 ans, je suis des cours de peinture à huile dans une association qui me plaisent énorménent. Mais à cause de mon nouveau travail, les trajets sont maintenant trop longs pour m'y rendre et je ne vais plus pouvoir continuer. Je recherche donc des nouveaux cours aussi passionants, mais plus proches de mon nouveau lieu de travail.»"
-
-                - if wanted_passion.persisted?
-                  = link_to 'Supprimer cette passion', user_passion_path(@user, wanted_passion), method: :delete
-                %hr.push-half--ends
-
-          .grid
-            .grid__item.one-quarter>
-            .grid__item.three-quarters>
-              %a{href: 'javascript:void(0)', data: {trigger: true}}
-                %i.fa.fa-plus
-                Ajouter un groupe de passions
-
-      .push--top= f.submit 'Enregistrer', class: 'btn btn--full btn--green', data: { disable_with: "En cours d'enregistrement" }
+    = simple_form_for [@user], html: { autocomplete: 'off', id: 'user-form' } do |f|
+      %input{ name: 'return_to', value: user_passions_path(@user), type: 'hidden' }
+      %div{ data: { behavior: 'parent-descendant-subjects', 'parent-select' => '#parent-subjects', 'descendant-select' => '#subject-descendants-select', 'descendant-select-wrapper' => '#descendants-subjects' } }
+        = f.association :subjects, as: :select, collection: Subject.roots.order('name ASC'), input_html: { class: 'input--large hard', style: 'width: 74%;', id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' }, multiple: true }, label: 'Disciplines générales ', label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush--bottom' }, label_html: { class: 'label--large' }
+        #descendants-subjects
+          .input{title: 'Sélectionnez plusieurs disciplines en maintenant la touche CTRL ou CMD enfoncée.', data: {behavior: 'tooltip'}}>
+            %label.control-label.label--large> Pouvez-vous préciser ?
+            %select#subject-descendants-select.hard.input--large{ name: 'user[subject_descendants_ids][]', style: 'width: 74%;', multiple: true, data: { behavior: 'chosen', placeholder: 'Tapez ou sélectionnez une ou plusieurs disciplines', selected: @user.subjects.children.map(&:id).join(',') } }>
+      - if @user.errors[:children_subjects].present?
+        .input_field_error.red.text--right= @user.errors[:children_subjects].to_sentence
+      .input.flush--top.city-autocomplete-wrapper<
+        = f.label :passion_zip_code, label: 'Votre ville', class: 'label--large'
+        = f.input :passion_zip_code, placeholder: 'Ex. : 75008', input_html: { value: (@user.passion_zip_code || @user.zip_code), class: 'input--large one-whole', data: { behavior: 'city-autocomplete', el: '#user_passion_city_id'} }, label: false, wrapper_html: { class: 'flush soft-half--right', style: 'width: 10em' }
+        = f.input :passion_city_id, collection: [@user.passion_city || @user.city], label: false, selected: @user.city, wrapper_html: { class: 'flush--top' }, input_html: { class: 'input--large' }
+      .soft--sides
+        = f.button :submit, "Enregistrer", class: 'btn btn--green btn--full push--bottom', data: { disable_with: "En cours d'enregistrement" }

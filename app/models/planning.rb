@@ -34,10 +34,10 @@ class Planning < ActiveRecord::Base
   ######################################################################
   # Relations                                                          #
   ######################################################################
-  belongs_to :course
-  belongs_to :teacher
-  belongs_to :place
-  belongs_to :structure
+  belongs_to :course    , touch: true
+  belongs_to :teacher   , touch: true
+  belongs_to :place     , touch: true
+  belongs_to :structure , touch: true
 
   has_many :prices,         through: :course
   has_many :reservations,   as: :reservable
@@ -71,37 +71,44 @@ class Planning < ActiveRecord::Base
                   :end_time,   # Format: Time.parse("2000-01-01 #{value} UTC")
                   :week_day, # 0: Dimanche, 1: Lundi, as per I18n.t('date.day_names')
                   :class_during_holidays,
-                  :nb_participants_max,
-                  :promotion,
-                  :info,
-                  :min_age_for_kid, :max_age_for_kid,
-                  :teacher,
-                  :teacher_id, :level_ids, :audience_ids, :place_id,
-                  :is_in_foreign_country,
+                  :nb_participants_max, :promotion, :info,
+                  :min_age_for_kid, :max_age_for_kid, :teacher, :teacher_id, :level_ids, :audience_ids, :place_id, :is_in_foreign_country,
                   :visible # True by default, will be false only for plannings of
                            # private courses that are on demand
 
   ######################################################################
   # Scopes                                                             #
   ######################################################################
-  scope :future,         -> { where( Planning.arel_table[:end_date].gt(Date.today) ) }
-  scope :past,           -> { where( Planning.arel_table[:end_date].lteq(Date.today) ) }
-  scope :ordered_by_day, -> { order('week_day=0, week_day ASC, start_date ASC, start_time ASC') }
-  scope :visible,        -> { where(visible: true) }
+  scope :future,                      -> { where( Planning.arel_table[:end_date].gt(Date.today) ) }
+  scope :past,                        -> { where( Planning.arel_table[:end_date].lteq(Date.today) ) }
+  scope :ordered_by_day,              -> { order('week_day=0, week_day ASC, start_date ASC, start_time ASC') }
+  scope :visible,                     -> { where(visible: true) }
 
   ######################################################################
   # Solr                                                               #
   ######################################################################
   searchable do
     integer :search_score do
-      self.structure.compute_search_score
+      self.course.structure.compute_search_score
     end
 
     integer :view_count do
-      self.structure.view_count
+      self.course.structure.view_count
+    end
+
+    integer :action_count do
+      self.course.structure.action_count
     end
 
     boolean :visible
+
+    boolean :is_open_for_trial do
+      course.is_open_for_trial
+    end
+
+    boolean :is_published do
+      self.course.is_published?
+    end
 
     boolean :active_structure do
       self.course.structure.active?
@@ -113,7 +120,11 @@ class Planning < ActiveRecord::Base
     end
 
     string :place_id_str do
-      place_id.to_s
+      if self.place_id
+        self.place_id.to_s
+      elsif self.course.place_id
+        self.course.place_id.to_s
+      end
     end
 
     integer :structure_id do
@@ -135,7 +146,7 @@ class Planning < ActiveRecord::Base
     end
 
     text :name, boost: 5 do
-      self.structure.name
+      self.course.structure.name
     end
 
     integer :subject_ids, multiple: true do
@@ -231,43 +242,36 @@ class Planning < ActiveRecord::Base
     end
 
     integer :funding_type_ids, multiple: true do
-      self.structure.funding_type_ids
+      self.course.structure.funding_type_ids
     end
 
     string :structure_type do
-      self.structure.structure_type.split('.').last if self.structure.structure_type
+      self.course.structure.structure_type.split('.').last if self.course.structure.structure_type
     end
 
     integer :nb_comments do
-      self.structure.comments_count
+      self.course.structure.comments_count
     end
 
     boolean :has_comment do
-      self.structure.comments_count > 0
+      self.course.structure.comments_count > 0
     end
 
     boolean :has_logo do
-      self.structure.logo?
+      self.course.structure.logo?
     end
 
     latlon :location, multiple: true do
+      structure = self.structure || self.course.structure
       if place
         Sunspot::Util::Coordinates.new(place.latitude, place.longitude)
       else # Happens when the planning is out of France for example.
         Sunspot::Util::Coordinates.new(structure.latitude, structure.longitude)
       end
     end
-
-    integer :open_courses_open_places do
-      self.structure.open_courses_open_places
-    end
-
-    double :jpo_score do
-      self.structure.jpo_score
-    end
   end
 
-  handle_asynchronously :solr_index unless Rails.env.test?
+  handle_asynchronously :solr_index, queue: 'index' unless Rails.env.test?
 
   # Return week day of start date if the course associated to the planning
   # is not a lesson
@@ -362,6 +366,24 @@ class Planning < ActiveRecord::Base
     participations.not_canceled.waiting_list.map(&:size).reduce(&:+) || 0
   end
 
+  #
+  # Return the next date depending on the week_day if it is a lesson
+  #
+  # @return Date
+  def next_date
+    if course.is_training?
+      self.start_date
+    else
+      # See http://stackoverflow.com/a/7621385/900301
+      today = Date.today
+      if week_day > today.wday
+        today + (week_day - today.wday)
+      else
+        (today + (7 - today.wday)).next_day(week_day)
+      end
+    end
+  end
+
   private
 
   # Return the scoped price for a given type.
@@ -425,10 +447,10 @@ class Planning < ActiveRecord::Base
   # Set end date if not defined
   def set_end_date
     if end_date.blank? or end_date < Date.today
-      if !course.try(:is_training?)
-        self.end_date = self.course.end_date
-      else
+      if course.try(:is_training?)
         self.end_date = self.start_date
+      else
+        self.end_date = 100.years.from_now
       end
     end
   end
@@ -442,8 +464,8 @@ class Planning < ActiveRecord::Base
     when 'Course::Open'
       self.end_date = start_date
     when 'Course::Lesson'
-      self.start_date = course.start_date if self.start_date != course.start_date
-      self.end_date   = course.end_date   if self.end_date   != course.end_date
+      self.start_date = 1.year.ago
+      self.end_date   = 100.years.from_now
     end
   end
 
@@ -484,4 +506,5 @@ class Planning < ActiveRecord::Base
       end
     end
   end
+
 end

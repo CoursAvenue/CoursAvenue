@@ -47,34 +47,3 @@
         width  : 262px;
     }
 }
-a.header-link {
-    color       : $gray-light;
-    font-weight : bold;
-    margin-left : 0.5em;
-    font-size   : 13px;
-}
-.nav-links-wrapper {
-    @include media-query(palm) { display: none!important; };
-    @include media-query(lap) { display: none!important; };
-    .active {
-        font-weight: bold;
-    }
-}
-.espace-pro-nav {
-    padding-left: 100px;
-    @include media-query(palm) { padding-left: 0; };
-}
-    .espace-pro-wrapper {
-        position: relative;
-    }
-        .espace-pro {
-            @include media-query(palm) { background-image: none; };
-            background-image    : image-url('header/espace-pro.png');
-            background-repeat   : no-repeat;
-            background-position : center center;
-            background-size     : 100%;
-            width               : 75px;
-            height              : 40px;
-            display             : inline-block;
-            vertical-align      : middle;
-        }

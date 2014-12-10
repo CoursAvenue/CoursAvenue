@@ -1,58 +1,62 @@
-%h2.gamma.soft-half--bottom.push-half--bottom.f-weight-bold
-  Trouver un cours
-  %br
-  près de chez vous
-%hr
-%ul.no-bullet-list.push--bottom
-  %li
-    %h3.epsilon.flush.line-height-1-7.f-weight-normal
-      = link_to 'Danse', structures_path(root_subject_id: 'danse')
-  %li
-    %h3.epsilon.flush.line-height-1-7.f-weight-normal
-      = link_to 'Théâtre et scène', structures_path(root_subject_id: 'theatre-scene')
-  %li
-    %h3.epsilon.flush.line-height-1-7.f-weight-normal
-      = link_to 'Yoga et bien être', structures_path(root_subject_id: 'yoga-bien-etre-sante')
-  %li
-    %h3.epsilon.flush.line-height-1-7.f-weight-normal
-      = link_to 'Musique et chant', structures_path(root_subject_id: 'musique-chant')
-  %li
-    %h3.epsilon.flush.line-height-1-7.f-weight-normal
-      = link_to 'Dessin, peinture et arts plastiques', structures_path(root_subject_id: 'dessin-peinture-arts-plastiques')
-  %li
-    %h3.epsilon.flush.line-height-1-7.f-weight-normal
-      = link_to 'Sports et arts martiaux', structures_path(root_subject_id: 'sports-arts-martiaux')
-  %li
-    %h3.epsilon.flush.line-height-1-7.f-weight-normal
-      = link_to 'Cuisine et vins', structures_path(root_subject_id: 'cuisine-vins')
-  %li
-    %h3.epsilon.flush.line-height-1-7.f-weight-normal
-      = link_to 'Photo & vidéo', structures_path(root_subject_id: 'photo-video')
-  %li
-    %h3.epsilon.flush.line-height-1-7.f-weight-normal
-      = link_to 'Déco mode et bricolage', structures_path(root_subject_id: 'deco-mode-bricolage')
-  %li
-    %h3.epsilon.flush.line-height-1-7.f-weight-normal
-      = link_to 'Culture sciences et nature', structures_path(root_subject_id: 'culture-sciences-nature')
-  %li
-    %h3.epsilon.flush.line-height-1-7.f-weight-normal
-      = link_to 'Langues et soutien scolaire', structures_path(root_subject_id: 'langues-soutien-scolaire')
+- cache 'blog/side_content/V1' do
+  %h2.gamma.soft-half--bottom.push-half--bottom.f-weight-bold
+    Trouver un cours
+    %br
+    près de chez vous
+  %hr
+  %ul.no-bullet-list.push--bottom
+    %li
+      %h3.epsilon.flush.line-height-1-7.f-weight-normal
+        = link_to 'Danse', root_search_page_path('danse', 'paris')
+    %li
+      %h3.epsilon.flush.line-height-1-7.f-weight-normal
+        = link_to 'Théâtre et scène', root_search_page_path('theatre-scene', 'paris')
+    %li
+      %h3.epsilon.flush.line-height-1-7.f-weight-normal
+        = link_to 'Yoga et bien être', root_search_page_path('yoga-bien-etre-sante', 'paris')
+    %li
+      %h3.epsilon.flush.line-height-1-7.f-weight-normal
+        = link_to 'Musique et chant', root_search_page_path('musique-chant', 'paris')
+    %li
+      %h3.epsilon.flush.line-height-1-7.f-weight-normal
+        = link_to 'Dessin, peinture et arts plastiques', root_search_page_path('dessin-peinture-arts-plastiques', 'paris')
+    %li
+      %h3.epsilon.flush.line-height-1-7.f-weight-normal
+        = link_to 'Sports et arts martiaux', root_search_page_path('sports-arts-martiaux', 'paris')
+    %li
+      %h3.epsilon.flush.line-height-1-7.f-weight-normal
+        = link_to 'Cuisine et vins', root_search_page_path('cuisine-vins', 'paris')
+    %li
+      %h3.epsilon.flush.line-height-1-7.f-weight-normal
+        = link_to 'Photo & vidéo', root_search_page_path('photo-video', 'paris')
+    %li
+      %h3.epsilon.flush.line-height-1-7.f-weight-normal
+        = link_to 'Déco mode et bricolage', root_search_page_path('deco-mode-bricolage', 'paris')
+    %li
+      %h3.epsilon.flush.line-height-1-7.f-weight-normal
+        = link_to 'Culture sciences et nature', root_search_page_path('culture-sciences-nature', 'paris')
+    %li
+      %h3.epsilon.flush.line-height-1-7.f-weight-normal
+        = link_to 'Langues et soutien scolaire', root_search_page_path('langues-soutien-scolaire', 'paris')
 
-.gamma.soft-half--bottom.push-half--bottom.f-weight-bold Catégories
-%hr
+  .gamma.soft-half--bottom.push-half--bottom.f-weight-bold Catégories
+  %hr
 %ul.no-bullet-list.push--bottom
   - Blog::Article.tag_counts_on(:tags).each do |tag|
-    %li.epsilon.line-height-1-7
-      = link_to tags_blog_articles_path(tag: tag.name) do
-        = tag.name
-        = "(#{Blog::Article.published.tagged_with(tag.name).count})"
+    - tag_count = Blog::Article.published.tagged_with(tag.name).count
+    - cache [tag, tag_count] do
+      %li.epsilon.line-height-1-7
+        = link_to tags_blog_articles_path(tag: tag.name) do
+          = tag.name
+          = "(#{tag_count})"
 
-.gamma.soft-half--bottom.push-half--bottom.f-weight-bold Suivez-nous sur les réseaux sociaux
-%hr
-%div
-  = link_to 'https://www.facebook.com/CoursAvenue', class: 'push-half--right', target: :_blank, rel: :nofollow do
-    %i.fa.fa-facebook.fa-2x
-  = link_to 'https://www.twitter.com/CoursAvenue', class: 'push-half--right', target: :_blank, rel: :nofollow do
-    %i.fa.fa-twitter.fa-2x
-  = link_to 'https://instagram.com/coursavenue', target: :_blank, rel: :nofollow do
-    %i.fa.fa-instagram.fa-2x
+- cache 'blog/side_bottom_content/V1' do
+  .gamma.soft-half--bottom.push-half--bottom.f-weight-bold Suivez-nous sur les réseaux sociaux
+  %hr
+  %div
+    = link_to 'https://www.facebook.com/CoursAvenue', class: 'push-half--right', target: :_blank, rel: :nofollow do
+      %i.fa.fa-facebook.fa-2x
+    = link_to 'https://www.twitter.com/CoursAvenue', class: 'push-half--right', target: :_blank, rel: :nofollow do
+      %i.fa.fa-twitter.fa-2x
+    = link_to 'https://instagram.com/coursavenue', target: :_blank, rel: :nofollow do
+      %i.fa.fa-instagram.fa-2x

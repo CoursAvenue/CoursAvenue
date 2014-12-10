@@ -1,4 +1,5 @@
-= user_menu_currently_at 'Mes messages'
+= user_menu_currently_at 'inbox'
+= render 'shared/include_addthisevent'
 
 .panel
   .panel__header.soft
@@ -17,37 +18,57 @@
         %h5.flush= @conversation.subject
     .grid
       .grid__item.two-twelfths.v-middle.text--right>
-        %p À
+        %p.flush À
       .grid__item.ten-twelfths.soft-half--left.v-middle>
-        %p= recipients.map(&:name).join(', ')
+        %h5.flush= recipients.map(&:name).join(', ')
 
-    - if current_user and @user.active?
-      = render 'users/conversations/form'
+    - if @participation_request
+      .grid.push-half--ends
+        .grid__item.two-twelfths.v-middle.text--right>
+        .grid__item.ten-twelfths.soft-half--left.v-middle>
+          .flexbox
+            .flexbox__item.v-middle{ class: (@participation_request.pending? ? 'one-whole' : 'three-quarters') }>
+              .soft-half.white{ class: "#{participation_request_color(@participation_request)}-box" }
+                .flexbox
+                  .flexbox__item.delta.v-middle.soft-half--right{ style: 'width: 1em;' }>
+                    = participation_request_icon(@participation_request)
+                  .flexbox__items.epsilon.v-middle.one-whole>
+                    = participation_request_long_description(@participation_request, 'user')
+            - if @participation_request.accepted? or (@participation_request.pending? and @participation_request.last_modified_by == 'User')
+              .flexbox__item.v-middle.one-quarter.soft-half--left#modify-links>
+                = link_to 'Proposer un autre créneau', edit_user_participation_request_path(@user, @participation_request), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+                %br
+                = link_to "Annuler l'inscription", cancel_form_user_participation_request_path(@user, @participation_request), class: 'red nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+
+      .grid.epsilon.push-half--bottom
+        .grid__item.two-twelfths.v-top.text--right>
+          %strong.flush
+            Récapitulatif
+        .grid__item.ten-twelfths.soft-half--left.v-top>
+          = render partial: 'users/participation_requests/recap', locals: { participation_request: @participation_request }
+
+      .grid.epsilon
+        .grid__item.two-twelfths.v-top.text--right>
+          %strong.flush
+            Ajouter au calendrier
+        .grid__item.ten-twelfths.soft-half--left.v-top>
+          = add_to_calendar(@participation_request)
+      .push--top
+        - if @participation_request.pending? and @participation_request.last_modified_by == 'Structure'
+          = render 'users/conversations/participation_request_form'
+        - else
+          = render 'users/conversations/form'
     - else
-      .text--center
-        = link_to 'Répondre', '#registration', title: 'Enregistrez-vous pour répondre', class: 'btn btn--green btn--large btn--full', data: {behavior: 'modal'}, id: 'registration-link'
+      = render 'users/conversations/form'
 
-      - session['user_return_to'] = user_conversations_path(@user)
+    = render partial: 'messages/message', collection: @conversation.messages.order('created_at DESC').reject(&:new_record?)
 
-    = render partial: 'messages/message', collection: @conversation.messages.reject(&:new_record?).sort_by(&:created_at)
-
-    #registration.hidden
-      = render 'users/registrations/form'
-    - content_for :scripts do
-      :javascript
-        $(function(){
-            $('[data-behavior="connection"]').click(function() {
-                $.fancybox($('#registration'));
-            });
-        });
-
-  - content_for :scripts do
-    :javascript
-      $(function(){
-          if ($.cookie("conversation_#{params[:id]}_message_first_time")) {
-              $.removeCookie("conversation_#{params[:id]}_message", {path: '/'});
-          } else {
-              $.cookie("conversation_#{params[:id]}_message_first_time", true);
-          }
-      });
-
+- content_for :scripts do
+  :javascript
+    $(function(){
+        if ($.cookie("conversation_#{params[:id]}_message_first_time")) {
+            $.removeCookie("conversation_#{params[:id]}_message", {path: '/'});
+        } else {
+            $.cookie("conversation_#{params[:id]}_message_first_time", true);
+        }
+    });

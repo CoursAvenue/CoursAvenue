@@ -5,7 +5,7 @@
   Félicitations !
 
 .p
-  L'équipe de CoursAvenue vient de valider votre identité et vous autorise à prendre le contrôle de votre profil. Connectez-vous à tout moment pour compléter votre profil qui gagnera en visibilité :
+  L'équipe de CoursAvenue vient de valider votre identité et vous autorise à prendre le contrôle de votre profil. Connectez-vous à tout moment pour le compléter et gagner en visibilité :
 
 .p.action
   = link_to "Accéder à mon profil", dashboard_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN, utm_source: 'email', utm_campaign: 'complete_profile', utm_medium: 'monday'), class: 'btn btn--green'
@@ -25,9 +25,8 @@
       - if @structure.medias.empty?
         %li Mettez en ligne vos photos et vidéos
 
-
 - content_for :under_content_2 do
-  - @similar_profiles = @structure.similar_profiles(2)
+  - @similar_profiles = @structure.similar_profiles(2, { nb_courses: 1 })
   %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
     %tr{ valign: 'top' }
       %td.content-block{ colspan: 2 }
@@ -46,6 +45,5 @@
                   %br
                   = similar_profile.city.name
                   %br
-                  %i= truncate(join_parent_subjects_text(similar_profile), lenght: 100)
+                  %i= truncate(join_parent_subjects_text(similar_profile), length: 100)
 
-- content_for :under_content_gray do

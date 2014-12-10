@@ -29,12 +29,12 @@
         pour profiter de cette offre !
 
 
-  .soft.white.bg-cover.f-weight-bold{ style: "background-image: url(#{asset_path 'pro/premium/six_months_with_promo_background.jpg'})", 'data-stellar-background-ratio' => '0.6' }
+  .bg-fixed.soft.white.bg-cover.f-weight-bold{ style: "background-image: url(#{asset_path 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/premium/six_months_with_promo_background.jpg'})" }
     .main-container.soft
       .push--ends
         .grid
           .grid__item.one-quarter.text--center>
-            = image_tag 'pro/premium/six_months_with_promo_badge.png', class: 'block center-block', width: 200
+            = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/premium/six_months_with_promo_badge.png', class: 'block center-block', width: 200
           .grid__item.three-quarters>
             %h1.flush.soft-half.orange-box.inline-block PROFITEZ DE L'ETE
             %br
@@ -44,10 +44,10 @@
 
         .text--center
           - if current_pro_admin and current_pro_admin.structure
-            = link_to "J'en profite", go_premium_pro_structure_path(current_pro_admin.structure, premium_type: 'monthly', promo_code: 'SPECIALETE'), class: 'btn btn--green btn--large'
-            .soft-black-text-shadow= link_to "Voir les autres offres", premium_pro_structure_path(current_pro_admin.structure), class: 'white'
+            = link_to "J'en profite", new_pro_structure_subscription_plan_path(current_pro_admin.structure, premium_type: 'monthly', promo_code: 'SPECIALETE'), class: 'btn btn--green btn--large'
+            .soft-black-text-shadow= link_to "Voir les autres offres", pro_structure_subscription_plans_path(current_pro_admin.structure), class: 'white'
           - else
-            - session['pro_admin_return_to'] = go_premium_pro_structure_path('__STRUCTURE_ID__', premium_type: 'monthly', promo_code: 'SPECIALETE')
+            - session['pro_admin_return_to'] = new_pro_structure_subscription_plan_path('__STRUCTURE_ID__', premium_type: 'monthly', promo_code: 'SPECIALETE')
             = link_to "J'en profite", new_pro_admin_session_path, class: 'btn btn--green btn--large'
             .soft-black-text-shadow= link_to "Voir les autres offres", pro_pages_price_path, class: 'white'
 

@@ -1,0 +1,39 @@
+- content_for :email_title do
+  %strong Acceptez la demande d'inscription de #{@user.name} en répondant directement à cet e-mail
+  %hr
+
+.p
+  Bonjour,
+
+.p
+  Il y a 2 jours, #{@user.name} vous a envoyé une demande d'inscription au cours d'essai "#{@participation_request.course.name}" le
+  %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}"
+  Pour continuer à recevoir de nouveaux élèves, nous vous conseillons de répondre maintenant :
+
+.p.action
+  = link_to "Accepter / Proposer un autre créneau / Refuser", pro_structure_conversation_url(@admin.structure, @conversation, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
+
+- if @message
+  .soft--bottom
+    = render partial: 'mailboxer_message_mailer/message_to_admin', locals: { message: @message, user: @user, show_phone_number: false }
+
+.p En répondant maintenant, votre profil remontera dans le moteur de recherche et vous continuerez à recevoir des demandes d'inscription.
+
+.soft-half--top
+  = render 'shared/mailers/footer'
+
+- content_for :under_content do
+  = render partial: 'participation_request_mailer/shared/participation_recap', locals: { participation_request: @participation_request }
+
+- content_for :under_content_gray do
+  .title
+    = link_to "Foire aux questions", pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+  .p.soft-half--bottom.bordered--bottom
+    = link_to "Que faire après avoir reçu une demande d'information d'un élève potentiel ?", pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+  .p.soft-half--ends.bordered--bottom
+    = link_to "Que faire s'il ne s'agit pas d'une véritable demande d'information ?", pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+  .p.soft-half--ends.bordered--bottom
+    = link_to "Que se passe-t-il si je laisse expirer une demande d'information ?", pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+  .p.soft-half--ends
+    = link_to "Comment faire pour recevoir encore plus de demandes d'information ?", pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+

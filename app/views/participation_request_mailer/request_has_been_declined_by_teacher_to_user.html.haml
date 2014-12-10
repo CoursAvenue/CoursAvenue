@@ -1,0 +1,29 @@
+- content_for :email_title do
+  %strong Répondez à #{@structure.name} en répondant directement à cet e-mail
+  %hr
+
+.p
+  Bonjour #{@user.first_name},
+
+.p
+  Malheureusement, #{@structure.name} vient de refuser votre demande d'inscription au cours d'essai "#{@course.name}" du
+  %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}."
+  Si vous souhaitez suivre une autre séance auprès de ce partenaire, accédez à son profil pour vous inscrire de nouveau :
+
+.p.action
+  = link_to "M'inscrire à une autre séance", structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green'
+
+- if @message
+  .soft--bottom
+    = render partial: 'mailboxer_message_mailer/message_to_user', locals: { message: @message, structure: @structure, show_phone_number: false }
+
+.p
+  Notre objectif est de vous faire découvrir le maximum de cours, c'est pourquoi notre équipe prendra contact avec ce partenaire pour comprendre les raisons de son refus. Merci pour votre compréhension,
+
+= render 'shared/mailers/footer'
+
+- content_for :under_content do
+  = render partial: 'participation_request_mailer/shared/user_participation_recap', locals: { participation_request: @participation_request }
+
+- content_for :under_content_gray do
+  = render 'participation_request_mailer/shared/user_faq'

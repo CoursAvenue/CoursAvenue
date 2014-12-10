@@ -1,20 +1,22 @@
-- content_for :promo do
-  %h4
-    #{@referrer.name} vous invite à créer votre profil sur CoursAvenue
+- content_for :email_title do
+  #{@referrer.name} vous invite à créer votre profil sur CoursAvenue
+
+.title
+  #{@referrer.name} vous invite à créer votre profil sur CoursAvenue
 
 - if @email_text
-  = simple_format @email_text
+  = @email_text.html_safe
 
-%p.action
+.p.action
   = link_to 'Créer mon profil', new_user_registration_url(email: @email, from_friend: true, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green', utm_source: 'email', utm_campaign: 'invite_student', utm_medium: 'stage_0'
 
-%p
+.p
   À très bientôt !
 
-%p= @referrer.name
+.p= @referrer.name
 
 - content_for :footer do
-  %p
+  .p
     Vous recevez cet email car #{@referrer.name} vous invite sur CoursAvenue.
     - if @invited_user.user
       = link_to 'Ne plus recevoir ces emails', unsubscribe_users_url(@invited_user.user.access_token, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)

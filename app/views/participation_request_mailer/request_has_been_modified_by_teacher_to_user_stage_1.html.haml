@@ -1,0 +1,24 @@
+- content_for :email_title do
+  %strong Acceptez la nouvelle proposition de #{@structure.name} en répondant directement à cet e-mail
+  %hr
+
+.p
+  Bonjour #{@user.first_name},
+
+.p
+  Hier, #{@structure.name} vous a envoyé une nouvelle proposition de date pour votre cours d'essai "#{@course.name}" : confirmez-vous votre présence pour le
+  %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}"
+  - if @place
+    au #{@place.address} (#{@place.name}) ?
+  Répondez-lui dès maintenant pour que votre inscription soit prise en compte :
+
+.p.action
+  = link_to "Accepter / Proposer un autre créneau / Refuser", user_conversation_url(@user, @conversation, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green'
+
+= render 'shared/mailers/footer'
+
+- content_for :under_content do
+  = render partial: 'participation_request_mailer/shared/user_participation_recap', locals: { participation_request: @participation_request }
+
+- content_for :under_content_gray do
+  = render 'participation_request_mailer/shared/user_faq'

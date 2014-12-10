@@ -16,6 +16,9 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             _.bindAll(this, "updateSuccess", "updateError", "flashError");
 
             this.model.set("checked", options.checked);
+            this.model.on("destroy", function() {
+                this.$el.remove();
+            }.bind(this));
             this.tags_url = options.tags_url;
             this.edits = {};
 
@@ -48,12 +51,12 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             this.finishEditing({ restore: true });
         },
 
-        announceEditableClicked: function (e) {
+        announceEditableClicked: function announceEditableClicked (e) {
             this.trigger("editable:clicked", e);
         },
 
         /* incrementally build up a set of attributes */
-        collectEdits: function (edits) {
+        collectEdits: function collectEdits (edits) {
             if (edits !== undefined) {
                 this.edits[edits.attribute] = edits.data;
             }
@@ -61,7 +64,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
 
         /* options are passed to the initialize method of the
         * klass. event_hash is passed directly to the showwidget method */
-        showEditable: function (selector, Klass, event_hash, options) {
+        showEditable: function showEditable (selector, Klass, event_hash, options) {
             var attribute = this.$(selector).data("name"),
                 data      = this.model.get(attribute),
                 options   = _.extend(options || {}, { data: data, attribute: attribute }),
@@ -76,7 +79,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             this.showWidget(view, event_hash);
         },
 
-        onRender: function () {
+        onRender: function onRender () {
             var options = { url: this.tags_url };
             this.showEditable("[data-behavior=editable-tag-bar]", this.tagBarView, {
                 events: {
@@ -113,7 +116,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
 
         /* when the model changes, we update the fields to represent
          * this change */
-        syncFieldsToModel: function (model) {
+        syncFieldsToModel: function syncFieldsToModel (model) {
             if (model.changed.selected !== undefined) {
                 this.ui.$checkbox.prop('checked', model.changed.selected);
             }
@@ -126,13 +129,13 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
 
         /* when the user uses the fancybox to update the model
         * we have to sync our local model. */
-        syncLocalToRemote: function (xhr, data, status) {
+        syncLocalToRemote: function syncLocalToRemote (xhr, data, status) {
             this.model.set(data);
 
             this.trigger("update:sync", this.model);
         },
 
-        isEditing: function () {
+        isEditing: function isEditing () {
             return this.is_editing;
         },
 
@@ -142,7 +145,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         * The value can become "more" true, but not "more" false.
         * That is, once the value is a false value, it will stop
         * accepting "false" inputs */
-        setEditing: function (value) {
+        setEditing: function setEditing (value) {
             var old = this.is_editing;
 
             this.is_editing = value;
@@ -152,7 +155,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             }
         },
 
-        addToSelected: function () {
+        addToSelected: function addToSelected () {
             this.trigger("add:to:selected");
         },
 
@@ -160,7 +163,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         /* notifies all the other editables in the layout
         *  and gets them started
         *  gives focus to the editable that was clicked */
-        startEditing: function ($target) {
+        startEditing: function startEditing ($target) {
             this.setEditing(true);
 
             this.ui.$manage_edits.show();
@@ -173,7 +176,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         /* when it is time for the row to stop being editable, we
          * must either clean up, rollback, or save, based on external
          * inputs and the state of the edits. */
-        finishEditing: function (e) {
+        finishEditing: function finishEditing (e) {
             this.ui.$manage_edits.hide();
             this.ui.$show_infos.show();
 
@@ -220,7 +223,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
 
         /* Callbacks: these are all bound to 'this' */
 
-        updateSuccess: function (action, response) {
+        updateSuccess: function updateSuccess (action, response) {
             response.action = action;
 
             this.edits = {};
@@ -232,12 +235,12 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             this.trigger("update:error", response);
         },
 
-        flashError: function (model, response) {
+        flashError: function flashError (model, response) {
             /* display a flash containing the error message */
             GLOBAL.flash(response.responseJSON.errors.join("\n"), "alert");
         },
 
-        serializeData: function () {
+        serializeData: function serializeData () {
             var data = this.model.toJSON();
             if (data.id) { data.edit_path = Routes.edit_pro_structure_user_profile_path(data.structure_id, data.id); }
             return data;

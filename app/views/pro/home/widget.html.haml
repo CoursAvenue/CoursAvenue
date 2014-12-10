@@ -5,14 +5,11 @@
 = content_for :title do
   Les livres d'Or des partenaires CoursAvenue
 
-.home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background7.jpg'})", 'data-stellar-background-ratio' => '0.6' }
+.bg-fixed.home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background7.jpg'})" }
   .main-container.soft
     %h1.flush Affichez votre Livre d'Or sur votre propre site Internet
     .delta.line-height-1-7.push-half--bottom
       Le bouche à oreille restant le 1er facteur d'inscription à un cours, nos partenaires qui affichent publiquement les témoignages de leurs élèves sont ceux qui ont le plus fort taux d'inscription et de fidélisation.
-
-      -# %br
-      -# C'est pourquoi au-delà de 5 avis, nous vous offrons votre livre d'Or interactif qui vous permet d'afficher toutes les recommandations de vos élèves directement sur votre propre site Internet ou blog. Vous pourrez l'installer vous-même en quelques minutes grâce à un mode d'emploi visible sur votre profil privé CoursAvenue.
     = link_to "Publiez vos cours et affichez votre livre d'Or", inscription_pro_structures_path, class: 'btn btn--green'
 
 .main-container.soft
@@ -25,30 +22,31 @@
         .coursavenue-widget-top-logo-wrapper
           .coursavenue-widget-top-logo-inner-wrapper
             .coursavenue-widget-top-logo
-              = link_to 'http://www.coursavenue.com', target: '_blank', class: 'coursavenue-widget-title' do
+              = link_to 'https://www.coursavenue.com', target: '_blank', class: 'coursavenue-widget-title' do
                 %img.coursavenue-recommanded{src: asset_path('widget/recommanded_on.png')}
-              = link_to 'http://www.coursavenue.com', target: '_blank', class: 'coursavenue-widget-title' do
+              = link_to 'https://www.coursavenue.com', target: '_blank', class: 'coursavenue-widget-title' do
                 %img.coursavenue-logo{src: asset_path('widget/logo.png')}
-              = link_to 'http://www.coursavenue.com', target: '_blank', class: 'coursavenue-widget-title' do
+              = link_to 'https://www.coursavenue.com', target: '_blank', class: 'coursavenue-widget-title' do
                 %img.coursavenue-stars{src: asset_path('widget/stars.png')}
         %p{style: 'text-align: center; margin-bottom: 10px;'}
-          = link_to 'Déposer mon avis sur CoursAvenue', 'http://www.coursavenue.com', class: 'coursavenue-btn', target: '_blank'
+          = link_to 'Déposer mon avis sur CoursAvenue', 'https://www.coursavenue.com', class: 'coursavenue-btn', target: '_blank'
           - Comment::Review.accepted.order('created_at DESC').limit(20).each do |comment|
-            .coursavenue-white-box
-              %p.coursavenue-header
-                = link_to structure_url(comment.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, anchor: "recommandation-#{comment.id}"), class: 'coursavenue-widget-link', target: '_blank' do
-                  %strong= comment.author_name
-                  = "— #{comment.course_name}"
-              - if comment.title.present?
-                %p.coursavenue-comment-paragraph
-                  %strong= "\"#{comment.title}\""
-              .coursavenue-comment-paragraph
-                - omission = link_to('Lire la suite →', structure_url(comment.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, anchor: "recommandation-#{comment.id}"), target: '_blank', class: 'coursavenue-widget-link')
-                = truncate_html(simple_format(comment.content), length: 600, omission: "… #{omission}")
-              %p.coursavenue-comment-footer
-                %i= "Avis déposé le #{I18n.l(comment.created_at, format: :date)}"
+            - cache [comment, 'pro/widget/comment'] do
+              .coursavenue-white-box
+                %p.coursavenue-header
+                  = link_to structure_url(comment.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, anchor: "recommandation-#{comment.id}"), class: 'coursavenue-widget-link', target: '_blank' do
+                    %strong= comment.author_name
+                    = "— #{comment.course_name}"
+                - if comment.title.present?
+                  %p.coursavenue-comment-paragraph
+                    %strong= "\"#{comment.title}\""
+                .coursavenue-comment-paragraph
+                  - omission = link_to('Lire la suite →', structure_url(comment.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, anchor: "recommandation-#{comment.id}"), target: '_blank', class: 'coursavenue-widget-link')
+                  = truncate_html(simple_format(comment.content), length: 600, omission: "… #{omission}")
+                %p.coursavenue-comment-footer
+                  %i= "Avis déposé le #{I18n.l(comment.created_at, format: :date)}"
           %p{style: 'text-align: center; margin-bottom: 5px;'}
-            = link_to 'Voir tous les avis sur CoursAvenue', 'http://www.coursavenue.com', class: 'coursavenue-btn', target: '_blank'
+            = link_to 'Voir tous les avis sur CoursAvenue', 'https://www.coursavenue.com', class: 'coursavenue-btn', target: '_blank'
 
 
     .grid__item.one-half>
@@ -57,9 +55,10 @@
       - @structures.each do |structure|
         .inline-block.one-third.relative.very-soft>
           .relative.bg-cover{style: "background-image: url('#{structure.logo.url(:thumb)}'); height: 180px;"}>
-            = link_to structure.widget_url, target: :_blank, class: 'block show-on-hover__wrapper show-on-hover__wrapper--black-curtain' do
-              .home-screen-gallery__title.text--center
-                .show-on-hover__child
-                  Voir le livre d'or
-                  .milli= structure.name
+            - cache [structure, 'pro/widget/widget_url'] do
+              = link_to structure.widget_url, target: :_blank, class: 'block show-on-hover__wrapper show-on-hover__wrapper--black-curtain' do
+                .home-screen-gallery__title.text--center
+                  .show-on-hover__child
+                    Voir le livre d'or
+                    .milli= structure.name
 

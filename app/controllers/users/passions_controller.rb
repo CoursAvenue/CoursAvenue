@@ -1,6 +1,7 @@
 class Users::PassionsController < ApplicationController
   layout 'user_profile'
 
+  before_action :authenticate_user!
   load_and_authorize_resource :user
 
   def index

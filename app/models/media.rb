@@ -9,12 +9,26 @@ class Media < ActiveRecord::Base
                   :provider_id, :provider_name, :thumbnail_url, :filepicker_url, :cover,
                   :star, :vertical_page_caption, :subject_ids
 
-  belongs_to :mediable, polymorphic: true
+  ######################################################################
+  # Relations                                                          #
+  ######################################################################
+  belongs_to :mediable, polymorphic: true, touch: true
   has_and_belongs_to_many :subjects
 
-  validates :url, presence: true
+  ######################################################################
+  # Validations                                                        #
+  ######################################################################
   validates :caption, length: { maximum: 255 }
 
+  ######################################################################
+  # Callbacks                                                          #
+  ######################################################################
+  after_destroy :index_structure
+  after_create  :index_structure
+
+  ######################################################################
+  # Scopes                                                             #
+  ######################################################################
   scope :images,       -> { where( type: "Media::Image" ) }
   scope :videos,       -> { where( type: "Media::Video" ) }
   scope :videos_first, -> { order('type DESC') }
@@ -58,6 +72,8 @@ class Media < ActiveRecord::Base
     end
   end
 
+  handle_asynchronously :solr_index, queue: 'index' unless Rails.env.test?
+
   def url_html(options={})
     read_attribute(:url_html).html_safe
   end
@@ -78,4 +94,30 @@ class Media < ActiveRecord::Base
     end
   end
 
+  def thumbnail_url
+    if self.image.present?
+      self.image.url(:thumbnail)
+    elsif self.video?
+      self.read_attribute(:thumbnail_url)
+    else
+      self.read_attribute(:url)
+    end
+  end
+
+  def small_thumbnail_url
+    if self.image.present?
+      self.image.url(:small_thumbnail)
+    elsif self.video?
+      self.read_attribute(:thumbnail_url)
+    else
+      self.read_attribute(:url)
+    end
+  end
+
+  private
+
+  # Reindex structure because we keep track of its media count
+  def index_structure
+    self.mediable.delay.index if self.mediable
+  end
 end

@@ -1,34 +1,34 @@
 = content_for :title do
-  Merci pour votre inscription
+  Validez l'e-mail que vous venez de recevoir
 
 = content_for :above_container do
-  .soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background.jpg'})" , 'data-stellar-background-ratio' => '0.6' }
+  .bg-fixed.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background.jpg'})" }
     .main-container.soft.text--center
       %header
-        %h1.flush Merci pour votre inscription
+        %h1.flush Validez l'e-mail que vous venez de recevoir
 
   .main-container.soft
     .push--top.white-box.center-block{ style: 'max-width: 900px;' }
       .panel__body.soft
-        %h4
-          Activez votre compte depuis le mail que nous venons de vous envoyer.
+        %h3
+          Félicitations !
 
-        %h4.alert.alert--warning{style: 'max-width: 900px;'}
-          %i.fa.fa-warning
-          Si vous ne recevez pas votre mail d'activation,
-          = link_to 'cliquez ici pour nous contacter', "mailto:contact@coursavenue.com?subject=Je%20n'ai%20pas%20reçu%20mon%20mail%20d'activation&body=Bonjour,%20je%20n'ai%20pas%20reçu%20mon%20mail%20d'activation,%20pouvez-vous%20me%20le%20renvoyer.%20Cordialement."
+        %p.epsilon
+          Pour vous assurer la meilleure expérience, nous vous demandons de confirmer votre inscription depuis l'e-mail que nous venons de vous envoyer à votre adresse
+          %strong #{params[:email]}
+          \: ouvrez-le pour accéder et compléter votre profil CoursAvenue.
 
-
-        %p.flush--bottom
-          Le mail d’activation peut être considéré comme un spam, vérifiez votre boîte «Courrier&nbsp;Indésirable»
-          %br
-          et indiquez ce message comme valide en cliquant sur : «ce message est sûr».
-          = link_to 'Cliquez ici pour voir comment faire', '#how-to', data: { behavior: 'modal' }
-
-        .hidden#how-to
-          .delta.push--bottom
-            %strong 1. Allez dans la boite Courrier indésirable.
-          = image_tag "users/tutos/hotmail_spam_1.png"
-          .delta.push--bottom
-            %strong 2. Cliquez sur le mail de CoursAvenue puis cliquez sur "Ce message est sûr" sinon vous ne recevrez pas nos futurs messages.
-          = image_tag "users/tutos/hotmail_spam_2.png"
+        - if params[:email].present?
+          - if params[:email].match /hotmail|live|outlook/
+            %h4.alert.alert--warning{style: 'max-width: 900px;'}
+              %i.fa.fa-warning
+              %strong Remarque importante :
+              vous utilisez
+              = image_tag 'logos/hotmail-logo.jpg', class: "v-top", height: 22
+              ? L'e-mail de validation est peut-être dans votre boîte "Courrier indésirable" : ouvrez-le puis cliquez sur "Ce message est sûr" pour recevoir correctement tous les prochains e-mails.
+          - elsif params[:email].match /gmail/
+            %h4.alert.alert--warning{style: 'max-width: 900px;'}
+              %strong Remarque importante :
+              vous utilisez
+              = image_tag 'logos/gmail-logo.jpg', class: "v-top", height: 22
+              ? L'e-mail de validation est peut-être arrivé dans le 3ème onglet "Promotions" de votre boîte de réception : glissez-le dans votre boîte "Principale" pour recevoir correctement tous les prochains e-mails.

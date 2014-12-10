@@ -1,37 +1,61 @@
-= user_menu_currently_at 'messages'
-.white-box.soft
-  %h3 Mes conversations
-  .push--bottom
-    .v-middle.lbl.lbl--chip.rounded--thick{ class: "lbl--#{Mailboxer::Label::INFORMATION.color}"}
-    %strong.v-middle Demandes d'informations
-    .v-middle.push-half--left.lbl.lbl--chip.rounded--thick{ class: "lbl--#{Mailboxer::Label::COMMENT.color}"}
-    %strong.v-middle Avis déposés
-    .v-middle.push-half--left.lbl.lbl--chip.rounded--thick{ class: "lbl--#{Mailboxer::Label::CONVERSATION.color}"}
-    %strong.v-middle Conversations
-  - unless cookies[:understood__user_conversation_message]
-    %p.alert.alert--info#conversation-info
-      Envoyez des messages personnels aux professeurs, associations ou écoles que vous avez décidé de "suivre" ou qui vous ont déjà sollicité(e) pour déposer votre avis.
-      %a#understood__user_conversation_message{href: 'javascript:void(0)'} J'ai compris
+= user_menu_currently_at 'inbox'
 
-  - if @user.structures.any?
-    .text--center.push--bottom
-      = link_to 'Nouveau message', new_user_message_path(@user), class: 'btn btn--green btn--large'
+.panel
+  .panel__body.soft
+    %h3 Boîte de réception
+    - conversation_information_count  = @user.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).count
+    - conversation_comment_count      = @user.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::COMMENT.id).count
+    - conversation_conversation_count = @user.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::CONVERSATION.id).count
+    - conversation_request_count      = @user.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::REQUEST.id).count
 
-  - @conversations.each do |conversation|
-    = link_to user_conversation_path(@user, conversation), class: 'muted-link' do
-      = render partial: 'conversations/conversation', locals: {conversation: conversation}
-  - if @conversations.empty?
-    %p.white-box.soft-half
-      Vous n'avez pas de conversation en cours
+    .push--bottom
+      .v-middle.lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::REQUEST.color}"}= conversation_request_count
+      %strong.v-middle Inscriptions
+      .v-middle.push-half--left.lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::INFORMATION.color}"}= conversation_information_count
+      %strong.v-middle Demandes d'informations
+      .v-middle.push-half--left.lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::COMMENT.color}"}= conversation_comment_count
+      %strong.v-middle Avis déposés
+      .v-middle.push-half--left.lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::CONVERSATION.color}"}= conversation_conversation_count
+      %strong.v-middle Conversations
+    - unless cookies[:understood__user_conversation_message]
+      %p.alert.alert--info#conversation-info
+        Envoyez des messages personnels aux professeurs, associations ou écoles que vous avez ajoutés en favori ou qui vous ont déjà sollicité(e) pour déposer votre avis.
+        %a#understood__user_conversation_message{href: 'javascript:void(0)'} J'ai compris
+
+    - if @user.structures.any?
+      .text--center.push--bottom
+        = link_to 'Nouveau message', new_user_message_path(@user), class: 'btn btn--green btn--large'
+
+    .grid.push-half--bottom
+      .grid__item.one-third>
+        %select#conversation_label{ name: 'conversation_label_id' }
+          %option{ value: '' } Tous les messages
+          %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::INFORMATION.id), value: Mailboxer::Label::INFORMATION.id } Demandes d'informations (#{conversation_information_count})
+          %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::COMMENT.id), value: Mailboxer::Label::COMMENT.id } Avis déposés (#{conversation_comment_count})
+          %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::CONVERSATION.id), value: Mailboxer::Label::CONVERSATION.id } Conversations (#{conversation_conversation_count})
+          - if conversation_request_count > 0
+            %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::REQUEST.id), value: Mailboxer::Label::REQUEST.id } Inscription (#{conversation_request_count})
+      .grid__item.two-thirds.text--center>
+        = paginate @conversations, window: 1, outer_window: 3
+
+    - @conversations.each do |conversation|
+      = link_to user_conversation_path(@user, conversation), class: 'muted-link' do
+        = render partial: 'conversations/conversation', locals: { conversation: conversation }
+    - if @conversations.empty?
+      %p
+        Vous n'avez pas de conversation en cours
 
 
-  = content_for :scripts do
-    :javascript
-      $(function() {
-          if ($('#understood__user_conversation_message')) {
-              $('#understood__user_conversation_message').click(function() {
-                  $.cookie('understood__user_conversation_message', true, {expires: 100000});
-                  $('#conversation-info').remove();
-              });
-          }
-      });
+= content_for :scripts do
+  :javascript
+    $(function() {
+        if ($('#understood__user_conversation_message')) {
+            $('#understood__user_conversation_message').click(function() {
+                $.cookie('understood__user_conversation_message', true, {expires: 100000});
+                $('#conversation-info').remove();
+            });
+        }
+        $('#conversation_label').change(function() {
+            window.location = '?conversation_label_id=' + $(this).val()
+        });
+    });

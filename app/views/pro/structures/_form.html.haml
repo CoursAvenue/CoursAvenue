@@ -5,38 +5,31 @@
   .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.logo')} }
     %h5 Logo
     %div
-      %div{ data: { behavior: 'image-input' } }
+      %div
         .input
           %label.control-label.label--large> Logo de votre structure
           .input-container
-            #logo-progress.progress.hidden.push-half--bottom{data: {progress: true }}
-              .bar
-            - if @structure.logo?
-              .push-half--bottom.bordered{style: "height: 200px; width: 200px; display: inline-block; line-height: 196px;"}<
-                = image_tag @structure.logo.url(:thumb), class: 'v-middle inline-block', style: 'max-height: 100%;'
+            - if @structure.logo.present?
+              .push-half--bottom.bordered{ style: "height: 200px; width: 200px; display: inline-block; line-height: 196px;" }<
+                = image_tag @structure.logo.url(:thumb), class: 'v-middle inline-block', style: 'max-height: 100%;', width: 197, height: 197, id: 'logo-placeholder'
               .visuallyhidden= structure_form.input :delete_logo, as: :boolean, label: false
             - else
               .push-half--bottom.bordered{style: "height: 200px; width: 200px; display: inline-block; line-height: 196px; display: none;"}
-                %img#logo-placeholder.v-middle.inline-block{style: 'max-height: 100%;'}
+                %img#logo-placeholder.v-middle.inline-block{ style: 'max-height: 100%;' }
 
-            - if @structure.logo? and @structure.valid?
+            - if @structure.logo.present? and @structure.valid?
               .inline-block.v-top>
                 = link_to crop_logo_pro_structure_path(@structure), class: 'fancybox.ajax btn btn--small btn--blue push-half--right push-half--bottom', data: { behavior: 'modal', width: 800 } do
                   %i.fa.fa-expand.soft--sides-half--right
                   Recadrer
                 %br
-                = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small push-half--bottom', data: { trigger: true } do
-                  %i.fa.fa-picture-o
-                  Modifier
+                = structure_form.filepicker_field :logo_filepicker_url, button_text: "Changer de logo", button_class: 'btn btn--blue btn--small fa push-half--bottom', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false
                 %br
                 %a.btn.btn--small.btn--red#delete-logo{href: 'javascript:void(0)'}
                   %i.fa.fa-trash-o.soft--sides-half--right
                   Supprimer
             - elsif @structure.valid?
-              = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', data: {trigger: true} do
-                %i.fa.fa-picture-o
-                Choisir mon logo
-            .visuallyhidden= structure_form.input :logo, label: false, input_html: {id: 'logo-input'}
+              = structure_form.filepicker_field :logo_filepicker_url, button_text: 'Choisir mon logo', button_class: 'btn btn--blue btn--small fa', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false
 
   %hr.push--ends
   .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.name') } }
@@ -49,13 +42,12 @@
     %div
       %div{ data: { behavior: 'parent-descendant-subjects', 'parent-select' => '#parent-subjects', 'descendant-select' => '#subject-descendants-select', 'descendant-select-wrapper' => '#descendants-subjects' } }
         = structure_form.association :subjects, as: :select, collection: Subject.roots.order('name ASC'), input_html: { class: 'input--large', style: 'width: 74%;', id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' }, multiple: true }, label: 'Disciplines générales pratiquées ', label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush--bottom' }, label_html: { class: 'label--large' }
-
         #descendants-subjects
           .input{title: 'Sélectionnez plusieurs disciplines en maintenant la touche CTRL ou CMD enfoncée.', data: {behavior: 'tooltip'}}>
             %label.control-label.label--large> Sous disciplines
-            %select#subject-descendants-select.input--large{name: 'structure[subject_descendants_ids][]', style: 'width: 74%;', multiple: true, data: {behavior: 'chosen', placeholder: 'Tapez ou sélectionnez une ou plusieurs disciplines', selected: @structure.subjects.children.map(&:id).join(',')}}>
+            %select#subject-descendants-select.input--large{ name: 'structure[subject_descendants_ids][]', style: 'width: 74%;', multiple: true, data: {behavior: 'chosen', placeholder: 'Tapez ou sélectionnez une ou plusieurs disciplines', selected: @structure.subjects.children.map(&:id).join(',')}}>
       - if @structure.errors[:children_subjects].present?
-        %p.error= @structure.errors[:children_subjects].to_sentence
+        .input_field_error.red.text--right= @structure.errors[:children_subjects].to_sentence
 
   %hr.push--ends
   .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.courses') } }
@@ -112,6 +104,7 @@
     = structure_form.button :submit, "Enregistrer", class: 'btn btn--green btn--full push--bottom', data: { disable_with: "En cours d'enregistrement" }
 
 = content_for :scripts do
+  = render 'shared/libs/filepicker_scripts'
   :javascript
     $(function() {
         $('#structure_gives_individual_courses').change(function(){
@@ -119,37 +112,6 @@
                 $('#teaches-at-home').slideDown();
             } else {
                 $('#teaches-at-home').slideUp();
-            }
-        });
-        // --------------- Handling structure logo
-        $('#logo-input').fileupload({
-            dataType: 'json',
-            type: 'PUT',
-            replaceFileInput: false,
-            submit: function (e, data) {
-                data.formData = {authenticity_token: $('meta[name="csrf-token"]').attr('content') };
-                return true;
-            },
-            add: function (e, data) {
-                $('#logo-progress').show().removeClass('progress-success');
-                if (GLOBAL.isImageValid(this.files[0])) {
-                    data.submit();
-                }
-            },
-            done: function (e, data) {
-                $('#logo-progress').addClass('progress-success');
-                $('#logo-progress .bar').text('');
-                $('#logo-progress .bar').append($('<i>').addClass('fa fa-check push-half--right'));
-                $('#logo-progress .bar').append($('<span>').text('Téléchargement terminé'));
-            },
-            progressall: function (e, data) {
-                var progress = parseInt(data.loaded / data.total * 100, 10);
-                if (progress == 100) {
-                    $('#logo-progress .bar').text('Finalisation...');
-                } else {
-                    $('#logo-progress .bar').text(progress + '%');
-                }
-                $('#logo-progress .bar').css('width', progress + '%');
             }
         });
         if ($('#delete-logo').length > 0) {
@@ -164,5 +126,8 @@
                 $(this).parent().show();
             });
         }
+        $('#structure_logo_filepicker_url').change(function(event) {
+            $('#logo-placeholder').attr('src', this.value)
+        });
     });
 

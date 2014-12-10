@@ -130,12 +130,6 @@
     }
 }
 
-.tabs--white {
-    border-bottom: none;
-    .active a {
-        background: white;
-    }
-}
 .tabs.tabs--large li {
     a {
         padding: 1em 3em;
@@ -152,6 +146,9 @@
 .tab-pane {
     display    : none;
     padding-top: 1em;
+    &.active.inline-block {
+        display: inline-block;
+    }
     &.active{
         display: block;
     }

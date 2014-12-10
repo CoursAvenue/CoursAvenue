@@ -12,6 +12,6 @@
         En confirmant la suppression de votre compte, toutes vos données (avis, planning, photos, messages...) seront définitivement supprimées de manière irréversible.
       .grid
         .grid__item.one-half>
-          = link_to 'Confirmer la suppression de mon compte', pro_structure_path(@structure), method: :delete, class: 'btn btn--full btn--red'
+          = link_to 'Confirmer la suppression de mon compte', pro_structure_path(@structure), method: :delete, class: 'btn btn--full btn--red', data: { disable_with: 'Suppression en cours...' }
         .grid__item.one-half>
           %a.btn.btn--gray.btn--full{ onclick: '$.fancybox.close()' } Ne pas supprimer mon compte

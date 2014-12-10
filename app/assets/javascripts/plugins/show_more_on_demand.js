@@ -68,9 +68,11 @@
             $wrapping_el.find('select').each(function() {
                 if ($(this).find('option[value=""]').length == 1) {
                     $(this).val('');
+                    $(this).removeAttr('value');
                 } else {
                     $(this).val($(this).find('option').first().val());
                 }
+                $(this).val('').trigger("chosen:updated");
             });
             this.$hidden_items = $(this.$element.find('[data-el][data-hidden]'));
             if (this.$hidden_items.length < (this.$items.length - 1) ) {

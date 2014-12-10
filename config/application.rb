@@ -8,13 +8,18 @@ Bundler.require(:default, Rails.env)
 module CoursAvenue
   class Application < Rails::Application
 
-    CoursAvenue::Application::WWW_SUBDOMAIN = Rails.env.staging? ? 'staging' : 'www'
-    CoursAvenue::Application::PRO_SUBDOMAIN = Rails.env.staging? ? 'pro.staging' : 'pro'
+    MANDRILL_REPLY_TO_DOMAIN = Rails.env.staging? ? 'reply-staging.coursavenue.com' : 'reply.coursavenue.com'
+    WWW_SUBDOMAIN            = Rails.env.staging? ? 'staging' : 'www'
+    PRO_SUBDOMAIN            = Rails.env.staging? ? 'pro.staging' : 'pro'
+    AMAZON_S3                = AWS::S3.new(access_key_id: ENV['AWS_ACCESS_KEY_ID'], secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'])
+    S3_BUCKET                = AMAZON_S3.buckets[ENV['AWS_BUCKET']]
+    FACEBOOK_APP_ID          = 589759807705512
 
-    AMAZON_S3       = AWS::S3.new(access_key_id: ENV['AWS_ACCESS_KEY_ID'], secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'])
-    S3_BUCKET       = AMAZON_S3.buckets[ENV['AWS_BUCKET']]
-    FACEBOOK_APP_ID = 589759807705512
-
+    config.action_controller.page_cache_directory = "#{Rails.root.to_s}/public/deploy"
+    config.action_dispatch.default_headers = {
+      'Access-Control-Allow-Origin' => '*',
+      'Access-Control-Request-Method' => '*'
+    }
     config.middleware.insert_before ActionDispatch::Static, Rack::SslEnforcer, ignore: /.*widget_ext.*/ if Rails.env.production?
 
     # S3 = AWS::S3.new(
@@ -29,14 +34,10 @@ module CoursAvenue
 
     # Custom directories with classes and modules you want to be autoloadable.
     config.autoload_paths += %W(#{config.root}/lib)
-    config.autoload_paths += %W(#{config.root}/app/models/ckeditor)
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
     # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
-
-    # Activate observers that should always be running.
-    config.active_record.observers = :course_observer, :planning_observer, :price_group_observer
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
@@ -85,6 +86,10 @@ module CoursAvenue
 
     config.to_prepare do
       Devise::Mailer.layout 'email'
+    end
+
+    config.generators do |g|
+      g.orm :active_record
     end
 
     # Filepicker

@@ -23,9 +23,8 @@ class AdminMailer < ActionMailer::Base
     #      from: "L'équipe CoursAvenue <contact@coursavenue.com>"
   end
 
-  def subscription_renewal_failed(structure, params)
+  def subscription_renewal_failed(structure)
     @structure = structure
-    @params    = params
     mail to: @structure.main_contact.email,
          subject: 'Il y a un problème avec votre abonnement CoursAvenue',
          from: 'CoursAvenue Premium <premium@coursavenue.com>'
@@ -73,36 +72,23 @@ class AdminMailer < ActionMailer::Base
          subject: 'Résiliation de votre profil Premium'
   end
 
-  def wants_to_go_premium structure, offer
-    @structure = structure
-    @offer     = offer
-    mail to: 'contact@coursavenue.com', subject: 'Un professeur veut passer premium'
+  def subscription_has_been_reactivated(subscription_plan)
+    @structure         = subscription_plan.structure
+    @subscription_plan = subscription_plan
+    mail to: @structure.main_contact.email,
+         subject: 'Votre réabonnement au Premium a bien été pris en compte'
   end
 
-  def go_premium structure, offer
-    @structure = structure
-    @offer     = offer
-    mail to: 'contact@coursavenue.com', subject: 'Un professeur est passé premium'
-  end
-
-  def go_premium_fail structure, params
-    @structure = structure
-    @params    = params
-    mail to: 'nima@coursavenue.com', subject: 'Un professeur voulait passer premium mais a échoué'
-  end
-
-  def be2bill_transaction_notifications structure, params
-    @structure = structure
-    @params    = params
-    mail to: 'nima@coursavenue.com', subject: 'Be2Bill transaction notifiaction'
-  end
-
-  def inform_admin(subject, text)
-    @text = text
-    mail to: 'contact@coursavenue.com', subject: subject
+  def premium_follow_up_with_promo_code structure, monthyl_promo_code, annual_promo_code
+    return if annual_promo_code.nil? or monthyl_promo_code.nil?
+    @structure          = structure
+    @monthly_promo_code = monthyl_promo_code
+    @annual_promo_code  = annual_promo_code
+    mail to: @structure.main_contact.email, subject: "Que s'est-il passé ?"
   end
 
   def user_is_now_following_you(structure, user)
+    return if structure.main_contact.nil?
     @structure        = structure
     @user             = user
     @similar_profiles = @structure.similar_profiles(2)
@@ -116,7 +102,8 @@ class AdminMailer < ActionMailer::Base
     @structure    = admin.structure
     @user         = conversation.recipients.select{|recipient| recipient.is_a? User }.first
     mail to: @admin.email,
-         subject: "Rappel : demande d'information - #{@user.name}"
+         subject: "Rappel : demande d'information - #{@user.name}",
+         reply_to: generate_reply_to('admin')
   end
 
   def message_information_reminder_2(conversation, admin)
@@ -126,7 +113,8 @@ class AdminMailer < ActionMailer::Base
     @structure    = admin.structure
     @user         = conversation.recipients.select{|recipient| recipient.is_a? User }.first
     mail to: @admin.email,
-         subject: "Rappel : demande d'information - #{@user.name}"
+         subject: "Rappel : demande d'information - #{@user.name}",
+         reply_to: generate_reply_to('admin')
   end
 
   ######################################################################
@@ -195,6 +183,7 @@ class AdminMailer < ActionMailer::Base
 
   def remind_for_pending_comments(structure)
     @structure  = structure
+    return if @structure.main_contact.nil?
     mail to: @structure.main_contact.email,
          subject: "Vous avez #{@structure.comments.pending.count} avis en attente de validation"
   end
@@ -225,14 +214,16 @@ class AdminMailer < ActionMailer::Base
   end
 
   def incomplete_profile(structure)
+    return if structure.is_sleeping?
     @structure  = structure
     mail to: structure.main_contact.email,
          subject: 'Votre profil 7 fois plus visible'
   end
 
   def planning_outdated(structure)
+    return if structure.is_sleeping?
     @structure        = structure
-    @similar_profiles = @structure.similar_profiles(2)
+    @similar_profiles = @structure.similar_profiles(2, { has_admin: true })
     mail to: structure.main_contact.email,
          subject: "Votre profil n'affiche pas de cours"
   end
@@ -242,32 +233,20 @@ class AdminMailer < ActionMailer::Base
 
   def no_more_active_courses(structure)
     @structure        = structure
-    @similar_profiles = @structure.similar_profiles(2)
+    @similar_profiles = @structure.similar_profiles(2, { has_admin: true })
     mail to: structure.main_contact.email,
          subject: "Votre profil n'affiche plus de cours"
   end
 
-  def ask_for_deletion(comment)
-    @comment   = comment
-    @structure = @comment.structure
-    mail to: 'contact@coursavenue.com', subject: 'Un professeur demande une suppression de commentaire'
-  end
-
-  def new_admin_has_signed_up(admin)
-    @admin     = admin
-    @structure = admin.structure
-    if Rails.env.development?
-      mail to: 'nim.izadi@gmail.com', subject: "Un prof vient de s'enregistrer !"
-    else
-      mail to: 'inscription@coursavenue.com', subject: "Un prof vient de s'enregistrer !"
-    end
-  end
-
-  def take_control_of_your_account(structure)
-    return if structure.contact_email
+  def take_control_of_your_account(structure, email=nil)
+    return if !structure.should_send_email?
+    return if structure.contact_email.blank?
+    return if !structure.sleeping_email_opt_in
+    return if structure.main_contact.present?
     @structure = structure
-    mail to: structure.contact_email,
-         subject: "Prenez le contrôle de votre profil"
+    mail to: (email || structure.contact_email),
+         subject: "★ Recrutez gratuitement de nouveaux élèves sur Internet",
+         from: 'CoursAvenue <info@coursavenue.com>'
   end
 
   def you_have_control_of_your_account(structure)
@@ -276,16 +255,31 @@ class AdminMailer < ActionMailer::Base
          subject: "Votre profil est maintenant à vous !"
   end
 
-  ######################################################################
-  # To CoursAvenue team                                                #
-  ######################################################################
-  def is_about_to_delete(structure)
+  def you_dont_have_control_of_your_account(structure, email)
     @structure = structure
-    mail to: 'contact@coursavenue.com', subject: "#{@structure.name} est sur le point de supprimer son compte"
+    mail to: email,
+         subject: "Prise de contrôle refusée"
   end
 
-  def has_destroyed(structure)
+  # When user destroy his Structure
+  def structure_has_been_destroy(structure)
+    return if structure.main_contact.nil?
     @structure = structure
-    mail to: 'contact@coursavenue.com', subject: "#{@structure.name} a supprimé son compte..."
+    mail to: @structure.main_contact.email,
+         subject: "Votre profil vient d'être supprimé"
+  end
+
+  private
+
+  def generate_reply_to(sender_type = 'admin')
+    reply_token      = ReplyToken.create(reply_type: 'conversation')
+    reply_token.data = {
+      sender_type:     sender_type,
+      sender_id:       sender_type == 'admin' ? @admin.id : @user.id,
+      conversation_id: @conversation.id
+    }
+    reply_token.save
+
+    return "CoursAvenue <#{reply_token.token}@#{CoursAvenue::Application::MANDRILL_REPLY_TO_DOMAIN}"
   end
 end

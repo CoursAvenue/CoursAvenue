@@ -1,9 +1,11 @@
 # -*- encoding : utf-8 -*-
-require 'spec_helper'
+require 'rails_helper'
 
 describe Participation do
 
-  context :waiting_list do
+  subject { Participation.new }
+
+  context 'waiting_list' do
     let (:planning) { FactoryGirl.create(:planning) }
 
     before do
@@ -14,17 +16,17 @@ describe Participation do
       planning.update_attribute(:nb_participants_max, 0)
       subject.planning = planning
       subject.save
-      expect(subject.waiting_list).to be_true
+      expect(subject.waiting_list).to be(true)
     end
 
     it 'does not go on waiting_list' do
       planning.update_attribute(:nb_participants_max, 1)
       subject.planning = planning
       subject.save
-      expect(subject.waiting_list).to be_false
+      expect(subject.waiting_list).to be(false)
     end
 
-    context :popps_off_waiting_list do
+    context 'popps_off_waiting_list' do
       before do
         # First person participate
         planning.update_attribute(:nb_participants_max, 1)
@@ -37,10 +39,10 @@ describe Participation do
         participation_2.user     = FactoryGirl.create(:user)
         participation_2.planning = planning
         participation_2.save
-        expect(participation_2.waiting_list).to be_true
+        expect(participation_2.waiting_list).to be(true)
         # First person cancels
         subject.cancel!
-        expect(participation_2.reload.waiting_list).to be_false
+        expect(participation_2.reload.waiting_list).to be(false)
       end
 
       it 'does not pops off' do
@@ -49,10 +51,10 @@ describe Participation do
         participation_2.user              = FactoryGirl.create(:user)
         participation_2.planning          = planning
         participation_2.save
-        expect(participation_2.waiting_list).to be_true
+        expect(participation_2.waiting_list).to be(true)
         # First person cancels
         subject.cancel!
-        expect(participation_2.reload.waiting_list).to be_true
+        expect(participation_2.reload.waiting_list).to be(true)
       end
     end
   end
@@ -60,17 +62,17 @@ describe Participation do
   describe '#with_kid?' do
     it 'returns true' do
       subject.participation_for = 'participations.for.kids_and_adults'
-      expect(subject.with_kid?).to be_true
+      expect(subject.with_kid?).to be(true)
     end
 
     it 'returns true' do
       subject.participation_for = 'participations.for.kids'
-      expect(subject.with_kid?).to be_true
+      expect(subject.with_kid?).to be(true)
     end
 
     it 'returns false' do
       subject.participation_for = 'participations.for.one_aduld'
-      expect(subject.with_kid?).to be_false
+      expect(subject.with_kid?).to be(false)
     end
   end
 
@@ -95,12 +97,12 @@ describe Participation do
 
   describe '#canceled?' do
     it 'returns true' do
-      subject.stub(:canceled_at) { Time.now }
-      expect(subject.canceled?).to be_true
+      subject.canceled_at = Time.now
+      expect(subject.canceled?).to be(true)
     end
 
     it 'returns false' do
-      expect(subject.canceled?).to be_false
+      expect(subject.canceled?).to be(false)
     end
   end
 
@@ -112,7 +114,7 @@ describe Participation do
     end
   end
 
-  context :callbacks do
+  context 'callbacks' do
     let (:planning) { FactoryGirl.create(:planning) }
 
     describe '#set_default_participation_for' do
@@ -141,13 +143,13 @@ describe Participation do
         planning.update_attribute(:nb_participants_max, 0)
         subject.planning             = planning
         subject.set_waiting_list
-        expect(subject.waiting_list).to be_true
+        expect(subject.waiting_list).to be(true)
       end
       it 'set it to false' do
         planning.update_attribute(:nb_participants_max, 2)
         subject.planning = planning
         subject.set_waiting_list
-        expect(subject.waiting_list).to be_false
+        expect(subject.waiting_list).to be(false)
       end
     end
 
@@ -158,7 +160,7 @@ describe Participation do
         first_participation = planning.participations.create user: FactoryGirl.create(:user)
         last_participation  = planning.participations.create user: FactoryGirl.create(:user)
         first_participation.cancel!
-        expect(last_participation.reload.waiting_list).to be_false
+        expect(last_participation.reload.waiting_list).to be(false)
       end
     end
 
@@ -189,7 +191,7 @@ describe Participation do
 
     it 'pops the user from waiting_list' do
       @participation.pop_from_waiting_list
-      expect(@participation.waiting_list).to be_false
+      expect(@participation.waiting_list).to be(false)
     end
   end
 end

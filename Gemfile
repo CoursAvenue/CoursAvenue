@@ -1,9 +1,9 @@
 # encoding: utf-8
 source 'https://rubygems.org'
 
-ruby '2.1.2'
+ruby '2.1.5'
 
-gem 'rails', '4.1.1'
+gem 'rails', '4.1.8'
 
 gem 'rack-attack',  '~>3.0.0'
 gem 'rack-timeout', '~> 0.0.4'
@@ -13,20 +13,26 @@ gem 'filepicker-rails'
 gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
 
 gem 'rack-ssl-enforcer',    '~> 0.2.7'
+gem 'lograge'
 
 # Webserver
 # gem 'unicorn'
 # gem 'puma'
 gem 'passenger'
+gem 'algoliasearch-rails', '~>1.11.9'
+gem 'google-api-client'
 
 # Database
 gem 'pg'
 
+gem 'actionpack-page_caching'
 # Lets you access the version of the deploy on Heroku
 # Mainly used for caching: see:  config/bust_http_cache.rb
 gem 'heroku-api'
 gem 'bust_rails_etags'          # https://github.com/n8/bust_rails_etags
 gem 'bugsnag'
+
+gem 'paypal-recurring', '~>1.1.0'
 
 # For pagination
 gem 'kaminari', '~> 0.15.1'
@@ -34,8 +40,7 @@ gem 'kaminari', '~> 0.15.1'
 # Monitoring
 gem 'newrelic_rpm'          , '~>3.6.8.164'
 
-# Used to update contacts in nutshell CRM
-gem 'nutshell-crm'
+gem 'highrise'
 
 # Used for the blog. Lets us have coursavenue.com/blog
 gem 'rack-reverse-proxy',  require: 'rack/reverse_proxy'
@@ -52,23 +57,28 @@ gem 'dalli'                     , '~>2.6.4'
 # Non stored hash models
 # See Level and Audience model
 gem 'active_hash'               , '~>1.2.0'
-gem 'rails-observers'           , '~>0.1.2'
 
 # Transform urls into images, videos etc. Used in medias.
 gem 'auto_html'                 , '~>1.6.2'
 
 # Must be before jobs
-gem 'protected_attributes'      , '~>1.0.3'
+gem 'protected_attributes'      , '~>1.0.8'
 
 # Queue of jobs
-gem 'delayed_job'               , '~>4.0.0'#, git: 'git://github.com/nim1989/delayed_job.git'
-gem 'delayed_job_active_record' , '~>4.0.0'
+gem 'delayed_job'               , '~>4.0.2'#, git: 'git://github.com/nim1989/delayed_job.git'
+gem 'delayed_job_active_record' , '~>4.0.1'
 gem 'daemons'                   , '~>1.1.9'
 # Needed for hirefire to handle to access to jobs count
 gem 'hirefire-resource'
 
+gem 'carrierwave'               , '~>0.10.0'
+gem 'carrierwave-imageoptimizer', '~>1.2.1'
+gem 'cloudinary'                , '~>1.0.78'
+
+# Handle paperclip in background
+gem 'delayed_paperclip'         , '~>2.8.0'
 # Show progress bars in scripts
-gem 'progress_bar'              , '~>1.0.0'
+gem 'progress_bar'              , '~>1.0.3'
 
 # For image handling
 gem 'paperclip'                 , '~>4.1.1'
@@ -77,12 +87,12 @@ gem 'paperclip'                 , '~>4.1.1'
 # gem 'squeel'                    , '~>1.1.1'
 
 # For having models acting like trees
-gem 'ancestry'                  , '~>2.0.0'
+gem 'ancestry'                  , '~>2.1.0'
 
 # Nice helper to use google maps
 gem 'gmaps4rails'               , '~>2.1.2'
 # Helper methods for geolocations
-gem 'geocoder'                  , '~>1.2.2'
+gem 'geocoder'                  , '~>1.2.4'
 # To have model serializers apart from models
 gem 'active_model_serializers'  , '~>0.8.1'
 
@@ -97,12 +107,12 @@ gem 'inherited_resources'       , '~>1.4.1'
 gem 'mailboxer'                 , '~> 0.12.1'
 
 # For authorizations
-gem 'cancancan'                 , '~>1.8.1'
+gem 'cancancan'                 , '~>1.9.2'
 # gem 'cancan'                    , '~>1.6.10'
 # For authentication
 gem 'devise'                    , '~>3.2.4'
 # For facebook connect or more
-gem 'omniauth-facebook'         , '~>1.6.0'
+gem 'omniauth-facebook'         , '~>2.0.0'
 gem 'omniauth'                  , '~>1.2.2'
 # A full-stack Facebook Graph API wrapper in Ruby.
 gem 'fb_graph'                  , '~>2.7.10'
@@ -128,11 +138,11 @@ gem 'paranoia'                  , '~>2.0'
 # Helps having a clean ruby sitemap
 gem 'sitemap_generator'         , '~>4.2.0'
 # Mailchimp API
-# gem 'gibbon'                    , '~>1.0.4'
+gem 'gibbon'                    , '~>1.1.3'
 
 # Transform external CSS stylesheets into inline CSS for emails
-gem 'roadie'                    , '~>3.0.0'
-gem 'roadie-rails'              , '~>1.0.2'
+gem 'roadie'                    , '~>3.0.1'
+gem 'roadie-rails'              , '~>1.0.3'
 
 # Includes bacbone.relational
 gem 'backbone-relational-rails' , '~>0.8.8'
@@ -142,11 +152,10 @@ gem 'handlebars_assets'         , '~>0.15', git: 'git://github.com/variousauthor
 gem 'draper'                    , '~>1.3.1'
 # allows sharing of handlebars templates
 gem 'sht_rails'
-gem 'sass-rails'                , '~>4.0.1'
+gem 'sass-rails'                , '~>4.0.3'
 gem 'haml'                      , '~>4.0.3'
 gem 'uglifier'                  , '>= 1.0.3'
-gem 'coffee-rails'              , '~>4.0.0'
-gem 'js-routes'                 , '~>0.9.7'
+gem 'js-routes'                 , '~>0.9.8'
 
 gem 'activesupport-json_encoder', '~> 1.1.0'
 
@@ -170,46 +179,65 @@ gem 'aws-sdk'                   , '~>1.36.1'
 # Roo implements read access for all spreadsheet, xls and more
 gem 'roo'                       , '~>1.13.2'
 
+# XLSX spreadsheet generation
+gem 'axlsx'                     , '~> 2.0.1'
+
 # Rack::UTF8Sanitizer is a Rack middleware which cleans up invalid UTF8 characters in request URI and headers.
 # https://github.com/whitequark/rack-utf8_sanitizer
 gem 'rack-utf8_sanitizer'       , '~> 1.1.0'
 
 # Use ckeditor for post body
-gem 'ckeditor'                  , '~> 4.1.0'
+gem 'ckeditor'                  , '~> 4.1.0'#, git: 'git://github.com/nim1989/ckeditor.git'
 
 group :production, :staging do
-  gem 'execjs'                  , '~>2.0.2'
-  gem 'rails_12factor'          , '~> 0.0.2'
+  gem 'execjs'                    , '~>2.0.2'
+  gem 'rails_12factor'            , '~> 0.0.3'
   # Sync assets to S3 and CloudFront
-  gem 'asset_sync'              , '~>1.0.0'
+  gem 'asset_sync'                , '~>1.0.0'
+  # Enable gzip compression on heroku, but don't compress images
+  # gem 'heroku_rails_deflate'      , '~>1.0.3'
+  # gem 'rack-zippy'
+  gem 'heroku-deflater'
+  gem 'sprockets-image_compressor', '~>0.3.0'
+  gem 'htmlcompressor'            , '~>0.1.2'
+  gem 'image_optim'               , '~>0.19.1'
+  gem 'image_optim_pack'          , '~>0.2.0.20141122'
+  gem 'paperclip-optimizer'       , '2.0.0.beta.2'
 end
 
 group :test do
-  gem 'factory_girl_rails'      , '~>4.3.0'
-  gem 'rspec-rails'             , '~>2.14.1'
-  gem 'rspec-instafail'         , '~>0.2.4'
-  gem 'faker'                   , '~>1.2.0'
-  gem 'simplecov'               , '~>0.7.1'
-  # gem 'sunspot_test'
-  gem 'database_cleaner'        , '~>1.2.0'
-  gem 'capybara'                , '~>2.2.1'
-  gem 'selenium-webdriver'      , '~>2.40.0'
+  gem 'rspec',              '~> 3.1.0'
+  gem 'factory_girl_rails', '~> 4.5.0'
+  gem 'rspec-core',         '~> 3.1.7'
+  gem 'rspec-rails',        '~> 3.1.0'
+  gem 'faker',              '~> 1.4.3'
+  gem 'simplecov',          '~> 0.9.1'
+  gem 'database_cleaner',   '~> 1.2.0'
+  gem 'capybara',           '~> 2.2.1'
+  gem 'rspec-instafail',    '~> 0.2.5'
 end
 
 group :development do
+  gem 'rails_best_practices', require: false
+  gem 'ruby-prof'
+  # Speed up slow Rails development mode
+  gem 'rails-dev-boost', :git => 'git://github.com/thedarkone/rails-dev-boost.git'
+  # Guard::Pow automatically manage Pow applications restart
+  gem 'guard-pow', require: false
   # Removes useless logging in dev.
   gem 'fontcustom'
   gem 'brakeman'                , '~>2.3.1'
-  gem 'rubocop'                 , '~>0.18.1'
+  gem 'rubocop'                 , '~>0.18.1', require: false
 
   # Removes useless logging in dev.
-  gem 'quiet_assets', '~>1.0.2'
+  gem 'quiet_assets', '~>1.0.3'
 
   # Show errors nicely
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'awesome_print'
   gem 'meta_request', '~>0.3.0'
+  gem 'pry-rails', require: false
 end
 
 group :development, :test do
@@ -217,10 +245,42 @@ group :development, :test do
   gem 'byebug'
   # Permits to travel in the past
   gem 'delorean'
-  gem 'dotenv-rails'
 end
+gem 'dotenv-rails'
 
-gem 'rmagick', '~>2.13.2', require: 'RMagick'
+gem 'rmagick', '~>2.13.3', require: 'RMagick'
 
 # Rails 4 upgrade
 gem 'actionpack-action_caching', '~>1.0.0'
+
+# Use mongoid for statistics
+gem 'mongoid'                  , '~>4.0.0'
+
+# ActiveRecord Caching
+gem 'identity_cache'           , '~> 0.2.2'
+gem 'cityhash'                 , '~> 0.8.1'
+
+# JS heavy pages pre-rendering
+gem 'prerender_rails'
+
+# Track envents starting in the App
+gem 'mixpanel-ruby'
+
+# Email reception
+gem 'griddler'         , '~> 1.1.0'
+gem 'griddler-mandrill', '~> 1.0.1'
+
+group :development do
+  # Must be loaded after mongo
+  gem 'bullet'                , '~>4.14.0'
+end
+
+# For Traceview in Heroku
+gem 'oboe-heroku', '~>0.9.16.1'
+
+# PDF generation for orders
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary', require: false
+
+# Contact importing
+gem 'omnicontacts', '~> 0.3.5'

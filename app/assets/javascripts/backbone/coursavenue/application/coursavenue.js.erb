@@ -1,0 +1,128 @@
+CoursAvenue = new Backbone.Marionette.Application({
+
+    FACEBOOK_SCOPE: 'public_profile,email,user_location,user_birthday,user_relationships,user_activities,user_friends',
+    PRO_FACEBOOK_SCOPE: 'public_profile,email,user_location,user_birthday,user_relationships,user_activities,user_friends,manage_pages',
+
+    slug: 'coursavenue',
+
+    isProduction: function isProduction () {
+        return this.env == 'production';
+    },
+
+    setCurrentAdmin: function setCurrentAdmin (admin_attributes) {
+        this.admin.set(admin_attributes);
+    },
+
+    currentAdmin: function currentAdmin () {
+        return this.admin;
+    },
+
+    setCurrentUser: function setCurrentUser (user_attributes) {
+        this.user.set(user_attributes);
+    },
+
+    currentUser: function currentUser () {
+        return this.user;
+    },
+
+    /*
+     * Try to login in user by showing the sign in/up popup
+     * options:
+     *     success: function - callback executed if user correctly signs in / up
+     *     dismiss: function - callback executed if user dismiss the modal
+     *
+     */
+    signIn: function signIn (options) {
+        new CoursAvenue.Views.SignInView(options);
+    },
+
+    /*
+     * Try to login in user by showing the sign in/up popup
+     * options:
+     *     success: function - callback executed if user correctly signs in / up
+     *     dismiss: function - callback executed if user dismiss the modal
+     *
+     */
+    signUp: function signUp (options) {
+        new CoursAvenue.Views.SignUpView(options);
+    },
+
+    loginWithFacebook: function loginWithFacebook (options) {
+        if (location.hostname.split('.')[0] == 'pro') { options.pro = options.pro || true }
+        var callback_params = (options.structureId ? { structure_id: options.structureId } : {})
+        FB.login(function(response) {
+            if (response.status === 'connected') {
+                $.ajax({
+                    url: (options.pro ? Routes.pro_auth_facebook_callback_path(callback_params) : Routes.auth_facebook_callback_path(callback_params)),
+                    type: 'GET',
+                    dataType: 'json',
+                    error: function error (response) {
+                        if (response.responseText && $.parseJSON(response.responseText) && $.parseJSON(response.responseText).redirect_url) {
+                            window.location = $.parseJSON(response.responseText).redirect_url;
+                        }
+                        if (options.error) { options.error(response); }
+                    },
+                    success: function success (response) {
+                        // If ID is not set, then the user did not connect
+                        if (!response.id) {
+                            if (options.error) {
+                                options.error(response);
+                            } else {
+                                GLOBAL.flash("Nous n'avons pas pu vous connecter. Assurez-vous d'être bien connecté à Facebook et réessayez.")
+                                $.magnificPopup.close();
+                            }
+                            return;
+                        }
+                        // Check if just signed up or not
+                        if (CoursAvenue.isProduction() && !options.pro && moment(response.created_at).isSame(Date.now(), 'hour')) {
+                            mixpanel.track("User registered", { info: 'Facebook' });
+                            ga('send', 'event', 'Action', 'User registered');
+                        }
+                        // Pixel to track registration convertion with Facebook
+                        if (window._fbq && !options.pro) { window._fbq.push(['track', '6016889463627', {}]); }
+                        if (options.pro) {
+                            this.setCurrentAdmin(response);
+                        } else {
+                            this.setCurrentUser(response);
+                        }
+                        if (options.success) {
+                            options.success(response);
+                        } else {
+                            $.magnificPopup.close();
+                        }
+                        if (response.redirect_url) {
+                            window.location = response.redirect_url;
+                        }
+                    }.bind(this)
+                });
+                // Logged into your app and Facebook.
+            } else if (response.status === 'not_authorized') {
+                options.error();
+                GLOBAL.flash('Nous ne pouvons vous authentifier')
+                // The person is logged into Facebook, but not your app.
+            } else {
+              // The person is not logged into Facebook, so we're not sure if
+              // they are logged into this app or not.
+            }
+        }.bind(this), { scope: (options.pro ? this.PRO_FACEBOOK_SCOPE : this.FACEBOOK_SCOPE) });
+    },
+});
+
+CoursAvenue.addRegions({
+    userNav: '#user-nav'
+});
+
+CoursAvenue.addInitializer(function(options){
+    this.user      = new CoursAvenue.Models.User();
+    this.admin     = new CoursAvenue.Models.Admin();
+    this.statistic = new CoursAvenue.Models.Statistic();
+    this.env       = '<%= Rails.env %>';
+});
+
+$(function() {
+    CoursAvenue.start({});
+    CoursAvenue.userNav.show(new CoursAvenue.Views.UserNavView({ model: CoursAvenue.currentUser() }));
+    $('body').on('click', '[data-behavior=facebook-login]', function(event) {
+        CoursAvenue.loginWithFacebook($(this).data());
+    });
+});

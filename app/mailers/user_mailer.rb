@@ -2,13 +2,19 @@
 class UserMailer < ActionMailer::Base
   include ::ActionMailerWithTextPart
   include Roadie::Rails::Automatic
+  include ::Concerns::FormMailer
 
   layout 'email'
 
-  helper :prices, :comments
+  helper :prices, :comments, :structures
 
   default from: "\"L'équipe CoursAvenue\" <contact@coursavenue.com>"
 
+  # Monday email to push the user to fill passions
+  def subscribed_to_newsletter(user)
+    @user    = user
+    mail to: @user.email, subject: "Votre inscription à la newsletter de CoursAvenue.com"
+  end
 
   ######################################################################
   # Email reminder                                                     #
@@ -30,7 +36,7 @@ class UserMailer < ActionMailer::Base
     @name    = name
     @email   = email
     @content = content
-    mail to: 'contact@coursavenue.com', subject: 'Suite de votre message sur CoursAvenue'
+    mail to: 'contact@coursavenue.com', subject: 'Suite de votre message sur CoursAvenue', reply_to: email
   end
 
   # Welcomes the user on the platforme
@@ -43,22 +49,62 @@ class UserMailer < ActionMailer::Base
   # When the user was invited before through a comment notification
   def congratulate_for_accepted_comment(comment)
     @comment   = comment
+    @user      = comment.user
     @structure = @comment.structure
-    mail to: @comment.email, subject: "Votre avis à propos de : #{@structure.name}"
+    mail to: @comment.email, subject: "Votre avis à propos de : #{@structure.name}", template_name: 'congratulate_for_comment'
   end
 
   # Inform the user that the comment has correctly been submitted
   def congratulate_for_comment(comment)
     @comment   = comment
+    @user      = comment.user
     @structure = @comment.structure
-    mail to: @comment.email, subject: "Votre avis à propos de : #{@structure.name}"
+    mail to: @comment.email, subject: "Votre avis à propos de : #{@structure.name}", template_name: 'congratulate_for_comment'
   end
 
   # Inform the user that the comment has been validated by the teacher
   def comment_has_been_validated(comment)
     @comment   = comment
+    @user      = comment.user
     @structure = @comment.structure
-    mail to: @comment.email, subject: "Votre avis à été validé !"
+    mail to: @comment.email, subject: "Votre avis est maintenant visible"
+  end
+
+  # Inform the user that the comment has been validated by the teacher
+  def comment_anniversary(comment)
+    @comment   = comment
+    @user      = comment.user
+    @structure = @comment.structure
+    mail to: @comment.email, subject: "Un an déjà... bon anniversaire !"
+  end
+
+  def suggest_other_structures(user, structure)
+    @user       = user
+    @structure  = structure
+    @subject    = structure.dominant_root_subject
+    @city       = structure.dominant_city
+    mail to: @user.email, subject: "Alternatives à #{structure.name}"
+  end
+
+  def emailing(emailing, to='contact@coursavenue.com')
+    @emailing = emailing
+    mail to: to, subject: '[Newsletter] Previsualisation'
+  end
+
+  def monthly_newsletter(user)
+    @user       = user
+    @city       = user.city || City.find('paris')
+    @dance_structures   = @user.around_structures_all_subjects(3, { nb_courses: 1, root_subject_id: 'danse', subject_id: 'danse', medias_count: 1 })
+    @dance_structures   = @dance_structures.sort_by{ |a| (a.premium? ? 0 : 1) }
+    @theatre_structures = @user.around_structures_all_subjects(3, { nb_courses: 1, root_subject_id: 'theatre-scene', subject_id: 'theatre-scene', medias_count: 1, without_ids: @dance_structures.map(&:id) })
+    @theatre_structures = @theatre_structures.sort_by{ |a| (a.premium? ? 0 : 1) }
+    @arts_structures    = @user.around_structures_all_subjects(3, { nb_courses: 1, root_subject_id: 'dessin-peinture-arts-plastiques', subject_id: 'dessin-peinture-arts-plastiques', medias_count: 1, without_ids: @dance_structures.map(&:id) + @theatre_structures.map(&:id) })
+    @arts_structures    = @arts_structures.sort_by{ |a| (a.premium? ? 0 : 1) }
+    @yoga_structures    = @user.around_structures_all_subjects(3, { nb_courses: 1, root_subject_id: 'yoga-bien-etre-sante', subject_id: 'yoga-bien-etre-sante', medias_count: 1, without_ids: @dance_structures.map(&:id) + @theatre_structures.map(&:id) + @arts_structures.map(&:id) })
+    @yoga_structures    = @yoga_structures.sort_by{ |a| (a.premium? ? 0 : 1) }
+    @other              = @user.around_structures_all_subjects(6, { nb_courses: 1, medias_count: 1, without_ids: @dance_structures.map(&:id) + @theatre_structures.map(&:id) + @yoga_structures.map(&:id) + @arts_structures.map(&:id) }, 2)
+    @other              = @other.sort_by{ |a| (a.premium? ? 0 : 1) }
+    mail to: @user.email, subject: "☀ Cette année, vivez passionnément à #{@city.name}", from: "\"L'équipe CoursAvenue\" <news@coursavenue.com>"
   end
 
   ######################################################################
@@ -74,6 +120,7 @@ class UserMailer < ActionMailer::Base
     @email      = comment_notification.user.email
     @user       = comment_notification.user
     @email_text = comment_notification.text
+    @comment    = @structure.comments.build
     mail to: @email, subject: get_comment_notification_subject(comment_notification), template_name: get_comment_notification_template(comment_notification)
   end
 
@@ -82,6 +129,7 @@ class UserMailer < ActionMailer::Base
     @structure = comment_notification.structure
     @email     = comment_notification.user.email
     @user      = comment_notification.user
+    @comment   = @structure.comments.build
     mail to: @email, subject: get_comment_notification_subject(comment_notification), template_name: get_comment_notification_template(comment_notification)
   end
 
@@ -90,6 +138,7 @@ class UserMailer < ActionMailer::Base
     @structure = comment_notification.structure
     @email     = comment_notification.user.email
     @user      = comment_notification.user
+    @comment   = @structure.comments.build
     mail to: @email, subject: get_comment_notification_subject(comment_notification), template_name: get_comment_notification_template(comment_notification)
   end
 
@@ -98,12 +147,26 @@ class UserMailer < ActionMailer::Base
     @structure = comment_notification.structure
     @email     = comment_notification.user.email
     @user      = comment_notification.user
+    @comment   = @structure.comments.build
     mail to: @email, subject: get_comment_notification_subject(comment_notification), template_name: get_comment_notification_template(comment_notification)
   end
 
   def five_days_to_come_for_jpo(user)
     @user = user
     mail to: @user.email, subject: "Plus que 4 jours avant les Portes Ouvertes : n’attendez pas pour vous inscrire"
+  end
+
+  # Send an email with a sponsorship link.
+  #
+  # @param user — The sponsor.
+  # @param sponsor_user — The email of the user sponsored.
+  # @param promo_code_url — The Sponsorship's promo code url
+  # @param text — The text of the email.
+  def sponsor_user(user, sponsored_email, promo_code_url, text)
+    @user           = user
+    @text           = text
+    @promo_code_url = promo_code_url
+    mail to: sponsored_email, subject: "#{@user.name} vous invite au Pass Découverte"
   end
 
   private

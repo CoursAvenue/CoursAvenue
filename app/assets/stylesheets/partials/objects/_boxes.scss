@@ -12,13 +12,12 @@
     }
 }
 
-.orange-box {
-    background-color: $orange;
-}
-
+.orange-box    { background-color: $orange; }
+.red-box       { background-color: $red; }
+.dark-blue-box { background-color: #515e78; }
+.green-box     { background-color: #27ae60; }
 .blue-box {
     color     : white;
-    border    : 1px solid darken($blue, 5%);
     background: $blue;
     a {
         &.btn {

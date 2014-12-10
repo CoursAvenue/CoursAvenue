@@ -18,13 +18,22 @@ class Pro::Admins::RegistrationsController < Devise::RegistrationsController
   end
 
   def create
-    @admin     = Admin.new params[:admin]
-    @structure = @admin.structure
+    @structure = Structure.find params[:admin][:structure_id]
+
+    @structure.delay.duplicate_structure
+
+    if @structure.admins.length == 0
+      @admin     = Admin.new params[:admin]
+    end
     respond_to do |format|
-      if @admin.save
+      if @structure.admins.length > 0
+        SuperAdminMailer.delay.someone_tried_to_take_control_of_existing_structure(@structure, params[:admin][:email])
+        format.html { redirect_to someone_already_took_control_pro_structure_path(@structure) }
+      elsif @admin.save
+        @structure.delay.index
         @admin.send_confirmation_instructions
-        AdminMailer.delay.new_admin_has_signed_up(@admin)
-        format.html { redirect_to waiting_for_activation_pro_admins_path, notice: 'Un email de confirmation vient de vous être envoyé' }
+        SuperAdminMailer.delay.new_admin_has_signed_up(@admin)
+        format.html { redirect_to waiting_for_activation_pro_admins_path(email: @admin.unconfirmed_email), notice: 'Un email de confirmation vient de vous être envoyé' }
       else
         format.html { render 'new' }
       end

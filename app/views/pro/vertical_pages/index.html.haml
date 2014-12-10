@@ -1,9 +1,10 @@
-= side_menu_currently_at 'vertical_pages'
+= side_menu_currently_at 'pages'
 
 .panel
-  .panel__header.soft.text--center
-    = link_to 'Nouvelle page', new_pro_vertical_page_path, class: 'btn btn--green btn--large'
+  = render partial: 'pro/shared/pages_tabs', locals: { current: 'vertical_pages' }
   .panel__body.soft
+    .soft.text--center
+      = link_to 'Nouvelle page', new_pro_vertical_page_path, class: 'btn btn--green btn--large'
     %table.table--data.table--striped#dataTable
       %thead
         %tr
@@ -16,32 +17,33 @@
           %th
       %tbody
         - @vertical_pages.order('checked DESC, name DESC').each do |vertical_page|
-          %tr
-            %td= vertical_page.name
-            %td= vertical_page.subject.name
-            %td
-              - if vertical_page.image.present?
-                %i.fa.fa-check.green
-            %td
-              - if vertical_page.content.present?
-                %i.fa.fa-check.green
-            %td.text--center
-              - if vertical_page.checked?
-                %i.fa.fa-check.green
-              - else
+          - cache [vertical_page, 'pro/vertical_page/index'] do
+            %tr
+              %td= vertical_page.name
+              %td= vertical_page.subject.try(:name)
+              %td
+                - if vertical_page.image.present?
+                  %i.fa.fa-check.green
+              %td
+                - if vertical_page.content.present?
+                  %i.fa.fa-check.green
+              %td.text--center
+                - if vertical_page.checked?
+                  %i.fa.fa-check.green
+                - else
+                  = simple_form_for [:pro, vertical_page] do |f|
+                    = f.input :checked, as: :hidden, input_html: { value: true }
+                    = f.submit 'Valider', class: 'btn btn--small btn--green', data: { disable_with: "Validation en cours"}
+
+              %td
                 = simple_form_for [:pro, vertical_page] do |f|
-                  = f.input :checked, as: :hidden, input_html: { value: true }
-                  = f.submit 'Valider', class: 'btn btn--small btn--green', data: { disable_with: "Validation en cours"}
+                  .flexbox
+                    = f.input :comments, label: false, wrapper_html: { class: 'flexbox__item v-middle' }, input_html: { class: 'one-whole', style: 'height: 35px; padding: 0; width: 100px;' }
+                    = f.submit 'OK', class: 'flexbox__item v-middle btn btn--small btn--green', data: { disable_with: "Validation en cours"}
 
-            %td
-              = simple_form_for [:pro, vertical_page] do |f|
-                .flexbox
-                  = f.input :comments, label: false, wrapper_html: { class: 'flexbox__item v-middle' }, input_html: { class: 'one-whole', style: 'height: 35px; padding: 0; width: 100px;' }
-                  = f.submit 'OK', class: 'flexbox__item v-middle btn btn--small btn--green', data: { disable_with: "Validation en cours"}
-
-            %td
-              = link_to 'Voir', vertical_page_url(vertical_page, subdomain: 'www')
-              \/
-              = link_to 'Éditer', edit_pro_vertical_page_path(vertical_page)
-              \/
-              = link_to 'Supprimer', pro_vertical_page_path(vertical_page), class: 'red', method: :destroy
+              %td
+                = link_to 'Voir', vertical_page_url(vertical_page.subject.try(:root) || 'danse', vertical_page, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+                \/
+                = link_to 'Éditer', edit_pro_vertical_page_path(vertical_page)
+                \/
+                = link_to 'Supprimer', pro_vertical_page_path(vertical_page), class: 'red', method: :delete

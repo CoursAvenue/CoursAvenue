@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-require 'spec_helper'
+require 'rails_helper'
 
 describe UserProfile do
 
@@ -10,13 +10,13 @@ describe UserProfile do
     it 'associates to existing user if exists' do
       user_profile = structure.user_profiles.build(email: user.email)
       user_profile.send(:associate_to_user_or_create)
-      user_profile.user.should eq user
+      expect(user_profile.user).to eq user
     end
 
     it 'creates user if does not exists' do
       user_profile = structure.user_profiles.build(email: 'does-not@exists.com')
       user_profile.send(:associate_to_user_or_create)
-      user_profile.user.persisted?.should be_true
+      expect(user_profile.user.persisted?).to be_truthy
     end
   end
 

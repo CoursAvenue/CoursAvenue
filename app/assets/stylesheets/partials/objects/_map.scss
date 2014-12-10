@@ -4,11 +4,12 @@
     width         : 100%;
     @include border-radius(2px);
     @include box-sizing(border-box);
+}
+.gm-style, .map_container {
     img {
        max-width: none;
     }
 }
-
 .google-map {
     width     : 100%;
     min-height: 20em;
@@ -55,59 +56,3 @@
     left            : 50%;
     margin-left     : -5px;
 }
-.map-paris .map-marker-image {
-    width : 30px;
-    height: 43px;
-    position: absolute;
-    a {
-        width      : 30px;
-        height     : 43px;
-        line-height: 29px;
-    }
-    span {
-        font-size: 11px;
-    }
-}
-
-.map-paris {
-    margin          : auto;
-    position        : relative;
-    max-width       : 485px;
-    max-height      : 408px;
-    display         : block;
-    @include media-query(palm) { margin: auto; }
-    @include media-query(lap)  { margin: auto; }
-    .map-marker {
-        position: absolute;
-    }
-}
-.map-paris-title {
-    position        : absolute;
-    top             : 30px;
-    left            : 8px;
-    padding         : 0.2em 0.5em;
-    background-color: $brand-color;
-    color           : white;
-    border          : 3px solid darken($brand-color, 10%);
-    border-left     : none;
-}
-.paris-1  { left: 50% ; top: 43% ; }
-.paris-2  { left: 50% ; top: 33% ; }
-.paris-3  { left: 62% ; top: 39% ; }
-.paris-4  { left: 62% ; top: 48% ; }
-.paris-5  { left: 52% ; top: 55% ; }
-.paris-6  { left: 45% ; top: 52% ; }
-.paris-7  { left: 35% ; top: 43% ; }
-.paris-8  { left: 34% ; top: 28% ; }
-.paris-9  { left: 48% ; top: 24% ; }
-.paris-10 { left: 60% ; top: 27% ; }
-.paris-11 { left: 71% ; top: 43% ; }
-.paris-12 { left: 76% ; top: 61% ; }
-.paris-13 { left: 58% ; top: 69% ; }
-.paris-14 { left: 42% ; top: 68% ; }
-.paris-15 { left: 28% ; top: 61% ; }
-.paris-16 { left: 16% ; top: 39% ; }
-.paris-17 { left: 32% ; top: 20% ; }
-.paris-18 { left: 53% ; top: 11% ; }
-.paris-19 { left: 73% ; top: 20% ; }
-.paris-20 { left: 82% ; top: 37% ; }

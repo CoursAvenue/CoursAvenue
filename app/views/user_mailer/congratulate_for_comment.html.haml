@@ -1,9 +1,20 @@
+- content_for :email_title do
+  Merci de nous avoir fait part de votre expérience. Votre avis vient d'être transmis à #{@structure.name}
+
 .p Bonjour #{@comment.author_name.titleize},
 
-.p
-  Merci de nous avoir fait part de votre expérience. Votre avis vient d'être transmis à #{@structure.name}. Une fois validé, il sera publié sur son profil public.
+- if @comment.accepted?
+  .p
+    Merci de nous avoir fait part de votre expérience. Votre avis vient d'être transmis à #{@structure.name}, vous pouvez dès à présent le visualiser sur son profil :
+  .p.action
+    = link_to "Voir mon avis", structure_url(@structure), class: 'btn btn--green'
+- else
+  .p
+    Merci de nous avoir fait part de votre expérience. Votre avis vient d'être transmis à #{@structure.name} : une fois validé et visible sur CoursAvenue, vous recevrez une notification par e-mail.
+  .p.action
+    = link_to "Voir le profil de #{@structure.name}", structure_url(@structure), class: 'btn btn--green'
 
-.p.action
-  = link_to "Voir le profil de #{@structure.name}", structure_url(@structure), class: 'btn btn--green'
 
 = render 'shared/mailers/footer'
+
+= render 'user_mailer/under_comment'

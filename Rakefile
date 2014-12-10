@@ -6,3 +6,7 @@ require 'sunspot/solr/tasks'
 require File.expand_path('../config/application', __FILE__)
 
 CoursAvenue::Application.load_tasks
+
+Rake::Task["assets:precompile"].enhance do
+  `# rm -rf public/assets`
+end

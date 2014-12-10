@@ -21,7 +21,7 @@ class User::Wizard < ActiveHash::Base
         name: 'wizard.zip_code',
         partial: 'users/wizards/zip_code',
         show_save: true,
-        completed?: lambda {|user| user.zip_code.present? }
+        completed?: lambda {|user| user.city.present? }
     }
   ]
 end

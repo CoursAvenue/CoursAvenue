@@ -1,22 +1,37 @@
+- form_class    = ''                   if form_class.nil?
+- lat           = '48.8592'            if lat.nil?
+- lng           = '2.3417'             if lng.nil?
+- city          = 'Paris'              if city.nil?
+- subject_slug  = ''                   if subject_slug.nil?
+- wrapper_class = 'header-search-bar'  if wrapper_class.nil?
 .home-page-search
-  = form_tag structures_path, method: :get, authenticity_token: false, data: { gather: true } do
-    .header-search-bar.relative.flexbox.rounded.very-soft
+  = form_tag root_search_page_without_subject_path('paris'), method: :get, authenticity_token: false, data: { behavior: 'coursavenue-search' }, class: form_class, id: 'home-page-form' do
+    .relative.flexbox.rounded.very-soft{ class: wrapper_class }
       .flexbox__item.v-middle.search-input-wrapper
-        %select.palm-one-whole.input--large.one-whole{ name: 'root_subject_id' }
-          %option{value: ''} Toutes disciplines
-          - cache ['home_page_dropdown', Subject.stars] do
-            - Subject.stars.each do |subject|
-              %option{value: subject.slug}= subject.name
-          %option{value: 'other'} Autres
+        .input-with-icon
+          %input.palm-one-whole.input--large.one-whole.soft-half--left{ size: 28, placeholder:'Que recherchez-vous ?', type: 'text', autocomplete: 'off', name: 'name', value: '' , data: { type: 'subjects', toggle: 'popover', content: '<div style="color: black">Entrez la discipline ou le profil recherché. Ex. : Hatha yoga, Paris Art school, etc.</div>', placement: 'top', html: 'true' } }
       .flexbox__item.v-middle.search-input-wrapper.very-soft.hard--ends.palm-hard
         .input-with-icon
-          %input.palm-one-whole.input--large#address-picker.one-whole.soft-half--left{ size: 25, placeholder:'Ville / CP / Adresse', type:'text', autocomplete: 'off', name:'address_name', value: 'Paris', data: { behavior:'address-picker', lng:'#address-lng',lat: '#address-lat', city: '#address-city' } }
+          %input.palm-one-whole.input--large.one-whole.soft-half--left{ size: 19, placeholder:'Ville', type:'text', autocomplete: 'off', name:'address_name', value: city, data: { type:'address', lng:'#address-lng',lat: '#address-lat', city: '#address-city' , address_name: '#address-name' } }
           %i.fa.fa-map-marker.delta
-        %input#address-lat{ type: 'hidden', value: '48.8592', name: 'lat' }
-        %input#address-lng{ type: 'hidden', value: '2.3417', name: 'lng' }
-        %input#address-city{ type: 'hidden', value: 'Paris', name: 'address_name' }
+        %input#address-lat{ type: 'hidden', value: lat, name: 'lat' }
+        %input#address-lng{ type: 'hidden', value: lng, name: 'lng' }
+        %input#address-name{ type: 'hidden', value: city, name: 'address_name' }
+        %input#address-city{ type: 'hidden', value: city, name: 'city' }
 
       .flexbox__item.v-middle.palm-text--center
         %button.nowrap.btn.btn--blue.btn--full.input--large{type: 'submit', id: 'submit_search_form'}
           %i.fa.fa-search
           Trouver
+
+- if Rails.env.production?
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          mixpanel.track_forms('#home-page-form', 'Searched on home page', function(form_element) {
+              return {
+                  referrer: document.referrer,
+                  keyword: $(form_element).find('[name=name]').val()
+              };
+          });
+      });

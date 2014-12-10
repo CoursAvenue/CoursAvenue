@@ -16,10 +16,6 @@
         - if @course.is_lesson?
           %br
           #{t(@course.frequency)}
-          - if @course.start_date
-            du #{l(@course.start_date)}
-          - if @course.end_date
-            au #{l(@course.end_date)}
       = link_to edit_pro_structure_course_path(@structure, @course), class: 'fancybox.ajax nowrap', data: { behavior: 'modal', width: '750', padding: '0', lock_overlay: true } do
         %i.fa.fa-pencil
         Modifier les informations générales
@@ -76,6 +72,7 @@
           .text--center= f.submit 'Enregistrer et revenir à mon planning', class: 'btn-as-link', data: { disable_with: 'Enregistrement en cours...' }
 
 :javascript
+    $('#planning_place_id').focus();
     if ($('[name="planning[audience_ids][]"]').length > 0) {
         $('[name="planning[audience_ids][]"]').change(function(event) {
             if (event.target.value == '1') {

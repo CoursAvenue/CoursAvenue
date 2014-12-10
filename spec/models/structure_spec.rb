@@ -1,96 +1,82 @@
 # -*- encoding : utf-8 -*-
-require 'spec_helper'
+require 'rails_helper'
 
 describe Structure do
   subject {structure}
   let(:structure) { FactoryGirl.create(:structure) }
 
   it {should be_valid}
-  it {structure.active.should be true}
+  it { expect(structure.active).to be true}
 
-  context :contact do
+  context 'contact' do
     it 'returns admin contact' do
       admin = FactoryGirl.create(:admin)
       admin.structure_id = structure.id
       structure.admins << admin
 
-      structure.contact_email.should == admin.email
-      structure.contact_name.should  == admin.name
-      structure.main_contact.should  == admin
+      expect(structure.contact_email).to eq(admin.email)
+      expect(structure.contact_name).to eq(admin.name)
+      expect(structure.main_contact).to eq(admin)
     end
   end
 
-  context :activate do
+  context 'activate' do
     it 'activates' do
       structure.active = false
       structure.activate!
-      structure.active.should be_true
+      expect(structure.active).to be true
     end
   end
 
-  context :disable do
+  context 'disable' do
     it 'disables' do
       FactoryGirl.create(:course, structure: structure)
       courses = structure.courses
       structure.active = true
       structure.disable!
-      structure.active.should be_false
-      courses.each{ |c| c.active.should be_false }
+      expect(structure.active).to be false
+      courses.each{ |c| expect(c.active).to be false }
     end
   end
 
-  context :destroy do
+  context 'destroy' do
     it 'destroys everything' do
       places = structure.places
       structure.destroy
-      structure.destroyed?.should be_true
-      places.each{ |p| p.destroyed?.should be_true }
+      expect(structure.destroyed?).to be true
+      places.each{ |p| expect(p.destroyed?).to be true }
     end
   end
 
-  context :address do
+  context 'address' do
     it 'includes street' do
-      structure.address.should include structure.street
+      expect(structure.address).to include(structure.street)
     end
     it 'includes city' do
-      structure.address.should include structure.city.name
+      expect(structure.address).to include(structure.city.name)
     end
   end
 
-  context :website do
-    it 'adds the http://' do
-      structure.website = 'coursavenue.com'
-      structure.save
-      structure.website.should eq 'http://coursavenue.com'
-    end
-
-    it 'does not add the http:// if it exists' do
-      structure.website = 'http://coursavenue.com'
-      structure.save
-      structure.website.should eq 'http://coursavenue.com'
-    end
-  end
-
-  context :comments do
+  context 'comments' do
     it 'retrieves course comments' do
       comment = structure.comments.create FactoryGirl.attributes_for(:comment_review)
-      structure.comments.should include comment
+      expect(structure.comments).to include(comment)
     end
   end
 
   it 'updates comments_count' do
     @structure = FactoryGirl.create(:structure)
     FactoryGirl.create(:accepted_comment, commentable_id: @structure.id, commentable_type: 'Structure')
-    @structure.reload.comments_count.should eq 1
+    expect(@structure.reload.comments_count).to eq(1)
     FactoryGirl.create(:accepted_comment, commentable_id: @structure.id, commentable_type: 'Structure')
-    @structure.reload.comments_count.should eq 2
+    expect(@structure.reload.comments_count).to eq(2)
     FactoryGirl.create(:accepted_comment, commentable_id: @structure.id, commentable_type: 'Structure')
-    @structure.reload.comments_count.should eq 3
+    expect(@structure.reload.comments_count).to eq 3
   end
 
-  context :tagging do
+  context 'tagging' do
 
-    describe :add_tags_on do
+    describe 'add_tags_on' do
       let(:structure) { FactoryGirl.create(:structure_with_user_profiles_with_tags) }
       let(:user_profile) { structure.user_profiles.first }
       let(:tags) { ['Master of the Arts', 'powerful', 'brazen', 'churlish'] }
@@ -99,16 +85,9 @@ describe Structure do
         pending("This test still behaves poorly, even though the same test works both online and in the console.")
         length = user_profile.tags.length
 
-        puts "before: #{user_profile.tags.inspect}"
-
         user_profile.reload
         structure.add_tags_on(user_profile, tags)
         user_profile.reload
-
-        puts "length: #{length}"
-        puts "tags  : #{tags}"
-        puts "got   : #{user_profile.tags.length}"
-        puts "after : #{user_profile.tags.inspect}"
 
         expect(user_profile.tags.length).to eq(length + tags.length)
       end
@@ -118,7 +97,7 @@ describe Structure do
 
     end
 
-    describe :create_tag do
+    describe 'create_tag' do
       let(:structure) { FactoryGirl.create(:structure) }
       it "creates a new tag" do
         length = structure.owned_tags.length
@@ -128,23 +107,8 @@ describe Structure do
     end
   end
 
-  describe '#create_user_profile_for_message' do
-    let(:structure) { FactoryGirl.create(:structure) }
-    let(:user)      { FactoryGirl.create(:user) }
-    before do
-      @user_profile_count = structure.user_profiles.count
-      structure.create_user_profile_for_message(user)
-    end
-    it "creates a user profile" do
-      expect(structure.user_profiles.length).to eq (@user_profile_count + 1)
-    end
-    it "affects tag to the user profile" do
-      expect(structure.user_profiles.last.tags.map(&:name)).to include UserProfile::DEFAULT_TAGS[:contacts]
-    end
-  end
-
-  context :funding_types do
-    context :getters do
+  context 'funding_types' do
+    context 'getters' do
       describe '#funding_types' do
         it 'returns FundingTypes' do
           structure.funding_types = [FundingType.first]
@@ -158,7 +122,7 @@ describe Structure do
         end
       end
     end
-    context :setters do
+    context 'setters' do
       describe '#funding_type_ids=' do
         it 'stores ids if given an array of ids' do
           structure.funding_type_ids = [1, 2]
@@ -187,57 +151,24 @@ describe Structure do
 
   describe '#profile_completed' do
     it 'has no logo' do
-      structure.stub(:profile_completed?) { false }
+      allow(structure).to receive_messages(:profile_completed? => false)
       structure.update_email_status
-      expect(structure.email_status).to eq 'no_logo_yet'
+      expect(structure.email_status).to eq 'incomplete_profile'
     end
 
-    context :logo_stubbed do
+    context 'logo_stubbed' do
       def stub_logo(structure)
-        structure.stub(:logo_file_name) { 'lala' }
-        structure.stub(:logo_content_type) { 'type/jpg' }
-        structure.stub(:logo_file_size) { 12412 }
-        structure.stub(:logo_updated_at) { Time.now }
+        allow(structure).to receive_messages(:logo_file_name => 'lala')
+        allow(structure).to receive_messages(:logo_content_type => 'type/jpg')
+        allow(structure).to receive_messages(:logo_file_size => 12412)
+        allow(structure).to receive_messages(:logo_updated_at => Time.now)
       end
 
       it 'is incomplete_profile' do
         stub_logo(structure)
-        structure.stub(:profile_completed?) { false }
+        allow(structure).to receive_messages(:profile_completed? => false)
         structure.update_email_status
         expect(structure.email_status).to eq 'incomplete_profile'
-      end
-
-      it 'is no_recommendations' do
-        stub_logo(structure)
-        structure.stub(:profile_completed?) { true }
-        structure.comments_count = 0
-        structure.update_email_status
-        expect(structure.email_status).to eq 'no_recommendations'
-      end
-
-      it 'is less_than_five_recommendations' do
-        stub_logo(structure)
-        structure.stub(:profile_completed?) { true }
-        structure.comments_count = 3
-        structure.update_email_status
-        expect(structure.email_status).to eq 'less_than_five_recommendations'
-      end
-
-      it 'is planning_outdated' do
-        stub_logo(structure)
-        structure.stub(:profile_completed?) { true }
-        structure.comments_count = 12
-        structure.update_email_status
-        expect(structure.email_status).to eq 'planning_outdated'
-      end
-
-      it 'is less_than_fifteen_recommendations' do
-        stub_logo(structure)
-        structure.stub(:profile_completed?) { true }
-        structure.comments_count = 12
-        structure.courses = [FactoryGirl.create(:course)]
-        structure.update_email_status
-        expect(structure.email_status).to eq 'less_than_fifteen_recommendations'
       end
     end
   end
@@ -245,7 +176,7 @@ describe Structure do
   describe '#highlighted_comment' do
     it 'returns highlighted_comment' do
       comment = structure.comments.create FactoryGirl.attributes_for(:comment_review)
-      subject.stub(:highlighted_comment_id) { comment.id }
+      allow(subject).to receive_messages(:highlighted_comment_id => comment.id)
       expect(subject.highlighted_comment_id).to be comment.id
     end
   end
@@ -266,23 +197,11 @@ describe Structure do
     end
   end
 
-  describe '#reset_cropping_attributes' do
-    it 'sets to 0 attributes' do
-      subject.crop_width = 1
-      subject.crop_x     = 1
-      subject.crop_y     = 1
-      subject.send :reset_cropping_attributes
-      expect(subject.crop_width).to eq 0
-      expect(subject.crop_x).to     eq 0
-      expect(subject.crop_y).to     eq 0
-    end
-  end
-
   context 'validations' do
     describe '#no_contacts_in_name' do
       it 'has errors on name' do
         subject.name = "www.test.com"
-        expect(subject.valid?).to be_false
+        expect(subject.valid?).to be(false)
         expect(subject.errors.messages).to include :name
       end
     end
@@ -305,21 +224,21 @@ describe Structure do
 
     describe '#reject_places' do
       it 'rejects it' do
-        expect(subject.send(:reject_places, { zip_code: '' })).to be_true
+        expect(subject.send(:reject_places, { zip_code: '' })).to be(true)
       end
 
       it 'does not rejects it' do
-        expect(subject.send(:reject_places, { zip_code: '75014' })).to be_false
+        expect(subject.send(:reject_places, { zip_code: '75014' })).to be(false)
       end
     end
 
     describe '#reject_phone_number' do
       it 'rejects it' do
-        expect(subject.send(:reject_phone_number, { number: '' })).to be_true
+        expect(subject.send(:reject_phone_number, { number: '' })).to be(true)
       end
 
       it 'does not rejects it' do
-        expect(subject.send(:reject_phone_number, { number: '04102401240' })).to be_false
+        expect(subject.send(:reject_phone_number, { number: '04102401240' })).to be(false)
       end
 
       it 'destroys it' do
@@ -329,4 +248,80 @@ describe Structure do
       end
     end
   end
+
+  context 'sleeping' do
+    describe 'duplicate_structure' do
+
+      let(:structure)            { FactoryGirl.create(:sleeping_structure) }
+
+      # We start the spec by reloading the spec so it is created at that moment
+      # and not when we access it for the first time in the assertion.
+      it 'creates a new structure' do
+        structure.reload
+
+        expect { structure.duplicate_structure }.to change { Structure.count }.by(1)
+      end
+
+      it "doesn't create two new structures" do
+        structure.duplicate_structure
+
+        expect { structure.duplicate_structure }.to_not change { Structure.count }
+      end
+
+      it 'associates the new structure with the current structure' do
+        sleeping_structure = structure.duplicate_structure
+
+        expect(sleeping_structure).to_not be_nil
+        expect(sleeping_structure.controled_structure).to eq structure
+      end
+
+      it 'makes the current structure inactive' do
+        structure.duplicate_structure
+
+        expect(structure.active).to be false
+      end
+
+      it 'makes the new structure active' do
+        structure.duplicate_structure
+
+        expect(structure.sleeping_structure.active).to be true
+      end
+    end
+
+    describe 'wake_up!' do
+      let(:structure)            { FactoryGirl.create(:sleeping_structure) }
+      let(:admin)                { FactoryGirl.create(:admin) }
+      let(:sleeping_structure)   { structure.duplicate_structure }
+
+      before(:each) do
+        admin.structure = structure
+        structure.admins << admin
+
+        admin.save
+        structure.save
+
+        sleeping_structure.reload
+      end
+
+      it 'wakes itself' do
+        structure.wake_up!
+
+        expect(structure.is_sleeping).to be false
+      end
+
+      it 'activates itself' do
+        structure.wake_up!
+
+        expect(structure.active).to be true
+      end
+
+      it 'destroys the sleeping structure' do
+        structure.wake_up!
+
+        structure.reload
+        expect(structure.sleeping_structure).to be nil
+      end
+    end
+  end
+
 end

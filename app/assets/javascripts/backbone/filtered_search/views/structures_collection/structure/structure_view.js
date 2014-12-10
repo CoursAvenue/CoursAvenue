@@ -8,10 +8,10 @@ FilteredSearch.module('Views.StructuresCollection.Structure', function(Module, A
             'data-type': 'structure-element'
         },
 
-        initialize: function(options) {
+        initialize: function initialize (options) {
+            _.bindAll(this, 'initializeAddToFavoriteLinks');
             this.$el.data('url', options.model.get('data_url'));
-            this.$el.data('query-url', options.model.get('query_url'));
-
+            this.model.on('user:signed:in', this.initializeAddToFavoriteLinks);
             /* the structure view needs to know how it is being filtered */
             if (options.search_term) {
                 this.search_term = options.search_term;
@@ -21,32 +21,57 @@ FilteredSearch.module('Views.StructuresCollection.Structure', function(Module, A
             this.getModuleForRelation = _.bind(this.getModuleForRelation, Module);
         },
 
-        onRender: function() {
+        onRender: function onRender () {
             this.highlight();
+            this.initializeAddToFavoriteLinks();
         },
 
-        onAccordeonOpen: function() {
-            this.highlight();
+        addOrRemoveFromFavorite: function addOrRemoveFromFavorite () {
+            if (CoursAvenue.currentUser().isLogged()) {
+                CoursAvenue.currentUser().addOrRemoveStructureFromFavorite(this.model.get('id'), { success: this.initializeAddToFavoriteLinks });
+            } else {
+                CoursAvenue.signUp({
+                    title: 'Enregistrez-vous pour ajouter à vos favoris',
+                    success: function success (response) {
+                        var current_user = CoursAvenue.currentUser();
+                        current_user.addOrRemoveStructureFromFavorite(this.model.get('id'),
+                                                                      { success: function() {
+                                                                                      $.magnificPopup.close();
+                                                                                      this.initializeAddToFavoriteLinks();
+                                                                                  }.bind(this)
+                                                                      });
+                    }.bind(this)
+                });
+            }
+            return false;
         },
 
-        /* TODO accordioncontrol is defined on the parent, so it feels
-        * dirty to have the click handled here. However, it seems that
-        * the child's events hash overrides the parent's hash by default */
+        initializeAddToFavoriteLinks: function initializeAddToFavoriteLinks () {
+            var $add_to_favorite_links = this.$('[data-behavior=add-to-favorite]');
+            if ( CoursAvenue.currentUser().isLogged() && CoursAvenue.currentUser().get('favorite_structure_ids').indexOf(this.model.get('id')) != -1 ) {
+                $add_to_favorite_links.find('i').removeClass('fa-heart-o').addClass('fa-heart')
+                $add_to_favorite_links.attr('title', $add_to_favorite_links.data('added-title')).tooltip('fixTitle');
+            } else {
+                $add_to_favorite_links.find('i').removeClass('fa-heart').addClass('fa-heart-o')
+                $add_to_favorite_links.attr('title', $add_to_favorite_links.data('not-added-title')).tooltip('fixTitle');
+            }
+        },
+
         events: {
-            'click':                                   'goToStructurePage',
-            'click [data-behavior=accordion-control]': 'accordionControl',
-            'mouseenter':                              'highlightStructure',
-            'mouseleave':                              'unhighlightStructure'
+            'click'                                  : 'goToStructurePage',
+            'click [data-behavior=add-to-favorite]'  : 'addOrRemoveFromFavorite',
+            'mouseenter'                             : 'highlightStructure',
+            'mouseleave'                             : 'unhighlightStructure'
         },
 
         /* return toJSON for the places relation */
-        placesToJSON: function () {
+        placesToJSON: function placesToJSON () {
             return this.model.getRelation('places').related.models.map(function (model) {
                 return _.extend(model.toJSON(), { cid: model.cid });
             });
         },
 
-        goToStructurePage: function(event) {
+        goToStructurePage: function goToStructurePage (event) {
             // Checking the parent prevent from clicking on an icon that is nested within a link element.
             if (event.target.nodeName !== 'A'
                 && $(event.target).parent('a').length === 0
@@ -62,21 +87,21 @@ FilteredSearch.module('Views.StructuresCollection.Structure', function(Module, A
         * TODO would it be nicer is this just returned the whole model's
         * json, including the places relation?
         * TODO: this todo is referenced in trello: https://trello.com/c/z8OddcYs */
-        highlightStructure: function (e) {
+        highlightStructure: function highlightStructure (e) {
             this.trigger('highlighted', this.placesToJSON());
         },
 
-        unhighlightStructure: function (e) {
+        unhighlightStructure: function unhighlightStructure (e) {
             this.trigger('unhighlighted', this.placesToJSON());
         },
 
-        highlight: function() {
+        highlight: function highlight () {
             if (this.search_term) {
                 this.$el.highlight(this.search_term);
             }
         },
 
-        serializeData: function () {
+        serializeData: function serializeData () {
             var data = this.model.toJSON();
             data.search_term = this.search_term;
 

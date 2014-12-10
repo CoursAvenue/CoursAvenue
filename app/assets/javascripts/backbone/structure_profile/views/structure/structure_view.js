@@ -7,48 +7,68 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         template: Module.templateDirname() + 'structure_view',
 
         ui: {
-            '$loader'           : '[data-loader]',
-            '$summary_container': '[data-summary-container]'
-        },
-
-        events: {
-            'breadcrumbs:clear'       : 'broadenSearch',
-            // 'filter:popstate'         : 'narrowSearch',
-            'filter:removed'          : 'removeSummary'
-        },
-
-        removeSummary: function () {
-            $('[data-type="filter-breadcrumbs"]').slideUp();
-            this.broadenSearch();
+            '$loader'           : '[data-loader]'
         },
 
         initialize: function initialize () {
-            _.bindAll(this, 'asyncLoadSection', 'hideLoader');
+            _.bindAll(this, 'addOrRemoveFromFavorite', 'initializeAddToFavoriteLinks');
 
-            this.summary_views = [];
+            // Initialize it here because the button is not on structure_view
+            $('body').on('click', '[data-behavior=add-to-favorite]', this.addOrRemoveFromFavorite);
+            this.initializeAddToFavoriteLinks();
+
             var $structure_profile_menu = $('#structure-profile-menu');
+            this.menu_scrolled_down = false;
             $(window).scroll(function() {
-                if ($(window).scrollTop() > 180 && parseInt($structure_profile_menu.css('top')) != 0 ) {
-                    $structure_profile_menu.stop(true, false).animate({ 'top': '0' });
+                if (!this.menu_scrolled_down && $(window).scrollTop() > 180 && parseInt($structure_profile_menu.css('top')) != 0 ) {
+                    $structure_profile_menu.animate({ 'top': '0' });
+                    this.menu_scrolled_down = true;
                 } else if ($(window).scrollTop() < 180 && parseInt($structure_profile_menu.css('top')) == 0 ) {
-                    $structure_profile_menu.stop(true, false).animate({ 'top': '-100px' });
+                    $structure_profile_menu.animate({ 'top': '-100px' });
+                    this.menu_scrolled_down = false;
                 }
-            });
+            }.bind(this));
             this.initializeContactLink();
         },
 
         initializeContactLink: function initializeContactLink () {
             $('body').on('click', '[data-behavior=show-contact-panel]', function() {
-                var message_form_view = new StructureProfile.Views.Messages.MessageFormView( { structure: this.model } ).render();
-                message_form_view.onAfterShow();
-                $.magnificPopup.open({
-                      items: {
-                          src: $(message_form_view.$el),
-                          type: 'inline'
-                      }
-                });
-                return false;
+                this.trigger('planning:register', {});
             }.bind(this));
+        },
+
+        addOrRemoveFromFavorite: function addOrRemoveFromFavorite () {
+            if (CoursAvenue.currentUser().isLogged()) {
+                CoursAvenue.currentUser().addOrRemoveStructureFromFavorite(this.model.get('id'), { success: this.initializeAddToFavoriteLinks });
+            } else {
+                CoursAvenue.signUp({
+                    title: 'Enregistrez-vous pour ajouter à vos favoris',
+                    success: function success (response) {
+                        CoursAvenue.currentUser().addOrRemoveStructureFromFavorite(this.model.get('id'), { success: this.initializeAddToFavoriteLinks });
+                        $.magnificPopup.close();
+                    }.bind(this)
+                });
+            }
+            return false;
+        },
+
+        initializeAddToFavoriteLinks: function initializeAddToFavoriteLinks () {
+            var $add_to_favorite_links = $('[data-behavior=add-to-favorite]');
+            if ( CoursAvenue.currentUser().isLogged() &&  CoursAvenue.currentUser().get('favorite_structure_ids').indexOf(this.model.get('id')) != -1 ) {
+                $add_to_favorite_links.each(function() {
+                    $this = $(this);
+                    $this.find('i').removeClass('fa-heart-o').addClass('fa-heart')
+                    $this.attr('title', $this.data('added-title')).tooltip('fixTitle');
+                    $this.find('span').text($this.data('added-text'));
+                });
+            } else {
+                $add_to_favorite_links.each(function() {
+                    $this = $(this);
+                    $this.attr('title', $this.data('not-added-title')).tooltip('fixTitle');
+                    $this.find('span').text($this.data('not-added-text'));
+                    $this.find('i').removeClass('fa-heart').addClass('fa-heart-o')
+                });
+            }
         },
 
         onAfterShow: function onAfterShow () {
@@ -56,82 +76,12 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         },
 
         onRender: function onRender () {
-            this.asyncLoadSection('courses');
-            this.asyncLoadSection('trainings');
-            this.asyncLoadSection('teachers');
+            this.renderRelation('courses');
+            this.renderRelation('trainings');
+            this.renderRelation('teachers');
         },
 
-        /* broadenSearch
-         * ----------------------
-         *
-         * without arguments, this function causes the model to fetch its
-         * courses and places with no params. If given an argument that has
-         * key/value pairs, params matching the values will be removed.
-         * So if an object like,
-         *
-         *   { behavior="tooltip", target="audience_ids", type="clear" }
-         *
-         * the params "tooltop", "audience_ids", and "clear" will be removed.
-         *
-         * TODO This is not very precise, though. What are all those extra k/v pairs?
-         *  */
-        broadenSearch: function broadenSearch (data) {
-            var params = this.model.get("query_params");
-
-            if (data === undefined) {
-                params = {};
-            } else {
-                _.each(data, function (value, key) {
-                    if (_.has(params, value)) {
-                        delete params[value];
-                    }
-                });
-            }
-
-            this.model.set("query_params", params);
-
-            this.updateModelWithRelation("courses");
-            this.updateModelWithRelation("trainings");
-            this.updateModelWithRelation("places");
-        },
-
-        /* narrowSearch
-         * ------------
-         *
-         * This function refetches the course and places relations with
-         * the full url query.
-         *  */
-        narrowSearch: function narrowSearch () {
-            // need to parse the search... blech
-            var params = CoursAvenue.Models.PaginatedCollection.prototype.makeOptionsFromSearch.call(this, window.location.search);
-
-            this.model.set("query_params", params);
-
-            this.updateModelWithRelation("courses").then(function () {
-                this.ui.$summary_container.slideDown();
-                _.invoke(this.summary_views, 'enableRemoveFilterButton');
-            }.bind(this));
-
-            this.updateModelWithRelation("trainings");
-            this.updateModelWithRelation("places");
-        },
-
-        /*
-         * Fetch associated relation passing it the query_params
-         */
-        updateModelWithRelation: function updateModelWithRelation (relation) {
-            var fetch = this.model.get(relation).fetch({ data: this.model.get("query_params") });
-
-            if (fetch !== undefined) {
-                fetch.then(function (response) {
-                    this.model.get(relation).trigger('fetch:done', response);
-                }.bind(this));
-            }
-
-            return fetch || new $.Deferred().reject();
-        },
-
-        asyncLoadSection: function asyncLoadSection (resource_name) {
+        renderRelation: function renderRelation (resource_name) {
             var ViewClass, view, model, fetch;
 
             ViewClass = this.findCollectionViewForResource(resource_name);
@@ -139,37 +89,11 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             // Only fetch when there is no data
             view = new ViewClass({
                 collection : this.model.get(resource_name),
-                data_url   : this.model.get("data_url"),
                 about      : this.model.get('about'),
                 about_genre: this.model.get('about_genre')
             });
 
-            // always fetch, since we don't know whether we have resource_name or just ids
-            this.showLoader(resource_name);
-            this.updateModelWithRelation(resource_name)
-                .then(function (collection) {
-                    var summary_view;
-                    if (resource_name === "courses") {
-                        summary_view = new StructureProfile.Views.Structure.Courses.CoursesSummaryView(view.serializeData());
-                        this.summary_views.push(summary_view);
-                        this.showWidget(summary_view, { events: { 'courses:collection:reset': 'rerender' }});
-                    } else if (resource_name === "trainings") {
-                        summary_view = new StructureProfile.Views.Structure.Trainings.TrainingsSummaryView(view.serializeData());
-                        this.summary_views.push(summary_view);
-                        this.showWidget(summary_view, { events: { 'trainings:collection:reset': 'rerender' }});
-                    }
-                    this.showWidget(view);
-                }.bind(this))
-                .always(function() { this.hideLoader(resource_name) }.bind(this));
-        },
-
-        showLoader: function showLoader (resources_name) {
-            $('#tab-' + resources_name).append(this.ui.$loader);
-            this.$('[data-' + resources_name + '-loader]').show();
-        },
-
-        hideLoader: function hideLoader (resources_name) {
-            this.$('[data-' + resources_name + '-loader]').hide();
+            this.showWidget(view);
         },
 
         /*

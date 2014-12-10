@@ -1,0 +1,26 @@
+= content_for :title do
+  Malheureusement, votre profil est déjà contrôlé par un autre utilisateur
+
+= content_for :above_container do
+  .bg-fixed.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background.jpg'})" }
+    .main-container.soft.text--center
+      %header
+        %h1.flush
+          Malheureusement, votre profil est déjà contrôlé
+          %br
+          par un autre utilisateur
+
+  .main-container.soft
+    .push--top.white-box.center-block{ style: 'max-width: 900px;' }
+      .panel__body.soft
+        %p.epsilon
+          Vous souhaitez prendre le contrôle du profil
+          %strong "#{@structure.name}"
+          ? Malheureusement, l'utilisateur
+          %strong "#{@structure.admins.first.email || @structure.admins.first.unconfirmed_email}"
+          l'a déjà fait avant vous. Si vous le connaissez, rapprochez-vous de lui pour gérer ensemble votre profil (nous n'autorisons qu'un seul administrateur).
+
+        %p.epsilon
+          S'il s'agit d'un utilisateur illégitime,
+          = link_to 'contactez-nous', pages_contact_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Contact'
+          pour nous le signaler. Nous lui refuserons alors la gestion du profil pour vous transférer tous les pouvoirs et vous permettre de le contrôler. D'une manière générale, nous vérifions manuellement l'identité de chaque utilisateur pour éviter toute fraude.

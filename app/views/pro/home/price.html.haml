@@ -1,91 +1,95 @@
 = content_for :title do
-  Optimisez votre visibilité, augmentez votre taux d'inscription et de fidélisation
+  Pro.CoursAvenue.com - Offres & Tarifs
 
-.home-screen-promotion-wrapper.soft--sides.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background.jpg'})", 'data-stellar-background-ratio' => '0.6' }
-  .main-container.main-container--medium
-    %header.grid
-      .grid__item.one-third.v-top.soft--top.text--right.soft--right.visuallyhidden--palm>
-        = image_tag 'pro/premium/testimonies/nicolas-bourseul.jpg', class: 'rounded--circle inline-block bordered border-color-gray', width: 150, height: 150
-      .grid__item.two-thirds.v-top.soft--top.soft--right.hard--left.palm-one-whole>
-        .soft--top.white.soft-black-text-shadow
-          %p.gamma.line-height-1-5.push-half--bottom
-            %strong.quoted<
-              Les 2 offres proposées sont en ligne avec mes besoins. Après avoir créé mon profil gratuit, j'ai ensuite basculé au Premium pour booster mes inscriptions.
-          %p.f-style-italic.f-weight-600
-            Nicolas, Professeur de qi gong et yoga taoïste chez Les Ventres Libres à Toulouse
-        .soft.push.flush--top.hard--top
-          %h1.flush
-            2 offres adaptées à vos besoins
-          .soft--right.f-weight-600
-            Le profil
-            %strong Basic
-            est gratuit et vous permet d'être visible sur CoursAvenue. Pour recruter encore plus d'élèves, passez au profil
-            %strong Premium
-            qui fonctionne par abonnement et qui vous donne accès à toutes les fonctionnalités.
+= content_for :meta_description do
+  Optimisez votre visibilité, augmentez votre taux d'inscription et de fidélisation. Trafic supplémentaire ciblé et rentabilité.
+
+- cache 'pro/pricing/V3' do
+  .bg-fixed.home-screen-promotion-wrapper.soft--sides.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background.jpg'})" }
+    .main-container.main-container--medium
+      %header.grid
+        .grid__item.one-third.v-top.soft--top.text--right.soft--right.visuallyhidden--palm>
+          = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/premium/testimonies/nicolas-bourseul.jpg', class: 'rounded--circle inline-block bordered border-color-gray', width: 150, height: 150
+        .grid__item.two-thirds.v-top.soft--top.soft--right.hard--left.palm-one-whole>
+          .soft--top.white.soft-black-text-shadow
+            %p.gamma.line-height-1-5.push-half--bottom
+              %strong.quoted<
+                Les 2 offres proposées sont en ligne avec mes besoins. Après avoir créé mon profil gratuit, j'ai ensuite basculé au Premium pour booster mes inscriptions.
+            %p.f-style-italic.f-weight-600
+              Nicolas, Professeur de qi gong et yoga taoïste chez Les Ventres Libres à Toulouse
+          .soft.push.flush--top.hard--top
+            %h1.flush
+              2 offres adaptées à vos besoins
+            .soft--right.f-weight-600
+              Le profil
+              %strong Basic
+              est gratuit et vous permet d'être visible sur CoursAvenue. Pour recruter encore plus d'élèves, passez au profil
+              %strong Premium
+              qui fonctionne par abonnement et qui vous donne accès à toutes les fonctionnalités.
 
 
-.main-container.main-container--medium.soft
-  %h2.text--center.f-weight-300 Nos 2 offres en quelques mots
-  .grid.text--center
-    .grid__item.one-half.palm-one-whole.soft--sides>
-      .push--sides
-        %div.push-half--bottom
-          %i.fa.fa-leaf.fa-3x.blue
-        %h3.flush.text--center.blue Basic
-        %h4.text--center.f-weight-300
-          Votre profil apparaît sur le moteur
-          %br
-          de recherche CoursAvenue
-    .grid__item.one-half.palm-one-whole.soft--sides>
-      .push--sides
-        %div.push-half--bottom
-          %i.fa.fa-star.yellow.fa-3x
-        %h3.flush.text--center.yellow Premium
-        %h4.text--center.f-weight-300 Votre profil complet bénéficie directement de nos campagnes de communication ciblées, votre trafic augmente et vous recrutez plus d'élèves
-  .grid.text--center
-    .grid__item.one-half.palm-one-whole.soft--sides>
-      %p
-        %i Gratuit et sans engagement
-    .grid__item.one-half.palm-one-whole.soft--sides>
-      %p
-        %i Abonnement annuel (39€ / mois) ou mensuel (44€ / mois)
-
-.home-screen-promotion-wrapper
   .main-container.main-container--medium.soft
-    %h2.text--center.f-weight-300 Comparatif détaillé
-    %div
-      = render 'pro/home/pricing_details_table'
+    %h2.text--center.f-weight-300 Nos 2 offres en quelques mots
+    .grid.text--center
+      .grid__item.one-half.palm-one-whole.soft--sides>
+        .push--sides
+          %div.push-half--bottom
+            %i.fa.fa-leaf.fa-3x.blue
+          %h3.flush.text--center.blue Basic
+          %h4.text--center.f-weight-300
+            Votre profil apparaît sur le moteur
+            %br
+            de recherche CoursAvenue
+      .grid__item.one-half.palm-one-whole.soft--sides>
+        .push--sides
+          %div.push-half--bottom
+            %i.fa.fa-star.yellow.fa-3x
+          %h3.flush.text--center.yellow Premium
+          %h4.text--center.f-weight-300 Votre profil complet bénéficie directement de nos campagnes de communication ciblées, votre trafic augmente et vous recrutez plus d'élèves
+    .grid.text--center
+      .grid__item.one-half.palm-one-whole.soft--sides>
+        %p
+          %i Gratuit et sans engagement
+      .grid__item.one-half.palm-one-whole.soft--sides>
+        %p
+          %i Abonnement annuel (36€ / mois) ou mensuel (44€ / mois)
 
-.main-container.main-container--medium.soft.push--bottom
-  = render 'pro/shared/premium_graph'
+  .home-screen-promotion-wrapper
+    .main-container.main-container--medium.soft
+      %h2.text--center.f-weight-300 Comparatif détaillé
+      %div
+        = render 'pro/home/pricing_details_table'
 
-= render 'pro/shared/premium_testimonies'
-
-.home-screen-promotion-wrapper
   .main-container.main-container--medium.soft.push--bottom
-    %h2.text--center.push--bottom.soft--ends.f-weight-300 Ils ont déjà souscrit au Premium
-    = render 'pro/shared/they_already_subscribed'
+    = render 'pro/shared/premium_graph'
 
-.main-container.main-container--medium.soft
-  %h2.text--center.f-weight-300.push--bottom
-    Détail du profil
-    %ul.nav.tabs--link.inline-block.flush
-      %li.active
-        %a{ href: '#basic-details', data: { toggle: 'tab' } } Basic
-      %span.gray= '|'
-      %li
-        %a{ href: '#premium-details', data: { toggle: 'tab' } } Premium
+  = render 'pro/shared/premium_testimonies'
 
-  .tab-content
-    .tab-pane#basic-details.active
-      = render partial: 'pro/shared/free_profile_advantages', locals: { show_all: false }
-    .tab-pane#premium-details
-      %h4.text--center.f-weight-300.flush
-        Avantages du profil
-        %strong Basic
-      %h4.text--center.f-weight-300.push--bottom
-        +
-      .main-container.main-container--medium
-        = render 'pro/shared/premium_advantages'
+  .home-screen-promotion-wrapper
+    .main-container.main-container--medium.soft.push--bottom
+      %h2.text--center.push--bottom.soft--ends.f-weight-300 Ils ont déjà souscrit au Premium
+      = render 'pro/shared/they_already_subscribed'
+
+  .main-container.main-container--medium.soft
+    %h2.text--center.f-weight-300.push--bottom
+      Détail du profil
+      %ul.nav.tabs--link.inline-block.flush
+        %li.active
+          %a{ href: '#basic-details', data: { toggle: 'tab' } } Basic
+        %span.gray= '|'
+        %li
+          %a{ href: '#premium-details', data: { toggle: 'tab' } } Premium
+
+    .tab-content
+      .tab-pane#basic-details.active
+        = render partial: 'pro/shared/free_profile_advantages', locals: { show_all: false }
+      .tab-pane#premium-details
+        %h4.text--center.f-weight-300.flush
+          Avantages du profil
+          %strong Basic
+        %h4.text--center.f-weight-300.push--bottom
+          +
+        .main-container.main-container--medium
+          = render 'pro/shared/premium_advantages'
 
 = render 'shared/live_chat'

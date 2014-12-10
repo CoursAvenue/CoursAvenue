@@ -1,13 +1,14 @@
-require "spec_helper"
+require "rails_helper"
 
 describe Pro::StructuresController do
+  include Devise::TestHelpers
   let(:admin) { FactoryGirl.create(:admin) }
 
   before do
     sign_in admin
   end
 
-  context :member do
+  context 'member' do
     describe "GET #update_widget_status" do
       it "redirects" do
         get :update_widget_status, id: admin.structure.slug
@@ -101,7 +102,7 @@ describe Pro::StructuresController do
     end
   end
 
-  context :collection do
+  context 'collection' do
     describe "GET #best" do
       it "'s a success" do
         get :best, format: :json

@@ -1,33 +1,137 @@
-= side_menu_currently_at 'dashboard'
+= side_menu_currently_at 'pro_dashboard'
 .panel
-  .panel__header.soft
-    %h3.flush Tableau de bord
+  = render partial: 'pro/shared/dashboard_tabs', locals: { current: 'dashboard' }
   .panel__body.soft
     .grid
       .grid__item.one-quarter.bordered--right>
         .soft-half.text--center
-          %h3.flush= "#{Admin.normal.count} profs"
-          %h6.flush dont #{Admin.where( Admin.arel_table[:created_at].gt(Date.today) ).count} aujourd'hui
-          %div et #{Admin.where( Admin.arel_table[:created_at].gt(Date.today - 7.days) ).count} les 7 derniers jours
+          %h3.flush= "#{number_with_delimiter Admin.normal.count} profs"
+          %h6.flush dont #{number_with_delimiter Admin.where( Admin.arel_table[:created_at].gt(Date.today) ).count} aujourd'hui
+          %div et #{number_with_delimiter Admin.where( Admin.arel_table[:created_at].gt(7.days.ago) ).count} les 7 derniers jours
       .grid__item.one-quarter.bordered--right>
         .soft-half.text--center
-          %h3.flush= "#{Comment::Review.count} avis"
-          %h6.flush dont #{Comment::Review.where( Comment::Review.arel_table[:created_at].gt(Date.today) ).count} aujourd'hui
-          %div et #{Comment::Review.where( Comment::Review.arel_table[:created_at].gt(Date.today - 7.days) ).count} les 7 derniers jours
+          %h3.flush= "#{number_with_delimiter Comment::Review.count} avis"
+          %h6.flush dont #{number_with_delimiter Comment::Review.where( Comment::Review.arel_table[:created_at].gt(Date.today) ).count} aujourd'hui
+          %div et #{number_with_delimiter Comment::Review.where( Comment::Review.arel_table[:created_at].gt(7.days.ago) ).count} les 7 derniers jours
       .grid__item.one-quarter.bordered--right>
         .soft-half.text--center
-          %h3.flush= "#{Mailboxer::Conversation.where( subject: I18n.t(Mailboxer::Label::INFORMATION.name) ).count} mess"
+          %h3.flush= "#{number_with_delimiter Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id])).count} mess"
           %h6.flush
             dont
-            = Mailboxer::Conversation.where( Mailboxer::Conversation.arel_table[:subject].eq(I18n.t(Mailboxer::Label::INFORMATION.name)).and(Mailboxer::Conversation.arel_table[:created_at].gt(Date.today)) ).count
+            = Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id]).and(Mailboxer::Conversation.arel_table[:created_at].gt(Date.today)) ).count
             aujourd'hui
-          %div et #{Mailboxer::Conversation.where( Mailboxer::Conversation.arel_table[:subject].eq(I18n.t(Mailboxer::Label::INFORMATION.name)).and(Mailboxer::Conversation.arel_table[:created_at].gt(Date.today - 7.days)) ).count} les 7 derniers jours
+          %div
+            et
+            = Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id]).and(Mailboxer::Conversation.arel_table[:created_at].gt(7.days.ago)) ).count
+            les 7 derniers jours
       .grid__item.one-quarter>
         .soft-half.text--center
-          %h3.flush= "#{CommentNotification.count} élèves"
-          %h6.flush dont #{CommentNotification.where( CommentNotification.arel_table[:created_at].gt(Date.today) ).count} aujourd'hui
-          %div et #{CommentNotification.where( CommentNotification.arel_table[:created_at].gt(Date.today - 7.days) ).count} les 7 derniers jours
+          %h3.flush= "#{number_with_delimiter User.active.count} élèves"
+          %h6.flush dont #{number_with_delimiter User.active.where( User.arel_table[:sign_up_at].gt(Date.today) ).count} aujourd'hui
+          %div et #{number_with_delimiter User.active.where( User.arel_table[:sign_up_at].gt(7.days.ago) ).count} les 7 derniers jours
+    .grid
+      .grid__item.center-block>
+        .soft-half.text--center
+          %h3.flush= "Base email exploitable : #{number_with_delimiter User.where(delivery_email_status: nil).count}"
+          %h6.flush dont #{number_with_delimiter User.where(User.arel_table[:created_at].gt(Date.today).and(User.arel_table[:delivery_email_status].eq(nil))).count} aujourd'hui
+          %div et #{number_with_delimiter User.where(User.arel_table[:created_at].gt(7.days.ago).and(User.arel_table[:delivery_email_status].eq(nil))).count} les 7 derniers jours
 
+
+  %hr.push--ends
+  %h3.text--center Cours d'essai
+  - cache ["pro/structures/trial_courses/#{Course.open_for_trial.count}"] do
+    .grid
+      .grid__item.one-third.text--center>
+        %h3.flush= Course.open_for_trial.group_by(&:structure_id).count
+        %h6 profs
+      .grid__item.one-third.text--center>
+        %h3.flush= Course.open_for_trial.count
+        %h6 cours
+      .grid__item.one-third.text--center>
+        %h3.flush= Course.open_for_trial.flat_map(&:plannings).count
+        %h6 créneaux
+    %h5.text--center Répartition / disciplines
+    - subjects_count = {}
+    - max_value = 1
+    - Subject.stars.each do |subject|
+      - structure_count = PlanningSearch.search(subject_id: subject.slug, is_open_for_trial: true).total
+      - subjects_count[subject.name] = structure_count
+      - max_value = structure_count if structure_count > max_value
+    .soft--sides
+      - subjects_count.each do |key, value|
+        .grid.push-half--bottom
+          .grid__item.one-quarter.text--right>= key
+          .grid__item.three-quarters>
+            .progress
+              .bar.text--left.soft--left{ style: "width: #{value * 100 / max_value}%"}= value
+    %h5.text--center # de cours d'essai offert
+    .grid
+      .grid__item.one-third.text--center>
+        - trial_courses_policy = Course.open_for_trial.map(&:structure).uniq.group_by(&:trial_courses_policy)
+        %h3.flush= trial_courses_policy['1_trial'].try(:count)
+        %h6 1 cours
+      .grid__item.one-third.text--center>
+        %h3.flush= trial_courses_policy['2_trials'].try(:count)
+        %h6 2 cours
+      .grid__item.one-third.text--center>
+        %h3.flush= trial_courses_policy['3_trials'].try(:count)
+        %h6 3 cours
+
+  -# - pass_9  = Email.where(Email.arel_table[:email_type].matches('pass-decouverte_9').and(Email.arel_table[:email].not_eq('')))
+  -# - pass_19 = Email.where(Email.arel_table[:email_type].matches('pass-decouverte_19').and(Email.arel_table[:email].not_eq('')))
+  -# - pass_29 = Email.where(Email.arel_table[:email_type].matches('pass-decouverte_29').and(Email.arel_table[:email].not_eq('')))
+  -# - pass_39 = Email.where(Email.arel_table[:email_type].matches('pass-decouverte_39').and(Email.arel_table[:email].not_eq('')))
+  -# %hr.push--ends
+  -#  %table.table--striped.table--data.text--center
+  -#    %thead
+  -#      %tr
+  -#        %th.text--center Prix
+  -#        %th.text--center Total
+  -#        %th.text--center Emails
+  -#        %th.text--center Emails
+  -#        %th.text--center Emails
+  -#        %th.text--center Emails
+  -#    %tbody
+  -#      - interested_in_discovery_pass_users = User.where("meta_data -> 'interested_in_discovery_pass' LIKE '%true%'")
+  -#      - interested_in_discovery_pass_users.sort_by(&:interested_at).group_by{|u| u.interested_at.to_date }.each do |date, users|
+  -#        %tr
+  -#          %td.text--center= l(date, format: :long)
+  -#          %td.text--center= users.count
+  -#          - users.group_by(&:test_name).each do |group_name, users|
+  -#            %td
+  -#              %strong= users.length
+  -#              - if group_name.present?
+  -#                %strong= "#{group_name} :"
+  -#              = users.map(&:email).join(', ')
+
+  -# %table.table--striped.table--data.text--center
+  -#   %thead
+  -#     %tr
+  -#       %th.text--center Prix
+  -#       %th.text--center Conversion
+  -#       %th.text--center Emails
+  -#   %tbody
+  -#     %tr
+  -#       %td.text--center 9€
+  -#       %td.text--center= pass_9.count
+  -#       %td.text--center= pass_9.map(&:email).join('; ')
+  -#     %tr
+  -#       %td.text--center 19€
+  -#       %td.text--center= pass_19.count
+  -#       %td.text--center= pass_19.map(&:email).join('; ')
+  -#     %tr
+  -#       %td.text--center 29€
+  -#       %td.text--center= pass_29.count
+  -#       %td.text--center= pass_29.map(&:email).join('; ')
+  -#     %tr
+  -#       %td.text--center 39€
+  -#       %td.text--center= pass_39.count
+  -#       %td.text--center= pass_39.map(&:email).join('; ')
+
+  %hr.push--ends
+  .soft--sides
+    .text--center
+      #messages-months
   %hr.push--ends
   .soft--sides
     %h3
@@ -46,149 +150,88 @@
       .gamma
         = Admin.normal.count
         profs
-      #admins2
 
-  %hr.push--ends
-  .soft--sides
-    %h3
-      %i.fa.fa-map-marker
-      Professeurs enregistrés / Avis laissés - progression / semaine (non cumulé)
-    .text--center
-      #comments-admins-progression-weekly
+  - if params[:more].present?
+    %hr.push--ends
+    .soft--sides
+      %h3
+        %i.fa.fa-envelope-o
+        Demande d'infos
+      .text--center
+        .gamma
+          = Mailboxer::Conversation.where( subject: I18n.t(Mailboxer::Label::INFORMATION.name) ).count
+          Messages
+        #messages
 
-  %hr.push--ends
-  .soft--sides
-    %h3
-      %i.fa.fa-map-marker
-      Professeurs enregistrés / Avis laissés - progression (cumulé)
-    .text--center
-      .gamma
-        = Admin.normal.count
-        profs
-        \/
-        = Comment::Review.count
-        avis
-      #admins-progression
+    %hr.push--ends
+    .soft--sides
+      %h3
+        %i.fa.fa-group
+        Élèves notifiés pour avis
+      .text--center
+        .gamma
+          = User.count
+          élèves
+        #students
 
-  %hr.push--ends
-  .soft--sides
-    %h3
-      %i.fa.fa-group
-      Élèves notifiés pour avis
-    .text--center
-      .gamma
-        = User.count
-        élèves
-      #students
+    %hr.push--ends
+    .soft--sides
+      %h3
+        %i.fa.fa-youtube-play
+        Photos & Vidéos
+      .text--center
+        .gamma
+          = Media::Video.count
+          Vidéos /
+          = Media::Image.count
+          Photos
+        #medias
 
-  - if params[:with_subjects]
-    %h3
-      %i.fa.fa-map-marker
-      Nombre d'établissements par disciplines (dont le prof est enregistré)
-    .text--center
-      #subjects
-  - else
-    %p.text--center= link_to 'Voir la répartition par discipline',  pro_dashboard_path(with_subjects: true), class: 'btn btn--blue'
+  .text--center
+    = link_to 'Voir plus de stat', pro_dashboard_path(more: true), class: 'btn btn--blue push-half--sides'
+    = link_to 'Mots clés', pro_keywords_path, class: 'btn btn--blue push-half--sides'
+    = link_to 'Mots clés tapé par les utilisateurs', pro_search_term_logs_path, class: 'btn btn--blue push-half--sides'
 
-  %hr.push--ends
-  .soft--sides
-    %h3
-      %i.fa.fa-youtube-play
-      Demande d'infos
-    .text--center
-      .gamma
-        = Mailboxer::Conversation.where( subject: I18n.t(Mailboxer::Label::INFORMATION.name) ).count
-        Messages
-      #messages
-
-  %hr.push--ends
-  .soft--sides
-    %h3
-      %i.fa.fa-youtube-play
-      Photos & Vidéos
-    .text--center
-      .gamma
-        = Media::Video.count
-        Vidéos /
-        = Media::Image.count
-        Photos
-      #medias
-
-  %hr.push--ends
-  .soft--sides
-    %h3
-      %i.fa.fa-list
-      Cours en ligne
-    .text--center
-      .gamma
-        = Course.active.count
-        cours en ligne
-      #courses
-
-  %hr.push--ends
-  .soft--sides
-    %h3
-      %i.fa.fa-map-marker
-      Lieux d'enseignement
-    .text--center
-      .gamma
-        = Place.count
-        Lieux
-
-  %hr.push--ends
-  .soft--sides
-    %h3
-      %i.fa.fa-map-time
-      Heures de création de profil
-    .text--center
-      #admins-hours
-
-  %hr.push--ends
-  .soft--sides
-    %h3
-      %i.fa.fa-map-time
-      Heures de dépot d'avis
-    .text--center
-      #comments-hours
-    .text--center= link_to 'Mots clés', pro_keywords_path, class: 'btn btn--blue'
-    .text--center= link_to 'Mots clés tapé par les utilisateurs', pro_search_term_logs_path, class: 'btn btn--blue'
+= content_for :scripts do
+  = javascript_include_tag 'libs/highcharts/highcharts'
+  = javascript_include_tag 'libs/highcharts/modules/exporting'
+- if params[:more].present?
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          new Highcharts.Chart({
+              chart: { renderTo: 'students', type: 'column' },
+              title: { text: null },
+              xAxis: { categories: #{@students.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
+              yAxis: { title: { text: ''}},
+              series: [{ data: #{@students.map{|date, count| (count > 10000 ? 100 : count)}} }]
+          });
+          new Highcharts.Chart({
+              chart: { renderTo: 'medias', type: 'column' },
+              title: { text: null },
+              xAxis: { categories: #{@medias_dates.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
+              yAxis: { title: { text: ''}},
+              series: [
+                { data: #{@videos.sort.map{|date, count| count}},
+                  name: 'Vidéos'
+                 },
+                { data: #{@images.sort.map{|date, count| (count > 1200 ? 10 : count)}},
+                  name: 'Photos'
+                }
+              ]
+          });
+          new Highcharts.Chart({
+              chart: { renderTo: 'messages', type: 'column' },
+              title: { text: null },
+              xAxis: { categories: #{@messages.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
+              yAxis: { title: { text: ''}},
+              series: [{ data: #{@messages.map{|date, count| count}} }]
+          });
+      });
 
 = content_for :scripts do
   :javascript
     $(function() {
-        new Highcharts.Chart({
-            chart: { renderTo: 'admins-hours', type: 'column' },
-            title: { text: null },
-            xAxis: { categories: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"] },
-            yAxis: { title: { text: ''}},
-            series: [
-              { data: #{@admins_by_hour.map{|key, value| value}},
-                name: 'Profs inscrits'
-               }
-            ]
-        });
-        new Highcharts.Chart({
-            chart: { renderTo: 'comments-hours', type: 'column' },
-            title: { text: null },
-            xAxis: { categories: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"] },
-            yAxis: { title: { text: ''}},
-            series: [
-              { data: #{@comments_by_hour.map{|key, value| value}},
-                name: 'Profs inscrits'
-               }
-            ]
-        });
-        new Highcharts.Chart({
-            chart: { renderTo: 'admins2', type: 'column' },
-            title: { text: null },
-            xAxis: { categories: ['0', '1-4', '5-10', '+ de 10'] },
-            yAxis: { title: { text: ''}},
-            series: [
-              { data: #{@admins2.map{|count| count}},
-                name: 'Profs inscrits'
-               }
-            ]
-        });
         new Highcharts.Chart({
             chart: { renderTo: 'admins', type: 'column' },
             title: { text: null },
@@ -203,80 +246,49 @@
               }
             ]
         });
+
         new Highcharts.Chart({
-            chart: { renderTo: 'comments-admins-progression-weekly', type: 'column' },
-            title: { text: null },
-            xAxis: { categories: #{@admins_weekly.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
-            yAxis: { title: { text: ''}},
-            series: [
-              { data: #{@admins_weekly.map{|date, count| count}},
-                name: 'Profs inscrits'
-               },
-              { data: #{@comments_weekly.map{|date, count| count}},
-                name: 'Avis'
+            chart: { renderTo: 'messages-months', type: 'column' },
+            title: { text: "Actions / mois" },
+            xAxis: { categories: #{@messages_per_months.map{|date, count| date}} },
+            yAxis: {
+              title: { text: ''},
+              stackLabels: {
+                  enabled: true,
+                  style: {
+                      fontWeight: 'bold',
+                      color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                  }
               }
-            ]
-        });
-        new Highcharts.Chart({
-            chart: { renderTo: 'admins-progression'},
-            title: { text: null },
-            xAxis: { categories: #{@admins_progression.map{|date, count| l((date), format: :short)}} },
-            yAxis: { title: { text: ''}},
+            },
+            plotOptions: {
+                column: {
+                    stacking: 'normal',
+                    dataLabels: {
+                        enabled: true,
+                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                        style: {
+                            textShadow: '0 0 3px black, 0 0 3px black'
+                        }
+                    }
+                }
+            },
+            legend: {
+                align: 'right',
+                x: -70,
+                verticalAlign: 'top',
+                y: 20,
+                floating: true,
+                backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+                borderColor: '#CCC',
+                borderWidth: 1,
+                shadow: false
+            },
             series: [
-              { data: #{@admins_progression.map{|date, count| count}},
-                name: 'Profs inscrits'
-               },
-              { data: #{@comments_progression.map{|date, count| count}},
-                name: 'Avis'
-              }
+              { name: "Site web", data: #{@actions_website_per_months.map{|date, count| count}} },
+              { name: "Telephone", data: #{@actions_phone_per_months.map{|date, count| count}} },
+              { name: "Demande d'infos", data: #{@messages_per_months.map{|date, count| count}} }
             ]
-        });
-        new Highcharts.Chart({
-            chart: { renderTo: 'students', type: 'column' },
-            title: { text: null },
-            xAxis: { categories: #{@students.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
-            yAxis: { title: { text: ''}},
-            series: [{ data: #{@students.map{|date, count| (count > 10000 ? 100 : count)}} }]
-        });
-        new Highcharts.Chart({
-            chart: { renderTo: 'messages', type: 'column' },
-            title: { text: null },
-            xAxis: { categories: #{@messages.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
-            yAxis: { title: { text: ''}},
-            series: [{ data: #{@messages.map{|date, count| count}} }]
-        });
-        new Highcharts.Chart({
-            chart: { renderTo: 'medias', type: 'column' },
-            title: { text: null },
-            xAxis: { categories: #{@medias_dates.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
-            yAxis: { title: { text: ''}},
-            series: [
-              { data: #{@videos.sort.map{|date, count| count}},
-                name: 'Vidéos'
-               },
-              { data: #{@images.sort.map{|date, count| (count > 1200 ? 10 : count)}},
-                name: 'Photos'
-              }
-            ]
-        });
-        new Highcharts.Chart({
-            chart: { renderTo: 'courses', type: 'column' },
-            title: { text: null },
-            xAxis: { categories: #{@courses.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
-            yAxis: { title: { text: ''}},
-            series: [{ data: #{@courses.map{|date, count| count}} }]
         });
     });
 
-- if params[:with_subjects].present?
-  = content_for :scripts do
-    :javascript
-      $(function() {
-        new Highcharts.Chart({
-            chart: { renderTo: 'subjects', type: 'column' },
-            title: { text: null },
-            xAxis: { categories: #{@structures.map{|subject_name, count| subject_name}} },
-            yAxis: { title: { text: ''}},
-            series: [{ data: #{@structures.map{|subject_name, count| count}} }]
-        });
-    });

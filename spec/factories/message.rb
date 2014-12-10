@@ -6,15 +6,11 @@ FactoryGirl.define do
     type       'Message'
     body       'Test'
     subject    'RE: Recommendation de ton cours'
-    # sender     user
-    # conversation_id: 1
+    sender     { FactoryGirl.create(:user) }
   end
 
-  # factory :conversation, class: Mailboxer::Conversation do
-  #   type       'Message'
-  #   body       'Test'
-  #   subject    'RE: Recommendation de ton cours'
-  #   # sender     user
-  #   # conversation_id: 1
-  # end
+  factory :conversation, class: Mailboxer::Conversation do
+    subject             'Objet'
+    mailboxer_label_id  1
+  end
 end

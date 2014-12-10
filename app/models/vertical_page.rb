@@ -2,12 +2,12 @@
 class VerticalPage < ActiveRecord::Base
   extend FriendlyId
 
-  friendly_id :name, use: [:slugged, :finders]
+  friendly_id :name, use: [:slugged, :finders, :history]
 
   ######################################################################
   # Relations                                                          #
   ######################################################################
-  belongs_to :subject
+  belongs_to :subject, touch: true
   has_many :medias, as: :mediable
 
   attr_accessible :name, :caption, :title, :content, :keywords, :subject_id, :image, :medias_attributes, :sidebar_title,
@@ -18,8 +18,27 @@ class VerticalPage < ActiveRecord::Base
                                  allow_destroy: true
 
   has_attached_file :image,
-                    :styles => { thumb: '250x200#', large: '1600x500#' }
+                    styles: { thumb: '250x200#', large: '1600x500#' },
+                    convert_options: { thumb: '-interlace Plane', large: '-interlace Plane' },
+                    processors: [:thumbnail, :paperclip_optimizer]
+
   validates_attachment_content_type :image, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
+
+
+  # Return reviews related to the vertical page.
+  # @param limit=4 Integer number of review wanted
+  #
+  # @return array of Comment::Review
+  def reviews(limit=4)
+    reviews = []
+    slugs = [subject.slug] + subject.ancestors.map(&:slug).reverse
+    slugs.each do |slug|
+      reviews += CommentSearch.search(per_page: limit, has_title: true, subject_slug: slug).results
+
+      break if reviews.length >= limit
+    end
+    reviews[0..(limit - 1)]
+  end
 
   private
 
@@ -29,6 +48,5 @@ class VerticalPage < ActiveRecord::Base
     attributes.merge!({:_destroy => 1}) if exists and empty
     return (!exists and empty)
   end
-
 
 end

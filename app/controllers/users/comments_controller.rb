@@ -11,12 +11,12 @@ class Users::CommentsController < ApplicationController
 
   def edit
     @user    = User.find params[:user_id]
-    @comment = @user.comments.find(params[:id])
+    @comment = Comment::Review.find(params[:id])
   end
 
   def update
     @user    = User.find params[:user_id]
-    @comment = @user.comments.find(params[:id])
+    @comment = Comment::Review.find(params[:id])
     respond_to do |format|
       if @comment.pending?
         @comment.update_attributes params[:comment]

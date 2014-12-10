@@ -1,4 +1,4 @@
-= user_menu_currently_at 'Mes infos'
+= user_menu_currently_at 'infos'
 
 .panel
   = render partial: 'tabs', locals: { current: 'profile' }
@@ -8,22 +8,21 @@
     = simple_form_for @user do |f|
       .grid
         .grid__item.one-third>
-          .input{data: { behavior: 'image-input' } }
+          .input{ data: { behavior: 'image-input' } }
             - if @user.has_avatar?
               .text--center
                 .media-photo
-                  = image_tag @user.avatar_url(:thumb), class: 'block'
+                  = image_tag @user.avatar_url(:normal), class: 'block'
                 %br
-                %a.btn.btn--blue.btn--small{data: { trigger: true }} Changer ma photo
-                = f.input :avatar, label: false, wrapper_html: {style: 'position:absolute; left:-1000px;'},input_html: {id: 'avatar-input'}
+                %a.btn.btn--blue.btn--small{ data: { trigger: true } } Changer ma photo
+                = f.input :avatar, label: false, wrapper_html: { style: 'position:absolute; left:-1000px;' },input_html: { id: 'avatar-input' }
             - else
               .input.text--center
-                = link_to 'javascript:void(0)', style: 'width: 170px; height: 170px; background-color: #555; padding-top: 55px; color: white; display: block;', id: 'avatar-placeholder', data: { trigger: true } do
+                = link_to '#', style: 'width: 200px; height: 200px; background-color: #555555; padding-top: 60px;', class: 'block white delta line-height-1-7 v-middle', id: 'avatar-placeholder', data: { trigger: true } do
                   Ajouter
                   %br
                   ma photo
-
-                %img{style: 'max-height: 5em; max-width: 15em;'}
+                %img.hidden{ style: 'max-height: 200px; max-width: 200px;', height: 200, width: 200 }
               = f.input :avatar, wrapper_html: {class: 'visuallyhidden'}
         .grid__item.two-thirds>
           = f.input :first_name, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
@@ -39,10 +38,11 @@
           = f.input :gender, as: :select, collection: [['Femme', 'female'], ['Homme', 'male']], input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
           = f.input :birthdate, start_year: (Date.today.year - 1), end_year: 1900, include_blank: true, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
           = f.input :email, disabled: true, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+          %p.field-form-info.blue Cet e-mail vous sert également d'identifiant pour accéder à votre compte CoursAvenue
           = f.input :phone_number, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
           .input.flush--top.city-autocomplete-wrapper<
-            = f.label :zip_code, label: Location.human_attribute_name(:zip_code), class: 'label--large'
-            = f.input :zip_code, placeholder: 'Ex. : 75008', input_html: { class: 'input--large', data: { behavior: 'city-autocomplete', el: '#user_city_id'} }, label: false, wrapper_html: { class: 'flush' }
+            = f.label :zip_code, label: Place.human_attribute_name(:zip_code), class: 'label--large'
+            = f.input :zip_code, placeholder: 'Ex. : 75008', input_html: { class: 'input--large one-whole', data: { behavior: 'city-autocomplete', el: '#user_city_id'} }, label: false, wrapper_html: { class: 'flush soft-half--right', style: 'width: 10em;' }
             = f.input :city_id, collection: [@user.city], label: false, selected: @user.city, wrapper_html: { class: 'flush--top' }, input_html: { class: 'input--large' }
           = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
 

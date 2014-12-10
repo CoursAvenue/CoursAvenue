@@ -1,15 +1,28 @@
+
 StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marionette, $, _, undefined) {
 
     Module.MessageFormView = Marionette.CompositeView.extend({
         template: Module.templateDirname() + 'message_form_view',
         message_failed_to_send_template: Module.templateDirname() + 'message_failed_to_send',
-        className: 'panel center-block',
+        className: 'panel center-block push--bottom',
 
         initialize: function initialize (options) {
             this.structure = options.structure;
             this.model = new StructureProfile.Models.Message();
             this.$el.css('max-width', '400px');
+            Backbone.Validation.bind(this);
             _.bindAll(this, 'showPopupMessageDidntSend');
+        },
+
+        onRender: function onRender () {
+            // Not having panel class for sleeping structures
+            if (this.structure.get('is_sleeping')){
+                this.$el.removeClass('panel');
+                if (this.structure.get('phone_numbers').length == 0) {
+                    this.$el.removeClass('push--bottom');
+                }
+            }
+            setTimeout(GLOBAL.chosen_initializer, 5)
         },
 
         events: {
@@ -21,11 +34,14 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
             this.$('.phone_number').slideToggle();
         },
 
+        /*
+         * Set attributes on message model for validations
+         */
         populateMessage: function populateMessage (event) {
             this.model.set({
                 structure_id  : this.structure.get('id'),
                 extra_info_ids: _.map(this.$('[name="extra_info_ids[]"]:checked'), function(input) { return input.value }),
-                course_ids    : _.map(this.$('[name="course_ids[]"]:checked'), function(input) { return input.value }),
+                course_ids    : this.$('[name="course_ids[]"]').val(),
                 body          : this.$('[name=body]').val(),
                 user: {
                     first_name  : this.$('[name="user[first_name]"]').val(),
@@ -41,7 +57,7 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
          */
         submitForm: function submitForm () {
             this.populateMessage();
-            if (this.model.valid()) {
+            if (this.model.isValid(true)) {
                 if (CoursAvenue.currentUser().isLogged()) {
                     this.$('form').trigger('ajax:beforeSend.rails');
                     this.saveMessage();
@@ -57,28 +73,29 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
                     });
                 }
             } else {
-                this.showErrors();
+                this.errors = this.model.validate();
+                if (this.errors['user.phone_number']) {
+                    this.errors.user = { phone_number: this.errors['user.phone_number'] }
+                }
+                this.render();
             }
             return false;
-        },
-
-        /*
-         * TODO, user backbone validation
-         */
-        showErrors: function showErrors () {
-            this.$('.input_field_error').remove();
-            _.each(this.model.get('errors'), function(error, name) {
-                var error = $('<div>').addClass('input_field_error red text--right one-whole').text(error)
-                this.$('[name="' + name + '"]').closest('.input').append(error);
-            });
         },
 
         /*
          * Save message model. Will make a POST request to save the message.
          */
         saveMessage: function saveMessage () {
+            // Save sent message to cookie to reuse it on another page.
+            $.cookie('last_sent_message', JSON.stringify(this.model.toJSON()));
+            this.$('.input_field_error').remove();
             this.model.sync({
                 success: function success (response) {
+                    if (CoursAvenue.isProduction()) {
+                        window._fbq.push(['track', '6016785958627', { 'value':'0.00','currency':'EUR' }]);
+                        ga('send', 'event', 'Action', 'message');
+                        goog_report_conversion();
+                    }
                     this.$('form').trigger('ajax:complete.rails');
                     $.magnificPopup.open({
                           items: {
@@ -91,25 +108,25 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
             });
         },
 
-        showPopupMessageDidntSend: function showPopupMessageDidntSend () {
+        showPopupMessageDidntSend: function showPopupMessageDidntSend (xhr) {
+              this.$('form').trigger('ajax:beforeSend.rails');
+              var response = JSON.parse(xhr.responseText);
               $.magnificPopup.open({
                     items: {
-                        src: $(),
+                        src: $(response.popup_to_show),
                         type: 'inline'
                     }
               });
         },
 
-        onAfterShow: function onAfterShow () {
-            GLOBAL.chosen_initializer();
-            this.$('[data-toggle=popover]').popover();
-        },
-
         serializeData: function serializeData () {
-            return {
+            var data = this.model.toJSON();
+            if (this.errors) { _.extend(data, { errors: this.errors }); }
+            _.extend(data, {
                 structure: this.structure.toJSON(),
                 prefilled_body: "Bonjour,\n\nJe souhaiterais venir pour une première séance. Pouvez-vous m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt"
-            }
+            });
+            return data;
         }
     });
 

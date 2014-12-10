@@ -4,7 +4,7 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
     Module.StructuresCollection = CoursAvenue.Models.PaginatedCollection.extend({
         model: CoursAvenue.Models.Structure,
 
-        paginator_ui: {
+        state: {
             firstPage:   1,
             perPage:     18,
             totalPages:  0,
@@ -16,12 +16,15 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
          * number of pages and the grandTotal, for display purposes
          * also, we need to grab the location.search and parse it, so
          * that our searches are configured correctly */
-        initialize: function (models, options) {
+        initialize: function initialize (models, options) {
             var self = this;
             // define the server API based on the load-time URI
-            this.server_api = this.makeOptionsFromSearch(window.location.search);
-            this.currentPage = this.server_api.page || 1; // we always start from page 1
-            this.server_api.page = function () { return self.currentPage; };
+            this.queryParams = this.makeOptionsFromSearch(window.location.search);
+            if (options.queryParams) {
+                _.extend(this.queryParams, options.queryParams);
+            }
+            this.state.currentPage = this.queryParams.page || 1; // we always start from page 1
+            //this.queryParams.page = function () { return self.currentPage; };
 
             // TODO: Check this
             /* we need to reset the collection on 'sync', rather than in the
@@ -37,56 +40,57 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
                 }
             });
 
-            // now write back the server_api so that the search bar is up to date
-            // we are passing this.server_api for fun! ^o^ why not?
+            // now write back the queryParams so that the search bar is up to date
+            // we are passing this.queryParams for fun! ^o^ why not?
             if (window.history.pushState) { window.history.pushState({}, "Recherche", this.getQuery()); }
-
-            this.paginator_ui.currentPage = this.server_api.page();
 
             if (options) {
                 /* if we receive a pair from the bootstrap */
                 if (options.latlng) {
-                    this.server_api.lat = options.latlng[0];
-                    this.server_api.lng = options.latlng[1];
+                    this.queryParams.lat = options.latlng[0];
+                    this.queryParams.lng = options.latlng[1];
                 }
 
                 /* TODO the results total seems to be out of sync with what we actually
                  * receive, so for now we will just do this: */
-                this.paginator_ui.grandTotal  = (models.length === 0) ? 0 : options.total;
-                this.paginator_ui.totalPages  = Math.ceil(this.paginator_ui.grandTotal / this.paginator_ui.perPage);
+                this.state.grandTotal  = (models.length === 0) ? 0 : options.total;
+                this.state.totalPages  = Math.ceil(this.state.grandTotal / this.state.perPage);
             }
 
             // this.url.basename             = window.location.origin;
             // window.location.origin returns "http://www.coursavenue.dev/"
-            this.url.basename             = window.location.protocol + '//' + window.location.host
+            // this.url.basename             = window.location.protocol + '//' + window.location.host
             // window.location.protocol returns "http:"
             // window.location.host returns "www.coursavenue.dev/"
         },
 
-        url: {
-            resource: '/' + App.resource,
-            data_type: '.json'
+        // url: {
+        //     resource: '/' + App.resource,
+        //     data_type: '.json'
+        // },
+        url: function url () {
+            return Routes.structures_path();
         },
 
-        parse: function(response) {
+        parse: function parse (response) {
             // we did some kind of request, I guess we should update the query
             if (window.history.pushState) { window.history.pushState({}, document.title, this.getQuery()); }
 
             this.grandTotal = response.meta.total;
-            this.totalPages = Math.ceil(response.meta.total / this.paginator_ui.perPage);
+            this.totalPages = Math.ceil(response.meta.total / this.state.perPage);
 
             return response.structures;
         },
 
 
-        /* return an object with lat, lng, and a bounding box parsed from server_api */
+        /* return an object with lat, lng, and a bounding box parsed from queryParams */
         /* the outside world must never know that we store the bounds as CSV... */
-        getLatLngBounds: function () {
+        getLatLngBounds: function getLatLngBounds () {
             var sw_latlng, ne_latlng;
 
-            if (this.server_api.bbox_sw && this.server_api.bbox_ne) {
-                sw_latlng = this.server_api.bbox_sw;
-                ne_latlng = this.server_api.bbox_ne;
+            if (this.queryParams.bbox_sw && this.queryParams.bbox_ne) {
+                sw_latlng = this.queryParams.bbox_sw;
+                ne_latlng = this.queryParams.bbox_ne;
 
                 sw_latlng = {
                     lat: parseFloat(sw_latlng[0]),
@@ -101,8 +105,8 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
 
             /* yup, everything is nice objects over here! */
             return {
-                lat: this.server_api.lat,
-                lng: this.server_api.lng,
+                lat: this.queryParams.lat,
+                lng: this.queryParams.lng,
                 bbox: {
                     sw: sw_latlng,
                     ne: ne_latlng

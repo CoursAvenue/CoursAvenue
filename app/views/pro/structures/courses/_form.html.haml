@@ -41,12 +41,6 @@
 
         - if @course.is_lesson?
           .soft--sides
-            .input.input-daterange.input-group{ data: { behavior: 'datepicker' } }>
-              %label.label--large.control-label{ for: 'course_start_date' } Date du premier et dernier cours
-              = f.input :start_date, as: :string, label: false, input_html: { style: 'margin-right: 5px', class: 'datepicker-input input--large', value: (@course.start_date.present? ? l(@course.start_date) : l(Date.parse('15/09/2014'))) }
-              .soft--ends.inline-block -&nbsp;
-              - next_june = Date.parse("28 June #{Date.today.year + 1}")
-              = f.input :end_date, as: :string, label: false, input_html: { class: 'datepicker-input input--large', value: (@course.end_date.present? ? l(@course.end_date) : l(next_june)) }
             = f.input :frequency, as: :select, collection: Course::COURSE_FREQUENCIES, label_method: lambda {|course_frequency| t(course_frequency)}, default: Course::COURSE_FREQUENCIES.first, label: t('.frequency'), label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
             .input.flush
               %label.control-label.label--large> Infos
@@ -100,7 +94,8 @@
             = f.input :on_appointment, as: :select, collection: [["Cours particuliers selon des créneaux précis", false], ["Pas de créneau précis, uniquement sur demande", true]], label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, label: 'Disponibilités', include_blank: false
 
 
-            = f.input :level_ids, as: :check_boxes, collection: Level.all, label_method: lambda {|level| t(level.name)}, label: t('planning.levels'), wrapper_html: { data: { behavior: 'checkbox-list' } }, label_html: { class: 'label--large v-middle' }, input_html: { class: 'input--large' }
+            .nowrap
+              = f.input :level_ids, as: :check_boxes, collection: Level.all, label_method: lambda {|level| t(level.name)}, label: t('planning.levels'), wrapper_html: { data: { behavior: 'checkbox-list' } }, label_html: { class: 'label--large v-middle' }, input_html: { class: 'input--large' }
 
             = f.input :audience_ids, as: :check_boxes, collection: Audience.all, label_method: lambda {|audience| t(audience.name)}, label: t('planning.audiences'), input_html: { class: 'input--large' }, label_html: { class: 'label--large v-middle' }
 
@@ -146,6 +141,11 @@
       }
       $('#course_place_id').change(function() {
           $('#course_place_id_checkbox')[0].checked = (this.value != '');
+      });
+      $('#course_place_id_checkbox').change(function() {
+          if (this.checked == false) {
+              $('#course_place_id').val('');
+          }
       });
       $('#course_on_appointment').change(function() {
           if (this.value == 'true') {

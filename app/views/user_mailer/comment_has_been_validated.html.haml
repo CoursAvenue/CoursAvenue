@@ -1,9 +1,14 @@
-.p Bonjour #{@comment.author_name.titleize},
+- content_for :email_title do
+  Félicitations ! Votre avis est maintenant visible
+
+.title Bonjour #{@comment.author_name},
 
 .p
-  #{@structure.name} vient de valider votre avis !
+  Nous avons le plaisir de vous annoncer que #{@structure.name} vous a reconnu comme l'un de ses élèves et que par conséquent, votre avis vient d'être validé. Vous pouvez dès à présent le visualiser sur son profil :
 
 .p.action
   = link_to "Voir mon avis", structure_url(@structure), class: 'btn btn--green'
 
 = render 'shared/mailers/footer'
+
+= render 'user_mailer/under_comment'

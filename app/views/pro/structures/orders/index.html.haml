@@ -4,6 +4,8 @@
   .panel__header.soft
     %h3.flush Historique des factures
   .panel__body.soft
+    .text--center.push--bottom
+      = link_to 'Modifier le destinataire de facturation', edit_order_recipient_pro_structure_path(@structure), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: 500 }
     %table.table--striped.epsilon
       %thead
         %tr
@@ -14,11 +16,15 @@
           %th # Facture
           %th
       %tbody
-        - @orders.each do |order|
+        - @orders.order('created_at ASC').each do |order|
           %tr
             %td Premium
             %td= l(order.created_at, format: :date_short)
-            %td Carte bancaire
-            %td= "#{('%.2f' % order.amount).gsub('.', ',')}€"
+            %td
+              - if order.subscription_plan.payed_through_paypal?
+                Paypal
+              - else
+                Carte bancaire
+            %td= number_to_currency(order.amount)
             %td= order.public_order_id
             %td= link_to 'Afficher', pro_structure_order_path(@structure, order)

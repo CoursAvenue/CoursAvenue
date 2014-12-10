@@ -5,7 +5,7 @@
   .panel__body.soft--ends
     .soft--sides{ data: { behavior: 'wizard-helper', content: t('user_profile.wizard.infos')} }
       .push-half--bottom.premium-box.soft.relative.text--center
-        = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 70, width: 70, style: 'width: 70px; height: 70px;'
+        = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/premium-ribbon.png', class: 'north west absolute on-under-top', height: 70, width: 70, style: 'width: 70px; height: 70px;'
         = render partial: 'pro/structures/premium_select', locals: { title: "accéder aux coordonnées de tous les élèves CoursAvenue ?", label_text: 'Affichage des coordonnées des élèves :', select_collection: ['Actif', 'Non actif'] }
 
     .text--center.island{ :data => { :type => "user-management-loader" }}

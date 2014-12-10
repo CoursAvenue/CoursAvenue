@@ -104,6 +104,7 @@ fr:
       date_short: "%d/%m/%Y"
       date_short_en: "%Y-%m-%d"
       iso_date: "%Y-%m-%d"
+      iso_date_8601: "%Y-%m-%dT%H:%MZ"
       js: "%Y/%m/%d %H:%M:%S"
     am: 'am'
     pm: 'pm'
@@ -174,7 +175,7 @@ fr:
       strip_insignificant_zeros: false
     currency:
       format:
-        format: "%n %u"
+        format: "%n%u"
         unit: "€"
         separator: ","
         delimiter: " "
@@ -306,3 +307,5 @@ fr:
       multi_page: "Résultat : %{from} à %{to} sur %{count} cours"
   female: Femme
   male: Homme
+  TrueClass: "Oui"
+  FalseClass: "Non"

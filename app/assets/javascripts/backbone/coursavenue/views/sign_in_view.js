@@ -4,10 +4,22 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         template: Module.templateDirname() + 'sign_in_view',
         className: 'panel center-block',
 
+        options: {
+            show_admin_form      : false,
+            width                : 280,
+            width_with_admin_form: 560
+        },
+
         initialize: function initialize (options) {
             this.model = CoursAvenue.currentUser();
-            this.options = options;
-            this.$el.css('width', '280px');
+            _.extend(this.options, options || {});
+            this.options.success = this.options.success || $.magnificPopup.close;
+            this.options.success = _.wrap(this.options.success, function(func) {
+                CoursAvenue.trigger('user:signed:in');
+                func();
+            });
+
+            this.$el.css('width', this.popupWidth() + 'px');
             $.magnificPopup.open({
                   items: {
                       src: this.$el,
@@ -17,19 +29,34 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this.render();
         },
 
+        popupWidth: function popupWidth () {
+            return (this.options.show_admin_form ? this.options.width_with_admin_form : this.options.width);
+        },
+
         events: {
             'click [data-behavior=sign-up]'       : 'signUp',
-            'click [data-behavior=facebook-login]': 'loginWithFacebook',
-            'submit form'                         : 'signIn'
+            'submit form[data-behavior=user-form]': 'signIn',
+            'click @ui.$facebook_login_button'    : 'loginWithFacebook'
         },
 
+        ui: {
+            '$facebook_login_button'  : '[data-behavior=login-with-facebook]',
+            '$data_loader'            : '[data-loader]'
+        },
+
+        /*
+         * We have to keep this action in this model to ensure to pass this.options attributes
+         */
         loginWithFacebook: function loginWithFacebook () {
-            CoursAvenue.loginWithFacebook({
-                success: this.options.success,
-                dismiss: this.options.dismiss
-            });
+            CoursAvenue.loginWithFacebook(this.options);
         },
 
+
+        onRender: function onRender () {
+            if (this.options.show_admin_form) {
+                this.$('[name=authenticity_token]').val($('meta[name="csrf-token"]').attr('content'));
+            }
+        },
         signUp: function signUp () {
             new Module.SignUpView(this.options);
             return false;
@@ -38,6 +65,9 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         signIn: function signIn () {
             this.$('form').trigger('ajax:beforeSend.rails');
             $.ajax({
+                beforeSend: function beforeSend (xhr) {
+                    xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
+                },
                 url: Routes.user_session_path(),
                 type: 'POST',
                 dataType: 'json',
@@ -57,14 +87,17 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 success: function success (response) {
                     CoursAvenue.setCurrentUser(response);
                     this.$('[data-type=errors]').slideUp();
-                    if (this.options.success) { this.options.success(); }
+                    this.options.success();
                 }.bind(this)
             });
             return false;
         },
 
         serializeData: function serializeData () {
-            return _.extend(this.options, this.model.toJSON());
+            var params = { forget_password_path: Routes.new_user_password_path() }
+            _.extend(params, this.options);
+            _.extend(params, this.model.toJSON());
+            return params;
         }
     });
 });

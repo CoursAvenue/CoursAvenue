@@ -5,6 +5,12 @@
     text-decoration:none;
 }
 
+.btn.btn--enormous {
+  font-size  : 30px;
+  padding    : 0.6em 2.5em;
+  line-height: 1;
+}
+
 .btn.btn--large {
   font-size  : 20px;
   padding    : 0.6em 2.5em;
@@ -17,13 +23,6 @@
 
 .btn.btn--small {
     padding: 0.5em;
-}
-
-/* TODO this should go in a file for user_management styles */
-.additional-actions {
-  position    : absolute;
-  right       : 0px;
-  z-index     : -1; // TODO this should be a variable
 }
 
 .btn.btn--plus {
@@ -40,7 +39,7 @@
     @include border-radius($brand-round);
     border          : 1px solid #DEDEDE;
     background-color: #fefefe;
-    color           : #555;
+    color           : #555555;
     @include text-shadow(0 1px 0 white);
     &[type=submit] {
         font-weight: 400;
@@ -55,13 +54,13 @@
 
 .btn.disabled, .btn:disabled, .btn[disabled]{
     background-color: #F3F3F3;
-    color           : #888;
+    color           : #888888;
     cursor          : default;
 }
 
 .btn--gray {
     text-transform  : uppercase;
-    color           : #555;
+    color           : #555555;
     border-color    : #D5D5D5;
     background-color: #f2f2f2;
     &:active, &:hover {
@@ -140,7 +139,7 @@
     border          : none;
     color           : white;
     @include text-shadow(-1px -1px 1px darken($blue-green, 10%));
-    &:hover, &:active {
+    &:hover, &:active, &.active {
         background-color: lighten($blue-green, 5%);
     }
     &.disabled, &[disabled] {
@@ -178,7 +177,6 @@
     text-transform  : uppercase;
     @include text-shadow(-1px -1px 0 darken($facebook-blue, 10%));
     color           : white;
-    padding         : 1em;
     vertical-align  : middle;
     display         : inline-block;
     &:before {
@@ -218,8 +216,16 @@
     }
 }
 
+.btn--facebook.btn--bigger {
+    padding: 0 0.5em;
+    &:before {
+        font-size: 40px;
+    }
+}
+
 .btn--twitter {
     @extend .btn--social;
+    padding         : 0.4em;
     border-color    : darken($twitter-blue, 3%);
     background-color: $twitter-blue;
     &:hover {
@@ -244,24 +250,27 @@
     .btn--blue {
         color: white;
     }
+        .active a {
+            color  : white;
+        }
         a {
             color  : black;
             display: inline-block;
         }
-    .btn.btn--active, .btn.active {
+    .btn.btn--active, .btn.active, .active .btn {
         background-color: $blue-green;
         border          : 1px solid $blue-green;
-        color           : white;
+        color           : white !important;
         @include text-shadow(none);
         & + .btn.active {
             border-left: none;
         }
     }
 
-    .btn:first-child {
+    .btn:first-child, .btn:first-of-type {
         @include border-left-radius($brand-round);
     }
-    .btn:last-child {
+    .btn:last-child, .btn:last-of-type {
         @include border-right-radius($brand-round);
     }
     input {

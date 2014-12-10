@@ -1,0 +1,43 @@
+= side_menu_currently_at 'pro_trial_courses'
+.panel
+  = render partial: 'pro/shared/discovery_passes_tabs', locals: { current: "participation_requests_#{params[:state]}" }
+  .panel__body.soft
+    %h3 Répartition par région
+    .push--bottom
+      - pr_counts = {}
+      - max_value = 0
+      - ParticipationRequest.all.group_by{ |pr| (pr.place || pr.structure.places.first).city.region_name }.each do |region_name, prs|
+        - pr_counts[region_name] = prs.length
+        - max_value = prs.length if prs.length > max_value
+      - pr_counts.each do |key, value|
+        .grid.push-half--bottom
+          .grid__item.one-quarter.text--right>= key
+          .grid__item.three-quarters>
+            .progress
+              .bar.text--left.soft--left{ style: "width: #{value * 100 / max_value}%"}= value
+
+    .text--center.push-half--ends= paginate @participation_requests, window: 1, outer_window: 3
+    %table.table--striped.table--data
+      %thead
+        %tr
+          %th Date 1ere demande d'inscription
+          %th Nombre d'heures entre la 1ère demande d'inscription et la confirmation
+          %th Nom de l'élève
+          %th Nom du prof
+          %th Contacté
+          %th Commentaires
+      %tbody
+        - @participation_requests.each do |participation_request|
+          %tr
+            %td= l(local_time(participation_request.created_at))
+            %td TODO
+            %td= link_to participation_request.user.name, user_url(participation_request.user, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+            %td= link_to participation_request.structure.name, pro_structure_path(participation_request.structure)
+            %td
+              TODO
+              -# Permettre de cocher / décocher la case et que ça enregistre tout seul.
+            %td
+              TODO
+              -# Champ texte qui s'enregistre tout seul quand on écrit
+
+    .text--center.push-half--ends= paginate @participation_requests, window: 1, outer_window: 3

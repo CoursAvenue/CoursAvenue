@@ -1,29 +1,22 @@
 = side_menu_currently_at 'comments'
 .panel
-  = render partial: 'pro/structures/comments_tabs', locals: {current: 'comments'}
+  = render partial: 'pro/structures/comments_tabs', locals: { current: 'comments' }
   .panel__body.soft--bottom{ data: { behavior: 'wizard-helper', content: t('comments.wizard.infos') } }
-    .soft.text--center
+    .soft.text--center.bordered--bottom
       = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--green btn--large'
-    %hr.flush
-    .soft.premium-box.relative
-      = image_tag 'icons/premium-ribbon.png', class: 'north west absolute on-top', height: 70, width: 70, style: 'width: 70px; height: 70px;'
-      .grid
-        .grid__item.seven-tenths>
-          = simple_form_for [:pro, @structure], html: { data: { behavior: 'live-form' } }, remote: true do |f|
-            .grid--full
-              .grid__item.four-tenths.v-middle>
-                %label.label--large.f-weight-bold.soft--left= Structure.human_attribute_name :highlighted_comment_id
-              .grid__item.six-tenths.v-middle>
-                = f.input :highlighted_comment_id, as: :select, collection: @structure.comments.accepted.order('created_at DESC').reject{ |comment| comment.title.blank? }, label_method: lambda{ |comment| "\"#{comment.title}\"" }, input_html: { class: 'input--large one-whole' }, label: false, wrapper_html: { class: 'flush' }, include_blank: 'Aucun avis'
-        .grid__item.three-tenths.text--right>
-          = render partial: 'pro/structures/premium_select', locals: { title: 'ajouter une accroche personnalisée et mettre en avant votre profil ?' }
-      - if @structure.comments.empty?
-        %p.flush--bottom.text--center.push--top
-          Ajoutez une accroche personnalisée à votre profil dès que vous avez un 1er avis.
-          = link_to recommendations_pro_structure_path(@structure) do
-            %i.fa.fa-plus
-            Demander des avis
-    %hr.push--bottom
+    - if @structure.comments.any?
+      .soft.premium-box.relative
+        = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/premium-ribbon.png', class: 'north west absolute on-top', height: 70, width: 70, style: 'width: 70px; height: 70px;'
+        .grid
+          .grid__item.seven-tenths>
+            = simple_form_for [:pro, @structure], html: { data: { behavior: 'live-form' } }, remote: true do |f|
+              .grid--full
+                .grid__item.four-tenths.v-middle>
+                  %label.label--large.f-weight-bold.soft--left= Structure.human_attribute_name :highlighted_comment_id
+                .grid__item.six-tenths.v-middle>
+                  = f.input :highlighted_comment_id, as: :select, collection: @structure.comments.accepted.order('created_at DESC').reject{ |comment| comment.title.blank? }, label_method: lambda{ |comment| "\"#{comment.title}\"" }, input_html: { class: 'input--large one-whole' }, label: false, wrapper_html: { class: 'flush' }, include_blank: 'Aucun avis'
+          .grid__item.three-tenths.text--right>
+            = render partial: 'pro/structures/premium_select', locals: { title: 'ajouter une accroche personnalisée et mettre en avant votre profil ?' }
     .soft
       - if @waiting_for_deletion_comments.any?
         %h4.push-half--bottom Avis en attente de suppression par l'équipe CoursAvenue
@@ -33,34 +26,36 @@
 
       - if @pending_comments.any?
         %h4.flush Avis en attente de validation
-        %p.blue.push-half--bottom
+        %p.blue.push-half--bottom.f-weight-bold
           %i Validez les avis si ce sont bien vos élèves. Une fois validé, l'avis sera visible sur votre profil public.
         - @pending_comments.each do |comment|
-          .grid.push-half--bottom
-            .grid__item.three-quarters.v-middle>
-              %p.flush
-                %b= comment.author_name
-                = "(#{comment.email})"
-            .grid__item.one-quarter.v-middle.text--right.nowrap>
-              = succeed ' ' do
-                = link_to accept_pro_structure_comment_path(@structure, comment), class: 'btn btn--small btn--green', method: :patch do
-                  %i.fa.fa-check
-                  Valider
-              = link_to decline_pro_structure_comment_path(@structure, comment), class: 'btn btn--small btn--red', method: :patch do
-                %i.fa.fa-times
-                Rejeter
+          - cache [comment, 'pro/structure/comments/index/pending'] do
+            .grid.push-half--bottom
+              .grid__item.three-quarters.v-middle>
+                %p.flush.epsilon
+                  %b= comment.author_name
+                  = "(#{comment.email})"
+              .grid__item.one-quarter.v-middle.text--right.nowrap>
+                = succeed ' ' do
+                  = link_to accept_pro_structure_comment_path(@structure, comment), class: 'btn btn--small btn--green', method: :patch do
+                    %i.fa.fa-check
+                    Valider
+                = link_to decline_pro_structure_comment_path(@structure, comment), class: 'btn btn--small btn--red', method: :patch do
+                  %i.fa.fa-times
+                  Rejeter
         %hr.push-half--ends
 
+      %h4.push-half--bottom Avis validés
+      .text--center.push-half--ends= paginate @comments, window: 1, outer_window: 3
       - if @comments.empty?
         %p.flush
-          Encore aucun avis.
+          Aucun avis n'apparaît sur votre profil.
           = link_to recommendations_pro_structure_path(@structure) do
             %i.fa.fa-plus
-            Demander des avis
-
+            Demander des recommandations à mes élèves pour gagner en visibilité
       - else
-        %h4.push-half--bottom Avis validés
-        .text--center.push-half--ends= paginate @comments, window: 1, outer_window: 3
         %ul.comment-list
-          = render partial: '/comments/comment', collection: @comments, locals: { with_reply: true }
+          - @comments.each do |review|
+            - cache [review, 'pro/structure/comments/index'] do
+              = render partial: '/comments/comment', locals: { with_reply: true, comment: review }
         .text--center.push-half--ends= paginate @comments, window: 1, outer_window: 3

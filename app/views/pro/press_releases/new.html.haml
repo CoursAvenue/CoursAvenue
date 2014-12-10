@@ -1,0 +1,7 @@
+= side_menu_currently_at 'pages'
+
+.panel
+  = render partial: 'pro/shared/pages_tabs', locals: { current: 'press_releases' }
+  .panel__body.soft
+    %h3 Nouveau CP
+    = render 'form'

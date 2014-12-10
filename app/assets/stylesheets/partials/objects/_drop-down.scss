@@ -29,11 +29,11 @@
                 margin-right: 0.8em;
                 font-size   : 15px;
             }
-            &:hover {
+            &:hover, &:hover > .green {
                 text-decoration : none;
                 background-color: $blue;
                 border-color    : $blue;
-                color           : white;
+                color           : white !important;
             }
             &.not-hoverable:hover {
                 text-decoration : inherit;

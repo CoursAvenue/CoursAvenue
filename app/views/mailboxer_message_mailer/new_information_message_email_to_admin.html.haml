@@ -7,7 +7,7 @@
 .p
   Vous avez reçu une
   %strong demande d'information de #{@user.name}.
-  Nous vous encourageons à répondre dès que possible pour que l'élève puisse s'organiser et s'incrire à l'un de vos cours :
+  Nous vous encourageons à répondre dès que possible :
 
 = render partial: 'mailboxer_message_mailer/message_to_admin', locals: { message: @message, user: @user }
 
@@ -15,7 +15,7 @@
   = link_to "Répondre au message", pro_structure_conversation_url(@admin.structure, @message.conversation, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green', style: 'width: 300px;'
 - if @user.phone_number.present?
   .p.action.soft-half--top
-    = link_to 'Demande traitée par téléphone', treat_by_phone_pro_structure_conversation_path(@structure, @conversation), class: 'btn', method: :patch, style: 'width: 300px;'
+    = link_to 'Demande traitée par téléphone', treat_by_phone_pro_structure_conversation_url(@structure, @conversation, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn', method: :patch, style: 'width: 300px;'
 
 %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
   %tr{ valign: 'top' }
@@ -28,19 +28,19 @@
         sera expirée. Si vous avez déjà répondu directement par téléphone ou s'il ne s'agit pas d'une véritable demande,
         = link_to 'signalez-le.', flag_pro_structure_conversation_url(@structure, @conversation, flag: 'from_email', subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
     %td.text--center.v-middle.content-block{ width: 125 }
-      = image_tag 'emails_logo/48hours.png', width: 75, height: 120, alt: 'Vous avez 48 heures'
+      = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/emails_logo/48hours.png', width: 75, height: 120, alt: 'Vous avez 48 heures'
 
 = render 'shared/mailers/footer'
 
 - content_for :under_content_gray do
   .title
-    = link_to "Foire aux questions", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+    = link_to "Foire aux questions", pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
   .soft-half--bottom.bordered--bottom
-    = link_to "Que faire après avoir reçu une demande d'information d'un élève potentiel ?", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+    = link_to "Que faire après avoir reçu une demande d'information d'un élève potentiel ?", pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
   .soft-half--ends.bordered--bottom
-    = link_to "Que faire s'il ne s'agit pas d'une véritable demande d'information ?", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+    = link_to "Que faire s'il ne s'agit pas d'une véritable demande d'information ?", pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
   .soft-half--ends.bordered--bottom
-    = link_to "Que se passe-t-il si je laisse expirer une demande d'information ?", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+    = link_to "Que se passe-t-il si je laisse expirer une demande d'information ?", pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
   .soft-half--ends
-    = link_to "Comment faire pour recevoir encore plus de demandes d'information ?", pages_faq_partners_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+    = link_to "Comment faire pour recevoir encore plus de demandes d'information ?", pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
 

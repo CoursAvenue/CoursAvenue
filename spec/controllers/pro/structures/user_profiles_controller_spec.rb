@@ -1,7 +1,8 @@
 # -*- encoding : utf-8 -*-
-require 'spec_helper'
+require 'rails_helper'
 
 describe Pro::Structures::UserProfilesController do
+  include Devise::TestHelpers
   let(:admin) { FactoryGirl.create(:admin) }
 
   let(:structure) { FactoryGirl.create(:structure_with_user_profiles_with_tags) }
@@ -14,30 +15,31 @@ describe Pro::Structures::UserProfilesController do
     sign_in admin
   end
 
-  describe :index do
+  describe 'index' do
     it "includes 'meta' in the rendered json" do
       get :index, format: :json, structure_id: structure.id
-      response.should be_success
+      expect(response).to have_http_status(:success)
 
       result = JSON.parse(response.body)
-      result.keys.should include('meta')
-      assigns(:user_profiles_search).total.should eq(result['meta']['total'])
-      assigns(:structure).busy.should eq(result['meta']['busy'])
+      expect(result.keys).to include('meta')
+      expect((assigns(:user_profiles_search)).total).to eq(result['meta']['total'])
+      expect((assigns(:structure)).busy).to eq(result['meta']['busy'])
+
     end
   end
 
-  describe :edit do
+  describe 'edit' do
     context "when format is html" do
       it "responds to an xhr request" do
         xhr :get, :edit, format: :html, id: user_profile.id, structure_id: structure.id
 
-        response.should be_success
+        expect(response).to have_http_status(:success)
       end
     end
 
   end
 
-  describe :create do
+  describe 'create' do
 
     it "does not create tags if no tags are given" do
       post :create, format: :json, id: user_profile.id, structure_id: structure.id, user_profile: { email: "bob@email.com" }
@@ -61,7 +63,7 @@ describe Pro::Structures::UserProfilesController do
 
   end
 
-  describe :update do
+  describe 'update' do
     let(:tags) { user_profile.tags.map { |t| { "id" => t.id, "name" => t.name }}}
 
     it "does not change the tags if no tags are given" do

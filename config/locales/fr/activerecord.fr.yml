@@ -1,8 +1,0 @@
-fr:
-  activerecord:
-    models:
-      course: Cours
-    attributes:
-      registration_fee:
-        kid_registration_fee: "Prix d'adhésion pour enfants :"
-        registration_fee: "Prix d'adhésion :"

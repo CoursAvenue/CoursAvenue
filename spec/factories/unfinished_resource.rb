@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :unfinished_comment, class: 'UnfinishedResource::Comment' do
-    ignore do
+    transient do
       commentable_id false
     end
 

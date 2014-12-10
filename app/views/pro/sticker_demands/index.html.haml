@@ -1,9 +1,9 @@
-= side_menu_currently_at 'sticker_demands'
+= side_menu_currently_at 'pro_dashboard'
 
 .panel
-  .panel__header.soft
-    %h3.flush Demandes de stickers
+  = render partial: 'pro/shared/dashboard_tabs', locals: { current: 'sticker_demands' }
   .panel__body.soft--ends
+    %h3.soft.flush À envoyer
     %table.table--striped
       %thead
         %tr
@@ -11,19 +11,24 @@
           %th Rond
           %th Carré
           %th Adresse
+          %th Date de la demande
           %th
       %tbody
-        - @sticker_demands.each do |sticker_demand|
-          %tr
-            %td= link_to sticker_demand.structure.name, pro_structure_path(sticker_demand.structure)
-            %td= sticker_demand.round_number
-            %td= sticker_demand.square_number
-            %td= sticker_demand.address
-            %td.text--right
-              - if sticker_demand.sent?
-                Envoyé le
-                = l(sticker_demand.sent_at, format: :date)
-              - else
-                = link_to update_sent_pro_structure_sticker_demand_path(sticker_demand.structure, sticker_demand), method: :put, class: 'btn btn--green btn--small nowrap' do
-                  %i.fa.fa-envelope
-                  Envoyer
+        - @sticker_demands.not_sent.each do |sticker_demand|
+          = render partial: 'pro/sticker_demands/sticker_demand', locals: { sticker_demand: sticker_demand }
+
+    %hr.push--ends
+
+    %h3.soft.flush Envoyé
+    %table.table--striped
+      %thead
+        %tr
+          %th Structure
+          %th Rond
+          %th Carré
+          %th Adresse
+          %th Date de la demande
+          %th
+      %tbody
+        - @sticker_demands.sent.each do |sticker_demand|
+          = render partial: 'pro/sticker_demands/sticker_demand', locals: { sticker_demand: sticker_demand }

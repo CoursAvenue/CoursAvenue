@@ -15,17 +15,18 @@ class CommentSearch
         with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 7, bbox: (params.has_key?(:bbox) ? params[:bbox] : true))
       end
 
-      with :has_title, params[:has_title]              if params[:has_title]
+      with :has_title , params[:has_title]             if params[:has_title]
       with :has_avatar, params[:has_avatar]            if params[:has_avatar]
+      with :accepted, true
+      with :certified, params[:has_avatar]             if params[:certified]
 
       # --------------- Subjects
-      if params[:subject_slugs].present?
-        with(:subject_slugs).any_of  params[:subject_slugs]
-      else
-        with(:subject_slugs).any_of [params[:subject_id]]  if params[:subject_id].present?
-      end
+      with :subject_slug, params[:subject_slug]        if params[:subject_slug]
 
       paginate page: (params[:page] || 1), per_page: (params[:per_page] || 15)
+      order_by :certified, :asc
+      order_by :has_avatar, :desc
+      order_by :created_at, :desc
     end
 
     @search

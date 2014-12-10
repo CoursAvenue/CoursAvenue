@@ -1,0 +1,9 @@
+%ul.panel__header.tabs>
+  %li{ class: current == 'participation_requests_pending' ? 'active' : '' }
+    = link_to 'Inscrpts en attente', pro_participation_requests_path(state: 'pending')
+  %li{ class: current == 'participation_requests_canceled' ? 'active' : '' }
+    = link_to 'Inscrpts annulées', pro_participation_requests_path(state: 'canceled')
+  %li{ class: current == 'participation_requests_accepted' ? 'active' : '' }
+    = link_to 'Inscrpts validées', pro_participation_requests_path(state: 'accepted')
+  %li{ class: current == 'sponsorships' ? 'active' : '' }
+    = link_to 'Parrainages', pro_sponsorships_path

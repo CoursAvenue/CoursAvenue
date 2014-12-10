@@ -1,9 +1,12 @@
 class Subject < ActiveRecord::Base
+  include IdentityCache
+  include Concerns::IdentityCacheFetchHelper
+  include AlgoliaSearch
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
 
-  acts_as_tree cache_depth: true
+  acts_as_tree cache_depth: true, touch: true
 
   ######################################################################
   # Relations                                                          #
@@ -17,6 +20,13 @@ class Subject < ActiveRecord::Base
   has_many :vertical_pages
   has_many :passions
   has_many :city_subject_infos
+
+  ######################################################################
+  # Caching                                                            #
+  ######################################################################
+
+  cache_has_many :structures, inverse_name: :subjects
+  cache_index :slug, unique: true
 
   ######################################################################
   # Validations                                                        #
@@ -36,9 +46,30 @@ class Subject < ActiveRecord::Base
 
   attr_accessible :name, :short_name, :info, :parent, :position, :title, :subtitle, :description, :image,
                   :good_to_know, :needed_meterial, :tips, :ancestry
+
   has_attached_file :image,
-                    :styles => { super_wide: "825x250#", wide: "600x375#", small: '250x200#', thumb: "200x200#" }
+                    :styles => { super_wide: "825x250#", wide: "600x375#", small: '250x200#', thumb: "200x200#" },
+                    processors: [:thumbnail, :paperclip_optimizer]
+
   validates_attachment_content_type :image, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
+
+  searchable do
+    text :name
+  end
+
+  algoliasearch per_environment: true do
+    attribute :name, :slug
+    add_attribute :type do
+      'subject'
+    end
+    add_attribute :parent do
+      self.parent.slug unless self.depth == 0
+    end
+
+    add_attribute :root do
+      self.root.slug unless self.depth == 0
+    end
+  end
 
   # Tells wether the given subject is a descendant of self by checking its ancestry string
   # @param  subject [type] [description]
