@@ -10,7 +10,7 @@ module Concerns
       #
       # @return a boolean, whether the message was sent or not.
       def send_sms(message, recipient_number)
-        client = Nexmo::Client.new
+        client = NexmoClientFactory.client
 
         client.send_message(from: 'CoursAvenue', to: recipient_number, text: message)
       end
