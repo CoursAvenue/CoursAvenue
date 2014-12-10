@@ -2,6 +2,7 @@
 require 'rails_helper'
 
 describe Pro::Structures::ParticipationsController do
+  include Devise::TestHelpers
 
   let(:admin) { FactoryGirl.create(:admin) }
 

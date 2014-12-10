@@ -2,6 +2,7 @@
 require 'rails_helper'
 
 describe Pro::Structures::UserProfilesController do
+  include Devise::TestHelpers
   let(:admin) { FactoryGirl.create(:admin) }
 
   let(:structure) { FactoryGirl.create(:structure_with_user_profiles_with_tags) }

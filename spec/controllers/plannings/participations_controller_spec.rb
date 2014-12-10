@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 describe Plannings::ParticipationsController do
+  include Devise::TestHelpers
 
   let(:user)     { FactoryGirl.create(:user) }
   let(:planning) { FactoryGirl.create(:planning) }
