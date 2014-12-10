@@ -59,7 +59,7 @@
         var code = $('#coursavenue-link-to-remove-wrapper').html() + "<div id='coursavenue-widget'>&nbsp;</div><script>window.onload = function() {var coursavenue_widget_div = document.getElementById('coursavenue-widget');var request = new XMLHttpRequest();request.open('GET', '__URL__', false);request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');request.send(null);if(request.status == 200) {coursavenue_widget_div.innerHTML = request.responseText;}}</script";
         var load_widget,
             coursavenue_widget_div = $('#coursavenue-widget'),
-            params = {last_comments: true, nb_comments: 3, show_new_comment: true};
+            params = { last_comments: true, nb_comments: 3, show_new_comment: true };
         $('#show-comments').change(function() {
             params['last_comments'] = this.checked;
             load_widget();
