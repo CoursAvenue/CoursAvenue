@@ -120,7 +120,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             });
         },
 
-        setSelectLock: function (bool) {
+        setSelectLock: function setSelectLock (bool) {
             this.select_lock = bool;
         },
 

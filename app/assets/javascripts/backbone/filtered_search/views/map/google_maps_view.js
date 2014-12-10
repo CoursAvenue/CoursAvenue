@@ -6,7 +6,7 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
         infoBoxView:         Module.InfoBoxView,
 
         /* override addchild to add one marker for each place on the model */
-        addChild: function(childModel, html) {
+        addChild: function addChild (childModel, html) {
             var places = childModel.getRelation('places').related.models;
             var self = this;
 
