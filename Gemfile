@@ -217,12 +217,11 @@ group :test do
   gem 'simplecov',          '~> 0.9.1'
   gem 'database_cleaner',   '~> 1.2.0'
   gem 'capybara',           '~> 2.2.1'
-  gem 'sunspot_test',       '~> 0.4.0'
   gem 'rspec-instafail',    '~> 0.2.5'
 end
 
 group :development do
-  gem 'rails_best_practices'
+  gem 'rails_best_practices', require: false
   gem 'ruby-prof'
   # Speed up slow Rails development mode
   gem 'rails-dev-boost', :git => 'git://github.com/thedarkone/rails-dev-boost.git'
@@ -231,7 +230,7 @@ group :development do
   # Removes useless logging in dev.
   gem 'fontcustom'
   gem 'brakeman'                , '~>2.3.1'
-  gem 'rubocop'                 , '~>0.18.1'
+  gem 'rubocop'                 , '~>0.18.1', require: false
 
   # Removes useless logging in dev.
   gem 'quiet_assets', '~>1.0.3'
@@ -241,7 +240,7 @@ group :development do
   gem 'binding_of_caller'
   gem 'awesome_print'
   gem 'meta_request', '~>0.3.0'
-  gem 'pry-rails'
+  gem 'pry-rails', require: false
 end
 
 group :development, :test do
@@ -284,4 +283,4 @@ gem 'oboe-heroku', '~>0.9.16.1'
 
 # PDF generation for orders
 gem 'wicked_pdf'
-gem 'wkhtmltopdf-binary'
+gem 'wkhtmltopdf-binary', require: false

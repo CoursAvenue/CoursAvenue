@@ -1,14 +1,15 @@
-# Must be before everything
+# Genereate coverage exepct on CI.
 if !ENV['CI']
   require 'simplecov'
   SimpleCov.start 'rails'
 end
 
 RSpec.configure do |config|
+  # Print the 10 slowest examples and example groups at the
+  # end of the spec run, to help surface which specs are running
+  # particularly slow.
+  # This never runs on CI.
   if !ENV['CI']
-    # Print the 10 slowest examples and example groups at the
-    # end of the spec run, to help surface which specs are running
-    # particularly slow.
     config.profile_examples = 10
   end
 
@@ -16,13 +17,13 @@ RSpec.configure do |config|
   # order dependency and want to debug it, you can fix the order by providing
   # the seed, which is printed after each run.
   #     --seed 1234
-  config.order = :random
+  # config.order = :random
 
   # Seed global randomization in this process using the `--seed` CLI option.
   # Setting this allows you to use `--seed` to deterministically reproduce
   # test failures related to randomization by passing the same `--seed` value
   # as the one that triggered the failure.
-  Kernel.srand config.seed
+  # Kernel.srand config.seed
 
   config.raise_errors_for_deprecations!
 end

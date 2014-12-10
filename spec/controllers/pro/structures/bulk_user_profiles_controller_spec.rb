@@ -2,6 +2,7 @@
 require 'rails_helper'
 
 describe Pro::Structures::BulkUserProfileJobsController do
+  include Devise::TestHelpers
   let(:admin) { FactoryGirl.create(:admin) }
 
   before do
