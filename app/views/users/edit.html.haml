@@ -12,7 +12,7 @@
             - if @user.has_avatar?
               .text--center
                 .media-photo
-                  = image_tag @user.avatar_url(:thumb), class: 'block'
+                  = image_tag @user.avatar_url(:normal), class: 'block'
                 %br
                 %a.btn.btn--blue.btn--small{ data: { trigger: true } } Changer ma photo
                 = f.input :avatar, label: false, wrapper_html: { style: 'position:absolute; left:-1000px;' },input_html: { id: 'avatar-input' }
