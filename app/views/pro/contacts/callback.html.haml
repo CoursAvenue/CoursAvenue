@@ -2,7 +2,7 @@
   .panel__body
     .soft
       = link_to 'Importer', '#', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }, data: { behavior: 'select-emails' }
-    %table.table--data.table--striped
+    %table.table--data.table--striped.table--hoverable
       %thead
         %tr
           %th
@@ -13,9 +13,9 @@
         - @contacts.each do |contact|
           - uuid = Digest::SHA256.hexdigest contact[:email]
           %tr
-            %td.text--center.hoverable
+            %td.text--center
               %input{ type: 'checkbox', name: contact[:email], id: uuid, checked: true }
-            %td.hard.hoverable
+            %td.hard
               %label.block.soft-half.epsilon{ for: uuid }
                 %span.f-weight-bold= contact[:name].capitalize
                 (#{contact[:email]})
