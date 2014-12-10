@@ -5,7 +5,7 @@ class Pro::ContactsController < Pro::ProController
       contact[:emails].first.nil?
     end
     @contacts.map! do |contact|
-      { email: contact[:emails].map{|emails| emails[:email] }.join(', '), name: contact[:name] }
+      { email: contact[:emails].map{ |emails| emails[:email] }.join(', '), name: contact[:name] }
     end
     render layout: 'empty_body'
   end
