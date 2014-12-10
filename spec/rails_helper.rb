@@ -16,7 +16,6 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
-
   # Immediately run the worker jobs.
   Delayed::Worker.delay_jobs = false
 
@@ -30,21 +29,5 @@ RSpec.configure do |config|
   # `post` in specs under `spec/controllers`.
   config.infer_spec_type_from_file_location!
 
-  config.include Devise::TestHelpers, type: :controller
   config.include Delorean
-
-  $original_sunspot_session = Sunspot.session
-  config.before do
-    Sunspot.session = Sunspot::Rails::StubSessionProxy.new($original_sunspot_session)
-  end
-
-  config.before :each, solr: true do
-    Sunspot::Rails::Tester.start_original_sunspot_session
-    Sunspot.session = $original_sunspot_session
-    Sunspot.remove_all!
-  end
-
-  if config.files_to_run.count > 1
-    ActionMailer::Base.register_interceptor(DevelopmentMailInterceptor)
-  end
 end

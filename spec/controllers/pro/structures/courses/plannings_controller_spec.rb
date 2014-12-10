@@ -2,6 +2,7 @@
 require 'rails_helper'
 
 describe Pro::Structures::Courses::PlanningsController do
+  include Devise::TestHelpers
 
   before :all do
     @admin           = FactoryGirl.build(:admin)

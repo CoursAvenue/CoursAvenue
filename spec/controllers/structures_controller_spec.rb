@@ -2,6 +2,7 @@
 require 'rails_helper'
 
 describe StructuresController, type: :controller do
+  include Devise::TestHelpers
 
   def required_keys
     %w(id name slug comments_count logo_thumb_url logo_large_url data_url
