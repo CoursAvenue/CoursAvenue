@@ -1,6 +1,7 @@
 require "rails_helper"
 
 describe Pro::Structures::CommentNotificationsController do
+  include Devise::TestHelpers
   let(:admin) { FactoryGirl.create(:admin) }
 
   before do

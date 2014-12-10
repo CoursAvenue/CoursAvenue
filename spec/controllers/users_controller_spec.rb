@@ -2,6 +2,7 @@
 require 'rails_helper'
 
 describe UsersController do
+  include Devise::TestHelpers
 
   describe 'invite_entourage_to_jpo_page' do
     it 'redirects if no email passed' do

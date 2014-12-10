@@ -1,6 +1,7 @@
 require "rails_helper"
 
 describe Pro::StructuresController do
+  include Devise::TestHelpers
   let(:admin) { FactoryGirl.create(:admin) }
 
   before do

@@ -2,6 +2,7 @@
 require 'rails_helper'
 
 describe Structures::CommentsController do
+  include Devise::TestHelpers
 
   let(:structure) { FactoryGirl.create(:structure_with_admin) }
 

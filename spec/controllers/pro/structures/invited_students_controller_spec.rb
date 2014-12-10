@@ -2,6 +2,7 @@
 require 'rails_helper'
 
 describe Pro::Structures::InvitedStudentsController do
+  include Devise::TestHelpers
 
   let(:admin) { FactoryGirl.create(:admin) }
 

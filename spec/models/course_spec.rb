@@ -2,217 +2,269 @@
 require 'rails_helper'
 
 describe Course do
-  let(:training)          { FactoryGirl.build(:training) }
-  let(:lesson)            { FactoryGirl.build(:lesson) }
+  subject(:course) { FactoryGirl.create(:course) }
 
-  before(:all) do
-    @course                = FactoryGirl.create(:course)
-    @price_1               = FactoryGirl.create(:price, amount: 15)
-    @price_2               = FactoryGirl.create(:subscription, amount: 200)
-    @planning_1            = FactoryGirl.create(:planning)
-    @price_group           = FactoryGirl.build(:price_group)
-    @price_group.prices    = [@price_1, @price_2]
-    @price_group.structure = @course.structure
-    @price_group.save
-    @course.price_group = @price_group
-    @course.save
-  end
-
-  subject { @course }
   it { should be_valid }
 
   describe '#best_price' do
-    context 'without promotion' do
-      it 'returns the price with lowest amount' do
-        expect(@course.best_price).to eq @price_1
-      end
+    let (:price_1)     { FactoryGirl.create(:price, amount: 15) }
+    let (:price_2)     { FactoryGirl.create(:subscription, amount: 200) }
+    let (:price_group) { FactoryGirl.build(:price_group) }
+
+    before do
+      price_group.prices    = [price_1, price_2]
+      price_group.structure = subject.structure
+      price_group.save
+
+      subject.price_group = price_group
+      subject.save
     end
 
+    context 'without promotion' do
+      it 'returns the price with lowest amount' do
+        expect(subject.best_price).to eq(price_1)
+      end
+    end
     context 'with promotion' do
-      before { @price_2.update_column(:promo_amount, 10) }
-      # after  do @price_2.update_column(:promo_amount, nil) end
-      it 'returns the price with lowest amount taking count of promotion' do
-        expect(@course.best_price).to eq @price_2
+
+      before do
+        price_2.promo_amount = 10
+        price_2.save
+      end
+
+      it 'returns the price with the lowest amount accounting for the promotion' do
+        expect(course.best_price).to eq(price_2)
       end
     end
   end
-  describe '#has_promotion?' do
-    it { expect(@course.has_promotion?).to eq false }
 
-    # context 'with promo' do
-    #   let(:course)      { FactoryGirl.build(:course) }
-    #   let(:price_group) { FactoryGirl.build(:price_group) }
-    #   let(:price)       { FactoryGirl.create(:subscription, amount: 200) }
-    #
-    #   before do
-    #     price_group.prices    = [price]
-    #     price_group.structure = course.structure
-    #     price_group.save
-    #
-    #     course.price_group    = price_group
-    #     course.save
-    #   end
-    #
-    #   it 'is has a promotion when the promo amount is set' do
-    #     price.promo_amount = 10
-    #
-    #     price.save
-    #     course.reload
-    #     course.save
-    #
-    #     expect(course.has_promotion?).to eq true
-    #   end
-    # end
+  describe '#has_promotion?' do
+    it { expect(subject.has_promotion?).to eq false }
+
+    context 'with promotion' do
+      let(:price)       { FactoryGirl.create(:subscription, amount: 200) }
+      let(:price_group) { FactoryGirl.build(:price_group) }
+
+      before do
+        price.promo_amount = 10
+        price.save
+
+        price_group.prices    = [price]
+        price_group.structure = subject.structure
+        price_group.save
+
+        subject.price_group = price_group
+        subject.save
+      end
+
+      it 'has a promotion when the amount is set' do
+        expect(subject.has_promotion?).to eq true
+      end
+    end
   end
 
   describe '#min_price' do
-    it 'returns the lowest price' do
-      expect(@course.min_price).to eq @price_1.amount
-    end
-    context 'nil' do
-      it 'should return nil' do
-        course = FactoryGirl.create(:course)
-        expect(course.min_price).to be_nil
+    context 'without any price group' do
+      it 'returns nil' do
+        expect(subject.min_price).to be_nil
       end
     end
-    context 'with promo' do
-      before do @price_2.update_column(:promo_amount, 10) end
-      after  do @price_2.update_column(:promo_amount, nil) end
-      it 'returns the promo price' do
-        expect(@course.min_price).to eq @price_2.promo_amount
+
+    context 'with a price group' do
+      let(:price)       { FactoryGirl.create(:subscription, amount: 200) }
+      let(:price_group) { FactoryGirl.build(:price_group) }
+
+      before do
+        price_group.prices = [price]
+        price_group.structure = subject.structure
+        price_group.save
+
+        subject.price_group = price_group
+        subject.save
+      end
+
+      it 'returns the lowest price' do
+        expect(subject.min_price).to eq price.amount
       end
     end
-  end
-  describe '#max_price' do
-    it 'returns the highest price' do
-      expect(@course.max_price).to eq @price_2.amount
-    end
-    context 'nil' do
-      it 'should return nil' do
-        course = FactoryGirl.create(:course)
-        expect(course.max_price).to be_nil
+
+    context 'with a promotion' do
+      let(:price)       { FactoryGirl.create(:subscription, amount: 200) }
+      let(:price_group) { FactoryGirl.build(:price_group) }
+
+      before do
+        price.promo_amount = 10
+        price.save
+
+        price_group.prices = [price]
+        price_group.structure = subject.structure
+        price_group.save
+
+        subject.price_group = price_group
+        subject.save
+      end
+
+      it 'returns the promotion price' do
+        expect(subject.min_price).to eq price.promo_amount
       end
     end
+
   end
 
-  describe '#activate!' do
+  describe '#max_price' do
+    context 'without any price group' do
+      it 'returns nil' do
+        expect(subject.max_price).to be_nil
+      end
+    end
+
+    context 'with a price group' do
+      let(:price)       { FactoryGirl.create(:subscription, amount: 200) }
+      let(:price_group) { FactoryGirl.build(:price_group) }
+
+      before do
+        price_group.prices = [price]
+        price_group.structure = subject.structure
+        price_group.save
+
+        subject.price_group = price_group
+        subject.save
+      end
+
+      it 'returns the highest amount' do
+        expect(subject.max_price).to eq price.amount
+      end
+
+    end
+
+  end
+
+  describe '#activate' do
     before(:each) do
-      @course      = FactoryGirl.build(:course, active: false)
-      @price_group = FactoryGirl.build(:price_group)
+      subject.active = false
+      subject.save
     end
-    context 'without plannings' do
+
+    context 'without planning' do
       context 'without prices' do
+
+        before do
+          subject.activate!
+        end
+
         it 'fails' do
-          expect(@course.activate!).to be(false)
-          expect(@course.active).to be(false)
-          expect(@course.errors[:price_group].length).to eq 1
-          expect(@course.errors[:plannings].length).to eq 1
+          expect(subject.active).to eq false
+        end
+
+        it 'has validation errors' do
+          expect(subject.errors[:price_group].length).to eq 1
+          expect(subject.errors[:plannings].length).to   eq 1
         end
       end
+
       context 'with prices' do
-        before(:each) do
-          @course.price_group = @price_group
-          @course.save
+        let(:price_group) { FactoryGirl.build(:price_group) }
+
+        before do
+          subject.price_group = price_group
+          subject.save
+          subject.activate!
         end
-        it 'activates' do
-          expect(@course.activate!).to eq false
-          expect(@course.active).to eq false
-          expect(@course.errors[:plannings].length).to eq 1
-          expect(@course.errors[:price_group].length).to eq 0
-        end
-      end
-    end
-    context 'without prices' do
-      context 'with plannings' do
-        before(:each) do
-          @course.plannings << @planning_1
-          @course.save
-        end
+
         it 'fails' do
-          expect(@course.activate!).to eq false
-          expect(@course.active).to eq false
-          expect(@course.errors[:price_group].length).to eq 1
-          expect(@course.errors[:plannings].length).to eq 0
+          expect(subject.active).to eq false
         end
+
+        it 'has some validation errors' do
+          expect(subject.errors[:price_group].length).to eq 0
+          expect(subject.errors[:plannings].length).to   eq 1
+        end
+
       end
     end
-    context 'with prices and plannings' do
-      before(:each) do
-        @course.plannings << @planning_1
-        @course.price_group = @price_group
-        @course.save
+
+    context 'without prices' do
+      let (:planning)    { FactoryGirl.create(:planning) }
+
+      before do
+        subject.plannings << planning
+        subject.save
+
+        subject.activate!
       end
+
+      it 'fails' do
+        expect(subject.active).to eq false
+      end
+
+      it 'has some validation errors' do
+        expect(subject.errors[:price_group].length).to eq 1
+        expect(subject.errors[:plannings].length).to   eq 0
+      end
+    end
+
+    context 'with prices and plannings' do
+      let (:planning)    { FactoryGirl.create(:planning) }
+      let (:price_group) { FactoryGirl.build(:price_group) }
+
+      before do
+        price_group.structure = subject.structure
+        price_group.save
+
+        subject.plannings << planning
+        subject.price_group = price_group
+        subject.save
+
+        subject.activate!
+      end
+
       it 'activates' do
-        expect(@course.activate!).to eq true
-        expect(@course.active).to eq true
-        expect(@course.errors[:plannings].length).to eq 0
-        expect(@course.errors[:price_group].length).to eq 0
+        expect(subject.active).to eq true
+      end
+
+      it 'is valid' do
+        expect(subject.errors[:plannings].length).to eq 0
+        expect(subject.errors[:price_group].length).to eq 0
       end
     end
   end
-  # Methods to test
-  # recent_plannings
-  # has_package_price
-  # has_trial_lesson
-  # has_unit_course_price
-  # time_slots
-  # promotion_planning
-  # is_for_kid
-  # has_multiple_teacher?
-  # has_teacher?
-  # promotion
-  # promotion_price
-  # approximate_price_per_course
-  # type_name
-  # should_generate_new_friendly_id?
-  # description_for_input
-  # friendly_name
-  # set_structure_if_empty
-  # replace_slash_n_r_by_brs
 
   context 'lesson' do
-    subject { lesson }
+    subject(:lesson) { FactoryGirl.create(:lesson) }
+
     it 'is a lesson' do
-      expect(lesson.is_lesson?).to eq true
+      expect(subject.is_lesson?).to eq true
     end
+
     it 'is not a training' do
-      expect(lesson.is_training?).to eq false
+      expect(subject.is_training?).to eq false
     end
   end
 
   context 'training' do
-    subject { training }
+    subject(:training) { FactoryGirl.create(:training) }
+
     it 'is a training' do
-      expect(training.is_training?).to eq true
+      expect(subject.is_lesson?).to eq false
     end
+
     it 'is not a lesson' do
-      expect(training.is_lesson?).to eq false
+      expect(subject.is_training?).to eq true
     end
   end
 
   context 'friendly_id' do
-    it 'should have slug' do
-      expect(@course.slug).to_not be_nil
+    let (:initial_slug) { subject.slug }
+
+    it 'has a slug' do
+      expect(subject.slug).to_not be_nil
     end
 
-    it 'should keep same slug' do
-      initial_slug = @course.slug
-      @course.name += ' new slug'
-      @course.save
-      expect(@course.slug).to eq initial_slug
-    end
-  end
+    it 'keeps the same slug' do
+      subject.slug += ' new slug'
+      subject.save
 
-  context 'open course' do
-    before do
-      @open_course = FactoryGirl.create(:open_course)
-      planning     = FactoryGirl.create(:planning)
-      user         = FactoryGirl.create(:user)
-      participation = Participation.create user: user, planning: planning
-      planning.participations<< participation
-      planning.save
-      @open_course.plannings << planning
-      @open_course.save
+      expect(subject.slug).to eq initial_slug
     end
   end
 end

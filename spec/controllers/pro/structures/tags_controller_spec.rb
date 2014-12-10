@@ -2,6 +2,7 @@
 require 'rails_helper'
 
 describe Pro::Structures::TagsController do
+  include Devise::TestHelpers
   let(:admin)     { FactoryGirl.create(:admin) }
   let(:structure) { structure = admin.structure }
 

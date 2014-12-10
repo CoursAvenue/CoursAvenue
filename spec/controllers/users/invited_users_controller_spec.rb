@@ -2,6 +2,7 @@
 require 'rails_helper'
 
 describe Users::InvitedUsersController do
+  include Devise::TestHelpers
 
   let(:user) { FactoryGirl.create(:user) }
 
