@@ -1,36 +1,45 @@
 #id.panel
   .panel__body
+    .soft
+      = link_to 'Importer', '#', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }, data: { behavior: 'select-emails' }
     %table.table--data.table--striped
       %thead
         %tr
           %th
-          %th email
+          %th
+            E-mail
+            %a.float--right#unselect-all{ href: '#' } Tout désélectionner
       %tbody
         - @contacts.each do |contact|
+          - uuid = Digest::SHA256.hexdigest contact[:email]
           %tr
-            %td
-              %input{ type: 'checkbox', name: contact[:email] }
-            %td= contact[:email]
-
-    = link_to 'Importer', '#', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }, id: 'select-emails'
+            %td.text--center.hoverable
+              %input{ type: 'checkbox', name: contact[:email], id: uuid, checked: true }
+            %td.hard.hoverable
+              %label.block.soft-half.epsilon{ for: uuid }
+                %span.f-weight-bold= contact[:name].capitalize
+                (#{contact[:email]})
+    .soft
+      = link_to 'Importer', '#', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }, data: { behavior: 'select-emails' }
 
 - content_for :scripts do
   :javascript
-
-    $('#select-emails').click(function(e) {
-        e.preventDefault();
-
-        var emailList = $('input:checked').map(function(i, elem) { return (elem.name); });
-        var emails    = [].join.call(emailList, ', ');
-        var contents  = $('textarea[name=emails]', opener.window.document).val();
-
-        if (contents == '') {
-            contents = emails;
-        } else {
-            contents += ', ' + emails;
-        }
-
-        $('textarea[name=emails]', opener.window.document).val(contents);
-        opener.window.GLOBAL.flash('Contact importés avec succés.', 'notice');
-        window.close();
-    });
+      $('#unselect-all').click(function() {
+          $('input').prop('checked', function( i, val ) {
+              return !val;
+          });
+      });
+      $('[data-behavior=select-emails]').click(function(e) {
+          e.preventDefault();
+          var email_list       = $('input:checked').map(function(i, elem) { return (elem.name); });
+          var emails           = [].join.call(email_list, ', ');
+          var previous_content = $('textarea[name=emails]', opener.window.document).val();
+          if (previous_content == '') {
+              previous_content = emails;
+          } else {
+              previous_content += ', ' + emails;
+          }
+          $('textarea[name=emails]', opener.window.document).val(previous_content);
+          opener.window.GLOBAL.flash('Contact importés avec succés.', 'notice');
+          window.close();
+      });

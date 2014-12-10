@@ -1,6 +1,13 @@
 class Pro::ContactsController < Pro::ProController
+
   def callback
-    @contacts = request.env['omnicontacts.contacts'].flat_map { |contact| contact[:emails] }
+    @contacts = request.env['omnicontacts.contacts'].reject do |contact|
+      contact[:emails].first.nil?
+    end
+    @contacts.map! do |contact|
+      { email: contact[:emails].map{|emails| emails[:email] }.join(', '), name: contact[:name] }
+    end
+    render layout: 'empty_body'
   end
 
   def failure

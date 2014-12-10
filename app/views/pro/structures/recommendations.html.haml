@@ -10,16 +10,19 @@
       %h4#email-reco
         Envoyez un e-mail à vos élèves
         %i= link_to '(voir les 5 avantages de cette méthode la + utilisée)', '#most-used-method', data: { behavior: 'modal', width: 550, padding: 0 }
-      .text--center.push-half--bottom
-        = link_to 'Importer les contacts de Gmail', '#', class: 'btn btn--blue btn--large', id: 'import-from-gmail'
-
       .gray-box.soft.relative
         = simple_form_for [:pro, @structure, @structure.comment_notifications.build] do |f|
           .grid.push-half--bottom
             .grid__item.two-twelfths.text--right>
               %h4 À
             .grid__item.ten-twelfths>
-              %textarea.input--large.one-whole{ name: 'emails', rows: 3, placeholder: "Entrez les e-mails de vos élèves gardés confidentiels et non réutilisés. Ex. : patrick@gmail.com, thomas.dupont@wanadoo.fr", data: { behavior: 'autoresize' } }
+              .grid
+                .grid__item.three-quarters.v-middle>
+                  %textarea.input--large.one-whole{ name: 'emails', rows: 3, placeholder: "Entrez les e-mails de vos élèves gardés confidentiels et non réutilisés. Ex. : patrick@gmail.com, thomas.dupont@wanadoo.fr", data: { behavior: 'autoresize' } }
+                .grid__item.one-quarter.v-middle>
+                  = link_to '#', class: 'btn btn--full line-height-2 text--center btn--blue', id: 'import-from-gmail' do
+                    Importer vos contacts Gmail
+            %hr.push-half--ends
           .grid
             .grid__item.two-twelfths.text--right>
               %h4 Message
@@ -137,15 +140,15 @@
                 maxWidth: 600
             });
         });
-
         $('#import-from-gmail').click(function(e) {
             e.preventDefault();
             var height = 450;
             var width  = 600;
-
             var left   = (screen.width / 2) - (width / 2);
             var top    = (screen.height / 2) - (height / 2);
-
-            win = window.open('/contacts/gmail', 'null', 'width=' + width + ',height=' + height + ',toolbar=no,scrollbars=no,location=no,resizable=no,top=' + top + ',left=' + left);
+            gmail_popup = window.open('/contacts/gmail', 'null', 'width=' + width + ',height=' + height + ',toolbar=no,scrollbars=no,location=no,resizable=no,top=' + top + ',left=' + left);
+            gmail_popup.onbeforeunload = function onbeforeunload () {
+                $('textarea[name=emails]').trigger('autoresize:update');
+            };
         });
     });
