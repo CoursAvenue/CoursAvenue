@@ -229,7 +229,7 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return nil
   def send_sms_to_teacher
-    self.structure.notify_new_participation_request_via_sms(self)
+    structure.notify_new_participation_request_via_sms(self)
   end
 
   def reply_to_conversation(message_body, last_modified_by)

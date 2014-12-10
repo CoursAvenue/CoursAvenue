@@ -23,7 +23,8 @@ class PhoneNumber < ActiveRecord::Base
 
   # This allows us to have a validation based on uniqueness, but only if the
   # boolean field is true.
-  validates :principal_mobile, uniqueness: { scope: :callable_id, message: :cant_have_multiple_principal_mobile},
+  validates :principal_mobile, uniqueness: { scope: :callable_id,
+                                             message: :cant_have_multiple_principal_mobile },
                                if: :principal_mobile
 
   ######################################################################
@@ -40,6 +41,6 @@ class PhoneNumber < ActiveRecord::Base
   #
   # @return Boolean
   def mobile?
-    MOBILE_PREFIXES.any? { |prefix| self.number.starts_with?(prefix) }
+    MOBILE_PREFIXES.any? { |prefix| number.starts_with?(prefix) }
   end
 end

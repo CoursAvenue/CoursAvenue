@@ -228,8 +228,8 @@ class User < ActiveRecord::Base
 
       if courses.length > 1
         message = I18n.t('sms.users.day_before_reminder.multiple_course',
-                          nb_courses: courses.length,
-                          start_time: I18n.l(courses.first.start_time, format: :short))
+                         nb_courses: courses.length,
+                         start_time: I18n.l(courses.first.start_time, format: :short))
       else
         message = I18n.t('sms.users.day_before_reminder.one_course',
                          start_time: I18n.l(courses.first.start_time, format: :short))

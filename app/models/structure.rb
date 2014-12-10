@@ -490,9 +490,9 @@ class Structure < ActiveRecord::Base
 
     if number and sms_opt_in?
       message = I18n.t('sms.structures.new_participation_request',
-              user_name: pr.user.name,
-              date: I18n.l(pr.date, format: :short),
-              start_time: I18n.l(pr.start_time, format: :short))
+                       user_name: pr.user.name,
+                       date: I18n.l(pr.date, format: :short),
+                       start_time: I18n.l(pr.start_time, format: :short))
 
       delay.send_sms(message, number)
     end
