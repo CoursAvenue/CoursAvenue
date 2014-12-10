@@ -30,15 +30,4 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 
   config.include Delorean
-
-  $original_sunspot_session = Sunspot.session
-  config.before do
-    Sunspot.session = Sunspot::Rails::StubSessionProxy.new($original_sunspot_session)
-  end
-
-  config.before :each, solr: true do
-    Sunspot::Rails::Tester.start_original_sunspot_session
-    Sunspot.session = $original_sunspot_session
-    Sunspot.remove_all!
-  end
 end
