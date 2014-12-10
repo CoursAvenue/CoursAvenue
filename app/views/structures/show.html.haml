@@ -92,7 +92,7 @@
                                 - else
                                   %h6.inline-block.push-half--bottom= truncate(structure.name, length: 30)
                               %div
-                                %i= truncate(structure.places.map(&:city).map(&:name).uniq.join(', '), length: 40)
+                                %i= truncate(structure.cities_text, length: 40)
                               .btn.btn--small.btn--blue.btn--full.opacity-hidden-on-hover__child Voir le profil
 
 = content_for :scripts do
@@ -103,7 +103,7 @@
           current_pro_admin: #{(current_pro_admin ? true : false)},
           structure: #{ @model.to_json },
           meta: {
-              total_comments: #{ @structure.comments.accepted.count },
+              total_comments: #{ @structure.comments_count },
               structure_id  : #{ @structure.id }
           }
       };

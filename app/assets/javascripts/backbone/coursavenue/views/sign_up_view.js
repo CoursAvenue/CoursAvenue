@@ -32,14 +32,22 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         events: {
             'click [data-behavior=sign-in]'       : 'signIn',
             'click @ui.$show_email_section_link'  : 'showEmailSection',
+            'click @ui.$facebook_login_button'    : 'loginWithFacebook',
             'submit form'                         : 'signUp'
         },
 
         ui: {
             '$show_email_section_link': '[data-behavior=sign-up-with-email]',
             '$email_section'          : '[data-type=email-section]',
-            '$facebook_login_button'  : '[data-behavior=facebook-login]',
+            '$facebook_login_button'  : '[data-behavior=login-with-facebook]',
             '$data_loader'            : '[data-loader]'
+        },
+
+        /*
+         * We have to keep this action in this model to ensure to pass this.options attributes
+         */
+        loginWithFacebook: function loginWithFacebook () {
+            CoursAvenue.loginWithFacebook(this.options);
         },
 
         signIn: function signIn () {

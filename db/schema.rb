@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141208112938) do
+ActiveRecord::Schema.define(version: 20141209170021) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -699,6 +699,9 @@ ActiveRecord::Schema.define(version: 20141208112938) do
     t.integer  "structure_id"
     t.boolean  "visible",               default: true
     t.boolean  "is_in_foreign_country", default: false
+    t.string   "address"
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
   add_index "plannings", ["audience_ids"], name: "index_plannings_on_audience_ids", using: :btree
@@ -783,6 +786,7 @@ ActiveRecord::Schema.define(version: 20141208112938) do
     t.string   "promo_amount_type"
   end
 
+  add_index "prices", ["price_group_id"], name: "index_prices_on_price_group_id", using: :btree
   add_index "prices", ["type"], name: "index_prices_on_type", using: :btree
 
   create_table "promotion_codes", force: true do |t|
@@ -925,6 +929,7 @@ ActiveRecord::Schema.define(version: 20141208112938) do
     t.integer  "sleeping_structure_id"
     t.text     "course_subjects_string"
     t.boolean  "premium"
+    t.string   "cities_text"
   end
 
   add_index "structures", ["slug"], name: "index_structures_on_slug", unique: true, using: :btree
@@ -1043,6 +1048,8 @@ ActiveRecord::Schema.define(version: 20141208112938) do
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
   end
+
+  add_index "teachers", ["structure_id"], name: "index_teachers_on_structure_id", using: :btree
 
   create_table "unfinished_resources", force: true do |t|
     t.hstore   "fields"

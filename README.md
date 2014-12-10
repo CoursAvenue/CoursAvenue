@@ -67,7 +67,7 @@ $ $ hk set PRERENDER_SERVICE_URL='http://prerender.dev'
 
 And finally add the task `rake scheduler:ping` to the scheduler, running every xx minutes.
 
-### Testing
+## Testing
 
 * Set the browser user agent to `Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)` and the visit the page, or
 * Visit the page adding `?_escaped_fragment_=` to the page URL.
@@ -197,9 +197,11 @@ $ PGPASSWORD=QP2Qnt2tBGS06FFE58w0RM5j_0 pg_restore --verbose --clean --no-acl --
 
 # Maintenance
 
-## Coverage
+## Run specs without generating coverage
 
-    COVERAGE=true rspec spec
+```sh
+CI=1 bundle exec rspec spec/
+```
 
 ## Rubocop
     bundle exec rubocop -Ra

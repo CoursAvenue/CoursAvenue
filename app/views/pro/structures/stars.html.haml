@@ -32,9 +32,3 @@
                 = link_to structure.widget_url, target: '_blank' do
                   %i.fa.fa-check
               = structure.widget_status
-
-= content_for :scripts do
-  :javascript
-    $(function() {
-        $('#dataTable').tablesorter();
-    });
