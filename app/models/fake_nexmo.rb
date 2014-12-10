@@ -1,7 +1,7 @@
 module FakeNexmo
   class Client
     def initialize(options = nil)
-      Rails.logger.debug "[FakeNexmo][initialize] Initialized with options #{options.to_s}."
+      Rails.logger.debug "[FakeNexmo][initialize] Initialized with options #{options}."
     end
 
     def send_message(options)
