@@ -486,19 +486,15 @@ class Structure < ActiveRecord::Base
   #
   # @return a Boolean, whether the sms was sent or not.
   def notify_new_participation_request_via_sms(pr)
-    number = self.principal_phone_number
+    number = principal_phone_number
 
-    if number and self.sms_opt_in? and uses_mobile?(number.number)
-      first   = (self.participation_request.where(user: pr.user).count == 1)
+    if number and sms_opt_in?
+      message = I18n.t('sms.structures.new_participation_request',
+              user_name: pr.user.name,
+              date: I18n.l(pr.date, format: :short),
+              start_time: I18n.l(pr.start_time, format: :short))
 
-      message = "Bonne nouvelle ! "
-      message += "#{ pr.user.name } souhaite venir à une "
-      message += "1ère " if first
-      message += "séance le "
-      message += "#{ I18n.l(pr.date, format: :short) } à #{ I18n.l(pr.start_time, format: :short) }."
-      message += " Connectez-vous à votre profil pour lui répondre directement."
-
-      self.delay.send_sms(message, formatted_number(number))
+      delay.send_sms(message, number)
     end
   end
 
@@ -1191,7 +1187,7 @@ class Structure < ActiveRecord::Base
   #
   # @return The principal PhoneNumber or the first one, or nil otherwise.
   def principal_phone_number
-    self.phone_numbers.where(principal: true).first || self.phone_numbers.first
+    phone_numbers.where(principal: true).first || phone_numbers.first
   end
 
   private

@@ -10,7 +10,7 @@ class PhoneNumber < ActiveRecord::Base
   # Macros                                                             #
   ######################################################################
 
-  attr_accessible :number, :phone_type, :principal
+  attr_accessible :number, :phone_type, :principal_mobile
 
   belongs_to :callable, polymorphic: true, touch: true
 
@@ -23,7 +23,8 @@ class PhoneNumber < ActiveRecord::Base
 
   # This allows us to have a validation based on uniqueness, but only if the
   # boolean field is true.
-  validates :principal, uniqueness: { scope: :callable_id }, if: :principal
+  validates :principal_mobile, uniqueness: { scope: :callable_id, message: :cant_have_multiple_principal_mobile},
+                               if: :principal_mobile
 
   ######################################################################
   # Scope                                                              #
@@ -39,6 +40,6 @@ class PhoneNumber < ActiveRecord::Base
   #
   # @return Boolean
   def mobile?
-    number = MOBILE_PREFIXES.any? { |prefix| self.number.starts_with?(prefix) }
+    MOBILE_PREFIXES.any? { |prefix| self.number.starts_with?(prefix) }
   end
 end

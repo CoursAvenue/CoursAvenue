@@ -222,18 +222,18 @@ class User < ActiveRecord::Base
   #
   # @return a Boolean, whether the sms was sent or not.
   def send_sms_reminder
-    if self.phone_number and self.sms_opt_in? and uses_mobile?
-      courses = self.participation_requests.where(date: Date.tomorrow, state: 'accepted')
+    if phone_number and sms_opt_in?
+      courses = participation_requests.where(date: Date.tomorrow, state: 'accepted')
       return false if courses.empty?
 
-      message = "Rappel: Vous avez #{courses.length} cours demain "
       if courses.length > 1
-        message += "et le premier commence à "
+        message = I18n.t('sms.users.day_before_reminder.multiple_course',
+                          nb_courses: courses.length,
+                          start_time: I18n.l(courses.first.start_time, format: :short))
       else
-        message += "qui commence à "
+        message = I18n.t('sms.users.day_before_reminder.one_course',
+                         start_time: I18n.l(courses.first.start_time, format: :short))
       end
-      message += "#{I18n.l(courses.first.start_time, format: :short)}. "
-      message += 'CoursAvenue vous souhaite une très belle séance ! Pour l’annuler, connectez-vous ("Mes inscriptions").'
 
       self.delay.send_sms(message, formatted_number)
     end

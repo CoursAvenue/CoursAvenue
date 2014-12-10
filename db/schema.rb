@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141209170021) do
+ActiveRecord::Schema.define(version: 20141210165911) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -640,7 +640,7 @@ ActiveRecord::Schema.define(version: 20141209170021) do
     t.string   "callable_type"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "principal",     default: false
+    t.boolean  "principal_mobile", default: false
   end
 
   add_index "phone_numbers", ["callable_id", "callable_type"], name: "index_phone_numbers_on_callable_id_and_callable_type", using: :btree
