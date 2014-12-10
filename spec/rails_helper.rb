@@ -14,6 +14,7 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 # Checks for pending migrations before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
+ActionMailer::Base.register_interceptor(DevelopmentMailInterceptor)
 
 RSpec.configure do |config|
 
@@ -42,9 +43,5 @@ RSpec.configure do |config|
     Sunspot::Rails::Tester.start_original_sunspot_session
     Sunspot.session = $original_sunspot_session
     Sunspot.remove_all!
-  end
-
-  if config.files_to_run.count > 1
-    ActionMailer::Base.register_interceptor(DevelopmentMailInterceptor)
   end
 end
