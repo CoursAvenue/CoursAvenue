@@ -4,8 +4,8 @@ class UsersController < InheritedResources::Base
 
   actions :show, :update
 
-  before_action :authenticate_user!, except: [:unsubscribe, :waiting_for_activation, :invite_entourage_to_jpo_page, :invite_entourage_to_jpo, :welcome, :create]
-  load_and_authorize_resource :user, find_by: :slug, except: [:unsubscribe, :waiting_for_activation, :invite_entourage_to_jpo_page, :invite_entourage_to_jpo, :welcome, :create]
+  before_action :authenticate_user!, except: [:unsubscribe, :waiting_for_activation, :invite_entourage_to_jpo_page, :invite_entourage_to_jpo, :welcome, :create, :facebook_auth_callback, :facebook_auth_failure]
+  load_and_authorize_resource :user, find_by: :slug, except: [:unsubscribe, :waiting_for_activation, :invite_entourage_to_jpo_page, :invite_entourage_to_jpo, :welcome, :create, :facebook_auth_callback, :facebook_auth_failure]
 
   # Create from newsletter
   # GET /users
@@ -158,6 +158,38 @@ class UsersController < InheritedResources::Base
     end
   end
 
+  def facebook_auth_callback
+    @user = User.from_omniauth(request.env['omniauth.auth'])
+
+    if @user.persisted?
+      flash[:notice] = I18n.t 'devise.omniauth_callbacks.success', kind: 'Facebook'
+
+      # Update oauth token and expires at
+      auth = request.env['omniauth.auth']
+      @user.oauth_token        = auth.credentials.token
+      @user.oauth_expires_at   = Time.at(auth.credentials.expires_at)
+
+      sign_in(Devise::Mapping.find_scope!(@user), @user, event: :authentication)
+
+      redirect_url = after_omni_auth_sign_in_path_for(@user)
+      respond_to do |format|
+        format.html { redirect_to redirect_url }
+        format.json { render json: UserSerializer.new(@user).to_json }
+      end
+    else
+      session['devise.facebook_data'] = request.env['omniauth.auth']
+
+      respond_to do |format|
+        format.html { redirect_to redirect_url }
+        format.json { render json: { redirect_url: root_path(anchor: 'connexion') } }
+      end
+    end
+  end
+
+  def facebook_auth_failure
+    redirect_to new_user_session_path, flash: { error: I18n.t('devise.omniauth_callbacks.failure', kind: 'Facebook') }
+  end
+
   private
 
   def get_layout
@@ -215,4 +247,12 @@ class UsersController < InheritedResources::Base
     end
   end
 
+  def after_omni_auth_sign_in_path_for(user)
+    session[:after_sign_up_url] = user.after_sign_up_url || session['user_return_to'] || dashboard_user_path(user)
+    if user.sign_in_count == 1
+      welcome_users_path
+    else
+      session[:after_sign_up_url]
+    end
+  end
 end

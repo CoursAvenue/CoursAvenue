@@ -190,7 +190,11 @@ CoursAvenue::Application.routes.draw do
           get :inscription, to: :new
         end
         devise_for :admins, controllers: { registrations: 'pro/admins/registrations'}, path: '/', path_names: { registration: 'rejoindre-coursavenue-pro', sign_up: '/' }
-        resources :orders, only: [:index, :show], controller: 'structures/orders', path: 'mes-factures'
+        resources :orders, only: [:index, :show], controller: 'structures/orders', path: 'mes-factures' do
+          member do
+            get 'export'
+          end
+        end
         resources :subscription_plans, only: [:new, :index, :destroy], controller: 'structures/subscription_plans', path: 'abonnements' do
           collection do
             get :choose_premium, path: 'choisir-un-abonnement'
@@ -337,6 +341,9 @@ CoursAvenue::Application.routes.draw do
       resources :comment_notifications, only: [:index]
       resources :conversations        , only: [:index]
 
+      get '/auth/facebook/callback', to: 'admins#facebook_auth_callback'
+      get '/auth/failure',           to: 'admins#facebook_auth_failure'
+
       resources :admins do
         collection do
           get :waiting_for_activation, path: 'activez-votre-compte'
@@ -346,6 +353,9 @@ CoursAvenue::Application.routes.draw do
         end
       end
       devise_for :admins, controllers: { sessions: 'pro/admins/sessions', registrations: 'pro/admins/registrations', passwords: 'pro/admins/passwords', confirmations: 'pro/admins/confirmations'}, path: '/', path_names: { sign_in: '/connexion', sign_out: 'logout', registration: 'rejoindre-coursavenue-pro', sign_up: '/', :confirmation => 'verification'}#, :password => 'secret', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
+
+      get "/contacts/:importer/callback", to: "contacts#callback"
+      get "/contacts/failure",            to: "contacts#failure"
     end
   end
 
@@ -361,7 +371,6 @@ CoursAvenue::Application.routes.draw do
   end
 
   devise_for :users, controllers: {
-                      omniauth_callbacks: 'users/omniauth_callbacks',
                       sessions: 'users/sessions',
                       registrations: 'users/registrations',
                       confirmations: 'users/confirmations',
@@ -371,6 +380,10 @@ CoursAvenue::Application.routes.draw do
                       sign_up: '/inscription',
                       confirmation: 'verification'
                     }
+
+
+  get '/auth/facebook/callback', to: 'users#facebook_auth_callback'
+  get '/auth/facebook/failure',  to: 'users#facebook_auth_failure'
 
   resources  :users, only: [:destroy, :create, :edit, :show, :update], path: 'eleves' do
     collection do
@@ -460,9 +473,17 @@ CoursAvenue::Application.routes.draw do
     resources :messages              , only: [:create]                                    , controller: 'structures/messages'
     resources :places                , only: [:index]                                     , controller: 'structures/places'
     resources :courses               , only: [:show, :index]                              , controller: 'structures/courses'    , path: 'cours'
+    resources :comments              , only: [:create, :new, :show, :index, :update]      , controller: 'structures/comments'   , path: 'avis' do
+      collection do
+        get :create_from_email
+      end
+      member do
+        get :add_private_message, path: 'envoyer-un-message-prive'
+      end
+    end
+    # Here for old 404
     resources :comments              , only: [:new]                                       , controller: 'structures/comments'   , path: 'recommendations'
     resources :comments              , only: [:new]                                       , controller: 'structures/comments'   , path: 'recommandations'
-    resources :comments              , only: [:create, :new, :show, :index]               , controller: 'structures/comments'   , path: 'avis'
     resources :teachers              , only: [:index]                                     , controller: 'structures/teachers'
     resources :medias                , only: [:index]                                     , controller: 'structures/medias'
   end
@@ -550,6 +571,8 @@ CoursAvenue::Application.routes.draw do
   # ----------------------------------------- Static pages
   # ------------------------------------------------------
   # Pages
+  get 'oooh-yeah'                    => 'home#resolutions',          as: 'home_resolutions'
+
   get 'mon-compte'                    => 'home#redirect_to_account'
   get 'pourquoi-le-bon-cours',        to: 'redirect#why_coursavenue'
   get 'portes-ouvertes-cours-loisirs' => 'pages#jpo',                  as: 'pages_jpo'

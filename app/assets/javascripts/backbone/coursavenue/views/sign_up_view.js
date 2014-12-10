@@ -39,25 +39,19 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         ui: {
             '$show_email_section_link': '[data-behavior=sign-up-with-email]',
             '$email_section'          : '[data-type=email-section]',
-            '$facebook_login_button'  : '[data-behavior=facebook-login]',
+            '$facebook_login_button'  : '[data-behavior=login-with-facebook]',
             '$data_loader'            : '[data-loader]'
+        },
+
+        /*
+         * We have to keep this action in this model to ensure to pass this.options attributes
+         */
+        loginWithFacebook: function loginWithFacebook () {
+            CoursAvenue.loginWithFacebook(this.options);
         },
 
         signIn: function signIn () {
             new Module.SignInView(this.options);
-        },
-
-        loginWithFacebook: function loginWithFacebook () {
-            this.ui.$facebook_login_button.text('Inscription en cours...');
-            this.ui.$data_loader.removeClass('hidden');
-            CoursAvenue.loginWithFacebook({
-                success: this.options.success,
-                dismiss: function() {
-                    this.ui.$data_loader.addClass('hidden');
-                    this.ui.$facebook_login_button.text('Inscription avec Facebook');
-                    this.options.dismiss();
-                }.bind(this)
-            });
         },
 
         showEmailSection: function showEmailSection () {

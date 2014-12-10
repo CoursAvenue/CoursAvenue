@@ -1,5 +1,8 @@
 class Comment::Review < Comment
+
   MIN_NB_WORD_CONTENT  = 20
+
+  friendly_id :unique_token, use: [:slugged, :finders]
 
   attr_accessible :author_name, :email, :rating, :title, :course_name, :deletion_reason, :subjects, :subject_ids,
                   :associated_message_id, :certified
@@ -192,7 +195,7 @@ class Comment::Review < Comment
   private
 
   def content_length
-    if content.split.size < MIN_NB_WORD_CONTENT
+    if content and content.split.size < MIN_NB_WORD_CONTENT
       self.errors.add :content, I18n.t('comments.errors.content_too_small', count: MIN_NB_WORD_CONTENT)
     end
   end

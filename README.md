@@ -8,22 +8,31 @@
 
 Using experimental [labs-preboot](https://devcenter.heroku.com/articles/labs-preboot)
 
+```shell
 $ heroku labs:enable -a coursavenue preboot
 $ heroku labs:disable -a coursavenue preboot
+```
 
 ## Staging
 
-`$ git push staging master`
-`$ heroku run rake db:migrate --remote staging`
-`$ heroku ps --remote staging`
+```shell
+$ git push staging master
+$ heroku run rake db:migrate --remote staging
+$ heroku ps --remote staging
+```
 
 ### Pushing local branch to heroku staging
+
+```shell
 $ git push staging feature_branch:master
+```
 
 ### Rbenv & Pow
 
-\# ~/.powconfig
-`export PATH=$(rbenv root)/shims:$(rbenv root)/bin:$PATH`
+```shell
+# ~/.powconfig
+export PATH=$(rbenv root)/shims:$(rbenv root)/bin:$PATH
+```
 
 ### Prerender
 
@@ -31,33 +40,36 @@ $ git push staging feature_branch:master
 
 ```shell
 # In another folder:
-git clone git@github.com:CoursAvenue/coursavenue-prerender.git
-cd coursavenue-prerender
-npm install # install dependecies, including PhantomJS
+$ git clone git@github.com:CoursAvenue/coursavenue-prerender.git
+$ cd coursavenue-prerender
 
-node server # or foreman start -p 3000
+# Install dependecies, including PhantomJS
+$ npm install
+
+$ node server # or foreman start -p 3000
 ```
 
 #### In Coursavenue App
 
 ```shell
-echo "PRERENDER_SERVICE_URL: 'http://prerender.dev'" >> .env
-echo 3000 > ~/.pow/prerender
-touch ~/.pow/restart.txt
+$ echo "PRERENDER_SERVICE_URL: 'http://prerender.dev'" >> .env
+$ echo 3000 > ~/.pow/prerender
+$ touch ~/.pow/restart.txt
 ```
 
 #### In Production / Staging
 
 ```shell
-heroku config:set PRERENDER_SERVICE_URL="http://coursavenue-prerender.herokuapp.com/"
+$ heroku config:set PRERENDER_SERVICE_URL="http://coursavenue-prerender.herokuapp.com/"
 # OR
-hk set PRERENDER_SERVICE_URL='http://prerender.dev'
+$ $ hk set PRERENDER_SERVICE_URL='http://prerender.dev'
 ```
 
 And finally add the task `rake scheduler:ping` to the scheduler, running every xx minutes.
 
 #### Testing
 * Set the browser user agent to `Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)` and visit the page, or
+
 * Visit the page adding `?_escaped_fragment_=` to the page URL.
 
 ### SMS with Nexmo
@@ -95,55 +107,82 @@ Command to regenerate fonts:
 `bundle exec fontcustom compile app/assets/images/icons/svg/`
 
 ### Add remote branch for Heroku
-`git remote add heroku git@heroku.com:leboncours.git`
+
+```shell
+$ git remote add heroku git@heroku.com:coursavenue.git
+```
 
 
 ### Heroku
 
 [Using Labs: user-env-compile](https://devcenter.heroku.com/articles/labs-user-env-compile#use-case)
 
-    heroku labs:enable user-env-compile -a
+```shell
+$ heroku labs:enable user-env-compile -a
+```
 
 ### Paperclip
 
 Dependencies: imagemagick
 
 #### Reprocessing images
-h run rake paperclip:refresh CLASS=Course
+
+```shell
+$ heroku run rake paperclip:refresh CLASS=Course
+```
 
 ### For Heroku
 
-`heroku config:add AWS_BUCKET=bucket_name`
-`heroku config:add AWS_ACCESS_KEY_ID=`
-`heroku config:add AWS_SECRET_ACCESS_KEY=`
+```shell
+$ heroku config:add AWS_BUCKET=bucket_name
+$ heroku config:add AWS_ACCESS_KEY_ID=
+$ heroku config:add AWS_SECRET_ACCESS_KEY=
+```
 
 ### [Solr sunspot](https://github.com/sunspot/sunspot#readme)
+
 Commands
-`rake sunspot:solr:run`
+```shell
+$ rake sunspot:solr:run
+```
 
 On heroku
-`heroku run rake sunspot:solr:start`
-`heroku run rake sunspot:solr:stop`
-`heroku run rake sunspot:reindex`
+```shell
+$ heroku run rake sunspot:solr:start
+$ heroku run rake sunspot:solr:stop
+$ heroku run rake sunspot:reindex
+```
 
 
 ### Git
-Remove local branch
-`git branch -D branch_name`
-Remove remote branch
-`git push origin --delete branch_name`
+
+```shell
+# Remove local branch
+$ git branch -D branch_name
+
+# Remove remote branch
+$ git push origin :branch_name
+
+# Remove remote refs from local
+$ git gc --prune=now
+$ git remote prune origin
+```
 
 ### Cities
 http://download.geonames.org/export/zip/
 
 ### Sitemap
 
-`RAILS_ENV=production rake sitemap:create`
+```shell
+$ RAILS_ENV=production rake sitemap:create
+```
 
 ### Tests
-rake db:test:clone
-RAILS_ENV=test rake sunspot:solr:start
-`$ rspec spec`
+```shell
+$ rake db:test:clone
+$ RAILS_ENV=test rake sunspot:solr:start
+$ rspec spec
+```
 
 # DB
 
@@ -165,19 +204,24 @@ RAILS_ENV=test rake sunspot:solr:start
     pg_restore --host localhost --port 5432 --username "postgres" --dbname "coursavenue_development" --role "udrhnkjoqg1jmn" --no-password  --verbose "/Users/Nima/Downloads/a569.dump"
 
     pg_restore --host localhost --port 5432 --dbname "coursavenue_development" --role "udrhnkjoqg1jmn" --verbose /Users/Nima/Downloads/a532.dump -U postgres
-    
+
 ## Make a dump
 
     pg_dump --host localhost --port 5432 --username "postgres" --dbname "coursavenue_development" -f 20_fev.tar --format=t
 
 ## Restore staging
-PGPASSWORD=QP2Qnt2tBGS06FFE58w0RM5j_0 pg_restore --verbose --clean --no-acl --no-owner -h ec2-79-125-105-227.eu-west-1.compute.amazonaws.com -U flqgmxztwjmjvs -d db7jnmndbshr32 -p 5432 XXX.tar
+
+```shell
+$ PGPASSWORD=QP2Qnt2tBGS06FFE58w0RM5j_0 pg_restore --verbose --clean --no-acl --no-owner -h ec2-79-125-105-227.eu-west-1.compute.amazonaws.com -U flqgmxztwjmjvs -d db7jnmndbshr32 -p 5432 XXX.tar
+```
 
 # Maintenance
 
-## Coverage
+## Run specs without generating coverage
 
-    COVERAGE=true rspec spec
+```sh
+CI=1 bundle exec rspec spec/
+```
 
 ## Rubocop
     bundle exec rubocop -Ra
@@ -201,3 +245,13 @@ Reinvoke all jobs :
 # Ex of `where` with hstore
 
 `User.where("meta_data -> 'subscription_from' LIKE 'newsletter'")`
+
+
+For CarrierWave ImageOptimizer
+brew install optipng jpegoptim
+
+## Weird bug
+
+    undefined method `dependency_digest' for #<Sprockets::StaticAsset:0x007f9c521cb290>
+
+rake tmp:cache:clear

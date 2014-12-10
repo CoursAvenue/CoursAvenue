@@ -6,7 +6,7 @@ class Subject < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
 
-  acts_as_tree cache_depth: true
+  acts_as_tree cache_depth: true, touch: true
 
   ######################################################################
   # Relations                                                          #
@@ -46,15 +46,18 @@ class Subject < ActiveRecord::Base
 
   attr_accessible :name, :short_name, :info, :parent, :position, :title, :subtitle, :description, :image,
                   :good_to_know, :needed_meterial, :tips, :ancestry
+
   has_attached_file :image,
-                    :styles => { super_wide: "825x250#", wide: "600x375#", small: '250x200#', thumb: "200x200#" }
+                    :styles => { super_wide: "825x250#", wide: "600x375#", small: '250x200#', thumb: "200x200#" },
+                    processors: [:thumbnail, :paperclip_optimizer]
+
   validates_attachment_content_type :image, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 
   searchable do
     text :name
   end
 
-  algoliasearch do
+  algoliasearch per_environment: true do
     attribute :name, :slug
     add_attribute :type do
       'subject'

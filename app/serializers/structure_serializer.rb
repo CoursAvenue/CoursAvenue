@@ -7,31 +7,18 @@ class StructureSerializer < ActiveModel::Serializer
 
   attributes :id, :name, :slug, :comments_count, :logo_thumb_url, :logo_large_url,
               :data_url, :query_params, :structure_type, :highlighted_comment_title,
-              :premium, :has_promotion, :is_open_for_trial, :cities, :cover_media, :subjects,
+              :premium, :has_promotion, :is_open_for_trial, :cover_media, :subjects,
               :trial_courses_policy
 
   has_many :places,            serializer: PlaceSerializer
-  has_many :comments,          serializer: ShortSerializer
-  has_many :medias,            serializer: ShortSerializer
   has_many :preloaded_medias,  serializer: MediaSerializer
 
-  def medias
-    object.medias.cover_first.videos_first.limit((object.premium? ? 20 : Media::FREE_PROFIL_LIMIT))
-  end
-
   def preloaded_medias
-    object.medias.cover_first.videos_first.limit((object.premium? ? 20 : Media::FREE_PROFIL_LIMIT))
+    object.medias.cover_first.videos_first.limit((premium ? 20 : Media::FREE_PROFIL_LIMIT))
   end
 
   def cover_media
-    MediaSerializer.new(preloaded_medias.first) if preloaded_medias.first
-  end
-
-  def comments
-    result = object.comments.accepted
-    result = result.limit(5) unless options.key? :unlimited_comments
-
-    return result
+    MediaSerializer.new(preloaded_medias.first) if preloaded_medias.any?
   end
 
   def places
@@ -46,7 +33,7 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def highlighted_comment_title
-    truncate(object.highlighted_comment.try(:title), length: 60) if object.comments_count > 0 and object.premium?
+    truncate(object.highlighted_comment.try(:title), length: 60) if object.comments_count > 0 and premium
   end
 
   def structure_type
@@ -86,16 +73,12 @@ class StructureSerializer < ActiveModel::Serializer
     object.premium?
   end
 
-  def cities
-    object.places.map(&:city).map(&:name).uniq.join(', ')
-  end
-
   def is_open_for_trial
     object.is_open_for_trial?
   end
 
   def subjects
-    object.courses.flat_map(&:subjects).uniq.map(&:name).join(', ')
+    join_structure_course_subjects_text(object)
   end
 
   def trial_courses_policy

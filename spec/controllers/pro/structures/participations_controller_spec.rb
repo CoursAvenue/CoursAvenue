@@ -1,7 +1,8 @@
 # -*- encoding : utf-8 -*-
-require 'spec_helper'
+require 'rails_helper'
 
 describe Pro::Structures::ParticipationsController do
+  include Devise::TestHelpers
 
   let(:admin) { FactoryGirl.create(:admin) }
 

@@ -1,0 +1,11 @@
+test:
+  options: null
+  sessions:
+    default:
+      options:
+        retry_interval: 0
+        max_retries: 1
+        read: primary
+      hosts:
+        - localhost:27017
+      database: circle_test

@@ -15,8 +15,8 @@ CoursAvenue::Application.configure do
   # This is added for IdentityCache.
   config.action_controller.perform_caching = false
 
-  config.cache_store = :dalli_store
-  config.identity_cache_store = :dalli_store
+  # config.cache_store = :dalli_store
+  # config.identity_cache_store = :dalli_store
 
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = true
@@ -24,23 +24,23 @@ CoursAvenue::Application.configure do
   config.action_mailer.default_url_options = { :host => 'coursavenue.dev' }
   config.action_mailer.asset_host = 'http://coursavenue.dev'
 
-  # config.action_mailer.smtp_settings = {
-  #   :address => "smtp.gmail.com",
-  #   :port => 587,
-  #   :domain => 'gmail.com',
-  #   :user_name => 'v2r.test@gmail.com',
-  #   :password => 'xnnc8cesJO',
-  #   :authentication => 'plain',
-  #   :enable_starttls_auto => true
-  # }
   config.action_mailer.smtp_settings = {
-    address:          'smtp.mandrillapp.com',
-    port:             '587',
-    user_name:        ENV["MANDRILL_USERNAME"],
-    password:         ENV["MANDRILL_PASSWORD"],
-    domain:           'coursavenue.com',
-    authentication:   :plain
+    :address => "smtp.gmail.com",
+    :port => 587,
+    :domain => 'gmail.com',
+    :user_name => 'v2r.test@gmail.com',
+    :password => 'xnnc8cesJO',
+    :authentication => 'plain',
+    :enable_starttls_auto => true
   }
+  # config.action_mailer.smtp_settings = {
+  #   address:          'smtp.mandrillapp.com',
+  #   port:             '587',
+  #   user_name:        ENV["MANDRILL_USERNAME"],
+  #   password:         ENV["MANDRILL_PASSWORD"],
+  #   domain:           'coursavenue.com',
+  #   authentication:   :plain
+  # }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log

@@ -1,11 +1,10 @@
 class StructureDecorator < Draper::Decorator
 
-  def places_popover(places=nil)
+  def places_popover()
     output = ''
     # Use find_by_id to prevent from exception when place is not find.
     # In this case: http://www.coursavenue.dev/etablissements/voix-et-voie/pass-decouverte place wasn't found...
-    places ||= object.places
-    places.each do |place|
+    object.places.includes(:city).each do |place|
       next if place.nil?
       output << "<div class='push-half--bottom'><strong>#{place.name}</strong><br>#{place.street}, #{place.city.name}</div>"
     end

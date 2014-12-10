@@ -27,7 +27,7 @@
           .p
             %strong= similar_profile.name
             %br
-            %span{ style: 'font-size: 12px;'}= truncate(similar_profile.places.map(&:city).map(&:name).uniq.join(', '), length: 30)
+            %span{ style: 'font-size: 12px;'}= truncate(similar_profile.cities_text, length: 30)
             %br
             %span{ style: 'font-size: 12px;'}= truncate(similar_profile.subjects.at_depth(0).uniq.map(&:name).join(', '), length: 30)
 

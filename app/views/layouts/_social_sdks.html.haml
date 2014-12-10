@@ -13,11 +13,11 @@
   :javascript
       window.fbAsyncInit = function() {
           FB.init({
-            appId      : '589759807705512',
-            cookie     : true,  // enable cookies to allow the server to access
-                                // the session
-            xfbml      : true,  // parse social plugins on this page
-            version    : 'v2.1' // use version 2.1
+            appId  : '589759807705512',
+            cookie : true,  // enable cookies to allow the server to access
+                            // the session
+            xfbml  : true,  // parse social plugins on this page
+            version: 'v2.1' // use version 2.1
           });
           $(document).trigger('facebook:initialized');
       };
@@ -29,20 +29,4 @@
   po.src = 'https://apis.google.com/js/platform.js';
   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
   })();
-  </script>
-
-
-  <!-- Facebook Conversion Code for Inscription -->
-  <script>(function() {
-  var _fbq = window._fbq || (window._fbq = []);
-  if (!_fbq.loaded) {
-  var fbds = document.createElement('script');
-  fbds.async = true;
-  fbds.src = '//connect.facebook.net/en_US/fbds.js';
-  var s = document.getElementsByTagName('script')[0];
-  s.parentNode.insertBefore(fbds, s);
-  _fbq.loaded = true;
-  }
-  })();
-  window._fbq = window._fbq || [];
   </script>

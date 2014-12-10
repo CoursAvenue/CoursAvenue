@@ -1,0 +1,21 @@
+# All options: https://github.com/bbatsov/rubocop/blob/master/config/enabled.yml
+# Default option values: https://github.com/thoughtbot/hound/blob/master/config/style_guides/ruby.yml
+
+Style/AndOr:
+  Description: 'Use &&/|| instead of and/or.'
+  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#no-and-or-or'
+  Enabled: false
+
+Style/StringLiterals:
+  Description: 'Checks if uses of quotes match the configured preference.'
+  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#consistent-string-literals'
+  Enabled: false
+
+Style/SingleSpaceBeforeFirstArg:
+  Description: >-
+                 Checks that exactly one space is used between a method name
+                 and the first argument for method calls without parentheses.
+  Enabled: false
+
+LineLength:
+  Max: 100

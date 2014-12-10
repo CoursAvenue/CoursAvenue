@@ -26,6 +26,7 @@
 //= require libs/jquery.lazyload
 //= require libs/responsiveslides
 //= require libs/jquery.placeholder
+//= require libs/retina
 
 //= require libs/jquery.magnific-popup
 //= require libs/fancybox/jquery.fancybox

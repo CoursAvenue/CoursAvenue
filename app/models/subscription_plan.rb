@@ -58,7 +58,7 @@ class SubscriptionPlan < ActiveRecord::Base
   # Relations                                                          #
   ######################################################################
   has_many :orders, class_name: 'Order::Premium'
-  belongs_to :structure
+  belongs_to :structure, touch: true
   belongs_to :promotion_code
 
   attr_accessible :plan_type, :expires_at, :renewed_at, :last_renewal_failed_at, :recurrent, :structure, :canceled_at,

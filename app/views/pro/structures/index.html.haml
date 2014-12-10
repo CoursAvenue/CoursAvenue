@@ -24,8 +24,3 @@
           \/
           = link_to "Supprimer", pro_structure_path(structure), method: :delete, class: 'red'
 
-= content_for :scripts do
-  :javascript
-    $(function() {
-        $('#dataTable').tablesorter();
-    });

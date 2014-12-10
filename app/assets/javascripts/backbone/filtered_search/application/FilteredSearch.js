@@ -38,8 +38,8 @@ FilteredSearch.addInitializer(function(options) {
         }
     });
 
-    if ( !structures.server_api['address_name'] ) { structures.server_api['address_name'] = 'Paris' }
-    structures.bootstrap();
+    if ( !structures.queryParams['address_name'] ) { structures.queryParams['address_name'] = 'Paris' }
+    //structures.bootstrap();
 
     /* set up the layouts */
     layout = new FilteredSearch.Views.SearchWidgetsLayout();

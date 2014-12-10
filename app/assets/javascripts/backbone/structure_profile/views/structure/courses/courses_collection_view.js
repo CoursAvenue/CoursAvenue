@@ -19,6 +19,7 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
 
         collectionReset: function collectionReset () {
             this.trigger('courses:collection:reset', this.serializeData());
+            if (this.collection.length == 0) { this.$('[data-empty-courses]').removeClass('hidden') }
             _.delay(this.iPhonizeCourseTitles, 500);
         },
 
@@ -72,8 +73,7 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
                 courses_count     : this.collection.length,
                 data_url          : this.data_url,
                 about             : this.about,
-                about_genre       : this.about_genre,
-                has_courses       : (this.collection.length > 0)
+                about_genre       : this.about_genre
             };
         },
 

@@ -17,13 +17,44 @@ CoursAvenue::Application.configure do
 
   # Disable Rails's static asset server (Apache or nginx will already do this)
   config.serve_static_assets  = true
-  # config.static_cache_control = "public, max-age=31536000"
+  config.assets.compress = true
+  config.static_cache_control = "public, max-age=31536000"
+
+  # By doing so, you are legally required to acknowledge
+  # the use of the software somewhere in your Web site or app:
+  uglifier = Uglifier.new output: { comments: :none }
+
+  # To keep all comments instead or only keep copyright notices (the default):
+  # uglifier = Uglifier.new output: { comments: :all }
+  # uglifier = Uglifier.new output: { comments: :copyright }
 
   # Compress JavaScripts and CSS
-  config.assets.js_compressor = :uglifier
+  config.assets.js_compressor  = uglifier
+  config.assets.css_compressor = :sass
+
+  # config.middleware.use HtmlCompressor::Rack, { compress_css: true,
+  #                                               compress_javascript: true,
+  #                                               css_compressor: Sass,
+  #                                               enabled: true,
+  #                                               javascript_compressor: uglifier,
+  #                                               preserve_line_breaks: false,
+  #                                               remove_comments: true,
+  #                                               remove_form_attributes: false,
+  #                                               remove_http_protocol: false,
+  #                                               remove_https_protocol: false,
+  #                                               remove_input_attributes: true,
+  #                                               remove_intertag_spaces: false,
+  #                                               remove_javascript_protocol: true,
+  #                                               remove_link_attributes: true,
+  #                                               remove_multi_spaces: true,
+  #                                               remove_quotes: true,
+  #                                               remove_script_attributes: true,
+  #                                               remove_style_attributes: true,
+  #                                               simple_boolean_attributes: true,
+  #                                               simple_doctype: false }
 
   # Don't fallback to assets pipeline if a precompiled asset is missed
-  config.assets.compile = false
+  config.assets.compile = true
 
   # Generate digests for assets URLs
   config.assets.digest = true
@@ -65,7 +96,10 @@ CoursAvenue::Application.configure do
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
   config.assets.precompile += %w( email.css discovery_pass.css )
-  config.assets.precompile += %w( application.pro.js modernizr.js )
+  config.assets.precompile += %w( modernizr.js ckeditor/config.js libs/jquery.Jcrop.js )
+  config.assets.precompile += %w( libs/highcharts/highcharts.js libs/highcharts/modules/exporting.js )
+  config.assets.precompile += %w( libs/filepicker.js )
+  config.assets.precompile += %w( libs/jquery.fullPage.js libs/jquery.fullPage.css )
 
   # Enable threaded mode
   # config.threadsafe!

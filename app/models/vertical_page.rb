@@ -7,7 +7,7 @@ class VerticalPage < ActiveRecord::Base
   ######################################################################
   # Relations                                                          #
   ######################################################################
-  belongs_to :subject
+  belongs_to :subject, touch: true
   has_many :medias, as: :mediable
 
   attr_accessible :name, :caption, :title, :content, :keywords, :subject_id, :image, :medias_attributes, :sidebar_title,
@@ -19,7 +19,8 @@ class VerticalPage < ActiveRecord::Base
 
   has_attached_file :image,
                     styles: { thumb: '250x200#', large: '1600x500#' },
-                    convert_options: { thumb: '-interlace Plane', large: '-interlace Plane' }
+                    convert_options: { thumb: '-interlace Plane', large: '-interlace Plane' },
+                    processors: [:thumbnail, :paperclip_optimizer]
 
   validates_attachment_content_type :image, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 

@@ -104,6 +104,7 @@
     = structure_form.button :submit, "Enregistrer", class: 'btn btn--green btn--full push--bottom', data: { disable_with: "En cours d'enregistrement" }
 
 = content_for :scripts do
+  = render 'shared/libs/filepicker_scripts'
   :javascript
     $(function() {
         $('#structure_gives_individual_courses').change(function(){

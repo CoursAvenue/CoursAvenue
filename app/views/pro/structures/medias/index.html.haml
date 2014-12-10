@@ -25,6 +25,7 @@
             = render partial: 'pro/structures/medias/media', locals: { media: media, index: index, structure: @structure }
 
 = content_for :scripts do
+  = render 'shared/libs/filepicker_scripts'
   :javascript
     $(function() {
         $('.media__item').first().hover(function() {

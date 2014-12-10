@@ -1,13 +1,15 @@
 / - if controller_name != 'sessions'
 /   = link_to "Se connecter", new_session_path(resource_name)
 /   %br
-%ul.flush--left.milli.discrete-list
-  - if devise_mapping.recoverable? && controller_name != 'passwords'
-    %li= link_to "J'ai oublié mon mot de passe", new_pro_admin_password_path
-  -# - if devise_mapping.confirmable? && controller_name != 'confirmations'
-  -#   %li= link_to "Je n'ai pas reçu les instructions par email ?", new_pro_admin_confirmation_path
-  - if devise_mapping.registerable? && controller_name != 'registrations'
-    %li= link_to "Je n'ai pas encore de compte", inscription_pro_structures_path
+
+- if devise_mapping.recoverable? && controller_name != 'passwords'
+  = link_to "Mot de passe perdu", new_pro_admin_password_path
+-# - if devise_mapping.confirmable? && controller_name != 'confirmations'
+-#   %li= link_to "Je n'ai pas reçu les instructions par email ?", new_pro_admin_confirmation_path
+- if devise_mapping.registerable? && controller_name != 'registrations'
+  %div
+    Vous n'avez pas de compte CoursAvenue ?
+    = link_to "Inscription", inscription_pro_structures_path
 
 / - if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks'
 /   = link_to "Didn't receive unlock instructions?", new_unlock_path(resource_name)

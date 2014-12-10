@@ -1,3 +1,4 @@
+- @is_reponsive = true
 - if @subject
   - title = "#{@subject.name}"
 - else
@@ -40,7 +41,7 @@
           = @vertical_page.name
 
   .grid
-    .grid__item.six-tenths>
+    .grid__item.six-tenths.palm-one-whole>
       = render partial: 'vertical_pages/cities'
       - bg_thumb   = @vertical_page.image.url(:thumb)
       - if @subject.root.vertical_pages.any?
@@ -92,7 +93,7 @@
                 - else
                   %li.hard.epsilon= link_to city.name, vertical_page_with_city_path(@subject.root, @vertical_page, city), class: 'block soft-half'
 
-    .grid__item.four-tenths>
+    .grid__item.four-tenths.palm-one-whole>
       %h3 #{@vertical_page.name} : sélection
       .panel
         %ul.nav.tabs.panel__header
@@ -117,13 +118,15 @@
   .home-screen-promotion-wrapper
     .main-container.main-container--medium.soft--ends
       %h2.soft--bottom.f-weight-300 #{@subject.name} : plus de disciplines
-      = render partial: 'vertical_pages/subjects', locals: { subjects: @subject.children }
+      - cache [@subject, 'vertical_pages/subjects/depth_1'] do
+        = render partial: 'vertical_pages/subjects', locals: { subjects: @subject.children.includes(:vertical_pages) }
 
 - unless @subject.depth == 2
   .soft--ends{ class: (@subject.depth == 0 ? '' : 'home-screen-promotion-wrapper') }
     .main-container.main-container--medium
       %h2.soft--bottom.f-weight-300 #{@subject.name} : tous les styles
-      = render partial: 'vertical_pages/subjects', locals: { subjects: @subject.descendants.at_depth(2) }
+      - cache [@subject, 'vertical_pages/subjects/depth_2'] do
+        = render partial: 'vertical_pages/subjects', locals: { subjects: @subject.descendants.at_depth(2).includes(:vertical_pages) }
 
 %div{ class: (@subject.depth == 0 || @subject.depth == 2 ? 'home-screen-promotion-wrapper' : '') }
   .main-container.main-container--medium.soft--ends
@@ -134,12 +137,12 @@
           .grid__item.one-half.palm-one-whole.lap-one-half>
             - cache [review, 'vertical_page/show'] do
               .flexbox.push--bottom
-                .flexbox__item.soft--left.v-top.text--center>
+                .flexbox__item.soft--left.v-top.text--center.visuallyhidden--palm>
                   = link_to structure_url(review.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block media-photo', target: :_blank, class: 'muted-link' do
                     = image_tag (review.user || User.active.with_avatar.sample).avatar_url(:thumb), class: 'block rounded--circle', width: 60
                   .milli.soft-half--top
                     = review.author_name
-                .flexbox__item.soft--sides.v-top>
+                .flexbox__item.soft--sides.v-top.palm-one-whole>
                   .message__body.soft-half.message__appendix.gray-box
                     %p.epsilon.push-half--bottom.quoted
                       %strong= review.title

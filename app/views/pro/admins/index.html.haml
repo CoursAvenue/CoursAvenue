@@ -84,7 +84,6 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        $('#dataTable').tablesorter();
         // Admin search
         var template = Handlebars.compile($('#structure-item-template').html());
         var engine   = new Bloodhound({

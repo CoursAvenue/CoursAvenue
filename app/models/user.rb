@@ -16,8 +16,7 @@ class User < ActiveRecord::Base
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :confirmable,
-         :omniauth_providers => [:facebook]
+         :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
 
   # Setup accessible (or protected) attributes for your model
@@ -40,7 +39,8 @@ class User < ActiveRecord::Base
 
 
   has_attached_file :avatar,
-                    styles: { wide: '800x800#', normal: '450x', thumb: '200x200#', small: '100x100#', mini: '40x40#' }
+                    styles: { wide: '800x800#', normal: '450x', thumb: '200x200#', small: '100x100#', mini: '40x40#' },
+                    processors: [:thumbnail, :paperclip_optimizer]
 
   validates_attachment_content_type :avatar, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 
@@ -259,22 +259,22 @@ class User < ActiveRecord::Base
     if self.avatar.exists?
       self.avatar.url(format)
     elsif self.fb_avatar
-      if format == :thumb
-        self.fb_avatar('large')
-      else
-        self.fb_avatar
-      end
+      self.fb_avatar(format)
     else
       self.avatar
     end
   end
 
   # Type in: small square large normal
-  def fb_avatar(type='square')
-    if type == 'large'
+  def fb_avatar(format=:normal)
+    if format == :normal
       self.read_attribute(:fb_avatar).gsub(/^http:/, 'https:').split("?")[0] << "?width=200&height=200" unless self.read_attribute(:fb_avatar).nil?
+    elsif :thumb
+      self.read_attribute(:fb_avatar).gsub(/^http:/, 'https:').split("?")[0] << "?width=50&height=50" unless self.read_attribute(:fb_avatar).nil?
+    elsif :small_thumb
+      self.read_attribute(:fb_avatar).gsub(/^http:/, 'https:').split("?")[0] << "?width=30&height=30" unless self.read_attribute(:fb_avatar).nil?
     else
-      self.read_attribute(:fb_avatar).gsub(/^http:/, 'https:').split("=")[0] << "?width=100&height=100" unless self.read_attribute(:fb_avatar).nil?
+      self.read_attribute(:fb_avatar).gsub(/^http:/, 'https:').split("?")[0] << "?width=100&height=100" unless self.read_attribute(:fb_avatar).nil?
     end
   end
 

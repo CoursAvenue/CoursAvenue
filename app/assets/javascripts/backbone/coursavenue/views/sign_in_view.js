@@ -35,28 +35,22 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         events: {
             'click [data-behavior=sign-up]'       : 'signUp',
-            'click @ui.$facebook_login_button'    : 'loginWithFacebook',
-            'submit form[data-behavior=user-form]': 'signIn'
+            'submit form[data-behavior=user-form]': 'signIn',
+            'click @ui.$facebook_login_button'    : 'loginWithFacebook'
         },
 
         ui: {
-            '$facebook_login_button'  : '[data-behavior=facebook-login]',
+            '$facebook_login_button'  : '[data-behavior=login-with-facebook]',
             '$data_loader'            : '[data-loader]'
         },
 
-
+        /*
+         * We have to keep this action in this model to ensure to pass this.options attributes
+         */
         loginWithFacebook: function loginWithFacebook () {
-            this.ui.$facebook_login_button.text('Connexion en cours...');
-            this.ui.$data_loader.removeClass('hidden');
-            CoursAvenue.loginWithFacebook({
-                success: this.options.success,
-                dismiss: function dismiss () {
-                    this.ui.$data_loader.addClass('hidden');
-                    this.ui.$facebook_login_button.text('Connexion avec Facebook');
-                    this.options.dismiss();
-                }.bind(this)
-            });
+            CoursAvenue.loginWithFacebook(this.options);
         },
+
 
         onRender: function onRender () {
             if (this.options.show_admin_form) {

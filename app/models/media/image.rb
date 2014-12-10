@@ -18,18 +18,10 @@ class Media::Image < Media
   end
 
   # Returns formatted url in html of the file
-  # Not in a helper to mimic auto_html gem used before.
-  # Options
-  #   lazy: do not put src attribute, puts it in the data-original attribute for
-  #   lazy.js
   #
   # @return String html of the image
   def url_html(options={})
-    if options[:lazy]
-      "<img data-original='#{self.thumbnail_url}' title='#{self.caption}'/>".html_safe
-    else
-      "<img src='#{self.url}' title='#{self.caption}'/>".html_safe
-    end
+    "<img src='#{self.url}' title='#{self.caption}'/>".html_safe
   end
 
   # Returns file name based on url
@@ -47,13 +39,6 @@ class Media::Image < Media
     end
   end
 
-  def thumbnail_url
-    if self.image.present?
-      self.image.url(:thumbnail)
-    else
-      self.read_attribute(:url)
-    end
-  end
   # Path of the media path on S3
   #
   # @return String path of the S3 media

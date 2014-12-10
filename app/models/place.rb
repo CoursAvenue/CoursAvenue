@@ -32,7 +32,7 @@ class Place < ActiveRecord::Base
                                 reject_if: lambda {|attributes| attributes.values.compact.reject(&:blank?).empty?},
                                 allow_destroy: true
 
-  attr_accessible :name, :type, :location, :structure, :contacts,
+  attr_accessible :name, :type, :structure, :contacts,
                   :info, :private_info,
                   :contacts_attributes,
                   :street, :zip_code, :city, :city_id,

@@ -6,45 +6,29 @@ class StructureShowSerializer < ActiveModel::Serializer
   delegate :cache_key, to: :object
 
   attributes :id, :name, :slug, :description, :description_short, :trial_courses_policy,
-             :logo_thumb_url, :courses, :trainings, :courses_without_open_for_trials,
+             :logo_thumb_url, :courses_without_open_for_trials,
              :trainings_without_open_for_trials, :courses_open_for_trial,
-             :has_courses, :about, :about_bis, :about_genre,
+             :about, :about_bis, :about_genre,
              :audience, :gives_group_courses,
              :gives_individual_courses, :structure_type, :given_course_types,
-             :given_funding_type, :places_count, :comments, :subjects, :has_teachers, :has_only_one_more_info,
+             :given_funding_type, :places_count, :subjects, :has_teachers, :has_only_one_more_info,
              :phone_numbers, :is_sleeping, :website, :premium, :has_trial_courses
 
-  has_many :comments                          , serializer: CommentSerializer
   has_many :places                            , serializer: PlaceSerializer
-  has_many :teachers                          , serializer: TeacherSerializer
-  has_many :courses                           , serializer: CourseSerializer
-  has_many :trainings                         , serializer: CourseSerializer
-  has_many :courses_open_for_trial            , serializer: CourseSerializer
-  has_many :courses_without_open_for_trials   , serializer: CourseSerializer
-  has_many :trainings_without_open_for_trials , serializer: CourseSerializer
-
-  def comments
-    object.comments.accepted.limit(5)
-  end
+  has_many :courses_open_for_trial            , serializer: ShortCourseSerializer
+  has_many :courses_without_open_for_trials   , serializer: ShortCourseSerializer
+  has_many :trainings_without_open_for_trials , serializer: ShortCourseSerializer
 
   def courses_open_for_trial
     object.courses.open_for_trial
   end
 
-  def courses
-    object.courses.regulars.order('is_open_for_trial').select{ |c| c.plannings.any? }
-  end
-
-  def trainings
-    object.courses.trainings.order('is_open_for_trial').select{ |c| c.plannings.future.any? }
-  end
-
   def courses_without_open_for_trials
-    courses - courses_open_for_trial
+    object.courses.regulars.not_open_for_trial
   end
 
   def trainings_without_open_for_trials
-    trainings - courses_open_for_trial
+    object.courses.trainings.not_open_for_trial
   end
 
   def places_count
@@ -91,10 +75,6 @@ class StructureShowSerializer < ActiveModel::Serializer
     object.audiences.sort_by(&:order).map{|audience| I18n.t(audience.name)}.join(', ')
   end
 
-  def has_courses
-    object.courses.count > 0
-  end
-
   def logo_thumb_url
     object.logo.url(:thumb) if object.logo.present?
   end
@@ -129,7 +109,7 @@ class StructureShowSerializer < ActiveModel::Serializer
       _subjects << {
         root_name: root_subject.name,
         child_names: child_subjects.map(&:name).join(', '),
-        icon: "https://coursavenue-public.s3.amazonaws.com/public_assets/icons/subjects/#{root_subject.slug}.png"
+        icon: ActionController::Base.helpers.asset_path("icons/subjects/#{root_subject.slug}.png")
       }
     end
     _subjects.sort_by(&:length).reverse

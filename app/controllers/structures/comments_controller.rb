@@ -20,13 +20,15 @@ class Structures::CommentsController < ApplicationController
     if params[:participation_request_id]
       @participation_request = @structure.participation_requests.find(params[:participation_request_id])
     end
-    @comment     = @structure.comments.build
-    @comments    = @structure.comments.accepted.reject(&:new_record?)[0..3]
+    @comment        = @structure.comments.build
+    @comments       = @structure.comments.accepted.reject(&:new_record?)[0..3]
+
+    mixpanel_tracker.track("Avis: #{params[:utm_campaign]}", { etape: params[:utm_medium], structure_slug: @structure.slug, structure_name: @structure.name } )
   end
 
   def show
     @structure    = Structure.friendly.find(params[:structure_id])
-    @comment      = @structure.comments.find(params[:id])
+    @comment      = Comment::Review.find(params[:id])
     @user         = @comment.user
     @structure_search = StructureSearch.search({ lat: @structure.latitude,
                                                  lng: @structure.longitude,
@@ -46,28 +48,13 @@ class Structures::CommentsController < ApplicationController
   end
 
   def create
-    @structure = Structure.friendly.find(params[:structure_id])
-    @comment   = @structure.comments.build params[:comment]
+    # In case the validation fails, we want to have the `@participation_request`
+    @structure             = Structure.friendly.find(params[:structure_id])
+    @participation_request = @structure.participation_requests.find(params[:participation_request_id]) if params[:participation_request_id].present?
+    @comment               = @structure.comments.build params[:comment]
 
-    # If current user exists, affect it to the comment
-    if current_user
-      @comment.author_name = current_user.name
-      @comment.email       = current_user.email
-      @user                = current_user
-    else
-      user_email = params[:comment][:email].try(:downcase)
-      # If the user does not exists
-      unless (@user = User.where(email: user_email).first)
-        @user = User.new email: user_email, first_name: params[:comment][:author_name]
-      end
-      @user.update_attribute(:first_name, params[:comment][:author_name]) if params[:comment][:author_name].present?
-    end
-    if @comment.subjects.any?
-      @user.subjects << @comment.subjects
-    else
-      @user.subjects << @comment.structure.subjects
-    end
-    @user.save
+    @user = create_user(params[:comment])
+
     @comment.user = @user
     respond_to do |format|
       if @comment.valid? and params[:private_message].present?
@@ -75,12 +62,57 @@ class Structures::CommentsController < ApplicationController
       end
       if @comment.save
         cookies[:delete_cookies] = true
+        mixpanel_tracker.track("Avis: saved", { user: @user.id, comment: @comment.id })
         format.html { redirect_to pages_what_is_it_path, notice: "Merci d'avoir laissé votre avis !" }
       else
         @comments     = @structure.comments.accepted.reject(&:new_record?)[0..5]
         flash[:alert] = "L'avis n'a pas pu être posté. Assurez-vous d'avoir bien rempli tous les champs."
         format.html { render 'structures/comments/new' }
       end
+    end
+  end
+
+  def create_from_email
+    comment_params = {}
+    params.each do |name, value|
+      comment_params[name.split('comment_').last] = value if name.starts_with? 'comment_'
+    end
+    @structure = Structure.friendly.find(params[:structure_id])
+    # In case the validation fails, we want to have the `@participation_request`
+    @participation_request = @structure.participation_requests.find(params[:participation_request_id]) if params[:participation_request_id].present?
+    subject_ids = comment_params.delete(:subject_ids)
+    @comment   = @structure.comments.build comment_params
+    @comment.subjects = Subject.find subject_ids.split(',') if subject_ids
+    mixpanel_tracker.track('Avis: from_mail', { structure_slug: @structure.slug, structure_name: @structure.name })
+
+    @user = create_user(comment_params)
+    @comment.user = @user
+    respond_to do |format|
+      if @comment.save
+        format.html { redirect_to add_private_message_structure_comment_path(@structure, @comment),
+                      notice: "Merci d'avoir laissé votre avis !" }
+        mixpanel_tracker.track('Avis: saved', { user: @user.id, comment: @comment.id })
+      else
+        @comments     = @structure.comments.accepted.reject(&:new_record?)[0..5]
+        flash[:alert] = "L'avis n'a pas pu être posté. Assurez-vous d'avoir bien rempli tous les champs."
+        format.html { render 'structures/comments/new', notice: "Merci d'avoir laissé votre avis !" }
+      end
+    end
+  end
+
+  def add_private_message
+    @structure = Structure.friendly.find(params[:structure_id])
+    @comment   = Comment.find params[:id]
+    @comments  = @structure.comments.accepted.reject(&:new_record?)[0..3]
+  end
+
+  def update
+    @comment = Comment.find params[:id]
+    if params[:private_message].present? and @comment.associated_message.nil?
+      create_private_message
+    end
+    respond_to do |format|
+      format.html { redirect_to pages_what_is_it_path, notice: "Merci d'avoir laissé votre avis !" }
     end
   end
 
@@ -102,5 +134,28 @@ class Structures::CommentsController < ApplicationController
     else
       'empty'
     end
+  end
+
+  def create_user(comment_params)
+    # If current user exists, affect it to the comment
+    if current_user
+      @comment.author_name = current_user.name
+      @comment.email       = current_user.email
+      @user                = current_user
+    else
+      user_email = comment_params[:email].try(:downcase)
+      # If the user does not exists
+      unless (@user = User.where(email: user_email).first)
+        @user = User.new email: user_email, first_name: comment_params[:author_name]
+      end
+      @user.update_attribute(:first_name, comment_params[:author_name]) if comment_params[:author_name].present?
+    end
+    if @comment.subjects.any?
+      @user.subjects << @comment.subjects
+    else
+      @user.subjects << @comment.structure.subjects
+    end
+    @user.save
+    @user
   end
 end

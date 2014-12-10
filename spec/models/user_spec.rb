@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-require 'spec_helper'
+require 'rails_helper'
 
 describe User do
   context :active do
@@ -34,7 +34,7 @@ describe User do
 
     let(:new_user) { FactoryGirl.create(:user) }
     let(:old_user) { FactoryGirl.create(:user) }
-    let(:other_user) { FactoryGirl.create(:user) }
+    let(:admin)    { FactoryGirl.create(:admin) }
 
     it 'deletes the old user' do
       new_user.merge(old_user)
@@ -45,21 +45,21 @@ describe User do
       comment_notification         = FactoryGirl.build(:comment_notification, user: old_user)
       old_user.comment_notifications << comment_notification
       new_user.merge(old_user)
-      new_user.comment_notifications.should include comment_notification
+      expect(new_user.comment_notifications).to include(comment_notification)
     end
 
     it 'merges the comments' do
       comment         = FactoryGirl.create(:comment_review)
       old_user.comments << comment
       new_user.merge(old_user)
-      new_user.comments.should include comment
+      expect(new_user.comments).to include(comment)
     end
 
     it 'merges the messages' do
-      receipt      = other_user.send_message(old_user, 'lala', 'lili')
+      receipt      = admin.send_message(old_user, 'lala', 'lili')
       conversation = receipt.conversation
       new_user.merge(old_user)
-      new_user.mailbox.conversations.should include conversation
+      expect(new_user.mailbox.conversations).to include(conversation)
     end
   end
 

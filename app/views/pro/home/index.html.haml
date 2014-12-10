@@ -4,8 +4,8 @@
 = content_for :meta_description do
   CoursAvenue permet à chaque professeur, association, ou école de gagner facilement en visibilité pour recruter de nouveaux élèves. L'inscription est gratuite. Faites partie d'une communauté en pleine expansion passionnée par les cours de loisirs.
 
-- profiles = [{ name: "Emilie, Professeur de yoga chez Yoga Sattva Paris", slug: 'yoga-sattva-paris', bg: 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/home_background.jpg', image_name: 'emilie', quote: "Communiquer sur Internet me prenait trop de temps, <br> je m'éparpillais sans résultat. Avec CoursAvenue, c'est intuitif et efficace, en accord avec mes valeurs.", image_width: 350, profile_style: '58', medium: true }]
-- profiles << { name: "Alain Pons, formateur en photographie à Clermont-Ferrand", slug: 'alain-pons-photographe', bg: 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/home_background_alain.jpg', image_name: 'alain', quote: "Gérer ma présence sur Internet relève du quotidien. Grâce à CoursAvenue, c'est devenu simple et je peux enfin me consacrer à la qualité de mes cours.", image_width: 450, profile_style: '62' }
+- profiles = [{ name: "Emilie, Professeur de yoga chez Yoga Sattva Paris", slug: 'yoga-sattva-paris', bg: asset_path('pro/home_background.jpg'), image_name: 'emilie', quote: "Communiquer sur Internet me prenait trop de temps, <br> je m'éparpillais sans résultat. Avec CoursAvenue, c'est intuitif et efficace, en accord avec mes valeurs.", image_width: 350, profile_style: '58', medium: true }]
+- profiles << { name: "Alain Pons, formateur en photographie à Clermont-Ferrand", slug: 'alain-pons-photographe', bg: asset_path('pro/home_background_alain.jpg'), image_name: 'alain', quote: "Gérer ma présence sur Internet relève du quotidien. Grâce à CoursAvenue, c'est devenu simple et je peux enfin me consacrer à la qualité de mes cours.", image_width: 450, profile_style: '62' }
 
 - if cookies[:have_seen_alain]
   - selected_profile = profiles.first
@@ -46,7 +46,7 @@
       = render partial: 'pro/shared/free_profile_advantages', locals: { show_all: true }
 
 - cache 'pro/home_index_1_2_3_V1' do
-  .bg-fixed.bg-cover{ style: "background-image: url(#{asset_path 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/home_background6.jpg'})"}
+  .bg-fixed.bg-cover{ style: "background-image: url(#{asset_path 'pro/home_background6.jpg'})"}
     .main-container.main-container--medium.soft--ends
       %h2.text--center.push--bottom.soft--ends.soft-black-text-shadow.white Simple et rapide
       .grid
@@ -81,7 +81,7 @@
           .grid.push--bottom
             .grid__item.one-quarter.epsilon.v-middle>
               = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block muted-link media-photo', target: :_blank do
-                = image_tag structure.logo.url(:thumb), class: 'block'
+                = image_tag '', class: 'block', data: { behavior: 'lazy-load', original: structure.logo.url(:thumb) }
             .grid__item.three-quarters.v-middle>
               = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank, class: 'muted-link block' do
                 %p.flush.epsilon
@@ -105,7 +105,7 @@
             .flexbox.push--bottom
               .flexbox__item.soft--left.v-top.text--center>
                 = link_to structure_url(review.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block media-photo', target: :_blank, class: 'muted-link' do
-                  = image_tag review.user.avatar_url(:thumb), class: 'block rounded--circle', width: 60
+                  = image_tag '', class: 'block rounded--circle', width: 60, data: { behavior: 'lazy-load', original: review.user.avatar_url(:thumb) }
                 .milli.soft-half--top
                   = review.author_name
               .flexbox__item.soft--sides.v-top>

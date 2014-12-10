@@ -1,7 +1,7 @@
 # encoding: utf-8
 class ::Pro::AdminsController < InheritedResources::Base
-  before_action :authenticate_pro_admin!, except: [:waiting_for_activation]
-  load_and_authorize_resource :admin, except: [:waiting_for_activation, :show], find_by: :slug
+  before_action :authenticate_pro_admin!, except: [:waiting_for_activation, :facebook_auth_callback, :facebook_auth_failure]
+  load_and_authorize_resource :admin, except: [:waiting_for_activation, :show, :facebook_auth_callback, :facebook_auth_failure], find_by: :slug
 
   layout 'admin'
 
@@ -82,4 +82,51 @@ class ::Pro::AdminsController < InheritedResources::Base
       end
     end
   end
+
+  def facebook_auth_callback
+    structure = Structure.where(slug: params[:structure_id]).first
+    auth      = request.env['omniauth.auth']
+
+    @admin    = Admin.from_omniauth(auth, structure)
+
+    if @admin and @admin.persisted?
+      flash[:notice] = I18n.t 'devise.omniauth_callbacks.success', kind: 'Facebook'
+
+      # Update oauth.
+      @admin.oauth_token      = auth.credentials.token
+      @admin.oauth_expires_at = Time.at(auth.credentials.expires_at)
+
+      # Sign Admin in using Devise.
+      sign_in(Devise::Mapping.find_scope!(@admin), @admin, event: :authentication)
+
+      respond_to do |format|
+        format.json { render json: { id: @admin.id, structure_id: @admin.structure.id, slug: @admin.structure.slug, redirect_url: after_omni_auth_sign_in_path_for(@admin) } }
+        format.html { redirect_to dashboard_pro_structure_path(structure) }
+      end
+    else
+      respond_to do |format|
+        format.json { render json: { redirect_url: inscription_pro_structures_path, message: "Nous n'avons pas pu vous connecter. Assurez-vous d'être bien connecté à Facebook et réessayez." }, status: 422 }
+        format.html { redirect_to pro_auth_failure_path }
+      end
+    end
+  end
+
+  def facebook_auth_failure
+    message = I18n.t('devise.omniauth_callbacks.failure', kind: 'Facebook')
+    respond_to do |format|
+      format.json { render json: { message: message }, status: 422 }
+      format.html { redirect_to pro_premium_path, flash: { message: message } }
+    end
+  end
+
+  private
+
+  def after_omni_auth_sign_in_path_for(admin)
+    if admin.sign_in_count == 1
+      edit_pro_structure_path(admin.structure)
+    else
+      session['pro_admin_return_to'] || dashboard_pro_structure_path(admin.structure)
+    end
+  end
+
 end

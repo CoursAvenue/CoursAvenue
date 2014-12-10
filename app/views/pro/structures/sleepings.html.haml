@@ -27,7 +27,7 @@
             %td
               = link_to structure.name, dashboard_pro_structure_path(structure)
             %td
-              = l(structure.main_contact.created_at.to_date)
+              = l(structure.main_contact.created_at.to_date) if structure.main_contact
             %td
               - if structure.main_contact and structure.main_contact.confirmed?
                 %i.fa.fa-check.green

@@ -230,7 +230,14 @@ France
   def edit_contact
     @structure = Structure.friendly.find(params[:id])
     @admin     = @structure.main_contact
-    (5 - @structure.phone_numbers.count).times { @structure.phone_numbers.build }
+
+    5.times { @structure.phone_numbers.build }
+
+    if @admin.from_facebook?
+      @facebook_pages = facebook_pages
+    else
+      @facebook_pages = []
+    end
   end
 
   def new
@@ -413,5 +420,25 @@ France
     if @home_places.empty?
       @home_places << @structure.places.homes.build
     end
+  end
+
+  # Get the selectable Facebook pages
+  #
+  # This method adds the structure's facebook_url if it is not part of the
+  # pages managed by the admin.
+  #
+  # @return an Array of Array of [page_name, URL]
+  def facebook_pages
+    pages = @admin.facebook_pages
+
+    if @structure.facebook_url?
+      if pages.map(&:second).include?(@structure.facebook_url)
+        pages << ['Autre', 'other']
+      else
+        pages << ['Autre', @structure.facebook_url] unless pages.empty?
+      end
+    end
+
+    pages
   end
 end

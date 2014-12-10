@@ -58,21 +58,21 @@ module ParticipationRequestsHelper
     date = "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}"
     if participation_request.pending?
       if participation_request.last_modified_by
-        t("participation_request.state.to_#{resource_name}.last_modified_by_#{participation_request.last_modified_by.downcase}.long_description.#{participation_request.state}_html", structure_name: participation_request.structure.name, user_name: participation_request.user.name, date: date, course_name: participation_request.course.name )
+        t("participation_request.state.to_#{resource_name}.last_modified_by_#{participation_request.last_modified_by.downcase}.long_description.#{participation_request.state}_html", structure_name: participation_request.structure.name, user_name: participation_request.user.name, date: date, course_name: participation_request.course.try(:name) )
       else
         t("participation_request.state.long_description.#{participation_request.state}_html")
       end
     elsif participation_request.accepted?
       if participation_request.last_modified_by
-        t("participation_request.state.to_#{resource_name}.last_modified_by_#{participation_request.last_modified_by.downcase}.long_description.#{participation_request.state}_html", structure_name: participation_request.structure.name, user_name: participation_request.user.name, date: date, course_name: participation_request.course.name )
+        t("participation_request.state.to_#{resource_name}.last_modified_by_#{participation_request.last_modified_by.downcase}.long_description.#{participation_request.state}_html", structure_name: participation_request.structure.name, user_name: participation_request.user.name, date: date, course_name: participation_request.course.try(:name) )
       else
-        t("participation_request.state.long_description.#{participation_request.state}_html", structure_name: participation_request.structure.name, user_name: participation_request.user.name, date: date, course_name: participation_request.course.name )
+        t("participation_request.state.long_description.#{participation_request.state}_html", structure_name: participation_request.structure.name, user_name: participation_request.user.name, date: date, course_name: participation_request.course.try(:name) )
       end
     elsif participation_request.declined? or participation_request.canceled?
       if participation_request.last_modified_by
-        t("participation_request.state.to_#{resource_name}.last_modified_by_#{participation_request.last_modified_by.downcase}.long_description.#{participation_request.state}_html", structure_name: participation_request.structure.name, user_name: participation_request.user.name, course_name: participation_request.course.name )
+        t("participation_request.state.to_#{resource_name}.last_modified_by_#{participation_request.last_modified_by.downcase}.long_description.#{participation_request.state}_html", structure_name: participation_request.structure.name, user_name: participation_request.user.name, course_name: participation_request.course.try(:name) )
       else
-        t("participation_request.state.long_description.#{participation_request.state}_html", structure_name: participation_request.structure.name, user_name: participation_request.user.name, course_name: participation_request.course.name )
+        t("participation_request.state.long_description.#{participation_request.state}_html", structure_name: participation_request.structure.name, user_name: participation_request.user.name, course_name: participation_request.course.try(:name) )
       end
     end
   end

@@ -1,0 +1,35 @@
+- content_for :head do
+  %meta{ name: 'robots', content: 'noindex, nofollow' }
+
+= content_for :title do
+  Donnez votre avis sur #{@structure.name}
+
+= content_for :meta_description do
+  Donnez votre avis sur #{@structure.name}
+
+.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background.jpg'})" }
+  .main-container.main-container--medium.soft
+    .grid
+      - if @structure.logo.present?
+        .grid__item.one-eighth>
+          = link_to structure_path(@structure), class: 'muted-link', target: :_blank do
+            = image_tag @structure.logo.url(:thumb)
+      %header.grid__item.seven-eighths>
+        %h1.flush
+          Merci d'avoir laissé votre avis !
+        %h4.flush.line-height-1-7
+          Envoyez un message privé en plus de votre avis publique, votre professeur appréciera.
+
+.main-container.soft--ends
+  .center-block{ style: 'max-width: 800px; '}>
+    .two-thrids
+      = simple_form_for @comment, url: structure_comment_path(@structure, @comment), as: :comment do |f|
+        = render 'private_message'
+        .text--center
+          = f.submit 'Envoyer mon message', class: 'btn btn--large btn--green btn--full', data: { disable_with: "Envoi en cours..." }
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('#comment_content').textareaResizer();
+    });

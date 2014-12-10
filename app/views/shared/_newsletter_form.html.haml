@@ -1,8 +1,8 @@
-- if !robot?(request.env['HTTP_USER_AGENT']) and !current_user and !cookies[:subscribed_to_newsletter] and !cookies[:have_seen_home_page_newsletter_popup]
+- if !current_user and !cookies[:subscribed_to_newsletter] and !cookies[:have_seen_home_page_newsletter_popup]
   .hidden#subscribed-to-newsletter
-    .bg-cover.center-block.border-color-white.bordered--thick.bordered.black-box-shadow.rounded.soft--top.on-top{ style: "width: 750px; background-image: url(#{asset_path('users/passions_bg.jpg')}); "}
+    .bg-cover.center-block.border-color-white.bordered--thick.bordered.black-box-shadow.rounded.soft--top.on-top{ style: "max-width: 750px; background-image: url(#{asset_path('users/passions_bg.jpg')}); "}
       %div.soft--bottom.push--bottom
-        = image_tag 'logos/logo@2x.png', height: 50, class: 'block center-block'
+        = image_tag 'logos/logo.png', height: 50, class: 'block center-block', data: { src2x: asset_path('logos/logo@2x.png') }
         .text--center.white.soft-black-text-shadow.epsilon Pour une vie créative, artistique, sportive
 
       .bg-white-faded.soft--ends.push--ends{ style: 'padding-left: 150px;' }
@@ -21,20 +21,22 @@
   = content_for :scripts do
     :javascript
         $(function() {
-            $.magnificPopup.open({
-                  items: {
-                      src: $('#subscribed-to-newsletter').html(),
-                      type: 'inline'
-                  },
-                  callbacks: {
-                      close: function () {
-                          $.cookie('have_seen_home_page_newsletter_popup', true);
-                      }
-                 }
-            });
-            $('.newsletter-form').submit(function() {
-                $.cookie('subscribed_to_newsletter', true);
-                $.cookie('have_seen_home_page_newsletter_popup', true);
-                $.magnificPopup.close()
-            });
+            if ($(window).innerWidth() > 500) {
+                $.magnificPopup.open({
+                      items: {
+                          src: $('#subscribed-to-newsletter').html(),
+                          type: 'inline'
+                      },
+                      callbacks: {
+                          close: function () {
+                              $.cookie('have_seen_home_page_newsletter_popup', true);
+                          }
+                     }
+                });
+                $('.newsletter-form').submit(function() {
+                    $.cookie('subscribed_to_newsletter', true);
+                    $.cookie('have_seen_home_page_newsletter_popup', true);
+                    $.magnificPopup.close()
+                });
+            }
         });

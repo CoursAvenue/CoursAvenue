@@ -141,16 +141,19 @@ class ParticipationRequestMailer < ActionMailer::Base
 
   def how_was_the_trial(participation_request)
     retrieve_participation_request_variables(participation_request)
+    @comment = @structure.comments.build
     mail to: @user.email, subject: "Qu'en avez-vous pensé ?"
   end
 
   def how_was_the_trial_stage_1(participation_request)
     retrieve_participation_request_variables(participation_request)
+    @comment = @structure.comments.build
     mail to: @user.email, subject: "Pensez à laisser votre témoignage sur #{@structure.name}"
   end
 
   def how_was_the_trial_stage_2(participation_request)
     retrieve_participation_request_variables(participation_request)
+    @comment = @structure.comments.build
     mail to: @user.email,
          subject: "Pensez à laisser votre témoignage sur #{@structure.name}",
          template_name: 'how_was_the_trial_stage_1'

@@ -7,7 +7,7 @@
     .grid--full
       .grid__item.one-quarter.v-middle>
         - if recipients.first
-          = image_tag recipients.first.avatar_url(:thumb), class: 'block bordered rounded--circle'
+          = image_tag recipients.first.avatar_url(:small_thumb), class: 'block bordered rounded--circle'
       .grid__item.three-quarters.soft-half--left.v-middle>
         %p.flush
           - if recipients.first

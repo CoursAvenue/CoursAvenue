@@ -25,10 +25,3 @@
 
     .text--center.push-half--ends= paginate @comment_notifications, window: 1, outer_window: 3
 
-= content_for :scripts do
-  :javascript
-    $(function() {
-        if ($('#comment-notification-table')) {
-            $('#dataTable').tablesorter();
-        }
-    });

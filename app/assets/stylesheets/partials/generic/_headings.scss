@@ -1,36 +1,6 @@
 h1, h2, h3, h4, h5, h6 {
     line-height: 1.4;
 }
-.header-group:first-child {
-    margin-top    : 0;
-}
-
-.header-group, .home-title {
-    border-bottom : 1px solid darken($beige-darker, 7%);
-    color         : darken($beige-darker, 60%);
-    font-size    : 25px;
-}
-
-.header-group {
-    padding-bottom: 0.5em;
-    margin-bottom : 0;
-    margin-top    : 1em;
-}
-
-.home-title {
-    padding-bottom: 5px;
-    margin-bottom : 10px;
-}
-
-.home-title--no-border {
-    @extend .home-title;
-    border-bottom: none;
-}
-
-.big-alpha {
-    font-size  : 4.5em;
-    line-height: 1.2;
-}
 
 .header-search {
     width: 250px;
