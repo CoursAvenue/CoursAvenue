@@ -81,7 +81,7 @@ class EmailProcessor
 
   def track_reply(reply_token)
     if Rails.env.production?
-      @mixpanel_tracker = Mixpanel::Tracker.new(ENV['MIXPANEL_PROJECT_TOKEN'])
+      @mixpanel_tracker = MixpanelClientFactory.client
       @mixpanel_tracker.track("Replied to conversation", { reply_type: reply_token.reply_type, sender_type: reply_token.sender_type, sender_id: reply_token.sender_id } )
     end
   end
