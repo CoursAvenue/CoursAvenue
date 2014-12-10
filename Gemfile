@@ -57,7 +57,6 @@ gem 'dalli'                     , '~>2.6.4'
 # Non stored hash models
 # See Level and Audience model
 gem 'active_hash'               , '~>1.2.0'
-gem 'rails-observers'           , '~>0.1.2'
 
 # Transform urls into images, videos etc. Used in medias.
 gem 'auto_html'                 , '~>1.6.2'
@@ -88,7 +87,7 @@ gem 'paperclip'                 , '~>4.1.1'
 # gem 'squeel'                    , '~>1.1.1'
 
 # For having models acting like trees
-gem 'ancestry'                  , '~>2.0.0'
+gem 'ancestry'                  , '~>2.1.0'
 
 # Nice helper to use google maps
 gem 'gmaps4rails'               , '~>2.1.2'
@@ -210,17 +209,21 @@ group :production, :staging do
 end
 
 group :test do
-  gem 'factory_girl_rails'      , '~>4.4.1'
-  gem 'rspec-rails'             , '~>3.1.0'
-  # gem 'rspec-instafail'         , '~>0.2.5'
-  gem 'faker'                   , '~>1.2.0'
-  gem 'simplecov'               , '~>0.9.0'
-  # gem 'sunspot_test'
-  gem 'database_cleaner'        , '~>1.2.0'
-  gem 'capybara'                , '~>2.2.1'
+  gem 'rspec',              '~> 3.1.0'
+  gem 'factory_girl_rails', '~> 4.5.0'
+  gem 'rspec-core',         '~> 3.1.7'
+  gem 'rspec-rails',        '~> 3.1.0'
+  gem 'faker',              '~> 1.4.3'
+  gem 'simplecov',          '~> 0.9.1'
+  gem 'database_cleaner',   '~> 1.2.0'
+  gem 'capybara',           '~> 2.2.1'
+  gem 'sunspot_test',       '~> 0.4.0'
+  gem 'rspec-instafail',    '~> 0.2.5'
 end
 
 group :development do
+  gem 'rails_best_practices'
+  gem 'ruby-prof'
   # Speed up slow Rails development mode
   gem 'rails-dev-boost', :git => 'git://github.com/thedarkone/rails-dev-boost.git'
   # Guard::Pow automatically manage Pow applications restart

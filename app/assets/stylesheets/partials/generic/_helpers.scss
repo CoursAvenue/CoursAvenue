@@ -339,3 +339,14 @@
     border-bottom  : dotted 1px #333;
     cursor         : help;
 }
+
+.full-screen-item { height: 100vh; }
+
+.black-curtain {
+    @include transition(background 150ms linear);
+    background: rgba(0,0,0,.5);
+    height    : 100%;
+    &.black-curtain__fading-on-hover:hover {
+        background: rgba(0,0,0,.1);
+    }
+}

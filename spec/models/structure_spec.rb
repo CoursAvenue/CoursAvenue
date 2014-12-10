@@ -1,12 +1,12 @@
 # -*- encoding : utf-8 -*-
-require 'spec_helper'
+require 'rails_helper'
 
 describe Structure do
   subject {structure}
   let(:structure) { FactoryGirl.create(:structure) }
 
   it {should be_valid}
-  it {structure.active.should be true}
+  it { expect(structure.active).to be true}
 
   context 'contact' do
     it 'returns admin contact' do
@@ -14,9 +14,9 @@ describe Structure do
       admin.structure_id = structure.id
       structure.admins << admin
 
-      structure.contact_email.should == admin.email
-      structure.contact_name.should  == admin.name
-      structure.main_contact.should  == admin
+      expect(structure.contact_email).to eq(admin.email)
+      expect(structure.contact_name).to eq(admin.name)
+      expect(structure.main_contact).to eq(admin)
     end
   end
 
@@ -24,7 +24,7 @@ describe Structure do
     it 'activates' do
       structure.active = false
       structure.activate!
-      structure.active.should be(true)
+      expect(structure.active).to be true
     end
   end
 
@@ -34,8 +34,8 @@ describe Structure do
       courses = structure.courses
       structure.active = true
       structure.disable!
-      structure.active.should be(false)
-      courses.each{ |c| c.active.should be(false) }
+      expect(structure.active).to be false
+      courses.each{ |c| expect(c.active).to be false }
     end
   end
 
@@ -43,49 +43,35 @@ describe Structure do
     it 'destroys everything' do
       places = structure.places
       structure.destroy
-      structure.destroyed?.should be(true)
-      places.each{ |p| p.destroyed?.should be(true) }
+      expect(structure.destroyed?).to be true
+      places.each{ |p| expect(p.destroyed?).to be true }
     end
   end
 
   context 'address' do
     it 'includes street' do
-      structure.address.should include structure.street
+      expect(structure.address).to include(structure.street)
     end
     it 'includes city' do
-      structure.address.should include structure.city.name
-    end
-  end
-
-  context 'website' do
-    it 'adds the http://' do
-      structure.website = 'coursavenue.com'
-      structure.save
-      structure.website.should eq 'http://coursavenue.com'
-    end
-
-    it 'does not add the http:// if it exists' do
-      structure.website = 'http://coursavenue.com'
-      structure.save
-      structure.website.should eq 'http://coursavenue.com'
+      expect(structure.address).to include(structure.city.name)
     end
   end
 
   context 'comments' do
     it 'retrieves course comments' do
       comment = structure.comments.create FactoryGirl.attributes_for(:comment_review)
-      structure.comments.should include comment
+      expect(structure.comments).to include(comment)
     end
   end
 
   it 'updates comments_count' do
     @structure = FactoryGirl.create(:structure)
     FactoryGirl.create(:accepted_comment, commentable_id: @structure.id, commentable_type: 'Structure')
-    @structure.reload.comments_count.should eq 1
+    expect(@structure.reload.comments_count).to eq(1)
     FactoryGirl.create(:accepted_comment, commentable_id: @structure.id, commentable_type: 'Structure')
-    @structure.reload.comments_count.should eq 2
+    expect(@structure.reload.comments_count).to eq(2)
     FactoryGirl.create(:accepted_comment, commentable_id: @structure.id, commentable_type: 'Structure')
-    @structure.reload.comments_count.should eq 3
+    expect(@structure.reload.comments_count).to eq 3
   end
 
   context 'tagging' do
@@ -165,22 +151,22 @@ describe Structure do
 
   describe '#profile_completed' do
     it 'has no logo' do
-      structure.stub(:profile_completed?) { false }
+      allow(structure).to receive_messages(:profile_completed? => false)
       structure.update_email_status
       expect(structure.email_status).to eq 'incomplete_profile'
     end
 
     context 'logo_stubbed' do
       def stub_logo(structure)
-        structure.stub(:logo_file_name) { 'lala' }
-        structure.stub(:logo_content_type) { 'type/jpg' }
-        structure.stub(:logo_file_size) { 12412 }
-        structure.stub(:logo_updated_at) { Time.now }
+        allow(structure).to receive_messages(:logo_file_name => 'lala')
+        allow(structure).to receive_messages(:logo_content_type => 'type/jpg')
+        allow(structure).to receive_messages(:logo_file_size => 12412)
+        allow(structure).to receive_messages(:logo_updated_at => Time.now)
       end
 
       it 'is incomplete_profile' do
         stub_logo(structure)
-        structure.stub(:profile_completed?) { false }
+        allow(structure).to receive_messages(:profile_completed? => false)
         structure.update_email_status
         expect(structure.email_status).to eq 'incomplete_profile'
       end
@@ -190,7 +176,7 @@ describe Structure do
   describe '#highlighted_comment' do
     it 'returns highlighted_comment' do
       comment = structure.comments.create FactoryGirl.attributes_for(:comment_review)
-      subject.stub(:highlighted_comment_id) { comment.id }
+      allow(subject).to receive_messages(:highlighted_comment_id => comment.id)
       expect(subject.highlighted_comment_id).to be comment.id
     end
   end
@@ -208,18 +194,6 @@ describe Structure do
       subject.name = ' test name '
       subject.save
       expect(subject.name).to eq 'test name'
-    end
-  end
-
-  describe '#reset_cropping_attributes' do
-    it 'sets to 0 attributes' do
-      subject.crop_width = 1
-      subject.crop_x     = 1
-      subject.crop_y     = 1
-      subject.send :reset_cropping_attributes
-      expect(subject.crop_width).to eq 0
-      expect(subject.crop_x).to     eq 0
-      expect(subject.crop_y).to     eq 0
     end
   end
 
@@ -341,16 +315,11 @@ describe Structure do
         expect(structure.active).to be true
       end
 
-      it 'deactivates the duplicated structure' do
+      it 'destroys the sleeping structure' do
         structure.wake_up!
 
-        expect(sleeping_structure.is_sleeping).to be true
-      end
-
-      it 'puts the duplicated structure to sleep' do
-        structure.wake_up!
-
-        expect(sleeping_structure.active).to be false
+        structure.reload
+        expect(structure.sleeping_structure).to be nil
       end
     end
   end

@@ -70,7 +70,6 @@
     = javascript_include_tag 'libs/highcharts/highcharts'
     = javascript_include_tag 'libs/highcharts/modules/exporting'
     $(function() {
-        $('#dataTable').tablesorter();
         new Highcharts.Chart({
             chart: { renderTo: 'participations', type: 'spline' },
             title: { text: null },

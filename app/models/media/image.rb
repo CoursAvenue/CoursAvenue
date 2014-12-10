@@ -18,10 +18,6 @@ class Media::Image < Media
   end
 
   # Returns formatted url in html of the file
-  # Not in a helper to mimic auto_html gem used before.
-  # Options
-  #   lazy: do not put src attribute, puts it in the data-original attribute for
-  #   lazy.js
   #
   # @return String html of the image
   def url_html(options={})

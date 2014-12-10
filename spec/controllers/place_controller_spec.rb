@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-require 'spec_helper'
+require 'rails_helper'
 
 describe PlacesController do
 
@@ -18,7 +18,7 @@ describe PlacesController do
     end
 
     context 'when resource is found' do
-      it { response.status.should eq 200 }
+      it { expect(response).to have_http_status(:success) }
     end
   end
 

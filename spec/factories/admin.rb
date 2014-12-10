@@ -1,9 +1,8 @@
-# -*- encoding : utf-8 -*-
 
+# -*- encoding : utf-8 -*-
 FactoryGirl.define do
 
   factory :admin do
-
     structure
 
     name     { Faker::Name.name }
@@ -17,5 +16,14 @@ FactoryGirl.define do
     password                'zpdajdpzaojdxd'
     password_confirmation   'zpdajdpzaojdxd'
 
+    factory :admin_from_facebook do
+      oauth_token Faker::Internet.password
+      oauth_expires_at 10.years.from_now
+      provider 'facebook'
+
+      factory :admin_from_facebook_with_page do
+        facebook_url 'http:://facebok.com/coursavenue'
+      end
+    end
   end
 end

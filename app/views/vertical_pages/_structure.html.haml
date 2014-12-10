@@ -1,26 +1,27 @@
-.push-half--bottom.inline-block.very-soft.relative.filtered_search__structure-item.one-whole
-  = link_to structure_path(structure), class: "muted-link opacity-hidden-on-hover__wrapper grid--full" do
-    .grid__item.one-fifth.v-middle.visuallyhidden--palm>
-      = image_tag structure.logo.url(:thumb), alt: structure.name, class: 'block rounded--circle'
-    .grid__item.four-fifths.relative.v-middle.soft-half--left.palm-one-whole>
-      .text-ellipsis.delta.f-weight-bold.line-height-1-5.flush.v-top= structure.name
-      .text-ellipsis{ style: "padding-right: 60px;" }
-        %strong.f-weight-normal= @vertical_page.name
-        = (structure.subjects.at_depth(2).map(&:name)).uniq.reject{ |subject_name| subject_name == @vertical_page.name }.join(', ').strip
-      %div.text-ellipsis
-        .f-weight-bold
-          %i.fa.fa-comment
-          #{structure.comments.count} avis ・
-          - if structure.comments_count > 0
-            %i.quoted.milli= (structure.highlighted_comment || structure.comments.sample).try(:title)
-      %div.text-ellipsis
-        %strong.f-weight-normal.f-style-italic= structure.places.map(&:city).map(&:name).uniq.join(', ')
-      - if structure.is_open_for_trial?
-        .inline-block.lbl.lbl--yellow.milli.v-middle{ data: { toggle: 'popover', content: I18n.t("structures.trial_courses_policy.#{structure.trial_courses_policy}_nb_given"), placement: 'top' } }
-          %i.fa.fa-ticket
-          Essai gratuit
-      - if structure.has_promotion?
-        .inline-block.lbl.lbl--gray-light.milli.v-middle
-          %i.fa.fa-star
-          Promotions
-%hr
+- cache [structure, 'vertical_page/structure'] do
+  .push-half--bottom.inline-block.very-soft.relative.filtered_search__structure-item.one-whole
+    = link_to structure_path(structure), class: "muted-link opacity-hidden-on-hover__wrapper grid--full" do
+      .grid__item.one-fifth.v-middle.visuallyhidden--palm>
+        = image_tag structure.logo.url(:thumb), alt: structure.name, class: 'block rounded--circle'
+      .grid__item.four-fifths.relative.v-middle.soft-half--left.palm-one-whole>
+        .text-ellipsis.delta.f-weight-bold.line-height-1-5.flush.v-top= structure.name
+        .text-ellipsis{ style: "padding-right: 60px;" }
+          %strong.f-weight-normal= @vertical_page.name
+          = structure.subjects_name_as_string(:subjects_string).reject{ |subject_name| subject_name == @vertical_page.name }.join(', ').strip
+        %div.text-ellipsis
+          .f-weight-bold
+            %i.fa.fa-comment
+            #{structure.comments_count} avis ・
+            - if structure.comments_count > 0
+              %i.quoted.milli= (structure.highlighted_comment || structure.comments.sample).try(:title)
+        %div.text-ellipsis
+          %strong.f-weight-normal.f-style-italic= structure.cities_text
+        - if structure.is_open_for_trial?
+          .inline-block.lbl.lbl--yellow.milli.v-middle{ data: { toggle: 'popover', content: I18n.t("structures.trial_courses_policy.#{structure.trial_courses_policy}_nb_given"), placement: 'top' } }
+            %i.fa.fa-ticket
+            Essai gratuit
+        - if structure.has_promotion?
+          .inline-block.lbl.lbl--gray-light.milli.v-middle
+            %i.fa.fa-star
+            Promotions
+  %hr

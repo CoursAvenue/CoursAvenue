@@ -52,6 +52,7 @@ module ApplicationHelper
   #
   # @return Boolean
   def robot?(user_agent)
+    return true if user_agent.nil?
     matches = [/\(.*https?:\/\/.*\)/, /Twitterbot\/1.0/, /Prerender/]
 
     matches.any? { |robot| user_agent.match(robot) }

@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-require 'spec_helper'
+require 'rails_helper'
 
 describe Planning do
 
@@ -19,13 +19,16 @@ describe Planning do
         subject.start_date = Date.yesterday
         subject.course     = course
         subject.send :set_end_date
+
         expect(subject.end_date).to eq Date.yesterday
       end
-      it 'sets end_date same as course if present' do
+
+      it 'sets end_date to 100 years from now' do
         course         = Course::Lesson.new end_date: Date.yesterday
         subject.course = course
         subject.send :set_end_date
-        expect(subject.end_date).to eq Date.yesterday
+
+        expect(subject.end_date).to eq 100.years.from_now.to_date
       end
     end
 
@@ -43,8 +46,8 @@ describe Planning do
         course         = Course::Lesson.new start_date: Date.yesterday, end_date: Date.tomorrow
         subject.course = course
         subject.send :update_start_and_end_date
-        expect(subject.start_date).to eq Date.yesterday
-        expect(subject.end_date).to eq Date.tomorrow
+        expect(subject.start_date).to eq 1.year.ago.to_date
+        expect(subject.end_date).to eq 100.years.from_now.to_date
       end
 
       it 'sets start and end_date even if defined' do
@@ -53,8 +56,8 @@ describe Planning do
         subject.start_date = Date.yesterday - 1.day
         subject.end_date   = Date.tomorrow + 1.day
         subject.send :update_start_and_end_date
-        expect(subject.start_date).to eq Date.yesterday
-        expect(subject.end_date).to eq Date.tomorrow
+        expect(subject.start_date).to eq 1.year.ago.to_date
+        expect(subject.end_date).to eq 100.years.from_now.to_date
       end
     end
   end
@@ -64,7 +67,7 @@ describe Planning do
       it 'has error on start_date if in past' do
         course = Course::Training.new
         subject.course = course
-        subject.stub(:start_date) { nil }
+        allow(subject).to receive_messages(:start_date => nil)
         subject.valid?
         expect(subject.errors.messages).to include :start_date
       end
@@ -74,7 +77,7 @@ describe Planning do
       it 'has error on end_date if in past' do
         course = Course::Training.new
         subject.course = course
-        subject.stub(:end_date) { Date.yesterday }
+        allow(subject).to receive_messages(:end_date => Date.yesterday)
         subject.valid?
         expect(subject.errors.messages).to include :end_date
       end
@@ -84,8 +87,8 @@ describe Planning do
       it 'has error if place is not defined and not in foreign country' do
         course = Course::Training.new
         subject.course = course
-        subject.stub(:place_id) { nil }
-        subject.stub(:is_in_foreign_country) { false }
+        allow(subject).to receive_messages(:place_id => nil)
+        allow(subject).to receive_messages(:is_in_foreign_country => false)
         subject.valid?
         expect(subject.errors.messages).to include :place_id
       end
@@ -93,8 +96,8 @@ describe Planning do
       it 'has no error if place is not defined but in foreign country' do
         course = Course::Training.new
         subject.course = course
-        subject.stub(:place_id) { nil }
-        subject.stub(:is_in_foreign_country) { true }
+        allow(subject).to receive_messages(:place_id => nil)
+        allow(subject).to receive_messages(:is_in_foreign_country => true)
         subject.valid?
         expect(subject.errors.messages).not_to include :place_id
       end

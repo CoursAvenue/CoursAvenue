@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-require 'spec_helper'
+require 'rails_helper'
 
 describe Media do
 
@@ -18,19 +18,6 @@ describe Media do
     end
     it 'is false' do
       expect(Media::Video.new.image?).to be(false)
-    end
-  end
-
-  context 'image' do
-    describe '#url_html' do
-      it 'has src attribute' do
-        expect(Media::Image.new.url_html).to include 'src='
-      end
-      context 'lazy' do
-        it 'does not have src attribute' do
-          expect(Media::Image.new.url_html(lazy: true)).not_to include 'src='
-        end
-      end
     end
   end
 

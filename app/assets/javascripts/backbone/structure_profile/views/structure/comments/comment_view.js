@@ -8,6 +8,10 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
             this.model.set('structure_name', options.structure_name);
         },
 
+        onRender: function onRender () {
+            this.$('[data-behavior="lazy-load"]').lazyload();
+        },
+
         serializeData: function serializeData () {
             var attributes = this.model.toJSON();
             if (attributes.reply) {

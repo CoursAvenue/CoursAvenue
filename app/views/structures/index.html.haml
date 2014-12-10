@@ -11,9 +11,6 @@
 = content_for :meta_description do
   #{title} : #{number_with_delimiter @total} Cours d'Essai GRATUITS & Promotions - CoursAvenue.com. Consultez #{number_with_delimiter @total_comments} avis d'élèves, #{number_with_delimiter @total_medias} photos. Inscrivez-vous gratuitement sur CoursAvenue.com
 
-- if robot?(request.env['HTTP_USER_AGENT'])
-  = render partial: 'google_more_infos', locals: { title: title }
-
 .filtered-search{ :data => { :type => "#{ @app_slug }-root" }, id: "#{ @app_slug }"}
 
 :javascript
@@ -27,7 +24,7 @@
       options: {
           total: #{ @total },
           latlng: #{ @latlng },
-          server_api: {}
+          queryParams: {}
       },
       models: #{ @models.to_json },
       subjects: subjects,
@@ -36,13 +33,13 @@
 
 - if params[:root_subject_id] != params[:subject_id]
   :javascript
-    window.coursavenue.bootstrap.options.server_api.subject_id = "#{ params[:subject_id] }";
+    window.coursavenue.bootstrap.options.queryParams.subject_id = "#{ params[:subject_id] }";
 - if @subject and @subject.depth == 2
   :javascript
-    window.coursavenue.bootstrap.options.server_api.parent_subject_id = "#{ @subject.parent.slug }";
+    window.coursavenue.bootstrap.options.queryParams.parent_subject_id = "#{ @subject.parent.slug }";
 - if params[:root_subject_id].present?
   :javascript
-    window.coursavenue.bootstrap.options.server_api.root_subject_id = "#{ params[:root_subject_id] }";
+    window.coursavenue.bootstrap.options.queryParams.root_subject_id = "#{ params[:root_subject_id] }";
 
 - content_for :scripts do
   - if Rails.env.production?

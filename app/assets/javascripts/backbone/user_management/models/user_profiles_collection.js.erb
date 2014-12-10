@@ -4,32 +4,31 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
     Models.UserProfilesCollection = CoursAvenue.Models.PaginatedCollection.extend({
         model: Models.UserProfile,
 
-        initialize: function (models, options) {
+        initialize: function initialize (models, options) {
             _.bindAll(this, "setSelectedCount");
             this.setSelectedCount = _.debounce(this.setSelectedCount);
 
             var self = this;
             // define the server API based on the load-time URI
-            this.server_api = this.makeOptionsFromSearch(window.location.search);
+            this.queryParams = this.makeOptionsFromSearch(window.location.search);
             this.currentPage = 1; // we always start from page 1
-            this.server_api.page = function () { return self.currentPage; };
 
-            if (this.server_api.sort === undefined) {
-                this.server_api.sort = "email";
+            if (this.queryParams.sort === undefined) {
+                this.queryParams.sort = "email";
             }
 
-            if (this.server_api.order === undefined) {
-                this.server_api.order = "desc";
+            if (this.queryParams.order === undefined) {
+                this.queryParams.order = "desc";
             }
 
-            // now write back the server_api so that the search bar is up to date
-            // we are passing this.server_api for fun! ^o^ why not?
+            // now write back the queryParams so that the search bar is up to date
+            // we are passing this.queryParams for fun! ^o^ why not?
             if (window.history.pushState) { window.history.pushState({}, "Search Results", this.getQuery()); }
 
-            this.paginator_ui.currentPage = this.server_api.page();
+            this.state.currentPage = 1;
 
-            this.paginator_ui.grandTotal  = (models.length === 0) ? 0 : options.total;
-            this.paginator_ui.totalPages  = Math.ceil(this.paginator_ui.grandTotal / this.paginator_ui.perPage);
+            this.state.grandTotal  = (models.length === 0) ? 0 : options.total;
+            this.state.totalPages  = Math.ceil(this.state.grandTotal / this.state.perPage);
 
             this.grandTotal   = options.total;
             this.all_ids      = options.ids;
@@ -38,20 +37,17 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             this.selected_ids    = [];
             this.setSelectedCount(0);
             this.deep_select     = false;
-            this.url.resource = Routes.pro_structure_user_profiles_path(this.structure_id);
         },
 
-        url: {
-            basename: '',
-            resource: '',
-            data_type: '.json'
+        url: function url () {
+            return Routes.pro_structure_user_profiles_path(this.structure_id, _.extend(this.queryParams, { page: this.state.currentPage }) );
         },
 
         /* we are over-writing this method so that */
         // Fetch the default set of models for this collection, resetting the
         // collection when they arrive. If `reset: true` is passed, the response
         // data will be passed through the `reset` method instead of `set`.
-        fetch: function(options) {
+        fetch: function fetch (options) {
             options = options ? _.clone(options) : {};
             if (options.parse === void 0) options.parse = true;
             var success = options.success;
@@ -74,12 +70,12 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             return this.sync('read', this, options);
         },
 
-        parse: function(response) {
+        parse: function parse (response) {
             // we did some kind of request, I guess we should update the query
             if (window.history.pushState) { window.history.pushState({}, "Search Results", this.getQuery()); }
 
             this.grandTotal = response.meta.total;
-            this.totalPages = Math.ceil(response.meta.total / this.paginator_ui.perPage);
+            this.totalPages = Math.ceil(response.meta.total / this.state.perPage);
             this.jobs = response.meta.busy;
 
             // when we get back a filtered result set, we will want to set the selection's
@@ -93,7 +89,7 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             return response.user_profiles;
         },
 
-        paginator_ui: {
+        state: {
             firstPage:   1,
             perPage:     <%= UserProfile::PER_PAGE_CRM %>,
             totalPages:  0,
@@ -102,15 +98,15 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
         },
 
         /* returns true if the given model is in the current list */
-        isChecked: function (model) {
+        isChecked: function isChecked (model) {
             return (this.selected_ids.indexOf(model.get("id")) != -1);
         },
 
         /* returns true if any advanced filters are being applied
         *  currently the advanced filters are limited to:
         *   - tags[] */
-        isAdvancedFiltered: function () {
-            return _.has(this.server_api, "tags[]");
+        isAdvancedFiltered: function isAdvancedFiltered () {
+            return _.has(this.queryParams, "tags[]");
         },
 
         /* DEEP SELECT */
@@ -121,7 +117,7 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
          * fire a change event, to capture this */
 
         /* add or remove the given model from the list */
-        toggleSelected: function (model) {
+        toggleSelected: function toggleSelected (model) {
             // get the desired state of the selected flag
             var id = model.get("id");
             var index = this.selected_ids.indexOf(id);
@@ -137,7 +133,7 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
         },
 
         /* add the current page of ids to the list */
-        selectAll: function () {
+        selectAll: function selectAll () {
             var selected_ids = this.selected_ids;
             var added = 0;
 
@@ -160,7 +156,7 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
         },
 
         /* remove the current page of ids to the list */
-        deselectAll: function () {
+        deselectAll: function deselectAll () {
             var selected_ids = this.selected_ids;
             var removed = 0;
 
@@ -180,14 +176,14 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             this.setSelectedCount(this.selected_length - removed);
         },
 
-        getSelected: function () {
+        getSelected: function getSelected () {
             return this.selected_ids;
         },
 
         // the length of the selection is not always the number of
         // ids in it. Sometimes some of the ids may be hidden behind
         // a filter
-        setSelectedCount: function (length) {
+        setSelectedCount: function setSelectedCount (length) {
             this.selected_length = length;
 
             this.trigger("selection:counts", {
@@ -197,16 +193,16 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             });
         },
 
-        getSelectedCount: function () {
+        getSelectedCount: function getSelectedCount () {
             return this.selected_length;
         },
 
-        addSelected: function (id) {
+        addSelected: function addSelected (id) {
             this.selected_ids.push(id);
             this.setSelectedCount(this.selected_length + 1);
         },
 
-        removeSelectedAt: function (index) {
+        removeSelectedAt: function removeSelectedAt (index) {
             this.selected_ids.splice(index, 1);
             this.setSelectedCount(this.selected_length - 1);
         },
@@ -214,7 +210,7 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
         /* in addition to selecting the models,
         * set this.deep so that the bulk_action_controller
         * will know to affect all models not marked */
-        deepSelect: function () {
+        deepSelect: function deepSelect () {
             this.deep_select = true;
 
             var self = this;
@@ -222,8 +218,8 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             return $.ajax({
                 type: "GET",
                 url: Routes.new_pro_structure_bulk_user_profile_job_path(this.structure_id, { format: 'json' }),
-                data: this.server_api,
-                success: function (data) {
+                data: this.queryParams,
+                success: function success (data) {
                     self.selected_ids = data.ids;
                     self.selectAll(); // to trigger the checkboxes
 
@@ -232,7 +228,7 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             });
         },
 
-        clearSelected: function () {
+        clearSelected: function clearSelected () {
             this.deep_select = false;
             this.deselectAll(); // to trigger the change
 
@@ -240,15 +236,15 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             this.setSelectedCount(0);
         },
 
-        isDeep: function () {
+        isDeep: function isDeep () {
             return this.deep_select;
         },
 
-        bulkAddTags: function (tags) {
+        bulkAddTags: function bulkAddTags (tags) {
             this.bulkAction('add_tags', tags);
         },
 
-        destroySelected: function () {
+        destroySelected: function destroySelected () {
             this.bulkAction('destroy');
             // Trigger destroy to model
             _.map(this.selected_ids, function(selected_id) {
@@ -259,10 +255,10 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             }.bind(this));
         },
 
-        bulkAction: function (action_name, delegate_params) {
+        bulkAction: function bulkAction (action_name, delegate_params) {
             delegate_params = delegate_params || {}
 
-            var params = _.clone(this.server_api);
+            var params = _.clone(this.queryParams);
             params.ids = this.getSelected();
             params.tags = params["tags[]"]; // Prevent from having nil as params[:search][:tags]
 

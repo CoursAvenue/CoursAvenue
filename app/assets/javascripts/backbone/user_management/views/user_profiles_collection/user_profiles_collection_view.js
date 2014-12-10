@@ -49,8 +49,8 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
         onRender: function onRender () {
             // set the chevron for the pivot column
-            var sort    = this.collection.server_api.sort;
-            var order   = (this.collection.server_api.order === "desc")? "down" : "up";
+            var sort    = this.collection.queryParams.sort;
+            var order   = (this.collection.queryParams.order === "desc")? "down" : "up";
             var $pivot  = this.$('[data-sort=' + sort + ']');
             var chevron = Backbone.Marionette.Renderer.render(this.chevron, { order: order });
 
@@ -121,14 +121,14 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             e.preventDefault();
 
             if (this.current_order === null) {
-                this.current_order = this.collection.server_api.order;
+                this.current_order = this.collection.queryParams.order;
             }
 
             sort  = e.currentTarget.getAttribute('data-sort');
             order = "desc";
 
             // if we are already sorting by this column, change the order
-            if (sort === this.collection.server_api.sort) {
+            if (sort === this.collection.queryParams.sort) {
                 order = this.current_order;
                 order = (order === "desc")? "asc" : "desc";
             }
@@ -145,7 +145,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             // a column, and then toggles while the user is still clicking. When
             // the user hasn't clicked for a while, this method is called and that
             // value is nullified. This is because we are debouncing the actual
-            // change in the server_api order, but not the chevron direction
+            // change in the queryParams order, but not the chevron direction
 
             this.current_order = null;
             this.trigger('filter:summary', { sort: sort, order: order });
@@ -285,11 +285,11 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         /* override inherited method */
         announcePaginatorUpdated: function announcePaginatorUpdated () {
             this.trigger('paginator:updated');
-            if (this.collection.totalPages == undefined || this.collection.totalPages < 1) {
+            if (this.collection.state.totalPages == undefined || this.collection.state.totalPages < 1) {
                 return;
             }
 
-            var data         = this.collection;
+            var data         = this.collection.state;
 
             this.trigger('user_profiles:updated');
 
@@ -299,9 +299,9 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
                 last_page:           data.totalPages,
                 radius:              data.radius,
                 query_strings:       this.buildPageQueriesForRange(data.totalPages),
-                previous_page_query: this.collection.previousQuery(),
-                next_page_query:     this.collection.nextQuery(),
-                sort:                this.collection.server_api.sort
+                is_last_page:        this.collection.isLastPage(),
+                is_first_page:       this.collection.isFirstPage(),
+                sort:                this.collection.queryParams.sort
             });
 
             /* set the header checkbox based on the deep select */
@@ -311,12 +311,12 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
         announceInitialFilters: function announceInitialFilters () {
             /* the filters have been set up and are ready to be shown */
-            this.trigger('user_profiles:updated:keyword:filters', this.collection.server_api.name);
+            this.trigger('user_profiles:updated:keyword:filters', this.collection.queryParams.name);
         },
 
         announceInitialAdvancedFilters: function announceInitialAdvancedFilters () {
             this.trigger('user_profiles:updated:filters');
-            this.trigger('user_profiles:updated:tag:filters', this.collection.server_api["tags[]"]);
+            this.trigger('user_profiles:updated:tag:filters', this.collection.queryParams["tags[]"]);
         },
 
         sendMessageToSelected: function sendMessageToSelected () {

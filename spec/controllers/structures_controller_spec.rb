@@ -1,10 +1,13 @@
 # -*- encoding : utf-8 -*-
-require 'spec_helper'
+require 'rails_helper'
 
 describe StructuresController, type: :controller do
 
   def required_keys
-    %w(id name slug comments_count rating street zip_code logo_thumb_url data_url places)
+    %w(id name slug comments_count logo_thumb_url logo_large_url data_url
+      query_params structure_type highlighted_comment_title premium has_promotion
+      is_open_for_trial cover_media subjects trial_courses_policy places
+      preloaded_medias)
   end
 
   describe 'show' do
@@ -26,19 +29,20 @@ describe StructuresController, type: :controller do
 
     it "renders structures with the json required by filtered search" do
       get :index, format: :json, lat: 48.8592, lng: 2.3417
-      response.should be_success
+      expect(response).to have_http_status(:success)
       result = JSON.parse(StructureSerializer.new(@structure, { root: false }).to_json)
 
-      result.keys.should include(*required_keys) # splat ^o^//
+      expect(result.keys).to include(*required_keys)
     end
 
     it "includes 'meta' in the rendered json" do
       get :index, format: :json, lat: 48.8592, lng: 2.3417
-      response.should be_success
+      expect(response).to have_http_status(:success)
 
       result = JSON.parse(response.body)
-      result.keys.should include('meta')
-      assigns(:total).should eq(result['meta']['total'])
+      expect(result.keys).to include('meta')
+
+      expect(assigns(:total)).to eq(result['meta']['total'])
     end
 
     it "correctly finds the subject if subject_id is provided" do
@@ -57,20 +61,21 @@ describe StructuresController, type: :controller do
 
   describe 'follow' do
     let(:user) { FactoryGirl.create(:user) }
+    let(:structure) { FactoryGirl.create(:structure_with_admin) }
     before do
       sign_in user
+      Metric.where(structure_id: structure.id).destroy_all
     end
 
-    let(:structure) { FactoryGirl.create(:structure_with_admin) }
     it 'creates a new following' do
       followings_count = structure.followings.count
       post :add_to_favorite, id: structure.id
+
       expect(structure.followings.count).to eq followings_count + 1
     end
-    it 'creates a new Statistic action' do
-      actions_count = structure.statistics.actions.count
-      post :add_to_favorite, id: structure.id
-      expect(structure.statistics.actions.count).to eq actions_count + 1
+
+    it 'creates a new Metric action' do
+      expect { post :add_to_favorite, id: structure.id }.to change { structure.metrics.actions.count }.by(1)
     end
   end
 end

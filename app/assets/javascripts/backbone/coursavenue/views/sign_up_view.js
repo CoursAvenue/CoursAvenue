@@ -33,13 +33,14 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             'click @ui.$facebook_login_button'    : 'loginWithFacebook',
             'click [data-behavior=sign-in]'       : 'signIn',
             'click @ui.$show_email_section_link'  : 'showEmailSection',
+            'click @ui.$facebook_login_button'    : 'loginWithFacebook',
             'submit form'                         : 'signUp'
         },
 
         ui: {
             '$show_email_section_link': '[data-behavior=sign-up-with-email]',
             '$email_section'          : '[data-type=email-section]',
-            '$facebook_login_button'  : '[data-action=facebook-login]',
+            '$facebook_login_button'  : '[data-behavior=login-with-facebook]',
             '$data_loader'            : '[data-loader]'
         },
 
