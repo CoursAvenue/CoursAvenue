@@ -217,7 +217,6 @@ group :test do
   gem 'simplecov',          '~> 0.9.1'
   gem 'database_cleaner',   '~> 1.2.0'
   gem 'capybara',           '~> 2.2.1'
-  gem 'sunspot_test',       '~>0.4.0'
   gem 'rspec-instafail',    '~>0.2.5'
 end
 
