@@ -728,7 +728,6 @@ DEPENDENCIES
   certified (~> 0.1.1)
   cityhash (~> 0.8.1)
   ckeditor (~> 4.1.0)
-  climate_control (~> 0.0.3)
   cloudinary (~> 1.0.78)
   compass (~> 0.12.2)
   compass-inuit (~> 5.0.2)

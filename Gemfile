@@ -218,7 +218,6 @@ group :test do
   gem 'database_cleaner',   '~> 1.2.0'
   gem 'capybara',           '~> 2.2.1'
   gem 'rspec-instafail',    '~> 0.2.5'
-  gem 'climate_control',    '~> 0.0.3'
 end
 
 group :development do
