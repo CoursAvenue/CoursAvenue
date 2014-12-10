@@ -17,7 +17,6 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
 
         onRender: function onRender () {
             this.$('[data-type="bottom-pagination-tool"]').append(this.pagination_bottom.el);
-            this.$('[data-behavior="lazy-load"]').lazyload();
         },
 
         announcePaginatorUpdated: function announcePaginatorUpdated () {
