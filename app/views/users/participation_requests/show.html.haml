@@ -31,7 +31,7 @@
 
     .panel.push--bottom
       .panel__header.soft
-        %h3.flush Historique des messages
+        %h4.flush Historique des messages
       .panel__body.soft
         - if @participation_request.pending? and @participation_request.last_modified_by == 'Structure'
           = render partial: 'users/conversations/participation_request_form', locals: { return_to: user_participation_request_path(@user, @participation_request), participation_request: @participation_request }
@@ -41,7 +41,7 @@
 
     .panel
       .panel__header.soft
-        %h3.flush À propos de #{t("structures.structure_type_contact.#{(@structure.structure_type.present? ? @structure.structure_type : 'structures.other')}")}
+        %h4.flush À propos de #{t("structures.structure_type_contact.#{(@structure.structure_type.present? ? @structure.structure_type : 'structures.other')}")}
       .panel__body.soft
         .grid
           .grid__item.three-tenths>
@@ -50,8 +50,25 @@
             %h5.push-half--top.text--center= link_to @structure.name, structure_path(@structure), target: :_blank, class: 'muted-link'
             %p= simple_format @structure.description
           .grid__item.seven-tenths>
+            %h4 Lieu du cours
+            #map.one-whole{ style: 'height: 300px;'}
             - if @structure.comments_count > 0
               %h4 Les derniers avis
               %ul.comment-list.milli
                 - @structure.comments.accepted.limit(5).each do |comment|
                   = render partial: 'comments/comment', locals: { comment: comment }
+
+
+- @locations = Gmaps4rails.build_markers(@participation_request.place) do |place, marker|
+  - marker.lat place.latitude
+  - marker.lng place.longitude
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        google_map_handler = Gmaps.build('Google');
+        google_map_handler.buildMap({ provider: { scrollwheel: false, center: new google.maps.LatLng(#{@participation_request.place.latitude}, #{@participation_request.place.longitude}), zoom: 15}, internal: { id: 'map' }}, function() {
+            markers = google_map_handler.addMarkers(#{@locations.to_json});
+        });
+    });
+

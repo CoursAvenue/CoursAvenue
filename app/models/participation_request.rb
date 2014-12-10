@@ -159,10 +159,12 @@ class ParticipationRequest < ActiveRecord::Base
   end
 
   def place
-    if self.planning
-      self.planning.place
+    if planning
+      planning.place
+    elsif course and course.place
+      course.place
     else
-      self.course.try(:place)
+      structure.places.first
     end
   end
 
