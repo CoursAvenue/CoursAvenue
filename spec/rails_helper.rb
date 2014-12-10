@@ -29,7 +29,6 @@ RSpec.configure do |config|
   # `post` in specs under `spec/controllers`.
   config.infer_spec_type_from_file_location!
 
-  config.include Devise::TestHelpers, type: :controller
   config.include Delorean
 
   $original_sunspot_session = Sunspot.session

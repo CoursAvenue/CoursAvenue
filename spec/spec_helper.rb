@@ -1,14 +1,15 @@
-# Must be before everything
+# Genereate coverage exepct on CI.
 if !ENV['CI']
   require 'simplecov'
   SimpleCov.start 'rails'
 end
 
 RSpec.configure do |config|
+  # Print the 10 slowest examples and example groups at the
+  # end of the spec run, to help surface which specs are running
+  # particularly slow.
+  # This never runs on CI.
   if !ENV['CI']
-    # Print the 10 slowest examples and example groups at the
-    # end of the spec run, to help surface which specs are running
-    # particularly slow.
     config.profile_examples = 10
   end
 
