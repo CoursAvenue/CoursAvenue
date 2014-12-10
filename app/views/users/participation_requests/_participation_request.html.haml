@@ -27,20 +27,7 @@
     = "#{l(participation_request.date, format: :semi_short)} à #{l(participation_request.start_time, format: :short)}"
   %td.two-twelfths.nowrap
     = link_to 'Récapitulatif', user_participation_request_path(@user, participation_request)
-    .drop-down-el.drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
-      %a.nowrap{ href: '#' }
-        Actions
-        %i.fa.fa-chevron-down
-      %ul.drop-down__el.text--left
-        - if !participation_request.canceled? and !participation_request.declined?
-          %li.nowrap
-            - if participation_request.pending? and participation_request.last_modified_by == 'Structure'
-              = link_to "Accepter le nouveau créneau", accept_user_participation_request_path(@user, participation_request), method: :patch, class: 'green nowrap'
-          %li.nowrap
-            = link_to 'Proposer un autre créneau', edit_user_participation_request_path(@user, participation_request, return_to: user_participation_requests_path(@user)), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
-        - if !participation_request.canceled? and !participation_request.declined?
-          %li.nowrap
-          = link_to "Annuler l'inscription", cancel_form_user_participation_request_path(@user, participation_request, return_to: user_participation_requests_path(@user)), class: 'red nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+    = render partial: 'users/participation_requests/dropdown_actions', locals: { participation_request: participation_request }
   - if calendar
     %td.nowrap.text--center
       = add_to_calendar_small(participation_request)

@@ -1,7 +1,10 @@
-%table.table--striped
+%table.table--striped.table--striped-reversed
   %tbody
     %tr
-      %th Statut
+      %th.soft--ends.bordered--bottom.text--left.delta{ colspan: 3 }
+        Informations sur la réservation
+    %tr
+      %th.text--right Statut
       %td
         %strong{ class: participation_request_color(participation_request) }
           - if participation_request.pending?
@@ -13,30 +16,37 @@
             = t("participation_request.state.#{participation_request.state}")
 
       %td.text--right
-        = link_to "Accepter le nouveau créneau", accept_user_participation_request_path(@user, participation_request), method: :patch, class: 'btn btn--green btn--small nowrap'
+        = render partial: 'users/participation_requests/dropdown_actions', locals: { participation_request: participation_request }
+
     %tr
-      %th Nom du cours
+      %th.text--right Nom du cours
       %td
         - course = participation_request.course
         %span.has-tooltip{ data: { toggle: 'popover', content: "<strong>Niveau :</strong> #{join_levels(participation_request.levels)}<br><strong>Public :</strong> #{join_audiences(participation_request.planning || participation_request.course)}<br><strong>Disciplines :</strong> #{course.subjects.uniq.map(&:name).join(', ')}", html: 'true', placement: 'top', trigger: 'hover' } }= course.name
       %td.text--right= link_to 'Voir les autres cours', structure_path(participation_request.structure), target: :_blank
     %tr
-      %th Nom #{t("structures.structure_type_contact_bis.#{(participation_request.structure.present? ? participation_request.structure.structure_type : 'structures.other')}")}
+      %th.text--right Jour et créneau
+      %td #{l(participation_request.date, format: :semi_long).capitalize} : #{l(participation_request.start_time, format: :short)} à #{l(participation_request.end_time, format: :short)}.
+      %td.text--right.nowrap= add_to_calendar_plain_text(participation_request)
+    %tr
+      %th.soft--ends.bordered--bottom.bordered--top.text--left.delta{ colspan: 3 }
+        Informations #{t("structures.structure_type_contact_bis.#{(participation_request.structure.present? ? participation_request.structure.structure_type : 'structures.other')}")}
+        %br
+        %i.milli.blue Les numéros de téléphones et infos privées (digicode, etc.) seront affichées une fois l'inscription confirmée
+    %tr
+      %th.text--right Nom
       %td= link_to participation_request.structure.name, structure_path(participation_request.structure), target: :_blank, class: 'muted-link'
       %td.text--right= link_to 'Voir le profil', structure_path(participation_request.structure), target: :_blank
-    %tr
-      %th Jour et créneau
-      %td #{l(participation_request.date, format: :semi_long).capitalize} : #{l(participation_request.start_time, format: :short)} à #{l(participation_request.end_time, format: :short)}.
-      %td.text--right= add_to_calendar_plain_text(participation_request)
+
     - if participation_request.place
       %tr
-        %th Lieu
+        %th.text--right Lieu
         %td
           = "#{participation_request.place.name}, #{participation_request.place.address}"
         %td.text--right= link_to 'Voir sur GoogleMaps', URI.encode("https://maps.google.com/?q=#{participation_request.place.address}"), target: :_blank
       - if [participation_request.place.info, participation_request.place.private_info].reject(&:blank?).any?
         %tr
-          %th Infos pratiques
+          %th.text--right Infos pratiques
           %td
             - if participation_request.place.info.present?
               = participation_request.place.info
@@ -44,14 +54,20 @@
               = participation_request.place.private_info
           %td
       %tr
-        %th Téléphone(s)
+        %th.text--right Téléphone(s)
         %td
           - if participation_request.accepted?
             = participation_request.structure.phone_numbers.map(&:number).join(', ')
           - else
-            %i Le numéro de téléphone sera affiché une fois l'inscription accepté
+            = participation_request.structure.phone_numbers.map{ |pn| "XX XX XX XX #{pn.number[-2..-1]}" }.join(', ')
         %td
+      - if participation_request.structure.website?
+        %tr
+          %th.text--right Site web
+          %td
+            = link_to participation_request.structure.website, participation_request.structure.website, target: '_blank', rel: 'nofollow'
+          %td
       %tr
-        %th Ajouter à mon calendrier
+        %th.text--right Ajouter à mon calendrier
         %td= add_to_calendar(@participation_request)
         %td

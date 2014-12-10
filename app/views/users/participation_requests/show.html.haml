@@ -2,21 +2,32 @@
 = render 'shared/include_addthisevent'
 
 .flexbox
-  .flexbox__item.soft-half--right.v-top.one-sixth>
-    %div
-      .soft
-        %h3.flush &nbsp;
-    %ul.tabs--link.no-bullet-list.epsilon.line-height-2
-      %li
+  .flexbox__item.v-top.one-sixth.soft--right>
+    %ul.tabs--link.no-bullet-list.epsilon.push--right
+      %li.delta.line-height-2-5.f-weight-500
         = link_to 'Mes inscriptions', user_participation_requests_path(@user)
-      %li
+      %li.delta.line-height-2-5.f-weight-500.nowrap
         = link_to 'Inscriptions précédentes', user_participation_requests_path(@user, anchor: 'inscriptions-precedentes')
   .flexbox__item.v-top.five-sixths>
     .panel.push--bottom
       .panel__header.soft
-        %h3.flush Demande de réservation
+        %ol.nav.breadcrumb.epsilon.flush
+          %li.f-weight-600.delta= link_to 'Mes inscriptions', user_participation_requests_path(@user)
+          %li.f-weight-600.delta= @structure.name
       .panel__body.soft--ends
+        .grid.text--center.soft--sides
+          - if !@participation_request.canceled? and !@participation_request.declined?
+            - if @participation_request.pending? and @participation_request.last_modified_by == 'Structure'
+              .grid__item.one-third.v-middle>
+                = link_to "Accepter le nouveau créneau", accept_user_participation_request_path(@user, @participation_request), method: :patch, class: 'btn--full btn--green btn'
+            .grid__item.one-third.v-middle>
+              = link_to 'Proposer un autre créneau', edit_user_participation_request_path(@user, @participation_request, return_to: user_participation_requests_path(@user)), class: 'btn--full btn--orange btn fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+          - if !@participation_request.canceled? and !@participation_request.declined?
+            .grid__item.one-third.v-middle>
+              = link_to "Annuler l'inscription", cancel_form_user_participation_request_path(@user, @participation_request, return_to: user_participation_requests_path(@user)), class: 'btn--full btn--red btn fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+        %hr.push--top.flush--bottom
         = render partial: 'users/participation_requests/table_recap', locals: { participation_request: @participation_request }
+
 
     .panel.push--bottom
       .panel__header.soft
@@ -39,7 +50,8 @@
             %h5.push-half--top.text--center= link_to @structure.name, structure_path(@structure), target: :_blank, class: 'muted-link'
             %p= simple_format @structure.description
           .grid__item.seven-tenths>
-            %h4 Les derniers avis
-            %ul.comment-list.milli
-              - @structure.comments.accepted.each do |comment|
-                = render partial: 'comments/comment', locals: { comment: comment }
+            - if @structure.comments_count > 0
+              %h4 Les derniers avis
+              %ul.comment-list.milli
+                - @structure.comments.accepted.limit(5).each do |comment|
+                  = render partial: 'comments/comment', locals: { comment: comment }

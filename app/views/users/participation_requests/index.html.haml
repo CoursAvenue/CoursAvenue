@@ -2,19 +2,16 @@
 = render 'shared/include_addthisevent'
 
 .flexbox
-  .flexbox__item.soft-half--right.v-top.one-sixth>
-    %div
-      .soft
-        %h3.flush &nbsp;
-    %ul.tabs--link.no-bullet-list.epsilon.line-height-2
-      %li.active
+  .flexbox__item.v-top.one-sixth.soft--right>
+    %ul.tabs--link.no-bullet-list.epsilon.push--right
+      %li.delta.line-height-2-5.f-weight-500.active
         %a{ href: '#mes-inscriptions', data: { toggle: 'tab' } } Mes inscriptions
-      %li
+      %li.delta.line-height-2-5.f-weight-500.nowrap
         %a{ href: '#inscriptions-precedentes', data: { toggle: 'tab' } } Inscriptions précédentes
   .flexbox__item.v-top.five-sixths>
     .panel
       .panel__header.soft
-        %h3.flush Mes inscriptions
+        %h4.line-height-normal.flush Mes inscriptions
       .panel__body.soft--ends
         .tab-content
           .tab-pane.active#mes-inscriptions

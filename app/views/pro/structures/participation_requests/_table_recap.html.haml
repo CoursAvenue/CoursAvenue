@@ -1,7 +1,10 @@
-%table.table--striped
+%table.table--striped.table--striped-reversed
   %tbody
     %tr
-      %th Statut
+      %th.soft--ends.bordered--bottom.text--left.delta{ colspan: 3 }
+        Informations sur la réservation
+    %tr
+      %th.text--right Statut
       %td
         %strong{ class: participation_request_color(participation_request) }
           - if participation_request.pending? and participation_request.last_modified_by == 'User'
@@ -9,56 +12,82 @@
           - else
             = t("participation_request.state.#{participation_request.state}")
       %td.text--right.nowrap
-        - if participation_request.pending? and participation_request.last_modified_by == 'User'
-          = link_to "Accepter l'inscription", accept_pro_structure_participation_request_path(participation_request.structure, participation_request), method: :patch, class: 'btn btn--green btn--small nowrap'
-
+        = render partial: 'pro/structures/participation_requests/dropdown_actions', locals: { participation_request: participation_request }
     %tr
-      %th.nowrap Nom de l'élève
-      %td.one-whole= participation_request.user.name
-      %td.text--right.nowrap
-    %tr
-      %th.nowrap Téléphone de l'élève
-      %td.one-whole
-        - if participation_request.accepted?
-          = participation_request.user.phone_number
-        - else
-          %i Le numéro de téléphone sera affiché une fois l'inscription accepté
-      %td.text--right
-
-    %tr
-      %th.nowrap Nom du cours
+      %th.text--right.nowrap Nom du cours
       %td.one-whole
         - course = participation_request.course
         %span.has-tooltip{ data: { toggle: 'popover', content: "<strong>Niveau :</strong> #{join_levels(participation_request.levels)}<br><strong>Public :</strong> #{join_audiences(participation_request.planning || participation_request.course)}<br><strong>Disciplines :</strong> #{course.subjects.uniq.map(&:name).join(', ')}", html: 'true', placement: 'top', trigger: 'hover' } }= course.name
 
       %td.text--right.nowrap
     %tr
-      %th.nowrap Jour et créneau
+      %th.text--right.nowrap Jour et créneau
       %td.one-whole #{l(participation_request.date, format: :semi_long).capitalize} : #{l(participation_request.start_time, format: :short)} à #{l(participation_request.end_time, format: :short)}.
       %td.text--right.nowrap
-        - if participation_request.accepted? or (participation_request.pending? and participation_request.last_modified_by == 'Structure')
+        - if !participation_request.canceled? and !participation_request.declined?
           .flexbox__item.v-middle.one-quarter.soft-half--left#modify-links>
             = link_to 'Proposer un autre créneau', edit_pro_structure_participation_request_path(participation_request.structure, participation_request), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+    %tr
+      %th.soft--ends.bordered--bottom.bordered--top.text--left.delta{ colspan: 3 }
+        Informations transmises à l'élève
+        %br
+        %i.milli.blue Les numéros de téléphones et infos pratiques privées seront transmises à l'élève une fois l'inscription confirmée
+
     - if participation_request.place
       %tr
-        %th.nowrap Lieu
+        %th.text--right.nowrap Lieu
         %td.one-whole= "#{participation_request.place.name}, #{participation_request.place.address}"
         %td.text--right= link_to 'Voir sur GoogleMaps', URI.encode("https://maps.google.com/?q=#{participation_request.place.address}"), target: :_blank
       - if [participation_request.place.info, participation_request.place.private_info].reject(&:blank?).any?
         %tr
-          %th.nowrap Infos pratiques
+          %th.text--right.nowrap Infos pratiques
           %td.one-whole= [participation_request.place.info, participation_request.place.private_info].reject(&:blank?).join(' ')
           %td.text--right.nowrap
             = link_to edit_pro_structure_place_path(participation_request.structure, participation_request.place, return_to_action: 'window.location.reload()'), class: 'milli fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 } do
               %i.fa.fa-pencil
               Modifier
     %tr
-      %th.nowrap Votre téléphone
+      %th.text--right.nowrap Votre téléphone
       %td.one-whole
         = participation_request.structure.phone_numbers.map(&:number).join(', ')
-        %br
-        %i.milli.blue (Les numéros de téléphones et infos pratiques privées seront transmises à l'élève une fois l'inscription confirmée)
       %td.text--right.nowrap
         = link_to edit_contact_pro_structure_path(participation_request.structure), class: 'milli', target: :_blank do
           %i.fa.fa-pencil
           Modifier
+    %tr
+      %th.text--right.nowrap Votre site web
+      %td
+        = link_to participation_request.structure.website, participation_request.structure.website, target: '_blank', rel: 'nofollow'
+      %td.text--right.nowrap
+        = link_to edit_contact_pro_structure_path(participation_request.structure), class: 'milli', target: :_blank do
+          %i.fa.fa-pencil
+          Modifier
+%hr
+.grid--full
+  .grid__item.one-quarter.soft--sides>
+    = image_tag participation_request.user.avatar_url(:normal), class: 'center-block push-half--bottom'
+  .grid__item.three-quarters>
+    %table.table--striped.table--striped-reversed
+      %tbody
+        %tr
+          %th.bordered--bottom.text--left.delta{ colspan: 3 }
+            Élève
+            %br
+            %i.milli.blue Le téléphone et l'e-mail seront visible une fois l'inscription confirmée
+        %tr
+          %th.text--right.nowrap Nom
+          %td.one-whole= participation_request.user.name
+        %tr
+          %th.text--right.nowrap Téléphone
+          %td.one-whole
+            - if participation_request.accepted?
+              = participation_request.user.phone_number
+            - else
+              = "XX XX XX XX #{participation_request.user.phone_number[-2..-1]}"
+        %tr
+          %th.text--right.nowrap E-mail
+          %td.one-whole
+            - if participation_request.accepted?
+              = participation_request.user.email
+            - else
+              = 'x' * participation_request.user.email.split('@').first.length + '@' + participation_request.user.email.split('@').last

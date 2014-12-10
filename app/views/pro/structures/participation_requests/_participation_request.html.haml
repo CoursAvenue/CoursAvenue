@@ -4,6 +4,9 @@
     - if participation_request.pending? and participation_request.last_modified_by == 'User'
       %span.has-tooltip{ data: { toggle: 'popover', content: "Confirmez la demande d'inscription au plus vite", html: 'true', placement: 'top', trigger: 'hover' } }
         En attente
+      .very-soft.hard--left.hard--bottom.hard--right
+        = link_to 'Accepter', accept_pro_structure_participation_request_path(participation_request.structure, participation_request), method: :patch, class: 'btn btn--small btn--green nowrap'
+
     - else
       = t("participation_request.state.#{participation_request.state}")
   %td
@@ -30,24 +33,4 @@
     = "#{l(participation_request.date, format: :semi_short)} à #{l(participation_request.start_time, format: :short)}"
   %td
     = link_to 'Récapitulatif', pro_structure_participation_request_path(@structure, participation_request)
-    .drop-down-el.drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
-      %a.nowrap{ href: '#' }
-        Actions
-        %i.fa.fa-chevron-down
-      %ul.drop-down__el.text--left
-        - if !participation_request.canceled? and !participation_request.declined?
-          - if participation_request.pending? and participation_request.last_modified_by == 'User'
-            %li.nowrap
-              = link_to accept_pro_structure_participation_request_path(participation_request.structure, participation_request), method: :patch, class: 'green nowrap' do
-                %i.fa.fa-check
-                Accepter l'inscription
-
-          %li.nowrap
-            = link_to edit_pro_structure_participation_request_path(participation_request.structure, participation_request), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 } do
-              %i.fa.fa-clock
-              Proposer un autre créneau
-        - if !participation_request.canceled? and !participation_request.declined?
-          %li.nowrap
-            = link_to cancel_form_pro_structure_participation_request_path(participation_request.structure, participation_request), class: 'red nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 } do
-              %i.fa.fa-times
-              Annuler l'inscription
+    = render partial: 'pro/structures/participation_requests/dropdown_actions', locals: { participation_request: participation_request }
