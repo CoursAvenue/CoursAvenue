@@ -11,7 +11,7 @@ describe NexmoClientFactory, '' do
 
   it 'returns a real client in production env' do
     ClimateControl.modify NEXMO_API_KEY: Faker::Internet.password do
-      real_client = Nexmo::Client
+      real_client = Nexmo::Client(key: '', secret: '')
 
       switch_to_prod_env do
         expect(NexmoClientFactory.client).to be_a(real_client)
