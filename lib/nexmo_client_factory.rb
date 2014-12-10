@@ -1,7 +1,11 @@
 class NexmoClientFactory
-  def self.client
+  def self.client(options = nil)
     if Rails.env.production?
-      Nexmo::Client.new
+      if options.nil?
+        Nexmo::Client.new
+      else
+        Nexmo::Client.new(options)
+      end
     else
       FakeNexmo::Client.new
     end
