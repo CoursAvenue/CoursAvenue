@@ -1,7 +1,7 @@
 %table.table--striped.table--striped-reversed
   %tbody
     %tr
-      %th.soft--ends.bordered--bottom.text--left.delta{ colspan: 3 }
+      %th.soft.bordered--bottom.text--left.delta{ colspan: 3 }
         Informations sur la réservation
     %tr
       %th.text--right Statut
@@ -28,7 +28,7 @@
           .flexbox__item.v-middle.one-quarter.soft-half--left#modify-links>
             = link_to 'Proposer un autre créneau', edit_pro_structure_participation_request_path(participation_request.structure, participation_request), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
     %tr
-      %th.soft--ends.bordered--bottom.bordered--top.text--left.delta{ colspan: 3 }
+      %th.soft.bordered--bottom.bordered--top.text--left.delta{ colspan: 3 }
         Informations transmises à l'élève
         %br
         %i.milli.blue Les numéros de téléphones et infos pratiques privées seront transmises à l'élève une fois l'inscription confirmée

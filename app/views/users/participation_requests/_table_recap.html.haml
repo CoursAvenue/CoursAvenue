@@ -1,7 +1,7 @@
-%table.table--striped.table--striped-reversed
+%table.table--striped.table--striped-reversed.flush
   %tbody
     %tr
-      %th.soft--ends.bordered--bottom.text--left.delta{ colspan: 3 }
+      %th.soft.bordered--bottom.text--left.delta{ colspan: 3 }
         Informations sur la réservation
     %tr
       %th.text--right Statut
@@ -29,7 +29,7 @@
       %td #{l(participation_request.date, format: :semi_long).capitalize} : #{l(participation_request.start_time, format: :short)} à #{l(participation_request.end_time, format: :short)}.
       %td.text--right.nowrap= add_to_calendar_plain_text(participation_request)
     %tr
-      %th.soft--ends.bordered--bottom.bordered--top.text--left.delta{ colspan: 3 }
+      %th.soft.bordered--bottom.bordered--top.text--left.delta{ colspan: 3 }
         Informations sur #{t("structures.structure_type_contact.#{(participation_request.structure.present? ? participation_request.structure.structure_type : 'structures.other')}")}
         %br
         %i.milli.blue Les numéros de téléphones et infos privées (digicode, etc.) seront affichées une fois l'inscription confirmée
@@ -67,7 +67,7 @@
           %td
             = link_to participation_request.structure.website, participation_request.structure.website, target: '_blank', rel: 'nofollow'
           %td
-      %tr
-        %th.text--right Ajouter à mon calendrier
-        %td= add_to_calendar(@participation_request)
-        %td
+    %tr
+      %th.soft--left.soft-half--ends.bordered--top.text--left.delta{ colspan: 3 }
+        %span.push-half--right Ajouter à mon calendrier :
+        = add_to_calendar(@participation_request)

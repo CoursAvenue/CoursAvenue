@@ -14,7 +14,7 @@
         %ol.nav.breadcrumb.epsilon.flush
           %li.f-weight-600.delta= link_to 'Mes inscriptions', user_participation_requests_path(@user)
           %li.f-weight-600.delta= @structure.name
-      .panel__body.soft--ends
+      .panel__body.soft--top
         .grid.text--center.soft--sides
           - if !@participation_request.canceled? and !@participation_request.declined?
             - if @participation_request.pending? and @participation_request.last_modified_by == 'Structure'
