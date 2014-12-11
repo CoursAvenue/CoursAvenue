@@ -399,15 +399,13 @@
   GoogleMaps.RichMarkerView = GoogleMaps.MarkerView.extend({
     constructor: function() {
       GoogleMaps.MarkerView.prototype.constructor.apply(this, arguments);
-
       // Instantiate marker, with user defined properties
       this.gOverlay = new RichMarker(_.extend({
         position: this.model.getLatLng(),
         map     : this.map,
         content : "",
         title   : this.model.title,
-        // animation: google.maps.Animation.DROP, // this doesn't seem to work with rich markers?
-        visible: false										// hide, until render
+        visible : false // hide, until render
       }, this.overlayOptions));
     }
   });
