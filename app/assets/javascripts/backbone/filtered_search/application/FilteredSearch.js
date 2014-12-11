@@ -7,8 +7,9 @@ FilteredSearch.addRegions({
 });
 
 FilteredSearch.addInitializer(function(options) {
-    var bootstrap, structures, structures_view, layout, maps_view, $loader, clearEvent, pagination_bottom;
-
+    var bootstrap, structures, structures_view, layout, maps_view, $loader, clearEvent,
+        pagination_bottom,
+        FiltersModule = FilteredSearch.Views.StructuresCollection.Filters;
     bootstrap = window.coursavenue.bootstrap;
 
     // Create an instance of your class and populate with the models of your entire collection
@@ -63,9 +64,8 @@ FilteredSearch.addInitializer(function(options) {
 
     var bounds       = structures.getLatLngBounds();
     /* TODO does the google map need a reference to the collection?
-    *  I don't think so, and I don't remember why this is here
-    *  TODO I've commented out the reference, and the map still
-    *  works... so I think we can feel safe resolving these TODOs */
+     * I don't think so, and I don't remember why this is here
+     */
     google_maps_view = new FilteredSearch.Views.Map.GoogleMapsView({
         collection: structures,
         mapOptions: {
@@ -76,15 +76,12 @@ FilteredSearch.addInitializer(function(options) {
         }
     });
 
-    var FiltersModule = FilteredSearch.Views.StructuresCollection.Filters;
-
     var subjects = new FilteredSearch.Models.SubjectsCollection(coursavenue.bootstrap.subjects);
 
     /* basic filters */
     results_summary            = new FiltersModule.ResultsSummaryView({});
     keyword_filter             = new FiltersModule.KeywordFilterView({});
     subjects_collection_filter = new FiltersModule.Subjects.SubjectsCollectionView({ collection: subjects });
-    location_filter            = new FiltersModule.LocationFilterView({});
 
     /* advanced filters */
     /* we pass in a dictionary defining what we want the titles of the breadcrumbs
@@ -104,6 +101,7 @@ FilteredSearch.addInitializer(function(options) {
         }
     });
 
+    location_filter           = new FiltersModule.LocationFilterView({});
     level_filter              = new FiltersModule.LevelFilterView({});
     course_type_filter        = new FiltersModule.CourseTypeFilterView({});
     discount_filter           = new FiltersModule.DiscountFilterView({});
@@ -122,7 +120,7 @@ FilteredSearch.addInitializer(function(options) {
     * for setup */
     layout.showWidget(google_maps_view, {
         events: {
-            'structures:updated':                'render',
+            'structures:updated':                '_renderChildren',
             'paginator:updating':                'hideInfoWindow',
             'structures:itemview:highlighted':   'exciteMarkers',
             'structures:itemview:unhighlighted': 'exciteMarkers',
