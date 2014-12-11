@@ -28,8 +28,8 @@
                       - elsif content_for? :promo
                         = yield(:promo).gsub(/(<|&lt;)[^;<]*(>|&gt;)/, '').gsub('  ',' ').strip.html_safe
                       - else
-                        - lala = (yield).gsub(/(<|&lt;)[^;<]*(>|&gt;)/, '').gsub('  ',' ').strip.html_safe
-                        = truncate(lala, length: 80)
+                        - email_title = (yield).gsub(/(<|&lt;)[^;<]*(>|&gt;)/, '').gsub('  ',' ').strip.html_safe
+                        = truncate(email_title, length: 80)
             %tr
               %td{ width: '600' }
                 .soft
