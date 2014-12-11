@@ -68,7 +68,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
                 ]
               }
         ],
-        constructor: function (options) {
+        constructor: function constructor (options) {
             options = options || {};
             Marionette.CompositeView.prototype.constructor.apply(this, arguments);
 

@@ -3,10 +3,9 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
     Module.LocationFilterView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'location_filter_view',
 
-        setup: function (data) {
+        setup: function setup (data) {
             if (data.address_name) { data.address_name = data.address_name.replace('+', ' '); }
             this.ui.$address_picker.attr('value', data.address_name);
-            $('[data-type="location-filter"]').replaceWith(this.$el);
         },
 
         ui: {
@@ -17,11 +16,11 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             'typeahead:selected #address-picker': 'announce'
         },
 
-        onRender: function() {
+        onRender: function onRender() {
             this.ui.$address_picker.addressPicker();
         },
 
-        announce: function (e, data) {
+        announce: function announce (e, data) {
             this.trigger("filter:location", data);
         }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
@@ -29,7 +28,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             $address_picker: '#address-picker'
         },
         // Clears all the given filters
-        clear: function (filters) {
+        clear: function clear (filters) {
             this.ui.$address_picker.val('');
             this.announce();
         }
