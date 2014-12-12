@@ -120,7 +120,6 @@ FilteredSearch.addInitializer(function(options) {
     * for setup */
     layout.showWidget(google_maps_view, {
         events: {
-
             'structures:updated'               : '_renderChildren',
             'paginator:updating'               : 'hideInfoWindow',
             'structures:itemview:highlighted'  : 'exciteMarkers',
