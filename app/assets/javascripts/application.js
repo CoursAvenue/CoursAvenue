@@ -58,6 +58,7 @@
 //= require libs/richmarker.js
 //= require libs/infobox.js
 //= require gmaps/google
+//= require libs/gmaps_overrides
 //= require ./plugins_initalization
 
 // ---------------------------------- Backbone

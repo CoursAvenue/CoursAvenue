@@ -16,6 +16,7 @@ StructureProfile.addInitializer(function(options) {
     places_collection          = structure.get('places');
     message_form_view          = new StructureProfile.Views.Messages.MessageFormView( { structure: structure } );
     participation_request_view = new StructureProfile.Views.ParticipationRequests.RequestFormView( { structure: structure } );
+
     google_maps_view           = new StructureProfile.Views.Map.GoogleMapsView({
         collection:         places_collection,
         infoBoxViewOptions: { infoBoxClearance: new google.maps.Size(0, 0) },
@@ -23,9 +24,8 @@ StructureProfile.addInitializer(function(options) {
         mapClass:           'google-map--medium'
     });
 
-    sticky_google_maps_view  = new StructureProfile.Views.Map.GoogleMapsView({
+    sticky_google_maps_view    = new StructureProfile.Views.Map.StickyGoogleMapsView({
         collection:         places_collection,
-        sticky:             true,
         mapOptions:         { scrollwheel: false },
         infoBoxViewOptions: { infoBoxClearance: new google.maps.Size(0, 0) }
     });
@@ -38,7 +38,7 @@ StructureProfile.addInitializer(function(options) {
     layout.render();
 
     layout.showWidget(participation_request_view, {
-        selector: '[data-type=contact-form]',
+        selector: '[data-type=sticky-map-containerct-form]',
         events: {
             'planning:register' : 'showRegistrationForm'
         }
@@ -46,17 +46,6 @@ StructureProfile.addInitializer(function(options) {
 
     layout.showWidget(sticky_google_maps_view, {
         selector: '[data-type=sticky-map]',
-        events: {
-            'course:mouse:enter'       : 'exciteMarkers',
-            'course:mouse:leave'       : 'unexciteMarkers',
-            'place:mouse:enter'        : 'exciteMarkers',
-            'place:mouse:leave'        : 'unexciteMarkers',
-            'places:collection:updated': 'recenterMap',
-            'map:marker:click'         : 'showInfoWindow'
-        }
-    });
-
-    layout.showWidget(google_maps_view, {
         events: {
             'course:mouse:enter'       : 'exciteMarkers',
             'course:mouse:leave'       : 'unexciteMarkers',

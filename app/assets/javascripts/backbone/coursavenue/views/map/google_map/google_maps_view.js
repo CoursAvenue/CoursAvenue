@@ -94,7 +94,6 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             }
 
             this.mapView = new Module.BlankView({
-                // id: 'map',
                 attributes: {
                     'class': 'map_container google-map' + options.mapClass
                 }
@@ -142,15 +141,6 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
         },
 
         markerFocus: function markerFocus (marker_view) {
-            /* it seems to me this test was to ensure that re-clicking on
-            * the current_info_marker wouldn't retrigger map:marker:click.
-            * however, not the current_info_marker is set in markerHovered,
-            * so we can avoid this check. */
-            //  var marker = this.markerViewChildren[this.current_info_marker];
-            //  if (marker_view === marker) {
-            //      return false;
-            //  }
-
             this.unlockCurrentMarker();
 
             /* TODO this is a problem, we need to not pass out the whole view, d'uh */
@@ -238,7 +228,6 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             this.isDestroyed = false;
             this.resetChildViewContainer();
 
-            // this.triggerBeforeRender();
             this.trigger('before:render');
             var html = this._renderTemplate();
             this.$el.html(html);
@@ -252,7 +241,6 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             this.$el.find('[data-type=map-container]').prepend(this.map_annex);
 
             this.triggerMethod("render");
-            // this.triggerRendered();
             return this;
         },
 
@@ -276,7 +264,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             markerView.on('unhighlight:all', function() { this.unhighlightEveryMarker(markerView) }.bind(this));
 
             this.markerViewChildren[childModel.cid] = markerView;
-            this.addChildViewEventForwarding(markerView); // buwa ha ha ha!
+            //this.addChildViewEventForwarding(markerView); // buwa ha ha ha!
             markerView.render();
         },
 

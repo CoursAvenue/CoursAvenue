@@ -1,128 +1,60 @@
+/*
+ * THIS IS BAD... but...
+ * I tried to have 2 instances of a Backbone GoogleMap but the markers don't get duplicated but they
+ * just move from a map to another.
+ * So I use GoogleMaps4Rails handler to create a map as we don't need much interaction with it.
+ */
 StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette, $, _, undefined) {
 
-    Module.GoogleMapsView = CoursAvenue.Views.Map.GoogleMap.GoogleMapsView.extend({
-        infoBoxView:  Module.InfoBoxView,
+    Module.GoogleMapsView = Backbone.Marionette.ItemView.extend({
+        template: Module.templateDirname() + 'google_maps_view',
 
-        initialize: function initialize (options) {
-            this.sticky = this.options.sticky;
-        },
+        initialize: function initialize () {
+            var google_map_handler;
+            this.initializeMapHeight();
+            var markers_locations = this.collection.map(function(model) {
+                var infobox = new StructureProfile.Views.Map.InfoBoxView();
+                infobox.setContent(model);
+                // We remove the close button because it doesn't work...
+                infobox.$el.find('[data-type=closer]').remove();
+                return { lat: model.get('latitude'),
+                         lng: model.get('longitude'),
+                         marker: $("<div class='map-marker-image'><a href='javascript:void(0)'></a></div>")[0],
+                         infowindow: {
+                            content    : infobox.$el.html(),
+                            alignBottom: true,
+                            pixelOffset: new google.maps.Size(-98, -55),
+                            boxStyle   : {
+                                width: "200px"
+                            },
+                            enableEventPropagation: true
+                         }
+                       }
+            })
 
-        onShow: function onShow () {
-            // If the current instance is the stycky map that appears on the right of the StructureProfile
-            if (this.sticky) {
-                this.$('.google-map').addClass('google-map--medium-small');
-                var setStickyStyle,
-                    $view             = this.$el.closest('[data-type=sticky-map-container]'),
-                    $grid_item        = $view.closest('.grid__item'),
-                    initial_map_width = $view.width();
-                $view.sticky({
-                    z        : 10,
-                    oldWidth : false,
-                    offsetTop: 72,
-                    stopAtEl : '#coursavenue-footer',
-                    onStick: function onStick () {
-                        $view.css({
-                            left : $grid_item.offset().left + parseInt($view.closest('.grid__item').css('padding-left'), 10) + 'px',
-                            width: initial_map_width
-                        });
-                    },
-                    onUnStick: function onUnStick () {
-                        $view.removeAttr('style');
-                    }
-                });
-            } else {
-                if ($(window).height() < 900) {
-                    this.$el.closest('.rslides-wrapper').css('height', '27em');
-                    this.$('.google-map--medium').removeClass('google-map--medium').addClass('google-map--medium-smaller');
-                }
-            }
-            this.recenterMap();
-        },
-
-        // We have some weird behavior having two maps on the same page...
-        addChild: function addChild (childModel, html) {
-            console.log(this.map.j)
-            var markerView = new this.markerView({
-                model:   childModel,
-                map:     this.map,
-                content: html
-            });
-            markerView.on('click'          , function() { this.markerFocus(markerView) }.bind(this));
-            markerView.on('hovered'        , function() { this.markerHovered(markerView) }.bind(this));
-            markerView.on('unhighlight:all', function() { this.unhighlightEveryMarker(markerView) }.bind(this));
-            this.markerViewChildren[childModel.cid + (this.sticky ? 'sticky' : '')] = markerView;
-            markerView.render();
-        },
-
-        // We have some weird behavior having two maps on the same page...
-        closeChildren: function closeChildren () {
-            for(var cid in this.markerViewChildren) {
-                if (this.sticky && cid.indexOf('sticky') !== -1) {
-                    this.closeChild(this.markerViewChildren[cid]);
-                } else if (!this.sticky && cid.indexOf('sticky') === -1) {
-                    this.closeChild(this.markerViewChildren[cid]);
-                }
-            }
-        },
-
-        /* ***
-         * ### \#recenterMap
-         *
-         * When we change the width of the map's container, we need to alert the map
-         * to this by triggering resize. This will change the amount of map that is
-         * shown, but won't adjust the center of the map so that it is visually centered.
-         * So, in addition, we visually center the map.
-         * */
-        recenterMap: function recenterMap () {
-            // Set zoom to 12 if there is only one marker
-            if (this.collection.length == 1) {
-                var center = new google.maps.LatLng (this.collection.first().get('latitude'), this.collection.first().get('longitude'))
-                this.map.setCenter(center);
-                this.map.setZoom(14);
-            } else {
-                // From: http://blog.shamess.info/2009/09/29/zoom-to-fit-all-markers-on-google-maps-api-v3/
-                //  Make an array of the LatLng's of the markers you want to show
-                var lat_lng_list = this.collection.map(function(place) {
-                    return new google.maps.LatLng (place.get('latitude'), place.get('longitude'))
-                });
-                //  Create a new viewpoint bound
-                var bounds = new google.maps.LatLngBounds();
-                //  Go through each...
-                for (var i = 0, length = lat_lng_list.length; i < length; i++) {
-                  //  And increase the bounds to take this point
-                  bounds.extend (lat_lng_list[i]);
-                }
-                //  Fit these bounds to the map
-                this.map.fitBounds(bounds);
-            }
-        },
-
-        /* ***
-        * ### \#exciteMarkers
-        *
-        * Event handler for `childview:course:hovered`, as such it expects
-        * a view. The view's model should have a location, and if the location
-        * matches this marker's location it will get excited. */
-        exciteMarkers: function exciteMarkers (data) {
-            var key = data.place_id || data.id;
-            if (key === null) { return; }
-            _.each(this.markerViewChildren, function (child) {
-                if (child.model.get("id") === key) {
-                    child.highlight({ show_info_box: false });
-                    child.excite();
+            google_map_handler = Gmaps.build('Google', { builders: { Marker: GMapsCoursAvenueBuilder } } );
+            google_map_handler.buildMap({ provider: { scrollwheel: false,
+                                                      center     : new google.maps.LatLng(47, 2.3417),
+                                                      zoom       : 14 },
+                                          internal: { id: 'structure-profile-map' } },
+                                          function() {
+                markers = google_map_handler.addMarkers(markers_locations);
+                google_map_handler.bounds.extendWith(markers);
+                google_map_handler.fitMapToBounds();
+                // Zoom out in case there is only two markers and they are at the
+                // extreme borders of the maps
+                var map = google_map_handler.getMap();
+                map.setZoom(map.getZoom() - 1);
+                if (google_map_handler.getMap().getZoom() > 15) {
+                    google_map_handler.getMap().setZoom(15);
                 }
             });
         },
-
-        unexciteMarkers: function exciteMarkers (data) {
-            var key = data.place_id || data.id;
-            if (key === null) { return; }
-            _.each(this.markerViewChildren, function (child) {
-                if (child.model.get("id") === key) {
-                    child.unhighlight();
-                    child.calm();
-                }
-            });
+        initializeMapHeight: function initializeMapHeight () {
+            if ($(window).height() < 900) {
+                $('.rslides-wrapper').css('height', '27em');
+                this.$('.google-map--medium').removeClass('google-map--medium').addClass('google-map--medium--smaller')
+            }
         }
     });
 
