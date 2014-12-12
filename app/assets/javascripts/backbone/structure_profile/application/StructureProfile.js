@@ -38,7 +38,7 @@ StructureProfile.addInitializer(function(options) {
     layout.render();
 
     layout.showWidget(participation_request_view, {
-        selector: '[data-type=sticky-map-containerct-form]',
+        selector: '[data-type=contact-form]',
         events: {
             'planning:register' : 'showRegistrationForm'
         }

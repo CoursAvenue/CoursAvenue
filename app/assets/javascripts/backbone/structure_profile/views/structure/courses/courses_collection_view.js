@@ -31,7 +31,7 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             this.trigger("course:mouse:leave", data);
         },
 
-        onItemviewRegister: function onItemviewRegister (view, data) {
+        onChildviewRegister: function onChildviewRegister (view, data) {
             this.trigger("planning:register", data);
         },
 

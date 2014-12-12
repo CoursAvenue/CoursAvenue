@@ -41,7 +41,7 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             this.trigger("mouseleave", data);
         },
 
-        onItemviewRegister: function onItemviewRegister (view, data) {
+        onChildviewRegister: function onChildviewRegister (view, data) {
             this.trigger("register", data);
         },
 
