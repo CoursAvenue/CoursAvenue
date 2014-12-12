@@ -223,9 +223,9 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
         // Renders the model once, and the collection once. Calling
         // this again will tell the model's view to re-render itself
         // but the collection will not re-render.
-        render: function render () {
-            this.isRendered  = true;
-            this.isDestroyed = false;
+        render: function render (){
+            this.isRendered = true;
+            this.isClosed   = false;
             this.resetChildViewContainer();
 
             this.trigger('before:render');
@@ -235,12 +235,13 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             // will not be available until after the model is rendered, but should be
             // available before the collection is rendered.
             this.bindUIElements();
-            this.triggerMethod("render:template");
+            this.triggerMethod("composite:model:rendered");
 
             this._renderChildren();
             this.$el.find('[data-type=map-container]').prepend(this.map_annex);
 
-            this.triggerMethod("render");
+            this.triggerMethod("composite:rendered");
+            this.triggerMethod("rendered");
             return this;
         },
 
