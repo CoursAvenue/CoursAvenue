@@ -30,7 +30,7 @@ gem 'actionpack-page_caching'
 # Mainly used for caching: see:  config/bust_http_cache.rb
 gem 'heroku-api'
 gem 'bust_rails_etags'          # https://github.com/n8/bust_rails_etags
-gem 'bugsnag'
+gem 'bugsnag'         , '~>2.6.0'
 
 gem 'paypal-recurring', '~>1.1.0'
 
