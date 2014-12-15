@@ -1,7 +1,10 @@
 #!/bin/bash -e
-# https://gist.github.com/aliou/80f4a7977a29109d0ebc
+# Inspired by:
+# * https://gist.github.com/aliou/80f4a7977a29109d0ebc
+# * http://robots.thoughtbot.com/the-unix-shells-humble-if
+#
 # TODO: Store app_name (coursavenue, coursavenue-staging) in env.
-# TODO: Store staging deploy term (staging:deploy) in env.
+# TODO: Store staging deploy term ([deploy]) in env.
 
 APP_NAME=$1
 
@@ -15,14 +18,14 @@ git fetch heroku
 # - We push a branch with the term 'staging:deploy' somewhere in the commits, or
 # - We push the branch master in production.
 STAGING_DEPLOY=$(git log heroku/master..HEAD | grep '\[deploy\]' | wc -l)
-if [[ $APP_NAME == "coursavenue-staging" ]] && [ $STAGING_DEPLOY -eq 0 ]; then
+
+if [[ $APP_NAME == "coursavenue-staging" ]] && (( $STAGING_DEPLOY == 0 )); then
+  echo "[CIRCLECI_DEPLOY] No deployment needed."
   exit
 fi
 
-# Check if the deploy requires a migration.
-REQUIRES_MIGRATION=$(git diff HEAD heroku/master --name-only -- db | wc -l)
-
 # Deploy the code. (This might take a while, up to 30 minutes.)
+# We force push on staging because we don't always update from the same branch.
 echo "[CIRCLECI_DEPLOY] Deploying code."
 if [[ $APP_NAME == "coursavenue-staging" ]]; then
   git push heroku $CIRCLE_SHA1:master -f
@@ -30,8 +33,11 @@ else
   git push heroku $CIRCLE_SHA1:master
 fi
 
+# Check if the deploy requires a migration.
+REQUIRES_MIGRATION=$(git diff HEAD heroku/master --name-only -- db | wc -l)
+
 # Run migrations if needed.
-if [ $REQUIRES_MIGRATION -gt 0 ]; then
+if (( $REQUIRES_MIGRATION )); then
   echo "[CIRCLECI_DEPLOY] Running migration."
   heroku run rake db:migrate -a $APP_NAME
 fi
