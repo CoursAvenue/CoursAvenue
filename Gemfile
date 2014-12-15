@@ -215,6 +215,7 @@ group :test do
   gem 'database_cleaner',   '~> 1.2.0'
   gem 'capybara',           '~> 2.2.1'
   gem 'rspec-instafail',    '~> 0.2.5'
+  gem 'mongoid-rspec',      '~> 2.0.0.rc1'
 end
 
 group :development do
@@ -246,6 +247,7 @@ group :development, :test do
   # Permits to travel in the past
   gem 'delorean'
 end
+
 gem 'dotenv-rails'
 
 gem 'rmagick', '~>2.13.3', require: 'RMagick'
