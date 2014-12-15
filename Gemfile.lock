@@ -790,7 +790,7 @@ DEPENDENCIES
   passenger
   paypal-recurring (~> 1.1.0)
   pg
-  prerender_rails
+  prerender_rails (~> 1.1.1)
   progress_bar (~> 1.0.3)
   protected_attributes (~> 1.0.8)
   pry-rails

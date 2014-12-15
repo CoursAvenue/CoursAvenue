@@ -264,7 +264,7 @@ gem 'identity_cache'           , '~> 0.2.2'
 gem 'cityhash'                 , '~> 0.8.1'
 
 # JS heavy pages pre-rendering
-gem 'prerender_rails'
+gem 'prerender_rails'          , '~> 1.1.1'
 
 # Track envents starting in the App
 gem 'mixpanel-ruby'
