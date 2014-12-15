@@ -30,8 +30,10 @@ describe Comment::Review do
 
     context :validations do
       let(:comment)     { FactoryGirl.create(:comment_review) }
-      let(:new_comment) { FactoryGirl.build(:comment_review, email: comment.email,
-                                            commentable: comment.commentable) }
+      let(:new_comment) {
+        FactoryGirl.build(:comment_review, email: comment.email, commentable: comment.commentable)
+      }
+
       describe '#doesnt_exist_yet' do
         it 'exists and adds errors' do
           expect(new_comment.valid?).to be(false)
