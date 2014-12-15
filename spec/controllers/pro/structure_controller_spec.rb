@@ -88,13 +88,6 @@ describe Pro::StructuresController do
       end
     end
 
-    describe "GET #edit" do
-      it "'s a success" do
-        get :edit, id: admin.structure.slug
-        expect(response).to be_success
-      end
-    end
-
     describe "PUT #update" do
       it "'s a success" do
         patch :update, id: admin.structure.slug, structure: {}
