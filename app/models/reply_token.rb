@@ -20,6 +20,7 @@ class ReplyToken < ActiveRecord::Base
   # Validations                                                        #
   ######################################################################
   validates :reply_type, presence: true
+  validates :token,      presence: true, uniqueness: true
 
   ######################################################################
   # Callbacks                                                          #
