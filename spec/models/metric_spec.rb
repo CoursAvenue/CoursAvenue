@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Metric do
   context '#create_action' do
     def create_metric
-      metric = Metric.create_action('impression', nil, 1234, 'abcdef', '127.0.0.1')
+      Metric.create_action('impression', nil, 1234, 'abcdef', '127.0.0.1')
     end
 
     it 'only creates one metric per day per user' do
