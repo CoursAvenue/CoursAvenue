@@ -514,5 +514,4 @@ class Planning < ActiveRecord::Base
     jobs = Delayed::Job.select { |job| YAML.load(job.handler).object == self }
     jobs.each(&:destroy)
   end
-
 end
