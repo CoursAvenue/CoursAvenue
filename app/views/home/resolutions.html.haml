@@ -1,4 +1,24 @@
 :ruby
+  profiles = []
+  profiles << {
+    a: {
+      title: 'Zen : Urgence ! Adoptez la zen-attitude',
+      content: "Oulala rien ne va plus ! Trop de stress, de surmenage, de pression : il y a urgence, l’année 2015 sera placée sous le signe de la détente, du zen et du lâcher-prise. Boostez votre confiance avec des cours de sophrologie, laissez parler votre corps avec l’eutonie, relâchez-vous avec le watsu… 2014 vous semblera bien loin !"
+    },
+    b: {
+      title: 'Créatif : On a trouvé l’artiste : vous !',
+      content: "Au primaire, le roi des coloriages et de la pâte à modeler : c’était vous. Au collège, votre professeur d’arts plastiques voulait déjà acheter vos toiles. Mais en grandissant, et par manque de temps, vous avez mis tout ça de côté. Allez hop, on s’y remet : sculpture, dessin, calligraphie, foncez ! Notre conseil : succombez au home made et faites vos propres tables basses à partir de palettes récupérées. Ca fait du bien de revenir en primaire !"
+    },
+    c: {
+      title: 'Expressif : Vous vous voyez déjà en haut de l’affiche',
+      content: "Petit, chaque récitation de poème était un prétexte pour vous mettre en scène devant toute la classe. Chaque année, vous étiez élu d’office délégué de classe. Il faut qu’ça bouge ! Danse, musique, théâtre, improvisation… : mettez-vous au charleston, apprenez des tours de magie, ouvrez-vous à la batucada. En 2015, on balance du rythme !"
+    },
+    d: {
+      title: 'Sportif : On ne vous tient plus',
+      content: "Alors là, il va falloir vous canaliser ! Ca tombe bien, on a tout ce qu’il faut : entre le kendo, jadis pratiqué par les samouraïs, la boxe thaïlandaise idéale pour vous défouler et l’escalade qui vous permet d’aller au-delà de vos limites, vous n’aurez plus à taper votre collègue pour vous défouler. Regonflé à bloc, votre quotidien sera énergique !"
+    }
+  }
+
   questions = []
   questions << {
       title:      'VOTRE BONBON ?',
@@ -85,7 +105,7 @@
 
 #fullpage.ff-kameron
   %div.section.relative.one-whole.relative.white.full-screen-item.bg-cover{ style: "background-image: url('#{'https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/bg.jpg'}')"}
-    = image_tag 'logos/logo.png', width: 250, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: 'https://coursavenue-public.s3.amazonaws.com/public_assets/logos/logo@2x.png' }, class: 'north west absolute push on-top'
+    = image_tag 'logos/logo.png', width: 250, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'north west absolute push on-top'
     .flexbox.full-screen-item
       .black-curtain.north.west.one-whole.absolute
       .push--top.soft--top.one-whole.flexbox__item
@@ -98,7 +118,7 @@
             %a.btn--yellow.btn.btn--enormous{ href: '#', data: { behavior: 'move-section-down' } } Faire le test
 
   - questions.each_with_index do |question, index|
-    - last = (questions.length == index - 1)
+    - last = (questions.length == index + 1)
     %div.section.one-whole.bg-cover{ style: "background-image: url('#{question[:bg]}');" }
       .black-curtain.north.west.one-whole.absolute
       .relative{ style: 'padding-bottom: 10vh;' }
@@ -112,7 +132,7 @@
                 .beta.line-height-1-7= answers[:title]
                 - if answers[:subtitle].present?
                   .delta.west.one-whole= answers[:subtitle]
-              %input.visuallyhidden{ id: "question_#{index + 1}_value_#{answer_index + 1}", type: 'radio', name: 'resolutions_questions[1]', value: answers[:value], data: { behavior: "#{last ? 'submit-form' : 'move-section-down'}" } }
+              %input.visuallyhidden{ id: "question_#{index + 1}_value_#{answer_index + 1}", type: 'radio', name: "resolutions_question_#{index + 1}", value: answers[:value], data: { behavior: "#{last ? 'submit-form' : 'move-section-down'}" } }
 
   -# %div.section.one-whole.full-screen-item.bg-cover{ style: 'background-image: url("https://ununsplash.imgix.net/photo-1415045384817-2f9cf7f2ed79?q=75&fm=jpg&s=a0d8ebf44a449c7855ca4128e914a7c5")'}
   -#   .push--top.soft--top.one-whole
@@ -149,6 +169,16 @@
             $.fn.fullpage.moveSectionDown();
         })
         $('[data-behavior=submit-form]').click(function() {
-
+            var radio_values = _.countBy($('input[type=radio]:checked'), function(input){
+                return input.value
+            });
+            var max_value = 0;
+            var profile;
+            _.each(radio_values, function(value, key) {
+                if (value > max_value) {
+                    profile   = key;
+                    max_value = value;
+                }
+            });
         });
     });
