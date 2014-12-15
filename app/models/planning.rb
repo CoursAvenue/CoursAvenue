@@ -56,6 +56,8 @@ class Planning < ActiveRecord::Base
   before_save :set_structure_if_blank
   before_save :update_start_and_end_date
 
+  after_destroy :remove_from_jobs
+
   ######################################################################
   # Validations                                                        #
   ######################################################################
@@ -503,6 +505,14 @@ class Planning < ActiveRecord::Base
         errors.add(:end_date, 'Le cours ne peut pas être dans le passé.')
       end
     end
+  end
+
+  # Remove the current planning from Delayed Jobs on deletion.
+  #
+  # @return nil
+  def remove_from_jobs
+    jobs = Delayed::Job.select { |job| YAML.load(job.handler).object == self }
+    jobs.each(&:destroy)
   end
 
 end

@@ -244,7 +244,6 @@ describe Planning do
       subject { FactoryGirl.create(:planning) }
 
       before do
-        # Pause Delay Jobs or indexation.
         subject.delay.index.save
       end
 
