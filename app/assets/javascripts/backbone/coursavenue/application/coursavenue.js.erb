@@ -121,7 +121,10 @@ CoursAvenue.addInitializer(function(options){
 
 $(function() {
     CoursAvenue.start({});
-    CoursAvenue.userNav.show(new CoursAvenue.Views.UserNavView({ model: CoursAvenue.currentUser() }));
+    // Show the region only if it exists (not in pro for instance)
+    if ($(CoursAvenue.userNav.el).length > 0) {
+        CoursAvenue.userNav.show(new CoursAvenue.Views.UserNavView({ model: CoursAvenue.currentUser() }));
+    }
     $('body').on('click', '[data-behavior=facebook-login]', function(event) {
         CoursAvenue.loginWithFacebook($(this).data());
     });

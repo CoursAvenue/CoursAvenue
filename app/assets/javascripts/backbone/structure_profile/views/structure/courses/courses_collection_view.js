@@ -2,9 +2,9 @@
 StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbone, Marionette, $, _, undefined) {
 
     Module.CoursesCollectionView = Marionette.CompositeView.extend({
-        itemView: Module.CourseView,
+        childView: Module.CourseView,
         template: Module.templateDirname() + 'courses_collection_view',
-        itemViewContainer: '[data-type=container]',
+        childViewContainer: '[data-type=container]',
 
         initialize: function initialize (options) {
             this.about       = options.about;
@@ -23,15 +23,15 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             _.delay(this.iPhonizeCourseTitles, 500);
         },
 
-        onItemviewMouseenter: function onItemviewMouseenter (view, data) {
+        onChildviewMouseenter: function onChildviewMouseenter (view, data) {
             this.trigger("course:mouse:enter", data);
         },
 
-        onItemviewMouseleave: function onItemviewMouseleave (view, data) {
+        onChildviewMouseleave: function onChildviewMouseleave (view, data) {
             this.trigger("course:mouse:leave", data);
         },
 
-        onItemviewRegister: function onItemviewRegister (view, data) {
+        onChildviewRegister: function onChildviewRegister (view, data) {
             this.trigger("planning:register", data);
         },
 
@@ -77,7 +77,7 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             };
         },
 
-        itemViewOptions: function itemViewOptions (model, index) {
+        childViewOptions: function childViewOptions (model, index) {
             var is_last = (index == (this.collection.length - 1));
             return {
                 collection : new Backbone.Collection(model.get("plannings")),
@@ -87,11 +87,11 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             };
         },
 
-        appendHtml: function appendHtml (collectionView, itemView, index){
+        attachHtml: function attachHtml (collectionView, childView, index){
             if (collectionView.isBuffering) {
-                collectionView.elBuffer.appendChild(itemView.el);
+                collectionView.elBuffer.appendChild(childView.el);
             } else {
-                collectionView.$el.append(itemView.el);
+                collectionView.$el.append(childView.el);
             }
         },
     });

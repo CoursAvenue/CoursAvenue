@@ -1,4 +1,3 @@
-var toto;
 /* just a basic backbone model */
 StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $, _) {
 
@@ -6,8 +5,7 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
 
         initialize: function initialize(bootstrap, bootstrap_meta) {
             var relations = ['places', 'courses', 'trainings', 'comments', 'teachers'],
-                self = this;
-            toto = this;
+                self      = this;
             bootstrap_meta = bootstrap_meta || {};
             // Creating relations
             // relation will be "places", "courses", etc.

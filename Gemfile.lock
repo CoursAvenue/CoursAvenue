@@ -397,8 +397,6 @@ GEM
       carrierwave (>= 0.5.8)
       foreigner (>= 0.9.1)
       rails (>= 3.2.0)
-    marionette-rails (1.4.1)
-      rails (>= 3.1.0)
     memcachier (0.0.2)
     meta_request (0.3.4)
       callsite (~> 0.0, >= 0.0.11)
@@ -774,7 +772,6 @@ DEPENDENCIES
   kaminari (~> 0.15.1)
   lograge
   mailboxer (~> 0.12.1)
-  marionette-rails (~> 1.4.1)
   memcachier
   meta_request (~> 0.3.0)
   mixpanel-ruby
