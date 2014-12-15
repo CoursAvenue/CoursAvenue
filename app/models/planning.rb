@@ -7,7 +7,6 @@ class Planning < ActiveRecord::Base
   include PlanningsHelper
   include Concerns::HasAudiencesAndLevels
 
-
   TIME_SLOTS = {
     morning: {
       name:       'planning.timeslots.morning',
@@ -294,7 +293,6 @@ class Planning < ActiveRecord::Base
   def length
     return ((end_date || start_date) - start_date).to_i + 1
   end
-
 
   def min_price_amount_for(type)
     price = price_amount_for_scope(type).order('amount ASC').first
