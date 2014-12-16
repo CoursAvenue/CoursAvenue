@@ -14,8 +14,7 @@ describe ReplyTokenController, type: :controller do
     context 'with the right user agent' do
 
       before do
-        allow_any_instance_of(ActionDispatch::Request).to
-        receive(:user_agent).and_return(
+        allow_any_instance_of(ActionDispatch::Request).to receive(:user_agent).and_return(
           'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/1.0 (KHTML, like Gecko; Gmail Actions)')
       end
 
