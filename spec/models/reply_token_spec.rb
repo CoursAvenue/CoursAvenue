@@ -48,7 +48,7 @@ RSpec.describe ReplyToken, type: :model do
 
       context 'when the participation request is in the past' do
         before do
-          participation_request.start_time = 2.days.ago
+          participation_request.date = 2.days.ago
           participation_request.save
         end
 
@@ -57,17 +57,12 @@ RSpec.describe ReplyToken, type: :model do
         end
       end
 
-      # context "when it hasn't been used yet" do
-      #
-      #   before do
-      #     participation_request.start_time = 2.days.from_now
-      #     participation_request.save
-      #   end
-      #
-      #   it "is valid when it hasn't been used yet" do
-      #     expect(subject.still_valid?).to be true
-      #   end
-      # end
+      context "when it hasn't been used yet" do
+
+        it "is valid when it hasn't been used yet" do
+          expect(subject.still_valid?).to be true
+        end
+      end
     end
 
   end

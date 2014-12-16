@@ -45,7 +45,7 @@ class ReplyToken < ActiveRecord::Base
     participation_request = ParticipationRequest.find self.participation_request_id
 
     return false if participation_request.state != 'pending'
-    return false if participation_request.start_time < Time.current
+    return false if participation_request.date < Time.current
 
     !used
   end
