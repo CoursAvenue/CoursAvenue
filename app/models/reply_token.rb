@@ -47,7 +47,7 @@ class ReplyToken < ActiveRecord::Base
     return false if participation_request.state != 'pending'
     return false if participation_request.start_time < Time.current
 
-    self.used
+    ! self.used
   end
 
   # Public: Sets the ReplyToken as used.
