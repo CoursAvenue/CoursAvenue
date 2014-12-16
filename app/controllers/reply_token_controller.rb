@@ -12,8 +12,6 @@ class ReplyTokenController < ApplicationController
   #
   # We start by checking the validity of the token, and then execute the
   # actions.
-  # TODO: Test for UserAgent: it should be
-  #  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/1.0 (KHTML, like Gecko; Gmail Actions)"
   def show
     # @reply_token = ReplyToken.find params[:id]
     @reply_token = ReplyToken.where(token: params[:id]).first
