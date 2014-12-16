@@ -25,7 +25,7 @@ class Metric
   scope :views,                -> { where( action_type: 'view') }
   scope :actions,              -> { where( action_type: 'action') }
   scope :structure_go_premium, -> { where( action_type: /structure_go_premium_/) }
-  scope :in_the_current_day,   -> { where( created_at: Time.now.beginning_of_day..Time.now.end_of_day) }
+  # scope :in_the_current_day,   -> { where( created_at: Time.now.beginning_of_day..Time.now.end_of_day) }
 
   ######################################################################
   # Creation and migration methods                                     #
@@ -262,6 +262,10 @@ class Metric
   # @return a Structure
   def structure
     Structure.find(self.structure_id)
+  end
+
+  def self.in_the_current_day
+    Metric.only(:created_at).where(created_at: Time.now.beginning_of_day..Time.now.end_of_day)
   end
 
   # Get all the duplicated metrics in a day scope.
