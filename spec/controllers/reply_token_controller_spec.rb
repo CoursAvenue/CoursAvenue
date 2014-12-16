@@ -60,14 +60,6 @@ describe ReplyTokenController, type: :controller do
       context 'everything good' do
         let(:token) { FactoryGirl.create(:reply_token) }
 
-        before do
-          participation_request            = ParticipationRequest.find token.participation_request_id
-          participation_request.state      = 'accepted'
-          participation_request.start_time = 2.days.from_now
-
-          participation_request.save
-        end
-
         it 'returns 200' do
           get :show, id: token.id
 
