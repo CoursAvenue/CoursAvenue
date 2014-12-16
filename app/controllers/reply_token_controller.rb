@@ -18,8 +18,8 @@ class ReplyTokenController < ApplicationController
     @reply_token = ReplyToken.where(token: params[:id]).first
     head :not_found if @reply_token.nil?
 
-    if @token.still_valid?
-      @token.use!
+    if @reply_token.still_valid?
+      @reply_token.use!
       head :ok
     else
       head :unauthorized
