@@ -10,5 +10,69 @@ describe ReplyTokenController, type: :controller do
         expect(response).to have_http_status(:unauthorized)
       end
     end
+
+    context 'with the right user agent' do
+
+      before do
+        allow_any_instance_of(ActionDispatch::Request).to
+        receive(:user_agent).and_return(
+          'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/1.0 (KHTML, like Gecko; Gmail Actions)')
+      end
+
+      # context 'bad request' do
+      #   let(:token) { FactoryGirl.create(:reply_token) }
+      #
+      #   it 'returns 400' do
+      #     get :show, id: token.id
+      #
+      #     expect(response).to have_http_status(400)
+      #   end
+      # end
+
+      context 'unauthorized request' do
+        let(:token) { FactoryGirl.create(:reply_token) }
+
+        before do
+          token.use!
+        end
+
+        it 'returns 401' do
+          get :show, id: token.id
+
+          expect(response).to have_http_status(:unauthorized)
+        end
+      end
+
+      context 'not found request' do
+        it 'returns 404' do
+          get :show, id: Faker::Number.number(2)
+
+          expect(response).to have_http_status(:not_found)
+        end
+      end
+
+      # context 'request timeout' do
+      #   let(:token) { FactoryGirl.create(:reply_token) }
+      #
+      #   it 'returns 408' do
+      #   end
+      # end
+
+      context 'everything good' do
+        let(:token) { FactoryGirl.create(:reply_token) }
+
+        it 'returns 200' do
+          get :show, id: token.id
+
+          expect(response).to have_http_status(:ok)
+        end
+
+        it 'consumes the token' do
+          get :show, id: token.id
+
+          expect(token.still_valid?).to be false
+        end
+      end
+    end
   end
 end
