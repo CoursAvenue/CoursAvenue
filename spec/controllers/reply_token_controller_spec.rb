@@ -54,6 +54,9 @@ describe ReplyTokenController, type: :controller do
       #   let(:token) { FactoryGirl.create(:reply_token) }
       #
       #   it 'returns 408' do
+      #     get :show, id: token.id
+      #
+      #     expect(response).to have_http_status(408)
       #   end
       # end
 
