@@ -84,7 +84,7 @@ class EmailProcessor
       @mixpanel_tracker = MixpanelClientFactory.client
       @mixpanel_tracker.track("Replied to conversation", { reply_type:  reply_token.reply_type,
                                                            sender_type: reply_token.sender_type,
-                                                           sender_id:   reply_token.sender_id } )
+                                                           sender_id:   reply_token.sender_id })
     end
   end
 end

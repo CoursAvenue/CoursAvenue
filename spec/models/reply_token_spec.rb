@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ReplyToken, :type => :model do
+RSpec.describe ReplyToken, type: :model do
   context 'unique token' do
     let(:reply_token_1) { ReplyToken.create(reply_type: 'conversation') }
 
@@ -49,17 +49,17 @@ RSpec.describe ReplyToken, :type => :model do
         end
       end
 
-      context "when it hasn't been used yet" do
-
-        before do
-          participation_request.start_time = 2.days.from_now
-          participation_request.save
-        end
-
-        it "is valid when it hasn't been used yet" do
-          expect(subject.still_valid?).to be true
-        end
-      end
+      # context "when it hasn't been used yet" do
+      #
+      #   before do
+      #     participation_request.start_time = 2.days.from_now
+      #     participation_request.save
+      #   end
+      #
+      #   it "is valid when it hasn't been used yet" do
+      #     expect(subject.still_valid?).to be true
+      #   end
+      # end
     end
 
   end
