@@ -19,24 +19,24 @@ describe ReplyTokenController, type: :controller do
       end
 
       # context 'bad request' do
-      #   let(:token) { FactoryGirl.create(:reply_token) }
+      #   subject { FactoryGirl.create(:reply_token) }
       #
       #   it 'returns 400' do
-      #     get :show, id: token.id
+      #     get :show, id: subject.id
       #
       #     expect(response).to have_http_status(400)
       #   end
       # end
 
       context 'unauthorized request' do
-        let(:token) { FactoryGirl.create(:reply_token) }
+        subject { FactoryGirl.create(:reply_token) }
 
         before do
-          token.use!
+          subject.use!
         end
 
         it 'returns 401' do
-          get :show, id: token.id
+          get :show, id: subject.id
 
           expect(response).to have_http_status(:unauthorized)
         end
@@ -51,28 +51,29 @@ describe ReplyTokenController, type: :controller do
       end
 
       # context 'request timeout' do
-      #   let(:token) { FactoryGirl.create(:reply_token) }
+      #   subject { FactoryGirl.create(:reply_token) }
       #
       #   it 'returns 408' do
-      #     get :show, id: token.id
+      #     get :show, id: subject.id
       #
       #     expect(response).to have_http_status(408)
       #   end
       # end
 
       context 'everything good' do
-        let(:token) { FactoryGirl.create(:reply_token) }
+        subject { FactoryGirl.create(:reply_token) }
 
         it 'returns 200' do
-          get :show, id: token.id
+          get :show, id: subject.id
 
           expect(response).to have_http_status(:ok)
         end
 
         it 'consumes the token' do
-          get :show, id: token.id
+          get :show, id: subject.id
+          subject.reload
 
-          expect(token.still_valid?).to be false
+          expect(subject.still_valid?).to be false
         end
       end
     end
