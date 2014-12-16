@@ -25,7 +25,6 @@ class Metric
   scope :views,                -> { where( action_type: 'view') }
   scope :actions,              -> { where( action_type: 'action') }
   scope :structure_go_premium, -> { where( action_type: /structure_go_premium_/) }
-  # scope :in_the_current_day,   -> { where( created_at: Time.now.beginning_of_day..Time.now.end_of_day) }
 
   ######################################################################
   # Creation and migration methods                                     #
