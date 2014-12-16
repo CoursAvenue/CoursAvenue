@@ -1,4 +1,5 @@
 class ReplyTokenController < ApplicationController
+  before_filter :check_user_agent
 
   # This is the route Google will use when a user clicks on the email action.
   #
@@ -24,5 +25,15 @@ class ReplyTokenController < ApplicationController
     else
       head :unauthorized
     end
+  end
+
+  private
+
+  # Check if the request is sent by the authorized user agent.
+  #
+  # @return nothing
+  def check_user_agent
+    head :unauthorized if request.user_agent !=
+      'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/1.0 (KHTML, like Gecko; Gmail Actions)'
   end
 end
