@@ -13,9 +13,11 @@ class ReplyTokenController < ApplicationController
   # We start by checking the validity of the token, and then execute the
   # actions.
   def show
-    # @reply_token = ReplyToken.find params[:id]
-    @reply_token = ReplyToken.where(token: params[:id]).first
-    head :not_found if @reply_token.nil?
+    begin
+      @reply_token = ReplyToken.find params[:id]
+    rescue ActiveRecord::RecordNotFound
+      return head :not_found
+    end
 
     if @reply_token.still_valid?
       @reply_token.use!
