@@ -1,6 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe ReplyToken, type: :model do
+  context 'validation' do
+    subject { ReplyToken.create(reply_type: 'conversation') }
+
+    it 'generates the token' do
+      expect(subject.token).to_not be_nil
+    end
+  end
+
   context 'unique token' do
     let(:reply_token_1) { ReplyToken.create(reply_type: 'conversation') }
 
