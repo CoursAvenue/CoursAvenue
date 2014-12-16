@@ -264,6 +264,9 @@ class Metric
     Structure.find(self.structure_id)
   end
 
+  # Return the Metrics created in the current day
+  #
+  # @return Mongo Chaining Relation
   def self.in_the_current_day
     Metric.only(:created_at).where(created_at: Time.now.beginning_of_day..Time.now.end_of_day)
   end
