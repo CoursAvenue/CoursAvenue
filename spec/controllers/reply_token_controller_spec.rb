@@ -5,7 +5,7 @@ describe ReplyTokenController, type: :controller do
   describe '#show' do
     context 'with wrong user agent' do
       it 'is unauthorized' do
-        get :show, id: Faker::Number.number(2)
+        get :show, id: Faker::Internet.password
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -44,7 +44,7 @@ describe ReplyTokenController, type: :controller do
 
       context 'not found request' do
         it 'returns 404' do
-          get :show, id: Faker::Number.number(2)
+          get :show, id: Faker::Internet.password
 
           expect(response).to have_http_status(:not_found)
         end
