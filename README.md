@@ -201,7 +201,8 @@ $ git push origin master
 To skip the CI, directly push to Production. You will still need to manually
 run the migrations if they are needed:
 ```shell
-$ git push production master && hk run 'rake db:migrate' -a production
+$ git push production master && \
+    hk run 'rake db:migrate' -a production
 ```
 
 ### Pushing to Staging
