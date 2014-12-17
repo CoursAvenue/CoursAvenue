@@ -4,22 +4,22 @@ class TestMailer < ActionMailer::Base
 
   def mail_action
     token       = ReplyToken.create(reply_type: 'conversation',
-                                   data: { gmail_action_name: 'Testing' })
+                                          data: { gmail_action_name: 'Testing' })
     @data = confirm_action(token)
 
     mail subject: "Mail action"
   end
 
   def confirm_action(token)
-    helper_data = {
+    {
       "@context" => "http://schema.org",
-      "@type" => "EmailMessage",
-      "action" => {
+      "@type"    => "EmailMessage",
+      "action"   => {
         "@type" => "ConfirmAction",
-        "name" => "Confirm registration",
+        "name"  => token.gmail_action_name,
         "handler" => {
           "@type" => "HttpActionHandler",
-          "url" => "http://google.fr",
+          "url"   => "http://google.fr",
         },
       },
     }
