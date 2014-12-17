@@ -144,9 +144,6 @@ gem 'gibbon'                    , '~>1.1.3'
 gem 'roadie'                    , '~>3.0.1'
 gem 'roadie-rails'              , '~>1.0.3'
 
-# Includes Backbone Marionette
-# gem 'marionette-rails'          , '~>2.0.3'
-gem 'marionette-rails'          , '~>1.4.1'
 # Includes bacbone.relational
 gem 'backbone-relational-rails' , '~>0.8.8'
 # See issue: https://github.com/leshill/handlebars_assets/pull/46
@@ -218,6 +215,7 @@ group :test do
   gem 'database_cleaner',   '~> 1.2.0'
   gem 'capybara',           '~> 2.2.1'
   gem 'rspec-instafail',    '~> 0.2.5'
+  gem 'mongoid-rspec',      '~> 2.0.0.rc1'
 end
 
 group :development do
@@ -240,7 +238,7 @@ group :development do
   gem 'binding_of_caller'
   gem 'awesome_print'
   gem 'meta_request', '~>0.3.0'
-  gem 'pry-rails', require: false
+  gem 'pry-rails'
 end
 
 group :development, :test do
@@ -249,6 +247,7 @@ group :development, :test do
   # Permits to travel in the past
   gem 'delorean'
 end
+
 gem 'dotenv-rails'
 
 gem 'rmagick', '~>2.13.3', require: 'RMagick'

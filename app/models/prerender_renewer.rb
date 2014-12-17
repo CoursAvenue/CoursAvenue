@@ -1,13 +1,15 @@
 # encoding: utf-8
 class PrerenderRenewer
 
+  SLEEP_LENGTH = 3
+
   # Renew cache of url given on Prerender
   # @param url to renew
   def initialize(url)
     if url.is_a? Array
       url.each do |u|
         PrerenderRenewer.renew_url(u)
-        sleep 5
+        sleep SLEEP_LENGTH
       end
       PrerenderRenewer.check_sanity
     else
@@ -35,7 +37,7 @@ class PrerenderRenewer
     corrupted_files = corrupted_files.map do |file|
       file_url = file.public_url.to_s.split('amazonaws.com/').last.gsub('%3A', ':')
       PrerenderRenewer.renew_url file_url
-      sleep 5
+      sleep SLEEP_LENGTH
     end
   end
 

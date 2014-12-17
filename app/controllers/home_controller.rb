@@ -17,6 +17,17 @@ class HomeController < ApplicationController
   def index
     @comments     = Comment::Review.ordered.accepted.includes(:commentable).limit(4)
     @last_comment = @comments.to_a.shift
+
+    @google_search_box_metadata = {
+      "@context" => "http://schema.org",
+      "@type" => "WebSite",
+      "url" => root_url,
+      "potentialAction" => {
+        "@type" => "SearchAction",
+        "target" => "#{root_url}paris?name={search_term_string}",
+        "query-input" => "required name=search_term_string"
+      }
+    }
   end
 
   private

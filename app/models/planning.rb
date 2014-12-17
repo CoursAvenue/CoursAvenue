@@ -56,7 +56,7 @@ class Planning < ActiveRecord::Base
   before_save :set_structure_if_blank
   before_save :update_start_and_end_date
 
-  before_destroy :remove_from_jobs
+  after_destroy :remove_from_jobs
 
   ######################################################################
   # Validations                                                        #
@@ -509,6 +509,7 @@ class Planning < ActiveRecord::Base
 
   # Remove the current planning from Delayed Jobs on deletion.
   #
+  # TODO: Profile length of method.
   # @return nil
   def remove_from_jobs
     jobs = Delayed::Job.select { |job| YAML.load(job.handler).object == self }

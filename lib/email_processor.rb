@@ -12,7 +12,6 @@ class EmailProcessor
     return 'OK' if @email.to.first[:token] == 'example'
     return process_image if @email.to.first[:token] == 'flyers'
 
-    # TODO Add mixpanel tracker to track how many people reply by email.
     token = ReplyToken.find @email.to.first[:token]
 
     case token.reply_type
@@ -32,6 +31,7 @@ class EmailProcessor
   # Process images received via the special email address `images@reply.coursavenue.com`.
   def process_image
     return if @email.attachments.empty?
+
     @email.attachments.each do |image|
       flyer = Flyer.create(treated: false, image: image)
     end
@@ -81,8 +81,10 @@ class EmailProcessor
 
   def track_reply(reply_token)
     if Rails.env.production?
-      @mixpanel_tracker = Mixpanel::Tracker.new(ENV['MIXPANEL_PROJECT_TOKEN'])
-      @mixpanel_tracker.track("Replied to conversation", { reply_type: reply_token.reply_type, sender_type: reply_token.sender_type, sender_id: reply_token.sender_id } )
+      @mixpanel_tracker = MixpanelClientFactory.client
+      @mixpanel_tracker.track("Replied to conversation", { reply_type:  reply_token.reply_type,
+                                                           sender_type: reply_token.sender_type,
+                                                           sender_id:   reply_token.sender_id })
     end
   end
 end

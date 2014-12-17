@@ -16,7 +16,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             'typeahead:selected #address-picker': 'announce'
         },
 
-        onRender: function onRender() {
+        onRender: function onRender () {
             this.ui.$address_picker.addressPicker();
         },
 

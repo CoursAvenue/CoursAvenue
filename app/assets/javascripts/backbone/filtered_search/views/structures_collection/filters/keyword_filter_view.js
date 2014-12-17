@@ -2,7 +2,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
     Module.KeywordFilterView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'keyword_filter_view',
-        itemViewContainer: '.grid__item.one-whole.soft-half.bg-white.tab-content',
+        childViewContainer: '.grid__item.one-whole.soft-half.bg-white.tab-content',
 
         setup: function setup (data) {
             this.ui.$search_input.attr('value', data.name);

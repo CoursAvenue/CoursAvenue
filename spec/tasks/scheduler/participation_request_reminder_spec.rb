@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'mailer_helper'
 require 'rake'
 
 CoursAvenue::Application.load_tasks

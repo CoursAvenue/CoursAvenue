@@ -1,4 +1,5 @@
 //= require libs/underscore
+//= require underscore_extend
 //= require global
 
 // ---------------------------------- Core include
@@ -57,12 +58,13 @@
 //= require libs/richmarker.js
 //= require libs/infobox.js
 //= require gmaps/google
+//= require libs/gmaps_overrides
 //= require ./plugins_initalization
 
 // ---------------------------------- Backbone
 //= require libs/backbone
+//= require libs/backbone.marionette
 //= require libs/backbone-validation
-//= require backbone.marionette
 //= require libs/backbone.googlemaps
 //= require backbone-relational
 //= require libs/backbone.paginator.js
