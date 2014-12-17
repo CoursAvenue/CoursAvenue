@@ -21,10 +21,10 @@ class HomeController < ApplicationController
     @google_search_box_metadata = {
       "@context" => "http://schema.org",
       "@type" => "WebSite",
-      "url" => app.root_url,
+      "url" => root_url,
       "potentialAction" => {
         "@type" => "SearchAction",
-        "target" => "#{app.root_url}paris?name={search_term_string}",
+        "target" => "#{root_url}paris?name={search_term_string}",
         "query-input" => "required name=search_term_string"
       }
     }
