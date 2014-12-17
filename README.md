@@ -175,7 +175,6 @@ $ git remote prune origin
 ## Continuous Integration
 
 We use [CircleCI][ci] as continuous integration. Every time you push to GitHub,
-
 CircleCI will run the test on its server and execute actions depending on the
 outcome of the tests. After every tests, it will send a notification to Slack.
 
