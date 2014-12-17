@@ -26,11 +26,14 @@ fi
 
 # Deploy the code. (This might take a while, up to 30 minutes.)
 # We force push on staging because we don't always update from the same branch.
-echo "[CIRCLECI_DEPLOY] Deploying code."
+# After the deployment, we notify Bugsnag so it can show us when bug are introduced.
+echo "[CIRCLECI_DEPLOY] Deploying code and notifying Bugsnag."
 if [[ $APP_NAME == "coursavenue-staging" ]]; then
-  git push heroku $CIRCLE_SHA1:master -f
+  git push heroku $CIRCLE_SHA1:master -f && \
+    curl -d "apiKey=${BUGSNAG_API_KEY}&releaseStage=staging&revision=${CIRCLE_SHA1}&branch=${CIRCLE_BRANCH}" http://notify.bugsnag.com/deploy
 else
-  git push heroku $CIRCLE_SHA1:master
+  git push heroku $CIRCLE_SHA1:master && \
+    curl -d "apiKey=${BUGSNAG_API_KEY}&releaseStage=production&revision=${CIRCLE_SHA1}&branch=${CIRCLE_BRANCH}" http://notify.bugsnag.com/deploy
 fi
 
 # Check if the deploy requires a migration.
