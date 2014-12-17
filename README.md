@@ -117,7 +117,6 @@ $ bundle exec rake sunspot:solr:start
 ```
 
 The command might return the error:
-TODO: Add error message here
 ```
 Successfully started Solr ...
 rake aborted!
