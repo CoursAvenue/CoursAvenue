@@ -1,1 +1,12 @@
-%h1 Mail Action
+!!! Strict
+%html
+  %head
+    %title Mail Action
+
+    = content_tag :script, type: 'application/ld+json' do
+      = JSON.generate(@data).html_safe
+
+  %body
+    %h1 Mail Action
+    %pre
+      = JSON.generate(@data).html_safe
