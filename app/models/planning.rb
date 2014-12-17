@@ -7,7 +7,6 @@ class Planning < ActiveRecord::Base
   include PlanningsHelper
   include Concerns::HasAudiencesAndLevels
 
-
   TIME_SLOTS = {
     morning: {
       name:       'planning.timeslots.morning',
@@ -56,6 +55,8 @@ class Planning < ActiveRecord::Base
 
   before_save :set_structure_if_blank
   before_save :update_start_and_end_date
+
+  after_destroy :remove_from_jobs
 
   ######################################################################
   # Validations                                                        #
@@ -295,7 +296,6 @@ class Planning < ActiveRecord::Base
     return ((end_date || start_date) - start_date).to_i + 1
   end
 
-
   def min_price_amount_for(type)
     price = price_amount_for_scope(type).order('amount ASC').first
     return 0 unless price
@@ -507,4 +507,11 @@ class Planning < ActiveRecord::Base
     end
   end
 
+  # Remove the current planning from Delayed Jobs on deletion.
+  #
+  # @return nil
+  def remove_from_jobs
+    jobs = Delayed::Job.select { |job| YAML.load(job.handler).object == self }
+    jobs.each(&:destroy)
+  end
 end
