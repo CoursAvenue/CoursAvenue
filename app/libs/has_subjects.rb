@@ -62,10 +62,10 @@ module HasSubjects
   #
   # @return Array of String
   def subjects_name_as_string(key=:parent_subjects_string)
-    subjects = self.send(key)
+    subjects = send(key)
     return [] if subjects.nil?
 
-    subjects.send(key).split(';').collect do |subject_string|
+    subjects.send(key).split(';').map do |subject_string|
       subject_name, subject_slug = subject_string.split(':')
       subject_name
     end
