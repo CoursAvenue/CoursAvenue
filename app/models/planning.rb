@@ -56,7 +56,7 @@ class Planning < ActiveRecord::Base
   before_save :set_structure_if_blank
   before_save :update_start_and_end_date
 
-  after_destroy :remove_from_jobs
+  before_destroy :remove_from_jobs
 
   ######################################################################
   # Validations                                                        #
