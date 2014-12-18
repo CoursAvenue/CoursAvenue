@@ -6,6 +6,9 @@ class HomeController < ApplicationController
   def resolutions
   end
 
+  def resolutions_results
+  end
+
   def redirect_to_account
     if current_user
       redirect_to dashboard_user_path(current_user)
@@ -33,7 +36,9 @@ class HomeController < ApplicationController
   private
 
   def get_layout
-    if action_name == 'pass_decouverte' or action_name == 'resolutions'
+    if action_name == 'pass_decouverte' or
+       action_name == 'resolutions' or
+       action_name == 'resolutions_results'
       'empty'
     else
       'pages'
@@ -43,7 +48,7 @@ class HomeController < ApplicationController
   def layout_locals
     locals = { }
     locals[:hide_top_menu_search] = true if action_name == 'discovery_pass' or action_name == 'index'
-    locals[:hide_header] = true if action_name == 'resolutions'
+    locals[:hide_header] = true if action_name == 'resolutions' or action_name == 'resolutions_results'
     locals
   end
 end
