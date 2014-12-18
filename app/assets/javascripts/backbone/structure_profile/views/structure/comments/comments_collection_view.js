@@ -2,9 +2,9 @@
 StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbone, Marionette, $, _, undefined) {
 
     Module.CommentsCollectionView = CoursAvenue.Views.PaginatedCollectionView.extend({
-        itemView: Module.CommentView,
+        childView: Module.CommentView,
         template: Module.templateDirname() + 'comments_collection_view',
-        itemViewContainer: '[data-type=container]',
+        childViewContainer: '[data-type=container]',
 
 
         initialize: function initialize (options) {
@@ -36,7 +36,7 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
             }
         },
 
-        itemViewOptions: function itemViewOptions () {
+        childViewOptions: function childViewOptions () {
             return {
                 structure_name: this.collection.structure.get('name')
             }

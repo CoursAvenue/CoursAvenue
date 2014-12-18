@@ -23,17 +23,12 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
     Module.MarkerView = Backbone.GoogleMaps.RichMarkerView.extend({
         template: '',
 
-        options: {
-            content: Marionette.Renderer.render(Module.templateDirname() + 'marker_view', {})
-        },
-
         // constructor: function (options) {
         initialize: function initialize (options) {
             // Merging options
-            _.extend(this.options, (options || {}));
-            // Backbone.GoogleMaps.RichMarkerView.prototype.constructor.apply(this, arguments);
+            this.options = (options || {});
             /* TODO this setup should be done in the constructor, in the library, in another repo far, far away */
-            this.$el = $(this.options.content);
+            this.$el = $(Marionette.Renderer.render(CoursAvenue.Views.Map.GoogleMap.templateDirname() + 'marker_view'));
             this.overlayOptions.content = this.$el[0];
 
             /* apparently the only way to get this done */
@@ -43,9 +38,9 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
         },
 
         mapEvents: {
-            'click': 'showInfoBox',
+            'click'    : 'showInfoBox',
             'mouseover': 'highlight',
-            'mouseout':  'unhighlight'
+            'mouseout' :  'unhighlight'
         },
 
         markerClicked: function markerClicked (e) {

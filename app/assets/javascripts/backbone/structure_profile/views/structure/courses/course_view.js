@@ -3,8 +3,8 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
 
     Module.CourseView = Marionette.CompositeView.extend({
         template: Module.templateDirname() + 'course_view',
-        itemView: Module.Plannings.PlanningView,
-        itemViewContainer: '[data-type=plannings-container]',
+        childView: Module.Plannings.PlanningView,
+        childViewContainer: '[data-type=plannings-container]',
         emptyView: Module.EmptyView,
 
         modelEvents: {
@@ -33,15 +33,15 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             this.collection.set(model.changed.plannings);
         },
 
-        onItemviewMouseenter: function onItemviewMouseenter (view, data) {
+        onChildviewMouseenter: function onChildviewMouseenter (view, data) {
             this.trigger("mouseenter", data);
         },
 
-        onItemviewMouseleave: function onItemviewMouseleave (view, data) {
+        onChildviewMouseleave: function onChildviewMouseleave (view, data) {
             this.trigger("mouseleave", data);
         },
 
-        onItemviewRegister: function onItemviewRegister (view, data) {
+        onChildviewRegister: function onChildviewRegister (view, data) {
             this.trigger("register", data);
         },
 

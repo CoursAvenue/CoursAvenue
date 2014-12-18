@@ -34,7 +34,7 @@ FilteredSearch.addInitializer(function(options) {
             'filter:search_term'    : 'filterQuery',
             'filter:location'       : 'filterQuery',
             'filter:trial_course'   : 'filterQuery',
-            'map:marker:click'      : 'findItemView',
+            'map:marker:click'      : 'findChildView',
             'structures:updated'    : 'structuresUpdated'
         }
     });
@@ -120,14 +120,14 @@ FilteredSearch.addInitializer(function(options) {
     * for setup */
     layout.showWidget(google_maps_view, {
         events: {
-            'structures:updated':                '_renderChildren',
-            'paginator:updating':                'hideInfoWindow',
-            'structures:itemview:highlighted':   'exciteMarkers',
+            'structures:updated'               : '_renderChildren',
+            'paginator:updating'               : 'hideInfoWindow',
+            'structures:itemview:highlighted'  : 'exciteMarkers',
             'structures:itemview:unhighlighted': 'exciteMarkers',
-            'map:update:zoom':                   'updateZoom',
-            'filter:update:map':                 'centerMap',
-            'structures:itemview:found':         'setMarkerViewAndshowInfoWindow',
-            'structures:itemview:peacock':       'togglePeacockingMarkers'
+            'map:update:zoom'                  : 'updateZoom',
+            'filter:update:map'                : 'centerMap',
+            'structures:itemview:found'        : 'setMarkerViewAndshowInfoWindow',
+            'structures:itemview:peacock'      : 'togglePeacockingMarkers'
         }
     });
 
