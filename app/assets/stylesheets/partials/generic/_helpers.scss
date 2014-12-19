@@ -351,14 +351,4 @@
     }
 }
 .full-screen-item { height: 100vh; }
-.sticky-nav {
-    background-color: transparentize(#FFF, 0.8);
-    top             : -100px;
-    @include transition(all 500ms linear);
-    &.sticky-nav--visible {
-      top: 0;
-    }
-}
-.not-outlined {
-  outline: none !important;
-}
+.not-outlined { outline: none !important; }

@@ -4,40 +4,46 @@
   - theatre = Subject.fetch_by_id_or_slug('theatre-scene')
   - music   = Subject.fetch_by_id_or_slug('musique-chant')
   - yoga    = Subject.fetch_by_id_or_slug('yoga-bien-etre-sante')
-  .beta.push--bottom.soft--bottom.f-weight-300 Toutes vos passions
-  .relative{ style: 'height: 600px;'}
-    .absolute.bg-cover.west.north{ style: "background-image: url('#{dance.image.url(:small)}'); width: 49.5%; height: 200px;" }>
-      .relative.one-whole.height-whole
-        %a.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: root_vertical_page_path(dance.vertical_pages.first), title: "Cours de danse" }>
-          %h2.home-screen-gallery__title.text--center.f-weight-normal
+  - sports  = Subject.fetch_by_id_or_slug('sports-arts-martiaux')
+  .text--center
+    %h3.push-half--bottom.beta Vivez passionnément
+    %h5.epsilon.push--bottom.soft--bottom Des centaines de disciplines qui correspondra à votre caractère
+  .flexbox.push--bottom
+    .flexbox__item.soft--sides.one-third
+      .bg-cover{ style: "height: 400px; background-image: url('#{dance.image.url(:small)}');" }>
+        %a.relative.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: root_vertical_page_path(dance.vertical_pages.first), title: "Cours de danse" }>
+          %h2.home-screen-gallery__title.text--center.home-screen-gallery__title--bigger
             Danse
             .milli.show-on-hover__child Découvrir
-    .absolute.bg-cover.east.north{ style: "background-image: url('#{music.image.url(:small)}'); width: 49.5%; height: 298px;"}
-      .relative.one-whole.height-whole
-        %a.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: root_vertical_page_path(music.vertical_pages.first), title: "Cours de musique et chant" }>
-          %h2.home-screen-gallery__title.text--center.f-weight-normal
+    .flexbox__item.soft--sides.one-third
+      .bg-cover{ style: "height: 400px; background-image: url('#{music.image.url(:small)}');" }>
+        %a.relative.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: root_vertical_page_path(music.vertical_pages.first), title: "Cours de musique et chant" }>
+          %h2.home-screen-gallery__title.text--center.home-screen-gallery__title--bigger
             Musique & Chant
             .milli.show-on-hover__child Découvrir
-    .absolute.bg-cover.east.south{ style: "background-image: url('#{theatre.image.url(:small)}'); width: 49.5%; height: 298px;"}
-      .relative.one-whole.height-whole
-        %a.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: root_vertical_page_path(theatre.vertical_pages.first), title: "Cours de théâtre et scène" }>
-          %h2.home-screen-gallery__title.text--center.f-weight-normal
+    .flexbox__item.soft--sides.one-third
+      .bg-cover{ style: "height: 400px; background-image: url('#{theatre.image.url(:small)}');" }>
+        %a.relative.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: root_vertical_page_path(theatre.vertical_pages.first), title: "Cours de théâtre et scène" }>
+          %h2.home-screen-gallery__title.text--center.home-screen-gallery__title--bigger
             Théâtre & Scène
             .milli.show-on-hover__child Découvrir
-    .absolute.bg-cover.west{ style: "background-image: url('#{arts.image.url(:small)}'); width: 49.5%; height: 194px; top: 203px" }>
-      .relative.one-whole.height-whole
-        %a.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: root_vertical_page_path(arts.vertical_pages.first), title: "Cours de dessin, peinture et arts" }>
-          %h2.home-screen-gallery__title.text--center.f-weight-normal
-            Dessin, Peinture
-            %br
-            & Arts
-            .milli.show-on-hover__child Découvrir
-    .absolute.bg-cover.west.south{ style: "background-image: url('#{yoga.image.url(:small)}'); width: 49.5%; height: 200px;"}
-      .relative.one-whole.height-whole
-        %a.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: root_vertical_page_path(yoga.vertical_pages.first), title: "Cours de yoga, bien-être et santé" }>
-          %h2.home-screen-gallery__title.text--center.f-weight-normal
-            Yoga, Bien-être
-            %br
-            & Santé
-            .milli.show-on-hover__child Découvrir
 
+  .flexbox
+    .flexbox__item.soft--sides.one-third
+      .bg-cover{ style: "height: 400px; background-image: url('#{sports.image.url(:small)}');" }>
+        %a.relative.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: root_vertical_page_path(sports.vertical_pages.first), title: "Cours de danse" }>
+          %h2.home-screen-gallery__title.text--center.home-screen-gallery__title--bigger
+            Danse
+            .milli.show-on-hover__child Découvrir
+    .flexbox__item.soft--sides.one-third
+      .bg-cover{ style: "height: 400px; background-image: url('#{yoga.image.url(:small)}');" }>
+        %a.relative.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: root_vertical_page_path(yoga.vertical_pages.first), title: "Cours de musique et chant" }>
+          %h2.home-screen-gallery__title.text--center.home-screen-gallery__title--bigger
+            Musique & Chant
+            .milli.show-on-hover__child Découvrir
+    .flexbox__item.soft--sides.one-third
+      .bg-cover{ style: "height: 400px; background-image: url('#{arts.image.url(:small)}');" }>
+        %a.relative.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: root_vertical_page_path(arts.vertical_pages.first), title: "Cours de théâtre et scène" }>
+          %h2.home-screen-gallery__title.text--center.home-screen-gallery__title--bigger
+            Théâtre & Scène
+            .milli.show-on-hover__child Découvrir
