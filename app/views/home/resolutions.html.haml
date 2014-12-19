@@ -1,5 +1,6 @@
 - content_for? :title do
   Et vous ? Quelles sont vos bonnes résolutions 2015 ?
+
 :ruby
   questions = []
   questions << {
@@ -92,11 +93,11 @@
       .push--top.soft--top.one-whole.flexbox__item
         .v-middle.relative
           %h1.soft--top.text--center{ style: 'font-size: 60px;'}
-            Et vous ? Quelles sont vos
+            Quelles seront vos
             %br
             %span.ff-pacifico bonnes résolutions 2015 ?
           .text--center
-            %a.btn--yellow.btn.btn--enormous{ href: '#', data: { behavior: 'move-section-down' } } Faire le test
+            %a.btn--yellow.btn.btn--enormous{ href: '#', data: { behavior: 'move-section-down' } } Commencer le test
 
   - questions.each_with_index do |question, index|
     - last = (questions.length == index + 1)
@@ -107,7 +108,7 @@
         %h2.flush.f-size-big.text--center.white.orange-box.soft-half= question[:title]
         .grid--full
           - question[:answers].each_with_index do |answers, answer_index|
-            .black-curtain__fading-on-hover.bg-position-top.bg-cover.relative.text--center.white.grid__item.one-half{ style: "background-image: url('https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/q#{index + 1}/#{answer_index + 1}.jpg'); height: 35vh;", data: { name: "resolutions_question_#{index + 1}", for: "question_#{index + 1}_value_#{answer_index + 1}", answer: true, behavior: "#{last ? 'submit-form' : 'move-section-down'}" } }>
+            .pointer.black-curtain__fading-on-hover.bg-position-top.bg-cover.relative.text--center.white.grid__item.one-half{ style: "background-image: url('https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/q#{index + 1}/#{answer_index + 1}.jpg'); height: 35vh;", data: { name: "resolutions_question_#{index + 1}", for: "question_#{index + 1}_value_#{answer_index + 1}", answer: true, behavior: "#{last ? 'submit-form' : 'move-section-down'}" } }>
               .black-curtain.north.west.one-whole.absolute
               .f-weight-600.soft-half--sides.absolute.west.one-whole{ style: "top: 50%; margin-top: -4em;"}
                 .beta.line-height-1-7= answers[:title]
@@ -150,6 +151,6 @@
                     max_value = value;
                 }
             });
-            window.location = Routes.home_resolutions_results_path({ profile: profile });
+            window.location = Routes.home_resolutions_results_path({ id: profile });
         });
     });
