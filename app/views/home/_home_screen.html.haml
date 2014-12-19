@@ -1,51 +1,31 @@
-- if @last_comment
-  - if @last_comment.subjects.any?
-    - slug = @last_comment.subjects.first.root.slug
-  - else
-    - slug = @last_comment.structure.subjects.at_depth(0).first.slug
-  - url = asset_path("home_backgrounds/#{slug}.jpg")
-- else
-  - url = asset_path("pro/home_background#{[2,3,4,5,6,7].sample}.jpg")
-.bg-fixed.home-screen.soft--top.white.bg-cover{ style: "background-image: url(#{url})" }
-  .main-container.main-container--medium.soft-half--bottom
-    %h1.palm-text--center.soft--top.soft-black-text-shadow.flush
-      Trouvez votre cours de loisir idéal.
+- bg_urls = []
+- bg_urls << 'https://ppcdn.500px.org/65148449/12019bf663df81338534c0f9a8550d9310cb2727/2048.jpg'
+- bg_urls << 'https://ppcdn.500px.org/3831514/36c4f7e1d0a562973ac4f8225ea80504b033fb8b/2048.jpg'
+- bg_urls << 'https://ppcdn.500px.org/83339053/2e51a23781b8588938184d78c7e2be22610ca68e/2048.jpg'
+
+.bg-position-top.has-parallax.relative.full-screen-item.home-screen.soft--top.white.bg-cover{ style: "background-image: url(#{bg_urls.sample});" }
+  .text--center.absolute.one-whole{ style: ' top: 13%;' }
+    = image_tag 'logos/logo.png', width: 300, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'v-middle'
+    %h1.f-size-big.palm-text--center.soft--top.soft-black-text-shadow.flush
+      ARTS. SPORTS. BIEN-ÊTRE.
     %h4.palm-text--center.push--bottom.soft-black-text-shadow
-      Parmi plus de 10 000 cours recommandés par les élèves.
+      TROUVEZ VOTRE COURS DE LOISIR IDÉAL.
     .push--bottom.soft--bottom
-      = render 'shared/home_page_search_form'
+      = render partial: 'shared/home_page_search_form', locals: { wrapper_class: 'header-search-bar center-block'}
+  .text--center.absolute.one-whole{ style: ' top: 85%;' }
+    %a.not-outlined.white{ href: '#content', data: { behavior: 'scroll-to', duration: 900, 'offset-top' => '-45' } }
+      %i.fa.fa-chevron-down.fa-4x.smooth-black-text-shadow
 
-    .relative.bg-cover.visuallyhidden--palm{ style: "background-image: url('#{asset_path('home-page/video_thumbnail.jpg')}'); width: 150px; height: 75px;" }>
-      = link_to 'https://www.youtube.com/watch?v=-hq0sxFEcOw', class: 'block show-on-hover__wrapper show-on-hover__wrapper--black-curtain', data: { behavior: 'fancy', height: 560, width: 1000 } do
-        .home-screen-gallery__title.text--center
-          %i.fa-youtube-play.alpha
-          .show-on-hover__child.milli Voir la vidéo
-    .push-half--bottom.very-soft.hard--sides.visuallyhidden--palm
-      = link_to 'javascript:void(0);', data: { behavior: 'toggleable', el: '#comment-ca-marche' }, style: 'width: 150px;', class: 'text--center inline-block semi-muted-link soft-black-text-shadow' do
-        Comment ça marche
-        %i.fa.fa-caret-down
+- content_for :scripts do
+  :javascript
+    $(window).scroll(function () {
+        var scrollAmount = $(window).scrollTop() / 5;
+        scrollAmount = Math.round(scrollAmount);
+        $('.has-parallax').css('backgroundPosition', '50% ' + scrollAmount + 'px');
+        if ($(window).scrollTop() > 100) {
+            $('#coursavenue-header').addClass('sticky-nav--visible');
+        } else {
+            $('#coursavenue-header').removeClass('sticky-nav--visible');
+        }
+    });
 
-  - if @last_comment
-    - cache @last_comment do
-      .home-screen-comment.visuallyhidden--palm.soft-black-text-shadow
-        .grid
-          .grid__item.two-twelfths.v-middle>
-            = link_to structure_path(@last_comment.structure), class: 'muted-link block' do
-              = image_tag @last_comment.structure.logo.url(:small_thumb), class: 'block white-circle'
-          .grid__item.ten-twelfths.v-middle>
-            .quoted.epsilon.quoted--large<
-              = link_to @last_comment.title, structure_path(@last_comment.structure), class: 'muted-link'
-            %p.flush
-              = link_to structure_path(@last_comment.structure), class: 'muted-link' do
-                = truncate(@last_comment.content, length: 50)
-            .milli
-              = link_to "Avis rédigé par #{@last_comment.author_name} il y a #{distance_of_time_in_words_to_now(@last_comment.created_at)}", structure_path(@last_comment.structure), class: 'muted-link'
-            %strong
-              = truncate(@last_comment.course_name.capitalize, length: 65)
-
-- cache "how_it_works_#{ENV["ETAG_VERSION_ID"]}" do
-  .main-container.main-container--medium.hidden#comment-ca-marche
-    .soft.push
-      = render 'how_it_works'
-      .text--center.epsilon
-        = link_to 'En savoir plus', pages_what_is_it_path

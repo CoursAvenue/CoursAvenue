@@ -4,16 +4,17 @@
   = content_tag :script, type: 'application/ld+json' do
     = JSON.generate(@google_search_box_metadata).html_safe
 
+.fixed.on-top.sticky-nav#coursavenue-header.one-whole.bordered--bottom.soft-black-box-shadow
+  = render partial: 'shared/headers/header', locals: { medium: true }
+
 = render 'shared/newsletter_form'
 
 = render 'home_screen'
 
-.home-screen-promotion-wrapper
+.home-screen-promotion-wrapper#content
   = render 'guide'
 
-= render 'home/orange_banner'
-
-%section.main-container.main-container--medium.home-screen-promotion.soft.push--ends
+%section.main-container.main-container--medium.home-screen-promotion.soft.push--ends{ style: "background-image: url(#{bg_urls.sample});" }
   .grid--full
     .grid__item.palm-one-whole.one-half>
       .beta.push--bottom.soft--bottom.f-weight-300 Derniers avis des élèves

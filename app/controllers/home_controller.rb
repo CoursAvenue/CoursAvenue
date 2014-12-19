@@ -40,6 +40,8 @@ class HomeController < ApplicationController
        action_name == 'resolutions' or
        action_name == 'resolutions_results'
       'empty'
+    elsif action_name == 'index'
+      'home'
     else
       'pages'
     end

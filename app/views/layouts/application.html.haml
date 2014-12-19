@@ -23,7 +23,7 @@
       window.GLOBAL = window.GLOBAL || {};
       GLOBAL.is_mobile = #{mobile_device?};
 
-  %body{ style: (Rails.env.development? ? 'border-top: 5px solid yellow;' : '') }
+  %body
     - unless response.cache_control[:public]
       - flash.each do |key, msg|
         .flash{ class: key, data: { behavior: 'flash', type: key } }

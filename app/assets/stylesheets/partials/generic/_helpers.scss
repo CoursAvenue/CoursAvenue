@@ -190,6 +190,7 @@
 .z-index-1 { z-index: 1; }
 .z-index-3 { z-index: 3; }
 .black-box-shadow { @include box-shadow(0px 0px 31px #555555); }
+.soft-black-box-shadow { @include box-shadow(0px 0px 31px #BBB); }
 .white-text-shadow { @include text-shadow(0 0 2px #FFF, 0 0 12px #FFF, 0 0 22px #FFF, 0 0 42px #FFF, 0 0 92px #FFF); }
 .black-text-shadow { @include text-shadow(0 0 2px #000, 0 0 12px #000, 0 0 22px #000, 0 0 42px #000, 0 0 92px #000); }
 .soft-black-text-shadow { @include text-shadow(0px 0px 2px #444, 0px 0px 15px #444); }
@@ -350,3 +351,14 @@
     }
 }
 .full-screen-item { height: 100vh; }
+.sticky-nav {
+    background-color: transparentize(#FFF, 0.8);
+    top             : -100px;
+    @include transition(all 500ms linear);
+    &.sticky-nav--visible {
+      top: 0;
+    }
+}
+.not-outlined {
+  outline: none !important;
+}

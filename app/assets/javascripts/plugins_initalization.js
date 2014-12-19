@@ -113,10 +113,11 @@ $(function() {
     });
 
     $('body').on('click', '[data-behavior=scroll-to]', function(event) {
+        var duration = $(this).data('duration') || 500;
         if ($(this).data('wrapper')) {
-            $($(this).data('wrapper')).scrollTo($(this.hash), { duration: 500, offset: { top: $(this).data('offset-top') || 0 } });
+            $($(this).data('wrapper')).scrollTo($(this.hash), { duration: duration, offset: { top: $(this).data('offset-top') || 0 } });
         } else {
-            $.scrollTo($(this.hash || this.dataset.el), { duration: 500, offset: { top: $(this).data('offset-top') || 0 } });
+            $.scrollTo($(this.hash || this.dataset.el), { duration: duration, offset: { top: $(this).data('offset-top') || 0 } });
         }
         if (!$(this).data('bubble')) {
             return false;
