@@ -3,43 +3,44 @@
       'a' => {
         title_old: 'Zen : Urgence ! Adoptez la zen-attitude',
         title: 'YOGA ! Soyez zen et adoptez la zen-attitude',
-        bg: 'quizz/resolutions/bg_zen.jpg',
+        url: root_search_page_path('yoga-bien-etre-sante', 'paris'),
+        bg: 'quizz/resolutions/profile_a.jpg',
         content: "Oulala rien ne va plus ! Trop de stress, de surmenage, de pression : il y a urgence, l’année 2015 sera placée sous le signe de la détente, du zen et du lâcher-prise. Boostez votre confiance avec des cours de sophrologie, laissez parler votre corps avec l’eutonie, relâchez-vous avec le watsu… 2014 vous semblera bien loin !"
       },
       'b' => {
         title_old: 'Créatif : On a trouvé l’artiste : vous !',
         title: 'DESSIN ! On a trouvé l’artiste : vous !',
-        bg: 'quizz/resolutions/bg_zen.jpg',
-        bg: 'https://ununsplash.imgix.net/photo-1416339684178-3a239570f315?q=75&fm=jpg&s=c39d9a3bf66d6566b9608a9f1f3765af',
-        bg: 'https://unsplash.imgix.net/photo-1416339158484-9637228cc908?q=75&fm=jpg&s=60d0db124f5db769af5b6852435272b7',
-        bg: 'https://ununsplash.imgix.net/photo-1416339276121-ba1dfa199912?q=75&fm=jpg&s=9bf9f2ef5be5cb5eee5255e7765cb327',
+        url: root_search_page_path('dessin-peinture-arts-plastiques', 'paris'),
+        bg: 'quizz/resolutions/profile_b.jpg',
         content: "Au primaire, le roi des coloriages et de la pâte à modeler : c’était vous. Au collège, votre professeur d’arts plastiques voulait déjà acheter vos toiles. Mais en grandissant, et par manque de temps, vous avez mis tout ça de côté. Allez hop, on s’y remet : sculpture, dessin, calligraphie, foncez ! Notre conseil : succombez au home made et faites vos propres tables basses à partir de palettes récupérées. Ca fait du bien de revenir en primaire !"
       },
       'c' => {
         title_old: 'Expressif : Vous vous voyez déjà en haut de l’affiche',
         title: 'THÉÂTRE ! Vous vous voyez déjà en haut de l’affiche',
-        bg: 'quizz/resolutions/bg_zen.jpg',
-        bg: 'https://ununsplash.imgix.net/18/run.JPG?q=75&fm=jpg&s=97407607b3ae342bee640fdc3cec2f4e',
-        bg: 'https://ununsplash.imgix.net/20/bw-room.JPG?q=75&fm=jpg&s=e2b8b47229554224b8e8f68822de0184',
+        url: root_search_page_path('theatre-scene', 'paris'),
+        bg: 'quizz/resolutions/profile_c.jpg',
         content: "Petit, chaque récitation de poème était un prétexte pour vous mettre en scène devant toute la classe. Chaque année, vous étiez élu d’office délégué de classe. Il faut qu’ça bouge ! Danse, musique, théâtre, improvisation… : mettez-vous au charleston, apprenez des tours de magie, ouvrez-vous à la batucada. En 2015, on balance du rythme !"
       },
       'd' => {
         title_old: 'Sportif : On ne vous tient plus',
         title: 'SPORT ! On ne vous tient plus',
-        bg: 'quizz/resolutions/bg_zen.jpg',
-        bg: 'https://ununsplash.imgix.net/46/yzS7SdLJRRWKRPmVD0La_creditcard.jpg?q=75&fm=jpg&s=7cc01cbdd45363cc0e2e8340b185bca2',
-        bg: 'https://unsplash.imgix.net/30/skater.jpg?q=75&fm=jpg&s=7d40c33f5868c308b37b82cedb7452d3',
+        url: root_search_page_path('sports-arts-martiaux', 'paris'),
+        bg: 'quizz/resolutions/profile_d.jpg',
         content: "Alors là, il va falloir vous canaliser ! Ca tombe bien, on a tout ce qu’il faut : entre le kendo, jadis pratiqué par les samouraïs, la boxe thaïlandaise idéale pour vous défouler et l’escalade qui vous permet d’aller au-delà de vos limites, vous n’aurez plus à taper votre collègue pour vous défouler. Regonflé à bloc, votre quotidien sera énergique !"
       }
     }
 - profile = profiles[params[:id]] || profiles['a']
 
-%div.section.relative.one-whole.relative.white.full-screen-item.bg-cover{ style: "background-image: url('#{asset_path(profile[:bg])}')"}
+.bg-position-top.section.relative.one-whole.relative.white.full-screen-item.bg-cover{ style: "background-image: url('#{asset_path(profile[:bg])}')"}
   .flexbox.full-screen-item
     .black-curtain.north.west.one-whole.absolute
     %div.section.one-whole.full-screen-item
       .push--top.soft--top.one-whole.relative
-        = image_tag 'logos/logo.png', width: 250, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'relative'
+        .push--bottom
+          = link_to root_path, target: :_blank, class: 'inline-block v-middle' do
+            = image_tag 'logos/logo.png', width: 250, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'relative'
+          .push-half--left.relative.v-middle.fb-like{ data: { href: home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), layout: 'button_count', action: 'like', 'show-faces' => 'false', share: "false" } }
+          %a.push-half--left.v-middle{ href: "https://twitter.com/share", class: "twitter-share-button", data: { text: "Quelles seront vos résolutions 2015 ? @CoursAvenue", lang: "fr" }} Tweeter
         .v-middle
           %h2.alpha.text--center.white.orange-transparent-box.soft
             C'EST DÉCIDÉ, EN 2015 JE ME METS AU :
@@ -48,10 +49,10 @@
               %h4.beta= profile[:title]
               .gamma= profile[:content]
             .grid__item.v-middle.one-third>
-              = link_to media_share_url(home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), :facebook), class: 'btn--yellow btn btn--bigger' do
+              = link_to media_share_url(home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), :facebook), class: 'btn--yellow btn btn--bigger', target: :_blank do
                 %i.fa.fa-facebook
                 Facebook
-              = link_to media_share_url(home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), :twitter), class: 'btn--yellow btn btn--bigger' do
+              = link_to media_share_url(home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), :twitter), class: 'btn--yellow btn btn--bigger push-half--left' do
                 %i.fa.fa-twitter
                 Twitter
               .push-half--top
@@ -61,11 +62,11 @@
               .grid__item.one-half.v-middle>
                 %h4.white.flush Cours insolites, exclusivités, promotions, laissez-vous tenter par des milliers de loisir recommandé par des élèves qui sont près de chez vous :&nbsp;
               .grid__item.one-half.v-middle>
-                = simple_form_for User.new, html: { class: '' }, remote: true do |f|
-                  = f.input :subscription_from, as: :hidden, input_html: { value: 'newsletter' }
+                = simple_form_for User.new, html: { class: '' } do |f|
+                  %input{ type: 'hidden', name: 'redirect_to', value: profile[:url] }
+                  = f.input :subscription_from, as: :hidden, input_html: { value: 'quizz' }
                   = f.input :email, label: false, input_html: { placeholder: 'Adresse e-mail', class: 'input--large one-whole' }, wrapper_html: { class: 'flush inline-block v-middle' }
-                  = f.input :zip_code, label: false, input_html: { placeholder: 'Code postal', class: 'input--large one-whole' }, wrapper_html: { class: 'flush inline-block v-middle', style: 'width: 110px;' }
-                  = f.submit "Je m'inscris !", class: 'btn btn--yellow btn--bigger soft-half--ends'
+                  = f.submit "Trouver un cours", class: 'btn btn--yellow btn--bigger soft-half--ends'
 
 
 = content_for :right_after_head do
