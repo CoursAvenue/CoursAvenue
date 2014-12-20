@@ -6,9 +6,22 @@
 
 = render 'home_screen'
 
-.home-screen-promotion-wrapper#content
+.home-screen-promotion-wrapper#vivez-passionnement
   .main-container.main-container--medium.soft.push--ends
     = render 'subject_guides'
+
+.soft--ends.main-container
+  %h3.text--center.push-half--bottom.beta Laissez vous guider
+  %h5.text--center.epsilon.push--bottom.soft--bottom Des milliers d'élèves pour trouver le meilleur cours
+  - @comments.in_groups_of(3).each do |comments_group|
+    .grid
+    - comments_group.each do |comment|
+      .grid__item.one-third.text--center>
+        .delta.push-half--bottom.quoted= comment.title
+        .delta.push-half--bottom= comment.course_name
+        .delta.push-half--bottom
+          %i= comment.author_name
+
 -# %section.main-container.main-container--medium.home-screen-promotion.soft.push--ends
 -#   .grid--full
 -#     .grid__item.palm-one-whole.one-half>

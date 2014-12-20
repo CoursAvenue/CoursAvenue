@@ -2,11 +2,9 @@
     background: transparent;
 }
 .bg-contain, .bg-cover {
-    background-position  : center;
-    background-repeat    : no-repeat;
-    &[data-stellar-background-ratio] {
-        background-position: top;
-    }
+    background-position: center;
+    background-repeat  : no-repeat;
+    background-position: top;
 }
 .bg-position-top { background-position: top; }
 .bg-fixed { background-attachment: fixed; }

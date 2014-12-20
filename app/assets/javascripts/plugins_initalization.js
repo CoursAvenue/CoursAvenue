@@ -140,4 +140,15 @@ $(function() {
         }
     }, 500);
     $('[data-behavior="lazy-load"]').lazyload();
+
+    if ($('[data-behavior=parallax]').length > 0) {
+        $(window).scroll(function () {
+            $('[data-behavior=parallax]').each(function(index, el) {
+                var $this = $(this);
+                var scrollAmount = ($(window).scrollTop() - $this.offset().top) / 5;
+                scrollAmount     = Math.round(scrollAmount);
+                $this.css('backgroundPosition', '50% ' + scrollAmount + 'px');
+            });
+        });
+    }
 });

@@ -1,11 +1,14 @@
 - bg_urls = []
 - bg_urls << 'https://ppcdn.500px.org/65148449/12019bf663df81338534c0f9a8550d9310cb2727/2048.jpg'
 - bg_urls << 'https://ppcdn.500px.org/3831514/36c4f7e1d0a562973ac4f8225ea80504b033fb8b/2048.jpg'
-- bg_urls << 'https://ppcdn.500px.org/83339053/2e51a23781b8588938184d78c7e2be22610ca68e/2048.jpg'
+- bg_urls << 'https://ppcdn.500px.org/61826491/2d5fda16d198912821b3f08995f1c16711b06733/2048.jpg'
+- bg_urls << 'https://ppcdn.500px.org/73134933/8898dd4b99500e764d650652c1bb02c2fa57c9a9/2048.jpg'
+- bg_urls << 'https://ppcdn.500px.org/67085727/67bcf53ad53a975f1478308ae5d0964503038dff/2048.jpg'
+- bg_urls << 'https://ppcdn.500px.org/48157174/e4fb0c6c5b64f4e57cc0aaf8091abedb82427668/2048.jpg'
 
 %ul.home-slides.no-bullet-list
   - bg_urls.each do |bg_url|
-    %li.bg-position-top.has-parallax.relative.full-screen-item.home-screen.soft--top.bg-cover{ style: "background-image: url(#{bg_url});" }
+    %li.bg-position-top.relative.full-screen-item.home-screen.soft--top.bg-cover{ style: "background-image: url(#{bg_url});", data: { behavior: 'parallax' } }
 .relative.full-screen-item.absolute.north.west.one-whole.on-top.soft.white
   .white.text--right.one-whole.soft--right#user-nav.inline-block.v-middle.user-nav--home
   .text--center.absolute.one-whole{ style: ' top: 13%;' }
@@ -17,18 +20,13 @@
     .push--bottom.soft--bottom
       = render partial: 'shared/home_page_search_form', locals: { wrapper_class: 'header-search-bar center-block'}
   .text--center.absolute.one-whole{ style: ' top: 85%;' }
-    %a.not-outlined.white{ href: '#content', data: { behavior: 'scroll-to', duration: 900 } }
+    %a.not-outlined.white{ href: '#vivez-passionnement', data: { behavior: 'scroll-to', duration: 900 } }
       %i.fa.fa-chevron-down.fa-4x.smooth-black-text-shadow
 
 - content_for :scripts do
   :javascript
-    $(window).scroll(function () {
-        var scrollAmount = $(window).scrollTop() / 5;
-        scrollAmount = Math.round(scrollAmount);
-        $('.has-parallax').css('backgroundPosition', '50% ' + scrollAmount + 'px');
-    });
     $(".home-slides").responsiveSlides({
-        timeout: 7000,
-        pager: false,           // Boolean: Show pager, true or false
+        timeout      : 7000,
+        pager        : false,  // Boolean: Show pager, true or false
         pauseControls: true    // Boolean: Pause when hovering controls, true or false
     });
