@@ -43,7 +43,7 @@
             if (this.$element.hasClass('tt-hint')) { return; }
             this.initializeTemplates();
             var that = this;
-            var optionalSearchWords = "cours de,cours d',atelier de,atelier d,stage de,stage d',activité,séance";
+            var optionalSearchWords = GLOBAL.EXCLUDED_SEARCH_WORDS.source.replace(/\(|\)/g, '').replace(/\|/g, ',');
             var client = new AlgoliaSearch('<%= ENV['ALGOLIA_APPLICATION_ID'] %>', '<%= ENV['ALGOLIA_SEARCH_API_KEY'] %>');
             this.subjects_input.typeahead({
                 highlight : true,
