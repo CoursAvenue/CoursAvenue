@@ -43,6 +43,7 @@
             if (this.$element.hasClass('tt-hint')) { return; }
             this.initializeTemplates();
             var that = this;
+            var optionalSearchWords = "cours de,cours d',atelier de,atelier d,stage de,stage d',activité,séance";
             var client = new AlgoliaSearch('<%= ENV['ALGOLIA_APPLICATION_ID'] %>', '<%= ENV['ALGOLIA_SEARCH_API_KEY'] %>');
             this.subjects_input.typeahead({
                 highlight : true,
@@ -57,7 +58,7 @@
                         return that.subjects_template(data);
                     }
                 },
-                source: client.initIndex('<%= Subject.index_name %>').ttAdapter({ hitsPerPage: 7 })
+                source: client.initIndex('<%= Subject.index_name %>').ttAdapter({ hitsPerPage: 7, optionalWords: optionalSearchWords })
             }, {
                 displayKey: 'name',
                 templates: {
@@ -66,7 +67,7 @@
                         return that.structure_template(data);
                     }
                 },
-                source: client.initIndex('<%= Structure.index_name %>').ttAdapter({ hitsPerPage: 7 })
+                source: client.initIndex('<%= Structure.index_name %>').ttAdapter({ hitsPerPage: 7, optionalWords: optionalSearchWords })
             });
 
             this.$element.submit(function(event, data) {
