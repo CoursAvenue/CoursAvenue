@@ -6,7 +6,8 @@
     background-repeat  : no-repeat;
     background-position: top;
 }
-.bg-position-top { background-position: top; }
+.bg-position-top    { background-position: top; }
+.bg-position-center { background-position: center; }
 .bg-fixed { background-attachment: fixed; }
 .bg-cover   { @include background-size(cover); }
 .bg-contain { @include background-size(contain); }

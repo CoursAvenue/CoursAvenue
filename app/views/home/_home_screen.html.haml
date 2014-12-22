@@ -10,10 +10,13 @@
   - bg_urls.each do |bg_url|
     %li.bg-position-top.relative.full-screen-item.home-screen.soft--top.bg-cover{ style: "background-image: url(#{bg_url});", data: { behavior: 'parallax' } }
 .relative.full-screen-item.absolute.north.west.one-whole.on-top.soft.white
-  .white.text--right.one-whole.soft--right#user-nav.inline-block.v-middle.user-nav--home
+  .grid
+    .grid__item.one-half>
+      = image_tag 'logos/logo.png', width: 250, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'v-middle'
+    .grid__item.one-half>
+      .white.text--right.one-whole.soft--right#user-nav.inline-block.v-middle.user-nav--home
   .text--center.absolute.one-whole{ style: ' top: 13%;' }
-    = image_tag 'logos/logo.png', width: 300, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'v-middle'
-    %h1.f-size-big.palm-text--center.soft--top.soft-black-text-shadow.flush
+    %h1.f-size-bigger.palm-text--center.soft--top.soft-black-text-shadow.flush
       ARTS. SPORTS. BIEN-ÊTRE.
     %h4.palm-text--center.push--bottom.soft-black-text-shadow
       Trouvez votre cours de loisir idéal.
@@ -25,8 +28,10 @@
 
 - content_for :scripts do
   :javascript
-    $(".home-slides").responsiveSlides({
-        timeout      : 7000,
-        pager        : false,  // Boolean: Show pager, true or false
-        pauseControls: true    // Boolean: Pause when hovering controls, true or false
-    });
+    $(function() {
+        $(".home-slides").responsiveSlides({
+            timeout      : 7000,
+            pager        : false,  // Boolean: Show pager, true or false
+            pauseControls: true    // Boolean: Pause when hovering controls, true or false
+        });
+    })
