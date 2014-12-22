@@ -31,7 +31,7 @@
     }
 - profile = profiles[params[:id]] || profiles['a']
 
-.bg-position-top.section.relative.one-whole.relative.white.full-screen-item.bg-cover{ style: "background-image: url('https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/#{profile[:bg]}')"}
+.bg-position-top.section.relative.one-whole.relative.white.full-screen-item.bg-cover{ style: "background-image: url('https://coursavenue-public.s3.amazonaws.com/public_assets/#{profile[:bg]}')"}
   .flexbox.full-screen-item
     .black-curtain.north.west.one-whole.absolute
     %div.section.one-whole.full-screen-item
@@ -44,19 +44,19 @@
         .v-middle
           %h2.alpha.text--center.white.orange-transparent-box.soft
             C'EST DÉCIDÉ, EN 2015 JE ME METS AU :
-          .grid.main-container
-            .grid__item.v-middle.two-thirds.f-weight-bold.line-height-1-5>
-              %h4.beta= profile[:title]
-              .gamma= profile[:content]
-            .grid__item.v-middle.one-third>
+          .main-container
+            .grid
+              .grid__item.v-middle.two-thirds.f-weight-bold.line-height-1-5>
+                %h4.beta= profile[:title]
+                .gamma= profile[:content]
+            %div
               = link_to media_share_url(home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), :facebook), class: 'btn--yellow btn btn--bigger', target: :_blank do
                 %i.fa.fa-facebook
                 Facebook
               = link_to media_share_url(home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), :twitter), class: 'btn--yellow btn btn--bigger push-half--left' do
                 %i.fa.fa-twitter
                 Twitter
-              .push-half--top
-                = link_to 'Recommencer le test', home_resolutions_path, class: 'btn btn--yellow btn--bigger'
+              = link_to 'Recommencer le test', home_resolutions_path, class: 'btn btn--yellow btn--bigger push-half--left'
           .orange-transparent-box.soft.push--top
             .grid.main-container
               .grid__item.one-half.v-middle>
