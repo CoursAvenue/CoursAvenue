@@ -18,6 +18,7 @@
         #structure-profile{ data: { type: 'structure-profile-root' } }
           - if @is_sleeping
             = render partial: 'structures/sleeping_content', locals: { medias: @medias }
+            #structure-region.hidden
           - else
             #structure-region
           %div{ data: { type: "comments-collection" } }
