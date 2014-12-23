@@ -4,8 +4,14 @@ class UsersController < InheritedResources::Base
 
   actions :show, :update
 
-  before_action :authenticate_user!, except: [:unsubscribe, :waiting_for_activation, :invite_entourage_to_jpo_page, :invite_entourage_to_jpo, :welcome, :create, :facebook_auth_callback, :facebook_auth_failure]
-  load_and_authorize_resource :user, find_by: :slug, except: [:unsubscribe, :waiting_for_activation, :invite_entourage_to_jpo_page, :invite_entourage_to_jpo, :welcome, :create, :facebook_auth_callback, :facebook_auth_failure]
+  before_action :authenticate_user!, except: [:unsubscribe, :waiting_for_activation,
+                                              :invite_entourage_to_jpo_page, :invite_entourage_to_jpo,
+                                              :welcome, :create, :facebook_auth_callback,
+                                              :facebook_auth_failure]
+  load_and_authorize_resource :user, find_by: :slug, except: [:unsubscribe, :waiting_for_activation,
+                                                              :invite_entourage_to_jpo_page, :invite_entourage_to_jpo,
+                                                              :welcome, :create, :facebook_auth_callback,
+                                                              :facebook_auth_failure]
 
   # Create from newsletter
   # GET /users
@@ -17,7 +23,8 @@ class UsersController < InheritedResources::Base
     end
     params[:user][:subscription_from] == 'newsletter' if user.persisted? and UserMailer.delay.subscribed_to_newsletter(user)
     respond_to do |format|
-      format.js { render nothing: true }
+      format.js   { render nothing: true }
+      format.html { redirect_to params[:redirect_to] || root_path }
     end
   end
 
