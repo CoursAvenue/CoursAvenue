@@ -45,10 +45,9 @@
           %h2.alpha.text--center.white.orange-transparent-box.soft
             C'EST DÉCIDÉ, EN 2015 JE ME METS AU :
           .main-container
-            .grid
-              .grid__item.v-middle.two-thirds.f-weight-bold.line-height-1-5>
-                %h4.beta= profile[:title]
-                .gamma= profile[:content]
+            .two-thirds.f-weight-bold.line-height-1-5.push--bottom
+              %h4.beta= profile[:title]
+              .gamma= profile[:content]
             %div
               = link_to media_share_url(home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), :facebook), class: 'btn--yellow btn btn--bigger', target: :_blank do
                 %i.fa.fa-facebook
