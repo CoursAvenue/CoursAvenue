@@ -37,6 +37,11 @@ class MediaUploader < CarrierWave::Uploader::Base
     process quality: 70
   end
 
+  version :watermaked do
+    cloudinary_transformation :transformation => [{  width: 750, height: 750, crop: :limit }]
+    process :watermaked
+  end
+
   private
 
   def thumbnail_email_cropped
@@ -50,5 +55,10 @@ class MediaUploader < CarrierWave::Uploader::Base
       transformations << { overlay: "decouvrir", width: 167, height: 35, gravity: :south_east, y: 20 }
     end
     { transformation: transformations }
+  end
+
+  def watermaked
+    overlay = { overlay: 'watermark', width: 400, gravity: :center }
+    { transformation: [overlay] }
   end
 end
