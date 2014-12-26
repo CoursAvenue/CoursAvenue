@@ -43,6 +43,17 @@
                 $('input#address-lng').value(longitude);
                 $('input[name=address_nae]').value('');
                 $('form#home-page-form').submit();
+            }, function(positionError) {
+                if (positionError.code == 1) {
+                    // Denied
+                    GLOBAL.flash('Erreur: denied');
+                } else if (positionError.code == 2) {
+                    // Unavailable
+                    GLOBAL.flash('Erreur: Unavailable');
+                } else {
+                    // Timeout
+                    GLOBAL.flash('Erreur: timeout');
+                }
             });
         } else {
             GLOBAL.flash('Erreur: geoloc non supportee');
