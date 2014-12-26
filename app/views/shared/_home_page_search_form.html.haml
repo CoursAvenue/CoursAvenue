@@ -28,6 +28,27 @@
           %i.fa.fa-search
           Trouver
 
+= content_for :scripts do
+  :javascript
+
+    $('#locate-me').click(function(event) {
+        event.preventDefault();
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var latitude  = position.coords.latitude;
+                var longitude = position.coords.longitude;
+
+                $('input#address-lat').value(latitude);
+                $('input#address-lng').value(longitude);
+                $('input[name=address_nae]').value('');
+                $('form#home-page-form').submit();
+            });
+        } else {
+            GLOBAL.flash('Erreur: geoloc non supportee');
+        }
+    });
+
 - if Rails.env.production?
   = content_for :scripts do
     :javascript
