@@ -52,15 +52,17 @@
         }
     };
 
-    $('a[data-behavior=location]').click(function(event) {
-        event.preventDefault();
+    $(function() {
+        $('a[data-behavior=location]').click(function(event) {
+            event.preventDefault();
 
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(setPosition, handleError);
-        } else {
-            GLOBAL.flash('Erreur: geoloc non supportee');
-        }
-    });
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(setPosition, handleError);
+            } else {
+                GLOBAL.flash('Erreur: geoloc non supportee');
+            }
+        });
+    }
 
 - if Rails.env.production?
   = content_for :scripts do
