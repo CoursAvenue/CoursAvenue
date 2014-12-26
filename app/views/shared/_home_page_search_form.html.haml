@@ -44,11 +44,11 @@
 
     var handleError = function handleError (positionError) {
         if (positionError.code == 1) {
-            GLOBAL.flash('Erreur: denied');
+            GLOBAL.flash('Vous avez refusé la géolocalisation.');
         } else if (positionError.code == 2) {
-            GLOBAL.flash('Erreur: Unavailable');
+            GLOBAL.flash("La géolocalisation n'est pas disponible pour votre navigateur.");
         } else {
-            GLOBAL.flash('Erreur: timeout');
+            GLOBAL.flash("La géolocalisation n'est pas disponible pour le moment, veuillez rééssayer dans quelques instants.");
         }
     };
 
@@ -59,7 +59,7 @@
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(setPosition, handleError);
             } else {
-                GLOBAL.flash('Erreur: geoloc non supportee');
+                GLOBAL.flash("La géolocalisation n'est pas disponible pour votre navigateur.");
             }
         });
     });
