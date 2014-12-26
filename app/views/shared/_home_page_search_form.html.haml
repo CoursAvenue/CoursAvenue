@@ -20,7 +20,7 @@
         %input#address-city{ type: 'hidden', value: city, name: 'city' }
 
       .flexbox__item.v-middle.very-soft
-        %button.nowrap.btn.btn--blue.btn--full.input--large{ id: 'locate_me' }
+        %a.nowrap.btn.btn--blue.btn--full.input--large{ data: { behavior: 'location', toggle: 'popover', content: 'Coucou' } }
           %i.fa.fa-location-arrow
 
       .flexbox__item.v-middle.palm-text--center
@@ -31,7 +31,6 @@
 = content_for :scripts do
   :javascript
 
-    $('#locate-me').click(function(event) {
     var setPosition = function setPosition (position) {
         var latitude  = position.coords.latitude;
         var longitude = position.coords.longitude;
@@ -53,6 +52,7 @@
         }
     };
 
+    $('a[data-behavior=location]').click(function(event) {
         event.preventDefault();
 
         if (navigator.geolocation) {
