@@ -41,7 +41,7 @@
 
                 $('input#address-lat').value(latitude);
                 $('input#address-lng').value(longitude);
-                $('input[name=address_nae]').value('');
+                $('input[name=address_name]').value('');
                 $('form#home-page-form').submit();
             }, function(positionError) {
                 if (positionError.code == 1) {
