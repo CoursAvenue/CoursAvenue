@@ -9,6 +9,10 @@
 APP_NAME=$1
 REPOSITORY="http://github.com/coursavenue/coursavenue"
 
+# Fetch the last commits on the remote.
+git remote add heroku git@heroku.com:$APP_NAME.git
+git fetch heroku
+
 # Check if the deploy is necessary.
 #
 # The deploy is necessary when:
@@ -20,10 +24,6 @@ if [[ $APP_NAME == "coursavenue-staging" ]] && (( $STAGING_DEPLOY == 0 )); then
   echo "[CIRCLECI_DEPLOY] No deployment needed."
   exit
 fi
-
-# Fetch the last commits on the remote.
-git remote add heroku git@heroku.com:$APP_NAME.git
-git fetch heroku
 
 # Deploy the code. (This might take a while, up to 30 minutes.)
 # We force push on staging because we don't always update from the same branch.
