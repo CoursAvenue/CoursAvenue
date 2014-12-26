@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Media::Video do
   describe 'validations' do
-    context 'the url is not a video' do
+    context 'the url is valid' do
 
       subject { Media::Video.create(url: Faker::Internet.url) }
 
@@ -11,7 +11,7 @@ describe Media::Video do
       end
     end
 
-    context 'the url is a video' do
+    context 'the url is valid' do
 
       let(:provider_name) { 'youtube' }
       subject { Media::Video.create(url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ') }
