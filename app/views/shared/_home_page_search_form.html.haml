@@ -32,29 +32,31 @@
   :javascript
 
     $('#locate-me').click(function(event) {
+    var setPosition = function setPosition (position) {
+        var latitude  = position.coords.latitude;
+        var longitude = position.coords.longitude;
+
+        $('input#address-lat').val(latitude);
+        $('input#address-lng').val(longitude);
+        $('input[name=address_name]').val('');
+
+        $('form#home-page-form').submit();
+    };
+
+    var handleError = function handleError (positionError) {
+        if (positionError.code == 1) {
+            GLOBAL.flash('Erreur: denied');
+        } else if (positionError.code == 2) {
+            GLOBAL.flash('Erreur: Unavailable');
+        } else {
+            GLOBAL.flash('Erreur: timeout');
+        }
+    };
+
         event.preventDefault();
 
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                var latitude  = position.coords.latitude;
-                var longitude = position.coords.longitude;
-
-                $('input#address-lat').value(latitude);
-                $('input#address-lng').value(longitude);
-                $('input[name=address_name]').value('');
-                $('form#home-page-form').submit();
-            }, function(positionError) {
-                if (positionError.code == 1) {
-                    // Denied
-                    GLOBAL.flash('Erreur: denied');
-                } else if (positionError.code == 2) {
-                    // Unavailable
-                    GLOBAL.flash('Erreur: Unavailable');
-                } else {
-                    // Timeout
-                    GLOBAL.flash('Erreur: timeout');
-                }
-            });
+            navigator.geolocation.getCurrentPosition(setPosition, handleError);
         } else {
             GLOBAL.flash('Erreur: geoloc non supportee');
         }
