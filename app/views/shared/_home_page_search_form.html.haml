@@ -12,17 +12,12 @@
           %input.palm-one-whole.input--large.one-whole.soft-half--left{ size: 28, placeholder:'Que recherchez-vous ?', type: 'text', autocomplete: 'off', name: 'name', value: '' , data: { type: 'subjects', toggle: 'popover', content: '<div style="color: black">Entrez la discipline ou le profil recherché. Ex. : Hatha yoga, Paris Art school, etc.</div>', placement: 'top', html: 'true' } }
       .flexbox__item.v-middle.search-input-wrapper.very-soft.hard--ends.palm-hard
         .input-with-icon
-          %input.palm-one-whole.input--large.one-whole.soft-half--left{ size: 19, placeholder:'Ville', type:'text', autocomplete: 'off', name:'address_name', value: city, data: { type:'address', lng:'#address-lng',lat: '#address-lat', city: '#address-city' , address_name: '#address-name' } }
-          %i.fa.fa-map-marker.delta
+          %input.palm-one-whole.input--large.one-whole.soft-half--left{ size: 19, placeholder:'Ville', type:'text', autocomplete: 'off', name:'address_name', value: city, data: { type:'address', lng:'#address-lng', lat: '#address-lat', city: '#address-city' , address_name: '#address-name' } }
+          %i.pointer.fa.fa-location-arrow.delta{ data: { behavior: 'locate-me', toggle: 'popover', content: 'Utiliser ma position actuelle.', placement: 'top' } }
         %input#address-lat{ type: 'hidden', value: lat, name: 'lat' }
         %input#address-lng{ type: 'hidden', value: lng, name: 'lng' }
         %input#address-name{ type: 'hidden', value: city, name: 'address_name' }
         %input#address-city{ type: 'hidden', value: city, name: 'city' }
-
-      .flexbox__item.v-middle.very-soft
-        %a.nowrap.btn.btn--blue.btn--full.input--large{ data: { behavior: 'location', toggle: 'popover', content: 'Clickez pour rechercher autour de votre location actuelle.' } }
-          %i.fa.fa-location-arrow
-
       .flexbox__item.v-middle.palm-text--center
         %button.nowrap.btn.btn--blue.btn--full.input--large{type: 'submit', id: 'submit_search_form'}
           %i.fa.fa-search
@@ -53,9 +48,7 @@
     };
 
     $(function() {
-        $('a[data-behavior=location]').click(function(event) {
-            event.preventDefault();
-
+        $('[data-behavior=locate-me]').click(function(event) {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(setPosition, handleError);
             } else {
