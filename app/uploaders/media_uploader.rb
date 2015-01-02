@@ -4,7 +4,10 @@ class MediaUploader < CarrierWave::Uploader::Base
   include Cloudinary::CarrierWave
 
   process convert: "jpg"
-  cloudinary_transformation :transformation => [{  width: 1600, height: 1600, crop: :limit }]
+  cloudinary_transformation :transformation => [
+    { width: 1600, height: 1600, crop: :limit },
+    { overlay: 'watermark', width: 400, gravity: :center }
+  ]
   # process resize_to_fit: [1600]
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
@@ -50,10 +53,5 @@ class MediaUploader < CarrierWave::Uploader::Base
       transformations << { overlay: "decouvrir", width: 167, height: 35, gravity: :south_east, y: 20 }
     end
     { transformation: transformations }
-  end
-
-  def watermaked
-    overlay = { overlay: 'watermark', width: 400, gravity: :center }
-    { transformation: [overlay] }
   end
 end
