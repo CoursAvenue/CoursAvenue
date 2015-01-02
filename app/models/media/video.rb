@@ -95,6 +95,6 @@ class Media::Video < Media
   def authorized_url
     matches = FILTER_REGEX.map { |_, v| url.match(v[:pattern]) }.any?
 
-    errors.add(:url, "L'URL de votre video doit être valide.") unless matches
+    errors.add(:url, I18n.t('pro.medias.errors.messages.invalid')) unless matches
   end
 end
