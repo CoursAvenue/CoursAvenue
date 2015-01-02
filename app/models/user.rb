@@ -231,7 +231,7 @@ class User < ActiveRecord::Base
     self.avatar or self.fb_avatar
   end
 
-  def avatar_url(format=:normal)
+  def avatar_url(format = :normal)
     if self.avatar
       self.avatar.url(format)
     elsif self.fb_avatar
