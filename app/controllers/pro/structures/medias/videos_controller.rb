@@ -18,7 +18,8 @@ class Pro::Structures::Medias::VideosController < Pro::ProController
       if @video.save
         format.html { redirect_to pro_structure_medias_path(@structure), notice: 'Photo / vidéo bien ajoutée !' }
       else
-        format.html { redirect_to pro_structure_medias_path(@structure), flash: { error: @video.errors.full_messages.first } }
+        format.html { redirect_to pro_structure_medias_path(@structure),
+                                  flash: { error: @video.errors.full_messages.first } }
       end
     end
   end
