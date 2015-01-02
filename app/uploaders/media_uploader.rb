@@ -37,11 +37,6 @@ class MediaUploader < CarrierWave::Uploader::Base
     process quality: 70
   end
 
-  version :watermaked do
-    cloudinary_transformation :transformation => [{  width: 750, height: 750, crop: :limit }]
-    process :watermaked
-  end
-
   private
 
   def thumbnail_email_cropped
