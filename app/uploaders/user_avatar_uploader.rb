@@ -3,7 +3,7 @@ class UserAvatarUploader < CarrierWave::Uploader::Base
   include CarrierWave::Compatibility::Paperclip
   include Cloudinary::CarrierWave
 
-  cloudinary_transformation :transformation [{ width: 800, height: 800, crop: :limit }]
+  cloudinary_transformation transformation: [{ width: 800, height: 800, crop: :limit }]
 
   version :wide do
     process resize_to_fit: [800, 800]
