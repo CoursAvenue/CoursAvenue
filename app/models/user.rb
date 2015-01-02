@@ -228,11 +228,11 @@ class User < ActiveRecord::Base
   end
 
   def has_avatar?
-    self.avatar or self.fb_avatar
+    avatar or self.fb_avatar
   end
 
   def avatar_url(format = :normal)
-    if self.avatar
+    if avatar
       self.avatar.url(format)
     elsif self.fb_avatar
       self.fb_avatar(format)
