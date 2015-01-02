@@ -37,11 +37,9 @@ class User < ActiveRecord::Base
   define_boolean_accessor_for :meta_data, :have_seen_first_jpo_popup
 
 
-  has_attached_file :avatar,
-                    styles: { wide: '800x800#', normal: '450x', thumb: '200x200#', small: '100x100#', mini: '40x40#' },
-                    processors: [:thumbnail, :paperclip_optimizer]
-
-  validates_attachment_content_type :avatar, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
+  # TODO: Rename column `avatar_file_name` to `avatar`
+  # TODO: Remove `mount_on ...`
+  mount_uploader :avatar, UserAvatarUploader, :mount_on => :avatar_file_name
 
   ######################################################################
   # Relations                                                          #
@@ -230,11 +228,11 @@ class User < ActiveRecord::Base
   end
 
   def has_avatar?
-    self.avatar.exists? or self.fb_avatar
+    self.avatar or self.fb_avatar
   end
 
   def avatar_url(format=:normal)
-    if self.avatar.exists?
+    if self.avatar
       self.avatar.url(format)
     elsif self.fb_avatar
       self.fb_avatar(format)
