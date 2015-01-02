@@ -21,6 +21,10 @@ class UserAvatarUploader < CarrierWave::Uploader::Base
     process resize_to_fit: [100, 100]
   end
 
+  version :small_thumb do
+    process resize_to_fit: [100, 100]
+  end
+
   version :mini do
     process resize_to_fit: [40, 40]
   end
