@@ -18,7 +18,7 @@ class Pro::Structures::Medias::VideosController < Pro::ProController
       if @video.save
         format.html { redirect_to pro_structure_medias_path(@structure), notice: 'Photo / vidéo bien ajoutée !' }
       else
-        format.html { render :new }
+        format.html { redirect_to pro_structure_medias_path(@structure), flash: { error: "Une erreur s'est produite, veuillez rééssayer."} }
       end
     end
   end
