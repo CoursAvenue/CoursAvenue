@@ -14,7 +14,7 @@ fr:
     medias:
       errors:
         messages:
-          invalid: L'URL de votre video n'est pas valide
+          invalid: n'est pas valide
       wizard:
         infos: >
           <p><strong>Les photos et vidéos attirent plus d'élèves</strong></p>
