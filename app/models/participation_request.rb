@@ -22,6 +22,7 @@ class ParticipationRequest < ActiveRecord::Base
   before_save   :update_times
   before_create :set_default_attributes
   after_create  :send_email_to_teacher
+  after_create  :send_sms_to_teacher
 
   ######################################################################
   # Validation                                                         #
@@ -37,6 +38,7 @@ class ParticipationRequest < ActiveRecord::Base
   scope :upcoming,             -> { where( arel_table[:date].gteq(Date.today)) }
   scope :past,                 -> { where( arel_table[:date].lt(Date.today)) }
   scope :canceled_or_declined, -> { where( arel_table[:state].eq('canceled').or(arel_table[:state].eq('declined'))) }
+  scope :tomorrow,             -> { where( state: 'accepted', date: Date.tomorrow ) }
 
   #
   # Create a ParticipationRequest if everything is correct, and if it is, it also create a conversation
@@ -223,6 +225,13 @@ class ParticipationRequest < ActiveRecord::Base
   def send_email_to_teacher
     ParticipationRequestMailer.delay.you_received_a_request(self)
     nil
+  end
+
+  # When a request is created (always by user), we alert the teacher via sms
+  #
+  # @return nil
+  def send_sms_to_teacher
+    structure.notify_new_participation_request_via_sms(self)
   end
 
   def reply_to_conversation(message_body, last_modified_by)

@@ -1,9 +1,9 @@
 fr:
   activerecord:
-    models:
-      phone_number:
-    attributes:
-      phone_number:
+    errors:
+      models:
+          phone_number:
+            cant_have_multiple_principal_mobile: Vous ne pouvez pas sélectionner plusieurs numéros.
   phone_numbers:
     type:
       mobile: Mobile

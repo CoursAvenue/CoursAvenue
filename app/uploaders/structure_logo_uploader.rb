@@ -1,4 +1,7 @@
 # encoding: utf-8
+# /!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\
+# /!\ RESTART SERVER IF YOU WANT TO SEE YOUR CHANGES /!\
+# /!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\
 class StructureLogoUploader < CarrierWave::Uploader::Base
   include CarrierWave::ImageOptimizer
   include Cloudinary::CarrierWave
@@ -8,7 +11,7 @@ class StructureLogoUploader < CarrierWave::Uploader::Base
     ActionController::Base.helpers.asset_path("logos/" + [version_name, "missing.png"].compact.join('/'))
   end
 
-  cloudinary_transformation :transformation => [{  width: 600, height: 600, crop: :pad }]
+  cloudinary_transformation transformation: [{  width: 600, height: 600, crop: :pad }]
   process convert: "jpg"
 
   # Create different versions of your uploaded files:
@@ -17,7 +20,7 @@ class StructureLogoUploader < CarrierWave::Uploader::Base
   end
 
   version :large do
-    # cloudinary_transformation :transformation => [{  width: 450, height: 450, crop: :pad }]
+    # cloudinary_transformation transformation: [{  width: 450, height: 450, crop: :pad }]
     process resize_to_fit: [450, 450]
   end
 

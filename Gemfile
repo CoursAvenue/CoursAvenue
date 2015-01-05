@@ -274,6 +274,9 @@ gem 'mixpanel-ruby'
 gem 'griddler'         , '~> 1.1.0'
 gem 'griddler-mandrill', '~> 1.0.1'
 
+# Send (and receive) SMS
+gem 'nexmo', '~> 2.0.0'
+
 group :development do
   # Must be loaded after mongo
   gem 'bullet'                , '~>4.14.0'

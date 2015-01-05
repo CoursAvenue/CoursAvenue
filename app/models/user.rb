@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   include Concerns::HstoreHelper
   include Concerns::HasDeliveryStatus
   include Concerns::MessagableWithLabel
+  include Concerns::SMSSender
   include ActsAsUnsubscribable
   include Rails.application.routes.url_helpers
 
@@ -214,6 +215,27 @@ class User < ActiveRecord::Base
         self.update_column :last_email_sent_status, self.email_status
         UserMailer.delay.send(self.email_status.to_sym, self)
       end
+    end
+  end
+
+  # Sends a reminder of classes on the following day.
+  #
+  # @return a Boolean, whether the sms was sent or not.
+  def send_sms_reminder
+    if phone_number and sms_opt_in?
+      courses = participation_requests.where(date: Date.tomorrow, state: 'accepted')
+      return false if courses.empty?
+
+      if courses.length > 1
+        message = I18n.t('sms.users.day_before_reminder.multiple_course',
+                         nb_courses: courses.length,
+                         start_time: I18n.l(courses.first.start_time, format: :short))
+      else
+        message = I18n.t('sms.users.day_before_reminder.one_course',
+                         start_time: I18n.l(courses.first.start_time, format: :short))
+      end
+
+      self.delay.send_sms(message, formatted_number)
     end
   end
 
@@ -623,5 +645,4 @@ class User < ActiveRecord::Base
     end
     nil
   end
-
 end

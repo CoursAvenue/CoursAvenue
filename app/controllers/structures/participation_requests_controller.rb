@@ -55,7 +55,6 @@ class Structures::ParticipationRequestsController < ApplicationController
       params[:participation_request].delete(:start_min)
     end
     @participation_request = ParticipationRequest.create_and_send_message params[:participation_request], params[:participation_request][:message][:body], current_user, @structure
-
     respond_to do |format|
       if @participation_request.persisted?
         Metric.action(@structure.id, current_user, cookies[:fingerprint], request.ip, 'participation_request')

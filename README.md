@@ -27,6 +27,7 @@ The old readme is available [here](doc/README.md).
   - [Installing `postgres` and creating a Role](#installing-postgres-and-creating-a-role)
   - [Recovering a dump](#recovering-a-dump)
   - [Making a dump](#making-a-dump)
+  - [SMS with Nexmo](#sms-nexmo)
 
 ## Local environment
 
@@ -302,3 +303,7 @@ pg_dump --host localhost --port 5432 --username "postgres" --dbname "coursavenue
 [prerender]: https://github.com/CoursAvenue/coursavenue-prerender
 [sunspot]: http://sunspot.github.io
 [brew]: http://brew.sh
+
+### SMS with Nexmo
+
+Add to the environment the Nexmo [API key and secret](https://dashboard.nexmo.com/private/settings):

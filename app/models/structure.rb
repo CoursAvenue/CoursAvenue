@@ -4,6 +4,7 @@ class Structure < ActiveRecord::Base
   include Concerns::ActiveHashHelper
   include Concerns::HasDeliveryStatus
   include Concerns::IdentityCacheFetchHelper
+  include Concerns::SMSSender
   include StructuresHelper
   include HasSubjects
   include ActsAsCommentable
@@ -103,7 +104,7 @@ class Structure < ActiveRecord::Base
                   :phone_numbers_attributes, :places_attributes, :other_emails, :last_geocode_try,
                   :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason,
                   :order_recipient, :delivery_email_status, :trial_courses_policy,
-                  :sleeping_structure, :premium, :cities_text
+                  :sleeping_structure, :premium, :cities_text, :sms_opt_in
 
   accepts_nested_attributes_for :places,
                                  reject_if: :reject_places,
@@ -476,6 +477,24 @@ class Structure < ActiveRecord::Base
   def places_around(latitude, longitude, radius=3.5)
     places.reject do |place|
       Geocoder::Calculations.distance_between([latitude, longitude], [place.latitude, place.longitude], unit: :km) >= radius.to_i
+    end
+  end
+
+  # Sends a SMS to contact number.
+  #
+  # @param participation_request — The Participation Request
+  #
+  # @return a Boolean, whether the sms was sent or not.
+  def notify_new_participation_request_via_sms(participation_request)
+    number = principal_phone_number
+
+    if number and sms_opt_in?
+      message = I18n.t('sms.structures.new_participation_request',
+                       user_name: participation_request.user.name,
+                       date: I18n.l(participation_request.date, format: :short),
+                       start_time: I18n.l(participation_request.start_time, format: :short))
+
+      delay.send_sms(message, number.number)
     end
   end
 
@@ -1162,6 +1181,13 @@ class Structure < ActiveRecord::Base
     return Rails.cache.fetch ['Structure#is_open_for_trial?', self] do
       courses.open_for_trial.any?
     end
+  end
+
+  # The principal phone number of this structure or the first one.
+  #
+  # @return The principal PhoneNumber or the first one, or nil otherwise.
+  def principal_phone_number
+    phone_numbers.where(principal_mobile: true).first || phone_numbers.first
   end
 
   private
