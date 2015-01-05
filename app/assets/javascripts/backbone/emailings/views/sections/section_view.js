@@ -4,8 +4,8 @@ Emailing.module('Views.Sections', function(Module, App, Backbone, Marionette, $,
         template: Module.templateDirname() + 'section_view',
         tagName: 'div',
         className: 'emailing-section one-half inline-block push-half--bottom',
-        itemViewContainer: '[data-type=bridges]',
-        itemView: Module.Bridges.BridgeView,
+        childViewContainer: '[data-type=bridges]',
+        childView: Module.Bridges.BridgeView,
 
         attributes: {
             'data-behavior': 'emailing-section'

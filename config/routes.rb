@@ -570,8 +570,8 @@ CoursAvenue::Application.routes.draw do
   # ----------------------------------------- Static pages
   # ------------------------------------------------------
   # Pages
-  get 'vos-resolutions-2015'           => 'home#resolutions',          as: 'home_resolutions'
-  get 'vos-resolutions-2015/resultats' => 'home#resolutions_results',  as: 'home_resolutions_results'
+  get 'vos-resolutions-2015'               => 'home#resolutions',          as: 'home_resolutions'
+  get 'vos-resolutions-2015/resultats/:id' => 'home#resolutions_results',  as: 'home_resolutions_results'
 
   get 'mon-compte'                    => 'home#redirect_to_account'
   get 'pourquoi-le-bon-cours',        to: 'redirect#why_coursavenue'

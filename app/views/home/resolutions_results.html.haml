@@ -1,0 +1,73 @@
+:ruby
+  profiles = {
+      'a' => {
+        title_old: 'Zen : Urgence ! Adoptez la zen-attitude',
+        title: 'YOGA ! Soyez zen et adoptez la zen-attitude',
+        url: root_search_page_path('yoga-bien-etre-sante', 'paris'),
+        bg: 'quizz/resolutions/profile_a.jpg',
+        content: "Oulala rien ne va plus ! Trop de stress, de surmenage, de pression : il y a urgence, l’année 2015 sera placée sous le signe de la détente, du zen et du lâcher-prise. Boostez votre confiance avec des cours de sophrologie, laissez parler votre corps avec l’eutonie, relâchez-vous avec le watsu… 2014 vous semblera bien loin !"
+      },
+      'b' => {
+        title_old: 'Créatif : On a trouvé l’artiste : vous !',
+        title: 'DESSIN ! On a trouvé l’artiste : vous !',
+        url: root_search_page_path('dessin-peinture-arts-plastiques', 'paris'),
+        bg: 'quizz/resolutions/profile_b.jpg',
+        content: "Au primaire, le roi des coloriages et de la pâte à modeler : c’était vous. Au collège, votre professeur d’arts plastiques voulait déjà acheter vos toiles. Mais en grandissant, et par manque de temps, vous avez mis tout ça de côté. Allez hop, on s’y remet : sculpture, dessin, calligraphie, foncez ! Notre conseil : succombez au home made et faites vos propres tables basses à partir de palettes récupérées. Ca fait du bien de revenir en primaire !"
+      },
+      'c' => {
+        title_old: 'Expressif : Vous vous voyez déjà en haut de l’affiche',
+        title: 'THÉÂTRE ! Vous vous voyez déjà en haut de l’affiche',
+        url: root_search_page_path('theatre-scene', 'paris'),
+        bg: 'quizz/resolutions/profile_c.jpg',
+        content: "Petit, chaque récitation de poème était un prétexte pour vous mettre en scène devant toute la classe. Chaque année, vous étiez élu d’office délégué de classe. Il faut qu’ça bouge ! Danse, musique, théâtre, improvisation… : mettez-vous au charleston, apprenez des tours de magie, ouvrez-vous à la batucada. En 2015, on balance du rythme !"
+      },
+      'd' => {
+        title_old: 'Sportif : On ne vous tient plus',
+        title: 'SPORT ! On ne vous tient plus',
+        url: root_search_page_path('sports-arts-martiaux', 'paris'),
+        bg: 'quizz/resolutions/profile_d.jpg',
+        content: "Alors là, il va falloir vous canaliser ! Ca tombe bien, on a tout ce qu’il faut : entre le kendo, jadis pratiqué par les samouraïs, la boxe thaïlandaise idéale pour vous défouler et l’escalade qui vous permet d’aller au-delà de vos limites, vous n’aurez plus à taper votre collègue pour vous défouler. Regonflé à bloc, votre quotidien sera énergique !"
+      }
+    }
+- profile = profiles[params[:id]] || profiles['a']
+
+.bg-position-top.section.relative.one-whole.relative.white.full-screen-item.bg-cover{ style: "background-image: url('https://coursavenue-public.s3.amazonaws.com/public_assets/#{profile[:bg]}')"}
+  .flexbox.full-screen-item
+    .black-curtain.north.west.one-whole.absolute
+    %div.section.one-whole.full-screen-item
+      .push--top.soft--top.one-whole.relative
+        .push--bottom
+          = link_to root_path, target: :_blank, class: 'inline-block v-middle' do
+            = image_tag 'logos/logo.png', width: 250, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'relative'
+          .push-half--left.relative.v-middle.fb-like{ data: { href: home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), layout: 'button_count', action: 'like', 'show-faces' => 'false', share: "false" } }
+          %a.push-half--left.v-middle{ href: "https://twitter.com/share", class: "twitter-share-button", data: { text: "Quelles seront vos résolutions 2015 ? @CoursAvenue", lang: "fr" }} Tweeter
+        .v-middle
+          %h2.alpha.text--center.white.orange-transparent-box.soft
+            C'EST DÉCIDÉ, EN 2015 JE ME METS AU :
+          .main-container
+            .two-thirds.f-weight-bold.line-height-1-5.push--bottom
+              %h4.beta= profile[:title]
+              .gamma= profile[:content]
+            %div
+              = link_to media_share_url(home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), :facebook), class: 'btn--yellow btn btn--bigger', target: :_blank do
+                %i.fa.fa-facebook
+                Facebook
+              = link_to media_share_url(home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), :twitter), class: 'btn--yellow btn btn--bigger push-half--left' do
+                %i.fa.fa-twitter
+                Twitter
+              = link_to 'Recommencer le test', home_resolutions_path, class: 'btn btn--yellow btn--bigger push-half--left'
+          .orange-transparent-box.soft.push--top
+            .grid.main-container
+              .grid__item.one-half.v-middle>
+                %h4.white.flush Cours insolites, exclusivités, promotions, laissez-vous tenter par des milliers de loisir recommandé par des élèves qui sont près de chez vous :&nbsp;
+              .grid__item.one-half.v-middle>
+                = simple_form_for User.new, html: { class: '' } do |f|
+                  %input{ type: 'hidden', name: 'redirect_to', value: profile[:url] }
+                  = f.input :subscription_from, as: :hidden, input_html: { value: 'quizz' }
+                  = f.input :email, label: false, input_html: { placeholder: 'Adresse e-mail', class: 'input--large one-whole' }, wrapper_html: { class: 'flush inline-block v-middle' }
+                  = f.submit "Trouver un cours", class: 'btn btn--yellow btn--bigger soft-half--ends'
+
+
+= content_for :right_after_head do
+  %link{ href: 'https://fonts.googleapis.com/css?family=Pacifico', rel: 'stylesheet', type: 'text/css' }
+  %link{ href: 'https://fonts.googleapis.com/css?family=Kameron', rel: 'stylesheet', type: 'text/css' }
