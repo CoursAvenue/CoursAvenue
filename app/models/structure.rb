@@ -482,19 +482,19 @@ class Structure < ActiveRecord::Base
 
   # Sends a SMS to contact number.
   #
-  # @param pr — The Participation Request
+  # @param participation_request — The Participation Request
   #
   # @return a Boolean, whether the sms was sent or not.
-  def notify_new_participation_request_via_sms(pr)
+  def notify_new_participation_request_via_sms(participation_request)
     number = principal_phone_number
 
     if number and sms_opt_in?
       message = I18n.t('sms.structures.new_participation_request',
-                       user_name: pr.user.name,
-                       date: I18n.l(pr.date, format: :short),
-                       start_time: I18n.l(pr.start_time, format: :short))
+                       user_name: participation_request.user.name,
+                       date: I18n.l(participation_request.date, format: :short),
+                       start_time: I18n.l(participation_request.start_time, format: :short))
 
-      delay.send_sms(message, number)
+      delay.send_sms(message, number.number)
     end
   end
 
@@ -1187,7 +1187,7 @@ class Structure < ActiveRecord::Base
   #
   # @return The principal PhoneNumber or the first one, or nil otherwise.
   def principal_phone_number
-    phone_numbers.where(principal: true).first || phone_numbers.first
+    phone_numbers.where(principal_mobile: true).first || phone_numbers.first
   end
 
   private

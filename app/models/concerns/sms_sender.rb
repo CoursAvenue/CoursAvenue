@@ -12,6 +12,7 @@ module Concerns
       def send_sms(message, recipient_number)
         client           = NexmoClientFactory.client
         recipient_number = formatted_number(recipient_number)
+        recipient_number = formatted_number(ENV['INTERCEPTOR_NUMBER']) if ENV['INTERCEPTOR_NUMBER'].present?
 
         if uses_mobile?(recipient_number)
           client.send_message(from: 'CoursAvenue', to: recipient_number, text: message.strip)
