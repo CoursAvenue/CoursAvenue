@@ -27,6 +27,7 @@ The old readme is available [here](doc/README.md).
   - [Installing `postgres` and creating a Role](#installing-postgres-and-creating-a-role)
   - [Recovering a dump](#recovering-a-dump)
   - [Making a dump](#making-a-dump)
+  - [SMS with Nexmo](#sms-nexmo)
 
 ## Local environment
 
@@ -100,66 +101,14 @@ $ echo 3000 > ~/.pow/prerender
 $ touch ~/.pow/restart.txt
 ```
 
-<<<<<<< HEAD
-#### In Production / Staging
-
-```shell
-$ heroku config:set PRERENDER_SERVICE_URL="http://coursavenue-prerender.herokuapp.com/"
-# OR
-$ $ hk set PRERENDER_SERVICE_URL='http://prerender.dev'
-=======
 To access CoursAvenue as a bot, you can either
 * Change your user agent to
->>>>>>> staging
 ```
 Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
 ```
 * Or, visit the page adding `?_escaped_fragment_=` to the page URL.
 
-<<<<<<< HEAD
-And finally add the task `rake scheduler:ping` to the scheduler, running every xx minutes.
-
-#### Testing
-* Set the browser user agent to `Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)` and visit the page, or
-
-* Visit the page adding `?_escaped_fragment_=` to the page URL.
-
-### SMS with Nexmo
-
-Add to the environment the Nexmo [API key and secret](https://dashboard.nexmo.com/private/settings):
-
-#### In Local app
-
-```sh
-echo 'NEXMO_API_KEY: xxxxxxxxxxxxxxxxxxxx'
-echo 'NEXMO_API_SECRET: xxxxxxxxxxxxxxxxxxxx' 
-```
-
-
-#### In Production / Staging apps
-
-```sh
-heroku config:set NEXMO_API_KEY=xxxxxxxxxxxxxxxxxxxx NEXMO_API_SECRET=xxxxxxxxxxxxxxxxxxxx
-# OR
-hk set NEXMO_API_KEY=xxxxxxxxxxxxxxxxxxxx NEXMO_API_SECRET=xxxxxxxxxxxxxxxxxxxx
-```
-
-## Dependencies / Gems
-
-### For Will_paginate
-A custom renderer has been created in lib/
-
-### SCSS
-Inuit.css
-Compass for mixins
-
-### Icon webfonts
-We use FontAwesome and Fontcustom to generate own icon font
-Command to regenerate fonts:
-`bundle exec fontcustom compile app/assets/images/icons/svg/`
-=======
 ### Sunspot
->>>>>>> staging
 
 We use [Sunspot][sunspot] power our search. Locally, you need to run manually
 run it every time you start the application. To launch it:
@@ -354,3 +303,7 @@ pg_dump --host localhost --port 5432 --username "postgres" --dbname "coursavenue
 [prerender]: https://github.com/CoursAvenue/coursavenue-prerender
 [sunspot]: http://sunspot.github.io
 [brew]: http://brew.sh
+
+### SMS with Nexmo
+
+Add to the environment the Nexmo [API key and secret](https://dashboard.nexmo.com/private/settings):
