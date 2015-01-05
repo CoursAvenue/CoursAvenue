@@ -1,5 +1,6 @@
 - content_for? :title do
-  Et vous ? Quelles sont vos bonnes résolutions 2015 ?
+  Quelles seront vos résolutions 2015 ?
+
 :ruby
   questions = []
   questions << {
@@ -53,16 +54,6 @@
       ]
   }
   questions << {
-      title: 'VOTRE CHANSON ?',
-      bg: 'https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/bg_blurred.jpg',
-      answers: [
-        { value: 'b', title: '« J’aurais voulu être un artiste… »' },
-        { value: 'c', title: '« Pourvu que ça dure, la belle aventure, les fêtes à Bayonne… »' },
-        { value: 'a', title: '« Fallait rester zen, soyons zen… »' },
-        { value: 'd', title: '« Eye of the tiger… »' }
-      ]
-  }
-  questions << {
       title: 'VOTRE JOB DE RÊVE ?',
       bg: 'https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/bg_blurred.jpg',
       answers: [
@@ -72,47 +63,39 @@
         { value: 'c', title: 'Professeur de surf en Australie' }
       ]
   }
-  questions << {
-      title:      "VOTRE DERNIER CADEAU D'ANNIVERSAIRE ?",
-      bg: 'https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/bg_blurred.jpg',
-      answers: [
-       { value: 'b', title: 'Un kit de thé'                                      , subtitle: '(moments détente en tête-à-tête avec vous-même… ou  avec des amis)' },
-        { value: 'd', title: 'Une place pour le match OM/PSG au Stade de France '                    , subtitle: '(faites sortir le supporter qui est en vous !)' },
-        { value: 'a', title: 'Un kit home made pour décorer votre nouvel appart' , subtitle: '(vous êtes fan du DIY)' },
-        { value: 'c', title: 'Une place de concert pour Beyoncé'                 , subtitle: '(alias la reine de la pop)' }
-      ]
-  }
 
-
+.north.west.absolute.push.on-top
+  = link_to root_path, target: :_blank, class: 'inline-block v-middle' do
+    = image_tag 'logos/logo.png', width: 250, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'v-middle'
+  .push-half--left.relative.v-middle.fb-like{ data: { href: home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), layout: 'button_count', action: 'like', 'show-faces' => 'false', share: "false" } }
+  %a.push-half--left.v-middle{ href: "https://twitter.com/share", class: "twitter-share-button", data: { text: "Quelles seront vos résolutions 2015 ? @CoursAvenue", lang: "fr" }} Tweeter
 #fullpage.ff-kameron
   %div.section.relative.one-whole.relative.white.full-screen-item.bg-cover{ style: "background-image: url('#{'https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/bg.jpg'}')"}
-    = image_tag 'logos/logo.png', width: 250, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'north west absolute push on-top'
     .flexbox.full-screen-item
       .black-curtain.north.west.one-whole.absolute
       .push--top.soft--top.one-whole.flexbox__item
         .v-middle.relative
           %h1.soft--top.text--center{ style: 'font-size: 60px;'}
-            Et vous ? Quelles sont vos
+            Quelles seront vos
             %br
             %span.ff-pacifico bonnes résolutions 2015 ?
           .text--center
-            %a.btn--yellow.btn.btn--enormous{ href: '#', data: { behavior: 'move-section-down' } } Faire le test
+            %a.btn--yellow.btn.btn--enormous{ href: '#', data: { behavior: 'move-section-down' } } Commencer le test
 
   - questions.each_with_index do |question, index|
     - last = (questions.length == index + 1)
     %div.section.one-whole.bg-cover{ style: "background-image: url('#{question[:bg]}');" }
       .black-curtain.north.west.one-whole.absolute
-      .relative{ style: 'padding-bottom: 10vh;' }
-        = image_tag 'logos/logo.png', width: 250, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'push'
-        %h2.flush.f-size-big.text--center.white.orange-box.soft-half= question[:title]
+      .relative{ style: 'padding-bottom: 10vh; padding-top: 100px;' }
+        %h2.flush--bottom.f-size-big.text--center.white.orange-box.soft-half= question[:title]
         .grid--full
           - question[:answers].each_with_index do |answers, answer_index|
-            .black-curtain__fading-on-hover.bg-position-top.bg-cover.relative.text--center.white.grid__item.one-half{ style: "background-image: url('https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/q#{index + 1}/#{answer_index + 1}.jpg'); height: 35vh;", data: { name: "resolutions_question_#{index + 1}", for: "question_#{index + 1}_value_#{answer_index + 1}", answer: true, behavior: "#{last ? 'submit-form' : 'move-section-down'}" } }>
+            .pointer.black-curtain__fading-on-hover.bg-position-top.bg-cover.relative.text--center.white.grid__item.one-half{ style: "background-image: url('https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/q#{index + 1}/#{answer_index + 1}.jpg'); height: 35vh;", data: { name: "resolutions_question_#{index + 1}", for: "question_#{index + 1}_value_#{answer_index + 1}", answer: true, behavior: "#{last ? 'submit-form' : 'move-section-down'}" } }>
               .black-curtain.north.west.one-whole.absolute
               .f-weight-600.soft-half--sides.absolute.west.one-whole{ style: "top: 50%; margin-top: -4em;"}
-                .beta.line-height-1-7= answers[:title]
+                .alpha= answers[:title]
                 - if answers[:subtitle].present?
-                  .delta.west.one-whole= answers[:subtitle]
+                  .gamma.west.one-whole= answers[:subtitle]
             %input.visuallyhidden{ id: "question_#{index + 1}_value_#{answer_index + 1}", type: 'radio', name: "resolutions_question_#{index + 1}", value: answers[:value] }
 
 = content_for :right_after_head do
@@ -150,6 +133,6 @@
                     max_value = value;
                 }
             });
-            window.location = Routes.home_resolutions_results_path({ profile: profile });
+            window.location = Routes.home_resolutions_results_path({ id: profile });
         });
     });

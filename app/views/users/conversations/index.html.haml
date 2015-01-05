@@ -22,10 +22,6 @@
         Envoyez des messages personnels aux professeurs, associations ou écoles que vous avez ajoutés en favori ou qui vous ont déjà sollicité(e) pour déposer votre avis.
         %a#understood__user_conversation_message{href: 'javascript:void(0)'} J'ai compris
 
-    - if @user.structures.any?
-      .text--center.push--bottom
-        = link_to 'Nouveau message', new_user_message_path(@user), class: 'btn btn--green btn--large'
-
     .grid.push-half--bottom
       .grid__item.one-third>
         %select#conversation_label{ name: 'conversation_label_id' }
