@@ -4,6 +4,11 @@
 
   .panel__body.soft
     .text--center
+      = link_to 'javascript:void(0)', class: 'btn btn--green', data: { action: 'dropbox' } do
+        %i.fa.fa-dropbox
+        Telecharger dans Dropbox
+
+    .text--center
       %h2.f-weight-300.flush= "CA : #{@orders.map(&:amount).reduce(&:+)}€ TTC (#{readable_amount(@orders.map(&:amount).reduce(&:+) / 1.2)} HT)"
 
     %h2.text--center.f-weight-300 Total premium: #{SubscriptionPlan.where(SubscriptionPlan.arel_table[:expires_at].gt(Date.today)).count}
@@ -34,6 +39,7 @@
 = content_for :scripts do
   = javascript_include_tag 'libs/highcharts/highcharts'
   = javascript_include_tag 'libs/highcharts/modules/exporting'
+  %script{ src: 'https://www.dropbox.com/static/api/2/dropins.js', id: 'dropboxjs', data: { app: { key: ENV['DROPBOX_APP_KEY'] } } }
   :javascript
     $(function() {
         new Highcharts.Chart({
@@ -46,5 +52,30 @@
                 name: 'Abonnements'
                }
             ]
+        });
+
+        $('[data-action=dropbox]').click(function(event) {
+            event.preventDefault();
+
+            $.ajax({
+              url: Routes.order_filenames_pro_subscription_plans_path(),
+            }).done(function(data) {
+              var files = JSON.parse(data);
+
+              var options = {
+                files: files,
+                success: function() {
+                  GLOBAL.flash('', 'success');
+                  // Update models.
+                },
+                cancel: function() {
+                },
+                error: function(errorMessage) {
+                }
+              }
+
+              console.log(files);
+              Dropbox.save(options);
+            });
         });
     });
