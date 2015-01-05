@@ -543,8 +543,8 @@ class User < ActiveRecord::Base
   end
 
   def migrate_avatar_to_cloudinary
-    if self.avatar and self.c_image.nil?
-      cloudinary_image = Cloudinary::Uploader.upload(self.avatar.url)
+    if avatar and c_image.nil?
+      cloudinary_image = Cloudinary::Uploader.upload(avatar.url)
       self.update_column(:c_image, "v#{cloudinary_image['version']}/#{cloudinary_image['public_id']}.#{cloudinary_image['format']}")
     end
   end
