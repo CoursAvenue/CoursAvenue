@@ -120,4 +120,26 @@ describe User do
 
     end
   end
+
+  describe '#avatar_url' do
+    context 'User from Facebook' do
+      let(:user) { FactoryGirl.create(:user_from_facebook) }
+
+      it 'returns the url from facebook' do
+        expect(user.avatar_url).to eq(user.fb_avatar)
+      end
+    end
+
+    context 'User from the website' do
+      class Avatar < Struct.new(:avatar); end
+
+      let(:avatar_object) { Avatar.new(Faker::Internet.url) }
+      let(:user) { FactoryGirl.create(:user, avatar: avatar_object) }
+
+      it 'returns the url from the uploader' do
+        expect(user.avatar_url).to eq(user.avatar.url)
+      end
+    end
+
+  end
 end
