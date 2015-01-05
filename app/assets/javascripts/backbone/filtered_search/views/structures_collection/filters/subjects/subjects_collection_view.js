@@ -5,12 +5,12 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
     Module.SubjectsCollectionView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'subjects_collection_view',
 
-        itemView: Module.SubjectChildrenView,
-        itemViewContainer: '[data-type="subject-children-view"]',
+        childView: Module.SubjectChildrenView,
+        childViewContainer: '[data-type="subject-children-view"]',
         breadcrumb_template: Handlebars.compile('<li><a data-depth="{{depth}}" data-root-subject-slug="{{root_subject_slug}}" data-type="breadcrumb" class="pointer" data-value="{{slug}}">{{name}}</a></li>'),
 
         initialize: function initialize () {
-            this.menu_item = new this.itemView({ model: this.collection.first() });
+            this.menu_item = new this.childView({ model: this.collection.first() });
             this.menu_item.on('filter:subject', function(data) {
                 this.announceSubject(data);
                 this.activateButton(data.root_subject_id);
@@ -44,7 +44,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
         },
 
         onRender: function onRender () {
-            this.$(this.itemViewContainer).append(this.menu_item.el);
+            this.$(this.childViewContainer).append(this.menu_item.el);
         },
 
         announceBreadcrumb: function announceBreadcrumb (event) {

@@ -20,8 +20,8 @@ StructureProfile.module('Views.Structure.Teachers', function(Module, App, Backbo
 
     Module.TeachersCollectionView = Backbone.Marionette.CollectionView.extend({
         template: Module.templateDirname() + 'teachers_collection_view',
-        itemView: Module.TeacherView,
-        itemViewContainer: '[data-type=container]',
+        childView: Module.TeacherView,
+        childViewContainer: '[data-type=container]',
 
         collectionEvents: {
             'reset': 'render'
@@ -35,7 +35,7 @@ StructureProfile.module('Views.Structure.Teachers', function(Module, App, Backbo
             }
             this.$('[data-behavior="lazy-load"]').lazyload();
         },
-        itemViewOptions: function itemViewOptions (model, index) {
+        childViewOptions: function childViewOptions (model, index) {
             return { index: index };
         }
 

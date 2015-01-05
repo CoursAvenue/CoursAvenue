@@ -4,7 +4,7 @@
     %ul.galery-rslides.hidden>
       - unless without_map
         %li
-          %div{ data: { type: "google-maps" } }>
+          #structure-profile-map{ style: 'height: 500px;'}>
       - medias.each_with_index do |media, index|
         - cache ['structure_top1', media] do
           %li.relative.bg-contain

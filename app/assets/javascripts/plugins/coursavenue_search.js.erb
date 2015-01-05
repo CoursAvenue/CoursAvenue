@@ -41,9 +41,9 @@
             this.city_input     = this.$element.find('[name=city]')
             if (this.address_input.length > 0) { this.address_input.addressPicker(); }
             if (this.$element.hasClass('tt-hint')) { return; }
-            this.initializeEngines();
             this.initializeTemplates();
             var that = this;
+            var optionalSearchWords = GLOBAL.EXCLUDED_SEARCH_WORDS.source.replace(/\(|\)/g, '').replace(/\|/g, ',');
             var client = new AlgoliaSearch('<%= ENV['ALGOLIA_APPLICATION_ID'] %>', '<%= ENV['ALGOLIA_SEARCH_API_KEY'] %>');
             this.subjects_input.typeahead({
                 highlight : true,
@@ -58,8 +58,7 @@
                         return that.subjects_template(data);
                     }
                 },
-                // source: this.subject_engine.ttAdapter()
-                source: client.initIndex('<%= Subject.index_name %>').ttAdapter({ hitsPerPage: 7 })
+                source: client.initIndex('<%= Subject.index_name %>').ttAdapter({ hitsPerPage: 7, optionalWords: optionalSearchWords })
             }, {
                 displayKey: 'name',
                 templates: {
@@ -68,8 +67,7 @@
                         return that.structure_template(data);
                     }
                 },
-                // source: this.structure_engine.ttAdapter()
-                source: client.initIndex('<%= Structure.index_name %>').ttAdapter({ hitsPerPage: 7 })
+                source: client.initIndex('<%= Structure.index_name %>').ttAdapter({ hitsPerPage: 7, optionalWords: optionalSearchWords })
             });
 
             this.$element.submit(function(event, data) {
@@ -102,38 +100,6 @@
                 this.$element.submit();
                 // }
             }.bind(this));
-        },
-
-        /*
-         * Create Bloodhound engines
-         */
-        initializeEngines: function initializeEngines () {
-            this.subject_engine   = new Bloodhound({
-                datumTokenizer: function datumTokenizer (d) { return Bloodhound.tokenizers.whitespace(d.num); },
-                queryTokenizer: Bloodhound.tokenizers.whitespace,
-                remote: {
-                    replace: function replace (url, query) {
-                        query = query.replace(GLOBAL.EXCLUDED_SEARCH_WORDS, '');
-                        return Routes.typeahead_structures_path({ format: 'json', name: query });
-                    },
-                    filter: function filter(parsed_response) {
-                        return _.reject(parsed_response, function(data) { return data.type != 'subject' });
-                    },
-                    url: Routes.typeahead_structures_path({ format: 'json', name: '%QUERY' })
-                }
-            });
-            this.structure_engine   = new Bloodhound({
-                datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.num); },
-                queryTokenizer: Bloodhound.tokenizers.whitespace,
-                remote: {
-                    url: Routes.typeahead_structures_path({ format: 'json' }) + '?name=%QUERY',
-                    filter: function filter(parsed_response) {
-                        return _.reject(parsed_response, function(data) { return data.type != 'structure' });
-                    }
-                }
-            });
-            this.subject_engine.initialize();
-            this.structure_engine.initialize();
         },
 
         /*

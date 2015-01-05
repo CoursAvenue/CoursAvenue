@@ -8,6 +8,7 @@
         background-position: top;
     }
 }
+.bg-position-top { background-position: top; }
 .bg-fixed { background-attachment: fixed; }
 .bg-cover   { @include background-size(cover); }
 .bg-contain { @include background-size(contain); }
@@ -350,3 +351,9 @@
         background: rgba(0,0,0,.1);
     }
 }
+.black-curtain__fading-on-hover:hover {
+    .black-curtain {
+        background: rgba(0,0,0,.1);
+    }
+}
+.full-screen-item { height: 100vh; }

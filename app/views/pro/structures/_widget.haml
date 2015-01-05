@@ -5,13 +5,13 @@
   .coursavenue-widget-top-logo-wrapper
     .coursavenue-widget-top-logo-inner-wrapper
       .coursavenue-widget-top-logo
-        = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_medium: 'referral', utm_campaign: 'widget', utm_source: @structure.slug.underscore), target: '_blank', title: "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", class: 'coursavenue-widget-title' do
-          %img.coursavenue-recommanded{src: asset_path('widget/recommanded_on.png')}
-        = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_medium: 'referral', utm_campaign: 'widget', utm_source: @structure.slug.underscore), target: '_blank', title: "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", class: 'coursavenue-widget-title' do
-          %img.coursavenue-logo{src: asset_path('widget/logo.png')}
-        = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_medium: 'referral', utm_campaign: 'widget', utm_source: @structure.slug.underscore), target: '_blank', title: "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", class: 'coursavenue-widget-title' do
-          %img.coursavenue-stars{src: asset_path('widget/stars.png')}
-  %p{style: 'text-align: center; margin-bottom: 10px;'}
+        = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_medium: 'referral', utm_campaign: 'widget', utm_source: @structure.slug.underscore), target: '_blank', title: "Cours de #{@structure.subjects.map{ |subj| subj.name.downcase }.join(', ')} sur CoursAvenue", class: 'coursavenue-widget-title' do
+          %img.coursavenue-recommanded{ src: asset_path('widget/recommanded_on.png') }
+        = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_medium: 'referral', utm_campaign: 'widget', utm_source: @structure.slug.underscore), target: '_blank', title: "Cours de #{@structure.subjects.map{ |subj| subj.name.downcase }.join(', ')} sur CoursAvenue", class: 'coursavenue-widget-title' do
+          %img.coursavenue-logo{ src: asset_path('widget/logo.png') }
+        = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_medium: 'referral', utm_campaign: 'widget', utm_source: @structure.slug.underscore), target: '_blank', title: "Cours de #{@structure.subjects.map{ |subj| subj.name.downcase }.join(', ')} sur CoursAvenue", class: 'coursavenue-widget-title' do
+          %img.coursavenue-stars{ src: asset_path('widget/stars.png') }
+  %div{ style: 'text-align: center; margin-bottom: 10px;' }
     = link_to 'Déposer mon avis sur CoursAvenue', new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_medium: 'referral', utm_campaign: 'widget', utm_source: @structure.slug.underscore), class: 'coursavenue-btn', target: '_blank'
   - if params[:last_comments] and params[:last_comments] == 'true'
     - params[:nb_comments] ||= 3
@@ -21,18 +21,18 @@
     - if params[:nb_comments] > 0
       - @structure.comments.accepted[0..(params[:nb_comments] - 1)].each do |comment|
         .coursavenue-white-box
-          %p.coursavenue-header
+          %div.coursavenue-header
             = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_medium: 'referral', utm_campaign: 'widget', utm_source: @structure.slug.underscore, anchor: "recommandation-#{comment.id}"), class: 'coursavenue-widget-link', target: '_blank' do
               %strong= comment.author_name
               = "— #{comment.course_name}"
           - if comment.title.present?
-            %p.coursavenue-comment-paragraph
+            %div.coursavenue-comment-paragraph
               %strong= "\"#{comment.title}\""
           .coursavenue-comment-paragraph
             - omission = link_to('Lire la suite →', structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_medium: 'referral', utm_campaign: 'widget', utm_source: @structure.slug.underscore, anchor: "recommandation-#{comment.id}"), target: '_blank', class: 'coursavenue-widget-link')
             = truncate_html(simple_format(comment.content), length: 600, omission: "… #{omission}")
-          %p.coursavenue-comment-footer
+          %div.coursavenue-comment-footer
             %i= "Avis déposé le #{I18n.l(comment.created_at, format: :date)}"
-    %p{style: 'text-align: center; margin-bottom: 5px;'}
+    %div{ style: 'text-align: center; margin-bottom: 5px;' }
       = link_to 'Voir tous les avis sur CoursAvenue', structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_medium: 'referral', utm_campaign: 'widget', utm_source: @structure.slug.underscore), class: 'coursavenue-btn', target: '_blank'
 

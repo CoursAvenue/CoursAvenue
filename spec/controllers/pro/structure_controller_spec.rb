@@ -2,6 +2,7 @@ require "rails_helper"
 
 describe Pro::StructuresController do
   include Devise::TestHelpers
+
   let(:admin) { FactoryGirl.create(:admin) }
 
   before do
@@ -83,13 +84,6 @@ describe Pro::StructuresController do
     describe "GET #add_subjects" do
       it "'s a success" do
         xhr :get, :add_subjects, id: admin.structure.slug
-        expect(response).to be_success
-      end
-    end
-
-    describe "GET #edit" do
-      it "'s a success" do
-        get :edit, id: admin.structure.slug
         expect(response).to be_success
       end
     end

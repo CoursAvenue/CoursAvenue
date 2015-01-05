@@ -76,11 +76,14 @@ class StructuresController < ApplicationController
     @place_ids                            = @structure.places.map(&:id)
     @city                                 = @structure.city
 
-    Metric.delay(queue: 'metric').view(@structure.id, current_user, cookies[:fingerprint], request.ip) unless current_pro_admin
-    if !current_pro_admin and !@structure.premium?
-      _params = ((params[:lat].present? and params[:lng].present?) ? { lat: params[:lat], lng: params[:lng] } : {})
-      @similar_profiles = @structure.similar_profiles(21, _params)
-      Metric.delay.print(@similar_profiles.map(&:id), current_user, cookies[:fingerprint], request.ip)
+    if !current_pro_admin
+      Metric.delay(queue: 'metric').view(@structure.id, current_user, cookies[:fingerprint], request.ip)
+    end
+    if !@structure.premium?
+      @similar_profiles = @structure.similar_profiles(21)
+      if !current_pro_admin
+        Metric.delay.print(@similar_profiles.map(&:id), current_user, cookies[:fingerprint], request.ip)
+      end
     end
     @medias = (@structure.premium? ? @structure.medias.cover_first.videos_first : @structure.medias.cover_first.videos_first.limit(Media::FREE_PROFIL_LIMIT))
     @model = StructureShowSerializer.new(@structure, {
