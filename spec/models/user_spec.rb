@@ -143,7 +143,7 @@ describe User do
     #   end
     #
     #   let(:image_url) { 'http://placehold.it/500' }
-    #   let(:user)      { FactoryGirl.create(:user, avatar: image_url) }
+    #   let(:user)      { FactoryGirl.create(:user, remote_avatar_url: image_url) }
     #
     #   it 'returns the url from the uploader' do
     #     expect(user.avatar.wide).to have_dimensions(800, 800)

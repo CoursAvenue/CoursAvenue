@@ -18,12 +18,12 @@
                 = f.input :avatar, label: false, wrapper_html: { style: 'position:absolute; left:-1000px;' },input_html: { id: 'avatar-input' }
             - else
               .input.text--center
-                = link_to '#', style: 'width: 200px; height: 200px; background-color: #555555; padding-top: 60px;', class: 'block white delta line-height-1-7 v-middle', id: 'avatar-placeholder', data: { trigger: true } do
+                = link_to '#', style: 'width: 200px; height: 200px; background-color: #555555; padding-top: 60px;', class: 'block white delta line-height-1-7 v-middle', id: 'avatar-placeholder', data: { filepicker: true } do
                   Ajouter
                   %br
                   ma photo
-                %img.hidden{ style: 'max-height: 200px; max-width: 200px;', height: 200, width: 200 }
-              = f.input :avatar, wrapper_html: {class: 'visuallyhidden'}
+                %img.hidden{ style: 'max-height: 200px; max-width: 200px;', height: 200, width: 200, data: { filepicker: { image: true } } }
+              = f.filepicker_field :remote_avatar_url, multiple: false, services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false, class: 'visuallyhidden', button_text: 'Ajouter ma photo', button_class: 'visuallyhidden', onchange: 'onPhotoUpload(event)'
         .grid__item.two-thirds>
           = f.input :first_name, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
           = f.input :last_name, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
@@ -48,9 +48,17 @@
 
 - unless @user.has_avatar?
   = content_for :scripts do
+    = render 'shared/libs/filepicker_scripts'
     :javascript
+      function onPhotoUpload(event) {
+        $('#avatar-placeholder').hide();
+        $('img[data-filepicker-image]').attr('src', event.fpfile.url);
+        $('img[data-filepicker-image]').show();
+      }
+
       $(function() {
-          $('#user_avatar').change(function() {
-              $('#avatar-placeholder').hide();
+          $('[data-filepicker]').click(function(event) {
+              event.preventDefault();
+              $('button.filepicker').click();
           });
       });
