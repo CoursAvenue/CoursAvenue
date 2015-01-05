@@ -13,24 +13,24 @@ class MediaUploader < CarrierWave::Uploader::Base
 
   # Create different versions of your uploaded files:
   version :original do
-    cloudinary_transformation :transformation => [{  width: 750, height: 750, crop: :limit },
-                                                  { overlay: 'watermark', width: 150, gravity: :south_east, y: 5, x: 10 } ]
+    cloudinary_transformation :transformation => [{ width: 750, height: 750, crop: :limit },
+                                                  { overlay: 'watermark', width: 150, gravity: :south_east, y: 5, x: 10 }]
   end
 
   version :thumbnail do
-    cloudinary_transformation :transformation => [{  width: 500, height: 500, crop: :limit },
-                                                  { overlay: 'watermark', width: 100, gravity: :south_east, y: 5, x: 10 } ]
+    cloudinary_transformation :transformation => [{ width: 500, height: 500, crop: :limit },
+                                                  { overlay: 'watermark', width: 100, gravity: :south_east, y: 5, x: 10 }]
     process quality: 70
   end
 
   version :small_thumbnail do
-    cloudinary_transformation :transformation => [{  width: 70, height: 70, crop: :limit } ]
+    cloudinary_transformation :transformation => [{ width: 70, height: 70, crop: :limit }]
     process quality: 70
   end
 
   version :thumbnail_cropped do
-    cloudinary_transformation :transformation => [ { width: 450, height: 300, crop: :fit },
-                                                   { overlay: 'watermark', width: 100, gravity: :south_east, y: 5, x: 10 } ]
+    cloudinary_transformation :transformation => [{ width: 450, height: 300, crop: :fit },
+                                                   { overlay: 'watermark', width: 100, gravity: :south_east, y: 5, x: 10 }]
     process quality: 70
   end
 
