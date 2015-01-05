@@ -239,7 +239,7 @@ class User < ActiveRecord::Base
   def avatar_url(format = :normal)
     if avatar.url
       self.avatar.url(format)
-    elsif self.read_attribute(:fb_avatar)
+    elsif read_attribute(:fb_avatar)
       self.fb_avatar(format)
     else
       self.avatar
