@@ -238,4 +238,27 @@ describe Planning do
   #     end
   #   end
   # end
+
+  context 'indexation' do
+    describe '#remove_from_jobs' do
+      subject { FactoryGirl.create(:planning) }
+
+      before do
+        subject.delay.index.save
+      end
+
+      it 'has the object in the DelayJob queue' do
+        jobs = Delayed::Job.select { |job| YAML.load(job.handler).object == subject }
+        expect(jobs).to_not be_empty
+      end
+
+      it 'deletes all the jobs related to the Planning' do
+        subject.destroy
+        jobs = Delayed::Job.select { |job| YAML.load(job.handler).object == subject }
+
+        expect(jobs).to be_empty
+      end
+
+    end
+  end
 end

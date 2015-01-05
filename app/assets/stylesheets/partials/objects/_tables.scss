@@ -46,6 +46,12 @@
     }
 }
 
+.table--hoverable{
+    tbody {
+        tr:hover td, tr:hover th { background-color: $hover-list-element; }
+    }
+}
+
 /**
  * Data table
  */

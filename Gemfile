@@ -30,7 +30,7 @@ gem 'actionpack-page_caching'
 # Mainly used for caching: see:  config/bust_http_cache.rb
 gem 'heroku-api'
 gem 'bust_rails_etags'          # https://github.com/n8/bust_rails_etags
-gem 'bugsnag'
+gem 'bugsnag'         , '~>2.6.0'
 
 gem 'paypal-recurring', '~>1.1.0'
 
@@ -146,9 +146,6 @@ gem 'gibbon'                    , '~>1.1.3'
 gem 'roadie'                    , '~>3.0.1'
 gem 'roadie-rails'              , '~>1.0.3'
 
-# Includes Backbone Marionette
-# gem 'marionette-rails'          , '~>2.0.3'
-gem 'marionette-rails'          , '~>1.4.1'
 # Includes bacbone.relational
 gem 'backbone-relational-rails' , '~>0.8.8'
 # See issue: https://github.com/leshill/handlebars_assets/pull/46
@@ -203,6 +200,7 @@ group :production, :staging do
   # gem 'heroku_rails_deflate'      , '~>1.0.3'
   # gem 'rack-zippy'
   gem 'heroku-deflater'
+  # gem 'sprockets-image_compressor', '~>0.3.0'
   gem 'htmlcompressor'            , '~>0.1.2'
   gem 'image_optim'               , '~>0.19.1'
   gem 'image_optim_pack'          , '~>0.2.0.20141210'
@@ -219,6 +217,7 @@ group :test do
   gem 'database_cleaner',   '~> 1.2.0'
   gem 'capybara',           '~> 2.2.1'
   gem 'rspec-instafail',    '~> 0.2.5'
+  gem 'mongoid-rspec',      '~> 2.0.0.rc1'
 end
 
 group :development do
@@ -241,7 +240,7 @@ group :development do
   gem 'binding_of_caller'
   gem 'awesome_print'
   gem 'meta_request', '~>0.3.0'
-  gem 'pry-rails', require: false
+  gem 'pry-rails'
 end
 
 group :development, :test do
@@ -250,6 +249,7 @@ group :development, :test do
   # Permits to travel in the past
   gem 'delorean'
 end
+
 gem 'dotenv-rails'
 
 gem 'rmagick', '~>2.13.3', require: 'RMagick'
@@ -265,7 +265,7 @@ gem 'identity_cache'           , '~> 0.2.2'
 gem 'cityhash'                 , '~> 0.8.1'
 
 # JS heavy pages pre-rendering
-gem 'prerender_rails'
+gem 'prerender_rails'          , '~> 1.1.1'
 
 # Track envents starting in the App
 gem 'mixpanel-ruby'

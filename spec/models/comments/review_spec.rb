@@ -29,10 +29,13 @@ describe Comment::Review do
     end
 
     context :validations do
-      let(:comment) { FactoryGirl.create(:comment_review) }
+      let(:comment)     { FactoryGirl.create(:comment_review) }
+      let(:new_comment) {
+        FactoryGirl.build(:comment_review, email: comment.email, commentable: comment.commentable)
+      }
+
       describe '#doesnt_exist_yet' do
         it 'exists and adds errors' do
-          new_comment = FactoryGirl.build(:comment_review, email: comment.email, commentable: comment.commentable)
           expect(new_comment.valid?).to be(false)
           expect(new_comment.errors[:email].length).to eq 1
         end

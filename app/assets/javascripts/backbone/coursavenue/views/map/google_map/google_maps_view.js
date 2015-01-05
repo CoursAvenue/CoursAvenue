@@ -10,11 +10,11 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
 
         /* while the map is a composite view, it uses
          * marker views instead of item views */
-        itemView:                Module.BlankView,
-        markerView:              Module.MarkerView,
-        markerViewTemplate:      Module.templateDirname() + 'marker_view',
-        itemViewEventPrefix:     'marker',
-        markerViewChildren:      {},
+        childView           : Module.BlankView,
+        markerView          : Module.MarkerView,
+        markerViewTemplate  : Module.templateDirname() + 'marker_view',
+        childViewEventPrefix: 'marker',
+        markerViewChildren  : {},
 
         infoBoxView:         Module.InfoBoxView,
 
@@ -68,12 +68,12 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
                 ]
               }
         ],
-        constructor: function (options) {
+        constructor: function constructor (options) {
             options = options || {};
             Marionette.CompositeView.prototype.constructor.apply(this, arguments);
 
             var self = this;
-            _.bindAll(this, 'announceBounds');
+            _.bindAll(this, 'announceBounds', 'markerFocus', 'unhighlightEveryMarker', 'markerHovered');
 
             /* default options */
             this.mapOptions = {
@@ -94,7 +94,6 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             }
 
             this.mapView = new Module.BlankView({
-                // id: 'map',
                 attributes: {
                     'class': 'map_container google-map' + options.mapClass
                 }
@@ -109,7 +108,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             this.update_live = this.update_live === 'true';
 
             /* add listeners, but ignore the first bounds change */
-            google.maps.event.addListener(this.map, 'click', _.bind(this.onItemviewCloseClick, this));
+            google.maps.event.addListener(this.map, 'click', _.bind(this.onChildviewCloseClick, this));
             google.maps.event.addListener(this.map, 'bounds_changed', _.debounce(this.announceBounds, 500));
             google.maps.event.addListener(this.map, 'dragend', function() { this.unlock('map:bounds', 'showInfoWindow'); }.bind(this));
 
@@ -117,13 +116,13 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             /* this prevents an infinite loop of map update at the beginning */
             this.lock('map:bounds');
             this.toggleLiveUpdate();
-            this.on('marker:click'          , this.markerFocus);
-            this.on('marker:hovered'        , this.markerHovered);
-            this.on('marker:unhighlight:all', this.unhighlightEveryMarker);
+            // this.on('marker:click'          , this.markerFocus);
+            // this.on('marker:hovered'        , this.markerHovered);
+            // this.on('marker:unhighlight:all', this.unhighlightEveryMarker);
             this.infoBox = new this.infoBoxView(options.infoBoxViewOptions || {});
         },
 
-        onItemviewCloseClick: function onItemviewCloseClick () {
+        onChildviewCloseClick: function onChildviewCloseClick () {
             if (this.current_info_marker) {
                 this.unlockCurrentMarker();
                 this.hideInfoWindow();
@@ -142,19 +141,10 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
         },
 
         markerFocus: function markerFocus (marker_view) {
-            /* it seems to me this test was to ensure that re-clicking on
-            * the current_info_marker wouldn't retrigger map:marker:click.
-            * however, not the current_info_marker is set in markerHovered,
-            * so we can avoid this check. */
-            //  var marker = this.markerViewChildren[this.current_info_marker];
-            //  if (marker_view === marker) {
-            //      return false;
-            //  }
-
             this.unlockCurrentMarker();
 
             /* TODO this is a problem, we need to not pass out the whole view, d'uh */
-            this.current_info_marker = marker_view.model.cid;
+            this.current_info_marker =  marker_view.model.cid;
             this.trigger('map:marker:click', marker_view);
         },
 
@@ -236,10 +226,10 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
         render: function render (){
             this.isRendered = true;
             this.isClosed   = false;
-            this.resetItemViewContainer();
+            this.resetChildViewContainer();
 
-            this.triggerBeforeRender();
-            var html = this.renderModel();
+            this.trigger('before:render');
+            var html = this._renderTemplate();
             this.$el.html(html);
             // the ui bindings is done here and not at the end of render since they
             // will not be available until after the model is rendered, but should be
@@ -251,16 +241,16 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             this.$el.find('[data-type=map-container]').prepend(this.map_annex);
 
             this.triggerMethod("composite:rendered");
-            this.triggerRendered();
+            this.triggerMethod("rendered");
             return this;
         },
 
-        appendHtml: function appendHtml (collectionView, itemView, index){
+        attachHtml: function attachHtml (collectionView, childView, index){
             /* the markerview is kind of a silly little class
             * so we are rendering its template out here, and
             * passing that in to add child. */
             var html = Marionette.Renderer.render(this.markerViewTemplate, {});
-            this.addChild(itemView.model, html);
+            this.addChild(childView.model, html);
         },
 
         addChild: function addChild (childModel, html) {
@@ -270,21 +260,26 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
                 content: html
             });
 
+            markerView.on('click'          , function() { this.markerFocus(markerView) }.bind(this));
+            markerView.on('hovered'        , function() { this.markerHovered(markerView) }.bind(this));
+            markerView.on('unhighlight:all', function() { this.unhighlightEveryMarker(markerView) }.bind(this));
+
             this.markerViewChildren[childModel.cid] = markerView;
-            this.addChildViewEventForwarding(markerView); // buwa ha ha ha!
+            //this.addChildViewEventForwarding(markerView); // buwa ha ha ha!
             markerView.render();
         },
 
-        closeChildren: function closeChildren () {
+        destroyChildren: function destroyChildren () {
             for(var cid in this.markerViewChildren) {
-                this.closeChild(this.markerViewChildren[cid]);
+                this.destroyChild(this.markerViewChildren[cid]);
             }
         },
 
-        closeChild: function closeChild (child) {
+        destroyChild: function destroyChild (child) {
             // Param can be child's model, or child view itself
             var childView = (child instanceof Backbone.Model ? this.markerViewChildren[child.cid] : child);
 
+            // childView.destroy();
             childView.close();
             delete this.markerViewChildren[childView.model.cid];
         },
@@ -300,7 +295,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
 
         hideInfoWindow: function hideInfoWindow () {
             this.current_info_marker = null;
-            this.infoBox.close();
+            this.infoBox.infoBox.close();
         },
 
         showInfoWindow: function showInfoWindow (view) {
@@ -308,7 +303,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             if (!marker) { return; }
 
             if (this.infoBox) {
-                this.infoBox.close();
+                this.infoBox.infoBox.close();
             }
 
             /* build content for infoBox */
@@ -316,6 +311,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             var content = view.model;
 
             this.infoBox.setContent(content);
+            this.infoBox.$el.show();
 
             /* when the info window shows, it may cause the map to adjust. If this happens,
              * we don't want the map bounds to fire so we ignore it once */

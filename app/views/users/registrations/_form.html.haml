@@ -1,5 +1,5 @@
 .text--center
-  = link_to "S'inscrire avec Facebook", user_omniauth_authorize_path('facebook'), class: 'btn btn--facebook ', id: 'facebook_button'
+  = link_to "S'inscrire avec Facebook", '#', class: 'btn btn--facebook', id: 'facebook_button', data: { behavior: 'login-with-facebook', disable_with: 'Connexion en cours...' }
 %ul.no-bullet-list.flush--bottom.push-half--top
   %li
     %i.fa.fa-check.green

@@ -12,10 +12,11 @@
     }
 }
 
-.orange-box    { background-color: $orange; }
-.red-box       { background-color: $red; }
-.dark-blue-box { background-color: #515e78; }
-.green-box     { background-color: #27ae60; }
+.orange-transparent-box { background-color: transparentize($orange, 0.15); }
+.orange-box             { background-color: $orange; }
+.red-box                { background-color: $red; }
+.dark-blue-box          { background-color: #515e78; }
+.green-box              { background-color: #27ae60; }
 .blue-box {
     color     : white;
     background: $blue;

@@ -20,11 +20,12 @@ class ReplyToken < ActiveRecord::Base
   # Validations                                                        #
   ######################################################################
   validates :reply_type, presence: true
+  validates :token,      presence: true, uniqueness: true
 
   ######################################################################
   # Callbacks                                                          #
   ######################################################################
-  before_create :create_token
+  before_validation :create_token
 
   ######################################################################
   # Methods                                                            #
@@ -44,9 +45,9 @@ class ReplyToken < ActiveRecord::Base
     participation_request = ParticipationRequest.find self.participation_request_id
 
     return false if participation_request.state != 'pending'
-    return false if participation_request.start_time < Time.current
+    return false if participation_request.date < Time.current
 
-    self.used
+    !used
   end
 
   # Public: Sets the ReplyToken as used.

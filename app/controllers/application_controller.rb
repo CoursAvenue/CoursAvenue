@@ -43,7 +43,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # Redirect users if there is a not found resource
+  # TODO: Does this actually work?
+  # Redirect users if there a timeout happens
   # @param  exception
   def render_timeout(exception)
     Bugsnag.notify(exception)
@@ -54,7 +55,7 @@ class ApplicationController < ActionController::Base
   # @param  exception
   def render_not_found(exception)
     Bugsnag.notify(exception)
-    redirect_to root_path, status: 301, notice: "Cette page n'existe plus."
+    redirect_to root_path, status: 410, notice: "Cette page n'existe plus."
   end
 
   # Render the bubble error if there is an error
@@ -99,11 +100,7 @@ class ApplicationController < ActionController::Base
   end
 
   def mixpanel_tracker
-    if Rails.env.production?
-      @tracker ||= Mixpanel::Tracker.new(ENV['MIXPANEL_PROJECT_TOKEN'])
-    else
-      @tracker ||= FakeMixpanel::Tracker.new
-    end
+    @tracker ||= MixpanelClientFactory.client
   end
 
   protected
