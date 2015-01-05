@@ -36,6 +36,7 @@
           %p.push-half--bottom
             %strong Société
           %ul.no-bullet-list.line-height-1-7
+	    %li= link_to 'Nous recrutons !'                        , jobs_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Jobs'
             %li= link_to 'Blog'                                   , blog_articles_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Blog CoursAvenue'
             %li= link_to 'Qui sommes-nous ?'                      , pages_who_are_we_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), rel: :nofollow
             %li= link_to 'Presse'                                 , pages_press_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Presse', rel: :nofollow

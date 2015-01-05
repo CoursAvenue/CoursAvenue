@@ -584,10 +584,13 @@ CoursAvenue::Application.routes.draw do
   get 'contact'                       => 'pages#contact',              as: 'pages_contact'
   get 'service-client'                => 'pages#customer_service',     as: 'pages_customer_service'
   get 'presse'                        => 'pages#press',                as: 'pages_press'
-  get 'jobs'                          => 'pages#jobs'
   get 'mentions-legales-partenaires'  => 'pages#mentions_partners',    as: 'pages_mentions_partners'
   get 'conditions-generale-de-vente'  => 'pages#terms_and_conditions', as: 'pages_terms_and_conditions'
   get 'cours-d-essai-gratuits'        => 'pages#free_trial',           as: 'pages_free_trial'
+
+  # Jobs
+  get 'jobs'                          => 'jobs#index'
+  get 'jobs/frontend-developpeur'     => 'jobs#frontend_developper',   as: 'jobs_frontend_developper'
 
   # Redirect old pages
   get 'pages/pourquoi-le-bon-cours'         => redirect('pourquoi-le-bon-cours'         , status: 301)
