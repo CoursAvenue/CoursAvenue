@@ -1,5 +1,5 @@
 - content_for? :title do
-  Quelles seront vos résolutions 2015 ?
+  Quelles sont vos résolutions 2015 ?
 
 :ruby
   questions = []
@@ -19,7 +19,7 @@
       answers: [
          { value: 'd', title: 'Brésil' , subtitle: '(pour revivre la coupe du monde)' },
          { value: 'b', title: 'Inde'   , subtitle: '(pour s’inspirer de Gandhi)' },
-         { value: 'a', title: 'Italie' , subtitle: '(pour admirer les œuvres de Michel-Ange)' },
+         { value: 'a', title: 'Italie' , subtitle: '(pour vivre enfin la dolce vita)' },
          { value: 'c', title: 'Ibiza'  , subtitle: '(pour faire la fête non stop)' }
       ]
   }
@@ -27,10 +27,10 @@
       title: 'VOTRE DERNIER POST FACEBOOK ?',
       bg: 'https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/bg_blurred.jpg',
       answers: [
-        { value: 'c', title: 'Rien de mieux qu’une soirée entre amis !' },
+        { value: 'c', title: 'Rien de mieux qu’une<br>soirée entre amis !' },
         { value: 'd', title: '10km avec mes nouvelles Nike !' },
-        { value: 'b', title: 'Ambiance cocooning : un thé, un livre et au lit.' },
-        { value: 'a', title: 'Musées tous les 1er dimanches du mois, ne l’oubliez pas !' }
+        { value: 'b', title: 'Ambiance cocooning :<br>un thé, un livre et au lit.' },
+        { value: 'a', title: 'Musées tous les 1er dimanches<br>du mois, ne l’oubliez pas !' }
       ]
   }
   questions << {
@@ -57,9 +57,9 @@
       title: 'VOTRE JOB DE RÊVE ?',
       bg: 'https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/bg_blurred.jpg',
       answers: [
-        { value: 'a', title: 'Peintre officiel des portraits de la famille royale d’Angleterre' },
-        { value: 'b', title: 'Directeur adjoint à Médecins Sans Frontières en déplacement au Congo' },
-        { value: 'd', title: 'Cascadeur professionnel et doublure dans le dernier James Bond' },
+        { value: 'a', title: 'Artiste-peintre des plus<br>beaux couchers de soleil' },
+        { value: 'b', title: 'En mission au Congo auprès<br>de Médecins Sans Frontières' },
+        { value: 'd', title: 'Cascadeur professionnel<br>dans le dernier James Bond' },
         { value: 'c', title: 'Professeur de surf en Australie' }
       ]
   }
@@ -67,18 +67,20 @@
 .north.west.absolute.push.on-top
   = link_to root_path, target: :_blank, class: 'inline-block v-middle' do
     = image_tag 'logos/logo.png', width: 250, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'v-middle'
-  .push-half--left.relative.v-middle.fb-like{ data: { href: home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), layout: 'button_count', action: 'like', 'show-faces' => 'false', share: "false" } }
-  %a.push-half--left.v-middle{ href: "https://twitter.com/share", class: "twitter-share-button", data: { text: "Quelles seront vos résolutions 2015 ? @CoursAvenue", lang: "fr" }} Tweeter
+  .push-half--left.relative.v-middle.fb-share-button{ data: { href: home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), layout: 'button_count' } }
+  %a.push-half--left.v-middle{ href: "https://twitter.com/share", class: "twitter-share-button", data: { text: "Quelles sont vos résolutions 2015 ? @CoursAvenue", lang: "fr", url: home_resolutions_url(subdomain: 'www') } } Tweeter
 #fullpage.ff-kameron
   %div.section.relative.one-whole.relative.white.full-screen-item.bg-cover{ style: "background-image: url('#{'https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/bg.jpg'}')"}
     .flexbox.full-screen-item
       .black-curtain.north.west.one-whole.absolute
       .push--top.soft--top.one-whole.flexbox__item
         .v-middle.relative
-          %h1.soft--top.text--center{ style: 'font-size: 60px;'}
-            Quelles seront vos
+          %h1.flush.soft--top.text--center{ style: 'font-size: 70px;'}
+            Quelles sont vos
             %br
             %span.ff-pacifico bonnes résolutions 2015 ?
+          %hr.push-half--ends.main-container.main-container--medium
+          %h3.line-height-2.text--center PARCE QUE FINALEMENT, C'EST TOUJOURS BIEN DE SE FIXER DES OBJECTIFS
           .text--center
             %a.btn--yellow.btn.btn--enormous{ href: '#', data: { behavior: 'move-section-down' } } Commencer le test
 
@@ -93,7 +95,7 @@
             .pointer.black-curtain__fading-on-hover.bg-position-top.bg-cover.relative.text--center.white.grid__item.one-half{ style: "background-image: url('https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/q#{index + 1}/#{answer_index + 1}.jpg'); height: 35vh;", data: { name: "resolutions_question_#{index + 1}", for: "question_#{index + 1}_value_#{answer_index + 1}", answer: true, behavior: "#{last ? 'submit-form' : 'move-section-down'}" } }>
               .black-curtain.north.west.one-whole.absolute
               .f-weight-600.soft-half--sides.absolute.west.one-whole{ style: "top: 50%; margin-top: -4em;"}
-                .alpha= answers[:title]
+                .alpha= answers[:title].html_safe
                 - if answers[:subtitle].present?
                   .gamma.west.one-whole= answers[:subtitle]
             %input.visuallyhidden{ id: "question_#{index + 1}_value_#{answer_index + 1}", type: 'radio', name: "resolutions_question_#{index + 1}", value: answers[:value] }
