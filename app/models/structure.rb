@@ -457,9 +457,7 @@ class Structure < ActiveRecord::Base
   # Update the email status of the structure
   def update_email_status
     email_status = nil
-    if !self.premium? and self.impression_count(30) > 15
-      email_status = 'your_profile_has_been_viewed'
-    elsif !self.profile_completed? or self.comments.empty? or self.courses.without_open_courses.empty? or self.medias.empty?
+    if !self.profile_completed? or self.comments.empty? or self.courses.without_open_courses.empty? or self.medias.empty?
       email_status = 'incomplete_profile'
     else
       email_status = nil
