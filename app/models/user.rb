@@ -233,7 +233,7 @@ class User < ActiveRecord::Base
   #
   # @return Boolean
   def has_avatar?
-    avatar.url or self.fb_avatar
+    avatar.url or read_attribute(:fb_avatar)
   end
 
   def avatar_url(format = :normal)

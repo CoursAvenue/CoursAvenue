@@ -1,4 +1,4 @@
-RSpec.configure do |c|
+RSpec.configure do
   CarrierWave.configure do |config|
     config.storage = :file
     config.enable_processing = false
