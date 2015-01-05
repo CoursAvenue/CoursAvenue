@@ -9,6 +9,10 @@
 APP_NAME=$1
 REPOSITORY="http://github.com/coursavenue/coursavenue"
 
+# Fetch the last commits on the remote.
+git remote add heroku git@heroku.com:$APP_NAME.git
+git fetch heroku
+
 # Check if the deploy is necessary.
 #
 # The deploy is necessary when:
