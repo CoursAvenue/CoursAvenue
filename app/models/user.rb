@@ -17,7 +17,6 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
-
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid, :oauth_token, :oauth_expires_at,
                   :name, :first_name, :last_name, :gender, :fb_avatar, :location, :avatar,
@@ -241,8 +240,6 @@ class User < ActiveRecord::Base
       self.avatar.url(format)
     elsif read_attribute(:fb_avatar)
       self.fb_avatar(format)
-    else
-      self.avatar
     end
   end
 
