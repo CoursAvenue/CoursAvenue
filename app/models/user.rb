@@ -228,7 +228,7 @@ class User < ActiveRecord::Base
   end
 
   # Check if the user has a avatar.
-  # We check if the avatar as a URL because the uploader always creates the
+  # We check if the avatar has a URL because the uploader always creates the
   # avatar object.
   #
   # @return Boolean
