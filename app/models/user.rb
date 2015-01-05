@@ -227,14 +227,19 @@ class User < ActiveRecord::Base
     return email_status
   end
 
+  # Check if the user has a avatar.
+  # We check if the avatar as a URL because the uploader always creates the
+  # avatar object.
+  #
+  # @return Boolean
   def has_avatar?
-    avatar or self.fb_avatar
+    avatar.url or self.fb_avatar
   end
 
   def avatar_url(format = :normal)
     if avatar.url
       self.avatar.url(format)
-    elsif self.read_attribute(:fb_avatar)
+    elsif read_attribute(:fb_avatar)
       self.fb_avatar(format)
     else
       self.avatar
