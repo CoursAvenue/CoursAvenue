@@ -48,8 +48,8 @@
       .push.on-top.relative.palm-text--center
         = link_to root_path, target: :_blank, class: 'inline-block v-middle' do
           = image_tag 'logos/logo.png', width: 250, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'v-middle'
-        .push-half--left.relative.v-middle.fb-share-button{ data: { href: home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), layout: 'button_count' } }
-        %a.push-half--left.v-middle{ href: "https://twitter.com/share", class: "twitter-share-button", data: { text: "Quelles sont vos résolutions 2015 ? @CoursAvenue", lang: "fr", url: home_resolutions_url(subdomain: 'www') } } Tweeter
+	.push-half--left.relative.v-middle.fb-share-button{ data: { href: home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), layout: 'button' } }
+	%a.push-half--left.v-middle{ href: "https://twitter.com/share", class: "twitter-share-button", data: { text: "Quelles sont vos résolutions 2015 ? @CoursAvenue", lang: "fr", url: home_resolutions_url(subdomain: 'www'), count: 'none' } } Tweeter
       .push--top.soft--top.one-whole.relative
         .v-middle
           .orange-transparent-box.soft.push--bottom
