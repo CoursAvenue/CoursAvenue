@@ -37,9 +37,7 @@ class User < ActiveRecord::Base
   define_boolean_accessor_for :meta_data, :have_seen_first_jpo_popup
 
 
-  # TODO: Rename column `avatar_file_name` to `avatar`
-  # TODO: Remove `mount_on ...`
-  mount_uploader :avatar, UserAvatarUploader, :mount_on => :avatar_file_name
+  mount_uploader :avatar, UserAvatarUploader
 
   ######################################################################
   # Relations                                                          #
