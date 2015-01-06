@@ -11,7 +11,10 @@
 %meta{ property: 'og:site_name',       content: 'CoursAvenue' }
 %meta{ property: 'og:type',            content: 'website' }
 
-%meta{ property: 'og:url',             content: "#{request.protocol + request.host_with_port + request.fullpath}" }
+- if content_for? :og_url
+  %meta{ property: 'og:url', content: yield(:og_url) }
+- else
+  %meta{ property: 'og:url', content: "#{request.protocol + request.host_with_port + request.fullpath}" }
 
 %meta{ property: 'fb:admins',          content: '100000023494269' }
 %meta{ property: 'fb:app_id',          content: '589759807705512' }
