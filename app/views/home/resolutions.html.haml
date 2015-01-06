@@ -69,8 +69,8 @@
 .north.west.absolute.push.on-top.palm-text--center
   = link_to root_path, target: :_blank, class: 'inline-block v-middle' do
     = image_tag 'logos/logo.png', width: 200, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'v-middle'
-  .push-half--left.relative.v-middle.fb-share-button{ data: { href: home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), layout: 'button_count' } }
-  %a.push-half--left.v-middle{ href: "https://twitter.com/share", class: "twitter-share-button", data: { text: "Quelles sont vos résolutions 2015 ? @CoursAvenue", lang: "fr", url: home_resolutions_url(subdomain: 'www') } } Tweeter
+  .push-half--left.relative.v-middle.fb-share-button{ data: { href: home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), layout: 'button' } }
+  %a.push-half--left.v-middle{ href: "https://twitter.com/share", class: "twitter-share-button", data: { text: "Quelles sont vos résolutions 2015 ? @CoursAvenue", lang: "fr", url: home_resolutions_url(subdomain: 'www'), count: 'none' } } Tweeter
 #fullpage.ff-kameron
   %div.section.relative.one-whole.relative.white.full-screen-item.bg-cover{ style: "background-image: url('#{'https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/bg.jpg'}')"}
     .flexbox.full-screen-item.soft
