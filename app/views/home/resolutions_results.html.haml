@@ -17,38 +17,38 @@
       'a' => {
         title: 'Soyez zen et adoptez la zen-attitude.',
         answer: 'YOGA',
-	answer_before: 'AU',
+        answer_before: 'AU',
         answer_small: 'yoga',
         url: root_search_page_path('yoga-bien-etre-sante', 'paris'),
         bg: 'quizz/resolutions/profile_a.jpg',
-	content: "Oulala rien ne va plus ! Trop de stress, de surmenage, de pression : il y a urgence, l’année 2015 sera placée sous le signe de la détente, du zen et du lâcher-prise. Boostez votre confiance avec des cours de sophrologie, laissez parler votre corps avec l’eutonie, relâchez-vous avec le watsu… 2014 vous semblera bien loin&nbsp;!"
+        content: "Oulala rien ne va plus ! Trop de stress, de surmenage, de pression : il y a urgence, l’année 2015 sera placée sous le signe de la détente, du zen et du lâcher-prise. Boostez votre confiance avec des cours de sophrologie, laissez parler votre corps avec l’eutonie, relâchez-vous avec le watsu… 2014 vous semblera bien loin&nbsp;!"
       },
       'b' => {
         title: 'On a trouvé l’artiste : vous !',
         answer: 'DESSIN',
-	answer_before: 'AU',
+        answer_before: 'AU',
         answer_small: 'dessin',
         url: root_search_page_path('dessin-peinture-arts-plastiques', 'paris'),
         bg: 'quizz/resolutions/profile_b.jpg',
-	content: "Au primaire, le roi des coloriages et de la pâte à modeler : c’était vous. Au collège, votre professeur d’arts plastiques voulait déjà acheter vos toiles. Mais en grandissant, et par manque de temps, vous avez mis tout ça de côté. Allez hop, on s’y remet : sculpture, dessin, calligraphie, foncez ! Notre conseil : succombez au home made et faites vos propres tables basses à partir de palettes récupérées. Ca fait du bien de revenir en primaire&nbsp;!"
+        content: "Au primaire, le roi des coloriages et de la pâte à modeler : c’était vous. Au collège, votre professeur d’arts plastiques voulait déjà acheter vos toiles. Mais en grandissant, et par manque de temps, vous avez mis tout ça de côté. Allez hop, on s’y remet : sculpture, dessin, calligraphie, foncez ! Notre conseil : succombez au home made et faites vos propres tables basses à partir de palettes récupérées. Ca fait du bien de revenir en primaire&nbsp;!"
       },
       'c' => {
-	title: 'Vous vous voyez déjà en haut de l’affiche.',
-	answer: 'DANSE',
-	answer_before: 'À LA',
-	answer_small: 'danse',
-	url: root_search_page_path('danse', 'paris'),
-	bg: 'quizz/resolutions/profile_c.jpg',
-	content: "Petit, chaque récitation de poème était un prétexte pour vous mettre en scène devant toute la classe. Chaque année, vous étiez élu d’office délégué de classe. Il faut qu’ça bouge ! Danse, musique, théâtre, improvisation… : mettez-vous au charleston, apprenez des tours de magie, ouvrez-vous à la batucada. En 2015, on balance du rythme&nbsp;!"
+        title: 'Vous vous voyez déjà en haut de l’affiche.',
+        answer: 'DANSE',
+        answer_before: 'À LA',
+        answer_small: 'danse',
+        url: root_search_page_path('danse', 'paris'),
+        bg: 'quizz/resolutions/profile_c.jpg',
+        content: "Petit, chaque récitation de poème était un prétexte pour vous mettre en scène devant toute la classe. Chaque année, vous étiez élu d’office délégué de classe. Il faut qu’ça bouge ! Danse, musique, théâtre, improvisation… : mettez-vous au charleston, apprenez des tours de magie, ouvrez-vous à la batucada. En 2015, on balance du rythme&nbsp;!"
       },
       'd' => {
-	title: 'On ne vous tient plus !',
-	answer: 'SPORT',
-	answer_before: 'AU',
-	answer_small: 'sport',
-	url: root_search_page_path('sports-arts-martiaux', 'paris'),
-	bg: 'quizz/resolutions/profile_d.jpg',
-	content: "Alors là, il va falloir vous canaliser ! Ca tombe bien, on a tout ce qu’il faut : entre le kendo jadis pratiqué par les samouraïs, la boxe thaïlandaise idéale pour vous défouler et l’escalade pour aller au-delà de vos limites, vous n’aurez plus à taper votre collègue pour vous défouler. Regonflé à bloc, votre quotidien sera énergique&nbsp;!"
+        title: 'On ne vous tient plus !',
+        answer: 'SPORT',
+        answer_before: 'AU',
+        answer_small: 'sport',
+        url: root_search_page_path('sports-arts-martiaux', 'paris'),
+        bg: 'quizz/resolutions/profile_d.jpg',
+        content: "Alors là, il va falloir vous canaliser ! Ca tombe bien, on a tout ce qu’il faut : entre le kendo jadis pratiqué par les samouraïs, la boxe thaïlandaise idéale pour vous défouler et l’escalade pour aller au-delà de vos limites, vous n’aurez plus à taper votre collègue pour vous défouler. Regonflé à bloc, votre quotidien sera énergique&nbsp;!"
       }
     }
 - profile = profiles[params[:id]] || profiles['a']
@@ -59,25 +59,25 @@
     .black-curtain.north.west.one-whole.absolute
     %div.section.one-whole.full-screen-item
       .push.on-top.relative.palm-text--center
-	= link_to root_path, target: :_blank, class: 'inline-block v-middle' do
-	  = image_tag 'logos/logo.png', width: 250, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'v-middle'
-	.push-half--left.relative.v-middle.fb-share-button{ data: { href: home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, result: (params[:id] || 'a')), layout: 'button' } }
-	%a.push-half--left.v-middle{ href: "https://twitter.com/share", class: "twitter-share-button", data: { text: 'Marre de ne pas savoir quoi répondre à la question "Quelles sont tes bonnes résolutions pour 2015 ?" @CoursAvenue', lang: "fr", url: home_resolutions_url(subdomain: 'www'), count: 'none' } } Tweeter
+        = link_to root_path, target: :_blank, class: 'inline-block v-middle' do
+          = image_tag 'logos/logo.png', width: 250, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'v-middle'
+        .push-half--left.relative.v-middle.fb-share-button{ data: { href: home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, result: (params[:id] || 'a')), layout: 'button' } }
+        %a.push-half--left.v-middle{ href: "https://twitter.com/share", class: "twitter-share-button", data: { text: 'Marre de ne pas savoir quoi répondre à la question "Quelles sont tes bonnes résolutions pour 2015 ?" @CoursAvenue', lang: "fr", url: home_resolutions_url(subdomain: 'www'), count: 'none' } } Tweeter
       .push--top.soft--top.one-whole.relative
-	.v-middle
-	  .orange-transparent-box.soft.push--bottom
+        .v-middle
+          .orange-transparent-box.soft.push--bottom
             %h2.alpha.palm-beta.text--center.white
-	      %span.ff-kameron C'EST DÉCIDÉ, EN 2015 JE ME METS #{profile[:answer_before]}
+              %span.ff-kameron C'EST DÉCIDÉ, EN 2015 JE ME METS #{profile[:answer_before]}
               %span.ff-pacifico #{profile[:answer]} !
             .grid.main-container.main-container--medium
               .grid__item.one-half.v-middle.palm-one-whole>
                 %h4.palm-text--center.white.flush.text--right Trouvez le cours de #{profile[:answer_small]} idéal à
               .grid__item.one-half.v-middle.palm-one-whole.soft-half--left>
-		= form_tag profile[:url], method: :get, authenticity_token: false do
+                = form_tag profile[:url], method: :get, authenticity_token: false do
                   .flexbox
                     .flexbox__item.v-middle.search-input-wrapper.very-soft.hard--ends.palm-hard{ style: 'width: 140px;' }
                       .input-with-icon
-			%input.palm-one-whole.input--large.one-whole.soft-half--left{ size: 19, placeholder:'Ville', type:'text', autocomplete: 'off', name:'address_name', value: 'Paris', data: { type:'address', lng:'#address-lng', lat: '#address-lat', city: '#address-city' , address_name: '#address-name', behavior: 'address-picker' } }
+                        %input.palm-one-whole.input--large.one-whole.soft-half--left{ size: 19, placeholder:'Ville', type:'text', autocomplete: 'off', name:'address_name', value: 'Paris', data: { type:'address', lng:'#address-lng', lat: '#address-lat', city: '#address-city' , address_name: '#address-name', behavior: 'address-picker' } }
                         %i.fa.fa-map-marker.delta.black
                       %input#address-lat{ type: 'hidden', value: '48.8592', name: 'lat' }
                       %input#address-lng{ type: 'hidden', value: '2.3417', name: 'lng' }
@@ -91,22 +91,22 @@
 
 
           .main-container.main-container--medium
-	    .f-weight-bold.line-height-1-5.push--bottom.soft--sides.palm-text--center
-	      %h4.beta.palm-gamma= profile[:title]
-	      .gamma.palm-epsilon.push--bottom= profile[:content].html_safe
-	      .text--center
-		= link_to media_share_url(home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, result: (params[:id] || 'a')), :facebook), class: 'push-half--bottom btn--yellow btn btn--bigger', target: :_blank do
-		  %i.fa.fa-facebook
-		  Partager mon résultat sur Facebook
-	  .orange-transparent-box.soft.push--top
-	    .grid.main-container.main-container--medium
-	      .grid__item.one-half.v-middle.palm-one-whole>
-		%h4.white.flush Cours d'essai gratuits, exclusivités... une fois par mois, recevez les meilleurs cours de loisirs de votre ville par e-mail :
-	      .grid__item.one-half.v-middle.palm-one-whole>
-		= simple_form_for User.new, html: { class: '' }, remote: true do |f|
-		  .grid
-		    .grid__item.palm-one-whole.v-middle.one-half>
-		      = f.input :subscription_from, as: :hidden, input_html: { value: 'quizz' }
+            .f-weight-bold.line-height-1-5.push--bottom.soft--sides.palm-text--center
+              %h4.beta.palm-gamma= profile[:title]
+              .gamma.palm-epsilon.push--bottom= profile[:content].html_safe
+              .text--center
+                = link_to media_share_url(home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, result: (params[:id] || 'a')), :facebook), class: 'push-half--bottom btn--yellow btn btn--bigger', target: :_blank do
+                  %i.fa.fa-facebook
+                  Partager mon résultat sur Facebook
+          .orange-transparent-box.soft.push--top
+            .grid.main-container.main-container--medium
+              .grid__item.one-half.v-middle.palm-one-whole>
+                %h4.white.flush Cours d'essai gratuits, exclusivités... une fois par mois, recevez les meilleurs cours de loisirs de votre ville par e-mail :
+              .grid__item.one-half.v-middle.palm-one-whole>
+                = simple_form_for User.new, html: { class: '' }, remote: true do |f|
+                  .grid
+                    .grid__item.palm-one-whole.v-middle.one-half>
+                      = f.input :subscription_from, as: :hidden, input_html: { value: 'quizz' }
                       = f.input :email, label: false, input_html: { placeholder: 'Adresse e-mail', class: 'input--large one-whole' }, wrapper_html: { class: 'flush--top inline-block v-middle push-half--bottom one-whole' }
                       %br
                       = f.input :zip_code, label: false, input_html: { placeholder: 'Code postal', class: 'input--large one-whole' }, wrapper_html: { class: 'flush inline-block v-middle one-whole' }
