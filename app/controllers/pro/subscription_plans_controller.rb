@@ -78,6 +78,15 @@ class Pro::SubscriptionPlansController < Pro::ProController
     redirect_to premium_tracking_pro_subscription_plans_path, notice: 'Le fichier est en cours de création.'
   end
 
+  # Set the orders as uploaded on dropbox.
+  def update_dropbox_orders
+    Order.where(on_dropbox: false).each do |order|
+      order.update_attribute(:on_dropbox, true)
+    end
+
+    head :ok
+  end
+
   private
 
   # Deduce the label index from the statistics score
