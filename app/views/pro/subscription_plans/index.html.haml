@@ -60,8 +60,8 @@
             var options = {
                 files: #{ @dropbox_orders.to_json },
                 success: function() {
+                    $.ajax(Routes.update_dropbox_orders_pro_subscription_plans_path())
                     GLOBAL.flash('Fichiers enregistrés.', 'success');
-                    // Update models.
                 },
                 cancel: function() {
                     GLOBAL.flash('Action annulée.');
