@@ -13,7 +13,7 @@
           %input#h-search-address-lat{ type: 'hidden', name: 'lat', value: cookies[:lat] || '48.8592' }
           %input#h-search-address-lng{ type: 'hidden', name: 'lng', value: cookies[:lng] || '2.3417' }
           %input#h-search-address-city{ type: 'hidden', name: 'address_name', value: cookies[:city] || 'Paris' }
-    .flexbox__item.v-middle.relative.text--center.palm-hidden>
+    .flexbox__item.v-middle.relative.text--center.visuallyhidden--palm>
       = link_to 'Découvrez vos résolutions 2015 !', home_resolutions_path, class: 'f-weight-bold f-small-caps delta'
     - unless layout_locals[:hide_user_nav]
       %nav.text--right.flexbox__item.v-middle.nowrap.visuallyhidden--palm.print--hidden>
