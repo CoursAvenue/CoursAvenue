@@ -1120,7 +1120,7 @@ class Structure < ActiveRecord::Base
   # @return City
   def dominant_city
     if plannings.any?
-      plannings.map(&:place).compact.flat_map(&:city).group_by{ |city| city }.values.max_by(&:size).try(:first)
+      dominant_city_from_planning
     else
       ([city] + places.map(&:city)).group_by{ |c| c }.values.max_by(&:size).first
     end
@@ -1293,5 +1293,10 @@ class Structure < ActiveRecord::Base
       courses.open_for_trial.map{ |c| c.is_open_for_trial = false; c.save }
     end
     nil
+  end
+
+  def dominant_city_from_planning
+    plannings.map(&:place).flat_map(&:city).group_by { |c| c }.values.max_by(&:size).first ||
+      courses.flat_map(&:places).flat_map(&:city).group_by { |c| c }.values.max_by(&:size).first
   end
 end
