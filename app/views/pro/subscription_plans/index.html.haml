@@ -57,13 +57,8 @@
         $('[data-action=dropbox]').click(function(event) {
             event.preventDefault();
 
-            $.ajax({
-              url: Routes.order_filenames_pro_subscription_plans_path(),
-            }).done(function(data) {
-              var files = JSON.parse(data);
-
-              var options = {
-                files: files,
+            var options = {
+                files: #{ @dropbox_orders.to_json },
                 success: function() {
                   GLOBAL.flash('', 'success');
                   // Update models.
@@ -72,10 +67,9 @@
                 },
                 error: function(errorMessage) {
                 }
-              }
+            }
 
-              console.log(files);
-              Dropbox.save(options);
-            });
+            console.log(options.files);
+            Dropbox.save(options);
         });
     });

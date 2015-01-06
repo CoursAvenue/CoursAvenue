@@ -4,7 +4,11 @@ class Pro::SubscriptionPlansController < Pro::ProController
   before_action :set_subscription_plan, only: [:stat_info, :update]
 
   def index
-    @orders = Order::Premium.all
+    @orders         = Order::Premium.all
+    @dropbox_orders = Order.where(on_dropbox: false).map do |order|
+      { url: order.S3_invoice_path, filename: "#{order.public_order_id}.pdf", id: order.id}
+    end
+
 
     # @orders_per_month  = Order::Premium.order("DATE_TRUNC('month', created_at) ASC").group("DATE_TRUNC('month', created_at)").count
     @orders_per_month = {}
