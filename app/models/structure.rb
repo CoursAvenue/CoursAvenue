@@ -1296,7 +1296,7 @@ class Structure < ActiveRecord::Base
   end
 
   def dominant_city_from_planning
-      plannings.map(&:place).compact.flat_map(&:city).group_by{ |city| city }.values.max_by(&:size).try(:first) ||
-        courses.flat_map(&:places).flat_map(&:city).group_by{ |city| city }.values.max_by(&:size).try(:first)
+    plannings.map(&:place).flat_map(&:city).group_by { |c| c }.values.max_by(&:size).first ||
+      courses.flat_map(&:places).flat_map(&:city).group_by { |c| c }.values.max_by(&:size).first
   end
 end
