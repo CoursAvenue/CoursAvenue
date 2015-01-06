@@ -40,6 +40,7 @@
   %meta{ name: 'description', content: "#{yield(:meta_description).try(:squish)}" }
   %meta{ property: 'og:description', content: "#{yield(:meta_description).try(:squish)}" }
   %meta{ name: 'twitter:description', content: "#{yield(:meta_description).try(:squish)}" }
+  %meta{ name: "twitter:card", content: "#{yield(:meta_description).try(:squish)}" }
 - else
   - if request.subdomain == 'pro'
     %meta{ name: "description", content: "Découvrez Pro.CoursAveunue, pour référencer vos cours et recruter gratuitement de nouveaux élèves ! Gérez votre profil · Fidélisez de nouveaux élèves · Boostez votre activité”" }
@@ -60,3 +61,5 @@
   %meta{ name: "twitter:image", content: image_path('logos/logo_fb.jpg') }
 
 %meta{ name: 'keywords', content: 'danse, théâtre, scène, musique, arts, sports, arts-martiaux, photo, cuisine, vins' }
+%meta{ name: "twitter:creator", content: "@coursavenue" }
+%meta{ name: "twitter:site", content: "@coursavenue" }
