@@ -6,7 +6,7 @@ class Pro::SubscriptionPlansController < Pro::ProController
   def index
     @orders         = Order::Premium.all
     @dropbox_orders = Order.where(on_dropbox: false).map do |order|
-      { url: order.S3_invoice_path, filename: "#{order.public_order_id}.pdf", id: order.id}
+      { url: order.S3_invoice_path, filename: "#{order.public_order_id}.pdf", id: order.id }
     end
 
 
