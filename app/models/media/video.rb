@@ -28,6 +28,8 @@ class Media::Video < Media
   ######################################################################
   validates :url, url: true
   validates :url, presence: true
+  validates :url, uniqueness: true
+  validate :authorized_url
 
   ######################################################################
   # Callbacks                                                          #
@@ -85,5 +87,14 @@ class Media::Video < Media
     # It's for Fancybox to correctly open the videos in the popup and not in a new page.
     self.url = self.url.gsub('feature=player_embedded', '').gsub('?&', '?').gsub('&&', '&')
     self.url = URLHelper.fix_url(self.url) if self.url
+  end
+
+  # Check if the URL is from an authorized service.
+  #
+  # @return
+  def authorized_url
+    matches = FILTER_REGEX.map { |_, v| url.match(v[:pattern]) }.any?
+
+    errors.add(:url, I18n.t('pro.medias.errors.messages.invalid')) unless matches
   end
 end
