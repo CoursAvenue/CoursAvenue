@@ -1,7 +1,7 @@
 # encoding: utf-8
 class JobsController < ApplicationController
 
-  layout 'pages'
+  layout 'empty_body'
 
   # GET jobs/frontend-developpeur
   def frontend_developper

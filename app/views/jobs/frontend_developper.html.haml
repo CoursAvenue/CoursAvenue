@@ -1,59 +1,82 @@
-.main-container.main-container--medium
-  %h1 Développeur front-end Backbone.js / Ruby On Rails
+-# .bg-cover.bg-position-top.white{ style: 'background-image: url(https://ppcdn.500px.org/94715779/bd2c83564cc6e2ff5d92dff050283bc1097ed243/2048.jpg)', data: { behavior: 'parallax'} }
+.bg-cover.flexbox.bg-position.white.full-screen-item{ style: 'background-image: url(https://ppcdn.500px.org/94817609/48ece875d3f9ebcb6d01e979ec5780f7a7a5d490/5.jpg)' }
+  .relative.full-screen-item.absolute.north.west.one-whole.on-top.soft.white
+    .grid
+      .grid__item.one-half>
+        = image_tag 'logos/logo.png', width: 250, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'v-middle'
+  .flexbox__item.v-middle.text--center.relative.on-top
+    %h1.soft-black-text-shadow.f-size-really-big DÉVELOPPEUR FRONT-END
+    %a.soft--top.f-size-big.white.white{ href: '#content', data: { behavior: 'scroll-to' } }
+      %i.fa.fa-chevron-down
 
-  %p.delta.line-height-1-7
-    Fondée fin 2012, CoursAvenue a pour objectif de révolutionner le marché des cours de loisirs et de relier chacun de nous aux meilleurs professeurs, associations et écoles qui nous entourent. En très peu de temps, CoursAvenue est devenue le leader de la recherche et des inscriptions en ligne des cours de loisirs (danse, théâtre, musique, yoga, etc.).
-  %p.delta.line-height-1-7
-    Les 4 piliers fondateurs de CoursAvenue :
-  %ul.delta.line-height-1-7
-    %li Passion : s’engager au quotidien tout en prenant du plaisir
-    %li Innovation : se réinventer chaque jour pour servir nos ambitions
-    %li Wahoo : créer une surprise incroyable à chaque utilisation de nos services
-    %li Honnêteté : savoir se remettre en question pour mieux avancer
+.main-container.soft.soft--top#content
+  %h2.line-height-2.soft--top.soft--bottom.text--center.f-size-really-big DÉVELOPPEUR FRONT-END
+  .grid
+    .grid__item.two-thirds.soft--right>
+      %h3.f-small-caps.alpha La startup
+      %p.delta.line-height-1-7
+        Fondée fin 2012, CoursAvenue a pour objectif de révolutionner le marché des cours de loisirs et de relier chacun de nous aux meilleurs professeurs, associations et écoles qui nous entourent. En très peu de temps, CoursAvenue est devenue le leader de la recherche et des inscriptions en ligne des cours de loisirs (danse, théâtre, musique, yoga, etc.).
+      %p.delta.line-height-1-7
+        Les 4 piliers fondateurs de CoursAvenue :
+      %ul.delta.line-height-1-7
+        %li Passion : s’engager au quotidien tout en prenant du plaisir
+        %li Innovation : se réinventer chaque jour pour servir nos ambitions
+        %li Wahoo : créer une surprise incroyable à chaque utilisation de nos services
+        %li Honnêteté : savoir se remettre en question pour mieux avancer
 
-  %p.delta.line-height-1-7
-    Nous recherchons des personnes ambitieuses dotées d’une motivation sans faille souhaitant participer pleinement à la croissance rapide d’une startup.
+      %p.delta.line-height-1-7
+        Nous recherchons des personnes ambitieuses dotées d’une motivation sans faille souhaitant participer pleinement à la croissance rapide d’une startup.
 
-  %p.delta.line-height-1-7
-    Notre application Web est développée à l’aide des dernières versions de Rails pour la partie back-end et de Backbone.js / Marionette.js pour la partie front-end. Nous sommes hébergés sur Heroku et sommes en déploiement continu grâce à CircleCI. Nous sommes jeunes et dynamiques et tenons à utiliser les technos les plus récentes pour garder un dynamisme constant et continuer à évoluer.
+      %p.delta.line-height-1-7
+        Notre application Web est développée à l’aide des dernières versions de Rails pour la partie back-end et de Backbone.js / Marionette.js pour la partie front-end. Nous sommes hébergés sur Heroku et sommes en déploiement continu grâce à CircleCI. Nous sommes jeunes et dynamiques et tenons à utiliser les technos les plus récentes pour garder un dynamisme constant et continuer à évoluer.
 
-  %h2
-    Le poste
-  %p.delta.line-height-1-7
-    L’équipe CoursAvenue est répartie sur deux villes : Paris et Toulouse. L’équipe business / commerciale est à Toulouse et l’équipe technique à Paris. Nous cherchons à développer une réelle culture d’entreprise et créer un vrai esprit d’équipe, dans cette optique tu seras le premier employé à rejoindre le cofondateur / CTO à Paris et tu pourras contribuer grandement à ce développement. L’équipe parisienne s’agrandira au long de l’année et tu seras force de proposition pour l’amélioration de nos méthodes de travail. Nous pourrons faire évoluer nos méthodes de travail en faisant des rétrospectives et en étant agile. Nous voulons être le plus efficace possible tout en travaillant dans de bonnes conditions et en respectant nos valeurs.
-  %h2 Les missions
+      %h3.f-small-caps.alpha Le poste
+      %p.delta.line-height-1-7
+        L’équipe CoursAvenue est répartie sur deux villes : Paris et Toulouse. L’équipe business / commerciale est à Toulouse et l’équipe technique à Paris. Nous cherchons à développer une réelle culture d’entreprise et créer un vrai esprit d’équipe, dans cette optique tu seras le premier employé à rejoindre le cofondateur / CTO à Paris et tu pourras contribuer grandement à ce développement. L’équipe parisienne s’agrandira au long de l’année et tu seras force de proposition pour l’amélioration de nos méthodes de travail. Nous pourrons faire évoluer nos méthodes de travail en faisant des rétrospectives et en étant agile. Nous voulons être le plus efficace possible tout en travaillant dans de bonnes conditions et en respectant nos valeurs.
+      %h3.f-small-caps.alpha Les missions
 
-  %p.delta.line-height-1-7
-    Être dans une petite équipe en croissance implique de pouvoir être multi casquette. Les choses évoluent et peuvent changer rapidement, donc le travail ne sera jamais le même. Concrètement il faudra batailler sur plusieurs plan :
-  %ul.delta.line-height-1-7
-    %li L’amélioration de l’espace dédié à nos partenaires avec la mise en place de nouvelles fonctionnalités.
-    %li Rendre le site complètement responsif pour mobile et tablette (complète restructuration de certaines pages).
-    %li L’amélioration de la partie grand public du site web CoursAvenue qui doit être impeccable à tous les niveaux (design, ergonomie, rapidité, clarté, etc.).
-    %li La mise en place d’outils pour notre équipe marketing et communication interne ainsi que la collaboration avec notre agence SEO.
-    %li Le profil recherché
-    %li Formation Bac+5 type école d’ingénieur, tu es passionné(e) par le développement d’application Web et a déjà utilisé un framework JavaScript comme Backbone, Ember ou Angular.js
+      %p.delta.line-height-1-7
+        Être dans une petite équipe en croissance implique de pouvoir être multi casquette. Les choses évoluent et peuvent changer rapidement, donc le travail ne sera jamais le même. Concrètement il faudra batailler sur plusieurs plan :
+      %ul.delta.line-height-1-7
+        %li L’amélioration de l’espace dédié à nos partenaires avec la mise en place de nouvelles fonctionnalités.
+        %li Rendre le site complètement responsif pour mobile et tablette (complète restructuration de certaines pages).
+        %li L’amélioration de la partie grand public du site web CoursAvenue qui doit être impeccable à tous les niveaux (design, ergonomie, rapidité, clarté, etc.).
+        %li La mise en place d’outils pour notre équipe marketing et communication interne ainsi que la collaboration avec notre agence SEO.
+        %li Le profil recherché
+        %li Formation Bac+5 type école d’ingénieur, tu es passionné(e) par le développement d’application Web et a déjà utilisé un framework JavaScript comme Backbone, Ember ou Angular.js
 
-  %h2 Qualifications et expériences techniques requises :
-  %ul.delta.line-height-1-7
-    %li Très bonne connaissance du JavaScript
-    %li Très bonne connaissance du HTML et du CSS
-    %li Très bonne maîtrise des outils développeurs Chrome, Firefox ou Safari
-    %li Très bonne maîtrise du responsive web design
-    %li Connaissance d’un Framework JavaScript (idéalement Backbone.js)
-    %li Connaissance de Git et de Gihub
+    .grid__item.one-third>
+      %h4 Qualifications et expériences techniques requises :
+      %ul.delta.line-height-1-7
+        %li JavaScript (et toutes ses petites fourberies !)
+        %li HTML5
+        %li CSS3
+        %li Outils développeurs Chrome, Firefox ou Safari
+        %li Responsive web design
+        %li Framework JavaScript (idéalement Backbone.js)
+        %li Git
 
-  %h2 Ce qu’on apprécie particulièrement :
-  %ul.delta.line-height-1-7
-    %li Ta créativité et tes propositions de design
-    %li Ta passion pour l’ergonomie et l’expérience utilisateur
-    %li Ta curiosité envers les nouvelles technos émergentes
-    %li Ton amour pour le CSS
-    %li Ta sensibilité aux détails
-    %li Ton envie de faire évoluer les choses
-    %li Ton obsession pour la rapidité du chargement des pages
+      %h4 Ce qu’on apprécie particulièrement :
+      %ul.delta.line-height-1-7
+        %li Ta créativité et tes propositions de design
+        %li Ta passion pour l’ergonomie et l’expérience utilisateur
+        %li Ta curiosité envers les nouvelles technos émergentes
+        %li Ton amour pour le CSS
+        %li Ta sensibilité aux détails
+        %li Ton envie de faire évoluer les choses
+        %li Ton obsession pour la rapidité du chargement des pages
 
-  %h2 Infos pratiques
-  %ul.delta.line-height-1-7
-    %li Pour postuler : envoie ta candidature à nima@coursavenue.com, en précisant dans l’objet « Candidature Développeur front-end 2015 ». Un lien vers ton compte Github et tes projets sera apprécié.
-    %li Contrat : CDI
-    %li Lieu : 193 rue de Bercy / Gare de Lyon, Paris 
+      %h4 Infos pratiques
+      %ul.delta.line-height-1-7
+        %li
+          %strong Pour postuler :
+          = link_to 'envoie ta candidature à nima@coursavenue.com, en précisant dans l’objet « Candidature développeur front-end 2015 ».', 'mailto:nima@coursavenue.com?subject=Candidature%20développeur%20front-end%202015&body=À%20toi%20de%20jouer !', class: 'semi-muted-link'
+          Un lien vers ton compte Github et tes projets sera apprécié.
+        %li
+          %strong Contrat :
+          CDI
+        %li
+          %strong Lieu :
+          = link_to '193 rue de Bercy / Gare de Lyon, Paris ', 'http://maps.google.com/?q=193%20rue%20de%20Bercy,%20Paris ', target: :_blank
+  .text--center
+    = link_to 'Je postule !', 'mailto:nima@coursavenue.com?subject=Candidature%20développeur%20front-end%202015&body=À%20toi%20de%20jouer !', class: 'btn btn--large btn--green'
