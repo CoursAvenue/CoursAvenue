@@ -60,11 +60,11 @@
               .grid__item.one-half.v-middle.palm-one-whole>
                 %h4.palm-text--center.white.flush.text--right Trouvez le cours de #{profile[:answer_small]} idéal à
               .grid__item.one-half.v-middle.palm-one-whole.soft-half--left>
-                = form_tag profile[:url], method: :get, authenticity_token: false, data: { behavior: 'coursavenue-search' }, id: 'home-page-form' do
+		= form_tag profile[:url], method: :get, authenticity_token: false do
                   .flexbox
                     .flexbox__item.v-middle.search-input-wrapper.very-soft.hard--ends.palm-hard{ style: 'width: 140px;' }
                       .input-with-icon
-                        %input.palm-one-whole.input--large.one-whole.soft-half--left{ size: 19, placeholder:'Ville', type:'text', autocomplete: 'off', name:'address_name', value: 'Paris', data: { type:'address', lng:'#address-lng', lat: '#address-lat', city: '#address-city' , address_name: '#address-name' } }
+			%input.palm-one-whole.input--large.one-whole.soft-half--left{ size: 19, placeholder:'Ville', type:'text', autocomplete: 'off', name:'address_name', value: 'Paris', data: { type:'address', lng:'#address-lng', lat: '#address-lat', city: '#address-city' , address_name: '#address-name', behavior: 'address-picker' } }
                         %i.fa.fa-map-marker.delta.black
                       %input#address-lat{ type: 'hidden', value: '48.8592', name: 'lat' }
                       %input#address-lng{ type: 'hidden', value: '2.3417', name: 'lng' }
@@ -92,7 +92,7 @@
           .orange-transparent-box.soft.push--top
             .grid.main-container.main-container--medium
               .grid__item.one-half.v-middle.palm-one-whole>
-                %h4.white.flush Cours d'essai gratuits, exclusivités, promotions : une fois par mois, vous recevrez un e-mail avec les meilleurs cours de loisirs de votre ville :
+		%h4.white.flush Cours d'essai gratuits, exclusivités... une fois par mois, recevez les meilleurs cours de loisirs de votre ville par e-mail :
               .grid__item.one-half.v-middle.palm-one-whole>
                 = simple_form_for User.new, html: { class: '' } do |f|
                   %input{ type: 'hidden', name: 'redirect_to', value: profile[:url] }
