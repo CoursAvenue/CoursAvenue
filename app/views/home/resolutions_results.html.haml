@@ -9,6 +9,9 @@
 - content_for :meta_description do
   Marre de ne pas savoir quoi répondre à la question "Et toi, quelles sont tes bonnes résolutions pour 2015 ?" Ce quizz est fait pour vous !
 
+- content_for :og_url do
+  = home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, result: (params[:id] || 'a'))
+
 :ruby
   profiles = {
       'a' => {
@@ -58,7 +61,7 @@
       .push.on-top.relative.palm-text--center
 	= link_to root_path, target: :_blank, class: 'inline-block v-middle' do
 	  = image_tag 'logos/logo.png', width: 250, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'v-middle'
-	.push-half--left.relative.v-middle.fb-share-button{ data: { href: home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), layout: 'button' } }
+	.push-half--left.relative.v-middle.fb-share-button{ data: { href: home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, result: (params[:id] || 'a')), layout: 'button' } }
 	%a.push-half--left.v-middle{ href: "https://twitter.com/share", class: "twitter-share-button", data: { text: 'Marre de ne pas savoir quoi répondre à la question "Quelles sont tes bonnes résolutions pour 2015 ?" @CoursAvenue', lang: "fr", url: home_resolutions_url(subdomain: 'www'), count: 'none' } } Tweeter
       .push--top.soft--top.one-whole.relative
 	.v-middle
@@ -88,19 +91,15 @@
 
 
           .main-container.main-container--medium
-            .f-weight-bold.line-height-1-5.push--bottom.soft--sides.palm-text--center
-              %h4.beta.palm-gamma= profile[:title]
+	    .f-weight-bold.line-height-1-5.push--bottom.soft--sides.palm-text--center
+	      %h4.beta.palm-gamma= profile[:title]
 	      .gamma.palm-epsilon.push--bottom= profile[:content].html_safe
-              %div
-                = link_to media_share_url(home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), :facebook), class: 'push-half--bottom btn--yellow btn btn--bigger', target: :_blank do
-                  %i.fa.fa-facebook
-                  Facebook
-                = link_to media_share_url(home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), :twitter), class: 'push-half--bottom btn--yellow btn btn--bigger push-half--left' do
-                  %i.fa.fa-twitter
-                  Twitter
-                = link_to 'Recommencer le test', home_resolutions_path, class: 'push-half--bottom btn btn--yellow btn--bigger push-half--left'
-          .orange-transparent-box.soft.push--top
-            .grid.main-container.main-container--medium
+	      .text--center
+		= link_to media_share_url(home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, result: (params[:id] || 'a')), :facebook), class: 'push-half--bottom btn--yellow btn btn--bigger', target: :_blank do
+		  %i.fa.fa-facebook
+		  Partager mon résultat sur Facebook
+	  .orange-transparent-box.soft.push--top
+	    .grid.main-container.main-container--medium
 	      .grid__item.one-half.v-middle.palm-one-whole>
 		%h4.white.flush Cours d'essai gratuits, exclusivités... une fois par mois, recevez les meilleurs cours de loisirs de votre ville par e-mail :
 	      .grid__item.one-half.v-middle.palm-one-whole>

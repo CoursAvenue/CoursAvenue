@@ -1,7 +1,10 @@
 - @is_responsive = true
 
 - content_for :meta_image do
-  https://d1y8qjw3kapmao.cloudfront.net/emailings/header_images/000/000/020/original/vos-resolutions-2015.jpg
+  - if params[:result]
+    = "https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/results/#{params[:results]}.jpg"
+  - else
+    https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/facebook_share_image.jpg
 
 - content_for :title do
   Quelles sont vos résolutions 2015 ?
