@@ -21,5 +21,13 @@ namespace :images do
         structure.delay.migrate_logo_to_cloudinary
       end
     end
+
+    task :export_avatars, [:filename] => :environment do |t, args|
+      bar    = ProgressBar.new User.with_avatar.count
+      User.with_avatar.each do |user|
+        bar.increment!
+        user.delay.migrate_avatar_to_cloudinary
+      end
+    end
   end
 end
