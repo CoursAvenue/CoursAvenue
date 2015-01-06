@@ -16,9 +16,9 @@
 .icon-question-sign {
     cursor: pointer;
 }
-.super-muted { @include opacity(0.3); }
+.super-muted { @include opacity(0.3);  }
 .semi-muted  { @include opacity(0.75); }
-.invisible   { @include opacity(0); }
+.invisible   { @include opacity(0);    }
 
 .relative          { position   : relative; }
 .on-top-of-the-world { z-index    : 100000 !important; }
@@ -228,27 +228,19 @@
 
 .width-30-percent {
     width: 30%;
-    @include media-query(palm) {
-        width: 100%;
-    }
+    @include media-query(palm) { width: 100%; }
 }
 
 .width-27-percent {
     width: 27%;
-    @include media-query(palm) {
-        width: 100%;
-    }
+    @include media-query(palm) { width: 100%; }
 }
 .palm-flush {
-    @include media-query(palm) {
-        margin: 0 !important;
-    }
+    @include media-query(palm) { margin: 0 !important; }
 }
 
 .palm-hard {
-    @include media-query(palm) {
-        padding: 0 !important;
-    }
+    @include media-query(palm) { padding: 0 !important; }
 }
 
 .print--visible {
@@ -332,8 +324,10 @@
 }
 .sticky.bordered--bottom-on-stick    { border-bottom : 1px solid $gray-smooth; }
 
-.height-150 {
-    height: 150px;
+.height-150 { height: 150px; }
+.height-35vh {
+    height: 35vh;
+    @include media-query(palm) { height: 15vh; }
 }
 
 .black-curtain {
@@ -349,4 +343,13 @@
         background: rgba(0,0,0,.1);
     }
 }
-.full-screen-item { height: 100vh; }
+.full-screen-item {
+    height: 100vh;
+    @include media-query(palm) { height: auto; }
+}
+
+.quizz-question-text {
+    top       : 50%;
+    margin-top: -4em;
+    @include media-query(palm) { margin-top: -1.5em; }
+}

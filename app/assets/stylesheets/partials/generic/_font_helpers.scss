@@ -26,7 +26,14 @@
 
 // --------------------- Size
 .inherit-font-size { font-size  : inherit; }
-.f-size-big { font-size: 40px; }
+.f-size-really-big {
+    font-size: 70px;
+    @include media-query(palm) { font-size: 30px; }
+}
+.f-size-big {
+    font-size: 40px;
+    @include media-query(palm) { font-size: 20px; }
+}
 .f-size-20  { font-size: 20px; }
 .f-size-16  { font-size: 16px; }
 .f-size-14  { font-size: 14px; }
@@ -57,10 +64,17 @@
 .line-height-1-7    { line-height: 1.7 !important; }
 
 .palm-text--center {
-    @include media-query(palm) {
-        text-align: center !important;
-    }
+    @include media-query(palm) { text-align: center !important; }
 }
+
+.palm-text--milli {
+    @include media-query(palm) { font-size: 0.9em; }
+}
+
+.palm-beta    { @include media-query(palm) { font-size: $h2-size; } }
+.palm-gamma   { @include media-query(palm) { font-size: $h3-size; } }
+.palm-delta   { @include media-query(palm) { font-size: $h4-size; } }
+.palm-epsilon { @include media-query(palm) { font-size: $h5-size; } }
 
 .text--muted { color: $gray-muted; }
 

@@ -1,3 +1,8 @@
+- @is_responsive = true
+
+- content_for? :title do
+  Quelles sont vos résolutions 2015 ?
+
 :ruby
   profiles = {
       'a' => {
@@ -40,7 +45,7 @@
   .flexbox.full-screen-item
     .black-curtain.north.west.one-whole.absolute
     %div.section.one-whole.full-screen-item
-      .push.on-top.relative
+      .push.on-top.relative.palm-text--center
         = link_to root_path, target: :_blank, class: 'inline-block v-middle' do
           = image_tag 'logos/logo.png', width: 250, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'v-middle'
         .push-half--left.relative.v-middle.fb-share-button{ data: { href: home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), layout: 'button_count' } }
@@ -48,13 +53,13 @@
       .push--top.soft--top.one-whole.relative
         .v-middle
           .orange-transparent-box.soft.push--bottom
-            %h2.alpha.text--center.white
-              %span.f-weight-400 C'EST DÉCIDÉ, EN 2015 JE ME METS AU
-              #{profile[:answer]} !
+            %h2.alpha.palm-beta.text--center.white
+              %span.ff-kameron C'EST DÉCIDÉ, EN 2015 JE ME METS AU
+              %span.ff-pacifico #{profile[:answer]} !
             .grid.main-container.main-container--medium
-              .grid__item.one-half.v-middle>
-                %h4.white.flush.text--right Trouvez le cours de #{profile[:answer_small]} idéal à
-              .grid__item.one-half.v-middle.soft-half--left>
+              .grid__item.one-half.v-middle.palm-one-whole>
+                %h4.palm-text--center.white.flush.text--right Trouvez le cours de #{profile[:answer_small]} idéal à
+              .grid__item.one-half.v-middle.palm-one-whole.soft-half--left>
                 = form_tag profile[:url], method: :get, authenticity_token: false, data: { behavior: 'coursavenue-search' }, id: 'home-page-form' do
                   .flexbox
                     .flexbox__item.v-middle.search-input-wrapper.very-soft.hard--ends.palm-hard{ style: 'width: 140px;' }
@@ -73,32 +78,32 @@
 
 
           .main-container.main-container--medium
-            .two-thirds.f-weight-bold.line-height-1-5.push--bottom
-              %h4.beta= profile[:title]
-              .gamma= profile[:content]
-            %div
-              = link_to media_share_url(home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), :facebook), class: 'btn--yellow btn btn--bigger', target: :_blank do
-                %i.fa.fa-facebook
-                Facebook
-              = link_to media_share_url(home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), :twitter), class: 'btn--yellow btn btn--bigger push-half--left' do
-                %i.fa.fa-twitter
-                Twitter
-              = link_to 'Recommencer le test', home_resolutions_path, class: 'btn btn--yellow btn--bigger push-half--left'
+            .f-weight-bold.line-height-1-5.push--bottom.soft--sides.palm-text--center
+              %h4.beta.palm-gamma= profile[:title]
+              .gamma.palm-epsilon.push--bottom= profile[:content]
+              %div
+                = link_to media_share_url(home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), :facebook), class: 'push-half--bottom btn--yellow btn btn--bigger', target: :_blank do
+                  %i.fa.fa-facebook
+                  Facebook
+                = link_to media_share_url(home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), :twitter), class: 'push-half--bottom btn--yellow btn btn--bigger push-half--left' do
+                  %i.fa.fa-twitter
+                  Twitter
+                = link_to 'Recommencer le test', home_resolutions_path, class: 'push-half--bottom btn btn--yellow btn--bigger push-half--left'
           .orange-transparent-box.soft.push--top
             .grid.main-container.main-container--medium
-              .grid__item.one-half.v-middle>
+              .grid__item.one-half.v-middle.palm-one-whole>
                 %h4.white.flush Cours d'essai gratuits, exclusivités, promotions : une fois par mois, vous recevrez un e-mail avec les meilleurs cours de loisirs de votre ville :
-              .grid__item.one-half.v-middle>
+              .grid__item.one-half.v-middle.palm-one-whole>
                 = simple_form_for User.new, html: { class: '' } do |f|
                   %input{ type: 'hidden', name: 'redirect_to', value: profile[:url] }
                   .grid
-                    .grid__item.v-middle.one-half>
+                    .grid__item.palm-one-whole.v-middle.one-half>
                       = f.input :subscription_from, as: :hidden, input_html: { value: 'quizz' }
                       = f.input :email, label: false, input_html: { placeholder: 'Adresse e-mail', class: 'input--large one-whole' }, wrapper_html: { class: 'flush--top inline-block v-middle push-half--bottom one-whole' }
                       %br
                       = f.input :zip_code, label: false, input_html: { placeholder: 'Code postal', class: 'input--large one-whole' }, wrapper_html: { class: 'flush inline-block v-middle one-whole' }
-                    .grid__item.v-middle.one-half.text--center>
-                      = f.submit "M'inscrire", class: 'btn btn--yellow btn--bigger btn--full'
+                    .grid__item.palm-one-whole.v-middle.one-half.text--center>
+                      = f.submit "M'inscrire", class: 'push-half--top btn btn--yellow btn--bigger btn--full'
                       CoursAvenue est garanti sans spam.
 
 
