@@ -60,16 +60,21 @@
             var options = {
                 files: #{ @dropbox_orders.to_json },
                 success: function() {
-                  GLOBAL.flash('', 'success');
-                  // Update models.
+                    GLOBAL.flash('Fichiers enregistrés.', 'success');
+                    // Update models.
                 },
                 cancel: function() {
+                    GLOBAL.flash('Action annulée.', 'success');
                 },
                 error: function(errorMessage) {
+                    console.log(errorMessage);
+                    GLOBAL.flash('Une erreur est survenue, veuillez rééssayer.', 'success');
+                },
+                progress: function(progress) {
+                    console.log(progress);
                 }
             }
 
-            console.log(options.files);
             Dropbox.save(options);
         });
     });
