@@ -101,14 +101,13 @@
                 = link_to 'Recommencer le test', home_resolutions_path, class: 'push-half--bottom btn btn--yellow btn--bigger push-half--left'
           .orange-transparent-box.soft.push--top
             .grid.main-container.main-container--medium
-              .grid__item.one-half.v-middle.palm-one-whole>
+	      .grid__item.one-half.v-middle.palm-one-whole>
 		%h4.white.flush Cours d'essai gratuits, exclusivités... une fois par mois, recevez les meilleurs cours de loisirs de votre ville par e-mail :
-              .grid__item.one-half.v-middle.palm-one-whole>
-                = simple_form_for User.new, html: { class: '' } do |f|
-                  %input{ type: 'hidden', name: 'redirect_to', value: profile[:url] }
-                  .grid
-                    .grid__item.palm-one-whole.v-middle.one-half>
-                      = f.input :subscription_from, as: :hidden, input_html: { value: 'quizz' }
+	      .grid__item.one-half.v-middle.palm-one-whole>
+		= simple_form_for User.new, html: { class: '' }, remote: true do |f|
+		  .grid
+		    .grid__item.palm-one-whole.v-middle.one-half>
+		      = f.input :subscription_from, as: :hidden, input_html: { value: 'quizz' }
                       = f.input :email, label: false, input_html: { placeholder: 'Adresse e-mail', class: 'input--large one-whole' }, wrapper_html: { class: 'flush--top inline-block v-middle push-half--bottom one-whole' }
                       %br
                       = f.input :zip_code, label: false, input_html: { placeholder: 'Code postal', class: 'input--large one-whole' }, wrapper_html: { class: 'flush inline-block v-middle one-whole' }
