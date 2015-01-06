@@ -80,10 +80,7 @@ class Pro::SubscriptionPlansController < Pro::ProController
 
   # Set the orders as uploaded on dropbox.
   def update_dropbox_orders
-    Order.where(on_dropbox: false).each do |order|
-      order.update_attribute(:on_dropbox, true)
-    end
-
+    Order.where(on_dropbox: false).update_all(:on_dropbox, true)
     head :ok
   end
 
