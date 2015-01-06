@@ -139,7 +139,6 @@ CoursAvenue::Application.routes.draw do
           get :premium_tracking, path: 'suivi-premium'
           get :unsubscribed_tracking, path: 'suivi-desabo'
           get :download
-          get :order_filenames
         end
         member do
           get :stat_info

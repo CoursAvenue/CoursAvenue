@@ -78,17 +78,6 @@ class Pro::SubscriptionPlansController < Pro::ProController
     redirect_to premium_tracking_pro_subscription_plans_path, notice: 'Le fichier est en cours de création.'
   end
 
-  def order_filenames
-    orders    = Order.where(on_dropbox: false)
-    filenames = orders.map do |order|
-      { url: order.S3_invoice_path, filename: "#{order.public_order_id}.pdf" }
-    end
-
-    respond_to do |format|
-      format.js { render json: filenames }
-    end
-  end
-
   private
 
   # Deduce the label index from the statistics score
