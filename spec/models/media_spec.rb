@@ -20,7 +20,4 @@ describe Media do
       expect(Media::Video.new.image?).to be(false)
     end
   end
-
-  context 'video' do
-  end
 end

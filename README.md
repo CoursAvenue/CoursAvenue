@@ -175,7 +175,6 @@ $ git remote prune origin
 ## Continuous Integration
 
 We use [CircleCI][ci] as continuous integration. Every time you push to GitHub,
-
 CircleCI will run the test on its server and execute actions depending on the
 outcome of the tests. After every tests, it will send a notification to Slack.
 
@@ -202,7 +201,8 @@ $ git push origin master
 To skip the CI, directly push to Production. You will still need to manually
 run the migrations if they are needed:
 ```shell
-$ git push production master && hk run 'rake db:migrate' -a production
+$ git push production master && \
+    hk run 'rake db:migrate' -a production
 ```
 
 ### Pushing to Staging
