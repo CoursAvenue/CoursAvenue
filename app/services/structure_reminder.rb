@@ -12,4 +12,12 @@ class StructureReminder
       AdminMailer.delay.send(status.to_sym, structure)
     end
   end
+
+  # Send a reminder when there are pending comments on the structure.
+  # @param structure The Structure to send the reminder to
+  #
+  # @return nil
+  def self.pending_comments(structure)
+    AdminMailer.delay.remind_for_pending_comments(structure)
+  end
 end
