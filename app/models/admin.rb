@@ -77,8 +77,8 @@ class ::Admin < ActiveRecord::Base
     end
     boolean :super_admin
   end
-  # :nocov:
   handle_asynchronously :solr_index, queue: 'index' unless Rails.env.test?
+  # :nocov:
 
   # Override of a Mailboxer method.
   #
