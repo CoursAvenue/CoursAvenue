@@ -324,4 +324,41 @@ describe Structure do
     end
   end
 
+  describe '#send_reminder' do
+    context 'has no main contact' do
+      subject { FactoryGirl.create(:structure) }
+
+      before do
+        subject.admins = []
+        subject.save
+      end
+
+      it "doesn't send a reminder" do
+        expect { subject.send_reminder }.to_not change { ActionMailer::Base.deliveries.count }
+      end
+    end
+
+    context 'is sleeping' do
+      subject { FactoryGirl.create(:sleeping_structure) }
+
+      it "doesn't send a reminder" do
+        expect { subject.send_reminder }.to_not change { ActionMailer::Base.deliveries.count }
+      end
+    end
+
+    context 'main contact as opted out of emails' do
+      subject            { FactoryGirl.create(:structure) }
+      let(:main_contact) { subject.main_contact }
+
+      before do
+        main_contact.monday_email_opt_in = false
+        main_contact.save
+      end
+
+      it "doesn't send a reminder" do
+        expect { subject.send_reminder }.to_not change { ActionMailer::Base.deliveries.count }
+      end
+    end
+  end
+
 end
