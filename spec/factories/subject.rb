@@ -25,7 +25,7 @@ FactoryGirl.define do
       association :parent, factory: :subject_with_parent
     end
 
-    trait :with_needed_material do
+    trait :with_needed_meterial do
       needed_meterial { Faker::Lorem.paragraph }
     end
 
