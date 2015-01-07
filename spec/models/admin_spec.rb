@@ -26,10 +26,23 @@ describe Admin do
   end
 
   describe '#name' do
-    let(:structure) { subject.structure }
+    context 'with a structure' do
+      let(:structure) { subject.structure }
 
-    it "returns its structure's name" do
-      expect(subject.name).to eq(structure.name)
+      it "returns its structure's name" do
+        expect(subject.name).to eq(structure.name)
+      end
+    end
+
+    context 'without a structure' do
+      before do
+        subject.structure = nil
+        subject.save
+      end
+
+      it 'returns its own name' do
+        expect(subject.name).to eq(subject.read_attribute(:name))
+      end
     end
   end
 
