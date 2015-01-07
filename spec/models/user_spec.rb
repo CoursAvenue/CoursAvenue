@@ -64,7 +64,7 @@ describe User do
   end
 
   describe '#participate_to?' do
-    let(:user) { FactoryGirl.create(:user) }
+    let(:user)     { FactoryGirl.create(:user) }
     let(:planning) { FactoryGirl.create(:planning) }
 
     it 'returns true' do
