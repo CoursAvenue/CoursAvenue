@@ -11,19 +11,20 @@ FactoryGirl.define do
     phone_number            '0104050104'
     mobile_phone_number     '0604050104'
 
-    confirmed_at Date.today
+    confirmed_at { Date.today }
 
     password                'zpdajdpzaojdxd'
     password_confirmation   'zpdajdpzaojdxd'
 
     factory :admin_from_facebook do
-      oauth_token Faker::Internet.password
-      oauth_expires_at 10.years.from_now
+      oauth_token      { Faker::Internet.password }
+      oauth_expires_at { 10.years.from_now }
       provider 'facebook'
 
-      factory :admin_from_facebook_with_page do
-        facebook_url 'http:://facebok.com/coursavenue'
-      end
+    end
+
+    trait :admin_from_facebook_with_page do
+      facebook_url 'http:://facebok.com/coursavenue'
     end
   end
 end
