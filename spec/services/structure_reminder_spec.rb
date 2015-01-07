@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe StructureReminder do
   describe '.send_status_reminder' do
