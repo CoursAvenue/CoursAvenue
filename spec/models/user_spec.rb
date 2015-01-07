@@ -2,7 +2,9 @@
 require 'rails_helper'
 
 describe User do
-  it_behaves_like 'HasAudiencesAndLevels'
+  context :concerns do
+    it_behaves_like 'HasAudiencesAndLevels'
+  end
 
   context :active do
     it 'should not have password' do
