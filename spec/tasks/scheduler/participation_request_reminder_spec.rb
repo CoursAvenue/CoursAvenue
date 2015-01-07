@@ -246,6 +246,7 @@ context "scheduler:participation_requests" do
         expect do
           Rake::Task['scheduler:participation_requests:how_was_the_trial_stage_1'].invoke
         end.to change { ActionMailer::Base.deliveries.count }.by(1)
+      end
     end
   end
 end
