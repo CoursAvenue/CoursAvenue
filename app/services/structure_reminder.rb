@@ -1,4 +1,4 @@
-class ReminderService
+class StructureReminder
   # Send a reminder depending on the email status of the structure
   # @param structure The Structure to send the reminder to
   #

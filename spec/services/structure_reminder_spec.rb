@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ReminderService do
+describe StructureReminder do
   describe '.send_status_reminder' do
     let(:structure) { FactoryGirl.create(:structure) }
 
