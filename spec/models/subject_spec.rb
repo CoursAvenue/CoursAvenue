@@ -18,6 +18,7 @@ describe Subject do
       let(:parent) { subject.parent }
 
       it { expect(subject.descendant_of?(parent)).to be_truthy }
+      it { expect(subject.descendant_of?([parent])).to be_truthy }
     end
 
     context 'has grandparents' do
@@ -47,6 +48,42 @@ describe Subject do
     it { expect(subject.grand_parent).to eq(grand_parent) }
     it { expect(parent.grand_parent).to eq(grand_parent) }
     it { expect(grand_parent.grand_parent).to be_nil }
+  end
+
+  describe '#as_json' do
+    subject { FactoryGirl.create(:subject) }
+    it { expect(subject.as_json).to_not be_nil }
+  end
+
+  describe '#good_to_know' do
+    context 'with meterial' do
+      subject { FactoryGirl.create(:subject, :with_good_to_know) }
+
+      it 'returns the meterial' do
+        expect(subject.good_to_know).to_not be_nil
+      end
+    end
+
+    context 'without meterial' do
+      context 'with a parent' do
+        subject      { FactoryGirl.create(:subject) }
+        let(:parent) { FactoryGirl.create(:subject, :with_good_to_know) }
+
+        before do
+          subject.parent = parent
+          subject.save
+        end
+
+        it 'returns the parent meterial' do
+          expect(subject.good_to_know).to eq(parent.good_to_know)
+        end
+      end
+
+      context 'without parent' do
+        subject { FactoryGirl.create(:subject) }
+        it { expect(subject.good_to_know).to be_nil }
+      end
+    end
   end
 
   describe '#needed_meterial' do
@@ -110,5 +147,4 @@ describe Subject do
       end
     end
   end
-
 end
