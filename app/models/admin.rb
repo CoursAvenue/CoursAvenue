@@ -78,7 +78,10 @@ class ::Admin < ActiveRecord::Base
   end
   handle_asynchronously :solr_index, queue: 'index' unless Rails.env.test?
 
-  def mailboxer_email(object)
+  # Override of a Mailboxer method.
+  #
+  # @return String, the admin email.
+  def mailboxer_email(_)
     self.email
   end
 
