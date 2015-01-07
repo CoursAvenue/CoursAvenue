@@ -88,6 +88,7 @@ class Planning < ActiveRecord::Base
   ######################################################################
   # Solr                                                               #
   ######################################################################
+  # :nocov:
   searchable do
     integer :search_score do
       self.course.structure.compute_search_score
@@ -271,6 +272,7 @@ class Planning < ActiveRecord::Base
       end
     end
   end
+  # :nocov:
 
   handle_asynchronously :solr_index, queue: 'index' unless Rails.env.test?
 

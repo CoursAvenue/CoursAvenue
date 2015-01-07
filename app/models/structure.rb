@@ -172,6 +172,7 @@ class Structure < ActiveRecord::Base
   ######################################################################
   # Algolia                                                            #
   ######################################################################
+  # :nocov:
   algoliasearch per_environment: true do
     attribute :name, :slug
     add_attribute :search_score do
@@ -194,10 +195,12 @@ class Structure < ActiveRecord::Base
     end
     customRanking ['desc(search_score)', 'desc(is_sleeping)']
   end
+  # :nocov:
 
   ######################################################################
   # Solr                                                               #
   ######################################################################
+  # :nocov:
   searchable do
 
     integer :search_score do
@@ -390,6 +393,7 @@ class Structure < ActiveRecord::Base
 
     double :jpo_score
   end
+  # :nocov:
 
   handle_asynchronously :solr_index, queue: 'index' unless Rails.env.test?
 

@@ -53,10 +53,13 @@ class Subject < ActiveRecord::Base
 
   validates_attachment_content_type :image, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 
+  # :nocov:
   searchable do
     text :name
   end
+  # :nocov:
 
+  # :nocov:
   algoliasearch per_environment: true do
     attribute :name, :slug
     add_attribute :type do
@@ -70,6 +73,7 @@ class Subject < ActiveRecord::Base
       self.root.slug unless self.depth == 0
     end
   end
+  # :nocov:
 
   # Tells wether the given subject is a descendant of self by checking its ancestry string
   # @param  subject [type] [description]

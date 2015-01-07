@@ -67,6 +67,7 @@ class Course < ActiveRecord::Base
                   :is_open_for_trial, :has_promotion
 
   # ------------------------------------------------------------------------------------ Search attributes
+  # :nocov:
   searchable do
     text :name, :boost => 2
 
@@ -203,6 +204,7 @@ class Course < ActiveRecord::Base
 
     integer :structure_id
   end
+  # :nocov:
 
   handle_asynchronously :solr_index, queue: 'index' unless Rails.env.test?
 

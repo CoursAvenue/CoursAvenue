@@ -113,6 +113,7 @@ class User < ActiveRecord::Base
   scope :with_avatar, -> { where.not(avatar_file_name: nil) }
 
 
+  # :nocov:
   searchable do
     text :first_name
     text :last_name
@@ -145,6 +146,7 @@ class User < ActiveRecord::Base
     time :created_at
 
   end
+  # :nocov:
 
   # Creates a user from Facebook
   #

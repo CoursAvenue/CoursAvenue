@@ -58,6 +58,7 @@ class ::Admin < ActiveRecord::Base
   # ------------------------------------
   # ------------------ Search attributes
   # ------------------------------------
+  # :nocov:
   searchable do
     text :name
     text :email
@@ -76,6 +77,7 @@ class ::Admin < ActiveRecord::Base
     end
     boolean :super_admin
   end
+  # :nocov:
   handle_asynchronously :solr_index, queue: 'index' unless Rails.env.test?
 
   # Override of a Mailboxer method.
