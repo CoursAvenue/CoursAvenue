@@ -9,10 +9,10 @@ FactoryGirl.define do
 
     name              { Faker::Name.name + ' place' }
     street            'Paris'
-    zip_code          75014
+    zip_code          '75014'
 
     trait :not_parisian do
-      zip_code 89100
+      zip_code '89100'
     end
   end
 end
