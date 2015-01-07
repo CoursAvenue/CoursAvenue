@@ -38,8 +38,14 @@
 .f-color-black { color: black; }
 
 /*------------------------------------*\
-     SIZE
+     FONT-SIZE
 \*------------------------------------*/
+
+.palm-beta    { @include media-query(palm) { font-size: $h2-size; } }
+.palm-gamma   { @include media-query(palm) { font-size: $h3-size; } }
+.palm-delta   { @include media-query(palm) { font-size: $h4-size; } }
+.palm-epsilon { @include media-query(palm) { font-size: $h5-size; } }
+.palm-zeta    { @include media-query(palm) { font-size: $h6-size; } }
 
 .inherit-font-size { font-size  : inherit; }
 .f-size-really-big {
@@ -96,11 +102,6 @@
 .palm-text--milli {
     @include media-query(palm) { font-size: 0.9em; }
 }
-
-.palm-beta    { @include media-query(palm) { font-size: $h2-size; } }
-.palm-gamma   { @include media-query(palm) { font-size: $h3-size; } }
-.palm-delta   { @include media-query(palm) { font-size: $h4-size; } }
-.palm-epsilon { @include media-query(palm) { font-size: $h5-size; } }
 
 .text--muted { color: $gray-muted; }
 

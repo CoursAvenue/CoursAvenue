@@ -9,13 +9,16 @@
 .main-container.soft.epsilon
   %h1.f-weight-300 Postes actuellement ouverts
   .grid
-    .grid__item.one-half.palm-one-whole.palm-text--center>
+    .grid__item.one-half.palm-one-whole>
       %h2.f-weight-300
         %i.fa.fa-eiffel-tower
         Paris
-      %p
-        = link_to 'Développeur frontend', jobs_frontend_developper_path, class: 'delta'
-    .grid__item.one-half.palm-one-whole.palm-text--center>
+      %ul.no-bullet-list.line-height-2
+        %li= link_to 'Développeur Frontend', jobs_frontend_developper_path, class: 'delta'
+    .grid__item.one-half.palm-one-whole>
       %h2.f-weight-300
-        %i.fa.fa-map-marker
+        %i.fa.fa-rugby-ball
         Toulouse
+      %ul.no-bullet-list.line-height-2
+        %li= link_to 'Responsable Business Development', jobs_business_developper_path, class: 'delta'
+        %li= link_to 'Responsable Marketing', jobs_marketing_path, class: 'delta'

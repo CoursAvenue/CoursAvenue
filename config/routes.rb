@@ -591,6 +591,8 @@ CoursAvenue::Application.routes.draw do
   # Jobs
   get 'jobs'                          => 'jobs#index'
   get 'jobs/frontend-developpeur'     => 'jobs#frontend_developper',   as: 'jobs_frontend_developper'
+  get 'jobs/business-developpeur'     => 'jobs#business_developper',   as: 'jobs_business_developper'
+  get 'jobs/marketing'                => 'jobs#marketing',             as: 'jobs_marketing'
 
   # Redirect old pages
   get 'pages/pourquoi-le-bon-cours'         => redirect('pourquoi-le-bon-cours'         , status: 301)

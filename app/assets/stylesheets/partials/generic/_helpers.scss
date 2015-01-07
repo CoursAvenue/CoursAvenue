@@ -14,7 +14,7 @@
 .full-screen-item {
     height: 750px; // Fallback
     height: 100vh;
-    @include media-query(palm) { height: auto; }
+    // @include media-query(palm) { height: auto; }
 }
 
 /*------------------------------------*\
@@ -196,7 +196,7 @@
 .black-box-shadow { @include box-shadow(0px 0px 31px #555555); }
 .white-text-shadow { @include text-shadow(0 0 2px #FFF, 0 0 12px #FFF, 0 0 22px #FFF, 0 0 42px #FFF, 0 0 92px #FFF); }
 .black-text-shadow { @include text-shadow(0 0 2px #000, 0 0 12px #000, 0 0 22px #000, 0 0 42px #000, 0 0 92px #000); }
-.soft-black-text-shadow { @include text-shadow(0px 0px 2px #444, 0px 0px 15px #444); }
+.soft-black-text-shadow { @include text-shadow(0px 2px 2px #444, 0px 2px 15px #444); }
 .smooth-black-text-shadow { @include text-shadow(0px 0px 2px #444); }
 
 .highlight {
@@ -332,4 +332,12 @@
     top       : 50%;
     margin-top: -4em;
     @include media-query(palm) { margin-top: -1.5em; }
+}
+
+.grayscale {
+    @include transition(all 200ms linear);
+    @include prefix(filter, grayscale(100%));
+    &:hover {
+        @include prefix(filter, grayscale(0));
+    }
 }
