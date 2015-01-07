@@ -1252,6 +1252,9 @@ class Structure < ActiveRecord::Base
     nil
   end
 
+  # Get the dominant city from the planning or from the courses
+  #
+  # @return City
   def dominant_city_from_planning
     plannings.map(&:place).flat_map(&:city).group_by { |c| c }.values.max_by(&:size).first ||
       courses.flat_map(&:places).flat_map(&:city).group_by { |c| c }.values.max_by(&:size).first
