@@ -13,7 +13,7 @@ class JobsController < ApplicationController
     if action_name == 'index'
       'pages'
     else
-      'empty_body'
+      'empty_body_with_footer'
     end
   end
 end
