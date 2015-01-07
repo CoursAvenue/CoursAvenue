@@ -2,10 +2,6 @@
 require 'rails_helper'
 
 describe User do
-  context :concerns do
-    it_behaves_like 'HasAudiencesAndLevels'
-  end
-
   context :active do
     it 'should not have password' do
       user = User.new first_name: 'Lorem', last_name: 'last_name', email: 'random@email.com'
