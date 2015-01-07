@@ -10,13 +10,13 @@
 
       .grid.push--bottom
         .grid__item.one-third.text--center.v-middle>
-          .inline-block.pointer{ data: { behavior: 'toggle-serie' } }
+          .inline-block.cursor-pointer{ data: { behavior: 'toggle-serie' } }
             .v-middle.lbl.lbl--red.v-middle.lbl--small &nbsp;
             %h5.flush.v-middle.inline-block
               Affichages :
               = @impressions_total_count
         .grid__item.one-third.text--center.v-middle>
-          .inline-block.pointer.nowrap{ data: { behavior: 'toggle-serie' } }
+          .inline-block.cursor-pointer.nowrap{ data: { behavior: 'toggle-serie' } }
             .v-middle.lbl.lbl--blue.v-middle.lbl--small &nbsp;
             %h5.flush.v-middle.inline-block
               Consultations :
@@ -25,7 +25,7 @@
               - else
                 = render partial: 'pro/structures/premium_select', locals: { title: 'suivre toutes les statistiques de votre profil CoursAvenue ?', label_text: "", select_collection: ['Visibles', 'Non visibles'], show_bubble: false }
         .grid__item.one-third.text--center.v-middle>
-          .inline-block.pointer{ data: { behavior: 'toggle-serie' } }
+          .inline-block.cursor-pointer{ data: { behavior: 'toggle-serie' } }
             .v-middle.lbl.lbl--green.v-middle.lbl--small &nbsp;
             %h5.flush.v-middle.inline-block
               Actions :

@@ -1,57 +1,70 @@
-.bg-transparent {
-    background: transparent;
-}
-.bg-contain, .bg-cover {
-    background-position  : center;
-    background-repeat    : no-repeat;
-    &[data-stellar-background-ratio] {
-        background-position: top;
-    }
-}
-.bg-position-top { background-position: top; }
-.bg-fixed { background-attachment: fixed; }
-.bg-cover   { @include background-size(cover); }
-.bg-contain { @include background-size(contain); }
+/*------------------------------------*\
+    WIDTHS & HEIGHTS
+\*------------------------------------*/
+.one-seventh { width: 14.2857%; }
+.width-auto  { width: auto !important; }
 
-.icon-question-sign {
-    cursor: pointer;
+.height-150 { height: 150px; }
+.height-35vh {
+    height: 350px; // Fallback
+    height: 35vh;
+    @include media-query(palm) { height: 15vh; }
 }
-.super-muted { @include opacity(0.3);  }
-.semi-muted  { @include opacity(0.75); }
-.invisible   { @include opacity(0);    }
-
-.relative          { position   : relative; }
-.on-top-of-the-world { z-index    : 100000 !important; }
-.on-top            { z-index    : 1000 !important; }
-.on-under-top      { z-index    : 900 !important; }
-.absolute          { position   : absolute; }
-.fixed             { position   : fixed; }
-.west              { left       : 0 !important; }
-.east              { right      : 0 !important; }
-.north             { top        : 0 !important; }
-.south             { bottom     : 0 !important; }
-
-.absolute--center {
-    top        : 50%;
-    left       : 50%;
-    width      : 10em;
-    height     : 10em;
-    line-height: 10em;
-    margin-left: -5em;
-    margin-top : -5em;
+.height-whole { height: 100%; }
+.full-screen-item {
+    height: 750px; // Fallback
+    height: 100vh;
+    @include media-query(palm) { height: auto; }
 }
 
-.flip {
-    @include vendor(transform, scaleX(-1));
-    filter: FlipH; /* IE 6/7/8 */
-}
+/*------------------------------------*\
+    RADIUS
+\*------------------------------------*/
+.rounded--none       { @include border-radius(0!important); }
+.rounded-left--none  { @include border-left-radius(0!important); }
+.rounded-right--none { @include border-right-radius(0!important); }
+.rounded-top--none   { @include border-top-radius(0!important); }
+.rounded             { @include border-radius($brand-round); }
+.rounded--top        { @include border-top-radius($brand-round); }
+.rounded--bottom     { @include border-bottom-radius($brand-round); }
+.rounded--double     { @include border-radius($brand-round * 2); }
+.rounded--thick      { @include border-radius(1em !important); }
+.rounded--circle     { @include border-radius(100% !important); }
 
-.push--east { text-align: right; }
+/*------------------------------------*\
+    BORDERS
+\*------------------------------------*/
+.bordered--right     { border-right  : 1px solid $gray-smooth; }
+.bordered--left      { border-left   : 1px solid $gray-smooth; }
+.bordered--bottom    { border-bottom : 1px solid $gray-smooth; }
+.bordered--top       { border-top    : 1px solid $gray-smooth; }
+.bordered            { border        : 1px solid $gray-smooth; }
+.bordered--blue      { border        : 1px solid $blue; }
+.bordered--red       { border        : 1px solid $red; }
+.border-none         { border        : none !important; }
+.border-none--sides  { border-left   : none !important; border-right: none !important; }
+.border-none--bottom { border-bottom : none !important; }
+.border-none--left   { border-left  : none !important; }
+.border-none--right  { border-right  : none !important; }
+.border-none--left   { border-left   : none !important; }
+.border-none--top    { border-top    : none !important; }
+.bordered--larger    { border-width  : 2px !important; }
+.bordered--thick     { border-width  : 4px !important; }
+.bordered--orange    { border-color  : $orange; }
+.border-color-gray   { border-color  : $gray; }
+.border-color-white  { border-color  : white; }
 
-.v-top      { vertical-align: top!important; }
-.v-middle   { vertical-align: middle!important; }
-.v-bottom   { vertical-align: bottom!important; }
+/*------------------------------------*\
+    ALIGNMENTS
+\*------------------------------------*/
+.v-top        { vertical-align: top!important; }
+.v-middle     { vertical-align: middle!important; }
+.v-bottom     { vertical-align: bottom!important; }
+.center-block { margin-left: auto; margin-right: auto; display: block; }
 
+/*------------------------------------*\
+    COLORS
+\*------------------------------------*/
 .white              { color: white; }
 .black              { color: $text-black; }
 .yellow             { color: $yellow; }
@@ -76,46 +89,10 @@
 .bg-white-faded     { background-color: white; background-color: rgba(255, 255, 255, 0.65) }
 .bg-site-background { background-color: $site-background-color; }
 .bg-black-faded     { background-color: black; background-color: rgba(0, 0, 0, 0.65) }
-.margin-bottom {
-    margin-bottom: 1em;
-}
-.small-margin-bottom {
-    margin-bottom: 0.5em;
-}
-// Rounded
-.rounded--none      { @include border-radius(0!important); }
-.rounded-left--none { @include border-left-radius(0!important); }
-.rounded-right--none { @include border-right-radius(0!important); }
-.rounded-top--none  { @include border-top-radius(0!important); }
-.rounded            { @include border-radius($brand-round); }
-.rounded--top       { @include border-top-radius($brand-round); }
-.rounded--bottom    { @include border-bottom-radius($brand-round); }
-.rounded--double    { @include border-radius($brand-round * 2); }
-.rounded--thick     { @include border-radius(1em !important); }
-.rounded--circle    { @include border-radius(100% !important); }
 
-// Border
-.bordered--right     { border-right  : 1px solid $gray-smooth; }
-.bordered--left      { border-left   : 1px solid $gray-smooth; }
-.bordered--bottom    { border-bottom : 1px solid $gray-smooth; }
-.bordered--top       { border-top    : 1px solid $gray-smooth; }
-.bordered            { border        : 1px solid $gray-smooth; }
-.bordered--blue      { border        : 1px solid $blue; }
-.bordered--red       { border        : 1px solid $red; }
-.border-none         { border        : none !important; }
-.border-none--sides  { border-left   : none !important; border-right: none !important; }
-.border-none--bottom { border-bottom : none !important; }
-.border-none--left   { border-left  : none !important; }
-.border-none--right  { border-right  : none !important; }
-.border-none--left   { border-left   : none !important; }
-.border-none--top    { border-top    : none !important; }
-.bordered--larger    { border-width  : 2px !important; }
-.bordered--thick     { border-width  : 4px !important; }
-.bordered--orange    { border-color  : $orange; }
-.border-color-gray   { border-color  : $gray; }
-.border-color-white  { border-color  : white; }
-
-.center-block        { margin-left: auto; margin-right: auto; display: block; }
+/*------------------------------------*\
+    DISPLAY
+\*------------------------------------*/
 .block               { display    : block; }
 .inline              { display    : inline; }
 .inline-block        { display    : inline-block; }
@@ -123,14 +100,49 @@
 .hidden              { display    : none; }
 .visibility-hidden   { visibility : hidden; }
 
+/*------------------------------------*\
+    POSITIONNING
+\*------------------------------------*/
+.relative          { position   : relative; }
+.on-top-of-the-world { z-index    : 100000 !important; }
+.on-top            { z-index    : 1000 !important; }
+.on-under-top      { z-index    : 900 !important; }
+.absolute          { position   : absolute; }
+.fixed             { position   : fixed; }
+.west              { left       : 0 !important; }
+.east              { right      : 0 !important; }
+.north             { top        : 0 !important; }
+.south             { bottom     : 0 !important; }
 
-.width-auto         { width: auto !important; }
-.width-fit-content  {
-    width: -moz-fit-content;
-    width: -webkit-fit-content;
-    width: fit-content;
+.bg-transparent {
+    background: transparent;
 }
+.bg-contain, .bg-cover {
+    background-position  : center;
+    background-repeat    : no-repeat;
+    &[data-stellar-background-ratio] {
+        background-position: top;
+    }
+}
+.bg-position-top { background-position: top; }
+.bg-fixed { background-attachment: fixed; }
+.bg-cover   { @include background-size(cover); }
+.bg-contain { @include background-size(contain); }
 
+.super-muted { @include opacity(0.3);  }
+.semi-muted  { @include opacity(0.75); }
+.invisible   { @include opacity(0);    }
+
+
+.absolute--center {
+    top        : 50%;
+    left       : 50%;
+    width      : 10em;
+    height     : 10em;
+    line-height: 10em;
+    margin-left: -5em;
+    margin-top : -5em;
+}
 .or {
     border-bottom: 1px solid #CCC;
     margin       : 0em 0 $base-line-height 0;
@@ -143,29 +155,21 @@
         background-color: white;
     }
 }
-.nowrap    { white-space : nowrap !important; }
-.break-all { word-break : break-all; }
-.milli {
-    p {
-        line-height: 1.5;
-    }
-}
-.word-break-normal { word-break: normal; }
-.thin              { font-weight: 300; }
-.very-soft         { padding: 5px; }
+/*------------------------------------*\
+    SPACING
+\*------------------------------------*/
+.very-soft  { padding: 5px; }
+.island-top { margin-top: $base-spacing-unit * 3.5; }
 
-.pointer        { cursor: pointer !important; }
-.cursor-default { cursor: default !important; }
-.cursor-help    { cursor: help !important; }
+/*------------------------------------*\
+    CURSOR
+\*------------------------------------*/
+.cursor-pointer     { cursor: pointer !important; }
+.cursor-default     { cursor: default !important; }
+.cursor-help        { cursor: help !important; }
 
 .ie-blocker {
-    position   : fixed;
-    height     : 100%;
-    width      : 100%;
-    left       : 0;
-    top        : 0;
     background : #EEE;
-    z-index    : 100000;
 }
 
 .opacity-hidden-on-hover__wrapper {
@@ -205,10 +209,6 @@
     &.white-circle--thick { border-width: 4px; }
 }
 
-.one-seventh {
-    width: 14.2857%;
-}
-
 .fade-out {
     opacity: 0.4;
     transition: opacity 0.5s ease;
@@ -226,15 +226,6 @@
     background-color: $orange;
 }
 
-.width-30-percent {
-    width: 30%;
-    @include media-query(palm) { width: 100%; }
-}
-
-.width-27-percent {
-    width: 27%;
-    @include media-query(palm) { width: 100%; }
-}
 .palm-flush {
     @include media-query(palm) { margin: 0 !important; }
 }
@@ -301,9 +292,6 @@
         }
     }
 
-.height-whole {
-    height: 100%;
-}
 
 .last-p-push-half--bottom {
     p:last-child {
@@ -324,12 +312,9 @@
 }
 .sticky.bordered--bottom-on-stick    { border-bottom : 1px solid $gray-smooth; }
 
-.height-150 { height: 150px; }
-.height-35vh {
-    height: 35vh;
-    @include media-query(palm) { height: 15vh; }
-}
-
+// Usage:
+// Add the following inside a div that has a background-image
+// .black-curtain.north.west.one-whole.absolute
 .black-curtain {
     @include transition(background 150ms linear);
     background: rgba(0,0,0,.5);
@@ -343,14 +328,8 @@
         background: rgba(0,0,0,.1);
     }
 }
-.full-screen-item {
-    height: 100vh;
-    @include media-query(palm) { height: auto; }
-}
-
 .quizz-question-text {
     top       : 50%;
     margin-top: -4em;
     @include media-query(palm) { margin-top: -1.5em; }
 }
-.not-outlined { outline: none !important; }

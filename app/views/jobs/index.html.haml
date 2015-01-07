@@ -1,11 +1,21 @@
-.bg-fixed.home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background5.jpg'})" }
-  .main-container.soft
-    %h1.flush Jobs
+- @is_responsive = true
+
+.relative.height-35vh.bg-position-top.flexbox.bg-fixed.home-screen-promotion-wrapper.soft.bg-cover.white{ style: "background-image: url(#{asset_path('jobs/bg.jpg')})", data: { behavior: 'parallax' } }
+  .black-curtain.north.west.one-whole.absolute
+  .flexbox__item.v-middle.text--center.relative
+    %h1.f-size-really-big.flush Jobs
+    %h2 Tu veux apporter un peu de couleur dans le quotidien des gens ? Nous aussi.
 
 .main-container.soft.epsilon
-  %h1.f-weight-300 Postes actuellement ouvert
-  %h2.f-weight-300
-    %i.fa.fa-map-marker
-    Paris
-  %p
-    = link_to 'Développeur frontend', jobs_frontend_developper_path, class: 'delta'
+  %h1.f-weight-300 Postes actuellement ouverts
+  .grid
+    .grid__item.one-half.palm-one-whole.palm-text--center>
+      %h2.f-weight-300
+        %i.fa.fa-eiffel-tower
+        Paris
+      %p
+        = link_to 'Développeur frontend', jobs_frontend_developper_path, class: 'delta'
+    .grid__item.one-half.palm-one-whole.palm-text--center>
+      %h2.f-weight-300
+        %i.fa.fa-map-marker
+        Toulouse

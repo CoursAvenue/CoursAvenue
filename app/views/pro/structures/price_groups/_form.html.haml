@@ -62,7 +62,7 @@
                 .per-course.relative{ data: { el: true, hidden: !per_course_form.object.persisted? } }<>
                   .grid.soft-half--bottom
                     .grid__item.v-middle.two-twelfths>
-                      %a.pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
+                      %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
                         %i.fa.fa-times
                       %span.v-middle À la séance
                     .grid__item.v-middle.two-twelfths.nowrap>
@@ -99,7 +99,7 @@
                   .book-ticket.relative{ data: { el: true, hidden: !book_ticket_form.object.persisted? } }<>
                     .grid.soft-half--bottom
                       .grid__item.v-middle.two-twelfths>
-                        %a.pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
+                        %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
                           %i.fa.fa-times
                         %span.v-middle Au carnet
                       .grid__item.v-middle.two-twelfths.nowrap>
@@ -137,7 +137,7 @@
                   .subscription.flush--top.relative{ data: { el: true, hidden: !item.persisted? } }
                     .grid.soft-half--bottom
                       .grid__item.v-middle.two-twelfths>
-                        %a.pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
+                        %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
                           %i.fa.fa-times
                         %span.v-middle À l'abonnement
                       .grid__item.v-middle.two-twelfths>
@@ -168,7 +168,7 @@
                 .registration-fee.relative{ data: { el: true, hidden: !registration_form.object.persisted? } }
                   .grid.soft-half--bottom
                     .grid__item.v-middle.two-twelfths>
-                      %a.pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
+                      %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
                         %i.fa.fa-times
                       %span.v-middle Adhésion
                     .grid__item.v-middle.two-twelfths>
@@ -197,7 +197,7 @@
                 = trial_form.input :delete_price, as: :hidden, input_html: { id: 'delete-trial-price' }
                 .grid.soft-half--bottom
                   .grid__item.two-twelfths.v-middle>
-                    %a.pointer.v-middle{ href: 'javascript:void(0);', onclick: "$('#delete-trial-price').val('1'); $('#trial-course-form').slideUp();"}
+                    %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', onclick: "$('#delete-trial-price').val('1'); $('#trial-course-form').slideUp();"}
                       %i.fa.fa-times
                     %span.v-middle Cours d'essai
                   .grid__item.two-twelfths.v-middle>
@@ -222,7 +222,7 @@
                   .premium-offer.relative{ data: { el: true, hidden: !price_form.object.persisted? } }
                     .grid.soft-half--bottom
                       .grid__item.two-twelfths.v-middle>
-                        %a.pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
+                        %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
                           %i.fa.fa-times
                         %span.v-middle Offres spéciales
                       .grid__item.two-twelfths.v-middle>
@@ -250,7 +250,7 @@
                   .discount.relative{ data: { el: true, hidden: !price_form.object.persisted? } }
                     .grid.soft-half--bottom
                       .grid__item.two-twelfths.v-middle>
-                        %a.pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
+                        %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
                           %i.fa.fa-times
                         %span.v-middle Tarifs réduits
                       .grid__item.two-twelfths.v-middle>

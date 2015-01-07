@@ -1,7 +1,7 @@
 {
   "checksum": {
-    "previous": "3ec0f95283a4760b47f44e8eb29aea2e6a4d899d6b971455ccee8bd192efa66b",
-    "current": "3ec0f95283a4760b47f44e8eb29aea2e6a4d899d6b971455ccee8bd192efa66b"
+    "previous": "4300aa9f114ac6161272e730b925f5c0084778fc7389c80195d7bcd5562dbc26",
+    "current": "4300aa9f114ac6161272e730b925f5c0084778fc7389c80195d7bcd5562dbc26"
   },
   "fonts": [
     "app/assets/fonts/GlyphAvenue.ttf",
@@ -97,6 +97,10 @@
     "download": {
       "codepoint": 61818,
       "source": "app/assets/images/icons/svg/download.svg"
+    },
+    "eiffel-tower": {
+      "codepoint": 61852,
+      "source": "app/assets/images/icons/svg/eiffel-tower.svg"
     },
     "envelope-o": {
       "codepoint": 61819,

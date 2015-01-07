@@ -1,20 +1,22 @@
+- @is_responsive = true
+
 .relative.bg-cover.flexbox.bg-position.white.full-screen-item.bg-position-top{ style: "background-image: url(#{asset_path('jobs/frontend_developper.jpg')})", data: { behavior: 'parallax' } }
   .flexbox__item.v-middle.text--center.relative.on-top
-    = link_to root_path, target: :_blank, class: 'on-top absolute north west one-whole soft text--left' do
-      = image_tag 'logos/logo.png', width: 250, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'v-middle'
+    .on-top.absolute.north.west.one-whole.soft.text--left
+      = link_to root_path, target: :_blank, class: 'not-outlined' do
+        = image_tag 'logos/logo.png', width: 250, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'v-middle'
     %h1.f-size-really-big.flush DÉVELOPPEUR FRONT-END
     %a.not-outlined.f-size-big.white.white{ href: '#content', data: { behavior: 'scroll-to' } }
       %i.fa.fa-chevron-down
 
-.main-container.soft.soft--top#content
-  %h2.line-height-2.soft--top.soft--bottom.text--center.f-size-really-big DÉVELOPPEUR FRONT-END
+.main-container#content
   .grid
     .grid__item.five-eighths.soft--right.palm-one-whole>
       .soft--right
-        %h3.f-small-caps.alpha.palm-text--center La startup
+        %h2.island-top.bordered--bottom.soft--bottom.f-weight-300.alpha.palm-text--center La startup
         %p.delta.line-height-1-7
-          Fondée fin 2012, CoursAvenue a pour objectif de révolutionner le marché des cours de loisirs et de relier chacun de nous aux meilleurs professeurs, associations et écoles qui nous entourent. En très peu de temps, CoursAvenue est devenue le leader de la recherche et des inscriptions en ligne des cours de loisirs (danse, théâtre, musique, yoga, etc.).
-        %p.delta.line-height-1-7
+          Fondée fin 2012, CoursAvenue a pour objectif de révolutionner le marché des cours de loisirs et de relier chacun de nous aux meilleurs professeurs, associations et écoles qui nous entourent. En très peu de temps, CoursAvenue est devenue le leader de la recherche et des inscriptions en ligne des cours de loisirs (danse, théâtre, musique, yoga, etc.).
+        %p.delta.line-height-1-7.flush
           Les 4 piliers fondateurs de CoursAvenue :
         %ul.delta.line-height-1-7
           %li
@@ -25,16 +27,16 @@
             se réinventer chaque jour pour servir nos ambitions
           %li
             %strong Wahoo :
-            créer une surprise incroyable à chaque utilisation de nos services
+            créer une surprise incroyable à chaque utilisation de nos services
           %li
             %strong Honnêteté :
             savoir se remettre en question pour mieux avancer
 
         %p.delta.line-height-1-7
-          Nous recherchons des personnes ambitieuses dotées d’une forte motivation souhaitant participer pleinement à la croissance rapide d’une startup.
+          Nous recherchons des personnes ambitieuses dotées d’une forte motivation souhaitant participer pleinement à la croissance rapide d’une startup.
 
         %p.delta.line-height-1-7
-          Notre application Web est développée avec le framework Ruby On Rails côté partie back-end. Côté front-end nous utilisons
+          Notre application Web est développée avec Ruby On Rails côté back-end. Côté front-end nous utilisons
           = link_to 'Backbone.js', 'http://backbonejs.org/', target: :_blank, class: 'semi-muted-link'
           et
           = link_to 'Marionette.js', 'http://marionettejs.com/', target: :_blank, class: 'semi-muted-link'
@@ -44,11 +46,11 @@
           = link_to 'CircleCI.', 'https://circleci.com/', target: :_blank, class: 'semi-muted-link'
           Nous sommes des jeunes passionnés et utilisons les technos les plus adaptées à nos besoins, et la veille fait partie de notre quotidien.
 
-        %h3.f-small-caps.alpha.palm-text--center Le poste
+        %h2.island-top.bordered--bottom.soft--bottom.f-weight-300.alpha.palm-text--center Le poste
         %p.delta.line-height-1-7
           L’équipe CoursAvenue est répartie sur deux villes : Paris pour la partie technique et Toulouse pour la partie business. Nous cherchons à développer une réelle culture d’entreprise et créer un vrai esprit d’équipe. Étant donné que tu seras le premier employé à rejoindre le cofondateur / CTO à Paris tu pourras t’exprimer et avoir libre cours à ta créativité. L’équipe parisienne s’agrandira au long de l’année et tu contribueras grandement à l’amélioration de nos méthodes de travail. Nous pratiquerons également l’amélioration continue. Nous voulons être le plus efficace possible tout en travaillant dans de bonnes conditions, une bonne ambiance et en respectant nos valeurs.
 
-        %h3.f-small-caps.alpha.palm-text--center Les missions
+        %h2.island-top.bordered--bottom.soft--bottom.f-weight-300.alpha.palm-text--center Les missions
 
         %p.delta.line-height-1-7
           Être dans une petite équipe en croissance implique de pouvoir être multi-casquettes et de ne pas avoir peur de sortir de sa zone de confort. Les choses évoluent rapidement et les challenges ne sont jamais les mêmes ! Concrètement il faudra batailler sur plusieurs plans :
@@ -59,13 +61,13 @@
           %li La mise en place d’outils pour notre équipe marketing et communication interne ainsi que la collaboration avec notre agence SEO.
 
     .grid__item.three-eighths.palm-one-whole.soft--left>
-      %h3.f-small-caps.alpha.palm-text--center Le profil recherché
+      %h2.island-top.bordered--bottom.soft--bottom.f-weight-300.alpha.palm-text--center Le profil recherché
       %p.delta.line-height-1-7
         Nous recherchons un passionné(e) par le développement d’application Web qui a déjà utilisé un framework JavaScript comme Backbone.js, Ember.js ou Angular.js.
-      %h3.f-small-caps.palm-text--center
-        %i.fa.fa-pencil
+      %h3.island-top.bordered--bottom.soft--bottom.f-weight-300.palm-text--center
+        %i.fa.fa-pencil-o
         Qualifications et expériences
-      %ul.epsilon.line-height-1-7.no-bullet-list.palm-text--center
+      %ul.delta.line-height-1-7.no-bullet-list.palm-text--center
         %li JavaScript (et toutes ses petites fourberies !).
         %li HTML5.
         %li CSS3.
@@ -75,10 +77,10 @@
         %li Git.
         %li Framework web (idéalement Ruby On Rails).
 
-      %h3.f-small-caps.palm-text--center
+      %h3.island-top.bordered--bottom.soft--bottom.f-weight-300.palm-text--center
         %i.fa.fa-heart-o
         Ce qu’on appréciera
-      %ul.epsilon.line-height-1-7.no-bullet-list.palm-text--center
+      %ul.delta.line-height-1-7.no-bullet-list.palm-text--center
         %li Ta créativité et tes propositions de design.
         %li Ta passion pour l’ergonomie et l’expérience utilisateur.
         %li Ta curiosité envers les nouvelles technos.
@@ -88,10 +90,10 @@
         %li Ton obsession pour la rapidité du chargement des pages.
         %li Ton intérêt pour la qualité.
 
-      %h3.f-small-caps.palm-text--center
+      %h3.island-top.bordered--bottom.soft--bottom.f-weight-300.palm-text--center
         %i.fa.fa-info
         Infos pratiques
-      %ul.epsilon.line-height-1-7.no-bullet-list
+      %ul.delta.line-height-1-7.no-bullet-list
         %li
           %strong Ta machine de travail :
           = link_to 'tu la choisiras en nous rejoignant !', 'http://store.apple.com/fr', target: :_blank
@@ -113,7 +115,7 @@
           %strong Lieu :
           = link_to '193 rue de Bercy / Gare de Lyon, Paris ', 'http://maps.google.com/?q=193%20rue%20de%20Bercy,%20Paris ', target: :_blank
 
-    .text--center.push--bottom
+    .text--center.island
       = link_to 'mailto:nima@coursavenue.com?subject=Candidature%20développeur%20front-end%202015&body=À%20toi%20de%20jouer !', class: 'btn btn--large btn--green' do
         %i.fa.fa-paper-plane
         Postuler
@@ -121,17 +123,34 @@
 
 - content_for :scripts do
   :javascript
-    console.log('        ,gggg,                                                        ,ggg,                                                          ');
-    console.log('     ,88"""Y8b,                                                     dP""8I                                                            ');
-    console.log('    d8"     `Y8                                                    dP   88                                                            ');
-    console.log('   d8\'   8b  d8                                                   dP    88                                                            ');
-    console.log('  ,8I    "Y88P\'                                                  ,8\'    88                                                            ');
-    console.log('  I8\'            ,ggggg,   gg      gg   ,gggggg,    ,g,          d88888888      ggg    gg   ,ggg,    ,ggg,,ggg,   gg      gg   ,ggg,  ');
-    console.log('  d8            dP"  "Y8gggI8      8I   dP""""8I   ,8\'8,   __   ,8"     88     d8"Yb   88bgi8" "8i  ,8" "8P" "8,  I8      8I  i8" "8i ');
-    console.log('  Y8,          i8\'    ,8I  I8,    ,8I  ,8\'    8I  ,8\'  Yb dP"  ,8P      Y8    dP  I8   8I  I8, ,8I  I8   8I   8I  I8,    ,8I  I8, ,8I ');
-    console.log('  `Yba,,_____,,d8,   ,d8\' ,d8b,  ,d8b,,dP     Y8,,8\'_   8)Yb,_,dP       `8b,,dP   I8, ,8I  `YbadP\' ,dP   8I   Yb,,d8b,  ,d8b, `YbadP\' ');
-    console.log('    `"Y8888888P"Y8888P"   8P\'"Y88P"`Y88P      `Y8P\' "YY8P8P"Y8P"         `Y88"     "Y8P"  888P"Y8888P\'   8I   `Y88P\'"Y88P"`Y8888P"Y888');
-    console.log('                                                                                                                                           ');
-    console.log('                                                                                                                                           ');
+    console.log(' ');
+    console.log(' ');
+    console.log(' ');
+    console.log(' ');
+    console.log('        ,gggg,                                                 ');
+    console.log('     ,88"""Y8b,                                                ');
+    console.log('    d8"     `Y8                                                ');
+    console.log('   d8\'   8b  d8                                               ');
+    console.log('  ,8I    "Y88P\'                                               ');
+    console.log('  I8\'            ,ggggg,   gg      gg   ,gggggg,    ,g,       ');
+    console.log('  d8            dP"  "Y8gggI8      8I   dP""""8I   ,8\'8,      ');
+    console.log('  Y8,          i8\'    ,8I  I8,    ,8I  ,8\'    8I  ,8\'  Yb   ');
+    console.log('  `Yba,,_____,,d8,   ,d8\' ,d8b,  ,d8b,,dP     Y8,,8\'_   8)Y  ');
+    console.log('    `"Y8888888P"Y8888P"   8P\'"Y88P"`Y88P      `Y8P\' "YY8P8P  ');
+    console.log('                        ,ggg,                                                                ');
+    console.log('                      dP""8I                                                                 ');
+    console.log('                     dP   88                                                                 ');
+    console.log('                     dP    88                                                                ');
+    console.log('                    ,8\'    88                                                               ');
+    console.log('                    d88888888      ggg    gg   ,ggg,    ,ggg,,ggg,   gg      gg   ,ggg,      ');
+    console.log('                   ,8"     88     d8"Yb   88bgi8" "8i  ,8" "8P" "8,  I8      8I  i8" "8i     ');
+    console.log('               dP"  ,8P      Y8    dP  I8   8I  I8, ,8I  I8   8I   8I  I8,    ,8I  I8, ,8I   ');
+    console.log('              Yb,_,dP       `8b,,dP   I8, ,8I  `YbadP\' ,dP   8I   Yb,,d8b,  ,d8b, `YbadP\'  ');
+    console.log('               "Y8P"         `Y88"     "Y8P"  888P"Y8888P\'   8I   `Y88P\'"Y88P"`Y8888P"Y888 ');
+    console.log(' ');
+    console.log(' ');
     console.log("Nous chez CoursAvenue, on aime : Apple, Airbnb, la photo, la cuisine, les podcasts, le design, le soleil, le café, les plats à 2€ de chez Picard (on aime quand même la bonne bouffe, hein !), Interstellar, House of Cards, Breaking Bad, Spotify (ça tourne en boucle au bureau !), les gens sympa, et toi, qu'est-ce que tu aimes ?");
+    console.log(' ');
+    console.log(' ');
+    console.log(' ');
     console.log(' ');
