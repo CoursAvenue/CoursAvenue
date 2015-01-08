@@ -59,16 +59,17 @@
                   = render partial: 'comments/comment', locals: { comment: comment }
 
 
-- @locations = Gmaps4rails.build_markers(@participation_request.place) do |place, marker|
-  - marker.lat place.latitude
-  - marker.lng place.longitude
+- if @participation_request.place
+  - @locations = Gmaps4rails.build_markers(@participation_request.place) do |place, marker|
+    - marker.lat place.latitude
+    - marker.lng place.longitude
 
-= content_for :scripts do
-  :javascript
-    $(function() {
-        google_map_handler = Gmaps.build('Google');
-        google_map_handler.buildMap({ provider: { scrollwheel: false, center: new google.maps.LatLng(#{@participation_request.place.latitude}, #{@participation_request.place.longitude}), zoom: 15}, internal: { id: 'map' }}, function() {
-            markers = google_map_handler.addMarkers(#{@locations.to_json});
-        });
-    });
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          google_map_handler = Gmaps.build('Google');
+          google_map_handler.buildMap({ provider: { scrollwheel: false, center: new google.maps.LatLng(#{@participation_request.place.latitude}, #{@participation_request.place.longitude}), zoom: 15}, internal: { id: 'map' }}, function() {
+              markers = google_map_handler.addMarkers(#{@locations.to_json});
+          });
+      });
 
