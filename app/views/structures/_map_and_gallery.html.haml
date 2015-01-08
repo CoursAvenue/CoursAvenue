@@ -20,19 +20,19 @@
             - if media.caption.present?
               %p.one-whole.absolute.south.soft-half.flush.white.media-caption.f-weight-bold= media.caption
   .thumbnails-container.relative
-    %a.thumbnails-container__nav.prev.pointer{ data: { 'slide-prev' => true } }
+    %a.thumbnails-container__nav.prev.cursor-pointer{ data: { 'slide-prev' => true } }
       %i.delta.fa-chevron-left.v-middle.gray-light
     .thumbnails-viewport.relative
       %ul.nav.rslides__custom-pager.push-half--bottom.slideshow-thumbnails.thumbnails-slide-panel#galery-controls-thumb
         - unless without_map
           %li.rslides-thumbnail
-            %a.pointer.media-photo.media-slideshow#map-thumbnail
+            %a.cursor-pointer.media-photo.media-slideshow#map-thumbnail
               = image_tag 'icons/google-maps-thumb.jpg', height: 70, width: 70, data: { src2x: asset_path('icons/google-maps-thumb@2x.jpg') }
         - medias.each do |media|
           - cache ['structure_top2', media] do
             %li.rslides-thumbnail
-              %a.pointer.media-photo.bg-cover{ href: '#', title: (@structure ? subjects_name_from_string(@structure.subjects_string) : ''), style: "height: 70px; width: 70px; background-image: url('#{media.small_thumbnail_url}')" }
-    %a.thumbnails-container__nav.next.pointer{ data: { 'slide-next' => true } }
+              %a.cursor-pointer.media-photo.bg-cover{ href: '#', title: (@structure ? subjects_name_from_string(@structure.subjects_string) : ''), style: "height: 70px; width: 70px; background-image: url('#{media.small_thumbnail_url}')" }
+    %a.thumbnails-container__nav.next.cursor-pointer{ data: { 'slide-next' => true } }
       %i.delta.fa-chevron-right.v-middle.gray-light
   %a.absolute.north.east.push--right.push--top.on-under-top.heart-link{ href: '#', data: { behavior: 'add-to-favorite', toggle: 'tooltip', added_title: 'Retirer de mes favoris', not_added_title: 'Ajouter à mes favoris', placement: 'left' } }
     %i.fa.fa-heart-o.fa-4x

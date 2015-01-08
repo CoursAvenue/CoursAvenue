@@ -9,11 +9,7 @@ class UserProfileSerializer < ActiveModel::Serializer
              :phone, :mobile_phone, :address, :path, :tag_name, :structure_id
 
   def email
-    if object.structure.premium?
-      object.email
-    else
-      object.email.gsub(/.*@/, 'XXXXXXXX@')
-    end
+    object.email
   end
 
   def path

@@ -9,8 +9,9 @@
     @media screen and (max-width: 950px)  { width: 400px; }
 }
 .large-container {
-    max-width: 1400px;
-    margin   : auto;
+    max-width   : 1400px;
+    margin-left : auto;
+    margin-right: auto;
 }
 
 .main-container {
@@ -18,8 +19,9 @@
     &.main-container--medium{
         max-width: $siteMaxWidth - 100;
     }
-    min-width: 1000px;
-    margin   : auto;
+    min-width   : 1000px;
+    margin-left : auto;
+    margin-right: auto;
     @include media-query(lap) {
         min-width: 0;
         padding  : 8px;

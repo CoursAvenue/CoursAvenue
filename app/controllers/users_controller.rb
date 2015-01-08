@@ -23,7 +23,7 @@ class UsersController < InheritedResources::Base
     end
     params[:user][:subscription_from] == 'newsletter' if user.persisted? and UserMailer.delay.subscribed_to_newsletter(user)
     respond_to do |format|
-      format.js   { render nothing: true }
+      format.js
       format.html { redirect_to params[:redirect_to] || root_path }
     end
   end

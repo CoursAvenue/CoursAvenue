@@ -27,7 +27,11 @@ The old readme is available [here](doc/README.md).
   - [Installing `postgres` and creating a Role](#installing-postgres-and-creating-a-role)
   - [Recovering a dump](#recovering-a-dump)
   - [Making a dump](#making-a-dump)
+<<<<<<< HEAD
   - [SMS with Nexmo](#sms-nexmo)
+=======
+  - [Icon webfont](#webfont)
+>>>>>>> staging
 
 ## Local environment
 
@@ -307,3 +311,8 @@ pg_dump --host localhost --port 5432 --username "postgres" --dbname "coursavenue
 ### SMS with Nexmo
 
 Add to the environment the Nexmo [API key and secret](https://dashboard.nexmo.com/private/settings):
+
+### Icon webfonts
+We use FontAwesome and Fontcustom to generate own icon font
+Command to regenerate fonts:
+`bundle exec fontcustom compile app/assets/images/icons/svg/`

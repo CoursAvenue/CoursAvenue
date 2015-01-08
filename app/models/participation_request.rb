@@ -200,7 +200,7 @@ class ParticipationRequest < ActiveRecord::Base
     if self.planning_id_changed?
       self.start_time = self.planning.start_time if self.planning
       self.end_time   = self.planning.end_time   if self.planning
-      self.end_time   = self.start_time + 1.hour if self.start_time
+      self.end_time   ||= self.start_time + 1.hour if self.start_time
     end
     nil
   end

@@ -17,7 +17,7 @@
                 %label.control-label.label--large{ for: "phone_number_number_#{i}" }> Téléphone
                 .input-container>
                   = phone_number_form.input :number, label: false, input_html: { class: 'input--large one-whole', id: "phone_number_number_#{i}" }, wrapper_html: { class: 'inline-block v-middle flush' }
-                  %a.pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
+                  %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
                     %i.fa.fa-trash-o
                     Supprimer
                   %div.push-half--top.push--bottom
@@ -33,19 +33,14 @@
 
     %hr.push--ends
     .soft--sides
-      .panel.panel--yellow{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.links') } }
-        .panel__header.soft.f-weight-bold.text--center.relative
-          = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/premium-ribbon.png', class: 'north west absolute on-top', height: 80, width: 80, style: 'width: 80px; height: 80px;'
-          = render partial: 'pro/structures/premium_select', locals: { title: 'afficher les liens vers votre site Internet et votre page Facebook ?', label_text: 'Statut des liens vers vos pages :', select_collection: ['Visibles', 'Non visibles'] }
-        .panel__body.soft
-          %h5.flush--bottom.soft--left.push--left Liens vers vos pages
+      %h5.flush--bottom.soft--left.push--left Liens vers vos pages
 
-          = form.input :website, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+      = form.input :website, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
 
-          - show_input = @facebook_pages.empty? or (@facebook_pages.any? and @facebook_pages.last[1] == 'other')
-          - if @facebook_pages.any?
-            = form.input :facebook_url, as: :select, collection: @facebook_pages, wrapper_html: { class: 'flush--bottom' }, label_html: { class: 'label--large' }, input_html: { class: 'input--large', id: 'facebook_select' }
-          = form.input :facebook_url, as: :url, wrapper_html: { class: "flush--bottom #{show_input ? '' : 'hidden'}", id: 'facebook_text' }, label_html: { class: 'label--large' }, input_html: { id: 'facebook_text_input', class: 'input--large' }
+      - show_input = @facebook_pages.empty? or (@facebook_pages.any? and @facebook_pages.last[1] == 'other')
+      - if @facebook_pages.any?
+        = form.input :facebook_url, as: :select, collection: @facebook_pages, wrapper_html: { class: 'flush--bottom' }, label_html: { class: 'label--large' }, input_html: { class: 'input--large', id: 'facebook_select' }
+      = form.input :facebook_url, as: :url, wrapper_html: { class: "flush--bottom #{show_input ? '' : 'hidden'}", id: 'facebook_text' }, label_html: { class: 'label--large' }, input_html: { id: 'facebook_text_input', class: 'input--large' }
 
 
       .soft--top= form.button :submit, "Enregistrer", class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }

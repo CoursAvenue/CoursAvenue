@@ -5,8 +5,8 @@
   .panel__header.soft
     - recipients = @conversation.recipients.reject{|recipient| recipient == @user }
     %ol.nav.breadcrumb.flush{ itemprop: 'breadcrumb' }
-      - if current_user
-        %li.delta= link_to 'Mes conversations', user_conversations_path(current_user)
+      - if @user
+        %li.delta= link_to 'Mes conversations', user_conversations_path(@user)
       - else
         %li.delta= link_to "Mes conversations", 'javascript:void(0);', data: { behavior: 'connection' }
       %li.delta Conversation avec #{truncate(recipients.map{|recipient| recipient.name || recipient.email}.join(', '), length: 50) }

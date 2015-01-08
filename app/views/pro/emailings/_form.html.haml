@@ -25,7 +25,7 @@
           %hr
           = section_form.association :structures, as: :select, collection: Structure.with_logo_and_media, input_html: { class: 'input--large', multiple: false, data: { behavior: 'chosen' } }, placeholder: 'Choisir une structure', label_method: :name, label_html: { class: 'one-whole label--large' }
           .text--right
-            %a.pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
+            %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
               %i.fa.fa-trash-o
               Supprimer
     %p

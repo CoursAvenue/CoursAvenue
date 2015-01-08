@@ -2,7 +2,8 @@
 
 - content_for :head do
   = content_tag :script, type: 'application/ld+json' do
-    = JSON.generate(@google_search_box_metadata).html_safe
+    = ""
+    = JSON.pretty_generate(@google_search_box_metadata).html_safe
 
 = render 'shared/newsletter_form'
 

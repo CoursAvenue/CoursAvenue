@@ -21,6 +21,13 @@
             %th.three-twelfths.text--center Tarif promotionnel
             %th.four-twelfths.text--center Infos
         %tbody
+          - if price_group.prices.empty?
+            %tr
+              %td.text--left{ colspan: 4 }
+                Aucun tarif n'est renseigné.
+                = link_to edit_pro_structure_price_group_path(@structure, price_group), class: 'fancybox.ajax ', data: { behavior: 'modal', width: '1000', top_ratio: 0.2, padding: '0', close_click: 'false', lock_overlay: true } do
+                  %i.fa.fa-plus
+                  Ajouter des tarifs
           - price_group.book_tickets.each do |price|
             %tr
               - if price_group.for_training?
@@ -28,9 +35,9 @@
               - else
                 %td= "#{price.number} cours"
               %td.text--center= readable_amount(price.amount) if price.amount
-              %td.text--center.premium-bordered-box
+              %td.text--center{ class: (@structure.premium? ? 'premium-bordered-box' : '') }
                 - if price.promo_amount
-                  = link_to premium_modal_pro_structure_path(@structure), data: { behavior: 'modal', padding: 0, width: 900 }, class: 'premium-modal fancybox.ajax' do
+                  - if @structure.premium?
                     %i.fa.fa-star.yellow{ data: { behavior: 'tooltip', title: "Ne s'affiche que pour les profils Premium : cliquez pour en savoir plus." } }
                   = readable_amount(price.promo_amount) if price.promo_amount
                 - else
@@ -43,9 +50,9 @@
             %tr
               %td= t(price.libelle)
               %td.text--center= readable_amount(price.amount) if price.amount
-              %td.text--center.premium-bordered-box
+              %td.text--center{ class: (@structure.premium? ? 'premium-bordered-box' : '') }
                 - if price.promo_amount
-                  = link_to premium_modal_pro_structure_path(@structure), data: { behavior: 'modal', padding: 0, width: 900 }, class: 'premium-modal fancybox.ajax' do
+                  - if @structure.premium?
                     %i.fa.fa-star.yellow{ data: { behavior: 'tooltip', title: "Ne s'affiche que pour les profils Premium : cliquez pour en savoir plus." } }
                   = readable_amount(price.promo_amount) if price.promo_amount
                 - else
@@ -78,9 +85,9 @@
               %td= @trial.info
 
           - price_group.premium_offers.each do |price|
-            %tr.premium-bordered-box
+            %tr{ class: (@structure.premium? ? 'premium-bordered-box' : '') }
               %td
-                = link_to premium_modal_pro_structure_path(@structure), data: { behavior: 'modal', padding: 0, width: 900 }, class: 'premium-modal fancybox.ajax' do
+                - if @structure.premium?
                   %i.fa.fa-star.yellow{ data: { behavior: 'tooltip', title: "Ne s'affiche que pour les profils Premium : cliquez pour en savoir plus." } }
                 = t(price.libelle)
               %td
@@ -89,9 +96,9 @@
 
 
           - price_group.discounts.each do |price|
-            %tr.premium-bordered-box
+            %tr{ class: (@structure.premium? ? 'premium-bordered-box' : '') }
               %td
-                = link_to premium_modal_pro_structure_path(@structure), data: { behavior: 'modal', padding: 0, width: 900 }, class: 'premium-modal fancybox.ajax' do
+                - if @structure.premium?
                   %i.fa.fa-star.yellow{ data: { behavior: 'tooltip', title: "Ne s'affiche que pour les profils Premium : cliquez pour en savoir plus." } }
                 = t(price.libelle)
               %td
