@@ -361,4 +361,30 @@ describe Structure do
     end
   end
 
+  describe '#contact_email' do
+    context 'with an admin' do
+      subject { FactoryGirl.create(:structure_with_admin) }
+
+      it 'returns the admin email' do
+        expect(subject.contact_email).to eq(subject.main_contact.email)
+      end
+    end
+
+    context 'with a contact email' do
+      subject { FactoryGirl.create(:structure, :with_contact_email) }
+
+      it 'returns the contact email' do
+        expect(subject.contact_email).to eq(subject.read_attribute(:contact_email))
+      end
+    end
+
+    context 'without an admin or a contact email' do
+      subject { FactoryGirl.create(:structure) }
+
+      it 'returns nil' do
+        expect(subject.contact_email).to be_nil
+      end
+    end
+  end
+
 end

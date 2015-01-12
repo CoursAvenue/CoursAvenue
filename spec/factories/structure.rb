@@ -50,5 +50,8 @@ FactoryGirl.define do
         structure.admins      = []
       end
     end
+    trait :with_contact_email do
+      contact_email { Faker::Internet.email }
+    end
   end
 end
