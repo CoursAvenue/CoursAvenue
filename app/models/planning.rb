@@ -298,6 +298,7 @@ class Planning < ActiveRecord::Base
     return ((end_date || start_date) - start_date).to_i + 1
   end
 
+  # :nocov:
   def min_price_amount_for(type)
     price = price_amount_for_scope(type).order('amount ASC').first
     return 0 unless price
@@ -309,6 +310,7 @@ class Planning < ActiveRecord::Base
     return 0 unless price
     price.amount.to_i
   end
+  # :nocov:
 
   def week_days
     if self.course.is_lesson? or self.course.is_private?
@@ -326,6 +328,7 @@ class Planning < ActiveRecord::Base
     read_attribute(:nb_participants_max) || self.course.nb_participants_max || 0
   end
 
+  # :nocov:
   # Returns the participations on waiting list
   #
   # @return Array of Participation
@@ -367,6 +370,7 @@ class Planning < ActiveRecord::Base
   def nb_jpo_participants_only_waiting_list
     participations.not_canceled.waiting_list.map(&:size).reduce(&:+) || 0
   end
+  # :nocov:
 
   #
   # Return the next date depending on the week_day if it is a lesson
