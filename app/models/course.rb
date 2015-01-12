@@ -232,10 +232,12 @@ class Course < ActiveRecord::Base
                               (Price.arel_table[:amount].eq(nil).or(Price.arel_table[:amount].eq(0)))) ).any?
   end
 
+  # :nocov:
   def has_unit_course_price
     return false if price_group.nil?
     return (price_group.book_tickets.any? or prices.where(libelle: 'prices.individual_course').any?)
   end
+  # :nocov:
 
   def min_price
     best_price.try(:promo_amount) || best_price.try(:amount)
