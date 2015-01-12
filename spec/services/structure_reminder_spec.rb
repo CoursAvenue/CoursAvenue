@@ -60,16 +60,22 @@ describe StructureReminder do
   end
 
   describe '.pending_comment' do
-    before do
-      CoursAvenue::Application.load_tasks
-    end
-
     context 'without comments' do
       let(:structure) { FactoryGirl.create(:structure_with_admin) }
 
       it "doesn't send the reminder" do
-        expect { Rake::Task['scheduler:admins:remind_for_pending_comments'].invoke }.
+        expect { StructureReminder.pending_comments(structure) }.
           to_not change { ActionMailer::Base.deliveries.count }
+      end
+    end
+
+    context 'with pending comments' do
+      let!(:comment)   { FactoryGirl.create(:pending_comment) }
+      let!(:structure) { comment.structure }
+
+      it 'sends a reminder' do
+        expect { StructureReminder.pending_comments(structure) }.
+          to change { ActionMailer::Base.deliveries.count }.by(1)
       end
     end
   end
