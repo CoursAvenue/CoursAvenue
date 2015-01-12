@@ -402,58 +402,6 @@ class Structure < ActiveRecord::Base
   # Also cache by slug, since we often access a structure by its slug with FriendlyId.
   cache_index :slug, unique: true
 
-  ######################################################################
-  # Email reminder                                                     #
-  ######################################################################
-
-  # Sends reminder depending on the email status of the structure
-  # This method is called every week through admin_reminder rake task
-  # (Executed on Heroku by the scheduler)
-  #
-  # @return nil
-  def send_reminder
-    return if self.main_contact.nil? or self.is_sleeping?
-    if self.main_contact.monday_email_opt_in?
-      if self.update_email_status.present?
-        update_column :last_email_sent_at, Time.now
-        update_column :last_email_sent_status, email_status
-        AdminMailer.delay.send(self.email_status.to_sym, self)
-      end
-    end
-  end
-
-
-  # Sends an email if there are pending comments
-  #
-  # @return [type] [description]
-  def remind_for_pending_comments
-    AdminMailer.delay.remind_for_pending_comments(self)
-  end
-
-  # Thursday email
-  # Only send if thursday email opt in is true
-  def remind_for_widget
-    if self.main_contact and self.main_contact.monday_email_opt_in?
-      if widget_status.nil?
-        AdminMailer.delay.remind_for_widget(self)
-      end
-    end
-  end
-
-  # Mail sent every thursday
-  # It's sent only if 'monday_email_opt_in' is set to true
-  # When? :
-  #     Tous les jeudis tant qu'un cours / stage non complété (les mêmes 3 raisons du
-  #     cadre bleu call to action : périmé, prix ou créneau manquant) OU pas de planning du tout
-  # TODO: monday and thursday email have changed
-  def remind_for_planning_outdated
-    if self.main_contact and self.main_contact.monday_email_opt_in?
-      # Don't send if there is a published course
-      return if self.courses.without_open_courses.detect(&:is_published?)
-      AdminMailer.delay.planning_outdated(self)
-    end
-  end
-
   # Update the email status of the structure
   def update_email_status
     email_status = nil
@@ -1159,6 +1107,17 @@ class Structure < ActiveRecord::Base
     return Rails.cache.fetch ['Structure#is_open_for_trial?', self] do
       courses.open_for_trial.any?
     end
+  end
+
+  # Update the last email sent fields
+  #
+  # @param status: The structure status.
+  # @param date:   The date the email was sent.
+  #
+  # @return nil
+  def update_last_email_sent_status!(status, date = Time.now)
+    update_column :last_email_sent_at, date
+    update_column :last_email_sent_status, status
   end
 
   private
