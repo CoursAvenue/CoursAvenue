@@ -139,6 +139,32 @@ describe User do
       end
     end
   end
+
+  describe '.create_or_find_from_email' do
+    context 'the user already exists' do
+      let!(:user) { FactoryGirl.create(:user) }
+
+      it "doesn't create a new user" do
+        expect { User.create_or_find_from_email(subject.email) }.to_not change { User.count }
+      end
+
+      it 'returns the existing user' do
+        expect(User.create_or_find_from_email(user.email)).to eq(user)
+      end
+    end
+
+    context "the user doesn't exist" do
+      let(:new_email) { Faker::Internet.email }
+
+      it 'creates a new user' do
+        expect { User.create_or_find_from_email(new_email) }.to change { User.count }.by(1)
+      end
+
+      it 'returns a new user' do
+        expect(User.create_or_find_from_email(new_email)).to be_valid
+      end
+    end
+  end
 end
 
 def create_oauth(options = { uid: Faker::Number.number(6) })
@@ -149,7 +175,8 @@ def create_oauth(options = { uid: Faker::Number.number(6) })
       email:      Faker::Internet.email,
       first_name: Faker::Name.first_name,
       last_name:  Faker::Name.last_name,
-      image:      Faker::Company.logo
+      image:      Faker::Company.logo,
+      location:   'paris'
     },
     credentials: {
       token:      Faker::Internet.password,

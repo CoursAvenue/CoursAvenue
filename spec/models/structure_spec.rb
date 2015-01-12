@@ -415,7 +415,7 @@ describe Structure do
   end
 
   describe '#parent_subjects' do
-    let(:parent_subjects) { subject.subject.uniq.map(&:parent).uniq }
+    let(:parent_subjects) { subject.subjects.uniq.map(&:parent).uniq }
 
     it { expect(subject.parent_subjects).to match_array(parent_subjects) }
   end
