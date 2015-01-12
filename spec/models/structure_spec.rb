@@ -250,7 +250,7 @@ describe Structure do
   end
 
   context 'sleeping' do
-    describe 'duplicate_structure' do
+    describe '#duplicate_structure' do
 
       let(:structure)            { FactoryGirl.create(:sleeping_structure) }
 
@@ -288,7 +288,7 @@ describe Structure do
       end
     end
 
-    describe 'wake_up!' do
+    describe '#wake_up!' do
       let(:structure)            { FactoryGirl.create(:sleeping_structure) }
       let(:admin)                { FactoryGirl.create(:admin) }
       let(:sleeping_structure)   { structure.duplicate_structure }
@@ -324,43 +324,6 @@ describe Structure do
     end
   end
 
-  describe '#send_reminder' do
-    context 'has no main contact' do
-      subject { FactoryGirl.create(:structure) }
-
-      before do
-        subject.admins = []
-        subject.save
-      end
-
-      it "doesn't send a reminder" do
-        expect { subject.send_reminder }.to_not change { ActionMailer::Base.deliveries.count }
-      end
-    end
-
-    context 'is sleeping' do
-      subject { FactoryGirl.create(:sleeping_structure) }
-
-      it "doesn't send a reminder" do
-        expect { subject.send_reminder }.to_not change { ActionMailer::Base.deliveries.count }
-      end
-    end
-
-    context 'main contact as opted out of emails' do
-      subject            { FactoryGirl.create(:structure) }
-      let(:main_contact) { subject.main_contact }
-
-      before do
-        main_contact.monday_email_opt_in = false
-        main_contact.save
-      end
-
-      it "doesn't send a reminder" do
-        expect { subject.send_reminder }.to_not change { ActionMailer::Base.deliveries.count }
-      end
-    end
-  end
-
   describe '#contact_email' do
     context 'with an admin' do
       subject { FactoryGirl.create(:structure_with_admin) }
@@ -379,12 +342,57 @@ describe Structure do
     end
 
     context 'without an admin or a contact email' do
-      subject { FactoryGirl.create(:structure) }
-
       it 'returns nil' do
         expect(subject.contact_email).to be_nil
       end
     end
   end
 
+  describe '#contact_mobile_phone' do
+    context 'with an admin' do
+      subject { FactoryGirl.create(:structure_with_admin) }
+
+      it 'returns the admin email' do
+        expect(subject.contact_mobile_phone).to eq(subject.main_contact.mobile_phone_number)
+      end
+    end
+
+    context 'with a contact email' do
+      subject { FactoryGirl.create(:structure, :with_contact_mobile_phone) }
+
+      it 'returns the contact email' do
+        expect(subject.contact_mobile_phone).to eq(subject.read_attribute(:contact_mobile_phone))
+      end
+    end
+
+    context 'without an admin or a contact email' do
+      it 'returns nil' do
+        expect(subject.contact_mobile_phone).to be_nil
+      end
+    end
+  end
+
+  describe '#contact_phone' do
+    context 'with an admin' do
+      subject { FactoryGirl.create(:structure_with_admin) }
+
+      it 'returns the admin email' do
+        expect(subject.contact_phone).to eq(subject.main_contact.phone_number)
+      end
+    end
+
+    context 'with a contact email' do
+      subject { FactoryGirl.create(:structure, :with_contact_phone) }
+
+      it 'returns the contact email' do
+        expect(subject.contact_phone).to eq(subject.read_attribute(:contact_phone))
+      end
+    end
+
+    context 'without an admin or a contact email' do
+      it 'returns nil' do
+        expect(subject.contact_phone).to be_nil
+      end
+    end
+  end
 end
