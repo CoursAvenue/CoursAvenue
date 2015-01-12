@@ -10,11 +10,11 @@ FactoryGirl.define do
 
     active                      true
     type                        'Course::Lesson'
-    start_date                  Date.today
-    end_date                    Date.tomorrow
-    name                        Faker::Lorem.sentence(4)
-    description                 Faker::Lorem.sentence(10)
-    info                        Faker::Lorem.sentence(4)
+    start_date                  { Date.today }
+    end_date                    { Date.tomorrow }
+    name                        { Faker::Lorem.sentence(4) }
+    description                 { Faker::Lorem.sentence(10) }
+    info                        { Faker::Lorem.sentence(4) }
     cant_be_joined_during_year   false
 
     factory :lesson, class: 'Course::Lesson' do
