@@ -542,6 +542,13 @@ class User < ActiveRecord::Base
     self.comments.where(commentable_id: structure.id, commentable_type: 'Structure').any?
   end
 
+  def migrate_avatar_to_cloudinary
+    if avatar and c_image.nil?
+      cloudinary_image = Cloudinary::Uploader.upload(avatar.url)
+      self.update_column(:c_image, "v#{cloudinary_image['version']}/#{cloudinary_image['public_id']}.#{cloudinary_image['format']}")
+    end
+  end
+
   private
 
   def random_string
