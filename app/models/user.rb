@@ -17,10 +17,10 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
-
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid, :oauth_token, :oauth_expires_at,
-                  :name, :first_name, :last_name, :gender, :fb_avatar, :location, :avatar,
+                  :name, :first_name, :last_name, :gender, :fb_avatar, :location,
+                  :avatar, :remote_avatar_url,
                   :birthdate, :phone_number, :zip_code, :city_id, :passion_zip_code, :passion_city_id, :passions_attributes, :description,
                   :email_opt_in, :sms_opt_in, :email_promo_opt_in, :email_newsletter_opt_in, :email_passions_opt_in,
                   :email_status, :last_email_sent_at, :last_email_sent_status,
@@ -37,11 +37,7 @@ class User < ActiveRecord::Base
   define_boolean_accessor_for :meta_data, :have_seen_first_jpo_popup
 
 
-  has_attached_file :avatar,
-                    styles: { wide: '800x800#', normal: '450x', thumb: '200x200#', small: '100x100#', mini: '40x40#' },
-                    processors: [:thumbnail, :paperclip_optimizer]
-
-  validates_attachment_content_type :avatar, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
+  mount_uploader :avatar, UserAvatarUploader
 
   ######################################################################
   # Relations                                                          #
@@ -229,17 +225,20 @@ class User < ActiveRecord::Base
     return email_status
   end
 
+  # Check if the user has a avatar.
+  # We check if the avatar has a URL because the uploader always creates the
+  # avatar object.
+  #
+  # @return Boolean
   def has_avatar?
-    self.avatar.exists? or self.fb_avatar
+    avatar.url or read_attribute(:fb_avatar)
   end
 
-  def avatar_url(format=:normal)
-    if self.avatar.exists?
+  def avatar_url(format = :normal)
+    if avatar.url
       self.avatar.url(format)
-    elsif self.fb_avatar
+    elsif read_attribute(:fb_avatar)
       self.fb_avatar(format)
-    else
-      self.avatar
     end
   end
 
