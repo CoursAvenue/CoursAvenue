@@ -1,9 +1,15 @@
-// --------------------- Family
+/*------------------------------------*\
+     FAMILY
+\*------------------------------------*/
+
 .ff-open-sans { font-family: "Open Sans"; }
 .ff-pacifico  { font-family: "Pacifico"; }
 .ff-kameron    { font-family: "Kameron"; }
 
-// --------------------- Weights
+/*------------------------------------*\
+     WEIGHTS
+\*------------------------------------*/
+
 .f-weight-100    { font-weight: 100; }
 .f-weight-300    { font-weight: 300; }
 .f-weight-400    { font-weight: 400; }
@@ -12,10 +18,17 @@
 .f-weight-bold   { font-weight: bold; }
 .f-weight-normal { font-weight: 400 !important; }
 
-// --------------------- Styles
-.f-style-italic { font-style: italic; }
+/*------------------------------------*\
+     STYLES & VARIANTS
+\*------------------------------------*/
 
-// --------------------- Decorations
+.f-style-italic { font-style: italic; }
+.f-small-caps   { font-variant: small-caps; }
+
+/*------------------------------------*\
+     DECORATIONS
+\*------------------------------------*/
+
 .f-decoration-underlined      { text-decoration: underline; }
 .f-decoration-not-underlined  { text-decoration: none !important; &:hover { text-decoration: none !important; } }
 .f-white-transparent {
@@ -24,14 +37,38 @@
 }
 .f-color-black { color: black; }
 
-// --------------------- Size
+/*------------------------------------*\
+     FONT-SIZE
+\*------------------------------------*/
+
+.palm-beta    { @include media-query(palm) { font-size: $h2-size; } }
+.palm-gamma   { @include media-query(palm) { font-size: $h3-size; } }
+.palm-delta   { @include media-query(palm) { font-size: $h4-size; } }
+.palm-epsilon { @include media-query(palm) { font-size: $h5-size; } }
+.palm-zeta    { @include media-query(palm) { font-size: $h6-size; } }
+
 .inherit-font-size { font-size  : inherit; }
-.f-size-big { font-size: 40px; }
+.f-size-really-big {
+    font-size: 70px;
+    @include media-query(palm) { font-size: 30px; }
+}
+.f-size-big {
+    font-size: 40px;
+    @include media-query(palm) { font-size: 20px; }
+}
 .f-size-20  { font-size: 20px; }
 .f-size-16  { font-size: 16px; }
 .f-size-14  { font-size: 14px; }
 .f-size-13  { font-size: 13px; }
 .f-size-12  { font-size: 12px; }
+
+.milli {
+    p {
+        line-height: 1.5;
+    }
+}
+.word-break-normal { word-break: normal; }
+.thin              { font-weight: 300; }
 
 .smaller-print {
     font-size: 0.8em;
@@ -49,7 +86,9 @@
     font-weight: 400;
 }
 
-// --------------------- Line height
+/*------------------------------------*\
+     LINE HEIGHT
+\*------------------------------------*/
 .line-height-normal { line-height: normal !important; }
 .line-height-1      { line-height: 1 !important; }
 .line-height-2      { line-height: 2 !important; }
@@ -57,9 +96,11 @@
 .line-height-1-7    { line-height: 1.7 !important; }
 
 .palm-text--center {
-    @include media-query(palm) {
-        text-align: center !important;
-    }
+    @include media-query(palm) { text-align: center !important; }
+}
+
+.palm-text--milli {
+    @include media-query(palm) { font-size: 0.9em; }
 }
 
 .text--muted { color: $gray-muted; }
@@ -73,3 +114,8 @@
     white-space  : nowrap;
     overflow     : hidden;
 }
+
+.nowrap    { white-space : nowrap !important; }
+.break-all { word-break : break-all; }
+
+.not-outlined { outline: none !important; }

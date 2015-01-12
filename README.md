@@ -27,6 +27,7 @@ The old readme is available [here](doc/README.md).
   - [Installing `postgres` and creating a Role](#installing-postgres-and-creating-a-role)
   - [Recovering a dump](#recovering-a-dump)
   - [Making a dump](#making-a-dump)
+  - [Icon webfont](#webfont)
 
 ## Local environment
 
@@ -302,3 +303,8 @@ pg_dump --host localhost --port 5432 --username "postgres" --dbname "coursavenue
 [prerender]: https://github.com/CoursAvenue/coursavenue-prerender
 [sunspot]: http://sunspot.github.io
 [brew]: http://brew.sh
+
+### Icon webfonts
+We use FontAwesome and Fontcustom to generate own icon font
+Command to regenerate fonts:
+`bundle exec fontcustom compile app/assets/images/icons/svg/`

@@ -32,7 +32,7 @@
                 .hidden.promo-hidden
                   %input#promo-code{ name: 'promo_code', placeholder: 'CODE'}
                   %input.btn.btn--green{ type: 'submit', value: 'OK' }
-                %a.pointer.milli#i-have-promo-code Entrer un code promotionnel
+                %a.cursor-pointer.milli#i-have-promo-code Entrer un code promotionnel
 
     = form_tag ENV['BE2BILL_URL'] do
       - @be2bill_params.each do |key, value|

@@ -7,7 +7,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableText', f
     Module.EditableTextView = CoursAvenue.Views.EditableFieldView.extend({
         template: Module.templateDirname() + 'editable_text_view',
         tagName: 'div',
-        className: 'editable-text pointer',
+        className: 'editable-text cursor-pointer',
         attributes: {
             'data-behavior': 'editable-text'
         },

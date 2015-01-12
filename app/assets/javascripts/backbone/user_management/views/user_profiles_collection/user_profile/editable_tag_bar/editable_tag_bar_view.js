@@ -11,11 +11,11 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
     Module.EditableTagBarView = CoursAvenue.Views.EditableFieldView.extend({
         template: Module.templateDirname() + 'editable_tag_bar_view',
         tagName: 'div',
-        className: 'editable-tag-bar pointer',
+        className: 'editable-tag-bar cursor-pointer',
         attributes: {
             'data-behavior': 'editable-tag-bar'
         },
-        taggy: Handlebars.compile('<span class="taggy--tag"><i class="fa fa-times pointer" data-behavior="destroy"></i></span>'),
+        taggy: Handlebars.compile('<span class="taggy--tag"><i class="fa fa-times cursor-pointer" data-behavior="destroy"></i></span>'),
 
         constructor: function (options) {
             CoursAvenue.Views.EditableFieldView.prototype.constructor.apply(this, arguments);

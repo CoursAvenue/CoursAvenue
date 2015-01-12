@@ -2,7 +2,7 @@
 - medium   = false if medium.nil?
 %header.header.print--hidden
   .very-soft.soft-half--sides.flexbox{class: [medium ? 'main-container--medium' : '', expanded ? '' : 'main-container']}
-    .flexbox__item.palm-one-whole.v-middle.relative>
+    .flexbox__item.palm-one-whole.v-middle.relative.nowrap>
       - if expanded and !cookies[:understood_how_subjects_worked]
         = image_tag 'texts/choose-subjects.png', class: 'absolute east south', height: '30', id: 'choose-subjects-helper'
       = link_to '', root_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'v-middle coursavenue-header-logo mixpanel-tracker', title: 'CoursAvenue | Tous les cours autour de vous', data: { info: 'header' }
@@ -13,7 +13,9 @@
           %input#h-search-address-lat{ type: 'hidden', name: 'lat', value: cookies[:lat] || '48.8592' }
           %input#h-search-address-lng{ type: 'hidden', name: 'lng', value: cookies[:lng] || '2.3417' }
           %input#h-search-address-city{ type: 'hidden', name: 'address_name', value: cookies[:city] || 'Paris' }
-
+    - if layout_locals[:hide_top_menu_search]
+      .flexbox__item.v-middle.relative.text--center.visuallyhidden--palm>
+        = link_to 'Découvrez vos résolutions 2015 !', home_resolutions_path, class: 'f-weight-bold f-small-caps delta'
     - unless layout_locals[:hide_user_nav]
       %nav.text--right.flexbox__item.v-middle.nowrap.visuallyhidden--palm.print--hidden>
         #user-nav.inline-block.v-middle

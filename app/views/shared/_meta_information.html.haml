@@ -11,7 +11,10 @@
 %meta{ property: 'og:site_name',       content: 'CoursAvenue' }
 %meta{ property: 'og:type',            content: 'website' }
 
-%meta{ property: 'og:url',             content: "#{request.protocol + request.host_with_port + request.fullpath}" }
+- if content_for? :og_url
+  %meta{ property: 'og:url', content: yield(:og_url) }
+- else
+  %meta{ property: 'og:url', content: "#{request.protocol + request.host_with_port + request.fullpath}" }
 
 %meta{ property: 'fb:admins',          content: '100000023494269' }
 %meta{ property: 'fb:app_id',          content: '589759807705512' }
@@ -40,6 +43,7 @@
   %meta{ name: 'description', content: "#{yield(:meta_description).try(:squish)}" }
   %meta{ property: 'og:description', content: "#{yield(:meta_description).try(:squish)}" }
   %meta{ name: 'twitter:description', content: "#{yield(:meta_description).try(:squish)}" }
+  %meta{ name: "twitter:card", content: "#{yield(:meta_description).try(:squish)}" }
 - else
   - if request.subdomain == 'pro'
     %meta{ name: "description", content: "Découvrez Pro.CoursAveunue, pour référencer vos cours et recruter gratuitement de nouveaux élèves ! Gérez votre profil · Fidélisez de nouveaux élèves · Boostez votre activité”" }
@@ -60,3 +64,5 @@
   %meta{ name: "twitter:image", content: image_path('logos/logo_fb.jpg') }
 
 %meta{ name: 'keywords', content: 'danse, théâtre, scène, musique, arts, sports, arts-martiaux, photo, cuisine, vins' }
+%meta{ name: "twitter:creator", content: "@coursavenue" }
+%meta{ name: "twitter:site", content: "@coursavenue" }

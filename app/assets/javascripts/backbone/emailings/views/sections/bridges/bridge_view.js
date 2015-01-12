@@ -92,7 +92,6 @@ Emailing.module('Views.Sections.Bridges', function(Module, App, Backbone, Marion
         setCurrentImage: function setCurrentImage (image) {
             if (image) {
                 this.model.set( { media_url: image.url, media_id: image.id } );
-                // this.ui.$carousel_image.attr('src', image.url).data('id', image.id);
             }
         },
 
