@@ -43,12 +43,17 @@ FactoryGirl.define do
         structure.index
       end
     end
+
     factory :sleeping_structure do
       after(:build) do |structure|
         structure.is_sleeping = true
         structure.active      = true
         structure.admins      = []
       end
+    end
+
+    factory :independant_structure do
+      structure_type 'structures.independant'
     end
 
     trait :with_contact_email do

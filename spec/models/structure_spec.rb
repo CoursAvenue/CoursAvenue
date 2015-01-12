@@ -419,4 +419,12 @@ describe Structure do
 
     it { expect(subject.parent_subjects).to match_array(parent_subjects) }
   end
+
+  describe '#independant?' do
+    subject { FactoryGirl.create(:independant_structure) }
+
+    it 'returns true' do
+      expect(subject.independant?).to be_truthy
+    end
+  end
 end

@@ -418,15 +418,13 @@ class Structure < ActiveRecord::Base
     return email_status
   end
 
-  ######################################################################
-  # Email reminder END                                                 #
-  ######################################################################
-
+  # :nocov:
   def places_around(latitude, longitude, radius=3.5)
     places.reject do |place|
       Geocoder::Calculations.distance_between([latitude, longitude], [place.latitude, place.longitude], unit: :km) >= radius.to_i
     end
   end
+  # :nocov:
 
   # Check wether a place is in a given bounding box
   # @param  south_west Array [latitude, longitude]
