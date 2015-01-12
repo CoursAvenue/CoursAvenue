@@ -38,6 +38,7 @@ FactoryGirl.define do
     factory :individual_course do
       is_individual true
     end
+
     factory :handicaped_course do
       is_for_handicaped true
     end

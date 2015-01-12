@@ -33,4 +33,16 @@ class StructureReminder
       end
     end
   end
+
+  # Send a reminder when there's an outdated course
+  # @param structure The Structure to send the reminder to
+  #
+  # @return nil
+  def self.outdated_planning(structure)
+    return if structure.courses.without_open_courses.detect(&:is_published?)
+
+    if structure.main_contact and structure.main_contact.monday_email_opt_in?
+      AdminMailer.delay.planning_outdated(structure)
+    end
+  end
 end

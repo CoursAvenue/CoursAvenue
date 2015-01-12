@@ -117,4 +117,49 @@ describe StructureReminder do
       end
     end
   end
+
+  describe '.outdated_planning' do
+    context 'the structure has published courses' do
+      let(:course)    { FactoryGirl.create(:course) }
+      let(:structure) { course.structure }
+
+      before do
+        structure.courses << course
+        structure.save
+
+        structure.reload
+      end
+
+      it "doesn't send the reminder" do
+        expect { StructureReminder.outdated_planning(structure) }.
+          to_not change { ActionMailer::Base.deliveries.count }
+      end
+    end
+
+    context "structure's main contact has opted out of emails" do
+      let(:structure) { FactoryGirl.create(:structure_with_admin) }
+      let(:main_contact) { structure.main_contact }
+
+      before do
+        main_contact.monday_email_opt_in = false
+        main_contact.save
+      end
+
+      it "doesn't send the reminder" do
+        expect { StructureReminder.outdated_planning(structure) }.
+          to_not change { ActionMailer::Base.deliveries.count }
+      end
+    end
+
+    context 'with an outdated planning' do
+      let(:structure) { FactoryGirl.create(:structure_with_admin) }
+      let(:course)    { FactoryGirl.create(:course, structure: structure) }
+
+
+      it 'sends the reminder' do
+        expect { StructureReminder.outdated_planning(structure) }.
+          to change { ActionMailer::Base.deliveries.count }
+      end
+    end
+  end
 end
