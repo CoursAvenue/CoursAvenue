@@ -18,6 +18,7 @@ class StructureReminder
   #
   # @return nil
   def self.pending_comments(structure)
+    return if structure.comments.pending.empty?
     AdminMailer.delay.remind_for_pending_comments(structure)
   end
 end
