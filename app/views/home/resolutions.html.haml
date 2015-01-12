@@ -1,13 +1,22 @@
 - @is_responsive = true
 
-- content_for? :title do
+- content_for :meta_image do
+  - if params[:result]
+    = "https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/results/#{params[:result]}.jpg"
+  - else
+    https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/facebook_share_image.jpg
+
+- content_for :title do
   Quelles sont vos résolutions 2015 ?
+
+- content_for :meta_description do
+  Marre de ne pas savoir quoi répondre à la question "Et toi, quelles sont tes bonnes résolutions pour 2015 ?" Ce quizz est fait pour vous !
 
 :ruby
   questions = []
   questions << {
       title: 'VOTRE BONBON ?',
-      bg: 'https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/bg_blurred.jpg',
+      bg: 'https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/bg.jpg',
       answers: [
          { value: 'a', title: 'Arlequin'      , subtitle: '(coloré et intemporel)' },
          { value: 'b', title: 'Chamallow'     , subtitle: '(doux et moelleux)' },
@@ -17,7 +26,7 @@
   }
   questions << {
       title: 'THE PLACE TO BE ?',
-      bg: 'https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/bg_blurred.jpg',
+      bg: 'https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/bg.jpg',
       answers: [
          { value: 'd', title: 'Brésil' , subtitle: '(pour revivre la coupe du monde)' },
          { value: 'b', title: 'Inde'   , subtitle: '(pour s’inspirer de Gandhi)' },
@@ -27,17 +36,17 @@
   }
   questions << {
       title: 'VOTRE DERNIER POST FACEBOOK ?',
-      bg: 'https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/bg_blurred.jpg',
+      bg: 'https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/bg.jpg',
       answers: [
         { value: 'c', title: 'Rien de mieux qu’une<br>soirée entre amis !' },
         { value: 'd', title: '10km avec mes nouvelles Nike !' },
         { value: 'b', title: 'Ambiance cocooning :<br>un thé, un livre et au lit.' },
-        { value: 'a', title: 'Musées tous les 1er dimanches<br>du mois, ne l’oubliez pas !' }
+        { value: 'a', title: 'Musées tous les 1ers dimanches<br>du mois, ne l’oubliez pas !' }
       ]
   }
   questions << {
       title: 'VOTRE FILM ?',
-      bg: 'https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/bg_blurred.jpg',
+      bg: 'https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/bg.jpg',
       answers: [
         { value: 'c', title: 'Sexy dance'          , subtitle: '(envie de vous déhancher ?)' },
         { value: 'a', title: 'Midnight in Paris'   , subtitle: '(on s’évade avec Woody !)' },
@@ -47,7 +56,7 @@
   }
   questions << {
       title: 'VOTRE PERSONNAGE DE DESSIN-ANIMÉ ?',
-      bg: 'https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/bg_blurred.jpg',
+      bg: 'https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/bg.jpg',
       answers: [
         { value: 'b', title: 'Balou'                        , subtitle: '(il en faut peu pour être heureux !)' },
         { value: 'd', title: 'Po'                           , subtitle: '(un maître Kung Fu sommeille en vous)' },
@@ -57,7 +66,7 @@
   }
   questions << {
       title: 'VOTRE JOB DE RÊVE ?',
-      bg: 'https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/bg_blurred.jpg',
+      bg: 'https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/bg.jpg',
       answers: [
         { value: 'a', title: 'Artiste-peintre des plus<br>beaux couchers de soleil' },
         { value: 'b', title: 'En mission au Congo auprès<br>de Médecins Sans Frontières' },
@@ -69,8 +78,8 @@
 .north.west.absolute.push.on-top.palm-text--center
   = link_to root_path, target: :_blank, class: 'inline-block v-middle' do
     = image_tag 'logos/logo.png', width: 200, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'v-middle'
-  .push-half--left.relative.v-middle.fb-share-button{ data: { href: home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), layout: 'button_count' } }
-  %a.push-half--left.v-middle{ href: "https://twitter.com/share", class: "twitter-share-button", data: { text: "Quelles sont vos résolutions 2015 ? @CoursAvenue", lang: "fr", url: home_resolutions_url(subdomain: 'www') } } Tweeter
+  .push-half--left.relative.v-middle.fb-share-button{ data: { href: home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), layout: 'button' } }
+  %a.push-half--left.v-middle{ href: "https://twitter.com/share", class: "twitter-share-button", data: { text: 'Marre de ne pas savoir quoi répondre à la question "Quelles sont tes bonnes résolutions pour 2015 ?" @CoursAvenue', lang: "fr", url: home_resolutions_url(subdomain: 'www'), count: 'none' } } Tweeter
 #fullpage.ff-kameron
   %div.section.relative.one-whole.relative.white.full-screen-item.bg-cover{ style: "background-image: url('#{'https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/bg.jpg'}')"}
     .flexbox.full-screen-item.soft
@@ -94,7 +103,7 @@
         %h2.flush--bottom.f-size-big.text--center.white.orange-box.soft-half= question[:title]
         .grid--full
           - question[:answers].each_with_index do |answers, answer_index|
-            .pointer.black-curtain__fading-on-hover.bg-position-top.bg-cover.relative.text--center.white.grid__item.one-half.palm-one-whole.height-35vh{ style: "background-image: url('https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/q#{index + 1}/#{answer_index + 1}.jpg');", data: { name: "resolutions_question_#{index + 1}", for: "question_#{index + 1}_value_#{answer_index + 1}", answer: true, behavior: "#{last ? 'submit-form' : 'move-section-down'}" } }>
+            .cursor-pointer.black-curtain__fading-on-hover.bg-position-top.bg-cover.relative.text--center.white.grid__item.one-half.palm-one-whole.height-35vh{ style: "background-image: url('https://coursavenue-public.s3.amazonaws.com/public_assets/quizz/resolutions/q#{index + 1}/#{answer_index + 1}.jpg');", data: { name: "resolutions_question_#{index + 1}", for: "question_#{index + 1}_value_#{answer_index + 1}", answer: true, behavior: "#{last ? 'submit-form' : 'move-section-down'}" } }>
               .black-curtain.north.west.one-whole.absolute
               .f-weight-600.soft-half--sides.absolute.west.one-whole.quizz-question-text.palm-text--milli
                 .alpha.palm-delta= answers[:title].html_safe

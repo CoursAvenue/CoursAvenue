@@ -1,0 +1,39 @@
+#map.google-map
+
+- content_for :scripts do
+  :javascript
+    function initialize() {
+        var mapOptions = {
+            zoom: 4,
+            center: new google.maps.LatLng(48, 2.213749),
+            scrollwheel: false,
+            disableDefaultUI: true
+        };
+        var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+        var toulouse_infowindow = new google.maps.InfoWindow({
+            content: "L'équipe business est à Toulouse, au chaud !"
+        });
+        var paris_infowindow = new google.maps.InfoWindow({
+            content: "L'équipe technique est à Paris, la capitale !"
+        });
+        var paris_marker = new google.maps.Marker({
+            position: new google.maps.LatLng(48.843978,2.372615),
+            map: map,
+            title: 'Équipe technique'
+        });
+        var toulouse_marker = new google.maps.Marker({
+            position: new google.maps.LatLng(43.604652,1.444209),
+            map: map,
+            title: 'Équipe business'
+        });
+        paris_infowindow.open(map, paris_marker);
+        toulouse_infowindow.open(map, toulouse_marker);
+        google.maps.event.addListener(toulouse_marker, 'click', function() {
+            toulouse_infowindow.open(map, toulouse_marker);
+        });
+        google.maps.event.addListener(paris_marker, 'click', function() {
+            paris_infowindow.open(map, paris_marker);
+        });
+    }
+
+    google.maps.event.addDomListener(window, 'load', initialize);

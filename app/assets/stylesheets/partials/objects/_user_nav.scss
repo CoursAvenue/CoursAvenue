@@ -1,0 +1,7 @@
+.user-nav--home {
+    a {
+        color      : white;
+        font-weight: 500;
+        @extend .soft-black-text-shadow;
+    }
+}

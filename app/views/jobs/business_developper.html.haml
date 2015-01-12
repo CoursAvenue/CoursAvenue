@@ -1,0 +1,82 @@
+- @is_responsive = true
+- bg = params[:bg] || "https://unsplash.imgix.net/photo-1414446483597-8d8f792bfe39?q=75&fm=jpg&s=2756ab87b786786b9e689b6204d99c90"
+.soft-black-text-shadow.relative.bg-cover.flexbox.bg-position.white.full-screen-item.bg-position-top{ style: "background-image: url(#{bg})", data: { behavior: 'parallax' } }
+  .flexbox__item.v-middle.text--center.relative.on-top
+    = render partial: 'jobs/top_logo'
+    %h1.f-size-really-big.flush RESPONSABLE BUSINESS DEVELOPMENT
+    %a.not-outlined.f-size-big.white{ href: '#content', data: { behavior: 'scroll-to' } }
+      %i.fa.fa-chevron-down
+
+.main-container.soft--sides#content
+  .inline-block
+    %p.gamma.palm-delta.line-height-1-7.island-top.flush--bottom
+      Le Business Developer est l'interlocuteur des professeurs et écoles de loisirs avec CoursAvenue. A la fois commercial, conseiller et évangéliste, il est à l'écoute et entretient une relation de confiance entre CoursAvenue et ses utilisateurs. En tant que responsable, votre mission sera de mettre en place une équipe de Business Developers pour accompagner la croissance de notre startup.
+
+  .grid
+    .grid__item.five-eighths.soft--right.palm-one-whole>
+      .soft--right
+        %h2.island-top.bordered--bottom.soft--bottom.f-weight-300.alpha Qui sommes-nous ?
+
+        %p.delta.palm-epsilon.line-height-1-7
+          Fondée fin 2012, CoursAvenue a pour objectif de révolutionner le marché des cours de loisirs et de relier chacun de nous aux meilleurs professeurs, associations et écoles qui nous entourent. En moins d’un an, CoursAvenue est devenue le leader de la recherche et des inscriptions en ligne des cours de loisirs (danse, théâtre, musique, yoga, etc.).
+        %p.delta.palm-epsilon.line-height-1-7.flush
+          Les 4 piliers fondateurs de CoursAvenue :
+        %ul.delta.palm-epsilon.line-height-1-7
+          %li
+            %strong Passion :
+            s’engager au quotidien tout en prenant du plaisir
+          %li
+            %strong Innovation :
+            se réinventer chaque jour pour servir nos ambitions
+          %li
+            %strong Wahoo :
+            créer une surprise incroyable à chaque utilisation de nos services
+          %li
+            %strong Honnêteté :
+            savoir se remettre en question pour mieux avancer
+
+        %p.delta.palm-epsilon.line-height-1-7
+          Nous recherchons des entrepreneurs ambitieux dotés d’une motivation sans faille souhaitant participer pleinement à la croissance rapide d’une startup.
+
+        %h2.island-top.bordered--bottom.soft--bottom.f-weight-300.alpha Vos missions
+        %ul.delta.palm-epsilon.line-height-1-7
+          %li Constituer et mettre en place une équipe commerciale composée de Business Developers : recrutement, installation d’outils pour la gestion des appels, reporting, CRM ;
+          %li Gérer et contrôler tous les stades d’une opportunité commerciale : obtention de contacts argumentés, prises de rendez-vous, démonstrations, ventes ;
+          %li Superviser et contribuer à la prospection téléphonique auprès des autres Business Developers ;
+          %li Suivre et piloter nos prestataires et stagiaires dans le but de grandir notre base de prospects.
+
+    .grid__item.three-eighths.palm-one-whole.soft--left>
+      %h2.island-top.bordered--bottom.soft--bottom.f-weight-300.alpha Profil recherché
+      %ul.delta.palm-epsilon.line-height-1-7
+        %li Expériences réussies en télévente (d’un an minimum) ;
+        %li Un tempérament de gagnant(e) et le contact humain comme passion ;
+        %li Des connaissances dans le secteur des loisirs sont de vrais atouts ;
+        %li Talentueux(se) et entrepreneur.
+      %p.delta.palm-epsilon.line-height-1-7.flush
+        Deux profils réussissent dans ce poste :
+      %ul.delta.palm-epsilon.line-height-1-7
+        %li Expérience de télévendeur en B to C ou B to B orienté TPE, artisans, commerçants, en agence de télémarketing, etc. (exemple : Pages Jaunes) ;
+        %li Expérience acquise chez les annonceurs, les annuairistes ou dans la vente d’espaces publicitaires.
+
+      %h2.island-top.bordered--bottom.soft--bottom.f-weight-300.alpha Infos pratiques
+      %ul.delta.palm-epsilon.line-height-1-7
+        %li
+          %strong Poste :
+          Responsable Business Development ;
+        %li
+          %strong Contrat :
+          CDI ou CDD à temps plein (selon profil) ;
+        %li
+          %strong Salaire :
+          Fixe en fonction du profil + variable extrêmement motivant ;
+        %li
+          %strong Date de début :
+          dès que possible ;
+        %li
+          %strong Localisation :
+          Toulouse centre.
+      = render partial: 'jobs/side_map'
+  .text--center.island
+    = link_to 'mailto:nicolas@coursavenue.com?subject=Candidature%20responsable%20business%20development%202015&body=À%20vous%20de%20jouer !', class: 'btn btn--large btn--green' do
+      %i.fa.fa-paper-plane
+      Postuler

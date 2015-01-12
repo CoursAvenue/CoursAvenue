@@ -54,9 +54,9 @@
                   - if participation.canceled?
                     %i.fa.fa-ban.red
                     Annulé
-                    -# %i.fa.fa-ban.red.pointer{ title: "Annulé", data: { behavior: 'tooltip'} }
+                    -# %i.fa.fa-ban.red.cursor-pointer{ title: "Annulé", data: { behavior: 'tooltip'} }
                   - elsif participation.waiting_list?
-                    -# %i.fa.fa-clock-o.orange.pointer{ title: "Sur liste d'attente", data: { behavior: 'tooltip'} }
+                    -# %i.fa.fa-clock-o.orange.cursor-pointer{ title: "Sur liste d'attente", data: { behavior: 'tooltip'} }
                     %i.fa.fa-clock-o.orange
                     Liste d'attente
                     %br
@@ -64,7 +64,7 @@
                       %i.fa.fa-check
                       Accepter l'inscription
                   - else
-                    %i.fa.fa-check.green.pointer{ title: "Inscription validé", data: { behavior: 'tooltip'} }
+                    %i.fa.fa-check.green.cursor-pointer{ title: "Inscription validé", data: { behavior: 'tooltip'} }
                 %td.text--right.nowrap
                   = link_to new_pro_structure_message_path(@structure, return_to: pro_structure_participations_path(@structure), message: { subject: "Message concernant le cours du #{planning_date_for(planning)} #{planning_time_for(planning, false)}", recipients: [participation.user.user_profile_for(@structure).id] } ), class: 'btn btn--small btn--blue nowrap fancybox.ajax', data: { behavior: 'modal', width: '780' }, title: "Message pour le cours du #{planning_date_for(planning)} #{planning_time_for(planning, false)}" do
                     %i.fa.fa-envelope
