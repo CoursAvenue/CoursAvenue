@@ -155,7 +155,6 @@ describe StructureReminder do
       let(:structure) { FactoryGirl.create(:structure_with_admin) }
       let(:course)    { FactoryGirl.create(:course, structure: structure) }
 
-
       it 'sends the reminder' do
         expect { StructureReminder.outdated_planning(structure) }.
           to change { ActionMailer::Base.deliveries.count }
