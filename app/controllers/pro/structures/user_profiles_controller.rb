@@ -62,11 +62,6 @@ class Pro::Structures::UserProfilesController < Pro::ProController
     @user_profile = @structure.user_profiles.find params[:id]
 
     update_tags
-    if !@structure.premium?
-      # Keys that cannot be modified by non premium users
-      forbidden_keys = [ :email ]
-      params[:user_profile] = params[:user_profile].except(*forbidden_keys)
-    end
     respond_to do |format|
       if @user_profile.update_attributes(params[:user_profile])
         format.json { render :json => @user_profile, status: 200 }
