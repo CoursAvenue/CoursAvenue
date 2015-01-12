@@ -70,8 +70,11 @@ describe StructureReminder do
     end
 
     context 'with pending comments' do
-      let!(:comment)   { FactoryGirl.create(:pending_comment) }
-      let!(:structure) { comment.structure }
+      let(:structure) { FactoryGirl.create(:structure_with_admin) }
+
+      before do
+        structure.comments << FactoryGirl.create(:pending_comment, commentable: structure)
+      end
 
       it 'sends a reminder' do
         expect { StructureReminder.pending_comments(structure) }.
