@@ -12,5 +12,12 @@ FactoryGirl.define do
 
     password                'password'
     password_confirmation   'password'
+
+    trait :from_facebook do
+      uid              { Faker::Number.number(6) }
+      oauth_token      { Faker::Internet.password }
+      oauth_expires_at { 10.years.from_now }
+      provider 'facebook'
+    end
   end
 end

@@ -120,4 +120,45 @@ describe User do
 
     end
   end
+
+  describe '.from_omniauth' do
+    context 'the user already exists' do
+      subject    { FactoryGirl.create(:user, :from_facebook) }
+      let(:auth) { create_oauth(uid: subject.uid) }
+
+      it 'returns the existing user' do
+        expect(User.from_omniauth(auth)).to eq(subject)
+      end
+    end
+
+    context "the user doesn't exists" do
+      let(:auth) { create_oauth }
+
+      it 'creates the user' do
+        expect { User.from_omniauth(auth) }.to change { User.count }.by(1)
+      end
+    end
+  end
+end
+
+def create_oauth(options = { uid: Faker::Number.number(6) })
+  OmniAuth.config.add_mock(
+    :facebook,
+    uid: options[:uid],
+    info: {
+      email:      Faker::Internet.email,
+      first_name: Faker::Name.first_name,
+      last_name:  Faker::Name.last_name,
+      image:      Faker::Company.logo
+    },
+    credentials: {
+      token:      Faker::Internet.password,
+      expires_at: 2.days.from_now.to_i
+    },
+    extra: {
+      raw_info: {
+        gender: %w(male female).sample,
+      }
+    }
+  )
 end
