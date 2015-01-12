@@ -79,4 +79,39 @@ describe StructureReminder do
       end
     end
   end
+
+  describe '.widget' do
+    context 'structure has no main contact' do
+      let(:structure) { FactoryGirl.create(:structure) }
+
+      it "doesn't send the reminder" do
+        expect { StructureReminder.widget(structure) }.
+          to_not change { ActionMailer::Base.deliveries.count }
+      end
+    end
+
+    context "structure's main contact has opted out of mails" do
+      let(:structure)    { FactoryGirl.create(:structure_with_admin) }
+      let(:main_contact) { structure.main_contact }
+
+      before do
+        main_contact.monday_email_opt_in = false
+        main_contact.save
+      end
+
+      it "doesn't send a reminder" do
+        expect { StructureReminder.widget(structure) }.
+          to_not change { ActionMailer::Base.deliveries.count }
+      end
+    end
+
+    context "structure doesn't have a widget yet" do
+      let(:structure) { FactoryGirl.create(:structure_with_admin) }
+
+      it 'sends the reminder' do
+        expect { StructureReminder.widget(structure) }.
+          to change { ActionMailer::Base.deliveries.count }.by(1)
+      end
+    end
+  end
 end

@@ -21,4 +21,16 @@ class StructureReminder
     return if structure.comments.pending.empty?
     AdminMailer.delay.remind_for_pending_comments(structure)
   end
+
+  # Send a reminder for widget availability.
+  # @param structure The Structure to send the reminder to
+  #
+  # @return nil
+  def self.widget(structure)
+    if structure.main_contact and structure.main_contact.monday_email_opt_in?
+      if structure.widget_status.nil?
+        AdminMailer.delay.remind_for_widget(structure)
+      end
+    end
+  end
 end
