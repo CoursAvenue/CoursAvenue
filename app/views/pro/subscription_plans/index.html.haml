@@ -6,7 +6,7 @@
     .text--center
       = link_to 'javascript:void(0)', class: 'btn btn--green', data: { action: 'dropbox' } do
         %i.fa.fa-dropbox
-        Telecharger dans Dropbox
+        Télécharger dans Dropbox
 
     .text--center
       %h2.f-weight-300.flush= "CA : #{@orders.map(&:amount).reduce(&:+)}€ TTC (#{readable_amount(@orders.map(&:amount).reduce(&:+) / 1.2)} HT)"
@@ -14,8 +14,7 @@
     %h2.text--center.f-weight-300 Total premium: #{SubscriptionPlan.where(SubscriptionPlan.arel_table[:expires_at].gt(Date.today)).count}
     %h2.text--center.push--bottom.soft--ends.f-weight-300 Premium / mois
     #graph-per-month
-    -# %hr.push--ends
-    -# #graph
+
     %hr.push--ends
     %table.table--striped
       %thead
@@ -53,28 +52,25 @@
                }
             ]
         });
-
         $('[data-action=dropbox]').click(function(event) {
             event.preventDefault();
-
             var options = {
                 files: #{ @dropbox_orders.to_json },
-                success: function() {
-                    $.ajax(Routes.update_dropbox_orders_pro_subscription_plans_path())
+                success: function success (a, b, c) {
+                    $.ajax(Routes.update_dropbox_orders_pro_subscription_plans_path());
                     GLOBAL.flash('Fichiers enregistrés.', 'success');
                 },
-                cancel: function() {
+                cancel: function cancel () {
                     GLOBAL.flash('Action annulée.');
                 },
-                error: function(errorMessage) {
-                    console.log(errorMessage);
+                error: function error (errorMessage) {
+                    console.error(errorMessage);
                     GLOBAL.flash('Une erreur est survenue, veuillez rééssayer.');
                 },
-                progress: function(progress) {
+                progress: function progress (progress) {
                     console.log(progress);
                 }
             }
-
             Dropbox.save(options);
         });
     });
