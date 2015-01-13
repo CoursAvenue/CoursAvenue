@@ -124,7 +124,6 @@ describe User do
     end
   end
 
-  <<<<<<< HEAD
   describe '.from_omniauth' do
     context 'the user already exists' do
       subject    { FactoryGirl.create(:user, :from_facebook) }
@@ -166,6 +165,42 @@ describe User do
 
       it 'returns a new user' do
         expect(User.create_or_find_from_email(new_email)).to be_valid
+      end
+    end
+  end
+
+  describe '#has_avatar?' do
+    context 'simple user' do
+      subject { FactoryGirl.create(:user) }
+
+      it "doesn't have an avatar" do
+        expect(subject.has_avatar?).to be_falsy
+      end
+
+    end
+
+    context 'from facebook' do
+      subject { FactoryGirl.create(:user_from_facebook) }
+
+      it 'has an avatar' do
+        expect(subject.has_avatar?).to be_truthy
+      end
+    end
+
+    context 'from regular inscription' do
+      let(:image_url) { 'http://placehold.it/500' }
+      subject         { FactoryGirl.create(:user, remote_avatar_url: image_url) }
+
+      before do
+        UserAvatarUploader.enable_processing = true
+      end
+
+      after do
+        UserAvatarUploader.enable_processing = false
+      end
+
+      it 'has an avatar' do
+        expect(subject.has_avatar?).to be_truthy
       end
     end
   end
