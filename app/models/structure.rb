@@ -1110,17 +1110,6 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  # Update the last email sent fields
-  #
-  # @param status: The structure status.
-  # @param date:   The date the email was sent.
-  #
-  # @return nil
-  def update_last_email_sent_status!(status, date = Time.now)
-    update_column :last_email_sent_at, date
-    update_column :last_email_sent_status, status
-  end
-
   private
 
   def update_cities_text
