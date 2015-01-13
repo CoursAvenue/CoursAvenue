@@ -4,6 +4,7 @@ class Structure < ActiveRecord::Base
   include Concerns::ActiveHashHelper
   include Concerns::HasDeliveryStatus
   include Concerns::IdentityCacheFetchHelper
+  include Concerns::ReminderEmailStatus
   include StructuresHelper
   include HasSubjects
   include ActsAsCommentable
@@ -1107,17 +1108,6 @@ class Structure < ActiveRecord::Base
     return Rails.cache.fetch ['Structure#is_open_for_trial?', self] do
       courses.open_for_trial.any?
     end
-  end
-
-  # Update the last email sent fields
-  #
-  # @param status: The structure status.
-  # @param date:   The date the email was sent.
-  #
-  # @return nil
-  def update_last_email_sent_status!(status, date = Time.now)
-    update_column :last_email_sent_at, date
-    update_column :last_email_sent_status, status
   end
 
   private
