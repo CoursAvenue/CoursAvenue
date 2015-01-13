@@ -1022,6 +1022,7 @@ class Structure < ActiveRecord::Base
     main_contact.delete
 
     sleeping_structure.destroy
+    structure.is_sleeping = true
 
     save
   end
