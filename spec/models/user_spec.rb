@@ -147,6 +147,10 @@ describe User do
     context 'the user already exists' do
       let!(:user) { FactoryGirl.create(:user) }
 
+      before do
+        User.create_or_find_from_email(subject.email)
+      end
+
       it "doesn't create a new user" do
         expect { User.create_or_find_from_email(subject.email) }.to_not change { User.count }
       end
@@ -158,13 +162,14 @@ describe User do
 
     context "the user doesn't exist" do
       let(:new_email) { Faker::Internet.email }
+      let(:name)      { Faker::Name.first_name }
 
       it 'creates a new user' do
-        expect { User.create_or_find_from_email(new_email) }.to change { User.count }.by(1)
+        expect { User.create_or_find_from_email(new_email, name) }.to change { User.count }.by(1)
       end
 
       it 'returns a new user' do
-        expect(User.create_or_find_from_email(new_email)).to be_valid
+        expect(User.create_or_find_from_email(new_email, name)).to be_valid
       end
     end
   end
