@@ -27,15 +27,23 @@ describe Comment::Review do
   end
 
   context :validations do
-    let(:comment)     { FactoryGirl.create(:comment_review) }
-    let(:new_comment) {
-      FactoryGirl.build(:comment_review, email: comment.email, commentable: comment.commentable)
-    }
-
     describe '#doesnt_exist_yet' do
+      let(:comment)     { FactoryGirl.create(:comment_review) }
+      let(:new_comment) {
+        FactoryGirl.build(:comment_review, email: comment.email, commentable: comment.commentable) }
+
       it 'exists and adds errors' do
         expect(new_comment.valid?).to be(false)
         expect(new_comment.errors[:email].length).to eq 1
+      end
+    end
+
+    describe '#content_length' do
+      subject { FactoryGirl.build(:comment_review, content: Faker::Lorem.word) }
+
+      it 'adds an error' do
+        expect(subject.valid?).to be_falsy
+        expect(subject.errors[:content].length).to eq 1
       end
     end
   end
@@ -203,5 +211,21 @@ describe Comment::Review do
     subject { FactoryGirl.create(:comment_review, status: 'declined') }
 
     it { expect(subject.declined?).to be_truthy }
+  end
+
+  describe '#highlighted?' do
+    subject         { FactoryGirl.create(:comment_review) }
+    let(:structure) { subject.commentable }
+
+    it 'is not highlighted by default' do
+      expect(subject.highlighted?).to be_falsy
+    end
+
+    it 'is highlighted by the structure' do
+      structure.highlight_comment!(subject)
+      structure.reload
+
+      expect(subject.highlighted?).to be_truthy
+    end
   end
 end
