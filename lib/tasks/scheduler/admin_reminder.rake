@@ -12,7 +12,9 @@ namespace :scheduler do
     desc 'Send email to admins for inactivity'
     task :send_reminder => :environment do |t, args|
       if (Date.today.cweek % 2 == 1) and Time.now.monday?
-        Structure.all.map(&:send_reminder)
+        Structure.all.map do |structure|
+          StructureReminder.status(structure)
+        end
       end
     end
 
@@ -21,7 +23,9 @@ namespace :scheduler do
     desc 'Send email to admins that have pending comments'
     task :remind_for_pending_comments => :environment do |t, args|
       if Time.now.wednesday?
-        Comment::Review.pending.map(&:structure).uniq.map(&:remind_for_pending_comments)
+        Comment::Review.pending.map(&:structure).uniq.map do |structure|
+          StructureReminder.pending_comments(structure)
+        end
       end
     end
 
@@ -30,7 +34,9 @@ namespace :scheduler do
     desc 'Send email to admins that have access to the widget'
     task :remind_for_widget => :environment do |t, args|
       if Time.now.friday?
-        Structure.where(Structure.arel_table[:comments_count].gteq(5)).map(&:remind_for_widget)
+        Structure.where(Structure.arel_table[:comments_count].gteq(5)).map do |structure|
+          StructureReminder.widget(structure)
+        end
       end
     end
 
@@ -39,7 +45,9 @@ namespace :scheduler do
     desc 'Send email to admins that have access to the widget'
     task :remind_for_planning_outdated => :environment do |t, args|
       if Time.now.thursday?
-        Structure.find_each(&:remind_for_planning_outdated)
+        Structure.all.map do |structure|
+          StructureReminder.outdated_planning(structure)
+        end
       end
     end
 

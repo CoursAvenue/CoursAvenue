@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141210165911) do
+ActiveRecord::Schema.define(version: 20150106105209) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -563,6 +563,7 @@ ActiveRecord::Schema.define(version: 20141210165911) do
     t.integer  "promotion_code_id"
     t.string   "type"
     t.integer  "user_id"
+    t.boolean  "on_dropbox",           default: false
   end
 
   create_table "participation_requests", force: true do |t|
@@ -1109,10 +1110,10 @@ ActiveRecord::Schema.define(version: 20141210165911) do
     t.string   "fb_avatar"
     t.string   "location"
     t.string   "slug"
-    t.string   "avatar_file_name"
-    t.string   "avatar_content_type"
-    t.integer  "avatar_file_size"
-    t.datetime "avatar_updated_at"
+    t.string   "old_avatar_file_name"
+    t.string   "old_avatar_content_type"
+    t.integer  "old_avatar_file_size"
+    t.datetime "old_avatar_updated_at"
     t.string   "gender"
     t.date     "birthdate"
     t.boolean  "email_opt_in",            default: true
@@ -1141,6 +1142,7 @@ ActiveRecord::Schema.define(version: 20141210165911) do
     t.integer  "sponsorship_id"
     t.string   "sponsorship_slug"
     t.datetime "sign_up_at"
+    t.string   "avatar"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
