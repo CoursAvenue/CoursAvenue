@@ -22,9 +22,5 @@ FactoryGirl.define do
       oauth_expires_at { 10.years.from_now }
       provider 'facebook'
     end
-
-    trait :with_facebook_page do
-      facebook_url 'http:://facebok.com/coursavenue'
-    end
   end
 end

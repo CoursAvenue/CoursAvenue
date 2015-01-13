@@ -1,7 +1,10 @@
 # -*- encoding : utf-8 -*-
 require 'rails_helper'
+require 'carrierwave/test/matchers'
 
 describe User do
+  include CarrierWave::Test::Matchers
+
   context :active do
     it 'should not have password' do
       user = User.new first_name: 'Lorem', last_name: 'last_name', email: 'random@email.com'
@@ -121,6 +124,7 @@ describe User do
     end
   end
 
+  <<<<<<< HEAD
   describe '.from_omniauth' do
     context 'the user already exists' do
       subject    { FactoryGirl.create(:user, :from_facebook) }
@@ -165,6 +169,34 @@ describe User do
       end
     end
   end
+end
+
+describe '#avatar_url' do
+  context 'User from Facebook' do
+    let(:user) { FactoryGirl.create(:user_from_facebook) }
+
+    it 'returns the url from facebook' do
+      expect(user.avatar_url).to eq(user.fb_avatar)
+    end
+  end
+
+  # context 'User from the website' do
+  #   before do
+  #     UserAvatarUploader.enable_processing = true
+  #   end
+  #
+  #   after do
+  #     UserAvatarUploader.enable_processing = false
+  #   end
+  #
+  #   let(:image_url) { 'http://placehold.it/500' }
+  #   let(:user)      { FactoryGirl.create(:user, remote_avatar_url: image_url) }
+  #
+  #   it 'returns the url from the uploader' do
+  #     expect(user.avatar.wide).to have_dimensions(800, 800)
+  #   end
+  # end
+
 end
 
 def create_oauth(options = { uid: Faker::Number.number(6) })

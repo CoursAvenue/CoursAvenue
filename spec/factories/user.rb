@@ -19,5 +19,12 @@ FactoryGirl.define do
       oauth_expires_at { 10.years.from_now }
       provider 'facebook'
     end
+
+    factory :user_from_facebook do
+      oauth_token      { Faker::Internet.password }
+      oauth_expires_at { 10.years.from_now }
+      provider         'facebook'
+      fb_avatar        { Faker::Internet.url }
+    end
   end
 end
