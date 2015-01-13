@@ -352,20 +352,20 @@ describe Structure do
     context 'with an admin' do
       subject { FactoryGirl.create(:structure_with_admin) }
 
-      it 'returns the admin email' do
+      it 'returns the admin mobile phone' do
         expect(subject.contact_mobile_phone).to eq(subject.main_contact.mobile_phone_number)
       end
     end
 
-    context 'with a contact email' do
+    context 'with a contact mobile phone' do
       subject { FactoryGirl.create(:structure, :with_contact_mobile_phone) }
 
-      it 'returns the contact email' do
+      it 'returns the contact mobile phone' do
         expect(subject.contact_mobile_phone).to eq(subject.read_attribute(:contact_mobile_phone))
       end
     end
 
-    context 'without an admin or a contact email' do
+    context 'without an admin or a contact mobile phone' do
       it 'returns nil' do
         expect(subject.contact_mobile_phone).to be_nil
       end
@@ -376,20 +376,20 @@ describe Structure do
     context 'with an admin' do
       subject { FactoryGirl.create(:structure_with_admin) }
 
-      it 'returns the admin email' do
+      it 'returns the admin phone' do
         expect(subject.contact_phone).to eq(subject.main_contact.phone_number)
       end
     end
 
-    context 'with a contact email' do
+    context 'with a contact phone' do
       subject { FactoryGirl.create(:structure, :with_contact_phone) }
 
-      it 'returns the contact email' do
+      it 'returns the contact phone' do
         expect(subject.contact_phone).to eq(subject.read_attribute(:contact_phone))
       end
     end
 
-    context 'without an admin or a contact email' do
+    context 'without an admin or a contact phone' do
       it 'returns nil' do
         expect(subject.contact_phone).to be_nil
       end
