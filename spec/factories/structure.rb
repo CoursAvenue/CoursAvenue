@@ -22,6 +22,7 @@ FactoryGirl.define do
         structure.admins << FactoryGirl.build(:admin)
       end
     end
+
     factory :structure_with_place do
       after(:create) do |structure|
         structure.places << FactoryGirl.build(:place)

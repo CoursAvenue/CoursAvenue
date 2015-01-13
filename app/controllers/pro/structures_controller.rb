@@ -95,6 +95,7 @@ class Pro::StructuresController < Pro::ProController
     end
   end
 
+  # :nocov:
   # GET member
   def widget_jpo
     @structure = Structure.friendly.find params[:id]
@@ -116,6 +117,7 @@ class Pro::StructuresController < Pro::ProController
       format.json { render text: render_to_string(partial: 'pro/structures/widget_jpo', layout: false) }
     end
   end
+  # :nocov:
 
   # GET member
   #   format :json
