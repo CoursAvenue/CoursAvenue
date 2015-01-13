@@ -30,6 +30,7 @@ class UsersController < InheritedResources::Base
 
   # params[:structure] : structure_slug
   # method: GET
+  # :nocov:
   def invite_entourage_to_jpo_page
     if params[:id]
       @user = User.find params[:id]
@@ -48,6 +49,7 @@ class UsersController < InheritedResources::Base
       end
     end
   end
+  # :nocov:
 
   def waiting_for_activation
   end
