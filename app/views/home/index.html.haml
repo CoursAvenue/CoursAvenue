@@ -1,5 +1,10 @@
 - @is_responsive = true
 
+- content_for :head do
+  = content_tag :script, type: 'application/ld+json' do
+    = ""
+    = JSON.pretty_generate(@google_search_box_metadata).html_safe
+
 = render 'shared/newsletter_form'
 
 = render 'home_screen'

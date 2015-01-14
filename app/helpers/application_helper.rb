@@ -57,4 +57,13 @@ module ApplicationHelper
 
     matches.any? { |robot| user_agent.match(robot) }
   end
+
+  def media_share_url(url, provider = :facebook, text='')
+    case provider
+    when :facebook
+      URI.encode("http://www.facebook.com/sharer.php?s=100&p[url]=#{url}")
+    when :twitter
+      URI.encode("https://twitter.com/intent/tweet?text=#{text}&via=CoursAvenue&url=#{url}")
+    end
+  end
 end

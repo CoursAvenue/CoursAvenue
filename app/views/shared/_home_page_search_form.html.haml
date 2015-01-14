@@ -12,17 +12,50 @@
           %input.palm-one-whole.input--large.one-whole.soft-half--left{ size: 28, placeholder:'Que recherchez-vous ?', type: 'text', autocomplete: 'off', name: 'name', value: '' , data: { type: 'subjects', toggle: 'popover', content: '<div style="color: black">Entrez la discipline ou le profil recherché. Ex. : Hatha yoga, Paris Art school, etc.</div>', placement: 'top', html: 'true' } }
       .flexbox__item.v-middle.search-input-wrapper.very-soft.hard--ends.palm-hard
         .input-with-icon
-          %input.palm-one-whole.input--large.one-whole.soft-half--left{ size: 19, placeholder:'Ville', type:'text', autocomplete: 'off', name:'address_name', value: city, data: { type:'address', lng:'#address-lng',lat: '#address-lat', city: '#address-city' , address_name: '#address-name' } }
-          %i.fa.fa-map-marker.delta
+          %input.palm-one-whole.input--large.one-whole.soft-half--left{ size: 19, placeholder:'Ville', type:'text', autocomplete: 'off', name:'address_name', value: city, data: { type:'address', lng:'#address-lng', lat: '#address-lat', city: '#address-city' , address_name: '#address-name' } }
+          %i.cursor-pointer.fa.fa-location-arrow.delta{ data: { behavior: 'locate-me', toggle: 'popover', content: 'Utiliser ma position actuelle.', placement: 'left' } }
         %input#address-lat{ type: 'hidden', value: lat, name: 'lat' }
         %input#address-lng{ type: 'hidden', value: lng, name: 'lng' }
         %input#address-name{ type: 'hidden', value: city, name: 'address_name' }
         %input#address-city{ type: 'hidden', value: city, name: 'city' }
-
       .flexbox__item.v-middle.palm-text--center
         %button.nowrap.btn.btn--blue.btn--full.input--large{type: 'submit', id: 'submit_search_form'}
           %i.fa.fa-search
           Trouver
+
+= content_for :scripts do
+  :javascript
+
+    var setPosition = function setPosition (position) {
+        var latitude  = position.coords.latitude;
+        var longitude = position.coords.longitude;
+
+        $('input#address-lat').val(latitude);
+        $('input#address-lng').val(longitude);
+        $('input[name=address_name]').val('');
+
+        $('form#home-page-form').submit();
+    };
+
+    var handleError = function handleError (positionError) {
+        if (positionError.code == 1) {
+            GLOBAL.flash('Vous avez refusé la géolocalisation.');
+        } else if (positionError.code == 2) {
+            GLOBAL.flash("La géolocalisation n'est pas disponible pour votre navigateur.");
+        } else {
+            GLOBAL.flash("La géolocalisation n'est pas disponible pour le moment, veuillez rééssayer dans quelques instants.");
+        }
+    };
+
+    $(function() {
+        $('[data-behavior=locate-me]').click(function(event) {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(setPosition, handleError);
+            } else {
+                GLOBAL.flash("La géolocalisation n'est pas disponible pour votre navigateur.");
+            }
+        });
+    });
 
 - if Rails.env.production?
   = content_for :scripts do

@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Set up Ruby
+bundle install
+
+# Set up database
+bundle exec rake db:setup
+
+# Set up deploys
+git remote add staging git@heroku.com:coursavenue-staging.git
+heroku join --app coursavenue-staging
+
+git remote add production git@heroku.com:coursavenue.git
+heroku join --app coursavenue
+
+# Set up development environment config
+if [ ! -f .env ]; then
+  cp .sample.env .env
+fi

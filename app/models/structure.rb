@@ -4,6 +4,7 @@ class Structure < ActiveRecord::Base
   include Concerns::ActiveHashHelper
   include Concerns::HasDeliveryStatus
   include Concerns::IdentityCacheFetchHelper
+  include Concerns::ReminderEmailStatus
   include StructuresHelper
   include HasSubjects
   include ActsAsCommentable
@@ -155,7 +156,6 @@ class Structure < ActiveRecord::Base
   after_save    :update_open_for_trial_courses_if_neesds
   after_save    :geocode_if_needs_to            unless Rails.env.test?
   after_save    :subscribe_to_crm               if Rails.env.production?
-  after_touch   :regenerate_cached_profile_page if Rails.env.production?
   after_touch   :set_premium
   after_touch   :update_meta_datas
   after_touch   :update_cities_text
@@ -403,64 +403,10 @@ class Structure < ActiveRecord::Base
   # Also cache by slug, since we often access a structure by its slug with FriendlyId.
   cache_index :slug, unique: true
 
-  ######################################################################
-  # Email reminder                                                     #
-  ######################################################################
-
-  # Sends reminder depending on the email status of the structure
-  # This method is called every week through admin_reminder rake task
-  # (Executed on Heroku by the scheduler)
-  #
-  # @return nil
-  def send_reminder
-    return if self.main_contact.nil? or self.is_sleeping?
-    if self.main_contact.monday_email_opt_in?
-      if self.update_email_status.present?
-        update_column :last_email_sent_at, Time.now
-        update_column :last_email_sent_status, email_status
-        AdminMailer.delay.send(self.email_status.to_sym, self)
-      end
-    end
-  end
-
-
-  # Sends an email if there are pending comments
-  #
-  # @return [type] [description]
-  def remind_for_pending_comments
-    AdminMailer.delay.remind_for_pending_comments(self)
-  end
-
-  # Thursday email
-  # Only send if thursday email opt in is true
-  def remind_for_widget
-    if self.main_contact and self.main_contact.monday_email_opt_in?
-      if widget_status.nil?
-        AdminMailer.delay.remind_for_widget(self)
-      end
-    end
-  end
-
-  # Mail sent every thursday
-  # It's sent only if 'monday_email_opt_in' is set to true
-  # When? :
-  #     Tous les jeudis tant qu'un cours / stage non complété (les mêmes 3 raisons du
-  #     cadre bleu call to action : périmé, prix ou créneau manquant) OU pas de planning du tout
-  # TODO: monday and thursday email have changed
-  def remind_for_planning_outdated
-    if self.main_contact and self.main_contact.monday_email_opt_in?
-      # Don't send if there is a published course
-      return if self.courses.without_open_courses.detect(&:is_published?)
-      AdminMailer.delay.planning_outdated(self)
-    end
-  end
-
   # Update the email status of the structure
   def update_email_status
     email_status = nil
-    if !self.premium? and self.impression_count(30) > 15
-      email_status = 'your_profile_has_been_viewed'
-    elsif !self.profile_completed? or self.comments.empty? or self.courses.without_open_courses.empty? or self.medias.empty?
+    if !self.profile_completed? or self.comments.empty? or self.courses.without_open_courses.empty? or self.medias.empty?
       email_status = 'incomplete_profile'
     else
       email_status = nil
@@ -1121,7 +1067,7 @@ class Structure < ActiveRecord::Base
   # @return City
   def dominant_city
     if plannings.any?
-      plannings.map(&:place).compact.flat_map(&:city).group_by{ |city| city }.values.max_by(&:size).try(:first)
+      dominant_city_from_planning
     else
       ([city] + places.map(&:city)).group_by{ |c| c }.values.max_by(&:size).first
     end
@@ -1286,11 +1232,6 @@ class Structure < ActiveRecord::Base
     nil
   end
 
-  def regenerate_cached_profile_page
-    PrerenderRenewer.delay.new(structure_url(self, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, host: 'coursavenue.com'))
-  end
-
-  #
   # Set is_open_for_trial to false if trial_courses_policy changed and is set to nil
   #
   # @return nil
@@ -1299,5 +1240,10 @@ class Structure < ActiveRecord::Base
       courses.open_for_trial.map{ |c| c.is_open_for_trial = false; c.save }
     end
     nil
+  end
+
+  def dominant_city_from_planning
+    plannings.map(&:place).flat_map(&:city).group_by { |c| c }.values.max_by(&:size).first ||
+      courses.flat_map(&:places).flat_map(&:city).group_by { |c| c }.values.max_by(&:size).first
   end
 end

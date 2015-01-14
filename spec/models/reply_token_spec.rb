@@ -58,12 +58,10 @@ RSpec.describe ReplyToken, type: :model do
       end
 
       context "when it hasn't been used yet" do
-
         it "is valid when it hasn't been used yet" do
           expect(subject.still_valid?).to be true
         end
       end
     end
-
   end
 end

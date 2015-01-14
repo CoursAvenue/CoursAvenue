@@ -9,7 +9,7 @@ RSpec.configure do |config|
   # end of the spec run, to help surface which specs are running
   # particularly slow.
   # This never runs on CI.
-  if !ENV['CI']
+  if !ENV['CI'] and !config.files_to_run.one?
     config.profile_examples = 10
   end
 

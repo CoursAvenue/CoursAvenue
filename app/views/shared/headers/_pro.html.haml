@@ -4,8 +4,6 @@
       = link_to '', root_path, class: 'v-middle coursavenue-header-logo coursavenue-header-logo--pro', title: 'Recrutez de nouveaux élèves'
     %nav.grid__item.two-thirds.text--right.v-middle
       %ul.nav
-        %li.visuallyhidden--palm
-          = link_to 'Tarifs', pro_pages_price_path
         %li.soft--sides
           = render 'shared/question_dropdown_menu'
         - if current_pro_admin

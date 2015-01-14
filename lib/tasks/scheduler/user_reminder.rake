@@ -11,7 +11,9 @@ namespace :scheduler do
     desc 'Send email to admins for inactivity'
     task :send_reminder => :environment do |t, args|
       if Time.now.monday?
-        User.active.all.map(&:send_reminder)
+        User.active.all.map do |user|
+          UserReminder.status(user)
+        end
       end
     end
 

@@ -198,7 +198,7 @@ group :production, :staging do
   # gem 'heroku_rails_deflate'      , '~>1.0.3'
   # gem 'rack-zippy'
   gem 'heroku-deflater'
-  gem 'sprockets-image_compressor', '~>0.3.0'
+  # gem 'sprockets-image_compressor', '~>0.3.0'
   gem 'htmlcompressor'            , '~>0.1.2'
   gem 'image_optim'               , '~>0.19.1'
   gem 'image_optim_pack'          , '~>0.2.0.20141122'
@@ -263,7 +263,7 @@ gem 'identity_cache'           , '~> 0.2.2'
 gem 'cityhash'                 , '~> 0.8.1'
 
 # JS heavy pages pre-rendering
-gem 'prerender_rails'
+gem 'prerender_rails'          , '~> 1.1.1'
 
 # Track envents starting in the App
 gem 'mixpanel-ruby'

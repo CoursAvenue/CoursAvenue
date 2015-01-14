@@ -122,12 +122,12 @@ FilteredSearch.addInitializer(function(options) {
         events: {
             'structures:updated'               : '_renderChildren',
             'paginator:updating'               : 'hideInfoWindow',
-            'structures:itemview:highlighted'  : 'exciteMarkers',
-            'structures:itemview:unhighlighted': 'exciteMarkers',
+            'structures:childview:highlighted'  : 'exciteMarkers',
+            'structures:childview:unhighlighted': 'exciteMarkers',
             'map:update:zoom'                  : 'updateZoom',
             'filter:update:map'                : 'centerMap',
-            'structures:itemview:found'        : 'setMarkerViewAndshowInfoWindow',
-            'structures:itemview:peacock'      : 'togglePeacockingMarkers'
+            'structures:childview:found'        : 'setMarkerViewAndshowInfoWindow',
+            'structures:childview:peacock'      : 'togglePeacockingMarkers'
         }
     });
 

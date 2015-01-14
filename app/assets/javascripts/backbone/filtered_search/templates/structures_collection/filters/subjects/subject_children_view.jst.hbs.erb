@@ -3,7 +3,7 @@
         <ul class="tabs--stacked flexbox__item v-top one-third">
             {{#each children}}
                 <li class="{{#ifCond slug '==' ../selected_slug}}selected{{/ifCond}} {{#ifCond slug '==' ../selected_parent_subject_id}}selected{{/ifCond}}">
-                    <a data-subject data-depth="1" data-type="btn" data-toggle="tab" href="#tab-subjects-filter-{{slug}}" data-value="{{slug}}" data-toggle="tab" data-root-subject="{{../slug}}" class="pointer {{#ifCond slug '==' ../selected_slug}}f-weight-bold{{/ifCond}} {{#ifCond slug '==' ../selected_parent_subject_id}}f-weight-bold{{/ifCond}}">
+                    <a data-subject data-depth="1" data-type="btn" data-toggle="tab" href="#tab-subjects-filter-{{slug}}" data-value="{{slug}}" data-toggle="tab" data-root-subject="{{../slug}}" class="cursor-pointer {{#ifCond slug '==' ../selected_slug}}f-weight-bold{{/ifCond}} {{#ifCond slug '==' ../selected_parent_subject_id}}f-weight-bold{{/ifCond}}">
                         {{name}}
                     </a>
                 </li>
@@ -16,7 +16,7 @@
                         <ul class="no-bullet-list line-height-1-7">
                         {{#each this.children}}
                             <li>
-                                <a class="pointer black {{#ifCond slug '==' ../../selected_slug}}f-weight-bold{{/ifCond}}" data-depth="2" data-subject data-value="{{slug}}" data-parent-subject="{{../slug}}" data-root-subject="{{../../slug}}">{{name}}</a>
+                                <a class="cursor-pointer black {{#ifCond slug '==' ../../selected_slug}}f-weight-bold{{/ifCond}}" data-depth="2" data-subject data-value="{{slug}}" data-parent-subject="{{../slug}}" data-root-subject="{{../../slug}}">{{name}}</a>
                             </li>
                         {{/each}}
                         </ul>

@@ -8,6 +8,7 @@
 
 REPOSITORY="http://github.com/coursavenue/coursavenue"
 APP_NAME=$1
+REPOSITORY="http://github.com/coursavenue/coursavenue"
 
 # Fetch the last commits on the remote.
 git remote add heroku git@heroku.com:$APP_NAME.git

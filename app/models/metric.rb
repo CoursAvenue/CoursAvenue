@@ -25,6 +25,7 @@ class Metric
   scope :views,                -> { where( action_type: 'view') }
   scope :actions,              -> { where( action_type: 'action') }
   scope :structure_go_premium, -> { where( action_type: /structure_go_premium_/) }
+  scope :in_the_current_day,   -> { where( created_at: Time.now.beginning_of_day..Time.now.end_of_day) }
 
   ######################################################################
   # Creation and migration methods                                     #
@@ -266,7 +267,7 @@ class Metric
   # Return the Metrics created in the current day
   #
   # @return Mongo Chaining Relation
-  def self.in_the_current_day
+  def self.in_the_current_day_future
     Metric.only(:created_at).where(created_at: Time.now.beginning_of_day..Time.now.end_of_day)
   end
 

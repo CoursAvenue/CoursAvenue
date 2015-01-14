@@ -1,3 +1,12 @@
+@mixin prefix($property, $value, $vendors: webkit moz ms o) {
+      @if $vendors {
+        @each $vendor in $vendors {
+          #{"-" + $vendor + "-" + $property}: #{$value};
+        }
+      }
+      #{$property}: #{$value};
+}
+
 @mixin multiple-media-query($args...){
     @each $media-type in $args{
         @include media-query($media-type) { @content; }

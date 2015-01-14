@@ -1,7 +1,7 @@
 {
   "checksum": {
-    "previous": "3ec0f95283a4760b47f44e8eb29aea2e6a4d899d6b971455ccee8bd192efa66b",
-    "current": "3ec0f95283a4760b47f44e8eb29aea2e6a4d899d6b971455ccee8bd192efa66b"
+    "previous": "054a70fede6e51425034e64a2d3f542ecfa21165a51d83a9b3b277c702e98a96",
+    "current": "054a70fede6e51425034e64a2d3f542ecfa21165a51d83a9b3b277c702e98a96"
   },
   "fonts": [
     "app/assets/fonts/GlyphAvenue.ttf",
@@ -97,6 +97,10 @@
     "download": {
       "codepoint": 61818,
       "source": "app/assets/images/icons/svg/download.svg"
+    },
+    "eiffel-tower": {
+      "codepoint": 61852,
+      "source": "app/assets/images/icons/svg/eiffel-tower.svg"
     },
     "envelope-o": {
       "codepoint": 61819,
@@ -209,6 +213,10 @@
     "repeat": {
       "codepoint": 61733,
       "source": "app/assets/images/icons/svg/repeat.svg"
+    },
+    "rugby-ball": {
+      "codepoint": 61853,
+      "source": "app/assets/images/icons/svg/rugby-ball.svg"
     },
     "search": {
       "codepoint": 61774,
