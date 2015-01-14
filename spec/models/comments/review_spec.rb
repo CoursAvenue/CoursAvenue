@@ -140,9 +140,9 @@ describe Comment::Review do
       expect(subject.status).to eq(:accepted)
     end
 
-    it "doesn't send a congratulatory email" do
-      expect { subject.accept! }.to_not change { ActionMailer::Base.deliveries.count }
-    end
+    # it "doesn't send a congratulatory email" do
+    #   expect { subject.accept! }.to_not change { ActionMailer::Base.deliveries.count }
+    # end
 
     context "when there's less than 5 comments" do
       before do
