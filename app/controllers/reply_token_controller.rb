@@ -34,8 +34,7 @@ class ReplyTokenController < ApplicationController
   # @return nothing
   def check_user_agent
     if request.user_agent != ReplyToken::GOOGLE_ACTION_USER_AGENT
-        head :unauthorized
-        redirect_to root_url
+      redirect_to root_path, alert: "Vous n'avez pas le droit !"
     end
   end
 end
