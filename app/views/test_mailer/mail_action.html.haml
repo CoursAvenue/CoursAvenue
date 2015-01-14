@@ -4,7 +4,8 @@
     %title Mail Action
 
     = content_tag :script, type: 'application/ld+json' do
-      = JSON.generate(@data).html_safe
+      = ""
+      = JSON.pretty_generate(@data).html_safe
 
   %body
     %h1 Mail Action
