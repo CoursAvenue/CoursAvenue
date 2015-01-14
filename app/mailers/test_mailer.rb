@@ -19,7 +19,7 @@ class TestMailer < ActionMailer::Base
         "name"  => token.gmail_action_name,
         "handler" => {
           "@type" => "HttpActionHandler",
-          "url"   => "http://google.fr",
+          "url"   => reply_token_url(token, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN),
         },
       },
     }
