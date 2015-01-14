@@ -33,7 +33,9 @@ class ReplyTokenController < ApplicationController
   #
   # @return nothing
   def check_user_agent
-    head :unauthorized if request.user_agent !=
-      'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/1.0 (KHTML, like Gecko; Gmail Actions)'
+    if request.user_agent != ReplyToken::GOOGLE_ACTION_USER_AGENT
+        head :unauthorized
+        redirect_to root_url
+    end
   end
 end
