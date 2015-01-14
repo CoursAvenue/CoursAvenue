@@ -4,18 +4,18 @@ require 'rails_helper'
 describe ReplyTokenController, type: :controller do
   describe '#show' do
     context 'with wrong user agent' do
-      it 'is unauthorized' do
+      it 'redirects to the root_url' do
         get :show, id: Faker::Internet.password
 
-        expect(response).to have_http_status(:unauthorized)
+        expect(response).to redirect_to(root_path)
       end
     end
 
     context 'with the right user agent' do
 
       before do
-        allow_any_instance_of(ActionDispatch::Request).to receive(:user_agent).and_return(
-          'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/1.0 (KHTML, like Gecko; Gmail Actions)')
+        allow_any_instance_of(ActionDispatch::Request).
+          to receive(:user_agent).and_return(ReplyToken::GOOGLE_ACTION_USER_AGENT)
       end
 
       # context 'bad request' do
