@@ -177,6 +177,13 @@ class ParticipationRequest < ActiveRecord::Base
     end
   end
 
+  # Tells if the PR is past or not.
+  #
+  # @return Boolean, wether the date is passed
+  def past?
+    date < Date.today
+  end
+
   private
 
   # Set state to pending by default when creating

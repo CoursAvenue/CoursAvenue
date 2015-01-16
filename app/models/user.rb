@@ -38,7 +38,6 @@ class User < ActiveRecord::Base
 
   define_boolean_accessor_for :meta_data, :have_seen_first_jpo_popup
 
-
   mount_uploader :avatar, UserAvatarUploader
 
   ######################################################################
@@ -109,7 +108,6 @@ class User < ActiveRecord::Base
   scope :active,   -> { where.not(encrypted_password: '') }
   scope :inactive, -> { where( User.arel_table[:encrypted_password].eq('').or(User.arel_table[:encrypted_password] == nil)) }
   scope :with_avatar, -> { where.not(avatar_file_name: nil) }
-
 
   # :nocov:
   searchable do
@@ -241,10 +239,12 @@ class User < ActiveRecord::Base
   end
 
   def avatar_url(format = :normal)
-    if avatar.url
+    if avatar.present?
       self.avatar.url(format)
     elsif read_attribute(:fb_avatar)
       self.fb_avatar(format)
+    else
+      self.avatar.url(format) # To provide default image
     end
   end
 

@@ -3,11 +3,6 @@ class Course::Private < Course
   include Concerns::ActiveHashHelper
   include Concerns::HasAudiencesAndLevels
 
-  ######################################################################
-  # Relations                                                          #
-  ######################################################################
-  belongs_to :place
-
   attr_accessible :place, :min_age_for_kid, :max_age_for_kid, :on_appointment, :teaches_at_home
 
   ######################################################################

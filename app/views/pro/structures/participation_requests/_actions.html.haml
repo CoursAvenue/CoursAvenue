@@ -1,0 +1,14 @@
+.flexbox.soft--sides
+  - if !@participation_request.canceled? and !@participation_request.declined?
+    - if @participation_request.pending? and @participation_request.last_modified_by == 'User'
+      .flexbox__item.one-third>
+        = link_to accept_form_pro_structure_participation_request_path(@participation_request.structure, @participation_request), class: 'btn--full btn--green btn fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
+          Accepter
+
+    .flexbox__item.one-third.soft-half--sides>
+      = link_to edit_pro_structure_participation_request_path(@participation_request.structure, @participation_request), class: 'btn--full btn--orange nowrap btn fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 } do
+        Discuter
+  - if !@participation_request.canceled? and !@participation_request.declined?
+    .flexbox__item.one-third>
+      = link_to cancel_form_pro_structure_participation_request_path(@participation_request.structure, @participation_request), class: 'btn--full btn--red btn fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 } do
+        Annuler

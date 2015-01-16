@@ -6,43 +6,60 @@
       .float--right.nowrap.orange.soft-half--top
         %i.fa.fa-clock-o.delta
         %strong.delta Expire dans
-        %strong.delta#expires-in
+        %strong.delta{ data: { 'expires-in' => true } }
     %ol.nav.flush.breadcrumb{ itemprop: 'breadcrumb' }
       %li.gamma.f-weight-500= link_to 'Mes inscriptions', pro_structure_participation_requests_path(@structure)
       %li.gamma.f-weight-500.flush= @user.name
-  .panel__body.soft--ends
-    .flexbox.soft--sides
-      - if !@participation_request.canceled? and !@participation_request.declined?
-        - if @participation_request.pending? and @participation_request.last_modified_by == 'User'
-          .flexbox__item.one-third>
-            = link_to accept_pro_structure_participation_request_path(@participation_request.structure, @participation_request), method: :patch, class: 'btn--full btn--green btn' do
-              Accepter l'inscription
 
-        .flexbox__item.one-third.soft-half--sides>
-          = link_to edit_pro_structure_participation_request_path(@participation_request.structure, @participation_request), class: 'btn--full btn--orange nowrap btn fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 } do
-            Proposer un autre créneau
-      - if !@participation_request.canceled? and !@participation_request.declined?
-        .flexbox__item.one-third>
-          = link_to cancel_form_pro_structure_participation_request_path(@participation_request.structure, @participation_request), class: 'btn--full btn--red btn fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 } do
-            Annuler l'inscription
-    %hr.push--top.flush--bottom
+  .panel__body.soft--ends
     = render partial: 'pro/structures/participation_requests/table_recap', locals: { participation_request: @participation_request }
 
+  - user_decorator = @participation_request.user.decorate
   .panel__header.soft.bordered--top
-    %h4.flush Historique des messages
+    %h4.flush À propos de l'élève
   .panel__body.soft
-    - if @participation_request.pending? and @participation_request.last_modified_by == 'Structure'
-      = render partial: 'pro/structures/conversations/participation_request_form', locals: { participation_request: @participation_request, return_to: pro_structure_participation_request_path(@structure, @participation_request) }
-    - else
-      = render partial: 'pro/structures/conversations/form', locals: { conversation: @participation_request.conversation, return_to: pro_structure_participation_request_path(@structure, @participation_request) }
+    .grid--full.push--bottom.message
+      .grid__item.two-twelfths.v-top.v-top>
+        - if @participation_request.user.has_avatar?
+          = image_tag @participation_request.user.avatar_url(:normal), class: 'center-block push-half--bottom rounded--circle', width: 100
+      .grid__item.ten-twelfths.v-top>
+        %h4.line-height-1-7.flush= @participation_request.user.name
+        %div.line-height-1-7
+          Profil : #{user_decorator.age_and_city}
+        %div.line-height-1-7
+          Email :
+          %span.has-tooltip{ data: { toggle: 'popover', content: t('tooltips.pro.participation_requests.infos_will_be_shown_once_accepted'), html: 'true', placement: 'top', trigger: 'hover' } }
+            = user_decorator.phone_number(!@participation_request.accepted?)
+
+        %div.line-height-1-7
+          Téléphone :
+          %span.has-tooltip{ data: { toggle: 'popover', content: t('tooltips.pro.participation_requests.infos_will_be_shown_once_accepted'), html: 'true', placement: 'top', trigger: 'hover' } }
+            = user_decorator.email(!@participation_request.accepted?)
+
     = render partial: 'messages/message', collection: @participation_request.conversation.messages.order('created_at DESC').reject(&:new_record?)
 
+
+  .panel__header.soft.bordered--top
+    - if @participation_request.pending? and @participation_request.last_modified_by == 'User' and @participation_request.created_at > 2.days.ago
+      .float--right.nowrap.orange.soft-half--top
+        %i.fa.fa-clock-o.delta
+        %strong.delta Expire dans
+        %strong.delta{ data: { 'expires-in' => true } }
+    %h4.flush Acceptez la demande
+  .panel__body.soft.bordered--top
+    %p
+      Vous risquez d'être pénalisé si vous n'acceptez pas ou ne refusez pas cette demande d'inscription avant son expiration :
+    .flexbox
+      .flexbox__item.nowrap
+        Confirmez l'inscription :
+      .flexbox__item.one-whole
+        = render partial: 'actions'
 
 = content_for :scripts do
   :javascript
     $(function() {
       var date            = Date.parse("#{l(local_time(@participation_request.created_at + 48.hours), format: :js )}");
-      var $countdown_div = $('#expires-in');
+      var $countdown_div = $('[data-expires-in]');
       countdown(date,
           function(ts) {
               var hours   = ("0" + ts.hours).slice(-2);

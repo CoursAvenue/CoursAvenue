@@ -21,8 +21,6 @@ module ParticipationRequestsHelper
   def participation_request_state_html(participation_request)
     content_tag :div, class: participation_request_color(participation_request) do
       output = ""
-      output << participation_request_icon(participation_request)
-      output << " "
       output << content_tag(:strong, t("participation_request.state.#{participation_request.state}"))
       output.html_safe
     end
@@ -36,16 +34,6 @@ module ParticipationRequestsHelper
       'green'
     elsif participation_request.declined? or participation_request.canceled?
       'red'
-    end
-  end
-
-  def participation_request_icon(participation_request)
-    if participation_request.pending?
-      content_tag(:i, nil, class: 'fa fa-clock')
-    elsif participation_request.accepted?
-      content_tag(:i, nil, class: 'fa fa-check')
-    elsif participation_request.declined? or participation_request.canceled?
-      content_tag(:i, nil, class: 'fa fa-times')
     end
   end
 

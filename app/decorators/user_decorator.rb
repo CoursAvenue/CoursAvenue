@@ -1,14 +1,13 @@
 class UserDecorator < Draper::Decorator
-  delegate_all
 
   # Ex.: 25 ans, Lyon
   def age_and_city
     infos = []
-    if age
-      infos << "#{age} ans"
+    if object.age
+      infos << "#{object.age} ans"
     end
-    if city
-      infos << city.name
+    if object.city
+      infos << object.city.name
     end
     infos.join(', ')
   end
@@ -25,16 +24,29 @@ class UserDecorator < Draper::Decorator
   #   XXXXXXXXX@gmail.com
   def phone_number_and_email(crypted=false)
     string = ""
-    if crypted
-      string << "XX XX XX XX #{phone_number[-2..-1]}" if phone_number
-      string << "<br>" if phone_number and email
-      string << email.gsub(/.*@/, 'XXXXXXXXX') if email
-    else
-      string << phone_number if phone_number
-      string << "<br>" if phone_number and email
-      string << email if email
-    end
+    string << phone_number(crypted) if object.phone_number
+    string << "<br>" if object.phone_number and object.email
+    string << email(crypted) if object.email
     string.html_safe
   end
 
+  def phone_number(crypted=false)
+    if crypted
+      "XX XX XX XX #{object.phone_number[-2..-1]}" if object.phone_number
+    else
+      object.phone_number if object.phone_number
+    end
+  end
+
+  def email(crypted=false)
+    if crypted
+      object.email.gsub(/.*@/, 'XXXXXXXXX') if object.email
+    else
+      object.email if object.email
+    end
+  end
+
+  def full_name
+    object.full_name
+  end
 end

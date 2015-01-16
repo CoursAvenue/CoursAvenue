@@ -5,7 +5,8 @@ fr:
   participation_request:
     state:
       accepted: Confirmé
-      pending: En attente de confirmation
+      expired: Expiré
+      pending: En attente
       declined: Refusé
       canceled: Annulé
       long_description:

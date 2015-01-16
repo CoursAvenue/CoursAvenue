@@ -3,9 +3,9 @@
 .panel
   .panel__header.soft
     %h3.flush Mes inscriptions
-  .panel__body.soft--ends
-    %h4.soft--sides Inscriptions à venir
-    %table.table--data.table--striped
+  .panel__body.soft
+    %h4 Inscriptions à venir
+    %table.table--data.table--striped.table-not-bordered
       %thead
         %tr
           %th Statut
@@ -16,11 +16,11 @@
         - @upcoming_participation_requests.each do |participation_request|
           = render partial: 'participation_request', locals: { participation_request: participation_request }
     %hr
-    %p.soft--sides
+    %p.flush
       = link_to "Voir tout l'historique des inscriptions", '#', data: { behavior: 'show-long-version', 'long-version' => '#previous-subscriptions'}
     .hidden#previous-subscriptions
       %h4.soft--sides Inscriptions précédentes
-      %table.table--data.table--striped
+      %table.table--data.table--striped.table-not-bordered
         %thead
           %tr
           %th Statut

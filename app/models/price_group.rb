@@ -49,27 +49,35 @@ class PriceGroup < ActiveRecord::Base
   # Following methods use select instead of where to force retrieving prices even
   # if they are not persisted
   def book_tickets
-    self.prices.select{ |p| p.type == 'Price::BookTicket' }.reject(&:blank?).sort_by(&:number)
+    prices.select{ |p| p.type == 'Price::BookTicket' }.reject(&:blank?).sort_by(&:number)
   end
 
   def premium_offers
-    self.prices.select{ |p| p.type == 'Price::PremiumOffer' }
+    prices.select{ |p| p.type == 'Price::PremiumOffer' }
   end
 
   def subscriptions
-    self.prices.select{ |p| p.type == 'Price::Subscription' }.sort{ |p1, p2| Price::Subscription::TYPES_ORDER[p1.libelle] <=> Price::Subscription::TYPES_ORDER[p2.libelle] }
+    prices.select{ |p| p.type == 'Price::Subscription' }.sort{ |p1, p2| Price::Subscription::TYPES_ORDER[p1.libelle] <=> Price::Subscription::TYPES_ORDER[p2.libelle] }
   end
 
   def registrations
-    self.prices.select{ |p| p.type == 'Price::Registration' }
+    prices.select{ |p| p.type == 'Price::Registration' }
   end
 
   def discounts
-    self.prices.select{ |p| p.type == 'Price::Discount' }
+    prices.select{ |p| p.type == 'Price::Discount' }
   end
 
   def trial
-    self.prices.select{ |p| p.type == 'Price::Trial' }.first
+    prices.select{ |p| p.type == 'Price::Trial' }.first
+  end
+
+  #
+  # [min_price description]
+  #
+  # @return The amount of the lowest price
+  def min_price_amount
+    prices.order('amount ASC').first.try(:amount)
   end
 
   # Tells wether or not the price_group has premium offers
@@ -135,7 +143,7 @@ class PriceGroup < ActiveRecord::Base
   # @return nil
   def touch_relations
     touch_courses
-    self.prices.map(&:touch)
+    prices.map(&:touch)
     nil
   end
 

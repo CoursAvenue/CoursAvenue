@@ -14,10 +14,15 @@ class Pro::Structures::PlacesController < InheritedResources::Base
     end
   end
 
+  def edit_infos
+    @structure = Structure.friendly.find params[:structure_id]
+    @place     = @structure.places.find params[:id]
+    render layout: false
+  end
+
   def edit
     @structure = Structure.friendly.find params[:structure_id]
     @place     = @structure.places.find params[:id]
-    @place.contacts.build if @place.contacts.empty?
     respond_to do |format|
       if request.xhr?
         format.html { render partial: 'form', layout: false }
@@ -35,11 +40,6 @@ class Pro::Structures::PlacesController < InheritedResources::Base
       marker.lng structure.longitude
     end
 
-    if @structure.places.map { |p| p.contacts }.flatten.any?
-      @place.contacts << @structure.places.map { |p| p.contacts }.flatten.first.dup
-    else
-      @place.contacts.build
-    end
     respond_to do |format|
       if request.xhr?
         format.html { render partial: 'form', layout: false }

@@ -42,6 +42,12 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     end
   end
 
+  # GET pro/etablissements/:structure_id/participation_request/:id/cancel_form
+  def accept_form
+    @participation_request = @structure.participation_requests.find(params[:id])
+    render layout: false
+  end
+
   # PUT pro/etablissements/:structure_id/participation_request/:id/modify_date
   def modify_date
     @participation_request = @structure.participation_requests.find(params[:id])

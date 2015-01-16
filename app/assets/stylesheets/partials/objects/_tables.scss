@@ -56,6 +56,7 @@
  * Data table
  */
 .table--data {
+    font: inherit;
     font-size: 13px;
     td, thead tr th {
         padding    : 0.5em 0.8em;
@@ -66,6 +67,14 @@
         &:last-child {
             border-right: none;
         }
+    }
+}
+/**
+ * Data table
+ */
+.table-not-bordered {
+    td {
+        border-right: none;
     }
 }
 

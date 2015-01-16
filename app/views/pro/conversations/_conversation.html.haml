@@ -1,54 +1,40 @@
 - last_message = conversation.messages.last
 
-- recipients = conversation.recipients.reject{|recipient| recipient == @admin }
-- participation_request = conversation_participation_request(conversation)
-.bordered--top.push-half--top.soft-half--top
-  - if participation_request and participation_request.pending_for? 'Structure'
-    .grid--full.red-box.soft-half--sides.very-soft.rounded--none.border-none.white
-      .grid__item.v-middle.three-twelfths>
-        %strong.epsilon En attente de réponse
-      .grid__item.v-middle.nine-twelfths.text--right>
-        = succeed ' ' do
-          = link_to 'Répondre', pro_structure_conversation_path(@structure, conversation), class: 'btn btn--small'
-        = succeed ' ' do
-          .inline-block.drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'left' } }
-            %a.btn.btn--small
-              %i.fa.fa-flag
-              Signaler
-            %ul.drop-down__el.text--left
-              %li.nowrap
-                = link_to 'Fausse demande', flag_pro_structure_conversation_path(@structure, conversation, flag: 'Fausse demande'), method: :patch, class: 'muted-link'
-              %li.nowrap
-                = link_to 'Contenu inapproprié / offensant', flag_pro_structure_conversation_path(@structure, conversation, flag: 'Contenu inapproprié / offensant'), method: :patch, class: 'muted-link'
-              %li.nowrap
-                = link_to 'Autres', flag_pro_structure_conversation_path(@structure, conversation, flag: 'Autres'), method: :patch, class: 'muted-link'
-
-  = link_to pro_structure_conversation_path(@structure, conversation), class: "muted-link block grid--full #{(participation_request and participation_request.pending_for?('Structure') ? 'bordered--red bordered-none--top bordered--larger' : '')}" do
-    .grid__item.v-top.v-middle{ style: 'width: 30%' }>
-      .grid--full
-        .grid__item.one-quarter.v-middle>
-          - if recipients.first
-            = image_tag recipients.first.avatar_url(:thumb), class: 'block bordered rounded--circle'
-        .grid__item.three-quarters.soft-half--left.v-middle>
-          %p.flush
-            - if recipients.first
-              = truncate((recipients.first.name || recipients.first.email), length: 18)
-            - if recipients.length > 1
-              %span.nowrap.milli{ title: recipients.map(&:name).join(', '), data: { behavior: 'tooltip' } }
-                et #{pluralize(recipients.length - 1, 'autre')}
-              %br
-            %span.milli= "le #{l(last_message.created_at.to_date, format: :short)}"
-            - if participation_request
-              = participation_request_state_html(participation_request)
-    .grid__item.soft-half--left.v-middle{ style: 'width: 65%' }>
-      %p.flush
-        %strong
-          = conversation.subject
+- recipients                      = conversation.recipients.reject{|recipient| recipient == @admin }
+- participation_request           = conversation_participation_request(conversation)
+- participation_request_decorator = participation_request.decorate if participation_request
+.bordered--top.push--top.soft--top
+  = link_to pro_structure_conversation_path(@structure, conversation), class: "muted-link block flexbox" do
+    .flexbox__item.v-top.v-middle.soft--right
+      - if recipients.first
+        = image_tag recipients.first.avatar_url(:thumb), class: 'block bordered rounded--circle', height: 65, width: 65
+    .flexbox__item.v-top.v-middle.one-whole
+      .float--right
+        %strong.gray-light.epsilon= l(last_message.created_at.to_date, format: :short)
+        %span{ data: { toggle: 'popover', placement: 'top', content: conversation_label_name(conversation) } }
+          = conversation_label conversation
+      %p.flush.line-height-1-7
+        - if recipients.first
+          %strong.epsilon= truncate((recipients.first.name || recipients.first.email), length: 18)
+          = "(#{pluralize conversation.messages.count, 'message'})"
+        - if recipients.length > 1
+          %span.nowrap.milli{ title: recipients.map(&:name).join(', '), data: { behavior: 'tooltip' } }
+            et #{pluralize(recipients.length - 1, 'autre')}
+          %br
+      %p.flush.line-height-1-7.f-weight-500
+        %span
+          = "#{conversation.subject} - "
           - if conversation_extra_infos(conversation).present?
             = "(#{conversation_extra_infos(conversation).map{ |extra_info| t("#{extra_info.name}_small") }.join(', ')})"
 
-        = "(#{pluralize conversation.messages.count, 'message'})"
-        %br
-        = truncate(last_message.body, length: 80)
-    .grid__item.soft-half--left.text--center.v-middle{ style: 'width: 5%' }>
-      = conversation_label conversation
+        %span.gray-light= truncate(last_message.body, length: 80)
+      - if participation_request
+        .line-height-1-7{ class: participation_request_decorator.color }
+          %strong= participation_request_decorator.status_name
+          - if !participation_request.canceled? and !participation_request.past?
+            .btn.btn--small.btn--green.nowrap
+              - if participation_request.pending? and participation_request.last_modified_by == 'User'
+                Répondre maintenant
+              - else
+                Modifier / Annuler
+

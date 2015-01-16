@@ -4,6 +4,10 @@ class UserAvatarUploader < CarrierWave::Uploader::Base
 
   cloudinary_transformation transformation: [{ width: 800, height: 800, crop: :limit }]
 
+  def default_url
+    ActionController::Base.helpers.asset_path("avatars/" + [version_name, "missing.png"].compact.join('/'))
+  end
+
   version :wide do
     process resize_to_fit: [800, 800]
   end

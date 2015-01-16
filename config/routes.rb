@@ -274,6 +274,7 @@ CoursAvenue::Application.routes.draw do
         resources :teachers, controller: 'structures/teachers', path: 'professeurs'
         resources :places  , controller: 'structures/places'  , path: 'lieux' do
           member do
+            get :edit_infos
             get :ask_for_deletion
           end
         end
@@ -325,6 +326,7 @@ CoursAvenue::Application.routes.draw do
         resources :participation_requests, only: [:edit, :index, :show], controller: 'structures/participation_requests', path: 'suivi-inscriptions' do
           member do
             get   :cancel_form
+            get   :accept_form
             patch :accept
             patch :modify_date
             patch :decline

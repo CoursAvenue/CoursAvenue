@@ -14,14 +14,14 @@
         - conversation_conversation_count = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::CONVERSATION.id).count
         - conversation_request_count      = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::REQUEST.id).count
         .push--bottom.text--center
-          .push-half--left.lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::REQUEST.color}"}= conversation_request_count
-          %strong Inscription
-          .lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::INFORMATION.color}"}= conversation_information_count
-          %strong Demande d'nformation
-          .push-half--left.lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::COMMENT.color}"}= conversation_comment_count
-          %strong Avis déposé
-          .push-half--left.lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::CONVERSATION.color}"}= conversation_conversation_count
-          %strong Conversation
+          .push-half--left.lbl--small.lbl--chip.lbl{ class: "lbl--#{Mailboxer::Label::REQUEST.color}"}
+          %strong.push--right Inscription (#{conversation_request_count})
+          .lbl.lbl--small.lbl--chip{ class: "lbl--#{Mailboxer::Label::INFORMATION.color}"}
+          %strong.push--right Demande d'nformation (#{conversation_information_count})
+          .push-half--left.lbl--small.lbl--chip.lbl{ class: "lbl--#{Mailboxer::Label::COMMENT.color}"}
+          %strong.push--right Avis déposé (#{conversation_comment_count})
+          .push-half--left.lbl--small.lbl--chip.lbl{ class: "lbl--#{Mailboxer::Label::CONVERSATION.color}"}
+          %strong Conversation (#{conversation_conversation_count})
         .grid
           .grid__item.one-third>
             %select#conversation_label{ name: 'conversation_label_id' }

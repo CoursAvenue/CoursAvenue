@@ -2,7 +2,7 @@ class CourseDecorator < Draper::Decorator
   include PricesHelper
   delegate_all
 
-  # [first_session_detail description]
+  # Description and price of the first course that the user wants to attempt
   #
   # @return
   # Essai gratuit
@@ -16,9 +16,10 @@ class CourseDecorator < Draper::Decorator
     elsif price_group.trial
       "Séance d'essai : #{readable_amount(price_group.trial.amount)}"
     elsif is_training?
-      "Stage : #{price_group}€"
+      "Stage : #{readable_amount(price_group.min_price_amount)}"
     elsif price_group.trial.nil?
-      "Une séance : #{readable_amount(price_group.trial.amount)}"
+      "Une séance : #{readable_amount(price_group.min_price_amount)}"
     end
   end
+
 end

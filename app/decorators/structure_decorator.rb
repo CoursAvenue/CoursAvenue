@@ -141,4 +141,13 @@ class StructureDecorator < Draper::Decorator
     output
   end
 
+  def phone_numbers
+    string = ''
+    object.phone_numbers.each do |phone_number|
+      _phone_number = phone_number.number.gsub(' ', '').gsub('-', '').gsub('.', '').gsub('+33', '0').gsub(/^33/, '0')
+      string << "<div>#{_phone_number[0..1]} #{_phone_number[2..3]} #{_phone_number[4..5]} #{_phone_number[6..7]} #{_phone_number[8..9]}</div>"
+    end
+    string.html_safe
+  end
+
 end
