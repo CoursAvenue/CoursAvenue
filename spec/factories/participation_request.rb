@@ -7,9 +7,9 @@ FactoryGirl.define do
     course
     planning
     state             'pending'
-    date              3.days.from_now
-    start_time        Time.now
-    end_time          Time.now + 3.hours
+    date              { 3.days.from_now }
+    start_time        { Time.now }
+    end_time          { Time.now + 3.hours }
     last_modified_by 'User'
 
     trait :last_modified_by_structure do

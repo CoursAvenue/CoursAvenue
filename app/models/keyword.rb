@@ -5,7 +5,9 @@ class Keyword < ActiveRecord::Base
 
   default_scope -> { order('name ASC') }
 
+  # :nocov:
   searchable do
     text :name
   end
+  # :nocov:
 end

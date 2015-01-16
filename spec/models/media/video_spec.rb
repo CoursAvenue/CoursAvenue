@@ -25,8 +25,18 @@ describe Media::Video do
         expect(subject.provider_name).to eq(provider_name)
       end
 
-      it 'updates the thumbnail' do
-        expect(subject.thumbnail_url).to_not be_nil
+      context 'the video is from youtube' do
+        it 'updates the thumbnail' do
+          expect(subject.thumbnail_url).to_not be_nil
+        end
+      end
+
+      context 'the video is from vimeo' do
+        subject { Media::Video.create(url: 'http://vimeo.com/77761436') }
+
+        it 'updates the thumbnail' do
+          expect(subject.thumbnail_url).to_not be_nil
+        end
       end
     end
 

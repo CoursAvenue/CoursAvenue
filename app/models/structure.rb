@@ -5,6 +5,7 @@ class Structure < ActiveRecord::Base
   include Concerns::HasDeliveryStatus
   include Concerns::IdentityCacheFetchHelper
   include Concerns::SMSSender
+  include Concerns::ReminderEmailStatus
   include StructuresHelper
   include HasSubjects
   include ActsAsCommentable
@@ -173,6 +174,7 @@ class Structure < ActiveRecord::Base
   ######################################################################
   # Algolia                                                            #
   ######################################################################
+  # :nocov:
   algoliasearch per_environment: true do
     attribute :name, :slug
     add_attribute :search_score do
@@ -195,10 +197,12 @@ class Structure < ActiveRecord::Base
     end
     customRanking ['desc(search_score)', 'desc(is_sleeping)']
   end
+  # :nocov:
 
   ######################################################################
   # Solr                                                               #
   ######################################################################
+  # :nocov:
   searchable do
 
     integer :search_score do
@@ -391,6 +395,7 @@ class Structure < ActiveRecord::Base
 
     double :jpo_score
   end
+  # :nocov:
 
   handle_asynchronously :solr_index, queue: 'index' unless Rails.env.test?
 
@@ -415,15 +420,13 @@ class Structure < ActiveRecord::Base
     return email_status
   end
 
-  ######################################################################
-  # Email reminder END                                                 #
-  ######################################################################
-
+  # :nocov:
   def places_around(latitude, longitude, radius=3.5)
     places.reject do |place|
       Geocoder::Calculations.distance_between([latitude, longitude], [place.latitude, place.longitude], unit: :km) >= radius.to_i
     end
   end
+  # :nocov:
 
   # Sends a SMS to contact number.
   #
@@ -1038,6 +1041,7 @@ class Structure < ActiveRecord::Base
     main_contact.delete
 
     sleeping_structure.destroy
+    structure.is_sleeping = true
 
     save
   end
@@ -1133,17 +1137,6 @@ class Structure < ActiveRecord::Base
   # @return The principal PhoneNumber or the first one, or nil otherwise.
   def principal_phone_number
     phone_numbers.where(principal_mobile: true).first || phone_numbers.first
-  end
-
-  # Update the last email sent fields
-  #
-  # @param status: The structure status.
-  # @param date:   The date the email was sent.
-  #
-  # @return nil
-  def update_last_email_sent_status!(status, date = Time.now)
-    update_column :last_email_sent_at, date
-    update_column :last_email_sent_status, status
   end
 
   private
@@ -1278,6 +1271,9 @@ class Structure < ActiveRecord::Base
     nil
   end
 
+  # Get the dominant city from the planning or from the courses
+  #
+  # @return City
   def dominant_city_from_planning
     plannings.map(&:place).flat_map(&:city).group_by { |c| c }.values.max_by(&:size).first ||
       courses.flat_map(&:places).flat_map(&:city).group_by { |c| c }.values.max_by(&:size).first

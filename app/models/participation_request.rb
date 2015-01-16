@@ -40,7 +40,6 @@ class ParticipationRequest < ActiveRecord::Base
   scope :canceled_or_declined, -> { where( arel_table[:state].eq('canceled').or(arel_table[:state].eq('declined'))) }
   scope :tomorrow,             -> { where( state: 'accepted', date: Date.tomorrow ) }
 
-  #
   # Create a ParticipationRequest if everything is correct, and if it is, it also create a conversation
   #
   # @return ParticipationRequest
@@ -86,7 +85,7 @@ class ParticipationRequest < ActiveRecord::Base
   # Tells if the resource type is waiting for an answer
   # @param resource_type='Structure' [type] [description]
   #
-  # @return [type] [description]
+  # @return Boolean
   def pending_for?(resource_type='Structure')
     (self.state == 'pending' and self.last_modified_by != resource_type)
   end

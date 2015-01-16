@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   include Concerns::HasDeliveryStatus
   include Concerns::MessagableWithLabel
   include Concerns::SMSSender
+  include Concerns::ReminderEmailStatus
   include ActsAsUnsubscribable
   include Rails.application.routes.url_helpers
 
@@ -110,6 +111,7 @@ class User < ActiveRecord::Base
   scope :with_avatar, -> { where.not(avatar_file_name: nil) }
 
 
+  # :nocov:
   searchable do
     text :first_name
     text :last_name
@@ -142,6 +144,7 @@ class User < ActiveRecord::Base
     time :created_at
 
   end
+  # :nocov:
 
   # Creates a user from Facebook
   #
@@ -193,25 +196,6 @@ class User < ActiveRecord::Base
     user.first_name ||= first_name
     user.save(validate: false) unless user.persisted?
     user
-  end
-
-  ######################################################################
-  # Email reminder                                                     #
-  ######################################################################
-
-  # Sends reminder depending on the email status of the user
-  # This method is called every week through user_reminder rake task
-  # (Executed on Heroku by the scheduler)
-  #
-  # @return nil
-  def send_reminder
-    if self.email_status and self.email_passions_opt_in?
-      if self.update_email_status.present?
-        self.update_column :last_email_sent_at, Time.now
-        self.update_column :last_email_sent_status, self.email_status
-        UserMailer.delay.send(self.email_status.to_sym, self)
-      end
-    end
   end
 
   # Sends a reminder of classes on the following day.
