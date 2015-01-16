@@ -1,36 +1,65 @@
+- user_decorator   = participation_request.user.decorate
+- course_decorator = participation_request.course.decorate
 - show_warning = true if show_warning.nil?
 %tr{ class: ((show_warning and participation_request.pending? and participation_request.last_modified_by == 'User') ? 'bordered bordered--larger bordered--red' : '') }
-  %td.nowrap{ class: participation_request_color(participation_request) }
+  %td.nowrap
     - if participation_request.pending? and participation_request.last_modified_by == 'User'
-      %span.has-tooltip{ data: { toggle: 'popover', content: "Confirmez la demande d'inscription au plus vite", html: 'true', placement: 'top', trigger: 'hover' } }
+      %strong.has-tooltip{ class: participation_request_color(participation_request), data: { toggle: 'popover', content: "Confirmez la demande d'inscription au plus vite", html: 'true', placement: 'top', trigger: 'hover' } }
         En attente
+      - if participation_request.created_at > 2.days.ago
+        %div{ id: "expires-in-#{participation_request.id}" }
+        = content_for :scripts do
+          :javascript
+            $(function() {
+              var date            = Date.parse("#{l(local_time(participation_request.created_at + 48.hours), format: :js )}");
+              var $countdown_div = $('#expires-in-#{participation_request.id}');
+              countdown(date,
+                  function(ts) {
+                      var hours   = ("0" + ts.hours).slice(-2);
+                      var minutes = ("0" + ts.minutes).slice(-2);
+                      var seconds = ("0" + ts.seconds).slice(-2);
+                      $countdown_div.text((ts.days > 0 ? ts.days + ' jours et ' : '') + hours + ':' + minutes + ':' + seconds);
+                  },
+                  countdown.DAYS|countdown.HOURS|countdown.MINUTES|countdown.SECONDS);
+            });
       .very-soft.hard--left.hard--bottom.hard--right
-        = link_to 'Accepter', accept_pro_structure_participation_request_path(participation_request.structure, participation_request), method: :patch, class: 'btn btn--small btn--green nowrap'
+        = link_to pro_structure_participation_request_path(@structure, participation_request), class: 'btn btn--small btn--green' do
+          Répondre
+          %br
+          maintenant
+    - else
+      %strong{ class: participation_request_color(participation_request) }= t("participation_request.state.#{participation_request.state}")
 
-    - else
-      = t("participation_request.state.#{participation_request.state}")
   %td
-    %strong= participation_request.user.name
-    - if participation_request.course.is_open_for_trial?
-      pour un essai gratuit :
-    - elsif participation_request.course.is_training?
-      pour un stage / atelier :
-    - else
-      pour une 1ère séance :
     - course = participation_request.course
+    = "#{l(participation_request.date, format: :semi_short)} à #{l(participation_request.start_time, format: :short)}"
+    %br
     %span.has-tooltip{ data: { toggle: 'popover', content: "<strong>Niveau :</strong> #{join_levels(participation_request.levels)}<br><strong>Public :</strong> #{join_audiences(participation_request.planning || participation_request.course)}<br><strong>Disciplines :</strong> #{course.subjects.uniq.map(&:name).join(', ')}", html: 'true', placement: 'top', trigger: 'hover' } }
       = course.name
-
-  %td
     - place = participation_request.place
     - if place
+      %br
       - if place.info.present? or place.private_info.present?
         %span.has-tooltip{ data: { toggle: 'popover', content: t('places.infos', info: place.info, private_info: place.private_info), html: 'true', placement: 'top', trigger: 'hover' } }
           = place.name
       - else
         = place.name
+
   %td
-    = "#{l(participation_request.date, format: :semi_short)} à #{l(participation_request.start_time, format: :short)}"
+    .flexbox
+      - if participation_request.user.has_avatar?
+        .flexbox__item.soft-half--right
+          = image_tag participation_request.user.avatar_url, height: 50, width: 50, class: 'rounded--circle'
+      .flexbox__item
+        %strong= participation_request.user.name
+        %br
+        = user_decorator.age_and_city
+        %br
+        %span.has-tooltip{ class: participation_request_color(participation_request), data: { toggle: 'popover', content: t('tooltips.users.hidden_contact_infos'), html: 'true', placement: 'top', trigger: 'hover' } }
+          = user_decorator.phone_number_and_email(!participation_request.accepted?)
+
+  %td
+    = course_decorator.first_session_detail
   %td
     = link_to 'Récapitulatif', pro_structure_participation_request_path(@structure, participation_request)
     = render partial: 'pro/structures/participation_requests/dropdown_actions', locals: { participation_request: participation_request }
