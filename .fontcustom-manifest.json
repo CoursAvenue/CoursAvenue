@@ -1,7 +1,7 @@
 {
   "checksum": {
-    "previous": "054a70fede6e51425034e64a2d3f542ecfa21165a51d83a9b3b277c702e98a96",
-    "current": "054a70fede6e51425034e64a2d3f542ecfa21165a51d83a9b3b277c702e98a96"
+    "previous": "1e3369aa898c1bcb409d08c6e5070c902a4e471bacfd3d1f94bf2cce28ddb55e",
+    "current": "1e3369aa898c1bcb409d08c6e5070c902a4e471bacfd3d1f94bf2cce28ddb55e"
   },
   "fonts": [
     "app/assets/fonts/GlyphAvenue.ttf",
@@ -213,6 +213,10 @@
     "repeat": {
       "codepoint": 61733,
       "source": "app/assets/images/icons/svg/repeat.svg"
+    },
+    "right-to-left": {
+      "codepoint": 61854,
+      "source": "app/assets/images/icons/svg/right-to-left.svg"
     },
     "rugby-ball": {
       "codepoint": 61853,
