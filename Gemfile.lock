@@ -53,7 +53,7 @@ GEM
       activesupport (= 4.1.8)
       builder (~> 3.1)
       erubis (~> 2.7.0)
-    active_hash (1.2.3)
+    active_hash (1.4.0)
       activesupport (>= 2.2.2)
     active_model_serializers (0.8.1)
       activemodel (>= 3.0)
@@ -341,7 +341,7 @@ GEM
       json (~> 1.8)
       multi_xml (>= 0.5.2)
     httpclient (2.4.0)
-    i18n (0.6.11)
+    i18n (0.7.0)
     i18n_alchemy (0.2.1)
       activesupport (>= 3.2.0, < 4.2)
       i18n (~> 0.6)
@@ -374,7 +374,7 @@ GEM
     js-routes (0.9.8)
       railties (>= 3.2)
       sprockets-rails
-    json (1.8.1)
+    json (1.8.2)
     jwt (1.0.0)
     kaminari (0.15.1)
       actionpack (>= 3.0.0)
@@ -405,7 +405,7 @@ GEM
     method_source (0.8.2)
     mime-types (2.4.3)
     mini_portile (0.6.0)
-    minitest (5.4.3)
+    minitest (5.5.1)
     mixpanel-ruby (1.6.0)
     mongoid (4.0.0)
       activemodel (~> 4.0)
@@ -703,7 +703,7 @@ PLATFORMS
 DEPENDENCIES
   actionpack-action_caching (~> 1.0.0)
   actionpack-page_caching
-  active_hash (~> 1.2.0)
+  active_hash (~> 1.4.0)
   active_model_serializers (~> 0.8.1)
   activerecord-session_store!
   activesupport-json_encoder (~> 1.1.0)

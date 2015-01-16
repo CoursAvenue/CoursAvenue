@@ -56,7 +56,7 @@ gem 'dalli'                     , '~>2.6.4'
 
 # Non stored hash models
 # See Level and Audience model
-gem 'active_hash'               , '~>1.2.0'
+gem 'active_hash'               , '~>1.4.0'
 
 # Transform urls into images, videos etc. Used in medias.
 gem 'auto_html'                 , '~>1.6.2'
