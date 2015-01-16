@@ -1,7 +1,6 @@
 = content_for :head do
   %link{ rel: 'canonical', href: structure_url(@structure) }
 
-= render 'shared/orange_banner'
 = render 'meta_information'
 
 - if !current_user and params[:waiting_for_activation]
