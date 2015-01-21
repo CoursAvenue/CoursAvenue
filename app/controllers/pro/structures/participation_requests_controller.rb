@@ -32,6 +32,12 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     render layout: false
   end
 
+  # GET pro/etablissements/:structure_id/participation_request/:id/report_form
+  def report_form
+    @participation_request = @structure.participation_requests.find(params[:id])
+    render layout: false
+  end
+
   # PUT pro/etablissements/:structure_id/participation_request/:id/accept
   def accept
     @participation_request = @structure.participation_requests.find(params[:id])
@@ -69,9 +75,18 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
   # PUT pro/etablissements/:structure_id/participation_request/:id/cancel
   def cancel
     @participation_request = @structure.participation_requests.find(params[:id])
-    @participation_request.cancel!(params[:participation_request][:message][:body], 'Structure')
+    @participation_request.cancel!(params[:participation_request][:message][:body], params[:participation_request][:cancelation_reason_id], 'Structure')
     respond_to do |format|
       format.html { redirect_to pro_structure_conversation_path(@structure, @participation_request.conversation), notice: "L'annulation a bien été pris en compte" }
+    end
+  end
+
+  # PUT pro/etablissements/:structure_id/participation_request/:id/report
+  def report
+    @participation_request = @structure.participation_requests.find(params[:id])
+    @participation_request.update_attributes params[:participation_request]
+    respond_to do |format|
+      format.html { redirect_to pro_structure_participation_requests_path(@structure), notice: "Nous avons bien pris en compte votre signalement" }
     end
   end
 

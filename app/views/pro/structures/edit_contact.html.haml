@@ -4,7 +4,7 @@
   = simple_form_for [:pro, @structure], html: { autocomplete: 'off', id: 'structure-form' } do |form|
     %input{ type: 'hidden', name: 'return_to', value: edit_contact_pro_structure_path(@structure)}
 
-    .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.contacts') } }
+    .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.contacts.coordinates') } }
       %h5 Coordonnées de réservation
       - if @structure.main_contact
         = render "pro/structures/admins/change_email"
@@ -20,10 +20,6 @@
                   %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
                     %i.fa.fa-trash-o
                     Supprimer
-                  %div.push-half--top.push--bottom
-                    = phone_number_form.input :principal_mobile, label: false, input_html: { class: 'input--large one-whole', id: "phone_number_principal_mobile_#{i}", data: { behavior: 'uncheck-other' } }, wrapper_html: { class: 'inline-block v-middle flush' }
-                    %label.v-middle.inline-block{ for: "phone_number_principal_mobile_#{i}" }>
-                      %span.has-tooltip{ data: { toggle: 'popover', placement: 'top', content: "Numéro sur lequel nous vous enverrons un SMS lorsqu'un élève fera une demande de réservation sur votre profil." } } Recevoir les alertes SMS sur ce numéro
         .input
           .control-label>
           .input-container>
@@ -32,8 +28,22 @@
               Ajouter un numéro de téléphone
 
     %hr.push--ends
+    .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.contacts.sms') } }
+      %h5 Alertes SMS
+      .grid
+        .grid__item.one-quarter>
+          -# .label--large.hard--top Ne passez pas à côté d'une demande et recevez un SMS à chaque nouvel inscrit (gratuit).
+          .label--large.hard--top Recevez un SMS à chaque nouvel inscrit (gratuit).
+        .grid__item.three-quarters>
+          .checkbox-at-left
+            = form.input :sms_opt_in, as: :boolean, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, wrapper_html: { class: 'flush' }
+          %div
+            .inline-block.v-middle= form.label :principal_mobile, class: 'nowrap label--large'
+            = form.input :principal_mobile_id, as: :select, collection: @structure.phone_numbers.select(&:mobile?), label_method: :number, label: false, input_html: { class: 'input--large' }, wrapper_html: { class: 'inline-block v-middle flush' }, include_blank: false
+
+    %hr.push--ends
     .soft--sides
-      %h5.flush--bottom.soft--left.push--left Liens vers vos pages
+      %h5 Liens vers vos pages
 
       = form.input :website, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
 

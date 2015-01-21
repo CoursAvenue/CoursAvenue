@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150106105209) do
+ActiveRecord::Schema.define(version: 20150120134406) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -578,6 +578,10 @@ ActiveRecord::Schema.define(version: 20150106105209) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "course_id"
+    t.integer  "cancelation_reason_id"
+    t.integer  "report_reason_id"
+    t.text     "report_reason_text"
+    t.datetime "reported_at"
   end
 
   create_table "participations", force: true do |t|
@@ -641,7 +645,6 @@ ActiveRecord::Schema.define(version: 20150106105209) do
     t.string   "callable_type"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "principal_mobile", default: false
   end
 
   add_index "phone_numbers", ["callable_id", "callable_type"], name: "index_phone_numbers_on_callable_id_and_callable_type", using: :btree
@@ -934,8 +937,10 @@ ActiveRecord::Schema.define(version: 20150106105209) do
     t.boolean  "premium"
     t.string   "cities_text"
     t.boolean  "sms_opt_in",                     default: false
+    t.integer  "principal_mobile_id"
   end
 
+  add_index "structures", ["principal_mobile_id"], name: "index_structures_on_principal_mobile_id", using: :btree
   add_index "structures", ["slug"], name: "index_structures_on_slug", unique: true, using: :btree
 
   create_table "structures_subjects", id: false, force: true do |t|

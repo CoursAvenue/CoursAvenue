@@ -5,8 +5,7 @@
 %tr
   %td.soft--ends.v-top.nowrap
     - if participation_request.pending? and participation_request.last_modified_by == 'User' and !participation_request.past?
-      %strong.has-tooltip{ class: participation_request_color(participation_request), data: { toggle: 'popover', content: "Confirmez la demande d'inscription au plus vite", html: 'true', placement: 'top', trigger: 'hover' } }
-        = participation_request_decorator.status_name
+      = participation_request_decorator.status_for('Structure')
       - if participation_request.created_at > 2.days.ago
         %div{ id: "expires-in-#{participation_request.id}" }
         = content_for :scripts do
@@ -23,15 +22,10 @@
                   },
                   countdown.DAYS|countdown.HOURS|countdown.MINUTES|countdown.SECONDS);
             });
-      .very-soft.hard--left.hard--bottom.hard--right
-        = link_to pro_structure_participation_request_path(@structure, participation_request), class: 'btn btn--small btn--green nowrap' do
-          - if participation_request.pending? and participation_request.last_modified_by == 'User'
-            Répondre maintenant
-          - else
-            Modifier / Annuler
     - else
-      %strong{ class: participation_request_color(participation_request) }
-        = participation_request_decorator.status_name
+      = participation_request_decorator.status_for('Structure')
+    .very-soft.hard--left.hard--bottom.hard--right
+      = participation_request_decorator.teacher_action_link
 
   %td.soft--ends.v-top
     - course = participation_request.course
@@ -50,16 +44,15 @@
 
   %td.soft--ends.v-top
     .flexbox
+      .flexbox__item.soft-half--right
+        = image_tag participation_request.user.avatar_url, height: 50, width: 50, class: 'rounded--circle'
       .flexbox__item
         %strong= participation_request.user.name
         %br
         = user_decorator.age_and_city
         %br
-        %span.has-tooltip{ class: participation_request_color(participation_request), data: { toggle: 'popover', content: t('tooltips.pro.structures.hidden_contact_infos'), html: 'true', placement: 'top', trigger: 'hover' } }
+        %span.has-tooltip{ data: { toggle: (participation_request.accepted? ? '' : 'popover'), content: t('tooltips.pro.structures.hidden_contact_infos'), html: 'true', placement: 'top', trigger: 'hover' } }
           = user_decorator.phone_number_and_email(!participation_request.accepted?)
-      - if participation_request.user.has_avatar?
-        .flexbox__item.soft-half--right
-          = image_tag participation_request.user.avatar_url, height: 50, width: 50, class: 'rounded--circle'
 
   %td.soft--ends.v-top
     = course_decorator.first_session_detail

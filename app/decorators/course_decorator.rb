@@ -5,21 +5,28 @@ class CourseDecorator < Draper::Decorator
   # Description and price of the first course that the user wants to attempt
   #
   # @return
-  # Essai gratuit
-  # Séance d'essai : 15€
-  # Une séance : 18€
-  # Stage : 67€
-  # Si aucun de tout ça, mettre "Séance d'essai"
-  def first_session_detail
-    if is_open_for_trial?
-      "Essai gratuit"
-    elsif price_group.trial
-      "Séance d'essai : #{readable_amount(price_group.trial.amount)}"
-    elsif is_training?
-      "Stage : #{readable_amount(price_group.min_price_amount)}"
-    elsif price_group.trial.nil?
-      "Une séance : #{readable_amount(price_group.min_price_amount)}"
+  #    Essai gratuit
+  #    Séance d'essai : 15€
+  #    Une séance : 18€
+  #    Stage : 67€
+  def first_session_detail(with_popover=false)
+    return "Essai gratuit" if is_open_for_trial?
+    detail_html = ''
+    if with_popover
+      detail_html << "<span class='has-tooltip'"
+      detail_html << "data-content=\"#{I18n.t('tooltips.users.pay_to_teacher')}\""
+      detail_html << "data-toggle='popover'"
+      detail_html << "data-html='true' data-placement='top' data-trigger='hover'>"
     end
+    if price_group.trial
+      detail_html << "Séance d'essai : #{readable_amount(price_group.trial.amount)}"
+    elsif is_training?
+      detail_html << "Stage : #{readable_amount(price_group.min_price_amount)}"
+    elsif price_group.trial.nil?
+      detail_html << "Une séance : #{readable_amount(price_group.min_price_amount)}"
+    end
+    detail_html << " <i class='fa fa-info'></i></span>" if with_popover
+    detail_html.html_safe
   end
 
 end

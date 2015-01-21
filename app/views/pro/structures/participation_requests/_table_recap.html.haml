@@ -4,8 +4,12 @@
   %table.table--striped.table--striped-reversed.bordered.f-weight-500
     %tbody
       %tr.bordered--bottom
-        %th.v-middle.soft--sides.nowrap.bordered--right.one-third Confirmez l'inscription :
+        %th.v-middle.soft--sides.nowrap.bordered--right.one-third
+          Gérez l'inscription :
         %td.v-middle.soft--sides
+          - if @participation_request.canceled?
+            %strong{ class: participation_request_decorator.color }
+              = participation_request_decorator.status_name
           = render partial: 'pro/structures/participation_requests/actions'
       %tr.bordered--bottom
         %th.v-middle.soft--sides.nowrap.bordered--right.one-third Demande d'inscription
@@ -19,7 +23,7 @@
               %span.has-tooltip{ data: { toggle: 'popover', content: participation_request_decorator.popover_course_infos, html: 'true', placement: 'top', trigger: 'hover' } }= course.name
             .flexbox__item.v-middle.nowrap.nowrap.text--right
               - if !participation_request.canceled? and !participation_request.declined?
-                = link_to 'Proposer un autre cours', edit_pro_structure_participation_request_path(participation_request.structure, participation_request), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+                = link_to 'Proposer un autre cours', edit_pro_structure_participation_request_path(participation_request.structure, participation_request), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
 
       %tr.bordered--bottom
         %th.v-middle.soft--sides.nowrap.bordered--right.one-third.nowrap Jour et heure
@@ -29,7 +33,7 @@
               #{l(participation_request.date, format: :semi_long).capitalize} : #{l(participation_request.start_time, format: :short)} à #{l(participation_request.end_time, format: :short)}.
             .flexbox__item.v-middle.nowrap.nowrap.text--right
               - if !participation_request.canceled? and !participation_request.declined?
-                = link_to 'Proposer un autre créneau', edit_pro_structure_participation_request_path(participation_request.structure, participation_request), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+                = link_to 'Proposer un autre créneau', edit_pro_structure_participation_request_path(participation_request.structure, participation_request), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
 
       - if participation_request.place
         %tr.bordered--bottom

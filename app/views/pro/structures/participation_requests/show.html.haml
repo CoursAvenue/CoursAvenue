@@ -1,5 +1,6 @@
 = side_menu_currently_at 'inscriptions'
 
+- participation_request_decorator = @participation_request.decorate
 .panel
   .panel__header.soft
     - if @participation_request.pending? and @participation_request.last_modified_by == 'User' and @participation_request.created_at > 2.days.ago
@@ -28,13 +29,17 @@
           Profil : #{user_decorator.age_and_city}
         %div.line-height-1-7
           Email :
-          %span.has-tooltip{ data: { toggle: 'popover', content: t('tooltips.pro.participation_requests.infos_will_be_shown_once_accepted'), html: 'true', placement: 'top', trigger: 'hover' } }
+          %span.has-tooltip{ data: { toggle: (@participation_request.accepted? ? '' : 'popover'), content: t('tooltips.pro.participation_requests.infos_will_be_shown_once_accepted'), html: 'true', placement: 'top', trigger: 'hover' } }
             = user_decorator.phone_number(!@participation_request.accepted?)
+            - if !@participation_request.accepted?
+              %i.fa.fa-question-circle
 
         %div.line-height-1-7
           Téléphone :
-          %span.has-tooltip{ data: { toggle: 'popover', content: t('tooltips.pro.participation_requests.infos_will_be_shown_once_accepted'), html: 'true', placement: 'top', trigger: 'hover' } }
+          %span.has-tooltip{ data: { toggle: (@participation_request.accepted? ? '' : 'popover'), content: t('tooltips.pro.participation_requests.infos_will_be_shown_once_accepted'), html: 'true', placement: 'top', trigger: 'hover' } }
             = user_decorator.email(!@participation_request.accepted?)
+            - if !@participation_request.accepted?
+              %i.fa.fa-question-circle
 
     = render partial: 'messages/message', collection: @participation_request.conversation.messages.order('created_at DESC').reject(&:new_record?)
 
@@ -51,7 +56,10 @@
       Vous risquez d'être pénalisé si vous n'acceptez pas ou ne refusez pas cette demande d'inscription avant son expiration :
     .flexbox
       .flexbox__item.nowrap
-        Confirmez l'inscription :
+        Gérez l'inscription :
+        %div
+          %strong{ class: participation_request_decorator.color }
+            = participation_request_decorator.status_name
       .flexbox__item.one-whole
         = render partial: 'actions'
 

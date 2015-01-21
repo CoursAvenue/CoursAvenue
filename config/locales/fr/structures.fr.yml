@@ -39,7 +39,8 @@ fr:
         gives_group_courses: Collectifs
         gives_individual_courses: Particuliers
         highlighted_comment_id: 'Accroche de votre profil :'
-        sms_opt_in: "CoursAvenue m'envoie un SMS lorsqu'un élève s'inscrit à un cours."
+        sms_opt_in: Activez les notifications par SMS
+        principal_mobile: 'Recevoir les SMS au :'
 
   simple_form:
     placeholders:
@@ -249,16 +250,22 @@ fr:
           <p><strong>Affichez le logo CoursAvenue</strong></p>
           <p>CoursAvenue est la première communauté de cours de loisirs. Téléchargez le logo CoursAvenue et affichez-le sur tous vos supports de communication : site Internet, blog, cartes de visite, affiches...
           C'est une marque de sérieux et de reconnaissance dans le milieu des cours de loisirs.</p>
-        contacts: >
-          <p><strong>Vous joindre facilement</strong></p>
-          <p>Renseignez uniquement vos coordonnées de contact que vous utilisez au quotidien :
-          privilégiez votre adresse mail principale et votre numéro de téléphone portable.</p>
-          <p><strong>E-mail</strong> : les messages des internautes vous seront envoyés à cet adresse e-mail.
-          Il est important d'avoir un e-mail confirmé pour que les élèves CoursAvenue puissent vous contacter de
-          manière totalement sécurisée. Important : votre adresse e-mail vous sert également d'identifiant pour
-          votre compte CoursAvenue.</p>
-          <p><strong>Téléphones</strong> : indiquez votre portable, éventuellement votre fixe si vous
-          l'utilisez au quotidien. Renseignez autant de numéros que nécessaire.</p>
+        contacts:
+          coordinates: >
+            <p><strong>Vous joindre facilement</strong></p>
+            <p>Renseignez uniquement vos coordonnées de contact que vous utilisez au quotidien :
+            privilégiez votre adresse mail principale et votre numéro de téléphone portable.</p>
+            <p><strong>Important</strong> : vos numéros de téléphone ne sont partagés qu'une fois chaque demande
+            d'inscription confirmée. Elle permet aux professeurs et élèves de se contacter.</p>
+            <p><strong>E-mail</strong> : les messages des internautes vous seront envoyés à cet adresse e-mail.
+            Il est important d'avoir un e-mail confirmé pour que les élèves puissent vous contacter de manière totalement sécurisée.
+            À savoir : votre adresse e-mail vous sert également d'identifiant pour votre compte CoursAvenue.</p>
+            <p><strong>Téléphones</strong> : indiquez votre portable, éventuellement votre fixe si vous
+            l'utilisez au quotidien. Renseignez autant de numéros que nécessaire.</p>
+          sms: >
+            Les alertes SMS vous permettent de ne passer à côté d'aucune demande d'inscription et
+            votre réactivité vous fera gagner en visibilité. Sélectionnez le numéro de téléphone
+            portable sur lequel vous êtes le plus souvent joignable.
         links: >
           <p><strong>Communiquez sur vos pages web</strong></p>
           <p>Renseignez l'adresse de votre site Internet et de votre page Facebook qui apparaitront parmi

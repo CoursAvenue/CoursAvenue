@@ -2,13 +2,47 @@ fr:
   activerecord:
     models:
       participation_request: Demande d'info Pass Découverte
+
+  simple_form:
+    placeholders:
+      participation_request:
+        report_reason_text: Ajoutez un message facultatif à l'équipe CoursAvenue qui le traitera avec le plus grand soin
   participation_request:
+    report_reason:
+      include_blank: Que s'est-il passé ? (réponse confidentielle)
+      users:
+        no_show: Le professeur était absent ou n'a pas donné de cours
+        wrong_inscription_details: Les détails de l'inscription contenait une erreur de date ou de lieu
+        wrong_course_description: Le descriptif du cours ne correspond pas à la réalité
+        disrespectful: Le professeur a eu un comportement inapproprié / irrespectueux
+        wrong_pricing: Le tarif indiqué sur CoursAvenue n'était pas le bon
+        other: Autre signalement
+      structures:
+        no_show: L'élève ne s'est pas présenté au cours
+        wrong_audience: Le niveau / l'âge de l'élève ne correspondait pas au cours
+        disrespectful: L'élève a eu un comportement inapproprié / irrespectueux
+        free_course_overuse: L'élève semble abuser des cours d'essai gratuits
+        other: Autre signalement
+    cancelation_reason:
+      course_is_full: Le cours est déjà complet
+      dont_give_this_course_anymore: Je ne propose plus ce cours
+      dont_take_new_students: Je ne prends plus de nouveaux inscrits
+      request_already_treated: Cette inscription a déjà été traitée
+      fake_request: Il s'agit d'une fausse demande d'inscription
+      do_not_trust: Je n'ai pas confiance en cet élève (réponse masquée)
+      other: Autre motif
+      include_blank: Quel est votre motif d'annulation ?
+    pro:
+      action_button_text:
+        modify_cancel: Modifier / Annuler
+        answer_now: Répondre maintenant
+        report: Signaler
     state:
-      accepted: Confirmé
-      expired: Expiré
+      accepted: Acceptée
+      expired: Expirée
       pending: En attente
-      declined: Refusé
-      canceled: Annulé
+      declined: Refusée
+      canceled: Annulée
       long_description:
         accepted_html: "<strong>Inscription confirmée</strong> pour l'élève <strong>%{user_name}</strong> au cours d'essai du <strong>%{date}</strong> (%{course_name})"
         pending_html: <strong>Inscription en attente de confirmation</strong>
@@ -40,3 +74,26 @@ fr:
             pending_html: "<strong>Inscription en attente de confirmation : %{structure_name}</strong> doit valider votre demande de cours d'essai du <strong>%{date}</strong> (%{course_name})"
             canceled_html: "<strong>Inscription annulée</strong> au cours d'essai %{course_name}"
             declined_html: "<strong>Inscription refusée</strong> au cours d'essai %{course_name}"
+  # Views
+  users:
+    participation_requests:
+      table_recap:
+        see_on_map: Voir sur la carte
+        propose_another_date: Proposer une autre date
+        propose_another_course: Proposer un autre cours
+      actions:
+        discuss: Discuter
+        propose_another_date: Proposer une autre date
+        ask_more_info: Demander plus d'info
+        decline: Refuser
+        accept: Accepter
+
+  pro:
+    structures:
+      participation_requests:
+        actions:
+          discuss: Discuter
+          propose_another_date: Proposer une autre date
+          ask_more_info: Demander plus d'info
+          decline: Refuser
+          accept: Accepter

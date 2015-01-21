@@ -325,12 +325,14 @@ CoursAvenue::Application.routes.draw do
         end
         resources :participation_requests, only: [:edit, :index, :show], controller: 'structures/participation_requests', path: 'suivi-inscriptions' do
           member do
+            get   :report_form
             get   :cancel_form
             get   :accept_form
             patch :accept
             patch :modify_date
             patch :decline
             patch :cancel
+            patch :report
           end
         end
       end
@@ -434,11 +436,14 @@ CoursAvenue::Application.routes.draw do
     resources :sponsorships, only: [:index, :new, :create], controller: 'users/sponsorships', path: 'mes-parrainages'
     resources :participation_requests, only: [:index, :edit, :show], controller: 'users/participation_requests', path: 'mes-inscriptions' do
       member do
+        get   :report_form
         get   :cancel_form
+        get   :accept_form
         patch :accept
         patch :modify_date
         patch :decline
         patch :cancel
+        patch :report
       end
     end
   end

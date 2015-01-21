@@ -22,37 +22,8 @@
       .grid__item.ten-twelfths.soft-half--left.v-middle>
         %h5.flush= recipients.map(&:name).join(', ')
 
-    - if @participation_request
-      .grid.push-half--ends
-        .grid__item.two-twelfths.v-middle.text--right>
-        .grid__item.ten-twelfths.soft-half--left.v-middle>
-          .flexbox
-            .flexbox__item.v-middle{ class: (@participation_request.pending? ? 'one-whole' : 'three-quarters') }>
-              .soft-half.white{ class: "#{participation_request_color(@participation_request)}-box" }
-                .flexbox
-                  .flexbox__item.delta.v-middle.soft-half--right{ style: 'width: 1em;' }>
-                    = participation_request_icon(@participation_request)
-                  .flexbox__items.epsilon.v-middle.one-whole>
-                    = participation_request_long_description(@participation_request, 'user')
-            - if @participation_request.accepted? or (@participation_request.pending? and @participation_request.last_modified_by == 'User')
-              .flexbox__item.v-middle.one-quarter.soft-half--left#modify-links>
-                = link_to 'Proposer un autre créneau', edit_user_participation_request_path(@user, @participation_request), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
-                %br
-                = link_to "Annuler l'inscription", cancel_form_user_participation_request_path(@user, @participation_request), class: 'red nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
-
-      .grid.epsilon.push-half--bottom
-        .grid__item.two-twelfths.v-top.text--right.soft-half--top>
-          %strong Récapitulatif
-        .grid__item.ten-twelfths.soft-half--left.v-top>
-          .milli= render partial: 'users/participation_requests/table_recap', locals: { participation_request: @participation_request }
-
       .push--top
-        - if @participation_request.pending? and @participation_request.last_modified_by == 'Structure'
-          = render partial: 'users/conversations/participation_request_form', locals: { participation_request: participation_request }
-        - else
-          = render partial: 'users/conversations/form', locals: { conversation: @conversation }
-    - else
-      = render 'users/conversations/form'
+        = render partial: 'users/conversations/form', locals: { conversation: @conversation }
 
     = render partial: 'messages/message', collection: @conversation.messages.order('created_at DESC').reject(&:new_record?)
 

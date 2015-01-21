@@ -41,7 +41,7 @@ class Pro::Structures::ConversationsController < ApplicationController
     @participation_request = conversation_participation_request(@conversation)
     @is_xhr = request.xhr?
     respond_to do |format|
-      if @participation_request and @participation_request.pending? and !@participation_request.past?
+      if @participation_request and !@participation_request.past?
         format.html { redirect_to pro_structure_participation_request_path(@structure, @participation_request) }
       elsif request.xhr?
         format.html { render layout: false }

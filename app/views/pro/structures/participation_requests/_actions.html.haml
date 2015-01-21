@@ -3,12 +3,24 @@
     - if @participation_request.pending? and @participation_request.last_modified_by == 'User'
       .flexbox__item.one-third>
         = link_to accept_form_pro_structure_participation_request_path(@participation_request.structure, @participation_request), class: 'btn--full btn--green btn fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
-          Accepter
+          = t('.accept')
 
     .flexbox__item.one-third.soft-half--sides>
-      = link_to edit_pro_structure_participation_request_path(@participation_request.structure, @participation_request), class: 'btn--full btn--orange nowrap btn fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 } do
-        Discuter
+      .drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'center' } }
+        = link_to edit_pro_structure_participation_request_path(@participation_request.structure, @participation_request, discuss_only: true), class: 'btn--full btn--orange nowrap btn fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
+          = t('.discuss')
+        %ul.drop-down__el
+          -# %li.nowrap
+          -#   = link_to edit_pro_structure_participation_request_path(@participation_request.structure, @participation_request, show_course_select: true), class: 'fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
+          -#     Proposer un autre cours
+          %li.nowrap
+            = link_to edit_pro_structure_participation_request_path(@participation_request.structure, @participation_request), class: 'fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
+              = t('.propose_another_date')
+          %li.nowrap
+            = link_to edit_pro_structure_participation_request_path(@participation_request.structure, @participation_request), class: 'fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0, discuss_only: true } do
+              = t('.ask_more_info')
+
   - if !@participation_request.canceled? and !@participation_request.declined?
     .flexbox__item.one-third>
-      = link_to cancel_form_pro_structure_participation_request_path(@participation_request.structure, @participation_request), class: 'btn--full btn--red btn fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 } do
-        Annuler
+      = link_to cancel_form_pro_structure_participation_request_path(@participation_request.structure, @participation_request), class: 'btn--full btn--red btn fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
+        = t('.decline')

@@ -1,11 +1,13 @@
 class ParticipationRequest < ActiveRecord::Base
+  extend ActiveHash::Associations::ActiveRecordExtensions
 
   # Declined: when the user decline the proposition made by the other user
   # Canceled: when the teacher cancel after having changed hours or accepted
   STATE = %w(accepted pending declined canceled)
 
   attr_accessible :state, :date, :start_time, :end_time, :mailboxer_conversation_id,
-                  :planning_id, :last_modified_by, :course_id, :user, :structure, :conversation
+                  :planning_id, :last_modified_by, :course_id, :user, :structure, :conversation,
+                  :cancelation_reason_id, :report_reason_id, :report_reason_text, :reported_at
 
   ######################################################################
   # Relations                                                          #
@@ -15,6 +17,8 @@ class ParticipationRequest < ActiveRecord::Base
   belongs_to :course
   belongs_to :user
   belongs_to :structure
+  belongs_to :cancelation_reason, class_name: 'ParticipationRequest::CancelationReason'
+  belongs_to :report_reason     , class_name: 'ParticipationRequest::ReportReason'
 
   ######################################################################
   # Callbacks                                                          #
@@ -146,10 +150,11 @@ class ParticipationRequest < ActiveRecord::Base
   # @param message [type] [description]
   #
   # @return Boolean
-  def cancel!(message_body, last_modified_by='Structure')
-    message_body = StringHelper.replace_contact_infos(message_body)
-    self.last_modified_by = last_modified_by
-    self.state = 'canceled'
+  def cancel!(message_body, cancelation_reason_id, last_modified_by='Structure')
+    message_body               = StringHelper.replace_contact_infos(message_body)
+    self.cancelation_reason_id = cancelation_reason_id
+    self.last_modified_by      = last_modified_by
+    self.state                 = 'canceled'
     message    = reply_to_conversation(message_body, last_modified_by)
     self.save
     if self.last_modified_by == 'Structure'

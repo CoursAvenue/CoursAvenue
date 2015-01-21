@@ -1,75 +1,33 @@
 = user_menu_currently_at 'inscriptions'
 = render 'shared/include_addthisevent'
+- structure_decorator = @structure.decorate
+.main-container.main-container--medium
+  .panel.push--bottom
+    .panel__header.soft
+      %ol.nav.breadcrumb.epsilon.flush
+        %li.f-weight-600.delta= link_to 'Mes inscriptions', user_participation_requests_path(@user)
+        %li.f-weight-600.delta= @structure.name
+    .panel__body.soft--top
+      = render partial: 'users/participation_requests/table_recap', locals: { participation_request: @participation_request }
 
-.flexbox
-  .flexbox__item.v-top.one-sixth.soft--right>
-    %ul.tabs--link.no-bullet-list.epsilon.push--right
-      %li.delta.line-height-2-5.f-weight-500
-        = link_to 'Mes inscriptions', user_participation_requests_path(@user)
-      %li.delta.line-height-2-5.f-weight-500.nowrap
-        = link_to 'Inscriptions précédentes', user_participation_requests_path(@user, anchor: 'inscriptions-precedentes')
-  .flexbox__item.v-top.five-sixths>
-    .panel.push--bottom
-      .panel__header.soft
-        %ol.nav.breadcrumb.epsilon.flush
-          %li.f-weight-600.delta= link_to 'Mes inscriptions', user_participation_requests_path(@user)
-          %li.f-weight-600.delta= @structure.name
-      .panel__body.soft--top
-        .grid.text--center.soft--sides
-          - if !@participation_request.canceled? and !@participation_request.declined?
-            - if @participation_request.pending? and @participation_request.last_modified_by == 'Structure'
-              .grid__item.one-third.v-middle>
-                = link_to "Accepter le nouveau créneau", accept_user_participation_request_path(@user, @participation_request), method: :patch, class: 'btn--full btn--green btn'
-            .grid__item.one-third.v-middle>
-              = link_to 'Proposer un autre créneau', edit_user_participation_request_path(@user, @participation_request, return_to: user_participation_requests_path(@user)), class: 'btn--full btn--orange btn fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
-          - if !@participation_request.canceled? and !@participation_request.declined?
-            .grid__item.one-third.v-middle>
-              = link_to "Annuler l'inscription", cancel_form_user_participation_request_path(@user, @participation_request, return_to: user_participation_requests_path(@user)), class: 'btn--full btn--red btn fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
-        %hr.push--top.flush--bottom
-        = render partial: 'users/participation_requests/table_recap', locals: { participation_request: @participation_request }
-
-
-    .panel.push--bottom
-      .panel__header.soft
-        %h4.flush Historique des messages
-      .panel__body.soft
-        - if @participation_request.pending? and @participation_request.last_modified_by == 'Structure'
-          = render partial: 'users/conversations/participation_request_form', locals: { return_to: user_participation_request_path(@user, @participation_request), participation_request: @participation_request }
-        - else
-          = render partial: 'users/conversations/form', locals: { return_to: user_participation_request_path(@user, @participation_request), conversation: @participation_request.conversation}
-        = render partial: 'messages/message', collection: @participation_request.conversation.messages.order('created_at DESC').reject(&:new_record?)
-
-    .panel
-      .panel__header.soft
-        %h4.flush À propos de #{t("structures.structure_type_contact.#{(@structure.structure_type.present? ? @structure.structure_type : 'structures.other')}")}
-      .panel__body.soft
-        .grid
-          .grid__item.three-tenths>
-            = link_to structure_path(@structure), target: :_blank, class: 'muted-link center-block' do
-              = image_tag @structure.logo.url(:thumb), class: 'center-block'
-            %h5.push-half--top.text--center= link_to @structure.name, structure_path(@structure), target: :_blank, class: 'muted-link'
-            %p= simple_format @structure.description
-          .grid__item.seven-tenths>
-            %h4 Lieu du cours
-            #map.one-whole{ style: 'height: 300px;'}
-            - if @structure.comments_count > 0
-              %h4 Les derniers avis
-              %ul.comment-list.milli
-                - @structure.comments.accepted.limit(5).each do |comment|
-                  = render partial: 'comments/comment', locals: { comment: comment }
-
-
-- if @participation_request.place
-  - @locations = Gmaps4rails.build_markers(@participation_request.place) do |place, marker|
-    - marker.lat place.latitude
-    - marker.lng place.longitude
-
-  = content_for :scripts do
-    :javascript
-      $(function() {
-          google_map_handler = Gmaps.build('Google');
-          google_map_handler.buildMap({ provider: { scrollwheel: false, center: new google.maps.LatLng(#{@participation_request.place.latitude}, #{@participation_request.place.longitude}), zoom: 15}, internal: { id: 'map' }}, function() {
-              markers = google_map_handler.addMarkers(#{@locations.to_json});
-          });
-      });
-
+  .panel.push--bottom
+    .panel__header.soft
+      %h4.flush À propos de #{t("structures.structure_type_contact.#{(@structure.structure_type.present? ? @structure.structure_type : 'structures.other')}")}
+    .panel__body.soft
+      .grid.push--bottom
+        .grid__item.two-twelfths>
+          = link_to structure_path(@structure), target: :_blank, class: 'center-block' do
+            = image_tag @structure.logo.url(:thumb), class: 'center-block rounded--circle'
+        .grid__item.ten-twelfths>
+          %h4.line-height-1-7.flush
+            = @structure.name
+            = link_to structure_path(@structure), target: :_blank do
+              %span.orange (Voir le profil)
+          %div.line-height-1-7
+            %span.has-tooltip{ data: { toggle: (@participation_request.accepted? ? '' : 'popover'), content: t('tooltips.users.hidden_contact_infos'), html: 'true', placement: 'top', trigger: 'hover' } }
+              = structure_decorator.phone_number_and_email(!@participation_request.accepted?)
+          - if @participation_request.accepted?
+            %div= structure_decorator.website_link
+      - if @participation_request.accepted?
+        = render partial: 'users/conversations/form', locals: { conversation: @participation_request.conversation }
+      = render partial: 'messages/message', collection: @participation_request.conversation.messages.order('created_at DESC').reject(&:new_record?)

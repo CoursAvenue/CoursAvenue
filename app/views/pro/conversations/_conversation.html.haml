@@ -33,8 +33,4 @@
           %strong= participation_request_decorator.status_name
           - if !participation_request.canceled? and !participation_request.past?
             .btn.btn--small.btn--green.nowrap
-              - if participation_request.pending? and participation_request.last_modified_by == 'User'
-                Répondre maintenant
-              - else
-                Modifier / Annuler
-
+              = participation_request_decorator.action_button_name

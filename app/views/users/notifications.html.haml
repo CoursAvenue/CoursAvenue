@@ -13,10 +13,9 @@
           %p.blue
             %i Nous vous promettons de ne pas vous envoyer de spam.
         .grid__item.two-thirds.check_boxes>
-          .checkbox-at-left
-            .push--bottom= f.input :email_promo_opt_in, wrapper_html: { class: 'flush' }
-            .push--bottom= f.input :email_newsletter_opt_in, wrapper_html: { class: 'flush' }
-            .push--bottom= f.input :email_passions_opt_in, wrapper_html: { class: 'flush' }
+          .checkbox-at-left.push--bottom= f.input :email_promo_opt_in, wrapper_html: { class: 'flush' }, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+          .checkbox-at-left.push--bottom= f.input :email_newsletter_opt_in, wrapper_html: { class: 'flush' }, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+          .checkbox-at-left.push--bottom= f.input :email_passions_opt_in, wrapper_html: { class: 'flush' }, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
 
       .grid
         .grid__item.one-third>
@@ -24,8 +23,7 @@
           %p.blue
             %i Nous vous promettons de ne pas vous envoyer de spam.
         .grid__item.two-thirds.check_boxes>
-          .checkbox-at-left
-            .push--bottom= f.input :sms_opt_in, wrapper_html: { class: 'flush' }
+          .checkbox-at-left= f.input :sms_opt_in, wrapper_html: { class: 'flush' }, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
 
       = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
 

@@ -1,6 +1,13 @@
 /*
     Usage:
-    TODO
+      .drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
+        = link_to 'A link', root_path
+        %ul.drop-down__el
+          %li.nowrap
+
+    Options
+      el: CSS selector of the element to show on hover
+      @position position of the dropdown relatively to the parent element: left|center|right
 */
 ;(function ( $, window, document, undefined ) {
 

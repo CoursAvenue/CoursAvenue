@@ -1,6 +1,6 @@
 class StructureDecorator < Draper::Decorator
 
-  def places_popover()
+  def places_popover
     output = ''
     # Use find_by_id to prevent from exception when place is not find.
     # In this case: http://www.coursavenue.dev/etablissements/voix-et-voie/pass-decouverte place wasn't found...
@@ -141,13 +141,59 @@ class StructureDecorator < Draper::Decorator
     output
   end
 
-  def phone_numbers
-    string = ''
-    object.phone_numbers.each do |phone_number|
-      _phone_number = phone_number.number.gsub(' ', '').gsub('-', '').gsub('.', '').gsub('+33', '0').gsub(/^33/, '0')
-      string << "<div>#{_phone_number[0..1]} #{_phone_number[2..3]} #{_phone_number[4..5]} #{_phone_number[6..7]} #{_phone_number[8..9]}</div>"
-    end
+  # @param crypted=false Wether we have to show crypted number.
+  #
+  # @return something like:
+  #   06 07 65 33 23
+  #   <br>
+  #   nim.izadi@gmail.com
+  # And if crypted:
+  #   XX XX XX XX 23
+  #   <br>
+  #   XXXXXXXXX@gmail.com
+  def phone_number_and_email(crypted=false)
+    string = ""
+    string << phone_numbers(crypted) if object.phone_numbers.any?
+    string << "<br>" if object.phone_numbers.any? and object.email
+    string << email(crypted) if object.email
     string.html_safe
   end
 
+  # Structure's phone numbers
+  def phone_numbers(crypted=false)
+    phone_number_html = ''
+    object.phone_numbers.each_with_index do |phone_number, index|
+      phone_number_html << "<br>" if index > 0
+      if crypted
+        phone_number_html << "XX XX XX XX #{phone_number.number[-2..-1]}" if phone_number.number
+      else
+        phone_number_html << phone_number.number if phone_number.number
+      end
+    end
+    phone_number_html.html_safe
+  end
+
+  # def phone_numbers
+  #   string = ''
+  #   object.phone_numbers.each do |phone_number|
+  #     _phone_number = phone_number.number.gsub(' ', '').gsub('-', '').gsub('.', '').gsub('+33', '0').gsub(/^33/, '0')
+  #     string << "<div>#{_phone_number[0..1]} #{_phone_number[2..3]} #{_phone_number[4..5]} #{_phone_number[6..7]} #{_phone_number[8..9]}</div>"
+  #   end
+  #   string.html_safe
+  # end
+
+
+  # Structure's admin e-mail
+  def email(crypted=false)
+    if crypted
+      object.email.gsub(/.*@/, 'XXXXXXXXX') if object.email
+    else
+      object.email if object.email
+    end
+  end
+
+  # Link of strucutre's website
+  def website_link
+    h.link_to object.website, object.website, target: '_blank', rel: 'nofollow'
+  end
 end

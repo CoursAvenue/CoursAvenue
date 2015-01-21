@@ -1,73 +1,64 @@
-%table.table--striped.table--striped-reversed.flush
-  %tbody
-    %tr
-      %th.soft.bordered--bottom.text--left.delta{ colspan: 3 }
-        Informations sur la réservation
-    %tr
-      %th.text--right Statut
-      %td
-        %strong{ class: participation_request_color(participation_request) }
-          - if participation_request.pending?
-            - if participation_request.last_modified_by == 'Structure'
-              En attente : confirmez votre inscription
-            - else
-              En attente de validation du professeur
-          - else
-            = t("participation_request.state.#{participation_request.state}")
+- participation_request_decorator = @participation_request.decorate
+- course_decorator                = @participation_request.course.decorate
+- place                           = participation_request.place
 
-      %td.text--right
-        = render partial: 'users/participation_requests/dropdown_actions', locals: { participation_request: participation_request }
+.soft--sides
+  %table.table--striped.table--striped-reversed.bordered.f-weight-500
+    %tbody
+      %tr.bordered--bottom
+        %th.v-middle.soft--sides.nowrap.bordered--right.one-third
+          Gérez l'inscription :
+        %td.v-middle.soft--sides
+          - if @participation_request.canceled?
+            %strong{ class: participation_request_decorator.color }
+              = participation_request_decorator.status_name
+          = render partial: 'users/participation_requests/actions'
+      %tr.bordered--bottom
+        %th.v-middle.soft--sides.nowrap.bordered--right.one-third Demande d'inscription
+        %td.v-middle.text--left.soft--sides= course_decorator.first_session_detail(true)
+      %tr.bordered--bottom
+        %th.v-middle.soft--sides.nowrap.bordered--right.one-third.nowrap Cours
+        %td.v-middle.soft--sides.one-whole
+          .flexbox
+            .flexbox__item.one-whole
+              - course = participation_request.course
+              %span.has-tooltip{ data: { toggle: 'popover', content: participation_request_decorator.popover_course_infos, html: 'true', placement: 'top', trigger: 'hover' } }
+                = course.name
+                %i.fa.fa-info
+            .flexbox__item.v-middle.nowrap.nowrap.text--right
+              - if !participation_request.canceled? and !participation_request.declined?
+                = link_to t('.propose_another_course'), edit_user_participation_request_path(participation_request.user, participation_request), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
 
-    %tr
-      %th.text--right Nom du cours
-      %td
-        - course = participation_request.course
-        %span.has-tooltip{ data: { toggle: 'popover', content: "<strong>Niveau :</strong> #{join_levels(participation_request.levels)}<br><strong>Public :</strong> #{join_audiences(participation_request.planning || participation_request.course)}<br><strong>Disciplines :</strong> #{course.subjects.uniq.map(&:name).join(', ')}", html: 'true', placement: 'top', trigger: 'hover' } }= course.name
-      %td.text--right= link_to 'Voir les autres cours', structure_path(participation_request.structure), target: :_blank
-    %tr
-      %th.text--right Jour et créneau
-      %td #{l(participation_request.date, format: :semi_long).capitalize} : #{l(participation_request.start_time, format: :short)} à #{l(participation_request.end_time, format: :short)}.
-      %td.text--right.nowrap= add_to_calendar_plain_text(participation_request)
-    %tr
-      %th.soft.bordered--bottom.bordered--top.text--left.delta{ colspan: 3 }
-        Informations sur #{t("structures.structure_type_contact.#{(participation_request.structure.present? ? participation_request.structure.structure_type : 'structures.other')}")}
-        %br
-        %i.milli.blue Les numéros de téléphones et infos privées (digicode, etc.) seront affichées une fois l'inscription confirmée
-    %tr
-      %th.text--right Nom
-      %td= link_to participation_request.structure.name, structure_path(participation_request.structure), target: :_blank, class: 'muted-link'
-      %td.text--right= link_to 'Voir le profil', structure_path(participation_request.structure), target: :_blank
+      %tr.bordered--bottom
+        %th.v-middle.soft--sides.nowrap.bordered--right.one-third.nowrap Jour et heure
+        %td.v-middle.soft--sides.one-whole
+          .flexbox
+            .flexbox__item.one-whole
+              #{l(participation_request.date, format: :semi_long).capitalize} : #{l(participation_request.start_time, format: :short)} à #{l(participation_request.end_time, format: :short)}.
+            .flexbox__item.v-middle.nowrap.nowrap.text--right
+              - if !participation_request.canceled? and !participation_request.declined?
+                = link_to t('.propose_another_date'), edit_user_participation_request_path(participation_request.user, participation_request), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
 
-    - if participation_request.place
-      %tr
-        %th.text--right Lieu
-        %td
-          = "#{participation_request.place.name}, #{participation_request.place.address}"
-        %td.text--right= link_to 'Voir sur GoogleMaps', URI.encode("https://maps.google.com/?q=#{participation_request.place.address}"), target: :_blank
-      - if [participation_request.place.info, participation_request.place.private_info].reject(&:blank?).any?
-        %tr
-          %th.text--right Infos pratiques
-          %td
-            - if participation_request.place.info.present?
-              = participation_request.place.info
-            - if participation_request.accepted? and participation_request.place.private_info.present?
-              = participation_request.place.private_info
-          %td
-      %tr
-        %th.text--right Téléphone(s)
-        %td
-          - if participation_request.accepted?
-            = participation_request.structure.phone_numbers.map(&:number).join(', ')
-          - else
-            = participation_request.structure.phone_numbers.map{ |pn| "XX XX XX XX #{pn.number[-2..-1]}" }.join(', ')
-        %td
-      - if participation_request.structure.website?
-        %tr
-          %th.text--right Site web
-          %td
-            = link_to participation_request.structure.website, participation_request.structure.website, target: '_blank', rel: 'nofollow'
-          %td
-    %tr
-      %th.soft--left.soft-half--ends.bordered--top.text--left.delta{ colspan: 3 }
-        %span.push-half--right Ajouter à mon calendrier :
-        = add_to_calendar(@participation_request)
+      - if place
+        %tr.bordered--bottom
+          %th.v-middle.soft--sides.nowrap.bordered--right.one-third.nowrap Lieu
+          %td.v-middle.soft--sides.one-whole
+            .flexbox
+              .flexbox__item.one-whole
+                = "#{place.name}, #{place.address}"
+              .flexbox__item.v-middle.nowrap.nowrap.text--right
+                = link_to t('.see_on_map'), URI.encode("http://maps.google.com/?q=#{place.address}"), target: :_blank
+
+        %tr.bordered--bottom
+          %th.v-middle.soft--sides.nowrap.bordered--right.one-third.nowrap Infos sur le lieu
+          %td.v-middle.soft--sides.one-whole
+            %div
+              - if place.info.present?
+                = place.info
+              - else
+                %i.gray Pas d'info pratique concernant l'accès.
+            %div
+              - if place.private_info.present?
+                = place.private_info
+              - else
+                %i.gray Pas de digicode ni d'info privée concernant l'accès.
