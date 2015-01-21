@@ -25,7 +25,7 @@ class PaymentNotification::Paypal < PaymentNotification
 
       subscription_plan        = SubscriptionPlan.subscribe!(params['plan_type'], self.structure, subscription_plan_params)
       self.structure.orders.create(amount: subscription_plan.amount,
-                                   order_id: Order.next_order_id_for(self.structure),
+                                   order_id: Order::Premium.next_order_id_for(self.structure),
                                    subscription_plan: subscription_plan)
 
     end
