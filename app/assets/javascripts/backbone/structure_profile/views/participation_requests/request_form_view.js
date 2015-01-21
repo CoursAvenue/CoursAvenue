@@ -10,7 +10,6 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             'submit form'                       : 'submitForm',
             'change @ui.$course_select'         : 'showAssociatedPlannings',
             'change @ui.$planning_select_input' : 'updateDatePicker',
-            'change [name=request_type]'        : 'toggleRequestType',
             'click [data-behavior=show-phone-numbers]': 'showPhoneNumbers'
         },
 
@@ -22,10 +21,6 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             '$datepicker_input'                : '[data-element=datepicker-wrapper] input',
             '$start_hour_select_input'         : '[data-element=start-hour-select]',
             '$time_wrapper'                    : '[data-element="time-wrapper"]',
-            '$booking_request_type_wrapper'    : '[data-type=booking-request-type-wrapper]',
-            '$information_request_type_wrapper': '[data-type=information-request-type-wrapper]',
-            '$request_type_labels'             : '[data-behavior=toggle-type]',
-            '$request_type_inputs'             : '[data-behavior=toggle-type] input',
             '$address_info'                    : '[data-element="address-info"]'
         },
 
@@ -40,21 +35,6 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             this.$('.phone_number').slideToggle();
         },
 
-        toggleRequestType: function toggleRequestType (event) {
-            this.ui.$request_type_labels.removeClass('f-weight-bold');
-            this.ui.$request_type_labels.find('i').addClass('visibility-hidden');
-            this.ui.$request_type_labels.filter('[data-type="' + this.ui.$request_type_inputs.filter(':checked').val() + '"]').find('i').removeClass('visibility-hidden');
-            this.$('[data-type="' + this.ui.$request_type_inputs.filter(':checked').val() + '"]').addClass('f-weight-bold');
-            this.ui.$request_type_inputs.find(':selected').val()
-            if (this.ui.$request_type_inputs.filter(':checked').val() == 'booking') {
-                this.ui.$information_request_type_wrapper.hide();
-                this.ui.$booking_request_type_wrapper.show();
-            } else {
-                this.ui.$information_request_type_wrapper.show();
-                this.ui.$booking_request_type_wrapper.hide();
-            }
-        },
-
         initializeStartHourSelect: function initializeStartHourSelect () {
             _.each(['06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23'], function(value) {
                 this.ui.$start_hour_select_input.append($('<option>').attr('value', parseInt(value)).text(value));
@@ -65,7 +45,6 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
          */
         populateRequest: function populateRequest (event) {
             this.model.set({
-                request_type  : this.ui.$request_type_inputs.filter(':checked').val(),
                 structure_id  : this.structure.get('id'),
                 date          : this.$('[name=date]').val(),
                 start_hour    : this.$('[name=start-hour]').val(),
@@ -228,6 +207,7 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
         submitForm: function submitForm () {
             if (CoursAvenue.isProduction()) { mixpanel.track('Structures/show: submit form'); }
             this.populateRequest();
+            $.cookie('participation_request_body', this.$('[name="message[body]"]').val());
             if (this.model.isValid(true)) {
                 if (CoursAvenue.currentUser().isLogged()) {
                     this.$('form').trigger('ajax:beforeSend.rails');

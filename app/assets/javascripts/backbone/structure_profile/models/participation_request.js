@@ -14,7 +14,7 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
                 msg: 'Vous devez remplir un message'
             },
             course_id: function course_id () {
-                if (this.get('request_type') == 'booking' && !this.get('course_id')) {
+                if (!this.get('course_id')) {
                     return 'Vous devez sélectionner un cours';
                 }
             },
@@ -25,7 +25,7 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
         },
 
         initialize: function initialize () {
-            var prefilled_body = 'Bonjour,\n\n' +
+            var prefilled_body = $.cookie('participation_request_body') || 'Bonjour,\n\n' +
                                  "Je souhaiterais m'inscrire pour une séance d'essai. " +
                                  "Pouvez-vous me confirmer le jour et le créneau, et m'envoyer toute information utile (tenue exigée, digicode, adresse, etc.) ?\n\n" +
                                  'Merci et à très bientôt !';

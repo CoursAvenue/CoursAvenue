@@ -30,23 +30,10 @@
       <div class="green"><i class="fa fa-check"></i> <strong>Dernier message envoyé le {{last_message_sent_at}}</strong></div>
       <hr class="push--ends">
   {{/if}}
-  <div class="text--center push--bottom">
-    <label class="orange btn-as-link f-weight-bold inline-block epsilon" data-behavior="toggle-type" data-type="booking" for="request_type_booking">
-      <i class="relative fa fa-caret-down" style="left: 54px; top: 16px;"></i>
-      Inscription
-      <input type="radio" value="booking" class="hidden" name="request_type" checked id="request_type_booking">
-    </label>
-    |
-    <label class="orange btn-as-link inline-block epsilon" data-behavior="toggle-type" data-type="information" for="request_type_information">
-      Information
-      <i class="visibility-hidden relative fa fa-caret-down" style="right: 53px; top: 16px;"></i>
-      <input type="radio" value="information" class="hidden" name="request_type" id="request_type_information">
-    </label>
-  </div>
     <article class="tab-pane active hard">
         <form action="{{participation_request.url}}">
             <div class="grid--full">
-            <div class="soft-half--bottom" data-type="booking-request-type-wrapper">
+            <div class="soft-half--bottom">
                 <select name="course_id" class="input--large one-whole" >
                     <option>Quel cours vous intéresse ?</option>
                     {{#if structure.courses_open_for_trial}}
@@ -126,41 +113,9 @@
                 <div class="input_field_error red f-weight-bold text--right">{{errors.body}}</div>
             {{/if}}
             <button type="submit" class="btn btn--green btn--full" data-disable-with="Message en cours d'envoi...">
-                <span data-type="booking-request-type-wrapper">
-                  Envoyer ma demande d'inscription
-                </span>
-                <span class="hidden" data-type="information-request-type-wrapper">
-                  Envoyer ma demande d'information
-                </span>
+                Envoyer ma demande d'inscription
             </button>
         </form>
-        <div class="hidden" data-type="information-request-type-wrapper">
-            <hr class="push--ends">
-            {{#if structure.phone_numbers}}
-                <a href="javascript:void(0)" class="btn btn--green btn--full" data-behavior="show-phone-numbers" data-action="log-action" data-action-info="telephone">
-                    <i class="fa fa-phone v-middle"></i>
-                    <span class="v-middle">Téléphone</span>
-                </a>
-                <div class="phone_number hidden">
-                    <div class="soft--top text--center">
-                        {{#each structure.phone_numbers}}
-                            {{#ifCond @index '>' 0}}<br>{{/ifCond}}
-                            <strong class="epsilon v-middle" itemprop="telephone">{{this}}</strong>
-                            {{#if structure.premium }}
-                                <i class="soft-half--left v-middle fa fa-check-circle green"></i>
-                                <i class="v-middle green milli">vérifié</i>
-                            {{/if}}
-                        {{/each}}
-                    </div>
-                </div>
-            {{/if}}
-
-            {{#if structure.premium }}{{#if structure.website }}
-              <a href="{{ structure.website }}" class="btn btn--green btn--full push-half--top" target="_blank" data-action="log-action" data-action-info="website">
-                <i class="fa fa-globe v-middle"></i> <span class="v-middle">Site internet</span>
-              </a>
-            {{/if}}{{/if}}
-        </div>
     </article>
 </div>
 {{/if}}
