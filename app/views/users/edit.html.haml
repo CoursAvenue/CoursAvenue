@@ -1,50 +1,53 @@
-= user_menu_currently_at 'infos'
+= user_menu_currently_at 'profile'
 
-.panel
-  = render partial: 'tabs', locals: { current: 'profile' }
-  .panel__body.soft
-    %h4.push-half--bottom Quelques infos sur vous
+.flexbox
+  = render partial: 'users/left_menu', locals: { current: 'profile' }
+  .flexbox__item.four-fifths
+    .panel
+      .panel__body.soft
+        %h3.push-half--bottom Quelques infos sur vous
 
-    = simple_form_for @user do |f|
-      .grid
-        .grid__item.one-third>
-          .input
-            - if @user.has_avatar?
-              .text--center
-                .media-photo
-                  = image_tag @user.avatar_url(:normal), class: 'block', data: { fpimage: true }
-                %br
-                = f.filepicker_field :remote_avatar_url, multiple: false, services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false, class: 'visuallyhidden', button_text: 'Changer ma photo', button_class: 'btn btn--blue btn--small filepicker', onchange: 'onPhotoUpload(event)'
-            - else
-              .input.text--center
-                = link_to '#', style: 'width: 200px; height: 200px; background-color: #555555; padding-top: 60px;', class: 'block white delta line-height-1-7 v-middle', id: 'avatar-placeholder', data: { filepicker: true } do
-                  Ajouter
-                  %br
-                  ma photo
-                %img.hidden{ style: 'max-height: 200px; max-width: 200px;', height: 200, width: 200, data: { fpimage: true } }
-              = f.filepicker_field :remote_avatar_url, multiple: false, services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false, class: 'visuallyhidden', button_text: 'Ajouter ma photo', button_class: 'visuallyhidden filepicker', onchange: 'onPhotoUpload(event)'
+        = simple_form_for @user do |f|
+          .grid
+            .grid__item.one-third>
+              .input
+                - if @user.has_avatar?
+                  .text--center
+                    .media-photo
+                      = image_tag @user.avatar_url(:normal), class: 'block', data: { fpimage: true }
+                    %br
+                    = f.filepicker_field :remote_avatar_url, multiple: false, services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false, class: 'visuallyhidden', button_text: 'Changer ma photo', button_class: 'btn btn--blue btn--small filepicker', onchange: 'onPhotoUpload(event)'
+                - else
+                  .input.text--center
+                    = link_to '#', style: 'width: 200px; height: 200px; background-color: #555555; padding-top: 60px;', class: 'block white delta line-height-1-7 v-middle', id: 'avatar-placeholder', data: { filepicker: true } do
+                      Ajouter
+                      %br
+                      ma photo
+                    %img.hidden{ style: 'max-height: 200px; max-width: 200px;', height: 200, width: 200, data: { fpimage: true } }
+                  = f.filepicker_field :remote_avatar_url, multiple: false, services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false, class: 'visuallyhidden', button_text: 'Ajouter ma photo', button_class: 'visuallyhidden filepicker', onchange: 'onPhotoUpload(event)'
 
-        .grid__item.two-thirds>
-          = f.input :first_name, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
-          = f.input :last_name, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+            .grid__item.two-thirds>
+              = f.input :first_name, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+              = f.input :last_name, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+              = f.input :description, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
 
-          %hr
-          .input
-            %label.control-label{ data: { toggle: 'popover', trigger: "hover", placement: "right", content: "CoursAvenue est basé sur la confiance. Ces infos sont gardées confidentielles et nous serviront à vous proposer les meilleurs cours autour de vous et pour vos professeurs, à mieux vous connaître." } }
-              .lbl.lbl--gray
-                %i.fa.fa-lock
-                Privé
+              %hr
+              .input
+                %label.control-label{ data: { toggle: 'popover', trigger: "hover", placement: "right", content: "CoursAvenue est basé sur la confiance. Ces infos sont gardées confidentielles et nous serviront à vous proposer les meilleurs cours autour de vous et pour vos professeurs, à mieux vous connaître." } }
+                  .lbl.lbl--gray
+                    %i.fa.fa-lock
+                    Privé
 
-          = f.input :gender, as: :select, collection: [['Femme', 'female'], ['Homme', 'male']], input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
-          = f.input :birthdate, start_year: (Date.today.year - 1), end_year: 1900, include_blank: true, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
-          = f.input :email, disabled: true, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
-          %p.field-form-info.blue Cet e-mail vous sert également d'identifiant pour accéder à votre compte CoursAvenue
-          = f.input :phone_number, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
-          .input.flush--top.city-autocomplete-wrapper<
-            = f.label :zip_code, label: Place.human_attribute_name(:zip_code), class: 'label--large'
-            = f.input :zip_code, placeholder: 'Ex. : 75008', input_html: { class: 'input--large one-whole', data: { behavior: 'city-autocomplete', el: '#user_city_id'} }, label: false, wrapper_html: { class: 'flush soft-half--right', style: 'width: 10em;' }
-            = f.input :city_id, collection: [@user.city], label: false, selected: @user.city, wrapper_html: { class: 'flush--top' }, input_html: { class: 'input--large' }
-          = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
+              = f.input :gender, as: :select, collection: [['Femme', 'female'], ['Homme', 'male']], input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+              = f.input :birthdate, start_year: (Date.today.year - 1), end_year: 1900, include_blank: true, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+              = f.input :email, disabled: true, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+              %p.field-form-info.blue Cet e-mail vous sert également d'identifiant pour accéder à votre compte CoursAvenue
+              = f.input :phone_number, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+              .input.flush--top.city-autocomplete-wrapper<
+                = f.label :zip_code, label: Place.human_attribute_name(:zip_code), class: 'label--large'
+                = f.input :zip_code, placeholder: 'Ex. : 75008', input_html: { class: 'input--large one-whole', data: { behavior: 'city-autocomplete', el: '#user_city_id'} }, label: false, wrapper_html: { class: 'flush soft-half--right', style: 'width: 10em;' }
+                = f.input :city_id, collection: [@user.city], label: false, selected: @user.city, wrapper_html: { class: 'flush--top' }, input_html: { class: 'input--large' }
+              = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
 
 = content_for :scripts do
   = render 'shared/libs/filepicker_scripts'

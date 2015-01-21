@@ -13,7 +13,7 @@
         - conversation_comment_count      = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::COMMENT.id).count
         - conversation_conversation_count = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::CONVERSATION.id).count
         - conversation_request_count      = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::REQUEST.id).count
-        .push--bottom.text--center
+        .push--bottom
           .push-half--left.lbl--small.lbl--chip.lbl{ class: "lbl--#{Mailboxer::Label::REQUEST.color}"}
           %strong.push--right Inscription (#{conversation_request_count})
           .lbl.lbl--small.lbl--chip{ class: "lbl--#{Mailboxer::Label::INFORMATION.color}"}

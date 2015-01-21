@@ -75,9 +75,6 @@ class UsersController < InheritedResources::Base
     end
   end
 
-  def notifications
-  end
-
   def unsubscribe
     if user = User.read_access_token(params[:signature])
       user.update_attribute :email_opt_in, false

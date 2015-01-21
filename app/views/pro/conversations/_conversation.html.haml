@@ -33,4 +33,4 @@
           %strong= participation_request_decorator.status_name
           - if !participation_request.canceled? and !participation_request.past?
             .btn.btn--small.btn--green.nowrap
-              = participation_request_decorator.action_button_name
+              = participation_request_decorator.action_button_name_for('Structure')

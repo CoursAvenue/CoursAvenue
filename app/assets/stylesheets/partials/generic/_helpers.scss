@@ -34,11 +34,11 @@
 /*------------------------------------*\
     BORDERS
 \*------------------------------------*/
-.bordered--right     { border-right  : 1px solid $gray-lighter; }
-.bordered--left      { border-left   : 1px solid $gray-lighter; }
-.bordered--bottom    { border-bottom : 1px solid $gray-lighter; }
-.bordered--top       { border-top    : 1px solid $gray-lighter; }
-.bordered            { border        : 1px solid $gray-lighter; }
+.bordered--right     { border-right  : 1px solid $gray-smooth; }
+.bordered--left      { border-left   : 1px solid $gray-smooth; }
+.bordered--bottom    { border-bottom : 1px solid $gray-smooth; }
+.bordered--top       { border-top    : 1px solid $gray-smooth; }
+.bordered            { border        : 1px solid $gray-smooth; }
 .bordered--blue      { border        : 1px solid $blue; }
 .bordered--red       { border        : 1px solid $red; }
 .border-none         { border        : none !important; }

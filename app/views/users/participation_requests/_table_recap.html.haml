@@ -7,11 +7,14 @@
     %tbody
       %tr.bordered--bottom
         %th.v-middle.soft--sides.nowrap.bordered--right.one-third
+          Statut
+        %td.v-middle.soft--sides
+          %strong{ class: participation_request_decorator.color }
+            = participation_request_decorator.status_name
+      %tr.bordered--bottom
+        %th.v-middle.soft--sides.nowrap.bordered--right.one-third
           Gérez l'inscription :
         %td.v-middle.soft--sides
-          - if @participation_request.canceled?
-            %strong{ class: participation_request_decorator.color }
-              = participation_request_decorator.status_name
           = render partial: 'users/participation_requests/actions'
       %tr.bordered--bottom
         %th.v-middle.soft--sides.nowrap.bordered--right.one-third Demande d'inscription

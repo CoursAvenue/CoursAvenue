@@ -34,6 +34,7 @@ fr:
       reviews: Mes avis
       share: Partager
       inscriptions: Mes inscriptions
+      profile: Profil
 
   devise:
     confirmations:
@@ -83,3 +84,7 @@ fr:
           subject: "Instructions pour changer le mot de passe"
         unlock_instructions:
           subject: "Instructions pour déverrouiller le compte"
+  simple_form:
+    placeholders:
+      user:
+        description: 'Présentez-vous brièvement : quels loisirs souhaitez-vous découvrir, dans quel objectif, que faites-vous dans la vie... ?'

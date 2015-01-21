@@ -405,7 +405,6 @@ CoursAvenue::Application.routes.draw do
       get  :wizard
       get  :dashboard
       get  :choose_password
-      get  :notifications
       post :recommend_friends
     end
     resources :followings, only: [:index], controller: 'users/followings', path: 'favoris'

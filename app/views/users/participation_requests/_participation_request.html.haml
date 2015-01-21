@@ -7,7 +7,7 @@
 - place                           = participation_request.place
 %tr
   %td.v-top.nowrap{ class: [participation_request_color(participation_request), ((participation_request.accepted? or participation_request.canceled?) ? 'nowrap' : '')] }
-    = participation_request_decorator.status_for('Structure')
+    = participation_request_decorator.status_for('User')
     .very-soft.hard--left.hard--bottom.hard--right
       = participation_request_decorator.user_action_link
   %td.v-top

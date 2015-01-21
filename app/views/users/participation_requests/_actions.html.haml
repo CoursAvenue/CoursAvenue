@@ -1,11 +1,11 @@
-.flexbox.soft--sides
+.flexbox
   - if !@participation_request.canceled? and !@participation_request.declined?
     - if @participation_request.pending? and @participation_request.last_modified_by == 'Structure'
-      .flexbox__item.one-third>
+      .flexbox__item.one-third.soft-half--right>
         = link_to accept_form_user_participation_request_path(@participation_request.user, @participation_request), class: 'btn--full btn--green btn fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
           = t('.accept')
 
-    .flexbox__item.one-third.soft-half--sides>
+    .flexbox__item.one-third.soft-half--right>
       .drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'center' } }
         = link_to edit_user_participation_request_path(@participation_request.user, @participation_request, discuss_only: true), class: 'btn--full btn--orange nowrap btn fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
           = t('.discuss')
