@@ -193,7 +193,7 @@ class StructureDecorator < Draper::Decorator
   end
 
   # Link of strucutre's website
-  def website_link
+  def website_link(crypted=false)
     h.link_to object.website, object.website, target: '_blank', rel: 'nofollow'
   end
 end

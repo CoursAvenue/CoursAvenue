@@ -17,7 +17,7 @@
             = link_to edit_pro_structure_participation_request_path(@participation_request.structure, @participation_request), class: 'fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
               = t('.propose_another_date')
           %li.nowrap
-            = link_to edit_pro_structure_participation_request_path(@participation_request.structure, @participation_request), class: 'fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0, discuss_only: true } do
+            = link_to edit_pro_structure_participation_request_path(@participation_request.structure, @participation_request, discuss_only: true), class: 'fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
               = t('.ask_more_info')
 
   - if !@participation_request.canceled? and !@participation_request.declined?
