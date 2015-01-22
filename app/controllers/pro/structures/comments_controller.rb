@@ -27,13 +27,6 @@ class Pro::Structures::CommentsController < InheritedResources::Base# Pro::ProCo
     redirect_to pro_structure_comments_path(@structure), notice: "L'avis a bien été validé"
   end
 
-  def decline
-    @structure = Structure.friendly.find params[:structure_id]
-    @comment   = Comment::Review.find params[:id]
-    @comment.decline!
-    redirect_to pro_structure_comments_path(@structure), notice: "L'avis a bien été refusé"
-  end
-
   def ask_for_deletion
     @structure = Structure.friendly.find params[:structure_id]
     @comment   = Comment::Review.find params[:id]

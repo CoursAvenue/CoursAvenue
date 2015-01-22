@@ -1,1 +1,6 @@
-= render partial: 'pro/participation_requests/modify_date', locals: { simple_form_array: [@user, @participation_request], simple_form_url: modify_date_user_participation_request_path(@user, @participation_request), discuss_only: params[:discuss_only], show_course_select: params[:show_course_select] }
+- if params[:discuss_only].present?
+  - simple_form_url = discuss_user_participation_request_path(@user, @participation_request)
+- else
+  - simple_form_url = modify_date_user_participation_request_path(@user, @participation_request)
+
+= render partial: 'pro/participation_requests/modify_date', locals: { simple_form_array: [@user, @participation_request], simple_form_url: simple_form_url, discuss_only: params[:discuss_only], show_course_select: params[:show_course_select] }

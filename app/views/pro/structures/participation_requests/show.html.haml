@@ -3,14 +3,16 @@
 - participation_request_decorator = @participation_request.decorate
 .panel
   .panel__header.soft
-    - if @participation_request.pending? and @participation_request.last_modified_by == 'User' and @participation_request.created_at > 2.days.ago
-      .float--right.nowrap.orange.soft-half--top
-        %i.fa.fa-clock-o.delta
-        %strong.delta Expire dans
-        %strong.delta{ data: { 'expires-in' => true } }
-    %ol.nav.flush.breadcrumb{ itemprop: 'breadcrumb' }
-      %li.gamma.f-weight-500= link_to 'Mes inscriptions', pro_structure_participation_requests_path(@structure)
-      %li.gamma.f-weight-500.flush= @user.name
+    .flexbox
+      .flexbox__item.v-middle
+        %ol.nav.flush.breadcrumb{ itemprop: 'breadcrumb' }
+          %li.gamma.f-weight-500= link_to 'Mes inscriptions', pro_structure_participation_requests_path(@structure)
+          %li.gamma.f-weight-500.flush= @user.name
+      - if @participation_request.pending? and @participation_request.last_modified_by == 'User' and @participation_request.created_at > 2.days.ago
+        .flexbox__item.v-middle.text--right.blue
+          %i.fa.fa-clock-o.delta
+          %strong.delta Expire dans
+          %strong.delta{ data: { 'expires-in' => true } }
 
   .panel__body.soft--ends
     = render partial: 'pro/structures/participation_requests/table_recap', locals: { participation_request: @participation_request }
@@ -45,23 +47,18 @@
 
 
   .panel__header.soft.bordered--top
-    - if @participation_request.pending? and @participation_request.last_modified_by == 'User' and @participation_request.created_at > 2.days.ago
-      .float--right.nowrap.orange.soft-half--top
-        %i.fa.fa-clock-o.delta
-        %strong.delta Expire dans
-        %strong.delta{ data: { 'expires-in' => true } }
-    %h4.flush Acceptez la demande
-  .panel__body.soft.bordered--top
-    %p
-      Vous risquez d'être pénalisé si vous n'acceptez pas ou ne refusez pas cette demande d'inscription avant son expiration :
     .flexbox
-      .flexbox__item.nowrap
-        Gérez l'inscription :
-        %div
-          %strong{ class: participation_request_decorator.color }
-            = participation_request_decorator.status_name
-      .flexbox__item.one-whole
-        = render partial: 'actions'
+      .flexbox__item.v-middle
+        %h4.flush Acceptez la demande
+      - if @participation_request.pending? and @participation_request.last_modified_by == 'User' and @participation_request.created_at > 2.days.ago
+        .flexbox__item.v-middle.text--right.blue
+          %i.fa.fa-clock-o.delta
+          %strong.delta Expire dans
+          %strong.delta{ data: { 'expires-in' => true } }
+  .panel__body.soft.bordered--top
+    %p.epsilon
+      Vous risquez d'être pénalisé si vous n'acceptez pas ou ne refusez pas cette demande d'inscription avant son expiration :
+    = render partial: 'actions'
 
 = content_for :scripts do
   :javascript

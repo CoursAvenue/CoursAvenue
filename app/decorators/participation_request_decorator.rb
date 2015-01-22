@@ -12,6 +12,11 @@ class ParticipationRequestDecorator < Draper::Decorator
     end
   end
 
+  # Accepté|En attente|Annulé
+  def long_status_name(resource_name="Structure")
+    I18n.t("participation_request.state.to_#{resource_name.downcase}.last_modified_by_#{participation_request.last_modified_by.downcase}.long_description.#{participation_request.state}")
+  end
+
   # <strong class="red">Annulé</strong>
   def status_for resource='Structure'
     if object.pending? and !object.past?
@@ -35,10 +40,10 @@ class ParticipationRequestDecorator < Draper::Decorator
   # orange|green|red
   def color
     if object.pending?
-      'orange'
+      'blue'
     elsif object.accepted?
       'green'
-    elsif object.declined? or object.canceled?
+    elsif object.canceled?
       'red'
     end
   end

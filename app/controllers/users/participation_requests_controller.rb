@@ -7,7 +7,7 @@ class Users::ParticipationRequestsController < ApplicationController
 
   # GET eleves/:user_id/participation_request/
   def index
-    @past_participation_requests    = (@user.participation_requests.canceled_or_declined + @user.participation_requests.past).uniq.sort_by(&:date).reverse
+    @past_participation_requests    = (@user.participation_requests.canceled + @user.participation_requests.past).uniq.sort_by(&:date).reverse
     @current_participation_requests = (@user.participation_requests.upcoming.accepted + @user.participation_requests.upcoming.pending).sort_by(&:date)
   end
 
@@ -60,6 +60,15 @@ class Users::ParticipationRequestsController < ApplicationController
     end
   end
 
+  # PUT eleves/:user/participation_request/:id/discuss
+  def discuss
+    @participation_request = @user.participation_requests.find(params[:id])
+    @participation_request.discuss!(params[:participation_request][:message][:body], 'User')
+    respond_to do |format|
+      format.html { redirect_to (params[:return_to] || user_conversation_path(@user, @participation_request.conversation)), notice: 'Le changement a bien été pris en compte' }
+    end
+  end
+
   # PUT eleves/:user/participation_request/:id/cancel
   def cancel
     @participation_request = @user.participation_requests.find(params[:id])
@@ -75,15 +84,6 @@ class Users::ParticipationRequestsController < ApplicationController
     @participation_request.update_attributes params[:participation_request]
     respond_to do |format|
       format.html { redirect_to user_participation_requests_path(@user), notice: "Nous avons bien pris en compte votre signalement" }
-    end
-  end
-
-  # PUT eleves/:user/participation_request/:id/decline
-  def decline
-    @participation_request = @user.participation_requests.find(params[:id])
-    @participation_request.decline!(params[:participation_request][:message][:body], 'User')
-    respond_to do |format|
-      format.html { redirect_to (params[:return_to] || user_conversation_path(@user, @participation_request.conversation)), notice: "Le refus a bien été pris en compte" }
     end
   end
 

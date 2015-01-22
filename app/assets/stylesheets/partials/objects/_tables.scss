@@ -10,7 +10,7 @@
  * Striped tables
  */
 .table-row-alternate-color{
-    background-color: lighten($alternative-background, 3%);
+    background-color: $alternative-background;
 }
 .table--striped{
     thead {

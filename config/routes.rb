@@ -329,8 +329,8 @@ CoursAvenue::Application.routes.draw do
             get   :cancel_form
             get   :accept_form
             patch :accept
+            patch :discuss
             patch :modify_date
-            patch :decline
             patch :cancel
             patch :report
           end
@@ -439,8 +439,8 @@ CoursAvenue::Application.routes.draw do
         get   :cancel_form
         get   :accept_form
         patch :accept
+        patch :discuss
         patch :modify_date
-        patch :decline
         patch :cancel
         patch :report
       end

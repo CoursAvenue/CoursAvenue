@@ -63,12 +63,12 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     end
   end
 
-  # PUT pro/etablissements/:structure_id/participation_request/:id/decline
-  def decline
+  # PUT pro/etablissements/:structure_id/participation_request/:id/discuss
+  def discuss
     @participation_request = @structure.participation_requests.find(params[:id])
-    @participation_request.decline!(params[:participation_request][:message][:body], 'Structure')
+    @participation_request.discuss!(params[:participation_request][:message][:body], 'Structure')
     respond_to do |format|
-      format.html { redirect_to pro_structure_conversation_path(@structure, @participation_request.conversation), notice: 'Le refus a bien été envoyé' }
+      format.html { redirect_to pro_structure_conversation_path(@structure, @participation_request.conversation), notice: 'Le changement a bien été pris en compte' }
     end
   end
 

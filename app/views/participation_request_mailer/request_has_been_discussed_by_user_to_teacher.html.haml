@@ -1,0 +1,34 @@
+- content_for :email_title do
+  %strong Répondez à #{@user.name} en répondant directement à cet e-mail
+  %hr
+
+.p
+  Bonjour,
+
+.p
+  #{@user.name} vient de vous envoyer un message concernant sa demande d'inscription du
+  %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}"
+  au cours d'essai "#{@participation_request.course.name}"
+  - if @place
+    au #{@place.address} (#{@place.name}).
+  Connectez-vous à votre profil
+  - if @participation_request.date <= 2.days.from_now
+    %strong= "avant le #{I18n.l(@participation_request.date, format: :semi_short)}"
+  - else
+    %strong= "avant le #{I18n.l(2.days.from_now.to_date, format: :semi_short)} #{I18n.l(Time.now, format: :short)}"
+  pour répondre à sa demande :
+
+.p.action
+  = link_to "Accepter / Proposer un autre créneau / Refuser", pro_structure_participation_request_url(@admin.structure, @participation_request, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
+
+- if @message
+  = render partial: 'mailboxer_message_mailer/message_to_admin', locals: { message: @message, user: @user, show_phone_number: false }
+
+.soft-half--top
+  = render 'shared/mailers/footer'
+
+- content_for :under_content do
+  = render partial: 'participation_request_mailer/shared/participation_recap', locals: { participation_request: @participation_request }
+
+- content_for :under_content_gray do
+  = render 'participation_request_mailer/shared/teacher_faq'

@@ -8,7 +8,7 @@
           Statut
         %td.v-middle.soft--sides
           %strong{ class: participation_request_decorator.color }
-            = participation_request_decorator.status_name
+            = participation_request_decorator.long_status_name('Structure')
       %tr.bordered--bottom
         %th.v-middle.soft--sides.nowrap.bordered--right.one-third
           Gérez l'inscription :
@@ -25,7 +25,7 @@
               - course = participation_request.course
               %span.has-tooltip{ data: { toggle: 'popover', content: participation_request_decorator.popover_course_infos, html: 'true', placement: 'top', trigger: 'hover' } }= course.name
             .flexbox__item.v-middle.nowrap.nowrap.text--right
-              - if !participation_request.canceled? and !participation_request.declined?
+              - if !participation_request.canceled?
                 = link_to 'Proposer un autre cours', edit_pro_structure_participation_request_path(participation_request.structure, participation_request), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
 
       %tr.bordered--bottom
@@ -35,7 +35,7 @@
             .flexbox__item.one-whole
               #{l(participation_request.date, format: :semi_long).capitalize} : #{l(participation_request.start_time, format: :short)} à #{l(participation_request.end_time, format: :short)}.
             .flexbox__item.v-middle.nowrap.nowrap.text--right
-              - if !participation_request.canceled? and !participation_request.declined?
+              - if !participation_request.canceled?
                 = link_to 'Proposer un autre créneau', edit_pro_structure_participation_request_path(participation_request.structure, participation_request), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
 
       - if participation_request.place

@@ -1,9 +1,8 @@
 class ParticipationRequest < ActiveRecord::Base
   extend ActiveHash::Associations::ActiveRecordExtensions
 
-  # Declined: when the user decline the proposition made by the other user
-  # Canceled: when the teacher cancel after having changed hours or accepted
-  STATE = %w(accepted pending declined canceled)
+  STATE = %w(accepted pending canceled)
+  PARAMS_THAT_MODIFY_PR = %w(date start_time end_time planning_id course_id)
 
   attr_accessible :state, :date, :start_time, :end_time, :mailboxer_conversation_id,
                   :planning_id, :last_modified_by, :course_id, :user, :structure, :conversation,
@@ -37,12 +36,12 @@ class ParticipationRequest < ActiveRecord::Base
   ######################################################################
   # Scopes                                                             #
   ######################################################################
-  scope :accepted,             -> { where( state: 'accepted') }
-  scope :pending,              -> { where( state: 'pending') }
-  scope :upcoming,             -> { where( arel_table[:date].gteq(Date.today)) }
-  scope :past,                 -> { where( arel_table[:date].lt(Date.today)) }
-  scope :canceled_or_declined, -> { where( arel_table[:state].eq('canceled').or(arel_table[:state].eq('declined'))) }
-  scope :tomorrow,             -> { where( state: 'accepted', date: Date.tomorrow ) }
+  scope :accepted, -> { where( state: 'accepted') }
+  scope :pending,  -> { where( state: 'pending') }
+  scope :upcoming, -> { where( arel_table[:date].gteq(Date.today)) }
+  scope :past,     -> { where( arel_table[:date].lt(Date.today)) }
+  scope :canceled, -> { where( arel_table[:state].eq('canceled')) }
+  scope :tomorrow, -> { where( state: 'accepted', date: Date.tomorrow ) }
 
   # Create a ParticipationRequest if everything is correct, and if it is, it also create a conversation
   #
@@ -68,11 +67,6 @@ class ParticipationRequest < ActiveRecord::Base
   # @return Boolean is the request accepted?
   def accepted?
     self.state == 'accepted'
-  end
-
-  # @return Boolean is the request declined?
-  def declined?
-    self.state == 'declined'
   end
 
   # @return Boolean is the request canceled?
@@ -119,8 +113,8 @@ class ParticipationRequest < ActiveRecord::Base
     message_body = StringHelper.replace_contact_infos(message_body)
     self.last_modified_by = last_modified_by
     self.update_attributes new_params
-    message = reply_to_conversation(message_body, last_modified_by)
     self.state = 'pending'
+    message = reply_to_conversation(message_body, last_modified_by)
     self.save
     if self.last_modified_by == 'Structure'
       ParticipationRequestMailer.delay.request_has_been_modified_by_teacher_to_user(self, message)
@@ -129,20 +123,17 @@ class ParticipationRequest < ActiveRecord::Base
     end
   end
 
-  # Decline proposition made by user
-  # @param message [type] [description]
+  # Discuss the request and inform user about it
+  # @param message String
   #
   # @return Boolean
-  def decline!(message_body, last_modified_by='Structure')
+  def discuss!(message_body, discussed_by='Structure')
     message_body = StringHelper.replace_contact_infos(message_body)
-    self.last_modified_by = last_modified_by
-    self.state = 'declined'
-    message = reply_to_conversation(message_body, last_modified_by)
-    self.save
-    if self.last_modified_by == 'Structure'
-      ParticipationRequestMailer.delay.request_has_been_declined_by_teacher_to_user(self, message)
-    elsif self.last_modified_by == 'User'
-      ParticipationRequestMailer.delay.request_has_been_declined_by_user_to_teacher(self, message)
+    message      = reply_to_conversation(message_body, last_modified_by)
+    if discussed_by == 'Structure'
+      ParticipationRequestMailer.delay.request_has_been_discussed_by_teacher_to_user(self, message)
+    elsif discussed_by == 'User'
+      ParticipationRequestMailer.delay.request_has_been_discussed_by_user_to_teacher(self, message)
     end
   end
 
@@ -259,4 +250,8 @@ class ParticipationRequest < ActiveRecord::Base
     end
   end
 
+  # def new_params_is_modifying_pr(new_params)
+  #   # If there is any key in the params that modify the PR
+  #   (PARAMS_THAT_MODIFY_PR & new_params.keys).any?
+  # end
 end

@@ -55,6 +55,23 @@ class ParticipationRequestMailer < ActionMailer::Base
   end
 
   ######################################################################
+  # Request has been discussed                                         #
+  ######################################################################
+  def request_has_been_discussed_by_user_to_teacher(participation_request, message)
+    @message = message
+    retrieve_participation_request_variables(participation_request)
+    mail to: @admin.email, subject: "Demande d'information - #{@user.name}",
+         reply_to: generate_reply_to('admin')
+  end
+
+  def request_has_been_discussed_by_teacher_to_user(participation_request, message)
+    retrieve_participation_request_variables(participation_request)
+    @message = message
+    mail to: @user.email, subject: "Demande d'information - #{@structure.name}",
+         reply_to: generate_reply_to('user')
+  end
+
+  ######################################################################
   # Request has been modified                                          #
   ######################################################################
   def request_has_been_modified_by_user_to_teacher(participation_request, message)
@@ -81,23 +98,6 @@ class ParticipationRequestMailer < ActionMailer::Base
     retrieve_participation_request_variables(participation_request)
     mail to: @user.email, subject: "Dernier rappel - Confirmation d'inscription - #{@structure.name}",
          reply_to: generate_reply_to('user')
-  end
-
-  ######################################################################
-  # Request has been declinded                                         #
-  ######################################################################
-  def request_has_been_declined_by_teacher_to_user(participation_request, message)
-    retrieve_participation_request_variables(participation_request)
-    @message = message
-    mail to: @user.email, subject: "Inscription refusée - #{@structure.name}",
-         reply_to: generate_reply_to('user')
-  end
-
-  def request_has_been_declined_by_user_to_teacher(participation_request, message)
-    retrieve_participation_request_variables(participation_request)
-    @message = message
-    mail to: @admin.email, subject: "Inscription refusée - #{@user.name}",
-         reply_to: generate_reply_to('admin')
   end
 
   ######################################################################
