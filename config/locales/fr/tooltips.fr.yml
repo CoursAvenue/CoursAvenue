@@ -4,7 +4,7 @@ fr:
       structures:
         hidden_contact_infos: "Pour garantir le confort d'utilisation du site, les coordonnées personnelles de l'élève seront visibles une fois l'inscription validée."
       participation_requests:
-        dont_send_contact_info: "Pour garantir le confort d'utilisation du site, l'envoi de messages contenant des informations de contact de type téléphone, email ou site Internet ne sont pas autorisés."
+        dont_send_contact_info: "Pour garantir le confort d'utilisation du site, l'envoi de messages contenant des informations de contact de type téléphone, email ou site Internet n'est pas autorisé."
         infos_will_be_shown_once_accepted: "Pour garantir le confort d'utilisation du site, les coordonnées personnelles de l'élève seront visibles une fois l'inscription validée."
         confirm_quickly: Confirmez la demande d'inscription au plus vite
         waiting_for_confirmation: En attente de validation

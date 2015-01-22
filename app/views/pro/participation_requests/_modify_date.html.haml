@@ -27,7 +27,7 @@
           %label.control-label.label--large.v-middle.nowrap Séance :
           .input-container>
             - unless @participation_request.course.on_appointment?
-              = f.input :planning_id, as: :select, collection: @participation_request.course.plannings.ordered_by_day, label: false, selected: @participation_request.planning_id, label_method: lambda{ |planning| "#{readable_planning(planning)} #{readable_time_slot(planning.start_time, planning.end_time)}" }, input_html: { class: 'one-whole' }, wrapper_html: { class: 'flush v-middle' }
+              = f.input :planning_id, as: :select, collection: @participation_request.course.plannings.ordered_by_day, label: false, selected: @participation_request.planning_id, label_method: lambda{ |planning| "#{readable_planning(planning)} #{readable_time_slot(planning.start_time, planning.end_time)}" }, input_html: { class: 'one-whole input--large' }, wrapper_html: { class: 'flush v-middle' }
             %div.push-half--ends
               %i
                 Lieu :
@@ -36,8 +36,8 @@
                 - else
                   %span#address-name{ data: { toggle: 'popover', html: 'true', content: '', trigger: 'hover' } }
         .input.flush
-          %label.control-label.label--large.v-middle.nowrap Date:
-          = f.input :date, as: :string, label: false, input_html: { value: l(@participation_request.date), class: 'one-whole', data: { behavior: 'datepicker' } }, wrapper_html: { class: 'datepicker-input flush hard v-middle' }
+          %label.control-label.label--large.v-middle.nowrap Date :
+          = f.input :date, as: :string, label: false, input_html: { value: l(@participation_request.date), class: 'text--center input--large datepicker-input', data: { behavior: 'datepicker', start_date: l(Date.today) } }, wrapper_html: { class: 'datepicker-input flush hard v-middle' }
 
       %hr.push--ends
       = render partial: 'pro/structures/participation_requests/share_information'

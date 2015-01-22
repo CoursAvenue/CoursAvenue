@@ -1,12 +1,8 @@
-- if @place.persisted?
-  - place_url = pro_structure_place_path(@structure, @place)
-- else
-  - place_url = pro_structure_places_path(@structure)
 .panel
   .panel__header.soft
     %h4.flush Lieu : informations pratiques
   .panel__body.soft--ends
-    = simple_form_for [:pro, @structure, @place], url: place_url, as: :place do |f|
+    = simple_form_for [:pro, @structure, @place], url: pro_structure_place_path(@structure, @place), as: :place do |f|
       - if params[:return_to].present?
         %input{ type: 'hidden', value: params[:return_to], name: 'return_to' }
       .soft--sides

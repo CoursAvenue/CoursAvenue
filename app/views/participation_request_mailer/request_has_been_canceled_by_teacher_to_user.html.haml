@@ -6,18 +6,25 @@
   Bonjour #{@user.first_name},
 
 .p
-  Malheureusement, #{@user.name} vient d'annuler son inscription au cours d'essai "#{@course.name}" qui était prévu le
+  Malheureusement, #{@structure.name} vient de refuser votre demande d'inscription au cours d'essai "#{@course.name}" du
   %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}."
-  Si vous souhaitez lui envoyer un message, notamment pour lui proposer de venir à un autre cours, envoyez-lui un message depuis votre onglet "Mes inscriptions" :
+  Si vous souhaitez lui demander de venir à un autre cours, envoyez-lui un message depuis votre boîte de réception :
 
 .p.action
-  = link_to "Visualiser mes inscriptions", pro_structure_participation_requests_path(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
+  = link_to "Envoyer un message", pro_structure_conversation_path(@structure, @conversation, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
 
 - if @message
-  = render partial: 'mailboxer_message_mailer/message_to_admin', locals: { message: @message, user: @user, show_phone_number: false }
+  = render partial: 'mailboxer_message_mailer/message_to_user', locals: { message: @message, structure: @structure, show_phone_number: false }
+
+.p.soft--top
+  Notre objectif est de vous faire découvrir le maximum de cours, c'est pourquoi notre équipe prendra contact avec ce partenaire pour comprendre les raisons de son refus.
+  %br
+  Merci pour votre compréhension,
 
 .soft-half--top
   = render 'shared/mailers/footer'
 
 - content_for :under_content_gray do
   = render 'participation_request_mailer/shared/user_faq'
+
+

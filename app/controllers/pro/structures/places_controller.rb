@@ -77,7 +77,7 @@ class Pro::Structures::PlacesController < InheritedResources::Base
     respond_to do |format|
       if @place.update_attributes params[:place]
         get_places_coordinates
-        format.html { redirect_to (params[:return_to] || pro_structure_places_path(@structure)), notice: 'Le lieu a bien été créé' }
+        format.html { redirect_to (params[:return_to] || pro_structure_places_path(@structure)), notice: 'Le lieu a bien été modifié' }
         format.js
       else
         format.html { render action: :new }
