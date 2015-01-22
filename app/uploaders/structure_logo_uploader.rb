@@ -48,14 +48,6 @@ class StructureLogoUploader < CarrierWave::Uploader::Base
 
   private
 
-  # Crop attributes are set with original (600x600) dimensions
-  # That's why we use a ratio
-  #
-  # @return Hash
-  def fill_thumb
-    return { width: 200, height: 200, crop: :fill }
-  end
-
   def crop_thumb
     transformations = []
     crop_width      = (model.crop_width.to_i == 0 ? 600 : model.crop_width.to_i)
