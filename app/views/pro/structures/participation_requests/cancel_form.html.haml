@@ -7,7 +7,7 @@
   .panel__body.soft
     = simple_form_for [:pro, @structure, @participation_request], url: cancel_pro_structure_participation_request_path(@structure, @participation_request), html: { id: 'participation-request-form' } do |f|
       = f.error_notification
-      = f.input :cancelation_reason_id, as: :select, collection: ParticipationRequest::CancelationReason.all, label_method: lambda{|reason| t(reason.name)}, label: false, include_blank: t('participation_request.cancelation_reason.include_blank'), input_html: { class: 'input--large one-whole' }, wrapper_html: { class: 'flush--top' }
+      = f.input :cancelation_reason_id, as: :select, collection: ParticipationRequest::CancelationReason.find_all_by_type('structure'), label_method: lambda{|reason| t(reason.name)}, label: false, include_blank: t('participation_request.cancelation_reason.include_blank'), input_html: { class: 'input--large one-whole' }, wrapper_html: { class: 'flush--top' }
       = f.fields_for :message, @message, class: 'message__body message__appendix' do |message_form|
         = message_form.input :body, input_html: { value: prefilled_message, placeholder: 'Ajouter un message personnel ici', style: 'height: 100px', class: 'input--large one-whole', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
 

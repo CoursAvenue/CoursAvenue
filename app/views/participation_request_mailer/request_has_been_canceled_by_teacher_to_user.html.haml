@@ -8,7 +8,7 @@
 .p
   Malheureusement, #{@user.name} vient d'annuler son inscription au cours d'essai "#{@course.name}" qui était prévu le
   %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}."
-  Si vous souhaitez lui envoyer un message, notamment pour lui proposer de venir à un autre cours, envoyez-lui un message depuis votre onglet "Suvi des inscriptions" :
+  Si vous souhaitez lui envoyer un message, notamment pour lui proposer de venir à un autre cours, envoyez-lui un message depuis votre onglet "Mes inscriptions" :
 
 .p.action
   = link_to "Visualiser mes inscriptions", pro_structure_participation_requests_path(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'

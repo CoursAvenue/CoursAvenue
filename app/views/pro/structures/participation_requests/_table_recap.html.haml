@@ -9,11 +9,12 @@
         %td.v-middle.soft--sides
           %strong{ class: participation_request_decorator.color }
             = participation_request_decorator.long_status_name('Structure')
-      %tr.bordered--bottom
-        %th.v-middle.soft--sides.nowrap.bordered--right.one-third
-          Gérez l'inscription :
-        %td.v-middle.soft--sides
-          = render partial: 'pro/structures/participation_requests/actions'
+      - unless participation_request.canceled?
+        %tr.bordered--bottom
+          %th.v-middle.soft--sides.nowrap.bordered--right.one-third
+            Gérez l'inscription :
+          %td.v-middle.soft--sides
+            = render partial: 'pro/structures/participation_requests/actions'
       %tr.bordered--bottom
         %th.v-middle.soft--sides.nowrap.bordered--right.one-third Demande d'inscription
         %td.v-middle.text--left.soft--sides= course_decorator.first_session_detail

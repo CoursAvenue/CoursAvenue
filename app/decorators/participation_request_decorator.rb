@@ -63,6 +63,8 @@ class ParticipationRequestDecorator < Draper::Decorator
       I18n.t('participation_request.pro.action_button_text.report')
     elsif object.pending? and object.last_modified_by != resource
       I18n.t('participation_request.pro.action_button_text.answer_now')
+    elsif object.canceled?
+      I18n.t('participation_request.pro.action_button_text.view')
     else
       I18n.t('participation_request.pro.action_button_text.modify_cancel')
     end

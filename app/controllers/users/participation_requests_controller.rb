@@ -72,7 +72,7 @@ class Users::ParticipationRequestsController < ApplicationController
   # PUT eleves/:user/participation_request/:id/cancel
   def cancel
     @participation_request = @user.participation_requests.find(params[:id])
-    @participation_request.cancel!(params[:participation_request][:message][:body], 'User')
+    @participation_request.cancel!(params[:participation_request][:message][:body], params[:participation_request][:cancelation_reason_id], 'User')
     respond_to do |format|
       format.html { redirect_to (params[:return_to] || user_conversation_path(@user, @participation_request.conversation)), notice: "L'annulation a bien été pris en compte" }
     end

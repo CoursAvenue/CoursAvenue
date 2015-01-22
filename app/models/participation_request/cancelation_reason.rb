@@ -2,13 +2,21 @@ class ParticipationRequest::CancelationReason < ActiveHash::Base
   include ActiveHash::Enum
 
   self.data = [
-    { id: 1, name: 'participation_request.cancelation_reason.course_is_full' },
-    { id: 2, name: 'participation_request.cancelation_reason.dont_give_this_course_anymore' },
-    { id: 3, name: 'participation_request.cancelation_reason.dont_take_new_students' },
-    { id: 4, name: 'participation_request.cancelation_reason.request_already_treated' },
-    { id: 5, name: 'participation_request.cancelation_reason.fake_request' },
-    { id: 6, name: 'participation_request.cancelation_reason.do_not_trust' },
-    { id: 7, name: 'participation_request.cancelation_reason.other' }
+    { id: 1 , type: 'structure', name: 'participation_request.cancelation_reason.structures.course_is_full' },
+    { id: 2 , type: 'structure', name: 'participation_request.cancelation_reason.structures.dont_give_this_course_anymore' },
+    { id: 3 , type: 'structure', name: 'participation_request.cancelation_reason.structures.dont_take_new_students' },
+    { id: 4 , type: 'structure', name: 'participation_request.cancelation_reason.structures.request_already_treated' },
+    { id: 5 , type: 'structure', name: 'participation_request.cancelation_reason.structures.fake_request' },
+    { id: 6 , type: 'structure', name: 'participation_request.cancelation_reason.structures.do_not_trust' },
+    { id: 7 , type: 'structure', name: 'participation_request.cancelation_reason.structures.other' },
+    { id: 8 , type: 'user'     , name: 'participation_request.cancelation_reason.users.impediment' },
+    { id: 9 , type: 'user'     , name: 'participation_request.cancelation_reason.users.already_requested' },
+    { id: 10, type: 'user'     , name: 'participation_request.cancelation_reason.users.found_better' },
+    { id: 11, type: 'user'     , name: 'participation_request.cancelation_reason.users.not_interested_anymore' },
+    { id: 12, type: 'user'     , name: 'participation_request.cancelation_reason.users.sick' },
+    { id: 13, type: 'user'     , name: 'participation_request.cancelation_reason.users.do_not_trust' },
+    { id: 14, type: 'user'     , name: 'participation_request.cancelation_reason.users.other' }
+
   ]
 
 end

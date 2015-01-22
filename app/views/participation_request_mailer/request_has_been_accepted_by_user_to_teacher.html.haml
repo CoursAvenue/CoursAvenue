@@ -9,7 +9,7 @@
   %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}"
   - if @place
     au #{@place.address} (#{@place.name}).
-  En cas d'annulation, de changement d'horaire ou si vous souhaitez tout simplement lui envoyer une information supplémentaire, envoyez-lui un message depuis votre onglet "Suvi des inscriptions" :
+  En cas d'annulation, de changement d'horaire ou si vous souhaitez tout simplement lui envoyer une information supplémentaire, envoyez-lui un message depuis votre onglet "Mes inscriptions" :
 
 .p.action
   = link_to "Visualiser mes inscriptions", pro_structure_participation_requests_path(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
