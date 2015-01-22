@@ -96,11 +96,13 @@ class StructuresController < ApplicationController
   end
 
   # GET /etablissements/:id/portes-ouvertes-cours-loisirs
+  # :nocov:
   def jpo
     respond_to do |format|
       format.html { redirect_to structure_path(@structure), status: 301 }
     end
   end
+  # :nocov:
 
   # Used for search on typeahead dropdown
   # GET /etablissements/search.json

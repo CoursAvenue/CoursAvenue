@@ -6,8 +6,8 @@
 # TODO: Store app_name (coursavenue, coursavenue-staging) in env.
 # TODO: Store staging deploy term ([deploy]) in env.
 
-REPOSITORY="http://github.com/coursavenue/coursavenue"
 APP_NAME=$1
+REPOSITORY="http://github.com/coursavenue/coursavenue"
 
 # Fetch the last commits on the remote.
 git remote add heroku git@heroku.com:$APP_NAME.git

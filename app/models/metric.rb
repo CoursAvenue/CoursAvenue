@@ -31,6 +31,7 @@ class Metric
   # Creation and migration methods                                     #
   ######################################################################
 
+  # :nocov:
   # Migrate the statistics from a structure to if it hasn't already been done.
   # @param structure The structure to migrate
   #
@@ -55,6 +56,7 @@ class Metric
                    ip_address:       statistic.ip_address,
                    created_at:       statistic.created_at)
   end
+  # :nocov:
 
   # Creates a statistic when a structure appears in the results of a search
   # @param structure_id Integer Structure id that appeared in the search OR an array of ids

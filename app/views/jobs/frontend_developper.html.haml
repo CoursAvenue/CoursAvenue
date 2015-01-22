@@ -1,0 +1,173 @@
+- @is_responsive = true
+- bg = asset_path("jobs/bgs/#{(1..5).to_a.sample}.jpg")
+
+.relative.soft-black-text-shadow.bg-cover.flexbox.bg-position.white.full-screen-item.bg-position-top{ style: "background-image: url(#{bg})", data: { behavior: 'parallax' } }
+  .flexbox__item.v-middle.text--center.relative.on-top
+    = render partial: 'jobs/top_logo'
+    %h1.f-size-really-big.flush DÉVELOPPEUR FRONT-END
+    %a.not-outlined.f-size-big.white{ href: '#content', data: { behavior: 'scroll-to' } }
+      %i.fa.fa-chevron-down
+
+.main-container.soft--sides#content
+  .grid
+    .grid__item.five-eighths.soft--right.palm-one-whole>
+      .soft--right
+        %h2.island-top.bordered--bottom.soft--bottom.f-weight-300.alpha La startup
+        %p.delta.palm-epsilon.line-height-1-7
+          Fondée fin 2012, CoursAvenue a pour objectif de révolutionner le marché des cours de loisirs et de relier chacun de nous aux meilleurs professeurs, associations et écoles qui nous entourent. En très peu de temps, CoursAvenue est devenue le leader de la recherche et des inscriptions en ligne des cours de loisirs (danse, théâtre, musique, yoga, etc.).
+        %p.delta.palm-epsilon.line-height-1-7.flush
+          Les 4 piliers fondateurs de CoursAvenue :
+        %ul.delta.palm-epsilon.line-height-1-7
+          %li
+            %strong Passion :
+            s’engager au quotidien tout en prenant du plaisir
+          %li
+            %strong Innovation :
+            se réinventer chaque jour pour servir nos ambitions
+          %li
+            %strong Wahoo :
+            créer une surprise incroyable à chaque utilisation de nos services
+          %li
+            %strong Honnêteté :
+            savoir se remettre en question pour mieux avancer
+
+        %p.delta.palm-epsilon.line-height-1-7
+          Nous recherchons des personnes ambitieuses dotées d’une forte motivation souhaitant participer pleinement à la croissance rapide d’une startup.
+
+        %p.delta.palm-epsilon.line-height-1-7
+          Notre application Web est développée avec Ruby On Rails côté back-end. Côté front-end nous utilisons
+          = link_to 'Backbone.js', 'http://backbonejs.org/', target: :_blank, class: 'semi-muted-link'
+          et
+          = link_to 'Marionette.js', 'http://marionettejs.com/', target: :_blank, class: 'semi-muted-link'
+          pour le JavaScript ainsi que
+          = link_to 'le framework orienté objet Inuit.css ', 'https://github.com/csswizardry/inuit.css/', target: :_blank, class: 'semi-muted-link f-weight-bold'
+          pour le CSS. Nous sommes hébergés sur Heroku et nous pratiquons le déploiement continu à l’aide de
+          = link_to 'CircleCI.', 'https://circleci.com/', target: :_blank, class: 'semi-muted-link'
+          Nous sommes des
+          %strong jeunes passionnés
+          et utilisons les technos les plus adaptées à nos besoins, et
+          %strong la veille
+          fait partie de notre quotidien.
+
+        %h2.island-top.bordered--bottom.soft--bottom.f-weight-300.alpha Le poste
+        %p.delta.palm-epsilon.line-height-1-7
+          Nous cherchons à développer une réelle
+          %strong culture d’entreprise avec un vrai esprit d’équipe.
+          Étant donné que vous serez le premier employé à rejoindre le cofondateur / CTO à Paris vous participerez activement à la création de cette culture et toutes initiatives seront les bienvenues. L’équipe parisienne s’agrandira au long de l’année et nous pratiquerons l’amélioration continue afin de faire évoluer nos méthodes de travail. Nous voulons être le plus efficace possible tout en travaillant dans de bonnes conditions,
+          %strong une bonne ambiance et en respectant nos valeurs.
+
+        %h2.island-top.bordered--bottom.soft--bottom.f-weight-300.alpha Les missions
+
+        %p.delta.palm-epsilon.line-height-1-7
+          Être dans une petite équipe en croissance implique de pouvoir être multi-casquettes et de ne pas avoir peur de sortir de sa zone de confort. Les choses évoluent rapidement et les challenges ne sont jamais les mêmes ! Concrètement il faudra batailler sur plusieurs plans :
+        %ul.delta.palm-epsilon.line-height-1-7
+          %li L’amélioration de l’espace dédié à nos partenaires avec la mise en place de nouvelles fonctionnalités.
+          %li Rendre le site complètement responsif pour mobile et tablette (complète restructuration de certaines pages).
+          %li
+            L’amélioration de la partie grand public du site web CoursAvenue qui doit être
+            %strong impeccable à tous les niveaux
+            (design, ergonomie, rapidité, clarté, etc.).
+          %li La mise en place d’outils pour notre équipe marketing et communication interne ainsi que la collaboration avec notre agence SEO.
+          %li Participer à l'amélioration des méthodes de travail et à la création de la culture d'entreprise.
+
+    .grid__item.three-eighths.palm-one-whole.soft--left>
+      %h2.island-top.bordered--bottom.soft--bottom.f-weight-300.alpha Le profil recherché
+      %p.delta.palm-epsilon.line-height-1-7
+        Nous recherchons un passionné(e) par le développement d’application Web qui a déjà utilisé un framework JavaScript comme Backbone.js, Ember ou AngularJS.
+      %h3.island-top.bordered--bottom.soft--bottom.f-weight-300
+        %i.fa.fa-pencil-o
+        Qualifications et expériences
+      .text--center
+        = image_tag 'jobs/logos/html5.png', height: 80, class: 'push--ends push--right grayscale cursor-help', data: { behavior: 'popover', content: "Le HTML n'a aucune faille pour toi !", placement: 'top', src2x: asset_path('jobs/logos/html5@2x.png') }
+        = image_tag 'jobs/logos/css3.png', height: 80, class: 'push--ends push--right grayscale cursor-help', data: { behavior: 'popover', content: "Si vous connaissez l'OOCSS c'est encore mieux !", placement: 'top', src2x: asset_path('jobs/logos/css3@2x.png') }
+        = image_tag 'jobs/logos/js.png', height: 80, class: 'push--ends push--right grayscale cursor-help', data: { behavior: 'popover', content: 'Et toutes ses petites fourberies !', placement: 'top', src2x: asset_path('jobs/logos/js@2x.png') }
+        = image_tag 'jobs/logos/rails.png', height: 80, class: 'push--ends push--right grayscale cursor-help', data: { behavior: 'popover', content: 'RubyOnRails ou un autre framework web équivalent.', placement: 'top', src2x: asset_path('jobs/logos/rails@2x.png') }
+        = image_tag 'jobs/logos/git.png', height: 80, class: 'push--ends push--right grayscale cursor-help', data: { behavior: 'popover', content: 'GIT', placement: 'top', src2x: asset_path('jobs/logos/git@2x.png') }
+        = image_tag 'jobs/logos/responsive.png', height: 80, class: 'push--ends push--right grayscale cursor-help', data: { behavior: 'popover', content: 'Responsive Web Design', placement: 'top', src2x: asset_path('jobs/logos/responsive@2x.png') }
+        = image_tag 'jobs/logos/backbone.png', height: 80, class: 'push--ends push--right grayscale cursor-help', data: { behavior: 'popover', content: 'Backbone.js', placement: 'top', src2x: asset_path('jobs/logos/backbone@2x.png') }
+
+      %h3.island-top.bordered--bottom.soft--bottom.f-weight-300
+        %i.fa.fa-heart-o
+        Ce qu’on appréciera
+      %ul.delta.palm-epsilon.line-height-1-7.no-bullet-list
+        %li
+          Ta
+          %strong créativité
+          et tes propositions de design.
+        %li
+          Ta passion pour
+          %strong l’ergonomie et l’expérience utilisateur.
+        %li
+          Ta curiosité envers les nouvelles technos.
+        %li
+          Ton amour pour le CSS.
+        %li
+          Ta sensibilité aux
+          %strong détails.
+        %li
+          Ton envie de faire évoluer les choses.
+        %li
+          Ton obsession pour la rapidité du chargement des pages.
+        %li
+          Ton intérêt pour la
+          %strong qualité.
+
+      %h2.island-top.bordered--bottom.soft--bottom.f-weight-300.alpha Infos pratiques
+      %ul.delta.palm-epsilon.line-height-1-7.no-bullet-list
+        %li
+          %strong Ta machine de travail :
+          = link_to 'vous la choisirez en nous rejoignant !', 'http://store.apple.com/fr', target: :_blank
+        %li
+          %strong Les bureaux :
+          pour le moment nous avons
+          = link_to 'la vue sur la Seine', 'http://instagram.com/p/swtuGmHr3D/', target: :_blank
+          et
+          = link_to 'la Tour Eiffel,', 'http://instagram.com/p/gqT2Lvnr5b/', target: :_blank
+          mais cela va changer d’ici peu.
+        %li
+          %strong Contrat :
+          CDI
+        %li
+          %strong Lieu :
+          = link_to '193 rue de Bercy / Gare de Lyon, Paris ', 'http://maps.google.com/?q=193%20rue%20de%20Bercy,%20Paris ', target: :_blank
+      = render partial: 'jobs/side_map'
+
+  .text--center.island
+    = link_to 'mailto:nima@coursavenue.com?subject=Candidature%20développeur%20front-end%202015&body=À%20toi%20de%20jouer !', class: 'btn btn--large btn--green' do
+      %i.fa.fa-paper-plane
+      Rejoindre l'aventure !
+
+
+- content_for :scripts do
+  :javascript
+    console.log(' ');
+    console.log(' ');
+    console.log(' ');
+    console.log(' ');
+    console.log('        ,gggg,                                                 ');
+    console.log('     ,88"""Y8b,                                                ');
+    console.log('    d8"     `Y8                                                ');
+    console.log('   d8\'   8b  d8                                               ');
+    console.log('  ,8I    "Y88P\'                                               ');
+    console.log('  I8\'            ,ggggg,   gg      gg   ,gggggg,    ,g,       ');
+    console.log('  d8            dP"  "Y8gggI8      8I   dP""""8I   ,8\'8,      ');
+    console.log('  Y8,          i8\'    ,8I  I8,    ,8I  ,8\'    8I  ,8\'  Yb   ');
+    console.log('  `Yba,,_____,,d8,   ,d8\' ,d8b,  ,d8b,,dP     Y8,,8\'_   8)Y  ');
+    console.log('    `"Y8888888P"Y8888P"   8P\'"Y88P"`Y88P      `Y8P\' "YY8P8P  ');
+    console.log('                        ,ggg,                                                                ');
+    console.log('                      dP""8I                                                                 ');
+    console.log('                     dP   88                                                                 ');
+    console.log('                     dP    88                                                                ');
+    console.log('                    ,8\'    88                                                               ');
+    console.log('                    d88888888      ggg    gg   ,ggg,    ,ggg,,ggg,   gg      gg   ,ggg,      ');
+    console.log('                   ,8"     88     d8"Yb   88bgi8" "8i  ,8" "8P" "8,  I8      8I  i8" "8i     ');
+    console.log('               dP"  ,8P      Y8    dP  I8   8I  I8, ,8I  I8   8I   8I  I8,    ,8I  I8, ,8I   ');
+    console.log('              Yb,_,dP       `8b,,dP   I8, ,8I  `YbadP\' ,dP   8I   Yb,,d8b,  ,d8b, `YbadP\'  ');
+    console.log('               "Y8P"         `Y88"     "Y8P"  888P"Y8888P\'   8I   `Y88P\'"Y88P"`Y8888P"Y888 ');
+    console.log(' ');
+    console.log(' ');
+    console.log("Nous chez CoursAvenue, on aime : Apple, Airbnb, la photo, la cuisine, les podcasts, le design, le soleil, le café, les plats à 2€ de chez Picard (on aime quand même la bonne bouffe, hein !), Interstellar, House of Cards, Breaking Bad, Spotify (ça tourne en boucle au bureau !), les gens sympa, et toi, qu'est-ce que tu aimes ?");
+    console.log(' ');
+    console.log(' ');
+    console.log(' ');
+    console.log(' ');

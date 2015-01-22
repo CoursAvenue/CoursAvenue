@@ -3,4 +3,4 @@ fr:
     url:
       errors:
         messages:
-          invalid: Le lien est incorrect
+          invalid: n'est pas valide

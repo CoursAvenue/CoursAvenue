@@ -6,7 +6,7 @@ FactoryGirl.define do
     type        'Comment::Review'
     user
     rating      4
-    title       Faker::Lorem.sentence(4)
+    title       { Faker::Lorem.sentence(4) }
 
 
     after(:build) do |comment|
@@ -14,16 +14,20 @@ FactoryGirl.define do
     end
 
     # Comment contact
-    author_name     { Faker::Name.name }
-    email           { Faker::Internet.email }
+    author_name { Faker::Name.name }
+    email       { Faker::Internet.email }
 
     # Comment content
-    course_name       Faker::Lorem.sentence(4)
-    content           Faker::Lorem.sentence(40)
+    course_name { Faker::Lorem.sentence(4) }
+    content     { Faker::Lorem.sentence(40) }
     # rating          [1,2,3,4,5].sample
 
     factory :accepted_comment do
       status 'accepted'
+    end
+
+    factory :pending_comment do
+      status 'pending'
     end
   end
 end

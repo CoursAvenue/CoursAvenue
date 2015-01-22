@@ -128,10 +128,11 @@
       - if @structure.main_contact
         = pro_side_menu_link 'account'        , edit_pro_structure_admin_url(@structure, @structure.main_contact)     , current: current_tab,
         icon: 'fa fa-cogs'
-      = pro_side_menu_link 'premium',
-                           pro_structure_subscription_plans_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
-                           current: current_tab,
-                           icon: 'fa fa-star'
+      - if @structure.premium?
+        = pro_side_menu_link 'premium',
+                             pro_structure_subscription_plans_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
+                             current: current_tab,
+                             icon: 'fa fa-star'
 
     - if @structure and to_complete_step_nb > 0
       %li.side-menu__footer.fixed.south.soft.epsilon.text--center.gray-light.gray-box

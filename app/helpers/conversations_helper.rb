@@ -40,7 +40,7 @@ module ConversationsHelper
 
   def conversation_label_name(conversation)
     label = Mailboxer::Label.find(conversation.mailboxer_label_id)
-    I18n.t(label.name).pluralize(2)
+    I18n.t(label.name)
   end
 
   # Tells wether or not the admin has responded to the message

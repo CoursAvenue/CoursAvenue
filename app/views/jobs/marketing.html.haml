@@ -1,0 +1,91 @@
+- @is_responsive = true
+- bg = params[:bg] || "https://unsplash.imgix.net/45/QDSMoAMTYaZoXpcwBjsL__DSC0104-1.jpg?q=75&fm=jpg&s=a23211f4c321462b631e8bc8978ca4af"
+.soft-black-text-shadow.relative.bg-cover.flexbox.bg-position.white.full-screen-item.bg-position-top{ style: "background-image: url(#{bg})", data: { behavior: 'parallax' } }
+  .flexbox__item.v-middle.text--center.relative.on-top
+    = render partial: 'jobs/top_logo'
+    %h1.f-size-really-big.flush RESPONSABLE MARKETING
+    %a.not-outlined.f-size-big.white.white{ href: '#content', data: { behavior: 'scroll-to' } }
+      %i.fa.fa-chevron-down
+
+.main-container.soft--sides#content
+  .inline-block
+    %p.gamma.palm-delta.line-height-1-7.island-top
+      Le responsable marketing sera le communiquant de CoursAvenue : à elle ou à lui de suivre les relations presse, d'animer notre communication sur les réseaux sociaux, de piloter nos actions SEM, d'organiser nos évènements, et d'imaginer des partenariats. Passionné(e) par le marketing, la communication et le web, débordant(e) d'énergie : vous serez notre star !
+
+  .grid
+    .grid__item.five-eighths.soft--right.palm-one-whole>
+      .soft--right
+        %h2.island-top.bordered--bottom.soft--bottom.f-weight-300.alpha Qui sommes-nous ?
+
+        %p.delta.palm-epsilon.line-height-1-7
+          Fondée fin 2012, CoursAvenue a pour objectif de révolutionner le marché des cours de loisirs et de relier chacun de nous aux meilleurs professeurs, associations et écoles qui nous entourent. En moins d’un an, CoursAvenue est devenue le leader de la recherche et des inscriptions en ligne des cours de loisirs (danse, théâtre, musique, yoga, etc.).
+        %p.delta.palm-epsilon.line-height-1-7.flush
+          Les 4 piliers fondateurs de CoursAvenue :
+        %ul.delta.palm-epsilon.line-height-1-7
+          %li
+            %strong Passion :
+            s’engager au quotidien tout en prenant du plaisir
+          %li
+            %strong Innovation :
+            se réinventer chaque jour pour servir nos ambitions
+          %li
+            %strong Wahoo :
+            créer une surprise incroyable à chaque utilisation de nos services
+          %li
+            %strong Honnêteté :
+            savoir se remettre en question pour mieux avancer
+
+        %p.delta.palm-epsilon.line-height-1-7
+          Nous recherchons des entrepreneurs ambitieux dotés d’une motivation sans faille souhaitant participer pleinement à la croissance rapide d’une startup.
+
+        %h2.island-top.bordered--bottom.soft--bottom.f-weight-300.alpha Vos missions
+        %p.delta.palm-epsilon.line-height-1-7.flush
+          Un seul objectif : la croissance de notre communauté d’élèves et de professeurs. Aux côtés du CEO, plusieurs missions sont à couvrir :
+        %ul.delta.palm-epsilon.line-height-1-7.flush
+          %li
+            Définir & mettre en place la stratégie marketing digitale, en particulier :
+            %ul.delta.palm-epsilon.line-height-1-7
+              %li SEO : amélioration de notre référencement naturel
+              %li SEM : gestion intégrale de nos campagnes (search, display, etc.)
+              %li RESEAUX SOCIAUX : des solutions innovantes pour mieux de faire connaître
+              %li RP : tous les médias parleront de nous
+              %li SMO : animation de notre communauté d’utilisateurs
+              %li PARTENARIATS : avec de grandes marques, à forte notoriété, et à la cible commune
+              %li EVENEMENTS : organisation et participation à des évènements spécialisés
+              %li CONTENU : amélioration de la qualité de nos contenus éditoriaux
+              %li REPORTING : analyse quotidienne de nos indicateurs de performance (webanalytics / datamining)
+          %li Etre force de propositions et trouver tous les leviers pour accroître le trafic, notamment par le biais d’opérations marketing offline ;
+          %li Suivre et piloter prestataires et stagiaires ;
+          %li Recruter dans un second temps votre équipe pour accélérer l’aventure CoursAvenue en France et à l’étranger.
+
+    .grid__item.three-eighths.palm-one-whole.soft--left>
+      %h2.island-top.bordered--bottom.soft--bottom.f-weight-300.alpha Profil recherché
+      %ul.delta.palm-epsilon.line-height-1-7
+        %li 2 à 5 d’expérience en webmarketing préalable (brand content, positionnement, stratégie multicanale, webmarketing) ;
+        %li Une vision digitale globale, aussi bien sur le marketing que l’opérationnel ;
+        %li Des connaissances dans le secteur des loisirs sont de vrais atouts ;
+        %li Vous êtes responsable, autonome, et vous prenez vos responsabilités à cœur ;
+        %li Vous êtes talentueux(se), très organisé(e) et rigoureux(se) dans votre travail.
+
+      %h2.island-top.bordered--bottom.soft--bottom.f-weight-300.alpha Infos pratiques
+      %ul.delta.palm-epsilon.line-height-1-7
+        %li
+          %strong Poste :
+          Responsable marketing ;
+        %li
+          %strong Contrat :
+          CDD ou CDI à temps plein selon le profil ;
+        %li
+          %strong Salaire :
+          Fixe en fonction du profil ;
+        %li
+          %strong Date de début :
+          dès que possible ;
+        %li
+          %strong Localisation :
+          Toulouse centre.
+      = render partial: 'jobs/side_map'
+  .text--center.island
+    = link_to 'mailto:nicolas@coursavenue.com?subject=Candidature%20responsable%20marketing%202015&body=À%20vous%20de%20jouer !', class: 'btn btn--large btn--green' do
+      %i.fa.fa-paper-plane
+      Postuler

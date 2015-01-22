@@ -7,7 +7,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
 
         childView: Module.SubjectChildrenView,
         childViewContainer: '[data-type="subject-children-view"]',
-        breadcrumb_template: Handlebars.compile('<li><a data-depth="{{depth}}" data-root-subject-slug="{{root_subject_slug}}" data-type="breadcrumb" class="pointer" data-value="{{slug}}">{{name}}</a></li>'),
+        breadcrumb_template: Handlebars.compile('<li><a data-depth="{{depth}}" data-root-subject-slug="{{root_subject_slug}}" data-type="breadcrumb" class="cursor-pointer" data-value="{{slug}}">{{name}}</a></li>'),
 
         initialize: function initialize () {
             this.menu_item = new this.childView({ model: this.collection.first() });

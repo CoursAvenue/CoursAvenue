@@ -7,8 +7,4 @@ class Audience < ActiveHash::Base
     { id: 3, short_name: 'Senior' , name: 'audience.senior', order: 3 }
   ]
   enum_accessor :short_name
-
-  def kid?
-    return self.short_name == 'Kid'
-  end
 end
