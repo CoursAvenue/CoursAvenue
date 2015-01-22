@@ -27,11 +27,8 @@ The old readme is available [here](doc/README.md).
   - [Installing `postgres` and creating a Role](#installing-postgres-and-creating-a-role)
   - [Recovering a dump](#recovering-a-dump)
   - [Making a dump](#making-a-dump)
-<<<<<<< HEAD
   - [SMS with Nexmo](#sms-nexmo)
-=======
   - [Icon webfont](#webfont)
->>>>>>> staging
 
 ## Local environment
 
