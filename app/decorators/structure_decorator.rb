@@ -151,14 +151,6 @@ class StructureDecorator < Draper::Decorator
   #   XX XX XX XX 23
   #   <br>
   #   XXXXXXXXX@gmail.com
-  def phone_number_and_email(crypted=false)
-    string = ""
-    string << phone_numbers(crypted) if object.phone_numbers.any?
-    string << "<br>" if object.phone_numbers.any? and object.email
-    string << email(crypted) if object.email
-    string.html_safe
-  end
-
   # Structure's phone numbers
   def phone_numbers(crypted=false)
     phone_number_html = ''
@@ -181,16 +173,6 @@ class StructureDecorator < Draper::Decorator
   #   end
   #   string.html_safe
   # end
-
-
-  # Structure's admin e-mail
-  def email(crypted=false)
-    if crypted
-      object.email.gsub(/.*@/, 'XXXXXXXXX@') if object.email
-    else
-      object.email if object.email
-    end
-  end
 
   # Link of strucutre's website
   def website_link(crypted=false)

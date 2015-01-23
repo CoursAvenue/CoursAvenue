@@ -36,12 +36,12 @@
     %br
   %td.v-middle
     .flexbox
-      .flexbox__item.v-middle.soft-half--right
+      .flexbox__item.v-middle.soft-half--right{ style: 'width: 50px; '}
         = image_tag structure.logo.url(:small_thumb), height: 50, width: 50, class: 'rounded--circle', data: { src2x: structure.logo.url(:thumb) }
       .flexbox__item.v-middle
         = link_to structure.name, structure_path(structure), target: :_blank, class: 'f-weight-bold'
         - if participation_request.accepted?
-          %div= structure_decorator.phone_number_and_email
+          %div= structure_decorator.phone_numbers
           %div= structure_decorator.website_link
           %div
             = link_to user_conversation_path(participation_request.user, participation_request.conversation) do

@@ -24,7 +24,7 @@
           = link_to structure_path(@structure), target: :_blank do
             %span.orange (Voir le profil)
         - if @participation_request.accepted?
-          %div.line-height-1-7= structure_decorator.phone_number_and_email(!@participation_request.accepted?)
+          %div.line-height-1-7= structure_decorator.phone_numbers(!@participation_request.accepted?)
           %div= structure_decorator.website_link
     - if !@participation_request.pending?
       = render partial: 'users/conversations/form', locals: { conversation: @participation_request.conversation }
