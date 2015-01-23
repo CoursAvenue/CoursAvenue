@@ -14,7 +14,6 @@ StructureProfile.addInitializer(function(options) {
         google_maps_view, sticky_google_maps_view, places_collection, comments_collection_view;
 
     places_collection          = structure.get('places');
-    message_form_view          = new StructureProfile.Views.Messages.MessageFormView( { structure: structure } );
     participation_request_view = new StructureProfile.Views.ParticipationRequests.RequestFormView( { structure: structure } );
 
     google_maps_view           = new StructureProfile.Views.Map.GoogleMapsView({

@@ -72,14 +72,14 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             this.model.set('planning_id', planning_data.id);
             this.selectCourse();
             this.populatePlannings();
-            var message_form_view = new Module.RequestFormView( { structure: this.structure, model: this.model.toJSON().participation_request } ).render();
+            var request_form_view = new Module.RequestFormView( { structure: this.structure, model: this.model.toJSON().participation_request } ).render();
             $.magnificPopup.open({
                   items: {
-                      src: $(message_form_view.$el),
+                      src: $(request_form_view.$el),
                       type: 'inline'
                   }
             });
-            message_form_view.$el.css('max-width', '400px');
+            request_form_view.$el.css('max-width', '400px');
         },
 
         onRender: function onRender () {
@@ -273,7 +273,8 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             structure_json.trainings = this.structure.get('trainings').toJSON();
             if (CoursAvenue.currentUser().get('last_messages_sent')) {
                 _.extend(data, {
-                    last_message_sent_at: CoursAvenue.currentUser().get('last_messages_sent')[structure_json.id]
+                    last_message_sent_at: CoursAvenue.currentUser().get('last_messages_sent')[structure_json.id],
+                    user_participation_requests_path: Routes.user_participation_requests_path({ id: CoursAvenue.currentUser().get('slug') })
                 });
             }
             _.extend(data, {

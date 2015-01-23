@@ -11,6 +11,7 @@ class CourseDecorator < Draper::Decorator
   #    Stage : 67€
   def first_session_detail(with_popover=false)
     return "Essai gratuit" if is_open_for_trial?
+    return "Séance d'essai" if price_group.nil?
     detail_html = ''
     if with_popover
       detail_html << "<span class='has-tooltip'"

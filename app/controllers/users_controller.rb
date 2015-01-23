@@ -150,6 +150,7 @@ class UsersController < InheritedResources::Base
     end
     update! do |format|
       format.html { redirect_to (params[:return_to] || edit_user_path(@user)), notice: 'Votre profil a bien été mis à jour.' }
+      format.js   { render nothing: true }
     end
   end
 

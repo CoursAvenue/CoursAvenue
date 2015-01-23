@@ -3,12 +3,11 @@
     %h4.flush
       Accepter la demande d'inscription
   .panel__body.soft
-    = render partial: 'pro/structures/participation_requests/share_information'
 
     = simple_form_for [@user, @participation_request], url: accept_user_participation_request_path(@user, @participation_request) do |f|
       = f.error_notification
       = f.fields_for :message, @message, class: 'message__body message__appendix' do |message_form|
-        = message_form.input :body, input_html: { placeholder: "Ajouter un message facultatif pour l'élève...", style: 'height: 100px', class: 'input--large one-whole', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
+        = message_form.input :body, input_html: { placeholder: "Ajouter un message facultatif pour le professeur...", style: 'height: 100px', class: 'input--large one-whole', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
 
       = render partial: 'pro/structures/participation_requests/dont_contact_information'
 

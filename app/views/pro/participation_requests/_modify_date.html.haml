@@ -21,6 +21,7 @@
             Vous devrez ensuite accepter ou refuser cette réservation le plus tôt possible pour éviter les pénalités.
         = f.fields_for :message, @message, class: 'message__body message__appendix' do |message_form|
           = message_form.input :body, input_html: { placeholder: "Ajoutez un message facultatif...", style: 'height: 100px', class: 'input--large one-whole', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
+        = render partial: 'pro/structures/participation_requests/dont_contact_information'
 
       - else
         .input.flush
@@ -35,18 +36,18 @@
                   %span#address-name= readable_private_course_location(@participation_request.course)
                 - else
                   %span#address-name{ data: { toggle: 'popover', html: 'true', content: '', trigger: 'hover' } }
-        .input.flush
+        .input.flush--top
           %label.control-label.label--large.v-middle.nowrap Date :
           = f.input :date, as: :string, label: false, input_html: { value: l(@participation_request.date), class: 'text--center input--large datepicker-input', data: { behavior: 'datepicker', start_date: l(Date.today) } }, wrapper_html: { class: 'datepicker-input flush hard v-middle' }
 
-      %hr.push--ends
-      = render partial: 'pro/structures/participation_requests/share_information'
+      - if on_pro_subdomain?
+        %hr.push--ends
+        = render partial: 'pro/structures/participation_requests/share_information'
 
       - if !discuss_only
         = f.fields_for :message, @message, class: 'message__body message__appendix' do |message_form|
           = message_form.input :body, input_html: { placeholder: "Ajoutez un message facultatif...", style: 'height: 100px', class: 'input--large one-whole', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
-
-      = render partial: 'pro/structures/participation_requests/dont_contact_information'
+        = render partial: 'pro/structures/participation_requests/dont_contact_information'
 
       .grid
         .grid__item.two-tenths>

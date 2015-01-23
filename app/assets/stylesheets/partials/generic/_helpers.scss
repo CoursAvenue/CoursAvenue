@@ -85,7 +85,7 @@
 .bg-orange          { background-color: $orange; }
 .bg-red             { background-color: $red; }
 .bg-white           { background-color: white; }
-.bg-gray-light      { background-color: $gray-light; }
+.bg-gray-light      { background-color: $gray-lighter; }
 .bg-white-faded     { background-color: white; background-color: rgba(255, 255, 255, 0.65) }
 .bg-site-background { background-color: $site-background-color; }
 .bg-black-faded     { background-color: black; background-color: rgba(0, 0, 0, 0.65) }
@@ -345,4 +345,7 @@
     &:hover {
         @include prefix(filter, grayscale(0));
     }
+}
+#filepicker_dialog_container {
+  z-index: 99999999 !important
 }

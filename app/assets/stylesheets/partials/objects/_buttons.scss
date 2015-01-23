@@ -1,9 +1,6 @@
 /*------------------------------------*\
     $Buttons
 \*------------------------------------*/
-input.btn {
-    font-weight: 600;
-}
 .btn a:hover{
     text-decoration:none;
 }
@@ -46,7 +43,7 @@ input.btn {
     color           : #555555;
     @include text-shadow(0 1px 0 white);
     &[type=submit] {
-        font-weight: 400;
+        font-weight: 600;
     }
     &:active {
         cursor: default;

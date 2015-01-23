@@ -7,7 +7,11 @@
 
 .p
   Malheureusement, #{@structure.name} vient de refuser votre demande d'inscription au cours d'essai "#{@course.name}" du
-  %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}."
+  - if @participation_request.cancelation_reason and !@participation_request.cancelation_reason.hidden?
+    %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}"
+    = "(motif : #{t(@participation_request.cancelation_reason.name).downcase})."
+  - else
+    %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}."
   Si vous souhaitez lui demander de venir à un autre cours, envoyez-lui un message depuis votre boîte de réception :
 
 .p.action

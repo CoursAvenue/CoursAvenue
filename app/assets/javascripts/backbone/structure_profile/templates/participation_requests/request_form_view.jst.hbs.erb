@@ -27,7 +27,15 @@
 </div>
 <div class="panel__body soft">
   {{#if last_message_sent_at}}
-      <div class="green"><i class="fa fa-check"></i> <strong>Dernier message envoyé le {{last_message_sent_at}}</strong></div>
+      <div class="text--center">
+        <div class="green">
+          <i class="fa fa-check"></i>
+          <strong>Dernière demande envoyée le {{last_message_sent_at}}</strong>
+        </div>
+        <div>
+          <a href="{{user_participation_requests_path}}" class="f-weight-500">Voir mes inscriptions</a>
+        </div>
+      </div>
       <hr class="push--ends">
   {{/if}}
     <article class="tab-pane active hard">

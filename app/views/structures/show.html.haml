@@ -118,6 +118,11 @@
           $.cookie('user_contact_message', body_message);
       });
 
+= content_for :scripts do
+  -# This is used when a user make a reservation.
+  -# The confirmation popup will ask to update logo if the user does not have one already.
+  = filepicker_js_include_tag
+
 - if Rails.env.production?
   = content_for :scripts do
     :javascript

@@ -26,6 +26,7 @@ class ParticipationRequest < ActiveRecord::Base
   before_create :set_default_attributes
   after_create  :send_email_to_teacher
   after_create  :send_sms_to_teacher
+  after_destroy :destroy_conversation_attached
 
   ######################################################################
   # Validation                                                         #
@@ -38,7 +39,8 @@ class ParticipationRequest < ActiveRecord::Base
   ######################################################################
   scope :accepted, -> { where( state: 'accepted') }
   scope :pending,  -> { where( state: 'pending') }
-  scope :upcoming, -> { where( arel_table[:date].gteq(Date.today)) }
+  scope :upcoming, -> { where( arel_table[:date].gteq(Date.today))
+                              .order("state='pending' DESC,state='canceled' ASC, updated_at DESC, date ASC") }
   scope :past,     -> { where( arel_table[:date].lt(Date.today)) }
   scope :canceled, -> { where( arel_table[:state].eq('canceled')) }
   scope :tomorrow, -> { where( state: 'accepted', date: Date.tomorrow ) }
@@ -250,8 +252,7 @@ class ParticipationRequest < ActiveRecord::Base
     end
   end
 
-  # def new_params_is_modifying_pr(new_params)
-  #   # If there is any key in the params that modify the PR
-  #   (PARAMS_THAT_MODIFY_PR & new_params.keys).any?
-  # end
+  def destroy_conversation_attached
+    self.conversation.destroy
+  end
 end

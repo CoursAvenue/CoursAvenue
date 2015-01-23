@@ -8,7 +8,7 @@ gem 'rails', '4.1.8'
 gem 'rack-attack',  '~>3.0.0'
 gem 'rack-timeout', '~> 0.0.4'
 
-gem 'filepicker-rails'
+gem 'filepicker-rails', '~>1.3.0'
 
 gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
 

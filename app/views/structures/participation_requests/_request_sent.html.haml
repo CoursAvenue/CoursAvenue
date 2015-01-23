@@ -1,20 +1,58 @@
+- user = @participation_request.user
 .panel.center-block{ style: 'width: 500px;'}
   .panel__header.soft.text--center
-      %div
-        %i.fa.fa-check.fa-3x.green
-      %h3.flush.green Votre demande d'inscription a bien été envoyée
-      %h4
-        Gérez vos demandes d'inscriptions
-        = link_to "votre espace perso.", user_participation_requests_path(current_user)
+    %div.push-half--bottom
+      %i.fa.fa-check.fa-3x.green
+    %h3.flush.green
+      Votre demande d'inscription
+      %br
+      a bien été envoyée
+    %h5.flush
+      Gérez vos demandes d'inscriptions
+      = link_to "dans votre espace perso.", user_participation_requests_path(user)
   .panel__body.soft
-    %p.epsilon
-      Pour avoir plus de chances d'obtenir une réponse positive, complétez votre profil.
-    -# %h5 Ne vous arrêtez pas et contactez d'autres profils !
-    -# %p.epsilon
-    -#   Les élèves qui ont réservé ce cours ont également découvert :
-    -# %div{ style: 'height: 20em; overflow-y: scroll; overflow-x: hidden;'}
-    -#   - PlanningSearch.search({ limit: 12, is_open_for_trial: true }, group: :structure_id_str).group(:structure_id_str).groups.each do |planning_group|
-    -#     - structure = planning_group.results.first.try(:structure)
-    -#     - next if structure.nil? or @structure == structure or structure.medias.empty?
-    -#     .inline-block.one-half.very-soft.relative>
-    -#       = render partial: "structures/similar_profile", locals: { structure: structure, show_promotion: false }
+    = simple_form_for user, remote: true, html: { id: 'user-form' } do |f|
+      %p.epsilon.text--center
+        Pour avoir plus de chances d'obtenir une réponse positive, complétez votre profil.
+      .flexbox.push--bottom
+        - if !user.has_avatar?
+          .flexbox__item.v-top
+            = f.label :remote_avatar_url, 'Votre photo', class: 'label--large block text--left f-weight-bold'
+            = link_to '#', class: 'soft inline-block gray epsilon f-weight-500 v-middle bg-gray-light bordered', id: 'avatar-placeholder', data: { filepicker: true } do
+              .text--center
+                %i.fa.fa-avatar.fa-5x
+              .text--center Choisir une photo
+            %img.hidden{ style: 'max-height: 200px; max-width: 200px;', height: 200, width: 200, data: { fpimage: true } }
+            = f.filepicker_field :remote_avatar_url, multiple: false, services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false, class: 'visuallyhidden', button_text: 'Ajouter ma photo', button_class: 'visuallyhidden filepicker', onchange: 'onPhotoUpload(event)'
+        .flexbox__item.v-top.soft-half--left
+          = f.label :birthdate, class: 'label--large block text--left f-weight-bold'
+          = f.input :birthdate, start_year: (Date.today.year - 1), end_year: 1900, include_blank: true, input_html: { class: 'input--large' }, label: false, wrapper_html: { class: 'flush--top' }
+          = f.label :description, class: 'label--large block text--left f-weight-bold'
+          = f.input :description, input_html: { style: 'height: 100px;', class: 'input--large one-whole' }, label: false, wrapper_html: { class: 'flush' }
+      = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
+
+    .hidden#checkout-more
+      %h5 Ne vous arrêtez pas là et contactez d'autres profils !
+      %p.epsilon
+        Les élèves qui ont réservé ce cours ont également découvert :
+      %div{ style: 'height: 20em; overflow-y: scroll; overflow-x: hidden;'}
+        - PlanningSearch.search({ limit: 12, is_open_for_trial: true }, group: :structure_id_str).group(:structure_id_str).groups.each do |planning_group|
+          - structure = planning_group.results.first.try(:structure)
+          - next if structure.nil? or @structure == structure or structure.medias.empty?
+          .inline-block.one-half.very-soft.relative>
+            = render partial: "structures/similar_profile", locals: { structure: structure, show_promotion: false }
+  :javascript
+      $('#user-form').submit(function() {
+          $('#user-form').slideUp();
+          $('#checkout-more').slideDown();
+      });
+      function onPhotoUpload(event) {
+          $('#avatar-placeholder').hide();
+          $('img[data-fpimage]').attr('src', event.fpfile.url);
+          $('img[data-fpimage]').show();
+      }
+      filepicker.constructWidget($('input[type=filepicker]'));
+      $('[data-filepicker]').click(function(event) {
+          event.preventDefault();
+          $('button.filepicker').click();
+      });

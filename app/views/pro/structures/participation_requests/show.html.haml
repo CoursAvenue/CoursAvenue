@@ -17,16 +17,17 @@
   .panel__body.soft--ends
     = render partial: 'pro/structures/participation_requests/table_recap', locals: { participation_request: @participation_request }
 
-  - user_decorator = @participation_request.user.decorate
+  - user           = @participation_request.user
+  - user_decorator = user.decorate
   .panel__header.soft.bordered--top
     %h4.flush À propos de l'élève
   .panel__body.soft
     .grid--full.push--bottom.message
       .grid__item.two-twelfths.v-top.v-top>
-        - if @participation_request.user.has_avatar?
-          = image_tag @participation_request.user.avatar_url(:normal), class: 'center-block push-half--bottom rounded--circle', width: 100
+        - if user.has_avatar?
+          = image_tag user.avatar_url(:normal), class: 'center-block push-half--bottom rounded--circle', width: 100
       .grid__item.ten-twelfths.v-top>
-        %h4.line-height-1-7.flush= @participation_request.user.name
+        %h4.line-height-1-7.flush= user.name
         %div.line-height-1-7
           Profil : #{user_decorator.age_and_city}
         %div.line-height-1-7
@@ -35,6 +36,9 @@
             = user_decorator.phone_number(!@participation_request.accepted?)
             - if !@participation_request.accepted?
               %i.fa.fa-question-circle
+        - if user.description.present?
+          %div.line-height-1-7
+            = user.description
 
         %div.line-height-1-7
           Email :
@@ -57,7 +61,7 @@
             %strong.delta Expire dans
             %strong.delta{ data: { 'expires-in' => true } }
     .panel__body.soft.bordered--top
-      %p.epsilon
+      %p
         Vous risquez d'être pénalisé si vous n'acceptez pas ou ne refusez pas cette demande d'inscription avant son expiration :
       = render partial: 'actions'
 
