@@ -29,9 +29,9 @@
 
   %td.soft--ends.v-top
     - course = participation_request.course
-    = "#{l(participation_request.date, format: :semi_short)} à #{l(participation_request.start_time, format: :short)}"
+    %strong= "#{l(participation_request.date, format: :semi_long).capitalize} à #{l(participation_request.start_time, format: :short).gsub('00','')}"
     %br
-    %span.has-tooltip{ data: { toggle: 'popover', content: "<strong>Niveau :</strong> #{join_levels(participation_request.levels)}<br><strong>Public :</strong> #{join_audiences(participation_request.planning || participation_request.course)}<br><strong>Disciplines :</strong> #{course.subjects.uniq.map(&:name).join(', ')}", html: 'true', placement: 'top', trigger: 'hover' } }
+    %span.has-tooltip{ data: { toggle: 'popover', content: participation_request_decorator.popover_course_infos, html: 'true', placement: 'top', trigger: 'hover' } }
       = course.name
     - place = participation_request.place
     - if place

@@ -1,5 +1,5 @@
 - content_for :user_top_menu do
-  .darkgray-box.flexbox.print--hidden{ class: layout_locals[:top_menu_header_class], data: { behavior: 'sticky', z: 1000000 } }
+  .darkgray-box.flexbox.print--hidden{ class: layout_locals[:top_menu_header_class], data: { behavior: 'sticky', z: 100000000 } }
     .main-container.main-container--medium.user-top-menu
       = user_top_menu_link 'dashboard'     , dashboard_user_path(@user)              , current: current_tab
       = user_top_menu_link 'inscriptions'  , user_participation_requests_path(@user) , current: current_tab

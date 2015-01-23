@@ -14,7 +14,7 @@
           %th Détails
       %tbody
         - @upcoming_participation_requests.each do |participation_request|
-          = render partial: 'participation_request', locals: { participation_request: participation_request }
+          = render partial: 'pro/structures/participation_requests/participation_request', locals: { participation_request: participation_request }
     %hr
     %p.flush
       = link_to "Voir tout l'historique des inscriptions", '#', data: { behavior: 'show-long-version', 'long-version' => '#previous-subscriptions'}
@@ -29,4 +29,4 @@
           %th Détails
         %tbody
           - @past_participation_requests.each do |participation_request|
-            = render partial: 'participation_request', locals: { participation_request: participation_request, show_warning: false }
+            = render partial: 'pro/structures/participation_requests/participation_request', locals: { participation_request: participation_request, show_warning: false }

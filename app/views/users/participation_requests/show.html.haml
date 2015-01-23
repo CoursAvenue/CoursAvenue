@@ -23,10 +23,8 @@
           = @structure.name
           = link_to structure_path(@structure), target: :_blank do
             %span.orange (Voir le profil)
-        %div.line-height-1-7
-          %span.has-tooltip{ data: { toggle: (@participation_request.accepted? ? '' : 'popover'), content: t('tooltips.users.hidden_contact_infos'), html: 'true', placement: 'top', trigger: 'hover' } }
-            = structure_decorator.phone_number_and_email(!@participation_request.accepted?)
         - if @participation_request.accepted?
+          %div.line-height-1-7= structure_decorator.phone_number_and_email(!@participation_request.accepted?)
           %div= structure_decorator.website_link
     - if @participation_request.accepted?
       = render partial: 'users/conversations/form', locals: { conversation: @participation_request.conversation }

@@ -6,8 +6,8 @@ fr:
       participation_requests:
         dont_send_contact_info: "Pour garantir le confort d'utilisation du site, l'envoi de messages contenant des informations de contact de type téléphone, email ou site Internet n'est pas autorisé."
         infos_will_be_shown_once_accepted: "Pour garantir le confort d'utilisation du site, les coordonnées personnelles de l'élève seront visibles une fois l'inscription validée."
-        confirm_quickly: Confirmez la demande d'inscription au plus vite
-        waiting_for_confirmation: En attente de validation
+        confirm_quickly_html: <div class='text--center black'>Confirmez la demande<br>d'inscription au plus vite</div>
     users:
-      hidden_contact_infos: "Pour garantir le confort d'utilisation du site, les coordonnées seront visibles une fois l'inscription validée."
-      pay_to_teacher: A payer directement auprès du professeur
+      pay_to_teacher_html: <div class='text--center black'>À payer directement<br>auprès du professeur</div>
+      participation_requests:
+        waiting_for_confirmation: <div class='text--center black'>Le professeur n'a pas <br>encore validé votre inscription</div>

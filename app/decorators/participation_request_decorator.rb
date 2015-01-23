@@ -22,10 +22,10 @@ class ParticipationRequestDecorator < Draper::Decorator
     if object.pending? and !object.past?
       html = "<strong class='#{color} has-tooltip'"
       html << "data-toggle='popover'"
-      if object.last_modified_by != resource
-        html << "data-content=\"#{I18n.t('tooltips.pro.participation_requests.confirm_quickly')}\""
-      else
-        html << "data-content=\"#{I18n.t('tooltips.pro.participation_requests.waiting_for_confirmation')}\""
+      if resource == 'User' and object.last_modified_by == 'User'
+        html << "data-content=\"#{I18n.t('tooltips.users.participation_requests.waiting_for_confirmation')}\""
+      elsif object.last_modified_by != resource
+        html << "data-content=\"#{I18n.t('tooltips.pro.participation_requests.confirm_quickly_html')}\""
       end
       html << "data-html='true' data-placement='top' data-trigger='hover'>"
     else
@@ -50,11 +50,13 @@ class ParticipationRequestDecorator < Draper::Decorator
 
   def popover_course_infos
     string = ""
-    string << "<strong>#{(course.is_training? ? 'Stage ou atelier' : 'Cours régulier')}</strong>"
+    string << "<strong>Type : </strong>#{(course.is_training? ? 'Stage ou atelier' : 'Cours régulier')}"
     string << "<br>"
-    string << "#{join_levels(levels)}"
+    string << "<strong>Niveau : </strong>#{join_levels(levels)}"
     string << "<br>"
-    string << "#{join_audiences(planning || course)}"
+    string << "<strong>Public : </strong>#{join_audiences(planning || course)}"
+    string << "<br>"
+    string << "<strong>Disciplines : </strong>#{course.subjects.uniq.map(&:name).join(', ')}"
     string.html_safe
   end
 
@@ -77,7 +79,9 @@ class ParticipationRequestDecorator < Draper::Decorator
                 class: 'btn btn--small red nowrap fancybox.ajax soft--sides',
                 data: { behavior: 'modal', width: 500, padding: 0 }
     else
-      h.link_to action_button_name_for('Structure'), h.pro_structure_participation_request_path(object.structure, object), class: 'btn btn--small btn--green nowrap'
+      h.link_to action_button_name_for('Structure'),
+                h.pro_structure_participation_request_path(object.structure, object),
+                class: "btn btn--small #{object.pending? and object.last_modified_by == 'User' ? 'btn--green' : ''} nowrap"
     end
   end
 
@@ -88,7 +92,9 @@ class ParticipationRequestDecorator < Draper::Decorator
                 class: 'btn btn--small red nowrap fancybox.ajax soft--sides',
                 data: { behavior: 'modal', width: 500, padding: 0 }
     else
-      h.link_to action_button_name_for('User'), h.user_participation_request_path(object.user, object), class: 'btn btn--small btn--green nowrap'
+      h.link_to action_button_name_for('User'),
+                h.user_participation_request_path(object.user, object),
+                class: "btn btn--small #{object.pending? and object.last_modified_by == 'Structure' ? 'btn--green' : ''} nowrap"
     end
   end
 end

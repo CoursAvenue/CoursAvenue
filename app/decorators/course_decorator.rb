@@ -15,7 +15,7 @@ class CourseDecorator < Draper::Decorator
     detail_html = ''
     if with_popover
       detail_html << "<span class='has-tooltip'"
-      detail_html << "data-content=\"#{I18n.t('tooltips.users.pay_to_teacher')}\""
+      detail_html << "data-content=\"#{I18n.t('tooltips.users.pay_to_teacher_html')}\""
       detail_html << "data-toggle='popover'"
       detail_html << "data-html='true' data-placement='top' data-trigger='hover'>"
     end
@@ -26,7 +26,6 @@ class CourseDecorator < Draper::Decorator
     elsif price_group.trial.nil?
       detail_html << "Une séance : #{readable_amount(price_group.min_price_amount)}"
     end
-    detail_html << " <i class='fa fa-info'></i></span>" if with_popover
     detail_html.html_safe
   end
 

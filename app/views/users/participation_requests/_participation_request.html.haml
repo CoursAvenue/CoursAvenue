@@ -5,13 +5,17 @@
 - structure                       = participation_request.structure
 - structure_decorator             = structure.decorate
 - place                           = participation_request.place
+- place_decorator                 = place.decorate if place
 %tr
-  %td.v-top.nowrap{ class: [participation_request_color(participation_request), ((participation_request.accepted? or participation_request.canceled?) ? 'nowrap' : '')] }
+  %td.v-top.nowrap{ class: participation_request_decorator.color }
     = participation_request_decorator.status_for('User')
     .very-soft.hard--left.hard--bottom.hard--right
       = participation_request_decorator.user_action_link
   %td.v-top
-    %strong= "#{l(participation_request.date, format: :semi_short)} à #{l(participation_request.start_time, format: :short)}"
+    %div
+      %strong
+        = l(participation_request.date, format: :semi_long).capitalize
+        de #{l(participation_request.start_time, format: :short).gsub('00','')} à #{l(participation_request.end_time, format: :short).gsub('00','')}
     %div
       %span.has-tooltip{ data: { toggle: 'popover', content: participation_request_decorator.popover_course_infos, html: 'true', placement: 'top', trigger: 'hover' } }
         = course.name
@@ -22,29 +26,27 @@
       %div
         %strong= place.name
       %div
-        = link_to place.address, URI.encode("http://maps.google.com/?q=#{place.address}"), target: :_blank
-      - if place.info.present?
+        = place.address
+        %br
+        = link_to 'Voir sur la carte', URI.encode("http://maps.google.com/?q=#{place.address}"), target: :_blank
+      - if place.info.present? or place.private_info.present?
         %div
-          = place.info
-      - if place.private_info.present?
-        %div
-          = place.private_info
+          %span.has-tooltip{ data: { toggle: 'popover', content: place_decorator.popover_place_infos, html: 'true', placement: 'top', trigger: 'hover' } }
+            Comment y accéder
     %br
-  %td.v-top
+  %td.v-middle
     .flexbox
-      .flexbox__item.soft-half--right
+      .flexbox__item.v-middle.soft-half--right
         = image_tag structure.logo.url(:small_thumb), height: 50, width: 50, class: 'rounded--circle', data: { src2x: structure.logo.url(:thumb) }
-      .flexbox__item
-        = link_to structure.name, structure_path(structure), target: :_blank, class: 'f-weight-bold semi-muted-link'
-        %div
-          %span.has-tooltip{ data: { toggle: (participation_request.accepted? ? '' : 'popover'), content: t('tooltips.users.hidden_contact_infos'), html: 'true', placement: 'top', trigger: 'hover' } }
-            = structure_decorator.phone_number_and_email(!participation_request.accepted?)
+      .flexbox__item.v-middle
+        = link_to structure.name, structure_path(structure), target: :_blank, class: 'f-weight-bold'
         - if participation_request.accepted?
+          %div= structure_decorator.phone_number_and_email
           %div= structure_decorator.website_link
           %div
             = link_to user_conversation_path(participation_request.user, participation_request.conversation) do
               %i.fa.fa-envelope-o
               Envoyer un message
   - if calendar
-    %td.v-top.nowrap.text--center
+    %td.v-middle.nowrap.text--center
       = add_to_calendar_small(participation_request)
