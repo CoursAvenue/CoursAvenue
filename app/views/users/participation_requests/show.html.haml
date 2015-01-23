@@ -26,6 +26,6 @@
         - if @participation_request.accepted?
           %div.line-height-1-7= structure_decorator.phone_number_and_email(!@participation_request.accepted?)
           %div= structure_decorator.website_link
-    - if @participation_request.accepted?
+    - if !@participation_request.pending?
       = render partial: 'users/conversations/form', locals: { conversation: @participation_request.conversation }
     = render partial: 'messages/message', collection: @participation_request.conversation.messages.order('created_at DESC').reject(&:new_record?)

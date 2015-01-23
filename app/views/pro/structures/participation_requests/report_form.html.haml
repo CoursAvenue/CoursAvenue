@@ -5,7 +5,7 @@
     %h4.flush
       Signaler une absence ou un dysfonctionnement
   .panel__body.soft
-    %p.epsilon
+    %p
       Malgré tous nos soins, certains élèves oublient d'annuler leur séance ou peuvent avoir un comportement inapproprié. Signalez-nous tout dysfonctionnement, cela nous aidera à nous améliorer et éviter qu'une telle situation se reproduise :
 
     = simple_form_for [:pro, @structure, @participation_request], url: report_pro_structure_participation_request_path(@structure, @participation_request), html: { id: 'participation-request-form' } do |f|

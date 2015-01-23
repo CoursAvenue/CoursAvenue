@@ -46,7 +46,8 @@
             = user_decorator.email(!@participation_request.accepted?)
             - if !@participation_request.accepted?
               %i.fa.fa-question-circle
-
+    - if !@participation_request.pending?
+      = render partial: 'pro/structures/conversations/form', locals: { conversation: @participation_request.conversation }
     = render partial: 'messages/message', collection: @participation_request.conversation.messages.order('created_at DESC').reject(&:new_record?)
 
 
@@ -63,7 +64,7 @@
     .panel__body.soft.bordered--top
       %p
         Vous risquez d'être pénalisé si vous n'acceptez pas ou ne refusez pas cette demande d'inscription avant son expiration :
-      = render partial: 'actions'
+      = render partial: 'actions', locals: { position: 'top' }
 
 = content_for :scripts do
   :javascript

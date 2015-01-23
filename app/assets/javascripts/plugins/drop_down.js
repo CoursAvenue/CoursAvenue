@@ -7,7 +7,7 @@
 
     Options
       el: CSS selector of the element to show on hover
-      @position position of the dropdown relatively to the parent element: left|center|right
+      @position position of the dropdown relatively to the parent element: left|center|right|top
 */
 ;(function ( $, window, document, undefined ) {
 
@@ -49,17 +49,22 @@
             if (this.position) {
                 switch(this.position) {
                     case 'right':
-                        this.drop_down.css({right: '0', left: 'auto'});
+                        this.drop_down.css({ right: '0', left: 'auto' });
                         break;
                     case 'left':
-                        this.drop_down.css({left: '0', right: 'auto'});
+                        this.drop_down.css({ left: '0', right: 'auto' });
                         break;
                     case 'center':
                         var demi_trigger_width = this.trigger.outerWidth() / 2;
                         var demi_list_width    = this.drop_down.outerWidth() / 2;
                         var left_position      = demi_trigger_width - demi_list_width;
-                        this.drop_down.css({left: left_position, right: 'auto'});
+                        this.drop_down.css({ left: left_position, right: 'auto' });
                         break;
+                    case 'top':
+                        var demi_trigger_width = this.trigger.outerWidth() / 2;
+                        var demi_list_width    = this.drop_down.outerWidth() / 2;
+                        var left_position      = demi_trigger_width - demi_list_width;
+                        this.drop_down.css({ left: left_position, right: 'auto', top: -this.drop_down.height() });
                 }
             }
         },

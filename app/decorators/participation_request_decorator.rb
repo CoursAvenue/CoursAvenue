@@ -55,8 +55,6 @@ class ParticipationRequestDecorator < Draper::Decorator
     string << "<strong>Niveau : </strong>#{join_levels(levels)}"
     string << "<br>"
     string << "<strong>Public : </strong>#{join_audiences(planning || course)}"
-    string << "<br>"
-    string << "<strong>Disciplines : </strong>#{course.subjects.uniq.map(&:name).join(', ')}"
     string.html_safe
   end
 

@@ -186,7 +186,7 @@ class StructureDecorator < Draper::Decorator
   # Structure's admin e-mail
   def email(crypted=false)
     if crypted
-      object.email.gsub(/.*@/, 'XXXXXXXXX') if object.email
+      object.email.gsub(/.*@/, 'XXXXXXXXX@') if object.email
     else
       object.email if object.email
     end
