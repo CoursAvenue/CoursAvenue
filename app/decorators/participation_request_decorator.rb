@@ -72,6 +72,12 @@ class ParticipationRequestDecorator < Draper::Decorator
     end
   end
 
+  def action_button_class_for(resource='Structure')
+    if object.pending? and object.last_modified_by != resource
+      'btn--green'
+    end
+  end
+
   def teacher_action_link
     if object.past?
       h.link_to action_button_name_for('Structure'),
@@ -81,7 +87,7 @@ class ParticipationRequestDecorator < Draper::Decorator
     else
       h.link_to action_button_name_for('Structure'),
                 h.pro_structure_participation_request_path(object.structure, object),
-                class: "btn btn--small #{object.pending? and object.last_modified_by == 'User' ? 'btn--green' : ''} nowrap"
+                class: "#{action_button_class_for('Structure')} btn btn--small nowrap"
     end
   end
 
@@ -94,7 +100,7 @@ class ParticipationRequestDecorator < Draper::Decorator
     else
       h.link_to action_button_name_for('User'),
                 h.user_participation_request_path(object.user, object),
-                class: "btn btn--small #{object.pending? and object.last_modified_by == 'Structure' ? 'btn--green' : ''} nowrap"
+                class: "btn btn--small #{action_button_class_for('User')} nowrap"
     end
   end
 end
