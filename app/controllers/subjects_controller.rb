@@ -64,5 +64,8 @@ class SubjectsController < ApplicationController
   end
 
   def list
+    if params[:token] != '26aa3c72ae6bab3e8762e8a5937b39e8'
+      redirect_to root_path, status: 401
+    end
   end
 end
