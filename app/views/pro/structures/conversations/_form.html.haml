@@ -8,7 +8,7 @@
         %input{ name: 'return_to', value: return_to, type: 'hidden' }
       = f.error_notification
       = f.fields_for :message, conversation.messages.build, class: 'message__body message__appendix' do |message_form|
-        = message_form.input :body, input_html: { placeholder: 'Ajouter un message personnel ici', style: 'height: 100px', class: 'input--large one-whole', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
+        = message_form.input :body, input_html: { placeholder: 'Ajouter un message personnel ici', style: 'height: 100px', class: 'input--large one-whole', id: 'conversation_message', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
       = f.submit 'Répondre', class: 'btn btn--green', data: { disable_with: "Message en cours d'envoi" }
       - if conversation.mailboxer_label_id == Mailboxer::Label::INFORMATION.id and conversation_waiting_for_reply? conversation
         = succeed ' ' do
@@ -25,3 +25,9 @@
                 = link_to 'Contenu inapproprié / offensant', flag_pro_structure_conversation_path(@structure, conversation, flag: 'Contenu inapproprié / offensant'), method: :patch
               %li.nowrap
                 = link_to 'Autres', flag_pro_structure_conversation_path(@structure, conversation, flag: 'Autres'), method: :patch
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('#conversation_message').preventFromContact();
+    });

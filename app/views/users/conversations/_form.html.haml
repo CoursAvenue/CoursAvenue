@@ -8,5 +8,12 @@
         %input{ name: 'return_to', value: return_to, type: 'hidden' }
       = f.error_notification
       = f.fields_for :message, @message do |message_form|
-        = message_form.input :body, input_html: { placeholder: 'Ajouter un message personnel ici', style: 'height: 100px', value: cookies["conversation_#{params[:id]}_message"], class: 'input--large one-whole', data: {behavior: 'autoresize'} }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
+        = message_form.input :body, input_html: { placeholder: 'Ajouter un message personnel ici', style: 'height: 100px', value: cookies["conversation_#{params[:id]}_message"], class: 'input--large one-whole', id: 'conversation_message', data: {behavior: 'autoresize'} }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
       = f.submit 'Répondre', class: 'btn btn--green', data: { disable_with: "Message en cours d'envoi" }
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('#conversation_message').preventFromContact();
+    });
+

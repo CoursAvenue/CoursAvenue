@@ -1,0 +1,79 @@
+/*
+    Usage: TODO
+*/
+;(function ( $, window, document, undefined ) {
+
+    // Create the defaults once
+    var pluginName = "preventFromContact",
+        defaults = {};
+
+    // The actual plugin constructor
+    function Plugin( element, options ) {
+        this.element  = element;
+        this.$element = $(element);
+
+        // jQuery has an extend method that merges the
+        // contents of two or more objects, storing the
+        // result in the first object. The first object
+        // is generally empty because we don't want to alter
+        // the default options for future instances of the plugin
+        this.options = $.extend( {}, defaults, options) ;
+
+        this._defaults = defaults;
+        this._name = pluginName;
+
+        this.init();
+    }
+
+    Plugin.prototype = {
+
+        popup_div: "<div style='display: none;' class='soft-half alert alert--warning one-whole push-half--bottom'>Pour garantir le confort d'utilisation du site, l'envoi de messages contenant des informations de contact de type téléphone, email ou site Internet n'est pas autorisé.</div>",
+        init: function init () {
+            _.bindAll(this, 'showMessageIfHasContact', 'hasContactInfo')
+            this.enclosing_form = this.$element.closest('form');
+            this.$popup_div     = $(this.popup_div);
+            this.$element.before(this.$popup_div);
+            this.$element.keyup(this.showMessageIfHasContact);
+            this.enclosing_form.submit(function() {
+                if (this.hasContactInfo()) {
+                    this.$popup_div.slideDown().yellowFade();
+                    return false;
+                }
+                return true;
+            }.bind(this));
+        },
+
+        showMessageIfHasContact: function showMessageIfHasContact () {
+            if (!this.popup_is_visible && this.hasContactInfo()) {
+                this.$popup_div.slideDown();
+                this.popup_is_visible = true;
+            }
+        },
+
+        hasContactInfo: function hasContactInfo () {
+            var text = this.$element.val()
+            return (text.match(GLOBAL.REGEX.email) ||
+              text.match(GLOBAL.REGEX.phone_number) ||
+              text.match(GLOBAL.REGEX.link));
+        }
+    };
+
+    // A really lightweight plugin wrapper around the constructor,
+    // preventing against multiple instantiations
+    $.fn[pluginName] = function ( options ) {
+        return this.each(function () {
+            if (!$.data(this, "plugin_" + pluginName)) {
+                $.data(this, "plugin_" + pluginName,
+                new Plugin( this, options ));
+            }
+        });
+    }
+
+})( jQuery, window, document );
+
+$(function() {
+    var prevent_from_contact_initializer = function() {
+        $('[data-behavior=prevent_from_contact]').preventFromContact();
+    }
+    GLOBAL.initialize_callbacks.push(prevent_from_contact_initializer);
+});

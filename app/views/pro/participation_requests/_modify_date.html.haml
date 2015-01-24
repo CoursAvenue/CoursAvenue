@@ -20,7 +20,7 @@
           - if on_pro_subdomain?
             Vous devrez ensuite accepter ou refuser cette réservation le plus tôt possible pour éviter les pénalités.
         = f.fields_for :message, @message, class: 'message__body message__appendix' do |message_form|
-          = message_form.input :body, input_html: { placeholder: "Ajoutez un message facultatif...", style: 'height: 100px', class: 'input--large one-whole', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
+          = message_form.input :body, input_html: { placeholder: "Ajoutez un message facultatif...", style: 'height: 100px', class: 'input--large one-whole', id: 'participation-request-message', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
         = render partial: 'pro/structures/participation_requests/dont_contact_information'
 
       - else
@@ -46,7 +46,7 @@
 
       - if !discuss_only
         = f.fields_for :message, @message, class: 'message__body message__appendix' do |message_form|
-          = message_form.input :body, input_html: { placeholder: "Ajoutez un message facultatif...", style: 'height: 100px', class: 'input--large one-whole', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
+          = message_form.input :body, input_html: { placeholder: "Ajoutez un message facultatif...", style: 'height: 100px', class: 'input--large one-whole', id: 'participation-request-message', data: { behaviors: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
         = render partial: 'pro/structures/participation_requests/dont_contact_information'
 
       .grid
@@ -54,6 +54,9 @@
           %a.btn.btn--full{ href: '#', onclick: '$.fancybox.close();' } Fermer
         .grid__item.eight-tenths>
           = f.submit 'Envoyer', class: 'nowrap btn--full btn btn--green', data: { disable_with: 'Envoi en cours...' }
+
+:javascript
+  $('#participation-request-message').preventFromContact();
 
 - if !discuss_only
   :javascript
