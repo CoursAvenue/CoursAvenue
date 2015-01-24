@@ -6,7 +6,7 @@
   Bonjour #{@user.first_name},
 
 .p
-  Il y a 2 jours, #{@structure.name} vous a envoyé une nouvelle proposition de date pour votre cours d'essai "#{@course.name}". Si vous ne confirmez pas dès maintenant votre présence pour le
+  Il y a 2 jours, #{@structure.name} vous a envoyé une nouvelle proposition de date pour votre cours "#{@course.name}". Si vous ne confirmez pas dès maintenant votre présence pour le
   %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)},"
   votre inscription risque d'être annulée :
 

@@ -6,7 +6,7 @@
   Bonjour,
 
 .p
-  Hier, #{@user.name}  vous a envoyé une demande d'inscription au cours d'essai "#{@participation_request.course.name}" le
+  Hier, #{@user.name}  vous a envoyé une demande d'inscription au cours "#{@participation_request.course.name}" le
   %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}"
   \: répondez-lui dès maintenant avant qu'elle n'expire. Grâce à votre réactivité, votre profil remontera dans le moteur de recherche :
 

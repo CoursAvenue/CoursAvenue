@@ -6,24 +6,26 @@
   Bonjour #{@user.first_name},
 
 .p
-  Malheureusement, #{@structure.name} vient de refuser votre demande d'inscription au cours d'essai "#{@course.name}" du
+  Malheureusement, #{@structure.name} vient de refuser votre demande d'inscription au cours "#{@course.name}" du
   - if @participation_request.cancelation_reason and !@participation_request.cancelation_reason.hidden?
     %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}"
-    = "(motif : #{t(@participation_request.cancelation_reason.name).downcase})."
+    = "(motif : \"#{t(@participation_request.cancelation_reason.name).downcase})\"."
   - else
     %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}."
-  Si vous souhaitez lui demander de venir à un autre cours, envoyez-lui un message depuis votre boîte de réception :
+  Notre objectif est de vous faire découvrir le maximum de cours, continuez à vous inscrire aux séances de votre choix :
 
 .p.action
-  = link_to "Envoyer un message", pro_structure_conversation_path(@structure, @conversation, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
+  = link_to "Découvrir les meilleurs cours", root_search_page_url(@structure.dominant_root_subject, @structure.city, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green'
 
 - if @message
   = render partial: 'mailboxer_message_mailer/message_to_user', locals: { message: @message, structure: @structure, show_phone_number: false }
+  .p.action
+    = link_to "Répondre", pro_structure_conversation_path(@structure, @conversation, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn'
 
 .p.soft--top
-  Notre objectif est de vous faire découvrir le maximum de cours, c'est pourquoi notre équipe prendra contact avec ce partenaire pour comprendre les raisons de son refus.
+  Pour éviter qu'une telle situation se reproduise, notre équipe prendra contact avec ce partenaire pour comprendre les raisons de son annulation.
   %br
-  Merci pour votre compréhension,
+  Merci pour votre compréhension...
 
 .soft-half--top
   = render 'shared/mailers/footer'

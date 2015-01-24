@@ -1,11 +1,11 @@
 - content_for :email_title do
-  #{@user.name} vient de confirmer sa présence au cours d'essai "#{@course.name}"
+  #{@user.name} vient de confirmer sa présence
 
 .p
   Bonjour,
 
 .p
-  Suite à votre modification de créneau, #{@user.name} vient de confirmer sa présence au cours d'essai "#{@course.name}" le
+  Suite à votre modification de créneau, #{@user.name} vient de confirmer sa présence au cours "#{@course.name}" le
   %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}"
   - if @place
     au #{@place.address} (#{@place.name}).

@@ -6,7 +6,7 @@
   Bonjour #{@user.first_name},
 
 .p
-  #{@structure.name} souhaite modifier la date pour le cours d'essai "#{@course.name}" et vous propose de venir le
+  #{@structure.name} souhaite modifier la date pour le cours "#{@course.name}" et vous propose de venir le
   %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}"
   - if @place
     au #{@place.address} (#{@place.name}).

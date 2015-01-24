@@ -6,7 +6,7 @@
   Bonjour #{@user.first_name},
 
 .p
-  Hier, #{@structure.name} vous a envoyé une nouvelle proposition de date pour votre cours d'essai "#{@course.name}" : confirmez-vous votre présence pour le
+  Hier, #{@structure.name} vous a envoyé une nouvelle proposition de date pour votre cours "#{@course.name}" : confirmez-vous votre présence pour le
   %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}"
   - if @place
     au #{@place.address} (#{@place.name}) ?

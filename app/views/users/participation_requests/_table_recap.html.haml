@@ -29,7 +29,6 @@
               - course = participation_request.course
               %span.has-tooltip{ data: { toggle: 'popover', content: participation_request_decorator.popover_course_infos, html: 'true', placement: 'top', trigger: 'hover' } }
                 = course.name
-                %i.fa.fa-info
             .flexbox__item.v-middle.nowrap.nowrap.text--right
               - if !participation_request.canceled?
                 = link_to t('.propose_another_course'), edit_user_participation_request_path(participation_request.user, participation_request), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }

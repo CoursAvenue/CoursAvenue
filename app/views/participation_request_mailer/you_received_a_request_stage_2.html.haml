@@ -6,7 +6,7 @@
   Bonjour,
 
 .p
-  Il y a 2 jours, #{@user.name} vous a envoyé une demande d'inscription au cours d'essai "#{@participation_request.course.name}" le
+  Il y a 2 jours, #{@user.name} vous a envoyé une demande d'inscription au cours "#{@participation_request.course.name}" le
   %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}"
   Pour continuer à recevoir de nouveaux élèves, nous vous conseillons de répondre maintenant :
 

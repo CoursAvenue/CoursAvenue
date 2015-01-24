@@ -30,12 +30,11 @@
         %h4.line-height-1-7.flush= user.name
         %div.line-height-1-7
           Profil : #{user_decorator.age_and_city}
-        %div.line-height-1-7
-          Téléphone :
-          %span.has-tooltip{ data: { toggle: (@participation_request.accepted? ? '' : 'popover'), content: t('tooltips.pro.participation_requests.infos_will_be_shown_once_accepted'), html: 'true', placement: 'top', trigger: 'hover' } }
-            = user_decorator.phone_number(!@participation_request.accepted?)
-            - if !@participation_request.accepted?
-              %i.fa.fa-question-circle
+        - if user.phone_number.present?
+          %div.line-height-1-7
+            Téléphone :
+            %span.has-tooltip{ data: { toggle: (@participation_request.accepted? ? '' : 'popover'), content: t('tooltips.pro.participation_requests.infos_will_be_shown_once_accepted'), html: 'true', placement: 'top', trigger: 'hover' } }
+              = user_decorator.phone_number(!@participation_request.accepted?)
         - if user.description.present?
           %div.line-height-1-7
             = user.description
@@ -44,8 +43,6 @@
           Email :
           %span.has-tooltip{ data: { toggle: (@participation_request.accepted? ? '' : 'popover'), content: t('tooltips.pro.participation_requests.infos_will_be_shown_once_accepted'), html: 'true', placement: 'top', trigger: 'hover' } }
             = user_decorator.email(!@participation_request.accepted?)
-            - if !@participation_request.accepted?
-              %i.fa.fa-question-circle
     - if !@participation_request.pending?
       = render partial: 'pro/structures/conversations/form', locals: { conversation: @participation_request.conversation }
     = render partial: 'messages/message', collection: @participation_request.conversation.messages.order('created_at DESC').reject(&:new_record?)

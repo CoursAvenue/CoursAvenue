@@ -40,7 +40,7 @@ class UserDecorator < Draper::Decorator
 
   def email(crypted=false)
     if crypted
-      object.email.gsub(/.*@/, 'XXXXXXXXX') if object.email
+      object.email.gsub(/.*@/, 'XXXXXXXXX@') if object.email
     else
       object.email if object.email
     end

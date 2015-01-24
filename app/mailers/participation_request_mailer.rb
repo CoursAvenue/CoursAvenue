@@ -16,7 +16,7 @@ class ParticipationRequestMailer < ActionMailer::Base
     @message = participation_request.conversation.messages.first
     retrieve_participation_request_variables(participation_request)
     mail to: @admin.email,
-         subject: "Demande d'inscription à un cours d'essai - #{@user.name}",
+         subject: "Demande d'inscription - #{@user.name}",
          reply_to: generate_reply_to('admin')
   end
 
@@ -48,7 +48,7 @@ class ParticipationRequestMailer < ActionMailer::Base
 
   def request_has_been_accepted_by_teacher_to_user(participation_request, message=nil)
     retrieve_participation_request_variables(participation_request)
-    @upcoming_participation_requests = participation_request.user.participation_requests.upcoming.reject{ |pr| pr == participation_request }
+    @upcoming_participation_requests = @user.participation_requests.accepted.upcoming.reject{ |pr| pr == participation_request }
     @message = message if message
     mail to: @user.email, subject: "Inscription acceptée - #{@structure.name}",
          reply_to: generate_reply_to('user')

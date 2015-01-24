@@ -6,13 +6,13 @@
   Bonjour,
 
 .p
-  Malheureusement, #{@user.name} vient d'annuler son inscription au cours d'essai "#{@course.name}" qui était prévu le
+  Malheureusement, #{@user.name} vient d'annuler son inscription au cours "#{@course.name}" qui était prévu le
   - if @participation_request.cancelation_reason and !@participation_request.cancelation_reason.hidden?
     %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}"
-    = "(motif : #{t(@participation_request.cancelation_reason.name).downcase})."
+    = "(motif : \"#{t(@participation_request.cancelation_reason.name).downcase})\"."
   - else
     %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}."
-  Si vous souhaitez lui envoyer un message, notamment pour lui proposer de venir à un autre cours, envoyez-lui un message depuis votre onglet "Mes inscriptions" :
+  Pour lui proposer une autre séance ou tout simplement discuter, envoyez-lui un message depuis votre onglet "Mes inscriptions" :
 
 .p.action
   = link_to "Visualiser mes inscriptions", pro_structure_participation_requests_path(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'

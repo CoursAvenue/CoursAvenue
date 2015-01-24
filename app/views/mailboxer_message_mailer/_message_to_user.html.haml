@@ -12,5 +12,4 @@
       %td.soft-half--left.v-top.content-block{ width: 475 }
         .p
           %strong= message.conversation.subject
-
-        .p= message.body
+        = simple_format(message.body).gsub('<p>', '<div class="p">').gsub('</p>', '</div>').html_safe
