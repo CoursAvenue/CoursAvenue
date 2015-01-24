@@ -62,4 +62,7 @@ class SubjectsController < ApplicationController
       end
     end
   end
+
+  def list
+  end
 end
