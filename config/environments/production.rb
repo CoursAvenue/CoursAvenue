@@ -155,5 +155,5 @@ CoursAvenue::Application.configure do
   # For our CoursAvenue prerender that is on heroku
   # config.middleware.use Rack::Prerender, prerender_service_url: ENV['PRERENDER_SERVICE_URL']
   # For Prerender.io
-  config.middleware.use Rack::Prerender, prerender_token: ENV['PRERENDER_TOKEN']
+  config.middleware.use Rack::Prerender, prerender_token: ENV['PRERENDER_TOKEN'], protocol: 'https'
 end
