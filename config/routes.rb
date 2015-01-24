@@ -536,6 +536,7 @@ CoursAvenue::Application.routes.draw do
       get :depth_2
     end
     collection do
+      get :list
       get :descendants
       get :search
     end
