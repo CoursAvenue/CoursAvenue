@@ -48,16 +48,6 @@ module ApplicationHelper
     end
   end
 
-  # Public: Checks if the user agent is one of a scrapper | robot
-  #
-  # @return Boolean
-  def robot?(user_agent)
-    return true if user_agent.nil?
-    matches = [/\(.*https?:\/\/.*\)/, /Twitterbot\/1.0/, /Prerender/]
-
-    matches.any? { |robot| user_agent.match(robot) }
-  end
-
   def media_share_url(url, provider = :facebook, text='')
     case provider
     when :facebook
