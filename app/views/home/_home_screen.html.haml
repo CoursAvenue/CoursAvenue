@@ -23,8 +23,9 @@
   /* 1. Pas de support d'object-fit */
 
 .full-screen-item.one-whole.relative.overflow-hidden
+  -# poster attribute: first image of the video
   %video#video{ preload: 'auto', loop: 'loop', autoplay: true }
-    %source{ type: "video/mp4", src: asset_path('coursavenue_home.mp4') }
+    %source{ type: "video/mp4", src: asset_path('coursavenue_homepage_video.mp4') }
     -# %source{ type: "video/mp4", src: 'http://a0.muscache.com/airbnb/static/London-P1-1.mp4' }
     -# %source{ type: "video/webm", src: 'http://a0.muscache.com/airbnb/static/London-P1-0.webm' }
     -# <source type="video/webm" src="mavideo.webm" media="(orientation: landscape)">

@@ -12,12 +12,12 @@
     = render 'subject_guides'
 
 .soft--ends.main-container
-  %h3.text--center.push-half--bottom.beta Laissez vous guider
+  %h3.text--center.push--top.push-half--bottom.beta Laissez vous guider
   %h5.text--center.epsilon.push--bottom.soft--bottom Des milliers d'élèves pour trouver le meilleur cours
-  - @comments.in_groups_of(3).each do |comments_group|
+  - @comments.in_groups_of(2, false).each do |comments_group|
     .grid
     - comments_group.each do |comment|
-      .grid__item.one-third.text--center>
+      .grid__item.one-half.text--center>
         .delta.push-half--bottom.quoted= comment.title
         .delta.push-half--bottom= comment.course_name
         .delta.push-half--bottom
