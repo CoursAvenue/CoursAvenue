@@ -107,7 +107,7 @@ class User < ActiveRecord::Base
   ######################################################################
   scope :active,   -> { where.not(encrypted_password: '') }
   scope :inactive, -> { where( User.arel_table[:encrypted_password].eq('').or(User.arel_table[:encrypted_password] == nil)) }
-  scope :with_avatar, -> { where.not(avatar_file_name: nil) }
+  scope :with_avatar, -> { where.not(avatar: nil) }
 
 
   # :nocov:
