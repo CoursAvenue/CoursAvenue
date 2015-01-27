@@ -29,7 +29,7 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
         },
 
         pageQuery: function pageQuery (page) {
-                return this.url.resource + this.getQuery({ 'page': page });
+            return this.url() + this.getQuery({ 'page': page });
         },
 
         setQuery: function setQuery (options) {
