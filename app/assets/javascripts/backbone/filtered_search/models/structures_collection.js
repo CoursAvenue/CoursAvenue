@@ -64,12 +64,8 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
             // window.location.host returns "www.coursavenue.dev/"
         },
 
-        // url: {
-        //     resource: '/' + App.resource,
-        //     data_type: '.json'
-        // },
         url: function url () {
-            return Routes.structures_path();
+            return (window.location.pathname || Routes.structures_path());
         },
 
         parse: function parse (response) {
