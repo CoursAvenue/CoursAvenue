@@ -45,7 +45,7 @@ class PlanningDecorator < Draper::Decorator
   # Dates if it is a training
   # @return:
   #   Du lundi 3 janvier au mardi 4
-  def training_dates
+  def dates
     if start_date == end_date
       "#{I18n.l(start_date, format: :semi_longer).capitalize}"
     else

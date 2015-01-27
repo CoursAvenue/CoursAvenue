@@ -22,8 +22,12 @@
         = f.fields_for :message, @message, class: 'message__body message__appendix' do |message_form|
           = message_form.input :body, input_html: { placeholder: "Ajoutez un message facultatif...", style: 'height: 100px', class: 'input--large one-whole', id: 'participation-request-message', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
         = render partial: 'pro/structures/participation_requests/dont_contact_information'
-
       - else
+        - if show_course_select
+          .input.flush--top
+            %label.control-label.label--large.v-middle.nowrap Cours :
+            .input-container>
+              = f.input :course_id, as: :select, collection: @structure.courses.reject{ |course| course.plannings.empty? }, label: false, selected: @participation_request.course_id, label_method: :name, input_html: { class: 'one-whole input--large' }, wrapper_html: { class: 'flush v-middle' }
         .input.flush
           %label.control-label.label--large.v-middle.nowrap Séance :
           .input-container>
@@ -33,10 +37,10 @@
               %i
                 Lieu :
                 - if @participation_request.course.on_appointment?
-                  %span#address-name= readable_private_course_location(@participation_request.course)
+                  %span{ data: { type: 'address-name' } }= readable_private_course_location(@participation_request.course)
                 - else
-                  %span#address-name{ data: { toggle: 'popover', html: 'true', content: '', trigger: 'hover' } }
-        .input.flush--top
+                  %span{ data: { type: 'address-name', toggle: 'popover', html: 'true', content: '', trigger: 'hover' } }
+        .input.flush--top{ data: { type: 'datepicker-wrapper' } }
           %label.control-label.label--large.v-middle.nowrap Date :
           = f.input :date, as: :string, label: false, input_html: { value: l(@participation_request.date), class: 'text--center input--large datepicker-input', data: { behavior: 'datepicker', start_date: l(Date.today) } }, wrapper_html: { class: 'datepicker-input flush hard v-middle' }
 
@@ -60,24 +64,9 @@
 
 - if !discuss_only
   :javascript
-      var plannings = #{ActiveModel::ArraySerializer.new(@participation_request.course.plannings, each_serializer: PlanningSerializer).to_json};
+      // IMPORTANT: Initialize datepicker to have correct format
       GLOBAL.datepicker_initializer();
-      var datepicker      = $('#participation_request_date');
-      var planning_select = $('#participation_request_planning_id');
-      planning_select.change(function() {
-          var selected_planning_id = planning_select.val();
-          var selected_planning = _.find(plannings, function(planning) { return planning.id == parseInt(selected_planning_id) });
-          if (!selected_planning) { return; }
-          // Update date, only if it is not the same week date
-          // Disable days of week
-          var days_of_week = [0,1,2,3,4,5,6];
-          days_of_week.splice(days_of_week.indexOf(selected_planning.week_day), 1);
-          datepicker.datepicker('setDaysOfWeekDisabled', days_of_week);
-          $('#address-name').text(selected_planning.address_name);
-          $('#address-name').data('content', selected_planning.address_with_info);
-          currently_selected_date = datepicker.datepicker('getDate');
-          if (currently_selected_date.getDay() != selected_planning.week_day) {
-              datepicker.datepicker('update', selected_planning.next_date);
-          }
-      });
-      planning_select.change();
+      var courses = #{ActiveModel::ArraySerializer.new(@structure.courses, each_serializer: CourseSerializer).to_json};
+      courses = _.reject(courses, function(course) { return course.plannings.length == 0 });
+      var courses_collection = new CoursAvenue.Models.CoursesCollection(courses);
+      new CoursAvenue.Pro.ParticipationRequests.Views.ParticipationRequestFormView({ courses_collection: courses_collection, el: '#participation-request-form', selected_course_id: #{@participation_request.course_id}, selected_planning_id: #{@participation_request.course_id}});
