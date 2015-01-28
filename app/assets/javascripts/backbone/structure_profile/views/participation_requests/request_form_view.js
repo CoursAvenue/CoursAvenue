@@ -10,6 +10,16 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
 
         className: 'panel center-block push--bottom',
 
+        ui: {
+            '$message_sent'                           : '[data-type=message-sent]',
+            '$participation_request_date'             : '[name="participation_request[date]"]',
+            '$participation_request_start_hour'       : '[name="participation_request[start_hour]"]',
+            '$participation_request_start_min'        : '[name="participation_request[start_min]"]',
+            '$participation_request_message_body'     : '[name="message[body]"]',
+            '$participation_request_user_phone_number': '[name="user[phone_number]"]',
+            '$user_participation_requests_path'       : '[data-type=user-participation-requests-path]'
+        },
+
         events: {
             'click'                                   : 'trackEvent',
             'submit form'                             : 'submitForm',
@@ -31,14 +41,14 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
         populateRequest: function populateRequest (event) {
             this.model.set({
                 structure_id  : this.model.get('structure').get('id'),
-                date          : this.$('[name="participation_request[date]"]').val(),
-                start_hour    : this.$('[name="participation_request[start_hour]"]').val(),
-                start_min     : this.$('[name="participation_request[start_min]"]').val(),
+                date          : this.ui.$participation_request_date.val(),
+                start_hour    : this.ui.$participation_request_start_hour.val(),
+                start_min     : this.ui.$participation_request_start_min.val(),
                 message: {
-                    body: this.$('[name="message[body]"]').val()
+                    body: this.ui.$participation_request_message_body.val()
                 },
                 user: {
-                    phone_number: this.$('[name="user[phone_number]"]').val()
+                    phone_number: this.ui.$participation_request_user_phone_number.val()
                 }
             });
         },
@@ -130,6 +140,8 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
                           }
                     });
                     if (CoursAvenue.isProduction()) { mixpanel.track("Dismissed request form view"); }
+                    this.ui.$message_sent.slideDown();
+                    this.ui.$user_participation_requests_path.attr('href', Routes.user_participation_requests_path({ id: CoursAvenue.currentUser().get('slug') }));
                 }.bind(this),
                 error: this.showPopupMessageDidntSend
             });
@@ -147,10 +159,12 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
         },
 
         serializeData: function serializeData () {
-            var data = this.model.toJSON();
+            var date, data, structure_json;
+            date = new Date();
+            data = this.model.toJSON();
             data.participation_request.url = this.model.url();
             if (this.errors) { _.extend(data, { errors: this.errors }); }
-            var structure_json       = this.model.get('structure').toJSON();
+            structure_json       = this.model.get('structure').toJSON();
             if (CoursAvenue.currentUser().get('last_messages_sent')) {
                 _.extend(data, {
                     last_message_sent_at: CoursAvenue.currentUser().get('last_messages_sent')[structure_json.id],
@@ -159,6 +173,8 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             }
             _.extend(data, {
                 structure: structure_json,
+                today: moment().format(GLOBAL.MOMENT_DATE_FORMAT),
+                user_participation_requests_path: Routes.user_participation_requests_path({ id: '__USER_ID__' })
             });
             return data;
         },
@@ -171,6 +187,8 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             };
             var pr_content_view = new CoursAvenue.Views.ParticipationRequests.ParticipationRequestFormContentView(options);
             this.getRegion('request_form_content').show(pr_content_view);
+            // IMPORTANT to rebind ui elements that are nested in the form_content_view
+            this.bindUIElements();
         }
     });
 

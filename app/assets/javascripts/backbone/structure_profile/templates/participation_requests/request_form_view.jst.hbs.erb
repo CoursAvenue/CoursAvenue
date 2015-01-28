@@ -26,18 +26,16 @@
     </h5>
 </div>
 <div class="panel__body soft">
-    {{#if last_message_sent_at}}
-        <div class="text--center">
-            <div class="green">
-                <i class="fa fa-check"></i>
-                <strong>Dernière demande envoyée le {{last_message_sent_at}}</strong>
-            </div>
-            <div>
-                <a href="{{user_participation_requests_path}}" class="f-weight-500">Voir mes inscriptions</a>
-            </div>
+    <div data-type="message-sent" class="{{#unless last_message_sent_at}}hidden{{/unless}} text--center">
+        <div class="green">
+            <i class="fa fa-check"></i>
+            <strong>Dernière demande envoyée le {{#if last_message_sent_at}}{{ last_message_sent_at }}{{else}}{{ today }}{{/if}}</strong>
+        </div>
+        <div>
+            <a data-type="user-participation-requests-path" href="{{ user_participation_requests_path }}" class="f-weight-500">Voir mes inscriptions</a>
         </div>
         <hr class="push--ends">
-    {{/if}}
+    </div>
     <article class="tab-pane active hard">
         <form action="{{participation_request.url}}">
             <div data-type="participation-request-form-content"></div>

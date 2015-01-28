@@ -16,7 +16,7 @@
         Pour avoir plus de chances d'obtenir une réponse positive, complétez votre profil.
       .flexbox.push--bottom
         - if !user.has_avatar?
-          .flexbox__item.v-top
+          .flexbox__item.v-top.soft-half--right
             = f.label :remote_avatar_url, 'Votre photo', class: 'label--large block text--left f-weight-bold'
             = link_to '#', class: 'soft inline-block gray epsilon f-weight-500 v-middle bg-gray-light bordered', id: 'avatar-placeholder', data: { filepicker: true } do
               .text--center
@@ -24,7 +24,7 @@
               .text--center Choisir une photo
             %img.hidden{ style: 'max-height: 200px; max-width: 200px;', height: 200, width: 200, data: { fpimage: true } }
             = f.filepicker_field :remote_avatar_url, multiple: false, services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false, class: 'visuallyhidden', button_text: 'Ajouter ma photo', button_class: 'visuallyhidden filepicker', onchange: 'onPhotoUpload(event)'
-        .flexbox__item.v-top.soft-half--left
+        .flexbox__item.v-top
           = f.label :birthdate, class: 'label--large block text--left f-weight-bold'
           = f.input :birthdate, start_year: (Date.today.year - 1), end_year: (Date.today.year - 110), include_blank: true, input_html: { class: 'input--large' }, label: false, wrapper_html: { class: 'flush--top' }
           = f.label :description, class: 'label--large block text--left f-weight-bold'
