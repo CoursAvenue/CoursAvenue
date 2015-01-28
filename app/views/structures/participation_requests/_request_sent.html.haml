@@ -46,13 +46,16 @@
           $('#user-form').slideUp();
           $('#checkout-more').slideDown();
       });
-      function onPhotoUpload(event) {
-          $('#avatar-placeholder').hide();
-          $('img[data-fpimage]').attr('src', event.fpfile.url);
-          $('img[data-fpimage]').show();
-      }
-      filepicker.constructWidget($('input[type=filepicker]'));
-      $('[data-filepicker]').click(function(event) {
-          event.preventDefault();
-          $('button.filepicker').click();
-      });
+  - if !user.has_avatar?
+    :javascript
+        function onPhotoUpload(event) {
+            $('#avatar-placeholder').hide();
+            $('img[data-fpimage]').attr('src', event.fpfile.url);
+            $('img[data-fpimage]').show();
+        }
+        debugger
+        filepicker.constructWidget($('input[type=filepicker]'));
+        $('[data-filepicker]').click(function(event) {
+            event.preventDefault();
+            $('button.filepicker').click();
+        });

@@ -33,7 +33,7 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
         },
 
         url: function url () {
-            return Routes.structure_participation_requests_path({ structure_id: this.get('structure_id') });
+            return Routes.structure_participation_requests_path({ structure_id: this.get('structure').get('id') });
         }
     });
 });

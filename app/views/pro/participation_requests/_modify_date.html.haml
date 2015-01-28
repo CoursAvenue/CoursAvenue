@@ -23,26 +23,7 @@
           = message_form.input :body, input_html: { placeholder: "Ajoutez un message facultatif...", style: 'height: 100px', class: 'input--large one-whole', id: 'participation-request-message', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
         = render partial: 'pro/structures/participation_requests/dont_contact_information'
       - else
-        - if show_course_select
-          .input.flush--top
-            %label.control-label.label--large.v-middle.nowrap Cours :
-            .input-container>
-              = f.input :course_id, as: :select, collection: @structure.courses.reject{ |course| course.plannings.empty? }, label: false, selected: @participation_request.course_id, label_method: :name, input_html: { class: 'one-whole input--large' }, wrapper_html: { class: 'flush v-middle' }
-        .input.flush
-          %label.control-label.label--large.v-middle.nowrap Séance :
-          .input-container>
-            - unless @participation_request.course.on_appointment?
-              = f.input :planning_id, as: :select, collection: @participation_request.course.plannings.ordered_by_day, label: false, selected: @participation_request.planning_id, label_method: lambda{ |planning| "#{readable_planning(planning)} #{readable_time_slot(planning.start_time, planning.end_time)}" }, input_html: { class: 'one-whole input--large' }, wrapper_html: { class: 'flush v-middle' }
-            %div.push-half--ends
-              %i
-                Lieu :
-                - if @participation_request.course.on_appointment?
-                  %span{ data: { type: 'address-name' } }= readable_private_course_location(@participation_request.course)
-                - else
-                  %span{ data: { type: 'address-name', toggle: 'popover', html: 'true', content: '', trigger: 'hover' } }
-        .input.flush--top{ data: { type: 'datepicker-wrapper' } }
-          %label.control-label.label--large.v-middle.nowrap Date :
-          = f.input :date, as: :string, label: false, input_html: { value: l(@participation_request.date), class: 'text--center input--large datepicker-input', data: { behavior: 'datepicker', start_date: l(Date.today) } }, wrapper_html: { class: 'datepicker-input flush hard v-middle' }
+        %div{ data: { type: 'participation-request-form-content' } }
 
       - if on_pro_subdomain?
         %hr.push--ends
@@ -66,7 +47,15 @@
   :javascript
       // IMPORTANT: Initialize datepicker to have correct format
       GLOBAL.datepicker_initializer();
-      var courses = #{ActiveModel::ArraySerializer.new(@structure.courses, each_serializer: CourseSerializer).to_json};
-      courses = _.reject(courses, function(course) { return course.plannings.length == 0 });
-      var courses_collection = new CoursAvenue.Models.CoursesCollection(courses);
-      new CoursAvenue.Pro.ParticipationRequests.Views.ParticipationRequestFormView({ courses_collection: courses_collection, el: '#participation-request-form', selected_course_id: #{@participation_request.course_id}, selected_planning_id: #{@participation_request.course_id}});
+      var regular_courses  = #{ActiveModel::ArraySerializer.new(@structure.courses.regulars, each_serializer: CourseSerializer).to_json};
+      var training_courses = #{ActiveModel::ArraySerializer.new(@structure.courses.trainings.reject{ |training| training.plannings.future.empty? }, each_serializer: CourseSerializer).to_json};
+      var structure                   = new CoursAvenue.Models.Structure(#{StructureSerializer.new(@structure).to_json});
+      var courses_collection          = new CoursAvenue.Models.CoursesCollection(regular_courses);
+      var trainings_collection        = new CoursAvenue.Models.CoursesCollection(training_courses);
+      var participation_request_model = new Backbone.Model({ structure: structure, course_id: #{@participation_request.course_id}, planning_id: #{@participation_request.course_id} });
+      var participation_request_form_content = new CoursAvenue.Views.ParticipationRequests.ParticipationRequestFormContentView({ courses_collection: courses_collection, trainings_collection: trainings_collection, model: participation_request_model });
+      $('[data-type=participation-request-form-content]').append(participation_request_form_content.render().el);
+
+- if !discuss_only and !show_course_select
+  :javascript
+      $('[name="participation_request[course_id]"]').hide();

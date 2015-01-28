@@ -14,6 +14,7 @@ class Users::ParticipationRequestsController < ApplicationController
  # GET eleves/:user_id/participation_request/:id/edit
   def edit
     @participation_request = @user.participation_requests.find(params[:id])
+    @structure             = @participation_request.structure
     render layout: false
   end
 
