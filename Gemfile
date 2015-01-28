@@ -144,8 +144,6 @@ gem 'gibbon'                    , '~>1.1.3'
 gem 'roadie'                    , '~>3.0.1'
 gem 'roadie-rails'              , '~>1.0.3'
 
-# Includes bacbone.relational
-gem 'backbone-relational-rails' , '~>0.8.8'
 # See issue: https://github.com/leshill/handlebars_assets/pull/46
 gem 'handlebars_assets'         , '~>0.15', git: 'git://github.com/variousauthors/handlebars_assets.git'
 # Decorator
