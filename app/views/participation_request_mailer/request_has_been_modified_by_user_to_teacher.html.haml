@@ -1,13 +1,18 @@
 - content_for :email_title do
-  %strong Acceptez la nouvelle proposition de #{@user.name} en répondant directement à cet e-mail
+  Acceptez la nouvelle proposition de #{@user.name} en répondant directement à cet e-mail
   %hr
 
 .p
   Bonjour,
 
 .p
-  #{@user.name} souhaite venir à un autre créneau et vous demande de venir assister le
-  %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}"
+  - if @participation_request.old_course_id.present?
+    #{@user.name} souhaiterait finalement assister à une séance de
+    %strong "#{@course.name}"
+    le
+  - else
+    #{@user.name} souhaite venir à un autre créneau et vous demande de venir assister le
+  %strong= "#{@participation_request_decorator.day_and_hour}"
   au cours "#{@participation_request.course.name}"
   - if @place
     au #{@place.address} (#{@place.name}).

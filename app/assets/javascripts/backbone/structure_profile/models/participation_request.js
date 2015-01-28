@@ -5,7 +5,8 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
         // We override the toJSON function to have all the params grouped into
         // `participation_request` when syncing to server
         toJSON: function toJSON () {
-            return { participation_request: _.clone( this.attributes ) }
+            // We omit to send structure to the server because it's useless.
+            return { participation_request: _.clone( _.omit(this.attributes, 'structure') ) }
         },
 
         validation: {

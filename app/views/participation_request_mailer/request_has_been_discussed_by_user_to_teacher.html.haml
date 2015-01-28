@@ -1,5 +1,5 @@
 - content_for :email_title do
-  %strong Répondez à #{@user.name} en répondant directement à cet e-mail
+  Répondez à #{@user.name} en répondant directement à cet e-mail
   %hr
 
 .p
@@ -7,7 +7,7 @@
 
 .p
   #{@user.name} vient de vous envoyer un message concernant sa demande d'inscription du
-  %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}"
+  %strong= "#{@participation_request_decorator.day_and_hour}"
   au cours "#{@participation_request.course.name}"
   - if @place
     au #{@place.address} (#{@place.name}).

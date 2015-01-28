@@ -1,5 +1,5 @@
 - content_for :email_title do
-  %strong Répondez à #{@structure.name} en répondant directement à cet e-mail
+  Répondez à #{@structure.name} en répondant directement à cet e-mail
   %hr
 
 .p
@@ -8,10 +8,10 @@
 .p
   Malheureusement, #{@structure.name} vient de refuser votre demande d'inscription au cours "#{@course.name}" du
   - if @participation_request.cancelation_reason and !@participation_request.cancelation_reason.hidden?
-    %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}"
+    %strong= @participation_request_decorator.day_and_hour
     = "(motif : \"#{t(@participation_request.cancelation_reason.name).downcase})\"."
   - else
-    %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}."
+    %strong= "#{@participation_request_decorator.day_and_hour}."
   Notre objectif est de vous faire découvrir le maximum de cours, continuez à vous inscrire aux séances de votre choix :
 
 .p.action

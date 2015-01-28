@@ -15,6 +15,7 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
             '$datepicker_input'                : '[data-element=datepicker-wrapper] input',
             '$start_hour_select_input'         : '[data-element=start-hour-select]',
             '$time_wrapper'                    : '[data-element="time-wrapper"]',
+            '$start_minute_select'             : '[data-element="start-minute-select"]',
             '$address_info'                    : '[data-element="address-info"]'
         },
 
@@ -27,9 +28,18 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
         },
 
         initializeStartHourSelect: function initializeStartHourSelect () {
+            if (!_.isUndefined(this.model.get('start_min'))) {
+                _.each(this.ui.$start_minute_select.find('option'), function(option) {
+                    if (this.model.get('start_min') == parseInt(option.value, 10)) {
+                        option.selected = true;
+                    }
+                }, this);
+            }
             _.each(['06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23'], function(value) {
-                this.ui.$start_hour_select_input.append($('<option>').attr('value', parseInt(value)).text(value));
-            }.bind(this));
+                var option = $('<option>').attr('value', parseInt(value)).text(value);
+                if (this.model.get('start_hour') == parseInt(value, 10)) { option.prop('selected', true); }
+                this.ui.$start_hour_select_input.append(option);
+            }, this);
         },
 
         onRender: function onRender () {

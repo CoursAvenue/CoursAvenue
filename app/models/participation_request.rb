@@ -1,12 +1,14 @@
 class ParticipationRequest < ActiveRecord::Base
   extend ActiveHash::Associations::ActiveRecordExtensions
+  # include ActiveModel::Dirty
 
   STATE = %w(accepted pending canceled)
   PARAMS_THAT_MODIFY_PR = %w(date start_time end_time planning_id course_id)
 
   attr_accessible :state, :date, :start_time, :end_time, :mailboxer_conversation_id,
                   :planning_id, :last_modified_by, :course_id, :user, :structure, :conversation,
-                  :cancelation_reason_id, :report_reason_id, :report_reason_text, :reported_at
+                  :cancelation_reason_id, :report_reason_id, :report_reason_text, :reported_at,
+                  :old_course_id
 
   ######################################################################
   # Relations                                                          #
@@ -50,6 +52,7 @@ class ParticipationRequest < ActiveRecord::Base
   # @return ParticipationRequest
   def self.create_and_send_message(request_attributes, message_body, user, structure)
     message_body = StringHelper.replace_contact_infos(message_body)
+    request_attributes              = self.set_start_time(request_attributes)
     participation_request           = ParticipationRequest.new date: request_attributes[:date], start_time: request_attributes[:start_time], planning_id: request_attributes[:planning_id], course_id: request_attributes[:course_id]
     participation_request.user      = user
     participation_request.structure = structure
@@ -112,11 +115,15 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return Boolean
   def modify_date!(message_body, new_params, last_modified_by='Structure')
-    message_body = StringHelper.replace_contact_infos(message_body)
+    message_body          = StringHelper.replace_contact_infos(message_body)
+    new_params            = ParticipationRequest.set_start_time(new_params)
     self.last_modified_by = last_modified_by
-    self.update_attributes new_params
-    self.state = 'pending'
-    message = reply_to_conversation(message_body, last_modified_by)
+    # We don not update_attributes because self.course_id_was won't work...
+    self.assign_attributes new_params
+    # Set old_course_id to nil if the user don't change it and modify just the date
+    self.old_course_id    = (self.course_id_was == self.course_id ? nil : self.course_id_was)
+    self.state            = 'pending'
+    message               = reply_to_conversation(message_body, last_modified_by)
     self.save
     if self.last_modified_by == 'Structure'
       ParticipationRequestMailer.delay.request_has_been_modified_by_teacher_to_user(self, message)
@@ -252,7 +259,20 @@ class ParticipationRequest < ActiveRecord::Base
     end
   end
 
+  # We destroy the Mailboxer::Conversation object attached to the PR
   def destroy_conversation_attached
     self.conversation.destroy
+  end
+
+  # If start_hour and start_min are passed, we transform it into a start_time
+  # @return request_attributes without start_hour and start_min but with start_time
+  def self.set_start_time(request_attributes)
+    if request_attributes[:planning_id].blank? and request_attributes[:start_hour] and request_attributes[:start_min]
+      # Be careful to add 0 at the end to remove local time.
+      request_attributes[:start_time] = Time.new(2000, 1, 1, request_attributes[:start_hour].to_i, request_attributes[:start_min].to_i, 0, 0)
+      request_attributes.delete(:start_hour)
+      request_attributes.delete(:start_min)
+    end
+    request_attributes
   end
 end

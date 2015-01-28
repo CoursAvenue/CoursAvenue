@@ -6,7 +6,7 @@
 
 .p
   Suite à votre modification de créneau, #{@user.name} vient de confirmer sa présence au cours "#{@course.name}" le
-  %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}"
+  %strong= @participation_request_decorator.day_and_hour
   - if @place
     au #{@place.address} (#{@place.name}).
   En cas d'annulation, de changement d'horaire ou si vous souhaitez tout simplement lui envoyer une information supplémentaire, envoyez-lui un message depuis votre onglet "Mes inscriptions" :

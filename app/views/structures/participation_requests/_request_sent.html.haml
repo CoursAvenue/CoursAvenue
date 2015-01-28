@@ -26,7 +26,7 @@
             = f.filepicker_field :remote_avatar_url, multiple: false, services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false, class: 'visuallyhidden', button_text: 'Ajouter ma photo', button_class: 'visuallyhidden filepicker', onchange: 'onPhotoUpload(event)'
         .flexbox__item.v-top.soft-half--left
           = f.label :birthdate, class: 'label--large block text--left f-weight-bold'
-          = f.input :birthdate, start_year: (Date.today.year - 1), end_year: 1900, include_blank: true, input_html: { class: 'input--large' }, label: false, wrapper_html: { class: 'flush--top' }
+          = f.input :birthdate, start_year: (Date.today.year - 1), end_year: (Date.today.year - 110), include_blank: true, input_html: { class: 'input--large' }, label: false, wrapper_html: { class: 'flush--top' }
           = f.label :description, class: 'label--large block text--left f-weight-bold'
           = f.input :description, input_html: { style: 'height: 100px;', class: 'input--large one-whole' }, label: false, wrapper_html: { class: 'flush' }
       = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
@@ -53,7 +53,6 @@
             $('img[data-fpimage]').attr('src', event.fpfile.url);
             $('img[data-fpimage]').show();
         }
-        debugger
         filepicker.constructWidget($('input[type=filepicker]'));
         $('[data-filepicker]').click(function(event) {
             event.preventDefault();

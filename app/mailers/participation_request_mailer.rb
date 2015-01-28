@@ -162,13 +162,14 @@ class ParticipationRequestMailer < ActionMailer::Base
   private
 
   def retrieve_participation_request_variables(participation_request)
-    @participation_request = participation_request
-    @course                = @participation_request.course
-    @place                 = @participation_request.place
-    @structure             = participation_request.structure
-    @admin                 = participation_request.structure.main_contact
-    @user                  = participation_request.user
-    @conversation          = participation_request.conversation
+    @participation_request           = participation_request
+    @participation_request_decorator = participation_request.decorate
+    @course                          = participation_request.course
+    @place                           = participation_request.place
+    @structure                       = participation_request.structure
+    @admin                           = participation_request.structure.main_contact
+    @user                            = participation_request.user
+    @conversation                    = participation_request.conversation
   end
 
   # Generate the reply_to address using ReplyTokens.

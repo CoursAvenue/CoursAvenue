@@ -101,4 +101,15 @@ class ParticipationRequestDecorator < Draper::Decorator
                 class: "btn btn--small #{action_button_class_for('User')} nowrap"
     end
   end
+
+  # 28 janvier de 11h00 à 12h30
+  # OR
+  # 28 janvier à 11h00 if it does not have planning (on appointment)
+  def day_and_hour
+    if object.course.is_private? and object.course.on_appointment?
+      "#{I18n.l(object.date, format: :semi_long)} à #{I18n.l(object.start_time, format: :short).gsub('00', '')}"
+    else
+      "#{I18n.l(object.date, format: :semi_long)} de #{I18n.l(object.start_time, format: :short).gsub('00', '')} à #{I18n.l(object.end_time, format: :short).gsub('00', '')}"
+    end
+  end
 end

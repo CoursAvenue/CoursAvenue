@@ -1,5 +1,5 @@
 - content_for :email_title do
-  %strong Acceptez la demande d'inscription de #{@user.name} en répondant directement à cet e-mail
+  Acceptez la demande d'inscription de #{@user.name} en répondant directement à cet e-mail
   %hr
 
 .p
@@ -7,7 +7,7 @@
 
 .p
   Il y a 2 jours, #{@user.name} vous a envoyé une demande d'inscription au cours "#{@participation_request.course.name}" le
-  %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}"
+  %strong= "#{@participation_request_decorator.day_and_hour}"
   Pour continuer à recevoir de nouveaux élèves, nous vous conseillons de répondre maintenant :
 
 .p.action

@@ -29,7 +29,7 @@
 
   %td.soft--ends.v-top
     - course = participation_request.course
-    %strong= "#{l(participation_request.date, format: :semi_long).capitalize} à #{l(participation_request.start_time, format: :short).gsub('00','')}"
+    %strong= participation_request_decorator.day_and_hour
     %br
     %span.has-tooltip{ data: { toggle: 'popover', content: participation_request_decorator.popover_course_infos, html: 'true', placement: 'top', trigger: 'hover' } }
       = course.name

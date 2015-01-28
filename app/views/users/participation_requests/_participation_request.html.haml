@@ -13,9 +13,7 @@
       = participation_request_decorator.user_action_link
   %td.v-top
     %div
-      %strong
-        = l(participation_request.date, format: :semi_long).capitalize
-        de #{l(participation_request.start_time, format: :short).gsub('00','')} à #{l(participation_request.end_time, format: :short).gsub('00','')}
+      %strong= participation_request_decorator.day_and_hour
     %div
       %span.has-tooltip{ data: { toggle: 'popover', content: participation_request_decorator.popover_course_infos, html: 'true', placement: 'top', trigger: 'hover' } }
         = course.name

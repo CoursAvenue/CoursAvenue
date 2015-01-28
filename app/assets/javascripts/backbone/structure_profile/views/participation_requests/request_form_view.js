@@ -31,9 +31,9 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
         populateRequest: function populateRequest (event) {
             this.model.set({
                 structure_id  : this.model.get('structure').get('id'),
-                date          : this.$('[name=date]').val(),
-                start_hour    : this.$('[name=start-hour]').val(),
-                start_min     : this.$('[name=start-min]').val(),
+                date          : this.$('[name="participation_request[date]"]').val(),
+                start_hour    : this.$('[name="participation_request[start_hour]"]').val(),
+                start_min     : this.$('[name="participation_request[start_min]"]').val(),
                 message: {
                     body: this.$('[name="message[body]"]').val()
                 },
@@ -167,9 +167,7 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             var options =  {
               courses_collection  : this.model.get('structure').get('courses'),
               trainings_collection: this.model.get('structure').get('trainings'),
-              model               : this.model,
-              selected_course_id  : null,
-              selected_planning_id: null
+              model               : this.model
             };
             var pr_content_view = new CoursAvenue.Views.ParticipationRequests.ParticipationRequestFormContentView(options);
             this.getRegion('request_form_content').show(pr_content_view);

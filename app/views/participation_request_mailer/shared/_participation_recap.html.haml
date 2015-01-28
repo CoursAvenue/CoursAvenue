@@ -39,8 +39,7 @@
       .p.hard
         %strong Jour et heure
     %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;' }
-      .p.hard
-        = "#{l(participation_request.date, format: :semi_short)} de #{l(participation_request.start_time, format: :short)} à #{l(participation_request.end_time, format: :short)}"
+      .p.hard= participation_request_decorator.day_and_hour.capitalize
   - if participation_request.place
     %tr.table-row-alternate-color{ valign: 'top' }
       %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;' }
