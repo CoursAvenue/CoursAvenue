@@ -7,7 +7,7 @@
     - if participation_request.pending? and participation_request.last_modified_by == 'User' and !participation_request.past?
       = participation_request_decorator.status_for('Structure')
       - if participation_request.created_at > 2.days.ago
-        %div{ id: "expires-in-#{participation_request.id}" }
+        %div.blue{ id: "expires-in-#{participation_request.id}" }
         = content_for :scripts do
           :javascript
             $(function() {
@@ -18,7 +18,7 @@
                       var hours   = ("0" + ts.hours).slice(-2);
                       var minutes = ("0" + ts.minutes).slice(-2);
                       var seconds = ("0" + ts.seconds).slice(-2);
-                      $countdown_div.text((ts.days > 0 ? ts.days + ' jours et ' : '') + hours + ':' + minutes + ':' + seconds);
+                      $countdown_div.text((ts.days > 0 ? ts.days + ' jour et ' : '') + hours + ':' + minutes + ':' + seconds);
                   },
                   countdown.DAYS|countdown.HOURS|countdown.MINUTES|countdown.SECONDS);
             });
@@ -37,7 +37,8 @@
     - if place
       %br
       - if place.info.present? or place.private_info.present?
-        %span.has-tooltip{ data: { toggle: 'popover', content: t('places.infos', info: place.info, private_info: place.private_info), html: 'true', placement: 'top', trigger: 'hover' } }
+        - place_decorator = participation_request.place.decorate
+        %span.has-tooltip{ data: { toggle: 'popover', content: place_decorator.popover_place_infos, html: 'true', placement: 'top', trigger: 'hover' } }
           = place.name
       - else
         = place.name

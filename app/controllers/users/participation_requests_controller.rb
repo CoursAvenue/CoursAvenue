@@ -48,7 +48,7 @@ class Users::ParticipationRequestsController < ApplicationController
     message_body = params[:participation_request][:message][:body] if params[:participation_request] and params[:participation_request][:message]
     @participation_request.accept!(message_body, 'User')
     respond_to do |format|
-      format.html { redirect_to (params[:return_to] || user_conversation_path(@user, @participation_request.conversation)), notice: "Votre confirmation vient d'être envoyée" }
+      format.html { redirect_to (params[:return_to] || user_participation_requests_path(@user)), notice: "Votre confirmation vient d'être envoyée" }
     end
   end
 
@@ -57,7 +57,7 @@ class Users::ParticipationRequestsController < ApplicationController
     @participation_request = @user.participation_requests.find(params[:id])
     @participation_request.modify_date!(params[:participation_request][:message][:body], params[:participation_request], 'User')
     respond_to do |format|
-      format.html { redirect_to (params[:return_to] || user_conversation_path(@user, @participation_request.conversation)), notice: 'Le changement a bien été pris en compte' }
+      format.html { redirect_to (params[:return_to] || user_participation_requests_path(@user)), notice: 'Le changement a bien été pris en compte' }
     end
   end
 
@@ -66,7 +66,7 @@ class Users::ParticipationRequestsController < ApplicationController
     @participation_request = @user.participation_requests.find(params[:id])
     @participation_request.discuss!(params[:participation_request][:message][:body], 'User')
     respond_to do |format|
-      format.html { redirect_to (params[:return_to] || user_conversation_path(@user, @participation_request.conversation)), notice: 'Le changement a bien été pris en compte' }
+      format.html { redirect_to (params[:return_to] || user_participation_requests_path(@user)), notice: 'Le changement a bien été pris en compte' }
     end
   end
 
@@ -75,7 +75,7 @@ class Users::ParticipationRequestsController < ApplicationController
     @participation_request = @user.participation_requests.find(params[:id])
     @participation_request.cancel!(params[:participation_request][:message][:body], params[:participation_request][:cancelation_reason_id], 'User')
     respond_to do |format|
-      format.html { redirect_to (params[:return_to] || user_conversation_path(@user, @participation_request.conversation)), notice: "L'annulation a bien été prise en compte" }
+      format.html { redirect_to (params[:return_to] || user_participation_requests_path(@user)), notice: "L'annulation a bien été prise en compte" }
     end
   end
 

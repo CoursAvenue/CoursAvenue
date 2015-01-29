@@ -84,7 +84,7 @@ fr:
       actions:
         discuss: Discuter
         propose_another_date: Proposer une autre date
-        ask_more_info: Demander plus d'info
+        ask_more_info: Envoyer un message
         decline: Refuser
         accept: Accepter
 
@@ -94,6 +94,6 @@ fr:
         actions:
           discuss: Discuter
           propose_another_date: Proposer une autre date
-          ask_more_info: Demander plus d'info
+          ask_more_info: Envoyer un message
           decline: Refuser
           accept: Accepter

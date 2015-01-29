@@ -12,9 +12,6 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
 
         ui: {
             '$message_sent'                           : '[data-type=message-sent]',
-            '$participation_request_date'             : '[name="participation_request[date]"]',
-            '$participation_request_start_hour'       : '[name="participation_request[start_hour]"]',
-            '$participation_request_start_min'        : '[name="participation_request[start_min]"]',
             '$participation_request_message_body'     : '[name="message[body]"]',
             '$participation_request_user_phone_number': '[name="user[phone_number]"]',
             '$user_participation_requests_path'       : '[data-type=user-participation-requests-path]'
@@ -41,9 +38,9 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
         populateRequest: function populateRequest (event) {
             this.model.set({
                 structure_id  : this.model.get('structure').get('id'),
-                date          : this.ui.$participation_request_date.val(),
-                start_hour    : this.ui.$participation_request_start_hour.val(),
-                start_min     : this.ui.$participation_request_start_min.val(),
+                date          : this.$('[name="participation_request[date]"]').val(),
+                start_hour    : this.$('[name="participation_request[start_hour]"]').val(),
+                start_min     : this.$('[name="participation_request[start_min]"]').val(),
                 message: {
                     body: this.ui.$participation_request_message_body.val()
                 },
@@ -180,9 +177,6 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
         },
 
         onRender: function onRender () {
-            // IMPORTANT to rebind ui elements that are nested in the form_content_view
-            this.bindUIElements();
-            this.ui.$participation_request_message_body.preventFromContact();
             var options =  {
               courses_collection  : this.model.get('structure').get('courses'),
               trainings_collection: this.model.get('structure').get('trainings'),
@@ -190,6 +184,7 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             };
             var pr_content_view = new CoursAvenue.Views.ParticipationRequests.ParticipationRequestFormContentView(options);
             this.getRegion('request_form_content').show(pr_content_view);
+            this.ui.$participation_request_message_body.preventFromContact();
         }
     });
 

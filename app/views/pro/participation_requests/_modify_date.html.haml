@@ -4,7 +4,7 @@
   .panel__header.soft
     %h4.flush
       - if discuss_only
-        Demander plus d'info
+        Envoyer un message
       - elsif show_course_select
         Proposer un autre cours
       - else
@@ -23,10 +23,10 @@
           = message_form.input :body, input_html: { placeholder: "Ajoutez un message facultatif...", style: 'height: 100px', class: 'input--large one-whole', id: 'participation-request-message', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
         = render partial: 'pro/structures/participation_requests/dont_contact_information'
       - else
-        %div{ data: { type: 'participation-request-form-content' } }
+        %div.push-half--bottom{ data: { type: 'participation-request-form-content' } }
 
       - if on_pro_subdomain?
-        %hr.push-half--ends
+        %hr.push-half--bottom
         = render partial: 'pro/structures/participation_requests/share_information'
 
       - if !discuss_only

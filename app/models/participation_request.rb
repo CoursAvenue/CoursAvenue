@@ -26,8 +26,7 @@ class ParticipationRequest < ActiveRecord::Base
   ######################################################################
   before_save   :update_times
   before_create :set_default_attributes
-  after_create  :send_email_to_teacher
-  after_create  :send_sms_to_teacher
+  after_create  :send_email_to_teacher, :send_email_to_user, :send_sms_to_teacher
   after_destroy :destroy_conversation_attached
 
   ######################################################################
@@ -53,7 +52,7 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return ParticipationRequest
   def self.create_and_send_message(request_attributes, message_body, user, structure)
-    message_body = StringHelper.replace_contact_infos(message_body)
+    message_body                    = StringHelper.replace_contact_infos(message_body)
     request_attributes              = self.set_start_time(request_attributes)
     participation_request           = ParticipationRequest.new date: request_attributes[:date], start_time: request_attributes[:start_time], planning_id: request_attributes[:planning_id], course_id: request_attributes[:course_id]
     participation_request.user      = user
@@ -242,6 +241,13 @@ class ParticipationRequest < ActiveRecord::Base
   # @return nil
   def send_email_to_teacher
     ParticipationRequestMailer.delay.you_received_a_request(self)
+  end
+
+  # When a request is created we inform the user
+  #
+  # @return nil
+  def send_email_to_user
+    ParticipationRequestMailer.delay.you_sent_a_request(self)
     nil
   end
 
@@ -255,8 +261,7 @@ class ParticipationRequest < ActiveRecord::Base
   def reply_to_conversation(message_body, last_modified_by)
     message_body = StringHelper.replace_contact_infos(message_body)
     if message_body.present?
-      self.conversation.lock_email_notification_once = true
-      self.conversation.save
+      self.conversation.update_column :lock_email_notification_once, true
       if last_modified_by == 'Structure'
         receipt = self.structure.main_contact.reply_to_conversation(self.conversation, message_body)
       else

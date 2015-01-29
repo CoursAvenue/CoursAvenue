@@ -11,15 +11,10 @@
   au cours "#{@participation_request.course.name}"
   - if @place
     au #{@place.address} (#{@place.name}).
-  Connectez-vous à votre profil
-  - if @participation_request.date <= 2.days.from_now
-    %strong= "avant le #{I18n.l(@participation_request.date, format: :semi_short)}"
-  - else
-    %strong= "avant le #{I18n.l(2.days.from_now.to_date, format: :semi_short)} #{I18n.l(Time.now, format: :short)}"
-  pour répondre à sa demande :
+  Connectez-vous à votre profil pour lui répondre :
 
 .p.action
-  = link_to "Accepter / Proposer une autre date / Refuser", pro_structure_participation_request_url(@admin.structure, @participation_request, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
+  = link_to "Répondre au message", pro_structure_participation_request_url(@admin.structure, @participation_request, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
 
 - if @message
   = render partial: 'mailboxer_message_mailer/message_to_admin', locals: { message: @message, user: @user, show_phone_number: false }

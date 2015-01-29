@@ -12,6 +12,14 @@ class ParticipationRequestMailer < ActionMailer::Base
   ######################################################################
   # For Participation Requests                                         #
   ######################################################################
+  def you_sent_a_request(participation_request)
+    @message = participation_request.conversation.messages.first
+    retrieve_participation_request_variables(participation_request)
+    mail to: @user.email,
+         subject: "Demande d'inscription envoyée - #{@structure.name}",
+         reply_to: generate_reply_to('admin')
+  end
+
   def you_received_a_request(participation_request)
     @message = participation_request.conversation.messages.first
     retrieve_participation_request_variables(participation_request)
@@ -77,14 +85,16 @@ class ParticipationRequestMailer < ActionMailer::Base
   def request_has_been_modified_by_user_to_teacher(participation_request, message)
     @message = message
     retrieve_participation_request_variables(participation_request)
-    mail to: @admin.email, subject: "Nouvelle proposition de date - #{@user.name}",
+    mail to: @admin.email,
+         subject: (@participation_request.old_course_id.present? ? 'Changement de cours' : 'Changement de date') + " - #{@user.name}",
          reply_to: generate_reply_to('admin')
   end
 
   def request_has_been_modified_by_teacher_to_user(participation_request, message)
     retrieve_participation_request_variables(participation_request)
     @message = message
-    mail to: @user.email, subject: "Nouvelle proposition de date - #{@structure.name}",
+    mail to: @user.email,
+         subject: (@participation_request.old_course_id.present? ? 'Changement de cours' : 'Changement de date') + " - #{@structure.name}",
          reply_to: generate_reply_to('user')
   end
 
