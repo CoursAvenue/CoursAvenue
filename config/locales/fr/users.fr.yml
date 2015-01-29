@@ -87,4 +87,4 @@ fr:
   simple_form:
     placeholders:
       user:
-        description: 'Présentez-vous brièvement : quels loisirs souhaitez-vous découvrir, dans quel objectif, que faites-vous dans la vie... ?'
+        description: 'Présentez-vous brièvement : quel est votre niveau, dans quel objectif vous souhaitez suivre ce cours, que faites-vous dans la vie... ?'
