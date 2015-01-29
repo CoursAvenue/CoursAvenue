@@ -165,7 +165,10 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             if (CoursAvenue.currentUser().get('last_messages_sent')) {
                 _.extend(data, {
                     last_message_sent_at: CoursAvenue.currentUser().get('last_messages_sent')[structure_json.id],
-                    user_participation_requests_path: Routes.user_participation_requests_path({ id: CoursAvenue.currentUser().get('slug') })
+                    user_participation_requests_path: Routes.user_participation_requests_path({ id: CoursAvenue.currentUser().get('slug') }),
+                    user: {
+                        phone_number: CoursAvenue.currentUser().get('phone_number')
+                    }
                 });
             }
             _.extend(data, {
