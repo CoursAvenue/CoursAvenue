@@ -1,6 +1,8 @@
 - course_decorator                = participation_request.course.decorate
 - participation_request_decorator = participation_request.decorate
 - show_header                     = true if show_header.nil?
+- show_access                     = false if show_access.nil?
+- place                           = participation_request.place
 %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
   - if show_header
     %tr{ valign: 'top' }
@@ -43,13 +45,26 @@
         %strong Jour et heure
     %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;'}
       .p.hard= participation_request_decorator.day_and_hour.capitalize
-  - if participation_request.place
+  - if place
     %tr.table-row-alternate-color{ valign: 'top' }
       %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;'}
         .p.hard
           %strong Lieu
       %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;'}
         .p.hard
-          = link_to URI.encode("https://maps.google.com/?q=#{participation_request.place.address}") do
-            = participation_request.place.address
-          = "(#{participation_request.place.try(:name)})"
+          = link_to URI.encode("https://maps.google.com/?q=#{place.address}") do
+            = place.address
+          = "(#{place.try(:name)})"
+    - if show_access and (place.info.present? or place.private_info.present?)
+      %tr.table-row-alternate-color{ valign: 'top' }
+        %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;'}
+          .p.hard
+            %strong Accès
+        %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;'}
+          .p.hard
+            - if place.info.present?
+              = place.info
+            - if place.info.present? and place.private_info.present?
+              %br
+            - if place.private_info.present?
+              = place.private_info
