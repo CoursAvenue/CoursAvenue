@@ -15,7 +15,7 @@
 
 - if @message
   .soft--bottom
-    = render partial: 'mailboxer_message_mailer/message_to_admin', locals: { message: @message, user: @user, show_phone_number: false }
+    = render partial: 'mailboxer_message_mailer/message_to_admin', locals: { message: @message, user: @user }
 
 .p En répondant maintenant, votre profil remontera dans le moteur de recherche et vous continuerez à recevoir des demandes d'inscription.
 
