@@ -1,42 +1,50 @@
-- calendar = true if calendar.nil?
+- calendar                        = true if calendar.nil?
+- participation_request_decorator = participation_request.decorate
+- course                          = participation_request.course
+- course_decorator                = course.decorate
+- structure                       = participation_request.structure
+- structure_decorator             = structure.decorate
+- place                           = participation_request.place
+- place_decorator                 = place.decorate if place
 %tr
-  %td.one-twelfth{ class: [participation_request_color(participation_request), ((participation_request.accepted? or participation_request.canceled?) ? 'nowrap' : '')] }
-    = participation_request_icon(participation_request)
-    - if participation_request.pending?
-      - if participation_request.last_modified_by == 'Structure'
-        Confirmez votre inscription
-      - else
-        En attente de validation du professeur
-    - else
-      = t("participation_request.state.#{participation_request.state}")
-  %td.three-twelfths
-    - course = participation_request.course
-    = course.name
-    %i.fa.fa-info{ data: { toggle: 'popover', content: "<strong>Niveau :</strong> #{join_levels(participation_request.levels)}<br><strong>Public :</strong> #{join_audiences(participation_request.planning || participation_request.course)}<br><strong>Disciplines :</strong> #{course.subjects.uniq.map(&:name).join(', ')}", html: 'true', placement: 'top', trigger: 'hover' } }
-  %td.two-twelfths
-    - place = participation_request.place
+  %td.v-top.nowrap{ class: participation_request_decorator.color }
+    = participation_request_decorator.status_for('User')
+    .very-soft.hard--left.hard--bottom.hard--right
+      = participation_request_decorator.user_action_link
+  %td.v-top
+    %div
+      %strong= participation_request_decorator.day_and_hour
+    %div
+      %span.has-tooltip{ data: { toggle: 'popover', content: participation_request_decorator.popover_course_infos, html: 'true', placement: 'top', trigger: 'hover' } }
+        = course.name
+    %div
+      = course_decorator.first_session_detail(true)
+  %td.v-top
     - if place
-      = place.address
-      - if place.info.present? or place.private_info.present?
-        %a.btn.btn--small{ data: { toggle: 'popover', content: t('places.infos', info: place.info, private_info: place.private_info), html: 'true', placement: 'top', trigger: 'hover' } }
-          Infos
-  %td
-    = link_to participation_request.structure.name, structure_path(participation_request.structure), target: :_blank
-  %td.two-twelfths
-    = "#{l(participation_request.date, format: :semi_short)} à #{l(participation_request.start_time, format: :short)}"
-  %td.two-twelfths
-    - if !participation_request.canceled? and !participation_request.declined?
-      - if participation_request.pending? and participation_request.last_modified_by == 'Structure'
-        = link_to "Accepter le nouveau créneau", accept_user_participation_request_path(@user, participation_request), method: :patch, class: 'green nowrap'
+      %div
+        %strong= place.name
+      %div
+        = place.address
         %br
-      = link_to 'Proposer un autre créneau', edit_user_participation_request_path(@user, participation_request, return_to: user_participation_requests_path(@user)), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
-      %br
-    = link_to 'Historique des messages', user_conversation_path(@user, participation_request.conversation)
+        = link_to 'Voir sur la carte', URI.encode("http://maps.google.com/?q=#{place.address}"), target: :_blank
+      - if place.info.present? or place.private_info.present?
+        %div
+          %span.has-tooltip{ data: { toggle: 'popover', content: place_decorator.popover_place_infos, html: 'true', placement: 'top', trigger: 'hover' } }
+            Comment y accéder
     %br
-    = link_to 'Récapitulatif', recap_user_participation_request_path(@user, participation_request), class: 'fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
-    - if !participation_request.canceled? and !participation_request.declined?
-      %br
-      = link_to "Annuler l'inscription", cancel_form_user_participation_request_path(@user, participation_request, return_to: user_participation_requests_path(@user)), class: 'red nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+  %td.v-middle
+    .flexbox
+      .flexbox__item.v-middle.soft-half--right{ style: 'width: 50px; '}
+        = image_tag structure.logo.url(:small_thumb), height: 50, width: 50, class: 'rounded--circle', data: { src2x: structure.logo.url(:thumb) }
+      .flexbox__item.v-middle
+        = link_to structure.name, structure_path(structure), target: :_blank, class: 'f-weight-bold'
+        - if participation_request.accepted?
+          %div= structure_decorator.phone_numbers
+          %div= structure_decorator.website_link
+          %div
+            = link_to user_conversation_path(participation_request.user, participation_request.conversation) do
+              %i.fa.fa-envelope-o
+              Envoyer un message
   - if calendar
-    %td.nowrap
-      = add_to_calendar(participation_request)
+    %td.v-middle.nowrap.text--center
+      = add_to_calendar_small(participation_request)

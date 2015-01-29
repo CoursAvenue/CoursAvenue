@@ -6,7 +6,7 @@
 
 .p
   Votre demande d'inscription au cours "#{@participation_request.course.name}" le
-  %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}"
+  %strong= "#{@participation_request_decorator.day_and_hour}"
   vient d'être transmise à "#{@structure.name}" qui a 48h pour la confirmer. Dès que votre inscription est validée, un e-mail vous sera envoyé. A tout moment, vous pouvez consulter l'état de vos demandes d'inscription en vous connectant à votre profil :
 
 .p.action

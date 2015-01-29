@@ -20,7 +20,7 @@ fr:
         gender: Sexe
         phone_number: Téléphone
         birthdate: Date de naissance
-        sms_opt_in: Activer les notifications par SMS
+        sms_opt_in: La veille de vos inscriptions, CoursAvenue vous envoie un résumé par SMS.
         email_promo_opt_in: CoursAvenue propose de temps en temps des offres ou des promotions sur des cours vraiment sympas.
         email_newsletter_opt_in: CoursAvenue a des infos intéressantes sur les nouveautés de son site et sur ses améliorations (newsletters).
         email_passions_opt_in: "CoursAvenue a du nouveau à me partager concernant mes disciplines \"passions\" (soirées, expo, stages, invitations, etc.)."
@@ -34,6 +34,7 @@ fr:
       reviews: Mes avis
       share: Partager
       inscriptions: Mes inscriptions
+      profile: Profil
 
   devise:
     confirmations:
@@ -83,3 +84,7 @@ fr:
           subject: "Instructions pour changer le mot de passe"
         unlock_instructions:
           subject: "Instructions pour déverrouiller le compte"
+  simple_form:
+    placeholders:
+      user:
+        description: 'Présentez-vous brièvement : quels loisirs souhaitez-vous découvrir, dans quel objectif, que faites-vous dans la vie... ?'

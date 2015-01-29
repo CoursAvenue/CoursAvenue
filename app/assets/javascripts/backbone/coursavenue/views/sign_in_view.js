@@ -34,6 +34,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         events: {
+            'click @ui.$facebook_login_button'    : 'loginWithFacebook',
             'click [data-behavior=sign-up]'       : 'signUp',
             'submit form[data-behavior=user-form]': 'signIn',
             'click @ui.$facebook_login_button'    : 'loginWithFacebook'
@@ -57,6 +58,14 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 this.$('[name=authenticity_token]').val($('meta[name="csrf-token"]').attr('content'));
             }
         },
+
+        /*
+         * We have to keep this action in this model to ensure to pass this.options attributes
+         */
+        loginWithFacebook: function loginWithFacebook () {
+            CoursAvenue.loginWithFacebook(this.options);
+        },
+
         signUp: function signUp () {
             new Module.SignUpView(this.options);
             return false;

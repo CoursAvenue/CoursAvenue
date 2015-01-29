@@ -8,6 +8,11 @@ class Course < ActiveRecord::Base
                         'courses.frequencies.every_two_weeks',
                         'courses.frequencies.every_month']
 
+  ######################################################################
+  # Relations                                                          #
+  ######################################################################
+  belongs_to :place
+
   # ------------------------------------------------------------------------------------ Model attributes and settings
   extend FriendlyId
   friendly_id :friendly_name, use: [:slugged, :finders]

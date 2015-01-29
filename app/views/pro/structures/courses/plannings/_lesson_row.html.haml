@@ -1,10 +1,11 @@
-- course    ||= planning.course
-- structure ||= course.structure
+- planning_decorator = planning.decorate
+- course           ||= planning.course
+- structure        ||= course.structure
 %tr{ id: "planning-#{planning.id}" }
-  %td= t('date.day_names')[planning.week_day].capitalize if planning.week_day
-  %td= readable_time_slot planning.start_time, planning.end_time
-  %td= join_levels_text planning
-  %td= join_audiences planning
+  %td= planning_decorator.week_day_name
+  %td= planning_decorator.time_slot
+  %td= planning_decorator.join_levels
+  %td= planning_decorator.join_audiences
   %td= planning.place.try(:name)
   %td
     - if planning.info.present?

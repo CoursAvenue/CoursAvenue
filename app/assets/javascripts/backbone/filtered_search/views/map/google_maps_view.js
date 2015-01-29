@@ -7,7 +7,7 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
 
         /* override addchild to add one marker for each place on the model */
         addChild: function addChild (childModel, html) {
-            var places = childModel.getRelation('places').related.models;
+            var places = _.map(childModel.get('places'), function(place) { return new CoursAvenue.Models.Place(place) });
 
             _.each(places, function (place) {
                 var markerView = new this.markerView({
@@ -20,7 +20,7 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
                 markerView.on('hovered'        , function() { this.markerHovered(markerView) }.bind(this));
                 markerView.on('unhighlight:all', function() { this.unhighlightEveryMarker(markerView) }.bind(this));
 
-                this.markerViewChildren[place.cid] = markerView;
+                this.markerViewChildren[place.id] = markerView;
 
                 // this is clever because we are "hijacking" marionette's childview event
                 // forwarding, which allows a parent to respond to child events with the
@@ -47,15 +47,11 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
         },
 
         /* a set of markers should be made to stand out */
-        exciteMarkers: function exciteMarkers (data) {
+        exciteMarkers: function exciteMarkers (places) {
             var self = this;
 
-            var keys = data.map(function(model) {
-                return self.toKey(model);
-            });
-
-            _.each(keys, function (key) {
-                var marker = self.markerViewChildren[key];
+            _.each(places, function (place) {
+                var marker = self.markerViewChildren[place.id];
 
                 // Prevent from undefined
                 if (marker) {

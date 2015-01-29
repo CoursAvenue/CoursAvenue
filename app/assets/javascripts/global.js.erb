@@ -2,6 +2,7 @@ var GLOBAL = GLOBAL || {};
 GLOBAL.initialize_callbacks  = [];
 GLOBAL.IMAGE_TYPE_REGEX      = /(\.|\/)(gif|jpe?g|png|bmp)$/i;
 GLOBAL.MAX_IMAGE_SIZE        = 5000000; // 5mo
+GLOBAL.MOMENT_DATE_FORMAT    = 'DD/MM/YYYY';
 GLOBAL.DATE_FORMAT           = 'dd/mm/yyyy';
 GLOBAL.EXCLUDED_SEARCH_WORDS = /(cours de)|(cours d')|(atelier de)|(atelier d)|(stage de)|(stage d')|(activité)|(séance)/;
 GLOBAL.isImageValid = function(file) {
@@ -98,6 +99,10 @@ if (!Function.prototype.debounce) {
         return _.debounce(this, wait, immediate);
     }
 }
+GLOBAL.REGEX              = {};
+GLOBAL.REGEX.email        = /([^@\s]+)@(([-a-z0-9]+\.)+[a-z]{2,})/gi;
+GLOBAL.REGEX.phone_number = /((\+|00)33\s?|0)[0-9]([\s-\. ]*?\d{2}){4}/g;
+GLOBAL.REGEX.link         = /((http|ftp|https):\/\/)?[\w\-_]{2,}(\(point\)[\w\-_]|\.[\w\-_])+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/gi;
 // Test links that should be matched
 // ["toto.com", "http://toto.com", "http://www.coazd.com", "www.my-site.com"].join(' ')
 // Test links that should NOT be matched
@@ -105,10 +110,10 @@ if (!Function.prototype.debounce) {
 GLOBAL.hideContactsInfo = function hideContactsInfo (text) {
     if (!text) { return ''; }
     // Emails
-    text = text.replace(/([^@\s]+)@(([-a-z0-9]+\.)+[a-z]{2,})/gi, '<a class="cursor-pointer" data-behavior="show-contact-panel">(contact)</a>');
+    text = text.replace(GLOBAL.REGEX.email, '<a class="cursor-pointer" data-behavior="show-contact-panel">(contact)</a>');
     // Phone numbers
-    text = text.replace(/((\+|00)33\s?|0)[0-9]([\s-\. ]*?\d{2}){4}/g, '<a class="cursor-pointer" data-behavior="show-contact-panel">(contact)</a>')
+    text = text.replace(GLOBAL.REGEX.phone_number, '<a class="cursor-pointer" data-behavior="show-contact-panel">(contact)</a>')
     // Links
-    text = text.replace(/((http|ftp|https):\/\/)?[\w\-_]{2,}(\(point\)[\w\-_]|\.[\w\-_])+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/gi, '<a class="cursor-pointer" data-behavior="show-contact-panel">(contact)</a>')
+    text = text.replace(GLOBAL.REGEX.link, '<a class="cursor-pointer" data-behavior="show-contact-panel">(contact)</a>')
     return text;
 }

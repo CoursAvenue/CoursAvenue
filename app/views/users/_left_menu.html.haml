@@ -1,0 +1,12 @@
+.flexbox__item.one-fifth.v-top>
+  %ul.tabs--link.no-bullet-list.epsilon.push--right
+    %li.delta.line-height-2-5.f-weight-500{ class: current == 'profile' ? 'active' : '' }
+      = link_to 'Mes infos', edit_user_path(@user)
+    %li.delta.line-height-2-5.f-weight-500{ class: current == 'passions' ? 'active' : '' }
+      = link_to 'Mes passions', user_passions_path(@user)
+    %li.delta.line-height-2-5.f-weight-500{ class: current == 'followings' ? 'active' : '' }
+      = link_to 'Mes favoris', user_followings_path(@user)
+    %li.delta.line-height-2-5.f-weight-500{ class: current == 'reviews' ? 'active' : '' }
+      = link_to 'Mes avis', user_comments_path(@user)
+    %li.delta.line-height-2-5.f-weight-500{ class: current == 'private_infos' ? 'active' : '' }
+      = link_to 'Mon compte', edit_private_infos_user_path(@user)

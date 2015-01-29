@@ -1,4 +1,7 @@
 # encoding: utf-8
+# /!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\
+# /!\ RESTART SERVER IF YOU WANT TO SEE YOUR CHANGES /!\
+# /!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\
 class StructureLogoUploader < CarrierWave::Uploader::Base
   include CarrierWave::ImageOptimizer
   include Cloudinary::CarrierWave
@@ -8,7 +11,7 @@ class StructureLogoUploader < CarrierWave::Uploader::Base
     ActionController::Base.helpers.asset_path("logos/" + [version_name, "missing.png"].compact.join('/'))
   end
 
-  cloudinary_transformation :transformation => [{  width: 600, height: 600, crop: :pad }]
+  cloudinary_transformation transformation: [{  width: 600, height: 600, crop: :pad }]
   process convert: "jpg"
 
   # Create different versions of your uploaded files:
@@ -17,7 +20,7 @@ class StructureLogoUploader < CarrierWave::Uploader::Base
   end
 
   version :large do
-    # cloudinary_transformation :transformation => [{  width: 450, height: 450, crop: :pad }]
+    # cloudinary_transformation transformation: [{  width: 450, height: 450, crop: :pad }]
     process resize_to_fit: [450, 450]
   end
 
@@ -27,6 +30,10 @@ class StructureLogoUploader < CarrierWave::Uploader::Base
 
   version :small_thumb do
     process :crop_small_thumb
+  end
+
+  version :small_thumb_85 do
+    process :crop_small_thumb_85
   end
 
   version :thumbnail_email_cropped do
@@ -41,14 +48,6 @@ class StructureLogoUploader < CarrierWave::Uploader::Base
 
   private
 
-  # Crop attributes are set with original (600x600) dimensions
-  # That's why we use a ratio
-  #
-  # @return Hash
-  def fill_thumb
-    return { width: 200, height: 200, crop: :fill }
-  end
-
   def crop_thumb
     transformations = []
     crop_width      = (model.crop_width.to_i == 0 ? 600 : model.crop_width.to_i)
@@ -62,6 +61,14 @@ class StructureLogoUploader < CarrierWave::Uploader::Base
     crop_width      = (model.crop_width.to_i == 0 ? 600 : model.crop_width.to_i)
     transformations << { x: model.crop_x, y: model.crop_y, width: crop_width, height: crop_width, crop: :crop }
     transformations << { width: 60, height: 60, crop: :fill }
+    { transformation: transformations }
+  end
+
+  def crop_small_thumb_85
+    transformations = []
+    crop_width      = (model.crop_width.to_i == 0 ? 600 : model.crop_width.to_i)
+    transformations << { x: model.crop_x, y: model.crop_y, width: crop_width, height: crop_width, crop: :crop }
+    transformations << { width: 85, height: 85, crop: :fill }
     { transformation: transformations }
   end
 

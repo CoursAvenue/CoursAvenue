@@ -1,19 +1,24 @@
 - content_for :email_title do
-  %strong Acceptez la nouvelle proposition de #{@structure.name} en répondant directement à cet e-mail
+  Acceptez la nouvelle proposition de #{@structure.name} en répondant directement à cet e-mail
   %hr
 
 .p
   Bonjour #{@user.first_name},
 
 .p
-  Hier, #{@structure.name} vous a envoyé une nouvelle proposition de date pour votre cours d'essai "#{@course.name}" : confirmez-vous votre présence pour le
-  %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}"
+  - if @participation_request.old_course_id.present?
+    Hier, #{@structure.name} vous a proposé un autre cours et vous invite à assister à une séance de
+    %strong "#{@course.name}"
+    le
+  - else
+    Hier, #{@structure.name} vous a envoyé une nouvelle proposition de date pour votre cours "#{@course.name}" : confirmez-vous votre présence pour le
+  %strong= "#{@participation_request_decorator.day_and_hour}"
   - if @place
     au #{@place.address} (#{@place.name}) ?
   Répondez-lui dès maintenant pour que votre inscription soit prise en compte :
 
 .p.action
-  = link_to "Accepter / Proposer un autre créneau / Refuser", user_conversation_url(@user, @conversation, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green'
+  = link_to "Accepter / Proposer un autre créneau / Refuser", user_participation_request_url(@user, @participation_request, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green'
 
 = render 'shared/mailers/footer'
 

@@ -1,7 +1,7 @@
 {
   "checksum": {
-    "previous": "054a70fede6e51425034e64a2d3f542ecfa21165a51d83a9b3b277c702e98a96",
-    "current": "054a70fede6e51425034e64a2d3f542ecfa21165a51d83a9b3b277c702e98a96"
+    "previous": "c286b23dd0ad2fd1f63435e7624022b213b29c87acac20bcc3c0cdd7c21c2467",
+    "current": "c286b23dd0ad2fd1f63435e7624022b213b29c87acac20bcc3c0cdd7c21c2467"
   },
   "fonts": [
     "app/assets/fonts/GlyphAvenue.ttf",
@@ -17,6 +17,10 @@
     "audiences-old": {
       "codepoint": 61845,
       "source": "app/assets/images/icons/svg/audiences-old.svg"
+    },
+    "avatar": {
+      "codepoint": 61857,
+      "source": "app/assets/images/icons/svg/avatar.svg"
     },
     "bar-chart-o": {
       "codepoint": 61846,
@@ -183,7 +187,7 @@
       "source": "app/assets/images/icons/svg/list.svg"
     },
     "lock": {
-      "codepoint": 61851,
+      "codepoint": 61861,
       "source": "app/assets/images/icons/svg/lock.svg"
     },
     "map-marker": {
@@ -213,6 +217,10 @@
     "repeat": {
       "codepoint": 61733,
       "source": "app/assets/images/icons/svg/repeat.svg"
+    },
+    "right-to-left": {
+      "codepoint": 61854,
+      "source": "app/assets/images/icons/svg/right-to-left.svg"
     },
     "rugby-ball": {
       "codepoint": 61853,

@@ -1,44 +1,49 @@
+- course_decorator                = participation_request.course.decorate
+- participation_request_decorator = participation_request.decorate
 %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
   %tr{ valign: 'top' }
-    %td.v-top.content-block{ colspan: 3, style: 'padding: 3px;' }
+    %td.v-top.content-block{ colspan: 3, style: 'padding: 8px 4px;' }
       .title Récapitulatif de la demande d'inscription
   %tr{ valign: 'top' }
-    %td.v-top.content-block{ width: '20%', rowspan: (participation_request.place ? 5 : 4), style: 'padding: 3px;' }
-      = link_to structure_url(participation_request.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank', class: 'block' do
-        = image_tag participation_request.structure.logo.url(:thumb), class: 'block', height: 90, width: 90, alt: "Logo de #{participation_request.structure.name}"
-    %td.v-top.content-block{ width: '25%', style: 'padding: 3px;' }
+    %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;' }
       .p.hard
         %strong Élève
-    %td.v-top.content-block{ width: '55%', style: 'padding: 3px;' }
+    %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;' }
       .p.hard
         = participation_request.user.name
         - if participation_request.accepted? and participation_request.user.phone_number
           = "(#{participation_request.user.phone_number})"
   %tr.table-row-alternate-color{ valign: 'top' }
-    %td.v-top.content-block{ width: '25%', style: 'padding: 3px;' }
+    %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;' }
       .p.hard
-        %strong Cours d'essai
-    %td.v-top.content-block{ width: '55%', style: 'padding: 3px;' }
+        %strong Statut
+    %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;' }
+      .p.hard
+        = I18n.t("participation_request.state.#{participation_request.state}")
+  %tr{ valign: 'top' }
+    %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;'}
+      .p.hard
+        %strong Inscription
+    %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;'}
+      .p.hard
+        = course_decorator.first_session_detail
+  %tr.table-row-alternate-color{ valign: 'top' }
+    %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;' }
+      .p.hard
+        %strong Cours
+    %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;' }
       .p.hard
         = participation_request.course.name
   %tr{ valign: 'top' }
-    %td.v-top.content-block{ width: '25%', style: 'padding: 3px;' }
+    %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;' }
       .p.hard
-        %strong Statut
-    %td.v-top.content-block{ width: '55%', style: 'padding: 3px;' }
-      .p.hard
-        = I18n.t("participation_request.state.#{participation_request.state}")
-  %tr.table-row-alternate-color{ valign: 'top' }
-    %td.v-top.content-block{ width: '25%', style: 'padding: 3px;' }
-      .p.hard
-        %strong Jour et créneau
-    %td.v-top.content-block{ width: '55%', style: 'padding: 3px;' }
-      .p.hard
-        = "#{l(participation_request.date, format: :semi_short)} de #{l(participation_request.start_time, format: :short)} à #{l(participation_request.end_time, format: :short)}"
+        %strong Jour et heure
+    %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;' }
+      .p.hard= participation_request_decorator.day_and_hour.capitalize
   - if participation_request.place
-    %tr{ valign: 'top' }
-      %td.v-top.content-block{ width: '25%', style: 'padding: 3px;' }
+    %tr.table-row-alternate-color{ valign: 'top' }
+      %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;' }
         .p.hard
           %strong Lieu
-      %td.v-top.content-block{ width: '55%', style: 'padding: 3px;' }
+      %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;' }
         .p.hard= participation_request.place.try(:name)

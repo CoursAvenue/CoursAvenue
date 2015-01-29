@@ -4,6 +4,7 @@ class Structure < ActiveRecord::Base
   include Concerns::ActiveHashHelper
   include Concerns::HasDeliveryStatus
   include Concerns::IdentityCacheFetchHelper
+  include Concerns::SMSSender
   include Concerns::ReminderEmailStatus
   include StructuresHelper
   include HasSubjects
@@ -36,6 +37,7 @@ class Structure < ActiveRecord::Base
   # Relations                                                          #
   ######################################################################
   belongs_to :city
+  belongs_to :principal_mobile, class_name: 'PhoneNumber'
 
   has_many :invited_users             , foreign_key: :referrer_id, dependent: :destroy
   has_many :invited_teachers          , -> { where(type: 'InvitedUser::Teacher') }, class_name: 'InvitedUser', foreign_key: :referrer_id, dependent: :destroy
@@ -104,7 +106,8 @@ class Structure < ActiveRecord::Base
                   :phone_numbers_attributes, :places_attributes, :other_emails, :last_geocode_try,
                   :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason,
                   :order_recipient, :delivery_email_status, :trial_courses_policy,
-                  :sleeping_structure, :premium, :cities_text
+                  :sleeping_structure, :premium, :cities_text, :sms_opt_in,
+                  :principal_mobile_id
 
   accepts_nested_attributes_for :places,
                                  reject_if: :reject_places,
@@ -426,6 +429,24 @@ class Structure < ActiveRecord::Base
     end
   end
   # :nocov:
+
+  # Sends a SMS to contact number.
+  #
+  # @param participation_request — The Participation Request
+  #
+  # @return a Boolean, whether the sms was sent or not.
+  def notify_new_participation_request_via_sms(participation_request)
+    number = principal_mobile
+
+    if number and sms_opt_in?
+      message = I18n.t('sms.structures.new_participation_request',
+                       user_name: participation_request.user.name,
+                       date: I18n.l(participation_request.date, format: :short),
+                       start_time: I18n.l(participation_request.start_time, format: :short))
+
+      delay.send_sms(message, number.number)
+    end
+  end
 
   # Check wether a place is in a given bounding box
   # @param  south_west Array [latitude, longitude]

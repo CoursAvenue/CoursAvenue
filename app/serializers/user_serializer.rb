@@ -23,4 +23,8 @@ class UserSerializer < ActiveModel::Serializer
   def has_discovery_pass
     object.discovery_pass.present?
   end
+
+  def avatar_url
+    object.avatar_url(:small)
+  end
 end

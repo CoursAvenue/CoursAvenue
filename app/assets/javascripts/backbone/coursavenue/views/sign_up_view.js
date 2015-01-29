@@ -30,6 +30,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         events: {
+            'click @ui.$facebook_login_button'    : 'loginWithFacebook',
             'click [data-behavior=sign-in]'       : 'signIn',
             'click @ui.$show_email_section_link'  : 'showEmailSection',
             'click @ui.$facebook_login_button'    : 'loginWithFacebook',

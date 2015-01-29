@@ -31,7 +31,7 @@ class City < ActiveRecord::Base
 
 
   has_attached_file :image,
-                    styles: { default: '900×600#', small: '250x200#'}
+                    styles: { default: '900x600#', small: '250x200#'}
   validates_attachment_content_type :image, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 
   def to_gmap_json

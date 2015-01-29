@@ -10,7 +10,8 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     @participation_requests = @structure.participation_requests
     # Select participation request that have the right label id (some could have been flagged as inapropriate
     # and therefore have a different label_id)
-    @participation_requests = @participation_requests.select{ |pr| pr.conversation.mailboxer_label_id == Mailboxer::Label::REQUEST.id }
+    @upcoming_participation_requests = @participation_requests.upcoming.order("state='pending' DESC,state='canceled' ASC, updated_at DESC, date ASC")
+    @past_participation_requests     = @participation_requests.order('date DESC').past
   end
 
   # GET pro/etablissements/:structure_id/participation_request/:id/edit
@@ -19,8 +20,20 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     render layout: false
   end
 
+  # GET pro/etablissements/:structure_id/participation_request/:id
+  def show
+    @participation_request = @structure.participation_requests.find(params[:id])
+    @user                  = @participation_request.user
+  end
+
   # GET pro/etablissements/:structure_id/participation_request/:id/cancel_form
   def cancel_form
+    @participation_request = @structure.participation_requests.find(params[:id])
+    render layout: false
+  end
+
+  # GET pro/etablissements/:structure_id/participation_request/:id/report_form
+  def report_form
     @participation_request = @structure.participation_requests.find(params[:id])
     render layout: false
   end
@@ -31,8 +44,14 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     message_body = params[:participation_request][:message][:body] if params[:participation_request] and params[:participation_request][:message]
     @participation_request.accept!(message_body, 'Structure')
     respond_to do |format|
-      format.html { redirect_to pro_structure_conversation_path(@structure, @participation_request.conversation), notice: "Votre confirmation vient d'être envoyée" }
+      format.html { redirect_to pro_structure_participation_requests_path(@structure), notice: "Votre confirmation vient d'être envoyée" }
     end
+  end
+
+  # GET pro/etablissements/:structure_id/participation_request/:id/cancel_form
+  def accept_form
+    @participation_request = @structure.participation_requests.find(params[:id])
+    render layout: false
   end
 
   # PUT pro/etablissements/:structure_id/participation_request/:id/modify_date
@@ -40,25 +59,34 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     @participation_request = @structure.participation_requests.find(params[:id])
     @participation_request.modify_date!(params[:participation_request][:message][:body], params[:participation_request], 'Structure')
     respond_to do |format|
-      format.html { redirect_to pro_structure_conversation_path(@structure, @participation_request.conversation), notice: 'Le changement a bien été pris en compte' }
+      format.html { redirect_to pro_structure_participation_requests_path(@structure), notice: 'Le changement a bien été pris en compte' }
     end
   end
 
-  # PUT pro/etablissements/:structure_id/participation_request/:id/decline
-  def decline
+  # PUT pro/etablissements/:structure_id/participation_request/:id/discuss
+  def discuss
     @participation_request = @structure.participation_requests.find(params[:id])
-    @participation_request.decline!(params[:participation_request][:message][:body], 'Structure')
+    @participation_request.discuss!(params[:participation_request][:message][:body], 'Structure')
     respond_to do |format|
-      format.html { redirect_to pro_structure_conversation_path(@structure, @participation_request.conversation), notice: 'Le refus a bien été envoyé' }
+      format.html { redirect_to pro_structure_participation_requests_path(@structure), notice: 'Le changement a bien été pris en compte' }
     end
   end
 
   # PUT pro/etablissements/:structure_id/participation_request/:id/cancel
   def cancel
     @participation_request = @structure.participation_requests.find(params[:id])
-    @participation_request.cancel!(params[:participation_request][:message][:body], 'Structure')
+    @participation_request.cancel!(params[:participation_request][:message][:body], params[:participation_request][:cancelation_reason_id], 'Structure')
     respond_to do |format|
-      format.html { redirect_to pro_structure_conversation_path(@structure, @participation_request.conversation), notice: "L'annulation a bien été pris en compte" }
+      format.html { redirect_to pro_structure_participation_requests_path(@structure), notice: "La demande d'inscription a bien été refusée" }
+    end
+  end
+
+  # PUT pro/etablissements/:structure_id/participation_request/:id/report
+  def report
+    @participation_request = @structure.participation_requests.find(params[:id])
+    @participation_request.update_attributes params[:participation_request]
+    respond_to do |format|
+      format.html { redirect_to pro_structure_participation_requests_path(@structure), notice: "Nous avons bien pris en compte votre signalement" }
     end
   end
 

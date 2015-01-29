@@ -8,7 +8,7 @@ gem 'rails', '4.1.8'
 gem 'rack-attack',  '~>3.0.0'
 gem 'rack-timeout', '~> 0.0.4'
 
-gem 'filepicker-rails'
+gem 'filepicker-rails', '~>1.3.0'
 
 gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
 
@@ -56,7 +56,7 @@ gem 'dalli'                     , '~>2.6.4'
 
 # Non stored hash models
 # See Level and Audience model
-gem 'active_hash'               , '~>1.2.0'
+gem 'active_hash'               , '~>1.4.0'
 
 # Transform urls into images, videos etc. Used in medias.
 gem 'auto_html'                 , '~>1.6.2'
@@ -144,8 +144,6 @@ gem 'gibbon'                    , '~>1.1.3'
 gem 'roadie'                    , '~>3.0.1'
 gem 'roadie-rails'              , '~>1.0.3'
 
-# Includes bacbone.relational
-gem 'backbone-relational-rails' , '~>0.8.8'
 # See issue: https://github.com/leshill/handlebars_assets/pull/46
 gem 'handlebars_assets'         , '~>0.15', git: 'git://github.com/variousauthors/handlebars_assets.git'
 # Decorator
@@ -201,7 +199,7 @@ group :production, :staging do
   # gem 'sprockets-image_compressor', '~>0.3.0'
   gem 'htmlcompressor'            , '~>0.1.2'
   gem 'image_optim'               , '~>0.19.1'
-  gem 'image_optim_pack'          , '~>0.2.0.20141122'
+  gem 'image_optim_pack'          , '~>0.2.0.20141210'
   gem 'paperclip-optimizer'       , '2.0.0.beta.2'
 end
 
@@ -271,6 +269,9 @@ gem 'mixpanel-ruby'
 # Email reception
 gem 'griddler'         , '~> 1.1.0'
 gem 'griddler-mandrill', '~> 1.0.1'
+
+# Send (and receive) SMS
+gem 'nexmo', '~> 2.0.0'
 
 group :development do
   # Must be loaded after mongo

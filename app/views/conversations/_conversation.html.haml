@@ -1,30 +1,32 @@
 - last_message = conversation.messages.last
 
-- recipients = conversation.recipients.reject{|recipient| recipient == @user }
+- recipients                      = conversation.recipients.reject{|recipient| recipient == @user }
+- participation_request           = conversation_participation_request(conversation)
+- participation_request_decorator = participation_request.decorate if participation_request
+- structure                       = recipients.first.structure if recipients.first
+.bordered--top.push--top.soft--top
+  = link_to user_conversation_path(@user, conversation), class: "muted-link block flexbox" do
+    - if structure
+      .flexbox__item.v-top.v-middle.soft--right
+        = image_tag structure.logo.url(:thumb), class: 'block bordered rounded--circle', height: 65, width: 65
+    .flexbox__item.v-top.v-middle.one-whole
+      .float--right
+        %strong.gray-light.epsilon= l(last_message.created_at.to_date, format: :short)
+        %span{ data: { toggle: 'popover', placement: 'top', content: conversation_label_name(conversation) } }
+          = conversation_label conversation
+      %p.flush.line-height-1-7
+        - if structure
+          %strong.epsilon= structure.name
+          = "(#{pluralize conversation.messages.count, 'message'})"
+      %p.flush.line-height-1-7.f-weight-500
+        - if participation_request and !participation_request.past?
+          #{participation_request_decorator.status_for('User')} -
+        %span
+          = "#{conversation.subject} - "
+          - if conversation_extra_infos(conversation).present?
+            = "(#{conversation_extra_infos(conversation).map{ |extra_info| t("#{extra_info.name}_small") }.join(', ')})"
 
-.grid--full.bordered--top.push-half--top.soft-half--top
-  .grid__item.v-top.v-middle{ style: 'width: 30%' }>
-    .grid--full
-      .grid__item.one-quarter.v-middle>
-        - if recipients.first
-          = image_tag recipients.first.avatar_url(:small_thumb), class: 'block bordered rounded--circle'
-      .grid__item.three-quarters.soft-half--left.v-middle>
-        %p.flush
-          - if recipients.first
-            = truncate((recipients.first.name || recipients.first.email), length: 18)
-          - if recipients.length > 1
-            %span.nowrap.milli{ title: recipients.map(&:name).join(', '), data: { behavior: 'tooltip' } }
-              et #{pluralize(recipients.length - 1, 'autre')}
-            %br
-          %span.milli= "le #{l(last_message.created_at.to_date, format: :short)}"
-          - if participation_request = conversation_participation_request(conversation)
-            = participation_request_state_html(participation_request)
-
-  .grid__item.soft-half--left.v-middle{ style: 'width: 65%' }>
-    %p.flush
-      %strong= conversation.subject
-      = "(#{pluralize conversation.messages.count, 'message'})"
-      %br
-      = truncate(last_message.body, length: 90)
-  .grid__item.soft-half--left.text--center.v-middle{ style: 'width: 5%' }>
-    = conversation_label conversation
+        %span.gray-light= truncate(last_message.body, length: 80)
+      - if participation_request and !participation_request.past? and !participation_request.canceled?
+        .btn.btn--small.nowrap{ class: participation_request_decorator.action_button_class_for('User') }
+          = participation_request_decorator.action_button_name_for('User')
