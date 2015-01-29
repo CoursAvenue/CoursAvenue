@@ -89,7 +89,7 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
         submitForm: function submitForm () {
             if (CoursAvenue.isProduction()) { mixpanel.track('Structures/show: submit form'); }
             this.populateRequest();
-            $.cookie('participation_request_body', this.$('[name="message[body]"]').val());
+            $.cookie('participation_request_body', this.ui.$participation_request_message_body.val());
             if (this.model.isValid(true)) {
                 if (CoursAvenue.currentUser().isLogged()) {
                     this.$('form').trigger('ajax:beforeSend.rails');
@@ -180,6 +180,9 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
         },
 
         onRender: function onRender () {
+            // IMPORTANT to rebind ui elements that are nested in the form_content_view
+            this.bindUIElements();
+            this.ui.$participation_request_message_body.preventFromContact();
             var options =  {
               courses_collection  : this.model.get('structure').get('courses'),
               trainings_collection: this.model.get('structure').get('trainings'),
@@ -187,8 +190,6 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             };
             var pr_content_view = new CoursAvenue.Views.ParticipationRequests.ParticipationRequestFormContentView(options);
             this.getRegion('request_form_content').show(pr_content_view);
-            // IMPORTANT to rebind ui elements that are nested in the form_content_view
-            this.bindUIElements();
         }
     });
 
