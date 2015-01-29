@@ -15,7 +15,7 @@
           Choisir une photo
       %h3.text--center.push-half--ends= @user.full_name
       .push-half--ends
-        = link_to "Modifier mon profil", dashboard_user_path(@user)
+        = link_to "Modifier mon profil", edit_user_path(@user)
       %div
         = link_to 'Partager', "https://www.facebook.com/sharer/sharer.php?u=https://www.coursavenue.com", class: 'btn btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'User / Share on Facebook', 'click', 'From dashboard page')"
 
@@ -90,16 +90,40 @@
 
         %hr.push--ends
         .soft--sides
+          %h4 Mes inscriptions
+          %table.table--data.table--striped.table-not-bordered
+            %thead
+              %tr
+                %th Statut
+                %th.three-twelfths Cours et date
+                %th Adresse
+                %th Professeur
+                %th.one-twelfth
+                  Ajouter au
+                  %br
+                  calendrier
+            %tbody
+              - @participation_requests.each do |participation_request|
+                = render partial: 'users/participation_requests/participation_request', locals: { participation_request: participation_request}
+          - if @participation_requests.empty?
+            %p
+              Vous n'avez pas d'inscription.
+          - else
+            .text--center.push--bottom
+              = link_to 'Voir toutes mes inscriptions', user_participation_requests_path(@user)
+
+        %hr.push--ends
+        .soft--sides
           %h4 Mes derniers messages
           - @conversations.each do |conversation|
             = link_to user_conversation_path(@user, conversation), class: 'muted-link' do
               = render partial: 'conversations/conversation', locals: { conversation: conversation }
           - if @conversations.empty?
             %p
-              Vous n'avez pas envoyer de message.
-          - if @user.structures.any?
+              Vous n'avez pas de message.
+          - else
             .text--center.push--bottom
-              = link_to 'Envoyer un nouveau message', new_user_message_path(@user), class: 'btn btn--blue'
+              = link_to 'Voir tous mes messages', user_conversations_path(@user)
 
         %hr.push--ends
         .soft--sides
@@ -110,8 +134,6 @@
           - else
             %p
               Vous n'avez déposé aucun avis.
-            .text--center.push--bottom
-              = link_to "Trouvez un cours", @user.around_courses_url, class: 'btn btn--blue'
 
 = content_for :scripts do
   :javascript
@@ -131,3 +153,4 @@
             google_map_handler.fitMapToBounds();
         });
     });
+

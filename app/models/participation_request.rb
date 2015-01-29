@@ -161,7 +161,7 @@ class ParticipationRequest < ActiveRecord::Base
     self.last_modified_by      = last_modified_by
     self.state                 = 'canceled'
     message                    = reply_to_conversation(message_body, last_modified_by)
-    self.structure_responded   = true if discussed_by == 'Structure'
+    self.structure_responded   = true if last_modified_by == 'Structure'
     save
     if self.last_modified_by == 'Structure'
       ParticipationRequestMailer.delay.request_has_been_canceled_by_teacher_to_user(self, message)

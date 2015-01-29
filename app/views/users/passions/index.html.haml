@@ -2,7 +2,7 @@
 
 .flexbox
   = render partial: 'users/left_menu', locals: { current: 'passions' }
-  .flexbox__item.four-fifths
+  .flexbox__item.four-fifths.v-top
     .panel
       .soft.bg-cover{ style: "background-image: url(#{asset_path('users/passions_bg.jpg')});" }
         .relative.one-whole.height-whole.push
@@ -16,7 +16,7 @@
         = simple_form_for [@user], html: { autocomplete: 'off', id: 'user-form' } do |f|
           %input{ name: 'return_to', value: user_passions_path(@user), type: 'hidden' }
           %div{ data: { behavior: 'parent-descendant-subjects', 'parent-select' => '#parent-subjects', 'descendant-select' => '#subject-descendants-select', 'descendant-select-wrapper' => '#descendants-subjects' } }
-            = f.association :subjects, as: :select, collection: Subject.roots.order('name ASC'), input_html: { class: 'input--large hard', style: 'width: 74%;', id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' }, multiple: true }, label: 'Disciplines générales ', label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush--bottom' }, label_html: { class: 'label--large' }
+            = f.association :subjects, as: :select, collection: Subject.roots.order('name ASC'), input_html: { class: 'input--large hard', style: 'width: 74%;', id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines', selected: @user.subjects.roots.map(&:id).join(',') }, multiple: true }, label: 'Disciplines générales ', label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush--bottom' }, label_html: { class: 'label--large' }
             #descendants-subjects
               .input{title: 'Sélectionnez plusieurs disciplines en maintenant la touche CTRL ou CMD enfoncée.', data: {behavior: 'tooltip'}}>
                 %label.control-label.label--large> Pouvez-vous préciser ?
