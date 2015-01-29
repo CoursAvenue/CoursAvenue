@@ -140,4 +140,24 @@ class StructureSearch
     @structures = @structures.sort{ |a, b| (a.search_score.present? ? a.search_score.to_i : 0) <=> (b.search_score.present? ? b.search_score.to_i : 0) }.reverse
     return @structures[0..(limit - 1)]
   end
+
+  def self.search_around _params={}, limit=4
+    @structures = [] # The structures we will return at the ed
+    7.times do |index|
+      @structures << StructureSearch.search({# Radius will increment from 2.7 to > 1000
+                                             radius: Math.exp(index),
+                                             sort: 'premium',
+                                             has_logo: true,
+                                             per_page: limit
+                                          }.merge(_params)).results
+      @structures = @structures.flatten.uniq
+      break if @structures.length >= limit
+    end
+    # Re call the method but forcing to use root subjects for the rest of the structures
+    if @structures.length < limit and !force_use_root_subjects
+      @structures = @structures + similar_profile(structure, limit - @structures.length, _params.merge(without_ids: [structure.id] + @structures.map(&:id)), true)
+    end
+    @structures
+  end
+
 end

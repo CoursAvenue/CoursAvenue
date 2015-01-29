@@ -109,12 +109,10 @@ class UsersController < InheritedResources::Base
     @participation_requests = (@user.participation_requests.upcoming.accepted + @user.participation_requests.upcoming.pending).sort_by(&:date)
     @conversations          = (@user.mailbox.conversations - @participation_requests.map(&:conversation))[0..4]
     if @user.city
-      @structure_search = StructureSearch.search({ lat: @user.city.latitude,
-                                                   lng: @user.city.longitude,
-                                                   radius: 7,
-                                                   per_page: 150,
-                                                   bbox: true,
-                                                   subject_slugs: (@user.subjects.any? ? @user.subjects.map(&:slug) : []) }).results
+      @structure_search = StructureSearch.search_around({lat: @user.city.latitude,
+                                                        lng: @user.city.longitude,
+                                                        subject_slugs: (@user.subjects.any? ? @user.subjects.map(&:slug) : []) },
+                                                        150)
 
       @structure_locations = Gmaps4rails.build_markers(@structure_search) do |structure, marker|
         marker.lat structure.latitude
