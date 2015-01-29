@@ -8,7 +8,7 @@
   .text--center= link_to 'Retour à la galerie', pro_structure_medias_path(@structure)
 
 = content_for :scripts do
-  = render 'shared/libs/filepicker_scripts'
+  = filepicker_js_include_tag
   :javascript
     $(function() {
         var convertImages;

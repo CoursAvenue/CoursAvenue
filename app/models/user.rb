@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   include Concerns::HstoreHelper
   include Concerns::HasDeliveryStatus
   include Concerns::MessagableWithLabel
+  include Concerns::SMSSender
   include Concerns::ReminderEmailStatus
   include ActsAsUnsubscribable
   include Rails.application.routes.url_helpers
@@ -16,7 +17,7 @@ class User < ActiveRecord::Base
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :confirmable
+         :recoverable, :rememberable, :trackable, :validatable, :confirmable, :timeoutable
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid, :oauth_token, :oauth_expires_at,
@@ -36,7 +37,6 @@ class User < ActiveRecord::Base
                              :subscription_from
 
   define_boolean_accessor_for :meta_data, :have_seen_first_jpo_popup
-
 
   mount_uploader :avatar, UserAvatarUploader
 
@@ -109,7 +109,7 @@ class User < ActiveRecord::Base
   scope :inactive, -> { where( User.arel_table[:encrypted_password].eq('').or(User.arel_table[:encrypted_password] == nil)) }
   scope :with_avatar, -> { where.not(avatar: nil) }
 
-
+  # :nocov:
   searchable do
     text :first_name
     text :last_name
@@ -142,6 +142,7 @@ class User < ActiveRecord::Base
     time :created_at
 
   end
+  # :nocov:
 
   # Creates a user from Facebook
   #
@@ -195,6 +196,27 @@ class User < ActiveRecord::Base
     user
   end
 
+  # Sends a reminder of classes on the following day.
+  #
+  # @return a Boolean, whether the sms was sent or not.
+  def send_sms_reminder
+    if phone_number and sms_opt_in?
+      courses = participation_requests.where(date: Date.tomorrow, state: 'accepted')
+      return false if courses.empty?
+
+      if courses.length > 1
+        message = I18n.t('sms.users.day_before_reminder.multiple_course',
+                         nb_courses: courses.length,
+                         start_time: I18n.l(courses.first.start_time, format: :short))
+      else
+        message = I18n.t('sms.users.day_before_reminder.one_course',
+                         start_time: I18n.l(courses.first.start_time, format: :short))
+      end
+
+      self.delay.send_sms(message, formatted_number)
+    end
+  end
+
   # Update the email status regarding info completion
   def update_email_status
     email_status = nil
@@ -213,14 +235,16 @@ class User < ActiveRecord::Base
   #
   # @return Boolean
   def has_avatar?
-    avatar.url or read_attribute(:fb_avatar)
+    avatar.present? or read_attribute(:fb_avatar)
   end
 
   def avatar_url(format = :normal)
-    if avatar.url
+    if avatar.present?
       self.avatar.url(format)
     elsif read_attribute(:fb_avatar)
       self.fb_avatar(format)
+    else
+      self.avatar.url(format) # To provide default image
     end
   end
 
@@ -327,7 +351,11 @@ class User < ActiveRecord::Base
   #
   # @return string the url
   def around_courses_url
-    structures_path(around_courses_params)
+    if city
+      root_search_page_without_subject_path(city)
+    else
+      root_search_page_without_subject_path('paris')
+    end
   end
 
   def around_courses_search
@@ -523,10 +551,11 @@ class User < ActiveRecord::Base
     self.comments.where(commentable_id: structure.id, commentable_type: 'Structure').any?
   end
 
-  def migrate_avatar_to_cloudinary
-    if avatar and c_image.nil?
-      cloudinary_image = Cloudinary::Uploader.upload(avatar.url)
-      self.update_column(:c_image, "v#{cloudinary_image['version']}/#{cloudinary_image['public_id']}.#{cloudinary_image['format']}")
+  def age
+    if self.birthdate
+      age = Date.today.year - self.birthdate.year
+      age -= 1 if Date.today < self.birthdate + age.years # for days before birthdate
+      age
     end
   end
 
@@ -603,5 +632,4 @@ class User < ActiveRecord::Base
     end
     nil
   end
-
 end

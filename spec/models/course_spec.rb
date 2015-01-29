@@ -234,10 +234,16 @@ describe Course do
 
     it 'is a lesson' do
       expect(subject.is_lesson?).to eq true
+      expect(subject.underscore_name).to eq 'lesson'
+      expect(subject.class.underscore_name).to eq 'lesson'
     end
 
     it 'is not a training' do
       expect(subject.is_training?).to eq false
+    end
+
+    it 'never expires' do
+      expect(subject.expired?).to be_falsy
     end
   end
 

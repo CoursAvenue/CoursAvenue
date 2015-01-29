@@ -61,6 +61,7 @@ class Comment::Review < Comment
   scope :certified                , -> { where(certified: true) }
 
   # ------------------------------------------------------------------------------------ Search attributes
+  # :nocov:
   searchable do
     latlon :location, multiple: true do
       self.structure.places.collect do |place|
@@ -103,6 +104,7 @@ class Comment::Review < Comment
       self.accepted?
     end
   end
+  # :nocov:
 
   def recover!
     self.status = :accepted

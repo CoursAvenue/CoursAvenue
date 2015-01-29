@@ -55,7 +55,7 @@
     .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.courses.wizard.discovery_pass.step_2') } }
       %h4
         %span.blue Etape 2 :
-        choisissez les séances que vous souhaitez offrir en cours d'essai
+        choisissez les cours qui offrent des essais gratuits
     #lessons-header.soft.bg-white.bordered--bottom-on-stick{ data: { behavior: 'sticky', offset_top: 45, old_width: 'true', z: 300 } }
       %h3.flush Cours collectifs
     .soft--sides
@@ -71,7 +71,7 @@
           .soft-half--top.soft-half--bottom{ style: 'padding-left: 40px;'}
             = image_tag 'icons/arrow-blue.png', width: 50, height: 30, class: 'v-top'
             %strong.relative.v-top.epsilon{ style: 'top: -5px; '}
-              %i.blue Cochez pour inclure dans le Pass Découverte
+              %i.blue Cochez pour inclure dans vos cours d'essai gratuits
           - @courses.lessons.each_with_index do |course, index|
             = render partial: 'pro/structures/courses/trial_course', locals: { course: course, structure: @structure }
           .text--center= link_to 'Enregistrer', trial_courses_pro_structure_courses_path(@structure), class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours' }
@@ -90,7 +90,7 @@
           .soft-half--top.soft-half--bottom{ style: 'padding-left: 40px;'}
             = image_tag 'icons/arrow-blue.png', width: 50, height: 30, class: 'v-top'
             %strong.relative.v-top.epsilon{ style: 'top: -5px; '}
-              %i.blue Cochez pour inclure dans le Pass Découverte
+              %i.blue Cochez pour inclure dans vos cours d'essai gratuits
           - @courses.privates.each_with_index do |course, index|
             = render partial: 'pro/structures/courses/trial_course', locals: { course: course, structure: @structure }
           .text--center= link_to 'Enregistrer', trial_courses_pro_structure_courses_path(@structure), class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours' }
@@ -109,7 +109,7 @@
           .soft-half--top.soft-half--bottom{ style: 'padding-left: 40px;'}
             = image_tag 'icons/arrow-blue.png', width: 50, height: 30, class: 'v-top'
             %strong.relative.v-top.epsilon{ style: 'top: -5px; '}
-              %i.blue Cochez pour inclure dans le Pass Découverte
+              %i.blue Cochez pour inclure dans vos cours d'essai gratuits
           - @courses.trainings.each_with_index do |course, index|
             - if course.plannings.future.any?
               = render partial: 'pro/structures/courses/trial_course', locals: { course: course, structure: @structure }

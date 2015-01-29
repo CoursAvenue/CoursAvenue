@@ -120,12 +120,12 @@ FilteredSearch.addInitializer(function(options) {
     * for setup */
     layout.showWidget(google_maps_view, {
         events: {
-            'structures:updated'               : '_renderChildren',
-            'paginator:updating'               : 'hideInfoWindow',
+            'structures:updated'                : '_renderChildren',
+            'paginator:updating'                : 'hideInfoWindow',
             'structures:childview:highlighted'  : 'exciteMarkers',
             'structures:childview:unhighlighted': 'exciteMarkers',
-            'map:update:zoom'                  : 'updateZoom',
-            'filter:update:map'                : 'centerMap',
+            'map:update:zoom'                   : 'updateZoom',
+            'filter:update:map'                 : 'centerMap',
             'structures:childview:found'        : 'setMarkerViewAndshowInfoWindow',
             'structures:childview:peacock'      : 'togglePeacockingMarkers'
         }

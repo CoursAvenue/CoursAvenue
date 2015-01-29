@@ -34,7 +34,7 @@ module ConversationsHelper
   # @return String as HTML
   def conversation_label(conversation, options={})
     label = Mailboxer::Label.find(conversation.mailboxer_label_id)
-    content_tag :span, class: "lbl--chip lbl lbl--#{label.color} #{options[:class]}" do
+    content_tag :span, class: "lbl--small lbl--chip lbl lbl--#{label.color} #{options[:class]}" do
     end
   end
 

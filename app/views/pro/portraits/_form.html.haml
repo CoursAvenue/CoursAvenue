@@ -60,7 +60,7 @@
 
 
 = content_for :scripts do
-  = render 'shared/libs/filepicker_scripts'
+  = filepicker_js_include_tag
   = javascript_include_tag '//cdn.ckeditor.com/4.4.4/standard/ckeditor.js'
   :javascript
       $(document).ready(function() {

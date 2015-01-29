@@ -77,8 +77,8 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
 
             var relevant_structure = this.collection.find(function (model) {
 
-                return _.find(model.getRelation('places').related.models, function (place) {
-                    var latlng = new google.maps.LatLng(place.get('latitude'), place.get('longitude'));
+                return _.find(model.get('places'), function (place) {
+                    var latlng = new google.maps.LatLng(place.latitude, place.longitude);
                     return (position.equals(latlng)); // ha! google to the rescue
                 });
             });

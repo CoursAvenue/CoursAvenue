@@ -1,55 +1,40 @@
 = user_menu_currently_at 'inscriptions'
 = render 'shared/include_addthisevent'
 
-.flexbox
-  .flexbox__item.soft-half--right.v-top.one-sixth>
-    %div
-      .soft
-        %h3.flush &nbsp;
-    %ul.tabs--link.no-bullet-list.epsilon.line-height-2
-      %li.active
-        %a{ href: '#mes-inscriptions', data: { toggle: 'tab' } } Mes inscriptions
-      %li
-        %a{ href: '#inscriptions-precedentes', data: { toggle: 'tab' } } Inscriptions précédentes
-  .flexbox__item.v-top.five-sixths>
-    .panel
-      .panel__header.soft
-        %h3.flush Mes inscriptions
-      .panel__body.soft
-        .tab-content
-          .tab-pane.active#mes-inscriptions
-            - if @current_participation_requests.any?
-              %table.table--data.table--striped
-                %thead
-                  %tr
-                    %th Statut
-                    %th Cours
-                    %th Adresse
-                    %th Professeur
-                    %th Jour et horaires
-                    %th Options
-                    %th Ajouter à votre calendrier
-                %tbody
-                  - @current_participation_requests.each do |participation_request|
-                    = render participation_request
-            - else
-              %p Vous n'avez pas d'inscription en cours.
-              = link_to "Réserver mes cours d'essai", root_search_page_without_subject_path('paris'), class: 'btn btn--green'
+.panel
+  .panel__body.soft
+    %h3 Mes inscriptions
+    - if @user.participation_requests.upcoming.any?
+      %table.table--data.table--striped.table-not-bordered
+        %thead
+          %tr
+            %th Statut
+            %th.three-twelfths Cours et date
+            %th Adresse
+            %th Professeur
+            %th.one-twelfth
+              Ajouter au
+              %br
+              calendrier
+        %tbody
+          - @user.participation_requests.upcoming.order('date ASC').each do |participation_request|
+            = render partial: 'users/participation_requests/participation_request', locals: { participation_request: participation_request}
+    - else
+      %p Vous n'avez pas d'inscription en cours.
+      = link_to "Réserver mes cours d'essai", root_search_page_without_subject_path('paris'), class: 'btn btn--green'
 
-          .tab-pane#inscriptions-precedentes
-            - if @past_participation_requests.any?
-              %table.table--data.table--striped
-                %thead
-                  %tr
-                    %th Statut
-                    %th Cours
-                    %th Adresse
-                    %th Professeur
-                    %th Jour et horaires
-                    %th Options
-                %tbody
-                  - @past_participation_requests.each do |participation_request|
-                    = render partial: 'participation_request', locals: { participation_request: participation_request, calendar: false }
-            - else
-              %p Vous n'avez pas d'inscription passé.
-              = link_to "Réserver mes cours d'essai", root_search_page_without_subject_path('paris'), class: 'btn btn--green'
+    - if @user.participation_requests.past.any?
+      %hr.push--ends
+        %p.flush
+          = link_to "Voir l'historique des inscriptions", '#', data: { behavior: 'show-long-version', 'long-version' => '#previous-subscriptions'}
+      .hidden#previous-subscriptions
+        %table.table--data.table--striped.table-not-bordered
+          %thead
+            %tr
+              %th Statut
+              %th.three-twelfths Cours et date
+              %th Adresse
+              %th Professeur
+          %tbody
+            - @user.participation_requests.past.each do |participation_request|
+              = render partial: 'users/participation_requests/participation_request', locals: { participation_request: participation_request, calendar: false }

@@ -34,6 +34,7 @@ class UserProfile < ActiveRecord::Base
   ######################################################################
   # Search attributes                                                  #
   ######################################################################
+  # :nocov:
   searchable do
     text :email
     text :first_name, boost: 5
@@ -57,6 +58,7 @@ class UserProfile < ActiveRecord::Base
     integer :structure_id
     integer :id
   end
+  # :nocov:
 
   def name
     self.full_name

@@ -14,7 +14,7 @@ class ::Admin < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable,
-         :recoverable, :rememberable, :trackable, :validatable, :registerable, :confirmable
+         :recoverable, :rememberable, :trackable, :validatable, :registerable, :confirmable, :timeoutable
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email,
@@ -24,7 +24,8 @@ class ::Admin < ActiveRecord::Base
                   :structure_id,
                   :email_opt_in,
                   :student_action_email_opt_in, :newsletter_email_opt_in,
-                  :monday_email_opt_in, :jpo_email_opt_in, :stats_email, :delivery_email_status
+                  :monday_email_opt_in, :jpo_email_opt_in, :stats_email, :delivery_email_status,
+                  :sms_opt_in, :structure_attributes
 
   store_accessor :email_opt_in_status, :student_action_email_opt_in, :newsletter_email_opt_in,
                                        :monday_email_opt_in, :jpo_email_opt_in, :stats_email
@@ -36,6 +37,7 @@ class ::Admin < ActiveRecord::Base
   # Relations                                                          #
   ######################################################################
   belongs_to :structure
+  accepts_nested_attributes_for :structure
 
   ######################################################################
   # Validations                                                        #
@@ -58,6 +60,7 @@ class ::Admin < ActiveRecord::Base
   # ------------------------------------
   # ------------------ Search attributes
   # ------------------------------------
+  # :nocov:
   searchable do
     text :name
     text :email
@@ -77,8 +80,12 @@ class ::Admin < ActiveRecord::Base
     boolean :super_admin
   end
   handle_asynchronously :solr_index, queue: 'index' unless Rails.env.test?
+  # :nocov:
 
-  def mailboxer_email(object)
+  # Override of a Mailboxer method.
+  #
+  # @return String, the admin email.
+  def mailboxer_email(_)
     self.email
   end
 

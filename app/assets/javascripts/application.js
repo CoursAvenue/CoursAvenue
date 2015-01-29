@@ -66,7 +66,6 @@
 //= require libs/backbone.marionette
 //= require libs/backbone-validation
 //= require libs/backbone.googlemaps
-//= require backbone-relational
 //= require libs/backbone.paginator.js
 //= require libs/backbone.poller.js
 //= require backbone/cours_avenue

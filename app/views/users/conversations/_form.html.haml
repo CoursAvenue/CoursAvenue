@@ -1,9 +1,19 @@
+- return_to = nil if return_to.nil?
 .grid--full.push-half--bottom.message
   .grid__item.two-twelfths.v-top.v-top>
     = image_tag @user.avatar_url(:thumb), class: 'message__avatar block center-block bordered rounded--circle'
   .grid__item.ten-twelfths.message__body.message__appendix.soft-half.gray-box>
-    = simple_form_for [@user, @conversation], url: user_conversation_path(@user, @conversation), as: :conversation do |f|
+    = simple_form_for [@user, conversation], url: user_conversation_path(@user, conversation), as: :conversation do |f|
+      - if return_to
+        %input{ name: 'return_to', value: return_to, type: 'hidden' }
       = f.error_notification
       = f.fields_for :message, @message do |message_form|
-        = message_form.input :body, input_html: { placeholder: 'Ajouter un message personnel ici', style: 'height: 100px', value: cookies["conversation_#{params[:id]}_message"], class: 'input--large one-whole', data: {behavior: 'autoresize'} }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
+        = message_form.input :body, input_html: { placeholder: 'Ajouter un message personnel ici', style: 'height: 100px', value: cookies["conversation_#{params[:id]}_message"], class: 'input--large one-whole', id: 'conversation_message', data: {behavior: 'autoresize'} }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
       = f.submit 'Répondre', class: 'btn btn--green', data: { disable_with: "Message en cours d'envoi" }
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('#conversation_message').preventFromContact();
+    });
+

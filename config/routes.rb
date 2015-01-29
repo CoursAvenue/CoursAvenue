@@ -274,6 +274,7 @@ CoursAvenue::Application.routes.draw do
         resources :teachers, controller: 'structures/teachers', path: 'professeurs'
         resources :places  , controller: 'structures/places'  , path: 'lieux' do
           member do
+            get :edit_infos
             get :ask_for_deletion
           end
         end
@@ -322,13 +323,16 @@ CoursAvenue::Application.routes.draw do
             get :ca_communication, path: 'communication-coursavenue'
           end
         end
-        resources :participation_requests, only: [:edit, :index], controller: 'structures/participation_requests', path: 'suivi-inscriptions' do
+        resources :participation_requests, only: [:edit, :index, :show], controller: 'structures/participation_requests', path: 'suivi-inscriptions' do
           member do
+            get   :report_form
             get   :cancel_form
+            get   :accept_form
             patch :accept
+            patch :discuss
             patch :modify_date
-            patch :decline
             patch :cancel
+            patch :report
           end
         end
       end
@@ -401,7 +405,6 @@ CoursAvenue::Application.routes.draw do
       get  :wizard
       get  :dashboard
       get  :choose_password
-      get  :notifications
       post :recommend_friends
     end
     resources :followings, only: [:index], controller: 'users/followings', path: 'favoris'
@@ -430,14 +433,16 @@ CoursAvenue::Application.routes.draw do
     end
     resources :orders, only: [:index, :show], controller: 'users/orders', path: 'mes-factures'
     resources :sponsorships, only: [:index, :new, :create], controller: 'users/sponsorships', path: 'mes-parrainages'
-    resources :participation_requests, only: [:index, :edit], controller: 'users/participation_requests', path: 'mes-inscriptions' do
+    resources :participation_requests, only: [:index, :edit, :show], controller: 'users/participation_requests', path: 'mes-inscriptions' do
       member do
-        get   :recap
+        get   :report_form
         get   :cancel_form
+        get   :accept_form
         patch :accept
+        patch :discuss
         patch :modify_date
-        patch :decline
         patch :cancel
+        patch :report
       end
     end
   end

@@ -43,7 +43,7 @@
     color           : #555555;
     @include text-shadow(0 1px 0 white);
     &[type=submit] {
-        font-weight: 400;
+        font-weight: 600;
     }
     &:active {
         cursor: default;

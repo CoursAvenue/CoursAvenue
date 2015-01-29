@@ -30,6 +30,7 @@ class UsersController < InheritedResources::Base
 
   # params[:structure] : structure_slug
   # method: GET
+  # :nocov:
   def invite_entourage_to_jpo_page
     if params[:id]
       @user = User.find params[:id]
@@ -48,6 +49,7 @@ class UsersController < InheritedResources::Base
       end
     end
   end
+  # :nocov:
 
   def waiting_for_activation
   end
@@ -71,9 +73,6 @@ class UsersController < InheritedResources::Base
     else
       render action: :edit_private_infos
     end
-  end
-
-  def notifications
   end
 
   def unsubscribe
@@ -104,17 +103,16 @@ class UsersController < InheritedResources::Base
   # GET
   # Dashboard of the user
   def dashboard
-    @user               = User.find(params[:id])
-    @wizard             = get_next_wizard
-    @profile_completion = @user.profile_completion
-    @conversations      = @user.mailbox.conversations.limit(4)
+    @user                   = User.find(params[:id])
+    @wizard                 = get_next_wizard
+    @profile_completion     = @user.profile_completion
+    @participation_requests = (@user.participation_requests.upcoming.accepted + @user.participation_requests.upcoming.pending).sort_by(&:date)
+    @conversations          = (@user.mailbox.conversations - @participation_requests.map(&:conversation))[0..4]
     if @user.city
-      @structure_search = StructureSearch.search({ lat: @user.city.latitude,
-                                                   lng: @user.city.longitude,
-                                                   radius: 7,
-                                                   per_page: 150,
-                                                   bbox: true,
-                                                   subject_slugs: (@user.passions.any? ? @user.passions.map(&:subjects).flatten.compact.map(&:slug) : []) }).results
+      @structure_search = StructureSearch.search_around({lat: @user.city.latitude,
+                                                        lng: @user.city.longitude,
+                                                        subject_slugs: (@user.subjects.any? ? @user.subjects.map(&:slug) : []) },
+                                                        150)
 
       @structure_locations = Gmaps4rails.build_markers(@structure_search) do |structure, marker|
         marker.lat structure.latitude
@@ -151,6 +149,7 @@ class UsersController < InheritedResources::Base
     end
     update! do |format|
       format.html { redirect_to (params[:return_to] || edit_user_path(@user)), notice: 'Votre profil a bien été mis à jour.' }
+      format.js   { render nothing: true }
     end
   end
 

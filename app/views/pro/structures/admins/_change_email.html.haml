@@ -4,10 +4,9 @@
     %input.one-whole.input--large{ disabled: true, value: @admin.email}>
     %i.fa.fa-check.green
   = link_to 'Modifier', modify_email_pro_structure_admin_path(@structure, @structure.main_contact), class: 'v-middle btn btn--orange fancybox.ajax', data: { behavior: 'modal', padding: '0', width: 500 }
-  %p.flush--bottom.push-half--top.field-form-info.blue Cet e-mail vous sert également d'identifiant pour accéder à votre compte CoursAvenue.
-.input
-  .control-label>
+.input#unconfirmed-email-wrapper{ style: (@admin.unconfirmed_email? ? '' : 'display: none;')}
+  .control-label> &nbsp;
   .input-container>
-    .input-with-icon.v-middle#unconfirmed-email-wrapper{ style: (@admin.unconfirmed_email.present? ? 'width: 30em;' : 'display: none; width: 30em;')}
-      %input.one-whole.input--large{ disabled: true, value: @admin.unconfirmed_email}>
+    .input-with-icon.v-middle{ style: 'width: 30em;' }
+      %input.one-whole.input--large{ disabled: true, value: @admin.unconfirmed_email }>
       %i.fa.fa-times.red
