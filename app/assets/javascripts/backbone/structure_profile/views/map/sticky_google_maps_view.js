@@ -30,7 +30,6 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
 
         // We have some weird behavior having two maps on the same page...
         addChild: function addChild (childModel, html) {
-            console.log(this.map.j)
             var markerView = new this.markerView({
                 model:   childModel,
                 map:     this.map,

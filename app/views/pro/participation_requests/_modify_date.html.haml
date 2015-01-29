@@ -1,57 +1,65 @@
+- discuss_only       = false if discuss_only.nil?
+- show_course_select = false if show_course_select.nil?
 .panel
   .panel__header.soft
     %h4.flush
-      Proposer un autre créneau à
-      = name
+      - if discuss_only
+        Envoyer un message
+      - elsif show_course_select
+        Proposer un autre cours
+      - else
+        Proposer une autre date
   .panel__body.soft
-    .grid--full.push-half--bottom.message
-      .grid__item.two-twelfths.v-top.v-top>
-        = image_tag logo_url, class: 'message__avatar block center-block bordered rounded--circle'
-      .grid__item.ten-twelfths.message__body.message__appendix.soft-half.gray-box>
-        = simple_form_for simple_form_array, url: simple_form_url, html: { id: 'participation-request-form' } do |f|
-          - if params[:return_to].present?
-            %input{ type: 'hidden', value: params[:return_to], name: 'return_to' }
-          = f.error_notification
-          .input.flush
-            %span.v-middle.nowrap Nouveau créneau :
-            - unless @participation_request.course.on_appointment?
-              = f.input :planning_id, as: :select, collection: @participation_request.course.plannings.ordered_by_day, label: false, selected: @participation_request.planning_id, label_method: lambda{ |planning| "#{readable_planning(planning)} #{readable_time_slot(planning.start_time, planning.end_time)}" }, input_html: { class: 'one-whole' }, wrapper_html: { class: 'flush v-middle' }
-            = f.input :date, as: :string, label: false, input_html: { value: l(@participation_request.date), class: 'one-whole', data: { behavior: 'datepicker' } }, wrapper_html: { class: 'datepicker-input flush hard v-middle' }
-          %div.push-half--bottom
-            %i
-              Lieu :
-              - if @participation_request.course.on_appointment?
-                %span#address-name= readable_private_course_location(@participation_request.course)
-              - else
-                %span#address-name{ data: { toggle: 'popover', html: 'true', content: '', trigger: 'hover' } }
-          = f.fields_for :message, @message, class: 'message__body message__appendix' do |message_form|
-            = message_form.input :body, input_html: { placeholder: "Ajoutez votre message personnel ici sans information de contact ni de lien vers votre site Internet : votre téléphone sera envoyé automatiquement à l'élève une fois l'inscription validée.", style: 'height: 100px', class: 'input--large one-whole', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
+    = simple_form_for simple_form_array, url: simple_form_url, html: { id: 'participation-request-form' } do |f|
+      - if params[:return_to].present?
+        %input{ type: 'hidden', value: params[:return_to], name: 'return_to' }
+      = f.error_notification
+      - if discuss_only
+        %p
+          Envoyez votre message de demande d'information.
+          - if on_pro_subdomain?
+            Vous devrez ensuite accepter ou refuser cette réservation le plus tôt possible pour éviter les pénalités.
+        = f.fields_for :message, @message, class: 'message__body message__appendix' do |message_form|
+          = message_form.input :body, input_html: { placeholder: "Ajoutez un message facultatif...", style: 'height: 100px', class: 'input--large one-whole', id: 'participation-request-message', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
+        = render partial: 'pro/structures/participation_requests/dont_contact_information'
+      - else
+        %div.push-half--bottom{ data: { type: 'participation-request-form-content' } }
 
-          .grid
-            .grid__item.two-tenths>
-              %a.btn.btn--full{ href: '#', onclick: '$.fancybox.close();' } Annuler
-            .grid__item.eight-tenths>
-              = f.submit 'Envoyer la nouvelle proposition de date', class: 'nowrap btn--full btn btn--green', data: { disable_with: 'Envoi en cours...' }
+      - if on_pro_subdomain?
+        %hr.push-half--bottom
+        = render partial: 'pro/structures/participation_requests/share_information'
+
+      - if !discuss_only
+        = f.fields_for :message, @message, class: 'message__body message__appendix' do |message_form|
+          = message_form.input :body, input_html: { placeholder: "Ajoutez un message facultatif...", style: 'height: 100px', class: 'input--large one-whole', id: 'participation-request-message', data: { behaviors: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
+        = render partial: 'pro/structures/participation_requests/dont_contact_information'
+
+      .grid
+        .grid__item.two-tenths>
+          %a.btn.btn--full{ href: '#', onclick: '$.fancybox.close();' } Fermer
+        .grid__item.eight-tenths>
+          = f.submit 'Envoyer', class: 'nowrap btn--full btn btn--green', data: { disable_with: 'Envoi en cours...' }
 
 :javascript
-    var plannings = #{ActiveModel::ArraySerializer.new(@participation_request.course.plannings, each_serializer: PlanningSerializer).to_json};
-    GLOBAL.datepicker_initializer();
-    var datepicker      = $('#participation_request_date');
-    var planning_select = $('#participation_request_planning_id');
-    planning_select.change(function() {
-        var selected_planning_id = planning_select.val();
-        var selected_planning = _.find(plannings, function(planning) { return planning.id == parseInt(selected_planning_id) });
-        if (!selected_planning) { return; }
-        // Update date, only if it is not the same week date
-        // Disable days of week
-        var days_of_week = [0,1,2,3,4,5,6];
-        days_of_week.splice(days_of_week.indexOf(selected_planning.week_day), 1);
-        datepicker.datepicker('setDaysOfWeekDisabled', days_of_week);
-        $('#address-name').text(selected_planning.address_name);
-        $('#address-name').data('content', selected_planning.address_with_info);
-        currently_selected_date = datepicker.datepicker('getDate');
-        if (currently_selected_date.getDay() != selected_planning.week_day) {
-            datepicker.datepicker('update', selected_planning.next_date);
-        }
-    });
-    planning_select.change();
+  $('#participation-request-message').preventFromContact();
+
+- if !discuss_only
+  :javascript
+      // IMPORTANT: Initialize datepicker to have correct format
+      GLOBAL.datepicker_initializer();
+      var regular_courses  = #{ActiveModel::ArraySerializer.new(@structure.courses.regulars, each_serializer: CourseSerializer).to_json};
+      var training_courses = #{ActiveModel::ArraySerializer.new(@structure.courses.trainings.reject{ |training| training.plannings.future.empty? }, each_serializer: CourseSerializer).to_json};
+      var structure                   = new CoursAvenue.Models.Structure(#{StructureSerializer.new(@structure).to_json});
+      var courses_collection          = new CoursAvenue.Models.CoursesCollection(regular_courses);
+      var trainings_collection        = new CoursAvenue.Models.CoursesCollection(training_courses);
+      var participation_request_model = new Backbone.Model({ structure: structure,
+                                                             course_id  : #{@participation_request.course_id},
+                                                             planning_id: #{@participation_request.course_id},
+                                                             start_hour : #{@participation_request.start_time.hour},
+                                                             start_min : #{@participation_request.start_time.min} });
+      var participation_request_form_content = new CoursAvenue.Views.ParticipationRequests.ParticipationRequestFormContentView({ courses_collection: courses_collection, trainings_collection: trainings_collection, model: participation_request_model });
+      $('[data-type=participation-request-form-content]').append(participation_request_form_content.render().el);
+
+- if !discuss_only and !show_course_select
+  :javascript
+      $('[name="participation_request[course_id]"]').hide();

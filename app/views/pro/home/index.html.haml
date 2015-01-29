@@ -105,7 +105,7 @@
             .flexbox.push--bottom
               .flexbox__item.soft--left.v-top.text--center>
                 = link_to structure_url(review.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block media-photo', target: :_blank, class: 'muted-link' do
-                  = image_tag '', class: 'block rounded--circle', width: 60, data: { behavior: 'lazy-load', original: review.user.avatar_url(:thumb) }
+                  = image_tag '', class: 'block rounded--circle', width: 60, height: 60, data: { behavior: 'lazy-load', original: review.user.avatar_url(:thumb) }
                 .milli.soft-half--top
                   = review.author_name
               .flexbox__item.soft--sides.v-top>

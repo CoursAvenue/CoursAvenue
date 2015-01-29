@@ -75,9 +75,6 @@ class UsersController < InheritedResources::Base
     end
   end
 
-  def notifications
-  end
-
   def unsubscribe
     if user = User.read_access_token(params[:signature])
       user.update_attribute :email_opt_in, false
@@ -153,6 +150,7 @@ class UsersController < InheritedResources::Base
     end
     update! do |format|
       format.html { redirect_to (params[:return_to] || edit_user_path(@user)), notice: 'Votre profil a bien été mis à jour.' }
+      format.js   { render nothing: true }
     end
   end
 

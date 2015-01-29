@@ -4,7 +4,10 @@ class CourseSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::NumberHelper
 
-  attributes :id, :name, :description, :description_short, :type, :subjects,
+  cached
+  delegate :cache_key, to: :object
+
+  attributes :id, :name, :description, :description_short, :db_type, :type, :subjects,
              :is_individual, :is_lesson, :frequency, :premium, :on_appointment,
              :course_location, :min_age_for_kid, :max_age_for_kid, :audiences,
              :levels, :details, :prices, :premium_prices, :has_price_group,
@@ -28,6 +31,10 @@ class CourseSerializer < ActiveModel::Serializer
 
   def type
     object.type_name
+  end
+
+  def db_type
+    object.type
   end
 
   def is_lesson

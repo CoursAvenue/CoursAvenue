@@ -1,84 +1,117 @@
 = user_menu_currently_at 'dashboard'
 - if @wizard
   = render 'wizard'
-.panel
-  .panel__body.soft--ends
-    .soft--sides
-      .grid
-        .grid__item.one-half.bordered--right.soft-half--right>
-          .islet
-            %h4.push-half--bottom
-              Votre profil est complété à #{@profile_completion}%
-            .text--center.progress.push-half--bottom{style: "width: 280px;"}
-              - if @profile_completion == 0
-                #{@profile_completion}%
-              - else
-                #profile-progress-bar.bar.bar-success{style: "width: 0%;"}
-                  #{@profile_completion}%
-            %ul.no-bullet-list
-              %li
-                %i.fa.fa-check-square-o
-                %span.line-through--gray Créer mon profil
-              %li
-                - if @user.has_avatar? and @user.city
-                  %i.fa.fa-check-square-o
-                  %span.line-through--gray Compléter mes informations générales
-                - else
-                  = link_to edit_user_path(@user), class: 'profile-task-uncomplete' do
-                    %i.fa.fa-square-o
-                    Compléter mes informations générales
-              %li
-                - if @user.subjects.any?
-                  %i.fa.fa-check-square-o
-                  %span.line-through--gray Mettre à jour mes passions
-                - else
-                  = link_to user_passions_path(@user), class: 'profile-task-uncomplete' do
-                    %i.fa.fa-square-o
-                    Mettre à jour mes passions
-              %li
-                - if @user.followings.any?
-                  %i.fa.fa-check-square-o
-                  %span.line-through--gray Ajouter mes favoris
-                - else
-                  = link_to user_passions_path(@user), class: 'profile-task-uncomplete' do
-                    %i.fa.fa-square-o
-                    Ajouter mes favoris
-        .grid__item.one-half>
-          %h4.push-half--bottom.soft-half--left.soft-half--top
-            Tous les cours autour de chez vous
-          #map.google-map.google-map--small.push-half--ends
-          - if @user.city
-            .text--center.push-half--bottom
-              = link_to 'Voir les cours autour de chez moi', @user.around_courses_url, class: 'btn btn--blue btn--small', target: :_blank
-          - else
-            .text--center.push-half--bottom
-              = link_to 'Renseignez ma ville', edit_user_path(@user), class: 'btn btn--blue btn--small'
 
-    %hr.push--ends
-    .soft--sides
-      %h4 Mes derniers messages
-      - @conversations.each do |conversation|
-        = link_to user_conversation_path(@user, conversation), class: 'muted-link' do
-          = render partial: 'conversations/conversation', locals: {conversation: conversation}
-      - if @conversations.empty?
-        %p
-          Vous n'avez pas envoyer de message.
-      - if @user.structures.any?
-        .text--center.push--bottom
-          = link_to 'Envoyer un nouveau message', new_user_message_path(@user), class: 'btn btn--blue'
-
-    %hr.push--ends
-    .soft--sides
-      %h4 Mes derniers avis
-      - if @user.comments.accepted.any?
-        %ul.comment-list
-          = render partial: '/comments/comment', collection: @user.comments.accepted, locals: { with_link: true }
+.flexbox
+  .flexbox__item.three-twelfths.v-top.soft-half--left>
+    .white-box.text--center.soft.push--bottom
+      - if @user.has_avatar?
+        = link_to edit_user_path(@user) do
+          = image_tag @user.avatar_url(:normal), class: 'block'
       - else
-        %p
-          Vous n'avez déposé aucun avis.
-        .text--center.push--bottom
-          = link_to "Trouvez un cours", @user.around_courses_url, class: 'btn btn--blue'
+        = link_to edit_user_path(@user), class: 'soft block gray epsilon f-weight-500 v-middle bg-gray-light bordered' do
+          .text--center
+            %i.fa.fa-avatar.fa-5x
+          Choisir une photo
+      %h3.text--center.push-half--ends= @user.full_name
+      .push-half--ends
+        = link_to "Modifier mon profil", dashboard_user_path(@user)
+      %div
+        = link_to 'Partager', "https://www.facebook.com/sharer/sharer.php?u=https://www.coursavenue.com", class: 'btn btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'User / Share on Facebook', 'click', 'From dashboard page')"
 
+    = link_to new_user_invited_user_path(@user), class: 'btn btn--full push--bottom', onclick: "ga('send', 'event', 'Share with friends', 'click')" do
+      Inviter mes amis
+    .bg-cover{ style: "background-image: url(#{asset_path('users/passions_bg--small.jpg')}); height: 300px;" }
+      .relative.one-whole.height-whole
+        %a.soft.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: user_passions_path(@user) }>
+          .text--center.lbl.lbl--yellow.one-whole
+            Cours d'essai gratuits
+            %br
+            et bons plans
+          .home-screen-gallery__title.home-screen-gallery__title--bigger.text--center.f-weight-600
+            Vos passions à
+            %br
+            petits prix
+            .milli.show-on-hover__child Mettre à jour mes passions
+  .flexbox__item.nine-twelfths.v-top.soft-half--left>
+    .panel
+      .panel__body.soft--ends
+        .soft--sides
+          %h3 Tableau de bord
+          .grid
+            .grid__item.one-half.bordered--right.soft-half--right>
+              .islet
+                %h4.push-half--bottom
+                  Votre profil est complété à #{@profile_completion}%
+                .text--center.progress.push-half--bottom{style: "width: 280px;"}
+                  - if @profile_completion == 0
+                    #{@profile_completion}%
+                  - else
+                    #profile-progress-bar.bar.bar-success{style: "width: 0%;"}
+                      #{@profile_completion}%
+                %ul.no-bullet-list
+                  %li
+                    %i.fa.fa-check-square-o
+                    %span.line-through--gray Créer mon profil
+                  %li
+                    - if @user.has_avatar? and @user.city
+                      %i.fa.fa-check-square-o
+                      %span.line-through--gray Compléter mes informations générales
+                    - else
+                      = link_to edit_user_path(@user), class: 'profile-task-uncomplete' do
+                        %i.fa.fa-square-o
+                        Compléter mes informations générales
+                  %li
+                    - if @user.subjects.any?
+                      %i.fa.fa-check-square-o
+                      %span.line-through--gray Mettre à jour mes passions
+                    - else
+                      = link_to user_passions_path(@user), class: 'profile-task-uncomplete' do
+                        %i.fa.fa-square-o
+                        Mettre à jour mes passions
+                  %li
+                    - if @user.followings.any?
+                      %i.fa.fa-check-square-o
+                      %span.line-through--gray Ajouter mes favoris
+                    - else
+                      = link_to user_passions_path(@user), class: 'profile-task-uncomplete' do
+                        %i.fa.fa-square-o
+                        Ajouter mes favoris
+            .grid__item.one-half>
+              %h4.push-half--bottom.soft-half--left.soft-half--top
+                Tous les cours autour de chez vous
+              #map.google-map.google-map--small.push-half--ends
+              - if @user.city
+                .text--center.push-half--bottom
+                  = link_to 'Voir les cours autour de chez moi', @user.around_courses_url, class: 'btn btn--blue btn--small', target: :_blank
+              - else
+                .text--center.push-half--bottom
+                  = link_to 'Renseignez ma ville', edit_user_path(@user), class: 'btn btn--blue btn--small'
+
+        %hr.push--ends
+        .soft--sides
+          %h4 Mes derniers messages
+          - @conversations.each do |conversation|
+            = link_to user_conversation_path(@user, conversation), class: 'muted-link' do
+              = render partial: 'conversations/conversation', locals: { conversation: conversation }
+          - if @conversations.empty?
+            %p
+              Vous n'avez pas envoyer de message.
+          - if @user.structures.any?
+            .text--center.push--bottom
+              = link_to 'Envoyer un nouveau message', new_user_message_path(@user), class: 'btn btn--blue'
+
+        %hr.push--ends
+        .soft--sides
+          %h4 Mes derniers avis
+          - if @user.comments.accepted.any?
+            %ul.comment-list
+              = render partial: '/comments/comment', collection: @user.comments.accepted, locals: { with_link: true }
+          - else
+            %p
+              Vous n'avez déposé aucun avis.
+            .text--center.push--bottom
+              = link_to "Trouvez un cours", @user.around_courses_url, class: 'btn btn--blue'
 
 = content_for :scripts do
   :javascript

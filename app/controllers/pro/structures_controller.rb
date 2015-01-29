@@ -1,7 +1,17 @@
 # encoding: utf-8
 class Pro::StructuresController < Pro::ProController
-  before_action :authenticate_pro_admin!, except: [:new, :create, :widget_ext, :best, :payment_confirmation_be2_bill, :dont_want_to_take_control_of_my_sleeping_account, :someone_already_took_control]
-  load_and_authorize_resource :structure, except: [:new, :create, :widget_ext, :best, :payment_confirmation_be2_bill, :dont_want_to_take_control_of_my_sleeping_account, :someone_already_took_control], find_by: :slug
+  before_action :authenticate_pro_admin!, except: [:new, :create, :widget_ext, :best,
+                                                   :payment_confirmation_be2_bill,
+                                                   :dont_want_to_take_control_of_my_sleeping_account,
+                                                   :someone_already_took_control]
+
+  load_and_authorize_resource :structure, except: [:new, :create,
+                                                   :widget_ext, :best, :payment_confirmation_be2_bill,
+                                                   :dont_want_to_take_control_of_my_sleeping_account,
+                                                   :someone_already_took_control], find_by: :slug
+
+  # We add update in case the update fails and we need the variable in the view
+  before_action :facebook_pages, only: [:edit_contact, :update]
 
   layout :get_layout
 
@@ -230,16 +240,9 @@ France
   end
 
   def edit_contact
-    @structure = Structure.friendly.find(params[:id])
-    @admin     = @structure.main_contact
-
+    @structure      = Structure.friendly.find(params[:id])
+    @admin          = @structure.main_contact
     5.times { @structure.phone_numbers.build }
-
-    if @admin.from_facebook?
-      @facebook_pages = facebook_pages
-    else
-      @facebook_pages = []
-    end
   end
 
   def new
@@ -431,16 +434,21 @@ France
   #
   # @return an Array of Array of [page_name, URL]
   def facebook_pages
-    pages = @admin.facebook_pages
+    @admin ||= @structure.main_contact
+    if @admin.from_facebook?
+      @facebook_pages = []
+    else
+      pages = @admin.facebook_pages
 
-    if @structure.facebook_url?
-      if pages.map(&:second).include?(@structure.facebook_url)
-        pages << ['Autre', 'other']
-      else
-        pages << ['Autre', @structure.facebook_url] unless pages.empty?
+      if @structure.facebook_url?
+        if pages.map(&:second).include?(@structure.facebook_url)
+          pages << ['Autre', 'other']
+        else
+          pages << ['Autre', @structure.facebook_url] unless pages.empty?
+        end
       end
-    end
 
-    pages
+      @facebook_pages = pages
+    end
   end
 end

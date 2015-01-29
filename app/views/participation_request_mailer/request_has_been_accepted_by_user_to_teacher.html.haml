@@ -1,15 +1,15 @@
 - content_for :email_title do
-  #{@user.name} vient de confirmer sa présence au cours d'essai "#{@course.name}"
+  #{@user.name} vient de confirmer sa présence
 
 .p
   Bonjour,
 
 .p
-  Suite à votre modification de créneau, #{@user.name} vient de confirmer sa présence au cours d'essai "#{@course.name}" le
-  %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}"
+  Suite à votre modification de créneau, #{@user.name} vient de confirmer sa présence au cours "#{@course.name}" le
+  %strong= @participation_request_decorator.day_and_hour
   - if @place
     au #{@place.address} (#{@place.name}).
-  En cas d'annulation, de changement d'horaire ou si vous souhaitez tout simplement lui envoyer une information supplémentaire, envoyez-lui un message depuis votre onglet "Suvi des inscriptions" :
+  En cas d'annulation, de changement d'horaire ou si vous souhaitez tout simplement lui envoyer une information supplémentaire, envoyez-lui un message depuis votre onglet "Mes inscriptions" :
 
 .p.action
   = link_to "Visualiser mes inscriptions", pro_structure_participation_requests_path(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'

@@ -25,7 +25,7 @@
         margin-top: 11px;
     }
     label.boolean {
-        margin-left: 1em;
+        margin-left: 8px;
         text-align : left;
         width      : 85%;
     }
@@ -259,3 +259,6 @@
     #b2b-fullname-input, #b2b-email-input { width: 250px; }
 }
 .input > .cke_1 { width: 100% !important; }
+.datepicker-input {
+    width: 7em;
+}

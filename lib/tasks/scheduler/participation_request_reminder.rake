@@ -131,5 +131,22 @@ namespace :scheduler do
         end
       end
     end
+
+
+    # Send email to user if he has sent a request to a structure and it is not answered since 2 days
+    # $ rake scheduler:participation_requests:suggest_other_structures
+    desc 'Send email to admins who have user requests not answered'
+    task :suggest_other_structures => :environment do |t, args|
+      participation_requests = ParticipationRequest.pending.structure_not_responded.where( ParticipationRequest.arel_table[:created_at].gteq(Date.today - 2.days).and(
+                                                                   ParticipationRequest.arel_table[:created_at].lt(Date.today - 1.day).and(
+                                                                   ParticipationRequest.arel_table[:last_modified_by].eq('User'))) )
+
+      participation_requests.each do |participation_request|
+        # Don't send if the teacher has sent a message to the user
+        return if participation_request.conversation.messages.map(&:sender).uniq.length > 1
+        ParticipationRequestMailer.delay.suggest_other_structures(participation_request.user, participation_request.structure)
+      end
+    end
+
   end
 end

@@ -1,14 +1,17 @@
-= user_menu_currently_at 'favorites'
+= user_menu_currently_at 'profile'
 
-.panel
-  .panel__body.soft
-    %h3 Mes favoris
-    - if @user.followings.any?
-      - @user.followings.each do |following|
-        - structure = following.structure
-        .inline-block.one-half.very-soft.relative>
-          = render partial: "structures/similar_profile", locals: { structure: structure }
-          %i.fa.fa-heart.north.east.absolute.push.fa-4x.orange
-    - else
-      %p
-        Vous n'avez aucun favoris.
+.flexbox
+  = render partial: 'users/left_menu', locals: { current: 'followings' }
+  .flexbox__item.four-fifths
+    .panel
+      .panel__body.soft
+        %h3 Mes favoris
+        - if @user.followings.any?
+          - @user.followings.each do |following|
+            - structure = following.structure
+            .inline-block.one-half.very-soft.relative>
+              = render partial: "structures/similar_profile", locals: { structure: structure }
+              %i.fa.fa-heart.north.east.absolute.push.fa-4x.orange
+        - else
+          %p
+            Vous n'avez aucun favoris.

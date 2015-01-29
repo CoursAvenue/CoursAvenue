@@ -1,19 +1,43 @@
-= user_menu_currently_at 'infos'
+= user_menu_currently_at 'profile'
 
-.panel
-  = render partial: 'users/tabs', locals: { current: 'private_infos' }
-  .panel__body.soft
+.flexbox
+  = render partial: 'users/left_menu', locals: { current: 'private_infos' }
+  .flexbox__item.four-fifths
+    .panel
+      .panel__body.soft
+        %h3 Mon compte
+        %h4 Changer mon mot de passe
 
-    %h4 Changer mon mot de passe
+        = simple_form_for @user, url: update_password_user_path(current_user), html: { method: :patch } do |f|
+          = f.error_notification
 
-    = simple_form_for @user, url: update_password_user_path(current_user), html: { method: :patch } do |f|
-      = f.error_notification
+          = f.input :current_password, label: 'Mot de passe actuel', input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+          = f.input :password, autocomplete: "off", label: 'Nouveau mot de passe', input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+          = f.input :password_confirmation, label: 'Confirmation', input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+          %hr.push--ends
+          %h4 Mes notifications
 
-      = f.input :current_password, label: 'Mot de passe actuel'
-      = f.input :password, autocomplete: "off", label: 'Nouveau mot de passe'
-      = f.input :password_confirmation, label: 'Confirmation'
-      = f.button :submit, "Mettre à jour", class: 'btn btn--full btn--green'
+          .grid.push--bottom
+            .grid__item.one-third>
+              %strong Envoyez-moi des e-mails quand :
+              %p.blue
+                %i Nous vous promettons de ne pas vous envoyer de spam.
+            .grid__item.two-thirds.check_boxes>
+              .checkbox-at-left.push--bottom= f.input :email_promo_opt_in, wrapper_html: { class: 'flush' }, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+              .checkbox-at-left.push--bottom= f.input :email_newsletter_opt_in, wrapper_html: { class: 'flush' }, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+              .checkbox-at-left.push--bottom= f.input :email_passions_opt_in, wrapper_html: { class: 'flush' }, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
 
-    %hr.push--ends
-    %h4 Supprimer mon compte
-    %p= link_to 'Supprimer mon compte', destroy_confirmation_user_path(@user), class: 'fancybox.ajax red', data: { behavior: 'modal', padding: 0, width: 500 }
+          .grid
+            .grid__item.one-third>
+              %strong Envoyez-moi des SMS quand :
+              %p.blue
+                %i Nous vous promettons de ne pas vous envoyer de spam.
+            .grid__item.two-thirds.check_boxes>
+              .checkbox-at-left= f.input :sms_opt_in, wrapper_html: { class: 'flush' }, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+
+          = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
+
+
+          %hr.push--ends
+          %h4 Supprimer mon compte
+          %p= link_to 'Supprimer mon compte', destroy_confirmation_user_path(@user), class: 'fancybox.ajax red', data: { behavior: 'modal', padding: 0, width: 500 }

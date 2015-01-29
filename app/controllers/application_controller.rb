@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   layout 'users'
 
-  helper_method :mobile_device?, :layout_locals
+  helper_method :mobile_device?, :layout_locals, :on_pro_subdomain?
 
   before_filter :update_sanitized_params, if: :devise_controller?
 
@@ -92,6 +92,10 @@ class ApplicationController < ActionController::Base
     unless current_pro_admin && current_pro_admin.super_admin?
       redirect_to root_path, alert: "Vous n'avez pas le droit !"
     end
+  end
+
+  def on_pro_subdomain?
+    request.subdomain == CoursAvenue::Application::PRO_SUBDOMAIN
   end
 
   def robots

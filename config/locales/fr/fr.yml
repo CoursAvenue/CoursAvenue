@@ -38,12 +38,12 @@ fr:
   date:
     formats:
       default: "%d/%m/%Y"
-      short: "%e %b"
-      semi_short: "%e %B"
-      semi_shorter: "%e %B %Y"
-      semi_long: "%A %e %B"
-      semi_longer: "%A %e %B %Y"
-      long: "%e %B %Y"
+      short: "%d %b"
+      semi_short: "%d %B"
+      semi_shorter: "%d %B %Y"
+      semi_long: "%A %d %B"
+      semi_longer: "%A %d %B %Y"
+      long: "%d %B %Y"
     day_names:
       - dimanche
       - lundi

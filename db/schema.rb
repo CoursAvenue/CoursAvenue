@@ -11,12 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150106105209) do
+ActiveRecord::Schema.define(version: 20150129115157) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
-  enable_extension "pg_stat_statements"
 
   create_table "admins", force: true do |t|
     t.string   "email",                             default: "",    null: false
@@ -579,6 +578,12 @@ ActiveRecord::Schema.define(version: 20150106105209) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "course_id"
+    t.integer  "cancelation_reason_id"
+    t.integer  "report_reason_id"
+    t.text     "report_reason_text"
+    t.datetime "reported_at"
+    t.integer  "old_course_id"
+    t.boolean  "structure_responded",       default: false
   end
 
   create_table "participations", force: true do |t|
@@ -642,7 +647,6 @@ ActiveRecord::Schema.define(version: 20150106105209) do
     t.string   "callable_type"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "principal",     default: false
   end
 
   add_index "phone_numbers", ["callable_id", "callable_type"], name: "index_phone_numbers_on_callable_id_and_callable_type", using: :btree
@@ -703,6 +707,9 @@ ActiveRecord::Schema.define(version: 20150106105209) do
     t.integer  "structure_id"
     t.boolean  "visible",               default: true
     t.boolean  "is_in_foreign_country", default: false
+    t.string   "address"
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
   add_index "plannings", ["audience_ids"], name: "index_plannings_on_audience_ids", using: :btree
@@ -928,12 +935,14 @@ ActiveRecord::Schema.define(version: 20150106105209) do
     t.string   "remote_logo_url"
     t.string   "trial_courses_policy"
     t.integer  "sleeping_structure_id"
-    t.boolean  "sms_opt_in",                     default: false
     t.text     "course_subjects_string"
     t.boolean  "premium"
     t.string   "cities_text"
+    t.boolean  "sms_opt_in",                     default: false
+    t.integer  "principal_mobile_id"
   end
 
+  add_index "structures", ["principal_mobile_id"], name: "index_structures_on_principal_mobile_id", using: :btree
   add_index "structures", ["slug"], name: "index_structures_on_slug", unique: true, using: :btree
 
   create_table "structures_subjects", id: false, force: true do |t|

@@ -12,4 +12,4 @@
   L'équipe de CoursAvenue
 
 - content_for :footer do
-  %p= link_to 'Gérer mes préférences e-mails', notifications_user_url(@referrer, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+  %p= link_to 'Gérer mes préférences e-mails', edit_private_infos_user_url(@referrer, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)

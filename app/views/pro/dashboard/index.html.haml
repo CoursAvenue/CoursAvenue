@@ -285,8 +285,6 @@
                 shadow: false
             },
             series: [
-              { name: "Site web", data: #{@actions_website_per_months.map{|date, count| count}} },
-              { name: "Telephone", data: #{@actions_phone_per_months.map{|date, count| count}} },
               { name: "Demande d'infos", data: #{@messages_per_months.map{|date, count| count}} }
             ]
         });

@@ -1,0 +1,12 @@
+.main-container.main-container--medium.soft
+  - Subject.order('position ASC').roots.each do |root|
+    %ul
+      %li
+        %strong.gamma= root.name
+        %ul
+          - root.children.each do |children|
+            %li
+              %span.f-weight-500.delta= children.name
+              %ul.epsilon
+                - children.children.each do |child|
+                  %li= child.name

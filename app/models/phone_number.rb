@@ -1,10 +1,41 @@
 class PhoneNumber < ActiveRecord::Base
 
+  ######################################################################
+  # Constants                                                          #
+  ######################################################################
+
+  MOBILE_PREFIXES = ['+336', '+337', '00336', '00337', '06', '07']
+
+  ######################################################################
+  # Macros                                                             #
+  ######################################################################
+
   attr_accessible :number, :phone_type
 
   belongs_to :callable, polymorphic: true, touch: true
 
-  validates :number, presence: true
-  validates :number, uniqueness: { scope: :callable_id }
+  ######################################################################
+  # Validations                                                        #
+  ######################################################################
 
+  validates :number,    presence: true
+  validates :number,    uniqueness: { scope: :callable_id }
+
+  ######################################################################
+  # Scope                                                              #
+  ######################################################################
+
+  default_scope { order('created_at ASC') }
+
+  ######################################################################
+  # Methods                                                            #
+  ######################################################################
+
+  # Check if the number is from a mobile phone.
+  #
+  # @return Boolean
+  def mobile?
+    return false if number.nil?
+    MOBILE_PREFIXES.any? { |prefix| number.starts_with?(prefix) }
+  end
 end
