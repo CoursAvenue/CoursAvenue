@@ -98,14 +98,13 @@
                 %th Statut
                 %th.three-twelfths Cours et date
                 %th Adresse
-                %th Professeur
                 %th.one-twelfth
                   Ajouter au
                   %br
                   calendrier
             %tbody
               - @participation_requests.each do |participation_request|
-                = render partial: 'users/participation_requests/participation_request', locals: { participation_request: participation_request}
+                = render partial: 'users/participation_requests/participation_request', locals: { participation_request: participation_request, hide_teacher_column: true }
           - if @participation_requests.empty?
             %p
               Vous n'avez pas d'inscription.
