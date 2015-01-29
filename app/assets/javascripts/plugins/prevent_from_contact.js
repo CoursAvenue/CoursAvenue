@@ -58,9 +58,12 @@
 
         hasContactInfo: function hasContactInfo () {
             var text = this.$element.val()
-            return (text.match(GLOBAL.REGEX.email) ||
-              text.match(GLOBAL.REGEX.phone_number) ||
-              text.match(GLOBAL.REGEX.link));
+            if (text.match(GLOBAL.REGEX.email))        { return true; }
+            if (text.match(GLOBAL.REGEX.phone_number)) { return true; }
+            if (_.select(GLOBAL.REGEX.links, function(link_regex) {
+                return text.match(link_regex);
+            }).length > 0) { return true; }
+            return false;
         }
     };
 
