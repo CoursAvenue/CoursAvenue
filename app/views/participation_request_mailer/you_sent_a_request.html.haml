@@ -16,7 +16,7 @@
 
 .p
   Avez-vous pensé à vous inscrire à plus de cours ? Continuez à naviguer sur le
-  = link_to 'moteur de recherche CoursAvenue', root_search_page_path(@structure.dominant_root_subject, @structure.dominant_city)
+  = link_to 'moteur de recherche CoursAvenue', root_search_page_path(@participation_request.course.subjects.first.root, @participation_request.place.city)
   , et inscrivez-vous aux séances qui vous intéressent, de manière à augmenter vos chances de trouver votre cours idéal.
 
 = render 'shared/mailers/footer'
