@@ -27,14 +27,15 @@
 
     Plugin.prototype = {
 
-        popup_div: "<div style='display: none;' class='soft-half alert alert--warning one-whole push-half--bottom'>Pour garantir le confort d'utilisation du site, l'envoi de messages contenant des informations de contact de type téléphone, email ou site Internet n'est pas autorisé.</div>",
+        popup_div: "<div style='display: none;' class='soft-half alert alert--warning one-whole push-half--bottom'>Pas besoin d'envoyer vos coordonnées de contact par message : une fois l'inscription confirmée, elles seront automatiquement partagées.</div>",
         init: function init () {
             _.bindAll(this, 'showMessageIfHasContact', 'hasContactInfo')
-            this.enclosing_form = this.$element.closest('form');
+            this.$enclosing_form = this.$element.closest('form');
+            this.$enclosing_form_submit_button = this.$enclosing_form.find('[type=submit]');
             this.$popup_div     = $(this.popup_div);
             this.$element.before(this.$popup_div);
             this.$element.keyup(this.showMessageIfHasContact);
-            this.enclosing_form.submit(function() {
+            this.$enclosing_form.submit(function() {
                 if (this.hasContactInfo()) {
                     this.$popup_div.slideDown().yellowFade();
                     return false;
@@ -47,6 +48,11 @@
             if (!this.popup_is_visible && this.hasContactInfo()) {
                 this.$popup_div.slideDown();
                 this.popup_is_visible = true;
+                this.$enclosing_form_submit_button.attr('disabled', true);
+            } else if (!this.hasContactInfo()) {
+                this.popup_is_visible = false;
+                this.$popup_div.slideUp();
+                this.$enclosing_form_submit_button.attr('disabled', false);
             }
         },
 

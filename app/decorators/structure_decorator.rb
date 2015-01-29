@@ -152,10 +152,13 @@ class StructureDecorator < Draper::Decorator
   #   <br>
   #   XXXXXXXXX@gmail.com
   # Structure's phone numbers
-  def phone_numbers(crypted=false)
+  def phone_numbers(crypted=false, on_one_line=false)
     phone_number_html = ''
     object.phone_numbers.each_with_index do |phone_number, index|
-      phone_number_html << "<br>" if index > 0
+      if index > 0
+        phone_number_html << "<br>" if on_one_line
+        phone_number_html << ", " if !on_one_line
+      end
       if crypted
         phone_number_html << "XX XX XX XX #{phone_number.number[-2..-1]}" if phone_number.number
       else
@@ -175,7 +178,7 @@ class StructureDecorator < Draper::Decorator
   # end
 
   # Link of strucutre's website
-  def website_link(crypted=false)
-    h.link_to object.website, object.website, target: '_blank', rel: 'nofollow'
+  def website_link(truncate_length=nil)
+    h.link_to h.truncate(object.website, length: truncate_length), object.website, target: '_blank', rel: 'nofollow'
   end
 end

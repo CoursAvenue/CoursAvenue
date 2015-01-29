@@ -77,14 +77,14 @@ class ParticipationRequestMailer < ActionMailer::Base
   def request_has_been_modified_by_user_to_teacher(participation_request, message)
     @message = message
     retrieve_participation_request_variables(participation_request)
-    mail to: @admin.email, subject: "Nouvelle proposition de créneau - #{@user.name}",
+    mail to: @admin.email, subject: "Nouvelle proposition de date - #{@user.name}",
          reply_to: generate_reply_to('admin')
   end
 
   def request_has_been_modified_by_teacher_to_user(participation_request, message)
     retrieve_participation_request_variables(participation_request)
     @message = message
-    mail to: @user.email, subject: "Nouvelle proposition de créneau - #{@structure.name}",
+    mail to: @user.email, subject: "Nouvelle proposition de date - #{@structure.name}",
          reply_to: generate_reply_to('user')
   end
 
@@ -157,6 +157,14 @@ class ParticipationRequestMailer < ActionMailer::Base
     mail to: @user.email,
          subject: "Pensez à laisser votre témoignage sur #{@structure.name}",
          template_name: 'how_was_the_trial_stage_1'
+  end
+
+  def suggest_other_structures(user, structure)
+    @user       = user
+    @structure  = structure
+    @subject    = structure.dominant_root_subject
+    @city       = structure.dominant_city
+    mail to: @user.email, subject: "Alternatives à #{structure.name}"
   end
 
   private

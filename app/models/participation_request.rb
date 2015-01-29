@@ -8,7 +8,7 @@ class ParticipationRequest < ActiveRecord::Base
   attr_accessible :state, :date, :start_time, :end_time, :mailboxer_conversation_id,
                   :planning_id, :last_modified_by, :course_id, :user, :structure, :conversation,
                   :cancelation_reason_id, :report_reason_id, :report_reason_text, :reported_at,
-                  :old_course_id
+                  :old_course_id, :structure_responded
 
   ######################################################################
   # Relations                                                          #
@@ -39,13 +39,15 @@ class ParticipationRequest < ActiveRecord::Base
   ######################################################################
   # Scopes                                                             #
   ######################################################################
-  scope :accepted, -> { where( state: 'accepted') }
-  scope :pending,  -> { where( state: 'pending') }
-  scope :upcoming, -> { where( arel_table[:date].gteq(Date.today))
-                              .order("state='pending' DESC,state='canceled' ASC, updated_at DESC, date ASC") }
-  scope :past,     -> { where( arel_table[:date].lt(Date.today)) }
-  scope :canceled, -> { where( arel_table[:state].eq('canceled')) }
-  scope :tomorrow, -> { where( state: 'accepted', date: Date.tomorrow ) }
+  scope :accepted,                -> { where( state: 'accepted') }
+  scope :pending,                 -> { where( state: 'pending') }
+  scope :upcoming,                -> { where( arel_table[:date].gteq(Date.today))
+                                      .order("state='pending' DESC, state='canceled' ASC,
+                                              updated_at DESC, date ASC") }
+  scope :past,                    -> { where( arel_table[:date].lt(Date.today)) }
+  scope :canceled,                -> { where( arel_table[:state].eq('canceled')) }
+  scope :tomorrow,                -> { where( state: 'accepted', date: Date.tomorrow ) }
+  scope :structure_not_responded, -> { where.not( structure_responded: true ) }
 
   # Create a ParticipationRequest if everything is correct, and if it is, it also create a conversation
   #
@@ -99,10 +101,11 @@ class ParticipationRequest < ActiveRecord::Base
   # @return Boolean
   def accept!(message_body, last_modified_by='Structure')
     message_body = StringHelper.replace_contact_infos(message_body)
-    self.last_modified_by = last_modified_by
-    self.state = 'accepted'
-    message = reply_to_conversation(message_body, last_modified_by)
-    self.save
+    self.last_modified_by    = last_modified_by
+    self.state               = 'accepted'
+    message                  = reply_to_conversation(message_body, last_modified_by)
+    self.structure_responded = true if last_modified_by == 'Structure'
+    save
     if self.last_modified_by == 'Structure'
       ParticipationRequestMailer.delay.request_has_been_accepted_by_teacher_to_user(self, message)
     elsif self.last_modified_by == 'User'
@@ -121,10 +124,11 @@ class ParticipationRequest < ActiveRecord::Base
     # We don not update_attributes because self.course_id_was won't work...
     self.assign_attributes new_params
     # Set old_course_id to nil if the user don't change it and modify just the date
-    self.old_course_id    = (self.course_id_was == self.course_id ? nil : self.course_id_was)
-    self.state            = 'pending'
-    message               = reply_to_conversation(message_body, last_modified_by)
-    self.save
+    self.old_course_id       = (self.course_id_was == self.course_id ? nil : self.course_id_was)
+    self.state               = 'pending'
+    message                  = reply_to_conversation(message_body, last_modified_by)
+    self.structure_responded = true if last_modified_by == 'Structure'
+    save
     if self.last_modified_by == 'Structure'
       ParticipationRequestMailer.delay.request_has_been_modified_by_teacher_to_user(self, message)
     elsif self.last_modified_by == 'User'
@@ -137,8 +141,10 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return Boolean
   def discuss!(message_body, discussed_by='Structure')
-    message_body = StringHelper.replace_contact_infos(message_body)
-    message      = reply_to_conversation(message_body, last_modified_by)
+    message_body             = StringHelper.replace_contact_infos(message_body)
+    message                  = reply_to_conversation(message_body, discussed_by)
+    self.structure_responded = true if discussed_by == 'Structure'
+    save
     if discussed_by == 'Structure'
       ParticipationRequestMailer.delay.request_has_been_discussed_by_teacher_to_user(self, message)
     elsif discussed_by == 'User'
@@ -155,8 +161,9 @@ class ParticipationRequest < ActiveRecord::Base
     self.cancelation_reason_id = cancelation_reason_id
     self.last_modified_by      = last_modified_by
     self.state                 = 'canceled'
-    message    = reply_to_conversation(message_body, last_modified_by)
-    self.save
+    message                    = reply_to_conversation(message_body, last_modified_by)
+    self.structure_responded   = true if discussed_by == 'Structure'
+    save
     if self.last_modified_by == 'Structure'
       ParticipationRequestMailer.delay.request_has_been_canceled_by_teacher_to_user(self, message)
     elsif self.last_modified_by == 'User'
