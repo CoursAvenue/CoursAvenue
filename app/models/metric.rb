@@ -102,6 +102,7 @@ class Metric
   #
   # @return Metric
   def self.create_action(action_name, structure_id, fingerprint, ip_address, infos=nil)
+    return false # STOPPING METRICS TO DO ANYTHING
     if structure_id.is_a? Array
       structure_id.each do |_structure_id|
         Metric.create_action(action_name, _structure_id, fingerprint, ip_address, infos=nil)
