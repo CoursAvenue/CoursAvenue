@@ -3,10 +3,10 @@
 - recipients                      = conversation.recipients.reject{|recipient| recipient == @user }
 - participation_request           = conversation_participation_request(conversation)
 - participation_request_decorator = participation_request.decorate if participation_request
-- structure                       = recipients.first.structure if recipients.first
-.bordered--top.push--top.soft--top
-  = link_to user_conversation_path(@user, conversation), class: "muted-link block flexbox" do
-    - if structure
+- structure                       = recipients.detect{ |r| r.is_a? Admin }.try(:structure)
+- if structure
+  .bordered--top.push--top.soft--top
+    = link_to user_conversation_path(@user, conversation), class: "muted-link block flexbox" do
       .flexbox__item.v-top.v-middle.soft--right
         = image_tag structure.logo.url(:thumb), class: 'block bordered rounded--circle', height: 65, width: 65
     .flexbox__item.v-top.v-middle.one-whole
