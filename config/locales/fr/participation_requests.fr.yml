@@ -12,7 +12,7 @@ fr:
       include_blank: Que s'est-il passé ? (réponse confidentielle)
       users:
         no_show: Le professeur était absent ou n'a pas donné de cours
-        wrong_inscription_details: Les détails de l'inscription contenait une erreur de date ou de lieu
+        wrong_inscription_details: Mon inscription contenait une erreur de date ou de lieu
         wrong_course_description: Le descriptif du cours ne correspond pas à la réalité
         disrespectful: Le professeur a eu un comportement inapproprié / irrespectueux
         wrong_pricing: Le tarif indiqué sur CoursAvenue n'était pas le bon

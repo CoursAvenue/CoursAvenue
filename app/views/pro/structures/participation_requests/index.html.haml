@@ -15,18 +15,19 @@
       %tbody
         - @upcoming_participation_requests.each do |participation_request|
           = render partial: 'pro/structures/participation_requests/participation_request', locals: { participation_request: participation_request }
-    %hr
-    %p.flush
-      = link_to "Voir tout l'historique des inscriptions", '#', data: { behavior: 'show-long-version', 'long-version' => '#previous-subscriptions'}
-    .hidden#previous-subscriptions
-      %h4 Inscriptions passées
-      %table.table--data.table--striped.table-not-bordered
-        %thead
-          %tr
-          %th Statut
-          %th Cours et date
-          %th Participant
-          %th Détails
-        %tbody
-          - @past_participation_requests.each do |participation_request|
-            = render partial: 'pro/structures/participation_requests/participation_request', locals: { participation_request: participation_request, show_warning: false }
+    - if @past_participation_requests.any?
+      %hr
+      %p.flush
+        = link_to "Voir tout l'historique des inscriptions", '#', data: { behavior: 'show-long-version', 'long-version' => '#previous-subscriptions'}
+      .hidden#previous-subscriptions
+        %h4 Inscriptions passées
+        %table.table--data.table--striped.table-not-bordered
+          %thead
+            %tr
+            %th Statut
+            %th Cours et date
+            %th Participant
+            %th Détails
+          %tbody
+            - @past_participation_requests.each do |participation_request|
+              = render partial: 'pro/structures/participation_requests/participation_request', locals: { participation_request: participation_request, show_warning: false }

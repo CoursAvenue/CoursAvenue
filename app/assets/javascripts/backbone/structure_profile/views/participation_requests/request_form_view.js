@@ -62,9 +62,7 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             }
             this.model.set('course_id', planning_data.course_id);
             this.model.set('planning_id', planning_data.id);
-            this.selectCourse();
-            this.populatePlannings();
-            var request_form_view = new Module.RequestFormView( { structure: this.model.get('structure'), model: this.model.toJSON().participation_request } ).render();
+            var request_form_view = new Module.RequestFormView( { structure: this.model.get('structure'), model: this.model } ).render();
             $.magnificPopup.open({
                   items: {
                       src: $(request_form_view.$el),

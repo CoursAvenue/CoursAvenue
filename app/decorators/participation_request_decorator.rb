@@ -24,6 +24,8 @@ class ParticipationRequestDecorator < Draper::Decorator
       html << "data-toggle='popover'"
       if resource == 'User' and object.last_modified_by == 'User'
         html << "data-content=\"#{I18n.t('tooltips.users.participation_requests.waiting_for_confirmation')}\""
+      elsif resource == 'Structure' and object.last_modified_by == 'Structure'
+        html << "data-content=\"#{I18n.t('tooltips.pro.participation_requests.waiting_for_confirmation')}\""
       elsif object.last_modified_by != resource
         html << "data-content=\"#{I18n.t('tooltips.pro.participation_requests.confirm_quickly_html')}\""
       end
