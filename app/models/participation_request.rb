@@ -43,7 +43,7 @@ class ParticipationRequest < ActiveRecord::Base
   scope :upcoming,                -> { where( arel_table[:date].gteq(Date.today) )
                                       .order("state='pending' DESC, state='canceled' ASC,
                                               updated_at DESC, date ASC") }
-  scope :past,                    -> { where( arel_table[:date].lt(Date.today) ).order("date ASC") } }
+  scope :past,                    -> { where( arel_table[:date].lt(Date.today) ).order("date ASC") }
   scope :canceled,                -> { where( arel_table[:state].eq('canceled') ) }
   scope :tomorrow,                -> { where( state: 'accepted', date: Date.tomorrow ) }
   scope :structure_not_responded, -> { where.not( structure_responded: true ) }
