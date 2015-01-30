@@ -12,7 +12,7 @@ namespace :scheduler do
     # $ rake scheduler:participation_requests:remind_admin_for_participation_requests_1
     desc 'Send email to admins who have user requests not answered'
     task :remind_admin_for_participation_requests_1 => :environment do |t, args|
-      participation_requests = ParticipationRequest.pending.where( ParticipationRequest.arel_table[:created_at].gteq(Date.today - 1.day).and(
+      participation_requests = ParticipationRequest.upcoming.pending.where( ParticipationRequest.arel_table[:created_at].gteq(Date.today - 1.day).and(
                                                                    ParticipationRequest.arel_table[:created_at].lt(Date.today).and(
                                                                    ParticipationRequest.arel_table[:last_modified_by].eq('User'))) )
       participation_requests.each do |participation_request|
@@ -24,7 +24,7 @@ namespace :scheduler do
     # $ rake scheduler:participation_requests:remind_admin_for_participation_requests_2
     desc 'Send email to admins who have user requests not answered'
     task :remind_admin_for_participation_requests_2 => :environment do |t, args|
-      participation_requests = ParticipationRequest.pending.where( ParticipationRequest.arel_table[:created_at].gteq(Date.today - 2.days).and(
+      participation_requests = ParticipationRequest.upcoming.pending.where( ParticipationRequest.arel_table[:created_at].gteq(Date.today - 2.days).and(
                                                                    ParticipationRequest.arel_table[:created_at].lt(Date.today - 1.day).and(
                                                                    ParticipationRequest.arel_table[:last_modified_by].eq('User'))) )
       participation_requests.each do |participation_request|
@@ -36,7 +36,7 @@ namespace :scheduler do
     # $ rake scheduler:participation_requests:remind_user_for_participation_requests_1
     desc 'Send email to user who have pending requests'
     task :remind_user_for_participation_requests_1 => :environment do |t, args|
-      participation_requests = ParticipationRequest.pending.where( ParticipationRequest.arel_table[:updated_at].gteq(Date.today - 1.day).and(
+      participation_requests = ParticipationRequest.upcoming.pending.where( ParticipationRequest.arel_table[:updated_at].gteq(Date.today - 1.day).and(
                                                                    ParticipationRequest.arel_table[:updated_at].lt(Date.today).and(
                                                                    ParticipationRequest.arel_table[:last_modified_by].eq('Structure'))) )
       participation_requests.each do |participation_request|
@@ -48,7 +48,7 @@ namespace :scheduler do
     # $ rake scheduler:participation_requests:remind_user_for_participation_requests_2
     desc 'Send email to user who have pending requests'
     task :remind_user_for_participation_requests_2 => :environment do |t, args|
-      participation_requests = ParticipationRequest.pending.where( ParticipationRequest.arel_table[:updated_at].gteq(Date.today - 2.days).and(
+      participation_requests = ParticipationRequest.upcoming.pending.where( ParticipationRequest.arel_table[:updated_at].gteq(Date.today - 2.days).and(
                                                                    ParticipationRequest.arel_table[:updated_at].lt(Date.today - 1.day).and(
                                                                    ParticipationRequest.arel_table[:last_modified_by].eq('Structure'))) )
       participation_requests.each do |participation_request|
