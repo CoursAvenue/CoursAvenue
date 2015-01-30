@@ -35,15 +35,14 @@
             Téléphone :
             %span.has-tooltip{ data: { toggle: (@participation_request.accepted? ? '' : 'popover'), content: t('tooltips.pro.participation_requests.infos_will_be_shown_once_accepted'), html: 'true', placement: 'top', trigger: 'hover' } }
               = user_decorator.phone_number(!@participation_request.accepted?)
-        - if user.description.present?
-          %div.line-height-1-7
-            Un peu plus sur l'élève :
-            = user.description
-
         %div.line-height-1-7
           Email :
           %span.has-tooltip{ data: { toggle: (@participation_request.accepted? ? '' : 'popover'), content: t('tooltips.pro.participation_requests.infos_will_be_shown_once_accepted'), html: 'true', placement: 'top', trigger: 'hover' } }
             = user_decorator.email(!@participation_request.accepted?)
+        - if user.description.present?
+          %div.line-height-1-7
+            Un peu plus sur l'élève :
+            = user.description
     - if !@participation_request.pending?
       = render partial: 'pro/structures/conversations/form', locals: { conversation: @participation_request.conversation }
     = render partial: 'messages/message', collection: @participation_request.conversation.messages.order('created_at DESC').reject(&:new_record?)
