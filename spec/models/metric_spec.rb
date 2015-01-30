@@ -17,14 +17,13 @@ describe Metric do
 end
 
 def create_metric(options = metric_defaults, method = :create_action)
-  Metric.send(method, options[:action], options[:s_id], options[:user],
+  Metric.send(method, options[:action], options[:s_id],
                        options[:fingerprint], options[:ip_address], options[:infos])
 end
 
 def metric_defaults
   { action:      'impression',
     s_id:        Faker::Number.number(1),
-    user:        1234,
     fingerprint: 'abcdef',
     ip_address:  '127.0.0.1',
     infos:       nil
