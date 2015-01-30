@@ -3,21 +3,19 @@
 - recipients                      = conversation.recipients.reject{|recipient| recipient == @user }
 - participation_request           = conversation_participation_request(conversation)
 - participation_request_decorator = participation_request.decorate if participation_request
-- structure                       = recipients.first.structure if recipients.first
+- structure                       = recipients.detect{ |r| r.is_a? Admin }.structure
 .bordered--top.push--top.soft--top
   = link_to user_conversation_path(@user, conversation), class: "muted-link block flexbox" do
-    - if structure
-      .flexbox__item.v-top.v-middle.soft--right
-        = image_tag structure.logo.url(:thumb), class: 'block bordered rounded--circle', height: 65, width: 65
+    .flexbox__item.v-top.v-middle.soft--right
+      = image_tag structure.logo.url(:thumb), class: 'block bordered rounded--circle', height: 65, width: 65
     .flexbox__item.v-top.v-middle.one-whole
       .float--right
         %strong.gray-light.epsilon= l(last_message.created_at.to_date, format: :short)
         %span{ data: { toggle: 'popover', placement: 'top', content: conversation_label_name(conversation) } }
           = conversation_label conversation
       %p.flush.line-height-1-7
-        - if structure
-          %strong.epsilon= structure.name
-          = "(#{pluralize conversation.messages.count, 'message'})"
+        %strong.epsilon= structure.name
+        = "(#{pluralize conversation.messages.count, 'message'})"
       %p.flush.line-height-1-7.f-weight-500
         - if participation_request and !participation_request.past?
           #{participation_request_decorator.status_for('User')} -

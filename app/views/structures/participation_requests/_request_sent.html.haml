@@ -15,7 +15,7 @@
       %p.epsilon.flush
         Pour aider le professeur à mieux vous accueillir, décrivez votre niveau et toute autre information utile (message confidentiel) :
       = f.label :description, class: 'label--large block text--left f-weight-bold'
-      = f.input :description, input_html: { style: 'height: 100px;', class: 'input--large one-whole' }, label: false, wrapper_html: { class: 'flush' }
+      = f.input :description, input_html: { style: 'height: 100px;', class: 'input--large one-whole' }, label: false, wrapper_html: { class: 'flush--top' }
       .flexbox.push--bottom
         - if !user.has_avatar?
           .flexbox__item.v-top.soft-half--right
@@ -29,6 +29,8 @@
         .flexbox__item.v-top
           = f.label :birthdate, class: 'label--large block text--left f-weight-bold'
           = f.input :birthdate, start_year: (Date.today.year - 1), end_year: (Date.today.year - 110), include_blank: true, input_html: { class: 'input--large' }, label: false, wrapper_html: { class: 'flush--top' }
+
+
       = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
 
     .hidden#checkout-more
@@ -41,6 +43,7 @@
           - next if structure.nil? or @structure == structure or structure.medias.empty?
           .inline-block.one-half.very-soft.relative>
             = render partial: "structures/similar_profile", locals: { structure: structure, show_promotion: false }
+
   :javascript
       $('#user-form').submit(function() {
           $('#user-form').slideUp();

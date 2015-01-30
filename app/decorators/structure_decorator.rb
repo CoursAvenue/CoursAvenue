@@ -178,7 +178,7 @@ class StructureDecorator < Draper::Decorator
   # end
 
   # Link of strucutre's website
-  def website_link(truncate_length=nil)
+  def website_link(truncate_length=100)
     h.link_to h.truncate(object.website, length: truncate_length), object.website, target: '_blank', rel: 'nofollow'
   end
 end

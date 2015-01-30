@@ -11,10 +11,10 @@
 - content_for :promo do
   %h4 Récapitulatif des inscription à vos Portes Ouvertes
 
-%p
+.p
   Bonjour,
 
-%p
+.p
   Nous sommes ravis de votre participation aux Portes Ouvertes de ce week-end ! Voici quelques conseils pour assurer le bon fonctionnement de vos ateliers :
 
 %ul
@@ -28,13 +28,13 @@
   %li Une fois l'événement terminé, vous aurez accès à tous leurs emails, vous pourrez ainsi continuer à communiquer avec eux ;
   %li Dès la semaine prochaine, l'équipe CoursAvenue prendra contact avec vous pour faire le point et connaître votre ressenti.
 
-%p.action
-  = link_to "Voir le détail des inscriptions", pro_structure_participations_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--yellow'
+.p.action
+  = link_to "Modifier ou annuler mes inscriptions", pro_structure_participations_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
 
-%p
+.p
   Toute l'équipe CoursAvenue vous souhaite de très belles Portes Ouvertes ! Très bon week-end à vous, merci,
 
-%p
+.p
   L'équipe CoursAvenue
 
 - content_for :under_content_no_box do

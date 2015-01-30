@@ -14,14 +14,14 @@ class MailboxerMessageMailer < ActionMailer::Base
   def send_email(message, receiver)
     @conversation = message.conversation
     if @conversation.lock_email_notification_once == true
-      @conversation.lock_email_notification_once = false
-      @conversation.save
-      return
-    end
-    if receiver.is_a? User
-      send_email_to_user(message, receiver)
+      @conversation.update_column :lock_email_notification_once, false
+      return false
     else
-      send_email_to_admin(message, receiver)
+      if receiver.is_a? User
+        send_email_to_user(message, receiver)
+      else
+        send_email_to_admin(message, receiver)
+      end
     end
   end
 

@@ -68,14 +68,14 @@ class ParticipationRequestMailer < ActionMailer::Base
   def request_has_been_discussed_by_user_to_teacher(participation_request, message)
     @message = message
     retrieve_participation_request_variables(participation_request)
-    mail to: @admin.email, subject: "Demande d'information - #{@user.name}",
+    mail to: @admin.email, subject: "Nouveau message - #{@user.name}",
          reply_to: generate_reply_to('admin')
   end
 
   def request_has_been_discussed_by_teacher_to_user(participation_request, message)
     retrieve_participation_request_variables(participation_request)
     @message = message
-    mail to: @user.email, subject: "Demande d'information - #{@structure.name}",
+    mail to: @user.email, subject: "Nouveau message - #{@structure.name}",
          reply_to: generate_reply_to('user')
   end
 

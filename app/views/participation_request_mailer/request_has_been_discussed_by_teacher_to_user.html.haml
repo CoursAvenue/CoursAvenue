@@ -17,7 +17,7 @@
 
 - if @message
   .soft--bottom
-    = render partial: 'mailboxer_message_mailer/message_to_user', locals: { message: @message, structure: @structure, show_phone_number: false }
+    = render partial: 'mailboxer_message_mailer/message_to_user', locals: { message: @message, structure: @structure }
 
 = render 'shared/mailers/footer'
 

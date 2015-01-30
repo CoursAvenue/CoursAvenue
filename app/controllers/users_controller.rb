@@ -103,17 +103,16 @@ class UsersController < InheritedResources::Base
   # GET
   # Dashboard of the user
   def dashboard
-    @user               = User.find(params[:id])
-    @wizard             = get_next_wizard
-    @profile_completion = @user.profile_completion
-    @conversations      = @user.mailbox.conversations.limit(4)
+    @user                   = User.find(params[:id])
+    @wizard                 = get_next_wizard
+    @profile_completion     = @user.profile_completion
+    @participation_requests = (@user.participation_requests.upcoming.accepted + @user.participation_requests.upcoming.pending).sort_by(&:date)
+    @conversations          = (@user.mailbox.conversations - @participation_requests.map(&:conversation))[0..4]
     if @user.city
-      @structure_search = StructureSearch.search({ lat: @user.city.latitude,
-                                                   lng: @user.city.longitude,
-                                                   radius: 7,
-                                                   per_page: 150,
-                                                   bbox: true,
-                                                   subject_slugs: (@user.passions.any? ? @user.passions.map(&:subjects).flatten.compact.map(&:slug) : []) }).results
+      @structure_search = StructureSearch.search_around({lat: @user.city.latitude,
+                                                        lng: @user.city.longitude,
+                                                        subject_slugs: (@user.subjects.any? ? @user.subjects.map(&:slug) : []) },
+                                                        150)
 
       @structure_locations = Gmaps4rails.build_markers(@structure_search) do |structure, marker|
         marker.lat structure.latitude

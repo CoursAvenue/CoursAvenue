@@ -17,7 +17,7 @@
   = link_to "Répondre au message", pro_structure_participation_request_url(@admin.structure, @participation_request, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
 
 - if @message
-  = render partial: 'mailboxer_message_mailer/message_to_admin', locals: { message: @message, user: @user, show_phone_number: false }
+  = render partial: 'mailboxer_message_mailer/message_to_admin', locals: { message: @message, user: @user }
 
 .soft-half--top
   = render 'shared/mailers/footer'

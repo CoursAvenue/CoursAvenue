@@ -5,7 +5,7 @@ class UserSerializer < ActiveModel::Serializer
   delegate :cache_key, to: :object
 
   attributes :id, :email, :name, :first_name, :last_name, :avatar_url, :slug, :favorite_structure_ids, :last_messages_sent,
-             :has_discovery_pass, :created_at, :gender
+             :has_discovery_pass, :created_at, :gender, :phone_number
 
   def favorite_structure_ids
     object.followings.map(&:structure_id)

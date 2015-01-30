@@ -40,11 +40,11 @@ class ParticipationRequest < ActiveRecord::Base
   ######################################################################
   scope :accepted,                -> { where( state: 'accepted') }
   scope :pending,                 -> { where( state: 'pending') }
-  scope :upcoming,                -> { where( arel_table[:date].gteq(Date.today))
+  scope :upcoming,                -> { where( arel_table[:date].gteq(Date.today) )
                                       .order("state='pending' DESC, state='canceled' ASC,
                                               updated_at DESC, date ASC") }
-  scope :past,                    -> { where( arel_table[:date].lt(Date.today)) }
-  scope :canceled,                -> { where( arel_table[:state].eq('canceled')) }
+  scope :past,                    -> { where( arel_table[:date].lt(Date.today) ).order("date ASC") }
+  scope :canceled,                -> { where( arel_table[:state].eq('canceled') ) }
   scope :tomorrow,                -> { where( state: 'accepted', date: Date.tomorrow ) }
   scope :structure_not_responded, -> { where.not( structure_responded: true ) }
 
@@ -161,7 +161,7 @@ class ParticipationRequest < ActiveRecord::Base
     self.last_modified_by      = last_modified_by
     self.state                 = 'canceled'
     message                    = reply_to_conversation(message_body, last_modified_by)
-    self.structure_responded   = true if discussed_by == 'Structure'
+    self.structure_responded   = true if last_modified_by == 'Structure'
     save
     if self.last_modified_by == 'Structure'
       ParticipationRequestMailer.delay.request_has_been_canceled_by_teacher_to_user(self, message)

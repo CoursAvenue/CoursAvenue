@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :confirmable
+         :recoverable, :rememberable, :trackable, :validatable, :confirmable, :timeoutable
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid, :oauth_token, :oauth_expires_at,
@@ -213,7 +213,7 @@ class User < ActiveRecord::Base
                          start_time: I18n.l(courses.first.start_time, format: :short))
       end
 
-      self.delay.send_sms(message, formatted_number)
+      self.delay.send_sms(message, phone_number)
     end
   end
 
@@ -351,7 +351,11 @@ class User < ActiveRecord::Base
   #
   # @return string the url
   def around_courses_url
-    structures_path(around_courses_params)
+    if city
+      root_search_page_without_subject_path(city)
+    else
+      root_search_page_without_subject_path('paris')
+    end
   end
 
   def around_courses_search

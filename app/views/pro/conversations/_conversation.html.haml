@@ -1,10 +1,11 @@
 - last_message = conversation.messages.last
 
+- structure                     ||= @structure
 - recipients                      = conversation.recipients.reject{|recipient| recipient == @admin }
 - participation_request           = conversation_participation_request(conversation)
 - participation_request_decorator = participation_request.decorate if participation_request
 .bordered--top.push--top.soft--top
-  = link_to pro_structure_conversation_path(@structure, conversation), class: "muted-link block flexbox" do
+  = link_to pro_structure_conversation_path(structure, conversation), class: "muted-link block flexbox" do
     .flexbox__item.v-top.v-middle.soft--right
       - if recipients.first
         = image_tag recipients.first.avatar_url(:thumb), class: 'block bordered rounded--circle', height: 65, width: 65

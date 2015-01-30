@@ -7,6 +7,7 @@ fr:
         dont_send_contact_info: "Pour garantir le confort d'utilisation du site, l'envoi de messages contenant des informations de contact de type téléphone, email ou site Internet n'est pas autorisé."
         infos_will_be_shown_once_accepted: "Pour garantir le confort d'utilisation du site, les coordonnées personnelles de l'élève seront visibles une fois l'inscription validée."
         confirm_quickly_html: <div class='text--center black'>Confirmez la demande<br>d'inscription au plus vite</div>
+        waiting_for_confirmation: <div class='text--center black'>L'élève n'a pas encore<br>validé votre inscription</div>
     users:
       pay_to_teacher_html: <div class='text--center black'>À payer directement<br>auprès du professeur</div>
       participation_requests:
