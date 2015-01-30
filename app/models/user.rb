@@ -213,7 +213,7 @@ class User < ActiveRecord::Base
                          start_time: I18n.l(courses.first.start_time, format: :short))
       end
 
-      self.delay.send_sms(message, formatted_number)
+      self.delay.send_sms(message, phone_number)
     end
   end
 
