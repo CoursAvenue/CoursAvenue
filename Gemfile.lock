@@ -497,6 +497,9 @@ GEM
     rack (1.5.2)
     rack-attack (3.0.0)
       rack
+    rack-canonical-host (0.1.0)
+      addressable
+      rack (~> 1.0)
     rack-contrib (1.1.0)
       rack (>= 0.9.1)
     rack-cors (0.2.9)
@@ -795,6 +798,7 @@ DEPENDENCIES
   pry-rails
   quiet_assets (~> 1.0.3)
   rack-attack (~> 3.0.0)
+  rack-canonical-host (~> 0.1.0)
   rack-cors
   rack-reverse-proxy
   rack-ssl-enforcer (~> 0.2.7)

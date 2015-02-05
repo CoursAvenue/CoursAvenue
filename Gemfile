@@ -7,6 +7,8 @@ gem 'rails', '4.1.8'
 
 gem 'rack-attack',  '~>3.0.0'
 gem 'rack-timeout', '~> 0.0.4'
+# Will redirect 301 if not on coursavenue.com host
+gem 'rack-canonical-host', '~> 0.1.0'
 
 gem 'filepicker-rails', '~>1.3.0'
 
