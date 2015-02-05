@@ -60,7 +60,7 @@ class Subject < ActiveRecord::Base
   # :nocov:
 
   # :nocov:
-  algoliasearch per_environment: true do
+  algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
     attribute :name, :slug
     add_attribute :type do
       'subject'

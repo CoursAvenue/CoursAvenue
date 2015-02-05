@@ -177,7 +177,7 @@ class Structure < ActiveRecord::Base
   # Algolia                                                            #
   ######################################################################
   # :nocov:
-  algoliasearch per_environment: true do
+  algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
     attribute :name, :slug
     add_attribute :search_score do
       self.search_score.try(:to_i)
