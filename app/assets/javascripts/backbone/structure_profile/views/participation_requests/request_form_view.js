@@ -85,6 +85,7 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             if (CoursAvenue.isProduction()) { mixpanel.track('Structures/show: submit form'); }
             this.populateRequest();
             $.cookie('participation_request_body', this.ui.$participation_request_message_body.val());
+            $.cookie('user_phone_number'         , this.ui.$participation_request_user_phone_number.val());
             if (this.model.isValid(true)) {
                 if (CoursAvenue.currentUser().isLogged()) {
                     this.$('form').trigger('ajax:beforeSend.rails');
@@ -92,6 +93,7 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
                 } else {
                     CoursAvenue.signUp({
                         title: 'Enregistrez-vous pour envoyer votre message',
+                        after_sign_up_popup_title: "Demande d'inscription envoyée",
                         // Passing the user in order to keep the email and more if we need.
                         user: this.model.get('user'),
                         success: function success (response) {
@@ -163,16 +165,17 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             if (CoursAvenue.currentUser().get('last_messages_sent')) {
                 _.extend(data, {
                     last_message_sent_at: CoursAvenue.currentUser().get('last_messages_sent')[structure_json.id],
-                    user_participation_requests_path: Routes.user_participation_requests_path({ id: CoursAvenue.currentUser().get('slug') }),
-                    user: {
-                        phone_number: CoursAvenue.currentUser().get('phone_number')
-                    }
+                    user_participation_requests_path: Routes.user_participation_requests_path({ id: CoursAvenue.currentUser().get('slug') })
                 });
             }
+            $.cookie('user_phone_number')
             _.extend(data, {
                 structure: structure_json,
                 today: moment().format(GLOBAL.MOMENT_DATE_FORMAT),
-                user_participation_requests_path: Routes.user_participation_requests_path({ id: '__USER_ID__' })
+                user_participation_requests_path: Routes.user_participation_requests_path({ id: '__USER_ID__' }),
+                user: {
+                    phone_number: CoursAvenue.currentUser().get('phone_number') || $.cookie('user_phone_number')
+                }
             });
             return data;
         },
