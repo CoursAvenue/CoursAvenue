@@ -435,6 +435,7 @@ France
   # @return an Array of Array of [page_name, URL]
   def facebook_pages
     @admin ||= @structure.main_contact
+    return @facebook_pages = [] if @admin.nil?
     if @admin.from_facebook?
       @facebook_pages = []
     else
