@@ -18,7 +18,7 @@ class HomeController < ApplicationController
   end
 
   def index
-    @comments     = Comment::Review.ordered.accepted.includes(:commentable).limit(4)
+    @comments     = CommentSearch.search(has_avatar: true, per_page: 4).results
     @last_comment = @comments.to_a.shift
 
     @google_search_box_metadata = {
