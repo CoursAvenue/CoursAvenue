@@ -18,12 +18,6 @@ use Rack::Cors do
   end
 end
 
-use Rack::CanonicalHost do
-  case ENV['RACK_ENV'].to_sym
-    when :staging then 'staging.coursavenue.com'
-    when :production then 'coursavenue.com'
-  end
-end
-
+use Rack::CanonicalHost, 'coursavenue.com', ignore: ['pro.coursavenue.com', 'staging.coursavenue.com', 'pro.staging.coursavenue.com']
 
 run CoursAvenue::Application
