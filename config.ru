@@ -18,6 +18,6 @@ use Rack::Cors do
   end
 end
 
-use Rack::CanonicalHost, 'coursavenue.com', if: /.*\.coursavenue\.com/
+use Rack::CanonicalHost, 'coursavenue.com', ignore: ['pro.coursavenue.com', 'staging.coursavenue.com', 'pro.staging.coursavenue.com']
 
 run CoursAvenue::Application
