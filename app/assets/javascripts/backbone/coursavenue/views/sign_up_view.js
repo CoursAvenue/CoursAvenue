@@ -6,12 +6,14 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         className: 'panel center-block',
 
         options: {
-            width: 280
+            width: 280,
+            after_sign_up_popup_title: 'Inscription réussie'
         },
 
         initialize: function initialize (options) {
             this.model = CoursAvenue.currentUser();
             _.extend(this.options, options || {});
+            this.options.after_sign_up_popup_title = options.after_sign_up_popup_title;
             this.options.success = this.options.success || $.magnificPopup.close;
             this.options.success = _.wrap(this.options.success, function(func) {
                 CoursAvenue.trigger('user:signed:in');
@@ -110,7 +112,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         showRegistrationConfirmedPopup: function showRegistrationConfirmedPopup () {
-            var data = {};
+            var data = { title: this.options.after_sign_up_popup_title };
             if (this.model.isFromHotmail()) { data.from_hotmail = true; }
             if (this.model.isFromGmail())   { data.from_gmail   = true; }
             $.magnificPopup.close();

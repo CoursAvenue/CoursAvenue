@@ -27,7 +27,7 @@
         %br
         - if @participation_request.place
           - place = @participation_request.place
-          \- Lieu
+          \- Lieu :
           %strong= "#{place.name} (#{place.address})"
           - if place.info.present? or place.private_info.present?
             %br

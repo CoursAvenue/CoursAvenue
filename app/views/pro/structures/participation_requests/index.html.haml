@@ -8,10 +8,10 @@
     %table.table--data.table--striped.table-not-bordered
       %thead
         %tr
-          %th Statut
-          %th Cours et date
-          %th Participant
-          %th Détails
+          %th.three-twelfths Statut
+          %th.three-twelfths Cours et date
+          %th.four-twelfths Participant
+          %th.two-twelfths Détails
       %tbody
         - @upcoming_participation_requests.each do |participation_request|
           = render partial: 'pro/structures/participation_requests/participation_request', locals: { participation_request: participation_request }
@@ -24,10 +24,10 @@
         %table.table--data.table--striped.table-not-bordered
           %thead
             %tr
-            %th Statut
-            %th Cours et date
-            %th Participant
-            %th Détails
+              %th.three-twelfths Statut
+              %th.three-twelfths Cours et date
+              %th.four-twelfths Participant
+              %th.two-twelfths Détails
           %tbody
             - @past_participation_requests.each do |participation_request|
               = render partial: 'pro/structures/participation_requests/participation_request', locals: { participation_request: participation_request, show_warning: false }

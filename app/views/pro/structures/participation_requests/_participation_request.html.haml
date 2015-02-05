@@ -47,12 +47,12 @@
     .flexbox
       .flexbox__item.soft-half--right
         = image_tag participation_request.user.avatar_url, height: 50, width: 50, class: 'rounded--circle'
-      .flexbox__item
+      .flexbox__item.one-whole
         %strong= participation_request.user.name
         %br
         = user_decorator.age_and_city
         %br
-        %span.has-tooltip{ data: { toggle: (participation_request.accepted? ? '' : 'popover'), content: t('tooltips.pro.structures.hidden_contact_infos'), html: 'true', placement: 'top', trigger: 'hover' } }
+        %span{ class: (participation_request.accepted? ? '' : 'has-tooltip'), data: { toggle: (participation_request.accepted? ? '' : 'popover'), content: t('tooltips.pro.structures.hidden_contact_infos'), html: 'true', placement: 'top', trigger: 'hover' } }
           = user_decorator.phone_number_and_email(!participation_request.accepted?)
 
   %td.soft--ends.v-top

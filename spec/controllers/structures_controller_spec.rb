@@ -75,8 +75,9 @@ describe StructuresController, type: :controller do
       expect(structure.followings.count).to eq followings_count + 1
     end
 
-    it 'creates a new Metric action' do
-      expect { post :add_to_favorite, id: structure.id }.to change { structure.metrics.actions.count }.by(1)
-    end
+    # We freezed the metrics
+    # it 'creates a new Metric action' do
+    #   expect { post :add_to_favorite, id: structure.id }.to change { structure.metrics.actions.count }.by(1)
+    # end
   end
 end

@@ -4,7 +4,7 @@ class AdminMailer < ActionMailer::Base
   include Roadie::Rails::Automatic
 
   layout 'email'
-  helper :structures
+  helper :application, :structures
 
   default from: 'CoursAvenue <hello@coursavenue.com>'
 
