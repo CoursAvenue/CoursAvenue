@@ -28,10 +28,12 @@ module Concerns
         number = phone_number.dup
         number = number.gsub(' ', '')
 
-        if number.starts_with? '06', '07', '+33'
-          number.gsub! /^0|\+33/, '0033'
+        PhoneNumber::MOBILE_PREFIXES.each do |prefix|
+          if number.starts_with? prefix
+            number = number.gsub prefix, "0033#{prefix.last}" #.last because last is 6 or 7
+            break
+          end
         end
-
         number
       end
 
