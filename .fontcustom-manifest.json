@@ -1,7 +1,7 @@
 {
   "checksum": {
-    "previous": "c286b23dd0ad2fd1f63435e7624022b213b29c87acac20bcc3c0cdd7c21c2467",
-    "current": "c286b23dd0ad2fd1f63435e7624022b213b29c87acac20bcc3c0cdd7c21c2467"
+    "previous": "042e36bae69c6ba37de377fae0f3ff7558bcbabf45878e867a20aa2b817c673b",
+    "current": "042e36bae69c6ba37de377fae0f3ff7558bcbabf45878e867a20aa2b817c673b"
   },
   "fonts": [
     "app/assets/fonts/GlyphAvenue.ttf",
@@ -213,6 +213,10 @@
     "pulse": {
       "codepoint": 61817,
       "source": "app/assets/images/icons/svg/pulse.svg"
+    },
+    "quote": {
+      "codepoint": 61862,
+      "source": "app/assets/images/icons/svg/quote.svg"
     },
     "repeat": {
       "codepoint": 61733,
