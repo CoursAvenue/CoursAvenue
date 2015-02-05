@@ -4,7 +4,7 @@ class PhoneNumber < ActiveRecord::Base
   # Constants                                                          #
   ######################################################################
 
-  MOBILE_PREFIXES = ['+336', '+337', '00336', '00337', '06', '07']
+  MOBILE_PREFIXES = ['+336', '+337', '00336', '00337', '336', '337', '06', '07', '+33(0)6', '+33(0)7']
 
   ######################################################################
   # Macros                                                             #
@@ -36,6 +36,7 @@ class PhoneNumber < ActiveRecord::Base
   # @return Boolean
   def mobile?
     return false if number.nil?
+    self.number = self.number.gsub(' ', '')
     MOBILE_PREFIXES.any? { |prefix| number.starts_with?(prefix) }
   end
 end
