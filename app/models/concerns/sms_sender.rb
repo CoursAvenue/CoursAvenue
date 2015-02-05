@@ -26,7 +26,7 @@ module Concerns
       # @return The formated phone number as a String.
       def formatted_number(phone_number)
         number = phone_number.dup
-        number.gsub! ' ', ''
+        number = number.gsub(' ', '')
 
         if number.starts_with? '06', '07', '+33'
           number.gsub! /^0|\+33/, '0033'
