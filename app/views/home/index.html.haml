@@ -8,117 +8,46 @@
 = render 'home_screen'
 
 .home-screen-promotion-wrapper#vivez-passionnement
-  .main-container.main-container--medium.soft.push--ends
+  .main-container.mega-soft--ends
     = render 'subject_guides'
 
-.soft--ends.main-container.main-container--medium
-  %h2.text--center.push--top.push-half--bottom.alpha Laissez vous guider
-  %h5.text--center.delta.push--bottom.soft--bottom Des milliers d'avis d'élèves pour trouver le meilleur cours
-  - @comments.each_with_index do |comment, index|
-    .flexbox.push--bottom.soft--bottom
-      - if index % 2 == 0
-        .flexbox__item
-          = image_tag comment.user.avatar_url, width: 100, height: 100, class: 'rounded--circle'
-      .flexbox__item.soft--sides
-        .beta.line-height-2.push-half--bottom.quoted{ class: (index % 2 == 1 ? 'text--right' : '') }= comment.title.capitalize
-        .delta.push-half--bottom{ class: (index % 2 == 1 ? 'text--right' : '') }= truncate(comment.content, length: 300)
-        .delta.push-half--bottom{ class: (index % 2 == 1 ? 'text--right' : '') }= comment.course_name.capitalize
-        .epsilon.push-half--bottom{ class: (index % 2 == 1 ? 'text--right' : '') }
-          %i= comment.author_name
-      - if index % 2 == 1
-        .flexbox__item
-          = image_tag comment.user.avatar_url, width: 100, height: 100, class: 'rounded--circle'
+.main-container.main-container--medium.mega-soft--ends
+  %h2.text--center.push--top.push-half--bottom.f-size-big.f-weight-400 Laissez vous guider
+  %h5.text--center.delta.push--bottom.soft--bottom.f-weight-400 Des milliers d'avis d'élèves pour trouver le meilleur cours
+  .text--center.push--bottom
+    - @comments.each_with_index do |comment, index|
+      .inline-block.text--center.soft--sides.push--sides{ data: { behavior: 'show-on-hover', el: "#comment-#{comment.id}" } }>
+        = image_tag comment.user.avatar_url, width: 150, height: 150, class: 'rounded--circle push-half--bottom center-block'
+        .epsilon.soft--sides.push-half--bottom.f-weight-500{ class: (index == 0 ? 'f-weight-bold' : '') }= truncate(comment.author_name, length: 15, separator: /\s/, omission: '')
 
--# %section.main-container.main-container--medium.home-screen-promotion.soft.push--ends
--#   .grid--full
--#     .grid__item.palm-one-whole.one-half>
--#       .beta.push--bottom.soft--bottom.f-weight-300 Derniers avis des élèves
--#       - @comments.each do |comment|
--#         - cache ['home_comment', comment] do
--#           = render partial: 'comments/home_comment', locals: { comment: comment }
--#     .grid__item.palm-one-whole.one-half.soft--left{style: 'min-height: 35em;'}
--#       = render 'subject_guides'
+  .relative.grid{ style: 'height: 300px; '}
+    - @comments.each_with_index do |comment, index|
+      .ff-merriweather.text--center.absolute.north{ class: (index > 0 ? 'hidden' : ''), id: "comment-#{comment.id}", data: { el: 'show-on-hover' } }
+        .f-style-italic.beta.line-height-2.push-half--bottom= comment.title.capitalize
+        .f-style-italic.gamma.push-half--bottom.line-height-1-7= truncate(comment.content, length: 300)
+        .delta.push-half--bottom.f-weight-600= link_to comment.course_name.capitalize, structure_path(comment.structure), target: :_blank
 
--# .home-screen-promotion-wrapper
--#   .main-container.main-container--medium.soft.push--ends
--#     - blog_articles = Blog::Article.published.order('published_at DESC').limit(3)
--#     %div
--#       .beta.push--bottom.f-weight-300 Le Blog
--#       %ul.flush
--#         - blog_articles.each do |article|
--#           - cache article do
--#             %li.white-box.island{ itemscope: true, itemtype: 'http://schema.org/Article' }
--#               .flexbox
--#                 .flexbox__item.v-top.two-twelfths
--#                   - if article.cover_image.present?
--#                     = link_to blog_article_path(article), class: 'muted-link push-half--bottom block' do
--#                       = image_tag '', class: 'block blog-article__image', alt: article.title, title: article.title, data: { behavior: 'lazy-load', original: article.cover_image.url(:very_small) }
--#                 .flexbox__item.v-top.ten-twelfths.soft--left
--#                   %h3.delta.flush
--#                     = link_to article.title, blog_article_path(article), class: 'muted-link'
--#                   %p.flush
--#                     %time.blog-feed__date{ datetime: l(article.published_at, format: :iso_date) }= l(article.published_at.to_date, format: :long)
--#                     %br
--#                     = article.description
--#                     = link_to 'Lire la suite →', blog_article_path(article)
--#         .push--bottom
--#           = link_to blog_articles_path, target: '_blank', class: 'btn btn--blue' do
--#             %i.fa.fa-align-left
--#             &nbsp;Accéder au blog
-
--# %section.main-container.home-screen-promotion.soft.push--ends
--#   .grid--full
--#     .grid__item.palm-one-whole.one-half.palm-one-whole.lap-one-whole>
--#       %h2.push--bottom.soft--bottom.f-weight-300 Cours de danse
--#       - danse_comments = CommentSearch.search(per_page: 3, has_title: true, subject_slug: 'danse').results
--#       - danse_comments.each do |comment|
--#         - cache ['home_comment', comment] do
--#           = render partial: 'comments/home_comment', locals: { comment: comment, truncate_length: 500, lazy: true }
--#       .soft--right.text--right= link_to 'Voir tous les cours de danse', root_search_page_path('danse', 'paris'), title: 'Cours de Danse à Paris'
--#     .grid__item.palm-one-whole.one-half.palm-one-whole.lap-one-whole>
--#       - theater_comments = CommentSearch.search(per_page: 3, has_title: true, subject_slug: 'theatre-scene').results
--#       %h2.push--bottom.soft--bottom.f-weight-300 Cours de théâtre & scène
--#       - theater_comments.each do |comment|
--#         - cache ['home_comment', comment] do
--#           = render partial: 'comments/home_comment', locals: { comment: comment, truncate_length: 500, lazy: true }
--#       .soft--right.text--right= link_to 'Voir tous les cours de théâtre & scène', root_search_page_path('theatre-scene', 'paris'), title: 'Cours de Théâtre & Scène à Paris'
--#   %hr.push--ends
--#   .grid--full
--#     .grid__item.palm-one-whole.one-half.palm-one-whole.lap-one-whole>
--#       %h2.push--bottom.soft--bottom.f-weight-300 Cours de musique & chant
--#       - music_comments = CommentSearch.search(per_page: 3, has_title: true, subject_slug: 'musique-chant').results
--#       - music_comments.each do |comment|
--#         - cache ['home_comment', comment] do
--#           = render partial: 'comments/home_comment', locals: { comment: comment, truncate_length: 500, lazy: true }
--#       .soft--right.text--right= link_to 'Voir tous les cours de yoga, bien-être & santé', root_search_page_path('yoga-bien-etre-sante', 'paris'), title: 'Cours de Yoga, Bien-être & Santé à Paris'
--#     .grid__item.palm-one-whole.one-half.palm-one-whole.lap-one-whole>
--#       - yoga_comments = CommentSearch.search(per_page: 3, has_title: true, subject_slug: 'yoga-bien-etre-sante').results
--#       %h2.push--bottom.soft--bottom.f-weight-300 Cours de yoga, bien-être & sante
--#       - yoga_comments.each do |comment|
--#         - cache ['home_comment', comment] do
--#           = render partial: 'comments/home_comment', locals: { comment: comment, truncate_length: 500, lazy: true }
--#       .soft--right.text--right= link_to 'Voir tous les cours de musique & chant', root_search_page_path('musique-chant', 'paris'), title: 'Cours de Musique & Chant à Paris'
--#   %hr.push--ends
--#   .grid--full
--#     .grid__item.palm-one-whole.one-half.palm-one-whole.lap-one-whole>
--#       - painting_comments = CommentSearch.search(per_page: 3, has_title: true, subject_slug: 'dessin-peinture-arts-plastiques').results
--#       %h2.push--bottom.soft--bottom.f-weight-300 Cours de dessin, peinture & arts
--#       - painting_comments.each do |comment|
--#         - cache ['home_comment', comment] do
--#           = render partial: 'comments/home_comment', locals: { comment: comment, truncate_length: 500, lazy: true }
--#       .soft--right.text--right= link_to 'Voir tous les cours de dessin, peinture & arts', root_search_page_path('dessin-peinture-arts-plastiques', 'paris'), title: 'Cours de Dessin, Peinture & Arts à Paris'
--#     .grid__item.palm-one-whole.one-half.palm-one-whole.lap-one-whole>
--#       - sports_comments = CommentSearch.search(per_page: 3, has_title: true, subject_slug: 'sports-arts-martiaux').results
--#       %h2.push--bottom.soft--bottom.f-weight-300 Cours de sports & arts martiaux
--#       - sports_comments.each do |comment|
--#         - cache ['home_comment', comment] do
--#           = render partial: 'comments/home_comment', locals: { comment: comment, truncate_length: 500, lazy: true }
--#       .soft--right.text--right= link_to 'Voir tous les cours de sports & arts martiaux', root_search_page_path('sports-arts-martiaux', 'paris'), title: 'Cours de Sports & Arts martiaux à Paris'
-
--# = content_for :scripts do
--#   :javascript
--#     $(function() {
--#         setTimeout(function(){
--#             $('#pass-box').slideDown('slow');
--#         }, 1000);
--#     })
+= content_for :scripts do
+  :javascript
+      $(function() {
+          $('[data-behavior=show-on-hover]').hover(function() {
+              $('[data-el=show-on-hover]').stop(true, false).fadeOut();
+              $($(this).data('el')).stop(true, false).fadeIn();
+              $('[data-behavior=show-on-hover] div').removeClass('f-weight-bold');
+              $(this).find('div').addClass('f-weight-bold');
+          });
+      });
+= content_for :scripts do
+  :javascript
+      WebFontConfig = {
+        google: { families: [ 'Merriweather:400italic:latin' ] }
+      };
+      (function() {
+        var wf = document.createElement('script');
+        wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+          '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+        wf.type = 'text/javascript';
+        wf.async = 'true';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(wf, s);
+      })();

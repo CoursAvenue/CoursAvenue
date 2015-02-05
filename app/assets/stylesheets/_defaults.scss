@@ -140,7 +140,7 @@ $micro-size:        10px!default;
 /**
  * English quote marks?
  */
-$english-quotes:    true!default;
+$english-quotes:    false!default;
 
 /**
  * If you want English quotes then please do not edit these; they’re only here
@@ -173,6 +173,6 @@ $brand-face: 'Raleway', 'Helvetica Neue', Helvetica, Arial, sans-serif !default;
  *
  * Assign our `$base-line-height` to a new spacing var for more transparency.
  */
-$base-spacing-unit: $base-line-height!default;
+$base-spacing-unit: 20px!default;
 $half-spacing-unit: $base-spacing-unit / 2!default;
 $line-height-ratio: $base-line-height / $base-font-size;

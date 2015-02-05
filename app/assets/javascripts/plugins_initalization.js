@@ -151,4 +151,15 @@ $(function() {
             });
         });
     }
+    if ($('[data-behavior=block-parallax]').length > 0) {
+        $(window).scroll(function () {
+            $('[data-behavior=block-parallax]').each(function(index, el) {
+                var $this = $(this);
+                var scrollAmount = $(window).scrollTop() / 4;
+                scrollAmount     = Math.round(scrollAmount);
+                $this.css('marginTop', scrollAmount + 'px');
+                $this.css('opacity', 1 - ($(window).scrollTop() / window.screen.height));
+            });
+        });
+    }
 });

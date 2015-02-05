@@ -50,3 +50,18 @@
         @include media-query(palm) { text-align: center; }
         @include media-query(lap)  { text-align: center; }
     }
+
+.homescreen-header {
+    background-color: white;
+    background      : white;
+    border-bottom   : 1px solid $gray-smooth;
+    @include transition(all 200ms linear);
+    &.homescreen-header--transparent {
+        border: none;
+        @extend .gradient-black-to-white;
+        a {
+            color      : white;
+            font-weight: 500;
+        }
+    }
+}
