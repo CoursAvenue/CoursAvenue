@@ -1,19 +1,20 @@
 require 'rails_helper'
 
 describe Metric do
-  describe '.create_action' do
-    it 'creates an action for each structure' do
-      options = metric_defaults.merge(s_id: (1..10).to_a)
+  # Metrics are freezed
+  # describe '.create_action' do
+  #   it 'creates an action for each structure' do
+  #     options = metric_defaults.merge(s_id: (1..10).to_a)
 
-      expect { create_metric(options) }.to change { Metric.count }.by(10)
-    end
+  #     expect { create_metric(options) }.to change { Metric.count }.by(10)
+  #   end
 
-    it 'only creates one metric per day per user' do
-      create_metric
+  #   it 'only creates one metric per day per user' do
+  #     create_metric
 
-      expect { create_metric }.to_not change{ Metric.count }
-    end
-  end
+  #     expect { create_metric }.to_not change{ Metric.count }
+  #   end
+  # end
 end
 
 def create_metric(options = metric_defaults, method = :create_action)
