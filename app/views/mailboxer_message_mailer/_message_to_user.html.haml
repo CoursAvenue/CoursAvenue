@@ -7,7 +7,7 @@
         .p.text--center.milli
           %strong= structure.name
           %br
-          = "#{l(message.created_at.to_date, format: :short)} à #{l(message.created_at, format: :short)}"
+          = "#{l(message.created_at.to_date, format: :short)} à #{l(local_time(message.created_at), format: :short)}"
 
       %td.soft-half--left.v-top.content-block{ width: 475 }
         .p

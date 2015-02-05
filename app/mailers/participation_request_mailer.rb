@@ -4,8 +4,7 @@ class ParticipationRequestMailer < ActionMailer::Base
   include Roadie::Rails::Automatic
 
   layout 'email'
-  helper :structures
-  helper :email_actions
+  helper :application, :structures, :email_actions
 
   default from: 'CoursAvenue <hello@coursavenue.com>'
 

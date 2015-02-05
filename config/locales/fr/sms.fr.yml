@@ -11,4 +11,4 @@ fr:
     structures:
       new_participation_request: >
         Bonne nouvelle ! %{user_name} souhaite venir à une séance le %{date} à %{start_time}.
-        Connectez-vous à votre profil pour lui répondre directement.
+        Connectez-vous à votre profil CoursAvenue pour lui répondre directement.

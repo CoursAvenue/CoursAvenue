@@ -1,10 +1,12 @@
 # encoding: utf-8
 class MailboxerMessageMailer < ActionMailer::Base
   include Roadie::Rails::Automatic
-  layout 'email'
-
   include ActionView::Helpers::SanitizeHelper
   include ConversationsHelper
+
+  layout 'email'
+
+  helper :application
 
   default from: "\"L'équipe CoursAvenue\" <hello@coursavenue.com>"
 
