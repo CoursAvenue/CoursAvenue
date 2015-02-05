@@ -147,8 +147,8 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
                 this.ui.$datepicker_input.datepicker('setDaysOfWeekDisabled', []);
                 return;
             }
-            // if (!this.model.get('planning_id')) { return; }
-            this.ui.$datepicker_input.datepicker('update', this.getCurrentPlanning().next_date);
+            var formatted_date = moment(this.getCurrentPlanning().next_date, "DD/MM/YYYY").format('MM-DD-YYYY');
+            this.ui.$datepicker_input.datepicker('update', formatted_date);
             // Disable days of week
             var days_of_week = [0,1,2,3,4,5,6];
             days_of_week.splice(days_of_week.indexOf(this.getCurrentPlanning().week_day), 1);
