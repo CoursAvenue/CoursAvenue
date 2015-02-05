@@ -18,6 +18,12 @@ use Rack::Cors do
   end
 end
 
-use Rack::CanonicalHost, 'coursavenue.com', if: /.*\.herokuapp.com/
+use Rack::CanonicalHost do
+  case ENV['RACK_ENV'].to_sym
+    when :staging then 'staging.coursavenue.com'
+    when :production then 'coursavenue.com'
+  end
+end
+
 
 run CoursAvenue::Application
