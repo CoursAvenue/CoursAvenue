@@ -18,6 +18,10 @@ use Rack::Cors do
   end
 end
 
-use Rack::CanonicalHost, 'coursavenue.com', ignore: ['pro.coursavenue.com', 'staging.coursavenue.com', 'pro.staging.coursavenue.com']
+if ENV['RACK_ENV'] == 'production' or ENV['RACK_ENV'] == 'staging'
+  use Rack::CanonicalHost, 'www.coursavenue.com', ignore: ['pro.coursavenue.com',
+                                                           'staging.coursavenue.com',
+                                                           'pro.staging.coursavenue.com']
+end
 
 run CoursAvenue::Application
