@@ -226,13 +226,8 @@
     background-color: $orange;
 }
 
-.palm-flush {
-    @include media-query(palm) { margin: 0 !important; }
-}
-
-.palm-hard {
-    @include media-query(palm) { padding: 0 !important; }
-}
+.palm-flush { @include media-query(palm) { margin: 0 !important; } }
+.palm-hard  { @include media-query(palm) { padding: 0 !important; } }
 
 .print--visible {
     @media only screen {
