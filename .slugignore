@@ -5,6 +5,4 @@ spec
 features
 doc
 app/assets/images/icons/svg/*
-app/assets/images/*
-app/assets/videos/*
 public/assets/ckeditor/*
