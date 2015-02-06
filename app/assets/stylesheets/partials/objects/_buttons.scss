@@ -176,7 +176,7 @@
 
 .btn--social {
     text-transform  : uppercase;
-    @include text-shadow(-1px -1px 0 darken($facebook-blue, 10%));
+    @include text-shadow(-1px -1px 0 darken($facebook-blue, 5%));
     color           : white;
     vertical-align  : middle;
     display         : inline-block;
@@ -194,20 +194,29 @@
 }
 
 .btn--facebook {
+    white-space     : nowrap;
+    text-transform  : none;
+    font-size       : 1.1em;
     @extend .btn--social;
     line-height     : 1;
     overflow        : hidden;
     border-color    : darken($facebook-blue, 3%);
     background-color: $facebook-blue;
-    padding         : 0 0.4em;
-    border-left     : 1px solid darken($facebook-blue, 8%);
+    @include background-image(linear-gradient(lighten($facebook-blue, 8%), $facebook-blue));
+    padding         : 0.5em 0.6em;
+    span {
+        padding    : 15px;
+        border-left: 1px solid darken($facebook-blue, 5%);
+    }
     &:hover {
         background-color: lighten($facebook-blue, 5%);
     }
     &:before {
+        margin-right    : 0;
         content         : 'f';
         position        : relative;
         top             : 0.2em;
+        margin-top      : -5px;
     }
 }
 .btn--facebook.btn--small {

@@ -11,7 +11,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         signIn: function signIn (event, options) {
-            options = options || { show_admin_form: true };
+            options = options || {};
             CoursAvenue.signIn(options);
         },
 
@@ -26,7 +26,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         onRender: function onRender () {
             this.$('[data-behavior=drop-down]').dropDown();
             if (location.hash == '#connexion') {
-                this.signIn({}, { show_admin_form: false});
+                this.signIn({}, {});
             }
         },
 
@@ -53,7 +53,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 });
             } else {
                 _.extend(data, {
-                    inscription_pro_structures_url: 'https://pro.coursavenue.com/etablissements/inscription'
+                    pro_structures_url: 'https://pro.coursavenue.com'
                 });
             }
             _.extend(data, this.model.toJSON());

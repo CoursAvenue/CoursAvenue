@@ -6,7 +6,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         className: 'panel center-block',
 
         options: {
-            width: 280,
+            width: 310,
             after_sign_up_popup_title: 'Inscription réussie'
         },
 

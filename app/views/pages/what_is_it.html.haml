@@ -14,7 +14,7 @@
 
 - selected_profile = profiles.sample
 
-.bg-fixed.home-screen-promotion-wrapper.soft--sides.white.bg-cover{ style: "background-image: url(https://coursavenue-public.s3.amazonaws.com/www/testimonies/bg/#{selected_profile[:image_name]}.jpg)" }
+.home-screen-promotion-wrapper.soft--sides.white.bg-cover.bg-position-top{ style: "background-image: url(https://coursavenue-public.s3.amazonaws.com/www/testimonies/bg/#{selected_profile[:image_name]}.jpg)", data: { behavior: 'parallax' } }
   .main-container
     %header.grid--full
       .grid__item.soft--top.v-bottom.relative.visuallyhidden--palm{ class: ( selected_profile[:medium] ? 'three-tenths' : 'five-twelfths')}>
@@ -40,9 +40,7 @@
     %h2.text--center.soft--bottom.f-weight-300 Comment ça marche ?
     = render 'home/how_it_works'
 
-= render 'home/orange_banner'
-
-.bg-fixed.bg-cover{ style: "background-image: url(#{asset_path 'home_backgrounds/dessin-peinture-arts-plastiques.jpg'}); min-height: 430px;" }
+.bg-cover.bg-position-top{ style: "background-image: url(#{asset_path 'home_backgrounds/dessin-peinture-arts-plastiques.jpg'}); min-height: 430px;", data: { behavior: 'parallax' } }
   .main-container.main-container--medium.soft--ends
     %h2.text--center.push--bottom.soft--ends.soft-black-text-shadow.white Plus de #{Comment::Review.count.round(-3)} élèves recommandent leurs cours
     %ul.comments.no-bullet-list

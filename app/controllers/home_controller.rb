@@ -18,9 +18,6 @@ class HomeController < ApplicationController
   end
 
   def index
-    @comments     = CommentSearch.search(has_avatar: true, per_page: 4).results
-    @last_comment = @comments.to_a.shift
-
     @google_search_box_metadata = {
       "@context" => "http://schema.org",
       "@type" => "WebSite",

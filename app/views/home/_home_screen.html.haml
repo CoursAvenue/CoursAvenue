@@ -1,20 +1,22 @@
 .full-screen-item.one-whole.relative.overflow-hidden
-  %video.home-page-fullscreen-video{ preload: 'auto', loop: 'loop', autoplay: 'autoplay', poster: 'http://coursavenue-public.s3.amazonaws.com/public_assets/videos/coursavenue_homepage_cover.jpg' }
-    %source{ type: "video/mp4", src: 'http://coursavenue-public.s3.amazonaws.com/public_assets/videos/coursavenue_homepage_video.mp4' }
-    %source{ type: "video/webm", src: 'http://coursavenue-public.s3.amazonaws.com/public_assets/videos/coursavenue_homepage_video.webm' }
+  %video.home-page-fullscreen-video{ preload: 'auto', loop: 'loop', autoplay: 'autoplay', poster: asset_path('home-page/coursavenue_homepage_cover.jpg') }
+    %source{ type: "video/mp4", src: asset_path('coursavenue_homepage_video.mp4') }
+    %source{ type: "video/webm", src: asset_path('coursavenue_homepage_video.webm') }
 
   .relative.full-screen-item.white
-    .grid--full.one-whole.homescreen-header.homescreen-header--transparent.fixed.one-whole.on-top
-      .grid__item.one-half.v-middle>
+    .flexbox.one-whole.homescreen-header.homescreen-header--transparent.fixed.one-whole.on-top
+      .flexbox__item.one-half.v-middle>
         = image_tag 'logos/logo_white.png', width: 190, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo_white@2x.png') }, class: 'v-middle push--left push-half--top absolute', style: 'left: 3px; top: 3px;'
         = image_tag 'logos/logo.png', width: 200, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'v-middle push--left push-half--top west north absolute hidden', id: 'home-logo-dark'
-      .grid__item.one-half.v-middle.soft>
-        .white.text--right.one-whole.soft--right#user-nav.inline-block.v-middle.epsilon
+      .flexbox__item.one-half.v-middle.text--right>
+        .white.soft.inline-block.v-middle.epsilon#user-nav
+        .top-right-hidden-button.inline-block.v-middle
+          = link_to 'Trouver un cours', root_search_page_without_subject_path('paris'), class: 'btn btn--blue nowrap push-half--right'
     .absolute.one-whole{ style: ' top: 30vh;', data: { behavior: 'block-parallax' } }
-      %h1.text--center.f-size-really-big.palm-text--center.soft--top.soft-black-text-shadow.flush--bottom
-        ARTS. SPORTS. BIEN-ÊTRE.
-      %h3.text--center.palm-text--center.push--bottom.soft-black-text-shadow
-        Trouvez votre cours de loisir idéal.
+      %h1.text--center.f-size-really-big.palm-text--center.soft--top.soft-black-text-shadow.flush--bottom.main-container
+        TANT DE PASSIONS À DECOUVRIR
+      %h3.text--center.palm-text--center.push--bottom.soft-black-text-shadow.main-container
+        Séances d'essai et stages : participez aux meilleurs cours de loisirs qui vous entourent.
       .push--bottom.soft--bottom
         = render partial: 'shared/home_page_search_form', locals: { form_class: 'header-search-bar center-block' }
     .text--center.absolute.one-whole{ style: ' top: 85%;' }
@@ -29,9 +31,11 @@
               var $this = $(this);
               if ($this.scrollTop() > window.innerHeight - 10) {
                   $('.homescreen-header').removeClass('homescreen-header--transparent');
+                  $('.top-right-hidden-button').addClass('in');
                   $('#home-logo-dark').fadeIn();
               } else {
                   $('.homescreen-header').addClass('homescreen-header--transparent');
+                  $('.top-right-hidden-button').removeClass('in');
                   $('#home-logo-dark').fadeOut();
               }
           });

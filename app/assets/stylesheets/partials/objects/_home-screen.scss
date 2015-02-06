@@ -1,3 +1,11 @@
+.top-right-hidden-button {
+    max-width: 0;
+    overflow : hidden;
+    @include transition(all 300ms ease-out);
+    &.in {
+        max-width: 300px;
+    }
+}
 .home-page-fullscreen-video {
     position  : absolute;
     left      : 50%;
@@ -83,5 +91,5 @@
 .home-screen-box-bg-singers  { @include background-image-retina('home-page/techniques_vocales.jpg'  , 'home-page/techniques_vocales@2x.jpg'); }
 .home-screen-box-bg-yoga     { @include background-image-retina('home-page/yoga.jpg'                , 'home-page/yoga@2x.jpg'); }
 .home-screen-box-bg-hip-hop  { @include background-image-retina('home-page/hip-hop.jpg'             , 'home-page/hip-hop@2x.jpg'); }
-.home-screen-box-bg-painting { @include background-image-retina('home-page/aquarelle.jpg'           , 'home-page/aquarelle@2x.jpg'); }
+.home-screen-box-bg-painting { @include background-image-retina('home-page/dessin.jpg'           , 'home-page/dessin@2x.jpg'); }
 .home-screen-box-bg-zumba    { @include background-image-retina('home-page/zumba.jpg'               , 'home-page/zumba@2x.jpg'); }

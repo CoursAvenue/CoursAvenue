@@ -5,9 +5,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         className: 'panel center-block',
 
         options: {
-            show_admin_form      : false,
-            width                : 280,
-            width_with_admin_form: 560
+            width: 300
         },
 
         initialize: function initialize (options) {
@@ -19,7 +17,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 func();
             });
 
-            this.$el.css('width', this.popupWidth() + 'px');
+            this.$el.css('width', this.options.width + 'px');
             $.magnificPopup.open({
                   items: {
                       src: this.$el,
@@ -27,10 +25,6 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                   }
             });
             this.render();
-        },
-
-        popupWidth: function popupWidth () {
-            return (this.options.show_admin_form ? this.options.width_with_admin_form : this.options.width);
         },
 
         events: {
@@ -50,13 +44,6 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
          */
         loginWithFacebook: function loginWithFacebook () {
             CoursAvenue.loginWithFacebook(this.options);
-        },
-
-
-        onRender: function onRender () {
-            if (this.options.show_admin_form) {
-                this.$('[name=authenticity_token]').val($('meta[name="csrf-token"]').attr('content'));
-            }
         },
 
         /*
