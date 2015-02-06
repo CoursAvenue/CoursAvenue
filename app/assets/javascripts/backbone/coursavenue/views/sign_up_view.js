@@ -13,7 +13,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         initialize: function initialize (options) {
             this.model = CoursAvenue.currentUser();
             _.extend(this.options, options || {});
-            this.options.after_sign_up_popup_title = options.after_sign_up_popup_title;
+            this.options.after_sign_up_popup_title = options.after_sign_up_popup_title || this.options.after_sign_up_popup_title;
             this.options.success = this.options.success || $.magnificPopup.close;
             this.options.success = _.wrap(this.options.success, function(func) {
                 CoursAvenue.trigger('user:signed:in');
