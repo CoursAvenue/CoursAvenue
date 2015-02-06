@@ -1,3 +1,14 @@
+.home-page-fullscreen-video {
+    position  : absolute;
+    left      : 50%;
+    top       : 50%;
+    /* The following will size the video to fit the full container. Not necessary, just nice.*/
+    min-width : 100%;
+    min-height: 100%;
+    z-index   : 0;
+    @include transform(translate(-50%,-50%));
+}
+
 .home-screen-gallery__title {
     color      : #FFF;
     position   : absolute;
@@ -65,3 +76,12 @@
         }
     }
 }
+
+.home-screen-box-bg          { height: 400px; }
+.home-screen-box-bg-belly    { @include background-image-retina('home-page/danse_orientale.jpg'     , 'home-page/danse_orientale@2x.jpg'); }
+.home-screen-box-bg-actors   { @include background-image-retina('home-page/formations_d_acteurs.jpg', 'home-page/formations_d_acteurs@2x.jpg'); }
+.home-screen-box-bg-singers  { @include background-image-retina('home-page/techniques_vocales.jpg'  , 'home-page/techniques_vocales@2x.jpg'); }
+.home-screen-box-bg-yoga     { @include background-image-retina('home-page/yoga.jpg'                , 'home-page/yoga@2x.jpg'); }
+.home-screen-box-bg-hip-hop  { @include background-image-retina('home-page/hip-hop.jpg'             , 'home-page/hip-hop@2x.jpg'); }
+.home-screen-box-bg-painting { @include background-image-retina('home-page/aquarelle.jpg'           , 'home-page/aquarelle@2x.jpg'); }
+.home-screen-box-bg-zumba    { @include background-image-retina('home-page/zumba.jpg'               , 'home-page/zumba@2x.jpg'); }

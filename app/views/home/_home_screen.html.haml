@@ -1,35 +1,6 @@
-- bg_urls = []
-- bg_urls << 'https://ppcdn.500px.org/65148449/12019bf663df81338534c0f9a8550d9310cb2727/2048.jpg'
-- bg_urls << 'https://ppcdn.500px.org/3831514/36c4f7e1d0a562973ac4f8225ea80504b033fb8b/2048.jpg'
-- bg_urls << 'https://ppcdn.500px.org/61826491/2d5fda16d198912821b3f08995f1c16711b06733/2048.jpg'
-- bg_urls << 'https://ppcdn.500px.org/73134933/8898dd4b99500e764d650652c1bb02c2fa57c9a9/2048.jpg'
-- bg_urls << 'https://ppcdn.500px.org/67085727/67bcf53ad53a975f1478308ae5d0964503038dff/2048.jpg'
-- bg_urls << 'https://ppcdn.500px.org/48157174/e4fb0c6c5b64f4e57cc0aaf8091abedb82427668/2048.jpg'
-
-:css
-  #video {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      /* The following will size the video to fit the full container. Not necessary, just nice.*/
-      min-width: 100%;
-      min-height: 100%;
-      -webkit-transform: translate(-50%,-50%);
-      -moz-transform: translate(-50%,-50%);
-      -ms-transform: translate(-50%,-50%);
-      transform: translate(-50%,-50%);
-      z-index: 0;
-  }
-
-  /* 1. Pas de support d'object-fit */
-
 .full-screen-item.one-whole.relative.overflow-hidden
-  -# poster attribute: first image of the video
-  %video#video{ preload: 'auto', loop: 'loop', autoplay: true, poster: 'http://coursavenue-public.s3.amazonaws.com/public_assets/videos/coursavenue_homepage_cover.jpg' }
+  %video.home-page-fullscreen-video{ preload: 'auto', loop: 'loop', autoplay: true, poster: 'http://coursavenue-public.s3.amazonaws.com/public_assets/videos/coursavenue_homepage_cover.jpg' }
     %source{ type: "video/mp4", src: 'http://coursavenue-public.s3.amazonaws.com/public_assets/videos/coursavenue_homepage_video.mp4' }
-    -# %source{ type: "video/mp4", src: 'http://coursavenue-public.s3.amazonaws.com/public_assets/videos/coursavenue_homepage_video.webm' }
-    -# %source{ type: "video/mp4", src: asset_path('coursavenue_homepage_video.mp4') }
-    -# %source{ type: "video/mp4", src: asset_path('coursavenue_homepage_video.webm') }
 
   .relative.full-screen-item.white
     .grid--full.one-whole.homescreen-header.homescreen-header--transparent.fixed.one-whole.on-top
@@ -38,15 +9,14 @@
         = image_tag 'logos/logo.png', width: 200, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'v-middle push--left push-half--top west north absolute hidden', id: 'home-logo-dark'
       .grid__item.one-half.v-middle.soft>
         .white.text--right.one-whole.soft--right#user-nav.inline-block.v-middle.epsilon
-    .text--center.absolute.one-whole{ style: ' top: 30vh;', data: { behavior: 'block-parallax' } }
-      %h1.f-size-really-big.palm-text--center.soft--top.soft-black-text-shadow.flush--bottom
+    .absolute.one-whole{ style: ' top: 30vh;', data: { behavior: 'block-parallax' } }
+      %h1.text--center.f-size-really-big.palm-text--center.soft--top.soft-black-text-shadow.flush--bottom
         ARTS. SPORTS. BIEN-ÊTRE.
-      %h3.palm-text--center.push--bottom.soft-black-text-shadow
+      %h3.text--center.palm-text--center.push--bottom.soft-black-text-shadow
         Trouvez votre cours de loisir idéal.
       .push--bottom.soft--bottom
-        .text--center
-          = render partial: 'shared/home_page_search_form', locals: { form_class: 'header-search-bar center-block' }
-    .text--center.absolute.one-whole{ style: ' top: 90%;' }
+        = render partial: 'shared/home_page_search_form', locals: { form_class: 'header-search-bar center-block' }
+    .text--center.absolute.one-whole{ style: ' top: 85%;' }
       %a.block.not-outlined.white{ href: '#vivez-passionnement', data: { behavior: 'scroll-to', duration: 900 } }
         %i.fa.fa-chevron-down.fa-3x.smooth-black-text-shadow.animated-arrow-1.block
         %i.fa.fa-chevron-down.fa-3x.smooth-black-text-shadow.animated-arrow-2.block
@@ -56,10 +26,10 @@
       $(function() {
           $(window).scroll(function() {
               var $this = $(this);
-              if ($this.scrollTop() > window.innerHeight) {
+              if ($this.scrollTop() > window.innerHeight - 10) {
                   $('.homescreen-header').removeClass('homescreen-header--transparent');
                   $('#home-logo-dark').fadeIn();
-              } else {//} if ($this.scrollTop() < window.innerHeight) {
+              } else {
                   $('.homescreen-header').addClass('homescreen-header--transparent');
                   $('#home-logo-dark').fadeOut();
               }

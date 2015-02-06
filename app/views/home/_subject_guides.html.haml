@@ -1,50 +1,75 @@
+-# Danse orientale
+-# https://www.coursavenue.com/etablissements/sarah-colin
+
+-# Formation d'acteurs
+-# https://www.coursavenue.com/etablissements/trixter
+-# https://www.coursavenue.com/etablissements/les-petits-joueurs
+
+-# Improvisation théâtrale
+-# Théâtre amateurs
+-# Zumba
+-# https://www.coursavenue.com/etablissements/zumba-paris-by-alix
+
+-# Hatha yoga
+-# https://www.coursavenue.com/etablissements/yoga-sattva-paris
+
+-# Art dramatique
+-# Jazz, Street Jazz & Modern jazz
+-# Hip-hop & break dance
+-# Danse indienne & Bollywood
+-# Techniques vocales
+-# Guitare acoustique
+
+-# Aquarelle
+-# https://www.coursavenue.com/etablissements/atelier-de-rose-798ba66f-946b-4089-9cdb-a6628b9d9df6
+-# https://www.coursavenue.com/etablissements/cours-de-dessin-d-art-et-peinture
 - cache "home_subjects_guide_#{ENV["ETAG_VERSION_ID"]}" do
-  - arts    = Subject.fetch_by_id_or_slug('dessin-peinture-arts-plastiques')
-  - dance   = Subject.fetch_by_id_or_slug('danse')
-  - theatre = Subject.fetch_by_id_or_slug('theatre-scene')
-  - music   = Subject.fetch_by_id_or_slug('musique-chant')
-  - yoga    = Subject.fetch_by_id_or_slug('yoga-bien-etre-sante')
-  - sports  = Subject.fetch_by_id_or_slug('sports-arts-martiaux')
   .text--center
     %h2.f-weight-400.push-half--bottom.f-size-big Vivez passionnément
     %h5.f-weight-400.delta.push--bottom.soft--bottom Des centaines de disciplines pour trouver celle qui vous correspond le mieux
   .flexbox.push--bottom
     .flexbox__item.soft-half--sides.one-third
-      .bg-cover{ style: "height: 400px; background-image: url('https://ppcdn.500px.org/38117206/f48450e1b25db94dcde5718ef40226b3c9920f03/5.jpg');" }>
-        %a.relative.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: root_vertical_page_path(dance.vertical_pages.first), title: "Cours de danse" }>
+      .bg-cover.home-screen-box-bg.home-screen-box-bg-belly>
+        %a.relative.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: search_page_path('danse', 'danse-orientale', 'paris'), title: "Cours de danse orientale" }>
           .home-screen-gallery__title.text--center
-            %h2.beta.flush.soft--sides Danse
+            %h2.beta.flush.soft--sides Danse orientale
             .f-weight-bold.show-on-hover__child.f-size-14 Découvrir
     .flexbox__item.soft-half--sides.one-third
-      .bg-cover{ style: "height: 400px; background-image: url('https://ppcdn.500px.org/62708827/68061a5f00835ec010ee02bc23a707a76cd7d5c1/2048.jpg');" }>
-        %a.relative.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: root_vertical_page_path(music.vertical_pages.first), title: "Guitare électrique à Paris" }>
+      .bg-cover.home-screen-box-bg.home-screen-box-bg-actors>
+        %a.relative.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: search_page_path('theatre-scene', 'formation-d-acteurs', 'paris'), title: "Guitare électrique à Paris" }>
           .home-screen-gallery__title.text--center
-            %h2.beta.flush.soft--sides Guitare électrique
+            %h2.beta.flush.soft--sides Formation d'acteurs
             .f-weight-bold.show-on-hover__child.f-size-14 Découvrir
-    .flexbox__item.soft-half--sides.one-third
-      .bg-cover{ style: "height: 400px; background-image: url('https://ppcdn.500px.org/80518949/10268d2e85edcf0458f71cfd879ec8bd9c711f76/5.jpg');" }>
-        %a.relative.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: root_vertical_page_path(theatre.vertical_pages.first), title: "Cours de théâtre et scène" }>
+    .flexbox__item.soft-half--sides.two-thirds
+      .bg-cover.home-screen-box-bg.home-screen-box-bg-singers>
+        %a.relative.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: search_page_path('danse', 'danse', 'paris'), title: "Cours de théâtre et scène" }>
           .home-screen-gallery__title.text--center
-            %h2.beta.flush.soft--sides Théâtre & Scène
+            %h2.beta.flush.soft--sides Techniques vocales
             .f-weight-bold.show-on-hover__child.f-size-14 Découvrir
 
   .flexbox.push--bottom
     .flexbox__item.soft-half--sides.two-thirds
-      .bg-cover.bg-position-center{ style: "height: 300px; background-image: url('https://ppcdn.500px.org/76231107/4d98c90bfa91b533b7f74711b9f6f2e980082481/5.jpg');" }>
-        %a.relative.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: root_vertical_page_path(yoga.vertical_pages.first), title: "Cours de musique et chant" }>
+      .bg-cover.home-screen-box-bg.home-screen-box-bg-yoga>
+        %a.relative.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: search_page_path('yoga-bien-etre-sante', 'hatha-yoga', 'paris'), title: "Cours de musique et chant" }>
           .home-screen-gallery__title.text--center
-            %h2.beta.flush.soft--sides Yoga, Bien-être & Santé
+            %h2.beta.flush.soft--sides Hatha yoga
             .f-weight-bold.show-on-hover__child.f-size-14 Découvrir
     .flexbox__item.soft-half--sides.one-third
-      .bg-cover.bg-position-center{ style: "height: 300px; background-image: url('https://ppcdn.500px.org/73420993/c727f25529f2b164815e00329bab17c623ecc77c/5.jpg');" }>
-        %a.relative.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: root_vertical_page_path(sports.vertical_pages.first), title: "Cours de danse" }>
+      .bg-cover.home-screen-box-bg.home-screen-box-bg-hip-hop>
+        %a.relative.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: search_page_path('danse', 'hip-hop-break-dance', 'paris'), title: "Cours de danse" }>
           .home-screen-gallery__title.text--center
-            %h2.beta.flush.soft--sides Sports & Arts martiaux
+            %h2.beta.flush.soft--sides Hip-hop
             .f-weight-bold.show-on-hover__child.f-size-14 Découvrir
   .flexbox
-    .flexbox__item.soft-half--sides
-      .bg-cover{ style: "height: 400px; background-image: url('https://ppcdn.500px.org/67085729/3cb59d77a59a9c4f2cac9fa09099b7dde5a8ca9d/5.jpg');" }>
-        %a.relative.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: root_vertical_page_path(arts.vertical_pages.first), title: "Cours de théâtre et scène" }>
+    .flexbox__item.soft-half--sides.two-thirds
+      .bg-cover.home-screen-box-bg.home-screen-box-bg-painting>
+        %a.relative.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: search_page_path('dessin-peinture-arts-plastiques', 'aquarelle-lavis', 'paris'), title: "Cours de théâtre et scène" }>
           .home-screen-gallery__title.text--center
-            %h2.beta.flush.soft--sides Dessins, Peinture & Arts plastiques
+            %h2.beta.flush.soft--sides Aquarelle
+            .f-weight-bold.show-on-hover__child.f-size-14 Découvrir
+    .flexbox__item.soft-half--sides.one-third
+      .bg-cover.home-screen-box-bg.home-screen-box-bg-zumba>
+        %a.relative.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: search_page_path('danse', 'zumba', 'paris'), title: "Cours de théâtre et scène" }>
+          .home-screen-gallery__title.text--center
+            %h2.beta.flush.soft--sides Zumba
             .f-weight-bold.show-on-hover__child.f-size-14 Découvrir
