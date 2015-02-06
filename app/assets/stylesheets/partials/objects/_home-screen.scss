@@ -81,6 +81,9 @@
         a {
             color      : white;
             font-weight: 500;
+            &.f-color-black {
+                color: black;
+            }
         }
     }
 }
