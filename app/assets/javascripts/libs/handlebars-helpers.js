@@ -168,3 +168,13 @@ Handlebars.registerHelper("hide_contacts_and_escape", function (text, options) {
 Handlebars.registerHelper("simple_format_hide_contacts", function (text, options) {
     return Handlebars.helpers.simple_format(GLOBAL.hideContactsInfo(text));
 });
+
+// usage: {{root_search_page_path 'danse' 'paris'}}
+Handlebars.registerHelper('root_search_page_path', function(root_subject_id, city_id) {
+    return Routes.root_search_page_path(root_subject_id, city_id);
+});
+
+// usage: {{search_page_path 'danse' 'paris'}}
+Handlebars.registerHelper('search_page_path', function(root_subject_id, subject_id, city_id) {
+    return Routes.search_page_path(root_subject_id, subject_id, city_id);
+});

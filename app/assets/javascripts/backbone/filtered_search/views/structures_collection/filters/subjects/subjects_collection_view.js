@@ -7,21 +7,28 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
 
         childView: Module.SubjectChildrenView,
         childViewContainer: '[data-type="subject-children-view"]',
-        breadcrumb_template: Handlebars.compile('<li><a data-depth="{{depth}}" data-root-subject-slug="{{root_subject_slug}}" data-type="breadcrumb" class="cursor-pointer" data-value="{{slug}}">{{name}}</a></li>'),
+        breadcrumb_template: Handlebars.compile('<li><a data-depth="{{depth}}" data-root-subject-slug="{{root_subject_slug}}" data-type="breadcrumb" class="cursor-pointer" data-value="{{slug}}" href="{{href}}">{{name}}</a></li>'),
 
         initialize: function initialize () {
-            this.menu_item = new this.childView({ model: this.collection.first() });
-            this.menu_item.on('filter:subject', function(data) {
-                this.announceSubject(data);
-                this.activateButton(data.root_subject_id);
-            }.bind(this));
+            this.menu_items = {};
+            this.collection.each(function(model) {
+                var menu_item = new this.childView({ model: model });
+                this.menu_items[model.get('slug')] =  menu_item;
+                menu_item.on('filter:subject', function(data) {
+                    this.announceSubject(data);
+                    this.activateButton(data.root_subject_id);
+                }.bind(this));
+            }, this);
             _.bindAll(this, 'showSubjectBreadcrumb');
         },
 
         setup: function setup (data) {
             this.activateButton(data.root_subject_id);
-            this.current_subject_slug           = data.subject_id
-            this.menu_item.current_subject_slug = data.subject_id;
+            this.current_subject_slug                                        = data.subject_id;
+            this.menu_items[data.root_subject_id].current_subject_slug       = data.subject_id;
+            this.menu_items[data.root_subject_id].selected_parent_subject_id = data.parent_subject_id;
+            // Re render to select slug because the menu is render before the setup happens
+            this.menu_items[data.root_subject_id].render();
             var root_subject = this.collection.where({slug: data.root_subject_id})[0];
             this.showSubjectBreadcrumb(data);
             if (root_subject) {
@@ -44,10 +51,13 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
         },
 
         onRender: function onRender () {
-            this.$(this.childViewContainer).append(this.menu_item.el);
+            _.each(this.menu_items, function(menu_item, subject_slug) {
+                this.$(this.childViewContainer).append(menu_item.render().el);
+            }, this);
         },
 
         announceBreadcrumb: function announceBreadcrumb (event) {
+            if (window.history.pushState) { window.history.pushState('', '', event.currentTarget.pathname) };
             var clicked_subject_slug, root_subject, root_subject_slug, depth, clicked_model;
             clicked_subject_slug                = event.currentTarget.dataset.value;
             root_subject_slug                   = event.currentTarget.dataset.rootSubjectSlug;
@@ -65,7 +75,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
                                        root_subject_id: root_subject.get('slug'),
                                        parent_subject_id: clicked_model.slug })
             }
-
+            return false;
         },
 
         /* When a user clicks on one of the icons, if the icon is not currently
@@ -73,7 +83,8 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
          * for the relevant subject.
          */
         announce: function announce (event) {
-            $.cookie('understood_how_subjects_worked', true);
+            event.stopPropagation();
+            if (window.history.pushState) { window.history.pushState('', '', event.currentTarget.pathname) };
             this.hideMenu();
             if (event) {
                 var subject_slug = event.currentTarget.dataset.value;
@@ -90,13 +101,15 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
                 this.activateButton(subject_slug);
                 this.announceSubject();
             }
+            return false;
         },
 
         announceSubject: function announceSubject (data) {
-            data = data || { subject_id: this.current_subject_slug, root_subject_id: this.current_subject_slug};
-            this.menu_item.current_subject_slug       = data.subject_id;
-            this.menu_item.selected_parent_subject_id = data.parent_subject_id;
-            this.menu_item.model                      = null;
+            data = data || { subject_id: this.current_subject_slug, root_subject_id: this.current_subject_slug };
+            var menu_item = this.menu_items[data.root_subject_id];
+            menu_item.current_subject_slug       = data.subject_id;
+            menu_item.selected_parent_subject_id = data.parent_subject_id;
+            menu_item.render();
             this.trigger("filter:subject", data);
             this.showSubjectBreadcrumb(data);
         }.debounce(GLOBAL.DEBOUNCE_DELAY),
@@ -115,19 +128,19 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             if (_.isEmpty(data.subject_id)) { this.ui.$subjects_breadcrumb.hide(); return; }
             current_model = this.collection.where({slug: data.root_subject_id || data.subject_id})[0];
             if (!current_model) { return; }
-            this.ui.$subjects_breadcrumb.append($(this.breadcrumb_template(_.extend(current_model.toJSON(), {depth: '0'}))));
+            this.ui.$subjects_breadcrumb.append($(this.breadcrumb_template(_.extend(current_model.toJSON(), { depth: '0', href: Routes.root_search_page_path(current_model.get('slug'), window.coursavenue.bootstrap.city_id) }))));
 
             // Return if selected subject is root or subject_id is nil
             if (data.root_subject_id == data.subject_id) { return; }
             // parent_subject = _.select(current_model.get('children'), function(children) { return children.slug == data.parent_subject_id })[0] || {};
             parent_subject = _.select(current_model.get('children'), function(children) { return (children.slug == data.subject_id) || (children.slug == data.parent_subject_id) })[0];
-            _.extend(parent_subject, { depth: '1', root_subject_slug: current_model.get('slug') });
+            _.extend(parent_subject, { depth: '1', root_subject_slug: current_model.get('slug'), href: Routes.search_page_path(current_model.get('slug'), parent_subject.slug, window.coursavenue.bootstrap.city_id) });
             var to_append = $(this.breadcrumb_template(parent_subject));
             this.ui.$subjects_breadcrumb.append(to_append);
 
             if (data.parent_subject_id == data.subject_id) { return; }
             child_subject = _.select(parent_subject.children, function(children) { return children.slug == data.subject_id })[0];
-            this.ui.$subjects_breadcrumb.append($(this.breadcrumb_template(child_subject)));
+            this.ui.$subjects_breadcrumb.append($(this.breadcrumb_template(_.extend(child_subject, { href: Routes.search_page_path(current_model.get('slug'), child_subject.slug, window.coursavenue.bootstrap.city_id) }))));
         },
 
         updateSubjectGrandChildren: function updateSubjectGrandChildren (model, callback, callback_data) {
@@ -143,6 +156,9 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
 
         hideMenu: function hideMenu (event) {
             this.ui.$menu.hide();
+            _.each(this.menu_items, function(menu_item) {
+                menu_item.$el.hide();
+            });
         },
 
         showMenu: function showMenu (event) {
@@ -150,10 +166,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             current_model = this.collection.where({slug: $currentTarget.data('value')})[0];
             this.updateSubjectGrandChildren(current_model);
             // Show menu only if changing subject
-            if (this.menu_item.model != current_model) {
-                this.menu_item.model = current_model;
-                this.menu_item.render();
-            }
+            this.menu_items[current_model.get('slug')].$el.show();
             $currentTarget.append(this.ui.$menu);
             this.ui.$menu.show();
             // TODO here
@@ -182,6 +195,9 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             if (subject_slug) {
                 this.$('[data-type="button"][data-value=' + subject_slug + ']').addClass(ACTIVE_CLASS);
             }
+        },
+        serializeData: function serializeData () {
+            return { city_id: window.coursavenue.bootstrap.city_id };
         }
     });
 });
