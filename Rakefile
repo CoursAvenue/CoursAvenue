@@ -17,7 +17,6 @@ Rake::Task["assets:precompile"].enhance do
   ["#{Dir.pwd}/public/", "#{Dir.pwd}/app/assets/"].each do |dir_path|
     records = Dir.glob("#{dir_path}**/*")
     records.each do |f|
-      next if f =~ /.*email.*.css$/
       if f =~ /.*.png$/ or
         f =~ /.*.jpg$/ or
         f =~ /.*.mp4$/ or
@@ -30,11 +29,7 @@ Rake::Task["assets:precompile"].enhance do
         f =~ /.*.woff$/ or
         f =~ /.*.ttf$/ or
         f =~ /.*.otf$/ or
-        f =~ /.*.css$/ or
         f =~ /.*.js$/ or
-        f =~ /.*.sass$/ or
-        f =~ /.*.css$/ or
-        f =~ /.*.scss$/ or
         f =~ /.*.coffee$/ or
         f =~ /.*.wav$/ then
         File.delete(f) if File.file?(f)
