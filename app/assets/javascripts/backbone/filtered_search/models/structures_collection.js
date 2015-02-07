@@ -72,8 +72,8 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
             // we did some kind of request, I guess we should update the query
             if (window.history.pushState) { window.history.pushState({}, document.title, this.getQuery()); }
 
-            this.grandTotal = response.meta.total;
-            this.totalPages = Math.ceil(response.meta.total / this.state.perPage);
+            this.state.grandTotal = response.meta.total;
+            this.state.totalPages = Math.ceil(response.meta.total / this.state.perPage);
 
             return response.structures;
         },
