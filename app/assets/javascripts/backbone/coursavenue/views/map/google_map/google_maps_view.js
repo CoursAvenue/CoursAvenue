@@ -279,8 +279,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             // Param can be child's model, or child view itself
             var childView = (child instanceof Backbone.Model ? this.markerViewChildren[child.cid] : child);
 
-            // childView.destroy();
-            childView.close();
+            childView.remove();
             delete this.markerViewChildren[childView.model.cid];
         },
 
