@@ -17,6 +17,7 @@ Rake::Task["assets:precompile"].enhance do
   ["#{Dir.pwd}/public/", "#{Dir.pwd}/app/assets/"].each do |dir_path|
     records = Dir.glob("#{dir_path}**/*")
     records.each do |f|
+      next if f =~ /.*email.*.css$/
       if f =~ /.*.png$/ or
         f =~ /.*.jpg$/ or
         f =~ /.*.mp4$/ or
