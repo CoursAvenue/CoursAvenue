@@ -15,7 +15,7 @@
 
 - @portraits.each do |portrait|
   - cache [portrait, 'portrait'] do
-    .main-container.main-container--medium.soft--ends.push--ends
+    .main-container.main-container--medium.soft--bottom.push--bottom
       - medias = portrait.medias.order('caption ASC')
       .opacity-hidden-on-hover__wrapper.bg-cover.text--center.relative{ style: "background-image: url(#{medias.limit(1).first.url}); height: 400px;" }>
         = link_to pro_portrait_path(portrait), class: 'block show-on-hover__wrapper show-on-hover__wrapper--black-curtain' do

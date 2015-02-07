@@ -143,8 +143,8 @@ gem 'sitemap_generator'         , '~>4.2.0'
 gem 'gibbon'                    , '~>1.1.3'
 
 # Transform external CSS stylesheets into inline CSS for emails
-gem 'roadie'                    , '~>3.0.1'
-gem 'roadie-rails'              , '~>1.0.3'
+gem 'roadie'                    , '~>3.0.3'
+gem 'roadie-rails'              , '~>1.0.4'
 
 # See issue: https://github.com/leshill/handlebars_assets/pull/46
 gem 'handlebars_assets'         , '~>0.15', git: 'git://github.com/variousauthors/handlebars_assets.git'

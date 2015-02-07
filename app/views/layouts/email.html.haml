@@ -2,7 +2,7 @@
 %html{ lang: 'fr' }
   %head
     %meta{ content: 'text/html; charset=utf-8', 'httpequiv' => 'Content-Type' }/
-    %link{  rel:'stylesheet', href: 'email.css' }
+    %link{ rel:'stylesheet', href: 'email.css' }
     - if content_for? :title
       %title= yield :title
     - elsif @_message and @_message.subject
