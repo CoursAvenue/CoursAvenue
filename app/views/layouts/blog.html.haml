@@ -2,10 +2,7 @@
   = render partial: 'shared/headers/header', locals: { medium: true }
 
 = content_for :content do
-  .home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path('pro/home_background5.jpg')})" }
-    .main-container.main-container--medium.soft
-      %h1.flush
-        = link_to "Arts. Sports. Bien-être. Le Blog CoursAvenue", blog_articles_path, class: 'muted-link'
+  = yield :above_content
   .main-container.main-container--medium
     .flexbox
       .flexbox__item.v-top.eight-twelfths.soft.palm-one-whole>

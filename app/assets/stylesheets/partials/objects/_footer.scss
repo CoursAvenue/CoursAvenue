@@ -1,7 +1,11 @@
 .main-footer {
-    background-color: #FFF;
+    // background-color: #FFF;
+    background-color: #333;
     padding-top     : 2em;
     padding-bottom  : 2em;
     border-top      : 1px solid darken($homescreen-background, 10%);
-    color           : $gray-light;
+    &, a { color: #DDD; }
+    a {
+        font-weight: 500;
+    }
 }
