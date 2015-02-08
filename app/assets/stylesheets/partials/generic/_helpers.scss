@@ -160,7 +160,14 @@
 \*------------------------------------*/
 .very-soft  { padding: 5px; }
 .island-top { margin-top: $base-spacing-unit * 3.5; }
-.mega-soft--ends { padding-top: $base-spacing-unit * 3.5; padding-bottom: $base-spacing-unit * 3.5;}
+.mega-soft--ends {
+    padding-top   : $base-spacing-unit * 3.5;
+    padding-bottom: $base-spacing-unit * 3.5;
+}
+.palm-push  { @include media-query(palm) { margin: $base-spacing-unit !important; } }
+.palm-flush { @include media-query(palm) { margin: 0 !important; } }
+.palm-hard  { @include media-query(palm) { padding: 0 !important; } }
+
 /*------------------------------------*\
     CURSOR
 \*------------------------------------*/
@@ -225,9 +232,6 @@
     color           : white;
     background-color: $orange;
 }
-
-.palm-flush { @include media-query(palm) { margin: 0 !important; } }
-.palm-hard  { @include media-query(palm) { padding: 0 !important; } }
 
 .print--visible {
     @media only screen {

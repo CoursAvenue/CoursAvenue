@@ -87,6 +87,12 @@
         }
     }
 }
+    .homescreen-header__logo {
+        @include media-query(palm) {
+            left       : 50%!important;
+            margin-left: -95px !important;
+        }
+    }
 
 .home-screen-box-bg          { height: 400px; }
 .home-screen-box-bg-belly    { @include background-image-retina('home-page/danse_orientale.jpg'     , 'home-page/danse_orientale@2x.jpg'); }

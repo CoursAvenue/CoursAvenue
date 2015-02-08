@@ -55,7 +55,7 @@
 }
 .f-size-big {
     font-size: 40px;
-    @include media-query(palm) { font-size: 20px; }
+    @include media-query(palm) { font-size: 30px; }
 }
 .f-size-20  { font-size: 20px; }
 .f-size-16  { font-size: 16px; }

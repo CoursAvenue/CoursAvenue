@@ -4,15 +4,15 @@
     %source{ type: "video/webm", src: asset_path('coursavenue_homepage_video.webm') }
 
   .relative.full-screen-item.white
-    .flexbox.one-whole.homescreen-header.homescreen-header--transparent.fixed.one-whole.on-top
-      .flexbox__item.one-half.v-middle>
-        = image_tag 'logos/logo_white.png', width: 190, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo_white@2x.png') }, class: 'v-middle push--left push-half--top absolute', style: 'left: 3px; top: 3px;'
-        = image_tag 'logos/logo.png', width: 200, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'v-middle push--left push-half--top west north absolute hidden', id: 'home-logo-dark'
-      .flexbox__item.one-half.v-middle.text--right>
+    .grid--full.one-whole.homescreen-header.homescreen-header--transparent.fixed.one-whole.on-top
+      .grid__item.one-third.v-middle.palm-one-whole.palm-push>
+        = image_tag 'logos/logo_white.png', width: 190, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo_white@2x.png') }, class: 'homescreen-header__logo v-middle push--left push-half--top absolute', style: 'left: 3px; top: 3px;'
+        = image_tag 'logos/logo.png', width: 200, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'homescreen-header__logo v-middle push--left push-half--top west north absolute hidden', id: 'home-logo-dark'
+      .grid__item.two-thirds.v-middle.text--right.palm-one-whole.palm-text--center>
         .white.soft.inline-block.v-middle.epsilon#user-nav
-        .top-right-hidden-button.inline-block.v-middle
+        .top-right-hidden-button.inline-block.v-middle.visuallyhidden--palm
           = link_to 'Trouver un cours', root_search_page_without_subject_path('paris'), class: 'btn btn--blue nowrap push--right'
-    .absolute.one-whole{ style: ' top: 30vh;', data: { behavior: 'block-parallax' } }
+    .absolute.one-whole.soft--sides{ style: ' top: 30vh;', data: { behavior: 'block-parallax' } }
       %h1.text--center.f-size-really-big.palm-text--center.soft--top.soft-black-text-shadow.flush--bottom.main-container
         ARTS. SPORTS. BIEN-ÊTRE.
       %h3.text--center.palm-text--center.push--bottom.soft-black-text-shadow.main-container
