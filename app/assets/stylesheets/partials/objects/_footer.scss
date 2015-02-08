@@ -1,5 +1,5 @@
 .main-footer {
-    // background-color: #FFF;
+    @include background-image-retina('patterns/stardust.png', 'patterns/stardust@2x.png');
     background-color: #333;
     padding-top     : 2em;
     padding-bottom  : 2em;
