@@ -1,7 +1,7 @@
 {
   "checksum": {
-    "previous": "48a5ecdf39aa9b8f3be5e3bd282c19e6f6657917fdc8347b9ff481f82c22e92b",
-    "current": "48a5ecdf39aa9b8f3be5e3bd282c19e6f6657917fdc8347b9ff481f82c22e92b"
+    "previous": "1e31cfc96e48b4148243c115c0eb593e8cf62eff2e36d6e6ad003039c8922f25",
+    "current": "1e31cfc96e48b4148243c115c0eb593e8cf62eff2e36d6e6ad003039c8922f25"
   },
   "fonts": [
     "app/assets/fonts/GlyphAvenue.ttf",
@@ -221,6 +221,10 @@
     "quote": {
       "codepoint": 61862,
       "source": "app/assets/images/icons/svg/quote.svg"
+    },
+    "quotes": {
+      "codepoint": 61867,
+      "source": "app/assets/images/icons/svg/quotes.svg"
     },
     "reload": {
       "codepoint": 61865,
