@@ -25,10 +25,12 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
         setup: function setup (data) {
             this.activateButton(data.root_subject_id);
             this.current_subject_slug                                        = data.subject_id;
-            this.menu_items[data.root_subject_id].current_subject_slug       = data.subject_id;
-            this.menu_items[data.root_subject_id].selected_parent_subject_id = data.parent_subject_id;
-            // Re render to select slug because the menu is render before the setup happens
-            this.menu_items[data.root_subject_id].render();
+            if (this.menu_items[data.root_subject_id]) {
+                this.menu_items[data.root_subject_id].current_subject_slug       = data.subject_id;
+                this.menu_items[data.root_subject_id].selected_parent_subject_id = data.parent_subject_id;
+                // Re render to select slug because the menu is render before the setup happens
+                this.menu_items[data.root_subject_id].render();
+            }
             var root_subject = this.collection.where({slug: data.root_subject_id})[0];
             this.showSubjectBreadcrumb(data);
             if (root_subject) {
