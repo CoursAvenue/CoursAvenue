@@ -1,3 +1,4 @@
+$list_wrapper_width: 800px;
 .search-wrapper {
     position: absolute;
     top     : 0;
@@ -14,18 +15,9 @@
     @include box-shadow(inset -1px 0 1px rgba(0, 0, 0, 0.3));
 }
 
-.filtered-search__list-wrapper {
-    .filtered_search__structure-item {
-        width: 33%;
-        @media only screen and (max-width: 1600px) { width: 50%; }
-        @media only screen and (max-width: 950px)  { width: 100%; }
-    }
-}
-
 .filtered-search__map-wrapper {
-    position     : fixed;
-    left         : 0%;
-    height       : 100%;
+    padding-left: $list_wrapper_width;
+    height      : 100%;
     @include transition(all 250ms linear);
     > div,  > div > div, > div > div > div, .google-map {
         height: 100%;
@@ -47,13 +39,11 @@
         }
 
 .filtered-search__list-wrapper {
-    position                 : fixed;
-    right                    : 0;
-    top                      : 50px;
-    bottom                   : 0;
-    // width                    : 100%;
-    overflow-y               : scroll;
-    padding-bottom           : 2em;
+    width         : $list_wrapper_width;
+    top           : 50px;
+    bottom        : 0;
+    overflow-y    : scroll;
+    padding-bottom: 2em;
     webkit-overflow-scrolling: touch;
     @include transition(all 250ms linear);
     @include media-query(palm) {

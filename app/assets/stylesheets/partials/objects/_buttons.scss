@@ -250,10 +250,12 @@
 }
 
 .btn-group {
+    display: table;
     i {
         font-size: 1em;
     }
     .btn, .btn.active {
+        display: table-cell;
         padding: 0.8em;
         @include border-radius(0);
     }
@@ -285,5 +287,12 @@
     }
     input {
         display: none;
+    }
+}
+.btn-group--column {
+    display       : flex;
+    flex-direction: column;
+    .btn, .btn.active {
+        display: block;
     }
 }
