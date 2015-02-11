@@ -2,7 +2,6 @@ class TestMailer < ActionMailer::Base
   include ::ActionMailerWithTextPart
   include Roadie::Rails::Automatic
 
-  helper :mailer
   layout 'email'
 
   default from: "\"L'équipe CoursAvenue\" <contact@coursavenue.com>"
