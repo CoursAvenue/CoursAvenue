@@ -83,11 +83,3 @@
         @include background-image-retina('icons/subjects/photo-video-white.png', 'icons/subjects/photo-video-white@2x.png');
     }
 }
-
-.btn.subject_icon__other {
-    height     : 85px;
-    line-height: 60px;
-    > div {
-        line-height: 1.2;
-    }
-}

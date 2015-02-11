@@ -1,12 +1,15 @@
-<div class="grid--full">
-    <div class="grid__item v-middle one-fifth palm-one-whole palm-text--center">
-        <strong class="gray-light">TARIFS RÉDUITS</strong>
-    </div><!--
- --><div class="grid__item v-middle four-fifths palm-one-whole">
-      <select data-behavior="chosen" data-placeholder="Selectionnez une ou plusieurs options" multiple style="width: 100%;" class="input--large">
-        <% Price::Discount::TYPES.each do |discount_name| %>
-          <option value="<%= discount_name.split('.').last %>"><%= I18n.t(discount_name) %></option>
-        <% end %>
-      <select>
+<div class="drop-down__wrapper" data-behavior="drop-down" data-el="> .drop-down__el" data-position="center">
+    <div class="btn btn--gray" data-behavior="clear-filter">
+      Tarifs réduits
+      <i class="fa fa-times hidden" data-el="clearer"></i>
+    </div>
+    <div class="drop-down__el on-top soft-half">
+        <div class="btn-group btn-group--column" data-toggle="buttons">
+            <% Price::Discount::TYPES.each do |discount_name| %>
+              <label class="btn btn--gray nowrap">
+                    <input type="checkbox" name="discounts[]" value="<%= discount_name.split('.').last %>"><%= I18n.t(discount_name) %>
+                </label>
+            <% end %>
+        </div>
     </div>
 </div>

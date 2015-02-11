@@ -36,26 +36,49 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             if (root_subject) {
                 this.updateSubjectGrandChildren(root_subject, this.showSubjectBreadcrumb, data)
             }
+            this.setButtonState();
         },
 
         ui: {
-            '$buttons'            : '[data-type=button]',
-            '$buttons_wrapper'    : '[data-type=button-wrapper]',
-            '$menu'               : '[data-type=menu]',
-            '$subjects_breadcrumb': '[data-type=subjects-breadcrumb]'
+            '$buttons'                     : '[data-type=button]',
+            '$buttons_wrapper'             : '[data-type=button-wrapper]',
+            '$menu'                        : '[data-type=menu]',
+            '$clear_filter_button_wrapper' : '[data-el=clear-filter-wrapper]',
+            '$clear_filter_button'         : '[data-behavior=clear-filter]',
+            '$clearer'                     : '[data-el=clearer]',
+            '$subjects_filter_view'        : '#subjects-filter-view'
+            // '$subjects_breadcrumb': '[data-type=subjects-breadcrumb]'
         },
 
         events: {
-            'mouseenter @ui.$buttons_wrapper': 'showMenu',
-            'mouseleave @ui.$buttons_wrapper': 'hideMenu',
-            'click [data-type=button]'       : 'announce',
-            'click [data-type=breadcrumb]'   : 'announceBreadcrumb'
+            'mouseenter @ui.$buttons_wrapper'             : 'showMenu',
+            'mouseleave @ui.$buttons_wrapper'             : 'hideMenu',
+            'click [data-type=button]'                    : 'announce',
+            'click @ui.$clear_filter_button'              : 'clear',
+            'mouseenter @ui.$clear_filter_button_wrapper' : 'showCollection',
+            'mouseleave @ui.$clear_filter_button_wrapper' : 'hideCollection',
+            'click [data-type=breadcrumb]'                : 'announceBreadcrumb'
+        },
+
+        showCollection: function showCollection (event) {
+            this.ui.$subjects_filter_view.show();
+        },
+
+        hideCollection: function hideCollection (event) {
+            this.ui.$subjects_filter_view.hide();
         },
 
         onRender: function onRender () {
             _.each(this.menu_items, function(menu_item, subject_slug) {
                 this.$(this.childViewContainer).append(menu_item.render().el);
             }, this);
+        },
+
+        setButtonState: function setButtonState () {
+            if (this.current_subject_slug.length > 0) {
+                this.ui.$clearer.show();
+                this.ui.$clear_filter_button.removeClass('btn--gray');
+            }
         },
 
         announceBreadcrumb: function announceBreadcrumb (event) {
@@ -124,13 +147,19 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
          *       }
          */
         showSubjectBreadcrumb: function showSubjectBreadcrumb (data) {
+            if (data.root_subject_id.length > 0) {
+                $('[data-el="subject-colleciton-toggler"]').removeClass('btn--gray')
+                $('[data-el="subject-colleciton-toggler"] i').show();
+            }
+
             var parent_subject, child_subject;
-            this.ui.$subjects_breadcrumb.empty();
-            this.ui.$subjects_breadcrumb.show();
-            if (_.isEmpty(data.subject_id)) { this.ui.$subjects_breadcrumb.hide(); return; }
+            var $subjects_breadcrumb = $('[data-type=subjects-breadcrumb]');
+            $subjects_breadcrumb.empty();
+            $subjects_breadcrumb.show();
+            if (_.isEmpty(data.subject_id)) { $subjects_breadcrumb.hide(); return; }
             current_model = this.collection.where({slug: data.root_subject_id || data.subject_id})[0];
             if (!current_model) { return; }
-            this.ui.$subjects_breadcrumb.append($(this.breadcrumb_template(_.extend(current_model.toJSON(), { depth: '0', href: Routes.root_search_page_path(current_model.get('slug'), window.coursavenue.bootstrap.city_id) }))));
+            $subjects_breadcrumb.append($(this.breadcrumb_template(_.extend(current_model.toJSON(), { depth: '0', href: Routes.root_search_page_path(current_model.get('slug'), window.coursavenue.bootstrap.city_id) }))));
 
             // Return if selected subject is root or subject_id is nil
             if (data.root_subject_id == data.subject_id) { return; }
@@ -138,11 +167,11 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             parent_subject = _.select(current_model.get('children'), function(children) { return (children.slug == data.subject_id) || (children.slug == data.parent_subject_id) })[0];
             _.extend(parent_subject, { depth: '1', root_subject_slug: current_model.get('slug'), href: Routes.search_page_path(current_model.get('slug'), parent_subject.slug, window.coursavenue.bootstrap.city_id) });
             var to_append = $(this.breadcrumb_template(parent_subject));
-            this.ui.$subjects_breadcrumb.append(to_append);
+            $subjects_breadcrumb.append(to_append);
 
             if (data.parent_subject_id == data.subject_id) { return; }
             child_subject = _.select(parent_subject.children, function(children) { return children.slug == data.subject_id })[0];
-            this.ui.$subjects_breadcrumb.append($(this.breadcrumb_template(_.extend(child_subject, { href: Routes.search_page_path(current_model.get('slug'), child_subject.slug, window.coursavenue.bootstrap.city_id) }))));
+            $subjects_breadcrumb.append($(this.breadcrumb_template(_.extend(child_subject, { href: Routes.search_page_path(current_model.get('slug'), child_subject.slug, window.coursavenue.bootstrap.city_id) }))));
         },
 
         updateSubjectGrandChildren: function updateSubjectGrandChildren (model, callback, callback_data) {
@@ -171,17 +200,13 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             this.menu_items[current_model.get('slug')].$el.show();
             $currentTarget.append(this.ui.$menu);
             this.ui.$menu.show();
-            // TODO here
-            if (document.body.offsetWidth - $currentTarget.offset().left < this.ui.$menu.width()) {
-                this.ui.$menu.css({right: 0, left: 'auto'});
-            } else {
-                var offset_left = $currentTarget.offset().left - $('[data-value="dessin-peinture-arts-plastiques"]').first().closest('[data-type=subjects-collection]').offset().left + 1;
-                this.ui.$menu.css({left: offset_left, right: 'auto'});
-            }
+            this.ui.$menu.css({ left: '100%' });
         },
 
         // Clears all the given filters
         clear: function clear () {
+            this.ui.$clearer.hide();
+            this.ui.$clear_filter_button.addClass('btn--gray');
             this.previous_searched_name = null;
             this.announce();
         },

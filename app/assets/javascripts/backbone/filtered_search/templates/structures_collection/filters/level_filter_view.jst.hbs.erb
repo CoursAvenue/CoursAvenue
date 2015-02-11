@@ -1,14 +1,15 @@
-<div class="grid--full">
-    <div class="grid__item v-middle one-fifth palm-one-whole palm-text--center">
-        <strong class="gray-light">NIVEAU</strong>
-    </div><!--
---><div class="grid__item v-middle four-fifths palm-one-whole">
-        <div class="btn-group" data-toggle="buttons"><!--
-        --><% Level.all.each do |level| %><!--
-             --><label class="btn">
+<div class="drop-down__wrapper" data-behavior="drop-down" data-el="> .drop-down__el">
+    <div class="btn btn--gray" data-behavior="clear-filter">
+      Niveau
+      <i class="fa fa-times hidden" data-el="clearer"></i>
+    </div>
+    <div class="drop-down__el soft-half on-top">
+        <div class="btn-group btn-group--column" data-toggle="buttons">
+          <% Level.all.each do |level| %>
+              <label class="btn btn--gray nowrap">
                     <input type="checkbox" name="level_ids[]" value="<%= level.id %>"><%= I18n.t(level.name) %>
-                </label><!--
-        --><% end %><!--
-    --></div>
+                </label>
+          <% end %>
+      </div>
     </div>
 </div>

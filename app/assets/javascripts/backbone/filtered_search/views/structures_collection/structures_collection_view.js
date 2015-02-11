@@ -4,20 +4,7 @@
 FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbone, Marionette, $, _) {
     var EmptyStrcutureList = Marionette.ItemView.extend({
         tagName: 'div',
-        template: Module.templateDirname() + 'empty_structures_collection_view',
-
-        initialize: function initialize (options) {
-            this.search_term  = options.search_term;
-            this.subject_name = options.subject_name;
-        },
-
-        serializeData: function serializeData () {
-            return {
-                search_term: this.search_term,
-                subject_name: this.subject_name
-            }
-        }
-
+        template: Module.templateDirname() + 'empty_structures_collection_view'
     });
 
     Module.StructuresCollectionView = CoursAvenue.Views.PaginatedCollectionView.extend({
@@ -29,7 +16,6 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
         emptyView: EmptyStrcutureList,
 
         initialize: function initialize () {
-            window.onresize = this.resize_thumbnails;
             _.bindAll(this, 'initializeAddToFavoriteLinks');
             CoursAvenue.on('user:signed:in', this.initializeAddToFavoriteLinks);
         },
@@ -38,10 +24,6 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
             this.collection.each(function(model) {
                 model.trigger('user:signed:in');
             });
-        },
-
-        resize_thumbnails: function resize_thumbnails () {
-            $('[data-resizeable-height]').css('height', $('[data-resizeable-height]').first().width() * 2 / 3);
         },
 
         onAfterShow: function onAfterShow () {
@@ -152,7 +134,6 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
         structuresUpdated: function structuresUpdated (structure_ids) {
             this.logImpressions(structure_ids);
             this.renderSlideshows();
-            setTimeout(this.resize_thumbnails);
         },
 
         logImpressions: function logImpressions (structure_ids) {

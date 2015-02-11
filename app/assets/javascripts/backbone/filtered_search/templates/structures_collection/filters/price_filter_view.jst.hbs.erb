@@ -1,36 +1,37 @@
-<div class="grid--full">
-    <div class="grid__item v-middle one-fifth palm-one-whole palm-text--center">
-        <strong class="gray-light">PRIX</strong>
-    </div><!--
- --><div class="grid__item v-middle four-fifths palm-one-whole">
-        <div class="grid"><!--
-         --><div class="grid__item width-auto v-top soft--right">
-                <div class="push-half--bottom">
+<div class="drop-down__wrapper" data-behavior="drop-down" data-el="> .drop-down__el" data-position="center">
+   <div class="btn btn--gray" data-behavior="clear-filter">
+      Prix
+      <i class="fa fa-times hidden" data-el="clearer"></i>
+    </div>
+    <div class="drop-down__el soft-half on-top">
+        <div class="flexbox">
+            <div class="flexbox__item width-auto v-top soft--right text--left">
+                <div class="nowrap push-half--bottom">
                     <input class="v-middle input--large" id="radio-course" type="radio" name="price_type" value="course"/>
-                    <label for="radio-course" class="label--large nowrap v-middle inline soft-half--left">À la séance</label>
+                    <label for="radio-course" class="label--large nowrap v-middle inline">À la séance</label>
                 </div>
-                <div>
+                <div class="nowrap">
                     <input class="v-middle input--large" id="radio-subscription" type="radio" name="price_type" value="subscription"/>
-                    <label for="radio-subscription" class="label--large nowrap v-middle inline soft-half--left">Par abonnement</label>
+                    <label for="radio-subscription" class="label--large nowrap v-middle inline">Par abonnement</label>
                 </div>
 
-            </div><!--
-         --><div class="grid__item six-twelfths v-top soft--sides palm-one-whole">
-                <div data-behavior="slider" style="margin-top: 6px;"></div>
+            </div>
+            <div class="flexbox__item six-twelfths v-top soft--sides palm-one-whole">
+                <div data-behavior="slider" style="margin-top: 6px; width: 200px;"></div>
                 <div class="grid soft-half--top"><!--
                  --><div class="grid__item one-half nowrap">
-                        Prix minimum :
+                        Min. :
                         <strong data-behavior="slider-min-value"></strong>
                         €
                     </div><!--
                  --><div class="grid__item one-half text--right nowrap">
-                        Prix maximum :
+                        Max. :
                         <strong data-behavior="slider-max-value"></strong>
                         €
                     </div><!--
              --></div>
-            </div><!--
-         --><div class="grid__item three-twelfths v-top">
+            </div>
+            <div class="flexbox__item three-twelfths v-top">
                 <select class="hidden" data-type="subscription-prices">
                     <option value="all_subscriptions" data-step="25" data-range="10,1000"><%= I18n.t('prices.filter.all_subscriptions') %></option>
                     <option value="annual_subscription" data-step="25" data-range="100,5000"><%= I18n.t('prices.filter.annual_subscription') %></option>
@@ -45,8 +46,8 @@
                     <option value="book_ticket" data-step="5" data-range="10,100"><%= I18n.t('prices.filter.book_ticket') %></option>
                 </select>
 
-            </div><!--
-     --></div>
+            </div>
+        </div>
     </div>
 </div>
 

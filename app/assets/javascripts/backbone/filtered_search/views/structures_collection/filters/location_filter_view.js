@@ -24,9 +24,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             this.trigger("filter:location", data);
         }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
-        ui: {
-            $address_picker: '#address-picker'
-        },
         // Clears all the given filters
         clear: function clear (filters) {
             this.ui.$address_picker.val('');

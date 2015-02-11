@@ -1,41 +1,47 @@
-<div class="grid--full">
-    <div class="grid__item v-middle one-fifth palm-one-whole palm-text--center">
-        <strong class="gray-light">DATE</strong>
-    </div><!--
- --><div class="grid__item v-middle four-fifths palm-one-whole">
+<div class="drop-down__wrapper" data-behavior="drop-down" data-el="> .drop-down__el" data-position="center">
+    <div class="btn btn--gray" data-behavior="clear-filter">
+      Date
+      <i class="fa fa-times hidden" data-el="clearer"></i>
+    </div>
+    <div class="drop-down__el soft-half on-top">
         <div data-type="date">
-            <select class="input--large palm-one-whole" data-type="day" data-placeholder="Selectionnez un ou plusieurs jour" data-behavior="chosen" style="width: 300px;" multiple class="inline-block v-middle">
-                <% # Rotate to have sunday last %>
+            <div class="btn-group" data-toggle="buttons">
                 <% I18n.t('date.day_names').rotate.each_with_index do |day, index| %>
-                    <option value="<%= (index == 6  ? 0 : index + 1) %>"><%= day.capitalize %></option>
+                    <label class="btn btn--gray nowrap">
+                        <input type="checkbox" name="discounts[]" value="<%= (index == 6  ? 0 : index + 1) %>"><%= day.capitalize %>
+                    </label>
                 <% end %>
-            </select>
-            <div data-type="time" class="inline-block v-middle">
-                <select>
-                    <option value="all-day">Toute la journée</option>
-                    <% Planning::TIME_SLOTS.each do |key, value| %>
-                        <option value="<%= value[:start_time] %>-<%= value[:end_time] %>"><%= I18n.t(value[:name]) %></option>
-                    <% end %>
-                    <option value="choose-slot">Creneau précis</option>
-                </select>
             </div>
-            <div data-type="hour-range" class="inline-block v-middle">
-                de
-                <select id="start-hour">
-                </select>
-                à
-                <select id="end-hour">
-                </select>
+            <div class="push-half--top">
+                <div data-type="time" class="inline-block v-middle">
+                    <select>
+                        <option value="all-day">Toute la journée</option>
+                        <% Planning::TIME_SLOTS.each do |key, value| %>
+                            <option value="<%= value[:start_time] %>-<%= value[:end_time] %>"><%= I18n.t(value[:name]) %></option>
+                        <% end %>
+                        <option value="choose-slot">Creneau précis</option>
+                    </select>
+                </div>
+                <div data-type="hour-range" class="inline-block v-middle">
+                    de
+                    <select id="start-hour">
+                    </select>
+                    à
+                    <select id="end-hour">
+                    </select>
+                </div>
+                <button class="inline-block v-middle btn btn--gray btn--small" data-behavior="toggle" >Choisir des dates precises</button>
             </div>
-            <button class="inline-block v-middle btn btn--small" data-behaviour="toggle" >Choisir des dates precises</button>
         </div>
 
-        <div class="input-daterange" data-type="date-range" data-behavior="datepicker">
+        <div class="input-daterange nowrap push-half--top" data-type="date-range" data-behavior="datepicker">
             <span class="add-on">du</span>
             <input name="start" class="datepicker-input" id="start-date" data-value="start-date" value="{{start_date}}">
             <span class="add-on">au</span>
             <input name="end" class="datepicker-input" id="end-date" data-value="end-date" value="{{end_date}}">
-            <button class="push-half--left inline-block v-middle btn btn--small" data-behaviour="toggle" >Choisir les jours de la semaine</button>
+            <div class="push-half--top">
+                <button class="push-half--left inline-block v-middle btn btn--gray btn--small" data-behavior="toggle" >Choisir les jours de la semaine</button>
+            </div>
         </div>
     </div>
 </div>

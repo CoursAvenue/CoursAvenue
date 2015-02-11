@@ -2,19 +2,18 @@ class StructureSerializer < ActiveModel::Serializer
   include StructuresHelper
   include ActionView::Helpers::TextHelper
 
-  cached
-  delegate :cache_key, to: :object
+  # cached
+  # delegate :cache_key, to: :object
 
   attributes :id, :name, :slug, :comments_count, :logo_thumb_url, :logo_large_url,
               :data_url, :query_params, :structure_type, :highlighted_comment_title,
-              :premium, :has_promotion, :is_open_for_trial, :cover_media, :subjects,
-              :trial_courses_policy
+              :has_promotion, :is_open_for_trial, :cover_media, :subjects
 
   has_many :places,            serializer: PlaceSerializer
   has_many :preloaded_medias,  serializer: MediaSerializer
 
   def preloaded_medias
-    object.medias.cover_first.videos_first.limit((premium ? 20 : Media::FREE_PROFIL_LIMIT))
+    object.medias.cover_first.videos_first.limit(10)
   end
 
   def cover_media
@@ -33,7 +32,7 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def highlighted_comment_title
-    truncate(object.highlighted_comment.try(:title), length: 60) if object.comments_count > 0 and premium
+    (object.highlighted_comment || object.comments.first).try(:title) if object.comments_count > 0
   end
 
   def structure_type
@@ -69,19 +68,11 @@ class StructureSerializer < ActiveModel::Serializer
     @options[:query]
   end
 
-  def premium
-    object.premium?
-  end
-
   def is_open_for_trial
     object.is_open_for_trial?
   end
 
   def subjects
-    join_structure_course_subjects_text(object)
-  end
-
-  def trial_courses_policy
-    I18n.t("structures.trial_courses_policy.#{object.trial_courses_policy}_nb")
+    options[:current_filtered_subject_name] || join_structure_course_subjects_text(object)
   end
 end

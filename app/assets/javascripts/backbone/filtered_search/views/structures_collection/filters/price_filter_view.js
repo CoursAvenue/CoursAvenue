@@ -8,7 +8,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         SUBSCRIPTION_PRICE_TYPES: ['all_subscriptions', 'annual_subscription', 'semestrial_subscription', 'trimestrial_subscription', 'monthly_subscription'],
         COURSE_PRICE_TYPES:       ['any_per_course', 'per_course', 'book_ticket'],
 
-        setup: function (data) {
+        setup: function setup (data) {
             var $min_value = this.ui.$min_value,
                 $max_value = this.ui.$max_value,
                 range, step, min, max;
@@ -42,28 +42,32 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                     resolution: 1
                 }
             });
-            this.announceBreadcrumb();
+            this.setButtonState();
         },
 
         ui: {
-            '$price_type_radio_course':       '#radio-course',
-            '$price_type_radio_subscription': '#radio-subscription',
-            '$price_type_radio':              '[name=price_type]',
-            '$select':                        'select',
-            '$slider':                        '[data-behavior=slider]',
-            '$min_value':                     '[data-behavior="slider-min-value"]',
-            '$max_value':                     '[data-behavior="slider-max-value"]',
-            '$subscription_prices_select':    '[data-type="subscription-prices"]',
-            '$course_prices_select':          '[data-type="course-prices"]'
+            '$price_type_radio_course'       : '#radio-course',
+            '$price_type_radio_subscription' : '#radio-subscription',
+            '$price_type_radio'              : '[name=price_type]',
+            '$select'                        :  'select',
+            '$slider'                        : '[data-behavior=slider]',
+            '$min_value'                     : '[data-behavior="slider-min-value"]',
+            '$max_value'                     : '[data-behavior="slider-max-value"]',
+            '$subscription_prices_select'    : '[data-type="subscription-prices"]',
+            '$course_prices_select'          : '[data-type="course-prices"]',
+            '$clear_filter_button'           : '[data-behavior=clear-filter]',
+            '$clearer'                       : '[data-el=clearer]'
+
         },
 
         events: {
-            'change @ui.$price_type_radio': 'changeSelect',
-            'change @ui.$select':           'changeRange',
-            'change @ui.$slider':           'announce'
+            'change @ui.$price_type_radio'   : 'changeSelect',
+            'change @ui.$select'             : 'changeRange',
+            'change @ui.$slider'             : 'announce',
+            'click @ui.$clear_filter_button' : 'clear'
         },
 
-        changeSelect: function() {
+        changeSelect: function changeSelect () {
             if (this.$('[name=price_type]:checked').val() == 'course') {
                 this.ui.$subscription_prices_select.hide();
                 this.ui.$course_prices_select.show();
@@ -74,7 +78,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             this.changeRange();
         },
 
-        currentShownSelect: function() {
+        currentShownSelect: function currentShownSelect () {
             if (this.$('[name=price_type]:checked').val() === 'course') {
                 return this.ui.$course_prices_select;
             } else if (this.$('[name=price_type]:checked').val() === 'subscription') {
@@ -83,7 +87,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             return null;
         },
 
-        getRange: function() {
+        getRange: function getRange () {
             if (this.currentShownSelect()) {
                 var $option = $('[value="' + this.currentShownSelect().val() + '"]');
                 return $option.data('range').split(',');
@@ -92,7 +96,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             }
         },
 
-        getStep: function() {
+        getStep: function getStep () {
             if (this.currentShownSelect()) {
                 var $option = $('[value="' + this.currentShownSelect().val() + '"]');
                 return $option.data('step');
@@ -101,7 +105,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             }
         },
 
-        changeRange: function() {
+        changeRange: function changeRange () {
             var range   = this.getRange(),
                 step    = this.getStep();
             this.ui.$slider.noUiSlider({ range: range, start: range, step: step }, true);
@@ -110,7 +114,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             this.announce();
         },
 
-        announce: function (e) {
+        announce: function announce (e) {
             var slider_value = this.ui.$slider.val();
             if (this.$('[name=price_type]:checked').length === 0) {
                 this.trigger("filter:price", {
@@ -125,22 +129,23 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                     'max_price': slider_value[1]
                 });
             }
-            this.announceBreadcrumb();
+            this.setButtonState();
         }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
-        announceBreadcrumb: function() {
-            var title;
-            if (this.$('[name=price_type]:checked').length === 0) {
-                this.trigger("filter:breadcrumb:remove", {target: 'price'});
-            } else {
-                title = this.currentShownSelect().find('option:selected').text();
-                title += ' de ' + this.ui.$slider.val()[0] + ' à ' + this.ui.$slider.val()[1] + '€'
-                this.trigger("filter:breadcrumb:add", {target: 'price', title: title});
+        /*
+         * Set the state of the button, wether or not there are filters or not
+         */
+        setButtonState: function setButtonState () {
+            if (this.$('[name=price_type]:checked').length > 0) {
+                this.ui.$clearer.show();
+                this.ui.$clear_filter_button.removeClass('btn--gray');
             }
         },
 
         // Clears all the given filters
-        clear: function (filters) {
+        clear: function clear (filters) {
+            this.ui.$clear_filter_button.addClass('btn--gray')
+            this.ui.$clearer.hide();
             this.ui.$price_type_radio.prop('checked', false);
             this.ui.$subscription_prices_select.hide();
             this.ui.$subscription_prices_select.val('all_subscriptions');

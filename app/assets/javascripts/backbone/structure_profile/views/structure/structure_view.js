@@ -7,7 +7,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         template: Module.templateDirname() + 'structure_view',
 
         ui: {
-            '$loader'           : '[data-loader]'
+            '$loader': '[data-loader]'
         },
 
         initialize: function initialize () {

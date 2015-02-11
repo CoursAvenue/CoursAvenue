@@ -101,6 +101,7 @@ FilteredSearch.addInitializer(function(options) {
         }
     });
 
+    input_subject_filter      = new FiltersModule.InputSubjectFilterView({});
     location_filter           = new FiltersModule.LocationFilterView({});
     level_filter              = new FiltersModule.LevelFilterView({});
     course_type_filter        = new FiltersModule.CourseTypeFilterView({});
@@ -145,6 +146,7 @@ FilteredSearch.addInitializer(function(options) {
 
     layout.showWidget(subjects_collection_filter, { events: { 'structures:updated:filter': 'setup' }});
     layout.showWidget(location_filter);
+    layout.showWidget(input_subject_filter);
     layout.showWidget(results_summary);
 
     layout.showWidget(keyword_filter,        { events: { 'breadcrumbs:clear:search_term':     'clear'} });
@@ -178,5 +180,8 @@ $(document).ready(function() {
     /* we only want the filteredsearch on the search page */
     if (FilteredSearch.detectRoot()) {
         FilteredSearch.start({});
+        setTimeout(function() {
+            $('[data-behavior=drop-down]').dropDown();
+        });
     }
 });

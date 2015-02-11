@@ -2,7 +2,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
     Module.ResultsSummaryView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'results_summary_view',
-        className: 'text--right line-height-normal',
 
         initialize: function initialize (options) {
             this.current_summary_data = {};

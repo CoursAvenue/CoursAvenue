@@ -7,40 +7,43 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
     Module.AudienceFilterView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'audience_filter_view',
 
-        setup: function (data) {
+        setup: function setup (data) {
             var self = this;
             _.each(data.audience_ids, function(audience_id) {
                 self.activateInput(audience_id);
             });
             if (this.isChild(data.audience_ids)) {
-                this.ui.age_picker.show();
+                this.ui.$age_picker.show();
             } else {
-                this.ui.age_picker.hide();
+                this.ui.$age_picker.hide();
             }
 
-            var $selects = this.ui.age_picker.find('select');
+            var $selects = this.ui.$age_picker.find('select');
 
             this.populateAgeSelect($selects, 0, MAX_AGE);
-            this.ui.age_picker.find('#max-age').val(MAX_AGE - 1);
+            this.ui.$age_picker.find('#max-age').val(MAX_AGE - 1);
 
-            this.ui.min_age_select.val(data.min_age_for_kids || 0);
-            this.ui.max_age_select.val(data.max_age_for_kids || MAX_AGE - 1);
-            this.announceBreadcrumb();
+            this.ui.$min_age_select.val(data.min_age_for_kids || 0);
+            this.ui.$max_age_select.val(data.max_age_for_kids || MAX_AGE - 1);
+            this.setButtonState();
         },
 
         ui: {
-            'age_picker'    : '[data-behavior=age-picker]',
-            'min_age_select': '#min-age',
-            'max_age_select': '#max-age'
+            '$clear_filter_button' : '[data-behavior=clear-filter]',
+            '$clearer'             : '[data-el=clearer]',
+            '$age_picker'          : '[data-behavior=age-picker]',
+            '$min_age_select'      : '#min-age',
+            '$max_age_select'      : '#max-age'
         },
 
         events: {
-            'change input':   'announce',
-            'change select':  'narrowRangeOptions'
+            'change input'                  : 'announce',
+            'change select'                 : 'narrowRangeOptions',
+            'click @ui.$clear_filter_button': 'clear'
         },
 
-        narrowRangeOptions: function (e) {
-            var $select = this.ui.age_picker.find('select:not(#' + e.currentTarget.id + ')'),
+        narrowRangeOptions: function narrowRangeOptions (e) {
+            var $select = this.ui.$age_picker.find('select:not(#' + e.currentTarget.id + ')'),
                 age_1 = e.currentTarget.value, min, max;
 
             if ($select.attr('id') !== 'min-age') {
@@ -55,7 +58,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             this.announce();
         },
 
-        populateAgeSelect: function ($select, min, max) {
+        populateAgeSelect: function populateAgeSelect ($select, min, max) {
             var val = $select.val() || 0;
             $select.empty();
 
@@ -71,7 +74,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             }
         },
 
-        announce: function (e) {
+        announce: function announce (e) {
             var audience_ids, value_to_trigger = {};
 
             audience_ids = _.map(this.$('[name="audience_ids[]"]:checked'), function(input){ return input.value });
@@ -79,37 +82,40 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
             // 1 is children
             if (this.isChild(audience_ids)) {
-                this.ui.age_picker.show();
-                value_to_trigger['min_age_for_kids'] = this.ui.age_picker.find('#min-age').val();
-                value_to_trigger['max_age_for_kids'] = this.ui.age_picker.find('#max-age').val();
+                this.ui.$age_picker.show();
+                value_to_trigger['min_age_for_kids'] = this.ui.$age_picker.find('#min-age').val();
+                value_to_trigger['max_age_for_kids'] = this.ui.$age_picker.find('#max-age').val();
             } else {
                 value_to_trigger['min_age_for_kids'] = null;
                 value_to_trigger['max_age_for_kids'] = null;
-                this.ui.age_picker.hide();
+                this.ui.$age_picker.hide();
             }
 
             this.trigger("filter:audience", value_to_trigger);
-            this.announceBreadcrumb(audience_ids);
+            this.setButtonState(audience_ids);
         }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
-        announceBreadcrumb: function(audience_ids) {
-            var title;
+        /*
+         * Set the state of the button, wether or not there are filters or not
+         */
+        setButtonState: function setButtonState (audience_ids) {
             audience_ids = audience_ids || _.map(this.$('[name="audience_ids[]"]:checked'), function(input){ return input.value });
-            if (audience_ids.length === 0) {
-                this.trigger("filter:breadcrumb:remove", {target: 'audience'});
+            if (audience_ids.length > 0) {
+                this.ui.$clearer.show();
+                this.ui.$clear_filter_button.removeClass('btn--gray');
             } else {
-                title = _.map(this.$('[name="audience_ids[]"]:checked'), function(input){ return $(input).parent().text().trim() });
-                this.trigger("filter:breadcrumb:add", {target: 'audience', title: title.join(', ')});
+                this.ui.$clear_filter_button.addClass('btn--gray')
+                this.ui.$clearer.hide();
             }
         },
 
-        activateInput: function (audience_id) {
+        activateInput: function activateInput (audience_id) {
              var $input = this.$('[value=' + audience_id + ']');
             $input.prop('checked', true);
             $input.parent('.btn').addClass('active');
         },
 
-        isChild: function (audience_id) {
+        isChild: function isChild (audience_id) {
             if (_.isArray(audience_id)) {
                 return audience_id.indexOf('1') !== -1;
             } else {
@@ -118,7 +124,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         // Clears all the given filters
-        clear: function (filters) {
+        clear: function clear (filters) {
             _.each(this.$('input'), function(input) {
                 var $input = $(input);
                 $input.prop("checked", false);
