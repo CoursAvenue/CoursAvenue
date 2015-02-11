@@ -120,19 +120,6 @@
         color           : #EEE;
     }
 }
-// .btn--blue {
-//     text-transform  : uppercase;
-//     background-color: $btn--blue;
-//     border          : none;
-//     color           : white;
-//     @include text-shadow(-1px -1px 1px darken($btn--blue, 10%));
-//     &:hover, &:active {
-//         background-color: lighten($btn--blue, 5%);
-//     }
-//     &.disabled, &[disabled] {
-//         background-color: lighten($btn--blue, 15%);
-//     }
-// }
 
 .btn--blue , .btn--blue-green {
     text-transform  : uppercase;
