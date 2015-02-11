@@ -5,11 +5,27 @@
 .header-search-bar {
     max-width       : 670px;
     color           : $gray-light;
-    background-color: black;
-    background-color: rgba(0, 0, 0, 0.6);
-    @include media-query(palm) { background-color: transparent !important; };
     border-color    : black;
     border-color    : transparentize($black, 0.25);
+    .search-input-wrapper{
+        border: 1px solid #DDD;
+    }
+    .search-input-wrapper {
+        border-right: none;
+    }
+    input {
+        border: none !important;
+    }
+    .btn--blue {
+        border: 1px solid $blue-green;
+    }
+    input, button {
+        @include border-radius(0px !important);
+    }
+    .input--large {
+        padding-top   : 13px;
+        padding-bottom: 13px;
+    }
     .search-input-wrapper {
         @media screen and (max-width: 600px) and (min-width: $lap-start) {
             width: 12em;

@@ -120,19 +120,6 @@
         color           : #EEE;
     }
 }
-// .btn--blue {
-//     text-transform  : uppercase;
-//     background-color: $btn--blue;
-//     border          : none;
-//     color           : white;
-//     @include text-shadow(-1px -1px 1px darken($btn--blue, 10%));
-//     &:hover, &:active {
-//         background-color: lighten($btn--blue, 5%);
-//     }
-//     &.disabled, &[disabled] {
-//         background-color: lighten($btn--blue, 15%);
-//     }
-// }
 
 .btn--blue , .btn--blue-green {
     text-transform  : uppercase;
@@ -212,11 +199,13 @@
         background-color: lighten($facebook-blue, 5%);
     }
     &:before {
+        font-size       : 45px;
+        margin-top      : -15px;
+        padding-right   : 5px;
         margin-right    : 0;
         content         : 'f';
         position        : relative;
-        top             : 0.2em;
-        margin-top      : -5px;
+        top             : 0.4em;
     }
 }
 .btn--facebook.btn--small {

@@ -26,7 +26,7 @@ module Concerns
       # @return The formated phone number as a String.
       def formatted_number(phone_number)
         number = phone_number.dup
-        number = number.gsub(' ', '')
+        number = number.gsub(' ', '').gsub('.', '').gsub('-', '')
 
         PhoneNumber::MOBILE_PREFIXES.each do |prefix|
           if number.starts_with? prefix

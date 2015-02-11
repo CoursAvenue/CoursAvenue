@@ -78,7 +78,13 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                     this.$('form').trigger('ajax:complete.rails');
                 }.bind(this),
                 error: function error (response) {
-                    this.$('[data-type=errors]').show();
+                    var json_response = $.parseJSON(response.responseText);
+                    if (json_response.is_admin) {
+                        this.$('[data-el=form-wrapper]').slideUp();
+                        this.$('[data-type=admin-errors]').show();
+                    } else {
+                        this.$('[data-type=errors]').show();
+                    }
                 }.bind(this),
                 success: function success (response) {
                     CoursAvenue.setCurrentUser(response);

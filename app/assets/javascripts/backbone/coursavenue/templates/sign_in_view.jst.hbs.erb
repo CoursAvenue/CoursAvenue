@@ -3,33 +3,43 @@
 </div>
 <div class="soft panel__body">
     <img src="<%= asset_path 'gifs/loading-indicator.gif' %>"/ class="center-block push-half--bottom hidden" height="10" data-loader>
-        <div class="text--center">
-            <a '#' data-behavior="login-with-facebook" class="btn btn--facebook btn--full" data-disable-with="Connexion en cours..." id="facebook_button">
-              <span>Connexion avec Facebook</span>
-            </a>
+        <div class="push-half--bottom hidden text--center epsilon" data-type="admin-errors">
+            <div class="push-half--bottom">
+              Cet e-mail est rattaché à un compte pro. Veuillez vous connectez depuis l'espace pro :
+            </div>
+            <div>
+              <a href="https://pro.coursavenue.com" class="btn btn--green btn--full">me connecter depuis l'espace pro</a>
+            </div>
         </div>
-        <div class="or"><span class="f-weight-600">ou</span></div>
-        <form action="/" data-behavior="user-form">
-            <div class="input-addon push-half--bottom">
-                <div class="input-prefix epsilon">@</div>
-                <input type="email" name="email" placeholder="E-mail" class="one-whole input--large" value="{{ email }}">
+        <div data-el="form-wrapper">
+            <div class="text--center">
+                <a '#' data-behavior="login-with-facebook" class="btn btn--facebook btn--full" data-disable-with="Connexion en cours..." id="facebook_button">
+                  <span>Connexion avec Facebook</span>
+                </a>
             </div>
-            <div class="input-addon push-half--bottom">
-                <div class="input-prefix epsilon"><i class="fa fa-lock"></i></div>
-                <input type="password" name="password" placeholder="Mot de passe" class="one-whole input--large">
-            </div>
-            <div class="input_field_error red push-half--bottom hidden" data-type="errors">
-                Vos identifiants sont incorrects
-            </div>
-            <input type="hidden" name="remember_me" value="true">
-            <button class="btn btn--green one-whole" type="submit" data-disable-with="Connexion en cours...">Se connecter</button>
-        </form>
+            <div class="or"><span class="f-weight-600">ou</span></div>
+            <form action="/" data-behavior="user-form">
+                <div class="input-addon push-half--bottom">
+                    <div class="input-prefix epsilon">@</div>
+                    <input type="email" name="email" placeholder="E-mail" class="one-whole input--large" value="{{ email }}">
+                </div>
+                <div class="input-addon push-half--bottom">
+                    <div class="input-prefix epsilon"><i class="fa fa-lock"></i></div>
+                    <input type="password" name="password" placeholder="Mot de passe" class="one-whole input--large">
+                </div>
+                <div class="input_field_error red push-half--bottom hidden" data-type="errors">
+                    Vos identifiants sont incorrects
+                </div>
+                <input type="hidden" name="remember_me" value="true">
+                <button class="btn btn--green one-whole" type="submit" data-disable-with="Connexion en cours...">Se connecter</button>
+            </form>
 
-        <div class="push-half--top milli">
-            <a href="{{ forget_password_path }}">Mot de passe perdu</a>
-        </div>
-        <div class="push-half--top milli">
-            Vous n'avez pas de compte CoursAvenue ? <a href="#" data-behavior="sign-up">Inscription</a>
+            <div class="push-half--top milli">
+                <a href="{{ forget_password_path }}">Mot de passe perdu</a>
+            </div>
+            <div class="push-half--top milli">
+                Vous n'avez pas de compte CoursAvenue ? <a href="#" data-behavior="sign-up">Inscription</a>
+            </div>
         </div>
     </div>
 </div>
