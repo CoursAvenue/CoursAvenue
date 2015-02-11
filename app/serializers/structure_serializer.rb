@@ -7,7 +7,8 @@ class StructureSerializer < ActiveModel::Serializer
 
   attributes :id, :name, :slug, :comments_count, :logo_thumb_url, :logo_large_url,
               :data_url, :query_params, :structure_type, :highlighted_comment_title,
-              :has_promotion, :is_open_for_trial, :cover_media, :subjects
+              :has_promotion, :is_open_for_trial, :cover_media, :subjects, :current_filtered_subject_name,
+              :cities_text
 
   has_many :places,            serializer: PlaceSerializer
   has_many :preloaded_medias,  serializer: MediaSerializer
@@ -72,7 +73,18 @@ class StructureSerializer < ActiveModel::Serializer
     object.is_open_for_trial?
   end
 
-  def subjects
-    options[:current_filtered_subject_name] || join_structure_course_subjects_text(object)
+  def current_filtered_subject_name
+    options[:current_filtered_subject_name]
   end
+
+  def subjects
+    if options[:current_filtered_subject_name]
+      subjects_name_as_string = object.subjects_name_as_string(:course_subjects_string)
+      subjects_name_as_string.delete(options[:current_filtered_subject_name])
+      subjects_name_as_string.join(', ')
+    else
+      join_structure_course_subjects_text(object)
+    end
+  end
+
 end

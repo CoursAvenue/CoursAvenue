@@ -39,7 +39,7 @@
         - if @structure.phone_numbers.any?
           %span.visuallyhidden{ itemprop: "telephone" }= @structure.phone_numbers.first.number
         - if @structure.website.present?
-          %a.visuallyhidden{ href: @structure.website, itemprop: "url"} http://pizza.example.com
+          %a.visuallyhidden{ href: @structure.website, itemprop: "url"}
         %div{ itemprop: "location" }
           %span{ itemscope: true, itemtype: "http://schema.org/Place" }
             %div{ itemprop: "geo" }

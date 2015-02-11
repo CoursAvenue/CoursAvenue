@@ -27,7 +27,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
         },
 
         onAfterShow: function onAfterShow () {
-          this.announcePaginatorUpdated();
+          this.announcePaginatorUpdated(true);
           var $sticky = $('[data-behavior=sticky]');
           $sticky.sticky({ scrollContainer: '.filtered-search__list-wrapper',
                            z: 1200,
@@ -55,7 +55,8 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
 
         findChildView: function findChildView (data) {
             /* find the first place that has any locations that match the given lat/lng */
-            var position = data.model.getLatLng();
+            var position         = data.model.getLatLng();
+            var $filters_wrapper = $('[data-el=filters-wrapper]')
 
             var relevant_structure = this.collection.find(function (model) {
 
@@ -69,17 +70,18 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
 
             /* announce the view we found */
             this.trigger('structures:childview:found', { structure_view: childview, location_view: data } );
-            this.scrollToView(childview);
+            this.scrollToView(childview, -($filters_wrapper.offset().top + $filters_wrapper.height()));
 
         },
 
         /* override inherited method */
-        announcePaginatorUpdated: function announcePaginatorUpdated () {
+        announcePaginatorUpdated: function announcePaginatorUpdated (is_first) {
             var state         = this.collection.state;
             var queryParams   = this.collection.queryParams;
             var first_result = (state.currentPage - 1) * state.perPage + 1;
-
-            this.trigger('structures:updated', this.collection.map(function(structure) { return structure.get('id') } ));
+            if (is_first !== true) {
+                this.trigger('structures:updated', this.collection.map(function(structure) { return structure.get('id') } ));
+            }
 
             /* announce the pagination statistics for the current page */
             this.trigger('structures:updated:pagination', {

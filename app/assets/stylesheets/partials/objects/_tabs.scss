@@ -26,7 +26,6 @@
     list-style      : none;
     margin-left     : 0;
     border-right    : 1px solid $pane-border-color;
-    background-color: $pane-background-color;
     border-top      : 1px solid $pane-background-color;
     top         : -1px;
     position    : relative;
@@ -38,6 +37,7 @@
         border-top: 1px solid $pane-border-color;
     }
     li {
+        background-color: $pane-background-color;
         top         : -1px;
         position    : relative;
         border      : 1px solid $pane-border-color;

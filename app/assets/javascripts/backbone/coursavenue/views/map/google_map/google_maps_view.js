@@ -124,13 +124,12 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
 
         onChildviewCloseClick: function onChildviewCloseClick () {
             if (this.current_info_marker) {
-                this.unlockCurrentMarker();
                 this.hideInfoWindow();
             }
         },
 
         markerHovered: function markerHovered (marker_view) {
-            this.current_info_marker = marker_view.model.cid;
+            this.current_info_marker = marker_view.model.id;
             // this.showInfoWindow(marker_view);
         },
 
@@ -141,19 +140,8 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
         },
 
         markerFocus: function markerFocus (marker_view) {
-            this.unlockCurrentMarker();
-
-            /* TODO this is a problem, we need to not pass out the whole view, d'uh */
-            this.current_info_marker =  marker_view.model.cid;
+            this.current_info_marker =  marker_view.model.id;
             this.trigger('map:marker:click', marker_view);
-        },
-
-        unlockCurrentMarker: function unlockCurrentMarker () {
-            if (this.current_info_marker) {
-                var marker = this.markerViewChildren[this.current_info_marker];
-                marker.setSelectLock(false);
-                marker.unhighlight();
-            }
         },
 
         liveUpdateClicked: function liveUpdateClicked (e) {
@@ -279,7 +267,11 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             // Param can be child's model, or child view itself
             var childView = (child instanceof Backbone.Model ? this.markerViewChildren[child.cid] : child);
 
-            childView.remove();
+            // We add setTimeout to prevent from blinking in view when a marker disappear and
+            // the same reappear instantly after.
+            setTimeout(function() {
+                childView.remove();
+            });
             delete this.markerViewChildren[childView.model.cid];
         },
 
