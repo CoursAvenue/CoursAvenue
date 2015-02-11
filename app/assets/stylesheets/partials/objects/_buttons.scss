@@ -212,11 +212,13 @@
         background-color: lighten($facebook-blue, 5%);
     }
     &:before {
+        font-size       : 45px;
+        margin-top      : -15px;
+        padding-right   : 5px;
         margin-right    : 0;
         content         : 'f';
         position        : relative;
-        top             : 0.2em;
-        margin-top      : -5px;
+        top             : 0.4em;
     }
 }
 .btn--facebook.btn--small {
