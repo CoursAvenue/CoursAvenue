@@ -9,7 +9,7 @@
             = link_to 'CoursAvenue ', root_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: "Comment ça marche ?"
             est le premier moteur de recherche de cours de loisirs qui permet de relier chacun de nous aux meilleurs professeurs, associations et écoles qui nous entourent.
 
-        .grid__item.one-fifth.palm-one-whole>
+        .grid__item.one-fifth.visuallyhidden--palm>
           %p.push-half--bottom.epsilon
             %strong Élèves
           %ul.no-bullet-list.line-height-2
@@ -19,7 +19,7 @@
             %li= link_to 'Aide'                 , pages_faq_users_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Aide', rel: :nofollow
 
         - if !current_user
-          .grid__item.one-fifth.palm-one-whole>
+          .grid__item.one-fifth.visuallyhidden--palm>
             %p.push-half--bottom.epsilon
               %strong Professionnels
             %ul.no-bullet-list.line-height-2
@@ -32,7 +32,7 @@
               %li= link_to 'Livres Blancs'    , pro_pages_white_books_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), title: "Accédez à nos études destinées à aider les professionnels des loisirs", rel: :nofollow
               %li= link_to 'Aide'             , pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), title: 'Questions les plus fréquentes', rel: :nofollow
 
-        .grid__item.one-fifth.palm-one-whole>
+        .grid__item.one-fifth.visuallyhidden--palm>
           %p.push-half--bottom.epsilon
             %strong Société
           %ul.no-bullet-list.line-height-2
@@ -42,7 +42,7 @@
             %li= link_to 'Contact'                                , pages_contact_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Contact', rel: :nofollow
             %li= link_to 'Conditions générales et confidentialité', pages_terms_and_conditions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Conditions générales et confidentialité', rel: :nofollow
 
-        .grid__item.one-fifth.palm-one-whole>
+        .grid__item.one-fifth.visuallyhidden--palm>
           %p.push-half--bottom.epsilon
             %strong Disciplines
           %ul.no-bullet-list.line-height-2

@@ -5,7 +5,7 @@
     .flexbox__item.palm-one-whole.v-middle.relative.nowrap>
       = link_to '', root_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'v-middle coursavenue-header-logo mixpanel-tracker', title: 'CoursAvenue | Tous les cours autour de vous', data: { info: 'header' }
       - unless layout_locals[:hide_top_menu_search]
-        = form_tag root_search_page_without_subject_path('paris'), class: 'inline-block v-middle push--left', method: :get, authenticity_token: false, data: { behavior: 'coursavenue-search' } do
+        = form_tag root_search_page_without_subject_path('paris'), class: 'inline-block v-middle push--left visuallyhidden--palm', method: :get, authenticity_token: false, data: { behavior: 'coursavenue-search' } do
           .v-middle.header-search
             %input.one-whole.soft-half--left{ size: 25, placeholder:'Que recherchez-vous ?', type:'text', autocomplete: 'off', name:'name', value: '' , data: { type:  'subjects' }}
           %input#h-search-address-lat{ type: 'hidden', name: 'lat', value: cookies[:lat] || '48.8592' }
