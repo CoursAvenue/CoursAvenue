@@ -128,7 +128,8 @@ FilteredSearch.addInitializer(function(options) {
             'map:update:zoom'                   : 'updateZoom',
             'filter:update:map'                 : 'centerMap',
             'structures:childview:found'        : 'setMarkerViewAndshowInfoWindow',
-            'structures:childview:peacock'      : 'togglePeacockingMarkers'
+            'structures:childview:peacock'      : 'togglePeacockingMarkers',
+            'map:zoom:out'                      : 'zoomOut'
         }
     });
 
@@ -149,16 +150,66 @@ FilteredSearch.addInitializer(function(options) {
     layout.showWidget(input_subject_filter);
     layout.showWidget(results_summary);
 
-    layout.showWidget(keyword_filter,        { events: { 'breadcrumbs:clear:search_term':     'clear'} });
-    layout.showWidget(level_filter,          { events: { 'breadcrumbs:clear:level':           'clear'} });
-    layout.showWidget(course_type_filter,    { events: { 'breadcrumbs:clear:course_type':     'clear'} });
-    layout.showWidget(audience_filter,       { events: { 'breadcrumbs:clear:audience':        'clear'} });
-    layout.showWidget(structure_type_filter, { events: { 'breadcrumbs:clear:structure_types': 'clear'} });
-    layout.showWidget(payment_method_filter, { events: { 'breadcrumbs:clear:payment_method':  'clear'} });
-    layout.showWidget(discount_filter,       { events: { 'breadcrumbs:clear:discount':        'clear'} });
-    layout.showWidget(date_filter,           { events: { 'breadcrumbs:clear:date':            'clear'} });
-    layout.showWidget(price_filter,          { events: { 'breadcrumbs:clear:price':           'clear'} });
-    layout.showWidget(trial_course_filter,   { events: { 'breadcrumbs:clear:trial_course':    'clear'} });
+    layout.showWidget(keyword_filter, {
+        events: {
+          'filters:clear:search_term': 'clear',
+          'filters:clear:all'        : 'clear'
+        }
+      });
+    layout.showWidget(level_filter, {
+        events: {
+          'filters:clear:level': 'clear',
+          'filters:clear:all'  : 'clear'
+        }
+      });
+    layout.showWidget(course_type_filter, {
+        events: {
+          'filters:clear:course_type': 'clear',
+          'filters:clear:all'        : 'clear'
+        }
+      });
+    layout.showWidget(audience_filter, {
+        events: {
+          'filters:clear:audience': 'clear',
+          'filters:clear:all'     : 'clear'
+        }
+      });
+    layout.showWidget(structure_type_filter, {
+        events: {
+          'filters:clear:structure_types': 'clear',
+          'filters:clear:all'            : 'clear'
+        }
+      });
+    layout.showWidget(payment_method_filter, {
+        events: {
+          'filters:clear:payment_method': 'clear',
+          'filters:clear:all'           : 'clear'
+        }
+      });
+    layout.showWidget(discount_filter, {
+        events: {
+          'filters:clear:discount': 'clear',
+          'filters:clear:all'     : 'clear'
+        }
+      });
+    layout.showWidget(date_filter, {
+        events: {
+          'filters:clear:date': 'clear',
+          'filters:clear:all' : 'clear'
+        }
+      });
+    layout.showWidget(price_filter, {
+        events: {
+          'filters:clear:price': 'clear',
+          'filters:clear:all'  : 'clear'
+        }
+      });
+    layout.showWidget(trial_course_filter, {
+        events: {
+          'filters:clear:trial_course': 'clear',
+          'filters:clear:all'         : 'clear'
+        }
+      });
 
     layout.showWidget(pagination_bottom, {
         events: {

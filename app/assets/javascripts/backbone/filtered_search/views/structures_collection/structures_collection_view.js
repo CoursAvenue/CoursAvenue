@@ -4,7 +4,20 @@
 FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbone, Marionette, $, _) {
     var EmptyStrcutureList = Marionette.ItemView.extend({
         tagName: 'div',
-        template: Module.templateDirname() + 'empty_structures_collection_view'
+        template: Module.templateDirname() + 'empty_structures_collection_view',
+
+        events: {
+          'click [data-behavior=zoom-out]': 'triggerZoomOut',
+          'click [data-behavior=remove-filters]': 'triggerRemoveFilers',
+        },
+
+        triggerRemoveFilers: function  triggerRemoveFilers () {
+            this.trigger('filters:remove:all');
+        },
+
+        triggerZoomOut: function  triggerZoomOut () {
+            this.trigger('map:zoom:out');
+        }
     });
 
     Module.StructuresCollectionView = CoursAvenue.Views.PaginatedCollectionView.extend({
@@ -40,6 +53,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                            } });
           this.renderSlideshows();
         },
+
         /* forward events with only the necessary data */
         onChildviewHighlighted: function onChildviewHighlighted (view, data) {
             this.trigger('structures:childview:highlighted', data);
@@ -47,6 +61,14 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
 
         onChildviewUnhighlighted: function onChildviewUnhighlighted (view, data) {
             this.trigger('structures:childview:unhighlighted', data);
+        },
+
+        onChildviewFiltersRemoveAll: function onChildviewFiltersRemoveAll () {
+            this.trigger('filters:clear:all');
+        },
+
+        onChildviewMapZoomOut: function onChildviewMapZoomOut () {
+            this.trigger('map:zoom:out');
         },
 
         /* WHOA so this event is actually getting the course:focus event

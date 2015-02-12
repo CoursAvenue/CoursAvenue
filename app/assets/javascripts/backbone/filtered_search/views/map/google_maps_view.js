@@ -33,12 +33,12 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
 
         /* UI and events */
         ui: {
-            bounds_controls: '[data-behavior="bounds-controls"]'
+            '$live_update_checkbox': '[data-behavior="live-update"]'
         },
 
         events: {
             'click [data-type="closer"]':          'hideInfoWindow',
-            'click [data-behavior="live-update"]': 'liveUpdateClicked'
+            'click @ui.$live_update_checkbox': 'liveUpdateClicked'
         },
 
         /* lifecycle */
@@ -86,6 +86,14 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
             var structure = options.structure_view.model;
             structure.set('current_location', options.location_view.model.toJSON());
             this.showInfoWindow({ model: structure });
-        }
+        },
+
+        zoomOut: function zoomOut (childModel, html) {
+            // Activate live update if not by default
+            if (!this.update_live) {
+                this.ui.$live_update_checkbox.click();
+            }
+            this.map.setZoom(this.map.getZoom() - 1);
+        },
     });
 });
