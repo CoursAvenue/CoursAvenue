@@ -1,16 +1,21 @@
 {{#if children}}
-    <div class="flexbox nowrap bg-white">
-        <ul class="soft-half hard--right tabs--stacked flexbox__item v-top one-third">
+    <div class="flexbox bg-white">
+        <ul class="soft-half flexbox__item v-top one-third no-bullet-list line-height-1-7 bordered--right">
             {{#each children}}
-                <li data-type="tab-li" class="{{#ifCond slug '==' ../selected_slug}}selected{{/ifCond}} {{#ifCond slug '==' ../selected_parent_subject_id}}selected{{/ifCond}}">
-                    <a data-subject data-depth="1" data-type="btn" data-behavior="tab" data-el="#tab-subjects-filter-{{slug}}" href="{{search_page_path ../slug slug ../city_id}}" data-value="{{slug}}" data-root-subject="{{../slug}}" class="cursor-pointer">
-                        {{name}}
+                <li data-type="tab-li" class="subject-tabs {{#ifCond slug '==' ../selected_slug}}selected{{/ifCond}} {{#ifCond slug '==' ../selected_parent_subject_id}}selected{{/ifCond}}" data-behavior="tab" data-el="#tab-subjects-filter-{{slug}}">
+                    <a data-subject data-depth="1" data-type="btn" href="{{search_page_path ../slug slug ../city_id}}" data-value="{{slug}}" data-root-subject="{{../slug}}" class="nowrap muted-link cursor-pointer flexbox">
+                      <div class="flexbox__item soft-half--right">
+                            {{name}}
+                      </div>
+                      <div class="flexbox__item text--right">
+                          <i class="fa fa-chevron-right"></i>
+                      </div>
                     </a>
                 </li>
             {{/each}}
         </ul>{{!--
     --}}<div class="flexbox__item two-thirds v-top">
-            <div class="tab-content text--left">
+            <div class="tab-content">
                 {{#each children}}
                     <article id="tab-subjects-filter-{{slug}}" class="tab-pane soft-half {{#ifCond @index '==' 0}}active{{/ifCond}}">
                         <ul class="no-bullet-list line-height-1-7">

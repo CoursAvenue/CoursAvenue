@@ -1,9 +1,9 @@
-<a href="{{ data_url }}" class="muted-link grid--full f-weight-500 block bordered--bottom push-half--bottom soft-half--bottom">
-    <div class="grid__item four-twelfths relative rslides-wrapper push-half--bottom" data-resizeable-height style="height: 200px">
+<a href="{{ data_url }}" class="muted-link grid--full f-weight-500 block bordered--bottom soft-half--ends relative structure-item-view">
+    <div class="grid__item three-twelfths relative rslides-wrapper" data-resizeable-height style="height: 120px">
         <ul class="rslides">
             {{#if preloaded_medias}}
                 {{#each preloaded_medias}}
-                    <li class="bg-cover" data-resizeable-height style="height: 200px">
+                    <li class="bg-cover" data-resizeable-height style="height: 120px">
                         <div class="media__item media__item--slides">
                             <span class="break-all" title="{{this.caption}}">
                                 <img src="{{this.thumbnail_url}}" alt="{{this.caption}}"/>
@@ -12,7 +12,7 @@
                     </li>
                 {{/each}}
             {{else}}
-                <li class="bg-cover" data-resizeable-height style="height: 200px">
+                <li class="bg-cover" data-resizeable-height style="height: 120px">
                     <div class="media__item media__item--slides">
                         <span class="break-all">
                             <img src="{{logo_large_url}}" itemprop="logo"/>
@@ -21,48 +21,51 @@
                 </li>
             {{/if}}
         </ul>
-        <div rel="slideshow-{{mediable_id}}" class="rslides_nav one-whole text--center">Voir le profil</div>
+        {{!-- <div rel="slideshow-{{mediable_id}}" class="rslides_nav one-whole text--center">Voir le profil</div> --}}
         <div href="#" class="orange north east absolute push-half on-under-top heart-link" data-behavior='add-to-favorite' data-toggle='tooltip' data-added-title='Retirer de mes favoris' data-not-added-title='Ajouter à mes favoris' data-placement='left'>
             <i class="fa fa-heart-o fa-3x"></i>
         </div>
     </div>{{!--
---}}<div class="grid__item eight-twelfths soft--left epsilon line-height-2">
-        <h4 class="flush line-height-2">
-            {{ truncate name 45 }}
-        </h4>
+--}}<div class="grid__item nine-twelfths soft--sides epsilon line-height-2">
+        <div>
+            <h4 class="flush text-ellipsis" style="padding-right: 80px;">
+                {{ name }}
+            </h4>
+            {{!-- <div class="f-size-14 inline-block v-middle f-weight-normal">・ {{structure_type}}</div> --}}
+        </div>
         <div>
             <div>
-                {{#if structure_type}}
-                    <div>
-                        {{structure_type}}
-                    </div>
-                {{/if}}
+                <div class="f-size-14 gray f-weight-normal">
+                    {{#if structure_type}}
+                        {{structure_type}} ・
+                    {{/if}}
+                    {{ cities_text }}
+                </div>
                 <div>
                     {{#if highlighted_comment_title}}
-                        <i class="inline-block v-middle text-ellipsis bordered--left soft-half--sides gray bordered--thick" style="max-width: 80%;">
-                            {{{ highlighted_comment_title }}}
-                        </i>・
+                        <div class="f-style-italic inline-block v-middle text-ellipsis bordered--left very-soft--left gray bordered--thick" style="max-width: 80%;">
+                            <i class="fa fa-quotes v-super"></i> {{{ highlighted_comment_title }}}
+                        </div>・
                     {{/if}}
                     <div class="inline-block v-middle">
                         <i class="fa fa-comment"></i> {{ comments_count }} avis
                     </div>
                 </div>
-                <div class="text-ellipsis">
-                    {{ subjects }}
+                <div class="text-ellipsis f-style-italic">
+                    <span class="f-weight-600">{{ current_filtered_subject_name }}</span>{{#if subjects}}, {{ subjects }}{{/if}}
                 </div>
             </div>
-{{!--             <div class="v-middle nowrap text--center soft-half--sides">
-                {{#if is_open_for_trial}}
-                    <div class="green f-weight-bold">Essai gratuit</div>
-                {{/if}}
-                {{#if is_open_for_trial}}{{#if has_promotion}}
-                <div class="green f-weight-bold">&</div>
-                {{/if}}{{/if}}
-                {{#if has_promotion}}
-                    <div class="green f-weight-bold">Promotions</div>
-                {{/if}}
-            </div>
- --}}
          </div>
+    </div>
+    <div class="absolute north east soft-half">
+        <div class="epsilon f-weight-600 gray f-style-italic">
+            {{#if is_open_for_trial}}
+                Essai gratuit
+            {{else}}
+                {{#if min_price_amount}}
+                    À p. de {{ min_price_amount }}€
+                {{/if}}
+            {{/if}}
+        </div>
     </div>
 </a>

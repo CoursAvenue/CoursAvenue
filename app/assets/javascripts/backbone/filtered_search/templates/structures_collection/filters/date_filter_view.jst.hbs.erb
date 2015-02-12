@@ -8,7 +8,7 @@
             <div class="btn-group" data-toggle="buttons">
                 <% I18n.t('date.day_names').rotate.each_with_index do |day, index| %>
                     <label class="btn btn--gray nowrap">
-                        <input type="checkbox" name="discounts[]" value="<%= (index == 6  ? 0 : index + 1) %>"><%= day.capitalize %>
+                        <input data-type="day" type="checkbox" name="week_days[]" value="<%= (index == 6  ? 0 : index + 1) %>"><%= day.capitalize %>
                     </label>
                 <% end %>
             </div>

@@ -18,6 +18,9 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
         initialize: function initialize () {
             _.bindAll(this, 'initializeAddToFavoriteLinks');
             CoursAvenue.on('user:signed:in', this.initializeAddToFavoriteLinks);
+            this.on('pagination:changed', function(){
+                this.$el.closest('.filtered-search__list-wrapper').scrollTo(0, { easing: 'easeOutCubic', duration: 350 });
+            }, this);
         },
 
         initializeAddToFavoriteLinks: function initializeAddToFavoriteLinks () {
@@ -35,6 +38,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                            onStick: function() {
                               $sticky.css({ top: '50px', paddingTop: '8px' }).addClass('bg-white');
                            } });
+          this.renderSlideshows();
         },
         /* forward events with only the necessary data */
         onChildviewHighlighted: function onChildviewHighlighted (view, data) {

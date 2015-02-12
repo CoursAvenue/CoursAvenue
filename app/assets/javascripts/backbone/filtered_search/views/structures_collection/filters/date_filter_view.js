@@ -16,7 +16,9 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
             this.populateHourRange(this.ui.$hour_range.find('select').first(), 0, 24);
             this.populateHourRange(this.ui.$hour_range.find('select').last(), 0, 24);
-            this.ui.$week_days_select.val(data.week_days);
+
+            this.selectWeekDays(data.week_days);
+
             this.ui.$date_range.hide();
             this.ui.$hour_range.hide();
 
@@ -38,7 +40,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         ui: {
-            '$week_days_select'    : '[data-type=day]',
+            '$week_days_inputs'    : '[data-type=day]',
             '$time'                : '[data-type=time]',
             '$time_select'         : '[data-type=time] select',
             '$date'                : '[data-type=date]',
@@ -74,23 +76,23 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
          * Set the state of the button, wether or not there are filters or not
          */
         setButtonState: function setButtonState () {
-            if ((this.ui.$week_days_select.val() != null) ||
-                (this.ui.$start_date.val().length != 0) ||
-                (this.ui.$end_date.val().length != 0) ||
-                this.ui.$time_select.val() != 'all-day') {
-                this.ui.$clearer.show();
-                this.ui.$clear_filter_button.removeClass('btn--gray');
-            } else {
+            if (this.weekDaysVal().length == 0 &&
+                this.ui.$start_date.val().length == 0 &&
+                this.ui.$end_date.val().length == 0 &&
+                this.ui.$time_select.val() == 'all-day') {
                 this.ui.$clear_filter_button.addClass('btn--gray')
                 this.ui.$clearer.hide();
+            } else {
+                this.ui.$clearer.show();
+                this.ui.$clear_filter_button.removeClass('btn--gray');
             }
         },
 
         announceDay: function announceDay () {
             this.trigger("filter:date", {
-                'week_days[]'  : this.ui.$week_days_select.val(),
-                start_date: null,
-                end_date  : null
+                'week_days[]': this.weekDaysVal(),
+                start_date   : null,
+                end_date     : null
             });
             this.setButtonState();
         }.debounce(GLOBAL.DEBOUNCE_DELAY),
@@ -217,9 +219,27 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             };
         },
 
+        weekDaysVal: function weekDaysVal () {
+            return _.map(this.ui.$week_days_inputs.filter(':checked'), function(input){ return input.value });
+        },
+
+        selectWeekDays: function selectWeekDays (week_days) {
+            _.each(this.ui.$week_days_inputs, function(input) {
+                var $input = $(input);
+                if (parseInt($input.val(), 10) == parseInt(week_days, 10)) {
+                    $input.prop("checked", true);
+                    $input.parent('.btn').addClass('active');
+                }
+            });
+        },
+
         // Clears all the given filters
         clear: function clear () {
-            this.ui.$week_days_select.val('').trigger('chosen:updated');
+            _.each(this.ui.$week_days_inputs, function(input) {
+                var $input = $(input);
+                $input.prop("checked", false);
+                $input.parent('.btn').removeClass('active');
+            });
             this.ui.$start_date.val('');
             this.ui.$end_date.val('');
             this.ui.$time.find('select').val('all-day');

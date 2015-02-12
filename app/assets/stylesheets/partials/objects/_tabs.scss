@@ -153,3 +153,14 @@
         display: block;
     }
 }
+
+.subject-tabs {
+    i { color: $gray-light }
+    &.active:hover {
+      font-weight: 600;
+    }
+    &.active {
+      font-weight: bold;
+      i { color: black; }
+    }
+}

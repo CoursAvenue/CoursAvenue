@@ -15,8 +15,8 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
         },
 
         events: {
-            'click [data-subject]'            : 'announceSubject',
-            'mouseenter [data-behavior="tab"]': 'showTab'
+            'click [data-subject]'          : 'announceSubject',
+            'mouseenter [data-behavior=tab]': 'showTab'
         },
 
         ui: {
@@ -34,10 +34,10 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
                 // We show the first tab OR the first activated tab
                 if (this.$('ul li.selected a').length > 0) {
                     this.$('ul li.selected').addClass('active');
-                    this.$(this.$('ul li.selected a').data('el')).show();
+                    this.$(this.$('ul li.selected').data('el')).show();
                 } else {
                     this.$('ul li:first').addClass('active');
-                    this.$(this.$('ul li:first a').data('el')).show();
+                    this.$(this.$('ul li:first').data('el')).show();
                 }
             }
             this.activateButtons(this.current_subject_slug);

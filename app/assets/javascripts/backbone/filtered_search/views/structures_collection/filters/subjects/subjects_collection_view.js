@@ -16,6 +16,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
                 this.menu_items[model.get('slug')] =  menu_item;
                 menu_item.on('filter:subject', function(data) {
                     this.announceSubject(data);
+                    this.hideCollection();
                     this.activateButton(data.root_subject_id);
                 }.bind(this));
             }, this);
@@ -186,6 +187,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
         },
 
         hideMenu: function hideMenu (event) {
+            $(event.currentTarget).find('.btn').removeClass('border-none--right');
             this.ui.$menu.hide();
             _.each(this.menu_items, function(menu_item) {
                 menu_item.$el.hide();
@@ -194,6 +196,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
 
         showMenu: function showMenu (event) {
             var $currentTarget = $(event.currentTarget);
+            $currentTarget.find('.btn').addClass('border-none--right');
             current_model = this.collection.where({slug: $currentTarget.data('value')})[0];
             this.updateSubjectGrandChildren(current_model);
             // Show menu only if changing subject
