@@ -186,9 +186,11 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
               trainings_collection: this.model.get('structure').get('trainings'),
               model               : this.model
             };
-            var pr_content_view = new CoursAvenue.Views.ParticipationRequests.ParticipationRequestFormContentView(options);
-            this.getRegion('request_form_content').show(pr_content_view);
-            this.ui.$participation_request_message_body.preventFromContact();
+            if ($(this.regions.request_form_content).length > 0) {
+                var pr_content_view = new CoursAvenue.Views.ParticipationRequests.ParticipationRequestFormContentView(options);
+                this.getRegion('request_form_content').show(pr_content_view);
+                this.ui.$participation_request_message_body.preventFromContact();
+            }
         }
     });
 
