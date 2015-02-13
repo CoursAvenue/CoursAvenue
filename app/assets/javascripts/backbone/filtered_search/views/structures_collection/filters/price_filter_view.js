@@ -78,7 +78,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             if (this.ui.$price_type_radio.filter(':checked').val() == 'trials') {
                 this.ui.$slider_wrapper.hide();
                 this.ui.$trial_types_select.show();
-            } else {
+            } else if (this.ui.$price_type_radio.filter(':checked').val() == 'trainings') {
                 this.ui.$slider_wrapper.show();
                 this.ui.$trial_types_select.hide();
             }
