@@ -121,9 +121,11 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
 
             /* announce the summary of the result set */
             this.trigger('structures:updated:summary', {
-                first: first_result,
-                last: Math.min(first_result + state.perPage - 1, state.grandTotal),
-                total: state.grandTotal
+                first   : first_result,
+                last    : Math.min(first_result + state.perPage - 1, state.grandTotal),
+                total   : state.grandTotal,
+                subject : queryParams.subject_id,
+                city    : (queryParams.address_name ? queryParams.address_name : window.coursavenue.bootstrap.city_id),
             });
 
             this.trigger('structures:updated:query', { query: this.collection.getQuery().replace('?', '') }); // Removing the first '?' character

@@ -28,7 +28,7 @@
     </div>{{!--
 --}}<div class="grid__item nine-twelfths soft--sides epsilon line-height-2">
         <div>
-            <h4 class="flush text-ellipsis" style="padding-right: 80px;">
+            <h4 class="blue flush text-ellipsis" style="padding-right: 80px;">
                 {{ name }}
             </h4>
             {{!-- <div class="f-size-14 inline-block v-middle f-weight-normal">・ {{structure_type}}</div> --}}
@@ -43,7 +43,7 @@
                 </div>
                 <div>
                     {{#if highlighted_comment_title}}
-                        <div class="f-style-italic inline-block v-middle text-ellipsis bordered--left very-soft--left gray bordered--thick" style="max-width: 80%;">
+                        <div class="f-style-italic inline-block v-middle text-ellipsis gray" style="max-width: 80%;">
                             <i class="fa fa-quotes v-super"></i> {{{ highlighted_comment_title }}}
                         </div>・
                     {{/if}}
@@ -52,7 +52,8 @@
                     </div>
                 </div>
                 <div class="text-ellipsis f-style-italic">
-                    <span class="f-weight-600">{{ current_filtered_subject_name }}</span>{{#if subjects}}, {{ subjects }}{{/if}}
+                    <span class="f-weight-600">{{ current_filtered_subject_name }}</span>
+                    {{#if subjects}}{{#if current_filtered_subject_name}}, {{/if}}{{ subjects }}{{/if}}
                 </div>
             </div>
          </div>

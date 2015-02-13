@@ -79,6 +79,7 @@ FilteredSearch.addInitializer(function(options) {
     var subjects = new FilteredSearch.Models.SubjectsCollection(coursavenue.bootstrap.subjects);
 
     /* basic filters */
+    top_results_summary        = new FiltersModule.TopResultsSummaryView({});
     results_summary            = new FiltersModule.ResultsSummaryView({});
     keyword_filter             = new FiltersModule.KeywordFilterView({});
     subjects_collection_filter = new FiltersModule.Subjects.SubjectsCollectionView({ collection: subjects });
@@ -149,6 +150,7 @@ FilteredSearch.addInitializer(function(options) {
     layout.showWidget(location_filter);
     layout.showWidget(input_subject_filter);
     layout.showWidget(results_summary);
+    layout.showWidget(top_results_summary);
 
     layout.showWidget(keyword_filter, {
         events: {
@@ -231,6 +233,7 @@ $(document).ready(function() {
     /* we only want the filteredsearch on the search page */
     if (FilteredSearch.detectRoot()) {
         FilteredSearch.start({});
+        CoursAvenue.initializeUserNav();
         setTimeout(function() {
             $('[data-behavior=drop-down]').dropDown();
         });

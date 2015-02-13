@@ -1,12 +1,12 @@
 <div class="drop-down__wrapper" data-behavior="drop-down" data-el="> .drop-down__el">
-    <div class="btn btn--gray" data-behavior="clear-filter">
+    <div class="btn btn--gray btn--full text-transform-none" data-behavior="clear-filter">
       Âge
       <i class="fa fa-times hidden" data-el="clearer"></i>
     </div>
     <div class="drop-down__el soft-half on-top">
         <div class="btn-group inline-block v-middle" data-toggle="buttons">
           <% Audience.all.each do |audience| %>
-                <label class="btn btn--gray soft--sides">
+                <label class="btn btn--gray text-transform-none soft--sides">
                     <input type="checkbox" name="audience_ids[]" value="<%= audience.id %>"><%= I18n.t(audience.name) %>
                 </label>
           <% end %>

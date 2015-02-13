@@ -1,7 +1,7 @@
 .structure-item-view {
     @include transition(all 200ms linear);
     &:hover {
-        background-color: darken($site-background-color, 5%);
+        background-color: $site-background-color;
     }
 }
 .heart-link:hover {

@@ -3,6 +3,10 @@ CoursAvenue = new Backbone.Marionette.Application({
     FACEBOOK_SCOPE: 'public_profile,email,user_location,user_birthday,user_relationships,user_activities,user_friends',
     PRO_FACEBOOK_SCOPE: 'public_profile,email,user_location,user_birthday,user_relationships,user_activities,user_friends,manage_pages',
 
+    initializeUserNav: function initializeUserNav () {
+        this.userNav.show(new CoursAvenue.Views.UserNavView({ model: this.currentUser() }));
+    },
+
     slug: 'coursavenue',
 
     isProduction: function isProduction () {
@@ -123,7 +127,7 @@ $(function() {
     CoursAvenue.start({});
     // Show the region only if it exists (not in pro for instance)
     if ($(CoursAvenue.userNav.el).length > 0) {
-        CoursAvenue.userNav.show(new CoursAvenue.Views.UserNavView({ model: CoursAvenue.currentUser() }));
+        CoursAvenue.initializeUserNav();
     }
     $('body').on('click', '[data-behavior=facebook-login]', function(event) {
         CoursAvenue.loginWithFacebook($(this).data());

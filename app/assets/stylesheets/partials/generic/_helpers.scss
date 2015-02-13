@@ -161,6 +161,7 @@
 \*------------------------------------*/
 .very-soft        { padding: 5px; }
 .very-soft--left  { padding-left: 5px; }
+.very-soft--right { padding-right: 5px; }
 .island-top { margin-top: $base-spacing-unit * 3.5; }
 .mega-soft--ends {
     padding-top   : $base-spacing-unit * 3.5;
@@ -202,10 +203,11 @@
 }
 .z-index-1 { z-index: 1; }
 .z-index-3 { z-index: 3; }
-.black-box-shadow { @include box-shadow(0px 0px 31px #555555); }
-.white-text-shadow { @include text-shadow(0 0 2px #FFF, 0 0 12px #FFF, 0 0 22px #FFF, 0 0 42px #FFF, 0 0 92px #FFF); }
-.black-text-shadow { @include text-shadow(0 0 2px #000, 0 0 12px #000, 0 0 22px #000, 0 0 42px #000, 0 0 92px #000); }
-.soft-black-text-shadow { @include text-shadow(0px 2px 2px #444, 0px 2px 15px #444); }
+.shadowed--bottom         { @include box-shadow(0px 3px 12px $gray-smooth); }
+.black-box-shadow         { @include box-shadow(0px 0px 31px #555555); }
+.white-text-shadow        { @include text-shadow(0 0 2px #FFF, 0 0 12px #FFF, 0 0 22px #FFF, 0 0 42px #FFF, 0 0 92px #FFF); }
+.black-text-shadow        { @include text-shadow(0 0 2px #000, 0 0 12px #000, 0 0 22px #000, 0 0 42px #000, 0 0 92px #000); }
+.soft-black-text-shadow   { @include text-shadow(0px 2px 2px #444, 0px 2px 15px #444); }
 .smooth-black-text-shadow { @include text-shadow(0px 0px 2px #444); }
 
 .highlight {

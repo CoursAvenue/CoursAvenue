@@ -109,10 +109,9 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
          * for the relevant subject.
          */
         announce: function announce (event) {
-            event.stopPropagation();
-            if (window.history.pushState) { window.history.pushState('', '', event.currentTarget.pathname) };
             this.hideMenu();
             if (event) {
+                if (window.history.pushState) { window.history.pushState('', '', event.currentTarget.pathname) };
                 var subject_slug = event.currentTarget.dataset.value;
             } else {
                 var subject_slug = this.$('.' + ACTIVE_CLASS + '[data-type="button"]').data('value');
@@ -131,11 +130,13 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
         },
 
         announceSubject: function announceSubject (data) {
-            data = data || { subject_id: this.current_subject_slug, root_subject_id: this.current_subject_slug };
-            var menu_item = this.menu_items[data.root_subject_id];
-            menu_item.current_subject_slug       = data.subject_id;
-            menu_item.selected_parent_subject_id = data.parent_subject_id;
-            menu_item.render();
+            data = data || { subject_id: (this.current_subject_slug ? this.current_subject_slug : null), root_subject_id: (this.current_subject_slug ? this.current_subject_slug : null) };
+            if (data.root_subject_id) {
+                var menu_item = this.menu_items[data.root_subject_id];
+                menu_item.current_subject_slug       = data.subject_id;
+                menu_item.selected_parent_subject_id = data.parent_subject_id;
+                menu_item.render();
+            }
             this.trigger("filter:subject", data);
             this.showSubjectBreadcrumb(data);
         }.debounce(GLOBAL.DEBOUNCE_DELAY),
@@ -148,7 +149,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
          *       }
          */
         showSubjectBreadcrumb: function showSubjectBreadcrumb (data) {
-            if (data.root_subject_id.length > 0) {
+            if (data.root_subject_id && data.root_subject_id.length > 0) {
                 $('[data-el="subject-colleciton-toggler"]').removeClass('btn--gray')
                 $('[data-el="subject-colleciton-toggler"] i').show();
             }
@@ -187,7 +188,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
         },
 
         hideMenu: function hideMenu (event) {
-            $(event.currentTarget).find('.btn').removeClass('border-none--right');
+            this.$('.btn').removeClass('border-none--right');
             this.ui.$menu.hide();
             _.each(this.menu_items, function(menu_item) {
                 menu_item.$el.hide();
@@ -208,6 +209,11 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
 
         // Clears all the given filters
         clear: function clear () {
+            // Important to clear parameters that are sent to the server. If we do not do that,
+            // The AJAX request will be done on `/danse--paris` for instance, and the server will treat
+            // `danse` as :root_subject_id parameter.
+            // Reset URL to /:city_id
+            if (window.history.pushState) { window.history.pushState('', '', '/' + window.coursavenue.bootstrap.city_id) };
             this.ui.$clearer.hide();
             this.ui.$clear_filter_button.addClass('btn--gray');
             this.previous_searched_name = null;

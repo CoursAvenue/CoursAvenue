@@ -16,8 +16,8 @@ $list_wrapper_width: 800px;
 }
 
 .filtered-search__map-wrapper {
-    padding-left: $list_wrapper_width;
-    height      : 100%;
+    left  : $list_wrapper_width;
+    height: 100%;
     @include transition(all 250ms linear);
     > div,  > div > div, > div > div > div, .google-map {
         height: 100%;
