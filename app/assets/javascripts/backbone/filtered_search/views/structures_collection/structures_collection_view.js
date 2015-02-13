@@ -45,7 +45,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
         onAfterShow: function onAfterShow () {
           this.announcePaginatorUpdated(true);
           var $sticky = $('[data-behavior=sticky]');
-          $sticky.sticky({ offsetTop: 50,//scrollContainer: '.filtered-search__list-wrapper',
+          $sticky.sticky({ offsetTop: 50,
                            z        : 1200,
                            oldWidth : true,
                            onStick  : function() {

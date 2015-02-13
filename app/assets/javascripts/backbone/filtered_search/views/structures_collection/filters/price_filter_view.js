@@ -11,9 +11,9 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 range, step, min, max;
 
             if (data.is_open_for_trial) {
-                this.ui.$price_type_radio.filter('[value=trials]').prop('checked', true);
-            } else if (data.price_type == 'trainings') {
-                this.ui.$price_type_radio.filter('[value=trainings]').prop('checked', true);
+                this.ui.$price_type_radio.filter('[value=first_course]').prop('checked', true);
+            } else if (data.price_type == 'training') {
+                this.ui.$price_type_radio.filter('[value=training]').prop('checked', true);
             }
             range = this.getRange();
             step  = this.getStep();
@@ -37,7 +37,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                     resolution: 1
                 }
             });
-            this.showCorrectInputs();
+            this.showCorrectInputs(false);
             this.setButtonState();
         },
 
@@ -74,11 +74,12 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         /*
          * Show select box or slider regarding the option choosed
          */
-        showCorrectInputs: function showCorrectInputs () {
-            if (this.ui.$price_type_radio.filter(':checked').val() == 'trials') {
+        showCorrectInputs: function showCorrectInputs (announce) {
+            if (announce != false) { this.announce(); }
+            if (this.ui.$price_type_radio.filter(':checked').val() == 'first_course') {
                 this.ui.$slider_wrapper.hide();
                 this.ui.$trial_types_select.show();
-            } else if (this.ui.$price_type_radio.filter(':checked').val() == 'trainings') {
+            } else if (this.ui.$price_type_radio.filter(':checked').val() == 'training') {
                 this.ui.$slider_wrapper.show();
                 this.ui.$trial_types_select.hide();
             }
@@ -113,16 +114,16 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         announce: function announce (e) {
             var slider_value = this.ui.$slider.val();
-            if (this.ui.$price_type_radio.filter(':checked').val() == 'trials') {
+            if (this.ui.$price_type_radio.filter(':checked').val() == 'first_course') {
                 this.trigger("filter:price", {
-                    'is_open_for_trial': true,
-                    'price_type'       : null,
-                    'min_price'        : null,
-                    'max_price'        : null
+                    'is_open_for_trial': (this.ui.$trial_types_select.val() == 'free' ? true : null),
+                    'price_type'       : 'first_course',
+                    'min_price'        : (this.ui.$trial_types_select.val() == 'free' ? null : slider_value[0]),
+                    'max_price'        : (this.ui.$trial_types_select.val() == 'free' ? null : slider_value[1])
                 });
             } else {
                 this.trigger("filter:price", {
-                    'price_type': 'trainings',
+                    'price_type': 'training',
                     'min_price' : slider_value[0],
                     'max_price' : slider_value[1]
                 });

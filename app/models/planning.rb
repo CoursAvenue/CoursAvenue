@@ -213,13 +213,17 @@ class Planning < ActiveRecord::Base
       price_types
     end
 
-    Price::TYPES.each do |name|
-      integer "#{name}_min_price".to_sym do
-        self.min_price_amount_for(name)
-      end
-      integer "#{name}_max_price".to_sym do
-        self.max_price_amount_for(name)
-      end
+    integer :training_min_price do
+      return -1 if self.course.is_training?
+      price = self.course.prices.book_ticket_or_trials.order('amount ASC').first
+      return 0 unless price
+      price.amount.to_i
+    end
+
+    integer :first_course_min_price do
+      price = self.course.prices.book_ticket_or_trials.order('amount ASC').first
+      return 0 unless price
+      price.amount.to_i
     end
 
     integer :min_age_for_kid

@@ -68,6 +68,10 @@ class Price < ActiveRecord::Base
   scope :non_premium_prices, -> { where(arel_table[:type].eq('Price::BookTicket').or(
                                         arel_table[:type].eq('Price::Subscription')) ) }
 
+  # Used to determine first course price
+  scope :book_ticket_or_trials, -> { where(arel_table[:type].eq('Price::BookTicket').or(
+                                           arel_table[:type].eq('Price::Trial')) ) }
+
   def free?
     false
   end

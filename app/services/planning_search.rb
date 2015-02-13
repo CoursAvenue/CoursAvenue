@@ -76,15 +76,16 @@ class PlanningSearch
         ######################################################################
         # Prices                                                             #
         ######################################################################
-        # --------------- Iterating over all types of prices
-        # if params[:price_type].present?
-        #   with(:price_types).any_of                                      [params[:price_type]]
-        #   with("#{params[:price_type]}_min_price".to_sym).greater_than params[:min_price].to_i if params[:min_price].present?
-        #   with("#{params[:price_type]}_min_price".to_sym).less_than    params[:max_price].to_i if params[:max_price].present?
-        # else
+        if params[:price_type] == 'first_course'
+          with(:first_course_min_price).greater_than params[:min_price].to_i if params[:min_price].present?
+          with(:first_course_min_price).less_than    params[:max_price].to_i if params[:max_price].present?
+        elsif params[:price_type] == 'trainings'
+          with(:training_min_price).greater_than params[:min_price].to_i if params[:min_price].present?
+          with(:training_min_price).less_than    params[:max_price].to_i if params[:max_price].present?
+        else
           with(:max_price).greater_than params[:min_price] if params[:min_price].present?
           with(:min_price).less_than    params[:max_price] if params[:max_price].present?
-        # end
+        end
 
         # --------------- Structure filters
         with(:discounts).any_of                            params[:discount_types]                      if params[:discount_types].present?

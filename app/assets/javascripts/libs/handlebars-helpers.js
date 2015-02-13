@@ -178,3 +178,8 @@ Handlebars.registerHelper('root_search_page_path', function(root_subject_id, cit
 Handlebars.registerHelper('search_page_path', function(root_subject_id, subject_id, city_id) {
     return Routes.search_page_path(root_subject_id, subject_id, city_id);
 });
+
+// usage: {{#if_collection_count_more_than my_collection_var 3}}
+Handlebars.registerHelper('if_collection_count_more_than', function(my_collection, count, options) {
+    return my_collection.length > count ? options.fn(this) : options.inverse(this)
+});

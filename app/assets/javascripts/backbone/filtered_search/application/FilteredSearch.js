@@ -223,10 +223,6 @@ FilteredSearch.addInitializer(function(options) {
 
     layout.master.show(structures_view);
     GLOBAL.chosen_initializer();
-
-    if (GLOBAL.is_mobile) {
-        $('[data-type="location-filter"]').appendTo($('#mobile-location-filter'));
-    }
 });
 
 $(document).ready(function() {
