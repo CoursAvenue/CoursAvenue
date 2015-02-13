@@ -38,7 +38,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 this.ui.$clearer.show();
                 this.ui.$clear_filter_button.removeClass('btn--gray');
             } else {
-                this.ui.$clear_filter_button.addClass('btn--gray')
+                this.ui.$clear_filter_button.addClass('btn--gray');
                 this.ui.$clearer.hide();
             }
         },

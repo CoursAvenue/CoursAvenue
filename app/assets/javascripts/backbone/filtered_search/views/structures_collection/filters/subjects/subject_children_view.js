@@ -6,7 +6,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
         template: Module.templateDirname() + 'subject_children_view',
 
         // As all subjects are loaded by default, we hide them
-        className: 'hidden',
+        className: 'hidden flexbox bg-white',
 
         initialize: function initialize () {
             _.bindAll(this, 'fetchDone');

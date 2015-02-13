@@ -7,6 +7,8 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         initialize: function initialize () {
             this.data = { start_date: '', end_date: '' };
+            // Prevent the dropdown to close if a datepicker is open
+            this.lock_dropdown_hide = false;
         },
 
         setup: function setup (data) {
@@ -36,24 +38,32 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             if (this.ui.$start_date.val().length > 0 || this.ui.$end_date.val().length > 0 ) {
                 this.showDateRange();
             }
+            if (data.start_date.length > 0  || data.end_date.length > 0 ) {
+                this.ui.$date_filter_type_inputs.filter('[value=trainings]').prop('checked', true);
+            } else {
+                this.ui.$date_filter_type_inputs.filter('[value=regulars]').prop('checked', true);
+            }
             this.setButtonState();
         },
 
         ui: {
-            '$week_days_inputs'    : '[data-type=day]',
-            '$time'                : '[data-type=time]',
-            '$time_select'         : '[data-type=time] select',
-            '$date'                : '[data-type=date]',
-            '$date_range'          : '[data-type=date-range]',
-            '$start_date'          : '[data-value=start-date]',
-            '$end_date'            : '[data-value=end-date]',
-            '$hour_range'          : '[data-type=hour-range]',
-            '$clear_filter_button' : '[data-behavior=clear-filter]',
-            '$clearer'             : '[data-el=clearer]'
+            '$week_days_inputs'       : '[data-type=day]',
+            '$time'                   : '[data-type=time]',
+            '$time_select'            : '[data-type=time] select',
+            '$week_day_wrapper'       : '[data-type=week-day-wrapper]',
+            '$date_range'             : '[data-type=date-range]',
+            '$start_date'             : '[data-value=start-date]',
+            '$end_date'               : '[data-value=end-date]',
+            '$hour_range'             : '[data-type=hour-range]',
+            '$clear_filter_button'    : '[data-behavior=clear-filter]',
+            '$clearer'                : '[data-el=clearer]',
+            '$date_filter_type_inputs': '[name=date-filter-type]'
         },
 
         events: {
-            'click  [data-behavior=toggle]'         : 'toggleModes',
+            'mouseenter' : 'showDropdown',
+            'mouseleave' : 'hideDropdown',
+            'change @ui.$date_filter_type_inputs'   : 'toggleModes',
             'change [data-type=day]'                : 'announceDay',
             'change [data-type=time] select'        : 'announceTime',
             'change [data-type=time] > select'      : 'showHourRange',
@@ -63,6 +73,15 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             'click @ui.$clear_filter_button'        : 'clear'
         },
 
+        showDropdown: function showDropdown () {
+            this.$('.drop-down__el').show();
+        },
+
+        hideDropdown: function hideDropdown () {
+            if (!this.lock_dropdown_hide) {
+                this.$('.drop-down__el').hide();
+            }
+        },
         // this creates several requests, but only the most current one will
         // actually be processed, since the structures_collection_view cancels
         // out of date requests.
@@ -80,7 +99,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 this.ui.$start_date.val().length == 0 &&
                 this.ui.$end_date.val().length == 0 &&
                 this.ui.$time_select.val() == 'all-day') {
-                this.ui.$clear_filter_button.addClass('btn--gray')
+                this.ui.$clear_filter_button.addClass('btn--gray');
                 this.ui.$clearer.hide();
             } else {
                 this.ui.$clearer.show();
@@ -130,6 +149,22 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             });
             this.setButtonState();
         }.debounce(GLOBAL.DEBOUNCE_DELAY),
+
+        onRender: function onRender () {
+            GLOBAL.datepicker_initializer();
+            this.$('[data-behavior=datepicker]').datepicker().on('show', function(e){
+                this.lock_dropdown_hide = true;
+                // Hide dropdown and datepicker mouse user leave datepicker
+                $('.datepicker').on('mouseleave', function() {
+                    this.lock_dropdown_hide = false;
+                    this.hideDropdown();
+                    $('.datepicker').hide();
+                }.bind(this));
+            }.bind(this));
+            $('[data-behavior=datepicker]').datepicker().on('hide', function(e){
+                this.lock_dropdown_hide = false;
+            }.bind(this));
+        },
 
         /* this method is called any time the datepicker closes. So that's too
          * often, but there really isn't much we can do about it.
@@ -193,7 +228,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         toggleModes: function toggleModes () {
-            if (this.ui.$date_range.is(':visible')) {
+            if (this.ui.$date_filter_type_inputs.filter(':checked').val() == 'regulars') {
                 this.showWeekDays();
                 this.announce();
             } else {
@@ -203,13 +238,13 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         showDateRange: function showDateRange () {
-            this.ui.$date_range.slideDown();
-            // this.ui.$date.slideUp();
+            this.ui.$date_range.show();
+            this.ui.$week_day_wrapper.hide();
         },
 
         showWeekDays: function showWeekDays () {
-            this.ui.$date_range.slideUp();
-            // this.ui.$date.slideDown();
+            this.ui.$date_range.hide();
+            this.ui.$week_day_wrapper.show();
         },
 
         serializeData: function serializeData () {
@@ -235,6 +270,8 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         // Clears all the given filters
         clear: function clear () {
+            this.showWeekDays();
+            this.ui.$date_filter_type_inputs.filter('[value=regulars]').prop('checked', true);
             _.each(this.ui.$week_days_inputs, function(input) {
                 var $input = $(input);
                 $input.prop("checked", false);

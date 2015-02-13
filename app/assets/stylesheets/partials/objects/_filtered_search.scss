@@ -5,6 +5,9 @@ $list_wrapper_width: 800px;
     width   : 100%;
 }
 
+.filtered-search-wrapper {
+    margin-top: 50px;
+}
 .filtered-search__map-wrapper:before {
     content : '';
     position: absolute;
@@ -38,11 +41,14 @@ $list_wrapper_width: 800px;
             }
         }
 
+.filtered-search__list-filters {
+    top  : 50px;
+    width: $list_wrapper_width;
+}
 .filtered-search__list-wrapper {
     width         : $list_wrapper_width;
     top           : 50px;
     bottom        : 0;
-    overflow-y    : scroll;
     padding-bottom: 2em;
     webkit-overflow-scrolling: touch;
     @include transition(all 250ms linear);

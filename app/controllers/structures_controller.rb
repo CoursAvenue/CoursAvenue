@@ -31,7 +31,7 @@ class StructuresController < ApplicationController
       params[:subject_id] = params[:root_subject_id]
     end
     @app_slug = "filtered-search"
-    @subject = filter_by_subject?
+    @subject  = filter_by_subject?
 
     # We remove bbox parameters if user is on mobile since we don't show the map
     if mobile_device?

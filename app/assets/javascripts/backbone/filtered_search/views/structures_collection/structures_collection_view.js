@@ -32,7 +32,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
             _.bindAll(this, 'initializeAddToFavoriteLinks');
             CoursAvenue.on('user:signed:in', this.initializeAddToFavoriteLinks);
             this.on('pagination:changed', function(){
-                this.$el.closest('.filtered-search__list-wrapper').scrollTo(0, { easing: 'easeOutCubic', duration: 350 });
+                $.scrollTo(0, { easing: 'easeOutCubic', duration: 350 });
             }, this);
         },
 
@@ -45,10 +45,10 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
         onAfterShow: function onAfterShow () {
           this.announcePaginatorUpdated(true);
           var $sticky = $('[data-behavior=sticky]');
-          $sticky.sticky({ scrollContainer: '.filtered-search__list-wrapper',
-                           z: 1200,
-                           oldWidth: true,
-                           onStick: function() {
+          $sticky.sticky({ offsetTop: 50,//scrollContainer: '.filtered-search__list-wrapper',
+                           z        : 1200,
+                           oldWidth : true,
+                           onStick  : function() {
                               $sticky.css({ top: '50px', paddingTop: '8px' }).addClass('bg-white');
                            } });
           this.renderSlideshows();

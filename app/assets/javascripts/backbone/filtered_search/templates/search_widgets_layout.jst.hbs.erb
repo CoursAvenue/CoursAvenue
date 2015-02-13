@@ -1,4 +1,4 @@
-<header class="header print--hidden">
+<header class="on-top-of-the-world bg-white fixed north west one-whole bordered--bottom">
   <div class="very-soft soft-half--sides flexbox expanded">
     <div class="flexbox__item palm-one-whole v-middle relative nowrap">
       <a href="https://www.coursavenue.com" class="v-middle coursavenue-header-logo mixpanel-tracker" title="CoursAvenue | Tous les cours autour de vous"></a>
@@ -14,13 +14,13 @@
 <div data-type="loader" class="filtered-search__loader" style="display: none;">
   <img src="<%= asset_path 'gifs/loading-indicator.gif' %>"/ class="center-block" height="10">
 </div>
-<div>
+<div class="filtered-search-wrapper">
   <section id="widgets-container" class="fixed filtered-search__map-wrapper east visuallyhidden--palm" data-type="google-maps">
       {{#each widget}}
           <div id="{{ id }}" data-type="widget"></div>
       {{/each}}
   </section>
-  <section class="filtered-search__list-wrapper west fixed palm-one-whole">
+  <section class="filtered-search__list-wrapper palm-one-whole">
       <div class="shadowed--bottom soft bordered--bottom bg-white" data-behavior="sticky" data-el="filters-wrapper">
           <div class="epsilon soft-half--bottom f-weight-500" data-type="top-results-summary"></div>
           <div class="visuallyhidden--lap-and-up soft-half--sides">
