@@ -82,9 +82,6 @@ class PlanningSearch
         elsif params[:price_type] == 'trainings'
           with(:training_min_price).greater_than params[:min_price].to_i if params[:min_price].present?
           with(:training_min_price).less_than    params[:max_price].to_i if params[:max_price].present?
-        else
-          with(:max_price).greater_than params[:min_price] if params[:min_price].present?
-          with(:min_price).less_than    params[:max_price] if params[:max_price].present?
         end
 
         # --------------- Structure filters
