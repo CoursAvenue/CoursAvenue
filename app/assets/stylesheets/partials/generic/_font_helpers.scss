@@ -63,6 +63,8 @@
 .f-size-13  { font-size: 13px; }
 .f-size-12  { font-size: 12px; }
 
+.palm-f-size-12 { @include media-query(palm) { font-size: 12px; } }
+
 .milli {
     p {
         line-height: 1.5;
