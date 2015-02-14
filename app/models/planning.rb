@@ -214,16 +214,25 @@ class Planning < ActiveRecord::Base
     end
 
     integer :training_min_price do
-      return -1 if self.course.is_training?
-      price = self.course.prices.book_ticket_or_trials.order('amount ASC').first
-      return 0 unless price
-      price.amount.to_i
+      if self.course.is_training?
+        -1
+      else
+        price = self.course.prices.book_ticket_or_trials.order('amount ASC').first
+        if price
+          price.amount.to_i
+        else
+          0
+        end
+      end
     end
 
     integer :first_course_min_price do
       price = self.course.prices.book_ticket_or_trials.order('amount ASC').first
-      return 0 unless price
-      price.amount.to_i
+      if price
+        price.amount.to_i
+      else
+        0
+      end
     end
 
     integer :min_age_for_kid
