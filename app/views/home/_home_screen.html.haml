@@ -1,4 +1,5 @@
 .full-screen-item.one-whole.relative.overflow-hidden
+  %div.hidden.home-page-fullscreen-video.bg-cover{ style: "background-image: url('#{asset_path('home-page/coursavenue_homepage_cover.jpg')}')", data: { replacement: 'video' } }
   %video.home-page-fullscreen-video{ preload: 'auto', loop: 'loop', autoplay: 'autoplay', poster: asset_path('home-page/coursavenue_homepage_cover.jpg') }
     %source{ type: "video/mp4", src: asset_path('coursavenue_homepage_video.mp4') }
     %source{ type: "video/webm", src: asset_path('coursavenue_homepage_video.webm') }
@@ -27,6 +28,10 @@
 - content_for :scripts do
   :javascript
       $(function() {
+          if (GLOBAL.isMobile.any()) {
+              $('[data-replacement=video]').show();
+              $('video').remove();
+          }
           $(window).scroll(function() {
               var $this = $(this);
               if ($this.scrollTop() > window.innerHeight - 10) {
