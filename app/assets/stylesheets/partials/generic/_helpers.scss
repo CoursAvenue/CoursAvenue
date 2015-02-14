@@ -465,3 +465,8 @@
 
 .column-count-2 { @include prefix('column-count', 2); }
 .column-count-3 { @include prefix('column-count', 3); }
+
+.top-30vh {
+    top: 30vh;
+    @include media-query(palm) { top: 20vh; }
+}
