@@ -29,20 +29,20 @@
   :javascript
       $(function() {
           if (GLOBAL.isMobile.any()) {
+              $('[data-behavior=block-parallax]').removeAttr('data-behavior');
               $('[data-replacement=video]').show();
               $('video').remove();
-          } else {
-              $(window).scroll(function() {
-                  var $this = $(this);
-                  if ($this.scrollTop() > window.innerHeight - 10) {
-                      $('.homescreen-header').removeClass('homescreen-header--transparent');
-                      $('.top-right-hidden-button').addClass('in');
-                      $('#home-logo-dark').fadeIn();
-                  } else {
-                      $('.homescreen-header').addClass('homescreen-header--transparent');
-                      $('.top-right-hidden-button').removeClass('in');
-                      $('#home-logo-dark').fadeOut();
-                  }
-              });
           }
+          $(window).scroll(function() {
+              var $this = $(this);
+              if ($this.scrollTop() > window.innerHeight - 10) {
+                  $('.homescreen-header').removeClass('homescreen-header--transparent');
+                  $('.top-right-hidden-button').addClass('in');
+                  $('#home-logo-dark').fadeIn();
+              } else {
+                  $('.homescreen-header').addClass('homescreen-header--transparent');
+                  $('.top-right-hidden-button').removeClass('in');
+                  $('#home-logo-dark').fadeOut();
+              }
+          });
       });
