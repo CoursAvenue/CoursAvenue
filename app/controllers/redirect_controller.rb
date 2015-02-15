@@ -1,6 +1,18 @@
 class RedirectController < ApplicationController
   include SubjectHelper
 
+  # GET pro.coursavenue.com/paris, etc.
+  # Redirects all links like pro.coursavenue.com/paris to www. subdomain
+  def structures_index
+    if params[:subject_id].present?
+      redirect_to search_page_url(params[:root_subject_id], params[:subject_id], params[:city_id], subdomain: 'www'), status: 301
+    elsif params[:root_subject_id].present?
+      redirect_to root_search_page_url(params[:root_subject_id], params[:city_id], subdomain: 'www'), status: 301
+    else
+      redirect_to root_search_page_without_subject_url(params[:city_id], subdomain: 'www'), status: 301
+    end
+  end
+
   def vertical_page
     @subject = Subject.fetch_by_id_or_slug params[:id]
     if @subject
