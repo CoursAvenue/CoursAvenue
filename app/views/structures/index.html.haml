@@ -32,6 +32,10 @@
       discount_types: #{ Price::Discount::TYPES.to_json }
   };
 
+- if @subject
+  :javascript
+    window.coursavenue.bootstrap.subject_name = '#{@subject.name}';
+
 - if params[:root_subject_id] != params[:subject_id]
   :javascript
     window.coursavenue.bootstrap.options.queryParams.subject_id = "#{ params[:subject_id] }";

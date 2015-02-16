@@ -13,12 +13,18 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         serializeData: function serializeData (data) {
+            var subject_name;
             if (this.current_summary_data.city) {
                 this.current_summary_data.city = this.current_summary_data.city.replace(', France', '');
             }
+            if ($('[data-type="subjects-breadcrumb"] li:last').text().length > 0) {
+                subject_name = $('[data-type="subjects-breadcrumb"] li:last').text();
+            } else if (window.coursavenue.bootstrap.subject_name) {
+                subject_name = window.coursavenue.bootstrap.subject_name;
+            }
             return _.extend(this.current_summary_data, {
                 // Clearly not the best, I know.
-                subject_name: $('[data-type="subjects-breadcrumb"] li:last').text()
+                subject_name: subject_name
             });
         }
 
