@@ -44,8 +44,7 @@
 .main-container.main-container--medium.mega-soft--ends
   %h2.text--center.flush.f-weight-300 Vous recherchez un cours de loisir ?
   %h4.text--center.f-weight-300 Choisissez la discipline générale et votre ville, vous pourrez ensuite affiner votre recherche :
-  .text--center
-    = render partial: 'shared/home_page_search_form', locals: { form_class: 'inline-block', wrapper_class: '' }
+  = render partial: 'shared/home_page_search_form', locals: { form_class: 'header-search-bar center-block push-half--bottom', wrapper_class: '' }
   %p.epsilon.text--center
     Besoin d'aide pour trouver un cours ? Accédez à toutes nos réponses dans notre
     = link_to "centre d'aide", pages_faq_users_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
