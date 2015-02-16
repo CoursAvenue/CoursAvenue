@@ -215,14 +215,14 @@ class Planning < ActiveRecord::Base
 
     integer :training_min_price do
       if self.course.is_training?
-        -1
-      else
-        price = self.course.prices.book_ticket_or_trials.order('amount ASC').first
+        price = self.course.prices.book_tickets.order('amount ASC').first
         if price
           price.amount.to_i
         else
           0
         end
+      else
+        -1
       end
     end
 
