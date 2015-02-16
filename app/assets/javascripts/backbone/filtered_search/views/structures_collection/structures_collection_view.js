@@ -49,10 +49,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
           var $sticky = $('[data-behavior=sticky]');
           $sticky.sticky({ offsetTop: 50,
                            z        : 1200,
-                           oldWidth : true,
-                           onStick  : function() {
-                              $sticky.css({ top: '50px', paddingTop: '8px' }).addClass('bg-white');
-                           } });
+                           oldWidth : true });
           this.renderSlideshows();
         },
 
