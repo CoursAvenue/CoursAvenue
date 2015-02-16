@@ -20,7 +20,7 @@
                     <ul class="no-bullet-list line-height-1-7 {{#if_collection_count_more_than children 20}}column-count-3{{else}}{{#if_collection_count_more_than children 10}}column-count-2{{/if_collection_count_more_than}}{{/if_collection_count_more_than}}">
                     {{#each this.children}}
                         <li>
-                            <a class="block text-ellipsis nowrap cursor-pointer black {{#ifCond slug '==' ../../selected_slug}}f-weight-bold{{/ifCond}}" data-depth="2" data-subject data-value="{{slug}}" data-parent-subject="{{../slug}}" data-root-subject="{{../../slug}}" href="{{search_page_path ../../slug slug ../../city_id}}" style="max-width: 180px;" title="{{ name }}">{{ name }}</a>
+                            <a class="block text-ellipsis nowrap cursor-pointer black {{#ifCond slug '==' ../../selected_slug}}f-weight-bold{{/ifCond}}" data-depth="2" data-subject data-value="{{slug}}" data-parent-subject="{{../slug}}" data-root-subject="{{../../slug}}" href="{{search_page_path ../../slug slug ../../city_id}}" {{#if_collection_count_more_than ../children 10}}style="max-width: 200px;"{{/if_collection_count_more_than}} title="{{ name }}">{{ name }}</a>
                         </li>
                     {{/each}}
                     </ul>
