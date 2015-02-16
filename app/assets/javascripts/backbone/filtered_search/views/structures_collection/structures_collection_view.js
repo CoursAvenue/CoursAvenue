@@ -29,11 +29,13 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
         emptyView: EmptyStrcutureList,
 
         initialize: function initialize () {
-            _.bindAll(this, 'initializeAddToFavoriteLinks');
+            _.bindAll(this, 'initializeAddToFavoriteLinks', 'scrollToTop');
             CoursAvenue.on('user:signed:in', this.initializeAddToFavoriteLinks);
-            this.on('pagination:changed', function(){
-                $.scrollTo(0, { easing: 'easeOutCubic', duration: 350 });
-            }, this);
+            this.on('pagination:changed', this.scrollToTop);
+        },
+
+        scrollToTop: function scrollToTop () {
+            $.scrollTo(0, { easing: 'easeOutCubic', duration: 350 });
         },
 
         initializeAddToFavoriteLinks: function initializeAddToFavoriteLinks () {
@@ -84,19 +86,13 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
             var position         = data.model.getLatLng();
             var $filters_wrapper = $('[data-el=filters-wrapper]')
 
-            var relevant_structure = this.collection.find(function (model) {
-
-                return _.find(model.get('places'), function (place) {
-                    var latlng = new google.maps.LatLng(place.latitude, place.longitude);
-                    return (position.equals(latlng)); // ha! google to the rescue
-                });
-            });
+            var relevant_structure = this.collection.findWhere({id: data.model.get('structure_id') })
 
             var childview = this.children.findByModel(relevant_structure);
 
             /* announce the view we found */
             this.trigger('structures:childview:found', { structure_view: childview, location_view: data } );
-            this.scrollToView(childview, -($filters_wrapper.offset().top + $filters_wrapper.height()));
+            $.scrollTo(childview.el, { duration: 400, offset: -($('header').first().outerHeight() + $filters_wrapper.outerHeight()) });
 
         },
 

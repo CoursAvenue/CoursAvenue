@@ -61,7 +61,10 @@ class Subject < ActiveRecord::Base
 
   # :nocov:
   algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
-    attribute :name, :slug, :depth
+    attribute :slug, :depth
+    add_attribute :name do
+      self.name.gsub('de', '').gsub("d'", '')
+    end
     add_attribute :root_name do
       self.root.name unless self.depth == 0
     end
@@ -71,7 +74,6 @@ class Subject < ActiveRecord::Base
     add_attribute :parent do
       self.parent.slug unless self.depth == 0
     end
-
     add_attribute :root do
       self.root.slug unless self.depth == 0
     end

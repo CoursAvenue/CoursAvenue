@@ -356,9 +356,8 @@
         @include prefix(filter, grayscale(0));
     }
 }
-.overflow-hidden {
-    overflow: hidden;
-}
+.overflow-hidden   { overflow  : hidden; }
+.overflow-x-hidden { overflow-x: hidden; }
 
 #filepicker_dialog_container {
   z-index: 99999999 !important

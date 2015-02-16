@@ -36,7 +36,8 @@ FilteredSearch.addInitializer(function(options) {
             'filter:location'       : 'filterQuery',
             'filter:trial_course'   : 'filterQuery',
             'map:marker:click'      : 'findChildView',
-            'structures:updated'    : 'structuresUpdated'
+            'structures:updated'    : 'structuresUpdated',
+            'paginator:updating'    : 'scrollToTop'
         }
     });
 
