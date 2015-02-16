@@ -71,6 +71,9 @@ class Subject < ActiveRecord::Base
     add_attribute :type do
       'subject'
     end
+    add_attribute :parent_name do
+      self.parent.name.gsub('de', '').gsub("d'", '') unless self.depth == 0
+    end
     add_attribute :parent do
       self.parent.slug unless self.depth == 0
     end
