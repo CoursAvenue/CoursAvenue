@@ -83,7 +83,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
         },
 
         announceBreadcrumb: function announceBreadcrumb (event) {
-            if (window.history.pushState) { window.history.pushState('', '', event.currentTarget.pathname) };
+            window.history.pushState('', '', event.currentTarget.pathname);
             var clicked_subject_slug, root_subject, root_subject_slug, depth, clicked_model;
             clicked_subject_slug                = event.currentTarget.dataset.value;
             root_subject_slug                   = event.currentTarget.dataset.rootSubjectSlug;
@@ -111,7 +111,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
         announce: function announce (event) {
             this.hideMenu();
             if (event) {
-                if (window.history.pushState) { window.history.pushState('', '', event.currentTarget.pathname) };
+                window.history.pushState('', '', event.currentTarget.pathname);
                 var subject_slug = event.currentTarget.dataset.value;
             } else {
                 var subject_slug = this.$('.' + ACTIVE_CLASS + '[data-type="button"]').data('value');
@@ -173,7 +173,9 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
 
             if (data.parent_subject_id == data.subject_id) { return; }
             child_subject = _.select(parent_subject.children, function(children) { return children.slug == data.subject_id })[0];
-            $subjects_breadcrumb.append($(this.breadcrumb_template(_.extend(child_subject, { href: Routes.search_page_path(current_model.get('slug'), child_subject.slug, window.coursavenue.bootstrap.city_id) }))));
+            if (child_subject) {
+                $subjects_breadcrumb.append($(this.breadcrumb_template(_.extend(child_subject, { href: Routes.search_page_path(current_model.get('slug'), child_subject.slug, window.coursavenue.bootstrap.city_id) }))));
+            }
         },
 
         updateSubjectGrandChildren: function updateSubjectGrandChildren (model, callback, callback_data) {
@@ -213,7 +215,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             // The AJAX request will be done on `/danse--paris` for instance, and the server will treat
             // `danse` as :root_subject_id parameter.
             // Reset URL to /:city_id
-            if (window.history.pushState) { window.history.pushState('', '', '/' + window.coursavenue.bootstrap.city_id) };
+            window.history.pushState('', '', '/' + window.coursavenue.bootstrap.city_id);
             this.ui.$clearer.hide();
             this.ui.$clear_filter_button.addClass('btn--gray');
             this.previous_searched_name = null;

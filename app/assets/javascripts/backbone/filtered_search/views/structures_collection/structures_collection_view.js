@@ -201,6 +201,12 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
             });
         },
 
+        updateLocationAndFilter: function updateLocationAndFilter (data) {
+            data.city = window.coursavenue.bootstrap.city_id;
+            window.history.pushState('', '', CoursAvenue.searchPath(data));
+            this.filterQuery(data);
+        },
+
         childViewOptions: function childViewOptions () {
             var subject_name = $('[data-value="' + decodeURIComponent(this.collection.queryParams.subject_id) + '"]').first().text().trim();
             var search_term = this.collection.queryParams.name || "";

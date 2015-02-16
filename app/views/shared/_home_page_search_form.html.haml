@@ -8,8 +8,7 @@
   = form_tag root_search_page_without_subject_path('paris'), method: :get, authenticity_token: false, data: { behavior: 'coursavenue-search' }, class: form_class, id: 'home-page-form' do
     .relative.flexbox.rounded{ class: wrapper_class }
       .flexbox__item.v-middle.search-input-wrapper
-        .input-with-icon
-          %input.palm-one-whole.input--large.one-whole.soft-half--left{ size: 28, placeholder:'Que recherchez-vous ?', type: 'text', autocomplete: 'off', name: 'name', value: '' , data: { type: 'subjects', toggle: 'popover', content: '<div style="color: black">Entrez la discipline ou le profil recherché. Ex. : Hatha yoga, Paris Art school, etc.</div>', placement: 'top', html: 'true' } }
+        .input-with-icon{ data: { type: 'subjects' } }
       .flexbox__item.v-middle.search-input-wrapper.hard--ends.palm-hard
         .input-with-icon
           %input.palm-one-whole.input--large.one-whole.soft-half--left{ size: 19, placeholder:'Ville', type:'text', autocomplete: 'off', name:'address_name', value: city, data: { type:'address', lng:'#address-lng', lat: '#address-lat', city: '#address-city' , address_name: '#address-name' } }
@@ -19,7 +18,7 @@
         %input#address-name{ type: 'hidden', value: city, name: 'address_name' }
         %input#address-city{ type: 'hidden', value: city, name: 'city' }
       .flexbox__item.v-middle.palm-text--center
-        %button.nowrap.btn.btn--blue.btn--full.input--large{type: 'submit', id: 'submit_search_form'} Trouver
+        %button.nowrap.btn.btn--blue.btn--full.input--large{ type: 'submit', id: 'submit_search_form' } Trouver
 
 = content_for :scripts do
   :javascript

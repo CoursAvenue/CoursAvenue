@@ -633,6 +633,7 @@ CoursAvenue::Application.routes.draw do
     # match "*path", to: "application#routing_error", via: :get
   end
 
+  get '/', to: 'redirect#www_root'
   ########### Search pages ###########
   # Redirect if it's not on WWW subdomain
   get ':root_subject_id/:subject_id--:city_id'     , to: 'redirect#structures_index'

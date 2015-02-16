@@ -6,12 +6,7 @@
 
     // Create the defaults once
     var pluginName = "subjectsStructuresPicker",
-        defaults = {
-          subjects_header_template: '<div class="text--center soft-half bordered--bottom"><strong>Disciplines</strong></div>',
-          subjects_template:  "<div>{{ name }}</div>",
-          structure_header_template: '<div class="text--center soft-half bordered--bottom"><strong>Professeurs, associations et écoles</strong></div>',
-          structure_template: '<a class="flexbox" href="{{ url }}"><div class="flexbox__item text--left" style="width: 40px"><img class="rounded--circle" src="{{logo_url}}" height="30" width="30"></div><div class="flexbox__item">{{name}}</div></a>'
-        };
+        defaults   = {};
 
     // The actual plugin constructor
     function Plugin( element, options ) {
@@ -35,81 +30,25 @@
 
         init: function init () {
             var structure_template, subjects_template, structure_header_template, subjects_header_template;
-            // Check if the element has already been initialized before doing the stuff
-            this.$subjects_input = this.$element.find('[data-type=subjects]');
             this.$address_input  = this.$element.find('[data-type=address]');
             this.$city_input     = this.$element.find('[name=city]')
+            // Check if the element has already been initialized before doing the stuff
             if (this.$address_input.length > 0) { this.$address_input.addressPicker(); }
             if (this.$element.hasClass('tt-hint')) { return; }
-            this.initializeTemplates();
-            var that = this;
-            var optionalSearchWords = GLOBAL.EXCLUDED_SEARCH_WORDS.source.replace(/\(|\)/g, '').replace(/\|/g, ',');
-            var client = new AlgoliaSearch('<%= ENV['ALGOLIA_APPLICATION_ID'] %>', '<%= ENV['ALGOLIA_SEARCH_API_KEY'] %>');
-            this.$subjects_input.typeahead({
-                highlight : true,
-                minLength: 1,
-                autoselect: true,
-                limit: 10
-            }, {
-                displayKey: 'name',
-                templates: {
-                    header: this.subjects_header_template,
-                    suggestion: function suggestion (data) {
-                        return that.subjects_template(data);
-                    }
-                },
-                source: client.initIndex('<%= Subject.index_name %>').ttAdapter({ hitsPerPage: 7, optionalWords: optionalSearchWords })
-            }, {
-                displayKey: 'name',
-                templates: {
-                    header: this.structure_header_template,
-                    suggestion: function suggestion (data) {
-                        return that.structure_template(data);
-                    }
-                },
-                source: client.initIndex('<%= Structure.index_name %>').ttAdapter({ hitsPerPage: 7, optionalWords: optionalSearchWords })
-            });
-
-            this.$element.submit(function(event, data) {
-                var new_action;
+            var input_subject_filter = new CoursAvenue.Views.InputSubjectFilterView({ el: '[data-type=subjects]' });
+            input_subject_filter.render();
+            input_subject_filter.on('filter:subject_input', function(data) {
                 var city = this.$city_input.val() || $.cookie('city') || 'paris';
                 city = city.replace(/[^A-Za-z]/g, '-').toLowerCase();
-                if (this.selected_subject && this.selected_subject.depth == 0) {
-                    new_action = Routes.root_search_page_path(this.selected_subject.slug, city);
-                    this.$subjects_input.removeAttr('name'); // Remove name attribute to prevent word ending in the keywords filter
-                } else if (this.selected_subject) {
-                    new_action = Routes.search_page_path((this.selected_subject.root || this.selected_subject.slug), this.selected_subject.slug, city);
-                    this.$subjects_input.removeAttr('name'); // Remove name attribute to prevent word ending in the keywords filter
+                data.city = city;
+                new_action = CoursAvenue.searchPath(data);
+                if (data) {
+                    input_subject_filter.ui.$subjects_input.removeAttr('name'); // Remove name attribute to prevent word ending in the keywords filter
                 } else {
-                    this.$subjects_input.attr('name', 'name');
-                    new_action = Routes.root_search_page_without_subject_path(city);
+                    input_subject_filter.ui.$subjects_input.attr('name', 'name');
                 }
-                this.$element.attr('action', new_action)
-
+                this.$element.attr('action', new_action);
             }.bind(this));
-
-            this.$subjects_input.on('typeahead:selected', function(event, data) {
-                if (data.type == 'structure') {
-                    window.location.href = data.url;
-                    return;
-                } else {
-                    this.selected_subject = data;
-                }
-                // Automatically submit form if there is just the subject input
-                // if (this.$address_input.length == 0) {
-                this.$element.submit();
-                // }
-            }.bind(this));
-        },
-
-        /*
-         * Initialize templates
-         */
-        initializeTemplates: function initializeTemplates () {
-            this.structure_template        = Handlebars.compile(this.options.structure_template);
-            this.subjects_template         = Handlebars.compile(this.options.subjects_template);
-            this.structure_header_template = Handlebars.compile(this.options.structure_header_template);
-            this.subjects_header_template  = Handlebars.compile(this.options.subjects_header_template);
         }
     };
 

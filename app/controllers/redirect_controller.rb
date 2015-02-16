@@ -1,6 +1,12 @@
 class RedirectController < ApplicationController
   include SubjectHelper
 
+  # GET http://coursavenue.com
+  # Catching root url without subdomain. Mainly for dev.
+  def www_root
+    redirect_to root_url(subdomain: 'www'), status: 301
+  end
+
   # GET pro.coursavenue.com/paris, etc.
   # Redirects all links like pro.coursavenue.com/paris to www. subdomain
   def structures_index

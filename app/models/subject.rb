@@ -61,7 +61,10 @@ class Subject < ActiveRecord::Base
 
   # :nocov:
   algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
-    attribute :name, :slug
+    attribute :name, :slug, :depth
+    add_attribute :root_name do
+      self.root.name unless self.depth == 0
+    end
     add_attribute :type do
       'subject'
     end

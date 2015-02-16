@@ -1,0 +1,7 @@
+{{#ifCond depth '==' 0}}
+    <div>{{ name }}</div>
+{{ else }}
+    <div>
+        <span>{{ root_name }}</span> > {{ name }}
+    </div>
+{{/ifCond }}

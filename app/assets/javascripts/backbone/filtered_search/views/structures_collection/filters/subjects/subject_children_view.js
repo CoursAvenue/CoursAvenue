@@ -53,7 +53,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
 
         announceSubject: function announceSubject (event) {
             event.stopPropagation();
-            if (window.history.pushState) { window.history.pushState('', '', event.currentTarget.pathname) };
+            window.history.pushState('', '', event.currentTarget.pathname);
             var $currentTarget = $(event.currentTarget);
             // If already activated, deactivate
             if ($currentTarget.hasClass(ACTIVE_CLASS)) {

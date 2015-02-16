@@ -42,7 +42,7 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
 
             // now write back the queryParams so that the search bar is up to date
             // we are passing this.queryParams for fun! ^o^ why not?
-            if (window.history.pushState) { window.history.pushState({}, "Recherche", this.getQuery()); }
+            window.history.pushState({}, "Recherche", this.getQuery());
 
             if (options) {
                 /* if we receive a pair from the bootstrap */
@@ -70,7 +70,7 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
 
         parse: function parse (response) {
             // we did some kind of request, I guess we should update the query
-            if (window.history.pushState) { window.history.pushState({}, document.title, this.getQuery()); }
+            window.history.pushState({}, document.title, this.getQuery());
 
             this.state.grandTotal = response.meta.total;
             this.state.totalPages = Math.ceil(response.meta.total / this.state.perPage);

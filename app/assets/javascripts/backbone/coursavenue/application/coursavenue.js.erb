@@ -110,6 +110,26 @@ CoursAvenue = new Backbone.Marionette.Application({
             }
         }.bind(this), { scope: (options.pro ? this.PRO_FACEBOOK_SCOPE : this.FACEBOOK_SCOPE) });
     },
+
+    // Return search path url regarding data passed.
+    // Should be put in some sort of helper
+    // @data : Hash {
+    //    city           : 'paris'
+    //    root_subject_id: 'danse'
+    //    subject_id     : 'salsa'
+    //    depth          : 2
+    //  }
+    searchPath: function searchPath (data) {
+        data.city = data.city || 'paris';
+        if (data && data.depth == 0) {
+            return Routes.root_search_page_path(data.subject_id, data.city);
+        } else if (data) {
+            return Routes.search_page_path((data.root_subject_id || data.subject_id), data.subject_id, data.city);
+        } else {
+            return Routes.root_search_page_without_subject_path(data.city);
+        }
+    }
+
 });
 
 CoursAvenue.addRegions({

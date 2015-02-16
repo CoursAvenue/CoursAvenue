@@ -144,3 +144,7 @@ GLOBAL.isMobile = {
         return (GLOBAL.isMobile.Android() || GLOBAL.isMobile.BlackBerry() || GLOBAL.isMobile.iOS() || GLOBAL.isMobile.Opera() || GLOBAL.isMobile.Windows());
     }
 };
+// In case pushState function does not exist
+if (_.isUndefined(window.history.pushState)) {
+    window.history.pushState = function pushState () { return ''; }
+}
