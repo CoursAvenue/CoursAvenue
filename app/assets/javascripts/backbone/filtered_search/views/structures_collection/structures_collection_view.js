@@ -88,6 +88,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
 
             var relevant_structure = this.collection.findWhere({id: data.model.get('structure_id') })
 
+            if (!relevant_structure) { return; }
             var childview = this.children.findByModel(relevant_structure);
 
             /* announce the view we found */
