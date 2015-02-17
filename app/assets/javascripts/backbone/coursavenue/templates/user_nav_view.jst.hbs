@@ -1,72 +1,78 @@
-{{#if logged_in}}
-    <div class="drop-down__wrapper grid__item width-auto v-middle hard--left" data-behavior='drop-down' data-el='> .drop-down__el' data-position='right'>
-        <a href="{{dashboard_user_path}}">
-            {{#if avatar_url}}
-            <div class="flexbox">
-                <div class="flexbox__item v-middle width-auto soft-half--right">
-                  <img src="{{ avatar_url }}" alt="" height="40" width="40" class="block rounded--circle">
+{{#if admin_logged_in}}
+    <div class="inline-block soft--right">
+        <a href="{{ pro_structures_url }}{{#if structure_path}}{{ structure_path }}{{/if}}" class="f-weight-500">Accéder à mon espace Pro</a>
+    </div>
+{{ else }}
+    {{#if logged_in}}
+        <div class="drop-down__wrapper grid__item width-auto v-middle hard--left" data-behavior='drop-down' data-el='> .drop-down__el' data-position='right'>
+            <a href="{{dashboard_user_path}}">
+                {{#if avatar_url}}
+                <div class="flexbox">
+                    <div class="flexbox__item v-middle width-auto soft-half--right">
+                      <img src="{{ avatar_url }}" alt="" height="40" width="40" class="block rounded--circle">
+                    </div>
+                    <div class="flexbox__item v-middle width-auto">
+                        <strong>{{ first_name }}</strong>
+                        <i class="fa fa-caret-down"></i>
+                    </div>
                 </div>
-                <div class="flexbox__item v-middle width-auto">
+                {{else}}
                     <strong>{{ first_name }}</strong>
                     <i class="fa fa-caret-down"></i>
-                </div>
+                {{/if}}
+            </a>
+            <ul class="drop-down__el text--left">
+                <li class="nowrap">
+                    <a href="{{ dashboard_user_path }}" class="f-color-black">
+                        Tableau de bord
+                    </a>
+                </li>
+                <li class="nowrap">
+                    <a href="{{ user_participation_requests_path }}" class="f-color-black">
+                        Mes inscriptions
+                    </a>
+                </li>
+                <li class="nowrap">
+                    <a href="{{ user_conversations_path }}" class="f-color-black">
+                        Boîte de réception
+                    </a>
+                </li>
+                <li class="nowrap">
+                    <a href="{{ edit_user_path }}" class="f-color-black">
+                        Profil
+                    </a>
+                </li>
+                <li class="nowrap">
+                  <a href="{{ destroy_user_session_path }}" data-method="delete" class="f-color-black">
+                    Se déconnecter
+                  </a>
+                </li>
+            </ul>
+        </div>
+    {{else}}
+    <div class="inline-block">
+        <div class="inline-block soft--right">
+            <a href="#" data-behavior="sign-up" class="f-weight-500">Inscription</a>
+        </div>
+        <div class="inline-block soft--right">
+            <a href="#" data-behavior="sign-in" class="f-weight-500">Connexion</a>
+        </div>
+        {{#unless on_sleeping_page}}
+            <div class="inline-block soft--right">
+                <a href="{{ pro_structures_url }}" class="f-weight-500">Espace Pro</a>
             </div>
-            {{else}}
-                <strong>{{ first_name }}</strong>
-                <i class="fa fa-caret-down"></i>
-            {{/if}}
-        </a>
-        <ul class="drop-down__el text--left">
-            <li class="nowrap">
-                <a href="{{ dashboard_user_path }}" class="f-color-black">
-                    Tableau de bord
-                </a>
-            </li>
-            <li class="nowrap">
-                <a href="{{ user_participation_requests_path }}" class="f-color-black">
-                    Mes inscriptions
-                </a>
-            </li>
-            <li class="nowrap">
-                <a href="{{ user_conversations_path }}" class="f-color-black">
-                    Boîte de réception
-                </a>
-            </li>
-            <li class="nowrap">
-                <a href="{{ edit_user_path }}" class="f-color-black">
-                    Profil
-                </a>
-            </li>
-            <li class="nowrap">
-              <a href="{{ destroy_user_session_path }}" data-method="delete" class="f-color-black">
-                Se déconnecter
-              </a>
-            </li>
-        </ul>
+            <div class="inline-block">
+              <a href="{{ pages_faq_users_url }}" target='_blank' target='_blank' class="f-weight-500 visuallyhidden--palm" rel="nofollow">Aide</a>
+            </div>
+        {{/unless}}
+        {{#if on_sleeping_page}}
+            <div class="inline-block soft--right">
+              <a href="{{ pages_faq_users_url }}" target='_blank' target='_blank' class="f-weight-500" rel="nofollow">Aide</a>
+            </div>
+            <div class="inline-block">
+                <a href="{{ take_control_url }}" class="btn btn--orange">Gérer ce profil</a>
+            </div>
+        {{/if}}
     </div>
-{{else}}
-<div class="inline-block">
-    <div class="inline-block soft--right">
-        <a href="#" data-behavior="sign-up" class="f-weight-500">Inscription</a>
-    </div>
-    <div class="inline-block soft--right">
-        <a href="#" data-behavior="sign-in" class="f-weight-500">Connexion</a>
-    </div>
-    {{#unless on_sleeping_page}}
-        <div class="inline-block soft--right">
-            <a href="{{ pro_structures_url }}" class="f-weight-500">Espace Pro</a>
-        </div>
-        <div class="inline-block">
-          <a href="{{ pages_faq_users_url }}" target='_blank' target='_blank' class="f-weight-500 visuallyhidden--palm" rel="nofollow">Aide</a>
-        </div>
-    {{/unless}}
-    {{#if on_sleeping_page}}
-        <div class="inline-block soft--right">
-          <a href="{{ pages_faq_users_url }}" target='_blank' target='_blank' class="f-weight-500" rel="nofollow">Aide</a>
-        </div>
-        <div class="inline-block">
-            <a href="{{ take_control_url }}" class="btn btn--orange">Gérer ce profil</a>
-        </div>
     {{/if}}
-</div>
 {{/if}}

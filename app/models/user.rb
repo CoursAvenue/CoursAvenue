@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   include Rails.application.routes.url_helpers
 
   acts_as_messageable
+  acts_as_paranoid
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
@@ -17,7 +18,7 @@ class User < ActiveRecord::Base
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :confirmable, :timeoutable
+         :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid, :oauth_token, :oauth_expires_at,
