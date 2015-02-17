@@ -1,10 +1,10 @@
 class AdminSerializer < ActiveModel::Serializer
-  attributes :id, :structure_id, :premium
+  attributes :id, :structure_id, :structure_slug
 
-  def premium
-    if object.structure
-      object.structure.premium?
-    end
+  cached
+  delegate :cache_key, to: :object
+
+  def structure_slug
+    object.structure.try(:slug)
   end
-
 end

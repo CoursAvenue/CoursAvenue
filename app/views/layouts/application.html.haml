@@ -52,6 +52,12 @@
           CoursAvenue.addInitializer(function(options){
               this.setCurrentUser(#{current_user_as_json});
           });
+    - if current_pro_admin
+      :javascript
+          CoursAvenue.addInitializer(function(options){
+              this.setCurrentAdmin(#{current_pro_admin_as_json});
+          });
+
     - if Rails.env.production? and request.subdomain == 'www'
       :javascript
           mixpanel.identify($.cookie('fingerprint'));

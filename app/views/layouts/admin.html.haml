@@ -104,9 +104,3 @@
 
 = render :template => 'layouts/application'
 = render 'shared/live_chat'
-
-- if current_pro_admin
-  :javascript
-      CoursAvenue.addInitializer(function(options){
-          this.setCurrentAdmin(#{current_pro_admin_as_json});
-      });

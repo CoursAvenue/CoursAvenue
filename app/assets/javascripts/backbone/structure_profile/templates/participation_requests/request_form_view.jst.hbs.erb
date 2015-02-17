@@ -10,10 +10,8 @@
             {{#each structure.phone_numbers}}
                 {{#ifCond @index '>' 0}}<br>{{/ifCond}}
                 <strong class="epsilon v-middle" itemprop="telephone">{{this}}</strong>
-                {{#if structure.premium }}
-                    <i class="soft-half--left v-middle fa fa-check-circle green"></i>
-                    <i class="v-middle green milli">vérifié</i>
-                {{/if}}
+                <i class="soft-half--left v-middle fa fa-check-circle green"></i>
+                <i class="v-middle green milli">vérifié</i>
             {{/each}}
         </div>
     </div>
