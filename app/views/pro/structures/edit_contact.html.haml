@@ -47,8 +47,8 @@
 
       = form.input :website, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
 
+      - show_input = @facebook_pages.empty? or (@facebook_pages.any? and @facebook_pages.last[1] == 'other')
       - if @facebook_pages.any?
-        - show_input = @facebook_pages.empty? or (@facebook_pages.any? and @facebook_pages.last[1] == 'other')
         = form.input :facebook_url, as: :select, collection: @facebook_pages, wrapper_html: { class: 'flush--bottom' }, label_html: { class: 'label--large' }, input_html: { class: 'input--large', id: 'facebook_select' }
       = form.input :facebook_url, as: :url, wrapper_html: { class: "flush--bottom #{show_input ? '' : 'hidden'}", id: 'facebook_text' }, label_html: { class: 'label--large' }, input_html: { id: 'facebook_text_input', class: 'input--large' }
 

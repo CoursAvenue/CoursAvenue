@@ -116,22 +116,17 @@ class ::Admin < ActiveRecord::Base
     return nil if admin.nil? and structure.nil?
 
     if admin.nil?
-      admin                  = Admin.new
-
-      admin.provider         = auth.provider
-      admin.uid              = auth.uid
-      admin.oauth_token      = auth.credentials.token
-      admin.oauth_expires_at = Time.at(auth.credentials.expires_at)
-
-      admin.email            = auth.info.email
-      admin.password         = Devise.friendly_token[0, 20] if admin.password.blank?
-
-      admin.structure        = structure
-
+      admin           = Admin.new
+      admin.email     = auth.info.email
+      admin.password  = Devise.friendly_token[0, 20] if admin.password.blank?
+      admin.structure = structure
       admin.confirm!
-
-      admin.save
     end
+    admin.provider         = auth.provider
+    admin.uid              = auth.uid
+    admin.oauth_token      = auth.credentials.token
+    admin.oauth_expires_at = Time.at(auth.credentials.expires_at)
+    admin.save
 
     admin
   end
@@ -148,7 +143,6 @@ class ::Admin < ActiveRecord::Base
   # @return an Array of Array of [ page_name, URL ]
   def facebook_pages
     return [] unless from_facebook? and oauth_expires_at > Time.current
-
     user = FbGraph::User.me(oauth_token).fetch
     user.accounts.map { |page| [page.name, page.link] }
   end

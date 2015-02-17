@@ -11,7 +11,7 @@ class Pro::StructuresController < Pro::ProController
                                                    :someone_already_took_control], find_by: :slug
 
   # We add update in case the update fails and we need the variable in the view
-  before_action :facebook_pages, only: [:edit_contact, :update]
+  before_action :retrieve_facebook_pages, only: [:edit_contact, :update]
 
   layout :get_layout
 
@@ -433,23 +433,21 @@ France
   # pages managed by the admin.
   #
   # @return an Array of Array of [page_name, URL]
-  def facebook_pages
+  def retrieve_facebook_pages
     @admin ||= @structure.main_contact
     return @facebook_pages = [] if @admin.nil?
     if @admin.from_facebook?
-      @facebook_pages = []
-    else
       pages = @admin.facebook_pages
 
-      if @structure.facebook_url?
-        if pages.map(&:second).include?(@structure.facebook_url)
-          pages << ['Autre', 'other']
-        else
-          pages << ['Autre', @structure.facebook_url] unless pages.empty?
-        end
+      if @structure.facebook_url? and !pages.map(&:second).include?(@structure.facebook_url)
+        pages << ['Autre', @structure.facebook_url] unless pages.empty?
+      else
+        pages << ['Autre', 'other']
       end
 
       @facebook_pages = pages
+    else
+      @facebook_pages = []
     end
   end
 end
