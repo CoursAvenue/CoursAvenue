@@ -104,7 +104,7 @@ Brief :
 
 En partant de ce répo : https://github.com/CoursAvenue/GoodLuck/ je voudrais que tu développes une app de recherche où :
 - sont listées toutes les `Structures` ;
-- on peut repérer sur une carte les `Structures` ;
+- on peut repérer les `Structures` sur une carte ;
 - on peut rechercher les `Structures` par disciplines (attribut `subject`), nom (en fulltext) et pourquoi pas description (mais pour le moment les descriptions c’est du lorem !)
 
 Concernant les technos, je te propose d'utiliser BackboneJS pour être sur la même stack que nous. Si tu as quelconques questions, n'hésite pas à revenir vers moi.
