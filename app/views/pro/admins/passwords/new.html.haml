@@ -5,14 +5,14 @@
 
   .main-container.soft
     .white-box.soft
-      = simple_form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f|
+      = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
         = f.error_notification
 
         .form-inputs
-          = f.input :email, :required => true, :autofocus => true
+          = f.input :email, required: true, autofocus: true, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
 
         .form-actions
-          = f.button :submit, "Envoyer un nouveau mot de passe", class: 'btn btn--green'
+          = f.button :submit, "Réinitialiser mon mot de passe", class: 'btn btn--green'
         .form-actions
           = render "pro/admins/shared/links"
 

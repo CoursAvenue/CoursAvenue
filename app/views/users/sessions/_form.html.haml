@@ -1,5 +1,6 @@
 .text--center
-  = link_to "Connexion avec Facebook", auth_facebook_callback_path, class: 'btn btn--facebook', id: 'facebook_button'
+  = link_to auth_facebook_callback_path, class: 'btn btn--facebook', id: 'facebook_button' do
+    %span Connexion avec Facebook
 .or
   %span ou
 = simple_form_for User.new, url: user_session_path do |f|
