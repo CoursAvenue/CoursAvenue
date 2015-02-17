@@ -121,12 +121,19 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                     'min_price'        : (this.ui.$trial_types_select.val() == 'free' ? null : slider_value[0]),
                     'max_price'        : (this.ui.$trial_types_select.val() == 'free' ? null : slider_value[1])
                 });
-            } else {
+            } else if (this.ui.$price_type_radio.filter(':checked').val() == 'training') {
                 this.trigger("filter:price", {
                     'price_type': 'training',
                     'min_price' : slider_value[0],
                     'max_price' : slider_value[1]
                 });
+            } else {
+                this.trigger("filter:price", {
+                    'is_open_for_trial': null,
+                    'price_type'       : null,
+                    'min_price'        : null,
+                    'max_price'        : null
+                  });
             }
             this.setButtonState();
         },//.debounce(GLOBAL.DEBOUNCE_DELAY),
