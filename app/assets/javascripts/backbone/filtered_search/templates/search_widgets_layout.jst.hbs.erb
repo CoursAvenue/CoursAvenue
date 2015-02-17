@@ -12,13 +12,13 @@
 </header>
 
 <div data-type="loader" class="filtered-search__loader" style="display: none;">
-  <img src="<%= asset_path 'gifs/loading-indicator.gif' %>"/ class="center-block" height="10">
+  <img src="<%= asset_path 'gifs/loading-indicator.gif' %>" class="center-block" height="10">
 </div>
 <div class="filtered-search-wrapper">
   <section id="widgets-container" class="fixed filtered-search__map-wrapper east visuallyhidden--palm" data-type="google-maps">
-      {{#each widget}}
-          <div id="{{ id }}" data-type="widget"></div>
-      {{/each}}
+    <div class="hidden black-curtain f-weight-bold delta white north west one-whole cursor-pointer absolute on-top soft--sides mega-soft--ends" data-map-helper>
+      <img src="<%= asset_path 'onboarding-helps/filtered-search-map.png' %>" class="center-block" height="200">
+    </div>
   </section>
   <section class="filtered-search__list-wrapper palm-one-whole">
       <div class="visuallyhidden--palm bordered--bottom bg-white" data-behavior="sticky" data-el="filters-wrapper">

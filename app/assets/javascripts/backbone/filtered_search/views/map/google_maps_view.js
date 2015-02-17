@@ -41,11 +41,6 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
             'click @ui.$live_update_checkbox': 'liveUpdateClicked'
         },
 
-        /* lifecycle */
-        onRender: function onRender () {
-            this.$loader = this.$('[data-type=loader]');
-        },
-
         /* a set of markers should be made to stand out */
         exciteMarkers: function exciteMarkers (places) {
             var self = this;

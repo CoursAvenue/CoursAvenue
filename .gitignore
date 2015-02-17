@@ -27,3 +27,4 @@
 .DS_Store
 /app/assets/images/icons/svg/*
 .sass-cache
+*.psd
