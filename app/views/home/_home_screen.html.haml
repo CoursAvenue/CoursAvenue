@@ -1,8 +1,12 @@
 .full-screen-item.one-whole.relative.overflow-hidden
   %div.hidden.home-page-fullscreen-video.bg-cover{ style: "background-image: url('#{asset_path('home-page/coursavenue_homepage_cover.jpg')}')", data: { replacement: 'video' } }
   %video.home-page-fullscreen-video{ preload: 'auto', loop: 'loop', autoplay: 'autoplay', poster: asset_path('home-page/coursavenue_homepage_cover.jpg') }
-    %source{ type: "video/mp4", src: asset_path('coursavenue_homepage_video.mp4') }
-    %source{ type: "video/webm", src: asset_path('coursavenue_homepage_video.webm') }
+    - if params[:geek].present?
+      %source{ type: "video/mp4", src: 'https://coursavenue-public.s3.amazonaws.com/public_assets/videos/mario.mp4' }
+      %source{ type: "video/webm", src: 'https://coursavenue-public.s3.amazonaws.com/public_assets/videos/mario.webm' }
+    - else
+      %source{ type: "video/mp4", src: asset_path('coursavenue_homepage_video.mp4') }
+      %source{ type: "video/webm", src: asset_path('coursavenue_homepage_video.webm') }
 
   .relative.full-screen-item.white
     .grid--full.one-whole.homescreen-header.homescreen-header--transparent.fixed.one-whole.on-top
@@ -15,7 +19,10 @@
           = link_to 'Trouver un cours', root_search_page_without_subject_path('paris'), class: 'btn btn--blue nowrap push--right'
     .absolute.one-whole.soft--sides.top-30vh{ data: { behavior: 'block-parallax' } }
       %h1.text--center.f-size-really-big.palm-text--center.soft--top.soft-black-text-shadow.flush--bottom.main-container
-        ARTS. SPORTS. BIEN-ÊTRE.
+        - if params[:geek].present?
+          ARRÊTEZ DE GEEKER.
+        - else
+          ARTS. SPORTS. BIEN-ÊTRE.
       %h3.text--center.palm-text--center.push--bottom.soft-black-text-shadow.main-container
         Trouvez votre cours de loisir idéal.
       .push--bottom.soft--bottom
