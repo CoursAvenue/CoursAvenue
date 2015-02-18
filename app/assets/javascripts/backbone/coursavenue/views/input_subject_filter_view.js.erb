@@ -63,6 +63,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 root_subject_id  : data.root,
                 parent_subject_id: data.parent,
                 subject_id       : data.slug,
+                subject_name     : data.name,
                 depth            : data.depth
             });
         }.debounce(GLOBAL.DEBOUNCE_DELAY),

@@ -25,7 +25,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
 
         setup: function setup (data) {
             this.activateButton(data.root_subject_id);
-            this.current_subject_slug                                        = data.subject_id;
+            this.current_subject_slug = data.subject_id;
             if (this.menu_items[data.root_subject_id]) {
                 this.menu_items[data.root_subject_id].current_subject_slug       = data.subject_id;
                 this.menu_items[data.root_subject_id].selected_parent_subject_id = data.parent_subject_id;
@@ -57,8 +57,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             'click [data-type=button]'                    : 'announce',
             'click @ui.$clear_filter_button'              : 'clear',
             'mouseenter @ui.$clear_filter_button_wrapper' : 'showCollection',
-            'mouseleave @ui.$clear_filter_button_wrapper' : 'hideCollection',
-            'click [data-type=breadcrumb]'                : 'announceBreadcrumb'
+            'mouseleave @ui.$clear_filter_button_wrapper' : 'hideCollection'
         },
 
         showCollection: function showCollection (event) {
@@ -82,55 +81,39 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             }
         },
 
-        announceBreadcrumb: function announceBreadcrumb (event) {
-            window.history.pushState('', '', event.currentTarget.pathname);
-            var clicked_subject_slug, root_subject, root_subject_slug, depth, clicked_model;
-            clicked_subject_slug                = event.currentTarget.dataset.value;
-            root_subject_slug                   = event.currentTarget.dataset.rootSubjectSlug;
-            depth                               = event.currentTarget.dataset.depth;
-            if (this.current_subject_slug == clicked_subject_slug) { return; }
-            this.current_subject_slug = clicked_subject_slug;
-            root_subject = this.collection.where({slug: (root_subject_slug || clicked_subject_slug)})[0];
-            // If it's a clicked slug is root, announce it
-            if (depth == '0') {
-                this.announceSubject({ subject_id: root_subject.get('slug'), root_subject_id: root_subject.get('slug')})
-            // Else if it's a parent - depth 1
-            } else {
-                clicked_model = _.select(root_subject.get('children'), function(children) { return children.slug == clicked_subject_slug })[0];
-                this.announceSubject({ subject_id: clicked_model.slug,
-                                       root_subject_id: root_subject.get('slug'),
-                                       parent_subject_id: clicked_model.slug })
-            }
-            return false;
-        },
-
         /* When a user clicks on one of the icons, if the icon is not currently
          * "irrelevant", then we will activate that icon and try to fetch grand_children
          * for the relevant subject.
          */
         announce: function announce (event) {
+            var subject_slug,
+                // Important to set it to null in order to discard it if it's a clear action.
+                subject_name = null;
             this.hideMenu();
             if (event) {
                 window.history.pushState('', '', event.currentTarget.pathname);
-                var subject_slug = event.currentTarget.dataset.value;
+                subject_slug = event.currentTarget.dataset.value;
+                subject_name = event.currentTarget.text.trim();
             } else {
-                var subject_slug = this.$('.' + ACTIVE_CLASS + '[data-type="button"]').data('value');
+                subject_slug = this.$('.' + ACTIVE_CLASS + '[data-type="button"]').data('value');
             }
 
             if (subject_slug && this.$('[data-value=' + subject_slug + ']').hasClass(ACTIVE_CLASS)) {
                 this.current_subject_slug = null;
                 this.disabledButton(subject_slug);
-                this.announceSubject();
             } else {
                 this.current_subject_slug = subject_slug;
                 this.activateButton(subject_slug);
-                this.announceSubject();
             }
+            this.announceSubject({
+                subject_name   : subject_name,
+                subject_id     : (this.current_subject_slug ? this.current_subject_slug : null),
+                root_subject_id: (this.current_subject_slug ? this.current_subject_slug : null)
+            });
             return false;
         },
 
         announceSubject: function announceSubject (data) {
-            data = data || { subject_id: (this.current_subject_slug ? this.current_subject_slug : null), root_subject_id: (this.current_subject_slug ? this.current_subject_slug : null) };
             if (data.root_subject_id) {
                 var menu_item = this.menu_items[data.root_subject_id];
                 menu_item.current_subject_slug       = data.subject_id;

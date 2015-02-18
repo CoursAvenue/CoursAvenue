@@ -115,11 +115,12 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
 
             /* announce the summary of the result set */
             this.trigger('structures:updated:summary', {
-                first   : first_result,
-                last    : Math.min(first_result + state.perPage - 1, state.grandTotal),
-                total   : state.grandTotal,
-                subject : queryParams.subject_id,
-                city    : (queryParams.address_name ? queryParams.address_name : window.coursavenue.bootstrap.city_id),
+                first       : first_result,
+                last        : Math.min(first_result + state.perPage - 1, state.grandTotal),
+                total       : state.grandTotal,
+                subject     : queryParams.subject_id,
+                // We replace + by ' ' because space is replaced by a "+" in the query parameters on home page.
+                city        : (queryParams.city ? queryParams.city.replace(/\+/g, ' ') : window.coursavenue.bootstrap.city_id),
             });
 
             this.trigger('structures:updated:query', { query: this.collection.getQuery().replace('?', '') }); // Removing the first '?' character
@@ -128,7 +129,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                 zoom: (queryParams.zoom ? queryParams.zoom : 12),
             });
             this.trigger('structures:updated:filter', {
-                address_name         : (queryParams.address_name         ? queryParams.address_name                         : ''),
+                address_name         : (queryParams.address_name         ? queryParams.address_name.replace(/\+/g, ' ')       : ''),
                 name                 : (queryParams.name                 ? queryParams.name                                 : ''),
                 subject_id           : (queryParams.subject_id           ? queryParams.subject_id                           : ''),
                 root_subject_id      : (queryParams.root_subject_id      ? queryParams.root_subject_id                      : ''),
@@ -195,9 +196,9 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
             });
         },
 
-        updateLocationAndFilter: function updateLocationAndFilter (data) {
-            data.city = window.coursavenue.bootstrap.city_id;
-            window.history.pushState('', '', CoursAvenue.searchPath(data));
+        updateUrlAndFilter: function updateUrlAndFilter (data) {
+            data.city = data.city || this.collection.queryParams.city || window.coursavenue.bootstrap.city_id;
+            window.history.pushState('', '', CoursAvenue.searchPath(_.extend(this.collection.queryParams, data)));
             this.filterQuery(data);
         },
 

@@ -23,9 +23,10 @@
      STYLES & VARIANTS
 \*------------------------------------*/
 
-.f-style-italic      { font-style    : italic; }
-.f-small-caps        { font-variant  : small-caps; }
-.text-transform-none { text-transform: none !important; }
+.f-style-italic            { font-style    : italic; }
+.f-small-caps              { font-variant  : small-caps; }
+.text-transform-none       { text-transform: none !important; }
+.text-transform-capitalize { text-transform: capitalize; }
 /*------------------------------------*\
      DECORATIONS
 \*------------------------------------*/

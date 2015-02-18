@@ -22,8 +22,9 @@ FilteredSearch.addInitializer(function(options) {
             'pagination:page'       : 'goToPage',
             'filter:summary'        : 'filterQuery',
             'map:bounds'            : 'filterQuery',
-            'filter:subject'        : 'filterQuery',
-            'filter:subject_input'  : 'updateLocationAndFilter',
+            'filter:subject'        : 'updateUrlAndFilter',
+            'filter:subject_input'  : 'updateUrlAndFilter',
+            'filter:location'       : 'updateUrlAndFilter',
             'filter:level'          : 'filterQuery',
             'filter:audience'       : 'filterQuery',
             'filter:course_type'    : 'filterQuery',
@@ -33,16 +34,12 @@ FilteredSearch.addInitializer(function(options) {
             'filter:structure_type' : 'filterQuery',
             'filter:payment_method' : 'filterQuery',
             'filter:search_term'    : 'filterQuery',
-            'filter:location'       : 'filterQuery',
             'filter:trial_course'   : 'filterQuery',
             'map:marker:click'      : 'findChildView',
             'structures:updated'    : 'structuresUpdated',
             'paginator:updating'    : 'scrollToTop'
         }
     });
-
-    if ( !structures.queryParams['address_name'] ) { structures.queryParams['address_name'] = 'Paris' }
-    //structures.bootstrap();
 
     /* set up the layouts */
     layout = new FilteredSearch.Views.SearchWidgetsLayout();
@@ -125,6 +122,7 @@ FilteredSearch.addInitializer(function(options) {
     layout.showWidget(google_maps_view, {
         events: {
             'structures:updated'                : '_renderChildren',
+            'filter:location'                   : 'lockBoundsOnce',
             'paginator:updating'                : 'hideInfoWindow',
             'structures:childview:highlighted'  : 'exciteMarkers',
             'structures:childview:unhighlighted': 'exciteMarkers',
@@ -148,11 +146,16 @@ FilteredSearch.addInitializer(function(options) {
         }
     });
 
-    layout.showWidget(subjects_collection_filter, { events: { 'structures:updated:filter': 'setup' }});
+    layout.showWidget(subjects_collection_filter, { events: { 'structures:updated:filter': 'setup' } });
     layout.showWidget(location_filter);
     layout.showWidget(input_subject_filter);
     layout.showWidget(results_summary);
-    layout.showWidget(top_results_summary);
+    layout.showWidget(top_results_summary, {
+        events: {
+          'filter:subject'       : 'updateSubjectName',
+          'filter:subject_input' : 'updateSubjectName'
+        }
+    });
 
     layout.showWidget(keyword_filter, {
         events: {

@@ -4,11 +4,18 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         template: Module.templateDirname() + 'top_results_summary_view',
 
         initialize: function initialize (options) {
-            this.current_summary_data = {};
+            this.current_summary_data = {
+                subject_name: window.coursavenue.bootstrap.subject_name
+            };
         },
-        /* data to describe the pagination tool */
+        // Update current stored data
         reset: function reset (data) {
-            this.current_summary_data = data;
+            _.extend(this.current_summary_data, data);
+            this.render();
+        },
+
+        updateSubjectName: function updateSubjectName (data) {
+            this.current_summary_data.subject_name = data.subject_name;
             this.render();
         },
 
@@ -17,15 +24,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             if (this.current_summary_data.city) {
                 this.current_summary_data.city = this.current_summary_data.city.replace(', France', '');
             }
-            if ($('[data-type="subjects-breadcrumb"] li:last').text().length > 0) {
-                subject_name = $('[data-type="subjects-breadcrumb"] li:last').text();
-            } else if (window.coursavenue.bootstrap.subject_name) {
-                subject_name = window.coursavenue.bootstrap.subject_name;
-            }
-            return _.extend(this.current_summary_data, {
-                // Clearly not the best, I know.
-                subject_name: subject_name
-            });
+            return this.current_summary_data;
         }
 
     });

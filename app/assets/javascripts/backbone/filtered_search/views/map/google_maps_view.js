@@ -22,11 +22,6 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
 
                 this.markerViewChildren[place.id] = markerView;
 
-                // this is clever because we are "hijacking" marionette's childview event
-                // forwarding, which allows a parent to respond to child events with the
-                // onChildviewMethod style of methods. Hence the "buwa ha ha ha".
-                // this.addChildViewEventForwarding(markerView); // buwa ha ha ha!
-
                 markerView.render();
             }.bind(this));
         },
@@ -83,6 +78,11 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
             this.showInfoWindow({ model: structure });
         },
 
+        // We lock bounds when location is updating because it will trigger the map to move and
+        // we don't want the request to be fired twice.
+        lockBoundsOnce: function lockBoundsOnce (childModel, html) {
+            this.lock('map:bounds');
+        },
         zoomOut: function zoomOut (childModel, html) {
             // Activate live update if not by default
             if (!this.update_live) {

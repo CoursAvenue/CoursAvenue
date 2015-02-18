@@ -116,9 +116,6 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             /* this prevents an infinite loop of map update at the beginning */
             this.lock('map:bounds');
             this.toggleLiveUpdate();
-            // this.on('marker:click'          , this.markerFocus);
-            // this.on('marker:hovered'        , this.markerHovered);
-            // this.on('marker:unhighlight:all', this.unhighlightEveryMarker);
             this.infoBox = new this.infoBoxView(options.infoBoxViewOptions || {});
         },
 

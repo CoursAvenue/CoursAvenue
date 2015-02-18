@@ -120,10 +120,10 @@ CoursAvenue = new Backbone.Marionette.Application({
     //    depth          : 2
     //  }
     searchPath: function searchPath (data) {
-        data.city = data.city || 'paris';
-        if (data && data.depth == 0) {
+        data.city = (data.city ? data.city.replace(/[^A-Za-z]/g, '-').toLowerCase() : 'paris');
+        if (data.depth == 0) {
             return Routes.root_search_page_path(data.subject_id, data.city);
-        } else if (data) {
+        } else if (data.subject_id) {
             return Routes.search_page_path((data.root_subject_id || data.subject_id), data.subject_id, data.city);
         } else {
             return Routes.root_search_page_without_subject_path(data.city);

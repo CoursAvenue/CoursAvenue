@@ -30,24 +30,24 @@
 
         init: function init () {
             var structure_template, subjects_template, structure_header_template, subjects_header_template;
+            this.data = { city: 'paris' };
             this.$address_input  = this.$element.find('[data-type=address]');
             this.$city_input     = this.$element.find('[name=city]')
             // Check if the element has already been initialized before doing the stuff
             if (this.$address_input.length > 0) { this.$address_input.addressPicker(); }
             if (this.$element.hasClass('tt-hint')) { return; }
             var input_subject_filter = new CoursAvenue.Views.InputSubjectFilterView({ el: '[data-type=subjects]' });
+            this.$element.submit(function(event) {
+                var city = this.$city_input.val() || $.cookie('city') || 'paris';
+                _.extend(this.data, { city: city });
+                new_action = CoursAvenue.searchPath(this.data);
+                input_subject_filter.ui.$subjects_input.removeAttr('name');
+                this.$element.attr('action', new_action);
+                return true;
+            }.bind(this));
             input_subject_filter.render();
             input_subject_filter.on('filter:subject_input', function(data) {
-                var city = this.$city_input.val() || $.cookie('city') || 'paris';
-                city = city.replace(/[^A-Za-z]/g, '-').toLowerCase();
-                data.city = city;
-                new_action = CoursAvenue.searchPath(data);
-                if (data) {
-                    input_subject_filter.ui.$subjects_input.removeAttr('name'); // Remove name attribute to prevent word ending in the keywords filter
-                } else {
-                    input_subject_filter.ui.$subjects_input.attr('name', 'name');
-                }
-                this.$element.attr('action', new_action);
+                _.extend(this.data, data);
             }.bind(this));
         }
     };
