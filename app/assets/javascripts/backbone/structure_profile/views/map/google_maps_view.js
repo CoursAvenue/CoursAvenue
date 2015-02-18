@@ -11,7 +11,6 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
 
         initialize: function initialize () {
             var google_map_handler;
-            this.initializeMapHeight();
             var markers_locations = this.collection.map(function(model) {
                 var infobox = new StructureProfile.Views.Map.InfoBoxView();
                 infobox.setContent(model);
@@ -49,12 +48,6 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
                     google_map_handler.getMap().setZoom(15);
                 }
             });
-        },
-        initializeMapHeight: function initializeMapHeight () {
-            if ($(window).height() < 900) {
-                $('.rslides-wrapper').css('height', '27em');
-                this.$('.google-map--medium').removeClass('google-map--medium').addClass('google-map--medium--smaller')
-            }
         }
     });
 
