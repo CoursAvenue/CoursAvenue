@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150217161239) do
+ActiveRecord::Schema.define(version: 20150217161357) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,7 +46,6 @@ ActiveRecord::Schema.define(version: 20150217161239) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
-    t.time     "deleted_at"
     t.boolean  "email_opt_in",                      default: true
     t.hstore   "email_opt_in_status"
     t.string   "delivery_email_status"
@@ -55,6 +54,7 @@ ActiveRecord::Schema.define(version: 20150217161239) do
     t.string   "oauth_token"
     t.datetime "oauth_expires_at"
     t.boolean  "sms_opt_in",                        default: true
+    t.datetime "deleted_at"
   end
 
   add_index "admins", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
@@ -179,7 +179,6 @@ ActiveRecord::Schema.define(version: 20150217161239) do
     t.datetime "updated_at",            null: false
     t.string   "title"
     t.integer  "user_id"
-    t.time     "deleted_at"
     t.string   "course_name"
     t.string   "status"
     t.string   "deletion_reason"
@@ -187,6 +186,7 @@ ActiveRecord::Schema.define(version: 20150217161239) do
     t.integer  "associated_message_id"
     t.boolean  "certified"
     t.string   "slug"
+    t.datetime "deleted_at"
   end
 
   add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree
@@ -210,7 +210,7 @@ ActiveRecord::Schema.define(version: 20150217161239) do
     t.string   "email"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
-    t.time     "deleted_at"
+    t.datetime "deleted_at"
   end
 
   create_table "courses", force: true do |t|
@@ -232,7 +232,6 @@ ActiveRecord::Schema.define(version: 20150217161239) do
     t.date     "end_date"
     t.integer  "room_id"
     t.boolean  "active",                     default: false
-    t.time     "deleted_at"
     t.decimal  "rating"
     t.text     "subjects_string"
     t.text     "parent_subjects_string"
@@ -253,6 +252,7 @@ ActiveRecord::Schema.define(version: 20150217161239) do
     t.boolean  "on_appointment",             default: false
     t.boolean  "is_open_for_trial"
     t.boolean  "has_promotion"
+    t.datetime "deleted_at"
   end
 
   add_index "courses", ["active"], name: "index_courses_on_active", using: :btree
@@ -435,29 +435,6 @@ ActiveRecord::Schema.define(version: 20150217161239) do
 
   add_index "lived_places", ["city_id", "user_id"], name: "index_lived_places_on_city_id_and_user_id", using: :btree
 
-  create_table "locations", force: true do |t|
-    t.string   "name"
-    t.string   "street"
-    t.string   "zip_code"
-    t.string   "contact_name"
-    t.string   "contact_phone"
-    t.string   "contact_mobile_phone"
-    t.string   "contact_email"
-    t.integer  "structure_id"
-    t.integer  "city_id"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
-    t.float    "latitude"
-    t.float    "longitude"
-    t.boolean  "gmaps"
-    t.string   "slug"
-    t.time     "deleted_at"
-    t.boolean  "shared"
-  end
-
-  add_index "locations", ["slug"], name: "index_places_on_slug", unique: true, using: :btree
-  add_index "locations", ["zip_code"], name: "index_places_on_zip_code", using: :btree
-
   create_table "mailboxer_conversation_opt_outs", force: true do |t|
     t.integer "unsubscriber_id"
     t.string  "unsubscriber_type"
@@ -521,7 +498,6 @@ ActiveRecord::Schema.define(version: 20150217161239) do
     t.string   "mediable_type"
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
-    t.time     "deleted_at"
     t.string   "format"
     t.string   "provider_id"
     t.string   "provider_name"
@@ -538,6 +514,7 @@ ActiveRecord::Schema.define(version: 20150217161239) do
     t.boolean  "image_processing"
     t.string   "image"
     t.string   "remote_image_url"
+    t.datetime "deleted_at"
   end
 
   add_index "medias", ["format"], name: "index_medias_on_format", using: :btree
@@ -592,12 +569,12 @@ ActiveRecord::Schema.define(version: 20150217161239) do
     t.integer  "planning_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.time     "deleted_at"
     t.boolean  "waiting_list",      default: false
     t.datetime "canceled_at"
     t.string   "participation_for"
     t.integer  "nb_adults",         default: 1
     t.integer  "nb_kids",           default: 0
+    t.datetime "deleted_at"
   end
 
   add_index "participations", ["planning_id", "user_id"], name: "index_participations_on_planning_id_and_user_id", using: :btree
@@ -658,7 +635,6 @@ ActiveRecord::Schema.define(version: 20150217161239) do
     t.integer  "location_id"
     t.integer  "structure_id"
     t.text     "info"
-    t.time     "deleted_at"
     t.text     "private_info"
     t.string   "name"
     t.float    "latitude"
@@ -672,6 +648,7 @@ ActiveRecord::Schema.define(version: 20150217161239) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "last_geocode_try"
+    t.datetime "deleted_at"
   end
 
   add_index "places", ["structure_id"], name: "index_places_on_structure_id", using: :btree
@@ -703,7 +680,6 @@ ActiveRecord::Schema.define(version: 20150217161239) do
     t.integer  "duration"
     t.string   "audience_ids"
     t.string   "level_ids"
-    t.time     "deleted_at"
     t.integer  "place_id"
     t.integer  "structure_id"
     t.boolean  "visible",               default: true
@@ -711,6 +687,7 @@ ActiveRecord::Schema.define(version: 20150217161239) do
     t.string   "address"
     t.float    "latitude"
     t.float    "longitude"
+    t.datetime "deleted_at"
   end
 
   add_index "plannings", ["audience_ids"], name: "index_plannings_on_audience_ids", using: :btree
@@ -772,9 +749,9 @@ ActiveRecord::Schema.define(version: 20150217161239) do
     t.text     "details"
     t.boolean  "premium_visible"
     t.integer  "structure_id"
-    t.time     "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   create_table "prices", force: true do |t|
@@ -785,7 +762,6 @@ ActiveRecord::Schema.define(version: 20150217161239) do
     t.datetime "updated_at",        null: false
     t.integer  "nb_courses"
     t.decimal  "promo_amount"
-    t.time     "deleted_at"
     t.text     "info"
     t.string   "type"
     t.integer  "number"
@@ -793,6 +769,7 @@ ActiveRecord::Schema.define(version: 20150217161239) do
     t.integer  "duration"
     t.integer  "price_group_id"
     t.string   "promo_amount_type"
+    t.datetime "deleted_at"
   end
 
   add_index "prices", ["price_group_id"], name: "index_prices_on_price_group_id", using: :btree
@@ -892,7 +869,6 @@ ActiveRecord::Schema.define(version: 20150217161239) do
     t.boolean  "active",                         default: false
     t.boolean  "has_validated_conditions",       default: false
     t.integer  "validated_by"
-    t.time     "deleted_at"
     t.float    "latitude"
     t.float    "longitude"
     t.boolean  "gmaps"
@@ -941,6 +917,7 @@ ActiveRecord::Schema.define(version: 20150217161239) do
     t.string   "cities_text"
     t.boolean  "sms_opt_in",                     default: false
     t.integer  "principal_mobile_id"
+    t.datetime "deleted_at"
   end
 
   add_index "structures", ["principal_mobile_id"], name: "index_structures_on_principal_mobile_id", using: :btree
@@ -1054,11 +1031,11 @@ ActiveRecord::Schema.define(version: 20150217161239) do
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
     t.text     "description"
-    t.time     "deleted_at"
     t.string   "image_file_name"
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
+    t.datetime "deleted_at"
   end
 
   add_index "teachers", ["structure_id"], name: "index_teachers_on_structure_id", using: :btree
@@ -1152,7 +1129,7 @@ ActiveRecord::Schema.define(version: 20150217161239) do
     t.string   "sponsorship_slug"
     t.datetime "sign_up_at"
     t.string   "avatar"
-    t.time     "deleted_at"
+    t.datetime "deleted_at"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
