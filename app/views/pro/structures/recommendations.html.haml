@@ -63,7 +63,8 @@
       %p
         Copiez puis collez ce texte sur Facebook
       .text--center
-        = link_to 'Demander des recommandations', "https://www.facebook.com/sharer/sharer.php?u=#{new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'facebook', utm_campaign: 'recommandation')}", class: 'btn btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From recommendation page')"
+        = link_to "https://www.facebook.com/sharer/sharer.php?u=#{new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'facebook', utm_campaign: 'recommandation')}", class: 'btn btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From recommendation page')" do
+          %span Demander des recommandations
       %p.gray-box.soft.push-half--top.flush--left#facebook-text> Vous aimez #{@structure.independant? ? 'mes' : 'nos'} cours ? Dites-le sur notre profil CoursAvenue en cliquant sur le lien suivant : #{link_to new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'facebook', utm_campaign: 'recommandation'), new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'facebook', utm_campaign: 'recommandation'), target: '_blank'} Merci !
 
     %hr.push--ends
