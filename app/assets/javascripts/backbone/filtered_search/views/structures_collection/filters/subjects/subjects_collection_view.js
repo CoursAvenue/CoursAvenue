@@ -74,7 +74,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
         },
 
         setButtonState: function setButtonState () {
-            if (this.current_subject_slug.length > 0) {
+            if (this.current_subject_slug && this.current_subject_slug.length > 0) {
                 this.ui.$clearer.show();
                 this.ui.$clear_filter_button.removeClass('btn--gray');
             }
