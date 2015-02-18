@@ -48,7 +48,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             '$clear_filter_button'         : '[data-behavior=clear-filter]',
             '$clearer'                     : '[data-el=clearer]',
             '$subjects_filter_view'        : '#subjects-filter-view'
-            // '$subjects_breadcrumb': '[data-type=subjects-breadcrumb]'
         },
 
         events: {
@@ -147,10 +146,15 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             $subjects_breadcrumb.append($(this.breadcrumb_template(_.extend(current_model.toJSON(), { depth: '0', href: Routes.root_search_page_path(current_model.get('slug'), window.coursavenue.bootstrap.city_id) }))));
 
             // Return if selected subject is root or subject_id is nil
-            if (data.root_subject_id == data.subject_id) { return; }
-            // parent_subject = _.select(current_model.get('children'), function(children) { return children.slug == data.parent_subject_id })[0] || {};
-            parent_subject = _.select(current_model.get('children'), function(children) { return (children.slug == data.subject_id) || (children.slug == data.parent_subject_id) })[0];
-            _.extend(parent_subject, { depth: '1', root_subject_slug: current_model.get('slug'), href: Routes.search_page_path(current_model.get('slug'), parent_subject.slug, window.coursavenue.bootstrap.city_id) });
+            if (data.depth == 0 || data.root_subject_id == data.subject_id) { return; }
+            parent_subject = _.select(current_model.get('children'), function(children) {
+                return (children.slug == data.subject_id) || (children.slug == data.parent_subject_id)
+            })[0];
+            _.extend(parent_subject, {
+                depth            : '1',
+                root_subject_slug: current_model.get('slug'),
+                href             : Routes.search_page_path(current_model.get('slug'), parent_subject.slug, window.coursavenue.bootstrap.city_id)
+            });
             var to_append = $(this.breadcrumb_template(parent_subject));
             $subjects_breadcrumb.append(to_append);
 

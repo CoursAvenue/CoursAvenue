@@ -146,7 +146,12 @@ FilteredSearch.addInitializer(function(options) {
         }
     });
 
-    layout.showWidget(subjects_collection_filter, { events: { 'structures:updated:filter': 'setup' } });
+    layout.showWidget(subjects_collection_filter, {
+        events: {
+          'filter:subject_input'     : 'setup',
+          'filter:subject'           : 'setup'
+        }
+    });
     layout.showWidget(location_filter);
     layout.showWidget(input_subject_filter);
     layout.showWidget(results_summary);
