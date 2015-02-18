@@ -1,6 +1,7 @@
 class ParticipationRequest < ActiveRecord::Base
   extend ActiveHash::Associations::ActiveRecordExtensions
-  # include ActiveModel::Dirty
+
+  acts_as_paranoid
 
   STATE = %w(accepted pending canceled)
   PARAMS_THAT_MODIFY_PR = %w(date start_time end_time planning_id course_id)
